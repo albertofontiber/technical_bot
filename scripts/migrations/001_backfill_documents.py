@@ -47,32 +47,49 @@ def fetch_all_source_files(supabase) -> list[dict]:
     """Return [{source_file, manufacturer, product_model, count}] for every
     unique source_file currently in chunks.
 
-    Uses raw REST because PostgREST supports GROUP BY via the aggregate syntax.
+    Paginates through all chunks because PostgREST has a default max-rows
+    ceiling (~1000 in Supabase). Without pagination the script would silently
+    miss 99% of the data on any table above that threshold. We page through
+    with limit+offset and deduplicate in Python.
     """
-    # PostgREST aggregate: select source_file,manufacturer,product_model,count
-    # group by source_file,manufacturer,product_model
     url = f"{supabase.url}/rest/v1/chunks"
-    headers = {**supabase.headers, "Prefer": "count=exact"}
-    params = {
-        "select": "source_file,manufacturer,product_model",
-    }
-    resp = supabase.client.get(url, headers=headers, params=params)
-    resp.raise_for_status()
-    rows = resp.json()
-    # Deduplicate in Python (PostgREST doesn't do GROUP BY natively)
+    headers = {**supabase.headers}
+    page_size = 1000
+
     seen: dict[tuple, dict] = {}
-    for r in rows:
-        key = (r.get("source_file"), r.get("manufacturer"), r.get("product_model"))
-        if key[0] is None:
-            continue
-        if key not in seen:
-            seen[key] = {
-                "source_file": key[0],
-                "manufacturer": key[1],
-                "product_model": key[2],
-                "count": 0,
-            }
-        seen[key]["count"] += 1
+    offset = 0
+    total_rows = 0
+    while True:
+        params = {
+            "select": "source_file,manufacturer,product_model",
+            "limit": str(page_size),
+            "offset": str(offset),
+            "order": "id",  # deterministic pagination order
+        }
+        resp = supabase.client.get(url, headers=headers, params=params)
+        resp.raise_for_status()
+        rows = resp.json()
+        if not rows:
+            break
+        total_rows += len(rows)
+        for r in rows:
+            key = (r.get("source_file"), r.get("manufacturer"), r.get("product_model"))
+            if key[0] is None:
+                continue
+            if key not in seen:
+                seen[key] = {
+                    "source_file": key[0],
+                    "manufacturer": key[1],
+                    "product_model": key[2],
+                    "count": 0,
+                }
+            seen[key]["count"] += 1
+        if len(rows) < page_size:
+            break
+        offset += page_size
+        if offset > 10_000_000:  # safety stop
+            break
+    print(f"  paginated through {total_rows} chunks, {len(seen)} unique source_files")
     return list(seen.values())
 
 
