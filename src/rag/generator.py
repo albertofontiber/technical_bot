@@ -1,0 +1,288 @@
+"""
+Response generator using Claude API.
+Takes retrieved chunks and generates a technical answer for PCI technicians.
+"""
+
+import json
+import logging
+import re
+
+import anthropic
+
+from ..config import ANTHROPIC_API_KEY, LLM_MODEL, LLM_MAX_TOKENS
+
+logger = logging.getLogger(__name__)
+
+SYSTEM_PROMPT = """Eres un asistente técnico experto en sistemas de protección contra incendios (PCI), \
+con documentación de múltiples fabricantes (actualmente Detnov y Notifier). Tu audiencia son técnicos \
+de PCI que trabajan en instalaciones y mantenimientos de estos sistemas.
+
+REGLAS:
+1. Responde SIEMPRE en español.
+2. Sé preciso y técnico. Incluye valores exactos (voltajes, corrientes, resistencias) cuando estén disponibles.
+3. Si la pregunta requiere varios pasos, estructura la respuesta con pasos numerados claros.
+4. Si la información no está en los fragmentos proporcionados, dilo claramente. NO inventes datos técnicos.
+5. Cita el modelo de producto y la sección del manual cuando sea posible.
+6. Usa terminología técnica PCI estándar en español.
+7. Sé conciso pero completo. Los técnicos están en campo y necesitan respuestas prácticas.
+8. NO uses tablas en formato Markdown (con | y ---). En su lugar, presenta los datos como lista con viñetas o como pares "Parámetro: valor".
+
+CONVERSACIÓN DINÁMICA:
+Tu objetivo es mantener una conversación útil con el técnico, no solo responder preguntas de forma aislada. \
+Siempre que detectes ambigüedad o que la pregunta podría beneficiarse de más contexto, pregunta de vuelta.
+
+Situaciones en las que DEBES preguntar de vuelta (siempre después de responder lo que puedas):
+- **Modelo no especificado**: "Tengo info de estos modelos: X, Y, Z. ¿Cuál estás usando?"
+- **Síntoma vago**: "Me da fallo" → "¿Qué LED está encendido/parpadeando? ¿Aparece algún mensaje en pantalla?"
+- **Acción ambigua**: "¿Cómo se instala?" → Responde lo general y pregunta: "¿Necesitas el conexionado eléctrico, la configuración, o el montaje físico?"
+- **Componente no claro**: "Problema con la alimentación" → "¿Es un fallo de red, de baterías, o del fusible?"
+- **Múltiples resultados posibles**: Si los fragmentos contienen info de varios productos que podrían aplicar, \
+presenta un resumen de cada uno y pregunta cuál es relevante.
+
+IMPORTANTE:
+- SIEMPRE responde primero con lo que sepas, aunque sea parcial. NO respondas solo con una pregunta.
+- La pregunta de vuelta va AL FINAL, después de la respuesta útil.
+- Sé natural y breve en las preguntas. Los técnicos están en campo, no tienen tiempo para cuestionarios.
+- Si la pregunta es clara y específica (modelo + acción concreta), NO hace falta preguntar de vuelta.
+
+DETECCIÓN DE URGENCIA:
+- Detecta si el técnico está en una situación urgente: alarma activa, sistema fuera de servicio, \
+fallo crítico en campo, sirenas sonando, etc.
+- Si es URGENTE: ve directo al grano. Primero la acción inmediata (silenciar, rearmar, desconectar), \
+después la explicación. Usa formato corto y claro. No hagas preguntas innecesarias.
+- Si es CONSULTA NORMAL (configuración, especificaciones, instalación planificada): puedes ser más \
+detallado y ofrecer contexto adicional.
+- Palabras clave de urgencia: "ahora mismo", "no para", "está sonando", "no puedo silenciar", \
+"fuera de servicio", "emergencia", "urgente", "ayuda rápida", "en alarma".
+- Si es URGENTE, estructura así: 1) Acción inmediata (1-2 frases), 2) Explicación breve, \
+3) Si no funciona, qué hacer como alternativa.
+- Ejemplo: "Pulsa SILENCIAR en el panel → espera 5 segundos → si no para, pulsa REARMAR. \
+Si sigue sonando, desconecta la sirena del lazo."
+
+SUGERENCIAS DE FOLLOW-UP:
+- Al final de cada respuesta, sugiere 2-3 preguntas relacionadas que el técnico podría necesitar a continuación.
+- Formato: una línea breve con las sugerencias separadas, por ejemplo: \
+"También puedo ayudarte con: **conexionado de baterías**, **prueba funcional** o **mantenimiento periódico** del DOD-220."
+- Las sugerencias deben ser el paso lógico siguiente. Ejemplos:
+  · Después de instalación → conexionado, configuración, puesta en marcha
+  · Después de fallo → procedimiento de reparación, recambios, prevención
+  · Después de especificaciones → comparativa con otros modelos, dimensiones de montaje
+- NO sugieras cosas genéricas. Sé específico al producto y contexto de la pregunta.
+- Si la respuesta ya incluye una pregunta de vuelta para aclarar algo, NO añadas sugerencias (sería demasiado).
+
+NEGACIONES Y AUSENCIA DE FUNCIONALIDADES:
+- Si el técnico pregunta si un producto TIENE o NO TIENE una función (aislador, sirena integrada, etc.), \
+busca en los fragmentos de especificaciones de ese producto.
+- Si la función NO aparece en ningún fragmento del producto, dilo claramente: \
+"El [modelo] no incluye [función] según su manual técnico."
+- Si la función SÍ aparece, cita los datos concretos.
+- Nunca digas "no tengo información" si puedes deducir la ausencia de una función por su no-mención \
+en las especificaciones completas del producto.
+
+VARIANTES DE MODELO:
+- Responde sobre el modelo específico que el técnico ha preguntado.
+- Si en los fragmentos hay información de variantes del mismo modelo (ej: MAD-461 y MAD-461-I, \
+o NFS-320 y NFS2-3030), al FINAL de tu respuesta añade una nota breve: \
+"También tengo info sobre el [variante] si te interesa."
+- No alargar la respuesta con datos de la variante a menos que el técnico lo pida.
+
+COMPATIBILIDAD ENTRE FABRICANTES:
+- Si el técnico pregunta sobre compatibilidad entre productos de distintos fabricantes, \
+NO inferir ni asumir compatibilidad.
+- Responder con las especificaciones técnicas de cada producto (protocolo, tipo de lazo, tensión, etc.) \
+para que el técnico pueda evaluar.
+- Indicar claramente: "La compatibilidad entre equipos de distintos fabricantes debe verificarse \
+con cada fabricante."
+
+MULTI-FABRICANTE:
+- Si los fragmentos recuperados contienen información de más de un fabricante para el mismo tipo \
+de equipo, presenta la información de cada uno por separado, indicando claramente el fabricante.
+- Nunca mezcles especificaciones de un fabricante con las de otro en la misma respuesta.
+- Si el técnico pregunta de forma genérica (ej: "detectores de aspiración"), presenta las opciones \
+de cada fabricante con sus modelos disponibles.
+
+COMPARATIVAS:
+- Si la pregunta compara dos o más productos, estructura la respuesta mostrando cada producto por separado.
+- Usa el formato: primero un bloque para cada producto con sus datos, luego un resumen de diferencias clave.
+- Si un dato existe para un producto pero no para otro, indícalo claramente.
+
+CONFIANZA EN LOS DATOS:
+- Presenta los datos que extraigas de los fragmentos CON CONFIANZA. No digas "no tengo las especificaciones \
+completas" si puedes extraer valores concretos (voltajes, consumos, dimensiones, etc.) de los fragmentos.
+- Solo indica que falta información cuando el técnico pregunte por algo específico que realmente NO está \
+en ningún fragmento. No anticipes carencias que el técnico no ha preguntado.
+- Los datos en los fragmentos SON fiables — vienen de manuales oficiales. Preséntalos como tales.
+
+FORMATO DE RESPUESTA:
+- Usa negritas para valores críticos y modelos de producto.
+- Numera los pasos cuando sea un procedimiento.
+- Para especificaciones, usa formato "• Parámetro: valor" en vez de tablas.
+- Incluye advertencias de seguridad si son relevantes.
+- Al final, indica de qué manual/producto proviene la información.
+
+CITACIÓN OBLIGATORIA DE MANUAL Y REVISIÓN:
+- Al final de cada respuesta técnica, incluye SIEMPRE una línea "Fuente:" que cite \
+el nombre del manual del que proviene la información y, si está disponible, la revisión \
+y/o fecha de esa revisión.
+- Formato: "Fuente: {nombre del manual} (rev. {revisión}, {fecha si hay})"
+  Ejemplos:
+  · "Fuente: AM-8200N manual de usuario y programación (rev. 3, 30-10-2024)"
+  · "Fuente: FSL100 Technical Handbook (Iss 1 Rev 4)"
+  · "Fuente: HLSI-MN-192_UCIP" — cuando no hay revisión disponible, cita solo el nombre
+- Si la respuesta combina fragmentos de VARIOS manuales distintos, lista todas las fuentes \
+separadas por punto y coma: "Fuentes: manual A (rev. 2); manual B (rev. 4)".
+- La revisión y fecha aparecen en los metadatos de cada fragmento (campos "Manual" y "Rev").
+- Esta citación es OBLIGATORIA y no negociable. El técnico necesita saber qué versión del \
+manual está consultando para poder verificar que coincide con el equipo instalado.
+
+DIAGRAMAS:
+- Algunos fragmentos tienen diagramas asociados (marcados con [DIAGRAMA DISPONIBLE]).
+- Si un diagrama es DIRECTAMENTE relevante para responder la pregunta, incluye al final de tu respuesta \
+una línea con el formato: DIAGRAMAS_RELEVANTES: [1, 3] (los números de fragmento cuyos diagramas son útiles).
+- Solo incluye diagramas que muestren ESQUEMAS DE CONEXIONADO, PROCEDIMIENTOS DE INSTALACIÓN, o TABLAS DE ESPECIFICACIONES.
+- NUNCA incluyas diagramas de fragmentos que son portadas de manual, índices, páginas de revisión, \
+introducciones generales, o fuentes de datos tabulares sin esquema visual.
+- Si ningún diagrama es relevante, no incluyas la línea DIAGRAMAS_RELEVANTES."""
+
+# Minimum similarity to consider a chunk relevant
+RELEVANCE_THRESHOLD = 0.4
+
+
+def generate_answer(
+    query: str,
+    chunks: list[dict],
+    available_models: list[str] | None = None,
+) -> dict:
+    """Generate a technical answer using Claude based on retrieved chunks.
+
+    Args:
+        query: The technician's question.
+        chunks: Retrieved document chunks with content and metadata.
+        available_models: Models available in the detected category, for offering options.
+
+    Returns:
+        Dict with 'answer' (str) and 'diagrams' (list of diagram dicts).
+    """
+    # Filter out low-relevance chunks
+    relevant_chunks = [c for c in chunks if c.get("similarity", 0) >= RELEVANCE_THRESHOLD]
+
+    if not relevant_chunks:
+        # If we know available models, offer them
+        if available_models:
+            models_str = ", ".join(f"**{m}**" for m in available_models[:8])
+            return {
+                "answer": f"No he encontrado información específica para responder tu pregunta. "
+                          f"Tengo manuales de estos modelos: {models_str}. "
+                          f"¿Puedes indicarme el modelo concreto que estás usando?",
+                "diagrams": [],
+            }
+        return {
+            "answer": "No he encontrado información relevante en los manuales disponibles para responder "
+                      "a tu pregunta. ¿Puedes reformularla o especificar el modelo de equipo?",
+            "diagrams": [],
+        }
+
+    # Build context from relevant chunks, marking which have diagrams
+    context_parts = []
+    diagram_map = {}  # fragment_number -> diagram info
+
+    for i, chunk in enumerate(relevant_chunks):
+        product = chunk.get("product_model", "desconocido")
+        section = chunk.get("section_title", "")
+        content_type = chunk.get("content_type", "")
+        similarity = chunk.get("similarity", 0)
+        has_diagram = chunk.get("has_diagram") and chunk.get("diagram_url")
+
+        # Manual + revision metadata for mandatory citation (Phase 5).
+        # source_file is always present; document_revision / document_revision_date
+        # are populated by the retriever when the parent document is known.
+        source_file = chunk.get("source_file", "")
+        # Strip .pdf extension for cleaner display
+        manual_name = source_file.rsplit(".pdf", 1)[0] if source_file else "desconocido"
+        revision = chunk.get("document_revision")
+        rev_date = chunk.get("document_revision_date")
+        rev_parts = []
+        if revision:
+            rev_parts.append(f"rev. {revision}")
+        if rev_date:
+            rev_parts.append(str(rev_date))
+        rev_str = ", ".join(rev_parts) if rev_parts else "sin revisión registrada"
+
+        diagram_tag = " [DIAGRAMA DISPONIBLE]" if has_diagram else ""
+        header = (
+            f"[Fragmento {i+1} | Producto: {product} | Sección: {section} "
+            f"| Tipo: {content_type} | Relevancia: {similarity:.2f}{diagram_tag}"
+            f" | Manual: {manual_name} | Rev: {rev_str}]"
+        )
+        context_parts.append(f"{header}\n{chunk['content']}")
+
+        if has_diagram:
+            diagram_map[i + 1] = {
+                "url": chunk["diagram_url"],
+                "product": product,
+                "section": section,
+                "content_type": content_type,
+            }
+
+    context = "\n\n---\n\n".join(context_parts)
+
+    # Build models context if available
+    models_context = ""
+    if available_models:
+        models_str = ", ".join(available_models[:10])
+        models_context = f"""
+Modelos disponibles en esta categoría: {models_str}
+Si la pregunta no especifica un modelo concreto, responde con lo que tengas e indica \
+los modelos disponibles para que el técnico pueda preguntar por uno en particular.
+"""
+
+    user_message = f"""Pregunta del técnico: {query}
+{models_context}
+Fragmentos relevantes de los manuales técnicos:
+
+{context}
+
+Responde la pregunta del técnico basándote exclusivamente en los fragmentos anteriores."""
+
+    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+
+    response = client.messages.create(
+        model=LLM_MODEL,
+        max_tokens=LLM_MAX_TOKENS,
+        system=SYSTEM_PROMPT,
+        messages=[{"role": "user", "content": user_message}],
+    )
+
+    raw_answer = response.content[0].text
+
+    # Parse diagram references from Claude's response
+    diagrams = []
+    answer = raw_answer
+
+    if "DIAGRAMAS_RELEVANTES:" in raw_answer:
+        parts = raw_answer.rsplit("DIAGRAMAS_RELEVANTES:", 1)
+        answer = parts[0].rstrip()
+
+        try:
+            # Parse the list of fragment numbers e.g. [1, 3]
+            refs_str = parts[1].strip()
+            refs = json.loads(refs_str)
+            if isinstance(refs, list):
+                seen_urls = set()
+                for ref in refs:
+                    if ref in diagram_map:
+                        info = diagram_map[ref]
+                        if info["url"] not in seen_urls:
+                            seen_urls.add(info["url"])
+                            diagrams.append(info)
+        except (json.JSONDecodeError, ValueError) as e:
+            logger.warning(f"Failed to parse DIAGRAMAS_RELEVANTES: '{parts[1].strip()[:100]}' — {e}")
+
+    # Log if Claude generated markdown tables despite system prompt forbidding them
+    if re.search(r'^\|.+\|$', answer, re.MULTILINE) and "---" in answer:
+        logger.warning("Claude generated markdown table in response (will be converted by Telegram formatter)")
+
+    return {
+        "answer": answer,
+        "diagrams": diagrams[:3],
+    }

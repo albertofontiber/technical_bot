@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Project artefacts — generated, not source
+logs/
+data/
+extracted_images/
+evals/results/
+
+# Manuales descargados — grandes, no van al repo
+Manuales_ES/
+Manuales_Morley/
+Manuales_Notifier/
+Manuales_Notifier_Privado/
+manuales/
+
+# Scratch
+*.log
+_dry_run_results.json
