@@ -45,8 +45,12 @@ CREATE TABLE IF NOT EXISTS documents (
     source_pdf_filename TEXT NOT NULL,
         -- Original filename as it appeared on disk when ingested
     source_pdf_sha256 TEXT NOT NULL,
-        -- SHA-256 of the first 10 pages of the PDF content.
-        -- Stable even if the CMS renames the file.
+        -- SHA-256 of the raw PDF file bytes (full file).
+        -- Stable even if the CMS renames the file. A re-compressed or
+        -- re-generated PDF will hash differently and be treated as a
+        -- new revision, which is the correct behavior.
+        -- Backfilled rows use a placeholder with prefix 'backfill:' and
+        -- are re-hashed when the PDF is re-processed.
 
     -- Lifecycle
     status TEXT NOT NULL DEFAULT 'active',
