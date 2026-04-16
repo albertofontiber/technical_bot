@@ -56,9 +56,11 @@ Si alcanzas un trigger, para y refactoriza antes de seguir añadiendo features.
 
 ---
 
-## 4. Gestión de revisiones de documentos
+## 4. Gestión de revisiones de documentos — ⏳ EN PROGRESO (Phase 1 ✅)
 
-**Estado actual**: Tratamos cada PDF como un documento independiente identificado por su filename. No sabemos si dos PDFs son:
+**Estado actual (16 abril 2026)**: **Phase 1 COMPLETADA**. Tabla `documents` creada (866 filas), `chunks.document_id` FK añadida y poblada al 100% (150,695 chunks vinculados). Phase 2 pendiente (revision_parser.py para extraer revisión/fecha de filenames). Phase 3 pendiente (re-hash con SHA-256 real para reemplazar placeholders 'backfill:'). Ver `docs/DOCUMENT_MANAGEMENT.md` para el diseño completo y `migrations/001_document_management.sql` para el schema.
+
+**Problema original**: Tratamos cada PDF como un documento independiente identificado por su filename. No sabemos si dos PDFs son:
 - (a) revisiones sucesivas del mismo manual (p.ej. `... rev 3` vs `... rev 4`)
 - (b) partes distintas de un mismo documento multi-hoja (p.ej. `MADT951_01` + `_02` + `_03` son las 4 páginas de una misma hoja de instrucciones)
 - (c) versiones en distintos idiomas del mismo contenido
