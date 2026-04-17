@@ -1,0 +1,597 @@
+# Baseline eval set for the PCI Technical Bot — v1 (17 Apr 2026)
+# =================================================================
+# Purpose:
+#   Give the bot a repeatable, measurable benchmark. Every meaningful
+#   change (chunker, retriever, reranker, prompt, translation, re-ingest)
+#   must run this eval before/after and report the delta per category.
+#
+# IMPORTANT — this is a DRAFT for human review:
+#   - Questions were drafted by the assistant based on (a) products known to
+#     exist in the DB (see `scripts/run_ingestion.py` logs + manufacturer
+#     breakdown), and (b) the question archetypes agreed with Alberto:
+#     "programming, out-of-the-ordinary alarms, edge cases where a mid-level
+#     technician would get stuck".
+#   - Expected answers / keywords are the assistant's BEST GUESS from the
+#     manuals. Alberto (or a technician) MUST validate them before the eval
+#     is trustworthy. Marked `verified: false` by default; flip to `true` once
+#     reviewed.
+#
+# Schema per question:
+#   id                   — short unique identifier
+#   category             — one of: happy_path | ambiguous_model | missing_context
+#                                  | not_in_db | cross_manual
+#   question_type        — programming | troubleshooting | wiring | spec |
+#                          compatibility | procedure
+#   question             — the query as a technician would phrase it in Spanish
+#   expected_behavior    — answer | ask_clarification | admit_no_info
+#   expected_keywords    — list of terms/values that MUST appear in the answer.
+#                          Matching is substring + lowercased. For numeric specs,
+#                          include the value (e.g. "24 vdc", "100 ma").
+#   forbidden_keywords   — list of terms that MUST NOT appear (e.g. inventing
+#                          a model the bot doesn't know). Optional.
+#   expected_sources     — list of source_file substrings that should appear in
+#                          the bot's citations. Optional (loosely enforced).
+#   expected_has_diagram — true if the answer should include a diagram image.
+#                          false if textual answer is enough. null if undecided.
+#   verified             — set to true once Alberto or a technician has
+#                          validated the expected_keywords / behavior.
+#   notes                — optional rationale / edge cases / review comments
+#
+# Distribution target (stretches as we add more questions):
+#   happy_path        ~40% (~20)
+#   ambiguous_model   ~15% (~8)
+#   missing_context   ~15% (~8)
+#   not_in_db         ~15% (~8)
+#   cross_manual      ~15% (~8)
+
+version: 1
+created: 2026-04-17
+distribution_target:
+  happy_path: 20
+  ambiguous_model: 8
+  missing_context: 8
+  not_in_db: 8
+  cross_manual: 8
+
+questions:
+
+# =========================================================================
+# HAPPY PATH — modelo claro, pregunta directa, info en un solo manual
+# =========================================================================
+
+- id: hp001
+  category: happy_path
+  question_type: programming
+  question: "En la Detnov CAD-250, ¿cómo se entra al menú de programación avanzada?"
+  expected_behavior: answer
+  expected_keywords: ["menú", "programación", "contraseña", "nivel"]
+  expected_sources: ["CAD-250"]
+  expected_has_diagram: true
+  verified: false
+  notes: "Debe citar el manual de la CAD-250 y probablemente mostrar el teclado."
+
+- id: hp002
+  category: happy_path
+  question_type: troubleshooting
+  question: "El detector ASD535 de Detnov está dando una alarma intermitente de flujo bajo. ¿Cuál es la causa más probable y cómo se diagnostica?"
+  expected_behavior: answer
+  expected_keywords: ["flujo", "tubería", "filtro", "aspiración"]
+  expected_sources: ["ASD535", "ASD_535", "ASD-535"]
+  expected_has_diagram: null
+  verified: false
+  notes: "ASD535 es aspiración. Respuesta debería cubrir obstrucción, fuga, filtro sucio."
+
+- id: hp003
+  category: happy_path
+  question_type: wiring
+  question: "¿Cómo se conectan las baterías de 24V en la Detnov CAD-150?"
+  expected_behavior: answer
+  expected_keywords: ["batería", "24 v", "polaridad", "fusible"]
+  expected_sources: ["CAD-150"]
+  expected_has_diagram: true
+  verified: false
+  notes: "Esta pregunta es el ejemplo canónico del Detnov re-embed; debe responder con esquema."
+
+- id: hp004
+  category: happy_path
+  question_type: spec
+  question: "¿Cuál es la tensión de funcionamiento y el consumo en reposo del detector DGD-600 de Detnov?"
+  expected_behavior: answer
+  expected_keywords: ["vdc", "ma", "consumo"]
+  expected_sources: ["DGD-600", "DGD600"]
+  expected_has_diagram: false
+  verified: false
+  notes: "DGD-600 es detector de gas. Datasheet debería tener estos valores."
+
+- id: hp005
+  category: happy_path
+  question_type: programming
+  question: "En la Notifier ID3000, ¿cómo se programa una zona para que active una salida de sirena solo cuando haya coincidencia de dos detectores?"
+  expected_behavior: answer
+  expected_keywords: ["zona", "coincidencia", "doble detección", "correlación", "salida"]
+  expected_sources: ["ID3000"]
+  expected_has_diagram: null
+  verified: false
+  notes: "Típico edge case — lógica de doble zona. Puede aparecer como 'coincidence', 'AND logic', etc."
+
+- id: hp006
+  category: happy_path
+  question_type: troubleshooting
+  question: "La Notifier AFP-400 muestra el aviso 'Tierra' (Earth Fault). ¿Qué significa y cómo se localiza?"
+  expected_behavior: answer
+  expected_keywords: ["tierra", "aislamiento", "cableado", "medición"]
+  expected_sources: ["AFP-400", "AFP-300"]
+  expected_has_diagram: null
+  verified: false
+
+- id: hp007
+  category: happy_path
+  question_type: procedure
+  question: "¿Cómo se realiza el test anual de un detector VESDA-E VEP según el manual del fabricante?"
+  expected_behavior: answer
+  expected_keywords: ["test", "aerosol", "sensibilidad", "anual"]
+  expected_sources: ["VESDA", "VEP"]
+  expected_has_diagram: null
+  verified: false
+
+- id: hp008
+  category: happy_path
+  question_type: compatibility
+  question: "¿Qué detectores de humo analógicos son compatibles con la Notifier ID3000?"
+  expected_behavior: answer
+  expected_keywords: ["serie 500", "b500", "nfxi", "direccionable"]
+  expected_sources: ["ID3000"]
+  expected_has_diagram: false
+  verified: false
+  notes: "Notifier serie 500 / NFXI son los típicos de ID3000."
+
+- id: hp009
+  category: happy_path
+  question_type: wiring
+  question: "¿Cuál es la resistencia de fin de línea recomendada para los lazos de la central Morley ZXe?"
+  expected_behavior: answer
+  expected_keywords: ["resistencia", "fin de línea", "ohm", "kohm"]
+  expected_sources: ["ZXe"]
+  expected_has_diagram: null
+  verified: false
+
+- id: hp010
+  category: happy_path
+  question_type: programming
+  question: "En la Morley DXc, ¿cómo se añade un nuevo detector al lazo tras la puesta en marcha inicial?"
+  expected_behavior: answer
+  expected_keywords: ["auto-learn", "scan", "lazo", "direccionar"]
+  expected_sources: ["DXc"]
+  expected_has_diagram: null
+  verified: false
+
+- id: hp011
+  category: happy_path
+  question_type: troubleshooting
+  question: "En la Morley RP1r, después de descargar la extinción el sistema no vuelve a estado normal tras resetear. ¿Qué comprobar?"
+  expected_behavior: answer
+  expected_keywords: ["reset", "extinción", "solenoide", "cableado", "disparo"]
+  expected_sources: ["RP1r", "RP1R"]
+  expected_has_diagram: null
+  verified: false
+
+- id: hp012
+  category: happy_path
+  question_type: spec
+  question: "¿Cuántos lazos direccionables soporta la Notifier AM2020/AFP1010 y cuántos dispositivos por lazo?"
+  expected_behavior: answer
+  expected_keywords: ["lazos", "dispositivos", "detectores", "módulos"]
+  expected_sources: ["AM2020", "AFP1010"]
+  expected_has_diagram: false
+  verified: false
+
+- id: hp013
+  category: happy_path
+  question_type: procedure
+  question: "¿Cómo se cambia la batería tampón de la Detnov ADW535 sin perder configuración?"
+  expected_behavior: answer
+  expected_keywords: ["batería", "configuración", "backup"]
+  expected_sources: ["ADW535"]
+  expected_has_diagram: true
+  verified: false
+
+- id: hp014
+  category: happy_path
+  question_type: wiring
+  question: "¿Cómo se conecta un módulo de aislamiento de línea en un lazo ID2000?"
+  expected_behavior: answer
+  expected_keywords: ["aislador", "isolador", "línea", "lazo"]
+  expected_sources: ["ID2000"]
+  expected_has_diagram: true
+  verified: false
+
+- id: hp015
+  category: happy_path
+  question_type: programming
+  question: "En la Detnov CCD-103, ¿cómo se desactiva un detector individualmente sin afectar al resto del lazo?"
+  expected_behavior: answer
+  expected_keywords: ["aislar", "desactivar", "deshabilitar", "dispositivo"]
+  expected_sources: ["CCD-103"]
+  expected_has_diagram: false
+  verified: false
+
+- id: hp016
+  category: happy_path
+  question_type: troubleshooting
+  question: "Un detector B501RF de Notifier no responde tras sustituir la batería. ¿Qué procedimiento seguir?"
+  expected_behavior: answer
+  expected_keywords: ["bateria", "direccionar", "registrar", "rf"]
+  expected_sources: ["B501RF"]
+  expected_has_diagram: null
+  verified: false
+
+- id: hp017
+  category: happy_path
+  question_type: procedure
+  question: "¿Cómo se programa el retardo de salida de alarma principal en la Notifier PEARL?"
+  expected_behavior: answer
+  expected_keywords: ["retardo", "delay", "alarma", "salida"]
+  expected_sources: ["PEARL"]
+  expected_has_diagram: null
+  verified: false
+
+- id: hp018
+  category: happy_path
+  question_type: wiring
+  question: "¿Cuál es el conexionado correcto de una sirena convencional en la Morley ZXe zona 1?"
+  expected_behavior: answer
+  expected_keywords: ["sirena", "zona", "resistencia", "polaridad"]
+  expected_sources: ["ZXe"]
+  expected_has_diagram: true
+  verified: false
+
+- id: hp019
+  category: happy_path
+  question_type: spec
+  question: "¿Cuál es el rango de temperatura de funcionamiento de los detectores Detnov serie ASD?"
+  expected_behavior: answer
+  expected_keywords: ["temperatura", "°c"]
+  expected_sources: ["ASD"]
+  expected_has_diagram: false
+  verified: false
+
+- id: hp020
+  category: happy_path
+  question_type: programming
+  question: "En la Notifier INSPIRE, ¿cómo se configuran las contraseñas de nivel 2 y nivel 3?"
+  expected_behavior: answer
+  expected_keywords: ["contraseña", "password", "nivel", "acceso"]
+  expected_sources: ["INSPIRE"]
+  expected_has_diagram: false
+  verified: false
+
+# =========================================================================
+# AMBIGUOUS MODEL — nombre genérico/incompleto, el bot debe pedir aclaración
+# =========================================================================
+
+- id: am001
+  category: ambiguous_model
+  question_type: programming
+  question: "¿Cómo programo el sistema 5000?"
+  expected_behavior: ask_clarification
+  expected_keywords: ["system 5000", "systema 5000", "notifier", "cuál"]
+  forbidden_keywords: ["paso 1", "menú principal"]  # no debe saltar a dar procedimiento sin clarificar
+  expected_has_diagram: false
+  verified: false
+  notes: "En BD hay 'System 5000' y 'Systema 5000' (ambos Notifier). Bot debe listar candidatos."
+
+- id: am002
+  category: ambiguous_model
+  question_type: troubleshooting
+  question: "Mi central da error genérico al arrancar, ¿qué hago?"
+  expected_behavior: ask_clarification
+  expected_keywords: ["fabricante", "modelo", "error", "mensaje"]
+  expected_has_diagram: false
+  verified: false
+
+- id: am003
+  category: ambiguous_model
+  question_type: spec
+  question: "¿Cuál es el consumo del ASD?"
+  expected_behavior: ask_clarification
+  expected_keywords: ["asd531", "asd532", "asd533", "asd535", "cuál"]
+  forbidden_keywords: ["24 vdc", "miliamperios", "ma"]  # no debe dar un número hasta desambiguar
+  expected_has_diagram: false
+  verified: false
+  notes: "ASD solo no distingue entre 531/532/533/535. Bot debe listar variantes."
+
+- id: am004
+  category: ambiguous_model
+  question_type: compatibility
+  question: "¿La FAAST es compatible con mi central?"
+  expected_behavior: ask_clarification
+  expected_keywords: ["faast lt", "faast flex", "faast xm", "central", "modelo"]
+  expected_has_diagram: false
+  verified: false
+
+- id: am005
+  category: ambiguous_model
+  question_type: procedure
+  question: "¿Cómo reseteo el panel?"
+  expected_behavior: ask_clarification
+  expected_keywords: ["modelo", "fabricante", "panel"]
+  expected_has_diagram: false
+  verified: false
+
+- id: am006
+  category: ambiguous_model
+  question_type: programming
+  question: "Necesito añadir un detector al lazo 2 de la ID"
+  expected_behavior: ask_clarification
+  expected_keywords: ["id1000", "id2000", "id3000", "id50", "cuál"]
+  expected_has_diagram: false
+  verified: false
+  notes: "ID es ambiguo entre ID1000/2000/3000/50/60."
+
+- id: am007
+  category: ambiguous_model
+  question_type: wiring
+  question: "¿Cómo se cablea la VESDA?"
+  expected_behavior: ask_clarification
+  expected_keywords: ["vesda-e", "ves", "vep", "veu", "vea", "modelo", "cuál"]
+  expected_has_diagram: false
+  verified: false
+
+- id: am008
+  category: ambiguous_model
+  question_type: troubleshooting
+  question: "¿Qué significa el código de error 7?"
+  expected_behavior: ask_clarification
+  expected_keywords: ["modelo", "fabricante", "central", "contexto"]
+  expected_has_diagram: false
+  verified: false
+  notes: "Código de error sin contexto — bot debe pedir al menos fabricante."
+
+# =========================================================================
+# MISSING CONTEXT — técnico no dice fabricante ni tipo de sistema
+# =========================================================================
+
+- id: mc001
+  category: missing_context
+  question_type: troubleshooting
+  question: "Tengo una alarma de batería baja que no se quita aunque las baterías son nuevas"
+  expected_behavior: ask_clarification
+  expected_keywords: ["fabricante", "modelo", "central"]
+  expected_has_diagram: false
+  verified: false
+
+- id: mc002
+  category: missing_context
+  question_type: procedure
+  question: "¿Cada cuánto hay que hacer mantenimiento?"
+  expected_behavior: ask_clarification
+  expected_keywords: ["tipo", "sistema", "componente", "norma"]
+  expected_has_diagram: false
+  verified: false
+  notes: "Pregunta demasiado abierta — puede depender de EN 54, norma local, tipo de equipo."
+
+- id: mc003
+  category: missing_context
+  question_type: programming
+  question: "¿Cómo se añade un retardo a la sirena?"
+  expected_behavior: ask_clarification
+  expected_keywords: ["fabricante", "modelo", "central"]
+  expected_has_diagram: false
+  verified: false
+
+- id: mc004
+  category: missing_context
+  question_type: wiring
+  question: "¿Dónde se conecta el cable de tierra?"
+  expected_behavior: ask_clarification
+  expected_keywords: ["fabricante", "modelo"]
+  expected_has_diagram: false
+  verified: false
+
+- id: mc005
+  category: missing_context
+  question_type: compatibility
+  question: "¿Mi detector antiguo vale para la nueva central?"
+  expected_behavior: ask_clarification
+  expected_keywords: ["modelo", "detector", "central", "cuál"]
+  expected_has_diagram: false
+  verified: false
+
+- id: mc006
+  category: missing_context
+  question_type: spec
+  question: "¿Cuál es la distancia máxima de cableado?"
+  expected_behavior: ask_clarification
+  expected_keywords: ["tipo", "cable", "modelo", "central"]
+  expected_has_diagram: false
+  verified: false
+
+- id: mc007
+  category: missing_context
+  question_type: troubleshooting
+  question: "El sistema me da fault"
+  expected_behavior: ask_clarification
+  expected_keywords: ["mensaje", "código", "modelo", "fabricante"]
+  expected_has_diagram: false
+  verified: false
+
+- id: mc008
+  category: missing_context
+  question_type: procedure
+  question: "¿Cómo pongo la instalación en servicio?"
+  expected_behavior: ask_clarification
+  expected_keywords: ["modelo", "fabricante", "central"]
+  expected_has_diagram: false
+  verified: false
+
+# =========================================================================
+# NOT IN DB — productos que hoy NO tenemos ingestados
+# Bot debe reconocer el gap honestamente (no inventar)
+# =========================================================================
+
+- id: nd001
+  category: not_in_db
+  question_type: programming
+  question: "¿Cómo programo la central Bosch Avenar FPA-1200?"
+  expected_behavior: admit_no_info
+  expected_keywords: ["no tengo", "manual", "bosch", "avenar"]
+  forbidden_keywords: ["paso 1", "menú", "procedimiento"]
+  expected_has_diagram: false
+  verified: false
+  notes: "Bosch no está en la BD. Bot debe reconocerlo sin inventar."
+
+- id: nd002
+  category: not_in_db
+  question_type: troubleshooting
+  question: "Mi Esser IQ8Quad da error 14"
+  expected_behavior: admit_no_info
+  expected_keywords: ["no tengo", "esser"]
+  forbidden_keywords: ["error 14 significa", "probablemente"]
+  expected_has_diagram: false
+  verified: false
+  notes: "Esser no está en la BD. Debe admitir."
+
+- id: nd003
+  category: not_in_db
+  question_type: compatibility
+  question: "¿El detector Apollo XP95 es compatible con la ID3000?"
+  expected_behavior: admit_no_info
+  expected_keywords: ["apollo", "xp95", "no tengo"]
+  expected_has_diagram: false
+  verified: false
+  notes: "Apollo no está; debe admitir el gap del Apollo aunque la ID3000 sí esté."
+
+- id: nd004
+  category: not_in_db
+  question_type: spec
+  question: "¿Cuál es el consumo de la Aritech ATS 3500?"
+  expected_behavior: admit_no_info
+  expected_keywords: ["aritech", "no tengo"]
+  expected_has_diagram: false
+  verified: false
+
+- id: nd005
+  category: not_in_db
+  question_type: programming
+  question: "¿Cómo configuro la UTC FP1200 para tener dos lazos independientes?"
+  expected_behavior: admit_no_info
+  expected_keywords: ["utc", "no tengo"]
+  forbidden_keywords: ["menú lazo", "configuración zona"]
+  expected_has_diagram: false
+  verified: false
+
+- id: nd006
+  category: not_in_db
+  question_type: wiring
+  question: "¿Cómo se cablea una cámara IP Hikvision DS-2CD2143G0?"
+  expected_behavior: admit_no_info
+  expected_keywords: ["hikvision", "cctv", "no tengo"]
+  expected_has_diagram: false
+  verified: false
+  notes: "Producto fuera de dominio PCI — futuro cuando entren CCTV."
+
+- id: nd007
+  category: not_in_db
+  question_type: procedure
+  question: "¿Cómo mantengo un grupo de presión contra incendios Dorot?"
+  expected_behavior: admit_no_info
+  expected_keywords: ["dorot", "grupo presión", "no tengo"]
+  expected_has_diagram: false
+  verified: false
+  notes: "Fuera de dominio — grupos de presión son futuro."
+
+- id: nd008
+  category: not_in_db
+  question_type: programming
+  question: "¿Cómo doy de alta un lector en el control de acceso CDVI ATRIUM?"
+  expected_behavior: admit_no_info
+  expected_keywords: ["cdvi", "atrium", "control", "acceso", "no tengo"]
+  expected_has_diagram: false
+  verified: false
+  notes: "Fuera de dominio — control de acceso es futuro."
+
+# =========================================================================
+# CROSS-MANUAL — respuesta requiere sintetizar de varios manuales o fabricantes
+# =========================================================================
+
+- id: cm001
+  category: cross_manual
+  question_type: compatibility
+  question: "¿Puedo usar un detector Notifier SDX-751 con una central Morley ZXe?"
+  expected_behavior: answer
+  expected_keywords: ["protocolo", "opal", "compatibilidad", "honeywell"]
+  expected_sources: ["ZXe"]
+  expected_has_diagram: false
+  verified: false
+  notes: "Notifier y Morley son ambos Honeywell — pero protocolos pueden diferir. Bot debe razonar."
+
+- id: cm002
+  category: cross_manual
+  question_type: procedure
+  question: "Necesito migrar de una Notifier AFP-200 antigua a una ID3000, manteniendo el cableado existente"
+  expected_behavior: answer
+  expected_keywords: ["lazo", "protocolo", "direccionable", "cableado"]
+  expected_sources: ["ID3000", "AFP"]
+  expected_has_diagram: null
+  verified: false
+
+- id: cm003
+  category: cross_manual
+  question_type: troubleshooting
+  question: "¿Qué diferencias de comportamiento hay entre un detector óptico Detnov ASD531 y un Notifier SDX en condiciones de humedad alta?"
+  expected_behavior: answer
+  expected_keywords: ["humedad", "ip", "ambiente", "cámara"]
+  expected_sources: ["ASD531", "SDX"]
+  expected_has_diagram: false
+  verified: false
+
+- id: cm004
+  category: cross_manual
+  question_type: spec
+  question: "Comparar capacidad de lazos entre la Detnov CAD-150 y la Notifier ID3000"
+  expected_behavior: answer
+  expected_keywords: ["lazo", "dispositivos", "cad-150", "id3000"]
+  expected_sources: ["CAD-150", "ID3000"]
+  expected_has_diagram: false
+  verified: false
+
+- id: cm005
+  category: cross_manual
+  question_type: programming
+  question: "¿Cómo configuro una red de centrales mezclando una Notifier ID3000 con una Morley DXc?"
+  expected_behavior: answer
+  expected_keywords: ["red", "honeywell", "protocolo", "interconexión"]
+  expected_sources: ["ID3000", "DXc"]
+  expected_has_diagram: null
+  verified: false
+  notes: "Caso realista en instalaciones mixtas Honeywell."
+
+- id: cm006
+  category: cross_manual
+  question_type: wiring
+  question: "Tengo un módulo aislador Detnov en un lazo que comparte detectores Notifier. ¿Hay alguna incompatibilidad conocida?"
+  expected_behavior: answer
+  expected_keywords: ["aislador", "protocolo", "incompatible"]
+  expected_has_diagram: false
+  verified: false
+  notes: "Pregunta trampa — aislador suele ser específico del protocolo."
+
+- id: cm007
+  category: cross_manual
+  question_type: compatibility
+  question: "¿La base B501 de Notifier puede usarse con un detector Detnov serie 500?"
+  expected_behavior: answer
+  expected_keywords: ["b501", "base", "protocolo", "compatibilidad"]
+  expected_sources: ["B501"]
+  expected_has_diagram: false
+  verified: false
+
+- id: cm008
+  category: cross_manual
+  question_type: procedure
+  question: "Pasos para reemplazar una Morley ZXe convencional por una ZXSe con detectores existentes"
+  expected_behavior: answer
+  expected_keywords: ["zxe", "zxse", "detectores", "compatibilidad", "cableado"]
+  expected_sources: ["ZXe", "ZXSe"]
+  expected_has_diagram: null
+  verified: false

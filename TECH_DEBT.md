@@ -199,6 +199,69 @@ Los 2.471 chunks se borraron el 17 abril 2026 vía `scripts/delete_pathological_
 
 ---
 
+## 8. Observability + tabla `query_gaps` (tracking de qué manuales faltan)
+
+**Estado actual (decidido 17 abril 2026)**: Hoy no existe ningún sistema de logging de las interacciones del bot. Se decidió en sesión que el bot debe registrar cada query donde responde *"no tengo este manual"* para construir la cola priorizada de ingesta futura.
+
+**Problema que resuelve**: con 30+ fabricantes pendientes por añadir a la BD y un alcance que se expande fuera de PCI (rociadores, grupos de presión, CCTV, control de acceso), la priorización de ingesta debe guiarse por demanda real, no por intuición. El log de "gaps" es el indicador canónico.
+
+**Dos tipos de gap que debe soportar el schema** (decisión deferida hasta tener volumen):
+1. **Gap propio**: producto que las empresas del grupo sí instalan/ofrecen pero cuyo manual no se ha añadido aún. Prioritario.
+2. **Gap de terceros**: sistema instalado por otros que los técnicos del grupo ahora mantienen. Caso nicho, decisión caso a caso.
+
+Experiencia hacia el técnico: **la misma en ambos casos** (*"no tengo ese manual aún"*). La distinción es interna para priorizar.
+
+**Trigger para implementar**:
+- Junto con el primer deploy / piloto (sin deploy no hay queries reales que loguear), O
+- Si antes del deploy se decide loguear las queries sintéticas del eval como dry-run del sistema de logging
+
+**Schema propuesto** (tabla `query_gaps` en Supabase):
+```sql
+CREATE TABLE query_gaps (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    created_at TIMESTAMPTZ DEFAULT now(),
+    user_id_hash TEXT,           -- hash del Telegram ID (privacidad)
+    query_text TEXT NOT NULL,
+    model_mentioned TEXT,        -- extraído por el bot si lo detecta
+    manufacturer_mentioned TEXT, -- idem
+    bot_response_type TEXT,      -- 'not_found' | 'ambiguous' | 'answered' | 'error'
+    review_status TEXT DEFAULT 'pending',  -- 'pending' | 'gap_propio' | 'gap_terceros' | 'added' | 'discarded'
+    review_notes TEXT,
+    added_at TIMESTAMPTZ          -- cuándo se cubrió el gap (si aplica)
+);
+CREATE INDEX idx_query_gaps_review ON query_gaps(review_status, created_at DESC);
+```
+
+**Observability más amplia** (relacionada, no bloqueante para este punto): además de `query_gaps`, el sistema debería loguear **todas** las queries (no solo las fallidas) con latencia, chunks recuperados, respuesta generada y (cuando haya feedback UI) rating del técnico. Esto es el prerequisito para eval continuo en producción.
+
+**Coste estimado**: ~3-4h (migración SQL + instrumentación del generator + dashboard básico tipo SELECT agregados)
+
+---
+
+## 9. Verificación del pipeline de imágenes — pendiente al abrir la próxima sesión
+
+**Estado actual (pendiente de confirmar, 17 abril 2026)**: El bot en versiones anteriores respondía con diagramas/imágenes, y hay evidencia en el código (`image_extractor.py`, `vision_describer.py`, columnas `has_diagram` y `diagram_url` en `chunks`, dry-run del FAAST_ML mostró *"Chunks with diagrams: 54"*) de que el pipeline **detecta** imágenes relevantes. Pero no está validado end-to-end que:
+
+1. Las imágenes se suben realmente a Supabase Storage durante la ingesta
+2. `diagram_url` queda poblado en los chunks
+3. El retriever recupera la URL junto con el texto
+4. El generator / Telegram bot entrega la imagen al técnico
+
+**Por qué importa**: en esta industria los manuales son visualmente densos (diagramas de cableado, esquemas de bornes, secuencias de botones en pantallas LCD). Un bot que responde solo texto pierde gran parte del valor práctico.
+
+**Trigger para verificar**: **inicio de la próxima sesión**, antes de arrancar el eval set. Si hay gap, se añade al eval como criterio (*"respuesta correcta incluye imagen cuando la pregunta lo requiere"*) y se arregla como parte del hardening del pipeline.
+
+**Verificación concreta a ejecutar**:
+1. Query: `SELECT COUNT(*) FROM chunks WHERE has_diagram = true` → establecer qué % del corpus tiene diagrama asociado
+2. Query: `SELECT COUNT(*) FROM chunks WHERE has_diagram = true AND diagram_url IS NOT NULL` → cuántos tienen URL poblada
+3. HEAD request contra 5-10 `diagram_url` → ¿responden 200 OK desde Supabase Storage?
+4. Trazar 2 chunks con diagrama a través del retriever + generator existentes → ¿la URL llega a la respuesta final?
+5. Si hay gap en (2), (3) o (4): diagnosticar, documentar como item accionable.
+
+**Coste estimado**: ~30-60 min (verificación + informe). Si hay que arreglar, coste separado según el gap.
+
+---
+
 ## Mejoras YA incorporadas al flujo (no deuda, registro histórico)
 
 - **Test de mapping en `tests/`**: verifica que todo PDF en `Manuales_{Manufacturer}/` tiene entrada en los dicts de override. Implementado [fecha ingesta Morley].
