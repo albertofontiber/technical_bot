@@ -90,6 +90,83 @@ Si alcanzas un trigger, para y refactoriza antes de seguir añadiendo features.
 
 ---
 
+## 5b. Tratamiento de centrales de detección de gas en la taxonomía
+
+**Estado actual (decidido 16 abril 2026)**: La categoría `Centrales de incendios` agrupa centrales de fuego Y centrales de detección de gas (PL4, AM-8200G de Notifier; CS-4, CA-2/4/8 de Detnov). Decisión consciente para evitar fragmentación cuando el volumen de gas es bajo (~6-8 familias en total). Ver comentario explicativo en `chunker.py` y guidance en `scripts/classify_general_chunks.py`.
+
+**Problema potencial**: Dos cosas distintas conviven bajo un nombre que dice "incendios":
+1. El nombre puede engañar al filtrar (`category='Centrales de incendios'` también devuelve paneles de gas)
+2. La detección de gas se rige por normas distintas a EN 54 (EN 50545 para parking, EN 60079 para atmósferas explosivas), así que técnicamente son productos diferentes
+
+**Datos que motivaron la decisión actual**:
+- Detnov: 4 modelos de central de gas (CS-4, CA-2, CA-4, CA-8) en tarifa 2026
+- Notifier: 2-3 modelos confirmados (PL4, AM-8200G, posiblemente Galileo)
+- Total estimado: ~6-8 familias → fragmentación marginal
+- El bot es Q&A, no catálogo: técnicos preguntan "cómo programo el CA-4", no "muéstrame todas las centrales de gas"
+- Inconsistencia residual: los **sensores** de gas ya están en `Detectores puntuales` → split parcial existente, separar centrales no la cura
+
+**Trigger para implementar splitting**:
+- Un técnico se queja de que el filtro `Centrales de incendios` le mezcla paneles de gas que no esperaba, O
+- El número de centrales de gas crece a >20 familias y la fragmentación deja de ser marginal, O
+- Detectamos confusión sistemática del bot al razonar sobre productos de gas vs fuego
+
+**Soluciones disponibles (cuando se dispare el trigger)**:
+
+**Opción A — Renombrar a `Centrales de detección`** (más sencilla):
+1. `UPDATE chunks SET category='Centrales de detección' WHERE category='Centrales de incendios'` (también `documents`)
+2. Renombrar key en `_CATEGORY_KEYWORDS` en `chunker.py`
+3. Actualizar prompts del retriever/generator si nombran la categoría explícitamente
+4. Coste: ~1h
+
+**Opción B — Crear categoría dedicada `Centrales de detección de gas`** (más limpia):
+1. Añadir nueva entry en `_CATEGORY_KEYWORDS` con keywords: PL4, AM-8200G, CS-4, CA-2, CA-4, CA-8, "central de gas", "detección de gas", etc.
+2. UPDATE manual o LLM-asistido para reclasificar las filas existentes
+3. Coste: ~2-3h (incluye reclasificación de datos existentes con verificación humana)
+
+Preferir B si se llega al trigger por volumen alto (>20). Preferir A si solo es cuestión de nombre engañoso.
+
+---
+
+## 5. Agrupación de fabricantes por grupo corporativo
+
+**Estado actual**: Tratamos `manufacturer` como string plano (ej: "Notifier", "Morley", "Detnov"). Notifier y Morley son ambas marcas de Honeywell, pero esa relación no está modelada.
+
+**Problema**: Si en el futuro queremos razonar sobre compatibilidad entre marcas del mismo grupo (ej: "este detector Notifier es compatible con esta central Morley porque ambos son Honeywell"), no tenemos forma sistemática de hacerlo. Hoy el bot trata cada manufacturer como independiente.
+
+**Trigger para implementar**:
+- Un técnico pregunta por compatibilidad cross-brand y el bot no puede responder bien, O
+- Añadimos un 4º+ fabricante de Honeywell (ej: Gent, Esser) y la cuestión escala
+
+**Solución propuesta**: Añadir columna `manufacturer_group TEXT` en `chunks` y `documents`. Valores: "Honeywell", "Detnov", etc. Backfill via SQL UPDATE.
+
+**Coste estimado**: ~1h (schema + backfill + actualizar retriever + prompt)
+
+---
+
+## 6. Auditoría de idiomas en la BD de chunks
+
+**Estado actual (detectado 17 abril 2026)**: Durante la revisión de los 64 documentos de `category='General'` descubrimos que `MADT236P` (impresora de la AFP4000) está 100% en portugués — el sufijo `P` del filename significa "Portugués". Mirando el resto de filenames de Notifier hay muchos candidatos con sufijo `P` (MNDT102P, MNDT105P, MNDT510P, MNDT515P, MNDT1003P, MADT236P, BTDT017, ETDT312, ETDT314, MADT575_01, MADT731_03_A, MADT742, MADT746_01, …) que podrían ser también portugueses. Puede haber también italianos o franceses sin detectar (`RP1R - MAN ITA r.A2` lo es explícitamente, `Smart 2_MT251_Ita-Eng` es bilingüe italiano-inglés).
+
+**Problema**: La política del proyecto (`user_profile.md`) dice: *"Traducción: solo manuales 100% EN, multilingüe con ES no se traduce, otros idiomas caso a caso"*. Hoy no sabemos cuántos chunks tenemos en cada idioma distinto de ES/EN, así que no podemos aplicar la política. Peor: el retriever puede estar devolviendo chunks en portugués a técnicos que preguntan en español, sin que nos demos cuenta.
+
+**Trigger para implementar**:
+- **Inmediato tras cerrar el frente de `category='General'`** — aprovechar que estamos tocando estos documentos, O
+- Un técnico reporta que el bot respondió citando contenido en portugués/italiano/francés, O
+- Una ingesta futura (Morley u otro) añade un lote grande sin filtro de idioma
+
+**Solución propuesta**:
+1. Script `scripts/audit_chunk_languages.py` que:
+   - Muestrea 2-3 chunks por `source_file` y detecta idioma con heurística simple (palabras función típicas: `the/of/and` → EN, `el/la/de/que` → ES, `o/de/que/não` → PT, `il/di/che/non` → IT, `le/de/et/est` → FR) o con `langdetect`/`lingua` si hace falta precisión
+   - Dumpea inventario: `{source_file, manufacturer, language, n_chunks, confidence}` a `logs/language_audit.json`
+2. Revisar el inventario caso a caso según la política existente:
+   - PT/IT/FR 100% → decidir si traducir, filtrar del retrieval, o mantener
+   - Multilingüe con ES → usar solo ES (filtrar el resto), política actual ya definida
+3. Si se decide filtrar, añadir columna `language TEXT` a `chunks` (o usar el campo existente si ya hay) y filtrar en el retriever.
+
+**Coste estimado**: ~2-3h (script de detección + análisis del inventario; la acción sobre los chunks depende de qué decida el usuario)
+
+---
+
 ## Mejoras YA incorporadas al flujo (no deuda, registro histórico)
 
 - **Test de mapping en `tests/`**: verifica que todo PDF en `Manuales_{Manufacturer}/` tiene entrada en los dicts de override. Implementado [fecha ingesta Morley].

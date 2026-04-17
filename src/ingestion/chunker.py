@@ -789,6 +789,9 @@ _DETNOV_CATEGORY_MAP = {
 
 # Keywords in content/filename for category detection
 _CATEGORY_KEYWORDS = {
+    # NOTE: "Centrales de incendios" is broadly interpreted to include ALL
+    # detection control panels — fire AND gas (e.g. Notifier PL4, AM-8200G).
+    # See TECH_DEBT.md if/when we split into a dedicated gas category.
     "Centrales de incendios": [
         "central de incendios", "central de alarma", "central de detección",
         "centrales analógicas", "centrales analogicas",
@@ -796,11 +799,16 @@ _CATEGORY_KEYWORDS = {
         "panel de control", "panel de incendios",
         "NFS", "NFS2-3030", "NFS-320", "NFS Supra",
         "AM-8200", "AM-8100", "AM 8200", "AM 8100",
+        "AM-8200G", "AM 8200G",  # gas variant — same category by current policy
         "CAD-150", "CCD-100", "ID3000",
         "Pearl", "INSPIRE", "PARK 2000", "PARK 5000",
         "monóxido de carbono",
         "TG-Honeywell", "TG - Honeywell", "MN-DT-951",
         "S-HSF", "CLSS",
+        # Gas detection control panels (by current broad-category policy)
+        "PL4", "central de gas", "panel de gas",
+        "gas detection panel", "gas detection control",
+        "detección de gas",
     ],
     "Detectores puntuales": [
         "detector óptico", "detector térmico", "detector de humo",
