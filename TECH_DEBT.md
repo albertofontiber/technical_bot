@@ -167,6 +167,38 @@ Preferir B si se llega al trigger por volumen alto (>20). Preferir A si solo es 
 
 ---
 
+## 7. Bug de duplicación del chunker en datasheets multilingües + 3 re-ingestas pendientes
+
+**Estado actual (detectado 17 abril 2026)**: Durante la auditoría de idiomas (TECH_DEBT #6) afloraron 3 documentos con counts de chunks anómalos. Investigación (`scripts/investigate_mega_docs.py`) confirmó duplicación masiva:
+
+| source_file | páginas PDF | chunks totales | chunks únicos | ratio |
+|---|---:|---:|---:|---:|
+| `D1058-1_NFXI-WS-WSF` | 2 | 1.159 | 47 | 24,7× |
+| `D1056-1_NFXI-BS-BSF` | 2 | 1.174 | 62 | 18,9× |
+| `170020 ... TARJETAS IDIOMAS EXTINCION SUPRA REV A` | 1 | 138 | 39 | 3,5× |
+
+Los 2.471 chunks se borraron el 17 abril 2026 vía `scripts/delete_pathological_chunks.py` (rollback snapshot en `logs/pathological_chunks_rollback_20260417T123104Z.json`). **Las filas en `documents` se conservaron** (`status='active'`), así que el path para re-ingestar queda abierto.
+
+**Patrón sospechoso no explicado**: en los dos datasheets, los top-5 contenidos más repetidos aparecen **exactamente 80 veces cada uno**. Esa cifra constante sugiere un bucle en el pipeline — posiblemente `for each detected language × for each overlap chunk × ...`. Requiere instrumentación con logging para capturar en qué punto se multiplica.
+
+**Característica común de los 3**: tablas densas multilingües (EN/FR/DE/IT/…) con mojibake en el TARJETAS. Probablemente el bug se activa por la combinación de (a) Vision + pdfplumber + PyMuPDF extrayendo la misma tabla 3 veces, (b) chunker aplicando overlap sobre contenido repetitivo, (c) algo en `language_filter` iterando por sección. No confirmado.
+
+**Trigger para implementar**:
+- **Antes de re-ingestar cualquiera de estos 3 docs** — el bug está latente hasta que se entienda
+- O si aparece otro doc con `n_chunks / n_unique > 5` en cualquier auditoría futura
+
+**Solución propuesta (pasos)**:
+1. Reproducir el bug con uno de los 3 docs en modo `--dry-run` verbose (sin escribir a DB). Instrumentar contadores: "n_pages entered chunker", "n_chunks produced per page", "n_chunks after dedup".
+2. Localizar el bucle responsable (hipótesis: `language_filter` × `enrich_with_tables` × chunker overlap).
+3. Añadir guard en el chunker: si el hash de un chunk aparece >2 veces, deduplicar.
+4. Re-ingestar los 3 docs. Verificar que `n_chunks ≈ n_páginas × factor razonable`.
+
+**Coste estimado**: ~3-4h (investigación + fix + re-ingestar 3 docs)
+
+**Sub-item (menor)**: inconsistencia en `documents.source_pdf_filename` — el backfill de Phase 1 guardó los stems **sin** `.pdf`, pero `document_registry.py` (ingesta moderna) los guarda **con** la extensión. No crítico, pero complica queries. Trigger: siguiente vez que toquemos la tabla `documents` en volumen; hacer un UPDATE normalizador para que todos terminen igual (decidir criterio: con o sin `.pdf`).
+
+---
+
 ## Mejoras YA incorporadas al flujo (no deuda, registro histórico)
 
 - **Test de mapping en `tests/`**: verifica que todo PDF en `Manuales_{Manufacturer}/` tiene entrada en los dicts de override. Implementado [fecha ingesta Morley].
