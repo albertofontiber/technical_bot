@@ -249,6 +249,7 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
     response = client.messages.create(
         model=LLM_MODEL,
         max_tokens=LLM_MAX_TOKENS,
+        temperature=0,  # eval reproducibility — same query + chunks → same answer
         system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": user_message}],
     )

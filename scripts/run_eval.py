@@ -217,9 +217,150 @@ def score_sources(citations_text: str, expected: list[str]) -> int:
     return sum(1 for s in expected if s.lower() in c)
 
 
-def score_question(q: dict, result: dict) -> dict:
-    """Compute per-criterion scores for a single question. Returns dict with
-    per-criterion booleans + an overall pass/fail."""
+# ---------------------------------------------------------------------------
+# LLM-as-judge scoring (20 abril 2026)
+# ---------------------------------------------------------------------------
+# Keyword-match scoring is brittle: the bot can answer correctly using a
+# synonym the YAML author didn't anticipate (Ω vs ohm, 'anular' vs 'aislar').
+# Calibrating keyword lists requires PCI domain expertise we don't have
+# in-house during M&A. The industry-standard alternative is LLM-as-judge:
+# a second LLM reads (question, retrieved_chunks, bot_answer) and judges
+# whether the answer is faithful to the chunks, relevant to the question,
+# helpful to a technician, and appropriately honest when info is missing.
+#
+# Judge output is ADDITIVE to keyword scoring — both are computed and
+# stored per question, so we can compare judge agreement with keyword
+# PASS on a small human-verified gold subset.
+
+JUDGE_MODEL = "claude-sonnet-4-6"  # different from LLM_MODEL is ideal; we only have Claude
+JUDGE_MAX_TOKENS = 800
+
+JUDGE_PROMPT = """Eres el evaluador de un chatbot técnico que ayuda a técnicos de protección contra incendios (PCI). Tu trabajo es juzgar UNA respuesta del bot contra los fragmentos de manual que tenía disponibles.
+
+PREGUNTA DEL TÉCNICO:
+{question}
+
+CONDUCTA ESPERADA: {expected_behavior}
+- 'answer' → el bot debe responder directamente porque tiene información suficiente.
+- 'ask_clarification' → la pregunta es ambigua; el bot debe pedir UN detalle concreto antes de responder.
+- 'admit_no_info' → el producto/fabricante no está cubierto; el bot debe decir "no tengo este manual" sin inventar.
+
+FRAGMENTOS RECUPERADOS (las ÚNICAS fuentes a las que el bot tenía acceso):
+{chunks}
+
+RESPUESTA DEL BOT:
+{answer}
+
+Evalúa CINCO criterios, cada uno con true/false, y un veredicto overall_pass.
+
+1. faithful: ¿TODAS las afirmaciones técnicas concretas (valores, procedimientos, nombres de terminales, etc.) están soportadas por los fragmentos? Una afirmación no soportada = false, aunque suene correcta.
+2. relevant: ¿la respuesta aborda lo que el técnico preguntó, o se desvía a otro tema?
+3. helpful: ¿el técnico puede ACTUAR con esta respuesta, o es un "no sé" vacío cuando sí había info disponible en los fragmentos?
+4. honest: ¿el bot admite cuando falta información, o inventa para disimular? Si había info en los fragmentos y la ignora, también es deshonesto.
+5. behavior_match: ¿la conducta observada del bot coincide con la esperada arriba?
+
+overall_pass = (faithful AND relevant AND helpful AND honest AND behavior_match)
+
+Responde ÚNICAMENTE con un JSON en este formato:
+{{
+  "faithful": true|false,
+  "relevant": true|false,
+  "helpful": true|false,
+  "honest": true|false,
+  "behavior_match": true|false,
+  "overall_pass": true|false,
+  "rationale": "una o dos frases explicando el juicio"
+}}"""
+
+
+def _format_chunks_for_judge(chunks_used: list[dict], full_chunks: list[dict] | None = None) -> str:
+    """Render chunks compactly for the judge prompt.
+
+    Prefers full_chunks (with content) if passed — chunks_used only has
+    metadata (source_file, product_model, similarity). For the per-question
+    trace we'd need to re-run retrieval to get content; cheaper path is
+    to pass the run_single reranked list forward when available.
+    """
+    src = full_chunks if full_chunks else chunks_used
+    if not src:
+        return "(ningún fragmento recuperado)"
+    lines = []
+    for i, c in enumerate(src[:6]):
+        pm = c.get("product_model", "?")
+        sf = c.get("source_file", "?")
+        sec = c.get("section_title") or ""
+        content = c.get("content", "")
+        # Keep preview bounded — judge doesn't need full content, just enough
+        # to verify claims against.
+        preview = content[:500] if content else "(sin contenido almacenado)"
+        lines.append(
+            f"[Fragmento {i+1}] Producto: {pm} | Sección: {sec[:60]} | Fuente: {sf}\n{preview}"
+        )
+    return "\n\n".join(lines)
+
+
+def score_llm_judge(
+    question: dict,
+    answer: str,
+    chunks_for_judge: list[dict],
+) -> dict:
+    """Ask Claude (as judge) to evaluate the bot's answer on 5 criteria.
+
+    Returns dict with faithful/relevant/helpful/honest/behavior_match/overall_pass/rationale.
+    On error, returns a dict with 'judge_error' populated; callers should not
+    treat that as either PASS or FAIL — it's a measurement failure.
+    """
+    import anthropic  # local import so --dry-run doesn't require the SDK
+    import os
+
+    prompt = JUDGE_PROMPT.format(
+        question=question.get("question", ""),
+        expected_behavior=question.get("expected_behavior", "answer"),
+        chunks=_format_chunks_for_judge(chunks_for_judge),
+        answer=answer,
+    )
+
+    try:
+        client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
+        resp = client.messages.create(
+            model=JUDGE_MODEL,
+            max_tokens=JUDGE_MAX_TOKENS,
+            temperature=0,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        raw = resp.content[0].text.strip()
+        # Strip markdown code fences if Claude added them
+        if raw.startswith("```"):
+            raw = raw.split("\n", 1)[1].rsplit("```", 1)[0].strip()
+        verdict = json.loads(raw)
+        # Defensive: ensure all expected keys, default to False if missing
+        return {
+            "faithful": bool(verdict.get("faithful", False)),
+            "relevant": bool(verdict.get("relevant", False)),
+            "helpful": bool(verdict.get("helpful", False)),
+            "honest": bool(verdict.get("honest", False)),
+            "behavior_match": bool(verdict.get("behavior_match", False)),
+            "overall_pass": bool(verdict.get("overall_pass", False)),
+            "rationale": str(verdict.get("rationale", ""))[:500],
+        }
+    except Exception as e:
+        return {
+            "judge_error": f"{type(e).__name__}: {e}",
+            "faithful": None, "relevant": None, "helpful": None,
+            "honest": None, "behavior_match": None, "overall_pass": None,
+            "rationale": None,
+        }
+
+
+def score_question(q: dict, result: dict, run_judge: bool = False) -> dict:
+    """Compute per-criterion scores for a single question.
+
+    Returns dict with per-criterion booleans + overall pass/fail. When
+    ``run_judge=True``, also invokes the LLM-as-judge and stores its
+    verdict under key ``judge``.  The judge PASS is INFORMATIONAL in the
+    returned dict (does not affect ``pass``) until we have a calibrated
+    gold subset to trust it — compare both and iterate.
+    """
     answer = result.get("answer", "")
     diagrams = result.get("diagrams", [])
 
@@ -250,7 +391,7 @@ def score_question(q: dict, result: dict) -> dict:
     # Overall pass: behavior + keywords + forbidden (diagram is informational)
     overall_pass = behavior_ok and keywords_ok and forbidden_ok
 
-    return {
+    out = {
         "observed_behavior": observed_behavior,
         "behavior_ok": behavior_ok,
         "keywords": {"hits": kw_hits, "total": kw_total, "missing": kw_missing, "ok": keywords_ok},
@@ -261,6 +402,14 @@ def score_question(q: dict, result: dict) -> dict:
         "source_hits": src_hits,
         "pass": overall_pass,
     }
+
+    if run_judge:
+        # Pass the richer chunk list if run_single stored one; fall back to
+        # the truncated chunks_used metadata otherwise.
+        chunks_for_judge = result.get("chunks_full") or result.get("chunks_used") or []
+        out["judge"] = score_llm_judge(q, answer, chunks_for_judge)
+
+    return out
 
 
 # ---------------------------------------------------------------------------
@@ -323,6 +472,23 @@ def run_single(q: dict, dry_run: bool = False) -> dict:
             if any(t in pm or pm in t for t in targets_lc):
                 n_relevant += 1
 
+    # chunks_full carries the reranked chunks WITH content for the LLM-as-judge
+    # step downstream (scored ex-post in score_question). Not written to the
+    # persisted JSON to keep logs compact — callers can opt in by setting
+    # include_full_chunks_in_report=True when invoking main().
+    chunks_full = [
+        {"source_file": c.get("source_file"),
+         "page_number": c.get("page_number"),
+         "product_model": c.get("product_model"),
+         "section_title": c.get("section_title"),
+         "content_type": c.get("content_type"),
+         "similarity": c.get("similarity"),
+         "content": c.get("content", ""),
+         "has_diagram": bool(c.get("has_diagram")),
+        }
+        for c in reranked
+    ]
+
     return {
         "answer": gen.get("answer", ""),
         "diagrams": gen.get("diagrams", []),
@@ -332,6 +498,7 @@ def run_single(q: dict, dry_run: bool = False) -> dict:
              "similarity": c.get("similarity")}
             for c in reranked[:6]
         ],
+        "chunks_full": chunks_full,  # for judge; stripped from persisted JSON
         "target_models_detected": target_models,
         "n_chunks_retrieved": len(chunks),
         "n_chunks_reranked": len(reranked),
@@ -356,6 +523,9 @@ def main() -> int:
                     help="Comma-separated list of categories to run")
     ap.add_argument("--dry-run", action="store_true",
                     help="Skip LLM calls; only print the plan")
+    ap.add_argument("--judge", action="store_true",
+                    help="Run LLM-as-judge on every answer in addition to "
+                         "keyword scoring. Adds ~$0.02-0.05 per question.")
     ap.add_argument("--output-dir", default="logs",
                     help="Where to write the JSON report")
     args = ap.parse_args()
@@ -390,7 +560,7 @@ def main() -> int:
         try:
             exec_result = run_single(q, dry_run=args.dry_run)
             if not args.dry_run:
-                score = score_question(q, exec_result)
+                score = score_question(q, exec_result, run_judge=args.judge)
             else:
                 score = {"pass": None, "dry_run": True}
         except Exception as e:
@@ -403,7 +573,15 @@ def main() -> int:
             "DRY" if args.dry_run else
             ("PASS" if score.get("pass") else "FAIL")
         )
-        print(f"    {status}  "
+        judge_str = ""
+        if args.judge and score.get("judge"):
+            j = score["judge"]
+            if j.get("judge_error"):
+                judge_str = f" | judge=ERR"
+            else:
+                jp = j.get("overall_pass")
+                judge_str = f" | judge={'PASS' if jp else 'FAIL'}"
+        print(f"    {status}{judge_str}  "
               f"(behavior_expected={q.get('expected_behavior')} "
               f"observed={score.get('observed_behavior','?')} | "
               f"keywords={score.get('keywords',{}).get('hits','?')}/"
@@ -418,7 +596,12 @@ def main() -> int:
             vios = score.get("forbidden_violations", [])
             if vios:
                 print(f"    forbidden hit:    {vios}")
+            if args.judge and score.get("judge", {}).get("rationale"):
+                print(f"    judge: {score['judge']['rationale']}")
 
+        # Strip chunks_full before persisting — it's only needed by the judge
+        # during scoring and bloats the JSON report unnecessarily.
+        exec_result.pop("chunks_full", None)
         results.append({"question": q, "result": exec_result, "score": score})
 
     elapsed = time.time() - t_start
@@ -456,6 +639,31 @@ def main() -> int:
         t = total_p + total_f + total_e
         rate = f"{100*total_p/t:.0f}%" if t else "-"
         print(f"{'TOTAL':<22s} {total_p:>6d} {total_f:>6d} {total_e:>6d}  {rate:>4s}")
+
+        # Judge aggregate (informational — does not alter PASS)
+        if args.judge:
+            jp = jf = je = 0
+            agree = disagree = 0
+            for r in results:
+                j = r["score"].get("judge") or {}
+                if j.get("judge_error"):
+                    je += 1
+                elif j.get("overall_pass"):
+                    jp += 1
+                else:
+                    jf += 1
+                if j.get("overall_pass") is not None:
+                    kw_pass = bool(r["score"].get("pass"))
+                    if bool(j.get("overall_pass")) == kw_pass:
+                        agree += 1
+                    else:
+                        disagree += 1
+            print()
+            print(f"LLM judge: PASS={jp}  FAIL={jf}  ERR={je}")
+            total_rated = agree + disagree
+            if total_rated:
+                print(f"Judge vs keyword scoring: agree={agree}/{total_rated} "
+                      f"({100*agree/total_rated:.0f}%)")
 
     # Write JSON
     ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")

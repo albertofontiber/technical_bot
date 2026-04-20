@@ -109,6 +109,7 @@ Responde ÚNICAMENTE con el JSON array, sin explicación."""
         response = client.messages.create(
             model=RERANK_MODEL,
             max_tokens=RERANK_MAX_TOKENS,
+            temperature=0,  # eval reproducibility — same candidates → same ranking
             messages=[{"role": "user", "content": prompt}],
         )
 
