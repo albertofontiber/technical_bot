@@ -119,15 +119,35 @@ def main() -> int:
     # === (3) By manufacturer: diagram coverage ===
     print()
     print("Diagram coverage by manufacturer:")
-    r = sup.client.get(url, headers=sup.headers, params={
-        "select": "manufacturer",
-        "limit": "10000",
-    })
-    r.raise_for_status()
-    by_mfr_total = Counter(row.get("manufacturer") for row in r.json())
+    # Paginate through ALL rows to collect the distinct set of manufacturers.
+    # We order by id so offsets are stable. Supabase caps max rows per response
+    # (typically 1000), so we can't rely on a single large limit. Using
+    # Prefer: count=planned lets us know when we've covered the table without
+    # guessing page size behaviour.
+    distinct_mfrs: set[str] = set()
+    page_size = 1000
+    offset = 0
+    while True:
+        r = sup.client.get(url, headers=sup.headers, params={
+            "select": "manufacturer",
+            "order": "id.asc",
+            "limit": str(page_size),
+            "offset": str(offset),
+        })
+        r.raise_for_status()
+        rows = r.json()
+        if not rows:
+            break
+        for row in rows:
+            m = row.get("manufacturer")
+            if m:
+                distinct_mfrs.add(m)
+        if len(rows) < page_size:
+            break
+        offset += page_size
 
     by_mfr = {}
-    for mfr in sorted(by_mfr_total.keys()):
+    for mfr in sorted(distinct_mfrs):
         if not mfr:
             continue
         # Count diagrams for this mfr

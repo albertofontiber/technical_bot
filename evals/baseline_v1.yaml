@@ -27,6 +27,10 @@
 #   expected_keywords    — list of terms/values that MUST appear in the answer.
 #                          Matching is substring + lowercased. For numeric specs,
 #                          include the value (e.g. "24 vdc", "100 ma").
+#                          OR-syntax: an entry with '|' is treated as any-of.
+#                          Ex: "manual|documentación" counts as hit if either
+#                          word appears. Use for legitimate synonyms the bot
+#                          may substitute.
 #   forbidden_keywords   — list of terms that MUST NOT appear (e.g. inventing
 #                          a model the bot doesn't know). Optional.
 #   expected_sources     — list of source_file substrings that should appear in
@@ -120,9 +124,9 @@ questions:
   question: "La Notifier AFP-400 muestra el aviso 'Tierra' (Earth Fault). ¿Qué significa y cómo se localiza?"
   expected_behavior: answer
   expected_keywords: ["tierra", "aislamiento", "cableado", "medición"]
-  expected_sources: ["AFP-400", "AFP-300"]
   expected_has_diagram: null
   verified: false
+  notes: "expected_sources retirado: 'AFP-400'/'AFP-300' no aparecen en source_file (están en product_model, dentro de docs con código interno tipo MNDT120)."
 
 - id: hp007
   category: happy_path
@@ -150,10 +154,10 @@ questions:
   question_type: wiring
   question: "¿Cuál es la resistencia de fin de línea recomendada para los lazos de la central Morley ZXe?"
   expected_behavior: answer
-  expected_keywords: ["resistencia", "fin de línea", "ohm", "kohm"]
-  expected_sources: ["ZXe"]
+  expected_keywords: ["resistencia", "fin de línea", "ohm"]
   expected_has_diagram: null
   verified: false
+  notes: "expected_sources retirado: 'ZXe' no aparece en source_file (solo en product_model, 1837 chunks). expected_keywords: quitado 'kohm' — el manual puede usar solo 'Ω'/'ohm' o dar un número específico (ej: 3,9 kΩ). Verificar el valor real al revisar."
 
 - id: hp010
   category: happy_path
@@ -181,9 +185,9 @@ questions:
   question: "¿Cuántos lazos direccionables soporta la Notifier AM2020/AFP1010 y cuántos dispositivos por lazo?"
   expected_behavior: answer
   expected_keywords: ["lazos", "dispositivos", "detectores", "módulos"]
-  expected_sources: ["AM2020", "AFP1010"]
   expected_has_diagram: false
   verified: false
+  notes: "expected_sources retirado: 'AM2020'/'AFP1010' no aparecen en source_file (viven en product_model, dentro de docs MFDT280/15088SP/MADT285)."
 
 - id: hp013
   category: happy_path
@@ -201,9 +205,9 @@ questions:
   question: "¿Cómo se conecta un módulo de aislamiento de línea en un lazo ID2000?"
   expected_behavior: answer
   expected_keywords: ["aislador", "isolador", "línea", "lazo"]
-  expected_sources: ["ID2000"]
   expected_has_diagram: true
   verified: false
+  notes: "expected_sources retirado: 'ID2000' no aparece en source_file (solo en product_model, 4169 chunks)."
 
 - id: hp015
   category: happy_path
@@ -221,9 +225,9 @@ questions:
   question: "Un detector B501RF de Notifier no responde tras sustituir la batería. ¿Qué procedimiento seguir?"
   expected_behavior: answer
   expected_keywords: ["bateria", "direccionar", "registrar", "rf"]
-  expected_sources: ["B501RF"]
   expected_has_diagram: null
   verified: false
+  notes: "expected_sources retirado: 'B501RF' no aparece en source_file (solo en product_model, 2750 chunks dentro de docs I56-6591-001 NRX-WS-RR y I56-4205-001 NRX-SMT3)."
 
 - id: hp017
   category: happy_path
@@ -241,9 +245,9 @@ questions:
   question: "¿Cuál es el conexionado correcto de una sirena convencional en la Morley ZXe zona 1?"
   expected_behavior: answer
   expected_keywords: ["sirena", "zona", "resistencia", "polaridad"]
-  expected_sources: ["ZXe"]
   expected_has_diagram: true
   verified: false
+  notes: "expected_sources retirado: 'ZXe' no aparece en source_file (solo en product_model)."
 
 - id: hp019
   category: happy_path
@@ -261,9 +265,9 @@ questions:
   question: "En la Notifier INSPIRE, ¿cómo se configuran las contraseñas de nivel 2 y nivel 3?"
   expected_behavior: answer
   expected_keywords: ["contraseña", "password", "nivel", "acceso"]
-  expected_sources: ["INSPIRE"]
   expected_has_diagram: false
   verified: false
+  notes: "expected_sources retirado: 'INSPIRE' solo tiene 7 chunks con source_file literal (2922 en product_model). Demasiado débil para exigirlo."
 
 # =========================================================================
 # AMBIGUOUS MODEL — nombre genérico/incompleto, el bot debe pedir aclaración
@@ -295,10 +299,9 @@ questions:
   question: "¿Cuál es el consumo del ASD?"
   expected_behavior: ask_clarification
   expected_keywords: ["asd531", "asd532", "asd533", "asd535", "cuál"]
-  forbidden_keywords: ["24 vdc", "miliamperios", "ma"]  # no debe dar un número hasta desambiguar
   expected_has_diagram: false
   verified: false
-  notes: "ASD solo no distingue entre 531/532/533/535. Bot debe listar variantes."
+  notes: "ASD solo no distingue entre 531/532/533/535. Bot debe listar variantes. forbidden_keywords retirado: el substring-match marca como fallo respuestas válidas (ej: 'los 4 operan a 24 VDC pero el consumo varía' — respuesta que SÍ clarifica contenía '24 vdc' y daba falso positivo). El expected_keywords con las 4 variantes + 'cuál' es indicador suficiente: si el bot no nombra las variantes, falla solo."
 
 - id: am004
   category: ambiguous_model
@@ -435,10 +438,10 @@ questions:
   question: "¿Cómo programo la central Bosch Avenar FPA-1200?"
   expected_behavior: admit_no_info
   expected_keywords: ["no tengo", "manual", "bosch", "avenar"]
-  forbidden_keywords: ["paso 1", "menú", "procedimiento"]
+  forbidden_keywords: ["paso 1", "paso 2", "pulsa enter"]
   expected_has_diagram: false
   verified: false
-  notes: "Bosch no está en la BD. Bot debe reconocerlo sin inventar."
+  notes: "Bosch no está en la BD. Bot debe reconocerlo sin inventar. forbidden_keywords: 'menú' y 'procedimiento' retirados — son palabras que pueden aparecer en una respuesta honesta ('prueba el menú principal'); sustituidos por señales inequívocas de que el bot inventó un procedimiento ('paso 1', 'paso 2', 'pulsa enter')."
 
 - id: nd002
   category: not_in_db
@@ -446,10 +449,10 @@ questions:
   question: "Mi Esser IQ8Quad da error 14"
   expected_behavior: admit_no_info
   expected_keywords: ["no tengo", "esser"]
-  forbidden_keywords: ["error 14 significa", "probablemente"]
+  forbidden_keywords: ["error 14 significa", "el error 14 indica"]
   expected_has_diagram: false
   verified: false
-  notes: "Esser no está en la BD. Debe admitir."
+  notes: "Esser no está en la BD. Debe admitir. forbidden_keywords: 'probablemente' retirado — palabra común que puede aparecer en respuesta honesta ('probablemente tendrás que consultar al fabricante'); reforzado con dos variantes de claim falso sobre el error."
 
 - id: nd003
   category: not_in_db
@@ -519,11 +522,10 @@ questions:
   question_type: compatibility
   question: "¿Puedo usar un detector Notifier SDX-751 con una central Morley ZXe?"
   expected_behavior: answer
-  expected_keywords: ["protocolo", "opal", "compatibilidad", "honeywell"]
-  expected_sources: ["ZXe"]
+  expected_keywords: ["manual|documentación", "protocolo", "zxe"]
   expected_has_diagram: false
   verified: false
-  notes: "Notifier y Morley son ambos Honeywell — pero protocolos pueden diferir. Bot debe razonar."
+  notes: "Cross-brand: el bot debe razonar desde los manuales (lista de dispositivos compatibles de la ZXe + protocolo declarado por el SDX-751), no inferir. Si los manuales no cubren el combo, admitir 'no certificado, consultar fabricante'. expected_sources 'ZXe' retirado porque no aparece en source_file (solo en product_model). forbidden_keywords omitidos: el substring-match del runner genera falsos positivos con 'compatible' (ver TECH_DEBT #12)."
 
 - id: cm002
   category: cross_manual
@@ -571,20 +573,21 @@ questions:
   question_type: wiring
   question: "Tengo un módulo aislador Detnov en un lazo que comparte detectores Notifier. ¿Hay alguna incompatibilidad conocida?"
   expected_behavior: answer
-  expected_keywords: ["aislador", "protocolo", "incompatible"]
+  expected_keywords: ["aislador", "protocolo", "manual|documentación"]
   expected_has_diagram: false
   verified: false
-  notes: "Pregunta trampa — aislador suele ser específico del protocolo."
+  notes: "Cross-brand: bot debe explicar que el aislador es específico del protocolo de la central donde vive el lazo. Un lazo no puede mezclar detectores de protocolos distintos. Bot debe consultar manuales y, si no hay certificación del combo, derivar al fabricante."
 
 - id: cm007
   category: cross_manual
   question_type: compatibility
   question: "¿La base B501 de Notifier puede usarse con un detector Detnov serie 500?"
   expected_behavior: answer
-  expected_keywords: ["b501", "base", "protocolo", "compatibilidad"]
+  expected_keywords: ["b501", "base", "protocolo", "manual|documentación"]
   expected_sources: ["B501"]
   expected_has_diagram: false
   verified: false
+  notes: "Cross-brand: B501 es base Notifier (protocolo CLIP); Detnov serie 500 es otro protocolo. Bot debe citar el manual de cada lado o declarar 'no certificado'. 113 chunks con source_file B501 ya en BD."
 
 - id: cm008
   category: cross_manual
@@ -592,6 +595,6 @@ questions:
   question: "Pasos para reemplazar una Morley ZXe convencional por una ZXSe con detectores existentes"
   expected_behavior: answer
   expected_keywords: ["zxe", "zxse", "detectores", "compatibilidad", "cableado"]
-  expected_sources: ["ZXe", "ZXSe"]
   expected_has_diagram: null
   verified: false
+  notes: "expected_sources retirado: 'ZXe' y 'ZXSe' no aparecen en source_file (solo en product_model, 1837 y 788 chunks respectivamente). Esta es migración intra-Morley, no cross-brand — mantener como 'answer' es correcto."

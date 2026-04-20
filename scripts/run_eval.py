@@ -66,15 +66,33 @@ _CLARIFY_PATTERNS = re.compile(
     re.IGNORECASE,
 )
 
-# Phrases that signal "I don't have that manual"
+# Phrases that signal "I don't have that manual".
+# Intentionally broad — if the bot makes any honest admission of not having
+# the source material, that should count as admit_no_info regardless of the
+# exact wording. Captured patterns (all case-insensitive):
+#   - "no tengo (información|datos|manual(es)?|documentación|referencia) sobre/de/para/del"
+#   - "no tengo (este|ese|el|la|esa) (manual|documentación|información|referencia)"
+#   - "no dispongo de (información|manual|datos|documentación)"
+#   - "no (encuentro|localizo|hallo) (información|manual|datos|documentación)"
+#   - "no (está|aparece|figura) en (mi|la) (base|biblioteca|bd|documentación|base de datos)"
+#   - "no figura en (los|mis) manuales"
+#   - "no (puedo|tengo) (información|datos) sobre (este|ese|la|el) (producto|modelo|central|fabricante)"
+#   - "no (es|está) (un fabricante|un modelo)? ?(incluido|cubierto|presente) en"
+#   - "no cuento con (información|manual|documentación|datos)"
+#   - "registrar(é|emos)? (este|el) (producto|modelo|fabricante)"
 _NO_INFO_PATTERNS = re.compile(
-    r"(no tengo (este|ese|el) manual|"
-    r"no dispongo de (información|manual|datos)|"
-    r"no (encuentro|localizo) (información|manual|datos)|"
-    r"no (está|aparece) en (mi|la) (base|biblioteca|bd)|"
-    r"no figura en los manuales|"
-    r"no (puedo|tengo) (información|datos) sobre (este|ese) (producto|modelo)|"
-    r"registrar(é|emos)? (este|el) (producto|modelo|fabricante))",
+    r"("
+    r"no tengo (información|datos|manual(?:es)?|documentación|documentos|referencia|registro) (sobre|de|del|de la|para|acerca)|"
+    r"no tengo (este|ese|el|la|esa) (manual|documentación|información|referencia)|"
+    r"no dispongo de (información|manual|datos|documentación)|"
+    r"no (encuentro|localizo|hallo) (información|manual|datos|documentación)|"
+    r"no (está|aparece|figura) en (mi|la) (base|biblioteca|bd|documentación|base de datos)|"
+    r"no figura en (los|mis) manuales|"
+    r"no (puedo|tengo) (información|datos) sobre (este|ese|la|el) (producto|modelo|central|fabricante)|"
+    r"no (es|está) (un fabricante |un modelo )?(incluido|cubierto|presente) en|"
+    r"no cuento con (información|manual|documentación|datos)|"
+    r"registrar(é|emos)? (este|el) (producto|modelo|fabricante)"
+    r")",
     re.IGNORECASE,
 )
 
@@ -93,11 +111,21 @@ def classify_behavior(answer: str) -> str:
 
 
 def score_keywords(answer: str, expected: list[str]) -> tuple[int, int, list[str]]:
-    """Return (hits, total, missing). Substring match, lowercased."""
+    """Return (hits, total, missing). Substring match, lowercased.
+
+    Entries with '|' are treated as OR: 'manual|documentación' counts as hit
+    if either alternative appears in the answer. Use to accept legitimate
+    synonyms (ex: bot may say 'documentación' instead of 'manual') without
+    inflating the expected_keywords list.
+    """
     if not expected:
         return 0, 0, []
     a = answer.lower()
-    missing = [kw for kw in expected if kw.lower() not in a]
+    missing: list[str] = []
+    for kw in expected:
+        alternatives = [alt.strip() for alt in kw.lower().split("|") if alt.strip()]
+        if not any(alt in a for alt in alternatives):
+            missing.append(kw)
     return len(expected) - len(missing), len(expected), missing
 
 

@@ -12,12 +12,16 @@ import httpx
 from ..config import SUPABASE_URL, SUPABASE_SERVICE_KEY, RETRIEVAL_TOP_K
 from ..ingestion.embedder import embed_query
 
-# Regex to detect product model codes in a query (multi-manufacturer)
+# Regex to detect product model codes in a query (multi-manufacturer).
+# Separators (-, space) are optional where manufacturers vary between
+# forms ("AFP-1010" vs "AFP1010"); normalization happens at the search
+# layer via model_to_imatch_pattern (word-boundary + digit-extension guard).
 MODEL_PATTERN = re.compile(
     r'\b('
-    # Detnov (note: some models have compound suffixes like CAD-150-8)
+    # === Detnov (clean single-model naming) ===
     r'CAD-\d+(?:-\d+)?|CCD-\d+(?:-\d+)?|CMD-\d+|MAD-\d+(?:-I)?|'
     r'DTD-\d+\w*|DOD-\d+\w*|DGD-\d+|DMD\w?-\d+|DXD-\d+\w*|'
+    r'DBD-\d+\w*|'
     r'PCD-\d+|FAD-\d+|TUL-?\d+|SG\d+|SGCP\d+|'
     r'S[23]-(?:T[12]|IR)|'
     r'ASD-?\d+|ADW-?\d+|'
@@ -25,21 +29,43 @@ MODEL_PATTERN = re.compile(
     r'CALYPSO[\w-]*|'
     r'PGD-\d+|TBUD-\d+|'
     r'T[RMS]D-\d+|TCD-\d+|SCD-\d+|'
-    # Notifier
-    r'AM[- ]?8[12]00[A-Z]?|'
-    r'NFS[2]?[- ]?3030|NFS[- ]?(?:Supra|320)|'
-    r'NFG[- ]?\d+|'
+    # === Notifier — centrales ===
+    r'AFP[- ]?\d{3,4}[A-Z]?|'                      # AFP-200, AFP-400, AFP1010, AFP-200E, AFP4000
+    r'AM[- ]?\d{4}[A-Z]?|AM[- ]?\d{3}[A-Z]?|'      # AM2020, AM-6000, AM-8200, AM-200
+    r'ID[- ]?\d{2,4}(?:/\d{1,3})?|'                # ID50, ID50/60, ID200, ID-200, ID1000, ID2000, ID3000
+    r'ID2net|'
+    r'NFS[- ]?(?:Supra|\d+(?:-\d+)?)|'             # NFS Supra, NFS2-8, NFS8
+    r'NFG[- ]?\d+|'                                # NFG-8
     r'NFXI[- ]?\w+|NFX[- ]?(?:OPT|SMT|TDIFF|TFIX|BEAM)\w*|'
+    r'PEARL|INSPIRE(?:[- ]?E\d+)?|'                # PEARL, INSPIRE, INSPIRE E10
+    r'(?:Sistema|System)[- ]?5000|'                # Sistema 5000, System 5000
+    r'VESDA[- ]*(?:E[- ]+)?(?:VL[FIPS]|VE[APUS])[\w-]*|'  # VESDA-E VEP, VESDA VLF-250, VESDA-E VEA, etc.
+    r'FAAST[- ]?(?:FLEX|LT|XS|XM)?|'
+    r'RP[- ]?\d{3,4}[A-Z]?|RP1[rR]|'               # RP-1001, RP1002E, RP1r
     r'M7[012]\d[A-Z]*(?:-\w+)?|'
     r'IDX[- ]?\d+\w*|'
     r'B50\d\w*|B524\w*|'
-    r'VESDA[- ]?(?:VL[FIPS]|VE[APUS])[- ]?\w*|'
-    r'FAAST[- ]?(?:FLEX|LT|XS|XM)?|'
-    r'FSL[- ]?\d+\w*|FS[- ]?(?:24|20)[XS]?|'
+    r'LTS[- ]?\d+|'                                # LTS2, LTS-240
+    r'SMART[- ]?3[G]?|'
+    r'40[- ]?40[ILURM]|'
+    r'POL[- ]?200(?:[- ]?TS)?|'                    # POL-200-TS (canonical) + POL200 legacy
+    r'FSL[- ]?\d+\w*|FS[- ]?(?:24|20)[XSLMRI]?|'
+    r'SDX[- ]?\d+[A-Z]*|'                          # SDX-751 (Notifier detector, cm003)
+    r'DT[- ]?\d+[A-Z]*|'                           # DT-390, DT-410, DT-951
+    r'MN[- ]?DT[- ]?\d+[A-Z]*|MI[- ]?DT[- ]?\d+[A-Z]*|MP[- ]?DT[- ]?\d+[A-Z]*|'
     r'S300\w*|SC[- ]?6|CZ[- ]?6|'
-    r'POL200\w*|HLSPS\w*|RP1[rR]|PK[- ]?8200|'
-    r'40[- ]?40[ILURM]|SMART[- ]?3\w*|'
-    r'Multiscann\+*|SENTOX[- ]?\w*'
+    r'HLSPS\w*|PK[- ]?8200|PK[- ]?AFP[- ]?\d+[A-Z]*|'
+    r'Multiscann\+*|SENTOX[- ]?\w*|'
+    r'PL4|GALILEO|AgileIQ|'
+    # === Morley ===
+    r'ZXS?e|ZXr|DXc|'                              # ZXe, ZXSe, ZXr, DXc (4 centrales principales)
+    r'MI-\w+(?:-\w+)*|'                            # MI-Gate, MI-DCZM, MI-LPB2-S2I (requiere dash: evita falso positivo de "mi")
+    r'ECO10\d{2}|'                                 # ECO1000/1002/1003/1005
+    r'F5000|M200E|'                                # Morley literales
+    r'AutoSAT[- ]?\d+|'
+    r'UCIP|SIMEI|ITAC|WR2001|'
+    r'HSR[- ]?\w+|IRK[- ]?\w+|VSN[- ]?\w+|'
+    r'MIE[- ]?\d+'                                 # Comunicador MIE-320/330/340/390
     r')\b',
     re.IGNORECASE,
 )
@@ -48,7 +74,40 @@ MODEL_PATTERN = re.compile(
 def extract_product_models(query: str) -> list[str]:
     """Extract product model codes mentioned in the query."""
     matches = MODEL_PATTERN.findall(query)
-    return [m.upper() for m in matches]
+    # Preserve order, de-duplicate, uppercase for downstream exact-logic consumers
+    seen = set()
+    out = []
+    for m in matches:
+        up = m.upper()
+        if up not in seen:
+            seen.add(up)
+            out.append(up)
+    return out
+
+
+def model_to_imatch_pattern(model: str) -> str:
+    """Convert a detected model token into a PostgreSQL regex for the PostgREST
+    ``imatch`` operator.
+
+    Design decisions:
+    - Separators in the input (``-`` or whitespace) become optional ``[- ]*`` so
+      ``AFP-1010`` matches stored ``AM2020/AFP1010`` and ``AFP1010``.
+    - PostgreSQL word-boundary ``\\y`` at the start anchors the match; mid-word
+      substrings like ``OID200`` don't accidentally match ``ID200``.
+    - Negative lookahead ``(?!\\d)`` at the end prevents a digit from extending
+      the match — so ``ID-200`` does NOT match stored ``ID2000`` while still
+      allowing letter suffixes (``AFP-200`` → ``AFP-200E``).
+
+    Note: PostgreSQL ARE uses ``\\y`` for word boundary, not ``\\b`` (which is
+    a backspace in ARE). We emit ``\\y`` for the server; Python-side regex
+    (``MODEL_PATTERN``) still uses ``\\b`` because Python's ``re`` follows
+    standard conventions.
+    """
+    parts = [p for p in re.split(r'[- ]+', model.strip()) if p]
+    if not parts:
+        return ""
+    core = r'[- ]*'.join(re.escape(p) for p in parts)
+    return rf'\y{core}(?!\d)'
 
 
 # Words to ignore when extracting search keywords from the query
@@ -128,19 +187,28 @@ def keyword_search(
     product_model: str,
     limit: int = 5,
 ) -> list[dict]:
-    """Search chunks by exact product_model match via PostgREST."""
+    """Search chunks by product_model match via PostgREST ``imatch``.
+
+    Uses a regex with optional separators and word-boundary anchors so that
+    a query token like ``AFP1010`` matches compound stored values such as
+    ``AM2020/AFP1010`` or ``AM2020 and AFP1010`` — see ``model_to_imatch_pattern``
+    for the full design.  Detnov's canonical single-model values (``MAD-567``)
+    match their own pattern equivalently.
+    """
     headers = {
         "apikey": SUPABASE_SERVICE_KEY,
         "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
     }
+    pattern = model_to_imatch_pattern(product_model)
+    if not pattern:
+        return []
 
-    # Search by product_model column
     with httpx.Client(timeout=15.0) as client:
         resp = client.get(
             f"{SUPABASE_URL}/rest/v1/chunks",
             headers=headers,
             params={
-                "product_model": f"eq.{product_model}",
+                "product_model": f"imatch.{pattern}",
                 "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,has_diagram,diagram_url,source_file,page_number,document_id",
                 "limit": str(limit),
             },
@@ -159,17 +227,21 @@ def typed_search(
     content_type: str = "specification",
     limit: int = 5,
 ) -> list[dict]:
-    """Search chunks by product_model AND content_type. For targeted retrieval."""
+    """Search chunks by product_model (imatch) AND content_type. Targeted retrieval."""
     headers = {
         "apikey": SUPABASE_SERVICE_KEY,
         "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
     }
+    pattern = model_to_imatch_pattern(product_model)
+    if not pattern:
+        return []
+
     with httpx.Client(timeout=15.0) as client:
         resp = client.get(
             f"{SUPABASE_URL}/rest/v1/chunks",
             headers=headers,
             params={
-                "product_model": f"eq.{product_model}",
+                "product_model": f"imatch.{pattern}",
                 "content_type": f"eq.{content_type}",
                 "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,has_diagram,diagram_url,source_file,page_number,document_id",
                 "limit": str(limit),
@@ -189,36 +261,69 @@ def content_search(
     product_model: str | None = None,
     category: str | None = None,
 ) -> list[dict]:
-    """Search chunks using PostgreSQL full-text search (tsvector with Spanish stemming).
+    """Search chunks by content (+ optional model/category filters).
 
-    Uses the search_chunks_text RPC with native category filtering (fast path via
-    composite GIN index). Falls back to ilike if the RPC fails or times out.
-    Timeout is kept short (3s) to fail fast and avoid blocking the retrieval loop.
+    When ``product_model`` is provided, we bypass the ``search_chunks_text`` RPC
+    (whose ``filter_product`` clause does strict equality and silently returns
+    zero rows for compound stored values like ``AM2020/AFP1010``) and hit
+    PostgREST directly with ``imatch`` on ``product_model`` + ``ilike`` on
+    ``content``.  Without a model, the RPC's fts ranking is still the best
+    path.
     """
-    headers = {
+    headers_get = {
         "apikey": SUPABASE_SERVICE_KEY,
         "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
-        "Content-Type": "application/json",
     }
-
     # Determine score: higher when filtered by model or category (more targeted)
     has_filter = product_model or category
     base_score = 0.80 if has_filter else 0.70
 
-    # Try full-text search RPC first (with native category filter — much faster)
+    # --- Path A: product_model set → skip RPC, use PostgREST imatch ---
+    if product_model:
+        pattern = model_to_imatch_pattern(product_model)
+        if not pattern:
+            return []
+        params = {
+            "content": f"ilike.*{search_term}*",
+            "product_model": f"imatch.{pattern}",
+            "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,has_diagram,diagram_url,source_file,page_number,document_id",
+            "limit": str(limit),
+        }
+        if category:
+            params["category"] = f"eq.{category}"
+        try:
+            with httpx.Client(timeout=3.0) as client:
+                resp = client.get(
+                    f"{SUPABASE_URL}/rest/v1/chunks",
+                    headers=headers_get,
+                    params=params,
+                )
+                resp.raise_for_status()
+            rows = resp.json()
+            for row in rows:
+                row["similarity"] = base_score
+            return rows
+        except Exception:
+            return []
+
+    # --- Path B: no product_model → RPC fts (category filter uses composite GIN) ---
+    headers_post = {
+        "apikey": SUPABASE_SERVICE_KEY,
+        "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
+        "Content-Type": "application/json",
+    }
     payload = {
         "search_query": search_term,
-        "filter_product": product_model,
+        "filter_product": None,
         "filter_manufacturer": None,
-        "filter_category": category,  # Native filter — uses composite GIN index
+        "filter_category": category,
         "match_limit": limit,
     }
-
     try:
         with httpx.Client(timeout=3.0) as client:
             resp = client.post(
                 f"{SUPABASE_URL}/rest/v1/rpc/search_chunks_text",
-                headers=headers,
+                headers=headers_post,
                 json=payload,
             )
             if resp.status_code == 200:
@@ -229,21 +334,14 @@ def content_search(
     except Exception:
         pass
 
-    # Fallback to ilike (also with short timeout)
-    headers_get = {
-        "apikey": SUPABASE_SERVICE_KEY,
-        "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
-    }
+    # Fallback to ilike (RPC unavailable)
     params = {
         "content": f"ilike.*{search_term}*",
         "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,has_diagram,diagram_url,source_file,page_number,document_id",
         "limit": str(limit),
     }
-    if product_model:
-        params["product_model"] = f"eq.{product_model}"
     if category:
         params["category"] = f"eq.{category}"
-
     try:
         with httpx.Client(timeout=3.0) as client:
             resp = client.get(

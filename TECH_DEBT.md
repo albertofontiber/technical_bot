@@ -238,27 +238,117 @@ CREATE INDEX idx_query_gaps_review ON query_gaps(review_status, created_at DESC)
 
 ---
 
-## 9. Verificación del pipeline de imágenes — pendiente al abrir la próxima sesión
+## 9. Verificación del pipeline de imágenes — ✅ RESUELTO (19 abril 2026)
 
-**Estado actual (pendiente de confirmar, 17 abril 2026)**: El bot en versiones anteriores respondía con diagramas/imágenes, y hay evidencia en el código (`image_extractor.py`, `vision_describer.py`, columnas `has_diagram` y `diagram_url` en `chunks`, dry-run del FAAST_ML mostró *"Chunks with diagrams: 54"*) de que el pipeline **detecta** imágenes relevantes. Pero no está validado end-to-end que:
+**Resultado**: pipeline funciona end-to-end. `scripts/verify_image_pipeline.py` ejecutado el 19 abril tras arreglar un bug propio de paginación en el script (no del pipeline). Números finales por fabricante:
 
-1. Las imágenes se suben realmente a Supabase Storage durante la ingesta
-2. `diagram_url` queda poblado en los chunks
-3. El retriever recupera la URL junto con el texto
-4. El generator / Telegram bot entrega la imagen al técnico
+| Fabricante | Total chunks | Con diagrama | Con URL | % URL/diag |
+|---|---:|---:|---:|---:|
+| Notifier | 116.854 | 34.550 (29,6%) | 29.058 | 84,1% |
+| Detnov | 17.582 | 7.004 (39,8%) | 6.289 | 89,8% |
+| Morley | 13.788 | 4.604 (33,4%) | 3.852 | 83,7% |
+| **Total** | **148.224** | **46.158 (31,1%)** | **39.199** | **84,9%** |
 
-**Por qué importa**: en esta industria los manuales son visualmente densos (diagramas de cableado, esquemas de bornes, secuencias de botones en pantallas LCD). Un bot que responde solo texto pierde gran parte del valor práctico.
+15/15 URLs sampleadas al azar respondieron HTTP 200 desde Supabase Storage. La capacidad de adjuntar diagrama en el generator + `bot.reply_photo()` está confirmada con el flujo real.
 
-**Trigger para verificar**: **inicio de la próxima sesión**, antes de arrancar el eval set. Si hay gap, se añade al eval como criterio (*"respuesta correcta incluye imagen cuando la pregunta lo requiere"*) y se arregla como parte del hardening del pipeline.
+**Follow-up residual → TECH_DEBT #10** (huérfanos: 6.959 chunks con `has_diagram=true` pero `diagram_url IS NULL`, el 15,1% de los diagrammed). No bloquea el eval.
 
-**Verificación concreta a ejecutar**:
-1. Query: `SELECT COUNT(*) FROM chunks WHERE has_diagram = true` → establecer qué % del corpus tiene diagrama asociado
-2. Query: `SELECT COUNT(*) FROM chunks WHERE has_diagram = true AND diagram_url IS NOT NULL` → cuántos tienen URL poblada
-3. HEAD request contra 5-10 `diagram_url` → ¿responden 200 OK desde Supabase Storage?
-4. Trazar 2 chunks con diagrama a través del retriever + generator existentes → ¿la URL llega a la respuesta final?
-5. Si hay gap en (2), (3) o (4): diagnosticar, documentar como item accionable.
+---
 
-**Coste estimado**: ~30-60 min (verificación + informe). Si hay que arreglar, coste separado según el gap.
+## 10. Chunks huérfanos de imagen (`has_diagram=true` pero `diagram_url IS NULL`)
+
+**Estado actual (detectado 19 abril 2026)**: 6.959 chunks (15,1% de los 46.158 con `has_diagram=true`) están marcados como que tienen diagrama pero su `diagram_url` es NULL. Distribución por fabricante (derivada de los totals de coverage):
+
+| Fabricante | Diagrammed | Con URL | Huérfanos | % huérfano |
+|---|---:|---:|---:|---:|
+| Detnov | 7.004 | 6.289 | 715 | 10,2% |
+| Notifier | 34.550 | 29.058 | 5.492 | 15,9% |
+| Morley | 4.604 | 3.852 | 752 | 16,3% |
+
+**Patrón observado en dos muestras independientes**:
+- Primera muestra (`logs/image_pipeline_audit.json` original): los 10 chunks pertenecían todos al doc Detnov `55320011 Manual zocalo con relé Z-200-R` en páginas FR/IT/EN. Sugería causa multilingüe: el extractor guardó solo la imagen ES y los chunks de páginas no-ES quedaron sin URL.
+- Segunda muestra (tras re-ejecución con el script arreglado): 10 chunks de 5 docs distintos (`ASD535_TD_T131192es_h`, `MN-DT-951_v7.2`, `MCDT155`, `ASD531_OM_T811168es_b`, p4-64). El patrón "mismo doc multilingüe" no se reproduce — la causa es más amplia.
+
+**Hipótesis a verificar** (ordenadas por probabilidad):
+1. Páginas "visualmente vacías" (portadas, índices, páginas de separadores) donde la heurística de diagramas devuelve *true* falsamente pero el extractor no genera imagen útil que subir.
+2. Páginas multilingües con el chunker emitiendo N copias (una por sección/idioma) pero el pipeline de imágenes solo sube 1 archivo por página — N-1 quedan sin URL.
+3. Fallos silenciosos durante la subida a Supabase Storage en la sesión 6 (Notifier EN→ES traducido) — la traducción se aplicó a los textos pero las imágenes quedaron sin re-enlazar.
+4. Mismatch entre `source_file` en el chunk y el `source_file` usado para derivar la URL durante la subida (encoding de espacios, acentos, guiones).
+
+**Por qué no bloquea el eval**: 84,9% de los diagrammed tienen URL válida y 15/15 URLs sampleadas respondieron HTTP 200. La capacidad del bot de adjuntar diagramas está demostrada. Un técnico verá imágenes en la mayoría de queries relevantes.
+
+**Trigger para investigar**:
+- Si una pregunta del eval requiere explícitamente diagrama y falla, O
+- Si el ratio de huérfanos crece al añadir un fabricante nuevo (señal de bug sistemático, no accidental), O
+- Si hay que re-ingestar cualquiera de los 3 docs de TECH_DEBT #7 (aprovechar para instrumentar el pipeline de imágenes y cerrar esto)
+
+**Solución propuesta**:
+1. Script `scripts/inspect_diagram_orphans.py` que agrupe los 6.959 por `source_file` y `page_number`, cuente huérfanos por doc, y muestree contenido de 20 chunks representativos.
+2. Clasificar los 4 buckets de la hipótesis y cuantificar cuántos huérfanos caen en cada uno.
+3. Para buckets 1-2: normalizar la bandera `has_diagram` (ponerla a false cuando corresponda) para evitar que el generator intente adjuntar una imagen que no existe.
+4. Para buckets 3-4: script de reparación que re-derive `diagram_url` desde `source_file + page_number` y compruebe que el objeto existe en Storage.
+
+**Coste estimado**: ~2-3h (script de diagnóstico + clasificación + fix según bucket dominante).
+
+---
+
+## 11. MODEL_PATTERN incompleto + sin normalización de separadores — ✅ RESUELTO (20 abril 2026)
+
+**Resultado**: `MODEL_PATTERN` ampliado con familias Notifier (AFP, ID, AM, PEARL, INSPIRE, Sistema 5000, VESDA-E, SDX, RP, LTS, POL-200-TS, etc.) y Morley (ZXe, ZXSe, ZXr, DXc, MI-\*, ECO10\*\*, AutoSAT, VSN, HSR, IRK...). Añadido helper `model_to_imatch_pattern()` que emite regex PostgreSQL (`\y...(?!\d)`) con separadores opcionales y guard contra extensión de dígitos (`ID-200` nunca matchea `ID2000`). `keyword_search`, `typed_search` y `content_search` migrados a `imatch` para cubrir compound stored values (`AM2020/AFP1010`, `AFP-300/AFP-400`). RPC `match_chunks` sigue usando `=` (filter_product), pero el keyword_search y los content_search filtrados por producto compensan vía imatch.
+
+**Validación**:
+- Tests: `tests/test_model_extraction.py` (59 casos, todos PASS; suite completa 144/144)
+- Smoke-test contra BD real: 12/12 queries eval extraen modelos y hacen hit vía keyword_search
+- Baseline eval (52 preguntas): 9/52 → 11/52 (+2 PASS absolutos)
+
+**Delta vs predicción**: La predicción declarada era +10–15 PASS. Real: +2 PASS, pero **12 preguntas cambiaron de comportamiento** de `admit_no_info`/`ask_clarification` a `answer` (hp005/7/8/9/11, cm002/5, etc.). El gap de retrieval Notifier/Morley SÍ se cerró (probado con `hp018`: retriever devuelve chunks ZXe/ZXSe con secciones literalmente llamadas "Circuitos de Sirenas", pero el generator responde `admit_no_info`). La diferencia entre behavior-flip y PASS se queda en (a) keyword-match frágil (TECH_DEBT #12) y (b) prompt del generator que filtra evidencia válida (Quick-win #3).
+
+**Regresiones asumidas**: 2 preguntas (nd003 Apollo+ID3000, cm007 B501+Detnov). Causa: retrieval ahora más fuerte → bot sobre-responde cuando solo uno de los dos productos está en la BD. Fijable en prompt del generator.
+
+**Aprendizaje eval-driven**: la predicción (+10–15) midió PASS; la señal real estaba en el behavior-flip. Registrado como lección al final del fichero.
+
+---
+
+## 11b. Generator descarta evidencia válida cuando retrieval sí funciona (nuevo — 20 abril 2026)
+
+**Estado actual (detectado 20 abril 2026)**: Durante la validación de TECH_DEBT #11 afloró un patrón: en varias preguntas happy_path (hp003 CAD-150, hp014 ID2000, hp018 ZXe), el retriever devuelve chunks **perfectamente relevantes** (probado en `hp018`: top-10 son todos Morley ZXe/ZXSe con `category='Centrales de incendios'` y `section_title` literal "Circuitos de Sirenas", "Figura 16– Conexionado de sirenas"), pero el generator responde `admit_no_info`. Es decir: la evidencia está en el contexto y el generator decide que no la tiene.
+
+**Problema**: hay una inconsistencia entre lo que el retriever puebla y lo que el generator reconoce como "fuente válida para responder". Posibles causas:
+1. El **reranker** (Claude relevance scoring) puntúa demasiado bajo chunks de `section_title`/`content_type` útiles y los filtra antes de llegar al generator.
+2. El **prompt del generator** exige condiciones de cita (ej. `source_file` coincide con un modelo literal) que fallan con los docs Notifier/Morley donde `source_file` es un código interno (`MIE-MI-530rv001`) y el modelo vive en `product_model`.
+3. El generator es conservador por diseño (evita inventar) y con chunks de índice/figuras sin texto-procedural denso, prefiere `admit_no_info`.
+
+**Trigger para investigar**:
+- Cualquier ampliación del eval en happy_path (el fail mode bloquea el número).
+- Si el próximo run tras TECH_DEBT #12 (boundary matching) sigue mostrando ≥3 `admit_no_info` donde el retrieval sí traía chunks relevantes.
+
+**Solución propuesta**:
+1. Añadir al runner una métrica `had_relevant_chunks: bool` (ej. chunks con `product_model` coincidente y `section_title` no vacío) y cruzarla con `observed_behavior`. Cada vez que `had_relevant_chunks=True` y `observed_behavior=admit_no_info` es un fail del generator, no del retriever.
+2. Auditar 3 fails conocidos (hp003, hp014, hp018) capturando: chunks que entraron al reranker, chunks que pasaron al generator, prompt exacto enviado, respuesta. Para localizar dónde se pierde la evidencia.
+3. Según el diagnóstico: aflojar reranker threshold, simplificar cita obligatoria, o añadir un fallback "si hay chunks con `product_model` del modelo preguntado, responder antes que admitir no-info".
+
+**Coste estimado**: ~2-3h (instrumentación + auditoría + fix).
+
+---
+
+## 12. Runner del eval: boundary matching + detección de pregunta de clarificación
+
+**Estado actual (detectado 19 abril 2026)**: `scripts/run_eval.py:99-109` puntúa `expected_keywords` y `forbidden_keywords` mediante **substring match lowercased**. Dos consecuencias problemáticas:
+
+1. **Falsos positivos en `forbidden_keywords`**: forbid `"ma"` choca con `"mañana"`, `"más"`; forbid `"menú"` marca como fallo una respuesta honesta *"prueba el menú principal de tu central"*; forbid `"compatible"` cubre tanto `"es compatible"` (malo) como `"no es compatible"` (bueno). Detectado al revisar el eval el 19 abril — se limpiaron manualmente las entradas problemáticas pero la fragilidad sigue ahí.
+2. **No detecta `expected_behavior: ask_clarification` de forma estructural**: el runner solo mira keywords, no si la respuesta **contiene una pregunta**. Hoy fiamos la detección a keywords como `"cuál"` — frágil.
+
+**Trigger para implementar**:
+- Tras la primera corrida del eval: si aparecen ≥3 casos donde la respuesta manualmente clasificada como "correcta" pierde puntos por substring-match, O
+- Si se añaden preguntas nuevas con behaviors matizados donde el substring no discrimina bien.
+
+**Solución propuesta**:
+1. **Boundary matching opcional** en keyword scoring. Sintaxis en el YAML: si el keyword está rodeado de `*` (`*ma*`) es substring (comportamiento actual); si va plano (`ma`) exige límites de palabra (`\bma\b`). Migrar las forbidden_keywords existentes a boundary por defecto. Coste: ~30 min + sweep del YAML.
+2. **Detector de pregunta de clarificación**: para preguntas con `expected_behavior: ask_clarification`, además de keywords, exigir que la respuesta contenga al menos un `?` seguido o precedido por un wh-word (`cuál`, `qué`, `dónde`, `cómo`, `cuándo`, `puedes indicar`, `necesito saber`). Marcar una métrica `asked_clarifying_question: bool` en el JSON de resultados.
+3. **Detector de admisión honesta**: análogo para `expected_behavior: admit_no_info`. Buscar frases canónicas: `"no tengo"`, `"no dispongo"`, `"no está en mi base"`, `"consultar al fabricante"`. Métrica `admitted_no_info: bool`.
+4. Marcar el overall score de una pregunta como **válido** solo si `expected_behavior` coincide con el detector — si el bot responde cuando debía clarificar, la pregunta cuenta como fallo aunque tenga todos los keywords.
+
+**Coste estimado**: ~2h (escribir detectores + integrar en score_answer() + sweep del YAML).
 
 ---
 
@@ -267,3 +357,15 @@ CREATE INDEX idx_query_gaps_review ON query_gaps(review_status, created_at DESC)
 - **Test de mapping en `tests/`**: verifica que todo PDF en `Manuales_{Manufacturer}/` tiene entrada en los dicts de override. Implementado [fecha ingesta Morley].
 - **Dry-run de parsing con stats**: `scripts/dry_run_parse.py` reporta n_chunks, model, category, tokens por archivo sin generar embeddings. Implementado [fecha ingesta Morley].
 - **Eval con preguntas por fabricante**: el eval incluye ≥3 preguntas cuya respuesta depende de manuales de cada fabricante ingestado.
+
+---
+
+## Lecciones del desarrollo eval-driven
+
+**Lección #1 (20 abril 2026, post TECH_DEBT #11)**: La predicción declarada antes del fix fue *"+10 a +15 puntos del baseline"*. Real: +2 PASS (9/52 → 11/52). La predicción no se sostuvo **en la métrica que declaré**, pero **12 preguntas cambiaron de comportamiento** (`admit_no_info`/`ask_clarification` → `answer`) y el gap de retrieval Notifier/Morley se cerró en la BD (probado con retrieval-probe ad-hoc en `hp018`).
+
+Dos cosas que se aprendieron:
+1. **PASS-rate no es la única métrica útil**: un fix de retrieval puede subir el engagement del bot (behavior-flip) sin subir PASS si el bottleneck está aguas abajo (generator + keyword-match scoring). La próxima vez hay que predecir sobre la métrica más cercana al fix: *"¿cuántos `admit_no_info` infundados convierte en `answer`?"*, no *"¿cuántos PASS gana?"*.
+2. **El número de fallos del generator aislado es real**: cuando el retrieval funciona y el bot sigue diciendo *"no tengo información"* es un fail del generator, no del corpus. TECH_DEBT #11b creado para rastrearlo.
+
+Regla operativa que sale de esta sesión: **toda predicción eval-driven debe declarar la métrica Y el canal esperado** (ej. *"pronostico +X PASS y/o +Y behavior-flips de admit_no_info a answer en Notifier/Morley"*). Si el delta divergir del canal previsto, eso ya es información, no fracaso — siempre que el fix haga lo que dijimos en el canal técnicamente correcto.
