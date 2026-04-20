@@ -39,19 +39,16 @@ import traceback
 from datetime import datetime, timezone
 from pathlib import Path
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
-
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from dotenv import load_dotenv  # noqa: E402
-load_dotenv(ROOT / ".env", override=True)
-
+# Note: the stdout re-wrap and .env bootstrap run only in __main__ so this
+# module can be imported for unit-testing the scoring helpers without
+# side effects (closing pytest's captured stdout, requiring env vars, etc.).
 try:
     import yaml  # noqa: E402
-except ImportError:
-    print("ERROR: PyYAML not installed. Run: pip install pyyaml")
-    sys.exit(1)
+except ImportError:  # pragma: no cover — only hit when yaml is missing at runtime
+    yaml = None  # type: ignore[assignment]
 
 
 # ---------------------------------------------------------------------------
@@ -97,12 +94,86 @@ _NO_INFO_PATTERNS = re.compile(
 )
 
 
+# Signals that a response is a SUBSTANTIVE answer even when it carries a
+# no-info caveat at the top. Discovered 20 abril 2026 auditing hp003, hp014,
+# hp018: the bot opens with a hedge ("No dispongo de documentación específica
+# del modelo exacto") and then delivers 5 numbered steps starting with
+# imperative verbs + a Fuente: citation.
+#
+# The criteria below were iterated against the full eval log to avoid
+# false positives: numbered lists of clarifying questions, numbered lists of
+# infinitives like "1. Consultar el portal" (honest admissions with next
+# steps), and product-code digits like "DBD-70A" do NOT count as procedural
+# or technical evidence.
+
+# Imperative Spanish verbs that the bot uses at the start of procedural steps.
+# Must be imperative (acción concreta), not infinitive or question. These are
+# the ones the generator actually produces per its system prompt.
+_IMPERATIVE_VERBS = (
+    r'(?:Conecta|Verifica|Instala|Identifica|Pulsa|Desconecta|Retira|'
+    r'Comprueba|Sustituye|Configura|Ajusta|Coloca|Localiza|Inserta|'
+    r'Mide|Prueba|Asegúrate|Accede|Selecciona|Presiona|Presióna|'
+    r'Mantén|Revisa|Limpia|Reemplaza|Abre|Cierra|Activa|Desactiva|'
+    r'Introduce|Guarda|Confirma|Cambia|Monta|Desmonta|Apaga|Enciende)'
+)
+
+# A real procedural step begins with a number ≥ 2, optional bold markers,
+# then an imperative verb. Step 1 alone isn't enough (could be preamble);
+# step ≥ 2 suggests a real multi-step procedure.
+_PROCEDURAL_PATTERN = re.compile(
+    # \b at the end prevents prefix matches (e.g. 'Revisa' matching 'Revisar').
+    rf'(?mi)^\s*[2-9]\.\s+(?:\*\*)?{_IMPERATIVE_VERBS}\b'
+)
+
+# 'Fuente:' / 'Fuentes:' line — system prompt requires this for any real
+# answer. Anchored to start-of-line to avoid matching inline mentions.
+_CITATION_PATTERN = re.compile(r'(?im)^\s*Fuentes?\s*:\s*\S')
+
+# Minimum answer length to be considered substantive.
+_SUBSTANTIVE_MIN_LEN = 600
+
+# Too many '?'-terminated sentences means the response is primarily asking
+# back, not answering — even if it also contains a procedure or citation.
+# Empirical threshold from the baseline run: responses with ≥ 3 questions
+# are overwhelmingly ask_clarification (mc005, am002-6, hp013, etc.); those
+# with ≤ 2 are answer-with-follow-up (hp018, hp003).
+_MAX_QUESTIONS_FOR_ANSWER = 2
+
+
+def _count_questions(answer: str) -> int:
+    return answer.count('?')
+
+
+def is_substantive_answer(answer: str) -> bool:
+    """True when the response delivers actionable content even with caveats.
+
+    Requires length + imperative-verb procedure + citation, AND the response
+    must not be dominated by clarifying questions. A pure no-info admission
+    (even if long) fails the procedure+citation test; a clarification block
+    (many '?'s) fails the question-count test.
+    """
+    if len(answer) < _SUBSTANTIVE_MIN_LEN:
+        return False
+    if _count_questions(answer) > _MAX_QUESTIONS_FOR_ANSWER:
+        return False
+    # BOTH procedure AND citation required — this is the conservative AND
+    # (not OR) so that honest no-info responses that cite the empty corpus
+    # or list alternative resources don't slip through as 'answer'.
+    return bool(_PROCEDURAL_PATTERN.search(answer)) and bool(_CITATION_PATTERN.search(answer))
+
+
 def classify_behavior(answer: str) -> str:
     """Classify the bot's response style from text.
 
     Returns one of: 'answer', 'ask_clarification', 'admit_no_info'.
-    Priority: admit_no_info > ask_clarification > answer.
+
+    Priority: a substantive answer (procedure / values / citation, long
+    enough) wins over a no-info match. Only short or purely-hedge responses
+    fall through to the no-info / clarify detectors. Prevents false
+    admit_no_info flags when the bot delivers a full answer after a caveat.
     """
+    if is_substantive_answer(answer):
+        return "answer"
     if _NO_INFO_PATTERNS.search(answer):
         return "admit_no_info"
     if _CLARIFY_PATTERNS.search(answer):
@@ -236,6 +307,21 @@ def run_single(q: dict, dry_run: bool = False) -> dict:
     gen = generate_answer(query, reranked, available_models=available_models)
     t_gen = time.time() - t0
 
+    # had_relevant_chunks: did the retriever+reranker deliver at least one
+    # chunk whose product_model loosely matches a detected target model?
+    # Signal for TECH_DEBT #11b: lets us distinguish "retriever found
+    # nothing" from "retriever found the right chunks but generator
+    # admitted no-info anyway".
+    n_relevant = 0
+    if target_models:
+        targets_lc = [m.lower() for m in target_models]
+        for c in reranked:
+            pm = (c.get("product_model") or "").lower()
+            if not pm:
+                continue
+            if any(t in pm or pm in t for t in targets_lc):
+                n_relevant += 1
+
     return {
         "answer": gen.get("answer", ""),
         "diagrams": gen.get("diagrams", []),
@@ -246,6 +332,10 @@ def run_single(q: dict, dry_run: bool = False) -> dict:
             for c in reranked[:6]
         ],
         "target_models_detected": target_models,
+        "n_chunks_retrieved": len(chunks),
+        "n_chunks_reranked": len(reranked),
+        "n_relevant_chunks_post_rerank": n_relevant,
+        "had_relevant_chunks": n_relevant > 0,
         "timing": {
             "retrieve": round(t_ret, 2),
             "rerank": round(t_rer, 2),
@@ -385,4 +475,12 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    # Runtime bootstrap — only when invoked as a script. Keeps the module
+    # importable from pytest without closing stdout or forcing env vars.
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+    from dotenv import load_dotenv  # noqa: E402
+    load_dotenv(ROOT / ".env", override=True)
+    if yaml is None:
+        print("ERROR: PyYAML not installed. Run: pip install pyyaml")
+        sys.exit(1)
     sys.exit(main())
