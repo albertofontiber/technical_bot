@@ -12,7 +12,7 @@ import logging
 import anthropic
 
 from ..config import ANTHROPIC_API_KEY, RERANK_TOP_K
-from .retriever import SPEC_INTENT, TROUBLESHOOT_INTENT
+from .retriever import SPEC_INTENT, TROUBLESHOOT_INTENT, WIRING_INTENT
 
 logger = logging.getLogger(__name__)
 
@@ -40,17 +40,23 @@ def rerank_chunks(
     if len(chunks) <= top_k:
         return chunks
 
-    # Build a compact representation for Claude to evaluate
+    # Build a compact representation for Claude to evaluate.
+    # IMPORTANT: we expose the [DIAGRAMA DISPONIBLE] tag so Claude can factor
+    # diagram availability into its relevance judgement — wiring/installation
+    # queries need diagram chunks surfaced even when their OCR'd text is
+    # sparser than adjacent prose chunks.
     chunk_summaries = []
     for i, chunk in enumerate(chunks):
         product = chunk.get("product_model", "desconocido")
         section = chunk.get("section_title", "")
         content_type = chunk.get("content_type", "")
+        has_diagram = bool(chunk.get("has_diagram") and chunk.get("diagram_url"))
+        diagram_tag = " [DIAGRAMA DISPONIBLE]" if has_diagram else ""
         # Show enough content for Claude to judge relevance accurately
         content_preview = chunk.get("content", "")[:800]
 
         chunk_summaries.append(
-            f"[{i}] Producto: {product} | Sección: {section} | Tipo: {content_type}\n{content_preview}"
+            f"[{i}] Producto: {product} | Sección: {section} | Tipo: {content_type}{diagram_tag}\n{content_preview}"
         )
 
     chunks_text = "\n\n".join(chunk_summaries)
@@ -71,7 +77,15 @@ Necesitamos información de cada uno para poder responder la comparativa."""
 
     # Add query-type-aware reranking hints
     type_instruction = ""
-    if SPEC_INTENT.search(query):
+    if WIRING_INTENT.search(query):
+        type_instruction = (
+            "\nPara esta pregunta de CONEXIONADO/INSTALACIÓN, prioriza fragmentos con "
+            "[DIAGRAMA DISPONIBLE] que muestren esquemas de conexión, bornes o procedimientos "
+            "de instalación — aunque su texto parezca más corto, el diagrama es crítico para "
+            "que el técnico entienda el cableado en campo. Si no hay ninguno disponible, "
+            "prioriza descripciones textuales del conexionado."
+        )
+    elif SPEC_INTENT.search(query):
         type_instruction = "\nPara esta pregunta de ESPECIFICACIONES, prioriza fragmentos con datos numéricos (voltajes, consumos, dimensiones, temperaturas, pesos)."
     elif TROUBLESHOOT_INTENT.search(query):
         type_instruction = "\nPara esta pregunta de AVERÍA/FALLO, prioriza fragmentos con procedimientos de diagnóstico, LEDs indicadores, códigos de error o pasos de resolución."

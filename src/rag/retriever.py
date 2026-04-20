@@ -162,6 +162,26 @@ TROUBLESHOOT_INTENT = _re_module.compile(
     r"parpadea|se\s+enciende|no\s+para|alarma\s+falsa)",
     _re_module.IGNORECASE,
 )
+# Queries where the bot SHOULD surface a diagram (wiring, install, terminals).
+# Used by reranker (prompt hint) and retrieve_chunks (diagram_search path).
+# Spanish conjugations covered via \w* tails.
+WIRING_INTENT = _re_module.compile(
+    r"\b("
+    r"conex[ií]on\w*|"     # conexión, conexiones, conexionado
+    r"cablea\w*|"          # cableado, cablear, cableamos
+    r"cable\b|cables\b|"   # bare 'cable' / 'cables'
+    r"instala\w*|"         # instalación, instalar, instala
+    r"conect\w*|"          # conectar, conecta, conectan, conectado
+    r"borne\w*|"           # borne, bornes
+    r"terminal\w*|"        # terminal, terminales
+    r"esquema\w*|"         # esquema, esquemas
+    r"diagrama\w*|"        # diagrama, diagramas
+    r"polaridad|"          # polaridad
+    r"montaje|montar|"     # montaje, montar
+    r"wirin[gs]"           # wiring / wirings
+    r")\b",
+    _re_module.IGNORECASE,
+)
 
 
 def extract_search_keywords(query: str) -> list[str]:
@@ -219,6 +239,57 @@ def keyword_search(
     # Lower score than content search — these are generic model matches without content relevance
     for row in rows:
         row["similarity"] = 0.65
+    return rows
+
+
+def diagram_search(
+    product_model: str,
+    content_type: str | None = None,
+    limit: int = 3,
+) -> list[dict]:
+    """Search chunks for ``product_model`` that also carry a usable diagram.
+
+    PostgREST filter: ``product_model imatch pattern`` AND ``has_diagram=true``
+    AND ``diagram_url IS NOT NULL``, optionally narrowed by ``content_type``.
+
+    Diagram density is low (~3–5% of the corpus), so without this dedicated
+    path the vector + keyword merge drowns out has_diagram chunks.  The
+    ``content_type`` filter is important for relevance: without it,
+    ``diagram_search('ZXe')`` surfaces any ZXe diagram (e.g. 'Bloqueo de
+    Memoria') which the reranker will correctly drop as off-topic for a
+    sirena-conexionado query.  Pass ``content_type='wiring'`` for
+    WIRING_INTENT queries to guarantee both on-topic AND diagram-bearing.
+
+    Similarity is set to 0.82 — below targeted typed_search (0.85) but above
+    the plain vector/keyword fallbacks — so the reranker surfaces diagrams
+    without overriding an explicitly-requested spec/troubleshoot hit.
+    """
+    pattern = model_to_imatch_pattern(product_model)
+    if not pattern:
+        return []
+    params = {
+        "product_model": f"imatch.{pattern}",
+        "has_diagram": "eq.true",
+        "diagram_url": "not.is.null",
+        "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,has_diagram,diagram_url,source_file,page_number,document_id",
+        "limit": str(limit),
+    }
+    if content_type:
+        params["content_type"] = f"eq.{content_type}"
+    headers = {
+        "apikey": SUPABASE_SERVICE_KEY,
+        "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
+    }
+    with httpx.Client(timeout=15.0) as client:
+        resp = client.get(
+            f"{SUPABASE_URL}/rest/v1/chunks",
+            headers=headers,
+            params=params,
+        )
+        resp.raise_for_status()
+    rows = resp.json()
+    for row in rows:
+        row["similarity"] = 0.82
     return rows
 
 
@@ -725,6 +796,18 @@ def retrieve_chunks(
                     for c in trouble_results:
                         c["similarity"] = 0.85
                     keyword_results.extend(trouble_results)
+
+        # Wiring/installation intent → guarantee at least a few diagram chunks
+        # for the model. Diagram density (~3-5% of corpus) is too low for
+        # vector + keyword merges to surface any has_diagram=true chunks, so
+        # the generator has nothing to cite via DIAGRAMAS_RELEVANTES. Narrow
+        # to content_type='wiring' so the diagrams are ON-TOPIC (otherwise
+        # the reranker correctly drops them as irrelevant — an 'off-topic
+        # diagram' is worse than no diagram).
+        if WIRING_INTENT.search(query):
+            for model in models:
+                diag_results = diagram_search(model, content_type="wiring", limit=3)
+                keyword_results.extend(diag_results)
 
     # Step 3b: Content search within detected model's chunks using query keywords + synonyms
     if models:
