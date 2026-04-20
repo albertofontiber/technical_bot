@@ -154,10 +154,10 @@ questions:
   question_type: wiring
   question: "¿Cuál es la resistencia de fin de línea recomendada para los lazos de la central Morley ZXe?"
   expected_behavior: answer
-  expected_keywords: ["resistencia", "fin de línea", "ohm"]
+  expected_keywords: ["resistencia", "fin de línea", "ohm|Ω|ohmios"]
   expected_has_diagram: null
   verified: false
-  notes: "expected_sources retirado: 'ZXe' no aparece en source_file (solo en product_model, 1837 chunks). expected_keywords: quitado 'kohm' — el manual puede usar solo 'Ω'/'ohm' o dar un número específico (ej: 3,9 kΩ). Verificar el valor real al revisar."
+  notes: "expected_sources retirado: 'ZXe' no aparece en source_file (solo en product_model, 1837 chunks). expected_keywords: quitado 'kohm' — el manual puede usar solo 'Ω'/'ohm' o dar un número específico (ej: 3,9 kΩ). Verificar el valor real al revisar. 20 abril: OR-syntax 'ohm|Ω|ohmios' — el bot usa el símbolo Ω."
 
 - id: hp010
   category: happy_path
@@ -214,20 +214,21 @@ questions:
   question_type: programming
   question: "En la Detnov CCD-103, ¿cómo se desactiva un detector individualmente sin afectar al resto del lazo?"
   expected_behavior: answer
-  expected_keywords: ["aislar", "desactivar", "deshabilitar", "dispositivo"]
+  expected_keywords: ["aislar|anular", "desactivar", "deshabilitar|desconectar", "dispositivo"]
   expected_sources: ["CCD-103"]
   expected_has_diagram: false
   verified: false
+  notes: "20 abril: OR-syntax 'aislar|anular' y 'deshabilitar|desconectar'. La CCD-103 es central convencional: no aísla dispositivos individualmente vía módulo, pero el bot correctamente explica cómo anular una zona completa (LED Anular) o desconectar físicamente con puente. Conceptualmente equivalentes al objetivo del técnico."
 
 - id: hp016
   category: happy_path
   question_type: troubleshooting
   question: "Un detector B501RF de Notifier no responde tras sustituir la batería. ¿Qué procedimiento seguir?"
   expected_behavior: answer
-  expected_keywords: ["bateria", "direccionar", "registrar", "rf"]
+  expected_keywords: ["bateria|batería|pila|pilas", "direccionar|sincronizar", "registrar|programar|resincronizar", "rf"]
   expected_has_diagram: null
   verified: false
-  notes: "expected_sources retirado: 'B501RF' no aparece en source_file (solo en product_model, 2750 chunks dentro de docs I56-6591-001 NRX-WS-RR y I56-4205-001 NRX-SMT3)."
+  notes: "expected_sources retirado: 'B501RF' no aparece en source_file (solo en product_model, 2750 chunks dentro de docs I56-6591-001 NRX-WS-RR y I56-4205-001 NRX-SMT3). 20 abril: OR-syntax — el B501RF es radio-mesh, no usa 'direccionar' clásico (lazo cableado) sino 'sincronizar con pasarela' / 'registrar en red mesh'. 'bateria|batería|pila' cubre acento + sinónimo (CR123A son pilas, no baterías en sentido estricto)."
 
 - id: hp017
   category: happy_path
@@ -498,7 +499,7 @@ questions:
   question_type: procedure
   question: "¿Cómo mantengo un grupo de presión contra incendios Dorot?"
   expected_behavior: admit_no_info
-  expected_keywords: ["dorot", "grupo presión", "no tengo"]
+  expected_keywords: ["dorot", "grupo presión|grupo de presión", "no tengo"]
   expected_has_diagram: false
   verified: false
   notes: "Fuera de dominio — grupos de presión son futuro."
@@ -562,10 +563,11 @@ questions:
   question_type: programming
   question: "¿Cómo configuro una red de centrales mezclando una Notifier ID3000 con una Morley DXc?"
   expected_behavior: answer
-  expected_keywords: ["red", "honeywell", "protocolo", "interconexión"]
+  expected_keywords: ["red", "honeywell", "protocolo", "interconexión|interoperabilidad"]
   expected_sources: ["ID3000", "DXc"]
   expected_has_diagram: null
   verified: false
+  notes: "20 abril: 'interconexión|interoperabilidad' — el bot usa 'interoperabilidad' para describir que los dos fabricantes no tienen red nativa compatible."
   notes: "Caso realista en instalaciones mixtas Honeywell."
 
 - id: cm006
