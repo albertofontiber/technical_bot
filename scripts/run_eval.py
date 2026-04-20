@@ -126,8 +126,9 @@ _PROCEDURAL_PATTERN = re.compile(
 )
 
 # 'Fuente:' / 'Fuentes:' line — system prompt requires this for any real
-# answer. Anchored to start-of-line to avoid matching inline mentions.
-_CITATION_PATTERN = re.compile(r'(?im)^\s*Fuentes?\s*:\s*\S')
+# answer. Anchored to start-of-line; accepts optional markdown-bold markers
+# because the generator renders it as '**Fuente:**' in ~30% of responses.
+_CITATION_PATTERN = re.compile(r'(?im)^\s*\*{0,2}Fuentes?\s*:?\*{0,2}\s*\S')
 
 # Minimum answer length to be considered substantive.
 _SUBSTANTIVE_MIN_LEN = 600
