@@ -251,9 +251,11 @@ FRAGMENTOS RECUPERADOS (las ÚNICAS fuentes a las que el bot tenía acceso):
 RESPUESTA DEL BOT:
 {answer}
 
+NOTA IMPORTANTE — el bot puede incluir marcadores de CITACIÓN en su respuesta del tipo [F1], [F2], [F3], etc. Estos NO son afirmaciones técnicas ni nombres de productos: son referencias al fragmento del que el bot dice haber sacado la afirmación anterior. El número corresponde a [Fragmento 1], [Fragmento 2], etc. arriba. Trátalos como metadata (no son cosas que el bot esté "inventando"); úsalos para verificar si la afirmación citada aparece efectivamente en ese fragmento.
+
 Evalúa CINCO criterios, cada uno con true/false, y un veredicto overall_pass.
 
-1. faithful: ¿TODAS las afirmaciones técnicas concretas (valores, procedimientos, nombres de terminales, etc.) están soportadas por los fragmentos? Una afirmación no soportada = false, aunque suene correcta.
+1. faithful: ¿TODAS las afirmaciones técnicas concretas (valores, procedimientos, nombres de terminales, etc.) están soportadas por los fragmentos? Una afirmación no soportada = false, aunque suene correcta. Si el bot cita [F3] para un dato, comprueba si ESE dato aparece en el Fragmento 3 (aunque sea en texto distinto — paráfrasis cuenta). Si el dato aparece en CUALQUIER fragmento (aunque el bot cite uno incorrecto), la afirmación es faithful pero la citación está mal; considera que esto NO rompe faithful, la citación cruzada es un problema menor del bot.
 2. relevant: ¿la respuesta aborda lo que el técnico preguntó, o se desvía a otro tema?
 3. helpful: ¿el técnico puede ACTUAR con esta respuesta, o es un "no sé" vacío cuando sí había info disponible en los fragmentos?
 4. honest: ¿el bot admite cuando falta información, o inventa para disimular? Si había info en los fragmentos y la ignora, también es deshonesto.
@@ -274,27 +276,31 @@ Responde ÚNICAMENTE con un JSON en este formato:
 
 
 def _format_chunks_for_judge(chunks_used: list[dict], full_chunks: list[dict] | None = None) -> str:
-    """Render chunks compactly for the judge prompt.
+    """Render chunks for the judge prompt.
 
     Prefers full_chunks (with content) if passed — chunks_used only has
     metadata (source_file, product_model, similarity). For the per-question
     trace we'd need to re-run retrieval to get content; cheaper path is
     to pass the run_single reranked list forward when available.
+
+    Chunk content is truncated at 2000 chars (was 500 before calibration on
+    20 abril 2026; the previous value hid information that sat past position
+    500 in the chunk, causing the judge to falsely flag grounded claims as
+    hallucinated — see hp009 calibration finding). 8 chunks pass through
+    (was 6) to match the reranker's typical top-k.
     """
     src = full_chunks if full_chunks else chunks_used
     if not src:
         return "(ningún fragmento recuperado)"
     lines = []
-    for i, c in enumerate(src[:6]):
+    for i, c in enumerate(src[:8]):
         pm = c.get("product_model", "?")
         sf = c.get("source_file", "?")
         sec = c.get("section_title") or ""
         content = c.get("content", "")
-        # Keep preview bounded — judge doesn't need full content, just enough
-        # to verify claims against.
-        preview = content[:500] if content else "(sin contenido almacenado)"
+        preview = content[:2000] if content else "(sin contenido almacenado)"
         lines.append(
-            f"[Fragmento {i+1}] Producto: {pm} | Sección: {sec[:60]} | Fuente: {sf}\n{preview}"
+            f"[Fragmento {i+1}] Producto: {pm} | Sección: {sec[:80]} | Fuente: {sf}\n{preview}"
         )
     return "\n\n".join(lines)
 
