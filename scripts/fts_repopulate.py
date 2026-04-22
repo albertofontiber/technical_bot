@@ -23,8 +23,8 @@ load_dotenv(Path(__file__).resolve().parent.parent / ".env", override=True)
 from src.ingestion.supabase_client import get_supabase
 
 
-BATCH_SIZE = 300
-WORKERS = 4
+BATCH_SIZE = 100
+WORKERS = 2
 CONSECUTIVE_EMPTY_TO_STOP = 3
 
 
@@ -45,7 +45,8 @@ def call_rpc(sb, worker_id: int) -> int:
             with counter_lock:
                 counters["errors"] += 1
             print(f"[w{worker_id}] ERROR {r.status_code}: {r.text[:200]}", flush=True)
-            time.sleep(2)
+            # Back off: 504 gateway timeout suggests server load; longer sleep
+            time.sleep(15 if r.status_code == 504 else 3)
             return -1
         return int(r.json())
     except Exception as e:
