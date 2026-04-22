@@ -479,6 +479,42 @@ Métricas del corpus ingestado:
 
 ---
 
+## 16. Separar retrieve top_k del generator top_k — "retrieve wide, generate narrow" (nuevo — 22 abril 2026)
+
+**Estado actual**: `RETRIEVAL_TOP_K = 5` en `src/config.py` sirve simultáneamente para (a) cuántos chunks devuelve el retriever y (b) cuántos ve el generator. Son el mismo número. El reranker opera sobre los 5 que ya llegaron y no tiene margen para elegir.
+
+**Problema**: la literatura 2024-26 (LangChain / RAGAS / Anthropic docs) recomienda separar los dos números:
+
+- **Retrieve más** (10-20 candidatos) → recall más alto, el chunk relevante tiene más chances de entrar.
+- **Reranker filtra** → re-ordena por relevancia real y devuelve los mejores.
+- **Generator ve menos** (5-8) → evita el efecto "lost in the middle" (Liu et al. 2023), reduce coste y latencia.
+
+Con nuestra implementación actual, si un chunk relevante queda en posición 6-7 del retrieval, **nunca llega al generator**. Y subir `top_k` a 15-20 todo el pipeline crearía "context pollution" (más ruido al LLM + latencia + coste ×3).
+
+**Trigger para implementar**:
+- Si tras Sprints 3+4 el baseline sigue < 75% (es decir, si fixes de retrieval no bastan).
+- O si Alberto observa preguntas donde "el chunk relevante existe en corpus pero no llega al generator" vía muestreo manual.
+
+**Solución propuesta**:
+1. Añadir a `src/config.py`:
+   - `RETRIEVAL_TOP_K = 15` (candidatos que salen del retriever)
+   - `GENERATOR_TOP_K = 5` (chunks que ve el LLM)
+2. En `retrieve_chunks()`: devolver top-15 (o el número configurado).
+3. En el reranker (ya existe, es LLM-based custom): re-ordenar los 15 recibidos, devolver top-5.
+4. El generator opera solo sobre los 5 re-rankeados.
+5. **Medir delta con eval A/B** antes de hacer permanente: config original (5/5) vs. nueva (15/5).
+
+**Número exacto (15 vs 10 vs 20) es empírico** — a determinar con el eval:
+- 10: conservador, bajo overhead.
+- 15: compromiso habitual en la industria.
+- 20: solo si queries complejas con multi-hop reasoning.
+
+**Coste estimado**: ~2h (refactor + test + eval A/B).
+
+**Riesgo**: si el reranker no es fuerte (hoy es custom ad-hoc, no un modelo entrenado tipo Cohere Rerank), subir top-k sin mejorarlo metería ruido al generator. Mitigar: medir con eval antes de commitear.
+
+---
+
 ## Mejoras YA incorporadas al flujo (no deuda, registro histórico)
 
 - **Test de mapping en `tests/`**: verifica que todo PDF en `Manuales_{Manufacturer}/` tiene entrada en los dicts de override. Implementado [fecha ingesta Morley].
