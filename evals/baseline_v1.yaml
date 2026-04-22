@@ -522,11 +522,11 @@ questions:
   category: cross_manual
   question_type: compatibility
   question: "¿Puedo usar un detector Notifier SDX-751 con una central Morley ZXe?"
-  expected_behavior: answer
+  expected_behavior: admit_no_info
   expected_keywords: ["manual|documentación", "protocolo", "zxe"]
   expected_has_diagram: false
   verified: false
-  notes: "Cross-brand: el bot debe razonar desde los manuales (lista de dispositivos compatibles de la ZXe + protocolo declarado por el SDX-751), no inferir. Si los manuales no cubren el combo, admitir 'no certificado, consultar fabricante'. expected_sources 'ZXe' retirado porque no aparece en source_file (solo en product_model). forbidden_keywords omitidos: el substring-match del runner genera falsos positivos con 'compatible' (ver TECH_DEBT #12)."
+  notes: "Cross-brand: política usuario confirmada 22-abril = NO inferir cross-brand aunque se advierta la fuente. Behavior correcto = admit_no_info + remitir a ambos fabricantes. Revisado en audit 22-abril (prev: answer)."
 
 - id: cm002
   category: cross_manual
@@ -542,11 +542,12 @@ questions:
   category: cross_manual
   question_type: troubleshooting
   question: "¿Qué diferencias de comportamiento hay entre un detector óptico Detnov ASD531 y un Notifier SDX en condiciones de humedad alta?"
-  expected_behavior: answer
+  expected_behavior: admit_no_info
   expected_keywords: ["humedad", "ip", "ambiente", "cámara"]
   expected_sources: ["ASD531", "SDX"]
   expected_has_diagram: false
   verified: false
+  notes: "Cross-brand comparación cualitativa: política 22-abril = NO inferir. Comparación factual de specs sería aceptable (cm004), pero 'diferencias de comportamiento en humedad' requiere razonar sobre producto del otro fabricante. Behavior correcto = admit_no_info. Revisado audit 22-abril (prev: answer)."
 
 - id: cm004
   category: cross_manual
@@ -562,41 +563,40 @@ questions:
   category: cross_manual
   question_type: programming
   question: "¿Cómo configuro una red de centrales mezclando una Notifier ID3000 con una Morley DXc?"
-  expected_behavior: answer
+  expected_behavior: admit_no_info
   expected_keywords: ["red", "honeywell", "protocolo", "interconexión|interoperabilidad"]
   expected_sources: ["ID3000", "DXc"]
   expected_has_diagram: null
   verified: false
-  notes: "20 abril: 'interconexión|interoperabilidad' — el bot usa 'interoperabilidad' para describir que los dos fabricantes no tienen red nativa compatible."
-  notes: "Caso realista en instalaciones mixtas Honeywell."
+  notes: "Cross-brand red mixta: política 22-abril = NO inferir. Aunque Notifier y Morley comparten grupo Honeywell, no hay interoperabilidad nativa documentada. Behavior correcto = admit_no_info + remitir a cada fabricante. Revisado audit 22-abril (prev: answer)."
 
 - id: cm006
   category: cross_manual
   question_type: wiring
   question: "Tengo un módulo aislador Detnov en un lazo que comparte detectores Notifier. ¿Hay alguna incompatibilidad conocida?"
-  expected_behavior: answer
+  expected_behavior: admit_no_info
   expected_keywords: ["aislador", "protocolo", "manual|documentación"]
   expected_has_diagram: false
   verified: false
-  notes: "Cross-brand: bot debe explicar que el aislador es específico del protocolo de la central donde vive el lazo. Un lazo no puede mezclar detectores de protocolos distintos. Bot debe consultar manuales y, si no hay certificación del combo, derivar al fabricante."
+  notes: "Cross-brand compat aislador-detector: política 22-abril = NO inferir. Un lazo no puede mezclar protocolos propietarios distintos. Behavior correcto = admit_no_info + remitir a cada fabricante. Revisado audit 22-abril (prev: answer)."
 
 - id: cm007
   category: cross_manual
   question_type: compatibility
   question: "¿La base B501 de Notifier puede usarse con un detector Detnov serie 500?"
-  expected_behavior: answer
+  expected_behavior: admit_no_info
   expected_keywords: ["b501", "base", "protocolo", "manual|documentación"]
   expected_sources: ["B501"]
   expected_has_diagram: false
   verified: false
-  notes: "Cross-brand: B501 es base Notifier (protocolo CLIP); Detnov serie 500 es otro protocolo. Bot debe citar el manual de cada lado o declarar 'no certificado'. 113 chunks con source_file B501 ya en BD."
+  notes: "Cross-brand base-detector: política 22-abril = NO inferir. B501 Notifier (CLIP) vs Detnov serie 500 (otro protocolo). Behavior correcto = admit_no_info + remitir a cada fabricante. Revisado audit 22-abril (prev: answer)."
 
 - id: cm008
   category: cross_manual
   question_type: procedure
   question: "Pasos para reemplazar una Morley ZXe convencional por una ZXSe con detectores existentes"
-  expected_behavior: answer
+  expected_behavior: admit_no_info
   expected_keywords: ["zxe", "zxse", "detectores", "compatibilidad", "cableado"]
   expected_has_diagram: null
   verified: false
-  notes: "expected_sources retirado: 'ZXe' y 'ZXSe' no aparecen en source_file (solo en product_model, 1837 y 788 chunks respectivamente). Esta es migración intra-Morley, no cross-brand — mantener como 'answer' es correcto."
+  notes: "Migración intra-Morley pero corpus no tiene ZXSe. Calibración Alberto 21-abril confirmó: bot debió admit_no_info correctamente. Revisado audit 22-abril (prev: answer)."

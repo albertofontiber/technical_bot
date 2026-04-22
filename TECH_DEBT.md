@@ -352,6 +352,133 @@ CREATE INDEX idx_query_gaps_review ON query_gaps(review_status, created_at DESC)
 
 ---
 
+## 11c. Retriever multi-doc: solo trae un manual cuando el producto tiene varios (nuevo — 22 abril 2026)
+
+**Estado actual (detectado 22 abril 2026 durante audit YAML)**: cuando un `product_model` tiene **múltiples `source_files`** en el corpus (p.ej. CAD-150-8 tiene manual Usuario 110 chunks + Instalación 28 chunks; CAD-250 tenía Usuario 78 + Instalación 340 hasta que hoy se añadieron MC-380 + MS-416), el retriever top-k queda dominado por el manual de mayor volumen y **nunca trae chunks del otro**. Consecuencia: el bot admite no tener info que SÍ está en el corpus, en otro manual del mismo modelo.
+
+**Evidencia concreta**:
+- **hp003** (CAD-150 baterías 24V): retriever solo trajo chunks del manual Usuario; la respuesta está en el Instalación (2.5 "Conexión de las baterías", página 9). Bot respondió parcialmente con la info del Usuario e inventó/rellenó el resto.
+- **hp001** (CAD-250 menú programación avanzada): retriever solo trajo chunks del manual Usuario; la respuesta está en el Instalación (6.1 "Acceso como administrador", páginas 28-29, password 2222). Bot admitió no tener info.
+
+**Trigger para implementar**:
+- ≥3 preguntas del eval donde `had_relevant_chunks=True` en UN manual pero la respuesta verificada vive en OTRO manual del mismo `product_model` no recuperado.
+
+**Solución propuesta**:
+1. Diversificación en reranker: **garantizar al menos 1 chunk de cada `source_file` distinto** dentro del top-k cuando varios source_files comparten el product_model consultado, antes de aplicar similarity ranking puro.
+2. Alternativa más fina: expandir el retriever a devolver top-k por `source_file`, hacer union de candidatos, luego reranker decide.
+3. Catálogo por producto: construir al vuelo (o cachear) un mapping `product_model → [source_files]` con chunk counts. Si una query filtra por modelo con ≥2 source_files, activar modo "multi-doc retrieval".
+
+**Coste estimado**: ~3-4h (instrumentación + fix en retriever + tests sobre hp001/hp003 como casos verificados).
+
+---
+
+## 11f. Generator no filtra chunks cross-manufacturer antes de componer respuesta (nuevo — 22 abril 2026)
+
+**Estado actual (detectado 22 abril 2026 durante audit hp002)**: cuando el retriever falla en traer la sección relevante del manual del producto preguntado, la similitud vectorial mete chunks de **otros fabricantes** en el top-k (porque el tema es semánticamente similar cross-brand). El generator los USA para rellenar la respuesta, con advertencia "honesta" del estilo *"este procedimiento viene del manual X"*. **Viola la política de no-inferencia cross-brand incluso con caveat explícito** — la política (registrada en memoria de usuario) es NO inferir cross-brand, período.
+
+**Evidencia concreta**:
+- **hp002** (ASD535 Detnov flujo bajo): retriever trajo 4 chunks ASD535 (sección general/specs) + 1 chunk MINILÁSER 25 **(Notifier, otro fabricante)**. Generator extrajo pasos 1-4 del diagnóstico desde el chunk Notifier y los aplicó al ASD535 con caveat. Judge PASS (lo consideró "honesto"), pero política usuario dice NO.
+- Contenido correcto SÍ existe en el corpus ASD535_TD_T131192es_h (sección 2.2.10 Monitorización del flujo de aire, p.28), solo que el retriever no lo trajo — fallo downstream que el generator debe detectar.
+
+**Trigger para implementar**:
+- Ya alcanzado: 1 caso confirmado (hp002) + riesgo inferido en otros happy_path con fabricantes superpuestos (aspiración Detnov/Notifier, detectores puntuales Detnov/Notifier, centrales mezcladas).
+
+**Solución propuesta**:
+1. **Filtro duro** en el reranker o generator: si la query identifica un `product_model` (vía MODEL_PATTERN) o un `manufacturer` (vía nombre mencionado), descartar chunks que pertenezcan a otros fabricantes antes de componer la respuesta. Pasar solo chunks del fabricante correcto al LLM.
+2. **Comportamiento cuando no queda suficiente material del fabricante correcto**: admitir gap (*"el manual del ASD535 no cubre este procedimiento en los fragmentos disponibles"*) sin rellenar desde otras marcas.
+3. Añadir una regla explícita al SYSTEM_PROMPT del generator: *"Nunca uses un chunk cuyo `manufacturer` difiera del producto preguntado, aunque parezca temáticamente relevante, aunque declares la fuente."*
+
+**Coste estimado**: ~2h (filtro en reranker + regla en prompt + test con hp002 como caso canónico).
+
+---
+
+## 11d. FTS (search_vector) no matchea términos presentes en content (nuevo — 22 abril 2026)
+
+**Estado actual (detectado 22 abril 2026)**: búsquedas FTS vía `search_vector: fts.<término>` devuelven 0 hits para términos que SÍ están literalmente en `content` del chunk. Ejemplo reproducible con CAD-250:
+- `fts.menú` con source_file Instalación CAD-250 → 0 hits
+- `fts.programación` → 0 hits
+- `fts.configuración` → 0 hits
+- `content ilike '%menú%'` sobre el MISMO source_file → 5+ hits
+
+**Posibles causas**:
+- Trigger de población de `search_vector` no corrió al ingestar (o corrió con config distinta a 'spanish').
+- Normalización unaccent no aplicada — pero incluso sin acento ("menu", "programacion") falla.
+- Schema de tsvector construido con columnas incorrectas (p.ej. solo `section_title` y no `content`).
+
+**Impacto operativo**: el `keyword_search` del retriever usa este índice. Si FTS está roto, toda la rama keyword cae a cero. Probable contribuyente al bug #11c (multi-doc) ya que el retrieval queda totalmente dependiente del vector search.
+
+**Trigger para implementar**:
+- Confirmado reproducible — implementar inmediatamente antes de nuevas iteraciones de retrieval.
+
+**Solución propuesta**:
+1. Inspeccionar el schema actual de `search_vector` y cómo se pobla (trigger SQL o función).
+2. Repoblar tsvector para todo el corpus con config 'spanish' + `unaccent` extension activa.
+3. Test de regresión: para cada product_model, verificar que `fts.<palabra-esperada>` devuelve ≥1 hit cuando `ilike '%palabra%'` devuelve ≥1.
+
+**Coste estimado**: ~2-3h (diagnóstico + migración SQL + backfill + test).
+
+---
+
+## 13. Re-ingesta con `--use-vision` de manuales UI-screenshot (nuevo — 22 abril 2026)
+
+**Estado actual**: MC-380, MS-416 y SGD-151 (MC-399) ingestados el 22 abril 2026 **sin `--use-vision`**. Los 3 son manuales UI-screenshot-heavy: el contenido crítico (labels de menú "AVANZADO", "AJUSTES", "PANELES", botones, campos de formulario) vive DENTRO de los pantallazos como píxeles, no como texto. El extractor de texto captura la narrativa ("Al tocar el campo PANELES…") pero no los valores visibles en las capturas.
+
+Métricas del corpus ingestado:
+- MC-380: 622 chunks / 100 páginas (6.22 ch/p), 564 con diagrama (91%)
+- MS-416: 488 chunks / 76 páginas (6.42 ch/p), 462 con diagrama (95%)
+- **SGD-151: 22 chunks / 22 páginas (1.00 ch/p)**, 22 con diagrama (100%) — 7 páginas descartadas por el chunker por umbral de longitud (incluyendo p=22 con contenido operativo: Reinicio, Silenciar Sirenas, Activar Sirenas, Inhabilitar detectores)
+
+**Evidencia concreta del impacto sin vision** (SGD-151):
+- p=8 (1248 chars, 4 imgs) — contenido sobre licencia online — descartado
+- p=11 (478 chars, 8 imgs) — Escalada/Fijo ajuste gráfico — descartado
+- p=12 (823 chars, 11 imgs) — Marcador Mapa/elementos — descartado
+- p=13 (1070 chars, 7 imgs) — Marcador Panel/centrales — descartado
+- p=22 (505 chars, 3 imgs) — **Página operativa con todas las acciones de campo** — descartado
+
+**Trigger para implementar**:
+- YA alcanzado con SGD-151: contenido operativo perdido en última página.
+- Si eval muestra que preguntas sobre "dónde está X en el menú" tienen respuestas incompletas con los nuevos CAD-250 docs.
+
+**Solución propuesta**:
+1. Borrar chunks existentes de los 3 source_files (`CAD-250-MC-380-es`, `CAD-250-MS-416-es`, `SGD-151 MC-399 es`).
+2. `python scripts/run_ingestion.py --single <pdf> --use-vision` para cada uno.
+3. Verificar que el ratio chunks/página sube a ≥3 y que las páginas previamente descartadas ahora aparecen.
+
+**Coste estimado**: ~45-60 min + ~$3-4 API (3 docs × 22-100 páginas).
+
+**Extensión futura**: identificar en `Manuales_ES/`, `Manuales_Notifier/` y `Manuales_Morley/` otros PDFs UI-screenshot-heavy (heurística: ratio chunks/página < 3 y has_diagram > 80%) y marcarlos para re-ingesta con vision.
+
+---
+
+## 15. Umbral mínimo de longitud del chunker descarta páginas con contenido útil (nuevo — 22 abril 2026)
+
+**Estado actual (detectado 22 abril 2026 durante ingesta SGD-151)**: el chunker descarta páginas cuyo texto extraído es corto (probable umbral ~500-600 chars) aunque el contenido sea útil y self-contained. Ejemplo reproducible: SGD-151 p=22 (505 chars) contiene la lista completa de acciones operativas del software (Reinicio/Rearme, Silenciar Sirenas, Activar Sirenas, Inhabilitar detectores…) — es la página MÁS útil del manual y se descartó.
+
+**Problema**: páginas cortas no son necesariamente basura. Listas, resúmenes, tablas de acciones, leyendas de iconos pueden ser muy densas en información aunque cortas en chars.
+
+**Trigger para implementar**:
+- Confirmado reproducible con SGD-151. Implementar junto con TECH_DEBT #13 (vision) ya que son complementarios.
+
+**Solución propuesta**:
+1. Inspeccionar `src/ingestion/chunker.py` para localizar el umbral.
+2. Bajar umbral a ~200 chars o eliminarlo (dejando solo "si no hay texto ninguno, skip").
+3. Añadir filtro semántico posterior: si el chunk solo contiene boilerplate repetido (header/footer, número de página), descartar por regex explícito — no por longitud.
+4. Re-ingestar docs afectados (los mismos 3 de TECH_DEBT #13, coincidencia útil).
+
+**Coste estimado**: ~1h (diagnóstico + fix + test con SGD-151 verificando que las 7 páginas se recuperan).
+
+---
+
+## 14. Bug en `scripts/run_ingestion.py --single`: no pasaba cliente Supabase — ✅ RESUELTO (22 abril 2026)
+
+**Estado**: antes del 22 abril, `python scripts/run_ingestion.py --single <pdf>` ejecutaba todo el pipeline (parse, chunk, embed) pero **nunca subía a Supabase** porque el script no pasaba `supabase=get_supabase()` a `ingest_single_pdf()`. Al ser `supabase=None`, los pasos 3b (register_document), 4b (upload images) y 6 (insert chunks) se saltaban silenciosamente sin log de warning.
+
+**Fix** (commit pendiente): pasar `supabase = None if dry_run else get_supabase()` en el branch `--single`. `ingest_all` ya lo hacía correctamente.
+
+**Impacto previo**: cualquier ingesta manual con `--single` desde la creación del script quedó en dry-run encubierto. No crítico porque la ingesta masiva inicial usó `ingest_all`, pero si alguien hizo re-ingestas puntuales con `--single` pueden faltar.
+
+---
+
 ## Mejoras YA incorporadas al flujo (no deuda, registro histórico)
 
 - **Test de mapping en `tests/`**: verifica que todo PDF en `Manuales_{Manufacturer}/` tiene entrada en los dicts de override. Implementado [fecha ingesta Morley].

@@ -16,6 +16,7 @@ project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 from src.ingestion.ingest import ingest_all, ingest_single_pdf
+from src.ingestion.supabase_client import get_supabase
 
 
 def main():
@@ -29,7 +30,10 @@ def main():
             print("Error: --single requires a PDF path argument")
             sys.exit(1)
         pdf_path = args[idx + 1]
-        ingest_single_pdf(pdf_path, dry_run=dry_run, use_vision=use_vision)
+        supabase = None if dry_run else get_supabase()
+        ingest_single_pdf(
+            pdf_path, supabase=supabase, dry_run=dry_run, use_vision=use_vision
+        )
     else:
         ingest_all(dry_run=dry_run, use_vision=use_vision)
 

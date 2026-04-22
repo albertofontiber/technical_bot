@@ -910,7 +910,24 @@ def retrieve_chunks(
     if not include_superseded:
         merged = _filter_by_document_status(merged)
 
-    # Step 5: Manufacturer diversity for generic queries (no specific model).
+    # Step 5a-pre: Filter to queried models (TECH_DEBT #11e + #11f fix).
+    # When a specific model was mentioned in the query, drop chunks whose
+    # product_model doesn't match that family. Prevents cross-product and
+    # cross-brand contamination (e.g. CAD-250 chunks answering a CAD-150
+    # query, or MINILÁSER 25 Notifier chunks answering an ASD535 Detnov
+    # query). Fail-open: if filter would drop too many, keep originals.
+    if models and len(merged) > 0:
+        merged = _filter_to_query_models(merged, models)
+
+    # Step 5a: Multi-doc diversity for queries with a specific model.
+    # When a product has several source_files in corpus (e.g. CAD-250 has
+    # Instalación + Usuario + MC-380 + MS-416), the top-k can be dominated
+    # by whichever doc has more chunks — missing the doc that actually
+    # holds the answer. Guarantee at least one chunk per source_file.
+    if models and len(merged) > 0:
+        merged = _diversify_by_source_file(merged, top_k, models, query, query_keywords=None)
+
+    # Step 5b: Manufacturer diversity for generic queries (no specific model).
     # Ensures technicians see results from ALL manufacturers, not just whichever
     # happens to rank highest by embedding similarity.
     if not models and len(merged) > 0:
@@ -1013,6 +1030,260 @@ def _diversify_by_manufacturer(chunks: list[dict], top_k: int, original_query: s
             break
 
     return result
+
+
+# ---------------------------------------------------------------------------
+# Model-family filter (TECH_DEBT #11e + #11f fix — 22 abril 2026)
+# ---------------------------------------------------------------------------
+def _filter_to_query_models(chunks: list[dict], models: list[str]) -> list[dict]:
+    """Drop chunks whose product_model doesn't match any queried model family.
+
+    Protects against two bugs:
+      #11e — retriever brings the wrong product when vector similarity surfaces
+             a semantically-similar chunk from a different product. Example:
+             hp003 query 'CAD-150 baterías' returned chunks from CAD-250
+             Instalación (semantically close, physically wrong product).
+      #11f — generator contaminates the answer with cross-brand chunks. Example:
+             hp002 query 'ASD535 Detnov flujo bajo' pulled diagnosis steps from
+             MIDT732 (MINILÁSER 25 Notifier), violating the user's policy
+             'no inferir cross-brand'.
+
+    Matching rule: normalize both the query model and the chunk's product_model
+    by stripping separators (``-``, space) and lowercasing. A chunk passes
+    if ANY query-model core appears as substring of the normalized
+    product_model. So ``CAD-150`` matches ``CAD-150-8`` (normalized
+    ``cad1508``) but not ``CAD-250`` (normalized ``cad250``).
+
+    Fail-open: if filtering would leave fewer than 3 chunks, return originals
+    (better a mixed result than no answer).
+    """
+    if not models or not chunks:
+        return chunks
+
+    def normalize(s: str) -> str:
+        return re.sub(r'[- ]', '', s or '').lower()
+
+    query_cores = [normalize(m) for m in models if m]
+    if not query_cores:
+        return chunks
+
+    filtered: list[dict] = []
+    for c in chunks:
+        pm_norm = normalize(c.get("product_model", ""))
+        if any(core in pm_norm for core in query_cores):
+            filtered.append(c)
+
+    # Fail-open: better a noisy response than an empty one
+    if len(filtered) < 3:
+        return chunks
+    return filtered
+
+
+# ---------------------------------------------------------------------------
+# Multi-doc diversity (TECH_DEBT #11c fix — 22 abril 2026)
+# ---------------------------------------------------------------------------
+def _get_source_files_for_model(product_model: str) -> list[str]:
+    """Return the distinct source_files that contain chunks of this product_model,
+    ordered by chunk_count descending. Returns [] on error (fail-open)."""
+    pattern = model_to_imatch_pattern(product_model)
+    if not pattern:
+        return []
+    headers = {
+        "apikey": SUPABASE_SERVICE_KEY,
+        "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
+    }
+    try:
+        with httpx.Client(timeout=5.0) as client:
+            resp = client.get(
+                f"{SUPABASE_URL}/rest/v1/chunks",
+                headers=headers,
+                params={
+                    "product_model": f"imatch.{pattern}",
+                    "select": "source_file",
+                    "limit": "5000",
+                },
+            )
+            resp.raise_for_status()
+    except Exception:
+        return []
+
+    from collections import Counter
+    c = Counter(r["source_file"] for r in resp.json() if r.get("source_file"))
+    return [sf for sf, _ in c.most_common()]
+
+
+def _fetch_top_chunks_by_source_file(
+    source_file: str,
+    query: str,
+    limit: int = 2,
+) -> list[dict]:
+    """Fetch chunks from a specific source_file, ranked by relevance to query.
+
+    Uses full-text search (plfts) on content for relevance. Falls back to
+    most-similar-to-first-keyword via ilike if FTS returns nothing.
+    """
+    headers = {
+        "apikey": SUPABASE_SERVICE_KEY,
+        "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
+    }
+    keywords = extract_search_keywords(query)
+    select_cols = (
+        "id,content,product_model,category,section_title,content_type,"
+        "manufacturer,protocol,doc_type,has_diagram,diagram_url,source_file,"
+        "page_number,document_id"
+    )
+    # Try FTS first (post spanish_unaccent fix: 'menú' matches chunks with accent)
+    if keywords:
+        fts_query = " & ".join(keywords[:3])
+        try:
+            with httpx.Client(timeout=3.0) as client:
+                resp = client.get(
+                    f"{SUPABASE_URL}/rest/v1/chunks",
+                    headers=headers,
+                    params={
+                        "source_file": f"eq.{source_file}",
+                        "search_vector": f"plfts.{fts_query}",
+                        "select": select_cols,
+                        "limit": str(limit),
+                    },
+                )
+                if resp.status_code == 200:
+                    rows = resp.json()
+                    if rows:
+                        return rows
+        except Exception:
+            pass
+
+    # Fallback: ilike on each keyword (stemmed as prefix to catch conjugations)
+    # e.g. keyword 'conectan' is stored as 'Conexión' / 'conecte' — so stem
+    # to 'conect' (first 6 chars) and match as substring.
+    for kw in keywords[:3]:
+        stem = kw[:6] if len(kw) > 6 else kw  # rough stem
+        try:
+            with httpx.Client(timeout=3.0) as client:
+                resp = client.get(
+                    f"{SUPABASE_URL}/rest/v1/chunks",
+                    headers=headers,
+                    params={
+                        "source_file": f"eq.{source_file}",
+                        "content": f"ilike.*{stem}*",
+                        "select": select_cols,
+                        "limit": str(limit),
+                    },
+                )
+                if resp.status_code == 200:
+                    rows = resp.json()
+                    if rows:
+                        return rows
+        except Exception:
+            continue
+    return []
+
+
+def _diversify_by_source_file(
+    chunks: list[dict],
+    top_k: int,
+    models: list[str],
+    original_query: str,
+    query_keywords: list[str] | None = None,
+) -> list[dict]:
+    """Guarantee at least one chunk per source_file when a product has
+    multiple docs in corpus.
+
+    The bug this fixes (TECH_DEBT #11c): when CAD-250 has 4 manuals
+    (Instalación + Usuario + MC-380 + MS-416) but the answer to a query
+    lives in only one of them, the retriever's top-k can be dominated
+    by chunks from an unrelated doc (the biggest one by chunk count or
+    the one with highest average vector similarity). Confirmed causing
+    eval fails in hp001, hp003, hp005, hp006, hp013, hp017.
+
+    Strategy:
+      1. Identify distinct source_files for each queried product_model.
+      2. Check which are already present in ``chunks`` (top of current ranking).
+      3. For under-represented source_files, do supplementary content_search
+         filtered by (source_file) with query keywords — small boost so they
+         compete with keyword results but don't override the best ones.
+      4. Re-merge, deduplicate, re-sort.
+    """
+    if not chunks or not models:
+        return chunks
+
+    # Identify corpus source_files for each detected model
+    all_corpus_sources: list[str] = []
+    for model in models:
+        for sf in _get_source_files_for_model(model):
+            if sf not in all_corpus_sources:
+                all_corpus_sources.append(sf)
+
+    # No diversification needed if models have only 1 doc total
+    if len(all_corpus_sources) < 2:
+        return chunks
+
+    # Supplementary fetches for source_files NOT yet in merged
+    sources_in_results: set[str] = {c.get("source_file") for c in chunks if c.get("source_file")}
+    missing_sources = [sf for sf in all_corpus_sources if sf not in sources_in_results]
+
+    seen_ids = {c.get("id") for c in chunks if c.get("id")}
+    for sf in missing_sources[:4]:
+        extra = _fetch_top_chunks_by_source_file(sf, original_query, limit=2)
+        for c in extra:
+            c["similarity"] = 0.72  # competitive but won't override direct matches
+            cid = c.get("id")
+            if cid and cid not in seen_ids:
+                seen_ids.add(cid)
+                chunks.append(c)
+
+    # Re-sort by similarity
+    chunks.sort(key=lambda c: c.get("similarity", 0), reverse=True)
+
+    # ROUND-ROBIN interleave: guarantees multi-source representation in top_k
+    # even when one source has many high-similarity chunks. Caps per-source
+    # contribution so no single doc monopolizes top_k.
+    from collections import defaultdict
+    by_source: dict[str, list[dict]] = defaultdict(list)
+    for c in chunks:
+        by_source[c.get("source_file") or "_nosrc"].append(c)
+
+    # Best-first source order
+    source_order = sorted(
+        by_source.keys(),
+        key=lambda s: by_source[s][0].get("similarity", 0) if by_source[s] else 0,
+        reverse=True,
+    )
+    max_per_source = max(2, top_k // 3)  # at least 3 sources represented
+
+    result: list[dict] = []
+    indices = {s: 0 for s in source_order}
+    per_source_count: dict[str, int] = defaultdict(int)
+
+    while len(result) < top_k:
+        added = False
+        # Pass 1: respect max_per_source cap
+        for s in source_order:
+            if len(result) >= top_k:
+                break
+            if per_source_count[s] >= max_per_source:
+                continue
+            idx = indices[s]
+            if idx < len(by_source[s]):
+                result.append(by_source[s][idx])
+                indices[s] = idx + 1
+                per_source_count[s] += 1
+                added = True
+        if not added:
+            # Pass 2: cap relaxed to fill remaining slots
+            for s in source_order:
+                if len(result) >= top_k:
+                    break
+                idx = indices[s]
+                if idx < len(by_source[s]):
+                    result.append(by_source[s][idx])
+                    indices[s] = idx + 1
+                    added = True
+            if not added:
+                break
+
+    return result if result else chunks
 
 
 # ---------------------------------------------------------------------------
