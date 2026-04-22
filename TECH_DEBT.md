@@ -352,7 +352,7 @@ CREATE INDEX idx_query_gaps_review ON query_gaps(review_status, created_at DESC)
 
 ---
 
-## 11c. Retriever multi-doc: solo trae un manual cuando el producto tiene varios (nuevo — 22 abril 2026)
+## 11c. Retriever multi-doc: solo trae un manual cuando el producto tiene varios — ✅ RESUELTO
 
 **Estado actual (detectado 22 abril 2026 durante audit YAML)**: cuando un `product_model` tiene **múltiples `source_files`** en el corpus (p.ej. CAD-150-8 tiene manual Usuario 110 chunks + Instalación 28 chunks; CAD-250 tenía Usuario 78 + Instalación 340 hasta que hoy se añadieron MC-380 + MS-416), el retriever top-k queda dominado por el manual de mayor volumen y **nunca trae chunks del otro**. Consecuencia: el bot admite no tener info que SÍ está en el corpus, en otro manual del mismo modelo.
 
@@ -370,9 +370,11 @@ CREATE INDEX idx_query_gaps_review ON query_gaps(review_status, created_at DESC)
 
 **Coste estimado**: ~3-4h (instrumentación + fix en retriever + tests sobre hp001/hp003 como casos verificados).
 
+**Fix aplicado**: `_diversify_by_source_file` con round-robin en `src/rag/retriever.py`. Validado: **hp003 FAIL → PASS** en el eval post-fix. Efecto secundario positivo: expone bugs del generator antes enmascarados (ver #11f, #11g, #11h).
+
 ---
 
-## 11f. Generator no filtra chunks cross-manufacturer antes de componer respuesta (nuevo — 22 abril 2026)
+## 11f. Generator no filtra chunks cross-manufacturer antes de componer respuesta — 🟡 PARCIALMENTE RESUELTO, RESIDUAL CRÍTICO
 
 **Estado actual (detectado 22 abril 2026 durante audit hp002)**: cuando el retriever falla en traer la sección relevante del manual del producto preguntado, la similitud vectorial mete chunks de **otros fabricantes** en el top-k (porque el tema es semánticamente similar cross-brand). El generator los USA para rellenar la respuesta, con advertencia "honesta" del estilo *"este procedimiento viene del manual X"*. **Viola la política de no-inferencia cross-brand incluso con caveat explícito** — la política (registrada en memoria de usuario) es NO inferir cross-brand, período.
 
@@ -390,9 +392,51 @@ CREATE INDEX idx_query_gaps_review ON query_gaps(review_status, created_at DESC)
 
 **Coste estimado**: ~2h (filtro en reranker + regla en prompt + test con hp002 como caso canónico).
 
+**Fix parcial aplicado**: `_filter_to_query_models` en retriever.py bloquea chunks cuyo `product_model` no coincide con los modelos de la query. Validado en smoke tests.
+
+**Residual crítico**: cuando el retriever NO trae chunks del fabricante correcto (porque el manual no tiene la respuesta específica o porque hay pocos chunks relevantes), el generator **inventa** en vez de admitir. Evidencia en eval: hp002 PASS → FAIL (bot inventa secciones 9.4, 10.3 tras filtrar el chunk Notifier que antes "rellenaba"), hp015 (bot inventa *"CCD-103 es central convencional"*), nd001 (bot inventa citación [F2] a sección inexistente). Prompt anti-alucinación actual es necesario pero insuficiente. Requiere validación estructural post-generación (cross-model validator tipo Opus revisando Sonnet — pendiente diseño).
+
 ---
 
-## 11d. FTS (search_vector) no matchea términos presentes en content (nuevo — 22 abril 2026)
+## 11g. Generator miscita chunks cuando hay múltiples docs del mismo producto (nuevo — 22 abril 2026)
+
+**Estado actual (detectado 22 abril 2026 en eval post-Sprint 3+4)**: cuando el retriever trae chunks de varios `source_file` del mismo producto (p.ej. 4 manuales DXc representados gracias a diversify_by_source_file), el generator puede **atribuir afirmaciones a chunks equivocados**. Ejemplo: hp010 — bot respondió citando `[F4]` (doc de niveles de acceso multilingüe) pero el contenido citado *"Nivel de usuario 3, OK → 5 → código"* no está en F4; está en el imaginario del modelo.
+
+**Mecanismo probable**: con más chunks disponibles, el LLM se "confunde" en la atribución. Prefiere citar un chunk cualquiera aunque no contenga la afirmación, en vez de admitir que no tiene la info.
+
+**Evidencia concreta**: hp010 (Morley DXc añadir detector) PASS → FAIL al diversificar de 1 doc a 4 docs. Judge rationale: *"instrucción de pulsar 'OK → 5 → código' y la referencia a 'F4' no aparecen en ningún fragmento recuperado"*.
+
+**Trigger para implementar**:
+- Ya alcanzado (1 caso confirmado post-diversify). Si detectamos ≥3 casos similares en próximos evals, prioridad sube.
+
+**Solución propuesta**:
+1. Validación post-generación: parser que para cada `[F<n>]` marker extraiga el claim textual y verifique que está literalmente en el chunk F<n>. Si no, flaggear.
+2. Reforzar SYSTEM_PROMPT con anti-ejemplo de miscitation (equivalente al anti-ejemplo existente de invención).
+3. Alternativa: validator LLM cross-model (Opus revisando Sonnet) — pendiente explorar arquitectura.
+
+**Coste estimado**: ~2-3h (validador estructural + test contra hp010 canónico).
+
+---
+
+## 11h. Filter cross-brand falla cuando la query menciona 2 marcas (nuevo — 22 abril 2026)
+
+**Estado actual (detectado 22 abril 2026 en eval post-Sprint 3+4)**: `_filter_to_query_models` filtra chunks de marcas/productos que NO aparecen en la query. Pero cuando la query menciona **explícitamente** 2 marcas distintas (query cross-brand), ambas pasan el filtro y el generator recibe chunks de los dos fabricantes. Entonces el bot infiere compatibilidad cross-brand — violando la política `no inferir cross-brand`.
+
+**Evidencia concreta**: cm001 *"¿Puedo usar un detector Notifier SDX-751 con una central Morley ZXe?"* — retriever trae chunks de SDX-751 (Notifier) + ZXe (Morley). Filtro permite ambos porque query los menciona a los dos. Bot infiere: *"SDX-751EM es fabricado por System Sensor para Notifier, lo que podría encajar bajo soporte System Sensor de la ZXe"*. Judge marcó FAIL: `faithful=False` (no soportado por fragmentos) y `behavior_match=False` (YAML ahora espera `admit_no_info`).
+
+**Trigger para implementar**:
+- Inmediato. Las 8 preguntas cross_manual dependen de que el filtro opere correctamente.
+
+**Solución propuesta**:
+1. Detectar "cross-brand intent" en la query: si `extract_product_models()` devuelve ≥2 modelos de fabricantes diferentes (consultando `lookup_model_manufacturer()` por cada uno), activar modo estricto.
+2. En modo estricto: el generator recibe una instrucción adicional en el prompt: *"la query menciona productos de 2 fabricantes distintos. NO infieras compatibilidad. Responde admit_no_info y remite a cada fabricante"*.
+3. Alternativa más estricta: en modo cross-brand, pasar al generator SOLO chunks de 1 fabricante (el primer modelo mencionado) + una nota al prompt explicando que el otro producto no tiene chunks recuperados.
+
+**Coste estimado**: ~1-2h (detector cross-brand intent + regla en prompt + test contra cm001-cm008).
+
+---
+
+## 11d. FTS (search_vector) no matchea términos presentes en content — ✅ RESUELTO (22 abril 2026)
 
 **Estado actual (detectado 22 abril 2026)**: búsquedas FTS vía `search_vector: fts.<término>` devuelven 0 hits para términos que SÍ están literalmente en `content` del chunk. Ejemplo reproducible con CAD-250:
 - `fts.menú` con source_file Instalación CAD-250 → 0 hits
