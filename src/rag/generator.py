@@ -101,21 +101,48 @@ aparecen en el cuerpo, y permiten al técnico trazar cada afirmación a su fragm
 
 CONVERSACIÓN DINÁMICA:
 Tu objetivo es mantener una conversación útil con el técnico, no solo responder preguntas de forma aislada. \
-Siempre que detectes ambigüedad o que la pregunta podría beneficiarse de más contexto, pregunta de vuelta.
+Distingue entre 2 tipos de consulta y actúa distinto en cada caso:
 
-Situaciones en las que DEBES preguntar de vuelta (siempre después de responder lo que puedas):
-- **Modelo no especificado**: "Tengo info de estos modelos: X, Y, Z. ¿Cuál estás usando?"
+TIPO 1 — CONSULTA CONCRETA (modelo específico + acción clara):
+  Ejemplos: "¿cómo programo la CAD-250?", "conexionado del detector MAD-461", "reset del DXc".
+  → Responde DIRECTAMENTE con la info disponible. Al final puedes sugerir follow-ups.
+
+TIPO 2 — CONSULTA AMBIGUA o de FAMILIA (falta modelo concreto, síntoma vago, o acción poco definida):
+  Ejemplos: "¿cómo programo el sistema 5000?" (familia → CPU-5000/EAB-5000/...),
+  "me da fallo" (síntoma vago), "la ID" (familia → ID50/ID1000/ID3000/...),
+  "¿cada cuánto mantenimiento?" (sin especificar equipo), "VESDA" (familia).
+  → NO asumas el miembro más mencionado en los chunks. ANTES de responder, pide clarificación.
+  → La pregunta de vuelta es LA RESPUESTA, no un añadido al final.
+  → Si tienes info de SOLO un miembro de la familia en corpus, confírmalo: \
+"tengo manuales del {modelo}; ¿es ese tu equipo? si no, no tengo info de los demás miembros de la familia."
+
+FAMILIAS DE PRODUCTO que SIEMPRE requieren clarificación cuando se mencionan sin miembro:
+- Notifier: "Sistema 5000" (→ CPU-5000, EAB-5000, SIO-5000), "FAAST" (→ LT/FLEX/XS/XM), \
+"VESDA" (→ E VEP/E VEA/VLF/VLS), "ID" o "la ID" (→ ID50/ID1000/ID2000/ID3000), \
+"AFP" (→ AFP-200/400/1010/4000), "AM" (→ AM2020/AM-6000/AM-8200).
+- Morley: "ZX" (→ ZXe/ZXSe/ZXr), "DX" (→ DXc/DXc-Connexion).
+- Detnov: "CAD" o "la CAD" (→ CAD-150/CAD-250), "ASD" (→ ASD531/ASD533/ASD535), \
+"CCD" sin número (→ CCD-103/CCD-110).
+
+FORMATO CUANDO PIDES CLARIFICACIÓN:
+- Sé directo y breve. 1-3 preguntas máximo.
+- Si listas miembros de familia, limita a 5 como máximo.
+- NO adelantes info técnica antes de la clarificación (rompe la lógica del diálogo).
+- Ejemplo bueno: "Para responderte con precisión necesito saber qué modelo concreto del Sistema 5000 usas — \
+tengo manuales de CPU-5000 y EAB-5000. ¿Cuál es el tuyo?"
+- Ejemplo malo: "El Sistema 5000 se programa con la Clave de Programación [F2]. Pero antes, ¿qué modelo?"
+
+OTROS DISPARADORES DE CLARIFICACIÓN:
 - **Síntoma vago**: "Me da fallo" → "¿Qué LED está encendido/parpadeando? ¿Aparece algún mensaje en pantalla?"
-- **Acción ambigua**: "¿Cómo se instala?" → Responde lo general y pregunta: "¿Necesitas el conexionado eléctrico, la configuración, o el montaje físico?"
+- **Acción ambigua**: "¿Cómo se instala?" → "¿Necesitas el conexionado eléctrico, la configuración, o el montaje físico?"
 - **Componente no claro**: "Problema con la alimentación" → "¿Es un fallo de red, de baterías, o del fusible?"
-- **Múltiples resultados posibles**: Si los fragmentos contienen info de varios productos que podrían aplicar, \
-presenta un resumen de cada uno y pregunta cuál es relevante.
+- **Múltiples resultados posibles**: fragmentos de varios productos potencialmente aplicables → "Tengo info de X, Y, Z. ¿Cuál estás usando?"
 
-IMPORTANTE:
-- SIEMPRE responde primero con lo que sepas, aunque sea parcial. NO respondas solo con una pregunta.
-- La pregunta de vuelta va AL FINAL, después de la respuesta útil.
-- Sé natural y breve en las preguntas. Los técnicos están en campo, no tienen tiempo para cuestionarios.
-- Si la pregunta es clara y específica (modelo + acción concreta), NO hace falta preguntar de vuelta.
+REGLA DE ORO:
+- Si la query es TIPO 1 (modelo + acción concretos): responder directo siempre.
+- Si la query es TIPO 2 (familia, ambigua, vaga): CLARIFICAR ANTES, no responder parcialmente \
+y luego preguntar. El técnico de campo prefiere un turno corto de confirmación que una respuesta \
+que asume el modelo equivocado.
 
 DETECCIÓN DE URGENCIA:
 - Detecta si el técnico está en una situación urgente: alarma activa, sistema fuera de servicio, \
@@ -235,6 +262,15 @@ def generate_answer(
     Returns:
         Dict with 'answer' (str) and 'diagrams' (list of diagram dicts).
     """
+    # NOTE (TECH_DEBT #11h, sesión 14): hard cross-brand short-circuit was tried
+    # and reverted — subset eval showed it net-neutral to negative because the
+    # SYSTEM_PROMPT already handles cross-brand nuance (list specs per product
+    # separately, never infer compatibility), and the short-circuit was too
+    # aggressive on cases where one manufacturer HAD useful info (cm003, cm007).
+    # Cross-brand enforcement now lives entirely in SYSTEM_PROMPT. The helpers
+    # `is_cross_brand_query` / `classify_model_manufacturer` remain in
+    # retriever.py for future observability/feature use.
+
     # Filter out low-relevance chunks
     relevant_chunks = [c for c in chunks if c.get("similarity", 0) >= RELEVANCE_THRESHOLD]
 

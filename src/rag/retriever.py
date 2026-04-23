@@ -85,6 +85,107 @@ def extract_product_models(query: str) -> list[str]:
     return out
 
 
+# === Per-manufacturer classifiers for cross-brand intent detection ===
+# Pattern-based lookup (no DB roundtrip). Patterns derived from MODEL_PATTERN
+# sections. Order matters: first match wins. Each pattern is partial-match
+# against an uppercased model token.
+
+_DETNOV_PATTERNS = re.compile(
+    r'^(CAD-|CCD-|CMD-|MAD-|DTD-|DOD-|DGD-|DMD|DXD-|DBD-|PCD-|FAD-|TUL-?|'
+    r'SG\d|SGCP|S[23]-|ASD-?|ADW-?|FIREBEAM|CALYPSO|PGD-|TBUD-|T[RMS]D-|'
+    r'TCD-|SCD-)',
+    re.IGNORECASE,
+)
+_NOTIFIER_PATTERNS = re.compile(
+    r'^(AFP|AM-?\d{3,4}|ID[-]?\d|ID2NET|NFS|NFG|NFXI|NFX|PEARL|INSPIRE|'
+    r'SISTEMA|SYSTEM|VESDA|FAAST|RP-?\d{3,4}|RP1[RR]|M7[012]|IDX|B50|B524|'
+    r'LTS|SMART|40-?40|POL|FSL|FS-?\d|SDX|DT-?\d|MN-?DT|MI-?DT|MP-?DT|'
+    r'S300|SC-?6|CZ-?6|HLSPS|PK-?|MULTISCANN|SENTOX|PL4|GALILEO|AGILEIQ)',
+    re.IGNORECASE,
+)
+_MORLEY_PATTERNS = re.compile(
+    r'^(ZXS?E|ZXR|DXC|MI-|ECO10|F5000|M200E|AUTOSAT|UCIP|SIMEI|ITAC|'
+    r'WR2001|HSR-?|IRK-?|VSN-?|MIE-?)',
+    re.IGNORECASE,
+)
+
+
+def classify_model_manufacturer(model: str) -> str | None:
+    """Return 'Detnov' / 'Notifier' / 'Morley' for a detected model code,
+    or None if it doesn't match any known manufacturer pattern.
+
+    Purely pattern-based, no DB roundtrip. Used by cross-brand intent
+    detection where latency matters. Falls back to `lookup_model_manufacturer`
+    via `detect_query_manufacturers` if the caller wants to double-check
+    against the DB.
+    """
+    m = model.strip().upper()
+    if _DETNOV_PATTERNS.match(m):
+        return "Detnov"
+    if _NOTIFIER_PATTERNS.match(m):
+        return "Notifier"
+    if _MORLEY_PATTERNS.match(m):
+        return "Morley"
+    return None
+
+
+# Manufacturer names spelled out in free text (technicians sometimes name
+# brands explicitly: "¿el detector Notifier SDX-751 funciona con Morley?").
+_MANUFACTURER_NAME_PATTERNS = {
+    "Detnov": re.compile(r"\bdetnov\b", re.IGNORECASE),
+    "Notifier": re.compile(r"\bnotifier\b", re.IGNORECASE),
+    "Morley": re.compile(r"\bmorley(?:\s*-?\s*ias)?\b", re.IGNORECASE),
+    "Honeywell": re.compile(r"\bhoneywell\b", re.IGNORECASE),
+}
+
+
+def detect_query_manufacturers(query: str) -> set[str]:
+    """Return the set of manufacturers implicitly or explicitly referenced
+    in the query.
+
+    Sources:
+    1. Manufacturer names mentioned literally in the query.
+    2. Product model codes detected via MODEL_PATTERN, classified by
+       per-manufacturer pattern.
+
+    "Honeywell" is normalised to its underlying brand when the query
+    pairs it with a specific model (Notifier or Morley are Honeywell
+    brands). Otherwise it stays as "Honeywell" and is treated as a single
+    manufacturer reference.
+    """
+    detected: set[str] = set()
+
+    # 1. Literal manufacturer names.
+    for name, pattern in _MANUFACTURER_NAME_PATTERNS.items():
+        if pattern.search(query):
+            detected.add(name)
+
+    # 2. Models → manufacturer via pattern classifier.
+    for model in extract_product_models(query):
+        mfr = classify_model_manufacturer(model)
+        if mfr:
+            detected.add(mfr)
+
+    # Honeywell collapse: if we detected Honeywell AND a concrete sub-brand
+    # (Notifier/Morley), the user is just being specific about the parent
+    # group. Drop Honeywell, keep the concrete brand.
+    if "Honeywell" in detected and detected & {"Notifier", "Morley"}:
+        detected.discard("Honeywell")
+
+    return detected
+
+
+def is_cross_brand_query(query: str) -> tuple[bool, set[str]]:
+    """Decide whether the query references products from 2+ distinct
+    manufacturers. Returns (is_cross_brand, detected_manufacturers).
+
+    Used by the generator to force an admit_no_info behaviour instead of
+    inferring cross-brand compatibility (policy: NO inferir cross-brand).
+    """
+    mfrs = detect_query_manufacturers(query)
+    return (len(mfrs) >= 2, mfrs)
+
+
 def model_to_imatch_pattern(model: str) -> str:
     """Convert a detected model token into a PostgreSQL regex for the PostgREST
     ``imatch`` operator.

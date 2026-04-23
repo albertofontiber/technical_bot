@@ -661,3 +661,54 @@ Archivos afectados:
 
 **Workaround temporal**: no hay. Los 2 PDFs quedan fuera del corpus hasta arreglar.
 
+
+---
+
+## 18. Judge false positive en chunks densos (nuevo — 23 abril 2026, sesión 14)
+
+**Estado actual**: caso canónico detectado en mc001 ("alarma de batería baja"). El bot citó correctamente valores "27,6 V / 20,4 V / 17,4 V", procedimiento "MODE 8768 [ENTER/STORE]", "48 horas de carga" y "MS-5210UD" todos presentes literalmente en el chunk `MNDT080`. El judge marcó `faithful=False` afirmando *"el bot inventa numerosas afirmaciones técnicas no respaldadas por ningún fragmento"*. Falso positivo verificado re-ejecutando retrieval.
+
+**Mecanismo hipótesis**: el chunk no está truncado (len=1697 chars, bajo el límite de 2000 del judge desde sesión 11). Pero el contenido es denso técnicamente (valores + códigos + pasos intercalados) y el judge falla en localizar las afirmaciones dentro del texto. Diff del bug de sesión 11 (truncación): aquí no hay corte físico, es error cognitivo del modelo al escanear texto denso.
+
+**Trigger para implementar**: ya alcanzado (bug verificado).
+
+**Impacto en eval**: desconocido sin auditoría completa. Si el sesgo se repite en otros chunks densos → baseline está infraestimado.
+
+**Solución propuesta (orden creciente de esfuerzo)**:
+1. Reforzar el prompt del judge con instrucción explícita: *"antes de marcar `faithful=False`, busca LITERALMENTE (substring search) los valores numéricos o nombres de sección de la afirmación en el texto de cada fragmento. Solo si NO aparecen, marca unsupported"*.
+2. Añadir pre-check determinista: extraer tokens numéricos + proper nouns de la respuesta del bot, verificar presencia por string match antes de pasar al judge. Si el token está y el judge marca unsupported → override a supported.
+3. Calibración humana completa (bloque 2 de sesión 14 — diferido por cierre de sesión).
+
+**Coste estimado**: ~2h (refuerzo prompt + evaluación del delta), +4h si se añade pre-check estructural.
+
+---
+
+## 19. Eval single-turn no valida conversaciones multi-turno (nuevo — 23 abril 2026, sesión 14)
+
+**Estado actual**: `scripts/run_eval.py` ejecuta cada pregunta como llamada aislada al bot. Sin historial, sin turnos posteriores. Si el bot pide clarificación en el turno 1, el eval NO verifica que dé respuesta correcta en el turno 2 tras el input del técnico.
+
+**Impacto**: el eval aprueba "el bot clarificó" como éxito sin verificar la calidad del diálogo completo. En producción (Telegram) podría darse la cadena: bot clarifica mal → técnico responde → bot ignora contexto o alucina → falla silencioso que el eval no mediría.
+
+**Ejemplo concreto (sesión 14)**: am005 — bot respondió a *"¿cómo reseteo el panel?"* con una clarificación pidiendo modelo + tipo de reset. El eval marcó `behavior_match=True` y se quedó ahí. No sabemos si el bot, al recibir *"CCD-103, reset tras alarma"*, daría el procedimiento correcto.
+
+**Trigger para implementar**: cuando se prepare piloto con técnicos reales (M&A post-cierre), el eval multi-turno es requisito.
+
+**Solución propuesta**: nuevo YAML `multi_turn_eval_v1.yaml` con 10-15 diálogos de 2-3 turnos + runner que alimenta la respuesta scripted del "técnico" al bot tras cada clarificación.
+
+**Coste estimado**: 4-6h (runner multi-turno + diseño de 10 diálogos + judge adaptado).
+
+---
+
+## 20. Calibración judge pendiente (diferida de sesión 14)
+
+**Estado actual**: sesión 14 identificó en conversación con Alberto al menos 2 sesgos del judge que conviene auditar:
+1. **Estrictez excesiva en clarificaciones**: el judge penaliza `faithful=False` cuando el bot atribuye fabricante a un modelo presente en corpus (ej: am005, bot dijo *"Detnov CCD-100"* — CCD-100 sí está en corpus, "Detnov" es atribución pre-training conocida en la industria). Es metadata de apoyo en clarificación, no invención maliciosa.
+2. **Leniencia en cross-brand con info parcial**: cm003, cm007 pasaban el judge (baseline) pese a que el bot filtraba specs de un producto en consulta cross-brand interop, cuando la política estricta diría admit.
+3. **Judge "pide UN detalle concreto"**: am005 penalizado por pedir 3 detalles (modelo + tipo reset + versión). ¿Debe realmente penalizar formato multi-pregunta?
+4. **Judge false positive en chunks densos** (TECH_DEBT #18 — relacionado).
+
+**Trigger para implementar**: acordado con Alberto al cierre de sesión 14 — pendiente Bloque 2 de la sesión siguiente.
+
+**Solución propuesta**: sesión de calibración humana de 30-45 min con Alberto revisando 8-10 casos con discrepancia keyword↔judge (dump ya preparado al cierre de sesión 14). Aplicar correcciones al prompt del judge + re-eval.
+
+**Coste estimado**: ~45 min contigo + 30 min de implementación + re-eval.
