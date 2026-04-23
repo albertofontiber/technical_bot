@@ -446,16 +446,21 @@ flowchart LR
     linkStyle default stroke:#000000,stroke-width:2px
 ```
 
-**Cómo leer el diagrama**:
+**El eval en 5 pasos** (resumen operativo):
 
-1. Alberto escribe `baseline_v1.yaml` (52 preguntas con `expected_behavior` + `expected_keywords`) y un Judge prompt (criterios + instrucciones).
-2. Por cada eval, Runner invoca el bot 52 veces y pasa cada respuesta a **2 scorers en paralelo**: keyword match (rápido, determinista) y LLM Judge (Sonnet, razonamiento).
-3. **En la práctica, `judge_pass` es la métrica que reportamos como baseline** (ej. *"baseline 25/52 judge"*). El LLM Judge es más robusto porque entiende sinónimos, paráfrasis y razonamiento técnico. Por eso aparece destacado en azul oscuro.
-4. **Pero `keyword_pass` también se calcula y se guarda en paralelo**, no es decorativo. Las **discrepancias** entre las dos métricas son la señal que dispara la calibración:
-   - `keyword=FAIL ∧ judge=PASS` → el bot usó un sinónimo legítimo no previsto en el YAML (ej. *"anular"* por *"aislar"*). Edita YAML con OR-syntax.
-   - `keyword=PASS ∧ judge=FAIL` → el bot escribió los keywords pero inventó algo que el judge detectó. Investigar alucinación.
-   - Concordancia en PASS o FAIL → alta confianza.
-5. Trimestralmente Alberto revisa 6-10 casos con discrepancia o delta sospechoso y, según el tipo de error, edita el YAML o el Judge prompt.
+1. **YAML de entrada**: 52 preguntas, cada una con `expected_behavior` (`answer` / `ask_clarification` / `admit_no_info`) y una lista de `expected_keywords` que deben aparecer en la respuesta. **No hay "respuesta esperada" completa** — escribir 52 respuestas modelo y mantenerlas al día sería inviable.
+2. **Runner**: envía solo la pregunta al bot. El bot ejecuta su pipeline completa (retriever + reranker + generator) y devuelve una respuesta.
+3. **2 scorers evalúan en paralelo**:
+   - **Keyword match**: compara la respuesta del bot vs `expected_keywords` del YAML → `keyword_pass: bool`.
+   - **LLM Judge** (Sonnet 4.6): recibe `(query, respuesta del bot, chunks que usó el retriever, expected_behavior)` y evalúa 5 criterios — `faithful / relevant / helpful / honest / behavior_match`. `judge_pass = True` solo si los 5 son True simultáneamente.
+   - **Sutileza clave**: el judge NO compara contra una respuesta modelo (no existe). Compara la respuesta del bot contra los **chunks que el retriever le dio**. Si los chunks son flojos, ese límite se propaga al veredicto.
+4. **Baseline reportado**: el **`judge_pass`** (nodo azul oscuro del diagrama) es la métrica primaria — ej. *"baseline 25/52 judge"*. `keyword_pass` se mantiene en paralelo como sanity check. Las **discrepancias** entre ambas métricas guían la calibración:
+   - `keyword=FAIL ∧ judge=PASS` → bot usó sinónimo legítimo no previsto (ej. *"anular"* por *"aislar"*) → ampliar YAML con OR-syntax.
+   - `keyword=PASS ∧ judge=FAIL` → bot escribió las keywords pero inventó algo que el judge detectó → investigar alucinación.
+   - Concordancia (ambos PASS o ambos FAIL) → alta confianza en el veredicto.
+5. **Calibración periódica** (trimestral o tras delta sospechoso): Alberto revisa 6-10 casos y, según el tipo de error detectado, edita:
+   - **El YAML**: si las keywords son frágiles, si `expected_behavior` estaba mal planteado, o si la pregunta es ambigua.
+   - **El prompt del judge**: si el judge tiene sesgos sistemáticos (ejemplos reales en sesión 11: truncaba chunks a 500 chars; malinterpretaba citation markers `[F<n>]` como nombres de producto).
 
 </div>
 
