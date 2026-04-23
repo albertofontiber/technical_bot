@@ -431,21 +431,19 @@ flowchart LR
 flowchart LR
     Human[👤 Alberto / técnico<br><i>escribe y revisa las 52 preguntas</i>] --> YAML
     YAML[📝 baseline_v1.yaml<br><i>52 preguntas + behavior esperado + keywords</i>] --> Runner[1 - Correr bot<br><i>invoca CONSULTA sobre cada pregunta</i>]
-    Runner --> Score1[2a - Keyword match<br><i>señal rápida, frágil</i>]
-    Runner --> Score2[2b - LLM-as-Judge<br><i>Claude Sonnet 4.6 evalúa respuesta</i>]
-    Score2 --> J{3 - ¿PASS?<br><i>faithful + helpful<br>+ honest + behavior</i>}
-    Score1 --> Combine[4 - Combine scores]
-    J --> Combine
-    Combine --> Report[📊 % PASS por categoría<br><i>análisis de fails para guiar fixes</i>]
+    Runner --> Score1[2a - Keyword match<br><i>keyword_pass: bool<br>señal rápida, frágil</i>]
+    Runner --> Score2[2b - LLM-as-Judge<br><i>Claude Sonnet 4.6 evalúa<br>faithful + helpful + honest + behavior<br>judge_pass: bool</i>]
+    Score1 --> Combine[3 - Combine per-question<br><i>ambos pass/fail se guardan<br>en el mismo JSON</i>]
+    Score2 --> Combine
+    Combine --> Report[📊 4 - Aggregate<br>% PASS por categoría<br><i>ambas métricas lado a lado<br>análisis de fails guía fixes</i>]
     Report -.->|calibración trimestral<br>detecta bugs del judge| HumanReview[👤 Alberto revisa<br>6-10 casos manualmente]
-    HumanReview -.->|ajuste judge| Score2
+    HumanReview -.->|ajuste prompt judge| Score2
 
     style Human fill:#ffe082,stroke:#000000,color:#000000,stroke-width:2px
     style YAML fill:#e1bee7,stroke:#000000,color:#000000,stroke-width:2px
     style Runner fill:#ffcc80,stroke:#000000,color:#000000,stroke-width:2px
     style Score1 fill:#bbdefb,stroke:#000000,color:#000000,stroke-width:2px
     style Score2 fill:#bbdefb,stroke:#000000,color:#000000,stroke-width:2px
-    style J fill:#fff59d,stroke:#000000,color:#000000,stroke-width:2px
     style Combine fill:#ffffff,stroke:#000000,color:#000000,stroke-width:2px
     style Report fill:#a5d6a7,stroke:#000000,color:#000000,stroke-width:3px
     style HumanReview fill:#ffe082,stroke:#000000,color:#000000,stroke-width:2px
