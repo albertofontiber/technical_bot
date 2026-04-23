@@ -46,7 +46,7 @@ flowchart TB
     I5 ==> DB
 
     %% ========== DB centro ==========
-    DB[(🗄️ Supabase Postgres + pgvector<br>149k chunks)]
+    DB[(🗄️ Supabase Postgres + pgvector<br>168k chunks)]
 
     %% ========== CONSULTA (columna derecha) ==========
     C1[💬 CONSULTA<br>tiempo real] --> C2[👷 Técnico Telegram / voz]
@@ -99,7 +99,7 @@ flowchart LR
     Runner ==>|1 - invoca CONSULTA| Pipeline[CONSULTA<br>retriever + generator]
     Pipeline ==>|2 - respuesta| Runner
     Runner --> Judge[LLM Judge<br>faithful / helpful / honest]
-    Judge --> Metric[📊 Baseline:<br>54% PASS<br>happy_path 65%<br>cross_manual 62%<br>ambig_model 12%]
+    Judge --> Metric[📊 Baseline:<br>48% PASS<br>happy_path 65%<br>cross_manual 62%<br>ambig_model 12%]
     Metric --> Decision{¿Hay regresión<br>o mejora?}
     Decision -->|Delta negativo| Rollback[↩️ Revert cambio]
     Decision -->|Delta positivo| Commit[✅ Commit + aprender]
@@ -245,9 +245,9 @@ flowchart TB
 
 **(6) Storage en Supabase** — Postgres con la extensión `pgvector` almacena los embeddings y permite búsqueda por similitud coseno. Las imágenes van a Supabase Storage (bucket `manual-images`).
 
-> **Por qué importa:** Supabase consolida DB + storage + auth + vector search en un único servicio managed. Alternativa sería manejar Pinecone + S3 + Postgres por separado (3 servicios, 3 costes, 3 integraciones). Para el tamaño actual del corpus (~150k chunks), pgvector ivfflat con `lists=100` ofrece latencia sub-segundo.
+> **Por qué importa:** Supabase consolida DB + storage + auth + vector search en un único servicio managed. Alternativa sería manejar Pinecone + S3 + Postgres por separado (3 servicios, 3 costes, 3 integraciones). Para el tamaño actual del corpus (~168k chunks), pgvector ivfflat con `lists=100` ofrece latencia sub-segundo.
 
-**Corpus actual:** ~150k chunks distribuidos en ~870 documentos, cubriendo 3 fabricantes PCI (Detnov, Notifier, Morley). Arquitectura diseñada para escalar a 30+ fabricantes (ver §6b).
+**Corpus actual:** ~168k chunks distribuidos en ~1.064 documentos, cubriendo 3 fabricantes PCI (Detnov 18.7k, Notifier 116.9k, Morley 32.0k). Arquitectura diseñada para escalar a 30+ fabricantes (ver §6b).
 
 ---
 
@@ -622,7 +622,7 @@ erDiagram
 | **Query rewriting / multi-query** | ❌ | Alto (+15-25% recall) | Sesión 14-15 |
 | **RAGAS metrics (5 dimensiones)** | ❌ (solo overall_pass) | Alto (atribución) | Sesión 14-15 |
 | **Observability (query_logs activos)** | ⚠️ tablas creadas, no escritas | Bloqueante pre-deploy | TECH_DEBT #8 |
-| Migrations versionadas | ⚠️ parcial | Medio (reproducibilidad) | Sesión 13 |
+| Migrations versionadas | ⚠️ parcial | Medio (reproducibilidad) | Sesión 14+ |
 | CI con eval automático | ❌ | Medio (evita regresiones) | Post-deploy |
 | Model routing (Haiku/Sonnet/Opus) | ❌ (solo Sonnet) | Medio (-50% coste) | Post-deploy |
 | Semantic chunking | ❌ (regla fija) | Bajo-medio | Post-deploy |
@@ -641,7 +641,7 @@ erDiagram
 - **Generator** — el SYSTEM_PROMPT detecta dinámicamente qué fabricantes tiene disponibles vía `get_available_manufacturers()`. Añadir un nuevo fabricante no requiere tocar el prompt.
 - **Eval** — el judge es agnóstico al fabricante. Añadir preguntas de Simplex, Apollo, Esser, Bosch, etc. es solo YAML.
 - **Diversificación multi-doc** — funciona con N manuales por producto, sin límite hardcoded.
-- **Supabase + pgvector** — capacidad sobrada. Corpus actual 149k chunks; pgvector soporta millones sin degradación significativa en nuestra configuración (ivfflat lists=100).
+- **Supabase + pgvector** — capacidad sobrada. Corpus actual 168k chunks; pgvector soporta millones sin degradación significativa en nuestra configuración (ivfflat lists=100).
 
 **Lo que NO escala (fricción por fabricante):**
 
