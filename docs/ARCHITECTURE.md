@@ -441,10 +441,10 @@ flowchart LR
         Combine --> Report[📊 4 - Aggregate por categoría<br><i>% keyword_pass y % judge_pass<br>lado a lado, por categoría<br>análisis de fails guía fixes</i>]
     end
 
-    subgraph Periodic ["🕐 Calibración del judge (trimestral, no cada run)"]
+    subgraph Periodic ["🕐 Calibración del judge (trimestral, NO en cada run)"]
         direction LR
-        Report -.->|revisa 6-10 casos| HumanReview[👤 Alberto valida<br>veredictos del judge<br>detecta bugs del prompt]
-        HumanReview -.->|reescribe prompt del judge<br>si encuentra sesgo| Score2
+        Report -.->|muestra 6-10 casos<br>del último eval| HumanReview[👤 Alberto calibra el judge<br><i>compara veredicto del judge<br>con juicio humano<br>detecta sesgos del prompt</i>]
+        HumanReview -.->|si detecta sesgo:<br>reescribe prompt del judge<br>+ re-corre eval| Score2
     end
 
     style Human fill:#ffe082,stroke:#000000,color:#000000,stroke-width:2px
@@ -524,7 +524,7 @@ Sin eval, cualquier cambio de código es **acto de fe**. Con ~150k chunks y 3 su
 
 > **Por qué importa:** un % global de 60% oculta mucha información. Si happy_path está al 90% y cross_manual al 10%, sabemos exactamente dónde hay que trabajar. El reporte por categoría guía las decisiones de siguientes iteraciones.
 
-**(5) Revisión humana del judge (calibración, feedback loop dashed)** — periódicamente (trimestral o tras cambios significativos), un humano lee 6-10 casos manualmente: revisa los chunks reales, la respuesta del bot, y verifica si el veredicto del judge tiene sentido. Si encuentra bugs del judge (truncación de chunks, mala interpretación de citation markers, etc.), se corrige el prompt del judge y se re-corre el eval. No forma parte del ciclo de cada run — es mantenimiento del instrumento de medida.
+**(5) Calibración del judge por humano (feedback loop dashed, periódico — NO en cada run)** — cada ~3 meses o cuando se observa un delta sospechoso, un humano toma una muestra de 6-10 casos del último eval y compara: ¿el veredicto del judge coincide con lo que diría un humano razonable leyendo los mismos chunks + respuesta? Si hay sistemáticamente desacuerdo, el judge tiene un sesgo en su prompt, y se **reescribe el prompt** del judge + se re-corre el eval. Esto NO es validación de cada eval (eso lo hace el analista mirando el % PASS al instante); es **mantenimiento del instrumento de medida**.
 
 > **Por qué es imprescindible:** el judge NO es infalible. Ejemplo histórico real: el judge tenía truncación de 500 chars por chunk, lo que hacía que ignorara contenido relevante después de ese límite; también confundía los citation markers `[F<n>]` del bot con nombres de producto fabricados. Ambos bugs hacían que el baseline aparentara 29% cuando el real era 54%. **Calibrar el judge = corregir el instrumento de medida antes de confiar en los datos.** Sin esto, una métrica baja puede ser bug del judge, no fallo del bot.
 
