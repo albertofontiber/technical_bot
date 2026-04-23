@@ -494,7 +494,7 @@ Sin eval, cualquier cambio de código es **acto de fe**. Con ~150k chunks y 3 su
 > 2. Si un chunk está corrupto (mal extraído del PDF), el judge lo toma como verdad y puede penalizar respuestas correctas.
 > 3. Si la respuesta es más completa que los chunks (el modelo cruza info de varios fragmentos), el judge puede marcarla "unfaithful" aunque sea técnicamente cierta.
 
-**(3) ¿PASS? — decisión de 5 dimensiones** — el judge emite veredicto `True/False` en cada una de estas 5 preguntas, y PASS solo si las 5 son True simultáneamente:
+**(2b.i) Los 5 criterios internos del judge** — el judge emite veredicto `True/False` en cada una de estas 5 dimensiones, y `judge_pass = True` solo si las 5 son True simultáneamente:
 
 | Dimensión | Pregunta que se hace el judge |
 |---|---|
@@ -506,15 +506,15 @@ Sin eval, cualquier cambio de código es **acto de fe**. Con ~150k chunks y 3 su
 
 > **Por qué exigir las 5 y no un promedio:** un bot que es 80% faithful + 80% helpful + 80% honest + 80% relevant + 80% behavior_match da un promedio de 80%, pero la respuesta concreta puede ser inútil (falla en helpful en una pregunta crítica). Exigir las 5 dimensiones True simultáneamente alinea el eval con la realidad binaria del técnico: *o la respuesta le sirve, o no*.
 
-**(4) Combine scores** — junta la señal de keyword match (2a) con el veredicto del judge (2b). En la práctica ambos se reportan por separado y el analista elige cuál es más fiable para su caso.
+**(3) Combine per-question** — por cada pregunta, se guardan juntos los dos booleanos `keyword_pass` y `judge_pass` en el JSON log (no hay "PASS combinado" único; se reportan en paralelo). En la práctica el analista elige cuál es más fiable para su caso.
 
 > **Por qué importa:** los dos métodos tienen sesgos distintos. Si ambos dicen PASS, confianza alta. Si discrepan, vale la pena investigar (a menudo revela un bug del keyword match, del judge o del YAML).
 
-**(5) Reporte por categoría** — agrega los 52 resultados en un % de PASS global + desglose por las 5 categorías de pregunta (happy_path, cross_manual, missing_context, ambiguous_model, not_in_db). Incluye análisis de fails con las razones concretas (keyword missing, judge rationale, retrieval logs).
+**(4) Aggregate por categoría** — agrega los 52 resultados en un % de PASS global (uno para keyword, otro para judge) + desglose por las 5 categorías de pregunta (happy_path, cross_manual, missing_context, ambiguous_model, not_in_db). Incluye análisis de fails con las razones concretas (keyword missing, judge rationale, retrieval logs).
 
 > **Por qué importa:** un % global de 60% oculta mucha información. Si happy_path está al 90% y cross_manual al 10%, sabemos exactamente dónde hay que trabajar. El reporte por categoría guía las decisiones de siguientes iteraciones.
 
-**(6) Revisión humana del judge (calibración)** — periódicamente, un humano lee 6-10 casos manualmente: revisa los chunks reales, la respuesta del bot, y verifica si el veredicto del judge tiene sentido. Si encuentra bugs del judge (truncación de chunks, mala interpretación de citation markers, etc.), se corrige la instrucción del judge y se re-corre el eval.
+**(5) Revisión humana del judge (calibración, feedback loop dashed)** — periódicamente (trimestral o tras cambios significativos), un humano lee 6-10 casos manualmente: revisa los chunks reales, la respuesta del bot, y verifica si el veredicto del judge tiene sentido. Si encuentra bugs del judge (truncación de chunks, mala interpretación de citation markers, etc.), se corrige el prompt del judge y se re-corre el eval. No forma parte del ciclo de cada run — es mantenimiento del instrumento de medida.
 
 > **Por qué es imprescindible:** el judge NO es infalible. Ejemplo histórico real: el judge tenía truncación de 500 chars por chunk, lo que hacía que ignorara contenido relevante después de ese límite; también confundía los citation markers `[F<n>]` del bot con nombres de producto fabricados. Ambos bugs hacían que el baseline aparentara 29% cuando el real era 54%. **Calibrar el judge = corregir el instrumento de medida antes de confiar en los datos.** Sin esto, una métrica baja puede ser bug del judge, no fallo del bot.
 
@@ -538,7 +538,7 @@ Sin eval, cualquier cambio de código es **acto de fe**. Con ~150k chunks y 3 su
 | Audit del YAML (¿sigue correcto el `expected_behavior`?) | Humano con dominio PCI | Cada pocos meses o tras cambios de política |
 | Calibración del judge (¿sigue midiendo bien?) | Humano con dominio PCI | Cuando el delta es sospechoso o el judge se actualiza |
 
-Las flechas punteadas en el diagrama representan esta capa (6) de intervención humana: NO ocurre en cada run del eval (sería impagable), sino puntualmente cuando el delta merece investigación o cuando se toca el propio judge.
+Las flechas punteadas en el diagrama representan la capa (5) de intervención humana: NO ocurre en cada run del eval (sería impagable), sino puntualmente cuando el delta merece investigación o cuando se toca el propio judge.
 
 ---
 
