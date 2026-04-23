@@ -438,7 +438,7 @@ flowchart LR
 
     YAML --> Runner[1 - Correr bot<br><i>invoca CONSULTA sobre cada pregunta</i>]
 
-    subgraph PerRun ["Por cada ejecución del eval (2a + 2b en paralelo)"]
+    subgraph PerRun ["Por cada ejecución del eval — 2a + 2b en paralelo"]
         direction LR
         Runner --> Score1[2a - Keyword match<br><i>lee expected_keywords del YAML</i><br><b>→ keyword_pass: bool</b>]
         Runner --> Score2[2b - LLM Judge runtime<br><i>Claude Sonnet 4.6 evalúa 5 criterios:<br>faithful + relevant + helpful + honest<br>+ behavior_match</i><br><b>→ judge_pass: bool<br>si los 5 son True</b>]
@@ -451,11 +451,11 @@ flowchart LR
     YAML -.expected_behavior.-> Score2
     JudgePrompt -.configs.-> Score2
 
-    subgraph Periodic ["🕐 Calibración periódica (trimestral, NO en cada run)"]
+    subgraph Periodic ["🕐 Calibración periódica - trimestral, NO en cada run"]
         direction LR
         Report -.->|muestra 6-10 casos<br>del último eval| HumanReview[👤 Alberto revisa<br>muestra manualmente]
-        HumanReview -.->|si keyword match es frágil<br>(ej: añadir sinónimo)| YAML
-        HumanReview -.->|si judge tiene sesgo<br>(ej: truncación, miscitación)| JudgePrompt
+        HumanReview -.->|"si keyword match es frágil<br>ej: añadir sinónimo"| YAML
+        HumanReview -.->|"si judge tiene sesgo<br>ej: truncación, miscitación"| JudgePrompt
     end
 
     style Human fill:#ffe082,stroke:#000000,color:#000000,stroke-width:2px
