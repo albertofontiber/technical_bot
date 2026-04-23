@@ -699,6 +699,14 @@ erDiagram
    - Mueve el componente a la descripción del proceso relevante (§4.1–§4.4) como funcionalidad existente.
    - Elimina la entrada de §6 (ya no es gap).
 
+4. **Regla obligatoria de cierre de sesión (Alberto, 23 abril 2026):**
+   - **Antes de cerrar cualquier sesión** (commit final + push + resumen de entrega), Claude debe **revisar este documento y actualizar las cifras/estados que hayan cambiado** durante la sesión:
+     - Corpus size (chunks totales, docs totales, breakdown por fabricante) — query a BD si hubo ingesta.
+     - Baseline eval (judge %, por categoría) — si se corrió eval nuevo.
+     - Entradas de §6 Gap analysis si algún TECH_DEBT se movió de `❌` a `✅` o cambió de sesión objetivo.
+     - Referencias temporales tipo "Sesión N" cuando N ya ha pasado sin cerrar el ítem → subir a "Sesión N+1" o aterrizar en `TECH_DEBT`.
+   - No está permitido cerrar sesión con cifras stale conocidas. Si no hay cambios arquitecturales, basta con verificar y dejar constancia.
+
 ### Regla de Alberto para explicar a inversores
 
 Si no sabrías explicar este documento en 10 minutos con powerpoint básico, algo falta. **Señales de alarma:**
