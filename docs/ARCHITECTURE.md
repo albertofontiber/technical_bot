@@ -429,49 +429,33 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    Human[👤 Alberto / técnico<br><i>mantiene 2 artefactos de configuración</i>]
-    Human --> YAML
-    Human --> JudgePrompt
+    YAML[📝 baseline_v1.yaml<br><i>52 preguntas</i>] --> Runner[1 - Correr bot<br><i>sobre cada pregunta</i>]
+    Runner --> Score1[2a - Keyword match<br><i>sanity check</i><br>→ keyword_pass: bool]
+    Runner --> Score2[<b>2b - LLM Judge</b><br><i>Sonnet evalúa 5 criterios<br>⭐ métrica primaria</i><br><b>→ judge_pass: bool</b>]
+    Score1 --> Report[📊 3 - % PASS por categoría<br><i>keyword y judge lado a lado</i>]
+    Score2 --> Report
+    Report -.trimestral.-> Cal[👤 Alberto calibra<br><i>edita YAML o Judge prompt<br>según el bug</i>]
 
-    YAML[📝 baseline_v1.yaml<br><i>52 preguntas + expected_behavior + keywords</i>]
-    JudgePrompt[📋 Judge prompt<br><i>criterios faithful/relevant/helpful/<br>honest/behavior + instrucciones<br>vive en scripts/run_eval.py</i>]
-
-    YAML --> Runner[1 - Correr bot<br><i>invoca CONSULTA sobre cada pregunta</i>]
-
-    subgraph PerRun ["Por cada ejecución del eval — 2a + 2b en paralelo"]
-        direction LR
-        Runner --> Score1[2a - Keyword match<br><i>lee expected_keywords del YAML</i><br><b>→ keyword_pass: bool</b>]
-        Runner --> Score2[2b - LLM Judge runtime<br><i>Claude Sonnet 4.6 evalúa 5 criterios:<br>faithful + relevant + helpful + honest<br>+ behavior_match</i><br><b>→ judge_pass: bool<br>si los 5 son True</b>]
-        Score1 --> Combine[3 - Combine per-question<br><i>ambos bool se guardan juntos<br>en el JSON por pregunta<br>NO hay PASS combinado</i>]
-        Score2 --> Combine
-        Combine --> Report[📊 4 - Aggregate por categoría<br><i>% keyword_pass y % judge_pass<br>lado a lado, por categoría</i>]
-    end
-
-    YAML -.configs.-> Score1
-    YAML -.expected_behavior.-> Score2
-    JudgePrompt -.configs.-> Score2
-
-    subgraph Periodic ["🕐 Calibración periódica - trimestral, NO en cada run"]
-        direction LR
-        Report -.->|muestra 6-10 casos<br>del último eval| HumanReview[👤 Alberto revisa<br>muestra manualmente]
-        HumanReview -.->|"si keyword match es frágil<br>ej: añadir sinónimo"| YAML
-        HumanReview -.->|"si judge tiene sesgo<br>ej: truncación, miscitación"| JudgePrompt
-    end
-
-    style Human fill:#ffe082,stroke:#000000,color:#000000,stroke-width:2px
     style YAML fill:#e1bee7,stroke:#000000,color:#000000,stroke-width:2px
-    style JudgePrompt fill:#e1bee7,stroke:#000000,color:#000000,stroke-width:2px
     style Runner fill:#ffcc80,stroke:#000000,color:#000000,stroke-width:2px
-    style Score1 fill:#bbdefb,stroke:#000000,color:#000000,stroke-width:2px
-    style Score2 fill:#bbdefb,stroke:#000000,color:#000000,stroke-width:2px
-    style Combine fill:#ffffff,stroke:#000000,color:#000000,stroke-width:2px
+    style Score1 fill:#e3f2fd,stroke:#000000,color:#000000,stroke-width:1px
+    style Score2 fill:#1976d2,stroke:#000000,color:#ffffff,stroke-width:3px
     style Report fill:#a5d6a7,stroke:#000000,color:#000000,stroke-width:3px
-    style HumanReview fill:#ffe082,stroke:#000000,color:#000000,stroke-width:2px
-    style PerRun fill:#f5f5f5,stroke:#424242,color:#000000,stroke-width:1px
-    style Periodic fill:#fff3e0,stroke:#e65100,color:#000000,stroke-width:1px,stroke-dasharray: 5 5
+    style Cal fill:#ffe082,stroke:#000000,color:#000000,stroke-width:2px,stroke-dasharray: 5 5
 
     linkStyle default stroke:#000000,stroke-width:2px
 ```
+
+**Cómo leer el diagrama**:
+
+1. Alberto escribe `baseline_v1.yaml` (52 preguntas con `expected_behavior` + `expected_keywords`) y un Judge prompt (criterios + instrucciones).
+2. Por cada eval, Runner invoca el bot 52 veces y pasa cada respuesta a **2 scorers en paralelo**: keyword match (rápido, determinista) y LLM Judge (Sonnet, razonamiento).
+3. **En la práctica, `judge_pass` es la métrica que reportamos como baseline** (ej. *"baseline 25/52 judge"*). El LLM Judge es más robusto porque entiende sinónimos, paráfrasis y razonamiento técnico. Por eso aparece destacado en azul oscuro.
+4. **Pero `keyword_pass` también se calcula y se guarda en paralelo**, no es decorativo. Las **discrepancias** entre las dos métricas son la señal que dispara la calibración:
+   - `keyword=FAIL ∧ judge=PASS` → el bot usó un sinónimo legítimo no previsto en el YAML (ej. *"anular"* por *"aislar"*). Edita YAML con OR-syntax.
+   - `keyword=PASS ∧ judge=FAIL` → el bot escribió los keywords pero inventó algo que el judge detectó. Investigar alucinación.
+   - Concordancia en PASS o FAIL → alta confianza.
+5. Trimestralmente Alberto revisa 6-10 casos con discrepancia o delta sospechoso y, según el tipo de error, edita el YAML o el Judge prompt.
 
 </div>
 
@@ -528,15 +512,13 @@ Sin eval, cualquier cambio de código es **acto de fe**. Con ~150k chunks y 3 su
 
 > **Por qué exigir las 5 y no un promedio:** un bot que es 80% faithful + 80% helpful + 80% honest + 80% relevant + 80% behavior_match da un promedio de 80%, pero la respuesta concreta puede ser inútil (falla en helpful en una pregunta crítica). Exigir las 5 dimensiones True simultáneamente alinea el eval con la realidad binaria del técnico: *o la respuesta le sirve, o no*.
 
-**(3) Combine per-question** — por cada pregunta, se guardan juntos los dos booleanos `keyword_pass` y `judge_pass` en el JSON log (no hay "PASS combinado" único; se reportan en paralelo). En la práctica el analista elige cuál es más fiable para su caso.
+**(3) % PASS por categoría** — por cada pregunta se guardan los 2 booleanos (`keyword_pass`, `judge_pass`) en el JSON log. El reporte final agrega: % `keyword_pass` y % `judge_pass` global + desglose por las 5 categorías de pregunta (happy_path, cross_manual, missing_context, ambiguous_model, not_in_db). Incluye análisis de fails con las razones concretas (keyword missing, judge rationale, retrieval logs). **No hay PASS combinado** — ambas métricas se reportan en paralelo porque tienen sesgos distintos.
 
-> **Por qué importa:** los dos métodos tienen sesgos distintos. Si ambos dicen PASS, confianza alta. Si discrepan, vale la pena investigar (a menudo revela un bug del keyword match, del judge o del YAML).
+> **Por qué dos métricas en paralelo y no una combinada:** keyword es determinista pero frágil (no maneja sinónimos), judge es flexible pero LLM (puede tener sesgos). Si ambos concuerdan, confianza alta. Si discrepan, revela bug de keyword list, judge o YAML. Una sola métrica combinada perdería esa información de discrepancia.
 
-**(4) Aggregate por categoría** — agrega los 52 resultados en un % de PASS global (uno para keyword, otro para judge) + desglose por las 5 categorías de pregunta (happy_path, cross_manual, missing_context, ambiguous_model, not_in_db). Incluye análisis de fails con las razones concretas (keyword missing, judge rationale, retrieval logs).
+> **Por qué desglose por categoría:** un % global de 60% oculta mucha información. Si happy_path está al 90% y cross_manual al 10%, sabemos exactamente dónde trabajar.
 
-> **Por qué importa:** un % global de 60% oculta mucha información. Si happy_path está al 90% y cross_manual al 10%, sabemos exactamente dónde hay que trabajar. El reporte por categoría guía las decisiones de siguientes iteraciones.
-
-**(5) Calibración periódica por humano (feedback loop dashed, NO en cada run)** — cada ~3 meses o cuando se observa un delta sospechoso, Alberto toma una muestra de 6-10 casos del último eval y compara: ¿keyword_pass y judge_pass coinciden con lo que diría un humano razonable leyendo los mismos chunks + respuesta? El feedback tiene **dos destinos posibles según qué encuentre**:
+**Calibración periódica por humano (feedback loop dashed, NO en cada run)** — cada ~3 meses o cuando se observa un delta sospechoso, Alberto toma una muestra de 6-10 casos del último eval y compara: ¿keyword_pass y judge_pass coinciden con lo que diría un humano razonable leyendo los mismos chunks + respuesta? El feedback tiene **dos destinos posibles según qué encuentre**:
 
 1. **Si el keyword match falla en casos donde el bot respondió bien pero usó sinónimos** (ej: *"anular"* en vez de *"aislar"*) → Alberto edita `baseline_v1.yaml` para añadir OR-patterns (`aislar|anular`). Esto afecta a 2a.
 2. **Si el judge da veredictos injustos sistemáticamente** (ej: truncaba chunks a 500 chars en sesión 11, o trataba citation markers `[F<n>]` como nombres de producto) → Alberto edita el prompt del judge en `scripts/run_eval.py`. Esto afecta a 2b.
