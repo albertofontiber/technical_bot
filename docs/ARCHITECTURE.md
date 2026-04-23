@@ -431,13 +431,21 @@ flowchart LR
 flowchart LR
     Human[👤 Alberto / técnico<br><i>escribe y revisa las 52 preguntas</i>] --> YAML
     YAML[📝 baseline_v1.yaml<br><i>52 preguntas + behavior esperado + keywords</i>] --> Runner[1 - Correr bot<br><i>invoca CONSULTA sobre cada pregunta</i>]
-    Runner --> Score1[2a - Keyword match<br><i>keyword_pass: bool<br>señal rápida, frágil</i>]
-    Runner --> Score2[2b - LLM-as-Judge<br><i>Claude Sonnet 4.6 evalúa<br>faithful + helpful + honest + behavior<br>judge_pass: bool</i>]
-    Score1 --> Combine[3 - Combine per-question<br><i>ambos pass/fail se guardan<br>en el mismo JSON</i>]
-    Score2 --> Combine
-    Combine --> Report[📊 4 - Aggregate<br>% PASS por categoría<br><i>ambas métricas lado a lado<br>análisis de fails guía fixes</i>]
-    Report -.->|calibración trimestral<br>detecta bugs del judge| HumanReview[👤 Alberto revisa<br>6-10 casos manualmente]
-    HumanReview -.->|ajuste prompt judge| Score2
+
+    subgraph PerRun ["Por cada ejecución del eval (paralelo: 2a + 2b)"]
+        direction LR
+        Runner --> Score1[2a - Keyword match<br><i>señal rápida, frágil</i><br><b>→ keyword_pass: bool</b>]
+        Runner --> Score2[2b - LLM-as-Judge<br><i>Claude Sonnet 4.6 evalúa 5 criterios:<br>faithful + relevant + helpful + honest + behavior_match</i><br><b>→ judge_pass: bool<br>si los 5 son True simultáneamente</b>]
+        Score1 --> Combine[3 - Combine per-question<br><i>ambos bool se guardan juntos<br>en el JSON por pregunta<br>NO hay PASS combinado</i>]
+        Score2 --> Combine
+        Combine --> Report[📊 4 - Aggregate por categoría<br><i>% keyword_pass y % judge_pass<br>lado a lado, por categoría<br>análisis de fails guía fixes</i>]
+    end
+
+    subgraph Periodic ["🕐 Calibración del judge (trimestral, no cada run)"]
+        direction LR
+        Report -.->|revisa 6-10 casos| HumanReview[👤 Alberto valida<br>veredictos del judge<br>detecta bugs del prompt]
+        HumanReview -.->|reescribe prompt del judge<br>si encuentra sesgo| Score2
+    end
 
     style Human fill:#ffe082,stroke:#000000,color:#000000,stroke-width:2px
     style YAML fill:#e1bee7,stroke:#000000,color:#000000,stroke-width:2px
@@ -447,6 +455,8 @@ flowchart LR
     style Combine fill:#ffffff,stroke:#000000,color:#000000,stroke-width:2px
     style Report fill:#a5d6a7,stroke:#000000,color:#000000,stroke-width:3px
     style HumanReview fill:#ffe082,stroke:#000000,color:#000000,stroke-width:2px
+    style PerRun fill:#f5f5f5,stroke:#424242,color:#000000,stroke-width:1px
+    style Periodic fill:#fff3e0,stroke:#e65100,color:#000000,stroke-width:1px,stroke-dasharray: 5 5
 
     linkStyle default stroke:#000000,stroke-width:2px
 ```
