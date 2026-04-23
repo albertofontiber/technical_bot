@@ -436,6 +436,64 @@ CREATE INDEX idx_query_gaps_review ON query_gaps(review_status, created_at DESC)
 
 ---
 
+## 11i. Validator cross-model (Opus→Sonnet) — 🔴 REVERTIDO (23 abril 2026, experimento net-negativo)
+
+**Resumen ejecutivo**: implementado y testeado con 2 iteraciones de eval completo. Ambas con resultado **net-neutral o negativo**. Generator.py revertido al estado pre-sesión-13; `src/rag/validator.py` + tests (15) se conservan como dead-code para futura re-exploración.
+
+**Iteración 1 — con fallback branch** (`logs/eval_20260423T074717Z.json`):
+- Keyword 12/52 → **9/52 (-3)**
+- Judge 25/52 → **20/52 (-5)**
+- happy_path 13/20 (65%) → **0/20 (0%)** — colapso total
+- 19/52 preguntas dispararon fallback (n≥4 unsupported → admit_no_info). TODAS fallaron judge.
+- Diagnóstico: fallback convierte answers imperfectas en admits, peor UX que respuesta ruidosa.
+
+**Iteración 2 — fallback eliminado, solo retry** (`logs/eval_20260423T094048Z.json`):
+- Keyword 12/52 → 9/52 (-3)
+- Judge 25/52 → **26/52 (+1 aparente)**
+- Pero desglose: **+7 gains / -9 losses** (churn alto, net -2 de volatilidad)
+- Además, entre baseline (sesión 12) y eval v2 se expandió corpus Morley (+166 privados + 118 guías). Ese +1 probablemente viene del corpus, no del validator.
+
+**Edge cases identificados durante la iteración** (bugs estructurales del enfoque):
+1. **Falsos positivos auto-contradictorios**: Opus marca como `unsupported` un claim cuya propia `reason` dice "los fragmentos mencionan esto" (hp002, hp015).
+2. **Ask_clarification contamination**: heurística `warrants_validation` no detecta preguntas de clarificación del bot. Si bot lista modelos ("tengo ZXe, DXc..."), Opus los marca como unsupported → retry → clarificación degradada.
+3. **Catalog-listing false positives**: si el bot responde "tengo manuales de X, Y, Z" (meta-query), Opus solo ve los chunks del top-k, no el corpus completo. Marca como unsupported productos que SÍ están en corpus.
+4. **Coste operacional**: +2-3x latencia + coste API por query. Inaceptable para producción con técnico-en-urgencia.
+
+**Conclusión** (Alberto + Claude, 23 abril):
+- Validator post-generación con cross-model **no es la capa correcta** para cerrar alucinación en este dominio.
+- Cada categoría de query descubre un nuevo edge case que el heurístico debe saltar → el heurístico acaba haciendo el trabajo, Opus es sello caro.
+- Revert completo en generator.py. Próxima iteración debe probar alternativas: **citation faithfulness estructural** (parsear `[F<n>]` y verificar contenido citado vía string match / BM25, 0 coste LLM) O **reforzar prompt del generator** (anti-ejemplos adicionales, self-check más estricto) O **mejorar retrieval** (causa raíz).
+
+**Contexto**: en sesión 13 se implementó `src/rag/validator.py` (Opus 4.6 auditando respuesta de Sonnet 4.6) para cerrar el residual de alucinación del 11f/g. Smoke test sobre los 5 peores alucinadores reveló límites del validator antes del full eval.
+
+**Hallazgos**:
+
+1. **Falso positivo (hp002)**: Opus marcó *"vida útil configurable de 1 a 24 meses"* como `unsupported`, pero su propio campo `reason` dice *"Los fragmentos mencionan vida útil configurable de 1 a 24 meses"* — literalmente se auto-contradijo. Resultado: fallback injustificado, respuesta bajada.
+2. **Falso negativo (hp010)**: Opus devolvió `unsupported: []` pese a que el bot citaba *"Nivel de usuario 3"* + *"[F3] → OK → 5 → código"* que no está en F3. El judge Sonnet sí detectó la invención. Opus se perdió la miscitation.
+3. **No detecta behavior mismatch (cm001)**: el validator sólo evalúa faithfulness (¿claim ⊆ chunks?). No razona sobre si el bot **debió** haber admitido (cross-brand → admit_no_info). Correcto por diseño; anotar para no atribuirle ese rol.
+
+**Mecanismo probable**:
+- Falso positivo: Opus procesa mal la negación/ubicación del claim en el fragmento cuando éste tiene estructura densa. Prompt del validator es suficientemente estricto pero quizá demasiado genérico — podría añadir "antes de marcar `unsupported`, busca literalmente el valor citado en TODOS los fragmentos".
+- Falso negativo: la miscitation (`[F3]` apuntando al chunk equivocado) requiere que Opus cruce el marker con el índice de fragmentos. Puede mejorarse reforzando el prompt para exigir este cross-check explícitamente.
+
+**Trigger para iterar**:
+- Se cumplió (full eval completado). Delta -5 judge → revertido como default. Próximo intento requiere rediseño arquitectural, no tweaks menores.
+
+**Hipótesis del fallo** (qué salió mal, no obvio a priori):
+1. **Umbral demasiado bajo (4 unsupported → fallback)**: Opus reporta 4+ claims en casi cualquier respuesta factual no-trivial. Inherente al modelo, no a la configuración — Opus es **naturalmente más conservador que Sonnet** en lo que considera "soportado". Un umbral de 8-10 sería más realista, pero entonces el validator casi nunca actuaría y sería inútil.
+2. **Opus confunde paráfrasis legítima con invención**: el fragmento dice "vida útil configurable 1-24 meses, default 6"; la respuesta dice "configurable 1 a 24 meses (defecto: 6 meses)" → Opus marca unsupported citando su propio texto que confirma el claim (auto-contradicción observada en hp002).
+3. **Fallback rompe la semántica de "answer"**: convertir happy_path → admit_no_info no es conservador, es incorrecto. La pregunta pedía info específica; si el validator duda, mejor pasar la respuesta original marcada como "baja confianza" que reemplazarla con admit.
+
+**Solución propuesta (para sesión futura)**:
+1. **Abandonar el fallback**. Si Opus flagea claims, la acción debe ser EDITAR la respuesta (tachar claims concretos) o AÑADIR un warning, no reemplazarla.
+2. **Sustituir Opus por Haiku-strict o Sonnet-con-temperature-alta**: un modelo con menos poder de razonamiento fine-grained es IRÓNICAMENTE mejor validador — solo detecta invenciones obvias y no se mete en paráfrasis.
+3. **Validator como filter en chunks**, no en answer: antes del generator, usar Opus para reescribir los chunks en forma atómica de claims verificables ("chunk dice: X=Y, Z=W"). Generator ve forma canónica, compone respuesta reusando esa forma literal. Alucinación baja sin necesidad de audit posterior.
+4. **O más simple**: NO implementar validator. Invertir el coste en mejorar **prompt del generator** (citation inline forzada con validación estructural de regex `\[F\d+\]` contra contenido del chunk citado).
+
+**Coste estimado**: 6-10h de rediseño arquitectural. Baja prioridad vs. otras mejoras (expansión de corpus, ambiguous_model, missing_context).
+
+---
+
 ## 11d. FTS (search_vector) no matchea términos presentes en content — ✅ RESUELTO (22 abril 2026)
 
 **Estado actual (detectado 22 abril 2026)**: búsquedas FTS vía `search_vector: fts.<término>` devuelven 0 hits para términos que SÍ están literalmente en `content` del chunk. Ejemplo reproducible con CAD-250:
@@ -576,3 +634,30 @@ Dos cosas que se aprendieron:
 2. **El número de fallos del generator aislado es real**: cuando el retrieval funciona y el bot sigue diciendo *"no tengo información"* es un fail del generator, no del corpus. TECH_DEBT #11b creado para rastrearlo.
 
 Regla operativa que sale de esta sesión: **toda predicción eval-driven debe declarar la métrica Y el canal esperado** (ej. *"pronostico +X PASS y/o +Y behavior-flips de admit_no_info a answer en Notifier/Morley"*). Si el delta divergir del canal previsto, eso ya es información, no fracaso — siempre que el fix haga lo que dijimos en el canal técnicamente correcto.
+
+
+---
+
+## 17. Embedding batch supera el límite de 300k tokens en manuales Morley muy largos (nuevo — 23 abril 2026)
+
+**Estado actual (detectado 23 abril 2026 en ingesta Manuales_Morley_Privado)**: 2 PDFs fallaron la ingesta con error de OpenAI:
+```
+Error code: 400 - {'error': {'message': "Invalid 'input': maximum request size is 300000 tokens per request."}}
+```
+Archivos afectados:
+- `MIE-MI-300rv02.pdf` — falló en batch 800-900 (100 texts)
+- `MIE-MP-315.pdf` — falló en batch 0-100 (100 texts)
+
+**Mecanismo**: `src/ingestion/embedder.py` agrupa chunks en batches de 100 para el call a `embeddings.create`. Cuando los chunks individuales son muy largos (1500 tokens cada uno × 100 = 150k) pero el manual tiene chunks que exceden el target size (ej. secciones sin boundary detectado), el batch puede saltar los 300k tokens hard-limit de OpenAI.
+
+**Trigger para implementar**: ya alcanzado (2 manuales no ingestables sin fix).
+
+**Solución propuesta**:
+1. **Adaptive batch sizing**: antes de enviar, sumar `len(tiktoken.encode(...))` de cada chunk; si total > 280k, partir en sub-batches.
+2. **Fallback simpler**: batch size dinámico: en vez de 100 fijos, empezar en 100 y dividir por 2 tras cada 400 error hasta que pase (max 3 intentos).
+3. **Log detallado**: hoy el log dice 'batch 800-900 failed' sin indicar qué chunk tenía overflow — añadir per-chunk token count en el error.
+
+**Coste estimado**: ~1-2h (detección vía tiktoken + sub-batching + test).
+
+**Workaround temporal**: no hay. Los 2 PDFs quedan fuera del corpus hasta arreglar.
+

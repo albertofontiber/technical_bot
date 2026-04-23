@@ -30,9 +30,15 @@ evals/results/
 # Manuales descargados — grandes, no van al repo
 Manuales_ES/
 Manuales_Morley/
+Manuales_Morley_Privado/
+Manuales_Morley_Guias/
 Manuales_Notifier/
 Manuales_Notifier_Privado/
 manuales/
+
+# Source-of-truth index del scraper de guías (troubleshooting Morley)
+# Se versiona aunque sea xlsx porque lo usa scripts/download_morley_guias.py
+!Guia Tecnica Morley.xlsx
 
 # Scratch
 *.log

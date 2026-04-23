@@ -396,7 +396,7 @@ flowchart LR
 > 5. **Self-check final** — *"Antes de enviar tu respuesta, revisa que cada número / nombre de sección / norma aparezca literalmente en los fragmentos."*
 > 6. **Política cross-brand** — *"Si la query mezcla fabricantes distintos, admite limitación y remite a cada uno. NO infieras compatibilidad entre marcas."*
 >
-> El prompt es una instrucción al modelo, **no una garantía**. Claude Sonnet 4.6 la respeta la mayoría de las veces pero queda un residuo de alucinaciones. Para cerrarlo se planifica validación estructural post-generación con un modelo diferente (p.ej. Opus revisando Sonnet).
+> El prompt es una instrucción al modelo, **no una garantía**. Claude Sonnet 4.6 la respeta la mayoría de las veces pero queda un residuo de alucinaciones. En sesión 13 (23 abril 2026) se exploró una **validación post-generación cross-model** con Claude Opus auditando las respuestas de Sonnet, pero el experimento fue **net-neutral sobre el eval** (+1 PASS con +7/-9 churn — ruido, no señal) y reveló problemas estructurales (falsos positivos, casos edge como clarificaciones y catalog-listing). Revertido; `src/rag/validator.py` queda como dead-code preservado por si futuras iteraciones prueban otra arquitectura. Ver `TECH_DEBT.md` entrada 11i para el análisis completo.
 
 **(2) Llamada única al LLM (Claude Sonnet 4.6, temperature=0)** — el prompt completo se envía al modelo a través de la API de Anthropic. Una única llamada, una única respuesta. Dentro de esa llamada, el modelo hace dos cosas conceptuales: **genera** la respuesta candidata y **auto-verifica** cada afirmación contra los chunks ANTES de emitir el output final.
 
