@@ -788,3 +788,39 @@ Aplicable también a am003 (ASD sin variante → "tengo datos del ASD535, ¿es t
 
 **Decisión actual (sesión 16, 24 abril 2026)**: **diferido como opción C** — am008 queda como FAIL estable documentado (judge 47/52 = 90% lo asume). La política "clarify pura si query ambigua" se mantiene porque es el default seguro hasta que (a) tengamos señal real de UX friction en Fase 3, (b) el corpus crezca al punto donde la asimetría fragmentos-único-vs-múltiple se vuelva frecuente. Si am008 flippea a PASS en un run futuro sin que hayamos tocado nada, es señal de regresión (el bot dejó de clarificar) — tratar como test de no-regresión.
 
+---
+
+## 24. Extracción de tablas pierde marcas visuales (X/✓) — genera alucinación por relleno (hp007, sesión 16)
+
+**Estado actual**: el chunker/parser PDF extrae tablas matriz (ej. Tabla 7-1 del manual VESDA-E VEP-A00: calendario de mantenimiento con 7 tareas × 4 frecuencias) preservando headers y nombres de filas pero perdiendo las marcas visuales (X, ✓, ticks) que asignan cada tarea a una frecuencia. El chunk llega al generator con la tabla "vacía" — texto legible pero sin la información estructural clave. El generator, al verla incompleta, rellena con conocimiento de pretraining pretendiendo que la asignación viene del fragmento (alucinación inducida por ingest defectuoso).
+
+**Evidencia (hp007, sesión 16)**: query *"¿Cómo se realiza el test anual de un detector VESDA-E VEP según el manual del fabricante?"*. Bot listó 5 tareas como "Una vez al año" (prueba de humos, comprobar flujo, limpiar puntos, limpiar con agua, sustituir filtro). Los chunks retrievados F1-F5 (4 duplicados del mismo contenido) contienen literal las 7 tareas y las 4 columnas de frecuencia, pero las celdas de intersección están vacías — no hay manera de que el bot sepa qué tarea va con qué frecuencia desde el chunk. El bot rellenó.
+
+**Alcance del problema**: no específico de VESDA-E. Cualquier PDF con tabla matriz donde las celdas tienen marcas visuales sufre el mismo fallo. Probablemente recurrente en:
+- Calendarios de mantenimiento (frecuencia × tarea).
+- Matrices de compatibilidad (producto × función).
+- Tablas de códigos de error (código × causa × acción).
+
+Coverage desconocido en los ~168k chunks. Requiere auditoría.
+
+**Trigger para implementar**: este item bloquea el cierre de hp007 como PASS real en el eval. Además, en producción puede producir respuestas confidentes-pero-inventadas en cualquier pregunta que dependa de una tabla matriz — alto impacto en seguridad del técnico.
+
+**Solución propuesta (combinación A + C)**:
+
+**A — Prompt rule defensiva (1h, bajo riesgo, síntoma inmediato)**:
+Añadir al SYSTEM_PROMPT: *"Si ves una tabla con headers y filas pero las celdas de valores están vacías (sin X/✓/números), NO infieras las asignaciones. Admite explícitamente: 'La Tabla X existe con estas N tareas y M frecuencias, pero no puedo leer las marcas de asignación en el chunk recuperado; consulta el manual físico para la asignación exacta.'"* No resuelve causa raíz pero limita daño inmediatamente.
+
+**C — Detector proactivo en ingest + re-ingest selectivo (3-4h, causa raíz sistemática)**:
+1. Heurística en el chunker: al extraer una tabla, medir ratio de celdas vacías. Si >50%, log warning + flag `table_incomplete=True` en metadata del chunk.
+2. Script de auditoría: `SELECT source_file, count(*) FROM chunks WHERE table_incomplete=True GROUP BY source_file ORDER BY count DESC` → lista de manuales afectados priorizada.
+3. Re-ingestar los top-N afectados con `--use-vision` (infra existente, TECH_DEBT #13) para recuperar marcas visuales vía Claude Vision.
+4. Validar que las tablas re-ingestadas preservan asignaciones (smoke test de 3-5 queries por manual).
+
+**B y D consideradas y descartadas**:
+- **B** (re-ingest único del VESDA con `--use-vision`): solo parchea este caso, no identifica otros.
+- **D** (reemplazar parser con `camelot`/`pdfplumber` + re-ingestar todo): ~1-2 días, riesgo de regresión en extracciones que sí funcionan. Overkill hasta saber el scope.
+
+**Decisión actual (sesión 16, 24 abril 2026)**: diferido. Calibrar judge primero (TECH_DEBT #18/#20) para tener métrica fiable; después aplicar A como quick-win y lanzar C como auditoría sistemática. D se reserva para si A+C no es suficiente.
+
+**Coste estimado**: A = 1h. C = 3-4h + audit + re-ingest de manuales afectados (variable según scope). Combinado: ~1 sesión.
+
