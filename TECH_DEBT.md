@@ -824,3 +824,73 @@ Añadir al SYSTEM_PROMPT: *"Si ves una tabla con headers y filas pero las celdas
 
 **Coste estimado**: A = 1h. C = 3-4h + audit + re-ingest de manuales afectados (variable según scope). Combinado: ~1 sesión.
 
+---
+
+## 25. Vocabulary mismatch retriever — stack de 3 capas (hp001, sesión 16)
+
+**Estado actual**: el retriever falla inconsistentemente cuando el vocabulario del técnico diverge del vocabulario del manual. Caso documentado (hp001): query *"¿cómo se entra al menú de **programación avanzada** de la CAD-250?"* — los chunks con `section_title = "AJUSTES (Menú principal) > AVANZADO(Submenú)"` existen en BD (verificado: IDs `267d9584-...`, `b7476847-...`, source `CAD-250-MC-380-es`, content literal *"Para acceder a estos ajustes pulse: AJUSTES > AVANZADO"*) pero **no suben al top-20/46 del retriever** porque la palabra "programación" no aparece en el content (el manual usa "configuración", "ajustes", "puesta en marcha"). Behavior: flaky — 5 FAIL / 6 PASS en 11 runs históricos, según el reranker trae o no el chunk correcto.
+
+**Alcance**: no es bug aislado. Es limitación inherente del retriever actual (vector + BM25 sobre content) cuando el técnico usa terminología de campo que no coincide con la terminología del manual. Frecuente en:
+- Queries con palabras comunes (*"programación"*, *"setup"*, *"inicializar"*) que el manual documenta con sinónimos (*"configuración"*, *"puesta en marcha"*, *"reset"*).
+- Queries abstractas / conceptuales donde el manual usa pasos concretos.
+- Cross-language (técnico escribe castellano estándar, manual usa mexicanismos o anglicismos técnicos).
+
+**Stack de 3 capas** (best practice industrial, ordenado por ROI e implementación recomendada):
+
+### Fase 1 — Hybrid retrieval con field boosting sobre `section_title` (next sprint, ~3-5h)
+
+**Qué**: indexar `section_title` en FTS además del content. Boost de matches en título ×2 porque los títulos son texto curado, alto valor (cadenas de navegación tipo *"AJUSTES > AVANZADO > Sistema"*).
+
+**Por qué primero**: hp001 tiene "AJUSTES" y "AVANZADO" literal en el section_title pero el retriever no los usa para ranking. Fix quirúrgico, alto ROI para corpus de manuales técnicos con títulos descriptivos.
+
+**Cómo**: (1) añadir columna `search_vector_title` generada desde `section_title` con `to_tsvector('spanish', ...)`. (2) Modificar `search_chunks_text` RPC para unir búsqueda sobre content + title con boost. (3) Reranker puede usar el boost como señal adicional.
+
+**Coste**: ~3-5h (migration + RPC + tests + re-eval subset).
+
+### Fase 2 — Metadata enrichment por chunk durante ingest (pre-Fase 3 Telegram, ~1-2 días)
+
+**Qué**: durante ingest, llamar a Claude Haiku por cada chunk para generar: (a) 5-10 sinónimos/paráfrasis del concepto central, (b) 3-5 preguntas frecuentes que ese chunk responde, (c) keywords de dominio PCI relacionados. Almacenar en `chunk.enriched_synonyms`, `chunk.enriched_faqs`, `chunk.enriched_keywords`. Indexar en FTS.
+
+**Por qué segundo**: generaliza a cualquier vocabulary mismatch, no solo hp001. Pago único ($500 aprox en Haiku para 168k chunks), beneficio permanente en runtime (latencia igual que hoy, determinístico).
+
+**Cómo**: (1) script `enrich_chunks.py` que itera BD y para cada chunk llama Haiku con prompt estructurado (output JSON). (2) Migration para columnas nuevas + índice FTS. (3) Modificar retriever para buscar en union(content, synonyms, faqs, keywords) con boosts. (4) Validar con subset de queries históricas fallidas.
+
+**Coste**: ~1-2 días (prompt design + script + migration + smoke test). $500 en API.
+
+### Fase 3 — Agentic RAG con failure detection + reformulación (Fase 4 del proyecto, condicional, ~1 semana)
+
+**Qué**: Claude decide dinámicamente si tiene info suficiente; si no, reformula query y pide retrieval otra vez. Opcionalmente multi-hop (2-3 búsquedas encadenadas para preguntas compuestas).
+
+**Por qué tercero (y condicional)**: solo aporta valor cuando el bottleneck deja de ser vocabulary (cubierto por 1+2) y pasa a ser (a) queries multi-hop reales *(ej. "qué cambios de cableado migrando de AFP-200 a ID3000")*, (b) queries que requieren que el bot decida cuándo parar/reformular, (c) multi-turn (TECH_DEBT #19). Con las 52 preguntas actuales no hay signal claro de multi-hop; predominan single-hop.
+
+**Cons** si se implementa prematuramente: 2-3× latencia/coste por query (inaceptable en campo con alarma sonando), loops impredecibles difíciles de debuggear, cambio arquitectural mayor.
+
+**Cómo**: Claude Agent SDK o tool-use nativo. Definir tools `search_corpus(query, top_k)`, `clarify_with_user(question)`, `finalize_answer(response)`. Loop hasta terminación con límite de 3 iteraciones.
+
+**Coste**: ~1 semana + cambio infra + eval multi-turn.
+
+### Relación entre las 3 fases
+
+Son **capas ortogonales, se apilan** (no son alternativas):
+
+```
+┌─────────────────────────────────────┐
+│  Fase 3 — AGENTE (orchestration)    │
+│  decide cuándo reformular / parar   │
+├─────────────────────────────────────┤
+│  Fase 1 — RETRIEVAL hybrid + boost  │
+│  section_title + content + BM25     │
+├─────────────────────────────────────┤
+│  Fase 2 — ÍNDICE enriquecido        │
+│  synonyms + faqs + keywords         │
+└─────────────────────────────────────┘
+```
+
+Apilar Fase 3 sobre 1+2 = agente reformulando queries sobre índice rico (máxima probabilidad de encontrar). Apilar Fase 3 sin 1+2 = agente reformulando sobre índice pobre (2-3× coste sin fix de base). **Nunca hacer 3 antes de 1+2**.
+
+### Decisión actual (sesión 16, 24 abril 2026)
+
+Diferido. Fase 1 es candidata prioritaria para sesión 17 o 18 (quick win, alto ROI). Fase 2 se activa cuando se acerque el despliegue de Fase 3 Telegram (necesitamos runtime determinístico y baja latencia). Fase 3 solo si/cuando aparezcan signals reales de multi-hop o el bot necesite decidir dinámicamente (probablemente Fase 4+).
+
+**Coste estimado total**: Fase 1 = 3-5h · Fase 2 = 1-2 días + $500 · Fase 3 = 1 semana (condicional).
+
