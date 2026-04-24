@@ -233,7 +233,7 @@ def score_sources(citations_text: str, expected: list[str]) -> int:
 # PASS on a small human-verified gold subset.
 
 JUDGE_MODEL = "claude-sonnet-4-6"  # different from LLM_MODEL is ideal; we only have Claude
-JUDGE_MAX_TOKENS = 900
+JUDGE_MAX_TOKENS = 2000  # raised from 900 (sesión 16) — judge v3 rules require end-to-end chunk inspection; 900 truncated JSON on dense cases (hp007/012/016)
 
 JUDGE_PROMPT = """Eres el evaluador de un chatbot técnico que ayuda a técnicos de protección contra incendios (PCI). Tu trabajo es juzgar UNA respuesta del bot contra los fragmentos de manual disponibles.
 
@@ -269,6 +269,14 @@ El bot solo vio los fragmentos de la Sección F. Tú tienes visibilidad adiciona
 - Si NO aparece en ningún F NI en ningún V: **citation_faithful=false**, **corpus_faithful=false**. Esto sí es alucinación real.
 
 El criterio que bloquea el PASS es **corpus_faithful**, no citation_faithful. La miscitación es un flag menor (bug del retriever/generator), no un fail del bot. Paráfrasis, sinónimos, y texto equivalente cuentan como "aparece" — no exigimos coincidencia literal palabra por palabra.
+
+REGLAS DE LECTURA DE CHUNKS (aplicar antes de juzgar corpus_faithful, no saltarse):
+
+(a) **Tablas estructuradas dentro del chunk**. Los chunks frecuentemente contienen tablas con cabeceras + filas + celdas con valores alfanuméricos (números, códigos, estados, nombres). Estas tablas pueden aparecer en cualquier posición del chunk — inicio, medio, final — y con separadores visuales variables (|, -, espacios múltiples, saltos de línea columnar). **Lee el chunk END-TO-END**. Si una tabla contiene un valor (ej. "Pulsación verde larga | El dispositivo no está en funcionamiento", o "10 lazos × 99 detectores = 990"), ese valor forma parte del corpus. Ejemplo negativo (NO hacer): escanear la narrativa inicial de un chunk de 4000 chars y concluir "el dato X no aparece en F1" cuando la tabla al final del chunk lo lista explícitamente.
+
+(b) **Chunks con PDF font encoding parcialmente corrupto**. Algunos chunks presentan texto corrupto por extracción defectuosa del PDF (caracteres desplazados tipo ROT, ej. `'LVSRVLWLYRV 'LUHFFLRQDEOHV` en vez de `Dispositivos Direccionables`, o `$0` en vez de `AM`). En estos chunks **alternan** secciones ilegibles con islas legibles — típicamente los patrones alfanuméricos puros (números, modelos tipo `LIB-200`, códigos tipo `990 + 990 = 1980`, nombres `AM2020/AFP1010`) sobreviven al encoding roto porque no usan las fuentes afectadas. **No descartes un chunk por ruido visual**; busca específicamente islas legibles de números, códigos de modelo y nombres propios antes de concluir que un dato no está.
+
+(c) **Tablas con celdas vacías (detección de falso soporte)**. Si un chunk contiene una tabla que tiene headers y nombres de filas PERO las celdas de intersección (valores) están vacías o solo tienen separadores (`|  |  |`), esa tabla **no soporta afirmaciones sobre asignaciones entre filas y columnas**. Ejemplo: una tabla "Tarea × Frecuencia" con 7 tareas y 4 columnas pero sin marcas X/✓ en las intersecciones — el chunk NO dice qué tarea va con qué frecuencia, aunque liste las tareas y las frecuencias por separado. Si el bot afirma asignaciones específicas desde una tabla así, es **corpus_faithful=false** (alucinación por ingest defectuoso). Los nombres de filas y columnas sí están en el chunk; la relación entre ellos no.
 
 Evalúa los siguientes criterios:
 
@@ -306,9 +314,11 @@ def _format_chunks_for_judge(chunks_used: list[dict], full_chunks: list[dict] | 
     trace we'd need to re-run retrieval to get content; cheaper path is
     to pass the run_single reranked list forward when available.
 
-    Chunk content is truncated at 2000 chars (was 500 before calibration on
-    20 abril 2026). 8 chunks pass through (was 6) to match the reranker's
-    typical top-k.
+    Chunk content is truncated at 4500 chars (was 2000; raised sesión 16 after
+    discovering that LED tables at the end of ~4200-char chunks were physically
+    truncated out of the judge's view — root cause of false positives on hp016,
+    hp007, partially hp012). 8 chunks pass through (was 6) to match the
+    reranker's typical top-k.
     """
     src = full_chunks if full_chunks else chunks_used
     if not src:
@@ -319,7 +329,7 @@ def _format_chunks_for_judge(chunks_used: list[dict], full_chunks: list[dict] | 
         sf = c.get("source_file", "?")
         sec = c.get("section_title") or ""
         content = c.get("content", "")
-        preview = content[:2000] if content else "(sin contenido almacenado)"
+        preview = content[:4500] if content else "(sin contenido almacenado)"
         lines.append(
             f"[Fragmento F{i+1}] Producto: {pm} | Sección: {sec[:80]} | Fuente: {sf}\n{preview}"
         )
@@ -388,7 +398,7 @@ def _format_verification_chunks(chunks: list[dict]) -> str:
         sf = c.get("source_file", "?")
         sec = c.get("section_title") or ""
         content = c.get("content", "")
-        preview = content[:1500] if content else "(sin contenido)"
+        preview = content[:3500] if content else "(sin contenido)"
         lines.append(
             f"[Fragmento V{i+1}] Producto: {pm} | Sección: {sec[:80]} | Fuente: {sf}\n{preview}"
         )
@@ -439,10 +449,32 @@ def score_llm_judge(
             messages=[{"role": "user", "content": prompt}],
         )
         raw = resp.content[0].text.strip()
-        # Strip markdown code fences if Claude added them
-        if raw.startswith("```"):
-            raw = raw.split("\n", 1)[1].rsplit("```", 1)[0].strip()
-        verdict = json.loads(raw)
+        # Extract JSON from response. Judge sometimes prefixes reasoning before
+        # the JSON block (especially with v3 rules that require end-to-end
+        # chunk inspection). Strategy: prefer markdown fence extraction; fall
+        # back to last-balanced-brace scan; final fallback is raw.
+        def _extract_json(text: str) -> str:
+            # Case 1: ```json ... ``` or ``` ... ``` anywhere
+            fence_match = re.search(r"```(?:json)?\s*\n?(.*?)```", text, re.DOTALL)
+            if fence_match:
+                return fence_match.group(1).strip()
+            # Case 2: last balanced {...} in the text (judge reasoning + JSON)
+            depth = 0
+            start = -1
+            last_valid = None
+            for i, ch in enumerate(text):
+                if ch == "{":
+                    if depth == 0:
+                        start = i
+                    depth += 1
+                elif ch == "}":
+                    depth -= 1
+                    if depth == 0 and start >= 0:
+                        last_valid = text[start:i+1]
+            if last_valid:
+                return last_valid
+            return text
+        verdict = json.loads(_extract_json(raw))
         # Back-compat: also expose 'faithful' field mirroring corpus_faithful so
         # legacy analysis scripts that key on faithful still work.
         corpus_f = bool(verdict.get("corpus_faithful", False))
