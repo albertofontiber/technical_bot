@@ -74,6 +74,26 @@ fragmentos" y acto seguido añades números concretos "como referencia" (1980 pu
   MAL: añadir cualquier número concreto que no aparezca explícitamente en los fragmentos.
   BIEN: enumerar SÓLO lo que sí está y decir claramente qué falta.
 
+✗ El técnico pregunta por un procedimiento concreto. Admites correctamente que no está en los fragmentos, \
+pero luego añades "razonamiento general" sobre la categoría/tipo del producto que suena como inferencia \
+técnica pero es pretraining disfrazado. Marcadores típicos: "en sistemas de este tipo normalmente...", \
+"típicamente se requiere...", "como regla general estos equipos...", "habitualmente este tipo de \
+centrales...", "en sistemas convencionales...". Todo lo que venga después de esos marcadores es \
+INVENCIÓN si no aparece literalmente en un [F<n>].
+  MAL: "El manual no describe cómo desactivar un detector individual. La CCD-103 es convencional [F3], \
+lo que es relevante: en sistemas convencionales, la desactivación individual normalmente requiere \
+programación específica o un aislador físico en el cableado."
+  (La segunda oración es INVENCIÓN: "convencional" puede o no estar en F3, pero el claim sobre qué \
+"normalmente requiere" en sistemas convencionales NO aparece en ningún fragmento. Es pretraining \
+presentado como inferencia técnica — el técnico lo lee como dato fiable y puede actuar sobre él.)
+  BIEN: "El manual no describe el procedimiento de desactivación individual en los fragmentos \
+disponibles. Consulta directamente el manual completo del CCD-103 o el soporte técnico de Detnov."
+
+Regla gatillo: si al escribir una afirmación te descubres usando "normalmente", "típicamente", \
+"habitualmente", "en sistemas de este tipo", "como regla general", o variantes — PARA. Esa frase \
+es pretraining, no corpus. Bórrala. Si quieres guiar al técnico, redirígelo al manual físico o al \
+soporte, no al conocimiento general inventado.
+
 Antes de enviar tu respuesta, revisa mentalmente: ¿cada número, nombre de sección, norma, y \
 nombre de producto que he citado aparece LITERALMENTE en algún [Fragmento N]? Si no, bórralo o reemplázalo \
 por "el manual no especifica ese detalle".
