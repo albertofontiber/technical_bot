@@ -847,6 +847,26 @@ Añadir al SYSTEM_PROMPT: *"Si ves una tabla con headers y filas pero las celdas
 
 **Coste**: ~3-5h (migration + RPC + tests + re-eval subset).
 
+### Fase 1b — BM25 + RRF hybrid fusion (condicional, ~5-7h)
+
+**Qué**: upgrade del retriever a hybrid search state-of-the-art industrial:
+1. **BM25** vía extensión `pg_search` (ParadeDB) — índice BM25 nativo sobre `content` + `section_title` con weights más granulares que los 4 niveles A/B/C/D de `setweight`. Ranking ~2-5% mejor que `ts_rank` clásico para queries con múltiples keywords.
+2. **RRF (Reciprocal Rank Fusion)** — nueva RPC `hybrid_search` que combina rankings de vector search + BM25 con `score = 1/(k + vector_rank) + 1/(k + bm25_rank)` (k=60 típicamente). Canonical industry standard para hybrid search (Weaviate, Pinecone, Elasticsearch 8.x lo implementan built-in).
+
+**Relación con Fase 1**: Fase 1b es **ortogonal a Fase 1**, no la sustituye. Fase 1 mete title en el tsvector con `setweight`; Fase 1b añade BM25 (scoring más fino) y RRF (combinación vector+FTS). Fase 1b no depende de trigger vs Generated STORED — son capas independientes.
+
+**Trigger para implementar**: si tras Fase 1 (setweight title) + Fase 2 (metadata enrichment) el baseline judge se estanca por debajo del 95% y el gap restante es de retrieval recall, Fase 1b es el siguiente escalón. Si no hay gap de recall, no merece la pena: BM25+RRF son mejora marginal (~2-5%) comparado con el coste de instalar extensión + refactor de RPC.
+
+**Cómo**:
+1. Instalar extensión `pg_search` (ParadeDB). Requiere permisos admin en Supabase.
+2. Crear índice BM25 sobre `chunks` con fields `content` (weight 1.0) + `section_title` (weight 2.0) + `enriched_synonyms` (weight 1.5 — requiere Fase 2).
+3. Nueva RPC `hybrid_search(query, top_k)` que ejecuta 2 CTEs (vector_search top-50, bm25_search top-50) y combina con RRF score.
+4. Modificar `retriever.py` para llamar a `hybrid_search` en lugar de vector+keyword separados.
+
+**Coste**: ~5-7h (extensión + índice + RPC + refactor + eval). Sin coste API adicional.
+
+**Decisión actual (sesión 17, 24 abril 2026)**: diferido. Implementar solo si Fase 1 + Fase 2 no alcanzan target y el análisis de FAILs muestra gap de retrieval recall (no de generation, no de behavior). Si el gap es retrieval, Fase 1b es best-practice industrial para cerrar.
+
 ### Fase 2 — Metadata enrichment por chunk durante ingest (pre-Fase 3 Telegram, ~1-2 días)
 
 **Qué**: durante ingest, llamar a Claude Haiku por cada chunk para generar: (a) 5-10 sinónimos/paráfrasis del concepto central, (b) 3-5 preguntas frecuentes que ese chunk responde, (c) keywords de dominio PCI relacionados. Almacenar en `chunk.enriched_synonyms`, `chunk.enriched_faqs`, `chunk.enriched_keywords`. Indexar en FTS.
@@ -869,28 +889,31 @@ Añadir al SYSTEM_PROMPT: *"Si ves una tabla con headers y filas pero las celdas
 
 **Coste**: ~1 semana + cambio infra + eval multi-turn.
 
-### Relación entre las 3 fases
+### Relación entre las 4 fases
 
 Son **capas ortogonales, se apilan** (no son alternativas):
 
 ```
-┌─────────────────────────────────────┐
-│  Fase 3 — AGENTE (orchestration)    │
-│  decide cuándo reformular / parar   │
-├─────────────────────────────────────┤
-│  Fase 1 — RETRIEVAL hybrid + boost  │
-│  section_title + content + BM25     │
-├─────────────────────────────────────┤
-│  Fase 2 — ÍNDICE enriquecido        │
-│  synonyms + faqs + keywords         │
-└─────────────────────────────────────┘
+┌──────────────────────────────────────────┐
+│  Fase 3 — AGENTE (orchestration)         │
+│  decide cuándo reformular / parar        │
+├──────────────────────────────────────────┤
+│  Fase 1b — BM25 + RRF (condicional)      │
+│  hybrid fusion vector + BM25             │
+├──────────────────────────────────────────┤
+│  Fase 1 — RETRIEVAL weighted FTS         │
+│  section_title (A) + content (B)         │
+├──────────────────────────────────────────┤
+│  Fase 2 — ÍNDICE enriquecido             │
+│  synonyms + faqs + keywords              │
+└──────────────────────────────────────────┘
 ```
 
-Apilar Fase 3 sobre 1+2 = agente reformulando queries sobre índice rico (máxima probabilidad de encontrar). Apilar Fase 3 sin 1+2 = agente reformulando sobre índice pobre (2-3× coste sin fix de base). **Nunca hacer 3 antes de 1+2**.
+Apilar Fase 3 sobre 1+2 = agente reformulando queries sobre índice rico (máxima probabilidad de encontrar). Apilar Fase 3 sin 1+2 = agente reformulando sobre índice pobre (2-3× coste sin fix de base). **Nunca hacer 3 antes de 1+2**. **Fase 1b solo si Fase 1 + Fase 2 no son suficientes y el gap restante es recall de retrieval**.
 
 ### Decisión actual (sesión 16, 24 abril 2026)
 
-Diferido. Fase 1 es candidata prioritaria para sesión 17 o 18 (quick win, alto ROI). Fase 2 se activa cuando se acerque el despliegue de Fase 3 Telegram (necesitamos runtime determinístico y baja latencia). Fase 3 solo si/cuando aparezcan signals reales de multi-hop o el bot necesite decidir dinámicamente (probablemente Fase 4+).
+Diferido. Fase 1 es candidata prioritaria para sesión 17 (quick win, alto ROI). Fase 1b (BM25+RRF) condicional: solo si métricas plateau <95% tras Fase 1+2 y análisis de FAILs muestra gap de retrieval recall. Fase 2 se activa cuando se acerque el despliegue de Fase 3 Telegram (necesitamos runtime determinístico y baja latencia). Fase 3 solo si/cuando aparezcan signals reales de multi-hop o el bot necesite decidir dinámicamente (probablemente Fase 4+).
 
-**Coste estimado total**: Fase 1 = 3-5h · Fase 2 = 1-2 días + $500 · Fase 3 = 1 semana (condicional).
+**Coste estimado total**: Fase 1 = 3-5h · Fase 1b = 5-7h (condicional) · Fase 2 = 1-2 días + $500 · Fase 3 = 1 semana (condicional).
 
