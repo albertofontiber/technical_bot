@@ -92,11 +92,97 @@ FOR EACH ROW
 EXECUTE FUNCTION update_chunks_search_vector();
 
 -- B.3: Backfill — repoblar search_vector con la nueva estructura (title + content)
--- NOTA: tarda ~60-90 seg para 168k chunks. Idempotente (re-ejecutable).
-UPDATE chunks
-SET search_vector =
+-- IMPORTANTE: ejecutar UPDATE completo sobre 168k chunks supera el timeout del
+-- Supabase SQL Editor (proxy/upstream timeout, no statement_timeout). Dividimos
+-- en 16 batches por primer char del UUID (hex: 0-9, a-f). Cada batch actualiza
+-- ~10k rows y termina en ~5-10 seg. Ejecuta los 16 statements en orden.
+-- Son idempotentes individualmente (re-ejecutables).
+--
+-- Alternativa si prefieres 1 solo statement: usa psql directo con connection
+-- string (sin timeout del editor):
+--   psql "postgresql://postgres:PASSWORD@db.PROJECT.supabase.co:5432/postgres"
+--   SET statement_timeout = '30min';
+--   <el UPDATE completo del bloque de abajo, sin el WHERE id::text LIKE>
+
+UPDATE chunks SET search_vector =
   setweight(to_tsvector('public.spanish_unaccent', coalesce(section_title, '')), 'A') ||
-  setweight(to_tsvector('public.spanish_unaccent', coalesce(content, '')), 'B');
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(content, '')), 'B')
+WHERE id::text LIKE '0%';
+
+UPDATE chunks SET search_vector =
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(section_title, '')), 'A') ||
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(content, '')), 'B')
+WHERE id::text LIKE '1%';
+
+UPDATE chunks SET search_vector =
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(section_title, '')), 'A') ||
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(content, '')), 'B')
+WHERE id::text LIKE '2%';
+
+UPDATE chunks SET search_vector =
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(section_title, '')), 'A') ||
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(content, '')), 'B')
+WHERE id::text LIKE '3%';
+
+UPDATE chunks SET search_vector =
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(section_title, '')), 'A') ||
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(content, '')), 'B')
+WHERE id::text LIKE '4%';
+
+UPDATE chunks SET search_vector =
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(section_title, '')), 'A') ||
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(content, '')), 'B')
+WHERE id::text LIKE '5%';
+
+UPDATE chunks SET search_vector =
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(section_title, '')), 'A') ||
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(content, '')), 'B')
+WHERE id::text LIKE '6%';
+
+UPDATE chunks SET search_vector =
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(section_title, '')), 'A') ||
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(content, '')), 'B')
+WHERE id::text LIKE '7%';
+
+UPDATE chunks SET search_vector =
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(section_title, '')), 'A') ||
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(content, '')), 'B')
+WHERE id::text LIKE '8%';
+
+UPDATE chunks SET search_vector =
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(section_title, '')), 'A') ||
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(content, '')), 'B')
+WHERE id::text LIKE '9%';
+
+UPDATE chunks SET search_vector =
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(section_title, '')), 'A') ||
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(content, '')), 'B')
+WHERE id::text LIKE 'a%';
+
+UPDATE chunks SET search_vector =
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(section_title, '')), 'A') ||
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(content, '')), 'B')
+WHERE id::text LIKE 'b%';
+
+UPDATE chunks SET search_vector =
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(section_title, '')), 'A') ||
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(content, '')), 'B')
+WHERE id::text LIKE 'c%';
+
+UPDATE chunks SET search_vector =
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(section_title, '')), 'A') ||
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(content, '')), 'B')
+WHERE id::text LIKE 'd%';
+
+UPDATE chunks SET search_vector =
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(section_title, '')), 'A') ||
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(content, '')), 'B')
+WHERE id::text LIKE 'e%';
+
+UPDATE chunks SET search_vector =
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(section_title, '')), 'A') ||
+  setweight(to_tsvector('public.spanish_unaccent', coalesce(content, '')), 'B')
+WHERE id::text LIKE 'f%';
 
 
 -- ============================================================================
