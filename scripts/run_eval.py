@@ -233,9 +233,9 @@ def score_sources(citations_text: str, expected: list[str]) -> int:
 # PASS on a small human-verified gold subset.
 
 JUDGE_MODEL = "claude-sonnet-4-6"  # different from LLM_MODEL is ideal; we only have Claude
-JUDGE_MAX_TOKENS = 800
+JUDGE_MAX_TOKENS = 900
 
-JUDGE_PROMPT = """Eres el evaluador de un chatbot técnico que ayuda a técnicos de protección contra incendios (PCI). Tu trabajo es juzgar UNA respuesta del bot contra los fragmentos de manual que tenía disponibles.
+JUDGE_PROMPT = """Eres el evaluador de un chatbot técnico que ayuda a técnicos de protección contra incendios (PCI). Tu trabajo es juzgar UNA respuesta del bot contra los fragmentos de manual disponibles.
 
 PREGUNTA DEL TÉCNICO:
 {question}
@@ -245,38 +245,61 @@ CONDUCTA ESPERADA: {expected_behavior}
 - 'ask_clarification' → la pregunta es ambigua; el bot debe pedir UN detalle concreto antes de responder.
 - 'admit_no_info' → el producto/fabricante no está cubierto; el bot debe decir "no tengo este manual" sin inventar.
 
-FRAGMENTOS RECUPERADOS (las ÚNICAS fuentes a las que el bot tenía acceso):
+=====================================================================
+SECCIÓN F — FRAGMENTOS RECUPERADOS POR EL BOT (los que vio al responder):
+=====================================================================
 {chunks}
+
+=====================================================================
+SECCIÓN V — FRAGMENTOS ADICIONALES del mismo documento/producto
+(solo para verificación del juez; el bot NO los vio):
+=====================================================================
+{verification_chunks}
 
 RESPUESTA DEL BOT:
 {answer}
 
-NOTA IMPORTANTE — el bot puede incluir marcadores de CITACIÓN en su respuesta del tipo [F1], [F2], [F3], etc. Estos NO son afirmaciones técnicas ni nombres de productos: son referencias al fragmento del que el bot dice haber sacado la afirmación anterior. El número corresponde a [Fragmento 1], [Fragmento 2], etc. arriba. Trátalos como metadata (no son cosas que el bot esté "inventando"); úsalos para verificar si la afirmación citada aparece efectivamente en ese fragmento.
+NOTA — el bot puede incluir marcadores de CITACIÓN [F1], [F2], [F3] en su respuesta. Son referencias a los [Fragmento N] de la SECCIÓN F. No son afirmaciones técnicas: úsalos para verificar si el dato citado aparece en ese fragmento específico.
 
-Evalúa CINCO criterios, cada uno con true/false, y un veredicto overall_pass.
+IMPORTANTE — VISIBILIDAD CORPUS (regla crítica, aplicar con rigor):
+El bot solo vio los fragmentos de la Sección F. Tú tienes visibilidad adicional en la Sección V, que contiene otros chunks del MISMO documento/producto que el retriever no le pasó al bot. Esta diferencia cambia el análisis de "faithful":
 
-1. faithful: ¿TODAS las afirmaciones técnicas concretas (valores, procedimientos, nombres de terminales, etc.) están soportadas por los fragmentos? Una afirmación no soportada = false, aunque suene correcta. Si el bot cita [F3] para un dato, comprueba si ESE dato aparece en el Fragmento 3 (aunque sea en texto distinto — paráfrasis cuenta). Si el dato aparece en CUALQUIER fragmento (aunque el bot cite uno incorrecto), la afirmación es faithful pero la citación está mal; considera que esto NO rompe faithful, la citación cruzada es un problema menor del bot.
-2. relevant: ¿la respuesta aborda lo que el técnico preguntó, o se desvía a otro tema?
-3. helpful: ¿el técnico puede ACTUAR con esta respuesta, o es un "no sé" vacío cuando sí había info disponible en los fragmentos?
-4. honest: ¿el bot admite cuando falta información, o inventa para disimular? Si había info en los fragmentos y la ignora, también es deshonesto.
-5. behavior_match: ¿la conducta observada del bot coincide con la esperada arriba?
+- Si una afirmación del bot aparece en F<n> (en el fragmento citado o en otro F<n>): **citation_faithful=true**, **corpus_faithful=true**.
+- Si NO aparece en ningún F pero SÍ aparece en algún V<n>: **citation_faithful=false** (el bot citó mal, no tenía soporte visible), pero **corpus_faithful=true** (el dato existe literalmente en el manual del producto). Esto es **miscitación del bot causada por retrieval miss** — NO es alucinación.
+- Si NO aparece en ningún F NI en ningún V: **citation_faithful=false**, **corpus_faithful=false**. Esto sí es alucinación real.
 
-overall_pass = (faithful AND relevant AND helpful AND honest AND behavior_match)
+El criterio que bloquea el PASS es **corpus_faithful**, no citation_faithful. La miscitación es un flag menor (bug del retriever/generator), no un fail del bot. Paráfrasis, sinónimos, y texto equivalente cuentan como "aparece" — no exigimos coincidencia literal palabra por palabra.
+
+Evalúa los siguientes criterios:
+
+1. citation_faithful: ¿cada afirmación técnica concreta del bot está soportada por el fragmento F<n> que el bot cita? (rigor de citación)
+2. corpus_faithful: ¿cada afirmación técnica del bot aparece en ALGÚN fragmento (F o V)? (rigor factual vs. corpus)
+3. miscitation: true si citation_faithful=false y corpus_faithful=true — el bot afirma algo verdadero pero citó un fragmento incorrecto. (flag informativo, no bloquea PASS)
+4. relevant: ¿la respuesta aborda lo que el técnico preguntó, o se desvía a otro tema?
+5. helpful: ¿el técnico puede ACTUAR con esta respuesta, o es un "no sé" vacío cuando sí había info disponible en F o V?
+6. honest: ¿el bot admite cuando falta información, o inventa para disimular? Si había info en F (visible al bot) y la ignora, es deshonesto. Si info estaba solo en V (no visible al bot), NO es deshonesto — el bot legítimamente no la vio.
+7. behavior_match: ¿la conducta observada del bot coincide con la esperada arriba?
+
+overall_pass = (corpus_faithful AND relevant AND helpful AND honest AND behavior_match)
+
+Nota: citation_faithful NO entra en overall_pass (es rigor de forma, no fondo). miscitation tampoco (es flag).
 
 Responde ÚNICAMENTE con un JSON en este formato:
 {{
-  "faithful": true|false,
+  "citation_faithful": true|false,
+  "corpus_faithful": true|false,
+  "miscitation": true|false,
   "relevant": true|false,
   "helpful": true|false,
   "honest": true|false,
   "behavior_match": true|false,
   "overall_pass": true|false,
-  "rationale": "una o dos frases explicando el juicio"
+  "rationale": "una o dos frases explicando el juicio; si hay miscitación indicar en qué V<n> está el dato"
 }}"""
 
 
 def _format_chunks_for_judge(chunks_used: list[dict], full_chunks: list[dict] | None = None) -> str:
-    """Render chunks for the judge prompt.
+    """Render chunks for the judge prompt — the ones the bot actually saw.
 
     Prefers full_chunks (with content) if passed — chunks_used only has
     metadata (source_file, product_model, similarity). For the per-question
@@ -284,10 +307,8 @@ def _format_chunks_for_judge(chunks_used: list[dict], full_chunks: list[dict] | 
     to pass the run_single reranked list forward when available.
 
     Chunk content is truncated at 2000 chars (was 500 before calibration on
-    20 abril 2026; the previous value hid information that sat past position
-    500 in the chunk, causing the judge to falsely flag grounded claims as
-    hallucinated — see hp009 calibration finding). 8 chunks pass through
-    (was 6) to match the reranker's typical top-k.
+    20 abril 2026). 8 chunks pass through (was 6) to match the reranker's
+    typical top-k.
     """
     src = full_chunks if full_chunks else chunks_used
     if not src:
@@ -300,7 +321,76 @@ def _format_chunks_for_judge(chunks_used: list[dict], full_chunks: list[dict] | 
         content = c.get("content", "")
         preview = content[:2000] if content else "(sin contenido almacenado)"
         lines.append(
-            f"[Fragmento {i+1}] Producto: {pm} | Sección: {sec[:80]} | Fuente: {sf}\n{preview}"
+            f"[Fragmento F{i+1}] Producto: {pm} | Sección: {sec[:80]} | Fuente: {sf}\n{preview}"
+        )
+    return "\n\n".join(lines)
+
+
+def _fetch_verification_chunks(reranked: list[dict], limit: int = 12) -> list[dict]:
+    """Fetch extra chunks from the same source_files as the reranked ones,
+    for the judge to verify claims that may live in sibling chunks the bot
+    didn't see (retriever miss). Judge-only visibility, not shown to bot.
+
+    Motivation: the judge had systematic false positives where the bot made
+    a claim that existed literally in the same document but in a chunk the
+    retriever didn't put in top-k. Verified in session 15 with 4 specific
+    cases (hp005, hp011, hp012, cm008). Feeding same-document siblings to
+    the judge recovers corpus-level grounding.
+
+    Returns up to `limit` chunks (with content) excluding those already in
+    `reranked` (de-duplicated by chunk id). Empty list on any error.
+    """
+    if not reranked:
+        return []
+    import os
+    import httpx
+
+    url = os.environ.get("SUPABASE_URL")
+    key = os.environ.get("SUPABASE_SERVICE_KEY") or os.environ.get("SUPABASE_KEY")
+    if not (url and key):
+        return []
+
+    source_files = list({c.get("source_file") for c in reranked if c.get("source_file")})
+    if not source_files:
+        return []
+
+    already_ids = {c.get("id") for c in reranked if c.get("id") is not None}
+
+    headers = {"apikey": key, "Authorization": f"Bearer {key}"}
+    # PostgREST `in.()` filter for source_file; fetch wider then de-dupe
+    quoted = ",".join(f'"{sf}"' for sf in source_files[:5])
+    params = {
+        "source_file": f"in.({quoted})",
+        "select": "id,product_model,source_file,section_title,content",
+        "limit": str(limit * 3),
+    }
+    try:
+        r = httpx.get(f"{url}/rest/v1/chunks", params=params, headers=headers, timeout=20)
+        if r.status_code != 200:
+            return []
+        rows = r.json() or []
+    except Exception:
+        return []
+
+    filtered = [row for row in rows if row.get("id") not in already_ids]
+    # Prefer chunks with longer content (more info-dense)
+    filtered.sort(key=lambda c: -len(c.get("content") or ""))
+    return filtered[:limit]
+
+
+def _format_verification_chunks(chunks: list[dict]) -> str:
+    """Render verification chunks (judge-only) with V<n> labels."""
+    if not chunks:
+        return "(sin fragmentos adicionales disponibles para verificación)"
+    lines = []
+    for i, c in enumerate(chunks[:12]):
+        pm = c.get("product_model", "?")
+        sf = c.get("source_file", "?")
+        sec = c.get("section_title") or ""
+        content = c.get("content", "")
+        preview = content[:1500] if content else "(sin contenido)"
+        lines.append(
+            f"[Fragmento V{i+1}] Producto: {pm} | Sección: {sec[:80]} | Fuente: {sf}\n{preview}"
         )
     return "\n\n".join(lines)
 
@@ -310,19 +400,33 @@ def score_llm_judge(
     answer: str,
     chunks_for_judge: list[dict],
 ) -> dict:
-    """Ask Claude (as judge) to evaluate the bot's answer on 5 criteria.
+    """Ask Claude (as judge) to evaluate the bot's answer with corpus-wide visibility.
 
-    Returns dict with faithful/relevant/helpful/honest/behavior_match/overall_pass/rationale.
-    On error, returns a dict with 'judge_error' populated; callers should not
-    treat that as either PASS or FAIL — it's a measurement failure.
+    Judge schema (v2 — sesión 15, 24 abril 2026):
+      - citation_faithful: claim matches the cited [F<n>] fragment
+      - corpus_faithful: claim exists anywhere in F or V sections
+      - miscitation: flag true when citation_faithful=False but corpus_faithful=True
+      - relevant, helpful, honest, behavior_match: unchanged
+      - overall_pass = corpus_faithful AND relevant AND helpful AND honest AND behavior_match
+
+    The V section contains additional chunks from the same source_files as
+    the bot's reranked chunks, fetched from the DB. This gives the judge
+    corpus-level visibility the bot doesn't have, which fixes the systematic
+    false positives where a claim existed in the same document but outside
+    top-k.
+
+    Returns dict with all dimensions + overall_pass + rationale. On error,
+    returns dict with 'judge_error' populated; callers don't treat as PASS or FAIL.
     """
     import anthropic  # local import so --dry-run doesn't require the SDK
     import os
 
+    verification = _fetch_verification_chunks(chunks_for_judge)
     prompt = JUDGE_PROMPT.format(
         question=question.get("question", ""),
         expected_behavior=question.get("expected_behavior", "answer"),
         chunks=_format_chunks_for_judge(chunks_for_judge),
+        verification_chunks=_format_verification_chunks(verification),
         answer=answer,
     )
 
@@ -339,20 +443,27 @@ def score_llm_judge(
         if raw.startswith("```"):
             raw = raw.split("\n", 1)[1].rsplit("```", 1)[0].strip()
         verdict = json.loads(raw)
-        # Defensive: ensure all expected keys, default to False if missing
+        # Back-compat: also expose 'faithful' field mirroring corpus_faithful so
+        # legacy analysis scripts that key on faithful still work.
+        corpus_f = bool(verdict.get("corpus_faithful", False))
         return {
-            "faithful": bool(verdict.get("faithful", False)),
+            "citation_faithful": bool(verdict.get("citation_faithful", False)),
+            "corpus_faithful": corpus_f,
+            "faithful": corpus_f,  # back-compat alias
+            "miscitation": bool(verdict.get("miscitation", False)),
             "relevant": bool(verdict.get("relevant", False)),
             "helpful": bool(verdict.get("helpful", False)),
             "honest": bool(verdict.get("honest", False)),
             "behavior_match": bool(verdict.get("behavior_match", False)),
             "overall_pass": bool(verdict.get("overall_pass", False)),
             "rationale": str(verdict.get("rationale", ""))[:500],
+            "verification_chunks_count": len(verification),
         }
     except Exception as e:
         return {
             "judge_error": f"{type(e).__name__}: {e}",
-            "faithful": None, "relevant": None, "helpful": None,
+            "citation_faithful": None, "corpus_faithful": None, "faithful": None,
+            "miscitation": None, "relevant": None, "helpful": None,
             "honest": None, "behavior_match": None, "overall_pass": None,
             "rationale": None,
         }
