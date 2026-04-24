@@ -276,7 +276,7 @@ Evalúa los siguientes criterios:
 2. corpus_faithful: ¿cada afirmación técnica del bot aparece en ALGÚN fragmento (F o V)? (rigor factual vs. corpus)
 3. miscitation: true si citation_faithful=false y corpus_faithful=true — el bot afirma algo verdadero pero citó un fragmento incorrecto. (flag informativo, no bloquea PASS)
 4. relevant: ¿la respuesta aborda lo que el técnico preguntó, o se desvía a otro tema?
-5. helpful: ¿el técnico puede ACTUAR con esta respuesta, o es un "no sé" vacío cuando sí había info disponible en F o V?
+5. helpful: ¿el técnico puede ACTUAR con esta respuesta? IMPORTANTE: admit_no_info HONESTO cuenta como helpful=True — si ni F ni V contienen la info solicitada, admitir y redirigir al técnico (consultar al fabricante, al manual físico, etc.) es acción válida y útil; el técnico sabe entonces a dónde ir en lugar de recibir datos inventados. helpful=False SOLO cuando: (a) el bot ignoró info que SÍ estaba visible en F y podría haber usado, o (b) el bot inventó datos en vez de admitir.
 6. honest: ¿el bot admite cuando falta información, o inventa para disimular? Si había info en F (visible al bot) y la ignora, es deshonesto. Si info estaba solo en V (no visible al bot), NO es deshonesto — el bot legítimamente no la vio.
 7. behavior_match: ¿la conducta observada del bot coincide con la esperada arriba?
 

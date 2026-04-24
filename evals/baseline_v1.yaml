@@ -122,11 +122,11 @@ questions:
   category: happy_path
   question_type: troubleshooting
   question: "La Notifier AFP-400 muestra el aviso 'Tierra' (Earth Fault). ¿Qué significa y cómo se localiza?"
-  expected_behavior: answer
-  expected_keywords: ["tierra", "aislamiento", "cableado", "medición"]
-  expected_has_diagram: null
+  expected_behavior: admit_no_info
+  expected_keywords: ["afp", "tierra|earth", "manual|fragmento|documentación"]
+  expected_has_diagram: False
   verified: false
-  notes: "expected_sources retirado: 'AFP-400'/'AFP-300' no aparecen en source_file (están en product_model, dentro de docs con código interno tipo MNDT120)."
+  notes: "Cambiado a admit_no_info en sesión 15 (24 abril 2026): corpus verificado — 'Earth Fault' y 'fallo tierra' solo aparecen en NFS Supra, ID50/60, ZXe, DXc; no en AFP-300/400. Bot admite correctamente."
 
 - id: hp007
   category: happy_path
@@ -193,21 +193,21 @@ questions:
   category: happy_path
   question_type: procedure
   question: "¿Cómo se cambia la batería tampón de la Detnov ADW535 sin perder configuración?"
-  expected_behavior: answer
-  expected_keywords: ["batería", "configuración", "backup"]
-  expected_sources: ["ADW535"]
-  expected_has_diagram: true
+  expected_behavior: admit_no_info
+  expected_keywords: ["adw535", "batería|pila", "manual|fragmento|documentación"]
+  expected_has_diagram: False
   verified: false
+  notes: "Cambiado a admit_no_info en sesión 15 (24 abril 2026): corpus verificado — ni 'batería tampón' ni 'CR2032' aparecen en ADW535. Bot admite correctamente."
 
 - id: hp014
   category: happy_path
   question_type: wiring
   question: "¿Cómo se conecta un módulo de aislamiento de línea en un lazo ID2000?"
   expected_behavior: answer
-  expected_keywords: ["aislador", "isolador", "línea", "lazo"]
+  expected_keywords: ["id2000", "aislador|aislamiento|isolador", "lazo"]
   expected_has_diagram: true
   verified: false
-  notes: "expected_sources retirado: 'ID2000' no aparece en source_file (solo en product_model, 4169 chunks)."
+  notes: "expected_sources retirado: 'ID2000' no aparece en source_file (solo en product_model, 4169 chunks). Mantenido 'answer': corpus tiene reglas de posicionamiento de aisladores en chunks ID2000 aunque no el esquema wiring completo; el bot puede dar respuesta parcial legítima. Keywords relajados para aceptar tanto respuesta completa como parcial."
 
 - id: hp015
   category: happy_path
