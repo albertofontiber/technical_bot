@@ -99,7 +99,7 @@ flowchart LR
     Runner ==>|1 - invoca CONSULTA| Pipeline[CONSULTA<br>retriever + generator]
     Pipeline ==>|2 - respuesta| Runner
     Runner --> Judge[LLM Judge<br>faithful / helpful / honest]
-    Judge --> Metric[📊 Baseline:<br>56% PASS<br>happy_path 45%<br>cross_manual 25%<br>ambig_model 75%]
+    Judge --> Metric[📊 Baseline:<br>73% PASS<br>happy_path 60%<br>cross_manual 87%<br>ambig_model 62%]
     Metric --> Decision{¿Hay regresión<br>o mejora?}
     Decision -->|Delta negativo| Rollback[↩️ Revert cambio]
     Decision -->|Delta positivo| Commit[✅ Commit + aprender]
@@ -454,7 +454,7 @@ flowchart LR
    - **Keyword match**: compara la respuesta del bot vs `expected_keywords` del YAML → `keyword_pass: bool`.
    - **LLM Judge** (Sonnet 4.6): recibe `(query, respuesta del bot, chunks que usó el retriever, expected_behavior)` y evalúa 5 criterios — `faithful / relevant / helpful / honest / behavior_match`. `judge_pass = True` solo si los 5 son True simultáneamente.
    - **Sutileza clave**: el judge NO compara contra una respuesta modelo (no existe). Compara la respuesta del bot contra los **chunks que el retriever le dio**. Si los chunks son flojos, ese límite se propaga al veredicto.
-4. **Baseline reportado**: el **`judge_pass`** (nodo azul oscuro del diagrama) es la métrica primaria — ej. *"baseline 29/52 judge (56%)"*. `keyword_pass` se mantiene en paralelo como sanity check. Las **discrepancias** entre ambas métricas guían la calibración:
+4. **Baseline reportado**: el **`judge_pass`** (nodo azul oscuro del diagrama) es la métrica primaria — ej. *"baseline 38/52 judge (73%)"*. `keyword_pass` se mantiene en paralelo como sanity check. Las **discrepancias** entre ambas métricas guían la calibración:
    - `keyword=FAIL ∧ judge=PASS` → bot usó sinónimo legítimo no previsto (ej. *"anular"* por *"aislar"*) → ampliar YAML con OR-syntax.
    - `keyword=PASS ∧ judge=FAIL` → bot escribió las keywords pero inventó algo que el judge detectó → investigar alucinación.
    - Concordancia (ambos PASS o ambos FAIL) → alta confianza en el veredicto.
