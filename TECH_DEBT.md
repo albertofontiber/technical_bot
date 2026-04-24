@@ -753,3 +753,38 @@ Archivos afectados:
 
 **Coste estimado**: ~2-3h (classifier + tool + integración en pipeline + tests).
 
+---
+
+## 23. Clarify-first con respuesta embedida (diseño híbrido para queries de código/error/indicador)
+
+**Estado actual**: la edición 3 del SYSTEM_PROMPT (sesión 16) fuerza `ask_clarification` pura cuando la query menciona código de error / mensaje / LED sin fabricante ni modelo. Esto preserva escalabilidad (cuando lleguen 10 fabricantes con "código 7" distinto, clarificar será la única respuesta segura) a coste de 1 FAIL estable en am008 ("¿qué significa el código de error 7?" — el corpus solo tiene ese código documentado en el CCD-103 de Detnov; el judge penaliza porque la respuesta estaba visible en F1).
+
+**Problema**: existe una tercera vía intermedia que es mejor UX que clarify pura **y** más segura que `answer` directo — respuesta con clarificación-primero embedida:
+
+> *"Antes de responder: tengo documentado 'código 7' solo para el CCD-103 de Detnov. ¿Es ese tu panel? Si sí, significa Fallo de sistema (sistema no operativo) [F1]. Si es otro panel, dímelo y busco en sus manuales."*
+
+Aplicable también a am003 (ASD sin variante → "tengo datos del ASD535, ¿es tu variante?") y a cualquier query ambigua donde retrieval colapsa a un único producto por densidad documental desigual.
+
+**Por qué no se aplica hoy**: implementarlo bien requiere 3 piezas que NO tenemos:
+
+1. **Prompt rule** "clarify-first con info condicionada" — orden obligatorio (clarify antes de info), framing que evita que el técnico apurado lea solo la primera línea factual. Hoy el prompt dice "pregunta abierta ES LA RESPUESTA", no contempla la vía híbrida.
+
+2. **Scoring eval** — el heurístico de `observed_behavior` hoy mapea texto a `answer` / `ask_clarification` / `admit_no_info` por patrones regex (signos de interrogación → clarify). Una respuesta híbrida cae arbitrariamente en una u otra. Necesita un `expected_behavior: answer_with_clarify` nuevo (o `clarify_with_context`) con heurística que mida "hay clarify en primera mitad + info condicionada en segunda".
+
+3. **Diversity-aware reranking** — el auto-escalado que haría la regla dinámica ("si fragmentos muestran >1 producto, clarify pura; si 1 solo, respuesta con clarify-first") depende de que retrieval refleje la diversidad real del corpus. Hoy el reranker optimiza relevancia semántica, no diversidad de `product_model`. Con 3 fabricantes documentando "código 7", top-5 puede colapsar al manual con más densidad y el bot nunca ve la ambigüedad. Mitigación: post-rerank counter `DISTINCT(product_model)` que fuerce clarify si >1.
+
+**Trigger para implementar**:
+- Feedback de técnicos reales en Fase 3 (Telegram live) que expresen fricción con clarify pura cuando el corpus era suficiente ("me pregunta qué panel tengo cuando el tuyo es el único documentado"), O
+- Ampliación del corpus a ≥2 fabricantes con códigos/mensajes coincidentes que haga que la regla binaria actual (siempre clarify) pase de "conservadora" a "obstaculizante".
+
+**Solución propuesta**:
+1. Contador `DISTINCT(product_model)` post-rerank.
+2. Si ==1 y query es código/error/indicador sin producto → prompt branch "respond-with-clarify-first" con plantilla fija.
+3. Si >1 → clarify pura (comportamiento actual).
+4. Nuevo `expected_behavior` en el scorer + heurística ad-hoc.
+5. Re-calibrar am003, am008 con el nuevo behavior esperado.
+
+**Coste estimado**: ~6-8h (prompt branch con tests de orden/framing + scorer nuevo + reranker diversity counter + re-eval + calibrar YAML afectado).
+
+**Decisión actual (sesión 16, 24 abril 2026)**: **diferido como opción C** — am008 queda como FAIL estable documentado (judge 47/52 = 90% lo asume). La política "clarify pura si query ambigua" se mantiene porque es el default seguro hasta que (a) tengamos señal real de UX friction en Fase 3, (b) el corpus crezca al punto donde la asimetría fragmentos-único-vs-múltiple se vuelva frecuente. Si am008 flippea a PASS en un run futuro sin que hayamos tocado nada, es señal de regresión (el bot dejó de clarificar) — tratar como test de no-regresión.
+
