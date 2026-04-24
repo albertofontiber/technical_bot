@@ -712,3 +712,44 @@ Archivos afectados:
 **Solución propuesta**: sesión de calibración humana de 30-45 min con Alberto revisando 8-10 casos con discrepancia keyword↔judge (dump ya preparado al cierre de sesión 14). Aplicar correcciones al prompt del judge + re-eval.
 
 **Coste estimado**: ~45 min contigo + 30 min de implementación + re-eval.
+
+
+---
+
+## 21. `product_family` extraction en ingest (coverage ground-truth)
+
+**Estado actual**: el bot no tiene forma fiable de saber qué modelos de una familia existen en corpus. Si un técnico pregunta de forma abstracta ("la CAD", "Sistema 5000", "ZX"), el bot solo ve los ~10 chunks del retrieval, que pueden no cubrir todos los miembros por densidad desigual (ej: ZX2e con 500 chunks, ZX5e con 30 → retrieval casi siempre prioriza ZX2e). Esto bloquea dos mejoras de UX:
+1. **Excepción 1-member en clarificación**: hoy prohibida porque "tengo solo X" puede ser falso.
+2. **Respuesta a meta-queries del técnico** ("¿qué modelos Morley tienes?"): hoy vulnerable al mismo error de omisión.
+
+**Problema**: la fuente de verdad (BD completa) no está accesible sin una fuente auxiliar. Una query `ILIKE 'ZX%'` ad-hoc requiere mantener map familia→prefijo — no escala a 30+ fabricantes.
+
+**Trigger para implementar**:
+- Feedback de técnicos reales post-M&A que "siempre me pregunta el modelo aunque yo sé que solo tenéis uno" (UX friction real), O
+- Implementación del punto #22 (coverage query tool), que requiere esta pieza.
+
+**Solución propuesta**: durante ingest, para cada `product_model` extraer `product_family` con regex (strip trailing digits + sufijos comunes: `ZX2e`→`ZX`, `CAD-250`→`CAD`, `AFP-400`→`AFP`, `DTD-210A`→`DTD`). Almacenar como columna nueva en `chunks` (o en el JSON de metadata). Migration + backfill de los ~168k chunks. Script de validación que agrupe product_model por product_family y Alberto revisa las agrupaciones.
+
+**Coste estimado**: ~3-4h (regex con tests + migration + backfill + validación manual).
+
+---
+
+## 22. Coverage query tool (intent classifier + metadata SQL)
+
+**Estado actual**: el bot enruta toda query por el mismo pipeline RAG (retrieval + generator). Las queries de cobertura del técnico ("¿qué modelos tienes?", "¿cubres Apollo?", "lista fabricantes disponibles") pasan por retrieval, que es estocástico y puede omitir miembros. Best practice agentic RAG (LangChain, LlamaIndex) separa este tipo de query con un **tool / function call**.
+
+**Problema**: sin separación, el bot "miente" involuntariamente sobre qué hay en corpus — basa su respuesta en los chunks retrievados, no en el DB completo.
+
+**Trigger para implementar**:
+- Implementado TECH_DEBT #21 (`product_family` extraction) — requisito previo.
+- Observación de ≥1 técnico real preguntando "qué modelos tienes" y recibiendo respuesta incompleta, O
+- Deploy de la Fase 3 (Telegram live) — necesario antes de exponer a técnicos reales.
+
+**Solución propuesta**: 
+1. Intent classifier ligero (regex o LLM cheap) al inicio del pipeline. Patrones: "qué modelos tienes", "qué cubres", "lista fabricantes", "qué documentación".
+2. Si intent=coverage → bypass retrieval, tool call SQL directa: `SELECT DISTINCT product_model FROM chunks WHERE manufacturer=? AND (product_family=? OR product_family IS NULL)`.
+3. Generator formatea resultado como lista amigable.
+4. Si intent=technical → RAG normal.
+
+**Coste estimado**: ~2-3h (classifier + tool + integración en pipeline + tests).
+
