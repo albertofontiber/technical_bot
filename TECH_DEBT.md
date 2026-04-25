@@ -867,15 +867,63 @@ Añadir al SYSTEM_PROMPT: *"Si ves una tabla con headers y filas pero las celdas
 
 **Decisión actual (sesión 17, 24 abril 2026)**: diferido. Implementar solo si Fase 1 + Fase 2 no alcanzan target y el análisis de FAILs muestra gap de retrieval recall (no de generation, no de behavior). Si el gap es retrieval, Fase 1b es best-practice industrial para cerrar.
 
-### Fase 2 — Metadata enrichment por chunk durante ingest (pre-Fase 3 Telegram, ~1-2 días)
+### Fase 2 — HyDE (Hypothetical Document Embeddings) (next sprint, ~3-4h)
 
-**Qué**: durante ingest, llamar a Claude Haiku por cada chunk para generar: (a) 5-10 sinónimos/paráfrasis del concepto central, (b) 3-5 preguntas frecuentes que ese chunk responde, (c) keywords de dominio PCI relacionados. Almacenar en `chunk.enriched_synonyms`, `chunk.enriched_faqs`, `chunk.enriched_keywords`. Indexar en FTS.
+**Qué**: antes de retrieval, Claude (Haiku) genera una *respuesta hipotética* a la query usando vocabulario "rico" del dominio PCI. Usamos el embedding de esa respuesta hipotética (en lugar — o además — del embedding de la query original) para vector search.
 
-**Por qué segundo**: generaliza a cualquier vocabulary mismatch, no solo hp001. Pago único ($500 aprox en Haiku para 168k chunks), beneficio permanente en runtime (latencia igual que hoy, determinístico).
+**Ejemplo concreto (hp001)**:
+- Query original técnico: *"¿cómo entro al menú de programación avanzada?"*.
+- HyDE hipothesis (Haiku): *"Para acceder al menú de programación avanzada de la central, navegar a AJUSTES (Menú principal) y luego al submenú AVANZADO. Esto requiere nivel de acceso de configuración. En la pestaña SISTEMA se ajustan parámetros básicos como número de cabinas, lazos, LEDs de zona..."*.
+- El embedding de esa hipótesis matchea con chunks que usan *AJUSTES, AVANZADO, configuración, parámetros* — incluso aunque la query original use *programación*.
+- Retrieval trae los chunks correctos.
 
-**Cómo**: (1) script `enrich_chunks.py` que itera BD y para cada chunk llama Haiku con prompt estructurado (output JSON). (2) Migration para columnas nuevas + índice FTS. (3) Modificar retriever para buscar en union(content, synonyms, faqs, keywords) con boosts. (4) Validar con subset de queries históricas fallidas.
+**Por qué HyDE es best practice (vs metadata enrichment estática)**:
 
-**Coste**: ~1-2 días (prompt design + script + migration + smoke test). $500 en API.
+| | HyDE | Metadata enrichment |
+|---|---|---|
+| **Cost upfront** | $0 | $500 ingest |
+| **Cost runtime** | +1 LLM call (~$0.001) | $0 |
+| **Re-ingest si cambias prompt** | NO | Sí ($500 cada vez) |
+| **Cubre queries no anticipadas** | Sí (genera paraphrase ad-hoc) | Solo si synonym lo predijo |
+| **Adapta a jerga técnica regional/coloquial** | Sí (LLM la interpreta) | No (lista estática) |
+| **Implementación** | ~3-4h | 1-2 días |
+| **Best practice rank 2024-2025** | ⭐⭐⭐⭐ first-class (LangChain/LlamaIndex) | ⭐⭐ niche e-commerce |
+
+**Especialmente crítico para Fontiber**: los técnicos PCI tienen léxico no sofisticado, usarán jerga regional, abreviaturas, posibles errores ortográficos. HyDE adapta dinámicamente; synonyms estáticos no escalan.
+
+**Referencia**: Gao et al. 2022, "Precise Zero-Shot Dense Retrieval without Relevance Labels". Implementación canónica en LangChain `HypotheticalDocumentEmbedder`, LlamaIndex `HyDEQueryTransform`.
+
+**Cómo (implementación canónica)**:
+
+1. **Función `generate_hypothetical_document(query: str) -> str`** en `src/rag/hyde.py`:
+   - Llama a Haiku con prompt: *"Eres un manual técnico PCI. Escribe el párrafo del manual que respondería a esta consulta del técnico, usando terminología formal del sector (no parafraseo conversacional). Query: {query}. Manual técnico:"*.
+   - Output: 100-200 palabras de "respuesta del manual" en vocabulario rico.
+   - Coste: ~$0.001 Haiku + ~500ms latencia.
+
+2. **Modificar `retrieve_chunks(query)`**:
+   - Generar hypothesis = generate_hypothetical_document(query).
+   - `query_embedding = embed_query(hypothesis)` en lugar del embedding de query directa.
+   - Mantener keyword/intent search con la query original (para no perder modelo product).
+
+3. **Variante con RRF (mejor)**: hacer 2 retrievals — uno con embedding(query), otro con embedding(hypothesis) — y combinar con Reciprocal Rank Fusion. Captura tanto matches literales como adaptados.
+
+4. **Smoke test**: hp001, am003, casos de vocabulary mismatch confirmados.
+
+5. **Eval completo**: validar delta y descartar regresiones.
+
+**Coste**: ~3-4h (función HyDE + integración retriever + tests + eval). Runtime ~+500ms-1s por query, ~$0.001 Haiku.
+
+**Decisión actual (sesión 17, 25 abril 2026)**: PRIORIDAD ALTA — siguiente paso tras Fase 1. La razón es escalabilidad real al perfil de técnico (léxico no sofisticado, vocabulary mismatch frecuente), no caso aislado de hp001.
+
+### Fase 2b — Metadata enrichment durante ingest (CONDICIONAL, ~1-2 días + $500)
+
+**Qué**: si HyDE no es suficiente para el volumen/latencia de Fase 3 (Telegram live), pre-computar synonyms/FAQs/keywords por chunk con Haiku durante ingest. Indexar en FTS.
+
+**Por qué condicional**: HyDE cubre el mismo caso (vocabulary mismatch) sin re-ingest, pero pagando latencia runtime. Si en producción la latencia de HyDE es problemática (>2s percibido por técnico bajo presión), metadata enrichment es el upgrade que mueve el cómputo del runtime al ingest.
+
+**Trigger**: solo si tras HyDE en producción detectamos que la latencia añadida (~500ms-1s) crea fricción real para los técnicos. Hasta entonces, no merece la pena pagar $500 + re-ingest cycle.
+
+**Coste**: ~1-2 días + $500 API.
 
 ### Fase 3 — Agentic RAG con failure detection + reformulación (Fase 4 del proyecto, condicional, ~1 semana)
 
@@ -889,27 +937,30 @@ Añadir al SYSTEM_PROMPT: *"Si ves una tabla con headers y filas pero las celdas
 
 **Coste**: ~1 semana + cambio infra + eval multi-turn.
 
-### Relación entre las 4 fases
+### Relación entre las fases
 
 Son **capas ortogonales, se apilan** (no son alternativas):
 
 ```
 ┌──────────────────────────────────────────┐
-│  Fase 3 — AGENTE (orchestration)         │
+│  Fase 3 — AGENTE (orchestration)         │ ← solo si multi-hop/multi-turn
 │  decide cuándo reformular / parar        │
 ├──────────────────────────────────────────┤
-│  Fase 1b — BM25 + RRF (condicional)      │
+│  Fase 1b — BM25 + RRF (condicional)      │ ← solo si plateau <95% post 1+2
 │  hybrid fusion vector + BM25             │
 ├──────────────────────────────────────────┤
-│  Fase 1 — RETRIEVAL weighted FTS         │
+│  Fase 2 — HyDE                           │ ← PRÓXIMO (sesión 18)
+│  query → hypothetical doc → embed        │
+├──────────────────────────────────────────┤
+│  Fase 1 — RETRIEVAL weighted FTS ✓ done  │ ← sesión 17
 │  section_title (A) + content (B)         │
 ├──────────────────────────────────────────┤
-│  Fase 2 — ÍNDICE enriquecido             │
-│  synonyms + faqs + keywords              │
+│  Fase 2b — Metadata enrichment           │ ← solo si HyDE latency duele
+│  synonyms + faqs + keywords (CONDICIONAL)│
 └──────────────────────────────────────────┘
 ```
 
-Apilar Fase 3 sobre 1+2 = agente reformulando queries sobre índice rico (máxima probabilidad de encontrar). Apilar Fase 3 sin 1+2 = agente reformulando sobre índice pobre (2-3× coste sin fix de base). **Nunca hacer 3 antes de 1+2**. **Fase 1b solo si Fase 1 + Fase 2 no son suficientes y el gap restante es recall de retrieval**.
+Apilar Fase 3 sobre Fase 2 + Fase 1 = agente reformulando queries sobre retrieval con HyDE (máxima probabilidad de encontrar). **Nunca hacer Fase 3 antes de Fase 2**. Fase 1b y Fase 2b son condicionales, se evalúan según el gap restante post-Fase 2.
 
 ### Decisión actual (sesión 16, 24 abril 2026)
 
