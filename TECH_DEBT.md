@@ -1023,3 +1023,51 @@ El chunk target (`AJUSTES > AVANZADO`) sí ocupa top-1 y top-2 por `ts_rank` en 
 
 **Próximo paso**: Fase 2 (metadata enrichment) tiene ROI más alto que las micro-iteraciones sobre prompt. Fase 1b (BM25+RRF) sigue condicional al gap post-Fase 2.
 
+
+---
+
+## 26. Judge upgrade roadmap — gold standard humano + cross-model + panel ensemble (sesión 19)
+
+**Estado actual del judge (sesión 19)**: ~7/10 vs state-of-the-art. **Above-average** para early-stage RAG project pero **NO top-tier**. Lo que tenemos sí está alineado con best practices intermedias (rúbrica multi-dimensional G-Eval, separación citation/corpus_faithful inspirada en RAGAS, verification chunks, JSON structured output, temperature=0, calibración iterativa). Lo que **falta** para llegar a top-tier:
+
+### Gaps identificados (en orden de impacto)
+
+1. **Sin gold standard humano** — el más impactante. Las 52 preguntas tienen `verified: false`. No sabemos si el judge está bien calibrado (podría tener 80% accuracy o 60%, no hay forma de medir).
+2. **Mismo modelo evaluator que generator** (ambos Sonnet 4.6). Comparten blind spots — si Sonnet "no ve" una alucinación al generarla, "no la ve" al juzgarla.
+3. **Single judge (no panel ensemble)** — variance individual no mitigada.
+4. **Booleano true/false** en lugar de escala 1-5 con anchors (G-Eval canonical).
+5. **Sin holdout/dev/test split** — calibrar judge contra mismas preguntas que evalúas → overfitting riesgo.
+6. **Sin self-consistency** (N runs por evaluation, consensus voting).
+
+### Roadmap por fase
+
+**Sesiones 20-25 (desarrollo, sin técnico real)** — NO upgrade. Razones:
+- Cross-model: costo alto, beneficio incierto sin gold standard que mida si mejora algo.
+- Panel ensemble: 3-5× cost sin justificación real hoy.
+- Score 1-5: refactor grande, beneficio marginal sin más granularidad real necesaria.
+
+**Cuando Fase 3 (Telegram + técnico real)** — PRIORIDAD:
+1. **Gold standard humano** (~2-3h del técnico). Recoger 15-20 queries de los técnicos en producción, técnico verifica las respuestas correctas. Marcar `verified: true` en YAML con feedback estructurado.
+2. **Medir judge agreement** contra gold (Cohen's kappa, F1, accuracy). Threshold ~85%.
+3. Si agreement <85%:
+   - **Cross-model**: probar Claude Opus 4.6 (cross-tier mismo vendor) o GPT-4 (cross-vendor) como judge alternativo. Comparar agreement con humano.
+   - Si sigue <85% → **panel ensemble** (3 jueces, consensus voting).
+4. **Holdout split**: separar preguntas calibration (~10) vs eval (~42). Calibrar prompts/rules del judge solo contra calibration set; medir bot solo contra eval set.
+
+**Cuando Fase 4 (producción 100+ queries reales)**:
+5. **Self-consistency** (3 runs por evaluation, majority vote). Solo si volumen y variance lo justifican.
+6. **Score 1-5 con anchors** si necesitas granularidad para detectar regresiones sutiles.
+
+### Coste estimado
+
+- Gold standard: ~2-3h del técnico (humano) + ~1h tuya para integrarlo. $0 API.
+- Cross-model probe: ~$10-15/eval extra (Opus es ~3× más caro que Sonnet). 1-2 evals para decidir.
+- Panel ensemble: 3-5× cost por eval. Solo si agreement humano-judge muy bajo.
+- Self-consistency: 3× cost del judge. Solo si variance es problema real.
+
+### Por qué importa
+
+Sin gold standard humano, **estamos optimizando una métrica sin saber si correlaciona con calidad real**. El judge puede estar consistentemente mal en algún tipo de caso y nosotros mejorando hacia esa señal incorrecta.
+
+**Trigger para implementar**: primer técnico real disponible en Fase 3.
+
