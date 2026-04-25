@@ -917,3 +917,39 @@ Diferido. Fase 1 es candidata prioritaria para sesión 17 (quick win, alto ROI).
 
 **Coste estimado total**: Fase 1 = 3-5h · Fase 1b = 5-7h (condicional) · Fase 2 = 1-2 días + $500 · Fase 3 = 1 semana (condicional).
 
+### Update sesión 17 (25 abril 2026) — Fase 1 APLICADA con resultado neutral
+
+**Aplicado**:
+1. Migration 003: `search_vector` recompuesto con `setweight(section_title='A', content='B')` en 167,569 chunks. Trigger function reemplazada. GIN index reconstruido en bulk (~4 min) tras drop+update+recreate.
+2. RPC `search_chunks_text` fix: antes recalculaba `to_tsvector('spanish', content)` inline. Ahora usa `search_vector` con `ts_rank` y `spanish_unaccent`.
+
+**Lecciones operacionales**:
+- Supabase SQL Editor tiene proxy timeout ~60s. Pooler tiene `statement_timeout=2min`. Ninguno suficiente para UPDATE de 168k chunks con weighted tsvector.
+- Fix: conexión directa via `DATABASE_URL` (pooler URI) + `SET LOCAL statement_timeout=0` + drop GIN antes del bulk UPDATE + recreate después.
+- Tiempo real: ~3h para el UPDATE, ~4 min para recreate GIN. Standard Postgres pattern para large bulk operations.
+
+**Eval delta (3 runs comparados)**:
+- Sesión 16 final: 48/52 (92%)
+- Sesión 17 run 1: 45/52 (87%)
+- Sesión 17 run 2: 46/52 (88%)
+
+**Análisis honesto**:
+- Persistent regression: solo `am003` — bot ahora ve datos del ASD531 en F (antes ASD535) pero sigue clarificando por política TECH_DEBT #23. Trade-off filosófico documentado.
+- Persistent gain: solo `am001` — recovered.
+- Resto del delta visible son flips de variance entre runs (hp003/011/012/014 oscilan, históricamente flaky).
+- **Net real: 0 PASS** (+1 −1).
+
+**hp001 (objetivo original) NO RESUELTO**:
+
+El chunk target (`AJUSTES > AVANZADO`) sí ocupa top-1 y top-2 por `ts_rank` en SQL directo. Pero **el chunk NO contiene "programación" literal** — el manual usa "configuración" + "ajustes" + "puesta en marcha".
+
+`plainto_tsquery('menú programación avanzada')` produce `'menu' & 'programacion' & 'avanz'` (AND). El chunk target tiene `'menu'` y `'avanz'` pero NO `'programacion'` → no matchea con `@@`.
+
+**Esto es vocabulary mismatch puro.** Setweight + title boost mejora ranking solo cuando los términos sí coinciden. Cuando el técnico usa terminología distinta del manual ("programación" vs "configuración"), Fase 1 no alcanza. Para cerrar hp001 se necesita:
+- **Fase 2 (synonyms en metadata enrichment)**: durante ingest, Haiku genera sinónimos por chunk. *"configuración" → ["programación", "setup", "ajustes"]*. Indexar synonyms en FTS.
+- **HyDE**: el bot expande la query con paraphrase generada por LLM antes del retrieval.
+
+**Estado Fase 1**: COMPLETADA pero efecto neutral en eval. Infra mejorada (search_vector weighted, RPC con ts_rank, GIN index aprovechado, unaccent uniforme). Base sólida para Fase 2.
+
+**Próximo paso**: Fase 2 (metadata enrichment) tiene ROI más alto que las micro-iteraciones sobre prompt. Fase 1b (BM25+RRF) sigue condicional al gap post-Fase 2.
+
