@@ -163,16 +163,82 @@ def is_substantive_answer(answer: str) -> bool:
     return bool(_PROCEDURAL_PATTERN.search(answer)) and bool(_CITATION_PATTERN.search(answer))
 
 
+# ---------------------------------------------------------------------------
+# answer_with_clarify detection (TECH_DEBT #23, sesión 19)
+# ---------------------------------------------------------------------------
+# A "clarify-first with embedded info" response has 3 elements in this order:
+#   1. A clarifying question in the FIRST third of the message ("antes de
+#      responder: ¿es tu equipo el X?").
+#   2. Conditional information referencing the product after that (with at
+#      least one [F<n>] citation or a substantive technical claim).
+#   3. An escape hatch near the end ("si tu equipo es otro modelo, dímelo"
+#      or similar).
+#
+# Detection heuristic:
+#   - First third of answer contains '?'.
+#   - Total answer length > 200 chars (not just clarify).
+#   - Contains at least one [F<n>] citation OR is_substantive_answer
+#     (procedural/cited content).
+#   - Last quarter contains an escape hatch phrase ("otro modelo", "otro
+#     equipo", "otro panel", "dímelo y", "indícame").
+#
+# These constraints ensure the response is not a pure clarify (no info) nor
+# a pure answer (no upfront safety check) — it's the hybrid we want.
+_ESCAPE_HATCH_PATTERN = re.compile(
+    r"(otro (modelo|equipo|panel|fabricante)|"
+    r"d[ií]melo y (busc|consult|reviso)|"
+    r"si (es|tu equipo|tu central|tu panel) (otro|distinto)|"
+    r"ind[ií]came (cu[áa]l|el modelo|el equipo))",
+    re.IGNORECASE,
+)
+_INLINE_CITATION_PATTERN = re.compile(r"\[F\d+\]")
+
+
+def is_answer_with_clarify(answer: str) -> bool:
+    """True when response is the clarify-first + embedded info hybrid.
+
+    Three structural elements required (TECH_DEBT #23):
+      1. A clarifying question ('?') that appears BEFORE the first inline
+         citation [F<n>] or before the first substantive technical claim.
+         Semantic check: clarify must precede info, not the other way around.
+      2. At least one [F<n>] citation OR substantive procedural content.
+      3. An escape hatch in the LAST quarter of the answer (so the closing
+         line opens space for a different model).
+    """
+    if len(answer) < 200:
+        return False
+    citation_match = _INLINE_CITATION_PATTERN.search(answer)
+    has_info = bool(citation_match) or is_substantive_answer(answer)
+    if not has_info:
+        return False
+    # Clarify ('?') must appear in the prefix before the first citation. If no
+    # citation present, fall back to first half (substantive content lives in
+    # the second half typically).
+    prefix_end = citation_match.start() if citation_match else len(answer) // 2
+    prefix = answer[:prefix_end]
+    has_clarify_first = "?" in prefix
+    last_quarter = answer[-max(len(answer) // 4, 100):]
+    has_escape = bool(_ESCAPE_HATCH_PATTERN.search(last_quarter))
+    return has_clarify_first and has_escape
+
+
 def classify_behavior(answer: str) -> str:
     """Classify the bot's response style from text.
 
-    Returns one of: 'answer', 'ask_clarification', 'admit_no_info'.
+    Returns one of: 'answer', 'ask_clarification', 'admit_no_info',
+    'answer_with_clarify' (TECH_DEBT #23, sesión 19).
 
-    Priority: a substantive answer (procedure / values / citation, long
-    enough) wins over a no-info match. Only short or purely-hedge responses
-    fall through to the no-info / clarify detectors. Prevents false
-    admit_no_info flags when the bot delivers a full answer after a caveat.
+    Priority order:
+      1. answer_with_clarify (hybrid: clarify-first + conditional info +
+         escape hatch) — must come BEFORE the simple 'answer' detector
+         because answer_with_clarify also contains substantive content.
+      2. substantive answer (procedure / values / citation, long enough).
+      3. no-info admission patterns.
+      4. clarify-only patterns.
+      5. fallback to 'answer'.
     """
+    if is_answer_with_clarify(answer):
+        return "answer_with_clarify"
     if is_substantive_answer(answer):
         return "answer"
     if _NO_INFO_PATTERNS.search(answer):
@@ -442,6 +508,11 @@ def score_llm_judge(
 
     try:
         client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
+        # NOTE: judge caching attempted in sesión 19 via system+user split — caused
+        # systematic regression (-11 PASS), reverted. Hypothesis: separating
+        # definitions (system) from data (user) changed the order tokens reach the
+        # judge, altering its behavior even at temperature=0. Reinstating the
+        # all-in-messages approach. Generator caching (separate file) keeps working.
         resp = client.messages.create(
             model=JUDGE_MODEL,
             max_tokens=JUDGE_MAX_TOKENS,

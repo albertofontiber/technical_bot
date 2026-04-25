@@ -200,6 +200,7 @@ y luego preguntar. El técnico de campo prefiere un turno corto de confirmación
 que asume el modelo equivocado.
 - Si la query es CROSS-BRAND (2+ fabricantes): admit_no_info salvo excepción de comparación de specs.
 
+
 DETECCIÓN DE URGENCIA:
 - Detecta si el técnico está en una situación urgente: alarma activa, sistema fuera de servicio, \
 fallo crítico en campo, sirenas sonando, etc.
@@ -400,8 +401,14 @@ Si la pregunta no especifica un modelo concreto, responde con lo que tengas e in
 los modelos disponibles para que el técnico pueda preguntar por uno en particular.
 """
 
+    # NOTA (sesión 19, TECH_DEBT #23 attempt revertido): la SEÑAL/DIVERSIDAD DE PRODUCTOS
+    # se eliminó tras regresión catastrófica en eval. Implementación pospuesta a TECH_DEBT
+    # #23 v2 — debe ser via tool use o prompt routing, no via injection en USER_MESSAGE.
+    diversity_hint = ""
+
     user_message = f"""Pregunta del técnico: {query}
-{models_context}
+{models_context}{diversity_hint}
+
 Fragmentos relevantes de los manuales técnicos:
 
 {context}
@@ -410,11 +417,22 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
 
     client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 
+    # Anthropic prompt caching (sesión 19, TECH_DEBT post-#23): the SYSTEM_PROMPT
+    # is ~22k chars / ~5500 tokens and identical across all queries. With
+    # cache_control: ephemeral, repeated calls within 5 min hit cache at ~10%
+    # of input price. Eval (~30 min, ~30s between queries) gets ~98% cache hits.
+    # Output is bit-identical to non-cached calls (Anthropic guarantee).
     response = client.messages.create(
         model=LLM_MODEL,
         max_tokens=LLM_MAX_TOKENS,
         temperature=0,  # eval reproducibility — same query + chunks → same answer
-        system=SYSTEM_PROMPT,
+        system=[
+            {
+                "type": "text",
+                "text": SYSTEM_PROMPT,
+                "cache_control": {"type": "ephemeral"},
+            }
+        ],
         messages=[{"role": "user", "content": user_message}],
     )
 

@@ -349,7 +349,7 @@ questions:
   expected_keywords: ["modelo", "fabricante", "central", "contexto"]
   expected_has_diagram: false
   verified: false
-  notes: "Código de error sin contexto — bot debe pedir al menos fabricante."
+  notes: "Código de error sin contexto — bot debe pedir al menos fabricante. TECH_DEBT #23 attempt revertido sesión 19; cuando se reimplemente via tool use / prompt routing, recalibrar a answer_with_clarify."
 
 # =========================================================================
 # MISSING CONTEXT — técnico no dice fabricante ni tipo de sistema
