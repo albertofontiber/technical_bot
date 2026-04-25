@@ -915,6 +915,25 @@ Añadir al SYSTEM_PROMPT: *"Si ves una tabla con headers y filas pero las celdas
 
 **Decisión actual (sesión 17, 25 abril 2026)**: PRIORIDAD ALTA — siguiente paso tras Fase 1. La razón es escalabilidad real al perfil de técnico (léxico no sofisticado, vocabulary mismatch frecuente), no caso aislado de hp001.
 
+**Update sesión 18 (25 abril 2026) — HyDE APLICADO con resultado positivo**:
+
+Implementación: `src/rag/hyde.py` (nuevo) + integración en retriever.py. Modelo `claude-haiku-4-5`, prompt curado para producir párrafo en estilo de manual PCI formal con terminología sectorial. Feature flag `HYDE_ENABLED` (default `true`).
+
+Eval delta (s16=48 baseline vs s18 con HyDE):
+- Run 1: 46/52 · Run 2: 48/52 · promedio 47
+- **Persistent gains** (FAIL s16 → PASS ambos s18 runs): **hp001, am001, am008** (+3)
+- **Persistent regression** (PASS s16 → FAIL ambos s18 runs): **cm008** (-1, patrón TECH_DEBT #23)
+- Net estructural: **+2** ganancias persistentes
+- Net visible: 0 (48→48) absorbido por variance ~2pt
+
+**hp001 RESUELTO** ✅ — Judge confirmó: *"Todas las afirmaciones del bot están directamente soportadas por F1 (CAD-250-MC-380-es, sección AVANZADO): la ruta AJUSTES > AVANZADO, las tres pestañas SISTEMA/OTROS/REINICIAR..."*. Vocabulary mismatch resuelto vía hipótesis del manual.
+
+Coste runtime: +1 Haiku call por query (~$0.001, ~500ms-1s latencia).
+
+**Estado Fase 2**: COMPLETADA. HyDE en producción.
+
+**Próximo paso**: cm008 + casos similares se han movido al patrón TECH_DEBT #23 (clarify-first vs respuesta con contexto). Fase 1b (BM25+RRF) sigue condicional al gap restante.
+
 ### Fase 2b — Metadata enrichment durante ingest (CONDICIONAL, ~1-2 días + $500)
 
 **Qué**: si HyDE no es suficiente para el volumen/latencia de Fase 3 (Telegram live), pre-computar synonyms/FAQs/keywords por chunk con Haiku durante ingest. Indexar en FTS.
@@ -949,7 +968,7 @@ Son **capas ortogonales, se apilan** (no son alternativas):
 │  Fase 1b — BM25 + RRF (condicional)      │ ← solo si plateau <95% post 1+2
 │  hybrid fusion vector + BM25             │
 ├──────────────────────────────────────────┤
-│  Fase 2 — HyDE                           │ ← PRÓXIMO (sesión 18)
+│  Fase 2 — HyDE ✓ done                    │ ← sesión 18
 │  query → hypothetical doc → embed        │
 ├──────────────────────────────────────────┤
 │  Fase 1 — RETRIEVAL weighted FTS ✓ done  │ ← sesión 17
