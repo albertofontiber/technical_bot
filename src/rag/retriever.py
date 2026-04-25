@@ -11,6 +11,7 @@ import httpx
 
 from ..config import SUPABASE_URL, SUPABASE_SERVICE_KEY, RETRIEVAL_TOP_K
 from ..ingestion.embedder import embed_query
+from .hyde import generate_hypothetical_document, HYDE_ENABLED
 
 # Regex to detect product model codes in a query (multi-manufacturer).
 # Separators (-, space) are optional where manufacturers vary between
@@ -843,8 +844,20 @@ def retrieve_chunks(
     # For comparisons (2+ models), increase top_k to get enough chunks from each model
     effective_top_k = top_k * len(models) if len(models) >= 2 else top_k
 
-    # Pre-compute embedding ONCE (reused across all vector searches)
-    query_embedding = embed_query(query)
+    # HyDE (TECH_DEBT #25 Fase 2): generate hypothetical manual passage and use ITS
+    # embedding for vector search. Resolves vocabulary mismatch — when técnico uses
+    # informal/coloquial terms ("programación", "menú avanzao") and manual uses
+    # formal terminology ("AJUSTES > AVANZADO > Sistema"), the hypothesis bridges
+    # the two by writing in manual style. Reference: Gao et al. 2022.
+    #
+    # Keyword search (Step 3) and intent search (Step 3a) keep using the original
+    # query because they rely on regex matching of product model codes — those need
+    # literal text, not paraphrase.
+    #
+    # If HyDE disabled (HYDE_ENABLED=false) or fails, falls back to the original
+    # query embedding. Pre-computed ONCE and reused across all vector searches.
+    embedding_text = generate_hypothetical_document(query) if HYDE_ENABLED else query
+    query_embedding = embed_query(embedding_text)
 
     # Step 2 + 2b: Vector searches run in PARALLEL
     # (category-filtered + broad fallback)
