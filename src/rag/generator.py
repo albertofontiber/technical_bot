@@ -417,22 +417,18 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
 
     client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 
-    # Anthropic prompt caching (sesión 19, TECH_DEBT post-#23): the SYSTEM_PROMPT
-    # is ~22k chars / ~5500 tokens and identical across all queries. With
-    # cache_control: ephemeral, repeated calls within 5 min hit cache at ~10%
-    # of input price. Eval (~30 min, ~30s between queries) gets ~98% cache hits.
-    # Output is bit-identical to non-cached calls (Anthropic guarantee).
+    # Prompt caching attempted in sesión 19 and reverted by decision: the 5-min
+    # TTL of ephemeral caching is suboptimal for the production usage pattern
+    # of Phase 3 Telegram (technicians using the bot sporadically with >5 min
+    # between queries → cache miss + 25% write fee = net cost increase). The
+    # eval-only ~10% savings (~$0.78/eval) didn't justify the complexity. If
+    # we want caching in the future, evaluate Anthropic's 1h TTL cache option
+    # which fits sporadic production traffic better. See TECH_DEBT.
     response = client.messages.create(
         model=LLM_MODEL,
         max_tokens=LLM_MAX_TOKENS,
         temperature=0,  # eval reproducibility — same query + chunks → same answer
-        system=[
-            {
-                "type": "text",
-                "text": SYSTEM_PROMPT,
-                "cache_control": {"type": "ephemeral"},
-            }
-        ],
+        system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": user_message}],
     )
 

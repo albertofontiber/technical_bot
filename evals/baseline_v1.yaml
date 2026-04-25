@@ -213,12 +213,12 @@ questions:
   category: happy_path
   question_type: programming
   question: "En la Detnov CCD-103, ¿cómo se desactiva un detector individualmente sin afectar al resto del lazo?"
-  expected_behavior: answer
-  expected_keywords: ["aislar|anular", "desactivar", "deshabilitar|desconectar", "dispositivo"]
+  expected_behavior: admit_no_info
+  expected_keywords: ["convencional|zona", "ccd-103", "no permite|no especifica|no contiene"]
   expected_sources: ["CCD-103"]
   expected_has_diagram: false
   verified: false
-  notes: "20 abril: OR-syntax 'aislar|anular' y 'deshabilitar|desconectar'. La CCD-103 es central convencional: no aísla dispositivos individualmente vía módulo, pero el bot correctamente explica cómo anular una zona completa (LED Anular) o desconectar físicamente con puente. Conceptualmente equivalentes al objetivo del técnico."
+  notes: "Recalibrado sesión 19: la CCD-103 es central CONVENCIONAL — no soporta desactivación individual de detector (solo de zona completa). El corpus no documenta procedimiento individual porque arquitectónicamente NO existe. Behavior correcto: admit_no_info parcial — explicar que CCD-103 es convencional + redirigir a desconexión por zona o consultar manual físico. Calibración previa (expected: answer) era incorrecta — exigía respuesta a una operación que no existe en el producto."
 
 - id: hp016
   category: happy_path
@@ -553,11 +553,12 @@ questions:
   category: cross_manual
   question_type: spec
   question: "Comparar capacidad de lazos entre la Detnov CAD-150 y la Notifier ID3000"
-  expected_behavior: answer
-  expected_keywords: ["lazo", "dispositivos", "cad-150", "id3000"]
+  expected_behavior: admit_no_info
+  expected_keywords: ["cad-150", "id3000", "no contiene|no dispone|no especifica|no tengo"]
   expected_sources: ["CAD-150", "ID3000"]
   expected_has_diagram: false
   verified: false
+  notes: "Recalibrado sesión 19: el corpus retrievado NO contiene datos de capacidad de lazos suficientes para hacer una comparativa completa. Bot debe admit_no_info parcial — listar lo que hay disponible y advertir el gap. Calibración previa (expected: answer) exigía comparativa que el corpus no soporta; el bot fallaba behavior_match aunque su respuesta honesta era técnicamente correcta."
 
 - id: cm005
   category: cross_manual

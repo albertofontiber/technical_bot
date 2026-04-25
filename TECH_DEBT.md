@@ -1071,3 +1071,20 @@ Sin gold standard humano, **estamos optimizando una métrica sin saber si correl
 
 **Trigger para implementar**: primer técnico real disponible en Fase 3.
 
+
+---
+
+## 27. Prompt caching del generator — diferido para Fase 3 con TTL 1h (sesión 19)
+
+**Estado actual**: caching del generator REMOVIDO (commit revierte sesión 19 attempt).
+
+**Por qué se removió**: el caching ephemeral de Anthropic tiene TTL de 5 min. Para evals (52 queries/30 min, ~30s entre cada) hit rate ~98% → ahorro ~$0.78/eval (~10% del coste). Para producción Telegram con uso disperso (técnicos consultando esporádicamente, >5 min entre queries de un mismo técnico), cache miss + write fee 25% extra → **coste neto incrementa**. La complejidad no compensa para el patrón de uso real.
+
+**Cuándo reconsiderar**:
+- **Si al acercarse Fase 3 (Telegram live)** evaluamos: el patrón de uso real (burst vs disperso). Si burst (varios técnicos coincidentes) → ephemeral 5min vale. Si disperso → considerar Anthropic 1h cache (lanzado recientemente con multiplier de precio distinto).
+- **Anthropic 1h cache**: TTL extendido a 1 hora. Multiplier write fee mayor (~+50% vs ephemeral) pero amortiza a usos dispersos. Ideal para tráfico tipo soporte técnico.
+
+**Coste estimado para reactivar**: ~30 min (re-implementar cache_control con la variante apropiada al patrón observado).
+
+**Trigger**: instrumentación de Fase 3 que muestre patrón de uso real > revisar cuál variante de caching aplica.
+
