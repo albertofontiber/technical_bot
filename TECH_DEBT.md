@@ -790,9 +790,19 @@ Aplicable también a am003 (ASD sin variante → "tengo datos del ASD535, ¿es t
 
 ---
 
-## 24. Extracción de tablas pierde marcas visuales (X/✓) — genera alucinación por relleno (hp007, sesión 16)
+## 24. Extracción de tablas pierde marcas visuales (X/✓) — genera alucinación por relleno (hp007, sesión 16) — 🟢 FASE A APLICADA (sesión 20)
 
 **Estado actual**: el chunker/parser PDF extrae tablas matriz (ej. Tabla 7-1 del manual VESDA-E VEP-A00: calendario de mantenimiento con 7 tareas × 4 frecuencias) preservando headers y nombres de filas pero perdiendo las marcas visuales (X, ✓, ticks) que asignan cada tarea a una frecuencia. El chunk llega al generator con la tabla "vacía" — texto legible pero sin la información estructural clave. El generator, al verla incompleta, rellena con conocimiento de pretraining pretendiendo que la asignación viene del fragmento (alucinación inducida por ingest defectuoso).
+
+**Update sesión 20 (26 abril 2026) — diagnóstico revisado + Fase A aplicada**:
+
+Inspección directa de los chunks que el retriever entrega para hp007 reveló que el patrón problemático **no es el documentado originalmente**. El problema NO es que `pdfplumber` extraiga la tabla con celdas `[TABLA EXTRAÍDA]` vacías. Es que **`pdfplumber` no detecta la Tabla 7-1 como tabla** (probablemente porque no tiene bordes de cuadrícula limpios), por lo que el chunk recibe únicamente la extracción de PyMuPDF — texto plano sin glifos visuales. Resultado: el chunk muestra los 4 encabezados de frecuencia + las 7 filas de tareas SIN ninguna marca de asignación entre ellos. El bot rellenó con pretraining diciendo "5 tareas son anuales" cuando no podía saberlo.
+
+Esto cambia las opciones de solución:
+- **Fase A (prompt rule defensiva)**: aplicada — bloque "TABLAS MATRIZ — CALENDARIOS Y MATRICES DE ASIGNACIÓN" en `src/rag/generator.py` SYSTEM_PROMPT (entre CITACIÓN INLINE y CONVERSACIÓN DINÁMICA, **deliberadamente fuera del bloque CERO INVENCIÓN ya saturado** — lección S19 sobre cascade en prompts monolíticos). El bloque le instruye a admitir explícitamente "las marcas de asignación tarea↔frecuencia no son legibles en el fragmento recuperado" cuando ve el patrón "encabezados + filas + cero asignaciones explícitas".
+- **Fase C (detector empty_cell_ratio + re-ingest Vision)**: ya no aplica con esa heurística porque el chunk no tiene `[TABLA EXTRAÍDA]`. La detección requeriría comparar páginas-con-tablas-detectadas-por-PyMuPDF-pero-no-por-pdfplumber → re-ingest selectivo con Vision. Diferido (Fase A logró el objetivo).
+
+**Resultado eval Fase A (sesión 20, 26 abril 2026)**: judge 50/52 PASS vs baseline S19 46/51 → **+4 net**, fuera de variance ±2pt. **6 flips PASS** (cm004, cm008, hp005, hp007 ✓ target, hp015, mc006) — el bloque benefició a otros casos donde el bot estaba inventando asignaciones de matrices. **2 regresiones** (hp019, mc004): el bot ahora hace `admit_no_info` en lugar de `ask_clarification` en queries genéricas — efecto colateral de los ejemplos "admite explícitamente" del nuevo bloque, ver TECH_DEBT #28.
 
 **Evidencia (hp007, sesión 16)**: query *"¿Cómo se realiza el test anual de un detector VESDA-E VEP según el manual del fabricante?"*. Bot listó 5 tareas como "Una vez al año" (prueba de humos, comprobar flujo, limpiar puntos, limpiar con agua, sustituir filtro). Los chunks retrievados F1-F5 (4 duplicados del mismo contenido) contienen literal las 7 tareas y las 4 columnas de frecuencia, pero las celdas de intersección están vacías — no hay manera de que el bot sepa qué tarea va con qué frecuencia desde el chunk. El bot rellenó.
 
@@ -1087,4 +1097,31 @@ Sin gold standard humano, **estamos optimizando una métrica sin saber si correl
 **Coste estimado para reactivar**: ~30 min (re-implementar cache_control con la variante apropiada al patrón observado).
 
 **Trigger**: instrumentación de Fase 3 que muestre patrón de uso real > revisar cuál variante de caching aplica.
+
+
+---
+
+## 28. Side-effect del bloque TABLAS MATRIZ: queries genéricas degradan de clarify a admit_no_info (hp019, mc004 — sesión 20)
+
+**Estado actual**: tras aplicar Fase A de TECH_DEBT #24, dos casos previamente PASS regresionaron:
+
+- **hp019** (`¿rango de temperatura de los detectores Detnov serie ASD?`): en S19 el bot clarificaba ("¿qué variante ASD usas?") — judge=PASS. En S20 el bot hace `admit_no_info` ("ningún fragmento cubre la serie ASD") — judge=FAIL porque YAML pide `answer` y `behavior_match=false`. La respuesta del bot es honesta pero menos útil; el corpus SÍ contiene ASD535 (el retriever simplemente no lo trajo en este turno).
+- **mc004** (`¿dónde se conecta el cable de tierra?`): en S19 el bot clarificaba directo ("¿qué equipo tienes?") — judge=PASS. En S20 el bot responde con info de 3 productos (MIE-MI-120, EFS/EM 8, ID2000) y termina con clarify final — judge=FAIL porque `behavior_observed=answer` no coincide con `expected=ask_clarification`.
+
+**Hipótesis causa**: el bloque nuevo "TABLAS MATRIZ" introducido en `src/rag/generator.py` SYSTEM_PROMPT (sesión 20) contiene ejemplos del tipo "Admite explícitamente: 'El manual incluye [...] pero no es legible'". Estos ejemplos refuerzan el patrón admit/answer, lo que parece desplazar ligeramente el equilibrio del bot en queries genéricas familia/ambigua donde la decisión clarify-vs-admit-vs-answer es naturalmente borderline.
+
+El nuevo bloque NO menciona clarification — el efecto es indirecto, vía bias estilístico hacia "respuestas que admiten limitaciones" en lugar de "respuestas que piden información al técnico".
+
+**Por qué no se revierte ahora**: el net global es claramente positivo (+4 PASS, fuera de variance ±2pt). Las 6 ganancias incluyen casos importantes como hp007 (target original) + cm004/cm008 (cross_manual) + hp005/hp015 (happy_path), que justifican aceptar las 2 regresiones. Además, las 2 regresiones están en queries genuinamente borderline donde tanto clarify como admit son comportamientos defendibles.
+
+**Trigger para revisar**:
+- Si en sesión 21+ corremos otra vez el eval y las 2 regresiones persisten sin variance (NO flippan a PASS espontáneamente), es regresión estructural y hay que ajustar.
+- Si hp019/mc004 flippan a PASS en una run aislada → era variance, no regresión. Cerrar #28.
+
+**Acciones futuras posibles si confirma regresión persistente**:
+1. **Ajuste menor del bloque TABLAS MATRIZ**: añadir disclaimer "este bloque NO modifica las reglas de CLARIFY-FIRST de TIPO 2 (familia/ambigua)" para que el LLM no transfiera el bias.
+2. **Recalibrar YAML**: hp019/mc004 son borderline; si admit_no_info es comportamiento defendible para Detnov ASD genérico (sin sufijo), `expected_behavior` podría ser `admit_no_info` en hp019. Mismo análisis para mc004.
+3. **TECH_DEBT #23 v2 (tool use / prompt routing)**: si esto se reproduce, refuerza la lección de que el SYSTEM_PROMPT está saturado y el approach correcto es separar en tools/sub-prompts.
+
+**Coste estimado**: 30min recalibración YAML + revert si no es variance, o 1-2h ajuste del bloque con tests.
 
