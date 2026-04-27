@@ -1,0 +1,7 @@
+# Tooling deps (NOT needed for Railway bot deploy).
+# Install locally with:  pip install -r requirements-dev.txt
+-r requirements.txt
+
+# scripts/review_logs.py — log export to CSV/Excel
+pandas>=2.0.0
+openpyxl>=3.1.0

@@ -476,7 +476,9 @@ Sin eval, cualquier cambio de código es **acto de fe**. Con ~150k chunks y 3 su
 
 **(0) Escritura de preguntas (input humano)** — antes de que el eval pueda correr, un humano con conocimiento del dominio (Alberto o un técnico PCI) escribe el set de preguntas en `baseline_v1.yaml`. Cada entrada tiene: la pregunta en lenguaje natural, el `expected_behavior` (answer / ask_clarification / admit_no_info), y keywords esperadas.
 
-> **Por qué importa:** **la calidad del eval = la calidad de las preguntas.** Si las preguntas son triviales, el baseline siempre parecerá alto pero no reflejará el rendimiento real. Las 52 preguntas actuales están diseñadas para cubrir 5 patrones típicos de interacción técnico-bot (ver tabla de categorías abajo). La expansión a 80+ preguntas está planificada una vez haya técnicos reales probando el sistema.
+> **Por qué importa:** **la calidad del eval = la calidad de las preguntas.** Si las preguntas son triviales, el baseline siempre parecerá alto pero no reflejará el rendimiento real. Las 52 preguntas actuales están diseñadas para cubrir 5 patrones típicos de interacción técnico-bot (ver tabla de categorías abajo).
+
+> **Canal complementario — captura orgánica vía bot productivo:** además del YAML curado, el bot Telegram en producción guarda cada `(query, transcripción, respuesta, chunks_usados, bot_version)` en `query_logs` (con consent RGPD explícito vía `/accept`). El script `scripts/review_logs.py` exporta este corpus a CSV/Excel para curar nuevas preguntas representativas del uso real. Esto cubre 3 tiers de eval con distinto sesgo: **curated** (52 preguntas escritas, precisión y cobertura intencional), **DG-grade** (queries de directores generales en fase DD, sesgo gerencial-técnico), y **field-grade** (instaladores reales, pendiente). Decisiones arquitecturales grandes esperan a que los 3 tiers concuerden.
 
 **(1) Runner: ejecutar el bot sobre cada pregunta** — el runner invoca exactamente la misma pipeline de CONSULTA que usa un técnico en Telegram. Toma cada una de las 52 queries del YAML y obtiene la respuesta completa + los chunks que el retriever entregó + el `observed_behavior` (cómo se clasificó la respuesta del bot).
 
@@ -631,9 +633,10 @@ erDiagram
 | LLM-as-judge con calibración humana | ✅ | — | Ya hecho |
 | Source grounding + cita inline | ✅ | — | Ya hecho |
 | Document lifecycle (revisiones, supersede) | ✅ Phase 1 | — | Phase 2-3 pendientes |
+| Observability (query_logs + response + bot_version + RGPD consent) | ✅ | — | Ya hecho |
 | **Query rewriting / multi-query** | ❌ | Alto (+15-25% recall) | Sesión 14-15 |
 | **RAGAS metrics (5 dimensiones)** | ❌ (solo overall_pass) | Alto (atribución) | Sesión 14-15 |
-| **Observability (query_logs activos)** | ⚠️ tablas creadas, no escritas | Bloqueante pre-deploy | TECH_DEBT #8 |
+| **RLS en todas las tablas (defensa anon key)** | ⚠️ solo `user_consent` | Medio (defensa en profundidad) | TECH_DEBT pendiente |
 | Migrations versionadas | ⚠️ parcial | Medio (reproducibilidad) | Sesión 14+ |
 | CI con eval automático | ❌ | Medio (evita regresiones) | Post-deploy |
 | Model routing (Haiku/Sonnet/Opus) | ❌ (solo Sonnet) | Medio (-50% coste) | Post-deploy |

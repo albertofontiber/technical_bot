@@ -199,9 +199,13 @@ Los 2.471 chunks se borraron el 17 abril 2026 vía `scripts/delete_pathological_
 
 ---
 
-## 8. Observability + tabla `query_gaps` (tracking de qué manuales faltan)
+## 8. Observability + tabla `query_gaps` (tracking de qué manuales faltan) — 🟢 OBSERVABILIDAD GENERAL RESUELTA (sesión 21), `query_gaps` PENDIENTE
 
-**Estado actual (decidido 17 abril 2026)**: Hoy no existe ningún sistema de logging de las interacciones del bot. Se decidió en sesión que el bot debe registrar cada query donde responde *"no tengo este manual"* para construir la cola priorizada de ingesta futura.
+**Estado tras sesión 21 (27 abril 2026)**: la parte de **observabilidad general** está cerrada. `query_logs` ahora persiste cada interacción con `query`, `transcription` (si voz), `response` completo (truncado a 4096 chars), `chunks_used`, `response_time_ms`, `bot_version` (git short hash) y `telegram_user_id`. Tabla `feedback` activa para correcciones inline del técnico. Tabla `user_consent` añadida para cumplimiento RGPD (gate `/accept` antes de procesar queries). Migrations 004 + 005 aplicadas. Script `scripts/review_logs.py` exporta el corpus joineado a CSV/Excel para curar eval orgánico (DG-grade).
+
+**Pendiente todavía**: tabla `query_gaps` específica con `review_status` para clasificar queries fallidas como `gap_propio` / `gap_terceros` / `added` / `discarded`. Hoy esta clasificación se hace fuera de banda (revisión manual del export de `review_logs.py`). Cuando volumen de queries del DG / técnicos crezca, conviene formalizar la cola priorizada en una tabla dedicada con SQL filtrable.
+
+**Estado original (decidido 17 abril 2026)**: Hoy no existe ningún sistema de logging de las interacciones del bot. Se decidió en sesión que el bot debe registrar cada query donde responde *"no tengo este manual"* para construir la cola priorizada de ingesta futura.
 
 **Problema que resuelve**: con 30+ fabricantes pendientes por añadir a la BD y un alcance que se expande fuera de PCI (rociadores, grupos de presión, CCTV, control de acceso), la priorización de ingesta debe guiarse por demanda real, no por intuición. El log de "gaps" es el indicador canónico.
 
@@ -1124,4 +1128,25 @@ El nuevo bloque NO menciona clarification — el efecto es indirecto, vía bias 
 3. **TECH_DEBT #23 v2 (tool use / prompt routing)**: si esto se reproduce, refuerza la lección de que el SYSTEM_PROMPT está saturado y el approach correcto es separar en tools/sub-prompts.
 
 **Coste estimado**: 30min recalibración YAML + revert si no es variance, o 1-2h ajuste del bloque con tests.
+
+
+---
+
+## 29. RLS audit en tablas existentes — defensa en profundidad sobre anon key (sesión 21)
+
+**Estado actual**: en sesión 21 se creó la tabla `user_consent` con Row Level Security (RLS) habilitado siguiendo el aviso de Supabase ("New table will not have RLS enabled"). Las tablas previas (`chunks`, `query_logs`, `feedback`, `documents`) probablemente NO tienen RLS habilitado — patrón heredado de migrations antiguas cuando el aviso aún no aparecía o se ignoraba.
+
+**Por qué importa**: el bot accede a Supabase con `SUPABASE_SERVICE_KEY`, que **bypassea RLS automáticamente**. Por tanto el bot funciona idéntico tenga o no tenga RLS habilitado. **Pero**: si en algún momento la `anon` key del proyecto se expone (frontend, demo público, tooling externo, leak inadvertido en repo público), las tablas sin RLS quedan en lectura/escritura libre para cualquiera con esa key. Defensa en profundidad → habilitar RLS en todas las tablas y crear policies explícitas para los pocos casos donde anon necesite acceso (hoy: ninguno).
+
+**Acción propuesta**:
+1. Auditar qué tablas tienen RLS hoy (`SELECT relname, relrowsecurity FROM pg_class WHERE relkind = 'r' AND relnamespace = 'public'::regnamespace;`).
+2. Para cada tabla sin RLS, ejecutar `ALTER TABLE <name> ENABLE ROW LEVEL SECURITY;` (no crea policies → default-deny para anon, service_role sigue funcionando).
+3. Smoke test del bot tras cada ALTER para confirmar que nada se rompe (debería ser invariante porque service_role bypassea).
+4. Documentar en `supabase_schema.sql` el patrón "todas las tablas tienen RLS por defecto".
+
+**Coste estimado**: 30-60min (audit + ALTERs + smoke). Idempotente si se hace `ALTER TABLE ... ENABLE ROW LEVEL SECURITY` que no falla si ya está habilitado.
+
+**Trigger para hacerlo**: cualquier momento sin presión (no bloqueante para deploy DG porque service_role funciona). Idealmente antes de exponer cualquier endpoint público o el primer despliegue multi-tenant.
+
+**No urgente porque**: hoy ningún cliente usa anon key contra esta DB. El riesgo es de exposición futura, no presente.
 
