@@ -26,7 +26,8 @@ from ..rag.retriever import (
 )
 from ..rag.reranker import rerank_chunks
 from ..rag.generator import generate_answer
-from ..logging_db import log_query, log_feedback
+from ..logging_db import log_query, log_feedback, has_consent, set_consent
+from .whisper_vocabulary import get_whisper_prompt
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -82,18 +83,68 @@ _FEEDBACK_PATTERNS = re.compile(
 )
 
 
+_WELCOME_TEXT = (
+    "🤖 *Asistente técnico PCI*\n\n"
+    "Tengo información de los manuales de *Notifier*, *Morley* y *Detnov*. "
+    "Puedo ayudarte con:\n"
+    "• Instalación y conexionado\n"
+    "• Especificaciones técnicas\n"
+    "• Configuración de centrales y módulos\n"
+    "• Resolución de problemas\n\n"
+    "Pregúntame en texto o envíame un *audio* 🎤.\n\n"
+    "_Ejemplo: ¿Cómo configuro la central CAD-250?_"
+)
+
+
+_CONSENT_TERMS = (
+    "🤖 *Asistente técnico PCI* — _versión beta_\n\n"
+    "Te doy información de los manuales técnicos de *Notifier*, *Morley* y *Detnov*. "
+    "Puedes preguntarme por texto o por audio 🎤.\n\n"
+    "⚠️ *Antes de empezar — términos de uso*\n\n"
+    "Para mejorar el sistema durante esta fase de pruebas, registramos:\n"
+    "• Cada pregunta (texto y audio original)\n"
+    "• La transcripción del audio\n"
+    "• La respuesta que te doy\n"
+    "• Fecha/hora y tu ID de Telegram\n\n"
+    "*Para qué se usa*: identificar errores, mejorar respuestas, calibrar el sistema con preguntas reales del sector.\n\n"
+    "*Quién accede*: equipo técnico de Fontiber Industrial Partners.\n\n"
+    "*Terceros*: las preguntas pasan por Anthropic (modelo Claude), los audios por OpenAI (Whisper), y los registros se almacenan en Supabase. No se comparten con nadie más.\n\n"
+    "*Tus derechos*: puedes pedir el borrado de tus datos contactando con tu interlocutor en Fontiber. Si no aceptas, simplemente no uses el bot.\n\n"
+    "Para aceptar y empezar, envía:\n"
+    "`/accept [tu nombre]`  _(el nombre es opcional pero ayuda a la revisión)_"
+)
+
+
+_NEEDS_CONSENT = (
+    "Antes de empezar, lee los términos en /start y acepta con `/accept [tu nombre]`."
+)
+
+
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handle /start command."""
+    """Handle /start — show terms if no consent yet, otherwise welcome."""
+    user_id = update.effective_user.id if update.effective_user else 0
+    if has_consent(user_id):
+        await update.message.reply_text(_WELCOME_TEXT, parse_mode="Markdown")
+    else:
+        await update.message.reply_text(_CONSENT_TERMS, parse_mode="Markdown")
+
+
+async def accept_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handle /accept [name] — record RGPD consent."""
+    user_id = update.effective_user.id if update.effective_user else 0
+    # context.args is a list of tokens after the command
+    display_name = " ".join(context.args).strip() if context.args else None
+
+    ok = set_consent(user_id, display_name=display_name)
+    if not ok:
+        await update.message.reply_text(
+            "Ha ocurrido un error al registrar tu aceptación. Por favor, inténtalo de nuevo en unos segundos."
+        )
+        return
+
+    name_part = f", {display_name}" if display_name else ""
     await update.message.reply_text(
-        "🔥 *Detnov Technical Bot*\n\n"
-        "Soy un asistente técnico especializado en sistemas PCI de Detnov.\n\n"
-        "Puedes preguntarme sobre:\n"
-        "• Instalación y conexionado de equipos\n"
-        "• Especificaciones técnicas\n"
-        "• Resolución de problemas\n"
-        "• Configuración de centrales y módulos\n\n"
-        "Escribe tu pregunta o envía un *audio* 🎤 y te responderé con la información de los manuales.\n\n"
-        "_Ejemplo: ¿Cómo conecto las baterías en la CAD-250?_",
+        f"✅ Aceptado{name_part}. Ya puedes empezar.\n\n" + _WELCOME_TEXT,
         parse_mode="Markdown",
     )
 
@@ -102,19 +153,25 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle /help command."""
     await update.message.reply_text(
         "*Comandos disponibles:*\n\n"
-        "/start - Mensaje de bienvenida\n"
+        "/start - Términos / mensaje de bienvenida\n"
+        "/accept [nombre] - Aceptar términos de uso\n"
         "/help - Esta ayuda\n\n"
         "*Consejos para mejores respuestas:*\n"
-        "• Menciona el modelo de equipo (ej: CAD-250, MAD-402)\n"
+        "• Menciona el modelo de equipo (ej: CAD-250, MAD-402, FT-2000, MS-25)\n"
         "• Sé específico en tu pregunta\n"
         "• Puedes preguntar sobre procedimientos paso a paso\n"
-        "• 🎤 También puedes enviar audios — los transcribo automáticamente\n",
+        "• 🎤 También puedes enviar audios — los transcribo automáticamente\n\n"
+        "*Fabricantes cubiertos*: Notifier, Morley, Detnov.",
         parse_mode="Markdown",
     )
 
 
 async def transcribe_audio(file_path: str) -> str:
-    """Transcribe audio file using OpenAI Whisper API."""
+    """Transcribe audio file using OpenAI Whisper API.
+
+    Passes a PCI-domain vocabulary hint so model codes like CAD-250, AFP-2820,
+    ID-3000 are transcribed correctly instead of as spelled-out numbers.
+    """
     from openai import OpenAI
     client = OpenAI(api_key=OPENAI_API_KEY)
     with open(file_path, "rb") as audio_file:
@@ -122,6 +179,7 @@ async def transcribe_audio(file_path: str) -> str:
             model="whisper-1",
             file=audio_file,
             language="es",
+            prompt=get_whisper_prompt(),
         )
     return transcript.text.strip()
 
@@ -130,6 +188,11 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle voice messages — transcribe with Whisper then process as text."""
     voice = update.message.voice or update.message.audio
     if not voice:
+        return
+
+    user_id = update.effective_user.id if update.effective_user else 0
+    if not has_consent(user_id):
+        await update.message.reply_text(_NEEDS_CONSENT, parse_mode="Markdown")
         return
 
     await update.message.chat.send_action("typing")
@@ -174,15 +237,21 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not query:
         return
 
+    user_id = update.effective_user.id if update.effective_user else 0
+    if not has_consent(user_id):
+        await update.message.reply_text(_NEEDS_CONSENT, parse_mode="Markdown")
+        return
+
     # --- Pre-pipeline classification (saves API calls) ---
 
     # 1. Greetings
     if _GREETING_PATTERNS.match(query):
         await update.message.reply_text(
-            "¡Hola! 👋 Soy el asistente técnico de Detnov.\n\n"
+            "¡Hola! 👋 Soy el asistente técnico PCI.\n\n"
             "Pregúntame lo que necesites sobre instalación, conexionado, "
-            "especificaciones o resolución de problemas de equipos Detnov.\n\n"
-            "También puedes enviarme un audio 🎤"
+            "especificaciones o resolución de problemas de equipos *Notifier*, *Morley* o *Detnov*.\n\n"
+            "También puedes enviarme un audio 🎤",
+            parse_mode="Markdown",
         )
         return
 
@@ -275,7 +344,7 @@ async def _handle_catalog(update: Update):
             )
             return
 
-        lines = ["🔥 *Productos Detnov disponibles:*\n"]
+        lines = ["🔥 *Productos disponibles* (Notifier, Morley, Detnov):\n"]
         for category, models in catalog.items():
             models_str = ", ".join(f"*{m}*" for m in models)
             lines.append(f"📁 _{category}_\n{models_str}\n")
@@ -355,7 +424,7 @@ async def _process_query(
                     f"necesito saber el modelo de equipo.\n\n"
                     f"Por ejemplo: _{query_clean} en la CAD-250_ o "
                     f"_{query_clean} del MAD-461_.\n\n"
-                    f"¿Qué equipo Detnov estás usando?",
+                    f"¿Qué equipo (Notifier, Morley o Detnov) estás usando?",
                     parse_mode="Markdown",
                 )
                 return
@@ -400,6 +469,7 @@ async def _process_query(
             product_models=target_models or [],
             category=detected_category,
             chunks_used=len(chunks),
+            response=answer,
             response_length=len(answer),
             response_time_ms=elapsed_ms,
         )
@@ -570,6 +640,7 @@ def run_bot():
     app = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
 
     app.add_handler(CommandHandler("start", start_command))
+    app.add_handler(CommandHandler("accept", accept_command))
     app.add_handler(CommandHandler("help", help_command))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     app.add_handler(MessageHandler(filters.VOICE | filters.AUDIO, handle_voice))

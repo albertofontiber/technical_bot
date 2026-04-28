@@ -454,7 +454,7 @@ flowchart LR
    - **Keyword match**: compara la respuesta del bot vs `expected_keywords` del YAML → `keyword_pass: bool`.
    - **LLM Judge** (Sonnet 4.6): recibe `(query, respuesta del bot, chunks que usó el retriever, expected_behavior)` y evalúa 5 criterios — `faithful / relevant / helpful / honest / behavior_match`. `judge_pass = True` solo si los 5 son True simultáneamente.
    - **Sutileza clave**: el judge NO compara contra una respuesta modelo (no existe). Compara la respuesta del bot contra los **chunks que el retriever le dio**. Si los chunks son flojos, ese límite se propaga al veredicto.
-4. **Baseline reportado**: el **`judge_pass`** (nodo azul oscuro del diagrama) es la métrica primaria — ej. *"baseline 48/52 judge (92%)"*. `keyword_pass` se mantiene en paralelo como sanity check. Las **discrepancias** entre ambas métricas guían la calibración:
+4. **Baseline reportado**: el **`judge_pass`** (nodo azul oscuro del diagrama) es la métrica primaria — actualmente **50/52 judge PASS (96%)** tras sesión 20. `keyword_pass` se mantiene en paralelo como sanity check. Las **discrepancias** entre ambas métricas guían la calibración:
    - `keyword=FAIL ∧ judge=PASS` → bot usó sinónimo legítimo no previsto (ej. *"anular"* por *"aislar"*) → ampliar YAML con OR-syntax.
    - `keyword=PASS ∧ judge=FAIL` → bot escribió las keywords pero inventó algo que el judge detectó → investigar alucinación.
    - Concordancia (ambos PASS o ambos FAIL) → alta confianza en el veredicto.
@@ -476,7 +476,9 @@ Sin eval, cualquier cambio de código es **acto de fe**. Con ~150k chunks y 3 su
 
 **(0) Escritura de preguntas (input humano)** — antes de que el eval pueda correr, un humano con conocimiento del dominio (Alberto o un técnico PCI) escribe el set de preguntas en `baseline_v1.yaml`. Cada entrada tiene: la pregunta en lenguaje natural, el `expected_behavior` (answer / ask_clarification / admit_no_info), y keywords esperadas.
 
-> **Por qué importa:** **la calidad del eval = la calidad de las preguntas.** Si las preguntas son triviales, el baseline siempre parecerá alto pero no reflejará el rendimiento real. Las 52 preguntas actuales están diseñadas para cubrir 5 patrones típicos de interacción técnico-bot (ver tabla de categorías abajo). La expansión a 80+ preguntas está planificada una vez haya técnicos reales probando el sistema.
+> **Por qué importa:** **la calidad del eval = la calidad de las preguntas.** Si las preguntas son triviales, el baseline siempre parecerá alto pero no reflejará el rendimiento real. Las 52 preguntas actuales están diseñadas para cubrir 5 patrones típicos de interacción técnico-bot (ver tabla de categorías abajo).
+
+> **Canal complementario — captura orgánica vía bot productivo:** además del YAML curado, el bot Telegram en producción guarda cada `(query, transcripción, respuesta, chunks_usados, bot_version)` en `query_logs` (con consent RGPD explícito vía `/accept`). El script `scripts/review_logs.py` exporta este corpus a CSV/Excel para curar nuevas preguntas representativas del uso real. Esto cubre 3 tiers de eval con distinto sesgo: **curated** (52 preguntas escritas, precisión y cobertura intencional), **DG-grade** (queries de directores generales en fase DD, sesgo gerencial-técnico), y **field-grade** (instaladores reales, pendiente). Decisiones arquitecturales grandes esperan a que los 3 tiers concuerden.
 
 **(1) Runner: ejecutar el bot sobre cada pregunta** — el runner invoca exactamente la misma pipeline de CONSULTA que usa un técnico en Telegram. Toma cada una de las 52 queries del YAML y obtiene la respuesta completa + los chunks que el retriever entregó + el `observed_behavior` (cómo se clasificó la respuesta del bot).
 
@@ -631,9 +633,10 @@ erDiagram
 | LLM-as-judge con calibración humana | ✅ | — | Ya hecho |
 | Source grounding + cita inline | ✅ | — | Ya hecho |
 | Document lifecycle (revisiones, supersede) | ✅ Phase 1 | — | Phase 2-3 pendientes |
+| Observability (query_logs + response + bot_version + RGPD consent) | ✅ | — | Ya hecho |
 | **Query rewriting / multi-query** | ❌ | Alto (+15-25% recall) | Sesión 14-15 |
 | **RAGAS metrics (5 dimensiones)** | ❌ (solo overall_pass) | Alto (atribución) | Sesión 14-15 |
-| **Observability (query_logs activos)** | ⚠️ tablas creadas, no escritas | Bloqueante pre-deploy | TECH_DEBT #8 |
+| **RLS en todas las tablas (defensa anon key)** | ⚠️ solo `user_consent` | Medio (defensa en profundidad) | TECH_DEBT pendiente |
 | Migrations versionadas | ⚠️ parcial | Medio (reproducibilidad) | Sesión 14+ |
 | CI con eval automático | ❌ | Medio (evita regresiones) | Post-deploy |
 | Model routing (Haiku/Sonnet/Opus) | ❌ (solo Sonnet) | Medio (-50% coste) | Post-deploy |

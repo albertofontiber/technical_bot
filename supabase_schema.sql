@@ -94,13 +94,16 @@ CREATE TABLE IF NOT EXISTS query_logs (
     product_models TEXT[],       -- models detected in query
     category TEXT,               -- category detected
     chunks_used INTEGER DEFAULT 0,
+    response TEXT,               -- full response sent (truncated to 4096 chars, Telegram limit)
     response_length INTEGER DEFAULT 0,
     response_time_ms INTEGER DEFAULT 0,
+    bot_version TEXT,            -- git short hash or tag of code that generated this row
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 CREATE INDEX IF NOT EXISTS idx_query_logs_created ON query_logs (created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_query_logs_user ON query_logs (telegram_user_id);
+CREATE INDEX IF NOT EXISTS idx_query_logs_bot_version ON query_logs (bot_version);
 
 -- Feedback from technicians
 CREATE TABLE IF NOT EXISTS feedback (
@@ -113,6 +116,19 @@ CREATE TABLE IF NOT EXISTS feedback (
 );
 
 CREATE INDEX IF NOT EXISTS idx_feedback_created ON feedback (created_at DESC);
+
+-- RGPD consent tracking (one row per user who accepted terms via /accept)
+CREATE TABLE IF NOT EXISTS user_consent (
+    telegram_user_id BIGINT PRIMARY KEY,
+    display_name TEXT,           -- optional, user-provided in /accept
+    terms_version TEXT NOT NULL, -- e.g. "v1" — bump if terms change
+    accepted_at TIMESTAMPTZ DEFAULT NOW(),
+    revoked_at TIMESTAMPTZ       -- NULL while consent is active
+);
+
+CREATE INDEX IF NOT EXISTS idx_user_consent_active
+ON user_consent (telegram_user_id)
+WHERE revoked_at IS NULL;
 
 -- Create storage bucket for manual images
 -- Note: Run this via Supabase dashboard:
