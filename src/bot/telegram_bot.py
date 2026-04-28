@@ -63,11 +63,15 @@ _BYE_PATTERNS = re.compile(
     re.IGNORECASE,
 )
 
-# Catalog questions (answer with DB query, not RAG)
+# Catalog questions (answer with DB query, not RAG).
+# Includes "fabricantes" / "marcas" / "empresas" so queries like "¿qué
+# fabricantes tienes?" hit the catalog shortcut instead of leaking through
+# the RAG pipeline (sesión 21 smoke step 6: query produced a confusing
+# first sentence saying "solo Notifier" before listing the 3 manufacturers).
 _CATALOG_PATTERNS = re.compile(
-    r"(qué\s+(productos?|modelos?|equipos?|detectores?|centrales?)\s+(tienes|hay|tenéis|tienen|soporta)|"
-    r"(listado|catálogo|catalogo|lista)\s+de\s+(productos?|modelos?|equipos?)|"
-    r"para\s+qué\s+(productos?|modelos?|equipos?)\s+tienes\s+información|"
+    r"(qué\s+(productos?|modelos?|equipos?|detectores?|centrales?|fabricantes?|marcas?|empresas?)\s+(tienes|hay|tenéis|tienen|soporta)|"
+    r"(listado|catálogo|catalogo|lista)\s+de\s+(productos?|modelos?|equipos?|fabricantes?|marcas?)|"
+    r"para\s+qué\s+(productos?|modelos?|equipos?|fabricantes?|marcas?)\s+tienes\s+información|"
     r"qué\s+información\s+tienes|"
     r"qué\s+tienes)",
     re.IGNORECASE,

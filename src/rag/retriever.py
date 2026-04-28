@@ -654,14 +654,22 @@ def lookup_model_manufacturer(product_model: str) -> str | None:
 
 
 def get_available_manufacturers() -> list[str]:
-    """Get all distinct manufacturers in the database."""
+    """Get all distinct manufacturers in the database.
+
+    Uses the `documents` table (one row per manual, ~1k rows) instead of
+    `chunks` (~168k rows). The previous chunks-based query with `limit=5000`
+    returned only the first 5000 chunks, which were dominated by a single
+    manufacturer due to insertion order — so `Notifier` and `Morley` chunks
+    never appeared and the function returned only `['Detnov']` (sesión 21
+    smoke test exposed this on Telegram step 7).
+    """
     headers = {
         "apikey": SUPABASE_SERVICE_KEY,
         "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
     }
     with httpx.Client(timeout=10.0) as client:
         resp = client.get(
-            f"{SUPABASE_URL}/rest/v1/chunks",
+            f"{SUPABASE_URL}/rest/v1/documents",
             headers=headers,
             params={
                 "select": "manufacturer",

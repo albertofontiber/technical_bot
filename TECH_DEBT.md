@@ -1150,3 +1150,24 @@ El nuevo bloque NO menciona clarification — el efecto es indirecto, vía bias 
 
 **No urgente porque**: hoy ningún cliente usa anon key contra esta DB. El riesgo es de exposición futura, no presente.
 
+
+---
+
+## 30. Markdown raw aparece en respuestas con filenames con `_` — fallback sin formato (sesión 21 smoke)
+
+**Estado actual (27 abril 2026, smoke step 9)**: respuestas que mencionan filenames con guiones bajos (ej. `MI_372_es_2024 e`) muestran asteriscos literales en lugar de negritas (`*CAD-250*` en vez de **CAD-250**). Causa: el parser Markdown legacy de Telegram interpreta cada `_` como inicio de cursiva, encuentra desbalance, lanza excepción, y el fallback en `_process_query` (líneas 411-414) reenvía el mensaje **sin** `parse_mode`, mostrando los asteriscos sin renderizar.
+
+**Reproducción**: cualquier query Detnov cuya fuente sea un manual con `_` en el filename (común: `MI_372_es_2024`, `MI_DT_015`, etc.).
+
+**Impacto**: estético, no funcional. La respuesta es legible pero con asteriscos visibles que rompen la presentación profesional ante el DG.
+
+**Fix propuesto** (3 alternativas, ordenadas por esfuerzo):
+
+1. **Quick fix**: en `format_for_telegram()` escapar `_` con `\_` antes de enviar. Riesgo: rompe el `_italic_` legítimo del bot. Coste: 15min.
+2. **Cambiar a `MarkdownV2`**: requiere escapar más caracteres pero el escape es bien definido y `python-telegram-bot` provee `helpers.escape_markdown(text, version=2)`. Coste: 1-2h con tests.
+3. **Cambiar a `parse_mode="HTML"`**: convertir el output a HTML (`<b>`, `<i>`, `<code>`). Mucho más robusto contra contenido del usuario. Coste: 2-3h (modificar `format_for_telegram` + `convert_tables` + tests).
+
+**Recomendación**: opción 3 (HTML) en sesión futura. El bot evolucionará a respuestas más complejas (tablas, código, links) y HTML es más sostenible que Markdown legacy. Mientras: aceptar el bug estético.
+
+**No urgente porque**: queries con filenames sin `_` (la mayoría) renderizan bien. Y el contenido del mensaje es perfectamente legible aunque con asteriscos visibles.
+
