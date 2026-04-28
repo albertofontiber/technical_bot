@@ -35,6 +35,16 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# Silence httpx / httpcore INFO logs — they emit each HTTP request URL in
+# clear text, which leaks secrets that live in the URL itself (notably the
+# Telegram bot token, which Telegram embeds in the path:
+#   POST https://api.telegram.org/bot<TOKEN>/getUpdates).
+# Supabase and Anthropic put their secrets in headers (not URLs), but we
+# silence at this level for defense in depth across all current and future
+# endpoints. App-level INFO logs (this module, ingestion, RAG) are unaffected.
+logging.getLogger("httpx").setLevel(logging.WARNING)
+logging.getLogger("httpcore").setLevel(logging.WARNING)
+
 # --- Pre-pipeline classifiers ---
 
 # Greetings / non-technical messages (skip RAG entirely)
