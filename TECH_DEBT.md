@@ -1171,3 +1171,52 @@ El nuevo bloque NO menciona clarification — el efecto es indirecto, vía bias 
 
 **No urgente porque**: queries con filenames sin `_` (la mayoría) renderizan bien. Y el contenido del mensaje es perfectamente legible aunque con asteriscos visibles.
 
+
+---
+
+## 31. Shortcuts del bot no se loggean en `query_logs` — gap de observability (sesión 21 cierre)
+
+**Estado actual (28 abril 2026)**: `log_query()` solo se invoca al final de la rama RAG completa de `_process_query` (`src/bot/telegram_bot.py:478`). Los `return` tempranos de los shortcuts (greeting, thanks, bye, **catalog**, manufacturer-mismatch, manufacturer-without-model) nunca llegan al log. **Evidencia**: la query "¿Qué fabricantes tienes?" del smoke real post-hotfix-2 (que sí entró por `_handle_catalog`) no aparece en el CSV de `query_logs` exportado por Alberto. La misma query, días antes (commit `cebf3ef` pre-hotfix-2 cuando regex aún no detectaba "fabricantes"), sí aparece porque cayó a RAG.
+
+**Por qué importa**: si los técnicos preguntan mucho "¿qué fabricantes tienes?" o saludan, no hay forma de saberlo. Se pierde:
+- Métricas de uso real por canal (¿% queries que son catálogo?, ¿% saludos vs RAG?)
+- Detección de patrones de uso (¿mismo técnico pregunta catálogo a diario? señal de mala UX en respuestas RAG)
+- Trazabilidad RGPD completa (auditar TODO lo que el bot dice)
+
+**Acción propuesta**:
+1. Añadir columna `route TEXT` a `query_logs` con valores: `'rag'`, `'catalog_shortcut'`, `'greeting'`, `'thanks'`, `'bye'`, `'manufacturer_mismatch'`, `'manufacturer_no_model'`.
+2. Llamar `log_query()` en cada rama de shortcut (con `chunks_used=0`, `product_models=[]`, `category=None`, `response_time_ms` medido).
+3. Migración de schema en `migrations/`. Default `route='rag'` para filas históricas.
+
+**Coste estimado**: 1-2h (cambio simple pero hay que tocar ~6 ramas + migración + tests).
+
+**Trigger para hacerlo**: (a) Alberto pide métricas de uso por canal post-deploy DG, O (b) detectamos un técnico con comportamiento extraño (queries que no llegan al RAG) y necesitamos visibilidad, O (c) cualquier sesión sin presión.
+
+**No urgente porque**: hoy nadie está mirando esos números. Se acepta el gap mientras la base de uso sea pequeña (Alberto + DG en demo).
+
+
+---
+
+## 32. Trazabilidad de `bot_version` en builds de Railway (sesión 21 cierre)
+
+**Estado actual (28 abril 2026)**: las filas de `query_logs` con `created_at` 28-abr 08:08 (MAD-461) y 08:09 (AFP-200E) muestran `bot_version=bd5ddd4`. Ese SHA **no existe en local** (`git show bd5ddd4` → `fatal: unknown revision`) ni en `git log --all` ni en `git ls-remote origin`. El resto de queries del 28-abr muestran `cebf3ef` (commit válido del hotfix 1, pushed via PR #5).
+
+**Hipótesis**:
+- (a) Railway calcula el SHA en build a partir de su propio fingerprint (build cache, monorepo path) y no del commit hash de git.
+- (b) Hubo un build intermedio de un branch que se borró antes de hacer fetch a local.
+- (c) Truncamiento distinto (Railway usa 7 chars vs nuestros commits son 7 chars también, pero podrían diferir si `git rev-parse --short` se ejecuta sobre HEAD del workspace de build, no sobre el commit deployado).
+
+**Por qué importa**: si una respuesta del bot a un técnico tiene un bug, queremos saber EXACTAMENTE qué versión del código generó esa respuesta. Si `bot_version` no es trazable, perdemos la capacidad de hacer post-mortem reproducible.
+
+**Acción propuesta**:
+1. Verificar cómo se obtiene `bot_version` en runtime — buscar `RAILWAY_GIT_COMMIT_SHA` o similar variable de entorno (Railway expone varias `RAILWAY_GIT_*`).
+2. Si actualmente se usa `git rev-parse HEAD` en runtime: cambiar a `os.environ.get("RAILWAY_GIT_COMMIT_SHA", ...)` que es el SHA del commit deployado.
+3. Asegurar que el SHA es **completo o consistentemente truncado** (mejor full SHA o primeros 12 chars).
+4. Loggear `bot_version` también al arranque del proceso (línea de log "Bot started, version=<sha>") para correlación.
+
+**Coste estimado**: 30min-1h (investigación + fix + redeploy + verificar nueva fila en `query_logs`).
+
+**Trigger para hacerlo**: (a) primera vez que tengamos que investigar un bug post-deploy y necesitemos saber qué código corría exactamente, O (b) próxima sesión de mantenimiento sin presión.
+
+**No urgente porque**: hoy el flujo deploy → smoke test → cerrar es manual y Alberto sabe qué commit acaba de salir. El gap aparece cuando haya histórico de versiones y necesitemos hacer arqueología.
+
