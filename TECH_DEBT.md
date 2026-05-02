@@ -1171,3 +1171,26 @@ El nuevo bloque NO menciona clarification — el efecto es indirecto, vía bias 
 
 **No urgente porque**: queries con filenames sin `_` (la mayoría) renderizan bien. Y el contenido del mensaje es perfectamente legible aunque con asteriscos visibles.
 
+
+---
+
+## 31. Shortcuts del bot no se loggean en `query_logs` — gap de observability (sesión 21 cierre)
+
+**Estado actual (28 abril 2026)**: `log_query()` solo se invoca al final de la rama RAG completa de `_process_query` (`src/bot/telegram_bot.py:478`). Los `return` tempranos de los shortcuts (greeting, thanks, bye, **catalog**, manufacturer-mismatch, manufacturer-without-model) nunca llegan al log. **Evidencia**: la query "¿Qué fabricantes tienes?" del smoke real post-hotfix-2 (que sí entró por `_handle_catalog`) no aparece en el CSV de `query_logs` exportado por Alberto. La misma query, días antes (commit `cebf3ef` pre-hotfix-2 cuando regex aún no detectaba "fabricantes"), sí aparece porque cayó a RAG.
+
+**Por qué importa**: si los técnicos preguntan mucho "¿qué fabricantes tienes?" o saludan, no hay forma de saberlo. Se pierde:
+- Métricas de uso real por canal (¿% queries que son catálogo?, ¿% saludos vs RAG?)
+- Detección de patrones de uso (¿mismo técnico pregunta catálogo a diario? señal de mala UX en respuestas RAG)
+- Trazabilidad RGPD completa (auditar TODO lo que el bot dice)
+
+**Acción propuesta**:
+1. Añadir columna `route TEXT` a `query_logs` con valores: `'rag'`, `'catalog_shortcut'`, `'greeting'`, `'thanks'`, `'bye'`, `'manufacturer_mismatch'`, `'manufacturer_no_model'`.
+2. Llamar `log_query()` en cada rama de shortcut (con `chunks_used=0`, `product_models=[]`, `category=None`, `response_time_ms` medido).
+3. Migración de schema en `migrations/`. Default `route='rag'` para filas históricas.
+
+**Coste estimado**: 1-2h (cambio simple pero hay que tocar ~6 ramas + migración + tests).
+
+**Trigger para hacerlo**: (a) Alberto pide métricas de uso por canal post-deploy DG, O (b) detectamos un técnico con comportamiento extraño (queries que no llegan al RAG) y necesitamos visibilidad, O (c) cualquier sesión sin presión.
+
+**No urgente porque**: hoy nadie está mirando esos números. Se acepta el gap mientras la base de uso sea pequeña (Alberto + DG en demo).
+

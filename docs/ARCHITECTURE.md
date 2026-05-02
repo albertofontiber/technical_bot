@@ -621,7 +621,7 @@ erDiagram
 **Notas:**
 - `documents` es la tabla master que gestiona revisiones y supersede chains (una revisión nueva no borra la vieja, la marca como `superseded`).
 - `chunks.document_id` vincula cada fragmento a su documento padre, permitiendo filtrar chunks de revisiones obsoletas.
-- `query_logs` y `feedback` son tablas preparadas para observability post-deploy — capturarán cada consulta del técnico para análisis y mejora continua.
+- `query_logs` y `feedback` están **activas en producción** desde sesión 21 — capturan cada consulta del técnico (con consent RGPD vía `/accept`) para análisis y mejora continua. Caveat: hoy solo loggean queries que pasan por la rama RAG completa; los shortcuts (greeting, catalog, etc.) no se loggean (TECH_DEBT #31).
 
 ---
 
@@ -634,6 +634,7 @@ erDiagram
 | Source grounding + cita inline | ✅ | — | Ya hecho |
 | Document lifecycle (revisiones, supersede) | ✅ Phase 1 | — | Phase 2-3 pendientes |
 | Observability (query_logs + response + bot_version + RGPD consent) | ✅ | — | Ya hecho |
+| **Logging completo de shortcuts (greeting/catalog/etc) en query_logs** | ⚠️ solo rama RAG | Bajo (gap de métricas de uso) | TECH_DEBT #31 |
 | **Query rewriting / multi-query** | ❌ | Alto (+15-25% recall) | Sesión 14-15 |
 | **RAGAS metrics (5 dimensiones)** | ❌ (solo overall_pass) | Alto (atribución) | Sesión 14-15 |
 | **RLS en todas las tablas (defensa anon key)** | ⚠️ solo `user_consent` | Medio (defensa en profundidad) | TECH_DEBT pendiente |
