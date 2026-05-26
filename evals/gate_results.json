@@ -1,0 +1,896 @@
+{
+ "version": "2.0",
+ "generated_at": "2026-05-26T19:54:15Z",
+ "config": {
+  "top_k_retrieve": 15,
+  "rrf_k": 60,
+  "bootstrap_iters": 5000,
+  "include_hyde": false,
+  "embedding_old": "text-embedding-3-small (1536)",
+  "embedding_new": "voyage-4-large (1024)",
+  "match_strict": "chunk_id (sólo dentro chunks_v2)",
+  "match_loose": "(source_file, page_number) (cross-tabla)"
+ },
+ "questions_evaluated": [
+  "hp001",
+  "hp002",
+  "hp003",
+  "hp004",
+  "hp006",
+  "hp009",
+  "hp010",
+  "hp011",
+  "hp012",
+  "hp014",
+  "hp018"
+ ],
+ "n_questions": 11,
+ "elapsed_s": 19.9,
+ "per_question": [
+  {
+   "qid": "hp001",
+   "question": "En la Detnov CAD-250, ¿cómo se entra al menú de programación avanzada?",
+   "n_relevant": 5,
+   "retrieved_top5": {
+    "vec_old": [
+     "26386fba-c672-41ff-b374-4ff3194b65e3",
+     "f07ee59e-d963-465f-8712-8340b6a7294e",
+     "5c2b10bd-013f-49d8-b0de-80d9c43a90e7",
+     "79ac798d-b7e0-44fb-9d3e-20635e4350f6",
+     "325a2705-32e0-40d4-940e-34661a205b91"
+    ],
+    "vec_new": [
+     "fc0a301d-199d-48c5-80dd-1023ef0eb069",
+     "420e2e46-2588-474e-b331-ccadb7dada2d",
+     "a5cfc1ac-68ed-43b8-a42b-0d9b5648bea7",
+     "d1b86d68-3657-4d4f-9e3a-fa56a6f1cbf0",
+     "90be20b4-deaa-466a-91cb-f79383ce2d50"
+    ],
+    "hyb_old": [
+     "26386fba-c672-41ff-b374-4ff3194b65e3",
+     "f07ee59e-d963-465f-8712-8340b6a7294e",
+     "5c2b10bd-013f-49d8-b0de-80d9c43a90e7",
+     "79ac798d-b7e0-44fb-9d3e-20635e4350f6",
+     "325a2705-32e0-40d4-940e-34661a205b91"
+    ],
+    "hyb_new": [
+     "fc0a301d-199d-48c5-80dd-1023ef0eb069",
+     "edeb58a7-58c6-4865-8819-c70b57fe1135",
+     "420e2e46-2588-474e-b331-ccadb7dada2d",
+     "a5cfc1ac-68ed-43b8-a42b-0d9b5648bea7",
+     "d1b86d68-3657-4d4f-9e3a-fa56a6f1cbf0"
+    ]
+   },
+   "metrics": {
+    "vec_old": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    },
+    "vec_new": {
+     "hit@5_strict": 1,
+     "hit@5_loose": 1,
+     "recall@5_strict": 0.2,
+     "recall@5_loose": 0.2,
+     "recall@15_strict": 0.4,
+     "recall@15_loose": 0.4,
+     "mrr@15_strict": 1.0,
+     "mrr@15_loose": 1.0
+    },
+    "hyb_old": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    },
+    "hyb_new": {
+     "hit@5_strict": 1,
+     "hit@5_loose": 1,
+     "recall@5_strict": 0.4,
+     "recall@5_loose": 0.4,
+     "recall@15_strict": 0.6,
+     "recall@15_loose": 0.6,
+     "mrr@15_strict": 1.0,
+     "mrr@15_loose": 1.0
+    }
+   }
+  },
+  {
+   "qid": "hp002",
+   "question": "El detector ASD535 de Detnov está dando una alarma intermitente de flujo bajo. ¿Cuál es la causa más probable y cómo se diagnostica?",
+   "n_relevant": 12,
+   "retrieved_top5": {
+    "vec_old": [
+     "10cd45a7-1b0a-4f4d-af37-9249a5833dac",
+     "b4631707-d2c6-4e6e-980f-e86c55b4aae1",
+     "7f41458d-5c1b-4950-9f1e-c56838dad346",
+     "a9b0eaaf-4815-4bdb-aefb-0e49995a8ea1",
+     "1e9088b0-2bf7-4852-a729-a3891c8f7bff"
+    ],
+    "vec_new": [
+     "b5804921-836c-49ca-8316-cecae6da409b",
+     "9410f72f-fff5-494b-bdf5-a0a177e7f02e",
+     "5b6a3a19-a924-4cf4-9513-bd50786ee3d9",
+     "6d5a807f-3a42-401b-96a4-83c51d796114",
+     "414ce99c-0dec-478c-b504-009f14631804"
+    ],
+    "hyb_old": [
+     "10cd45a7-1b0a-4f4d-af37-9249a5833dac",
+     "a3943602-4959-40ae-944c-454934f63d85",
+     "b4631707-d2c6-4e6e-980f-e86c55b4aae1",
+     "773bf14a-246b-4926-b375-6e54b59731c2",
+     "7f41458d-5c1b-4950-9f1e-c56838dad346"
+    ],
+    "hyb_new": [
+     "85e9a471-dc3f-4599-939b-6f36cd9d1b79",
+     "b5804921-836c-49ca-8316-cecae6da409b",
+     "9410f72f-fff5-494b-bdf5-a0a177e7f02e",
+     "070085b8-435f-4187-bd33-ce432ac03db6",
+     "5b6a3a19-a924-4cf4-9513-bd50786ee3d9"
+    ]
+   },
+   "metrics": {
+    "vec_old": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 1,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.1,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.2,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.5
+    },
+    "vec_new": {
+     "hit@5_strict": 1,
+     "hit@5_loose": 1,
+     "recall@5_strict": 0.4166666666666667,
+     "recall@5_loose": 0.5,
+     "recall@15_strict": 0.75,
+     "recall@15_loose": 0.7,
+     "mrr@15_strict": 1.0,
+     "mrr@15_loose": 1.0
+    },
+    "hyb_old": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 1,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.2,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.2,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.3333333333333333
+    },
+    "hyb_new": {
+     "hit@5_strict": 1,
+     "hit@5_loose": 1,
+     "recall@5_strict": 0.3333333333333333,
+     "recall@5_loose": 0.4,
+     "recall@15_strict": 0.75,
+     "recall@15_loose": 0.7,
+     "mrr@15_strict": 1.0,
+     "mrr@15_loose": 1.0
+    }
+   }
+  },
+  {
+   "qid": "hp003",
+   "question": "¿Cómo se conectan las baterías de 24V en la Detnov CAD-150?",
+   "n_relevant": 10,
+   "retrieved_top5": {
+    "vec_old": [],
+    "vec_new": [],
+    "hyb_old": [],
+    "hyb_new": []
+   },
+   "metrics": {
+    "vec_old": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    },
+    "vec_new": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    },
+    "hyb_old": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    },
+    "hyb_new": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    }
+   }
+  },
+  {
+   "qid": "hp004",
+   "question": "¿Cuál es la tensión de funcionamiento y el consumo en reposo del detector DGD-600 de Detnov?",
+   "n_relevant": 2,
+   "retrieved_top5": {
+    "vec_old": [
+     "6983fdf7-c9aa-40fb-8d07-3afec6104838",
+     "c6f435f0-8551-430e-a627-e371d0ec2ed9",
+     "5c076fad-bb18-4923-a4f7-030d4d80864d",
+     "5a704273-b758-4f26-ab51-d16cd4920406",
+     "1d1edc9b-5070-496b-adb0-89032b6db255"
+    ],
+    "vec_new": [
+     "9786969a-8168-457b-aed8-3337235d874f",
+     "bf78e1db-f87b-4b60-b77f-2afae628c736"
+    ],
+    "hyb_old": [
+     "5c076fad-bb18-4923-a4f7-030d4d80864d",
+     "5a704273-b758-4f26-ab51-d16cd4920406",
+     "6983fdf7-c9aa-40fb-8d07-3afec6104838",
+     "1d1edc9b-5070-496b-adb0-89032b6db255",
+     "6f32b085-69da-481d-b802-29a8bb3debc0"
+    ],
+    "hyb_new": [
+     "9786969a-8168-457b-aed8-3337235d874f",
+     "bf78e1db-f87b-4b60-b77f-2afae628c736"
+    ]
+   },
+   "metrics": {
+    "vec_old": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 1,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 1.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 1.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 1.0
+    },
+    "vec_new": {
+     "hit@5_strict": 1,
+     "hit@5_loose": 1,
+     "recall@5_strict": 1.0,
+     "recall@5_loose": 1.0,
+     "recall@15_strict": 1.0,
+     "recall@15_loose": 1.0,
+     "mrr@15_strict": 1.0,
+     "mrr@15_loose": 1.0
+    },
+    "hyb_old": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 1,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 1.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 1.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 1.0
+    },
+    "hyb_new": {
+     "hit@5_strict": 1,
+     "hit@5_loose": 1,
+     "recall@5_strict": 1.0,
+     "recall@5_loose": 1.0,
+     "recall@15_strict": 1.0,
+     "recall@15_loose": 1.0,
+     "mrr@15_strict": 1.0,
+     "mrr@15_loose": 1.0
+    }
+   }
+  },
+  {
+   "qid": "hp006",
+   "question": "La Notifier AFP-400 muestra el aviso 'Tierra' (Earth Fault). ¿Qué significa y cómo se localiza?",
+   "n_relevant": 5,
+   "retrieved_top5": {
+    "vec_old": [],
+    "vec_new": [],
+    "hyb_old": [],
+    "hyb_new": []
+   },
+   "metrics": {
+    "vec_old": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    },
+    "vec_new": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    },
+    "hyb_old": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    },
+    "hyb_new": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    }
+   }
+  },
+  {
+   "qid": "hp009",
+   "question": "¿Cuál es la resistencia de fin de línea recomendada para los lazos de la central Morley ZXe?",
+   "n_relevant": 1,
+   "retrieved_top5": {
+    "vec_old": [],
+    "vec_new": [],
+    "hyb_old": [],
+    "hyb_new": []
+   },
+   "metrics": {
+    "vec_old": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    },
+    "vec_new": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    },
+    "hyb_old": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    },
+    "hyb_new": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    }
+   }
+  },
+  {
+   "qid": "hp010",
+   "question": "En la Morley DXc, ¿cómo se añade un nuevo detector al lazo tras la puesta en marcha inicial?",
+   "n_relevant": 4,
+   "retrieved_top5": {
+    "vec_old": [
+     "d81d752e-3ec2-4ef2-89fd-a8438fd06d79",
+     "4e4ea932-3de3-4736-a3ee-cf91e266450c",
+     "d36a155e-12b8-4dce-b959-fa1b0b4a7081",
+     "310bf683-8083-44f3-b32d-154bea46bc12",
+     "3d1fa6b6-1b9c-4e15-9138-90c17cabadf6"
+    ],
+    "vec_new": [
+     "0b544170-848c-4cf4-af24-54d702a6e736",
+     "64cecd3f-204f-456e-91cc-e563280b1b99",
+     "0ce665d6-e5cf-4211-a8d5-8ef2716e5eb8",
+     "838abbeb-3be8-46c0-9d45-07eb751ea923",
+     "d21a29c8-41c2-43f6-be15-1c11f5ec8ffd"
+    ],
+    "hyb_old": [
+     "d81d752e-3ec2-4ef2-89fd-a8438fd06d79",
+     "4e4ea932-3de3-4736-a3ee-cf91e266450c",
+     "d36a155e-12b8-4dce-b959-fa1b0b4a7081",
+     "310bf683-8083-44f3-b32d-154bea46bc12",
+     "3d1fa6b6-1b9c-4e15-9138-90c17cabadf6"
+    ],
+    "hyb_new": [
+     "0b544170-848c-4cf4-af24-54d702a6e736",
+     "64cecd3f-204f-456e-91cc-e563280b1b99",
+     "0ce665d6-e5cf-4211-a8d5-8ef2716e5eb8",
+     "838abbeb-3be8-46c0-9d45-07eb751ea923",
+     "d21a29c8-41c2-43f6-be15-1c11f5ec8ffd"
+    ]
+   },
+   "metrics": {
+    "vec_old": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    },
+    "vec_new": {
+     "hit@5_strict": 1,
+     "hit@5_loose": 1,
+     "recall@5_strict": 0.5,
+     "recall@5_loose": 0.5,
+     "recall@15_strict": 1.0,
+     "recall@15_loose": 1.0,
+     "mrr@15_strict": 0.5,
+     "mrr@15_loose": 0.5
+    },
+    "hyb_old": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    },
+    "hyb_new": {
+     "hit@5_strict": 1,
+     "hit@5_loose": 1,
+     "recall@5_strict": 0.5,
+     "recall@5_loose": 0.5,
+     "recall@15_strict": 1.0,
+     "recall@15_loose": 1.0,
+     "mrr@15_strict": 0.5,
+     "mrr@15_loose": 0.5
+    }
+   }
+  },
+  {
+   "qid": "hp011",
+   "question": "En la Morley RP1r, después de descargar la extinción el sistema no vuelve a estado normal tras resetear. ¿Qué comprobar?",
+   "n_relevant": 26,
+   "retrieved_top5": {
+    "vec_old": [
+     "8af627ef-d364-4f68-af4b-6b5aaa76c1e5",
+     "b38653a3-805b-4d67-8dd3-939cb9ec9223",
+     "786207c7-bd6f-4818-aa63-c46caa8fe446",
+     "02853024-acb3-4f2b-81d1-5e7771cb48a0",
+     "6be07993-d428-4cea-8964-ea57bc2edaba"
+    ],
+    "vec_new": [],
+    "hyb_old": [
+     "8af627ef-d364-4f68-af4b-6b5aaa76c1e5",
+     "b38653a3-805b-4d67-8dd3-939cb9ec9223",
+     "786207c7-bd6f-4818-aa63-c46caa8fe446",
+     "02853024-acb3-4f2b-81d1-5e7771cb48a0",
+     "6be07993-d428-4cea-8964-ea57bc2edaba"
+    ],
+    "hyb_new": []
+   },
+   "metrics": {
+    "vec_old": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    },
+    "vec_new": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    },
+    "hyb_old": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    },
+    "hyb_new": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    }
+   }
+  },
+  {
+   "qid": "hp012",
+   "question": "¿Cuántos lazos direccionables soporta la Notifier AM2020/AFP1010 y cuántos dispositivos por lazo?",
+   "n_relevant": 9,
+   "retrieved_top5": {
+    "vec_old": [
+     "3065fcd8-ca52-4863-8427-8de91507bdba",
+     "c226b3fb-ada3-486b-9d66-b295e478f341",
+     "8c99e26b-8259-4214-b949-77c21cf59a78",
+     "8dc49cbe-3924-4843-8c21-38ddbee8f658",
+     "808b0b82-582e-42f0-a90a-28bcd66220b9"
+    ],
+    "vec_new": [],
+    "hyb_old": [
+     "8dc49cbe-3924-4843-8c21-38ddbee8f658",
+     "cff58380-dd57-4e41-bcc5-914a04a9f282",
+     "8516f2a4-2cfb-46e3-9ad5-27f3a25db5f8",
+     "3065fcd8-ca52-4863-8427-8de91507bdba",
+     "c226b3fb-ada3-486b-9d66-b295e478f341"
+    ],
+    "hyb_new": []
+   },
+   "metrics": {
+    "vec_old": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 1,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.1111111111111111,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.1111111111111111,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.25
+    },
+    "vec_new": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    },
+    "hyb_old": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 1,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.1111111111111111,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.1111111111111111,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 1.0
+    },
+    "hyb_new": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    }
+   }
+  },
+  {
+   "qid": "hp014",
+   "question": "¿Cómo se conecta un módulo de aislamiento de línea en un lazo ID2000?",
+   "n_relevant": 1,
+   "retrieved_top5": {
+    "vec_old": [
+     "7abebf5b-655e-40e1-a8fd-8b721549d116",
+     "8d0af11f-72fc-411e-9c40-27e537600668",
+     "5196c48a-4a17-4541-97e6-7c69566594f2",
+     "a23b562b-5da7-4065-a302-da5776e8d50d",
+     "8b3bd1d7-a44c-4fa4-ad76-c34e5c409ee1"
+    ],
+    "vec_new": [],
+    "hyb_old": [
+     "7abebf5b-655e-40e1-a8fd-8b721549d116",
+     "8d0af11f-72fc-411e-9c40-27e537600668",
+     "5196c48a-4a17-4541-97e6-7c69566594f2",
+     "a23b562b-5da7-4065-a302-da5776e8d50d",
+     "8b3bd1d7-a44c-4fa4-ad76-c34e5c409ee1"
+    ],
+    "hyb_new": []
+   },
+   "metrics": {
+    "vec_old": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 1.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.1111111111111111
+    },
+    "vec_new": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    },
+    "hyb_old": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 1.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.1111111111111111
+    },
+    "hyb_new": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    }
+   }
+  },
+  {
+   "qid": "hp018",
+   "question": "¿Cuál es el conexionado correcto de una sirena convencional en la Morley ZXe zona 1?",
+   "n_relevant": 1,
+   "retrieved_top5": {
+    "vec_old": [],
+    "vec_new": [],
+    "hyb_old": [],
+    "hyb_new": []
+   },
+   "metrics": {
+    "vec_old": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    },
+    "vec_new": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    },
+    "hyb_old": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    },
+    "hyb_new": {
+     "hit@5_strict": 0,
+     "hit@5_loose": 0,
+     "recall@5_strict": 0.0,
+     "recall@5_loose": 0.0,
+     "recall@15_strict": 0.0,
+     "recall@15_loose": 0.0,
+     "mrr@15_strict": 0.0,
+     "mrr@15_loose": 0.0
+    }
+   }
+  }
+ ],
+ "aggregate": {
+  "vec_old": {
+   "hit@5_strict": {
+    "mean": 0.0
+   },
+   "hit@5_loose": {
+    "mean": 0.2727272727272727
+   },
+   "recall@5_strict": {
+    "mean": 0.0
+   },
+   "recall@5_loose": {
+    "mean": 0.11010101010101012
+   },
+   "recall@15_strict": {
+    "mean": 0.0
+   },
+   "recall@15_loose": {
+    "mean": 0.2101010101010101
+   },
+   "mrr@15_strict": {
+    "mean": 0.0
+   },
+   "mrr@15_loose": {
+    "mean": 0.1691919191919192
+   }
+  },
+  "vec_new": {
+   "hit@5_strict": {
+    "mean": 0.36363636363636365
+   },
+   "hit@5_loose": {
+    "mean": 0.36363636363636365
+   },
+   "recall@5_strict": {
+    "mean": 0.19242424242424241
+   },
+   "recall@5_loose": {
+    "mean": 0.2
+   },
+   "recall@15_strict": {
+    "mean": 0.2863636363636364
+   },
+   "recall@15_loose": {
+    "mean": 0.2818181818181818
+   },
+   "mrr@15_strict": {
+    "mean": 0.3181818181818182
+   },
+   "mrr@15_loose": {
+    "mean": 0.3181818181818182
+   }
+  },
+  "hyb_old": {
+   "hit@5_strict": {
+    "mean": 0.0
+   },
+   "hit@5_loose": {
+    "mean": 0.2727272727272727
+   },
+   "recall@5_strict": {
+    "mean": 0.0
+   },
+   "recall@5_loose": {
+    "mean": 0.1191919191919192
+   },
+   "recall@15_strict": {
+    "mean": 0.0
+   },
+   "recall@15_loose": {
+    "mean": 0.2101010101010101
+   },
+   "mrr@15_strict": {
+    "mean": 0.0
+   },
+   "mrr@15_loose": {
+    "mean": 0.2222222222222222
+   }
+  },
+  "hyb_new": {
+   "hit@5_strict": {
+    "mean": 0.36363636363636365
+   },
+   "hit@5_loose": {
+    "mean": 0.36363636363636365
+   },
+   "recall@5_strict": {
+    "mean": 0.20303030303030303
+   },
+   "recall@5_loose": {
+    "mean": 0.20909090909090908
+   },
+   "recall@15_strict": {
+    "mean": 0.30454545454545456
+   },
+   "recall@15_loose": {
+    "mean": 0.3
+   },
+   "mrr@15_strict": {
+    "mean": 0.3181818181818182
+   },
+   "mrr@15_loose": {
+    "mean": 0.3181818181818182
+   }
+  }
+ },
+ "deltas_loose": {
+  "vec": {
+   "hit@5": {
+    "delta": 0.09090909090909091,
+    "ci_low": -0.18181818181818182,
+    "ci_high": 0.36363636363636365
+   },
+   "recall@5": {
+    "delta": 0.08989898989898991,
+    "ci_low": -0.004040404040404036,
+    "ci_high": 0.20909090909090908
+   },
+   "recall@15": {
+    "delta": 0.07171717171717171,
+    "ci_low": -0.20202020202020202,
+    "ci_high": 0.34545454545454546
+   },
+   "mrr@15": {
+    "delta": 0.14898989898989898,
+    "ci_low": -0.032828282828282825,
+    "ci_high": 0.3762626262626263
+   }
+  },
+  "hyb": {
+   "hit@5": {
+    "delta": 0.09090909090909091,
+    "ci_low": -0.18181818181818182,
+    "ci_high": 0.36363636363636365
+   },
+   "recall@5": {
+    "delta": 0.08989898989898991,
+    "ci_low": -0.0101010101010101,
+    "ci_high": 0.20909090909090908
+   },
+   "recall@15": {
+    "delta": 0.08989898989898987,
+    "ci_low": -0.19191919191919193,
+    "ci_high": 0.3727272727272727
+   },
+   "mrr@15": {
+    "delta": 0.09595959595959598,
+    "ci_low": -0.19696969696969696,
+    "ci_high": 0.38383838383838387
+   }
+  }
+ },
+ "verdict_floor1": {
+  "vec": "NO PASS",
+  "hyb": "NO PASS"
+ }
+}

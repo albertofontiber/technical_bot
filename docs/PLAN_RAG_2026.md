@@ -655,3 +655,240 @@ general. Evaluado punto por punto:
   LlamaParse → run de extracción completo desbloqueado. Próxima sesión: lanzar
   el run agéntico completo (background, resumable) + construir la Etapa B
   (idioma, chunking, contextual retrieval, embed Voyage + HNSW `chunks_v2`).
+- **22 mayo 2026** — Sesión 23. (1) **Run de extracción A2 lanzado** en
+  background (resumable; verificados antes los 15 archivos ya extraídos —
+  agéntico `premium`, markdown con headers, tablas limpias). (2) **Etapa B
+  construida entera** — `migrations/006_chunks_v2.sql` + 8 módulos en
+  `src/reingest/`: `language` (B1/B2), `chunk` (B3/B4), `metadata` (B5),
+  `dedup` (B6), `contextualize` (B7), `embed`+`index` (B8) y `pipeline`
+  (orquestador, estado por archivo, re-ejecutable). Validada: dry-run completo
+  sobre lo extraído (0 fallos), contextualize probado con llamada real a Haiku
+  (blurbs correctos), language/chunk/metadata/dedup con pruebas unitarias.
+  Cumple el contrato BP+estructural+escalable; gaps declarados abajo.
+  Refinamientos de diseño hechos durante la construcción:
+  · **chunk.py — headers como cortes BLANDOS, no duros.** Un corte por cada
+    header fragmenta los spec-sheets en decenas de chunks inservibles (medido:
+    845→445 chunks al pasar a acumulación por tamaño). Las secciones minúsculas
+    se acumulan; subir en la jerarquía (header más somero) sí corta siempre.
+  · **B6 (dedup) corre POST-embed.** El orden del diagrama (B6→B7→B8) no es
+    implementable: el dedup semántico necesita los embeddings. Orden real
+    B7→B8→B6→index. El marcado no destructivo (`duplicate_of`) hace el orden
+    flexible.
+  · **migración 006 FASE D — el SWAP también reemplaza las RPC.** El plan decía
+    "las RPC siguen válidas sin tocarse": cierto para las referencias por
+    nombre de columna, falso para la dimensión del embedding (1536→1024). El
+    SWAP hace DROP+RENAME de `match_chunks`/`search_chunks_text` a sus versiones
+    `_v2`. El código Python del retriever sigue intacto.
+  · **`chunks_v2` es superconjunto de `chunks`** — el retriever selecciona
+    columnas por nombre vía PostgREST, así que el swap por RENAME es
+    transparente sin tocar `retriever.py`.
+  · **A3 store local** (`data/extraction/`), no Supabase Storage — decisión de
+    la sesión 22; durable igualmente (carpeta sincronizada), más simple.
+  **Gap declarado:** B5 (metadata) es la *interfaz* de Fase 1 — la detección de
+  modelo/fabricante es aproximada (regex compacta + mapa de prefijos); da falsos
+  positivos en filenames que son números de catálogo. La precisión es la
+  externalización a YAML de la Fase 2; no es un quick-fix pendiente, es el
+  alcance que el plan asignó a B5.
+  **Bloqueantes del run real de la Etapa B:** (a) falta `VOYAGE_API_KEY` en
+  `.env` — solo la necesita B8; (b) aplicar `migrations/006_chunks_v2.sql` en el
+  SQL Editor de Supabase; (c) que termine la extracción.
+  **Próxima sesión:** dejar terminar la extracción (~1-2 días, resumable) →
+  aplicar migración 006 + añadir Voyage key → `python -m src.reingest.pipeline`
+  → GATE (recall de las 52 preguntas sobre `chunks_v2`) → SWAP (FASE D).
+- **22 mayo 2026** — Sesión 23 cierre, dos refinamientos:
+  · **Alcance fijado** — Alberto: extraer todo el corpus; **Morley dentro del
+    alcance de calidad y validación** (no se filtra nada; pipeline ya lo
+    procesa). Composición real del corpus medida: Notifier 70% (14.430
+    páginas), Morley 17% (3.457), Detnov + marcas especiales 13% (2.599).
+  · **Gap de atribución marca/distribuidor cerrado** (§2.3, Securiton/VESDA).
+    Mapeo cerrado con Alberto vía datasheets, encodeado en B5: **Securiton**
+    (ASD/ADW/ART), **Xtralis** (VESDA — Notifier la comercializa),
+    **Pfannenberg** (PA/DS/PY-X), **Argus Security** (SG*), **Pepperl-Fuchs**
+    (Z728 estricto — Z-200-R de Detnov NO cae aquí), **Spectrex** (SharpEye
+    40-40/20-20), **SenseWare** (210-Series UV/IR); todos con distribuidor
+    Detnov salvo VESDA (Notifier). FireBeam y Signaline corregidos a Detnov
+    (eran marcas propias, no terceras como había puesto inicialmente).
+    Patrones por regex de modelo específico con guards anti-falsos-positivos
+    ("2020" año, "DS-00000-00", "Z728_installation"). Añadida columna
+    `distributor TEXT` a `chunks_v2` + ambas RPC — semilla del "campo separado
+    marca/distribuidor" que el plan tenía para Fase 2, traída ahora para que
+    `chunks_v2` nazca con la atribución completa y no requiera migración
+    futura. Validado sobre los 105 docs ya extraídos: Securiton/Pfannenberg/
+    Argus/Pepperl-Fuchs/Spectrex con marca y modelo limpios. La reconciliación
+    del retriever (su MODEL_PATTERN sigue clasificando ASD como Detnov) sigue
+    siendo Fase 2 por diseño — junto con la externalización a YAML.
+  · El proceso de extracción cayó a las 104 imágenes (causa no identificada,
+    log se había quedado vacío por buffering); re-lanzado con `python -u` para
+    que el log capture progreso en tiempo real. Resumable como diseñado.
+- **23-24 mayo 2026** — Sesión 24, ejecución de la Etapa B end-to-end. Alberto
+  añadió `VOYAGE_API_KEY` y aplicó `migrations/006_chunks_v2.sql`. Pipeline
+  arrancó, sobrevivió 9,5 h y crasheó al doc ~99 por `PermissionError` de
+  Windows/OneDrive sobre `_save_json` (race del sincronizador con `os.replace`
+  atómico); patch retry-on-PermissionError en `_save_json`, re-lanzado. Otros
+  2 docs (50253SP, MIDT170) crashearon con 409 Conflict de PostgREST sobre
+  `chunks_v2.duplicate_of_fkey` (root cause = FK violation: B6 marcaba un
+  chunk como duplicado de otro que aún no había entrado por orden de batch);
+  patch en `index.py` ordena `duplicate_of IS NULL` primero antes de los
+  marcados. **Pipeline completo: 22.849 chunks indexados, 915 docs done, 44
+  register-only, 6 empty, 0 fallos finales.** 2 PDFs corruptos legacy (RC4
+  encryption muy vieja) aceptados como pérdida (`MADT731_03_A`, `MNDT710`,
+  deprecado per Alberto). Voyage `voyage-4-large` confirmado nativo 1024 (no
+  hace falta `output_dimension`; el SDK 0.2.4 no lo expone igualmente). B6
+  post-index dedup (`dedup_pass.py`) ejecutado sobre los 21.575 chunks no
+  marcados: **1.286 duplicados intra-producto cross-archivo marcados** (~11%
+  del corpus, mayoría ES/EN equivalentes). Listo para el GATE.
+- **24-25 mayo 2026** — Sesión 25, **diseño y construcción del GATE** (Bloques
+  A y B troceados):
+  · **Bloque A — definición:** métrica = Hit@5 (primaria) + Recall@5 +
+    Recall@15 + MRR@15, con bootstrap IC95% para "delta significativo" en
+    lugar de un umbral pre-comprometido (más honesto estadísticamente).
+    Criterio SWAP = **2 pisos**: piso 1 GATE-recall + piso 2 mini-judge sobre
+    ~12 preguntas con mayor `|delta_recall|`. Revertido hp006 a `answer` (el
+    único caso verificado de recalibración mal hecha — `cm001`/`cm005` son
+    política deliberada). Política cross-brand DIFERIDA a post-SWAP.
+  · **Bloque B — mecánica:** retrieval medido = vector puro + híbrido completo.
+    Chunks relevantes identificados con Sonnet (NO Voyage para evitar el
+    "evaluador y evaluado misma vara"). Brute-force: TODOS los chunks del
+    producto, Sonnet juzga cada uno (~5.000 calls, ~$15). Eval-B paralelo
+    diferido junto con política cross-brand. Script GATE pendiente
+    (`scripts/gate.py`) con git SHA + eval hash + caché de query embeddings +
+    bootstrap IC95.
+  · **B5 fix expuesto por el GATE** — la creación del gold reveló que B5 no
+    detectaba ZXe/DXc/PEARL/INSPIRE/AgileIQ (sin dígitos) ni B5xx (Notifier);
+    pattern añadido `_LETTER_MODELS` (filename-only para evitar FP por menciones
+    en content) + `_FILENAME_ONLY_PATTERNS` para B5xx + blacklist
+    `_NON_PRODUCT_CODES` (EN-54/NFPA-72/IP-65/CEM-2004 ya no contaminan) +
+    normalización underscore→espacio antes de `\b`. Script
+    `update_product_models_v2.py` re-aplicó B5 sobre `chunks_v2`: **214 docs
+    actualizaron metadata** (176 mejorados + 38 NULL→atribuido). El fix es
+    estructural-en-su-alcance, no parche; la externalización completa a YAML
+    sigue siendo Fase 2 (T17 task pendiente).
+  · **B.2 cross-validación con Opus** (judge v2 Capa B): Opus 4.6 juzgó las
+    mismas 1.768 decisiones de Sonnet (100% positives + 100% negs de las 8
+    `no_relevant_in_candidates` + 30% random del resto), $23, 14 min. **Raw
+    agreement 95,1%, Cohen's κ = 0,56 (moderada)**. Asimetría clara: 78
+    chunks que Sonnet rechazó pero Opus considera relevantes (false negatives
+    de Sonnet) vs solo 8 al revés. Concentración en `hp016` (12/15
+    disagreements — sospecha fuerte) y `hp011` (25/90). 86 disagreements en
+    `evals/gate_validation_disagreements.md` formato side-by-side para
+    revisión humana.
+  **Capa A (Opus + PDFs originales) DIFERIDA a post-SWAP**, tal como el plan
+  §4 (refinamiento Fase 0/1) prescribe: gold answers deben generarse "sobre el
+  corpus ya re-ingestado", no antes. T17 (Fase 2 YAML) también post-SWAP.
+  **Próxima sesión:** Alberto revisa los 86 disagreements (45-60 min offline,
+  empezar por hp016+hp011 — si el patrón está claro, calibrar velocidad) →
+  merge sus decisiones en `gate_relevant_chunks.json` → construir
+  `scripts/gate.py` (T13) y `scripts/gate_judge.py` (T14) → ejecutar GATE
+  end-to-end (T15) → verdict SWAP basado en piso 1 + piso 2.
+- **26 mayo 2026** — Sesión 26, revisión humana de disagreements del GATE en
+  curso (hp001-hp003 cerrados, hp004+ pendiente). Calibración del criterio y
+  dos hallazgos estructurales:
+  · **Criterio fijado: PROCEDURAL PURO.** SI si el bot citaría el chunk para
+    construir alguna parte de la respuesta al técnico; NO si tangencial,
+    producto distinto o apuntador sin contenido propio. **Rigor de dominio
+    (corregir valores imprecisos) DIFERIDO a Capa A** (gold answers post-SWAP
+    con técnico PCI real). En esta capa medimos retrieval recall, no answer
+    quality — confundir ambos cosas inflaría falsos NO. Caso pivote registrado
+    en `evals/gate_validation_disagreements.md`: hp004 `bf78e1db-f87` (chunk
+    DGD-600 dice "24V o 220V"; rango real 22-38V/180-240V — procedural=SI,
+    rigor de dominio=NO; resuelto SI, anotado para Capa A).
+  · **Bug detectado y parcheado: `cross_validate_relevance.py:311`** truncaba
+    el render del .md a 1500 chars mientras Sonnet/Opus juzgaban sobre 4000
+    (`MAX_CHUNK_CHARS`). La revisión humana operaba con menos información que
+    los LLMs — gap silencioso, manifestación nueva de la lección Fase 0
+    "verificar contra la fuente canónica completa". Detectado por Alberto al
+    notar que Sonnet citaba "BAT" en hp003 #2 sin que él lo viera. Parche:
+    `[:1500]` → `[:MAX_CHUNK_CHARS]`. Script `scripts/expand_disagreements_md.py`
+    creado para regenerar el .md preservando decisiones humanas ya tomadas
+    (chunk_ids estables, fetch a Supabase, reemplazo inline con assert de
+    preservación de decisiones/comentarios).
+  · **Follow-ups de Fase 1 detectados** durante la revisión humana, registrados
+    en cabecera del `.md` para no bloquear el GATE: (a) `page_number` off-by-2
+    sistemático en docs CAD-150 (bug del chunker B3); (b) chunks ES/EN
+    equivalentes no marcados `duplicate_of` (gap de B6 dedup semántico — caso
+    hp003 #1↔#6 CAD-150 Cautions 1.2); (c) chunk con header de siguiente
+    sección sin contenido (edge del corte por tamaño en B3).
+  · **Alcance del GATE inicial fijado**: las 13 decisiones cross-manual `cm*`
+    (cm002 × 5, cm003 × 2, cm004 × 5, cm005 × 1) **NO entran** en esta pasada
+    — alineado con "política cross-brand DIFERIDA a post-SWAP" del Bloque A.
+    3 de 4 son `admit_no_info` (decidir relevancia no aporta señal); la única
+    `answer` (cm002, migración AFP-200 → ID3000) también es cross-brand. Se
+    retomarán bajo Capa A del judge v2 con técnico PCI real. El GATE inicial
+    arranca con 73 chunks sobre 17 preguntas hp*.
+  · **T12 — Merge de decisiones humanas ejecutado**: 19 chunks añadidos (Sonnet
+    NO → Alberto SI, casos de falsos negativos de Sonnet), 3 quitados (Sonnet
+    SI → Alberto NO), 51 no-op. Re-evaluación de verdicts: hp018 sube a
+    `relevant_found` (0→1), hp019 baja a `no_relevant_in_candidates` (2→0). 5
+    de 19 preguntas answer-type quedan como `admit_no_info` de facto tras
+    revisión humana (hp012, hp013, hp014, hp016, hp019) — corpus no documenta
+    troubleshooting de baterías B501RF, extinción RP1r post-descarga, etc.
+    Hallazgo del proceso valioso (post-SWAP: actualizar `baseline_v1.yaml`).
+    Output: `evals/gate_relevant_chunks.json` (85 relevant_chunks tras merge)
+    + `evals/human_review_audit.json` (log detallado). Script:
+    `scripts/merge_human_decisions.py` (idempotente, con assert/backup).
+  · **T13 — gate.py implementado y ejecutado**: 4 configs (vec_old, vec_new,
+    hyb_old, hyb_new) sobre 11 preguntas con relevant_chunks>0, bootstrap
+    IC95 paired por pregunta, sin HyDE. **Match doble strict+loose** (sesión
+    26): strict por chunk_id válido solo dentro chunks_v2; loose por
+    (source_file, page_number) para cross-tabla (chunks viejo OpenAI 1536 vs
+    chunks_v2 Voyage 1024 tienen IDs distintos tras re-chunking). Filtro
+    `filter_product` aplicado en RPCs (crítico: sin él, vec trae chunks de
+    manuales temáticamente similares en vez del producto correcto). Script:
+    `scripts/gate.py`.
+  · **Resultados del GATE base (n=11)**: chunks_v2 supera direccionalmente a
+    chunks viejo en TODAS las métricas, **pero ninguna alcanza significancia
+    estadística** (IC95 cruza 0). Hit@5 loose: 0.273 → 0.364 (+0.091
+    IC95=[-0.18, +0.36]); MRR@15: 0.169 → 0.318 (+0.149 IC95=[-0.03, +0.38]).
+    **Verdict piso 1 = NO PASS estricto** por n bajo (no por delta cero).
+    Strict para vec_new (0.364) ≈ loose (0.364) — cuando vec_new trae chunk
+    de página relevante, suele ser el chunk_id exacto del gold (señal de
+    buen chunking en chunks_v2). Recall absoluto bajo (~36% hit@5) — espacio
+    para tuning post-SWAP (HyDE/reranker/BM25+RRF). Output:
+    `evals/gate_results.json`.
+  · **Auto-crítica del método y descubrimiento de contradicción en el plan**:
+    tras 4 rondas de "¿hay más gaps?" empujadas por Alberto, identificado
+    que (a) Plan B+ matriz 2×2 NO atacaba causa raíz (n=11) y (b) Plan Y
+    (ampliar eval) era mejor pero seguía midiendo proxy débil (Hit@5 vs
+    gold-relevance) en vez del kpi real (calidad de respuesta del bot). (c)
+    Descubierta **contradicción interna del plan**: §4 (refinamiento Fase
+    0/1, 22 mayo) dice Capa A va paso 3 ANTES del tuning (paso 4); §6
+    cierre sesión 25 dijo "Capa A DIFERIDA a post-SWAP". §4 era el orden
+    correcto. La razón del diferimiento ("gold sobre corpus re-ingestado")
+    no aplica — chunks_v2 ya existe, solo no está en producción; Capa A
+    se puede hacer hoy sobre chunks_v2.
+  · **Plan Z fijado para próxima sesión — orden correcto del plan §4**:
+    1. Construir **Capa A** (gold answers para las 17 preguntas hp*) con LLM
+       strong (Opus) + extracción programática del PDF (no de memoria —
+       lección Fase 0 sobre los 6 errores de gold de Cowork por citar de
+       memoria) + validación humana de Alberto al 100% (con N=17 es
+       factible, BP estadística). Coste ~3-4h tu tiempo + ~$5 API.
+    2. Extender **judge v2 Capa B** con métricas de calidad de respuesta
+       (faithfulness vs chunks F + correctness vs gold + completitud).
+       **Judge cross-model: tercer modelo distinto del generador del bot
+       (Sonnet) y del generador del gold (Opus)** — plan §5 explícito.
+       Candidatos Mayo 2026: GPT-5, Gemini 2.5 Pro, Mistral Large. ~2-3h.
+    3. **Re-correr GATE** midiendo Δ_quality (no solo Δ_retrieval). Las
+       métricas de calidad numéricas continuas tienen menos varianza que
+       hit@5 binario → más potencia con el mismo n=11. ~1h run.
+    4. **Decidir SWAP** basado en Δ_quality + Δ_retrieval combinados, con
+       MDE pre-comprometido antes de mirar resultados (BP de A/B testing,
+       evita p-hacking) — definir en próxima sesión.
+  · **Gaps materiales declarados (no bloqueantes, atención requerida)**:
+    (a) chunks_v2 readiness — B5 metadata aún tiene falsos positivos en
+    filenames numéricos; flow diagram coverage no auditada; blurbs B7 sin
+    sampling de calidad. (b) Judge cross-model — falta decidir tercer
+    modelo concreto. (c) Sample size validación humana — fijado en 100%
+    para N=17 (vs ambigüedad del plan §5 "en muestra"). (d) Proxy
+    fundamental — sin técnico real, todo es proxy; Capa A es mejor proxy
+    que Hit@5 pero limitado. (e) **Plan Y (ampliar eval con queries reales
+    de query_logs) queda en backlog** por si tras Plan Z el delta sigue
+    cruzando 0 — usar query_logs es BP (no sintéticas).
+  · **Gap META del método**: mi auto-crítica fue REACTIVA (gaps declarados
+    en iteraciones 2-4 cuando Alberto preguntó "¿hay más gaps?"), no
+    PROACTIVA como prescribe la norma de memoria personal *"declarar gap
+    honestamente sin esperar pushback"*. Patrón observado: cada propuesta
+    inicial decía "los pasos pasan el contrato" pero no declaraba riesgos
+    obvios (strict vs loose match, n=11, contradicción §4/§6) hasta
+    iteraciones posteriores. **Compromiso para próxima sesión y siguientes:
+    declarar gaps en la propuesta inicial, sin esperar pushback.** El
+    sistema no debe depender de Alberto como anti-bias humano.
