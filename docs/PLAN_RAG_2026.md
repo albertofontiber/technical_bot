@@ -610,6 +610,107 @@ general. Evaluado punto por punto:
 
 ---
 
+## 9. Pre-registro del experimento SWAP (sesión 27)
+
+Pre-registro estilo A/B testing — reglas de decisión fijadas ANTES de mirar
+resultados, para evitar p-hacking y selección post-hoc de la métrica que
+"sale bien". Aplicable al run principal de Capa A + Capa B.
+
+### 9.1 Hipótesis
+
+- **H0**: chunks_v2 (Voyage 1024 + Haiku contextual + dedup) no mejora la
+  calidad de respuesta del bot vs chunks viejo (OpenAI 1536).
+- **H1**: chunks_v2 mejora la calidad de respuesta.
+
+### 9.2 Métrica primaria (decisoria)
+
+`correctness`: score [0-1] que el judge cross-model asigna a cada respuesta
+del bot vs gold answer (Capa A), promediado sobre N=17 preguntas hp*.
+
+Rationale: continua (más potencia que Hit@5 binario para el mismo n), alineada
+con el KPI real (calidad de respuesta al técnico), separada del retrieval.
+
+### 9.3 Métricas secundarias (informativas, NO decisorias)
+
+- `faithfulness`: respuesta del bot vs chunks recuperados (no vs gold) —
+  penaliza alucinación. Constraint duro: regresión > 0.05 BLOQUEA el SWAP
+  aunque correctness mejore (no compensar verdad con alucinación).
+- `completitud`: cobertura de los aspectos del gold.
+- `Δ_retrieval`: Hit@5, MRR@15 (continuidad con GATE base).
+
+### 9.4 Diseño
+
+- Paired (misma pregunta, dos configs).
+- Configs comparadas: `vec_new` (chunks_v2 Voyage 1024) vs `vec_old` (chunks
+  OpenAI 1536). Las configs híbridas (`hyb_new` vs `hyb_old`) se reportan
+  pero NO son decisorias del SWAP — el SWAP cambia chunks_v2, no el
+  retriever; son dimensiones ortogonales.
+- N = 17 (12 hp* con `relevant_chunks` + 5 hp* `admit_no_info` de facto
+  con conducta_esperada auditada caso por caso en Capa A).
+- α = 0.05 (dos colas).
+- Potencia objetivo = 0.80.
+
+### 9.5 Test estadístico
+
+- Bootstrap paired con 10.000 resamples → IC95 paired (no asume normalidad).
+- Paired t-test reportado adicionalmente (asumiendo normalidad).
+- MDE clásico paired:
+  `MDE = (z_{α/2} + z_β) × σ_diff / √N = 2.80 × σ_diff / √17 ≈ 0.679 × σ_diff`
+
+### 9.6 MDE pre-comprometido (calibración con pilot N=3)
+
+`σ_diff` (std dev de la diferencia paired `correctness(new) - correctness(old)`)
+NO se conoce a priori. Se calibra con un **pilot N=3** sobre hp001, hp002, hp003
+(preguntas con `relevant_chunks` más robustos por kappa Sonnet↔Opus) ANTES
+del run principal.
+
+Tres bandas pre-comprometidas según σ_diff observada en pilot:
+
+| σ_diff pilot | MDE con N=17 | Decisión |
+|---|---|---|
+| ≤ 0.10 | ≤ 0.068 | Proceder con N=17. MDE razonable. |
+| 0.10–0.20 | 0.068–0.136 | Proceder con N=17. Reportar MDE como caveat. |
+| > 0.20 | > 0.136 | **N=17 insuficiente → Plan Y' obligatorio** antes de SWAP. |
+
+El MDE numérico exacto se fija TRAS el pilot, ANTES de ejecutar el run principal.
+
+### 9.7 Reglas de decisión PASS / NO PASS
+
+**PASS** (SWAP autorizado, conjunción de las tres):
+- Δ_correctness > MDE (calculado por pilot)
+- IC95 paired de Δ_correctness no cruza 0
+- Δ_faithfulness ≥ -0.05 (no regresar más de 5 puntos)
+
+**NO PASS** (no SWAP, continuar tuning) si CUALQUIERA de:
+- σ_diff > 0.20 en pilot → Plan Y' antes de SWAP
+- Δ_correctness ≤ MDE → no significativo
+- IC95 paired cruza 0 → no significativo
+- Δ_faithfulness < -0.05 → alucinación regresa demasiado
+
+### 9.8 Análisis exploratorios (no pre-comprometidos)
+
+Solo TRAS la decisión PASS/NO PASS principal, para entender el porqué — no
+para reabrir la decisión:
+
+- Estratificar por `conducta_esperada` (answer / ask_clarification / admit_no_info)
+- Comparación per-producto / per-fabricante
+- Correlación correctness ↔ retrieval (¿correctness sigue a Hit@5?)
+- Subgrupo `hyb_*` (info para Capa B futura)
+
+### 9.9 Plan Y' en backlog (post-Capa A)
+
+Si tras Plan Z el delta sigue cruzando 0 o el pilot indica σ_diff > 0.20,
+ampliar eval con:
+
+- (a) queries reales de `query_logs` (distribución real de queries de técnicos)
+- (b) sintéticas con Opus 4.7 sobre PDFs (cobertura amplia, productos sin queries reales)
+
+Patrón anti-circular para (b): Opus extrae fragmento de PDF + genera pregunta
+→ modelo distinto valida que es respondible → Opus genera gold. Validación
+humana cambia a sampling estratificado (no 100% — no escala).
+
+---
+
 ## Changelog
 
 - **22 mayo 2026** — Documento creado. Consolida auditoría inicial + calibración
