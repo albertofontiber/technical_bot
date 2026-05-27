@@ -649,9 +649,18 @@ controla por incertidumbre con N pequeño.
 ### 9.3 Métricas secundarias y constraints duros
 
 **Faithfulness** (vs chunks recuperados, no vs gold): mide alucinación.
-**Constraint duro**: `lower_bound_IC95(faithfulness_mean) > 0.80`. Más alto
-que correctness porque alucinar en sistemas PCI es worst-case (técnico puede
-actuar sobre info inventada). Umbral pendiente de confirmación de Alberto.
+**Constraint duro compuesto** (regla robusta a N pequeño + ruido del judge —
+elegida sobre `lower_bound_IC95 > 0.85` que con N=20 exigiría media observada
+~0.91, propenso a NO PASS por estrechez estadística aunque el bot apenas
+aluci):
+- `mean_faithfulness ≥ 0.85` sobre N=20 (la media en sí, no el límite inferior)
+- Ninguna pregunta individual con `faithfulness < 0.60` (cap anti-catástrofe)
+
+Razonamiento del 0.85 vs el 0.65 de correctness: alucinar en sistemas PCI es
+worst-case (técnico puede actuar sobre info inventada → riesgo de incidente),
+así que faithfulness se exige sustancialmente más alta que correctness. El
+cap `< 0.60` por caso protege contra una sola alucinación catastrófica que la
+media agregada podría enmascarar.
 
 **Completitud**: cobertura de aspectos del gold. Informativa, no decisoria.
 
@@ -699,14 +708,16 @@ agregado.
 
 **PASS** (SWAP a shadow/canary autorizado) — conjunción de:
 - `lower_bound_IC95(correctness_mean) > 0.65`
-- `lower_bound_IC95(faithfulness_mean) > 0.80`
+- `mean_faithfulness ≥ 0.85`
+- Ninguna pregunta con `faithfulness < 0.60`
 - Tier A: todas las 7 con `correctness ≥ 0.50`
 - Tier B: si alguna `correctness < 0.40` → revisión manual; tras revisión, el
   PASS sigue siendo válido SOLO si Alberto autoriza explícitamente esa caída
 
 **NO PASS** (no SWAP) si cualquiera de:
 - `lower_bound_IC95(correctness_mean) ≤ 0.65`
-- `lower_bound_IC95(faithfulness_mean) ≤ 0.80`
+- `mean_faithfulness < 0.85`
+- Cualquier pregunta con `faithfulness < 0.60`
 - Cualquier Tier A con `correctness < 0.50`
 
 En NO PASS: identificar **dónde** falla `chunks_v2` (qué preguntas, qué chunks
