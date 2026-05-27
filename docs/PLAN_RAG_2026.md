@@ -625,14 +625,14 @@ cuyos hallazgos vivos en v2 se indican inline.
 
 ### 9.1 Diseño
 
-Acceptance test absoluto sobre N=20 preguntas hp* del eval. Sin grupo control
+Acceptance test absoluto sobre N=19 preguntas hp* del eval. Sin grupo control
 decisorio. Una sola condición experimental: el bot real con `chunks_v2` en
 config de producción (**`hyb_new`** — el retriever real es híbrido vec+keyword).
 
 Hallazgo vivo de v1: hp016 (B501RF) removida del set por pregunta mal
 formulada (B501RF es familia de productos, no un producto único — el bot
 debería pedir clarificación, pero la pregunta del eval no permite distinguir
-si el fallo es del bot o de la pregunta). N=20 final.
+si el fallo es del bot o de la pregunta). N=19 final.
 
 ### 9.2 Pregunta decisoria y métrica primaria
 
@@ -640,7 +640,7 @@ si el fallo es del bot o de la pregunta). N=20 final.
 las 20 preguntas hp* del eval?
 
 **Métrica primaria**: `correctness` [0-1] que el judge cross-model asigna a
-cada respuesta del bot vs gold answer (Capa A), promediado paired sobre N=20.
+cada respuesta del bot vs gold answer (Capa A), promediado paired sobre N=19.
 
 **Umbral fijado pre-run**: `lower_bound_IC95(correctness_mean) > 0.65`. No la
 media observada — el límite inferior del intervalo de confianza al 95%. Esto
@@ -650,10 +650,10 @@ controla por incertidumbre con N pequeño.
 
 **Faithfulness** (vs chunks recuperados, no vs gold): mide alucinación.
 **Constraint duro compuesto** (regla robusta a N pequeño + ruido del judge —
-elegida sobre `lower_bound_IC95 > 0.85` que con N=20 exigiría media observada
+elegida sobre `lower_bound_IC95 > 0.85` que con N=19 exigiría media observada
 ~0.91, propenso a NO PASS por estrechez estadística aunque el bot apenas
 aluci):
-- `mean_faithfulness ≥ 0.85` sobre N=20 (la media en sí, no el límite inferior)
+- `mean_faithfulness ≥ 0.85` sobre N=19 (la media en sí, no el límite inferior)
 - Ninguna pregunta individual con `faithfulness < 0.60` (cap anti-catástrofe)
 
 Razonamiento del 0.85 vs el 0.65 de correctness: alucinar en sistemas PCI es
@@ -691,9 +691,8 @@ individuales:
 - `hp011` — RP1r post-extinción
 - `hp017` — retardo salida PEARL
 
-**Resto** (9 preguntas: hp007, hp008, hp010, hp013, hp015, hp018, hp019, hp020
-y la admit_no_info que falte): sin guardrail individual, cuentan solo en
-agregado.
+**Resto** (8 preguntas: hp007, hp008, hp010, hp013, hp015, hp018, hp019, hp020):
+sin guardrail individual, cuentan solo en agregado.
 
 ### 9.5 Test estadístico
 
@@ -701,7 +700,7 @@ agregado.
   fijada pre-run (`seed=42`). BCa elegido sobre percentile por mejor cobertura
   con N pequeño (hallazgo vivo gpt-5.5).
 - Unidad de resampling: pregunta.
-- Estadístico: media de `correctness` sobre N=20.
+- Estadístico: media de `correctness` sobre N=19.
 - Reporte adicional: Wilcoxon signed-rank vs 0.65 (sensibilidad — NO decisorio).
 
 ### 9.6 Reglas de decisión PASS / NO PASS
