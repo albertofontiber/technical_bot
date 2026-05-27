@@ -610,104 +610,201 @@ general. Evaluado punto por punto:
 
 ---
 
-## 9. Pre-registro del experimento SWAP (sesión 27)
+## 9. Pre-registro del acceptance test SWAP (sesión 27, v2)
 
-Pre-registro estilo A/B testing — reglas de decisión fijadas ANTES de mirar
-resultados, para evitar p-hacking y selección post-hoc de la métrica que
-"sale bien". Aplicable al run principal de Capa A + Capa B.
+**Pivot v1→v2 (27 mayo 2026)**: la v1 de §9 era un pre-registro de A/B paired
+(`chunks_v2` vs `chunks` viejo). La v2 es un **acceptance test absoluto** de
+`chunks_v2`. Razón del pivot: el corpus viejo tiene bugs documentados de
+parsing/chunking (verificados en sesión 22 con PyMuPDF — caso hp006 Earth Fault
+es el ejemplo), y la decisión de SWAP no es genuinamente binaria. El control es
+un inferior conocido; comparar contra él es trabajo sin valor decisorio. La
+pregunta real es **"¿supera `chunks_v2` un umbral mínimo de calidad para
+producción?"**, no "¿es mejor que el viejo?". La v1 queda en historia git
+(commit `fdf7d5f`) más auditoría externa con gpt-5.5 (`evals/preregistration_review_gpt-5.5.md`)
+cuyos hallazgos vivos en v2 se indican inline.
 
-### 9.1 Hipótesis
+### 9.1 Diseño
 
-- **H0**: chunks_v2 (Voyage 1024 + Haiku contextual + dedup) no mejora la
-  calidad de respuesta del bot vs chunks viejo (OpenAI 1536).
-- **H1**: chunks_v2 mejora la calidad de respuesta.
+Acceptance test absoluto sobre N=20 preguntas hp* del eval. Sin grupo control
+decisorio. Una sola condición experimental: el bot real con `chunks_v2` en
+config de producción (**`hyb_new`** — el retriever real es híbrido vec+keyword).
 
-### 9.2 Métrica primaria (decisoria)
+Hallazgo vivo de v1: hp016 (B501RF) removida del set por pregunta mal
+formulada (B501RF es familia de productos, no un producto único — el bot
+debería pedir clarificación, pero la pregunta del eval no permite distinguir
+si el fallo es del bot o de la pregunta). N=20 final.
 
-`correctness`: score [0-1] que el judge cross-model asigna a cada respuesta
-del bot vs gold answer (Capa A), promediado sobre N=17 preguntas hp*.
+### 9.2 Pregunta decisoria y métrica primaria
 
-Rationale: continua (más potencia que Hit@5 binario para el mismo n), alineada
-con el KPI real (calidad de respuesta al técnico), separada del retrieval.
+**Pregunta decisoria**: ¿supera `chunks_v2` un umbral mínimo de calidad sobre
+las 20 preguntas hp* del eval?
 
-### 9.3 Métricas secundarias (informativas, NO decisorias)
+**Métrica primaria**: `correctness` [0-1] que el judge cross-model asigna a
+cada respuesta del bot vs gold answer (Capa A), promediado paired sobre N=20.
 
-- `faithfulness`: respuesta del bot vs chunks recuperados (no vs gold) —
-  penaliza alucinación. Constraint duro: regresión > 0.05 BLOQUEA el SWAP
-  aunque correctness mejore (no compensar verdad con alucinación).
-- `completitud`: cobertura de los aspectos del gold.
-- `Δ_retrieval`: Hit@5, MRR@15 (continuidad con GATE base).
+**Umbral fijado pre-run**: `lower_bound_IC95(correctness_mean) > 0.65`. No la
+media observada — el límite inferior del intervalo de confianza al 95%. Esto
+controla por incertidumbre con N pequeño.
 
-### 9.4 Diseño
+### 9.3 Métricas secundarias y constraints duros
 
-- Paired (misma pregunta, dos configs).
-- Configs comparadas: `vec_new` (chunks_v2 Voyage 1024) vs `vec_old` (chunks
-  OpenAI 1536). Las configs híbridas (`hyb_new` vs `hyb_old`) se reportan
-  pero NO son decisorias del SWAP — el SWAP cambia chunks_v2, no el
-  retriever; son dimensiones ortogonales.
-- N = 17 (12 hp* con `relevant_chunks` + 5 hp* `admit_no_info` de facto
-  con conducta_esperada auditada caso por caso en Capa A).
-- α = 0.05 (dos colas).
-- Potencia objetivo = 0.80.
+**Faithfulness** (vs chunks recuperados, no vs gold): mide alucinación.
+**Constraint duro**: `lower_bound_IC95(faithfulness_mean) > 0.80`. Más alto
+que correctness porque alucinar en sistemas PCI es worst-case (técnico puede
+actuar sobre info inventada). Umbral pendiente de confirmación de Alberto.
+
+**Completitud**: cobertura de aspectos del gold. Informativa, no decisoria.
+
+**Retrieval** (Hit@5, MRR@15): informativos. Sin guardrail formal — el GATE
+de retrieval ya se ejecutó (sesión 26), confirmó dirección positiva sin
+significancia.
+
+### 9.4 Safety-critical por caso (Tier A / Tier B)
+
+Las preguntas hp* no son equivalentes — mal responder valores numéricos /
+wiring es peor que mal responder procedurales recoverables. Guardrails
+individuales:
+
+**Tier A — Safety-critical estricto** (7 preguntas). Si CUALQUIERA tiene
+`correctness < 0.50` individualmente, **NO PASS automático** (bloqueo):
+- `hp001` — menú programación avanzada CAD-250 (acceso indebido = romper config)
+- `hp003` — wiring baterías 24V CAD-150 (voltaje crítico)
+- `hp004` — tensión y consumo DGD-600 (spec numérico)
+- `hp005` — programar zona ID3000 sirena (sirena mal programada = sistema no protege)
+- `hp009` — resistencia fin línea Morley ZX (valor numérico)
+- `hp012` — capacidad lazos AM2020 (dimensionado sistema)
+- `hp014` — aislamiento línea ID2000 (wiring crítico)
+
+**Tier B — Troubleshooting protectivo** (4 preguntas). Si CUALQUIERA tiene
+`correctness < 0.40`, **REVISIÓN MANUAL** antes de SWAP (no bloqueo automático):
+- `hp002` — ASD535 alarma flujo
+- `hp006` — Earth Fault AFP-400
+- `hp011` — RP1r post-extinción
+- `hp017` — retardo salida PEARL
+
+**Resto** (9 preguntas: hp007, hp008, hp010, hp013, hp015, hp018, hp019, hp020
+y la admit_no_info que falte): sin guardrail individual, cuentan solo en
+agregado.
 
 ### 9.5 Test estadístico
 
-- Bootstrap paired con 10.000 resamples → IC95 paired (no asume normalidad).
-- Paired t-test reportado adicionalmente (asumiendo normalidad).
-- MDE clásico paired:
-  `MDE = (z_{α/2} + z_β) × σ_diff / √N = 2.80 × σ_diff / √17 ≈ 0.679 × σ_diff`
+- Bootstrap **BCa** (bias-corrected accelerated) con 10.000 resamples, semilla
+  fijada pre-run (`seed=42`). BCa elegido sobre percentile por mejor cobertura
+  con N pequeño (hallazgo vivo gpt-5.5).
+- Unidad de resampling: pregunta.
+- Estadístico: media de `correctness` sobre N=20.
+- Reporte adicional: Wilcoxon signed-rank vs 0.65 (sensibilidad — NO decisorio).
 
-### 9.6 MDE pre-comprometido (calibración con pilot N=3)
+### 9.6 Reglas de decisión PASS / NO PASS
 
-`σ_diff` (std dev de la diferencia paired `correctness(new) - correctness(old)`)
-NO se conoce a priori. Se calibra con un **pilot N=3** sobre hp001, hp002, hp003
-(preguntas con `relevant_chunks` más robustos por kappa Sonnet↔Opus) ANTES
-del run principal.
+**PASS** (SWAP a shadow/canary autorizado) — conjunción de:
+- `lower_bound_IC95(correctness_mean) > 0.65`
+- `lower_bound_IC95(faithfulness_mean) > 0.80`
+- Tier A: todas las 7 con `correctness ≥ 0.50`
+- Tier B: si alguna `correctness < 0.40` → revisión manual; tras revisión, el
+  PASS sigue siendo válido SOLO si Alberto autoriza explícitamente esa caída
 
-Tres bandas pre-comprometidas según σ_diff observada en pilot:
+**NO PASS** (no SWAP) si cualquiera de:
+- `lower_bound_IC95(correctness_mean) ≤ 0.65`
+- `lower_bound_IC95(faithfulness_mean) ≤ 0.80`
+- Cualquier Tier A con `correctness < 0.50`
 
-| σ_diff pilot | MDE con N=17 | Decisión |
-|---|---|---|
-| ≤ 0.10 | ≤ 0.068 | Proceder con N=17. MDE razonable. |
-| 0.10–0.20 | 0.068–0.136 | Proceder con N=17. Reportar MDE como caveat. |
-| > 0.20 | > 0.136 | **N=17 insuficiente → Plan Y' obligatorio** antes de SWAP. |
+En NO PASS: identificar **dónde** falla `chunks_v2` (qué preguntas, qué chunks
+se recuperan, qué dice el judge). Input para Fase 2 (mejoras de retrieval).
 
-El MDE numérico exacto se fija TRAS el pilot, ANTES de ejecutar el run principal.
+### 9.7 Dataset freeze + pipeline freeze
 
-### 9.7 Reglas de decisión PASS / NO PASS
+Antes del acceptance run, commit dedicado `freeze: acceptance test pre-run`
+con hash sha256 de los artefactos congelados:
+- `evals/baseline_v1.yaml` (post-remove hp016)
+- `evals/gold_answers_v1.yaml` (output de Capa A + validación humana 100%)
+- `prompts/judge_rubric.md` (Capa B — prompt y rúbrica del judge)
+- Manifest del pipeline: modelo generador (`claude-sonnet-...`), prompt RAG
+  (system_prompt v2.3), top-K, retriever config (hybrid), filter params,
+  dedup params, fallback.
+- Manifest de `chunks_v2`: count, fecha indexado, modelo embed, dimensiones.
 
-**PASS** (SWAP autorizado, conjunción de las tres):
-- Δ_correctness > MDE (calculado por pilot)
-- IC95 paired de Δ_correctness no cruza 0
-- Δ_faithfulness ≥ -0.05 (no regresar más de 5 puntos)
+Tras freeze, NO modificar artefactos. Cualquier cambio → nuevo freeze, nuevo
+acceptance run.
 
-**NO PASS** (no SWAP, continuar tuning) si CUALQUIERA de:
-- σ_diff > 0.20 en pilot → Plan Y' antes de SWAP
-- Δ_correctness ≤ MDE → no significativo
-- IC95 paired cruza 0 → no significativo
-- Δ_faithfulness < -0.05 → alucinación regresa demasiado
+### 9.8 Judge cross-model (Capa B)
 
-### 9.8 Análisis exploratorios (no pre-comprometidos)
+- **Modelo**: `gpt-5.5` (verificado en audit externa — capacidad de razonamiento
+  profundo sobre §9 v1: 40+ hallazgos vs 15 de gpt-5.2).
+- **Decoding**: default (gpt-5.5 es reasoning model y no acepta `temperature=0`).
+  Seed si soportado en la API. Esto introduce algo de varianza intra-run que se
+  mide en calibración Capa C.
+- **Blinding** (hallazgo vivo gpt-5.5): el judge **no debe saber** de qué corpus
+  viene la respuesta (chunks_v2 vs vec_old exploratorio). IDs aleatorios por
+  réplica, metadata anonimizada, orden de evaluación aleatorizado con seed fijo.
+- **Prompt + rúbrica congelados** antes del run. Rúbrica distinta por
+  `conducta_esperada`:
+  - `answer`: correctness vs gold (factualidad + completitud)
+  - `ask_clarification`: ¿el bot pide la clarificación correcta?
+  - `admit_no_info`: ¿el bot admite y no alucina? (alucinar = correctness=0)
 
-Solo TRAS la decisión PASS/NO PASS principal, para entender el porqué — no
-para reabrir la decisión:
+### 9.9 Calibración Capa C (judge vs humano)
 
-- Estratificar por `conducta_esperada` (answer / ask_clarification / admit_no_info)
-- Comparación per-producto / per-fabricante
-- Correlación correctness ↔ retrieval (¿correctness sigue a Hit@5?)
-- Subgrupo `hyb_*` (info para Capa B futura)
+Antes del acceptance run principal: muestra de ≥ 5 preguntas evaluadas por
+Alberto + por el judge en paralelo. Métrica de agreement: ICC(2,1) sobre
+correctness continuo + raw agreement sobre conducta. Si agreement < 80%,
+ajustar rúbrica e iterar (máx 2 iteraciones). Si tras 2 iteraciones agreement
+sigue < 80%, **bloquear acceptance run** y revisar con Alberto.
 
-### 9.9 Plan Y' en backlog (post-Capa A)
+### 9.10 ITT policy (manejo de fallos)
 
-Si tras Plan Z el delta sigue cruzando 0 o el pilot indica σ_diff > 0.20,
-ampliar eval con:
+- API error / timeout / respuesta vacía → `correctness = 0` (no exclusión post-hoc)
+- Retries: máx 2 con backoff exponencial
+- Logs completos: prompts, responses, judge verdicts, timestamps, model versions
 
-- (a) queries reales de `query_logs` (distribución real de queries de técnicos)
-- (b) sintéticas con Opus 4.7 sobre PDFs (cobertura amplia, productos sin queries reales)
+### 9.11 Comparativo exploratorio `vec_old` (no decisorio)
 
-Patrón anti-circular para (b): Opus extrae fragmento de PDF + genera pregunta
-→ modelo distinto valida que es respondible → Opus genera gold. Validación
-humana cambia a sampling estratificado (no 100% — no escala).
+Tras el acceptance run principal, correr el bot también con `chunks` viejo
+(config `vec_old`) sobre las mismas 20 preguntas. Output: tabla por pregunta
+de `correctness_new − correctness_old`. Sirve para:
+
+- Identificar dónde `chunks_v2` mejora y dónde aún pierde
+- Priorizar Fase 2 (mejoras de retrieval: HyDE / reranker / BM25+RRF)
+- **NO autoriza ni bloquea SWAP** — solo input para mejoras post-SWAP
+
+Prohibido usar este resultado para reabrir la decisión principal.
+
+### 9.12 Si PASS — Post-SWAP en shadow/canary
+
+`chunks_v2` no entra a 100% de tráfico al primer SWAP. Plan:
+
+1. RENAME atómico: `chunks → chunks_old`, `chunks_v2 → chunks`. <5s downtime.
+2. **Canary 10%** del tráfico durante mínimo 48h. Monitorizar:
+   - Latencia p95 retrieval
+   - Coste/query (Voyage embed query + Sonnet generation)
+   - Tasa de retrieval vacío
+   - Tickets / quejas / feedback de DG
+3. Si métricas online OK → 100% gradual (25 / 50 / 100% a 24h cada paso).
+4. **Rollback plan**: RENAME inverso si métricas online se degradan. Documentado.
+
+### 9.13 Si NO PASS — Análisis y Fase 2
+
+No SWAP. Análisis estructurado:
+
+- Por pregunta: qué chunks recuperó el bot, qué dijo el gold, qué dijo el bot,
+  qué dijo el judge
+- Estratificar por: producto, fabricante, `question_type`, `conducta_esperada`
+- Output: lista priorizada de mejoras candidatas para Fase 2
+
+Re-run acceptance test tras Fase 2 (con dataset y judge congelados — no se
+toca el contrato del eval, solo el sistema).
+
+### 9.14 Plan Y' (backlog, no en scope del run actual)
+
+Si tras Fase 2 el acceptance sigue NO PASS, o si se quiere ampliar validez
+externa antes del SWAP final:
+
+- (a) Queries reales de `query_logs` (distribución real de técnicos)
+- (b) Sintéticas con Opus 4.7 sobre PDFs (cobertura amplia)
+
+Patrón anti-circular para (b): Opus extrae fragmento + genera pregunta → modelo
+distinto valida respondibilidad → Opus genera gold. Validación humana cambia a
+sampling estratificado (no 100% — no escala).
 
 ---
 
