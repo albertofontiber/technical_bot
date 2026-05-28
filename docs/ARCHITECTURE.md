@@ -8,6 +8,35 @@
 
 ---
 
+> ## ⚡ Estado actual (sesión 27 — 27 mayo 2026): chunks_v2 EN PRODUCCIÓN
+>
+> El bot sirve desde el **corpus re-ingestado `chunks_v2`** (SWAP hecho en Railway
+> vía `CHUNKS_TABLE=chunks_v2`). Cambios respecto a lo que describe el resto de
+> este doc (que documenta el pipeline histórico con el corpus viejo `chunks`):
+>
+> - **Embedding**: Voyage `voyage-4-large` **1024 dims** (antes OpenAI
+>   `text-embedding-3-small` 1536). La query se embebe con Voyage `input_type=query`.
+> - **Corpus**: **22.849 chunks / 915 docs** (antes ~168k/~1.064). Menos chunks
+>   porque el chunking nuevo (B3) es estructural + contextual (Anthropic
+>   contextual retrieval, blurb Haiku por chunk) + dedup semántico (~11% marcados).
+> - **Mecanismo de SWAP**: `CHUNKS_TABLE` (env var) selecciona tabla + RPCs
+>   (`match_chunks_v2`, `search_chunks_text_v2`) + proveedor de embedding.
+>   Reversible al instante (no RENAME destructivo). Default `chunks` (viejo).
+> - **Fix B5 (sesión 27)**: `product_model` pasó de código-de-documento
+>   (MPDT-190) a producto real (ID3000) en 225 docs → el retriever encuentra
+>   productos que antes daba por inexistentes (ID3000/INSPIRE: 0→672 chunks).
+> - **Calidad medida** (test bot vs gold, N=19): 4 PASS / 12 PARCIAL / 3 FALLO.
+>   El bot no alucina (admite no-info correctamente) y recupera los manuales
+>   correctos. Fallos pendientes → **Fase 2** (ranking de specs/procedimientos
+>   puntuales + filtrado fino por modelo + cobertura del retriever).
+> - **Caveat conocido**: `chunks_v2` no tiene `document_revision`/`document_status`
+>   (lifecycle del corpus viejo) → las citas dicen "sin revisión registrada".
+>   No bloquea; poblar en Fase 2 si interesa.
+>
+> El detalle del pipeline de re-ingesta está en `docs/PLAN_RAG_2026.md`.
+
+---
+
 ## 1. Visión general en 60 segundos
 
 **Qué es:** un chatbot que responde preguntas técnicas de PCI (Protección Contra Incendios) usando **únicamente los manuales oficiales** de los fabricantes que tengamos ingestados. No inventa, cita fuente (*"Manual X, página Y"*), y si no tiene la información lo admite.
