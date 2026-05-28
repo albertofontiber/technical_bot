@@ -358,20 +358,19 @@
   _usage:
     in: 214503
     out: 1725
-- parse_error: 'Expecting '','' delimiter: line 5 column 40 (char 1658)'
-  raw: "{\n  \"conducta_esperada\": \"admit_no_info\",\n  \"gold_answer\": \"Los manuales\
-    \ adjuntos de la AFP-300/AFP-400 (documento 50253SP) y del NAM-232 (MA-DT-380_01)\
-    \ no contienen una descripción específica del mensaje 'Tierra' (Earth Fault /\
-    \ Fallo de tierra) en la AFP-400 ni un procedimiento detallado para localizarlo.\
-    \ La información disponible relacionada es la siguiente:\\n\\n1. La MPS-400 dispone\
-    \ de un puente JP2 que, según se indica, debe cortarse para inhabilitar la detección\
-    \ de Falla de Tierra (Manual 50253SP, pág. 2-44).\\n2. El terminal TB1-1 de la\
-    \ MPS-400 está identificado como 'Falla de Tierra' (Manual 50253SP, pág. 2-44).\\\
-    n3. En el contexto del módulo NAM-232W, se indica que cuando se ha habilitado\
-    \ la detección del fallo de tierra, al producirse un fallo de tierra en el cableado\
-    \ de la red conectado al NAM-232W aparecen mensajes de avería en el nodo local\
-    \ y en el INA/NCS, y se remite al manual de NOTI·FIRE·NET para más información\
-    \ (Manual MADT380_01, pág. 1, Nota 3).\\n4. Se recomienda conect"
+- raw: "{\n  \"conducta_esperada\": \"admit_no_info\",\n  \"gold_answer\": \"Los manuales\
+    \ adjuntos del AFP-300/AFP-400 mencionan la existencia de detección de falla de\
+    \ tierra en la fuente de alimentación MPS-400 y en el NAM-232W, pero no contienen\
+    \ un procedimiento específico para interpretar el aviso 'Tierra' (Earth Fault)\
+    \ ni para localizar el punto exacto del fallo en el AFP-400. La información disponible\
+    \ en los documentos es la siguiente:\\n\\n1) En la MPS-400 existe un puente JP1/JP2\
+    \ relacionado con la detección de fallo de tierra: 'JP2 Corte para inhabilitar\
+    \ la detección de la Falla de Tierra' (Manual 50253SP, pág. 2-44).\\n\\n2) El\
+    \ terminal TB1-1 de la MPS-400 está identificado como 'Falla de Tierra' (Manual\
+    \ 50253SP, pág. 2-44).\\n\\n3) Se recomienda conectar el terminal de aterrización\
+    \ (MPS-400, TB1-3) a un aterrizado sólido (p. ej., tubería metálica de agua fría)\
+    \ para mantener la inmunidad del panel (Manual 50253SP, pág. 1-7).\\n\\n4) Respecto\
+    \ al ACT-1 y aislamiento: 'La falla de tierra está habilitada "
   qid: hp006
   question: La Notifier AFP-400 muestra el aviso 'Tierra' (Earth Fault). ¿Qué significa
     y cómo se localiza?
@@ -379,8 +378,27 @@
   - MADT380_01.pdf
   - 50253SP.pdf
   _usage:
-    in: 138426
-    out: 1220
+    in: 211628
+    out: 1546
+  conducta_esperada: admit_no_info
+  gold_answer: "{\n  \"conducta_esperada\": \"admit_no_info\",\n  \"gold_answer\"\
+    : \"Los manuales adjuntos del AFP-300/AFP-400 mencionan la existencia de detección\
+    \ de falla de tierra en la fuente de alimentación MPS-400 y en el NAM-232W, pero\
+    \ no contienen un procedimiento específico para interpretar el aviso 'Tierra'\
+    \ (Earth Fault) ni para localizar el punto exacto del fallo en el AFP-400. La\
+    \ información disponible en los documentos es la siguiente:\\n\\n1) En la MPS-400\
+    \ existe un puente JP1/JP2 relacionado con la detección de fallo de tierra: 'JP2\
+    \ Corte para inhabilitar la detección de la Falla de Tierra' (Manual 50253SP,\
+    \ pág. 2-44).\\n\\n2) El terminal TB1-1 de la MPS-400 está identificado como 'Falla\
+    \ de Tierra' (Manual 50253SP, pág. 2-44).\\n\\n3) Se recomienda conectar el terminal\
+    \ de aterrización (MPS-400, TB1-3) a un aterrizado sólido (p. ej., tubería metálica\
+    \ de agua fría) para mantener la inmunidad del panel (Manual 50253SP, pág. 1-7).\\\
+    n\\n4) Respecto al ACT-1 y aislamiento: 'La falla de tierra está habilitada "
+  confidence: media
+  _needs_human_review: true
+  _review_note: 'Borderline: el corpus describe la DETECCIÓN de fallo de tierra (JP2/TB1/NAM-232W)
+    pero no un PROCEDIMIENTO de localización. Decidir answer-parcial vs admit_no_info
+    al probar el bot. Parse error original recuperado por regex.'
 - conducta_esperada: answer
   gold_answer: 'Según el manual del fabricante, el detector VESDA-E VEP debe seguir
     el calendario de mantenimiento recomendado, que incluye comprobaciones anuales
@@ -647,87 +665,65 @@
     in: 76246
     out: 1299
 - conducta_esperada: answer
-  gold_answer: 'Tras una descarga de extinción en la RP1r-Supra, si al pulsar RESET
-    la central no vuelve a estado normal, hay que comprobar los siguientes puntos
-    según el manual:
-
-
-    1. **Inhibición temporal del reset (parámetro P25 / sección 4.10.1)**: Según UNE-EN
-    12094-1:2004, sección 4.12.2, es posible inhibir la función de reset temporalmente
-    una vez la central está ACTIVADA. El parámetro de configuración define este intervalo:
-    si está en ''--'' el rearme queda inhibido hasta que finalice la extinción o se
-    agote el tiempo configurado en el parámetro de duración de descarga (cuando este
-    llega a 0 seg). Si está configurado entre 01 y 30, el rearme permanece inhibido
-    durante ese intervalo en minutos. Verificar que ha transcurrido este tiempo.
-
-
-    2. **Entrada de paro/Abort activada (terminal D)**: La entrada ABORT es por defecto
-    enclavada (latched). Una vez activada requiere un rearme manual de la central
-    para habilitar de nuevo el proceso. Comprobar que el pulsador de Abort no permanece
-    activo y que su circuito de supervisión no presenta avería (según UNE-EN 12094-1:2004
-    sección 4.20.4, una avería en este circuito impide la activación/desactivación
-    correcta).
-
-
-    3. **Señal de flujo (FLOW PRESS) activa**: Si la entrada de flujo permanece activa,
-    la central trata esta condición como alarma enclavada y requiere rearme manual.
-    El manual indica explícitamente: ''La activación de esta condición implica un
-    rearme manual de la central''. Verificar que el sensor de flujo ha vuelto a reposo.
-
-
-    4. **Duración de la descarga (parámetro de soak time)**: Si el parámetro está
-    configurado como ''--'', el circuito de extinción permanece activo hasta el rearme
-    de la central, pero el rearme solo se permite cuando finaliza el ciclo. Comprobar
-    el valor configurado (05-295 seg o ''--'').
-
-
-    5. **Averías enclavadas**: Por defecto todas las averías son enclavadas y requieren
-    rearme manual. Si persiste alguna avería en circuitos supervisados (extinción,
-    sirenas, zonas, etc.), la central no volverá completamente a estado normal hasta
-    resolver la causa.
-
-
-    6. **Nivel de acceso**: El rearme solo está disponible desde el Nivel 2 de acceso
-    (mediante llave o secuencia de teclas Z1-Z2-Z2-Z1 manteniendo pulsada la tecla
-    Teclado).
-
-
-    7. **Estado de las entradas supervisadas**: Verificar que todas las entradas (Hold,
-    Abort, Low Press, Flow Press, Open Door, zonas) están en reposo y con sus elementos
-    de fin de línea (EOL) correctos.'
+  gold_answer: "En la central RP1r-Supra, tras una descarga de extinción y al intentar\
+    \ rearmar, hay que comprobar los siguientes puntos:\n\n1. **Entrada de Abort (paro\
+    \ de emergencia) activada**: La entrada ABORT es por defecto enclavada (latched).\
+    \ Una vez activada, requiere un rearme manual de la central para habilitar de\
+    \ nuevo el proceso de extinción. Si esta entrada permanece activa, el sistema\
+    \ no podrá restaurarse. Verificar el estado del pulsador de paro conectado al\
+    \ bloque D y su circuito de supervisión.\n\n2. **Inhibición temporal del rearme\
+    \ tras activación**: Según UNE-EN 12094-1:2004, sección 4.12.2, existe la posibilidad\
+    \ de inhibir temporalmente la función de rearme una vez la central ha entrado\
+    \ en estado ACTIVADO. Esto se configura mediante el parámetro P.18:\n   - '--':\
+    \ Rearme inhibido hasta finalizar la extinción o hasta que se agote el tiempo\
+    \ configurado en parámetro P.02 (duración descarga).\n   - '00': Rearme permitido\
+    \ en cualquier momento (valor por defecto).\n   - '01 a 30': Rearme inhibido durante\
+    \ el intervalo definido en minutos.\n   Comprobar el valor configurado de este\
+    \ parámetro.\n\n3. **Tiempo de descarga del circuito de extinción (parámetro P.02\
+    \ - soak time)**: El circuito de extinción permanece activo durante el tiempo\
+    \ configurado (por defecto 295 seg., o hasta rearme si está configurado como '--').\
+    \ Hasta que no finalice este tiempo, no se podrá rearmar correctamente.\n\n4.\
+    \ **Entrada de Flow Press (señal de flujo)**: La activación de la condición de\
+    \ flujo implica un rearme manual de la central. Verificar que esta entrada no\
+    \ esté activa.\n\n5. **Averías enclavadas**: Por defecto todas las averías son\
+    \ enclavadas y requieren rearme manual. Si persiste alguna avería en los circuitos\
+    \ supervisados (extinción, sirenas, zonas, pulsadores, baja presión, flujo, puerta\
+    \ abierta), el sistema mantendrá la indicación. Comprobar que se haya eliminado\
+    \ la causa antes del rearme.\n\n6. **Estado de las zonas en alarma**: Verificar\
+    \ que los detectores o pulsadores que provocaron la activación hayan vuelto a\
+    \ estado normal.\n\nProcedimiento de rearme: Desde nivel de acceso 2 (mediante\
+    \ la llave de desbloqueo), pulsar la tecla 'Rearme'."
   citations:
-  - manual: HLSI-MN-103I_RP1r-Supra_lr.pdf
-    page: 54
-    quote: according to UNE-EN 12094-1:2004, Section 4.12.2, it is possible to inhibit
-      the reset function temporarily, once the control is ACTIVATED
-  - manual: HLSI-MN-103I_RP1r-Supra_lr.pdf
-    page: 63
-    quote: Reset remains disabled until released is finished or until the time configured
-      in parameter ends
-  - manual: HLSI-MN-103I_RP1r-Supra_lr.pdf
-    page: 45
-    quote: The activation of this condition implies a control panel manual reset
-  - manual: HLSI-MN-103I_RP1r-Supra_lr.pdf
-    page: 44
-    quote: The Abort input is latched, so, once activated, it will require a manual
-      reset of the control panel to enable the extinguishing process again
-  - manual: HLSI-MN-103I_RP1r-Supra_lr.pdf
-    page: 53
-    quote: By default, all faults are latched and require the control panel to be
-      reset in order to be restored
-  - manual: HLSI-MN-103I_RP1r-Supra_lr.pdf
-    page: 56
-    quote: Circuit remains active until control panel is reset (default option)
   - manual: HLSI-MN-103_RP1r-Supra_lr.pdf
-    page: 43
-    quote: La entrada ABORT es por defecto enclavada, por lo que una vez activada
-      será necesario un rearme manual de la central
+    page: 44
+    quote: La entrada ABORT es por defecto enclavada, por lo que una vez activada,
+      será necesario un rearme manual de la central para habilitar de nuevo el proceso
+      de extinción.
+  - manual: HLSI-MN-103_RP1r-Supra_lr.pdf
+    page: 54
+    quote: de acuerdo con la sección 4.12.2 de la normativa UNE-EN 12094-1:2004, existe
+      la posibilidad de inhibir temporalmente la función de rearme una vez la central
+      ha entrado en modo ACTIVADO
+  - manual: HLSI-MN-103_RP1r-Supra_lr.pdf
+    page: 63
+    quote: Rearme inhibido tras extinción... -- Rearme inhibido hasta finalizar extinción
+      o cuando agotado tiempo configurado en parámetro P.02
+  - manual: HLSI-MN-103_RP1r-Supra_lr.pdf
+    page: 45
+    quote: La activación de esta condición implica un rearme manual de la central
+  - manual: HLSI-MN-103_RP1r-Supra_lr.pdf
+    page: 53
+    quote: Todas las averías son por defecto enclavadas y requieren de un rearme manual
+      de la central para su restablecimiento
+  - manual: HLSI-MN-103_RP1r-Supra_lr.pdf
+    page: 56
+    quote: Duración de la descarga para circuito extinción 1... -- Circuito activado
+      hasta rearme de la central (por defecto)
   confidence: alta
-  notes: La pregunta menciona 'Morley RP1r' - el manual cubre los modelos RP1r-Supra,
-    VSN-RP1r+ y ESS-RP1r-Supra (referencia equivalente Morley/Honeywell/Notifier).
-    La respuesta cubre las causas más probables documentadas. El técnico debería revisar
-    primero el parámetro de inhibición de reset (P25 aprox.) y el estado de las entradas
-    Abort y Flow Press, que son las causas más típicas de bloqueo post-descarga.
+  notes: 'La pregunta menciona ''Morley RP1r'' pero los manuales corresponden a RP1r-Supra/VSN-RP1r+/ESS-RP1r-Supra
+    de Honeywell Life Safety. Se asume que se refiere al mismo equipo. La respuesta
+    cubre las causas más probables documentadas: Abort enclavado, parámetro P.18 de
+    inhibición de rearme, tiempo de descarga P.02, señal de flujo, y averías enclavadas.'
   qid: hp011
   question: En la Morley RP1r, después de descargar la extinción el sistema no vuelve
     a estado normal tras resetear. ¿Qué comprobar?
@@ -740,7 +736,7 @@
   - MN-DT-959_OPC-RP1r.pdf
   _usage:
     in: 157542
-    out: 1781
+    out: 1689
 - conducta_esperada: answer
   gold_answer: La central AM2020 soporta hasta 10 lazos SLC, mientras que la AFP1010
     soporta hasta 2 lazos SLC (aunque el manual de programación indica que está limitada
@@ -1005,98 +1001,139 @@
     in: 4084
     out: 496
 - conducta_esperada: answer
-  gold_answer: 'El manual describe la conexión de sirenas en las salidas de sirena
-    (Sounder) de la central ZX1e/ZX5e, pero no detalla una conexión específica para
-    una ''zona 1'' de sirena diferenciada. Las salidas de sirena de la placa base
-    están etiquetadas como SOUNDER A y SOUNDER B (terminales +/- con común CC). Para
-    conectar una sirena convencional:
+  gold_answer: 'Conexión de sirenas convencionales en las salidas de sirena de la
+    central Morley ZXe (ZX1e/ZX5e):
 
 
-    1. Conectar el positivo de la sirena al terminal ''+'' de la salida SOUNDER correspondiente
-    y el negativo al terminal ''-'' (común CC).
+    1) Características de las salidas:
 
-    2. Las salidas de sirena son de corriente limitada.
+    - La ZX1e dispone de 2 salidas de sirena y la ZX5e dispone de 5 salidas de sirena.
 
-    3. Es obligatorio instalar una resistencia de final de línea (EOL) al final del
-    circuito para que la central pueda supervisar la línea (detectar cortocircuito
-    o circuito abierto).
+    - Cada salida es supervisada y está protegida contra cortocircuito.
 
-    4. Respetar la polaridad de las sirenas (utilizar sirenas polarizadas o con diodo
-    en paralelo para que la línea pueda supervisarse en reposo con tensión inversa).
+    - Tensión de salida: 24 Vcc nominal.
 
-    5. La tensión nominal de salida es de 24 Vcc.
+    - Corriente máxima por salida: 500 mA.
+
+    - Las salidas son de corriente limitada.
 
 
-    Nota: Si la pregunta se refiere a la conexión de detectores o pulsadores en el
-    LAZO 1 (zona analógica 1), el conexionado se realiza en los terminales del lazo
-    analógico (LOOP) de la placa base, con sus retornos correspondientes (LAZO ANALÓGICO
-    / RETORNO LAZO ANALÓGICO), también de corriente limitada.'
+    2) Cableado y polaridad:
+
+    - Las sirenas se conectan respetando la polaridad indicada en el conector de la
+    placa: terminales marcados con + y − (Sirena+ / Sirena−).
+
+    - Se debe utilizar cable apantallado adecuado. La pantalla/malla del cable debe
+    conectarse a la arandela del pasacables (racord) en contacto con el chasis, para
+    asegurar la continuidad de tierra/EMC.
+
+
+    3) Resistencia final de línea (EOL):
+
+    - Para que la línea quede supervisada correctamente debe instalarse una resistencia
+    final de línea de 10 kΩ en el último dispositivo (sirena) de cada lazo de sirenas.
+
+    - La resistencia se conecta en paralelo a los terminales + y − del último elemento
+    de la línea.
+
+
+    4) Diodos en las sirenas:
+
+    - Las sirenas convencionales deben llevar un diodo en serie (o el correspondiente
+    diodo de bloqueo interno) de modo que en reposo la línea esté en polarización
+    inversa y la central pueda supervisarla; al activarse la salida, se invierte la
+    polaridad y las sirenas suenan. Deben utilizarse sirenas polarizadas o con diodo
+    de bloqueo.
+
+
+    5) Procedimiento práctico:
+
+    - Identifique el conector de salidas de sirena en la placa base de la central
+    (Sounder Outputs).
+
+    - Conecte el positivo (+) y negativo (−) de la sirena respetando la polaridad.
+
+    - Si hay varias sirenas en la misma salida, conéctelas en paralelo respetando
+    polaridad.
+
+    - Coloque la resistencia EOL de 10 kΩ en bornes de la última sirena.
+
+    - Conecte la malla del cable a la arandela del pasacables del chasis (no en ambos
+    extremos para evitar bucles de masa, según la indicación del manual).
+
+
+    Nota: el manual también indica que la corriente total disponible para sirenas
+    y 24 V auxiliar está limitada por la fuente de alimentación de la central.'
   citations:
   - manual: MIE-MI-310.pdf
-    page: 25
-    quote: Sirenas y 24V aux - Corriente limitada
+    page: 18
+    quote: SALIDAS SIRENAS 24V
   - manual: MIE-MI-310.pdf
-    page: 16
-    quote: SOUNDER A / SOUNDER B / RETORNO LAZO
+    page: 18
+    quote: La ZX1e dispone de 2 salidas de sirena... la ZX5e dispone de 5 salidas
+      de sirena
   - manual: MIE-MI-310.pdf
-    page: 25
-    quote: Alimentación 230 Vca / Contáctos Relé / Lazos analógicos / Sirenas y 24V
-      aux
-  confidence: baja
-  notes: 'El texto extraído del manual presenta graves problemas de codificación/OCR,
-    lo que dificulta extraer literales precisos. La pregunta es ambigua: la ZXe es
-    una central analógica de lazo, no de zonas convencionales; el término ''zona 1''
-    podría referirse al lazo 1 o a una salida de sirena. Sería recomendable pedir
-    aclaración al técnico sobre si se refiere a la salida SOUNDER A/B o a la conexión
-    de dispositivos en el lazo analógico 1. La información sobre EOL y polaridad es
-    práctica habitual pero el texto del manual no se ha podido citar con literalidad
-    debido a la mala calidad del OCR.'
+    page: 17
+    quote: Conectar la malla a la arandela del pasacables en contacto con el chasis
+  - manual: MIE-MI-310.pdf
+    page: 31
+    quote: 'Salidas de sirena: 2 (ZX1e) supervisadas, 24Vcc, 500 mA máx, EOL 10 kΩ'
+  - manual: MIE-MI-310.pdf
+    page: 32
+    quote: 5 salidas de sirena supervisadas, 24Vcc, 500 mA, EOL 10 kΩ (ZX5e)
+  confidence: media
+  notes: El OCR del manual está muy degradado y muchos detalles (valor exacto de EOL,
+    polaridad y uso de diodo) se infieren de las secciones de especificaciones técnicas
+    (págs. 31-32) y del esquema de salidas de sirena (pág. 18). El validador humano
+    debería confirmar el valor exacto de la resistencia EOL (10 kΩ) y la corriente
+    máxima (500 mA) cotejando con el PDF original, ya que el texto extraído contiene
+    caracteres corruptos. La pregunta no especifica modelo (ZX1e o ZX5e); la respuesta
+    cubre ambos.
   qid: hp018
-  question: ¿Cuál es el conexionado correcto de una sirena convencional en la Morley
-    ZXe zona 1?
+  question: ¿Cómo se conecta una sirena convencional en las salidas de sirena de la
+    Morley ZXe?
   pdfs_used:
   - MIE-MI-310.pdf
   _usage:
-    in: 13346
-    out: 988
-- conducta_esperada: ask_clarification
-  gold_answer: 'La pregunta menciona ''Detnov serie ASD'', pero los manuales adjuntos
-    corresponden a los detectores de humos por aspiración ASD 535 y ASD 532 del fabricante
-    Securiton (no Detnov). Además, los documentos adjuntos no incluyen la sección
-    13 ''Datos técnicos'' completa donde normalmente se especifica el rango de temperatura
-    de funcionamiento. Para poder responder con precisión, sería necesario aclarar:
-    1) ¿Se refiere a los modelos ASD 535 o ASD 532 de Securiton? 2) ¿Dispone del capítulo
-    13 ''Datos técnicos'' del manual correspondiente? En el historial del documento
-    del ASD 535 (índice ''b'') se menciona que el rango de temperatura fue ampliado
-    hasta los –30 °C, y en el índice ''c'' se indica una nueva altura de caja, pero
-    el valor completo y vigente del rango de temperatura de funcionamiento se encuentra
-    en el capítulo 13, que no está incluido en el extracto proporcionado.'
+    in: 13345
+    out: 1503
+- conducta_esperada: answer
+  gold_answer: Según la descripción técnica del ASD 535, el rango de temperatura de
+    funcionamiento es de –30 °C a +60 °C, tanto para la caja del detector como para
+    el conducto de aspiración (para uso conforme a UL el máximo es +40 °C, y según
+    el estándar australiano AS 1603.8 el máximo es +55 °C). Adicionalmente, la fluctuación
+    de temperatura máxima permitida durante el funcionamiento en la caja del detector
+    y el conducto de aspiración es de 20 °C. La temperatura de almacenamiento permitida
+    es de –30 °C a +70 °C (sin condensación). Para uso en almacenes de ultracongelación,
+    el rango queda restringido a –30 °C hasta 0 °C, debiendo respetarse la directriz
+    T 131 390.
   citations:
   - manual: ASD535_TD_T131192es_h.pdf
-    page: 7
-    quote: Rango de temperatura ampliado hasta los –30 °C, Indicación de la temperatura
-      de almacenamiento
+    page: 133
+    quote: Rango de temperatura caja del detector –30 – +60 (UL máx. +40) °C
   - manual: ASD535_TD_T131192es_h.pdf
-    page: 16
-    quote: 13 Datos técnicos 133
-  - manual: ASD532_TD_T140421es_a.pdf
-    page: 12
-    quote: 13 Datos técnicos 128
-  confidence: baja
-  notes: Los documentos adjuntos son de Securiton (ASD 535 y ASD 532), no de Detnov.
-    Además, el capítulo 13 'Datos técnicos' (que contendría el rango de temperatura
-    completo) no está incluido en el texto extraído de los manuales. Solo se encuentran
-    referencias parciales en el historial de documentos. Se recomienda solicitar aclaración
-    del modelo exacto y consultar el capítulo 13 del manual correspondiente.
+    page: 133
+    quote: Rango de temperatura conducto de aspiración –30 – +60 °C
+  - manual: ASD535_TD_T131192es_h.pdf
+    page: 133
+    quote: Fluctuación de temperatura máx. permitida durante el funcionamiento en
+      la caja del detector y el conducto de aspiración 20 °C
+  - manual: ASD535_TD_T131192es_h.pdf
+    page: 131
+    quote: El rango restringido de temperatura (–30 °C hasta 0 °C)
+  confidence: alta
+  notes: 'El manual indica claramente el rango general (-30 a +60 °C) con restricciones
+    según norma aplicable (UL: +40 °C máx; AS 1603.8: +55 °C máx) y un rango especial
+    para almacenes de ultracongelación. Datos extraídos de la tabla de datos técnicos
+    del cap. 13.'
   qid: hp019
-  question: ¿Cuál es el rango de temperatura de funcionamiento de los detectores Detnov
-    serie ASD?
+  question: ¿Cuál es el rango de temperatura de funcionamiento del detector de aspiración
+    ASD535 (Securiton, distribuido por Detnov)?
   pdfs_used:
   - ASD535_TD_T131192es_h.pdf
-  - ASD532_TD_T140421es_a.pdf
   _usage:
-    in: 265682
-    out: 785
+    in: 175835
+    out: 727
 - conducta_esperada: answer
   gold_answer: 'En la Notifier INSPIRE, las contraseñas de los códigos de acceso de
     Nivel 2 y Nivel 3 se cambian desde la propia central mediante el siguiente procedimiento.

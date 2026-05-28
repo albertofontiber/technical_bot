@@ -43,8 +43,15 @@ OUTPUT = "evals/gold_answers_v1.yaml"
 # Pasamos TEXTO COMPLETO del PDF (fitz), no páginas-imagen recortadas: recortar
 # producía admit_no_info falsos (la respuesta estaba en una página no incluida —
 # caso hp020 pág 49, hp006 pág 215). Cobertura total > fidelidad visual parcial.
-MAX_CHARS_PER_DOC = 280000   # ~70K tokens por documento
-MAX_CHARS_TOTAL = 560000     # ~140K tokens por pregunta (límite Opus 200K input)
+#
+# NO truncar documentos (decisión sesión 27): el truncado por doc perdía la
+# sección de datos técnicos (suele ir al final del manual) — caso hp019 ASD535.
+# El único límite es físico: la ventana de contexto de Opus (~200K tokens input
+# ≈ 800K chars). Dejamos margen para prompt+respuesta. Si los docs de una
+# pregunta exceden el tope, se priorizan los primeros (más relevantes) — no se
+# trunca el texto de un doc a media sección.
+MAX_CHARS_PER_DOC = 700000   # un doc entero cabe (el mayor del corpus ~500K)
+MAX_CHARS_TOTAL = 700000     # ~175K tokens; margen para prompt+output en 200K
 
 _INSTRUCTION = (
     "Eres un técnico experto en sistemas PCI (detección y extinción de "
@@ -124,19 +131,26 @@ def collect_pdf_paths(entry: dict) -> list[str]:
 
 
 def build_text_blocks(entry: dict) -> tuple[str, list[str]]:
-    """Texto completo de los PDFs relevantes, respetando el presupuesto global."""
+    """Texto COMPLETO de los PDFs relevantes. No trunca un doc a media sección:
+    incluye cada doc entero o lo salta si no cabe en el contexto restante. El
+    primer doc (el más relevante) siempre entra."""
     chunks_txt: list[str] = []
     used: list[str] = []
+    skipped: list[str] = []
     budget = MAX_CHARS_TOTAL
     for path in collect_pdf_paths(entry):
-        if budget <= 0:
-            break
-        txt = pdf_full_text(path, max_chars=min(MAX_CHARS_PER_DOC, budget))
-        if txt:
-            name = os.path.basename(path)
-            chunks_txt.append(f"===== MANUAL: {name} =====\n{txt}")
-            used.append(name)
-            budget -= len(txt)
+        txt = pdf_full_text(path, max_chars=MAX_CHARS_PER_DOC)
+        if not txt:
+            continue
+        name = os.path.basename(path)
+        if used and len(txt) > budget:   # ya hay docs y este no cabe entero
+            skipped.append(name)
+            continue
+        chunks_txt.append(f"===== MANUAL: {name} =====\n{txt}")
+        used.append(name)
+        budget -= len(txt)
+    if skipped:
+        print(f"    (saltados por contexto, no truncados: {skipped})")
     return "\n\n".join(chunks_txt), used
 
 
