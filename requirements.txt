@@ -6,6 +6,7 @@ Pillow>=10.0.0
 # LLM & Embeddings
 anthropic>=0.40.0
 openai>=1.50.0
+voyageai>=0.2.4  # embedding de queries cuando CHUNKS_TABLE=chunks_v2 (Voyage 1024) — usado por el bot
 
 # Vector DB & Storage
 supabase>=2.0.0
@@ -23,3 +24,8 @@ python-dotenv>=1.0.0
 langdetect>=1.0.9
 tenacity>=8.0.0
 httpx>=0.27.0
+
+# Re-ingestion pipeline (offline — src/reingest/). No los usa el bot en
+# producción, pero se declaran para que la ingesta corra en entorno limpio.
+numpy>=1.26.0                    # dedup semántico B6 (src/reingest/dedup.py)
+lingua-language-detector>=2.0.0  # detección de idioma B1 (src/reingest/language.py)
