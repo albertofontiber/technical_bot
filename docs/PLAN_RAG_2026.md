@@ -610,7 +610,34 @@ general. Evaluado punto por punto:
 
 ---
 
-## 9. Pre-registro del acceptance test SWAP (sesión 27, v2)
+## 9. Evaluación de chunks_v2 antes del SWAP (sesión 27)
+
+> **Pivot v2→v3 (27 mayo 2026) — enfoque (a) pragmático.** Tras construir el
+> aparato formal (v2: acceptance test, umbral 0.65, MDE, BCa, judge blinded),
+> Alberto hizo un step-back: *"¿para qué sirve lo que estás haciendo?"*. La
+> conclusión honesta: **el SWAP ya está decidido** (chunks viejo tiene bugs
+> documentados), así que un veredicto estadístico no decide nada nuevo — es
+> sobre-ingeniería. Además, el valor REAL producido en la sesión no fue la
+> métrica sino un **hallazgo cualitativo**: el fix B5 (product_model = código
+> de doc → el bot no encontraba ID3000/INSPIRE en producción, 0 chunks → 672).
+>
+> **v3 — el gold answers como herramienta de DIAGNÓSTICO, no como gate**:
+> 1. Construir gold answers (Opus 4.7 sobre **texto completo** de los PDFs —
+>    no páginas recortadas; recortar producía admit_no_info falsos, p.ej. hp020
+>    pág 49 / hp006 pág 215 fuera del recorte).
+> 2. Probar el bot real con chunks_v2 sobre las 19 → comparar vs gold →
+>    encontrar **dónde falla** → arreglarlo (como B5).
+> 3. SWAP con confianza cualitativa (shadow/canary). Sin umbral estadístico.
+> 4. El gold queda como **baseline reusable** para medir mejoras de Fase 2+.
+>
+> Lo que se DESCARTA de v2: umbral 0.65, MDE, bootstrap BCa, permutation test,
+> judge cross-model blinded, calibración Capa C formal. La comparación bot↔gold
+> es cualitativa (revisión directa o judge LLM simple). El §9 v2 queda abajo
+> como referencia del razonamiento (no se ejecuta).
+
+---
+
+### [v2 — NO EJECUTADO, referencia histórica] Pre-registro del acceptance test
 
 **Pivot v1→v2 (27 mayo 2026)**: la v1 de §9 era un pre-registro de A/B paired
 (`chunks_v2` vs `chunks` viejo). La v2 es un **acceptance test absoluto** de
