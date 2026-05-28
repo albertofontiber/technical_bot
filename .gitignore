@@ -23,9 +23,15 @@ Thumbs.db
 
 # Project artefacts — generated, not source
 logs/
-data/
+data/*
 extracted_images/
 evals/results/
+
+# Catálogo de modelos: snapshot curado que el bot lee en runtime
+# (src/rag/catalog.py) y que los tests necesitan. Es SOURCE-OF-TRUTH, no
+# artefacto generado descartable → se versiona. Regenerar con
+# scripts/build_model_catalog.py tras re-ingestar/añadir un fabricante.
+!data/model_catalog.json
 
 # Manuales descargados — grandes, no van al repo
 Manuales_ES/
