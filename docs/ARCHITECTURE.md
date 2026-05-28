@@ -668,7 +668,8 @@ erDiagram
 | **RAGAS metrics (5 dimensiones)** | ❌ (solo overall_pass) | Alto (atribución) | Sesión 14-15 |
 | **RLS en todas las tablas (defensa anon key)** | ⚠️ solo `user_consent` | Medio (defensa en profundidad) | TECH_DEBT pendiente |
 | Migrations versionadas | ⚠️ parcial | Medio (reproducibilidad) | Sesión 14+ |
-| CI con eval automático | ❌ | Medio (evita regresiones) | Post-deploy |
+| CI gate (tests + chequeo estático de deps, bloquea merge en PR) | ✅ hecho (PR #10) | — evita regresiones de build/test | `.github/workflows/ci.yml` + branch protection (`tests` requerido, `enforce_admins`) |
+| Eval automático en CI | ❌ | Medio (necesita secrets/APIs en CI) | Post-deploy |
 | Model routing (Haiku/Sonnet/Opus) | ❌ (solo Sonnet) | Medio (-50% coste) | Post-deploy |
 | Semantic chunking | ❌ (regla fija) | Bajo-medio | Post-deploy |
 | Structured output (JSON) | ❌ | Bajo | Opcional |
