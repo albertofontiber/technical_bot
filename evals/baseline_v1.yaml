@@ -122,11 +122,12 @@ questions:
   category: happy_path
   question_type: troubleshooting
   question: "La Notifier AFP-400 muestra el aviso 'Tierra' (Earth Fault). ¿Qué significa y cómo se localiza?"
-  expected_behavior: admit_no_info
-  expected_keywords: ["afp", "tierra|earth", "manual|fragmento|documentación"]
+  expected_behavior: answer
+  expected_keywords: ["tierra|earth|falla", "aislamiento|fuga|cable", "lazo|circuito", "afp"]
+  expected_sources: ["50253SP", "AFP"]
   expected_has_diagram: False
-  verified: false
-  notes: "Cambiado a admit_no_info en sesión 15 (24 abril 2026): corpus verificado — 'Earth Fault' y 'fallo tierra' solo aparecen en NFS Supra, ID50/60, ZXe, DXc; no en AFP-300/400. Bot admite correctamente."
+  verified: true
+  notes: "Revertido sesión 24 (24 mayo 2026) tras verificación documental con PyMuPDF en sesión 22: 'Falla de Tierra' SÍ aparece en 50253SP (AFP-300/400 manual de usuario) págs. 80, 160, 215. La nota previa de sesión 15 era falsa — decía que no aparecía en AFP-300/400, pero PyMuPDF sobre el PDF real demostró lo contrario. El bot debe responder explicando qué es Earth Fault y el procedimiento de localización por aislamiento de lazo."
 
 - id: hp007
   category: happy_path
@@ -243,22 +244,23 @@ questions:
 - id: hp018
   category: happy_path
   question_type: wiring
-  question: "¿Cuál es el conexionado correcto de una sirena convencional en la Morley ZXe zona 1?"
+  question: "¿Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe?"
   expected_behavior: answer
-  expected_keywords: ["sirena", "zona", "resistencia", "polaridad"]
+  expected_keywords: ["sirena", "sounder|salida", "resistencia|fin de l", "polaridad"]
   expected_has_diagram: true
   verified: false
-  notes: "expected_sources retirado: 'ZXe' no aparece en source_file (solo en product_model)."
+  notes: "Reformulada sesión 27: la original decía 'zona 1', pero la ZXe maneja sirenas por SALIDA (Sounder A/B), no por zona — premisa de producto incorrecta."
 
 - id: hp019
   category: happy_path
   question_type: spec
-  question: "¿Cuál es el rango de temperatura de funcionamiento de los detectores Detnov serie ASD?"
+  question: "¿Cuál es el rango de temperatura de funcionamiento del detector de aspiración ASD535 (Securiton, distribuido por Detnov)?"
   expected_behavior: answer
-  expected_keywords: ["temperatura", "°c"]
-  expected_sources: ["ASD"]
+  expected_keywords: ["temperatura", "°c|grados"]
+  expected_sources: ["ASD535"]
   expected_has_diagram: false
   verified: false
+  notes: "Reformulada sesión 27: original decía 'Detnov serie ASD' — los ASD son Securiton (Detnov es distribuidor) y 'serie' era ambiguo (ASD531/532/533/535). Acotada a ASD535 específico."
 
 - id: hp020
   category: happy_path

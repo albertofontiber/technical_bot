@@ -1,0 +1,557 @@
+{
+  "hp001": {
+    "question": "En la Detnov CAD-250, ¿cómo se entra al menú de programación avanzada?",
+    "expected_behavior_yaml": "answer",
+    "question_type": "programming",
+    "has_relevant_chunks": true,
+    "sources": [
+      {
+        "source_file_in_chunks": "Manual usuario CAD-250 (MU 376 es 2024 f)",
+        "page_numbers": [
+          10,
+          21
+        ],
+        "pdf_paths_found": [
+          "Manuales_ES\\Detección analógica\\Manual usuario CAD-250 (MU 376 es 2024 f).pdf"
+        ],
+        "n_pdfs_found": 1
+      },
+      {
+        "source_file_in_chunks": "CAD-250-MC-380-es",
+        "page_numbers": [
+          26,
+          31
+        ],
+        "pdf_paths_found": [
+          "Manuales_ES\\Detección analógica\\CAD-250-MC-380-es.pdf"
+        ],
+        "n_pdfs_found": 1
+      },
+      {
+        "source_file_in_chunks": "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+        "page_numbers": [
+          29
+        ],
+        "pdf_paths_found": [
+          "Manuales_ES\\Detección analógica\\Manual instalacion CAD-250 (MI_372_es_2024 e).pdf"
+        ],
+        "n_pdfs_found": 1
+      }
+    ]
+  },
+  "hp002": {
+    "question": "El detector ASD535 de Detnov está dando una alarma intermitente de flujo bajo. ¿Cuál es la causa más probable y cómo se diagnostica?",
+    "expected_behavior_yaml": "answer",
+    "question_type": "troubleshooting",
+    "has_relevant_chunks": true,
+    "sources": [
+      {
+        "source_file_in_chunks": "ASD535_TD_T131192es_h",
+        "page_numbers": [
+          28,
+          31,
+          58,
+          65,
+          101,
+          102,
+          110,
+          121,
+          122,
+          128
+        ],
+        "pdf_paths_found": [
+          "Manuales_ES\\Detectores especiales\\Detección por aspiración Securiton\\ASD535_TD_T131192es_h.pdf"
+        ],
+        "n_pdfs_found": 1
+      }
+    ]
+  },
+  "hp003": {
+    "question": "¿Cómo se conectan las baterías de 24V en la Detnov CAD-150?",
+    "expected_behavior_yaml": "answer",
+    "question_type": "wiring",
+    "has_relevant_chunks": true,
+    "sources": [
+      {
+        "source_file_in_chunks": "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT",
+        "page_numbers": [
+          7,
+          43
+        ],
+        "pdf_paths_found": [
+          "Manuales_ES\\Detección analógica\\55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT.pdf"
+        ],
+        "n_pdfs_found": 1
+      },
+      {
+        "source_file_in_chunks": "55315501 CAD150R Instalacion ES GB 191018",
+        "page_numbers": [
+          4
+        ],
+        "pdf_paths_found": [
+          "Manuales_ES\\Detección analógica\\55315501 CAD150R Instalacion ES GB 191018.pdf"
+        ],
+        "n_pdfs_found": 1
+      },
+      {
+        "source_file_in_chunks": "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT",
+        "page_numbers": [
+          8,
+          9,
+          10,
+          19,
+          20,
+          22,
+          31
+        ],
+        "pdf_paths_found": [
+          "Manuales_ES\\Detección analógica\\55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT.pdf"
+        ],
+        "n_pdfs_found": 1
+      }
+    ]
+  },
+  "hp004": {
+    "question": "¿Cuál es la tensión de funcionamiento y el consumo en reposo del detector DGD-600 de Detnov?",
+    "expected_behavior_yaml": "answer",
+    "question_type": "spec",
+    "has_relevant_chunks": true,
+    "sources": [
+      {
+        "source_file_in_chunks": "55360004 Manual Detector Gas DGD-600 ES EN IT FR",
+        "page_numbers": [
+          1
+        ],
+        "pdf_paths_found": [
+          "Manuales_ES\\Detección analógica\\55360004 Manual Detector Gas DGD-600 ES EN IT FR.pdf"
+        ],
+        "n_pdfs_found": 1
+      }
+    ]
+  },
+  "hp005": {
+    "question": "En la Notifier ID3000, ¿cómo se programa una zona para que active una salida de sirena solo cuando haya coincidencia de dos detectores?",
+    "expected_behavior_yaml": "answer",
+    "question_type": "programming",
+    "has_relevant_chunks": false,
+    "product_hint": "Notifier ID3000",
+    "keyword_hints": [
+      "ID3000",
+      "ID 3000"
+    ],
+    "pdf_candidates": {
+      "MPDT190": [
+        "Manuales_Notifier\\ES\\MPDT190.pdf"
+      ],
+      "MCDT191": [
+        "Manuales_Notifier\\ES\\MCDT191.pdf",
+        "Manuales_Notifier\\ES\\MCDT191_1.pdf"
+      ]
+    },
+    "remapped_via_product_model": "ID3000"
+  },
+  "hp006": {
+    "question": "La Notifier AFP-400 muestra el aviso 'Tierra' (Earth Fault). ¿Qué significa y cómo se localiza?",
+    "expected_behavior_yaml": "answer",
+    "question_type": "troubleshooting",
+    "has_relevant_chunks": true,
+    "sources": [
+      {
+        "source_file_in_chunks": "MADT380_01",
+        "page_numbers": [
+          1
+        ],
+        "pdf_paths_found": [
+          "Manuales_Notifier_Privado\\MADT380_01.pdf"
+        ],
+        "n_pdfs_found": 1
+      },
+      {
+        "source_file_in_chunks": "50253SP",
+        "page_numbers": [
+          80,
+          91,
+          160
+        ],
+        "pdf_paths_found": [
+          "Manuales_Notifier_Privado\\50253SP.pdf"
+        ],
+        "n_pdfs_found": 1
+      }
+    ]
+  },
+  "hp007": {
+    "question": "¿Cómo se realiza el test anual de un detector VESDA-E VEP según el manual del fabricante?",
+    "expected_behavior_yaml": "answer",
+    "question_type": "procedure",
+    "has_relevant_chunks": false,
+    "product_hint": "VESDA-E VEP",
+    "keyword_hints": [
+      "VESDA",
+      "VEP"
+    ],
+    "pdf_candidates": {
+      "33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores": [
+        "Manuales_Notifier\\ES\\33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores.pdf"
+      ],
+      "33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores": [
+        "Manuales_Notifier\\ES\\33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores.pdf"
+      ]
+    },
+    "remapped_via_product_model": "VESDA"
+  },
+  "hp008": {
+    "question": "¿Qué detectores de humo analógicos son compatibles con la Notifier ID3000?",
+    "expected_behavior_yaml": "answer",
+    "question_type": "compatibility",
+    "has_relevant_chunks": false,
+    "product_hint": "Notifier ID3000 compatibilidad detectores",
+    "keyword_hints": [
+      "ID3000",
+      "ID 3000"
+    ],
+    "pdf_candidates": {
+      "MIDT190": [
+        "Manuales_Notifier\\ES\\MIDT190.pdf"
+      ],
+      "MCDT191": [
+        "Manuales_Notifier\\ES\\MCDT191.pdf",
+        "Manuales_Notifier\\ES\\MCDT191_1.pdf"
+      ]
+    },
+    "remapped_via_product_model": "ID3000"
+  },
+  "hp009": {
+    "question": "¿Cuál es la resistencia de fin de línea recomendada para los lazos de la central Morley ZXe?",
+    "expected_behavior_yaml": "answer",
+    "question_type": "wiring",
+    "has_relevant_chunks": true,
+    "sources": [
+      {
+        "source_file_in_chunks": "MIE-MI-310",
+        "page_numbers": [
+          19
+        ],
+        "pdf_paths_found": [
+          "Manuales_Morley_Privado\\MIE-MI-310.pdf"
+        ],
+        "n_pdfs_found": 1
+      }
+    ]
+  },
+  "hp010": {
+    "question": "En la Morley DXc, ¿cómo se añade un nuevo detector al lazo tras la puesta en marcha inicial?",
+    "expected_behavior_yaml": "answer",
+    "question_type": "programming",
+    "has_relevant_chunks": true,
+    "sources": [
+      {
+        "source_file_in_chunks": "DXc_Manual de configuracion",
+        "page_numbers": [
+          35,
+          41,
+          48
+        ],
+        "pdf_paths_found": [
+          "Manuales_Morley\\DXc_Manual de configuracion.pdf",
+          "Manuales_Morley_Privado\\DXc_Manual de configuracion.pdf"
+        ],
+        "n_pdfs_found": 2
+      },
+      {
+        "source_file_in_chunks": "Eventos-Averias-de-Equipos-en-DXc",
+        "page_numbers": [
+          1
+        ],
+        "pdf_paths_found": [
+          "Manuales_Morley_Guias\\Eventos-Averias-de-Equipos-en-DXc.pdf"
+        ],
+        "n_pdfs_found": 1
+      }
+    ]
+  },
+  "hp011": {
+    "question": "En la Morley RP1r, después de descargar la extinción el sistema no vuelve a estado normal tras resetear. ¿Qué comprobar?",
+    "expected_behavior_yaml": "answer",
+    "question_type": "troubleshooting",
+    "has_relevant_chunks": true,
+    "sources": [
+      {
+        "source_file_in_chunks": "HLSI-MN-103I_RP1r-Supra_lr",
+        "page_numbers": [
+          33,
+          42,
+          44,
+          45,
+          52,
+          54,
+          56,
+          63,
+          68
+        ],
+        "pdf_paths_found": [
+          "Manuales_Notifier\\EN_unico\\HLSI-MN-103I_RP1r-Supra_lr.pdf",
+          "Manuales_Notifier_Privado\\HLSI-MN-103I_RP1r-Supra_lr.pdf",
+          "Manuales_Morley\\HLSI-MN-103I_RP1r-Supra_lr.pdf",
+          "Manuales_Morley_Privado\\HLSI-MN-103I_RP1r-Supra_lr.pdf"
+        ],
+        "n_pdfs_found": 4
+      },
+      {
+        "source_file_in_chunks": "HLSI-MN-103_RP1r-Supra_lr",
+        "page_numbers": [
+          26,
+          28,
+          41,
+          45,
+          52,
+          53,
+          54,
+          56,
+          63,
+          66
+        ],
+        "pdf_paths_found": [
+          "Manuales_Notifier\\ES\\HLSI-MN-103_RP1r-Supra_lr.pdf",
+          "Manuales_Notifier_Privado\\HLSI-MN-103_RP1r-Supra_lr.pdf",
+          "Manuales_Morley\\HLSI-MN-103_RP1r-Supra_lr.pdf",
+          "Manuales_Morley_Privado\\HLSI-MN-103_RP1r-Supra_lr.pdf"
+        ],
+        "n_pdfs_found": 4
+      },
+      {
+        "source_file_in_chunks": "HLSI-MA-103-I_GuiaRapida_RP1r-Supra_EN_lr",
+        "page_numbers": [
+          2
+        ],
+        "pdf_paths_found": [
+          "Manuales_Morley\\HLSI-MA-103-I_GuiaRapida_RP1r-Supra_EN_lr.pdf",
+          "Manuales_Morley_Privado\\HLSI-MA-103-I_GuiaRapida_RP1r-Supra_EN_lr.pdf"
+        ],
+        "n_pdfs_found": 2
+      },
+      {
+        "source_file_in_chunks": "HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr",
+        "page_numbers": [
+          2
+        ],
+        "pdf_paths_found": [
+          "Manuales_Notifier\\ES\\HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr.pdf",
+          "Manuales_Notifier_Privado\\HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr.pdf",
+          "Manuales_Morley\\HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr.pdf",
+          "Manuales_Morley_Privado\\HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr.pdf"
+        ],
+        "n_pdfs_found": 4
+      },
+      {
+        "source_file_in_chunks": "HLSI-MA-103_Quick start guide RP1r_Supra_GB",
+        "page_numbers": [
+          2
+        ],
+        "pdf_paths_found": [
+          "Manuales_Notifier\\EN_unico\\HLSI-MA-103_Quick start guide RP1r_Supra_GB.pdf"
+        ],
+        "n_pdfs_found": 1
+      },
+      {
+        "source_file_in_chunks": "MN-DT-959_OPC-RP1r",
+        "page_numbers": [
+          13
+        ],
+        "pdf_paths_found": [
+          "Manuales_Notifier_Privado\\MN-DT-959_OPC-RP1r.pdf"
+        ],
+        "n_pdfs_found": 1
+      }
+    ]
+  },
+  "hp012": {
+    "question": "¿Cuántos lazos direccionables soporta la Notifier AM2020/AFP1010 y cuántos dispositivos por lazo?",
+    "expected_behavior_yaml": "answer",
+    "question_type": "spec",
+    "has_relevant_chunks": true,
+    "sources": [
+      {
+        "source_file_in_chunks": "MADT370",
+        "page_numbers": [
+          10
+        ],
+        "pdf_paths_found": [
+          "Manuales_Notifier_Privado\\MADT370.pdf"
+        ],
+        "n_pdfs_found": 1
+      },
+      {
+        "source_file_in_chunks": "MPDT280",
+        "page_numbers": [
+          3,
+          8
+        ],
+        "pdf_paths_found": [
+          "Manuales_Notifier_Privado\\MPDT280.pdf"
+        ],
+        "n_pdfs_found": 1
+      },
+      {
+        "source_file_in_chunks": "15092SP",
+        "page_numbers": [
+          34
+        ],
+        "pdf_paths_found": [
+          "Manuales_Notifier_Privado\\15092SP.pdf"
+        ],
+        "n_pdfs_found": 1
+      },
+      {
+        "source_file_in_chunks": "15090SP",
+        "page_numbers": [
+          77
+        ],
+        "pdf_paths_found": [
+          "Manuales_Notifier_Privado\\15090SP.pdf"
+        ],
+        "n_pdfs_found": 1
+      },
+      {
+        "source_file_in_chunks": "MFDT280",
+        "page_numbers": [
+          4,
+          5,
+          8,
+          23
+        ],
+        "pdf_paths_found": [
+          "Manuales_Notifier_Privado\\MFDT280.pdf"
+        ],
+        "n_pdfs_found": 1
+      }
+    ]
+  },
+  "hp013": {
+    "question": "¿Cómo se cambia la batería tampón de la Detnov ADW535 sin perder configuración?",
+    "expected_behavior_yaml": "admit_no_info",
+    "question_type": "procedure",
+    "has_relevant_chunks": false,
+    "product_hint": "Detnov ADW535",
+    "keyword_hints": [
+      "ADW535",
+      "ADW-535",
+      "ADW 535"
+    ],
+    "pdf_candidates": {
+      "ADW535_TD_T140358es_e": [
+        "Manuales_ES\\Detectores especiales\\Detección térmica lineal rearmable ADW\\ADW535_TD_T140358es_e.pdf"
+      ]
+    },
+    "remapped_via_product_model": "ADW"
+  },
+  "hp014": {
+    "question": "¿Cómo se conecta un módulo de aislamiento de línea en un lazo ID2000?",
+    "expected_behavior_yaml": "answer",
+    "question_type": "wiring",
+    "has_relevant_chunks": true,
+    "sources": [
+      {
+        "source_file_in_chunks": "MIDT180",
+        "page_numbers": [
+          44
+        ],
+        "pdf_paths_found": [
+          "Manuales_Notifier_Privado\\MIDT180.pdf"
+        ],
+        "n_pdfs_found": 1
+      }
+    ]
+  },
+  "hp015": {
+    "question": "En la Detnov CCD-103, ¿cómo se desactiva un detector individualmente sin afectar al resto del lazo?",
+    "expected_behavior_yaml": "admit_no_info",
+    "question_type": "programming",
+    "has_relevant_chunks": false,
+    "product_hint": "Detnov CCD-103",
+    "keyword_hints": [
+      "CCD-103",
+      "CCD103",
+      "CCD 103"
+    ],
+    "pdf_candidates": {
+      "CCD-103_Manual_ES_FR_GB_IT": [
+        "Manuales_ES\\Sistema de extinción\\CCD-103_Manual_ES_FR_GB_IT.pdf"
+      ]
+    },
+    "remapped_via_product_model": "CCD-103"
+  },
+  "hp017": {
+    "question": "¿Cómo se programa el retardo de salida de alarma principal en la Notifier PEARL?",
+    "expected_behavior_yaml": "answer",
+    "question_type": "procedure",
+    "has_relevant_chunks": false,
+    "product_hint": "Notifier PEARL",
+    "keyword_hints": [
+      "PEARL",
+      "Pearl"
+    ],
+    "pdf_candidates": {
+      "Guia basica instalacion_PEARL": [
+        "Manuales_Notifier\\ES\\Guia basica instalacion_PEARL.pdf"
+      ]
+    },
+    "remapped_via_product_model": "PEARL"
+  },
+  "hp018": {
+    "question": "¿Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe?",
+    "expected_behavior_yaml": "answer",
+    "question_type": "wiring",
+    "has_relevant_chunks": true,
+    "sources": [
+      {
+        "source_file_in_chunks": "MIE-MI-310",
+        "page_numbers": [
+          31
+        ],
+        "pdf_paths_found": [
+          "Manuales_Morley_Privado\\MIE-MI-310.pdf"
+        ],
+        "n_pdfs_found": 1
+      }
+    ]
+  },
+  "hp019": {
+    "question": "¿Cuál es el rango de temperatura de funcionamiento del detector de aspiración ASD535 (Securiton, distribuido por Detnov)?",
+    "expected_behavior_yaml": "answer",
+    "question_type": "spec",
+    "has_relevant_chunks": false,
+    "product_hint": "Detnov ASD (familia: ASD535, ASD532, etc.)",
+    "keyword_hints": [
+      "ASD535",
+      "ASD532",
+      "ASD-535"
+    ],
+    "pdf_candidates": {
+      "ASD535_TD_T131192es_h": [
+        "Manuales_ES\\Detectores especiales\\Detección por aspiración Securiton\\ASD535_TD_T131192es_h.pdf"
+      ]
+    },
+    "remapped_via_product_model": "ASD"
+  },
+  "hp020": {
+    "question": "En la Notifier INSPIRE, ¿cómo se configuran las contraseñas de nivel 2 y nivel 3?",
+    "expected_behavior_yaml": "answer",
+    "question_type": "programming",
+    "has_relevant_chunks": false,
+    "product_hint": "Notifier INSPIRE",
+    "keyword_hints": [
+      "INSPIRE",
+      "Inspire"
+    ],
+    "pdf_candidates": {
+      "HOP-138-9ES issue 5_11-2025_In": [
+        "Manuales_Notifier\\ES\\HOP-138-9ES issue 5_11-2025_In.pdf"
+      ],
+      "HOP-138-8ES  issue 6_01-2026_Co": [
+        "Manuales_Notifier\\ES\\HOP-138-8ES  issue 6_01-2026_Co.pdf"
+      ]
+    },
+    "remapped_via_product_model": "INSPIRE"
+  }
+}

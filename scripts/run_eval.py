@@ -746,6 +746,10 @@ def main() -> int:
     ap.add_argument("--judge", action="store_true",
                     help="Run LLM-as-judge on every answer in addition to "
                          "keyword scoring. Adds ~$0.02-0.05 per question.")
+    ap.add_argument("--include-full-chunks", action="store_true",
+                    help="Persist `chunks_full` (with content) in the JSON output. "
+                         "Required to run RAGAS post-hoc via scripts/run_ragas.py "
+                         "without re-executing the bot. Bloats the file ~30-50%%.")
     ap.add_argument("--output-dir", default="logs",
                     help="Where to write the JSON report")
     args = ap.parse_args()
@@ -819,9 +823,10 @@ def main() -> int:
             if args.judge and score.get("judge", {}).get("rationale"):
                 print(f"    judge: {score['judge']['rationale']}")
 
-        # Strip chunks_full before persisting — it's only needed by the judge
-        # during scoring and bloats the JSON report unnecessarily.
-        exec_result.pop("chunks_full", None)
+        # Strip chunks_full before persisting unless caller opted in. Default off
+        # because it bloats the JSON; opt-in needed for RAGAS post-hoc scoring.
+        if not args.include_full_chunks:
+            exec_result.pop("chunks_full", None)
         results.append({"question": q, "result": exec_result, "score": score})
 
     elapsed = time.time() - t_start

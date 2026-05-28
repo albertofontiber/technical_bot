@@ -33,21 +33,33 @@ class SupabaseHTTP:
         }
         self.client = httpx.Client(timeout=60.0)
 
-    def insert_rows(self, table: str, rows: list[dict]):
+    def insert_rows(self, table: str, rows: list[dict],
+                    on_conflict: str | None = None):
         """Insert rows into a table via PostgREST, with retry on transient 5xx.
+
+        Si `on_conflict` se pasa (nombre de columna), usa modo UPSERT: las filas
+        cuyo valor de esa columna ya existe se MERGEAN en vez de devolver 409
+        Conflict. Necesario para idempotencia ante reintentos — si una petición
+        se completa server-side pero la respuesta se pierde, el retry POSTea de
+        nuevo con los mismos UUIDs y sin upsert eso da 409.
 
         Retries up to _RETRY_MAX_ATTEMPTS times with exponential backoff for
         5xx responses and httpx transport errors. Raises on final failure or
         any non-retryable error (4xx).
         """
+        url = f"{self.url}/rest/v1/{table}"
+        headers = self.headers
+        params = None
+        if on_conflict:
+            headers = {**self.headers,
+                       "Prefer": "resolution=merge-duplicates,return=minimal"}
+            params = {"on_conflict": on_conflict}
+
         last_exc: Exception | None = None
         for attempt in range(_RETRY_MAX_ATTEMPTS):
             try:
-                resp = self.client.post(
-                    f"{self.url}/rest/v1/{table}",
-                    headers=self.headers,
-                    json=rows,
-                )
+                resp = self.client.post(url, headers=headers, json=rows,
+                                        params=params)
                 if resp.status_code in _RETRY_STATUSES:
                     last_exc = httpx.HTTPStatusError(
                         f"{resp.status_code} from {resp.url}",
@@ -63,7 +75,12 @@ class SupabaseHTTP:
                         )
                         time.sleep(delay)
                         continue
-                resp.raise_for_status()
+                if resp.status_code >= 400:
+                    # PostgREST devuelve el detalle del error en el body —
+                    # sin esto solo veríamos "Client error" sin saber qué constraint
+                    raise httpx.HTTPStatusError(
+                        f"{resp.status_code} from {resp.url} :: {resp.text[:500]}",
+                        request=resp.request, response=resp)
                 return  # success
             except (httpx.TransportError, httpx.ReadTimeout) as e:
                 last_exc = e
