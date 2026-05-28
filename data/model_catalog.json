@@ -1,22 +1,16 @@
 {
   "build": {
     "table": "chunks_v2",
-    "generated_at": "2026-05-28T16:29:24.959840+00:00",
-    "n_distinct": 573,
-    "n_included": 313,
-    "n_excluded": 260
+    "generated_at": "2026-05-28T19:17:47.013130+00:00",
+    "n_distinct": 576,
+    "n_included": 536,
+    "n_excluded": 50
   },
   "models": [
     {
       "model": "ID3000",
       "manufacturer": "Notifier",
-      "chunk_count": 672,
-      "source": "static-pattern"
-    },
-    {
-      "model": "DT-951",
-      "manufacturer": "unknown",
-      "chunk_count": 410,
+      "chunk_count": 683,
       "source": "static-pattern"
     },
     {
@@ -38,15 +32,15 @@
       "source": "static-pattern"
     },
     {
-      "model": "AFP-300",
-      "manufacturer": "Notifier",
-      "chunk_count": 309,
+      "model": "RP1r-Supra",
+      "manufacturer": "Morley",
+      "chunk_count": 314,
       "source": "static-pattern"
     },
     {
-      "model": "ID50",
+      "model": "AFP-300",
       "manufacturer": "Notifier",
-      "chunk_count": 300,
+      "chunk_count": 309,
       "source": "static-pattern"
     },
     {
@@ -68,12 +62,6 @@
       "source": "static-pattern"
     },
     {
-      "model": "INSPIRE E10",
-      "manufacturer": "unknown",
-      "chunk_count": 265,
-      "source": "static-pattern"
-    },
-    {
       "model": "LTS-240",
       "manufacturer": "Notifier",
       "chunk_count": 259,
@@ -92,15 +80,21 @@
       "source": "static-pattern"
     },
     {
+      "model": "ID1000",
+      "manufacturer": "Notifier",
+      "chunk_count": 240,
+      "source": "static-pattern"
+    },
+    {
       "model": "VESDA-E-VEP",
       "manufacturer": "Xtralis",
       "chunk_count": 240,
       "source": "static-pattern"
     },
     {
-      "model": "ID1000",
+      "model": "ID50",
       "manufacturer": "Notifier",
-      "chunk_count": 239,
+      "chunk_count": 238,
       "source": "static-pattern"
     },
     {
@@ -140,6 +134,18 @@
       "source": "static-pattern"
     },
     {
+      "model": "ZX2e",
+      "manufacturer": "Morley",
+      "chunk_count": 198,
+      "source": "split-compound"
+    },
+    {
+      "model": "ZX5e",
+      "manufacturer": "Morley",
+      "chunk_count": 198,
+      "source": "split-compound"
+    },
+    {
       "model": "AM-8200N",
       "manufacturer": "Notifier",
       "chunk_count": 197,
@@ -149,6 +155,12 @@
       "model": "MS-5210UD",
       "manufacturer": "Notifier",
       "chunk_count": 196,
+      "source": "known-mfr"
+    },
+    {
+      "model": "XM-8100E",
+      "manufacturer": "System Sensor",
+      "chunk_count": 181,
       "source": "known-mfr"
     },
     {
@@ -162,6 +174,18 @@
       "manufacturer": "Xtralis",
       "chunk_count": 170,
       "source": "static-pattern"
+    },
+    {
+      "model": "INSPIRE E10",
+      "manufacturer": "Notifier",
+      "chunk_count": 166,
+      "source": "split-compound"
+    },
+    {
+      "model": "ZX50",
+      "manufacturer": "Morley",
+      "chunk_count": 158,
+      "source": "known-mfr"
     },
     {
       "model": "AM-8100",
@@ -182,6 +206,18 @@
       "source": "static-pattern"
     },
     {
+      "model": "EM 8",
+      "manufacturer": "Morley",
+      "chunk_count": 148,
+      "source": "split-compound"
+    },
+    {
+      "model": "TG-1020",
+      "manufacturer": "Notifier",
+      "chunk_count": 145,
+      "source": "known-mfr"
+    },
+    {
       "model": "AFP4000",
       "manufacturer": "Notifier",
       "chunk_count": 143,
@@ -196,6 +232,12 @@
     {
       "model": "ASD11",
       "manufacturer": "Securiton",
+      "chunk_count": 135,
+      "source": "static-pattern"
+    },
+    {
+      "model": "PL4",
+      "manufacturer": "Notifier",
       "chunk_count": 135,
       "source": "static-pattern"
     },
@@ -224,9 +266,21 @@
       "source": "known-mfr"
     },
     {
-      "model": "PL4",
+      "model": "LT-200",
       "manufacturer": "Notifier",
-      "chunk_count": 111,
+      "chunk_count": 125,
+      "source": "known-mfr"
+    },
+    {
+      "model": "AC-220",
+      "manufacturer": "Notifier",
+      "chunk_count": 124,
+      "source": "known-mfr"
+    },
+    {
+      "model": "Pearl",
+      "manufacturer": "Notifier",
+      "chunk_count": 115,
       "source": "static-pattern"
     },
     {
@@ -242,9 +296,27 @@
       "source": "static-pattern"
     },
     {
+      "model": "NFS-Supra",
+      "manufacturer": "Morley",
+      "chunk_count": 109,
+      "source": "static-pattern"
+    },
+    {
       "model": "SYSTEM 5000",
       "manufacturer": "Notifier",
       "chunk_count": 107,
+      "source": "static-pattern"
+    },
+    {
+      "model": "VSN PLUS",
+      "manufacturer": "Morley",
+      "chunk_count": 106,
+      "source": "static-pattern"
+    },
+    {
+      "model": "VSN-RP1r",
+      "manufacturer": "Morley",
+      "chunk_count": 105,
       "source": "static-pattern"
     },
     {
@@ -252,6 +324,12 @@
       "manufacturer": "Notifier",
       "chunk_count": 103,
       "source": "known-mfr"
+    },
+    {
+      "model": "INSPIRE E10",
+      "manufacturer": "Notifier",
+      "chunk_count": 100,
+      "source": "static-pattern"
     },
     {
       "model": "VESDA-VLI",
@@ -278,16 +356,28 @@
       "source": "static-pattern"
     },
     {
-      "model": "MI-600",
-      "manufacturer": "unknown",
-      "chunk_count": 88,
-      "source": "static-pattern"
-    },
-    {
       "model": "IBOX BACNET",
       "manufacturer": "Notifier",
       "chunk_count": 85,
       "source": "known-mfr"
+    },
+    {
+      "model": "FLX-010",
+      "manufacturer": "Xtralis",
+      "chunk_count": 84,
+      "source": "known-mfr"
+    },
+    {
+      "model": "Li-ion Tamer GEN 3",
+      "manufacturer": "Xtralis",
+      "chunk_count": 84,
+      "source": "known-mfr"
+    },
+    {
+      "model": "MI-FLX-010",
+      "manufacturer": "Morley",
+      "chunk_count": 82,
+      "source": "static-pattern"
     },
     {
       "model": "40-40L",
@@ -338,6 +428,18 @@
       "source": "static-pattern"
     },
     {
+      "model": "FAAST LT-200",
+      "manufacturer": "Notifier",
+      "chunk_count": 73,
+      "source": "static-pattern"
+    },
+    {
+      "model": "VSN LT",
+      "manufacturer": "Morley",
+      "chunk_count": 73,
+      "source": "static-pattern"
+    },
+    {
       "model": "40-40R",
       "manufacturer": "Spectrex",
       "chunk_count": 71,
@@ -356,10 +458,34 @@
       "source": "static-pattern"
     },
     {
-      "model": "MI-100",
-      "manufacturer": "unknown",
-      "chunk_count": 66,
+      "model": "Li-ion Tamer Rack Monitor",
+      "manufacturer": "Xtralis",
+      "chunk_count": 70,
+      "source": "known-mfr"
+    },
+    {
+      "model": "NFS Supra",
+      "manufacturer": "Honeywell",
+      "chunk_count": 68,
       "source": "static-pattern"
+    },
+    {
+      "model": "ID50",
+      "manufacturer": "Notifier",
+      "chunk_count": 67,
+      "source": "split-compound"
+    },
+    {
+      "model": "ID60",
+      "manufacturer": "Notifier",
+      "chunk_count": 67,
+      "source": "split-compound"
+    },
+    {
+      "model": "HRZ2-8",
+      "manufacturer": "Morley",
+      "chunk_count": 66,
+      "source": "known-mfr"
     },
     {
       "model": "MINILÁSER100",
@@ -368,8 +494,14 @@
       "source": "known-mfr"
     },
     {
-      "model": "MI-530",
-      "manufacturer": "unknown",
+      "model": "RP1R",
+      "manufacturer": "Notifier",
+      "chunk_count": 65,
+      "source": "static-pattern"
+    },
+    {
+      "model": "SMART 3G",
+      "manufacturer": "Notifier",
       "chunk_count": 64,
       "source": "static-pattern"
     },
@@ -380,14 +512,26 @@
       "source": "known-mfr"
     },
     {
-      "model": "RP1R",
+      "model": "Pearl 997-670-005-3",
       "manufacturer": "Notifier",
       "chunk_count": 62,
       "source": "static-pattern"
     },
     {
+      "model": "AUTOSAT-1u",
+      "manufacturer": "Morley",
+      "chunk_count": 61,
+      "source": "known-mfr"
+    },
+    {
       "model": "MINILÁSER25",
       "manufacturer": "Notifier",
+      "chunk_count": 61,
+      "source": "known-mfr"
+    },
+    {
+      "model": "MK-ZX",
+      "manufacturer": "Morley",
       "chunk_count": 61,
       "source": "known-mfr"
     },
@@ -410,9 +554,27 @@
       "source": "known-mfr"
     },
     {
+      "model": "EL-6500",
+      "manufacturer": "Morley",
+      "chunk_count": 56,
+      "source": "known-mfr"
+    },
+    {
       "model": "NAS-1U",
       "manufacturer": "Notifier",
       "chunk_count": 55,
+      "source": "known-mfr"
+    },
+    {
+      "model": "RP1r",
+      "manufacturer": "Notifier",
+      "chunk_count": 55,
+      "source": "static-pattern"
+    },
+    {
+      "model": "SAT-1u",
+      "manufacturer": "Morley",
+      "chunk_count": 54,
       "source": "known-mfr"
     },
     {
@@ -434,12 +596,6 @@
       "source": "known-mfr"
     },
     {
-      "model": "MI-130I",
-      "manufacturer": "unknown",
-      "chunk_count": 52,
-      "source": "static-pattern"
-    },
-    {
       "model": "UDS-1N",
       "manufacturer": "Notifier",
       "chunk_count": 52,
@@ -452,6 +608,12 @@
       "source": "known-mfr"
     },
     {
+      "model": "6424",
+      "manufacturer": "Morley",
+      "chunk_count": 51,
+      "source": "known-mfr"
+    },
+    {
       "model": "EXITPOINT",
       "manufacturer": "Notifier",
       "chunk_count": 51,
@@ -459,7 +621,7 @@
     },
     {
       "model": "FS-24X",
-      "manufacturer": "unknown",
+      "manufacturer": "Honeywell",
       "chunk_count": 51,
       "source": "static-pattern"
     },
@@ -476,10 +638,28 @@
       "source": "static-pattern"
     },
     {
+      "model": "NFG-8",
+      "manufacturer": "Notifier",
+      "chunk_count": 51,
+      "source": "static-pattern"
+    },
+    {
       "model": "ID-50",
       "manufacturer": "Notifier",
       "chunk_count": 50,
       "source": "static-pattern"
+    },
+    {
+      "model": "LCD-80",
+      "manufacturer": "Notifier",
+      "chunk_count": 50,
+      "source": "known-mfr"
+    },
+    {
+      "model": "LOCAL-360",
+      "manufacturer": "Notifier",
+      "chunk_count": 50,
+      "source": "known-mfr"
     },
     {
       "model": "SECURNET PLUS",
@@ -488,22 +668,28 @@
       "source": "known-mfr"
     },
     {
+      "model": "System 5000",
+      "manufacturer": "Notifier",
+      "chunk_count": 50,
+      "source": "static-pattern"
+    },
+    {
       "model": "20/20UB",
       "manufacturer": "Spectrex",
       "chunk_count": 49,
       "source": "known-mfr"
     },
     {
-      "model": "DT-102I",
-      "manufacturer": "unknown",
-      "chunk_count": 49,
-      "source": "static-pattern"
-    },
-    {
-      "model": "LCD-80",
+      "model": "DH500",
       "manufacturer": "Notifier",
       "chunk_count": 49,
       "source": "known-mfr"
+    },
+    {
+      "model": "FSL100",
+      "manufacturer": "Notifier",
+      "chunk_count": 49,
+      "source": "static-pattern"
     },
     {
       "model": "SENTOX IDI",
@@ -512,14 +698,14 @@
       "source": "static-pattern"
     },
     {
-      "model": "FS-20X",
-      "manufacturer": "unknown",
-      "chunk_count": 48,
+      "model": "VSN 2-4",
+      "manufacturer": "Morley",
+      "chunk_count": 49,
       "source": "static-pattern"
     },
     {
-      "model": "MI-120",
-      "manufacturer": "unknown",
+      "model": "FS-20X",
+      "manufacturer": "Notifier",
       "chunk_count": 48,
       "source": "static-pattern"
     },
@@ -542,6 +728,12 @@
       "source": "known-mfr"
     },
     {
+      "model": "EL-11",
+      "manufacturer": "Fidegas",
+      "chunk_count": 46,
+      "source": "known-mfr"
+    },
+    {
       "model": "G-100",
       "manufacturer": "Notifier",
       "chunk_count": 46,
@@ -551,6 +743,12 @@
       "model": "PA400",
       "manufacturer": "Pfannenberg",
       "chunk_count": 46,
+      "source": "known-mfr"
+    },
+    {
+      "model": "MIW-INT",
+      "manufacturer": "Morley",
+      "chunk_count": 45,
       "source": "known-mfr"
     },
     {
@@ -572,16 +770,16 @@
       "source": "static-pattern"
     },
     {
-      "model": "MI-310",
-      "manufacturer": "unknown",
+      "model": "Testifire 2000",
+      "manufacturer": "Xtralis",
       "chunk_count": 42,
-      "source": "static-pattern"
+      "source": "known-mfr"
     },
     {
-      "model": "MI-580",
-      "manufacturer": "unknown",
+      "model": "DEL-20",
+      "manufacturer": "Notifier",
       "chunk_count": 41,
-      "source": "static-pattern"
+      "source": "known-mfr"
     },
     {
       "model": "SMART 3",
@@ -608,16 +806,28 @@
       "source": "known-mfr"
     },
     {
-      "model": "DT-958I",
-      "manufacturer": "unknown",
+      "model": "LPB-620",
+      "manufacturer": "Notifier",
+      "chunk_count": 39,
+      "source": "known-mfr"
+    },
+    {
+      "model": "MI-200",
+      "manufacturer": "Morley",
       "chunk_count": 39,
       "source": "static-pattern"
     },
     {
-      "model": "MI-110",
-      "manufacturer": "unknown",
+      "model": "MKDX Serie Dimension",
+      "manufacturer": "Morley",
       "chunk_count": 39,
-      "source": "static-pattern"
+      "source": "known-mfr"
+    },
+    {
+      "model": "iBox Modbus Server",
+      "manufacturer": "Notifier",
+      "chunk_count": 39,
+      "source": "known-mfr"
     },
     {
       "model": "CMD-500",
@@ -644,21 +854,45 @@
       "source": "static-pattern"
     },
     {
-      "model": "MI-230",
-      "manufacturer": "unknown",
-      "chunk_count": 37,
-      "source": "static-pattern"
-    },
-    {
       "model": "SMART3G",
       "manufacturer": "Notifier",
       "chunk_count": 37,
       "source": "static-pattern"
     },
     {
+      "model": "Sistema 5000",
+      "manufacturer": "Notifier",
+      "chunk_count": 37,
+      "source": "static-pattern"
+    },
+    {
+      "model": "TO-60",
+      "manufacturer": "System Sensor",
+      "chunk_count": 37,
+      "source": "known-mfr"
+    },
+    {
+      "model": "VAP-1",
+      "manufacturer": "LDA audioTech",
+      "chunk_count": 37,
+      "source": "known-mfr"
+    },
+    {
       "model": "VERIFIRE™-1020",
       "manufacturer": "Notifier",
       "chunk_count": 37,
+      "source": "known-mfr"
+    },
+    {
+      "model": "MI-OSI-RIE",
+      "manufacturer": "Morley",
+      "chunk_count": 36,
+      "source": "static-pattern"
+    },
+    {
+      "model": "NOTI•FIRE•NET™",
+      "manufacturer": "Notifier",
+      "chunk_count": 36,
       "source": "known-mfr"
     },
     {
@@ -668,34 +902,40 @@
       "source": "known-mfr"
     },
     {
-      "model": "VSN-232",
-      "manufacturer": "unknown",
-      "chunk_count": 35,
-      "source": "static-pattern"
-    },
-    {
       "model": "AUTOSAT-20",
       "manufacturer": "Notifier",
       "chunk_count": 34,
       "source": "static-pattern"
     },
     {
-      "model": "MI-560",
-      "manufacturer": "unknown",
+      "model": "FAAST LT",
+      "manufacturer": "Morley",
+      "chunk_count": 34,
+      "source": "static-pattern"
+    },
+    {
+      "model": "NFXI-BEAM",
+      "manufacturer": "Notifier",
       "chunk_count": 33,
       "source": "static-pattern"
+    },
+    {
+      "model": "FAAST FLEX",
+      "manufacturer": "Xtralis",
+      "chunk_count": 32,
+      "source": "static-pattern"
+    },
+    {
+      "model": "FROM-01",
+      "manufacturer": "Notifier",
+      "chunk_count": 32,
+      "source": "known-mfr"
     },
     {
       "model": "ID²NET",
       "manufacturer": "Notifier",
       "chunk_count": 32,
       "source": "known-mfr"
-    },
-    {
-      "model": "MI-580I",
-      "manufacturer": "unknown",
-      "chunk_count": 32,
-      "source": "static-pattern"
     },
     {
       "model": "NAS-2",
@@ -705,7 +945,7 @@
     },
     {
       "model": "PK-8200",
-      "manufacturer": "unknown",
+      "manufacturer": "Notifier",
       "chunk_count": 32,
       "source": "static-pattern"
     },
@@ -728,16 +968,34 @@
       "source": "known-mfr"
     },
     {
+      "model": "MK-VSN",
+      "manufacturer": "Morley",
+      "chunk_count": 31,
+      "source": "known-mfr"
+    },
+    {
+      "model": "MTEX-4805",
+      "manufacturer": "Notifier",
+      "chunk_count": 31,
+      "source": "known-mfr"
+    },
+    {
+      "model": "Unipoint",
+      "manufacturer": "Zellweger Analytics",
+      "chunk_count": 31,
+      "source": "known-mfr"
+    },
+    {
       "model": "ID-3000",
       "manufacturer": "Notifier",
       "chunk_count": 30,
       "source": "static-pattern"
     },
     {
-      "model": "MI-591",
-      "manufacturer": "unknown",
-      "chunk_count": 29,
-      "source": "static-pattern"
+      "model": "SMART 2",
+      "manufacturer": "Notifier",
+      "chunk_count": 30,
+      "source": "known-mfr"
     },
     {
       "model": "PA5",
@@ -747,15 +1005,27 @@
     },
     {
       "model": "POL-200",
-      "manufacturer": "unknown",
+      "manufacturer": "Notifier",
       "chunk_count": 29,
       "source": "static-pattern"
     },
     {
-      "model": "MI-560I",
-      "manufacturer": "unknown",
-      "chunk_count": 28,
+      "model": "VSN-CRA",
+      "manufacturer": "Morley",
+      "chunk_count": 29,
       "source": "static-pattern"
+    },
+    {
+      "model": "VSN-PARK",
+      "manufacturer": "Morley",
+      "chunk_count": 29,
+      "source": "static-pattern"
+    },
+    {
+      "model": "HLS PS25",
+      "manufacturer": "Morley",
+      "chunk_count": 28,
+      "source": "known-mfr"
     },
     {
       "model": "NAS-10",
@@ -782,6 +1052,12 @@
       "source": "known-mfr"
     },
     {
+      "model": "theFirebeam BLUE",
+      "manufacturer": "Detnov",
+      "chunk_count": 28,
+      "source": "known-mfr"
+    },
+    {
       "model": "40-40-SERIES",
       "manufacturer": "Spectrex",
       "chunk_count": 27,
@@ -800,32 +1076,44 @@
       "source": "static-pattern"
     },
     {
-      "model": "6424",
-      "manufacturer": "Notifier",
+      "model": "SGD-151",
+      "manufacturer": "Detnov",
       "chunk_count": 26,
       "source": "known-mfr"
     },
     {
-      "model": "DH500",
+      "model": "TG-IP1-SEC",
+      "manufacturer": "Morley",
+      "chunk_count": 26,
+      "source": "known-mfr"
+    },
+    {
+      "model": "CADA-50",
+      "manufacturer": "Detnov",
+      "chunk_count": 25,
+      "source": "known-mfr"
+    },
+    {
+      "model": "CASE-32",
+      "manufacturer": "Morley",
+      "chunk_count": 25,
+      "source": "known-mfr"
+    },
+    {
+      "model": "LPB-700",
       "manufacturer": "Notifier",
       "chunk_count": 25,
       "source": "known-mfr"
     },
     {
-      "model": "DT-1412",
-      "manufacturer": "unknown",
+      "model": "MPS 8Z",
+      "manufacturer": "LDA audioTech",
       "chunk_count": 25,
-      "source": "static-pattern"
+      "source": "known-mfr"
     },
     {
-      "model": "DT-959",
-      "manufacturer": "unknown",
-      "chunk_count": 25,
-      "source": "static-pattern"
-    },
-    {
-      "model": "MI-140",
-      "manufacturer": "unknown",
+      "model": "OPC-RP1r",
+      "manufacturer": "Notifier",
       "chunk_count": 25,
       "source": "static-pattern"
     },
@@ -842,16 +1130,58 @@
       "source": "known-mfr"
     },
     {
+      "model": "INSPIRE Panel",
+      "manufacturer": "Notifier",
+      "chunk_count": 24,
+      "source": "static-pattern"
+    },
+    {
+      "model": "LCD-8200",
+      "manufacturer": "Notifier",
+      "chunk_count": 24,
+      "source": "known-mfr"
+    },
+    {
+      "model": "M700",
+      "manufacturer": "Notifier",
+      "chunk_count": 24,
+      "source": "static-pattern"
+    },
+    {
+      "model": "MODELO-6200R",
+      "manufacturer": "System Sensor",
+      "chunk_count": 24,
+      "source": "known-mfr"
+    },
+    {
+      "model": "S-HSF v2.8.0",
+      "manufacturer": "Notifier",
+      "chunk_count": 24,
+      "source": "known-mfr"
+    },
+    {
+      "model": "CABOTO-19",
+      "manufacturer": "System Sensor",
+      "chunk_count": 23,
+      "source": "known-mfr"
+    },
+    {
       "model": "FSL-751E",
       "manufacturer": "Notifier",
       "chunk_count": 23,
       "source": "static-pattern"
     },
     {
-      "model": "MI-440",
-      "manufacturer": "unknown",
+      "model": "NFS8REL",
+      "manufacturer": "Morley",
+      "chunk_count": 23,
+      "source": "known-mfr"
+    },
+    {
+      "model": "6500R",
+      "manufacturer": "System Sensor",
       "chunk_count": 22,
-      "source": "static-pattern"
+      "source": "known-mfr"
     },
     {
       "model": "POL-1",
@@ -860,8 +1190,32 @@
       "source": "known-mfr"
     },
     {
+      "model": "ZXR50A",
+      "manufacturer": "Morley",
+      "chunk_count": 22,
+      "source": "split-compound"
+    },
+    {
+      "model": "ZXR50P",
+      "manufacturer": "Morley",
+      "chunk_count": 22,
+      "source": "split-compound"
+    },
+    {
+      "model": "KIT-GAS",
+      "manufacturer": "Notifier",
+      "chunk_count": 21,
+      "source": "known-mfr"
+    },
+    {
       "model": "LCD-6000",
       "manufacturer": "Notifier",
+      "chunk_count": 21,
+      "source": "known-mfr"
+    },
+    {
+      "model": "MIN-17",
+      "manufacturer": "Morley",
       "chunk_count": 21,
       "source": "known-mfr"
     },
@@ -878,9 +1232,75 @@
       "source": "known-mfr"
     },
     {
+      "model": "UCIP-GPRS",
+      "manufacturer": "Morley",
+      "chunk_count": 21,
+      "source": "static-pattern"
+    },
+    {
+      "model": "ART 535-x",
+      "manufacturer": "Securiton",
+      "chunk_count": 20,
+      "source": "known-mfr"
+    },
+    {
+      "model": "B400 Series",
+      "manufacturer": "System Sensor",
+      "chunk_count": 20,
+      "source": "known-mfr"
+    },
+    {
       "model": "FLG2100",
       "manufacturer": "Notifier",
       "chunk_count": 20,
+      "source": "known-mfr"
+    },
+    {
+      "model": "MODELO-6500R",
+      "manufacturer": "Xtralis",
+      "chunk_count": 20,
+      "source": "known-mfr"
+    },
+    {
+      "model": "theFirebeam Xtra",
+      "manufacturer": "Xtralis",
+      "chunk_count": 20,
+      "source": "known-mfr"
+    },
+    {
+      "model": "Firebeam Xtra",
+      "manufacturer": "Xtralis",
+      "chunk_count": 19,
+      "source": "static-pattern"
+    },
+    {
+      "model": "MIE-MA-100",
+      "manufacturer": "Morley",
+      "chunk_count": 19,
+      "source": "known-mfr"
+    },
+    {
+      "model": "S300RPTU",
+      "manufacturer": "Notifier",
+      "chunk_count": 19,
+      "source": "static-pattern"
+    },
+    {
+      "model": "SP-20",
+      "manufacturer": "Morley",
+      "chunk_count": 19,
+      "source": "known-mfr"
+    },
+    {
+      "model": "THE-6500",
+      "manufacturer": "Morley",
+      "chunk_count": 19,
+      "source": "known-mfr"
+    },
+    {
+      "model": "UNIT-15",
+      "manufacturer": "LGM Products",
+      "chunk_count": 19,
       "source": "known-mfr"
     },
     {
@@ -890,16 +1310,40 @@
       "source": "static-pattern"
     },
     {
+      "model": "B501AP",
+      "manufacturer": "Morley",
+      "chunk_count": 18,
+      "source": "static-pattern"
+    },
+    {
+      "model": "CLSS-10",
+      "manufacturer": "Notifier",
+      "chunk_count": 18,
+      "source": "known-mfr"
+    },
+    {
+      "model": "FS-1100",
+      "manufacturer": "Spectrex",
+      "chunk_count": 18,
+      "source": "known-mfr"
+    },
+    {
+      "model": "Innovair flex D2E",
+      "manufacturer": "System Sensor",
+      "chunk_count": 18,
+      "source": "known-mfr"
+    },
+    {
       "model": "MADT-015",
       "manufacturer": "Notifier",
       "chunk_count": 18,
       "source": "known-mfr"
     },
     {
-      "model": "MI-431",
-      "manufacturer": "unknown",
+      "model": "MODEL-6200R",
+      "manufacturer": "System Sensor",
       "chunk_count": 18,
-      "source": "static-pattern"
+      "source": "known-mfr"
     },
     {
       "model": "PK-AFP200E",
@@ -914,9 +1358,27 @@
       "source": "known-mfr"
     },
     {
+      "model": "SCU-800",
+      "manufacturer": "Notifier",
+      "chunk_count": 18,
+      "source": "known-mfr"
+    },
+    {
       "model": "VERIFIRE™ 300",
       "manufacturer": "Notifier",
       "chunk_count": 18,
+      "source": "known-mfr"
+    },
+    {
+      "model": "VIA-28V",
+      "manufacturer": "Detnov",
+      "chunk_count": 18,
+      "source": "known-mfr"
+    },
+    {
+      "model": "AS-50",
+      "manufacturer": "Morley",
+      "chunk_count": 17,
       "source": "known-mfr"
     },
     {
@@ -938,14 +1400,32 @@
       "source": "static-pattern"
     },
     {
-      "model": "SMART 2",
+      "model": "MI-SC6",
+      "manufacturer": "Morley",
+      "chunk_count": 17,
+      "source": "static-pattern"
+    },
+    {
+      "model": "MN-963",
+      "manufacturer": "Morley",
+      "chunk_count": 17,
+      "source": "known-mfr"
+    },
+    {
+      "model": "SMB-500",
       "manufacturer": "Notifier",
       "chunk_count": 17,
       "source": "known-mfr"
     },
     {
+      "model": "TUL500EN",
+      "manufacturer": "Venitem",
+      "chunk_count": 17,
+      "source": "known-mfr"
+    },
+    {
       "model": "ADW-535-1",
-      "manufacturer": "unknown",
+      "manufacturer": "Securiton",
       "chunk_count": 16,
       "source": "static-pattern"
     },
@@ -954,6 +1434,12 @@
       "manufacturer": "Detnov",
       "chunk_count": 16,
       "source": "static-pattern"
+    },
+    {
+      "model": "GUIDE-0044-047",
+      "manufacturer": "Notifier",
+      "chunk_count": 16,
+      "source": "known-mfr"
     },
     {
       "model": "MNDT-1300I",
@@ -966,6 +1452,18 @@
       "manufacturer": "Notifier",
       "chunk_count": 16,
       "source": "static-pattern"
+    },
+    {
+      "model": "NRX-TFIX58",
+      "manufacturer": "Notifier",
+      "chunk_count": 16,
+      "source": "known-mfr"
+    },
+    {
+      "model": "PF24V Directional Sounder",
+      "manufacturer": "System Sensor",
+      "chunk_count": 16,
+      "source": "known-mfr"
     },
     {
       "model": "RPT-485W",
@@ -986,7 +1484,31 @@
       "source": "known-mfr"
     },
     {
+      "model": "CPX-751E",
+      "manufacturer": "Notifier",
+      "chunk_count": 15,
+      "source": "known-mfr"
+    },
+    {
+      "model": "FS-1300",
+      "manufacturer": "Spectrex",
+      "chunk_count": 15,
+      "source": "known-mfr"
+    },
+    {
       "model": "IDP-LB1",
+      "manufacturer": "Notifier",
+      "chunk_count": 15,
+      "source": "known-mfr"
+    },
+    {
+      "model": "IS-mA1",
+      "manufacturer": "European Safety Systems",
+      "chunk_count": 15,
+      "source": "known-mfr"
+    },
+    {
+      "model": "MIN-16",
       "manufacturer": "Notifier",
       "chunk_count": 15,
       "source": "known-mfr"
@@ -994,6 +1516,12 @@
     {
       "model": "NOTI-FIRE-NET",
       "manufacturer": "Notifier",
+      "chunk_count": 15,
+      "source": "known-mfr"
+    },
+    {
+      "model": "PARA-16",
+      "manufacturer": "Avotec",
       "chunk_count": 15,
       "source": "known-mfr"
     },
@@ -1016,16 +1544,34 @@
       "source": "known-mfr"
     },
     {
+      "model": "TG-GSM",
+      "manufacturer": "Morley",
+      "chunk_count": 15,
+      "source": "known-mfr"
+    },
+    {
+      "model": "WFDEN",
+      "manufacturer": "System Sensor",
+      "chunk_count": 15,
+      "source": "known-mfr"
+    },
+    {
       "model": "WR-2001",
       "manufacturer": "Morley",
       "chunk_count": 15,
       "source": "known-mfr"
     },
     {
-      "model": "DT-1160",
-      "manufacturer": "unknown",
+      "model": "EXITPOINT PF24V",
+      "manufacturer": "System Sensor",
       "chunk_count": 14,
-      "source": "static-pattern"
+      "source": "known-mfr"
+    },
+    {
+      "model": "ExitPoint",
+      "manufacturer": "Notifier",
+      "chunk_count": 14,
+      "source": "known-mfr"
     },
     {
       "model": "PAD-10A",
@@ -1046,6 +1592,12 @@
       "source": "known-mfr"
     },
     {
+      "model": "RP1r Supra",
+      "manufacturer": "Honeywell",
+      "chunk_count": 14,
+      "source": "static-pattern"
+    },
+    {
       "model": "SG200-IS",
       "manufacturer": "Argus Security",
       "chunk_count": 14,
@@ -1064,8 +1616,8 @@
       "source": "static-pattern"
     },
     {
-      "model": "TG-GSM",
-      "manufacturer": "Notifier",
+      "model": "SGCWE-100",
+      "manufacturer": "Argus Security",
       "chunk_count": 14,
       "source": "known-mfr"
     },
@@ -1074,6 +1626,24 @@
       "manufacturer": "Xtralis",
       "chunk_count": 14,
       "source": "known-mfr"
+    },
+    {
+      "model": "BA Series",
+      "manufacturer": "LDA audioTech",
+      "chunk_count": 13,
+      "source": "known-mfr"
+    },
+    {
+      "model": "CP-651E",
+      "manufacturer": "Notifier",
+      "chunk_count": 13,
+      "source": "known-mfr"
+    },
+    {
+      "model": "INSPIRE",
+      "manufacturer": "Notifier",
+      "chunk_count": 13,
+      "source": "static-pattern"
     },
     {
       "model": "LCD-80TM",
@@ -1106,6 +1676,48 @@
       "source": "static-pattern"
     },
     {
+      "model": "SOME-58",
+      "manufacturer": "Sound Alert",
+      "chunk_count": 13,
+      "source": "known-mfr"
+    },
+    {
+      "model": "THE-300",
+      "manufacturer": "Notifier",
+      "chunk_count": 13,
+      "source": "known-mfr"
+    },
+    {
+      "model": "UCIP",
+      "manufacturer": "Morley",
+      "chunk_count": 13,
+      "source": "static-pattern"
+    },
+    {
+      "model": "WEIGHT-96G",
+      "manufacturer": "Notifier",
+      "chunk_count": 13,
+      "source": "known-mfr"
+    },
+    {
+      "model": "CMX-10RM",
+      "manufacturer": "Morley",
+      "chunk_count": 12,
+      "source": "known-mfr"
+    },
+    {
+      "model": "CZ-6",
+      "manufacturer": "System Sensor",
+      "chunk_count": 12,
+      "source": "static-pattern"
+    },
+    {
+      "model": "F5K",
+      "manufacturer": "Morley",
+      "chunk_count": 12,
+      "source": "known-mfr"
+    },
+    {
       "model": "IDX-751",
       "manufacturer": "Notifier",
       "chunk_count": 12,
@@ -1114,6 +1726,18 @@
     {
       "model": "LCR 3 PK",
       "manufacturer": "Notifier",
+      "chunk_count": 12,
+      "source": "known-mfr"
+    },
+    {
+      "model": "MCX-55M",
+      "manufacturer": "Morley",
+      "chunk_count": 12,
+      "source": "known-mfr"
+    },
+    {
+      "model": "MMX-10M",
+      "manufacturer": "Morley",
       "chunk_count": 12,
       "source": "known-mfr"
     },
@@ -1130,7 +1754,7 @@
       "source": "static-pattern"
     },
     {
-      "model": "NFS8REL",
+      "model": "SD-851E",
       "manufacturer": "Notifier",
       "chunk_count": 12,
       "source": "known-mfr"
@@ -1148,22 +1772,46 @@
       "source": "known-mfr"
     },
     {
-      "model": "MI-010",
-      "manufacturer": "unknown",
+      "model": "TO-49",
+      "manufacturer": "Morley",
+      "chunk_count": 12,
+      "source": "known-mfr"
+    },
+    {
+      "model": "TO-70",
+      "manufacturer": "Notifier",
+      "chunk_count": 12,
+      "source": "known-mfr"
+    },
+    {
+      "model": "VGS-EXP",
+      "manufacturer": "Notifier",
+      "chunk_count": 12,
+      "source": "known-mfr"
+    },
+    {
+      "model": "WITH-48",
+      "manufacturer": "Notifier",
+      "chunk_count": 12,
+      "source": "known-mfr"
+    },
+    {
+      "model": "EL-10",
+      "manufacturer": "Fidegas",
+      "chunk_count": 11,
+      "source": "known-mfr"
+    },
+    {
+      "model": "ITAC",
+      "manufacturer": "Morley",
       "chunk_count": 11,
       "source": "static-pattern"
     },
     {
-      "model": "MI-220",
-      "manufacturer": "unknown",
+      "model": "REL-2000",
+      "manufacturer": "Morley",
       "chunk_count": 11,
-      "source": "static-pattern"
-    },
-    {
-      "model": "MI-430",
-      "manufacturer": "unknown",
-      "chunk_count": 11,
-      "source": "static-pattern"
+      "source": "known-mfr"
     },
     {
       "model": "S317AMDP",
@@ -1178,8 +1826,44 @@
       "source": "known-mfr"
     },
     {
+      "model": "VCC-64",
+      "manufacturer": "LDA audioTech",
+      "chunk_count": 11,
+      "source": "known-mfr"
+    },
+    {
+      "model": "ZES-22",
+      "manufacturer": "LDA audioTech",
+      "chunk_count": 11,
+      "source": "known-mfr"
+    },
+    {
+      "model": "ZXR4B",
+      "manufacturer": "Morley",
+      "chunk_count": 11,
+      "source": "split-compound"
+    },
+    {
+      "model": "ZXR5B",
+      "manufacturer": "Morley",
+      "chunk_count": 11,
+      "source": "split-compound"
+    },
+    {
       "model": "40-40-AIR",
       "manufacturer": "Spectrex",
+      "chunk_count": 10,
+      "source": "known-mfr"
+    },
+    {
+      "model": "Art. 5555",
+      "manufacturer": "Notifier",
+      "chunk_count": 10,
+      "source": "known-mfr"
+    },
+    {
+      "model": "DE-15",
+      "manufacturer": "Morley",
       "chunk_count": 10,
       "source": "known-mfr"
     },
@@ -1190,7 +1874,61 @@
       "source": "known-mfr"
     },
     {
+      "model": "DSE3-23",
+      "manufacturer": "Notifier",
+      "chunk_count": 10,
+      "source": "known-mfr"
+    },
+    {
+      "model": "IP-40",
+      "manufacturer": "Notifier",
+      "chunk_count": 10,
+      "source": "known-mfr"
+    },
+    {
+      "model": "MI-CZ6",
+      "manufacturer": "Morley",
+      "chunk_count": 10,
+      "source": "static-pattern"
+    },
+    {
+      "model": "MM-10",
+      "manufacturer": "Notifier",
+      "chunk_count": 10,
+      "source": "known-mfr"
+    },
+    {
+      "model": "NFPA-13",
+      "manufacturer": "System Sensor",
+      "chunk_count": 10,
+      "source": "known-mfr"
+    },
+    {
+      "model": "NFX-SMT3",
+      "manufacturer": "Notifier",
+      "chunk_count": 10,
+      "source": "static-pattern"
+    },
+    {
+      "model": "OF-48V",
+      "manufacturer": "Notifier",
+      "chunk_count": 10,
+      "source": "known-mfr"
+    },
+    {
+      "model": "OF-50",
+      "manufacturer": "Morley",
+      "chunk_count": 10,
+      "source": "known-mfr"
+    },
+    {
       "model": "S613AMFP",
+      "manufacturer": "Notifier",
+      "chunk_count": 10,
+      "source": "known-mfr"
+    },
+    {
+      "model": "SD-651E",
       "manufacturer": "Notifier",
       "chunk_count": 10,
       "source": "known-mfr"
@@ -1200,6 +1938,18 @@
       "manufacturer": "Detnov",
       "chunk_count": 10,
       "source": "static-pattern"
+    },
+    {
+      "model": "TO-28",
+      "manufacturer": "Notifier",
+      "chunk_count": 10,
+      "source": "known-mfr"
+    },
+    {
+      "model": "VGS-TOXICOS",
+      "manufacturer": "Notifier",
+      "chunk_count": 10,
+      "source": "known-mfr"
     },
     {
       "model": "Z728",
@@ -1214,8 +1964,38 @@
       "source": "known-mfr"
     },
     {
+      "model": "AT-60",
+      "manufacturer": "Notifier",
+      "chunk_count": 9,
+      "source": "known-mfr"
+    },
+    {
+      "model": "EPS40 Series",
+      "manufacturer": "System Sensor",
+      "chunk_count": 9,
+      "source": "known-mfr"
+    },
+    {
       "model": "MADT-190",
       "manufacturer": "Notifier",
+      "chunk_count": 9,
+      "source": "known-mfr"
+    },
+    {
+      "model": "PEARL",
+      "manufacturer": "Notifier",
+      "chunk_count": 9,
+      "source": "static-pattern"
+    },
+    {
+      "model": "RCD-21R",
+      "manufacturer": "Detnov",
+      "chunk_count": 9,
+      "source": "known-mfr"
+    },
+    {
+      "model": "RH-15",
+      "manufacturer": "Morley",
       "chunk_count": 9,
       "source": "known-mfr"
     },
@@ -1232,10 +2012,58 @@
       "source": "static-pattern"
     },
     {
+      "model": "Serie PS",
+      "manufacturer": "Notifier",
+      "chunk_count": 9,
+      "source": "known-mfr"
+    },
+    {
+      "model": "TG MODBUS",
+      "manufacturer": "Notifier",
+      "chunk_count": 9,
+      "source": "known-mfr"
+    },
+    {
+      "model": "TO-55",
+      "manufacturer": "Notifier",
+      "chunk_count": 9,
+      "source": "known-mfr"
+    },
+    {
+      "model": "DTD-210A",
+      "manufacturer": "Detnov",
+      "chunk_count": 8,
+      "source": "static-pattern"
+    },
+    {
+      "model": "EPS-10",
+      "manufacturer": "System Sensor",
+      "chunk_count": 8,
+      "source": "known-mfr"
+    },
+    {
+      "model": "EXP-060R",
+      "manufacturer": "Morley",
+      "chunk_count": 8,
+      "source": "known-mfr"
+    },
+    {
+      "model": "FAAST",
+      "manufacturer": "Morley",
+      "chunk_count": 8,
+      "source": "static-pattern"
+    },
+    {
       "model": "FAAST-8100E",
       "manufacturer": "Notifier",
       "chunk_count": 8,
       "source": "static-pattern"
+    },
+    {
+      "model": "G-10",
+      "manufacturer": "Notifier",
+      "chunk_count": 8,
+      "source": "split-compound"
     },
     {
       "model": "MAD-564-I",
@@ -1244,20 +2072,8 @@
       "source": "static-pattern"
     },
     {
-      "model": "MI-320",
-      "manufacturer": "unknown",
-      "chunk_count": 8,
-      "source": "static-pattern"
-    },
-    {
-      "model": "MI-450",
-      "manufacturer": "unknown",
-      "chunk_count": 8,
-      "source": "static-pattern"
-    },
-    {
-      "model": "MI-606",
-      "manufacturer": "unknown",
+      "model": "MI-IM10",
+      "manufacturer": "Morley",
       "chunk_count": 8,
       "source": "static-pattern"
     },
@@ -1268,6 +2084,24 @@
       "source": "static-pattern"
     },
     {
+      "model": "MOD.EXP",
+      "manufacturer": "Morley",
+      "chunk_count": 8,
+      "source": "known-mfr"
+    },
+    {
+      "model": "NCO-10",
+      "manufacturer": "Notifier",
+      "chunk_count": 8,
+      "source": "split-compound"
+    },
+    {
+      "model": "OSY2",
+      "manufacturer": "System Sensor",
+      "chunk_count": 8,
+      "source": "known-mfr"
+    },
+    {
       "model": "SG350",
       "manufacturer": "Argus Security",
       "chunk_count": 8,
@@ -1276,6 +2110,12 @@
     {
       "model": "UPDL-2020",
       "manufacturer": "Spectrex",
+      "chunk_count": 8,
+      "source": "known-mfr"
+    },
+    {
+      "model": "WITH-240V",
+      "manufacturer": "Notifier",
       "chunk_count": 8,
       "source": "known-mfr"
     },
@@ -1298,22 +2138,34 @@
       "source": "static-pattern"
     },
     {
+      "model": "DE-25M",
+      "manufacturer": "Morley",
+      "chunk_count": 7,
+      "source": "known-mfr"
+    },
+    {
+      "model": "ENScape EN54-23",
+      "manufacturer": "Notifier",
+      "chunk_count": 7,
+      "source": "known-mfr"
+    },
+    {
+      "model": "IP-64",
+      "manufacturer": "Xtralis",
+      "chunk_count": 7,
+      "source": "known-mfr"
+    },
+    {
       "model": "MADT-731",
       "manufacturer": "Notifier",
       "chunk_count": 7,
       "source": "known-mfr"
     },
     {
-      "model": "MI-480",
-      "manufacturer": "unknown",
+      "model": "MM-82",
+      "manufacturer": "Morley",
       "chunk_count": 7,
-      "source": "static-pattern"
-    },
-    {
-      "model": "MI-607",
-      "manufacturer": "unknown",
-      "chunk_count": 7,
-      "source": "static-pattern"
+      "source": "known-mfr"
     },
     {
       "model": "NFS-32-001",
@@ -1322,10 +2174,22 @@
       "source": "static-pattern"
     },
     {
-      "model": "PEARL",
+      "model": "NFXI-BSF-WCH",
       "manufacturer": "Notifier",
       "chunk_count": 7,
       "source": "static-pattern"
+    },
+    {
+      "model": "OF-60",
+      "manufacturer": "Morley",
+      "chunk_count": 7,
+      "source": "known-mfr"
+    },
+    {
+      "model": "SERIE-300",
+      "manufacturer": "System Sensor",
+      "chunk_count": 7,
+      "source": "known-mfr"
     },
     {
       "model": "SMART TWIN",
@@ -1346,13 +2210,19 @@
       "source": "known-mfr"
     },
     {
-      "model": "B501AP",
-      "manufacturer": "Notifier",
+      "model": "AT Series",
+      "manufacturer": "LDA audioTech",
       "chunk_count": 6,
-      "source": "static-pattern"
+      "source": "known-mfr"
     },
     {
-      "model": "CMX-10RM",
+      "model": "CLSS Configuration Tool",
+      "manufacturer": "Notifier",
+      "chunk_count": 6,
+      "source": "known-mfr"
+    },
+    {
+      "model": "CONV232/485",
       "manufacturer": "Notifier",
       "chunk_count": 6,
       "source": "known-mfr"
@@ -1376,28 +2246,22 @@
       "source": "known-mfr"
     },
     {
+      "model": "IP-55",
+      "manufacturer": "Notifier",
+      "chunk_count": 6,
+      "source": "known-mfr"
+    },
+    {
+      "model": "MA-202",
+      "manufacturer": "Notifier",
+      "chunk_count": 6,
+      "source": "known-mfr"
+    },
+    {
       "model": "MAD-465",
       "manufacturer": "Detnov",
       "chunk_count": 6,
       "source": "static-pattern"
-    },
-    {
-      "model": "MI-470",
-      "manufacturer": "unknown",
-      "chunk_count": 6,
-      "source": "static-pattern"
-    },
-    {
-      "model": "MI-490",
-      "manufacturer": "unknown",
-      "chunk_count": 6,
-      "source": "static-pattern"
-    },
-    {
-      "model": "MMX-10M",
-      "manufacturer": "Notifier",
-      "chunk_count": 6,
-      "source": "known-mfr"
     },
     {
       "model": "MNDT-701",
@@ -1406,15 +2270,15 @@
       "source": "static-pattern"
     },
     {
-      "model": "TG-HONEYWELL",
-      "manufacturer": "Notifier",
+      "model": "WR-4001",
+      "manufacturer": "Morley",
       "chunk_count": 6,
       "source": "known-mfr"
     },
     {
-      "model": "WR-4001",
-      "manufacturer": "Morley",
-      "chunk_count": 6,
+      "model": "A-1",
+      "manufacturer": "LDA audioTech",
+      "chunk_count": 5,
       "source": "known-mfr"
     },
     {
@@ -1430,8 +2294,14 @@
       "source": "known-mfr"
     },
     {
-      "model": "ITAC",
-      "manufacturer": "unknown",
+      "model": "IM-10",
+      "manufacturer": "System Sensor",
+      "chunk_count": 5,
+      "source": "known-mfr"
+    },
+    {
+      "model": "ITAC 2.0",
+      "manufacturer": "Notifier",
       "chunk_count": 5,
       "source": "static-pattern"
     },
@@ -1454,10 +2324,22 @@
       "source": "known-mfr"
     },
     {
-      "model": "MCX-55M",
+      "model": "MCP1",
       "manufacturer": "Notifier",
       "chunk_count": 5,
       "source": "known-mfr"
+    },
+    {
+      "model": "MI-BRH-PC-I",
+      "manufacturer": "Morley",
+      "chunk_count": 5,
+      "source": "static-pattern"
+    },
+    {
+      "model": "MI-BRS-PC-I",
+      "manufacturer": "Morley",
+      "chunk_count": 5,
+      "source": "static-pattern"
     },
     {
       "model": "NAP-100",
@@ -1472,9 +2354,33 @@
       "source": "known-mfr"
     },
     {
+      "model": "SIMEI",
+      "manufacturer": "Morley",
+      "chunk_count": 5,
+      "source": "static-pattern"
+    },
+    {
       "model": "SMART 1",
       "manufacturer": "Notifier",
       "chunk_count": 5,
+      "source": "known-mfr"
+    },
+    {
+      "model": "TI-DT-089",
+      "manufacturer": "Notifier",
+      "chunk_count": 5,
+      "source": "static-pattern"
+    },
+    {
+      "model": "WB-1",
+      "manufacturer": "System Sensor",
+      "chunk_count": 5,
+      "source": "known-mfr"
+    },
+    {
+      "model": "Airsense",
+      "manufacturer": "Notifier",
+      "chunk_count": 4,
       "source": "known-mfr"
     },
     {
@@ -1484,6 +2390,12 @@
       "source": "static-pattern"
     },
     {
+      "model": "DE-16",
+      "manufacturer": "Notifier",
+      "chunk_count": 4,
+      "source": "known-mfr"
+    },
+    {
       "model": "DGD-600",
       "manufacturer": "Detnov",
       "chunk_count": 4,
@@ -1491,7 +2403,7 @@
     },
     {
       "model": "DMDX-500",
-      "manufacturer": "unknown",
+      "manufacturer": "Detnov",
       "chunk_count": 4,
       "source": "static-pattern"
     },
@@ -1508,10 +2420,28 @@
       "source": "known-mfr"
     },
     {
+      "model": "ESTELA-1",
+      "manufacturer": "Notifier",
+      "chunk_count": 4,
+      "source": "split-compound"
+    },
+    {
+      "model": "ESTELA-2",
+      "manufacturer": "Notifier",
+      "chunk_count": 4,
+      "source": "split-compound"
+    },
+    {
       "model": "ID-3002",
       "manufacturer": "Notifier",
       "chunk_count": 4,
       "source": "static-pattern"
+    },
+    {
+      "model": "MA120",
+      "manufacturer": "Morley",
+      "chunk_count": 4,
+      "source": "known-mfr"
     },
     {
       "model": "MAD-402",
@@ -1562,16 +2492,16 @@
       "source": "known-mfr"
     },
     {
-      "model": "MI-030",
-      "manufacturer": "unknown",
+      "model": "MOD.RS-485",
+      "manufacturer": "Morley",
       "chunk_count": 4,
-      "source": "static-pattern"
+      "source": "known-mfr"
     },
     {
-      "model": "MI-390",
-      "manufacturer": "unknown",
+      "model": "ONE-LOOP",
+      "manufacturer": "Detnov",
       "chunk_count": 4,
-      "source": "static-pattern"
+      "source": "known-mfr"
     },
     {
       "model": "PAD-20",
@@ -1586,10 +2516,34 @@
       "source": "static-pattern"
     },
     {
+      "model": "SENSOR-6424",
+      "manufacturer": "Notifier",
+      "chunk_count": 4,
+      "source": "known-mfr"
+    },
+    {
       "model": "TRD-100",
       "manufacturer": "Detnov",
       "chunk_count": 4,
       "source": "static-pattern"
+    },
+    {
+      "model": "VSN-TER",
+      "manufacturer": "Morley",
+      "chunk_count": 4,
+      "source": "static-pattern"
+    },
+    {
+      "model": "AFP1010",
+      "manufacturer": "Notifier",
+      "chunk_count": 3,
+      "source": "split-compound"
+    },
+    {
+      "model": "AM2020",
+      "manufacturer": "Notifier",
+      "chunk_count": 3,
+      "source": "split-compound"
     },
     {
       "model": "B524FTXE",
@@ -1599,6 +2553,12 @@
     },
     {
       "model": "CMX-10R",
+      "manufacturer": "Notifier",
+      "chunk_count": 3,
+      "source": "known-mfr"
+    },
+    {
+      "model": "ENScape SOUNDER",
       "manufacturer": "Notifier",
       "chunk_count": 3,
       "source": "known-mfr"
@@ -1652,13 +2612,37 @@
       "source": "known-mfr"
     },
     {
-      "model": "MI-330",
-      "manufacturer": "unknown",
+      "model": "MCP3A",
+      "manufacturer": "KAC",
       "chunk_count": 3,
-      "source": "static-pattern"
+      "source": "known-mfr"
+    },
+    {
+      "model": "MCP5A",
+      "manufacturer": "Morley",
+      "chunk_count": 3,
+      "source": "known-mfr"
     },
     {
       "model": "MMX-10",
+      "manufacturer": "Notifier",
+      "chunk_count": 3,
+      "source": "known-mfr"
+    },
+    {
+      "model": "MOD.RS-232",
+      "manufacturer": "Morley",
+      "chunk_count": 3,
+      "source": "known-mfr"
+    },
+    {
+      "model": "NCO-10",
+      "manufacturer": "Notifier",
+      "chunk_count": 3,
+      "source": "known-mfr"
+    },
+    {
+      "model": "NFS-2PLUS",
       "manufacturer": "Notifier",
       "chunk_count": 3,
       "source": "known-mfr"
@@ -1676,6 +2660,18 @@
       "source": "known-mfr"
     },
     {
+      "model": "RED-24",
+      "manufacturer": "Pepperl-Fuchs",
+      "chunk_count": 3,
+      "source": "known-mfr"
+    },
+    {
+      "model": "RS-485",
+      "manufacturer": "Fidegas",
+      "chunk_count": 3,
+      "source": "known-mfr"
+    },
+    {
       "model": "SCD-100",
       "manufacturer": "Detnov",
       "chunk_count": 3,
@@ -1688,8 +2684,44 @@
       "source": "known-mfr"
     },
     {
+      "model": "Serie 200",
+      "manufacturer": "Detnov",
+      "chunk_count": 3,
+      "source": "known-mfr"
+    },
+    {
+      "model": "TIDT-101",
+      "manufacturer": "Notifier",
+      "chunk_count": 3,
+      "source": "known-mfr"
+    },
+    {
+      "model": "TMP2",
+      "manufacturer": "OGGIONI",
+      "chunk_count": 3,
+      "source": "known-mfr"
+    },
+    {
+      "model": "VSN-232",
+      "manufacturer": "Morley",
+      "chunk_count": 3,
+      "source": "static-pattern"
+    },
+    {
+      "model": "WITH-330R",
+      "manufacturer": "Detnov",
+      "chunk_count": 3,
+      "source": "known-mfr"
+    },
+    {
       "model": "20/20MI",
       "manufacturer": "Spectrex",
+      "chunk_count": 2,
+      "source": "known-mfr"
+    },
+    {
+      "model": "55310011",
+      "manufacturer": "Detnov",
       "chunk_count": 2,
       "source": "known-mfr"
     },
@@ -1712,10 +2744,22 @@
       "source": "known-mfr"
     },
     {
-      "model": "DT-1150",
-      "manufacturer": "unknown",
+      "model": "DT-951",
+      "manufacturer": "Notifier",
       "chunk_count": 2,
       "source": "static-pattern"
+    },
+    {
+      "model": "EXP-051",
+      "manufacturer": "Morley",
+      "chunk_count": 2,
+      "source": "known-mfr"
+    },
+    {
+      "model": "FL-20",
+      "manufacturer": "Morley",
+      "chunk_count": 2,
+      "source": "known-mfr"
     },
     {
       "model": "IC-485S",
@@ -1736,10 +2780,58 @@
       "source": "static-pattern"
     },
     {
-      "model": "MI-340",
-      "manufacturer": "unknown",
+      "model": "IIG1",
+      "manufacturer": "Notifier",
+      "chunk_count": 2,
+      "source": "split-compound"
+    },
+    {
+      "model": "IIG4",
+      "manufacturer": "Notifier",
+      "chunk_count": 2,
+      "source": "split-compound"
+    },
+    {
+      "model": "ITAC Supra",
+      "manufacturer": "Notifier",
       "chunk_count": 2,
       "source": "static-pattern"
+    },
+    {
+      "model": "LPS-700",
+      "manufacturer": "Notifier",
+      "chunk_count": 2,
+      "source": "known-mfr"
+    },
+    {
+      "model": "LáserStar-2",
+      "manufacturer": "Notifier",
+      "chunk_count": 2,
+      "source": "known-mfr"
+    },
+    {
+      "model": "MIEMA-130",
+      "manufacturer": "Morley",
+      "chunk_count": 2,
+      "source": "known-mfr"
+    },
+    {
+      "model": "MINILASER 100",
+      "manufacturer": "Notifier",
+      "chunk_count": 2,
+      "source": "known-mfr"
+    },
+    {
+      "model": "MMX-102E",
+      "manufacturer": "Notifier",
+      "chunk_count": 2,
+      "source": "known-mfr"
+    },
+    {
+      "model": "PARA-400R",
+      "manufacturer": "LDA audioTech",
+      "chunk_count": 2,
+      "source": "known-mfr"
     },
     {
       "model": "PCD-100",
@@ -1755,6 +2847,24 @@
     },
     {
       "model": "RHISTORICO.EXE",
+      "manufacturer": "Notifier",
+      "chunk_count": 2,
+      "source": "known-mfr"
+    },
+    {
+      "model": "RMK-400",
+      "manufacturer": "System Sensor",
+      "chunk_count": 2,
+      "source": "known-mfr"
+    },
+    {
+      "model": "RTS-451",
+      "manufacturer": "System Sensor",
+      "chunk_count": 2,
+      "source": "known-mfr"
+    },
+    {
+      "model": "RZA-4X",
       "manufacturer": "Notifier",
       "chunk_count": 2,
       "source": "known-mfr"
@@ -1784,14 +2894,50 @@
       "source": "known-mfr"
     },
     {
+      "model": "TIDT-060",
+      "manufacturer": "Notifier",
+      "chunk_count": 2,
+      "source": "known-mfr"
+    },
+    {
       "model": "TMD-100",
       "manufacturer": "Detnov",
       "chunk_count": 2,
       "source": "static-pattern"
     },
     {
+      "model": "TRMD-50X",
+      "manufacturer": "Detnov",
+      "chunk_count": 2,
+      "source": "known-mfr"
+    },
+    {
+      "model": "VISION SUPRA 321KSP12",
+      "manufacturer": "Morley",
+      "chunk_count": 2,
+      "source": "known-mfr"
+    },
+    {
+      "model": "e²sense",
+      "manufacturer": "Notifier",
+      "chunk_count": 2,
+      "source": "known-mfr"
+    },
+    {
+      "model": "3466",
+      "manufacturer": "Notifier",
+      "chunk_count": 1,
+      "source": "known-mfr"
+    },
+    {
       "model": "5554",
       "manufacturer": "Notifier",
+      "chunk_count": 1,
+      "source": "known-mfr"
+    },
+    {
+      "model": "AC-1469",
+      "manufacturer": "Menvier",
       "chunk_count": 1,
       "source": "known-mfr"
     },
@@ -1808,8 +2954,56 @@
       "source": "known-mfr"
     },
     {
-      "model": "DT-963",
-      "manufacturer": "unknown",
+      "model": "CR-123A",
+      "manufacturer": "Morley",
+      "chunk_count": 1,
+      "source": "known-mfr"
+    },
+    {
+      "model": "DE-80",
+      "manufacturer": "Morley",
+      "chunk_count": 1,
+      "source": "known-mfr"
+    },
+    {
+      "model": "DXc Connexion",
+      "manufacturer": "Morley",
+      "chunk_count": 1,
+      "source": "static-pattern"
+    },
+    {
+      "model": "Dimension",
+      "manufacturer": "Morley",
+      "chunk_count": 1,
+      "source": "known-mfr"
+    },
+    {
+      "model": "ECN-96-200",
+      "manufacturer": "Notifier",
+      "chunk_count": 1,
+      "source": "known-mfr"
+    },
+    {
+      "model": "EQUIPO-20",
+      "manufacturer": "Morley",
+      "chunk_count": 1,
+      "source": "known-mfr"
+    },
+    {
+      "model": "ETDT-312",
+      "manufacturer": "Notifier",
+      "chunk_count": 1,
+      "source": "known-mfr"
+    },
+    {
+      "model": "ETDT-314",
+      "manufacturer": "Notifier",
+      "chunk_count": 1,
+      "source": "known-mfr"
+    },
+    {
+      "model": "FAAST-LT",
+      "manufacturer": "Notifier",
       "chunk_count": 1,
       "source": "static-pattern"
     },
@@ -1820,7 +3014,31 @@
       "source": "known-mfr"
     },
     {
-      "model": "INSPIRE",
+      "model": "INDICATOR",
+      "manufacturer": "Notifier",
+      "chunk_count": 1,
+      "source": "known-mfr"
+    },
+    {
+      "model": "IP-192",
+      "manufacturer": "Morley",
+      "chunk_count": 1,
+      "source": "known-mfr"
+    },
+    {
+      "model": "ISO-RS232",
+      "manufacturer": "Notifier",
+      "chunk_count": 1,
+      "source": "known-mfr"
+    },
+    {
+      "model": "LX-300",
+      "manufacturer": "Morley",
+      "chunk_count": 1,
+      "source": "known-mfr"
+    },
+    {
+      "model": "M710-CZ",
       "manufacturer": "Notifier",
       "chunk_count": 1,
       "source": "static-pattern"
@@ -1832,25 +3050,55 @@
       "source": "known-mfr"
     },
     {
-      "model": "MI-120P",
-      "manufacturer": "unknown",
+      "model": "MENOS-32",
+      "manufacturer": "Morley",
+      "chunk_count": 1,
+      "source": "known-mfr"
+    },
+    {
+      "model": "MI-LPB2",
+      "manufacturer": "Morley",
       "chunk_count": 1,
       "source": "static-pattern"
     },
     {
-      "model": "MI-130F",
-      "manufacturer": "unknown",
+      "model": "MIEIN-004",
+      "manufacturer": "Morley",
       "chunk_count": 1,
-      "source": "static-pattern"
-    },
-    {
-      "model": "MI-460",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "source": "static-pattern"
+      "source": "known-mfr"
     },
     {
       "model": "MNDT-1202",
+      "manufacturer": "Notifier",
+      "chunk_count": 1,
+      "source": "static-pattern"
+    },
+    {
+      "model": "NF30",
+      "manufacturer": "Notifier",
+      "chunk_count": 1,
+      "source": "split-compound"
+    },
+    {
+      "model": "NF50",
+      "manufacturer": "Notifier",
+      "chunk_count": 1,
+      "source": "split-compound"
+    },
+    {
+      "model": "NFS-SUPRA VSN12-2PLUS",
+      "manufacturer": "Morley",
+      "chunk_count": 1,
+      "source": "static-pattern"
+    },
+    {
+      "model": "NFS-SUPRA-VSN2-PLUS",
+      "manufacturer": "Notifier",
+      "chunk_count": 1,
+      "source": "static-pattern"
+    },
+    {
+      "model": "POL-200-TS",
       "manufacturer": "Notifier",
       "chunk_count": 1,
       "source": "static-pattern"
@@ -1862,8 +3110,32 @@
       "source": "known-mfr"
     },
     {
+      "model": "RP1R Supra",
+      "manufacturer": "Morley",
+      "chunk_count": 1,
+      "source": "static-pattern"
+    },
+    {
+      "model": "RP1R-Supra",
+      "manufacturer": "Morley",
+      "chunk_count": 1,
+      "source": "static-pattern"
+    },
+    {
+      "model": "RP1r-Supra",
+      "manufacturer": "Morley",
+      "chunk_count": 1,
+      "source": "split-compound"
+    },
+    {
       "model": "SECURNET PLUS 02",
       "manufacturer": "Notifier",
+      "chunk_count": 1,
+      "source": "known-mfr"
+    },
+    {
+      "model": "SMK400E",
+      "manufacturer": "System Sensor",
       "chunk_count": 1,
       "source": "known-mfr"
     },
@@ -1874,23 +3146,203 @@
       "source": "known-mfr"
     },
     {
+      "model": "TCPIP-192",
+      "manufacturer": "Morley",
+      "chunk_count": 1,
+      "source": "known-mfr"
+    },
+    {
       "model": "TED-151",
       "manufacturer": "Detnov",
       "chunk_count": 1,
       "source": "known-mfr"
     },
     {
-      "model": "VSN-12",
-      "manufacturer": "unknown",
+      "model": "TG-IP-1-SEC",
+      "manufacturer": "Morley",
+      "chunk_count": 1,
+      "source": "known-mfr"
+    },
+    {
+      "model": "TIDT-105",
+      "manufacturer": "Notifier",
+      "chunk_count": 1,
+      "source": "known-mfr"
+    },
+    {
+      "model": "TO-3200M",
+      "manufacturer": "Morley",
+      "chunk_count": 1,
+      "source": "known-mfr"
+    },
+    {
+      "model": "UCIP GPRS",
+      "manufacturer": "Morley",
       "chunk_count": 1,
       "source": "static-pattern"
+    },
+    {
+      "model": "UNEEN-54-4",
+      "manufacturer": "Morley",
+      "chunk_count": 1,
+      "source": "known-mfr"
+    },
+    {
+      "model": "VALOR-01",
+      "manufacturer": "Morley",
+      "chunk_count": 1,
+      "source": "known-mfr"
+    },
+    {
+      "model": "VSN-4REL",
+      "manufacturer": "Morley",
+      "chunk_count": 1,
+      "source": "static-pattern"
+    },
+    {
+      "model": "VSN-CO",
+      "manufacturer": "Morley",
+      "chunk_count": 1,
+      "source": "static-pattern"
+    },
+    {
+      "model": "VSN-LT",
+      "manufacturer": "Morley",
+      "chunk_count": 1,
+      "source": "static-pattern"
+    },
+    {
+      "model": "VSNRP1r-2Plus",
+      "manufacturer": "Morley",
+      "chunk_count": 1,
+      "source": "split-compound"
+    },
+    {
+      "model": "Vision Supra",
+      "manufacturer": "Morley",
+      "chunk_count": 1,
+      "source": "known-mfr"
     }
   ],
   "excluded": [
     {
+      "model": "AM2020 y AFP1010",
+      "manufacturer": "Notifier",
+      "chunk_count": 50,
+      "reason": "compound-junk"
+    },
+    {
+      "model": "UG-3-A4O & UG-3-A5O",
+      "manufacturer": "Detnov",
+      "chunk_count": 15,
+      "reason": "compound-junk"
+    },
+    {
+      "model": "ZX2e y ZX5e",
+      "manufacturer": "Morley",
+      "chunk_count": 9,
+      "reason": "compound-junk"
+    },
+    {
+      "model": "M700KAC + M700KACI",
+      "manufacturer": "Notifier",
+      "chunk_count": 8,
+      "reason": "compound-junk"
+    },
+    {
+      "model": "ZXAE/ZXEE",
+      "manufacturer": "Morley",
+      "chunk_count": 157,
+      "reason": "compound-no-clean-component"
+    },
+    {
+      "model": "UCIP/UCIP-GPRS",
+      "manufacturer": "Morley",
+      "chunk_count": 41,
+      "reason": "compound-no-clean-component"
+    },
+    {
+      "model": "ZXr-A/ZXr-P",
+      "manufacturer": "Morley",
+      "chunk_count": 18,
+      "reason": "compound-no-clean-component"
+    },
+    {
+      "model": "DOA FJ/CPD",
+      "manufacturer": "Avotec",
+      "chunk_count": 5,
+      "reason": "compound-no-clean-component"
+    },
+    {
+      "model": "PUL-D/EXT",
+      "manufacturer": "Notifier",
+      "chunk_count": 5,
+      "reason": "compound-no-clean-component"
+    },
+    {
+      "model": "PUL-P/EXT",
+      "manufacturer": "Notifier",
+      "chunk_count": 5,
+      "reason": "compound-no-clean-component"
+    },
+    {
+      "model": "STS/CKD+",
+      "manufacturer": "Sensitron",
+      "chunk_count": 5,
+      "reason": "compound-no-clean-component"
+    },
+    {
+      "model": "DTP/Booster",
+      "manufacturer": "Notifier",
+      "chunk_count": 4,
+      "reason": "compound-no-clean-component"
+    },
+    {
+      "model": "ZX/DX",
+      "manufacturer": "Morley",
+      "chunk_count": 1,
+      "reason": "compound-no-clean-component"
+    },
+    {
+      "model": "MARCH-2011",
+      "manufacturer": "Notifier",
+      "chunk_count": 2,
+      "reason": "date-like"
+    },
+    {
+      "model": "EN-54-25",
+      "manufacturer": "Notifier",
+      "chunk_count": 31,
+      "reason": "en-standard"
+    },
+    {
+      "model": "EN54 2-8 Zone",
+      "manufacturer": "Notifier",
+      "chunk_count": 27,
+      "reason": "en-standard"
+    },
+    {
+      "model": "EN-54-3",
+      "manufacturer": "Notifier",
+      "chunk_count": 14,
+      "reason": "en-standard"
+    },
+    {
+      "model": "EN-54-5",
+      "manufacturer": "Notifier",
+      "chunk_count": 9,
+      "reason": "en-standard"
+    },
+    {
       "model": "TG-NOTIFIER",
       "manufacturer": "Notifier",
-      "chunk_count": 370,
+      "chunk_count": 537,
+      "reason": "manufacturer-name"
+    },
+    {
+      "model": "TG-HONEYWELL",
+      "manufacturer": "Morley",
+      "chunk_count": 34,
       "reason": "manufacturer-name"
     },
     {
@@ -1900,21 +3352,99 @@
       "reason": "manufacturer-name"
     },
     {
+      "model": "Testifire",
+      "manufacturer": "Testifire",
+      "chunk_count": 9,
+      "reason": "manufacturer-name"
+    },
+    {
+      "model": "Morley-IAS Max",
+      "manufacturer": "Morley",
+      "chunk_count": 1,
+      "reason": "manufacturer-name"
+    },
+    {
+      "model": "TG",
+      "manufacturer": "Morley",
+      "chunk_count": 261,
+      "reason": "risky-acronym"
+    },
+    {
+      "model": "DX",
+      "manufacturer": "Morley",
+      "chunk_count": 196,
+      "reason": "risky-acronym"
+    },
+    {
+      "model": "NRT",
+      "manufacturer": "Notifier",
+      "chunk_count": 189,
+      "reason": "risky-acronym"
+    },
+    {
+      "model": "ZXHE",
+      "manufacturer": "Morley",
+      "chunk_count": 158,
+      "reason": "risky-acronym"
+    },
+    {
+      "model": "CLSS",
+      "manufacturer": "Notifier",
+      "chunk_count": 116,
+      "reason": "risky-acronym"
+    },
+    {
+      "model": "ZXCE",
+      "manufacturer": "Morley",
+      "chunk_count": 115,
+      "reason": "risky-acronym"
+    },
+    {
+      "model": "XP",
+      "manufacturer": "Notifier",
+      "chunk_count": 112,
+      "reason": "risky-acronym"
+    },
+    {
+      "model": "INA",
+      "manufacturer": "Notifier",
+      "chunk_count": 92,
+      "reason": "risky-acronym"
+    },
+    {
       "model": "LDM",
       "manufacturer": "Notifier",
       "chunk_count": 85,
       "reason": "risky-acronym"
     },
     {
-      "model": "NRT",
-      "manufacturer": "Notifier",
-      "chunk_count": 55,
+      "model": "NEO",
+      "manufacturer": "LDA audioTech",
+      "chunk_count": 81,
+      "reason": "risky-acronym"
+    },
+    {
+      "model": "ONE",
+      "manufacturer": "LDA audioTech",
+      "chunk_count": 69,
+      "reason": "risky-acronym"
+    },
+    {
+      "model": "ICAM",
+      "manufacturer": "Xtralis",
+      "chunk_count": 67,
       "reason": "risky-acronym"
     },
     {
       "model": "ACS",
       "manufacturer": "Notifier",
       "chunk_count": 47,
+      "reason": "risky-acronym"
+    },
+    {
+      "model": "MIW",
+      "manufacturer": "Morley",
+      "chunk_count": 40,
       "reason": "risky-acronym"
     },
     {
@@ -1930,1522 +3460,70 @@
       "reason": "risky-acronym"
     },
     {
+      "model": "DNRE",
+      "manufacturer": "System Sensor",
+      "chunk_count": 21,
+      "reason": "risky-acronym"
+    },
+    {
+      "model": "WFDN",
+      "manufacturer": "System Sensor",
+      "chunk_count": 16,
+      "reason": "risky-acronym"
+    },
+    {
       "model": "HSSD",
       "manufacturer": "Notifier",
       "chunk_count": 11,
       "reason": "risky-acronym"
     },
     {
-      "model": "UN-10",
-      "manufacturer": "unknown",
-      "chunk_count": 374,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "FLX-010",
-      "manufacturer": "unknown",
-      "chunk_count": 249,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "LT-200",
-      "manufacturer": "unknown",
-      "chunk_count": 199,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MN-103",
-      "manufacturer": "unknown",
-      "chunk_count": 190,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "XM-8100E",
-      "manufacturer": "unknown",
-      "chunk_count": 181,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MN-025",
-      "manufacturer": "unknown",
-      "chunk_count": 168,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "EN-54-16",
-      "manufacturer": "unknown",
-      "chunk_count": 150,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TG-1020",
-      "manufacturer": "unknown",
-      "chunk_count": 145,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "AC-220",
-      "manufacturer": "unknown",
-      "chunk_count": 127,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "SITIOS-10",
-      "manufacturer": "unknown",
-      "chunk_count": 116,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "DE-12",
-      "manufacturer": "unknown",
-      "chunk_count": 114,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MP-210",
-      "manufacturer": "unknown",
-      "chunk_count": 107,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MP-530",
-      "manufacturer": "unknown",
-      "chunk_count": 96,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MN-103I",
-      "manufacturer": "unknown",
-      "chunk_count": 91,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MAYO-2023",
-      "manufacturer": "unknown",
-      "chunk_count": 84,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MP-230",
-      "manufacturer": "unknown",
-      "chunk_count": 79,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "DEL-20",
-      "manufacturer": "unknown",
-      "chunk_count": 77,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "EL-6500",
-      "manufacturer": "unknown",
-      "chunk_count": 77,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MP-310",
-      "manufacturer": "unknown",
-      "chunk_count": 75,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "EN-54-25",
-      "manufacturer": "unknown",
-      "chunk_count": 70,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "JUNE-2020",
-      "manufacturer": "unknown",
-      "chunk_count": 70,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "EL-10",
-      "manufacturer": "unknown",
-      "chunk_count": 63,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "CABOTO-19",
-      "manufacturer": "unknown",
-      "chunk_count": 62,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MC-300",
-      "manufacturer": "unknown",
-      "chunk_count": 60,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MIEMN-570",
-      "manufacturer": "unknown",
-      "chunk_count": 59,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MU-300",
-      "manufacturer": "unknown",
-      "chunk_count": 55,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "NAVE-23",
-      "manufacturer": "unknown",
-      "chunk_count": 55,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MIEMI-130",
-      "manufacturer": "unknown",
-      "chunk_count": 53,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "RS-232",
-      "manufacturer": "unknown",
-      "chunk_count": 52,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "SERIE-1000",
-      "manufacturer": "unknown",
-      "chunk_count": 51,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "LOCAL-360",
-      "manufacturer": "unknown",
-      "chunk_count": 50,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MFDT-280",
-      "manufacturer": "unknown",
-      "chunk_count": 50,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "OR-24V",
-      "manufacturer": "unknown",
-      "chunk_count": 50,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MA-103",
-      "manufacturer": "unknown",
-      "chunk_count": 49,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MAN-0987",
-      "manufacturer": "unknown",
-      "chunk_count": 49,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MC-530",
-      "manufacturer": "unknown",
-      "chunk_count": 47,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "EL-11",
-      "manufacturer": "unknown",
-      "chunk_count": 46,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MIEMN-570I",
-      "manufacturer": "unknown",
-      "chunk_count": 46,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MIN-17",
-      "manufacturer": "unknown",
-      "chunk_count": 45,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MU-230",
-      "manufacturer": "unknown",
-      "chunk_count": 42,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MN-192",
-      "manufacturer": "unknown",
-      "chunk_count": 41,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "LPB-620",
-      "manufacturer": "unknown",
-      "chunk_count": 39,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MC-520",
-      "manufacturer": "unknown",
-      "chunk_count": 39,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MU-610",
-      "manufacturer": "unknown",
-      "chunk_count": 39,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "CPU-5000",
-      "manufacturer": "unknown",
-      "chunk_count": 37,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TO-60",
-      "manufacturer": "unknown",
-      "chunk_count": 37,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "SP-20",
-      "manufacturer": "unknown",
-      "chunk_count": 36,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MA-300",
-      "manufacturer": "unknown",
-      "chunk_count": 35,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "UNIT-15",
-      "manufacturer": "unknown",
-      "chunk_count": 35,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MTEX-4749",
-      "manufacturer": "unknown",
-      "chunk_count": 33,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "FROM-01",
-      "manufacturer": "unknown",
-      "chunk_count": 32,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MARZO-2023",
-      "manufacturer": "unknown",
-      "chunk_count": 32,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MTEX-4446",
-      "manufacturer": "unknown",
-      "chunk_count": 31,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MTEX-4805",
-      "manufacturer": "unknown",
-      "chunk_count": 31,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MU-310",
-      "manufacturer": "unknown",
-      "chunk_count": 31,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MA-100",
-      "manufacturer": "unknown",
-      "chunk_count": 30,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "ENERO-2002",
-      "manufacturer": "unknown",
-      "chunk_count": 29,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MIEMI-550",
-      "manufacturer": "unknown",
-      "chunk_count": 29,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "DC-05",
-      "manufacturer": "unknown",
-      "chunk_count": 28,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "ISSUE-0165-02",
-      "manufacturer": "unknown",
-      "chunk_count": 28,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "PS-25",
-      "manufacturer": "unknown",
-      "chunk_count": 28,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "JULY-2009",
-      "manufacturer": "unknown",
-      "chunk_count": 27,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "AND-25",
-      "manufacturer": "unknown",
-      "chunk_count": 26,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "OF-16",
-      "manufacturer": "unknown",
-      "chunk_count": 26,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "RH-15",
-      "manufacturer": "unknown",
-      "chunk_count": 26,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "SGD-151",
-      "manufacturer": "unknown",
-      "chunk_count": 26,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "CADA-50",
-      "manufacturer": "unknown",
-      "chunk_count": 25,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "CASE-32",
-      "manufacturer": "unknown",
-      "chunk_count": 25,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "HASTA-64",
-      "manufacturer": "unknown",
-      "chunk_count": 25,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "DH-500",
-      "manufacturer": "unknown",
-      "chunk_count": 24,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "EN-54-3",
-      "manufacturer": "unknown",
-      "chunk_count": 24,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "FL-20",
-      "manufacturer": "unknown",
-      "chunk_count": 24,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "HSF-280",
-      "manufacturer": "unknown",
-      "chunk_count": 24,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "LCD-8200",
-      "manufacturer": "unknown",
-      "chunk_count": 24,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "LPB-700",
-      "manufacturer": "unknown",
-      "chunk_count": 24,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MIEMI-550I",
-      "manufacturer": "unknown",
-      "chunk_count": 24,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MIN-16",
-      "manufacturer": "unknown",
-      "chunk_count": 24,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MODELO-6200R",
-      "manufacturer": "unknown",
-      "chunk_count": 24,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MT-574E",
-      "manufacturer": "unknown",
-      "chunk_count": 24,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "DE-99",
-      "manufacturer": "unknown",
-      "chunk_count": 23,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "DE-20",
-      "manufacturer": "unknown",
-      "chunk_count": 22,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "DH-400",
-      "manufacturer": "unknown",
-      "chunk_count": 22,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "DE-70",
-      "manufacturer": "unknown",
-      "chunk_count": 20,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MODELO-6500R",
-      "manufacturer": "unknown",
-      "chunk_count": 20,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "SERIES-100",
-      "manufacturer": "unknown",
-      "chunk_count": 20,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TD-003",
-      "manufacturer": "unknown",
-      "chunk_count": 20,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "CLSS-10",
-      "manufacturer": "unknown",
-      "chunk_count": 19,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "LR-03",
-      "manufacturer": "unknown",
-      "chunk_count": 19,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "THE-6500",
-      "manufacturer": "unknown",
-      "chunk_count": 19,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TO-70M",
-      "manufacturer": "unknown",
-      "chunk_count": 19,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "DE-16",
-      "manufacturer": "unknown",
-      "chunk_count": 18,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "FS-1100",
-      "manufacturer": "unknown",
-      "chunk_count": 18,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MA-192",
-      "manufacturer": "unknown",
-      "chunk_count": 18,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MODEL-6200R",
-      "manufacturer": "unknown",
-      "chunk_count": 18,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "SCU-800",
-      "manufacturer": "unknown",
-      "chunk_count": 18,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "VIA-28V",
-      "manufacturer": "unknown",
-      "chunk_count": 18,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "AS-50",
-      "manufacturer": "unknown",
-      "chunk_count": 17,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "EN-54-4",
-      "manufacturer": "unknown",
-      "chunk_count": 17,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MN-963",
-      "manufacturer": "unknown",
-      "chunk_count": 17,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "SMB-500",
-      "manufacturer": "unknown",
-      "chunk_count": 17,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "DE-32",
-      "manufacturer": "unknown",
-      "chunk_count": 16,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "GUIDE-0044-047",
-      "manufacturer": "unknown",
-      "chunk_count": 16,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "IS-28",
-      "manufacturer": "unknown",
-      "chunk_count": 16,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "PF-24V",
-      "manufacturer": "unknown",
-      "chunk_count": 16,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TFIX-58",
-      "manufacturer": "unknown",
-      "chunk_count": 16,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "AAPRIL-2016",
-      "manufacturer": "unknown",
-      "chunk_count": 15,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "CPX-751E",
-      "manufacturer": "unknown",
-      "chunk_count": 15,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "IS-5001",
-      "manufacturer": "unknown",
-      "chunk_count": 15,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "PARA-16",
-      "manufacturer": "unknown",
-      "chunk_count": 15,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TO-68",
-      "manufacturer": "unknown",
-      "chunk_count": 15,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MC-350",
-      "manufacturer": "unknown",
-      "chunk_count": 14,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "SGCWE-100",
-      "manufacturer": "unknown",
-      "chunk_count": 14,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "BA-2250",
-      "manufacturer": "unknown",
-      "chunk_count": 13,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "CP-651E",
-      "manufacturer": "unknown",
-      "chunk_count": 13,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "IM-10",
-      "manufacturer": "unknown",
-      "chunk_count": 13,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MN-627",
-      "manufacturer": "unknown",
-      "chunk_count": 13,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MT-251",
-      "manufacturer": "unknown",
-      "chunk_count": 13,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "SOME-58",
-      "manufacturer": "unknown",
-      "chunk_count": 13,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "THE-300",
-      "manufacturer": "unknown",
-      "chunk_count": 13,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "WEIGHT-96G",
-      "manufacturer": "unknown",
-      "chunk_count": 13,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "HOP-431-100",
-      "manufacturer": "unknown",
-      "chunk_count": 12,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MA-025",
-      "manufacturer": "unknown",
-      "chunk_count": 12,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "NB-200-00",
-      "manufacturer": "unknown",
-      "chunk_count": 12,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "SD-851E",
-      "manufacturer": "unknown",
-      "chunk_count": 12,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TO-49",
-      "manufacturer": "unknown",
-      "chunk_count": 12,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TO-70",
-      "manufacturer": "unknown",
-      "chunk_count": 12,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "WITH-48",
-      "manufacturer": "unknown",
-      "chunk_count": 12,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "DE-15",
-      "manufacturer": "unknown",
+      "model": "MPS",
+      "manufacturer": "Morley",
       "chunk_count": 11,
-      "reason": "unknown-mfr (deferred #6)"
+      "reason": "risky-acronym"
     },
     {
-      "model": "VCC-64",
-      "manufacturer": "unknown",
-      "chunk_count": 11,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "ZES-22",
-      "manufacturer": "unknown",
-      "chunk_count": 11,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "DA-98",
-      "manufacturer": "unknown",
-      "chunk_count": 10,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "IP-31C",
-      "manufacturer": "unknown",
-      "chunk_count": 10,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "IP-40",
-      "manufacturer": "unknown",
-      "chunk_count": 10,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MM-10",
-      "manufacturer": "unknown",
-      "chunk_count": 10,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MN-1007",
-      "manufacturer": "unknown",
-      "chunk_count": 10,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "NFPA-13",
-      "manufacturer": "unknown",
-      "chunk_count": 10,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "OF-48V",
-      "manufacturer": "unknown",
-      "chunk_count": 10,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "OF-50",
-      "manufacturer": "unknown",
-      "chunk_count": 10,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "SD-651E",
-      "manufacturer": "unknown",
-      "chunk_count": 10,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TO-28",
-      "manufacturer": "unknown",
-      "chunk_count": 10,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "AT-60",
-      "manufacturer": "unknown",
-      "chunk_count": 9,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "EN-54-5",
-      "manufacturer": "unknown",
-      "chunk_count": 9,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "EPS-40",
-      "manufacturer": "unknown",
-      "chunk_count": 9,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MP-315",
-      "manufacturer": "unknown",
-      "chunk_count": 9,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MP-535",
-      "manufacturer": "unknown",
-      "chunk_count": 9,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "PS-24",
-      "manufacturer": "unknown",
-      "chunk_count": 9,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "RCD-21R",
-      "manufacturer": "unknown",
-      "chunk_count": 9,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TI-006",
-      "manufacturer": "unknown",
-      "chunk_count": 9,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TO-55",
-      "manufacturer": "unknown",
-      "chunk_count": 9,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "EPS-10",
-      "manufacturer": "unknown",
-      "chunk_count": 8,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MN-601",
-      "manufacturer": "unknown",
-      "chunk_count": 8,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MP-305",
-      "manufacturer": "unknown",
-      "chunk_count": 8,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MU-215",
-      "manufacturer": "unknown",
-      "chunk_count": 8,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "THAN-24",
-      "manufacturer": "unknown",
-      "chunk_count": 8,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "WITH-240V",
-      "manufacturer": "unknown",
-      "chunk_count": 8,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "DE-25M",
-      "manufacturer": "unknown",
-      "chunk_count": 7,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "IP-64",
-      "manufacturer": "unknown",
-      "chunk_count": 7,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MM-82",
-      "manufacturer": "unknown",
-      "chunk_count": 7,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "NSRE-24",
-      "manufacturer": "unknown",
-      "chunk_count": 7,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "OF-60",
-      "manufacturer": "unknown",
-      "chunk_count": 7,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "SERIE-300",
-      "manufacturer": "unknown",
-      "chunk_count": 7,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TIDT-096",
-      "manufacturer": "unknown",
-      "chunk_count": 7,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "AT-25",
-      "manufacturer": "unknown",
-      "chunk_count": 6,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "IP-55",
-      "manufacturer": "unknown",
-      "chunk_count": 6,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MA-202",
-      "manufacturer": "unknown",
-      "chunk_count": 6,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TIDT-110",
-      "manufacturer": "unknown",
-      "chunk_count": 6,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "AC-1460R",
-      "manufacturer": "unknown",
+      "model": "EFD",
+      "manufacturer": "COELBO",
       "chunk_count": 5,
-      "reason": "unknown-mfr (deferred #6)"
+      "reason": "risky-acronym"
     },
     {
-      "model": "DE-17",
-      "manufacturer": "unknown",
-      "chunk_count": 5,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MT-4508",
-      "manufacturer": "unknown",
-      "chunk_count": 5,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "REXD-103",
-      "manufacturer": "unknown",
-      "chunk_count": 5,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TIDT-089",
-      "manufacturer": "unknown",
-      "chunk_count": 5,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MA-102",
-      "manufacturer": "unknown",
-      "chunk_count": 4,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "NCO-10",
-      "manufacturer": "unknown",
-      "chunk_count": 4,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "RS-485",
-      "manufacturer": "unknown",
-      "chunk_count": 4,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "SENSOR-6424",
-      "manufacturer": "unknown",
-      "chunk_count": 4,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "THE-10",
-      "manufacturer": "unknown",
-      "chunk_count": 4,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TIDT-107",
-      "manufacturer": "unknown",
-      "chunk_count": 4,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TIDT-109",
-      "manufacturer": "unknown",
-      "chunk_count": 4,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "BTDT-032",
-      "manufacturer": "unknown",
+      "model": "IAS",
+      "manufacturer": "Morley",
       "chunk_count": 3,
-      "reason": "unknown-mfr (deferred #6)"
+      "reason": "risky-acronym"
     },
     {
-      "model": "CPD-045",
-      "manufacturer": "unknown",
+      "model": "MAS",
+      "manufacturer": "Morley",
       "chunk_count": 3,
-      "reason": "unknown-mfr (deferred #6)"
+      "reason": "risky-acronym"
     },
     {
-      "model": "FUEGO-01",
-      "manufacturer": "unknown",
-      "chunk_count": 3,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "HEIGHT-27",
-      "manufacturer": "unknown",
-      "chunk_count": 3,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "IP-24D",
-      "manufacturer": "unknown",
-      "chunk_count": 3,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MU-315",
-      "manufacturer": "unknown",
-      "chunk_count": 3,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "OF-12",
-      "manufacturer": "unknown",
-      "chunk_count": 3,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "ONE-500",
-      "manufacturer": "unknown",
-      "chunk_count": 3,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "RED-24",
-      "manufacturer": "unknown",
-      "chunk_count": 3,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "SERIE-200",
-      "manufacturer": "unknown",
-      "chunk_count": 3,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TIDT-101",
-      "manufacturer": "unknown",
-      "chunk_count": 3,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TMP2",
-      "manufacturer": "unknown",
-      "chunk_count": 3,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "WITH-330R",
-      "manufacturer": "unknown",
-      "chunk_count": 3,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "BT-001",
-      "manufacturer": "unknown",
-      "chunk_count": 2,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "BTDT-074",
-      "manufacturer": "unknown",
-      "chunk_count": 2,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "EN-54-20",
-      "manufacturer": "unknown",
-      "chunk_count": 2,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "HE-0116",
-      "manufacturer": "unknown",
-      "chunk_count": 2,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "HE-0806",
-      "manufacturer": "unknown",
-      "chunk_count": 2,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "LE-5001",
-      "manufacturer": "unknown",
-      "chunk_count": 2,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MARCH-2011",
-      "manufacturer": "unknown",
-      "chunk_count": 2,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MIEMA-130",
-      "manufacturer": "unknown",
-      "chunk_count": 2,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MMX-102E",
-      "manufacturer": "unknown",
-      "chunk_count": 2,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "PARA-400R",
-      "manufacturer": "unknown",
-      "chunk_count": 2,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "PUERTO-25",
-      "manufacturer": "unknown",
-      "chunk_count": 2,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "RMK-400",
-      "manufacturer": "unknown",
-      "chunk_count": 2,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "RTS-451",
-      "manufacturer": "unknown",
-      "chunk_count": 2,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "SERIES-01",
-      "manufacturer": "unknown",
-      "chunk_count": 2,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TI-001",
-      "manufacturer": "unknown",
-      "chunk_count": 2,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TI-005",
-      "manufacturer": "unknown",
-      "chunk_count": 2,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TIDT-045",
-      "manufacturer": "unknown",
-      "chunk_count": 2,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TIDT-060",
-      "manufacturer": "unknown",
-      "chunk_count": 2,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TIDT-070",
-      "manufacturer": "unknown",
-      "chunk_count": 2,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TIDT-104",
-      "manufacturer": "unknown",
-      "chunk_count": 2,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TIDT-108",
-      "manufacturer": "unknown",
-      "chunk_count": 2,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TRMD-50X",
-      "manufacturer": "unknown",
-      "chunk_count": 2,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "AC-1469",
-      "manufacturer": "unknown",
+      "model": "OSID",
+      "manufacturer": "Morley",
       "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
+      "reason": "risky-acronym"
     },
     {
-      "model": "ALIN-27",
-      "manufacturer": "unknown",
+      "model": "VSN",
+      "manufacturer": "Morley",
       "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
+      "reason": "risky-acronym"
     },
     {
-      "model": "AND-165",
-      "manufacturer": "unknown",
+      "model": "ZX",
+      "manufacturer": "Morley",
       "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
+      "reason": "risky-acronym"
     },
     {
-      "model": "BIDT-077",
-      "manufacturer": "unknown",
+      "model": "ZXrA",
+      "manufacturer": "Morley",
       "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "BTDT-017",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "BTDT-075",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "BTDT-076",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "CADA-10",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "CR-123A",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "DE-28",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "DE-80",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "DESDE-23",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "ECN-96-200",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "EQUIPO-20",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "ETDT-312",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "ETDT-314",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "EXP-080",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "IP-192",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "IP-43",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "LOOP-04",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MENOS-32",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MIEIN-004",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MIEMA-550",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "MIEMU-520P",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "NF-30-50",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "PIN-4848",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "PVC-200U",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "RJ-45",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "SMK-400",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TCPIP-192",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TI-001I",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TI-007",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TIDT-066",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TIDT-076",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TIDT-105",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "TO-3200M",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "UNEEN-54-4",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "VALOR-01",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
-    },
-    {
-      "model": "VIA-232",
-      "manufacturer": "unknown",
-      "chunk_count": 1,
-      "reason": "unknown-mfr (deferred #6)"
+      "reason": "risky-acronym"
     }
   ]
 }

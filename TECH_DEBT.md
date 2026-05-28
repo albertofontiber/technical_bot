@@ -1194,3 +1194,26 @@ El nuevo bloque NO menciona clarification — el efecto es indirecto, vía bias 
 
 **No urgente porque**: hoy nadie está mirando esos números. Se acepta el gap mientras la base de uso sea pequeña (Alberto + DG en demo).
 
+---
+
+## 18. #6 — Atribución de fabricante: decisiones conscientes y diferidos (28 mayo 2026)
+
+**Qué se hizo**: se atribuyó `manufacturer` a los 9.260 chunks (499 docs) que lo tenían NULL, vía Haiku sobre blurb B7 + portada + legal (`scripts/fix_null_manufacturer.py` → `refine_null_mfr_review.py` → `apply_null_mfr.py`). Resultado: 0 NULL, 28 marcas. El catálogo (`data/model_catalog.json`) pasó de 178 (regex) a ~536 modelos. Rollback snapshot: `logs/null_mfr_rollback_20260528T182051Z.json`.
+
+**SIN spot-check (aceptado por Alberto, dejar trazado)**: las **318 correcciones de `product_model`** (junk→real, p.ej. UN-10→NRT) + las atribuciones por `docX-rescue` (46) y `new-brand` de Haiku (85) se aplicaron **sin verificación humana por ítem**. Si aparecen anomalías de retrieval en esos modelos/docs → re-verificar contra el rollback. El spot-check se omitió deliberadamente.
+
+**Decisiones del gate (en `scripts/build_model_catalog.py`)**:
+- `manufacturer-name`: excluye un product_model que es nombre de marca **solo si no tiene dígito** (`Spectrex`/`TG-NOTIFIER` fuera; `System 5000`/`SENSOR-6424` dentro).
+- `compound`: slash-multi-código se **divide en componentes** (`AM2020/AFP1010`→AM2020+AFP1010); conjunción/fragmento (`AM2020 y AFP1010`, `AM2020-y`) se descarta. **Gap: compuestos pure-alpha sin dígito (`ZXAE/ZXEE`) se pierden** — no se cataloguean (caen a vector search). Trigger: query real necesita esa variante.
+- **29 product_model → `unknown`** (basura: formularios admin, descripciones, multi-modelo) → excluidos del catálogo, no se escribió la basura.
+
+**classify catalog-first (no seed-first)**: la marca real del dato manda; el seed solo es fallback para modelos fuera del catálogo. Corrige VESDA→Xtralis, 40-40→Spectrex, ASD→Securiton. **El seed conserva entradas legacy hoy-erróneas (VESDA/40-40/ASD→marca original) pero son inocuas** (el catálogo las sobreescribe). End-state limpio: el seed encoge a cero conforme el catálogo es fuente única — limpieza futura opcional.
+
+**Cross-brand por ecosistema** (`_ECOSYSTEM_OF` en `retriever.py`): `Xtralis↔Notifier`, `Securiton↔Detnov` no se marcan cross-brand (mismo ecosistema/distribución). **Pendiente confirmar**: `System Sensor↔Notifier`. **Versión escalable**: leer la columna `distributor` (hoy poblada solo ~3.500 chunks) en vez del mapa hardcoded → completar `distributor` es tarea futura.
+
+**Diferido — `product_models TEXT[]` (campo multi-modelo)**: idea de Alberto (#6) para alocar un chunk a varios modelos sin el junk compuesto. Es el modelo de dato más correcto a largo plazo, pero implica migración de esquema + refactor de ~8 funciones del retriever (todas usan `product_model` con imatch/eq) + cambios en RPCs. **Diferido**: el split en detección ya da la conducta multi-modelo. **Trigger**: el tagging multi-modelo se vuelve generalizado, o el routing por substring del compuesto causa errores reales de retrieval.
+
+**Residual `product_model=unknown`**: seguro (excluido del catálogo por diseño), bajo valor, alto coste manual. **Diferido**. Trigger: una query real necesita un producto que vive en un doc residual-unknown.
+
+**Follow-up de idioma (no #6)**: `VSN4-PLUS_ITA` y otros docs en italiano — política dice idiomas ≠ ES/EN caso a caso; chunks_v2 tiene columna `language`. Pendiente decidir si filtrar italiano del retrieval al técnico español.
+

@@ -26,14 +26,16 @@
 >   (MPDT-190) a producto real (ID3000) en 225 docs → el retriever encuentra
 >   productos que antes daba por inexistentes (ID3000/INSPIRE: 0→672 chunks).
 > - **Catálogo dinámico de modelos (Fase 2)**: la detección de modelo en la
->   query se alimenta de un snapshot curado `data/model_catalog.json` (generado
->   desde `chunks_v2.product_model` por `scripts/build_model_catalog.py`), no
->   solo del `MODEL_PATTERN` hardcoded (que cubría ~⅓ del catálogo). **315
->   modelos reconocidos (+137)**, incluidas marcas que el regex no veía
->   (Spectrex, Xtralis, Pfannenberg, Securiton, Argus). El seed queda como
->   fail-safe (unión) → cero regresión. Pendiente **#6**: limpiar el bucket
->   `product_model=unknown` (252 modelos diferidos: fechas, normas EN,
->   atribución de fabricante).
+>   query se alimenta del snapshot curado `data/model_catalog.json` (generado
+>   desde el corpus por `scripts/build_model_catalog.py`), no del `MODEL_PATTERN`
+>   hardcoded (que cubría ~⅓). **~536 modelos reconocidos** (de 178), tras
+>   atribuir `manufacturer` a los 9.260 chunks que lo tenían NULL (#6 hecho):
+>   **28 marcas** (Notifier, Morley, Detnov, Xtralis, Securiton, Spectrex, System
+>   Sensor, Pfannenberg, LDA…). `classify` es **catalog-first** (marca real del
+>   dato: VESDA→Xtralis, ASD→Securiton) y el cross-brand opera **por ecosistema**
+>   (Xtralis↔Notifier, Securiton↔Detnov no son cross-brand). El `MODEL_PATTERN`
+>   queda como fail-safe; el vocabulario de voz (Whisper) lee el MISMO catálogo
+>   (fuente única). Decisiones y diferidos en `TECH_DEBT.md` #18.
 > - **Calidad medida** (test bot vs gold, N=19): 4 PASS / 12 PARCIAL / 3 FALLO.
 >   El bot no alucina (admite no-info correctamente) y recupera los manuales
 >   correctos. Fallos pendientes → **Fase 2** (ranking de specs/procedimientos

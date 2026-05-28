@@ -30,6 +30,7 @@ _loaded = False
 _pattern: re.Pattern | None = None
 _normkey_to_model: dict[str, str] = {}
 _model_to_mfr: dict[str, str] = {}
+_model_count: dict[str, int] = {}
 
 
 def _fold(s: str) -> str:
@@ -98,17 +99,20 @@ def _load() -> None:
 
     # Modelos reales primero, alias de familia después → con setdefault el real
     # tiene precedencia sobre un alias que colisione en la misma normkey.
-    entries: list[tuple[str, str | None]] = [(m["model"], m.get("manufacturer")) for m in models]
+    # Cada entrada lleva su chunk_count (los alias heredan el del padre).
+    entries: list[tuple[str, str | None, int]] = [
+        (m["model"], m.get("manufacturer"), m.get("chunk_count", 0)) for m in models]
     for m in models:
         for base in _base_aliases(m["model"]):
-            entries.append((base, m.get("manufacturer")))
+            entries.append((base, m.get("manufacturer"), m.get("chunk_count", 0)))
 
     cores: list[str] = []
-    for canonical, mfr in entries:
+    for canonical, mfr, cnt in entries:
         nk = _normkey(canonical)
         if not nk:
             continue
         _normkey_to_model.setdefault(nk, canonical)
+        _model_count[nk] = max(_model_count.get(nk, 0), cnt)
         if mfr and mfr != "unknown":
             _model_to_mfr.setdefault(nk, mfr)
         core = _core(canonical)
@@ -156,6 +160,17 @@ def extract_models(query: str) -> list[str]:
     return out
 
 
+def all_models() -> list[str]:
+    """Todas las formas canónicas del catálogo (fuente única de modelos).
+    La consume el vocabulario de Whisper (src/bot/whisper_vocabulary.py) para
+    no mantener una lista de modelos aparte. Ordenado por frecuencia (chunk_count
+    desc) → los consumidores con límite de longitud (Whisper) cubren primero los
+    modelos más comunes. [] si no hay snapshot."""
+    _ensure()
+    uniq = set(_normkey_to_model.values())
+    return sorted(uniq, key=lambda mdl: (-_model_count.get(_normkey(mdl), 0), mdl))
+
+
 def model_manufacturer(model: str) -> str | None:
     """Fabricante de un modelo (vía dict en memoria, sin roundtrip a BD).
     None si el modelo no está en el catálogo o tiene fabricante unknown."""
@@ -165,9 +180,10 @@ def model_manufacturer(model: str) -> str | None:
 
 def reload_snapshot() -> None:
     """Fuerza recarga del snapshot (tests / refresh tras regenerar el JSON)."""
-    global _loaded, _pattern, _normkey_to_model, _model_to_mfr
+    global _loaded, _pattern, _normkey_to_model, _model_to_mfr, _model_count
     _loaded = False
     _pattern = None
     _normkey_to_model = {}
     _model_to_mfr = {}
+    _model_count = {}
     _ensure()
