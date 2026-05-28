@@ -13,8 +13,15 @@ from ..config import (SUPABASE_URL, SUPABASE_SERVICE_KEY, RETRIEVAL_TOP_K,
                       CHUNKS_TABLE, RPC_SUFFIX)
 from ..ingestion.embedder import embed_query
 from .hyde import generate_hypothetical_document, HYDE_ENABLED
+from . import catalog as _catalog
 
-# Regex to detect product model codes in a query (multi-manufacturer).
+# SEED pattern, hand-tuned (multi-manufacturer). Desde Fase 2 ya NO es el
+# detector primario en retrieval: extract_product_models usa el catálogo
+# dirigido por dato (src/rag/catalog.py). MODEL_PATTERN se conserva como
+# (a) fail-safe si el snapshot del catálogo falta, (b) detector en ingest
+# (src/reingest/metadata.py, donde depender del catálogo sería circular),
+# (c) semilla de la unión en scripts/build_model_catalog.py (garantiza que el
+# catálogo ⊇ lo que el bot ya reconocía → cero regresión).
 # Separators (-, space) are optional where manufacturers vary between
 # forms ("AFP-1010" vs "AFP1010"); normalization happens at the search
 # layer via model_to_imatch_pattern (word-boundary + digit-extension guard).
@@ -74,16 +81,37 @@ MODEL_PATTERN = re.compile(
 
 
 def extract_product_models(query: str) -> list[str]:
-    """Extract product model codes mentioned in the query."""
-    matches = MODEL_PATTERN.findall(query)
-    # Preserve order, de-duplicate, uppercase for downstream exact-logic consumers
-    seen = set()
-    out = []
-    for m in matches:
+    """Extract product model codes mentioned in the query — UNIÓN de dos fuentes.
+
+    1. Catálogo dirigido por dato (data/model_catalog.json): cubre TODO el corpus
+       de modelos con fabricante conocido — incluidas marcas que el seed no
+       conoce (Spectrex, Xtralis...). Devuelve la forma canónica almacenada.
+    2. Seed MODEL_PATTERN (hand-tuned): red de seguridad para modelos que el
+       patrón reconoce por forma pero que aún NO existen como product_model
+       limpio en el corpus (p.ej. SDX-751, ZXe — product_model mal atribuido,
+       pendiente de #6). Garantiza CERO regresión de detección vs. el bot actual.
+
+    La unión se deduplica por clave canónica; la forma del catálogo tiene
+    precedencia. Cuando #6 limpie product_model, el catálogo absorberá lo que
+    hoy aporta el seed y este podrá encogerse.
+    """
+    out: list[str] = []
+    seen: set[str] = set()
+
+    if _catalog.catalog_available():
+        for m in _catalog.extract_models(query):
+            nk = _catalog.normkey(m)
+            if nk not in seen:
+                seen.add(nk)
+                out.append(m)
+
+    for m in MODEL_PATTERN.findall(query):
         up = m.upper()
-        if up not in seen:
-            seen.add(up)
+        nk = _catalog.normkey(up)
+        if nk not in seen:
+            seen.add(nk)
             out.append(up)
+
     return out
 
 
@@ -116,10 +144,19 @@ def classify_model_manufacturer(model: str) -> str | None:
     """Return 'Detnov' / 'Notifier' / 'Morley' for a detected model code,
     or None if it doesn't match any known manufacturer pattern.
 
-    Purely pattern-based, no DB roundtrip. Used by cross-brand intent
-    detection where latency matters. Falls back to `lookup_model_manufacturer`
-    via `detect_query_manufacturers` if the caller wants to double-check
-    against the DB.
+    In-memory, no DB roundtrip. Used by cross-brand intent detection where
+    latency matters.
+
+    Seed-first: los patrones per-fabricante hand-tuned (Detnov/Notifier/Morley)
+    tienen precedencia → preserva la clasificación curada de las 3 marcas legacy
+    sin cambios de semántica cross-brand. En particular ASD se mantiene como
+    Detnov (su distribuidor), aunque el fabricante real es Securiton: corregir
+    la atribución distribuidor↔fabricante es trabajo aparte (Fase 2 item 4 / #6),
+    no de este refactor de detección.
+
+    Fallback al catálogo (dirigido por dato) para los modelos que el seed NO
+    conoce → así clasifica también las marcas nuevas que ya están en el corpus
+    (Spectrex, Xtralis, Pfannenberg, Securiton fuera de la línea ASD...).
     """
     m = model.strip().upper()
     if _DETNOV_PATTERNS.match(m):
@@ -128,6 +165,8 @@ def classify_model_manufacturer(model: str) -> str | None:
         return "Notifier"
     if _MORLEY_PATTERNS.match(m):
         return "Morley"
+    if _catalog.catalog_available():
+        return _catalog.model_manufacturer(model)
     return None
 
 

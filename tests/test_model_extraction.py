@@ -14,6 +14,7 @@ from src.rag.retriever import (
     extract_product_models,
     model_to_imatch_pattern,
 )
+from src.rag.catalog import normkey as _normkey
 
 
 # ----------------------------------------------------------------------------
@@ -58,9 +59,14 @@ from src.rag.retriever import (
 ])
 def test_extract_product_models(query, expected):
     got = extract_product_models(query)
-    # Case-insensitive comparison on the expected tokens (the function upper-cases)
-    exp_upper = [e.upper() for e in expected]
-    assert got == exp_upper, f"Query {query!r}\n  expected: {exp_upper}\n  got: {got}"
+    # El detector devuelve la forma CANÓNICA del catálogo (p.ej. "DXc",
+    # "VESDA-E-VEP", "AM2020"), no la query en mayúsculas. Comparamos por clave
+    # canónica (fold + sin separadores) para validar QUÉ modelos y en qué ORDEN
+    # se detectan, ignorando mayúsculas/separadores que downstream (imatch,
+    # model_to_imatch_pattern) trata como equivalentes.
+    assert [_normkey(g) for g in got] == [_normkey(e) for e in expected], (
+        f"Query {query!r}\n  expected: {expected}\n  got: {got}"
+    )
 
 
 # ----------------------------------------------------------------------------

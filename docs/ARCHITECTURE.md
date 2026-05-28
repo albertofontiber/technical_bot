@@ -25,6 +25,15 @@
 > - **Fix B5 (sesión 27)**: `product_model` pasó de código-de-documento
 >   (MPDT-190) a producto real (ID3000) en 225 docs → el retriever encuentra
 >   productos que antes daba por inexistentes (ID3000/INSPIRE: 0→672 chunks).
+> - **Catálogo dinámico de modelos (Fase 2)**: la detección de modelo en la
+>   query se alimenta de un snapshot curado `data/model_catalog.json` (generado
+>   desde `chunks_v2.product_model` por `scripts/build_model_catalog.py`), no
+>   solo del `MODEL_PATTERN` hardcoded (que cubría ~⅓ del catálogo). **315
+>   modelos reconocidos (+137)**, incluidas marcas que el regex no veía
+>   (Spectrex, Xtralis, Pfannenberg, Securiton, Argus). El seed queda como
+>   fail-safe (unión) → cero regresión. Pendiente **#6**: limpiar el bucket
+>   `product_model=unknown` (252 modelos diferidos: fechas, normas EN,
+>   atribución de fabricante).
 > - **Calidad medida** (test bot vs gold, N=19): 4 PASS / 12 PARCIAL / 3 FALLO.
 >   El bot no alucina (admite no-info correctamente) y recupera los manuales
 >   correctos. Fallos pendientes → **Fase 2** (ranking de specs/procedimientos
@@ -683,7 +692,7 @@ erDiagram
 
 **Lo que YA escala (sin cambios):**
 - **Schema de DB** — `manufacturer`, `product_model`, `category`, `document_family` son campos libres; no están cableados a nombres específicos.
-- **Retriever** — opera con cualquier `manufacturer` / `product_model`. Ya probado con 3 fabricantes.
+- **Retriever** — opera con cualquier `manufacturer` / `product_model`. La detección de modelo en la query se alimenta del **catálogo dinámico** (`data/model_catalog.json`, generado desde el `product_model` del corpus): añadir un fabricante = regenerar el snapshot, sin tocar regex. Probado con Detnov/Notifier/Morley + reconocimiento ya activo de Spectrex/Xtralis/Pfannenberg/Securiton/Argus.
 - **Generator** — el SYSTEM_PROMPT detecta dinámicamente qué fabricantes tiene disponibles vía `get_available_manufacturers()`. Añadir un nuevo fabricante no requiere tocar el prompt.
 - **Eval** — el judge es agnóstico al fabricante. Añadir preguntas de Simplex, Apollo, Esser, Bosch, etc. es solo YAML.
 - **Diversificación multi-doc** — funciona con N manuales por producto, sin límite hardcoded.
@@ -693,7 +702,7 @@ erDiagram
 
 | Tarea | Hoy | Problema a 30 fabricantes |
 |---|---|---|
-| **MODEL_PATTERN regex** | Hardcoded en `retriever.py` por fabricante | Regex de 500+ líneas; imposible mantener |
+| **MODEL_PATTERN regex** ✅ Resuelto | Sustituido por el catálogo dinámico (ver "YA escala"); el regex queda como seed/fail-safe | Añadir fabricante = regenerar `data/model_catalog.json`, cero edición de regex |
 | **Overrides de metadata** | Dict `{MANUFACTURER}_SOURCE_FILE_TO_MODEL` en `chunker.py` | Centenares de entradas por fabricante en Python |
 | **Scraping** | Script custom por fabricante (Notifier auth, Morley auth) | 30 scripts distintos, lógica duplicada |
 | **Document type detection** | Regex por filename, específico por fabricante | Crece linealmente en complejidad |
@@ -701,7 +710,7 @@ erDiagram
 
 **Qué hay que hacer antes del fabricante ~10:**
 
-1. **Externalizar MODEL_PATTERN a YAML** (TECH_DEBT #1) — un archivo `config/patterns/{manufacturer}.yaml` por fabricante con la regex específica. El retriever lee los patterns dinámicamente. No-dev puede editar.
+1. ~~Externalizar MODEL_PATTERN a YAML~~ — **resuelto de otra forma (mejor)**: catálogo dinámico desde el corpus (`scripts/build_model_catalog.py` → `data/model_catalog.json`). Data-driven supera el YAML-por-fabricante: el modelo se reconoce al ingestarlo, sin que nadie escriba regex ni YAML. Falta limpiar atribución/junk de `product_model` (#6).
 2. **Externalizar overrides a YAML** (TECH_DEBT #1 sub-item) — mismo patrón para metadata overrides. Permite a un técnico PCI corregir mappings sin tocar Python.
 3. **Template de scraping** — framework común para scrapers auth-protected. Cada fabricante define solo los selectores CSS y el flujo de login. Reutilizamos la pipeline de descarga, parse, ingesta.
 4. **Test de regresión cross-manufacturer** — expandir los tests existentes para que cubran mínimo 1 pregunta del eval por fabricante ingresado. Garantiza que añadir Bosch no rompe Detnov.
