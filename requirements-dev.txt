@@ -2,6 +2,13 @@
 # Install locally with:  pip install -r requirements-dev.txt
 -r requirements.txt
 
+# Test runner — CI gate (.github/workflows/ci.yml) + local. Antes no estaba
+# declarado (se instalaba ad-hoc). El bot/pipeline no lo necesitan en runtime.
+pytest>=8.0.0
+
+# scripts/check_deps.py (gate de dependencias) es stdlib puro a propósito — no
+# añade superficie de supply-chain, por eso no aparece aquí.
+
 # scripts/review_logs.py — log export to CSV/Excel
 pandas>=2.0.0
 openpyxl>=3.1.0

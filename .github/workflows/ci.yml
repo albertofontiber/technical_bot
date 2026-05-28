@@ -1,0 +1,49 @@
+name: CI
+
+# Gate de merge: corre en cada PR a main (y al pushear main, como verificación
+# post-merge). Para que BLOQUEE el merge hay que marcar el check "tests" como
+# requerido en branch protection de main (ajuste único en GitHub, ver PR).
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12" # paridad con Railway (runtime.txt)
+          cache: pip
+
+      # Install limpio de SOLO producción: reproduce el entorno de Railway y
+      # falla aquí si requirements.txt no resuelve (deps rotas/yankeadas).
+      - name: Install production deps (paridad Railway)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Gate de dependencias: cruce estático (AST) de los imports de src/ contra
+      # requirements.txt. Caza la clase del bug de sesión 27 (import voyageai
+      # lazy no declarado) sin necesitar keys ni ejecutar el path.
+      - name: Dependency gate
+        run: python scripts/check_deps.py
+
+      - name: Install dev deps
+        run: pip install -r requirements-dev.txt
+
+      - name: Tests
+        run: python -m pytest tests/ -q
