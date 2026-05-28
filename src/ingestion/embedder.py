@@ -100,7 +100,21 @@ def embed_query(
     model: str = EMBEDDING_MODEL,
     dimensions: int = EMBEDDING_DIMENSIONS,
 ) -> list[float]:
-    """Generate embedding for a single query text."""
+    """Generate embedding for a single query text.
+
+    El proveedor depende de la tabla activa (CHUNKS_TABLE):
+      - chunks    → OpenAI text-embedding-3-small (1536)
+      - chunks_v2 → Voyage voyage-4-large (1024), input_type='query'
+    El vector de la query DEBE coincidir en modelo/dim con el corpus indexado;
+    si no, la similitud coseno es basura (o falla por dimensión).
+    """
+    from ..config import CHUNKS_IS_V2
+    if CHUNKS_IS_V2:
+        # Voyage: input_type='query' (asimétrico doc/query — los chunks se
+        # embebieron con input_type='document' en B8).
+        from ..reingest.embed import embed as voyage_embed
+        return voyage_embed([" ".join(query.split())[:8000]], input_type="query")[0]
+
     client = get_client()
     response = client.embeddings.create(
         input=[" ".join(query.split())[:8000]],

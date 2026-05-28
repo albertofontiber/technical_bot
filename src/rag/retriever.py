@@ -9,7 +9,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import httpx
 
-from ..config import SUPABASE_URL, SUPABASE_SERVICE_KEY, RETRIEVAL_TOP_K
+from ..config import (SUPABASE_URL, SUPABASE_SERVICE_KEY, RETRIEVAL_TOP_K,
+                      CHUNKS_TABLE, RPC_SUFFIX)
 from ..ingestion.embedder import embed_query
 from .hyde import generate_hypothetical_document, HYDE_ENABLED
 
@@ -327,7 +328,7 @@ def keyword_search(
 
     with httpx.Client(timeout=15.0) as client:
         resp = client.get(
-            f"{SUPABASE_URL}/rest/v1/chunks",
+            f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
             headers=headers,
             params={
                 "product_model": f"imatch.{pattern}",
@@ -384,7 +385,7 @@ def diagram_search(
     }
     with httpx.Client(timeout=15.0) as client:
         resp = client.get(
-            f"{SUPABASE_URL}/rest/v1/chunks",
+            f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
             headers=headers,
             params=params,
         )
@@ -411,7 +412,7 @@ def typed_search(
 
     with httpx.Client(timeout=15.0) as client:
         resp = client.get(
-            f"{SUPABASE_URL}/rest/v1/chunks",
+            f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
             headers=headers,
             params={
                 "product_model": f"imatch.{pattern}",
@@ -467,7 +468,7 @@ def content_search(
         try:
             with httpx.Client(timeout=3.0) as client:
                 resp = client.get(
-                    f"{SUPABASE_URL}/rest/v1/chunks",
+                    f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                     headers=headers_get,
                     params=params,
                 )
@@ -495,7 +496,7 @@ def content_search(
     try:
         with httpx.Client(timeout=3.0) as client:
             resp = client.post(
-                f"{SUPABASE_URL}/rest/v1/rpc/search_chunks_text",
+                f"{SUPABASE_URL}/rest/v1/rpc/search_chunks_text{RPC_SUFFIX}",
                 headers=headers_post,
                 json=payload,
             )
@@ -518,7 +519,7 @@ def content_search(
     try:
         with httpx.Client(timeout=3.0) as client:
             resp = client.get(
-                f"{SUPABASE_URL}/rest/v1/chunks",
+                f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                 headers=headers_get,
                 params=params,
             )
@@ -637,7 +638,7 @@ def lookup_model_manufacturer(product_model: str) -> str | None:
     }
     with httpx.Client(timeout=10.0) as client:
         resp = client.get(
-            f"{SUPABASE_URL}/rest/v1/chunks",
+            f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
             headers=headers,
             params={
                 "product_model": f"eq.{product_model}",
@@ -694,7 +695,7 @@ def manufacturer_in_db(manufacturer_name: str) -> bool:
     }
     with httpx.Client(timeout=10.0) as client:
         resp = client.get(
-            f"{SUPABASE_URL}/rest/v1/chunks",
+            f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
             headers=headers,
             params={
                 "manufacturer": f"ilike.{manufacturer_name}",
@@ -715,7 +716,7 @@ def get_all_models_by_category() -> dict[str, list[str]]:
     }
     with httpx.Client(timeout=15.0) as client:
         resp = client.get(
-            f"{SUPABASE_URL}/rest/v1/chunks",
+            f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
             headers=headers,
             params={
                 "select": "product_model,category",
@@ -746,7 +747,7 @@ def get_category_models(category: str) -> list[str]:
     }
     with httpx.Client(timeout=15.0) as client:
         resp = client.get(
-            f"{SUPABASE_URL}/rest/v1/chunks",
+            f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
             headers=headers,
             params={
                 "category": f"eq.{category}",
@@ -792,7 +793,7 @@ def vector_search(
 
     with httpx.Client(timeout=30.0) as client:
         resp = client.post(
-            f"{SUPABASE_URL}/rest/v1/rpc/match_chunks",
+            f"{SUPABASE_URL}/rest/v1/rpc/match_chunks{RPC_SUFFIX}",
             headers=headers,
             json=payload,
         )
@@ -1217,7 +1218,7 @@ def _get_source_files_for_model(product_model: str) -> list[str]:
     try:
         with httpx.Client(timeout=5.0) as client:
             resp = client.get(
-                f"{SUPABASE_URL}/rest/v1/chunks",
+                f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                 headers=headers,
                 params={
                     "product_model": f"imatch.{pattern}",
@@ -1260,7 +1261,7 @@ def _fetch_top_chunks_by_source_file(
         try:
             with httpx.Client(timeout=3.0) as client:
                 resp = client.get(
-                    f"{SUPABASE_URL}/rest/v1/chunks",
+                    f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                     headers=headers,
                     params={
                         "source_file": f"eq.{source_file}",
@@ -1284,7 +1285,7 @@ def _fetch_top_chunks_by_source_file(
         try:
             with httpx.Client(timeout=3.0) as client:
                 resp = client.get(
-                    f"{SUPABASE_URL}/rest/v1/chunks",
+                    f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                     headers=headers,
                     params={
                         "source_file": f"eq.{source_file}",
@@ -1443,7 +1444,7 @@ def _filter_by_document_status(chunks: list[dict]) -> list[dict]:
             id_list = ",".join(f'"{i}"' for i in missing_ids)
             with httpx.Client(timeout=5.0) as client:
                 resp = client.get(
-                    f"{SUPABASE_URL}/rest/v1/chunks",
+                    f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                     headers=headers,
                     params={
                         "id": f"in.({id_list})",
@@ -1535,7 +1536,7 @@ def _get_all_known_manufacturers() -> list[str]:
     }
     with httpx.Client(timeout=10.0) as client:
         resp = client.get(
-            f"{SUPABASE_URL}/rest/v1/chunks",
+            f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
             headers=headers,
             params={
                 "select": "manufacturer",
@@ -1585,7 +1586,7 @@ def _vector_search_by_manufacturer(
 
         with httpx.Client(timeout=15.0) as client:
             resp = client.post(
-                f"{SUPABASE_URL}/rest/v1/rpc/match_chunks",
+                f"{SUPABASE_URL}/rest/v1/rpc/match_chunks{RPC_SUFFIX}",
                 headers=headers,
                 json=payload,
             )

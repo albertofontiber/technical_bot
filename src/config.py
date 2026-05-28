@@ -19,6 +19,15 @@ SUPABASE_URL = os.getenv("SUPABASE_URL", "")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY", "")
 SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_KEY", "")
 
+# Tabla de chunks activa (sesión 27). Permite probar/SWAP a chunks_v2 sin tocar
+# código ni hacer RENAME destructivo: basta cambiar CHUNKS_TABLE en el entorno.
+#   chunks    → corpus viejo (OpenAI text-embedding-3-small, 1536 dims)
+#   chunks_v2 → corpus re-ingestado (Voyage voyage-4-large, 1024 dims)
+# El sufijo de RPC y el proveedor de embedding de la query se derivan de aquí.
+CHUNKS_TABLE = os.getenv("CHUNKS_TABLE", "chunks")
+CHUNKS_IS_V2 = CHUNKS_TABLE.endswith("_v2")
+RPC_SUFFIX = "_v2" if CHUNKS_IS_V2 else ""
+
 # Embedding config
 EMBEDDING_MODEL = "text-embedding-3-small"
 EMBEDDING_DIMENSIONS = 1536
