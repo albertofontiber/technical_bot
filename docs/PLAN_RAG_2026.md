@@ -831,17 +831,34 @@ No SWAP. Análisis estructurado:
 Re-run acceptance test tras Fase 2 (con dataset y judge congelados — no se
 toca el contrato del eval, solo el sistema).
 
-### 9.14 Plan Y' (backlog, no en scope del run actual)
+### 9.14 Enriquecimiento del eval (backlog) — Plan Y'
 
-Si tras Fase 2 el acceptance sigue NO PASS, o si se quiere ampliar validez
-externa antes del SWAP final:
+El eval actual es estrecho: 19 preguntas, 3 fabricantes (Detnov/Notifier/
+Morley), solo PCI-detección. El scope real es 30+ fabricantes y multi-dominio.
+Ampliarlo tiene sentido, pero la **calidad importa más que la cantidad**:
+hp018/hp019 (sesión 27) demostraron que las preguntas sintéticas arrastran
+**premisas erróneas** ("zona 1" en ZXe, "Detnov ASD" cuando es Securiton).
 
-- (a) Queries reales de `query_logs` (distribución real de técnicos)
-- (b) Sintéticas con Opus 4.7 sobre PDFs (cobertura amplia)
+**Jerarquía de fuentes (mejor → peor)**:
+1. **Preguntas reales de Alberto durante due diligence** — cuando evalúa una
+   empresa target y pregunta al bot sobre sus productos, esa es la pregunta de
+   oro: realista y alineada con el caso de uso. **Enriquecimiento orgánico**:
+   capturar esas queries (query_logs) → casos de eval. Cobertura dirigida por
+   el negocio, no aleatoria.
+2. Queries reales de técnicos PCI (cuando existan).
+3. Sintéticas con Opus 4.7 sobre PDFs (cobertura amplia, baratas) — requieren
+   **validación de premisa**: patrón anti-circular = Opus extrae fragmento +
+   genera pregunta → modelo distinto (o Alberto) valida que la pregunta es
+   correcta y respondible → Opus genera gold. Validación humana por sampling
+   estratificado (no 100% — no escala).
 
-Patrón anti-circular para (b): Opus extrae fragmento + genera pregunta → modelo
-distinto valida respondibilidad → Opus genera gold. Validación humana cambia a
-sampling estratificado (no 100% — no escala).
+**Cuándo**: NO ahora (no bloquea el SWAP, que es el objetivo inmediato).
+Tras el SWAP, conforme Alberto use el bot. El pipeline de gold (Capa A,
+`scripts/layer_a_build.py`) ya permite generar pregunta+gold barato cuando se
+quiera cubrir productos de una target concreta.
+
+**Norma**: ningún caso nuevo entra al eval sin validar su premisa — la lección
+de hp018/hp019 es que una pregunta mal formulada contamina la medición.
 
 ---
 
