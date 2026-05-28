@@ -1,0 +1,65 @@
+# CLAUDE.md — Technical Bot PCI
+
+Bot RAG de Telegram para técnicos de PCI (protección contra incendios): Claude API
+(Sonnet genera) + Supabase pgvector. Responde SOLO desde manuales oficiales, cita
+fuente, y admite cuando no sabe. Contexto M&A (Fontiber); escala a 30+ fabricantes.
+
+- Arquitectura: `docs/ARCHITECTURE.md` (el banner del inicio = estado actual).
+- Plan / roadmap: `docs/PLAN_RAG_2026.md`.
+- Deuda técnica: `TECH_DEBT.md`.
+
+## Comandos
+- Tests: `python -m pytest -q`
+- Eval bot vs gold: `python scripts/test_bot_vs_gold.py` (fuerza chunks_v2)
+- Correr con el corpus nuevo en local: `CHUNKS_TABLE=chunks_v2 python ...`
+
+## Deploy (Railway — auto-deploy desde `main`)
+- Railway despliega `origin/main` automáticamente al hacer push. Las variables de
+  entorno viven en Railway (dashboard), NO en el `.env` local.
+- El SWAP de corpus es la variable `CHUNKS_TABLE` (`chunks` viejo OpenAI-1536 /
+  `chunks_v2` Voyage-1024). `chunks_v2` requiere también `VOYAGE_API_KEY` en
+  Railway. Es reversible (cambiar/quitar la variable).
+- Cuando vayas a desplegar → tests verdes → smoke del bot completo → **PR (no push
+  directo a `main`)** → merge → verificar en producción → rollback documentado.
+
+## Protocolo 1 — Verificar antes de declarar
+Cuando vayas a escribir "hecho / confirmado / en producción / desplegado /
+funciona / listo / pasa" sobre un cambio → ejecuta la verificación EN EL MISMO
+TURNO y cita el resultado:
+- "en producción / desplegado" → `git log origin/main..HEAD` (¿pusheado?) + de qué
+  rama despliega Railway.
+- "tests pasan" → corre la suite.
+- "funciona / listo" → smoke del path real (no solo tests unitarios).
+
+Cuando NO puedas verificar ahora → usa lenguaje condicional ("creo que",
+"pendiente verificar"). NUNCA afirmación de éxito sin verificación.
+
+## Protocolo 2 — Propuestas de rumbo (arquitectura, método, plan, deploy)
+Cuando propongas un rumbo de alto impacto → ANTES de presentarlo, ejecuta
+auto-pushback adversarial en thinking (simula: "¿es BP? ¿estrictamente? ¿escala a
+30+ fabricantes? ¿es necesario dado lo que ya está decidido?") e itera hasta que
+no quede auto-corrección. NO presentes la primera versión razonable.
+
+Cuando presentes la propuesta → incluye SIEMPRE, visible en el texto:
+1. la recomendación;
+2. alternativas consideradas y por qué se descartan;
+3. gaps / riesgos conocidos (declarados de entrada, sin esperar pushback);
+4. por qué es BP + estructural + escalable.
+
+La ausencia de (2) y (3) en una propuesta es la señal de que no hiciste el
+análisis. La visibilidad ES el control — no una auto-pregunta privada.
+
+## Convenciones de trabajo
+- **Contrato de toda propuesta: BP + estructural (raíz, no parche) + escalable.**
+  Declara el resultado; si algo falla, declara el gap honestamente.
+- **Pregunta cero (antes del contrato)**: ¿este trabajo cambia una decisión real, o
+  es rigor mal dirigido? No construir un aparato para algo que ya está decidido
+  (lección sesión 27: el pre-registro estadístico de un SWAP ya decidido).
+- **Eval-driven**: ningún cambio de calidad se da por bueno sin medir delta en eval.
+- **NO usar `/propose`** — se volvió ritual vacío (sesión 21). Internalizar el
+  contrato directamente.
+- Precisión > velocidad. Arreglos de raíz. Sin sobre-ingeniería.
+
+## Cierre de sesión
+Antes del commit final: actualizar `docs/ARCHITECTURE.md` (cifras, estado) y la
+memoria del proyecto. Working tree limpio.
