@@ -147,17 +147,23 @@ def classify_model_manufacturer(model: str) -> str | None:
     In-memory, no DB roundtrip. Used by cross-brand intent detection where
     latency matters.
 
-    Seed-first: los patrones per-fabricante hand-tuned (Detnov/Notifier/Morley)
-    tienen precedencia → preserva la clasificación curada de las 3 marcas legacy
-    sin cambios de semántica cross-brand. En particular ASD se mantiene como
-    Detnov (su distribuidor), aunque el fabricante real es Securiton: corregir
-    la atribución distribuidor↔fabricante es trabajo aparte (Fase 2 item 4 / #6),
-    no de este refactor de detección.
+    Catalog-first: la marca REAL del dato (catálogo, derivado del corpus) manda.
+    El seed per-fabricante queda solo como FALLBACK para modelos fuera del
+    catálogo (out-of-corpus).
 
-    Fallback al catálogo (dirigido por dato) para los modelos que el seed NO
-    conoce → así clasifica también las marcas nuevas que ya están en el corpus
-    (Spectrex, Xtralis, Pfannenberg, Securiton fuera de la línea ASD...).
+    Por qué (Alberto, #6): el seed-first generaba un problema estructural — un
+    modelo de marca nueva cuyo CÓDIGO encaja en un patrón seed amplio se
+    mis-clasificaba a una de las 3 marcas originales (VESDA→Notifier cuando es
+    Xtralis; 40-40→Notifier cuando es Spectrex). Catalog-first lo elimina para
+    todo modelo del corpus. El seed conserva entradas legacy hoy-erróneas
+    (VESDA/40-40/ASD) pero son inocuas: el catálogo las sobreescribe. End-state
+    limpio: el seed encoge a cero conforme el catálogo es la fuente única.
     """
+    if _catalog.catalog_available():
+        mfr = _catalog.model_manufacturer(model)
+        if mfr:
+            return mfr
+
     m = model.strip().upper()
     if _DETNOV_PATTERNS.match(m):
         return "Detnov"
@@ -165,8 +171,6 @@ def classify_model_manufacturer(model: str) -> str | None:
         return "Notifier"
     if _MORLEY_PATTERNS.match(m):
         return "Morley"
-    if _catalog.catalog_available():
-        return _catalog.model_manufacturer(model)
     return None
 
 
@@ -216,15 +220,35 @@ def detect_query_manufacturers(query: str) -> set[str]:
     return detected
 
 
+# Ecosistemas de compatibilidad/distribución: marcas que se integran o
+# distribuyen juntas → NO son cross-brand entre sí. OJO: Notifier y Morley son
+# ambas Honeywell pero ecosistemas DISTINTOS (sí cross-brand — cm001). Esto NO
+# es propiedad corporativa, es compatibilidad real. Mapa acotado a relaciones
+# confirmadas (Alberto, #6); extensible. La versión escalable leería la columna
+# `distributor` del corpus (hoy poco poblada). Candidato pendiente de confirmar:
+# System Sensor↔Notifier.
+_ECOSYSTEM_OF = {
+    "Xtralis": "Notifier",     # VESDA se integra/distribuye con Notifier/Honeywell
+    "Securiton": "Detnov",     # ASD (aspiración) distribuida por Detnov
+}
+
+
+def _ecosystem(mfr: str) -> str:
+    return _ECOSYSTEM_OF.get(mfr, mfr)
+
+
 def is_cross_brand_query(query: str) -> tuple[bool, set[str]]:
     """Decide whether the query references products from 2+ distinct
-    manufacturers. Returns (is_cross_brand, detected_manufacturers).
+    ECOSYSTEMS. Returns (is_cross_brand, detected_manufacturers).
 
-    Used by the generator to force an admit_no_info behaviour instead of
-    inferring cross-brand compatibility (policy: NO inferir cross-brand).
+    Cuenta ecosistemas, no marcas: una query "VESDA (Xtralis) en central
+    Notifier" NO es cross-brand (mismo ecosistema), pero "Notifier + Morley" sí.
+    Usado por el generator para forzar admit_no_info en vez de inferir
+    compatibilidad cross-brand (política: NO inferir cross-brand).
     """
     mfrs = detect_query_manufacturers(query)
-    return (len(mfrs) >= 2, mfrs)
+    groups = {_ecosystem(m) for m in mfrs}
+    return (len(groups) >= 2, mfrs)
 
 
 def model_to_imatch_pattern(model: str) -> str:

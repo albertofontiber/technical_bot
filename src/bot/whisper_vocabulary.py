@@ -8,8 +8,10 @@ with vocabulary it should recognize. Limit is ~244 tokens (~ 200 words).
 Strategy:
   - Static base: manufacturer names + common PCI terminology that Whisper
     rarely gets right out-of-the-box.
-  - Dynamic extension: model codes from Supabase (cached on first call).
-    Falls back gracefully to the static base if the DB call fails.
+  - Dynamic extension: model codes del catálogo curado (data/model_catalog.json,
+    vía src/rag/catalog.py) — la MISMA fuente única que el retriever, para no
+    mantener dos listas de modelos. Cacheado. Degrada al hint estático si el
+    snapshot no está disponible.
 """
 
 import logging
@@ -36,19 +38,25 @@ _STATIC_HINT = (
 _MAX_PROMPT_CHARS = 1000
 
 
-def _select_hard_models(models_by_category: dict[str, list[str]]) -> list[str]:
+def _select_hard_models(models: list[str]) -> list[str]:
     """Pick model codes most likely to need transcription help.
 
-    Heuristic: codes with hyphen + digits (CAD-250, AFP-2820, ID-3000) are the
-    ones Whisper-es mangles. Plain alphabetic names (e.g. "VESDA") usually
-    transcribe fine and are skipped to save tokens.
+    Heuristic: alphanumeric codes (letra + dígito: CAD-250, ID3000, AFP1010,
+    20/20I) son los que Whisper-es destroza. Nombres puramente alfabéticos
+    (p.ej. "VESDA", "PEARL") suelen transcribirse bien y se omiten para ahorrar
+    tokens.
     """
-    selected: list[str] = []
-    for models in models_by_category.values():
-        for model in models:
-            if "-" in model and any(c.isdigit() for c in model):
-                selected.append(model)
-    return sorted(set(selected))
+    # Preserva el orden de entrada (all_models() viene por frecuencia desc) para
+    # que, al truncar por el límite de Whisper, queden los modelos más comunes.
+    seen: set[str] = set()
+    out: list[str] = []
+    for m in models:
+        if m in seen:
+            continue
+        if any(c.isalpha() for c in m) and any(c.isdigit() for c in m):
+            seen.add(m)
+            out.append(m)
+    return out
 
 
 @lru_cache(maxsize=1)
@@ -63,14 +71,19 @@ def get_whisper_prompt() -> str:
 
 
 def _build_prompt() -> str:
-    """Assemble the prompt, gracefully degrading if Supabase is unreachable."""
+    """Assemble the prompt from the curated model catalog — la MISMA fuente
+    única que usa el retriever (data/model_catalog.json), no una consulta a BD
+    aparte. Así el vocabulario de voz se auto-actualiza al regenerar el catálogo
+    (sin mantener dos listas). Degrada al hint estático si falta el snapshot."""
     try:
-        # Lazy import to avoid circular config loading at module import time.
-        from ..rag.retriever import get_all_models_by_category
-        models_by_cat = get_all_models_by_category()
-        hard_models = _select_hard_models(models_by_cat)
+        # Import perezoso para evitar carga de config en import-time.
+        from ..rag.catalog import all_models, catalog_available
+        if not catalog_available():
+            logger.warning("Whisper vocab: catálogo no disponible, solo hint estático")
+            return _STATIC_HINT
+        hard_models = _select_hard_models(all_models())
     except Exception as e:
-        logger.warning(f"Whisper vocab: DB lookup failed, using static hint only ({e})")
+        logger.warning(f"Whisper vocab: fallo leyendo catálogo, hint estático ({e})")
         return _STATIC_HINT
 
     if not hard_models:

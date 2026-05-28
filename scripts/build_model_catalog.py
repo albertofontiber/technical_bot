@@ -82,6 +82,25 @@ def is_risky_acronym(pm: str) -> bool:
     )
 
 
+def split_compound(pm: str):
+    """Clasifica un valor compuesto:
+      - 'drop'   → conjunción/fragmento junk ('AM2020 y AFP1010', 'AM2020-y')
+      - [comps]  → slash-multi-código: componentes model-shaped (len>=4, letra+dígito)
+      - None     → no es compuesto.
+    Devolver los componentes (en vez de excluir el compuesto) recupera las
+    variantes (AM2020+AFP1010, ID50+ID60, ZX2e+ZX5e) y evita que la detección
+    matchee el compuesto entero. El routing sigue: imatch sobre product_model
+    matchea el substring del valor compuesto almacenado. Variantes pure-alpha
+    sin dígito (ZXAE/ZXEE) se pierden → gap declarado en TECH_DEBT."""
+    low = pm.lower()
+    if re.search(r"\s(y|and|or|&|\+)\s", low) or re.search(r"[-\s](y|o)$", low):
+        return "drop"
+    parts = [p.strip() for p in pm.split("/") if p.strip()]
+    if len(parts) < 2 or sum(1 for p in parts if re.search(r"[A-Za-z]", p)) < 2:
+        return None
+    return [p for p in parts if len(p) >= 4 and re.search(r"[A-Za-z]", p) and any(c.isdigit() for c in p)]
+
+
 def fetch_all() -> list[dict]:
     rows: list[dict] = []
     offset = 0
@@ -125,9 +144,15 @@ def build_mfr_words(all_mfrs: set[str]) -> set[str]:
 
 
 def is_manufacturer_name(pm: str, mfr_words: set[str]) -> bool:
-    """True si algún token alfabético del product_model es un nombre de marca."""
+    """True si el product_model es (esencialmente) un nombre de marca: contiene
+    una palabra de marca Y NO tiene dígito que lo distinga como modelo concreto.
+    Así 'Spectrex'/'TG-NOTIFIER' se excluyen, pero 'System 5000'/'SENSOR-6424'/
+    'Testifire 2000' (marca-word + número = modelo real) se conservan.
+    (El dígito es la señal de que es un modelo, no una mera etiqueta de marca.)"""
     tokens = re.findall(r"[a-záéíóúñ]+", pm.lower())
-    return any(t in mfr_words for t in tokens)
+    has_brand_word = any(t in mfr_words for t in tokens)
+    has_digit = any(c.isdigit() for c in pm)
+    return has_brand_word and not has_digit
 
 
 def main() -> None:
@@ -161,6 +186,20 @@ def main() -> None:
         if is_manufacturer_name(pm, mfr_words):
             excluded.append({"model": pm, "manufacturer": mfr,
                              "chunk_count": cnt, "reason": "manufacturer-name"})
+            continue
+
+        comp = split_compound(pm)
+        if comp == "drop":
+            excluded.append({"model": pm, "manufacturer": mfr,
+                             "chunk_count": cnt, "reason": "compound-junk"})
+            continue
+        if isinstance(comp, list):
+            for c in comp:
+                included.append({"model": c, "manufacturer": mfr,
+                                 "chunk_count": cnt, "source": "split-compound"})
+            if not comp:
+                excluded.append({"model": pm, "manufacturer": mfr,
+                                 "chunk_count": cnt, "reason": "compound-no-clean-component"})
             continue
 
         if detected_static:

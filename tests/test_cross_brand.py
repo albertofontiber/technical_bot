@@ -35,9 +35,13 @@ class TestClassifyModelManufacturer:
         assert classify_model_manufacturer("CAD-250") == "Detnov"
         assert classify_model_manufacturer("CCD-103") == "Detnov"
 
-    def test_detnov_asd(self):
-        assert classify_model_manufacturer("ASD535") == "Detnov"
-        assert classify_model_manufacturer("ASD-533") == "Detnov"
+    def test_asd_securiton(self):
+        # ASD = Securiton (fabricante real). Detnov es su DISTRIBUIDOR. classify
+        # pasó a catalog-first (#6): devuelve la marca real del dato, no la del
+        # seed. (Detnov↔Securiton están en el mismo ecosistema → una query
+        # "ASD Detnov" no se marca cross-brand; ver _ECOSYSTEM_OF.)
+        assert classify_model_manufacturer("ASD535") == "Securiton"
+        assert classify_model_manufacturer("ASD-533") == "Securiton"
 
     def test_detnov_other(self):
         assert classify_model_manufacturer("DGD-600") == "Detnov"
