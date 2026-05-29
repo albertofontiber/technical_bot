@@ -1217,3 +1217,24 @@ El nuevo bloque NO menciona clarification — el efecto es indirecto, vía bias 
 
 **Follow-up de idioma (no #6)**: `VSN4-PLUS_ITA` y otros docs en italiano — política dice idiomas ≠ ES/EN caso a caso; chunks_v2 tiene columna `language`. Pendiente decidir si filtrar italiano del retrieval al técnico español.
 
+---
+
+## 32. Auditoría crítica del legacy del retriever — el cuello es GENERACIÓN, no recall (sesión 29)
+
+**Hallazgo (medido determinista + matcher estricto)**: NINGÚN lever de recall (reranker/Voyage rerank-2.5, subir top-k, RRF, dense-only) convierte en mejor calidad **end-to-end**. dense-only sube recall 51→59% pero da **−2 FALLO** end-to-end (4/9/6 vs baseline 3/12/4) por **alucinación CROSS-PRODUCT** al quitar los filtros de modelo/categoría. La conversión recall→calidad la bloquean la **GENERACIÓN** (el bot admite no-info con el dato en top-5; síntesis incompleta) + el balance precisión/recall. **El árbitro es el eval END-TO-END, no el recall metric.**
+
+**Distinción clave (norma de auditoría legacy — Alberto, sesión 29)** — dos tipos de legacy en el retriever:
+- **Scoring-heurísticas = CRUFT** (constantes planas por-path 0.65/0.80/0.85; boosts genéricos spec/trouble): entierran los matches vectoriales reales (hp019: tabla de specs a vector-sim 0.73 caía a rank 26 bajo ~25 chunks flat-0.85). Arreglar/quitar.
+- **FILTROS = GUARDAS de precisión/anti-alucinación** (modelo/categoría): hieren el recall metric (filtro de categoría −18 pts: broad 59% vs filtered 41%) PERO previenen contaminación cross-product. Para un bot que NO debe alucinar, **+FALLO (alucinación) > +recall → SE QUEDAN**. No son cruft.
+
+**Inventario a escrutar contra el eval (cada pieza demuestra su delta o se va)**:
+- `_filter_to_query_models` (hard-filter modelo): HIERE recall (hp003/hp010) pero da precisión → ¿soft vs hard? medir el trade-off.
+- filtro de categoría en `vector_search` (Step 2): −18 pts recall, mismo trade-off.
+- `_diversify_by_source_file` / `_diversify_by_manufacturer`: heurísticas con scores planos (0.72) + fetches suplementarios.
+- `typed_search` / `diagram_search` (scores planos 0.82/0.85): ¿el diagrama-en-wiring se gana su sitio?
+- `src/rag/validator.py` (dormant desde s13), helpers cross-brand (s14 "preserved unused"): código muerto — ¿borrar?
+- `MODEL_PATTERN` (seed legacy, ya catalog-first): encoge a cero — limpieza opcional.
+- **HyDE** (`hyde.py`): medido — no mejora recall ni formal (51≈) ni coloquial (49 vs 47 dense) Y rompe determinismo (LLM no bit-determinista → misma pregunta, respuesta distinta). Candidato a OFF por defecto; conservar tras flag para revisitar con queries coloquiales reales (su caso de diseño).
+
+**Trigger**: la sesión #15 (lever de generación). Auditar estas piezas con el eval determinista+estricto end-to-end, **sin subir alucinación** (mantener filtros). Base de medición LISTA: matcher estricto + determinismo (PR#15, en main) + flags `RETRIEVER_DENSE_ONLY`/`HYDE_ENABLED` para A/B; `test_bot_vs_gold` ya replica producción (árbitro end-to-end).
+
