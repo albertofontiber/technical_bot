@@ -35,11 +35,17 @@ os.environ["CHUNKS_TABLE"] = "chunks_v2"  # re-asegurar tras load_dotenv
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from src.rag.retriever import retrieve_chunks       # noqa: E402
+from src.rag.reranker import rerank_chunks           # noqa: E402
 from src.rag.generator import generate_answer        # noqa: E402
-from src.config import CHUNKS_TABLE, CHUNKS_IS_V2     # noqa: E402
+from src.config import (                              # noqa: E402
+    CHUNKS_TABLE, CHUNKS_IS_V2, RETRIEVAL_TOP_K, RERANK_TOP_K,
+)
+
+# Reranker top-k overridable por env para A/B end-to-end (prod actual = 5).
+RERANK_K = int(os.getenv("RERANK_K_OVERRIDE", str(RERANK_TOP_K)))
 
 GOLD = "evals/gold_answers_v1.yaml"
-OUTPUT = "evals/bot_vs_gold_results.yaml"
+OUTPUT = f"evals/bot_vs_gold_results_k{RERANK_K}.yaml"
 JUDGE_MODEL = "gpt-5.5"
 
 _JUDGE_SYS = (
@@ -73,10 +79,12 @@ _JUDGE_USER = (
 
 
 def run_bot(query: str) -> dict:
-    chunks = retrieve_chunks(query)
+    # Replica el pipeline de producción: retrieve → rerank(top-k) → generate.
+    chunks = retrieve_chunks(query, top_k=RETRIEVAL_TOP_K)
+    chunks = rerank_chunks(query, chunks, top_k=RERANK_K)
     res = generate_answer(query, chunks)
     answer = res.get("answer") if isinstance(res, dict) else str(res)
-    sources = sorted({c.get("source_file") for c in chunks[:8] if c.get("source_file")})
+    sources = sorted({c.get("source_file") for c in chunks if c.get("source_file")})
     return {"answer": answer, "n_chunks": len(chunks), "sources": sources}
 
 
@@ -107,7 +115,7 @@ def main() -> int:
         pass
 
     assert CHUNKS_IS_V2, f"CHUNKS_TABLE debe ser chunks_v2, es {CHUNKS_TABLE}"
-    print(f"Tabla activa: {CHUNKS_TABLE} (Voyage 1024)\n")
+    print(f"Tabla activa: {CHUNKS_TABLE} (Voyage 1024) | retrieve={RETRIEVAL_TOP_K} rerank_k={RERANK_K}\n")
 
     gold_rows = {r["qid"]: r for r in yaml.safe_load(open(GOLD, encoding="utf-8"))}
     oai = OpenAI(api_key=os.environ["OPENAI_API_KEY"])

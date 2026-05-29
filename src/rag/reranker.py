@@ -145,3 +145,48 @@ Responde ÚNICAMENTE con el JSON array, sin explicación."""
         # If reranking fails, fall back to original order
         logger.error(f"Reranking failed: {e}")
         return chunks[:top_k]
+
+
+_voyage_rerank_client = None
+VOYAGE_RERANK_MODEL = "rerank-2.5"
+VOYAGE_RERANK_DOC_CHARS = 4000  # el cross-encoder lee el doc (vs los 800 del LLM)
+
+
+def _get_voyage_rerank_client():
+    global _voyage_rerank_client
+    if _voyage_rerank_client is None:
+        import os
+
+        import voyageai
+
+        api_key = os.getenv("VOYAGE_API_KEY")
+        if not api_key:
+            raise RuntimeError(
+                "VOYAGE_API_KEY no configurada — requerida para el reranker Voyage"
+            )
+        _voyage_rerank_client = voyageai.Client(api_key=api_key)
+    return _voyage_rerank_client
+
+
+def rerank_chunks_voyage(
+    query: str,
+    chunks: list[dict],
+    top_k: int = RERANK_TOP_K,
+    model: str = VOYAGE_RERANK_MODEL,
+) -> list[dict]:
+    """Rerank con cross-encoder dedicado de Voyage (rerank-2.5).
+
+    A diferencia del reranker LLM (que emite un ranking JSON y solo ve 800 chars
+    por chunk), el cross-encoder puntúa cada par (query, doc) con un score calibrado
+    y lee el doc completo. Fail-open al orden de retrieval si la API falla.
+    """
+    if len(chunks) <= top_k:
+        return chunks
+    docs = [(c.get("content") or "")[:VOYAGE_RERANK_DOC_CHARS] for c in chunks]
+    try:
+        client = _get_voyage_rerank_client()
+        res = client.rerank(query=query, documents=docs, model=model, top_k=top_k)
+        return [chunks[r.index] for r in res.results]
+    except Exception as e:
+        logger.error(f"Voyage rerank failed: {e}")
+        return chunks[:top_k]
