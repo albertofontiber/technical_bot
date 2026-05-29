@@ -36,10 +36,19 @@
 >   (Xtralis↔Notifier, Securiton↔Detnov no son cross-brand). El `MODEL_PATTERN`
 >   queda como fail-safe; el vocabulario de voz (Whisper) lee el MISMO catálogo
 >   (fuente única). Decisiones y diferidos en `TECH_DEBT.md` #18.
-> - **Calidad medida** (test bot vs gold, N=19): 4 PASS / 12 PARCIAL / 3 FALLO.
->   El bot no alucina (admite no-info correctamente) y recupera los manuales
->   correctos. Fallos pendientes → **Fase 2** (ranking de specs/procedimientos
->   puntuales + filtrado fino por modelo + cobertura del retriever).
+> - **Calidad medida (CORREGIDO sesión 29)**: el matcher del eval inflaba el recall;
+>   con matcher ESTRICTO el recall real por-fact es **~51% @top-15 / 71% techo @top-50**
+>   (no el 84% que parecía, ni el "4/12/3" que hacía creer que el cuello era la
+>   generación). El cuello es **RETRIEVAL**: ~20% de los datos se recuperan pero
+>   MAL-RANKEADOS (el merge puntúa por constantes planas que entierran los matches
+>   vectoriales reales) y ~29% no se recuperan (chunking/embedding → Fase-2). El bot
+>   sigue sin alucinar y es honesto. **Reranker y subir top-k DESCARTADOS** (medido:
+>   no añaden datos que no se recuperaron). Próximo: scoring por relevancia (FTS-rank).
+> - **Determinismo (sesión 29)**: el retriever daba respuestas distintas a la MISMA
+>   pregunta (HyDE reescribe la query con un LLM no bit-determinista + recogida
+>   concurrente por orden de completado). Recogida concurrente → orden de submit [hecho];
+>   decisión HyDE off/cacheado en deploy. El eval ya es determinista (prerrequisito
+>   para medir fixes con fiabilidad; antes ±4-5 facts de ruido run-to-run).
 > - **Caveat conocido**: `chunks_v2` no tiene `document_revision`/`document_status`
 >   (lifecycle del corpus viejo) → las citas dicen "sin revisión registrada".
 >   No bloquea; poblar en Fase 2 si interesa.

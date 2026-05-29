@@ -5,7 +5,7 @@ we always find the right chunks even if vector similarity alone misses them.
 """
 
 import re
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor
 
 import httpx
 
@@ -1062,7 +1062,11 @@ def retrieve_chunks(
 
             with ThreadPoolExecutor(max_workers=6) as pool:
                 futures = [pool.submit(_run_search, t) for t in search_tasks]
-                for future in as_completed(futures):
+                # Iterar en orden de SUBMIT (no as_completed): mantiene el paralelismo
+                # pero hace DETERMINISTA el orden de keyword_results. Con as_completed el
+                # orden dependía de qué búsqueda terminaba antes → top-15 variaba run-to-run
+                # (misma pregunta, respuesta distinta; ±4 facts de ruido en el eval).
+                for future in futures:
                     try:
                         keyword_results.extend(future.result())
                     except Exception:
@@ -1167,7 +1171,9 @@ def _diversify_by_manufacturer(chunks: list[dict], top_k: int, original_query: s
 
         with ThreadPoolExecutor(max_workers=4) as pool:
             futures = [pool.submit(_search_mfr, m) for m in underrepresented]
-            for future in as_completed(futures):
+            # Orden de submit (no as_completed) → determinista. underrepresented viene
+            # de all_known_mfrs (sorted), así que el orden es estable.
+            for future in futures:
                 try:
                     other_mfr, extra = future.result()
                 except Exception:
