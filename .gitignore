@@ -56,3 +56,7 @@ _dry_run_results.json
 
 # Scratch de evals (logs intermedios, mini-tests por pregunta)
 evals/_*
+
+# Resultados por-k de test_bot_vs_gold (A/B runs reproducibles, no source).
+# El baseline canónico evals/bot_vs_gold_results.yaml SÍ se versiona.
+evals/bot_vs_gold_results_k*.yaml
