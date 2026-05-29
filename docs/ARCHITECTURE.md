@@ -42,8 +42,13 @@
 >   generación). El cuello es **RETRIEVAL**: ~20% de los datos se recuperan pero
 >   MAL-RANKEADOS (el merge puntúa por constantes planas que entierran los matches
 >   vectoriales reales) y ~29% no se recuperan (chunking/embedding → Fase-2). El bot
->   sigue sin alucinar y es honesto. **Reranker y subir top-k DESCARTADOS** (medido:
->   no añaden datos que no se recuperaron). Próximo: scoring por relevancia (FTS-rank).
+>   sigue sin alucinar y es honesto. **Medido (sesión 29): NINGÚN lever de recall
+>   (reranker/Voyage, top-k, RRF, dense-only) convierte en mejor calidad end-to-end** —
+>   subir recall +8 (→59%) dio −2 FALLO por alucinación cross-product al quitar filtros.
+>   **Lección: los filtros modelo/categoría son GUARDAS de precisión/anti-alucinación
+>   (no son cruft); solo el scoring plano por-path lo era.** El árbitro es el eval
+>   end-to-end, no el recall metric. **Próximo lever = GENERACIÓN** (el bot admite
+>   no-info con el dato presente; síntesis incompleta) + precisión — no más retrieval.
 > - **Determinismo (sesión 29)**: el retriever daba respuestas distintas a la MISMA
 >   pregunta (HyDE reescribe la query con un LLM no bit-determinista + recogida
 >   concurrente por orden de completado). Recogida concurrente → orden de submit [hecho];
