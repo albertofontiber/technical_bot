@@ -1238,3 +1238,28 @@ El nuevo bloque NO menciona clarification — el efecto es indirecto, vía bias 
 
 **Trigger**: la sesión #15 (lever de generación). Auditar estas piezas con el eval determinista+estricto end-to-end, **sin subir alucinación** (mantener filtros). Base de medición LISTA: matcher estricto + determinismo (PR#15, en main) + flags `RETRIEVER_DENSE_ONLY`/`HYDE_ENABLED` para A/B; `test_bot_vs_gold` ya replica producción (árbitro end-to-end).
 
+---
+
+## 33. Auditoría sistemática del GOLD — el ruler está parcialmente ROTO (conflictos/OCR), no solo estrecho (sesión 30)
+
+**Disparador**: el experimento retrieve=50 (#16 "retrieve wide, generate narrow") marcó "regresiones peligrosas" en hp012/hp018 que, al verificar contra la **FUENTE** (no contra el gold), resultaron **errores del gold, no alucinaciones del bot**. Eso obligó a auditar los 19 golds de `evals/gold_answers_v1.yaml`.
+
+**Método**: agentes Opus 4.x contra `chunks_v2` + PDFs en MANUALS_DIR, escépticos del gold Y de sí mismos (clasificar error-factual / conflicto-entre-manuales / OCR / conducta-discutible; verificar aritmética).
+
+**Resultado (19 golds)**: 12 CORRECTOS; **hp007** ERROR-FACTUAL (3 frecuencias de la matriz de mantenimiento VESDA mal asignadas — pero es una MATRIZ #24, no verificable sin renderizar el PDF, que aquí falla por falta de `pdftoppm`); **hp012** CONFLICTO (España MFDT280/MPDT280 = 2 lazos/396, internamente consistente, vs US 15088SP = 4 lazos/792); **hp018** CONFLICTO/OCR (gold cita MI-310 ZX5e=5 salidas/EOL 10kΩ con OCR degradado; MI-530 dice ZX5e=4/EOL 6K8; MI-310 podría ser otro producto, ZXAE/ZXEE); **hp011** OCR (sustancia OK pero labels "P.18/P.02" no existen —reales r.i/t.H— y default no es 295s sino "--"); **hp006/hp009/hp017** CONDUCTA-DISCUTIBLE (gold dice admit_no_info pero el corpus SÍ cubre el tema → debería answer; hp017 el config-manual de la PEARL `997-671-005-3_Configuration_ES` está en el corpus con retardos causa-efecto; hp009 cita el manual del producto equivocado).
+
+**Hallazgos meta (los importantes)**:
+1. **El ground-truth del gold es parcialmente NO FIABLE** — no solo estrecho (s28-29) sino con errores factuales, conflictos entre manuales (revisión/mercado España vs US/UK) y OCR degradado. No nos fiamos de los veredictos del eval en los ~7 problemáticos hasta resolverlos.
+2. **Corregir golds NO es automatizable**: hasta el verificador Opus sobre-afirma (hp012: declaró "gold inconsistente" por un error aritmético propio — 2 lazos × [99 detectores + 99 módulos] = 396, consistente). Matrices (#24), conflictos y OCR necesitan **PDF renderizable + técnico real** (no hay técnicos hasta meses). El triage es automatizable; la corrección NO.
+3. **Los errores sesgan a INFRA-valorar al bot** (admit-cuando-debería-responder; valores que penalizan respuestas correctas) → el bot probablemente **rinde mejor que lo que marcaba el eval**; varios "fallos" (incl. buena parte de retrieve=50) eran el bot acertando contra un gold erróneo. → Las cifras de calidad de s28-30 son **indicativas, no firmes**.
+
+**Decisiones (sesión 30)**:
+- **NO regla "manual-España-gana"** (Alberto): el ENG a veces tiene MÁS info; conflicto same-version → gold/bot correcto = **surfacear ambos + admitir la discrepancia** (conducta honesta que el SYSTEM_PROMPT ya pide), NO elegir ganador. Distinguir same-version (surfacear) de versiones-distintas (respuesta version-específica) necesita PDF/técnico.
+- **Filtrar chunks no-ES/EN del retrieval**: hay fr=47, de=46, pt=3 (96 chunks; no hay IT en chunks_v2 ahora). Filtro `language IN ('es','en')` en el retriever — DIFERIDO a tarea propia testeada (toca las RPC), no bundlear. Mantener EN.
+- **Issue de corpus** (separado del gold): el chunk del Apéndice 3 de la ID3000 (hp008) está TRUNCADO en chunks_v2 → riesgo de retrieval (la lista de compatibles no se recupera entera).
+- **Arreglar el ruler ANTES del lever del reranker** — evaluar un reranker contra golds rotos repetiría el error de llamar "trampa" a un win.
+
+**Cola (necesita técnico real / PDF renderizable)**: pase holístico de gold-fix (hp007 matriz, hp012/hp018 conflictos, hp011 OCR, hp006/hp009/hp017 conducta). Excluir estos ~7 del scoring de calidad mientras tanto; usar el núcleo de ~12 limpios.
+
+**Lever de generación (sesión 30, dentro del frame #32)**: change-1 = bloque "DOS ERRORES SIMÉTRICOS" en SYSTEM_PROMPT (rechazar-en-falso con el dato presente = fallo hermano de inventar) → FALLO 5→3 end-to-end (HyDE-off, juez gpt-5.5), sin alucinación nueva → DIRECCIONAL, pero medido contra ruler defectuoso = indicativo. change-2 (completitud) REVERTIDO. Reranker = lever siguiente tras el ruler (research: Zerank-2, Cohere Rerank 4 —fuerte ES—, Voyage 2.5 —identifier-tuned pero degrada fuera de EN—, Jina v3, bge-v2-m3; perfil = ES + identifier-heavy + cross-product → elección empírica; reranker solo NO arregla cross-product → el filtro modelo/categoría SE QUEDA). Repo: change-1 + `RETRIEVE_K_OVERRIDE` (override de retrieve-pool en `test_bot_vs_gold`) en rama `feat/generation-lever`, NO main.
+

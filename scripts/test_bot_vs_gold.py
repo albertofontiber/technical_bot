@@ -43,6 +43,9 @@ from src.config import (                              # noqa: E402
 
 # Reranker top-k overridable por env para A/B end-to-end (prod actual = 5).
 RERANK_K = int(os.getenv("RERANK_K_OVERRIDE", str(RERANK_TOP_K)))
+# Retrieve pool (candidatos pre-rerank) overridable para A/B #16 (prod = 15).
+# #32 solo varió el generator-k (RERANK_K); ampliar el pool nunca se midió end-to-end.
+RETRIEVE_K = int(os.getenv("RETRIEVE_K_OVERRIDE", str(RETRIEVAL_TOP_K)))
 
 GOLD = "evals/gold_answers_v1.yaml"
 OUTPUT = f"evals/bot_vs_gold_results_k{RERANK_K}.yaml"
@@ -80,7 +83,7 @@ _JUDGE_USER = (
 
 def run_bot(query: str) -> dict:
     # Replica el pipeline de producción: retrieve → rerank(top-k) → generate.
-    chunks = retrieve_chunks(query, top_k=RETRIEVAL_TOP_K)
+    chunks = retrieve_chunks(query, top_k=RETRIEVE_K)
     chunks = rerank_chunks(query, chunks, top_k=RERANK_K)
     res = generate_answer(query, chunks)
     answer = res.get("answer") if isinstance(res, dict) else str(res)
@@ -115,7 +118,7 @@ def main() -> int:
         pass
 
     assert CHUNKS_IS_V2, f"CHUNKS_TABLE debe ser chunks_v2, es {CHUNKS_TABLE}"
-    print(f"Tabla activa: {CHUNKS_TABLE} (Voyage 1024) | retrieve={RETRIEVAL_TOP_K} rerank_k={RERANK_K}\n")
+    print(f"Tabla activa: {CHUNKS_TABLE} (Voyage 1024) | retrieve={RETRIEVE_K} rerank_k={RERANK_K}\n")
 
     gold_rows = {r["qid"]: r for r in yaml.safe_load(open(GOLD, encoding="utf-8"))}
     oai = OpenAI(api_key=os.environ["OPENAI_API_KEY"])

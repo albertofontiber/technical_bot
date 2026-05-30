@@ -36,6 +36,13 @@
 >   (Xtralis↔Notifier, Securiton↔Detnov no son cross-brand). El `MODEL_PATTERN`
 >   queda como fail-safe; el vocabulario de voz (Whisper) lee el MISMO catálogo
 >   (fuente única). Decisiones y diferidos en `TECH_DEBT.md` #18.
+> - **Ruler parcialmente NO FIABLE (sesión 30)**: la auditoría de los 19 golds
+>   (`evals/gold_answers_v1.yaml`, agentes Opus vs fuente) halló ~7 con problemas
+>   (hp007 error de matriz; hp012/hp018 conflictos España-vs-US / OCR; hp011 OCR;
+>   hp006/hp009/hp017 conducta-discutible). Los errores sesgan a **INFRA-valorar al
+>   bot** → las cifras de calidad de abajo (recall, conteos PASS/FALLO) son
+>   **indicativas, no firmes** hasta arreglar el ruler. Corregir NO es automatizable
+>   (conflictos/matrices/OCR → técnico real + PDF). Ver `TECH_DEBT.md` #33.
 > - **Calidad medida (CORREGIDO sesión 29)**: el matcher del eval inflaba el recall;
 >   con matcher ESTRICTO el recall real por-fact es **~51% @top-15 / 71% techo @top-50**
 >   (no el 84% que parecía, ni el "4/12/3" que hacía creer que el cuello era la
