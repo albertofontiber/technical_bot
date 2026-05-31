@@ -28,6 +28,10 @@ MODEL = os.getenv("CROSS_VERIFY_MODEL", "gpt-5.5")
 
 
 def main() -> int:
+    try:  # consola Windows = cp1252; GPT transcribe '−'/'°' → evita UnicodeEncodeError
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
     if len(sys.argv) < 3:
         sys.exit("Uso: cross_verify_image.py <png> <pregunta>")
     img_path = Path(sys.argv[1])

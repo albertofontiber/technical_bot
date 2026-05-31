@@ -1022,6 +1022,40 @@
     del detector y el conducto de aspiración es de 20 °C. La temperatura de almacenamiento permitida es
     de –30 °C a +70 °C (sin condensación). Para uso en almacenes de ultracongelación, el rango queda restringido
     a –30 °C hasta 0 °C, debiendo respetarse la directriz T 131 390.
+  atomic_facts:
+  - texto: 'Rango de temperatura de funcionamiento (caja del detector y conducto de aspiracion): -30 a
+      +60 °C'
+    tipo: core
+    estado: presente
+    valor: -30 a +60
+    cita: p133 (Datos tecnicos)
+  - texto: 'Limite segun UL/FM para la caja del detector: maximo +40 °C'
+    tipo: supplementary
+    estado: presente
+    valor: '+40'
+    cita: p133
+  - texto: 'Limite segun estandar australiano AS 1603.8 (caja y conducto): -30 a +55 °C'
+    tipo: supplementary
+    estado: presente
+    valor: '+55'
+    cita: p133
+  - texto: 'Fluctuacion de temperatura maxima permitida durante el funcionamiento (caja y conducto): 20
+      °C'
+    tipo: supplementary
+    estado: presente
+    valor: 20 °C
+    cita: p133
+  - texto: 'Temperatura de almacenamiento permitida (sin condensacion): -30 a +70 °C'
+    tipo: supplementary
+    estado: presente
+    valor: '+70'
+    cita: p133
+  - texto: 'Uso en almacenes de ultracongelacion: rango restringido a -30 a 0 °C; respetar la directriz
+      T 131 390'
+    tipo: supplementary
+    estado: presente
+    valor: T 131 390
+    cita: p131 (11.5)
   citations:
   - manual: ASD535_TD_T131192es_h.pdf
     page: 133
@@ -1042,6 +1076,32 @@
   confidence: alta
   pdfs_used:
   - ASD535_TD_T131192es_h.pdf
+  _provenance:
+    estado: verificado
+    metodo: render_pdf + cross_model
+    fuente: ASD535_TD_T131192es_h.pdf
+    paginas:
+    - 133
+    - 131
+    verificado_por:
+    - Claude (lectura multimodal de la tabla 'Datos tecnicos' p133 renderizada)
+    - gpt-5.5 (transcripcion independiente en frio de p133, scripts/cross_verify_image.py)
+    acuerdo: total en los valores nucleo (-30/+60, UL +40, AS +55, fluctuacion 20, almacenamiento +70);
+      discrepancia trivial de wording (UL/FM<= vs UL max), valor +40 unanime
+    fecha: '2026-05-31'
+    nota: Tabla digital-native (no OCR/7-seg) -> lectura fiable; el texto extraido del corpus corrobora.
+      Ultracongelacion (-30 a 0 + T 131 390) confirmada en p131 11.5.
+    localizacion:
+      manuales_buscados:
+      - ASD535_TD_T131192es_h.pdf
+      terminos:
+      - Rango de temperatura
+      - Datos tecnicos
+      - ultracongelacion
+      - T 131 390
+      pagina_fisica: 133
+      nota: impresa 133 = fisica 133 (sin offset; PDF 134 pags). Localizado por busqueda PyMuPDF de 'Rango
+        de temperatura' -> tabla de specs en p133.
   _usage:
     in: 175835
     out: 727
