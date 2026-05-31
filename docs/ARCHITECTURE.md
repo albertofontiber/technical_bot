@@ -23,6 +23,13 @@
 > (5/5 recall en `evals/factual_gate_fixture.yaml`). Sigue siendo eval-infra: **producción no
 > cambia**. Detalle: `TECH_DEBT.md` #35 + `RULER_DESIGN.md` §3-4.
 >
+> **Actualización s33 (31 may 2026 — Fase 1 del ruler, Tier A):** verificados contra
+> la FUENTE (render del píxel + cross-model GPT-5.5 en frío + hechos atómicos +
+> `_provenance`) los 7 golds answer-de-spec → **12/19 golds verificados** (cuarentena 7:
+> Tier B conducta + Tier C conflicto/OCR). Hallazgo: **ningún error factual del gold en
+> los answer-de-spec** — los problemas de s30 eran CONDUCTA y CONFLICTO/OCR, no specs.
+> Sigue siendo eval-infra: **producción no cambia**. Detalle: `RULER_DESIGN.md` §4.
+>
 > El bot sirve desde el **corpus re-ingestado `chunks_v2`** (SWAP hecho en Railway
 > vía `CHUNKS_TABLE=chunks_v2`). Cambios respecto a lo que describe el resto de
 > este doc (que documenta el pipeline histórico con el corpus viejo `chunks`):
@@ -56,6 +63,9 @@
 >   bot** → las cifras de calidad de abajo (recall, conteos PASS/FALLO) son
 >   **indicativas, no firmes** hasta arreglar el ruler. Corregir NO es automatizable
 >   (conflictos/matrices/OCR → técnico real + PDF). Ver `TECH_DEBT.md` #33.
+>   **Update s33**: la Fase 1 ya verificó **12/19** contra la fuente; los answer-de-spec
+>   resultaron CORRECTOS (los problemáticos eran los de conducta hp006/09/17 y
+>   conflicto/OCR hp012/18) → el ruler es fiable para los casos verificados.
 > - **Calidad medida (CORREGIDO sesión 29)**: el matcher del eval inflaba el recall;
 >   con matcher ESTRICTO el recall real por-fact es **~51% @top-15 / 71% techo @top-50**
 >   (no el 84% que parecía, ni el "4/12/3" que hacía creer que el cuello era la

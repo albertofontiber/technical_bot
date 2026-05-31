@@ -226,12 +226,515 @@ HP003_PROV = {
     },
 }
 
+# --- hp008: Notifier ID3000 — detectores de humo analogicos compatibles. Conducta=answer.
+# VERIFICADO s33 (Fase 1): Apendice 3 "Equipos de lazo compatibles" (fisica p71 = impresa A3-2),
+# digital-native, leida por Claude (multimodal + zoom clip) + gpt-5.5 (cross_verify, en frio). El
+# cross-model cazo un misread mio: la etiqueta "Termico temp.alta-Tipo BS" es de k.FDX-551HTEM,
+# no de g.SDX-551THE. Los FDX-551* (termicos) NO son de humo -> excluidos. CLIP y 99+99 en p69/p24.
+HP008_FACTS = [
+    {
+        "texto": "Sensores ionicos de humo compatibles: CPX-551E (ION) y CPX-751E (ION, bajo perfil)",
+        "tipo": "core", "estado": "presente", "valor": "CPX-551E", "cita": "p71 (A3-2)",
+    },
+    {
+        "texto": "Sensores opticos de humo compatibles: SDX551E, SDX-751 y SDX-751EM (OPT)",
+        "tipo": "core", "estado": "presente", "valor": "SDX-751", "cita": "p71 (A3-2)",
+    },
+    {
+        "texto": ("Sensores multicriterio compatibles: IRX-751CTEM (SMART 4) e IRX-751TEM (SMART 3)"),
+        "tipo": "core", "estado": "presente", "valor": "IRX-751CTEM", "cita": "p71 (A3-2)",
+    },
+    {
+        "texto": "Sensor multicriterio optico-termico SDX-751-TEM (OptiPlex)",
+        "tipo": "core", "estado": "presente", "valor": "SDX-751-TEM", "cita": "p71 (A3-2)",
+    },
+    {
+        "texto": "Sensor de humo para ambientes hostiles HPX-751E (HARSH)",
+        "tipo": "supplementary", "estado": "presente", "valor": "HPX-751E", "cita": "p71 (A3-2)",
+    },
+    {
+        "texto": ("Sensor de humo para atmosferas peligrosas IDX-751 (HAZARD, seguridad "
+                  "intrinseca con barrera Y72221)"),
+        "tipo": "supplementary", "estado": "presente", "valor": "IDX-751", "cita": "p71 (A3-2)",
+    },
+    {
+        "texto": "Sensores de humo por aspiracion/laser (VIEW): LPX-751 y FSL-751E",
+        "tipo": "supplementary", "estado": "presente", "valor": "LPX-751", "cita": "p71 (A3-2)",
+    },
+    {
+        "texto": ("Detectores de humo por rayo (haz proyectado): LPB500 (maximo 4 por lazo) "
+                  "y LPB-700/-700T"),
+        "tipo": "supplementary", "estado": "presente", "valor": "LPB500", "cita": "p71 (A3-2)",
+    },
+    {
+        "texto": "La comunicacion con los equipos del lazo usa el protocolo CLIP de Notifier",
+        "tipo": "supplementary", "estado": "presente", "valor": "CLIP", "cita": "p69",
+    },
+    {
+        "texto": "Capacidad por lazo analogico: hasta 198 equipos = 99 sensores + 99 modulos",
+        "tipo": "supplementary", "estado": "presente", "valor": "99", "cita": "p69 / p24 (4.1)",
+    },
+]
+HP008_PROV = {
+    "estado": "verificado",
+    "metodo": "render_pdf + cross_model",
+    "fuente": "MIDT190.pdf",
+    "paginas": [71, 69, 24],
+    "verificado_por": [
+        "Claude (lectura multimodal de la lista 'Equipos de lazo compatibles' A3-2 p71, + zoom clip)",
+        "gpt-5.5 (transcripcion independiente en frio de p71, scripts/cross_verify_image.py)",
+    ],
+    "acuerdo": ("total en la lista de sensores de humo (CPX ionicos, SDX opticos, IRX multicriterio, "
+                "SDX-751-TEM, HPX HARSH, IDX HAZARD, LPX/FSL VIEW, LPB rayo); el cross-model cazo un "
+                "misread mio (la etiqueta 'Termico temp.alta-Tipo BS' es de k.FDX-551HTEM, no de "
+                "g.SDX-551THE)"),
+    "fecha": "2026-05-31",
+    "nota": ("PDF digital-native (no OCR) -> lectura fiable. Los FDX-551* (j/k/l, TERMICOS) se excluyen "
+             "correctamente (pregunta = humo). SDX-551THE aparece en 'Otros sensores' SIN etiqueta de "
+             "tipo en A3-2; el gold la clasifica MULTI (defendible por base optica SDX, no contradicho) "
+             "-> no se autora como hecho. Discrepancia trivial gold j.FDX-551REM vs fuente FDX-551EM "
+             "(termico, irrelevante). 99+99 por lazo confirmado en p24/p67/p69; CLIP en p69."),
+    "localizacion": {
+        "manuales_buscados": ["MIDT190.pdf"],
+        "terminos": ["CPX-551E", "IRX-751CTEM", "Equipos de lazo compatibles", "protocolo CLIP",
+                     "99 sensores"],
+        "paginas": [71, 69, 24],
+        "nota": ("lista A3-2 en fisica p71; CLIP en p69; 99+99 en p24/p67/p69. Sin offset "
+                 "(fisica = citada por el gold)."),
+    },
+}
+
+# --- hp020: Notifier INSPIRE — cambiar las contrasenas de codigo de acceso NA2/NA3. answer.
+# VERIFICADO s33 (Fase 1): HOP-138-8ES (puesta en marcha), procedimiento integro en pagina
+# fisica 49 (= impresa 49, sin offset; indice en p2 lo confirma). PDF digital-native (texto
+# embebido, no OCR), pagina apaisada. Claude (multimodal p49) + gpt-5.5 (cross_verify en frio):
+# acuerdo total. Sin codigos por defecto de fabrica en el manual. Nota CLSS en p5/p18.
+HP020_FACTS = [
+    {
+        "texto": ("Regla por nivel: en nivel de acceso 2 solo se puede cambiar el codigo de NA2; "
+                  "en nivel de acceso 3 se puede cambiar el codigo de NA2 o de NA3"),
+        "tipo": "core", "estado": "presente", "valor": "nivel 2 o 3", "cita": "p49",
+    },
+    {
+        "texto": ('Ruta: icono de menu > "Ajustes", iniciar sesion como usuario de nivel de acceso 3, '
+                  'y seleccionar la opcion "Cambio del codigo de acceso"'),
+        "tipo": "core", "estado": "presente", "valor": "Cambio del codigo de acceso", "cita": "p49",
+    },
+    {
+        "texto": "El nuevo codigo de acceso debe tener entre 4 y 8 caracteres/digitos",
+        "tipo": "core", "estado": "presente", "valor": "4 y 8", "cita": "p49",
+    },
+    {
+        "texto": ('Tras introducir el nuevo codigo hay que re-introducirlo para confirmar (repetir los '
+                  'pasos 03 a 06); aparece el mensaje "Cambio de codigo de acceso satisfactorio"'),
+        "tipo": "core", "estado": "presente", "valor": "satisfactorio", "cita": "p49",
+    },
+    {
+        "texto": ("Tras el cambio: sincronizar el programa de configuracion CLSS con la central y hacer "
+                  "una copia de seguridad del cambio en la nube"),
+        "tipo": "supplementary", "estado": "presente", "valor": "copia de seguridad", "cita": "p49",
+    },
+    {
+        "texto": ("El portal CLSS Cloud, la app CLSS y el programa de configuracion CLSS comparten el "
+                  "mismo usuario, codigo de acceso y contrasena"),
+        "tipo": "supplementary", "estado": "presente", "valor": "CLSS", "cita": "p5 / p18",
+    },
+]
+HP020_PROV = {
+    "estado": "verificado",
+    "metodo": "render_pdf + cross_model",
+    "fuente": "HOP-138-8ES  issue 6_01-2026_Co.pdf",
+    "paginas": [49, 5],
+    "verificado_por": [
+        "Claude (lectura multimodal de la p49 renderizada)",
+        "gpt-5.5 (transcripcion independiente en frio de p49, scripts/cross_verify_image.py)",
+    ],
+    "acuerdo": ("total: regla por nivel (NA2 solo NA2; NA3 cambia NA2 o NA3), pasos 01-09, longitud "
+                "4-8 caracteres, mensaje 'Cambio de codigo de acceso satisfactorio', sincronizar + "
+                "backup en la nube; el cross-model transcribio identico a la lectura"),
+    "fecha": "2026-05-31",
+    "nota": ("PDF digital-native (texto embebido, no OCR) y pagina apaisada -> lectura fiable; el texto "
+             "extraido PyMuPDF coincide con el render. El manual NO da codigos por defecto de fabrica "
+             "(el gold no los afirma). Credenciales CLSS compartidas (portal/app/programa) en p5/p18."),
+    "localizacion": {
+        "manuales_buscados": ["HOP-138-8ES  issue 6_01-2026_Co.pdf"],
+        "terminos": ["codigo de acceso", "nivel de acceso 2/3", "entre 4 y 8", "Cambio del codigo"],
+        "paginas": [49, 5],
+        "nota": ("impresa 49 = fisica 49 (sin offset; indice en p2 lo confirma). Procedimiento integro "
+                 "en p49; nota CLSS en p5/p18."),
+    },
+}
+
+# --- hp001: Detnov CAD-250 — entrar al menu de programacion avanzada (admin). answer.
+# VERIFICADO s33 (Fase 1): Guia de Configuracion MC-380 (digital-native, sin offset: impresa=
+# fisica 20/21). Claude (multimodal p20 acceso + p21 tabla 6 secciones) + gpt-5.5 (cross_verify
+# de la tabla de 6 secciones): acuerdo total. Claves 1111 (usuario) y 2222 (admin) corroboradas
+# en los otros 2 manuales (MU-376 p10, MI-372). "Programacion avanzada" = nivel de admin (3.2).
+HP001_FACTS = [
+    {
+        "texto": ("Desde la PANTALLA DE REPOSO, tocar con el dedo el icono del candado en la pantalla "
+                  "tactil -> accede a la PANTALLA DE ACCESO, que pide el codigo/password"),
+        "tipo": "core", "estado": "presente", "valor": "candado", "cita": "MC-380 p20 (4.1)",
+    },
+    {
+        "texto": ("Introducir la clave de ADMINISTRADOR por defecto 2222 -> da acceso al nivel de "
+                  "configuracion/administrador (donde se configuran todos los parametros)"),
+        "tipo": "core", "estado": "presente", "valor": "2222", "cita": "MC-380 p20 + MI-372",
+    },
+    {
+        "texto": ("La clave de USUARIO por defecto es 1111, que NO da acceso a la configuracion "
+                  "avanzada completa (solo el nivel de usuario)"),
+        "tipo": "core", "estado": "presente", "valor": "1111", "cita": "MU-376 p10",
+    },
+    {
+        "texto": ("Con la clave correcta se accede a la PANTALLA DE ADMINISTRADOR, dividida en 6 "
+                  "secciones: Menu Principal (izq), Submenu (der), Barra de Navegacion, Vista "
+                  "Principal, Barra de Estado y Barra de Mensajes"),
+        "tipo": "supplementary", "estado": "presente", "valor": "PANTALLA DE ADMINISTRADOR",
+        "cita": "MC-380 p21 (4.2)",
+    },
+    {
+        "texto": ("Desde el MENU PRINCIPAL se accede a: Lazos, Sectorizacion, Maniobras, Logs, Red, "
+                  "Ajustes e Instalacion"),
+        "tipo": "supplementary", "estado": "presente", "valor": "Sectorizacion", "cita": "MC-380 p21",
+    },
+    {
+        "texto": ("AVISO de seguridad: el uso indebido del nivel de administrador puede provocar mal "
+                  "funcionamiento; se recomienda cambiar la clave por defecto desde Ajustes > Usuarios"),
+        "tipo": "supplementary", "estado": "presente", "valor": None, "cita": "MC-380 p20",
+    },
+]
+HP001_PROV = {
+    "estado": "verificado",
+    "metodo": "render_pdf + cross_model",
+    "fuente": "CAD-250-MC-380-es.pdf (Guia de Configuracion)",
+    "paginas": [20, 21],
+    "verificado_por": [
+        "Claude (lectura multimodal de p20 'Acceso como administrador' + p21 tabla de 6 secciones)",
+        "gpt-5.5 (transcripcion independiente en frio de la tabla de 6 secciones p21)",
+    ],
+    "acuerdo": ("total: candado -> PANTALLA DE ACCESO -> clave admin 2222; PANTALLA DE ADMINISTRADOR "
+                "dividida en 6 secciones identicas (Menu Principal/Submenu/Barra Navegacion/Vista "
+                "Principal/Barra Estado/Barra Mensajes); claves 1111 (usuario) y 2222 (instalacion) "
+                "corroboradas en los otros 2 manuales"),
+    "fecha": "2026-05-31",
+    "nota": ("3 manuales digital-native -> lectura fiable. MC-380 sin offset (impresa=fisica 20/21). "
+             "MI-372: el 2222 esta en fisica p29 (el gold lo citaba como p31 -> offset impresa+2 o "
+             "numeracion del gold; el DATO es correcto). El gold_answer menciona un 'nivel 4' (apertura "
+             "fisica PC/Pendrive/TOTEM) que NO se verifico aqui (fuera de p20-21) -> no autorado."),
+    "localizacion": {
+        "manuales_buscados": ["CAD-250-MC-380-es.pdf",
+                              "Manual instalacion CAD-250 (MI_372_es_2024 e).pdf",
+                              "Manual usuario CAD-250 (MU 376 es 2024 f).pdf"],
+        "terminos": ["candado", "2222", "1111", "PANTALLA DE ADMINISTRADOR", "varias secciones",
+                     "nivel de configuracion"],
+        "paginas": [20, 21],
+        "nota": ("MC-380 sin offset (impresa=fisica 20/21). 2222 admin tambien en MI-372 fisica p29 "
+                 "(gold citaba p31); 1111 usuario en MU-376 fisica p10."),
+    },
+}
+
+# --- hp005: Notifier ID3000 — programar zona para activar sirena con coincidencia de 2 detectores.
+# answer. VERIFICADO s33 (Fase 1): MPDT190 (Manual de programacion del panel) — OFFSET +7 (impresa =
+# fisica - 7), confirmado por footer "MP-DT-190_D 66"/"108" en f73/f115. El gold cito paginas IMPRESAS
+# correctas (66/70/108). Claude (multimodal f73 coincidencia+PUL + f115 niveles) + gpt-5.5 (cross_verify
+# de f73): acuerdo total. La regla EN54-2 7.1.4 (no-PUL + 2 instrucciones) SI esta en MPDT190 f73 ademas
+# de en MCDT191. Camino software PK-ID3000 (MCDT191) corroborado por texto extraido.
+HP005_FACTS = [
+    {
+        "texto": ("La coincidencia se configura creando una instruccion en la MATRIZ DE CONTROL con la "
+                  "definicion de ENTRADA = ALARMA, sobre la zona deseada"),
+        "tipo": "core", "estado": "presente", "valor": "Matriz de control", "cita": "MPDT190 p66 (f73)",
+    },
+    {
+        "texto": ('En el menu "Indique tipo de coincidencia" seleccionar la opcion 2: COINCIDENCIA 2 '
+                  "EQUIPOS"),
+        "tipo": "core", "estado": "presente", "valor": "COINCIDENCIA 2 EQUIPOS", "cita": "MPDT190 p66 (f73)",
+    },
+    {
+        "texto": ("Para que se produzca la coincidencia, los equipos en alarma deben estar en la misma "
+                  "zona o subzona"),
+        "tipo": "core", "estado": "presente", "valor": "misma zona o subzona", "cita": "MPDT190 p66 (f73)",
+    },
+    {
+        "texto": ('Definir la SALIDA: "Salidas activadas" -> "CIRCUITO SIRENA/RELE" (un circuito de '
+                  'sirena concreto) o "TODAS SALIDAS: Subzona/Zona/Central" limitando por tipo a los '
+                  "modulos de sirena"),
+        "tipo": "core", "estado": "presente", "valor": "CIRCUITO SIRENA", "cita": "MPDT190 p70 (f77)",
+    },
+    {
+        "texto": ("Requisito EN54-2 7.1.4: NO incluir pulsadores manuales (PUL) en el grupo de "
+                  "coincidencia; si se quieren incluir, usar dos instrucciones separadas (PUL como "
+                  "UN UNICO EQUIPO sin coincidencia + sensores con coincidencia)"),
+        "tipo": "supplementary", "estado": "presente", "valor": "7.1.4", "cita": "MPDT190 p66 (f73)",
+    },
+    {
+        "texto": ("Niveles de coincidencia para EQUIPOS: Nivel 1 = 1 y Nivel 2 = 2 son FIJOS (no se "
+                  "configuran); otros niveles (3-99) se definen en Coincidencia de alarma de la "
+                  "Configuracion de la central"),
+        "tipo": "supplementary", "estado": "presente", "valor": "Nivel 2 = 2", "cita": "MPDT190 p108 (f115)",
+    },
+    {
+        "texto": ("Con el programa PK-ID3000 (Windows), el equivalente se hace en la ventana 'Editar "
+                  "Matriz de Control' marcando la casilla de coincidencia y seleccionando 2 equipos"),
+        "tipo": "supplementary", "estado": "presente", "valor": "PK-ID3000", "cita": "MCDT191 p75",
+    },
+]
+HP005_PROV = {
+    "estado": "verificado",
+    "metodo": "render_pdf + cross_model",
+    "fuente": "MPDT190.pdf (Manual de programacion del panel) + MCDT191.pdf (programa PK-ID3000)",
+    "paginas": [73, 77, 115],
+    "verificado_por": [
+        "Claude (multimodal de f73 'tipo de coincidencia' + EN54-2 7.1.4 + f115 niveles)",
+        "gpt-5.5 (transcripcion independiente en frio de f73, scripts/cross_verify_image.py)",
+    ],
+    "acuerdo": ("total: opcion 2 COINCIDENCIA 2 EQUIPOS, equipos en misma zona/subzona, EN54-2 7.1.4 "
+                "no-PUL + 2 instrucciones (i UN UNICO EQUIPO sin coincidencia / ii sensores con "
+                "coincidencia), niveles 1=1 y 2=2 fijos; salida CIRCUITO SIRENA/TODAS SALIDAS en f77"),
+    "fecha": "2026-05-31",
+    "nota": ("MPDT190 OFFSET +7 (impresa = fisica - 7), CONFIRMADO por footer 'MP-DT-190_D 66'/'108' en "
+             "f73/f115. El gold cito paginas IMPRESAS correctas (66/70/108) -> no era mis-atribucion. "
+             "PDF digital-native (capturas de panel legibles). La regla PUL/2-instrucciones SI esta en "
+             "MPDT190 f73 (impresa 66), ademas de en MCDT191. Camino software PK-ID3000 corroborado por "
+             "texto extraido de MCDT191 (casilla de coincidencia + 2 equipos)."),
+    "localizacion": {
+        "manuales_buscados": ["MPDT190.pdf", "MCDT191.pdf"],
+        "terminos": ["COINCIDENCIA 2 EQUIPOS", "Indique tipo de coincidencia", "EN54-2 7.1.4",
+                     "Niveles COINCIDENCIA en ALARMA", "CIRCUITO SIRENA"],
+        "paginas": [73, 77, 115],
+        "nota": ("MPDT190 impresas 66/70/108 = fisicas 73/77/115 (offset +7, footer confirma). MCDT191 "
+                 "(software) impresa ~75; offset MCDT191 +6 (footer 'MC-DT-191_F ... 40' en f46)."),
+    },
+}
+
+# --- hp010: Morley DXc — anadir un detector nuevo al lazo tras la puesta en marcha. answer.
+# VERIFICADO s33 (Fase 1): DXc_Manual de configuracion.pdf §5.3.5.2 "Autobusqueda de equipos"
+# (fisica p48-49, SIN offset: f49 muestra "- PAGINA 49 -"). Digital-native. Claude (multimodal
+# p48-49) + gpt-5.5 (cross_verify del resumen p49): acuerdo en el procedimiento (discrepancia
+# trivial en los numeros de EJEMPLO de la pantalla, irrelevante). EQUIPO NUEVO en config f89 +
+# doc Eventos-Averias p1. 2 copias identicas del PDF (Manuales_Morley / _Privado).
+HP010_FACTS = [
+    {
+        "texto": ("Para anadir un equipo nuevo al lazo tras la puesta en marcha se ejecuta una "
+                  "AUTOBUSQUEDA de equipos (la central detecta automaticamente los equipos del lazo; "
+                  "no se anaden de uno en uno manualmente)"),
+        "tipo": "core", "estado": "presente", "valor": "Autobusqueda", "cita": "DXc-config p48 (5.3.5.2)",
+    },
+    {
+        "texto": ("Procedimiento: acceder al Nivel 3 (clave de acceso) y desbloquear la memoria; en el "
+                  "menu de Lazos pulsar la tecla '2' para 'Autobusqueda', seleccionar el numero de lazo "
+                  "y confirmar la autobusqueda de todos los equipos del lazo"),
+        "tipo": "core", "estado": "presente", "valor": "Nivel 3", "cita": "DXc-config p48 + p29/p37",
+    },
+    {
+        "texto": ("Al finalizar, la central muestra un RESUMEN con los equipos nuevos, eliminados y "
+                  "modificados, y el total por tipo; comprobar que coincide con los equipos instalados"),
+        "tipo": "core", "estado": "presente", "valor": "nuevos, eliminados y modificados",
+        "cita": "DXc-config p49",
+    },
+    {
+        "texto": ("Si se ha realizado un cambio de protocolo, ESPERAR dos minutos antes de la "
+                  "autobusqueda (la central necesita tiempo para rearmar los equipos del lazo)"),
+        "tipo": "supplementary", "estado": "presente", "valor": "dos minutos", "cita": "DXc-config p48",
+    },
+    {
+        "texto": ('Si la central indica el evento "EQUIPO NUEVO" (equipo detectado en el lazo pero no '
+                  "aceptado), la solucion es ejecutar la autobusqueda para aceptarlo"),
+        "tipo": "supplementary", "estado": "presente", "valor": "EQUIPO NUEVO",
+        "cita": "Eventos-Averias p1 / DXc-config p89",
+    },
+    {
+        "texto": ("Tras la autobusqueda se pueden editar las propiedades del nuevo equipo (texto "
+                  "descriptivo, zona asignada, grupo de anulacion, accion) mediante 'Editar Equipos'"),
+        "tipo": "supplementary", "estado": "presente", "valor": "Editar Equipos", "cita": "DXc-config p41 (5.3.5.1)",
+    },
+]
+HP010_PROV = {
+    "estado": "verificado",
+    "metodo": "render_pdf + cross_model",
+    "fuente": "DXc_Manual de configuracion.pdf + Eventos-Averias-de-Equipos-en-DXc.pdf",
+    "paginas": [48, 49],
+    "verificado_por": [
+        "Claude (lectura multimodal de f48-49 'Autobusqueda de equipos')",
+        "gpt-5.5 (transcripcion independiente en frio del resumen de autobusqueda f49)",
+    ],
+    "acuerdo": ("total en el procedimiento: autobusqueda via tecla '2' en menu de Lazos, seleccionar "
+                "lazo y confirmar, resumen de nuevos/eliminados/modificados + total por tipo, ESPERE "
+                "2 min tras cambio de protocolo; discrepancia trivial solo en los numeros de EJEMPLO "
+                "de la pantalla (linea de tipos: 'TMP:2' vs 'TMP:1 MLT:2') -> irrelevante (ilustrativos)"),
+    "fecha": "2026-05-31",
+    "nota": ("DXc_Manual de configuracion digital-native, SIN offset (f49 muestra '- PAGINA 49 -'); el "
+             "gold cito p48-49 correctamente. 'EQUIPO NUEVO -> autobusqueda para aceptar' confirmado en "
+             "config f89 y en el doc Eventos-Averias (gold lo cita de Eventos p1). 2 copias identicas del "
+             "PDF (Manuales_Morley / _Privado); usada Manuales_Morley."),
+    "localizacion": {
+        "manuales_buscados": ["DXc_Manual de configuracion.pdf", "Eventos-Averias-de-Equipos-en-DXc.pdf"],
+        "terminos": ["Autobusqueda", "ESPERE dos minutos", "cambio de protocolo", "EQUIPO NUEVO",
+                     "Nivel 3"],
+        "paginas": [48, 49],
+        "nota": "sin offset (f48-49 = impresas 48-49); EQUIPO NUEVO en config f89 + Eventos p1.",
+    },
+}
+
+# --- hp014: Notifier ID2000 — conectar un modulo de aislamiento de linea en el lazo. answer.
+# VERIFICADO s33 (Fase 1): MIDT180 (Manual de instalacion ID2000) — OFFSET +4 (impresa = fisica - 4),
+# confirmado por footer "MI-DT-180 16"/"42" en f20/f46. El gold cito paginas IMPRESAS correctas
+# (16/42/14) + apendice A3-1/A3-4 = fisicas f70/f73. Claude (multimodal f20 reglas + f46 terminales)
+# + gpt-5.5 (cross_verify f20): acuerdo total. El manual NO da el esquema terminal-a-terminal del
+# modulo (remite a las instrucciones del equipo) -> answer parcial-por-diseno (gold confidence media).
+HP014_FACTS = [
+    {
+        "texto": ("Los aisladores se instalan en CADA lazo analogico para separar sensores y "
+                  "pulsadores; maximo 32 equipos de lazo entre aisladores (EN54-2), pero en la ID2000 "
+                  "no mas de 25 equipos entre aisladores (20 si son aisladores tipo FET, p.ej. B524IEFT)"),
+        "tipo": "core", "estado": "presente", "valor": "25", "cita": "p16 (f20) 4.1.2",
+    },
+    {
+        "texto": ("Las comprobaciones de continuidad del lazo deben realizarse ANTES de conectar los "
+                  "aisladores (usar multimetro de baja tension, nunca de alta tension tipo 'Megger')"),
+        "tipo": "core", "estado": "presente", "valor": "continuidad", "cita": "p16 (f20) 4.2",
+    },
+    {
+        "texto": ("Para las pruebas, desconectar temporalmente los aisladores cortocircuitando los "
+                  "terminales 2 y 4 de cada aislador; tras verificar polaridad/continuidad, RETIRAR las "
+                  "conexiones temporales antes de conectar el lazo al panel (extremos A y B)"),
+        "tipo": "core", "estado": "presente", "valor": "terminales 2 y 4", "cita": "p42 (f46) 8.4.2/8.4.3",
+    },
+    {
+        "texto": ("La pantalla del cable debe ser continua y conectarse a tierra SOLO en el panel; la "
+                  "resistencia maxima del lazo no debe superar 35 ohmios (uniendo B+/B- y midiendo en A+/A-)"),
+        "tipo": "core", "estado": "presente", "valor": "35", "cita": "p14 (f18)",
+    },
+    {
+        "texto": ("Para asegurar que los aisladores se cierran al alimentar, maximo 25 unidades de inicio "
+                  "(SU) entre aisladores estandar (20 entre aisladores FET)"),
+        "tipo": "supplementary", "estado": "presente", "valor": "unidades de inicio", "cita": "A3-1 (f70)",
+    },
+    {
+        "texto": ("Resistencia anadida al lazo por cada aislador: FET B524IEFT = 0,29 ohm (Rf = Nf x 0,29); "
+                  "otros aisladores B524IE / ISO-X = 0,1 ohm (Ri = Ni x 0,1)"),
+        "tipo": "supplementary", "estado": "presente", "valor": "0,29", "cita": "A3-4 (f73)",
+    },
+    {
+        "texto": ("El manual NO incluye el esquema de conexion terminal-a-terminal del modulo aislador: "
+                  "remite a las instrucciones que acompanan a cada equipo para las interconexiones"),
+        "tipo": "supplementary", "estado": "presente", "valor": None, "cita": "p16 (f20) cap.4",
+    },
+]
+HP014_PROV = {
+    "estado": "verificado",
+    "metodo": "render_pdf + cross_model",
+    "fuente": "MIDT180.pdf (Manual de instalacion y puesta en marcha ID2000)",
+    "paginas": [20, 46, 18, 70, 73],
+    "verificado_por": [
+        "Claude (multimodal de f20 '4.1.2 aisladores' + f46 'terminales 2 y 4')",
+        "gpt-5.5 (transcripcion independiente en frio de f20, scripts/cross_verify_image.py)",
+    ],
+    "acuerdo": ("total: aisladores en cada lazo, max 32 equipos / 25 en ID2000 / 20 FET, continuidad "
+                "ANTES de conectar, terminales 2 y 4 para desconexion temporal y retirar antes de "
+                "conectar al panel, pantalla a tierra solo en panel + 35 ohm; 25 SU y Rf=Nf*0,29 / "
+                "Ri=Ni*0,1 confirmados en texto del apendice f70/f73"),
+    "fecha": "2026-05-31",
+    "nota": ("MIDT180 OFFSET +4 (impresa = fisica - 4): el nº de pagina impresa visible en el pie es 16 "
+             "en f20 y 42 en f46 (el identificador 'MI-DT-180' y el numero aparecen en extremos opuestos "
+             "del pie, NO contiguos en el texto extraido). El gold cito paginas IMPRESAS correctas "
+             "(16/42/14) + apendice A3-1/A3-4 = fisicas f70/f73. Digital-native. El manual NO da el "
+             "esquema terminal-a-terminal del modulo aislador (remite a las instrucciones del equipo) -> "
+             "answer correctamente parcial (gold confidence media)."),
+    "localizacion": {
+        "manuales_buscados": ["MIDT180.pdf"],
+        "terminos": ["aisladores se deben utilizar", "32 equipos de lazo", "terminales 2 y 4",
+                     "unidades de inicio", "Rf = Nf x 0,29", "35 ohmios"],
+        "paginas": [18, 20, 46, 70, 73],
+        "nota": ("offset +4 (impresa = fisica - 4; el nº de pagina impresa en el pie lo confirma). "
+                 "Apendice A3-x = fisica 69+x (A3-1 = f70, A3-4 = f73)."),
+    },
+}
+
+# --- hp002: Securiton ASD 535 (Detnov OEM) — alarma intermitente de flujo bajo: causa + diagnostico.
+# answer. VERIFICADO s33 (Fase 1): mismo PDF que hp019 (digital-native, SIN offset; footer "28/134" y
+# "101/134" confirma fisica=impresa). Claude (multimodal p28 criterio + p101 lectura flujo cap 7.6.1) +
+# gpt-5.5 (cross_verify de p28): transcripcion LITERAL identica. Sub-rangos del gold (sensibilidad
+# +-1..70 %, retardo 2-60 min) NO re-renderizados aqui (cap 7.2.1) -> no autorados; +-20% y 300 s SI.
+HP002_FACTS = [
+    {
+        "texto": ('El ASD 535 no da una "alarma de flujo bajo" como tal, sino un aviso "fallo flujo de '
+                  'aire" cuando el flujo varia respecto al nominal (reset inicial con conducto limpio = '
+                  "100 %) mas alla de la ventana de monitorizacion (por defecto +-20 %, EN 54-20)"),
+        "tipo": "core", "estado": "presente", "valor": "fallo flujo de aire", "cita": "p28 (2.2.10)",
+    },
+    {
+        "texto": ("Causa mas probable de flujo BAJO (por debajo del 80 % / valor < 100 %): obstruccion "
+                  "del conducto de aspiracion (orificios sucios/obstruidos, filtro sucio, trampa de "
+                  "polvo/separador); un valor por encima del 120 % (> 100 %) apunta a rotura de tubo/fugas"),
+        "tipo": "core", "estado": "presente", "valor": "80 %", "cita": "p28 + p101 (7.6.1)",
+    },
+    {
+        "texto": ("El aviso «fallo flujo de aire» se dispara una vez transcurrido el tiempo de retardo de "
+                  "300 s de la LS-Ü (retardo ajustable que descarta turbulencias)"),
+        "tipo": "core", "estado": "presente", "valor": "300 s", "cita": "p28 (2.2.10)",
+    },
+    {
+        "texto": ("Diagnostico: leer el valor actual del flujo de aire (cap 7.6.1) -> posicion de "
+                  "conmutador V, V01 (conducto I) y V02 (conducto II); interpretacion: valor < 100 % "
+                  "apunta a obstruccion, > 100 % apunta a rotura de tubo"),
+        "tipo": "core", "estado": "presente", "valor": "7.6.1", "cita": "p101 (7.6.1)",
+    },
+    {
+        "texto": ("Tras solucionar la causa (limpiar conducto/filtro, reparar), ejecutar un nuevo RESET "
+                  "INICIAL (cap 7.3.5) SOLO con el conducto de aspiracion limpio e intacto (si no, los "
+                  "valores nominales quedarian mal y la alarma podria no dispararse)"),
+        "tipo": "core", "estado": "presente", "valor": "reset inicial", "cita": "p32 (2.2.17.3) + cap 7.3.5",
+    },
+    {
+        "texto": ("En entornos con grandes turbulencias de aire u oscilaciones termicas puede ser "
+                  "necesario aumentar el tiempo de retardo o el tamano de la ventana; pero por encima de "
+                  "+-20 % deja de cumplir EN 54-20 (consultar con el fabricante)"),
+        "tipo": "supplementary", "estado": "presente", "valor": "turbulencias", "cita": "p28 + p58",
+    },
+]
+HP002_PROV = {
+    "estado": "verificado",
+    "metodo": "render_pdf + cross_model",
+    "fuente": "ASD535_TD_T131192es_h.pdf (Securiton; Detnov = marca OEM/distribuidor)",
+    "paginas": [28, 101],
+    "verificado_por": [
+        "Claude (multimodal de p28 criterio 'fallo flujo de aire' + p101 lectura del flujo cap 7.6.1)",
+        "gpt-5.5 (transcripcion independiente en frio de p28, scripts/cross_verify_image.py)",
+    ],
+    "acuerdo": ("total y LITERAL: ventana +-20 % sobre el nominal 100 %; por debajo del 80 % "
+                "suciedad/obstruccion, por encima del 120 % rotura de tubo; retardo 300 s de la LS-Ü; "
+                "lectura del flujo via conmutador V/V01/V02 con < 100 % obstruccion y > 100 % rotura; "
+                "nuevo reset inicial (cap 7.3.5) solo con el conducto limpio"),
+    "fecha": "2026-05-31",
+    "nota": ("Mismo PDF que hp019: digital-native, SIN offset (footer 'ASD 535 ... 28/134' y '101/134' "
+             "confirma fisica = impresa). El gold cito paginas correctas (p22/28/31/32/58/101). Los "
+             "sub-rangos del gold_answer (sensibilidad LS-Ü +-1 a +-70 %, retardo 2 a 60 min) NO se "
+             "re-renderizaron aqui (viven en cap 7.2.1) -> no autorados como hechos; +-20 % y 300 s SI "
+             "verificados. Equipo = Securiton ASD 535 (Detnov OEM); el gold lo advierte correctamente."),
+    "localizacion": {
+        "manuales_buscados": ["ASD535_TD_T131192es_h.pdf"],
+        "terminos": ["fallo flujo de aire", "20 %", "80 %", "120 %", "300 s", "7.6.1", "reset inicial"],
+        "paginas": [28, 101],
+        "nota": ("sin offset (footer confirma fisica = impresa). Criterio de fallo en p28 (2.2.10); "
+                 "lectura del flujo y umbrales < 100 %/> 100 % en p101 (7.6.1)."),
+    },
+}
+
 # qid -> {facts, [provenance], [conducta]}. provenance presente = el gold se VERIFICA aquí.
 RECORDS = {
     "hp011": {"facts": HP011_FACTS},
     "hp017": {"facts": HP017_FACTS},
     "hp019": {"facts": HP019_FACTS, "conducta": "answer", "provenance": HP019_PROV},
     "hp003": {"facts": HP003_FACTS, "conducta": "answer", "provenance": HP003_PROV},
+    "hp008": {"facts": HP008_FACTS, "conducta": "answer", "provenance": HP008_PROV},
+    "hp020": {"facts": HP020_FACTS, "conducta": "answer", "provenance": HP020_PROV},
+    "hp001": {"facts": HP001_FACTS, "conducta": "answer", "provenance": HP001_PROV},
+    "hp005": {"facts": HP005_FACTS, "conducta": "answer", "provenance": HP005_PROV},
+    "hp010": {"facts": HP010_FACTS, "conducta": "answer", "provenance": HP010_PROV},
+    "hp014": {"facts": HP014_FACTS, "conducta": "answer", "provenance": HP014_PROV},
+    "hp002": {"facts": HP002_FACTS, "conducta": "answer", "provenance": HP002_PROV},
 }
 
 

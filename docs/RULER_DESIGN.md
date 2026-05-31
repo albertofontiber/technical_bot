@@ -195,7 +195,13 @@ cuarentena, 3 golds verificados pendientes de retrofit a hechos atómicos, norma
 - **Fase 0** — gold_store.py + **localizador exhaustivo** + esquema v2 + validación en
   CI + este doc. *(tareas #7, #9)*
 - **Fase 1** — verificar/reparar los 19 al estándar nuevo (incl. auditar la pregunta).
-  *(tarea #4)*
+  **TIER A COMPLETO (s33): 12/19 verificados** (hp001/02/03/05/07/08/10/11/14/17/19/20),
+  cada uno render + cross-model GPT-5.5 + hechos atómicos + `_provenance`. Hallazgo: ningún
+  error factual del gold en los answer-de-spec (los fallos de s30 eran conducta y conflicto/OCR);
+  el cross-model cazó un misread MÍO (hp008); offsets impresa↔física dispares (MIDT190 +7,
+  MIDT180 +4, MI-372 +2, resto 0) → "localizar SIEMPRE" validado. Pendiente: Tier B = conducta
+  admit/clarify (hp004/06/09/13/15, + hp006 limpiar cruft) + Tier C = conflicto/OCR diferido a
+  técnico+PDF (hp012/018). *(tarea #4)*
 - **Fase 2** — scorer de hechos atómicos (3 ejes) + harness. **NÚCLEO HECHO (s32):**
   atomic_scorer (completitud mecánica + factual cross-model + conducta heurística),
   strict_match extraído, gate factual caracterizado (5/5,4/4 n=9). Refinos pendientes
