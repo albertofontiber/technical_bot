@@ -1,26 +1,34 @@
 #!/usr/bin/env python3
-"""atomic_scorer.py — scorer atómico MÍNIMO del ruler (Fase 2, rebanada vertical).
+"""atomic_scorer.py — scorer atómico del ruler (Fase 2).
 
 Puntúa la respuesta del bot contra los HECHOS ATÓMICOS del gold, por hecho y de
 forma TRANSPARENTE/auditable — en vez del juez LLM opaco de test_bot_vs_gold.py
 (que en hp007 falló por dato obsoleto). Ver RULER_DESIGN §3 + TECH_DEBT #34.
 
-Reusa el matcher ESTRICTO de PR#15 (strict_match.py). Eje COMPLETITUD, mecánico:
-¿aparece el valor distintivo de cada hecho CORE en la respuesta del bot? Clasifica el
-MÉTODO de match para exponer dónde basta lo mecánico y dónde hace falta el LLM:
+Eje COMPLETITUD (mecánico, determinista): reusa el matcher ESTRICTO de PR#15
+(strict_match.py). ¿aparece el valor distintivo de cada hecho CORE en la respuesta?
+Clasifica el MÉTODO para exponer dónde basta lo mecánico y dónde hace falta el LLM:
   - anchor : número(>=2 díg) o código de modelo presente/ausente → ALTA confianza.
   - prose  : sin valor numérico → overlap de términos (>=0.8) → BAJA confianza
-             (sinónimos/frecuencias/códigos 7-seg = prosa irreducible → futuro LLM).
+             (sinónimos/frecuencias/códigos 7-seg = prosa irreducible).
   - manual : valor=null → requiere juicio humano.
 
-NO evalúa aún el eje FACTUAL (alucinación) de forma automática: la asimetría de
-seguridad (alucinación=FALLO) necesita un check LLM acotado a los hechos (Fase 4).
-Por eso el veredicto es PROVISIONAL y lo DECLARA.
+Eje FACTUAL (alucinación) — OPCIONAL (--llm): check cross-model (GPT-5.5) acotado a
+los hechos que detecta CONTRADICCIONES (no omisiones ni info extra). Cualquier
+contradicción → FALLO (asimetría de seguridad, RULER_DESIGN §3). Sin --llm el eje no
+se evalúa y el veredicto se marca PROVISIONAL. Cross-model evita los puntos ciegos
+del bot (Sonnet, lección s13) y NO re-lee píxeles → el sesgo 7-seg no aplica aquí
+(compara TEXTOS, no displays).
+
+Eje CONDUCTA: heurístico mínimo (answer | admit | clarify) — a endurecer con golds
+de conducta (Fase 1/3).
 
 Entrada: gold (gold_store; solo verificados con atomic_facts) + respuestas del bot
 (por defecto el último run cacheado evals/bot_vs_gold_results_k5.yaml, o --answers).
 
-Uso: python scripts/atomic_scorer.py [--answers evals/bot_vs_gold_results_k5.yaml]
+Uso:
+  python scripts/atomic_scorer.py                 # solo completitud+conducta (offline)
+  python scripts/atomic_scorer.py --llm            # + eje factual (GPT-5.5, requiere key)
 """
 from __future__ import annotations
 
@@ -38,6 +46,7 @@ from strict_match import distinctive, norm, norm_ocr, quote_overlap  # noqa: E40
 
 OVERLAP_PRESENT = 0.8  # umbral de presencia para hechos de prosa (sin valor numérico)
 DEFAULT_ANSWERS = ROOT / "evals" / "bot_vs_gold_results_k5.yaml"
+FACTUAL_MODEL = "gpt-5.5"  # cross-model (distinto del bot-Sonnet y del gold-Opus)
 
 # admit_no_info / ask_clarification (legacy) → las 5 conductas (RULER_DESIGN §1).
 _LEGACY = {"admit_no_info": "admit", "ask_clarification": "clarify"}
@@ -81,7 +90,57 @@ def detect_conducta(answer: str) -> str:
     return "answer"
 
 
-def score_gold(gold: dict, answer: str) -> dict:
+# --- Eje FACTUAL (alucinación) — check cross-model acotado a los hechos -----------
+_FACTUAL_SYS = (
+    "Eres un verificador de SEGURIDAD de un bot técnico de sistemas PCI (detección de "
+    "incendios). Tu ÚNICA tarea: detectar CONTRADICCIONES entre la RESPUESTA DEL BOT y "
+    "una lista de HECHOS VERIFICADOS contra el manual oficial.\n"
+    "Una CONTRADICCIÓN = el bot afirma un valor, comportamiento o default que CHOCA con "
+    "un hecho verificado (valor distinto, significado opuesto, default equivocado).\n"
+    "NO es contradicción: (a) que el bot OMITA un hecho; (b) que el bot añada información "
+    "extra que NO está en la lista (puede estar en el manual — NO lo penalices); (c) "
+    "diferencias de redacción o sinónimos.\n"
+    "El bot puede usar una ETIQUETA o nombre distinto para el mismo parámetro: júzgalo por "
+    "el SIGNIFICADO, no por el nombre. Solo cuenta el CHOQUE directo de un dato con un "
+    "hecho listado. Ante la duda, NO marques contradicción (preferimos falso-negativo a "
+    "falso-positivo en este eje)."
+)
+_FACTUAL_USER = (
+    "HECHOS VERIFICADOS (del manual oficial):\n{facts}\n\n"
+    "RESPUESTA DEL BOT:\n{answer}\n\n"
+    "Devuelve SOLO JSON válido (sin markdown):\n"
+    '{{"contradicciones": [{{"hecho": "<hecho verificado>", '
+    '"afirmacion_bot": "<lo que dice el bot>", "por_que": "<por qué chocan>"}}]}}\n'
+    'Si no hay ninguna contradicción, devuelve {{"contradicciones": []}}.'
+)
+
+
+def factual_check(facts: list[dict], answer: str, client, model: str) -> tuple[list, str | None]:
+    """(contradicciones, error). Lista vacía = sin contradicciones. error!=None =
+    no se pudo evaluar (no auto-FALLO; va a REVISAR)."""
+    import json
+    facts_txt = "\n".join(
+        f"- {f.get('texto', '')}" + (f" [valor: {f['valor']}]" if f.get("valor") else "")
+        for f in facts)
+    try:
+        resp = client.chat.completions.create(
+            model=model,
+            messages=[{"role": "system", "content": _FACTUAL_SYS},
+                      {"role": "user", "content": _FACTUAL_USER.format(
+                          facts=facts_txt, answer=(answer or "")[:4000])}],
+        )
+        txt = resp.choices[0].message.content.strip()
+    except Exception as e:
+        return [], f"llamada LLM falló: {e}"
+    if txt.startswith("```"):
+        txt = txt.split("```")[1].lstrip("json").strip()
+    try:
+        return list(json.loads(txt).get("contradicciones", [])), None
+    except Exception as e:
+        return [], f"parse error: {e}: {txt[:160]}"
+
+
+def score_gold(gold: dict, answer: str, contradictions=None, factual_error=None) -> dict:
     facts = gold.get("atomic_facts") or []
     rows = []
     for f in facts:
@@ -96,12 +155,20 @@ def score_gold(gold: dict, answer: str) -> dict:
 
     expected = _LEGACY.get(gold.get("conducta_esperada"), gold.get("conducta_esperada"))
     bot_conducta = detect_conducta(answer)
+    factual_run = contradictions is not None or factual_error is not None
 
-    if expected != bot_conducta:
+    # Síntesis: la asimetría de seguridad manda (alucinación=FALLO por encima de todo).
+    # factual_error y contradictions son mutuamente excluyentes (contrato de
+    # factual_check: éxito→([...], None); fallo→([], err)) → el orden no enmascara un FALLO.
+    if factual_error:
+        verdict = f"REVISAR (eje factual no evaluable: {factual_error})"
+    elif contradictions:
+        verdict = f"FALLO (alucinación: contradice {len(contradictions)} hecho(s) verificado(s))"
+    elif expected != bot_conducta:
         if expected == "answer" and bot_conducta == "admit":
             verdict = "FALLO (admite con el corpus cubriendo)"
         elif expected == "admit" and bot_conducta == "answer":
-            verdict = "REVISAR (responde donde el gold admite — ¿alucina?)"
+            verdict = "REVISAR (responde donde el gold admite)"
         else:
             verdict = f"REVISAR (conducta bot={bot_conducta} != esperada={expected})"
     elif expected in ("admit", "clarify"):
@@ -109,14 +176,18 @@ def score_gold(gold: dict, answer: str) -> dict:
     elif n == 0:
         verdict = "? (ningún hecho core puntuable mecánicamente)"
     elif p == n:
-        verdict = f"PASS (completitud core {p}/{n})"
+        verdict = f"PASS (completitud core {p}/{n}" + (", sin alucinación)" if factual_run else ")")
     elif p > 0:
         verdict = f"PARCIAL (completitud core {p}/{n})"
     else:
         verdict = f"FALLO (completitud core 0/{n})"
 
+    if not factual_run:
+        verdict += "  [PROVISIONAL: eje factual no evaluado — usa --llm]"
+
     return {"qid": gold.get("qid"), "expected": expected, "bot_conducta": bot_conducta,
-            "core": f"{p}/{n}", "verdict": verdict, "rows": rows}
+            "core": f"{p}/{n}", "verdict": verdict, "rows": rows,
+            "contradictions": contradictions or [], "factual_error": factual_error}
 
 
 _GLYPH = {True: "✓", False: "✗", None: "?"}
@@ -131,6 +202,9 @@ def main() -> int:
     ap.add_argument("--answers", default=str(DEFAULT_ANSWERS),
                     help="YAML con [{qid, bot_answer}] (default: último run k5 cacheado)")
     ap.add_argument("--qids", default="", help="limitar a qids separados por coma")
+    ap.add_argument("--llm", action="store_true",
+                    help="evalúa el eje FACTUAL con GPT-5.5 (requiere OPENAI_API_KEY)")
+    ap.add_argument("--model", default=FACTUAL_MODEL, help="modelo del eje factual")
     args = ap.parse_args()
 
     answers = {}
@@ -144,7 +218,20 @@ def main() -> int:
         want = {q.strip() for q in args.qids.split(",")}
         golds = [g for g in golds if g.get("qid") in want]
 
-    print(f"Scorer atómico (MÍNIMO) · {len(golds)} golds verificados con hechos atómicos")
+    client = None
+    if args.llm:
+        import os
+        from dotenv import load_dotenv
+        from openai import OpenAI
+        load_dotenv(ROOT / ".env", override=True)
+        key = os.getenv("OPENAI_API_KEY")
+        if not key:
+            print("[ERROR] --llm pero no hay OPENAI_API_KEY (en .env o env). Abortado.")
+            return 1
+        client = OpenAI(api_key=key)
+
+    eje = "completitud + conducta + FACTUAL(LLM)" if client else "completitud + conducta"
+    print(f"Scorer atómico · {len(golds)} golds verificados con hechos atómicos · ejes: {eje}")
     print(f"Respuestas del bot: {Path(args.answers).name}\n")
 
     results = []
@@ -153,18 +240,31 @@ def main() -> int:
         if qid not in answers:
             print(f"=== {qid} === (sin respuesta del bot en el fichero — saltado)\n")
             continue
-        res = score_gold(g, answers[qid])
+        contradictions, factual_error = (None, None)
+        if client:
+            contradictions, factual_error = factual_check(
+                g.get("atomic_facts") or [], answers[qid], client, args.model)
+        res = score_gold(g, answers[qid], contradictions, factual_error)
         results.append(res)
         print(f"=== {qid} === esperada={res['expected']} | bot={res['bot_conducta']} "
               f"| core={res['core']}")
-        for i, r in enumerate(res["rows"], 1):
-            print(f"  [{_GLYPH[r['present']]}] {r['tipo']:<13} {r['method']:<7} "
-                  f"{r['detail']}")
+        for r in res["rows"]:
+            print(f"  [{_GLYPH[r['present']]}] {r['tipo']:<13} {r['method']:<7} {r['detail']}")
             print(f"       {r['texto'][:88]}")
+        if client:
+            if res["factual_error"]:
+                print(f"  factual: ERROR — {res['factual_error']}")
+            elif res["contradictions"]:
+                for c in res["contradictions"]:
+                    print(f"  ⚠ CONTRADICE: hecho «{str(c.get('hecho'))[:60]}»")
+                    print(f"               bot dice «{str(c.get('afirmacion_bot'))[:60]}» — {c.get('por_que')}")
+            else:
+                print("  factual: sin contradicciones")
         print(f"  → {res['verdict']}\n")
 
     print("=" * 70)
-    print("RESUMEN (veredicto PROVISIONAL — eje factual/alucinación pendiente de LLM):")
+    suffix = "" if client else " (PROVISIONAL — eje factual pendiente; corre con --llm)"
+    print(f"RESUMEN{suffix}:")
     for r in results:
         print(f"  {r['qid']}: core {r['core']:<6} {r['verdict']}")
     return 0
