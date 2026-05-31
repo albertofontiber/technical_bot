@@ -110,24 +110,44 @@ fuente (ES o EN) citada **verbatim**; preferencia: ES si está y basta, EN suple
 cuando no hay ES, ES≠EN → conducta 2. Riesgo: la traducción EN→ES del answer puede mover
 matices (los valores/códigos son idioma-independientes y van seguros; vigilar la prosa).
 
-**Estrategias de localización (realidades del corpus ya documentadas — el localizador
-las respeta o falla):**
-1. **Respuestas SOLO en diagramas/imágenes** → surfacear páginas-diagrama vía
-   `has_diagram`/`diagram_url` (TECH_DEBT #9/#10). El texto/grep no las ve — punto ciego
-   mayor (muchas preguntas PCI son de cableado/conexión).
-2. **Seguir el PRODUCTO, no el fabricante nombrado**: modelo→fabricante real vía catálogo
-   (catalog-first, s28; relabeling OEM Securiton/Honeywell — hp002/011/013) + normalizar
-   identificadores (separadores/compuestos `AFP-1010`=`AFP1010`, s11).
-3. **Seguir referencias cruzadas** ("ver Manual X, sección Y") — así se alcanza hp017.
-4. **TODOS los manuales del producto** (user/install/config/datasheet — hp003/#11c) +
-   ensamblar **multi-parte** (`MADT731_01/_02...`, #4/#7).
-5. **Equivalencia de unidades/formatos** (kΩ↔Ω, min↔s, decimal coma-ES↔punto-EN) para
-   recall del grep y para el matcher del scorer.
+**Estrategias de localización (REVISADAS tras el review adversarial — los supuestos del
+v1 chocaban con el código; el review verificó 5 fallos, 2 anclados en código):**
+1. **Respuestas solo en diagramas/imágenes**: NO depender de `has_diagram`/`diagram_url`
+   — verificado: en chunks_v2 `diagram_url=None` para TODO el corpus (`reingest/index.py:61`,
+   follow-up B4 pendiente) y `has_diagram`="la página tiene cualquier imagen" (sin precisión,
+   `chunk.py:352`); las cifras 31%/84.9% de #9/#10 son de la tabla VIEJA. → para preguntas
+   visuales, **render-browse directo** de páginas candidatas (multimodal); el pipeline de
+   diagramas incompleto = **GAP DE CORPUS** (lever de extracción #10).
+2. **Seguir el PRODUCTO**: **REUSAR `model_catalog.json`** — verificado: el catálogo YA hace
+   split-compound (`AM2020`, `AFP1010`, `ZX2e/ZX5e` incluidos con `source:split-compound`); los
+   50 "excluidos" son mayormente risky-acronym/junk, NO productos. **No re-implementar el split**
+   (mi v2 atacaba un fantasma). Residual real: pure-alpha (`ZXAE/ZXEE`) ya declarado como gap.
+   Modelo→fabricante real (relabeling OEM Securiton/Honeywell — hp002/011/013) vía el catálogo.
+3. **Recall BUDGET-BOUNDED** (el "render barato" era el cuello MÁS caro): red ancha barata
+   (grep ES+EN) → **triage barato** → render de un **top-K acotado** → residual `needs_human`
+   declarado más allá. "Domina al RAG **dentro del presupuesto**", no ilimitada.
+4. **Grep sobre texto corrupto**: la fiabilidad del grep es **POR-PÁGINA, no por-doc** (un PDF
+   nativo puede tener glifos corruptos —7-seg— sin ser escaneo). **REUSAR `diagnose_corpus.py`**
+   (ya clasifica escaneado/imagen-heavy/texto-limpio/**mixto**); los manuales objetivo son
+   UI-screenshot-heavy → `mixto`/`imagen-heavy` (texto fiable en unas páginas, píxel en otras)
+   → enrutar **por página**, no un switch binario por-doc.
+5. **Existencia ≠ usable**: existir en chunks_v2 es *necesario, no suficiente* — chunk
+   presente pero inservible (matriz sin marcas #24, denso #18) → el **render decide** la
+   usabilidad; presente-pero-inservible = **GAP DE CORPUS** (no fingir cobertura).
+6. **Referencias cruzadas** ("ver Manual X" → así se alcanza hp017) + **todos los manuales
+   del producto** (user/install/config — hp003/#11c) + **multi-parte** ensamblado (#4/#7) +
+   **equivalencia unidades/formatos** (kΩ↔Ω, coma-ES↔punto-EN).
 
-El "mínimo" del localizador se define **por lo que el slice necesita** (1-4 ya lo exigen:
-hp017 cross-ref, hp009 OEM, hp006 multi-doc, hp007/11 visual/tabla), no por un floor
-arbitrario. Semántica de red ancha + expansión completa de sinónimos → **diferidas** hasta
-que el slice muestre misses del grep.
+Reframe del review: 3 de estos (diagramas, OCR, denso) son **gaps de corpus reales** (chunks_v2
+más incompleto de lo asumido) → el localizador NO los "arregla", los **DIFIERE** a needs_human +
+GAP DE CORPUS (lever #10). Honesto: son diferimientos, no fixes. El "mínimo" del localizador =
+lo que los golds del slice necesitan; lo demás se expande con **evidencia del slice**.
+
+**OJO (límite del slice)**: los 19 golds actuales tienen la `page` ya fijada por el autor → la
+rebanada vertical **NO testea el caso duro del localizador** (encontrar la ubicación de cero).
+Para testearlo de verdad hace falta un test **ciego** (pregunta nueva, o ignorar la `page` del
+gold). El slice valida sobre todo el esquema + hechos atómicos + scorer; el localizador necesita
+su propio test ciego.
 
 **Dos ejes de verificación separados**: el cross-model valida **LEER**; la búsqueda
 exhaustiva valida **ENCONTRAR**. El primero no cubre al segundo.

@@ -1263,3 +1263,21 @@ El nuevo bloque NO menciona clarification — el efecto es indirecto, vía bias 
 
 **Lever de generación (sesión 30, dentro del frame #32)**: change-1 = bloque "DOS ERRORES SIMÉTRICOS" en SYSTEM_PROMPT (rechazar-en-falso con el dato presente = fallo hermano de inventar) → FALLO 5→3 end-to-end (HyDE-off, juez gpt-5.5), sin alucinación nueva → DIRECCIONAL, pero medido contra ruler defectuoso = indicativo. change-2 (completitud) REVERTIDO. Reranker = lever siguiente tras el ruler (research: Zerank-2, Cohere Rerank 4 —fuerte ES—, Voyage 2.5 —identifier-tuned pero degrada fuera de EN—, Jina v3, bge-v2-m3; perfil = ES + identifier-heavy + cross-product → elección empírica; reranker solo NO arregla cross-product → el filtro modelo/categoría SE QUEDA). Repo: change-1 + `RETRIEVE_K_OVERRIDE` (override de retrieve-pool en `test_bot_vs_gold`) en rama `feat/generation-lever`, NO main.
 
+---
+
+## 34. Gaps de corpus-infra destapados por el revisor del localizador (sesión 31)
+
+El review adversarial del localizador del ruler (RULER_DESIGN §2) destapó, **anclado en código**, que chunks_v2 está más incompleto de lo asumido. Alimentan el lever de extracción (#10) y condicionan tanto el localizador del ruler como el bot:
+
+1. **`diagram_url = None` en TODO chunks_v2** (`src/reingest/index.py:61`, follow-up B4 pendiente) y **`has_diagram` impreciso** (`chunk.py:352` = "la página tiene cualquier imagen", logos/cabeceras incluidos). Las cifras 31%/84.9% de #9/#10 son de la tabla VIEJA `chunks`. → respuestas solo-en-diagrama son **invisibles al texto/grep**; el localizador no puede surfacearlas por metadata → render-browse + GAP DE CORPUS. Re-poblar `diagram_url` (B4) es prerrequisito para que el bot adjunte diagramas Y para localizar respuestas visuales (cableado/conexiones — muchas preguntas PCI).
+
+2. **El catálogo (`model_catalog.json`) YA hace split-compound** (`AM2020`, `AFP1010`, `ZX2e/ZX5e` incluidos con `source:split-compound`); los 50 "excluidos" son mayormente risky-acronym/junk, NO productos. → el localizador **REUSA** el catálogo, no re-implementa el split. Residual real: pure-alpha `ZXAE/ZXEE` (gap ya declarado, #18).
+
+3. **Fiabilidad del grep es POR-PÁGINA, no por-doc**: `diagnose_corpus.py:74-81` ya clasifica (escaneado / imagen-heavy / texto-limpio / **mixto**); los manuales UI-screenshot-heavy caen en `mixto` (texto fiable en unas páginas, píxel en otras). Y "digital-native" ≠ texto fiel (7-seg = glifo corrupto sin ser escaneo). → enrutar grep-vs-render **por página** reusando `diagnose_corpus`, no un switch binario por-doc.
+
+4. **El localizador NO se puede validar sobre los 19 golds actuales** — la `page` ya está fijada por el autor → la rebanada vertical no testea el caso duro (encontrar la ubicación de cero). Necesita un **test CIEGO** (pregunta nueva o ignorar la `page` del gold).
+
+**Trigger**: al construir el localizador (Fase 0) y el lever de extracción (#10).
+
+**Meta-lección (s31)**: el localizador se diseñó 3× sobre supuestos del corpus que el código contradecía; el revisor adversarial (Protocolo 3) los cazó leyendo el código → **leer el código real ANTES de diseñar**.
+

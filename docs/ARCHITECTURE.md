@@ -10,6 +10,13 @@
 
 > ## ⚡ Estado actual (sesión 27 — 27 mayo 2026): chunks_v2 EN PRODUCCIÓN
 >
+> **Actualización s31 (31 may 2026 — rediseño del eval/ruler, NO toca producción):** el
+> gold/eval se está rediseñando como **instrumento diagnóstico** construido desde la FUENTE
+> (render del píxel + cross-model GPT-5.5), no un gold opaco (que en s30 resultó parcialmente
+> roto). Diseño + decisiones (D1-D11): `docs/RULER_DESIGN.md`. Proceso nuevo institucionalizado:
+> **revisor adversarial** (`docs/ADVERSARIAL_REVIEWER.md` + CLAUDE.md Protocolo 3). El bot en
+> producción no cambia esta sesión.
+>
 > El bot sirve desde el **corpus re-ingestado `chunks_v2`** (SWAP hecho en Railway
 > vía `CHUNKS_TABLE=chunks_v2`). Cambios respecto a lo que describe el resto de
 > este doc (que documenta el pipeline histórico con el corpus viejo `chunks`):
