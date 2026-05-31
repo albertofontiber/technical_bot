@@ -1309,3 +1309,14 @@ ROI de los reviews: sano (bugs + over-claims reales, no ritual). El cross-model 
 
 **Trigger**: al escalar el scorer a más golds (Fase 1) o al fiarse de un veredicto como gate firme.
 
+## 36. Cross-model adversarial reviewer ciego al repo → agéntico/grounded (DIFERIDO, sesión 32)
+
+`scripts/adversarial_review.py` (revisor cross-model GPT-5.5, Protocolo 3) es una llamada single-shot CIEGA al repo: solo ve los ficheros que se le pegan a mano → medio-adivina sobre código que no ve. Mejora ideal: que GPT-5.5 lea el código él mismo (agéntico, tool-use) y su salida se lea en crudo → grounding + independencia conceptual sin filtro Claude.
+
+**DECISIÓN (s32): DIFERIDO, no construir ahora.** Pregunta cero: (a) la orquestación manual funciona (cazó 4 hallazgos reales en s32; yo verifico sus claims contra código); (b) el revisor dispara POCO (chunky, por build/commit), no es el caballo de batalla; (c) el workhorse cross-model de Fase 1 es OTRO tool — `cross_verify_image.py` (lee la fuente, ≥1 por gold), ya construido; (d) tool-use agéntico OpenAI es un mini-proyecto que competiría con Fase 1. Prior: la infra especulativa "para luego" tiende a no usarse o salir distinta (validator s13, apparatus §9, hooks semánticos, force_vision YAGNI).
+
+**NO anidar dentro del sub-agente Claude**: reintroduce el filtro mismo-modelo (Claude cura el input + interpreta el output) → erosiona la independencia, que es el único activo del cross-model. **Invariante a preservar**: el cross-model ve el ARTEFACTO por lente no-Claude + su salida se lee CRUDA (input = artefacto, no los hallazgos del sub-agente → le invitan a anclarse).
+
+**Trigger para construir**: cuando ensamblar el contexto a mano sea un cuello MEDIDO, o cuando la ceguera cause un review malo/falsa-confianza demostrable.
+**Mejora barata intermedia** (si se quiere fricción-cero sin agéntico): flag `--diff` en `adversarial_review.py` que auto-incluya `git diff` + ficheros cambiados (~10 líneas, riesgo casi nulo).
+
