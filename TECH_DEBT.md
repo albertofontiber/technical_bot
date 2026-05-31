@@ -1297,7 +1297,15 @@ Demostrado en la rebanada vertical (hp007/hp011/hp017): hp011→FALLO (caza la a
 4. **Recall del gate factual sin caracterizar a escala**: n=9 a mano (perturbaciones quizá más fáciles que alucinaciones sutiles reales) → crecer el fixture con casos reales/difíciles.
 5. Bug **C1** (substring de anchors, `'40' in '240'`) corregido EN el scorer (frontera de no-palabra); `chunk_has_quote_strict` (PR#15, en strict_match) conserva el `in` crudo → re-tocarlo exige re-validar el eval de recall (live stack). Pendiente al revisar el matcher de recall.
 
-**Proceso (s32)**: 2 reviews adversariales (Protocolo 3) cazaron C1 + 2 over-claims ("validado") + verificaron los 3 veredictos factuales contra ficheros → ROI sano (no ritual).
+**Proceso (s32)**: 3 reviews adversariales (Protocolo 3): 2× sub-agente Claude (cazaron **C1** substring + 2 over-claims "validado"; verificaron los 3 veredictos contra ficheros) + 1× **cross-model GPT-5.5** (`adversarial_review.py`) que dio independencia CONCEPTUAL y halló gaps que el mismo-modelo NO vio:
+- **#1/#3 (ARREGLADO)**: el veredicto decía "sin alucinación" = over-claim; el gate solo descarta CONTRADICCIONES de hechos LISTADOS → wording corregido ("sin contradicción con hechos listados").
+- **#2 (ARREGLADO)**: core `manual` (valor=null) quedaba fuera del denominador → un PASS podía OCULTAR core sin puntuar; ahora el veredicto surfacea los core sin puntuar + la dependencia de prosa frágil.
+- **#5 (PENDIENTE)**: presencia del `valor` ≠ hecho afirmado bien — el matcher cuenta el token aunque esté en negación/comparación/contexto erróneo ("no es 295 s" casa "295"). Completitud necesita conciencia de negación/contexto (→ capa LLM).
+- **#6 (PENDIENTE)**: prosa-overlap no escala a sinónimos/traducción ES↔EN ni terminología de 30+ fabricantes ("cada 2 años"/"bienal"/"biennial") — gap del contrato escalable.
+- **#7 (PENDIENTE)**: el fixture n=9 es **smoke/regression test, NO caracterización de seguridad** (no estima recall/especificidad reales; sin EN, sin respuestas largas, sin contradicciones sutiles). No usarlo para sostener que el gate está "listo".
+- **#8 (decisión)**: el scorer siempre `return 0` → consistente con "diagnóstico, no gate" (RULER_DESIGN §0), pero el rol debe ser EXPLÍCITO si alguna vez desbloquea algo.
+
+ROI de los reviews: sano (bugs + over-claims reales, no ritual). El cross-model demostró su valor distinto del sub-agente (catches que el mismo-modelo, que comparte mi marco, no vio).
 
 **Trigger**: al escalar el scorer a más golds (Fase 1) o al fiarse de un veredicto como gate firme.
 

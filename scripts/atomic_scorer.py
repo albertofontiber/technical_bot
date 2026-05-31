@@ -151,6 +151,7 @@ def score_gold(gold: dict, answer: str, contradictions=None, factual_error=None)
     core = [r for r in rows if r["tipo"] == "core"]
     scorable = [r for r in core if r["present"] is not None]
     present_core = [r for r in scorable if r["present"]]
+    core_manual = [r for r in core if r["present"] is None]  # valor=null → sin puntuar
     n, p = len(scorable), len(present_core)
 
     expected = _LEGACY.get(gold.get("conducta_esperada"), gold.get("conducta_esperada"))
@@ -176,11 +177,25 @@ def score_gold(gold: dict, answer: str, contradictions=None, factual_error=None)
     elif n == 0:
         verdict = "? (ningún hecho core puntuable mecánicamente)"
     elif p == n:
-        verdict = f"PASS (completitud core {p}/{n}" + (", sin alucinación)" if factual_run else ")")
+        # "sin alucinación" sería over-claim: el gate solo descarta CONTRADICCIONES de
+        # hechos LISTADOS, no fabricación fuera de la lista (cross-model review s32, #1).
+        verdict = f"PASS (completitud core {p}/{n}" + (", sin contradicción con hechos listados)" if factual_run else ")")
     elif p > 0:
         verdict = f"PARCIAL (completitud core {p}/{n})"
     else:
         verdict = f"FALLO (completitud core 0/{n})"
+
+    # Honestidad del veredicto (cross-model review s32, #2/#4): NO ocultar bajo un "p/n"
+    # limpio los core SIN puntuar (manual) ni la dependencia de prosa frágil.
+    if expected not in ("admit", "clarify") and not contradictions and not factual_error:
+        notes = []
+        if core_manual:
+            notes.append(f"{len(core_manual)} core SIN puntuar (manual)")
+        prose_hits = sum(1 for r in present_core if r["method"] == "prose")
+        if prose_hits:
+            notes.append(f"{prose_hits}/{p} presentes por prosa (frágil)")
+        if notes:
+            verdict += "  [" + "; ".join(notes) + "]"
 
     if not factual_run:
         verdict += "  [PROVISIONAL: eje factual no evaluado — usa --llm]"
