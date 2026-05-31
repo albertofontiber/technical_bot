@@ -722,6 +722,358 @@ HP002_PROV = {
     },
 }
 
+# --- hp004: Detnov DGD-600 (detector de gas) — tension de funcionamiento y consumo en reposo. clarify.
+# VERIFICADO s33 (Fase 1 / Tier B): datasheet 55360004 (2 pags, ES/EN/FR/IT). Tabla "Especificaciones
+# detector" con DOS columnas (24V / 220V) -> la pregunta no fija la version y los valores difieren ->
+# clarify (D6, confianza media: candidatos acotados 24V/220V). Render p1 (Claude multimodal) + texto
+# extraido identico en los 4 idiomas (corroboracion cruzada). Sin offset.
+HP004_FACTS = [
+    {
+        "texto": ("El DGD-600 existe en DOS versiones de alimentacion (24V y 220V) con especificaciones "
+                  "electricas distintas; la pregunta no indica cual -> ofrecer ambas y pedir aclaracion"),
+        "tipo": "core", "estado": "presente", "valor": "24V y 220V", "cita": "p1 (Especificaciones detector)",
+    },
+    {
+        "texto": ("Version 24V: tension de funcionamiento de 22V a 38V; consumo en reposo 45 mA "
+                  "(consumo en alarma 65 mA)"),
+        "tipo": "core", "estado": "presente", "valor": "22V a 38V", "cita": "p1",
+    },
+    {
+        "texto": ("Version 220V: tension de funcionamiento de 180V a 240V; consumo en reposo 70 mA "
+                  "(consumo en alarma 70 mA)"),
+        "tipo": "core", "estado": "presente", "valor": "180V a 240V", "cita": "p1",
+    },
+]
+HP004_PROV = {
+    "estado": "verificado",
+    "metodo": "render_pdf + extraccion multi-idioma",
+    "fuente": "55360004 Manual Detector Gas DGD-600 ES EN IT FR.pdf",
+    "paginas": [1],
+    "verificado_por": [
+        "Claude (lectura multimodal de la tabla 'Especificaciones detector' p1 renderizada)",
+        "texto extraido identico en ES/EN/FR/IT (corroboracion cruzada de los valores)",
+    ],
+    "acuerdo": ("la tabla tiene dos columnas 24V/220V; 24V = 22-38V / 45 mA reposo; 220V = 180-240V / "
+                "70 mA reposo; identico en los 4 idiomas"),
+    "fecha": "2026-05-31",
+    "nota": ("Datasheet digital-native (2 pags), tabla de dos columnas legible; sin offset. CONDUCTA "
+             "clarify (migrada de ask_clarification): la pregunta no especifica la version y los valores "
+             "difieren entre 24V y 220V -> D6 espectro de confianza media -> ofrecer ambos candidatos "
+             "acotados (24V/220V) y pedir aclaracion. El gold ya surfacea ambos + pregunta."),
+    "localizacion": {
+        "manuales_buscados": ["55360004 Manual Detector Gas DGD-600 ES EN IT FR.pdf"],
+        "terminos": ["Tension de funcionamiento", "Consumo en reposo", "24V", "220V", "45 mA", "70 mA"],
+        "paginas": [1],
+        "corpus_chunks_v2": "4 chunks del datasheet (servable)",
+        "nota": "tabla de specs en p1 (sin offset, datasheet 2 pags).",
+    },
+}
+
+# --- hp015: Detnov CCD-103 — desactivar un detector individual sin afectar al lazo. answer (corregida
+# de admit). VERIFICADO s33 (Fase 1 / Tier B): la CCD-103 es una central CONVENCIONAL (f7 = impresa 5),
+# por lo que NO existe direccionamiento/desactivacion individual de detectores; la desconexion es por
+# ZONA (2 pulsaciones de la tecla de zona, f30 = impresa 28). Render f7 + f30 (Claude multimodal). El
+# corpus SI cubre la respuesta correcta -> el bot debe RESPONDER corrigiendo la premisa, no admitir.
+HP015_ANSWER = (
+    "En la central Detnov CCD-103 NO es posible desactivar un detector de forma individual: al ser una "
+    "central CONVENCIONAL (3 zonas de deteccion + 1 de extincion), no direcciona los detectores uno a uno. "
+    "La desconexion/anulacion se realiza por ZONA completa: con la llave en posicion ON, pulsando 2 veces "
+    "la tecla de la zona correspondiente, la zona queda desconectada (se enciende el indicador 'Anular' y "
+    "el LED de fallo/anular/prueba de esa zona). Al desconectar la zona se anulan TODOS sus detectores "
+    "(maximo 32 por zona), no uno solo.\n\n"
+    "Si necesita actuar sobre un detector concreto, debe hacerse en la instalacion a traves del "
+    "instalador/servicio tecnico; tenga en cuenta que cada zona se supervisa con una resistencia de fin de "
+    "linea de 4K7, por lo que cualquier intervencion fisica en la zona afecta a esa supervision. El manual "
+    "de la CCD-103 no contempla la desactivacion individual de detectores desde la central."
+)
+HP015_FACTS = [
+    {
+        "texto": ("La CCD-103 es una central CONVENCIONAL (3 zonas de deteccion + 1 de extincion); no "
+                  "direcciona equipos individualmente, por lo que NO existe desactivar un detector "
+                  "concreto desde la central"),
+        "tipo": "core", "estado": "presente", "valor": "convencional", "cita": "p5 (f7) 1.1",
+    },
+    {
+        "texto": ("La desconexion se hace por ZONA completa: con la llave en posicion ON, pulsar 2 veces "
+                  "la tecla de la zona -> 'Zona desconectada' (se enciende el indicador Anular y el LED de "
+                  "fallo/anular/prueba de esa zona)"),
+        "tipo": "core", "estado": "presente", "valor": "2 veces la tecla de zona", "cita": "p28 (f30) 6.4.4",
+    },
+    {
+        "texto": ("Cada zona admite como maximo 32 detectores/pulsadores; al desconectar la zona se "
+                  "desactivan TODOS sus detectores (no se puede aislar uno solo desde la central)"),
+        "tipo": "core", "estado": "presente", "valor": "32", "cita": "p13 (f15)",
+    },
+    {
+        "texto": ("El manual no contempla desactivar un detector individual desde la central; cualquier "
+                  "actuacion sobre un detector concreto se hace en la instalacion (via instalador) y afecta "
+                  "a la supervision de la zona, que usa una resistencia de fin de linea de 4K7"),
+        "tipo": "supplementary", "estado": "presente", "valor": "4K7", "cita": "p13-14 (f15-16)",
+    },
+    {
+        "texto": ("En modo desconexion la central no refleja eventos de la zona anulada -> conviene "
+                  "limitar el uso de esta maniobra"),
+        "tipo": "supplementary", "estado": "presente", "valor": "modo desconexion", "cita": "p28 (f30)",
+    },
+]
+HP015_PROV = {
+    "estado": "verificado",
+    "metodo": "render_pdf",
+    "fuente": "CCD-103_Manual_ES_FR_GB_IT.pdf",
+    "paginas_impresas": [5, 13, 28],
+    "paginas_fisicas": [7, 15, 30],
+    "verificado_por": [
+        "Claude (lectura multimodal de f7 'central convencional de 3 zonas' + f30 'desconexion por zona, "
+        "2 pulsaciones de la tecla de zona')",
+    ],
+    "acuerdo": ("render confirma: central CONVENCIONAL (f7); desconexion por ZONA via 2 pulsaciones de la "
+                "tecla de zona (f30); 4K7 EOL por zona/salidas (f15-16/f19)"),
+    "fecha": "2026-05-31",
+    "nota": ("Manual multilingue ES/FR/GB/IT; offset impresa+2 = fisica (impresa 28 = fisica 30). PDF "
+             "digital-native (texto extraido = render). CONDUCTA CORREGIDA admit_no_info -> answer: la "
+             "pregunta asume una funcion (desactivar UN detector) que NO existe en una central "
+             "convencional; el corpus SI cubre la respuesta correcta (desconexion por zona + aislamiento "
+             "fisico) -> el bot debe RESPONDER corrigiendo la premisa, no admitir. Mismo patron que hp017."),
+    "localizacion": {
+        "manuales_buscados": ["CCD-103_Manual_ES_FR_GB_IT.pdf"],
+        "terminos": ["convencional", "desconectar zona", "2 veces la tecla de zona", "32 detectores", "4K7"],
+        "paginas_fisicas": [7, 15, 16, 30],
+        "corpus_chunks_v2": "109 chunks del manual (servable)",
+        "nota": "offset impresa+2 = fisica. Desconexion por zona en f30; 4K7 EOL en f15-16/f19.",
+    },
+}
+
+# --- hp013: Detnov/Securiton ADW 535 — cambiar la bateria tampon sin perder configuracion. answer
+# (parcial, corregida de admit). VERIFICADO s33 (Fase 1 / Tier B): doc T 140 358 (digital-native limpio,
+# sin offset; impresa 'NNN/119' = fisica). Render f68 (Fig.31: 'Bateria de litio' en el Main Board LMB 35)
+# + f103 (9.4 Sustitucion de componentes: solo placas LMB/LEB/LSU, sin procedimiento de bateria). El ADW
+# no tiene bateria standby propia (alimentacion externa +9..30 VCC); la config va en EEPROM (no volatil).
+HP013_FACTS = [
+    {
+        "texto": ("La configuracion especifica del sistema se almacena en una EEPROM (memoria NO volatil); "
+                  "el firmware en Flash PROM -> la configuracion se CONSERVA aunque se cambie la bateria"),
+        "tipo": "core", "estado": "presente", "valor": "EEPROM", "cita": "p14 (1.7/2.2.2)",
+    },
+    {
+        "texto": ("El ADW 535 se alimenta externamente (borne PWR +9 a +30 V-CC) con una entrada de "
+                  "alimentacion REDUNDANTE PWR-R; el respaldo es esa alimentacion redundante, NO una bateria "
+                  "tampon a bordo. La unica bateria es de LITIO, en la placa LMB 35, para el reloj RTC"),
+        "tipo": "core", "estado": "presente", "valor": "PWR-R", "cita": "p12 (glosario) / p29 / p56",
+    },
+    {
+        "texto": ("El manual NO documenta un procedimiento de sustitucion de la bateria de litio del reloj; "
+                  "el cap. 9.4 solo cubre la sustitucion de PLACAS (LSU/LMB/LEB). Para una sustitucion "
+                  "aislada de la bateria, consultar al fabricante (Securiton)"),
+        "tipo": "core", "estado": "ausente-probado", "valor": None, "cita": "p103-104 (9.4: solo placas)",
+    },
+    {
+        "texto": ("Solo el reloj RTC (fecha/hora) depende de la bateria de litio ('Fallo bateria de litio / "
+                  "reloj'); tras el cambio habria que reajustar el reloj, no la configuracion"),
+        "tipo": "supplementary", "estado": "presente", "valor": "reloj RTC", "cita": "p70 / p24",
+    },
+    {
+        "texto": ("Tras sustituir el LMB 35 es obligatorio un nuevo reset inicial (cap. 7.3.5) y una "
+                  "verificacion de la transmision de alarmas (cap. 7.7.1)"),
+        "tipo": "supplementary", "estado": "presente", "valor": "reset inicial", "cita": "p104",
+    },
+]
+HP013_PROV = {
+    "estado": "verificado",
+    "metodo": "render_pdf",
+    "fuente": "ADW535_TD_T140358es_e.pdf (Securiton; Detnov = marca OEM/distribuidor)",
+    "paginas": [68, 103, 104, 29],
+    "verificado_por": [
+        "Claude (lectura multimodal de f68 Fig.31 'Bateria de litio' en el LMB 35 + f103 '9.4 Sustitucion "
+        "de componentes' = solo placas, sin procedimiento de bateria)",
+    ],
+    "acuerdo": ("render confirma: la bateria de litio esta en el Main Board LMB 35 (Fig.31, f68); el cap. "
+                "9.4 documenta sustitucion de PLACAS (LSU/LMB/LEB), no de la bateria; config en EEPROM"),
+    "fecha": "2026-05-31",
+    "nota": ("Doc digital-native limpio (texto extraido = render); sin offset (impresa 'NNN/119' = fisica). "
+             "CONDUCTA CORREGIDA admit_no_info -> answer (parcial, como hp014): la premisa 'bateria tampon' "
+             "es inexacta (no hay bateria standby; si una bateria de litio en placa para el RTC). El corpus "
+             "SI responde lo sustantivo (config en EEPROM se conserva; bateria soldada en el LMB 35 -> se "
+             "sustituye la placa 9.4.2; NO hay procedimiento autonomo de bateria = ausente-probado). El bot "
+             "debe RESPONDER con esto, no admitir. Securiton OEM (Detnov distribuye)."),
+    "localizacion": {
+        "manuales_buscados": ["ADW535_TD_T140358es_e.pdf", "ADW 535-1 ATEX_TD_003 007_en_a.pdf"],
+        "terminos": ["bateria de litio", "EEPROM", "Sustitucion de componentes 9.4", "LMB 35", "reset inicial"],
+        "paginas": [14, 29, 68, 103, 104],
+        "corpus_chunks_v2": "201 chunks (ADW535_TD) + 16 (ATEX en) (servable)",
+        "nota": "sin offset (impresa NNN/119 = fisica). 9.4 cubre sustitucion de PLACAS, no de la bateria.",
+    },
+}
+
+# --- hp006: Notifier AFP-400 — aviso 'Tierra' (Earth Fault): que significa y como se localiza. answer
+# (parcial, corregida de admit) + LIMPIEZA de cruft (gold_answer malformado de s27). VERIFICADO s33
+# (Fase 1 / Tier B): el corpus SI cubre el fallo de tierra en manuales que el autor NO consulto —
+# MIDT170 (instalacion AFP-400, 58 chunks): MPS-400 con LED 'Fallo de Tierra' + TB1-3 + JP2 (f54) y tabla
+# de averia del lazo con 'Tierra' + aisladores ISO-X (f71). El autor s27 solo uso MADT380_01 (hoja NAM-232)
+# + 50253SP (PSU). Solo el procedimiento de localizacion paso-a-paso es ausente-probado (MFDT170, el
+# manual de funcionamiento, no menciona 'Tierra'). Render f54 + f71 (Claude multimodal). Patron hp017.
+HP006_ANSWER = (
+    "En la AFP-400 el aviso 'Tierra' (Earth Fault) corresponde a un fallo de aislamiento a tierra: algun "
+    "conductor de un circuito (lazo, zona, salidas o alimentacion) hace contacto con masa/tierra, y la "
+    "central lo senaliza como averia del sistema.\n\n"
+    "Lo que documentan los manuales disponibles:\n"
+    "- La fuente MPS-400 dispone de deteccion de fallo de tierra: LED dedicado 'Fallo de Tierra', terminal "
+    "de toma de tierra TB1-3 y puente JP2 para inhabilitar la deteccion. Es imprescindible conectar TB1-3 a "
+    "una toma de tierra solida (p.ej. tuberia metalica de agua fria) para la inmunidad del panel "
+    "(MIDT170 / 50253SP).\n"
+    "- En el lazo de comunicaciones (SLC), 'Tierra' es una de las condiciones de averia que la central "
+    "reconoce y muestra (tabla de Funcionamiento del Lazo, Estilos 4/6/7) (MIDT170).\n"
+    "- En red, la deteccion de fallo de tierra por canal A/B se habilita/inhabilita con los conmutadores "
+    "SW2/SW3 del modulo NAM-232W (MADT380_01).\n"
+    "- Para acotar un fallo en el lazo se emplean los modulos aisladores ISO-X, que aislan la rama en "
+    "averia del resto del lazo (MIDT170).\n\n"
+    "Para localizar el punto exacto del fallo: los manuales disponibles NO incluyen un procedimiento "
+    "paso a paso (el manual de funcionamiento MFDT170 no detalla este aviso). El metodo general consiste "
+    "en aislar/desconectar circuitos progresivamente -en el lazo, mediante los aisladores ISO-X- hasta que "
+    "desaparece el aviso; para el procedimiento detallado, consultar al servicio tecnico de Notifier."
+)
+HP006_FACTS = [
+    {
+        "texto": ("La fuente MPS-400 de la AFP-400 dispone de deteccion de fallo de tierra: LED dedicado "
+                  "'Fallo de Tierra' (MIDT170) + terminal TB1-1 'Falla de Tierra' / TB1-3 toma de tierra; el "
+                  "puente JP2 'Corte para inhabilitar la deteccion de la Falla de Tierra' (50253SP 2-44)"),
+        "tipo": "core", "estado": "presente", "valor": "Fallo de Tierra", "cita": "MIDT170 f54 + 50253SP 2-44 (f80)",
+    },
+    {
+        "texto": ("En el lazo de comunicaciones (SLC) 'Tierra' es una de las condiciones de averia que la "
+                  "central reconoce y senaliza (tabla 'Funcionamiento del Lazo', Estilos 4/6/7)"),
+        "tipo": "core", "estado": "presente", "valor": "Tierra", "cita": "MIDT170 p63 (f71)",
+    },
+    {
+        "texto": ("Para acotar un fallo en el lazo se usan los modulos aisladores ISO-X, que aislan la rama "
+                  "en averia del resto del lazo (requeridos para Estilo 7 segun NFPA)"),
+        "tipo": "core", "estado": "presente", "valor": "ISO-X", "cita": "MIDT170 p63 (f71)",
+    },
+    {
+        "texto": ("Es imprescindible conectar el terminal de toma de tierra (MPS-400 TB1-3) a una toma de "
+                  "tierra solida para mantener la inmunidad del panel"),
+        "tipo": "supplementary", "estado": "presente", "valor": "TB1-3", "cita": "50253SP / MIDT170 (f54)",
+    },
+    {
+        "texto": ("En red, la deteccion de fallo de tierra por canal A/B se habilita o inhabilita con los "
+                  "conmutadores SW2/SW3 del modulo NAM-232W"),
+        "tipo": "supplementary", "estado": "presente", "valor": "SW2/SW3", "cita": "MADT380_01 p1",
+    },
+    {
+        "texto": ("Los manuales disponibles NO incluyen un procedimiento paso a paso para localizar el "
+                  "punto exacto del fallo de tierra (el manual de funcionamiento MFDT170 no menciona el "
+                  "aviso 'Tierra')"),
+        "tipo": "core", "estado": "ausente-probado", "valor": None, "cita": "MFDT170 (0 menciones de 'Tierra')",
+    },
+]
+HP006_PROV = {
+    "estado": "verificado",
+    "metodo": "render_pdf + pdf_grep + corpus_check",
+    "fuente": "MIDT170.pdf (instalacion AFP-400) + 50253SP.pdf (MPS-400) + MADT380_01.pdf (NAM-232W)",
+    "paginas": [54, 71],
+    "verificado_por": [
+        "Claude (multimodal de MIDT170 f54 'Fallo de Tierra' de la MPS-400 + f71 tabla de averia del "
+        "lazo / aisladores ISO-X)",
+        "pdf_grep MFDT170 (manual de funcionamiento) = 0 menciones de 'Tierra' -> sin narrativa de "
+        "interpretacion/localizacion",
+        "pdf_grep 50253SP 2-44 (f80): confirma JP2 'Corte para inhabilitar la deteccion de la Falla de "
+        "Tierra' + pinout TB1 (TB1-1 Falla de Tierra) -> claim del gold s27 VERIFICADO contra la fuente "
+        "(un revisor lo marco como no-probado por mirar solo MIDT170; rule C)",
+    ],
+    "acuerdo": ("render confirma: MPS-400 con LED 'Fallo de Tierra' + TB1-3 + JP2 (f54); 'Tierra' como "
+                "condicion de averia del lazo (f71) + aisladores ISO-X; sin procedimiento de localizacion "
+                "paso-a-paso en los manuales"),
+    "fecha": "2026-05-31",
+    "nota": ("MIDT170 OFFSET +8 (impresa = fisica - 8; pie 'MI-DT-170c 46'/'63' en f54/f71). Digital-native. "
+             "CONDUCTA CORREGIDA admit_no_info -> answer (parcial) + LIMPIEZA: el gold_answer de s27 venia "
+             "malformado (JSON-en-string truncado por un parse error); raw/_needs_human_review/_review_note "
+             "eliminados. El corpus SI cubre el fallo de tierra (deteccion MPS-400, condicion de averia del "
+             "lazo, aisladores ISO-X) en MIDT170, que el autor NO consulto; solo el walk-down de "
+             "localizacion es ausente-probado. Mismo patron que hp017 (subset de PDFs demasiado estrecho)."),
+    "localizacion": {
+        "manuales_buscados": ["MADT380_01 (NAM-232W)", "50253SP (MPS-400)", "MIDT170 (instalacion)",
+                              "MFDT170 (funcionamiento)", "MPDT170 (programacion)", "MADT170/171 (AFP-300)"],
+        "terminos": ["tierra", "fallo de tierra", "Earth Fault", "JP2", "TB1", "ISO-X", "localiz", "averia"],
+        "paginas": [54, 71],
+        "corpus_chunks_v2": ("AFP-400/300 en chunks_v2: MIDT170(58), MFDT170(14), MPDT170(10), 50253SP(290), "
+                             "MADT170/171/231/232/236, MADT380_01(3) -> tema cubierto, servable"),
+        "nota": ("offset MIDT170 +8 (impresa = fisica - 8). El gold s27 solo uso MADT380_01 + 50253SP; "
+                 "MIDT170 (instalacion) cubre la deteccion + tabla de averia del lazo + ISO-X."),
+    },
+}
+
+# --- hp009: Morley ZXe — resistencia de fin de linea (RFL) para los lazos. answer (corregida de admit).
+# VERIFICADO s33 (Fase 1 / Tier B): el lazo analogico direccionable de la ZXe NO lleva RFL — se cablea
+# como BUCLE CERRADO (LAZO+/- de salida y RETORNO LAZO+/- de vuelta), con aisladores de cortocircuito.
+# Evidencia POSITIVA en MIE-MI-310 (digital-native) Fig 11/12 (f16) y Fig 13 (f17): cableado de lazo SIN
+# RFL. La RFL es concepto de circuitos convencionales, no del lazo direccionable -> el bot debe RESPONDER
+# corrigiendo la premisa, no admitir. (MIE-MI-300rv02 es scan: grep invalido; uso MIE-MI-310 digital.)
+HP009_ANSWER = (
+    "El lazo analogico direccionable de la central Morley ZXe/ZXSe NO lleva resistencia de fin de linea "
+    "(RFL). El lazo se cablea como un BUCLE CERRADO: los terminales de salida (LAZO+ / LAZO-) salen de la "
+    "central, recorren los equipos direccionables y vuelven a la central por los terminales de RETORNO DE "
+    "LAZO (+/-); la malla se conecta al conector central del lazo (manual de instalacion MIE-MI-310, "
+    "Figuras 11 y 12). Se recomienda intercalar aisladores de cortocircuito cada ~20 equipos para que un "
+    "corto o un circuito abierto no deje sin comunicacion a todo el lazo (Figura 13).\n\n"
+    "La 'resistencia de fin de linea' (RFL/EOL) es un concepto de los circuitos CONVENCIONALES supervisados "
+    "(zonas convencionales, salidas de sirena monitorizadas), no del lazo direccionable. Por eso ningun "
+    "manual de la ZXe especifica una RFL para el lazo: el lazo no la usa. Si la pregunta se referia a una "
+    "salida de sirena convencional o a una entrada supervisada de la ZXe, conviene consultar esa seccion "
+    "concreta del manual."
+)
+HP009_FACTS = [
+    {
+        "texto": ("El lazo analogico direccionable de la ZXe se cablea como BUCLE CERRADO: salida LAZO+/- y "
+                  "vuelta por RETORNO LAZO+/- a la central; NO se cierra con una resistencia de fin de linea"),
+        "tipo": "core", "estado": "presente", "valor": "RETORNO LAZO", "cita": "MIE-MI-310 p15-16 (Fig 11/12)",
+    },
+    {
+        "texto": ("Los terminales del lazo incluyen entrada y salida (con + y - en cada uno) y malla; la "
+                  "malla se conecta en el conector central del lazo correspondiente"),
+        "tipo": "core", "estado": "presente", "valor": "malla", "cita": "MIE-MI-310 p15 (3.3.4.1)",
+    },
+    {
+        "texto": ("Se recomienda instalar aisladores de cortocircuito cada ~20 equipos para limitar la "
+                  "perdida de comunicacion por corto/abierto del lazo (proteccion del bucle, no una RFL)"),
+        "tipo": "supplementary", "estado": "presente", "valor": "20 equipos", "cita": "MIE-MI-310 p16 (Fig 13)",
+    },
+    {
+        "texto": ("Ningun manual de la ZXe especifica un valor de resistencia de fin de linea para el LAZO "
+                  "direccionable, porque el lazo es un bucle cerrado y no la usa (la RFL pertenece a los "
+                  "circuitos convencionales supervisados)"),
+        "tipo": "core", "estado": "ausente-probado", "valor": None, "cita": "MIE-MI-310 Fig 11/12/13 + busqueda exhaustiva",
+    },
+]
+HP009_PROV = {
+    "estado": "verificado",
+    "metodo": "render_pdf",
+    "fuente": "MIE-MI-310.pdf (Manual de Instalacion ZXAE/ZXEE)",
+    "paginas_impresas": [15, 16],
+    "paginas_fisicas": [16, 17],
+    "verificado_por": [
+        "Claude (multimodal de f16 'Conexionado del lazo' Fig 11/12 + f17 Fig 13 aisladores de linea) -> "
+        "lazo cableado como bucle cerrado SIN resistencia de fin de linea",
+    ],
+    "acuerdo": ("render confirma: lazo direccionable = bucle cerrado (LAZO+/- y RETORNO LAZO+/-), malla al "
+                "conector central, aisladores cada ~20 equipos; NO hay resistencia de fin de linea en el lazo"),
+    "fecha": "2026-05-31",
+    "nota": ("MIE-MI-310 digital-native, offset impresa+1 = fisica (pie 'Pag.15' en f16). CONDUCTA CORREGIDA "
+             "admit_no_info -> answer (premisa): el gold s27 leyo 'no aparece valor EOL' como admit, pero la "
+             "ausencia es estructural (el lazo direccionable no usa RFL) y el manual SI muestra el cableado "
+             "del lazo (Fig 11/12/13, sin RFL) = evidencia POSITIVA. MIE-MI-300rv02 es un scan (grep "
+             "invalido: 1 hit en 107 pp); por eso la verificacion se ancla en MIE-MI-310 (digital-native)."),
+    "localizacion": {
+        "manuales_buscados": ["MIE-MI-300rv02 (SCAN: grep invalido)", "MIE-MI-310 (digital)", "MIE-MP-310",
+                              "MIE-MU-310", "MIE-MI-320/330/340/390"],
+        "terminos": ["fin de linea", "final de linea", "RFL", "EOL", "4K7", "resistencia", "LAZO",
+                     "RETORNO LAZO", "aisladores", "bucle"],
+        "paginas_fisicas": [16, 17],
+        "corpus_chunks_v2": ("9 manuales ZXe en chunks_v2: MIE-MI-300(126), MP-310(75), MI-310(42), "
+                             "MU-310(31), MP-315(9), MI-320(8), MI-390(4), MI-330(3), MI-340(2)"),
+        "nota": ("evidencia POSITIVA de bucle cerrado SIN RFL en Fig 11/12/13 (f16-17); grep de RFL/EOL = 0 "
+                 "en los 6 MIE-MI-3xx (caveat: MIE-MI-300 es scan). offset MIE-MI-310 +1."),
+    },
+}
+
 # qid -> {facts, [provenance], [conducta]}. provenance presente = el gold se VERIFICA aquí.
 RECORDS = {
     "hp011": {"facts": HP011_FACTS},
@@ -735,6 +1087,16 @@ RECORDS = {
     "hp010": {"facts": HP010_FACTS, "conducta": "answer", "provenance": HP010_PROV},
     "hp014": {"facts": HP014_FACTS, "conducta": "answer", "provenance": HP014_PROV},
     "hp002": {"facts": HP002_FACTS, "conducta": "answer", "provenance": HP002_PROV},
+    # Tier B (s33): conducta corregida de admit/ask_clarification. hp015/hp013 = answer corregida
+    # (el corpus SI cubre, desde manuales que el autor s27 no consulto — patron hp017); hp004 = clarify.
+    "hp004": {"facts": HP004_FACTS, "conducta": "clarify", "provenance": HP004_PROV},
+    "hp015": {"facts": HP015_FACTS, "conducta": "answer", "provenance": HP015_PROV,
+              "gold_answer": HP015_ANSWER},
+    "hp013": {"facts": HP013_FACTS, "conducta": "answer", "provenance": HP013_PROV},
+    "hp006": {"facts": HP006_FACTS, "conducta": "answer", "provenance": HP006_PROV,
+              "gold_answer": HP006_ANSWER, "drop": ["raw", "_needs_human_review", "_review_note"]},
+    "hp009": {"facts": HP009_FACTS, "conducta": "answer", "provenance": HP009_PROV,
+              "gold_answer": HP009_ANSWER, "drop": ["notes"]},
 }
 
 
@@ -756,6 +1118,10 @@ def main() -> int:
             g["_provenance"] = rec["provenance"]  # acto de verificación (marca verificado)
         if rec.get("conducta"):
             g["conducta_esperada"] = rec["conducta"]
+        if rec.get("gold_answer"):
+            g["gold_answer"] = rec["gold_answer"]  # reescritura (p.ej. hp006: gold_answer malformado)
+        for campo in rec.get("drop", []):
+            g.pop(campo, None)  # limpieza de cruft (raw/_needs_human_review/_review_note)
         if gold_store._estado(g) != "verificado":
             print(f"[ERROR] {qid} no verificado y el record no aporta _provenance verificado "
                   "— no se autoran hechos sobre un gold sin verificar")

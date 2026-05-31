@@ -1293,7 +1293,9 @@ Demostrado en la rebanada vertical (hp007/hp011/hp017): hp011→FALLO (caza la a
 **Refinamientos pendientes (no bloquean Fase 1, pero antes de fiarse del scorer como árbitro firme):**
 1. **Completitud de PROSA es débil** (eje mecánico): sinónimos (`trimestral`≠"cada 3 meses"), `valor` compartido no distintivo (hp007: las 4 tareas anuales comparten "una vez al año" → indistinguibles), códigos 7-seg cortos (`r.1`). → la misma capa LLM del eje factual puede cubrir la completitud de prosa.
 2. **`valor` debe ser el IDENTIFICADOR DISTINTIVO del hecho, no una frecuencia/etiqueta compartida.** Re-autorar hp007 (valor=tarea, no "una vez al año"). Fijar como regla de autoría.
-3. **Conducta** es heurística → endurecer cuando haya golds de conducta (admit/clarify).
+3. **Conducta** es heurística → endurecer ahora que Tier B (s33) aporta **5 golds de conducta
+   verificados** (hp004 clarify; hp006/09/13/15 answer/answer-parcial, con hechos `ausente-probado`)
+   para testear los ejes answer/clarify y la asimetría parcial (present + ausente-probado).
 4. **Recall del gate factual sin caracterizar a escala**: n=9 a mano (perturbaciones quizá más fáciles que alucinaciones sutiles reales) → crecer el fixture con casos reales/difíciles.
 5. Bug **C1** (substring de anchors, `'40' in '240'`) corregido EN el scorer; frontera **refinada en s32 Tier-A a DÍGITO** (no de palabra): casa `'24'` en `'24V'`/`'24 °C'` pero NO en `'240'` (la de palabra fallaba "24V"; lo cazó hp003 ">24V"). `chunk_has_quote_strict` (PR#15, en strict_match) conserva el `in` crudo → re-tocarlo exige re-validar el eval de recall (live stack). Pendiente al revisar el matcher de recall.
 

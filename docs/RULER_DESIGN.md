@@ -149,6 +149,15 @@ Para testearlo de verdad hace falta un test **ciego** (pregunta nueva, o ignorar
 gold). El slice valida sobre todo el esquema + hechos atómicos + scorer; el localizador necesita
 su propio test ciego.
 
+**Regla de scans / texto no extraíble (s33, Tier B hp009)**: si un manual devuelve casi-cero hits
+de grep (p.ej. MIE-MI-300rv02: 1 hit en 107 pp), el grep es **INVÁLIDO** para ese doc — NO es
+evidencia de ausencia (es la trampa OCR de D4 a escala de documento). Regla: anclar en **evidencia
+POSITIVA del render** (otro manual digital-native del mismo producto, o el propio diagrama que
+muestra la ausencia estructural — hp009: Fig 11/12/13 de MIE-MI-310 prueban que el lazo es bucle
+cerrado sin RFL); si no hay evidencia positiva → `needs_human`. NO concluir "ausente" desde un grep
+ciego al scan. Corolario para 30+ fabricantes: registrar la cobertura por-manual + si el doc es
+digital/scan en `_provenance.localizacion`.
+
 **Dos ejes de verificación separados**: el cross-model valida **LEER**; la búsqueda
 exhaustiva valida **ENCONTRAR**. El primero no cubre al segundo.
 
@@ -191,17 +200,27 @@ el fixture de recall. Ver TECH_DEBT #35.
 
 Estado al crear el doc (s31): Fases previas ya hechas esa sesión (3 herramientas, gate de
 cuarentena, 3 golds verificados pendientes de retrofit a hechos atómicos, normas).
-**Estado actual (s33): 12/19 verificados** (Tier A completo) — ver Fase 1 abajo.
+**Estado actual (s33): 17/19 verificados** (Tier A + Tier B completos) — ver Fase 1 abajo.
 
 - **Fase 0** — gold_store.py + **localizador exhaustivo** + esquema v2 + validación en
   CI + este doc. *(tareas #7, #9)*
 - **Fase 1** — verificar/reparar los 19 al estándar nuevo (incl. auditar la pregunta).
-  **TIER A COMPLETO (s33): 12/19 verificados** (hp001/02/03/05/07/08/10/11/14/17/19/20),
-  cada uno render + cross-model GPT-5.5 + hechos atómicos + `_provenance`. Hallazgo: ningún
-  error factual del gold en los answer-de-spec (los fallos de s30 eran conducta y conflicto/OCR);
-  el cross-model cazó un misread MÍO (hp008); offsets impresa↔física dispares (MIDT190 +7,
-  MIDT180 +4, MI-372 +2, resto 0) → "localizar SIEMPRE" validado. Pendiente: Tier B = conducta
-  admit/clarify (hp004/06/09/13/15, + hp006 limpiar cruft) + Tier C = conflicto/OCR diferido a
+  **TIER A + TIER B COMPLETOS (s33): 17/19 verificados.** Tier A (12, answer-de-spec):
+  hp001/02/03/05/07/08/10/11/14/17/19/20. Tier B (5, conducta): hp004/06/09/13/15. Cada uno
+  render + (cross-model donde aplica) + hechos atómicos + `_provenance`.
+  **HALLAZGO TIER B: los 4 "admit" estaban MAL → answer/answer-parcial** (hp004 era ya clarify:
+  migración de vocab ask_clarification→clarify, NO un flip). hp015 (CCD-103 convencional →
+  desconexión por ZONA, no por detector individual) y hp009 (lazo direccionable ZXe = bucle cerrado
+  SIN resistencia de fin de línea; evidencia positiva en MIE-MI-310 Fig 11/12/13, MIE-MI-300 es scan)
+  corrigen una PREMISA falsa. hp013 (ADW535: config en EEPROM no volátil → se conserva; respaldo =
+  alimentación redundante PWR-R, no batería tampón; procedimiento de batería = ausente-probado) y
+  hp006 (AFP-400 'Tierra': la instalación MIDT170 SÍ cubre detección MPS-400 + tabla de avería del
+  lazo + aisladores ISO-X; el autor s27 solo usó la hoja NAM-232 + el PSU; gold_answer malformado
+  limpiado) = answer-parcial. **Raíz = over-admisión del gold s27 por subsets de PDF demasiado
+  estrechos** (idéntico a hp017) → infravaloró al bot en s28-30. Protocolo 3 (GPT-5.5 cross-model +
+  sub-agente Claude) cazó 3 over-claims propios (hp015 "puentear" no documentado; hp013 inferencia
+  placa-swap; "no batería tampón" poco anclado) → corregidos; 1 falso-positivo del revisor (hp006
+  JP2, VERIFICADO en 50253SP 2-44 por rule C). Pendiente: Tier C = conflicto/OCR diferido a
   técnico+PDF (hp012/018). *(tarea #4)*
 - **Fase 2** — scorer de hechos atómicos (3 ejes) + harness. **NÚCLEO HECHO (s32):**
   atomic_scorer (completitud mecánica + factual cross-model + conducta heurística),
