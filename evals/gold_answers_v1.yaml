@@ -584,6 +584,42 @@
     6. Estado de las zonas en alarma: verificar que los detectores o pulsadores que provocaron la activación han vuelto a estado normal.
 
     Procedimiento de rearme: desde nivel de acceso 2 (mediante la llave de desbloqueo), pulsar la tecla "Rearme".
+  atomic_facts:
+  - texto: 'Entrada ABORT (paro de emergencia): por defecto enclavada (latched); una vez activada requiere
+      rearme manual de la central para rehabilitar el proceso de extincion'
+    tipo: core
+    estado: presente
+    valor: ABORT
+    cita: p44
+  - texto: 'Parametro r.1 "Rearme inhibido tras extincion": "--"=inhibido hasta finalizar la extincion
+      o agotar t.A; "00"=rearme permitido en cualquier momento (POR DEFECTO); "01" a "30"=inhibido durante
+      ese intervalo en minutos'
+    tipo: core
+    estado: presente
+    valor: r.1
+    cita: p63
+  - texto: 'Parametro t.A "Duracion de la descarga" (soak time): variable de 05 a 295 seg en pasos de
+      5 s; "--"=circuito activado hasta el rearme de la central (POR DEFECTO)'
+    tipo: core
+    estado: presente
+    valor: 05 a 295 seg
+    cita: p56
+  - texto: 'Averias enclavadas: por defecto todas las averias son enclavadas y requieren rearme manual
+      de la central para su restablecimiento'
+    tipo: core
+    estado: presente
+    valor: enclavadas
+    cita: p53
+  - texto: 'Entrada Flow Press (senal de flujo): su activacion implica un rearme manual de la central'
+    tipo: supplementary
+    estado: presente
+    valor: flujo
+    cita: p45
+  - texto: 'Procedimiento de rearme: desde nivel de acceso 2 (llave de desbloqueo), pulsar la tecla "Rearme"'
+    tipo: supplementary
+    estado: presente
+    valor: null
+    cita: p44
   citations:
   - manual: HLSI-MN-103_RP1r-Supra_lr.pdf
     page: 44
@@ -830,6 +866,44 @@
     Adicionalmente: a nivel de equipo/zona existe el parámetro "Retardo de alarma" en la programación del lazo; y mediante programaciones horarias pueden imponerse retardos en la activación de las salidas durante periodos preestablecidos del día.
 
     Nota EN54: configurar retardos puede afectar al cumplimiento normativo (p. ej., retardos de confirmación de alarma en entradas que contravengan EN54-2); verifique los requisitos aplicables.
+  atomic_facts:
+  - texto: El retardo de las salidas se programa mediante PROGRAMACION CAUSA-EFECTO (reglas) en el Manual
+      de configuracion 997-671-005-3 (Apendice 5), NO con un parametro unico de "retardo de salida"
+    tipo: core
+    estado: presente
+    valor: causa-efecto
+    cita: 997-671-005-3 Ap.5
+  - texto: 'Una regla consta de una INSTRUCCION DE ENTRADA (condicion, p.ej. alarma en zona/lazo) y una
+      INSTRUCCION DE SALIDA (equipo a accionar: sirenas o reles)'
+    tipo: core
+    estado: presente
+    valor: instruccion de entrada
+    cita: p42
+  - texto: Acceder a la pantalla "Causa y Efecto" desde el menu "Editar Configuracion"; borrar la Regla
+      1 por defecto (CUALQUIER entrada de alarma activa TODOS los equipos de salida) si se va a hacer
+      una programacion especifica
+    tipo: core
+    estado: presente
+    valor: Editar Configuracion
+    cita: p43
+  - texto: Asignar a la regla uno de los SEIS tipos de retardo de salida (seccion A5.3 "Tipos de retardo"),
+      que determina el comportamiento del retardo y su control por teclas (SILENCIAR SIRENAS / SONIDO
+      ALARMAS)
+    tipo: core
+    estado: presente
+    valor: seis tipos de retardo
+    cita: p44 (A5.3)
+  - texto: A nivel de equipo/zona existe el parametro "Retardo de alarma" en la programacion del lazo;
+      el retardo de confirmacion de coincidencia puede ajustarse hasta 240 s (4 min)
+    tipo: supplementary
+    estado: presente
+    valor: 240 s
+    cita: p20
+  - texto: Maximo 512 reglas; en la columna "Lazo" un "0" significa TODOS
+    tipo: supplementary
+    estado: presente
+    valor: '512'
+    cita: p43
   citations:
   - manual: 997-671-005-3_Configuration_ES.pdf (Apéndice 5)
     page: 42
