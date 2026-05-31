@@ -17,6 +17,12 @@
 > **revisor adversarial** (`docs/ADVERSARIAL_REVIEWER.md` + CLAUDE.md Protocolo 3). El bot en
 > producción no cambia esta sesión.
 >
+> **Actualización s32 (31 may 2026 — Fase 2 del ruler):** construido el **scorer atómico**
+> (`scripts/atomic_scorer.py`, 3 ejes: completitud mecánica + factual cross-model GPT-5.5 +
+> conducta) que reemplaza al juez LLM opaco; el **gate de alucinación** queda caracterizado
+> (5/5 recall en `evals/factual_gate_fixture.yaml`). Sigue siendo eval-infra: **producción no
+> cambia**. Detalle: `TECH_DEBT.md` #35 + `RULER_DESIGN.md` §3-4.
+>
 > El bot sirve desde el **corpus re-ingestado `chunks_v2`** (SWAP hecho en Railway
 > vía `CHUNKS_TABLE=chunks_v2`). Cambios respecto a lo que describe el resto de
 > este doc (que documenta el pipeline histórico con el corpus viejo `chunks`):

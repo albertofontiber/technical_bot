@@ -170,6 +170,21 @@ Permitir **DESCARTAR** una pregunta mala (como hp016 en s27), no forzar su arreg
 - **Validación del scorer**: spot-check de sus veredictos vs juicio humano/cross-model
   en ~5 golds antes de fiarnos (como la calibración del juez s11/s15).
 
+**Estado de implementación (s32)** — `scripts/atomic_scorer.py` + `scripts/strict_match.py`
+(matcher PR#15 extraído, reusado) + `scripts/factual_gate_eval.py`/`evals/factual_gate_fixture.yaml`:
+- **Completitud** mecánica con el matcher estricto (frontera de no-palabra en anchors → corrige
+  el falso positivo substring `'40'∈'240'`). FUERTE en hechos con anchors (número≥2díg/código);
+  DÉBIL en prosa (sinónimos, `valor` compartido, códigos 7-seg) → la prosa irreducible al LLM.
+- **Factual** = check cross-model GPT-5.5 (`--llm`) acotado a los hechos: marca CONTRADICCIONES
+  (no omisiones ni info extra; carve-outs anti-s13), juzga por significado no por etiqueta.
+  Caracterizado: **5/5 recall + 4/4 especificidad** (fixture n=9 → indicativo, no exhaustivo).
+- **Conducta** heurística mínima (a endurecer con golds de conducta).
+- **Lección `valor`**: debe ser el IDENTIFICADOR DISTINTIVO del hecho, no una frecuencia/etiqueta
+  compartida (hp007: 4 tareas anuales con el mismo "una vez al año" = indistinguibles). Regla de autoría.
+Validado en la rebanada (hp007/11/17); el scorer transparente SUPERÓ al juez opaco en hp007 (que
+penalizaba por dato obsoleto). Pendiente: completitud de prosa por LLM, re-autorar hp007, crecer
+el fixture de recall. Ver TECH_DEBT #35.
+
 ---
 
 ## 4. Plan por fases
@@ -181,7 +196,10 @@ cuarentena, 3 golds verificados pendientes de retrofit a hechos atómicos, norma
   CI + este doc. *(tareas #7, #9)*
 - **Fase 1** — verificar/reparar los 19 al estándar nuevo (incl. auditar la pregunta).
   *(tarea #4)*
-- **Fase 2** — scorer de hechos atómicos (3 ejes) + harness. *(tarea #8)*
+- **Fase 2** — scorer de hechos atómicos (3 ejes) + harness. **NÚCLEO HECHO (s32):**
+  atomic_scorer (completitud mecánica + factual cross-model + conducta heurística),
+  strict_match extraído, gate factual caracterizado (5/5,4/4 n=9). Refinos pendientes
+  (completitud-prosa por LLM, re-autorar hp007 valor, conducta) → TECH_DEBT #35. *(tarea #8)*
 - **Fase 3** — crecer el ruler: estratificado (fabricante/tipo/modalidad) + sesgado a
   coloquial + modos de fallo + **preguntas reales de Alberto (#10)**. *(tarea #5)*
 - **Fase 4** — lever de generación: separar el prompt en bloques (GROUNDING_CORE +

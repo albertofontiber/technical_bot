@@ -1281,3 +1281,23 @@ El review adversarial del localizador del ruler (RULER_DESIGN §2) destapó, **a
 
 **Meta-lección (s31)**: el localizador se diseñó 3× sobre supuestos del corpus que el código contradecía; el revisor adversarial (Protocolo 3) los cazó leyendo el código → **leer el código real ANTES de diseñar**.
 
+## 35. Scorer atómico del ruler (Fase 2) — construido; refinamientos pendientes (sesión 32)
+
+`scripts/atomic_scorer.py` puntúa la respuesta del bot contra los hechos atómicos del gold, por hecho y transparente (reemplaza el juez LLM opaco). 3 ejes:
+- **completitud** (mecánico/determinista): reusa el matcher estricto de PR#15, extraído a `scripts/strict_match.py` (módulo leaf, solo stdlib, sin stack RAG; `retrieval_eval.py` lo importa, behavior-neutral).
+- **factual/alucinación** (cross-model GPT-5.5, opcional `--llm`): detecta CONTRADICCIONES de hechos verificados (NO omisiones ni info extra; carve-outs anti-s13; juzga por significado no por etiqueta) → cualquier contradicción = FALLO (asimetría de seguridad). Caracterizado con `evals/factual_gate_fixture.yaml` + `scripts/factual_gate_eval.py`: **5/5 recall, 4/4 especificidad** (n=9 a mano → indicativo).
+- **conducta**: heurístico mínimo (answer/admit/clarify).
+
+Demostrado en la rebanada vertical (hp007/hp011/hp017): hp011→FALLO (caza la alucinación "ri=00 inhibido" vs el hecho "r.1 00=permitido"); hp007/hp017→PARCIAL (sin falsos positivos). **El scorer transparente SUPERÓ al juez opaco en hp007** (el juez penalizaba por dato obsoleto).
+
+**Refinamientos pendientes (no bloquean Fase 1, pero antes de fiarse del scorer como árbitro firme):**
+1. **Completitud de PROSA es débil** (eje mecánico): sinónimos (`trimestral`≠"cada 3 meses"), `valor` compartido no distintivo (hp007: las 4 tareas anuales comparten "una vez al año" → indistinguibles), códigos 7-seg cortos (`r.1`). → la misma capa LLM del eje factual puede cubrir la completitud de prosa.
+2. **`valor` debe ser el IDENTIFICADOR DISTINTIVO del hecho, no una frecuencia/etiqueta compartida.** Re-autorar hp007 (valor=tarea, no "una vez al año"). Fijar como regla de autoría.
+3. **Conducta** es heurística → endurecer cuando haya golds de conducta (admit/clarify).
+4. **Recall del gate factual sin caracterizar a escala**: n=9 a mano (perturbaciones quizá más fáciles que alucinaciones sutiles reales) → crecer el fixture con casos reales/difíciles.
+5. Bug **C1** (substring de anchors, `'40' in '240'`) corregido EN el scorer (frontera de no-palabra); `chunk_has_quote_strict` (PR#15, en strict_match) conserva el `in` crudo → re-tocarlo exige re-validar el eval de recall (live stack). Pendiente al revisar el matcher de recall.
+
+**Proceso (s32)**: 2 reviews adversariales (Protocolo 3) cazaron C1 + 2 over-claims ("validado") + verificaron los 3 veredictos factuales contra ficheros → ROI sano (no ritual).
+
+**Trigger**: al escalar el scorer a más golds (Fase 1) o al fiarse de un veredicto como gate firme.
+
