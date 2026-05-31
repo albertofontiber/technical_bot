@@ -49,6 +49,18 @@ Cuando presentes la propuesta → incluye SIEMPRE, visible en el texto:
 La ausencia de (2) y (3) en una propuesta es la señal de que no hiciste el
 análisis. La visibilidad ES el control — no una auto-pregunta privada.
 
+## Protocolo 3 — Revisión adversarial antes de build/commit (medio/alto impacto)
+ANTES de cablear/commitear una decisión de impacto MEDIO o ALTO → lanza el revisor
+adversarial (spec: `docs/ADVERSARIAL_REVIEWER.md`). Es para no depender de Alberto como
+anti-bias (feedback_my_bias). Tiering: sub-agente Claude (lee código) siempre; y si es
+ALTO **o** MEDIO-en-zona-de-dolor (corpus/idiomas/legacy/retrieval/esquema), TAMBIÉN
+cross-model GPT-5.5 (`scripts/adversarial_review.py`) — el mismo-modelo comparte mis blind
+spots conceptuales. Reglas: **(C)** verifica sus claims fuertes contra el código antes de
+actuar (Protocolo 1 aplica a su output); **(F)** aumenta, no reemplaza — yo decido y soy
+responsable. Guardarraíl anti-ritual: tally de confirmados/falsos-positivos; si degrada a
+"siempre alineado" o a fabricar trivialidades → revisar/matar. NO es un `/propose` 2.0:
+debe producir bite concreto anclado en evidencia (validado: cazó 5 fallos del localizador).
+
 ## Convenciones de trabajo
 - **Contrato de toda propuesta: BP + estructural (raíz, no parche) + escalable.**
   Declara el resultado; si algo falla, declara el gap honestamente.

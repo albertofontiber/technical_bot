@@ -123,8 +123,32 @@ def main() -> int:
     gold_rows = {r["qid"]: r for r in yaml.safe_load(open(GOLD, encoding="utf-8"))}
     oai = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 
+    # GATE de procedencia (TECH_DEBT #33): solo se puntúan golds cuyo ground-truth
+    # está VERIFICADO contra la fuente (render+cross-model / match literal). El resto
+    # queda en cuarentena explícita — un ruler no fiable produce veredictos no fiables
+    # (lección s30). SCORE_ALL=1 los puntúa todos marcándolos UNVERIFIED (diagnóstico).
+    score_all = os.getenv("SCORE_ALL") == "1"
+
+    def _estado(g: dict) -> str:
+        return (g.get("_provenance") or {}).get("estado", "pendiente")
+
+    scored = [q for q in sorted(gold_rows)
+              if score_all or _estado(gold_rows[q]) == "verificado"]
+    quarantined = [q for q in sorted(gold_rows) if q not in scored]
+    print(f"Golds VERIFICADOS (puntuados): {len(scored)}/{len(gold_rows)} | "
+          f"cuarentena (sin puntuar): {len(quarantined)}")
+    if quarantined:
+        print("  cuarentena: " + ", ".join(
+            f"{q}[{_estado(gold_rows[q])}]" for q in quarantined))
+    if score_all and quarantined:
+        print("  (SCORE_ALL=1: se puntúan IGUAL, marcados UNVERIFIED — no fiable)")
+    if not scored:
+        print("\nNada que puntuar: ningún gold con _provenance.estado=verificado.")
+        return 0
+    print()
+
     results = []
-    for qid in sorted(gold_rows):
+    for qid in scored:
         g = gold_rows[qid]
         q = g["question"]
         expected = g.get("conducta_esperada", "answer")
@@ -133,6 +157,7 @@ def main() -> int:
         verdict = judge(oai, q, expected, g.get("gold_answer", ""), bot["answer"])
         row = {
             "qid": qid, "question": q,
+            "gold_estado": _estado(g),
             "conducta_esperada": expected,
             "conducta_bot": verdict.get("conducta_bot"),
             "veredicto": verdict.get("veredicto"),

@@ -1,3 +1,21 @@
+# =============================================================================
+# GOLD ANSWERS v1 — ruler del eval bot-vs-gold (scripts/test_bot_vs_gold.py).
+#
+# Cada entrada lleva _provenance que GOBIERNA si se puntúa (TECH_DEBT #33):
+#   _provenance:
+#     estado: verificado | cuarentena | needs_human   # SOLO 'verificado' se puntúa
+#     metodo: render_pdf+cross_model | match_literal | cross_model_texto | texto_corpus
+#     verificado_por: [modelos que confirmaron de forma INDEPENDIENTE]
+#     fecha: 'YYYY-MM-DD'
+#     nota / correccion: ...
+# Sin _provenance => 'pendiente' => cuarentena. El ruler crece VERIFICANDO contra
+# la fuente, no autorando a ciegas (autor único = punto ciego compartido con el
+# bot = el fallo de s30). Conflicto entre manuales (ES vs US) => conducta
+# 'surfacear ambos + admitir', no elegir ganador.
+# NO quick fixes en golds: verificar SIEMPRE contra la fuente primaria confirmada
+# legible (RENDER del píxel). pdf_grep solo LOCALIZA; el texto extraído de PDFs
+# escaneados/OCR está corrupto (reproduce el error del corpus, no lo verifica).
+# =============================================================================
 - conducta_esperada: answer
   gold_answer: 'Para acceder al menú de programación avanzada (nivel de configuración/administrador)
     en la central Detnov CAD-250, siga estos pasos: 1) Desde la PANTALLA DE REPOSO,
@@ -400,97 +418,71 @@
     pero no un PROCEDIMIENTO de localización. Decidir answer-parcial vs admit_no_info
     al probar el bot. Parse error original recuperado por regex.'
 - conducta_esperada: answer
-  gold_answer: 'Según el manual del fabricante, el detector VESDA-E VEP debe seguir
-    el calendario de mantenimiento recomendado, que incluye comprobaciones anuales
-    específicas. Las comprobaciones de mantenimiento ANUALES son:
+  gold_answer: |-
+    El manual del VESDA-E VEP no describe un "test anual" como un procedimiento
+    único paso a paso, sino un CALENDARIO DE MANTENIMIENTO (Tabla 7-1) con tareas a
+    distintas frecuencias. Las tareas de revisión ANUAL ("Una vez al año") son:
 
+    1. Realizar una prueba de humos para comprobar la integridad de las tuberías.
+    2. Comprobar el flujo de las tuberías.
+    3. Limpiar los puntos de muestreo.
+    4. Limpiar con agua la red de tubería.
 
-    1. **Fuente de alimentación y batería** - verificación anual.
+    Tareas con OTRAS frecuencias (no anuales):
+    - Cada 3 meses: comprobar la fuente de alimentación y la batería.
+    - Cada 6 meses: comprobar la red de tubería.
+    - Cada 2 años: sustitución del filtro (o ante un fallo del mismo; puede requerirse
+      con más frecuencia en entornos contaminados).
 
-    2. **Comprobar la red de tubería** - verificación anual.
-
-    3. **Realizar una prueba de humo para comprobar la integridad de las tuberías**
-    - verificación anual.
-
-    4. **Comprobar el flujo de las tuberías** - verificación anual.
-
-    5. **Limpiar los puntos de muestreo** - verificación anual.
-
-
-    Adicionalmente, hay tareas con otras frecuencias:
-
-    - Cada 6 meses: limpiar con agua la red de tubería.
-
-    - Cada 2 años: sustitución del filtro (o cuando se produzca un fallo del mismo;
-    puede ser más frecuente en entornos contaminados).
-
-
-    **Precauciones antes de realizar el mantenimiento o las pruebas:**
-
-    - Cuando el detector está deshabilitado o en espera, NO emitirá advertencias de
-    fuego.
-
+    Precauciones antes del mantenimiento o las pruebas:
+    - Cuando el detector está deshabilitado o en espera, NO emitirá advertencias de fuego.
     - Informar a la autoridad supervisora adecuada.
+    - Aislar los dispositivos auxiliares que dependan del detector antes de empezar.
+    - En pruebas de humo, seguir los procedimientos del sitio para evitar falsas alarmas.
 
-    - Asegurarse de que se aíslen los dispositivos auxiliares que dependan del detector
-    antes de iniciar el trabajo.
-
-    - Cuando se realicen pruebas de humo, seguir los procedimientos del sitio para
-    evitar falsas alarmas en los servicios supervisados.
-
-
-    **Notas adicionales:**
-
-    - El mantenimiento puede ser realizado por el instalador original, un distribuidor
-    autorizado o el contratista de servicio.
-
-    - La frecuencia necesaria puede variar según códigos y normas locales, y el entorno
-    de instalación.
-
-    - Para realizar el mantenimiento del detector (red de tuberías o puntos de muestreo),
-    es recomendable establecer temporalmente el detector en modo en espera (Standby)
-    para apagar el aspirador, lo que desactiva el aspirador y detiene la detección
-    de alarmas (pero no la detección ni señalización de fallos).
-
-
-    El manual no describe un procedimiento específico paso a paso para una ''prueba
-    anual integral'', sino que detalla el calendario y las tareas individuales que
-    deben efectuarse anualmente.'
+    Para el mantenimiento de la red de tuberías o los puntos de muestreo, es recomendable
+    poner el detector en modo En espera (Standby) para apagar el aspirador (detiene la
+    detección de alarmas, pero no la de fallos).
   citations:
+  - manual: VESDA-E VEP-A10-P Guía del producto (Tabla 7-1)
+    page: 81
+    quote: |-
+      Calendario de mantenimiento sugerido — Fuente de alimentación y Batería: Cada
+      tres meses; Comprobar la red de Tubería: Cada seis meses; Realizar una prueba de
+      humos para comprobar la integridad de las Tubería: Una vez al año; Comprobar el
+      flujo de las Tubería: Una vez al año; Limpiar los puntos de muestreo: Una vez al
+      año; Limpiar con agua la red de Tubería: Una vez al año; Sustitución del filtro:
+      Cada dos años
   - manual: VESDA-E VEP-A10-P Guía del producto
     page: 81
-    quote: Calendario de mantenimiento sugerido para el detector VEP-A10-P
-  - manual: VESDA-E VEP-A10-P Guía del producto
-    page: 81
-    quote: Fuente de alimentación y Batería... Comprobar la red de Tubería... Realizar
-      una prueba de humos para comprobar la integridad de las Tubería... Comprobar
-      el flujo de las Tubería... Limpiar los puntos de muestreo
-  - manual: VESDA-E VEP-A10-P Guía del producto
-    page: 81
-    quote: 'Cuando el detector está deshabilitado o en espera, el detector no emitirá
-      advertencias de fuego. Antes de realizar el mantenimiento o las pruebas: Informe
-      a la autoridad supervisora adecuada. Asegúrese de que se aíslen los dispositivos
-      existentes que dependan del detector antes de que se ponga en funcionamiento.'
-  - manual: VESDA-E VEP-A00-P Guía del producto
-    page: 79
-    quote: Para mantener el detector VEP-A00 a su nivel de rendimiento máximo, se
-      debe seguir el programa de mantenimiento recomendado
+    quote: Cuando el detector está deshabilitado o en espera, el detector no emitirá
+      advertencias de fuego. Antes de realizar el mantenimiento o las pruebas, informe
+      a la autoridad supervisora adecuada.
   confidence: alta
-  notes: El manual no usa específicamente el término 'test anual' como procedimiento
-    único, sino que presenta una tabla con tareas de mantenimiento por frecuencia
-    (trimestral, semestral, anual, bianual). La respuesta agrupa todas las tareas
-    con periodicidad anual. La información es idéntica en ambos manuales (VEP-A00-P
-    y VEP-A10-P). El manual también remite a códigos y normas locales que pueden modificar
-    la frecuencia requerida.
+  notes: |-
+    El manual no usa "test anual" como procedimiento único; presenta la Tabla 7-1 con
+    tareas por frecuencia (trimestral, semestral, anual, bianual). La respuesta agrupa
+    las ANUALES y declara las de otras frecuencias.
+  _provenance:
+    estado: verificado
+    metodo: render_pdf + cross_model
+    fuente: 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores.pdf
+    pagina_impresa: 81
+    pagina_fisica: 87
+    verificado_por:
+    - Claude (lectura multimodal de la Tabla 7-1 renderizada)
+    - gpt-5.5 (lectura independiente de la misma página)
+    acuerdo: total 7/7 filas
+    fecha: '2026-05-30'
+    correccion: 'Gold original (audit s30) asignaba mal 3 frecuencias de la Tabla 7-1:
+      fuente/batería anual->trimestral; comprobar red de tubería anual->semestral;
+      limpiar con agua la red semestral->anual. Corregido contra la matriz renderizada.'
   qid: hp007
   question: ¿Cómo se realiza el test anual de un detector VESDA-E VEP según el manual
     del fabricante?
   pdfs_used:
   - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores.pdf
   - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores.pdf
-  _usage:
-    in: 135097
-    out: 1468
 - conducta_esperada: answer
   gold_answer: 'Según el Apéndice 3 del Manual de instalación y puesta en marcha de
     la ID3000, los sensores de humo analógicos compatibles con la central son:
@@ -665,78 +657,60 @@
     in: 76246
     out: 1299
 - conducta_esperada: answer
-  gold_answer: "En la central RP1r-Supra, tras una descarga de extinción y al intentar\
-    \ rearmar, hay que comprobar los siguientes puntos:\n\n1. **Entrada de Abort (paro\
-    \ de emergencia) activada**: La entrada ABORT es por defecto enclavada (latched).\
-    \ Una vez activada, requiere un rearme manual de la central para habilitar de\
-    \ nuevo el proceso de extinción. Si esta entrada permanece activa, el sistema\
-    \ no podrá restaurarse. Verificar el estado del pulsador de paro conectado al\
-    \ bloque D y su circuito de supervisión.\n\n2. **Inhibición temporal del rearme\
-    \ tras activación**: Según UNE-EN 12094-1:2004, sección 4.12.2, existe la posibilidad\
-    \ de inhibir temporalmente la función de rearme una vez la central ha entrado\
-    \ en estado ACTIVADO. Esto se configura mediante el parámetro P.18:\n   - '--':\
-    \ Rearme inhibido hasta finalizar la extinción o hasta que se agote el tiempo\
-    \ configurado en parámetro P.02 (duración descarga).\n   - '00': Rearme permitido\
-    \ en cualquier momento (valor por defecto).\n   - '01 a 30': Rearme inhibido durante\
-    \ el intervalo definido en minutos.\n   Comprobar el valor configurado de este\
-    \ parámetro.\n\n3. **Tiempo de descarga del circuito de extinción (parámetro P.02\
-    \ - soak time)**: El circuito de extinción permanece activo durante el tiempo\
-    \ configurado (por defecto 295 seg., o hasta rearme si está configurado como '--').\
-    \ Hasta que no finalice este tiempo, no se podrá rearmar correctamente.\n\n4.\
-    \ **Entrada de Flow Press (señal de flujo)**: La activación de la condición de\
-    \ flujo implica un rearme manual de la central. Verificar que esta entrada no\
-    \ esté activa.\n\n5. **Averías enclavadas**: Por defecto todas las averías son\
-    \ enclavadas y requieren rearme manual. Si persiste alguna avería en los circuitos\
-    \ supervisados (extinción, sirenas, zonas, pulsadores, baja presión, flujo, puerta\
-    \ abierta), el sistema mantendrá la indicación. Comprobar que se haya eliminado\
-    \ la causa antes del rearme.\n\n6. **Estado de las zonas en alarma**: Verificar\
-    \ que los detectores o pulsadores que provocaron la activación hayan vuelto a\
-    \ estado normal.\n\nProcedimiento de rearme: Desde nivel de acceso 2 (mediante\
-    \ la llave de desbloqueo), pulsar la tecla 'Rearme'."
+  gold_answer: |-
+    En la central RP1r-Supra, tras una descarga de extinción y al intentar rearmar, hay que comprobar:
+
+    1. Entrada de Abort (paro de emergencia): la entrada ABORT es por defecto enclavada (latched); una vez activada requiere un rearme manual de la central para habilitar de nuevo el proceso de extinción. Si permanece activa, el sistema no se restaura. Verificar el pulsador de paro y su circuito de supervisión.
+
+    2. Inhibición temporal del rearme tras activación — parámetro "r.1" ("Rearme inhibido tras extinción", UNE-EN 12094-1:2004 ap. 4.12.2): "--" = rearme inhibido hasta finalizar la extinción o agotar el tiempo de descarga (parámetro t.A); "00" = rearme permitido en cualquier momento (POR DEFECTO); "01" a "30" = rearme inhibido durante el intervalo definido en minutos. Comprobar el valor configurado.
+
+    3. Tiempo de descarga del circuito de extinción — parámetro "t.A" ("Duración de la descarga", soak time, UNE-EN 12094-1:2004 ap. 4.21): valor variable de 05 a 295 seg en intervalos de 5 seg; el valor POR DEFECTO es "--" (circuito activado hasta el rearme de la central). Hasta que no finalice este tiempo (o se rearme), no se podrá rearmar correctamente.
+
+    4. Entrada de Flow Press (señal de flujo): su activación implica un rearme manual de la central. Verificar que esta entrada no esté activa.
+
+    5. Averías enclavadas: por defecto todas las averías son enclavadas y requieren rearme manual. Si persiste una avería en los circuitos supervisados (extinción, sirenas, zonas, pulsadores, baja presión, flujo, puerta abierta), se mantiene la indicación. Eliminar la causa antes del rearme.
+
+    6. Estado de las zonas en alarma: verificar que los detectores o pulsadores que provocaron la activación han vuelto a estado normal.
+
+    Procedimiento de rearme: desde nivel de acceso 2 (mediante la llave de desbloqueo), pulsar la tecla "Rearme".
   citations:
   - manual: HLSI-MN-103_RP1r-Supra_lr.pdf
     page: 44
-    quote: La entrada ABORT es por defecto enclavada, por lo que una vez activada,
-      será necesario un rearme manual de la central para habilitar de nuevo el proceso
-      de extinción.
-  - manual: HLSI-MN-103_RP1r-Supra_lr.pdf
-    page: 54
-    quote: de acuerdo con la sección 4.12.2 de la normativa UNE-EN 12094-1:2004, existe
-      la posibilidad de inhibir temporalmente la función de rearme una vez la central
-      ha entrado en modo ACTIVADO
+    quote: La entrada ABORT es por defecto enclavada, por lo que una vez activada, será necesario un rearme manual de la central para habilitar de nuevo el proceso de extinción.
   - manual: HLSI-MN-103_RP1r-Supra_lr.pdf
     page: 63
-    quote: Rearme inhibido tras extinción... -- Rearme inhibido hasta finalizar extinción
-      o cuando agotado tiempo configurado en parámetro P.02
-  - manual: HLSI-MN-103_RP1r-Supra_lr.pdf
-    page: 45
-    quote: La activación de esta condición implica un rearme manual de la central
-  - manual: HLSI-MN-103_RP1r-Supra_lr.pdf
-    page: 53
-    quote: Todas las averías son por defecto enclavadas y requieren de un rearme manual
-      de la central para su restablecimiento
+    quote: 'Parámetro r.1 "Rearme inhibido tras extinción": "--" rearme inhibido hasta finalizar la extinción o agotar el tiempo del parámetro t.A; "00" rearme permitido en cualquier momento (por defecto); "01 a 30" rearme inhibido durante el intervalo en minutos.'
   - manual: HLSI-MN-103_RP1r-Supra_lr.pdf
     page: 56
-    quote: Duración de la descarga para circuito extinción 1... -- Circuito activado
-      hasta rearme de la central (por defecto)
+    quote: 'Parámetro t.A "Duración de la descarga para circuito extinción 1": valor variable de 05 a 295 seg (intervalos de 5 seg); "--" circuito activado hasta rearme de la central (por defecto).'
+  - manual: HLSI-MN-103_RP1r-Supra_lr.pdf
+    page: 45
+    quote: La activación de esta condición (flujo) implica un rearme manual de la central.
+  - manual: HLSI-MN-103_RP1r-Supra_lr.pdf
+    page: 53
+    quote: Todas las averías son por defecto enclavadas y requieren de un rearme manual de la central para su restablecimiento.
   confidence: alta
-  notes: 'La pregunta menciona ''Morley RP1r'' pero los manuales corresponden a RP1r-Supra/VSN-RP1r+/ESS-RP1r-Supra
-    de Honeywell Life Safety. Se asume que se refiere al mismo equipo. La respuesta
-    cubre las causas más probables documentadas: Abort enclavado, parámetro P.18 de
-    inhibición de rearme, tiempo de descarga P.02, señal de flujo, y averías enclavadas.'
+  notes: |-
+    La pregunta menciona "Morley RP1r" pero los manuales corresponden a RP1r-Supra de Honeywell Life Safety (mismo equipo). Los parámetros se muestran en el display de 7 segmentos como códigos (p.ej. r.5, r.1, t.A, E.L, P.d), con punto intermitente entre dígitos para distinguir parámetro de valor.
+  _provenance:
+    estado: verificado
+    metodo: render_pdf + cross_model + domain_expert
+    fuente: HLSI-MN-103_RP1r-Supra_lr.pdf
+    paginas:
+    - 56
+    - 63
+    verificado_por:
+    - Claude (render ampliado de los displays 7-seg)
+    - gpt-5.5 (lectura independiente con restricción de 7 segmentos)
+    - Alberto (corrección de dominio: lectura de displays de 7 segmentos)
+    fecha: '2026-05-30'
+    correccion: 'Gold original (audit s30) fabricó labels OCR: P.18 -> real r.1 (rearme inhibido tras extinción); P.02 -> real t.A (duración de descarga). Y "por defecto 295 seg" era erróneo: 295 es el tope del rango 05-295 seg; el default real es "--" (circuito activado hasta rearme).'
+    nota: 'Lectura 7-segmentos (Alberto): el glifo de dos palos verticales derechos es el dígito 1, no "i" (r.1, no r.i); "L" (E.L) también se confunde con "i". Cross-model ingenuo compartía ese sesgo; ahora la verificación lleva la restricción de 7 segmentos. Puntos 1/4/5 (Abort, flujo, averías) de páginas citadas del corpus (no re-renderizadas).'
   qid: hp011
   question: En la Morley RP1r, después de descargar la extinción el sistema no vuelve
     a estado normal tras resetear. ¿Qué comprobar?
   pdfs_used:
-  - HLSI-MN-103I_RP1r-Supra_lr.pdf
   - HLSI-MN-103_RP1r-Supra_lr.pdf
-  - HLSI-MA-103-I_GuiaRapida_RP1r-Supra_EN_lr.pdf
-  - HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr.pdf
-  - HLSI-MA-103_Quick start guide RP1r_Supra_GB.pdf
-  - MN-DT-959_OPC-RP1r.pdf
-  _usage:
-    in: 157542
-    out: 1689
 - conducta_esperada: answer
   gold_answer: La central AM2020 soporta hasta 10 lazos SLC, mientras que la AFP1010
     soporta hasta 2 lazos SLC (aunque el manual de programación indica que está limitada
@@ -971,35 +945,57 @@
   _usage:
     in: 94071
     out: 728
-- conducta_esperada: admit_no_info
-  gold_answer: 'La documentación disponible (Guía básica de instalación del panel
-    Pearl) no contiene información sobre cómo programar el retardo de salida de alarma
-    principal. Esta guía únicamente cubre aspectos de instalación física: comprobación
-    de daños, montaje en pared, conexión externa de alimentación, cableado e instalación
-    eléctrica de la placa base, instalación de baterías, inspección y comprobación
-    previas. Para la programación de retardos de salida de alarma se debería consultar
-    el Manual de Instalación y Puesta en Marcha del panel Pearl, que se referencia
-    en esta guía pero no se ha proporcionado.'
+- conducta_esperada: answer
+  gold_answer: |-
+    En la central Notifier PEARL los retardos en la activación de las salidas (incluida la salida/sirena de alarma) no se programan con un único parámetro de "retardo de salida", sino mediante la PROGRAMACIÓN DE CAUSA-EFECTO (reglas), descrita en el Manual de configuración de la central (997-671-005-3), Apéndice 5.
+
+    Procedimiento:
+    1. Acceda a la pantalla "Causa y Efecto" desde el menú "Editar Configuración" (se recomienda el programa de configuración por ordenador como método principal; el menú de la central, solo para modificaciones menores).
+    2. Tenga en cuenta las dos reglas por defecto: Regla 1 (CUALQUIER entrada de alarma activa TODOS los equipos de salida) y Regla 2 (la tecla EVACUACIÓN activa TODOS los equipos de salida). Es fundamental BORRAR la Regla 1 si va a realizar una programación específica, o quedará anulada por ella.
+    3. Cree una regla (número discreto; máximo 512 reglas) con una INSTRUCCIÓN DE ENTRADA (la condición; p. ej. alarma en una zona/lazo) y una INSTRUCCIÓN DE SALIDA (el equipo a accionar: sirenas o relés). En la columna "Lazo", un "0" significa TODOS.
+    4. Asigne a la regla uno de los SEIS tipos de retardo de salida (sección A5.3 "Tipos de retardo"). El tipo seleccionado determina el comportamiento del retardo y cómo lo controlan las teclas (p. ej., SILENCIAR SIRENAS detiene la salida durante el retardo; SONIDO ALARMAS activa las sirenas).
+    5. Pruebe rigurosamente las reglas durante la puesta en marcha para evitar lógicas contradictorias.
+
+    Adicionalmente: a nivel de equipo/zona existe el parámetro "Retardo de alarma" en la programación del lazo; y mediante programaciones horarias pueden imponerse retardos en la activación de las salidas durante periodos preestablecidos del día.
+
+    Nota EN54: configurar retardos puede afectar al cumplimiento normativo (p. ej., retardos de confirmación de alarma en entradas que contravengan EN54-2); verifique los requisitos aplicables.
   citations:
-  - manual: Guia basica instalacion_PEARL.pdf
-    page: 1
-    quote: Esta información puede encontrarse en el Manual de Instalación y Puesta
-      en Marcha, Sección 5.3.1 - Conexiones de la placa base.
-  - manual: Guia basica instalacion_PEARL.pdf
-    page: 1
-    quote: Panel Pearl – Guía básica de instalación
+  - manual: 997-671-005-3_Configuration_ES.pdf (Apéndice 5)
+    page: 42
+    quote: 'Una regla consta de dos instrucciones de acción... Instrucción de entrada: una condición de entrada, como una alarma... Instrucción de salida: el accionamiento de uno o más equipos asignados, como sirenas o relés.'
+  - manual: 997-671-005-3_Configuration_ES.pdf (Apéndice 5)
+    page: 43
+    quote: 'Para crear o editar reglas de causa-efecto vaya a la pantalla "Causa y Efecto" desde el menú "Editar Configuración"... Regla 1: CUALQUIER entrada de alarma activa TODOS los equipos de salida... Es fundamental borrar la regla 1 si se va a realizar una programación específica.'
+  - manual: 997-671-005-3_Configuration_ES.pdf (Apéndice 5)
+    page: 44
+    quote: A5.3 Tipos de retardo. Las reglas de causa-efecto pueden especificar diferentes condiciones para retardos de salida y cómo se controlan. Se puede asignar uno de seis tipos de retardo de salida a una regla.
+  - manual: 997-671-005-3_Configuration_ES.pdf
+    page: 20
+    quote: (Programación del lazo) ... Retardo de alarma ... Retardo de confirmación de coincidencia de detector; puede ajustarse hasta 240 s (4 min).
   confidence: alta
-  notes: El documento aportado es solo la guía básica de instalación (hardware/cableado).
-    La programación de retardos de alarma corresponde al Manual de Instalación y Puesta
-    en Marcha, no incluido en los documentos.
+  notes: |-
+    La guía básica de instalación NO cubre la programación de retardos (solo hardware/cableado); el procedimiento vive en el Manual de configuración 997-671-005-3 (Apéndice 5, causa-efecto), que SÍ está en el corpus. El retardo de la salida de alarma se consigue por regla causa-efecto + tipo de retardo (A5.3), no por un parámetro suelto.
+  _provenance:
+    estado: verificado
+    metodo: render_pdf + pdf_text + corpus_check
+    fuente: 997-671-005-3_Configuration_ES.pdf
+    paginas:
+    - 42
+    - 43
+    - 44
+    - 20
+    corpus_chunks_v2: 124 chunks del manual (33 sobre causa-efecto/retardo) -> answer satisfacible por el bot
+    verificado_por:
+    - Claude (texto literal + render de p43/p44: confirma digital-native y lectura fiel)
+    - SQL chunks_v2 (presencia y cobertura del manual en el corpus)
+    fecha: '2026-05-30'
+    correccion: 'Conducta admit_no_info -> answer. El gold original se autoró (s27) solo con "Guia basica instalacion_PEARL" en pdfs_used (6 chunks, 0 de retardo), que NO cubre el tema; el Manual de configuración SÍ lo cubre y está en el corpus. Patrón: los "admit-discutibles" (hp006/hp009/hp017) probablemente vienen de un subset de PDFs demasiado estrecho vs el corpus real.'
   qid: hp017
   question: ¿Cómo se programa el retardo de salida de alarma principal en la Notifier
     PEARL?
   pdfs_used:
+  - 997-671-005-3_Configuration_ES.pdf
   - Guia basica instalacion_PEARL.pdf
-  _usage:
-    in: 4084
-    out: 496
 - conducta_esperada: answer
   gold_answer: 'Conexión de sirenas convencionales en las salidas de sirena de la
     central Morley ZXe (ZX1e/ZX5e):
