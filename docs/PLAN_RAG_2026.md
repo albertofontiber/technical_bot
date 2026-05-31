@@ -10,18 +10,24 @@
 > **Audiencia.** Alberto (decisión estratégica) y cualquier sesión de desarrollo
 > futura — debe poder leerse en frío y saber qué hacer y por qué.
 >
-> **Fecha base:** 22 mayo 2026. **Última actualización:** 30 mayo 2026 (sesión 30) — ver "Estado actual y próximos pasos" justo debajo.
+> **Fecha base:** 22 mayo 2026. **Última actualización:** 31 mayo 2026 (sesión 33) — ver "Estado actual y próximos pasos" justo debajo.
 >
 > **Principio rector.** Nada de quick fixes. Cada cambio debe ser (1) best
 > practice de Mayo 2026 con fuente identificable, (2) estructural — ataca la
 > causa raíz, no el síntoma, (3) escalable a 30+ fabricantes sin fricción por
 > fabricante. Si una propuesta no cumple los tres, se declara como gap honesto.
 >
-> **⚡ Estado actual y próximos pasos (sesión 30) — supersede el detalle de fases de abajo, que es rationale histórico (mayo 2026).**
+> **⚡ Estado actual y próximos pasos (sesión 30; ACTUALIZADO en s31-s33 — ver al final de este bloque) — supersede el detalle de fases de abajo, que es rationale histórico (mayo 2026).**
 > - **Ya hecho** vs el plan original: re-ingesta + `chunks_v2` en producción (Voyage 1024, sesión 27); catálogo dinámico + atribución de fabricante (sesión 28); eval determinista + matcher estricto (sesión 29); lever de **generación** ejecutado (sesión 30 — change-1 anti-falso-rechazo, **direccional**).
 > - **Hallazgo que reordena el plan (sesión 30):** el **eval/gold (el «ruler») está parcialmente NO fiable** — errores factuales, conflictos entre manuales y OCR en ~7 de 19 golds → las cifras de calidad son **indicativas, no firmes** hasta arreglarlo. Detalle canónico en **`TECH_DEBT.md` #33** (no se duplica aquí).
 > - **Orden de trabajo vigente:** (1) **arreglar el ruler** (gold-fix holístico; conflictos/matrices/OCR necesitan técnico real + PDFs renderizables — ver #33); (2) **filtrar chunks no-ES/EN** del retrieval (96 chunks fr/de/pt); (3) **lever del reranker** (elección empírica; el filtro modelo/categoría se queda como guarda de precisión). El reranker **NO antes del ruler** — medir contra golds rotos repite el error de llamar «trampa» a un win.
 > - Cambios de sesión 30 en rama `feat/generation-lever` (NO en main). Log entre sesiones: memoria del proyecto.
+>
+> **Actualización s31-s33 (el ruler se está ARREGLANDO, no solo diagnosticando):**
+> - **(s31)** ruler rediseñado como instrumento construido desde la FUENTE: `scripts/gold_store.py` (única puerta) + toolkit de verificación (`render_pdf_page` + cross-model GPT-5.5 `cross_verify_image` + `pdf_grep`) + **`docs/RULER_DESIGN.md`** (decisiones D1-D11, fuente canónica del diseño) + agente revisor adversarial (Protocolo 3).
+> - **(s32)** **scorer atómico** por-hecho (`scripts/atomic_scorer.py`, 3 ejes: completitud mecánica + factual cross-model + conducta) reemplaza al juez LLM opaco; gate de alucinación caracterizado (`TECH_DEBT.md` #35).
+> - **(s33)** **Fase 1 Tier A COMPLETO: 12/19 golds verificados** contra la fuente (hp001/02/03/05/07/08/10/11/14/17/19/20). **Matiz al hallazgo s30**: los `answer`-de-spec resultaron CORRECTOS; lo «no fiable» eran los golds de CONDUCTA (hp006/09/17) y CONFLICTO/OCR (hp012/18), hoy en cuarentena (7 restantes = Tier B conducta + Tier C diferido a técnico+PDF).
+> - **Orden de trabajo actualizado:** terminar Fase 1 (Tier B conducta → cuarentena a 0) → refinos del scorer (#35) → lever de generación re-evaluado contra el ruler ya fiable. Fuente canónica del estado: `RULER_DESIGN.md` §4 + memoria del proyecto. **Sigue sin tocar producción** (eval-infra).
 
 ---
 

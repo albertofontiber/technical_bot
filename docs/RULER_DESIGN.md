@@ -189,8 +189,9 @@ el fixture de recall. Ver TECH_DEBT #35.
 
 ## 4. Plan por fases
 
-Estado al crear el doc: Fases previas ya hechas esta sesión (3 herramientas, gate de
+Estado al crear el doc (s31): Fases previas ya hechas esa sesión (3 herramientas, gate de
 cuarentena, 3 golds verificados pendientes de retrofit a hechos atómicos, normas).
+**Estado actual (s33): 12/19 verificados** (Tier A completo) — ver Fase 1 abajo.
 
 - **Fase 0** — gold_store.py + **localizador exhaustivo** + esquema v2 + validación en
   CI + este doc. *(tareas #7, #9)*
