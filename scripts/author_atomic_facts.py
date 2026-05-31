@@ -165,11 +165,73 @@ HP019_PROV = {
     },
 }
 
+# --- hp003: Detnov CAD-150 — conexión de las baterías de 24V. Conducta=answer.
+# VERIFICADO s32 (Fase 1): manual 55315013 (multilingüe ES/FR/GB/IT, offset impresa+2=física).
+# §2.5 (física p9) leída por Claude (multimodal) + gpt-5.5 (cross_verify, en frío) — acuerdo
+# total; orden red->baterías y >24V confirmados en física p10 (§3.2/§3.1).
+HP003_FACTS = [
+    {
+        "texto": "Dos baterias de 12V conectadas en SERIE (suman los 24V del sistema), capacidad 7A/h",
+        "tipo": "core", "estado": "presente", "valor": "12V", "cita": "p7/f9 (§2.5)",
+    },
+    {
+        "texto": "Cable puente: une el polo POSITIVO de una bateria con el NEGATIVO de la otra",
+        "tipo": "core", "estado": "presente", "valor": "cable puente", "cita": "p7/f9 (§2.5)",
+    },
+    {
+        "texto": ("Los cables que salen del circuito (ROJO y NEGRO) se conectan al positivo y "
+                  "negativo de las baterias (conectar antes el puente entre baterias)"),
+        "tipo": "core", "estado": "presente", "valor": "rojo y negro", "cita": "p7/f9 (§2.5)",
+    },
+    {
+        "texto": ("Orden de conexion por seguridad: PRIMERO la red (230VAC, magnetotermico "
+                  "bipolar), DESPUES las baterias (no respetarlo puede danar el equipo)"),
+        "tipo": "core", "estado": "presente", "valor": "primero la red", "cita": "p8/f10 (§3.2) + Usuario p7",
+    },
+    {
+        "texto": ("Antes de alimentar, comprobar con voltimetro que las baterias tienen una "
+                  "tension superior a 24V"),
+        "tipo": "supplementary", "estado": "presente", "valor": "24V", "cita": "p8/f10 (§3.1)",
+    },
+    {
+        "texto": "Las baterias se colocan en la parte inferior de la caja, en vertical",
+        "tipo": "supplementary", "estado": "presente", "valor": "parte inferior", "cita": "p7/f9 (§2.5)",
+    },
+    {
+        "texto": "Desconectar el magnetotermico bipolar exterior antes de manipular la central",
+        "tipo": "supplementary", "estado": "presente", "valor": "magnetotermico", "cita": "p6/f8 (§2.3)",
+    },
+]
+HP003_PROV = {
+    "estado": "verificado",
+    "metodo": "render_pdf + cross_model",
+    "fuente": "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT.pdf",
+    "paginas_impresas": [6, 7, 8],
+    "paginas_fisicas": [8, 9, 10],
+    "verificado_por": [
+        "Claude (lectura multimodal de §2.5 p9 + §3.1/§3.2 p10 + §2.3 p8 renderizadas)",
+        "gpt-5.5 (transcripcion independiente en frio de §2.5 p9, scripts/cross_verify_image.py)",
+    ],
+    "acuerdo": ("total en §2.5 (dos baterias 12V 7A/h en serie, cable puente +/-, cables rojo/negro, "
+                "ubicacion inferior vertical); orden red->baterias confirmado en p10 §3.2; >24V en p10 §3.1"),
+    "fecha": "2026-05-31",
+    "nota": ("Manual multilingue ES/FR/GB/IT; offset impresa+2=fisica (impresa 7 = fisica 9). El "
+             "gold_answer menciona 18/24 A/h, fusible 2A y pulsador BAT que NO aparecen en las paginas "
+             "citadas (p6-8) -> NO incluidos como hechos (no verificados aqui; posiblemente en otras paginas)."),
+    "localizacion": {
+        "manuales_buscados": ["55315013 ... CAD-150-8 Instalacion ES FR GB IT.pdf"],
+        "terminos": ["baterias", "cable puente", "serie", "24V", "230VAC", "magnetotermico"],
+        "paginas_fisicas": [8, 9, 10],
+        "nota": "localizado por busqueda PyMuPDF (bater* + puente/serie/230/24V) -> §2.5 fisica p9; offset +2.",
+    },
+}
+
 # qid -> {facts, [provenance], [conducta]}. provenance presente = el gold se VERIFICA aquí.
 RECORDS = {
     "hp011": {"facts": HP011_FACTS},
     "hp017": {"facts": HP017_FACTS},
     "hp019": {"facts": HP019_FACTS, "conducta": "answer", "provenance": HP019_PROV},
+    "hp003": {"facts": HP003_FACTS, "conducta": "answer", "provenance": HP003_PROV},
 }
 
 

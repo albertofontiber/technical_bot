@@ -58,12 +58,15 @@ _CLARIFY = ("que modelo", "podria indicar", "podrias indicar", "necesito saber",
 
 
 def _anchor_present(anchor: str, na: str) -> bool:
-    """¿aparece el anchor como número/token COMPLETO en na (ya norm_ocr'd)? Frontera
-    de no-palabra a ambos lados → corrige el falso positivo substring de PR#15
-    ('40' in '240'). chunk_has_quote_strict (strict_match) usa `in` crudo porque su
-    haystack es un chunk grande y re-tocarlo exige re-validar el eval de recall (live
-    stack) — por eso el scorer hace su propio test de frontera, sin tocar el matcher."""
-    return re.search(r"(?<!\w)" + re.escape(anchor) + r"(?!\w)", na) is not None
+    """¿aparece el anchor como número/token COMPLETO en na (ya norm_ocr'd)?
+    - Numérico (24, +60, 295): frontera de DÍGITO → casa "24" en "24V"/"24 °C" pero NO
+      en "240" (corrige el substring de PR#15, '40'∈'240', SIN perder valores con unidad
+      pegada — bug cazado por hp003 ">24V", s32).
+    - Código de modelo (afp1010): frontera de PALABRA → token completo, no dentro de otro.
+    chunk_has_quote_strict (strict_match) conserva el `in` crudo (haystack=chunk grande,
+    re-validar recall = live stack) — por eso el scorer hace su propio test, sin tocarlo."""
+    bound = r"\d" if re.fullmatch(r"[+\-]?\d[\d.,]*", anchor) else r"\w"
+    return re.search(rf"(?<!{bound}){re.escape(anchor)}(?!{bound})", na) is not None
 
 
 def match_fact(valor, texto: str, answer: str) -> tuple[bool | None, str, str]:
