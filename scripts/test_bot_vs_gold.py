@@ -43,6 +43,9 @@ from src.config import (                              # noqa: E402
 
 # Reranker top-k overridable por env para A/B end-to-end (prod actual = 5).
 RERANK_K = int(os.getenv("RERANK_K_OVERRIDE", str(RERANK_TOP_K)))
+# Retrieve pool (candidatos pre-rerank) overridable para A/B #16 (prod = 15).
+# #32 solo varió el generator-k (RERANK_K); ampliar el pool nunca se midió end-to-end.
+RETRIEVE_K = int(os.getenv("RETRIEVE_K_OVERRIDE", str(RETRIEVAL_TOP_K)))
 
 GOLD = "evals/gold_answers_v1.yaml"
 OUTPUT = f"evals/bot_vs_gold_results_k{RERANK_K}.yaml"
@@ -80,7 +83,7 @@ _JUDGE_USER = (
 
 def run_bot(query: str) -> dict:
     # Replica el pipeline de producción: retrieve → rerank(top-k) → generate.
-    chunks = retrieve_chunks(query, top_k=RETRIEVAL_TOP_K)
+    chunks = retrieve_chunks(query, top_k=RETRIEVE_K)
     chunks = rerank_chunks(query, chunks, top_k=RERANK_K)
     res = generate_answer(query, chunks)
     answer = res.get("answer") if isinstance(res, dict) else str(res)
@@ -115,13 +118,37 @@ def main() -> int:
         pass
 
     assert CHUNKS_IS_V2, f"CHUNKS_TABLE debe ser chunks_v2, es {CHUNKS_TABLE}"
-    print(f"Tabla activa: {CHUNKS_TABLE} (Voyage 1024) | retrieve={RETRIEVAL_TOP_K} rerank_k={RERANK_K}\n")
+    print(f"Tabla activa: {CHUNKS_TABLE} (Voyage 1024) | retrieve={RETRIEVE_K} rerank_k={RERANK_K}\n")
 
     gold_rows = {r["qid"]: r for r in yaml.safe_load(open(GOLD, encoding="utf-8"))}
     oai = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 
+    # GATE de procedencia (TECH_DEBT #33): solo se puntúan golds cuyo ground-truth
+    # está VERIFICADO contra la fuente (render+cross-model / match literal). El resto
+    # queda en cuarentena explícita — un ruler no fiable produce veredictos no fiables
+    # (lección s30). SCORE_ALL=1 los puntúa todos marcándolos UNVERIFIED (diagnóstico).
+    score_all = os.getenv("SCORE_ALL") == "1"
+
+    def _estado(g: dict) -> str:
+        return (g.get("_provenance") or {}).get("estado", "pendiente")
+
+    scored = [q for q in sorted(gold_rows)
+              if score_all or _estado(gold_rows[q]) == "verificado"]
+    quarantined = [q for q in sorted(gold_rows) if q not in scored]
+    print(f"Golds VERIFICADOS (puntuados): {len(scored)}/{len(gold_rows)} | "
+          f"cuarentena (sin puntuar): {len(quarantined)}")
+    if quarantined:
+        print("  cuarentena: " + ", ".join(
+            f"{q}[{_estado(gold_rows[q])}]" for q in quarantined))
+    if score_all and quarantined:
+        print("  (SCORE_ALL=1: se puntúan IGUAL, marcados UNVERIFIED — no fiable)")
+    if not scored:
+        print("\nNada que puntuar: ningún gold con _provenance.estado=verificado.")
+        return 0
+    print()
+
     results = []
-    for qid in sorted(gold_rows):
+    for qid in scored:
         g = gold_rows[qid]
         q = g["question"]
         expected = g.get("conducta_esperada", "answer")
@@ -130,6 +157,7 @@ def main() -> int:
         verdict = judge(oai, q, expected, g.get("gold_answer", ""), bot["answer"])
         row = {
             "qid": qid, "question": q,
+            "gold_estado": _estado(g),
             "conducta_esperada": expected,
             "conducta_bot": verdict.get("conducta_bot"),
             "veredicto": verdict.get("veredicto"),

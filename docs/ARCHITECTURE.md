@@ -10,6 +10,28 @@
 
 > ## ⚡ Estado actual (sesión 27 — 27 mayo 2026): chunks_v2 EN PRODUCCIÓN
 >
+> **Actualización s31 (31 may 2026 — rediseño del eval/ruler, NO toca producción):** el
+> gold/eval se está rediseñando como **instrumento diagnóstico** construido desde la FUENTE
+> (render del píxel + cross-model GPT-5.5), no un gold opaco (que en s30 resultó parcialmente
+> roto). Diseño + decisiones (D1-D11): `docs/RULER_DESIGN.md`. Proceso nuevo institucionalizado:
+> **revisor adversarial** (`docs/ADVERSARIAL_REVIEWER.md` + CLAUDE.md Protocolo 3). El bot en
+> producción no cambia esta sesión.
+>
+> **Actualización s32 (31 may 2026 — Fase 2 del ruler):** construido el **scorer atómico**
+> (`scripts/atomic_scorer.py`, 3 ejes: completitud mecánica + factual cross-model GPT-5.5 +
+> conducta) que reemplaza al juez LLM opaco; el **gate de alucinación** queda caracterizado
+> (5/5 recall en `evals/factual_gate_fixture.yaml`). Sigue siendo eval-infra: **producción no
+> cambia**. Detalle: `TECH_DEBT.md` #35 + `RULER_DESIGN.md` §3-4.
+>
+> **Actualización s33 (31 may 2026 — Fase 1 del ruler, Tier A + Tier B):** verificados
+> contra la FUENTE (render del píxel + cross-model GPT-5.5 + hechos atómicos + `_provenance`)
+> → **17/19 golds verificados**. Tier A (12, answer-de-spec): ningún error factual del gold.
+> Tier B (5, conducta): **los 4 "admit" estaban MAL → answer/answer-parcial** (hp006/09/13/15;
+> hp004 era ya clarify). Raíz: over-admisión del gold s27 por subsets de PDF demasiado estrechos
+> (el corpus SÍ cubría, en manuales no consultados) → **infravaloró al bot en s28-30**. Cuarentena
+> 2 (Tier C conflicto/OCR: hp012/18). Protocolo 3 (GPT-5.5 + sub-agente) validó y cazó 3 over-claims
+> propios. Sigue siendo eval-infra: **producción no cambia**. Detalle: `RULER_DESIGN.md` §4.
+>
 > El bot sirve desde el **corpus re-ingestado `chunks_v2`** (SWAP hecho en Railway
 > vía `CHUNKS_TABLE=chunks_v2`). Cambios respecto a lo que describe el resto de
 > este doc (que documenta el pipeline histórico con el corpus viejo `chunks`):
@@ -36,6 +58,17 @@
 >   (Xtralis↔Notifier, Securiton↔Detnov no son cross-brand). El `MODEL_PATTERN`
 >   queda como fail-safe; el vocabulario de voz (Whisper) lee el MISMO catálogo
 >   (fuente única). Decisiones y diferidos en `TECH_DEBT.md` #18.
+> - **Ruler parcialmente NO FIABLE (sesión 30)**: la auditoría de los 19 golds
+>   (`evals/gold_answers_v1.yaml`, agentes Opus vs fuente) halló ~7 con problemas
+>   (hp007 error de matriz; hp012/hp018 conflictos España-vs-US / OCR; hp011 OCR;
+>   hp006/hp009/hp017 conducta-discutible). Los errores sesgan a **INFRA-valorar al
+>   bot** → las cifras de calidad de abajo (recall, conteos PASS/FALLO) son
+>   **indicativas, no firmes** hasta arreglar el ruler. Corregir NO es automatizable
+>   (conflictos/matrices/OCR → técnico real + PDF). Ver `TECH_DEBT.md` #33.
+>   **Update s33**: la Fase 1 verificó **17/19** contra la fuente (Tier A + Tier B). Los
+>   answer-de-spec resultaron CORRECTOS; los 4 "admit" de conducta estaban MAL (el corpus SÍ
+>   cubría → answer/answer-parcial: hp006/09/13/15) → el ruler **infravaloraba** al bot, no al
+>   revés. Fiable para los 17 verificados; quedan hp012/18 (conflicto/OCR, Tier C).
 > - **Calidad medida (CORREGIDO sesión 29)**: el matcher del eval inflaba el recall;
 >   con matcher ESTRICTO el recall real por-fact es **~51% @top-15 / 71% techo @top-50**
 >   (no el 84% que parecía, ni el "4/12/3" que hacía creer que el cuello era la

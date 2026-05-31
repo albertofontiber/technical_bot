@@ -1,0 +1,93 @@
+# === Fixture de RECALL del eje FACTUAL del scorer (atomic_scorer --llm) ===
+# Caracteriza el gate de alucinación (RULER_DESIGN §3): ¿caza CONTRADICCIONES
+# conocidas (expect: flag) SIN marcar respuestas correctas / sinónimos / omisiones /
+# info extra (expect: noflag)? Surgió del review adversarial de la s32 (el gate se
+# había demostrado con n=1 positivo → recall sin caracterizar).
+#
+# Cada caso es AUTÓNOMO: lleva sus `facts` inline (congelados, copiados del gold
+# relevante al autoría) para no depender del gold vivo. Corre: python scripts/factual_gate_eval.py
+#
+# expect: flag   = el `answer` CONTRADICE un hecho → el gate DEBE marcarlo (recall).
+# expect: noflag = no hay contradicción → el gate NO debe marcarlo (especificidad).
+
+# ---------- POSITIVOS (contradicciones conocidas; el gate debe marcarlas) ----------
+- name: real-hp011-r1-00-invertido
+  expect: flag
+  note: caso REAL (hp011) — el bot invirtió el significado de "00"
+  facts:
+    - texto: 'Parametro r.1 "Rearme inhibido tras extincion": "--"=inhibido hasta finalizar la extincion o agotar t.A; "00"=rearme permitido en cualquier momento (POR DEFECTO); "01" a "30"=inhibido durante ese intervalo en minutos'
+      valor: r.1
+  answer: 'Comprueba el parametro ri: con ri = 00 el sistema pasa a inhibido al finalizar la extincion y permanece asi hasta intervencion manual.'
+
+- name: valor-hp011-tA-rango-295-a-195
+  expect: flag
+  note: número distintivo perturbado (295 → 195) en el rango de t.A
+  facts:
+    - texto: 'Parametro t.A "Duracion de la descarga" (soak time): variable de 05 a 295 seg en pasos de 5 s; "--"=circuito activado hasta el rearme de la central (POR DEFECTO)'
+      valor: 05 a 295 seg
+  answer: 'El parametro t.A (duracion de la descarga) admite valores de 05 a 195 segundos en pasos de 5 s.'
+
+- name: default-hp011-tA-295-como-default
+  expect: flag
+  note: error de DEFAULT (era el fallo del gold original) — default real "--", no 295s
+  facts:
+    - texto: 'Parametro t.A "Duracion de la descarga": variable de 05 a 295 seg; "--"=circuito activado hasta el rearme de la central (POR DEFECTO)'
+      valor: 05 a 295 seg
+  answer: 'El parametro t.A tiene un valor por defecto de 295 segundos para la duracion de la descarga.'
+
+- name: valor-hp017-512-a-256-reglas
+  expect: flag
+  note: conteo perturbado (512 → 256 reglas)
+  facts:
+    - texto: 'Maximo 512 reglas; en la columna "Lazo" un "0" significa TODOS'
+      valor: "512"
+  answer: 'En la PEARL puedes crear un maximo de 256 reglas de causa-efecto.'
+
+- name: frecuencia-hp007-filtro-anual
+  expect: flag
+  note: frecuencia contradicha (filtro es bianual, el bot dice anual)
+  facts:
+    - texto: 'Sustitucion del filtro: cada 2 años (bianual)'
+      valor: cada 2 años
+  answer: 'La sustitucion del filtro del VESDA-E VEP debe realizarse una vez al año.'
+
+# ---------- NEGATIVOS (sin contradicción; el gate NO debe marcarlos) ----------
+- name: sinonimo-hp007-trimestral
+  expect: noflag
+  note: sinónimo consistente (trimestral = cada 3 meses) — no debe marcarse
+  facts:
+    - texto: 'Fuente de alimentacion y bateria: revision cada 3 meses (trimestral)'
+      valor: cada 3 meses
+  answer: 'La fuente de alimentacion y la bateria se revisan trimestralmente segun el calendario de mantenimiento.'
+
+- name: omision-hp011-sin-contradiccion
+  expect: noflag
+  note: OMITE ABORT/r.1/t.A pero no contradice nada — omisión ≠ contradicción (eje completitud, no factual)
+  facts:
+    - texto: 'Entrada ABORT (paro): por defecto enclavada; requiere rearme manual'
+      valor: ABORT
+    - texto: 'Parametro r.1: "00"=rearme permitido (POR DEFECTO)'
+      valor: r.1
+    - texto: 'Averias enclavadas: por defecto requieren rearme manual'
+      valor: enclavadas
+  answer: 'Revisa si hay averias enclavadas activas y, tras resolverlas, rearma la central desde el nivel de acceso 2.'
+
+- name: info-extra-hp017-no-en-hechos
+  expect: noflag
+  note: añade info plausible NO listada (anular retardo desde menú) — no es contradicción (riesgo s13)
+  facts:
+    - texto: 'El retardo se programa mediante reglas CAUSA-EFECTO en el Manual de configuracion 997-671-005-3 (Apendice 5)'
+      valor: causa-efecto
+  answer: 'El retardo de salida se programa con reglas de causa-efecto. Ademas, una vez configurado, puedes anular o habilitar ese retardo desde el menu de la central en nivel de acceso 2.'
+
+- name: correcto-hp007-anual
+  expect: noflag
+  note: respuesta correcta de las tareas anuales — no debe marcarse
+  facts:
+    - texto: 'Prueba de humos para integridad de tuberias: anual'
+      valor: una vez al año
+    - texto: 'Comprobar el flujo de las tuberias: anual'
+      valor: una vez al año
+    - texto: 'Limpiar los puntos de muestreo: anual'
+      valor: una vez al año
+  answer: 'Las tareas anuales del VESDA-E VEP son: prueba de humos para comprobar la integridad de las tuberias, comprobar el flujo de las tuberias y limpiar los puntos de muestreo.'

@@ -1238,3 +1238,87 @@ El nuevo bloque NO menciona clarification — el efecto es indirecto, vía bias 
 
 **Trigger**: la sesión #15 (lever de generación). Auditar estas piezas con el eval determinista+estricto end-to-end, **sin subir alucinación** (mantener filtros). Base de medición LISTA: matcher estricto + determinismo (PR#15, en main) + flags `RETRIEVER_DENSE_ONLY`/`HYDE_ENABLED` para A/B; `test_bot_vs_gold` ya replica producción (árbitro end-to-end).
 
+---
+
+## 33. Auditoría sistemática del GOLD — el ruler está parcialmente ROTO (conflictos/OCR), no solo estrecho (sesión 30)
+
+**Disparador**: el experimento retrieve=50 (#16 "retrieve wide, generate narrow") marcó "regresiones peligrosas" en hp012/hp018 que, al verificar contra la **FUENTE** (no contra el gold), resultaron **errores del gold, no alucinaciones del bot**. Eso obligó a auditar los 19 golds de `evals/gold_answers_v1.yaml`.
+
+**Método**: agentes Opus 4.x contra `chunks_v2` + PDFs en MANUALS_DIR, escépticos del gold Y de sí mismos (clasificar error-factual / conflicto-entre-manuales / OCR / conducta-discutible; verificar aritmética).
+
+**Resultado (19 golds)**: 12 CORRECTOS; **hp007** ERROR-FACTUAL (3 frecuencias de la matriz de mantenimiento VESDA mal asignadas — pero es una MATRIZ #24, no verificable sin renderizar el PDF, que aquí falla por falta de `pdftoppm`); **hp012** CONFLICTO (España MFDT280/MPDT280 = 2 lazos/396, internamente consistente, vs US 15088SP = 4 lazos/792); **hp018** CONFLICTO/OCR (gold cita MI-310 ZX5e=5 salidas/EOL 10kΩ con OCR degradado; MI-530 dice ZX5e=4/EOL 6K8; MI-310 podría ser otro producto, ZXAE/ZXEE); **hp011** OCR (sustancia OK pero labels "P.18/P.02" no existen —reales r.i/t.H— y default no es 295s sino "--"); **hp006/hp009/hp017** CONDUCTA-DISCUTIBLE (gold dice admit_no_info pero el corpus SÍ cubre el tema → debería answer; hp017 el config-manual de la PEARL `997-671-005-3_Configuration_ES` está en el corpus con retardos causa-efecto; hp009 cita el manual del producto equivocado).
+
+**Hallazgos meta (los importantes)**:
+1. **El ground-truth del gold es parcialmente NO FIABLE** — no solo estrecho (s28-29) sino con errores factuales, conflictos entre manuales (revisión/mercado España vs US/UK) y OCR degradado. No nos fiamos de los veredictos del eval en los ~7 problemáticos hasta resolverlos.
+2. **Corregir golds NO es automatizable**: hasta el verificador Opus sobre-afirma (hp012: declaró "gold inconsistente" por un error aritmético propio — 2 lazos × [99 detectores + 99 módulos] = 396, consistente). Matrices (#24), conflictos y OCR necesitan **PDF renderizable + técnico real** (no hay técnicos hasta meses). El triage es automatizable; la corrección NO.
+3. **Los errores sesgan a INFRA-valorar al bot** (admit-cuando-debería-responder; valores que penalizan respuestas correctas) → el bot probablemente **rinde mejor que lo que marcaba el eval**; varios "fallos" (incl. buena parte de retrieve=50) eran el bot acertando contra un gold erróneo. → Las cifras de calidad de s28-30 son **indicativas, no firmes**.
+
+**Decisiones (sesión 30)**:
+- **NO regla "manual-España-gana"** (Alberto): el ENG a veces tiene MÁS info; conflicto same-version → gold/bot correcto = **surfacear ambos + admitir la discrepancia** (conducta honesta que el SYSTEM_PROMPT ya pide), NO elegir ganador. Distinguir same-version (surfacear) de versiones-distintas (respuesta version-específica) necesita PDF/técnico.
+- **Filtrar chunks no-ES/EN del retrieval**: hay fr=47, de=46, pt=3 (96 chunks; no hay IT en chunks_v2 ahora). Filtro `language IN ('es','en')` en el retriever — DIFERIDO a tarea propia testeada (toca las RPC), no bundlear. Mantener EN.
+- **Issue de corpus** (separado del gold): el chunk del Apéndice 3 de la ID3000 (hp008) está TRUNCADO en chunks_v2 → riesgo de retrieval (la lista de compatibles no se recupera entera).
+- **Arreglar el ruler ANTES del lever del reranker** — evaluar un reranker contra golds rotos repetiría el error de llamar "trampa" a un win.
+
+**Cola (necesita técnico real / PDF renderizable)**: pase holístico de gold-fix (hp007 matriz, hp012/hp018 conflictos, hp011 OCR, hp006/hp009/hp017 conducta). Excluir estos ~7 del scoring de calidad mientras tanto; usar el núcleo de ~12 limpios.
+
+**Lever de generación (sesión 30, dentro del frame #32)**: change-1 = bloque "DOS ERRORES SIMÉTRICOS" en SYSTEM_PROMPT (rechazar-en-falso con el dato presente = fallo hermano de inventar) → FALLO 5→3 end-to-end (HyDE-off, juez gpt-5.5), sin alucinación nueva → DIRECCIONAL, pero medido contra ruler defectuoso = indicativo. change-2 (completitud) REVERTIDO. Reranker = lever siguiente tras el ruler (research: Zerank-2, Cohere Rerank 4 —fuerte ES—, Voyage 2.5 —identifier-tuned pero degrada fuera de EN—, Jina v3, bge-v2-m3; perfil = ES + identifier-heavy + cross-product → elección empírica; reranker solo NO arregla cross-product → el filtro modelo/categoría SE QUEDA). Repo: change-1 + `RETRIEVE_K_OVERRIDE` (override de retrieve-pool en `test_bot_vs_gold`) en rama `feat/generation-lever`, NO main.
+
+---
+
+## 34. Gaps de corpus-infra destapados por el revisor del localizador (sesión 31)
+
+El review adversarial del localizador del ruler (RULER_DESIGN §2) destapó, **anclado en código**, que chunks_v2 está más incompleto de lo asumido. Alimentan el lever de extracción (#10) y condicionan tanto el localizador del ruler como el bot:
+
+1. **`diagram_url = None` en TODO chunks_v2** (`src/reingest/index.py:61`, follow-up B4 pendiente) y **`has_diagram` impreciso** (`chunk.py:352` = "la página tiene cualquier imagen", logos/cabeceras incluidos). Las cifras 31%/84.9% de #9/#10 son de la tabla VIEJA `chunks`. → respuestas solo-en-diagrama son **invisibles al texto/grep**; el localizador no puede surfacearlas por metadata → render-browse + GAP DE CORPUS. Re-poblar `diagram_url` (B4) es prerrequisito para que el bot adjunte diagramas Y para localizar respuestas visuales (cableado/conexiones — muchas preguntas PCI).
+
+2. **El catálogo (`model_catalog.json`) YA hace split-compound** (`AM2020`, `AFP1010`, `ZX2e/ZX5e` incluidos con `source:split-compound`); los 50 "excluidos" son mayormente risky-acronym/junk, NO productos. → el localizador **REUSA** el catálogo, no re-implementa el split. Residual real: pure-alpha `ZXAE/ZXEE` (gap ya declarado, #18).
+
+3. **Fiabilidad del grep es POR-PÁGINA, no por-doc**: `diagnose_corpus.py:74-81` ya clasifica (escaneado / imagen-heavy / texto-limpio / **mixto**); los manuales UI-screenshot-heavy caen en `mixto` (texto fiable en unas páginas, píxel en otras). Y "digital-native" ≠ texto fiel (7-seg = glifo corrupto sin ser escaneo). → enrutar grep-vs-render **por página** reusando `diagnose_corpus`, no un switch binario por-doc.
+
+4. **El localizador NO se puede validar sobre los 19 golds actuales** — la `page` ya está fijada por el autor → la rebanada vertical no testea el caso duro (encontrar la ubicación de cero). Necesita un **test CIEGO** (pregunta nueva o ignorar la `page` del gold).
+
+**Trigger**: al construir el localizador (Fase 0) y el lever de extracción (#10).
+
+**Meta-lección (s31)**: el localizador se diseñó 3× sobre supuestos del corpus que el código contradecía; el revisor adversarial (Protocolo 3) los cazó leyendo el código → **leer el código real ANTES de diseñar**.
+
+## 35. Scorer atómico del ruler (Fase 2) — construido; refinamientos pendientes (sesión 32)
+
+`scripts/atomic_scorer.py` puntúa la respuesta del bot contra los hechos atómicos del gold, por hecho y transparente (reemplaza el juez LLM opaco). 3 ejes:
+- **completitud** (mecánico/determinista): reusa el matcher estricto de PR#15, extraído a `scripts/strict_match.py` (módulo leaf, solo stdlib, sin stack RAG; `retrieval_eval.py` lo importa, behavior-neutral).
+- **factual/alucinación** (cross-model GPT-5.5, opcional `--llm`): detecta CONTRADICCIONES de hechos verificados (NO omisiones ni info extra; carve-outs anti-s13; juzga por significado no por etiqueta) → cualquier contradicción = FALLO (asimetría de seguridad). Caracterizado con `evals/factual_gate_fixture.yaml` + `scripts/factual_gate_eval.py`: **5/5 recall, 4/4 especificidad** (n=9 a mano → indicativo).
+- **conducta**: heurístico mínimo (answer/admit/clarify).
+
+Demostrado en la rebanada vertical (hp007/hp011/hp017): hp011→FALLO (caza la alucinación "ri=00 inhibido" vs el hecho "r.1 00=permitido"); hp007/hp017→PARCIAL (sin falsos positivos). **El scorer transparente SUPERÓ al juez opaco en hp007** (el juez penalizaba por dato obsoleto).
+
+**Refinamientos pendientes (no bloquean Fase 1, pero antes de fiarse del scorer como árbitro firme):**
+1. **Completitud de PROSA es débil** (eje mecánico): sinónimos (`trimestral`≠"cada 3 meses"), `valor` compartido no distintivo (hp007: las 4 tareas anuales comparten "una vez al año" → indistinguibles), códigos 7-seg cortos (`r.1`). → la misma capa LLM del eje factual puede cubrir la completitud de prosa.
+2. **`valor` debe ser el IDENTIFICADOR DISTINTIVO del hecho, no una frecuencia/etiqueta compartida.** Re-autorar hp007 (valor=tarea, no "una vez al año"). Fijar como regla de autoría.
+3. **Conducta** es heurística → endurecer ahora que Tier B (s33) aporta **5 golds de conducta
+   verificados** (hp004 clarify; hp006/09/13/15 answer/answer-parcial, con hechos `ausente-probado`)
+   para testear los ejes answer/clarify y la asimetría parcial (present + ausente-probado).
+4. **Recall del gate factual sin caracterizar a escala**: n=9 a mano (perturbaciones quizá más fáciles que alucinaciones sutiles reales) → crecer el fixture con casos reales/difíciles.
+5. Bug **C1** (substring de anchors, `'40' in '240'`) corregido EN el scorer; frontera **refinada en s32 Tier-A a DÍGITO** (no de palabra): casa `'24'` en `'24V'`/`'24 °C'` pero NO en `'240'` (la de palabra fallaba "24V"; lo cazó hp003 ">24V"). `chunk_has_quote_strict` (PR#15, en strict_match) conserva el `in` crudo → re-tocarlo exige re-validar el eval de recall (live stack). Pendiente al revisar el matcher de recall.
+
+**Proceso (s32)**: 3 reviews adversariales (Protocolo 3): 2× sub-agente Claude (cazaron **C1** substring + 2 over-claims "validado"; verificaron los 3 veredictos contra ficheros) + 1× **cross-model GPT-5.5** (`adversarial_review.py`) que dio independencia CONCEPTUAL y halló gaps que el mismo-modelo NO vio:
+- **#1/#3 (ARREGLADO)**: el veredicto decía "sin alucinación" = over-claim; el gate solo descarta CONTRADICCIONES de hechos LISTADOS → wording corregido ("sin contradicción con hechos listados").
+- **#2 (ARREGLADO)**: core `manual` (valor=null) quedaba fuera del denominador → un PASS podía OCULTAR core sin puntuar; ahora el veredicto surfacea los core sin puntuar + la dependencia de prosa frágil.
+- **#5 (PENDIENTE)**: presencia del `valor` ≠ hecho afirmado bien — el matcher cuenta el token aunque esté en negación/comparación/contexto erróneo ("no es 295 s" casa "295"). Completitud necesita conciencia de negación/contexto (→ capa LLM).
+- **#6 (PENDIENTE)**: prosa-overlap no escala a sinónimos/traducción ES↔EN ni terminología de 30+ fabricantes ("cada 2 años"/"bienal"/"biennial") — gap del contrato escalable.
+- **#7 (PENDIENTE)**: el fixture n=9 es **smoke/regression test, NO caracterización de seguridad** (no estima recall/especificidad reales; sin EN, sin respuestas largas, sin contradicciones sutiles). No usarlo para sostener que el gate está "listo".
+- **#8 (decisión)**: el scorer siempre `return 0` → consistente con "diagnóstico, no gate" (RULER_DESIGN §0), pero el rol debe ser EXPLÍCITO si alguna vez desbloquea algo.
+
+ROI de los reviews: sano (bugs + over-claims reales, no ritual). El cross-model demostró su valor distinto del sub-agente (catches que el mismo-modelo, que comparte mi marco, no vio).
+
+**Trigger**: al escalar el scorer a más golds (Fase 1) o al fiarse de un veredicto como gate firme.
+
+## 36. Cross-model adversarial reviewer ciego al repo → agéntico/grounded (DIFERIDO, sesión 32)
+
+`scripts/adversarial_review.py` (revisor cross-model GPT-5.5, Protocolo 3) es una llamada single-shot CIEGA al repo: solo ve los ficheros que se le pegan a mano → medio-adivina sobre código que no ve. Mejora ideal: que GPT-5.5 lea el código él mismo (agéntico, tool-use) y su salida se lea en crudo → grounding + independencia conceptual sin filtro Claude.
+
+**DECISIÓN (s32): DIFERIDO, no construir ahora.** Pregunta cero: (a) la orquestación manual funciona (cazó 4 hallazgos reales en s32; yo verifico sus claims contra código); (b) el revisor dispara POCO (chunky, por build/commit), no es el caballo de batalla; (c) el workhorse cross-model de Fase 1 es OTRO tool — `cross_verify_image.py` (lee la fuente, ≥1 por gold), ya construido; (d) tool-use agéntico OpenAI es un mini-proyecto que competiría con Fase 1. Prior: la infra especulativa "para luego" tiende a no usarse o salir distinta (validator s13, apparatus §9, hooks semánticos, force_vision YAGNI).
+
+**NO anidar dentro del sub-agente Claude**: reintroduce el filtro mismo-modelo (Claude cura el input + interpreta el output) → erosiona la independencia, que es el único activo del cross-model. **Invariante a preservar**: el cross-model ve el ARTEFACTO por lente no-Claude + su salida se lee CRUDA (input = artefacto, no los hallazgos del sub-agente → le invitan a anclarse).
+
+**Trigger para construir**: cuando ensamblar el contexto a mano sea un cuello MEDIDO, o cuando la ceguera cause un review malo/falsa-confianza demostrable.
+**Mejora barata intermedia** (si se quiere fricción-cero sin agéntico): flag `--diff` en `adversarial_review.py` que auto-incluya `git diff` + ficheros cambiados (~10 líneas, riesgo casi nulo).
+
