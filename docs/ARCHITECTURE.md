@@ -36,6 +36,17 @@
 > validó y cazó over-claims propios (3 de framing en Tier C). Sigue siendo eval-infra: **producción
 > no cambia**. Detalle: `RULER_DESIGN.md` §4.
 >
+> **Actualización s34 (1 jun 2026 — re-validación de change-1, SÍ toca producción):** con el
+> ruler completo (19/19), se re-validó end-to-end el lever de generación `change-1` (bloque "DOS
+> ERRORES SIMÉTRICOS" anti-falso-rechazo, que estaba en producción vía PR #17). A/B vs los 19
+> golds (HyDE-off, temp=0, judge opaco): con change-1 = 1 PASS/13 PARCIAL/5 FALLO; sin = 3 PASS/11
+> PARCIAL/5 FALLO. **change-1 NO rescata ningún falso-rechazo (5 FALLO idénticos → son retrieval)
+> e induce sobre-respuesta peligrosa** (hp015: el bot fabrica un "puenteado de terminales" no
+> documentado) → **revertido** (PR a main). Próximo lever = hipótesis abierta (retrieval/reranker
+> vs síntesis/v2-prompt), pendiente de auditar los chunks recuperados en los 13 PARCIAL. También
+> s34: mejoras M1-M4 al revisor adversarial (briefing único + `--diff` + tally + formato anclado).
+> Detalle: `TECH_DEBT.md` #33.
+>
 > El bot sirve desde el **corpus re-ingestado `chunks_v2`** (SWAP hecho en Railway
 > vía `CHUNKS_TABLE=chunks_v2`). Cambios respecto a lo que describe el resto de
 > este doc (que documenta el pipeline histórico con el corpus viejo `chunks`):

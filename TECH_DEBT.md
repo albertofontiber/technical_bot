@@ -1253,6 +1253,19 @@ convencional, no el e-series ZXe) + 3 valores fabricados → re-anclado a MIE-MI
 bastaron; el técnico (D1) pasa a spot-checker, no es prerequisito. Detalle: `RULER_DESIGN.md` §4. Residual
 CERRADO en la misma sesión: hp009 (también mis-anclado a MI-310) RE-ANCLADO a MIE-MI-530 (ZX2e/ZX5e); la sustancia (lazo = bucle cerrado sin RFL) se confirmó al píxel (f19 Fig 9/10).
 
+**ACTUALIZACIÓN s34 (1 jun 2026): change-1 re-validado contra el ruler corregido → REVERTIDO.**
+Con 19/19 verificados, el A/B end-to-end del lever de generación `change-1` (bloque anti-falso-rechazo
+en `generator.py`, que entró a producción en PR #17) mostró: NO rescata ninguno de los 5 falso-rechazos
+(idénticos con/sin change-1 → son **retrieval**, p.ej. hp018: el chunk del dato pedido no llega al top-5)
+e **induce sobre-respuesta peligrosa** (hp015: el bot fabrica un puenteado de terminales NO documentado).
+El "FALLO 5→3" de s30 era artefacto del ruler roto; ya no se corrobora → **revertido** (PR a main). El
+revisor adversarial (Protocolo 3, GPT-5.5) cazó 9 over-claims de framing míos → la recomendación se acotó
+a "revertir por PRECAUCIÓN (riesgo hp015), NO por superioridad de B". **Próximo lever = HIPÓTESIS abierta**
+(retrieval/reranker vs síntesis/v2-prompt): requiere auditar si el dato omitido en los 13 PARCIAL estaba
+o no en el top-5 (no hecho). Caveats: el A/B fue HyDE-off (modo diagnóstico, prod usa HyDE); judge opaco
+(s32), aunque el delta A/B es robusto a su sesgo y hp015 se verificó en la respuesta cruda. A/B
+reproducible: `HYDE_ENABLED=false python scripts/test_bot_vs_gold.py` (resultados por-k gitignored, no source).
+
 **Disparador**: el experimento retrieve=50 (#16 "retrieve wide, generate narrow") marcó "regresiones peligrosas" en hp012/hp018 que, al verificar contra la **FUENTE** (no contra el gold), resultaron **errores del gold, no alucinaciones del bot**. Eso obligó a auditar los 19 golds de `evals/gold_answers_v1.yaml`.
 
 **Método**: agentes Opus 4.x contra `chunks_v2` + PDFs en MANUALS_DIR, escépticos del gold Y de sí mismos (clasificar error-factual / conflicto-entre-manuales / OCR / conducta-discutible; verificar aritmética).
