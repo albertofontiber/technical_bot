@@ -41,8 +41,9 @@
 > ERRORES SIMÉTRICOS" anti-falso-rechazo, que estaba en producción vía PR #17). A/B vs los 19
 > golds (HyDE-off, temp=0, judge opaco): con change-1 = 1 PASS/13 PARCIAL/5 FALLO; sin = 3 PASS/11
 > PARCIAL/5 FALLO. **change-1 NO rescata ningún falso-rechazo (5 FALLO idénticos → son retrieval)
-> e induce sobre-respuesta peligrosa** (hp015: el bot fabrica un "puenteado de terminales" no
-> documentado) → **revertido** (PR a main). Próximo lever = hipótesis abierta (retrieval/reranker
+> e induce sobre-respuesta** (hp015: el bot construye un procedimiento NO documentado —"puentear
+> terminales para aislar un detector"— sobre datos de cableado REALES del CCD-103; inferencia no
+> soportada con disclaimer, NO alucinación de datos) → **revertido** (PR a main). Próximo lever = hipótesis abierta (retrieval/reranker
 > vs síntesis/v2-prompt), pendiente de auditar los chunks recuperados en los 13 PARCIAL. También
 > s34: mejoras M1-M4 al revisor adversarial (briefing único + `--diff` + tally + formato anclado).
 > Detalle: `TECH_DEBT.md` #33.
