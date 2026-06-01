@@ -1,0 +1,297 @@
+- qid: hp017
+  hyde: false
+  models:
+  - Pearl
+  target_tokens:
+  - 997-671-005-3_Configuration_ES
+  target_product_model:
+    AC-220: 124
+  mislabel: true
+  in_pool15: false
+  in_widevec50: true
+  wide_rank_sim:
+  - - 3
+    - 997-671-005-3_Configuration_ES
+    - 0.617
+  - - 4
+    - 997-671-005-3_Configuration_ES
+    - 0.615
+  - - 16
+    - 997-671-005-3_Configuration_ES
+    - 0.592
+  clasificacion: METADATA-MISLABEL + BURIAL
+- qid: hp017
+  hyde: true
+  models:
+  - Pearl
+  target_tokens:
+  - 997-671-005-3_Configuration_ES
+  target_product_model:
+    AC-220: 124
+  mislabel: true
+  in_pool15: false
+  in_widevec50: true
+  wide_rank_sim:
+  - - 7
+    - 997-671-005-3_Configuration_ES
+    - 0.737
+  - - 14
+    - 997-671-005-3_Configuration_ES
+    - 0.735
+  - - 31
+    - 997-671-005-3_Configuration_ES
+    - 0.72
+  clasificacion: METADATA-MISLABEL + BURIAL
+- qid: hp005
+  hyde: false
+  models:
+  - ID3000
+  target_tokens:
+  - MPDT190
+  - MCDT191
+  target_product_model:
+    ID3000: 330
+  mislabel: false
+  in_pool15: true
+  in_widevec50: true
+  wide_rank_sim:
+  - - 10
+    - MCDT191
+    - 0.623
+  - - 21
+    - MCDT191
+    - 0.617
+  - - 23
+    - MCDT191
+    - 0.615
+  clasificacion: OK (manual llega al pool)
+- qid: hp005
+  hyde: true
+  models:
+  - ID3000
+  target_tokens:
+  - MPDT190
+  - MCDT191
+  target_product_model:
+    ID3000: 330
+  mislabel: false
+  in_pool15: true
+  in_widevec50: true
+  wide_rank_sim:
+  - - 10
+    - MCDT191
+    - 0.706
+  - - 12
+    - MPDT190
+    - 0.704
+  - - 17
+    - MCDT191
+    - 0.698
+  clasificacion: OK (manual llega al pool)
+- qid: hp008
+  hyde: false
+  models:
+  - ID3000
+  target_tokens:
+  - MIDT190
+  - MCDT191
+  target_product_model:
+    ID3000: 250
+  mislabel: false
+  in_pool15: true
+  in_widevec50: true
+  wide_rank_sim:
+  - - 21
+    - MIDT190
+    - 0.619
+  clasificacion: OK (manual llega al pool)
+- qid: hp008
+  hyde: true
+  models:
+  - ID3000
+  target_tokens:
+  - MIDT190
+  - MCDT191
+  target_product_model:
+    ID3000: 250
+  mislabel: false
+  in_pool15: true
+  in_widevec50: true
+  wide_rank_sim:
+  - - 15
+    - MIDT190
+    - 0.697
+  - - 25
+    - MIDT190
+    - 0.691
+  clasificacion: OK (manual llega al pool)
+- qid: hp011
+  hyde: false
+  models:
+  - RP1R
+  target_tokens:
+  - HLSI-MN-103_RP1r-Supra_lr
+  target_product_model:
+    RP1r-Supra: 190
+  mislabel: false
+  in_pool15: true
+  in_widevec50: true
+  wide_rank_sim:
+  - - 0
+    - HLSI-MN-103_RP1r-Supra_lr
+    - 0.609
+  - - 4
+    - HLSI-MN-103_RP1r-Supra_lr
+    - 0.587
+  - - 6
+    - HLSI-MN-103_RP1r-Supra_lr
+    - 0.575
+  clasificacion: OK (manual llega al pool)
+- qid: hp011
+  hyde: true
+  models:
+  - RP1R
+  target_tokens:
+  - HLSI-MN-103_RP1r-Supra_lr
+  target_product_model:
+    RP1r-Supra: 190
+  mislabel: false
+  in_pool15: true
+  in_widevec50: true
+  wide_rank_sim:
+  - - 3
+    - HLSI-MN-103_RP1r-Supra_lr
+    - 0.706
+  - - 9
+    - HLSI-MN-103_RP1r-Supra_lr
+    - 0.698
+  - - 13
+    - HLSI-MN-103_RP1r-Supra_lr
+    - 0.695
+  clasificacion: OK (manual llega al pool)
+- qid: hp018
+  hyde: false
+  models:
+  - ZXE
+  target_tokens:
+  - MIE-MI-530rv001
+  - MIE-MI-310
+  target_product_model:
+    ZX2e/ZX5e: 64
+    ZXAE/ZXEE: 42
+  mislabel: false
+  in_pool15: true
+  in_widevec50: true
+  wide_rank_sim:
+  - - 1
+    - MIE-MI-310
+    - 0.65
+  - - 2
+    - MIE-MI-310
+    - 0.626
+  - - 4
+    - MIE-MI-530rv001
+    - 0.605
+  clasificacion: OK (manual llega al pool)
+- qid: hp018
+  hyde: true
+  models:
+  - ZXE
+  target_tokens:
+  - MIE-MI-530rv001
+  - MIE-MI-310
+  target_product_model:
+    ZX2e/ZX5e: 64
+    ZXAE/ZXEE: 42
+  mislabel: false
+  in_pool15: true
+  in_widevec50: true
+  wide_rank_sim:
+  - - 4
+    - MIE-MI-530rv001
+    - 0.736
+  - - 5
+    - MIE-MI-530rv001
+    - 0.736
+  - - 6
+    - MIE-MI-310
+    - 0.733
+  clasificacion: OK (manual llega al pool)
+- qid: hp006
+  hyde: false
+  models:
+  - AFP-400
+  target_tokens:
+  - MIDT170
+  - 50253SP
+  - MADT380_01
+  target_product_model:
+    AFP-400: 246
+    AFP-300: 290
+    NAM-232: 3
+  mislabel: false
+  in_pool15: true
+  in_widevec50: false
+  wide_rank_sim: []
+  clasificacion: OK (manual llega al pool)
+- qid: hp006
+  hyde: true
+  models:
+  - AFP-400
+  target_tokens:
+  - MIDT170
+  - 50253SP
+  - MADT380_01
+  target_product_model:
+    AFP-400: 246
+    AFP-300: 290
+    NAM-232: 3
+  mislabel: false
+  in_pool15: true
+  in_widevec50: false
+  wide_rank_sim: []
+  clasificacion: OK (manual llega al pool)
+- qid: hp019
+  hyde: false
+  models:
+  - ASD535
+  target_tokens:
+  - ASD535_TD_T131192es_h
+  target_product_model:
+    ASD535: 242
+  mislabel: false
+  in_pool15: true
+  in_widevec50: true
+  wide_rank_sim:
+  - - 0
+    - ASD535_TD_T131192es_h
+    - 0.669
+  - - 1
+    - ASD535_TD_T131192es_h
+    - 0.667
+  - - 2
+    - ASD535_TD_T131192es_h
+    - 0.662
+  clasificacion: OK (manual llega al pool)
+- qid: hp019
+  hyde: true
+  models:
+  - ASD535
+  target_tokens:
+  - ASD535_TD_T131192es_h
+  target_product_model:
+    ASD535: 242
+  mislabel: false
+  in_pool15: true
+  in_widevec50: true
+  wide_rank_sim:
+  - - 2
+    - ASD535_TD_T131192es_h
+    - 0.743
+  - - 3
+    - ASD535_TD_T131192es_h
+    - 0.739
+  - - 4
+    - ASD535_TD_T131192es_h
+    - 0.738
+  clasificacion: OK (manual llega al pool)

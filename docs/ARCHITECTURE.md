@@ -50,6 +50,17 @@
 > s34: mejoras M1-M4 al revisor adversarial (briefing único + `--diff` + tally + formato anclado).
 > Detalle: `TECH_DEBT.md` #33.
 >
+> **Actualización s36 (1 jun 2026 — auditoría DEC-003 del retrieval, NO toca producción):** ejecutada
+> la auditoría del embudo (HyDE-off por hecho atómico; instrumentos `audit_retrieval_funnel.py` +
+> `validate_s29_burial.py`). **Hallazgo:** el cuello está repartido; los 5 FALLO = 4 retrieval-funnel +
+> 1 síntesis; **el cuello dominante es within-doc chunk-ranking** (manual correcto en el pool, el chunk
+> de la respuesta no llega al top-5), NO routing de manual (validado n=1: solo hp017 no trae el manual,
+> por `product_model='AC-220'` mal etiquetado + el bug de scores planos de `TECH_DEBT #32`). HyDE-ON no
+> cambia el diagnóstico. **Se propusieron y descartaron 4 levers** (change-1/doc-routing/fail-open/RRF;
+> RRF ya estaba medido en `gate.py` y no movía hit@5). **Decisión:** NO más mecanismos a ciegas; el
+> siguiente paso es el aprobado en DEC-003 — **crecer el ruler + medir end-to-end**. Producción intacta.
+> Detalle canónico: `DECISIONS.md` DEC-005.
+>
 > El bot sirve desde el **corpus re-ingestado `chunks_v2`** (SWAP hecho en Railway
 > vía `CHUNKS_TABLE=chunks_v2`). Cambios respecto a lo que describe el resto de
 > este doc (que documenta el pipeline histórico con el corpus viejo `chunks`):
