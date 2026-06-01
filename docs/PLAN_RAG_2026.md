@@ -10,7 +10,7 @@
 > **Audiencia.** Alberto (decisión estratégica) y cualquier sesión de desarrollo
 > futura — debe poder leerse en frío y saber qué hacer y por qué.
 >
-> **Fecha base:** 22 mayo 2026. **Última actualización:** 1 jun 2026 (sesión 35) — ver "Estado actual y próximos pasos" justo debajo.
+> **Fecha base:** 22 mayo 2026. **Última actualización:** 1 jun 2026 (sesión 37) — ver "Estado actual y próximos pasos" justo debajo.
 >
 > **📍 Mapa canónico (un dueño por tema — para no repetir la inconsistencia de la s35).** ESTE
 > documento es el **único canónico** del **roadmap + estado + qué sigue**. Los demás lo
@@ -66,6 +66,24 @@
 >   volver falsable cualquier lever); (c) fix seguro pase lo que pase: `product_model='AC-220'` del
 >   Config-ES de la PEARL (bug B5, n=1); (d) opcional barato: re-correr `gate.py` sobre el ruler arreglado
 >   (sigue siendo proxy). Instrumentos: `audit_retrieval_funnel.py`, `validate_s29_burial.py`.
+>
+> **Actualización s37 (1 jun 2026 — paso (b) de s36 HECHO: medido END-TO-END):**
+> - **Árbitro end-to-end corrido sobre los 19 por primera vez** (`test_bot_vs_gold.py` genera respuestas →
+>   `atomic_scorer.py --llm`, 3 ejes, HyDE-off, `chunks_v2`, metadata de prod ACTUAL). Baseline: **8 FALLO /
+>   10 PARCIAL / 1 REVISAR / 0 PASS** (0 PASS = alarma fuerte, no conteo definitivo — la prosa-frágil degrada
+>   PASS→PARCIAL, #35). **Consistente con DEC-005 a nivel end-to-end** (no solo funnel): over-admit/clarify donde
+>   el dato está enterrado (hp017 AC-220, hp019, hp018) + síntesis/contradicción (hp005 matriz, hp011, hp013).
+>   `DECISIONS.md` DEC-006.
+> - **Scorer ajustado (Protocolo 3 dual SÓLIDO)**: answer-con-conflicto delega el surfaceo a COMPLETITUD
+>   (hp012 limpio); discriminador **hedged-admit** (p>0 = parcial con hedge, no admit real → 3 falsos-FALLO
+>   hp001/14/15 corregidos, conserva over-admit reales hp017/19); **refuse-inference EXCLUIDO de ANSWER_LIKE**
+>   (cae a REVISAR) hasta su check dedicado (el eje factual contradicción-only no caza inferencia indebida).
+> - **Límites del árbitro (fiable para señal CATEGÓRICA, aún no deltas finos)**: prosa-frágil deflacta
+>   completitud → los PARCIAL son un SUELO (TECH_DEBT #35) + eje factual no-determinista (TECH_DEBT #37).
+>   Coherente con RULER_DESIGN §0 (diagnóstico, no gate estadístico).
+> - **Próximo (DEC-003 capa 1)**: crecer el breadth-baseline (admit/refuse-inference/clarify + eje
+>   fabricante/ES-EN) sobre esta base; fix `product_model='AC-220'` (prod, contrato de seguridad) re-medido
+>   como delta vs este baseline; endurecer completitud-prosa (#35) para leer deltas finos.
 
 ---
 

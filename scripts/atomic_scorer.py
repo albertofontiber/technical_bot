@@ -20,8 +20,9 @@ se evalúa y el veredicto se marca PROVISIONAL. Cross-model evita los puntos cie
 del bot (Sonnet, lección s13) y NO re-lee píxeles → el sesgo 7-seg no aplica aquí
 (compara TEXTOS, no displays).
 
-Eje CONDUCTA: heurístico mínimo (answer | admit | clarify) — a endurecer con golds
-de conducta (Fase 1/3).
+Eje CONDUCTA: heurístico mínimo (answer | admit | clarify). answer-con-conflicto colapsa a
+"answer" en el gate; surfacear ambas variantes lo mide COMPLETITUD. refuse-inference NO se
+colapsa aún (cae a REVISAR) hasta tener su check de inferencia-indebida. A endurecer (Fase 1/3).
 
 Entrada: gold (gold_store; solo verificados con atomic_facts) + respuestas del bot
 (por defecto el último run cacheado evals/bot_vs_gold_results_k5.yaml, o --answers).
@@ -50,6 +51,14 @@ FACTUAL_MODEL = "gpt-5.5"  # cross-model (distinto del bot-Sonnet y del gold-Opu
 
 # admit_no_info / ask_clarification (legacy) → las 5 conductas (RULER_DESIGN §1).
 _LEGACY = {"admit_no_info": "admit", "ask_clarification": "clarify"}
+# Conductas "answer-family" → colapsan a "answer" en el gate de conducta; que surfaceen AMBAS
+# variantes (answer-con-conflicto) lo mide COMPLETITUD sobre los hechos atómicos, no una heurística
+# de conducta frágil; el eje FACTUAL caza la invención (asimetría de seguridad).
+# refuse-inference se EXCLUYE a propósito: su fallo típico —fabricar compatibilidad cross-brand SIN
+# contradecir un hecho listado— el eje factual (contradicción-only) NO lo caza, luego colapsarlo a
+# "answer" lo dejaría pasar. Sin su check dedicado de "inferencia indebida" (al autorar esos golds,
+# hoy n=0) cae a REVISAR = juicio humano (lo señalaron cross-model + sub-agente, Protocolo 3 s37).
+ANSWER_LIKE = {"answer", "answer-con-conflicto"}
 _NOINFO = ("no tengo", "no contiene", "no contienen", "no especifica", "no se especifica",
            "no aparece", "no esta cubiert", "no dispongo", "no figura", "no incluye",
            "no describe", "no hay informacion", "no consta", "no cuento con")
@@ -159,6 +168,17 @@ def score_gold(gold: dict, answer: str, contradictions=None, factual_error=None)
 
     expected = _LEGACY.get(gold.get("conducta_esperada"), gold.get("conducta_esperada"))
     bot_conducta = detect_conducta(answer)
+    # Un "admit" detectado pero con hechos core ENTREGADOS (p>0) es una respuesta PARCIAL con
+    # hedge ("el manual no cubre X específico, PERO aquí está lo documentado…"), NO un admit-no-
+    # info real (que entrega ~0 core). Discriminar por completitud (señal ya calculada) evita
+    # penalizar el hedge correcto como FALLO — s37: hp015 era respuesta CORRECTA (desconexión
+    # por zona en la CCD-103 convencional) marcada admite-FALLO por su frase de apertura.
+    hedged_admit = bot_conducta == "admit" and p > 0
+    bot_conducta_gate = "answer" if hedged_admit else bot_conducta
+    # El gate de conducta colapsa las answer-family a "answer": el bot debe RESPONDER (no
+    # admitir/clarificar). Si surfaceó AMBAS variantes / los hechos por-producto lo decide el
+    # eje COMPLETITUD sobre los hechos atómicos (que los codifican), no este gate.
+    expected_gate = "answer" if expected in ANSWER_LIKE else expected
     factual_run = contradictions is not None or factual_error is not None
 
     # Síntesis: la asimetría de seguridad manda (alucinación=FALLO por encima de todo).
@@ -168,10 +188,10 @@ def score_gold(gold: dict, answer: str, contradictions=None, factual_error=None)
         verdict = f"REVISAR (eje factual no evaluable: {factual_error})"
     elif contradictions:
         verdict = f"FALLO (alucinación: contradice {len(contradictions)} hecho(s) verificado(s))"
-    elif expected != bot_conducta:
-        if expected == "answer" and bot_conducta == "admit":
+    elif expected_gate != bot_conducta_gate:
+        if expected_gate == "answer" and bot_conducta_gate == "admit":
             verdict = "FALLO (admite con el corpus cubriendo)"
-        elif expected == "admit" and bot_conducta == "answer":
+        elif expected_gate == "admit" and bot_conducta_gate == "answer":
             verdict = "REVISAR (responde donde el gold admite)"
         else:
             verdict = f"REVISAR (conducta bot={bot_conducta} != esperada={expected})"
@@ -197,6 +217,10 @@ def score_gold(gold: dict, answer: str, contradictions=None, factual_error=None)
         prose_hits = sum(1 for r in present_core if r["method"] == "prose")
         if prose_hits:
             notes.append(f"{prose_hits}/{p} presentes por prosa (frágil)")
+        if hedged_admit:
+            notes.append("fraseo-admite pero entrega core → puntuado como answer parcial")
+        if expected in ANSWER_LIKE and expected != "answer":
+            notes.append(f"conducta {expected}: surfaceo medido por completitud")
         if notes:
             verdict += "  [" + "; ".join(notes) + "]"
 
