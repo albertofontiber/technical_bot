@@ -4,6 +4,10 @@ Lista de mejoras conocidas que hemos **decidido posponer explícitamente**. Cada
 
 Si alcanzas un trigger, para y refactoriza antes de seguir añadiendo features.
 
+> **📍 Mapa canónico:** este doc = **deuda con triggers**. El roadmap + estado vigente es
+> canónico en `PLAN_RAG_2026.md`; el *por qué* de las decisiones de impacto med/alto en
+> `docs/DECISIONS.md`.
+
 ---
 
 ## 1. Externalizar overrides de modelo/categoría a YAML
@@ -56,9 +60,11 @@ Si alcanzas un trigger, para y refactoriza antes de seguir añadiendo features.
 
 ---
 
-## 4. Gestión de revisiones de documentos — ⏳ EN PROGRESO (Phase 1 ✅)
+## 4. Gestión de revisiones de documentos — 🔼 ELEVADO A TAREA PRÓXIMA (1 jun 2026); Phase 1 ✅ sobre tabla vieja, chunks_v2 SIN metadata de revisión
 
 **Estado actual (16 abril 2026)**: **Phase 1 COMPLETADA**. Tabla `documents` creada (866 filas), `chunks.document_id` FK añadida y poblada al 100% (150,695 chunks vinculados). Phase 2 pendiente (revision_parser.py para extraer revisión/fecha de filenames). Phase 3 pendiente (re-hash con SHA-256 real para reemplazar placeholders 'backfill:'). Ver `docs/DOCUMENT_MANAGEMENT.md` para el diseño completo y `migrations/001_document_management.sql` para el schema.
+
+**Estado en chunks_v2 (corpus de PRODUCCIÓN — verificado en `migrations/006_chunks_v2.sql`, 1 jun 2026)**: chunks_v2 NO tiene ninguna columna de revisión/fecha/estado — solo `document_id` (FK a `documents`), `source_file` y `page_number`. Las RPC `match_chunks_v2`/`search_chunks_text_v2` tampoco filtran por revisión. → el bot **puede servir una revisión obsoleta** y NO puede aplicar la conducta "latest-wins" (`RULER_DESIGN §1:67-72`). La Phase 1 (FK `document_id`) se hizo sobre la tabla VIEJA `chunks` (150,695 filas); el SWAP a chunks_v2 (sesión 27) dejó este corpus sin esa gestión.
 
 **Problema original**: Tratamos cada PDF como un documento independiente identificado por su filename. No sabemos si dos PDFs son:
 - (a) revisiones sucesivas del mismo manual (p.ej. `... rev 3` vs `... rev 4`)
@@ -74,10 +80,8 @@ Si alcanzas un trigger, para y refactoriza antes de seguir añadiendo features.
 - `MADT731_01/_02/_04/_06` — probablemente multi-parte, no revisiones
 - `AM-8100 manual de usuario y programacion rev 4 30-10-2024.pdf` — rev 4, ¿dónde están rev 1-3?
 
-**Trigger para implementar**:
-- Detectamos **>20 colisiones** de filename-base en un solo scrape (señal de que hay muchas revs/partes mezcladas), O
-- Un técnico reporta que el bot dio instrucciones de una versión obsoleta de un manual, O
-- Queremos hacer re-scrapes periódicos del mismo fabricante (necesitamos detectar deltas)
+**🔼 ELEVADO A TAREA PRÓXIMA (decisión de Alberto, 1 jun 2026)** — ya NO trigger-gated.
+**Motivo (traza)**: (1) riesgo de corrección en producción — citar una revisión caducada a un técnico; (2) es prerrequisito para que el ruler/bot pueda aplicar la conducta "latest-wins" (`RULER_DESIGN §1:67-72`), hoy inexpresable sin la metadata. Los triggers originales —que NO se cumplen hoy: >20 colisiones de filename-base, un técnico reporta versión obsoleta, o re-scrapes periódicos— quedan como contexto histórico, **superados** por la decisión de elevar.
 
 **Solución propuesta**:
 1. Campo `document_family` en `chunks` = base normalizado (ej: "AM-8100 manual de usuario")
