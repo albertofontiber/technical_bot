@@ -244,3 +244,45 @@
   1, diferido a s38)**: crecer el breadth-baseline (admit/refuse-inference/clarify + eje fabricante/ES-EN) sobre
   esta base; fix `product_model='AC-220'` (prod, contrato de seguridad) re-medido como delta; endurecer
   completitud-prosa (#35) para que el árbitro lea deltas finos; refuse-inference necesita su check + golds.
+
+## DEC-007 — Dos fixes de producción shippeados (AC-220 relabel + filtro de idioma)
+- **Fecha**: 1 jun 2026 (sesión 38). **Impacto**: MEDIO (producción).
+- **Decisión**: shippeados vía **PR #24 (merged, `99f8f3d`)**: (1) relabel `product_model 'AC-220' → 'Pearl'`
+  del Manual de Configuración ES de la PEARL (`997-671-005-3_Configuration_ES`, 124 chunks, dato en
+  `chunks_v2`); (2) **filtro de idioma** en retrieval (`_filter_by_language` descarta los ~96 chunks
+  no-ES/EN del pool; + `language` en los selects PostgREST).
+- **Contexto/medido**: AC-220 — los chunks del manual de config pasan de **0→9** en el pool-15 de hp017
+  (rank 1, HyDE-off determinista) y el bot pasa de **over-admitir (FALLO s37)** a **responder** citando el
+  manual correcto. Filtro idioma — 243 tests + smoke vs prod (3 queries, `langs ⊆ {es,en}`, 0 extranjeros).
+- **Alternativas descartadas**: AC-220 inline sin medir → rechazada (contrato de seguridad + delta);
+  filtro vía RPC migration → rechazada (bypassa el gate PR→Railway; el filtro Python pasa por revisión).
+- **Revisión**: smoke + suite verde; AC-220 verificado al píxel (contenido = manual PEARL). `fix_ac220_product_model.py`
+  = record idempotente.
+- **Estado**: ✅ HECHO (PR #24 merged). Raíz AC-220 = extracción B5 (reaparece en re-ingesta) → `TECH_DEBT #38`/#9.
+  **Baseline s37 SUPERSEDED** (prod cambió: AC-220 + filtro idioma).
+
+## DEC-008 — Dirección: crecer el ruler como catálogo diagnóstico sintético 3-bandas
+- **Fecha**: 1 jun 2026 (sesión 38). **Impacto**: ALTO (gobierna la fase pre-técnicos).
+- **Decisión**: crecer el ruler generando un **catálogo de golds Tier-1 sintéticos source-verified** vía
+  proceso **3-bandas** (Claude + GPT-5.5 co-generan desde el manual; dúo adversarial critica), usado como
+  **instrumento DIAGNÓSTICO** (correr el bot → localizar en qué parte de la cadena falla con
+  `audit_retrieval_funnel` + `atomic_scorer`). **Ejecución por frontera de supervisión**: NOCHE autónoma =
+  solo construir `#35` (juez-LLM de completitud, detrás de flag-off + datos crudos); MAÑANA supervisada =
+  sign-off de #35 + construir el pipeline de autoría (C4 = localización 2-rutas, convergencia-por-CONTENIDO,
+  render±1, doble-lectura de valores; contratos refuse/admit; `cross_generate`) + autorar ~6-8 + diagnóstico.
+  **Plan maestro canónico: `docs/CATALOG_PLAN.md` (v4).**
+- **Contexto**: no hay técnicos (y serán USUARIOS, no curadores); Alberto no es fuente (query_logs = ecos del
+  propio eval, NO señal independiente); 4 levers cayeron en s36 sobre proxies. La maquinaria diagnóstica ya
+  existe (s36/s37); falta INPUT ancho (19 golds, 3 fabricantes). GPT-5.5 (linaje ≠ bot=Sonnet) **MITIGA** la
+  circularidad al co-generar, NO la rompe; el sign-off humano del scorer (B1) es el único corte fuerte.
+- **Alternativas descartadas**: (a) preguntas reales de Alberto/técnicos → no hay fuente fiable; (b) 100%
+  Claude-autor → circularidad Sonnet↔Sonnet; (c) routing per-página / Workflow para 6-8 → over-engineering
+  (#10 / no aplica); (d) construir+confiar el scorer la misma noche → circular → split a sign-off humano.
+- **Revisión adversarial**: **3 pasadas del dúo sobre el plan maestro** (log entradas 18-20 GPT-5.5 +
+  sub-agentes en paralelo), todas NO SÓLIDO hasta v4. Cazaron mis over-claims de FRAMING (§0 "GPT rompe
+  circularidad", C4 etiqueta-sin-mecanismo, "auto-detecta casos duros") + **2 errores fácticos** (`diagnose_corpus`
+  es doc-level no per-página; **AC-220 ya aplicado → baseline s37 superseded**). Regla C: corregí 1 FP parcial del
+  sub-agente (coordenadas C4 = ambas físicas, migración 006 → fix = converger por CONTENIDO). Convergió a v4 cuando
+  los hallazgos pasaron a contratos-de-implementación (resueltos en B2 supervisado), no fallos estructurales.
+- **Estado**: 🟢 APROBADO; plan maestro v4 CERRADO (`docs/CATALOG_PLAN.md`). **Próximo**: Fase A esta noche (#35);
+  B/C mañana supervisado.
