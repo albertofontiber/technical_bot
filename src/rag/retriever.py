@@ -395,7 +395,7 @@ def keyword_search(
             headers=headers,
             params={
                 "product_model": f"imatch.{pattern}",
-                "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,has_diagram,diagram_url,source_file,page_number,document_id",
+                "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,language,has_diagram,diagram_url,source_file,page_number,document_id",
                 "limit": str(limit),
             },
         )
@@ -437,7 +437,7 @@ def diagram_search(
         "product_model": f"imatch.{pattern}",
         "has_diagram": "eq.true",
         "diagram_url": "not.is.null",
-        "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,has_diagram,diagram_url,source_file,page_number,document_id",
+        "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,language,has_diagram,diagram_url,source_file,page_number,document_id",
         "limit": str(limit),
     }
     if content_type:
@@ -480,7 +480,7 @@ def typed_search(
             params={
                 "product_model": f"imatch.{pattern}",
                 "content_type": f"eq.{content_type}",
-                "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,has_diagram,diagram_url,source_file,page_number,document_id",
+                "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,language,has_diagram,diagram_url,source_file,page_number,document_id",
                 "limit": str(limit),
             },
         )
@@ -523,7 +523,7 @@ def content_search(
         params = {
             "content": f"ilike.*{search_term}*",
             "product_model": f"imatch.{pattern}",
-            "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,has_diagram,diagram_url,source_file,page_number,document_id",
+            "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,language,has_diagram,diagram_url,source_file,page_number,document_id",
             "limit": str(limit),
         }
         if category:
@@ -574,7 +574,7 @@ def content_search(
     # Fallback to ilike (RPC unavailable)
     params = {
         "content": f"ilike.*{search_term}*",
-        "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,has_diagram,diagram_url,source_file,page_number,document_id",
+        "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,language,has_diagram,diagram_url,source_file,page_number,document_id",
         "limit": str(limit),
     }
     if category:
@@ -1123,6 +1123,11 @@ def retrieve_chunks(
     if not models and len(merged) > 0:
         merged = _diversify_by_manufacturer(merged, top_k, query, query_embedding)
 
+    # Step 5c: Language filter — drop chunks outside the served languages
+    # (ES/EN). Runs LAST so it also catches supplementary chunks added by the
+    # diversity steps (which fetch fresh from the corpus). ~0.4% of chunks_v2.
+    merged = _filter_by_language(merged)
+
     return merged[:top_k]
 
 
@@ -1272,6 +1277,39 @@ def _filter_to_query_models(chunks: list[dict], models: list[str]) -> list[dict]
 
 
 # ---------------------------------------------------------------------------
+# Language filter (política de idiomas — sesión 38)
+# ---------------------------------------------------------------------------
+# Idiomas que el bot sirve. El corpus indexa ES, multilingüe-con-ES y EN-only;
+# el contenido SOLO en PT/FR/IT/DE se registra pero NO se sirve (un técnico
+# español no puede usar un chunk solo-francés). ~0,4% de chunks_v2 es fr/de/pt.
+# Filtrarlos en retrieval evita que un chunk extranjero desplace a uno servible
+# o contamine la respuesta. Política: PLAN_RAG_2026 §4 (B2) + filtro diferido s30.
+_SERVED_LANGUAGES = {"es", "en"}
+
+
+def _filter_by_language(chunks: list[dict]) -> list[dict]:
+    """Drop chunks whose language is outside the served set (ES/EN).
+
+    Rules:
+      - language in {es, en}                → KEPT
+      - language NULL / missing             → KEPT (unlabeled → don't hide it)
+      - any other language (fr/de/pt/it/…)  → DROPPED
+
+    Fail-open: if filtering would leave nothing (e.g. a model documented only
+    in PT), return the originals — the generator then decides whether to admit,
+    rather than the retriever silently returning zero rows. Mirrors the
+    fail-open of _filter_to_query_models.
+    """
+    if not chunks:
+        return chunks
+    kept = [
+        c for c in chunks
+        if not c.get("language") or (c.get("language") or "").lower() in _SERVED_LANGUAGES
+    ]
+    return kept if kept else chunks
+
+
+# ---------------------------------------------------------------------------
 # Multi-doc diversity (TECH_DEBT #11c fix — 22 abril 2026)
 # ---------------------------------------------------------------------------
 def _get_source_files_for_model(product_model: str) -> list[str]:
@@ -1321,7 +1359,7 @@ def _fetch_top_chunks_by_source_file(
     keywords = extract_search_keywords(query)
     select_cols = (
         "id,content,product_model,category,section_title,content_type,"
-        "manufacturer,protocol,doc_type,has_diagram,diagram_url,source_file,"
+        "manufacturer,protocol,doc_type,language,has_diagram,diagram_url,source_file,"
         "page_number,document_id"
     )
     # Try FTS first (post spanish_unaccent fix: 'menú' matches chunks with accent)
