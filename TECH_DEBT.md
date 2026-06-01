@@ -1331,5 +1331,5 @@ ROI de los reviews: sano (bugs + over-claims reales, no ritual). El cross-model 
 **NO anidar dentro del sub-agente Claude**: reintroduce el filtro mismo-modelo (Claude cura el input + interpreta el output) → erosiona la independencia, que es el único activo del cross-model. **Invariante a preservar**: el cross-model ve el ARTEFACTO por lente no-Claude + su salida se lee CRUDA (input = artefacto, no los hallazgos del sub-agente → le invitan a anclarse).
 
 **Trigger para construir**: cuando ensamblar el contexto a mano sea un cuello MEDIDO, o cuando la ceguera cause un review malo/falsa-confianza demostrable.
-**Mejora barata intermedia** (si se quiere fricción-cero sin agéntico): flag `--diff` en `adversarial_review.py` que auto-incluya `git diff` + ficheros cambiados (~10 líneas, riesgo casi nulo).
+**Mejora barata intermedia — HECHA (1 jun 2026):** flag `--diff` en `adversarial_review.py` auto-incluye `git diff HEAD` como contexto (mitiga el sesgo de SELECCIÓN de qué pegarle al revisor). Lo que sigue DIFERIDO es solo el salto **agéntico** (que GPT lea el repo él mismo con tool-use). Misma tanda: M1 briefing único (`scripts/adversarial_briefing.md`, cierra la divergencia spec↔script) + M3 log de tally (`evals/adversarial_review_log.jsonl`) + M4 formato de salida anclado — ver `docs/ADVERSARIAL_REVIEWER.md`.
 

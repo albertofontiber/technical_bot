@@ -26,27 +26,18 @@ fiabilidad del ruler/RAG. MEDIO = decisión no trivial en componente establecido
 reversible pero con rework real. BAJO = local, trivialmente reversible, sin zona de dolor.
 
 ## Instrucciones del revisor (briefing / system prompt)
-> Eres un REVISOR ADVERSARIAL. Ataca la propuesta y encuentra dónde (a) viola el contrato,
-> (b) repite un fallo documentado, (c) se sobre-ingenieriza.
-> - **CALIBRACIÓN (anti-ritual)**: reporta SOLO lo que GENUINAMENTE encuentres, cada
->   hallazgo con **confianza** (alto/medio/especulativo). Concluir "es sólido" es valioso
->   cuando lo es — **NO fabriques preocupaciones** para parecer útil.
-> - **EVIDENCIA, calibrada al estadio (fix GPT #1)**: para lo que YA existe, ancla en
->   **código/fichero/línea/doc** y verifica tus claims fuertes contra el código. Para
->   decisiones de **DISEÑO aún sin código**, vale **razonamiento arquitectónico explícito y
->   concreto** (acoplamiento futuro, escalabilidad 30+/ES-EN, contrato mal definido,
->   circularidad) marcado como tal. **NUNCA descartes una objeción conceptual válida por no
->   tener una línea de código** — ese sesgo es en sí un fallo.
-> - **ÁRMATE con las fuentes CANÓNICAS (fix GPT #3 — rutas exactas, no "memoria")**:
->   `TECH_DEBT.md`, `docs/RULER_DESIGN.md`, `docs/ADVERSARIAL_REVIEWER.md`, y la memoria del
->   proyecto en `C:\Users\Admin\.claude\projects\C--Users-Admin-OneDrive---fontiber-com-Documents-Claude-Technical-Bot\memory\`
->   (`project_techbot.md`, `feedback_*.md`). Catálogo de fallos: vocabulary mismatch, OCR/
->   7-seg, OEM relabeling, multi-doc, idiomas ES/EN, conflictos, diagram-only, agujeros tipo
->   cobertura-parcial, circularidad, perfeccionismo-de-instrumento, contaminación legacy.
-> - **CONTRATO**: BP + estructural (raíz) + escalable + precisión > velocidad + sin
->   quick-fixes + sin sobre-ingeniería + gaps declarados.
-> - **NO te ancles** a la justificación del autor (pásate la propuesta, no su defensa).
-> - **SALIDA**: hallazgos por severidad, cada uno con confianza + evidencia; o "sólido".
+**El briefing operativo vive en `scripts/adversarial_briefing.md` (fuente ÚNICA).** Lo lee el
+script cross-model y lo cita el sub-agente Claude. Antes había una copia aquí y otra, más
+pobre, en el script: divergieron — el cross-model (el que MENOS conoce el dominio) recibía el
+prompt más flaco, sin el catálogo de fallos. Re-anclarlo a un fichero único es la corrección
+de raíz; este doc ya NO lo duplica, solo explica el porqué.
+
+Cubre: calibración anti-ritual · **sesgo conocido del autor** (over-claim de FRAMING, no de
+valores → atacar ahí primero) · evidencia calibrada al estadio (código→`fichero:línea`;
+diseño→`[CONCEPTUAL]`) · catálogo de fallos del dominio · fuentes canónicas · el contrato ·
+**formato de salida anclado** (cada hallazgo cita `fichero:línea` | cita | `CONCEPTUAL`, para
+que aplicar la regla C —verificación humana, que sigo haciendo yo— sea directo y uniforme, no
+"mecánico": el script NO valida el formato ni auto-rellena el veredicto).
 
 ## Normas de uso (mías — van a CLAUDE.md)
 - **C. Verificar al revisor**: spot-checkear sus claims FUERTES contra código/fuente antes
@@ -56,9 +47,10 @@ reversible pero con rework real. BAJO = local, trivialmente reversible, sin zona
 - **F. Aumenta, no reemplaza**: yo decido y soy responsable. No rubber-stamp.
 
 ## Métrica operativa del guardarraíl anti-ritual (fix GPT #4)
-El guardarraíl no puede ser declarativo. Tally ligero por revisión (en un log simple):
-`#hallazgos`, `#confirmados` (los que verifiqué ciertos), `#falsos-positivos`, severidad
-media, coste (tokens/tiempo). Señales de matar/revisar:
+El guardarraíl no puede ser declarativo. Log real: **`evals/adversarial_review_log.jsonl`** —
+el script escribe una entrada parcial por revisión con el coste AUTO-capturado (`tokens`,
+`elapsed_s`); yo completo a mano los campos de JUICIO tras verificar (`findings`, `confirmed`,
+`false_pos`, `severity_max`, `verdict_notes`). Señales de matar/revisar:
 - **confirmed-rate → ~0** (siempre "alineado, sin issues") = ritual-SÍ.
 - **falsos-positivos altos** (fabrica trivialidades) = ritual-NO.
 - coste/fricción > valor de los hallazgos confirmados.
@@ -66,6 +58,8 @@ Se gana su sitio con datos, no por fe (eval-driven, como todo lo demás).
 
 ## Cross-model — dependencia (fix GPT #5)
 Data-flow ya **aceptado** en el proyecto (GPT-5.5 es el juez del eval; el mismo OPENAI_API_KEY).
-`scripts/adversarial_review.py` fija el prompt; modelo vía `ADVERSARIAL_MODEL` (default
-gpt-5.5). **Fallback**: si GPT no está disponible, el suelo es sub-agente Claude + mi
-verificación, y se **marca explícitamente "cross-model omitido"** (no se finge que se hizo).
+`scripts/adversarial_review.py` lee el prompt de `adversarial_briefing.md`; modelo vía
+`ADVERSARIAL_MODEL` (default gpt-5.5); **`--diff`** auto-incluye `git diff HEAD` para no
+depender de que yo elija bien el contexto (sesgo de selección). **Fallback**: si GPT no está
+disponible, el suelo es sub-agente Claude + mi verificación, y se **marca explícitamente
+"cross-model omitido"** (no se finge que se hizo).
