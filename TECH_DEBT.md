@@ -1257,7 +1257,7 @@ CERRADO en la misma sesión: hp009 (también mis-anclado a MI-310) RE-ANCLADO a 
 Con 19/19 verificados, el A/B end-to-end del lever de generación `change-1` (bloque anti-falso-rechazo
 en `generator.py`, que entró a producción en PR #17) mostró: NO rescata ninguno de los 5 falso-rechazos
 (idénticos con/sin change-1 → son **retrieval**, p.ej. hp018: el chunk del dato pedido no llega al top-5)
-e **induce sobre-respuesta peligrosa** (hp015: el bot fabrica un puenteado de terminales NO documentado).
+e **induce sobre-respuesta** (hp015: el bot CONSTRUYE un procedimiento NO documentado —"puentear terminales para aislar un detector"— sobre datos de cableado REALES: los terminales 1/3/4 SÍ están en los fragmentos F2/F3 del CCD-103. Es **inferencia procedimental no soportada** —con disclaimer "no está en el manual"—, NO alucinación de datos; matiz verificado re-corriendo el retrieval. El riesgo para el técnico es real; el mecanismo no es fabricación de datos sino inferencia no documentada inducida por el prompt anti-rechazo).
 El "FALLO 5→3" de s30 era artefacto del ruler roto; ya no se corrobora → **revertido** (PR a main). El
 revisor adversarial (Protocolo 3, GPT-5.5) cazó 9 over-claims de framing míos → la recomendación se acotó
 a "revertir por PRECAUCIÓN (riesgo hp015), NO por superioridad de B". **Próximo lever = HIPÓTESIS abierta**
