@@ -61,6 +61,17 @@
 > siguiente paso es el aprobado en DEC-003 — **crecer el ruler + medir end-to-end**. Producción intacta.
 > Detalle canónico: `DECISIONS.md` DEC-005.
 >
+> **Actualización s37 (1 jun 2026 — medido END-TO-END (HyDE-off) + scorer ajustado, NO toca producción):** corrido
+> por primera vez el **árbitro end-to-end** sobre los 19 golds (`test_bot_vs_gold.py` genera respuestas →
+> `atomic_scorer.py --llm`, 3 ejes, HyDE-off). Baseline: **8 FALLO / 10 PARCIAL / 1 REVISAR / 0 PASS** (0 PASS =
+> alarma fuerte, no conteo definitivo) → **consistente con DEC-005** (el bot over-admite/clarifica donde el dato
+> está enterrado + errores de síntesis). El primer run **ajustó el scorer**: arreglado un falso-positivo del eje
+> conducta (hedged-admit: respuesta
+> parcial con hedge ≠ admit real → 3 FALLO falsos a PARCIAL) y delegado el surfaceo de answer-con-conflicto a
+> COMPLETITUD; refuse-inference diferido a su check dedicado. **Límites del árbitro** (fiable para señal
+> categórica, aún no deltas finos): prosa-frágil deflacta completitud (`TECH_DEBT #35`) + eje factual
+> no-determinista (`#37`). Eval-infra: producción intacta. Detalle: `DECISIONS.md` DEC-006.
+>
 > El bot sirve desde el **corpus re-ingestado `chunks_v2`** (SWAP hecho en Railway
 > vía `CHUNKS_TABLE=chunks_v2`). Cambios respecto a lo que describe el resto de
 > este doc (que documenta el pipeline histórico con el corpus viejo `chunks`):

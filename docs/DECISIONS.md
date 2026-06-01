@@ -199,3 +199,48 @@
   proxy de recall, no end-to-end). **No 5º mecanismo.**
 - **Estado**: 🔴 lever de retrieval SIN recomendación viable tras 4 intentos; ✅ diagnosis completa;
   pivote APROBADO conceptualmente a "crecer ruler + medir end-to-end" (ejecución pendiente de Alberto).
+
+## DEC-006 — Árbitro end-to-end establecido y calibrado; el bot CONFIRMA DEC-005
+- **Fecha**: 1 jun 2026 (sesión 37). **Impacto**: ALTO (instrumento de decisión de todos los levers futuros).
+- **Decisión**: ejecutado el paso aprobado en DEC-003/005 — **medir end-to-end** los 19 golds con el árbitro
+  real (`test_bot_vs_gold.py` genera respuestas → `atomic_scorer.py --llm`, 3 ejes, HyDE-off, `chunks_v2`,
+  metadata de prod ACTUAL). Es el árbitro que vuelve falsable cualquier lever; queda operativo + **ajustado**
+  (1 FP de conducta corregido; límites #35/#37 abiertos = calibración PARCIAL, no estabilidad general).
+- **Resultado (baseline s37, HyDE-off — config de EVAL, no prod-equivalente: prod usa HyDE-ON)**: **8 FALLO /
+  10 PARCIAL / 1 REVISAR / 0 PASS** (0 PASS = el scorer no halló respuesta plena; **alarma fuerte, NO conteo
+  definitivo** — la prosa-frágil puede degradar PASS→PARCIAL, #35). **Consistente con el diagnóstico de DEC-005,
+  ahora a nivel end-to-end** (no solo funnel): el bot sobre-admite/sobre-clarifica donde el dato está enterrado
+  (hp017 bug AC-220, hp019, hp018) + errores de síntesis/contradicción (hp005 matriz, hp011 "00", hp013 batería).
+- **Calibración del scorer (2 cambios, dual-review Protocolo 3 SÓLIDO)**: (1) **answer-family gate** —
+  answer-con-conflicto colapsa a "answer"; que surfacee AMBAS variantes lo mide COMPLETITUD sobre los hechos
+  atómicos, no una heurística de conducta → hp012 puntúa limpio (antes caía siempre a REVISAR). (2)
+  **discriminador hedged-admit** — un "admite" con hechos core ENTREGADOS (p>0) es respuesta parcial con hedge,
+  no admit real (p≈0) → 3 falsos-FALLO (hp001/14/15) reclasificados a PARCIAL, conservando los over-admit
+  REALES (hp017/19, p=0). **refuse-inference EXCLUIDO de ANSWER_LIKE** (cae a REVISAR = juicio humano) hasta
+  su check dedicado de "inferencia indebida": el eje factual es contradicción-only → no caza la fabricación de
+  compatibilidad cross-brand que no contradiga un hecho listado (cazado por cross-model + sub-agente).
+- **Hallazgo clave (lo que el primer run reveló)**: el `atomic_scorer` es fiable para señal CATEGÓRICA
+  (over-admit, alucinación) pero **aún no para deltas finos**: (a) admit-FP [ARREGLADO esta sesión]; (b)
+  **fragilidad de match de prosa** deflacta completitud → los PARCIAL son un **SUELO**, no el techo real del bot
+  (TECH_DEBT #35, completitud-prosa por LLM); (c) **no-determinismo del eje factual** (la contradicción
+  cross-model varía run-a-run: hp008/11/13 cambiaron de etiqueta — TECH_DEBT #37 nuevo). Coherente con
+  RULER_DESIGN §0 (instrumento DIAGNÓSTICO, no gate estadístico).
+- **Alternativas descartadas**: (a) juez opaco del harness → superado por el atómico (s32) + vocabulario de
+  conducta stale; (b) crecer el ruler ANTES de medir → la review adversarial lo reordenó (medir-primero valida
+  pipeline+scorer y evita autorar sobre un harness no validado); (c) endurecer el scorer-prosa (#35) esta misma
+  sesión → diferido (Alberto eligió consolidar); (d) hacer el fix AC-220 inline → es dato de PROD en Supabase →
+  cambio separado con contrato de seguridad, medido como delta vs este baseline (pre-fix = realidad actual).
+- **Revisión adversarial**: log entradas **11-12** (plan: GPT 7/7 + sub-agente 8/8 → **NO SÓLIDO** → plan
+  revisado: medir-primero, elevar eje fabricante/ES-EN, admit al final, pin de metadata pre-fix, regla de
+  muestreo) + **13-14** (diff del scorer: GPT 5/5 + sub-agente 3/3 **SÓLIDO** → refuse-inference quitado de
+  ANSWER_LIKE, L193 unificado a `expected_gate`). El sub-agente verificó EN CÓDIGO: sin bug de wiring, ningún
+  FALLO real se vuelve PASS (solo PARCIAL), asimetría de seguridad preservada (alucinación precede a conducta).
+  Tally sano: ~23 hallazgos, ~23 confirmados, 0 FP.
+- **Nota de proceso (3ª review adversarial del cierre, log 15-16)**: PR #22 se mergeó (squash `0bba404`) con
+  **SOLO s36** mientras la sesión avanzaba; el commit s37 quedó VARADO en su rama (lección s34 sobre reusar rama
+  post-squash, re-confirmada) → rescatado vía cherry-pick a un PR nuevo sobre el `origin/main` real. Sin la 3ª
+  review el cierre se habría declarado "hecho" con s37 perdido.
+- **Estado**: ✅ árbitro operativo + ajustado; baseline s37 registrado como referencia. **Próximo (DEC-003 capa
+  1, diferido a s38)**: crecer el breadth-baseline (admit/refuse-inference/clarify + eje fabricante/ES-EN) sobre
+  esta base; fix `product_model='AC-220'` (prod, contrato de seguridad) re-medido como delta; endurecer
+  completitud-prosa (#35) para que el árbitro lea deltas finos; refuse-inference necesita su check + golds.
