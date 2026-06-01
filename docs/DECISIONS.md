@@ -93,3 +93,109 @@
   corrección en prod + es prerrequisito para enforce latest-wins).
 - **Estado**: 🔼 ELEVADO; trabajo (revision_parser → columna en chunks_v2/`documents` → filtro
   en las RPC, ~4-6h) pendiente. Documentado en `TECH_DEBT #4`.
+
+## DEC-005 — Auditoría DEC-003 ejecutada: el cuello está REPARTIDO; doc-routing co-primario
+- **Fecha**: 1 jun 2026 (sesión 36). **Impacto**: ALTO (gobierna el próximo lever).
+- **Decisión** *(RECOMENDACIÓN — ejecución pendiente de confirmación de Alberto)*: el próximo
+  lever es **RETRIEVAL**, con **dos sub-causas estructurales CO-PRIMARIAS**: (1) **doc-routing
+  multi-manual** — una query "cómo PROGRAMAR X" no enruta al manual de *Configuración* y trae el
+  de *Operación* (clúster mayor; incluye los FALLO hp017/hp018); (2) **ranking within-doc** de
+  tablas de specs / secciones concretas (hp006/hp019: el manual correcto entra, la página no). El
+  **bundle barato** (subir `retrieve_top_k` + reranker cross-encoder Voyage, ya cableado en
+  `reranker.py:rerank_chunks_voyage`) ataca (2) y los rerank-miss, **pero NO (1)** —verificado: la
+  causa de hp017 es el **fail-open de `_diversify_by_source_file`** (busca por FTS-keyword, no por
+  `doc_type`), no saturación → subir `top_k` no lo arregla. **Generación/conducta** = slice menor
+  (hp020 sobre-admite teniendo el dato; hp004 clarify; colas incompletas de PARCIAL). **Extracción
+  (#10) descartada**: 0 corpus-gaps reales.
+- **Contexto**: auditoría del embudo (HyDE-off, `chunks_v2`, retrieve15→rerank5) por hecho atómico
+  CORE, matcher estricto **per-chunk**. Hechos CORE fuertes: **SÍNTESIS≈12 / RERANK≈2 / RETRIEVAL≈13
+  / GAP 0** (los 3 "GAP" del instrumento eran artefactos de matcher word/digit, verificados a mano).
+  **Los 5 FALLO = 4 retrieval-funnel (hp006/17/18/19) + 1 síntesis (hp020).** Reconcilia: **CORRIGE
+  s29** ("generación es el cuello" descansaba en el gold ROTO pre-s31 + el matcher fuzzy que
+  sobre-contaba "dato en top-5") y **SHARPENS s34/DEC-001** ("los 5 FALLO son retrieval") a nivel de
+  chunk. Instrumento reusable: `scripts/audit_retrieval_funnel.py`; datos:
+  `evals/dec003_retrieval_funnel_{noTgt,tgtmodels}.yaml`.
+- **Alternativas descartadas (como primer/único lever)**: (a) generación/prompt → change-1 ya
+  revertido net-negativo (DEC-001), solo 1/5 FALLO, y parte es CONDUCTA (eje del ruler, no lever);
+  (b) extracción #10 → 0 gaps reales; (c) cheap-bundle SOLO → insuficiente para el clúster mayor
+  (doc-routing); (d) HyDE on/off → ortogonal, medir aparte.
+- **Revisión adversarial**: log entradas **5 (GPT-5.5, 5/5)** + **6 (sub-agente Claude, 7/7)**, EN
+  PARALELO. Cazaron y se corrigió: servibilidad solo manual-level → añadí check **fact-level**
+  (`fetch_manual_chunks`); `target_models` no replicaba Telegram → **re-medido con `--target-models`
+  = diagnóstico idéntico**; anchors cortos 1-núm-2díg inflaban SÍNTESIS → endurecidos a débil;
+  "confirma s34" → "corrige/matiza"; **doc-routing de contingente → co-primario**. 1 slip direccional
+  del sub-agente (dijo que el sesgo de anchors favorecía la recomendación; es al revés) cazado por
+  regla C.
+- **Gaps declarados**: n=18, 3 fabricantes, casi todo spec/procedimiento-lookup (0 refuse-inference,
+  0 multi-marca, solo 1 clarify en los FALLO); el corte SÍNTESIS/RERANK es **ruidoso** (reranker LLM
+  no determinista) → me apoyo en `pool15` (determinista); el label CORPUS-GAP del instrumento es poco
+  fiable para hechos word/digit y prosa (produjo 3 falsos, verificados).
+- **Estado**: 🟡 AUDITORÍA HECHA; **el framing del lever de abajo quedó SUPERSEDED en la misma sesión
+  — ver ACTUALIZACIÓN**.
+
+- **ACTUALIZACIÓN (misma sesión, 2ª pasada adversarial — log entradas 7 GPT-5.5 7/7 + 8 sub-agente 5/5):
+  el mecanismo "doc-routing / fail-open de `_diversify`" estaba MAL ANCLADO. RETRACTADO.** Una 2ª review
+  del path (fork A=fix del fail-open / B=poblar `doc_type`) lo tumbó, y lo **verifiqué con query directo
+  (regla C, `_dec005_verify_hp017`)**: el manual de Configuración ES de la PEARL (997-671, 124 chunks)
+  está **mal-etiquetado `product_model='AC-220'`** (no PEARL) → excluido del boosting por modelo y de
+  `_get_source_files_for_model('Pearl')`; **SÍ** aparece en vector amplio (3/50) pero **ENTERRADO** bajo
+  los chunks PEARL con score-PLANO → **es el bug del merge de scores planos que s29 YA diagnosticó (y
+  nunca se arregló)**, no el fail-open del FTS. **Raíz real del clúster "manual equivocado" = (1)
+  `product_model` mal atribuido (clase B5, familia de `doc_type`=6%) + (2) bug de merge plano de s29**
+  (constantes 0.65–0.85 por-path entierran la similitud vectorial real; s29 lo verificó en hp019, ahora
+  en hp017). **Lever revisado = arreglar el merge-scoring (fusión calibrada/RRF, PLAN F1#4) + sanear
+  `product_model`** — ambos raíz, ya diagnosticados, más estructurales que A/B/doc-routing; NO requieren
+  re-ingesta de contenido. Over-claims retirados (ambas reviews + verificación): "clúster mayor = manual
+  ausente" (hp018/hp011 ya tienen el manual en pool15 = página/rerank), "0 corpus-gaps reales" (acotar a
+  los 5 FALLO), "fork A-vs-B" (dicotomía falsa), y el FP del sub-agente "vía D filename→doc_type DOMINA"
+  (no: para hp017 los chunks no llegan al pool, no hay nada que boostear hasta arreglar el burial).
+  **Caveat clave NO resuelto**: toda la auditoría es **HyDE-OFF**; producción usa HyDE-ON, que podría
+  mitigar el burial. **Próximo paso APROBADO (Alberto): VALIDAR la hipótesis del burial across el clúster
+  (hp005/08/11/18) y con HyDE-ON antes de tocar código** → si se confirma, fix merge-scoring +
+  product_model, medido end-to-end vs baseline crecido. Lección meta: change-1 (s30), doc-routing (s36a)
+  y fail-open (s36b) eran mecanismos NUEVOS propuestos mientras el bug-raíz de s29 seguía sin arreglar.
+
+- **VALIDACIÓN ejecutada (`scripts/validate_s29_burial.py` → `evals/dec005_burial_validation.yaml`;
+  HyDE-OFF vs ON sobre hp017/05/08/11/18 + hp006/19):**
+  1. **HyDE-ON no cambia NINGUNA clasificación** (OFF→ON idéntico; HyDE solo sube las sims ~0.6→0.7
+     uniformemente) → la auditoría HyDE-OFF **es representativa de producción**. Caveat HyDE CERRADO.
+  2. **El "clúster manual-equivocado" era over-generalizado (GPT [crit] confirmado): es n=1.** Solo
+     **hp017** falla en traer el manual al pool (metadata `AC-220` + burial s29; HyDE no lo rescata —
+     Config-ES en vector rank 3-7, nunca al pool-15). **hp005/08/11/18 SÍ meten el manual al pool** →
+     within-doc/rerank, no manual-equivocado.
+  3. **hp006 es más hondo**: las páginas de Earth-Fault NO son alcanzables por vector ni en top-50
+     (`in_widevec50=False`) → recall-miss real de página (el manual entra al pool por keyword/modelo,
+     pero trae otras páginas) → necesita BM25/term-exacto o mejor chunking, no rerank.
+  4. → **El cuello dominante NO es routing de manual: es within-doc chunk-ranking** (manual correcto en
+     el pool, el chunk con la respuesta no llega al top-5). doc-routing/`doc_type` DESCARTADO como lever.
+  - **LEVER consolidado (recomendación; aún no revisado por los adversarios — pendiente Protocolo 3 sobre
+    ESTA síntesis):** **sustituir el merge híbrido de scores PLANOS por fusión BM25+dense con RRF**
+    (PLAN F1#4) — arregla el bug de s29 (burial: hp017, hp019) **y** el recall de término exacto
+    (hp006 "Tierra"/"Earth Fault"), de una; + **sanear `product_model`** (hp017 `AC-220`); el
+    cross-encoder reranker es 2ª etapa complementaria (solo ayuda a chunks ya en el pool). Medir
+    end-to-end vs baseline crecido. **Revisado el mecanismo 3× esta sesión (cada vez los adversarios/
+    verificación lo afinaron) → humildad: validar la síntesis RRF antes de construir.**
+  - **Estado**: 🟢 mecanismo VALIDADO (within-doc + s29 burial + metadata; HyDE descartado como mitigante).
+    Lever RRF = recomendación pendiente de (a) 3ª review adversarial sobre la síntesis y (b) crecer golds.
+
+- **RESOLUCIÓN del lever (4ª pasada adversarial — log 9 GPT-5.5 7/7 + 10 sub-agente 5/5; VERIFICADO por
+  mí, regla C): la síntesis RRF NO SE SOSTIENE → RETRACTADA.** El sub-agente halló (y confirmé en
+  `gate.py:133 rrf_fuse` + `evals/gate_results.json`) que **RRF YA se construyó y midió (PR#8, 26-may):
+  `hyb_new hit@5 = 0.3636 == vec_new 0.3636` (idéntico; recall@15 0.286→0.305 trivial; verdict NO PASS)**
+  — sobre el gold ROTO pre-s31, como proxy de recall, HyDE-off. RRF no rescató NINGUNA de las misses
+  (hp006/09/11/12/14/18 = 0.0 en todas las configs incl. RRF). hp017 entra al pool por el saneo de
+  `product_model` (no por RRF: vector rank 3 no garantiza top-5); hp006 es recall/chunking (FTS usa AND
+  `@@`: si falta el literal, BM25 tampoco). El "ataca los 3 mecanismos de una" = mi patrón #15 otra vez.
+- **PATRÓN META de la sesión (feedback_my_bias): propuse 4 mecanismos de lever (change-1→doc-routing→
+  fail-open→RRF) y los 4 cayeron por review+verificación.** La causa del bucle: debatir levers sobre
+  PROXIES (recall, HyDE-off, gold roto, n=18) en vez del árbitro (calidad end-to-end sobre el ruler
+  arreglado). Los protocolos 1+3 hicieron su trabajo (8 reviews, 0 FP propios graves).
+- **DECISIÓN (lo que SÍ se sostiene):** (1) la **DIAGNOSIS de DEC-003 está HECHA y es sólida** (instrumentos
+  `audit_retrieval_funnel.py` + `validate_s29_burial.py`); NO recomendar ningún build de retrieval ahora.
+  (2) El siguiente paso es el que DEC-003 ya aprobó y que yo me salté: **crecer el ruler + medir
+  end-to-end** — es lo único que vuelve falsable cualquier decisión de lever. (3) Fix verificado y seguro
+  pase lo que pase: **`product_model='AC-220'` del Config-ES de la PEARL** (bug de metadata B5, n=1, bajo
+  leverage pero correcto). (4) Opcional barato: re-correr `gate.py` sobre el ruler arreglado (sigue siendo
+  proxy de recall, no end-to-end). **No 5º mecanismo.**
+- **Estado**: 🔴 lever de retrieval SIN recomendación viable tras 4 intentos; ✅ diagnosis completa;
+  pivote APROBADO conceptualmente a "crecer ruler + medir end-to-end" (ejecución pendiente de Alberto).

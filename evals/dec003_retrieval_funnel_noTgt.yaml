@@ -1,0 +1,1342 @@
+- qid: hp001
+  veredicto_B: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_B: answer
+  n_core_presente: 3
+  buckets:
+    SINTESIS: 2
+    RERANK-MISS: 0
+    RETRIEVAL: 1
+    CORPUS-GAP: 0
+  buckets_fuerte:
+    SINTESIS: 1
+    RERANK-MISS: 0
+    RETRIEVAL: 1
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool15: true
+  target_in_top5: true
+  target_tokens:
+  - CAD-250-MC-380-es
+  - CAD-250
+  corpus_counts:
+    CAD-250-MC-380-es: 119
+    CAD-250: 354
+  top5_sources:
+  - CAD-250-MC-380-es
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
+  - CAD-250-MS-416-es
+  pool15_sources:
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - CAD-250-MC-380-es
+  - CAD-250-MS-416-es
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - CAD-250-MC-380-es
+  - CAD-250-MS-416-es
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
+  facts:
+  - valor: candado
+    probe: ~candado
+    strength: debil
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: '2222'
+    probe:
+    - '2222'
+    strength: fuerte
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL
+  - valor: '1111'
+    probe:
+    - '1111'
+    strength: fuerte
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+- qid: hp002
+  veredicto_B: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_B: answer
+  n_core_presente: 5
+  buckets:
+    SINTESIS: 2
+    RERANK-MISS: 1
+    RETRIEVAL: 2
+    CORPUS-GAP: 0
+  buckets_fuerte:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 2
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool15: true
+  target_in_top5: true
+  target_tokens:
+  - ASD535_TD_T131192es_h
+  corpus_counts:
+    ASD535_TD_T131192es_h: 242
+  top5_sources:
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  pool15_sources:
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  facts:
+  - valor: fallo flujo de aire
+    probe: ~fallo flujo de aire
+    strength: debil
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: 80 %
+    probe:
+    - '80'
+    strength: debil
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: 300 s
+    probe:
+    - '300'
+    strength: fuerte
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL
+  - valor: 7.6.1
+    probe:
+    - 7.6.1
+    strength: fuerte
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL
+  - valor: reset inicial
+    probe: ~reset inicial
+    strength: debil
+    in_top5: false
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: RERANK-MISS
+- qid: hp003
+  veredicto_B: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_B: answer
+  n_core_presente: 4
+  buckets:
+    SINTESIS: 3
+    RERANK-MISS: 1
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  buckets_fuerte:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool15: true
+  target_in_top5: true
+  target_tokens:
+  - '55315013'
+  - CAD-150-8
+  - '55315008'
+  - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+  - '55315501'
+  - CAD150R
+  - '191018'
+  corpus_counts:
+    '55315013': 25
+    CAD-150-8: 88
+    '55315008': 63
+    55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT: 63
+    '55315501': 15
+    CAD150R: 15
+  top5_sources:
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315501 CAD150R Instalacion ES GB 191018
+  pool15_sources:
+  - 55315501 CAD150R Instalacion ES GB 191018
+  - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315501 CAD150R Instalacion ES GB 191018
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315501 CAD150R Instalacion ES GB 191018
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315501 CAD150R Instalacion ES GB 191018
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  facts:
+  - valor: 12V
+    probe:
+    - '12'
+    strength: debil
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: cable puente
+    probe: ~cable puente
+    strength: debil
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: rojo y negro
+    probe: ~rojo y negro
+    strength: debil
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: primero la red
+    probe: ~primero la red
+    strength: debil
+    in_top5: false
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: RERANK-MISS
+- qid: hp004
+  veredicto_B: PARCIAL
+  conducta_esperada: clarify
+  conducta_bot_B: answer
+  n_core_presente: 3
+  buckets:
+    SINTESIS: 3
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  buckets_fuerte:
+    SINTESIS: 3
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool15: true
+  target_in_top5: true
+  target_tokens:
+  - '55360004'
+  - DGD-600
+  corpus_counts:
+    '55360004': 4
+    DGD-600: 4
+  top5_sources:
+  - 55360004 Manual Detector Gas DGD-600 ES EN IT FR
+  - 55360004 Manual Detector Gas DGD-600 ES EN IT FR
+  - 55360004 Manual Detector Gas DGD-600 ES EN IT FR
+  - 55360004 Manual Detector Gas DGD-600 ES EN IT FR
+  pool15_sources:
+  - 55360004 Manual Detector Gas DGD-600 ES EN IT FR
+  - 55360004 Manual Detector Gas DGD-600 ES EN IT FR
+  - 55360004 Manual Detector Gas DGD-600 ES EN IT FR
+  - 55360004 Manual Detector Gas DGD-600 ES EN IT FR
+  facts:
+  - valor: 24V y 220V
+    probe:
+    - '220'
+    - '24'
+    strength: fuerte
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: 22V a 38V
+    probe:
+    - '22'
+    - '38'
+    strength: fuerte
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: 180V a 240V
+    probe:
+    - '180'
+    - '240'
+    strength: fuerte
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+- qid: hp005
+  veredicto_B: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_B: answer
+  n_core_presente: 4
+  buckets:
+    SINTESIS: 2
+    RERANK-MISS: 0
+    RETRIEVAL: 2
+    CORPUS-GAP: 0
+  buckets_fuerte:
+    SINTESIS: 1
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool15: true
+  target_in_top5: false
+  target_tokens:
+  - MPDT190
+  - MCDT191
+  corpus_counts:
+    MPDT190: 186
+    MCDT191: 144
+  top5_sources:
+  - MCDT190
+  - MADT190_07
+  - TIDT096
+  - MFDT190
+  - TIDT104
+  pool15_sources:
+  - MADT190_05
+  - TIDT104
+  - TIDT096
+  - TIDT108
+  - MPDT190
+  - MADT190_02
+  - MADT190_07
+  - MCDT191
+  - MIDT190
+  - MFDT190
+  - MADT190_14
+  - MCDT190
+  - MADT190_12
+  - MADT190_13
+  - TIDT104
+  facts:
+  - valor: Matriz de control
+    probe: ~Matriz de control
+    strength: debil
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: COINCIDENCIA 2 EQUIPOS
+    probe: ~COINCIDENCIA 2 EQUIPOS
+    strength: fuerte
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: misma zona o subzona
+    probe: ~misma zona o subzona
+    strength: debil
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL
+  - valor: CIRCUITO SIRENA
+    probe: ~CIRCUITO SIRENA
+    strength: debil
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL
+- qid: hp006
+  veredicto_B: FALLO
+  conducta_esperada: answer
+  conducta_bot_B: admit_no_info
+  n_core_presente: 3
+  buckets:
+    SINTESIS: 1
+    RERANK-MISS: 0
+    RETRIEVAL: 2
+    CORPUS-GAP: 0
+  buckets_fuerte:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool15: true
+  target_in_top5: true
+  target_tokens:
+  - MIDT170
+  - 50253SP
+  - MADT380_01
+  corpus_counts:
+    MIDT170: 246
+    50253SP: 290
+    MADT380_01: 3
+  top5_sources:
+  - MFDT170
+  - MFDT170
+  - MIDT170
+  - MPDT170
+  - MADT232
+  pool15_sources:
+  - MIDT170
+  - MADT236
+  - MADT231
+  - MFDT170
+  - MPDT170
+  - MADT232
+  - MIDT170
+  - MADT236
+  - MFDT170
+  - MPDT170
+  - MIDT170
+  - MFDT170
+  - MIDT170
+  - MFDT170
+  - MIDT170
+  facts:
+  - valor: Fallo de Tierra
+    probe: ~Fallo de Tierra
+    strength: debil
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL
+  - valor: Tierra
+    probe: ~Tierra
+    strength: debil
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: ISO-X
+    probe: ~ISO-X
+    strength: debil
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL
+- qid: hp007
+  veredicto_B: PASS
+  conducta_esperada: answer
+  conducta_bot_B: answer
+  n_core_presente: 7
+  buckets:
+    SINTESIS: 4
+    RERANK-MISS: 0
+    RETRIEVAL: 1
+    CORPUS-GAP: 2
+  buckets_fuerte:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 1
+    CORPUS-GAP: 2
+  target_servable: true
+  target_in_pool15: true
+  target_in_top5: true
+  target_tokens:
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - VEP-A10-P
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  corpus_counts:
+    33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores: 120
+    VEP-A10-P: 120
+    33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores: 120
+  top5_sources:
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  pool15_sources:
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  facts:
+  - valor: cada 3 meses
+    probe: ~cada 3 meses
+    strength: fuerte
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: false
+    bucket: CORPUS-GAP
+  - valor: cada 6 meses
+    probe: ~cada 6 meses
+    strength: fuerte
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: false
+    bucket: CORPUS-GAP
+  - valor: una vez al año
+    probe: ~una vez al año
+    strength: debil
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: una vez al año
+    probe: ~una vez al año
+    strength: debil
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: una vez al año
+    probe: ~una vez al año
+    strength: debil
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: una vez al año
+    probe: ~una vez al año
+    strength: debil
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: cada 2 años
+    probe: ~cada 2 años
+    strength: fuerte
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL
+- qid: hp008
+  veredicto_B: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_B: answer
+  n_core_presente: 4
+  buckets:
+    SINTESIS: 2
+    RERANK-MISS: 0
+    RETRIEVAL: 2
+    CORPUS-GAP: 0
+  buckets_fuerte:
+    SINTESIS: 2
+    RERANK-MISS: 0
+    RETRIEVAL: 2
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool15: true
+  target_in_top5: false
+  target_tokens:
+  - MIDT190
+  - MCDT191
+  corpus_counts:
+    MIDT190: 106
+    MCDT191: 144
+  top5_sources:
+  - MPDT190
+  - MPDT190
+  - MCDT190
+  - MCDT190
+  - MADT190_07
+  pool15_sources:
+  - MADT190_07
+  - MADT951_03
+  - MCDT190
+  - MPDT190
+  - MCDT191
+  - MFDT190
+  - MIDT190
+  - MADT190_14
+  - TIDT104
+  - TIDT096
+  - MADT190_12
+  - MADT190_13
+  - MADT190_07
+  - MCDT190
+  - MPDT190
+  facts:
+  - valor: CPX-551E
+    probe:
+    - '-551'
+    - cpx-551e
+    strength: fuerte
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL
+  - valor: SDX-751
+    probe:
+    - '-751'
+    - sdx-751
+    strength: fuerte
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: IRX-751CTEM
+    probe:
+    - '-751'
+    - irx-751ctem
+    strength: fuerte
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL
+  - valor: SDX-751-TEM
+    probe:
+    - '-751'
+    - sdx-751
+    strength: fuerte
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+- qid: hp009
+  veredicto_B: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_B: answer
+  n_core_presente: 2
+  buckets:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 2
+    CORPUS-GAP: 0
+  buckets_fuerte:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool15: true
+  target_in_top5: true
+  target_tokens:
+  - MIE-MI-530rv001
+  - MIE-MI-310
+  corpus_counts:
+    MIE-MI-530rv001: 64
+    MIE-MI-310: 42
+  top5_sources:
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  pool15_sources:
+  - MIE-MI-310
+  - MIE-MP-310
+  - MIE-MU-310
+  - MIE-MP-315
+  - MIE-MI-310
+  - MIE-MP-310
+  - MIE-MU-310
+  - MIE-MP-315
+  - MIE-MI-310
+  - MIE-MP-310
+  - MIE-MP-315
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  facts:
+  - valor: Retorno
+    probe: ~Retorno
+    strength: debil
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL
+  - valor: aisladores internos
+    probe: ~aisladores internos
+    strength: debil
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL
+- qid: hp010
+  veredicto_B: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_B: answer
+  n_core_presente: 3
+  buckets:
+    SINTESIS: 1
+    RERANK-MISS: 1
+    RETRIEVAL: 0
+    CORPUS-GAP: 1
+  buckets_fuerte:
+    SINTESIS: 0
+    RERANK-MISS: 1
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  target_servable: false
+  target_in_pool15: false
+  target_in_top5: false
+  target_tokens: []
+  corpus_counts: {}
+  top5_sources:
+  - Eventos-Averias-de-Equipos-en-DXc
+  - DXc_Manual de configuracion
+  - DXc_Manual de configuracion
+  - DXc_Manual variaciones de mercado
+  - DXC-Connexion-Compatibilidad-de-programas-con-versiones
+  pool15_sources:
+  - DXC-Connexion-Como-programar-una-salida-de-averia-general
+  - DXc_Guia de usuario_multiling
+  - DXC-Connexion-Compatibilidad-de-programas-con-versiones
+  - DXc_Manual de usuario
+  - Eventos-Averias-de-Equipos-en-DXc
+  - DXc_Manual variaciones de mercado
+  - Rearme-remoto-en-central-DXc-Connexion
+  - Morley-Se-pueden-pasar-programaciones-de-ZX-y-Dimension-a-Connexion-DXC
+  - DXc_Connexion Averia-de-resistencia-de-baterias
+  - DXc_Manual de configuracion
+  - DXC-Porque-al-activan-elementos-en-alarma-no-se-enciende-su-led
+  - DXc_Guia de usuario_multiling
+  - DXc_Manual de usuario
+  - DXc_Manual variaciones de mercado
+  - DXc_Manual de configuracion
+  facts:
+  - valor: Autobusqueda
+    probe: ~Autobusqueda
+    strength: debil
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: Nivel 3
+    probe: ~Nivel 3
+    strength: fuerte
+    in_top5: false
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: RERANK-MISS
+  - valor: nuevos, eliminados y modificados
+    probe: ~nuevos, eliminados y modificados
+    strength: debil
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: false
+    bucket: CORPUS-GAP
+- qid: hp011
+  veredicto_B: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_B: answer
+  n_core_presente: 4
+  buckets:
+    SINTESIS: 1
+    RERANK-MISS: 1
+    RETRIEVAL: 2
+    CORPUS-GAP: 0
+  buckets_fuerte:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 1
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool15: true
+  target_in_top5: false
+  target_tokens:
+  - HLSI-MN-103_RP1r-Supra_lr
+  corpus_counts:
+    HLSI-MN-103_RP1r-Supra_lr: 190
+  top5_sources:
+  - HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr
+  - HLSI-BT-001
+  - MNDT102
+  - HLSI-TI-001I
+  - MN-DT-959_OPC-RP1r
+  pool15_sources:
+  - MIEMN570I
+  - MIEMN570
+  - MN-DT-102I
+  - HLSI-MN-103_RP1r-Supra_lr
+  - HLSI-MN-103I_RP1r-Supra_lr
+  - HLSI-TI-001I
+  - HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr
+  - MNDT102
+  - MN-DT-959_OPC-RP1r
+  - HLSI-BT-001
+  - MIEMN570I
+  - MIEMN570
+  - HLSI-MN-103_RP1r-Supra_lr
+  - HLSI-MN-103I_RP1r-Supra_lr
+  - MNDT102
+  facts:
+  - valor: ABORT
+    probe: ~ABORT
+    strength: debil
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: r.1
+    probe: ~r.1
+    strength: debil
+    in_top5: false
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: RERANK-MISS
+  - valor: 05 a 295 seg
+    probe:
+    - '05'
+    - '295'
+    strength: fuerte
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL
+  - valor: enclavadas
+    probe: ~enclavadas
+    strength: debil
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL
+- qid: hp012
+  veredicto_B: PARCIAL
+  conducta_esperada: answer-con-conflicto
+  conducta_bot_B: answer
+  n_core_presente: 4
+  buckets:
+    SINTESIS: 2
+    RERANK-MISS: 0
+    RETRIEVAL: 2
+    CORPUS-GAP: 0
+  buckets_fuerte:
+    SINTESIS: 1
+    RERANK-MISS: 0
+    RETRIEVAL: 2
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool15: true
+  target_in_top5: true
+  target_tokens:
+  - MFDT280
+  - MPDT280
+  - 15088SP
+  - MADT370
+  - 15092SP
+  - 15090SP
+  corpus_counts:
+    MFDT280: 50
+    MPDT280: 127
+    15088SP: 342
+    MADT370: 15
+    15092SP: 92
+    15090SP: 134
+  top5_sources:
+  - MFDT280
+  - BTDT032
+  - 15088SP
+  - MADT283
+  - MADT284
+  pool15_sources:
+  - 15037SP
+  - 15088SP
+  - MFDT280
+  - MADT283
+  - BTDT032
+  - MIDT340
+  - MADT284
+  - MADT285
+  - MADT285_01
+  - MPDT281
+  - MADT281
+  - MADT280
+  - 15037SP
+  - 15088SP
+  - MFDT280
+  facts:
+  - valor: 10 lazos
+    probe:
+    - '10'
+    strength: debil
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: 99 + 99
+    probe:
+    - '+99'
+    - '99'
+    strength: fuerte
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL
+  - valor: 2 lazos / 396
+    probe:
+    - '396'
+    strength: fuerte
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: 4 lazos / 792
+    probe:
+    - '792'
+    strength: fuerte
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL
+- qid: hp014
+  veredicto_B: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_B: answer
+  n_core_presente: 4
+  buckets:
+    SINTESIS: 3
+    RERANK-MISS: 1
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  buckets_fuerte:
+    SINTESIS: 1
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool15: true
+  target_in_top5: true
+  target_tokens:
+  - MIDT180
+  corpus_counts:
+    MIDT180: 88
+  top5_sources:
+  - MIDT180
+  - MIDT180
+  - MPDT180
+  - MIDT180
+  - MPDT180
+  pool15_sources:
+  - MPDT180
+  - MFDT180
+  - MIDT180
+  - MPDT180
+  - MFDT180
+  - MIDT180
+  - MPDT180
+  - MFDT180
+  - MIDT180
+  - MPDT180
+  - MFDT180
+  - MIDT180
+  - MPDT180
+  - MFDT180
+  - MIDT180
+  facts:
+  - valor: '25'
+    probe:
+    - '25'
+    strength: debil
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: continuidad
+    probe: ~continuidad
+    strength: debil
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: terminales 2 y 4
+    probe: ~terminales 2 y 4
+    strength: fuerte
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: '35'
+    probe:
+    - '35'
+    strength: debil
+    in_top5: false
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: RERANK-MISS
+- qid: hp015
+  veredicto_B: PASS
+  conducta_esperada: answer
+  conducta_bot_B: answer
+  n_core_presente: 3
+  buckets:
+    SINTESIS: 3
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  buckets_fuerte:
+    SINTESIS: 1
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool15: true
+  target_in_top5: true
+  target_tokens:
+  - CCD-103_Manual_ES_FR_GB_IT
+  corpus_counts:
+    CCD-103_Manual_ES_FR_GB_IT: 109
+  top5_sources:
+  - CCD-103_Manual_ES_FR_GB_IT
+  - CCD-103_Manual_ES_FR_GB_IT
+  - CCD-103_Manual_ES_FR_GB_IT
+  - CCD-103_Manual_ES_FR_GB_IT
+  - CCD-103_Manual_ES_FR_GB_IT
+  pool15_sources:
+  - CCD-103_Manual_ES_FR_GB_IT
+  - CCD-103_Manual_ES_FR_GB_IT
+  - CCD-103_Manual_ES_FR_GB_IT
+  - CCD-103_Manual_ES_FR_GB_IT
+  - CCD-103_Manual_ES_FR_GB_IT
+  - CCD-103_Manual_ES_FR_GB_IT
+  - CCD-103_Manual_ES_FR_GB_IT
+  - CCD-103_Manual_ES_FR_GB_IT
+  - CCD-103_Manual_ES_FR_GB_IT
+  - CCD-103_Manual_ES_FR_GB_IT
+  - CCD-103_Manual_ES_FR_GB_IT
+  - CCD-103_Manual_ES_FR_GB_IT
+  - CCD-103_Manual_ES_FR_GB_IT
+  - CCD-103_Manual_ES_FR_GB_IT
+  - CCD-103_Manual_ES_FR_GB_IT
+  facts:
+  - valor: convencional
+    probe: ~convencional
+    strength: debil
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: 2 veces la tecla de zona
+    probe: ~2 veces la tecla de zona
+    strength: fuerte
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: '32'
+    probe:
+    - '32'
+    strength: debil
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+- qid: hp017
+  veredicto_B: FALLO
+  conducta_esperada: answer
+  conducta_bot_B: admit_no_info
+  n_core_presente: 4
+  buckets:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 4
+    CORPUS-GAP: 0
+  buckets_fuerte:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool15: false
+  target_in_top5: false
+  target_tokens:
+  - 997-671-005-3_Configuration_ES
+  corpus_counts:
+    997-671-005-3_Configuration_ES: 124
+  top5_sources:
+  - 997-670-005-3_Operating_ES
+  - 997-670-005-3_Operating_ES
+  - 997-670-005-3_Operating_ES
+  - 997-670-005-3_Operating_ES
+  - 997-670-007-3_Operating_PT
+  pool15_sources:
+  - 997-670-005-3_Operating_ES
+  - 997-671-007-3_Configuration_PT
+  - 997-669-005-3_Instal-Comm_ES
+  - Guia basica instalacion_PEARL
+  - 997-670-007-3_Operating_PT
+  - 997-670-005-3_Operating_ES
+  - 997-670-005-3_Operating_ES
+  - 997-670-005-3_Operating_ES
+  - 997-670-005-3_Operating_ES
+  - 997-670-005-3_Operating_ES
+  - 997-670-005-3_Operating_ES
+  - 997-670-005-3_Operating_ES
+  - 997-670-005-3_Operating_ES
+  - 997-670-005-3_Operating_ES
+  - 997-670-005-3_Operating_ES
+  facts:
+  - valor: causa-efecto
+    probe: ~causa-efecto
+    strength: debil
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL
+  - valor: instruccion de entrada
+    probe: ~instruccion de entrada
+    strength: debil
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL
+  - valor: Editar Configuracion
+    probe: ~Editar Configuracion
+    strength: debil
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL
+  - valor: seis tipos de retardo
+    probe: ~seis tipos de retardo
+    strength: debil
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL
+- qid: hp018
+  veredicto_B: FALLO
+  conducta_esperada: answer
+  conducta_bot_B: ask_clarification
+  n_core_presente: 5
+  buckets:
+    SINTESIS: 2
+    RERANK-MISS: 1
+    RETRIEVAL: 2
+    CORPUS-GAP: 0
+  buckets_fuerte:
+    SINTESIS: 0
+    RERANK-MISS: 1
+    RETRIEVAL: 1
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool15: true
+  target_in_top5: false
+  target_tokens:
+  - MIE-MI-530rv001
+  - MIE-MI-310
+  corpus_counts:
+    MIE-MI-530rv001: 64
+    MIE-MI-310: 42
+  top5_sources:
+  - MIE-MP-310
+  - MIE-MP-315
+  - MIE-MP-310
+  - MIE-MU-310
+  - MIE-MU-310
+  pool15_sources:
+  - MIE-MI-310
+  - MIE-MU-310
+  - MIE-MP-315
+  - MIE-MP-310
+  - MIE-MI-310
+  - MIE-MU-310
+  - MIE-MP-315
+  - MIE-MP-310
+  - MIE-MI-310
+  - MIE-MP-315
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  facts:
+  - valor: 4 circuitos
+    probe: ~4 circuitos
+    strength: fuerte
+    in_top5: false
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: RERANK-MISS
+  - valor: 6K8
+    probe: ~6K8
+    strength: fuerte
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL
+  - valor: diodo
+    probe: ~diodo
+    strength: debil
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL
+  - valor: Sirenas A,B,C,D
+    probe: ~Sirenas A,B,C,D
+    strength: debil
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: 1 A
+    probe: ~1 A
+    strength: debil
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+- qid: hp019
+  veredicto_B: FALLO
+  conducta_esperada: answer
+  conducta_bot_B: admit_no_info
+  n_core_presente: 1
+  buckets:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 1
+    CORPUS-GAP: 0
+  buckets_fuerte:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 1
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool15: true
+  target_in_top5: true
+  target_tokens:
+  - ASD535_TD_T131192es_h
+  corpus_counts:
+    ASD535_TD_T131192es_h: 242
+  top5_sources:
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  pool15_sources:
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  facts:
+  - valor: -30 a +60
+    probe:
+    - '+60'
+    - '-30'
+    strength: fuerte
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL
+- qid: hp020
+  veredicto_B: FALLO
+  conducta_esperada: answer
+  conducta_bot_B: answer
+  n_core_presente: 4
+  buckets:
+    SINTESIS: 3
+    RERANK-MISS: 0
+    RETRIEVAL: 1
+    CORPUS-GAP: 0
+  buckets_fuerte:
+    SINTESIS: 2
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool15: true
+  target_in_top5: true
+  target_tokens:
+  - HOP-138-8ES
+  - 01-2026_Co
+  - HOP-138-9ES
+  - 11-2025_In
+  corpus_counts:
+    HOP-138-8ES: 89
+    01-2026_Co: 94
+    HOP-138-9ES: 100
+    11-2025_In: 100
+  top5_sources:
+  - HOP-338-9ES issue 4_01-2026_Op
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - 4188-1122-ES issue 4_04-2025_Cyb
+  - 4188-1122-ES issue 4_04-2025_Cyb
+  - Actualizacion del firmware de INSPIRE a R1.35
+  pool15_sources:
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-9ES issue 5_11-2025_In
+  - HOP-138-8PT-issue 5_01-2026_Co-
+  - 4188-1125-ES issue 5_11-2025_Li
+  - 4188-1122-ES issue 4_04-2025_Cyb
+  - HOP-138-9PT-issue 6_01-2026_In
+  - HOP-338-9PT-issue 4_01-2026_Op
+  - Actualizacion del firmware de INSPIRE a R1.35
+  - 4188-1132-PT issue 4_04_2025-Qref
+  - HOP-338-9ES issue 4_01-2026_Op
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-9ES issue 5_11-2025_In
+  - HOP-138-8PT-issue 5_01-2026_Co-
+  - 4188-1122-ES issue 4_04-2025_Cyb
+  - HOP-138-9PT-issue 6_01-2026_In
+  facts:
+  - valor: nivel 2 o 3
+    probe: ~nivel 2 o 3
+    strength: fuerte
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: Cambio del codigo de acceso
+    probe: ~Cambio del codigo de acceso
+    strength: debil
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: 4 y 8
+    probe: ~4 y 8
+    strength: fuerte
+    in_top5: true
+    in_pool15: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: satisfactorio
+    probe: ~satisfactorio
+    strength: debil
+    in_top5: false
+    in_pool15: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL

@@ -885,6 +885,15 @@ Añadir al SYSTEM_PROMPT: *"Si ves una tabla con headers y filas pero las celdas
 
 **Decisión actual (sesión 17, 24 abril 2026)**: diferido. Implementar solo si Fase 1 + Fase 2 no alcanzan target y el análisis de FAILs muestra gap de retrieval recall (no de generation, no de behavior). Si el gap es retrieval, Fase 1b es best-practice industrial para cerrar.
 
+**Actualización s36 (1 jun 2026 — EVIDENCIA: RRF ya se midió y NO movió):** `scripts/gate.py` (PR#8, 26-may)
+**ya implementa RRF** (`rrf_fuse`, k=60) y lo midió: `hyb_new hit@5 = 0.3636 == vec_new 0.3636` (idéntico;
+recall@15 0.286→0.305 trivial; verdict NO PASS) — `evals/gate_results.json`. Medido sobre el gold ROTO
+pre-s31 + como proxy de recall, así que no es definitivo, PERO no hay evidencia A FAVOR de RRF y la única
+que existe dice que no mueve el top-5. La auditoría s36 además mostró que los casos del eval NO son de
+"BM25 captaría el literal" (hp006 da 0.0 incluso con RRF; FTS usa AND `@@` → si falta el literal, BM25
+tampoco). **Deprioridad fuerte**: no re-intentar RRF "a ciegas"; si acaso, re-correr `gate.py` sobre el
+ruler arreglado (sigue siendo proxy). Detalle: `DECISIONS.md` DEC-005 (síntesis RRF RETRACTADA tras 4ª review).
+
 ### Fase 2 — HyDE (Hypothetical Document Embeddings) (next sprint, ~3-4h)
 
 **Qué**: antes de retrieval, Claude (Haiku) genera una *respuesta hipotética* a la query usando vocabulario "rico" del dominio PCI. Usamos el embedding de esa respuesta hipotética (en lugar — o además — del embedding de la query original) para vector search.
@@ -1241,6 +1250,19 @@ El nuevo bloque NO menciona clarification — el efecto es indirecto, vía bias 
 - **HyDE** (`hyde.py`): medido — no mejora recall ni formal (51≈) ni coloquial (49 vs 47 dense) Y rompe determinismo (LLM no bit-determinista → misma pregunta, respuesta distinta). Candidato a OFF por defecto; conservar tras flag para revisitar con queries coloquiales reales (su caso de diseño).
 
 **Trigger**: la sesión #15 (lever de generación). Auditar estas piezas con el eval determinista+estricto end-to-end, **sin subir alucinación** (mantener filtros). Base de medición LISTA: matcher estricto + determinismo (PR#15, en main) + flags `RETRIEVER_DENSE_ONLY`/`HYDE_ENABLED` para A/B; `test_bot_vs_gold` ya replica producción (árbitro end-to-end).
+
+**Actualización s36 (1 jun 2026 — auditoría DEC-003 RE-CONFIRMA este bug, y añade matiz):** la auditoría
+del embudo (HyDE-off por hecho atómico, `scripts/audit_retrieval_funnel.py` + `validate_s29_burial.py`)
+confirmó el burial de scores planos en **hp017** (el manual de Config-ES de la PEARL está en vector rank 3
+pero no llega al pool-15) — idéntico al hp019 de esta entrada. **DOS matices nuevos, verificados:** (1) hp017
+está ADEMÁS mal-etiquetado `product_model='AC-220'` (no PEARL) → excluido del boosting por modelo: **es un
+bug de METADATA (clase B5), no solo de scoring** — sanearlo es lo que mete el chunk al pool, no RRF. (2)
+**`doc_type` está poblado solo al 6%** (NULL en todos los manuales del eval) → un routing por `doc_type` no
+es viable sin re-poblarlo. **Lección s36 (feedback_my_bias): se propusieron 4 levers (change-1/doc-routing/
+fail-open/RRF) y los 4 cayeron por review+verificación** — el bucle viene de medir sobre PROXIES (recall,
+HyDE-off, gold roto) en vez del árbitro end-to-end. **Decisión: NO tocar el merge/levers de retrieval hasta
+crecer el ruler + medir END-TO-END** (DEC-003). El bug de scores planos sigue siendo cruft real, pero su fix
+debe medirse end-to-end, no por recall (RRF ya lo demostró — ver #25 Fase 1b). Canónico: `DECISIONS.md` DEC-005.
 
 ---
 

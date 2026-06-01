@@ -41,6 +41,31 @@
 > - **(s35) Decisión de rumbo — el siguiente trabajo es CRECER EL RULER por cobertura-diagnóstica** (NO gate estadístico; `DECISIONS.md` DEC-003): breadth-baseline FIJO (eje fabricante/tipo/modalidad/idioma; 5 conductas + multi-marca-parcial = guarda anti-regresión) + golds lever-targeted ENCIMA; parada = cobertura de TAXONOMÍA, no un N. El sub-plan detallado del ruler (fases, INTERLEAVE) vive en `RULER_DESIGN §4`.
 > - **Orden vigente:** (1) auditar 13 PARCIAL/5 FALLO (¿retrieval vs síntesis?) → (2) crecer baseline + lever-targeted → (3) tirar del lever que señale → medir → repetir. **Tarea próxima elevada:** metadata de revisión en chunks_v2 (`TECH_DEBT #4`, DEC-004). El reranker sigue **ABIERTO** (no asumido).
 > - Supera el framing s30 "el ruler está roto / arreglarlo antes del reranker": el ruler ya está completo y fiable.
+>
+> **Actualización s36 (1 jun 2026 — paso (1) del orden vigente HECHO):**
+> - **Auditoría DEC-003 ejecutada** (embudo retrieval HyDE-off por hecho atómico; instrumento
+>   `scripts/audit_retrieval_funnel.py`, datos `evals/dec003_retrieval_funnel_*.yaml`; 2 revisiones
+>   adversariales 5/5 + 7/7). **Hallazgo: el cuello está REPARTIDO, no es único** (`DECISIONS.md`
+>   DEC-005). Los 5 FALLO = **4 retrieval-funnel** (hp006/17/18/19: el dato no llega al top-5) **+ 1
+>   síntesis** (hp020: lo tenía y sobre-admitió). Las PARCIAL son mezcla (varias con el dato en top-5
+>   = síntesis-incompleta). **0 corpus-gaps reales** → extracción (#10) NO es el lever.
+> - **Lever (tras 2 reviews adversariales + validación — el framing inicial se corrigió 3×; traza
+>   completa en DEC-005):** el "clúster manual-equivocado" era over-generalizado → validado **n=1**
+>   (solo hp017 no trae el manual al pool, por `product_model` mal etiquetado `AC-220` + el **bug de
+>   merge de scores PLANOS de s29** que entierra la similitud vectorial real; HyDE-ON no lo mitiga —
+>   caveat HyDE CERRADO). **El cuello dominante es within-doc chunk-ranking** (manual correcto en el
+>   pool, el chunk de la respuesta no llega al top-5); hp006 es recall-miss de página (ni en vector
+>   top-50). **doc-routing/`doc_type` DESCARTADO.**
+> - **RESOLUCIÓN del lever (4ª review — `DECISIONS.md` DEC-005): la síntesis RRF se RETRACTÓ.** Verificado
+>   que **RRF ya se construyó y midió (`gate.py`/`gate_results.json`, PR#8): hit@5 idéntico vec vs
+>   hybrid-RRF, NO movió** (sobre gold roto + proxy de recall). **Propuse 4 mecanismos de lever esta
+>   sesión (change-1→doc-routing→fail-open→RRF) y los 4 cayeron** por review+verificación — el bucle viene
+>   de debatir levers sobre PROXIES en vez del árbitro end-to-end. **NO hay lever de retrieval recomendado.**
+> - **Próximo (lo que SÍ se sostiene):** (a) la **diagnosis está HECHA** (no más mecanismos a ciegas);
+>   (b) **ejecutar el paso ya aprobado de DEC-003: crecer el ruler + medir END-TO-END** (única vía para
+>   volver falsable cualquier lever); (c) fix seguro pase lo que pase: `product_model='AC-220'` del
+>   Config-ES de la PEARL (bug B5, n=1); (d) opcional barato: re-correr `gate.py` sobre el ruler arreglado
+>   (sigue siendo proxy). Instrumentos: `audit_retrieval_funnel.py`, `validate_s29_burial.py`.
 
 ---
 
