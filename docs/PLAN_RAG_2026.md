@@ -10,14 +10,21 @@
 > **Audiencia.** Alberto (decisión estratégica) y cualquier sesión de desarrollo
 > futura — debe poder leerse en frío y saber qué hacer y por qué.
 >
-> **Fecha base:** 22 mayo 2026. **Última actualización:** 31 mayo 2026 (sesión 33) — ver "Estado actual y próximos pasos" justo debajo.
+> **Fecha base:** 22 mayo 2026. **Última actualización:** 1 jun 2026 (sesión 35) — ver "Estado actual y próximos pasos" justo debajo.
+>
+> **📍 Mapa canónico (un dueño por tema — para no repetir la inconsistencia de la s35).** ESTE
+> documento es el **único canónico** del **roadmap + estado + qué sigue**. Los demás lo
+> referencian, NO lo duplican: `docs/RULER_DESIGN.md` = diseño del ruler + decisiones D1-D11;
+> `docs/DECISIONS.md` = el *por qué* de las decisiones de impacto med/alto; `TECH_DEBT.md` =
+> deuda con triggers; `docs/ARCHITECTURE.md` = cómo funciona el sistema. Si el rumbo aparece
+> en dos sitios y discrepan, **manda éste**.
 >
 > **Principio rector.** Nada de quick fixes. Cada cambio debe ser (1) best
 > practice de Mayo 2026 con fuente identificable, (2) estructural — ataca la
 > causa raíz, no el síntoma, (3) escalable a 30+ fabricantes sin fricción por
 > fabricante. Si una propuesta no cumple los tres, se declara como gap honesto.
 >
-> **⚡ Estado actual y próximos pasos (sesión 30; ACTUALIZADO en s31-s33 — ver al final de este bloque) — supersede el detalle de fases de abajo, que es rationale histórico (mayo 2026).**
+> **⚡ Estado actual y próximos pasos (sesión 30; ACTUALIZADO hasta s35 — ver al final de este bloque) — supersede el detalle de fases de abajo, que es rationale histórico (mayo 2026).**
 > - **Ya hecho** vs el plan original: re-ingesta + `chunks_v2` en producción (Voyage 1024, sesión 27); catálogo dinámico + atribución de fabricante (sesión 28); eval determinista + matcher estricto (sesión 29); lever de **generación** ejecutado (sesión 30 — change-1 anti-falso-rechazo, **direccional**).
 > - **Hallazgo que reordena el plan (sesión 30):** el **eval/gold (el «ruler») está parcialmente NO fiable** — errores factuales, conflictos entre manuales y OCR en ~7 de 19 golds → las cifras de calidad son **indicativas, no firmes** hasta arreglarlo. Detalle canónico en **`TECH_DEBT.md` #33** (no se duplica aquí).
 > - **Orden de trabajo vigente:** (1) **arreglar el ruler** (gold-fix holístico; conflictos/matrices/OCR necesitan técnico real + PDFs renderizables — ver #33); (2) **filtrar chunks no-ES/EN** del retrieval (96 chunks fr/de/pt); (3) **lever del reranker** (elección empírica; el filtro modelo/categoría se queda como guarda de precisión). El reranker **NO antes del ruler** — medir contra golds rotos repite el error de llamar «trampa» a un win.
@@ -27,7 +34,13 @@
 > - **(s31)** ruler rediseñado como instrumento construido desde la FUENTE: `scripts/gold_store.py` (única puerta) + toolkit de verificación (`render_pdf_page` + cross-model GPT-5.5 `cross_verify_image` + `pdf_grep`) + **`docs/RULER_DESIGN.md`** (decisiones D1-D11, fuente canónica del diseño) + agente revisor adversarial (Protocolo 3).
 > - **(s32)** **scorer atómico** por-hecho (`scripts/atomic_scorer.py`, 3 ejes: completitud mecánica + factual cross-model + conducta) reemplaza al juez LLM opaco; gate de alucinación caracterizado (`TECH_DEBT.md` #35).
 > - **(s33)** **Fase 1 Tier A COMPLETO: 12/19 golds verificados** contra la fuente (hp001/02/03/05/07/08/10/11/14/17/19/20). **Matiz al hallazgo s30**: los `answer`-de-spec resultaron CORRECTOS; lo «no fiable» eran los golds de CONDUCTA (hp006/09/17) y CONFLICTO/OCR (hp012/18), hoy en cuarentena (7 restantes = Tier B conducta + Tier C diferido a técnico+PDF).
-> - **Orden de trabajo actualizado:** terminar Fase 1 (Tier B conducta → cuarentena a 0) → refinos del scorer (#35) → lever de generación re-evaluado contra el ruler ya fiable. Fuente canónica del estado: `RULER_DESIGN.md` §4 + memoria del proyecto. **Sigue sin tocar producción** (eval-infra).
+> - **Orden de trabajo actualizado (s33):** terminar Fase 1 (Tier B conducta → cuarentena a 0) → refinos del scorer (#35) → lever de generación re-evaluado contra el ruler ya fiable. **Sigue sin tocar producción** (eval-infra).
+>
+> **Actualización s34-s35 (1 jun 2026 — ESTE bloque es ahora la fuente canónica del estado):**
+> - **(s34)** Ruler COMPLETO (**19/19** verificados). `change-1` re-validado y **REVERTIDO** de producción (`DECISIONS.md` DEC-001): no rescata falso-rechazos (son retrieval) e inducía sobre-respuesta en hp015. Producción = baseline limpio (chunks_v2 sin change-1); pendiente smoke en Telegram.
+> - **(s35) Decisión de rumbo — el siguiente trabajo es CRECER EL RULER por cobertura-diagnóstica** (NO gate estadístico; `DECISIONS.md` DEC-003): breadth-baseline FIJO (eje fabricante/tipo/modalidad/idioma; 5 conductas + multi-marca-parcial = guarda anti-regresión) + golds lever-targeted ENCIMA; parada = cobertura de TAXONOMÍA, no un N. El sub-plan detallado del ruler (fases, INTERLEAVE) vive en `RULER_DESIGN §4`.
+> - **Orden vigente:** (1) auditar 13 PARCIAL/5 FALLO (¿retrieval vs síntesis?) → (2) crecer baseline + lever-targeted → (3) tirar del lever que señale → medir → repetir. **Tarea próxima elevada:** metadata de revisión en chunks_v2 (`TECH_DEBT #4`, DEC-004). El reranker sigue **ABIERTO** (no asumido).
+> - Supera el framing s30 "el ruler está roto / arreglarlo antes del reranker": el ruler ya está completo y fiable.
 
 ---
 
@@ -844,6 +857,14 @@ Re-run acceptance test tras Fase 2 (con dataset y judge congelados — no se
 toca el contrato del eval, solo el sistema).
 
 ### 9.14 Enriquecimiento del eval (backlog) — Plan Y'
+
+> **⚠️ Reconciliado (s35).** El "**Cuándo: NO ahora**" de abajo era framing de s27 anclado a
+> "no bloquear el SWAP" (objetivo ya cumplido). **NO contradice** la decisión vigente de
+> **crecer el ruler ahora** (bloque de estado arriba + `RULER_DESIGN §4` + `DECISIONS.md`
+> DEC-003): son **dos ejes compatibles**. §9.14 = enriquecimiento **orgánico** con preguntas
+> **reales** (due diligence / técnicos, #10) = ancla de realismo **futura** (aún no disponible);
+> "crecer el ruler ahora" = construir el **instrumento diagnóstico** con golds sintéticos
+> estratificados. Suman; §9.14 NO dice "no crecer ahora".
 
 El eval actual es estrecho: 19 preguntas, 3 fabricantes (Detnov/Notifier/
 Morley), solo PCI-detección. El scope real es 30+ fabricantes y multi-dominio.

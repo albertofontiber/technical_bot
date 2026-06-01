@@ -73,5 +73,14 @@ debe producir bite concreto anclado en evidencia (validado: cazó 5 fallos del l
 - Precisión > velocidad. Arreglos de raíz. Sin sobre-ingeniería.
 
 ## Cierre de sesión
-Antes del commit final: actualizar `docs/ARCHITECTURE.md` (cifras, estado) y la
-memoria del proyecto. Working tree limpio.
+Antes del commit final, actualizar (en orden de canonicidad):
+1. **`docs/PLAN_RAG_2026.md`** — doc CANÓNICO del roadmap + estado + qué sigue. Reconciliar su
+   bloque de estado con lo avanzado en la sesión. NO dejar que un sub-doc (RULER_DESIGN §4, el
+   banner de ARCHITECTURE, o la memoria) sea la única fuente del estado: PLAN manda (lección
+   s35 — el desalineamiento §9.14 vs RULER_DESIGN §4 costó una sesión entera).
+2. **`docs/DECISIONS.md`** — apendizar toda decisión de impacto MEDIO/ALTO de la sesión
+   (decisión · motivo · alternativas descartadas · ref al `adversarial_review_log.jsonl`). Es
+   la traza para no re-litigar el rumbo en el futuro.
+3. **`docs/ARCHITECTURE.md`** (cifras, estado del sistema) + la **memoria del proyecto**.
+
+Working tree limpio.

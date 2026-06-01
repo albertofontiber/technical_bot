@@ -5,6 +5,8 @@
 > **Audiencia:** Alberto (decisiones estratégicas), inversores (entender el valor técnico), y onboarding técnico futuro.
 >
 > **Cómo mantener este doc:** cada vez que añadamos/cambiemos algo arquitectural, actualizamos la sección relevante + la fecha + el changelog al final. Reglas concretas en §7.
+>
+> **📍 Mapa canónico:** este doc explica **cómo funciona** el sistema (y su estado). El **roadmap + qué sigue** es canónico en `PLAN_RAG_2026.md`; el *por qué* de las decisiones de impacto med/alto en `docs/DECISIONS.md`. El banner de abajo resume el estado; para el plan vigente, ver PLAN.
 
 ---
 

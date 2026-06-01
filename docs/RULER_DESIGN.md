@@ -198,9 +198,14 @@ el fixture de recall. Ver TECH_DEBT #35.
 
 ## 4. Plan por fases
 
+> **📍 Canónico:** el roadmap + estado GLOBAL vive en `PLAN_RAG_2026.md` (mapa canónico). Esto
+> es el **sub-plan detallado de construcción del ruler**; PLAN apunta aquí para el detalle. Si
+> discrepan sobre el rumbo, manda PLAN.
+
 Estado al crear el doc (s31): Fases previas ya hechas esa sesión (3 herramientas, gate de
 cuarentena, 3 golds verificados pendientes de retrofit a hechos atómicos, normas).
-**Estado actual (s33): 19/19 verificados (RULER COMPLETO: Tier A + B + C)** — ver Fase 1 abajo.
+**Estado actual (s35): 19/19 verificados (RULER COMPLETO). Fase 3 (crecer el ruler) = trabajo
+vigente, por cobertura-diagnóstica (`DECISIONS.md` DEC-003; método y nivel ahí).** — ver Fase 1/3 abajo.
 
 - **Fase 0** — gold_store.py + **localizador exhaustivo** + esquema v2 + validación en
   CI + este doc. *(tareas #7, #9)*
