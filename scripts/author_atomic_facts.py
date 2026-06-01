@@ -1004,73 +1004,271 @@ HP006_PROV = {
 # --- hp009: Morley ZXe — resistencia de fin de linea (RFL) para los lazos. answer (corregida de admit).
 # VERIFICADO s33 (Fase 1 / Tier B): el lazo analogico direccionable de la ZXe NO lleva RFL — se cablea
 # como BUCLE CERRADO (LAZO+/- de salida y RETORNO LAZO+/- de vuelta), con aisladores de cortocircuito.
-# Evidencia POSITIVA en MIE-MI-310 (digital-native) Fig 11/12 (f16) y Fig 13 (f17): cableado de lazo SIN
-# RFL. La RFL es concepto de circuitos convencionales, no del lazo direccionable -> el bot debe RESPONDER
-# corrigiendo la premisa, no admitir. (MIE-MI-300rv02 es scan: grep invalido; uso MIE-MI-310 digital.)
+# RE-ANCLADO s33 Tier C: en Tier B se ancló a MIE-MI-310, que es el manual de ZXAE/ZXEE (convencional/2000),
+# NO el e-series ZX2e/ZX5e que pregunta la "ZXe" (mismo error que hp018). La SUSTANCIA (lazo direccionable =
+# bucle cerrado SIN RFL) se RE-VERIFICÓ contra MIE-MI-530 (ZX2e/ZX5e, digital-native, f19 3.4.3.1 Fig 9/10)
+# -> re-anclado a MI-530 como fuente primaria; MI-310 (ZXAE/ZXEE) corrobora la misma topologia. El bot debe
+# RESPONDER corrigiendo la premisa (el lazo no usa RFL). (MIE-MI-300rv02 es scan: grep invalido.)
 HP009_ANSWER = (
-    "El lazo analogico direccionable de la central Morley ZXe/ZXSe NO lleva resistencia de fin de linea "
-    "(RFL). El lazo se cablea como un BUCLE CERRADO: los terminales de salida (LAZO+ / LAZO-) salen de la "
-    "central, recorren los equipos direccionables y vuelven a la central por los terminales de RETORNO DE "
-    "LAZO (+/-); la malla se conecta al conector central del lazo (manual de instalacion MIE-MI-310, "
-    "Figuras 11 y 12). Se recomienda intercalar aisladores de cortocircuito cada ~20 equipos para que un "
-    "corto o un circuito abierto no deje sin comunicacion a todo el lazo (Figura 13).\n\n"
+    "El lazo analogico direccionable de la central Morley ZXe (e-series ZX2e/ZX5e) NO lleva resistencia de "
+    "fin de linea (RFL). El lazo se cablea como un BUCLE CERRADO: los terminales de salida del panel (Inicio "
+    "Lazo +/- OUT) recorren los equipos direccionables y el final del lazo VUELVE al panel por los terminales "
+    "de Retorno (+/-) del mismo conector de lazo (manual de instalacion MIE-MI-530, seccion 3.4.3.1, Figuras "
+    "9 y 10). Cada lazo dispone de aisladores de cortocircuito INTERNOS en el panel; se recomienda intercalar "
+    "aisladores adicionales en campo (maximo 32 sensores/pulsadores entre aisladores segun EN54-2 12.5.2, o "
+    "por zona fisica segun EN54-14) para que un corto o un circuito abierto no deje sin comunicacion a todo "
+    "el lazo.\n\n"
     "La 'resistencia de fin de linea' (RFL/EOL) es un concepto de los circuitos CONVENCIONALES supervisados "
-    "(zonas convencionales, salidas de sirena monitorizadas), no del lazo direccionable. Por eso ningun "
-    "manual de la ZXe especifica una RFL para el lazo: el lazo no la usa. Si la pregunta se referia a una "
-    "salida de sirena convencional o a una entrada supervisada de la ZXe, conviene consultar esa seccion "
-    "concreta del manual."
+    "(zonas convencionales, salidas de sirena monitorizadas que en la ZXe usan 6K8), NO del lazo "
+    "direccionable. Por eso ningun manual de la ZXe especifica una RFL para el lazo: el lazo se supervisa por "
+    "su topologia de bucle cerrado + aisladores, no con una resistencia. (El mismo cableado de bucle cerrado "
+    "sin RFL aparece en los paneles convencionales-direccionables ZXAE/ZXEE, manual MIE-MI-310, Fig 11/12/13.)"
 )
 HP009_FACTS = [
     {
-        "texto": ("El lazo analogico direccionable de la ZXe se cablea como BUCLE CERRADO: salida LAZO+/- y "
-                  "vuelta por RETORNO LAZO+/- a la central; NO se cierra con una resistencia de fin de linea"),
-        "tipo": "core", "estado": "presente", "valor": "RETORNO LAZO", "cita": "MIE-MI-310 p15-16 (Fig 11/12)",
+        "texto": ("El lazo analogico direccionable de la ZXe (ZX2e/ZX5e) se cablea como BUCLE CERRADO: salida "
+                  "del panel (Inicio Lazo +/- OUT) y vuelta por los terminales de Retorno (+/-) del mismo "
+                  "conector de lazo; NO se cierra con una resistencia de fin de linea"),
+        "tipo": "core", "estado": "presente", "valor": "Retorno", "cita": "MIE-MI-530 p19 (3.4.3.1, Fig 9/10)",
     },
     {
-        "texto": ("Los terminales del lazo incluyen entrada y salida (con + y - en cada uno) y malla; la "
-                  "malla se conecta en el conector central del lazo correspondiente"),
-        "tipo": "core", "estado": "presente", "valor": "malla", "cita": "MIE-MI-310 p15 (3.3.4.1)",
+        "texto": ("Cada lazo dispone de aisladores de cortocircuito INTERNOS en el panel; el cableado del lazo "
+                  "debe realizarse en bucle cerrado con los aisladores necesarios (EN54-14 / EN54-2)"),
+        "tipo": "core", "estado": "presente", "valor": "aisladores internos", "cita": "MIE-MI-530 p17 / p20",
     },
     {
-        "texto": ("Se recomienda instalar aisladores de cortocircuito cada ~20 equipos para limitar la "
-                  "perdida de comunicacion por corto/abierto del lazo (proteccion del bucle, no una RFL)"),
-        "tipo": "supplementary", "estado": "presente", "valor": "20 equipos", "cita": "MIE-MI-310 p16 (Fig 13)",
+        "texto": ("Maximo 32 sensores/pulsadores entre aisladores (EN54-2 12.5.2); se recomienda un aislador "
+                  "cada 32 equipos o por zona fisica (EN54-14) para acotar corto/abierto, no una RFL"),
+        "tipo": "supplementary", "estado": "presente", "valor": "32", "cita": "MIE-MI-530 p19",
     },
     {
         "texto": ("Ningun manual de la ZXe especifica un valor de resistencia de fin de linea para el LAZO "
                   "direccionable, porque el lazo es un bucle cerrado y no la usa (la RFL pertenece a los "
-                  "circuitos convencionales supervisados)"),
-        "tipo": "core", "estado": "ausente-probado", "valor": None, "cita": "MIE-MI-310 Fig 11/12/13 + busqueda exhaustiva",
+                  "circuitos convencionales supervisados, p.ej. las salidas de sirena con 6K8)"),
+        "tipo": "core", "estado": "ausente-probado", "valor": None,
+        "cita": "MIE-MI-530 (lazo sin RFL) + MIE-MI-310 Fig 11/12/13",
     },
 ]
 HP009_PROV = {
     "estado": "verificado",
     "metodo": "render_pdf",
-    "fuente": "MIE-MI-310.pdf (Manual de Instalacion ZXAE/ZXEE)",
-    "paginas_impresas": [15, 16],
-    "paginas_fisicas": [16, 17],
+    "fuente": ("MIE-MI-530rv001.pdf (ZX2e/ZX5e, e-series ZXe) — PRIMARIA; MIE-MI-310.pdf (ZXAE/ZXEE) "
+               "corrobora la misma topologia de bucle cerrado"),
+    "paginas": [17, 19, 20],
     "verificado_por": [
-        "Claude (multimodal de f16 'Conexionado del lazo' Fig 11/12 + f17 Fig 13 aisladores de linea) -> "
-        "lazo cableado como bucle cerrado SIN resistencia de fin de linea",
+        "Claude (multimodal de MI-530 f19 '3.4.3.1 Conexionado lazo analogico' Fig 9/10 = Inicio Lazo +/- OUT "
+        "+ Retorno +/-, bucle cerrado SIN RFL; f17/f20 'bucle cerrado con aisladores' + aisladores internos "
+        "en el panel) -> re-anclaje s33 Tier C; MI-310 (ZXAE/ZXEE) Fig 11/12/13 muestra la misma topologia",
     ],
-    "acuerdo": ("render confirma: lazo direccionable = bucle cerrado (LAZO+/- y RETORNO LAZO+/-), malla al "
-                "conector central, aisladores cada ~20 equipos; NO hay resistencia de fin de linea en el lazo"),
-    "fecha": "2026-05-31",
-    "nota": ("MIE-MI-310 digital-native, offset impresa+1 = fisica (pie 'Pag.15' en f16). CONDUCTA CORREGIDA "
-             "admit_no_info -> answer (premisa): el gold s27 leyo 'no aparece valor EOL' como admit, pero la "
-             "ausencia es estructural (el lazo direccionable no usa RFL) y el manual SI muestra el cableado "
-             "del lazo (Fig 11/12/13, sin RFL) = evidencia POSITIVA. MIE-MI-300rv02 es un scan (grep "
-             "invalido: 1 hit en 107 pp); por eso la verificacion se ancla en MIE-MI-310 (digital-native)."),
+    "acuerdo": ("render MI-530 confirma: lazo direccionable = bucle cerrado (Inicio Lazo +/- OUT y Retorno "
+                "+/-), aisladores internos en el panel + recomendados <=32 equipos (EN54); NO hay resistencia "
+                "de fin de linea en el lazo. MI-310 (ZXAE/ZXEE) coincide en la topologia (Fig 11/12/13)"),
+    "fecha": "2026-06-01",
+    "nota": ("RE-ANCLADO en s33 Tier C: en Tier B este gold se ancló a MIE-MI-310, que es el manual de los "
+             "paneles ZXAE/ZXEE (convencionales-direccionables, 2000), NO el e-series ZX2e/ZX5e que pregunta "
+             "la 'ZXe' (mismo descubrimiento que hp018). La SUSTANCIA (lazo direccionable = bucle cerrado sin "
+             "RFL) se RE-VERIFICÓ correcta contra MIE-MI-530 (ZX2e/ZX5e, digital-native, f19 sin offset, pie "
+             "'Pagina 19 de 50') -> re-anclado a MI-530 como fuente primaria; MI-310 queda como corroboracion "
+             "de la familia hermana. CONDUCTA = answer (corrige la premisa: el lazo no usa RFL). "
+             "MIE-MI-300rv02 es un scan (grep invalido: 1 hit en 107 pp)."),
     "localizacion": {
-        "manuales_buscados": ["MIE-MI-300rv02 (SCAN: grep invalido)", "MIE-MI-310 (digital)", "MIE-MP-310",
-                              "MIE-MU-310", "MIE-MI-320/330/340/390"],
-        "terminos": ["fin de linea", "final de linea", "RFL", "EOL", "4K7", "resistencia", "LAZO",
-                     "RETORNO LAZO", "aisladores", "bucle"],
-        "paginas_fisicas": [16, 17],
-        "corpus_chunks_v2": ("9 manuales ZXe en chunks_v2: MIE-MI-300(126), MP-310(75), MI-310(42), "
-                             "MU-310(31), MP-315(9), MI-320(8), MI-390(4), MI-330(3), MI-340(2)"),
-        "nota": ("evidencia POSITIVA de bucle cerrado SIN RFL en Fig 11/12/13 (f16-17); grep de RFL/EOL = 0 "
-                 "en los 6 MIE-MI-3xx (caveat: MIE-MI-300 es scan). offset MIE-MI-310 +1."),
+        "manuales_buscados": ["MIE-MI-530rv001 (ZX2e/ZX5e, digital-native)",
+                              "MIE-MI-310 (ZXAE/ZXEE, imagen-only/scan: grep invalido, leido por render)",
+                              "MIE-MI-300rv02 (SCAN: grep invalido)", "MIE-MP-310", "MIE-MU-310"],
+        "terminos": ["bucle cerrado", "Inicio Lazo", "Retorno", "aisladores", "fin de linea", "RFL", "EOL"],
+        "paginas": [17, 19, 20],
+        "corpus_chunks_v2": ("MIE-MI-530rv001=64 (digital, servable), MI-310=42, MI-300=126(scan), "
+                             "MP-310=75, MU-310=31"),
+        "nota": ("fin de linea/RFL = 0 hits para el LAZO en MI-530 (solo aparece para las salidas de sirena, "
+                 "6K8). Bucle cerrado (Inicio Lazo OUT + Retorno) confirmado al pixel en f19 Fig 9/10. "
+                 "Regla de scans: MI-310 imagen-only -> leido por render."),
+    },
+}
+
+# --- hp012: Notifier AM2020/AFP1010 — nº de lazos SLC y dispositivos por lazo. answer-con-conflicto
+# (corregida de answer plano). VERIFICADO s33 (Fase 1 / Tier C): el AFP1010 difiere entre la doc de
+# Notifier Espana (MFDT280/MPDT280: 2 lazos / 396) y la de Notifier US (15088SP PN:H 1998: 4 lazos /
+# 792) = DOCUMENTOS DISTINTOS -> surfacear ambos (conducta 2). AM2020 (10 lazos) y disp/lazo (99+99)
+# consistentes. Render MPDT280 p3 + 15088SP p151 (Claude) + sub-agente (p6/p14/p112) + cross-model GPT-5.5.
+HP012_ANSWER = (
+    "La AM2020 y la AFP1010 comparten la arquitectura de lazos SLC, pero difieren en el numero de "
+    "lazos:\n\n"
+    "- La AM2020 soporta hasta 10 lazos SLC.\n"
+    "- La AFP1010: los manuales disponibles NO coinciden. La documentacion de Notifier Espana "
+    "(MFDT280/MPDT280) la limita a un maximo de 2 lazos (2 tarjetas LIB-200), con un total de 396 "
+    "dispositivos en el sistema. La documentacion de Notifier US (PN 15088SP) indica un maximo de 4 "
+    "lazos (4 LIB-200 o 2 LIB-400), con un total de 792 dispositivos.\n\n"
+    "Cada lazo SLC admite hasta 99 detectores analogicos + 99 modulos monitores o de control (198 "
+    "dispositivos por lazo) en ambos casos; asi la AM2020 alcanza 1980 dispositivos. El cableado del "
+    "lazo sigue los requisitos NFPA Estilo 4 o Estilo 6.\n\n"
+    "La discrepancia del AFP1010 (2 vs 4 lazos) procede de documentos distintos (Notifier Espana vs "
+    "Notifier US); con la informacion disponible no es posible determinar cual aplica sin identificar "
+    "la documentacion o configuracion del panel concretamente instalado. Conviene verificar contra el "
+    "manual correspondiente al equipo en campo."
+)
+HP012_FACTS = [
+    {
+        "texto": "La AM2020 soporta hasta 10 lazos SLC (consistente en la doc de Espana y la de US)",
+        "tipo": "core", "estado": "presente", "valor": "10 lazos", "cita": "MFDT280 p6 / 15088SP p112,p151",
+    },
+    {
+        "texto": ("Cada lazo SLC admite hasta 99 detectores analogicos + 99 modulos monitores/de control "
+                  "= 198 dispositivos por lazo (consistente en ambos mercados)"),
+        "tipo": "core", "estado": "presente", "valor": "99 + 99", "cita": "MFDT280 p4 / 15088SP p61",
+    },
+    {
+        "texto": ("AFP1010 segun la doc de Notifier ESPANA (MFDT280/MPDT280): maximo 2 tarjetas LIB-200 "
+                  "= 2 lazos / 396 dispositivos en el sistema"),
+        "tipo": "core", "estado": "presente", "valor": "2 lazos / 396", "cita": "MPDT280 p3 / MFDT280 p6",
+    },
+    {
+        "texto": ("AFP1010 segun la doc de Notifier US (PN 15088SP, 1998): maximo 4 LIBs (4 LIB-200 o 2 "
+                  "LIB-400) = 4 lazos / 792 dispositivos -> EN CONFLICTO con la doc de Espana"),
+        "tipo": "core", "estado": "presente", "valor": "4 lazos / 792", "cita": "15088SP p14,p112,p151",
+    },
+    {
+        "texto": "El AM2020 alcanza un total de 10 x 198 = 1980 dispositivos direccionables en el sistema",
+        "tipo": "supplementary", "estado": "presente", "valor": "1980", "cita": "15088SP p151",
+    },
+    {
+        "texto": "El cableado del lazo SLC sigue los requisitos NFPA Estilo 4 o Estilo 6 (la doc US anade Estilo 7)",
+        "tipo": "supplementary", "estado": "presente", "valor": "Estilo 4", "cita": "MFDT280 p4 / 15088SP p242",
+    },
+]
+HP012_PROV = {
+    "estado": "verificado",
+    "metodo": "render_pdf + cross_model",
+    "fuente": ("MFDT280.pdf + MPDT280.pdf (Notifier Espana) + 15088SP.pdf (Notifier US, "
+               "PN 15088SP:H 10/21/98)"),
+    "paginas": [3, 6, 14, 151],
+    "verificado_por": [
+        "Claude (lectura multimodal de MPDT280 p3 'AFP1010 maximo 2 LIB-200/396' + 15088SP p151 'AFP1010 "
+        "maximo 4 LIBs/792, AM2020 10 LIBs/1980')",
+        "sub-agente Claude (Protocolo 3: render/grep de MFDT280 p6 '1 a 10 AM2020 / 1 a 2 AFP1010' + "
+        "15088SP p14,p112; 13 confirmados, 0 falsos-positivos)",
+        "gpt-5.5 cross-model (revisor adversarial: refino del framing del conflicto, ver nota)",
+    ],
+    "acuerdo": ("ES (MFDT280/MPDT280): AFP1010 = 2 LIB-200 / 396, AM2020 = 10 lazos. US (15088SP): "
+                "AFP1010 = 4 LIBs / 792, AM2020 = 10 LIBs / 1980. AM2020 y disp/lazo (99+99) consistentes; "
+                "el AFP1010 difiere (2 vs 4 lazos)"),
+    "fecha": "2026-05-31",
+    "nota": ("CONDUCTA CORREGIDA answer -> answer-con-conflicto: el gold s27 daba solo el lado ES (2 "
+             "lazos/396) como answer plano, omitiendo la variante US (4 lazos/792). Son DOCUMENTOS "
+             "DISTINTOS (Notifier Espana vs Notifier US PN 15088SP/1998), no revisiones del mismo manual "
+             "-> surfacear ambos (conducta 2), no elegir ganador. GAP DECLARADO (rule C, cross-model "
+             "GPT-5.5): sin metadata de revision/fecha de los manuales ES no se puede establecer "
+             "supersesion ni probar 'variante de mercado' vs edicion/config distinta; por eso la "
+             "respuesta atribuye cada valor a su fuente y remite a la doc del panel instalado, sin adjudicar."),
+    "localizacion": {
+        "manuales_buscados": ["MFDT280 (operacion ES, digital)", "MPDT280 (programacion ES, digital)",
+                              "15088SP (instalacion US, digital)", "15090SP", "15092SP", "MADT370"],
+        "terminos": ["LIB-200", "lazos", "396", "792", "1 a 10", "1 al 4", "99 detectores", "1980"],
+        "paginas": [3, 6, 14, 112, 151],
+        "corpus_chunks_v2": ("ES servable: MFDT280=50, MPDT280=127; US servable: 15088SP=342 (+15090SP=134, "
+                             "15092SP=92, MADT370=15) -> ambas variantes del conflicto son recuperables"),
+        "nota": "los 3 manuales son digital-native (texto extraible). 15088SP esta en castellano pese a ser PN US.",
+    },
+}
+
+# --- hp018: Morley ZXe — conectar una sirena convencional en las salidas de sirena. answer (corregida).
+# VERIFICADO s33 (Fase 1 / Tier C): el gold s27 estaba MAL DOS VECES: citaba MIE-MI-310 = ZXAE/ZXEE
+# (convencional, mayo 2000), producto DISTINTO del e-series ZXe; y valores fabricados (ZX5e=5 salidas /
+# 10kOhm / 500mA). Re-anclado a MIE-MI-530rv001 (ZX2e/ZX5e, digital-native, 64 chunks). Render MI-530
+# p12/p21/p44 + MI-310 p1/p18 (descarte producto) (Claude) + sub-agente + cross-model GPT-5.5.
+HP018_ANSWER = (
+    "En la Morley ZXe (e-series, paneles ZX2e/ZX5e) las salidas de sirena son circuitos convencionales "
+    "supervisados en la placa base:\n\n"
+    "- Numero de salidas: la ZX2e tiene 2 circuitos de sirena (Sirenas A y B); la ZX5e tiene 4 (Sirenas "
+    "A, B, C y D).\n"
+    "- Caracteristicas: supervisados ante cortocircuito y circuito abierto, limitados en corriente, "
+    "maximo 1 A por circuito.\n\n"
+    "Conexion de una sirena convencional:\n"
+    "1) Conecte la sirena en el terminal del circuito de sirena correspondiente de la placa base "
+    "(Figura 13 ZX2e / Figura 14 ZX5e), respetando la polaridad +/- de la salida.\n"
+    "2) Cada sirena debe llevar un diodo integrado: en reposo la linea esta polarizada en inverso (para "
+    "la supervision) y, al dispararse la salida, se invierte la polaridad y la sirena suena. Si la "
+    "sirena no es polarizada, anada un diodo de polarizacion y proteccion en cada una.\n"
+    "3) Instale una resistencia de fin de linea (RFL) de 6,8 kOhm (6K8), 0,5 W minimo, en el final del "
+    "circuito (en la ultima sirena) para la supervision.\n"
+    "4) Use el calibre de cable indicado en la seccion 3.4.13 del manual.\n\n"
+    "Las RFL de 6k8 se suministran con el panel (2 con la ZX2e, 4 con la ZX5e).\n\n"
+    "Nota: los paneles convencionales ZXAE/ZXEE (manual MIE-MI-310) usan el mismo valor de RFL (6K8) y "
+    "la misma corriente (1 A), variando solo el numero de salidas (ZXAE 2 / ZXEE 4)."
+)
+HP018_FACTS = [
+    {
+        "texto": ("La ZX5e dispone de 4 circuitos/salidas de sirena de placa (la ZX2e, 2: Sirenas A y B); "
+                  "supervisados ante cortocircuito y circuito abierto, limitados en corriente"),
+        "tipo": "core", "estado": "presente", "valor": "4 circuitos", "cita": "MI-530 p12 / p21 (3.4.4) / p44",
+    },
+    {
+        "texto": ("Resistencia de fin de linea (RFL) = 6,8 kOhm (6K8), 0,5 W minimo, en el final de cada "
+                  "circuito de sirena (en la ultima sirena) para la supervision"),
+        "tipo": "core", "estado": "presente", "valor": "6K8", "cita": "MI-530 p21 / p44",
+    },
+    {
+        "texto": ("Cada sirena debe llevar un diodo integrado; el circuito se polariza en inverso en "
+                  "reposo (supervision) y cambia a polarizacion normal al dispararse; los dispositivos no "
+                  "polarizados requieren anadir un diodo en cada uno"),
+        "tipo": "core", "estado": "presente", "valor": "diodo", "cita": "MI-530 p21",
+    },
+    {
+        "texto": ("La conexion se hace en el bloque de terminales de circuitos de sirena de la placa base "
+                  "(Figura 13 ZX2e / Figura 14 ZX5e), respetando la polaridad +/- de cada salida (A/B/C/D)"),
+        "tipo": "core", "estado": "presente", "valor": "Sirenas A,B,C,D", "cita": "MI-530 p21 (Fig 13/14)",
+    },
+    {
+        "texto": "Carga maxima 1 A por circuito/salida de sirena",
+        "tipo": "core", "estado": "presente", "valor": "1 A", "cita": "MI-530 p21 / p44",
+    },
+    {
+        "texto": "Las resistencias de fin de linea de 6k8 (1/4 W) se suministran con el panel (2 con la ZX2e, 4 con la ZX5e)",
+        "tipo": "supplementary", "estado": "presente", "valor": "627-682", "cita": "MI-530 p8",
+    },
+    {
+        "texto": "Para el calibre de cable recomendado de los circuitos de sirena, ver la seccion 3.4.13 del manual",
+        "tipo": "supplementary", "estado": "presente", "valor": "3.4.13", "cita": "MI-530 p21",
+    },
+]
+HP018_PROV = {
+    "estado": "verificado",
+    "metodo": "render_pdf + cross_model",
+    "fuente": "MIE-MI-530rv001.pdf (ZX2e/ZX5e, el e-series 'ZXe')",
+    "paginas": [12, 21, 44],
+    "verificado_por": [
+        "Claude (multimodal de MI-530 p12 'Placa Base' 2/4 salidas + p21 '3.4.4 Circuitos de Sirenas' "
+        "Fig 13/14 (RFL 6K8, diodo, 1A, polaridad) + p44 'Tabla 8' specs ZX5e; y render de MIE-MI-310 "
+        "p1/p18 que prueba que MI-310 = ZXAE/ZXEE convencional (mayo 2000), producto DISTINTO)",
+        "sub-agente Claude (Protocolo 3: 13 confirmados, 0 falsos-positivos; 3er respaldo p21 3.4.4)",
+        "gpt-5.5 cross-model (revisor adversarial: 3 refinos de framing aplicados, ver nota)",
+    ],
+    "acuerdo": ("render confirma: ZX2e=2 / ZX5e=4 circuitos de sirena (p12, p21 3.4.4, p44); RFL 6K8 0,5W "
+                "al final del circuito (p21, p44); diodo integrado por sirena + polarizacion inversa en "
+                "reposo (p21); 1 A max por salida (p21, p44). MI-310 p1 = ZXAE/ZXEE convencional = "
+                "producto distinto. NO hay conflicto MI-310 vs MI-530: ambos 6K8 y 1 A"),
+    "fecha": "2026-05-31",
+    "nota": ("CONDUCTA = answer (corregida). El gold s27 estaba MAL DOS VECES: (1) PRODUCTO EQUIVOCADO -- "
+             "citaba MIE-MI-310, que es el manual de los paneles ZXAE/ZXEE (convencionales, mayo 2000), NO "
+             "el e-series direccionable ZXe; (2) VALORES que NO aparecen en los manuales identificados de "
+             "la ZXe (ZX5e=5 salidas / EOL 10kOhm / 500mA -> los reales son 4 / 6K8 / 1 A). Re-anclado a "
+             "MIE-MI-530rv001 (ZX2e/ZX5e). 'ZXe' = e-series ZX2e/ZX5e (no hay ZX1e en el corpus); los "
+             "convencionales ZXAE/ZXEE comparten 6K8 y 1 A, varian solo en nº de salidas. Patron hp009/"
+             "hp017 (manual equivocado/estrecho) intensificado. GAP DECLARADO (rule C, cross-model "
+             "GPT-5.5): la afirmacion 'valores fabricados' se acota a los manuales identificados de la ZXe "
+             "(MI-310 + MI-530), no a una busqueda exhaustiva de todo el corpus."),
+    "localizacion": {
+        "manuales_buscados": ["MIE-MI-530rv001 (ZX2e/ZX5e, DIGITAL-NATIVE: texto extraible limpio)",
+                              "MIE-MI-310 (ZXAE/ZXEE, IMAGEN/scan: pdf_grep 0 hits en 36 pp -> grep "
+                              "INVALIDO, leido por RENDER)", "MIE-MI-300rv02 (scan)", "MIE-MP-310", "MIE-MU-310"],
+        "terminos": ["circuitos de sirena", "salidas de sirena", "fin de linea", "6K8", "diodo", "1 Amp",
+                     "supervisada", "polaridad"],
+        "paginas": [12, 21, 44],
+        "corpus_chunks_v2": ("MIE-MI-530rv001 = 64 chunks (digital, SERVABLE); MI-310=42, MI-300=126, "
+                             "MP-310=75, MU-310=31. La respuesta correcta es servible desde MI-530."),
+        "nota": ("Regla de scans (s33): MI-310 es imagen-only (grep invalido) -> identidad y valores leidos "
+                 "por RENDER (evidencia positiva); MI-530 es digital-native -> servible. Modalidad "
+                 "registrada por-manual. CAVEAT hp009: ese gold (Tier B) tambien uso MIE-MI-310 (ZXAE/"
+                 "ZXEE) para responder sobre el lazo de la ZXe -> revisar si conviene re-anclar a MI-530."),
     },
 }
 
@@ -1097,6 +1295,13 @@ RECORDS = {
               "gold_answer": HP006_ANSWER, "drop": ["raw", "_needs_human_review", "_review_note"]},
     "hp009": {"facts": HP009_FACTS, "conducta": "answer", "provenance": HP009_PROV,
               "gold_answer": HP009_ANSWER, "drop": ["notes"]},
+    # Tier C (s33): los 2 golds diferidos en s30 a "tecnico + PDF renderizable". Resueltos sin tecnico
+    # via render: hp012 = answer-con-conflicto (conflicto real ES-vs-US); hp018 = answer (gold s27 cito
+    # producto equivocado ZXAE/ZXEE + valores fabricados -> re-anclado a MI-530 ZX2e/ZX5e).
+    "hp012": {"facts": HP012_FACTS, "conducta": "answer-con-conflicto", "provenance": HP012_PROV,
+              "gold_answer": HP012_ANSWER, "drop": ["notes"]},
+    "hp018": {"facts": HP018_FACTS, "conducta": "answer", "provenance": HP018_PROV,
+              "gold_answer": HP018_ANSWER, "drop": ["notes"]},
 }
 
 
