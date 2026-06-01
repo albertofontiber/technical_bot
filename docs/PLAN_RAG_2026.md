@@ -84,6 +84,20 @@
 > - **Próximo (DEC-003 capa 1)**: crecer el breadth-baseline (admit/refuse-inference/clarify + eje
 >   fabricante/ES-EN) sobre esta base; fix `product_model='AC-220'` (prod, contrato de seguridad) re-medido
 >   como delta vs este baseline; endurecer completitud-prosa (#35) para leer deltas finos.
+>
+> **Actualización s38 (1 jun 2026):**
+> - **(1) Dos fixes de prod shippeados** (PR #24, `DECISIONS.md` DEC-007): relabel `product_model
+>   AC-220→Pearl` (Manual Config-ES de la PEARL; hp017 pool 0→9 chunks, **FALLO→responde**) + **filtro de
+>   idioma** en retrieval (~96 chunks no-ES/EN; 243 tests + smoke). **El baseline s37 queda SUPERSEDED** (prod
+>   cambió) → cualquier delta futuro se mide contra un baseline FRESCO sobre el catálogo crecido.
+> - **(2) `TECH_DEBT #38`**: retirar el pipeline `src/ingestion/` VIEJO (legacy desde el SWAP a chunks_v2; el
+>   bot vivo no lo usa; `re_ingest`/`run_ingestion` escriben en la tabla `chunks` muerta). Workstream aparte.
+> - **(3) Dirección aprobada (DEC-008)**: crecer el ruler = **catálogo diagnóstico SINTÉTICO 3-bandas**
+>   (Claude + GPT-5.5 co-generan source-verified; dúo critica), instrumento para localizar dónde falla la
+>   cadena. Plan maestro canónico: **`docs/CATALOG_PLAN.md`** (v4, tras 3 pasadas del dúo). Ejecución por
+>   frontera de supervisión: **noche autónoma** = construir #35; **mañana supervisado** = pipeline de autoría
+>   (C4 localización 2-rutas + doble-lectura) + autorar ~6-8 + diagnóstico end-to-end. **Próximo: Fase A (#35)
+>   esta noche.**
 
 ---
 
