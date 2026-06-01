@@ -200,14 +200,14 @@ el fixture de recall. Ver TECH_DEBT #35.
 
 Estado al crear el doc (s31): Fases previas ya hechas esa sesión (3 herramientas, gate de
 cuarentena, 3 golds verificados pendientes de retrofit a hechos atómicos, normas).
-**Estado actual (s33): 17/19 verificados** (Tier A + Tier B completos) — ver Fase 1 abajo.
+**Estado actual (s33): 19/19 verificados (RULER COMPLETO: Tier A + B + C)** — ver Fase 1 abajo.
 
 - **Fase 0** — gold_store.py + **localizador exhaustivo** + esquema v2 + validación en
   CI + este doc. *(tareas #7, #9)*
 - **Fase 1** — verificar/reparar los 19 al estándar nuevo (incl. auditar la pregunta).
-  **TIER A + TIER B COMPLETOS (s33): 17/19 verificados.** Tier A (12, answer-de-spec):
-  hp001/02/03/05/07/08/10/11/14/17/19/20. Tier B (5, conducta): hp004/06/09/13/15. Cada uno
-  render + (cross-model donde aplica) + hechos atómicos + `_provenance`.
+  **TIER A + B + C COMPLETOS (s33): 19/19 verificados (RULER COMPLETO).** Tier A (12, answer-de-spec):
+  hp001/02/03/05/07/08/10/11/14/17/19/20. Tier B (5, conducta): hp004/06/09/13/15. Tier C (2,
+  conflicto/OCR): hp012/018. Cada uno render + (cross-model donde aplica) + hechos atómicos + `_provenance`.
   **HALLAZGO TIER B: los 4 "admit" estaban MAL → answer/answer-parcial** (hp004 era ya clarify:
   migración de vocab ask_clarification→clarify, NO un flip). hp015 (CCD-103 convencional →
   desconexión por ZONA, no por detector individual) y hp009 (lazo direccionable ZXe = bucle cerrado
@@ -220,8 +220,20 @@ cuarentena, 3 golds verificados pendientes de retrofit a hechos atómicos, norma
   estrechos** (idéntico a hp017) → infravaloró al bot en s28-30. Protocolo 3 (GPT-5.5 cross-model +
   sub-agente Claude) cazó 3 over-claims propios (hp015 "puentear" no documentado; hp013 inferencia
   placa-swap; "no batería tampón" poco anclado) → corregidos; 1 falso-positivo del revisor (hp006
-  JP2, VERIFICADO en 50253SP 2-44 por rule C). Pendiente: Tier C = conflicto/OCR diferido a
-  técnico+PDF (hp012/018). *(tarea #4)*
+  JP2, VERIFICADO en 50253SP 2-44 por rule C).
+  **TIER C (s33, los 2 diferidos en s30 a "técnico+PDF"): RESUELTOS SIN TÉCNICO vía render.** hp012 =
+  answer-con-conflicto: conflicto REAL ES-vs-US del AFP1010 (Notifier España MFDT280/MPDT280 = 2 lazos/396
+  vs Notifier US 15088SP/1998 = 4 lazos/792; documentos distintos → surfacear ambos, no elegir; AM2020 10
+  lazos/1980 y 99+99 disp/lazo consistentes). hp018 = answer: el gold s27 citaba el PRODUCTO EQUIVOCADO
+  (MIE-MI-310 es ZXAE/ZXEE convencional/2000, NO el e-series ZXe) + 3 valores fabricados (ZX5e=5 salidas /
+  EOL 10kΩ / 500mA) → re-anclado a MIE-MI-530 (ZX2e/ZX5e, digital-native, 64 chunks: 4 salidas / 6K8 / 1A).
+  MI-310 es imagen-only (grep=0 hits → regla de scans §2: leído por RENDER, evidencia positiva). Protocolo 3
+  (sub-agente Claude 13✓/0 FP + cross-model GPT-5.5) cazó 3 over-claims míos de FRAMING (no de valores):
+  "variante de mercado" sin metadata de revisión, "ZXe excluye ZXAE/ZXEE", "fabricados en NINGÚN manual" →
+  acotados. **LECCIÓN: el diferimiento de s30 a técnico era DEMASIADO AMPLIO** — render + cross-model
+  resuelven conflicto/OCR; el técnico (D1) pasa a spot-checker, no es prerequisito. **Caveat hp009 (Tier B):**
+  también usó MIE-MI-310 (ZXAE/ZXEE) para el lazo de la ZXe → la sustancia (el lazo direccionable no lleva
+  RFL) se CONFIRMÓ al píxel contra MIE-MI-530 (f19 §3.4.3.1 Fig 9/10: bucle cerrado Inicio Lazo OUT + Retorno, sin RFL) y hp009 quedó RE-ANCLADO a MI-530 (MI-310/ZXAE-ZXEE como corroboración) en esta misma sesión. *(tarea #4)*
 - **Fase 2** — scorer de hechos atómicos (3 ejes) + harness. **NÚCLEO HECHO (s32):**
   atomic_scorer (completitud mecánica + factual cross-model + conducta heurística),
   strict_match extraído, gate factual caracterizado (5/5,4/4 n=9). Refinos pendientes

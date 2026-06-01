@@ -23,14 +23,29 @@
 > (5/5 recall en `evals/factual_gate_fixture.yaml`). Sigue siendo eval-infra: **producción no
 > cambia**. Detalle: `TECH_DEBT.md` #35 + `RULER_DESIGN.md` §3-4.
 >
-> **Actualización s33 (31 may 2026 — Fase 1 del ruler, Tier A + Tier B):** verificados
+> **Actualización s33 (31 may 2026 — Fase 1 del ruler, Tier A + B + C → 19/19):** verificados
 > contra la FUENTE (render del píxel + cross-model GPT-5.5 + hechos atómicos + `_provenance`)
-> → **17/19 golds verificados**. Tier A (12, answer-de-spec): ningún error factual del gold.
+> → **19/19 golds verificados (ruler completo)**. Tier A (12, answer-de-spec): ningún error factual.
 > Tier B (5, conducta): **los 4 "admit" estaban MAL → answer/answer-parcial** (hp006/09/13/15;
-> hp004 era ya clarify). Raíz: over-admisión del gold s27 por subsets de PDF demasiado estrechos
-> (el corpus SÍ cubría, en manuales no consultados) → **infravaloró al bot en s28-30**. Cuarentena
-> 2 (Tier C conflicto/OCR: hp012/18). Protocolo 3 (GPT-5.5 + sub-agente) validó y cazó 3 over-claims
-> propios. Sigue siendo eval-infra: **producción no cambia**. Detalle: `RULER_DESIGN.md` §4.
+> hp004 era ya clarify). **Tier C (2, los diferidos en s30 a "técnico+PDF"): resueltos SIN técnico
+> vía render** — hp012 = answer-con-conflicto (conflicto REAL ES-vs-US: AFP1010 = 2 lazos/396 en doc
+> Notifier España vs 4 lazos/792 en doc US 15088SP) y hp018 = answer (el gold s27 citaba el PRODUCTO
+> EQUIVOCADO —MIE-MI-310 es ZXAE/ZXEE convencional, no el e-series ZXe— + 3 valores fabricados →
+> re-anclado a MIE-MI-530 ZX2e/ZX5e). Raíz transversal (Tier B+C): over-admisión/mis-cita del gold s27
+> por subsets de PDF estrechos → **infravaloró al bot en s28-30**. Protocolo 3 (GPT-5.5 + sub-agente)
+> validó y cazó over-claims propios (3 de framing en Tier C). Sigue siendo eval-infra: **producción
+> no cambia**. Detalle: `RULER_DESIGN.md` §4.
+>
+> **Actualización s34 (1 jun 2026 — re-validación de change-1, SÍ toca producción):** con el
+> ruler completo (19/19), se re-validó end-to-end el lever de generación `change-1` (bloque "DOS
+> ERRORES SIMÉTRICOS" anti-falso-rechazo, que estaba en producción vía PR #17). A/B vs los 19
+> golds (HyDE-off, temp=0, judge opaco): con change-1 = 1 PASS/13 PARCIAL/5 FALLO; sin = 3 PASS/11
+> PARCIAL/5 FALLO. **change-1 NO rescata ningún falso-rechazo (5 FALLO idénticos → son retrieval)
+> e induce sobre-respuesta peligrosa** (hp015: el bot fabrica un "puenteado de terminales" no
+> documentado) → **revertido** (PR a main). Próximo lever = hipótesis abierta (retrieval/reranker
+> vs síntesis/v2-prompt), pendiente de auditar los chunks recuperados en los 13 PARCIAL. También
+> s34: mejoras M1-M4 al revisor adversarial (briefing único + `--diff` + tally + formato anclado).
+> Detalle: `TECH_DEBT.md` #33.
 >
 > El bot sirve desde el **corpus re-ingestado `chunks_v2`** (SWAP hecho en Railway
 > vía `CHUNKS_TABLE=chunks_v2`). Cambios respecto a lo que describe el resto de

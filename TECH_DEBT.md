@@ -1242,6 +1242,30 @@ El nuevo bloque NO menciona clarification — el efecto es indirecto, vía bias 
 
 ## 33. Auditoría sistemática del GOLD — el ruler está parcialmente ROTO (conflictos/OCR), no solo estrecho (sesión 30)
 
+**ACTUALIZACIÓN s33 (31 may 2026): CERRADO — 19/19 golds verificados contra la fuente.** La cola
+"necesita técnico real" era DEMASIADO AMPLIA. Tier A (12): sin error factual; hp007 (matriz VESDA)
+verificado por render. Tier B (5): hp006/09/17 conducta corregida (admit→answer), hp011 OCR retrofitado.
+**Tier C (2: hp012/hp018 — los que de verdad se habían diferido a técnico) — RESUELTOS SIN TÉCNICO vía
+render + cross-model:** hp012 = conflicto REAL ES-vs-US (AFP1010 2 lazos/396 ES vs 4 lazos/792 US 15088SP)
+→ answer-con-conflicto; hp018 = el gold s27 citaba el PRODUCTO EQUIVOCADO (MIE-MI-310 = ZXAE/ZXEE
+convencional, no el e-series ZXe) + 3 valores fabricados → re-anclado a MIE-MI-530 (ZX2e/ZX5e). El render
+(toolkit de s31, que NO existía en s30 → de ahí el diferimiento) + cross-model GPT-5.5 + sub-agente
+bastaron; el técnico (D1) pasa a spot-checker, no es prerequisito. Detalle: `RULER_DESIGN.md` §4. Residual
+CERRADO en la misma sesión: hp009 (también mis-anclado a MI-310) RE-ANCLADO a MIE-MI-530 (ZX2e/ZX5e); la sustancia (lazo = bucle cerrado sin RFL) se confirmó al píxel (f19 Fig 9/10).
+
+**ACTUALIZACIÓN s34 (1 jun 2026): change-1 re-validado contra el ruler corregido → REVERTIDO.**
+Con 19/19 verificados, el A/B end-to-end del lever de generación `change-1` (bloque anti-falso-rechazo
+en `generator.py`, que entró a producción en PR #17) mostró: NO rescata ninguno de los 5 falso-rechazos
+(idénticos con/sin change-1 → son **retrieval**, p.ej. hp018: el chunk del dato pedido no llega al top-5)
+e **induce sobre-respuesta peligrosa** (hp015: el bot fabrica un puenteado de terminales NO documentado).
+El "FALLO 5→3" de s30 era artefacto del ruler roto; ya no se corrobora → **revertido** (PR a main). El
+revisor adversarial (Protocolo 3, GPT-5.5) cazó 9 over-claims de framing míos → la recomendación se acotó
+a "revertir por PRECAUCIÓN (riesgo hp015), NO por superioridad de B". **Próximo lever = HIPÓTESIS abierta**
+(retrieval/reranker vs síntesis/v2-prompt): requiere auditar si el dato omitido en los 13 PARCIAL estaba
+o no en el top-5 (no hecho). Caveats: el A/B fue HyDE-off (modo diagnóstico, prod usa HyDE); judge opaco
+(s32), aunque el delta A/B es robusto a su sesgo y hp015 se verificó en la respuesta cruda. A/B
+reproducible: `HYDE_ENABLED=false python scripts/test_bot_vs_gold.py` (resultados por-k gitignored, no source).
+
 **Disparador**: el experimento retrieve=50 (#16 "retrieve wide, generate narrow") marcó "regresiones peligrosas" en hp012/hp018 que, al verificar contra la **FUENTE** (no contra el gold), resultaron **errores del gold, no alucinaciones del bot**. Eso obligó a auditar los 19 golds de `evals/gold_answers_v1.yaml`.
 
 **Método**: agentes Opus 4.x contra `chunks_v2` + PDFs en MANUALS_DIR, escépticos del gold Y de sí mismos (clasificar error-factual / conflicto-entre-manuales / OCR / conducta-discutible; verificar aritmética).
@@ -1259,7 +1283,7 @@ El nuevo bloque NO menciona clarification — el efecto es indirecto, vía bias 
 - **Issue de corpus** (separado del gold): el chunk del Apéndice 3 de la ID3000 (hp008) está TRUNCADO en chunks_v2 → riesgo de retrieval (la lista de compatibles no se recupera entera).
 - **Arreglar el ruler ANTES del lever del reranker** — evaluar un reranker contra golds rotos repetiría el error de llamar "trampa" a un win.
 
-**Cola (necesita técnico real / PDF renderizable)**: pase holístico de gold-fix (hp007 matriz, hp012/hp018 conflictos, hp011 OCR, hp006/hp009/hp017 conducta). Excluir estos ~7 del scoring de calidad mientras tanto; usar el núcleo de ~12 limpios.
+**Cola (s30, AHORA VACÍA — ver ACTUALIZACIÓN s33 arriba)**: ~~hp007 matriz, hp012/hp018 conflictos, hp011 OCR, hp006/hp009/hp017 conducta~~ → los 19 verificados contra la fuente (render del píxel). El scoring de calidad end-to-end ya puede usar los 19 (no solo el núcleo de ~12 "limpios" de s30).
 
 **Lever de generación (sesión 30, dentro del frame #32)**: change-1 = bloque "DOS ERRORES SIMÉTRICOS" en SYSTEM_PROMPT (rechazar-en-falso con el dato presente = fallo hermano de inventar) → FALLO 5→3 end-to-end (HyDE-off, juez gpt-5.5), sin alucinación nueva → DIRECCIONAL, pero medido contra ruler defectuoso = indicativo. change-2 (completitud) REVERTIDO. Reranker = lever siguiente tras el ruler (research: Zerank-2, Cohere Rerank 4 —fuerte ES—, Voyage 2.5 —identifier-tuned pero degrada fuera de EN—, Jina v3, bge-v2-m3; perfil = ES + identifier-heavy + cross-product → elección empírica; reranker solo NO arregla cross-product → el filtro modelo/categoría SE QUEDA). Repo: change-1 + `RETRIEVE_K_OVERRIDE` (override de retrieve-pool en `test_bot_vs_gold`) en rama `feat/generation-lever`, NO main.
 
@@ -1320,5 +1344,5 @@ ROI de los reviews: sano (bugs + over-claims reales, no ritual). El cross-model 
 **NO anidar dentro del sub-agente Claude**: reintroduce el filtro mismo-modelo (Claude cura el input + interpreta el output) → erosiona la independencia, que es el único activo del cross-model. **Invariante a preservar**: el cross-model ve el ARTEFACTO por lente no-Claude + su salida se lee CRUDA (input = artefacto, no los hallazgos del sub-agente → le invitan a anclarse).
 
 **Trigger para construir**: cuando ensamblar el contexto a mano sea un cuello MEDIDO, o cuando la ceguera cause un review malo/falsa-confianza demostrable.
-**Mejora barata intermedia** (si se quiere fricción-cero sin agéntico): flag `--diff` en `adversarial_review.py` que auto-incluya `git diff` + ficheros cambiados (~10 líneas, riesgo casi nulo).
+**Mejora barata intermedia — HECHA (1 jun 2026):** flag `--diff` en `adversarial_review.py` auto-incluye `git diff HEAD` como contexto (mitiga el sesgo de SELECCIÓN de qué pegarle al revisor). Lo que sigue DIFERIDO es solo el salto **agéntico** (que GPT lea el repo él mismo con tool-use). Misma tanda: M1 briefing único (`scripts/adversarial_briefing.md`, cierra la divergencia spec↔script) + M3 log de tally (`evals/adversarial_review_log.jsonl`) + M4 formato de salida anclado — ver `docs/ADVERSARIAL_REVIEWER.md`.
 
