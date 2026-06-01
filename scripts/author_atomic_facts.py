@@ -1267,8 +1267,8 @@ HP018_PROV = {
                              "MP-310=75, MU-310=31. La respuesta correcta es servible desde MI-530."),
         "nota": ("Regla de scans (s33): MI-310 es imagen-only (grep invalido) -> identidad y valores leidos "
                  "por RENDER (evidencia positiva); MI-530 es digital-native -> servible. Modalidad "
-                 "registrada por-manual. CAVEAT hp009: ese gold (Tier B) tambien uso MIE-MI-310 (ZXAE/"
-                 "ZXEE) para responder sobre el lazo de la ZXe -> revisar si conviene re-anclar a MI-530."),
+                 "registrada por-manual. NOTA hp009: ese gold (Tier B) estaba igual de mis-anclado a MIE-MI-310 (ZXAE/"
+                 "ZXEE) -> RE-ANCLADO a MIE-MI-530 en esta misma sesion (s33 Tier C)."),
     },
 }
 
