@@ -1384,3 +1384,27 @@ El primer run del árbitro end-to-end (`atomic_scorer.py --llm` sobre los 19, s3
 
 **Trigger ACTIVO**: el scorer YA se usa como árbitro end-to-end (DEC-006). Estos refinamientos condicionan cuándo sus deltas son fiables para DECIDIR un lever (vs solo señal categórica).
 
+---
+
+## 38. Retirar el pipeline de ingesta VIEJO (`src/ingestion/`) — superseded por `src/reingest/` (sesión 38)
+
+**Estado actual** (verificado s38): producción sirve `chunks_v2` (Voyage-1024, vía `CHUNKS_TABLE=chunks_v2`), construido por el pipeline NUEVO `src/reingest/`. El pipeline VIEJO `src/ingestion/` (construyó la tabla `chunks` vieja, OpenAI-1536, **167.788 filas, NO servida**) sigue en el repo y **mezcla código muerto con infra viva**:
+- **Infra COMPARTIDA / viva — NO tocar**: `ingestion/embedder.py` (lo importa el retriever VIVO `retriever.py:14`, enruta a Voyage), `ingestion/supabase_client.py` (lo usan `reingest/{pipeline,index,dedup_pass}` + ~15 scripts).
+- **Específico del pipeline VIEJO — candidato a retirar**: `ingest.py`, `chunker.py`, `language_filter.py`, `translator.py` (el PLAN ya dijo "se retira"), `table_extractor.py`, `image_extractor.py`, `vision_describer.py`, `pdf_parser.py` (PyMuPDF; el nuevo usa LlamaParse vía `reingest/extract.py`), `document_registry.py` (verificar). Invocados SOLO por `scripts/{re_ingest,run_ingestion,dry_run_morley,dry_run_parse,vision_rescue_zerochunks}.py` + tests `{test_language_filter, test_override_mappings}`. **El bot VIVO no toca nada de esto** (verificado: `telegram_bot`→RAG→`retriever` solo importa `ingestion/embedder`).
+
+**Problema**:
+1. **Trap real**: `scripts/re_ingest.py` y `run_ingestion.py` escriben en la tabla `chunks` VIEJA, que prod ya no sirve → "añadir un manual" por la vía vieja es un **no-op silencioso para producción**. El alta debe ir por `python -m src.reingest.pipeline`.
+2. **Duplicación de detectores de idioma** (origen de la pregunta de s38): `ingestion/language_filter.py` (heurístico, viejo) vs `reingest/language.py` (`lingua`, etiqueta `chunks_v2`). El `_filter_by_language` de retrieval (s38, #24) LEE la etiqueta del nuevo y se queda; el viejo es el redundante.
+3. El nombre `src/ingestion/` sugiere que es el pipeline activo cuando está muerto → confusión de mantenimiento.
+
+**Trigger para implementar**: antes de la ingesta masiva post-M&A / escalado a 30+ fabricantes (que nadie use la vía vieja por error), O la próxima vez que se toque el path de ingesta / se añada un fabricante, O antes de dropear la tabla `chunks` vieja.
+
+**Solución propuesta** (quirúrgica, NO `rm -rf src/ingestion/`):
+1. Verificar por-módulo que nada vivo importa cada candidato (el barrido de s38 cubrió los principales; confirmar `revision_parser` [testeado, lo usa la gestión documental], `pdf_parser`, `document_registry` antes de borrar).
+2. Mover la infra compartida (`embedder`, `supabase_client`, lo que quede) a `src/common/` para que el nombre no engañe.
+3. Borrar módulos viejos + sus scripts + sus tests.
+4. **NO** dropear la tabla `chunks` vieja: es el rollback del SWAP (reversible con `CHUNKS_TABLE=chunks`). Se retira el CÓDIGO, no la tabla.
+5. Actualizar el workflow "nuevo fabricante" (memoria `feedback_approach`) → apuntar a `src.reingest.pipeline`.
+
+**Coste estimado**: ~3-4h (medio). Riesgo bajo si se verifica por-módulo (el bot vivo no depende del pipeline viejo, verificado s38).
+
