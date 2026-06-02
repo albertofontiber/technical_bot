@@ -353,3 +353,41 @@
 - **Estado**: ✅ HECHO. **Próximo (s40)**: crecer el catálogo a más celdas (Tier B gap-diagnóstico 12/14/15 +
   conductas 16/18/19 con sus contratos refuse/admit) + endurecer `atomic_scorer --prose-llm` para leer deltas finos;
   el índice versionado producto→source_files si la autoría escala. PR de `eval/s38-night-catalog` a `main` cuando se cierre el lote.
+
+## DEC-011 — Consolidación del árbitro (s40): fix del matcher de rangos + `--prose-llm` validado para el cabo B1
+- **Fecha**: 2 jun 2026 (sesión 40). **Impacto**: MEDIO (instrumento de medición que gobierna los levers futuros).
+- **Decisión**: sesión de CONSOLIDACIÓN del árbitro (Alberto eligió foco "solo consolidar", NO crecer golds). Tres resultados:
+  1. **Fix RAÍZ del matcher de RANGOS** en `strict_match.distinctive()`: `_NUM = r"(?<!\d)[+\-]?\d[\d.,]*"`. Antes,
+     `distinctive("110-230")`→`{'110','-230'}` (el guion de un rango se leía como signo); el `-230` fallaba la frontera de
+     dígito de `_anchor_present` (atomic_scorer) Y `_value_on_page` (locate_fact) → falso-miss. **Era la causa REAL del
+     "cat005 PARCIAL=suelo" de DEC-010, NO fragilidad de prosa** (el caveat conflataba dos cosas). → cat005 5/6→**6/6 PASS**
+     (el bot cita "110-230 Vac"); **los 19 golds hp/cm/nd IDÉNTICOS** (A/B mecánico sobre el cache k5 = cero regresión);
+     249 tests (+6 nuevos en `tests/test_strict_match.py` que fijan el contrato rango-vs-signo).
+  2. **`--prose-llm` (#35): NO se endurece.** El cabo de B1 (hp007 `'cada 2 años'` sospechoso de over-credit) está
+     RESUELTO: el bot dice literalmente "mantenimiento **bienal**" (=cada 2 años) y "comprobación **trimestral**" (=cada 3
+     meses) → paráfrasis legítima. Prueba de no-over-credit en el piloto: cat007 `'no enclavado'`→"no cubierto" (el bot
+     ADMITIÓ no conocer el failsafe). El overlay es conservador (solo False→True). NO es validación amplia (n pequeño).
+  3. **Diagnóstico autoritativo del piloto post-fix** (HyDE-off, chunks_v2, `--llm --prose-llm`): **cat005 PASS 6/6**
+     (0 contradicciones), cat007 PARCIAL 4/5 (miss REAL: el bot admitió), cat001 PARCIAL 2/7 (omisión REAL de anchors
+     cross-doc duros; factual=0 contradicciones → omisión, NO error). La CAUSA de cat001 (síntesis vs retrieval) es del
+     funnel de s39, **NO re-verificada aquí** (sin over-claim causal).
+- **Efecto colateral declarado** (sub-agente, hallazgo B): el fix vive en el matcher COMPARTIDO; soltar el signo de una
+  **suma SIN espacios** ('159+159/99+99') relaja `all(anchor in chunk)`. Impacto ACTUAL = cero (19+3 A/B idéntico);
+  potencialmente más laxo para futuros hechos-suma en el scorer Y en los instrumentos de retrieval. Prevalencia: **1 hecho
+  de 134** (solo cat001; hp012 '99 + 99' CON espacios es INMUNE; los 3 rangos NO inflan = soltar el `-X` espurio es fix).
+- **Alternativas descartadas**: (a) endurecer el prompt de prosa → innecesario (cabo B1 cerrado, no over-credit); (b) fix
+  solo-rangos para evitar la relajación de sumas → la leniency es intrínseca (rango y suma = mismo fenómeno "operador entre
+  dígitos") + impacto 0 + hacky → sobre-ingeniería para 1/134; (c) regenerar un baseline FRESCO de los 19 post-AC220 →
+  fuera del scope (Alberto acotó a consolidar + piloto); queda como trabajo disponible.
+- **Revisión adversarial (Protocolo 3, dual — código de medición)**: sub-agente Claude (lee código + A/B empírico) →
+  **SÓLIDO**, 9/9 confirmados/0 FP (cazó: 2º consumidor con frontera `_value_on_page`; la relajación de sumas afecta cat001
+  no hp012; recall-inflación acotada 1/134). Cross-model GPT-5.5 (`adversarial_review_log` ts 2026-06-02T18:01:40) →
+  5/5 confirmados/0 FP, **TODOS de FRAMING** (mi sesgo): "validado en general"→cabo-B1; "no toca scoring"→matcher
+  compartido; "cuello multi-doc confirmado"→omisión-no-causa. Framing aplicado a esta entrada.
+- **Gaps declarados**: (a) el A/B de los 19 usó respuestas CACHEADAS pre-AC220 (s37) → válido SOLO como check de
+  regresión del matcher (mismas respuestas, solo cambió el matcher), NO baseline fresco; (b) prose-llm validado con n
+  pequeño; (c) "cat001 incompletitud real" se apoya en anchors ausentes + factual=0 + lectura manual s39, no en técnico;
+  (d) relajación de sumas aceptada sin endurecer.
+- **Estado**: ✅ HECHO (rama `eval/s40-arbiter-consolidation` → PR). **Próximo (s41)**: crecer el catálogo (Tier B
+  12/14/15 + conductas 16/18/19 con contratos refuse/admit) sobre el árbitro consolidado; opcional, baseline fresco de
+  los 19 post-AC220.

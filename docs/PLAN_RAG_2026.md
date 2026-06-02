@@ -122,6 +122,19 @@
 > - **Próximo (s40):** crecer el catálogo (Tier B gap-diagnóstico 12/14/15 + conductas 16/18/19 con contratos
 >   refuse/admit) + endurecer `atomic_scorer --prose-llm` para deltas finos. Rama `eval/s38-night-catalog`; **PR a
 >   `main` cuando cierre el lote** (lleva C4 + cross_generate + #35 + los golds del catálogo).
+> **Actualización s40 (2 jun 2026) — `DECISIONS.md` DEC-011 (CONSOLIDACIÓN del árbitro; sin crecer golds, foco elegido por Alberto):**
+> - **Fix RAÍZ del matcher de RANGOS** (`strict_match.distinctive`, `(?<!\d)` antes del signo): `distinctive("110-230")` daba
+>   `-230` (guion de rango leído como signo) → falso-miss en `_anchor_present`/`_value_on_page`. **Era la causa REAL del
+>   "cat005 PARCIAL=suelo" de DEC-010, NO la prosa.** → **cat005 5/6→6/6 PASS**; los 19 golds IDÉNTICOS (A/B mecánico = cero
+>   regresión); 249 tests (+6 nuevos `tests/test_strict_match.py`).
+> - **`--prose-llm` (#35) NO se endurece**: el cabo de B1 (hp007 'cada 2 años') está CERRADO = NO over-credit (el bot dice
+>   "bienal"/"trimestral" literal). Conservador en los casos ejercidos (cat007 'no enclavado' NO se rescata; n pequeño).
+> - **Diagnóstico autoritativo del piloto post-fix**: cat005 **PASS 6/6**, cat007 4/5 (miss real), cat001 2/7 (omisión real de
+>   anchors cross-doc; 0 contradicciones → omisión, no error; la causa síntesis-vs-retrieval es del funnel s39, no re-verificada).
+>   Efecto colateral declarado: la relajación de sumas-sin-espacios afecta el matcher compartido (1/134 hechos = solo cat001,
+>   impacto actual 0). **Protocolo 3 dual**: sub-agente SÓLIDO 9/9 + cross-model 5/5 (todos FRAMING), 0 FP.
+> - **Próximo (s41)**: crecer el catálogo (Tier B 12/14/15 + conductas 16/18/19 + contratos refuse/admit) sobre el árbitro
+>   consolidado; opcional, baseline FRESCO de los 19 post-AC220.
 
 ---
 
