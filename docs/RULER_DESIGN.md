@@ -219,6 +219,19 @@ Validado en la rebanada (hp007/11/17); el scorer transparente SUPERÓ al juez op
 penalizaba por dato obsoleto). Pendiente: completitud de prosa por LLM, re-autorar hp007, crecer
 el fixture de recall. Ver TECH_DEBT #35.
 
+**Estado de implementación (s40)** — completitud de prosa por LLM **HECHA y validada para el cabo B1** +
+fix del matcher de rangos (`DECISIONS.md` DEC-011):
+- **`atomic_scorer.py --prose-llm`** (#35): overlay GPT-5.5 que RESCATA hechos de prosa marcados ausentes
+  por el mecánico (solo False→True = asimetría conservadora; sin el flag es byte-idéntico). Firmado en B1
+  (s38) + **cabo cerrado (s40)**: hp007 'cada 2 años' = "bienal" del bot NO es over-credit; cat007 'no
+  enclavado' NO se rescata (el bot ADMITIÓ). El prompt de prosa NO necesita endurecerse.
+- **Fix del matcher de RANGOS** en `distinctive()` (`(?<!\d)` antes del signo): "110-230" ya no genera el
+  anchor espurio "-230" (que fallaba la frontera de dígito de `_anchor_present` y `_value_on_page`) →
+  **cat005 5/6→6/6**; los 19 golds intactos; +6 tests (`tests/test_strict_match.py`).
+- **Limitación residual**: soltar el signo de una suma-sin-espacios es más laxo en el matcher COMPARTIDO
+  (1/134 hechos = cat001; instrumentos de retrieval + scorer; impacto actual 0). El árbitro lee señal
+  CATEGÓRICA + delta razonable; la calibración fina amplia sigue acotada por n. Ver DEC-011 + TECH_DEBT #35.
+
 ---
 
 ## 4. Plan por fases

@@ -73,7 +73,16 @@ def norm_ocr(s: str) -> str:
     return " ".join(s.split())
 
 
-_NUM = re.compile(r"[+\-]?\d[\d.,]*")
+# (?<!\d): un +/- PEGADO a un dígito previo es OPERADOR (separador de rango "110-230" o
+# suma SIN espacios "99+99"), NO signo → captura el número SIN signo (230, 99). El signo se
+# conserva solo si NO va precedido de dígito: negativo real "-10"/"+55", y la suma CON
+# espacios "99 + 99" (norm_ocr la deja como "99 +99"). Sin esto, distinctive("110-230")→
+# "-230", que fallaba la frontera de dígito de _anchor_present (atomic_scorer) Y de
+# _value_on_page (locate_fact) → falso-miss (s40, cat005 5/6→6/6, 19 golds intactos).
+# Efecto colateral ACOTADO (1/134 hechos = solo cat001 "159+159/99+99"): soltar el signo de
+# una suma sin espacios relaja `all(anchor in chunk)` en los instrumentos de retrieval
+# (audit_retrieval_funnel/retrieval_eval), NO en prod ni en el scoring de golds. Ver DEC-011.
+_NUM = re.compile(r"(?<!\d)[+\-]?\d[\d.,]*")
 _MODEL = re.compile(r"\b[a-z]{2,}-?\d{2,}[a-z]*\b")
 
 
