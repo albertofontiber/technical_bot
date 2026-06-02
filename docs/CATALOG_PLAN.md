@@ -4,6 +4,12 @@
 > SÓLIDO por fallos estructurales; v3 por contratos de implementación; v4 los reconcilia y declara
 > honestamente lo que se resuelve en el build SUPERVISADO (B2). Un plan no sobre-especifica
 > implementación — la enruta.
+>
+> **Doc TRANSITORIO (ciclo de vida).** Es el plan de ejecución de UN esfuerzo (crecer el catálogo). El
+> diseño DURABLE vive en `RULER_DESIGN` (localización/cross-check §2, conductas §1) + `DECISIONS`
+> (DEC-008 = la dirección); **aquí solo la EJECUCIÓN** (fases, rejilla del run, contrato operativo,
+> traza). **Al cerrar el esfuerzo: las lecciones durables → RULER_DESIGN/DECISIONS; este doc se
+> ARCHIVA.** Canónico del rumbo = `PLAN_RAG_2026`.
 
 ## 0. Principios rectores
 - **Frontera de autonomía**: automatizar lo seguro; supervisar lo caro-si-falla. *Construir* ≠ *confiar*.
@@ -45,8 +51,8 @@
   PARCIAL→PASS = paráfrasis correcta verificable; (iii) muestreo de admit/refuse/conflict/gap sin
   sobre-acreditar. Sin sign-off → fallback mecánico (completitud = suelo).
 - **B2 · Especificar+construir el pipeline de autoría** (contratos que NO se hacen de noche):
-  - **Mecanismo C4** (cross-check de ubicación, ver C4) — incluida la **ruta-(b) semántica per-manual**
-    (NET-NEW: definir embedder/umbral) y el **2º lector de valores** (ver C4.4).
+  - **Mecanismo C4** (cross-check de ubicación, ver C4): glue de grep multi-manual + mapeo
+    producto→manuales + orquestación de la doble-señal (C4.4). *(Ruta semántica ELIMINADA por circular.)*
   - **Contrato refuse-inference** (universo documental, OEM, ausencia-válida-vs-corpus-gap).
   - **Contrato admit/ausente-probado** (misma carga de prueba de ausencia — el dúo señaló que faltaba).
   - **`cross_generate.py`** (GPT-5.5 generador).
@@ -59,21 +65,12 @@ Por celda (~6-8; loop resumable, no Workflow):
 - **C2 · Co-generan Claude + GPT-5.5** desde el excerpt (mitiga circularidad).
 - **C3 · Critica el dúo** (sub-agente fresco + GPT-5.5): verificable / premisa / duplicado /
   ¿solo-sondea-lo-cómodo? → descartar.
-- **C4 · Gold source-verified con cross-check de UBICACIÓN + LECTURA:**
-  1. **Localización por 2 rutas**: (a) grep término/identificador (`pdf_grep`) + (b) similitud semántica
-     per-manual (B2). Ambas devuelven página **física** del PDF (migración 006: `page_number` = índice
-     físico; pdf_grep = físico → mismo sistema).
-  2. **Convergencia por CONTENIDO** (no por nº de página): la página candidata, **renderizada**,
-     contiene el hecho; si las rutas apuntan a páginas cuyo render NO coincide → `needs_human`.
-  3. **Render ± 1 vecina** → confirmar que el hecho está en la reclamada y **no** igual en las vecinas
-     (caza el off-by-one de hp005/17/18).
-  4. **Lectura de VALORES con DOBLE señal** (lección 7-segmentos: el VLM comparte el sesgo OCR/display):
-     cada valor CORE numérico/código se confirma con (i) lectura cross-model del render **y** (ii) match
-     determinista del valor en el texto extraído de esa página; si la página es scan (sin texto) →
-     2ª lectura cross-model independiente, y si discrepan → `needs_human` para ese valor. Prosa
-     no-crítica = lectura simple.
-  5. Hechos atómicos + conducta por principios (**surfacear conflictos ES-US, NO resolver**) →
-     `gold_store.upsert`; `needs_human`/`corpus-gap` lo irreducible.
+- **C4 · Gold source-verified** — la **localización + lectura + cross-check de ubicación** sigue el
+  **diseño durable de `RULER_DESIGN §2`** (localización exhaustiva **ROBUSTA**, no budget-bounded;
+  confirmación por **predicado completo**; **render±1**; **doble-señal AND**; multi-página → registrar
+  todas, `needs_human` solo si difiere el predicado; **ruta semántica descartada por circular**). Aquí
+  solo lo del run: hechos atómicos + conducta por principios (**surfacear conflictos ES-US, NO resolver**)
+  → `gold_store.upsert`; `needs_human`/`corpus-gap` lo irreducible.
 - **Piloto** (~3-5 primeras, tipos duros): funnel + scorer FIRMADO → checkpoint (¿discrimina? +
   spot-check de ubicación) antes de seguir.
 - **Diagnóstico end-to-end** (deliverable): las limpias por `test_bot_vs_gold` → `atomic_scorer`
@@ -92,10 +89,10 @@ Por celda (~6-8; loop resumable, no Workflow):
 (co-generador + cross-verify visual + crítico). **Reutilizo**: gold_store, author_atomic_facts,
 render_pdf_page, cross_verify_image, pdf_grep, audit_retrieval_funnel, test_bot_vs_gold, atomic_scorer,
 adversarial_review+briefing, model_catalog, Supabase MCP (SELECT).
-**A IMPLEMENTAR**: (1) juez-LLM #35 detrás de flag default-off + test equivalencia [**Fase A**];
-(2) mecanismo C4 (localización 2-rutas, convergencia-por-contenido, render±1, doble-lectura de valores)
-[B2]; (3) ruta-(b) semántica per-manual [B2]; (4) contrato+check refuse-inference [B2]; (5) contrato
-admit/ausente-probado [B2]; (6) `cross_generate.py` [B2]. *(NO per-página; NO Workflow para 6-8.)*
+**A IMPLEMENTAR**: (1) juez-LLM #35 detrás de flag default-off + test equivalencia [**Fase A ✅ HECHO**];
+(2) mecanismo C4 (grep exhaustivo multi-manual + mapeo producto→manuales + convergencia-por-predicado +
+render±1 + doble-señal AND) [B2]; (3) contrato+check refuse-inference [B2]; (4) contrato admit/ausente-probado
+[B2]; (5) `cross_generate.py` [B2]. *(Ruta semántica ELIMINADA por circular; NO per-página; NO Workflow para 6-8.)*
 
 ## 4. Rejilla — 19 celdas (Q20 fuera; confirmar en B3). ★ = sugeridas primer run.
 | Tier | # | Tipo | Fabricante/dominio | Conducta |
@@ -125,14 +122,14 @@ una 2ª (mercado/idioma) en un run posterior; no ahora.*
 
 ## 5. Stop conditions
 - ≥3 golds seguidos → `needs_human` → STOP + flag.
-- **C4**: rutas divergen en CONTENIDO / valor con doble-señal discrepante → `needs_human`, no fabricar.
+- **C4**: el render no confirma el predicado COMPLETO / doble-señal AND discrepante → `needs_human`, no fabricar.
 - Scorer #35 sin sign-off (B1) / test de equivalencia rojo → no usarlo, fallback mecánico (suelo).
 - Cap auto-vigilado / timebox / concurrencia excedido → parar, informe parcial limpio.
 - Regla C antes de cada afirmación del informe.
 
 ## 6. Gaps declarados (asumidos)
-- (a) **Localizador = eslabón más débil** → mitigado con C4 (2-rutas + convergencia-por-contenido +
-  render±1 + doble-lectura de valores), NO eliminado.
+- (a) **Localizador = eslabón más débil** → mitigado con C4 (grep exhaustivo + convergencia-por-PREDICADO +
+  render±1 + doble-señal AND), independiente de los embeddings del bot (no circular), NO eliminado.
 - (b) **Circularidad MITIGADA, no rota** (Claude ensambla; GPT-5.5 co-genera). El sign-off humano (B1)
   es el único corte fuerte.
 - (c) **Sintético ≠ distribución real** (sin usuarios; query_logs descartadas = ecos del propio eval).
@@ -157,3 +154,10 @@ ESTA NOCHE = solo **Fase A** (#35 detrás de flag-off + datos crudos), si hay lu
 - **v4 (MAESTRO)**: todo lo anterior reconciliado; lo no-especificable en un plan → declarado como
   contrato de B2 supervisado (§6g). Feedback Alberto integrado: noche/mañana split; #20 fuera; per-página
   fuera; legacy fuera (#38 + juez-opaco aparte); push-button = dirección.
+- **v5 (s38 mañana)**: Fase A HECHA (#35 + datos crudos; **B1 firmado**). **C4 v2** tras review del dúo
+  (NO SÓLIDO): **ruta-(b) semántica ELIMINADA** — circular (rankea `chunks_v2`/Voyage = el sustrato del
+  bot → viola RULER_DESIGN §0) **y** redundante (grep + render±1 + match ya cazan hp017/18); +
+  convergencia sobre **predicado COMPLETO** (no solo el valor) + doble-señal AND restaurada. Reuse-claims
+  falsos corregidos (regla C: `audit_retrieval_funnel` no tiene cosine; `model_catalog` no mapea
+  producto→manuales → glue NET-NEW). Diseño C4 **folded aquí** (single source); el `_s38_c4_design.md`
+  era temporal → borrado.

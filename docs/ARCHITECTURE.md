@@ -72,6 +72,14 @@
 > categórica, aún no deltas finos): prosa-frágil deflacta completitud (`TECH_DEBT #35`) + eje factual
 > no-determinista (`#37`). Eval-infra: producción intacta. Detalle: `DECISIONS.md` DEC-006.
 >
+> **Actualización s38 (1-2 jun 2026 — 2 fixes de prod + dirección catálogo, SÍ toca producción):** PR #24:
+> relabel `product_model AC-220→Pearl` en el Manual Config-ES de la PEARL (hp017: pool 0→9 chunks, FALLO→responde)
+> + **filtro de idioma** en retrieval (descarta ~96 chunks no-ES/EN; fail-open, conserva NULL). 243 tests + smoke;
+> el **baseline s37 queda SUPERSEDED**. **Eval-infra (NO prod):** #35 juez-LLM de completitud de prosa
+> (`atomic_scorer.py --prose-llm`, default OFF); retirado el pipeline `src/ingestion/` viejo (`TECH_DEBT #38`);
+> **dirección aprobada (DEC-008): crecer el ruler = catálogo diagnóstico sintético 3-bandas** (`docs/CATALOG_PLAN.md`),
+> con C4 de localización robusta (DEC-009). Detalle: `DECISIONS.md` DEC-007/008/009 + `PLAN` bloque s38.
+>
 > El bot sirve desde el **corpus re-ingestado `chunks_v2`** (SWAP hecho en Railway
 > vía `CHUNKS_TABLE=chunks_v2`). Cambios respecto a lo que describe el resto de
 > este doc (que documenta el pipeline histórico con el corpus viejo `chunks`):

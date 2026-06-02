@@ -10,7 +10,7 @@
 > **Audiencia.** Alberto (decisión estratégica) y cualquier sesión de desarrollo
 > futura — debe poder leerse en frío y saber qué hacer y por qué.
 >
-> **Fecha base:** 22 mayo 2026. **Última actualización:** 1 jun 2026 (sesión 37) — ver "Estado actual y próximos pasos" justo debajo.
+> **Fecha base:** 22 mayo 2026. **Última actualización:** 2 jun 2026 (sesión 38) — ver "Estado actual y próximos pasos" justo debajo.
 >
 > **📍 Mapa canónico (un dueño por tema — para no repetir la inconsistencia de la s35).** ESTE
 > documento es el **único canónico** del **roadmap + estado + qué sigue**. Los demás lo
@@ -95,9 +95,18 @@
 > - **(3) Dirección aprobada (DEC-008)**: crecer el ruler = **catálogo diagnóstico SINTÉTICO 3-bandas**
 >   (Claude + GPT-5.5 co-generan source-verified; dúo critica), instrumento para localizar dónde falla la
 >   cadena. Plan maestro canónico: **`docs/CATALOG_PLAN.md`** (v4, tras 3 pasadas del dúo). Ejecución por
->   frontera de supervisión: **noche autónoma** = construir #35; **mañana supervisado** = pipeline de autoría
->   (C4 localización 2-rutas + doble-lectura) + autorar ~6-8 + diagnóstico end-to-end. **Próximo: Fase A (#35)
->   esta noche.**
+>   frontera de supervisión: **noche autónoma** = construir #35; **mañana supervisado** = pipeline de autoría +
+>   autorar ~6-8 + diagnóstico end-to-end.
+> - **(4) Ejecutado (noche + mañana s38):** **Fase A HECHA** — #35 juez-LLM de completitud de prosa
+>   (`atomic_scorer.py --prose-llm`, default OFF, test de equivalencia; evidencia cruda en `evals/phaseA_35_*`).
+>   **B1 FIRMADO** por Alberto (los rescates de prosa = paráfrasis correctas; 1 a vigilar: hp007 'cada 2 años').
+>   **C4 (cross-check de localización) DISEÑADO + reconciliado**: el dúo eliminó la **ruta semántica** (circular —
+>   rankea el sustrato del bot) → C4 = grep multi-manual + mapeo producto→manuales + render±1 + **doble-señal AND**,
+>   **localización ROBUSTA, no budget-bounded** (decisión Alberto: definir bien los golds manda sobre el coste). El
+>   diseño durable vive en **`RULER_DESIGN §2`**; `CATALOG_PLAN` (marcado TRANSITORIO) lo referencia, no lo duplica.
+> - **Próximo (B2 → C, sesión 39):** **construir C4** (localizador robusto) + `cross_generate.py` + contratos
+>   refuse/admit → **autorar ~6-8 golds** (rejilla `CATALOG_PLAN §4`) → **diagnóstico end-to-end**. Rama base limpia:
+>   `eval/s38-night-catalog` (rebasada sobre `main`=#25; 243 tests verdes; pendiente su propio PR cuando C/diagnóstico cierren).
 
 ---
 
