@@ -135,6 +135,28 @@
 >   impacto actual 0). **Protocolo 3 dual**: sub-agente SÓLIDO 9/9 + cross-model 5/5 (todos FRAMING), 0 FP.
 > - **Próximo (s41)**: crecer el catálogo (Tier B 12/14/15 + conductas 16/18/19 + contratos refuse/admit) sobre el árbitro
 >   consolidado; opcional, baseline FRESCO de los 19 post-AC220.
+> **Actualización s41 (2 jun 2026) — `DECISIONS.md` DEC-012 (eje NO-FABRICACIÓN del árbitro):**
+> - **Alcance ELEGIDO por Alberto: CERRAR el árbitro endurecido** (autoría de celdas → s42). Al especificar los
+>   contratos refuse/admit (diferidos en s39) el dúo destapó un agujero del scorer: el eje factual es solo-CONTRADICCIÓN
+>   → un bot que FABRICA sobre el vacío (corpus sin el dato) no contradice nada y no se cazaba.
+> - **Cableado (eval-only, no toca prod)**: (1) **C1** — `score_gold` ramifica por `estado`-del-hecho (los
+>   `ausente-probado` salen de completitud y alimentan el eje nuevo; cubre el answer MIXTO D5 — hp006/09/13 —, no solo
+>   admit/refuse); (2) eje **NO-FABRICACIÓN** (`undue_inference_check`, cross-model GPT-5.5, gated `--llm`, conservador):
+>   afirmar un hecho ausente-probado = FALLO (asimetría de seguridad); (3) **refuse-inference entra en `ANSWER_LIKE`**
+>   (deja de caer a REVISAR). Decisión §6 = check-LLM por FALSABILIDAD (voto del dúo), con fallback humano si el spot-check no valida.
+> - **Re-baseline FRESCO post-AC220** (HyDE-off, `--llm --prose-llm`, cierra el gap (a) de DEC-011): **7 FALLO / 10
+>   PARCIAL / 2 REVISAR / 0 PASS** (19; vs s37 8/10/1/0 — AC-220 sacó hp017 de FALLO, el eje no-fabricación metió hp006).
+>   El eje FUNCIONA (hp006 fabrica un procedimiento de localización no documentado); el filtro factual mejoró hp013.
+>   **261 tests** (+8 `tests/test_atomic_scorer.py`, incl. casos cruzados error+FALLO).
+> - **Protocolo 3 dual × 2 RONDAS (22 findings / 22 confirmados / 0 FP)**: R1 diseño (3 críticos: el scorer ignoraba
+>   `estado`; modo-ausencia greenfield; `_ECOSYSTEM_OF` colapsa Detnov↔Securiton por OEM → contrato B exige ecosistemas
+>   DISJUNTOS); R2 diff (**bug CRÍTICO de orden** del veredicto enmascaraba un FALLO si el otro eje daba error →
+>   ARREGLADO; + refuse offline sin red; + ausente-probado-con-valor iría al factual). Todos aplicados.
+> - **Gaps**: el eje no-fabricación es estructuralmente más frágil que el factual (sin ancla de valor) → señal
+>   CATEGÓRICA, spot-check humano; **FP en hp006** por hecho `ausente-probado` mal formulado (mezcla ausente+contexto
+>   cubierto) → deuda re-formular + lección de autoría; recall/especificidad del check NO validados sobre golds de
+>   conducta reales (n=0). **Próximo (s42)**: modo-ausencia en `locate_fact` + alinear marca con `_ECOSYSTEM_OF` +
+>   autorar #16/#18/#19 (ejercita y valida el eje) + re-formular el hecho ausente-probado de hp006.
 
 ---
 
