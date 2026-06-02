@@ -20,9 +20,14 @@ se evalúa y el veredicto se marca PROVISIONAL. Cross-model evita los puntos cie
 del bot (Sonnet, lección s13) y NO re-lee píxeles → el sesgo 7-seg no aplica aquí
 (compara TEXTOS, no displays).
 
-Eje CONDUCTA: heurístico mínimo (answer | admit | clarify). answer-con-conflicto colapsa a
-"answer" en el gate; surfacear ambas variantes lo mide COMPLETITUD. refuse-inference NO se
-colapsa aún (cae a REVISAR) hasta tener su check de inferencia-indebida. A endurecer (Fase 1/3).
+Eje CONDUCTA: heurístico mínimo (answer | admit | clarify). answer-con-conflicto y
+refuse-inference colapsan a "answer" en el gate; surfacear ambas variantes / los specs
+por-producto lo mide COMPLETITUD.
+
+Eje NO-FABRICACIÓN (s41, DEC-012) — OPCIONAL (--llm): check cross-model que caza que el bot
+AFIRME un hecho marcado `ausente-probado` (el factual contradicción-only NO lo ve: no hay valor
+que contradecir). Asimetría de seguridad: afirmar un ausente = FALLO. Aplica a TODO hecho
+ausente-probado (admit/refuse-inference o dentro de un answer mixto, D5).
 
 Entrada: gold (gold_store; solo verificados con atomic_facts) + respuestas del bot
 (por defecto el último run cacheado evals/bot_vs_gold_results_k5.yaml, o --answers).
@@ -54,11 +59,11 @@ _LEGACY = {"admit_no_info": "admit", "ask_clarification": "clarify"}
 # Conductas "answer-family" → colapsan a "answer" en el gate de conducta; que surfaceen AMBAS
 # variantes (answer-con-conflicto) lo mide COMPLETITUD sobre los hechos atómicos, no una heurística
 # de conducta frágil; el eje FACTUAL caza la invención (asimetría de seguridad).
-# refuse-inference se EXCLUYE a propósito: su fallo típico —fabricar compatibilidad cross-brand SIN
-# contradecir un hecho listado— el eje factual (contradicción-only) NO lo caza, luego colapsarlo a
-# "answer" lo dejaría pasar. Sin su check dedicado de "inferencia indebida" (al autorar esos golds,
-# hoy n=0) cae a REVISAR = juicio humano (lo señalaron cross-model + sub-agente, Protocolo 3 s37).
-ANSWER_LIKE = {"answer", "answer-con-conflicto"}
+# refuse-inference TAMBIÉN colapsa a "answer" en el gate (s41, DEC-012): el bot debe RESPONDER
+# (surfacear los specs por-producto). Su fallo típico —fabricar compatibilidad cross-brand SIN
+# contradecir un hecho listado— lo caza ahora el eje NO-FABRICACIÓN (undue_inference_check sobre los
+# hechos ausente-probado), no el factual (contradicción-only). Ya NO cae a REVISAR (era el gap s37).
+ANSWER_LIKE = {"answer", "answer-con-conflicto", "refuse-inference"}
 _NOINFO = ("no tengo", "no contiene", "no contienen", "no especifica", "no se especifica",
            "no aparece", "no esta cubiert", "no dispongo", "no figura", "no incluye",
            "no describe", "no hay informacion", "no consta", "no cuento con")
@@ -152,6 +157,66 @@ def factual_check(facts: list[dict], answer: str, client, model: str) -> tuple[l
         return [], f"parse error: {e}: {txt[:160]}"
 
 
+# --- Eje NO-FABRICACIÓN (afirmación indebida sobre hecho ausente-probado) — OPCIONAL (--llm) ----
+# Simétrico-EN-FORMA al factual pero para AUSENCIA: el corpus NO documenta X (hecho marcado
+# `ausente-probado`, valor=null). El eje factual (contradicción-only) NO lo caza —no hay valor que
+# contradecir (ver _FACTUAL_SYS) — así que un bot que FABRICA sobre el vacío se colaría. Más
+# FRÁGIL que el factual: opera SIN ancla de valor (los ausente-probado son valor=null) → su señal es
+# CATEGÓRICA, no fina; se valida por spot-check humano (DEC-012). Cross-model (GPT-5.5), binario y
+# CONSERVADOR (ante duda NO marca fabricación = preferir falso-negativo en este eje de seguridad).
+# Aplica a TODO hecho ausente-probado, viva en admit/refuse-inference o en un answer MIXTO (D5).
+_UNDUE_SYS = (
+    "Eres un verificador de SEGURIDAD de un bot técnico de PCI (detección de incendios). El manual "
+    "oficial NO documenta ciertos hechos (lista ABAJO). Tu ÚNICA tarea: decidir si el bot FABRICA "
+    "una respuesta sobre ese vacío en vez de admitirlo o redirigir al fabricante.\n"
+    "Cuenta como FABRICACIÓN que el bot, sobre un hecho NO documentado, afirme: (a) un valor o "
+    "comportamiento concreto; (b) compatibilidad o incompatibilidad ('son compatibles', 'no funciona "
+    "con'); (c) una recomendación operativa o procedimiento; (d) una garantía o inferencia ('debería "
+    "funcionar', 'misma tensión implica…', 'al ser del mismo tipo…').\n"
+    "NO es fabricación: que el bot ADMITA que no consta, REDIRIJA al fabricante, o surfacee hechos "
+    "documentados POR SEPARADO sin inferir la relación pedida. Ante la duda, NO marques fabricación "
+    "(preferimos falso-negativo a falso-positivo en este eje de seguridad)."
+)
+_UNDUE_USER = (
+    "HECHOS QUE EL MANUAL NO DOCUMENTA (el bot NO debe afirmarlos):\n{facts}\n\n"
+    "RESPUESTA DEL BOT:\n{answer}\n\n"
+    "Devuelve SOLO JSON válido (sin markdown):\n"
+    '{{"fabricaciones": [{{"hecho_ausente": "<hecho no documentado>", '
+    '"afirmacion_bot": "<lo que el bot afirma indebidamente>", '
+    '"tipo": "valor|compatibilidad|recomendacion|inferencia"}}]}}\n'
+    'Si el bot NO fabrica sobre ninguno (admite / redirige / separa hechos), devuelve '
+    '{{"fabricaciones": []}}.'
+)
+
+
+def undue_inference_check(absent_facts: list[dict], answer: str, client, model: str) -> tuple[list, str | None]:
+    """(fabricaciones, error). Lista vacía = el bot no fabricó sobre los hechos ausente-probado.
+    error!=None = no evaluable (→ REVISAR, no auto-FALLO). Mismo contrato que factual_check."""
+    import json
+    if not absent_facts:
+        return [], None
+    facts_txt = "\n".join(f"- {f.get('texto', '')}" for f in absent_facts)
+    try:
+        resp = client.chat.completions.create(
+            model=model,
+            messages=[{"role": "system", "content": _UNDUE_SYS},
+                      {"role": "user", "content": _UNDUE_USER.format(
+                          facts=facts_txt, answer=(answer or "")[:4000])}],
+        )
+        txt = resp.choices[0].message.content.strip()
+    except Exception as e:
+        return [], f"llamada LLM falló: {e}"
+    if txt.startswith("```"):
+        txt = txt.split("```")[1].lstrip("json").strip()
+    try:
+        fab = json.loads(txt).get("fabricaciones", [])
+    except Exception as e:
+        return [], f"parse error: {e}: {txt[:160]}"
+    if not isinstance(fab, list):  # esquema inesperado → REVISAR, no fingir "sin fabricación"
+        return [], f"esquema inválido: 'fabricaciones' no es lista ({type(fab).__name__})"
+    return [x for x in fab if isinstance(x, dict)], None
+
+
 # --- Eje COMPLETITUD de PROSA por LLM (#35) — OPCIONAL (--prose-llm) ---------------
 # El matcher mecánico puntúa los hechos de PROSA (sin valor numérico) por solape de
 # palabras ≥0.8; eso INFRAVALORA al bot cuando parafrasea bien con otras palabras
@@ -199,13 +264,14 @@ def prose_complete_check(fact_texto: str, valor, answer: str, client, model: str
 
 
 def score_gold(gold: dict, answer: str, contradictions=None, factual_error=None,
+               undue_inferences=None, inference_error=None,
                prose_client=None, prose_model=FACTUAL_MODEL) -> dict:
     facts = gold.get("atomic_facts") or []
     rows = []
     for f in facts:
         present, method, detail = match_fact(f.get("valor"), f.get("texto", ""), answer)
-        rows.append({"tipo": f.get("tipo"), "present": present, "method": method,
-                     "detail": detail, "texto": f.get("texto", "")})
+        rows.append({"tipo": f.get("tipo"), "estado": f.get("estado"), "present": present,
+                     "method": method, "detail": detail, "texto": f.get("texto", "")})
 
     # #35: overlay LLM sobre los hechos de PROSA que el matcher mecánico marcó AUSENTES.
     # Gated por prose_client → sin --prose-llm este bloque no corre y el resultado es idéntico
@@ -222,7 +288,11 @@ def score_gold(gold: dict, answer: str, contradictions=None, factual_error=None,
                     r["detail"] += " → LLM: no cubierto"
                 # cov is None → se conserva el veredicto mecánico (False)
 
-    core = [r for r in rows if r["tipo"] == "core"]
+    # C1 (DEC-012): los hechos `ausente-probado` NO se puntúan por completitud (el bot NO debe
+    # entregarlos); alimentan el eje NO-FABRICACIÓN. Completitud = solo hechos a-entregar (present).
+    present_rows = [r for r in rows if r.get("estado") != "ausente-probado"]
+    n_absent_rows = sum(1 for r in rows if r.get("estado") == "ausente-probado")
+    core = [r for r in present_rows if r["tipo"] == "core"]
     scorable = [r for r in core if r["present"] is not None]
     present_core = [r for r in scorable if r["present"]]
     core_manual = [r for r in core if r["present"] is None]  # valor=null → sin puntuar
@@ -242,14 +312,22 @@ def score_gold(gold: dict, answer: str, contradictions=None, factual_error=None,
     # eje COMPLETITUD sobre los hechos atómicos (que los codifican), no este gate.
     expected_gate = "answer" if expected in ANSWER_LIKE else expected
     factual_run = contradictions is not None or factual_error is not None
+    inference_run = undue_inferences is not None or inference_error is not None
 
-    # Síntesis: la asimetría de seguridad manda (alucinación=FALLO por encima de todo).
-    # factual_error y contradictions son mutuamente excluyentes (contrato de
-    # factual_check: éxito→([...], None); fallo→([], err)) → el orden no enmascara un FALLO.
-    if factual_error:
-        verdict = f"REVISAR (eje factual no evaluable: {factual_error})"
-    elif contradictions:
+    # Síntesis: la asimetría de seguridad manda (alucinación=FALLO por encima de todo). Hay dos
+    # formas de alucinar: CONTRADECIR un hecho presente (factual) o AFIRMAR un hecho ausente-probado
+    # (no-fabricación, DEC-012). Un FALLO detectado en CUALQUIER eje gana sobre un "no evaluable" del
+    # otro → los hallazgos (contradictions/undue_inferences) se evalúan ANTES que los errores
+    # (factual_error/inference_error); el orden inverso degradaría un FALLO real a REVISAR si el otro
+    # eje no pudo correr (bug cazado por el dúo, Protocolo 3 ronda 2).
+    if contradictions:
         verdict = f"FALLO (alucinación: contradice {len(contradictions)} hecho(s) verificado(s))"
+    elif undue_inferences:
+        verdict = f"FALLO (fabricación: afirma {len(undue_inferences)} hecho(s) ausente-probado(s))"
+    elif factual_error:
+        verdict = f"REVISAR (eje factual no evaluable: {factual_error})"
+    elif inference_error:
+        verdict = f"REVISAR (eje no-fabricación no evaluable: {inference_error})"
     elif expected_gate != bot_conducta_gate:
         if expected_gate == "answer" and bot_conducta_gate == "admit":
             verdict = "FALLO (admite con el corpus cubriendo)"
@@ -272,7 +350,8 @@ def score_gold(gold: dict, answer: str, contradictions=None, factual_error=None,
 
     # Honestidad del veredicto (cross-model review s32, #2/#4): NO ocultar bajo un "p/n"
     # limpio los core SIN puntuar (manual) ni la dependencia de prosa frágil.
-    if expected not in ("admit", "clarify") and not contradictions and not factual_error:
+    if (expected not in ("admit", "clarify") and not contradictions and not factual_error
+            and not undue_inferences and not inference_error):
         notes = []
         if core_manual:
             notes.append(f"{len(core_manual)} core SIN puntuar (manual)")
@@ -281,17 +360,29 @@ def score_gold(gold: dict, answer: str, contradictions=None, factual_error=None,
             notes.append(f"{prose_hits}/{p} presentes por prosa (frágil)")
         if hedged_admit:
             notes.append("fraseo-admite pero entrega core → puntuado como answer parcial")
+        verified_absence = inference_run and not inference_error  # corrió Y sin error
         if expected in ANSWER_LIKE and expected != "answer":
-            notes.append(f"conducta {expected}: surfaceo medido por completitud")
+            note = f"conducta {expected}: surfaceo medido por completitud"
+            if n_absent_rows and verified_absence:
+                note += "; no-fabricación verificada"
+            notes.append(note)
+        if n_absent_rows and verified_absence and expected not in ANSWER_LIKE:
+            notes.append(f"{n_absent_rows} hecho(s) ausente-probado: sin fabricación")
         if notes:
             verdict += "  [" + "; ".join(notes) + "]"
 
+    # Sin el eje no-fabricación (offline) no se puede certificar que el bot no fabricó sobre los
+    # hechos ausente-probado → un PASS sería engañoso (cazado por el dúo, P3 r2). Degradar a REVISAR.
+    if n_absent_rows and not inference_run and verdict.startswith("PASS"):
+        verdict = (f"REVISAR (completitud/conducta OK pero {n_absent_rows} hecho(s) ausente-probado "
+                   f"sin verificar el eje no-fabricación — usa --llm)")
     if not factual_run:
         verdict += "  [PROVISIONAL: eje factual no evaluado — usa --llm]"
 
     return {"qid": gold.get("qid"), "expected": expected, "bot_conducta": bot_conducta,
             "core": f"{p}/{n}", "verdict": verdict, "rows": rows,
-            "contradictions": contradictions or [], "factual_error": factual_error}
+            "contradictions": contradictions or [], "factual_error": factual_error,
+            "undue_inferences": undue_inferences or [], "inference_error": inference_error}
 
 
 _GLYPH = {True: "✓", False: "✗", None: "?"}
@@ -349,11 +440,21 @@ def main() -> int:
             print(f"=== {qid} === (sin respuesta del bot en el fichero — saltado)\n")
             continue
         contradictions, factual_error = (None, None)
-        if args.llm:  # eje FACTUAL gated en --llm (NO en que exista client: --prose-llm
-            # también construye client pero NO debe disparar el factual — bug cazado al correr)
+        undue_inferences, inference_error = (None, None)
+        if args.llm:  # ejes FACTUAL + NO-FABRICACIÓN gated en --llm (NO en que exista client:
+            # --prose-llm también construye client pero NO debe disparar estos ejes — bug cazado)
+            facts = g.get("atomic_facts") or []
+            # Los hechos `ausente-probado` NO van al factual (no son hechos presentes que
+            # contradecir; son competencia del eje no-fabricación). Cazado por el dúo (P3 r2).
+            present_facts = [f for f in facts if f.get("estado") != "ausente-probado"]
+            absent = [f for f in facts if f.get("estado") == "ausente-probado"]
             contradictions, factual_error = factual_check(
-                g.get("atomic_facts") or [], answers[qid], client, args.model)
+                present_facts, answers[qid], client, args.model)
+            if absent:
+                undue_inferences, inference_error = undue_inference_check(
+                    absent, answers[qid], client, args.model)
         res = score_gold(g, answers[qid], contradictions, factual_error,
+                         undue_inferences=undue_inferences, inference_error=inference_error,
                          prose_client=(client if args.prose_llm else None),
                          prose_model=args.model)
         results.append(res)
@@ -371,6 +472,14 @@ def main() -> int:
                     print(f"               bot dice «{str(c.get('afirmacion_bot'))[:60]}» — {c.get('por_que')}")
             else:
                 print("  factual: sin contradicciones")
+            if res["inference_error"]:
+                print(f"  no-fabricación: ERROR — {res['inference_error']}")
+            elif res["undue_inferences"]:
+                for u in res["undue_inferences"]:
+                    print(f"  ⚠ FABRICA sobre ausente: «{str(u.get('hecho_ausente'))[:55]}» [{u.get('tipo')}]")
+                    print(f"               bot dice «{str(u.get('afirmacion_bot'))[:60]}»")
+            elif any(r.get("estado") == "ausente-probado" for r in res["rows"]):
+                print("  no-fabricación: sin fabricación sobre ausentes")
         print(f"  → {res['verdict']}\n")
 
     print("=" * 70)

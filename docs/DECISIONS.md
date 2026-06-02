@@ -391,3 +391,56 @@
 - **Estado**: ✅ HECHO (rama `eval/s40-arbiter-consolidation` → PR). **Próximo (s41)**: crecer el catálogo (Tier B
   12/14/15 + conductas 16/18/19 con contratos refuse/admit) sobre el árbitro consolidado; opcional, baseline fresco de
   los 19 post-AC220.
+
+## DEC-012 — Eje NO-FABRICACIÓN del scorer + ramificación por estado-del-hecho (contrato admit/refuse-inference)
+- **Fecha**: 2 jun 2026 (sesión 41). **Impacto**: MEDIO (instrumento de medición que gobierna los levers; zona de
+  dolor = scorer/conductas). **Alcance ELEGIDO por Alberto**: cerrar el árbitro endurecido; autoría de celdas → s42.
+- **Contexto**: s41 iba a autorar celdas de conducta (#16 admit, #18 refuse-inference, #19 clarify), pero los
+  **contratos refuse/admit estaban DIFERIDOS** (DEC-010 §3). Al especificarlos, el dúo destapó un **agujero del
+  scorer**: el eje factual (`factual_check`) es **solo-contradicción** → cuando el corpus está VACÍO sobre un tema, un
+  bot que FABRICA sobre el vacío no contradice nada y NO se caza (lo declaraba el propio código, `atomic_scorer §57-60`).
+- **Decisión (la §6, elegida por Alberto tras el voto del dúo)**: cablear un **eje NO-FABRICACIÓN** como check LLM
+  cross-model, NO el fallback humano (REVISAR). El voto del dúo fue check-LLM **por FALSABILIDAD** (no por "escala", que
+  el autor sobre-ponderaba): el fallback humano deja refuse-inference en REVISAR para siempre = cero señal categórica, y
+  un humano sin veredicto-máquina contra el que contrastar es igual de opaco. Lo construido:
+  1. **C1 — `score_gold` ramifica por `estado`-del-hecho**: los `ausente-probado` salen del denominador de completitud
+     (el bot NO debe entregarlos) y alimentan el eje no-fabricación. Cubre el patrón D5 (ausente-probado dentro de un
+     `answer` mixto: hp006/09/13), no solo admit/refuse → el eje va POR-HECHO, no por conducta_esperada.
+  2. **`undue_inference_check`** (cross-model GPT-5.5, gated `--llm`, binario, conservador): caza que el bot AFIRME un
+     hecho ausente-probado (valor/compatibilidad/recomendación/inferencia; claims prohibidos enumerados en `_UNDUE_SYS`).
+     Asimetría de seguridad: afirmar un ausente = FALLO.
+  3. **refuse-inference entra en `ANSWER_LIKE`** (deja de caer a REVISAR): su fallo típico lo caza ahora el eje no-fabricación.
+- **Validación end-to-end (re-baseline FRESCO post-AC220, HyDE-off, `--llm --prose-llm`)**: **7 FALLO / 10 PARCIAL /
+  2 REVISAR / 0 PASS** (19 golds; vs s37 8/10/1/0: AC-220 sacó hp017 de FALLO, el eje no-fabricación metió hp006). El
+  eje **funciona**: hp006 PARCIAL→FALLO (el bot fabrica un procedimiento de localización del fallo de tierra que el
+  manual NO documenta — spot-check humano: 2/3 marcas correctas; 1 FP por hecho mal formulado, ver gaps). hp009 "sin
+  fabricación sobre ausentes" (FALLO por completitud, no por fabricación = correcto). El **filtro factual** (los
+  ausente-probado ya NO van a `factual_check`) MEJORÓ hp013 (contradicción sobre un hecho PRESENTE real, no sobre el ausente).
+- **Alternativas descartadas**: (a) **fallback humano** (refuse/admit→REVISAR siempre) — suelo seguro pero cero señal
+  categórica, no escala; es el fallback si el spot-check no valida. (b) **solo keywords** (`_NOINFO`) — frágil, solo-ES,
+  no caza fabricación parcial. (c) **colapsar refuse→admit** — refuse SÍ da contenido (specs por-producto); colapsarlo
+  perdería la completitud de los `presente`.
+- **Revisión adversarial (Protocolo 3, DUAL × 2 RONDAS — `adversarial_review_log` 2026-06-02T20:00/20:05/20:25/20:30)**:
+  - **R1 (diseño)**: ambos SÓLIDO-CON-CAMBIOS. 3 críticos: el scorer no leía `f["estado"]` (los 3 ausente-probado de
+    hp006/09/13 viven en answer mixto, no admit/refuse); el "modo-ausencia" de locate_fact es greenfield no reutilización;
+    `_ECOSYSTEM_OF` (retriever.py:230) colapsa Detnov↔Securiton por OEM → Contrato B debe elegir ecosistemas DISJUNTOS.
+  - **R2 (diff)**: ambos SÓLIDO-CON-CAMBIOS. **BUG CRÍTICO de orden** (cross+sub): los errores de eje (REVISAR) se
+    evaluaban ANTES que los FALLOS → un FALLO real se degradaba a REVISAR si el otro eje daba error → violaba la
+    asimetría de seguridad. **ARREGLADO** (FALLOS primero). + refuse offline sin red (sub) → degradar PASS+absent a
+    REVISAR sin `--llm`; + ausente-probado con valor no-null iría al factual (sub) → filtro factual; + esquema JSON
+    (cross) + cita de línea (sub). **TODOS aplicados.**
+  - **Tally s41: 22 findings / 22 confirmados / 0 FP** (cross 6+6, sub 6+4). Regla C: verifiqué en código el bug de
+    orden, `_ECOSYSTEM_OF` y los 3 ausente-probado con valor=null; cacé 1 sobre-cuenta menor del sub (4 vs 3 hechos,
+    dentro de un finding válido). 261 tests verdes (+8 nuevos `tests/test_atomic_scorer.py`, incl. casos cruzados error+FALLO).
+- **Gaps declarados**: (a) el eje no-fabricación es estructuralmente **MÁS FRÁGIL que el factual** (opera sobre
+  valor=null, sin ancla textual) → señal CATEGÓRICA no fina; spot-check humano. (b) **FP en hp006**: el check marcó 3
+  fabricaciones, 1 es falsa (explicar el aviso Tierra SÍ está en MIDT170) porque el hecho `ausente-probado` de hp006
+  **mezcla** "no hay procedimiento" con una nota parentética sobre otro manual → **deuda: re-formular el hecho
+  quirúrgicamente** (TECH_DEBT) + **lección de autoría** (los ausente-probado = solo lo ausente). El veredicto
+  CATEGÓRICO (FALLO) es correcto igual (≥2 fabricaciones reales). (c) recall/especificidad del check NO validados sobre
+  golds de conducta REALES (n=0 hoy; las celdas #16/#18 de s42 lo harán). (d) varianza del factual LLM en el CONTEO de
+  contradicciones (no en el categórico) — TECH_DEBT #37. (e) el **modo-ausencia de locate_fact** y la autoría de celdas
+  se DIFIRIERON a s42 (Alberto acotó s41 a cerrar el árbitro).
+- **Estado**: ✅ HECHO (rama `eval/s41-nonfab-axis` → PR; eval-only, no toca prod). **Próximo (s42)**: modo-ausencia en
+  locate_fact + alinear marca con `_ECOSYSTEM_OF` + autorar #16/#18/#19 (ejercita y valida el eje con spot-check) +
+  re-formular el hecho ausente-probado de hp006. Canónico: `PLAN` bloque s41 + `RULER_DESIGN §3`.

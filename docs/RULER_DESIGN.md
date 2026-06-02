@@ -232,6 +232,24 @@ fix del matcher de rangos (`DECISIONS.md` DEC-011):
   (1/134 hechos = cat001; instrumentos de retrieval + scorer; impacto actual 0). El árbitro lee señal
   CATEGÓRICA + delta razonable; la calibración fina amplia sigue acotada por n. Ver DEC-011 + TECH_DEBT #35.
 
+**Estado de implementación (s41)** — eje NO-FABRICACIÓN + ramificación por estado-del-hecho (`DECISIONS.md` DEC-012):
+- **Eje NO-FABRICACIÓN** (`undue_inference_check`, cross-model GPT-5.5, gated `--llm`, binario, CONSERVADOR): caza que
+  el bot AFIRME un hecho marcado `ausente-probado` (valor/compatibilidad/recomendación/inferencia; claims prohibidos
+  en `_UNDUE_SYS`). Cierra el agujero del eje factual (solo-contradicción NO ve la fabricación sobre el vacío). Asimetría
+  de seguridad: afirmar un ausente = FALLO. Es **más FRÁGIL que el factual** (opera sobre valor=null, sin ancla textual)
+  → señal categórica, no fina; spot-check humano. NO es el juez opaco de D7: binario, acotado, conservador, auditable.
+- **Ramificación por `estado`-del-hecho (C1)**: `score_gold` separa los `ausente-probado` (no cuentan en completitud,
+  van al eje no-fabricación) de los `presente`. Aplica a TODO ausente-probado, viva en admit/refuse-inference o en un
+  answer MIXTO (D5: hp006/09/13). `factual_check` ya NO recibe los ausente-probado (no son hechos presentes que contradecir).
+- **refuse-inference** deja de caer a REVISAR (entra en `ANSWER_LIKE`): el bot debe RESPONDER (specs por-producto, medido
+  por completitud) y NO inferir la relación (medido por el eje no-fabricación).
+- **Orden del veredicto = asimetría de seguridad**: los FALLOS (contradicción / fabricación) se evalúan ANTES que los
+  REVISAR (eje no evaluable) → un error en un eje no degrada un FALLO detectado en el otro (bug cazado por el dúo, P3 r2).
+- **Lección de AUTORÍA (del spot-check de hp006)**: un hecho `ausente-probado` debe formularse QUIRÚRGICAMENTE (solo lo
+  genuinamente ausente). Mezclar una nota sobre UN manual ("MFDT170 no menciona X") cuando OTRO sí lo cubre (MIDT170)
+  induce un falso-positivo del eje no-fabricación. Pendiente: re-formular el hecho ausente-probado de hp006; aplicar al autorar #16/#18.
+- Validado: re-baseline 7 FALLO/10 PARCIAL/2 REVISAR/0 PASS (19); 261 tests (+8 `tests/test_atomic_scorer.py`). Gaps en DEC-012.
+
 ---
 
 ## 4. Plan por fases
