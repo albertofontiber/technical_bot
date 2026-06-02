@@ -311,3 +311,45 @@
   material" → re-statement-citando-§2). Regla C aplicada. Mi over-claim "single-source ya satisfecho" retirado.
 - **Estado**: ✅ HECHO (diseño + reconciliación). Commit `9db0263` en `eval/s38-night-catalog` (rebasada sobre
   `main`=#25, 243 tests verdes). C4 se CONSTRUYE en B2/s39.
+
+## DEC-010 — C4 + cross_generate construidos; producto→manuales = opción D (filesystem); piloto cat001/005/007 + 1er diagnóstico
+- **Fecha**: 2 jun 2026 (sesión 39, supervisada). **Impacto**: ALTO (instrumento de localización del ruler + 1er gold crecido medido).
+- **Decisiones**:
+  1. **C4 construido** = `scripts/locate_fact.py` (grep multi-manual sobre PDFs FUENTE → render±1 → **doble-señal AND**:
+     lectura cross-model GPT-5.5 ∧ match determinista; scan/discrepancia → `needs_human`). chunks_v2 SOLO para
+     corpus-existence (no circular, RULER_DESIGN §0/§2). **`scripts/cross_generate.py`** = co-generador GPT-5.5 (C2).
+  2. **producto→manuales = OPCIÓN D** (NO la "B-síntesis" que propuse): el SET de manuales lo fija el AUTOR
+     explícito (`--manuals`), con un sugeridor exhaustivo dirigido por FILESYSTEM (no por `product_model`, que está
+     estructuralmente sucio: doc-codes 'MPDT-280', 'AM2020 y AFP1010', familia dispersa en ≥5 etiquetas — verificado).
+  3. **Contratos refuse/admit DIFERIDOS** (no hubo celdas de conducta en el piloto 1/5/7; van con 16/18/19).
+  4. **Piloto autorado (3 golds, `cat001/005/007`)** por el proceso C4→co-gen→doble-lectura→poda→**dúo C3**→regla C→
+     `gold_store.upsert` (22 golds, 0 errores de esquema).
+- **Diagnóstico end-to-end (1ª medición sobre el ruler crecido; HyDE-off, chunks_v2, `atomic_scorer` mecánico)**:
+  3 PARCIAL, **factual=sin contradicciones en los 3 (0 alucinación)**. Localizado por hecho: **cat005** (CS4 gas,
+  single-doc) 5/6 y **cat007** (FAAST, ES/EN, single-doc) 4/5 = FUERTES (misses = ruido de matcher / menores); el
+  bot maneja **dominio nuevo** (gas/Fidegas) y retrieval **cross-variante** (FAAST QIGs hermanos) sin fallar.
+  **cat001** (PEARL multi-doc) 2/7 = **SÍNTESIS INCOMPLETA real** (verificado leyendo la respuesta): retrieval ✓
+  (ambos manuales) + 0 alucinación, pero omitió los hechos cross-doc duros (conflicto 40-CLIP en lazo mixto, 0,75 A,
+  99+99 CLIP, zonas 255/8192) y derivó a detalle tangencial. **Consistente con DEC-005/006: el cuello en multi-doc
+  es completitud de SÍNTESIS, no retrieval ni alucinación.** El ruler crecido **discrimina** (instrumento válido).
+- **Contexto/método**: B2→B3→C de DEC-008/009. La rebanada vertical (test ciego de C4 sobre hp017/hp005/hp012,
+  ignorando la `page` conocida) cerró el "test ciego del localizador" que RULER_DESIGN §2 declaraba pendiente, y
+  cazó 4 bugs de mi implementación (fuga de idioma; match determinista value-only; veredicto VLM value-only;
+  sobre-generación de prosa) + 2 bugs más en autoría (`_value_on_page` substring sin frontera → '792'∈'13792';
+  parser de `--pages` con nombres con espacios). La doble-señal cazó un misread de dígito (3240 vs 3244 → 3244 @400dpi).
+- **Alternativas descartadas**: (a) **B-síntesis** (grep por carpeta del fabricante) → NO SÓLIDO en review: solo 2/23
+  fabricantes tienen carpeta dedicada (no escala al contrato), `_Privado` NO es dedup (288 docs únicos en Notifier,
+  incl. los del gold hp012), describía un sistema sin construir; (b) sanear `product_model` antes → es un lever de
+  retrieval del bot, separado; C4 debe ser INDEPENDIENTE de esa metadata (§0); (c) índice versionado
+  `producto→source_files` (forma escalable de D) → DIFERIDO (para 6-8 golds basta `--manuals` explícito).
+- **Revisión adversarial**: dúo (sub-agente Claude + GPT-5.5) ×4 — diseño producto→manuales (`adversarial_review_log`
+  entrada 6: NO SÓLIDO sobre B, 10 hallazgos/10 confirmados/0 FP, 3 críticos verificados por mí regla C) + C3 por
+  gold (cat001/005/007, todos SÓLIDO-CON-CAMBIOS; cambios verificados al píxel). El cross-model cazó lo que mi
+  auto-pushback del contrato NO (presenté B como sólido tras pushback; era NO SÓLIDO) → guardarraíl anti-bias OK.
+- **Gaps declarados**: (a) `atomic_scorer` mecánico (sin `--prose-llm`) → **PARCIAL es un SUELO** (matcher-prosa
+  frágil: cat005 '110-230', cat001 '25' under-contados; la incompletitud de cat001 SÍ es real, verificada a mano);
+  (b) piloto n=3, 1 multi-doc → señal categórica, no delta fino; (c) `_provenance.corpus_chunks_v2` "PENDIENTE" en
+  cat005/007 quedó RESUELTO (CS4=11, FAAST LT-200 ES=42 chunks → cubiertos; no corpus-gap) — corregir nota.
+- **Estado**: ✅ HECHO. **Próximo (s40)**: crecer el catálogo a más celdas (Tier B gap-diagnóstico 12/14/15 +
+  conductas 16/18/19 con sus contratos refuse/admit) + endurecer `atomic_scorer --prose-llm` para leer deltas finos;
+  el índice versionado producto→source_files si la autoría escala. PR de `eval/s38-night-catalog` a `main` cuando se cierre el lote.

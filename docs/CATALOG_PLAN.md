@@ -141,8 +141,14 @@ una 2ª (mercado/idioma) en un run posterior; no ahora.*
   no sobre-especifica).
 
 ## 7. Próximo paso inmediato
-ESTA NOCHE = solo **Fase A** (#35 detrás de flag-off + datos crudos), si hay luz verde. Mañana: B1
-(sign-off) → B2 (construir contratos) → C (autorar ~6-8 + diagnóstico).
+**Estado s39 (2 jun 2026, DEC-010):** Fase A ✅ + B1 ✅ + **B2 ✅** (C4=`locate_fact.py` + `cross_generate.py`;
+contratos refuse/admit DIFERIDOS — sin celdas de conducta en el piloto) + **C parcial ✅**: piloto **cat001/005/007**
+autorado (Tier A: PEARL multi-doc / Gas CS4 dominio-nuevo / FAAST ES-EN) + **1er diagnóstico end-to-end** (3 PARCIAL,
+0 alucinación; cuello multi-doc = SÍNTESIS, no retrieval — DEC-010). producto→manuales = **opción D** (autor explícito
++ sugeridor filesystem; NO `product_model`). **Próximo (s40):** Tier B (12/14/15) + conductas (16/18/19 con contratos
+refuse/admit) + `atomic_scorer --prose-llm` para deltas finos. El diseño durable de C4 vive en `RULER_DESIGN §2`.
+
+*(Original:* ESTA NOCHE = solo Fase A; mañana B1→B2→C.*)*
 
 ## 8. Traza del review
 - **v1 NO SÓLIDO**: scorer build+use+validate misma noche; over-scope 20.

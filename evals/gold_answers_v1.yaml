@@ -2270,3 +2270,377 @@
   _usage:
     in: 108226
     out: 1595
+- qid: cat001
+  question: En la Notifier PEARL, ¿cuántos equipos admite un lazo SLC y qué límites de cableado hay (aisladores),
+    y cómo se dan de alta y editan esos equipos desde la central?
+  conducta_esperada: answer
+  gold_answer: |-
+    En la central Notifier PEARL la capacidad y el alta de equipos del lazo se reparten entre el manual de instalación/puesta en marcha (997-669) y el de configuración (997-671):
+
+    Capacidad del lazo (997-669):
+    - La central admite 1 o 2 lazos de detección analógicos.
+    - Cada lazo admite hasta 318 equipos: 159 sensores + 159 módulos con protocolo Opal, o 99 sensores + 99 módulos con protocolo CLIP, combinables. La carga máxima del lazo es de 0,75 A.
+    - Tope de sistema: máximo 512 sensores y/o pulsadores por sistema a través de ambos lazos (EN54-2).
+
+    Aisladores (997-669): para cumplir EN54-2 deben colocarse aisladores entre un máximo de 32 equipos; en la PEARL no se deben dejar más de 25 equipos entre aisladores (20 si se usan aisladores FET, o para equipos sin aislador interno como los CLIP). Los equipos con aislador interno requieren la base tipo B501 AP.
+
+    Alta y edición desde la central (997-671):
+    - El alta se hace por AUTOCONFIGURACIÓN, que detecta los tipos de equipo en cada dirección en una pasada; se elige aplicarla a todos los lazos o a uno, el modo y «Permite Añadir/Borrar/Cambiar» o «Sólo Añadir Nuevos Equipos».
+    - OJO al mezclar protocolos: en un lazo MIXTO Opal/CLIP la autoconfiguración limita los equipos CLIP a 40; si se superan, continúa pero señala fallos y hay que seleccionar «Sólo con protocolo CLIP». Un lazo solo-CLIP sí admite los 99 + 99 completos.
+    - La edición individual de sensores permite ajustar el número de zona (hasta 255 zonas locales o 8192 de red), el tipo de equipo y los niveles de alarma/prealarma. Los equipos Opal pueden reinicializarse con «4: Inicializar equipo prot.OPAL».
+  atomic_facts:
+  - texto: La central PEARL admite 1 o 2 lazos de deteccion analogicos
+    tipo: core
+    estado: presente
+    valor: 1 o 2
+    cita: 997-669 p51
+  - texto: 'Cada lazo admite hasta 318 equipos: 159 sensores + 159 modulos (protocolo Opal) o 99 sensores
+      + 99 modulos (protocolo CLIP), combinables'
+    tipo: core
+    estado: presente
+    valor: 159+159 / 99+99
+    cita: 997-669 p51/p21
+  - texto: La carga maxima del lazo es 0,75 A
+    tipo: core
+    estado: presente
+    valor: 0,75 A
+    cita: 997-669 p51
+  - texto: En un lazo MIXTO Opal/CLIP la autoconfiguracion limita los equipos CLIP a 40; si se superan
+      continua pero senala fallos y hay que elegir 'Solo con protocolo CLIP'. Un lazo solo-CLIP admite
+      los 99+99 completos
+    tipo: core
+    estado: presente
+    valor: '40'
+    cita: 997-671 p18/p19
+  - texto: 'Aisladores: EN54-2 exige como maximo 32 equipos entre aisladores; en Pearl no mas de 25 (20
+      con equipos sin aislador interno / aisladores FET); los equipos con aislador interno requieren base
+      tipo B501 AP'
+    tipo: core
+    estado: presente
+    valor: 32 / 25 / 20
+    cita: 997-669 p38/p21
+  - texto: El alta de equipos se hace por AUTOCONFIGURACION (detecta los tipos en una pasada; opciones
+      'Permite Anadir/Borrar/Cambiar' vs 'Solo Anadir Nuevos Equipos')
+    tipo: core
+    estado: presente
+    valor: autoconfiguracion
+    cita: 997-671 p18/p19
+  - texto: La edicion individual de SENSORES permite ajustar el numero de zona (255 locales / 8192 de
+      red), el tipo de equipo y los niveles de alarma/prealarma
+    tipo: core
+    estado: presente
+    valor: 255 / 8192
+    cita: 997-671 p20
+  - texto: 'Tope de sistema: maximo 512 sensores y/o pulsadores por sistema a traves de ambos lazos (EN54-2)'
+    tipo: supplementary
+    estado: presente
+    valor: '512'
+    cita: 997-669 p21
+  - texto: 'Los equipos OPAL pueden reinicializarse desde la central con la opcion de menu ''4: Inicializar
+      equipo prot.OPAL'''
+    tipo: supplementary
+    estado: presente
+    valor: '4: Inicializar equipo prot.OPAL'
+    cita: 997-671 p25
+  citations:
+  - manual: 997-669-005-3_Instal-Comm_ES.pdf
+    page: 51
+    quote: 'Lazos de deteccion: 1 o 2. Cada lazo admite hasta 159 sensores mas 159 modulos (protocolo
+      Opal) o 99 sensores mas 99 modulos (protocolo CLIP)... La carga maxima es de 0,75 A por lazo.'
+  - manual: 997-669-005-3_Instal-Comm_ES.pdf
+    page: 21
+    quote: 'La central Pearl permite conectar un maximo de 318 equipos de lazo por lazo analogico, es
+      decir, hasta 159 sensores y 159 modulos. ... Maximo 512 sensores y/o pulsadores manuales por sistema.
+      ... Equipos sin aisladores internos (incluidos equipos de protocolo CLIP y algunos Opal): NO coloque
+      mas de 20 equipos entre aisladores. ... bases ... (tipo B501 AP).'
+  - manual: 997-669-005-3_Instal-Comm_ES.pdf
+    page: 38
+    quote: Para cumplir con los requisitos de EN54-2, los aisladores deben colocarse entre un maximo de
+      32 equipos de lazo. Para las centrales Pearl, no coloque mas de 25 equipos de lazo entre aisladores
+      (20 si utiliza aisladores FET).
+  - manual: 997-671-005-3_Configuration_ES.pdf
+    page: 19
+    quote: '[el limite de equipos CLIP en autoconfiguracion mixta] es de 40: si se supera dicho limite,
+      la autoconfiguracion continuara pero senalara que hay fallos. En cambio, un lazo solo con equipos
+      CLIP admite una completa gama de 99 sensores y 99 modulos. ... Si el numero de equipos CLIP supera
+      los 40, seleccione manualmente la opcion ''Solo con protocolo CLIP''.'
+  - manual: 997-671-005-3_Configuration_ES.pdf
+    page: 20
+    quote: 'Para sensores: ... Numero de zonas (hasta 255 zonas locales o 8192 zonas de red) ... Ajuste
+      del nivel de alarma ... Ajuste del nivel de prealarma.'
+  notes: 'Procedimiento multi-doc: capacidad/aisladores en el manual de instalacion 997-669 y alta/edicion
+    en el de configuracion 997-671; ninguno responde solo. El limite de 40 CLIP en lazo mixto (997-671
+    p18-19) entra en tension con la capacidad 99+99 de hardware (997-669 p51) = test de sintesis cross-doc.'
+  confidence: alta
+  pdfs_used:
+  - 997-669-005-3_Instal-Comm_ES.pdf
+  - 997-671-005-3_Configuration_ES.pdf
+  _provenance:
+    estado: verificado
+    metodo: 'C4 (locate_fact: grep multi-manual + render +-1 + doble-senal AND) + co-gen GPT-5.5 (cross_generate)
+      + duo C3'
+    fuente: 997-669-005-3_Instal-Comm_ES.pdf (instalacion/puesta en marcha) + 997-671-005-3_Configuration_ES.pdf
+      (configuracion). Paginas FISICAS del PDF.
+    paginas:
+    - 51
+    - 38
+    - 21
+    - 18
+    - 19
+    - 20
+    - 25
+    corpus_chunks_v2: ambos manuales presentes y servibles (ES) en chunks_v2 -> answer satisfacible por
+      el bot
+    localizacion:
+      manuales_buscados:
+      - 997-669-005-3_Instal-Comm_ES (digital)
+      - 997-671-005-3_Configuration_ES (digital)
+      - 997-670-005-3_Operating_ES (digital)
+      terminos:
+      - lazo
+      - 159 sensores
+      - 99 sensores
+      - 0,75 A
+      - aisladores
+      - autoconfiguracion
+      - '40'
+      - '512'
+      - B501 AP
+      nota: los 3 manuales son digital-native (scan_ratio 0.0). Valores de tabla leidos del RENDER, no
+        del texto extraido.
+    verificado_por:
+    - 'Claude doble-lectura: render de 997-669 p51/p38/p21 y 997-671 p18/p19/p20 confirma los valores
+      al pixel (0,75 A; 159+159/99+99; 25/20/32; 40 CLIP mixto; 255/8192; 512)'
+    - co-generador GPT-5.5 (linaje != bot) desde el excerpt confirmado por C4
+    - 'duo C3 (sub-agente Claude fresco 9/9 verificado-al-pixel + GPT-5.5 cross-model): SOLIDO-CON-CAMBIOS
+      -> +hecho conflicto 40-CLIP, aisladores afinados (p21 <=20 sin aislador interno + B501 AP), edicion
+      acotada a sensores, +512/sistema, -supp 240s. Cambios verificados por mi (regla C: render p19 y
+      p21).'
+    fecha: '2026-06-02'
+- qid: cat005
+  question: ¿Cuáles son las características técnicas de la central de detección de gas Fidegas CS4, y
+    en qué se diferencian las versiones digital y analógica?
+  conducta_esperada: answer
+  gold_answer: |-
+    La central de detección de gas Fidegas CS4 tiene estas características técnicas (tabla §6 del manual):
+    - Alimentación: 110-230 Vac, 50-60 Hz; potencia 30 W.
+    - Sensores: hasta 4 conexiones, en modo analógico (4-20 mA) o digital.
+    - Salidas: 2 salidas conmutadas LP, con relé apto para 230 Vac y contactos NA-C-NC.
+    - Corriente máxima: 250 mA.
+    - Dimensiones 90 x 106 x 58 mm; peso 300 g; rearme seleccionable manual o automático.
+
+    Hay dos VERSIONES, que se distinguen por el código de producto: la versión DIGITAL es el código 3244 y la versión ANALÓGICA el 3270. La diferencia es el modo de conexión de los sensores remotos (digital vs analógico 4-20 mA).
+  atomic_facts:
+  - texto: 'Alimentacion de la CS4: 110-230 Vac, 50-60 Hz'
+    tipo: core
+    estado: presente
+    valor: 110-230 Vac
+    cita: CS4 p7
+  - texto: 'Potencia de la CS4: 30 W'
+    tipo: core
+    estado: presente
+    valor: 30 W
+    cita: CS4 p7
+  - texto: La CS4 admite hasta 4 conexiones de sensores, en modo analogico (4-20 mA) o digital
+    tipo: core
+    estado: presente
+    valor: '4'
+    cita: CS4 p7/p4
+  - texto: La CS4 dispone de 2 salidas conmutadas LP, con rele apto para 230 Vac y contactos NA-C-NC
+    tipo: core
+    estado: presente
+    valor: NA-C-NC
+    cita: CS4 p7/p4
+  - texto: 'Corriente maxima de la CS4: 250 mA'
+    tipo: core
+    estado: presente
+    valor: 250 mA
+    cita: CS4 p7
+  - texto: 'Las dos versiones se distinguen por el codigo de producto: version DIGITAL = 3244; version
+      ANALOGICA = 3270 (difieren en el modo de conexion de sensores)'
+    tipo: core
+    estado: presente
+    valor: 3244 / 3270
+    cita: CS4 p7
+  - texto: 'Dimensiones de la CS4: 90 x 106 x 58 mm; peso 300 g'
+    tipo: supplementary
+    estado: presente
+    valor: 90 x 106 x 58 mm
+    cita: CS4 p7
+  - texto: 'Rearme de la CS4: seleccionable manual o automatico'
+    tipo: supplementary
+    estado: presente
+    valor: manual o automatico
+    cita: CS4 p7
+  - texto: El Nº de serie codifica CCCC = codigo de producto, AAMM = ano y mes de fabricacion, XXXX =
+      numero de fabricacion
+    tipo: supplementary
+    estado: presente
+    valor: CCCC AAMM XXXX
+    cita: CS4 p7
+  citations:
+  - manual: Manual-de-Usuario-CS4.pdf
+    page: 7
+    quote: '6. CARACTERISTICAS TECNICAS. Tension de Alimentacion: 110-230 Vac 50-60 Hz. Potencia: 30 W.
+      Sensores: Hasta 4 conexiones en modo analogico o digital. Codigo de producto: Version digital: 3244
+      / Version analogica: 3270. Salidas: 2 salidas conmutadas LP (rele apto para 230 Vac) con contactos
+      NA-C-NC. Corriente maxima: 250 mA. Rearme: Seleccionable manual o automatico. Dimensiones: 90 x
+      106 x 58 mm. Peso: 300 gr.'
+  - manual: Manual-de-Usuario-CS4.pdf
+    page: 4
+    quote: 'Permite la conexion de hasta 4 sensores remotos simultaneos a traves de sus 4 entradas digitales
+      (0-10/15 v) o analogicas (4-20 mA). ... SALIDAS (OUT1 y OUT2): Dispone de dos salidas conmutadas
+      LP con tres contactos NA-C-NC configurables.'
+  notes: 'Spec single-doc de un DOMINIO NUEVO (deteccion de gas, fabricante Fidegas, fuera de los 3 del
+    ruler). Valor diagnostico: comprueba si el bot recupera/cubre el dominio de gas. Pregunta endurecida
+    (sin enumerar campos + fuerza la diferencia de version 3244/3270, el dato fino) tras la critica del
+    duo C3.'
+  confidence: alta
+  pdfs_used:
+  - Manual-de-Usuario-CS4.pdf
+  _provenance:
+    estado: verificado
+    metodo: C4 (grep + render + doble-senal AND) + co-gen GPT-5.5 (cross_generate) + duo C3
+    fuente: Manual-de-Usuario-CS4.pdf (Fidegas / C.A.E., S.L.), tabla §6 'Caracteristicas tecnicas' (p7);
+      marcado/version p3; salidas/sensores p4. Paginas FISICAS.
+    paginas:
+    - 7
+    - 3
+    - 4
+    corpus_chunks_v2: PENDIENTE de comprobar cobertura en chunks_v2 (dominio gas Fidegas; si NO esta ->
+      el diagnostico end-to-end revelara corpus-gap, no fallo del bot)
+    localizacion:
+      manuales_buscados:
+      - Manual-de-Usuario-CS4 (digital, 8 pp)
+      terminos:
+      - caracteristicas tecnicas
+      - alimentacion
+      - codigo de producto
+      - salidas
+      - corriente maxima
+      - 250 mA
+      - '3244'
+      - '3270'
+      nota: manual digital-native; tabla de specs leida del RENDER (texto extraido la corrompe). Codigo
+        3244 confirmado @400dpi.
+    verificado_por:
+    - 'Claude doble-lectura: render CS4 p7 @400dpi confirma 110-230 Vac/30W/4 sensores/2 LP NA-C-NC/250
+      mA/3244/3270/dimensiones/peso. CATCH: la tabla esta en p7, NO en p8 (=Declaracion UE) -> error de
+      pagina mio corregido por doble-lectura'
+    - co-generador GPT-5.5 desde el excerpt confirmado
+    - 'duo C3 (sub-agente Claude + GPT-5.5): SOLIDO-CON-CAMBIOS. Doble-senal AND cazo misread de digito
+      (Claude ''3240'' vs GPT ''3244'' -> 3244 correcto @400dpi, yo erre). Cambios: pregunta endurecida
+      (sin enumeracion + diferencia de version), codigo->core / dimensiones->supp (alineacion pregunta/core),
+      +Nº serie. Verificado por mi (regla C).'
+    fecha: '2026-06-02'
+- qid: cat007
+  question: En el detector por aspiración FAAST LT-200, ¿qué salidas de relé y de sirena tiene y con qué
+    contactos, cómo se comporta el relé de avería ante un fallo o un corte de alimentación, qué resistencia
+    de fin de línea llevan las salidas de sirena y cuál es la especificación eléctrica de los contactos
+    de relé?
+  conducta_esperada: answer
+  gold_answer: |-
+    El FAAST LT-200 (detector de humo por aspiración) dispone de salidas de relé y de sirena (datos de la tabla de terminales/relés, p5 del QIG, idénticos en las versiones ES e inglesa):
+    - Relés: salida de ALARMA y salida de AVERÍA (canal 1 y, en modelos de 2 canales, canal 2), con contactos NC-C-NA.
+    - El relé de AVERÍA es FAILSAFE (se desenergiza para señalar): la avería se indica ante una condición de avería en el canal 1 o 2 o una avería común, en Modo Servicio y también al quedar la unidad sin alimentación; el estado de avería NO está enclavado.
+    - Salidas de sirena: 2 salidas con bornes de polaridad -/+ (supervisadas), cada una con resistencia de fin de línea de 47 kohm. No son contactos de relé NC-C-NA.
+    - Especificación eléctrica de los contactos de relé: máximo 2 A con carga resistiva a 30 V CC y máximo 0,5 A con carga resistiva a 30 V CA; vida útil mínima de 10^5 operaciones.
+  atomic_facts:
+  - texto: El LT-200 tiene salida de rele de ALARMA y de AVERIA (canal 1 y, en modelos de 2 canales, canal
+      2), con contactos NC-C-NA
+    tipo: core
+    estado: presente
+    valor: NC-C-NA
+    cita: LT-200 QIG p5 (Tabla 2/3)
+  - texto: 'El rele de AVERIA es FAILSAFE (se desenergiza para senalar): la averia se indica ante condicion
+      de averia en canal 1/2 o averia comun, en Modo Servicio y al quedar la unidad SIN alimentacion;
+      el estado de averia NO esta enclavado'
+    tipo: core
+    estado: presente
+    valor: no enclavado
+    cita: LT-200 QIG p5 (Tabla 3)
+  - texto: Las 2 salidas de sirena tienen bornes de polaridad -/+ (supervisadas) y resistencia de fin
+      de linea de 47 kohm; no son contactos de rele
+    tipo: core
+    estado: presente
+    valor: 47 kohm
+    cita: LT-200 QIG p5 (Tabla 2)
+  - texto: 'Especificacion electrica de los contactos de rele: maximo 2 A (carga resistiva 30 V CC) /
+      maximo 0,5 A (carga resistiva 30 V CA)'
+    tipo: core
+    estado: presente
+    valor: 2 A / 0,5 A
+    cita: LT-200 QIG p5 (Tabla 3a)
+  - texto: 'Vida util minima de los contactos de rele: 10^5 operaciones (en el texto extraido aparece
+      como ''105'' por perdida del superindice; leido como 10^5 en el render)'
+    tipo: core
+    estado: presente
+    valor: 10^5
+    cita: LT-200 QIG p5 (Tabla 3a)
+  - texto: 'Mapa de bornes: alarma C1 en T2 (5 NC / 6 C / 7 NA), alarma C2 en T3 (8/9/10), averia C1 en
+      T4 (11/12/13), averia AUX C2 en T5 (14/15/16); sirena 1 en T6 (17- / 18+), sirena 2 en T7 (19- /
+      20+)'
+    tipo: supplementary
+    estado: presente
+    valor: 5/6/7
+    cita: LT-200 QIG p5 (Tabla 2)
+  citations:
+  - manual: I56-6577-006_ES FAAST Notifier LT-200 QIG.pdf
+    page: 5
+    quote: 'Tabla 2: Designaciones de los terminales de cableado. ... Rele de alarma NC/C/NA C1 (5/6/7).
+      Rele de averia NC/C/NA C1 (11/12/13). Salida sirena 1 -/+ (17/18), Salida sirena 2 -/+ (19/20):
+      Resistencia de fin de linea de 47 kohm. Tabla 3: Reles. AVERIA: ...la averia tambien se indica en
+      el modo de servicio y cuando se desconecta la alimentacion de la unidad. NOTAS: El estado de averia
+      no esta enclavado. Tabla 3a: Especificacion electrica de los reles. Potencia nominal de los contactos
+      MAX 2 / 0,5 A (carga resistiva 30 V CC / 30 V CA). Vida util MIN 10^5 operaciones.'
+  - manual: I56-6577-006_EN Notifier FAAST LT-200 QIG.pdf
+    page: 5
+    quote: 'Table 2 Wiring Terminal Designations: NC/C/NO Alarm Relay; NC/C/NO Fault Relay; Sounder Output
+      1/2 -/+ : 47 k-ohm EOL Resistor. Table 3 Relays. FAULT: ...Fault is also signalled when in Service
+      Mode and when the device is unpowered. NOTES: Fault state is not latched. Table 3a Relay Electrical
+      Specification: Contact Rating 2 / 0.5 A (30 VDC / 30 VAC resistive load). Life Time 10^5 Operations.'
+  notes: 'EJE ES/EN: la especificacion (p5) es EQUIVALENTE en el QIG ES (I56-6577-006_ES) y el EN (I56-6577-006_EN)
+    -> el dato es servible en cualquiera de los dos idiomas; test de si el bot recupera p5 dado una pregunta
+    en espanol. Spec-coverage amplia (no sintesis fina); el matiz no obvio es el rele de averia failsafe
+    (senaliza sin alimentacion, no enclavado). El ''10^5'' se lee del render; el texto extraido (y probablemente
+    chunks_v2) pierde el superindice -> ''105'' (limite de scorer #35).'
+  confidence: alta
+  pdfs_used:
+  - I56-6577-006_ES FAAST Notifier LT-200 QIG.pdf
+  - I56-6577-006_EN Notifier FAAST LT-200 QIG.pdf
+  _provenance:
+    estado: verificado
+    metodo: C4 (grep + render + doble-senal AND, ES+EN) + co-gen GPT-5.5 (cross_generate) + duo C3
+    fuente: I56-6577-006_ES FAAST Notifier LT-200 QIG.pdf (p5) + I56-6577-006_EN Notifier FAAST LT-200
+      QIG.pdf (p5). Tablas 2/3/3a. Paginas FISICAS.
+    paginas:
+    - 5
+    - 1
+    corpus_chunks_v2: PENDIENTE comprobar cobertura del LT-200 QIG en chunks_v2 (el diagnostico end-to-end
+      lo revelara; FAAST LT-200 es Notifier pero el QIG puede no estar ingestado -> posible corpus-gap)
+    localizacion:
+      manuales_buscados:
+      - I56-6577-006_ES FAAST Notifier LT-200 QIG (digital, 15 pp)
+      - I56-6577-006_EN Notifier FAAST LT-200 QIG (digital, 14 pp)
+      - I56-6574-005_ES Stand Alone LT-200 QIG
+      - I56-6575-005_ES LT-200 Loop QIG
+      terminos:
+      - rele
+      - averia
+      - sirena
+      - fin de linea
+      - '47'
+      - 30 V
+      - 0,5 A
+      - operaciones
+      nota: QIG digital-native; tablas leidas del RENDER (texto extraido las corrompe). ES y EN p5 leidos
+        al pixel = valores equivalentes.
+    verificado_por:
+    - 'Claude doble-lectura: render LT-200 ES p5 @300 + EN p5 confirma NC-C-NA, averia failsafe (sin alimentacion
+      + no enclavado), sirena -/+ 47 kohm, 2A/0,5A 30V CC/CA, vida 10^5, mapa de bornes T2-T7'
+    - 'co-generador GPT-5.5 desde el excerpt ES+EN (capto el matiz: sirena = salida polarizada, no rele)'
+    - 'duo C3 (sub-agente Claude + GPT-5.5): SOLIDO-CON-CAMBIOS, 6/6 verificado-al-pixel en ES y EN. Cambios:
+      reformular averia failsafe (''se desenergiza'', no ''se activa sin alimentacion''); ''polarizadas''=inferencia
+      de bornes -/+ -> anclar en literal; ''identica''->''equivalente'' ES/EN; mantener 10^5 (pixel) con
+      caveat de extraccion; completar mapa de bornes con canal 2. Regla C aplicada.'
+    fecha: '2026-06-02'

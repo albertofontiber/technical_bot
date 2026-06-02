@@ -104,9 +104,24 @@
 >   rankea el sustrato del bot) → C4 = grep multi-manual + mapeo producto→manuales + render±1 + **doble-señal AND**,
 >   **localización ROBUSTA, no budget-bounded** (decisión Alberto: definir bien los golds manda sobre el coste). El
 >   diseño durable vive en **`RULER_DESIGN §2`**; `CATALOG_PLAN` (marcado TRANSITORIO) lo referencia, no lo duplica.
-> - **Próximo (B2 → C, sesión 39):** **construir C4** (localizador robusto) + `cross_generate.py` + contratos
->   refuse/admit → **autorar ~6-8 golds** (rejilla `CATALOG_PLAN §4`) → **diagnóstico end-to-end**. Rama base limpia:
->   `eval/s38-night-catalog` (rebasada sobre `main`=#25; 243 tests verdes; pendiente su propio PR cuando C/diagnóstico cierren).
+> **Actualización s39 (2 jun 2026) — `DECISIONS.md` DEC-010:**
+> - **C4 CONSTRUIDO** (`scripts/locate_fact.py`) + **`cross_generate.py`** (co-gen GPT-5.5). producto→manuales =
+>   **opción D** (autor explícito `--manuals` + sugeridor filesystem; NO `product_model`, sucio) tras el dúo tumbar
+>   mi "B-síntesis" (NO escala: 2/23 fabricantes con carpeta; `_Privado` no es dedup). Contratos refuse/admit DIFERIDOS.
+> - **Piloto autorado: `cat001` (PEARL multi-doc), `cat005` (Fidegas CS4, gas, dominio nuevo), `cat007` (FAAST
+>   LT-200, eje ES/EN)** por el proceso C4→co-gen→doble-lectura→poda→dúo C3→regla C→`gold_store.upsert` (**22 golds, 0
+>   errores**). El test ciego de C4 (hp017/05/12) cerró el "test ciego del localizador" pendiente + cazó 6 bugs (4 de
+>   C4 + 2 de autoría), todos arreglados.
+> - **1er DIAGNÓSTICO end-to-end sobre el ruler crecido** (HyDE-off, chunks_v2, `atomic_scorer` mecánico): **3 PARCIAL,
+>   0 alucinación**. **cat005 5/6 y cat007 4/5 = fuertes** (bot maneja dominio nuevo + retrieval cross-variante);
+>   **cat001 2/7 = SÍNTESIS INCOMPLETA real** (omite los hechos cross-doc duros — conflicto 40-CLIP, 0,75 A, 99+99
+>   CLIP, 255/8192 — y deriva a detalle tangencial; retrieval ✓, 0 alucinación). **El cuello multi-doc = completitud
+>   de SÍNTESIS (consistente con DEC-005/006), no retrieval ni alucinación.** El ruler crecido DISCRIMINA = instrumento válido.
+> - **Caveat (DEC-006):** corrido sin `--prose-llm` → PARCIAL = SUELO (matcher-prosa frágil under-cuenta; la
+>   incompletitud de cat001 es real, verificada a mano).
+> - **Próximo (s40):** crecer el catálogo (Tier B gap-diagnóstico 12/14/15 + conductas 16/18/19 con contratos
+>   refuse/admit) + endurecer `atomic_scorer --prose-llm` para deltas finos. Rama `eval/s38-night-catalog`; **PR a
+>   `main` cuando cierre el lote** (lleva C4 + cross_generate + #35 + los golds del catálogo).
 
 ---
 
