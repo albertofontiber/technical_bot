@@ -155,8 +155,15 @@
 > - **Gaps**: el eje no-fabricación es estructuralmente más frágil que el factual (sin ancla de valor) → señal
 >   CATEGÓRICA, spot-check humano; **FP en hp006** por hecho `ausente-probado` mal formulado (mezcla ausente+contexto
 >   cubierto) → deuda re-formular + lección de autoría; recall/especificidad del check NO validados sobre golds de
->   conducta reales (n=0). **Próximo (s42)**: modo-ausencia en `locate_fact` + alinear marca con `_ECOSYSTEM_OF` +
->   autorar #16/#18/#19 (ejercita y valida el eje) + re-formular el hecho ausente-probado de hp006.
+>   conducta reales (n=0).
+> - **Próximo (s42) — REORIENTADO por el dúo (`DECISIONS.md` DEC-013); SUPERSEDE el backlog "autoría de conductas":**
+>   (1) **cerrar `TECH_DEBT #37`** (eje factual NO-determinista: temp=0 + multi-run/votación) = prerrequisito para un
+>   baseline LEGIBLE (el "7 FALLO" es un draw de una variable ruidosa); (2) **diagnóstico ESTABLE del bulto** de FALLO
+>   (contradicción hp005/11/13 + completitud-0/N hp008/09 + síntesis cat001 ≈6-7 golds, vs el eje no-fabricación que
+>   toca 1 = hp006); (3) **tirar del lever de mayor señal sobre el bulto** (concreto TBD tras el diagnóstico, NO
+>   presupuesto), medido vs el baseline estabilizado (INTERLEAVE: mejora de PRODUCTO). Smoke barato del eje no-fabricación
+>   (#19 clarify + 1 #18 refuse disjunto) intercalable, NO bloqueante. **DESCARTADO**: modo-ausencia ambicioso + #16
+>   admit (grep=0 ≠ ausencia conceptual; trampa OCR por-página D4) — diferidos. Re-formular hp006 se mantiene.
 
 ---
 
