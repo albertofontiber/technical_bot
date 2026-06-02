@@ -174,6 +174,18 @@ y es redundante: grep + render±1 + match ya cazan hp017/18). (d) **multi-págin
 `needs_human`, Alberto s38)**: si el hecho aparece en varias páginas → registrar TODAS, anclar la de
 más contexto; `needs_human` solo si difiere el PREDICADO real, no por multiplicidad.
 
+**IMPLEMENTADO (s39, `scripts/locate_fact.py` = C4; `scripts/cross_generate.py` = co-gen GPT-5.5; DEC-010).**
+Lecciones durables del build + del test ciego (hp017/05/12, que cerró el "test ciego del localizador" pendiente):
+- **producto→manuales NO se deriva de `chunks_v2.product_model`** (estructuralmente sucio, clase del bug AC-220:
+  doc-codes 'MPDT-280', separadores 'AM2020 y AFP1010', familia dispersa en ≥5 etiquetas → se pierde manuales del
+  gold; verificado en hp012). C4 toma el SET de manuales **explícito del autor** + un **sugeridor dirigido por
+  FILESYSTEM** (las carpetas `Manuales_*`, incluido `_Privado` que NO es dedup: 288 docs únicos). chunks_v2 SOLO
+  para corpus-existence. (La alternativa "grep por carpeta del fabricante" NO escala: 2/23 fabricantes con carpeta.)
+- **Doble-señal verificada en ambos sentidos**: cazó un misread de dígito Claude-200dpi '3240' vs GPT '3244' →
+  resuelto '3244' a 400 dpi (el cross-model tenía razón). Para dígitos de tabla pequeños: re-render ≥350 dpi.
+- **Anclas numéricas con frontera** (no substring crudo: '792'∈'13792'); **valor de prosa = substring contiguo**,
+  no token-overlap (que explotó a 21 candidatas). El predicado se confirma por **valor + término de contexto co-ocurrentes**.
+
 **Auditar también la PREGUNTA**, no solo la respuesta (premisa, sesgo, testabilidad).
 Permitir **DESCARTAR** una pregunta mala (como hp016 en s27), no forzar su arreglo.
 

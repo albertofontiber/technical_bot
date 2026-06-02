@@ -80,6 +80,18 @@
 > **dirección aprobada (DEC-008): crecer el ruler = catálogo diagnóstico sintético 3-bandas** (`docs/CATALOG_PLAN.md`),
 > con C4 de localización robusta (DEC-009). Detalle: `DECISIONS.md` DEC-007/008/009 + `PLAN` bloque s38.
 >
+> **Actualización s39 (2 jun 2026 — construido C4 + piloto del catálogo + 1er diagnóstico, NO toca producción):**
+> **eval-infra.** Construido **C4** (`scripts/locate_fact.py`: localizador robusto = grep multi-manual sobre PDFs
+> FUENTE + render±1 + doble-señal AND; chunks_v2 solo para corpus-existence = no circular) + **`cross_generate.py`**
+> (co-gen GPT-5.5). producto→manuales = **opción D** (autor explícito + sugeridor filesystem; NO `product_model`,
+> estructuralmente sucio) tras el dúo tumbar la alternativa "por carpeta del fabricante" (no escala: 2/23 fabricantes
+> con carpeta). **Ruler crecido 19→22 golds** (piloto `cat001` PEARL multi-doc / `cat005` Fidegas CS4 gas dominio-nuevo
+> / `cat007` FAAST LT-200 eje ES-EN, autorados por C4→co-gen→doble-lectura→dúo C3; 0 errores de esquema). **1er
+> diagnóstico end-to-end sobre el ruler crecido:** 3 PARCIAL, **0 alucinación**; el cuello en multi-doc es
+> **completitud de SÍNTESIS** (cat001 2/7: recupera + no alucina, pero omite hechos cross-doc duros), no retrieval —
+> consistente con DEC-005/006; spec single-doc fuerte (cat005 5/6, cat007 4/5). El ruler crecido **discrimina**.
+> Detalle: `DECISIONS.md` DEC-010 + `PLAN` bloque s39 + `RULER_DESIGN §2`.
+>
 > El bot sirve desde el **corpus re-ingestado `chunks_v2`** (SWAP hecho en Railway
 > vía `CHUNKS_TABLE=chunks_v2`). Cambios respecto a lo que describe el resto de
 > este doc (que documenta el pipeline histórico con el corpus viejo `chunks`):

@@ -1,0 +1,315 @@
+Scorer atómico · 19 golds verificados con hechos atómicos · ejes: completitud + conducta
+Respuestas del bot: bot_vs_gold_results_k5.yaml
+
+=== hp001 === esperada=answer | bot=admit | core=2/3
+  [✓] core          prose   overlap=100% valor='candado'
+       Desde la PANTALLA DE REPOSO, tocar con el dedo el icono del candado en la pantalla tacti
+  [✗] core          anchor  anchors=['2222'] missing=['2222']
+       Introducir la clave de ADMINISTRADOR por defecto 2222 -> da acceso al nivel de configura
+  [✓] core          anchor  anchors=['1111'] missing=[]
+       La clave de USUARIO por defecto es 1111, que NO da acceso a la configuracion avanzada co
+  [✗] supplementary prose   overlap=67% valor='PANTALLA DE ADMINISTRADOR'
+       Con la clave correcta se accede a la PANTALLA DE ADMINISTRADOR, dividida en 6 secciones:
+  [✗] supplementary prose   overlap=0% valor='Sectorizacion'
+       Desde el MENU PRINCIPAL se accede a: Lazos, Sectorizacion, Maniobras, Logs, Red, Ajustes
+  [?] supplementary manual  valor=null (requiere juicio humano)
+       AVISO de seguridad: el uso indebido del nivel de administrador puede provocar mal funcio
+  → PARCIAL (completitud core 2/3)  [1/2 presentes por prosa (frágil); fraseo-admite pero entrega core → puntuado como answer parcial]  [PROVISIONAL: eje factual no evaluado — usa --llm]
+
+=== hp002 === esperada=answer | bot=answer | core=1/5
+  [✓] core          prose   overlap=100% valor='fallo flujo de aire'
+       El ASD 535 no da una "alarma de flujo bajo" como tal, sino un aviso "fallo flujo de aire
+  [✗] core          anchor  anchors=['80'] missing=['80']
+       Causa mas probable de flujo BAJO (por debajo del 80 % / valor < 100 %): obstruccion del 
+  [✗] core          anchor  anchors=['300'] missing=['300']
+       El aviso «fallo flujo de aire» se dispara una vez transcurrido el tiempo de retardo de 3
+  [✗] core          anchor  anchors=['7.6.1'] missing=['7.6.1']
+       Diagnostico: leer el valor actual del flujo de aire (cap 7.6.1) -> posicion de conmutado
+  [✗] core          prose   overlap=0% valor='reset inicial'
+       Tras solucionar la causa (limpiar conducto/filtro, reparar), ejecutar un nuevo RESET INI
+  [✗] supplementary prose   overlap=0% valor='turbulencias'
+       En entornos con grandes turbulencias de aire u oscilaciones termicas puede ser necesario
+  → PARCIAL (completitud core 1/5)  [1/1 presentes por prosa (frágil)]  [PROVISIONAL: eje factual no evaluado — usa --llm]
+
+=== hp003 === esperada=answer | bot=answer | core=2/4
+  [✗] core          anchor  anchors=['12'] missing=['12']
+       Dos baterias de 12V conectadas en SERIE (suman los 24V del sistema), capacidad 7A/h
+  [✓] core          prose   overlap=100% valor='cable puente'
+       Cable puente: une el polo POSITIVO de una bateria con el NEGATIVO de la otra
+  [✗] core          prose   overlap=67% valor='rojo y negro'
+       Los cables que salen del circuito (ROJO y NEGRO) se conectan al positivo y negativo de l
+  [✓] core          prose   overlap=100% valor='primero la red'
+       Orden de conexion por seguridad: PRIMERO la red (230VAC, magnetotermico bipolar), DESPUE
+  [✓] supplementary anchor  anchors=['24'] missing=[]
+       Antes de alimentar, comprobar con voltimetro que las baterias tienen una tension superio
+  [✗] supplementary prose   overlap=0% valor='parte inferior'
+       Las baterias se colocan en la parte inferior de la caja, en vertical
+  [✓] supplementary prose   overlap=100% valor='magnetotermico'
+       Desconectar el magnetotermico bipolar exterior antes de manipular la central
+  → PARCIAL (completitud core 2/4)  [2/2 presentes por prosa (frágil)]  [PROVISIONAL: eje factual no evaluado — usa --llm]
+
+=== hp004 === esperada=clarify | bot=answer | core=3/3
+  [✓] core          anchor  anchors=['220', '24'] missing=[]
+       El DGD-600 existe en DOS versiones de alimentacion (24V y 220V) con especificaciones ele
+  [✓] core          anchor  anchors=['22', '38'] missing=[]
+       Version 24V: tension de funcionamiento de 22V a 38V; consumo en reposo 45 mA (consumo en
+  [✓] core          anchor  anchors=['180', '240'] missing=[]
+       Version 220V: tension de funcionamiento de 180V a 240V; consumo en reposo 70 mA (consumo
+  → REVISAR (conducta bot=answer != esperada=clarify)  [PROVISIONAL: eje factual no evaluado — usa --llm]
+
+=== hp005 === esperada=answer | bot=answer | core=2/4
+  [✓] core          prose   overlap=100% valor='Matriz de control'
+       La coincidencia se configura creando una instruccion en la MATRIZ DE CONTROL con la defi
+  [✓] core          prose   overlap=100% valor='COINCIDENCIA 2 EQUIPOS'
+       En el menu "Indique tipo de coincidencia" seleccionar la opcion 2: COINCIDENCIA 2 EQUIPO
+  [✗] core          prose   overlap=75% valor='misma zona o subzona'
+       Para que se produzca la coincidencia, los equipos en alarma deben estar en la misma zona
+  [✗] core          prose   overlap=50% valor='CIRCUITO SIRENA'
+       Definir la SALIDA: "Salidas activadas" -> "CIRCUITO SIRENA/RELE" (un circuito de sirena 
+  [✓] supplementary anchor  anchors=['7.1.4'] missing=[]
+       Requisito EN54-2 7.1.4: NO incluir pulsadores manuales (PUL) en el grupo de coincidencia
+  [✗] supplementary prose   overlap=50% valor='Nivel 2 = 2'
+       Niveles de coincidencia para EQUIPOS: Nivel 1 = 1 y Nivel 2 = 2 son FIJOS (no se configu
+  [✓] supplementary anchor  anchors=['3000', 'id3000'] missing=[]
+       Con el programa PK-ID3000 (Windows), el equivalente se hace en la ventana 'Editar Matriz
+  → PARCIAL (completitud core 2/4)  [2/2 presentes por prosa (frágil)]  [PROVISIONAL: eje factual no evaluado — usa --llm]
+
+=== hp006 === esperada=answer | bot=answer | core=2/3
+  [✓] core          prose   overlap=100% valor='Fallo de Tierra'
+       La fuente MPS-400 de la AFP-400 dispone de deteccion de fallo de tierra: LED dedicado 'F
+  [✓] core          prose   overlap=100% valor='Tierra'
+       En el lazo de comunicaciones (SLC) 'Tierra' es una de las condiciones de averia que la c
+  [✗] core          prose   overlap=0% valor='ISO-X'
+       Para acotar un fallo en el lazo se usan los modulos aisladores ISO-X, que aislan la rama
+  [✗] supplementary prose   overlap=0% valor='TB1-3'
+       Es imprescindible conectar el terminal de toma de tierra (MPS-400 TB1-3) a una toma de t
+  [✗] supplementary prose   overlap=0% valor='SW2/SW3'
+       En red, la deteccion de fallo de tierra por canal A/B se habilita o inhabilita con los c
+  [?] core          manual  valor=null (requiere juicio humano)
+       Los manuales disponibles NO incluyen un procedimiento paso a paso para localizar el punt
+  → PARCIAL (completitud core 2/3)  [1 core SIN puntuar (manual); 2/2 presentes por prosa (frágil)]  [PROVISIONAL: eje factual no evaluado — usa --llm]
+
+=== hp007 === esperada=answer | bot=answer | core=4/7
+  [✗] core          prose   overlap=67% valor='cada 3 meses'
+       Fuente de alimentación y batería: revisión cada 3 meses (trimestral)
+  [✗] core          prose   overlap=33% valor='cada 6 meses'
+       Comprobar la red de tubería: cada 6 meses (semestral)
+  [✓] core          prose   overlap=100% valor='una vez al año'
+       Prueba de humos para integridad de tuberías: anual
+  [✓] core          prose   overlap=100% valor='una vez al año'
+       Comprobar el flujo de las tuberías: anual
+  [✓] core          prose   overlap=100% valor='una vez al año'
+       Limpiar los puntos de muestreo: anual
+  [✓] core          prose   overlap=100% valor='una vez al año'
+       Limpiar con agua la red de tubería: anual
+  [✗] core          prose   overlap=67% valor='cada 2 años'
+       Sustitución del filtro: cada 2 años (bianual)
+  [?] supplementary manual  valor=null (requiere juicio humano)
+       Antes del mantenimiento: detector deshabilitado/en espera NO emite avisos de fuego; info
+  → PARCIAL (completitud core 4/7)  [4/4 presentes por prosa (frágil)]  [PROVISIONAL: eje factual no evaluado — usa --llm]
+
+=== hp008 === esperada=answer | bot=answer | core=0/4
+  [✗] core          anchor  anchors=['-551', 'cpx-551e'] missing=['-551', 'cpx-551e']
+       Sensores ionicos de humo compatibles: CPX-551E (ION) y CPX-751E (ION, bajo perfil)
+  [✗] core          anchor  anchors=['-751', 'sdx-751'] missing=['sdx-751']
+       Sensores opticos de humo compatibles: SDX551E, SDX-751 y SDX-751EM (OPT)
+  [✗] core          anchor  anchors=['-751', 'irx-751ctem'] missing=['irx-751ctem']
+       Sensores multicriterio compatibles: IRX-751CTEM (SMART 4) e IRX-751TEM (SMART 3)
+  [✗] core          anchor  anchors=['-751', 'sdx-751'] missing=['sdx-751']
+       Sensor multicriterio optico-termico SDX-751-TEM (OptiPlex)
+  [✗] supplementary anchor  anchors=['-751', 'hpx-751e'] missing=['hpx-751e']
+       Sensor de humo para ambientes hostiles HPX-751E (HARSH)
+  [✗] supplementary anchor  anchors=['-751', 'idx-751'] missing=['idx-751']
+       Sensor de humo para atmosferas peligrosas IDX-751 (HAZARD, seguridad intrinseca con barr
+  [✓] supplementary anchor  anchors=['-751', 'lpx-751'] missing=[]
+       Sensores de humo por aspiracion/laser (VIEW): LPX-751 y FSL-751E
+  [✗] supplementary anchor  anchors=['500', 'lpb500'] missing=['500', 'lpb500']
+       Detectores de humo por rayo (haz proyectado): LPB500 (maximo 4 por lazo) y LPB-700/-700T
+  [✗] supplementary prose   overlap=0% valor='CLIP'
+       La comunicacion con los equipos del lazo usa el protocolo CLIP de Notifier
+  [✓] supplementary anchor  anchors=['99'] missing=[]
+       Capacidad por lazo analogico: hasta 198 equipos = 99 sensores + 99 modulos
+  → FALLO (completitud core 0/4)  [PROVISIONAL: eje factual no evaluado — usa --llm]
+
+=== hp009 === esperada=answer | bot=answer | core=0/2
+  [✗] core          prose   overlap=0% valor='Retorno'
+       El lazo analogico direccionable de la ZXe (ZX2e/ZX5e) se cablea como BUCLE CERRADO: sali
+  [✗] core          prose   overlap=0% valor='aisladores internos'
+       Cada lazo dispone de aisladores de cortocircuito INTERNOS en el panel; el cableado del l
+  [✗] supplementary anchor  anchors=['32'] missing=['32']
+       Maximo 32 sensores/pulsadores entre aisladores (EN54-2 12.5.2); se recomienda un aislado
+  [?] core          manual  valor=null (requiere juicio humano)
+       Ningun manual de la ZXe especifica un valor de resistencia de fin de linea para el LAZO 
+  → FALLO (completitud core 0/2)  [1 core SIN puntuar (manual)]  [PROVISIONAL: eje factual no evaluado — usa --llm]
+
+=== hp010 === esperada=answer | bot=answer | core=1/3
+  [✓] core          prose   overlap=100% valor='Autobusqueda'
+       Para anadir un equipo nuevo al lazo tras la puesta en marcha se ejecuta una AUTOBUSQUEDA
+  [✗] core          prose   overlap=0% valor='Nivel 3'
+       Procedimiento: acceder al Nivel 3 (clave de acceso) y desbloquear la memoria; en el menu
+  [✗] core          prose   overlap=25% valor='nuevos, eliminados y modificados'
+       Al finalizar, la central muestra un RESUMEN con los equipos nuevos, eliminados y modific
+  [✗] supplementary prose   overlap=50% valor='dos minutos'
+       Si se ha realizado un cambio de protocolo, ESPERAR dos minutos antes de la autobusqueda 
+  [✓] supplementary prose   overlap=100% valor='EQUIPO NUEVO'
+       Si la central indica el evento "EQUIPO NUEVO" (equipo detectado en el lazo pero no acept
+  [✗] supplementary prose   overlap=50% valor='Editar Equipos'
+       Tras la autobusqueda se pueden editar las propiedades del nuevo equipo (texto descriptiv
+  → PARCIAL (completitud core 1/3)  [1/1 presentes por prosa (frágil)]  [PROVISIONAL: eje factual no evaluado — usa --llm]
+
+=== hp011 === esperada=answer | bot=answer | core=0/4
+  [✗] core          prose   overlap=0% valor='ABORT'
+       Entrada ABORT (paro de emergencia): por defecto enclavada (latched); una vez activada re
+  [✗] core          prose   overlap=50% valor='r.1'
+       Parametro r.1 "Rearme inhibido tras extincion": "--"=inhibido hasta finalizar la extinci
+  [✗] core          anchor  anchors=['05', '295'] missing=['05', '295']
+       Parametro t.A "Duracion de la descarga" (soak time): variable de 05 a 295 seg en pasos d
+  [✗] core          prose   overlap=0% valor='enclavadas'
+       Averias enclavadas: por defecto todas las averias son enclavadas y requieren rearme manu
+  [✗] supplementary prose   overlap=0% valor='flujo'
+       Entrada Flow Press (senal de flujo): su activacion implica un rearme manual de la centra
+  [?] supplementary manual  valor=null (requiere juicio humano)
+       Procedimiento de rearme: desde nivel de acceso 2 (llave de desbloqueo), pulsar la tecla 
+  → FALLO (completitud core 0/4)  [PROVISIONAL: eje factual no evaluado — usa --llm]
+
+=== hp012 === esperada=answer-con-conflicto | bot=answer | core=2/4
+  [✓] core          anchor  anchors=['10'] missing=[]
+       La AM2020 soporta hasta 10 lazos SLC (consistente en la doc de Espana y la de US)
+  [✓] core          anchor  anchors=['+99', '99'] missing=[]
+       Cada lazo SLC admite hasta 99 detectores analogicos + 99 modulos monitores/de control = 
+  [✗] core          anchor  anchors=['396'] missing=['396']
+       AFP1010 segun la doc de Notifier ESPANA (MFDT280/MPDT280): maximo 2 tarjetas LIB-200 = 2
+  [✗] core          anchor  anchors=['792'] missing=['792']
+       AFP1010 segun la doc de Notifier US (PN 15088SP, 1998): maximo 4 LIBs (4 LIB-200 o 2 LIB
+  [✗] supplementary anchor  anchors=['1980'] missing=['1980']
+       El AM2020 alcanza un total de 10 x 198 = 1980 dispositivos direccionables en el sistema
+  [✗] supplementary prose   overlap=0% valor='Estilo 4'
+       El cableado del lazo SLC sigue los requisitos NFPA Estilo 4 o Estilo 6 (la doc US anade 
+  → PARCIAL (completitud core 2/4)  [conducta answer-con-conflicto: surfaceo medido por completitud]  [PROVISIONAL: eje factual no evaluado — usa --llm]
+
+=== hp013 === esperada=answer | bot=admit | core=0/2
+  [✗] core          prose   overlap=0% valor='EEPROM'
+       La configuracion especifica del sistema se almacena en una EEPROM (memoria NO volatil); 
+  [✗] core          prose   overlap=0% valor='PWR-R'
+       El ADW 535 se alimenta externamente (borne PWR +9 a +30 V-CC) con una entrada de aliment
+  [?] core          manual  valor=null (requiere juicio humano)
+       El manual NO documenta un procedimiento de sustitucion de la bateria de litio del reloj;
+  [✗] supplementary prose   overlap=0% valor='reloj RTC'
+       Solo el reloj RTC (fecha/hora) depende de la bateria de litio ('Fallo bateria de litio /
+  [✗] supplementary prose   overlap=0% valor='reset inicial'
+       Tras sustituir el LMB 35 es obligatorio un nuevo reset inicial (cap. 7.3.5) y una verifi
+  → FALLO (admite con el corpus cubriendo)  [1 core SIN puntuar (manual)]  [PROVISIONAL: eje factual no evaluado — usa --llm]
+
+=== hp014 === esperada=answer | bot=admit | core=2/4
+  [✓] core          anchor  anchors=['25'] missing=[]
+       Los aisladores se instalan en CADA lazo analogico para separar sensores y pulsadores; ma
+  [✓] core          prose   overlap=100% valor='continuidad'
+       Las comprobaciones de continuidad del lazo deben realizarse ANTES de conectar los aislad
+  [✗] core          prose   overlap=75% valor='terminales 2 y 4'
+       Para las pruebas, desconectar temporalmente los aisladores cortocircuitando los terminal
+  [✗] core          anchor  anchors=['35'] missing=['35']
+       La pantalla del cable debe ser continua y conectarse a tierra SOLO en el panel; la resis
+  [✗] supplementary prose   overlap=33% valor='unidades de inicio'
+       Para asegurar que los aisladores se cierran al alimentar, maximo 25 unidades de inicio (
+  [✗] supplementary anchor  anchors=['0,29'] missing=['0,29']
+       Resistencia anadida al lazo por cada aislador: FET B524IEFT = 0,29 ohm (Rf = Nf x 0,29);
+  [?] supplementary manual  valor=null (requiere juicio humano)
+       El manual NO incluye el esquema de conexion terminal-a-terminal del modulo aislador: rem
+  → PARCIAL (completitud core 2/4)  [1/2 presentes por prosa (frágil); fraseo-admite pero entrega core → puntuado como answer parcial]  [PROVISIONAL: eje factual no evaluado — usa --llm]
+
+=== hp015 === esperada=answer | bot=admit | core=2/3
+  [✓] core          prose   overlap=100% valor='convencional'
+       La CCD-103 es una central CONVENCIONAL (3 zonas de deteccion + 1 de extincion); no direc
+  [✓] core          prose   overlap=83% valor='2 veces la tecla de zona'
+       La desconexion se hace por ZONA completa: con la llave en posicion ON, pulsar 2 veces la
+  [✗] core          anchor  anchors=['32'] missing=['32']
+       Cada zona admite como maximo 32 detectores/pulsadores; al desconectar la zona se desacti
+  [✗] supplementary prose   overlap=0% valor='4K7'
+       El manual no contempla desactivar un detector individual desde la central; cualquier act
+  [✓] supplementary prose   overlap=100% valor='modo desconexion'
+       En modo desconexion la central no refleja eventos de la zona anulada -> conviene limitar
+  → PARCIAL (completitud core 2/3)  [2/2 presentes por prosa (frágil); fraseo-admite pero entrega core → puntuado como answer parcial]  [PROVISIONAL: eje factual no evaluado — usa --llm]
+
+=== hp017 === esperada=answer | bot=admit | core=0/4
+  [✗] core          prose   overlap=0% valor='causa-efecto'
+       El retardo de las salidas se programa mediante PROGRAMACION CAUSA-EFECTO (reglas) en el 
+  [✗] core          prose   overlap=33% valor='instruccion de entrada'
+       Una regla consta de una INSTRUCCION DE ENTRADA (condicion, p.ej. alarma en zona/lazo) y 
+  [✗] core          prose   overlap=50% valor='Editar Configuracion'
+       Acceder a la pantalla "Causa y Efecto" desde el menu "Editar Configuracion"; borrar la R
+  [✗] core          prose   overlap=50% valor='seis tipos de retardo'
+       Asignar a la regla uno de los SEIS tipos de retardo de salida (seccion A5.3 "Tipos de re
+  [✗] supplementary anchor  anchors=['240'] missing=['240']
+       A nivel de equipo/zona existe el parametro "Retardo de alarma" en la programacion del la
+  [✗] supplementary anchor  anchors=['512'] missing=['512']
+       Maximo 512 reglas; en la columna "Lazo" un "0" significa TODOS
+  → FALLO (admite con el corpus cubriendo)  [PROVISIONAL: eje factual no evaluado — usa --llm]
+
+=== hp018 === esperada=answer | bot=answer | core=0/5
+  [✗] core          prose   overlap=0% valor='4 circuitos'
+       La ZX5e dispone de 4 circuitos/salidas de sirena de placa (la ZX2e, 2: Sirenas A y B); s
+  [✗] core          prose   overlap=0% valor='6K8'
+       Resistencia de fin de linea (RFL) = 6,8 kOhm (6K8), 0,5 W minimo, en el final de cada ci
+  [✗] core          prose   overlap=0% valor='diodo'
+       Cada sirena debe llevar un diodo integrado; el circuito se polariza en inverso en reposo
+  [✗] core          prose   overlap=20% valor='Sirenas A,B,C,D'
+       La conexion se hace en el bloque de terminales de circuitos de sirena de la placa base (
+  [✗] core          prose   overlap=50% valor='1 A'
+       Carga maxima 1 A por circuito/salida de sirena
+  [✗] supplementary anchor  anchors=['-682', '627'] missing=['-682', '627']
+       Las resistencias de fin de linea de 6k8 (1/4 W) se suministran con el panel (2 con la ZX
+  [✗] supplementary anchor  anchors=['3.4.13'] missing=['3.4.13']
+       Para el calibre de cable recomendado de los circuitos de sirena, ver la seccion 3.4.13 d
+  → FALLO (completitud core 0/5)  [PROVISIONAL: eje factual no evaluado — usa --llm]
+
+=== hp019 === esperada=answer | bot=admit | core=0/1
+  [✗] core          anchor  anchors=['+60', '-30'] missing=['-30']
+       Rango de temperatura de funcionamiento (caja del detector y conducto de aspiracion): -30
+  [✗] supplementary anchor  anchors=['+40'] missing=['+40']
+       Limite segun UL/FM para la caja del detector: maximo +40 °C
+  [✗] supplementary anchor  anchors=['+55'] missing=['+55']
+       Limite segun estandar australiano AS 1603.8 (caja y conducto): -30 a +55 °C
+  [✗] supplementary anchor  anchors=['20'] missing=['20']
+       Fluctuacion de temperatura maxima permitida durante el funcionamiento (caja y conducto):
+  [✗] supplementary anchor  anchors=['+70'] missing=['+70']
+       Temperatura de almacenamiento permitida (sin condensacion): -30 a +70 °C
+  [✗] supplementary anchor  anchors=['131390'] missing=['131390']
+       Uso en almacenes de ultracongelacion: rango restringido a -30 a 0 °C; respetar la direct
+  → FALLO (admite con el corpus cubriendo)  [PROVISIONAL: eje factual no evaluado — usa --llm]
+
+=== hp020 === esperada=answer | bot=answer | core=3/4
+  [✓] core          prose   overlap=100% valor='nivel 2 o 3'
+       Regla por nivel: en nivel de acceso 2 solo se puede cambiar el codigo de NA2; en nivel d
+  [✓] core          prose   overlap=100% valor='Cambio del codigo de acceso'
+       Ruta: icono de menu > "Ajustes", iniciar sesion como usuario de nivel de acceso 3, y sel
+  [✓] core          prose   overlap=100% valor='4 y 8'
+       El nuevo codigo de acceso debe tener entre 4 y 8 caracteres/digitos
+  [✗] core          prose   overlap=0% valor='satisfactorio'
+       Tras introducir el nuevo codigo hay que re-introducirlo para confirmar (repetir los paso
+  [✗] supplementary prose   overlap=67% valor='copia de seguridad'
+       Tras el cambio: sincronizar el programa de configuracion CLSS con la central y hacer una
+  [✓] supplementary prose   overlap=100% valor='CLSS'
+       El portal CLSS Cloud, la app CLSS y el programa de configuracion CLSS comparten el mismo
+  → PARCIAL (completitud core 3/4)  [3/3 presentes por prosa (frágil)]  [PROVISIONAL: eje factual no evaluado — usa --llm]
+
+======================================================================
+RESUMEN (PROVISIONAL — eje factual pendiente; corre con --llm):
+  hp001: core 2/3    PARCIAL (completitud core 2/3)  [1/2 presentes por prosa (frágil); fraseo-admite pero entrega core → puntuado como answer parcial]  [PROVISIONAL: eje factual no evaluado — usa --llm]
+  hp002: core 1/5    PARCIAL (completitud core 1/5)  [1/1 presentes por prosa (frágil)]  [PROVISIONAL: eje factual no evaluado — usa --llm]
+  hp003: core 2/4    PARCIAL (completitud core 2/4)  [2/2 presentes por prosa (frágil)]  [PROVISIONAL: eje factual no evaluado — usa --llm]
+  hp004: core 3/3    REVISAR (conducta bot=answer != esperada=clarify)  [PROVISIONAL: eje factual no evaluado — usa --llm]
+  hp005: core 2/4    PARCIAL (completitud core 2/4)  [2/2 presentes por prosa (frágil)]  [PROVISIONAL: eje factual no evaluado — usa --llm]
+  hp006: core 2/3    PARCIAL (completitud core 2/3)  [1 core SIN puntuar (manual); 2/2 presentes por prosa (frágil)]  [PROVISIONAL: eje factual no evaluado — usa --llm]
+  hp007: core 4/7    PARCIAL (completitud core 4/7)  [4/4 presentes por prosa (frágil)]  [PROVISIONAL: eje factual no evaluado — usa --llm]
+  hp008: core 0/4    FALLO (completitud core 0/4)  [PROVISIONAL: eje factual no evaluado — usa --llm]
+  hp009: core 0/2    FALLO (completitud core 0/2)  [1 core SIN puntuar (manual)]  [PROVISIONAL: eje factual no evaluado — usa --llm]
+  hp010: core 1/3    PARCIAL (completitud core 1/3)  [1/1 presentes por prosa (frágil)]  [PROVISIONAL: eje factual no evaluado — usa --llm]
+  hp011: core 0/4    FALLO (completitud core 0/4)  [PROVISIONAL: eje factual no evaluado — usa --llm]
+  hp012: core 2/4    PARCIAL (completitud core 2/4)  [conducta answer-con-conflicto: surfaceo medido por completitud]  [PROVISIONAL: eje factual no evaluado — usa --llm]
+  hp013: core 0/2    FALLO (admite con el corpus cubriendo)  [1 core SIN puntuar (manual)]  [PROVISIONAL: eje factual no evaluado — usa --llm]
+  hp014: core 2/4    PARCIAL (completitud core 2/4)  [1/2 presentes por prosa (frágil); fraseo-admite pero entrega core → puntuado como answer parcial]  [PROVISIONAL: eje factual no evaluado — usa --llm]
+  hp015: core 2/3    PARCIAL (completitud core 2/3)  [2/2 presentes por prosa (frágil); fraseo-admite pero entrega core → puntuado como answer parcial]  [PROVISIONAL: eje factual no evaluado — usa --llm]
+  hp017: core 0/4    FALLO (admite con el corpus cubriendo)  [PROVISIONAL: eje factual no evaluado — usa --llm]
+  hp018: core 0/5    FALLO (completitud core 0/5)  [PROVISIONAL: eje factual no evaluado — usa --llm]
+  hp019: core 0/1    FALLO (admite con el corpus cubriendo)  [PROVISIONAL: eje factual no evaluado — usa --llm]
+  hp020: core 3/4    PARCIAL (completitud core 3/4)  [3/3 presentes por prosa (frágil)]  [PROVISIONAL: eje factual no evaluado — usa --llm]

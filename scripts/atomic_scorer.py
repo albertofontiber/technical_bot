@@ -152,13 +152,75 @@ def factual_check(facts: list[dict], answer: str, client, model: str) -> tuple[l
         return [], f"parse error: {e}: {txt[:160]}"
 
 
-def score_gold(gold: dict, answer: str, contradictions=None, factual_error=None) -> dict:
+# --- Eje COMPLETITUD de PROSA por LLM (#35) — OPCIONAL (--prose-llm) ---------------
+# El matcher mecánico puntúa los hechos de PROSA (sin valor numérico) por solape de
+# palabras ≥0.8; eso INFRAVALORA al bot cuando parafrasea bien con otras palabras
+# (hp003 "rojo y negro" 67%, hp007 "cada 3 meses" 67% → marcados ausentes; TECH_DEBT #35,
+# DEC-006). Este check usa un LLM para juzgar COBERTURA por SIGNIFICADO. Solo se invoca
+# sobre hechos de prosa que el matcher mecánico marcó AUSENTES, y solo puede RESCATAR
+# (False→True), nunca bajar → asimetría conservadora. Cross-model (GPT-5.5), distinto del
+# bot-Sonnet. SIN --prose-llm el camino mecánico es BYTE-IDÉNTICO (overlay gated).
+_PROSE_SYS = (
+    "Eres un verificador de COMPLETITUD de un bot técnico de PCI (detección de incendios). "
+    "Decide si la RESPUESTA DEL BOT CUBRE un HECHO concreto del manual oficial: si el bot "
+    "comunica ese hecho, aunque sea con OTRAS palabras (paráfrasis, sinónimos, otro orden). "
+    "NO exijas las mismas palabras; juzga por el SIGNIFICADO. Cubierto = un técnico que lee "
+    "la respuesta obtiene ese hecho. NO cubierto = el hecho no está, o está cambiado. Ante "
+    "la duda, responde NO (preferimos infra-acreditar a inflar)."
+)
+_PROSE_USER = (
+    "HECHO (del manual):\n{fact}\n\n"
+    "RESPUESTA DEL BOT:\n{answer}\n\n"
+    'Devuelve SOLO JSON válido (sin markdown): {{"cubierto": true|false, "por_que": "<1 frase>"}}'
+)
+
+
+def prose_complete_check(fact_texto: str, valor, answer: str, client, model: str) -> bool | None:
+    """¿La respuesta CUBRE el hecho de prosa por SIGNIFICADO (no por solape de palabras)?
+    True/False, o None si no evaluable (→ se conserva el veredicto mecánico). Solo RESCATA."""
+    import json
+    fact = (fact_texto or "") + (f" [valor: {valor}]" if valor else "")
+    try:
+        resp = client.chat.completions.create(
+            model=model,
+            messages=[{"role": "system", "content": _PROSE_SYS},
+                      {"role": "user", "content": _PROSE_USER.format(
+                          fact=fact, answer=(answer or "")[:4000])}],
+        )
+        txt = resp.choices[0].message.content.strip()
+    except Exception:
+        return None
+    if txt.startswith("```"):
+        txt = txt.split("```")[1].lstrip("json").strip()
+    try:
+        return bool(json.loads(txt).get("cubierto"))
+    except Exception:
+        return None
+
+
+def score_gold(gold: dict, answer: str, contradictions=None, factual_error=None,
+               prose_client=None, prose_model=FACTUAL_MODEL) -> dict:
     facts = gold.get("atomic_facts") or []
     rows = []
     for f in facts:
         present, method, detail = match_fact(f.get("valor"), f.get("texto", ""), answer)
         rows.append({"tipo": f.get("tipo"), "present": present, "method": method,
                      "detail": detail, "texto": f.get("texto", "")})
+
+    # #35: overlay LLM sobre los hechos de PROSA que el matcher mecánico marcó AUSENTES.
+    # Gated por prose_client → sin --prose-llm este bloque no corre y el resultado es idéntico
+    # al mecánico. Solo RESCATA (False→True), nunca baja.
+    if prose_client is not None:
+        for f, r in zip(facts, rows):
+            if r["method"] == "prose" and r["present"] is False:
+                cov = prose_complete_check(r["texto"], f.get("valor"), answer,
+                                           prose_client, prose_model)
+                if cov is True:
+                    r["present"], r["method"] = True, "prose-llm"
+                    r["detail"] += " → LLM: CUBIERTO (paráfrasis)"
+                elif cov is False:
+                    r["detail"] += " → LLM: no cubierto"
+                # cov is None → se conserva el veredicto mecánico (False)
 
     core = [r for r in rows if r["tipo"] == "core"]
     scorable = [r for r in core if r["present"] is not None]
@@ -246,7 +308,10 @@ def main() -> int:
     ap.add_argument("--qids", default="", help="limitar a qids separados por coma")
     ap.add_argument("--llm", action="store_true",
                     help="evalúa el eje FACTUAL con GPT-5.5 (requiere OPENAI_API_KEY)")
-    ap.add_argument("--model", default=FACTUAL_MODEL, help="modelo del eje factual")
+    ap.add_argument("--prose-llm", action="store_true",
+                    help="#35: rescata hechos de PROSA ausentes por LLM (GPT-5.5) — solo "
+                         "RESCATA; sin el flag el camino mecánico es idéntico (requiere OPENAI_API_KEY)")
+    ap.add_argument("--model", default=FACTUAL_MODEL, help="modelo del eje factual/prosa")
     args = ap.parse_args()
 
     answers = {}
@@ -261,7 +326,7 @@ def main() -> int:
         golds = [g for g in golds if g.get("qid") in want]
 
     client = None
-    if args.llm:
+    if args.llm or args.prose_llm:
         import os
         from dotenv import load_dotenv
         from openai import OpenAI
@@ -272,7 +337,8 @@ def main() -> int:
             return 1
         client = OpenAI(api_key=key)
 
-    eje = "completitud + conducta + FACTUAL(LLM)" if client else "completitud + conducta"
+    eje = "completitud" + ("+prosa-LLM" if args.prose_llm else "") + " + conducta" + \
+          (" + FACTUAL(LLM)" if args.llm else "")
     print(f"Scorer atómico · {len(golds)} golds verificados con hechos atómicos · ejes: {eje}")
     print(f"Respuestas del bot: {Path(args.answers).name}\n")
 
@@ -283,10 +349,13 @@ def main() -> int:
             print(f"=== {qid} === (sin respuesta del bot en el fichero — saltado)\n")
             continue
         contradictions, factual_error = (None, None)
-        if client:
+        if args.llm:  # eje FACTUAL gated en --llm (NO en que exista client: --prose-llm
+            # también construye client pero NO debe disparar el factual — bug cazado al correr)
             contradictions, factual_error = factual_check(
                 g.get("atomic_facts") or [], answers[qid], client, args.model)
-        res = score_gold(g, answers[qid], contradictions, factual_error)
+        res = score_gold(g, answers[qid], contradictions, factual_error,
+                         prose_client=(client if args.prose_llm else None),
+                         prose_model=args.model)
         results.append(res)
         print(f"=== {qid} === esperada={res['expected']} | bot={res['bot_conducta']} "
               f"| core={res['core']}")
