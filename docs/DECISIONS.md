@@ -441,6 +441,37 @@
   golds de conducta REALES (n=0 hoy; las celdas #16/#18 de s42 lo harán). (d) varianza del factual LLM en el CONTEO de
   contradicciones (no en el categórico) — TECH_DEBT #37. (e) el **modo-ausencia de locate_fact** y la autoría de celdas
   se DIFIRIERON a s42 (Alberto acotó s41 a cerrar el árbitro).
-- **Estado**: ✅ HECHO (rama `eval/s41-nonfab-axis` → PR; eval-only, no toca prod). **Próximo (s42)**: modo-ausencia en
-  locate_fact + alinear marca con `_ECOSYSTEM_OF` + autorar #16/#18/#19 (ejercita y valida el eje con spot-check) +
-  re-formular el hecho ausente-probado de hp006. Canónico: `PLAN` bloque s41 + `RULER_DESIGN §3`.
+- **Estado**: ✅ HECHO (rama `eval/s41-nonfab-axis` → PR #29 MERGEADO `55a6b5a`; eval-only, no toca prod). **Próximo
+  (s42)**: ver DEC-013 (rumbo REORIENTADO tras el dúo).
+
+## DEC-013 — Rumbo de s42 REORIENTADO tras el dúo: #37 (determinismo) → lever del BULTO; modo-ausencia DESCARTADO
+- **Fecha**: 2 jun 2026 (sesión 41, planificación de s42). **Impacto**: ALTO (decide el rumbo; supersede el backlog
+  "autoría de conductas" heredado del cierre de s41). **A petición de Alberto**: Protocolo 3 dual sobre el plan ANTES de comprometer s42.
+- **Decisión (elegida por Alberto tras el dúo)**: s42 = **#37 → lever del bulto**, NO autoría de conductas por cobertura.
+  1. **PRIMERO cerrar `TECH_DEBT #37`** (eje factual no-determinista: temp=0 + multi-run/votación, o caracterizar la
+     varianza). Prerrequisito REAL: el re-baseline "7 FALLO" es un draw de una variable ruidosa → sin estabilizarlo,
+     ningún delta de lever es legible (medir un lever contra esto repetiría el error "medir contra gold roto", s30).
+  2. **Diagnóstico ESTABLE del bulto** de FALLO: contradicción (hp005/11/13, eje factual) + completitud-0/N (hp008/09)
+     + síntesis (cat001). El bulto ≈6-7 golds; el eje no-fabricación de s41 toca **1** (hp006).
+  3. **Tirar del lever de mayor señal sobre el bulto** — concreto **TBD tras el diagnóstico estable** (NO presuponer
+     "generación-grounding" ni "anti-fabricación"), medido vs el baseline estabilizado. INTERLEAVE (RULER_DESIGN §4):
+     demostrar mejora de PRODUCTO, lo que no se hace desde s34.
+  - **Smoke barato del eje no-fabricación** (#19 clarify + 1 #18 refuse-inference, par disjunto verificado contra
+    `_ECOSYSTEM_OF`: Notifier↔Morley/Detnov) = higiene del instrumento mergeado sin ejercer (hp006 tiene FP);
+    **intercalable, NO bloqueante** — el lever del bulto se mide con factual+completitud, NO usa el eje no-fabricación.
+- **DESCARTADO para s42** (el dúo lo desmontó): **modo-ausencia ambicioso + #16 admit**. grep=0 ≠ ausencia CONCEPTUAL
+  (vocabulary mismatch ES/EN); `is_scan` es por-DOC (`scan_ratio>=0.6`) cuando la trampa OCR es por-PÁGINA (clase D4,
+  costó hp009/18) → afirmar `absence_supported` es frágil + el set de manuales no es cerrado. "Validar el eje con
+  n=2-3" = over-claim (es ejercitar, no validar: recall/especificidad necesita n≥5/9). Diferidos hasta un modo-ausencia por-página, si vale la pena.
+- **Alternativas**: (A) backlog literal (modo-ausencia+autoría) — desaconsejado; (B) lever YA sin estabilizar #37 —
+  repite "medir contra gold roto"; (C/C') autorar-para-validar-el-eje — el "validar" es ilusión con n pequeño, y el
+  lever del bulto no necesita el eje no-fabricación → el smoke se degrada a higiene intercalable.
+- **Revisión adversarial (Protocolo 3, dual)**: cross-model **7/7** + sub-agente **7/7**, 0 FP (`adversarial_review_log`
+  2026-06-02T21:35/21:40). **LOAD-BEARING (sub-agente)**: mi plan conflactó CONTRADICCIÓN (hp005/11/13, eje factual)
+  con FABRICACIÓN (eje no-fab, toca hp006 n=1) → el "lever anti-fabricación" presupuesto atacaba **1 gold** = sesgo de
+  inercia del backlog. **Regla C**: verifiqué la conflación en el baseline-log + el no-determinismo de #37 + `is_scan`
+  por-doc + los pares disjuntos; **matiz mío sobre el sub-agente** (no es FP): su "lever de generación-grounding" es
+  HIPÓTESIS (la causa del bulto —retrieval vs generación vs síntesis— no está re-verificada), no certeza → el lever concreto se decide con el bulto estable.
+- **Gaps**: el lever concreto NO está decidido (a propósito); #37 puede revelar que parte del "bulto" era ruido (menos
+  FALLO reales de los contados); el smoke del eje no-fab con n pequeño es señal categórica, no validación.
+- **Estado**: ✅ rumbo fijado. **s42 (sesión dedicada) arranca por `TECH_DEBT #37`.** Canónico: `PLAN` bloque s41 "Próximo (s42)".
