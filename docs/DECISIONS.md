@@ -286,3 +286,28 @@
   los hallazgos pasaron a contratos-de-implementación (resueltos en B2 supervisado), no fallos estructurales.
 - **Estado**: 🟢 APROBADO; plan maestro v4 CERRADO (`docs/CATALOG_PLAN.md`). **Próximo**: Fase A esta noche (#35);
   B/C mañana supervisado.
+
+## DEC-009 — Refinamientos de ejecución de DEC-008 (s38 supervisada): C4 robusto + estructura de docs
+- **Fecha**: 2 jun 2026 (sesión 38, mañana supervisada — tras Fase A HECHA y B1 FIRMADO). **Impacto**: MEDIO
+  (ejecución de DEC-008; afecta la calidad del ruler, que Alberto declaró clave).
+- **Decisiones**:
+  1. **C4 (cross-check de localización) = localización ROBUSTA, NO budget-bounded** (decisión Alberto: "prefiero
+     una solución robusta antes que mala y barata, ya que definir buenos golds es clave"). La **ruta semántica
+     per-manual se ELIMINA** (el dúo: rankear `chunks_v2`/Voyage = el sustrato del bot → circular, viola
+     `RULER_DESIGN §0`). C4 final = grep multi-manual + mapeo producto→manuales + **render±1** + **doble-señal AND**
+     (lectura cross-model del render ∧ match determinista del valor en el texto de esa página); scan o discrepancia
+     → `needs_human`, no fabricar. **Diseño durable = `RULER_DESIGN §2`** (a construir en B2/s39).
+  2. **Estructura de docs (single-source; aplica DEC-002)**: NO fusionar `RULER_DESIGN` y `CATALOG_PLAN`. Cada uno
+     un hogar: `RULER_DESIGN` = diseño DURABLE del ruler (localización §2, conductas §1) + record; `CATALOG_PLAN`
+     = ejecución TRANSITORIA de UN esfuerzo (fases, rejilla, contrato del run) que **referencia §2, no lo duplica**,
+     y se **ARCHIVA** al cerrar (lecciones durables → RULER_DESIGN/DECISIONS); `PLAN` = roadmap+estado.
+- **Alternativas descartadas**: (a) localización barata budget-bounded (render top-k acotado) → rechazada por
+  Alberto (golds = clave > coste); (b) fusionar RULER_DESIGN+CATALOG_PLAN en un doc → no (mezcla diseño durable con
+  ejecución transitoria); (c) C4 folded en CATALOG_PLAN como hogar del diseño (vuelta previa) → REVERTIDO (el diseño
+  durable va en RULER_DESIGN §2; CATALOG_PLAN solo lo del run).
+- **Revisión adversarial**: dúo sobre el diseño C4 (`adversarial_review_log` ts 12:18, 8/8, ruta-b circular eliminada)
+  + sobre la estructura de docs (ts 12:56: sub-agente SÓLIDO-separar; cazó **`RULER_DESIGN §4` STALE** = la trampa
+  DEC-002 que mi "puntero F3" subestimaba, y mi fold de C4 equivocado; 1 FP parcial del cross-model "duplicación
+  material" → re-statement-citando-§2). Regla C aplicada. Mi over-claim "single-source ya satisfecho" retirado.
+- **Estado**: ✅ HECHO (diseño + reconciliación). Commit `9db0263` en `eval/s38-night-catalog` (rebasada sobre
+  `main`=#25, 243 tests verdes). C4 se CONSTRUYE en B2/s39.

@@ -123,9 +123,11 @@ v1 chocaban con el código; el review verificó 5 fallos, 2 anclados en código)
    50 "excluidos" son mayormente risky-acronym/junk, NO productos. **No re-implementar el split**
    (mi v2 atacaba un fantasma). Residual real: pure-alpha (`ZXAE/ZXEE`) ya declarado como gap.
    Modelo→fabricante real (relabeling OEM Securiton/Honeywell — hp002/011/013) vía el catálogo.
-3. **Recall BUDGET-BOUNDED** (el "render barato" era el cuello MÁS caro): red ancha barata
-   (grep ES+EN) → **triage barato** → render de un **top-K acotado** → residual `needs_human`
-   declarado más allá. "Domina al RAG **dentro del presupuesto**", no ilimitada.
+3. **Recall ROBUSTO, NO budget-bounded** (decisión Alberto s38: **definir bien los golds manda
+   sobre el coste** — es autoría ONE-TIME, no per-query): grep barato ES+EN sobre **TODOS** los
+   manuales del producto → **render de TODAS las candidatas** (sin top-K acotado) → solo el
+   residual IRREDUCIBLE (diagrama/scan ilegible) → `needs_human`. Robusto > barato (un gold mal
+   localizado envenena el árbitro entero).
 4. **Grep sobre texto corrupto**: la fiabilidad del grep es **POR-PÁGINA, no por-doc** (un PDF
    nativo puede tener glifos corruptos —7-seg— sin ser escaneo). **REUSAR `diagnose_corpus.py`**
    (ya clasifica escaneado/imagen-heavy/texto-limpio/**mixto**); los manuales objetivo son
@@ -160,6 +162,17 @@ digital/scan en `_provenance.localizacion`.
 
 **Dos ejes de verificación separados**: el cross-model valida **LEER**; la búsqueda
 exhaustiva valida **ENCONTRAR**. El primero no cubre al segundo.
+
+**Cross-check de UBICACIÓN (s38, del review adversarial de C4 — refuerza ENCONTRAR + LEER):**
+(a) **confirmación por CONTENIDO sobre el PREDICADO COMPLETO** (el hecho entero: valor + parámetro +
+contexto/tabla — un número que aparece en otro contexto NO cuenta); (b) **render ± 1 vecina**
+comparando el CONTEXTO del hecho (caza el off-by-one de hp005/17/18); (c) **lectura de valores CORE
+con DOBLE SEÑAL (AND)**: cross-model del render **Y** match determinista del valor en el texto
+extraído; en scan (texto corrupto) el match FALLA → `needs_human` (no fingir). **La ruta de ranking
+SEMÁNTICO sobre chunks_v2 se DESCARTÓ por CIRCULAR** (compartiría el sustrato Voyage del bot → §0;
+y es redundante: grep + render±1 + match ya cazan hp017/18). (d) **multi-página (minimizar
+`needs_human`, Alberto s38)**: si el hecho aparece en varias páginas → registrar TODAS, anclar la de
+más contexto; `needs_human` solo si difiere el PREDICADO real, no por multiplicidad.
 
 **Auditar también la PREGUNTA**, no solo la respuesta (premisa, sesgo, testabilidad).
 Permitir **DESCARTAR** una pregunta mala (como hp016 en s27), no forzar su arreglo.
@@ -241,14 +254,17 @@ vigente, por cobertura-diagnóstica (`DECISIONS.md` DEC-003; método y nivel ah�
   RFL) se CONFIRMÓ al píxel contra MIE-MI-530 (f19 §3.4.3.1 Fig 9/10: bucle cerrado Inicio Lazo OUT + Retorno, sin RFL) y hp009 quedó RE-ANCLADO a MI-530 (MI-310/ZXAE-ZXEE como corroboración) en esta misma sesión. *(tarea #4)*
 - **Fase 2** — scorer de hechos atómicos (3 ejes) + harness. **NÚCLEO HECHO (s32):**
   atomic_scorer (completitud mecánica + factual cross-model + conducta heurística),
-  strict_match extraído, gate factual caracterizado (5/5,4/4 n=9). Refinos pendientes
-  (completitud-prosa por LLM, re-autorar hp007 valor, conducta) → TECH_DEBT #35. *(tarea #8)*
-- **Fase 3** — crecer el ruler: estratificado (fabricante/tipo/modalidad) + sesgado a
-  coloquial + modos de fallo + **preguntas reales de Alberto (#10)**. *(tarea #5)*
+  strict_match extraído, gate factual caracterizado (5/5,4/4 n=9). **Completitud-prosa por LLM
+  (#35) HECHO en Fase A s38** (`atomic_scorer --prose-llm`, flag default-off, B1 firmado por
+  Alberto); pendientes: re-autorar hp007 valor + endurecer conducta + factual no-determinista
+  (TECH_DEBT #35/#37). *(tarea #8)*
+- **Fase 3** — crecer el ruler: estratificado (fabricante/tipo/modalidad) + sesgado a coloquial +
+  modos de fallo. **Ejecución VIGENTE = `CATALOG_PLAN.md`** (catálogo SINTÉTICO 3-bandas, DEC-008;
+  sintético porque no hay técnicos-curadores y los query_logs = ecos del propio eval). *(tarea #5)*
 - **Fase 4** — lever de generación: separar el prompt en bloques (GROUNDING_CORE +
-  BEHAVIOR_POLICY + FORMAT), eval-validado; cazar política legacy; re-evaluar change-1.
-  **Reranker ABIERTO** (s29: ningún lever de retrieval movió calidad end-to-end).
-  *(tarea #6)*
+  BEHAVIOR_POLICY + FORMAT), eval-validado; cazar política legacy. **change-1 REVERTIDO**
+  (DEC-001); **reranker DESCARTADO como lever** (DEC-005: ningún lever de retrieval movió calidad
+  end-to-end). Re-evaluar levers solo con el árbitro fiable + catálogo crecido. *(tarea #6)*
 - **Lever de extracción/chunking** — diagnosticado por los GAP DE CORPUS del ruler;
   evidence-driven. Candidato: el render+multimodal del ruler como mejor extractor del
   contenido visual que LlamaParse pierde. *(tarea #10)*
