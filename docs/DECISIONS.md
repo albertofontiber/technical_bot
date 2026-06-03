@@ -475,3 +475,91 @@
 - **Gaps**: el lever concreto NO está decidido (a propósito); #37 puede revelar que parte del "bulto" era ruido (menos
   FALLO reales de los contados); el smoke del eje no-fab con n pequeño es señal categórica, no validación.
 - **Estado**: ✅ rumbo fijado. **s42 (sesión dedicada) arranca por `TECH_DEBT #37`.** Canónico: `PLAN` bloque s41 "Próximo (s42)".
+
+## DEC-014 — Método de cierre de `TECH_DEBT #37` (denoise del eje factual): v2 tras el dúo
+- **Fecha**: 2 jun 2026 (sesión 42, ejecución del paso 1 de DEC-013). **Impacto**: MEDIO (zona de dolor:
+  scoring/árbitro; fija cómo se estabiliza el baseline contra el que se medirá TODO lever). **A petición de
+  Alberto**: Protocolo 3 dual sobre el plan ANTES de cablear; orden "primero plasmar v2, luego ejecutar".
+- **Contexto**: DEC-013 fijó "cerrar #37 primero" y esbozó "temp=0 + multi-run/votación". Leer
+  `atomic_scorer.py` + cómo todo el repo llama a gpt-5.5 desmonta ese esbozo → método v2.
+- **Decisión (v2 — principios A PRIORI + parámetros data-dependent declarados)**:
+  1. **Testear, no inferir** (temp/seed): la fuente del ruido son las 3 llamadas cross-model
+     (`factual_check:143`, `undue_inference_check:200`, `prose_complete_check:249`) SIN `temperature`/`seed`.
+     Pero "el repo lo omite ⇒ gpt-5.5 rechaza temp≠1" es INFERENCIA (H2) → 1-2 llamadas controladas la
+     resuelven: ¿`temperature=0` da error? ¿`seed`+input idéntico → output/`system_fingerprint` idéntico?
+     (`seed` probablemente INERTE en reasoning-model sin sampling — verificar, no asumir).
+  2. **Endurecer el formato en el ORIGEN > promediar sobre el ruido**: las llamadas no usan
+     `response_format`/schema; un parse/red error → `factual_error` → veredicto REVISAR (`:327-330`) =
+     inestabilidad NO-sampling y NO-0↔1. → `response_format={"type":"json_object"}` (o structured outputs si
+     gpt-5.5 los soporta) mata esa fuente estructuralmente. Fix más BP que la votación.
+  3. **Caracterización screen-then-focus**: K=5 screen sobre los 19 → golds con CUALQUIER inestabilidad de
+     VEREDICTO (flips-a-REVISAR-por-error contados APARTE de cruces de conteo 0↔1) → K alto (10-15)
+     FOCALIZADO en el subconjunto inestable (K=5 plano es subpotente para una tasa ~3/19 ≈ p0.15: "varianza
+     ~0" podría ser submuestreo = cierre prematuro).
+  4. **Agregación = decisión de SEGURIDAD a priori, NO empírica**: el eje es false-negative-biased por
+     contrato (`:122` "ante la duda NO marques contradicción"). Votar por MAYORÍA lava una contradicción
+     real que solo 2/K runs cazan (washout) = 2ª capa conservadora; la DIRECCIÓN no se elige minimizando
+     varianza. Salida honesta para un eje frágil = **veredicto + FLAG DE ESTABILIDAD + spot-check humano**
+     (patrón DEC-012), no voto silencioso. Unión/≥1 tampoco es incondicional: depende de si el ruido per-run
+     son MISSES (unión recupera) o SPURIOUS (unión amplifica) → lo decide la ESTRUCTURA del error de (3).
+  5. **Separar diagnose de confirm**: la screen DIAGNOSTICA; se congela la regla; el baseline se valida en
+     pasada CONFIRMATORIA separada (no elegir K+regla y declarar baseline del mismo draw = post-hoc).
+     Artefactos auditables logueados (raw outputs, modelo, `system_fingerprint`, tasa parse-error, regla).
+- **Sharpening (verificado en código)**: el veredicto es robusto al CONTEO salvo el filo 0↔1
+  (`if contradictions: FALLO`, `:323`); s37: hp011 (1→2)/hp013 (2→1) siguen FALLO, hp008 (1→0) cae a
+  completitud-0/4 = FALLO igual → la métrica es ESTABILIDAD-DE-VEREDICTO, no varianza-de-conteo.
+- **Alternativas descartadas**: (A) `temp=0` y listo — gpt-5.5 probablemente lo rechaza + no da
+  bit-determinismo (`run_eval.py:514`). (B) votación por mayoría — washout sobre eje de seguridad
+  (desmontado por el sub-agente). (C) `seed` como único mecanismo — best-effort, probablemente inerte.
+  (D) votación a ciegas con K fijo sin medir — presupone K, pierde el diagnóstico. (E) decidir la agregación
+  "con los datos" (mi propuesta inicial) — dejaría que la minimización de varianza eligiera mayoría en
+  silencio (la regla insegura); cazado por el dúo.
+- **Revisión adversarial (Protocolo 3, dual)**: cross-model **5/5** + sub-agente **+2** medio/alto, **0 FP**
+  (`adversarial_review_log` 2026-06-02T22:11, entrada #31). **LOAD-BEARING (sub-agente)**: agregación por
+  mayoría sobre eje de seguridad asimétrico = washout; la dirección es a priori, no empírica. **Convergencia
+  (ambos)**: testear temp/seed empíricamente + endurecer `response_format` (kill estructural) > votar.
+  **Regla C**: verifiqué el path error→REVISAR (`:150/:156/:327-330`), la ausencia de `response_format`, y el
+  contrato false-negative-biased (`:122`). **Regla F (matiz mío)**: unión no es incondicional → flag de
+  estabilidad + spot-check, no voto.
+- **Gaps**: K y la dirección final de agregación quedan data-dependent (a propósito); el micro-test (1) puede
+  revelar que `temp=0` SÍ funciona (simplificaría parte de (2)-(4)); si tras endurecer el formato la varianza
+  de veredicto resulta ~0, #37 cierra SIN aparato de votación (buen desenlace eval-driven, no fallo).
+  `prose_complete_check` comparte el ruido pero queda fuera del baseline `--llm` (flag `--prose-llm`, #35.1).
+- **Estado**: ✅ EJECUTADO (s42) — ver **Resultado** abajo. **#37 (determinismo del eje factual) CERRADO.**
+
+## DEC-015 — Resultado de #37 (s42): contrato (d) REVERTIDO, baseline legible = response_format + mayoría+flag
+- **Fecha**: 3 jun 2026 (s42, ejecución). **Impacto**: MEDIO (cierra el método de DEC-014; decide el baseline
+  contra el que s43 medirá el lever). **Eval-only** (no toca producción). Dúo: log `adversarial_review_log` #31-33.
+- **Lo ejecutado**:
+  1. **temp/seed MUERTOS** (probe `scripts/probe_gpt55_determinism.py`, testeado NO inferido): gpt-5.5 RECHAZA
+     `temperature=0` ("only default 1 supported") y `seed` es inerte (`system_fingerprint=None`) → no hay knob
+     de determinismo a nivel API; el sampling es irreducible. Alts A/B (de DEC-014) muertas empíricamente.
+  2. **`response_format={"type":"json_object"}`** en las 3 llamadas cross-model (aceptado por gpt-5.5) → mata el
+     path parse/red-error→REVISAR en el ORIGEN. Confirmado: **0 error→REVISAR** en los 22 golds del baseline.
+  3. **Caracterización** (`scripts/characterize_factual_variance.py`, K-run + estabilidad de VEREDICTO): el bulto
+     (hp005/11/13 contradicción + hp006/08/09 completitud + hp019) es VERDICT-STABLE; el sharpening H3 validado
+     (el conteo wobblea pero el veredicto no cruza salvo en el filo 0↔1).
+  4. **Sub-quest del contrato (cláusula (d)) INTENTADO y REVERTIDO** (2 rondas de dúo): la caracterización mostró
+     que la inestabilidad de hp010/hp020 venía de que el eje factual contaba "el bot dice que el manual no cubre
+     X" como contradicción (infra-declaración = competencia de COMPLETITUD). Afiné `_FACTUAL_SYS` para excluirlo.
+     El dúo lo tumbó 2×: (v1) introdujo un FP en hp001 — mi adjudicación "feature/bug-de-producto" fue FALSA
+     (regla C en `evals/_layer_a_hp001.json`: INSTALADOR≡ADMINISTRADOR es sinónimo, ruta correcta); (v2, tras
+     arreglar hp001) el override de Gap-1 tenía un HUECO real **echo-and-deny** (el bot echa los dígitos al negar
+     → `_anchor_present` léxico ve el valor → present=True → PASS; reproducido en código). **Pushback de Alberto
+     ("si el dúo la tumba, ¿por qué mantenerla?") → REVERTIR la cláusula entera**: era scope creep (re-scope de
+     correctitud, NO un denoiser) y mayoría+flag resuelve hp010/hp020 igual. `_FACTUAL_SYS` queda **idéntico a
+     pre-s42**. Mis 2 errores eran de FRAMING/over-claim (`feedback_my_bias`) — el dúo los cazó antes de `main`.
+  5. **Agregación = veredicto por MAYORÍA + flag de review** en todo gold no-unánime (cierra CM1: ningún FALLO
+     minoritario se lava en silencio → spot-check humano, patrón DEC-012). El ruido en el filo es spurious-positivo
+     (modal=0) y el bulto es mayoría-robusto → mayoría no lava nada real; la "unión a-priori" del 1er dúo quedó
+     refutada POR EL DATO (Regla F: la dirección de agregación SÍ se decidió con la estructura del error medida).
+  6. **BASELINE LEGIBLE** (`evals/factual_variance_baseline.json`, 22 golds K=12): **7 FALLO estables**
+     (hp005/06/08/09/11/13/19) — el "7 FALLO" de s41 CONFIRMADO no-ruido — / 12 PARCIAL (8 estables + 4 review:
+     hp001/02/10/20) / 1 PASS / 2 REVISAR. **18/22 estables, 0 error→REVISAR.**
+- **#37 denoise = response_format (ruido de formato) + mayoría (ruido de sampling) + flag→spot-check (residual).**
+  La cirugía de prompt NO sobrevive (revertida). El veredicto del eje factual NO cambió vs pre-s42.
+- **Gaps**: los 4 `REVIEW` necesitan spot-check humano antes de usar su veredicto como ancla de lever; hp010 es un
+  6-6 (el más incierto). El `--legacy-sys`/`_LEGACY_FACTUAL_SYS` del harness es código de A/B (tras el revert,
+  legacy==actual) — retirar si molesta.
+- **Estado**: ✅ #37 cerrado, baseline legible. **Próximo s43**: DEC-013 paso 3 (el lever sobre el bulto), medido
+  vs este baseline. Relacionado: DEC-013 (rumbo), DEC-014 (método), DEC-012 (flag/spot-check).
