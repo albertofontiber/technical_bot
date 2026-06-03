@@ -142,6 +142,11 @@ def factual_check(facts: list[dict], answer: str, client, model: str) -> tuple[l
     try:
         resp = client.chat.completions.create(
             model=model,
+            # response_format json_object (DEC-014 §2): gpt-5.5 fuerza temperature=1 y `seed` es
+            # inerte (probe s42 — no hay knob de determinismo), así que el ruido de SAMPLING es
+            # irreducible; PERO esto mata en el ORIGEN el path parse-error→REVISAR (:327) — una
+            # 2ª fuente de inestabilidad de veredicto NO-sampling. El prompt ya exige "JSON".
+            response_format={"type": "json_object"},
             messages=[{"role": "system", "content": _FACTUAL_SYS},
                       {"role": "user", "content": _FACTUAL_USER.format(
                           facts=facts_txt, answer=(answer or "")[:4000])}],
@@ -199,6 +204,7 @@ def undue_inference_check(absent_facts: list[dict], answer: str, client, model: 
     try:
         resp = client.chat.completions.create(
             model=model,
+            response_format={"type": "json_object"},  # mata parse-error→REVISAR en origen (DEC-014 §2)
             messages=[{"role": "system", "content": _UNDUE_SYS},
                       {"role": "user", "content": _UNDUE_USER.format(
                           facts=facts_txt, answer=(answer or "")[:4000])}],
@@ -248,6 +254,7 @@ def prose_complete_check(fact_texto: str, valor, answer: str, client, model: str
     try:
         resp = client.chat.completions.create(
             model=model,
+            response_format={"type": "json_object"},  # idem (DEC-014 §2); el prompt ya pide JSON
             messages=[{"role": "system", "content": _PROSE_SYS},
                       {"role": "user", "content": _PROSE_USER.format(
                           fact=fact, answer=(answer or "")[:4000])}],
