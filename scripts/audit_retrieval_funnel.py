@@ -53,7 +53,7 @@ sys.path.insert(0, str(ROOT))
 
 from src.config import CHUNKS_IS_V2, SUPABASE_URL, SUPABASE_SERVICE_KEY  # noqa: E402
 from src.rag.retriever import retrieve_chunks, extract_product_models  # noqa: E402
-from src.rag.reranker import rerank_chunks  # noqa: E402
+from src.rag.reranker import rerank_chunks, rerank_chunks_voyage  # noqa: E402
 from src.rag.hyde import HYDE_ENABLED  # noqa: E402
 from scripts.strict_match import norm_ocr, distinctive, chunk_has_quote_strict  # noqa: E402
 
@@ -235,12 +235,21 @@ def main() -> int:
     ap.add_argument("--target-models", action="store_true",
                     help="pasa target_models al reranker (replica el bot de Telegram, "
                          "no el harness test_bot_vs_gold). Default: como el A/B (sin).")
+    ap.add_argument("--reranker", choices=["llm", "voyage"], default="llm",
+                    help="reranker A/B (Track A): llm=prod actual | voyage=cross-encoder Voyage")
     args = ap.parse_args()
+
+    def _rerank(query, pool, target_models=None):
+        # A/B Track A: el cross-encoder Voyage NO toma target_models (la priorizacion
+        # de modelo es guarda aguas arriba en el retriever, no del reranker).
+        if args.reranker == "voyage":
+            return rerank_chunks_voyage(query, pool, top_k=RERANK_K)
+        return rerank_chunks(query, pool, top_k=RERANK_K, target_models=target_models)
 
     if args.dump:
         g = {x["qid"]: x for x in yaml.safe_load(GOLD.read_text(encoding="utf-8"))}[args.dump]
         pool = retrieve_chunks(g["question"], top_k=RETRIEVE_K)
-        top5 = rerank_chunks(g["question"], pool, top_k=RERANK_K)
+        top5 = _rerank(g["question"], pool)
         top_ids = {id(c) for c in top5}
         needle = norm_ocr(args.grep) if args.grep else None
         print(f"DUMP {args.dump}: {g['question']}\n")
@@ -264,9 +273,9 @@ def main() -> int:
     else:
         qids = [q for q in sorted(golds) if args.all or q not in STABLE_PASS]
 
-    variant = "tgtmodels" if args.target_models else "noTgt"
+    variant = ("tgtmodels" if args.target_models else "noTgt") + f"_{args.reranker}"
     out_path = OUT.with_name(f"dec003_retrieval_funnel_{variant}.yaml")
-    print(f"chunks_v2 | HyDE OFF | retrieve={RETRIEVE_K} rerank={RERANK_K} | "
+    print(f"chunks_v2 | HyDE OFF | retrieve={RETRIEVE_K} rerank={RERANK_K} | reranker={args.reranker} | "
           f"rerank target_models={'SI (replica Telegram)' if args.target_models else 'NO (como A/B)'} | "
           f"{len(qids)} preguntas\n")
 
@@ -276,8 +285,7 @@ def main() -> int:
         q = g["question"]
         models = extract_product_models(q)
         pool = retrieve_chunks(q, top_k=RETRIEVE_K)
-        top5 = rerank_chunks(q, pool, top_k=RERANK_K,
-                             target_models=models if args.target_models else None)
+        top5 = _rerank(q, pool, target_models=models if args.target_models else None)
 
         pool_src = [c.get("source_file") for c in pool]
         top_src = [c.get("source_file") for c in top5]

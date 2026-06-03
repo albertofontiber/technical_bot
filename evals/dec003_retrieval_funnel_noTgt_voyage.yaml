@@ -15,7 +15,7 @@
     CORPUS-GAP: 0
   target_servable: true
   target_in_pool15: true
-  target_in_top5: false
+  target_in_top5: true
   target_tokens:
   - MPDT190
   - MCDT191
@@ -25,9 +25,9 @@
   top5_sources:
   - MCDT190
   - MADT190_07
-  - TIDT096
+  - TIDT104
   - MADT190_13
-  - MADT190_12
+  - MCDT191
   pool15_sources:
   - MADT190_05
   - TIDT104
@@ -90,7 +90,7 @@
     CORPUS-GAP: 0
   target_servable: true
   target_in_pool15: true
-  target_in_top5: true
+  target_in_top5: false
   target_tokens:
   - MIDT170
   - 50253SP
@@ -101,10 +101,10 @@
     MADT380_01: 3
   top5_sources:
   - MFDT170
-  - MFDT170
-  - MIDT170
   - MPDT170
-  - MADT232
+  - MADT236
+  - MFDT170
+  - MADT231
   pool15_sources:
   - MIDT170
   - MADT236
@@ -160,7 +160,7 @@
     CORPUS-GAP: 0
   target_servable: true
   target_in_pool15: true
-  target_in_top5: false
+  target_in_top5: true
   target_tokens:
   - MIDT190
   - MCDT191
@@ -169,10 +169,10 @@
     MCDT191: 144
   top5_sources:
   - MPDT190
+  - MCDT190
+  - MCDT191
   - MPDT190
-  - MCDT190
-  - MCDT190
-  - MADT190_07
+  - MADT190_13
   pool15_sources:
   - MADT190_07
   - MADT951_03
@@ -310,11 +310,11 @@
   corpus_counts:
     HLSI-MN-103_RP1r-Supra_lr: 190
   top5_sources:
-  - HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr
   - HLSI-BT-001
-  - MNDT102
+  - HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr
+  - HLSI-MN-103I_RP1r-Supra_lr
   - HLSI-TI-001I
-  - MN-DT-959_OPC-RP1r
+  - MIEMN570I
   pool15_sources:
   - MIEMN570I
   - MIEMN570
@@ -368,8 +368,8 @@
   conducta_bot_B: answer
   n_core_presente: 2
   buckets:
-    SINTESIS: 1
-    RERANK-MISS: 0
+    SINTESIS: 0
+    RERANK-MISS: 1
     RETRIEVAL: 1
     CORPUS-GAP: 0
   buckets_fuerte:
@@ -410,10 +410,10 @@
   - valor: EEPROM
     probe: ~EEPROM
     strength: debil
-    in_top5: true
+    in_top5: false
     in_pool15: true
     in_manual_corpus: true
-    bucket: SINTESIS
+    bucket: RERANK-MISS
   - valor: PWR-R
     probe: ~PWR-R
     strength: debil

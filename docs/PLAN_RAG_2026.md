@@ -169,6 +169,13 @@
 >   humano de los 4 REVIEW antes de anclar un lever en ellos (hp010 es un 6-6). Smoke barato del eje no-fabricación
 >   (#19 + 1 #18 disjunto) intercalable. **DESCARTADO** (DEC-013, sigue): modo-ausencia ambicioso + #16 admit.
 >   Re-formular hp006 se mantiene.
+>
+> **Actualización s43 (3 jun 2026) — `DECISIONS.md` DEC-016 (ZOOM-OUT estratégico; Alberto cuestionó el ritmo):**
+> - **Diagnóstico de fundamentos (4 agentes paralelos + verificación):** `chunks_v2` = LlamaParse multimodal EJECUTADO + contenido ~99% sano → **SALVAGE, NO rebuild** (overhaul rechazado con evidencia; las guardas verificadas son la atadura real, no el legacy; core cruft ~5-8%; `catalog.json` ya escala a 30+).
+> - **Lever de retrieval (reranker Voyage) MEDIDO end-to-end y DESCARTADO (CONDICIONAL):** el funnel (+2 proxy) NO predijo el end-to-end; juez-inline = empate-con-churn, árbitro single-pass = dentro del ruido de #37 → no se shipea. **Condicional (Amdahl):** re-test tras síntesis.
+> - **HALLAZGO DOMINANTE: el cuello del bulto es SÍNTESIS/GENERACIÓN** (con el chunk en top-5 el bot contradice/omite/sobre-admite) — confirma DEC-005/006/s39 a nivel de VEREDICTO. **s44 = Track D (lever de síntesis)**, medido con K-mayoría (el single-pass es ruidoso).
+> - **A2 (fusión de scores planos s29) = higiene COMPROMETIDA** (no lever): quitar cruft recurrente; vara = no-regresión; P3; vigilar boosts load-bearing de diagrama/wiring.
+> - **Track C (`#38`) HECHO**: 24 ficheros v1 fuera, 176 tests verdes (PR pendiente). **Track B**: drafts Spectrex (llama, dominio nuevo) + scoping de conductas, **sin upsert** (pendiente co-gen + dúo C3 + sign-off).
 
 ---
 
