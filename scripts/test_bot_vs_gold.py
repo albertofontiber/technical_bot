@@ -35,7 +35,7 @@ os.environ["CHUNKS_TABLE"] = "chunks_v2"  # re-asegurar tras load_dotenv
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from src.rag.retriever import retrieve_chunks       # noqa: E402
-from src.rag.reranker import rerank_chunks           # noqa: E402
+from src.rag.reranker import rerank_chunks, rerank_chunks_voyage  # noqa: E402
 from src.rag.generator import generate_answer        # noqa: E402
 from src.config import (                              # noqa: E402
     CHUNKS_TABLE, CHUNKS_IS_V2, RETRIEVAL_TOP_K, RERANK_TOP_K,
@@ -47,8 +47,10 @@ RERANK_K = int(os.getenv("RERANK_K_OVERRIDE", str(RERANK_TOP_K)))
 # #32 solo varió el generator-k (RERANK_K); ampliar el pool nunca se midió end-to-end.
 RETRIEVE_K = int(os.getenv("RETRIEVE_K_OVERRIDE", str(RETRIEVAL_TOP_K)))
 
+RERANKER = os.getenv("RERANKER", "llm")  # A/B Track A: llm (prod) | voyage (cross-encoder)
 GOLD = "evals/gold_answers_v1.yaml"
-OUTPUT = f"evals/bot_vs_gold_results_k{RERANK_K}.yaml"
+OUTPUT = (f"evals/bot_vs_gold_results_k{RERANK_K}.yaml" if RERANKER == "llm"
+          else f"evals/bot_vs_gold_results_k{RERANK_K}_{RERANKER}.yaml")
 JUDGE_MODEL = "gpt-5.5"
 
 _JUDGE_SYS = (
@@ -84,7 +86,8 @@ _JUDGE_USER = (
 def run_bot(query: str) -> dict:
     # Replica el pipeline de producción: retrieve → rerank(top-k) → generate.
     chunks = retrieve_chunks(query, top_k=RETRIEVE_K)
-    chunks = rerank_chunks(query, chunks, top_k=RERANK_K)
+    chunks = (rerank_chunks_voyage(query, chunks, top_k=RERANK_K) if RERANKER == "voyage"
+              else rerank_chunks(query, chunks, top_k=RERANK_K))
     res = generate_answer(query, chunks)
     answer = res.get("answer") if isinstance(res, dict) else str(res)
     sources = sorted({c.get("source_file") for c in chunks if c.get("source_file")})
@@ -118,7 +121,7 @@ def main() -> int:
         pass
 
     assert CHUNKS_IS_V2, f"CHUNKS_TABLE debe ser chunks_v2, es {CHUNKS_TABLE}"
-    print(f"Tabla activa: {CHUNKS_TABLE} (Voyage 1024) | retrieve={RETRIEVE_K} rerank_k={RERANK_K}\n")
+    print(f"Tabla activa: {CHUNKS_TABLE} (Voyage 1024) | retrieve={RETRIEVE_K} rerank_k={RERANK_K} | reranker={RERANKER}\n")
 
     gold_rows = {r["qid"]: r for r in yaml.safe_load(open(GOLD, encoding="utf-8"))}
     oai = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
