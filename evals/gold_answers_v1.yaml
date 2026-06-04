@@ -187,13 +187,15 @@
     estado: presente
     valor: 7.6.1
     cita: p101 (7.6.1)
-  - texto: Tras solucionar la causa (limpiar conducto/filtro, reparar), ejecutar un nuevo RESET INICIAL
-      (cap 7.3.5) SOLO con el conducto de aspiracion limpio e intacto (si no, los valores nominales quedarian
-      mal y la alarma podria no dispararse)
+  - texto: Por defecto todos los eventos del ASD 535 entran en parada automatica y requieren un RESET DE ESTADO
+      para reinicializar (cap 2.2.17). El RESET INICIAL (cap 7.3.5) NO es necesario tras una simple limpieza de
+      orificios; SI procede cuando, tras las medidas de limpieza del conducto (puntos 9-10), una nueva lectura
+      de los valores de flujo (p122 punto 13) sigue FUERA DE TOLERANCIA, y SOLO con el conducto limpio e intacto
+      (si no, la toma de muestras puede ser insuficiente y la alarma podria no dispararse)
     tipo: core
     estado: presente
     valor: reset inicial
-    cita: p32 (2.2.17.3) + cap 7.3.5
+    cita: p122 punto 13 + recuadro Peligro + cap 2.2.17 / 7.3.5
   - texto: En entornos con grandes turbulencias de aire u oscilaciones termicas puede ser necesario aumentar
       el tiempo de retardo o el tamano de la ventana; pero por encima de +-20 % deja de cumplir EN 54-20
       (consultar con el fabricante)
@@ -675,12 +677,13 @@
     estado: presente
     valor: SW2/SW3
     cita: MADT380_01 p1
-  - texto: Los manuales disponibles NO incluyen un procedimiento paso a paso para localizar el punto exacto
-      del fallo de tierra (el manual de funcionamiento MFDT170 no menciona el aviso 'Tierra')
+  - texto: Los manuales de funcionamiento/configuracion consultados por el bot (MFDT170, MIDT170, MPDT170,
+      MADT232) NO incluyen un procedimiento paso a paso de LOCALIZACION del punto exacto del fallo de tierra
     tipo: core
     estado: ausente-probado
     valor: null
-    cita: MFDT170 (0 menciones de 'Tierra')
+    cita: MFDT170 (0 menciones de 'Tierra') + MIDT170/MPDT170/MADT232; el manual de instalacion 50253 (destino
+      de la redireccion del bot) NO fue verificado
   confidence: media
   pdfs_used:
   - MADT380_01.pdf
