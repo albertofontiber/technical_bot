@@ -92,6 +92,10 @@
 > consistente con DEC-005/006; spec single-doc fuerte (cat005 5/6, cat007 4/5). El ruler crecido **discrimina**.
 > Detalle: `DECISIONS.md` DEC-010 + `PLAN` bloque s39 + `RULER_DESIGN §2`.
 >
+> **Actualización s40-s43 (resumen — detalle canónico en `PLAN`/`DECISIONS`):** consolidación del árbitro (DEC-011 fix matcher de rangos; DEC-012 eje no-fabricación; DEC-015 #37 determinismo → baseline legible K=12) + s43: SALVAGE-no-rebuild (DEC-016, `chunks_v2` sano) + gold-fixes hp002/hp006 (DEC-017) → **bulto = 8 FALLO**. Eval-infra salvo los 2 fixes de prod de DEC-007.
+>
+> **Actualización s44 (5 jun 2026 — SÍ toca producción, `DECISIONS.md` DEC-018):** **shipped `RETRIEVAL_TOP_K` 15→50** ("retrieve wide, generate narrow", TECH_DEBT #16; RERANK_TOP_K=5 sin cambio). El cuello del bulto NO era A2-fusión ni síntesis (el plan de 2 sesiones) — era el **CORTE `merged[:15]`** que enterraba chunks de coseno real bajo keyword-stamps planos; el pool ancho los deja sobrevivir + el reranker (por contenido) los sube. **A/B K=3 HyDE-off: FALLO ~6→1 estable**, 7 mejoras / 1 regresión (hp013). Residual = hp006 (recall-miss). PR #35 mergeado. **Pendiente (s45): HyDE-off** (medí HyDE-off; el bot despliega HyDE-on → re-medir en el path actual + override de Railway) + frontera **14 PARCIAL** (completitud). El dúo (Protocolo 3) cazó 2 over-frames míos antes de cablear (A2-build; y resucitar síntesis en s45) — `feedback_my_bias`.
+>
 > El bot sirve desde el **corpus re-ingestado `chunks_v2`** (SWAP hecho en Railway
 > vía `CHUNKS_TABLE=chunks_v2`). Cambios respecto a lo que describe el resto de
 > este doc (que documenta el pipeline histórico con el corpus viejo `chunks`):
