@@ -5,14 +5,14 @@ Para cada pregunta del ruler, reproduce el embudo de retrieval del bot con
 HyDE-OFF (como el A/B de s34) y localiza, hecho atomico CORE a hecho, en que
 etapa del embudo esta (o no) el dato del gold:
 
-  corpus (chunks_v2)  --retrieve(15)-->  pool15  --rerank(5)-->  top5  --> generador
+  corpus (chunks_v2)  --retrieve(50)-->  pool50  --rerank(5)-->  top5  --> generador
 
 Clasificacion por hecho CORE (estado=presente):
   - SINTESIS    : el valor esta en top5 (el generador lo VIO) -> si el bot no lo
                   uso, el cuello es GENERACION.
-  - RERANK-MISS : esta en pool15 pero el reranker lo dejo fuera del top5 ->
+  - RERANK-MISS : esta en pool50 pero el reranker lo dejo fuera del top5 ->
                   cuello = reranker / separar generate_top_k.
-  - RETRIEVAL   : NO esta en pool15, pero el manual SI es servible en chunks_v2
+  - RETRIEVAL   : NO esta en pool50, pero el manual SI es servible en chunks_v2
                   -> cuello = retrieval (HyDE/BM25/embeddings/filtro de modelo).
   - CORPUS-GAP  : el manual objetivo no esta en chunks_v2 -> cuello = extraccion (#10).
 
@@ -58,11 +58,12 @@ from src.rag.hyde import HYDE_ENABLED  # noqa: E402
 from scripts.strict_match import norm_ocr, distinctive, chunk_has_quote_strict  # noqa: E402
 
 GOLD = ROOT / "evals" / "gold_answers_v1.yaml"
-# Veredictos de produccion actual (change-1 revertido = rama B sin change-1).
-BVG = ROOT / "evals" / "bot_vs_gold_results_k5_B_sin_change1.yaml"
+# Veredictos de la corrida HyDE-OFF @ pool-50 de s45 (solo ANOTACION; los BUCKETS son la senal).
+BVG = ROOT / "evals" / "_s45_results_k50_hydeOFF.yaml"
 OUT = ROOT / "evals" / "dec003_retrieval_funnel.yaml"
 
-RETRIEVE_K = 15
+RETRIEVE_K = 50   # s45: pool-50 (retrieve-wide RETRIEVAL_TOP_K=50, shipped s44). Antes 15
+                  # = medía un pipeline que ya no existe (bug cazado por el dúo s45).
 RERANK_K = 5
 
 # El unico PASS estable (B y A). Los 18 restantes = universo a auditar (DEC-003).
@@ -212,10 +213,10 @@ def fetch_manual_chunks(tokens: list[str], limit: int = 600) -> list[dict]:
 
 
 # --- main --------------------------------------------------------------------
-def classify(in_top5: bool, in_pool15: bool, in_manual_corpus: bool) -> str:
+def classify(in_top5: bool, in_pool50: bool, in_manual_corpus: bool) -> str:
     if in_top5:
         return "SINTESIS"
-    if in_pool15:
+    if in_pool50:
         return "RERANK-MISS"
     if in_manual_corpus:
         return "RETRIEVAL"   # servable a nivel de HECHO, el ranker no lo sube
@@ -320,7 +321,7 @@ def main() -> int:
                 "probe": sorted(probe) if kind == "anchors" else f"~{probe}",
                 "strength": strength,
                 "in_top5": in_top5,
-                "in_pool15": in_pool,
+                "in_pool50": in_pool,
                 "in_manual_corpus": in_corpus,
                 "bucket": bucket,
             })
@@ -335,23 +336,23 @@ def main() -> int:
             "buckets": buckets,
             "buckets_fuerte": buckets_fuerte,
             "target_servable": servable,
-            "target_in_pool15": tgt_in_pool,
+            "target_in_pool50": tgt_in_pool,
             "target_in_top5": tgt_in_top5,
             "target_tokens": targets,
             "corpus_counts": srv["corpus_counts"],
             "top5_sources": top_src,
-            "pool15_sources": pool_src,
+            "pool50_sources": pool_src,
             "facts": facts_out,
         }
         results.append(rec)
 
         b = buckets
-        flag = "" if (tgt_in_top5 or not facts_out) else ("  <<TARGET NO EN TOP5" + ("" if tgt_in_pool else " NI POOL15") + ">>")
+        flag = "" if (tgt_in_top5 or not facts_out) else ("  <<TARGET NO EN TOP5" + ("" if tgt_in_pool else " NI POOL50") + ">>")
         print(f"=== {qid} [{rec['veredicto_B']}] esp={rec['conducta_esperada']} "
               f"-> bot={rec['conducta_bot_B']} ===")
         print(f"  core-presente={len(facts_out)} | SINTESIS={b['SINTESIS']} "
               f"RERANK-MISS={b['RERANK-MISS']} RETRIEVAL={b['RETRIEVAL']} CORPUS-GAP={b['CORPUS-GAP']}")
-        print(f"  target servible={servable} en_pool15={tgt_in_pool} en_top5={tgt_in_top5}{flag}")
+        print(f"  target servible={servable} en_pool50={tgt_in_pool} en_top5={tgt_in_top5}{flag}")
         print(f"  top5_src={sorted(set(s for s in top_src if s))}")
         print()
 
@@ -372,7 +373,7 @@ def main() -> int:
     print("\nPor pregunta [fuertes: top5/rerank/retr/gap] + manual objetivo:")
     for r in results:
         bf = r["buckets_fuerte"]
-        tag = "TARGET-MANUAL-MISS" if not r["target_in_pool15"] else (
+        tag = "TARGET-MANUAL-MISS" if not r["target_in_pool50"] else (
             "target-en-pool-no-top5" if not r["target_in_top5"] else "")
         print(f"  {r['qid']} [{r['veredicto_B']}] esp={r['conducta_esperada']}: "
               f"{bf['SINTESIS']}/{bf['RERANK-MISS']}/{bf['RETRIEVAL']}/{bf['CORPUS-GAP']}  {tag}")
