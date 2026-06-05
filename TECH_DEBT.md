@@ -1417,3 +1417,22 @@ El primer run del árbitro end-to-end (`atomic_scorer.py --llm` sobre los 19, s3
 
 **Coste estimado**: ~3-4h (medio). Riesgo bajo si se verifica por-módulo (el bot vivo no depende del pipeline viejo, verificado s38).
 
+---
+
+## 39. Frontera compuesta del matcher de anchors — separador de millar/decimal español (sesión 46)
+
+**Estado actual** (s46, DEC-019/F0#2): `strict_match.anchor_present` (canónica, usada por el scorer atómico y el gate de retrieval) usa frontera de DÍGITO (`\d`) para anchors numéricos. NO bloquea el separador de millar/decimal español → `"792"` casa dentro de `"13.792"` y `"159"` dentro de `"2.159"` (falso positivo: el anchor se cuenta presente dentro de un número MAYOR distinto).
+
+**Problema**: en el gate (`audit_retrieval_funnel`) un hecho puede clasificarse SÍNTESIS/RERANK-MISS por un anchor que en realidad no está; en el scorer (`atomic_scorer`) un hecho puede contarse completo por el mismo FP. **Acotado**: el gate exige anchors FUERTES (≥2 anchors / código de modelo / ≥3 dígitos), que diluyen el FP de millar; el caso real es estrecho (número de 4+ díg con punto cuyos últimos 2-3 = el anchor).
+
+**Por qué se pospuso** (verificado en el dúo Protocolo 3, s46): la "solución obvia" `[\d.,]` (la frontera de `locate_fact._value_on_page`) **empeora** el balance — bloquea FN COMUNES: `"295"` en `"295, 300"` (coma de lista) y en `"295."` (punto de fin de frase). El scorer usó `\d` por eso. Cambiar la frontera toca el scoring de golds → no es gratis.
+
+**Trigger para implementar**:
+- Un `--dump` del gate (F1) revela un hecho mal clasificado rastreable a un FP de millar/decimal, O
+- Un gold falla/aprueba el scoring por el mismo FP (spot-check humano), O
+- Se vuelve a tocar `anchor_present` por otra razón.
+
+**Solución propuesta**: frontera COMPUESTA que distingue puntuación-entre-dígitos (millar/decimal) de puntuación-de-prosa (lista/frase): bloquear dígito adyacente SIEMPRE + añadir `(?<!\d[.,])` y `(?![.,]\d)` (bloquea solo cuando hay dígito al otro lado de la puntuación). Resuelve FP-millar Y FN-lista. Requiere re-baseline del scorer de golds (cambia `atomic_scorer`) + A/B; la política actual está congelada en `tests/test_strict_match.py::test_anchor_present_politica_congelada_s46`.
+
+**Coste estimado**: ~1-2h + re-baseline del scorer (riesgo bajo, cubierto por tests).
+

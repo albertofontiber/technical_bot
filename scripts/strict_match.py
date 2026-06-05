@@ -93,6 +93,32 @@ def distinctive(quote: str) -> set[str]:
     return nums | set(_MODEL.findall(q))
 
 
+def anchor_present(anchor: str, text: str) -> bool:
+    """¿aparece `anchor` como número/token COMPLETO en `text` (ya norm_ocr'd)?
+
+    Frontera de presencia del matcher estricto. CANÓNICA desde s46 (DEC-019/F0#2):
+    antes la frontera vivía SOLO en el scorer atómico (match_fact) y estaba AUSENTE
+    aquí y en audit_retrieval_funnel, que usaban substring crudo → '99'∈'990'/'1993'
+    inflaba SÍNTESIS en el funnel (artefacto cazado en s45). Dos políticas:
+      - Numérico ("24", "+60", "295") → frontera de DÍGITO: casa "24" en "24V"/
+        "24 °C" pero NO en "240"/"1240" (corrige '40'∈'240' de PR#15, hp003 s32).
+      - Código de modelo ("afp1010") → frontera de PALABRA: token completo.
+    NOTA: chunk_has_quote_strict (recall, live stack) conserva A PROPÓSITO el `in`
+    crudo sobre haystacks grandes — su frontera es otra decisión (F0#6, A/B recall).
+    `text` debe venir ya normalizado (norm_ocr); el anchor se escapa para la regex.
+
+    LÍMITE CONOCIDO (deuda s46, DEC-019/F0#2): la frontera de DÍGITO no bloquea el
+    separador de millar/decimal español → "792" casa en "13.792" y "159" en "2.159"
+    (FP raro). Se mantiene `\\d` y NO `[\\d.,]` porque `[\\d.,]` introduce FN COMUNES,
+    verificado: bloquea "295" en "295, 300" (coma de lista) y en "295." (punto de fin
+    de frase). El gate usa anchors FUERTES (≥2 anchors / código / ≥3 díg), que diluyen
+    el FP de millar. Frontera compuesta (bloquear solo díg–puntuación–díg) = mejora
+    futura; cambia el scoring de golds → exige re-baseline (ver TECH_DEBT).
+    """
+    bound = r"\d" if re.fullmatch(r"[+\-]?\d[\d.,]*", anchor) else r"\w"
+    return re.search(rf"(?<!{bound}){re.escape(anchor)}(?!{bound})", text) is not None
+
+
 def chunk_has_quote_strict(content: str, quote: str) -> bool:
     nc = norm_ocr(content)
     anchors = distinctive(quote)

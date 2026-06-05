@@ -55,7 +55,7 @@ from src.config import CHUNKS_IS_V2, SUPABASE_URL, SUPABASE_SERVICE_KEY  # noqa:
 from src.rag.retriever import retrieve_chunks, extract_product_models  # noqa: E402
 from src.rag.reranker import rerank_chunks, rerank_chunks_voyage  # noqa: E402
 from src.rag.hyde import HYDE_ENABLED  # noqa: E402
-from scripts.strict_match import norm_ocr, distinctive, chunk_has_quote_strict  # noqa: E402
+from scripts.strict_match import norm_ocr, distinctive, chunk_has_quote_strict, anchor_present  # noqa: E402
 
 GOLD = ROOT / "evals" / "gold_answers_v1.yaml"
 # Veredictos de la corrida HyDE-OFF @ pool-50 de s45 (solo ANOTACION; los BUCKETS son la senal).
@@ -116,7 +116,7 @@ def _chunk_has(content: str, kind: str, probe) -> bool:
     del rango de la TUBERIA, sin que ningun chunk tenga el spec del DETECTOR)."""
     if kind == "anchors":
         nc = norm_ocr(content or "")
-        return all(a in nc for a in probe)
+        return all(anchor_present(a, nc) for a in probe)
     return chunk_has_quote_strict(content or "", str(probe))
 
 

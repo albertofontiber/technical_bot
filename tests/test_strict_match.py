@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
-from strict_match import distinctive, norm_ocr  # noqa: E402
+from strict_match import anchor_present, distinctive, norm_ocr  # noqa: E402
 
 
 def test_distinctive_rango_no_genera_signo_espurio():
@@ -45,8 +45,37 @@ def test_distinctive_codigos_de_modelo():
 
 def test_rango_casa_con_frontera_de_digito():
     # el bug s40 al completo: cada anchor de un rango DEBE casar en el texto del bot
-    # con la frontera de dígito que usa atomic_scorer._anchor_present.
+    # con la frontera de dígito de anchor_present (canónica desde s46).
     na = norm_ocr("alimentacion 110-230 vac, 50-60 hz")
     for a in distinctive("110-230 Vac"):
-        bound = r"\d" if re.fullmatch(r"[+\-]?\d[\d.,]*", a) else r"\w"
-        assert re.search(rf"(?<!{bound}){re.escape(a)}(?!{bound})", na), f"{a} no casa"
+        assert anchor_present(a, na), f"{a} no casa"
+
+
+def test_anchor_present_frontera_digito():
+    # el ARTEFACTO s45 (DEC-019): '99' NO debe casar dentro de '990' ni '1993'.
+    # El substring crudo all(a in nc) lo contaba → inflaba SÍNTESIS en el funnel.
+    assert not anchor_present("99", norm_ocr("rango 990 mA"))
+    assert not anchor_present("99", norm_ocr("ano 1993"))
+    assert anchor_present("99", norm_ocr("son 99 zonas"))
+    # número con unidad pegada SÍ casa; número mayor que lo contiene NO.
+    assert anchor_present("24", norm_ocr("alimentacion 24V"))
+    assert not anchor_present("24", norm_ocr("hasta 240 v"))
+    # no-regresión cat001 (síntesis-genuina, DEC-019): '159' casa en la suma '159+159'.
+    assert anchor_present("159", norm_ocr("159+159"))
+
+
+def test_anchor_present_politica_congelada_s46():
+    # CONGELA la decisión de F0#2 (frontera `\d`, no `[\d.,]`) — para que cambiarla
+    # sea deliberado. Trade-off verificado en el dúo Protocolo 3:
+    #  (a) LÍMITE ACEPTADO: `\d` deja pasar el separador de millar/decimal español.
+    assert anchor_present("792", norm_ocr("capacidad 13.792 eventos"))  # FP conocido
+    assert anchor_present("159", norm_ocr("tension 2.159 v"))           # FP conocido
+    #  (b) A CAMBIO: `\d` NO sufre los FN comunes que `[\d.,]` sí introduciría.
+    assert anchor_present("295", norm_ocr("los valores son 295, 300 y 450"))  # coma de lista
+    assert anchor_present("295", norm_ocr("el maximo es 295."))               # fin de frase
+
+
+def test_anchor_present_codigo_frontera_palabra():
+    # código de modelo → frontera de PALABRA: token completo, no dentro de otro
+    assert anchor_present("afp1010", norm_ocr("central AFP1010 v2"))
+    assert not anchor_present("mi-310", norm_ocr("doc MI-3100"))
