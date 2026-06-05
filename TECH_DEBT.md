@@ -591,6 +591,8 @@ Métricas del corpus ingestado:
 
 ## 16. Separar retrieve top_k del generator top_k — "retrieve wide, generate narrow" (nuevo — 22 abril 2026)
 
+> **✅ MEDIDO + SHIPPED (s44, 5 jun 2026 — `DECISIONS.md` DEC-018):** `RETRIEVAL_TOP_K` **15→50** (RERANK_TOP_K=5 sin cambio). A/B K=3 HyDE-off (`test_bot_vs_gold`): **FALLO ~6→1 estable** (wide 1/1/1), 7 mejoras / 1 regresión (hp013 completitud). El burial era el **CORTE `merged[:15]`** (`retriever.py:1131`) que decapitaba chunks de coseno real bajo keyword-stamps planos (0.80-0.85); el pool ancho deja sobrevivir + el reranker (CONTENIDO, no sim) los sube. **El número fue 50** (no el 15 propuesto en abril — empírico, cubre el rango vectorial 16-50 del burial); **trigger real = el bulto de FALLO** (hp019/020 etc.: "el chunk existe pero no llega al generator"), tal como anticipaba esta entrada. **Coste (Protocolo 3):** el prompt de rerank crece ~3-7× tok (cap-rerank-~30 = tuning futuro, mitigaría también hp013). El número exacto / cap es afinable. **Estado-actual de abajo (RETRIEVAL_TOP_K=5) era STALE** — ya estaba en 15, ahora 50.
+
 **Estado actual**: `RETRIEVAL_TOP_K = 5` en `src/config.py` sirve simultáneamente para (a) cuántos chunks devuelve el retriever y (b) cuántos ve el generator. Son el mismo número. El reranker opera sobre los 5 que ya llegaron y no tiene margen para elegir.
 
 **Problema**: la literatura 2024-26 (LangChain / RAGAS / Anthropic docs) recomienda separar los dos números:
@@ -1233,6 +1235,13 @@ El nuevo bloque NO menciona clarification — el efecto es indirecto, vía bias 
 ---
 
 ## 32. Auditoría crítica del legacy del retriever — el cuello es GENERACIÓN, no recall (sesión 29)
+
+> **⚠️ ACLARACIÓN "A2" + ESTADO (s44, 4 jun 2026 — verificado en git, NO memoria).** "A2" es AMBIGUO; son TRES cosas distintas:
+> 1. **A2-fusión** (ESTA entrada #32) = constantes planas del retriever (`retriever.py:407/458/491/516/973/1019/1042`). **NUNCA tocada**: `git log --all -S` sobre la constante `0.85` → solo el commit inicial (nunca borrada en NINGUNA de las 24 ramas + 0 stashes); viva en `origin/main` HOY (diff vacío vs working tree). Es la que s44 va a **BORRAR**.
+> 2. **A2-extracción** (`src/reingest/extract.py`, este doc §556/607) = la etapa LlamaParse que **CONSTRUYÓ** chunks_v2. CONSERVADA (es el corpus bueno).
+> 3. **Ingesta v1** (`src/ingestion/`, `#38`/Track C) = lo que SÍ se borró en s43 (24 ficheros pdfplumber). NO es ningún "A2".
+>
+> **Reframe del lever (s44, `DECISIONS.md` DEC-018 pendiente al cierre):** A2-fusión = **BORRAR el cruft de scores planos + rankear por coseno Voyage real** (conservar guardas: filtros modelo/categoría [§1241] + ruta diagrama + match exacto de modelo), NO "construir una fusión RRF". El dúo (cross-model GPT + sub-agente, verificado en código) tumbó "A2-first como build": (a) la atribución de burial se midió **HyDE-OFF**; producción corre **HyDE-ON** por default (`hyde.py:39`, sin override commiteado — valor en Railway PENDIENTE de confirmar) → gap NO reconciliado con el path real; (b) `RETRIEVAL_TOP_K=15` (`config.py:36`) → re-estampar sobre `merged` alcanza ~2 hechos de 6 (los de rango vectorial 16-50 exigen ENSANCHAR el fetch, cambio aparte); (c) per-hecho ≠ per-pregunta (solo el árbitro end-to-end lo zanja). Plan corregido → `PLAN_RAG_2026` bloque s44.
 
 **Hallazgo (medido determinista + matcher estricto)**: NINGÚN lever de recall (reranker/Voyage rerank-2.5, subir top-k, RRF, dense-only) convierte en mejor calidad **end-to-end**. dense-only sube recall 51→59% pero da **−2 FALLO** end-to-end (4/9/6 vs baseline 3/12/4) por **alucinación CROSS-PRODUCT** al quitar los filtros de modelo/categoría. La conversión recall→calidad la bloquean la **GENERACIÓN** (el bot admite no-info con el dato en top-5; síntesis incompleta) + el balance precisión/recall. **El árbitro es el eval END-TO-END, no el recall metric.**
 
