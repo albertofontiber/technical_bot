@@ -33,7 +33,12 @@ EMBEDDING_MODEL = "text-embedding-3-small"
 EMBEDDING_DIMENSIONS = 1536
 
 # RAG config
-RETRIEVAL_TOP_K = 15
+# s44 (DEC-018): retrieve WIDE (15→50), generate narrow — TECH_DEBT #16. El reranker
+# (por contenido, reranker.py) elige top-5 de un pool ancho; evita el burial del CORTE
+# merged[:15], que enterraba chunks de coseno real bajo keyword-stamps planos (0.80-0.85).
+# Medido A/B K=3 HyDE-off (test_bot_vs_gold): FALLO ~6→1 estable (3 réplicas idénticas),
+# 7 mejoras / 1 regresión (hp013, completitud). RERANK_TOP_K (generador) se queda en 5.
+RETRIEVAL_TOP_K = 50
 RERANK_TOP_K = 5
 CHUNK_MAX_TOKENS = 1500
 CHUNK_OVERLAP_TOKENS = 200
