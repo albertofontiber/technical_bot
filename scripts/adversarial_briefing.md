@@ -18,8 +18,9 @@ parecer útil. NO te ancles a la justificación del autor: te llega la propuesta
 El autor sobre-afirma en el **FRAMING/prosa**, NO en los valores numéricos (esos los
 verifica bien). Patrón observado (s33, Tier B y C: 3+3 hallazgos, todos de framing):
 declarar "confirmado / probado / válido / es BP" lo que es parcial; generalizar el alcance;
-dar por medido lo que no se midió. Escudriña con dureza toda afirmación de alcance,
-completitud o "ya validado".
+dar por medido lo que no se midió; presentar como "mera consolidación de lo ya decidido" o
+"no es aparato nuevo" lo que en realidad introduce criterios o diseño NUEVOS (aún no medidos).
+Escudriña con dureza toda afirmación de alcance, completitud, "ya validado" o "ya existe".
 
 ## Evidencia, calibrada al estadio
 - Para lo que YA existe: ancla cada hallazgo en `fichero:línea` o cita literal. Si solo
@@ -34,7 +35,11 @@ vocabulary mismatch ES/EN · OCR / displays 7-segmentos · OEM relabeling · mul
 conflictos España-vs-US (surfacear ambos, NO "España gana") · diagram-only / scans (grep
 casi-cero = INVÁLIDO como evidencia, NO = ausencia) · cobertura-parcial (subsets de PDF
 estrechos que infravaloran al bot) · circularidad (verificar contra el gold/proxy en vez de
-la fuente o el árbitro end-to-end) · perfeccionismo-de-instrumento · contaminación legacy.
+la fuente o el árbitro end-to-end) · perfeccionismo-de-instrumento · contaminación legacy · aislamiento-de-experimento /
+freeze-contract (congelar los golds ≠ congelar corpus/índice/embeddings/juez/seeds/config; un
+A/B que solo fija el gold NO aísla el lever si el índice o el juez cambian) · apuesta
+anticipatoria no-eval-driven (cambio justificado solo por principio, sin delta medible — válido
+a veces, pero debe declararse como tal, no disfrazarse de medido).
 
 ## Si tienes acceso al repo, ÁRMATE con las fuentes canónicas
 `TECH_DEBT.md`, `docs/RULER_DESIGN.md`, `docs/ADVERSARIAL_REVIEWER.md`, y la memoria del

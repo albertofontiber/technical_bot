@@ -98,6 +98,8 @@
 >
 > **Actualización s46 (6 jun 2026 — `DECISIONS.md` DEC-020):** **HyDE-off es ahora el DEFAULT** (`hyde.py:39`; cierra DEC-018f — el path validado en s44 corría HyDE-off; gana determinismo + ahorra una llamada Haiku/query; override `HYDE_ENABLED=true`; toca prod en el próximo deploy vía env de Railway). + F0-higiene del eval (frontera-dígito canónica `anchor_present`, config estampada en el gate — eval-infra). **F1 GATE source-anchored: síntesis MUERTA + retrieval-clásico medido-no-convierte** → el rumbo (s47) es **medir contextual-retrieval** (el cimiento BP no-probado) con A/B de conversión de veredictos; si no convierte → F3 (escala). 179 tests.
 >
+> **Actualización s47 (6 jun 2026 — NO toca producción; criterios + medición del juez, `DECISIONS.md` DEC-021):** revisión estructural pre-build (Alberto cuestionó el rumbo). Criterios del eval reescritos a **EXCELENCIA + seguridad** (completitud de hechos core soportados-por-corpus, NO solo "no-daño"); plan de **expandir el eval ~60-100 + split dev/held-out** (reabre DEC-003 "no-N"). §D ruido del juez **medido** (`scripts/judge_kruns.py` K=5) → **dual-judge DIFERIDO**: el árbitro sigue siendo **GPT-5.5 único + K-mayoría** (Claude-juez sería over-strict por contrato, degradaría respuestas correctas; GPT sin hueco demostrado). Dúo formalizado como sub-agente (`.claude/agents/adversarial-reviewer`). Eval-infra: **producción intacta**. El A/B de **contextual-retrieval** (el lever F2) queda para s48.
+>
 > El bot sirve desde el **corpus re-ingestado `chunks_v2`** (SWAP hecho en Railway
 > vía `CHUNKS_TABLE=chunks_v2`). Cambios respecto a lo que describe el resto de
 > este doc (que documenta el pipeline histórico con el corpus viejo `chunks`):
