@@ -1436,3 +1436,30 @@ El primer run del árbitro end-to-end (`atomic_scorer.py --llm` sobre los 19, s3
 
 **Coste estimado**: ~1-2h + re-baseline del scorer (riesgo bajo, cubierto por tests).
 
+---
+
+## 40. recall@k como gate pre-merge (baseline + `--gate`) — DIFERIDO a F2/F3 (sesión 46)
+
+**Estado actual** (s46, DEC-019/F0#6): la métrica de recall@k determinista YA existe
+(`scripts/retrieval_eval.py`: recall por-fact y por-pregunta, matcher estricto canónico,
+diagnóstico de gap raíz). Lo que FALTA para que sea un "gate": baseline versionado + modo
+`--gate` (compara vs baseline, exit≠0 si regresa) + config estampada en el output (como F0#1).
+
+**Por qué se difirió** (s46): (1) el CI es OFFLINE (`.github/workflows/ci.yml`: pytest +
+check_deps, sin secrets ni red) → no puede correr recall@k real (necesita Supabase + Voyage)
+sin romper el CI rápido/sin-secrets; un gate de recall real es pre-merge con red, no en cada
+PR. (2) Esta sesión NO toca retrieval (F0=higiene, F1=gate-audit, prior=F3) → un gate sin uso
+inmediato es aparato (pregunta cero). El cimiento (la métrica) existe; el gate se cablea al
+primer uso real.
+
+**Trigger para implementar**: antes de mergear un cambio que toque RETRIEVAL —reranker Voyage
+/ contextual-retrieval (F2), externalización de `CATEGORY_TERMS` si altera valores, o
+escala/ingesta (F3)—. Ahí: congelar baseline con la config de prod (HyDE-off, retrieval
+crudo@50 SIN reranker = determinista; el reranker LLM es el ruido a separar) + añadir `--gate`.
+
+**Solución propuesta**: `retrieval_eval.py --gate` lee `evals/retrieval_baseline.yaml` (recall
+por-fact/pregunta + bloque meta de config), compara, exit≠0 si regresa > margen. Corrida
+pre-merge (con red); opcional job CI separado con secrets (NO recomendado: rompe el CI offline).
+
+**Coste estimado**: ~1h (el comando ya existe; falta baseline + comparador + estampado).
+
