@@ -37,7 +37,9 @@ os.environ["CHUNKS_TABLE"] = "chunks_v2"
 os.environ["HYDE_ENABLED"] = "false"
 
 import argparse
+import datetime
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -55,7 +57,7 @@ from src.config import CHUNKS_IS_V2, SUPABASE_URL, SUPABASE_SERVICE_KEY  # noqa:
 from src.rag.retriever import retrieve_chunks, extract_product_models  # noqa: E402
 from src.rag.reranker import rerank_chunks, rerank_chunks_voyage  # noqa: E402
 from src.rag.hyde import HYDE_ENABLED  # noqa: E402
-from scripts.strict_match import norm_ocr, distinctive, chunk_has_quote_strict  # noqa: E402
+from scripts.strict_match import norm_ocr, distinctive, chunk_has_quote_strict, anchor_present  # noqa: E402
 
 GOLD = ROOT / "evals" / "gold_answers_v1.yaml"
 # Veredictos de la corrida HyDE-OFF @ pool-50 de s45 (solo ANOTACION; los BUCKETS son la senal).
@@ -68,6 +70,16 @@ RERANK_K = 5
 
 # El unico PASS estable (B y A). Los 18 restantes = universo a auditar (DEC-003).
 STABLE_PASS = {"hp013"}
+
+
+def _git_commit() -> str | None:
+    """SHA corto del commit actual (reproducibilidad del gate); None si falla."""
+    try:
+        r = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT,
+                           capture_output=True, text=True, timeout=5)
+        return r.stdout.strip() or None
+    except Exception:
+        return None
 
 
 # --- anchors -----------------------------------------------------------------
@@ -116,7 +128,7 @@ def _chunk_has(content: str, kind: str, probe) -> bool:
     del rango de la TUBERIA, sin que ningun chunk tenga el spec del DETECTOR)."""
     if kind == "anchors":
         nc = norm_ocr(content or "")
-        return all(a in nc for a in probe)
+        return all(anchor_present(a, nc) for a in probe)
     return chunk_has_quote_strict(content or "", str(probe))
 
 
@@ -356,7 +368,23 @@ def main() -> int:
         print(f"  top5_src={sorted(set(s for s in top_src if s))}")
         print()
 
-    out_path.write_text(yaml.safe_dump(results, allow_unicode=True, sort_keys=False), encoding="utf-8")
+    # F0#1 (DEC-019): estampar la config EN el output → el gate es reproducible/auditable.
+    meta = {
+        "generated_at": datetime.datetime.now().isoformat(timespec="seconds"),
+        "git_commit": _git_commit(),
+        "chunks_table": os.environ.get("CHUNKS_TABLE"),
+        "hyde_enabled": HYDE_ENABLED,
+        "retrieve_k": RETRIEVE_K,
+        "rerank_k": RERANK_K,
+        "reranker": args.reranker,
+        "rerank_target_models": bool(args.target_models),
+        "gold_file": GOLD.name,
+        "bvg_file": BVG.name,
+        "n_qids": len(qids),
+        "qids": qids,
+    }
+    out_path.write_text(yaml.safe_dump({"meta": meta, "results": results},
+                                       allow_unicode=True, sort_keys=False), encoding="utf-8")
 
     # Resumen agregado
     print("=" * 70)

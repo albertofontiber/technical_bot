@@ -96,6 +96,8 @@
 >
 > **Actualización s44 (5 jun 2026 — SÍ toca producción, `DECISIONS.md` DEC-018):** **shipped `RETRIEVAL_TOP_K` 15→50** ("retrieve wide, generate narrow", TECH_DEBT #16; RERANK_TOP_K=5 sin cambio). El cuello del bulto NO era A2-fusión ni síntesis (el plan de 2 sesiones) — era el **CORTE `merged[:15]`** que enterraba chunks de coseno real bajo keyword-stamps planos; el pool ancho los deja sobrevivir + el reranker (por contenido) los sube. **A/B K=3 HyDE-off: FALLO ~6→1 estable**, 7 mejoras / 1 regresión (hp013). Residual = hp006 (recall-miss). PR #35 mergeado. **Pendiente (s45): HyDE-off** (medí HyDE-off; el bot despliega HyDE-on → re-medir en el path actual + override de Railway) + frontera **14 PARCIAL** (completitud). El dúo (Protocolo 3) cazó 2 over-frames míos antes de cablear (A2-build; y resucitar síntesis en s45) — `feedback_my_bias`.
 >
+> **Actualización s46 (6 jun 2026 — `DECISIONS.md` DEC-020):** **HyDE-off es ahora el DEFAULT** (`hyde.py:39`; cierra DEC-018f — el path validado en s44 corría HyDE-off; gana determinismo + ahorra una llamada Haiku/query; override `HYDE_ENABLED=true`; toca prod en el próximo deploy vía env de Railway). + F0-higiene del eval (frontera-dígito canónica `anchor_present`, config estampada en el gate — eval-infra). **F1 GATE source-anchored: síntesis MUERTA + retrieval-clásico medido-no-convierte** → el rumbo (s47) es **medir contextual-retrieval** (el cimiento BP no-probado) con A/B de conversión de veredictos; si no convierte → F3 (escala). 179 tests.
+>
 > El bot sirve desde el **corpus re-ingestado `chunks_v2`** (SWAP hecho en Railway
 > vía `CHUNKS_TABLE=chunks_v2`). Cambios respecto a lo que describe el resto de
 > este doc (que documenta el pipeline histórico con el corpus viejo `chunks`):
