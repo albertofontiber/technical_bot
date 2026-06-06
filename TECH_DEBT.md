@@ -1463,3 +1463,26 @@ pre-merge (con red); opcional job CI separado con secrets (NO recomendado: rompe
 
 **Coste estimado**: ~1h (el comando ya existe; falta baseline + comparador + estampado).
 
+## 41. Eje factual del scorer: distinguir "no en los fragmentos recuperados" (retrieval-local) de "el manual no lo describe" (manual-global) (sesión 47)
+
+**Estado actual** (s47, DEC-021 §D): el eje FACTUAL del scorer (`atomic_scorer.py:104`,
+contradicción-only) trata como "no-contradicción" que el bot admita carecer de un dato. Pero el
+contrato NO separa dos casos materialmente distintos: (a) "no está en **los fragmentos
+recuperados**" = afirmación VERDADERA sobre el retrieval (honesto = incompletitud, eje
+completitud); (b) "**el manual** no lo describe" cuando SÍ lo describe = afirmación FALSA sobre la
+fuente (más cerca de fabricación). Hoy ambas pasan como incompletitud. Destapado por el K-run del
+juez (`scripts/judge_kruns.py`): cat007/hp010 eran del tipo (a), honesto → GPT acertó al no
+marcarlas, Claude las sobre-marcaba.
+
+**Por qué no se arregló ahora**: no bloquea — los casos del K-run eran tipo (a), y el eje
+completitud + el juez holístico ya los cazan como PARCIAL. Es un afinamiento de precisión del eje,
+no un fallo activo (pregunta cero).
+
+**Trigger para implementar**: si un audit futuro encuentra el caso (b) —el bot afirmando
+falsamente sobre el MANUAL (no sobre los fragmentos recuperados)— sin que ningún eje lo marque.
+Entonces: añadir la distinción retrieval-local vs manual-global al prompt del eje factual (o al
+no-fabricación `:160`).
+
+**Relacionado**: DEC-021 §D (dual-judge DIFERIDO — el juez Claude sería over-strict por este mismo
+contrato; revisar SI GPT-5.5 muestra un hueco de recall), `atomic_scorer.py:104`.
+
