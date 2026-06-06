@@ -1,3 +1,38 @@
+meta:
+  generated_at: '2026-06-06T08:14:59'
+  git_commit: ef20709
+  chunks_table: chunks_v2
+  hyde_enabled: false
+  retrieve_k: 50
+  rerank_k: 5
+  reranker: llm
+  rerank_target_models: false
+  gold_file: gold_answers_v1.yaml
+  bvg_file: _s45_results_k50_hydeOFF.yaml
+  n_qids: 21
+  qids:
+  - cat001
+  - cat005
+  - cat007
+  - hp001
+  - hp002
+  - hp003
+  - hp004
+  - hp005
+  - hp006
+  - hp007
+  - hp008
+  - hp009
+  - hp010
+  - hp011
+  - hp012
+  - hp014
+  - hp015
+  - hp017
+  - hp018
+  - hp019
+  - hp020
+results:
 - qid: cat001
   veredicto_B: PARCIAL
   conducta_esperada: answer
@@ -5,13 +40,13 @@
   n_core_presente: 7
   buckets:
     SINTESIS: 3
-    RERANK-MISS: 3
-    RETRIEVAL: 1
+    RERANK-MISS: 1
+    RETRIEVAL: 3
     CORPUS-GAP: 0
   buckets_fuerte:
-    SINTESIS: 2
-    RERANK-MISS: 2
-    RETRIEVAL: 1
+    SINTESIS: 1
+    RERANK-MISS: 1
+    RETRIEVAL: 3
     CORPUS-GAP: 0
   target_servable: true
   target_in_pool50: true
@@ -72,10 +107,10 @@
     - '159'
     - '99'
     strength: fuerte
-    in_top5: true
-    in_pool50: true
+    in_top5: false
+    in_pool50: false
     in_manual_corpus: true
-    bucket: SINTESIS
+    bucket: RETRIEVAL
   - valor: 0,75 A
     probe:
     - 0,75
@@ -88,10 +123,10 @@
     probe:
     - '40'
     strength: debil
-    in_top5: false
+    in_top5: true
     in_pool50: true
     in_manual_corpus: true
-    bucket: RERANK-MISS
+    bucket: SINTESIS
   - valor: 32 / 25 / 20
     probe:
     - '20'
@@ -99,9 +134,9 @@
     - '32'
     strength: fuerte
     in_top5: false
-    in_pool50: true
+    in_pool50: false
     in_manual_corpus: true
-    bucket: RERANK-MISS
+    bucket: RETRIEVAL
   - valor: autoconfiguracion
     probe: ~autoconfiguracion
     strength: debil
@@ -147,20 +182,20 @@
   - Manual-de-Usuario-CS4
   - MNDT515
   pool50_sources:
-  - Tg-Honeywell_Tecnico
-  - UCIP MODBUS AM8200 V5.1
+  - UCIP-Tabla-de-compatibilidad-con-receptoras-y-centrales
+  - MIEMI120rev05
   - Manual-de-Usuario-CS4
-  - Tg-Honeywell_Tecnico
-  - MADT190_12
+  - 997-671-005-3_Configuration_ES
   - Manual-de-Usuario-CS4
-  - Tg-Honeywell_Tecnico
-  - MIE-MI-505rv01
+  - MADT281
   - Manual-de-Usuario-CS4
-  - MPDT190
+  - ETDT314
   - Manual-de-Usuario-CS4
-  - MPDT190
-  - MCDT156_A
-  - MCDT155
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
   - MNDT515
   facts:
   - valor: 110-230 Vac
@@ -332,13 +367,13 @@
   conducta_bot_B: answer
   n_core_presente: 3
   buckets:
-    SINTESIS: 3
-    RERANK-MISS: 0
+    SINTESIS: 2
+    RERANK-MISS: 1
     RETRIEVAL: 0
     CORPUS-GAP: 0
   buckets_fuerte:
-    SINTESIS: 2
-    RERANK-MISS: 0
+    SINTESIS: 1
+    RERANK-MISS: 1
     RETRIEVAL: 0
     CORPUS-GAP: 0
   target_servable: true
@@ -410,19 +445,19 @@
     probe:
     - '1111'
     strength: fuerte
-    in_top5: true
+    in_top5: false
     in_pool50: true
     in_manual_corpus: true
-    bucket: SINTESIS
+    bucket: RERANK-MISS
 - qid: hp002
   veredicto_B: PARCIAL
   conducta_esperada: answer
   conducta_bot_B: answer
   n_core_presente: 5
   buckets:
-    SINTESIS: 3
+    SINTESIS: 2
     RERANK-MISS: 0
-    RETRIEVAL: 2
+    RETRIEVAL: 3
     CORPUS-GAP: 0
   buckets_fuerte:
     SINTESIS: 0
@@ -472,10 +507,10 @@
     probe:
     - '80'
     strength: debil
-    in_top5: true
-    in_pool50: true
+    in_top5: false
+    in_pool50: false
     in_manual_corpus: true
-    bucket: SINTESIS
+    bucket: RETRIEVAL
   - valor: 300 s
     probe:
     - '300'
@@ -939,14 +974,14 @@
   conducta_bot_B: answer
   n_core_presente: 4
   buckets:
-    SINTESIS: 2
+    SINTESIS: 0
     RERANK-MISS: 0
-    RETRIEVAL: 2
+    RETRIEVAL: 4
     CORPUS-GAP: 0
   buckets_fuerte:
-    SINTESIS: 2
+    SINTESIS: 0
     RERANK-MISS: 0
-    RETRIEVAL: 2
+    RETRIEVAL: 4
     CORPUS-GAP: 0
   target_servable: true
   target_in_pool50: true
@@ -1016,10 +1051,10 @@
     - '-751'
     - sdx-751
     strength: fuerte
-    in_top5: true
-    in_pool50: true
+    in_top5: false
+    in_pool50: false
     in_manual_corpus: true
-    bucket: SINTESIS
+    bucket: RETRIEVAL
   - valor: IRX-751CTEM
     probe:
     - '-751'
@@ -1034,10 +1069,10 @@
     - '-751'
     - sdx-751
     strength: fuerte
-    in_top5: true
-    in_pool50: true
+    in_top5: false
+    in_pool50: false
     in_manual_corpus: true
-    bucket: SINTESIS
+    bucket: RETRIEVAL
 - qid: hp009
   veredicto_B: PARCIAL
   conducta_esperada: answer
@@ -1066,7 +1101,7 @@
   - MIE-MI-310
   - MIE-MI-310
   - MIE-MI-310
-  - MIE-MP-310
+  - MIE-MI-310
   - MIE-MI-310
   pool50_sources:
   - MIE-MI-310
@@ -1271,15 +1306,15 @@
   conducta_bot_B: answer
   n_core_presente: 4
   buckets:
-    SINTESIS: 4
-    RERANK-MISS: 0
-    RETRIEVAL: 0
-    CORPUS-GAP: 0
-  buckets_fuerte:
     SINTESIS: 3
     RERANK-MISS: 0
     RETRIEVAL: 0
-    CORPUS-GAP: 0
+    CORPUS-GAP: 1
+  buckets_fuerte:
+    SINTESIS: 2
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 1
   target_servable: true
   target_in_pool50: true
   target_in_top5: true
@@ -1368,10 +1403,10 @@
     - '+99'
     - '99'
     strength: fuerte
-    in_top5: true
-    in_pool50: true
-    in_manual_corpus: true
-    bucket: SINTESIS
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: false
+    bucket: CORPUS-GAP
   - valor: 2 lazos / 396
     probe:
     - '396'
@@ -1413,9 +1448,9 @@
   top5_sources:
   - MIDT180
   - MIDT180
-  - MPDT180
   - MIDT180
-  - MFDT180
+  - MPDT180
+  - MPDT180
   pool50_sources:
   - MPDT180
   - MFDT180
@@ -1663,7 +1698,7 @@
   - MIE-MI-310
   - MIE-MI-310
   - MIE-MI-310
-  - MIE-MI-310
+  - MIE-MP-310
   - MIE-MI-310
   pool50_sources:
   - MIE-MI-310
