@@ -35,8 +35,13 @@ logger = logging.getLogger(__name__)
 HYDE_MODEL = os.getenv("HYDE_MODEL", "claude-haiku-4-5")
 HYDE_MAX_TOKENS = 400
 
-# Feature flag: set HYDE_ENABLED=false to disable (e.g. for A/B comparison runs).
-HYDE_ENABLED = os.getenv("HYDE_ENABLED", "true").lower() == "true"
+# Feature flag. Default OFF desde s46 (DEC-019c): el path validado en s44 (retrieve-wide,
+# FALLO ~6->1) se midió HyDE-OFF; off = 100% determinista (on corre temp=0 = casi, hay
+# variación server-side) y ahorra una llamada Haiku/query. Override: HYDE_ENABLED=true.
+# PENDIENTE (gaps): confirmar on/off@50 en chunks_v2 (gate F1; la medición s29 sobre corpus
+# viejo NO transfiere) + re-evaluar el beneficio real de HyDE —vocabulary mismatch de jerga
+# informal, TECH_DEBT #25— con técnicos reales (el gold actual es formal).
+HYDE_ENABLED = os.getenv("HYDE_ENABLED", "false").lower() == "true"
 
 HYDE_SYSTEM_PROMPT = """Eres un manual técnico oficial de sistemas de protección contra incendios (PCI). \
 Recibes una consulta de un técnico de campo y debes escribir el párrafo del manual que contendría la respuesta.
