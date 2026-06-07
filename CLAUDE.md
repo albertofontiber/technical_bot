@@ -61,6 +61,25 @@ responsable. Guardarraíl anti-ritual: tally de confirmados/falsos-positivos; si
 "siempre alineado" o a fabricar trivialidades → revisar/matar. NO es un `/propose` 2.0:
 debe producir bite concreto anclado en evidencia (validado: cazó 5 fallos del localizador).
 
+## Protocolo 4 — Registro de procedimientos canónicos (gatillo → acción)
+**Regla rectora (extiende el Protocolo 1):** antes de declarar que seguiste un procedimiento o
+que algo está "hecho/completo/verificado", **re-lee su checklist canónico y verifícalo punto por
+punto EN EL MISMO TURNO**. La ausencia de verificación punto-por-punto ES la señal de que no lo
+hiciste. (Nace s49b: declaré 2× "procedimiento seguido" sin completarlo + arrastré 3 sesiones la
+premisa no verificada de contextual-retrieval — `feedback_my_bias`: el sistema no depende de Alberto como anti-bias.)
+
+| GATILLO | ACCIÓN OBLIGATORIA | Canónico |
+|---|---|---|
+| Autorar/editar un gold | Checklist completo de localización + verificación; ancla en la FUENTE, **nunca** en `chunks_v2` (circular); escribe vía `gold_store` (la puerta valida) | `RULER_DESIGN §2` |
+| Tocar retrieval/generación/una premisa/un "cimiento" | Verifica el **código y el estado real PRIMERO**; no teorices sobre premisas no verificadas (Protocolo 1 aplicado a premisas) | `DEC-022`; bias #20 |
+| Correr eval / medir un lever | Held-out **embargado**; juez GPT-5.5 + **K-mayoría** (no single-pass); 2 ejes (completitud↑ sin invención↑); freeze-contract (corpus+índice+embeddings+juez+seeds+config) | `DEC-023/015/001/021§F` |
+| Proponer/elegir un lever | **Gate/audit primero** (no pre-suponer — Protocolo 2); mide **delta en eval**, no proxies | `DEC-019/005` |
+
+**Criterio de inclusión** (que el registro no crezca arbitrario): solo procedimientos/contratos
+RECURRENTES (se aplican en un gatillo repetido), no decisiones puntuales. Extender al cerrar sesión
+si una decisión med/alto establece un procedimiento nuevo. El detalle vive en el doc canónico (no se
+duplica aquí); esta tabla solo gatilla + apunta.
+
 ## Convenciones de trabajo
 - **Contrato de toda propuesta: BP + estructural (raíz, no parche) + escalable.**
   Declara el resultado; si algo falla, declara el gap honestamente.
