@@ -5,6 +5,7 @@ Takes retrieved chunks and generates a technical answer for PCI technicians.
 
 import json
 import logging
+import os
 import re
 
 import anthropic
@@ -12,6 +13,15 @@ import anthropic
 from ..config import ANTHROPIC_API_KEY, LLM_MODEL, LLM_MAX_TOKENS
 
 logger = logging.getLogger(__name__)
+
+
+def _include_context() -> bool:
+    """A/B s48 (lever destapado por el dúo): incluir el blurb de contextual-retrieval
+    (B7, chunk['context']) en el prompt del generador, además del content. Default OFF
+    — prod sirve solo content (el blurb vive en el embedding, no en la generación). Se lee
+    en runtime (no a import-time) para poder togglear el A/B en un mismo proceso."""
+    return os.getenv("GENERATOR_INCLUDE_CONTEXT") == "1"
+
 
 SYSTEM_PROMPT = """Eres un asistente técnico experto en sistemas de protección contra incendios (PCI), \
 con documentación de múltiples fabricantes (actualmente Detnov, Notifier y Morley). Tu audiencia son \
@@ -408,7 +418,17 @@ def generate_answer(
             f"| Tipo: {content_type} | Relevancia: {similarity:.2f}{diagram_tag}"
             f" | Manual: {manual_name} | Rev: {rev_str}]"
         )
-        context_parts.append(f"{header}\n{chunk['content']}")
+        blurb = chunk.get("context") or ""
+        if _include_context() and blurb:
+            # Blurb situacional (B7) marcado como orientativo y NO citable, para que el
+            # generador lo use para ubicar el fragmento sin afirmarlo como dato (el blurb
+            # lo generó un LLM, no es texto-fuente — riesgo de fabricación señalado por el dúo).
+            context_parts.append(
+                f"{header}\n(Contexto orientativo del fragmento, NO es cita textual ni dato "
+                f"citable: {blurb})\n{chunk['content']}"
+            )
+        else:
+            context_parts.append(f"{header}\n{chunk['content']}")
 
         if has_diagram:
             diagram_map[i + 1] = {
