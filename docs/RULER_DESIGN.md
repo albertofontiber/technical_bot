@@ -83,6 +83,18 @@ en el eje de conducta del gold.
 
 ## 2. Cómo se construye un gold (el pipeline de verificación)
 
+> **CHECKLIST — verifícalo punto por punto ANTES de declarar el gold `verificado` (CLAUDE.md Protocolo 4):**
+> - [ ] 1. Localización EXHAUSTIVA: barrido de TODOS los manuales del producto (ES+EN) → `_provenance.localizacion.manuales_buscados`
+> - [ ] 2. Render del píxel de la fuente (no texto-solo)
+> - [ ] 3. Render ±1 vecina (cazar off-by-one)
+> - [ ] 4. Doble-señal AND por hecho CORE: cross-model del render (Claude+GPT) Y/O match determinista en texto → `_provenance.metodo` + `verificado_por`
+> - [ ] 5. Predicado completo (valor + parámetro + contexto, no solo el número)
+> - [ ] 6. Hechos atómicos (core/supp) + conducta derivada de principios+corpus (no del prompt)
+> - [ ] 7. El gold se ancla en la FUENTE; `chunks_v2` = nota diagnóstica POST-hoc, JAMÁS criterio (circular, §0)
+> - [ ] 8. Escritura vía `gold_store.upsert` (la puerta valida `metodo`+`verificado_por` para `verificado` — DEC-024)
+>
+> El detalle de cada paso, abajo. (El enforcement-puerta verifica que DOCUMENTASTE los pasos, no que los EJECUTASTE — esa es la capa del dúo P3 + tu disciplina con este checklist.)
+
 1. **Localización exhaustiva y auditable** (el eslabón más débil — Decisión D3):
    buscar términos/identificadores en **TODOS** los manuales del fabricante relevante
    + existencia en chunks_v2 (por SQL/búsqueda directa, **no** el ranker del RAG = no

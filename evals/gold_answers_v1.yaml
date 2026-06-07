@@ -2711,3 +2711,86 @@
       de bornes -/+ -> anclar en literal; ''identica''->''equivalente'' ES/EN; mantener 10^5 (pixel) con
       caveat de extraccion; completar mapa de bornes con canal 2. Regla C aplicada.'
     fecha: '2026-06-02'
+- qid: cat008
+  question: ¿Cómo se cablea el módulo de entrada M710 / MI-DMMI en el lazo, y qué resistencias necesita
+    (fin de línea y modo 3 estados)?
+  conducta_esperada: answer
+  split: dev
+  estrato:
+  - diagrama
+  - oem-relabel
+  gold_answer: 'El módulo de entrada M710 (MI-DMMI en nomenclatura Morley; es el mismo módulo de Notifier)
+    admite dos formas de conexionado: 2 estados (el cortocircuito se señaliza como alarma) y 3 estados,
+    que requiere una resistencia de 18 kΩ en serie con el contacto monitorizado (part M200E-EOL-R18).
+    La resistencia de fin de línea (RFL) del lazo es de 47 kΩ. El cableado del lazo usa los terminales
+    1 (−Lazo in), 2 (+Lazo in), 3 (−Lazo out) y 4 (+Lazo out); la Entrada A se conecta a los terminales
+    6-7. Para eliminar el aislador interno, los positivos de entrada/salida del lazo se conectan a los
+    terminales 4 y 5. Para instalaciones con requisitos VdS 2489 existe una opción de fin de línea polarizada
+    alternativa (M200E-EOL-RD).'
+  atomic_facts:
+  - texto: 'Hay 2 formas de conexionado: 2 estados (el corto se señaliza como alarma) y 3 estados'
+    tipo: core
+    estado: presente
+    valor: 2 estados / 3 estados
+    cita: guía MI-DMMI; I56-2005 figs 5/6
+  - texto: La resistencia de fin de línea (RFL) del lazo es 47 kΩ
+    tipo: core
+    estado: presente
+    valor: 47 kΩ
+    cita: diagrama guía MI-DMMI + I56-2005 (47KΩ)
+  - texto: El modo 3 estados requiere una resistencia de 18 kΩ en serie con el contacto (part M200E-EOL-R18)
+    tipo: core
+    estado: presente
+    valor: 18 kΩ
+    cita: guía MI-DMMI + I56-2005
+  - texto: 'Terminales del lazo: 1=−Lazo in, 2=+Lazo in, 3=−Lazo out, 4=+Lazo out; Entrada A = terminales
+      6-7'
+    tipo: core
+    estado: presente
+    valor: 1/2/3/4 lazo; 6-7 entrada A
+    cita: diagrama guía MI-DMMI
+  - texto: Para eliminar el aislador interno, los positivos in/out del lazo se conectan a los terminales
+      4 y 5
+    tipo: supplementary
+    estado: presente
+    valor: terminales 4 y 5
+    cita: guía MI-DMMI (*1)
+  - texto: 'Part number de la resistencia EOL estándar: M200E-EOL-R'
+    tipo: supplementary
+    estado: presente
+    valor: M200E-EOL-R
+    cita: I56-2005
+  - texto: Existe una opción EOL polarizada alternativa (M200E-EOL-RD) para requisitos VdS 2489
+    tipo: supplementary
+    estado: presente
+    valor: M200E-EOL-RD / VdS 2489
+    cita: I56-2005 (valor numérico del polarizado no afirmado por ambigüedad 47Ω/47KΩ)
+  citations:
+  - Conexionado-del-modulo-M710-MI-DMMI.pdf
+  - I56-2005-002 M710 M720 M721 M701.pdf
+  pdfs_used:
+  - Conexionado-del-modulo-M710-MI-DMMI.pdf
+  - I56-2005-002 M710 M720 M721 M701.pdf
+  _provenance:
+    estado: verificado
+    fecha: '2026-06-07'
+    fuente: Conexionado-del-modulo-M710-MI-DMMI.pdf (guía Honeywell/Morley, diagrama 2/3 estados) + I56-2005-002
+      M710 M720 M721 M701.pdf (manual oficial Notifier serie M700, EN)
+    localizacion:
+      render_pm1: p2 de la guía vacía → todo el contenido en p1; oficial p1-4 consistente
+      manuales_buscados:
+      - Conexionado-del-modulo-M710-MI-DMMI/CZ/CZR
+      - I56-2005 serie M700 (EN)
+      - I56-2006 MI-DMMI
+      - I56-4406 MI-DMMIE
+      - I56-3674 M710-CZR
+      - I56-4404 M710E
+      - I56-2129 M710-CZ
+      detalle: 'RULER_DESIGN §2 completo: barrido exhaustivo de 12 variantes M710/DMMI (grep ES+EN); render
+        350dpi guía p1; render±1 p2 (vacía, sin off-by-one); doble-señal AND cross-model (Claude + GPT-5.5)
+        en guía Y manual oficial; conflicto ''10k'' descartado (ruido de tabla de consumos en alemán)'
+    identidad: M710 (Notifier) = MI-DMMI (Morley/Honeywell) — OEM relabel; valores idioma-independientes
+    nota_diagnostica: el conexionado del M710 está presente en chunks_v2 (observación post-autoría, NO
+      criterio)
+    verificado_por: Claude + GPT-5.5 (cross-model)
+    metodo: render_pdf + cross_model

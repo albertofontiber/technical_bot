@@ -19,7 +19,8 @@ import gold_store as gs  # noqa: E402
 def _base(**kw) -> dict:
     g = {
         "qid": "t1", "question": "q", "conducta_esperada": "answer", "split": "dev",
-        "_provenance": {"estado": "verificado", "localizacion": {"t": 1}},
+        "_provenance": {"estado": "verificado", "localizacion": {"t": 1},
+                        "metodo": "render_pdf + cross_model", "verificado_por": "Claude + GPT-5.5"},
         "atomic_facts": [{"texto": "t", "tipo": "core", "estado": "presente"}],
     }
     g.update(kw)
@@ -122,6 +123,32 @@ def test_upsert_preserva_split_estrato(tmp_path):
     assert out["split"] == "held-out"
     assert out["estrato"] == ["multi-doc"]
     assert out["gold_answer"] == "reescrito"
+
+
+# --- enforcement del procedimiento (DEC-024) ------------------------------
+def test_verificado_sin_metodo_error():
+    g = _base()
+    del g["_provenance"]["metodo"]
+    assert any("metodo" in i.msg for i in _errs(g))
+
+
+def test_verificado_sin_verificado_por_error():
+    g = _base()
+    del g["_provenance"]["verificado_por"]
+    assert any("verificado_por" in i.msg for i in _errs(g))
+
+
+def test_upsert_valida_antes_de_escribir(tmp_path):
+    # upsert es la PUERTA real: un gold verificado sin evidencia del procedimiento NO entra.
+    p = _tmp(tmp_path, [])
+    bad = _base(qid="b1")
+    del bad["_provenance"]["metodo"]
+    raised = False
+    try:
+        gs.upsert(bad, p)
+    except ValueError:
+        raised = True
+    assert raised, "upsert debió abortar un gold verificado sin metodo"
 
 
 # --- guarda de regresión sobre el archivo REAL -----------------------------

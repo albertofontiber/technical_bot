@@ -137,9 +137,17 @@ def validate_entry(g: dict) -> list[Issue]:
         if cond not in CONDUCTAS:
             out.append(Issue(qid, "error",
                              f"conducta '{cond}' no está en las 5 válidas {sorted(CONDUCTAS)}"))
-        if not (g.get("_provenance") or {}).get("localizacion"):
+        prov = g.get("_provenance") or {}
+        if not prov.get("localizacion"):
             out.append(Issue(qid, "warning",
                              "verificado sin _provenance.localizacion (DRAFT: warning)"))
+        # Enforcement del procedimiento (DEC-024): evidencia mínima documentada para 'verificado'.
+        # Control de DOCUMENTACIÓN (olvido→visible), no de ejecución (esa = dúo P3). RULER_DESIGN §2.
+        if not prov.get("metodo"):
+            out.append(Issue(qid, "error",
+                             "verificado sin _provenance.metodo (evidencia del procedimiento: render + cross-model)"))
+        if not prov.get("verificado_por"):
+            out.append(Issue(qid, "error", "verificado sin _provenance.verificado_por"))
         facts = g.get("atomic_facts")
         if not facts:
             out.append(Issue(qid, "warning",
@@ -236,6 +244,12 @@ def write(golds: list[dict], path: Path = GOLD_PATH) -> None:
 
 
 def upsert(gold: dict, path: Path = GOLD_PATH) -> None:
+    # La PUERTA valida ANTES de escribir (DEC-024): un gold con errores de esquema NO entra.
+    # Antes upsert solo round-trip-eaba (write); el enforcement vivía solo en validate/CI.
+    errs = [i for i in validate_entry(gold) if i.severity == "error"]
+    if errs:
+        raise ValueError("upsert abortado — gold con errores de esquema:\n"
+                         + "\n".join(map(str, errs)))
     golds = load(path)
     qid = gold["qid"]
     for i, g in enumerate(golds):
