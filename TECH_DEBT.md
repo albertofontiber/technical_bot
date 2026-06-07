@@ -1486,3 +1486,25 @@ no-fabricación `:160`).
 **Relacionado**: DEC-021 §D (dual-judge DIFERIDO — el juez Claude sería over-strict por este mismo
 contrato; revisar SI GPT-5.5 muestra un hueco de recall), `atomic_scorer.py:104`.
 
+## 42. Lectores-directos de `gold_answers_v1.yaml` que NO pasan por la puerta — el embargo del held-out no los cubre (sesión 49)
+
+**Estado actual** (s49, DEC-023): el embargo del held-out vive en `gold_store.verified(include_heldout=False)`
+(cubre los 4 consumidores del juez: `atomic_scorer:408`, `judge_kruns:82`, `judge_disagreement:99`,
+`characterize_factual_variance:83`) + replicado en `test_bot_vs_gold.py` (lee el YAML directo). PERO 3
+herramientas de DIAGNÓSTICO de retrieval leen el YAML directo sin filtrar `split`:
+`audit_retrieval_funnel.py:62`, `retrieval_eval.py:46`, `validate_s29_burial.py:47` (este último = one-off
+muerto de s29). Hoy es no-op (0 held-out), pero al autorar held-out de verdad quedarían expuestos.
+
+**Por qué no se arregló ahora** (pregunta cero): son herramientas EXPLORATORIAS de diagnóstico, NO el
+camino que DECIDE un lever (ese es el juez + el harness, ya cubiertos). Migrarlas todas a la puerta =
+over-scope del backbone. El embargo sobre ellas es disciplina (no correr diagnóstico sobre held-out)
+hasta el trigger.
+
+**Trigger para implementar**: cuando existan golds held-out reales Y se quiera diagnóstico de retrieval
+sobre el set; o al construir el run-manifest (freeze-contract, DEC-021 §F) que centralizaría la selección
+de set. Fix de raíz: que todo consumidor del ruler pase por `gold_store.dev()/verified()/heldout()` en
+vez de abrir el YAML directo.
+
+**Relacionado**: DEC-023 (backbone Track B + embargo en la puerta), `gold_store.py`
+(`verified`/`dev`/`heldout`), DEC-021 §F (run-manifest).
+

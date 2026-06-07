@@ -131,15 +131,29 @@ def main() -> int:
     # queda en cuarentena explícita — un ruler no fiable produce veredictos no fiables
     # (lección s30). SCORE_ALL=1 los puntúa todos marcándolos UNVERIFIED (diagnóstico).
     score_all = os.getenv("SCORE_ALL") == "1"
+    # EMBARGO del held-out (DEC-023): excluido por defecto. Este harness lee el YAML directo
+    # (no pasa por gold_store.verified, donde vive el embargo de la puerta), así que el filtro
+    # se replica aquí. La corrida final ÚNICA del A/B pasa INCLUDE_HELDOUT=1; el resto del
+    # tiempo el held-out NO se inspecciona para tunear el lever (disciplina).
+    include_heldout = os.getenv("INCLUDE_HELDOUT") == "1"
 
     def _estado(g: dict) -> str:
         return (g.get("_provenance") or {}).get("estado", "pendiente")
 
+    def _split(g: dict) -> str:
+        return g.get("split") or "dev"
+
+    embargoed = [q for q in sorted(gold_rows)
+                 if not include_heldout and _split(gold_rows[q]) == "held-out"]
     scored = [q for q in sorted(gold_rows)
-              if score_all or _estado(gold_rows[q]) == "verificado"]
-    quarantined = [q for q in sorted(gold_rows) if q not in scored]
+              if (score_all or _estado(gold_rows[q]) == "verificado")
+              and q not in embargoed]
+    quarantined = [q for q in sorted(gold_rows) if q not in scored and q not in embargoed]
     print(f"Golds VERIFICADOS (puntuados): {len(scored)}/{len(gold_rows)} | "
           f"cuarentena (sin puntuar): {len(quarantined)}")
+    if embargoed:
+        print(f"  EMBARGO held-out (excluidos; INCLUDE_HELDOUT=1 para la corrida final): "
+              f"{len(embargoed)} → {', '.join(embargoed)}")
     if quarantined:
         print("  cuarentena: " + ", ".join(
             f"{q}[{_estado(gold_rows[q])}]" for q in quarantined))

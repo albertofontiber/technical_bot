@@ -400,3 +400,48 @@ end-to-end → solo entonces escalar a los 19 / nuevos.
 ruler destapa (displays 7-seg malinterpretados, tablas/matrices perdidas, chunks
 truncados) trazan a esa capa de extracción/chunking → ver lever de extracción (tarea
 #10).
+
+---
+
+## 8. Estratos y split del eval (s49, Track B — DEC-023)
+
+Para que el eval ampliado dé **poder dirigido por slice** (no solo un N global) y
+**generalización** (held-out), el gold tiene dos campos top-level (puerta `gold_store.py`,
+ortogonales a `conducta_esperada` y a `_provenance.estado`):
+
+**`split` ∈ {dev, held-out} — la partición + el EMBARGO.**
+- `dev` = se usa para diseñar/tunear/decidir levers. `held-out` = embargado: NO se inspecciona
+  ni se tunea; se usa UNA vez al final para confirmar generalización si un lever pasa en dev.
+- **El embargo vive en la PUERTA**, no en cada harness (bite crítico del dúo s49):
+  `gold_store.verified(include_heldout=False)` excluye held-out por defecto → los consumidores
+  del juez (`atomic_scorer`/`judge_kruns`/`judge_disagreement`/`characterize_factual_variance`)
+  lo heredan; `test_bot_vs_gold` lo replica (lee el YAML directo). La corrida final pasa
+  `include_heldout=True` / `INCLUDE_HELDOUT=1`. Gap declarado: los lectores-directos de
+  diagnóstico (`TECH_DEBT #42`) no lo cubren → disciplina hasta el run-manifest (DEC-021 §F).
+- **Los golds ya inspeccionados son `dev` por construcción** (no se puede retro-embargar lo ya
+  visto). El **held-out solo se puebla con autoría NUEVA embargada**. AUTORAR la fuente de un
+  held-out es lícito; lo prohibido es correr el bot sobre él y tunear según el resultado.
+- `ausente=dev` solo como default defensivo; tras el retrofit, `split` es **obligatorio en
+  `verificado`** (el `upsert` falla-cerrado → el bulk no crea un held-out "sin querer").
+
+**`estrato` = lista multi-tag de vocabulario CONTROLADO — la cobertura diagnóstica.**
+Un gold puede ser varios a la vez (multi-doc Y es-en Y oem). Controlado (set cerrado) para que
+el conteo per-estrato no se rompa por typos. NO duplica las 5 conductas (eje propio) ni incluye
+`control-pass` (estado histórico, no contenido → se selecciona en tiempo de A/B). Vocabulario +
+criterio operacional (medible OFFLINE, anti-circular — bite del dúo):
+
+| tag | criterio (cuándo aplicarlo) |
+|---|---|
+| `multi-doc` | la respuesta exige fusionar ≥2 manuales distintos (no 2 revisiones) |
+| `content-pobre` | el valor del hecho core NO está en el body del `content` del chunk (vive en `section_title`, tabla-imagen, o solo en el `context`-blurb) |
+| `fragmento-truncado` | el hecho está cortado por el chunking (a caballo entre chunks) |
+| `tabla-matriz` | el dato vive en una tabla/matriz densa |
+| `scan-ocr` | la fuente del dato es scan/píxel/7-seg (texto extraído no fiable) |
+| `diagrama` | la respuesta vive en un diagrama/esquema de cableado |
+| `es-en` | vocabulary-mismatch ES↔EN (dato en EN, o el término difiere por idioma) |
+| `conflicto-es-us` | variantes de mercado ES vs US en conflicto (→ answer-con-conflicto) |
+| `oem-relabel` | el producto es un relabeling OEM (Securiton/Honeywell rebrand) |
+| `familia-ambigua` | near-name que exige desambiguar (→ clarify) |
+
+Estado s49: los 22 retrofitados (todos `dev`; 17 con estrato anclado en RULER_DESIGN §2/DECISIONS
++ estructura; los 5 estratos del PREREG cubiertos pero varios a n=1 → el bulk los refuerza).

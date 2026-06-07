@@ -5,6 +5,9 @@
 - qid: hp001
   question: En la Detnov CAD-250, ¿cómo se entra al menú de programación avanzada?
   conducta_esperada: answer
+  split: dev
+  estrato:
+  - multi-doc
   gold_answer: 'Para acceder al menú de programación avanzada (nivel de configuración/administrador) en
     la central Detnov CAD-250, siga estos pasos: 1) Desde la PANTALLA DE REPOSO, toque con el dedo el
     icono del candado (🔓) que aparece en el centro de la pantalla. 2) Esto le llevará a la PANTALLA DE
@@ -123,6 +126,9 @@
   question: El detector ASD535 de Detnov está dando una alarma intermitente de flujo bajo. ¿Cuál es la
     causa más probable y cómo se diagnostica?
   conducta_esperada: answer
+  split: dev
+  estrato:
+  - oem-relabel
   gold_answer: |-
     El ASD 535 no genera una alarma de 'flujo bajo' como tal, sino un aviso de fallo de flujo de aire (Fault flujo de aire) cuando la variación del flujo de aire respecto al valor nominal (registrado durante el reset inicial = 100%) supera la ventana de monitorización configurada (por defecto ±20% según EN 54-20) durante más tiempo que el retardo configurado (por defecto 300 s).
 
@@ -187,11 +193,12 @@
     estado: presente
     valor: 7.6.1
     cita: p101 (7.6.1)
-  - texto: Por defecto todos los eventos del ASD 535 entran en parada automatica y requieren un RESET DE ESTADO
-      para reinicializar (cap 2.2.17). El RESET INICIAL (cap 7.3.5) NO es necesario tras una simple limpieza de
-      orificios; SI procede cuando, tras las medidas de limpieza del conducto (puntos 9-10), una nueva lectura
-      de los valores de flujo (p122 punto 13) sigue FUERA DE TOLERANCIA, y SOLO con el conducto limpio e intacto
-      (si no, la toma de muestras puede ser insuficiente y la alarma podria no dispararse)
+  - texto: Por defecto todos los eventos del ASD 535 entran en parada automatica y requieren un RESET
+      DE ESTADO para reinicializar (cap 2.2.17). El RESET INICIAL (cap 7.3.5) NO es necesario tras una
+      simple limpieza de orificios; SI procede cuando, tras las medidas de limpieza del conducto (puntos
+      9-10), una nueva lectura de los valores de flujo (p122 punto 13) sigue FUERA DE TOLERANCIA, y SOLO
+      con el conducto limpio e intacto (si no, la toma de muestras puede ser insuficiente y la alarma
+      podria no dispararse)
     tipo: core
     estado: presente
     valor: reset inicial
@@ -286,6 +293,9 @@
 - qid: hp003
   question: ¿Cómo se conectan las baterías de 24V en la Detnov CAD-150?
   conducta_esperada: answer
+  split: dev
+  estrato:
+  - multi-doc
   gold_answer: |-
     Las centrales analógicas CAD-150 requieren dos baterías de 12V conectadas en serie para obtener los 24V necesarios para el funcionamiento del sistema. Según el modelo, las baterías pueden ser de 7A/h (también existen modelos con capacidad para 18A/h o 24A/h en las centrales de 4 y 8 lazos).
 
@@ -420,6 +430,7 @@
 - qid: hp004
   question: ¿Cuál es la tensión de funcionamiento y el consumo en reposo del detector DGD-600 de Detnov?
   conducta_esperada: clarify
+  split: dev
   gold_answer: |-
     El detector DGD-600 está disponible en dos versiones de alimentación, por lo que la tensión de funcionamiento y el consumo en reposo dependen del modelo:
 
@@ -496,6 +507,10 @@
   question: En la Notifier ID3000, ¿cómo se programa una zona para que active una salida de sirena solo
     cuando haya coincidencia de dos detectores?
   conducta_esperada: answer
+  split: dev
+  estrato:
+  - multi-doc
+  - tabla-matriz
   gold_answer: |-
     Para programar una zona en la central ID3000 de modo que active una salida de sirena solo cuando haya coincidencia de dos detectores, se debe crear una instrucción en la Matriz de Control con los siguientes parámetros:
 
@@ -635,6 +650,9 @@
 - qid: hp006
   question: La Notifier AFP-400 muestra el aviso 'Tierra' (Earth Fault). ¿Qué significa y cómo se localiza?
   conducta_esperada: answer
+  split: dev
+  estrato:
+  - multi-doc
   gold_answer: |-
     En la AFP-400 el aviso 'Tierra' (Earth Fault) corresponde a un fallo de aislamiento a tierra: algun conductor de un circuito (lazo, zona, salidas o alimentacion) hace contacto con masa/tierra, y la central lo senaliza como averia del sistema.
 
@@ -678,12 +696,13 @@
     valor: SW2/SW3
     cita: MADT380_01 p1
   - texto: Los manuales de funcionamiento/configuracion consultados por el bot (MFDT170, MIDT170, MPDT170,
-      MADT232) NO incluyen un procedimiento paso a paso de LOCALIZACION del punto exacto del fallo de tierra
+      MADT232) NO incluyen un procedimiento paso a paso de LOCALIZACION del punto exacto del fallo de
+      tierra
     tipo: core
     estado: ausente-probado
     valor: null
-    cita: MFDT170 (0 menciones de 'Tierra') + MIDT170/MPDT170/MADT232; el manual de instalacion 50253 (destino
-      de la redireccion del bot) NO fue verificado
+    cita: MFDT170 (0 menciones de 'Tierra') + MIDT170/MPDT170/MADT232; el manual de instalacion 50253
+      (destino de la redireccion del bot) NO fue verificado
   confidence: media
   pdfs_used:
   - MADT380_01.pdf
@@ -742,6 +761,10 @@
 - qid: hp007
   question: ¿Cómo se realiza el test anual de un detector VESDA-E VEP según el manual del fabricante?
   conducta_esperada: answer
+  split: dev
+  estrato:
+  - multi-doc
+  - tabla-matriz
   gold_answer: |-
     El manual del VESDA-E VEP no describe un "test anual" como un procedimiento
     único paso a paso, sino un CALENDARIO DE MANTENIMIENTO (Tabla 7-1) con tareas a
@@ -858,6 +881,11 @@
 - qid: hp008
   question: ¿Qué detectores de humo analógicos son compatibles con la Notifier ID3000?
   conducta_esperada: answer
+  split: dev
+  estrato:
+  - multi-doc
+  - tabla-matriz
+  - content-pobre
   gold_answer: |-
     Según el Apéndice 3 del Manual de instalación y puesta en marcha de la ID3000, los sensores de humo analógicos compatibles con la central son:
 
@@ -1005,6 +1033,9 @@
 - qid: hp009
   question: ¿Cuál es la resistencia de fin de línea recomendada para los lazos de la central Morley ZXe?
   conducta_esperada: answer
+  split: dev
+  estrato:
+  - diagrama
   gold_answer: |-
     El lazo analogico direccionable de la central Morley ZXe (e-series ZX2e/ZX5e) NO lleva resistencia de fin de linea (RFL). El lazo se cablea como un BUCLE CERRADO: los terminales de salida del panel (Inicio Lazo +/- OUT) recorren los equipos direccionables y el final del lazo VUELVE al panel por los terminales de Retorno (+/-) del mismo conector de lazo (manual de instalacion MIE-MI-530, seccion 3.4.3.1, Figuras 9 y 10). Cada lazo dispone de aisladores de cortocircuito INTERNOS en el panel; se recomienda intercalar aisladores adicionales en campo (maximo 32 sensores/pulsadores entre aisladores segun EN54-2 12.5.2, o por zona fisica segun EN54-14) para que un corto o un circuito abierto no deje sin comunicacion a todo el lazo.
 
@@ -1100,6 +1131,9 @@
 - qid: hp010
   question: En la Morley DXc, ¿cómo se añade un nuevo detector al lazo tras la puesta en marcha inicial?
   conducta_esperada: answer
+  split: dev
+  estrato:
+  - multi-doc
   gold_answer: 'Para añadir un nuevo detector (equipo) al lazo tras la puesta en marcha inicial en una
     central Morley DXc, se debe realizar una autobúsqueda de equipos del lazo. Procedimiento: 1) Acceder
     al Nivel 3 (introducir clave de acceso de Nivel 3 desde el menú de Nivel 2, opción ''5: Menú'', luego
@@ -1222,6 +1256,10 @@
   question: En la Morley RP1r, después de descargar la extinción el sistema no vuelve a estado normal
     tras resetear. ¿Qué comprobar?
   conducta_esperada: answer
+  split: dev
+  estrato:
+  - scan-ocr
+  - oem-relabel
   gold_answer: |-
     En la central RP1r-Supra, tras una descarga de extinción y al intentar rearmar, hay que comprobar:
 
@@ -1324,6 +1362,10 @@
   question: ¿Cuántos lazos direccionables soporta la Notifier AM2020/AFP1010 y cuántos dispositivos por
     lazo?
   conducta_esperada: answer-con-conflicto
+  split: dev
+  estrato:
+  - multi-doc
+  - conflicto-es-us
   gold_answer: |-
     La AM2020 y la AFP1010 comparten la arquitectura de lazos SLC, pero difieren en el numero de lazos:
 
@@ -1445,6 +1487,9 @@
 - qid: hp013
   question: ¿Cómo se cambia la batería tampón de la Detnov ADW535 sin perder configuración?
   conducta_esperada: answer
+  split: dev
+  estrato:
+  - oem-relabel
   gold_answer: 'El manual técnico del ADW 535 (T 140 358 e es) menciona la existencia de una batería de
     litio en el Main Board LMB 35 (visible en la Fig. 31 y Fig. 35, identificada como ''BAT''), así como
     la indicación de retirar la cinta aislante de la batería de litio antes del primer encendido (cap.
@@ -1559,6 +1604,7 @@
 - qid: hp014
   question: ¿Cómo se conecta un módulo de aislamiento de línea en un lazo ID2000?
   conducta_esperada: answer
+  split: dev
   gold_answer: |-
     Conexión de aisladores en un lazo ID2000:
 
@@ -1724,6 +1770,7 @@
   question: En la Detnov CCD-103, ¿cómo se desactiva un detector individualmente sin afectar al resto
     del lazo?
   conducta_esperada: answer
+  split: dev
   gold_answer: |-
     En la central Detnov CCD-103 NO es posible desactivar un detector de forma individual: al ser una central CONVENCIONAL (3 zonas de deteccion + 1 de extincion), no direcciona los detectores uno a uno. La desconexion/anulacion se realiza por ZONA completa: con la llave en posicion ON, pulsando 2 veces la tecla de la zona correspondiente, la zona queda desconectada (se enciende el indicador 'Anular' y el LED de fallo/anular/prueba de esa zona). Al desconectar la zona se anulan TODOS sus detectores (maximo 32 por zona), no uno solo.
 
@@ -1824,6 +1871,9 @@
 - qid: hp017
   question: ¿Cómo se programa el retardo de salida de alarma principal en la Notifier PEARL?
   conducta_esperada: answer
+  split: dev
+  estrato:
+  - multi-doc
   gold_answer: |-
     En la central Notifier PEARL los retardos en la activación de las salidas (incluida la salida/sirena de alarma) no se programan con un único parámetro de "retardo de salida", sino mediante la PROGRAMACIÓN DE CAUSA-EFECTO (reglas), descrita en el Manual de configuración de la central (997-671-005-3), Apéndice 5.
 
@@ -1925,6 +1975,7 @@
 - qid: hp018
   question: ¿Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe?
   conducta_esperada: answer
+  split: dev
   gold_answer: |-
     En la Morley ZXe (e-series, paneles ZX2e/ZX5e) las salidas de sirena son circuitos convencionales supervisados en la placa base:
 
@@ -2063,6 +2114,9 @@
   question: ¿Cuál es el rango de temperatura de funcionamiento del detector de aspiración ASD535 (Securiton,
     distribuido por Detnov)?
   conducta_esperada: answer
+  split: dev
+  estrato:
+  - oem-relabel
   gold_answer: Según la descripción técnica del ASD 535, el rango de temperatura de funcionamiento es
     de –30 °C a +60 °C, tanto para la caja del detector como para el conducto de aspiración (para uso
     conforme a UL el máximo es +40 °C, y según el estándar australiano AS 1603.8 el máximo es +55 °C).
@@ -2156,6 +2210,7 @@
 - qid: hp020
   question: En la Notifier INSPIRE, ¿cómo se configuran las contraseñas de nivel 2 y nivel 3?
   conducta_esperada: answer
+  split: dev
   gold_answer: |-
     En la Notifier INSPIRE, las contraseñas de los códigos de acceso de Nivel 2 y Nivel 3 se cambian desde la propia central mediante el siguiente procedimiento. Se recomienda cambiar la contraseña por defecto a una exclusiva de entre 4 y 8 dígitos.
 
@@ -2277,6 +2332,9 @@
   question: En la Notifier PEARL, ¿cuántos equipos admite un lazo SLC y qué límites de cableado hay (aisladores),
     y cómo se dan de alta y editan esos equipos desde la central?
   conducta_esperada: answer
+  split: dev
+  estrato:
+  - multi-doc
   gold_answer: |-
     En la central Notifier PEARL la capacidad y el alta de equipos del lazo se reparten entre el manual de instalación/puesta en marcha (997-669) y el de configuración (997-671):
 
@@ -2424,6 +2482,9 @@
   question: ¿Cuáles son las características técnicas de la central de detección de gas Fidegas CS4, y
     en qué se diferencian las versiones digital y analógica?
   conducta_esperada: answer
+  split: dev
+  estrato:
+  - tabla-matriz
   gold_answer: |-
     La central de detección de gas Fidegas CS4 tiene estas características técnicas (tabla §6 del manual):
     - Alimentación: 110-230 Vac, 50-60 Hz; potencia 30 W.
@@ -2542,6 +2603,9 @@
     de fin de línea llevan las salidas de sirena y cuál es la especificación eléctrica de los contactos
     de relé?
   conducta_esperada: answer
+  split: dev
+  estrato:
+  - es-en
   gold_answer: |-
     El FAAST LT-200 (detector de humo por aspiración) dispone de salidas de relé y de sirena (datos de la tabla de terminales/relés, p5 del QIG, idénticos en las versiones ES e inglesa):
     - Relés: salida de ALARMA y salida de AVERÍA (canal 1 y, en modelos de 2 canales, canal 2), con contactos NC-C-NA.
