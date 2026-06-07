@@ -155,3 +155,25 @@ def test_upsert_valida_antes_de_escribir(tmp_path):
 def test_archivo_real_valida_limpio():
     errs = [i for i in gs.validate() if i.severity == "error"]
     assert not errs, "errores en gold_answers_v1.yaml:\n" + "\n".join(map(str, errs))
+
+
+# --- guard anti-vicio: artefactos del chunking son POST-HOC, no eje de autoría (s50/DEC-025) --
+def test_artefactos_chunking_son_posthoc_no_autoria():
+    # content-pobre/fragmento son propiedades del CHUNKING → exigían mirar el chunk para
+    # SELECCIONAR un gold (= el vicio s50). Demotados a causa post-hoc. Este test bloquea que
+    # VUELVAN al eje de autoría (taxonomía ESTÁTICA); el corte OPERATIVO sobre autoría NUEVA es el
+    # warning de validate_entry (test_estrato_posthoc_emite_warning) + el procedimiento P4/§2.
+    assert {"content-pobre", "fragmento-truncado"} <= gs.ESTRATOS_POSTHOC
+    assert not (gs.ESTRATOS_AUTORIA & gs.ESTRATOS_POSTHOC), "AUTORIA y POSTHOC deben ser disjuntos"
+    assert gs.ESTRATOS == gs.ESTRATOS_AUTORIA | gs.ESTRATOS_POSTHOC
+    # legacy: siguen siendo tags VÁLIDOS (hp008 no se rompe), pero fuera del eje de autoría
+    assert "content-pobre" in gs.ESTRATOS and "content-pobre" not in gs.ESTRATOS_AUTORIA
+
+
+def test_estrato_posthoc_emite_warning():
+    # s50/DEC-025: un gold con un tag POST-HOC en `estrato` (= re-vicio en autoría nueva) emite
+    # WARNING (no error, para no romper el legacy hp008). Es el corte OPERATIVO del guard.
+    warns = [i for i in gs.validate_entry(_base(estrato=["content-pobre"])) if i.severity == "warning"]
+    assert any("post-hoc" in w.msg for w in warns), "content-pobre en estrato debe avisar (anti-vicio)"
+    # un estrato de autoría normal NO dispara el aviso
+    assert not [i for i in gs.validate_entry(_base(estrato=["multi-doc"])) if "post-hoc" in i.msg]

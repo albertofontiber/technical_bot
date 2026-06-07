@@ -44,10 +44,22 @@ SPLITS = {"dev", "held-out"}
 # CATALOG_PLAN §4 + RULER_DESIGN §2. NO incluye las 5 conductas (eje `conducta_esperada`) ni
 # `control-pass` (estado histórico, no propiedad de contenido → se selecciona en el A/B, no se
 # hornea). Controlado (set cerrado) para que el conteo per-estrato no se rompa por typos.
-ESTRATOS = {
-    "content-pobre", "fragmento-truncado", "multi-doc", "tabla-matriz", "scan-ocr",
-    "diagrama", "es-en", "conflicto-es-us", "oem-relabel", "familia-ambigua",
+# --- s50 (DEC-025): reframe — autorar por DIMENSIÓN DE FALLO, no por artefacto del chunking. ---
+# EJE DE AUTORÍA: dimensiones de fallo definibles desde la FUENTE. El gold se ELIGE por estas
+# (chunks_v2 JAMÁS criterio de selección — el vicio que Alberto cazó en s50).
+ESTRATOS_AUTORIA = {
+    "multi-doc", "tabla-matriz", "scan-ocr", "diagrama", "es-en",
+    "conflicto-es-us", "oem-relabel", "familia-ambigua",
 }
+# CAUSAS POST-HOC (capa extracción/chunking): se DESCUBREN al diagnosticar POR QUÉ falló un gold;
+# NUNCA se usan para SELECCIONAR (exigiría mirar el chunk antes de escribir = el vicio). Demotados.
+ESTRATOS_POSTHOC = {"content-pobre", "fragmento-truncado"}
+# Vocabulario VÁLIDO = unión (los legacy con tag post-hoc, p.ej. hp008, siguen validando). El reframe
+# COMPLETO (reclasificar tabla/diagrama/scan + reconciliar PREREG + discriminador) está DIFERIDO al
+# gatillo "antes del 1er A/B-lever". MIENTRAS TANTO: para autorar un gold de una dimensión NUEVA
+# (síntesis-completitud · conflicto-revisión · mezcla-cross-product, ya en el canon §0/§1), AÑADE su
+# tag aquí a ESTRATOS_AUTORIA con su def (cambio mínimo de 1 línea) — eso NO es la consolidación.
+ESTRATOS = ESTRATOS_AUTORIA | ESTRATOS_POSTHOC
 
 # Orden canónico de campos al serializar.
 FIELD_ORDER = ["qid", "question", "conducta_esperada", "split", "estrato",
@@ -130,6 +142,14 @@ def validate_entry(g: dict) -> list[Issue]:
             for t in estr:
                 if t not in ESTRATOS:
                     out.append(Issue(qid, "error", f"estrato '{t}' fuera del vocabulario {sorted(ESTRATOS)}"))
+            # Guard OPERATIVO anti-vicio (s50/DEC-025): un tag POST-HOC en `estrato` = usar una causa
+            # del chunking como eje de autoría. Legacy (hp008) lo tiene → WARNING, no ERROR (no rompe).
+            # Para autoría NUEVA es la señal de re-vicio (el procedimiento P4/§2 solo no bastó en s50).
+            posthoc = [t for t in estr if t in ESTRATOS_POSTHOC]
+            if posthoc:
+                out.append(Issue(qid, "warning",
+                                 f"estrato post-hoc {posthoc} como eje de autoría (s50/DEC-025): "
+                                 "causa del chunking, NO criterio de selección — legacy OK, nueva autoría = re-vicio"))
 
     cond = g.get("conducta_esperada")
     # Validación TIERED.

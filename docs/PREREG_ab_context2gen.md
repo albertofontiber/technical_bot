@@ -3,6 +3,12 @@
 > Pre-registro escrito ANTES de medir, para que el A/B no sea exploratorio (anti p-hacking;
 > protege el embargo del held-out). Canónico: `DECISIONS.md` DEC-022. **Estado: PENDIENTE de
 > ejecutar — espera el eval ampliado (Track B).**
+>
+> ⚠️ **PENDIENTE DE RECONCILIAR (s50, DEC-025):** este PREREG **pre-selecciona** por estrato
+> `content-pobre`, que s50 demotó a causa post-hoc (era la fuente del vicio chunk-peeking). El reframe:
+> el A/B corre sobre golds de DIMENSIÓN DE FALLO y se ve DÓNDE ayuda B (post-hoc resultan content-pobre),
+> NO se pre-selecciona content-pobre. **NO correr este A/B sobre el PREREG viejo** — reconciliar primero
+> (gatillo: antes del 1er A/B-lever; freeze-contract).
 
 ## Hipótesis
 Incluir el blurb de contextual-retrieval (`chunk['context']`, B7) en el prompt del generador

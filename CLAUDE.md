@@ -70,7 +70,7 @@ premisa no verificada de contextual-retrieval — `feedback_my_bias`: el sistema
 
 | GATILLO | ACCIÓN OBLIGATORIA | Canónico |
 |---|---|---|
-| Autorar/editar un gold | Checklist completo de localización + verificación; ancla en la FUENTE, **nunca** en `chunks_v2` (circular); escribe vía `gold_store` (la puerta valida) | `RULER_DESIGN §2` |
+| Autorar/editar un gold | **ANTES (selección, s50):** revisa las preguntas YA existentes → **no-duplicado**; elige por **DIMENSIÓN DE FALLO desde la FUENTE** — `chunks_v2` JAMÁS criterio **ni en la SELECCIÓN** (artefactos content-pobre/fragmento = causa post-hoc, no eje de autoría). **DESPUÉS:** checklist completo de localización + verificación; ancla en la FUENTE; escribe vía `gold_store` (la puerta valida) | `RULER_DESIGN §2`; `DEC-025` |
 | Tocar retrieval/generación/una premisa/un "cimiento" | Verifica el **código y el estado real PRIMERO**; no teorices sobre premisas no verificadas (Protocolo 1 aplicado a premisas) | `DEC-022`; bias #20 |
 | Correr eval / medir un lever | Held-out **embargado**; juez GPT-5.5 + **K-mayoría** (no single-pass); 2 ejes (completitud↑ sin invención↑); freeze-contract (corpus+índice+embeddings+juez+seeds+config) | `DEC-023/015/001/021§F` |
 | Proponer/elegir un lever | **Gate/audit primero** (no pre-suponer — Protocolo 2); mide **delta en eval**, no proxies | `DEC-019/005` |
