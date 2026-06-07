@@ -84,6 +84,7 @@ en el eje de conducta del gold.
 ## 2. Cómo se construye un gold (el pipeline de verificación)
 
 > **CHECKLIST — verifícalo punto por punto ANTES de declarar el gold `verificado` (CLAUDE.md Protocolo 4):**
+> - [ ] 0. SELECCIÓN (s50, anti-vicio): revisa las preguntas YA existentes → **no-duplicado**; elige la pregunta por **DIMENSIÓN DE FALLO definible desde la FUENTE** (síntesis/es-en/conflicto/oem/familia/…). `chunks_v2` JAMÁS criterio de SELECCIÓN — los artefactos (content-pobre/fragmento/tabla/diagrama) son **causa post-hoc**, no eje de autoría.
 > - [ ] 1. Localización EXHAUSTIVA: barrido de TODOS los manuales del producto (ES+EN) → `_provenance.localizacion.manuales_buscados`
 > - [ ] 2. Render del píxel de la fuente (no texto-solo)
 > - [ ] 3. Render ±1 vecina (cazar off-by-one)
@@ -417,6 +418,13 @@ truncados) trazan a esa capa de extracción/chunking → ver lever de extracció
 
 ## 8. Estratos y split del eval (s49, Track B — DEC-023)
 
+> ⚠️ **EN REVISIÓN (s50, DEC-025):** la taxonomía se reorganiza por **DIMENSIÓN DE FALLO** (no por
+> formato/artefacto). `content-pobre`/`fragmento-truncado` DEMOTADOS a **causa post-hoc** (ya NO se
+> autora por ellos → `gold_store.ESTRATOS_POSTHOC`; obligaban a chunk-peeking = el vicio s50). El
+> reframe COMPLETO (reclasificar tabla/diagrama/scan + añadir `conflicto-revisión`/`mezcla-cross-product`/
+> `síntesis-completitud` + reconciliar PREREG) está pendiente del gatillo **antes del 1er A/B-lever**.
+> La tabla de abajo es el estado s49 (parcialmente obsoleto). Ver DEC-025 + `CLAUDE.md` Protocolo 4.
+
 Para que el eval ampliado dé **poder dirigido por slice** (no solo un N global) y
 **generalización** (held-out), el gold tiene dos campos top-level (puerta `gold_store.py`,
 ortogonales a `conducta_esperada` y a `_provenance.estado`):
@@ -445,8 +453,8 @@ criterio operacional (medible OFFLINE, anti-circular — bite del dúo):
 | tag | criterio (cuándo aplicarlo) |
 |---|---|
 | `multi-doc` | la respuesta exige fusionar ≥2 manuales distintos (no 2 revisiones) |
-| `content-pobre` | el valor del hecho core NO está en el body del `content` del chunk (vive en `section_title`, tabla-imagen, o solo en el `context`-blurb) |
-| `fragmento-truncado` | el hecho está cortado por el chunking (a caballo entre chunks) |
+| `content-pobre` ⚠️**POST-HOC** | **NO es criterio de SELECCIÓN/autoría (DEC-025) — obligaría a chunk-peeking = el vicio.** Es CAUSA post-hoc: se anota al diagnosticar POR QUÉ falló un gold (valor core no en el body del `content`; vive en `section_title`/tabla-imagen/`context`-blurb). En `gold_store.ESTRATOS_POSTHOC`. |
+| `fragmento-truncado` ⚠️**POST-HOC** | **NO es criterio de SELECCIÓN/autoría (DEC-025) — chunk-peeking = vicio.** CAUSA post-hoc: el hecho cortado por el chunking, se anota al diagnosticar. En `gold_store.ESTRATOS_POSTHOC`. |
 | `tabla-matriz` | el dato vive en una tabla/matriz densa |
 | `scan-ocr` | la fuente del dato es scan/píxel/7-seg (texto extraído no fiable) |
 | `diagrama` | la respuesta vive en un diagrama/esquema de cableado |
