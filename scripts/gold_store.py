@@ -36,9 +36,22 @@ ESTADOS = {"verificado", "cuarentena", "needs_human", "pendiente"}
 TIPOS_FACT = {"core", "supplementary"}
 ESTADOS_FACT = {"presente", "ausente-probado"}
 
+# split = partición del eval (embargo del held-out). Ortogonal a `estado`. Ausente = dev
+# (los 22 legacy ya inspeccionados son dev por construcción; el held-out solo se puebla con
+# autoría NUEVA embargada). Ver DECISIONS DEC-023.
+SPLITS = {"dev", "held-out"}
+# Vocabulario CONTROLADO de estratos (multi-tag). Reconcilia docs/PREREG_ab_context2gen.md +
+# CATALOG_PLAN §4 + RULER_DESIGN §2. NO incluye las 5 conductas (eje `conducta_esperada`) ni
+# `control-pass` (estado histórico, no propiedad de contenido → se selecciona en el A/B, no se
+# hornea). Controlado (set cerrado) para que el conteo per-estrato no se rompa por typos.
+ESTRATOS = {
+    "content-pobre", "fragmento-truncado", "multi-doc", "tabla-matriz", "scan-ocr",
+    "diagrama", "es-en", "conflicto-es-us", "oem-relabel", "familia-ambigua",
+}
+
 # Orden canónico de campos al serializar.
-FIELD_ORDER = ["qid", "question", "conducta_esperada", "gold_answer",
-               "atomic_facts", "citations", "notes", "confidence",
+FIELD_ORDER = ["qid", "question", "conducta_esperada", "split", "estrato",
+               "gold_answer", "atomic_facts", "citations", "notes", "confidence",
                "pdfs_used", "_provenance"]
 # Campos del esquema (+ _usage, metadata legacy tolerada). raw/_needs_human_review/
 # _review_note quedan FUERA a propósito → se marcan como cruft (caza hp006).
@@ -63,6 +76,11 @@ class Issue:
 
 def _estado(g: dict) -> str:
     return (g.get("_provenance") or {}).get("estado", "pendiente")
+
+
+def _split(g: dict) -> str:
+    # Embargo: split ausente = dev. Tras el retrofit, validate_entry lo exige en 'verificado'.
+    return g.get("split") or "dev"
 
 
 def _validate_facts(qid: str, facts) -> list[Issue]:
@@ -96,6 +114,22 @@ def validate_entry(g: dict) -> list[Issue]:
     for f in g:
         if f not in KNOWN_FIELDS:
             out.append(Issue(qid, "warning", f"campo inesperado '{f}' (cruft a limpiar)"))
+
+    # split (embargo dev/held-out): validar si presente; obligatorio en 'verificado'.
+    sp = g.get("split")
+    if sp is not None and sp not in SPLITS:
+        out.append(Issue(qid, "error", f"split '{sp}' inválido {sorted(SPLITS)}"))
+    if estado == "verificado" and sp is None:
+        out.append(Issue(qid, "error", "verificado sin 'split' (dev|held-out obligatorio)"))
+    # estrato (multi-tag de vocabulario controlado; lista vacía permitida = sin marcar).
+    estr = g.get("estrato")
+    if estr is not None:
+        if not isinstance(estr, list):
+            out.append(Issue(qid, "error", "estrato debe ser una lista de tags"))
+        else:
+            for t in estr:
+                if t not in ESTRATOS:
+                    out.append(Issue(qid, "error", f"estrato '{t}' fuera del vocabulario {sorted(ESTRATOS)}"))
 
     cond = g.get("conducta_esperada")
     # Validación TIERED.
@@ -148,12 +182,27 @@ def get(qid: str, path: Path = GOLD_PATH) -> dict | None:
     return next((g for g in load(path) if g.get("qid") == qid), None)
 
 
-def verified(path: Path = GOLD_PATH) -> list[dict]:
-    return [g for g in load(path) if _estado(g) == "verificado"]
+def verified(path: Path = GOLD_PATH, include_heldout: bool = False) -> list[dict]:
+    # EMBARGO en la PUERTA (no en cada harness): held-out EXCLUIDO por defecto. Los 4
+    # consumidores del juez (atomic_scorer/judge_kruns/judge_disagreement/
+    # characterize_factual_variance) heredan el filtro sin cambios. La corrida final única
+    # del A/B pasa include_heldout=True. Hoy es no-op (0 held-out). Ver DECISIONS DEC-023.
+    out = [g for g in load(path) if _estado(g) == "verificado"]
+    if not include_heldout:
+        out = [g for g in out if _split(g) != "held-out"]
+    return out
 
 
 def quarantined(path: Path = GOLD_PATH) -> list[dict]:
     return [g for g in load(path) if _estado(g) != "verificado"]
+
+
+def dev(path: Path = GOLD_PATH) -> list[dict]:
+    return [g for g in verified(path, include_heldout=True) if _split(g) == "dev"]
+
+
+def heldout(path: Path = GOLD_PATH) -> list[dict]:
+    return [g for g in verified(path, include_heldout=True) if _split(g) == "held-out"]
 
 
 # --- Serialización canónica ---

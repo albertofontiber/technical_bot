@@ -59,7 +59,7 @@ from src.rag.reranker import rerank_chunks, rerank_chunks_voyage  # noqa: E402
 from src.rag.hyde import HYDE_ENABLED  # noqa: E402
 from scripts.strict_match import norm_ocr, distinctive, chunk_has_quote_strict, anchor_present  # noqa: E402
 
-GOLD = ROOT / "evals" / "gold_answers_v1.yaml"
+GOLD = ROOT / "evals" / "gold_answers_v1.yaml"  # lee directo: NO filtra split held-out (TECH_DEBT #42; diagnóstico, no decide lever)
 # Veredictos de la corrida HyDE-OFF @ pool-50 de s45 (solo ANOTACION; los BUCKETS son la senal).
 BVG = ROOT / "evals" / "_s45_results_k50_hydeOFF.yaml"
 OUT = ROOT / "evals" / "dec003_retrieval_funnel.yaml"

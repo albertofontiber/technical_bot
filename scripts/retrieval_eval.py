@@ -43,7 +43,7 @@ from strict_match import chunk_has_quote, chunk_has_quote_strict, quote_overlap 
 from src.rag.retriever import retrieve_chunks  # noqa: E402
 from src.rag.reranker import rerank_chunks, rerank_chunks_voyage  # noqa: E402
 
-GOLD = ROOT / "evals" / "gold_answers_v1.yaml"
+GOLD = ROOT / "evals" / "gold_answers_v1.yaml"  # lee directo: NO filtra split held-out (TECH_DEBT #42; diagnóstico, no decide lever)
 RESULTS = ROOT / "evals" / "bot_vs_gold_results.yaml"
 
 STRICT = True  # fijado desde --match en main()
