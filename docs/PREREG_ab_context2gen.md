@@ -2,19 +2,19 @@
 
 > Pre-registro escrito ANTES de medir, para que el A/B no sea exploratorio (anti p-hacking;
 > protege el embargo del held-out). Canónico: `DECISIONS.md` DEC-022. **Estado: PENDIENTE de
-> ejecutar — espera el eval ampliado (Track B).**
+> ejecutar — espera el eval ampliado (Track B) con muestra relevante.**
 >
-> ⚠️ **PENDIENTE DE RECONCILIAR (s50, DEC-025):** este PREREG **pre-selecciona** por estrato
-> `content-pobre`, que s50 demotó a causa post-hoc (era la fuente del vicio chunk-peeking). El reframe:
-> el A/B corre sobre golds de DIMENSIÓN DE FALLO y se ve DÓNDE ayuda B (post-hoc resultan content-pobre),
-> NO se pre-selecciona content-pobre. **NO correr este A/B sobre el PREREG viejo** — reconciliar primero
-> (gatillo: antes del 1er A/B-lever; freeze-contract).
+> ✅ **RECONCILIADO s53 (DEC-032):** ya NO se pre-selecciona por `content-pobre` (demotado a causa
+> post-hoc, DEC-025/032). El A/B corre sobre golds de DIMENSIÓN DE FALLO (eje de AUTORÍA, RULER §8)
+> y se ve POST-HOC dónde ayuda B (los casos donde ayuda suelen RESULTAR content-pobre — predicción
+> secundaria, NO población objetivo). La taxonomía de estratos quedó congelada en RULER §8 (DEC-032).
 
 ## Hipótesis
 Incluir el blurb de contextual-retrieval (`chunk['context']`, B7) en el prompt del generador
-—además del `content`— mejora la COMPLETITUD/precisión de la respuesta **en casos donde el
-`content` del chunk es pobre/ambiguo**, SIN aumentar la invención. Default actual: el blurb solo
-vive en el retrieval (embedding/FTS), no en la generación (`generator.py:411`).
+—además del `content`— mejora la COMPLETITUD/precisión de la respuesta, SIN aumentar la invención.
+**Predicción secundaria (post-hoc, NO criterio de selección):** la mejora se concentrará en casos
+donde el `content` del chunk RESULTE pobre/ambiguo y el blurb aporte el marco de sección/documento.
+Default actual: el blurb solo vive en el retrieval (embedding/FTS), no en la generación (`generator.py:411`).
 
 ## Por qué se difiere (s48)
 Smoke sobre hp005/hp013 (content-claro): A≈B, el bot ignora el blurb, 0 fabricación, generador
@@ -27,9 +27,16 @@ exige el eval ampliado con diversidad estratificada; con los 22 actuales no hay 
   "orientativo, no-citable").
 - **Set:** SOLO el **DEV** del eval ampliado. El **held-out NO se toca** — ni para decidir, ni para
   tunear el marcado, ni para seleccionar casos. Se usaría UNA sola vez, al final, si el lever pasa en dev.
-- **Estratos pre-definidos** (la clave del poder es la diversidad, NO el N bruto): content-pobre /
-  fragmento-truncado · multi-doc · vocabulary-mismatch ES/EN · OEM-relabeling · conflicto España-vs-US.
-  + un estrato de **PASS-actuales como control de no-regresión**.
+- **Estratos pre-definidos** (la clave del poder es la diversidad estratificada, NO el N bruto; eje de
+  AUTORÍA de RULER §8): multi-doc · síntesis-completitud · vocabulary-mismatch ES/EN · OEM-relabeling ·
+  conflicto-revisión · conflicto España-vs-US. `content-pobre`/`fragmento` NO se pre-seleccionan — son
+  RESULTADO post-hoc (dónde ayuda B se ve corriendo, DEC-032). **Gap de corpus declarado:** es-en/es-us
+  TOPADOS por el corpus es-céntrico (DEC-026e) → lectura per-estrato pobre ahí, a DECLARAR, no a tapar.
+  + un estrato de **PASS-actuales como control de no-regresión** (sub-contrato abajo).
+- **Sub-contrato del PASS-control (pre-registrado, anti-circularidad — bite del dúo s53):** el set de
+  control = golds que PASAN en el brazo A (baseline), seleccionados con el MISMO juez + K-mayoría +
+  semillas del A/B y FIJADOS antes de mirar el brazo B (no se re-selecciona tras ver B = sesgo de
+  selección del baseline).
 - **Freeze-contract:** retrieved-contexts congelados (idénticos para A y B; solo varía la inclusión del
   blurb) · juez GPT-5.5 + K-mayoría (K≥5, el generador es no-determinista) · mismo índice/corpus/
   embeddings · run-manifest persistido.
