@@ -4278,3 +4278,83 @@
       - monitorización del flujo de aire
       - tiempo de retardo
       - desviación
+- qid: cat024
+  question: ¿Cuál es el consumo en alarma de la sirena analógica de zócalo Detnov MAD-472?
+  conducta_esperada: answer
+  split: dev
+  estrato:
+  - conflicto-revision
+  gold_answer: |-
+    El consumo en alarma de la sirena analógica de zócalo Detnov MAD-472 es de 17 mA (a 80 dB(A)), según la edición vigente del manual (documento 55347200, revisión V2). Otras características eléctricas del módulo: tensión de funcionamiento 22-38 VDC y consumo en reposo inferior a 350 µA.
+
+    Nota: 17 mA es el valor de la última revisión del manual. La edición anterior (V1 del mismo documento 55347200) indicaba <15 mA @ 80 dB(A) para ese mismo consumo en alarma; debe usarse el valor de la revisión vigente (17 mA).
+  atomic_facts:
+  - texto: El consumo en alarma de la sirena Detnov MAD-472 es 17 mA a 80 dB(A) — valor de la edición
+      vigente (revisión V2)
+    tipo: core
+    estado: presente
+    valor: 17 mA
+    cita: 55347200 MAD-472 V2 p1 (Características Módulo / Unit features)
+  - texto: La tensión de funcionamiento de la MAD-472 es 22-38 VDC
+    tipo: supplementary
+    estado: presente
+    valor: 22-38 VDC
+    cita: 55347200 MAD-472 p1 (Características Módulo)
+  - texto: El consumo en reposo de la MAD-472 es inferior a 350 µA
+    tipo: supplementary
+    estado: presente
+    valor: < 350 µA
+    cita: 55347200 MAD-472 p1 (Características Módulo)
+  citations:
+  - manual: 55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2.pdf (revisión V2, vigente)
+    page: 1
+    quote: 'Consumo en Alarma: 17 mA (80 dB A) / Alarm current consumption: 17 mA (80 dB A)'
+  - manual: 55347200 Manual Sirena Analogica MAD-472 ES GB FR GB IT.pdf (revisión V1) — SUPERSEDED
+    page: 1
+    quote: 'Consumo en Alarma: <15mA @ 80dB(A)  [valor obsoleto: <15 mA -> 17 mA en V2]'
+  notes: 'CONFLICTO-REVISIÓN (latest-wins, RULER §1:67): el consumo en alarma de la MAD-472 cambió entre
+    revisiones del MISMO manual (doc. 55347200, mismo idioma): V1 = <15 mA -> V2 = 17 mA (ambos a 80 dB(A)).
+    Manda la última (17 mA); NO es answer-con-conflicto (eso es para variantes de mercado ES-vs-US). Es
+    el ÚNICO valor que cambió entre V1 y V2 (tensión, consumo en reposo, temperatura, cableado y dimensiones
+    son idénticos). Nota de scorer: el valor distintivo es 17 mA (vigilar el obsoleto ''<15 mA'').'
+  confidence: alta
+  pdfs_used:
+  - 55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2.pdf
+  - 55347200 Manual Sirena Analogica MAD-472 ES GB FR GB IT.pdf
+  _provenance:
+    estado: verificado
+    metodo: render_pdf (400dpi pixel, p1 tabla ES) + fitz_text (V1+V2, ES+EN) + chunks_v2_sql + diff_revisiones
+    fuente: Detnov MAD-472 doc 55347200 — V2 (ES GB FR IT_V2, vigente) vs V1 (ES GB FR GB IT)
+    paginas:
+    - 1
+    verificado_por:
+    - 'Claude (Opus 4.8): render pixel 400dpi de p1 (tabla Características Módulo, ES) en V1 y V2 -> <15
+      mA (V1) / 17 mA (V2)'
+    - 'fitz text-extract de ambos PDFs (secciones ESPAÑOL y ENGLISH): mismo value-diff'
+    - 'chunks_v2 SQL (4 chunks MAD-472): source_file V1 -> ''<15mA @ 80dB(A)'' (ES+EN), V2 -> ''17 mA
+      (80 dB A)'' (ES+EN)'
+    acuerdo: 'cuádruple-señal: fitz-text + chunks_v2-SQL + render-pixel + PDF digital-native coinciden
+      — Consumo en Alarma V1=<15 mA, V2=17 mA @ 80 dB(A)'
+    fecha: '2026-06-08'
+    nota: 'Conflicto-revisión REAL: <15 mA (V1) -> 17 mA (V2), mismo doc mismo idioma. 17 mA latest-wins.
+      Único valor cambiado entre las dos revisiones.'
+    localizacion:
+      manuales_buscados:
+      - 'MAD-472 doc 55347200: V1 (ES GB FR GB IT) + V2 (ES GB FR IT_V2), ambos multilingües ES/EN/FR/IT'
+      - scan de doc-codes Detnov 553xxxxx/085xxxxx (Manuales_ES + Manuales_Detnov) buscando pares de revisión
+        con value-diff -> MAD-472 es el ÚNICO par limpio (PAD-10/10A = rename sin value-diff; Zócalo/FAD-905
+        _V2 sin base en el corpus)
+      terminos:
+      - consumo en alarma
+      - alarm current consumption
+      - 17 mA
+      - 15 mA
+      - 80 dB
+      paginas:
+      - 1
+      nota: Consumo en alarma en p1, tabla 'Características Módulo' (ES) / 'Unit features' (EN); 17 mA
+        en V2 (ES+EN), <15 mA en V1 (ES+EN).
+      corpus_chunks_v2: 'POST-HOC (existencia/discriminación, NO criterio de selección — RULER §0/§2):
+        4 chunks MAD-472; V1 (source_file ''...GB FR GB IT'') trae ''<15mA @ 80dB(A)'' en ES+EN, V2 (''..._V2'')
+        trae ''17 mA (80 dB A)'' en ES+EN -> el CONFLICTO ESTÁ VIVO en el índice (ambas revisiones coexisten
+        sin metadata de revisión) -> el gold MUERDE (el RAG puede servir el <15 mA obsoleto).'

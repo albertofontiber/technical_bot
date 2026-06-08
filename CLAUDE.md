@@ -100,6 +100,10 @@ Antes del commit final, actualizar (en orden de canonicidad):
 2. **`docs/DECISIONS.md`** — apendizar toda decisión de impacto MEDIO/ALTO de la sesión
    (decisión · motivo · alternativas descartadas · ref al `adversarial_review_log.jsonl`). Es
    la traza para no re-litigar el rumbo en el futuro.
-3. **`docs/ARCHITECTURE.md`** (cifras, estado del sistema) + la **memoria del proyecto**.
+3. **`docs/ARCHITECTURE.md`** (cifras, estado del sistema) + la **memoria del proyecto**. El detalle
+   de sesión va al **topic file** (`memory/*.md`) + `docs/DECISIONS.md`; el índice **`MEMORY.md` es UNA
+   línea por memoria (puntero estable, NO log)** — nunca apilar el resultado de la sesión en la línea
+   del índice (s54: reventó el límite de 24KB por acumular s44→s52b ahí; la traza canónica vive en
+   DECISIONS.md/PLAN, no en el índice).
 
 Working tree limpio.

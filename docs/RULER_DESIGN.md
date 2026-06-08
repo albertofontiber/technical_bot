@@ -479,8 +479,10 @@ SELECCIÓN** (exigiría mirar el chunk/extracción = el vicio s50). (`gold_store
 | `scan-ocr` | la fuente es scan/píxel/7-seg → texto extraído no fiable |
 | `diagrama` | la respuesta vive en un diagrama/esquema que la extracción no captura como texto |
 
-Estado s53: 35 golds (todos `dev`). **AUTORÍA poblado:** multi-doc 14 · oem-relabel 5 · síntesis 3 ·
-es-en 2 · conflicto-es-us 1 · conflicto-revisión 1 · familia-ambigua 1 · mezcla-cross-product 0.
+Estado s54: 39 golds (todos `dev`). **AUTORÍA poblado:** multi-doc 14 · oem-relabel 5 · síntesis 3 ·
+es-en 2 · familia-ambigua 2 · conflicto-revisión 2 · conflicto-es-us 1 · mezcla-cross-product 0.
 **POST-HOC (anotaciones legacy, no eje de autoría):** tabla-matriz 5 · diagrama 2 · content-pobre 1 ·
-scan-ocr 1. `es-en`/`conflicto-es-us` TOPADOS por corpus es-céntrico (DEC-026e); el resto = autoría
-dirigida (s53+, "muestra relevante" sin volumen ciego). El held-out se puebla con autoría NUEVA embargada.
+scan-ocr 1. `es-en`/`conflicto-es-us` TOPADOS por corpus es-céntrico (DEC-026e); **`conflicto-revisión`
+también corpus-limitado** (s54: MAD-472 = único par Detnov limpio → 2 totales con cat009; el corpus
+guardó mayormente la última revisión); el resto = autoría dirigida (s53+, "muestra relevante" sin
+volumen ciego). El held-out se puebla con autoría NUEVA embargada.
