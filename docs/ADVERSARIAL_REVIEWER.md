@@ -63,3 +63,20 @@ Data-flow ya **aceptado** en el proyecto (GPT-5.5 es el juez del eval; el mismo 
 depender de que yo elija bien el contexto (sesgo de selección). **Fallback**: si GPT no está
 disponible, el suelo es sub-agente Claude + mi verificación, y se **marca explícitamente
 "cross-model omitido"** (no se finge que se hizo).
+
+## Simetría de información: pasarle las FUENTES al cross-model (s52/DEC-028)
+El sub-agente Claude **lee el repo**; el cross-model **solo ve lo que se le pasa** (no navega). Para
+que no quede en desventaja conceptual NI factual frente al sub-agente, en gates de **selección/diseño**
+hay que **pasarle explícitamente las fuentes que debe VERIFICAR** —no solo la propuesta—:
+
+```
+python scripts/adversarial_review.py propuesta.md data/model_catalog.json <extractos>
+```
+
+(p.ej. `data/model_catalog.json` para existencia de productos; extractos del gold YAML para no-duplicado.)
+`--diff` cubre los ficheros **tracked-cambiados** pero NO las fuentes no-cambiadas (el catálogo) → en un
+gate de **selección** (donde aún nada ha cambiado) hay que pasarlas a mano. **Síntoma de que faltó
+(s52b):** el cross-model dijo *"no puedo validar existencia desde la propuesta"* mientras el sub-agente
+(con repo) sí → asimetría re-introducida por infra-alimentar al cross-model. Límite práctico: el gold
+YAML entero es grande (~77k tokens) → pasar **extractos relevantes**, no el fichero completo. Es la
+realización s47 ("cross-model-con-fuentes") hecha REGLA, no discrecional.
