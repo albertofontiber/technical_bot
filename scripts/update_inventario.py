@@ -81,6 +81,12 @@ NOTIFIER_MODEL_RX = re.compile(
     re.IGNORECASE,
 )
 
+KIDDE_MODEL_RX = re.compile(
+    r"\b(2X-AT[- ]?F\d\w*|2X-A[FRT]\w*|2X-A\b|NC-P[FX]\d\w*|NC\b|"
+    r"KFP-\w+|ZP[12]-\w+|1X-[FX]\d\w*|2010-\w+|FP\d+\w*|FC\d+\w*|FEP\d+\w*)\b",
+    re.IGNORECASE,
+)
+
 
 # ---------------------------------------------------------------------------
 # Fabricantes registry — add new ones here.
@@ -116,6 +122,14 @@ FABRICANTES: dict = {
         },
         "tipo_override_por_subcarpeta": {},
         "metadata_sidecar": None,
+    },
+    "Kidde": {
+        "subfolders": {"portal": ROOT / "Manuales_Kidde"},
+        "model_regex": KIDDE_MODEL_RX,
+        "resumen_estado": "Portal firesecurityproducts (paneles Control · ES+EN)",
+        "idioma_por_subcarpeta": {"portal": None},
+        "tipo_override_por_subcarpeta": {},
+        "metadata_sidecar": ROOT / "Manuales_Kidde" / "_metadata.json",
     },
     # ADD A NEW FABRICANTE HERE — follow the schema above. Example:
     # "Bosch": {
@@ -215,15 +229,17 @@ def scan_fabricante(name: str, config: dict) -> list[dict]:
             meta = sidecar.get(pdf.name, {})
             producto = extract_product(pdf.name, model_regex, meta.get("equipo"))
 
-            # Tipo: explicit override > heuristic from filename.
-            if subcarpeta in tipo_override:
+            # Tipo: sidecar (PIM-sourced) > per-subfolder override > filename heuristic.
+            if meta.get("tipo"):
+                tipo = meta["tipo"]
+            elif subcarpeta in tipo_override:
                 tipo = tipo_override[subcarpeta]
             else:
                 tipo = classify_tipo(pdf.name)
 
-            # Idioma: explicit > heuristic.
+            # Idioma: sidecar > per-subfolder fixed > filename heuristic.
             forced_idioma = idioma_map.get(subcarpeta)
-            idioma = forced_idioma if forced_idioma else detect_language(pdf.name)
+            idioma = meta.get("idioma") or forced_idioma or detect_language(pdf.name)
 
             rows.append({
                 "producto": producto,
