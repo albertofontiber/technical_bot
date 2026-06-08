@@ -4,10 +4,10 @@
 > protege el embargo del held-out). Canónico: `DECISIONS.md` DEC-022. **Estado: PENDIENTE de
 > ejecutar — espera el eval ampliado (Track B) con muestra relevante.**
 >
-> ✅ **RECONCILIADO s53 (DEC-032):** ya NO se pre-selecciona por `content-pobre` (demotado a causa
+> ✅ **RECONCILIADO s53 (DEC-033):** ya NO se pre-selecciona por `content-pobre` (demotado a causa
 > post-hoc, DEC-025/032). El A/B corre sobre golds de DIMENSIÓN DE FALLO (eje de AUTORÍA, RULER §8)
 > y se ve POST-HOC dónde ayuda B (los casos donde ayuda suelen RESULTAR content-pobre — predicción
-> secundaria, NO población objetivo). La taxonomía de estratos quedó congelada en RULER §8 (DEC-032).
+> secundaria, NO población objetivo). La taxonomía de estratos quedó congelada en RULER §8 (DEC-033).
 
 ## Hipótesis
 Incluir el blurb de contextual-retrieval (`chunk['context']`, B7) en el prompt del generador
@@ -30,7 +30,7 @@ exige el eval ampliado con diversidad estratificada; con los 22 actuales no hay 
 - **Estratos pre-definidos** (la clave del poder es la diversidad estratificada, NO el N bruto; eje de
   AUTORÍA de RULER §8): multi-doc · síntesis-completitud · vocabulary-mismatch ES/EN · OEM-relabeling ·
   conflicto-revisión · conflicto España-vs-US. `content-pobre`/`fragmento` NO se pre-seleccionan — son
-  RESULTADO post-hoc (dónde ayuda B se ve corriendo, DEC-032). **Gap de corpus declarado:** es-en/es-us
+  RESULTADO post-hoc (dónde ayuda B se ve corriendo, DEC-033). **Gap de corpus declarado:** es-en/es-us
   TOPADOS por el corpus es-céntrico (DEC-026e) → lectura per-estrato pobre ahí, a DECLARAR, no a tapar.
   + un estrato de **PASS-actuales como control de no-regresión** (sub-contrato abajo).
 - **Sub-contrato del PASS-control (pre-registrado, anti-circularidad — bite del dúo s53):** el set de

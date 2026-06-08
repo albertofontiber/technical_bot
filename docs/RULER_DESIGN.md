@@ -418,7 +418,7 @@ truncados) trazan a esa capa de extracción/chunking → ver lever de extracció
 
 ## 8. Estratos y split del eval (s49, Track B — DEC-023)
 
-> ✅ **CONSOLIDADO s53 (DEC-032):** taxonomía CONGELADA por **DIMENSIÓN DE FALLO** (no por
+> ✅ **CONSOLIDADO s53 (DEC-033):** taxonomía CONGELADA por **DIMENSIÓN DE FALLO** (no por
 > formato/artefacto), pre-requisito del 1er A/B-lever (el A/B lee los estratos = freeze-contract).
 > **Decisión s53:** `tabla-matriz`/`scan-ocr`/`diagrama` DEMOTADOS de AUTORÍA a **POST-HOC**,
 > completando la reclasificación que DEC-025(b) dejó diferida (verificado: §2:156 + §7:412 ya los
@@ -426,7 +426,7 @@ truncados) trazan a esa capa de extracción/chunking → ver lever de extracció
 > fallo COGNITIVO fuente-puro; POST-HOC = CAUSA de cómo el RAG extrajo.** Alternativa descartada:
 > mantenerlos en AUTORÍA con criterio más estricto ("evidencia answer-crítica EN la tabla") — el dúo
 > (cross-model) la marcó ruidosa/no-escalable y el criterio colapsa en "el fallo es de extracción" =
-> post-hoc. Dúo s53 NO-SÓLIDA→corregida, 0 FP (`adversarial_review_log` 2026-06-08). Ver DEC-032/025.
+> post-hoc. Dúo s53 NO-SÓLIDA→corregida, 0 FP (`adversarial_review_log` 2026-06-08). Ver DEC-033/025.
 
 Para que el eval ampliado dé **poder dirigido por slice** (no solo un N global) y
 **generalización** (held-out), el gold tiene dos campos top-level (puerta `gold_store.py`,

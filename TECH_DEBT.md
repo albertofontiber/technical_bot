@@ -1508,3 +1508,35 @@ vez de abrir el YAML directo.
 **Relacionado**: DEC-023 (backbone Track B + embargo en la puerta), `gold_store.py`
 (`verified`/`dev`/`heldout`), DEC-021 §F (run-manifest).
 
+## 43. Retrieval: los manuales de SERIE quedan invisibles a los productos hermanos por el filtro de modelo (sesión 55)
+
+**Problema** (verificado en código, s55): el `product_model` se asigna a **nivel DOCUMENTO por filename**
+(`metadata.py:apply_metadata` copia `meta.product_model` a TODOS los chunks; `_detect_model` sobre
+`CAD-250_Manual-Configuracion-MC-380…` → `CAD-250` para el manual entero). Luego `_filter_to_query_models`
+(`retriever.py:1235`, hard-drop con fail-open<3) tira los chunks cuyo `product_model` no contiene el modelo
+de la query (substring normalizado). Consecuencia: una query de **CAD-201** (config/programación) NO
+recupera el manual de configuración de la serie (etiquetado `CAD-250`; "cad201"⊄"cad250") aunque el dato
+EXISTA en el corpus. Aplica a toda serie con manual compartido (Detnov serie Vesta CAD-171/201/250; Kidde
+serie 2X-A; NC series; etc.).
+
+**El matiz** (tensión precisión↔recall): ese filtro NACIÓ para lo OPUESTO (#11e/hp003: que un manual
+CAD-250 no contamine una query de CAD-150). El modelo de datos no distingue "manual DE la CAD-250" de
+"manual de la SERIE que aplica a {171,201,250}". Lo destapó Alberto al añadir CAD-201 (DEC-032).
+
+**Por qué no se arregló ahora** (pregunta cero): el corpus CAD **no está ingestado** (ingesta diferida tras
+el gate RULER) → gap FUTURO, hoy no hay chunks que recuperar. Y es un cambio de RETRIEVAL → debe MEDIRSE en
+el eval, no a ciegas (DEC-019).
+
+**Fix candidato (estructural, eval-driven)**: modelar `series`/`applies_to` (la serie ya se conoce del
+scraping del corpus — p.ej. `_download_manifest.json` lleva `series`) y que `_filter_to_query_models`
+matchee por **serie-O-modelo**. Así el manual de serie es alcanzable por cualquier hermano SIN reabrir la
+contaminación cross-producto. Descartado: relajar el filtro a boost-blando (reabre #11e/#11f); etiquetar
+por-chunk según menciones de contenido (ruidoso y frágil).
+
+**Trigger para implementar**: al INGESTAR un producto cuyo manual de config/serie está etiquetado con otro
+hermano; o cuando la sesión del eval retome retrieval. Medir con un gold "config/programación CAD-201" en
+el RULER (la familia CAD ya está cubierta: cat013 CAD-150, cat019 CAD-250) + A/B del fix vs el filtro actual.
+
+**Relacionado**: `retriever.py:_filter_to_query_models` (#11e/#11f, hp003), `metadata.py:apply_metadata`,
+DEC-032 (lote CAD-201 que lo destapó), DEC-019 (eval-driven), gate RULER + Protocolo 3 (ingesta diferida).
+
