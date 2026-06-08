@@ -3447,3 +3447,555 @@
       nota: 'firmware-update ausente de los 3 manuales (extraccion buena: install dio 40 hits legibles
         de analogica/lazo). user 3 hits = falsos pos (''flashing''/''config software''). No hay doc de
         software/firmware del CAD-150 en el corpus.'
+- qid: cat016
+  question: En la Detnov CAD-150, ¿como se da de alta un detector nuevo en el lazo y como se prueba que
+    funciona?
+  conducta_esperada: answer
+  split: dev
+  estrato:
+  - multi-doc
+  gold_answer: |-
+    Dar de alta un detector nuevo en la CAD-150 y probarlo son dos pasos que se reparten entre el manual de INSTALACION (alta) y el de USUARIO (prueba):
+
+    ALTA (autobusqueda del lazo) — manual de instalacion, §3.3:
+    1. Conecta fisicamente el detector al bucle (lazo cerrado de 2 hilos apantallados).
+    2. Accede al menu BUCLE y ejecuta una AUTOBUSQUEDA del lazo: el sistema hace un escaneo y muestra todos los elementos que encuentra. Comprueba que coinciden con los elementos instalados (con los planos de la instalacion).
+    3. Asigna el detector a una zona en el menu ZONA, y dale un nombre identificativo y su zona de ubicacion en el menu ELEMENTO.
+
+    PRUEBA (modo prueba de zona) — manual de usuario, §3.1.1.5 (menu ZONA > PRUEBA):
+    4. Pon en MODO DE PRUEBA la zona donde esta el detector (menu ZONA > PRUEBA). Esto permite probar los detectores SIN tener que rearmar la central tras cada disparo.
+    5. En modo prueba, cualquier retardo asociado a las sirenas queda ANULADO (para agilizar la prueba). Provoca la alarma en el detector (humo/calor de prueba) y verifica que la central la registra.
+    6. Si transcurren 20 minutos en modo prueba sin ningun disparo, el equipo vuelve solo a estado normal. Para salir manualmente del modo prueba, vuelve a CONECTAR la zona.
+
+    Puedes consultar el estado de cada elemento (conectado / desconectado / en prueba) y su tipo (optico, termico, etc.) en el menu ELEMENTO > Ver.
+  atomic_facts:
+  - texto: 'ALTA: se da de alta un detector nuevo ejecutando una AUTOBUSQUEDA del lazo desde el menu BUCLE
+      -> el sistema escanea y muestra los elementos encontrados (deben coincidir con los instalados segun
+      los planos)'
+    tipo: core
+    estado: presente
+    valor: autobusqueda
+    cita: 55315013 (instalacion) §3.3 impresa p9 (render fisica p11)
+  - texto: Tras la autobusqueda, el detector se asigna a una ZONA (menu ZONA) y se le da nombre + zona
+      de ubicacion en el menu ELEMENTO
+    tipo: core
+    estado: presente
+    valor: menu ZONA + ELEMENTO
+    cita: 55315013 §3.3 (alta) + 55315008 (usuario) menu ZONA/ELEMENTO
+  - texto: 'PRUEBA: se pone la ZONA en MODO DE PRUEBA (menu ZONA > PRUEBA) -> permite probar los detectores
+      SIN rearmar la central tras cada disparo'
+    tipo: core
+    estado: presente
+    valor: modo prueba
+    cita: 55315008 (usuario) §3.1.1.5 (Menu PRUEBA Zonas)
+  - texto: En modo prueba el retardo de sirenas queda ANULADO (agiliza la prueba); si pasan 20 minutos
+      sin disparo el equipo vuelve solo a estado normal; para salir manualmente se CONECTA la zona
+    tipo: core
+    estado: presente
+    valor: 20 minutos
+    cita: 55315008 §3.1.1.5
+  - texto: El estado de cada elemento (conectado/desconectado/en prueba) y su tipo (optico, termico, etc.)
+      se consulta en el menu ELEMENTO > Ver
+    tipo: supplementary
+    estado: presente
+    valor: menu ELEMENTO
+    cita: 55315008 §3.1.2 (Menu ELEMENTO)
+  citations:
+  - manual: 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT.pdf
+    page: 9
+    quote: 3.3 Configuracion rapida de una Instalacion... Configurar un bucle. Realice una autobusqueda
+      del lazo que desee configurar, de esta forma el sistema hara un escaneo y nos mostrara todos los
+      elementos que encuentra... Para realizar la autobusqueda acceda al menu BUCLE... Configurar los
+      elementos... menu ELEMENTO... nombre... zona.
+  - manual: 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT.pdf
+    page: 15
+    quote: 3.1.1.5 Menu PRUEBA Zonas... nos permite poner en modo de prueba la zona que seleccionemos.
+      Esta opcion nos permite hacer la prueba de los detectores sin tener que rearmar la central... el
+      retardo... quedaria anulado... Si trascurridos 20 minutos... no se ha efectuado ningun disparo...
+      el equipo pasara a estado normal.
+  notes: 'MULTI-DOC genuino: el ALTA (autobusqueda, §3.3) vive en el manual de INSTALACION (55315013);
+    la PRUEBA (modo prueba de zona, §3.1.1.5) vive en el manual de USUARIO (55315008). Ningun manual tiene
+    ambas partes -> la respuesta completa exige fusionar los dos (verificado por el duo, batch s52b).
+    NO solapa con hp003 (baterias 24V), cat013 (compat cross-marca) ni cat015 (firmware-admit). Procedimiento
+    (menus), no valor fragil; manuales digital-native (hp003).'
+  confidence: alta
+  pdfs_used:
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT.pdf
+  - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT.pdf
+  _provenance:
+    estado: verificado
+    metodo: render_pdf + pdf_grep
+    fuente: 55315013 (instalacion, alta §3.3) + 55315008 (usuario, prueba §3.1.1.5)
+    paginas:
+    - 9
+    - 15
+    verificado_por:
+    - 'Claude (render fisica p11 de 55315013 = impresa p9 §3.3 ''Configuracion rapida'': autobusqueda
+      del lazo via menu BUCLE + menu ZONA/ELEMENTO -> legible, digital-native)'
+    - 'pdf_grep 55315008 (usuario) §3.1.1.5 ''Menu PRUEBA Zonas'': modo prueba sin rearmar + retardo anulado
+      + timeout 20 min (extraccion limpia, manual digital-native; D4 no exige render en fuente no-scan)'
+    acuerdo: alta (autobusqueda menu BUCLE + ZONA + ELEMENTO) en el manual de instalacion §3.3; prueba
+      (modo PRUEBA de zona, sin rearmar, retardo anulado, 20 min) en el de usuario §3.1.1.5 -> respuesta
+      completa = fusion de los 2 manuales (multi-doc)
+    fecha: '2026-06-08'
+    nota: 'batch s52b #1 (el mas seguro, autoria-primero por el duo). Manuales CAD-150 digital-native
+      (hp003: offset impresa+2 = fisica). Gate del duo sobre la seleccion: cross-model + sub-agente convergieron
+      en autorar los multi-doc PRIMERO y verificar que exigen los 2 manuales -> hecho.'
+    localizacion:
+      manuales_buscados:
+      - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT.pdf
+      - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT.pdf
+      terminos:
+      - autobusqueda
+      - escaneo
+      - menu BUCLE
+      - menu ZONA
+      - modo prueba
+      - rearmar
+      - 20 minutos
+      paginas:
+      - 9
+      - 15
+      nota: 'alta = §3.3 instalacion (render fisica p11); prueba = §3.1.1.5 usuario (extraccion limpia).
+        Multi-doc confirmado: ningun manual tiene ambas partes.'
+- qid: cat017
+  question: ¿Como se cablea y se da de alta (configura) un lazo en la central Notifier INSPIRE (E10/E15)?
+  conducta_esperada: answer
+  split: dev
+  estrato:
+  - multi-doc
+  gold_answer: |-
+    Poner en marcha un lazo en la INSPIRE (E10/E15) tiene una parte de CABLEADO (manual de instalacion HOP-138-9) y una parte de ALTA/CONFIGURACION (manual de puesta en marcha HOP-138-8):
+
+    CABLEADO (modulo de doble lazo OPAL HOP-433-100, conector morado):
+    - Conecta el lazo a los terminales del modulo: Lazo 1 OUT +VE/-VE (1/2), Lazo 1 IN +VE/-VE (4/5), Lazo 2 OUT +VE/-VE (6/7), Lazo 2 IN +VE/-VE (9/10). (Los terminales 3 y 8 no se usan.)
+    - El cable debe ser trenzado y apantallado; la pantalla se conecta a tierra en la central.
+    - Capacidad por lazo: con dispositivos OPAL, hasta 159 detectores + 159 modulos (318 por lazo); con CLIP, hasta 99 detectores + 99 modulos (198 por lazo). NO se permite mezclar OPAL y CLIP en el mismo lazo. Maximo 750 mA por lazo; longitud de hasta 3,5 km (calculada con el programa de lazo y bateria de CLSS).
+    - Los dispositivos CLIP requieren una licencia (una por cada circuito de lazo CLIP).
+
+    ALTA / CONFIGURACION (tras 'Configuracion inicial y primer encendido'):
+    - Ejecuta la AUTO CONFIGURACION: la central detecta automaticamente los dispositivos conectados al lazo y los da de alta.
+    - La configuracion de la central se gestiona con el Programa de Configuracion de CLSS (portal en la nube Honeywell): se crea el sitio/edificio, se carga la configuracion y se genera el archivo .bin de licencia de la central.
+    - Para comprobar el cableado del lazo puedes usar la herramienta de diagnostico POL-200-TS.
+  atomic_facts:
+  - texto: 'El lazo se cablea en el modulo de doble lazo OPAL (HOP-433-100, conector morado): Lazo 1 OUT
+      +VE/-VE (term. 1/2), Lazo 1 IN +VE/-VE (4/5), Lazo 2 OUT/IN (6/7, 9/10); terminales 3 y 8 NO se
+      usan; cable trenzado y apantallado con la pantalla a tierra en la central'
+    tipo: core
+    estado: presente
+    valor: modulo OPAL HOP-433-100
+    cita: HOP-138-9 (instalacion) p47 (render) + p10-11 (apantallado/tierra)
+  - texto: 'Capacidad por lazo: solo OPAL = hasta 159 detectores + 159 modulos (318 por lazo); solo CLIP
+      = hasta 99 + 99 (198 por lazo); NO se permite mezclar OPAL y CLIP en el mismo lazo; maximo 750 mA
+      por lazo; longitud hasta 3,5 km (calculada con el programa de lazo/bateria de CLSS)'
+    tipo: core
+    estado: presente
+    valor: 159 + 159
+    cita: HOP-138-9 p47 (render) + p16
+  - texto: Los dispositivos CLIP requieren una LICENCIA (una por cada circuito de lazo CLIP)
+    tipo: core
+    estado: presente
+    valor: licencia CLIP por lazo
+    cita: HOP-138-9 p5 + HOP-138-8 p5 (.bin de licencia)
+  - texto: El ALTA de los dispositivos del lazo se hace por AUTO CONFIGURACION (la central detecta automaticamente
+      los dispositivos conectados), tras la 'Configuracion inicial y primer encendido'
+    tipo: core
+    estado: presente
+    valor: Auto Configuracion
+    cita: HOP-138-8 (puesta en marcha) p13 + p16
+  - texto: 'La configuracion de la central se gestiona con el Programa de Configuracion de CLSS (portal
+      en la nube Honeywell): se crea el sitio, se carga la configuracion y se genera el archivo .bin de
+      licencia de la central'
+    tipo: core
+    estado: presente
+    valor: CLSS
+    cita: HOP-138-8 p5 + p18
+  - texto: Para comprobar el cableado del lazo se puede usar la herramienta de diagnostico POL-200-TS
+    tipo: supplementary
+    estado: presente
+    valor: POL-200-TS
+    cita: HOP-138-8 p8/p10
+  citations:
+  - manual: HOP-138-9ES issue 5_11-2025_In.pdf
+    page: 47
+    quote: MODULO DE LAZO (OPAL X 2)... 1 Lazo 1 OUT +VE 2 Lazo 1 OUT -VE... No se permite mezclar dispositivos
+      OPAL y CLIP en el mismo lazo. Utilice el programa de calculo de lazo y bateria de CLSS... Hasta
+      159 detectores OPAL / Hasta 159 modulos OPAL... maximo de 750 mA por lazo.
+  - manual: HOP-138-8ES  issue 6_01-2026_Co.pdf
+    page: 2
+    quote: Cableado de lazo 12; Configuracion inicial y primer encendido 13; Auto Configuracion 16; Programa
+      de Configuracion de CLSS 18.
+  - manual: HOP-138-8ES  issue 6_01-2026_Co.pdf
+    page: 5
+    quote: En el portal en la nube de CLSS Gestion de Clientes, cree un sitio/edificio y anada una central.
+      Cargue la configuracion de la central con el programa de configuracion de CLSS. Generar archivo
+      .bin de licencia de la central.
+  notes: 'MULTI-DOC genuino (verificado por el duo s52b): el CABLEADO/pinout del modulo OPAL vive en el
+    manual de INSTALACION (HOP-138-9); el ALTA por AUTO CONFIGURACION + el Programa CLSS viven en el de
+    PUESTA EN MARCHA (HOP-138-8). La respuesta completa exige fusionar los dos. Producto NUEVO de Notifier
+    (peticion de Alberto). NO solapa con hp019 (contraseñas N2/N3 de la INSPIRE). Distintivo INSPIRE:
+    config cloud CLSS + licencia CLIP por lazo. PDFs digital-native (issue 5/6, 2025-2026).'
+  confidence: alta
+  pdfs_used:
+  - HOP-138-9ES issue 5_11-2025_In.pdf
+  - HOP-138-8ES  issue 6_01-2026_Co.pdf
+  _provenance:
+    estado: verificado
+    metodo: render_pdf + pdf_grep
+    fuente: HOP-138-9 (instalacion INSPIRE E10/E15) + HOP-138-8 (puesta en marcha)
+    paginas:
+    - 47
+    - 2
+    - 5
+    verificado_por:
+    - 'Claude (render HOP-138-9 p47: modulo de lazo OPAL X2 pinout Lazo 1/2 OUT/IN +-VE + capacidades
+      159+159 OPAL / 99+99 CLIP + 750 mA/lazo + 3,5 km + no-mezclar OPAL/CLIP + licencia CLIP -> legible,
+      digital-native)'
+    - 'pdf_grep HOP-138-8 indice (p2): ''Cableado de lazo 12 / Configuracion inicial 13 / Auto Configuracion
+      16 / Programa de Configuracion de CLSS 18'' + p5 (portal CLSS + .bin licencia)'
+    acuerdo: cableado/pinout del modulo OPAL + capacidades + licencia CLIP en el manual de instalacion
+      HOP-138-9; auto configuracion del lazo + programa CLSS en el de puesta en marcha HOP-138-8 -> respuesta
+      completa = fusion de los 2 manuales (multi-doc)
+    fecha: '2026-06-08'
+    nota: 'batch s52b #2. Producto nuevo Notifier (INSPIRE E10/E15). El duo aviso del riesgo multi-doc
+      -> VERIFICADO: HOP-8 (Co) tiene auto-config+CLSS pero el pinout detallado del modulo OPAL es HOP-9-only
+      -> multi-doc real. PDFs recientes digital-native.'
+    localizacion:
+      manuales_buscados:
+      - HOP-138-9ES issue 5_11-2025_In.pdf
+      - HOP-138-8ES  issue 6_01-2026_Co.pdf
+      terminos:
+      - OPAL
+      - lazo
+      - cableado
+      - Auto Configuracion
+      - CLSS
+      - licencia CLIP
+      - '159'
+      - 750 mA
+      paginas:
+      - 47
+      - 2
+      - 5
+      nota: 'cableado/pinout = HOP-9 p47 (render); auto-config + CLSS = HOP-8 p13/16/18 (indice p2 + p5).
+        Multi-doc confirmado: el pinout detallado del modulo OPAL es HOP-9-only.'
+- qid: cat018
+  question: ¿Como se programa una ecuacion causa-efecto (CBE) en la Notifier AM-8200 para que un evento
+    active una salida?
+  conducta_esperada: answer
+  split: dev
+  estrato:
+  - sintesis-completitud
+  gold_answer: |-
+    En la AM-8200 la logica causa-efecto se implementa con las ecuaciones CBE (Control By Events). La respuesta completa fusiona el concepto, el flujo de programacion y la sintaxis:
+
+    1. QUE ES: una CBE (Control By Events) es una ecuacion que ACTIVA UN COMANDO en funcion de un EVENTO (p. ej. una alarma de una zona activa un modulo de salida). Es el mecanismo causa-efecto de la central.
+    2. DONDE SE PROGRAMA: desde el menu Programacion AM8200 > Puntos, seleccionando Sensores o Modulos. Cada punto se programa en su pestana 'Programacion', donde se le asigna la ZONA y se configura su ecuacion CBE (si ya hay una, se visualiza).
+    3. LA SALIDA: los modulos de salida llevan un Tipo SW (por ejemplo SND para sirena); un modulo de salida se dispara cuando su ecuacion CBE se cumple (se activa 'por asociacion CBE').
+    4. LA SINTAXIS de las ecuaciones (operandos y operadores) esta detallada en el Apendice A 'Control By Event' al final del manual de programacion.
+
+    Conviene, antes de programar en la central, registrar en las hojas de programacion la informacion de TODOS los sensores, modulos, zonas software, ecuaciones CBE y grupos.
+  atomic_facts:
+  - texto: 'Una CBE (Control By Events) es una ecuacion que ACTIVA UN COMANDO en funcion de un EVENTO:
+      es el mecanismo causa-efecto de la AM-8200'
+    tipo: core
+    estado: presente
+    valor: Control By Events
+    cita: AM-8200-manu-prog p21 (render) + Apendice A
+  - texto: Se programa desde el menu Programacion AM8200 > Puntos (Sensores/Modulos); en la pestana 'Programacion'
+      de cada punto se asigna la ZONA y se configura su ecuacion CBE
+    tipo: core
+    estado: presente
+    valor: 'pestana Programacion: Zona + CBE'
+    cita: AM-8200-manu-prog p14-15 + p21 (render)
+  - texto: Los modulos de SALIDA llevan un Tipo SW (p. ej. SND = sirena); un modulo de salida se dispara
+      cuando se cumple su ecuacion CBE (se activa 'por asociacion CBE')
+    tipo: core
+    estado: presente
+    valor: Tipo SW / asociacion CBE
+    cita: AM-8200-manu-prog p7 + p15
+  - texto: La sintaxis de las ecuaciones CBE (operandos y operadores) esta en el Apendice A 'Control By
+      Event' al final del manual de programacion
+    tipo: core
+    estado: presente
+    valor: Apendice A
+    cita: AM-8200-manu-prog indice p3 (Apendice A p61)
+  - texto: Antes de programar conviene registrar en las hojas de programacion la info de TODOS los sensores,
+      modulos, zonas software, ecuaciones CBE y grupos
+    tipo: supplementary
+    estado: presente
+    valor: hojas de programacion
+    cita: AM-8200-manu-prog p14
+  citations:
+  - manual: AM-8200-manu-prog-spa.pdf
+    page: 21
+    quote: Pestana Programa (Programacion ecuaciones CBE, asociacion zona). Zona - numero de zona asignada.
+      CBE - ecuacion CBE del punto... CBE (Control By Events), son las ecuaciones que sirven para activar
+      un comando en funcion de un evento. Ver el apendice «A» Control By Event al final del manual.
+  - manual: AM-8200-manu-prog-spa.pdf
+    page: 15
+    quote: Desde el menu Programacion puntos seleccionar la opcion «Sensores». Asociar el sensor a la
+      zona apropiada. Configurar la ecuacion CBE (Control by Event) del sensor... «Modulos»... Asociar
+      el modulo a la zona apropiada. Configurar la ecuacion CBE del modulo.
+  - manual: AM-8200-manu-prog-spa.pdf
+    page: 3
+    quote: APENDICE «A» - ECUACION CONTROL POR EVENTO 61
+  notes: 'SINTESIS-COMPLETITUD intra-manual (manual de programacion AM-8200): la respuesta completa fusiona
+    el concepto CBE (p21) + el flujo de programacion menu>Puntos>pestana Programacion (p14-15) + el tipo
+    de salida SW (p7) + la sintaxis del Apendice A (p61). Producto AM-8200 (peticion de Alberto), NO-battery
+    (≠ cat012 que es el calculo de bateria) -> diversifica el estrato sintesis lejos del template battery
+    (bite del duo s52b). NO solapa con hp005 (coincidencia 2-detectores ID3000, concepto distinto). Manual
+    digital-native.'
+  confidence: alta
+  pdfs_used:
+  - AM-8200-manu-prog-spa.pdf
+  _provenance:
+    estado: verificado
+    metodo: render_pdf + pdf_grep
+    fuente: AM-8200-manu-prog-spa.pdf (manual de programacion)
+    paginas:
+    - 21
+    - 15
+    - 3
+    verificado_por:
+    - 'Claude (render p21: ''Pestana Programa (Programacion ecuaciones CBE, asociacion zona)'' + ''CBE
+      (Control By Events), son las ecuaciones que sirven para activar un comando en funcion de un evento.
+      Ver el apendice A'' -> legible, digital-native)'
+    - 'pdf_grep AM-8200-manu-prog: workflow de programacion (p14-15: menu Programacion>Sensores/Modulos
+      -> asociar zona + ecuacion CBE) + tipo SW=SND (p7) + indice Apendice A p61 (p3)'
+    acuerdo: CBE = ecuacion que activa un comando segun un evento; se programa por punto (Sensores/Modulos)
+      asignando zona + ecuacion CBE en la pestana Programacion; sintaxis en el Apendice A -> respuesta
+      completa fusiona >=2 secciones del MISMO manual (sintesis-completitud)
+    fecha: '2026-06-08'
+    nota: 'batch s52b #3. AM-8200 NO-battery (el duo cazo que triplicar battery -cat012- mata la diversidad
+      del A/B) -> diversifica sintesis. Manual de programacion digital-native.'
+    localizacion:
+      manuales_buscados:
+      - AM-8200-manu-prog-spa.pdf
+      - AM-8200 Manual Instalacion.pdf (battery=cat012, no usado aqui)
+      terminos:
+      - CBE
+      - Control By Events
+      - ecuacion
+      - causa-efecto
+      - zona
+      - Tipo SW
+      - Apendice A
+      - Programacion AM8200
+      paginas:
+      - 21
+      - 15
+      - 3
+      nota: CBE = causa-efecto del AM-8200; sintesis intra-manual (concepto p21 + workflow p14-15 + tipo
+        salida p7 + sintaxis Apendice A p61). Digital-native.
+- qid: cat019
+  question: '¿Como se configura una maniobra (causa-efecto) completa en la Detnov CAD-250: como se crea,
+    como se definen las entradas/eventos que la disparan y como se asignan las salidas?'
+  conducta_esperada: answer
+  split: dev
+  estrato:
+  - sintesis-completitud
+  gold_answer: |-
+    En la CAD-250 (sistema VESTA) la logica causa-efecto se programa con MANIOBRAS (menu Maniobras, seccion 8 de la Guia de Configuracion). La respuesta completa fusiona el crear la maniobra, definir sus entradas y asignar sus salidas:
+
+    1. CREAR LA MANIOBRA (§8.2): en el menu Maniobras pulsa ANADIR -> se abre la pantalla de edicion de la maniobra. En el campo COINCIDENCIAS se indica cuantos eventos de entrada deben CONCURRIR para que la salida sea verdadera y se ejecute la maniobra: con valor 1, basta con que se cumpla cualquiera de los eventos; con 2, deben concurrir dos; con 4, cuatro (cualesquiera de ellos), etc.
+    2. ENTRADAS / EVENTOS (§8.2.1): pulsa ANADIR y elige EVENTO (las entradas que disparan) o ACCION (las salidas). Un EVENTO se define sobre una ENTIDAD -cualquier elemento de la jerarquia del sistema: instalacion, panel, lazo, area, dispositivo, grupo o modo virtual, de la central local o de la red- o sobre una CONDICION TEMPORAL (un periodo de tiempo para que la ecuacion de entrada sea verdadera). El maximo es 100.000 maniobras entre eventos y acciones.
+    3. SALIDAS (§8.2.3): las ACCIONES son las salidas que la maniobra activa cuando se cumplen las coincidencias; actuan sobre los elementos de salida (sirenas o modulos de control).
+
+    Como paso previo conviene tener definida la SECTORIZACION fisica del edificio (seccion 7), que estructura las entidades/zonas sobre las que operan las maniobras.
+  atomic_facts:
+  - texto: Una maniobra se crea desde el menu Maniobras con el boton ANADIR (abre la pantalla de edicion);
+      el campo COINCIDENCIAS indica cuantos eventos de entrada deben concurrir (1 = cualquiera; 2 = dos;
+      4 = cuatro...) para que la salida sea verdadera y se ejecute la maniobra
+    tipo: core
+    estado: presente
+    valor: coincidencias
+    cita: MC-380 §8.2 p60 (render)
+  - texto: Los componentes se anaden con ANADIR eligiendo EVENTO (las entradas que disparan) o ACCION
+      (las salidas que se activan); maximo 100.000 maniobras entre eventos y acciones
+    tipo: core
+    estado: presente
+    valor: EVENTO / ACCION
+    cita: MC-380 §8.2.1 p61 (render)
+  - texto: 'Un EVENTO (entrada) se define sobre una ENTIDAD -elemento de la jerarquia: instalacion, panel,
+      lazo, area, dispositivo, grupo o modo virtual (central local o de red)- o sobre una CONDICION TEMPORAL
+      (periodo de tiempo para que la ecuacion de entrada sea verdadera)'
+    tipo: core
+    estado: presente
+    valor: ENTIDAD / CONDICION TEMPORAL
+    cita: MC-380 §8.2.1 p61 (render)
+  - texto: Las ACCIONES/salidas de la maniobra actuan sobre los elementos de salida (sirenas o modulos
+      de control); las salidas para las maniobras se configuran en §8.2.3
+    tipo: core
+    estado: presente
+    valor: salidas
+    cita: MC-380 §2.3 p12 + §8.2.3 p64
+  - texto: 'Paso previo: definir la SECTORIZACION fisica del edificio (seccion 7), que estructura las
+      entidades/zonas sobre las que operan las maniobras (jerarquia y herencia de modos)'
+    tipo: supplementary
+    estado: presente
+    valor: sectorizacion
+    cita: MC-380 §7 p50 + p14 (flujo previo)
+  citations:
+  - manual: CAD-250-MC-380-es.pdf
+    page: 60
+    quote: 8.2 CONFIGURANDO UNA MANIOBRA. Para crear una maniobra pulse el boton ANADIR... En el campo
+      coincidencias indicaremos el numero de eventos que deben concurrir para que la funcion sea verdadera.
+      Si concurren dos eventos de entrada... hemos indicado el valor 2...
+  - manual: CAD-250-MC-380-es.pdf
+    page: 61
+    quote: '8.2.1 Entradas para las maniobras, eventos. Para anadir los eventos de entrada o salida...
+      toque el boton ANADIR... seleccionar entre un EVENTO o una ACCION... Al pulsar la opcion EVENTO
+      se mostrara: un ENTIDAD o una CONDICION TEMPORAL. La ENTIDAD es cualquier elemento de la jerarquia
+      del sistema (instalacion, panel, lazo, area, dispositivo, grupo o modo virtual). El numero de maximo
+      maniobras entre eventos y acciones salientes es de 100.000.'
+  - manual: CAD-250-MC-380-es.pdf
+    page: 12
+    quote: 2.3 SALIDAS DE ALARMA Y DE CONTROL O MANIOBRA... Estas maniobras actuaran sobre los distintos
+      elementos de salida, sean estos sirenas o modulos de control.
+  notes: 'SINTESIS-COMPLETITUD intra-manual (MC-380, Guia de Configuracion CAD-250 / sistema VESTA): la
+    respuesta completa fusiona crear+coincidencias (§8.2 p60) + entradas/eventos/entidad (§8.2.1 p61)
+    + salidas (§8.2.3 p64) + sectorizacion (§7 p50). NO solapa con hp001 (acceso al menu de programacion
+    avanzada). Producto ya en el eval pero tema disjunto. Manual digital-native, sin offset (hp001). Diversifica
+    el estrato sintesis (no-battery).'
+  confidence: alta
+  pdfs_used:
+  - CAD-250-MC-380-es.pdf
+  _provenance:
+    estado: verificado
+    metodo: render_pdf + pdf_grep
+    fuente: CAD-250-MC-380-es.pdf (Guia de Configuracion)
+    paginas:
+    - 60
+    - 61
+    - 12
+    verificado_por:
+    - 'Claude (render p60 §8.2 ''Configurando una maniobra'': ANADIR + campo COINCIDENCIAS 1/2/4 con tablas
+      de verdad Evento/Action; render p61 §8.2.1: ANADIR -> EVENTO o ACCION; EVENTO -> ENTIDAD (instalacion/panel/lazo/area/dispositivo/grupo)
+      o CONDICION TEMPORAL; max 100.000 -> legible, digital-native)'
+    - 'pdf_grep MC-380 indice (p7): §7 Sectorizacion p50, §8 Maniobras p58 (8.2 p60, 8.2.1 entradas p61,
+      8.2.2 condicion temporal p63, 8.2.3 salidas p64); §2.3 p12 (salidas de maniobra)'
+    acuerdo: crear maniobra + coincidencias en §8.2; entradas (EVENTO sobre ENTIDAD/CONDICION TEMPORAL)
+      en §8.2.1; salidas (ACCION) en §8.2.3; sectorizacion en §7 -> respuesta completa fusiona >=2 secciones
+      del MISMO manual (sintesis-completitud)
+    fecha: '2026-06-08'
+    nota: 'batch s52b #4. MC-380 digital-native, sin offset (impresa=fisica, hp001). NO solapa hp001 (acceso
+      al menu). Sistema VESTA (CAD-250). Diversifica sintesis lejos del template battery.'
+    localizacion:
+      manuales_buscados:
+      - CAD-250-MC-380-es.pdf
+      terminos:
+      - maniobra
+      - sectorizacion
+      - coincidencias
+      - evento
+      - accion
+      - entidad
+      - condicion temporal
+      paginas:
+      - 60
+      - 61
+      - 12
+      nota: 'sintesis intra-manual: §8.2 (crear+coincidencias p60) + §8.2.1 (entradas/eventos p61) + §8.2.3
+        (salidas p64) + §7 (sectorizacion p50). Render p60-61 confirma; digital-native.'
+- qid: cat020
+  question: En una central Morley DXc instalada en Espana, ¿cual es el nivel de alarma y de prealarma
+    por defecto de los detectores, y el maximo configurable?
+  conducta_esperada: answer
+  split: dev
+  estrato:
+  - multi-doc
+  gold_answer: |-
+    Para los detectores de la Morley DXc en la VERSION DE ESPANA (protocolo Morley-IAS), los niveles por defecto son:
+    - Nivel de PREALARMA por defecto: 80 %.
+    - Nivel de ALARMA por defecto: 100 %.
+    - Ajuste MAXIMO del nivel de alarma: 108 %.
+
+    El valor analogico del nivel de alarma es un numero normalizado entre 0 % y 100 %, independiente del tipo de equipo. Estos valores se editan por detector (Fuego / Prealarma).
+
+    IMPORTANTE: estos valores son especificos de la version de Espana y figuran en el «Manual de variaciones para Espana» de la DX Connexion, que COMPLEMENTA el manual de configuracion base (996-203-005-X) — la configuracion general del nivel de alarma esta en la seccion de Modos Horarios del manual base, pero los valores por defecto de Espana los fija el manual de variaciones.
+  atomic_facts:
+  - texto: 'En la DXc version Espana (protocolo Morley-IAS) los niveles por defecto de los detectores
+      son: PREALARMA 80 %, ALARMA 100 %; el ajuste MAXIMO del nivel de alarma es 108 %'
+    tipo: core
+    estado: presente
+    valor: 80 % / 100 % / 108 %
+    cita: DXc Manual de variaciones Espana §5.3.10.5.1 p6 (render)
+  - texto: El valor analogico del nivel de alarma es un numero normalizado entre 0 % y 100 %, independiente
+      del tipo de equipo
+    tipo: core
+    estado: presente
+    valor: 0-100 % normalizado
+    cita: DXc Manual de variaciones Espana §5.3.10.5.1 p6 (render)
+  - texto: 'Estos valores por defecto son especificos de la VERSION ESPANA: figuran en el Manual de variaciones
+      para Espana, que COMPLEMENTA el manual de configuracion base (996-203-005-X) donde esta la configuracion
+      general del nivel de alarma (seccion Modos Horarios)'
+    tipo: core
+    estado: presente
+    valor: manual de variaciones Espana
+    cita: DXc Manual de variaciones Espana p2-3 + p6
+  - texto: Los niveles se editan por detector (campos Fuego y Prealarma), p.ej. en pantalla 'S001 OTM
+      Fuego:Niv4 Prealarma:Niv3'
+    tipo: supplementary
+    estado: presente
+    valor: edicion por detector
+    cita: DXc Manual de variaciones Espana §5.3.10.4 p6 (render)
+  citations:
+  - manual: DXc_Manual variaciones de mercado.pdf
+    page: 6
+    quote: 5.3.10.5.1 Informacion especifica para protocolo Morley-IAS. El valor analogico debe ser un
+      numero normalizado entre 0% - 100%, independientemente del tipo de equipo. Para los detectores,
+      el nivel de prealarma por defecto es el 80% y el nivel de alarma por defecto es el 100%. El ajuste
+      maximo para el nivel de alarma es el 108%.
+  - manual: DXc_Manual variaciones de mercado.pdf
+    page: 2
+    quote: Manual de variaciones de la version para Espana... El contenido de este manual es un complemento
+      de los manuales incluidos con las centrales de la serie DX Connexion... describe los requisitos
+      de las normas locales, el modo de funcionamiento, la configuracion... especifica del pais.
+  notes: 'MULTI-DOC / override de mercado: el valor ES-especifico (prealarma 80 / alarma 100 / max 108)
+    lo fija el Manual de variaciones para Espana, que COMPLEMENTA el manual de configuracion base (996-203-005-X).
+    Fallo-dimension real: el bot puede servir la config GENERAL del manual base sin el override de Espana.
+    AUTO-CATCH del principio del duo (s52b): pivote desde ''DXc causa-efecto'' (que habria sido el 3er
+    gold de causa-efecto-sintesis tras cat018/cat019 = mismo patron = over-index) a esta dimension distinta
+    (market-override) -> diversifica el batch. NO solapa con hp010 (alta de detector DXc). Manual digital-native.'
+  confidence: alta
+  pdfs_used:
+  - DXc_Manual variaciones de mercado.pdf
+  - DXc_Manual de configuracion.pdf
+  _provenance:
+    estado: verificado
+    metodo: render_pdf + pdf_grep
+    fuente: DXc_Manual variaciones de mercado.pdf (version Espana) + DXc_Manual de configuracion.pdf (base)
+    paginas:
+    - 6
+    - 2
+    verificado_por:
+    - 'Claude (render p6 §5.3.10.5.1 ''Informacion especifica para protocolo Morley-IAS'': prealarma por
+      defecto 80%, alarma por defecto 100%, maximo 108%, valor analogico 0-100% normalizado -> legible,
+      digital-native)'
+    - 'pdf_grep DXc_Manual variaciones de mercado: p2 ''complemento de los manuales... version Espana'';
+      p3 ''5.3 Programacion manual - Diferencias para la version del pais... Tabla 6 del manual de configuracion
+      996-203-005-X'''
+    acuerdo: los valores por defecto ES (prealarma 80 / alarma 100 / max 108) viven en el manual de variaciones
+      Espana, que complementa el manual de configuracion base -> el answer correcto exige el override
+      de mercado del doc ES (multi-doc)
+    fecha: '2026-06-08'
+    nota: 'batch s52b #5. Pivote de diversidad (auto-catch del principio del duo: no triplicar causa-efecto-sintesis).
+      Market-override = fallo-dimension distinto. Manual digital-native.'
+    localizacion:
+      manuales_buscados:
+      - DXc_Manual variaciones de mercado.pdf
+      - DXc_Manual de configuracion.pdf
+      terminos:
+      - nivel de alarma
+      - prealarma
+      - por defecto
+      - 108%
+      - Espana
+      - variaciones
+      - Morley-IAS
+      paginas:
+      - 6
+      - 2
+      nota: valor ES en el manual de variaciones (p6 §5.3.10.5.1); complementa el config base. Render
+        p6 confirma 80/100/108. Digital-native.
