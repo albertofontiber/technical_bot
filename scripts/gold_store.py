@@ -50,6 +50,10 @@ SPLITS = {"dev", "held-out"}
 ESTRATOS_AUTORIA = {
     "multi-doc", "tabla-matriz", "scan-ocr", "diagrama", "es-en",
     "conflicto-es-us", "oem-relabel", "familia-ambigua",
+    # --- s51: dims NUEVAS del canon (DEC-025c), tag+def inline = cambio-1-linea sancionado
+    # (gold_store.py nota abajo); NO es la consolidación §8 (no se reclasifica tabla/diagrama/scan).
+    "conflicto-revision",   # 2 revisiones MISMO idioma del MISMO manual con un valor CAMBIADO → answer "latest-wins" (RULER §1:67)
+    "sintesis-completitud", # la respuesta COMPLETA exige FUSIONAR >=2 secciones del MISMO manual (no >=2 manuales = multi-doc) → completitud intra-manual
 }
 # CAUSAS POST-HOC (capa extracción/chunking): se DESCUBREN al diagnosticar POR QUÉ falló un gold;
 # NUNCA se usan para SELECCIONAR (exigiría mirar el chunk antes de escribir = el vicio). Demotados.
