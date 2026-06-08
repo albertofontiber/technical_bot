@@ -51,6 +51,7 @@ RERANKER = os.getenv("RERANKER", "llm")  # A/B Track A: llm (prod) | voyage (cro
 GOLD = "evals/gold_answers_v1.yaml"
 OUTPUT = (f"evals/bot_vs_gold_results_k{RERANK_K}.yaml" if RERANKER == "llm"
           else f"evals/bot_vs_gold_results_k{RERANK_K}_{RERANKER}.yaml")
+OUTPUT = os.getenv("OUTPUT_OVERRIDE", OUTPUT)  # smoke dirigido sin pisar el artefacto del run completo
 JUDGE_MODEL = "gpt-5.5"
 
 _JUDGE_SYS = (
@@ -63,23 +64,29 @@ _JUDGE_SYS = (
 _JUDGE_USER = (
     "PREGUNTA:\n{question}\n\n"
     "CONDUCTA ESPERADA: {expected}\n"
-    "(answer = debe responder con contenido; ask_clarification = debe pedir "
-    "aclaración; admit_no_info = debe admitir que no tiene la información, sin "
-    "inventar)\n\n"
+    "(answer = responde con contenido + cita; answer-con-conflicto = surfacea AMBAS "
+    "variantes de mercado/idioma en conflicto, sin elegir ganador; clarify = pide "
+    "aclaración cuando hay productos/variantes distintos y no se especifica cuál; "
+    "admit = admite que el corpus NO lo cubre, sin inventar; refuse-inference = NO "
+    "infiere lo no documentado (compatibilidad cross-marca, '¿debería?'): surfacea "
+    "los hechos documentados por-producto por separado y redirige al fabricante, sin "
+    "afirmar NI negar la inferencia)\n\n"
     "RESPUESTA GOLD (referencia correcta):\n{gold}\n\n"
     "RESPUESTA DEL BOT:\n{bot}\n\n"
     "Evalúa y responde SOLO con JSON válido (sin markdown):\n"
     "{{\n"
-    '  "conducta_bot": "answer | ask_clarification | admit_no_info",\n'
+    '  "conducta_bot": "answer | answer-con-conflicto | clarify | admit | refuse-inference",\n'
     '  "veredicto": "PASS | PARCIAL | FALLO",\n'
     '  "diagnostico": "1-2 frases: qué acertó o qué falta/está mal/alucina"\n'
     "}}\n\n"
     "Criterio de veredicto:\n"
-    "- PASS: contenido correcto y suficiente vs gold (o admite/clarifica "
-    "correctamente cuando esa es la conducta esperada).\n"
+    "- PASS: contenido correcto y suficiente vs gold (o admite / clarifica / "
+    "surfacea-sin-inferir correctamente cuando esa es la conducta esperada).\n"
     "- PARCIAL: correcto pero incompleto o impreciso.\n"
-    "- FALLO: incorrecto, alucina, o admite no-info cuando el gold SÍ responde "
-    "(o responde inventando cuando el gold admite no-info)."
+    "- FALLO: incorrecto, alucina, admite no-info cuando el gold SÍ responde, "
+    "responde inventando cuando el gold admite no-info, o INFIERE lo no documentado "
+    "(p.ej. afirma o niega compatibilidad cross-marca) cuando el gold pide "
+    "refuse-inference."
 )
 
 
@@ -149,6 +156,12 @@ def main() -> int:
               if (score_all or _estado(gold_rows[q]) == "verificado")
               and q not in embargoed]
     quarantined = [q for q in sorted(gold_rows) if q not in scored and q not in embargoed]
+    # Filtro opcional a un subconjunto de qids (smoke dirigido; no toca el gate de procedencia).
+    only = {q.strip() for q in os.getenv("ONLY_QIDS", "").split(",") if q.strip()}
+    if only:
+        scored = [q for q in scored if q in only]
+        quarantined = [q for q in quarantined if q in only]
+        embargoed = [q for q in embargoed if q in only]
     print(f"Golds VERIFICADOS (puntuados): {len(scored)}/{len(gold_rows)} | "
           f"cuarentena (sin puntuar): {len(quarantined)}")
     if embargoed:

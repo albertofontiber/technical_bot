@@ -3195,3 +3195,255 @@
       corpus_chunks_v2: 'POST-HOC (no criterio): 329 chunks de AM-8200 en chunks_v2; los sub-hechos están
         DISPERSOS en chunks distintos (fórmula≈5, consumo≈9, capacidad≈6, autonomía≈3) → el bot debe FUSIONAR
         varios chunks; recuperar uno solo da respuesta incompleta → el gold muerde.'
+- qid: cat013
+  question: Tengo una central Detnov CAD-150 y me ha sobrado de otra instalacion un detector optico Notifier
+    SDX-751; ¿es compatible / puedo montarlo en su lazo?
+  conducta_esperada: refuse-inference
+  split: dev
+  estrato:
+  - multi-doc
+  gold_answer: |-
+    No puedo confirmarte la compatibilidad: ningun manual -ni el de la Detnov CAD-150 ni el del sensor Notifier- documenta que un detector Notifier SDX-751 funcione en el lazo de la CAD-150, asi que montarlo seria una inferencia no soportada por la documentacion. Lo que SI esta documentado, por separado:
+
+    - Central Detnov CAD-150: central analogica de deteccion con lazo (bucle) CERRADO de dos hilos apantallados (longitud max. 2 km, resistencia del cable < 44 Ohm, capacidad max. < 500 nF). Los elementos se dan de alta por autobusqueda/escaneo del propio lazo Detnov; el manual de instalacion (55315013) no nombra un protocolo abierto ni lista compatibilidad con detectores de otras marcas.
+    - Detector Notifier SDX-751: sensor optico analogico direccionable de la gama Notifier, que se comunica mediante el protocolo CLIP de Notifier (manual ID3000 MIDT190, p69 + Apendice 3).
+
+    Cada equipo esta disenado para el sistema/protocolo de su propio fabricante, y no hay ningun documento que avale -ni que descarte explicitamente- mezclarlos; por tanto no debo asumir compatibilidad. Para una respuesta fiable consulta a Detnov (detectores homologados para el lazo de la CAD-150) o a Notifier.
+  atomic_facts:
+  - texto: La central Detnov CAD-150 es analogica con lazo (bucle) CERRADO de 2 hilos apantallados (max
+      2 km, < 44 Ohm, < 500 nF); los elementos se dan de alta por autobusqueda/escaneo del lazo Detnov.
+      El manual no nombra un protocolo abierto ni documenta compatibilidad con detectores de otras marcas
+    tipo: core
+    estado: presente
+    valor: bucle cerrado
+    cita: 55315013 impresa p7 (2.6) + p9 (3.x); render fisica p9
+  - texto: El detector optico Notifier SDX-751 es un sensor analogico direccionable de la gama Notifier
+      que usa el protocolo CLIP de Notifier
+    tipo: core
+    estado: presente
+    valor: CLIP
+    cita: MIDT190 p69 + p71 (Apendice 3), via hp008 render-verificado
+  - texto: Ningun manual (ni Detnov CAD-150 ni Notifier) documenta la compatibilidad de un detector Notifier
+      SDX-751 con el lazo de la central Detnov CAD-150; la combinacion cross-marca no esta avalada NI
+      descartada por la documentacion -> no se puede inferir compatibilidad (ni incompatibilidad)
+    tipo: core
+    estado: ausente-probado
+    valor: null
+    cita: 0 menciones de Notifier/CLIP/protocolo/compatib en 55315013 (52 pp) y 55315008 (158 pp); lista
+      de compatibles Notifier (MIDT190 Apendice 3) = solo Notifier
+  citations:
+  - manual: 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT.pdf
+    page: 7
+    quote: 2.6- Conexion de un bucle. La instalacion del bucle debe ser cerrada... La longitud maxima
+      del lazo es de 2 Km. La resistencia del cable del bucle debe ser inferior a 44 Ohm y la capacidad
+      maxima de la linea debe ser inferior a 500 nF.
+  - manual: MIDT190.pdf
+    page: 69
+    quote: La comunicacion con los equipos en el lazo utiliza el protocolo 'CLIP' de Notifier.
+  - manual: MIDT190.pdf
+    page: 71
+    quote: 'Apendice 3 (sensores compatibles con la ID3000): SDX-751 (OPT) ... todos Notifier.'
+  notes: 'refuse-inference CROSS-MARCA (panel Detnov + sensor Notifier). El bot NO debe afirmar compatibilidad
+    NI incompatibilidad (ambas serian inferencia no documentada): debe surfacear los hechos por-producto
+    por separado y redirigir al fabricante (DEC-012). No solapa con hp008 (compat INTRA-marca Notifier).
+    SDX-751/CLIP heredado de hp008 (MIDT190 render-verificado). Ausencia cross-marca anclada en extraccion
+    CONFIRMADA buena (40 hits legibles analogica/lazo) + lista de compatibles Notifier-only. Seleccion
+    gateada por el duo s52 (sub-agente Claude + cross-model GPT-5.5): cazo que en generico (''detectores
+    opticos Notifier'') degeneraba a clarify -> modelo exacto SDX-751.'
+  confidence: alta
+  pdfs_used:
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT.pdf
+  - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT.pdf
+  - MIDT190.pdf
+  _provenance:
+    estado: verificado
+    metodo: render_pdf + pdf_grep + cross_model
+    fuente: 55315013 (CAD-150 instalacion) + MIDT190 (Notifier ID3000, via hp008)
+    paginas:
+    - 7
+    - 9
+    verificado_por:
+    - Claude (render fisica p9 de 55315013 §2.5/§2.6 'bucle cerrado' + params del lazo; lista de compatibles
+      Notifier-only en MIDT190 Apendice 3 via hp008 render-verificado)
+    - 'pdf_grep 55315013 (52 pp) + 55315008 (158 pp): 0 menciones Notifier/CLIP/protocolo/compatib; extraccion
+      CONFIRMADA buena (40 hits legibles de analogica/lazo/bucle) -> ausencia cross-marca significativa,
+      NO trampa-scan'
+    acuerdo: 'render + extraccion concuerdan: CAD-150 = lazo Detnov cerrado (2km / <44 Ohm / <500 nF,
+      autobusqueda); SDX-751 = CLIP Notifier; ninguna fuente documenta la compatibilidad cross-marca'
+    fecha: '2026-06-08'
+    nota: 'Manual CAD-150 multilingue ES/FR/GB/IT, digital-native (hp003: offset impresa+2 = fisica).
+      refuse-inference: el gold NO afirma incompatibilidad. Duo gateo la SELECCION (regla F: decido yo).
+      cat013 = primer gold de la conducta refuse-inference (era n=0).'
+    localizacion:
+      manuales_buscados:
+      - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT.pdf
+      - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT.pdf
+      - MIDT190.pdf (via hp008)
+      terminos:
+      - protocolo
+      - direccionable
+      - Notifier
+      - CLIP
+      - compatib
+      - lazo
+      - bucle
+      - sensor
+      paginas:
+      - 7
+      - 9
+      nota: extraccion buena (40 hits analogica/lazo/bucle); 0 cross-mentions de Notifier/CLIP/compatib
+        en los 2 manuales CAD-150 -> ausencia real, no trampa-scan.
+- qid: cat014
+  question: ¿Cual es el MTBF / vida util esperada del detector de gas DGD-600 de Detnov?
+  conducta_esperada: answer
+  split: dev
+  estrato:
+  - tabla-matriz
+  gold_answer: |-
+    La VIDA UTIL esperada del detector de gas DGD-600 es de 10 anos desde su fecha de fabricacion: el detector debe sustituirse 10 anos despues de dicha fecha (que viene impresa en la pegatina del lateral del dispositivo). Este dato aparece en la tabla de Caracteristicas y en el apartado de test y mantenimiento del manual.
+
+    En cuanto al MTBF (tiempo medio entre fallos, en horas): el manual/datasheet del DGD-600 NO lo especifica. El unico dato de durabilidad que documenta el fabricante es la vida util de 10 anos. Si necesitas un valor de MTBF concreto (p.ej. para un calculo de fiabilidad), habria que solicitarlo a Detnov, ya que no figura en la documentacion disponible.
+  atomic_facts:
+  - texto: La vida util del DGD-600 es de 10 anos desde su fecha de fabricacion; debe sustituirse 10 anos
+      despues (la fecha de fabricacion esta impresa en la pegatina del lateral)
+    tipo: core
+    estado: presente
+    valor: 10 anos
+    cita: 55360004 p1 (3- Test y mantenimiento + tabla 4- Caracteristicas)
+  - texto: El datasheet del DGD-600 NO especifica un MTBF (tiempo medio entre fallos, en horas); el unico
+      dato de durabilidad documentado es la vida util de 10 anos -> no se debe fabricar una cifra de MTBF
+    tipo: core
+    estado: ausente-probado
+    valor: null
+    cita: 0 hits de MTBF/tiempo medio en 55360004 (2 pp; pdf_grep + render p1)
+  citations:
+  - manual: 55360004 Manual Detector Gas DGD-600 ES EN IT FR.pdf
+    page: 1
+    quote: Vida util 10 anos desde su fabricacion.
+  - manual: 55360004 Manual Detector Gas DGD-600 ES EN IT FR.pdf
+    page: 1
+    quote: El detector debe ser sustituido 10 anos despues de su fecha de fabricacion. La fecha de fabricacion
+      esta impresa en la pegatina adjunta en el lateral del dispositivo.
+  notes: 'La pregunta mezcla MTBF (ausente) + vida util (presente). El bot debe DAR la vida util (10 anos)
+    y declarar que el MTBF no esta documentado, SIN fabricarlo (eje no-fabricacion). NO es duplicado de
+    hp004 (tension/consumo del DGD-600). ORIGEN s52: se propuso como `admit` (hueco n=0); el gate del
+    duo (sub-agente Claude + cross-model GPT-5.5) + verificacion en fuente (565f4b65...json + render p1)
+    probaron que la vida util SI esta documentada -> habria sido un FALSO-ADMIT (patron s33, mi sesgo
+    #20/#22). Reclasificado a `answer`; Alberto decidio quedarselo aunque sea de otra categoria. Datasheet
+    bilingue ES/EN, digital-native, sin offset (hp004).'
+  confidence: alta
+  pdfs_used:
+  - 55360004 Manual Detector Gas DGD-600 ES EN IT FR.pdf
+  _provenance:
+    estado: verificado
+    metodo: render_pdf + pdf_grep
+    fuente: 55360004 Manual Detector Gas DGD-600 ES EN IT FR.pdf
+    paginas:
+    - 1
+    verificado_por:
+    - 'Claude (render p1 300dpi: ''Vida util 10 anos desde su fabricacion'' en tabla Caracteristicas +
+      prosa ''sustituido 10 anos despues de su fecha de fabricacion'' en §3; datasheet digital-native)'
+    - 'pdf_grep 55360004 (2 pp): ''vida util''/''sustituido 10 anos'' presentes; 0 hits de MTBF/''tiempo
+      medio'' -> MTBF ausente-probado'
+    acuerdo: 'render + extraccion concuerdan: vida util 10 anos desde fabricacion (presente, ES y EN);
+      MTBF en horas no figura en el datasheet (ausente)'
+    fecha: '2026-06-08'
+    nota: Mismo datasheet que hp004 (digital-native, sin offset). Reclasificado admit->answer tras el
+      gate s52 (la vida util esta documentada). Vida util tambien en EN ('Useful life 10 years from manufacturing')
+      -> valor idioma-independiente.
+    localizacion:
+      manuales_buscados:
+      - 55360004 Manual Detector Gas DGD-600 ES EN IT FR.pdf
+      terminos:
+      - vida util
+      - MTBF
+      - sustituido
+      - tiempo medio
+      - anos
+      - fabricacion
+      paginas:
+      - 1
+      nota: 'datasheet 2 pp digital-native; vida util en tabla §4 + prosa §3; MTBF: 0 hits = ausente (unico
+        manual del DGD-600, ausencia quirurgica).'
+- qid: cat015
+  question: ¿Como se actualiza el firmware de la central Detnov CAD-150?
+  conducta_esperada: admit
+  split: dev
+  estrato: []
+  gold_answer: |-
+    No tengo esa informacion: los manuales disponibles de la central Detnov CAD-150 (instalacion, usuario y la variante CAD150R) no describen un procedimiento de actualizacion de firmware de la central. Lo que SI documentan es la CONFIGURACION del sistema -el CAD-150 tiene conector USB y software de configuracion para dar de alta zonas y elementos del lazo-, pero eso es distinto de actualizar el firmware del equipo.
+
+    Para actualizar el firmware de forma segura -si el modelo lo admite- lo correcto es contactar con el servicio tecnico de Detnov o su distribuidor, que te indicaran la herramienta y el procedimiento homologado. No te doy unos pasos inventados a proposito: una actualizacion mal hecha podria dejar la central inoperativa.
+  atomic_facts:
+  - texto: Ningun manual disponible del CAD-150 (instalacion 55315013, usuario 55315008, CAD150R 55315501)
+      documenta un procedimiento de ACTUALIZACION DE FIRMWARE de la central -> el corpus no lo cubre;
+      el bot debe admitir el gap y NO inventar pasos
+    tipo: core
+    estado: ausente-probado
+    valor: null
+    cita: 0 hits reales de firmware/actualiz/bootloader/flash/update en 55315013 (52pp) y 55315501 (20pp);
+      55315008 (158pp) = 3 hits, todos falsos positivos ('flashing' LED / 'config software expired');
+      extraccion CONFIRMADA buena
+  - texto: El CAD-150 dispone de conector USB y software de configuracion (para configurar zonas y elementos
+      del lazo); el manual cubre la CONFIGURACION del sistema, que es DISTINTA de la actualizacion de
+      firmware
+    tipo: supplementary
+    estado: presente
+    valor: software de configuracion / USB
+    cita: 55315013 render p5 (Conector USB) + 55315008 (menus de configuracion)
+  citations:
+  - manual: 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT.pdf
+    page: 5
+    quote: 5. Conector USB (panel de conexiones; el manual cubre configuracion, no firmware).
+  - manual: 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT.pdf
+    page: 49
+    quote: configuration software or keyboard... user navigation menu... ZONE Menu (cubre configuracion
+      del sistema, no actualizacion de firmware).
+  notes: 'ADMIT: el corpus no cubre un procedimiento de actualizacion de firmware del CAD-150. ORIGEN
+    s52: hipotesis-lider del admit (hueco n=0). El gate del duo (sub-agente + cross-model GPT-5.5) exigio
+    localizacion exhaustiva MULTI-DOC ES+EN antes de declarar `admit` (para no repetir el falso-admit
+    C2b). Hecha: 3 manuales del CAD-150 (install/user/CAD150R) + tarjeta de lazo -> 0 firmware-update
+    (extraccion buena, no trampa-scan). Framing CONSERVADOR ''no en el corpus disponible'', NO ''no existe''
+    (cross-model). El software de CONFIGURACION (USB) != firmware -> se surfacea como contexto honesto
+    sin enmascarar el gap (distinto del trap hp006). cat015 = primer gold de conducta admit (era n=0).
+    NO es gap-de-corpus (el dato no esta en NINGUN manual, no es ''esta en el manual pero no en chunks_v2'').'
+  confidence: alta
+  pdfs_used:
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT.pdf
+  - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT.pdf
+  - 55315501 CAD150R Instalacion ES GB 191018.pdf
+  _provenance:
+    estado: verificado
+    metodo: pdf_grep + render_pdf + corpus_check
+    fuente: 'manuales CAD-150: 55315013 (install) + 55315008 (user) + 55315501 (CAD150R)'
+    paginas:
+    - 5
+    verificado_por:
+    - 'pdf_grep exhaustivo ES+EN de los 3 manuales del CAD-150 + TBUD-150: 0 hits reales de firmware/actualiz/bootloader/flash/update/reprogram
+      (install 52pp=0, CAD150R 20pp=0, user 158pp=3 falsos-pos)'
+    - 'Claude (render p9 §2.6 + p5 ''Conector USB'': el manual cubre configuracion del lazo / autobusqueda,
+      NO actualizacion de firmware; extraccion confirmada buena con 40 hits legibles de analogica/lazo)'
+    acuerdo: los 3 manuales del CAD-150 cubren instalacion/configuracion pero NINGUNO documenta actualizacion
+      de firmware -> ausencia probada (admit), no gap-de-corpus
+    fecha: '2026-06-08'
+    nota: 'Manuales digital-native (hp003: offset impresa+2). Admit conservador: claim sobre el CORPUS
+      disponible, no sobre la realidad. Localizacion multi-doc = la cautela que pidio el cross-model.'
+    localizacion:
+      manuales_buscados:
+      - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT.pdf
+      - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT.pdf
+      - 55315501 CAD150R Instalacion ES GB 191018.pdf
+      - 55315012 Manual Tarjeta de bucle TBUD-150 (loop card)
+      terminos:
+      - firmware
+      - actualiz
+      - bootloader
+      - flash
+      - update
+      - reprogram
+      - nueva version
+      paginas:
+      - 5
+      nota: 'firmware-update ausente de los 3 manuales (extraccion buena: install dio 40 hits legibles
+        de analogica/lazo). user 3 hits = falsos pos (''flashing''/''config software''). No hay doc de
+        software/firmware del CAD-150 en el corpus.'
