@@ -33,6 +33,10 @@ evals/results/
 # scripts/build_model_catalog.py tras re-ingestar/añadir un fabricante.
 !data/model_catalog.json
 
+# Inventario de manuales: herramienta crítica de gap-hunting (M&A). Se versiona
+# aunque viva en data/. Regenerar con scripts/update_inventario.py.
+!data/Inventario_Manuales.xlsx
+
 # Manuales descargados — grandes, no van al repo
 Manuales_ES/
 Manuales_Morley/
@@ -40,6 +44,7 @@ Manuales_Morley_Privado/
 Manuales_Morley_Guias/
 Manuales_Notifier/
 Manuales_Notifier_Privado/
+Manuales_Kidde/
 manuales/
 
 # Source-of-truth index del scraper de guías (troubleshooting Morley)
