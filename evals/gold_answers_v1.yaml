@@ -2794,3 +2794,404 @@
       criterio)
     verificado_por: Claude + GPT-5.5 (cross-model)
     metodo: render_pdf + cross_model
+- qid: cat009
+  question: ¿Qué resistencia de fin de línea (EOL) hay que instalar en las líneas de zona de la central
+    convencional NFS Supra?
+  conducta_esperada: answer
+  split: dev
+  estrato:
+  - conflicto-revision
+  gold_answer: |-
+    En la central convencional NFS Supra (Honeywell Life Safety / Notifier; incluye las variantes VSN-Plus2 y ESS-2Plus), las líneas de zona se terminan con la resistencia de fin de línea (EOL) suministrada de 6K8 Ω (6,8 kΩ), o bien con el condensador de 47 µF que viene por defecto. La resistencia EOL mantiene la zona estable a 24 V en estado de reposo/normal y debe instalarse en cada zona, incluidas las no utilizadas (sección 4.4.1 «Zone Wirings» del manual de instalación y funcionamiento).
+
+    Nota: 6K8 Ω es el valor de la edición vigente del manual (HLSI-MN-025-I v.05, abril 2015). Ediciones anteriores (v.04) indicaban 4K7 Ω; debe usarse el valor de la última revisión (6K8 Ω).
+  atomic_facts:
+  - texto: La resistencia de fin de línea (EOL) de las líneas de zona de la NFS Supra es 6K8 Ω (alternativamente,
+      el condensador de 47 µF suministrado por defecto) — valor de la edición vigente v.05
+    tipo: core
+    estado: presente
+    valor: 6K8
+    cita: HLSI-MN-025-I v05 p27 (4.4.1)
+  - texto: La resistencia EOL mantiene la zona estable a 24 V en estado de reposo/normal (quiescent)
+    tipo: supplementary
+    estado: presente
+    valor: 24 V
+    cita: HLSI-MN-025-I v05 p27 (4.4.1)
+  - texto: La resistencia EOL debe instalarse en cada zona, incluidas las zonas no utilizadas
+    tipo: supplementary
+    estado: presente
+    valor: cada zona
+    cita: HLSI-MN-025-I v05 p27 (4.4.1)
+  citations:
+  - manual: HLSI-MN-025-I_NFS Supra Series v05.pdf (EN, v.05 abril 2015)
+    page: 27
+    quote: Zones lines must be terminated with the supplied 47µF capacitor or 6K8 Ω resistor. The EOL
+      resistor make zone stable to 24 V (normal/quiescent status). The EOL resistor must be installed
+      in each zone, including not used zones.
+  - manual: HLSI-MN-025-I_NFS Supra Series.pdf (EN, v.04 febrero 2015) — REVISIÓN SUPERSEDED
+    page: 27
+    quote: 'Zones lines must be terminated with the supplied 47µF capacitor or 4K7 Ω resistor. [valor
+      obsoleto: 4K7 Ω -> 6K8 Ω en v.05]'
+  - manual: HLSI-MN-025_NFS Supra.pdf (ES, v.05 mayo 2015) — corroboración en español
+    page: 27
+    quote: (la edición española vigente confirma 6K8 Ω para el EOL de las líneas de zona)
+  notes: 'CONFLICTO-REVISIÓN (latest-wins, RULER §1): el valor del EOL de zona cambió entre ediciones
+    del MISMO manual (HLSI-MN-025-I): v.04 (feb 2015) = 4K7 Ω -> v.05 (abr 2015) = 6K8 Ω. Manda la última
+    (6K8 Ω); NO es answer-con-conflicto (eso es para variantes de mercado ES-vs-US). 6K8 corroborado en
+    la edición ES v.05 y en las guías rápidas ES. Caveat de la fuente: la v.05 actualizó el cuerpo a 6K8
+    pero dejó la ETIQUETA de la figura de §4.4.2 (Sounder Circuits) en 4K7 (inconsistencia interna de
+    la propia v.05); el anclaje del gold es §4.4.1 (zona), que es limpio. Nota de scorer: vigilar 6K8
+    <-> 6,8 kΩ en el matcher de anchors.'
+  confidence: alta
+  pdfs_used:
+  - HLSI-MN-025-I_NFS Supra Series v05.pdf
+  - HLSI-MN-025-I_NFS Supra Series.pdf
+  - HLSI-MN-025_NFS Supra.pdf
+  _provenance:
+    estado: verificado
+    metodo: render_pdf + cross_model + diff_revisiones
+    fuente: HLSI-MN-025-I NFS Supra Series — EN v.05 (abr 2015) vs v.04 (feb 2015)
+    paginas:
+    - 27
+    verificado_por:
+    - 'Claude (lectura multimodal del render de p27 en v04 y v05: frase EOL + recuadro ZONE CIRCUITS)'
+    - 'gpt-5.5 (cross_verify_image.py en frío sobre los renders: leyó 6K8 Ω en v05 y 4K7 Ω en v04, independiente)'
+    acuerdo: 'triple-señal: match-texto + Claude-render + GPT-frío coinciden — v05=6K8 Ω, v04=4K7 Ω, en
+      la frase EOL y el recuadro ZONE CIRCUITS (§4.4.1)'
+    fecha: '2026-06-08'
+    nota: 'Conflicto-revisión REAL: 4K7 (v04) -> 6K8 (v05), mismo manual mismo idioma (EN). 6K8 latest-wins,
+      corroborado en ES v05 + guías rápidas; 4K7 sólo en EN v04 + FR v03 (fuera de scope). v05 §4.4.2
+      (sounder) figura residual 4K7 = inconsistencia interna, NO el anclaje.'
+    localizacion:
+      manuales_buscados:
+      - '18 manuales NFS Supra/VSN-2Plus/ESS-2Plus (ES+EN+FR+NL): HLSI-MN-025-I (EN v04, v05), HLSI-MN-025
+        (ES v05), guías rápidas HLSI-MA-025 (ES/XP/NL), FR v03, FAQs'
+      terminos:
+      - 6K8
+      - 4K7
+      - EOL
+      - end of line
+      - fin de línea
+      - resistor
+      - resistencia
+      paginas:
+      - 27
+      nota: latest 6K8 confirmado en EN v05 (p27/28/29/43) + ES v05 (p27-30) + guías rápidas ES; 4K7 sólo
+        en EN v04 + FR v03.
+      corpus_chunks_v2: 'POST-HOC (diagnóstico, NO criterio de selección): 159 chunks de NFS Supra en
+        chunks_v2; ''6K8'' en 13 chunks y ''4K7'' en 5 chunks -> el CONFLICTO ESTÁ VIVO en el índice (la
+        rev vieja coexiste con la nueva, sin metadata de revisión) -> el gold MUERDE (el RAG puede servir
+        el 4K7 obsoleto).'
+- qid: cat010
+  question: ¿Cómo se alimenta la sirena/avisador intrínsecamente seguro IS-mA1 en una zona peligrosa (ATEX)
+    y cuáles son sus parámetros de seguridad intrínseca de entrada?
+  conducta_esperada: answer
+  split: dev
+  estrato:
+  - es-en
+  gold_answer: |-
+    El IS-mA1 (fabricante e2S / European Safety Systems) es una sirena/avisador acústico redondo intrínsecamente seguro, certificado ATEX e IECEx, para producir una señal de alarma en zonas peligrosas (atmósferas explosivas).
+
+    Alimentación: se alimenta a 24V dc en la zona peligrosa A TRAVÉS de una barrera Zener o aislador galvánico certificado ATEX/IECEx de 28V / 93mA (resistivo). Puede probarse o usarse en zona segura sin barrera, pero por encima de 16V actúa el límite de corriente interno, por lo que se recomienda no operarlo de forma continua con una alimentación directa superior a 16V.
+
+    Parámetros de seguridad intrínseca de entrada (terminales + y −): Ui = 28V, Ii = 93mA, Pi = 660mW, Ci = 0, Li = 0. La barrera Zener / aislador galvánico debe tener parámetros de salida iguales o inferiores a 28V, 93mA y 660mW.
+
+    Marcado: II 1G Ex ia IIC T4 Ga, con rango de temperatura ambiente −40°C ≤ Ta ≤ +60°C.
+  atomic_facts:
+  - texto: El IS-mA1 se alimenta a 24V dc en zona peligrosa a través de una barrera Zener / aislador galvánico
+      certificado ATEX/IECEx de 28V / 93mA resistivo (en zona segura sin barrera, no operar de forma continua
+      por encima de 16V por el límite de corriente interno)
+    tipo: core
+    estado: presente
+    valor: 24V dc
+    cita: IS5001-F p1 (§3 Supply Voltage)
+  - texto: 'Parámetros de seguridad intrínseca de entrada de los terminales + y −: Ui = 28V, Ii = 93mA,
+      Pi = 660mW, Ci = 0, Li = 0'
+    tipo: core
+    estado: presente
+    valor: 660mW
+    cita: IS5001-F p2 (§4.3 Terminals + and -)
+  - texto: 'Marcado de seguridad intrínseca: II 1G Ex ia IIC T4 Ga, rango de temperatura ambiente −40°C
+      ≤ Ta ≤ +60°C'
+    tipo: supplementary
+    estado: presente
+    valor: Ex ia IIC
+    cita: IS5001-F p1 (§4.1 ATEX certificate)
+  citations:
+  - manual: IS5001-F_IS-mA1_EN.pdf (e2S / European Safety Systems — manual SOLO en inglés)
+    page: 1
+    quote: The IS-mA1 minialarm sounder has been designed to operate in a hazardous area from a 24V dc
+      supply via 28V 93mA resistive ATEX and IECEx certified Zener Barriers or Galvanic Isolators... at
+      supply voltages above 16V the internal current limit will function...
+  - manual: IS5001-F_IS-mA1_EN.pdf
+    page: 2
+    quote: 'Power is supplied to the sounder via the + and - terminals which have the following input
+      safety parameters: Ui = 28V, Ii = 93mA, Pi = 660mW, Ci = 0, Li = 0.'
+  - manual: IS5001-F_IS-mA1_EN.pdf
+    page: 1
+    quote: II 1G Ex ia IIC T4 Ga (-40°C <= Ta <= +60°C)
+  notes: 'es-en (EN-only): el IS-mA1 (e2S, fabricante UK) tiene en el corpus SÓLO manual en inglés (IS5001-F);
+    no hay manual español de este producto (verificado: búsqueda de variante ES = ninguna). Un técnico
+    español que instala una sirena IS en zona ATEX debe puentear la consulta ES → fuente EN. Es un dispositivo
+    desplegado real (no un test tool), del dominio gas/ATEX (en scope multi-dominio). DISTINTO de cat007
+    (es-en bilingüe ES+EN): aquí la fuente es genuinamente EN-only. Los valores son idioma-independientes
+    (28V/93mA/660mW/Ex ia IIC) → van seguros; la prosa del answer se redacta en ES.'
+  confidence: alta
+  pdfs_used:
+  - IS5001-F_IS-mA1_EN.pdf
+  _provenance:
+    estado: verificado
+    metodo: render_pdf + cross_model
+    fuente: IS5001-F_IS-mA1_EN.pdf (e2S, EN-only)
+    paginas:
+    - 1
+    - 2
+    verificado_por:
+    - Claude (lectura multimodal del render de p1 §3 Supply Voltage + §4.1 marcado, y p2 §4.3 parámetros
+      Ui/Ii/Pi)
+    - 'gpt-5.5 (cross_verify_image.py en frío sobre p1 y p2: leyó ''24V dc ... 28V 93mA ... Zener Barriers'',
+      ''II 1G Ex ia IIC T4 Ga (-40 a +60)'', y ''Ui=28V Ii=93mA Pi=660mW Ci=0 Li=0'', independiente)'
+    acuerdo: 'triple-señal: match-texto + Claude-render + GPT-frío coinciden — supply 24V dc vía barrera
+      28V/93mA; Ui=28V Ii=93mA Pi=660mW Ci=0 Li=0; marcado II 1G Ex ia IIC T4 Ga (-40/+60 °C)'
+    fecha: '2026-06-08'
+    nota: Manual digital-native, EN-only. Producto e2S (UK) del dominio ATEX/gas. es-en de sub-tipo EN-only
+      (cat007 era bilingüe).
+    localizacion:
+      manuales_buscados:
+      - IS5001-F_IS-mA1_EN.pdf (EN); búsqueda de variante ES del IS-mA1 = NINGUNA (confirmado EN-only)
+      terminos:
+      - IS-mA1
+      - minialarm
+      - 24V dc
+      - 28V
+      - 93mA
+      - 660mW
+      - Ui
+      - Ii
+      - Pi
+      - Ex ia IIC
+      - Zener
+      paginas:
+      - 1
+      - 2
+      nota: Fuente EN-only confirmada; no existe manual español del IS-mA1 en el corpus.
+      corpus_chunks_v2: 'POST-HOC (diagnóstico, NO criterio): 27 chunks de IS-mA1/minialarm en chunks_v2
+        (''93mA'' en 13, ''660mW'' en 8, ''Ex ia'' en 16) → testable (la fuente EN está ingestada; el
+        gold prueba el puente ES→EN, no un corpus-gap).'
+- qid: cat011
+  question: Necesito un detector de humos analógico direccionable «751» para una instalación Notifier;
+    ¿cuál es el modelo correcto?
+  conducta_esperada: clarify
+  split: dev
+  estrato:
+  - familia-ambigua
+  gold_answer: |-
+    «751» no identifica un único detector: en la familia de detectores analógicos direccionables 751 hay varios modelos con tecnologías y aplicaciones DISTINTAS y NO intercambiables. Para confirmarte el correcto, ¿cuál de estos necesitas (o en qué tipo de zona va)?
+
+    • CPX-751E — detector IÓNICO estándar (zonas normales).
+    • IDX-751 (AE) — detector ÓPTICO/fotoeléctrico de SEGURIDAD INTRÍNSECA para zonas peligrosas/ATEX (15-24 Vdc, clases de temperatura T4/T5; requiere translator/barrera de seguridad intrínseca; las pruebas no intrínsecamente seguras deben realizarse FUERA de la zona peligrosa).
+    • FSL-751E — detector por aspiración/láser (gama VIEW).
+
+    Dime el modelo exacto o la aplicación (zona normal vs zona peligrosa; tecnología iónica/óptica/aspiración) y te confirmo las especificaciones. ⚠️ Importante de seguridad: no elijas a ciegas — instalar un detector estándar (p. ej. CPX-751E) en una zona peligrosa en lugar del intrínsecamente seguro (IDX-751) sería un fallo de seguridad.
+  atomic_facts:
+  - texto: '«751» es un near-name AMBIGUO: corresponde a varios detectores analógicos direccionables distintos
+      y NO intercambiables (al menos CPX-751E, IDX-751 y FSL-751E del catálogo); la pregunta no especifica
+      cuál → conducta clarify, ofreciendo los candidatos acotados del catálogo y pidiendo aclaración (modelo
+      o aplicación)'
+    tipo: core
+    estado: presente
+    valor: '751'
+    cita: model_catalog.json (CPX-751E/IDX-751/FSL-751E)
+  - texto: IDX-751 (AE) = detector ÓPTICO/fotoeléctrico de SEGURIDAD INTRÍNSECA para zonas peligrosas
+      (15-24 Vdc; clases de temperatura T4/T5; requiere translator/barrera de seguridad intrínseca)
+    tipo: core
+    estado: presente
+    valor: seguridad intrínseca
+    cita: I56-3383-002 IDX-751 p1
+  - texto: CPX-751E = detector IÓNICO estándar (analógico direccionable; zonas normales)
+    tipo: core
+    estado: presente
+    valor: iónico
+    cita: I56-0790-003 CPX-751E p1
+  - texto: FSL-751E = detector de humos por aspiración/láser (gama VIEW)
+    tipo: supplementary
+    estado: presente
+    valor: aspiración
+    cita: model_catalog.json + hp008
+  citations:
+  - manual: I56-3383-002 IDX-751 AE EN DE.pdf (Notifier/System Sensor)
+    page: 1
+    quote: INSTALLATION AND MAINTENANCE INSTRUCTIONS FOR MODEL IDX-751 AE INTRINSICALLY SAFE INTELLIGENT
+      PHOTO ELECTRONIC SMOKE SENSOR. Operating Voltage Range 15 to 24 VDC. [T5 -20°C 40°C / T4 -20°C 60°C].
+      If testing is carried out using non-intrinsically safe methods, it must be conducted outside the
+      hazardous area.
+  - manual: I56-0790-003_CPX-751E.pdf
+    page: 1
+    quote: INSTALLATION AND MAINTENANCE INSTRUCTIONS FOR MODEL CPX-751E ANALOGUE ADDRESSABLE [IONIZATION]
+      smoke detector.
+  - manual: data/model_catalog.json (fuente única del clarify, D6)
+    page: 0
+    quote: CPX-751E, IDX-751 y FSL-751E presentes en el catálogo → candidatos válidos del clarify. (SDX-751EM/SDX-751
+      NO están en el catálogo → excluidos como candidatos.)
+  notes: 'familia-ambigua / clarify (RULER §1 D6): el near-name «751» mapea a varios detectores del catálogo
+    con tecnologías/aplicaciones distintas y NO intercambiables → la pregunta no especifica → clarify
+    con candidatos ACOTADOS DEL CATÁLOGO (no de los chunks). Distinción safety-critical: estándar (CPX-751E)
+    vs seguridad intrínseca para zona peligrosa (IDX-751). SOLAPE DECLARADO (dúo s51): hp008 enumera estos
+    751 como compatibles con ID3000 (eje = compatibilidad-lista, conducta answer); este gold los DESAMBIGUA
+    (eje = clarify) → MISMO set de productos, DISTINTO modo de fallo. Candidatos restringidos a los que
+    SÍ están en el catálogo (CPX-751E/IDX-751/FSL-751E); SDX-751/SDX-751EM excluidos porque NO están en
+    el catálogo (corrección del dúo).'
+  confidence: alta
+  pdfs_used:
+  - I56-3383-002 IDX-751 AE EN DE.pdf
+  - I56-0790-003_CPX-751E.pdf
+  _provenance:
+    estado: verificado
+    metodo: render_pdf + corpus_check (catalogo) + corroboracion hp008
+    fuente: I56-3383-002 IDX-751 (IS óptico) + I56-0790-003 CPX-751E (iónico estándar) + model_catalog.json
+    paginas:
+    - 1
+    verificado_por:
+    - 'Claude (render multimodal de IDX-751 p1: título ''INTRINSICALLY SAFE ... PHOTO ELECTRONIC SMOKE
+      SENSOR'' + 15-24 VDC + T4/T5 + nota de zona peligrosa)'
+    - texto extraído CPX-751E (IONIZATION, analogue addressable) — distinción categórica
+    - 'corroboración hp008 (atomic_facts: ''IDX-751 HAZARD seguridad intrínseca con barrera''; ''CPX-751E
+      ION'')'
+    - model_catalog.json (CPX-751E/IDX-751/FSL-751E presentes = candidatos válidos del clarify, D6)
+    acuerdo: 'distinción categórica triple (render IDX + texto CPX + hp008): IDX-751 = óptico seguridad
+      intrínseca/zona peligrosa; CPX-751E = iónico estándar; ambos analógicos direccionables 751. GPT
+      cross-read no requerido: es distinción categórica (no valor numérico OCR-riesgoso).'
+    fecha: '2026-06-08'
+    nota: Clarify por near-name. Candidatos restringidos a los del catálogo (D6); SDX-751/SDX-751EM excluidos
+      (no en catálogo) — corrección del dúo s51 (que cazó SDX-751EM ausente del catálogo).
+    localizacion:
+      manuales_buscados:
+      - I56-3383-002 IDX-751 (EN/DE), I56-0790-003 CPX-751E; familia 751 cruzada con model_catalog.json;
+        SDX-751EM (I56-1306) y SDX-751 verificados AUSENTES del catálogo → no candidatos
+      terminos:
+      - '751'
+      - CPX-751E
+      - IDX-751
+      - FSL-751E
+      - intrinsically safe
+      - ionization
+      - photo electronic
+      paginas:
+      - 1
+      nota: Candidatos del clarify = los que están en el catálogo (CPX-751E/IDX-751/FSL-751E).
+      corpus_chunks_v2: 'POST-HOC (no criterio): la familia 751 está en el corpus (hp008 la recupera como
+        compatible con ID3000); el modo de fallo de ESTE gold es DESAMBIGUAR el near-name, no recuperar
+        specs.'
+- qid: cat012
+  question: ¿Cómo se calcula la capacidad de batería (en Ah) necesaria para la central AM-8200?
+  conducta_esperada: answer
+  split: dev
+  estrato:
+  - sintesis-completitud
+  gold_answer: |-
+    El dimensionado de la batería de la AM-8200 no es un único valor: se calcula COMBINANDO el consumo, la autonomía y un factor de seguridad (apéndice §11 «Cálculo de consumos» del manual de instalación), y queda acotado por la capacidad máxima del armario.
+
+    Fórmula (Tabla 1, §11): Ah batería = (A + B) × 1,2, donde:
+    • A = consumo total del sistema en REPOSO (sin alarma) × 24 h (o × 72 h, según la autonomía exigida).
+    • B = consumo total del sistema en ALARMA × 0,5 h (30 min).
+    • 1,2 = factor de seguridad.
+
+    Los consumos por tarjeta se toman de §3.12/§3.13 y de la Tabla 1; p. ej. la CPU AM8200-KLCD consume 179 mA en reposo y 345 mA en alarma (consumo de alimentación; en consumo de baterías, 113 mA en reposo y 255 mA en alarma), la LIB-8200 50 mA y la AM82-2S2C 28 mA. A estos se suman la corriente de los lazos (Tabla 3) y la corriente de salida de usuario (campanas/sirenas/flashes, máx. 2 A).
+
+    La alimentación interna es de 24 Vcc con un total de 4 A. La capacidad máxima estándar instalable es de 17-18 Ah (2 × 12 V; p. ej. Yuasa NP18-12B = 17,2 Ah o Fiamm FG21803 = 18 Ah).
+
+    En resumen: suma los consumos en reposo y en alarma, multiplícalos por sus horas de autonomía (24/72 h y 0,5 h), aplica el factor 1,2 y comprueba que el resultado no supere la capacidad máxima instalable (≈18 Ah).
+  atomic_facts:
+  - texto: 'La capacidad de batería se calcula con la fórmula del apéndice §11 (Tabla 1): Ah = (A + B)
+      × 1,2, siendo 1,2 el factor de seguridad'
+    tipo: core
+    estado: presente
+    valor: 1,2
+    cita: AM-8200 Instalacion p52 (§11 Tabla 1)
+  - texto: A = consumo total en REPOSO × 24 h (o 72 h); B = consumo total en ALARMA × 0,5 h (30 min)
+    tipo: core
+    estado: presente
+    valor: 24 h
+    cita: AM-8200 Instalacion p52 (§11 Tabla 1)
+  - texto: Los consumos por tarjeta se toman de §3.12/§3.13 y la Tabla 1 (p. ej. CPU AM8200-KLCD = 179
+      mA reposo / 345 mA alarma de alimentación; 113/255 mA de baterías) + corriente de lazos (Tabla 3)
+      + salida de usuario (máx. 2 A)
+    tipo: core
+    estado: presente
+    valor: 179 mA
+    cita: AM-8200 Instalacion p14/p16 (§3.12/§3.13) + p52
+  - texto: La capacidad máxima estándar instalable es 17-18 Ah (2 × 12 V; Yuasa NP18-12B 17,2 Ah / Fiamm
+      FG21803 18 Ah); la alimentación interna es de 24 Vcc con un total de 4 A
+    tipo: core
+    estado: presente
+    valor: 18 Ah
+    cita: AM-8200 Instalacion p12 (§3.4.1) + p52 (§11)
+  citations:
+  - manual: AM-8200 Manual Instalacion.pdf
+    page: 52
+    quote: '11 - ALIMENTACIÓN - CÁLCULO DE CONSUMOS. ... Está disponible la alimentación interna de 24
+      Vcc de un total de 4 Amp. ... Tabla 1: [A NO ALARMA / B ALARMA] ... Total A (x 24 h) o (x 72 h)
+      = ; Total B x 0,5 h = ; Ah Batería = (A + B) x 1,2 ='
+  - manual: AM-8200 Manual Instalacion.pdf
+    page: 16
+    quote: '3.12 Consumo de corriente de alimentación — condiciones normales: AM-8200-KLCD 179 mA ...
+      condiciones de alarma: AM-8200-KLCD 345 mA. 3.13 Consumo de las baterías — normales: 113 mA; alarma:
+      255 mA. Ver el apéndice al final para el cálculo de las baterías en reposo y en alarma.'
+  - manual: AM-8200 Manual Instalacion.pdf
+    page: 12
+    quote: '3.4.1 Baterías: 17-18 Ah (capacidad máxima estándar): Yuasa NP18-12B ... 12V 17,2 Ah; Fiamm
+      FG21803 ... 12V 18 Ah. (2 x 12 V mín. 7 Ah o 18 Ah máx.)'
+  notes: 'sintesis-completitud INTRA-MANUAL: la respuesta completa al dimensionado de batería exige FUSIONAR
+    tres secciones del MISMO manual (AM-8200 instalación): §3.12/§3.13 (consumos, p14/p16) + §11 Tabla
+    1 (fórmula + autonomía 24/72 h y 0,5 h + factor 1,2, p52) + §3.4.1 (capacidad máx 17-18 Ah, p12).
+    Es completitud DENTRO de un manual (NO ≥2 manuales = eso sería multi-doc). Modo de fallo que caza:
+    el bot recupera un solo chunk (p. ej. «18 Ah máx» o solo la fórmula) y da una respuesta INCOMPLETA
+    sin fusionar consumo + autonomía + fórmula + capacidad. Nota: el manual da consumo de ALIMENTACIÓN
+    (179/345 mA) y de BATERÍAS (113/255 mA) por separado; para la autonomía con baterías el relevante
+    es el de baterías.'
+  confidence: alta
+  pdfs_used:
+  - AM-8200 Manual Instalacion.pdf
+  _provenance:
+    estado: verificado
+    metodo: render_pdf + cross_model
+    fuente: AM-8200 Manual Instalacion.pdf (Honeywell Life Safety Iberia, Doc AM-8200-ESP Rev A.3)
+    paginas:
+    - 12
+    - 16
+    - 52
+    verificado_por:
+    - Claude (render multimodal de p16 §3.12/§3.13 consumos, p52 §11 Tabla 1 fórmula+autonomía, p12 §3.4.1
+      capacidad)
+    - 'gpt-5.5 (cross_verify_image.py en frío sobre p52: leyó ''Ah Batería = (A + B) x 1,2'', ''(x 24
+      h) o (x 72 h)'', ''x 0,5 h'', ''24 Vcc ... 4 Amp'', independiente)'
+    acuerdo: 'triple-señal en la fórmula y la autonomía (match-texto + Claude-render + GPT-frío): Ah=(A+B)×1,2;
+      reposo ×24h/×72h; alarma ×0,5h; alimentación interna 24 Vcc/4 A; capacidad máx 17-18 Ah'
+    fecha: '2026-06-08'
+    nota: 'Síntesis intra-manual real: los sub-hechos viven en secciones distintas (§3.12-3.13, §11, §3.4.1).
+      Manual digital-native.'
+    localizacion:
+      manuales_buscados:
+      - AM-8200 Manual Instalacion.pdf (specs eléctricas); AM-8200N/AM-8200 manual usuario+programación
+        (NO traen specs eléctricas → fuente correcta = el de instalación); AM-8100; UCIP MODBUS AM8200
+      terminos:
+      - cálculo de consumos
+      - Ah batería
+      - (A + B) x 1,2
+      - 24 h
+      - 72 h
+      - 0,5 h
+      - consumo de las baterías
+      - 179 mA
+      - 345 mA
+      - 17-18 Ah
+      - 24 Vcc 4 A
+      paginas:
+      - 12
+      - 16
+      - 52
+      nota: La síntesis está en el manual de INSTALACIÓN (no en el de usuario/programación, que carece
+        de specs eléctricas).
+      corpus_chunks_v2: 'POST-HOC (no criterio): 329 chunks de AM-8200 en chunks_v2; los sub-hechos están
+        DISPERSOS en chunks distintos (fórmula≈5, consumo≈9, capacidad≈6, autonomía≈3) → el bot debe FUSIONAR
+        varios chunks; recuperar uno solo da respuesta incompleta → el gold muerde.'
