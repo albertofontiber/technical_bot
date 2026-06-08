@@ -164,6 +164,9 @@ def test_artefactos_chunking_son_posthoc_no_autoria():
     # VUELVAN al eje de autoría (taxonomía ESTÁTICA); el corte OPERATIVO sobre autoría NUEVA es el
     # warning de validate_entry (test_estrato_posthoc_emite_warning) + el procedimiento P4/§2.
     assert {"content-pobre", "fragmento-truncado"} <= gs.ESTRATOS_POSTHOC
+    # s53 (DEC-032): tabla-matriz/scan-ocr/diagrama DEMOTADOS a post-hoc (causa de extracción, no eje
+    # cognitivo; RULER §2:156 + §7:412). Lockea la consolidación §8 para que no regresen a AUTORÍA.
+    assert {"tabla-matriz", "scan-ocr", "diagrama"} <= gs.ESTRATOS_POSTHOC
     assert not (gs.ESTRATOS_AUTORIA & gs.ESTRATOS_POSTHOC), "AUTORIA y POSTHOC deben ser disjuntos"
     assert gs.ESTRATOS == gs.ESTRATOS_AUTORIA | gs.ESTRATOS_POSTHOC
     # legacy: siguen siendo tags VÁLIDOS (hp008 no se rompe), pero fuera del eje de autoría

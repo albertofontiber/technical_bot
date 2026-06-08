@@ -45,24 +45,26 @@ SPLITS = {"dev", "held-out"}
 # `control-pass` (estado histórico, no propiedad de contenido → se selecciona en el A/B, no se
 # hornea). Controlado (set cerrado) para que el conteo per-estrato no se rompa por typos.
 # --- s50 (DEC-025): reframe — autorar por DIMENSIÓN DE FALLO, no por artefacto del chunking. ---
-# EJE DE AUTORÍA: dimensiones de fallo definibles desde la FUENTE. El gold se ELIGE por estas
-# (chunks_v2 JAMÁS criterio de selección — el vicio que Alberto cazó en s50).
+# --- s53 (DEC-032): consolidación §8 = reclasificación COMPLETADA (ya NO diferida). ---
+# EJE DE AUTORÍA: dimensiones de fallo COGNITIVO, definibles desde la FUENTE e independientes de cómo
+# el RAG extrajo. El gold se ELIGE por estas (chunks_v2 JAMÁS criterio de selección — vicio s50).
 ESTRATOS_AUTORIA = {
-    "multi-doc", "tabla-matriz", "scan-ocr", "diagrama", "es-en",
-    "conflicto-es-us", "oem-relabel", "familia-ambigua",
-    # --- s51: dims NUEVAS del canon (DEC-025c), tag+def inline = cambio-1-linea sancionado
-    # (gold_store.py nota abajo); NO es la consolidación §8 (no se reclasifica tabla/diagrama/scan).
+    "multi-doc", "es-en", "conflicto-es-us", "oem-relabel", "familia-ambigua",
+    # --- s51 (DEC-026): dims NUEVAS del canon (DEC-025c), source-puras → AUTORÍA.
     "conflicto-revision",   # 2 revisiones MISMO idioma del MISMO manual con un valor CAMBIADO → answer "latest-wins" (RULER §1:67)
     "sintesis-completitud", # la respuesta COMPLETA exige FUSIONAR >=2 secciones del MISMO manual (no >=2 manuales = multi-doc) → completitud intra-manual
 }
 # CAUSAS POST-HOC (capa extracción/chunking): se DESCUBREN al diagnosticar POR QUÉ falló un gold;
-# NUNCA se usan para SELECCIONAR (exigiría mirar el chunk antes de escribir = el vicio). Demotados.
-ESTRATOS_POSTHOC = {"content-pobre", "fragmento-truncado"}
-# Vocabulario VÁLIDO = unión (los legacy con tag post-hoc, p.ej. hp008, siguen validando). El reframe
-# COMPLETO (reclasificar tabla/diagrama/scan + reconciliar PREREG + discriminador) está DIFERIDO al
-# gatillo "antes del 1er A/B-lever". MIENTRAS TANTO: para autorar un gold de una dimensión NUEVA
-# (síntesis-completitud · conflicto-revisión · mezcla-cross-product, ya en el canon §0/§1), AÑADE su
-# tag aquí a ESTRATOS_AUTORIA con su def (cambio mínimo de 1 línea) — eso NO es la consolidación.
+# NUNCA se usan para SELECCIONAR (exigiría mirar cómo extrajo el RAG = el vicio s50). Demotadas.
+# s53 (DEC-032): tabla-matriz/scan-ocr/diagrama BAJAN aquí, completando lo que DEC-025(b) dejó
+# diferido — son causas de la capa de extracción (RULER §2:156 + §7:412 las enrutan al lever #10),
+# NO ejes cognitivos: el dato vive en el PDF, pero que FALLE depende de cómo LlamaParse lo extrajo.
+# Discriminador limpio (dúo s53): AUTORÍA = fallo cognitivo fuente-puro; POST-HOC = causa de extracción.
+ESTRATOS_POSTHOC = {"content-pobre", "fragmento-truncado", "tabla-matriz", "scan-ocr", "diagrama"}
+# Vocabulario VÁLIDO = unión (los legacy con tag post-hoc —hp008 content-pobre, los tabla/scan/diagrama
+# previos— siguen validando con WARNING, no error). Para autorar una dim NUEVA del canon aún sin tag
+# (p.ej. `mezcla-cross-product`, RULER §0:19, n=0), AÑADE su tag a ESTRATOS_AUTORIA con su def
+# (cambio-1-línea sancionado) — evaluando antes si no queda mejor como CONDUCTA (refuse-inference/clarify).
 ESTRATOS = ESTRATOS_AUTORIA | ESTRATOS_POSTHOC
 
 # Orden canónico de campos al serializar.
@@ -152,8 +154,9 @@ def validate_entry(g: dict) -> list[Issue]:
             posthoc = [t for t in estr if t in ESTRATOS_POSTHOC]
             if posthoc:
                 out.append(Issue(qid, "warning",
-                                 f"estrato post-hoc {posthoc} como eje de autoría (s50/DEC-025): "
-                                 "causa del chunking, NO criterio de selección — legacy OK, nueva autoría = re-vicio"))
+                                 f"estrato post-hoc {posthoc} como eje de autoría (s50/DEC-025; "
+                                 "tabla/scan/diagrama s53/DEC-032): causa de la extracción, NO criterio "
+                                 "de selección — legacy OK, nueva autoría = re-vicio"))
 
     cond = g.get("conducta_esperada")
     # Validación TIERED.

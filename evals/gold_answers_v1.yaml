@@ -3999,3 +3999,282 @@
       - 2
       nota: valor ES en el manual de variaciones (p6 §5.3.10.5.1); complementa el config base. Render
         p6 confirma 80/100/108. Digital-native.
+- qid: cat021
+  question: Necesito un detector de llama SharpEye «40/40» (Spectrex / Notifier) para una instalación;
+    ¿qué modelo pido?
+  conducta_esperada: clarify
+  split: dev
+  estrato:
+  - familia-ambigua
+  gold_answer: |-
+    «40/40» (SharpEye, de Spectrex — rebrandeado por Notifier/Honeywell) no identifica un único detector: la serie 40/40 tiene varias variantes con TECNOLOGÍA DE DETECCIÓN distinta y NO intercambiables, y la correcta depende del tipo de fuego/combustible a proteger. Para confirmarte el modelo, ¿qué tipo de llama/combustible tienes (o qué variante necesitas)?
+
+    • 40/40I (S40/40I) — triple espectro INFRARROJO (IR3); fuegos de hidrocarburos.
+    • 40/40M (S40/40M) — MÚLTIPLE infrarrojo (Multi IR); específico para llamas de HIDRÓGENO e hidrocarburo.
+    • 40/40U (S40/40U) — ULTRAVIOLETA (UV).
+    • 40/40L (S40/40L) — combinado UV/IR.
+    • 40/40R (S40/40R) — infrarrojo IR SIMPLE (single IR).
+
+    Dime el combustible/tipo de fuego (p. ej. hidrógeno, hidrocarburos líquidos) o el modelo exacto y te confirmo las especificaciones. ⚠️ Importante de seguridad: la tecnología espectral debe coincidir con el tipo de llama — p. ej. un IR3 (40/40I) NO es la opción para fuegos de hidrógeno (que requieren el 40/40M, o una tecnología UV); elegir la variante equivocada puede dejar el fuego sin detectar.
+  atomic_facts:
+  - texto: '«40/40» (SharpEye, Spectrex) es un near-name AMBIGUO: la serie tiene varias variantes con
+      tecnología de detección distinta y NO intercambiables (40/40I, 40/40L, 40/40U, 40/40R, 40/40M, todas
+      en el catálogo); la pregunta no especifica cuál → conducta clarify, ofreciendo los candidatos del
+      catálogo y pidiendo el combustible/tipo de llama o el modelo exacto'
+    tipo: core
+    estado: presente
+    valor: 40/40
+    cita: model_catalog.json (40-40I/L/U/R/M)
+  - texto: 40/40I (S40/40I) = detector de llama de TRIPLE espectro infrarrojo (IR3)
+    tipo: core
+    estado: presente
+    valor: IR3
+    cita: MN-DT-721 S40/40I p1
+  - texto: 40/40M (S40/40M) = detector de llama de MÚLTIPLE infrarrojo (Multi IR), para llamas de HIDRÓGENO
+      e hidrocarburo (la variante específica para hidrógeno)
+    tipo: core
+    estado: presente
+    valor: Multi IR / hidrógeno
+    cita: MN-DT-725 S40/40M p1
+  - texto: 40/40U (S40/40U) = detector de llama ULTRAVIOLETA (UV)
+    tipo: core
+    estado: presente
+    valor: UV
+    cita: MN-DT-723 S40/40U p1
+  - texto: 40/40L (S40/40L) = detector de llama combinado UV/IR
+    tipo: supplementary
+    estado: presente
+    valor: UV/IR
+    cita: MN-DT-722 S40/40L p1
+  - texto: 40/40R (S40/40R) = detector de llama infrarrojo IR SIMPLE (single IR)
+    tipo: supplementary
+    estado: presente
+    valor: IR simple
+    cita: MN-DT-724 S40/40R p1
+  citations:
+  - manual: MN-DT-725_B S40/40M (Notifier by Honeywell / Spectrex SharpEye).pdf
+    page: 1
+    quote: DETECTOR DE LLAMA DE MÚLTIPLE INFRARROJO (Llamas de hidrógeno e hidrocarburo) MODELO S40/40M
+  - manual: MN-DT-721_D S40/40I.pdf
+    page: 1
+    quote: Modelo S40/40I. Detector de llama de triple espectro infrarrojo (IR3)
+  - manual: MN-DT-723_B S40/40U.pdf
+    page: 1
+    quote: Modelo S40/40U y UB. Detector de llama UV
+  - manual: MN-DT-722_B S40/40L.pdf
+    page: 1
+    quote: Modelo S40/40L, LB y S40/40L4, L4B. Detector de llama UV/IR
+  - manual: MN-DT-724 S40/40R.pdf
+    page: 1
+    quote: DETECTOR DE LLAMA INFRARROJO IR MODELO S40/40R (SINGLE IR DETECTOR)
+  - manual: data/model_catalog.json (fuente única del clarify, D6)
+    page: 0
+    quote: 40-40I, 40-40L, 40-40U, 40-40R, 40-40M presentes en el catálogo → candidatos válidos del clarify.
+  notes: 'familia-ambigua / clarify (RULER §1 D6): el near-name «40/40» (SharpEye Spectrex, rebrand Notifier/Honeywell)
+    mapea a varias variantes con TECNOLOGÍA ESPECTRAL distinta y NO intercambiables → la pregunta no especifica
+    → clarify con candidatos ACOTADOS DEL CATÁLOGO + petición del combustible/tipo de llama. Distinción
+    safety-critical: la tecnología (IR3 / Multi-IR-hidrógeno / UV / UV-IR / IR-simple) debe coincidir
+    con el tipo de fuego; el 40/40M es el específico para hidrógeno. Análogo a cat011 (751): mismo dispositivo
+    base, distinta tecnología de sensado. Spectrex = FABRICANTE NUEVO en el ruler (breadth s53, DEC-033).
+    oem-relabel declarado (Spectrex OEM ↔ Notifier MNDT rebrand) pero el EJE de autoría es familia-ambigua.'
+  confidence: alta
+  pdfs_used:
+  - MNDT721_40-40I.pdf
+  - MNDT722_40-40L.pdf
+  - MNDT723_40-40U.pdf
+  - MNDT724_40-40R.pdf
+  - MNDT725_40-40M.pdf
+  _provenance:
+    estado: verificado
+    metodo: render_pdf (5 variantes p1) + cross_verify_image (GPT-5.5 en 40/40M) + corpus_check (model_catalog)
+    fuente: MN-DT-721/722/723/724/725 (S40/40I,L,U,R,M; Notifier/Honeywell-Spectrex SharpEye, ES) + model_catalog.json
+    paginas:
+    - 1
+    verificado_por:
+    - 'Claude (render multimodal p1 de las 5 variantes: 40/40I=triple IR/IR3; 40/40L=UV/IR; 40/40U=UV;
+      40/40R=IR simple; 40/40M=múltiple IR para hidrógeno e hidrocarburo)'
+    - 'GPT-5.5 cross_verify_image en MNDT725_40-40M p1: confirmó ''DETECTOR DE LLAMA DE MÚLTIPLE INFRARROJO
+      (Llamas de hidrógeno e hidrocarburo) MODELO S40/40M'''
+    - model_catalog.json (40-40I/L/U/R/M presentes = candidatos válidos del clarify, D6)
+    acuerdo: distinción categórica de tecnología espectral por variante (render de las 5 portadas + GPT
+      en la más cargada + catálogo). Valores categóricos digital-native (no numérico OCR-riesgoso).
+    fecha: '2026-06-08'
+    nota: Clarify por near-name (familia SharpEye 40/40). Candidatos del catálogo (D6). Spectrex = fabricante
+      NUEVO (breadth s53).
+    localizacion:
+      manuales_buscados:
+      - MN-DT-721 (40/40I), MN-DT-722 (40/40L), MN-DT-723 (40/40U), MN-DT-724 (40/40R), MN-DT-725 (40/40M),
+        todos ES (Notifier/Honeywell-Spectrex); familia 40/40 cruzada con model_catalog.json (40-40I/L/U/R/M
+        presentes); manual de serie WinHost descartado (es del software de config, no datasheet)
+      terminos:
+      - 40/40
+      - 40-40
+      - SharpEye
+      - S40/40I
+      - S40/40M
+      - IR3
+      - triple espectro infrarrojo
+      - Multi IR
+      - múltiple infrarrojo
+      - UV/IR
+      - hidrógeno
+      - llama
+- qid: cat022
+  question: En los detectores de llama Spectrex SharpEye 40/40, ¿qué diferencia hay entre el modelo 40/40L
+    y el 40/40L4, y qué significa el sufijo «B» (p. ej. 40/40LB)?
+  conducta_esperada: answer
+  split: dev
+  estrato: []
+  gold_answer: |-
+    Ambos (40/40L y 40/40L4) son detectores de llama combinados UV/IR de la serie SharpEye 40/40 (Spectrex, rebrandeados Notifier/Honeywell); la diferencia está en la BANDA del sensor IR:
+
+    • 40/40L (y LB) — el sensor IR trabaja en una longitud de onda entre 2,5 y 3,0 μm.
+    • 40/40L4 (y L4B) — el sensor IR trabaja en 4,5 μm; es adecuado para la detección de fuegos de hidrocarburos.
+
+    El sufijo «B» (40/40LB, 40/40L4B) indica los modelos que incluyen la función BIT (prueba incorporada / Built-In Test): el BIT solo se incluye en los modelos 40/40LB y 40/40L4B (no en el 40/40L ni el 40/40L4 base).
+  atomic_facts:
+  - texto: El modelo 40/40L (y LB) es un detector de llama UV/IR cuyo sensor IR trabaja en una longitud
+      de onda entre 2,5 y 3,0 μm
+    tipo: core
+    estado: presente
+    valor: 2,5-3,0 μm
+    cita: MN-DT-722 S40/40L p1 (§1.1 Descripción general)
+  - texto: El modelo 40/40L4 (y L4B) es UV/IR pero su sensor IR trabaja en 4,5 μm, adecuado para fuegos
+      de hidrocarburos
+    tipo: core
+    estado: presente
+    valor: 4,5 μm
+    cita: MN-DT-722 S40/40L p1
+  - texto: El sufijo «B» (40/40LB, 40/40L4B) = modelos con función BIT (prueba incorporada); el BIT solo
+      se incluye en los modelos LB y L4B
+    tipo: core
+    estado: presente
+    valor: BIT
+    cita: MN-DT-722 S40/40L p1
+  citations:
+  - manual: MN-DT-722_B S40/40L (Notifier by Honeywell / Spectrex SharpEye), Manual de usuario.pdf
+    page: 1
+    quote: El modelo S40/40L (y LB) proporciona una combinación de sensores UV e IR en la que el sensor
+      IR funciona en una longitud de onda entre 2,5 y 3,0μm... El modelo S40/40L4 (y L4B)... funciona
+      en una longitud de onda de 4,5μm y es adecuado para la detección de fuegos de hidrocarburos. La
+      función de Prueba incorporada (BIT) sólo se incluye en los modelos S40/40LB y 40/40L4B.
+  notes: 'answer de spec (Spectrex SharpEye 40/40, FABRICANTE NUEVO en el ruler — breadth s53). Distinción
+    L vs L4 por banda del sensor IR (2,5-3,0μm vs 4,5μm) + sufijo B = BIT. RECLASIFICADO a `answer` tras
+    localize-first (candidato original de síntesis-cobertura; la cobertura resultó spec-table/install,
+    no fusión genuina → NO síntesis; pero el contenido de variantes SÍ es un answer válido y no-dup —
+    se conserva el trabajo, corrección de Alberto). Complementa cat021 (clarify de la familia 40/40, eje
+    familia-ambigua): cat021 desambigua I/L/U/R/M; este responde la spec L-vs-L4 (eje distinto = answer,
+    no-dup). Doble-señal: Claude render + GPT.'
+  confidence: alta
+  pdfs_used:
+  - MNDT722_40-40L.pdf
+  _provenance:
+    estado: verificado
+    metodo: render_pdf (MNDT722 p9 = manual p1) + cross_verify_image (GPT-5.5 p9)
+    fuente: MN-DT-722_B S40/40L (Notifier/Honeywell-Spectrex SharpEye), §1.1 Descripción general (render
+      PDF p9 = manual p1)
+    paginas:
+    - 9
+    verificado_por:
+    - 'Claude (render multimodal MNDT722 p9: 40/40L IR 2,5-3,0μm; 40/40L4 IR 4,5μm; BIT solo en LB/L4B)'
+    - 'GPT-5.5 cross_verify_image en MNDT722 p9: confirmó ''2,5 y 3,0μm'' (L), ''4,5 μm'' (L4), ''BIT
+      solo en S40/40LB y 40/40L4B'''
+    acuerdo: Claude render + GPT cross-model coinciden en las 2 longitudes de onda + el alcance del BIT.
+      Texto digital-native (no OCR-riesgoso).
+    fecha: '2026-06-08'
+    nota: Spectrex = fabricante NUEVO (breadth s53, DEC-033). Reclasif. síntesis→answer tras localize-first
+      (cobertura = spec-table, no fusión).
+    localizacion:
+      manuales_buscados:
+      - MN-DT-722_B S40/40L (ES, Notifier/Honeywell-Spectrex), §1.1 (render PDF p9); manual de serie WinHost
+        descartado (software); p33-38 = soporte/instalación, no la spec de banda
+      terminos:
+      - 40/40L
+      - 40/40L4
+      - S40/40L
+      - longitud de onda
+      - 2,5
+      - 3,0
+      - 4,5
+      - μm
+      - UV/IR
+      - BIT
+      - prueba incorporada
+- qid: cat023
+  question: En el detector de humos por aspiración Securiton ASD532, ¿qué clases de sensibilidad según
+    EN 54-20 ofrece y cómo se configura la monitorización del flujo de aire?
+  conducta_esperada: answer
+  split: dev
+  estrato: []
+  gold_answer: |-
+    El ASD532 ofrece tres clases de sensibilidad de disparo de alarma según EN 54-20:
+    • Clase A — sensibilidad muy alta.
+    • Clase B — sensibilidad alta.
+    • Clase C — sensibilidad normal.
+
+    La monitorización del flujo de aire (y la combinación de sensibilidad/límites del sistema) se ajusta por posición de conmutador, en el rango W01 … W44. Cada posición fija el tiempo de retardo de la monitorización de flujo (10 min o 60 min) y la desviación admisible (±20 % o ±50 %) — p. ej. W01 = 10 min/±20 %, W02 = 60 min/±20 %, W03 = 10 min/±50 %, W04 = 60 min/±50 %. (Tabla de límites no normativos del sistema para proyectar sin cálculo con «ASD PipeFlow», §4.4.4.)
+  atomic_facts:
+  - texto: 'El ASD532 ofrece 3 clases de sensibilidad de disparo de alarma según EN 54-20: A (muy alta),
+      B (alta), C (normal)'
+    tipo: core
+    estado: presente
+    valor: A/B/C EN 54-20
+    cita: ASD532_TD T140421es §4.4.4 p45
+  - texto: La monitorización del flujo de aire se configura por posición de conmutador W01–W44; cada posición
+      fija el tiempo de retardo (10 o 60 min) y la desviación admisible (±20 % o ±50 %)
+    tipo: core
+    estado: presente
+    valor: W01-W44 / 10-60 min / ±20-50 %
+    cita: ASD532_TD T140421es §4.4.4 p45
+  citations:
+  - manual: ASD532_TD_T140421es_a.pdf (Securiton, Descripción técnica ASD 532)
+    page: 45
+    quote: 'Tabla de límites no normativos del sistema para proyectar sin cálculo con «ASD PipeFlow».
+      Disparo de alarma según EN 54-20: A Sensibilidad muy alta / B Sensibilidad alta / C Sensibilidad
+      normal. Posición de conmutador W01…W44; Monitorización del flujo de aire: Tiempo de retardo 10/60
+      min, Desviación ±20 %/±50 %.'
+  notes: 'answer de spec/config (Securiton ASD532, detector por aspiración). Clases de sensibilidad EN
+    54-20 (A/B/C) + configuración de la monitorización de flujo por conmutador (W01-W44). FABRICANTE Securiton
+    ya en el ruler (hp002/hp019=ASD535, hp013=ADW535) pero PRODUCTO NUEVO (ASD532 ≠ ASD535) y ASPECTO
+    NUEVO (sensibilidad/config ≠ flujo-bajo/temp/batería) → no-dup; testea precisión de retrieval near-name
+    ASD532-vs-ASD535 + extracción de tabla. NO se asignó oem-relabel: el rebrand Detnov/Notifier del ASD532
+    NO está verificado en catálogo (over-claim evitado, corrección del dúo). El dato vive en tabla densa
+    → si fallara, causa post-hoc tabla-matriz. Doble-señal: Claude render p45 (clases EN 54-20) + GPT
+    cross_verify (patrón W01-W44 de config de flujo).'
+  confidence: alta
+  pdfs_used:
+  - ASD532_TD_T140421es_a.pdf
+  _provenance:
+    estado: verificado
+    metodo: render_pdf (ASD532_TD p45) + cross_verify_image (GPT-5.5 p45)
+    fuente: ASD532_TD_T140421es_a (Securiton, Descripción técnica), §4.4.4 Tabla de límites del sistema,
+      p45
+    paginas:
+    - 45
+    verificado_por:
+    - 'Claude (render multimodal p45: columna ''Disparo de alarma según EN 54-20'' = A muy alta / B alta
+      / C normal; conmutadores W01-W44; monitorización flujo retardo 10/60 min, desviación ±20/±50 %)'
+    - 'GPT-5.5 cross_verify_image en p45: confirmó el patrón W01-W44 (10/60 min, ±20/±50 %) de la monitorización
+      de flujo de aire'
+    acuerdo: Claude render + GPT coinciden en la config de flujo (W01-W44, 10/60 min, ±20/±50 %); las
+      3 clases EN 54-20 (A/B/C) legibles en la columna izquierda del render.
+    fecha: '2026-06-08'
+    nota: Securiton ASD532 (producto nuevo vs ASD535). Dato en tabla densa (tabla-matriz = causa post-hoc
+      si falla, NO eje de autoría — DEC-033).
+    localizacion:
+      manuales_buscados:
+      - ASD532_TD_T140421es_a (ES, Securiton, 129pp); índice §4.4.4 (p45) = tabla de límites/sensibilidad;
+        p1-5 front-matter, p10-11 índice, p34 montaje — la spec distintiva está en §4.4.4
+      terminos:
+      - ASD532
+      - ASD 532
+      - EN 54-20
+      - sensibilidad
+      - clase A
+      - clase B
+      - clase C
+      - W01
+      - W44
+      - monitorización del flujo de aire
+      - tiempo de retardo
+      - desviación

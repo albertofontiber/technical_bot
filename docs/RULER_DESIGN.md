@@ -418,12 +418,15 @@ truncados) trazan a esa capa de extracción/chunking → ver lever de extracció
 
 ## 8. Estratos y split del eval (s49, Track B — DEC-023)
 
-> ⚠️ **EN REVISIÓN (s50, DEC-025):** la taxonomía se reorganiza por **DIMENSIÓN DE FALLO** (no por
-> formato/artefacto). `content-pobre`/`fragmento-truncado` DEMOTADOS a **causa post-hoc** (ya NO se
-> autora por ellos → `gold_store.ESTRATOS_POSTHOC`; obligaban a chunk-peeking = el vicio s50). El
-> reframe COMPLETO (reclasificar tabla/diagrama/scan + añadir `conflicto-revisión`/`mezcla-cross-product`/
-> `síntesis-completitud` + reconciliar PREREG) está pendiente del gatillo **antes del 1er A/B-lever**.
-> La tabla de abajo es el estado s49 (parcialmente obsoleto). Ver DEC-025 + `CLAUDE.md` Protocolo 4.
+> ✅ **CONSOLIDADO s53 (DEC-033):** taxonomía CONGELADA por **DIMENSIÓN DE FALLO** (no por
+> formato/artefacto), pre-requisito del 1er A/B-lever (el A/B lee los estratos = freeze-contract).
+> **Decisión s53:** `tabla-matriz`/`scan-ocr`/`diagrama` DEMOTADOS de AUTORÍA a **POST-HOC**,
+> completando la reclasificación que DEC-025(b) dejó diferida (verificado: §2:156 + §7:412 ya los
+> enrutaban al lever de extracción #10 = comportamiento post-hoc). **Discriminador limpio: AUTORÍA =
+> fallo COGNITIVO fuente-puro; POST-HOC = CAUSA de cómo el RAG extrajo.** Alternativa descartada:
+> mantenerlos en AUTORÍA con criterio más estricto ("evidencia answer-crítica EN la tabla") — el dúo
+> (cross-model) la marcó ruidosa/no-escalable y el criterio colapsa en "el fallo es de extracción" =
+> post-hoc. Dúo s53 NO-SÓLIDA→corregida, 0 FP (`adversarial_review_log` 2026-06-08). Ver DEC-033/025.
 
 Para que el eval ampliado dé **poder dirigido por slice** (no solo un N global) y
 **generalización** (held-out), el gold tiene dos campos top-level (puerta `gold_store.py`,
@@ -447,21 +450,37 @@ ortogonales a `conducta_esperada` y a `_provenance.estado`):
 **`estrato` = lista multi-tag de vocabulario CONTROLADO — la cobertura diagnóstica.**
 Un gold puede ser varios a la vez (multi-doc Y es-en Y oem). Controlado (set cerrado) para que
 el conteo per-estrato no se rompa por typos. NO duplica las 5 conductas (eje propio) ni incluye
-`control-pass` (estado histórico, no contenido → se selecciona en tiempo de A/B). Vocabulario +
-criterio operacional (medible OFFLINE, anti-circular — bite del dúo):
+`control-pass` (estado histórico, no contenido → se selecciona en tiempo de A/B). **Dos capas**
+(cada criterio medible OFFLINE, anti-circular — bite del dúo):
+
+**(A) EJE DE AUTORÍA** — dimensiones de fallo COGNITIVO, definibles desde la FUENTE sin mirar cómo
+extrajo el RAG. El gold se ELIGE por estas. (`gold_store.ESTRATOS_AUTORIA`.)
 
 | tag | criterio (cuándo aplicarlo) |
 |---|---|
 | `multi-doc` | la respuesta exige fusionar ≥2 manuales distintos (no 2 revisiones) |
-| `content-pobre` ⚠️**POST-HOC** | **NO es criterio de SELECCIÓN/autoría (DEC-025) — obligaría a chunk-peeking = el vicio.** Es CAUSA post-hoc: se anota al diagnosticar POR QUÉ falló un gold (valor core no en el body del `content`; vive en `section_title`/tabla-imagen/`context`-blurb). En `gold_store.ESTRATOS_POSTHOC`. |
-| `fragmento-truncado` ⚠️**POST-HOC** | **NO es criterio de SELECCIÓN/autoría (DEC-025) — chunk-peeking = vicio.** CAUSA post-hoc: el hecho cortado por el chunking, se anota al diagnosticar. En `gold_store.ESTRATOS_POSTHOC`. |
-| `tabla-matriz` | el dato vive en una tabla/matriz densa |
-| `scan-ocr` | la fuente del dato es scan/píxel/7-seg (texto extraído no fiable) |
-| `diagrama` | la respuesta vive en un diagrama/esquema de cableado |
-| `es-en` | vocabulary-mismatch ES↔EN (dato en EN, o el término difiere por idioma) |
+| `sintesis-completitud` | la respuesta COMPLETA exige fusionar ≥2 secciones del MISMO manual (intra-manual) |
+| `conflicto-revision` | 2 revisiones MISMO idioma del MISMO manual con un valor cambiado → answer "latest-wins" (§1:67) |
 | `conflicto-es-us` | variantes de mercado ES vs US en conflicto (→ answer-con-conflicto) |
+| `es-en` | vocabulary-mismatch ES↔EN (dato en EN, o el término difiere por idioma) |
 | `oem-relabel` | el producto es un relabeling OEM (Securiton/Honeywell rebrand) |
 | `familia-ambigua` | near-name que exige desambiguar (→ clarify) |
+| `mezcla-cross-product` ⚠️**n=0 PENDIENTE** | el bot funde specs de 2 productos en UNA respuesta (§0:19). Canon reconocido, sin gold ni tag aún; al autorar, evaluar antes si no queda mejor como CONDUCTA refuse-inference/clarify (cat013 cubre el caso cross-marca por el eje conducta). |
 
-Estado s49: los 22 retrofitados (todos `dev`; 17 con estrato anclado en RULER_DESIGN §2/DECISIONS
-+ estructura; los 5 estratos del PREREG cubiertos pero varios a n=1 → el bulk los refuerza).
+**(B) CAUSAS POST-HOC** — propiedades de la capa de extracción/chunking que el ruler DESTAPA al
+diagnosticar POR QUÉ falló un gold (enrutan al lever de extracción #10). **NUNCA criterio de
+SELECCIÓN** (exigiría mirar el chunk/extracción = el vicio s50). (`gold_store.ESTRATOS_POSTHOC`.)
+
+| tag | criterio (cuándo se ANOTA, post-hoc) |
+|---|---|
+| `content-pobre` | el valor core no está en el body del `content` (vive en `section_title`/tabla-imagen/`context`-blurb) |
+| `fragmento-truncado` | el hecho quedó cortado por el chunking |
+| `tabla-matriz` | el dato vive en una tabla/matriz densa que la extracción pierde/degrada |
+| `scan-ocr` | la fuente es scan/píxel/7-seg → texto extraído no fiable |
+| `diagrama` | la respuesta vive en un diagrama/esquema que la extracción no captura como texto |
+
+Estado s53: 35 golds (todos `dev`). **AUTORÍA poblado:** multi-doc 14 · oem-relabel 5 · síntesis 3 ·
+es-en 2 · conflicto-es-us 1 · conflicto-revisión 1 · familia-ambigua 1 · mezcla-cross-product 0.
+**POST-HOC (anotaciones legacy, no eje de autoría):** tabla-matriz 5 · diagrama 2 · content-pobre 1 ·
+scan-ocr 1. `es-en`/`conflicto-es-us` TOPADOS por corpus es-céntrico (DEC-026e); el resto = autoría
+dirigida (s53+, "muestra relevante" sin volumen ciego). El held-out se puebla con autoría NUEVA embargada.
