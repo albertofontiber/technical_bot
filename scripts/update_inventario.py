@@ -87,6 +87,15 @@ KIDDE_MODEL_RX = re.compile(
     re.IGNORECASE,
 )
 
+# Marcas de la base instalada TRATEIN (portal firesecurityproducts vía /my-orders).
+# El sidecar provee 'equipo' para todos; estos regex son solo respaldo.
+ARITECH_MODEL_RX = re.compile(
+    r"\b(2X-A\w*|2010-\w+|FD27\d+\w*|ASW?236\d\w*|AS236\d\w*|IU2055\w*)\b",
+    re.IGNORECASE,
+)
+EDWARDS_MODEL_RX = re.compile(r"\b(FHSD\d+\w*)\b", re.IGNORECASE)
+OTROS_MODEL_RX = re.compile(r"\b([A-Z0-9]+(?:-[A-Z0-9]+){1,3})\b", re.IGNORECASE)
+
 
 # ---------------------------------------------------------------------------
 # Fabricantes registry — add new ones here.
@@ -126,10 +135,35 @@ FABRICANTES: dict = {
     "Kidde": {
         "subfolders": {"portal": ROOT / "Manuales_Kidde"},
         "model_regex": KIDDE_MODEL_RX,
-        "resumen_estado": "Portal firesecurityproducts (paneles Control · ES+EN)",
+        "resumen_estado": "Portal firesecurityproducts — paneles Control (s52) + base instalada TRATEIN (Excellence/ModuLaser)",
         "idioma_por_subcarpeta": {"portal": None},
         "tipo_override_por_subcarpeta": {},
         "metadata_sidecar": ROOT / "Manuales_Kidde" / "_metadata.json",
+    },
+    # Base instalada TRATEIN (portal firesecurityproducts, vía /my-orders) — multi-marca.
+    "Aritech": {
+        "subfolders": {"portal": ROOT / "Manuales_Aritech"},
+        "model_regex": ARITECH_MODEL_RX,
+        "resumen_estado": "Portal firesecurityproducts — base instalada TRATEIN (paneles 2X-A, detección serie 2000, módulos)",
+        "idioma_por_subcarpeta": {"portal": None},
+        "tipo_override_por_subcarpeta": {},
+        "metadata_sidecar": ROOT / "Manuales_Aritech" / "_metadata.json",
+    },
+    "Edwards": {
+        "subfolders": {"portal": ROOT / "Manuales_Edwards"},
+        "model_regex": EDWARDS_MODEL_RX,
+        "resumen_estado": "Portal firesecurityproducts — base instalada TRATEIN (ModuLaser)",
+        "idioma_por_subcarpeta": {"portal": None},
+        "tipo_override_por_subcarpeta": {},
+        "metadata_sidecar": ROOT / "Manuales_Edwards" / "_metadata.json",
+    },
+    "Otros": {
+        "subfolders": {"portal": ROOT / "Manuales_Otros"},
+        "model_regex": OTROS_MODEL_RX,
+        "resumen_estado": "Portal firesecurityproducts — base instalada TRATEIN (genéricos sin marca: tubería, cable, accesorios)",
+        "idioma_por_subcarpeta": {"portal": None},
+        "tipo_override_por_subcarpeta": {},
+        "metadata_sidecar": ROOT / "Manuales_Otros" / "_metadata.json",
     },
     # ADD A NEW FABRICANTE HERE — follow the schema above. Example:
     # "Bosch": {

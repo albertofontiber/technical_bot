@@ -78,3 +78,26 @@ token desbloquea documentos restringidos en algunos productos.)
   (precedente: `!Guia Tecnica Morley.xlsx`).
 - **s52**: brand `17316`=Kidde; 17 SKUs "Control" (series NC, 2X-A, 2X-A Táctil) →
   31 PDFs / ~696 pp; parse 31/31 OK (~$42); ingesta DIFERIDA.
+
+## 7. Variante: lote desde pedidos (`/my-orders`) — base instalada del cliente
+En vez de filtrar el catálogo por marca/función, se pueden bajar los manuales de los
+productos **realmente comprados** por la cuenta (la base instalada del instalador) —
+más relevantes para el técnico. La cuenta `KIDDE_USER` es de un instalador (TRATEIN PCI).
+
+- **Listar pedidos**: `GET /rest/front/1/orders?domain=es&language=es` (Bearer + Origin) →
+  `results.orders[]` (`drupal_order_number`, `oracle_order_id`, `number_of_items`…).
+- **Líneas de un pedido**: `GET /rest/front/1/order_details?domain=es&language=es&order_number=<EESxxxx>` →
+  `results.line_items[]`, cada uno con **`product_id`** (directo, no hace falta resolver SKU→ID),
+  `sku`, `bu`, `description` (+ comerciales `unit_price`/`quantity` que se **IGNORAN**).
+- **Dedup** los `product_id` across pedidos → set de productos comprados → de ahí, el pipeline
+  de §4–6 (`product_downloads` → 3 categorías → descarga → inventario → parse).
+
+**Notas:**
+- **Multi-marca**: los pedidos abarcan todo el portfolio fire (Kidde + Aritech + Edwards +
+  genéricos), no una marca. Agrupa por la marca **REAL** (`product_details.product_brand`;
+  `None` = genérico → carpeta "Otros"), NO por la marca-marketing del filtro de catálogo
+  (un 2X-A sale **Aritech** aquí vs **Kidde** en el filtro de §3 — el portal cross-brandea).
+- **Privacidad**: usar los pedidos SOLO para identificar productos; nunca almacenar/commitear
+  dato comercial.
+- **s53**: 10 pedidos TRATEIN → 41 productos → 76 PDFs (Kidde/Aritech/Edwards/Otros) →
+  parse 66 nuevos/~$50; ingesta DIFERIDA.
