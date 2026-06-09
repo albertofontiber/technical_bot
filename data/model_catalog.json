@@ -1,16 +1,22 @@
 {
   "build": {
     "table": "chunks_v2",
-    "generated_at": "2026-05-28T19:17:47.013130+00:00",
-    "n_distinct": 576,
-    "n_included": 536,
-    "n_excluded": 50
+    "generated_at": "2026-06-09T19:17:37.307597+00:00",
+    "n_distinct": 640,
+    "n_included": 587,
+    "n_excluded": 63
   },
   "models": [
     {
       "model": "ID3000",
       "manufacturer": "Notifier",
       "chunk_count": 683,
+      "source": "static-pattern"
+    },
+    {
+      "model": "CAD-250",
+      "manufacturer": "Detnov",
+      "chunk_count": 578,
       "source": "static-pattern"
     },
     {
@@ -26,12 +32,6 @@
       "source": "static-pattern"
     },
     {
-      "model": "CAD-250",
-      "manufacturer": "Detnov",
-      "chunk_count": 354,
-      "source": "static-pattern"
-    },
-    {
       "model": "RP1r-Supra",
       "manufacturer": "Morley",
       "chunk_count": 314,
@@ -44,6 +44,12 @@
       "source": "static-pattern"
     },
     {
+      "model": "2X-A",
+      "manufacturer": "Aritech",
+      "chunk_count": 282,
+      "source": "known-mfr"
+    },
+    {
       "model": "VESDA-E-VEA",
       "manufacturer": "Xtralis",
       "chunk_count": 281,
@@ -54,6 +60,12 @@
       "manufacturer": "Notifier",
       "chunk_count": 274,
       "source": "static-pattern"
+    },
+    {
+      "model": "2X-A Táctil",
+      "manufacturer": "Aritech",
+      "chunk_count": 270,
+      "source": "known-mfr"
     },
     {
       "model": "AM-8200",
@@ -89,6 +101,12 @@
       "model": "VESDA-E-VEP",
       "manufacturer": "Xtralis",
       "chunk_count": 240,
+      "source": "static-pattern"
+    },
+    {
+      "model": "Pearl",
+      "manufacturer": "Notifier",
+      "chunk_count": 239,
       "source": "static-pattern"
     },
     {
@@ -182,6 +200,12 @@
       "source": "split-compound"
     },
     {
+      "model": "9-30781-KID-EN",
+      "manufacturer": "Kidde",
+      "chunk_count": 159,
+      "source": "known-mfr"
+    },
+    {
       "model": "ZX50",
       "manufacturer": "Morley",
       "chunk_count": 158,
@@ -210,6 +234,12 @@
       "manufacturer": "Morley",
       "chunk_count": 148,
       "source": "split-compound"
+    },
+    {
+      "model": "FHSD8310",
+      "manufacturer": "Edwards",
+      "chunk_count": 148,
+      "source": "known-mfr"
     },
     {
       "model": "TG-1020",
@@ -270,18 +300,6 @@
       "manufacturer": "Notifier",
       "chunk_count": 125,
       "source": "known-mfr"
-    },
-    {
-      "model": "AC-220",
-      "manufacturer": "Notifier",
-      "chunk_count": 124,
-      "source": "known-mfr"
-    },
-    {
-      "model": "Pearl",
-      "manufacturer": "Notifier",
-      "chunk_count": 115,
-      "source": "static-pattern"
     },
     {
       "model": "ID-200",
@@ -380,6 +398,12 @@
       "source": "static-pattern"
     },
     {
+      "model": "CAD-201",
+      "manufacturer": "Detnov",
+      "chunk_count": 80,
+      "source": "static-pattern"
+    },
+    {
       "model": "40-40L",
       "manufacturer": "Spectrex",
       "chunk_count": 77,
@@ -418,6 +442,12 @@
     {
       "model": "40-40R-SINGLE",
       "manufacturer": "Spectrex",
+      "chunk_count": 75,
+      "source": "static-pattern"
+    },
+    {
+      "model": "CAD-171",
+      "manufacturer": "Detnov",
       "chunk_count": 75,
       "source": "static-pattern"
     },
@@ -560,6 +590,12 @@
       "source": "known-mfr"
     },
     {
+      "model": "KE-AS3115R-WM",
+      "manufacturer": "Kidde",
+      "chunk_count": 55,
+      "source": "known-mfr"
+    },
+    {
       "model": "NAS-1U",
       "manufacturer": "Notifier",
       "chunk_count": 55,
@@ -570,6 +606,12 @@
       "manufacturer": "Notifier",
       "chunk_count": 55,
       "source": "static-pattern"
+    },
+    {
+      "model": "IU2055NC",
+      "manufacturer": "Aritech",
+      "chunk_count": 54,
+      "source": "known-mfr"
     },
     {
       "model": "SAT-1u",
@@ -596,6 +638,12 @@
       "source": "known-mfr"
     },
     {
+      "model": "KE-AS3115R-WMIP",
+      "manufacturer": "Kidde",
+      "chunk_count": 52,
+      "source": "known-mfr"
+    },
+    {
       "model": "UDS-1N",
       "manufacturer": "Notifier",
       "chunk_count": 52,
@@ -604,6 +652,12 @@
     {
       "model": "20/20R",
       "manufacturer": "Spectrex",
+      "chunk_count": 51,
+      "source": "known-mfr"
+    },
+    {
+      "model": "2X-A-LB",
+      "manufacturer": "Aritech",
       "chunk_count": 51,
       "source": "known-mfr"
     },
@@ -770,6 +824,12 @@
       "source": "static-pattern"
     },
     {
+      "model": "KE-IO3122",
+      "manufacturer": "Kidde",
+      "chunk_count": 42,
+      "source": "known-mfr"
+    },
+    {
       "model": "Testifire 2000",
       "manufacturer": "Xtralis",
       "chunk_count": 42,
@@ -884,6 +944,12 @@
       "source": "known-mfr"
     },
     {
+      "model": "2010-2A-PAK-HPL",
+      "manufacturer": "Aritech",
+      "chunk_count": 36,
+      "source": "known-mfr"
+    },
+    {
       "model": "MI-OSI-RIE",
       "manufacturer": "Morley",
       "chunk_count": 36,
@@ -914,10 +980,22 @@
       "source": "static-pattern"
     },
     {
+      "model": "KE-DM3010R-KIT",
+      "manufacturer": "Kidde",
+      "chunk_count": 33,
+      "source": "known-mfr"
+    },
+    {
       "model": "NFXI-BEAM",
       "manufacturer": "Notifier",
       "chunk_count": 33,
       "source": "static-pattern"
+    },
+    {
+      "model": "2X-LB",
+      "manufacturer": "Aritech",
+      "chunk_count": 32,
+      "source": "known-mfr"
     },
     {
       "model": "FAAST FLEX",
@@ -1076,6 +1154,24 @@
       "source": "static-pattern"
     },
     {
+      "model": "KE-DP3020W",
+      "manufacturer": "Kidde",
+      "chunk_count": 26,
+      "source": "known-mfr"
+    },
+    {
+      "model": "KE-DT3001W-HAB",
+      "manufacturer": "Kidde",
+      "chunk_count": 26,
+      "source": "static-pattern"
+    },
+    {
+      "model": "KE-IO3101",
+      "manufacturer": "Kidde",
+      "chunk_count": 26,
+      "source": "known-mfr"
+    },
+    {
       "model": "SGD-151",
       "manufacturer": "Detnov",
       "chunk_count": 26,
@@ -1085,6 +1181,12 @@
       "model": "TG-IP1-SEC",
       "manufacturer": "Morley",
       "chunk_count": 26,
+      "source": "known-mfr"
+    },
+    {
+      "model": "2010-2-PAK-RMSDK",
+      "manufacturer": "Aritech",
+      "chunk_count": 25,
       "source": "known-mfr"
     },
     {
@@ -1124,6 +1226,12 @@
       "source": "known-mfr"
     },
     {
+      "model": "AS2364",
+      "manufacturer": "Aritech",
+      "chunk_count": 24,
+      "source": "known-mfr"
+    },
+    {
       "model": "ID-CRA",
       "manufacturer": "Notifier",
       "chunk_count": 24,
@@ -1157,6 +1265,12 @@
       "model": "S-HSF v2.8.0",
       "manufacturer": "Notifier",
       "chunk_count": 24,
+      "source": "known-mfr"
+    },
+    {
+      "model": "ASW2367",
+      "manufacturer": "Aritech",
+      "chunk_count": 23,
       "source": "known-mfr"
     },
     {
@@ -1330,6 +1444,12 @@
     {
       "model": "Innovair flex D2E",
       "manufacturer": "System Sensor",
+      "chunk_count": 18,
+      "source": "known-mfr"
+    },
+    {
+      "model": "KE-DB3010W",
+      "manufacturer": "Kidde",
       "chunk_count": 18,
       "source": "known-mfr"
     },
@@ -1640,6 +1760,12 @@
       "source": "known-mfr"
     },
     {
+      "model": "FD2705R",
+      "manufacturer": "Aritech",
+      "chunk_count": 13,
+      "source": "known-mfr"
+    },
+    {
       "model": "INSPIRE",
       "manufacturer": "Notifier",
       "chunk_count": 13,
@@ -1722,6 +1848,12 @@
       "manufacturer": "Notifier",
       "chunk_count": 12,
       "source": "static-pattern"
+    },
+    {
+      "model": "KE-DBA-AUXW",
+      "manufacturer": "Kidde",
+      "chunk_count": 12,
+      "source": "known-mfr"
     },
     {
       "model": "LCR 3 PK",
@@ -2030,6 +2162,12 @@
       "source": "known-mfr"
     },
     {
+      "model": "9-30783-KID-EN",
+      "manufacturer": "Kidde",
+      "chunk_count": 8,
+      "source": "known-mfr"
+    },
+    {
       "model": "DTD-210A",
       "manufacturer": "Detnov",
       "chunk_count": 8,
@@ -2058,6 +2196,12 @@
       "manufacturer": "Notifier",
       "chunk_count": 8,
       "source": "static-pattern"
+    },
+    {
+      "model": "FHSD8330",
+      "manufacturer": "Edwards",
+      "chunk_count": 8,
+      "source": "known-mfr"
     },
     {
       "model": "G-10",
@@ -2117,6 +2261,42 @@
       "model": "WITH-240V",
       "manufacturer": "Notifier",
       "chunk_count": 8,
+      "source": "known-mfr"
+    },
+    {
+      "model": "2X-AF2-09",
+      "manufacturer": "Aritech",
+      "chunk_count": 7,
+      "source": "known-mfr"
+    },
+    {
+      "model": "2X-AT-F2",
+      "manufacturer": "Aritech",
+      "chunk_count": 7,
+      "source": "known-mfr"
+    },
+    {
+      "model": "2X-AT-F2-FB",
+      "manufacturer": "Aritech",
+      "chunk_count": 7,
+      "source": "known-mfr"
+    },
+    {
+      "model": "2X-AT-F2-FB-S",
+      "manufacturer": "Aritech",
+      "chunk_count": 7,
+      "source": "known-mfr"
+    },
+    {
+      "model": "2X-AT-F2-P",
+      "manufacturer": "Aritech",
+      "chunk_count": 7,
+      "source": "known-mfr"
+    },
+    {
+      "model": "2X-AT-F2-S",
+      "manufacturer": "Aritech",
+      "chunk_count": 7,
       "source": "known-mfr"
     },
     {
@@ -2210,6 +2390,30 @@
       "source": "known-mfr"
     },
     {
+      "model": "2X-AF2-FB",
+      "manufacturer": "Aritech",
+      "chunk_count": 6,
+      "source": "known-mfr"
+    },
+    {
+      "model": "2X-AF2-FB-S",
+      "manufacturer": "Aritech",
+      "chunk_count": 6,
+      "source": "known-mfr"
+    },
+    {
+      "model": "2X-AF2-SCFB",
+      "manufacturer": "Aritech",
+      "chunk_count": 6,
+      "source": "known-mfr"
+    },
+    {
+      "model": "2X-AF2-SCFB-S",
+      "manufacturer": "Aritech",
+      "chunk_count": 6,
+      "source": "known-mfr"
+    },
+    {
       "model": "AT Series",
       "manufacturer": "LDA audioTech",
       "chunk_count": 6,
@@ -2224,6 +2428,18 @@
     {
       "model": "CONV232/485",
       "manufacturer": "Notifier",
+      "chunk_count": 6,
+      "source": "known-mfr"
+    },
+    {
+      "model": "DS-740",
+      "manufacturer": "Pfannenberg",
+      "chunk_count": 6,
+      "source": "known-mfr"
+    },
+    {
+      "model": "DS-741",
+      "manufacturer": "Pfannenberg",
       "chunk_count": 6,
       "source": "known-mfr"
     },
@@ -2252,6 +2468,18 @@
       "source": "known-mfr"
     },
     {
+      "model": "KE-DP3120W",
+      "manufacturer": "Kidde",
+      "chunk_count": 6,
+      "source": "known-mfr"
+    },
+    {
+      "model": "KE-IO3144",
+      "manufacturer": "Kidde",
+      "chunk_count": 6,
+      "source": "known-mfr"
+    },
+    {
       "model": "MA-202",
       "manufacturer": "Notifier",
       "chunk_count": 6,
@@ -2273,6 +2501,18 @@
       "model": "WR-4001",
       "manufacturer": "Morley",
       "chunk_count": 6,
+      "source": "known-mfr"
+    },
+    {
+      "model": "2X-AF1-S",
+      "manufacturer": "Aritech",
+      "chunk_count": 5,
+      "source": "known-mfr"
+    },
+    {
+      "model": "2X-AT-F2-FB-P",
+      "manufacturer": "Aritech",
+      "chunk_count": 5,
       "source": "known-mfr"
     },
     {
@@ -2348,6 +2588,24 @@
       "source": "known-mfr"
     },
     {
+      "model": "NC-PF2",
+      "manufacturer": "Kidde",
+      "chunk_count": 5,
+      "source": "known-mfr"
+    },
+    {
+      "model": "NC-PF4",
+      "manufacturer": "Kidde",
+      "chunk_count": 5,
+      "source": "known-mfr"
+    },
+    {
+      "model": "NC-PF8",
+      "manufacturer": "Kidde",
+      "chunk_count": 5,
+      "source": "known-mfr"
+    },
+    {
       "model": "SECURNETPLUS",
       "manufacturer": "Notifier",
       "chunk_count": 5,
@@ -2408,6 +2666,18 @@
       "source": "static-pattern"
     },
     {
+      "model": "DS-736",
+      "manufacturer": "Pfannenberg",
+      "chunk_count": 4,
+      "source": "known-mfr"
+    },
+    {
+      "model": "DS-737",
+      "manufacturer": "Pfannenberg",
+      "chunk_count": 4,
+      "source": "known-mfr"
+    },
+    {
       "model": "DS109F",
       "manufacturer": "Pfannenberg",
       "chunk_count": 4,
@@ -2436,6 +2706,12 @@
       "manufacturer": "Notifier",
       "chunk_count": 4,
       "source": "static-pattern"
+    },
+    {
+      "model": "KE-DM3010R",
+      "manufacturer": "Kidde",
+      "chunk_count": 4,
+      "source": "known-mfr"
     },
     {
       "model": "MA120",
@@ -2498,6 +2774,18 @@
       "source": "known-mfr"
     },
     {
+      "model": "NC-PF4-SC",
+      "manufacturer": "Kidde",
+      "chunk_count": 4,
+      "source": "known-mfr"
+    },
+    {
+      "model": "NC-PF8-SC",
+      "manufacturer": "Kidde",
+      "chunk_count": 4,
+      "source": "known-mfr"
+    },
+    {
       "model": "ONE-LOOP",
       "manufacturer": "Detnov",
       "chunk_count": 4,
@@ -2546,6 +2834,18 @@
       "source": "split-compound"
     },
     {
+      "model": "AS2363",
+      "manufacturer": "Aritech",
+      "chunk_count": 3,
+      "source": "known-mfr"
+    },
+    {
+      "model": "ASW2366",
+      "manufacturer": "Aritech",
+      "chunk_count": 3,
+      "source": "known-mfr"
+    },
+    {
       "model": "B524FTXE",
       "manufacturer": "Notifier",
       "chunk_count": 3,
@@ -2560,6 +2860,12 @@
     {
       "model": "ENScape SOUNDER",
       "manufacturer": "Notifier",
+      "chunk_count": 3,
+      "source": "known-mfr"
+    },
+    {
+      "model": "FD2710R",
+      "manufacturer": "Aritech",
       "chunk_count": 3,
       "source": "known-mfr"
     },
@@ -3382,6 +3688,12 @@
       "reason": "risky-acronym"
     },
     {
+      "model": "NC",
+      "manufacturer": "Kidde",
+      "chunk_count": 180,
+      "reason": "risky-acronym"
+    },
+    {
       "model": "ZXHE",
       "manufacturer": "Morley",
       "chunk_count": 158,
@@ -3524,6 +3836,78 @@
       "manufacturer": "Morley",
       "chunk_count": 1,
       "reason": "risky-acronym"
+    },
+    {
+      "model": "AD68N-0100",
+      "manufacturer": "unknown",
+      "chunk_count": 40,
+      "reason": "unknown-mfr (deferred #6)"
+    },
+    {
+      "model": "NC-MC-0-G",
+      "manufacturer": "unknown",
+      "chunk_count": 24,
+      "reason": "unknown-mfr (deferred #6)"
+    },
+    {
+      "model": "SC010",
+      "manufacturer": "unknown",
+      "chunk_count": 15,
+      "reason": "unknown-mfr (deferred #6)"
+    },
+    {
+      "model": "N-MC-BB-G",
+      "manufacturer": "unknown",
+      "chunk_count": 14,
+      "reason": "unknown-mfr (deferred #6)"
+    },
+    {
+      "model": "9-30441",
+      "manufacturer": "unknown",
+      "chunk_count": 12,
+      "reason": "unknown-mfr (deferred #6)"
+    },
+    {
+      "model": "9-10909",
+      "manufacturer": "unknown",
+      "chunk_count": 2,
+      "reason": "unknown-mfr (deferred #6)"
+    },
+    {
+      "model": "9-10954-100",
+      "manufacturer": "unknown",
+      "chunk_count": 2,
+      "reason": "unknown-mfr (deferred #6)"
+    },
+    {
+      "model": "DM715",
+      "manufacturer": "unknown",
+      "chunk_count": 2,
+      "reason": "unknown-mfr (deferred #6)"
+    },
+    {
+      "model": "9-10900",
+      "manufacturer": "unknown",
+      "chunk_count": 1,
+      "reason": "unknown-mfr (deferred #6)"
+    },
+    {
+      "model": "9-10906",
+      "manufacturer": "unknown",
+      "chunk_count": 1,
+      "reason": "unknown-mfr (deferred #6)"
+    },
+    {
+      "model": "9-10908",
+      "manufacturer": "unknown",
+      "chunk_count": 1,
+      "reason": "unknown-mfr (deferred #6)"
+    },
+    {
+      "model": "9-10927",
+      "manufacturer": "unknown",
+      "chunk_count": 1,
+      "reason": "unknown-mfr (deferred #6)"
     }
   ]
 }

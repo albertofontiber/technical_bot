@@ -120,9 +120,11 @@
 >
 > - **Embedding**: Voyage `voyage-4-large` **1024 dims** (antes OpenAI
 >   `text-embedding-3-small` 1536). La query se embebe con Voyage `input_type=query`.
-> - **Corpus**: **22.849 chunks / 915 docs** (antes ~168k/~1.064). Menos chunks
->   porque el chunking nuevo (B3) es estructural + contextual (Anthropic
->   contextual retrieval, blurb Haiku por chunk) + dedup semántico (~11% marcados).
+> - **Corpus**: **25.090 chunks / ~1.012 docs** (antes ~168k/~1.064; s55: +2.241
+>   chunks de Kidde/Aritech/Edwards/Detnov ingestados con identidad de producto
+>   data-driven — DEC-035). Menos chunks que el viejo porque el chunking nuevo (B3)
+>   es estructural + contextual (Anthropic contextual retrieval, blurb Haiku por
+>   chunk) + dedup semántico (~11% marcados).
 > - **Mecanismo de SWAP**: `CHUNKS_TABLE` (env var) selecciona tabla + RPCs
 >   (`match_chunks_v2`, `search_chunks_text_v2`) + proveedor de embedding.
 >   Reversible al instante (no RENAME destructivo). Default `chunks` (viejo).
@@ -193,7 +195,7 @@
 | Admite no saber | ❌ inventa | ✅ *"no tengo esta info"* |
 | Voz / Telegram | ❌ | ✅ |
 
-**Dominio:** PCI (Protección Contra Incendios). Fabricantes cubiertos: Detnov, Notifier, Morley. Plan de expansión: 30+ fabricantes adicionales + dominios vecinos (rociadores, CCTV, control de acceso).
+**Dominio:** PCI (Protección Contra Incendios). Fabricantes cubiertos: **31 marcas** en `chunks_v2` (núcleo Notifier/Morley/Detnov + Kidde/Aritech/Edwards/Securiton/Xtralis/Spectrex/Pfannenberg/… — las nuevas entran por el seam de identidad data-driven `config/manufacturers/` + provenance del portal, DEC-035). Plan de expansión: 30+ fabricantes adicionales + dominios vecinos (rociadores, CCTV, control de acceso).
 
 **Contexto estratégico:** Fontiber Industrial Partners está en fase de due-diligence M&A. El chatbot es un multiplicador de valor del grupo: técnicos que antes tardaban 10 min buscando en manuales ahora preguntan y responden en 30 seg. Post-adquisición se despliega en las empresas del grupo.
 
