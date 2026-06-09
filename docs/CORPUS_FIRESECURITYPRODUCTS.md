@@ -101,3 +101,10 @@ más relevantes para el técnico. La cuenta `KIDDE_USER` es de un instalador (TR
   dato comercial.
 - **s53**: 10 pedidos TRATEIN → 41 productos → 76 PDFs (Kidde/Aritech/Edwards/Otros) →
   parse 66 nuevos/~$50; ingesta DIFERIDA.
+- **s55 (DEC-035): INGESTA EJECUTADA.** Todos los lotes descargados (Kidde/Aritech/Edwards +
+  Detnov, ~103 docs) ingestados a `chunks_v2` (**22.849→25.090**) tras construir el seam de
+  identidad **data-driven** (`config/manufacturers/*.yaml` + `src/reingest/sidecar.py`): el
+  `equipo` del sidecar `_metadata.json` → `product_model` real (no el regex, que daba
+  `HASTA-256`/`REV-005`); el OEM cross-branded de la nota anterior (serie 2X-A = **Aritech**,
+  no Kidde) se mapea por `config/portal.yaml`. Resultado: Aritech 43 docs / Kidde 33 / Edwards 3,
+  0 basura; catálogo re-construido 536→587 modelos; smoke de retrieval OK.
