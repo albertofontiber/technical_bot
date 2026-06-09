@@ -1,0 +1,10 @@
+manufacturer: Securiton
+distributor: Detnov
+eval_order: 0
+brand_patterns:
+- \b(ASD-?\d{2,4}[A-Z]{0,3})(?!\d)
+- \b(ADW-?\d{2,4}[A-Z]{0,3})(?!\d)
+- \b(ART-?\d{2,4}[A-Z]{0,3})(?!\d)
+folder_hints:
+- aspiración securiton
+- adw

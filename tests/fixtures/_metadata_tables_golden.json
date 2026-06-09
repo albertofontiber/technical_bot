@@ -1,0 +1,206 @@
+{
+ "brand_patterns": [
+  [
+   "\\b(ASD-?\\d{2,4}[A-Z]{0,3})(?!\\d)",
+   34,
+   "Securiton",
+   "Detnov"
+  ],
+  [
+   "\\b(ADW-?\\d{2,4}[A-Z]{0,3})(?!\\d)",
+   34,
+   "Securiton",
+   "Detnov"
+  ],
+  [
+   "\\b(ART-?\\d{2,4}[A-Z]{0,3})(?!\\d)",
+   34,
+   "Securiton",
+   "Detnov"
+  ],
+  [
+   "\\b(VESDA(?:[-\\s]?E)?(?:[-\\s]?(?:VL[FIPS]|VE[APUS])\\w{0,6})?)",
+   34,
+   "Xtralis",
+   "Notifier"
+  ],
+  [
+   "\\b(PA-?\\d{1,3}[A-Z]{0,3})(?!\\d)",
+   34,
+   "Pfannenberg",
+   "Detnov"
+  ],
+  [
+   "\\b(DS-?\\d{1,3}[A-Z]{0,3})(?!\\d)",
+   34,
+   "Pfannenberg",
+   "Detnov"
+  ],
+  [
+   "\\b(PY[-\\s]?X[-\\s]?[A-Z]?(?:-\\d{1,3}){0,2})",
+   34,
+   "Pfannenberg",
+   "Detnov"
+  ],
+  [
+   "\\b(SG(?:CP|FI|MI|MCB|WE)?\\d{2,3}(?:-IS)?)\\b",
+   34,
+   "Argus Security",
+   "Detnov"
+  ],
+  [
+   "\\b(Z728)(?![A-Za-z])",
+   34,
+   "Pepperl-Fuchs",
+   "Detnov"
+  ],
+  [
+   "\\b((?:40[-/]?40|20[-/]?20)[-\\s]?[A-Z][A-Z0-9-]{0,7})(?=[-\\s_]|$)",
+   34,
+   "Spectrex",
+   "Detnov"
+  ],
+  [
+   "\\b(210-\\d?[A-Z]+(?:-[A-Z]+)?)",
+   34,
+   "SenseWare",
+   "Detnov"
+  ]
+ ],
+ "filename_only_patterns": [
+  [
+   "\\b(B5\\d{2}[A-Z]{0,4})\\b",
+   34,
+   "Notifier",
+   null
+  ]
+ ],
+ "letter_models": {
+  "PEARL": [
+   "Notifier",
+   null
+  ],
+  "INSPIRE": [
+   "Notifier",
+   null
+  ],
+  "AgileIQ": [
+   "Notifier",
+   null
+  ],
+  "ZXe": [
+   "Morley",
+   null
+  ],
+  "ZXSe": [
+   "Morley",
+   null
+  ],
+  "ZXr": [
+   "Morley",
+   null
+  ],
+  "DXc": [
+   "Morley",
+   null
+  ]
+ },
+ "non_product_codes": [
+  "CEM-2004",
+  "CEM2004",
+  "EN-50",
+  "EN-54",
+  "EN50",
+  "EN54",
+  "GRANDI-22",
+  "IP-65",
+  "IP-66",
+  "IP-67",
+  "IP-68",
+  "IP65",
+  "IP66",
+  "IP67",
+  "IP68",
+  "ISO-14001",
+  "ISO-9001",
+  "ISO14001",
+  "ISO9001",
+  "MM-95",
+  "NFPA-72",
+  "NFPA72",
+  "UL-268",
+  "UL268",
+  "ULTRA-123"
+ ],
+ "main_mfr_by_prefix": {
+  "CAD": "Detnov",
+  "CCD": "Detnov",
+  "CMD": "Detnov",
+  "MAD": "Detnov",
+  "PCD": "Detnov",
+  "FAD": "Detnov",
+  "TCD": "Detnov",
+  "SCD": "Detnov",
+  "SFD": "Detnov",
+  "TRD": "Detnov",
+  "TSD": "Detnov",
+  "TMD": "Detnov",
+  "PGD": "Detnov",
+  "TBUD": "Detnov",
+  "TED": "Detnov",
+  "DGD": "Detnov",
+  "DMD": "Detnov",
+  "DOD": "Detnov",
+  "DTD": "Detnov",
+  "DXD": "Detnov",
+  "DBD": "Detnov",
+  "PAD": "Detnov",
+  "MED": "Detnov",
+  "AFP": "Notifier",
+  "AM": "Notifier",
+  "ID": "Notifier",
+  "IDX": "Notifier",
+  "NFS": "Notifier",
+  "NFG": "Notifier",
+  "NFXI": "Notifier",
+  "NFX": "Notifier",
+  "RP": "Notifier",
+  "FAAST": "Notifier",
+  "MIDT": "Notifier",
+  "MPDT": "Notifier",
+  "MNDT": "Notifier",
+  "MADT": "Notifier",
+  "MCDT": "Notifier",
+  "ZX": "Morley",
+  "DXC": "Morley",
+  "ECO": "Morley",
+  "MIE": "Morley",
+  "WR": "Morley"
+ },
+ "folder_hints": [
+  [
+   "aspiración securiton",
+   "Securiton",
+   "Detnov"
+  ],
+  [
+   "adw",
+   "Securiton",
+   "Detnov"
+  ],
+  [
+   "firebeam",
+   "Detnov",
+   null
+  ],
+  [
+   "signaline",
+   "Detnov",
+   null
+  ]
+ ],
+ "model_re": [
+  "\\b([A-Z]{2,6})[-\\s]?(\\d{2,4})([A-Z]?(?:-\\d{1,3})?)\\b",
+  32
+ ]
+}
