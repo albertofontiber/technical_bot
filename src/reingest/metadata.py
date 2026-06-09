@@ -1,12 +1,15 @@
 """Etapa B5 del pipeline de re-ingesta — detección de metadata.
 
 Esto es la INTERFAZ de metadata: una función `detect_document_metadata()` y un
-`apply_metadata()` con un nombre y contrato estables. La implementación de Fase 1
-es deliberadamente compacta (regex de modelo + mapa de prefijos de fabricante).
+`apply_metadata()` con un nombre y contrato estables.
 
-La Fase 2 del PLAN_RAG_2026 externaliza las reglas a config/manufacturers/*.yaml
-SIN tocar a los llamadores: solo cambia el cuerpo de las funciones de detección.
-Por eso las tablas hardcodeadas de abajo están marcadas como seam de Fase 2.
+Las reglas de IDENTIDAD DE MARCA (patrones de modelo, prefijos→fabricante,
+letter-models, folder-hints, códigos no-producto y el regex de modelo genérico)
+viven en `config/manufacturers/*.yaml` y las carga `manufacturer_registry`
+(Capa A del seam de Fase 2 — añadir un fabricante = añadir un YAML, sin tocar
+código). El detalle/rationale de cada patrón vive como comentario en su YAML.
+Aquí solo quedan las reglas transversales NO ligadas a marca: doc_type y
+content_type.
 
 Campos:
   - manufacturer, product_model, doc_type, category → nivel DOCUMENTO (una vez).
@@ -20,142 +23,43 @@ Uso:
 """
 from __future__ import annotations
 
+import logging
 import os
 import re
 from collections import Counter
 from dataclasses import dataclass
 
-# === SEAM DE FASE 2 — estas tablas se externalizan a YAML ====================
-#
-# Verdad por producto: marca REAL (la del datasheet) y, cuando difiere,
-# distribuidor (canal por el que llega a Fontiber). Mapeo cerrado con Alberto
-# a partir de los datasheets de detnov.com para todo el tail de detectores
-# especiales — Securiton (ASD/ADW/ART), Pfannenberg (PA/DS/PY-X), Argus
-# Security (SG*), Pepperl-Fuchs (Z728), Xtralis (VESDA), Spectrex (40-40/
-# 20-20) y SenseWare (210-Series).
-#
-# La reconciliación del retriever con esta distinción (su MODEL_PATTERN
-# clasifica hoy ASD como Detnov) sigue siendo Fase 2 por diseño — aquí se
-# captura el DATO en chunks_v2 para no tener que volver a tocar el corpus.
+from . import manufacturer_registry as _registry
+from . import sidecar as _sidecar
 
-# (1) Patrones específicos por familia de modelo de marcas distribuidas.
-#     Se evalúan ANTES que la detección genérica: un Z728 es Pepperl-Fuchs,
-#     no un Z-200-R (zócalo Detnov). Cada entrada: (regex, marca, distribuidor).
-_BRAND_PATTERNS: list[tuple[re.Pattern, str, str]] = [
-    # Securiton — aspiración y térmica lineal rearmable.
-    # Sufijo de letras acotado (no \w* — engulle "_TD_T131192ES_H" entero);
-    # negative lookahead a más dígitos para no comer códigos largos.
-    (re.compile(r"\b(ASD-?\d{2,4}[A-Z]{0,3})(?!\d)", re.I),   "Securiton",     "Detnov"),
-    (re.compile(r"\b(ADW-?\d{2,4}[A-Z]{0,3})(?!\d)", re.I),   "Securiton",     "Detnov"),
-    (re.compile(r"\b(ART-?\d{2,4}[A-Z]{0,3})(?!\d)", re.I),   "Securiton",     "Detnov"),
-    # Xtralis — VESDA (Honeywell lo comercializa bajo Notifier).
-    # Estructura real: VESDA[-E][-VLF/VLP/VLS/VEA/VEP/...].
-    (re.compile(
-        r"\b(VESDA(?:[-\s]?E)?(?:[-\s]?(?:VL[FIPS]|VE[APUS])\w{0,6})?)",
-        re.I), "Xtralis", "Notifier"),
-    # Pfannenberg — sirenas/flashes industriales.
-    # Crítico el (?!\d): evita que "DS-000" en metadata interna se infle a
-    # "DS-00000-00" (visto en MADT951 = Notifier, falso positivo previo).
-    (re.compile(r"\b(PA-?\d{1,3}[A-Z]{0,3})(?!\d)", re.I),    "Pfannenberg",   "Detnov"),
-    (re.compile(r"\b(DS-?\d{1,3}[A-Z]{0,3})(?!\d)", re.I),    "Pfannenberg",   "Detnov"),
-    (re.compile(
-        r"\b(PY[-\s]?X[-\s]?[A-Z]?(?:-\d{1,3}){0,2})", re.I), "Pfannenberg",   "Detnov"),
-    # Argus Security — detectores vía radio.
-    (re.compile(
-        r"\b(SG(?:CP|FI|MI|MCB|WE)?\d{2,3}(?:-IS)?)\b",
-        re.I), "Argus Security", "Detnov"),
-    # Pepperl-Fuchs — Z728 estricto (Z-200-R de Detnov NO debe caer aquí).
-    # Permite continuación con _ o número (sufijos de archivo) pero no letras.
-    (re.compile(r"\b(Z728)(?![A-Za-z])", re.I),               "Pepperl-Fuchs", "Detnov"),
-    # Spectrex / Emerson — SharpEye 40-40 y 20-20.
-    # Permite letra directa (40-40R) o letra tras separador (40-40-series),
-    # con sufijo acotado a 3-8 chars (códigos reales: R, ML, MI, LB, D-I,
-    # ML-S, R-SINGLE-IR no — eso es ruido del filename, cap a 8).
-    (re.compile(
-        r"\b((?:40[-/]?40|20[-/]?20)[-\s]?[A-Z][A-Z0-9-]{0,7})(?=[-\s_]|$)",
-        re.I), "Spectrex", "Detnov"),
-    # SenseWare — 210-Series UV/IR. Requiere "-<dígito>?<letras>" tras 210
-    # para no casar "210V"/"210mA" sueltos.
-    (re.compile(r"\b(210-\d?[A-Z]+(?:-[A-Z]+)?)", re.I),      "SenseWare",     "Detnov"),
-]
+logger = logging.getLogger(__name__)
 
-# Patrones a aplicar SOLO al FILENAME, NO al content. Para códigos cortos /
-# ambiguos que aparecen frecuentemente como referencia (no como sujeto del doc):
-# UCIP-Tabla-compatibilidad MENCIONA "DXc"/"B501" en el content, pero el doc es
-# ABOUT UCIP. Filtrar a filename evita marcar el doc como DXc por una mención.
-_FILENAME_ONLY_PATTERNS: list[tuple[re.Pattern, str, str | None]] = [
-    # Notifier B5xx (B501, B524, B501RF, B501BH).
-    (re.compile(r"\b(B5\d{2}[A-Z]{0,4})\b", re.I),            "Notifier",       None),
-]
+# Aliases con los nombres internos históricos. Las tablas se externalizaron a
+# config/manufacturers/*.yaml (manufacturer_registry); la lógica de detección de
+# abajo NO cambió al hacerlo (verificado por tests/test_manufacturer_registry.py:
+# equivalencia estructural + golden de atribución sobre 1068 docs).
+_BRAND_PATTERNS = _registry.BRAND_PATTERNS
+_FILENAME_ONLY_PATTERNS = _registry.FILENAME_ONLY_PATTERNS
+_LETTER_MODELS = _registry.LETTER_MODELS
+_NON_PRODUCT_CODES = _registry.NON_PRODUCT_CODES
+_MAIN_MFR_BY_PREFIX = _registry.MAIN_MFR_BY_PREFIX
+_FOLDER_HINTS = _registry.FOLDER_HINTS
+_MODEL_RE = _registry.GENERIC_MODEL_RE
 
-# Modelos puros-letras o letter-suffix-sin-dígitos significativos.
-# El _MODEL_RE genérico requiere letras+dígitos y no detecta estos. Match exacto
-# por word-boundary en el filename/content; canonical form se devuelve tal cual.
-# (Notifier PEARL/INSPIRE/AgileIQ; Morley ZXe/ZXSe/ZXr/DXc).
-_LETTER_MODELS: dict[str, tuple[str, str | None]] = {
-    # Notifier
-    "PEARL":   ("Notifier", None),
-    "INSPIRE": ("Notifier", None),
-    "AgileIQ": ("Notifier", None),
-    # Morley — variantes letter-suffix
-    "ZXe":  ("Morley", None),
-    "ZXSe": ("Morley", None),
-    "ZXr":  ("Morley", None),
-    "DXc":  ("Morley", None),
-}
 
-# Códigos que el regex genérico marcaría como "modelo" pero son normas/
-# certificaciones/grados — NO son productos. Filtra falsos positivos como
-# DXc_Manual → product_model="EN-54", B501BH → product_model="NFPA-72".
-_NON_PRODUCT_CODES: set[str] = {
-    "EN-54", "EN54", "EN-50", "EN50",
-    "NFPA-72", "NFPA72",
-    "IP-65", "IP65", "IP-66", "IP66", "IP-67", "IP67", "IP-68", "IP68",
-    "ISO-9001", "ISO9001", "ISO-14001", "ISO14001",
-    "CEM-2004", "CEM2004",
-    "UL-268", "UL268",
-    "MM-95",  # falso positivo visto en RIF_08791
-    "GRANDI-22",  # falso positivo visto en MI-DMMI
-    "ULTRA-123",  # falso positivo visto en CALYPSO
-}
+def reload_registry() -> None:
+    """Recarga las tablas de marca desde config/ (tests / tras editar un YAML)."""
+    global _BRAND_PATTERNS, _FILENAME_ONLY_PATTERNS, _LETTER_MODELS
+    global _NON_PRODUCT_CODES, _MAIN_MFR_BY_PREFIX, _FOLDER_HINTS, _MODEL_RE
+    _registry.reload()
+    _BRAND_PATTERNS = _registry.BRAND_PATTERNS
+    _FILENAME_ONLY_PATTERNS = _registry.FILENAME_ONLY_PATTERNS
+    _LETTER_MODELS = _registry.LETTER_MODELS
+    _NON_PRODUCT_CODES = _registry.NON_PRODUCT_CODES
+    _MAIN_MFR_BY_PREFIX = _registry.MAIN_MFR_BY_PREFIX
+    _FOLDER_HINTS = _registry.FOLDER_HINTS
+    _MODEL_RE = _registry.GENERIC_MODEL_RE
 
-# (2) Marca propia por prefijo de modelo (Detnov / Notifier / Morley).
-#     Distribuidor = NULL: no hay canal separado de la marca.
-_MAIN_MFR_BY_PREFIX: dict[str, str] = {
-    # Detnov
-    "CAD": "Detnov", "CCD": "Detnov", "CMD": "Detnov", "MAD": "Detnov",
-    "PCD": "Detnov", "FAD": "Detnov", "TCD": "Detnov", "SCD": "Detnov",
-    "SFD": "Detnov", "TRD": "Detnov", "TSD": "Detnov", "TMD": "Detnov",
-    "PGD": "Detnov", "TBUD": "Detnov", "TED": "Detnov", "DGD": "Detnov",
-    "DMD": "Detnov", "DOD": "Detnov", "DTD": "Detnov", "DXD": "Detnov",
-    "DBD": "Detnov", "PAD": "Detnov", "MED": "Detnov",
-    # Notifier (sin VESDA — la atrapa _BRAND_PATTERNS arriba como Xtralis).
-    "AFP": "Notifier", "AM": "Notifier", "ID": "Notifier", "IDX": "Notifier",
-    "NFS": "Notifier", "NFG": "Notifier", "NFXI": "Notifier", "NFX": "Notifier",
-    "RP": "Notifier", "FAAST": "Notifier", "MIDT": "Notifier",
-    "MPDT": "Notifier", "MNDT": "Notifier", "MADT": "Notifier",
-    "MCDT": "Notifier",  # otra familia de accesorios Notifier observada en corpus
-    # Morley
-    "ZX": "Morley", "DXC": "Morley", "ECO": "Morley", "MIE": "Morley",
-    "WR": "Morley",
-}
-
-# (3) Pistas por carpeta — último recurso cuando el modelo no resuelve.
-#     Securiton: sus datasheets a veces vienen con código interno (T140359es)
-#     que no parece un modelo; la carpeta los rescata. FireBeam y Signaline
-#     son productos de marca propia Detnov (datasheets en detnov.com) — sin
-#     código limpio en el nombre, la carpeta los rescata como Detnov.
-_FOLDER_HINTS: list[tuple[str, str, str | None]] = [
-    ("aspiración securiton", "Securiton", "Detnov"),
-    ("adw",                  "Securiton", "Detnov"),
-    ("firebeam",             "Detnov",     None),
-    ("signaline",            "Detnov",     None),
-]
-# === FIN SEAM DE FASE 2 ======================================================
-
-# Código de producto: 2-6 letras + dígitos, separador opcional, sufijos.
-# Suficiente para Fase 1; la unificación con MODEL_PATTERN del retriever es Fase 2.
-_MODEL_RE = re.compile(r"\b([A-Z]{2,6})[-\s]?(\d{2,4})([A-Z]?(?:-\d{1,3})?)\b")
 
 _DOC_TYPE_KEYWORDS: list[tuple[re.Pattern, str]] = [
     (re.compile(r"\b(instalaci[oó]n|installation|instala)\b", re.I), "instalacion"),
@@ -317,6 +221,32 @@ def detect_document_metadata(source_path: str,
     """
     filename = os.path.basename(source_path)
     name_no_ext = os.path.splitext(filename)[0]
+
+    # Capa B — provenance del portal: si el doc trae sidecar (Manuales_<canal>/
+    # _metadata.json), el MODELO sale del `equipo` del PIM (autoritativo, por
+    # archivo) en vez del regex genérico. El FABRICANTE lo da primero un patrón de
+    # marca específico por FILENAME (OEM-aware: Pfannenberg DS-* aun dentro de
+    # "Otros" gana — corrección del revisor cross-model) y, si ninguno casa, el
+    # canal corregido por OEM override (la serie 2X-A es Aritech, no Kidde).
+    side = _sidecar.lookup(source_path)
+    if side is None and _sidecar.is_portal_channel(source_path):
+        # Fallo-abierto declarado: un doc de canal portal sin entrada en el sidecar
+        # cae al regex viejo (puede reaparecer basura tipo HASTA-256). Visible, no silencioso.
+        logger.warning("doc en canal del portal SIN entrada en sidecar → cae al regex: %s",
+                       source_path)
+    if side is not None:
+        model = side.get("equipo") or None
+        _m, manufacturer, distributor = _detect_brand(name_no_ext, "", source_path)
+        if manufacturer is None:
+            manufacturer, distributor = _sidecar.channel_manufacturer(source_path, model)
+        return DocumentMetadata(
+            manufacturer=manufacturer,
+            distributor=distributor,
+            product_model=model,
+            doc_type=_detect_doc_type(name_no_ext),
+            category=_detect_category(source_path),
+            source_file=name_no_ext,
+        )
 
     model, manufacturer, distributor = _detect_brand(name_no_ext, text_sample, source_path)
     return DocumentMetadata(

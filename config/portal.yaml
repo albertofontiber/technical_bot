@@ -1,0 +1,25 @@
+# Corpus del portal firesecurityproducts.com (Carrier Fire Security) — Capa B.
+#
+# Los lotes del portal se descargan a Manuales_<Canal>/ con un sidecar
+# _metadata.json (local_filename, equipo, series, skus, tipo, categoria). Para
+# esos docs la identidad del producto sale del SIDECAR (equipo = modelo real del
+# PIM), no de un regex sobre el filename — que producía basura para marcas nuevas
+# (HASTA-256 = "hasta 256 zonas", REV-005 = revisión, EN-54-20 = norma).
+#
+# Añadir un lote nuevo del portal = añadir su canal aquí (sin tocar código).
+
+# Carpetas Manuales_<Canal> que son lotes del portal. El canal es la marca de
+# DESCARGA. Para Kidde/Aritech/Edwards el canal = fabricante; "Otros" es el cajón
+# genérico (product_brand None en el PIM) → su marca se resuelve por patrón de
+# filename (p.ej. Pfannenberg DS-*) o queda None. Restringir a esta lista evita
+# tocar el corpus viejo (Morley_Guias/_metadata.json tiene otro formato).
+channels: [Kidde, Aritech, Edwards, Otros]
+
+# Productos OEM cross-branded: el fabricante REAL (datasheet) difiere de la marca
+# del canal de descarga. Verificado por cross-listing en
+# data/Inventario_Manuales.xlsx (el MISMO PDF físico aparece en varias hojas de
+# marca). El distributor se DERIVA del canal cuando difiere del fabricante (no se
+# lista aquí). Match por prefijo del `equipo` del sidecar (case-insensitive).
+oem_overrides:
+  - equipo_prefix: "2X-"      # Serie 2X-A: Aritech (OEM), vendida también como
+    manufacturer: Aritech     #   Kidde. 12 PDFs cross-listed Kidde+Aritech (DEC-029).

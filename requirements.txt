@@ -29,3 +29,4 @@ httpx>=0.27.0
 # producción, pero se declaran para que la ingesta corra en entorno limpio.
 numpy>=1.26.0                    # dedup semántico B6 (src/reingest/dedup.py)
 lingua-language-detector>=2.0.0  # detección de idioma B1 (src/reingest/language.py)
+PyYAML>=6.0.0                    # registro de identidad data-driven B5 (config/manufacturers/*.yaml + config/portal.yaml; src/reingest/manufacturer_registry.py + sidecar.py)
