@@ -5821,3 +5821,159 @@
         100 m + 4 reflectores) en guide p2/p8; Entorno Interior + IP50 + 93% non-condensing en datasheet
         p2 (+ IP50 en guide p8); aviso condensación/hielo en guide p2; -10/55 °C; altura <25 m, mínimo
         0,5 m del techo → exterior y >50 m NO documentados → refuse-inference con redirección'
+- qid: ho014
+  question: Tengo que cambiar el cartucho del filtro de polvo de un detector ModuLaser, ¿cuál es la referencia
+    del repuesto que tengo que pedir?
+  conducta_esperada: admit
+  split: held-out
+  estrato: []
+  gold_answer: |-
+    No tengo esa referencia: los manuales y datasheets disponibles del ModuLaser (manual de instalación Edwards/Kidde, datasheets FHSD8310/8330 y 9-30781/9-30783, hoja APIC) NO publican la referencia/SKU del cartucho del filtro de polvo de repuesto — el manual lo llama solo 'cartucho del filtro de polvo' (Figura 26) sin número de pieza. Para pedirlo, lo correcto es contactar con tu proveedor/distribuidor de Kidde-Edwards (Carrier) con el modelo del módulo detector; no te doy una referencia inventada.
+
+    Lo que SÍ documenta el manual sobre el cambio:
+    - CUÁNDO: el detector señala fallo de filtro cuando el valor Filtro (pantalla de estado del detector) llega al 20% (= bloqueo del filtro del 80%); además puede configurarse una fecha de vencimiento opcional del filtro ('Expirac. Filtro', formato MM/AA — el fallo se indica a las 10:00 del primer día del mes configurado).
+    - CÓMO (con el detector ENCENDIDO, para que se reinicie el estado del filtro): 1) retirar la tapa del detector para acceder al cartucho; 2) extraer el tornillo que fija el filtro y sacar el conjunto; 3) retirar la tapa de plástico del cartucho y DESECHAR el cartucho usado (no se han diseñado para reutilización); 4) colocar el filtro nuevo en la tapa de plástico con la cara marcada 'IN' hacia la parte superior del detector y deslizar el conjunto dentro; 5) asegurar el conjunto con el tornillo.
+    - PRECAUCIONES: el polvo del filtro puede ser peligroso para la salud según el entorno protegido — usar ropa protectora y mascarilla, y cumplir los requisitos nacionales/regionales. En áreas con mucha suciedad, el manual recomienda además un filtro EXTERNO adecuado para proteger el módulo.
+  atomic_facts:
+  - texto: Ningún documento del ModuLaser en el corpus (manual de instalación ES Edwards 04-4001 126pp
+      y espejo Kidde 3103092 134pp, datasheets FHSD8310/FHSD8330 ES y 9-30781/9-30783 EN, hoja APIC ML,
+      tarjeta 9-30441) publica la referencia/SKU del cartucho del filtro de polvo de repuesto → el bot
+      debe admitir el gap y NO inventar una referencia
+    tipo: core
+    estado: ausente-probado
+    valor: null
+    cita: 'barrido bilingüe + sinónimos (filtro/filter/dust filter/filter cartridge/cartucho/spare/recambio/repuesto)
+      en los 8 docs de la familia y corpus-wide; 0 líneas filtro∩código en los 2 manuales (126+134pp);
+      el único doc de repuestos del corpus es DXC-Referencias-repuestos (central Morley DXc, otra familia);
+      indicio auxiliar (no prueba): el corpus sí lista otros accesorios ModuLaser con SKU (9-30441 APIC)'
+  - texto: El detector señala un fallo de filtro cuando el valor Filtro (pantalla de estado del detector)
+      llega al 20%; se recomienda cambiar el filtro en ese punto (20% = bloqueo del filtro del 80%)
+    tipo: core
+    estado: presente
+    valor: valor Filtro 20% (bloqueo 80%)
+    cita: manual ES p51 (impresa 45) y p107 (impresa 101)
+  - texto: Los cartuchos de filtro de polvo no se han diseñado para su reutilización y se deben desechar
+    tipo: core
+    estado: presente
+    valor: no reutilizables, desechar
+    cita: manual ES p107 y p21 (Tabla 2, impresa 15)
+  - texto: El detector debe estar ENCENDIDO al sustituir el filtro de polvo para garantizar que se reinicie
+      el estado del filtro
+    tipo: core
+    estado: presente
+    valor: sustitución con detector encendido
+    cita: manual ES p107
+  - texto: 'Procedimiento de sustitución (5 pasos): retirar la tapa del detector → extraer el tornillo
+      y sacar el conjunto del filtro → retirar la tapa de plástico y desechar el cartucho → colocar el
+      filtro nuevo con la cara ''IN'' hacia la parte superior y deslizar el conjunto → asegurar con el
+      tornillo (Figura 26: detector / filtro de polvo / tapa de plástico)'
+    tipo: core
+    estado: presente
+    valor: 5 pasos, cara IN arriba
+    cita: manual ES p108 (impresa 102), Figura 26
+  - texto: Puede configurarse una fecha de vencimiento del filtro opcional ('Expirac. Filtro', MM/AA);
+      el fallo de filtro se indica a las 10:00 del primer día del mes configurado
+    tipo: supplementary
+    estado: presente
+    valor: Expirac. Filtro MM/AA, aviso 10:00 día 1
+    cita: manual ES p83 (impresa 77)
+  - texto: 'Precaución de salud: el polvo del filtro expone al personal de mantenimiento a peligros según
+      el entorno protegido — ropa protectora y mascarilla recomendadas; mantenimiento conforme a requisitos
+      nacionales/regionales'
+    tipo: supplementary
+    estado: presente
+    valor: ropa protectora + mascarilla
+    cita: manual ES p107, ATENCIÓN
+  - texto: En áreas con altos niveles de suciedad o polvo se recomienda usar un filtro EXTERNO adecuado
+      para proteger el módulo de detector (objeto distinto del cartucho interno, también sin referencia
+      en el corpus)
+    tipo: supplementary
+    estado: presente
+    valor: filtro externo en áreas sucias
+    cita: manual ES p21, Tabla 2
+  - texto: El espejo Kidde del manual contiene el mismo procedimiento de sustitución sin referencia del
+      cartucho (sección 'Sustitución del cartucho del filtro de polvo')
+    tipo: supplementary
+    estado: presente
+    valor: espejo Kidde idéntico, sin SKU
+    cita: manual Kidde 3103092 p115
+  citations:
+  - pdf: Manuales_Edwards/04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0.pdf
+    page: 107
+    quote: Sustituya el filtro de polvo tal y como se describe a continuación cuando sea necesario. Los
+      cartuchos de filtro de polvo no se han diseñado para su reutilización y se deben desechar.
+  - pdf: Manuales_Edwards/04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0.pdf
+    page: 107
+    quote: El detector señalará un fallo de filtro cuando el valor Filtro (en la pantalla de estado del
+      detector; consulte «Estado del detector» en la página 48) llegue al 20 %.
+  - pdf: Manuales_Edwards/04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0.pdf
+    page: 108
+    quote: Coloque el filtro nuevo en la tapa de plástico con la cara marcada con IN mirando hacia la
+      parte superior del detector tal y como se muestra en la Figura 26.
+  - pdf: Manuales_Edwards/04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0.pdf
+    page: 51
+    quote: Se recomienda cambiar el filtro cuando el valor Filtro llegue al 20 % (esto indica un bloqueo
+      del filtro del 80 %).
+  - pdf: Manuales_Edwards/04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0.pdf
+    page: 83
+    quote: Expirac. Filtro — Configura una fecha de vencimiento del filtro opcional (MM/AA).
+  - pdf: Manuales_Kidde/3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0.pdf
+    page: 115
+    quote: Sustitución del cartucho del filtro de polvo
+  notes: 'HELD-OUT (embargo): autorado s57d, jamás corrido contra el bot. ADMIT firmado en DEC-038d (opción
+    i de Alberto: 1 admit gateado pre-corrida; N held-out 11→12 = ampliación FIRMADA dentro de DEC-037f
+    ''11-ampliable''). ORIGEN: la candidata pre-firmada (prio-2 de ho010, software config 2X-A) CAYÓ honestamente
+    en verificación — el manual EN 2X-A en corpus la NOMBRA (''Configuration Utility software application'',
+    p54 ×5pp) → habría sido answer; esta candidata nueva pasó MINI-GATE FRESCO del dúo completo (sub-agente
+    Claude: SÓLIDA, 3 bites aplicados [anti-dup ampliado, contexto del proveedor-local, core=ausencia];
+    cross-model GPT-5.5: 5 findings aplicados [documentar barrido bilingüe+sinónimos, hueco spare-parts
+    cerrado con SQL, indicio APIC rebajado a auxiliar, redirección como conducta propia, subtipo de cat015]).
+    SUBTIPO del patrón cat015 (''identificador concreto ausente del corpus''): allí versión de firmware
+    (Detnov), aquí SKU de repuesto físico (ModuLaser). Anti-dup verificado EN SUSTANCIA: hp002 (ASD535:
+    avería de flujo, cita ''Sustitución del filtro'' de OTRO producto Securiton), hp007 (VESDA-E: calendario
+    bianual documentado), cat014 (MTBF ausente dentro de answer), cat015 (firmware admit), ho002 (ModuLaser
+    arquitectura — misma familia, otro predicado; ModuLaser ×2 de 12 = concentración aceptable), ho009
+    (referencia por ambigüedad, clarify) — ninguno duplica ''referencia de repuesto ausente''. La redirección
+    al proveedor es CONDUCTA PROPIA del bot (patrón cat015), NO atribuida al manual (su ''póngase en contacto
+    con su proveedor local'' p107 pertenece al párrafo de detector contaminado >30%, no al cartucho —
+    catch convergente del dúo). Framing conservador: ''no está en el corpus disponible'', NO ''la referencia
+    no existe'' (Carrier puede listarla en catálogo comercial fuera del corpus).'
+  confidence: alta
+  pdfs_used:
+  - Manuales_Edwards/04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0.pdf
+  - Manuales_Kidde/3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0.pdf
+  _provenance:
+    estado: verificado
+    metodo: 'AUSENCIA (el predicado core): barrido bilingüe + sinónimos (filtro/filter, dust filter, filter
+      cartridge, cartucho, spare/replacement, recambio/repuesto/pedido/accesorio, patrones 9-30\d{3}/FHSD8\d{3}/P\/N)
+      sobre los 8 docs de la familia ModuLaser en corpus (manual ES Edwards 140 chunks + espejo Kidde
+      151 + FHSD8310/8330 + 9-30781/9-30783 + APIC ML + 9-30441) y corpus-wide por SQL — 0 SKU del cartucho;
+      0 líneas filtro∩código en los 2 manuales (126+134pp, verificado también por el sub-agente del mini-gate
+      con barridos propios); único doc de repuestos del corpus = DXC-Referencias-repuestos (Morley DXc,
+      otra familia); el único P/N en el manual es el del propio documento. PRESENCIA (lo documentado):
+      render @200dpi pp106-109 + p51 + p83 ES y pp115-116 Kidde (±1; pp107/108 leídas al píxel: procedimiento
+      5 pasos + Figura 26 sin referencia ≡ texto extraído) + doble-señal AND: co-gen GPT-5.5 (26 hechos,
+      0 desacuerdos; CONFIRMACIÓN INDEPENDIENTE: ''no aparece ninguna referencia, número de pieza ni SKU
+      del cartucho... solo se identifica como cartucho del filtro de polvo'') Y match determinista 14/14
+      anchors (20%/80%, Expirac. Filtro MM/AA, no-reutilización, encendido, IN, Figura 26, ropa+mascarilla,
+      filtro externo, espejo Kidde p115). MINI-GATE del dúo completo pre-autoría (DEC-038d ''gateado''):
+      sub-agente fresco SÓLIDA (3 bites aplicados) + cross-model GPT-5.5 (5 findings aplicados); tally
+      en adversarial_review_log 2026-06-10 (2 entradas s57d)'
+    verificado_por: Claude (Fable 5) + GPT-5.5 (mini-gate cross-model + cross_generate s57d)
+    localizacion:
+      manuales_buscados:
+      - Manuales_Edwards/04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0.pdf
+        (filtro en pp12-13,16-17,21,24,51,54-56,75,83,107-111,115,124 — procedimiento pp107-108 SIN referencia)
+      - Manuales_Kidde/3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0.pdf (espejo; procedimiento
+        p115-116 sin SKU; única tabla de códigos p8 = módulos 9-3078x, no consumibles)
+      - 'Manuales_Edwards/fhsd8310-63296-es.pdf + fhsd8330-63296-es.pdf (8330: ''reemplazo de filtro de
+        rutina'' sin referencia)'
+      - '(en corpus, sin PDF local): 9-30781-kid-en + 9-30783-kid-en (datasheets Kidde EN; 9-30783 menciona
+        ''routine filter replacement'' sin SKU) + 04-4001-501-1700 APIC sheet ML + 9-30441 tarjeta APIC
+        (accesorios CON SKU propio = indicio auxiliar)'
+      - 'corpus-wide: DXC-Referencias-repuestos = único doc de repuestos del corpus (Morley DXc, no aplica);
+        VESDA/ICAM/ASD53x/MIDT/SMART3 = otras familias ASD con menciones de filtro'
+      idiomas: ES + EN (barrido bilingüe; los datasheets Kidde de la familia están en EN)
+      resultado: AUSENCIA PROBADA de la referencia/SKU del cartucho de repuesto en todo el corpus servible;
+        PRESENCIA del cuándo (20%/Expirac.) + cómo (5 pasos, encendido, IN) + precauciones → conducta
+        admit con lo documentado servido y redirección propia (subtipo de cat015)

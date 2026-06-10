@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 10 jun 2026 (s57c, DEC-038).
+> 10 jun 2026 (s57d, DEC-038d resuelta).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -22,7 +22,7 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s57c — 10 jun 2026)
+## Estado actual (s57d — 10 jun 2026)
 
 **Sistema (prod, Railway auto-deploy desde `main`; SWAP de corpus por `CHUNKS_TABLE`):**
 bot Telegram (polling) → pre-clasificación → retrieve híbrido wide (vector Voyage-4-large 1024
@@ -31,19 +31,17 @@ bot Telegram (polling) → pre-clasificación → retrieve híbrido wide (vector
 25.090 chunks / 1.012 docs / 31 marcas / 587 modelos** (contextual-retrieval activo al 100%
 — verificado s56; identidad de producto data-driven `config/manufacturers/` + sidecar, DEC-035).
 
-**Eval (el ruler):** **50 golds = 39 dev + 11 held-out** (`ho001-ho011` — s57/s57b/s57c,
-DEC-037/DEC-038; **autoría held-out COMPLETA**, 0 errores, embargo verificado `verified()`=39),
-taxonomía de estratos **CONGELADA** (DEC-033), juez GPT-5.5 + K-mayoría, embargo en la puerta
-(`gold_store.verified`) **y en los lectores-directos de diagnóstico** (`exclude_heldout()`,
-TECH_DEBT #42 cerrado — el gate s58 no expone el held-out). PREREG con **criterio de confirmación
-held-out PRE-REGISTRADO** (Δ global mismo signo + 0 fabricaciones nuevas; corrida única).
-**Composición final held-out (DEC-038c, ramas pre-firmadas resueltas por FUENTE):** oem-relabel 2 ·
-es-en 2 · multi-doc 1 · sintesis-completitud 3 · familia-ambigua 1 · sin-tag 2; conductas 9 answer /
-1 clarify / **0 admit** / 1 refuse. **GAP ABIERTO (DEC-038d, decisión de Alberto al arrancar s58):**
-eje no-fabricación held-out sin admit (solo ho011 refuse) — (i) autorar 1 admit gateado **ANTES de
-la corrida única de s59** (candidata: la prio-2 firmada "software de config 2X-A" si la ausencia
-se prueba) vs (ii) declarar el ciclo refuse-only. **Atribución del residual sigue STALE** (predata
-la ingesta s55; sin baseline de los 39) — por eso el gate de s58.
+**Eval (el ruler):** **51 golds = 39 dev + 12 held-out** (`ho001-ho011` + `ho014` —
+s57/s57b/s57c/s57d, DEC-037/DEC-038; **held-out COMPLETO incl. el admit firmado**, 0 errores,
+embargo verificado `verified()`=39), taxonomía de estratos **CONGELADA** (DEC-033), juez GPT-5.5 +
+K-mayoría, embargo en la puerta (`gold_store.verified`) **y en los lectores-directos de diagnóstico**
+(`exclude_heldout()`, TECH_DEBT #42 cerrado — el gate s58 no expone el held-out). PREREG con
+**criterio de confirmación held-out PRE-REGISTRADO** (Δ global mismo signo + 0 fabricaciones nuevas;
+corrida única). **Composición final held-out (DEC-038c/d):** oem-relabel 2 · es-en 2 · multi-doc 1 ·
+sintesis-completitud 3 · familia-ambigua 1 · sin-tag 3; conductas 9 answer / 1 clarify / **1 admit**
+(ho014, firmado DEC-038d-i) / 1 refuse — el eje no-fabricación held-out queda CUBIERTO (admit+refuse).
+**Atribución del residual sigue STALE** (predata la ingesta s55; sin baseline de los 39) — por eso
+el gate de s58.
 
 **Revisión estructural s56 (DEC-036):** rumbo confirmado — NO overhaul; docs consolidados
 (PLAN compacto + HISTORY); sub-agente adversarial pin `model: fable` (cross-model GPT-5.5
@@ -51,16 +49,13 @@ innegociable en ALTO/zona-de-dolor); corpus nuevo **POSPUESTO** hasta cerrar el 
 
 ## Qué sigue (orden vigente)
 
-1. **(s58) GATE de atribución fresco** — ANTES de nada: **decisión de Alberto sobre DEC-038d**
-   (admit held-out pre-corrida vs refuse-only) + la pregunta F2 al **cross-model GPT-5.5** (va
-   montada sobre la review cross-model que este gate ya exige). Luego: baseline K=5 de los 39 dev
-   sobre el corpus actual (= el PASS-control que el PREREG ya exige) + audit per-caso de
-   *context-sufficiency* (¿el dato llegó al top-5 entregado al generador?) + instrumentar
-   `stop_reason` en el generador (hoy no se captura; descarta/confirma truncamiento por
-   `max_tokens=2048`). Salida: clasificar el residual {generación / sub-retrieval multi-doc /
-   suelo-del-juez} y PARAR al clasificar.
-2. **(s59) El lever que el gate señale** (si DEC-038d resuelve "admit pre-corrida", la autoría
-   gateada del admit entra ANTES de la corrida única de confirmación):
+1. **(s58) GATE de atribución fresco** (DEC-038d ya RESUELTA y ejecutada en s57d: admit ho014
+   autorado y gateado) — baseline K=5 de los 39 dev sobre el corpus actual (= el PASS-control que
+   el PREREG ya exige) + audit per-caso de *context-sufficiency* (¿el dato llegó al top-5 entregado
+   al generador?) + instrumentar `stop_reason` en el generador (hoy no se captura; descarta/confirma
+   truncamiento por `max_tokens=2048`). Salida: clasificar el residual {generación / sub-retrieval
+   multi-doc / suelo-del-juez} y PARAR al clasificar.
+2. **(s59) El lever que el gate señale:**
    - **generación** → A/B **2×2 pre-registrado** {Sonnet 4.6, Opus 4.8} × {context-blurb OFF, ON};
      retrieved-contexts congelados; endpoint primario **GLOBAL** a 2 ejes (completitud↑ sin
      invención↑; estratos solo direccionales — todos a n≤4); run-manifest completo (DEC-021 §F);

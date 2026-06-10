@@ -17,13 +17,13 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
-> Resumen estable (s57c — 10 jun 2026): producción = `chunks_v2` (25.090 chunks / 1.012 docs /
+> Resumen estable (s57d — 10 jun 2026): producción = `chunks_v2` (25.090 chunks / 1.012 docs /
 > 31 marcas / 587 modelos; Voyage-4-large 1024 + contextual-retrieval al 100%), retrieve-wide
 > 50 → rerank LLM 5 → generador `claude-sonnet-4-6`; HyDE off; identidad de producto
-> data-driven (`config/manufacturers/` + sidecar). Eval: **50 golds = 39 dev + 11 held-out
-> embargados** (`ho001`-`ho011` COMPLETO, s57/s57b/s57c, DEC-037/DEC-038; composición final y
-> gap admit en DEC-038c/d), juez GPT-5.5 + K-mayoría, embargo en puerta + lectores-directos
-> (`exclude_heldout`, #42 cerrado).
+> data-driven (`config/manufacturers/` + sidecar). Eval: **51 golds = 39 dev + 12 held-out
+> embargados** (`ho001`-`ho011` + `ho014` admit firmado, s57→s57d, DEC-037/DEC-038 resuelta;
+> eje no-fabricación held-out cubierto admit+refuse), juez GPT-5.5 + K-mayoría, embargo en
+> puerta + lectores-directos (`exclude_heldout`, #42 cerrado).
 
 ## 1. Visión general en 60 segundos
 
