@@ -1,0 +1,75 @@
+{
+ "freeze": {
+  "at": "2026-06-10T20:16:27",
+  "git": "9fbb04e",
+  "n_golds": 39,
+  "corpus_fingerprint": {
+   "table": "chunks_v2",
+   "count": 25090,
+   "max_created_at": "2026-06-09T19:15:25.848279+00:00"
+  },
+  "retrieval": {
+   "retrieve_k": 50,
+   "rerank_k": 5,
+   "reranker": "llm",
+   "rerank_model": "claude-sonnet-4-6",
+   "rerank_fn_sha": "4039c3b3943f23e3",
+   "hyde_enabled": "false",
+   "target_models": null
+  },
+  "embeddings": {
+   "model": "voyage-4-large",
+   "dims": 1024,
+   "input_type": "query"
+  }
+ },
+ "generate": {
+  "at": "2026-06-10T20:16:27",
+  "git": "9fbb04e",
+  "k": 5,
+  "generator": {
+   "model": "claude-sonnet-4-6",
+   "temperature": 0,
+   "max_tokens": 2048,
+   "include_context": 0,
+   "available_models": null,
+   "system_prompt_sha": "8cb742203f5d1bd1",
+   "generate_fn_sha": "7bc8f08982ffd3ee",
+   "relevance_threshold": 0.4
+  },
+  "n_errors": 0
+ },
+ "judge": {
+  "at": "2026-06-10T20:19:38",
+  "git": "9fbb04e",
+  "judge": {
+   "model_alias": "gpt-5.5",
+   "models_real": {
+    "gpt-5.5-2026-04-23": 195
+   },
+   "response_format": "json_object",
+   "truncation_chars": 3000,
+   "sys_sha": "8385a401352b98ec",
+   "user_sha": "30f9c60fc26d2439",
+   "parse_policy": "json.loads directo (response_format); error → veredicto '?' (re-lanzable; '?' se excluye del modal, ver report)"
+  },
+  "n_judge_errors": 0
+ },
+ "report": {
+  "at": "2026-06-10T20:19:48",
+  "git": "9fbb04e",
+  "k": 5,
+  "corpus_fingerprint_at_report": {
+   "table": "chunks_v2",
+   "count": 25090,
+   "max_created_at": "2026-06-09T19:15:25.848279+00:00"
+  },
+  "reglas_preregistradas": {
+   "particion": "PASS-control := modal PASS (letra PREREG; sub-split unanime/no declarado — la exclusión de no-unánimes del Δ primario en s59 es estadística, no de membresía) · residual := 0 PASS entre válidos · K-INESTABLE := resto (modal no-PASS con algún PASS)",
+   "empate_modal": "peor de los empatados — SOLO presentación, no buckets",
+   "judge_error": "'?' fuera del modal; <3 válidos → JUDGE-ERROR",
+   "sufficiency": "determinista sobre top-5 CONGELADO; INDETERMINADO-solo-debiles pre-registrado (verdad-vacua cazada por el dúo); sub-etiqueta multi-doc per-hecho, estrato solo anota (DEC-033)",
+   "seeds": "KNOB-MUERTO declarado (DEC-015: gpt-5.5 rechaza temp/seed inerte; Sonnet temp=0 no-determinista) — reproducibilidad = contexts congelados + K-mayoría + este manifest"
+  }
+ }
+}

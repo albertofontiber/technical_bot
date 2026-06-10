@@ -1559,3 +1559,39 @@ el RULER (la familia CAD ya está cubierta: cat013 CAD-150, cat019 CAD-250) + A/
 **Relacionado**: `retriever.py:_filter_to_query_models` (#11e/#11f, hp003), `metadata.py:apply_metadata`,
 DEC-032 (lote CAD-201 que lo destapó), DEC-019 (eval-driven), gate RULER + Protocolo 3 (ingesta diferida).
 
+
+## 44. Contrato roto de `chunks_v2.category` — columna sin taxonomía canónica; consumidores muertos inventariados (s59, DEC-040)
+
+**Qué pasó**: la tabla vieja `chunks` tenía la taxonomía canónica EN-54 ("Centrales de incendios" 51.900,
+"Detectores de aspiración" 28.335…) y el código del retriever/bot se escribió contra ELLA. La re-ingesta a
+`chunks_v2` pobló `category` con la clasificación del INVENTARIO de manuales ('Detección analógica',
+'PA_VA Evacuación por voz', 'ES'/'EN_unico'/'PT', 'DESCARTADO', 'MIXED'…) y los lotes s55 ni eso (NULL).
+Resultado medido (s59): **0 filas canónicas** — 58% NULL, 25% 'ES' — y todo filtro `category=eq.<canónica>`
+devuelve 0 SIEMPRE. El SWAP s44 cambió el contrato semántico de la columna en silencio; los fallbacks
+(broad-5 + canales léxicos) taparon el síntoma ~15 sesiones.
+
+**Lo que YA se arregló (lever s59, DEC-040)**: el retrieval ya NO filtra por category (canal vectorial
+wide + content_search sin el parámetro + search_tasks muertas eliminadas). La DETECCIÓN
+(CATEGORY_TERMS/_CATEGORY_PHRASES) sigue exportada para log/conversación.
+
+**Inventario de consumidores AÚN rotos/degradados (el ESCRITOR primero — sigue sembrando)**:
+- **`src/reingest/metadata.py:247`** (`category=_detect_category(source_path)`): el ESCRITOR del bug —
+  puebla category con la clasificación del inventario. Toda ingesta futura (Aritech/Ziton/GST post-ciclo)
+  siembra más basura hasta que se re-defina el contrato de la columna.
+- `get_category_models` → `available_models` (telegram_bot:459 → generator:449): con categoría canónica
+  devuelve [] → el path ask_clarification NUNCA ofrece modelos disponibles (conversación degradada).
+- `get_all_models_by_category` → `_handle_catalog` (telegram_bot:354): el catálogo agrupa por la
+  pseudo-categoría del inventario.
+- `_diversify_by_manufacturer` (Step 5b, no-model): gatea/cuenta con `chunks[0].category` (basura) y la
+  suplementaria filtra el RPC por ella → subconjunto arbitrario. **DIFERIDO a propósito en s59** (consenso
+  dúo ×2: tocarlo = mecanismo reactivado nunca medido; hoy con NULL mayoritario casi nunca dispara).
+
+**Fix candidato (estructural, eval-driven)**: decidir el contrato de la columna — (i) re-poblar con
+taxonomía canónica a nivel DOCUMENTO (mapeo doc→categoría; ~1.012 docs; semi-automático por
+product_model/catálogo) y reintroducir categoría como **BOOST data-driven** (NUNCA filtro duro: la
+respuesta puede vivir en doc de otra categoría — hp008 compatibilidad detector↔central); o (ii) retirar la
+columna y sus consumidores. Cualquier opción se mide en el RULER (DEC-019).
+
+**Trigger**: antes de la PRÓXIMA ingesta (el escritor sembraría más basura) o al retomar la conversación
+dinámica (available_models). **Relacionado**: DEC-040, `evals/s59_recall_diagnosis.yaml` (verification),
+`evals/_s59_lever_design_FINAL.md` §6, TECH_DEBT #43 (identidad de variantes, mismo espíritu data-driven).

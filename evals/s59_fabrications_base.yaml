@@ -1,0 +1,207 @@
+meta:
+  arm: base
+  gen_file: s58_generations.json
+  at: '2026-06-10T18:23:33'
+  model: gpt-5.5
+  k_stable_threshold: 3
+  scope: 6 golds con ausente-probado
+F: 0
+k_stable_golds: []
+golds:
+- qid: cat013
+  n_absent_facts: 1
+  n_runs_eval: 5
+  n_runs_fabricated: 0
+  k_stable_fabrication: false
+  runs:
+  - run: '0'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+  - run: '1'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+  - run: '2'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+  - run: '3'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+  - run: '4'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+- qid: cat014
+  n_absent_facts: 1
+  n_runs_eval: 5
+  n_runs_fabricated: 0
+  k_stable_fabrication: false
+  runs:
+  - run: '0'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+  - run: '1'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+  - run: '2'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+  - run: '3'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+  - run: '4'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+- qid: cat015
+  n_absent_facts: 1
+  n_runs_eval: 5
+  n_runs_fabricated: 0
+  k_stable_fabrication: false
+  runs:
+  - run: '0'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+  - run: '1'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+  - run: '2'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+  - run: '3'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+  - run: '4'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+- qid: hp006
+  n_absent_facts: 1
+  n_runs_eval: 5
+  n_runs_fabricated: 1
+  k_stable_fabrication: false
+  runs:
+  - run: '0'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+  - run: '1'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+  - run: '2'
+    fabricated: true
+    n_fabs: 1
+    fabs:
+    - hecho_ausente: Los manuales consultados no incluyen un procedimiento paso a
+        paso de localización del punto exacto del fallo de tierra
+      afirmacion_bot: Para el procedimiento específico de localización de fallo a
+        tierra, necesitarás consultar el Apéndice B del manual de instalación MI-DT-170
+        y la sección de troubleshooting completa del manual físico
+      tipo: recomendacion
+    error: null
+  - run: '3'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+  - run: '4'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+- qid: hp009
+  n_absent_facts: 1
+  n_runs_eval: 5
+  n_runs_fabricated: 0
+  k_stable_fabrication: false
+  runs:
+  - run: '0'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+  - run: '1'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+  - run: '2'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+  - run: '3'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+  - run: '4'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+- qid: hp013
+  n_absent_facts: 1
+  n_runs_eval: 5
+  n_runs_fabricated: 1
+  k_stable_fabrication: false
+  runs:
+  - run: '0'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+  - run: '1'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+  - run: '2'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+  - run: '3'
+    fabricated: false
+    n_fabs: 0
+    fabs: []
+    error: null
+  - run: '4'
+    fabricated: true
+    n_fabs: 1
+    fabs:
+    - hecho_ausente: El manual no documenta un procedimiento de sustitución de la
+        batería de litio del reloj; el cap. 9.4 solo cubre sustitución de placas (LSU/LMB/LEB).
+      afirmacion_bot: Para obtener el procedimiento correcto de sustitución de batería,
+        consulta el capítulo de mantenimiento del manual físico completo del ADW535.
+      tipo: recomendacion
+    error: null

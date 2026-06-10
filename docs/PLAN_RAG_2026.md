@@ -22,52 +22,57 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s58 — 10 jun 2026)
+## Estado actual (s59 — 10 jun 2026)
 
 **Sistema (prod, Railway auto-deploy desde `main`; SWAP de corpus por `CHUNKS_TABLE`):**
 bot Telegram (polling) → pre-clasificación → retrieve híbrido wide (vector Voyage-4-large 1024
 + keyword + intent; `RETRIEVAL_TOP_K=50`; HyDE off) → rerank LLM Sonnet (top-5) → generador
-`claude-sonnet-4-6` (temp=0, `max_tokens=2048`, sin prompt caching; **`stop_reason`/
-`output_tokens` instrumentados s58**) sobre **`chunks_v2` = 25.090 chunks / 1.012 docs /
-31 marcas / 587 modelos** (contextual-retrieval activo al 100%; identidad data-driven, DEC-035).
+`claude-sonnet-4-6` (temp=0, `max_tokens=2048`) sobre **`chunks_v2` = 25.090 chunks / 1.012
+docs / 31 marcas / 587 modelos** (contextual-retrieval 100%; identidad data-driven, DEC-035).
+**⚠️ Diagnóstico s59 (DEC-040): el canal vectorial principal está MUERTO en prod para el ~85%
+de las queries** — `chunks_v2.category` tiene 0 filas de la taxonomía canónica (SWAP s44 cambió
+el contrato de la columna en silencio) → `filter_category` devuelve 0 SIEMPRE y el pool vive del
+broad-5 + canales léxicos; además `hnsw.ef_search=40` < k=50. El FIX (lever L-i) está construido,
+gateado y MEDIDO — veredicto pre-registrado **ROLLBACK** (ver abajo): NO está en prod.
 
-**Eval (el ruler):** **51 golds = 39 dev + 12 held-out** (embargo vivo, `verified()`=39),
-taxonomía CONGELADA (DEC-033), juez GPT-5.5 + K-mayoría. **BASELINE FRESCO s58 (DEC-039):**
-runner `scripts/bvg_kmajority.py` (4 fases reanudables; contexts top-5 CONGELADOS con blurb
-hidratado; juez NUEVO congelado de la ventana = prompts harness + `response_format`; run-manifest
-DEC-021 §F completo, alias del juez resuelto `gpt-5.5-2026-04-23`). **PASS-control FIJADO = 10**
-(6 unánimes) · K-INESTABLE 3 · residual 26 clasificado: **retrieval-localizado 8** (within-doc-miss
-domina; multi-doc clásico minoritario = hp008+hp001) · **GENERACIÓN 4** (+ severidad: los FALLO-modales
-reparten hacia generación/sobre-admisión) · NO-LOCALIZADO 2 · INDETERMINADO-solo-débiles 8
-(sobre-admisión 4/8) · CUALITATIVA 4 (1 fallo de conducta: hp004). **Truncamiento DESCARTADO**
-(195/195 `end_turn`); suelo-del-juez no aparece como cuello. El mecanismo del within-doc-miss
-(pool vs rerank vs extracción) NO está medido — los misses son POST-retrieve-wide (DEC-018).
-**La ventana de freeze del corpus está ABIERTA desde el freeze s58** (ninguna ingesta hasta
-cerrar el ciclo; fingerprint en `s58_run_manifest.json`). Artefactos versionados:
-`evals/s58_{frozen_contexts,generations,judgments,run_manifest}.json` + `s58_gate_report.yaml`
-(las 195 generaciones PERSISTIDAS — el scorer del A/B corre sobre ellas, cláusula C2).
+**Eval (el ruler):** **51 golds = 39 dev + 12 held-out** (embargo vivo), taxonomía CONGELADA
+(DEC-033), juez GPT-5.5 + K-mayoría, baseline s58 congelado (PASS-control fijado 10 / 6 unánimes).
+**s59 EJECUTADO de punta a punta (DEC-040):** (a) dimensionamiento — los 14 hechos RECALL tienen
+rank vectorial exacto 7–32 (10/14 ≤50): el embedding YA los encuentra, el filtro muerto los tiraba;
+(b) lever "canal vectorial sano" diseñado con dúo ×2 rondas + focal (5b diferido; L-ii ef_search
+PENDIENTE de autorización de Alberto — el permission-mode denegó el ALTER a prod);
+(c) medición completa: **gate-1 11/11 · gate-2 RECALL-fuertes 14→3 (la mayoría hasta el TOP-5) ·
+A/B K=5: Δ_net=0 con redistribución (cat020 FALLO→PASS, hp001 PARCIAL→PASS vs cat005/9/10
+PASS→PARCIAL 3-2 frontera + hp018) → VEREDICTO §3: ROLLBACK regla 1 (cat010 unánime cayó)**.
+El criterio duro pre-registrado funcionó: sin él esto se shipeaba como "empate con ganancias".
+Código del lever PRESERVADO en branch `s59-lever-code-ROLLBACKED` (con sus 5 tests); artefactos
+`evals/s59_*` versionados; instrumentos nuevos reutilizables (`s59_recall_diagnosis.py`,
+`s59_gate1.py --alter/--reset`, `s59_fabrications.py` K-formato, `s59_ab_verdict.py`, runner
+parametrizado `BVG_RUN_ID`). **Cláusula R del PREREG (held-out para levers de retrieval) escrita
+pre-datos — PENDIENTE DE FIRMA; el held-out sigue BLOQUEADO.** **Ventana de freeze del corpus
+ABIERTA** (fingerprint s58 intacto: 25.090).
 
 ## Qué sigue (orden vigente)
 
-1. **(s59) Lever de retrieval-RECALL — branch FIRMADO por Alberto (s58b, DEC-039g), con los
-   2 pasos baratos YA corridos:** el mecanismo está medido — funnel split de los 8
-   retrieval-localizados: **RECALL=14 hechos fuertes ni-al-pool-50** (rerank 2, extracción 3);
-   spot-check de las 4 sobre-admisiones: 3 = retrieval-honesto, 1 = generación-identidad
-   (hp009, ZXe↔ZXAE/ZXEE). Bulto retrieval ≈11 golds. Secuencia de s59:
-   (a) **dimensionamiento barato del POR QUÉ** los 14 hechos no matchean (léxico vs semántico
-   vs chunking — los hechos están identificados en el funnel YAML) → (b) **diseño del lever
-   con dúo** (NO pre-elegido) → (c) **medición K-mayoría** vs el baseline s58 (contexts
-   congelados; PASS-control fijado 10). **Plan B declarado:** si no hay lever barato → A/B 2×2
-   generación {Sonnet 4.6, Opus 4.8}×{blurb OFF,ON} (su brazo A YA corrido = el baseline;
-   Batches −50%; ship/rollback antes de medir). Paralelo menor (no bloquea): hp009 → fix de
-   identidad de variantes (TECH_DEBT #43); cat020/cat008 (generación pura) quedan al residual
-   post-lever.
-2. **Tras el lever (s59/s60): confirmación held-out** — corrida ÚNICA `INCLUDE_HELDOUT=1` bajo
-   el criterio PRE-REGISTRADO (PREREG §held-out + **cláusulas C1/C2 FIRMADAS s58b**: Δ global
-   ordinal answer-only; fabricaciones vía atomic_scorer sobre generaciones persistidas).
+1. **(s60) Branch del siguiente lever — DECISIÓN DE ALBERTO (no pre-elegido), con el cuadro
+   s59 en la mesa:** (i) **lever de MERGE/ranking** (pre-señalado por el dúo y por el resultado:
+   el recall YA entrega los hechos al pool/top-5, pero los keyword-stamps planos 0.65-0.85 vs
+   cosenos reales deciden el top-5 y redistribuyen los golds frontera — capturar las ganancias
+   [cat020/hp001] sin las pérdidas [cat005/9/10, hp018]); (ii) **plan B A/B 2×2 generación**
+   {Sonnet,Opus}×{blurb OFF,ON} (firmado s58b, brazo A corrido — matiz nuevo: cat020 dejó de ser
+   su mejor argumento, lo arregló el pool); (iii) **L-ii solo** (`scripts/s59_gate1.py --alter`,
+   ef_search 40→120: +10 candidatos reales al canal; re-medición barata con los instrumentos
+   s59). Cualquier opción re-usa el baseline s58 + el runner parametrizado. **Pendientes de
+   firma/autorización de Alberto:** cláusula R del PREREG (held-out retrieval) · L-ii (ALTER en
+   prod, reversible). Paralelo menor: hp009 identidad de variantes (TECH_DEBT #43); el contrato
+   de `chunks_v2.category` (TECH_DEBT #44 — el ESCRITOR sigue sembrando; tocar ANTES de la
+   próxima ingesta).
+2. **Tras un lever shipped: confirmación held-out** — corrida ÚNICA `INCLUDE_HELDOUT=1` bajo el
+   PREREG (C1/C2 firmadas + cláusula R si el lever es de retrieval).
 3. **Después del ciclo:** corpus nuevo (Aritech completo / Kidde resto / Ziton-GST; método en
    `docs/CORPUS_FIRESECURITYPRODUCTS.md`). **Freeze-contract:** ninguna ingesta dentro de la
-   ventana baseline→A/B→held-out (la ventana corre DESDE el freeze s58).
+   ventana baseline→A/B→held-out — y antes de ingerir, resolver TECH_DEBT #44 (el escritor de
+   `category` sembraría más basura).
 
 **Fases macro (rationale en HISTORY):** F1 calidad (en curso) → F2 escala (identidad de producto
 HECHA s55; resto gated) → F3 routing/tool-use + multi-dominio del scope M&A (gated por F1/F2) →
