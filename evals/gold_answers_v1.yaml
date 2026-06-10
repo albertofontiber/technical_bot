@@ -4596,3 +4596,262 @@
       Táctil'' vía sidecar Kidde — nota: la lista sirve a toda la serie 2X-A), installation sheet (22
       chunks, KE-DP3020W), datasheet ES (4 chunks) — cobertura existe; SQL existence directo, no ranker'
     embargo: 'split=held-out s57: sin smoke del bot, sin debug de retrieval con la pregunta'
+- qid: ho001
+  question: En la central Kidde 2X-AF2, ¿cómo se configuran las zonas (agrupar detectores y pulsadores)
+    y cuántas zonas admite?
+  conducta_esperada: answer
+  split: held-out
+  estrato:
+  - oem-relabel
+  gold_answer: |-
+    La serie 2X-A (la 2X-AF2 es la variante de 2 lazos; el portal la vende como Kidde y como Aritech) admite un MÁXIMO de 512 zonas (todas las centrales de la serie), con números de zona entre 01 y 9.999. Ojo: por compatibilidad con la aplicación 2010-2GUI, los números asignados deben estar entre 1 y 4095 (las zonas con números superiores se desechan).
+
+    Las zonas se CREAN asignando números de zona a los dispositivos del lazo: Menú principal → Config de lazo → Config. de lazo → seleccionar el lazo y el dispositivo → asignar el número de zona; confirmar con F4 (Enter), volver con F1 (Atrás) y Guardar/Aplicar (F1/F3); repetir por dispositivo y aplicar los ajustes guardados en el Menú principal. Caveat documentado: si el número de zona queda fuera del intervalo válido (determinado por la zona inicial y el número de lazos), la operación no finaliza y NO se muestra error en la pantalla LCD.
+
+    Sí se pueden agrupar detectores y pulsadores en la misma zona: el modo de funcionamiento 'Mixta' admite combinación de dispositivos de alarma automática y manual, y es el modo POR DEFECTO de todas las zonas. Los modos disponibles son Mixta, Manual (solo pulsadores/MCP), Auto (solo detectores), MSP (pulsadores de rociadores) y MHA (pulsadores 'hausalarm'); la central no permite configurar dispositivos que no cumplan los criterios del modo elegido. Nota: el modo de la zona inicial debe ser Mixta.
+  atomic_facts:
+  - texto: El máximo número de zonas disponibles en la serie 2X-A es 512 (para todas las centrales); el
+      intervalo del número de zona va de 01 a 9.999
+    tipo: core
+    estado: presente
+    valor: 512 zonas (números 01-9.999)
+    cita: manual ES p116 (impresa 110) + datasheet 2X-AF2-09 p4
+  - texto: Por compatibilidad con 2010-2GUI los números de zona asignados deben estar entre 1 y 4095 (las
+      zonas con números superiores se desechan)
+    tipo: core
+    estado: presente
+    valor: 1-4095 (2010-2GUI)
+    cita: manual ES p116
+  - texto: 'Las zonas se crean asignando números de zona a los dispositivos de lazo: Menú principal →
+      Config de lazo → Config. de lazo → seleccionar lazo y dispositivo → asignar el número de zona'
+    tipo: core
+    estado: presente
+    valor: Config de lazo → asignar número de zona al dispositivo
+    cita: manual ES p116
+  - texto: Una zona puede contener una combinación de dispositivos de alarma automática y manual (detectores
+      + pulsadores) si su modo de funcionamiento es Mixta; de forma predeterminada todas las zonas son
+      mixtas
+    tipo: core
+    estado: presente
+    valor: modo Mixta (default de todas las zonas)
+    cita: manual ES p122 (Tabla 53)
+  - texto: Los modos de funcionamiento de zona son Mixta, Manual, Auto, MSP o MHA (Manual = solo pulsadores/entradas
+      MCP; Auto = solo detectores)
+    tipo: core
+    estado: presente
+    valor: Mixta, Manual, Auto, MSP o MHA
+    cita: manual ES p122
+  - texto: La central no permitirá la configuración de dispositivos de zona o entradas que no cumplan
+      los criterios del modo de funcionamiento configurado
+    tipo: core
+    estado: presente
+    valor: la central rechaza dispositivos fuera del modo
+    cita: manual ES p122 nota [1]
+  - texto: Si el número de zona está fuera del intervalo válido (determinado por la zona inicial y el
+      número de lazos), la operación no finaliza y NO se muestra un error de número de zona no válido
+      en la pantalla LCD
+    tipo: supplementary
+    estado: presente
+    valor: operación no finaliza sin error en LCD
+    cita: manual ES p117
+  - texto: 'Tras asignar: F4 (Enter) + F1 (Atrás); F1 (Guardar)/F3 (Aplicar)/F4 (Descartar)/F2 (Salir);
+      repetir por dispositivo y aplicar los ajustes guardados en el Menú principal'
+    tipo: supplementary
+    estado: presente
+    valor: F4 Enter / F1 Guardar / F3 Aplicar + aplicar en Menú principal
+    cita: manual ES p117
+  - texto: La configuración Mod.Op de la zona inicial debe ser Mixta
+    tipo: supplementary
+    estado: presente
+    valor: zona inicial = Mixta
+    cita: manual ES p118
+  - texto: Las zonas de las centrales en red son globales (dos centrales con la zona 5 se agrupan en una
+      sola zona 5 de red); el número de zonas globales se configura (default 512)
+    tipo: supplementary
+    estado: presente
+    valor: zonas globales en red (default 512)
+    cita: manual ES p116-117
+  citations:
+  - pdf: Manuales_Aritech/00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf
+    page: 116
+    quote: El máximo número de zonas disponibles es 512 (para todas las centrales). El intervalo del número
+      de zona se sitúa entre 01 y 9.999.
+  - pdf: Manuales_Aritech/00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf
+    page: 116
+    quote: Cree zonas asignando números de zona a los dispositivos de lazo.
+  - pdf: Manuales_Aritech/00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf
+    page: 122
+    quote: La zona puede contener una combinación de dispositivos de alarma automática y manual.
+  - pdf: Manuales_Aritech/00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf
+    page: 122
+    quote: De forma predeterminada, todas las zonas son mixtas.
+  - pdf: Manuales_Aritech/2x-af2-09-161721-es.pdf
+    page: 4
+    quote: Máxima capacidad de zona | hasta 512
+  notes: 'HELD-OUT (embargo): autorado s57b, jamás corrido contra el bot. oem-relabel: pregunta formulada
+    como KIDDE; el corpus tiene la serie 2X-A con identidad Aritech (OEM cross-brand del portal, DEC-035:
+    mismos PDFs bajo Manuales_Kidde/ y Manuales_Aritech/). Dimensión de fallo: identidad marca-del-usuario
+    ≠ marca-del-corpus. El manual es de la SERIE 2X-A (válido para la variante 2X-AF2; el datasheet ancla
+    la variante de 2 lazos).'
+  confidence: alta
+  pdfs_used:
+  - Manuales_Aritech/00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf
+  - Manuales_Aritech/2x-af2-09-161721-es.pdf
+  _provenance:
+    estado: verificado
+    metodo: 'localización por barrido de headings del manual de serie ES (190pp; secciones de zona pp116-122)
+      + datasheet variante AF2-09 (capacidad) + render pp115-119/121-123 @200dpi (±1 vecinas; numeración
+      impresa offset +6 consistente, sin off-by-one) + doble-señal AND: lectura Claude del render (p116/p122
+      al píxel) + co-gen independiente GPT-5.5 (cross_generate, 0 desacuerdos; sus citas en numeración
+      impresa p110/111/116 mapean exactamente a PDF 116/117/122) + match determinista 11/11 anchors (512,
+      9.999, 4095, 2010-2GUI, Config de lazo, Mixta...)'
+    verificado_por: Claude (Fable 5) + GPT-5.5 (cross_generate s57b)
+    localizacion:
+      manuales_buscados:
+      - Manuales_Aritech/00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf
+      - Manuales_Aritech/2x-af2-09-161721-es.pdf
+      - 'Manuales_Aritech/00-3280-505-4009-04_r004_2x-a_series_operation_manual_es.pdf (operación: no
+        es la fuente de config)'
+      - '(EN no requerido: dato presente y completo en ES, mismo doc de serie r005 — la regla ES+EN aplica
+        para datos ausentes en ES o sospecha de conflicto)'
+      idiomas: ES (suficiente; EN mismo doc de serie)
+      resultado: 'config de zonas completa en manual ES de la serie: pp116-117 (asignación, capacidad
+        512, rango, caveat LCD), p118 (zona inicial Mixta), p119 (Tabla 50 opciones), p122 (Tabla 53 modos);
+        capacidad 512 doble-fuente con el datasheet AF2-09 p4'
+    corpus_chunks_v2: 'POST-HOC (no criterio): manual de serie ingestado (226 chunks pp1-189, product_model=2X-A,
+      identidad Aritech) + datasheet AF2-09 (7 chunks, product_model=2X-AF2-09) — cobertura existe; SQL
+      existence directo, no ranker'
+    embargo: 'split=held-out s57b: sin smoke del bot, sin debug de retrieval con la pregunta'
+- qid: ho005
+  question: ¿Cómo amplío una central 2X-AF2 con un lazo adicional (tarjeta 2X-A-LB)?
+  conducta_esperada: answer
+  split: held-out
+  estrato:
+  - multi-doc
+  gold_answer: |-
+    La ampliación se hace con la tarjeta de lazo 2X-A-LB, que añade DOS lazos (LOOP3 y LOOP4) y cuatro salidas supervisadas (OUT5-OUT8); solo es compatible con centrales 2X-A (no usar tarjetas de lazo antiguas).
+
+    1) SEGURIDAD: desconectar la central de la fuente de alimentación Y las baterías antes de instalar (riesgo de electrocución).
+
+    2) MONTAJE (hoja de instalación de la tarjeta): instalar la tarjeta en la RANURA 2 del chasis, presionar con firmeza y fijar con los tornillos suministrados (figura 1). Cablear lazos y salidas según la figura 2 — par trenzado 0,13-3,31 mm² (26-12 AWG); la TIERRA del lazo se conecta por un lado a los espárragos de toma de tierra de la CAJA de la central (NO al terminal de tierra de la propia tarjeta; el otro lado puede quedar suelto); en las salidas que no se usen, instalar resistencia final de línea (Clase A: 4,7 kΩ 1% 1/4 W; Clase B: 15 kΩ 1% 1/4 W) para evitar fallo de circuito abierto.
+
+    3) ALTA EN LA CENTRAL (manual de instalación del panel): restablecer la alimentación y añadir la tarjeta a la configuración: Menú principal → Ajustes del panel → Tarjeta expansión → seleccionar LB (Tarjeta de lazo) → SÍ → F4 (Enter) → Guardar/Aplicar (no olvidar aplicar en el Menú principal). Si la central no detecta el módulo instalado, indica fallo del sistema; si el firmware de la tarjeta no es compatible, aparece una advertencia.
+
+    4) Configurar los lazos, salidas y dispositivos conectados, y comprobar los lazos calculando su carga.
+  atomic_facts:
+  - texto: La tarjeta de lazo 2X-A-LB proporciona dos lazos adicionales (LOOP3 y LOOP4) y cuatro salidas
+      supervisadas adicionales (OUT5-OUT8); su instalación solo es compatible en centrales 2X-A
+    tipo: core
+    estado: presente
+    valor: LOOP3 y LOOP4 + OUT5-OUT8
+    cita: sheet 2X-A-LB p7 (bloque ES)
+  - texto: 'Antes de instalar: desconectar la central de la fuente de alimentación y las baterías (peligro
+      de electrocución)'
+    tipo: core
+    estado: presente
+    valor: desconectar alimentación y baterías
+    cita: sheet p7
+  - texto: La tarjeta se instala en la ranura 2 del chasis de la central, presionando con firmeza y fijándola
+      con los tornillos proporcionados
+    tipo: core
+    estado: presente
+    valor: ranura 2 del chasis
+    cita: sheet p8
+  - texto: 'Conexión a tierra del lazo: un lado a los espárragos de toma de tierra de la CAJA de la central
+      (NO al terminal de tierra del lazo de la tarjeta); el otro lado puede dejarse suelto'
+    tipo: core
+    estado: presente
+    valor: espárragos de la caja, no el terminal de la tarjeta
+    cita: sheet p8
+  - texto: En las salidas configurables que no se usen hay que instalar una resistencia final de línea
+      para evitar un fallo de circuito abierto
+    tipo: core
+    estado: presente
+    valor: resistencia final de línea en salidas no usadas
+    cita: sheet p8
+  - texto: 'El alta en la central: Menú principal → Ajustes del panel → Tarjeta expansión → seleccionar
+      LB (Tarjeta de lazo) → SÍ → F4 (Enter) + Guardar/Aplicar en el Menú principal'
+    tipo: core
+    estado: presente
+    valor: Ajustes del panel → Tarjeta expansión → LB
+    cita: manual ES p98 (impresa 92)
+  - texto: 'Usar SOLO tarjetas de lazo 2X-A-LB: las tarjetas de lazo más antiguas no son compatibles con
+      las centrales 2X-A'
+    tipo: core
+    estado: presente
+    valor: solo 2X-A-LB (antiguas incompatibles)
+    cita: manual ES p98, Tabla 34 nota [1]
+  - texto: Tras añadirla hay que configurar lazos, salidas y dispositivos, y comprobar los lazos calculando
+      su carga
+    tipo: core
+    estado: presente
+    valor: comprobar lazos calculando la carga
+    cita: sheet p8
+  - texto: Si la central no detecta un módulo de expansión instalado, se indica un fallo del sistema;
+      si el firmware de la tarjeta no es compatible, aparece un mensaje de advertencia
+    tipo: supplementary
+    estado: presente
+    valor: fallo del sistema / advertencia firmware
+    cita: manual ES p98
+  - texto: 'Cable recomendado: par trenzado apantallado o sin apantallar de 0,13 a 3,31 mm² (26 a 12 AWG)'
+    tipo: supplementary
+    estado: presente
+    valor: 0,13-3,31 mm² (26-12 AWG)
+    cita: sheet p7
+  - texto: 'Resistencias de supervisión de salida: Clase A = 4,7 kΩ 1% 1/4 W; Clase B = 15 kΩ 1% 1/4 W;
+      corriente máx de salida 750 mA a 25°C (800 mA con el kit 2010-2A-PAK-HPL)'
+    tipo: supplementary
+    estado: presente
+    valor: Clase A 4,7 kΩ / Clase B 15 kΩ
+    cita: sheet p8, Tabla 2
+  citations:
+  - pdf: Manuales_Aritech/00-3301-501-4000-04_r004_2x-a-lb_loop_board_installation_sheet_ml.pdf
+    page: 7
+    quote: La tarjeta de lazo 2X-A-LB proporciona dos lazos adicionales (LOOP3 y LOOP4) y cuatro salidas
+      supervisadas adicionales (OUT5, OUT6, OUT7 y OUT8) para las centrales 2X-A compatibles.
+  - pdf: Manuales_Aritech/00-3301-501-4000-04_r004_2x-a-lb_loop_board_installation_sheet_ml.pdf
+    page: 8
+    quote: Instale la tarjeta de lazo en la ranura 2 del chasis de la central, tal y como se muestra en
+      la figura 1.
+  - pdf: Manuales_Aritech/00-3301-501-4000-04_r004_2x-a-lb_loop_board_installation_sheet_ml.pdf
+    page: 8
+    quote: conecte un lado a los espárragos de toma de tierra en la caja de la central (no al terminal
+      de conexión a tierra del lazo en la tarjeta de expansión)
+  - pdf: Manuales_Aritech/00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf
+    page: 98
+    quote: Use solo tarjetas de lazo 2X-A-LB (las tarjetas de lazo más antiguas no son compatibles con
+      las centrales 2X-A).
+  - pdf: Manuales_Aritech/00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf
+    page: 98
+    quote: En el Menú principal, seleccione Ajustes del panel.
+  notes: 'HELD-OUT (embargo): autorado s57b, jamás corrido contra el bot. multi-doc REAL: la respuesta
+    completa exige la hoja de instalación de la tarjeta (montaje físico, cableado, tierra, EOL de salidas)
+    Y el manual del panel (alta por menú + restricción ''solo 2X-A-LB''); el propio sheet remite al manual
+    de la central en su paso 3. La 2X-AF2 es variante de la serie 2X-A (sheet/manual son de serie).'
+  confidence: alta
+  pdfs_used:
+  - Manuales_Aritech/00-3301-501-4000-04_r004_2x-a-lb_loop_board_installation_sheet_ml.pdf
+  - Manuales_Aritech/00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf
+  _provenance:
+    estado: verificado
+    metodo: 'localización: sheet ML 27pp (bloque ES localizado pp7-8; bloques por idioma independientes
+      — descripción ES con LOOP3/4 + advertencia + pasos verificada) + manual de serie ES (p98 ''Configuración
+      de la tarjeta de expansión'', p51 precaución) + render sheet pp6-9 + manual pp97-99 @200dpi (±1;
+      p98 y p8 leídos al píxel: Tabla 34 y Tablas 1-2 del sheet coinciden con extracción) + doble-señal
+      AND: lectura Claude del render + co-gen GPT-5.5 (34 hechos, 0 desacuerdos; citas en numeración impresa
+      p92 = PDF p98) + match determinista 11/11 anchors (LOOP3 y LOOP4, OUT5-8, ranura 2, espárragos,
+      EOL, Ajustes del panel...)'
+    verificado_por: Claude (Fable 5) + GPT-5.5 (cross_generate s57b)
+    localizacion:
+      manuales_buscados:
+      - Manuales_Aritech/00-3301-501-4000-04_r004_2x-a-lb_loop_board_installation_sheet_ml.pdf
+      - Manuales_Aritech/00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf
+      - 'Manuales_Aritech/2010-2a-pak-hpl ... (kit HPL: solo afecta a corriente máx de salida, anotado
+        en supp)'
+      - '(EN: mismo sheet ML multilingüe — bloque EN p1-2 del mismo doc; sin doc EN separado)'
+      idiomas: ES (bloque ES del sheet ML) + manual de serie ES
+      resultado: instalación física + cableado + specs en el sheet (pp7-8 ES); alta en la central + restricción
+        solo-2X-A-LB en el manual del panel (p98); la respuesta exige AMBOS docs (multi-doc)
+    corpus_chunks_v2: 'POST-HOC (no criterio): sheet ingestado (49 chunks, product_model=2X-A-LB) + manual
+      de serie (226 chunks, 2X-A) — cobertura existe; SQL existence directo, no ranker'
+    embargo: 'split=held-out s57b: sin smoke del bot, sin debug de retrieval con la pregunta'
