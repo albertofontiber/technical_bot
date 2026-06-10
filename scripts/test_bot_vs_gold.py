@@ -43,8 +43,9 @@ from src.config import (                              # noqa: E402
 
 # Reranker top-k overridable por env para A/B end-to-end (prod actual = 5).
 RERANK_K = int(os.getenv("RERANK_K_OVERRIDE", str(RERANK_TOP_K)))
-# Retrieve pool (candidatos pre-rerank) overridable para A/B #16 (prod = 15).
-# #32 solo varió el generator-k (RERANK_K); ampliar el pool nunca se midió end-to-end.
+# Retrieve pool (candidatos pre-rerank) overridable. Prod = RETRIEVAL_TOP_K = 50
+# (retrieve-wide, shipped s44 — config.py:41; el "15" histórico indujo un FP del
+# cross-model en s58: este comentario es lo único que algunos revisores ven).
 RETRIEVE_K = int(os.getenv("RETRIEVE_K_OVERRIDE", str(RETRIEVAL_TOP_K)))
 
 RERANKER = os.getenv("RERANKER", "llm")  # A/B Track A: llm (prod) | voyage (cross-encoder)
