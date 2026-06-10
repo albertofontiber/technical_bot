@@ -50,3 +50,25 @@ exige el eval ampliado con diversidad estratificada; con los 22 actuales no hay 
   débil-por-diseño confirmado con población diversa (no solo con el smoke homogéneo de s48).
 - **Pre-requisito de implementación (si shipea):** el retriever debe devolver `context` en TODAS
   las ramas — hoy solo la rama vector (RPC); keyword/content lo omiten en su SELECT (deuda s48).
+
+## Criterio de confirmación HELD-OUT (pre-registrado s57, ANTES de conocer ningún delta)
+
+> Añadido al poblar el held-out (s57, gate del dúo: el "confirmado una vez en held-out" de
+> arriba no definía qué cuenta como confirmar → con corrida ÚNICA y n~11, dejarlo abierto =
+> interpretación post-hoc en el único punto sin re-tiro). **Alcance**: aplica al lever de
+> generación que el gate s58 señale (este A/B o el 2×2 modelo×blurb del PLAN s59) — el
+> criterio es agnóstico al brazo ganador.
+
+- **Cuándo**: UNA sola corrida (`INCLUDE_HELDOUT=1`), solo si el lever PASÓ en dev, bajo el
+  freeze-contract completo (mismo corpus+índice+embeddings+juez K-mayoría+seeds+config que el
+  A/B dev; run-manifest persistido). Nada del held-out se mira antes; nada se re-corre después.
+- **CONFIRMA** si: (1) el Δ GLOBAL held-out (brazo ganador vs baseline, mismos 2 ejes) tiene el
+  MISMO SIGNO que el Δ dev, Y (2) sin invención nueva: 0 fabricaciones K-estables atribuibles
+  al lever (eje no-fabricación; los casos juez-inestables se excluyen, como en dev).
+- **NO-CONFIRMA** (el lever NO shipea aunque dev pase) si: Δ global de signo contrario, O ≥1
+  fabricación nueva K-estable en el brazo del lever.
+- **Zona gris** (Δ held-out ≈ 0 con dev positivo, sin fabricación): decisión de Alberto con los
+  datos en la mesa; si shipea, se declara "confirmación DÉBIL" en DECISIONS (no se re-corre).
+- **Estratos**: solo DIRECCIONALES (n≤3 por estrato en held-out) — se REPORTAN, no gatean.
+- Los golds held-out de conducta-ausencia (admit/refuse) alimentan el eje (2) — son el
+  guardarraíl de invención, no cuentan en el conteo per-estrato.

@@ -4358,3 +4358,241 @@
         4 chunks MAD-472; V1 (source_file ''...GB FR GB IT'') trae ''<15mA @ 80dB(A)'' en ES+EN, V2 (''..._V2'')
         trae ''17 mA (80 dB A)'' en ES+EN -> el CONFLICTO ESTÁ VIVO en el índice (ambas revisiones coexisten
         sin metadata de revisión) -> el gold MUERDE (el RAG puede servir el <15 mA obsoleto).'
+- qid: ho004
+  question: ¿Cómo se alinea el detector de barrera FD2705R (reflector)?
+  conducta_esperada: answer
+  split: held-out
+  estrato:
+  - es-en
+  gold_answer: |-
+    La alineación se hace con el conmutador de modo (Mode Switch) trasero, accesible deslizando un dedo entre el cuerpo y la pared (NO desmontar el detector de la pared), en dos fases:
+
+    1) PRISM TARGETING MODE (conmutador en posición SUPERIOR): ajustar las ruletas horizontal y vertical hasta que el LED ámbar quede encendido CONTINUO (parpadea más rápido cuanto más cerca del prisma). Verificación imprescindible: cubrir el prisma con material no reflectante y confirmar que el ámbar se APAGA (si no, está reflejando otra superficie).
+
+    2) ALIGNMENT MODE (posición MEDIA): el detector auto-ajusta la potencia IR y la sensibilidad del receptor (al entrar, ámbar 5 s; esperar hasta 30 s a que los LEDs paren). Rojo parpadeante = demasiada señal: parar y esperar hasta que se apague (hasta 20 s; a menor distancia, más espera); ámbar parpadeante = señal débil: invertir el sentido de la ruleta; ámbar continuo = sin señal: volver a Prism Targeting. Ajustar despacio una ruleta y luego la otra hasta que ningún LED parpadee. Óptimo: desviar el haz en los cuatro planos debe hacer parpadear PRIMERO el ámbar. Bloquear ambas ruletas con las tuercas de fijación.
+
+    3) Pasar a OPERATING MODE (posición INFERIOR): el detector hace una calibración interna de hasta 60 s (ámbar 1 parpadeo/s) — NO bloquear el haz durante la calibración; si falla, indica avería y hay que repetir la alineación. El procedimiento detallado solo está en el user guide en inglés; el datasheet ES no lo describe.
+  atomic_facts:
+  - texto: Prism Targeting Mode se selecciona con el Mode Switch trasero en la posición SUPERIOR (upper),
+      sin desmontar el detector de la pared
+    tipo: core
+    estado: presente
+    valor: posición superior (upper position)
+    cita: guide EN p5
+  - texto: En Prism Targeting se ajustan las ruletas (thumbwheels) horizontal y vertical hasta que el
+      LED ámbar queda encendido CONTINUO; el parpadeo se acelera al acercarse al prisma
+    tipo: core
+    estado: presente
+    valor: LED ámbar continuo (continuously ON)
+    cita: guide EN p5
+  - texto: 'Verificación del blanco: cubrir el prisma con material NO reflectante y confirmar que el LED
+      ámbar se APAGA (descarta que refleje otra superficie)'
+    tipo: core
+    estado: presente
+    valor: material no reflectante / ámbar OFF
+    cita: guide EN p5
+  - texto: Alignment Mode se selecciona con el Mode Switch en la posición MEDIA (middle); el detector
+      auto-ajusta la potencia del haz IR y la sensibilidad del receptor
+    tipo: core
+    estado: presente
+    valor: posición media (middle position)
+    cita: guide EN p5
+  - texto: 'En Alignment Mode, ROJO parpadeante = demasiada señal: esperar a que el LED se apague, hasta
+      20 segundos (cuanto MENOR la distancia detector-prisma, MAYOR la espera); ámbar continuo = sin señal:
+      volver a Prism Targeting'
+    tipo: core
+    estado: presente
+    valor: hasta 20 segundos (up to 20 seconds)
+    cita: guide EN p5
+  - texto: 'Ajuste fino por ruleta: girar despacio; si parpadea ÁMBAR, invertir el sentido; si parpadea
+      ROJO, parar y esperar a que pare; si ninguno parpadea, parar de girar; repetir con la otra ruleta'
+    tipo: core
+    estado: presente
+    valor: ámbar=invertir, rojo=esperar, ninguno=parar
+    cita: guide EN p6 (flow diagram)
+  - texto: 'Alineación óptima: la deflexión del haz en los CUATRO planos debe hacer parpadear PRIMERO
+      el LED ámbar; después bloquear las ruletas por ambos lados con las tuercas de fijación (securing
+      nuts)'
+    tipo: core
+    estado: presente
+    valor: cuatro planos / tuercas de fijación
+    cita: guide EN p6
+  - texto: Operating Mode = Mode Switch en posición INFERIOR (lower); al salir de alineación hay una calibración
+      interna de hasta 60 segundos (ámbar 1 parpadeo/s) durante la cual NO se debe bloquear el haz; si
+      falla, condición de avería y repetir la alineación
+    tipo: core
+    estado: presente
+    valor: hasta 60 segundos (sixty seconds) sin bloquear el haz
+    cita: guide EN p7
+  - texto: Al alimentar el detector, tras 5 segundos el LED rojo parpadea 1 vez si es el modelo de 50
+      m (FD2705R) o 2 veces si es de 100 m (FD2710R)
+    tipo: supplementary
+    estado: presente
+    valor: 1 parpadeo = 50 m
+    cita: guide EN p5
+  - texto: 'Espera inicial al entrar en Alignment Mode: el ámbar se ilumina 5 segundos y hay que esperar
+      hasta 30 segundos a que ambos LEDs dejen de parpadear'
+    tipo: supplementary
+    estado: presente
+    valor: hasta 30 segundos (up to 30 seconds)
+    cita: guide EN p6
+  - texto: 'Durante el proceso el panel ve el valor analógico del detector: 2 = Prism Targeting Mode,
+      3 = Alignment Mode, 4 = error de alineación'
+    tipo: supplementary
+    estado: presente
+    valor: valores analógicos 2/3/4
+    cita: addendum EN/DE p1
+  citations:
+  - pdf: Manuales_Aritech/22318.18.08_-_aritech_ra_-_fd2705-10r_english_std_reflective_user_guide_-_en.pdf
+    page: 5
+    quote: Select Prism Targeting Mode by moving the Mode Switch to the upper position.
+  - pdf: Manuales_Aritech/22318.18.08_-_aritech_ra_-_fd2705-10r_english_std_reflective_user_guide_-_en.pdf
+    page: 5
+    quote: Cover the prism with a non-reflective material and confirm that the AMBER LED turns OFF.
+  - pdf: Manuales_Aritech/22318.18.08_-_aritech_ra_-_fd2705-10r_english_std_reflective_user_guide_-_en.pdf
+    page: 6
+    quote: For optimum alignment, deflection of the beam in all four planes should cause the Amber LED
+      to flash first
+  - pdf: Manuales_Aritech/22318.18.08_-_aritech_ra_-_fd2705-10r_english_std_reflective_user_guide_-_en.pdf
+    page: 7
+    quote: Do not block the beam whilst this internal calibration takes place.
+  notes: 'HELD-OUT (embargo): autorado s57, jamás corrido contra el bot. es-en: el procedimiento de alineación
+    SOLO existe en el user guide EN (pp5-7); el datasheet ES menciona la alineación sin procedimiento.
+    El addendum EN/DE complementa (valores analógicos, EN54-12 ferrita) sin modificar los pasos. El guide
+    cubre FD2705R (50 m) y FD2710R (100 m).'
+  confidence: alta
+  pdfs_used:
+  - Manuales_Aritech/22318.18.08_-_aritech_ra_-_fd2705-10r_english_std_reflective_user_guide_-_en.pdf
+  - Manuales_Aritech/fd2705r-62536-es.pdf
+  - Manuales_Aritech/0044-055-02_-_aritech_ra_-_fd2705-10r_addendum_-_en_de.pdf
+  _provenance:
+    estado: verificado
+    metodo: 'localización exhaustiva (manifiesto reingest: 4 docs FD27xx en disco, ES+EN) + render pp4-8
+      @200dpi (±1 vecinas: p4 wiring, p8 servicing/tech-data, sin off-by-one) + doble-señal AND: lectura
+      Claude del render + co-gen independiente GPT-5.5 (cross_generate, 0 desacuerdos en valores) + match
+      determinista 14/14 anchors (upper/middle/lower position, non-reflective material, 20/30/sixty seconds,
+      four planes, securing nuts...) en texto extraído'
+    verificado_por: Claude (Fable 5) + GPT-5.5 (cross_generate s57)
+    localizacion:
+      manuales_buscados:
+      - Manuales_Aritech/22318.18.08_-_aritech_ra_-_fd2705-10r_english_std_reflective_user_guide_-_en.pdf
+      - Manuales_Aritech/fd2705r-62536-es.pdf
+      - Manuales_Aritech/0044-055-02_-_aritech_ra_-_fd2705-10r_addendum_-_en_de.pdf
+      - 'Manuales_Aritech/fd2710r-62536-es.pdf (hermano 100 m, descartado: producto distinto)'
+      idiomas: ES + EN
+      resultado: procedimiento completo SOLO en user guide EN pp5-7 (digital-native, texto limpio); datasheet
+        ES sin procedimiento; addendum EN/DE = complementos (analog values, direccionamiento, EN54-12),
+        no modifica pasos
+    corpus_chunks_v2: 'POST-HOC (no criterio): guide EN ingestado (9 chunks pp1-8, product_model=FD2705R),
+      datasheet ES (2), addendum (2) — cobertura existe; SQL existence directo, no ranker'
+    embargo: 'split=held-out s57: sin smoke del bot, sin debug de retrieval con la pregunta'
+- qid: ho003
+  question: ¿El detector KE-DP3020W vale para la central 2X-A? La instalación exige EN 54-13
+  conducta_esperada: answer
+  split: held-out
+  estrato:
+  - es-en
+  gold_answer: |-
+    Sí, es compatible y apto para EN 54-13, con una condición de firmware:
+
+    1) El KE-DP3020W (detector óptico dual direccionable, serie Excellence) figura en la lista oficial de compatibilidad de la central 2X-A (BCN-3100035-EN REV 006).
+
+    2) En esa lista el KE-DP3020W NO lleva asterisco. El propio documento define que los modelos marcados con asterisco (*) NO son aptos para instalaciones que exijan cumplimiento EN 54-13 — por tanto este modelo es válido también con requisito EN 54-13 (ojo: otros modelos de la misma gama sí llevan asterisco, no generalizar a toda la serie).
+
+    3) Condición: los detectores Excellence requieren que la central 2X-A tenga firmware versión 5.0 o posterior (hoja de instalación, también en español).
+
+    Advertencias del propio fabricante: la lista es CERRADA (solo los dispositivos listados están probados y confirmados compatibles; instalar dispositivos fuera de la lista es riesgo del instalador y puede afectar al rendimiento del sistema) y puede cambiar sin previo aviso — confirmar disponibilidad/compatibilidad con el proveedor local. La lista de compatibilidad solo existe en inglés.
+  atomic_facts:
+  - texto: El KE-DP3020W aparece en la lista oficial de compatibilidad de la central 2X-A, en la gama
+      Excellence Series Detectors, descrito como 'Intelligent addressable dual optical detector'
+    tipo: core
+    estado: presente
+    valor: KE-DP3020W en la compatibility list de 2X-A
+    cita: compat list EN p1
+  - texto: En la lista, el KE-DP3020W NO lleva asterisco; el documento define que los modelos marcados
+      con asterisco (*) no son aptos para sistemas que requieran EN 54-13 — por tanto el KE-DP3020W es
+      apto para EN 54-13
+    tipo: core
+    estado: presente
+    valor: sin asterisco = apto EN 54-13
+    cita: compat list EN p1 (def. del asterisco + fila KE-DP3020W)
+  - texto: Los detectores de la serie Excellence son compatibles con las centrales 2X-A con versión de
+      firmware 5.0 o posterior
+    tipo: core
+    estado: presente
+    valor: firmware 5.0 o posterior
+    cita: installation sheet p6 (ES) / p1 (EN)
+  - texto: 'La lista de compatibilidad es cerrada: solo los dispositivos incluidos en la publicación están
+      probados y confirmados compatibles; instalar un dispositivo no incluido es riesgo del instalador
+      y puede afectar al rendimiento del sistema'
+    tipo: core
+    estado: presente
+    valor: solo los listados (WARNING de lista cerrada)
+    cita: compat list EN p1
+  - texto: Los productos compatibles pueden cambiar sin previo aviso; hay que confirmar disponibilidad
+      y compatibilidad con el proveedor local
+    tipo: supplementary
+    estado: presente
+    valor: cambia sin aviso / confirmar con proveedor
+    cita: compat list EN p1
+  - texto: La lista de compatibilidad vigente es BCN-3100035-EN REV 006 (ISS 27MAY26) y solo existe en
+      inglés
+    tipo: supplementary
+    estado: presente
+    valor: BCN-3100035-EN REV 006
+    cita: compat list EN p1 (pie)
+  citations:
+  - pdf: Manuales_Aritech/bcn-3100035-en_r006_2x-a_series_addressable_control_panel_compatibility_list_0.pdf
+    page: 1
+    quote: 'EN 54-13: Models marked with an asterisk (*) are not suitable for installation in fire systems
+      requiring EN 54-13 compliance.'
+  - pdf: Manuales_Aritech/bcn-3100035-en_r006_2x-a_series_addressable_control_panel_compatibility_list_0.pdf
+    page: 1
+    quote: Excellence Series Detectors | KE-DP3020W | Intelligent addressable dual optical detector
+  - pdf: Manuales_Aritech/bcn-3100035-en_r006_2x-a_series_addressable_control_panel_compatibility_list_0.pdf
+    page: 1
+    quote: 'WARNING: Only those devices included in this publication are tested and confirmed compatible
+      for use with your 2X-A Series fire alarm control panel.'
+  - pdf: Manuales_Kidde/3102984-ml_r003_excellence_series_intelligent_addressable_dual_optical_detector_installation_sheet.pdf
+    page: 6
+    quote: Todos los detectores de la serie Excellence admiten el protocolo Kidde Excellence y son compatibles
+      para su uso con centrales de alarma contra incendios de la serie 2X-A con versión de firmware 5.0
+      o posterior.
+  notes: 'HELD-OUT (embargo): autorado s57, jamás corrido contra el bot. es-en MATIZADO por la localización:
+    la compatibilidad DE SERIE Excellence-2X-A + condición de firmware 5.0 SÍ están en ES (installation
+    sheet ML p6); lo que SOLO está en EN: la confirmación del MODELO concreto en la lista cerrada oficial,
+    la def. del asterisco EN 54-13 y el WARNING de lista cerrada (compat list BCN-3100035-EN). Modelos
+    hermanos CON asterisco existen (p4/p5) — el no-asterisco del KE-DP3020W se verificó al píxel.'
+  confidence: alta
+  pdfs_used:
+  - Manuales_Aritech/bcn-3100035-en_r006_2x-a_series_addressable_control_panel_compatibility_list_0.pdf
+  - Manuales_Kidde/3102984-ml_r003_excellence_series_intelligent_addressable_dual_optical_detector_installation_sheet.pdf
+  - Manuales_Kidde/ke-dp3020w-161721-es.pdf
+  _provenance:
+    estado: verificado
+    metodo: 'localización exhaustiva ES+EN (compat list EN 10pp; compat list 900-series bcn-3100036 descartada:
+      no aplica a Excellence; datasheet KE-DP3020W ES; installation sheet ML 22pp con bloque ES p6; manual
+      instalación 2X-A ES p4) + render compat list pp1-5 @200dpi (no-asterisco del KE-DP3020W verificado
+      al píxel en p1; asteriscos reales visibles en p4/p5 confirman que el render los distingue) + doble-señal
+      AND: lectura Claude del render + cross-model GPT-5.5 dirigido explícitamente al asterisco (restricción
+      de dominio, lección 7-seg: confirma ''KE-DP3020W sin *'') + match determinista en texto extraído
+      (fila sin asterisco = coincide con render)'
+    verificado_por: Claude (Fable 5) + GPT-5.5 (cross_generate s57)
+    localizacion:
+      manuales_buscados:
+      - Manuales_Aritech/bcn-3100035-en_r006_2x-a_series_addressable_control_panel_compatibility_list_0.pdf
+      - Manuales_Kidde/3102984-ml_r003_excellence_series_intelligent_addressable_dual_optical_detector_installation_sheet.pdf
+      - Manuales_Kidde/ke-dp3020w-161721-es.pdf
+      - 'Manuales_Aritech/bcn-3100036-en_r002_..._900_series_protocol.pdf (descartada: protocolo 900,
+        no Excellence)'
+      - 'Manuales_Aritech/00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf (p4: alcance
+        firmware 5.5 del doc, sin lista de detectores)'
+      idiomas: ES + EN
+      resultado: modelo-en-lista + def. asterisco EN 54-13 + WARNING lista-cerrada SOLO en EN (compat
+        list p1, digital-native); compatibilidad de serie + firmware>=5.0 también en ES (sheet p6); render
+        ±1 de compat p1 = p2 (I/O modules, sin off-by-one); el dato ES del sheet triple-confirmado (extracción
+        p6 + imagen p6 cross-model + mismo claim EN p1)
+    corpus_chunks_v2: 'POST-HOC (no criterio): compat list ingestada (11 chunks pp1-10; product_model=''2X-A
+      Táctil'' vía sidecar Kidde — nota: la lista sirve a toda la serie 2X-A), installation sheet (22
+      chunks, KE-DP3020W), datasheet ES (4 chunks) — cobertura existe; SQL existence directo, no ranker'
+    embargo: 'split=held-out s57: sin smoke del bot, sin debug de retrieval con la pregunta'

@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 10 jun 2026 (s56, DEC-036).
+> 10 jun 2026 (s57, DEC-037).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -22,7 +22,7 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s56 — 10 jun 2026)
+## Estado actual (s57 — 10 jun 2026)
 
 **Sistema (prod, Railway auto-deploy desde `main`; SWAP de corpus por `CHUNKS_TABLE`):**
 bot Telegram (polling) → pre-clasificación → retrieve híbrido wide (vector Voyage-4-large 1024
@@ -31,24 +31,28 @@ bot Telegram (polling) → pre-clasificación → retrieve híbrido wide (vector
 25.090 chunks / 1.012 docs / 31 marcas / 587 modelos** (contextual-retrieval activo al 100%
 — verificado s56; identidad de producto data-driven `config/manufacturers/` + sidecar, DEC-035).
 
-**Eval (el ruler):** **39 golds** (todos `split=dev`; **held-out a 0**), taxonomía de estratos
-**CONGELADA** (DEC-033: AUTORÍA = fallo cognitivo fuente-puro; POST-HOC = causa de extracción),
-juez GPT-5.5 + K-mayoría, embargo en la puerta (`gold_store.verified(include_heldout=False)`),
-PREREG del A/B context→generator reconciliado (`docs/PREREG_ab_context2gen.md`). **La atribución
-del residual (qué parte es generación vs sub-retrieval multi-doc vs suelo del juez) está STALE**:
-predata la ingesta s55 y no existe baseline de los 39 — por eso el gate de s58.
+**Eval (el ruler):** **41 golds = 39 dev + 2 held-out** (`ho003`/`ho004`, los primeros del split
+embargado — s57/DEC-037), taxonomía de estratos **CONGELADA** (DEC-033), juez GPT-5.5 +
+K-mayoría, embargo en la puerta (`gold_store.verified`) **y ya también en los lectores-directos
+de diagnóstico** (`exclude_heldout()`, TECH_DEBT #42 cerrado — el gate s58 no expone el
+held-out). PREREG con **criterio de confirmación held-out PRE-REGISTRADO** (§nueva s57: Δ global
+mismo signo + 0 fabricaciones nuevas; corrida única). **Selección held-out FIRMADA por el dúo**
+(11 efectivos + 2 reservas, `evals/_s57_heldout_selection_proposal.md` v2 local): fuentes frescas
+s55 + puente Detnov; quedan 9 por autorar (s57b). **Atribución del residual sigue STALE** (predata
+la ingesta s55; sin baseline de los 39) — por eso el gate de s58. **DECISIÓN PENDIENTE (Alberto):**
+N del held-out — 11-ampliable (recomendado, no retrasa s58) vs ≥20 (suelo DEC-021 §C) antes del A/B.
 
-**Revisión estructural s56 (DEC-036):** rumbo confirmado — NO overhaul (stack alineado con BP
-2026; re-litigar el rebuild sin señal nueva = rigor mal dirigido, DEC-016 sigue); docs
-consolidados (este PLAN compacto + HISTORY); sub-agente adversarial pin a `model: fable` (el
-cross-model GPT-5.5 pasa a innegociable en ALTO/zona-de-dolor); corpus nuevo **POSPUESTO**
-(decisión de Alberto) hasta cerrar el ciclo A/B.
+**Revisión estructural s56 (DEC-036):** rumbo confirmado — NO overhaul; docs consolidados
+(PLAN compacto + HISTORY); sub-agente adversarial pin `model: fable` (cross-model GPT-5.5
+innegociable en ALTO/zona-de-dolor); corpus nuevo **POSPUESTO** hasta cerrar el ciclo A/B.
 
 ## Qué sigue (orden vigente)
 
-1. **(s57) Poblar el held-out embargado** — autoría por dimensión-de-fallo (`RULER §2`, SERIAL,
-   gate del dúo sobre la selección); fuentes frescas Kidde/Aritech/Edwards disponibles (ningún
-   gold dev las usa). El PREREG exige confirmación held-out → debe existir ANTES de correr el A/B.
+1. **(s57b) Completar la autoría held-out** — SERIAL sobre la selección YA gateada (ho001/002/
+   005-011; re-gate solo si un gold se desvía de lo firmado): oem-relabel (2X-A Kidde→Aritech;
+   ModuLaser Edwards), multi-doc (2X-A+LB; NC), síntesis (2X-A día/noche), CAD-171 (puente),
+   clarify ("2X-AT"), conducta-ausencia (NC en red) y refuse (FD2705R fuera de spec). Reglas:
+   sin smoke del bot; checklist `RULER §2` punto-por-punto; errata solo anclada en fuente.
 2. **(s58) GATE de atribución fresco** — baseline K=5 de los 39 dev sobre el corpus actual (= el
    PASS-control que el PREREG ya exige) + audit per-caso de *context-sufficiency* (¿el dato llegó
    al top-5 entregado al generador?) + instrumentar `stop_reason` en el generador (hoy no se
