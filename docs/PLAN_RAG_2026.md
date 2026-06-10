@@ -49,22 +49,22 @@ cerrar el ciclo; fingerprint en `s58_run_manifest.json`). Artefactos versionados
 
 ## Qué sigue (orden vigente)
 
-1. **(s59, arranque) DOS decisiones de Alberto con la clasificación en la mesa (DEC-039 d/e/f):**
-   - **(i) Branch del lever** — el gate NO lo ordena (PARAR cumplido). Opciones con sus pasos
-     baratos exploratorios (protocolo congelado en DEC-039e; informan, no deciden):
-     **retrieval-dirigido** → paso 1: funnel split {en-pool50-rerank-lo-deja / no-en-pool50 /
-     no-extraído} sobre los 8 retrieval-localizados (corpus congelado, ~1h) ANTES de elegir
-     dirección (A2 está deprioritizada por DEC-018 — no pre-suponer);
-     **generación** → A/B 2×2 pre-registrado {Sonnet 4.6, Opus 4.8} × {blurb OFF, ON} sobre los
-     contexts congelados s58 (el brazo A YA está corrido = el baseline; Batches −50%; brazo Opus
-     sin temp=0, absorbido por K-mayoría; ship/rollback escrito antes de medir) + paso 2:
-     spot-check de los 4 sobre-admisión (top-5 congelado vs fuente).
-   - **(ii) Firma de las cláusulas C1/C2 del PREREG** (DEC-039f, pre-datos): C1 = fórmula del
-     Δ global (ordinal answer-only, K-inestables excluidos); C2 = "0 fabricaciones" lo decide el
-     atomic_scorer sobre generaciones persistidas. Sin firma, el criterio held-out queda con dos
-     lecturas defendibles (los 2 CRÍTICOS del cross-model p2).
+1. **(s59) Lever de retrieval-RECALL — branch FIRMADO por Alberto (s58b, DEC-039g), con los
+   2 pasos baratos YA corridos:** el mecanismo está medido — funnel split de los 8
+   retrieval-localizados: **RECALL=14 hechos fuertes ni-al-pool-50** (rerank 2, extracción 3);
+   spot-check de las 4 sobre-admisiones: 3 = retrieval-honesto, 1 = generación-identidad
+   (hp009, ZXe↔ZXAE/ZXEE). Bulto retrieval ≈11 golds. Secuencia de s59:
+   (a) **dimensionamiento barato del POR QUÉ** los 14 hechos no matchean (léxico vs semántico
+   vs chunking — los hechos están identificados en el funnel YAML) → (b) **diseño del lever
+   con dúo** (NO pre-elegido) → (c) **medición K-mayoría** vs el baseline s58 (contexts
+   congelados; PASS-control fijado 10). **Plan B declarado:** si no hay lever barato → A/B 2×2
+   generación {Sonnet 4.6, Opus 4.8}×{blurb OFF,ON} (su brazo A YA corrido = el baseline;
+   Batches −50%; ship/rollback antes de medir). Paralelo menor (no bloquea): hp009 → fix de
+   identidad de variantes (TECH_DEBT #43); cat020/cat008 (generación pura) quedan al residual
+   post-lever.
 2. **Tras el lever (s59/s60): confirmación held-out** — corrida ÚNICA `INCLUDE_HELDOUT=1` bajo
-   el criterio PRE-REGISTRADO (PREREG §held-out + C1/C2 firmadas).
+   el criterio PRE-REGISTRADO (PREREG §held-out + **cláusulas C1/C2 FIRMADAS s58b**: Δ global
+   ordinal answer-only; fabricaciones vía atomic_scorer sobre generaciones persistidas).
 3. **Después del ciclo:** corpus nuevo (Aritech completo / Kidde resto / Ziton-GST; método en
    `docs/CORPUS_FIRESECURITYPRODUCTS.md`). **Freeze-contract:** ninguna ingesta dentro de la
    ventana baseline→A/B→held-out (la ventana corre DESDE el freeze s58).
