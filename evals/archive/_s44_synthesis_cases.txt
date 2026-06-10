@@ -1,0 +1,74 @@
+=== hp020 | FALLO | esperada=answer bot=answer ===
+DIAG: Acertó en gran parte el procedimiento para cambiar el código de Nivel 2, pero afirmó que no dispone del procedimiento para Nivel 3 cuando la referencia sí lo especifica: con sesión de Nivel 3 se puede cambiar Nivel 2 o Nivel 3 siguiendo el mismo flujo. Además omite reglas de permisos, mensaje de éxito y sincronización/copia de seguridad en CLSS.
+FUENTES: ['4188-1122-ES issue 4_04-2025_Cyb', 'Actualizacion del firmware de INSPIRE a R1.35', 'HOP-138-8ES  issue 6_01-2026_Co', 'HOP-338-9ES issue 4_01-2026_Op']
+RESPUESTA BOT:
+## Configuración de contraseñas Nivel 2 y Nivel 3 — INSPIRE E10/E15
+
+---
+
+### Cambio de contraseña de **Nivel 2**
+
+El procedimiento está documentado en el manual de operación [F1]:
+
+1. Selecciona el **icono del menú ①** y accede a **"Configuración" ②** [F1].
+2. Inicia sesión como usuario de **nivel de acceso 2** [F1].
+3. Selecciona la opción **"Cambio de contraseña" ③** [F1].
+4. Asegúrate de que **"Acceso Nivel 2" ④** esté seleccionado y que el cursor parpadea **⑤** [F1].
+5. Opcionalmente, pulsa el **icono del ojo ⑥** para visualizar la entrada del código [F1].
+6. Introduce el nuevo código de acceso con el teclado numérico **⑦** — mínimo **4 dígitos**, máximo **8 dígitos** [F1].
+7. Confirma pulsando el símbolo **✓ ⑧** [F1].
+8. Repite los pasos 3 a 6 para confirmar el código introducido [F1].
+
+---
+
+### Contraseña de **Nivel 3**
+
+Los fragmentos disponibles no incluyen un procedimiento específico de cambio de contraseña de Nivel 3. Lo que sí se menciona es que el **código de acceso Nivel 3** se utiliza para iniciar sesión en el **Modo Servicio** desde la central [F2].
+
+> El manual no especifica el procedimiento de configuración o cambio de la contraseña de Nivel 3 en los fragmentos recuperados. Consulta el manual completo de puesta en marcha o contacta con el soporte técnico de Notifier.
+
+---
+
+### Buenas prácticas de seguridad para contraseñas [F3]
+
+- Garantiza la seguridad física
+
+=== hp001 | PARCIAL | esperada=answer bot=answer ===
+DIAG: Acierta en que se accede desde la pantalla de reposo pulsando el candado y pasando por la pantalla de acceso, pero da como clave por defecto la de usuario 1111 en lugar de la de administrador 2222, que es la necesaria para programación avanzada completa. Además desplaza la respuesta a la ruta Ajustes → Avanzado, que no sustituye el acceso inicial al nivel administrador descrito en la referencia.
+FUENTES: ['CAD-250-MC-380-es', 'CAD-250-MS-416-es', 'Manual usuario CAD-250 (MU 376 es 2024 f)']
+RESPUESTA BOT:
+## Acceso al menú de Programación Avanzada — CAD-250
+
+La ruta de acceso al menú **AVANZADO** es la siguiente:
+
+**Paso 1 — Acceder al sistema**
+
+Desde la **PANTALLA DE REPOSO**, pulsa el icono del candado (🔒) [F3]. Esto abre la **PANTALLA DE ACCESO**, donde deberás introducir tu código de seguridad [F3].
+
+> La clave de usuario por defecto es **1111** [F3].
+
+**Paso 2 — Navegar al menú AVANZADO**
+
+Una vez dentro, sigue esta ruta [F1]:
+
+**AJUSTES** (Menú principal) **→ AVANZADO** (Submenú)
+
+**Paso 3 — Pestañas disponibles en AVANZADO**
+
+Dentro del submenú AVANZADO dispones de 3 pestañas [F1]:
+
+- **SISTEMA** — Configuración de número de cabinas (PANELES: 1 a 4), número de lazos y cabina de LEDs de zona [F1]
+- **OTROS** — Interruptores para facilitar tareas de puesta en marcha y mantenimiento (p. ej. Tiempo de inactividad) [F1]
+- **REINICIAR** [F1]
+
+> ⚠️ Para validar cambios en la pestaña SISTEMA debes pulsar el botón **"Guardar y reiniciar"** [F1].
+
+**Nota:** El acceso a AVANZADO forma parte del **Nivel de Configuración (Nivel 2)**, que permite ajustar todos los parámetros de la central [F2]. La ruta completa en el árbol de menús es: **AJUSTES → AVANZADO** [F2].
+
+---
+
+Fuente: CAD-250-MC-380-es (sin revisión registrada); Manual usuario CAD-250 — MU 376 es 2024 f (sin revisión registrada)
+
+---
+
+También puedo ayudarte con: **configuración del número de lazos en AVANZADO > SISTEMA**, **

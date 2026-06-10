@@ -1,0 +1,15 @@
+--- gpt-5.5 (revisor adversarial cross-model) ---
+[severidad: crítico] [confianza: alto] [ancla: `_s44_burial_dimensioned.yaml`: `n_retrieval_facts: 12` + facts repetidos por `qid` / propuesta: “bulto = 8 FALLO confirmados”] — El valor de A2 está estimado por **hecho**, no por **pregunta fallida**. Varias preguntas tienen burial + recall-miss; si A2 rescata el burial pero queda un recall-miss, la pregunta sigue fallando. Ej.: hp005, hp009, hp011 combinan facts recuperables con facts no recuperables. El claim “6 BURIAL / 6 RECALL-MISS — ~50/50” no basta para priorizar A2 sin modelar salvage por qid/end-to-end.
+
+[severidad: crítico] [confianza: alto] [ancla: propuesta C2: “¿re-estampar sim real sobre el pool actual alcanza los 4 hechos en rango 16-50…?” + YAML `tally_tgt_solo_manual_objetivo: burial_top15: 2, burial_marg: 4`] — La propuesta todavía no garantiza que A2 alcance los 4 burial marginales. Si el pool real que llega a `merged` no contiene esos chunks, re-estampar solo reordena candidatos ya presentes. Comprometer build antes de demostrar cobertura del pool repetiría el fallo de decidir sobre proxy parcial.
+
+[severidad: medio] [confianza: alto] [ancla: propuesta C1: “El script tiene un modo `--restamp`… ¿Debe correrse… ANTES…?” / secuencia: “1 re-baseline… 2 build A2”] — La secuencia omite el experimento barato que la propia propuesta identifica como decisivo. Si `--restamp` simula A2 sobre el funnel sin construir, debería ir antes del build; no hacerlo viola measure-first y aumenta riesgo de quick-fix instrumentado.
+
+[severidad: medio] [confianza: medio] [ancla: propuesta: “Mecanismo de burial — VERIFICADO en código” + “p.ej. hp019…”] — El mecanismo estructural es plausible, pero el framing “VERIFICADO” sobre casos como hp019 sobre-afirma causalidad: el dato dado prueba vector-rank alto y constantes incompatibles, no una traza de producción demostrando que exactamente esas constantes expulsaron el chunk de `merged[:15]` y que el reranker/generación habrían contestado bien.
+
+[severidad: medio] [confianza: alto] [ancla: propuesta: `retriever.py:429` “0.82/0.85… surfacear has_diagram/wiring” + secuencia “A/B K-mayoría, vara = NO-regresión”] — La no-regresión genérica en K-mayoría no protege necesariamente la guarda load-bearing de diagramas/wiring, justo un patrón de fallo del dominio. Reemplazar boosts por coseno real exige un set/gate específico de diagram-only/scans/wiring; si no, A2 puede mejorar texto y reintroducir omisiones visuales.
+
+[severidad: medio] [confianza: medio] [ancla: YAML hp006: laxo `BURIAL-fuerte` en otros manuales pero tgt `RECALL-MISS`; propuesta C5 “TGT… la defendible”] — TGT-only puede ser honesto, pero no está probado contra OEM relabeling/multi-doc. hp006 muestra hits semánticos en manuales no-target que desaparecen bajo TGT. Sin arbitraje de equivalencia documental, el denominador puede convertir recuperaciones válidas en recall-miss o viceversa, afectando prioridad de A2.
+
+[tally] entrada parcial → evals\adversarial_review_log.jsonl (ts=2026-06-04T17:36:08).
+[tally] COMPLETA tras verificar (regla C): findings/confirmed/false_pos/severity_max.

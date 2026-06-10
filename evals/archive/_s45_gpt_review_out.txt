@@ -1,0 +1,17 @@
+--- gpt-5.5 (revisor adversarial cross-model) ---
+[severidad: medio] [confianza: alto] [ancla: "s44 shipped retrieve-wide... FALLO ~6→1 medido K=3" / "FALLO=0 funcional"] — incoherencia load-bearing: el framing usa “FALLO cerrado / 0 funcional” para abrir la puerta a F2, pero el propio estado dice ~1 FALLO medido. Si ese 1 es material, F1 no está cerrada; si no lo es, falta declarar por qué se degrada a no-bloqueante.
+
+[severidad: medio] [confianza: alto] [ancla: "Residual de F1 = los 14 PARCIAL... + hp006 (recall-miss de corpus)" / "Triage de los 14 PARCIAL"] — hp006 queda declarado como residual F1 pero fuera del plan operativo principal. Un recall-miss de corpus no se arregla con síntesis ni con matcher-prosa; tratarlo como “fleco/ruido” puede repetir el patrón de atacar el síntoma equivocado.
+
+[severidad: medio] [confianza: alto] [ancla: "triage... CON `--prose-llm`" / "gold-demasiado-estricto"] — riesgo de circularidad/evaluador blando: usar `--prose-llm` para “disolver” PARCIAL en PASS puede ser legítimo, pero solo si la adjudicación se ancla en fuente/documento o árbitro independiente. Tal como está formulado, el gate puede convertirse en recalibrar el instrumento hasta que el residual desaparezca.
+
+[severidad: medio] [confianza: medio] [ancla: "cap-rerank-~30 (latencia + mitiga la regresión hp013)"] — capar rerank a ~30 puede deshacer parcialmente el beneficio estructural de retrieve-wide 50, justo en casos multi-doc donde la evidencia relevante puede estar dispersa. Falta exigir no-regresión sobre los casos que s44 recuperó gracias al ancho, no solo sobre hp013/latencia.
+
+[severidad: medio] [confianza: medio] [ancla: "Lever de COMPLETITUD-SÍNTESIS si el triage lo confirma" / "A/B K-mayoría DOS EJES"] — el lever sigue demasiado abstracto para el contrato “estructural, raíz”: no define si será prompt, packing, evidence planning, citas obligatorias, fusión cross-doc, o verificación post-generación. Dado el historial DEC-001 net-negativo, “A/B dos ejes” evita parte del daño, pero no garantiza que no sea otro parche de generación.
+
+[severidad: menor] [confianza: alto] [ancla: "Track B... = INTERLEAVE... no pivote"] — correcto no pivotar a breadth, pero falta precisar el mínimo anti-regresión. Si se interleavea sin umbral claro, puede quedar como gesto ritual y no proteger escalabilidad 30+ fabricantes / ES-EN.
+
+[severidad: menor] [confianza: medio] [ancla: "confirmar HyDE-off... #32:1250 lo midió no-ayuda en s29"] — bien planteado como “confirmar”, pero cuidado con el framing: una medición s29 puede no transferir tras retrieve-wide/cap-rerank. No debería cerrarse por memoria histórica sin repetir en el path actual.
+
+[tally] entrada parcial → evals\adversarial_review_log.jsonl (ts=2026-06-05T13:02:37).
+[tally] COMPLETA tras verificar (regla C): findings/confirmed/false_pos/severity_max.

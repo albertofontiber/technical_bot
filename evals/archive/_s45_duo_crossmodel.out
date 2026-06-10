@@ -1,0 +1,23 @@
+--- gpt-5.5 (revisor adversarial cross-model) ---
+[severidad: crítico] [confianza: alto] [ancla: "prior fuerte = L1" / "la causa real ... NO está aislada por mecanismo"] — La recomendación pre-decide el lever antes del diagnóstico que declara necesario; eso viola measure-first y puede repetir overfit encubierto: si todavía no se sabe dentro/fuera de contexto, priorizar `RERANK_TOP_K` es apostar por una causa no aislada.
+
+[severidad: crítico] [confianza: alto] [ancla: "Residual ESTABLE ... medido en 8 corridas" / "el residual se define por el SET estable"] — Se sobre-afirma estabilidad: 8 corridas y K-mayoría estabilizan veredictos, pero no prueban que el set de PARCIAL sea exhaustivo ni que el juez no tenga sesgo sistemático. Riesgo Claude típico: convertir una medición operacional en “residual canónico”.
+
+[severidad: crítico] [confianza: medio] [ancla: "sobre los ~14 PARCIAL estables" / "per-hecho, anclado en FUENTE"] — El diagnóstico puede caer en circularidad si los “hechos omitidos” salen del gold/juez y luego se buscan en fuente/contexto. Aunque se ancle en fuente, falta explicitar quién define las facetas materiales sin contaminarse con el eval; si no, se optimiza contra el benchmark.
+
+[severidad: medio] [confianza: alto] [ancla: "L1 ... bajo overfit" / "RERANK_TOP_K 5→8/10 y/o bajar RELEVANCE_THRESHOLD"] — L1 no es automáticamente bajo-overfit: subir top-k/bajar threshold es un hiperparámetro evaluable contra el mismo set, susceptible de elegir el punto que maximiza ese eval. La propuesta prohíbe barrer 5..10, pero no define criterio pre-registrado para escoger 8 vs 10 vs threshold.
+
+[severidad: medio] [confianza: alto] [ancla: "completitud↑ SIN invención↑" / "DOS EJES"] — El eje “invención↑” está subespecificado: no hay métrica, árbitro ni umbral de regresión. DEC-001 no se evita con intención; hace falta contrato de aceptación explícito para falsos positivos, conflictos y respuestas parcialmente no soportadas.
+
+[severidad: medio] [confianza: medio] [ancla: "Escala a 30+ fabricantes / ES-EN?" / CONCEPTUAL] — La propuesta pregunta por escalabilidad pero no la incorpora al diseño del experimento: top-k más ancho puede funcionar en el set actual y degradar con más fabricantes, OEM relabeling, documentos multi-doc, ES/EN y conflictos España-vs-US. Falta validación estratificada por esos ejes.
+
+[severidad: medio] [confianza: medio] [ancla: "L4 — Recall término-exacto ... Impacto más estrecho (1 caso conocido)"] — Posible infravaloración de L4: “Tierra” como aislamiento a masa apunta a vocabulary mismatch ES técnico, no necesariamente a un único caso. Descartarlo como estrecho puede repetir el patrón de tratar una señal estructural como anécdota.
+
+[severidad: medio] [confianza: alto] [ancla: "retrieve-wide ... cerró los FALLO peligrosos" ] — “Cerró” es framing demasiado fuerte: con generación/juez no deterministas y conteo FALLO 1–4 por tirada, lo correcto es “no aparecen establemente” o “reducidos bajo K-mayoría”. La afirmación excede la evidencia descrita.
+
+[severidad: menor] [confianza: medio] [ancla: "F1-quality-lever AHORA, o declarar F1 suficiente... pasar a F2"] — La propuesta no define el criterio de parada entre F1 y F2. Sin usuarios y con M&A, seguir optimizando PARCIAL puede ser perfeccionismo-de-instrumento si la ruta crítica real es quitar hardcoding por fabricante.
+
+[severidad: menor] [confianza: medio] [ancla: "L3 — Rerank consciente de COBERTURA... Más build"] — L3 está bien identificado como más build, pero falta freno explícito: sin evidencia de facetas perdidas por rerank, construir coverage-rerank puede ser sobre-ingeniería frente a cambios de packing/contexto más simples.
+
+[tally] entrada parcial → evals\adversarial_review_log.jsonl (ts=2026-06-05T19:36:14).
+[tally] COMPLETA tras verificar (regla C): findings/confirmed/false_pos/severity_max.

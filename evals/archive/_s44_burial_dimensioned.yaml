@@ -1,0 +1,326 @@
+config: chunks_v2 | HyDE-off | vector puro top-50 coseno real
+n_retrieval_facts: 12
+n_retrieval_fuertes: 4
+tally_laxo_cualquier_manual:
+  burial: 7
+  burial_F: 3
+  burial_top15: 6
+  burial_marg: 1
+  recall: 5
+  recall_F: 1
+tally_tgt_solo_manual_objetivo:
+  burial: 6
+  burial_F: 3
+  burial_top15: 2
+  burial_marg: 4
+  recall: 6
+  recall_F: 1
+facts:
+- qid: hp005
+  valor: misma zona o subzona
+  probe: ~misma zona o subzona
+  strength: debil
+  in_vec_top15: false
+  in_vec_top50: true
+  best_vec_rank: 21
+  vec_hits:
+  - &id001
+    - 21
+    - MCDT191
+    - 0.6167
+    - 8927b35d-10b4-4ddf-bc9f-cd47dc3aa669
+  - &id002
+    - 30
+    - MCDT191
+    - 0.6091
+    - e17b6d55-f7f5-437a-8237-6dbf35ef1a3a
+  - &id003
+    - 34
+    - MPDT190
+    - 0.6084
+    - aee3add6-bc50-4a2d-a5eb-c753112bb699
+  verdict: BURIAL-marginal
+  in_vec_top15_tgt: false
+  in_vec_top50_tgt: true
+  best_vec_rank_tgt: 21
+  vec_hits_tgt:
+  - *id001
+  - *id002
+  - *id003
+  verdict_tgt: BURIAL-marginal
+  targets: &id004
+  - MPDT190
+  - MCDT191
+- qid: hp005
+  valor: CIRCUITO SIRENA
+  probe: ~CIRCUITO SIRENA
+  strength: debil
+  in_vec_top15: false
+  in_vec_top50: false
+  best_vec_rank: null
+  vec_hits: []
+  verdict: RECALL-MISS
+  in_vec_top15_tgt: false
+  in_vec_top50_tgt: false
+  best_vec_rank_tgt: null
+  vec_hits_tgt: []
+  verdict_tgt: RECALL-MISS
+  targets: *id004
+- qid: hp006
+  valor: Fallo de Tierra
+  probe: ~Fallo de Tierra
+  strength: debil
+  in_vec_top15: true
+  in_vec_top50: true
+  best_vec_rank: 0
+  vec_hits:
+  - - 0
+    - MIE-MP-530rv001
+    - 0.6238
+    - 41ff430e-1a51-4618-9e52-4e084f925756
+  - - 2
+    - MADT285
+    - 0.6065
+    - 0546c940-7da4-4365-9f01-24cae5a68561
+  - - 3
+    - MADT155_01
+    - 0.6061
+    - 510bc0d7-1c06-4b2a-8038-994c9657ca50
+  verdict: BURIAL-fuerte
+  in_vec_top15_tgt: false
+  in_vec_top50_tgt: false
+  best_vec_rank_tgt: null
+  vec_hits_tgt: []
+  verdict_tgt: RECALL-MISS
+  targets: &id005
+  - MIDT170
+  - 50253SP
+  - MADT380_01
+- qid: hp006
+  valor: ISO-X
+  probe: ~ISO-X
+  strength: debil
+  in_vec_top15: false
+  in_vec_top50: false
+  best_vec_rank: null
+  vec_hits: []
+  verdict: RECALL-MISS
+  in_vec_top15_tgt: false
+  in_vec_top50_tgt: false
+  best_vec_rank_tgt: null
+  vec_hits_tgt: []
+  verdict_tgt: RECALL-MISS
+  targets: *id005
+- qid: hp008
+  valor: CPX-551E
+  probe:
+  - '-551'
+  - cpx-551e
+  strength: fuerte
+  in_vec_top15: true
+  in_vec_top50: true
+  best_vec_rank: 2
+  vec_hits:
+  - - 2
+    - MIDT156
+    - 0.669
+    - 49df31eb-626a-4025-9f49-f9706fc7e3d2
+  - - 3
+    - MIDT260
+    - 0.6634
+    - 3b4840ef-78a2-487f-9fd0-012b5160aaa0
+  - - 5
+    - MIDT250_A
+    - 0.6509
+    - e8f3a7c5-459b-415b-bdd3-c899482c006d
+  verdict: BURIAL-fuerte
+  in_vec_top15_tgt: false
+  in_vec_top50_tgt: true
+  best_vec_rank_tgt: 21
+  vec_hits_tgt:
+  - - 21
+    - MIDT190
+    - 0.619
+    - 11d96526-d627-4305-8cae-e6852af1b20b
+  verdict_tgt: BURIAL-marginal
+  targets: &id007
+  - MIDT190
+  - MCDT191
+- qid: hp008
+  valor: IRX-751CTEM
+  probe:
+  - '-751'
+  - irx-751ctem
+  strength: fuerte
+  in_vec_top15: true
+  in_vec_top50: true
+  best_vec_rank: 2
+  vec_hits:
+  - - 2
+    - MIDT156
+    - 0.669
+    - 49df31eb-626a-4025-9f49-f9706fc7e3d2
+  - &id006
+    - 21
+    - MIDT190
+    - 0.619
+    - 11d96526-d627-4305-8cae-e6852af1b20b
+  - - 24
+    - 997-669-005-3_Instal-Comm_ES
+    - 0.615
+    - 9b6df0a0-df8c-4181-95f2-f5497ce651ef
+  verdict: BURIAL-fuerte
+  in_vec_top15_tgt: false
+  in_vec_top50_tgt: true
+  best_vec_rank_tgt: 21
+  vec_hits_tgt:
+  - *id006
+  verdict_tgt: BURIAL-marginal
+  targets: *id007
+- qid: hp009
+  valor: Retorno
+  probe: ~Retorno
+  strength: debil
+  in_vec_top15: true
+  in_vec_top50: true
+  best_vec_rank: 7
+  vec_hits:
+  - - 7
+    - MIE-MP-210
+    - 0.5895
+    - 45875040-1be9-4dba-b84d-7d024efbe0fe
+  - - 9
+    - MIE-MI-600
+    - 0.5833
+    - d760dd1f-3b4a-4c6d-9d98-4166df14e2a3
+  - - 16
+    - MIE-MP-210
+    - 0.5722
+    - 053810a3-4797-42a8-a25b-3f82e77d359b
+  verdict: BURIAL-fuerte
+  in_vec_top15_tgt: false
+  in_vec_top50_tgt: true
+  best_vec_rank_tgt: 38
+  vec_hits_tgt:
+  - - 38
+    - MIE-MI-530rv001
+    - 0.5552
+    - 90d51dac-bd0b-4051-b414-ced0fe6e33bb
+  verdict_tgt: BURIAL-marginal
+  targets: &id008
+  - MIE-MI-530rv001
+  - MIE-MI-310
+- qid: hp009
+  valor: aisladores internos
+  probe: ~aisladores internos
+  strength: debil
+  in_vec_top15: false
+  in_vec_top50: false
+  best_vec_rank: null
+  vec_hits: []
+  verdict: RECALL-MISS
+  in_vec_top15_tgt: false
+  in_vec_top50_tgt: false
+  best_vec_rank_tgt: null
+  vec_hits_tgt: []
+  verdict_tgt: RECALL-MISS
+  targets: *id008
+- qid: hp011
+  valor: 05 a 295 seg
+  probe:
+  - '05'
+  - '295'
+  strength: fuerte
+  in_vec_top15: false
+  in_vec_top50: false
+  best_vec_rank: null
+  vec_hits: []
+  verdict: RECALL-MISS
+  in_vec_top15_tgt: false
+  in_vec_top50_tgt: false
+  best_vec_rank_tgt: null
+  vec_hits_tgt: []
+  verdict_tgt: RECALL-MISS
+  targets: &id010
+  - HLSI-MN-103_RP1r-Supra_lr
+- qid: hp011
+  valor: enclavadas
+  probe: ~enclavadas
+  strength: debil
+  in_vec_top15: true
+  in_vec_top50: true
+  best_vec_rank: 0
+  vec_hits:
+  - &id009
+    - 0
+    - HLSI-MN-103_RP1r-Supra_lr
+    - 0.6086
+    - c8924d59-a9ce-4379-a3b7-57058ff86a82
+  - - 13
+    - MIEMN570
+    - 0.565
+    - 51349cbd-048d-40cc-a110-f8b97719d231
+  - - 14
+    - MNDT102
+    - 0.5642
+    - 24ec927e-141b-43b6-9169-3f0645dd8354
+  verdict: BURIAL-fuerte
+  in_vec_top15_tgt: true
+  in_vec_top50_tgt: true
+  best_vec_rank_tgt: 0
+  vec_hits_tgt:
+  - *id009
+  - - 31
+    - HLSI-MN-103_RP1r-Supra_lr
+    - 0.5527
+    - a9a55135-1b42-4f05-a60b-1b1591d31bba
+  verdict_tgt: BURIAL-fuerte
+  targets: *id010
+- qid: hp013
+  valor: PWR-R
+  probe: ~PWR-R
+  strength: debil
+  in_vec_top15: false
+  in_vec_top50: false
+  best_vec_rank: null
+  vec_hits: []
+  verdict: RECALL-MISS
+  in_vec_top15_tgt: false
+  in_vec_top50_tgt: false
+  best_vec_rank_tgt: null
+  vec_hits_tgt: []
+  verdict_tgt: RECALL-MISS
+  targets:
+  - ADW535_TD_T140358es_e
+- qid: hp019
+  valor: -30 a +60
+  probe:
+  - '+60'
+  - '-30'
+  strength: fuerte
+  in_vec_top15: true
+  in_vec_top50: true
+  best_vec_rank: 1
+  vec_hits:
+  - &id011
+    - 1
+    - ASD535_TD_T131192es_h
+    - 0.6667
+    - 99908a8c-aa47-4d92-aba4-17d0188e9f6c
+  - - 8
+    - ASD532_TD_T140421es_a
+    - 0.6442
+    - 50e52d96-aa9a-46fe-95d0-7914663ea888
+  - - 24
+    - TD 003 006c_Technische Dokumentation_Externer Temperatursensor ART 535-x_es
+    - 0.6197
+    - f7710736-461b-48fe-881b-247798959e34
+  verdict: BURIAL-fuerte
+  in_vec_top15_tgt: true
+  in_vec_top50_tgt: true
+  best_vec_rank_tgt: 1
+  vec_hits_tgt:
+  - *id011
+  verdict_tgt: BURIAL-fuerte
+  targets:
+  - ASD535_TD_T131192es_h

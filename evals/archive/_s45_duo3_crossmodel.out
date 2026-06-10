@@ -1,0 +1,25 @@
+--- gpt-5.5 (revisor adversarial cross-model) ---
+[severidad: crítico] [confianza: alto] [ancla: "BP = cross-encoder dedicado... Beneficio = CIMIENTO... NO calidad"] — La propuesta sobre-afirma “BP/sí o sí”: cambiar el reranker no es neutro si el actual codifica señales domain-aware; debe plantearse como sustitución con shadow/A-B y criterios de no-regresión, no como cimiento obligatorio independiente del delta.
+
+[severidad: crítico] [confianza: alto] [ancla: "GAP: el reranker-LLM tiene domain-awareness... [DIAGRAMA DISPONIBLE]... al pasar a Voyage hay que reubicar ese boost upstream"] — El propio gap puede ser regresión material: diagram-only/scans y displays/OCR son fallos conocidos del dominio; mover el boost “upstream” sin diseño concreto de scoring, pesos y tests deja indefinido el contrato de no-regresión.
+
+[severidad: medio] [confianza: alto] [ancla: "determinismo... Voyage reranker... −2 fuentes de no-determinismo"] — “Voyage = determinismo” está formulado demasiado fuerte: un API externo puede cambiar por versión/modelo/infra y no garantiza reproducibilidad salvo pinning, cache de resultados, estampado de versión/modelo/top_k y golden snapshots; sin eso es reducción de ruido, no determinismo.
+
+[severidad: medio] [confianza: alto] [ancla: "lee el doc completo [:4000]" ] — Hay framing incorrecto: `[:4000]` no es “doc completo”, es una ventana mayor. Si PDFs tienen tablas partidas, anexos, multi-doc u OCR disperso, 4000 chars sigue pudiendo amputar evidencia; no debe venderse como corrección estructural del contexto completo.
+
+[severidad: medio] [confianza: medio] [ancla: "Cruft de scores planos... Limpiar → rankear por coseno real"] — “Coseno real” puede ser otro lever-hunt si los scores planos estaban compensando metadatos, OCR pobre, categorías o chunks heterogéneos; eliminar constantes requiere pruebas de recall@k/precision@k por fabricante/categoría, no asumir que vector score puro es más BP.
+
+[severidad: medio] [confianza: alto] [ancla: "HyDE-OFF (ya decidido, determinismo)" ] — HyDE-off como “sí o sí” ignora un patrón del dominio: vocabulary mismatch ES/EN y nombres OEM/relabeling. Puede ser fuente de ruido, pero también puente semántico; debería apagarse con medición segmentada, no por determinismo abstracto.
+
+[severidad: medio] [confianza: alto] [ancla: "Auditar los 14... MAPEAR modos de fallo"] — El audit es legítimo solo si queda acotado y no circular: 14 casos del gate pueden estar sesgados por el gold/proxy y por cobertura parcial. Debe declarar muestra, fuente primaria, criterio de clasificación y stop condition; si no, se convierte en perfeccionismo-de-instrumento.
+
+[severidad: medio] [confianza: alto] [ancla: "MODEL_PATTERN regex hardcoded... catálogo data-driven"] — F2 está bien orientado pero subdimensionado: catálogo data-driven no resuelve por sí solo ES/EN, OEM relabeling, multi-doc por modelo, variantes regionales España-vs-US ni conflictos entre manuales; falta contrato de identidad de producto y resolución de conflictos.
+
+[severidad: medio] [confianza: medio] [ancla: "Test medible user-independent: '¿un fabricante held-out funciona sin cambiar código?'"] — El test held-out es necesario pero insuficiente: puede pasar con un fabricante limpio y fallar en fabricantes con escaneos, tablas, diagramas o relabeling. Para 30+ fabricantes hace falta matriz por dificultad documental, no un único held-out binario.
+
+[severidad: menor] [confianza: medio] [ancla: "Consolidar a UNO canónico"] — Un único harness canónico mejora legibilidad, pero puede crear monocultivo/circularidad si también guía optimización. Conviene mantener una evaluación end-to-end independiente o fixtures congelados como árbitro externo.
+
+[severidad: menor] [confianza: alto] [ancla: "Q1+Q2+Q4 convergen en UN rumbo coherente"] — La convergencia es plausible, pero mezcla cambios de producto, evaluación, coste y escala bajo “cimientos”; para evitar pila de cambios, debe secuenciarse con feature flags y métricas por cambio, no como bundle.
+
+[tally] entrada parcial → evals\adversarial_review_log.jsonl (ts=2026-06-05T20:52:01).
+[tally] COMPLETA tras verificar (regla C): findings/confirmed/false_pos/severity_max.

@@ -60,6 +60,8 @@ actuar (Protocolo 1 aplica a su output); **(F)** aumenta, no reemplaza — yo de
 responsable. Guardarraíl anti-ritual: tally de confirmados/falsos-positivos; si degrada a
 "siempre alineado" o a fabricar trivialidades → revisar/matar. NO es un `/propose` 2.0:
 debe producir bite concreto anclado en evidencia (validado: cazó 5 fallos del localizador).
+**s56:** el sub-agente corre pin `model: fable` = mismo modelo que el autor → en ALTO/zona-de-dolor
+el cross-model es INNEGOCIABLE (no "recomendado"). Ronda nueva de review = agente FRESCO siempre.
 
 ## Protocolo 4 — Registro de procedimientos canónicos (gatillo → acción)
 **Regla rectora (extiende el Protocolo 1):** antes de declarar que seguiste un procedimiento o
@@ -94,9 +96,11 @@ duplica aquí); esta tabla solo gatilla + apunta.
 ## Cierre de sesión
 Antes del commit final, actualizar (en orden de canonicidad):
 1. **`docs/PLAN_RAG_2026.md`** — doc CANÓNICO del roadmap + estado + qué sigue. Reconciliar su
-   bloque de estado con lo avanzado en la sesión. NO dejar que un sub-doc (RULER_DESIGN §4, el
-   banner de ARCHITECTURE, o la memoria) sea la única fuente del estado: PLAN manda (lección
-   s35 — el desalineamiento §9.14 vs RULER_DESIGN §4 costó una sesión entera).
+   bloque "Estado actual" + "Qué sigue" con lo avanzado — **manteniéndolo COMPACTO** (s56/DEC-036:
+   el PLAN se relee cada arranque; llegó a 123KB y se partió). El **RESULTADO narrado de la sesión
+   se APENDIZA a `docs/HISTORY.md`** (log append-only), NUNCA se apila en el PLAN. NO dejar que un
+   sub-doc (RULER_DESIGN §4, el banner de ARCHITECTURE, o la memoria) sea la única fuente del
+   estado: PLAN manda (lección s35 — el desalineamiento §9.14 vs RULER_DESIGN §4 costó una sesión).
 2. **`docs/DECISIONS.md`** — apendizar toda decisión de impacto MEDIO/ALTO de la sesión
    (decisión · motivo · alternativas descartadas · ref al `adversarial_review_log.jsonl`). Es
    la traza para no re-litigar el rumbo en el futuro.
