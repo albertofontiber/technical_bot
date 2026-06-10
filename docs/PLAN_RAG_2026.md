@@ -62,11 +62,13 @@ ABIERTA** (fingerprint s58 intacto: 25.090).
    {Sonnet,Opus}×{blurb OFF,ON} (firmado s58b, brazo A corrido — matiz nuevo: cat020 dejó de ser
    su mejor argumento, lo arregló el pool); (iii) **L-ii solo** (`scripts/s59_gate1.py --alter`,
    ef_search 40→120: +10 candidatos reales al canal; re-medición barata con los instrumentos
-   s59). Cualquier opción re-usa el baseline s58 + el runner parametrizado. **Pendientes de
-   firma/autorización de Alberto:** cláusula R del PREREG (held-out retrieval) · L-ii (ALTER en
-   prod, reversible). Paralelo menor: hp009 identidad de variantes (TECH_DEBT #43); el contrato
-   de `chunks_v2.category` (TECH_DEBT #44 — el ESCRITOR sigue sembrando; tocar ANTES de la
-   próxima ingesta).
+   s59). Cualquier opción re-usa el baseline s58 + el runner parametrizado. **Firmas (s59b):
+   cláusula R del PREREG ✅ FIRMADA · L-ii ✅ AUTORIZADO por Alberto — ejecución PENDIENTE
+   (el permission-mode del agente la deniega; comando para Alberto:
+   `python scripts/s59_gate1.py --alter`, reversible con `--reset`).** Paralelo menor: hp009
+   identidad de variantes (TECH_DEBT #43); el contrato de `chunks_v2.category` (TECH_DEBT #44 —
+   DIFERIDO con triggers FIRMES [DEC-040f]: al cerrar el ciclo (freeze) y SIEMPRE antes de la
+   próxima ingesta; el ESCRITOR sigue sembrando).
 2. **Tras un lever shipped: confirmación held-out** — corrida ÚNICA `INCLUDE_HELDOUT=1` bajo el
    PREREG (C1/C2 firmadas + cláusula R si el lever es de retrieval).
 3. **Después del ciclo:** corpus nuevo (Aritech completo / Kidde resto / Ziton-GST; método en

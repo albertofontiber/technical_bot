@@ -92,13 +92,15 @@ exige el eval ampliado con diversidad estratificada; con los 22 actuales no hay 
   del juez cualitativo global NO basta para declarar presencia ni ausencia de fabricación
   (su FALLO mezcla invención / incompletitud / conducta equivocada).
 
-### Cláusula R — extensión a LEVERS DE RETRIEVAL (s59; **PENDIENTE DE FIRMA de Alberto**)
+### Cláusula R — extensión a LEVERS DE RETRIEVAL (s59) — ✅ **FIRMADA por Alberto (10 jun 2026, s59b)**
 
 > **Estado: escrita PRE-DATOS (10 jun 2026, s59 — ningún dato del A/B dev del lever de
-> retrieval existía al escribirla; traza: dúo r2, `adversarial_review_log.jsonl`).
-> La corrida held-out del lever de retrieval queda BLOQUEADA hasta la firma. El A/B dev
-> (re-tirable) puede correr con su criterio pre-registrado (diseño s59 §3,
-> `evals/_s59_lever_design_FINAL.md`).**
+> retrieval existía al escribirla; traza: dúo r2, `adversarial_review_log.jsonl`) y
+> FIRMADA por Alberto en s59b, ANTES de cualquier corrida held-out (el único dato
+> existente al firmar: el A/B dev de s59, veredicto ROLLBACK — la cláusula no se
+> redactó ni se modificó a la vista de ese resultado, salvo R2-bis/R4 que provienen
+> de la pasada focal del dúo PRE-A/B). La corrida held-out de cualquier lever de
+> retrieval queda DESBLOQUEADA bajo este criterio cuando un lever pase en dev.**
 >
 > Origen: el alcance firmado arriba dice "lever de generación", y su freeze-contract exige
 > "retrieved-contexts congelados (idénticos para A y B)" — inaplicable por definición cuando
@@ -143,4 +145,4 @@ exige el eval ampliado con diversidad estratificada; con los 22 actuales no hay 
   mismo-signo + sin-invención-nueva para CONFIRMAR; zona gris = decisión de Alberto;
   estratos solo direccionales.
 
-**Firma Alberto:** ____________________  (pendiente)
+**Firma Alberto:** ✅ FIRMADA — 10 jun 2026 (s59b, en chat: "2. firmo"; registrada por el asistente en el mismo turno)
