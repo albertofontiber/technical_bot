@@ -31,16 +31,15 @@ bot Telegram (polling) → pre-clasificación → retrieve híbrido wide (vector
 25.090 chunks / 1.012 docs / 31 marcas / 587 modelos** (contextual-retrieval activo al 100%
 — verificado s56; identidad de producto data-driven `config/manufacturers/` + sidecar, DEC-035).
 
-**Eval (el ruler):** **41 golds = 39 dev + 2 held-out** (`ho003`/`ho004`, los primeros del split
-embargado — s57/DEC-037), taxonomía de estratos **CONGELADA** (DEC-033), juez GPT-5.5 +
-K-mayoría, embargo en la puerta (`gold_store.verified`) **y ya también en los lectores-directos
-de diagnóstico** (`exclude_heldout()`, TECH_DEBT #42 cerrado — el gate s58 no expone el
-held-out). PREREG con **criterio de confirmación held-out PRE-REGISTRADO** (§nueva s57: Δ global
-mismo signo + 0 fabricaciones nuevas; corrida única). **Selección held-out FIRMADA por el dúo**
-(11 efectivos + 2 reservas, `evals/_s57_heldout_selection_proposal.md` v2 local): fuentes frescas
-s55 + puente Detnov; quedan 9 por autorar (s57b). **Atribución del residual sigue STALE** (predata
-la ingesta s55; sin baseline de los 39) — por eso el gate de s58. **DECISIÓN PENDIENTE (Alberto):**
-N del held-out — 11-ampliable (recomendado, no retrasa s58) vs ≥20 (suelo DEC-021 §C) antes del A/B.
+**Eval (el ruler):** **43 golds = 39 dev + 4 held-out** (`ho001`/`ho003`/`ho004`/`ho005` —
+s57+s57b, DEC-037), taxonomía de estratos **CONGELADA** (DEC-033), juez GPT-5.5 + K-mayoría,
+embargo en la puerta (`gold_store.verified`) **y en los lectores-directos de diagnóstico**
+(`exclude_heldout()`, TECH_DEBT #42 cerrado — el gate s58 no expone el held-out). PREREG con
+**criterio de confirmación held-out PRE-REGISTRADO** (§nueva s57: Δ global mismo signo + 0
+fabricaciones nuevas; corrida única). **Selección held-out FIRMADA por el dúo** (11 efectivos +
+2 reservas, `evals/_s57_heldout_selection_proposal.md` v2 local; **N FIRMADO por Alberto:
+11-AMPLIABLE**): quedan 7 por autorar (ho002/006-011 → s57c). **Atribución del residual sigue
+STALE** (predata la ingesta s55; sin baseline de los 39) — por eso el gate de s58.
 
 **Revisión estructural s56 (DEC-036):** rumbo confirmado — NO overhaul; docs consolidados
 (PLAN compacto + HISTORY); sub-agente adversarial pin `model: fable` (cross-model GPT-5.5
@@ -48,11 +47,11 @@ innegociable en ALTO/zona-de-dolor); corpus nuevo **POSPUESTO** hasta cerrar el 
 
 ## Qué sigue (orden vigente)
 
-1. **(s57b) Completar la autoría held-out** — SERIAL sobre la selección YA gateada (ho001/002/
-   005-011; re-gate solo si un gold se desvía de lo firmado): oem-relabel (2X-A Kidde→Aritech;
-   ModuLaser Edwards), multi-doc (2X-A+LB; NC), síntesis (2X-A día/noche), CAD-171 (puente),
-   clarify ("2X-AT"), conducta-ausencia (NC en red) y refuse (FD2705R fuera de spec). Reglas:
-   sin smoke del bot; checklist `RULER §2` punto-por-punto; errata solo anclada en fuente.
+1. **(s57c) Completar la autoría held-out** — SERIAL sobre la selección YA gateada (quedan 7:
+   ho002 ModuLaser Edwards [oem-relabel] · ho006 NC rearme+anular [multi-doc] · ho007 2X-A
+   día/noche [síntesis] · ho008 CAD-171 [puente Detnov] · ho009 clarify "2X-AT" · ho010
+   conducta-ausencia NC-en-red · ho011 refuse FD2705R; re-gate solo si un gold se desvía).
+   Reglas: sin smoke del bot; checklist `RULER §2` punto-por-punto; errata solo anclada en fuente.
 2. **(s58) GATE de atribución fresco** — baseline K=5 de los 39 dev sobre el corpus actual (= el
    PASS-control que el PREREG ya exige) + audit per-caso de *context-sufficiency* (¿el dato llegó
    al top-5 entregado al generador?) + instrumentar `stop_reason` en el generador (hoy no se
