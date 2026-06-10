@@ -4855,3 +4855,969 @@
     corpus_chunks_v2: 'POST-HOC (no criterio): sheet ingestado (49 chunks, product_model=2X-A-LB) + manual
       de serie (226 chunks, 2X-A) — cobertura existe; SQL existence directo, no ranker'
     embargo: 'split=held-out s57b: sin smoke del bot, sin debug de retrieval con la pregunta'
+- qid: ho002
+  question: En el detector de aspiración Edwards FHSD8310 (ModuLaser), ¿cuántos módulos admite un clúster
+    y cómo se interconectan?
+  conducta_esperada: answer
+  split: held-out
+  estrato:
+  - oem-relabel
+  gold_answer: |-
+    El FHSD8310 es el módulo de display estándar del sistema modular ModuLaser. Un clúster consta de UN módulo de visualización (estándar o mínima) y de uno (mínimo) a OCHO (máximo) módulos detectores; el módulo de visualización puede instalarse en cualquier punto del clúster. Precaución: un módulo de visualización de comandos NO puede sustituir al estándar/mínima en la configuración de un clúster.
+
+    La comunicación entre los módulos del clúster se realiza por SenseNET+ (interfaz RS-485). Hay tres tipos de clúster y la interconexión depende del tipo:
+
+    1) NO DISTRIBUIDO — display + hasta CUATRO módulos detectores en la misma ubicación (unos al lado de otros): se interconectan con el cable de cinta suministrado entre los conectores J3 y J5 de la placa PCB del panel posterior; el cable de cinta distribuye también la alimentación por el clúster. La terminación de final de línea NO es necesaria en los J3/J5 sin usar.
+
+    2) DISTRIBUIDO — display + hasta OCHO módulos detectores, cada uno en una ubicación diferente: se cablean por los conectores SNET+ (CH1/CH2, bornas A/B/S) de la PCB posterior, con una longitud máxima de cable entre módulos de 1.200 m (4.000 pies). Cada módulo requiere su propia fuente de alimentación y hay que instalar terminación de final de línea en todos los conectores J3 y J5 que no se utilicen.
+
+    3) HÍBRIDO — hasta OCHO detectores mezclando ambos esquemas: cables de cinta para los módulos adyacentes y conectores SNET+ para los distribuidos (máx. 1.200 m entre módulos). Cada grupo de módulos adyacentes usa una fuente de alimentación compartida (conectada a un solo módulo) y cada módulo distribuido necesita fuente independiente; terminación de final de línea en todos los J3/J5 sin usar.
+
+    Cada dispositivo del clúster se identifica con una dirección única de 7 bits (1 a 127), y se pueden conectar varios clústeres para crear una red SenseNET (con un módulo de visualización de comandos, hasta 127 módulos en la red).
+  atomic_facts:
+  - texto: Un clúster comprende un módulo de visualización mínima o estándar y de uno (mínimo) a ocho
+      (máximo) módulos detectores
+    tipo: core
+    estado: presente
+    valor: 1 display + 1-8 módulos detectores
+    cita: manual ES p9 (impresa 3) y p31 (impresa 25)
+  - texto: La comunicación entre los módulos de un clúster se realiza utilizando SenseNET+ (interfaz RS-485)
+    tipo: core
+    estado: presente
+    valor: SenseNET+ RS-485
+    cita: manual ES p9 y p31
+  - texto: 'Clúster no distribuido: display estándar/mínima + hasta cuatro módulos de detector instalados
+      en la misma ubicación (unos al lado de otros)'
+    tipo: core
+    estado: presente
+    valor: hasta 4 detectores misma ubicación
+    cita: manual ES p31, tabla de tipos
+  - texto: 'Clúster distribuido e híbrido: display estándar/mínima + hasta ocho módulos de detector'
+    tipo: core
+    estado: presente
+    valor: hasta 8 detectores
+    cita: manual ES p31, tabla de tipos
+  - texto: El clúster no distribuido se conecta con el cable de cinta suministrado y los conectores J3
+      y J5 de la PCB del panel posterior; el cable de cinta también distribuye la fuente de alimentación
+      por el clúster; la terminación de final de línea no es necesaria en los J3/J5 sin usar
+    tipo: core
+    estado: presente
+    valor: cable de cinta J3/J5 + alimentación por la cinta
+    cita: manual ES p32 (impresa 26), Figura 14
+  - texto: El clúster distribuido se conecta con los conectores SNET+ de la PCB del panel posterior; la
+      longitud de cable máxima entre módulos es de 1.200 m (4.000 pies)
+    tipo: core
+    estado: presente
+    valor: SNET+ y máx 1.200 m (4.000 pies)
+    cita: manual ES p33 (impresa 27), Figura 15
+  - texto: En el clúster distribuido cada módulo requiere una fuente de alimentación y es necesaria la
+      terminación de final de línea en los conectores J3 y J5 que no se utilicen
+    tipo: core
+    estado: presente
+    valor: PSU por módulo + EOL en J3/J5 sin usar
+    cita: manual ES p33
+  - texto: El clúster híbrido usa cables de cinta para los módulos adyacentes y conectores SNET+ para
+      los distribuidos; cada grupo de módulos adyacentes utiliza una fuente de alimentación compartida
+      (conectada a un solo módulo) y cada módulo distribuido necesita una fuente independiente
+    tipo: core
+    estado: presente
+    valor: cinta+SNET+; PSU compartida/independiente
+    cita: manual ES p34 (impresa 28), Figura 16
+  - texto: Un módulo de visualización de comandos no puede sustituir ni reemplazar un módulo de visualización
+      estándar o mínima en la configuración de un clúster
+    tipo: supplementary
+    estado: presente
+    valor: comandos no sustituye a estándar/mínima
+    cita: manual ES p9 y p31 (Precaución)
+  - texto: Cada dispositivo del clúster se identifica mediante una dirección única de 7 bits en el intervalo
+      1 a 127; se pueden conectar varios clústeres para crear una red SenseNET
+    tipo: supplementary
+    estado: presente
+    valor: dirección 7 bits, 1-127; red SenseNET
+    cita: manual ES p9
+  - texto: FHSD8310 es el módulo con display estándar de ModuLaser; los displays mínimo y estándar admiten
+      hasta 8 módulos detectores y el display de comandos hasta 127 módulos en toda la red SenseNET
+    tipo: supplementary
+    estado: presente
+    valor: FHSD8310 = display estándar; 8 por clúster / 127 en red
+    cita: datasheet FHSD8310 p1
+  citations:
+  - pdf: Manuales_Edwards/04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0.pdf
+    page: 9
+    quote: Un clúster comprende un módulo de visualización mínima o uno estándar y de uno (mínimo) a ocho
+      (máximo) módulos detectores.
+  - pdf: Manuales_Edwards/04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0.pdf
+    page: 9
+    quote: El módulo de visualización está conectado a los módulos de detector mediante la interfaz SenseNET+
+      RS-485.
+  - pdf: Manuales_Edwards/04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0.pdf
+    page: 31
+    quote: Este tipo de clúster consta de un módulo de visualización estándar o mínima y de hasta cuatro
+      módulos de detector instalados en la misma ubicación (unos al lado de otros).
+  - pdf: Manuales_Edwards/04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0.pdf
+    page: 32
+    quote: Conecte un clúster no distribuido (un módulo de visualización estándar o mínima y hasta cuatro
+      módulos de detector) con el cable de cinta que se suministra y los conectores J3 y J5 de la placa
+      PCB del panel posterior
+  - pdf: Manuales_Edwards/04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0.pdf
+    page: 33
+    quote: La longitud de cable máxima entre módulos es de 1.200 m (4.000 pies).
+  - pdf: Manuales_Kidde/3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0.pdf
+    page: 31
+    quote: Un clúster consta de un módulo de visualización estándar o mínima y de hasta ocho detectores.
+  - pdf: Manuales_Edwards/fhsd8310-63296-es.pdf
+    page: 1
+    quote: Los módulos de visualización mínimo y estándar pueden admitir hasta 8 módulos detectores, mientras
+      que el módulo de visualización de comandos puede admitir hasta 127 módulos en toda la red SenetNET.
+  notes: 'HELD-OUT (embargo): autorado s57c, jamás corrido contra el bot. oem-relabel REAL: el corpus
+    contiene el MISMO manual de instalación como Edwards (04-4001, 140 chunks) y como Kidde (3103092,
+    151 chunks) — rebrand puro verificado al píxel (p31 Edwards ≡ p31 Kidde, misma maqueta e impresa 25).
+    La pregunta nombra Edwards; FHSD8310 es la referencia del módulo display ESTÁNDAR del sistema (datasheet),
+    no un detector suelto — la respuesta aclara la arquitectura modular. El datasheet del FHSD8310 trae
+    la capacidad (8/127) sin la palabra ''clúster'' (typo del datasheet: ''SenetNET'').'
+  confidence: alta
+  pdfs_used:
+  - Manuales_Edwards/04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0.pdf
+  - Manuales_Edwards/fhsd8310-63296-es.pdf
+  - Manuales_Kidde/3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0.pdf
+  _provenance:
+    estado: verificado
+    metodo: 'localización: grep por-página en los 4 docs ModuLaser locales (manual Edwards ES 126pp digital-native
+      scan_ratio 0.02 — páginas con ''clúster'': 7,9,31-37,77,123; espejo Kidde ES 134pp: dato en p10/p31;
+      datasheets FHSD8310/8330) + render @200dpi Edwards pp8-10,30-35 (±1) + Kidde pp30-32 + datasheet
+      pp1-2; pp9/31/32/33/34 leídas al píxel: texto extraído ≡ píxel + doble-señal AND: co-gen GPT-5.5
+      (20 hechos, 0 desacuerdos; sus citas en numeración impresa = PDF−6) Y match determinista 19/19 anchors
+      (ocho máximo, hasta cuatro, SenseNET+ RS-485, J3 y J5, 1.200 m (4.000 pies), EOL, 7 bits 1-127,
+      comandos-no-sustituye...) + comparación de espejos: Edwards p31 ≡ Kidde p31 al píxel (rebrand puro)
+      + SQL chunks_v2 (existence): Edwards 140 chunks / Kidde 151 / datasheet 8; hits de capacidad, 1.200
+      m, cinta y SenseNET+ en ambos manuales'
+    verificado_por: Claude (Fable 5) + GPT-5.5 (cross_generate s57c)
+    localizacion:
+      manuales_buscados:
+      - Manuales_Edwards/04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0.pdf
+      - Manuales_Kidde/3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0.pdf
+      - Manuales_Edwards/fhsd8310-63296-es.pdf
+      - 'Manuales_Edwards/fhsd8330-63296-es.pdf (visto y descartado: es el datasheet del MÓDULO DETECTOR
+        FHSD8330, otro producto de la familia)'
+      - '(EN: sin manual ModuLaser EN en local ni en corpus — los dos manuales del lote s55 son ES; scope
+        ES basta para el answer, RULER §2 idiomas)'
+      idiomas: ES (manual Edwards ES + espejo Kidde ES + datasheets ES); EN no disponible localmente
+      resultado: capacidad y tipos de clúster en p9 (intro, impresa 3) y p31 (tabla de tipos, impresa
+        25); interconexión por tipo en pp32-34 (Figuras 14-16); el datasheet FHSD8310 confirma 8 módulos
+        por display estándar/mínima y 127 por comandos en red SenseNET; ambos espejos en chunks_v2 bajo
+        marcas distintas (Edwards/Kidde)
+- qid: ho006
+  question: Tras una alarma en la central NC, ¿cómo se rearma y cómo se anula una zona en avería?
+  conducta_esperada: answer
+  split: held-out
+  estrato:
+  - sintesis-completitud
+  gold_answer: |-
+    Ambas operaciones requieren el NIVEL DE USUARIO OPERADOR, protegido por contraseña (la predeterminada del operador es 2222); el nivel público no puede rearmar ni desactivar zonas. La desactivación/activación de zonas puede hacerse incluso con la central en estado de alarma.
+
+    REARME: antes de restablecer la central, comprobar todas las alarmas y las averías del sistema. Para restablecer la central y eliminar todos los eventos actuales, pulsar el botón de rearme. Los eventos que no se hayan resuelto seguirán apareciendo resaltados al finalizar el rearme.
+
+    ANULAR (DESACTIVAR) UNA ZONA: pulsar el botón "Desconexión" general y, a continuación, el botón de la zona correspondiente. La zona desconectada se indica con el LED "Desconexión" general fijo y el LED de la zona fijo en amarillo. Con la zona desactivada no se indica alarma de incendio ni avería para esa zona (si es la única en estado de alarma, se detiene además cualquier salida de incendio vinculada).
+
+    Para REACTIVAR la zona: pulsar de nuevo el botón "Desconexión" general y volver a pulsar el botón de zona. Ojo: si la zona desactivada contiene un dispositivo en modo de alarma, no se activará hasta que se rearme la central; y si al reactivarla hay otras zonas en alarma, la zona entra en estado de alarma y reactiva las salidas de incendio detenidas.
+  atomic_facts:
+  - texto: Rearmar la central y desactivar/activar zonas son operaciones del nivel de usuario operador,
+      protegido por contraseña; la contraseña predeterminada del operador es 2222
+    tipo: core
+    estado: presente
+    valor: nivel operador, contraseña 2222
+    cita: manual operación p28 (impresa 22)
+  - texto: Antes de restablecer la central hay que comprobar todas las alarmas y las averías del sistema
+    tipo: core
+    estado: presente
+    valor: comprobar alarmas y averías antes
+    cita: manual operación p29 (impresa 23), Nota
+  - texto: Para restablecer la central y eliminar todos los eventos actuales del sistema se pulsa el botón
+      de rearme
+    tipo: core
+    estado: presente
+    valor: botón de rearme
+    cita: manual operación p29
+  - texto: Los eventos del sistema no resueltos siguen apareciendo resaltados cuando finaliza el proceso
+      de rearme
+    tipo: supplementary
+    estado: presente
+    valor: eventos no resueltos siguen resaltados
+    cita: manual operación p29
+  - texto: 'Para desactivar una zona: pulsar el botón ''Desconexión'' general y, a continuación, el botón
+      de la zona correspondiente'
+    tipo: core
+    estado: presente
+    valor: Desconexión general + botón de zona
+    cita: manual operación p33 (impresa 27)
+  - texto: Una zona desconectada se indica con el LED 'Desconexión' general fijo y el LED de zona fijo
+      en amarillo
+    tipo: core
+    estado: presente
+    valor: LED Desconexión fijo + LED zona amarillo fijo
+    cita: manual operación p33
+  - texto: 'Para activar de nuevo la zona: pulsar el botón ''Desconexión'' general y volver a pulsar el
+      botón de zona'
+    tipo: core
+    estado: presente
+    valor: repetir Desconexión + zona
+    cita: manual operación p33
+  - texto: Si una zona desactivada contiene un dispositivo en modo de alarma, no se activará hasta que
+      se rearme la central
+    tipo: core
+    estado: presente
+    valor: no se activa hasta rearmar
+    cita: manual operación p33
+  - texto: Para la zona desactivada no se indica ninguna alarma de incendio o avería; si es la única zona
+      en estado de alarma, se detiene cualquier salida de incendio vinculada
+    tipo: core
+    estado: presente
+    valor: sin indicación de alarma/avería; salidas detenidas
+    cita: manual operación p33, Notas
+  - texto: Si una o más zonas están en estado de alarma cuando se reactiva la zona, esta entra en estado
+      de alarma y reactiva las salidas de incendio detenidas
+    tipo: supplementary
+    estado: presente
+    valor: reactivación con otras zonas en alarma
+    cita: manual operación p33, Notas
+  - texto: Desactivar o activar una zona (y otras operaciones marcadas [1]) se puede realizar cuando la
+      central se encuentra en estado de alarma
+    tipo: supplementary
+    estado: presente
+    valor: operable en estado de alarma
+    cita: manual operación p28, nota [1]
+  - texto: El nivel de usuario público (sin contraseña) no incluye rearmar ni desactivar zonas; solo reconocer
+      eventos/silenciar zumbador, cancelar retardos activos y test de LED
+    tipo: supplementary
+    estado: presente
+    valor: público sin rearme ni desconexión de zonas
+    cita: manual operación p25 (impresa 19)
+  citations:
+  - pdf: Manuales_Kidde/bcn-3100018-es_r002_nc_series_fire_alarm_control_panel_operation_manual.pdf
+    page: 28
+    quote: Este nivel de usuario operador está protegido mediante seguridad de contraseña [...] La contraseña
+      predeterminada del operador es 2222.
+  - pdf: Manuales_Kidde/bcn-3100018-es_r002_nc_series_fire_alarm_control_panel_operation_manual.pdf
+    page: 29
+    quote: 'Nota: Antes de restablecer la central debe comprobar todas las alarmas y las averías del sistema.'
+  - pdf: Manuales_Kidde/bcn-3100018-es_r002_nc_series_fire_alarm_control_panel_operation_manual.pdf
+    page: 29
+    quote: Para restablecer la central y eliminar todos los eventos actuales del sistema, pulse el botón
+      de rearme.
+  - pdf: Manuales_Kidde/bcn-3100018-es_r002_nc_series_fire_alarm_control_panel_operation_manual.pdf
+    page: 33
+    quote: Para desactivar una zona, presione el botón “Desconexión” general y, a continuación, el botón
+      de zona correspondiente.
+  - pdf: Manuales_Kidde/bcn-3100018-es_r002_nc_series_fire_alarm_control_panel_operation_manual.pdf
+    page: 33
+    quote: Si es la única zona en estado de alarma, no se indica ninguna alarma de incendio o avería para
+      la zona desactivada y se detiene cualquier salida de incendio vinculada.
+  notes: 'HELD-OUT (embargo): autorado s57c, jamás corrido contra el bot. RE-ETIQUETA declarada (prevista
+    en la selección firmada s57): multi-doc → sintesis-completitud — la localización resolvió AMBOS predicados
+    en el manual de OPERACIÓN (rearme p29 + desactivar zona p33 + niveles p25/p28 = fusión de ≥3 secciones
+    del mismo doc); el manual de INSTALACIÓN solo aporta ''Rearme de 24 V auxiliar'' (= configuración
+    de la salida AUX rearmable, otro concepto, no el rearme del panel). Mini-gate de la re-etiqueta: anti-dup
+    verificado EN SUSTANCIA — hp011 (rearme inhibido tras descarga de extinción, troubleshooting RP1r),
+    hp015 (indicador Anular/zona desconectada, corrección-de-premisa CCD-103 Detnov) y cat016 (''sin tener
+    que rearmar'', alta de lazo) tocan rearme/anulación con predicados, centrales y dimensiones de fallo
+    DISTINTOS → no-duplicado. (El grep inicial por línea de question dio ''0 golds'' por el folding YAML
+    — sobre-afirmación cazada y corregida en la review adversarial s57c.) + estrato de fuente (no post-hoc).
+    La pregunta firmada NO cambió. ''Anular'' (jerga del técnico) = ''Desactivar/Desconexión'' en el vocabulario
+    del manual NC; la desactivación cubre explícitamente el caso avería (p33 Notas).'
+  confidence: alta
+  pdfs_used:
+  - Manuales_Kidde/bcn-3100018-es_r002_nc_series_fire_alarm_control_panel_operation_manual.pdf
+  _provenance:
+    estado: verificado
+    metodo: 'localización: grep por-página en los docs NC del lote (operación 39pp digital-native: rearme
+      pp9,10,15,23,24,28-33, desactivar p28/p33; instalación 128pp: ''rearme'' solo como ''Rearme de 24
+      V auxiliar'' pp34,61,73,127 = salida AUX, no el rearme del panel; quick guides 3pp/2pp sin texto
+      grepeable del predicado; datasheets nc-pf* = specs) + render @200dpi pp27-34 (±1; pp28/29/33 leídas
+      al píxel: texto extraído ≡ píxel, impresas 22/23/27) + doble-señal AND: co-gen GPT-5.5 (16 hechos,
+      0 desacuerdos; citas impresas p22/23/27 = PDF 28/29/33) Y match determinista 12/12 anchors (2222,
+      botón de rearme, Desconexión general, amarillo fijo, no-se-activará-hasta-rearme, sin-alarma-ni-avería...)
+      + SQL chunks_v2 (existence): operación 42 chunks con hits botón-de-rearme/Desconexión×13/2222×2;
+      los 4 docs NC en corpus; sin variante EN de la serie NC'
+    verificado_por: Claude (Fable 5) + GPT-5.5 (cross_generate s57c)
+    localizacion:
+      manuales_buscados:
+      - Manuales_Kidde/bcn-3100018-es_r002_nc_series_fire_alarm_control_panel_operation_manual.pdf
+      - 'Manuales_Kidde/bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual.pdf
+        (descartado para el predicado: su ''rearme'' es la salida auxiliar 24V configurable; la operativa
+        de usuario vive en el de operación)'
+      - Manuales_Kidde/bcn-3100019-es_r002_nc_series_fire_alarm_control_panel_quick_installation_guide.pdf
+      - Manuales_Kidde/bcn-3100020-es_r002_nc_series_fire_alarm_control_panel_quick_operation_guide.pdf
+        (sin hits grepeables del predicado)
+      - Manuales_Kidde/nc-pf2/pf4/pf4-sc/pf8/pf8-sc datasheets (specs de modelos, sin operativa)
+      - '(EN: sin docs NC en inglés en local ni en chunks_v2 — verificado por SQL bcn-31000%)'
+      idiomas: ES (manual de operación ES); EN no existe para la serie NC en el corpus
+      resultado: rearme en p29 (impresa 23) + requisito de nivel operador y contraseña 2222 en p28 (impresa
+        22) + desactivar/activar zona en p33 (impresa 27) + límites del nivel público en p25 (impresa
+        19) — todo en el manual de operación (un solo doc → re-etiqueta a sintesis-completitud)
+- qid: ho007
+  question: ¿Cómo configuro el modo día/noche y los retardos de sirena en la 2X-A?
+  conducta_esperada: answer
+  split: held-out
+  estrato:
+  - sintesis-completitud
+  gold_answer: |-
+    Son dos configuraciones en menús distintos que trabajan juntas (el modo noche anula por defecto los retardos).
+
+    MODO DÍA/NOCHE (Menú principal → Ajustes del panel → Modo Día/Noche; no disponible en repetidores). Semántica: en modo DÍA una alarma automática (de detector) activa sirenas y enrutado de fuego CON el retardo establecido y los detectores pueden usar sensibilidad reducida; en modo NOCHE la activación es INMEDIATA (anula el retardo establecido) y los detectores pueden usar sensibilidad aumentada.
+    - Programa Día/Noche (semanal): seleccionar el día → hora de inicio del modo día (hh:mm, p.ej. 08:00) → hora de inicio del modo noche (p.ej. 21:00) → F4 (Enter) → F1 (Atrás) → F1 Guardar / F3 Aplicar — sin olvidar APLICAR los ajustes guardados en el Menú principal. Truco: para evitar el cambio a día (o a noche), poner esa hora de inicio en 24:00.
+    - Calend. Festivos: períodos por fechas DD/MM con modo día o noche (por defecto NOCHE, se asume local vacío).
+    - Día / Noche setup (opciones adicionales, Tabla 23): 'Manual' (anular o procesar los cambios del programa/festivos; por defecto NO = se procesan), 'Modo' (modo por defecto si Manual=SÍ) y 'Deshab retardos Modo Noche' (procesar o anular los retardos de protección contra incendios, enrutado de fuego y SIRENAS cuando la central está en modo noche).
+
+    RETARDOS DE SIRENA (Menú principal → Config de lazo → Config Activación → Sirenas): seleccionar Grupo_n (Todos los grupos de sirenas o uno concreto) → Activo = SÍ → Retardo en minutos y segundos (máximo 10 minutos para sirenas, enrutado de fuego y protección contra incendios; 16:40 para programas) → si se usan sirenas de segunda fase, configurar también Wrn_Ret (retardo de aviso, solo para grupos de sirenas, máx. 10 min, requiere Tiempo de aviso configurado) → F4 → Guardar/Aplicar.
+
+    IMPORTANTE (el enlace entre ambos): una vez configurado, el retardo debe HABILITARSE; los retardos solo se aplican a alarmas de DETECTOR (las alarmas de pulsador manual los omiten); y, por defecto, la central NO procesa los retardos en modo noche (el modo noche puede entrar por el programa, el calendario de festivos o equipo remoto) — si se necesita un retardo también de noche, se cambia en 'Deshab retardos Modo Noche' del Día/Noche setup.
+  atomic_facts:
+  - texto: En modo día una alarma automática (de detector) activa sirenas y enrutado de fuego con el retardo
+      establecido y los detectores pueden usar sensibilidad reducida; en modo noche la activación es inmediata,
+      anula el retardo establecido y la sensibilidad puede ser aumentada
+    tipo: core
+    estado: presente
+    valor: día = con retardo / noche = inmediato sin retardo
+    cita: manual ES p63 (impresa 57), Tabla 22
+  - texto: El modo día/noche se configura en Menú principal → Ajustes del panel → Modo Día/Noche; la opción
+      no está disponible en los repetidores
+    tipo: core
+    estado: presente
+    valor: Ajustes del panel → Modo Día/Noche
+    cita: manual ES p63
+  - texto: 'Programa Día/Noche (semanal): seleccionar día → hora de inicio del modo día hh:mm → hora de
+      inicio del modo noche hh:mm → F4 (Enter) → F1 (Atrás) → Guardar/Aplicar, aplicando en el Menú principal'
+    tipo: core
+    estado: presente
+    valor: programa semanal hh:mm
+    cita: manual ES p64 (impresa 58)
+  - texto: Para evitar cambiar al modo día se establece la hora de inicio del modo día en 24:00 (ídem
+      noche)
+    tipo: supplementary
+    estado: presente
+    valor: 24:00 evita el cambio
+    cita: manual ES p64, Nota
+  - texto: Calend. Festivos configura el modo día o noche por intervalo de fechas DD/MM; la configuración
+      predeterminada del período de vacaciones es el modo noche
+    tipo: core
+    estado: presente
+    valor: festivos DD/MM, default noche
+    cita: manual ES pp64-65 (impresas 58-59)
+  - texto: 'Día / Noche setup (Tabla 23) ofrece: Manual (procesar o anular los cambios del programa/festivos;
+      predeterminado NO), Modo (modo por defecto si Manual=SÍ) y Deshab retardos Modo Noche (procesar
+      o anular los retardos de protección contra incendios, enrutado de fuego y sirenas en modo noche)'
+    tipo: core
+    estado: presente
+    valor: Deshab retardos Modo Noche
+    cita: manual ES p65 (impresa 59), Tabla 23
+  - texto: Los retardos de sirena se configuran en Menú principal → Config de lazo → Config Activación
+      → tipo de grupo (Sirenas) → Grupo_n (Todos o uno) → Activo SÍ/NO → Retardo en minutos y segundos
+    tipo: core
+    estado: presente
+    valor: Config de lazo → Config Activación → Sirenas
+    cita: manual ES p134 (impresa 128), Tabla 62
+  - texto: 'El retardo máximo para los grupos de salidas de sirenas, enrutado de fuego y protección contra
+      incendios es de 10 minutos (programas: 16 minutos y 40 segundos)'
+    tipo: core
+    estado: presente
+    valor: máx 10 minutos (sirenas)
+    cita: manual ES p134
+  - texto: Wrn_Ret (retardo de aviso) existe solo para los grupos de salidas de sirenas (segunda fase);
+      máximo 10 minutos y solo cuenta si el Tiempo de aviso está configurado
+    tipo: supplementary
+    estado: presente
+    valor: Wrn_Ret solo sirenas, máx 10 min
+    cita: manual ES pp134-135 (impresas 128-129)
+  - texto: Una vez configurado un retardo debe habilitarse; los retardos solo se activan para alarmas
+      de detector y las alarmas de pulsador manual los omiten
+    tipo: core
+    estado: presente
+    valor: habilitar; pulsador manual omite
+    cita: manual ES p135 (impresa 129)
+  - texto: De forma predeterminada la central NO procesa los retardos cuando funciona en modo noche; el
+      modo noche puede activarse por el programa día/noche, el calendario de festivos o el equipo remoto;
+      para tener retardo en modo noche se usa 'Opciones adicionales del modo Día/Noche'
+    tipo: core
+    estado: presente
+    valor: modo noche anula retardos por defecto
+    cita: manual ES p135, cross-ref a impresa 59
+  - texto: Los retardos pueden habilitarse/deshabilitarse mediante el modo de sensibilidad (día/noche),
+      equipo remoto con entrada programada o los botones de retardo de la interfaz de usuario
+    tipo: supplementary
+    estado: presente
+    valor: 3 vías de habilitación
+    cita: manual ES p135
+  citations:
+  - pdf: Manuales_Aritech/00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf
+    page: 63
+    quote: En este modo una alarma automática de incendio (cualquier alarma activada por un detector)
+      activa las sirenas y el enrutado de fuego (si está habilitado) de forma inmediata y anula el retardo
+      establecido.
+  - pdf: Manuales_Aritech/00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf
+    page: 64
+    quote: Seleccione Modo Día/Noche y, a continuación, seleccione Programa Día/Noche.
+  - pdf: Manuales_Aritech/00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf
+    page: 65
+    quote: Configura la central de tal forma que procese o anule los retardos de protección contra incendios,
+      enrutado de fuego y sirenas cuando la central está en modo noche.
+  - pdf: Manuales_Aritech/00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf
+    page: 134
+    quote: El valor máximo de retardo para los grupos de salidas de protección contra incendios, enrutado
+      de fuego y sirenas es de 10 minutos.
+  - pdf: Manuales_Aritech/00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf
+    page: 135
+    quote: Los retardos configurados se activan solo para las alarmas activadas por un detector. Las alarmas
+      activadas por un pulsador manual omiten los retardos configurados.
+  - pdf: Manuales_Aritech/00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf
+    page: 135
+    quote: De forma predeterminada, la central no procesa los retardos cuando funciona en modo noche.
+  notes: 'HELD-OUT (embargo): autorado s57c, jamás corrido contra el bot. sintesis-completitud REAL: la
+    respuesta completa fusiona DOS secciones separadas del mismo manual — ''El menú Ajustes del panel''
+    (nivel mantenimiento, pp63-65, impresas 57-59: semántica día/noche + programa + festivos + Tabla 23)
+    y ''Configuración de activación'' (nivel instalador, pp133-135, impresas 127-129: retardos por grupo
+    de salidas) — unidas por una cross-ref EN LA FUENTE (p135 → ''Opciones adicionales del modo Día/Noche''
+    impresa 59): el retardo de sirena configurado NO suena de noche por defecto. Anti-clon declarado en
+    la selección: hp017 = retardo de salida en PEARL (otra central, un solo retardo); cat017 = cablear+alta
+    de lazo INSPIRE; aquí régimen día/noche + retardos de sirena 2X-A.'
+  confidence: alta
+  pdfs_used:
+  - Manuales_Aritech/00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf
+  _provenance:
+    estado: verificado
+    metodo: 'localización: grep por-página en el manual de instalación 2X-A ES (190pp, digital-native;
+      ''día/noche'' pp18,19,61-66,79,85,119,125-130,135,169,173-179 + índice p188 ''modo día/noche, 57'';
+      ''retardo''+sirena pp133-142; secciones core: pp63-65 modo día/noche en nivel mantenimiento + pp133-135
+      retardos de grupos de salidas en nivel instalador) + render @200dpi pp62-66 y pp133-136 (±1; pp63/64/65/134/135
+      leídas al píxel: Tablas 22/23/61/62 ≡ texto extraído, impresas 57/58/59/128/129) + doble-señal AND:
+      co-gen GPT-5.5 (57 hechos, 0 desacuerdos; citas impresas p57-59/128-129 = PDF 63-65/134-135) Y match
+      determinista 19/19 anchors (anula el retardo establecido, 24:00, Deshab retardos Modo Noche, Config
+      Activación, 10 minutos, 16:40, Wrn_Ret, pulsador manual omiten, no procesa retardos en modo noche,
+      cross-ref p59...) + SQL chunks_v2 (existence): Programa Día/Noche×9, anula-el-retardo×1, Deshab-retardos×1,
+      Config Activación×6, máx-10-min×2, pulsador-omiten×1'
+    verificado_por: Claude (Fable 5) + GPT-5.5 (cross_generate s57c)
+    localizacion:
+      manuales_buscados:
+      - Manuales_Aritech/00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf (manual de la
+        serie; las variantes 2X-AF2 etc. comparten manual — establecido en ho001/ho005)
+      - (el manual de OPERACIÓN de la serie 2X-A no está como doc separado en el lote local; el de instalación
+        contiene la operativa de configuración completa de día/noche y retardos)
+      - '(EN: el manual 2X-A del lote es ES; los docs EN 2X-A del corpus son compatibility lists bcn-3100035/36-en,
+        sin configuración día/noche)'
+      idiomas: ES (manual instalación ES); el predicado completo está en ES
+      resultado: 'modo día/noche en pp63-65 (impresas 57-59: Tabla 22 semántica, programa semanal, festivos,
+        Tabla 23 opciones adicionales) + retardos de sirena en pp133-135 (impresas 127-129: Config Activación,
+        Tabla 62, máximos y reglas) + bisagra explícita en p135 (default: sin retardos en modo noche →
+        cross-ref a impresa 59)'
+- qid: ho008
+  question: ¿Cuántos puntos/zonas soporta la central compacta Detnov CAD-171 y cómo se amplía?
+  conducta_esperada: answer
+  split: held-out
+  estrato:
+  - sintesis-completitud
+  gold_answer: |-
+    La CAD-171 (serie VESTA) trae de base 2 lazos — los LAZOS 1 y 2 van en la propia Power Board — y hasta 500 dispositivos (250 por lazo). En configuración admite 2.000 zonas programables por panel, 250 áreas y 1.000 grupos; cada lazo se puede subdividir en múltiples zonas sin superar ese máximo absoluto de 2.000. Cada lazo soporta hasta 250 dispositivos analógicos DETNOV (detectores, pulsadores, sirenas, módulos de E/S, aisladores, barreras), alimentados del propio lazo. Criterio de diseño: según UNE 23007-14, máximo 32 elementos de iniciación de alarma por zona, con topología en anillo (ramales tolerados pero desaconsejados).
+
+    AMPLIACIÓN INTERNA: la placa principal tiene capacidad para instalar hasta 3 tarjetas de 2 lazos ref. TBUD-NG, con lo que la CAD-171 soporta hasta 8 lazos en total (2 en placa + 3×2 de las tarjetas).
+
+    AMPLIACIÓN EN RED: incorpora interfaz para conexión de centrales en red T-Network (RS485, conectores ENTRADA/SALIDA RED) hasta 64 nodos; según el datasheet, una red VESTA puede llegar a controlar más de 512.000 dispositivos según la composición y el tipo de centrales. También dispone de Ethernet nativo (programación remota, Modbus IP).
+  atomic_facts:
+  - texto: La configuración base de la CAD-171 es de 2 lazos y hasta 500 dispositivos (250 por lazo);
+      los LAZOS 1 y 2 están en la Power Board
+    tipo: core
+    estado: presente
+    valor: 2 lazos / 500 dispositivos (250 por lazo)
+    cita: MI-716 p7 (§2.8) y p15 (§4.4.1/4.4.3)
+  - texto: La CAD-171 dispone de 2.000 zonas programables por panel, 250 áreas y 1.000 grupos
+    tipo: core
+    estado: presente
+    valor: 2.000 zonas / 250 áreas / 1.000 grupos
+    cita: MI-716 p8 (§2.9)
+  - texto: Cada lazo puede soportar hasta 250 dispositivos analógicos DETNOV (sirenas, módulos de entrada/salida,
+      aisladores, detectores o barreras), alimentados del propio lazo
+    tipo: core
+    estado: presente
+    valor: 250 dispositivos analógicos por lazo
+    cita: MI-716 p16 (§4.5)
+  - texto: Cada lazo es subdivisible en múltiples zonas sin superar el número de zonas absoluto de 2.000
+    tipo: core
+    estado: presente
+    valor: máximo absoluto 2.000 zonas
+    cita: MI-716 p16
+  - texto: La placa principal tiene capacidad para la instalación de 3 tarjetas de 2 lazos ref. TBUD-NG
+    tipo: core
+    estado: presente
+    valor: 3 tarjetas TBUD-NG de 2 lazos
+    cita: MI-716 p8 (§2.9.1)
+  - texto: La CAD-171 soporta hasta 8 lazos
+    tipo: core
+    estado: presente
+    valor: hasta 8 lazos
+    cita: MI-716 p15 (§4.4.3, tabla Power Board item LAZOS)
+  - texto: Interfaz incorporada para conexión de centrales en red (T-Network, RS485 con conectores ENTRADA
+      RED / SALIDA RED) hasta 64 nodos
+    tipo: core
+    estado: presente
+    valor: red hasta 64 nodos
+    cita: MI-716 p7 (§2.8) y p15 (§4.4.2); DS-736 p2
+  - texto: La red T-Network de centrales serie VESTA puede llegar a controlar más de 512.000 dispositivos
+      según la composición y tipo de central en red
+    tipo: supplementary
+    estado: presente
+    valor: '>512.000 dispositivos en red'
+    cita: DS-736 p2
+  - texto: Según la norma de diseño UNE 23007-14, el número máximo de elementos de iniciación de alarma
+      de incendio por zona es de 32; topología en anillo exigida (ramales tolerados pero desaconsejados)
+    tipo: supplementary
+    estado: presente
+    valor: 32 elementos de iniciación por zona
+    cita: MI-716 p16
+  - texto: La central dispone de puerto Ethernet nativo multipropósito (programación remota, Modbus IP)
+      y puerto USB tipo A
+    tipo: supplementary
+    estado: presente
+    valor: Ethernet nativo + USB
+    cita: MI-716 p7; DS-736 p2
+  citations:
+  - pdf: Manuales_Detnov/Manual_CAD-171-MI-716-es.pdf
+    page: 7
+    quote: 2 lazos y hasta 500 dispositivos (250 por lazo).
+  - pdf: Manuales_Detnov/Manual_CAD-171-MI-716-es.pdf
+    page: 8
+    quote: 2.000 zonas programables por panel.
+  - pdf: Manuales_Detnov/Manual_CAD-171-MI-716-es.pdf
+    page: 8
+    quote: Capacidad para la instalación de 3 tarjetas de 2 lazos ref. TBUD-NG.
+  - pdf: Manuales_Detnov/Manual_CAD-171-MI-716-es.pdf
+    page: 15
+    quote: La CAD-171 soporta hasta 8 lazos.
+  - pdf: Manuales_Detnov/Manual_CAD-171-MI-716-es.pdf
+    page: 16
+    quote: Es posible subdividir cada lazo en múltiples zonas sin superar el número de zonas absoluto
+      de 2.000.
+  - pdf: Manuales_Detnov/Datasheet_CAD-171-DS-736-es.pdf
+    page: 2
+    quote: La red T-Network de centrales serie VESTA permite expandir el sistema hasta un total de 64
+      nodos, pudiendo llegar a controlar más de 512.000 dispositivos según la composición y tipo de central
+      en red.
+  notes: 'HELD-OUT (embargo): autorado s57c, jamás corrido contra el bot. Etiqueta resuelta SEGÚN FUENTE
+    dentro de lo pre-firmado (la fila decía ''multi-doc (o sintesis, según fuente)''): el predicado completo
+    vive ÍNTEGRO en el MI-716 pero DISPERSO en dos bloques (§2.8-2.9 arquitectura pp7-8 y §4.4-4.5 Power
+    Board/lazos pp15-16; el ''hasta 8 lazos'' SOLO aparece en la tabla de p15) → sintesis-completitud;
+    el datasheet DS-736 suplementa (>512.000 en red). Anti-dup cat001 (PEARL: capacidad de LAZO + alta
+    de dispositivo; aquí capacidad de CENTRAL + ampliación por tarjetas/red). Neutralidad TECH_DEBT #43
+    respetada: la localización barrió también los manuales de serie etiquetados CAD-250 (MC-380/MS-416,
+    que SÍ mencionan CAD-171) sin diseñar el gold para pillar/esquivar el bug del filtro de modelo; el
+    dato preguntado vive en los docs propios del CAD-171.'
+  confidence: alta
+  pdfs_used:
+  - Manuales_Detnov/Manual_CAD-171-MI-716-es.pdf
+  - Manuales_Detnov/Datasheet_CAD-171-DS-736-es.pdf
+  _provenance:
+    estado: verificado
+    metodo: 'localización: grep por-página en los 8 docs Detnov locales (MI-716 48pp digital-native: capacidad
+      pp7-8, Power Board/lazos pp15-16; DS-736 ES 3pp: descripción p1 + características p2; DS-737 EN
+      espejo; MI-715/DS-740/741 = CAD-201, otro modelo; MC-380/MS-416 = manuales de serie etiquetados
+      CAD-250 que mencionan CAD-171 pp2-26/8-13 — configuración de familia, sin el dato de capacidad/ampliación
+      física) + render @200dpi MI-716 pp6-9 y pp14-17 + DS-736 pp1-2 (±1; pp7/8/15/16 leídas al píxel:
+      §2.9 lista de prestaciones, §2.9.1 TBUD-NG, tabla §4.4.3 ''La CAD-171 soporta hasta 8 lazos'', §4.5
+      250-por-lazo ≡ texto extraído) + doble-señal AND: co-gen GPT-5.5 (15 hechos, 0 desacuerdos) Y match
+      determinista 14/14 anchors (2 lazos y hasta 500, TBUD-NG, 8 lazos, LAZOS 1 y 2, 2.000 absoluto,
+      32 por zona, 64 nodos, 512.000...) + SQL chunks_v2 (existence): MI-716 75 chunks (8-lazos×1, TBUD×1,
+      250×3; ''**2.000** zonas'' presente en el chunk de p8 con negrita markdown) + DS-736 4 chunks (zonas×1,
+      250×2); DS-737-en también en corpus'
+    verificado_por: Claude (Fable 5) + GPT-5.5 (cross_generate s57c)
+    localizacion:
+      manuales_buscados:
+      - Manuales_Detnov/Manual_CAD-171-MI-716-es.pdf
+      - Manuales_Detnov/Datasheet_CAD-171-DS-736-es.pdf
+      - Manuales_Detnov/Datasheet-CAD-171-DS-737-en.pdf (espejo EN del datasheet; mismo contenido)
+      - 'Manuales_Detnov/CAD-250_Manual-Configuracion-MC-380-es-2026-c.pdf (manual de serie/familia: menciona
+        CAD-171 en pp2,6,10,11,26 — configuración, no capacidad física)'
+      - Manuales_Detnov/CAD-250_Manual-software-configuracion-MS-416-es-2026-b.pdf (ídem, pp8,12,13)
+      - Manuales_Detnov/Manual_CAD-201-MI-715-es.pdf + Datasheet_CAD-201-DS-740/741 (CAD-201 = otro modelo
+        de la familia, descartados como fuente del CAD-171)
+      idiomas: ES (MI-716 + DS-736); EN disponible solo como datasheet espejo (DS-737)
+      resultado: 'capacidad base en MI-716 p7 (§2.8: 2 lazos/500 disp/250 por lazo) y p8 (§2.9: 2.000
+        zonas/250 áreas/1.000 grupos); ampliación interna en p8 (§2.9.1: 3×TBUD-NG) + p15 (§4.4.3: hasta
+        8 lazos; LAZOS 1-2 en Power Board); reglas por lazo/zona en p16 (§4.5: 250 analógicos, 2.000 absoluto,
+        UNE 23007-14 32/zona); red T-Network 64 nodos en p7/p15 + DS-736 p2 (>512.000 en red)'
+- qid: ho009
+  question: Quiero pedir la central táctil 2X-AT de Kidde, ¿qué referencia exacta pido?
+  conducta_esperada: clarify
+  split: held-out
+  estrato:
+  - familia-ambigua
+  gold_answer: |-
+    «2X-AT» no es una referencia de pedido única: es la familia de paneles táctiles 2X-AT-F2 y en catálogo hay 6 variantes que cambian la caja, la fuente de alimentación y los controles de bomberos. Todas son panel direccionable con pantalla táctil de 7", 2 lazos de alta potencia (500 mA por lazo, ampliable a 800 mA con el PAK) y hasta 256 dispositivos / 512 zonas. Para confirmarte la referencia exacta, ¿qué necesitas?
+
+    • 2X-AT-F2 — caja GRANDE, 2 lazos ampliables a 4 (con placa adicional: hasta 512 dispositivos).
+    • 2X-AT-F2-P — caja grande con FUENTE DE ALIMENTACIÓN GRANDE, ampliable a 4 lazos.
+    • 2X-AT-F2-S — caja PEQUEÑA, 2 lazos (las fichas de caja pequeña no documentan la ampliación a 4 lazos).
+    • 2X-AT-F2-FB — caja grande CON CONTROLES DE BOMBEROS, ampliable a 4 lazos.
+    • 2X-AT-F2-FB-P — controles de bomberos + fuente de alimentación grande (PSU 10 A), caja grande.
+    • 2X-AT-F2-FB-S — controles de bomberos en caja pequeña.
+
+    Dime: (1) ¿caja grande o pequeña (espacio/baterías)? (2) ¿necesitas controles de bomberos (FB)? (3) ¿fuente de alimentación estándar o grande (P)? — y te doy la referencia exacta. Si prevés ampliar a 4 lazos, descarta las versiones -S.
+  atomic_facts:
+  - texto: '«2X-AT» no es una entrada exacta del catálogo de modelos: la familia táctil son 6 referencias
+      2X-AT-F2* (2X-AT-F2, -P, -S, -FB, -FB-P, -FB-S) → conducta clarify ofreciendo los candidatos y pidiendo
+      el criterio (caja/PSU/bomberos)'
+    tipo: core
+    estado: presente
+    valor: 6 candidatas, sin match exacto
+    cita: model_catalog.json (587 modelos; '2X-AT' ∉ catálogo; 6 variantes 2X-AT-F2*)
+  - texto: 2X-AT-F2 = panel de incendios direccionable con pantalla táctil, 2 lazos, caja grande; 2 lazos
+      de alta potencia ampliables a 4 con 500 mA por lazo
+    tipo: core
+    estado: presente
+    valor: 'base: caja grande, ampliable a 4'
+    cita: datasheet 2x-at-f2-161721-es p1
+  - texto: 'El sufijo -P = fuente de alimentación grande (2X-AT-F2-P: ''Fuente de alimentación grande,
+      2 lazos, caja grande'')'
+    tipo: core
+    estado: presente
+    valor: -P = PSU grande
+    cita: datasheet 2x-at-f2-p-161721-es p1
+  - texto: 'El sufijo -S = caja pequeña (2X-AT-F2-S: ''2 lazos, caja pequeña''); las fichas de caja pequeña
+      indican 2 lazos de alta potencia con 500 mA por lazo SIN la mención ''ampliables a 4'''
+    tipo: core
+    estado: presente
+    valor: -S = caja pequeña, sin ampliación documentada
+    cita: datasheet 2x-at-f2-s-161721-es p1
+  - texto: 'El sufijo -FB = controles de bomberos (2X-AT-F2-FB: ''pantalla táctil y controles de bomberos,
+      2 lazos, caja grande'')'
+    tipo: core
+    estado: presente
+    valor: -FB = controles de bomberos
+    cita: datasheet 2x-at-f2-fb-161721-es p1
+  - texto: 'Las combinaciones existen: 2X-AT-F2-FB-P (bomberos + PSU grande, 10 A) y 2X-AT-F2-FB-S (bomberos
+      + caja pequeña)'
+    tipo: core
+    estado: presente
+    valor: -FB-P y -FB-S
+    cita: datasheets 2x-at-f2-fb-p / 2x-at-f2-fb-s p1
+  - texto: 'Rasgos comunes de la familia: pantalla táctil de 7", 2 lazos de alta potencia 500 mA/lazo
+      (PAK opcional a 800 mA), hasta 256 dispositivos, 512 zonas y 300 grupos de salida; con la placa
+      adicional de 2 lazos (cajas grandes) el panel llega a hasta 512 dispositivos'
+    tipo: supplementary
+    estado: presente
+    valor: 7" / 500→800 mA / 256→512 dispositivos / 512 zonas
+    cita: datasheet 2x-at-f2-161721-es p1
+  citations:
+  - pdf: Manuales_Kidde/2x-at-f2-161721-es.pdf
+    page: 1
+    quote: 2X-AT-F2 — Panel de incendios direccionable con pantalla táctil, 2 lazos, caja grande. [...]
+      2 lazos de alta potencia ampliables a 4 con 500 mA por lazo. [...] Hasta 256 dispositivos, 512 zonas
+      y 300 grupos de salida.
+  - pdf: Manuales_Kidde/2x-at-f2-p-161721-es.pdf
+    page: 1
+    quote: 2X-AT-F2-P — Panel de incendios direccionable con pantalla táctil, Fuente de alimentación grande,
+      2 lazos, caja grande.
+  - pdf: Manuales_Kidde/2x-at-f2-s-161721-es.pdf
+    page: 1
+    quote: 2X-AT-F2-S — Panel de incendios direccionable con pantalla táctil, 2 lazos, caja pequeña. [...]
+      2 lazos de alta potencia con 500 mA por lazo.
+  - pdf: Manuales_Kidde/2x-at-f2-fb-161721-es.pdf
+    page: 1
+    quote: 2X-AT-F2-FB — Panel de incendios direccionable con pantalla táctil y controles de bomberos,
+      2 lazos, caja grande.
+  - pdf: Manuales_Kidde/2x-at-f2-fb-s-161721-es.pdf
+    page: 1
+    quote: 2X-AT-F2-FB-S — Panel de incendios direccionable con pantalla táctil y controles de bomberos,
+      2 lazos, caja pequeña.
+  - pdf: data/model_catalog.json
+    page: 0
+    quote: '''2X-AT'' no es entrada del catálogo (587 modelos); variantes presentes: 2X-AT-F2, 2X-AT-F2-FB,
+      2X-AT-F2-FB-P, 2X-AT-F2-FB-S, 2X-AT-F2-P, 2X-AT-F2-S.'
+  notes: 'HELD-OUT (embargo): autorado s57c, jamás corrido contra el bot. familia-ambigua / clarify (RULER
+    §1 D6): ''2X-AT'' NO matchea exacto en model_catalog.json → 6 candidatas reales → clarify-media con
+    candidatos del catálogo y criterios de decisión (caja grande/pequeña, PSU estándar/grande, con/sin
+    controles de bomberos). Re-draft F3 de la selección: ''2X-AT-F2'' sí era entrada exacta (habría sido
+    answer-con-asunción); ''2X-AT'' no lo es. Framing ''pedido de central'' distinto de cat011/cat021
+    (''necesito un detector «xxx»''). Nota oem: los 6 datasheets están en chunks_v2 bajo manufacturer=Aritech
+    (portal cross-brandea, DEC-035) y la pregunta dice ''de Kidde'' — la conducta evaluada sigue siendo
+    el clarify de familia, no el relabel.'
+  confidence: alta
+  pdfs_used:
+  - Manuales_Kidde/2x-at-f2-161721-es.pdf
+  - Manuales_Kidde/2x-at-f2-p-161721-es.pdf
+  - Manuales_Kidde/2x-at-f2-s-161721-es.pdf
+  - Manuales_Kidde/2x-at-f2-fb-161721-es.pdf
+  - Manuales_Kidde/2x-at-f2-fb-p-161721-es.pdf
+  - Manuales_Kidde/2x-at-f2-fb-s-161721-es.pdf
+  _provenance:
+    estado: verificado
+    metodo: 'localización: catálogo verificado por código (data/model_catalog.json: ''2X-AT'' ∉ 587 modelos;
+      6 variantes 2X-AT-F2* presentes — match determinista de la ambigüedad) + grep en los 6 datasheets
+      (títulos diferenciales caja/PSU/FB; diferencial de ampliación: ''ampliables a 4'' SOLO en cajas
+      grandes) + quick start/operation guides de la serie registradas + render @200dpi p1 de los 6 datasheets
+      (base/-S/-FB leídas al píxel: títulos y Detalles ≡ texto extraído; digital-native TCPDF) + doble-señal
+      AND: co-gen GPT-5.5 (20 hechos, 0 desacuerdos; aporta PSU 10 A del FB-P) Y match determinista 11/11
+      anchors (títulos de las 6 variantes, ampliables-a-4, caja pequeña, fuente grande, fire brigade,
+      256/512/300, lleva el panel a hasta 512, táctil 7) + SQL chunks_v2 (existence): los 6 datasheets
+      en corpus (5-7 chunks c/u, manufacturer=Aritech)'
+    verificado_por: Claude (Fable 5) + GPT-5.5 (cross_generate s57c)
+    localizacion:
+      manuales_buscados:
+      - 'data/model_catalog.json (fuente única del clarify, D6: define candidatas y el no-match)'
+      - Manuales_Kidde/2x-at-f2-161721-es.pdf + 5 variantes (-p/-s/-fb/-fb-p/-fb-s)
+      - Manuales_Kidde/00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es.pdf (guía de la serie;
+        espejo en Manuales_Aritech)
+      - Manuales_Kidde/00-3280-508-4209-02_r002_2x-at_series_quick_operation_guide_es.pdf (ídem)
+      idiomas: ES (datasheets ES; el de -FB-P mezcla título/bullets EN del portal)
+      resultado: 'la ambigüedad se prueba en el catálogo (no-match + 6 candidatas) y los diferenciales
+        en los títulos/Detalles de los 6 datasheets: -P = PSU grande, -S = caja pequeña (sin ampliación
+        a 4 documentada), -FB = controles de bomberos, combinaciones -FB-P/-FB-S; comunes: táctil 7",
+        2 lazos 500 mA (PAK 800), 256 disp/512 zonas'
+- qid: ho010
+  question: ¿Las centrales convencionales de la serie NC se pueden conectar en red entre sí?
+  conducta_esperada: answer
+  split: held-out
+  estrato: []
+  gold_answer: |-
+    Sí. Las centrales convencionales de la serie NC pueden formar una red de incendios entre sí. Hace falta la tarjeta de red opcional 2010-1-NB en cada central: cada tarjeta tiene dos puertos y cada puerto se conecta punto a punto con el puerto correspondiente de la tarjeta de otra central.
+
+    Hay dos topologías de cableado: ANILLO (clase A) — la recomendada, porque da redundancia en la ruta de transmisión; se usan los dos puertos para cerrar el anillo entre todas las centrales — y BUS (clase B), que en general no se recomienda (sin redundancia) y, para cumplir la normativa UE, solo debe usarse cuando las áreas de detección y las salidas obligatorias EN 54-2 (enrutado de incendio y sirenas) no sean remotas entre centrales.
+
+    La red sirve para: (1) conectar repetidores — cualquier central convencional NC puede configurarse para actuar como repetidor; (2) crear una red de centrales convencionales cuando se necesitan zonas convencionales adicionales (el manual pone como ejemplo una central virtual de 16 zonas compuesta por dos centrales de 8 zonas); y (3) crear una red que incluya centrales direccionables compatibles para añadir funciones (registro de eventos, activación compleja de salidas, supervisión remota).
+
+    En la configuración básica, el identificador de red (número de nodo) de cada central va de 00 a 32 (00 = independiente, sin red — el valor predeterminado) y el número de nodos de la red se configura de 02 a 32 (la básica usa números consecutivos desde 1; la avanzada permite nodos no secuenciales).
+  atomic_facts:
+  - texto: Las centrales NC pueden formar una red de incendios de centrales convencionales (zonas adicionales),
+      conectar repetidores o integrarse en una red con centrales direccionables compatibles
+    tipo: core
+    estado: presente
+    valor: red entre sí documentada
+    cita: manual instalación p79 (impresa 73)
+  - texto: 'La conexión de red usa la tarjeta de red 2010-1-NB: dos puertos por tarjeta, cada puerto conectado
+      punto a punto al de la tarjeta de otra central'
+    tipo: core
+    estado: presente
+    valor: tarjeta 2010-1-NB, punto a punto
+    cita: manual instalación p31 (impresa 25)
+  - texto: 'Dos opciones de cableado: configuración en anillo y configuración en bus'
+    tipo: core
+    estado: presente
+    valor: anillo / bus
+    cita: manual instalación p31
+  - texto: La configuración en anillo (clase A) es la recomendada porque proporciona redundancia en la
+      ruta de transmisión; usa los dos puertos para formar el anillo
+    tipo: core
+    estado: presente
+    valor: anillo clase A recomendado
+    cita: manual instalación p32 (impresa 26)
+  - texto: La configuración en bus (clase B) no se recomienda en general (sin redundancia) y por normativa
+      UE solo debe usarse si las áreas de detección y las salidas EN 54-2 obligatorias (enrutado de incendio
+      y sirena) no son remotas entre centrales
+    tipo: core
+    estado: presente
+    valor: bus clase B restringido (EN 54-2)
+    cita: manual instalación p32
+  - texto: Cualquier central convencional NC puede configurarse para que actúe como repetidor
+    tipo: core
+    estado: presente
+    valor: cualquier NC = repetidor
+    cita: manual instalación p79
+  - texto: 'Identificador de red (número de nodo): de 00 a 32, donde 00 = independiente (sin red), valor
+      predeterminado; número de nodos de la red: de 02 a 32 (predeterminado 02)'
+    tipo: core
+    estado: presente
+    valor: nodo 00-32; nodos 02-32
+    cita: manual instalación p80 (impresa 74), Tabla 26
+  - texto: 'Ejemplo del manual: una red de incendios básica puede estar formada por una central o un repetidor,
+      o una central virtual de 16 zonas compuesta por dos centrales de 8 zonas'
+    tipo: supplementary
+    estado: presente
+    valor: central virtual 16 zonas = 2×8
+    cita: manual instalación p80
+  - texto: Una red con centrales direccionables compatibles añade registro de eventos, activación compleja
+      de salidas controlada por el sistema direccionable y supervisión remota
+    tipo: supplementary
+    estado: presente
+    valor: red mixta con direccionables
+    cita: manual instalación p79
+  - texto: Una central convencional conectada a la red muestra el estado de una o varias centrales; manteniendo
+      pulsada la tecla Intro 3 segundos se visualizan 30 segundos las indicaciones de estado local
+    tipo: supplementary
+    estado: presente
+    valor: Intro 3 s → estado local 30 s
+    cita: manual instalación p79
+  citations:
+  - pdf: Manuales_Kidde/bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual.pdf
+    page: 31
+    quote: Cada tarjeta de red 2010-1-NB tiene dos puertos. Cada puerto se conecta (punto a punto) a los
+      puertos correspondientes de la tarjeta de red de otra central.
+  - pdf: Manuales_Kidde/bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual.pdf
+    page: 32
+    quote: Se recomienda usar la configuración de red en anillo, ya que proporciona una redundancia en
+      la ruta de transmisión.
+  - pdf: Manuales_Kidde/bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual.pdf
+    page: 79
+    quote: Crear una red de incendios de centrales convencionales cuando se necesiten zonas convencionales
+      adicionales en el sistema.
+  - pdf: Manuales_Kidde/bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual.pdf
+    page: 79
+    quote: Conectar repetidores (cualquier central convencional puede configurarse para que actúe como
+      repetidor).
+  - pdf: Manuales_Kidde/bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual.pdf
+    page: 80
+    quote: Una red de incendios básica puede estar formada por una central o un repetidor, o una central
+      virtual de 16 zonas compuesta por dos centrales de 8 zonas.
+  notes: 'HELD-OUT (embargo): autorado s57c, jamás corrido contra el bot. CONDUCTA RESUELTA SEGÚN FUENTE
+    dentro de lo pre-firmado: la fila decía ''admit si ausencia-probada; si documentado → answer (declarado)''
+    — el barrido D5 encontró la red NC DOCUMENTADA y SUSTANTIVA (sección ''Configuración de la red de
+    incendios y los repetidores'' impresas 73-80 + ''Conexión de una red de incendios'' impresas 25-26)
+    → answer. La prio-2 (software 2X-A) NO se usa: estaba reservada para el caso documentada-TRIVIAL y
+    esto es una sección entera. CONSECUENCIA DECLARADA para el PREREG: el eje no-fabricación held-out
+    queda sin conducta admit (solo ho011 refuse) — agrava el gap 6 de la selección (conductas no-answer
+    a n=1); se declara en el cierre s57c. Sin estrato de autoría (eje era CONDUCTA; precedente: 8 golds
+    dev sin tag). Lectura 7-segmentos: los iconos de la Tabla 26 (visualización del display) NO se transcriben
+    al gold (lección s31); se usan las descripciones textuales. Doble-señal cazó un error de lectura del
+    AUTOR: el render se leyó ''una central Y un repetidor'' pero el texto extraído + GPT-5.5 dicen ''una
+    central O un repetidor'' → verbatim ''o'' (la cita va exacta).'
+  confidence: alta
+  pdfs_used:
+  - Manuales_Kidde/bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual.pdf
+  _provenance:
+    estado: verificado
+    metodo: 'localización D5 (barrido de ausencia que resultó en presencia): grep ''red de incendios''
+      en el manual de instalación NC (22 páginas con mención; secciones core pp31-32 cableado + pp79-86
+      configuración) + manual de operación (p25: indicaciones locales del repetidor) + quick guides (sin
+      contenido de red grepeable) + datasheets nc-pf* (specs de modelos) → DOCUMENTADO → answer declarado
+      + render @200dpi pp30-33 y pp78-81 (±1; pp31/80 leídas al píxel: Figura 12 bornas A/B de la tarjeta
+      + Tabla 26 ≡ texto extraído) + doble-señal AND: co-gen GPT-5.5 (29 hechos, 1 discrepancia de lectura
+      resuelta por match determinista A FAVOR de GPT: ''una central o un repetidor'' — el autor había
+      leído ''y'' en el render) Y match determinista 13/13 anchors (2010-1-NB, dos puertos punto a punto,
+      anillo clase A, sin redundancia, EN 54-2 no remotas, actúe como repetidor, 00-32/02-32, central
+      virtual 16 zonas...) + SQL chunks_v2 (existence): manual instalación 126 chunks con hits 2010-1-NB×1,
+      configuración-en-anillo×1, central-virtual×1, actúe-como-repetidor×1'
+    verificado_por: Claude (Fable 5) + GPT-5.5 (cross_generate s57c)
+    localizacion:
+      manuales_buscados:
+      - Manuales_Kidde/bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual.pdf
+        (cableado pp31-32 + configuración pp79-86)
+      - 'Manuales_Kidde/bcn-3100018-es_r002_nc_series_fire_alarm_control_panel_operation_manual.pdf (p25:
+        operativa del repetidor en red — coherente)'
+      - Manuales_Kidde/bcn-3100019/20 quick guides (sin contenido de red)
+      - Manuales_Kidde/nc-pf2/pf4/pf4-sc/pf8/pf8-sc datasheets (specs)
+      - '(EN: sin docs NC en inglés en local ni corpus — verificado en ho006 por SQL bcn-31000%)'
+      idiomas: ES (los 4 docs NC del lote son ES); barrido EN sin docs NC
+      resultado: 'PRESENCIA documentada: red de incendios NC entre sí vía tarjeta 2010-1-NB (p31, impresa
+        25) con topologías anillo/bus (p32) y configuración de nodos 00-32 (pp79-80, impresas 73-74) →
+        conducta answer (la rama ''ausencia-probada'' decae; prio-2 no aplica por ser documentada-sustantiva)'
+- qid: ho011
+  question: ¿Puedo montar el FD2705R en exterior, o a más distancia de la documentada?
+  conducta_esperada: refuse-inference
+  split: held-out
+  estrato: []
+  gold_answer: |-
+    No con lo que documenta el fabricante — y no debo extrapolar más allá de la documentación en un equipo de protección contra incendios.
+
+    EXTERIOR: la ficha técnica del FD2705R especifica entorno de uso INTERIOR y clasificación IP50 (sin protección contra agua); la humedad admitida es 93% sin condensación y la guía de instalación advierte expresamente no instalar el detector ni el reflector donde sea probable condensación o hielo. Montarlo en exterior queda fuera de las condiciones documentadas, así que no puedo avalarlo; si la aplicación es exterior, consúltalo con el fabricante o plantea un equipo con certificación apropiada.
+
+    DISTANCIA: el rango operativo documentado del FD2705R (detector de 50 m, reflectivo) es de 5 a 50 metros con 1 reflector. No hay soporte documental para usarlo a más de 50 m. Si necesitas cubrir entre 50 y 100 m, la propia guía indica la solución documentada: el detector de 100 m con 4 reflectores (no estirar el de 50 m). Por encima de 100 m no hay ninguna configuración documentada.
+
+    Límites adicionales a respetar: temperatura de funcionamiento -10 a +55 °C (EN), altura de instalación < 25 m, haz lo más alto posible pero a un mínimo de 0,5 m del techo (y en instalaciones UL268/NFPA72, detector y reflector a un máximo del 10% de la altura suelo-techo).
+  atomic_facts:
+  - texto: El entorno de uso documentado del FD2705R es Interior, con clasificación IP50
+    tipo: core
+    estado: presente
+    valor: 'Entorno: Interior; IP50'
+    cita: datasheet ES p2 (Medioambiental); guide EN p8 (IP rating IP50)
+  - texto: El rango operativo documentado del detector de 50 m es de 5 a 50 metros (rango lineal 5-50
+      m), con 1 reflector
+    tipo: core
+    estado: presente
+    valor: 5-50 m con 1 reflector
+    cita: guide EN p2 y p8; datasheet ES p1-2
+  - texto: Para rangos entre 50 y 100 m la guía documenta usar un detector de 100 m con 4 reflectores
+      (no el de 50 m); no hay configuración documentada por encima de 100 m
+    tipo: core
+    estado: presente
+    valor: 50-100 m → detector de 100 m + 4 reflectores
+    cita: guide EN p2 y p8
+  - texto: La humedad relativa admitida es 93% sin condensación y la guía advierte no instalar detector/reflector
+      donde sea probable condensación o hielo
+    tipo: core
+    estado: presente
+    valor: 93% non-condensing; sin condensación/hielo
+    cita: datasheet ES p2; guide EN p2
+  - texto: 'Temperatura de funcionamiento documentada (EN): -10 a 55 °C'
+    tipo: supplementary
+    estado: presente
+    valor: -10 a 55 °C
+    cita: datasheet ES p2; guide EN p8
+  - texto: 'Altura de instalación documentada < 25 m; haz lo más alto posible con mínimo 0,5 m del detector
+      al techo; UL268/NFPA72: detector y reflector a máximo 10% de la distancia suelo-techo'
+    tipo: supplementary
+    estado: presente
+    valor: <25 m; 0,5 m del techo; 10% UL
+    cita: datasheet ES p1-2; guide EN p2
+  - texto: El FD2705R es una barrera reflectiva alimentada del lazo (protocolo Aritech 2000, compatible
+      FP1200/2000 y series 2X), con cobertura < 750 m² y detección lateral 7,5 m
+    tipo: supplementary
+    estado: presente
+    valor: lazo Aritech 2000; <750 m²; lateral 7,5 m
+    cita: datasheet ES p1-2
+  citations:
+  - pdf: Manuales_Aritech/fd2705r-62536-es.pdf
+    page: 2
+    quote: 'Humedad relativa 93% (non-condensing) — Entorno: Interior — Clasificación IP: IP50'
+  - pdf: Manuales_Aritech/fd2705r-62536-es.pdf
+    page: 1
+    quote: Rango lineal de entre 5 y 50 metros. Altura máxima de colocación de 25 metros.
+  - pdf: Manuales_Aritech/22318.18.08_-_aritech_ra_-_fd2705-10r_english_std_reflective_user_guide_-_en.pdf
+    page: 2
+    quote: For ranges between 5m and 50m, use a 50m Detector with 1 Reflector. For ranges between 50m
+      and 100m, use a 100m Detector with 4 Reflectors.
+  - pdf: Manuales_Aritech/22318.18.08_-_aritech_ra_-_fd2705-10r_english_std_reflective_user_guide_-_en.pdf
+    page: 2
+    quote: Do NOT install the Detector or Reflector in environments where condensation or icing are likely
+      to occur
+  - pdf: Manuales_Aritech/22318.18.08_-_aritech_ra_-_fd2705-10r_english_std_reflective_user_guide_-_en.pdf
+    page: 8
+    quote: 'Operating Range (50 metre Detector): 5 to 50 metres. Operating Range (100 metre Detector):
+      50 to 100 metres. [...] IP rating: IP50.'
+  notes: 'HELD-OUT (embargo): autorado s57c, jamás corrido contra el bot. refuse-inference (eje CONDUCTA
+    no-fabricación, RULER §1 conducta 5): la pregunta pide EXTRAPOLAR dos condiciones fuera de lo documentado
+    (exterior; >50 m). CONDUCTA derivada de principios + límites documentados: NO extrapolar; negarse
+    con los límites y redirigir (variante de 100 m / consulta al fabricante) — la conducta vive aquí y
+    en conducta_esperada, NO como atomic_fact (consistencia de esquema con cat013: los facts son hechos-de-fuente;
+    ajuste por review adversarial s57c). El refuse se ancla en límites POSITIVOS documentados (no en mera
+    ausencia): Entorno=Interior + IP50 + 93% non-condensing + aviso de condensación/hielo (exterior),
+    y rango 5-50 m con la alternativa documentada 100 m/4 reflectores (distancia). Anti-dup cat013 (cross-brand
+    detector↔central ≠ extrapolación ambiental/de rango). El gold redirige sin fabricar tolerancias. es-en
+    nota: el predicado se sostiene en ES (datasheet) y EN (guide) — el doc EN es la fuente del procedimiento
+    (mismo doc de ho004); la cita de condensación está en EN. Addendum 0044-055-02 (EN54-12:2015: ferrita
+    + cable apantallado) registrado en localización; no altera rango/entorno.'
+  confidence: alta
+  pdfs_used:
+  - Manuales_Aritech/fd2705r-62536-es.pdf
+  - Manuales_Aritech/22318.18.08_-_aritech_ra_-_fd2705-10r_english_std_reflective_user_guide_-_en.pdf
+  _provenance:
+    estado: verificado
+    metodo: 'localización: los 3 docs FD2705R locales (guide EN 9pp digital-native; datasheet ES 2pp;
+      addendum EN/DE 0044-055-02: EN54-12 ferrita/cable apantallado + valores analógicos — no altera rango/entorno)
+      con grep dirigido (range/outdoor/indoor/IP/temperature/condensation) + render @200dpi guide pp1-2,7-8
+      + datasheet pp1-2 (±1; guide p8 y datasheet p2 leídos al píxel: el render reveló ''IP rating IP50''
+      y ''Entorno: Interior'' que el primer grep no había mostrado) + doble-señal AND: co-gen GPT-5.5
+      (18 hechos, 0 desacuerdos; aporta el aviso condensation-or-icing de p2) Y match determinista 13/13
+      anchors (5-50 m + 1 reflector, 100 m + 4 reflectors, 0.5m del techo, condensation or icing, -10/55
+      °C, IP50 ×2 docs, Entorno Interior, 93% non-condensing, altura 25 m) + SQL chunks_v2 (existence):
+      guide 9 chunks (IP50×1, rango×1), datasheet 2 chunks (IP50×1, Interior×1, rango×1), addendum 2 chunks.
+      La conducta refuse-inference se deriva de principios (no extrapolar equipos PCI fuera de lo documentado)
+      + los límites positivos localizados'
+    verificado_por: Claude (Fable 5) + GPT-5.5 (cross_generate s57c)
+    localizacion:
+      manuales_buscados:
+      - Manuales_Aritech/22318.18.08_-_aritech_ra_-_fd2705-10r_english_std_reflective_user_guide_-_en.pdf
+        (EN-only; rango/instalación/specs)
+      - 'Manuales_Aritech/fd2705r-62536-es.pdf (datasheet ES; Medioambiental: Interior + IP50)'
+      - Manuales_Aritech/0044-055-02_-_aritech_ra_-_fd2705-10r_addendum_-_en_de.pdf (addendum EN54-12:2015;
+        no modifica rango/entorno)
+      idiomas: 'ES (datasheet) + EN (guide y addendum); el campo Entorno/IP está en el datasheet ES (con
+        literales en inglés: ''non-condensing''); el procedimiento y avisos en el guide EN'
+      resultado: 'límites documentados localizados: rango 5-50 m (1 reflector) vs 50-100 m (detector de
+        100 m + 4 reflectores) en guide p2/p8; Entorno Interior + IP50 + 93% non-condensing en datasheet
+        p2 (+ IP50 en guide p8); aviso condensación/hielo en guide p2; -10/55 °C; altura <25 m, mínimo
+        0,5 m del techo → exterior y >50 m NO documentados → refuse-inference con redirección'
