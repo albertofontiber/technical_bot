@@ -1,0 +1,1111 @@
+meta:
+  generated_at: '2026-06-10T17:15:43'
+  git_commit: 9fbb04e
+  chunks_table: chunks_v2
+  funnel_file: dec003_retrieval_funnel_noTgt_llm.yaml
+  rank_probe_k: 300
+  n_facts: 14
+  qids:
+  - cat001
+  - cat017
+  - hp001
+  - hp002
+  - hp007
+  - hp008
+  - hp011
+results:
+- qid: cat001
+  question: En la Notifier PEARL, ¿cuántos equipos admite un lazo SLC y qué límites
+    de cableado hay (aisladores), y cómo se dan de alta y editan esos equipos desde
+    la central?
+  models_detected:
+  - Pearl
+  detected_category: Centrales de incendios
+  keywords:
+  - notifier
+  - equipos
+  - admite
+  synonyms: []
+  intents:
+  - wiring
+  vector_nofilter_returned: 40
+  cutoff50_sim: null
+  vector_cat_returned: 0
+  fts_returned: 0
+  manual_chunks_fetched: 227
+  facts:
+  - valor: 159+159 / 99+99
+    probe:
+    - '159'
+    - '99'
+    n_winners: 1
+    winners:
+    - chunk_id: a952e347-75f7-4579-8c32-feaaf513300f
+      source_file: 997-669-005-3_Instal-Comm_ES
+      page: 51
+      section_path: A1.4 Prestaciones
+      content_type: specification
+      product_model: Pearl
+      category: ES
+      language: es
+      content_len: 2998
+      has_blurb: true
+      blurb: Este fragmento pertenece al Apéndice 1 (Especificaciones) del Manual
+        de instalación y puesta en marcha de la Central de alarma contra incendios
+        Pearl de Notifier, y detalla las prestaciones técnicas d
+      preview: '# A1.4 Prestaciones ## A1.4.1 Capacidad del sistema **Lazos de detección:**
+        1 o 2. Cada lazo admite hasta 159 sensores más 159 módulos (protocolo Opal)
+        o 99 sensores más 99 módulos (protocolo CLIP), o una combinación de ambos
+        equipos. La ca'
+      sim_local: 0.5806
+      cutoff50_sim: null
+      rank_vector_nofilter: 22
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits:
+      - notifier
+      - equipos
+      - admite
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    proposed_cause: CATEGORY-FILTER
+  - valor: 0,75 A
+    probe:
+    - 0,75
+    n_winners: 1
+    winners:
+    - chunk_id: a952e347-75f7-4579-8c32-feaaf513300f
+      source_file: 997-669-005-3_Instal-Comm_ES
+      page: 51
+      section_path: A1.4 Prestaciones
+      content_type: specification
+      product_model: Pearl
+      category: ES
+      language: es
+      content_len: 2998
+      has_blurb: true
+      blurb: Este fragmento pertenece al Apéndice 1 (Especificaciones) del Manual
+        de instalación y puesta en marcha de la Central de alarma contra incendios
+        Pearl de Notifier, y detalla las prestaciones técnicas d
+      preview: '# A1.4 Prestaciones ## A1.4.1 Capacidad del sistema **Lazos de detección:**
+        1 o 2. Cada lazo admite hasta 159 sensores más 159 módulos (protocolo Opal)
+        o 99 sensores más 99 módulos (protocolo CLIP), o una combinación de ambos
+        equipos. La ca'
+      sim_local: 0.5806
+      cutoff50_sim: null
+      rank_vector_nofilter: 22
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits:
+      - notifier
+      - equipos
+      - admite
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    proposed_cause: CATEGORY-FILTER
+  - valor: 32 / 25 / 20
+    probe:
+    - '20'
+    - '25'
+    - '32'
+    n_winners: 1
+    winners:
+    - chunk_id: a92b566d-4a7e-4e04-91ef-a8d3b66d7723
+      source_file: 997-669-005-3_Instal-Comm_ES
+      page: 38
+      section_path: 6 Puesta en marcha > 6.4.2 Comprobaciones del lazo antes de conectar
+        el cableado
+      content_type: wiring
+      product_model: Pearl
+      category: ES
+      language: es
+      content_len: 2826
+      has_blurb: true
+      blurb: Este fragmento pertenece a la Sección 6.4.2 del manual de instalación
+        de la Central de Alarma Contra Incendios Pearl de Notifier y describe los
+        procedimientos y diagramas esquemáticos para verificar l
+      preview: '## 6.4.2 Comprobaciones del lazo antes de conectar el cableado La
+        siguiente ilustración muestra las conexiones típicas de equipos direccionables
+        analógicos a un lazo. ``` 47k ┌────┐ │ │ 18k│ │ └─●──┘ Ver nota 1 A ┌────────────┘
+        Monitor util'
+      sim_local: 0.601
+      cutoff50_sim: null
+      rank_vector_nofilter: 7
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits:
+      - equipos
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    proposed_cause: CATEGORY-FILTER
+- qid: cat017
+  question: ¿Como se cablea y se da de alta (configura) un lazo en la central Notifier
+    INSPIRE (E10/E15)?
+  models_detected:
+  - INSPIRE
+  detected_category: Centrales de incendios
+  keywords:
+  - cablea
+  - alta
+  - lazo
+  synonyms: []
+  intents:
+  - wiring
+  vector_nofilter_returned: 38
+  cutoff50_sim: null
+  vector_cat_returned: 0
+  fts_returned: 0
+  manual_chunks_fetched: 183
+  facts:
+  - valor: modulo OPAL HOP-433-100
+    probe:
+    - '-433'
+    - '100'
+    - hop-433
+    n_winners: 3
+    winners:
+    - chunk_id: f0dc41c3-25e3-4b21-b58a-416177fdcbff
+      source_file: HOP-138-9ES issue 5_11-2025_In
+      page: 47
+      section_path: MÓDULO DE LAZO (OPAL X 2)
+      content_type: troubleshooting
+      product_model: INSPIRE E10
+      category: ES
+      language: es
+      content_len: 2772
+      has_blurb: true
+      blurb: Este fragmento pertenece a la sección "Módulo de lazo (OPAL X 2)" de
+        las Instrucciones de instalación de la Central de detección de Incendios Notifier
+        INSPIRE E10/E15, y describe las características t
+      preview: '# MÓDULO DE LAZO (OPAL X 2) [Technical diagram showing a purple loop
+        module with the following terminal labels:] **1** Lazo 1 OUT +VE **2** Lazo
+        1 OUT -VE **3** ⊕ **4** Lazo 1 IN +VE **5** lazo1 IN-VE **1 2 3 4 5** **6
+        7 8 9 10** **6** Lazo'
+      sim_local: 0.68
+      cutoff50_sim: null
+      rank_vector_nofilter: 7
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits:
+      - lazo
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    - chunk_id: d8d482ea-3156-4b1b-bcd1-02be0761496a
+      source_file: HOP-138-9ES issue 5_11-2025_In
+      page: 25
+      section_path: Partes de la central
+      content_type: general
+      product_model: INSPIRE E10
+      category: ES
+      language: es
+      content_len: 2278
+      has_blurb: true
+      blurb: Este fragmento presenta el catálogo de productos y componentes disponibles
+        para las centrales Notifier INSPIRE E10/E15, incluyendo modelos base, baterías
+        opcionales, módulos funcionales y kits de inst
+      preview: '# Partes de la central ## GAMA DE CENTRALES NOTIFIER INSPIRE HOP-131-206
+        Central de alarma contra incendio INSPIRE E10 6S 240W 10" de 2 lazos HOP-134-412
+        Central de alarma contra incendio INSPIRE E15 12S 480W 10" de 2 lazos ## BATERÍA
+        (NO S'
+      sim_local: 0.5588
+      cutoff50_sim: null
+      rank_vector_nofilter: null
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits:
+      - lazo
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    - chunk_id: 4d76ec50-a17d-4af6-9334-f6d0b439f1cf
+      source_file: HOP-138-8ES  issue 6_01-2026_Co
+      page: 7
+      section_path: Circuitos de lazo
+      content_type: wiring
+      product_model: INSPIRE E10/E15
+      category: ES
+      language: es
+      content_len: 1299
+      has_blurb: true
+      blurb: Este fragmento forma parte de las **Instrucciones de puesta en marcha
+        de las Centrales de alarmas INSPIRE E10/E15 de Notifier**, en la sección de
+        "Circuitos de lazo" que describe las comprobaciones pr
+      preview: '# Circuitos de lazo ## COMPROBACIONES DE DETECTORES Y MÓDULOS DE LAZO
+        Cada dispositivo lleva asociado un folleto de instrucciones que muestra las
+        correspondientes conexiones para diversas aplicaciones, en caso necesario
+        comprobar la conexió'
+      sim_local: 0.6515
+      cutoff50_sim: null
+      rank_vector_nofilter: 29
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits:
+      - cablea
+      - lazo
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    proposed_cause: CATEGORY-FILTER
+- qid: hp001
+  question: En la Detnov CAD-250, ¿cómo se entra al menú de programación avanzada?
+  models_detected:
+  - CAD-250
+  detected_category: Software y programación
+  keywords:
+  - detnov
+  - entra
+  - menú
+  synonyms: []
+  intents: []
+  vector_nofilter_returned: 39
+  cutoff50_sim: null
+  vector_cat_returned: 0
+  fts_returned: 0
+  manual_chunks_fetched: 495
+  facts:
+  - valor: '2222'
+    probe:
+    - '2222'
+    n_winners: 2
+    winners:
+    - chunk_id: 8cf55c57-dc8d-4e81-b35b-67f777580cd5
+      source_file: CAD-250_Manual-Configuracion-MC-380-es-2026-c
+      page: 18
+      section_path: 4. CONFIGURACION DE LA CENTRAL
+      content_type: general
+      product_model: CAD-250
+      category: null
+      language: es
+      content_len: 1968
+      has_blurb: true
+      blurb: Este fragmento pertenece a la sección de **Configuración de la Central**
+        del manual de la central de detección de incendios Vesta (CAD-250/CAD-171/CAD-201)
+        y describe los procedimientos para acceder a
+      preview: '# 4. CONFIGURACION DE LA CENTRAL ## 4.1. ACCESO COMO ADMINISTRADOR
+        [Screenshot showing initialization screen with time "13:26" at top and a blue
+        progress bar displaying "Initializing: 63%" with "SYSTEM NORMAL" text below]
+        Una vez que el sis'
+      sim_local: 0.4843
+      cutoff50_sim: null
+      rank_vector_nofilter: null
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits:
+      - entra
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    - chunk_id: 9bd17466-1a22-4ade-bb16-a44624c9f166
+      source_file: Manual instalacion CAD-250 (MI_372_es_2024 e)
+      page: 29
+      section_path: 6. Configuración rápida de la central
+      content_type: troubleshooting
+      product_model: CAD-250
+      category: Detección analógica
+      language: es
+      content_len: 2242
+      has_blurb: true
+      blurb: Este fragmento corresponde a la sección 6 "Configuración rápida de la
+        central" del Manual de Instalación de la central CAD-250 de Detnov, y describe
+        los pasos iniciales para acceder como administrador
+      preview: '# 6. Configuración rápida de la central El objetivo de este apartado
+        es realizar, de forma sencilla, una primera puesta en marcha configurando
+        los parámetros básicos tanto de la central como los elementos (dispositivos,
+        lazos, redes) de for'
+      sim_local: 0.5255
+      cutoff50_sim: null
+      rank_vector_nofilter: 34
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits:
+      - detnov
+      - entra
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    proposed_cause: CATEGORY-FILTER
+  - valor: '1111'
+    probe:
+    - '1111'
+    n_winners: 3
+    winners:
+    - chunk_id: edeb58a7-58c6-4865-8819-c70b57fe1135
+      source_file: Manual usuario CAD-250 (MU 376 es 2024 f)
+      page: 10
+      section_path: 4. Nivel usuario
+      content_type: procedure
+      product_model: CAD-250
+      category: Detección analógica
+      language: es
+      content_len: 2981
+      has_blurb: true
+      blurb: Este fragmento pertenece a la sección "Nivel usuario" del Manual de instalación
+        de la central de alarmas contra incendios CAD-250, y describe la pantalla
+        de inicio del sistema, los pasos del primer ar
+      preview: '# 4. Nivel usuario ## 4.1. Primer arranque Si ha seguido los pasos
+        iniciales de esta guía una LUZ VERDE se encenderá en la parte izquierda de
+        la puerta (PANEL PRINCIPAL) y la pantalla mostrará: **Primero:** Una barra
+        de estado que indica qu'
+      sim_local: 0.5086
+      cutoff50_sim: null
+      rank_vector_nofilter: null
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits:
+      - detnov
+      - entra
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    - chunk_id: 59b104c5-c28c-41e7-92c1-a98f04ae5a1d
+      source_file: CAD-250-MS-416-es
+      page: 27
+      section_path: 4.14. GENERAL > 4.14.3. Configuración de Usuarios y permisos
+      content_type: procedure
+      product_model: CAD-250
+      category: Detección analógica
+      language: es
+      content_len: 2985
+      has_blurb: true
+      blurb: Este fragmento pertenece al manual de configuración del software SCD250
+        para la central CAD-250 de Detnov, específicamente a la sección 4.14.3 sobre
+        "Configuración de Usuarios y permisos", donde se ex
+      preview: Para añadir un nuevo permiso pulse el botón Añadir en el menú secundario.
+        Complete la **DESCRIPCIÓN DE USUARIO**, **CONTRASEÑA** (debe ser única) y
+        el **NIVEL** de acceso que se le otorga, **USUARIO o INSTALADOR**. Para modificar
+        un acceso,
+      sim_local: 0.4698
+      cutoff50_sim: null
+      rank_vector_nofilter: null
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits:
+      - entra
+      - menú
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    - chunk_id: c3397a68-5710-4a69-a0a0-395b96fcde27
+      source_file: CAD-250-MS-416-es
+      page: 27
+      section_path: 4.14. GENERAL > 4.14.3. Configuración de Usuarios y permisos
+      content_type: general
+      product_model: CAD-250
+      category: Detección analógica
+      language: es
+      content_len: 1386
+      has_blurb: true
+      blurb: 'Contexto: Este fragmento forma parte de la sección 4.14.3 "Configuración
+        de Usuarios y permisos" del manual de configuración del software SCD-250 para
+        la central CAD-250, y describe la interfaz para g'
+      preview: '| Screenshot 3: User List with Multiple Users | | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------'
+      sim_local: 0.4262
+      cutoff50_sim: null
+      rank_vector_nofilter: null
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits:
+      - entra
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    proposed_cause: ILIKE-LOTTERY+SEMANTIC
+- qid: hp002
+  question: El detector ASD535 de Detnov está dando una alarma intermitente de flujo
+    bajo. ¿Cuál es la causa más probable y cómo se diagnostica?
+  models_detected:
+  - ASD535
+  detected_category: Detectores puntuales
+  keywords:
+  - detector
+  - detnov
+  - está
+  synonyms: []
+  intents: []
+  vector_nofilter_returned: 36
+  cutoff50_sim: null
+  vector_cat_returned: 0
+  fts_returned: 0
+  manual_chunks_fetched: 231
+  facts:
+  - valor: 300 s
+    probe:
+    - '300'
+    n_winners: 11
+    winners:
+    - chunk_id: 414ce99c-0dec-478c-b504-009f14631804
+      source_file: ASD535_TD_T131192es_h
+      page: 28
+      section_path: Funcionamiento
+      content_type: troubleshooting
+      product_model: ASD535
+      category: Detectores especiales
+      language: es
+      content_len: 2910
+      has_blurb: true
+      blurb: Este fragmento pertenece al capítulo "Funcionamiento" (sección 2.2) de
+        la documentación técnica del detector de humos por aspiración ASD 535 y describe
+        los principios de operación eléctrica del dispos
+      preview: '# Funcionamiento ## 2.2.10 Monitorización del flujo de aire La monitorización
+        del flujo de aire se basa en el método de medición calorimétrico (técnica
+        de medición de flujo másico). La caja del detector contiene dos sensores de
+        flujo de air'
+      sim_local: 0.5255
+      cutoff50_sim: null
+      rank_vector_nofilter: 32
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits:
+      - detector
+      - está
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    - chunk_id: 139c7290-8ca0-4ae6-8e74-a828e5be5896
+      source_file: ASD535_TD_T131192es_h
+      page: 41
+      section_path: 4 Proyectos > 4.2 Ámbito de aplicación > 4.2.1 Límites del sistema
+      content_type: general
+      product_model: ASD535
+      category: Detectores especiales
+      language: es
+      content_len: 647
+      has_blurb: true
+      blurb: Este fragmento es una tabla de límites del sistema del ASD 535 que especifica
+        los parámetros máximos permitidos de longitud de tubería, distancia y número
+        de orificios de aspiración para cada clase de
+      preview: '| | Clase A | Clase B | Clase C | | -------------------------------------------------------------------------
+        | ------- | ------- | ------- | | Longitud total máxima de la tubería de aspiración
+        por cada sensor de humo | 300 m | 300 m | 300 '
+      sim_local: 0.2946
+      cutoff50_sim: null
+      rank_vector_nofilter: null
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits: []
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    - chunk_id: 51bc5368-bd68-4feb-97e8-5c7023df6530
+      source_file: ASD535_TD_T131192es_h
+      page: 58
+      section_path: Proyectos > 4.9 Ajustes
+      content_type: general
+      product_model: ASD535
+      category: Detectores especiales
+      language: es
+      content_len: 2634
+      has_blurb: true
+      blurb: 'Este fragmento pertenece a la sección 4.9 "Ajustes" del capítulo 4 "Proyectos"
+        del ASD 535, y proporciona advertencias e indicaciones importantes sobre la
+        configuración de la monitorización del flujo '
+      preview: '| ⚠ | **Advertencia**- El aumento de los valores de la LS-Ü (> ±20
+        % / > 300 s) implica el incumplimiento de la norma EN 54-20 y solo podrá aplicarse
+        previa consulta con el fabricante. - Por lo general, el **tamaño de la ventana
+        no debería '
+      sim_local: 0.4586
+      cutoff50_sim: null
+      rank_vector_nofilter: null
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits: []
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    - chunk_id: 235c62b5-4dcf-481a-8925-1b0c1407ba00
+      source_file: ASD535_TD_T131192es_h
+      page: 60
+      section_path: Proyectos > 4.10.2 Determinación de la sección de cable
+      content_type: specification
+      product_model: ASD535
+      category: Detectores especiales
+      language: es
+      content_len: 2237
+      has_blurb: true
+      blurb: Este fragmento pertenece a la sección 4.10.2 "Determinación de la sección
+        de cable" del capítulo 4 "Proyectos" del documento técnico del ASD 535. Detalla
+        los valores de consumo eléctrico máximo y prop
+      preview: 'En consecuencia, para determinar la sección de cable será decisivo
+        el consumo eléctrico máximo posible del ASD 535 en servicio normal (tras el
+        encendido). Debido a su sistema de circuitos, el ASD 535 experimenta el consumo
+        de corriente más '
+      sim_local: 0.3903
+      cutoff50_sim: null
+      rank_vector_nofilter: null
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits: []
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    - chunk_id: 613abda6-17a9-4eed-859e-530bb7b46fd2
+      source_file: ASD535_TD_T131192es_h
+      page: 62
+      section_path: Proyectos > 4.13 Uso conforme a UL 268, UL 268A y ULC-S529
+      content_type: general
+      product_model: ASD535
+      category: Detectores especiales
+      language: es
+      content_len: 1123
+      has_blurb: true
+      blurb: Este fragmento especifica los parámetros técnicos del detector ASD 535
+        para aplicaciones en canales de ventilación según EN 54-27, incluyendo rangos
+        de sensibilidad, velocidad del aire y límites del s
+      preview: '| Aplicaciones para canales de ventilación (Duct applications) | Aplicaciones
+        para canales de ventilación (Duct applications) | Aplicaciones para canales
+        de ventilación (Duct applications) | | -----------------------------------------------'
+      sim_local: 0.4212
+      cutoff50_sim: null
+      rank_vector_nofilter: null
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits: []
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    - chunk_id: 20fc640c-766a-43c8-b2be-5e5f88c5090a
+      source_file: ASD535_TD_T131192es_h
+      page: 91
+      section_path: Puesta en funcionamiento > 7.2.1 Posibilidades de configuración
+      content_type: general
+      product_model: ASD535
+      category: Detectores especiales
+      language: es
+      content_len: 8583
+      has_blurb: true
+      blurb: 'Este fragmento corresponde a la tabla de **Posibilidades de configuración**
+        del capítulo 7.2.1 (Puesta en funcionamiento) del ASD 535, que describe los
+        parámetros ajustables del detector de humos por '
+      preview: '| Sector• Parámetros | Configuraciónpor defecto | Rango | Definición
+        /niveles | Guardar trasmodificar | | --------------------------------------------------------------------------------------------------------
+        | ------------------------ | '
+      sim_local: 0.417
+      cutoff50_sim: null
+      rank_vector_nofilter: null
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits: []
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    proposed_cause: CATEGORY-FILTER
+  - valor: 7.6.1
+    probe:
+    - 7.6.1
+    n_winners: 8
+    winners:
+    - chunk_id: 2272ff5a-b85f-4e9c-bdae-b5d62682be1f
+      source_file: ASD535_TD_T131192es_h
+      page: 11
+      section_path: Historia del documento
+      content_type: general
+      product_model: ASD535
+      category: Detectores especiales
+      language: es
+      content_len: 2749
+      has_blurb: true
+      blurb: Este fragmento pertenece a la sección "Historia del documento" del manual
+        técnico ASD 535 (Detector de humos por aspiración) y documenta los cambios
+        realizados en la edición de índice "g" del 16.01.20
+      preview: 'Historia del documento ## Índice «g» Fecha 16.01.2016 (sólo alemán,
+        francés, inglés e italiano disponibles) Cambios más importantes respecto a
+        la edición anterior: | Capítulo | | Nuevo (n) / modificado (c) / eliminado
+        (d) | Qué / Motivo | |'
+      sim_local: 0.3716
+      cutoff50_sim: null
+      rank_vector_nofilter: null
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits: []
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    - chunk_id: 11b87637-a513-407e-8bb5-78049753752a
+      source_file: ASD535_TD_T131192es_h
+      page: 11
+      section_path: Historia del documento > Índice «h» Fecha 31.10.2016
+      content_type: general
+      product_model: ASD535
+      category: Detectores especiales
+      language: es
+      content_len: 9232
+      has_blurb: true
+      blurb: Este fragmento pertenece a la sección "Historia del documento" del manual
+        técnico del ASD 535 (Detector de humos por aspiración), específicamente documenta
+        los cambios principales introducidos en la e
+      preview: '## Índice «h» Fecha 31.10.2016 Cambios más importantes respecto a
+        la edición anterior: | Capítulo | | Nuevo (n) / modificado (c) / eliminado
+        (d) | Qué / Motivo | | ----------------------------------------------------------------------------'
+      sim_local: 0.3534
+      cutoff50_sim: null
+      rank_vector_nofilter: null
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits: []
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    - chunk_id: 6da3a4a4-d532-48b0-a7bb-e1f9a3e16481
+      source_file: ASD535_TD_T131192es_h
+      page: 14
+      section_path: Índice de contenidos
+      content_type: wiring
+      product_model: ASD535
+      category: Detectores especiales
+      language: es
+      content_len: 5504
+      has_blurb: true
+      blurb: Este fragmento es la continuación del Índice de contenidos del documento
+        técnico ASD 535 (Detector de humos por aspiración), que lista los capítulos
+        6 a 7 sobre Instalación y Puesta en funcionamiento,
+      preview: 14 / 134 ASD 535, Descripción técnica, T 131 192 h es **SECURITON**
+        índice de contenidos | 6 | **Instalación** | 77 | | ------- | -------------------------------------------------------------------------------------------
+        | --- | | 6.1 | Di
+      sim_local: 0.3349
+      cutoff50_sim: null
+      rank_vector_nofilter: null
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits: []
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    - chunk_id: e3b7b635-a278-4399-b531-0ff0a0994a8d
+      source_file: ASD535_TD_T131192es_h
+      page: 101
+      section_path: Puesta en funcionamiento > 7.6.1 Lectura de la configuración establecida
+        y del flujo de aire
+      content_type: general
+      product_model: ASD535
+      category: Detectores especiales
+      language: es
+      content_len: 555
+      has_blurb: true
+      blurb: Este fragmento pertenece al capítulo 7 "Puesta en funcionamiento" del
+        ASD 535 (Detector de humos por aspiración), específicamente en la sección
+        7.6 "Mediciones", y describe el procedimiento para regis
+      preview: '## 7.6.1 Lectura de la configuración establecida y del flujo de aire
+        Además de la medición de la tensión de alimentación en el ASD 535, también
+        debe guardarse la configuración establecida (posición de conmutador para la
+        puesta en funcionami'
+      sim_local: 0.4603
+      cutoff50_sim: null
+      rank_vector_nofilter: null
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits: []
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    - chunk_id: 6d5a807f-3a42-401b-96a4-83c51d796114
+      source_file: ASD535_TD_T131192es_h
+      page: 102
+      section_path: Puesta en funcionamiento > 7.7 Pruebas, revisiones y comprobaciones
+      content_type: troubleshooting
+      product_model: ASD535
+      category: Detectores especiales
+      language: es
+      content_len: 3025
+      has_blurb: true
+      blurb: Este fragmento corresponde al capítulo 7.7 "Pruebas, revisiones y comprobaciones"
+        de la Descripción técnica del ASD 535 (detector de humos por aspiración),
+        y describe los procedimientos para verificar
+      preview: '## 7.7 Pruebas, revisiones y comprobaciones Además de las comprobaciones
+        del conducto de aspiración mencionadas en el cap. 7.1, debe verificarse la
+        correcta alerta (grupo/línea) a la CDI mediante el disparo del aviso de fallo
+        y de la alarma'
+      sim_local: 0.5267
+      cutoff50_sim: null
+      rank_vector_nofilter: 29
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits: []
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    - chunk_id: 9d52a9f6-45fc-4f65-b7b2-f14bf2a4b19d
+      source_file: ASD535_TD_T131192es_h
+      page: 109
+      section_path: 8 Manejo > 8.3 Posiciones de conmutador
+      content_type: procedure
+      product_model: ASD535
+      category: Detectores especiales
+      language: es
+      content_len: 5129
+      has_blurb: true
+      blurb: Este fragmento corresponde a la tabla de posiciones de conmutador del
+        ASD 535 (detector de humos por aspiración), que se detalla en la sección de
+        Puesta en Funcionamiento (capítulo 7) para explicar có
+      preview: '| Pos. | Rango / indicación | Función | Significado / Procedimiento
+        ➀ | | ---- | -----------------------------------------------------------------
+        | -------------------------------------------------------------------------------------------'
+      sim_local: 0.4086
+      cutoff50_sim: null
+      rank_vector_nofilter: null
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits: []
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    proposed_cause: CATEGORY-FILTER
+- qid: hp007
+  question: ¿Cómo se realiza el test anual de un detector VESDA-E VEP según el manual
+    del fabricante?
+  models_detected:
+  - VESDA-E-VEP
+  detected_category: Detectores de aspiración
+  keywords:
+  - realiza
+  - test
+  - anual
+  synonyms: []
+  intents: []
+  vector_nofilter_returned: 21
+  cutoff50_sim: null
+  vector_cat_returned: 0
+  fts_returned: 0
+  manual_chunks_fetched: 130
+  facts:
+  - valor: cada 2 años
+    probe: ~cada 2 años
+    n_winners: 1
+    winners:
+    - chunk_id: a7678b9b-a7e9-49ac-b996-a301807d50da
+      source_file: 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+      page: 90
+      section_path: 7 Mantenimiento > 7.3 Sustitución del filtro
+      content_type: troubleshooting
+      product_model: VESDA-E-VEP
+      category: ES
+      language: es
+      content_len: 3044
+      has_blurb: true
+      blurb: Este fragmento pertenece a la sección 7.3 "Sustitución del filtro" de
+        la Guía del producto VESDA-E VEP-A10-P y proporciona instrucciones detalladas
+        paso a paso para extraer e reinstalar el filtro de m
+      preview: '## 7.3 Sustitución del filtro Para mantener la integridad del funcionamiento
+        del detector, se recomienda que el filtro se cambie cada dos años o cuando
+        se produzca un fallo en el mismo. Puede que sea necesario sustituir el filtro
+        con más fr'
+      sim_local: 0.5974
+      cutoff50_sim: null
+      rank_vector_nofilter: null
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits: []
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    proposed_cause: LEXICAL+SEMANTIC
+- qid: hp008
+  question: ¿Qué detectores de humo analógicos son compatibles con la Notifier ID3000?
+  models_detected:
+  - ID3000
+  detected_category: Detectores puntuales
+  keywords:
+  - detectores
+  - humo
+  - analógicos
+  synonyms: []
+  intents: []
+  vector_nofilter_returned: 38
+  cutoff50_sim: null
+  vector_cat_returned: 0
+  fts_returned: 2
+  manual_chunks_fetched: 243
+  facts:
+  - valor: CPX-551E
+    probe:
+    - '-551'
+    - cpx-551e
+    n_winners: 1
+    winners:
+    - chunk_id: 11d96526-d627-4305-8cae-e6852af1b20b
+      source_file: MIDT190
+      page: 71
+      section_path: Equipos de lazo compatibles
+      content_type: wiring
+      product_model: ID3000
+      category: ES
+      language: es
+      content_len: 3056
+      has_blurb: true
+      blurb: Este fragmento pertenece al Apéndice 3 (Diseño del sistema ID3000) del
+        Manual de instalación y puesta en marcha del Panel ID3000 de Honeywell. Contiene
+        el listado de equipos de lazo compatibles (senso
+      preview: '# Equipos de lazo compatibles Sensores multicriterio: IRX-751CTEM
+        (SMART 4) IRX-751TEM (SMART 3) Módulos monitores: M710 (MON, una entrada)
+        M720 (MON, dos entradas) M721 (dos entradas, una salida relé) MCX-55 (5 entrada
+        y 5 salidas) Módulos'
+      sim_local: 0.6153
+      cutoff50_sim: null
+      rank_vector_nofilter: 23
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits:
+      - detectores
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    proposed_cause: CATEGORY-FILTER
+  - valor: SDX-751
+    probe:
+    - '-751'
+    - sdx-751
+    n_winners: 1
+    winners:
+    - chunk_id: 11d96526-d627-4305-8cae-e6852af1b20b
+      source_file: MIDT190
+      page: 71
+      section_path: Equipos de lazo compatibles
+      content_type: wiring
+      product_model: ID3000
+      category: ES
+      language: es
+      content_len: 3056
+      has_blurb: true
+      blurb: Este fragmento pertenece al Apéndice 3 (Diseño del sistema ID3000) del
+        Manual de instalación y puesta en marcha del Panel ID3000 de Honeywell. Contiene
+        el listado de equipos de lazo compatibles (senso
+      preview: '# Equipos de lazo compatibles Sensores multicriterio: IRX-751CTEM
+        (SMART 4) IRX-751TEM (SMART 3) Módulos monitores: M710 (MON, una entrada)
+        M720 (MON, dos entradas) M721 (dos entradas, una salida relé) MCX-55 (5 entrada
+        y 5 salidas) Módulos'
+      sim_local: 0.6153
+      cutoff50_sim: null
+      rank_vector_nofilter: 23
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits:
+      - detectores
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    proposed_cause: CATEGORY-FILTER
+  - valor: IRX-751CTEM
+    probe:
+    - '-751'
+    - irx-751ctem
+    n_winners: 1
+    winners:
+    - chunk_id: 11d96526-d627-4305-8cae-e6852af1b20b
+      source_file: MIDT190
+      page: 71
+      section_path: Equipos de lazo compatibles
+      content_type: wiring
+      product_model: ID3000
+      category: ES
+      language: es
+      content_len: 3056
+      has_blurb: true
+      blurb: Este fragmento pertenece al Apéndice 3 (Diseño del sistema ID3000) del
+        Manual de instalación y puesta en marcha del Panel ID3000 de Honeywell. Contiene
+        el listado de equipos de lazo compatibles (senso
+      preview: '# Equipos de lazo compatibles Sensores multicriterio: IRX-751CTEM
+        (SMART 4) IRX-751TEM (SMART 3) Módulos monitores: M710 (MON, una entrada)
+        M720 (MON, dos entradas) M721 (dos entradas, una salida relé) MCX-55 (5 entrada
+        y 5 salidas) Módulos'
+      sim_local: 0.6153
+      cutoff50_sim: null
+      rank_vector_nofilter: 23
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits:
+      - detectores
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    proposed_cause: CATEGORY-FILTER
+  - valor: SDX-751-TEM
+    probe:
+    - '-751'
+    - sdx-751
+    n_winners: 1
+    winners:
+    - chunk_id: 11d96526-d627-4305-8cae-e6852af1b20b
+      source_file: MIDT190
+      page: 71
+      section_path: Equipos de lazo compatibles
+      content_type: wiring
+      product_model: ID3000
+      category: ES
+      language: es
+      content_len: 3056
+      has_blurb: true
+      blurb: Este fragmento pertenece al Apéndice 3 (Diseño del sistema ID3000) del
+        Manual de instalación y puesta en marcha del Panel ID3000 de Honeywell. Contiene
+        el listado de equipos de lazo compatibles (senso
+      preview: '# Equipos de lazo compatibles Sensores multicriterio: IRX-751CTEM
+        (SMART 4) IRX-751TEM (SMART 3) Módulos monitores: M710 (MON, una entrada)
+        M720 (MON, dos entradas) M721 (dos entradas, una salida relé) MCX-55 (5 entrada
+        y 5 salidas) Módulos'
+      sim_local: 0.6153
+      cutoff50_sim: null
+      rank_vector_nofilter: 23
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits:
+      - detectores
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    proposed_cause: CATEGORY-FILTER
+- qid: hp011
+  question: En la Morley RP1r, después de descargar la extinción el sistema no vuelve
+    a estado normal tras resetear. ¿Qué comprobar?
+  models_detected:
+  - RP1R
+  detected_category: Sistemas de extinción
+  keywords:
+  - morley
+  - después
+  - descargar
+  synonyms: []
+  intents: []
+  vector_nofilter_returned: 33
+  cutoff50_sim: null
+  vector_cat_returned: 0
+  fts_returned: 0
+  manual_chunks_fetched: 105
+  facts:
+  - valor: 05 a 295 seg
+    probe:
+    - '05'
+    - '295'
+    n_winners: 1
+    winners:
+    - chunk_id: 2d45a70a-5202-442e-af84-c3a176c2178d
+      source_file: HLSI-MN-103_RP1r-Supra_lr
+      page: 56
+      section_path: 5 Configuración de la central > 5.3 Opciones disponibles > 5.3.1
+        Opciones extinción
+      content_type: general
+      product_model: RP1r-Supra
+      category: ES
+      language: es
+      content_len: 3338
+      has_blurb: true
+      blurb: Este fragmento pertenece a la sección 5.3.1 "Opciones extinción" del
+        manual de usuario de la central de extinción RP1r-Supra y describe los parámetros
+        configurables relacionados con los tiempos de ret
+      preview: '| Valor variable de<br/>05 a 295 seg. | Tiempo de activación del circuito
+        de extinción, o periodo de inundación. Variable en intervalos de 5 seg. |
+        | ----------------------------------- | ----------------------------------------------------'
+      sim_local: 0.5385
+      cutoff50_sim: null
+      rank_vector_nofilter: null
+      rank_vector_cat: null
+      rank_fts_query: null
+      kw_hits: []
+      syn_hits: []
+      pm_imatch_any: true
+      filter11e_pass: true
+      cat_match: false
+    proposed_cause: LEXICAL+SEMANTIC
+verification:
+  category_column_chunks_v2:
+    canonical_taxonomy_rows: 0
+    'NULL': 14493
+    ES_language_value: 6233
+    legacy_inventory_values: Detectores especiales 1670 / EN_unico 1060 / Deteccion
+      analogica 622 / PA_VA 273 / ... (clasificacion del INVENTARIO, no taxonomia
+      EN-54)
+    old_chunks_table_had_canonical: si (Centrales de incendios 51900, Detectores de
+      aspiracion 28335, ...) — el retriever se escribio contra chunks vieja; el SWAP
+      cambio el significado de la columna en silencio
+  blast_radius_dev39: 33/39 queries detectan categoria -> canal vectorial principal
+    devuelve 0 filas SIEMPRE (solo hp006/hp012/hp017/hp020/cat018/cat019 intactas)
+  hnsw_ef_search: 40
+  rpc_returns_lt_match_count: 'match_count=300 + threshold=0.0 devuelve 21-40 filas
+    (ef_search=40): prod pide 50, recibe <=40 candidatos'
+  exact_ranks_seqscan: 'SUPERSEDIDO por exact_ranks_seqscan_all14 (los 14; la primera
+    pasada solo midio 3). Nota: jitter 58<->61 en hp007 entre pasadas = varianza del
+    embedding de query (Voyage no determinista a 4 decimales); los 10 con margen 7-32
+    no se ven afectados.'
+  final_causes:
+    CATEGORY-FILTER-DEAD (winner en top-50 EXACTO, ranks 7-32): 10
+    MARGINAL-RANK-56-70 (+ category-filter-dead): 3
+    SEMANTIC-VOCAB-110 (+ category-filter-dead): 1
+  conceptual_note: 'aunque category estuviera bien poblada, el filtro EQ es erroneo
+    para preguntas cuya respuesta vive en un doc de OTRA categoria (hp008: pregunta
+    detectores, respuesta en manual de la central ID3000)'
+  exact_ranks_seqscan_all14:
+    cat001|159+159 / 99+99:
+      best_winner_exact_rank: 25
+      sim: 0.5771
+    cat001|0,75 A:
+      best_winner_exact_rank: 25
+      sim: 0.5771
+    cat001|32 / 25 / 20:
+      best_winner_exact_rank: 7
+      sim: 0.5981
+    cat017|modulo OPAL HOP-433-100:
+      best_winner_exact_rank: 7
+      sim: 0.6814
+    hp001|2222:
+      best_winner_exact_rank: 56
+      sim: 0.5191
+    hp001|1111:
+      best_winner_exact_rank: 110
+      sim: 0.5033
+    hp002|300 s:
+      best_winner_exact_rank: 32
+      sim: 0.5255
+    hp002|7.6.1:
+      best_winner_exact_rank: 29
+      sim: 0.5267
+    hp007|cada 2 años:
+      best_winner_exact_rank: 61
+      sim: 0.5985
+    hp008|CPX-551E:
+      best_winner_exact_rank: 25
+      sim: 0.6125
+    hp008|SDX-751:
+      best_winner_exact_rank: 25
+      sim: 0.6125
+    hp008|IRX-751CTEM:
+      best_winner_exact_rank: 25
+      sim: 0.6125
+    hp008|SDX-751-TEM:
+      best_winner_exact_rank: 25
+      sim: 0.6125
+    hp011|05 a 295 seg:
+      best_winner_exact_rank: 70
+      sim: 0.5385
+  note_aprox_vs_exacto: 'los ranks de la tabla results.facts.winners.rank_vector_nofilter
+    vienen del scan HNSW capado a ef_search=40 (aproximado, refleja el CANAL real);
+    exact_ranks_seqscan_all14 es la verdad geometrica (seq scan). hp001-2222: 34 aprox
+    vs 56 exacto.'

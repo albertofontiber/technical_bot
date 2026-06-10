@@ -70,11 +70,18 @@ import src.rag.generator as _gen_mod  # noqa: E402
 import src.rag.reranker as _rr_mod  # noqa: E402
 
 EVALS = ROOT / "evals"
-F_CONTEXTS = EVALS / "s58_frozen_contexts.json"
-F_GENERATIONS = EVALS / "s58_generations.json"
-F_JUDGMENTS = EVALS / "s58_judgments.json"
-F_MANIFEST = EVALS / "s58_run_manifest.json"
-F_REPORT = EVALS / "s58_gate_report.yaml"
+# Run-id del ciclo (s59+, cláusula R4 del PREREG): BVG_RUN_ID selecciona el juego de
+# artefactos. Default "s58" = comportamiento EXACTO previo (mismos ficheros, resume-skip
+# intacto). El brazo de un lever corre con BVG_RUN_ID=s59 → artefactos s59_* nuevos;
+# la equivalencia del instrumento se VERIFICA en runtime contra el manifest s58
+# (generator/judge SHAs — abort si difieren), no se declara.
+RUN_ID = os.environ.get("BVG_RUN_ID", "s58")
+F_CONTEXTS = EVALS / f"{RUN_ID}_frozen_contexts.json"
+F_GENERATIONS = EVALS / f"{RUN_ID}_generations.json"
+F_JUDGMENTS = EVALS / f"{RUN_ID}_judgments.json"
+F_MANIFEST = EVALS / f"{RUN_ID}_run_manifest.json"
+F_REPORT = EVALS / f"{RUN_ID}_gate_report.yaml"
+F_BASELINE_MANIFEST = EVALS / "s58_run_manifest.json"   # referencia de equivalencia R4
 
 JUDGE_MODEL = "gpt-5.5"
 JUDGE_TRUNCATION = 3000  # knob del juez (vive en judge(), no en los prompts — manifest)
@@ -231,9 +238,32 @@ def _gen_one(task):
         return (qid, run_idx, {"error": f"{type(e).__name__}: {e}"[:300], "at": _now()})
 
 
+def _assert_instrument_equivalence(section: str, ours: dict) -> None:
+    """R4 (PREREG cláusula R): en un run que NO es el baseline, los SHAs/config del
+    instrumento (generador/juez) deben ser IDÉNTICOS a los del manifest s58 — la
+    equivalencia se prueba y la corrida ABORTA si difiere (un lever de retrieval no
+    puede colar cambios de generación/scoring)."""
+    if RUN_ID == "s58":
+        return
+    base = _load(F_BASELINE_MANIFEST)
+    ref = (base.get(section) or {}).get(section if section != "generate" else "generator")
+    if section == "judge":
+        ref = (base.get("judge") or {}).get("judge")
+    assert ref, f"R4: manifest baseline sin sección {section} — no puedo probar equivalencia"
+    diffs = {k: (ref.get(k), ours.get(k)) for k in ours if ref.get(k) != ours.get(k)}
+    assert not diffs, f"R4: instrumento '{section}' difiere del baseline s58: {diffs}"
+
+
 def phase_generate(args) -> None:
     assert os.getenv("GENERATOR_INCLUDE_CONTEXT") != "1", \
         "GENERATOR_INCLUDE_CONTEXT=1 detectado — el baseline es brazo A (blurb OFF)"
+    _assert_instrument_equivalence("generate", {
+        "model": LLM_MODEL, "temperature": 0, "max_tokens": LLM_MAX_TOKENS,
+        "include_context": 0,
+        "system_prompt_sha": _sha(SYSTEM_PROMPT),
+        "generate_fn_sha": _sha(inspect.getsource(_gen_mod.generate_answer)),
+        "relevance_threshold": RELEVANCE_THRESHOLD,
+    })
     contexts = _load(F_CONTEXTS)
     assert contexts, "no hay frozen_contexts — corre la fase freeze primero"
     data = _load(F_GENERATIONS)
@@ -302,6 +332,11 @@ def _judge_one(task):
 
 
 def phase_judge(args) -> None:
+    _assert_instrument_equivalence("judge", {
+        "model_alias": JUDGE_MODEL, "response_format": "json_object",
+        "truncation_chars": JUDGE_TRUNCATION,
+        "sys_sha": _sha(TBG._JUDGE_SYS), "user_sha": _sha(TBG._JUDGE_USER),
+    })
     contexts = _load(F_CONTEXTS)
     gens = _load(F_GENERATIONS)
     assert gens, "no hay generations — corre generate primero"

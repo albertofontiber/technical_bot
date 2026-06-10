@@ -91,3 +91,56 @@ exige el eval ampliado con diversidad estratificada; con los 22 actuales no hay 
   (el baseline s58 las persiste para esto — `evals/s58_generations.json`). El veredicto
   del juez cualitativo global NO basta para declarar presencia ni ausencia de fabricación
   (su FALLO mezcla invención / incompletitud / conducta equivocada).
+
+### Cláusula R — extensión a LEVERS DE RETRIEVAL (s59; **PENDIENTE DE FIRMA de Alberto**)
+
+> **Estado: escrita PRE-DATOS (10 jun 2026, s59 — ningún dato del A/B dev del lever de
+> retrieval existía al escribirla; traza: dúo r2, `adversarial_review_log.jsonl`).
+> La corrida held-out del lever de retrieval queda BLOQUEADA hasta la firma. El A/B dev
+> (re-tirable) puede correr con su criterio pre-registrado (diseño s59 §3,
+> `evals/_s59_lever_design_FINAL.md`).**
+>
+> Origen: el alcance firmado arriba dice "lever de generación", y su freeze-contract exige
+> "retrieved-contexts congelados (idénticos para A y B)" — inaplicable por definición cuando
+> el lever ES el retrieve (bite del dúo s59 r2: declararlo cubierto "sin cambios" habría
+> obligado a improvisar en el único punto sin re-tiro).
+
+- **R-alcance:** el criterio de confirmación held-out + C1 + C2 aplican también a levers de
+  RETRIEVAL, con las sustituciones R1–R3 siguientes y NINGUNA otra.
+- **R1 (brazos y qué se congela):** brazo BASE = los artefactos congelados del baseline s58
+  (`s58_{frozen_contexts,generations,judgments}.json` — ya corridos; no se re-tiran). Brazo
+  LEVER = pipeline completo retrieve→rerank→generate al **commit pinned** del lever con su
+  config DB declarada en el run-manifest (p.ej. `ef_search` por `pg_proc.proconfig`).
+  Se congela TODO lo que no es el lever: corpus (fingerprint de filas s58), embeddings,
+  golds, juez + prompts + `response_format` + K + seeds, generador, reranker y scorer.
+  Los retrieved-contexts del brazo LEVER se PERSISTEN (hidratados, como s58) — la cláusula
+  de "contexts idénticos" se sustituye por "pipeline íntegro pinned + contexts persistidos".
+- **R2 (conjunto de medición — una sola lectura):** C1 se calcula sobre los **pares
+  completos**: golds `answer`/`answer-con-conflicto` con veredicto modal **K-estable
+  (modal ≥3/5) en AMBOS brazos**. Los inestables en cualquiera de los dos brazos se
+  excluyen del Δ y se reportan (cuántos, cuáles, en qué brazo). Se reportan Δ medio (C1)
+  y Δ_net (suma); con el conjunto fijo ordenan igual.
+- **R2-bis (guardarraíl de estabilidad — la exclusión no puede ocultar degradación
+  inducida; bite del cross-model s59):** se cuentan las transiciones de estabilidad
+  entre brazos sobre answer-golds. En held-out: si las transiciones netas
+  estable(BASE)→inestable(LEVER) son ≥2, la corrida cae a **ZONA GRIS forzosa**
+  (nunca CONFIRMA automático), aunque el Δ sobre pares completos sea positivo.
+  La inestabilidad inducida es señal de ruido del lever, no neutralidad.
+- **R3 (C2 operativa con K=5):** unidad = gold con **fabricación K-estable** (≥3/5
+  generaciones del gold contienen ≥1 claim atómico fabricado según `atomic_scorer`).
+  El lado BASE se computa sobre `s58_generations.json` **ANTES de generar el brazo
+  LEVER** (ciego al resultado). "0 fabricaciones nuevas" = ningún gold pasa de
+  no-fabricación (base) a fabricación K-estable (lever).
+- **R4 (equivalencia del instrumento — declarar el runner nuevo no lo aísla; bite del
+  cross-model s59):** el brazo LEVER se produce con el runner parametrizado (run-id);
+  la equivalencia con el instrumento del baseline se PRUEBA, no se declara: (a) las
+  fases generate/judge/report no cambian de código (el diff del runner es solo
+  selección de paths/run-id, revisable en el PR); (b) los SHAs de prompts del juez +
+  `response_format` + alias resuelto del modelo se verifican EN RUNTIME contra
+  `s58_run_manifest.json` y la corrida ABORTA si difieren; (c) config del generador
+  (modelo, temp, max_tokens) idéntica en el manifest del lever.
+- Lo NO sustituido rige igual: corrida ÚNICA `INCLUDE_HELDOUT=1` solo si dev pasa;
+  mismo-signo + sin-invención-nueva para CONFIRMAR; zona gris = decisión de Alberto;
+  estratos solo direccionales.
+
+**Firma Alberto:** ____________________  (pendiente)
