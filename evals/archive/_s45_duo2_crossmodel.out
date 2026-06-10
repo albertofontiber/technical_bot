@@ -1,0 +1,19 @@
+--- gpt-5.5 (revisor adversarial cross-model) ---
+[severidad: crítico] [confianza: alto] [ancla: "Diagnóstico VERIFICADO... [#1 ATÁCALO con `--dump`: ¿los hechos SÍNTESIS están DE VERDAD...?"] — Hay sobre-afirmación de framing: se declara “VERIFICADO” y “SÍNTESIS domina” antes de aportar el `--dump` que demostraría que los hechos están en chunks top-5 y en contexto usable. Esto repite el patrón conocido de Claude: convertir una hipótesis auditada parcialmente en conclusión cerrada.
+
+[severidad: crítico] [confianza: medio] [ancla: "INCLÚYELOS TODOS — no entregues un subconjunto 'por brevedad'"] — El guardarraíl “presentes en `[F<n>]`” no evita el fallo DEC-001/change-1: la over-respuesta puede ser fiel pero irrelevante. Si un fragmento contiene specs, excepciones o conflictos no aplicables a la pregunta/modelo/país, el bot puede incluirlos “todos” con cita y aun así degradar precisión. Falta un criterio de relevancia/aplicabilidad, no solo soporte textual.
+
+[severidad: medio] [confianza: alto] [ancla: "Causa estructural... El `SYSTEM_PROMPT` es una FORTALEZA anti-invención... empuja a UNDER-extracción"] — La causalidad prompt→under-extracción está afirmada con más fuerza de la que permite la evidencia descrita. Que los datos estén en top-5 y se omitan no prueba que la causa raíz sea el bloque anti-invención; también puede ser planificación de respuesta, ranking interno de evidencia, límites de contexto, duplicados, chunking o formato de citas. El lever puede ser correcto, pero el diagnóstico “raíz” está sobrecerrado.
+
+[severidad: medio] [confianza: alto] [ancla: "atomic_scorer per-hecho sobre los CORE" / "strict-match = delta determinista"] — Riesgo de circularidad/proxy: optimizar contra `atomic_facts` CORE mide recuperación de hechos del gold, no necesariamente utilidad end-to-end ni respuesta correcta al usuario. Además “strict-match determinista” puede infracontar paraphrases ES/EN, unidades, rangos y vocabulario OEM. Como métrica de delta está bien; como vara principal de ship es incompleta.
+
+[severidad: medio] [confianza: medio] [ancla: "Cualquier REGRESIÓN aquí bloquea el ship" / "faithfulness — ¿afirma algún dato/inferencia sin soporte...?"] — La medición de invención queda subespecificada justo donde más importa. No define árbitro, muestreo, severidad de invenciones, ni cómo distinguir inferencia razonable de afirmación no soportada. “Cualquier regresión bloquea” suena seguro, pero sin operacionalización puede ser juez ruidoso o perfeccionismo-de-instrumento.
+
+[severidad: medio] [confianza: medio] [ancla: "Si dos fragmentos se contradicen... señala el conflicto explícitamente"] — El tratamiento de conflictos es demasiado genérico para el dominio. Surfacear conflictos es correcto, pero falta exigir procedencia/aplicabilidad: España-vs-US, manual vs ficha, modelo exacto vs familia, OEM relabeling, revisión documental. Sin eso, el bot puede presentar como “conflicto” diferencias legítimas de alcance.
+
+[severidad: menor] [confianza: alto] [ancla: "NO un rewrite" / bloque nuevo de 5 frases] — El cambio se presenta como “quirúrgico”, pero añade una política nueva con múltiples obligaciones: exhaustividad, multipartes, specs/pasos/condiciones/límites/excepciones/conflictos, redefinición de concisión. No es un rewrite, pero tampoco es solo reframear rule-7; debería compararse explícitamente contra la alternativa más pequeña antes de adoptarlo.
+
+[severidad: menor] [confianza: medio] [ancla: "Overfit... ¿'señala conflictos' está hecho a medida de hp012/cat007?"] — La propuesta detecta el riesgo de overfit, pero no propone un set anti-overfit fuera de los 14 PARCIAL/pool-50. Falta una muestra ciega por fabricante/idioma/tipo documental para demostrar que el bloque mejora mecanismo y no casos hp012/cat001/cat007.
+
+[tally] entrada parcial → evals\adversarial_review_log.jsonl (ts=2026-06-05T20:19:12).
+[tally] COMPLETA tras verificar (regla C): findings/confirmed/false_pos/severity_max.

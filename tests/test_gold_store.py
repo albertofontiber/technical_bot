@@ -2,8 +2,7 @@
 
 Cubre lo NUEVO: campos `split` (embargo dev/held-out) y `estrato` (multi-tag controlado), la
 validación tiered de ambos, y el EMBARGO en la puerta (`verified()` excluye held-out por
-defecto — bite crítico del dúo s49, DEC-023). No existía test de gold_store antes
-(test_validator.py es del validador anti-alucinación, no del ruler).
+defecto — bite crítico del dúo s49, DEC-023). No existía test de gold_store antes.
 """
 from __future__ import annotations
 

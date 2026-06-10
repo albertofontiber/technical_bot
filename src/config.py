@@ -47,25 +47,9 @@ CHUNK_OVERLAP_TOKENS = 200
 LLM_MODEL = "claude-sonnet-4-6"
 LLM_MAX_TOKENS = 2048
 
-# Cross-model validator (sesión 13 — experimentado y REVERTIDO 23 abril 2026).
-#
-# Intento: Opus audita la respuesta de Sonnet post-generación y, si detecta
-# afirmaciones no soportadas por los chunks, Sonnet regenera con feedback.
-#
-# Resultado:
-#   - V1 (con fallback): 25/52 → 20/52 judge (-5). Catastrófico: fallback
-#     mataba happy_path (19/19 fallbacks → FAIL).
-#   - V2 (retry-only, sin fallback, corpus Morley expandido): 25/52 → 26/52
-#     judge (+1 aparente, pero con churn +7/-9 — net neutral, ruido de Opus).
-#
-# Conclusión: Opus como validator post-generación no aporta señal consistente
-# en este dominio y añade ~2-3x coste y latencia. Código del validator
-# preservado en `src/rag/validator.py` + tests por si futuras iteraciones
-# quieren reintentar con otra arquitectura (citation faithfulness estructural,
-# Haiku-strict, validator sobre chunks en vez de respuesta, etc.). Ver
-# TECH_DEBT #11i. El generator.py ya NO lo invoca.
-VALIDATOR_MODEL = os.getenv("VALIDATOR_MODEL", "claude-opus-4-6")
-VALIDATOR_MAX_TOKENS = 800
+# Validator post-generación: experimentado s13 y REVERTIDO (net-neutral, 2-3x coste/latencia);
+# código borrado en s56 tras 7 semanas muerto (TECH_DEBT #11i; rationale completo y el código
+# viven en git — DEC-036).
 
 # Image config
 MAX_IMAGE_WIDTH = 1200

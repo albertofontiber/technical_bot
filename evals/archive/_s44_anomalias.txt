@@ -1,0 +1,17 @@
+############### hp013 ###############
+--- BASE(15): PASS ---
+DIAG: Responde correctamente que el manual no documenta un procedimiento específico para cambiar la batería tampón y recomienda acudir al soporte técnico. También identifica adecuadamente que la configuración reside en memoria no volátil, aunque lo expresa con algo más de cautela que la referencia.
+FUENTES: ['ADW535_TD_T140358es_e']
+
+--- WIDE(50): PARCIAL ---
+DIAG: Acierta al no inventar un procedimiento no documentado y recomienda soporte técnico, pero queda incompleto: no menciona que el manual sí identifica la batería de litio en la placa LMB 35 ni que la configuración se almacena en EEPROM, por lo que previsiblemente no depende de la batería.
+FUENTES: ['ADW535_TD_T140358es_e']
+
+############### hp020 ###############
+--- BASE(15): FALLO ---
+DIAG: Acierta en gran parte el procedimiento para cambiar el código de Nivel 2, pero afirma erróneamente que no hay procedimiento para Nivel 3 cuando la referencia sí lo indica. Falta explicar que iniciando sesión en Nivel 3 se puede cambiar el código de Nivel 2 o Nivel 3, además del mensaje de éxito y la sincronización/copia en CLSS.
+FUENTES: ['4188-1122-ES issue 4_04-2025_Cyb', 'Actualizacion del firmware de INSPIRE a R1.35', 'HOP-138-8ES  issue 6_01-2026_Co', 'HOP-338-9ES issue 4_01-2026_Op']
+
+--- WIDE(50): PASS ---
+DIAG: La respuesta cubre correctamente los permisos por nivel, el procedimiento de cambio para Nivel 2 y Nivel 3, el rango de 4 a 8 dígitos, la confirmación, el mensaje de éxito y la sincronización/copia en CLSS. Solo omite la nota específica de que portal, app y herramienta CLSS comparten credenciales, pero no afecta sustancialmente a la configuración solicitada.
+FUENTES: ['HOP-138-8ES  issue 6_01-2026_Co', 'HOP-338-9ES issue 4_01-2026_Op']

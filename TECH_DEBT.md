@@ -10,6 +10,19 @@ Si alcanzas un trigger, para y refactoriza antes de seguir añadiendo features.
 
 ---
 
+## Índice de estado (s56 — 10 jun 2026; generado, no renumera)
+
+- **Abiertos (trigger-gated):** #1, #2, #3, #5b, #5, #6, #7, #10, #11b, #12, #11g, #11h, #13, #15, #17, #18, #19, #20, #21, #22, #23, #25, #26, #27, #28, #29, #30, #31, #18, #32, #33, #34, #35, #36, #37, #39, #40, #41, #42, #43
+- **Parciales / elevados:** #8, #11f, #24
+- **Cerrados (✅ resueltos o 🔴 revertidos):** #4, #9, #11, #11c, #11i, #11d, #14, #16, #38
+
+Nota: hay dos items "## 18" (judge false positive, sesión 14; y atribución de fabricante, 28 mayo) —
+se conservan ambos números porque las referencias cruzadas en DECISIONS/memoria los citan; el índice
+y las citas nuevas deben desambiguar por título.
+
+---
+
+
 ## 1. Externalizar overrides de modelo/categoría a YAML
 
 **Estado actual**: Los dicts `{MANUFACTURER}_SOURCE_FILE_TO_MODEL` y `{MANUFACTURER}_SOURCE_FILE_TO_CATEGORY` viven hardcoded en `src/ingestion/chunker.py`.
@@ -446,7 +459,7 @@ CREATE INDEX idx_query_gaps_review ON query_gaps(review_status, created_at DESC)
 
 ## 11i. Validator cross-model (Opus→Sonnet) — 🔴 REVERTIDO (23 abril 2026, experimento net-negativo)
 
-**Resumen ejecutivo**: implementado y testeado con 2 iteraciones de eval completo. Ambas con resultado **net-neutral o negativo**. Generator.py revertido al estado pre-sesión-13; `src/rag/validator.py` + tests (15) se conservan como dead-code para futura re-exploración.
+**Resumen ejecutivo**: implementado y testeado con 2 iteraciones de eval completo. Ambas con resultado **net-neutral o negativo**. Generator.py revertido al estado pre-sesión-13. `src/rag/validator.py` + tests se BORRARON en s56 (DEC-036; dead-code 7 semanas — git los conserva si la re-exploración llega).
 
 **Iteración 1 — con fallback branch** (`logs/eval_20260423T074717Z.json`):
 - Keyword 12/52 → **9/52 (-3)**
@@ -589,7 +602,7 @@ Métricas del corpus ingestado:
 
 ---
 
-## 16. Separar retrieve top_k del generator top_k — "retrieve wide, generate narrow" (nuevo — 22 abril 2026)
+## 16. Separar retrieve top_k del generator top_k — "retrieve wide, generate narrow" — ✅ RESUELTO (s44, DEC-018: RETRIEVAL_TOP_K 15→50)
 
 > **✅ MEDIDO + SHIPPED (s44, 5 jun 2026 — `DECISIONS.md` DEC-018):** `RETRIEVAL_TOP_K` **15→50** (RERANK_TOP_K=5 sin cambio). A/B K=3 HyDE-off (`test_bot_vs_gold`): **FALLO ~6→1 estable** (wide 1/1/1), 7 mejoras / 1 regresión (hp013 completitud). El burial era el **CORTE `merged[:15]`** (`retriever.py:1131`) que decapitaba chunks de coseno real bajo keyword-stamps planos (0.80-0.85); el pool ancho deja sobrevivir + el reranker (CONTENIDO, no sim) los sube. **El número fue 50** (no el 15 propuesto en abril — empírico, cubre el rango vectorial 16-50 del burial); **trigger real = el bulto de FALLO** (hp019/020 etc.: "el chunk existe pero no llega al generator"), tal como anticipaba esta entrada. **Coste (Protocolo 3):** el prompt de rerank crece ~3-7× tok (cap-rerank-~30 = tuning futuro, mitigaría también hp013). El número exacto / cap es afinable. **Estado-actual de abajo (RETRIEVAL_TOP_K=5) era STALE** — ya estaba en 15, ahora 50.
 
@@ -1395,7 +1408,7 @@ El primer run del árbitro end-to-end (`atomic_scorer.py --llm` sobre los 19, s3
 
 ---
 
-## 38. Retirar el pipeline de ingesta VIEJO (`src/ingestion/`) — superseded por `src/reingest/` (sesión 38)
+## 38. Retirar el pipeline de ingesta VIEJO (`src/ingestion/`) — ✅ RESUELTO (s43, PR #32: 24 ficheros v1 fuera; módulos compartidos conservados)
 
 **Estado actual** (verificado s38): producción sirve `chunks_v2` (Voyage-1024, vía `CHUNKS_TABLE=chunks_v2`), construido por el pipeline NUEVO `src/reingest/`. El pipeline VIEJO `src/ingestion/` (construyó la tabla `chunks` vieja, OpenAI-1536, **167.788 filas, NO servida**) sigue en el repo y **mezcla código muerto con infra viva**:
 - **Infra COMPARTIDA / viva — NO tocar**: `ingestion/embedder.py` (lo importa el retriever VIVO `retriever.py:14`, enruta a Voyage), `ingestion/supabase_client.py` (lo usan `reingest/{pipeline,index,dedup_pass}` + ~15 scripts).
