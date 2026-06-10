@@ -1,0 +1,70 @@
+meta:
+  at: '2026-06-10T20:24:09'
+  design: evals/_s59_lever_design_FINAL.md §3
+P_pairs: 34
+excluded: []
+delta_net: 0
+delta_mean: 0.0
+moves:
+- qid: cat005
+  base: PASS
+  post: PARCIAL
+  d: -1
+- qid: cat009
+  base: PASS
+  post: PARCIAL
+  d: -1
+- qid: cat010
+  base: PASS
+  post: PARCIAL
+  d: -1
+- qid: cat012
+  base: PARCIAL
+  post: PASS
+  d: 1
+- qid: cat020
+  base: FALLO
+  post: PASS
+  d: 2
+- qid: hp001
+  base: PARCIAL
+  post: PASS
+  d: 1
+- qid: hp018
+  base: PARCIAL
+  post: FALLO
+  d: -1
+pass_control:
+  drops_unanime:
+  - qid: cat010
+    post: PARCIAL
+    votes:
+      PARCIAL: 3
+      PASS: 2
+  drops_no_unanime:
+  - qid: cat005
+    post: PARCIAL
+    votes:
+      PASS: 2
+      PARCIAL: 3
+  - qid: cat009
+    post: PARCIAL
+    votes:
+      PASS: 2
+      PARCIAL: 3
+delta_inestables:
+  base: []
+  post: []
+  delta: 0
+conducta_drops:
+- qid: cat011
+  esp: clarify
+  base: clarify
+  post: answer
+fabricaciones:
+  F_base: 0
+  F_post: 0
+  base_golds: []
+  post_golds: []
+verdict: ROLLBACK
+rule: '1: caída de gold UNÁNIME del PASS-control'

@@ -1,0 +1,33 @@
+{
+  "lever": "s59 canal vectorial sano — L-i (codigo) SOLO; L-ii PENDIENTE de autorizacion (ALTER denegado por permission-mode: DB compartida de prod)",
+  "design": "evals/_s59_lever_design_FINAL.md",
+  "window_opened_at": null,
+  "manifest_at": "2026-06-10T18:14:24",
+  "git_commit": "9fbb04e",
+  "ef_target_design": 120,
+  "ef_effective": "40 (default pgvector; proconfig None)",
+  "pre": {
+    "match_chunks_v2": {
+      "proconfig": null,
+      "def_sha256_16": "96378ba4baa13df1"
+    },
+    "search_chunks_text_v2": {
+      "proconfig": null,
+      "def_sha256_16": "516c97f85dcefde8"
+    },
+    "pgvector": "0.8.0",
+    "chunks_v2_count": 25090
+  },
+  "post": {
+    "match_chunks_v2": {
+      "proconfig": null,
+      "def_sha256_16": "96378ba4baa13df1"
+    },
+    "search_chunks_text_v2": {
+      "proconfig": null,
+      "def_sha256_16": "516c97f85dcefde8"
+    },
+    "pgvector": "0.8.0",
+    "chunks_v2_count": 25090
+  }
+}
