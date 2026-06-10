@@ -1,11 +1,11 @@
 {
-  "lever": "s59 canal vectorial sano — L-i (codigo) SOLO; L-ii PENDIENTE de autorizacion (ALTER denegado por permission-mode: DB compartida de prod)",
+  "lever": "s59 canal vectorial sano — L-i (codigo) + L-ii ef_search APLICADO",
   "design": "evals/_s59_lever_design_FINAL.md",
-  "window_opened_at": null,
-  "manifest_at": "2026-06-10T18:14:24",
-  "git_commit": "9fbb04e",
+  "window_opened_at": "2026-06-10T22:23:20",
+  "manifest_at": "2026-06-10T22:23:20",
+  "git_commit": "eaf73dd",
   "ef_target_design": 120,
-  "ef_effective": "40 (default pgvector; proconfig None)",
+  "ef_effective": "120",
   "pre": {
     "match_chunks_v2": {
       "proconfig": null,
@@ -20,8 +20,10 @@
   },
   "post": {
     "match_chunks_v2": {
-      "proconfig": null,
-      "def_sha256_16": "96378ba4baa13df1"
+      "proconfig": [
+        "hnsw.ef_search=120"
+      ],
+      "def_sha256_16": "68859165772e7159"
     },
     "search_chunks_text_v2": {
       "proconfig": null,
@@ -29,12 +31,5 @@
     },
     "pgvector": "0.8.0",
     "chunks_v2_count": 25090
-  },
-  "verdict": {
-    "at": "2026-06-10T20:25",
-    "ab_verdict": "ROLLBACK (regla 1: cat010 unanime PASS->PARCIAL 3-2)",
-    "delta_net": 0,
-    "rollback_executed": "L-i NO mergeado (rama sesion lleva retriever de main; codigo preservado en s59-lever-code-ROLLBACKED); L-ii nunca aplicado (proconfig sigue None)",
-    "detail": "evals/s59_ab_verdict.yaml + DEC-040e"
   }
 }
