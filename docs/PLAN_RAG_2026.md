@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 10 jun 2026 (s58, DEC-039 — gate de atribución ejecutado).
+> 10 jun 2026 (s59b, DEC-040 — lever RECALL medido→ROLLBACK; cláusula R firmada; L-ii ejecutado).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -40,7 +40,7 @@ gateado y MEDIDO — veredicto pre-registrado **ROLLBACK** (ver abajo): NO está
 **s59 EJECUTADO de punta a punta (DEC-040):** (a) dimensionamiento — los 14 hechos RECALL tienen
 rank vectorial exacto 7–32 (10/14 ≤50): el embedding YA los encuentra, el filtro muerto los tiraba;
 (b) lever "canal vectorial sano" diseñado con dúo ×2 rondas + focal (5b diferido; L-ii ef_search
-PENDIENTE de autorización de Alberto — el permission-mode denegó el ALTER a prod);
+✅ EJECUTADO por Alberto en s59b — gate-1@120 10/10, canal sirve 50/50, ventana DB abierta);
 (c) medición completa: **gate-1 11/11 · gate-2 RECALL-fuertes 14→3 (la mayoría hasta el TOP-5) ·
 A/B K=5: Δ_net=0 con redistribución (cat020 FALLO→PASS, hp001 PARCIAL→PASS vs cat005/9/10
 PASS→PARCIAL 3-2 frontera + hp018) → VEREDICTO §3: ROLLBACK regla 1 (cat010 unánime cayó)**.
@@ -49,8 +49,8 @@ Código del lever PRESERVADO en branch `s59-lever-code-ROLLBACKED` (con sus 5 te
 `evals/s59_*` versionados; instrumentos nuevos reutilizables (`s59_recall_diagnosis.py`,
 `s59_gate1.py --alter/--reset`, `s59_fabrications.py` K-formato, `s59_ab_verdict.py`, runner
 parametrizado `BVG_RUN_ID`). **Cláusula R del PREREG (held-out para levers de retrieval) escrita
-pre-datos — PENDIENTE DE FIRMA; el held-out sigue BLOQUEADO.** **Ventana de freeze del corpus
-ABIERTA** (fingerprint s58 intacto: 25.090).
+pre-datos y ✅ FIRMADA (s59b) — el held-out queda desbloqueado-bajo-criterio (cuando un lever
+pase en dev).** **Ventana de freeze del corpus ABIERTA** (fingerprint s58 intacto: 25.090).
 
 ## Qué sigue (orden vigente)
 
@@ -63,9 +63,9 @@ ABIERTA** (fingerprint s58 intacto: 25.090).
    su mejor argumento, lo arregló el pool); (iii) **L-ii solo** (`scripts/s59_gate1.py --alter`,
    ef_search 40→120: +10 candidatos reales al canal; re-medición barata con los instrumentos
    s59). Cualquier opción re-usa el baseline s58 + el runner parametrizado. **Firmas (s59b):
-   cláusula R del PREREG ✅ FIRMADA · L-ii ✅ AUTORIZADO por Alberto — ejecución PENDIENTE
-   (el permission-mode del agente la deniega; comando para Alberto:
-   `python scripts/s59_gate1.py --alter`, reversible con `--reset`).** Paralelo menor: hp009
+   cláusula R del PREREG ✅ FIRMADA · L-ii ✅ EJECUTADO por Alberto (gate-1@ef=120: 10/10
+   PASS, el canal sirve 50/50; VENTANA DB ABIERTA — prod código-viejo+ef=120, inocuo/leve-mejora;
+   `--reset` revierte; s60 declara ef=120 en su manifest).** Paralelo menor: hp009
    identidad de variantes (TECH_DEBT #43); el contrato de `chunks_v2.category` (TECH_DEBT #44 —
    DIFERIDO con triggers FIRMES [DEC-040f]: al cerrar el ciclo (freeze) y SIEMPRE antes de la
    próxima ingesta; el ESCRITOR sigue sembrando).
