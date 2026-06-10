@@ -17,13 +17,16 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
-> Resumen estable (s57d — 10 jun 2026): producción = `chunks_v2` (25.090 chunks / 1.012 docs /
+> Resumen estable (s58 — 10 jun 2026): producción = `chunks_v2` (25.090 chunks / 1.012 docs /
 > 31 marcas / 587 modelos; Voyage-4-large 1024 + contextual-retrieval al 100%), retrieve-wide
-> 50 → rerank LLM 5 → generador `claude-sonnet-4-6`; HyDE off; identidad de producto
-> data-driven (`config/manufacturers/` + sidecar). Eval: **51 golds = 39 dev + 12 held-out
-> embargados** (`ho001`-`ho011` + `ho014` admit firmado, s57→s57d, DEC-037/DEC-038 resuelta;
-> eje no-fabricación held-out cubierto admit+refuse), juez GPT-5.5 + K-mayoría, embargo en
-> puerta + lectores-directos (`exclude_heldout`, #42 cerrado).
+> 50 → rerank LLM 5 → generador `claude-sonnet-4-6` (con `stop_reason`/`output_tokens`
+> instrumentados, s58); HyDE off; identidad de producto data-driven (`config/manufacturers/`
+> + sidecar). Eval: **51 golds = 39 dev + 12 held-out embargados** (embargo en puerta +
+> lectores-directos), juez GPT-5.5 + K-mayoría. **Baseline K=5 FRESCO (s58, DEC-039)** vía
+> `scripts/bvg_kmajority.py` (contexts congelados + juez nuevo congelado de la ventana +
+> run-manifest DEC-021 §F): PASS-control fijado 10/39, residual 26 clasificado
+> (retrieval-localizado 8 / generación 4 / indeterminado 8), truncamiento descartado.
+> Ventana de freeze del corpus ABIERTA (ninguna ingesta hasta cerrar el ciclo A/B→held-out).
 
 ## 1. Visión general en 60 segundos
 

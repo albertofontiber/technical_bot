@@ -379,11 +379,15 @@ def generate_answer(
                           f"Tengo manuales de estos modelos: {models_str}. "
                           f"¿Puedes indicarme el modelo concreto que estás usando?",
                 "diagrams": [],
+                "stop_reason": None,  # sin llamada LLM (gate s58: distingue de end_turn/max_tokens)
+                "output_tokens": None,
             }
         return {
             "answer": "No he encontrado información relevante en los manuales disponibles para responder "
                       "a tu pregunta. ¿Puedes reformularla o especificar el modelo de equipo?",
             "diagrams": [],
+            "stop_reason": None,
+            "output_tokens": None,
         }
 
     # Build context from relevant chunks, marking which have diagrams
@@ -513,4 +517,7 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
     return {
         "answer": answer,
         "diagrams": diagrams[:3],
+        # Gate s58 (DEC-036b): stop_reason confirma/descarta truncamiento por max_tokens.
+        "stop_reason": response.stop_reason,
+        "output_tokens": response.usage.output_tokens if response.usage else None,
     }
