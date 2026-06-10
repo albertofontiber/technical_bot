@@ -232,6 +232,14 @@ def quarantined(path: Path = GOLD_PATH) -> list[dict]:
     return [g for g in load(path) if _estado(g) != "verificado"]
 
 
+def exclude_heldout(golds: list[dict]) -> list[dict]:
+    # EMBARGO para LECTORES-DIRECTOS del YAML (TECH_DEBT #42, cerrado s57): los diagnósticos
+    # exploratorios (audit_retrieval_funnel/retrieval_eval/validate_s29_burial) leen raw (incluyen
+    # no-verificados) → no pueden usar verified(); este filtro les da el mismo embargo. Correr
+    # retrieval/diagnóstico sobre un held-out = exposición (RULER §8).
+    return [g for g in golds if _split(g) != "held-out"]
+
+
 def dev(path: Path = GOLD_PATH) -> list[dict]:
     return [g for g in verified(path, include_heldout=True) if _split(g) == "dev"]
 

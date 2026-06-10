@@ -10,11 +10,11 @@ Si alcanzas un trigger, para y refactoriza antes de seguir añadiendo features.
 
 ---
 
-## Índice de estado (s56 — 10 jun 2026; generado, no renumera)
+## Índice de estado (s57 — 10 jun 2026; generado, no renumera)
 
-- **Abiertos (trigger-gated):** #1, #2, #3, #5b, #5, #6, #7, #10, #11b, #12, #11g, #11h, #13, #15, #17, #18, #19, #20, #21, #22, #23, #25, #26, #27, #28, #29, #30, #31, #18, #32, #33, #34, #35, #36, #37, #39, #40, #41, #42, #43
+- **Abiertos (trigger-gated):** #1, #2, #3, #5b, #5, #6, #7, #10, #11b, #12, #11g, #11h, #13, #15, #17, #18, #19, #20, #21, #22, #23, #25, #26, #27, #28, #29, #30, #31, #18, #32, #33, #34, #35, #36, #37, #39, #40, #41, #43
 - **Parciales / elevados:** #8, #11f, #24
-- **Cerrados (✅ resueltos o 🔴 revertidos):** #4, #9, #11, #11c, #11i, #11d, #14, #16, #38
+- **Cerrados (✅ resueltos o 🔴 revertidos):** #4, #9, #11, #11c, #11i, #11d, #14, #16, #38, #42
 
 Nota: hay dos items "## 18" (judge false positive, sesión 14; y atribución de fabricante, 28 mayo) —
 se conservan ambos números porque las referencias cruzadas en DECISIONS/memoria los citan; el índice
@@ -1499,9 +1499,15 @@ no-fabricación `:160`).
 **Relacionado**: DEC-021 §D (dual-judge DIFERIDO — el juez Claude sería over-strict por este mismo
 contrato; revisar SI GPT-5.5 muestra un hueco de recall), `atomic_scorer.py:104`.
 
-## 42. Lectores-directos de `gold_answers_v1.yaml` que NO pasan por la puerta — el embargo del held-out no los cubre (sesión 49)
+## 42. ✅ CERRADO (s57, DEC-037) — Lectores-directos de `gold_answers_v1.yaml` que NO pasan por la puerta — el embargo del held-out no los cubre (sesión 49)
 
-**Estado actual** (s49, DEC-023): el embargo del held-out vive en `gold_store.verified(include_heldout=False)`
+**Resolución (s57)**: el trigger ("cuando existan golds held-out reales") llegó al poblar el held-out.
+Fix de raíz: `gold_store.exclude_heldout()` público + filtro en los 3 lectores (`audit_retrieval_funnel.py`
+— el dump por qid embargado falla con mensaje explícito —, `retrieval_eval.py`, `validate_s29_burial.py`)
++ test (`test_gold_store.py`). Bite F2 del dúo s57: el gate s58 usa exactamente estas herramientas; sin el
+fix, su default habría expuesto el held-out al diagnóstico de retrieval.
+
+**Estado previo** (s49, DEC-023): el embargo del held-out vive en `gold_store.verified(include_heldout=False)`
 (cubre los 4 consumidores del juez: `atomic_scorer:408`, `judge_kruns:82`, `judge_disagreement:99`,
 `characterize_factual_variance:83`) + replicado en `test_bot_vs_gold.py` (lee el YAML directo). PERO 3
 herramientas de DIAGNÓSTICO de retrieval leen el YAML directo sin filtrar `split`:

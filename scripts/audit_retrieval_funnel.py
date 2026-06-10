@@ -59,7 +59,7 @@ from src.rag.reranker import rerank_chunks, rerank_chunks_voyage  # noqa: E402
 from src.rag.hyde import HYDE_ENABLED  # noqa: E402
 from scripts.strict_match import norm_ocr, distinctive, chunk_has_quote_strict, anchor_present  # noqa: E402
 
-GOLD = ROOT / "evals" / "gold_answers_v1.yaml"  # lee directo: NO filtra split held-out (TECH_DEBT #42; diagnóstico, no decide lever)
+GOLD = ROOT / "evals" / "gold_answers_v1.yaml"  # lee directo + exclude_heldout (embargo; TECH_DEBT #42 cerrado s57)
 # Veredictos de la corrida HyDE-OFF @ pool-50 de s45 (solo ANOTACION; los BUCKETS son la senal).
 BVG = ROOT / "evals" / "_s45_results_k50_hydeOFF.yaml"
 OUT = ROOT / "evals" / "dec003_retrieval_funnel.yaml"
@@ -260,7 +260,12 @@ def main() -> int:
         return rerank_chunks(query, pool, top_k=RERANK_K, target_models=target_models)
 
     if args.dump:
-        g = {x["qid"]: x for x in yaml.safe_load(GOLD.read_text(encoding="utf-8"))}[args.dump]
+        from scripts.gold_store import exclude_heldout  # noqa: E402
+        by_qid = {x["qid"]: x for x in exclude_heldout(yaml.safe_load(GOLD.read_text(encoding="utf-8")))}
+        if args.dump not in by_qid:
+            sys.exit(f"{args.dump}: no existe o está EMBARGADO (held-out — el diagnóstico de "
+                     "retrieval sobre held-out lo expone; RULER §8 / TECH_DEBT #42)")
+        g = by_qid[args.dump]
         pool = retrieve_chunks(g["question"], top_k=RETRIEVE_K)
         top5 = _rerank(g["question"], pool)
         top_ids = {id(c) for c in top5}
@@ -278,7 +283,8 @@ def main() -> int:
     assert CHUNKS_IS_V2, "CHUNKS_TABLE debe ser chunks_v2"
     assert not HYDE_ENABLED, "HYDE debe estar OFF"
 
-    golds = {g["qid"]: g for g in yaml.safe_load(GOLD.read_text(encoding="utf-8"))}
+    from scripts.gold_store import exclude_heldout  # noqa: E402
+    golds = {g["qid"]: g for g in exclude_heldout(yaml.safe_load(GOLD.read_text(encoding="utf-8")))}
     bvg = {r["qid"]: r for r in yaml.safe_load(BVG.read_text(encoding="utf-8"))}
 
     if args.qids:

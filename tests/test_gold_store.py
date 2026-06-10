@@ -110,6 +110,16 @@ def test_dev_y_heldout_helpers(tmp_path):
     assert {g["qid"] for g in gs.heldout(p)} == {"h1"}
 
 
+def test_exclude_heldout_para_lectores_directos():
+    # TECH_DEBT #42 (cerrado s57): los lectores-directos del YAML (diagnóstico) filtran con esto.
+    # Cubre raw (no-verificados incluidos) + default dev cuando split ausente.
+    golds = [_base(qid="d1", split="dev"),
+             _base(qid="h1", split="held-out"),
+             {"qid": "p1", "question": "q", "conducta_esperada": "answer",
+              "_provenance": {"estado": "pendiente"}}]  # sin split → dev por default
+    assert {g["qid"] for g in gs.exclude_heldout(golds)} == {"d1", "p1"}
+
+
 # --- invariante del pipeline de autoría (rebanada vertical s49) -------------
 def test_upsert_preserva_split_estrato(tmp_path):
     # author_atomic_facts hace get()→muta-un-campo→upsert. Re-autorar NO debe borrar

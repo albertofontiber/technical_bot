@@ -44,7 +44,9 @@ from src.rag.hyde import generate_hypothetical_document  # noqa: E402
 
 URL = os.environ["SUPABASE_URL"]; KEY = os.environ["SUPABASE_SERVICE_KEY"]
 HDR = {"apikey": KEY, "Authorization": f"Bearer {KEY}"}
-GOLD = {g["qid"]: g for g in yaml.safe_load((ROOT / "evals/gold_answers_v1.yaml").read_text("utf-8"))}
+from scripts.gold_store import exclude_heldout  # noqa: E402  (embargo TECH_DEBT #42)
+GOLD = {g["qid"]: g for g in
+        exclude_heldout(yaml.safe_load((ROOT / "evals/gold_answers_v1.yaml").read_text("utf-8")))}
 
 CLUSTER = ["hp017", "hp005", "hp008", "hp011", "hp018"]  # 'manual equivocado'
 WITHIN = ["hp006", "hp019"]                               # within-doc (contraste)
