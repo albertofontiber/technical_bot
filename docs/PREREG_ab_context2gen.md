@@ -72,3 +72,22 @@ exige el eval ampliado con diversidad estratificada; con los 22 actuales no hay 
 - **Estratos**: solo DIRECCIONALES (n≤3 por estrato en held-out) — se REPORTAN, no gatean.
 - Los golds held-out de conducta-ausencia (admit/refuse) alimentan el eje (2) — son el
   guardarraíl de invención, no cuentan en el conteo per-estrato.
+
+### Cláusulas C1/C2 — FIRMADAS por Alberto (10 jun 2026, s58b; pre-datos: ningún delta A/B existía)
+
+> Origen: los 2 CRÍTICOS del cross-model del gate s58 (DEC-039f) — el criterio de arriba
+> admitía DOS lecturas defendibles en el único punto sin re-tiro. Estas cláusulas lo hacen
+> calculable de UNA sola manera; no cambian el criterio.
+
+- **C1 (fórmula del Δ global — aplica a dev Y a held-out):** el Δ global se calcula
+  únicamente sobre los golds `answer`/`answer-con-conflicto`, como **cambio medio ordinal
+  pre-definido FALLO=0, PARCIAL=1, PASS=2** (brazo ganador vs baseline, mismos golds),
+  con los K-inestables excluidos conforme a la regla de exclusión ya pre-registrada.
+  Los golds `clarify`/`admit`/`refuse-inference` NO entran en el Δ: gatean exclusivamente
+  el eje (2) de no-fabricación (el guardarraíl), donde aportan su señal.
+- **C2 (decidibilidad de "0 fabricaciones K-estables"):** la condición se evalúa con el
+  **eje no-fabricación del `atomic_scorer`** (mismas llamadas, `response_format` y
+  agregación que en dev), corrido sobre las **generaciones PERSISTIDAS de ambos brazos**
+  (el baseline s58 las persiste para esto — `evals/s58_generations.json`). El veredicto
+  del juez cualitativo global NO basta para declarar presencia ni ausencia de fabricación
+  (su FALLO mezcla invención / incompletitud / conducta equivocada).
