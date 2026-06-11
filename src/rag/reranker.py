@@ -11,7 +11,7 @@ import logging
 
 import anthropic
 
-from ..config import ANTHROPIC_API_KEY, RERANK_TOP_K
+from ..config import ANTHROPIC_API_KEY, RERANK_TOP_K, RERANKER_BACKEND
 from .retriever import SPEC_INTENT, TROUBLESHOOT_INTENT, WIRING_INTENT
 
 logger = logging.getLogger(__name__)
@@ -20,11 +20,27 @@ RERANK_MODEL = "claude-sonnet-4-6"  # Fast model for reranking
 RERANK_MAX_TOKENS = 512
 
 
+class RerankStrictError(RuntimeError):
+    """Fail-open del reranker en modo estricto (harness de eval): el backend cayó a
+    fallback (orden de entrada / truncado) — en eval eso es dato corrupto, no
+    disponibilidad (diseño s61 §4, F6-v4)."""
+
+
+def _tag(chunks: list[dict], backend: str) -> list[dict]:
+    # rerank_backend_used: provenance por chunk para el assert del harness y el
+    # manifest del freeze (s61 §4 — el manifest no puede mentir sobre qué corrió).
+    for c in chunks:
+        c["rerank_backend_used"] = backend
+    return chunks
+
+
 def rerank_chunks(
     query: str,
     chunks: list[dict],
     top_k: int = RERANK_TOP_K,
     target_models: list[str] | None = None,
+    *,
+    strict: bool = False,
 ) -> list[dict]:
     """Rerank chunks using Claude to determine true relevance.
 
@@ -33,12 +49,14 @@ def rerank_chunks(
         chunks: Retrieved chunks from hybrid search.
         top_k: Number of top chunks to return after reranking.
         target_models: Product models detected in the query (e.g. ["CAD-250"]).
+        strict: eval harness mode — fail-opens raise RerankStrictError instead of
+            silently returning input order (prod keeps strict=False: availability).
 
     Returns:
         Reranked list of chunks (most relevant first), limited to top_k.
     """
     if len(chunks) <= top_k:
-        return chunks
+        return _tag(chunks, "short-circuit")
 
     # Build a compact representation for Claude to evaluate.
     # IMPORTANT: we expose the [DIAGRAMA DISPONIBLE] tag so Claude can factor
@@ -123,7 +141,9 @@ Responde ÚNICAMENTE con el JSON array, sin explicación."""
         indices = json.loads(raw)
 
         if not isinstance(indices, list):
-            return chunks[:top_k]
+            if strict:
+                raise RerankStrictError(f"LLM rerank devolvió no-lista: {raw[:120]}")
+            return _tag(chunks[:top_k], "fallback-truncate")
 
         # Reorder chunks by Claude's ranking
         reranked = []
@@ -133,18 +153,26 @@ Responde ÚNICAMENTE con el JSON array, sin explicación."""
                 seen.add(idx)
                 reranked.append(chunks[idx])
 
-        # If Claude returned fewer than expected, pad with remaining chunks
-        if len(reranked) < top_k:
+        # If Claude returned fewer than expected, pad with remaining chunks.
+        # Padding is LEGITIMATE prod behavior (the prompt allows returning fewer
+        # relevant indices) but it re-injects input order → tagged distinctly so
+        # eval harnesses can detect/report it (F6-v4: detectable, not hidden).
+        padded = len(reranked) < top_k
+        if padded:
             for i, chunk in enumerate(chunks):
                 if i not in seen and len(reranked) < top_k:
                     reranked.append(chunk)
 
-        return reranked
+        return _tag(reranked, "llm-padded" if padded else "llm")
 
+    except RerankStrictError:
+        raise
     except Exception as e:
         # If reranking fails, fall back to original order
         logger.error(f"Reranking failed: {e}")
-        return chunks[:top_k]
+        if strict:
+            raise RerankStrictError(f"LLM rerank fail-open: {type(e).__name__}: {e}") from e
+        return _tag(chunks[:top_k], "fallback-truncate")
 
 
 _voyage_rerank_client = None
@@ -168,25 +196,71 @@ def _get_voyage_rerank_client():
     return _voyage_rerank_client
 
 
+def _voyage_doc(chunk: dict) -> str:
+    """Representación del doc al cross-encoder (s61 §2.0, header de PARIDAD).
+
+    Mismas expresiones LITERALES que el LLM-rerank usa en sus chunk_summaries
+    (rerank_chunks arriba, .get con los mismos defaults — quirks incluidos): el
+    CE debe ver la misma metadata de IDENTIDAD (Producto/Sección/Tipo) que el
+    LLM ve, o en 31 marcas con OEM relabels confunde manuales equivalentes
+    (X1-s61). Sin índice de lista (rompería la orden-insensibilidad) y sin
+    diagram_tag (canal muerto #45; su re-introducción = contrato de ese ciclo).
+    """
+    product = chunk.get("product_model", "desconocido")
+    section = chunk.get("section_title", "")
+    content_type = chunk.get("content_type", "")
+    header = f"Producto: {product} | Sección: {section} | Tipo: {content_type}\n"
+    return header + (chunk.get("content") or "")[:VOYAGE_RERANK_DOC_CHARS]
+
+
 def rerank_chunks_voyage(
     query: str,
     chunks: list[dict],
     top_k: int = RERANK_TOP_K,
     model: str = VOYAGE_RERANK_MODEL,
+    *,
+    strict: bool = False,
 ) -> list[dict]:
     """Rerank con cross-encoder dedicado de Voyage (rerank-2.5).
 
     A diferencia del reranker LLM (que emite un ranking JSON y solo ve 800 chars
-    por chunk), el cross-encoder puntúa cada par (query, doc) con un score calibrado
-    y lee el doc completo. Fail-open al orden de retrieval si la API falla.
+    por chunk), el cross-encoder devuelve un score de relevancia por par
+    (query, doc) y lee 4000 chars + header de paridad (_voyage_doc). Fail-open
+    al orden de retrieval si la API falla (strict=True → raise, eval harness).
     """
     if len(chunks) <= top_k:
-        return chunks
-    docs = [(c.get("content") or "")[:VOYAGE_RERANK_DOC_CHARS] for c in chunks]
+        return _tag(chunks, "short-circuit")
+    docs = [_voyage_doc(c) for c in chunks]
     try:
         client = _get_voyage_rerank_client()
         res = client.rerank(query=query, documents=docs, model=model, top_k=top_k)
-        return [chunks[r.index] for r in res.results]
+        return _tag([chunks[r.index] for r in res.results], "voyage")
     except Exception as e:
         logger.error(f"Voyage rerank failed: {e}")
-        return chunks[:top_k]
+        if strict:
+            raise RerankStrictError(f"Voyage rerank fail-open: {type(e).__name__}: {e}") from e
+        return _tag(chunks[:top_k], "fallback-truncate")
+
+
+def rerank(
+    query: str,
+    chunks: list[dict],
+    top_k: int = RERANK_TOP_K,
+    target_models: list[str] | None = None,
+    *,
+    strict: bool = False,
+) -> list[dict]:
+    """Dispatcher del reranker (s61, `evals/_s61_lever_design.md` §4).
+
+    RERANKER_BACKEND=llm|voyage (config, default llm — reversible por entorno).
+    Con voyage, SOLO las llamadas SIN target_models van al cross-encoder
+    (dispatch condicional Y1: el A/B mide exactamente ese path — el harness de
+    eval nunca pasa target_models); las llamadas CON target_models conservan el
+    LLM-rerank con sus instrucciones de producto (comportamiento de prod
+    intacto en el path no-medido, hasta su migración con medición propia).
+    """
+    if RERANKER_BACKEND == "voyage" and not target_models:
+        return rerank_chunks_voyage(query, chunks, top_k=top_k, strict=strict)
+    return rerank_chunks(
+        query, chunks, top_k=top_k, target_models=target_models, strict=strict
+    )

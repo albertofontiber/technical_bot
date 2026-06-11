@@ -63,8 +63,11 @@ from src.config import (  # noqa: E402
     CHUNKS_TABLE, CHUNKS_IS_V2, RETRIEVAL_TOP_K, RERANK_TOP_K,
     LLM_MODEL, LLM_MAX_TOKENS, SUPABASE_URL, SUPABASE_SERVICE_KEY,
 )
+from src.config import RERANKER_BACKEND  # noqa: E402
 from src.rag.retriever import retrieve_chunks  # noqa: E402
-from src.rag.reranker import rerank_chunks, RERANK_MODEL  # noqa: E402
+from src.rag.reranker import (  # noqa: E402
+    rerank, rerank_chunks, RERANK_MODEL, VOYAGE_RERANK_MODEL,
+)
 from src.rag.generator import generate_answer, SYSTEM_PROMPT, RELEVANCE_THRESHOLD  # noqa: E402
 import src.rag.generator as _gen_mod  # noqa: E402
 import src.rag.reranker as _rr_mod  # noqa: E402
@@ -174,6 +177,27 @@ def _clean_chunk(c: dict) -> dict:
     return {k: v for k, v in c.items() if k != "embedding"}
 
 
+# Provenance aceptada por backend (s61 §4): el manifest no puede mentir sobre qué corrió.
+# "llm-padded" = comportamiento legítimo del LLM (devuelve <top_k y se rellena) — aceptado
+# para el backend llm (statu quo del baseline s58) y REPORTADO; "short-circuit" (pool≤k,
+# ningún backend corre) aceptado en ambos. Fail-opens reales ya abortan vía strict=True.
+_ACCEPTED_PROVENANCE = {
+    "llm": {"llm", "llm-padded", "short-circuit"},
+    "voyage": {"voyage", "short-circuit"},
+}
+
+
+def _assert_rerank_provenance(qid: str, top5: list[dict]) -> None:
+    expected = _ACCEPTED_PROVENANCE[RERANKER_BACKEND]
+    used = {c.get("rerank_backend_used") for c in top5}
+    assert used <= expected, (
+        f"{qid}: provenance del rerank {used} fuera de lo esperado para "
+        f"RERANKER_BACKEND={RERANKER_BACKEND} ({expected}) — freeze abortado"
+    )
+    if "llm-padded" in used:
+        print(f"  {qid}: AVISO llm-padded (el LLM devolvió <top_k; relleno con orden de entrada)")
+
+
 # ---------------------------------------------------------------- fase 1: freeze
 def _only(args) -> set[str]:
     return {q.strip() for q in (args.qids or "").split(",") if q.strip()}
@@ -194,7 +218,10 @@ def phase_freeze(args) -> None:
             continue
         q = g["question"]
         pool = retrieve_chunks(q, top_k=RETRIEVAL_TOP_K)
-        top5 = rerank_chunks(q, pool, top_k=RERANK_TOP_K)   # sin target_models = paridad harness
+        # sin target_models = paridad harness; dispatcher respeta RERANKER_BACKEND (s61).
+        # strict=True: en eval un fail-open del backend = dato corrupto, no disponibilidad.
+        top5 = rerank(q, pool, top_k=RERANK_TOP_K, strict=True)
+        _assert_rerank_provenance(qid, top5)
         n_hyd = hydrate_context(top5)
         data[qid] = {
             "question": q,
@@ -213,8 +240,17 @@ def phase_freeze(args) -> None:
         "at": _now(), "git": _git_commit(), "n_golds": len(data),
         "corpus_fingerprint": fingerprint_start,
         "retrieval": {"retrieve_k": RETRIEVAL_TOP_K, "rerank_k": RERANK_TOP_K,
-                      "reranker": "llm", "rerank_model": RERANK_MODEL,
-                      "rerank_fn_sha": _sha(inspect.getsource(_rr_mod.rerank_chunks)),
+                      # Backend ACTIVO + SHA de la función DESPACHADA (s61 F5: el manifest
+                      # estampaba "llm" hardcoded — mentiría en un freeze voyage).
+                      "reranker": RERANKER_BACKEND,
+                      "rerank_model": (VOYAGE_RERANK_MODEL if RERANKER_BACKEND == "voyage"
+                                       else RERANK_MODEL),
+                      "rerank_fn_sha": _sha(
+                          inspect.getsource(_rr_mod.rerank_chunks_voyage)
+                          + inspect.getsource(_rr_mod._voyage_doc)
+                          if RERANKER_BACKEND == "voyage"
+                          else inspect.getsource(_rr_mod.rerank_chunks)
+                      ),
                       "hyde_enabled": os.environ.get("HYDE_ENABLED"),
                       "target_models": None},
         "embeddings": {"model": "voyage-4-large", "dims": 1024, "input_type": "query"},

@@ -496,9 +496,8 @@ def content_search(
     search_term: str,
     limit: int = 5,
     product_model: str | None = None,
-    category: str | None = None,
 ) -> list[dict]:
-    """Search chunks by content (+ optional model/category filters).
+    """Search chunks by content (+ optional model filter).
 
     When ``product_model`` is provided, we bypass the ``search_chunks_text`` RPC
     (whose ``filter_product`` clause does strict equality and silently returns
@@ -506,14 +505,17 @@ def content_search(
     PostgREST directly with ``imatch`` on ``product_model`` + ``ilike`` on
     ``content``.  Without a model, the RPC's fts ranking is still the best
     path.
+
+    (s59/DEC-040) El antiguo parámetro ``category`` se retiró: filtraba contra
+    chunks_v2.category, que no contiene la taxonomía canónica (0 filas) — todo
+    filtro por esa columna es un bug latente hasta que su contrato se repare.
     """
     headers_get = {
         "apikey": SUPABASE_SERVICE_KEY,
         "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
     }
-    # Determine score: higher when filtered by model or category (more targeted)
-    has_filter = product_model or category
-    base_score = 0.80 if has_filter else 0.70
+    # Determine score: higher when filtered by model (more targeted)
+    base_score = 0.80 if product_model else 0.70
 
     # --- Path A: product_model set → skip RPC, use PostgREST imatch ---
     if product_model:
@@ -526,8 +528,6 @@ def content_search(
             "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,language,has_diagram,diagram_url,source_file,page_number,document_id",
             "limit": str(limit),
         }
-        if category:
-            params["category"] = f"eq.{category}"
         try:
             with httpx.Client(timeout=3.0) as client:
                 resp = client.get(
@@ -553,7 +553,7 @@ def content_search(
         "search_query": search_term,
         "filter_product": None,
         "filter_manufacturer": None,
-        "filter_category": category,
+        "filter_category": None,
         "match_limit": limit,
     }
     try:
@@ -577,8 +577,6 @@ def content_search(
         "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,language,has_diagram,diagram_url,source_file,page_number,document_id",
         "limit": str(limit),
     }
-    if category:
-        params["category"] = f"eq.{category}"
     try:
         with httpx.Client(timeout=3.0) as client:
             resp = client.get(
@@ -870,13 +868,16 @@ def retrieve_chunks(
     top_k: int = RETRIEVAL_TOP_K,
     threshold: float = 0.3,
     product_filter: str | None = None,
-    category_filter: str | None = None,
     include_superseded: bool = False,
 ) -> list[dict]:
     """Hybrid retrieval: vector search + keyword search by product model.
 
     1. Detects product model codes in the query (e.g. MAD-491, CAD-250).
-    2. Runs vector similarity search for semantic matching.
+    2. Runs vector similarity search for semantic matching — wide, SIN filtro
+       de categoría (s59/DEC-040: chunks_v2.category no contiene la taxonomía
+       canónica — 0 filas, 58% NULL, 25% 'ES'-idioma —; filtrar contra ella
+       devolvía 0 filas SIEMPRE que la query detectaba categoría, el 85% del
+       eval, y el pool vivía de un broad-5 + canales léxicos).
     3. If models detected, also runs keyword search by exact model match.
     4. Merges and deduplicates results, prioritizing keyword matches.
     5. Filters out chunks whose parent document is 'superseded' / 'draft' /
@@ -896,22 +897,11 @@ def retrieve_chunks(
     # Step 1: Detect product models in query
     models = extract_product_models(query)
 
-    # Step 1b: Detect category from query keywords
-    # Check compound phrases first (longest match wins), then single words
-    detected_category = category_filter
-    if not detected_category:
-        query_lower = query.lower()
-        # Phase 1: compound phrases (more specific)
-        for phrase, cat in _CATEGORY_PHRASES:
-            if phrase in query_lower:
-                detected_category = cat
-                break
-        # Phase 2: single-word fallback
-        if not detected_category:
-            for term, cat in CATEGORY_TERMS.items():
-                if term in query_lower:
-                    detected_category = cat
-                    break
+    # (s59/DEC-040) El antiguo Step 1b — detección de categoría + filtro al RPC —
+    # se ELIMINÓ del retrieval. CATEGORY_TERMS/_CATEGORY_PHRASES siguen exportadas
+    # (el bot las usa para log/available_models; futuro: boost data-driven con la
+    # columna poblada — nunca filtro duro: la respuesta puede vivir en un doc de
+    # otra categoría, p.ej. compatibilidad detector↔central).
 
     # For comparisons (2+ models), increase top_k to get enough chunks from each model
     effective_top_k = top_k * len(models) if len(models) >= 2 else top_k
@@ -931,27 +921,15 @@ def retrieve_chunks(
     embedding_text = generate_hypothetical_document(query) if HYDE_ENABLED else query
     query_embedding = embed_query(embedding_text)
 
-    # Step 2 + 2b: Vector searches run in PARALLEL
-    # (category-filtered + broad fallback)
-    vector_results = []
-    vector_futures = []
-    with ThreadPoolExecutor(max_workers=2) as pool:
-        # Main vector search (with category filter if detected)
-        vector_futures.append(pool.submit(
-            vector_search, query, effective_top_k, threshold,
-            product_filter, detected_category, query_embedding,
-        ))
-        # Broad search without category (only if category was auto-detected)
-        if detected_category and not category_filter:
-            vector_futures.append(pool.submit(
-                vector_search, query, 5, threshold,
-                product_filter, None, query_embedding,
-            ))
-        for f in vector_futures:
-            try:
-                vector_results.extend(f.result())
-            except Exception:
-                pass
+    # Step 2: Vector search — wide, sin filtro de categoría (s59/DEC-040). El
+    # broad-5 anterior era el workaround del canal muerto y desaparece con él.
+    try:
+        vector_results = vector_search(
+            query, effective_top_k, threshold,
+            product_filter, None, query_embedding,
+        )
+    except Exception:
+        vector_results = []
 
     # Step 3: Keyword search for each detected model
     keyword_results = []
@@ -1030,32 +1008,28 @@ def retrieve_chunks(
     # All content_search calls run in PARALLEL to avoid sequential latency.
     if not models:
         query_lower = query.lower()
-        query_keywords = extract_search_keywords(query)
 
-        # Collect all search tasks: (search_term, limit, category, boost)
-        search_tasks: list[tuple[str, int, str | None, float]] = []
+        # Collect all search tasks: (search_term, limit, boost)
+        search_tasks: list[tuple[str, int, float]] = []
 
-        # 3c-i: Synonym-based content search within detected category (high priority)
-        if detected_category:
-            for phrase, synonym in QUERY_SYNONYMS.items():
-                if phrase in query_lower:
-                    search_tasks.append((synonym, 10, detected_category, 0.85))
-
-            # Also search each keyword within the category
-            for kw in query_keywords:
-                search_tasks.append((kw, 10, detected_category, 0.80))
+        # (s59/DEC-040) Las antiguas tasks 3c-i (synonym/keyword + categoría
+        # detectada) se ELIMINARON: con chunks_v2 devolvían 0 filas SIEMPRE por
+        # ambas vías (RPC FTS con category canónica inexistente → 200 con [],
+        # y el return impedía el fallback, que también filtraba por category).
+        # Cambio funcional esperado nulo con el corpus actual. Reactivar FTS
+        # para queries sin modelo = lever futuro, medido aparte.
 
         # 3c-ii: PCI terms generic search (broader, lower priority)
         for term, search_key in PCI_TERMS.items():
             if term in query_lower:
-                search_tasks.append((search_key, 10, None, 0.70))
+                search_tasks.append((search_key, 10, 0.70))
                 break  # One term match is enough
 
         # Execute all content searches in parallel (max 6 concurrent)
         if search_tasks:
             def _run_search(task: tuple) -> list[dict]:
-                term, lim, cat, boost = task
-                results = content_search(term, limit=lim, category=cat)
+                term, lim, boost = task
+                results = content_search(term, limit=lim)
                 for c in results:
                     c["similarity"] = boost
                 return results
