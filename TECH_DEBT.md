@@ -1595,3 +1595,32 @@ columna y sus consumidores. Cualquier opción se mide en el RULER (DEC-019).
 **Trigger**: antes de la PRÓXIMA ingesta (el escritor sembraría más basura) o al retomar la conversación
 dinámica (available_models). **Relacionado**: DEC-040, `evals/s59_recall_diagnosis.yaml` (verification),
 `evals/_s59_lever_design_FINAL.md` §6, TECH_DEBT #43 (identidad de variantes, mismo espíritu data-driven).
+
+## 45. Contrato roto de `chunks_v2.has_diagram`/`diagram_url` — el canal de diagramas está MUERTO en v2 (s60, gate-D)
+
+**Qué pasó (medido s60, 11-jun)**: la tabla vieja `chunks` tiene **44.035 filas** con
+`has_diagram=true AND diagram_url NOT NULL`; **`chunks_v2` tiene 0 de 25.090**. La re-ingesta
+LlamaParse (s44) no pobló estas columnas → otro contrato de columna roto en silencio por el SWAP,
+hermano exacto del #44 (category). Descubierto al intentar el smoke de diagramas del gate-D s60
+(los 12 pools congelados tenían 0 diagram-chunks; el count de corpus lo confirmó).
+
+**Consumidores muertos/degradados desde s44 (verificar al fixear)**:
+- `diagram_search` (`retriever.py:411`, stamp 0.82, WIRING_INTENT): devuelve 0 SIEMPRE en v2.
+- El tag `[DIAGRAMA DISPONIBLE]` del reranker LLM (`reranker.py:53-54`) y su instrucción WIRING:
+  nunca disparan.
+- `DIAGRAMAS_RELEVANTES` del generador: el bot NO sirve diagramas a técnicos de conexionado —
+  degradación de PRODUCTO en silencio, no solo de eval. (La "guarda load-bearing" de DEC-016d
+  protege un canal que ya no existe en v2.)
+
+**Matiz a investigar en el fix**: 44.035/~52k en la vieja (~85%) no cuadra con la "diagram density
+~3-5%" del docstring de `diagram_search` — la semántica de `has_diagram` en la vieja pudo ser
+sobre-inclusiva (página-con-imagen vs diagrama-útil). Definir el contrato ANTES de re-poblar
+(¿imagen extraída por página? ¿flow/wiring clasificado? `is_flow_diagram` existe en el schema v2).
+
+**Fix candidato**: re-poblar desde los artefactos LlamaParse (las imágenes extraídas existen en
+`extracted_images/`/storage — verificar) con clasificación útil, o retirar el canal y sus
+consumidores. Cualquier opción se mide en el RULER (DEC-019). **Trigger**: al diseñar el lever
+s60-redefinido (L-i + cross-encoder) el smoke de diagramas queda MOOT mientras v2 esté a 0 — si
+se re-puebla, la guarda funcional de diagramas vuelve a ser obligatoria; y SIEMPRE antes de dar
+por bueno cualquier trabajo de "diagramas" en v2. **Relacionado**: #44 (patrón contrato-roto-por-SWAP),
+DEC-016d (boosts load-bearing), gate-D s60 (`evals/s60_step0_order_sensitivity_voyage.yaml`).
