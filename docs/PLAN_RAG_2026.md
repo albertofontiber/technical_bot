@@ -3,9 +3,9 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 11 jun 2026 (s61, DEC-042 — lever L-i+cross-encoder construido tras flag y parado en GATE
-> (NO-GO pre-registrado, SIN pagar A/B); 2 mecanismos verificados + drift de embed_query
-> medido; branch de Alberto: cerrar ciclo → atacar #43 supersesión/near-dups).
+> 11 jun 2026 (s62, DEC-043 — el audit #43 REFUTÓ "near-dups" (CORRECCIÓN a DEC-042): el
+> mecanismo real es identidad producto↔serie + metadata rota de lotes viejos; branch de
+> Alberto: ciclo A = registry de series en el seam s55 + filtro exacto-o-serie).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -24,7 +24,25 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s61 — 11 jun 2026)
+## Estado actual (s62 — 11 jun 2026)
+
+**s62 (DEC-043):** el AUDIT #43 (read-only, `scripts/s62_audit43.py` + verificaciones regla-C)
+**REFUTÓ el diagnóstico "near-dups" de s61** (CORRECCIÓN canonizada en DEC-042): J_doc entre los
+3 manuales AM-8200 = 0.001-0.032 — no hay duplicación textual; el mecanismo real de cat012 es
+**identidad producto↔serie** (el filtro de modelo matchea por substring → "am8200" deja pasar a
+los HERMANOS 8200G/N, y el CE llena el top-5 con sus secciones conceptualmente equivalentes,
+expulsando la tabla del producto correcto). Mix real de la deuda (diagnóstico
+`evals/s62_audit43_diagnosis.md`): **capa A** identidad producto↔serie (daño MEDIDO: cat012-gate
++ antecedentes DEC-032/hp003) · **capa B** metadata de identidad rota en lotes viejos (≥15 docs
+Spectrex/Pfannenberg bajo manufacturer=Detnov; model=unknown masivo; revision con basura de
+parser; document_family=filename; supersedes 0/1065; 165 docs sin chunks) · **capa C** near-dup
+textual MARGINAL (1 revisión MAD-472 V2 [toca cat024] + 1 FAQ; los 41 grupos ES/EN son legítimos
+y se CONSERVAN). La "supersesión" retroactiva quedó SIN MATERIA → contrato al flujo de ingesta
+futura. **Branch (Alberto, 4 opciones): CICLO A** — registry de series en `config/manufacturers`
+(seam s55, cero DDL) + filtro de 3 niveles (sin entrada → comportamiento actual; con entrada →
+mismo-producto o doc-de-serie; hermanos NO pasan), capa B arreglada DIRIGIDA donde el ciclo la
+toque, C de propina. Diseño v1 en `evals/_s62_seriesA_design.md` (local, PRE-dúo). Lección #32
+al log de bias (mecanismo canonizado sin medir en un diagnóstico post-mortem).
 
 **Sistema (prod, Railway auto-deploy desde `main`; SWAP de corpus por `CHUNKS_TABLE`):**
 bot Telegram (polling) → pre-clasificación → retrieve híbrido wide (vector Voyage-4-large 1024
@@ -32,50 +50,42 @@ bot Telegram (polling) → pre-clasificación → retrieve híbrido wide (vector
 `claude-sonnet-4-6` (temp=0, `max_tokens=2048`) sobre **`chunks_v2` = 25.090 chunks / 1.012
 docs / 31 marcas / 587 modelos** (contextual-retrieval 100%; identidad data-driven, DEC-035).
 **⚠️ Contratos rotos por el SWAP s44, medidos:** `category` (#44) y diagramas (#45). Prod sin
-cambios de código desde s58; ventana DB ABIERTA (ef_search=120, `--reset` revierte; default
-mantener — re-decidir dentro del ciclo #43, que re-mide corpus de todos modos).
+cambios de código desde s58; ventana DB ABIERTA (ef_search=120, default mantener); **ventana de
+freeze del corpus ABIERTA** (fingerprint 25.090).
 
 **Eval (el ruler):** **51 golds = 39 dev + 12 held-out** (embargo vivo), taxonomía CONGELADA
 (DEC-033), juez GPT-5.5 + K-mayoría, baseline s58 congelado (PASS-control 10 / 6 unánimes);
-cláusula R FIRMADA (s59b). **s61 (DEC-042): el lever redefinido (L-i + cross-encoder
-rerank-2.5) se DISEÑÓ (v1→v3, dúo ×2 rondas: 28 findings, 1 FP), se CONSTRUYÓ tras flag
-(`RERANKER_BACKEND`, default llm; dispatch condicional Y1: voyage SOLO sin target_models;
-237 tests verdes) y se PARÓ en el GATE pre-A/B (NO-GO pre-registrado por D2, sin pagar A/B)**.
-Mecanismos VERIFICADOS (no teorizados): **hp001 = pérdida de POOL** (chunk ganador s59 hoy en
-rank 54/50 del canal vectorial; **drift de `embed_query` 0.003 ENTRE SESIONES medido** — 3er
-decimal, no 7º; frontera-frágil de nacimiento, afecta a CUALQUIER reranker y al plan B) ·
-**cat012 = efecto real del swap** (el CE de pares independientes llena el top-5 con
-near-duplicates: la fórmula §11 en 3 REVISIONES del AM-8200 conviviendo = #43; el LLM
-listwise diversificaba). D1 LIMPIO 0/6 (el swap no rompe el statu quo) · CE determinista
-39/39 con header de paridad + 5× más rápido (p95 0.9s vs 5.1s) + ~15× más barato · corte-a-50
-muerde 9/39 @ef120. **Branch (Alberto, 4 opciones en la mesa): cerrar ciclo sin A/B → atacar
-la raíz #43.** Código del lever PRESERVADO en `s61-lever-code-ROLLBACKED` (build+gate+diseño;
-revisita condicionada a #43 resuelto). Plan B (MERGE v4) DESCARTADO con datos (hereda hp001 y
-conserva el dado del LLM). Artefactos `evals/s61_*` + diagnóstico `evals/s61_gate_diagnosis.md`.
-**Ventana de freeze del corpus ABIERTA** (fingerprint 25.090).
+cláusula R FIRMADA (s59b). **s61 (DEC-042, resumen):** lever L-i+cross-encoder construido tras
+flag (`RERANKER_BACKEND`, 237 tests) y PARADO en gate pre-A/B (NO-GO por D2 sin pagar A/B);
+hallazgos de instrumento: **drift de `embed_query` 0.003 entre sesiones** (hp001
+frontera-frágil, irrecuperable por reranker) + CE determinista/5×rápido/15×barato con D1 limpio.
+Lever preservado en `s61-lever-code-ROLLBACKED` (revisita condicionada); plan B MERGE descartado
+con datos. Narración en HISTORY; mecánica en DEC-042 (+CORRECCIÓN s62).
 
 ## Qué sigue (orden vigente)
 
-1. **(s62) Ciclo #43: identidad de variantes / near-duplicados del corpus — AUDIT primero
-   (Protocolo 4), no build.** El gate s61 lo señaló como raíz: ediciones casi idénticas de una
-   misma familia conviviendo (AM-8200 / 8200G Rv3 / 8200N RV4 — variantes hermanas + revisiones
-   mezcladas, el modelo de datos no distingue ninguna de las dos) monopolizan el top-5 de
-   cualquier reranker de pares y ensucian pools/atribución (cat009/cat012/hp011). Secuencia: (a) audit/dimensionado barato — cuántos docs con revisiones múltiples,
-   cuántos near-dup chunks (umbral de similitud a declarar), qué golds tocan; (b) CONTRATO de
-   supersesión — ⚠️ NO latest-wins naive: hp011/answer-con-conflicto y los conflictos ES↔US
-   viven de que AMBAS variantes sobrevivan (la supersesión es por-doc-misma-edición-mismo-mercado);
-   (c) diseño + dúo FRESCO (corpus = zona de dolor → cross-model INNEGOCIABLE); (d) ejecución
-   medida en el RULER (la ventana de freeze está ABIERTA — este ciclo es EL momento de tocar
-   corpus). Desbloquea la revisita del lever CE (preservado) y limpia hp011/cat009.
-2. **Revisita condicional del lever CE** (tras #43): el NO-GO fue por D2; con near-dups
-   tratados, re-correr el gate (pools nuevos + D1/D2) es barato (~$2). Si GO → A/B con techo
-   honesto (+1-frágil: hp001 queda fuera del alcance de cualquier reranker — frontera+drift).
-3. **Tras un lever shipped: confirmación held-out** — corrida ÚNICA `INCLUDE_HELDOUT=1` bajo el
-   PREREG (C1/C2 + cláusula R firmadas).
-4. **Después:** corpus nuevo (Aritech completo / Kidde resto / Ziton-GST; método en
-   `docs/CORPUS_FIRESECURITYPRODUCTS.md`). Antes de ingerir: #44 (escritor de `category`) +
-   contrato #45 (diagramas) + #43 resuelto (ingerir más revisiones sin supersesión = sembrar
-   más near-dups).
+1. **(s63) Ciclo A — dúo FRESCO sobre el diseño v1** (`evals/_s62_seriesA_design.md`; corpus/
+   retrieval = zona de dolor → cross-model INNEGOCIABLE) → v2 → **build** (registry `series` en
+   `config/manufacturers/*.yaml` [seam s55, cero DDL] + `_filter_to_query_models` de 3 niveles:
+   sin entrada de registry → comportamiento ACTUAL intacto; con entrada → mismo-producto o
+   doc-de-serie, hermanos NO pasan; fail-open <3 se mantiene) → **gate barato** (filtro-nuevo vs
+   filtro-actual, MISMO embedding por par [neutraliza el drift 0.003], probes s61 reutilizables;
+   condiciones: PASS-control retiene sustento · cat012-mecanismo se cierra · hp003/#11e no
+   regresan) → **A/B K=5 vs baseline s58** (cambio de código puro — baseline comparable;
+   instrumentos s61: firma enmendada + shadow-rerank) → held-out bajo R si SHIP. **La curación
+   inicial de series (AM-8200{,G,N} · CAD-150{,-8,R} · Vesta latente) se valida con Alberto
+   ANTES del gate** (conocimiento de dominio con `evidence:` por entrada). De propina: marcar
+   `superseded` el MAD-472 V1 (capa C, cat024). Capa B dirigida solo donde el ciclo la toque.
+2. **Capa B completa (ciclo de higiene propio, tras A):** metadata de lotes viejos —
+   manufacturer mal asignado (≥15 docs), model=unknown masivo, revision-basura de parser,
+   document_family=filename, 165 docs sin chunks. Extender el seam s55 hacia atrás; mini-eval
+   de no-regresión (los filtros por manufacturer/model SÍ tocan retrieval).
+3. **Revisita condicional del lever CE** (tras ciclo A): re-gate ~$2 con el filtro nuevo —
+   el mecanismo cat012 (hermanos) quedaría cerrado río arriba; techo honesto +1-frágil.
+4. **Tras un lever shipped: confirmación held-out** — corrida ÚNICA `INCLUDE_HELDOUT=1` (PREREG).
+5. **Después:** corpus nuevo (Aritech/Kidde/Ziton-GST). Antes de ingerir: #44 + contrato #45 +
+   **contrato de supersesión EN EL FLUJO DE INGESTA** (sin materia retroactiva — audit s62: 1
+   caso en 1.065 docs; las revisiones nuevas de docs existentes son las que lo necesitarán).
 
 **Fases macro (rationale en HISTORY):** F1 calidad (en curso) → F2 escala (identidad de producto
 HECHA s55; resto gated) → F3 routing/tool-use + multi-dominio del scope M&A (gated por F1/F2) →
