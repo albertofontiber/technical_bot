@@ -27,6 +27,14 @@
 > run-manifest DEC-021 §F): PASS-control fijado 10/39, residual 26 clasificado
 > (retrieval-localizado 8 / generación 4 / indeterminado 8), truncamiento descartado.
 > Ventana de freeze del corpus ABIERTA (ninguna ingesta hasta cerrar el ciclo A/B→held-out).
+>
+> ⚠️ **Caveat s60 a este doc (TECH_DEBT #44/#45):** las secciones que describen el filtro por
+> categoría y la entrega de **diagramas** (§§ flujo/ingesta — "adjunta diagrama", canal
+> `diagram_search`, tag del reranker) describen el sistema sobre la tabla VIEJA. En `chunks_v2`
+> (el corpus ACTIVO) ambos contratos están rotos desde el SWAP s44: `category` sin taxonomía
+> canónica (0 filas canónicas; DEC-040) y `has_diagram`/`diagram_url` a **0 de 25.090** (vs
+> 44.035 en la vieja; DEC-041) → **el bot hoy NO adjunta diagramas**. Fix con contrato propio
+> en TECH_DEBT #44/#45; estas secciones se reescribirán al resolverse.
 
 ## 1. Visión general en 60 segundos
 
