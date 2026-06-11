@@ -1622,5 +1622,10 @@ sobre-inclusiva (página-con-imagen vs diagrama-útil). Definir el contrato ANTE
 consumidores. Cualquier opción se mide en el RULER (DEC-019). **Trigger**: al diseñar el lever
 s60-redefinido (L-i + cross-encoder) el smoke de diagramas queda MOOT mientras v2 esté a 0 — si
 se re-puebla, la guarda funcional de diagramas vuelve a ser obligatoria; y SIEMPRE antes de dar
-por bueno cualquier trabajo de "diagramas" en v2. **Relacionado**: #44 (patrón contrato-roto-por-SWAP),
+por bueno cualquier trabajo de "diagramas" en v2. **Dependencia NUEVA (s61, diseño v3 §2.0/§2.3 —
+Y4 cross-model)**: el doc que el cross-encoder rerank-2.5 recibe (`_voyage_doc`, header de paridad
+Producto|Sección|Tipo) NO incluye el diagram_tag a propósito (canal muerto); si este contrato se
+re-puebla y el reranker activo es el CE, el soporte de diagramas para ese path se DISEÑA en el
+ciclo del fix (boost post-rerank, metadato en el header, o instrucción — rerank-2.5 es
+instruction-following), no se hereda en silencio. **Relacionado**: #44 (patrón contrato-roto-por-SWAP),
 DEC-016d (boosts load-bearing), gate-D s60 (`evals/s60_step0_order_sensitivity_voyage.yaml`).
