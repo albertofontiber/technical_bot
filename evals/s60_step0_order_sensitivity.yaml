@@ -28,22 +28,24 @@ meta:
     - hp018
     extra:
     - cat020
+  relabel_note: 'labels regenerados offline 11-jun (fix F9 r2): hash->doc/pagina via
+    DB read-only; hashes/votos/categorias ORIGINALES intactos, sin re-llamar al LLM'
 results:
 - qid: cat010
   n_candidates: 14
   category: SENSIBLE
   modal_a:
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
+  - IS5001-F_IS-mA1_EN p1
+  - IS5001-F_IS-mA1_EN p2
+  - IS5001-F_IS-mA1_EN p4
+  - IS5001-F_IS-mA1_EN p5
+  - IS5001-F_IS-mA1_EN p5
   modal_b:
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
+  - IS5001-F_IS-mA1_EN p1
+  - IS5001-F_IS-mA1_EN p2
+  - IS5001-F_IS-mA1_EN p4
+  - IS5001-F_IS-mA1_EN p5
+  - IS5001-F_IS-mA1_EN p6
   votes_a:
   - - 1d95a7454329
     - 8cc45fd7ac5c
@@ -81,15 +83,15 @@ results:
   n_candidates: 4
   category: INSENSIBLE
   modal_a:
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
+  - 55360004 Manual Detector Gas DGD-600 ES  p1
+  - 55360004 Manual Detector Gas DGD-600 ES  p1
+  - 55360004 Manual Detector Gas DGD-600 ES  p1
+  - 55360004 Manual Detector Gas DGD-600 ES  p1
   modal_b:
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
+  - 55360004 Manual Detector Gas DGD-600 ES  p1
+  - 55360004 Manual Detector Gas DGD-600 ES  p1
+  - 55360004 Manual Detector Gas DGD-600 ES  p1
+  - 55360004 Manual Detector Gas DGD-600 ES  p1
   votes_a:
   - - 84cd8aed30b0
     - b33cf6aebb9a
@@ -121,17 +123,17 @@ results:
   n_candidates: 8
   category: SENSIBLE
   modal_a:
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
+  - 55315008-Manual-Centrales-Analogicas-CAD p13
+  - 55315008-Manual-Centrales-Analogicas-CAD p16
+  - 55315013 Manual Centrales Analogicas CAD p1
+  - 55315013 Manual Centrales Analogicas CAD p10
+  - 55315501 CAD150R Instalacion ES GB 19101 p8
   modal_b:
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
+  - 55315008-Manual-Centrales-Analogicas-CAD p16
+  - 55315013 Manual Centrales Analogicas CAD p10
+  - 55315013 Manual Centrales Analogicas CAD p4
+  - 55315013 Manual Centrales Analogicas CAD p7
+  - 55315501 CAD150R Instalacion ES GB 19101 p8
   votes_a:
   - - 13e98a03f0fa
     - 2135b3da3eab
@@ -169,17 +171,17 @@ results:
   n_candidates: 50
   category: SENSIBLE
   modal_a:
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
+  - MNDT722_40-40L p10
+  - MNDT722_40-40L p14
+  - MNDT722_40-40L p46
+  - MNDT722_40-40L p49
+  - MNDT722_40-40L p8
   modal_b:
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
+  - MNDT722_40-40L p10
+  - MNDT722_40-40L p14
+  - MNDT722_40-40L p49
+  - MNDT722_40-40L p8
+  - MNDT723_40-40U p12
   votes_a:
   - - 6f3bf955d178
     - 7ef6d603a085
@@ -217,17 +219,17 @@ results:
   n_candidates: 17
   category: SENSIBLE
   modal_a:
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
+  - CCD-103_Manual_ES_FR_GB_IT p15
+  - CCD-103_Manual_ES_FR_GB_IT p28
+  - CCD-103_Manual_ES_FR_GB_IT p29
+  - CCD-103_Manual_ES_FR_GB_IT p57
+  - CCD-103_Manual_ES_FR_GB_IT p71
   modal_b:
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
+  - CCD-103_Manual_ES_FR_GB_IT p28
+  - CCD-103_Manual_ES_FR_GB_IT p29
+  - CCD-103_Manual_ES_FR_GB_IT p57
+  - CCD-103_Manual_ES_FR_GB_IT p65
+  - CCD-103_Manual_ES_FR_GB_IT p71
   votes_a:
   - - 10938a29805a
     - 19555eb492fa
@@ -265,17 +267,17 @@ results:
   n_candidates: 36
   category: SENSIBLE
   modal_a:
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
+  - ASD535_TD_T131192es_h p131
+  - ASD535_TD_T131192es_h p133
+  - ASD535_TD_T131192es_h p133
+  - ASD535_TD_T131192es_h p61
+  - ASD535_TD_T131192es_h p64
   modal_b:
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
+  - ASD535_TD_T131192es_h p131
+  - ASD535_TD_T131192es_h p133
+  - ASD535_TD_T131192es_h p133
+  - ASD535_TD_T131192es_h p64
+  - ASD535_TD_T131192es_h p65
   votes_a:
   - - 17621a958249
     - 702d1eccd1a4
@@ -313,17 +315,17 @@ results:
   n_candidates: 31
   category: SENSIBLE
   modal_a:
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
+  - CAD-250-MC-380-es p16
+  - CAD-250_Manual-Configuracion-MC-380-es-2 p14
+  - CAD-250_Manual-Configuracion-MC-380-es-2 p15
+  - CAD-250_Manual-Configuracion-MC-380-es-2 p19
+  - Manual instalacion CAD-250 (MI_372_es_20 p29
   modal_b:
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
+  - CAD-250-MC-380-es p16
+  - CAD-250_Manual-Configuracion-MC-380-es-2 p14
+  - CAD-250_Manual-Configuracion-MC-380-es-2 p15
+  - CAD-250_Manual-Configuracion-MC-380-es-2 p19
+  - Manual usuario CAD-250 (MU 376 es 2024 f p9
   votes_a:
   - - 7cd25250db1a
     - 9fbf89d561df
@@ -361,17 +363,17 @@ results:
   n_candidates: 30
   category: SENSIBLE
   modal_a:
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
+  - AM 8200G manual instalacion Rv 3 p35
+  - AM-8200 Manual Instalacion p13
+  - AM-8200 Manual Instalacion p52
+  - AM-8200 Manual Instalacion p53
+  - AM-8200 Manual Instalacion p53
   modal_b:
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
+  - AM 8200G manual instalacion Rv 3 p11
+  - AM-8200 Manual Instalacion p13
+  - AM-8200 Manual Instalacion p52
+  - AM-8200 Manual Instalacion p53
+  - AM-8200 Manual Instalacion p53
   votes_a:
   - - 06221e804550
     - 84d2dcc469d2
@@ -409,17 +411,17 @@ results:
   n_candidates: 50
   category: SENSIBLE
   modal_a:
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
+  - Manual-de-Usuario-CS4 p3
+  - Manual-de-Usuario-CS4 p4
+  - Manual-de-Usuario-CS4 p4
+  - Manual-de-Usuario-CS4 p5
+  - Manual-de-Usuario-CS4 p7
   modal_b:
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
+  - Manual-de-Usuario-CS4 p1
+  - Manual-de-Usuario-CS4 p3
+  - Manual-de-Usuario-CS4 p4
+  - Manual-de-Usuario-CS4 p5
+  - Manual-de-Usuario-CS4 p7
   votes_a:
   - - 384899e88a97
     - 41ac2ca4737e
@@ -457,17 +459,17 @@ results:
   n_candidates: 23
   category: SENSIBLE
   modal_a:
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
+  - HLSI-MN-025-I_NFS Supra Series v05 p27
+  - HLSI-MN-025-I_NFS Supra Series v05 p28
+  - HLSI-MN-025_NFS Supra p27
+  - HLSI-MN-025_NFS Supra p28
+  - HLSI-MN-025_NFS Supra p43
   modal_b:
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
+  - HLSI-MN-025-I_NFS Supra Series v05 p28
+  - HLSI-MN-025_NFS Supra p24
+  - HLSI-MN-025_NFS Supra p27
+  - HLSI-MN-025_NFS Supra p28
+  - HLSI-MN-025_NFS Supra p43
   votes_a:
   - - 2fee18fb225c
     - 78d671bb4340
@@ -505,17 +507,17 @@ results:
   n_candidates: 27
   category: SENSIBLE
   modal_a:
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
+  - MIE-MI-310 p18
+  - MIE-MI-310 p19
+  - MIE-MI-310 p26
+  - MIE-MP-310 p61
+  - MIE-MU-310 p11
   modal_b:
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
+  - MIE-MI-310 p18
+  - MIE-MI-310 p19
+  - MIE-MI-310 p25
+  - MIE-MP-310 p61
+  - MIE-MU-310 p11
   votes_a:
   - - 0dc686fc77b1
     - 3ce200a067a1
@@ -553,17 +555,17 @@ results:
   n_candidates: 27
   category: SENSIBLE
   modal_a:
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
+  - DXC-Connexion-Compatibilidad-de-programa p1
+  - DXc_Manual de configuracion p40
+  - DXc_Manual de usuario p27
+  - DXc_Manual variaciones de mercado p5
+  - DXc_Manual variaciones de mercado p6
   modal_b:
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
-  - '? pNone'
+  - DXc_Manual de usuario p11
+  - DXc_Manual de usuario p4
+  - DXc_Manual de usuario p5
+  - DXc_Manual variaciones de mercado p5
+  - DXc_Manual variaciones de mercado p6
   votes_a:
   - - 399dd4c77c93
     - 3f3e552cf092

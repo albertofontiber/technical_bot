@@ -85,8 +85,9 @@ NO_GO_THRESHOLD = 10  # NO-sensibles >= 10/12 -> NO-GO mecanismo (i)
 
 HYDRATE_COLS = (
     "id,content,product_model,section_title,content_type,"
-    "has_diagram,diagram_url,embedding"
-)
+    "has_diagram,diagram_url,embedding,source_file,page_number"
+)  # source_file/page_number: solo para la parte LEGIBLE del artefacto (F9 r2);
+# el reranker no los ve (strip los deja pasar — son inocuos, el prompt no los usa)
 
 # --- detección de fail-open del reranker (contaminaría la medición) ---
 _rerank_errors: list[str] = []
@@ -176,8 +177,6 @@ def run_gold(qid: str, frozen: dict, n_replicas: int) -> tuple[dict, dict]:
     q_emb = embed_query(query)
     cos_by_id = {c["id"]: cosine(q_emb, by_id[c["id"]]["embedding"]) for c in pool_light}
     order_b = sorted(order_a, key=lambda c: (-cos_by_id[c["id"]], c["id"]))
-    for c in order_b:
-        c = dict(c)  # no mutar order_a
 
     # el reranker no debe ver el campo embedding (no existe en el path real)
     strip = lambda c: {k: v for k, v in c.items() if k != "embedding"}  # noqa: E731
