@@ -3,12 +3,43 @@ Embedding generator for document chunks.
 Uses OpenAI text-embedding-3-small for generating vector embeddings.
 """
 
+import hashlib
+import json
 import logging
+import os
 import time
+from pathlib import Path
 
 from ..config import OPENAI_API_KEY, EMBEDDING_MODEL, EMBEDDING_DIMENSIONS
 
 logger = logging.getLogger(__name__)
+
+# --- Cache de embeddings de QUERY, solo-harness (ciclo A s63, FINAL §2) -----
+# EMBED_CACHE_PATH (env) apunta a un json {key: vector}. Lo usan los dos brazos
+# de un A/B dual-arm para compartir EXACTAMENTE el mismo vector por query y
+# aislar la variable de tratamiento del drift de embed_query entre llamadas
+# (medido s61: 0.003 mueve golds frontera — DEC-042d). En prod la variable no
+# existe → branch dormant. Write-through: el primer brazo puebla, el segundo lee.
+_EMBED_CACHE: dict | None = None
+
+
+def _embed_cache_path() -> Path | None:
+    p = os.getenv("EMBED_CACHE_PATH")
+    return Path(p) if p else None
+
+
+def _embed_cache() -> dict | None:
+    global _EMBED_CACHE
+    path = _embed_cache_path()
+    if path is None:
+        return None
+    if _EMBED_CACHE is None:
+        try:
+            _EMBED_CACHE = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+        except Exception as exc:
+            logger.warning("EMBED_CACHE_PATH ilegible (%s) — cache vacío", exc)
+            _EMBED_CACHE = {}
+    return _EMBED_CACHE
 
 # Singleton client to avoid creating a new instance per call
 _client = None
@@ -107,18 +138,40 @@ def embed_query(
       - chunks_v2 → Voyage voyage-4-large (1024), input_type='query'
     El vector de la query DEBE coincidir en modelo/dim con el corpus indexado;
     si no, la similitud coseno es basura (o falla por dimensión).
+
+    Con EMBED_CACHE_PATH (solo harness, ver cabecera): el vector se sirve/
+    persiste por clave (proveedor+modelo+texto limpio) — mismo texto = mismo
+    vector entre brazos de un A/B.
     """
     from ..config import CHUNKS_IS_V2
+    cleaned = " ".join(query.split())[:8000]
+    provider = "voyage-4-large|query" if CHUNKS_IS_V2 else f"openai-{model}|{dimensions}"
+    cache = _embed_cache()
+    cache_key = None
+    if cache is not None:
+        cache_key = hashlib.sha256(f"{provider}|{cleaned}".encode("utf-8")).hexdigest()
+        hit = cache.get(cache_key)
+        if hit is not None:
+            return hit
+
     if CHUNKS_IS_V2:
         # Voyage: input_type='query' (asimétrico doc/query — los chunks se
         # embebieron con input_type='document' en B8).
         from ..reingest.embed import embed as voyage_embed
-        return voyage_embed([" ".join(query.split())[:8000]], input_type="query")[0]
+        vector = voyage_embed([cleaned], input_type="query")[0]
+    else:
+        client = get_client()
+        response = client.embeddings.create(
+            input=[cleaned],
+            model=model,
+            dimensions=dimensions,
+        )
+        vector = response.data[0].embedding
 
-    client = get_client()
-    response = client.embeddings.create(
-        input=[" ".join(query.split())[:8000]],
-        model=model,
-        dimensions=dimensions,
-    )
-    return response.data[0].embedding
+    if cache is not None and cache_key is not None:
+        cache[cache_key] = vector
+        try:
+            _embed_cache_path().write_text(json.dumps(cache), encoding="utf-8")
+        except Exception as exc:
+            logger.warning("EMBED_CACHE_PATH no escribible (%s) — cache solo en memoria", exc)
+    return vector

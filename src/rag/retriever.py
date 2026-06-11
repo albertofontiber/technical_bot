@@ -14,6 +14,7 @@ from ..config import (SUPABASE_URL, SUPABASE_SERVICE_KEY, RETRIEVAL_TOP_K,
 from ..ingestion.embedder import embed_query
 from .hyde import generate_hypothetical_document, HYDE_ENABLED
 from . import catalog as _catalog
+from . import series_registry as _series
 
 # SEED pattern, hand-tuned (multi-manufacturer). Desde Fase 2 ya NO es el
 # detector primario en retrieval: extract_product_models usa el catálogo
@@ -1245,28 +1246,41 @@ def _filter_to_query_models(chunks: list[dict], models: list[str]) -> list[dict]
              MIDT732 (MINILÁSER 25 Notifier), violating the user's policy
              'no inferir cross-brand'.
 
-    Matching rule: normalize both the query model and the chunk's product_model
-    by stripping separators (``-``, space) and lowercasing. A chunk passes
-    if ANY query-model core appears as substring of the normalized
-    product_model. So ``CAD-150`` matches ``CAD-150-8`` (normalized
-    ``cad1508``) but not ``CAD-250`` (normalized ``cad250``).
+    Matching rule (nivel 1, histórico): normalize both the query model and the
+    chunk's product_model by stripping separators (``-``, space) and
+    lowercasing. A chunk passes if ANY query-model core appears as substring
+    of the normalized product_model. So ``CAD-150`` matches ``CAD-150-8``
+    (normalized ``cad1508``) but not ``CAD-250`` (normalized ``cad250``).
 
-    Fail-open: if filtering would leave fewer than 3 chunks, return originals
-    (better a mixed result than no answer).
+    Series-aware rule (nivel 2 — ciclo A s63, DEC-043 / TECH_DEBT #43): si
+    algún modelo de la query tiene serie declarada en config/manufacturers
+    (series_registry), el substring se complementa con (i) VETO de hermanos
+    declarados — la query "AM-8200" deja de arrastrar los manuales de
+    AM-8200G/N (cat012) — y (ii) APERTURA de docs compartidos declarados —
+    la query "CAD-201" ve el manual de serie MC-380 aunque su product_model
+    sea CAD-250 (DEC-032). Sin entrada de registry → nivel 1 intacto.
+
+    Fail-open ESCALONADO: si el nivel 2 dejaría <3 chunks, se relaja a
+    nivel 1 (substring sin vetos — nunca peor que el comportamiento
+    histórico); si aún <3, return originals (better mixed than empty).
     """
     if not models or not chunks:
         return chunks
 
-    def normalize(s: str) -> str:
-        return re.sub(r'[- ]', '', s or '').lower()
-
-    query_cores = [normalize(m) for m in models if m]
+    query_cores = [_series.normalize_model(m) for m in models if m]
     if not query_cores:
         return chunks
 
+    if _series.series_enabled() and _series.any_series(models):
+        filtered = [c for c in chunks if _series.passes_nivel2(c, models)]
+        if len(filtered) >= 3:
+            return filtered
+        # Escalón del fail-open: cae al nivel 1 (hermanos incluidos) antes
+        # que al sin-filtro — nunca más sucio que el comportamiento actual.
+
     filtered: list[dict] = []
     for c in chunks:
-        pm_norm = normalize(c.get("product_model", ""))
+        pm_norm = _series.normalize_model(c.get("product_model", ""))
         if any(core in pm_norm for core in query_cores):
             filtered.append(c)
 
@@ -1340,6 +1354,41 @@ def _get_source_files_for_model(product_model: str) -> list[str]:
     from collections import Counter
     c = Counter(r["source_file"] for r in resp.json() if r.get("source_file"))
     return [sf for sf, _ in c.most_common()]
+
+
+def _get_pm_for_sources(source_files: list[str]) -> dict[str, str]:
+    """product_model dominante por source_file, en UN GET (pre-filtro de series
+    en diversify — ciclo A s63, FINAL §1c-2). Fail-open: {} si la consulta
+    falla; un source ausente del resultado simplemente no se excluye."""
+    if not source_files:
+        return {}
+    headers = {
+        "apikey": SUPABASE_SERVICE_KEY,
+        "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
+    }
+    quoted = ",".join('"' + sf.replace('"', '\\"') + '"' for sf in source_files)
+    try:
+        with httpx.Client(timeout=5.0) as client:
+            resp = client.get(
+                f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
+                headers=headers,
+                params={
+                    "source_file": f"in.({quoted})",
+                    "select": "source_file,product_model",
+                    "limit": "5000",
+                },
+            )
+            resp.raise_for_status()
+    except Exception:
+        return {}
+
+    from collections import Counter
+    per_source: dict[str, Counter] = {}
+    for r in resp.json():
+        sf, pm = r.get("source_file"), r.get("product_model")
+        if sf and pm:
+            per_source.setdefault(sf, Counter())[pm] += 1
+    return {sf: cnt.most_common(1)[0][0] for sf, cnt in per_source.items()}
 
 
 def _fetch_top_chunks_by_source_file(
@@ -1438,10 +1487,22 @@ def _diversify_by_source_file(
     if not chunks or not models:
         return chunks
 
+    series_active = _series.series_enabled() and _series.any_series(models)
+
     # Identify corpus source_files for each detected model
     all_corpus_sources: list[str] = []
     for model in models:
         for sf in _get_source_files_for_model(model):
+            if sf not in all_corpus_sources:
+                all_corpus_sources.append(sf)
+
+    # (s63 ciclo A, FINAL §1c-1) Los docs COMPARTIDOS declarados de las series
+    # de la query entran al universo de sources: el doc de serie (p.ej. MC-380
+    # para una query CAD-201) no llega ni por imatch del modelo ni —de forma
+    # fiable— por recall vectorial; sin este fetch dirigido, d2 sigue cerrado
+    # aunque el filtro lo permita (r2 R5/Z2, medido: pool 17/17 MI-715).
+    if series_active:
+        for sf in _series.shared_sources_for(models):
             if sf not in all_corpus_sources:
                 all_corpus_sources.append(sf)
 
@@ -1453,9 +1514,32 @@ def _diversify_by_source_file(
     sources_in_results: set[str] = {c.get("source_file") for c in chunks if c.get("source_file")}
     missing_sources = [sf for sf in all_corpus_sources if sf not in sources_in_results]
 
+    # (s63 FINAL §1c-2) Pre-filtro ANTES del cap [:4]: sin él, los docs de
+    # hermanos vetados queman slots de fetch (fetch→veto) y los docs legítimos
+    # que vienen detrás nunca se intentan (r2 R6/Z3: 3/4 slots en cat012).
+    # Fail-open: un source sin product_model conocido no se excluye.
+    if series_active and missing_sources:
+        shared_lower = {s.lower() for s in _series.shared_sources_for(models)}
+        pm_by_source = _get_pm_for_sources(
+            [sf for sf in missing_sources if sf.lower() not in shared_lower])
+
+        def _source_allowed(sf: str) -> bool:
+            if sf.lower() in shared_lower:
+                return True
+            pm = pm_by_source.get(sf)
+            if not pm:
+                return True
+            return _series.passes_nivel2({"product_model": pm, "source_file": sf}, models)
+
+        missing_sources = [sf for sf in missing_sources if _source_allowed(sf)]
+
     seen_ids = {c.get("id") for c in chunks if c.get("id")}
     for sf in missing_sources[:4]:
         extra = _fetch_top_chunks_by_source_file(sf, original_query, limit=2)
+        # (s63 FINAL §1c-3) Cinturón post-fetch: el MISMO predicado del filtro
+        # sobre los suplementos (sin fail-open — el pool principal ya está).
+        if series_active:
+            extra = [c for c in extra if _series.passes_nivel2(c, models)]
         for c in extra:
             c["similarity"] = 0.72  # competitive but won't override direct matches
             cid = c.get("id")
