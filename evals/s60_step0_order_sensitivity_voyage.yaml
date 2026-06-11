@@ -1,0 +1,625 @@
+meta:
+  at: '2026-06-11T09:05:55'
+  design: evals/_s60_lever_design_FINAL.md §2 paso-0
+  preregistered_resolutions:
+  - 12º gold = cat020 (corrige doble-conteo de cat010 en el FINAL)
+  - INESTABLE cuenta como NO-sensible para el umbral NO-GO
+  config:
+    rerank_model: rerank-2.5
+    n_replicas: 3
+    top_k: 5
+    no_go_threshold: '>=10/12 NO-sensibles'
+    orden_a: pool50_light s59 tal cual (pipeline real)
+    orden_b: coseno re-computado uniforme desc, tie-break id
+    paridad: rerank_chunks sin target_models (bvg_kmajority.py:197)
+  golds:
+    unanimes:
+    - cat010
+    - cat014
+    - cat015
+    - cat022
+    - hp015
+    - hp019
+    movers:
+    - hp001
+    - cat012
+    - cat005
+    - cat009
+    - hp018
+    extra:
+    - cat020
+results:
+- qid: cat010
+  n_candidates: 14
+  category: INSENSIBLE
+  modal_a:
+  - IS5001-F_IS-mA1_EN p1
+  - IS5001-F_IS-mA1_EN p1
+  - IS5001-F_IS-mA1_EN p2
+  - IS5001-F_IS-mA1_EN p5
+  - IS5001-F_IS-mA1_EN p6
+  modal_b:
+  - IS5001-F_IS-mA1_EN p1
+  - IS5001-F_IS-mA1_EN p1
+  - IS5001-F_IS-mA1_EN p2
+  - IS5001-F_IS-mA1_EN p5
+  - IS5001-F_IS-mA1_EN p6
+  votes_a:
+  - - 8cc45fd7ac5c
+    - 9de9aaacecc4
+    - b6ef1cdb7b48
+    - da42715a40ca
+    - df2e571dc222
+  - - 8cc45fd7ac5c
+    - 9de9aaacecc4
+    - b6ef1cdb7b48
+    - da42715a40ca
+    - df2e571dc222
+  - - 8cc45fd7ac5c
+    - 9de9aaacecc4
+    - b6ef1cdb7b48
+    - da42715a40ca
+    - df2e571dc222
+  votes_b:
+  - - 8cc45fd7ac5c
+    - 9de9aaacecc4
+    - b6ef1cdb7b48
+    - da42715a40ca
+    - df2e571dc222
+  - - 8cc45fd7ac5c
+    - 9de9aaacecc4
+    - b6ef1cdb7b48
+    - da42715a40ca
+    - df2e571dc222
+  - - 8cc45fd7ac5c
+    - 9de9aaacecc4
+    - b6ef1cdb7b48
+    - da42715a40ca
+    - df2e571dc222
+  overlap_modal: 5
+  replicas_identical: true
+- qid: cat014
+  n_candidates: 4
+  category: INSENSIBLE
+  modal_a:
+  - 55360004 Manual Detector Gas DGD-600 ES  p1
+  - 55360004 Manual Detector Gas DGD-600 ES  p1
+  - 55360004 Manual Detector Gas DGD-600 ES  p1
+  - 55360004 Manual Detector Gas DGD-600 ES  p1
+  modal_b:
+  - 55360004 Manual Detector Gas DGD-600 ES  p1
+  - 55360004 Manual Detector Gas DGD-600 ES  p1
+  - 55360004 Manual Detector Gas DGD-600 ES  p1
+  - 55360004 Manual Detector Gas DGD-600 ES  p1
+  votes_a:
+  - - 84cd8aed30b0
+    - b33cf6aebb9a
+    - c0490abbc424
+    - f6898cf966aa
+  - - 84cd8aed30b0
+    - b33cf6aebb9a
+    - c0490abbc424
+    - f6898cf966aa
+  - - 84cd8aed30b0
+    - b33cf6aebb9a
+    - c0490abbc424
+    - f6898cf966aa
+  votes_b:
+  - - 84cd8aed30b0
+    - b33cf6aebb9a
+    - c0490abbc424
+    - f6898cf966aa
+  - - 84cd8aed30b0
+    - b33cf6aebb9a
+    - c0490abbc424
+    - f6898cf966aa
+  - - 84cd8aed30b0
+    - b33cf6aebb9a
+    - c0490abbc424
+    - f6898cf966aa
+  overlap_modal: 4
+  replicas_identical: true
+- qid: cat015
+  n_candidates: 8
+  category: INSENSIBLE
+  modal_a:
+  - 55315008-Manual-Centrales-Analogicas-CAD p13
+  - 55315008-Manual-Centrales-Analogicas-CAD p16
+  - 55315013 Manual Centrales Analogicas CAD p10
+  - 55315013 Manual Centrales Analogicas CAD p4
+  - 55315501 CAD150R Instalacion ES GB 19101 p8
+  modal_b:
+  - 55315008-Manual-Centrales-Analogicas-CAD p13
+  - 55315008-Manual-Centrales-Analogicas-CAD p16
+  - 55315013 Manual Centrales Analogicas CAD p10
+  - 55315013 Manual Centrales Analogicas CAD p4
+  - 55315501 CAD150R Instalacion ES GB 19101 p8
+  votes_a:
+  - - 2135b3da3eab
+    - 67491e52c7ed
+    - 833d2aea223d
+    - 9aa699ba037c
+    - ffad404993ac
+  - - 2135b3da3eab
+    - 67491e52c7ed
+    - 833d2aea223d
+    - 9aa699ba037c
+    - ffad404993ac
+  - - 2135b3da3eab
+    - 67491e52c7ed
+    - 833d2aea223d
+    - 9aa699ba037c
+    - ffad404993ac
+  votes_b:
+  - - 2135b3da3eab
+    - 67491e52c7ed
+    - 833d2aea223d
+    - 9aa699ba037c
+    - ffad404993ac
+  - - 2135b3da3eab
+    - 67491e52c7ed
+    - 833d2aea223d
+    - 9aa699ba037c
+    - ffad404993ac
+  - - 2135b3da3eab
+    - 67491e52c7ed
+    - 833d2aea223d
+    - 9aa699ba037c
+    - ffad404993ac
+  overlap_modal: 5
+  replicas_identical: true
+- qid: cat022
+  n_candidates: 50
+  category: INSENSIBLE
+  modal_a:
+  - MNDT722_40-40L p10
+  - MNDT722_40-40L p14
+  - MNDT722_40-40L p49
+  - MNDT722_40-40L p7
+  - MNDT722_40-40L p8
+  modal_b:
+  - MNDT722_40-40L p10
+  - MNDT722_40-40L p14
+  - MNDT722_40-40L p49
+  - MNDT722_40-40L p7
+  - MNDT722_40-40L p8
+  votes_a:
+  - - 6f3bf955d178
+    - afe078e2b6ee
+    - d5d513c1e67c
+    - d8901d0091e2
+    - ecd949bd63eb
+  - - 6f3bf955d178
+    - afe078e2b6ee
+    - d5d513c1e67c
+    - d8901d0091e2
+    - ecd949bd63eb
+  - - 6f3bf955d178
+    - afe078e2b6ee
+    - d5d513c1e67c
+    - d8901d0091e2
+    - ecd949bd63eb
+  votes_b:
+  - - 6f3bf955d178
+    - afe078e2b6ee
+    - d5d513c1e67c
+    - d8901d0091e2
+    - ecd949bd63eb
+  - - 6f3bf955d178
+    - afe078e2b6ee
+    - d5d513c1e67c
+    - d8901d0091e2
+    - ecd949bd63eb
+  - - 6f3bf955d178
+    - afe078e2b6ee
+    - d5d513c1e67c
+    - d8901d0091e2
+    - ecd949bd63eb
+  overlap_modal: 5
+  replicas_identical: true
+- qid: hp015
+  n_candidates: 17
+  category: INSENSIBLE
+  modal_a:
+  - CCD-103_Manual_ES_FR_GB_IT p15
+  - CCD-103_Manual_ES_FR_GB_IT p28
+  - CCD-103_Manual_ES_FR_GB_IT p29
+  - CCD-103_Manual_ES_FR_GB_IT p57
+  - CCD-103_Manual_ES_FR_GB_IT p71
+  modal_b:
+  - CCD-103_Manual_ES_FR_GB_IT p15
+  - CCD-103_Manual_ES_FR_GB_IT p28
+  - CCD-103_Manual_ES_FR_GB_IT p29
+  - CCD-103_Manual_ES_FR_GB_IT p57
+  - CCD-103_Manual_ES_FR_GB_IT p71
+  votes_a:
+  - - 10938a29805a
+    - 19555eb492fa
+    - 19e0e5ef4d07
+    - 2ab5548512e2
+    - e381522614b0
+  - - 10938a29805a
+    - 19555eb492fa
+    - 19e0e5ef4d07
+    - 2ab5548512e2
+    - e381522614b0
+  - - 10938a29805a
+    - 19555eb492fa
+    - 19e0e5ef4d07
+    - 2ab5548512e2
+    - e381522614b0
+  votes_b:
+  - - 10938a29805a
+    - 19555eb492fa
+    - 19e0e5ef4d07
+    - 2ab5548512e2
+    - e381522614b0
+  - - 10938a29805a
+    - 19555eb492fa
+    - 19e0e5ef4d07
+    - 2ab5548512e2
+    - e381522614b0
+  - - 10938a29805a
+    - 19555eb492fa
+    - 19e0e5ef4d07
+    - 2ab5548512e2
+    - e381522614b0
+  overlap_modal: 5
+  replicas_identical: true
+- qid: hp019
+  n_candidates: 36
+  category: INSENSIBLE
+  modal_a:
+  - ASD535_TD_T131192es_h p131
+  - ASD535_TD_T131192es_h p133
+  - ASD535_TD_T131192es_h p61
+  - ASD535_TD_T131192es_h p64
+  - ASD535_TD_T131192es_h p65
+  modal_b:
+  - ASD535_TD_T131192es_h p131
+  - ASD535_TD_T131192es_h p133
+  - ASD535_TD_T131192es_h p61
+  - ASD535_TD_T131192es_h p64
+  - ASD535_TD_T131192es_h p65
+  votes_a:
+  - - 702d1eccd1a4
+    - a33ed9fdb1c7
+    - b1306dc30c70
+    - c25ea9d12b5e
+    - c35259fdd3fc
+  - - 702d1eccd1a4
+    - a33ed9fdb1c7
+    - b1306dc30c70
+    - c25ea9d12b5e
+    - c35259fdd3fc
+  - - 702d1eccd1a4
+    - a33ed9fdb1c7
+    - b1306dc30c70
+    - c25ea9d12b5e
+    - c35259fdd3fc
+  votes_b:
+  - - 702d1eccd1a4
+    - a33ed9fdb1c7
+    - b1306dc30c70
+    - c25ea9d12b5e
+    - c35259fdd3fc
+  - - 702d1eccd1a4
+    - a33ed9fdb1c7
+    - b1306dc30c70
+    - c25ea9d12b5e
+    - c35259fdd3fc
+  - - 702d1eccd1a4
+    - a33ed9fdb1c7
+    - b1306dc30c70
+    - c25ea9d12b5e
+    - c35259fdd3fc
+  overlap_modal: 5
+  replicas_identical: true
+- qid: hp001
+  n_candidates: 31
+  category: INSENSIBLE
+  modal_a:
+  - CAD-250_Manual-Configuracion-MC-380-es-2 p15
+  - CAD-250_Manual-Configuracion-MC-380-es-2 p20
+  - CAD-250_Manual-Configuracion-MC-380-es-2 p22
+  - CAD-250_Manual-Configuracion-MC-380-es-2 p24
+  - CAD-250_Manual-Configuracion-MC-380-es-2 p5
+  modal_b:
+  - CAD-250_Manual-Configuracion-MC-380-es-2 p15
+  - CAD-250_Manual-Configuracion-MC-380-es-2 p20
+  - CAD-250_Manual-Configuracion-MC-380-es-2 p22
+  - CAD-250_Manual-Configuracion-MC-380-es-2 p24
+  - CAD-250_Manual-Configuracion-MC-380-es-2 p5
+  votes_a:
+  - - 000c37231f89
+    - 6b57b39ab35d
+    - 9893242151c8
+    - 9fbf89d561df
+    - b61bc817550b
+  - - 000c37231f89
+    - 6b57b39ab35d
+    - 9893242151c8
+    - 9fbf89d561df
+    - b61bc817550b
+  - - 000c37231f89
+    - 6b57b39ab35d
+    - 9893242151c8
+    - 9fbf89d561df
+    - b61bc817550b
+  votes_b:
+  - - 000c37231f89
+    - 6b57b39ab35d
+    - 9893242151c8
+    - 9fbf89d561df
+    - b61bc817550b
+  - - 000c37231f89
+    - 6b57b39ab35d
+    - 9893242151c8
+    - 9fbf89d561df
+    - b61bc817550b
+  - - 000c37231f89
+    - 6b57b39ab35d
+    - 9893242151c8
+    - 9fbf89d561df
+    - b61bc817550b
+  overlap_modal: 5
+  replicas_identical: true
+- qid: cat012
+  n_candidates: 30
+  category: INSENSIBLE
+  modal_a:
+  - AM 8200G manual instalacion Rv 3 p11
+  - AM 8200G manual instalacion Rv 3 p35
+  - AM-8200 Manual Instalacion p12
+  - AM-8200 Manual Instalacion p13
+  - AM-8200 Manual Instalacion p53
+  modal_b:
+  - AM 8200G manual instalacion Rv 3 p11
+  - AM 8200G manual instalacion Rv 3 p35
+  - AM-8200 Manual Instalacion p12
+  - AM-8200 Manual Instalacion p13
+  - AM-8200 Manual Instalacion p53
+  votes_a:
+  - - 252e332d18f7
+    - 69b35fb506d2
+    - 84d2dcc469d2
+    - 9fdcb1dce174
+    - f4da4daacfc3
+  - - 252e332d18f7
+    - 69b35fb506d2
+    - 84d2dcc469d2
+    - 9fdcb1dce174
+    - f4da4daacfc3
+  - - 252e332d18f7
+    - 69b35fb506d2
+    - 84d2dcc469d2
+    - 9fdcb1dce174
+    - f4da4daacfc3
+  votes_b:
+  - - 252e332d18f7
+    - 69b35fb506d2
+    - 84d2dcc469d2
+    - 9fdcb1dce174
+    - f4da4daacfc3
+  - - 252e332d18f7
+    - 69b35fb506d2
+    - 84d2dcc469d2
+    - 9fdcb1dce174
+    - f4da4daacfc3
+  - - 252e332d18f7
+    - 69b35fb506d2
+    - 84d2dcc469d2
+    - 9fdcb1dce174
+    - f4da4daacfc3
+  overlap_modal: 5
+  replicas_identical: true
+- qid: cat005
+  n_candidates: 50
+  category: INSENSIBLE
+  modal_a:
+  - Manual-de-Usuario-CS4 p1
+  - Manual-de-Usuario-CS4 p3
+  - Manual-de-Usuario-CS4 p4
+  - Manual-de-Usuario-CS4 p5
+  - Manual-de-Usuario-CS4 p7
+  modal_b:
+  - Manual-de-Usuario-CS4 p1
+  - Manual-de-Usuario-CS4 p3
+  - Manual-de-Usuario-CS4 p4
+  - Manual-de-Usuario-CS4 p5
+  - Manual-de-Usuario-CS4 p7
+  votes_a:
+  - - 18df73bde41b
+    - 384899e88a97
+    - 41ac2ca4737e
+    - eab8619eb30d
+    - ff327303851c
+  - - 18df73bde41b
+    - 384899e88a97
+    - 41ac2ca4737e
+    - eab8619eb30d
+    - ff327303851c
+  - - 18df73bde41b
+    - 384899e88a97
+    - 41ac2ca4737e
+    - eab8619eb30d
+    - ff327303851c
+  votes_b:
+  - - 18df73bde41b
+    - 384899e88a97
+    - 41ac2ca4737e
+    - eab8619eb30d
+    - ff327303851c
+  - - 18df73bde41b
+    - 384899e88a97
+    - 41ac2ca4737e
+    - eab8619eb30d
+    - ff327303851c
+  - - 18df73bde41b
+    - 384899e88a97
+    - 41ac2ca4737e
+    - eab8619eb30d
+    - ff327303851c
+  overlap_modal: 5
+  replicas_identical: true
+- qid: cat009
+  n_candidates: 23
+  category: INSENSIBLE
+  modal_a:
+  - HLSI-MN-025-I_NFS Supra Series v05 p27
+  - HLSI-MN-025_NFS Supra p27
+  - HLSI-MN-025_NFS Supra p28
+  - HLSI-MN-025_NFS Supra p28
+  - HLSI-MN-025_NFS Supra p43
+  modal_b:
+  - HLSI-MN-025-I_NFS Supra Series v05 p27
+  - HLSI-MN-025_NFS Supra p27
+  - HLSI-MN-025_NFS Supra p28
+  - HLSI-MN-025_NFS Supra p28
+  - HLSI-MN-025_NFS Supra p43
+  votes_a:
+  - - 2fee18fb225c
+    - 78d671bb4340
+    - 7dddd497cd68
+    - b2180503ba9b
+    - d8d3ddded2c1
+  - - 2fee18fb225c
+    - 78d671bb4340
+    - 7dddd497cd68
+    - b2180503ba9b
+    - d8d3ddded2c1
+  - - 2fee18fb225c
+    - 78d671bb4340
+    - 7dddd497cd68
+    - b2180503ba9b
+    - d8d3ddded2c1
+  votes_b:
+  - - 2fee18fb225c
+    - 78d671bb4340
+    - 7dddd497cd68
+    - b2180503ba9b
+    - d8d3ddded2c1
+  - - 2fee18fb225c
+    - 78d671bb4340
+    - 7dddd497cd68
+    - b2180503ba9b
+    - d8d3ddded2c1
+  - - 2fee18fb225c
+    - 78d671bb4340
+    - 7dddd497cd68
+    - b2180503ba9b
+    - d8d3ddded2c1
+  overlap_modal: 5
+  replicas_identical: true
+- qid: hp018
+  n_candidates: 27
+  category: INSENSIBLE
+  modal_a:
+  - MIE-MI-310 p18
+  - MIE-MI-310 p19
+  - MIE-MP-310 p38
+  - MIE-MP-310 p61
+  - MIE-MU-310 p11
+  modal_b:
+  - MIE-MI-310 p18
+  - MIE-MI-310 p19
+  - MIE-MP-310 p38
+  - MIE-MP-310 p61
+  - MIE-MU-310 p11
+  votes_a:
+  - - 0dc686fc77b1
+    - 54fa8221e487
+    - 70c2d6b288e1
+    - 8c5535eadeab
+    - c5112ad86cea
+  - - 0dc686fc77b1
+    - 54fa8221e487
+    - 70c2d6b288e1
+    - 8c5535eadeab
+    - c5112ad86cea
+  - - 0dc686fc77b1
+    - 54fa8221e487
+    - 70c2d6b288e1
+    - 8c5535eadeab
+    - c5112ad86cea
+  votes_b:
+  - - 0dc686fc77b1
+    - 54fa8221e487
+    - 70c2d6b288e1
+    - 8c5535eadeab
+    - c5112ad86cea
+  - - 0dc686fc77b1
+    - 54fa8221e487
+    - 70c2d6b288e1
+    - 8c5535eadeab
+    - c5112ad86cea
+  - - 0dc686fc77b1
+    - 54fa8221e487
+    - 70c2d6b288e1
+    - 8c5535eadeab
+    - c5112ad86cea
+  overlap_modal: 5
+  replicas_identical: true
+- qid: cat020
+  n_candidates: 27
+  category: INSENSIBLE
+  modal_a:
+  - DXC-Porque-al-activan-elementos-en-alarm p1
+  - DXc_Guia de usuario_multiling p1
+  - DXc_Manual de usuario p11
+  - DXc_Manual variaciones de mercado p5
+  - DXc_Manual variaciones de mercado p6
+  modal_b:
+  - DXC-Porque-al-activan-elementos-en-alarm p1
+  - DXc_Guia de usuario_multiling p1
+  - DXc_Manual de usuario p11
+  - DXc_Manual variaciones de mercado p5
+  - DXc_Manual variaciones de mercado p6
+  votes_a:
+  - - 399dd4c77c93
+    - 603c13c21115
+    - 83110e141712
+    - dfede14e6d9e
+    - e8970200d27d
+  - - 399dd4c77c93
+    - 603c13c21115
+    - 83110e141712
+    - dfede14e6d9e
+    - e8970200d27d
+  - - 399dd4c77c93
+    - 603c13c21115
+    - 83110e141712
+    - dfede14e6d9e
+    - e8970200d27d
+  votes_b:
+  - - 399dd4c77c93
+    - 603c13c21115
+    - 83110e141712
+    - dfede14e6d9e
+    - e8970200d27d
+  - - 399dd4c77c93
+    - 603c13c21115
+    - 83110e141712
+    - dfede14e6d9e
+    - e8970200d27d
+  - - 399dd4c77c93
+    - 603c13c21115
+    - 83110e141712
+    - dfede14e6d9e
+    - e8970200d27d
+  overlap_modal: 5
+  replicas_identical: true
+tally:
+  SENSIBLE: 0
+  INSENSIBLE: 12
+  INESTABLE: 0
+  no_sensibles: 12
+  golds_replicas_identicas: 12
+  por_grupo:
+    unanimes:
+      INSENSIBLE: 6
+    movers:
+      INSENSIBLE: 5
+    extra:
+      INSENSIBLE: 1
+verdict: NO-GO mecanismo (i)

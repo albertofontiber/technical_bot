@@ -39,7 +39,12 @@ Artefactos:
   evals/s60_step0_cosines.json            (cosenos por gold/id — reuso gate-0 V-A)
 
 Uso:
-  python scripts/s60_step0_order_sensitivity.py [--smoke]   # --smoke: cat020 n=1
+  python scripts/s60_step0_order_sensitivity.py [--smoke] [--reranker llm|voyage]
+  --smoke: cat020 n=1 (sin artefactos)
+  --reranker voyage (gate-D s60): mismo experimento con el cross-encoder
+    rerank-2.5 (rerank_chunks_voyage, el flag de eval existente). Espera
+    teórica: determinista (réplicas idénticas) e insensible al orden por
+    construcción (puntúa pares independientes). Artefactos con sufijo _voyage.
 """
 import hashlib
 import json
@@ -68,7 +73,9 @@ import yaml  # noqa: E402
 
 from src.config import CHUNKS_TABLE, CHUNKS_IS_V2, SUPABASE_URL, SUPABASE_SERVICE_KEY  # noqa: E402
 from src.ingestion.embedder import embed_query  # noqa: E402
-from src.rag.reranker import rerank_chunks, RERANK_MODEL  # noqa: E402
+from src.rag.reranker import (  # noqa: E402
+    rerank_chunks, rerank_chunks_voyage, RERANK_MODEL, VOYAGE_RERANK_MODEL,
+)
 
 FROZEN = ROOT / "evals" / "s59_frozen_contexts.json"
 OUT_YAML = ROOT / "evals" / "s60_step0_order_sensitivity.yaml"
@@ -96,9 +103,10 @@ _err_lock = threading.Lock()
 
 class _FailOpenDetector(logging.Handler):
     def emit(self, record: logging.LogRecord) -> None:
-        if "Reranking failed" in record.getMessage():
+        msg = record.getMessage()
+        if "Reranking failed" in msg or "Voyage rerank failed" in msg:
             with _err_lock:
-                _rerank_errors.append(record.getMessage())
+                _rerank_errors.append(msg)
 
 
 logging.getLogger("src.rag.reranker").addHandler(_FailOpenDetector())
@@ -163,7 +171,7 @@ def describe(sig: frozenset, pool: list[dict]) -> list[str]:
     return sorted(by_hash.get(h, h) for h in sig)
 
 
-def run_gold(qid: str, frozen: dict, n_replicas: int) -> tuple[dict, dict]:
+def run_gold(qid: str, frozen: dict, n_replicas: int, rerank_fn=rerank_chunks) -> tuple[dict, dict]:
     g = frozen[qid]
     query = g["question"]
     pool_light = g["pool50_light"]
@@ -186,7 +194,7 @@ def run_gold(qid: str, frozen: dict, n_replicas: int) -> tuple[dict, dict]:
     def replicas(arm: list[dict]) -> list[frozenset]:
         sigs = []
         for _ in range(n_replicas):
-            out = rerank_chunks(query, arm, top_k=TOP_K)
+            out = rerank_fn(query, arm, top_k=TOP_K)
             sigs.append(top5_signature(out))
         return sigs
 
@@ -212,6 +220,8 @@ def run_gold(qid: str, frozen: dict, n_replicas: int) -> tuple[dict, dict]:
         "votes_a": [sorted(s) for s in sigs_a],
         "votes_b": [sorted(s) for s in sigs_b],
         "overlap_modal": (len(mod_a & mod_b) if (mod_a and mod_b) else None),
+        # determinismo observado: ¿las n réplicas de cada brazo son idénticas?
+        "replicas_identical": (len(set(sigs_a)) == 1 and len(set(sigs_b)) == 1),
     }
     return result, {qid: cos_by_id}
 
@@ -224,18 +234,25 @@ def main() -> int:
     assert CHUNKS_IS_V2, f"CHUNKS_TABLE debe ser chunks_v2, es {CHUNKS_TABLE}"
 
     smoke = "--smoke" in sys.argv
+    use_voyage = "--reranker" in sys.argv and sys.argv[sys.argv.index("--reranker") + 1] == "voyage"
+    rerank_fn = rerank_chunks_voyage if use_voyage else rerank_chunks
+    model_name = VOYAGE_RERANK_MODEL if use_voyage else RERANK_MODEL
+    suffix = "_voyage" if use_voyage else ""
+    out_yaml = OUT_YAML.with_name(OUT_YAML.stem + suffix + ".yaml")
+    out_cos = OUT_COS.with_name(OUT_COS.stem + suffix + ".json")
     golds = ["cat020"] if smoke else GOLDS
     n_replicas = 1 if smoke else N_REPLICAS
 
     frozen = json.load(open(FROZEN, encoding="utf-8"))
-    print(f"paso-0 s60 | golds={len(golds)} n={n_replicas} reranker={RERANK_MODEL} tabla={CHUNKS_TABLE}")
+    print(f"paso-0 s60 | golds={len(golds)} n={n_replicas} reranker={model_name} tabla={CHUNKS_TABLE}")
 
     results, cosines = [], {}
     for qid in golds:  # secuencial por gold; paralelo intra-gold (2 brazos)
-        r, cos = run_gold(qid, frozen, n_replicas)
+        r, cos = run_gold(qid, frozen, n_replicas, rerank_fn=rerank_fn)
         results.append(r)
         cosines.update(cos)
-        print(f"  {qid}: {r['category']} (candidatos={r['n_candidates']}, overlap_modal={r['overlap_modal']})")
+        print(f"  {qid}: {r['category']} (candidatos={r['n_candidates']}, "
+              f"overlap_modal={r['overlap_modal']}, replicas_identicas={r['replicas_identical']})")
 
     if _rerank_errors:
         sys.exit(f"ABORT: {len(_rerank_errors)} fail-open del reranker durante la corrida — medición contaminada, re-correr")
@@ -258,7 +275,7 @@ def main() -> int:
                 "INESTABLE cuenta como NO-sensible para el umbral NO-GO",
             ],
             "config": {
-                "rerank_model": RERANK_MODEL, "n_replicas": N_REPLICAS, "top_k": TOP_K,
+                "rerank_model": model_name, "n_replicas": N_REPLICAS, "top_k": TOP_K,
                 "no_go_threshold": f">={NO_GO_THRESHOLD}/12 NO-sensibles",
                 "orden_a": "pool50_light s59 tal cual (pipeline real)",
                 "orden_b": "coseno re-computado uniforme desc, tie-break id",
@@ -270,6 +287,7 @@ def main() -> int:
         "tally": {
             "SENSIBLE": by_cat["SENSIBLE"], "INSENSIBLE": by_cat["INSENSIBLE"],
             "INESTABLE": by_cat["INESTABLE"], "no_sensibles": no_sensibles,
+            "golds_replicas_identicas": sum(1 for r in results if r["replicas_identical"]),
             "por_grupo": {
                 "unanimes": dict(group(UNANIMES)),
                 "movers": dict(group(MOVERS)),
@@ -278,11 +296,12 @@ def main() -> int:
         },
         "verdict": verdict,
     }
-    OUT_YAML.write_text(yaml.safe_dump(out, allow_unicode=True, sort_keys=False), encoding="utf-8")
-    OUT_COS.write_text(json.dumps(cosines, indent=1), encoding="utf-8")
-    print(f"\nTALLY: {dict(by_cat)} -> no_sensibles={no_sensibles}/12")
+    out_yaml.write_text(yaml.safe_dump(out, allow_unicode=True, sort_keys=False), encoding="utf-8")
+    out_cos.write_text(json.dumps(cosines, indent=1), encoding="utf-8")
+    print(f"\nTALLY: {dict(by_cat)} -> no_sensibles={no_sensibles}/12 | "
+          f"replicas identicas: {out['tally']['golds_replicas_identicas']}/{len(results)}")
     print(f"VEREDICTO: {verdict}")
-    print(f"artefactos: {OUT_YAML.name}, {OUT_COS.name}")
+    print(f"artefactos: {out_yaml.name}, {out_cos.name}")
     return 0
 
 
