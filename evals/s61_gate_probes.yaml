@@ -1,0 +1,55 @@
+# s61 — Probe-set CONGELADO del gate (D1 vía-2 + D2) — diseño _s61_lever_design.md §5 (G6 r2)
+# CONGELADO ANTES del paso B del gate (regla G6: las anclas exactas se fijan pre-datos).
+# Matcher: scripts/strict_match.py — anchor_present(ancla, norm_ocr(content));
+#   numéricas = frontera de dígito, texto = frontera de palabra (token completo).
+# Semántica: hecho PRESENTE en la vista := ∃ chunk de la vista-del-generador
+#   (top-5 con similarity>=0.4) cuyo content contiene TODAS las anclas del hecho (AND).
+# Anclaje en sustento real (pre-check 2026-06-11, _tmp_s61_probe_check.py):
+#   - D1: cada hecho verificado PRESENTE en la vista del frozen s58 del gold (donde su
+#     PASS unánime se sostuvo). cat010-h1 además AUSENTE en s59 (donde cat010 CAYÓ) —
+#     las anclas detectan exactamente la pérdida de sustento que deben detectar.
+#   - D2: verificado contra el frozen s59 de la rama de preservación (donde la ganancia
+#     ocurrió). hp001-h3 (clave usuario 1111, MU-376 p10) AUSENTE también en s59: la
+#     ganancia NO la necesitó → INFORMATIVA, fuera de la condición D2.
+#   - cat022: el doc mezcla convención decimal entre chunks (OCR): "2,5"/"3,0"/"4,5"
+#     con coma verificadas presentes; "2.5"/"3.0" con punto ausentes en s58.
+#   - cat012-h1 ("1,2" sola): ancla numérica corta DECLARADA débil (frontera de dígito
+#     mitiga; el gold aporta h2-h4 fuertes).
+meta:
+  congelado: '2026-06-11'
+  fase: pre-paso-B del gate s61 (G6)
+  matcher: scripts/strict_match.py anchor_present + norm_ocr
+  regla_d1: 'unánime FALLA si vía-1 (overlap >= min(3,|vista_CE|,|vista_s58|)) Y vía-2 (TODOS los hechos abajo) fallan; cat015 SOLO vía-1 (admit, sin anclas posibles)'
+  regla_d2: 'gold PERDIDO si NO todos sus hechos de condición presentes en vista_CE; NO-GO solo si hp001 Y cat012 perdidos'
+
+d1_unanimes:
+  cat010:
+    h1_alimentacion: {anclas: ['24', 'zener'], fuente: 'IS5001-F p1 §3'}
+    h2_parametros_si: {anclas: ['660', '93'], fuente: 'IS5001-F p2 §4.3 (Pi=660mW, Ii=93mA)'}
+  cat014:
+    h1_vida_util: {anclas: ['10 anos'], fuente: '55360004 p1 (vida útil 10 años)'}
+  cat015: {}   # admit — vía-2 NO EXISTE (core = ausente-probado); SOLO vía-1 (declarado v2 §5)
+  cat022:
+    h1_L_ir_25_30: {anclas: ['2,5', '3,0'], fuente: 'MN-DT-722 p1 §1.1 (sensor IR 2,5-3,0 μm)'}
+    h2_L4_45: {anclas: ['4,5'], fuente: 'MN-DT-722 p1 (L4 = 4,5 μm)'}
+    h3_sufijo_B_BIT: {anclas: ['bit'], fuente: 'MN-DT-722 p1 (B = BIT prueba incorporada)'}
+  hp015:
+    h1_convencional: {anclas: ['convencional'], fuente: 'CCD-103 p5 §1.1'}
+    h2_desconexion_zona: {anclas: ['anular', 'desconexion'], fuente: 'CCD-103 p28 §6.4.4 (sustento real verificado; la frase literal "2 veces" no está en el chunk del top-5)'}
+    h3_32_detectores: {anclas: ['32', 'detectores'], fuente: 'CCD-103 p13'}
+  hp019:
+    h1_rango_temp: {anclas: ['-30', '+60'], fuente: 'ASD535 p133 datos técnicos'}
+
+d2_movers:
+  hp001:
+    condicion:
+      h1_candado: {anclas: ['candado'], fuente: 'MC-380 p20 §4.1'}
+      h2_clave_admin: {anclas: ['2222'], fuente: 'MC-380 p20 + MI-372'}
+    informativo:
+      h3_clave_usuario: {anclas: ['1111'], fuente: 'MU-376 p10 — AUSENTE también en el frozen s59 (la ganancia no la necesitó); se reporta, no condiciona'}
+  cat012:
+    condicion:
+      h1_factor_12: {anclas: ['1,2'], fuente: 'AM-8200 Instalación p52 §11 (débil declarada)'}
+      h2_reposo_alarma: {anclas: ['24', '72'], fuente: 'p52 §11 Tabla 1'}
+      h3_consumos_cpu: {anclas: ['179', '345'], fuente: 'p14/p16 §3.12-3.13'}
+      h4_capacidad_max: {anclas: ['np18-12b'], fuente: 'p12 §3.4.1 (Yuasa NP18-12B)'}

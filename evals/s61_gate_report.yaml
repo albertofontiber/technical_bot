@@ -1,0 +1,190 @@
+meta:
+  at: '2026-06-11T10:48:01'
+  git: d73bf59
+  diseno: _s61_lever_design.md §5 (v3)
+  probes: s61_gate_probes.yaml (congeladas pre-paso-B)
+  db_state:
+    match_chunks_v2:
+      proconfig:
+      - hnsw.ef_search=120
+      def_sha256_16: 68859165772e7159
+    search_chunks_text_v2:
+      proconfig: null
+      def_sha256_16: 516c97f85dcefde8
+    pgvector: 0.8.0
+    chunks_v2_count: 25090
+veredicto: NO-GO
+paradas: null
+d1:
+  unanimes:
+    cat010:
+      via1_overlap: 3/3
+      via1: true
+      via2: true
+      fail_both: false
+      detalle_via2:
+        h1_alimentacion: true
+        h2_parametros_si: true
+    cat014:
+      via1_overlap: 4/3
+      via1: true
+      via2: true
+      fail_both: false
+      detalle_via2:
+        h1_vida_util: true
+    cat015:
+      via1_overlap: 4/3
+      via1: true
+      via2: null
+      fail_both: false
+      detalle_via2: null
+    cat022:
+      via1_overlap: 2/3
+      via1: false
+      via2: true
+      fail_both: false
+      detalle_via2:
+        h1_L_ir_25_30: true
+        h2_L4_45: true
+        h3_sufijo_B_BIT: true
+    hp015:
+      via1_overlap: 4/3
+      via1: true
+      via2: true
+      fail_both: false
+      detalle_via2:
+        h1_convencional: true
+        h2_desconexion_zona: true
+        h3_32_detectores: true
+    hp019:
+      via1_overlap: 4/3
+      via1: true
+      via2: true
+      fail_both: false
+      detalle_via2:
+        h1_rango_temp: true
+  n_fail_both: 0
+  regla: '>=2 NO-GO; ==1 presentación a Alberto pre-A/B; 0 GO'
+d2:
+  movers:
+    hp001:
+      retenido: false
+      detalle:
+        h1_candado: false
+        h2_clave_admin: false
+      informativo:
+        h3_clave_usuario: false
+    cat012:
+      retenido: false
+      detalle:
+        h1_factor_12: true
+        h2_reposo_alarma: false
+        h3_consumos_cpu: false
+        h4_capacidad_max: true
+      informativo: null
+  ambos_perdidos: true
+  regla: ambos perdidos → NO-GO
+informativas:
+  churn_vs_s58_firma_enmendada:
+    n_cambiados: 35
+    n_total: 39
+    cambiados:
+    - cat001
+    - cat005
+    - cat007
+    - cat008
+    - cat009
+    - cat010
+    - cat011
+    - cat012
+    - cat015
+    - cat016
+    - cat017
+    - cat018
+    - cat019
+    - cat020
+    - cat021
+    - cat022
+    - cat023
+    - hp001
+    - hp002
+    - hp003
+    - hp005
+    - hp006
+    - hp007
+    - hp008
+    - hp009
+    - hp010
+    - hp011
+    - hp012
+    - hp013
+    - hp014
+    - hp015
+    - hp017
+    - hp018
+    - hp019
+    - hp020
+  swap_aislado_ce_vs_llm_modal:
+    n_distintos: 35
+    distintos:
+    - cat001
+    - cat005
+    - cat007
+    - cat008
+    - cat009
+    - cat010
+    - cat011
+    - cat012
+    - cat015
+    - cat016
+    - cat017
+    - cat018
+    - cat019
+    - cat020
+    - cat021
+    - cat022
+    - cat023
+    - hp001
+    - hp002
+    - hp003
+    - hp005
+    - hp006
+    - hp007
+    - hp008
+    - hp009
+    - hp010
+    - hp011
+    - hp012
+    - hp013
+    - hp014
+    - hp015
+    - hp017
+    - hp018
+    - hp019
+    - hp020
+  top5_ce_chunks_sim_sub04: {}
+  pool_a_50_corte_activo:
+  - cat005
+  - cat008
+  - cat011
+  - cat018
+  - cat019
+  - cat021
+  - cat022
+  - hp011
+  - hp012
+  llm_inestables_1_1_1:
+  - cat017
+  - hp011
+  llm_padded_golds:
+  - cat015
+  cat014_paridad_short_circuit: true
+  latencia_rerank_s:
+    ce:
+      p50: 0.389
+      p95: 0.9
+      n: 78
+    llm:
+      p50: 2.063
+      p95: 5.056
+      n: 117

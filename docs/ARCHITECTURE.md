@@ -35,6 +35,13 @@
 > canónica (0 filas canónicas; DEC-040) y `has_diagram`/`diagram_url` a **0 de 25.090** (vs
 > 44.035 en la vieja; DEC-041) → **el bot hoy NO adjunta diagramas**. Fix con contrato propio
 > en TECH_DEBT #44/#45; estas secciones se reescribirán al resolverse.
+>
+> ⚠️ **Caveat s60/s61 — no-determinismo del pipeline, MEDIDO:** el mismo técnico con la misma
+> pregunta puede recibir distinto top-5 entre días por DOS vías: (1) el reranker LLM cambia su
+> elección entre sesiones con input bit-idéntico (3/12 golds, DEC-041d-bis); (2) el embedding
+> de la query deriva ~0.003 entre sesiones (Voyage no bit-estable, DEC-042d) y en la frontera
+> del corte del pool (k=50) eso cambia qué candidatos entran — esta segunda vía persiste con
+> CUALQUIER reranker. Tratamiento en curso vía ciclos de eval (lever CE preservado; #43).
 
 ## 1. Visión general en 60 segundos
 
