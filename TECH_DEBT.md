@@ -1542,17 +1542,19 @@ serie 2X-A; NC series; etc.).
 CAD-250 no contamine una query de CAD-150). El modelo de datos no distingue "manual DE la CAD-250" de
 "manual de la SERIE que aplica a {171,201,250}". Lo destapó Alberto al añadir CAD-201 (DEC-032).
 
-**AMPLIACIÓN s61 (gate del lever CE, DEC-042 — la misma raíz, segunda manifestación MEDIDA):**
-el modelo de datos tampoco distingue **ediciones casi idénticas de una familia conviviendo**
-(cat012: la fórmula §11 de baterías en `AM-8200` / `AM 8200G Rv3` / `AM 8200N RV4` — variantes
-hermanas + revisiones mezcladas, ninguna marcada superseded) → **near-duplicados que monopolizan
-el top-5 de cualquier reranker de PARES** (el cross-encoder llenó 5/5 slots con ellas y expulsó
-la tabla de consumos; el LLM listwise diversificaba de rebote). El dedup exacto por content-hash
-NO los caza (3/39 pools, cat012 no incluido — el texto difiere en detalles). Afecta también a
-cat009 (HLSI-MN-025 vs -I v05, revisión pura) y crece con cada fabricante nuevo. **Promovido a
-CICLO s62 (audit-primero, PLAN punto 1): el contrato debe cubrir doc-de-SERIE vs doc-de-producto
-Y supersesión/near-dup entre ediciones — ⚠️ sin latest-wins naive (hp011/conflictos ES↔US viven
-de que ambas variantes de mercado sobrevivan).**
+**AMPLIACIÓN s61 → CORREGIDA POR EL AUDIT s62 (DEC-042+CORRECCIÓN, DEC-043):** la lectura del
+gate s61 ("near-duplicados monopolizan el top-5") quedó REFUTADA midiendo: los 3 manuales
+AM-8200 comparten J_doc 0.001-0.032 (no hay duplicación textual). El mecanismo REAL de cat012 es
+ESTE item (#43) en su forma original: la query "AM-8200" deja pasar por SUBSTRING a los chunks
+de los productos HERMANOS (AM-8200G/N) y el cross-encoder llena el top-5 con sus secciones
+conceptualmente equivalentes (cada central tiene SU fórmula §11), expulsando la tabla del
+producto correcto. cat009 (HLSI-MN-025 vs -I v05) resultó ser par ES/EN + revisión EN — se
+CONSERVA (B3). El near-dup textual real del corpus: 1 caso (MAD-472 V2, toca cat024).
+**→ CICLO A en ejecución (DEC-043, branch de Alberto): registry `series` curado-por-evidencia
+en `config/manufacturers/*.yaml` (seam DEC-035, cero DDL) + `_filter_to_query_models` de 3
+niveles (sin entrada de registry → comportamiento actual; con entrada → mismo-producto o
+doc-de-serie; hermanos NO pasan). Diseño v1: `evals/_s62_seriesA_design.md`; dúo s63.**
+⚠️ vigente: sin latest-wins naive (hp011/ES↔US viven de ambas variantes de mercado).
 
 **Por qué no se arregló ahora** (pregunta cero): el corpus CAD **no está ingestado** (ingesta diferida tras
 el gate RULER) → gap FUTURO, hoy no hay chunks que recuperar. Y es un cambio de RETRIEVAL → debe MEDIRSE en
