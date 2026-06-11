@@ -1,0 +1,2039 @@
+meta:
+  at: '2026-06-11T12:25:48'
+  git: db2842e
+  corpus: chunks_v2
+  metodo:
+    nivel: documento
+    shingle_palabras: 8
+    shingle_cap_muestreo: 4000
+    pair_floor: 0.5
+    umbrales_lente:
+    - 0.7
+    - 0.9
+    bloques: por fabricante
+    idioma: columna si existe; si no, heurística stopwords (DECLARADA)
+    B3_por_metadata: las traducciones no comparten shingles → B3 se detecta por metadata, no por contenido
+  esquema_supersesion_existente:
+    columnas:
+    - status
+    - revision
+    - revision_date
+    - document_family
+    - supersedes_id
+    - superseded_by_id
+    document_family_poblada: 1065
+    supersedes_poblada: 0
+    revision_poblada: 156
+    revision_date_poblada: 0
+    status_dist:
+      active: 1060
+      needs_review: 5
+  totales:
+    documents: 1065
+    docs_con_chunks: 900
+    docs_sin_chunks: 165
+    chunks: 25090
+near_dups_contenido:
+  jaccard_0.7:
+    n_clusters: 2
+    buckets:
+      B3-mezcla-idioma(revisar): 2
+    clusters:
+    - bucket: B3-mezcla-idioma(revisar)
+      n_docs: 2
+      jaccard_min: 0.741
+      docs:
+      - file: 55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2
+        model: MAD-472
+        rev: null
+        lang: es
+        n_chunks: 2
+      - file: 55347200 Manual Sirena Analogica MAD-472 ES GB FR GB IT
+        model: MAD-472
+        rev: null
+        lang: en
+        n_chunks: 2
+    - bucket: B3-mezcla-idioma(revisar)
+      n_docs: 2
+      jaccard_min: 0.78
+      docs:
+      - file: DXc_Connexion Averia-de-resistencia-de-baterias.pdf
+        model: unknown
+        rev: null
+        lang: de
+        n_chunks: 1
+      - file: Averia-de-resistencia-de-baterias-en-central-DXc.pdf
+        model: unknown
+        rev: null
+        lang: en
+        n_chunks: 1
+  jaccard_0.9:
+    n_clusters: 0
+    buckets: {}
+    clusters: []
+b3_variantes_mercado_metadata:
+  n_grupos: 41
+  grupos:
+  - manufacturer: Detnov
+    model_norm: mad472
+    langs:
+    - en
+    - es
+    docs:
+    - file: 55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2
+      model: MAD-472
+      rev: null
+      lang: es
+      n_chunks: 2
+    - file: 55347200 Manual Sirena Analogica MAD-472 ES GB FR GB IT
+      model: MAD-472
+      rev: null
+      lang: en
+      n_chunks: 2
+  - manufacturer: Detnov
+    model_norm: unknown
+    langs:
+    - en
+    - es
+    docs:
+    - file: 55310007 Manual Tarjeta Expansion TRD-100 TSD-100 ES FR GB IT
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 4
+    - file: SGD-151 MC-399 es.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 26
+    - file: TCD-100 Tarjeta comunicadora a CRA ES GB
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 27
+    - file: Installation manual_conduct detector
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 15
+    - file: manual-spectrex-sharpeye-20-20ml-user-manual-spectrex-en-us-1459818
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 46
+    - file: SW_MN_210-Series_CZ_flame_detectors_v1-ES
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 37
+    - file: Instruction Manual SGMCB200
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 15
+    - file: Instruction Manual SGCP100-IS ENG
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 14
+    - file: manual-sharpeye-40-40-series-winhost-spectrex-en-us-4845694
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 27
+    - file: LDA_ONE-LOOP_es_rev0
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: Z728_installation manual
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 3
+    - file: manual instrucciones Z728
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 7
+    - file: 55315501 CAD150R Instalacion ES GB 191018
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 15
+    - file: 55315015_Guia_rapida_TED-151-CL_ES
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: guide-40-40r-single-ir-flame-detector-spectrex-en-us-1459812
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 75
+    - file: 55320103 Manual Zocalo Conexion ES FR GB IT_V2
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 3
+    - file: Manual Pulsador convencional IP65 PCD-100WP (1)
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 2
+    - file: manual IS MA1
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 18
+    - file: SFD-220_Manual_EN
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 4
+    - file: Instruction Manual SGCP100 RNG
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 14
+    - file: 55310011- Tarjeta de Pasarela ES GB_FR_IT
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 2
+    - file: guide-40-40-air-shield-p-n-777650-spectrex-en-us-1459942
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 10
+    - file: 55310600 Manual TCD-106 kit_ES
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 10
+    - file: Instruction Manual SGMI200
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 11
+    - file: 085501949p_PY X-S-05_Installation_manual_D-GB-F-RU-IT
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 14
+    - file: 085501821n_DS10_Installation_manual_D-GB_F_IT
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 10
+    - file: 085501987j_PY X-M-05_10_Installation_manual_D-GB-F-RU-IT
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 25
+    - file: Instruction Manual SGFI200-S
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 12
+    - file: LDARCD21RS03 - Manual de Usuario R2_0
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 9
+    - file: 085501996d_PYX-L-15-CPR_Installation_manual_D-GB-F-RU-I
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 21
+    - file: 55310008 Manual Tarjeta Modbus TMD-100 Instalacion ES FR GB IT
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 2
+    - file: 55320011 Manual zocalo con relé Z-200-R
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 3
+    - file: Manual_PAD-20 (MU 591 m 2024 a)
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 4
+    - file: 55320102 Manual Buzzer Analogico PAD-10A ES FR GB IT (x8)
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 14
+  - manufacturer: Morley
+    model_norm: dxc
+    langs:
+    - en
+    - es
+    docs:
+    - file: DXc_Guia de usuario_multiling
+      model: DXc
+      rev: null
+      lang: en
+      n_chunks: 6
+    - file: DXc_Manual de usuario
+      model: DXc
+      rev: null
+      lang: es
+      n_chunks: 49
+    - file: DXc_Manual variaciones de mercado
+      model: DXc
+      rev: null
+      lang: es
+      n_chunks: 10
+    - file: DXc_Manual de configuracion
+      model: DXc
+      rev: null
+      lang: es
+      n_chunks: 102
+    - file: DXc_Guia de instalacion_multiling
+      model: DXc
+      rev: null
+      lang: es
+      n_chunks: 18
+  - manufacturer: Morley
+    model_norm: faastlt
+    langs:
+    - es
+    - pt
+    docs:
+    - file: I56-3956-201_ES Morley Loop FAAST LT QIG.pdf
+      model: FAAST LT
+      rev: null
+      lang: es
+      n_chunks: 22
+    - file: I56-3956-201_PT Morley Loop FAAST LT QIG.pdf
+      model: FAAST LT
+      rev: null
+      lang: pt
+      n_chunks: 2
+  - manufacturer: Morley
+    model_norm: id3000
+    langs:
+    - de
+    - es
+    - pt
+    docs:
+    - file: UCIP-Como hacer una Actualizacion.pdf
+      model: ID3000
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: UCIP-Como-conectar-con-TG.pdf
+      model: ID3000
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: TG-Como-solucionar-problema-de-Error-CRC.pdf
+      model: ID3000
+      rev: null
+      lang: de
+      n_chunks: 1
+    - file: UCIP-Conectar-con-equipo-via-Serie.pdf
+      model: ID3000
+      rev: Rev isar
+      lang: es
+      n_chunks: 1
+    - file: No-aparecen-el-el-TG-ID3000-los-elementos-Auxiliares-AUX.pdf
+      model: ID3000
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: Conexionado-del-modulo-M710-MI-DMMI.pdf
+      model: ID3000
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: UCIP-Conexionado-con-ID3000.pdf
+      model: ID3000
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: Conexionado-del-modulo-M710-CZR-MI-DCZRM.pdf
+      model: ID3000
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: Conexionado-del-modulo-M710-CZ-MI-DCZM.pdf
+      model: ID3000
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: UCIP-Tabla-de-compatibilidad-con-receptoras-y-centrales.pdf
+      model: ID3000
+      rev: Rev istas
+      lang: de
+      n_chunks: 1
+    - file: ITAC-no-reconocido-por-la-Central.pdf
+      model: ID3000
+      rev: null
+      lang: pt
+      n_chunks: 1
+  - manufacturer: Morley
+    model_norm: milpb2s2i
+    langs:
+    - en
+    - es
+    docs:
+    - file: I56-3879-000 MI-LPB2-S2I_ES.pdf
+      model: MI-LPB2-S2I
+      rev: null
+      lang: es
+      n_chunks: 19
+    - file: I56-3879-000 MI-LPB2-S2I_EN
+      model: MI-LPB2-S2I
+      rev: null
+      lang: en
+      n_chunks: 19
+  - manufacturer: Morley
+    model_norm: nfssupra
+    langs:
+    - de
+    - en
+    - es
+    docs:
+    - file: NFS-SUPRA-VISION-PLUS-2-Como-solucionar-el-Fallo-de-alimentacion.pdf
+      model: NFS-SUPRA
+      rev: Rev isar
+      lang: de
+      n_chunks: 1
+    - file: Configuracion-entrada-digital-de-la-central-NFS-Supra-VSN-Plus2-ESS-2Plus.pdf
+      model: NFS-Supra
+      rev: Rev ise
+      lang: en
+      n_chunks: 1
+    - file: Ver-Como-Cambiar-configuracion-de-las-Funciones-especiales-en-las-centrales-.pdf
+      model: NFS-Supra
+      rev: Rev ia
+      lang: es
+      n_chunks: 1
+    - file: HLSI-MA-025 Guia Rapida NFS_Supra_ES
+      model: NFS Supra
+      rev: null
+      lang: es
+      n_chunks: 5
+    - file: NFS-SUPRA-VSN12-2PLUS-Funcionamiento-de-la-central-en-modo-prueba.pdf
+      model: NFS-SUPRA
+      rev: null
+      lang: en
+      n_chunks: 1
+    - file: HLSI-MN-025_NFS Supra
+      model: NFS Supra
+      rev: null
+      lang: es
+      n_chunks: 57
+    - file: HLSI-MN-025-I_NFS Supra Series
+      model: NFS Supra
+      rev: null
+      lang: en
+      n_chunks: 52
+  - manufacturer: Morley
+    model_norm: rp1r
+    langs:
+    - de
+    - en
+    - es
+    - fr
+    docs:
+    - file: RP1R-SUPRA-VSN-RP1R-PLUS2-Teclado-bloqueado.pdf
+      model: RP1R
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: MIEMN570I.pdf
+      model: RP1r
+      rev: Rev 008
+      lang: en
+      n_chunks: 46
+    - file: Fallo-I2C-en-RP1rSupra.pdf
+      model: RP1R
+      rev: null
+      lang: en
+      n_chunks: 1
+    - file: HLSI-MN-103_RP1r-Supra_lr
+      model: RP1r
+      rev: null
+      lang: es
+      n_chunks: 190
+    - file: RP1R-Supra_VSN-RP1R-PLUS2-Averia-Rl_y_Fallo-de-sistema-intermitente.pdf
+      model: RP1R
+      rev: null
+      lang: de
+      n_chunks: 1
+    - file: MNDT102I_D FR VSN-RP1r_hlsi.pdf
+      model: RP1r
+      rev: null
+      lang: fr
+      n_chunks: 1
+    - file: HLSI-MN-103I_RP1r-Supra_lr
+      model: RP1r
+      rev: null
+      lang: en
+      n_chunks: 89
+    - file: HLSI-MA-103-I_GuiaRapida_RP1r-Supra_EN_lr
+      model: RP1r
+      rev: null
+      lang: en
+      n_chunks: 14
+    - file: HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr
+      model: RP1r
+      rev: null
+      lang: es
+      n_chunks: 19
+    - file: RP1r-Supra-VSN-RP1R-PLUS2-Como-cambiar-el-tipo-de-final-del-linea.pdf
+      model: RP1r
+      rev: null
+      lang: de
+      n_chunks: 1
+    - file: RP1r-Supra-VSNRP1r-2Plus-Sirena-sin-sonido-pulsante.pdf
+      model: RP1r
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: MIEMN570.pdf
+      model: RP1r
+      rev: Rev 008
+      lang: es
+      n_chunks: 59
+  - manufacturer: Morley
+    model_norm: tghoneywell
+    langs:
+    - en
+    - es
+    docs:
+    - file: Actulización histórico TG
+      model: TG-Honeywell
+      rev: null
+      lang: es
+      n_chunks: 2
+    - file: TG-Honeywell_Usuario
+      model: TG-Honeywell
+      rev: null
+      lang: es
+      n_chunks: 105
+    - file: Enlace entre TG
+      model: TG-Honeywell
+      rev: null
+      lang: es
+      n_chunks: 4
+    - file: Tg-Honeywell_Introduccion
+      model: TG-Honeywell
+      rev: null
+      lang: es
+      n_chunks: 26
+    - file: TG-Cuales-son-los-requisitos-del-PC-para-el-programa.pdf
+      model: TG-HONEYWELL
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: LEER PRIMERO_MADT951_10
+      model: TG-Honeywell
+      rev: null
+      lang: es
+      n_chunks: 6
+    - file: Tg-Honeywell_Tecnico
+      model: TG-Honeywell
+      rev: null
+      lang: es
+      n_chunks: 136
+    - file: Como-configurar-correos-en-un-TG-HONEYWELL.pdf
+      model: TG-HONEYWELL
+      rev: Rev isa
+      lang: en
+      n_chunks: 2
+    - file: MIE-MI-505rv01
+      model: TG-Honeywell
+      rev: null
+      lang: es
+      n_chunks: 22
+  - manufacturer: Morley
+    model_norm: tgip1sec
+    langs:
+    - es
+    - pt
+    docs:
+    - file: TG-IP1-SEC-Como-volver-a-fabrica-el-dispositivo.pdf
+      model: TG-IP1-SEC
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: TG-IP-1-SEC-Que-direccion-IP-tiene-por-defecto.pdf
+      model: TG-IP-1-SEC
+      rev: null
+      lang: pt
+      n_chunks: 1
+  - manufacturer: Morley
+    model_norm: ucip
+    langs:
+    - de
+    - en
+    - es
+    - pt
+    docs:
+    - file: UCIP-Que-datos-necesito-de-la-receptora.pdf
+      model: UCIP
+      rev: null
+      lang: de
+      n_chunks: 1
+    - file: UCIP-No-conecta-por-IP.pdf
+      model: UCIP
+      rev: Rev ise
+      lang: pt
+      n_chunks: 1
+    - file: UCIP-Como-enviar-datos-de-equipos-y-no-solo-eventos-de-zonas.pdf
+      model: UCIP
+      rev: Rev ise
+      lang: en
+      n_chunks: 1
+    - file: UCIP-Programacion-IP-de-equipo.pdf
+      model: UCIP
+      rev: Rev ise
+      lang: de
+      n_chunks: 1
+    - file: UCIP-Verificar-cobertura-GSM.pdf
+      model: UCIP
+      rev: Rev ise
+      lang: es
+      n_chunks: 1
+    - file: UCIP-Acceso-a-comandos-AT-para-chequeo.pdf
+      model: UCIP
+      rev: Rev ise
+      lang: es
+      n_chunks: 1
+    - file: UCIP-Borrado-a-valores-de-fabrica.pdf
+      model: UCIP
+      rev: Rev ise
+      lang: de
+      n_chunks: 1
+    - file: HLSI-MA-192_05 Quick Start Guide UCIP GPRS_GB
+      model: UCIP
+      rev: null
+      lang: en
+      n_chunks: 8
+    - file: UCIP-Conectar-con-VSN2plus.pdf
+      model: UCIP
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: UCIP-Conectar-con-equipo-via-IP.pdf
+      model: UCIP
+      rev: Rev isar
+      lang: es
+      n_chunks: 1
+    - file: UCIP-Configuracion-CRA1.pdf
+      model: UCIP
+      rev: Rev ise
+      lang: es
+      n_chunks: 1
+    - file: UCIP-Cambio-de-puerto-TCP-en-GPRS.pdf
+      model: UCIP
+      rev: Rev ise
+      lang: en
+      n_chunks: 1
+    - file: UCIP-Configurar-puerto-UART-de-UCIP.pdf
+      model: UCIP
+      rev: Rev ise
+      lang: de
+      n_chunks: 1
+    - file: HLSI-MA-192_05 Guia Rapida UCIP GPRS_SP
+      model: UCIP
+      rev: null
+      lang: es
+      n_chunks: 10
+    - file: UCIP-Configurar-envio-de-SMS.pdf
+      model: UCIP
+      rev: Rev ise
+      lang: en
+      n_chunks: 1
+    - file: UCIP-Borrar-configuracion-completa.pdf
+      model: UCIP
+      rev: Rev ise
+      lang: es
+      n_chunks: 1
+    - file: UCIP-Borrar-datos-de-CRA1-o-2.pdf
+      model: UCIP
+      rev: Rev ise
+      lang: de
+      n_chunks: 1
+    - file: UCIP-Configurar-PIN-tarjeta-SIM.pdf
+      model: UCIP
+      rev: Rev ise
+      lang: es
+      n_chunks: 1
+    - file: UCIP-Como-configurar-envio-de-eventos-por-equipo.pdf
+      model: UCIP
+      rev: Rev ise
+      lang: en
+      n_chunks: 1
+    - file: UCIP-Cambio-de-puerto-TCP-red-LAN.pdf
+      model: UCIP
+      rev: Rev ise
+      lang: de
+      n_chunks: 1
+    - file: UCIP-Ver-configuracion-de-equipo.pdf
+      model: UCIP
+      rev: null
+      lang: de
+      n_chunks: 1
+    - file: HLSI-MN-192_UCIP
+      model: UCIP
+      rev: null
+      lang: es
+      n_chunks: 41
+  - manufacturer: Morley
+    model_norm: unknown
+    langs:
+    - ??
+    - de
+    - en
+    - es
+    - it
+    - pt
+    docs:
+    - file: HLSI-MI-580I.pdf
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 32
+    - file: Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-DXc-Connexion.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: Morley-Se-pueden-pasar-programaciones-de-ZX-y-Dimension-a-Connexion-DXC.pdf
+      model: unknown
+      rev: Rev io
+      lang: de
+      n_chunks: 1
+    - file: No-puedo-hacer-rearmes-silenciar-sirenas-y-otros-controles-desde-el-TG-hacia.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: TG-Como-hacer-una-copia-de-seguridad-del-proyecto.pdf
+      model: unknown
+      rev: null
+      lang: de
+      n_chunks: 1
+    - file: MIE-MA-100_02.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 11
+    - file: MIE-MI-010.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 11
+    - file: MIE-MP-210.pdf
+      model: unknown
+      rev: Rev 003
+      lang: es
+      n_chunks: 107
+    - file: Como-solucionar-una-deriva-a-tierra.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 2
+    - file: MIE-MC-130rv02.pdf
+      model: unknown
+      rev: '2'
+      lang: es
+      n_chunks: 31
+    - file: MIE-MI-440.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 22
+    - file: MIE-MC-530.pdf
+      model: unknown
+      rev: Rev 001
+      lang: es
+      n_chunks: 47
+    - file: MIE-MC-300.pdf
+      model: unknown
+      rev: Rev io
+      lang: es
+      n_chunks: 60
+    - file: MIEMA130.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 2
+    - file: VSN-CRA-Centrales-compatibles.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: MIEMI130.pdf
+      model: unknown
+      rev: Rev 008
+      lang: es
+      n_chunks: 53
+    - file: VSN4-PLUS_ITA.pdf
+      model: unknown
+      rev: Rev A.1
+      lang: it
+      n_chunks: 3
+    - file: MIE-MI-580.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 41
+    - file: MIE-MI-460.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: MIW-INT-Averias-baterias-pilas-via-radio-Morley.pdf
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 1
+    - file: No-puedo-conectarme-con-el-ordenador-a-la-central-ZX.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: TG-Como-exportar-el-historico-desde-el-programa-de-gestion-grafica.pdf
+      model: unknown
+      rev: null
+      lang: de
+      n_chunks: 1
+    - file: DXc-Configuracion-de-la-tarjeta-232-aislada-para-comunicarse-con-el-TG.pdf
+      model: unknown
+      rev: null
+      lang: de
+      n_chunks: 1
+    - file: TG-GSM-Fallo-al-enviar-SMS-desde-TG.pdf
+      model: unknown
+      rev: Rev isar
+      lang: en
+      n_chunks: 1
+    - file: MIE-MU-215.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 8
+    - file: MIE-MI-450.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 8
+    - file: DXC-Connexion-Averia-F-Alimentacion-externa.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: DXc-Opciones-de-disparo-de-programas-Matrices.pdf
+      model: unknown
+      rev: Rev iatura
+      lang: de
+      n_chunks: 1
+    - file: DXC-Connexion-Ajuste-contraste-display.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: MIE-MI-431rv2_1.pdf
+      model: unknown
+      rev: '2'
+      lang: es
+      n_chunks: 18
+    - file: MIE-MI-430.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 11
+    - file: DXC-No-puedo-comunicar-con-la-central.pdf
+      model: unknown
+      rev: Rev ise
+      lang: es
+      n_chunks: 1
+    - file: MIE-MI-110.pdf
+      model: unknown
+      rev: Rev 005
+      lang: es
+      n_chunks: 39
+    - file: HLSI_MA102_bis2.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 4
+    - file: MIW-INT-La-central-indica-averia-de-datos-de-sensor.pdf
+      model: unknown
+      rev: null
+      lang: de
+      n_chunks: 1
+    - file: MIE-MI-340_1.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 2
+    - file: MIE-MA-300_01.pdf
+      model: unknown
+      rev: Rev io
+      lang: es
+      n_chunks: 34
+    - file: TG-Como-cargar-añadir-planos.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 3
+    - file: TG-Como-puedo-ver-los-equipos-que-no-estan-representados-en-planos.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: MIE-MI-470.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 6
+    - file: MIE-MU-300.pdf
+      model: unknown
+      rev: Rev io
+      lang: es
+      n_chunks: 55
+    - file: OSID-Es-necesario-resetear-la-barrera-de-forma-externa.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: DXc-Tipos-Abreviaturas-de-equipos.pdf
+      model: unknown
+      rev: Rev iaturas
+      lang: de
+      n_chunks: 1
+    - file: DXc-Tipos-de-accion-para-entradas.pdf
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 1
+    - file: DXC-Referencias-repuestos.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: MIE-MI-560rv01_I.pdf
+      model: unknown
+      rev: '1'
+      lang: en
+      n_chunks: 28
+    - file: DXC-Connexion-Averia-Nueva-F-Alimentacion-externa.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: MIE-MI-230.pdf
+      model: unknown
+      rev: Rev 003
+      lang: es
+      n_chunks: 37
+    - file: DXC-puedo-cambiar-la-clave-de-nivel-3.pdf
+      model: unknown
+      rev: null
+      lang: de
+      n_chunks: 1
+    - file: VSN-CO-Mantenimiento-y-vida-util-del-detector.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: ITAC-Como-asignar-la-direccion-en-el-ITAC.pdf
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 1
+    - file: DXc_Connexion Averia-de-resistencia-de-baterias.pdf
+      model: unknown
+      rev: null
+      lang: de
+      n_chunks: 1
+    - file: TG-SE-HA-SUPERADO-EL-MAXIMO-DE-LICENCIAS.pdf
+      model: unknown
+      rev: null
+      lang: de
+      n_chunks: 1
+    - file: MIE-MU-525rv01.pdf
+      model: unknown
+      rev: '1'
+      lang: es
+      n_chunks: 3
+    - file: Relacion-de-producto-obsoleto-de-Morley-IAS-by-Honeywell.pdf
+      model: unknown
+      rev: null
+      lang: de
+      n_chunks: 1
+    - file: No-puedo-hacer-Rearme-o-silenciar-sirenas-en-la-VSN-LT.pdf
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 1
+    - file: MIE-MA-100_01.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 19
+    - file: Niveles-de-control-de-acceso-de-la-central-DXC-CONEXION.pdf
+      model: unknown
+      rev: null
+      lang: de
+      n_chunks: 1
+    - file: HLSI-MI-130I.pdf
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 52
+    - file: MIE-MI-120P.pdf
+      model: unknown
+      rev: Rev 001
+      lang: ??
+      n_chunks: 1
+    - file: MIE-MU-610_via radio MIW.pdf
+      model: unknown
+      rev: Rev 2
+      lang: es
+      n_chunks: 39
+    - file: MIE-MP-310.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 75
+    - file: Como-solucionar-la-incidencia-TABLE-IS-FULL-en-el-TG.pdf
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 1
+    - file: MIE-MP-305.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 8
+    - file: No-funcionan-las-teclas-de-la-central-VSN.pdf
+      model: unknown
+      rev: null
+      lang: de
+      n_chunks: 1
+    - file: MIE-MI-030.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 4
+    - file: ECO1000-CONEXIONADO-BASE-ECO1000.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: TG-ATENCION-El-sistema-no-encuentra-la-proteccion-del-TG.pdf
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 1
+    - file: D707 issue 1 - MI-MCPA5_Eng.pdf
+      model: unknown
+      rev: '1'
+      lang: en
+      n_chunks: 3
+    - file: MIE-MI-100.pdf
+      model: unknown
+      rev: Rev 001
+      lang: es
+      n_chunks: 66
+    - file: MIE-MP-520rv04.pdf
+      model: unknown
+      rev: '4'
+      lang: es
+      n_chunks: 125
+    - file: Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-ZX-y-DX.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: MIE-MU-520rv02.pdf
+      model: unknown
+      rev: '2'
+      lang: es
+      n_chunks: 68
+    - file: MIEMI120rev05.pdf
+      model: unknown
+      rev: Rev 005
+      lang: es
+      n_chunks: 48
+    - file: MIEMI550I.pdf
+      model: unknown
+      rev: Rev 001
+      lang: en
+      n_chunks: 24
+    - file: Compatibilidad-entre-equipos-Notifier-y-Morley.pdf
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 1
+    - file: E56-6515ES-000_Morley_MI-OSI-RIE_Installation_Guide.pdf
+      model: unknown
+      rev: Rev io
+      lang: es
+      n_chunks: 36
+    - file: Guia Serie MIW.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 39
+    - file: MIW-INT-Cable-para-comunicarse-con-interface-via-232.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: MIE-MP-525rv1.pdf
+      model: unknown
+      rev: '1'
+      lang: es
+      n_chunks: 6
+    - file: HLSI-MI-130F.pdf
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 1
+    - file: Eventos-Averias-de-Equipos-en-DXc.pdf
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 1
+    - file: MIW-INT-Equipos-que-se-pueden-vincular-a-la-pasarela-interface-via-radio.pdf
+      model: unknown
+      rev: Rev iaturas
+      lang: es
+      n_chunks: 1
+    - file: MIE-MI-220.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 11
+    - file: DXC-Connexion-Instalacion-y-configuracion-del-modulo-de-comunicacion-RS232.pdf
+      model: unknown
+      rev: null
+      lang: de
+      n_chunks: 1
+    - file: MIE-MP-230.pdf
+      model: unknown
+      rev: Rev 003
+      lang: es
+      n_chunks: 79
+    - file: MIE-MU-230.pdf
+      model: unknown
+      rev: Rev 003
+      lang: es
+      n_chunks: 42
+    - file: Solicitud-asistencia-curso-de-formacion-puesta-en-marcha-consultas-tecnica.pdf
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 1
+    - file: MIE-MU-315.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 3
+    - file: MIEMU520P.pdf
+      model: unknown
+      rev: Rev 001
+      lang: ??
+      n_chunks: 1
+    - file: MIE-MC-350.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 14
+    - file: TG-Como ampliar-licencias.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: MIE-MC-520.pdf
+      model: unknown
+      rev: Rev 001
+      lang: es
+      n_chunks: 39
+    - file: DXC-Porque-al-activan-elementos-en-alarma-no-se-enciende-su-led.pdf
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 1
+    - file: MIE-MP-315.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 9
+    - file: MIE-MI-140.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 25
+    - file: DXc-Connexion-Como-solucionar-la-averia-de-Ent-Placa-1-o-2.pdf
+      model: unknown
+      rev: null
+      lang: de
+      n_chunks: 1
+    - file: DXC-Connexion-Compatibilidad-de-programas-con-versiones.pdf
+      model: unknown
+      rev: Rev ise
+      lang: de
+      n_chunks: 1
+    - file: DXc-Conexion-Como-solucionar-la-averia-de-Estado-Inconsistente-Anulado.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: MS8.pdf
+      model: unknown
+      rev: Rev ias
+      lang: es
+      n_chunks: 75
+    - file: MIW-al-sustituir-las-baterias-de-un-equipo-se-necesita-programarlo-de-nuevo.pdf
+      model: unknown
+      rev: null
+      lang: de
+      n_chunks: 1
+    - file: MIW-INT-Mensaje-de-error-LOEr-via-radio-Morley.pdf
+      model: unknown
+      rev: null
+      lang: de
+      n_chunks: 1
+    - file: TG-Como-borrar-elementos-de-un-plano.pdf
+      model: unknown
+      rev: Rev iamente
+      lang: de
+      n_chunks: 1
+    - file: Puesta-en-marcha-repetidor-ZXrA-en-central-CONNEXION.pdf
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 1
+    - file: TG-Que-clave-tiene-si-se-instala-en-idioma-Ingles.pdf
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 1
+    - file: TG-como-se-configuran-sonidos-ante-eventos.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: MIE-MI-300rv02.pdf
+      model: unknown
+      rev: '2'
+      lang: es
+      n_chunks: 126
+    - file: Poner-la-contraseña-por-defecto-del-programa-de-gestion-grafica-TG.pdf
+      model: unknown
+      rev: null
+      lang: pt
+      n_chunks: 1
+    - file: TG-Como-reparar-Historico-Provisional.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 2
+    - file: ms1-2-4.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 29
+    - file: Compatibilidad-detectores-de-monoxido-NCO10-NCO100-VSN-CO.pdf
+      model: unknown
+      rev: null
+      lang: de
+      n_chunks: 1
+    - file: DXC-Puedo-anular-la-clave-de-usuario-y-acceder-directamente-al-teclado.pdf
+      model: unknown
+      rev: null
+      lang: de
+      n_chunks: 1
+    - file: MIW-INT-Asignar-de-direccion-pasarela-detectores-y-Modulos-Via-radio-Morley.pdf
+      model: unknown
+      rev: null
+      lang: de
+      n_chunks: 1
+    - file: MIE-MI-310.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 42
+    - file: MIEMA550_01.pdf
+      model: unknown
+      rev: '01'
+      lang: en
+      n_chunks: 1
+    - file: MIE-MI-560rv03.pdf
+      model: unknown
+      rev: '3'
+      lang: es
+      n_chunks: 33
+    - file: Averia-de-resistencia-de-baterias-en-central-DXc.pdf
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 1
+    - file: Al cambiar-el-nombre-del-plano-a desaparecido-el-plano-y-los-equipos.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: MIW-INT-Dar-de-alta-un-detector.pdf
+      model: unknown
+      rev: null
+      lang: de
+      n_chunks: 1
+    - file: DXC-Connexion-Como-programar-una-salida-de-averia-general.pdf
+      model: unknown
+      rev: null
+      lang: de
+      n_chunks: 1
+    - file: MIE-MU-310.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 31
+    - file: MIEMI550.pdf
+      model: unknown
+      rev: Rev 001
+      lang: es
+      n_chunks: 29
+    - file: MIW-INT-Averia-de-TAMPER.pdf
+      model: unknown
+      rev: null
+      lang: de
+      n_chunks: 1
+    - file: MIW-INT-Programar-el-sistema-via-radio-sin-tenerlo-conectado-a-la-central.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: MIE-MI-490.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 6
+    - file: MIW-INT-La-central-DXC-indica-corto-tras-instalar-el-Interface.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: MIW-INT-Cuantos-expansores-puedo-conectar-al-Interface-pasarela.pdf
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 1
+    - file: Requisitos-del-PC-para-el-TG-Version-5-XX.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: MIE-MI-480.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 7
+    - file: MIE-MA-300_02.pdf
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 1
+  - manufacturer: Notifier
+    model_norm: asd11
+    langs:
+    - en
+    - es
+    docs:
+    - file: I56-6577-006_ES FAAST Notifier LT-200 QIG
+      model: ASD11
+      rev: null
+      lang: es
+      n_chunks: 42
+    - file: I56-3947-202_FAAST LT_MULTI
+      model: ASD11
+      rev: null
+      lang: en
+      n_chunks: 62
+    - file: I56-6577-006_EN Notifier FAAST LT-200 QIG
+      model: ASD11
+      rev: null
+      lang: en
+      n_chunks: 31
+  - manufacturer: Notifier
+    model_norm: b501ap
+    langs:
+    - ??
+    - en
+    - es
+    docs:
+    - file: D 1148-1 BRS Notifier
+      model: B501AP
+      rev: null
+      lang: es
+      n_chunks: 8
+    - file: D 1147-1 BRH Notifier
+      model: B501AP
+      rev: null
+      lang: ??
+      n_chunks: 7
+    - file: I56-2668-002 B501AP_B524HTR_multi
+      model: B501AP
+      rev: null
+      lang: es
+      n_chunks: 6
+    - file: I56-5005-002_D Notifier Sounder Strobe
+      model: B501AP
+      rev: null
+      lang: en
+      n_chunks: 6
+  - manufacturer: Notifier
+    model_norm: ba1
+    langs:
+    - en
+    - es
+    docs:
+    - file: MNDT1003P
+      model: BA1
+      rev: null
+      lang: en
+      n_chunks: 1
+    - file: MNDT1003
+      model: BA1
+      rev: null
+      lang: es
+      n_chunks: 1
+  - manufacturer: Notifier
+    model_norm: faastlt
+    langs:
+    - en
+    - es
+    docs:
+    - file: FAAST-LT-Como-comunicar-con-el-equipo.pdf
+      model: FAAST-LT
+      rev: null
+      lang: es
+      n_chunks: 2
+    - file: I56-6575-005_EN-FAAST-LT-200-Loop-QIG
+      model: FAAST-LT
+      rev: null
+      lang: en
+      n_chunks: 37
+    - file: I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+      model: FAAST LT
+      rev: null
+      lang: es
+      n_chunks: 39
+    - file: FAAST-LT-Como-obtener-el-historico-del-equipo.pdf
+      model: FAAST-LT
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG
+      model: FAAST-LT
+      rev: null
+      lang: en
+      n_chunks: 34
+  - manufacturer: Notifier
+    model_norm: iboxmodbus
+    langs:
+    - en
+    - es
+    docs:
+    - file: MNDT958
+      model: iBox-Modbus
+      rev: null
+      lang: es
+      n_chunks: 40
+    - file: MN-DT-958I_iBox-MBS-NID3000
+      model: iBox-Modbus
+      rev: null
+      lang: en
+      n_chunks: 39
+  - manufacturer: Notifier
+    model_norm: id2net
+    langs:
+    - en
+    - es
+    docs:
+    - file: MADT190P_01_C
+      model: ID2net
+      rev: null
+      lang: en
+      n_chunks: 2
+    - file: MADT190_01
+      model: ID2net
+      rev: null
+      lang: es
+      n_chunks: 30
+  - manufacturer: Notifier
+    model_norm: idx751
+    langs:
+    - en
+    - es
+    docs:
+    - file: I56-3383-002 IDX-751 AE EN DE
+      model: IDX-751
+      rev: null
+      lang: en
+      n_chunks: 6
+    - file: MNDT1020
+      model: IDX-751
+      rev: null
+      lang: es
+      n_chunks: 6
+  - manufacturer: Notifier
+    model_norm: inspire
+    langs:
+    - en
+    - es
+    docs:
+    - file: HOP-338-9PT-issue 4_01-2026_Op
+      model: INSPIRE
+      rev: null
+      lang: en
+      n_chunks: 3
+    - file: 4188-1125-ES issue 5_11-2025_Li
+      model: INSPIRE
+      rev: null
+      lang: es
+      n_chunks: 24
+    - file: Actualizacion del firmware de INSPIRE a R1.35
+      model: INSPIRE
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: HOP-338-9ES issue 4_01-2026_Op
+      model: INSPIRE
+      rev: null
+      lang: es
+      n_chunks: 61
+    - file: HOP-138-9ES issue 5_11-2025_In
+      model: INSPIRE
+      rev: null
+      lang: es
+      n_chunks: 100
+    - file: HOP-138-8ES  issue 6_01-2026_Co
+      model: INSPIRE
+      rev: null
+      lang: es
+      n_chunks: 89
+    - file: 4188-1132-ES issue 3_04_2025_Qref
+      model: INSPIRE
+      rev: null
+      lang: es
+      n_chunks: 18
+    - file: 4188-1122-ES issue 4_04-2025_Cyb
+      model: INSPIRE
+      rev: null
+      lang: es
+      n_chunks: 12
+    - file: 4188-1124-ES issue 6_01-2026_To
+      model: INSPIRE
+      rev: null
+      lang: es
+      n_chunks: 116
+  - manufacturer: Notifier
+    model_norm: lpb620
+    langs:
+    - en
+    - es
+    docs:
+    - file: I56-1671-003 LPB-620 ManualEN
+      model: LPB-620
+      rev: null
+      lang: en
+      n_chunks: 20
+    - file: I56-1671-003 LPB-620 ManualES
+      model: LPB-620
+      rev: null
+      lang: es
+      n_chunks: 19
+  - manufacturer: Notifier
+    model_norm: nas
+    langs:
+    - en
+    - es
+    docs:
+    - file: MNDT741I.pdf
+      model: NAS
+      rev: null
+      lang: en
+      n_chunks: 17
+    - file: MNDT741.pdf
+      model: NAS
+      rev: Rev io
+      lang: es
+      n_chunks: 19
+    - file: MNDT740P.pdf
+      model: NAS
+      rev: Rev io
+      lang: en
+      n_chunks: 2
+  - manufacturer: Notifier
+    model_norm: nas1u
+    langs:
+    - en
+    - es
+    docs:
+    - file: ETDT314
+      model: NAS-1u
+      rev: null
+      lang: en
+      n_chunks: 1
+    - file: MNDT744I_B.pdf
+      model: NAS-1u
+      rev: null
+      lang: en
+      n_chunks: 26
+    - file: MNDT744_B.pdf
+      model: NAS-1u
+      rev: Rev B
+      lang: es
+      n_chunks: 29
+  - manufacturer: Notifier
+    model_norm: nas2
+    langs:
+    - en
+    - es
+    docs:
+    - file: MNDT742P_F.pdf
+      model: NAS-2
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: 997-528-000-1
+      model: NAS-2
+      rev: null
+      lang: en
+      n_chunks: 26
+    - file: ETDT312
+      model: NAS-2
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: MNDT742_G.pdf
+      model: NAS-2
+      rev: Rev io
+      lang: es
+      n_chunks: 31
+  - manufacturer: Notifier
+    model_norm: nfg8
+    langs:
+    - en
+    - es
+    docs:
+    - file: Manual central de Gas NFG-8 Rev_3
+      model: NFG-8
+      rev: null
+      lang: es
+      n_chunks: 51
+    - file: Manual NFG-8_PT
+      model: NFG-8
+      rev: null
+      lang: en
+      n_chunks: 4
+  - manufacturer: Notifier
+    model_norm: nfssupra
+    langs:
+    - en
+    - fr
+    docs:
+    - file: NFS-SUPRA-VSN2-PLUS-Entrada-Digital.pdf
+      model: NFS-SUPRA
+      rev: null
+      lang: en
+      n_chunks: 1
+    - file: HLSI-MN-025-I_NFS Supra Series v05
+      model: NFS Supra
+      rev: null
+      lang: en
+      n_chunks: 56
+    - file: HLSI-MA-025 Guia Rapida NFS_Supra_XP_c
+      model: NFS Supra
+      rev: null
+      lang: en
+      n_chunks: 4
+    - file: HLSI-MN-025-I_NFS Supra Series FR 25_03_2014 Sbr
+      model: NFS Supra
+      rev: null
+      lang: fr
+      n_chunks: 3
+  - manufacturer: Notifier
+    model_norm: nfxibeam
+    langs:
+    - en
+    - es
+    docs:
+    - file: I56-3878-000 NFXI-BEAM(T)_EN
+      model: NFXI-BEAM
+      rev: null
+      lang: en
+      n_chunks: 12
+    - file: I56-3878-000 NFXI-BEAM(T)_ES
+      model: NFXI-BEAM
+      rev: null
+      lang: es
+      n_chunks: 21
+  - manufacturer: Notifier
+    model_norm: pearl
+    langs:
+    - ??
+    - en
+    - es
+    - pt
+    docs:
+    - file: Guia basica instalacion_PEARL
+      model: PEARL
+      rev: null
+      lang: es
+      n_chunks: 6
+    - file: 997-671-005-3_Configuration_ES
+      model: PEARL
+      rev: null
+      lang: es
+      n_chunks: 124
+    - file: 997-670-007-3_Operating_PT
+      model: PEARL
+      rev: null
+      lang: ??
+      n_chunks: 2
+    - file: 997-671-007-3_Configuration_PT
+      model: PEARL
+      rev: null
+      lang: pt
+      n_chunks: 3
+    - file: 997-669-005-3_Instal-Comm_ES
+      model: PEARL
+      rev: null
+      lang: es
+      n_chunks: 112
+    - file: Guia basico inst_PEARL_port
+      model: PEARL
+      rev: null
+      lang: en
+      n_chunks: 1
+    - file: 997-670-005-3_Operating_ES
+      model: PEARL
+      rev: null
+      lang: es
+      n_chunks: 62
+  - manufacturer: Notifier
+    model_norm: pl4
+    langs:
+    - en
+    - es
+    docs:
+    - file: MNDT516
+      model: PL4
+      rev: null
+      lang: en
+      n_chunks: 56
+    - file: MNDT516_PL4_ESP-PORT
+      model: PL4
+      rev: null
+      lang: es
+      n_chunks: 26
+    - file: MNDT515.pdf
+      model: PL4
+      rev: Rev 0
+      lang: es
+      n_chunks: 29
+  - manufacturer: Notifier
+    model_norm: pol1
+    langs:
+    - en
+    - es
+    docs:
+    - file: MNDT960I.pdf
+      model: POL-1
+      rev: null
+      lang: en
+      n_chunks: 11
+    - file: MNDT960.pdf
+      model: POL-1
+      rev: Rev io
+      lang: es
+      n_chunks: 11
+  - manufacturer: Notifier
+    model_norm: pol200ts
+    langs:
+    - en
+    - es
+    docs:
+    - file: MN-HON-POL-200-TS_EN_V03
+      model: POL-200-TS
+      rev: null
+      lang: en
+      n_chunks: 28
+    - file: TB-HON-ES_POL200TS_04-19
+      model: POL200TS
+      rev: null
+      lang: es
+      n_chunks: 1
+  - manufacturer: Notifier
+    model_norm: psseries
+    langs:
+    - en
+    - es
+    docs:
+    - file: MNDT1300I_E.pdf
+      model: PS Series
+      rev: Rev 3.0
+      lang: en
+      n_chunks: 16
+    - file: MNDT1300_E.pdf
+      model: PS Series
+      rev: Rev io
+      lang: es
+      n_chunks: 21
+  - manufacturer: Notifier
+    model_norm: rp1r
+    langs:
+    - ??
+    - en
+    - es
+    - it
+    docs:
+    - file: RP1R - MAN ITA r.A2.pdf
+      model: RP1R
+      rev: Rev A.2
+      lang: it
+      n_chunks: 3
+    - file: MNDT102
+      model: RP1r
+      rev: null
+      lang: es
+      n_chunks: 59
+    - file: HLSI-TI-005
+      model: RP1r
+      rev: null
+      lang: es
+      n_chunks: 2
+    - file: HLSI-TI-001
+      model: RP1r
+      rev: null
+      lang: es
+      n_chunks: 1
+    - file: HLSI-MA-103_01_Itac
+      model: RP1r
+      rev: null
+      lang: es
+      n_chunks: 2
+    - file: MN-DT-102I
+      model: RP1r
+      rev: null
+      lang: en
+      n_chunks: 49
+    - file: HLSI-MN-103I_V04 FR
+      model: RP1r
+      rev: null
+      lang: ??
+      n_chunks: 2
+    - file: HLSI-MA-103_Quick start guide RP1r_Supra_GB
+      model: RP1r
+      rev: null
+      lang: en
+      n_chunks: 11
+    - file: HLSI-BT-001
+      model: RP1r
+      rev: null
+      lang: es
+      n_chunks: 2
+    - file: MNDT102P
+      model: RP1r
+      rev: null
+      lang: ??
+      n_chunks: 1
+    - file: MN-DT-959_OPC-RP1r
+      model: RP1r
+      rev: null
+      lang: es
+      n_chunks: 25
+    - file: HLSI-TI-001I
+      model: RP1r
+      rev: null
+      lang: en
+      n_chunks: 1
+    - file: HSLI_IN_020_Tabla equivalencia TG
+      model: RP1R
+      rev: null
+      lang: ??
+      n_chunks: 2
+  - manufacturer: Notifier
+    model_norm: smart3
+    langs:
+    - en
+    - es
+    docs:
+    - file: MNDT626.pdf
+      model: SMART 3
+      rev: Rev 5
+      lang: es
+      n_chunks: 23
+    - file: MNDT630
+      model: SMART3
+      rev: null
+      lang: es
+      n_chunks: 2
+    - file: SMART 3 TOXICOS MTEX 4749_SP REV 3
+      model: SMART 3
+      rev: null
+      lang: es
+      n_chunks: 33
+    - file: MNDT631.pdf
+      model: SMART 3
+      rev: Rev 3
+      lang: en
+      n_chunks: 3
+    - file: HLSI-MN-627
+      model: SMART 3
+      rev: null
+      lang: es
+      n_chunks: 13
+    - file: TIDT045
+      model: SMART-3
+      rev: null
+      lang: es
+      n_chunks: 2
+    - file: MNDT625.pdf
+      model: SMART 3
+      rev: Rev 1
+      lang: es
+      n_chunks: 18
+    - file: SMART 3 EXPLOSIVOS MTEX 4446_SP REV 3
+      model: SMART 3
+      rev: null
+      lang: es
+      n_chunks: 31
+  - manufacturer: Notifier
+    model_norm: stratoshssd
+    langs:
+    - en
+    - es
+    docs:
+    - file: MNDT730P.pdf
+      model: Stratos HSSD
+      rev: Rev iamente
+      lang: en
+      n_chunks: 1
+    - file: MNDT730.pdf
+      model: Stratos HSSD
+      rev: Rev iamente
+      lang: es
+      n_chunks: 6
+  - manufacturer: Notifier
+    model_norm: uds2n
+    langs:
+    - en
+    - es
+    docs:
+    - file: MNDT112
+      model: UDS-2N
+      rev: null
+      lang: es
+      n_chunks: 63
+    - file: MFDT112P
+      model: UDS-2N
+      rev: null
+      lang: en
+      n_chunks: 1
+  - manufacturer: Securiton
+    model_norm: unknown
+    langs:
+    - en
+    - es
+    docs:
+    - file: ADW 535-1 ATEX_TD_003 007_en_a
+      model: unknown
+      rev: null
+      lang: en
+      n_chunks: 16
+    - file: TD 003 006c_Technische Dokumentation_Externer Temperatursensor ART 535-x_es
+      model: unknown
+      rev: null
+      lang: es
+      n_chunks: 20
+  - manufacturer: System Sensor
+    model_norm: 6200r
+    langs:
+    - en
+    - es
+    docs:
+    - file: I56-1726-003 6200R Manual ES
+      model: 6200R
+      rev: null
+      lang: es
+      n_chunks: 24
+    - file: I56-1726-003 6200R Manual EN
+      model: 6200R
+      rev: null
+      lang: en
+      n_chunks: 18
+  - manufacturer: System Sensor
+    model_norm: d2e
+    langs:
+    - en
+    - es
+    docs:
+    - file: I56-3536-003R D2E
+      model: D2E
+      rev: null
+      lang: en
+      n_chunks: 19
+    - file: I56-3536-003R D2E_SP
+      model: D2E
+      rev: null
+      lang: es
+      n_chunks: 18
+  - manufacturer: System Sensor
+    model_norm: dnre
+    langs:
+    - en
+    - es
+    docs:
+    - file: I56-3538-002R DNRE_SP
+      model: DNRE
+      rev: null
+      lang: es
+      n_chunks: 21
+    - file: I56-3538-002R DNRE
+      model: DNRE
+      rev: null
+      lang: en
+      n_chunks: 18
+  - manufacturer: Xtralis
+    model_norm: firebeamxtra
+    langs:
+    - en
+    - es
+    docs:
+    - file: Firebeam Xtra User Guide 060619
+      model: Firebeam Xtra
+      rev: null
+      lang: en
+      n_chunks: 19
+    - file: Manual_Firebeam_XTRA_ES
+      model: Firebeam XTRA
+      rev: null
+      lang: es
+      n_chunks: 20
+cruce_eval_pools_s61:
+  n_golds_afectados: 1
+  golds:
+  - qid: cat024
+    clusters_en_pool:
+    - n_docs_del_cluster_en_pool: 4
+      ejemplo:
+        file: 55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2
+        model: MAD-472
+        rev: null
+        lang: es
+        n_chunks: 2
