@@ -1542,6 +1542,18 @@ serie 2X-A; NC series; etc.).
 CAD-250 no contamine una query de CAD-150). El modelo de datos no distingue "manual DE la CAD-250" de
 "manual de la SERIE que aplica a {171,201,250}". Lo destapó Alberto al añadir CAD-201 (DEC-032).
 
+**AMPLIACIÓN s61 (gate del lever CE, DEC-042 — la misma raíz, segunda manifestación MEDIDA):**
+el modelo de datos tampoco distingue **ediciones casi idénticas de una familia conviviendo**
+(cat012: la fórmula §11 de baterías en `AM-8200` / `AM 8200G Rv3` / `AM 8200N RV4` — variantes
+hermanas + revisiones mezcladas, ninguna marcada superseded) → **near-duplicados que monopolizan
+el top-5 de cualquier reranker de PARES** (el cross-encoder llenó 5/5 slots con ellas y expulsó
+la tabla de consumos; el LLM listwise diversificaba de rebote). El dedup exacto por content-hash
+NO los caza (3/39 pools, cat012 no incluido — el texto difiere en detalles). Afecta también a
+cat009 (HLSI-MN-025 vs -I v05, revisión pura) y crece con cada fabricante nuevo. **Promovido a
+CICLO s62 (audit-primero, PLAN punto 1): el contrato debe cubrir doc-de-SERIE vs doc-de-producto
+Y supersesión/near-dup entre ediciones — ⚠️ sin latest-wins naive (hp011/conflictos ES↔US viven
+de que ambas variantes de mercado sobrevivan).**
+
 **Por qué no se arregló ahora** (pregunta cero): el corpus CAD **no está ingestado** (ingesta diferida tras
 el gate RULER) → gap FUTURO, hoy no hay chunks que recuperar. Y es un cambio de RETRIEVAL → debe MEDIRSE en
 el eval, no a ciegas (DEC-019).
@@ -1622,5 +1634,10 @@ sobre-inclusiva (página-con-imagen vs diagrama-útil). Definir el contrato ANTE
 consumidores. Cualquier opción se mide en el RULER (DEC-019). **Trigger**: al diseñar el lever
 s60-redefinido (L-i + cross-encoder) el smoke de diagramas queda MOOT mientras v2 esté a 0 — si
 se re-puebla, la guarda funcional de diagramas vuelve a ser obligatoria; y SIEMPRE antes de dar
-por bueno cualquier trabajo de "diagramas" en v2. **Relacionado**: #44 (patrón contrato-roto-por-SWAP),
+por bueno cualquier trabajo de "diagramas" en v2. **Dependencia NUEVA (s61, diseño v3 §2.0/§2.3 —
+Y4 cross-model)**: el doc que el cross-encoder rerank-2.5 recibe (`_voyage_doc`, header de paridad
+Producto|Sección|Tipo) NO incluye el diagram_tag a propósito (canal muerto); si este contrato se
+re-puebla y el reranker activo es el CE, el soporte de diagramas para ese path se DISEÑA en el
+ciclo del fix (boost post-rerank, metadato en el header, o instrucción — rerank-2.5 es
+instruction-following), no se hereda en silencio. **Relacionado**: #44 (patrón contrato-roto-por-SWAP),
 DEC-016d (boosts load-bearing), gate-D s60 (`evals/s60_step0_order_sensitivity_voyage.yaml`).
