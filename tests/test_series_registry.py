@@ -315,13 +315,17 @@ def test_poblacion_real_evidence_obligatorio():
     assert not problemas, "\n".join(problemas)
 
 
-@pytest.mark.skipif(not os.getenv("SUPABASE_URL"), reason="integración: requiere DB")
 def test_poblacion_real_shared_docs_resuelven_en_corpus(monkeypatch):
     """FINAL §1d (anti-secuestro): cada shared_doc de la población REAL existe en
     chunks_v2 (≥1 chunk) y TODOS sus chunks llevan product_model de la propia
     serie. Caza typos de source_file y aperturas cross-marca. Re-correr tras
     cada ingesta que renombre docs (contrato del workflow de ingesta)."""
     import httpx
+    from dotenv import load_dotenv
+    from pathlib import Path
+    load_dotenv(Path(sr.__file__).resolve().parent.parent.parent / ".env", override=False)
+    if not os.getenv("SUPABASE_URL"):
+        pytest.skip("integración: requiere DB (.env con SUPABASE_URL)")
     monkeypatch.delenv("SERIES_REGISTRY_ENABLED", raising=False)
     sr.reset_registry_cache()      # fuerza la población real (config/manufacturers)
     try:
