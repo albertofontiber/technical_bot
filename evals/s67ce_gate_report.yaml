@@ -1,0 +1,2144 @@
+meta:
+  generated_at: '2026-06-12T21:22:52'
+  git: 657c7b2
+  k: 5
+  n_golds: 39
+  manifest: s67ce_run_manifest.json
+resumen:
+  particion:
+    residual: 25
+    PASS-control: 10
+    K-INESTABLE: 4
+  pass_control_FIJADO:
+  - cat005
+  - cat010
+  - cat012
+  - cat014
+  - cat015
+  - cat018
+  - cat022
+  - hp015
+  - hp019
+  - hp020
+  pass_control_unanime:
+  - cat010
+  - cat014
+  - cat018
+  - cat022
+  - hp019
+  atribucion_residual:
+    MIXTO: 4
+    INDETERMINADO-solo-debiles: 8
+    GENERACION: 6
+    CUALITATIVA (conducta no-answer): 3
+    SUB-RETRIEVAL: 4
+  k_inestables:
+  - cat009
+  - cat019
+  - hp004
+  - hp007
+  indeterminados_solo_debiles:
+  - cat007
+  - cat016
+  - cat024
+  - hp003
+  - hp006
+  - hp009
+  - hp013
+  - hp017
+  stop_reasons_global:
+    end_turn: 195
+  max_tokens_hits: 0
+golds:
+- qid: cat001
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato: &id001
+  - multi-doc
+  veredicto: PARCIAL
+  bucket: residual
+  unanime: true
+  flag_review: false
+  n_valid: 5
+  votes:
+    PARCIAL: 5
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - Acertó la capacidad principal por lazo, el límite mixto CLIP de 40 y el flujo básico de autoconfiguración. Pero
+    omite datos relevantes como 1/2 lazos y 0,75 A, no recoge correctamente el límite PEARL de 25 equipos entre
+    aisladores, y la parte de edición individual queda incompleta frente al gold.
+  - Acierta en la capacidad principal del lazo, límites CLIP/mixto y el flujo básico de autoconfiguración. Pero
+    omite el límite específico PEARL de 25 equipos entre aisladores, deja incompleta la parte de edición individual
+    de equipos y formula de modo impreciso la regla de aisladores internos/FET frente a lo indicado en la referencia.
+  - Acierta la capacidad principal del lazo, los límites CLIP/mixto y describe razonablemente la autoconfiguración,
+    pero omite datos relevantes como 1/2 lazos, carga máxima 0,75 A y el límite PEARL de 25 equipos entre aisladores.
+    Además la parte de edición individual queda incompleta/truncada y no recoge zona, tipo, niveles de alarma/prealarma
+    ni la inicialización OPAL.
+  - 'Acierta la capacidad principal del lazo, el límite global, la autoconfiguración y el caso mixto Opal/CLIP,
+    pero omite datos relevantes como 1/2 lazos, carga máxima 0,75 A y la edición individual de sensores/módulos.
+    En aisladores es incompleta/imprecisa: no recoge el límite PEARL de 25 equipos entre aisladores ni el matiz
+    de 20 con FET, y simplifica en exceso los equipos con aislador interno/base B501 AP.'
+  - Acierta en la capacidad general del lazo, límites CLIP/mixto y el flujo básico de autoconfiguración, pero omite
+    el límite específico PEARL de 25 equipos entre aisladores y deja incompleta la parte de edición individual desde
+    la central. También no recoge datos clave de edición como zonas, tipo, niveles de alarma/prealarma e inicialización
+    de equipos OPAL.
+  sufficiency:
+    bucket: MIXTO
+    sub:
+      per_fact:
+      - valor: 159+159 / 99+99
+        fact_docs:
+        - 997-669-005-3_Instal-Comm_ES
+        label: within-doc-miss
+      - valor: 0,75 A
+        fact_docs:
+        - 997-669-005-3_Instal-Comm_ES
+        label: within-doc-miss
+      - valor: 32 / 25 / 20
+        fact_docs:
+        - 997-669-005-3_Instal-Comm_ES
+        label: within-doc-miss
+      - valor: 255 / 8192
+        fact_docs:
+        - 997-669-005-3_Instal-Comm_ES
+        - 997-671-005-3_Configuration_ES
+        label: within-doc-miss
+      labels:
+        within-doc-miss: 4
+      estrato_anotado: *id001
+    n_core_fuerte: 5
+    n_core_presente: 7
+    top5_sources:
+    - 997-669-005-3_Instal-Comm_ES
+    - 997-671-005-3_Configuration_ES
+    facts:
+    - valor: 1 o 2
+      probe: ~1 o 2
+      strength: fuerte
+      in_top5: true
+      in_filtered: true
+    - valor: 159+159 / 99+99
+      probe:
+      - '159'
+      - '99'
+      strength: fuerte
+      in_top5: false
+      in_filtered: false
+    - valor: 0,75 A
+      probe:
+      - 0,75
+      strength: fuerte
+      in_top5: false
+      in_filtered: false
+    - valor: '40'
+      probe:
+      - '40'
+      strength: debil
+      in_top5: true
+      in_filtered: true
+    - valor: 32 / 25 / 20
+      probe:
+      - '20'
+      - '25'
+      - '32'
+      strength: fuerte
+      in_top5: false
+      in_filtered: false
+    - valor: autoconfiguracion
+      probe: ~autoconfiguracion
+      strength: debil
+      in_top5: true
+      in_filtered: true
+    - valor: 255 / 8192
+      probe:
+      - '255'
+      - '8192'
+      strength: fuerte
+      in_top5: false
+      in_filtered: false
+  atribucion: MIXTO
+- qid: cat005
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato:
+  - tabla-matriz
+  veredicto: PASS
+  bucket: PASS-control
+  unanime: false
+  flag_review: true
+  n_valid: 5
+  votes:
+    PASS: 4
+    PARCIAL: 1
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - 'Incluye las características técnicas clave y distingue correctamente las versiones por código de producto y
+    tipo de conexión de sensores: digital 3244 y analógica 3270/4-20 mA. Añade información adicional no presente
+    en la referencia, pero no afecta a la respuesta esencial.'
+  - La respuesta recoge correctamente las características clave de la CS4 y distingue las versiones por código 3244
+    digital y 3270 analógica, indicando la diferencia esencial de conexión de sensores. Añade detalles adicionales
+    no presentes en la referencia, pero no contradicen de forma sustancial el contenido GOLD.
+  - Incluye las características técnicas clave y distingue correctamente las versiones por código 3244 digital y
+    3270 analógica, indicando la diferencia de conexión de sensores. Añade información adicional sobre LEDs, montaje
+    y compatibilidades que no aparece en la referencia, pero no contradice el núcleo de la respuesta.
+  - Incluye correctamente las especificaciones principales y los códigos de versión 3244 digital y 3270 analógica,
+    así como la diferencia básica 4-20 mA frente a digital. Sin embargo añade una comparación de compatibilidad
+    de sensores y entradas 0–10/15 V como 'diferencia clave' que no aparece en la referencia y puede desviar o introducir
+    información no validada frente al manual citado por el gold.
+  - Incluye las características técnicas clave y distingue correctamente los códigos 3244 digital y 3270 analógica,
+    así como la diferencia principal de conexión de sensores. Añade información extra no presente en la GOLD, pero
+    no impide la respuesta correcta a la pregunta.
+- qid: cat007
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato:
+  - es-en
+  veredicto: FALLO
+  bucket: residual
+  unanime: true
+  flag_review: false
+  n_valid: 5
+  votes:
+    FALLO: 5
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - 'Acierta en los contactos NC-C-NA de relés, las dos salidas de sirena con EOL de 47 kΩ y las corrientes/tensiones
+    máximas, pero falla en un punto clave: afirma que no está especificado el comportamiento del relé de avería
+    ante corte de alimentación. Según la referencia, el relé de avería es failsafe, se desenergiza ante avería,
+    modo servicio o pérdida de alimentación, y la avería no queda enclavada; además omite la vida mínima de 10^5
+    operaciones.'
+  - 'Acertó en gran parte del conexionado de relés/sirenas y en la EOL de 47 kΩ, pero falla en un punto clave: afirma
+    que no está especificado el comportamiento del relé de avería, cuando el QIG sí indica que es fail-safe y se
+    desenergiza también ante corte de alimentación, Modo Servicio, avería común o de canal. Además omite que la
+    avería no queda enclavada y la vida mínima de los contactos de relé de 10^5 operaciones.'
+  - 'Acierta las salidas de relé/sirena, la EOL de 47 kΩ y las corrientes/tensiones de contacto, pero falla en un
+    punto clave: afirma que no está especificado el comportamiento del relé de avería, cuando el manual sí indica
+    que es failsafe, se desenergiza ante avería/servicio/corte de alimentación y no queda enclavado. Además omite
+    la vida útil mínima de los contactos de relé de 10^5 operaciones.'
+  - 'Acertó en gran parte el listado de relés/sirenas, contactos, EOL de 47 kΩ y corrientes/tensiones nominales,
+    pero afirmó que no estaba especificado el comportamiento del relé de avería cuando el GOLD sí lo documenta:
+    es failsafe, se desenergiza ante avería/servicio/corte de alimentación y no queda enclavado. Además omitió la
+    vida útil mínima de 10^5 operaciones.'
+  - 'Acierta en relés, salidas de sirena, EOL de 47 kΩ y corrientes máximas, pero falla en un punto central: afirma
+    que no está documentado el comportamiento del relé de avería ante corte de alimentación, cuando el QIG sí indica
+    que es fail-safe y se desenergiza ante avería/servicio/sin alimentación. Además omite la vida útil mínima de
+    10^5 operaciones de los contactos.'
+  sufficiency:
+    bucket: INDETERMINADO-solo-debiles
+    sub: null
+    n_core_fuerte: 0
+    n_core_presente: 5
+    top5_sources:
+    - I56-3956-201_ES Morley Loop FAAST LT QIG
+    - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+    facts:
+    - valor: NC-C-NA
+      probe: ~NC-C-NA
+      strength: debil
+      in_top5: true
+      in_filtered: true
+    - valor: no enclavado
+      probe: ~no enclavado
+      strength: debil
+      in_top5: false
+      in_filtered: false
+    - valor: 47 kohm
+      probe:
+      - '47'
+      strength: debil
+      in_top5: true
+      in_filtered: true
+    - valor: 2 A / 0,5 A
+      probe:
+      - 0,5
+      strength: debil
+      in_top5: true
+      in_filtered: true
+    - valor: 10^5
+      probe:
+      - '10'
+      strength: debil
+      in_top5: true
+      in_filtered: true
+  atribucion: INDETERMINADO-solo-debiles
+- qid: cat008
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato:
+  - diagrama
+  - oem-relabel
+  veredicto: PARCIAL
+  bucket: residual
+  unanime: true
+  flag_review: false
+  n_valid: 5
+  votes:
+    PARCIAL: 5
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - 'Acierta las resistencias principales: RFL de 47 kΩ y 18 kΩ en serie para modo 3 estados, así como la entrada
+    6-7. Pero invierte la asignación de entrada/salida del lazo respecto a la referencia y explica de forma incorrecta/imprecisa
+    la anulación del aislador interno; además omite la opción VdS M200E-EOL-RD.'
+  - La respuesta cubre correctamente el cableado principal del lazo, terminales de entrada, RFL de 47 kΩ y resistencia
+    de 18 kΩ para modo 3 estados. Falta mencionar la opción alternativa de fin de línea polarizada M200E-EOL-RD
+    para instalaciones VdS 2489, por lo que queda incompleta frente a la referencia.
+  - Acierta los valores de resistencias (RFL 47 kΩ y 18 kΩ en serie para 3 estados), la entrada 6-7 y la lógica
+    de 2/3 estados. Pero invierte la asignación in/out de los terminales de lazo respecto a la referencia y omite
+    la opción VdS con fin de línea polarizada M200E-EOL-RD.
+  - 'Acierta en las resistencias principales: RFL 47 kΩ y 18 kΩ en serie para modo 3 estados, y menciona que el
+    corto pasa a avería si la central lo soporta. Pero el conexionado del lazo está mal frente a la referencia:
+    invierte entrada/salida de los terminales 1-4 y la nota del aislador no coincide; además omite la opción VdS
+    M200E-EOL-RD.'
+  - La respuesta cubre correctamente el cableado principal del lazo, los terminales 6-7 de la entrada, la RFL de
+    47 kΩ y la resistencia de 18 kΩ en serie para modo 3 estados. Queda incompleta frente al gold porque omite la
+    opción de fin de línea polarizada M200E-EOL-RD para instalaciones con requisitos VdS 2489.
+  sufficiency:
+    bucket: GENERACION
+    sub: null
+    n_core_fuerte: 2
+    n_core_presente: 4
+    top5_sources:
+    - Conexionado-del-modulo-M710-MI-DMMI
+    - I56-2005-002 M710 M720 M721 M701
+    - I56-3991-000 MI-MM3E-S2
+    - I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE
+    - MIE-MI-490
+    facts:
+    - valor: 2 estados / 3 estados
+      probe: ~2 estados / 3 estados
+      strength: fuerte
+      in_top5: true
+      in_filtered: true
+    - valor: 47 kΩ
+      probe:
+      - '47'
+      strength: debil
+      in_top5: true
+      in_filtered: true
+    - valor: 18 kΩ
+      probe:
+      - '18'
+      strength: debil
+      in_top5: true
+      in_filtered: true
+    - valor: 1/2/3/4 lazo; 6-7 entrada A
+      probe: ~1/2/3/4 lazo; 6-7 entrada A
+      strength: fuerte
+      in_top5: true
+      in_filtered: true
+  atribucion: GENERACION
+- qid: cat009
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato:
+  - conflicto-revision
+  veredicto: PARCIAL
+  bucket: K-INESTABLE
+  unanime: false
+  flag_review: true
+  n_valid: 5
+  votes:
+    PASS: 1
+    PARCIAL: 4
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - Responde correctamente que en modo resistivo la RFL de zona es 6K8 Ω y también recoge la alternativa por defecto
+    de condensador de 47 µF, además de indicar que debe instalarse en todas las zonas. Añade detalles adicionales
+    no esenciales y no menciona el conflicto con ediciones anteriores de 4K7 Ω, pero no compromete la respuesta
+    técnica principal.
+  - Acierta el valor principal (6K8 Ω) y la alternativa de 47 µF, además de indicar que debe instalarse en todas
+    las zonas. Sin embargo, no menciona la discrepancia con ediciones anteriores (4K7 Ω vs 6K8 Ω) ni cita la sección
+    concreta del manual vigente, e introduce datos adicionales no contrastados frente al GOLD.
+  - Responde el valor correcto de RFL para zonas (6K8 Ω) y menciona la alternativa por defecto de 47 µF, así como
+    que debe instalarse en todas las zonas. Queda incompleto/impreciso porque no recoge el conflicto de ediciones
+    v.04 4K7 vs v.05 6K8 ni cita la sección exacta del manual vigente, y añade datos accesorios de rango/consumos
+    potencialmente confusos.
+  - Responde el valor clave correcto (6K8 Ω) y menciona la alternativa de 47 µF y que todas las zonas deben terminarse.
+    Pero contradice la referencia al decir que la resistencia 6K8 no se menciona como suministrada, no cita la sección/revisión
+    vigente ni advierte el cambio frente a ediciones anteriores de 4K7 Ω.
+  - Identifica correctamente la RFL de 6K8 Ω y el condensador de 47 µF por defecto, e indica que debe instalarse
+    en todas las zonas. Sin embargo, no cita la revisión vigente ni advierte el conflicto con ediciones anteriores
+    de 4K7 Ω, y añade un rango 3–7 kΩ que puede inducir a instalar valores distintos del EOL suministrado.
+- qid: cat010
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato:
+  - es-en
+  veredicto: PASS
+  bucket: PASS-control
+  unanime: true
+  flag_review: false
+  n_valid: 5
+  votes:
+    PASS: 5
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - La respuesta cubre correctamente la alimentación mediante 24 Vcc a través de barrera Zener/aislador ATEX/IECEx
+    28 V / 93 mA y da los parámetros Ui, Ii, Pi, Ci y Li, además del marcado y temperatura. Omite la nota de prueba/uso
+    en zona segura sin barrera y la recomendación de no operar continuamente por encima de 16 V directos, pero no
+    afecta a lo esencial preguntado para zona peligrosa.
+  - 'Responde correctamente lo esencial: alimentación a 24 Vdc mediante barrera Zener/aislador ATEX/IECEx 28 V/93
+    mA, advertencia de uso directo >16 V, parámetros Ui/Ii/Pi/Ci/Li y marcado/rango ambiental. Añade detalles adicionales
+    aparentemente documentales sin contradecir la referencia.'
+  - La respuesta cubre correctamente la alimentación mediante barrera Zener/aislador ATEX/IECEx de 28 V/93 mA resistivo,
+    la advertencia de uso sin barrera >16 V, los parámetros Ui/Ii/Pi/Ci/Li y el marcado ATEX/temperatura. Añade
+    datos adicionales no presentes en la referencia, pero no contradicen lo esencial.
+  - Responde correctamente que el IS-mA1 se alimenta en zona peligrosa mediante barrera Zener o aislador galvánico
+    ATEX/IECEx de 28 V / 93 mA y da los parámetros de entrada Ui, Ii, Pi, Ci y Li adecuados. Añade datos adicionales
+    plausibles; solo omite la recomendación de no operar continuamente sin barrera por encima de 16 V, que no afecta
+    a lo esencial preguntado.
+  - 'Respuesta correcta y suficiente: indica alimentación mediante barrera Zener/aislador ATEX/IECEx de 28 V/93
+    mA, advierte sobre uso sin barrera en zona segura y lista Ui, Ii, Pi, Ci y Li junto con marcado y temperatura.
+    Solo omite de forma explícita el nominal de 24 V dc, pero no afecta sustancialmente la utilidad técnica.'
+- qid: cat011
+  conducta_esperada: clarify
+  conducta_bot_modal: clarify
+  estrato:
+  - familia-ambigua
+  veredicto: PARCIAL
+  bucket: residual
+  unanime: false
+  flag_review: true
+  n_valid: 5
+  votes:
+    PARCIAL: 3
+    FALLO: 2
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - 'Acertó al no elegir un único modelo y pedir aclaración, y distinguió variantes como CPX-751 e IDX-751. Pero
+    queda incompleto frente al gold: no menciona el FSL-751E/VIEW, usa denominaciones sin sufijo E/AE, añade modelos
+    no contemplados en la referencia y no incluye la advertencia de seguridad sobre zonas peligrosas/no intercambiabilidad.'
+  - 'Acertó en que «751» no identifica un único detector y pidió aclarar aplicación/central/zona, incluyendo el
+    caso ATEX IDX-751. Pero se desvía de la referencia: omite FSL-751E, no presenta exactamente las variantes clave
+    CPX-751E/IDX-751/FSL-751E y además sugiere modelos “más habituales” como SDX-751/SDX-751TEM, lo que puede inducir
+    a elegir sin la aclaración necesaria.'
+  - El bot no pide aclaración y elige SDX-751 como “modelo correcto”, cuando «751» no identifica un único detector
+    y hay variantes con aplicaciones no intercambiables. Además mezcla modelos/mercados y omite la distinción clave
+    esperada entre CPX-751E, IDX-751(AE) y FSL-751E, pudiendo inducir a una selección insegura.
+  - El bot elige un modelo concreto (SDX-751) y hasta lo recomienda para instalaciones estándar, cuando «751» no
+    identifica un único detector y debía pedir aclaración por tecnología/aplicación. Además introduce variantes
+    no contempladas en la referencia y omite/alterra modelos clave como CPX-751E, IDX-751(AE) y FSL-751E, pudiendo
+    inducir a una selección insegura.
+  - Acertó al no escoger un único modelo y pedir aclaración, señalando variantes 751 y la opción intrínsecamente
+    segura IDX-751. Pero frente a la referencia omite FSL-751E, no distingue bien las variantes E/AE ni enfatiza
+    que no son intercambiables y que elegir un detector estándar en zona peligrosa sería un riesgo de seguridad.
+  atribucion: CUALITATIVA (conducta no-answer)
+- qid: cat012
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato:
+  - sintesis-completitud
+  veredicto: PASS
+  bucket: PASS-control
+  unanime: false
+  flag_review: true
+  n_valid: 5
+  votes:
+    PASS: 3
+    PARCIAL: 2
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - 'Responde con el procedimiento correcto: suma consumos en reposo y alarma, aplica 24/72 h y 0,5 h, factor 1,2,
+    y verifica el límite de baterías 2×12 V hasta ~18 Ah. Hay alguna imprecisión menor de nomenclatura al llamar
+    A/B primero a corrientes y luego a Ah, pero el cálculo queda suficientemente claro.'
+  - Responde con la fórmula correcta Ah=(A+B)×1,2, define reposo/alarma con 24/72 h y 0,5 h, incluye consumos relevantes
+    y límites de batería/corriente con cita al manual. Solo hay matices menores, como no distinguir explícitamente
+    los consumos de CPU de alimentación frente a batería que sí menciona la referencia.
+  - Da la fórmula correcta, las autonomías, el factor 1,2, los principales consumos y el límite máximo de batería,
+    por lo que orienta bien el cálculo. Pero omite la distinción relevante de consumos de alimentación vs. consumos
+    de batería de la CPU y contiene al menos una imprecisión en baterías recomendadas al asociar NP7-12BFR con 17,2
+    Ah.
+  - Responde con la fórmula correcta, define A/B, aplica 24/72 h y 0,5 h, factor 1,2, suma consumos de tarjetas/lazos/salidas
+    y verifica el límite de ≈18 Ah. Hay algún detalle menor potencialmente impreciso en baterías recomendadas/capacidades,
+    pero no afecta al procedimiento de cálculo principal.
+  - Da la fórmula correcta (A+B)×1,2, las autonomías 24/72 h y 0,5 h, y el límite de baterías 2×12 V hasta ~18 Ah.
+    Pero omite la distinción importante entre consumos de alimentación y consumos de batería de la CPU que recoge
+    la referencia, y contiene una imprecisión en las baterías recomendadas al agrupar NP7-12BFR con 17,2 Ah.
+- qid: cat013
+  conducta_esperada: refuse-inference
+  conducta_bot_modal: refuse-inference
+  estrato:
+  - multi-doc
+  veredicto: PARCIAL
+  bucket: residual
+  unanime: true
+  flag_review: false
+  n_valid: 5
+  votes:
+    PARCIAL: 5
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - 'Actúa correctamente al no inferir compatibilidad cross-marca y redirigir a documentación/fabricante. Sin embargo,
+    es incompleto frente al gold: no aporta el dato documentado del SDX-751/Notifier y su protocolo CLIP, y describe
+    de forma demasiado genérica lo recuperado de la CAD-150.'
+  - 'Acertó al no inferir compatibilidad ni incompatibilidad cross-marca y redirigir a fabricante. Pero es incompleto
+    frente al gold: dice no tener documentación del SDX-751 aunque sí hay referencia documentada a que usa protocolo
+    CLIP, y no surfacea los datos técnicos documentados de la CAD-150 por separado.'
+  - Acertó al no inferir compatibilidad cross-marca y recomendar confirmación del fabricante, sin afirmar ni negar
+    que funcione. Queda incompleto frente al gold porque no aporta los datos documentados del SDX-751/protocolo
+    CLIP y solo cita la CAD-150-8, además de formular alguna advertencia técnica no documentada.
+  - 'Acertó al no afirmar ni negar la compatibilidad cross-marca y redirigir a confirmación de fabricante. Pero
+    es incompleto frente al gold: dice no tener documentación del SDX-751 cuando sí hay dato documentado de protocolo
+    CLIP, y no aporta las características documentadas del lazo CAD-150.'
+  - 'Acertó al no confirmar ni descartar la compatibilidad y redirigir a los fabricantes, sin afirmar que pueda
+    montarse. Pero es incompleto frente al gold: no aporta los datos documentados del SDX-751/CLIP ni las características
+    relevantes del lazo CAD-150, e incluso dice no tener documentación del detector cuando la referencia sí la contempla.'
+  atribucion: CUALITATIVA (conducta no-answer)
+- qid: cat014
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato:
+  - tabla-matriz
+  veredicto: PASS
+  bucket: PASS-control
+  unanime: true
+  flag_review: false
+  n_valid: 5
+  votes:
+    PASS: 5
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - Responde correctamente que la vida útil esperada es de 10 años desde la fecha de fabricación, que debe sustituirse
+    pasado ese plazo y que la fecha está en la pegatina lateral. También aclara adecuadamente que el MTBF no está
+    especificado en la documentación y remite a Detnov para ese dato.
+  - 'Respuesta correcta y suficiente: indica la vida útil de 10 años desde fabricación, sustitución obligatoria
+    y ubicación de la fecha, y aclara que el MTBF no está especificado en la documentación, remitiendo a Detnov.'
+  - Responde correctamente que la vida útil esperada es de 10 años desde la fecha de fabricación y que debe sustituirse
+    al cumplirse ese plazo. También indica adecuadamente que el MTBF no está especificado en la documentación y
+    remite a Detnov para obtenerlo.
+  - Responde correctamente que la vida útil esperada es de 10 años desde la fecha de fabricación, que debe sustituirse
+    pasado ese plazo y que la fecha está en la pegatina lateral. También indica adecuadamente que el MTBF no está
+    especificado en la documentación y remite a Detnov para obtenerlo.
+  - Responde correctamente que el manual no especifica MTBF y da la vida útil esperada de 10 años desde fabricación,
+    indicando sustitución y ubicación de la fecha. La cita/fuente es suficiente y no inventa datos no documentados.
+- qid: cat015
+  conducta_esperada: admit
+  conducta_bot_modal: admit
+  estrato: []
+  veredicto: PASS
+  bucket: PASS-control
+  unanime: false
+  flag_review: true
+  n_valid: 5
+  votes:
+    PASS: 4
+    PARCIAL: 1
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - Admite correctamente que la documentación recuperada no contiene un procedimiento de actualización de firmware
+    y redirige al soporte técnico de Detnov sin inventar pasos. Aunque es algo menos tajante que la referencia al
+    hablar de 'fragmentos' y no explicita la diferencia con la configuración por USB, la respuesta es segura y suficientemente
+    alineada.
+  - Admite correctamente que no dispone de un procedimiento documentado y redirige a soporte Detnov, sin inventar
+    pasos. Es algo impreciso porque limita la ausencia a los 'fragmentos recuperados' y sugiere que el manual completo
+    podría contener un capítulo específico, cuando la referencia indica que los manuales disponibles no describen
+    actualización de firmware; además no distingue explícitamente configuración por USB de actualización de firmware.
+  - Admite correctamente que la documentación recuperada/manuales disponibles no contienen el procedimiento de actualización
+    de firmware y no inventa pasos, redirigiendo a soporte Detnov. La sugerencia de consultar el manual completo
+    es algo menos contundente que la referencia, pero no contradice ni alucina el procedimiento.
+  - Admite correctamente que la documentación/fragmentos disponibles no contienen un procedimiento de actualización
+    de firmware y no inventa pasos; además redirige a soporte Detnov. La recomendación de consultar el manual completo
+    es cauta, aunque menos tajante que la referencia, pero no introduce información falsa.
+  - Admite correctamente que la documentación recuperada no contiene un procedimiento de actualización de firmware
+    para la CAD-150 y no inventa pasos. Además redirige al soporte técnico de Detnov, aunque podría haber explicitado
+    mejor la diferencia entre configuración por USB/software y actualización de firmware.
+- qid: cat016
+  conducta_esperada: answer
+  conducta_bot_modal: admit
+  estrato:
+  - multi-doc
+  veredicto: FALLO
+  bucket: residual
+  unanime: true
+  flag_review: false
+  n_valid: 5
+  votes:
+    FALLO: 5
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - 'El bot acierta en gran parte el procedimiento de prueba de zona, incluyendo modo prueba, anulación de retardos,
+    20 minutos y salida conectando la zona. Pero falla en el alta: afirma que el corpus no describe el registro
+    del detector cuando el manual de instalación sí indica autobúsqueda del bucle, comprobación de elementos y asignación/nombre/zona.'
+  - 'La parte de prueba está bastante alineada con el manual de usuario, incluyendo modo prueba, anulación de retardos
+    y retorno a normal tras 20 minutos. Pero falla en una parte esencial: afirma que el alta del detector no está
+    documentada, cuando el manual de instalación sí indica la autobúsqueda del lazo, comprobación de elementos y
+    asignación a zona/nombre.'
+  - 'La parte de prueba de zona está mayormente alineada con el manual de usuario, pero falla en lo esencial del
+    alta: afirma que el procedimiento no está cubierto cuando el manual de instalación sí indica la autobúsqueda
+    del lazo, comprobación de elementos y asignación a zona/nombre. Por tanto deja sin responder correctamente una
+    parte clave de la pregunta.'
+  - 'La parte de prueba de zona está mayormente correcta y citada, pero falla en lo esencial del alta: afirma que
+    el procedimiento no está descrito cuando el manual de instalación sí indica la autobúsqueda del bucle, comprobación
+    de elementos y asignación a zona/nombre. Al admitir falta de información donde la referencia sí responde, no
+    sería suficiente para un técnico.'
+  - 'El bot acierta en gran parte el procedimiento de prueba de zona, pero falla en la parte clave del alta: afirma
+    que el corpus no describe el enrolamiento/alta del detector cuando el manual de instalación sí indica la autobúsqueda
+    del lazo, comprobación de elementos, asignación a zona y nombre en ELEMENTO. Al omitir ese procedimiento, no
+    responde correctamente a la pregunta completa.'
+  sufficiency:
+    bucket: INDETERMINADO-solo-debiles
+    sub: null
+    n_core_fuerte: 0
+    n_core_presente: 4
+    top5_sources:
+    - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+    - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+    facts:
+    - valor: autobusqueda
+      probe: ~autobusqueda
+      strength: debil
+      in_top5: false
+      in_filtered: false
+    - valor: menu ZONA + ELEMENTO
+      probe: ~menu ZONA + ELEMENTO
+      strength: debil
+      in_top5: false
+      in_filtered: false
+    - valor: modo prueba
+      probe: ~modo prueba
+      strength: debil
+      in_top5: true
+      in_filtered: true
+    - valor: 20 minutos
+      probe:
+      - '20'
+      strength: debil
+      in_top5: true
+      in_filtered: true
+  atribucion: INDETERMINADO-solo-debiles
+- qid: cat017
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato: &id002
+  - multi-doc
+  veredicto: FALLO
+  bucket: residual
+  unanime: false
+  flag_review: true
+  n_valid: 5
+  votes:
+    FALLO: 4
+    PARCIAL: 1
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - 'Aunque acierta en parte los bornes OUT/IN y menciona autoconfiguración/CLSS, comete un error crítico al indicar
+    que los terminales 3 y 8 son tierra/pantalla cuando la referencia dice que no se usan. Además omite datos esenciales:
+    capacidad OPAL/CLIP, prohibición de mezclar protocolos, licencia CLIP y herramienta POL-200-TS.'
+  - 'Aunque acierta parcialmente en los bornes +/− del lazo y menciona auto-configuración/CLSS, da un dato de cableado
+    contrario al manual: identifica los terminales 3 y 8 como tierra de pantalla cuando la referencia indica que
+    no se usan y la pantalla va a tierra en la central. Además omite límites/condiciones clave del lazo (OPAL/CLIP,
+    no mezcla, licencia CLIP, 750 mA, 3,5 km) y la herramienta POL-200-TS.'
+  - 'Aunque acierta algunos terminales principales y menciona CLSS/auto-configuración, contradice el manual al indicar
+    los terminales 3 y 8 como tierra/pantalla cuando no se usan, e inventa/recomienda RFL en el lazo. Además omite
+    datos clave del GOLD: límites OPAL/CLIP, no mezcla, 750 mA/3,5 km, licencia CLIP y herramienta POL-200-TS.'
+  - 'Acerta en la idea general de lazo cerrado, pantalla a tierra en la central, uso de CLSS y autoconfiguración.
+    Pero comete un error relevante al presentar los terminales 3 y 8 como tierra/pantalla cuando en la referencia
+    no se usan, y omite datos clave: límites OPAL/CLIP, no mezcla de protocolos, licencia CLIP, 750 mA/3,5 km y
+    herramienta POL-200-TS.'
+  - Aunque acierta parte de los bornes útiles del lazo y menciona auto-configuración/CLSS, contradice el manual
+    al presentar los terminales 3 y 8 como tierra/pantalla cuando la referencia indica que no se usan. Además omite
+    datos clave de capacidad/protocolo/licencias CLIP y añade elementos dudosos o alucinados como RFL, por lo que
+    no sería una guía fiable para un técnico.
+  sufficiency:
+    bucket: SUB-RETRIEVAL
+    sub:
+      per_fact:
+      - valor: modulo OPAL HOP-433-100
+        fact_docs:
+        - HOP-138-8ES  issue 6_01-2026_Co
+        - HOP-138-9ES issue 5_11-2025_In
+        label: within-doc-miss
+      - valor: 159 + 159
+        fact_docs: []
+        label: fact-not-located
+      labels:
+        within-doc-miss: 1
+        fact-not-located: 1
+      estrato_anotado: *id002
+    n_core_fuerte: 2
+    n_core_presente: 5
+    top5_sources:
+    - HOP-138-8ES  issue 6_01-2026_Co
+    - HOP-138-9ES issue 5_11-2025_In
+    facts:
+    - valor: modulo OPAL HOP-433-100
+      probe:
+      - '-433'
+      - '100'
+      - hop-433
+      strength: fuerte
+      in_top5: false
+      in_filtered: false
+    - valor: 159 + 159
+      probe:
+      - '+159'
+      - '159'
+      strength: fuerte
+      in_top5: false
+      in_filtered: false
+    - valor: licencia CLIP por lazo
+      probe: ~licencia CLIP por lazo
+      strength: debil
+      in_top5: false
+      in_filtered: false
+    - valor: Auto Configuracion
+      probe: ~Auto Configuracion
+      strength: debil
+      in_top5: true
+      in_filtered: true
+    - valor: CLSS
+      probe: ~CLSS
+      strength: debil
+      in_top5: true
+      in_filtered: true
+  atribucion: SUB-RETRIEVAL
+- qid: cat018
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato:
+  - sintesis-completitud
+  veredicto: PASS
+  bucket: PASS-control
+  unanime: true
+  flag_review: false
+  n_valid: 5
+  votes:
+    PASS: 5
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - Responde correctamente al concepto, ubicación de programación, edición de la CBE en el punto de salida y sintaxis
+    básica con ejemplos y fuente. Solo omite algún detalle secundario del gold, como registrar previamente hojas
+    de programación o mencionar explícitamente la asignación de zona, pero no afecta a la utilidad técnica principal.
+  - 'Respuesta correcta y suficientemente completa: explica qué es la CBE, dónde se programa en Puntos/Sensores
+    o Módulos, que la salida se activa por asociación CBE y remite al Apéndice A con sintaxis y ejemplos. Solo omite
+    la recomendación de registrar previamente hojas de programación, pero no afecta de forma relevante a la utilidad
+    técnica.'
+  - Responde correctamente al concepto de CBE, dónde se programa, cómo introducir la ecuación en el punto/módulo
+    y que la salida se activa al cumplirse la CBE, además de remitir al Apéndice A de sintaxis. Añade detalles y
+    ejemplos útiles; solo omite de forma menor la recomendación de registrar previamente las hojas de programación
+    y no enfatiza tanto el Tipo SW de la salida.
+  - Cubre correctamente el concepto de CBE, dónde se programa en Puntos/Sensores o Módulos, que la ecuación del
+    módulo de salida lo activa, y remite al Apéndice A con sintaxis y ejemplos. Solo omite el consejo de preparar
+    las hojas de programación, pero no afecta sustancialmente a la respuesta técnica.
+  - La respuesta cubre correctamente el concepto de CBE, el flujo de programación en Puntos/Sensores o Módulos,
+    la introducción de la ecuación y remite al Apéndice A con ejemplos de sintaxis. Omite detalles secundarios de
+    la referencia como registrar previamente las hojas de programación y no enfatiza la asignación de zona/Tipo
+    SW, pero es suficiente para orientar correctamente a un técnico.
+- qid: cat019
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato:
+  - sintesis-completitud
+  veredicto: PARCIAL
+  bucket: K-INESTABLE
+  unanime: false
+  flag_review: true
+  n_valid: 5
+  votes:
+    PARCIAL: 3
+    PASS: 2
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - 'Cubre correctamente el flujo esencial de la CAD-250: crear maniobra, definir coincidencias, añadir EVENTOS
+    como entradas y ACCIONES como salidas. Sin embargo añade bastantes parámetros no presentes en la referencia
+    y queda incompleto/truncado en límites y paso previo de sectorización, por lo que no es una respuesta plenamente
+    fiable frente al GOLD.'
+  - 'Acierta la estructura principal de la maniobra en CAD-250: crear en Maniobras, configurar coincidencias, añadir
+    EVENTOS como entradas y ACCIONES como salidas. Queda incompleta/truncada en la parte de salidas y omite puntos
+    de la referencia como la sectorización previa y el límite de maniobras/eventos/acciones.'
+  - 'Cubre correctamente el acceso a Maniobras, creación, coincidencias y definición de eventos/entradas con entidades
+    o condición temporal. Pero la parte de salidas/acciones queda incompleta: no explica realmente cómo asignarlas
+    a sirenas o módulos de control ni cierra la maniobra completa, y omite el paso previo recomendado de sectorización.'
+  - 'Cubre correctamente el flujo esencial indicado por la referencia: creación desde Maniobras/Añadir, uso de Coincidencias,
+    definición de eventos por entidad o condición temporal y asignación de acciones/salidas, incluyendo el límite
+    de 100.000. Añade parámetros extra no presentes en la GOLD, pero no contradicen de forma clara la respuesta
+    de referencia; solo falta mencionar como recomendación previa la sectorización física.'
+  - 'Responde correctamente al flujo esencial: crear la maniobra desde Maniobras/Añadir, definir Coincidencias,
+    añadir EVENTOS como entradas sobre entidad o condición temporal, y añadir ACCIONES como salidas. Omite algún
+    matiz de la referencia, como el máximo de 100.000 maniobras/eventos/acciones y la recomendación previa de sectorización,
+    pero no afecta sustancialmente a la utilidad técnica.'
+- qid: cat020
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato:
+  - multi-doc
+  veredicto: PARCIAL
+  bucket: residual
+  unanime: true
+  flag_review: false
+  n_valid: 5
+  votes:
+    PARCIAL: 5
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - 'Acierta los valores clave para la versión España/Morley-IAS: prealarma 80%, alarma 100% y máximo 108%. Pero
+    introduce niveles “recomendados” para OTM/LSR que no forman parte de la respuesta esperada y pueden confundir
+    o contradecir la regla general indicada en el manual de variaciones de España.'
+  - Incluye los valores clave correctos para España (prealarma 80%, alarma 100%, máximo 108%). Pero los limita indebidamente
+    a “detectores ópticos convencionales” y añade variantes OTM/LSR por niveles que no forman parte de la respuesta
+    esperada y pueden confundir frente al criterio del manual de variaciones de España.
+  - 'Acertó los valores clave para la versión de España/Morley-IAS: prealarma 80%, alarma 100% y máximo 108%. Sin
+    embargo, añade valores por tipo de detector OTM/LSR como si fueran aplicables/recomendados, lo que contradice
+    o al menos confunde frente a la referencia, que indica que en España el ajuste es normalizado e independiente
+    del tipo de equipo.'
+  - 'Acierta los valores clave para España/Morley-IAS: prealarma 80%, alarma 100% y máximo 108%, con cita. Pero
+    introduce una distinción adicional para OTM/láser y niveles discretos que entra en tensión con la referencia,
+    donde esos valores se dan como específicos de España e independientes del tipo de detector, pudiendo confundir
+    al técnico.'
+  - 'Da correctamente los valores clave para la versión de España/Morley-IAS: prealarma 80 %, alarma 100 % y máximo
+    108 %. Sin embargo añade excepciones por tipo de detector con niveles discretos OTM/láser que contradicen o
+    confunden respecto a la referencia, donde estos valores son los aplicables en España e independientes del tipo
+    de equipo.'
+  sufficiency:
+    bucket: GENERACION
+    sub: null
+    n_core_fuerte: 2
+    n_core_presente: 3
+    top5_sources:
+    - DXc_Guia de usuario_multiling
+    - DXc_Manual de usuario
+    - DXc_Manual variaciones de mercado
+    facts:
+    - valor: 80 % / 100 % / 108 %
+      probe:
+      - '100'
+      - '108'
+      - '80'
+      strength: fuerte
+      in_top5: true
+      in_filtered: true
+    - valor: 0-100 % normalizado
+      probe:
+      - '100'
+      strength: fuerte
+      in_top5: true
+      in_filtered: true
+    - valor: manual de variaciones Espana
+      probe: ~manual de variaciones Espana
+      strength: debil
+      in_top5: false
+      in_filtered: false
+  atribucion: GENERACION
+- qid: cat021
+  conducta_esperada: clarify
+  conducta_bot_modal: clarify
+  estrato:
+  - familia-ambigua
+  veredicto: PARCIAL
+  bucket: residual
+  unanime: false
+  flag_review: true
+  n_valid: 5
+  votes:
+    PARCIAL: 4
+    FALLO: 1
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - 'Acertó en que “40/40” no basta y pide aclaraciones para seleccionar variante, pero la aclaración es incompleta
+    y potencialmente engañosa: solo ofrece 40/40R y 40/40L, omitiendo variantes clave 40/40I, 40/40M y 40/40U y
+    la dependencia crítica del tipo de combustible/llama.'
+  - 'Acertó en no tratar «40/40» como un único modelo y pidió datos para seleccionar variante, pero la aclaración
+    es incompleta y potencialmente restrictiva: solo contempla 40/40R y 40/40L, omitiendo 40/40I, 40/40M y 40/40U
+    y la distinción crítica por tipo de combustible/llama, especialmente hidrógeno vs hidrocarburos.'
+  - 'Acierta en que «40/40» no basta y pide datos para seleccionar variante, pero la aclaración queda incompleta
+    y potencialmente sesgada: solo contempla 40/40R y 40/40L, omitiendo variantes clave como 40/40I, 40/40M y 40/40U
+    y la advertencia de selección según combustible/tipo de llama.'
+  - 'Acertó en que «40/40» no basta y pidió aclarar la tecnología/aprobaciones, pero la respuesta es incompleta
+    frente a la referencia: omite variantes clave 40/40I, 40/40M y 40/40U y no orienta por tipo de combustible/llama
+    ni advierte el riesgo de elegir una tecnología espectral incorrecta. Además centra indebidamente el pedido en
+    el 40/40R, lo que puede inducir a seleccionar un modelo no adecuado.'
+  - Aunque reconoce que la familia 40/40 tiene variantes, no pide la aclaración clave sobre tipo de llama/combustible
+    y omite variantes esenciales como 40/40I, 40/40M y 40/40U. Además deriva indebidamente hacia pedir/configurar
+    un 40/40R, lo que puede inducir a seleccionar una tecnología incorrecta.
+  atribucion: CUALITATIVA (conducta no-answer)
+- qid: cat022
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato: []
+  veredicto: PASS
+  bucket: PASS-control
+  unanime: true
+  flag_review: false
+  n_valid: 5
+  votes:
+    PASS: 5
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - Responde correctamente la diferencia clave entre 40/40L y 40/40L4 por la longitud de onda IR y explica que el
+    sufijo B indica BIT, coincidiendo con la referencia. Añade información extra sobre SIL-2 y aplicaciones de fuego,
+    pero no contradice lo esencial ni perjudica la respuesta técnica.
+  - Responde correctamente la diferencia principal entre 40/40L y 40/40L4 por la banda IR, y explica bien que el
+    sufijo B corresponde a los modelos con BIT. Añade información adicional sobre SIL-2/certificaciones no presente
+    en la referencia, pero no contradice el núcleo de la respuesta esperada.
+  - 'Respuesta correcta y suficiente: identifica que la diferencia 40/40L vs 40/40L4 es la banda IR (2,5–3,0 µm
+    frente a ~4,5 µm) y que el sufijo B indica BIT solo en LB/L4B. Añade información adicional de aplicaciones/certificaciones,
+    pero no contradice lo esencial de la referencia.'
+  - 'Responde correctamente lo esencial: 40/40L usa IR 2,5–3,0 µm, 40/40L4 usa alrededor de 4,5 µm para hidrocarburos,
+    y el sufijo B identifica las versiones con BIT, exclusivo de LB/L4B. Añade información adicional no necesaria,
+    pero no contradice la respuesta de referencia.'
+  - 'Responde correctamente lo esencial: 40/40L usa IR 2,5–3,0 µm, 40/40L4 usa 4,5 µm para hidrocarburos, y el sufijo
+    B identifica los modelos con BIT. Añade información extra no requerida, pero no contradice la respuesta de referencia.'
+- qid: cat023
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato: []
+  veredicto: PARCIAL
+  bucket: residual
+  unanime: true
+  flag_review: false
+  n_valid: 5
+  votes:
+    PARCIAL: 5
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - Acierta las tres clases EN 54-20 y describe los parámetros clave de la monitorización de flujo (10/60 min y
+    ±20/±50 %, con ejemplos W01-W04). Sin embargo, la respuesta queda truncada y no explicita claramente el rango
+    W01–W44; además introduce información adicional sobre A11-C31/300 s que puede confundir respecto a la configuración
+    solicitada.
+  - Acierta las tres clases EN 54-20 y explica que la monitorización del flujo se configura por posiciones de conmutador
+    con retardos y desviaciones, incluyendo los ejemplos W01-W04. Sin embargo, no recoge claramente el rango completo
+    W01–W44 y la tabla/listado queda truncado e incompleto, además de añadir detalles no necesarios que pueden confundir.
+  - Acierta las clases EN 54-20 A/B/C y describe que la monitorización de flujo se configura por posiciones de conmutador
+    con retardos y desviaciones como W01–W04. Sin embargo, la respuesta queda incompleta/truncada y no deja claro
+    el rango completo W01…W44 ni resume correctamente toda la configuración esperada.
+  - Acertó las clases EN 54-20 y describió correctamente que la monitorización se ajusta por posiciones W con retardo
+    10/60 min y desviación ±20/±50, incluyendo ejemplos W01-W04. Sin embargo, la respuesta queda incompleta/truncada
+    respecto al rango W01…W44 y añade una referencia a posiciones A11-C31 con retardo 300 s que puede confundir
+    frente a la configuración pedida.
+  - Acierta las tres clases EN 54-20 y da correctamente ejemplos W01-W04 con retardo/desviación, pero no explicita
+    claramente el rango completo W01…W44 y la tabla queda truncada. Además introduce posiciones A11-C31 con retardo
+    300 s, información no pedida que puede confundir frente a la configuración W de 10/60 min indicada en la referencia.
+  sufficiency:
+    bucket: GENERACION
+    sub: null
+    n_core_fuerte: 2
+    n_core_presente: 2
+    top5_sources:
+    - ASD532_TD_T140421es_a
+    facts:
+    - valor: A/B/C EN 54-20
+      probe:
+      - '20'
+      - '54'
+      strength: fuerte
+      in_top5: true
+      in_filtered: true
+    - valor: W01-W44 / 10-60 min / ±20-50 %
+      probe:
+      - '01'
+      - '10'
+      - '20'
+      - '44'
+      - '50'
+      - '60'
+      strength: fuerte
+      in_top5: true
+      in_filtered: true
+  atribucion: GENERACION
+- qid: cat024
+  conducta_esperada: answer
+  conducta_bot_modal: answer-con-conflicto
+  estrato:
+  - conflicto-revision
+  veredicto: PARCIAL
+  bucket: residual
+  unanime: true
+  flag_review: false
+  n_valid: 5
+  votes:
+    PARCIAL: 5
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - Acierta el valor principal de 17 mA a 80 dB(A) y aporta datos eléctricos relevantes, pero introduce un conflicto
+    con tablas CAD-250 de 7 mA que la referencia no considera como valor aplicable para responder, y no menciona
+    la discrepancia histórica correcta de la V1 (<15 mA) frente a la V2 vigente.
+  - 'Acierta el valor vigente de 17 mA y añade datos eléctricos correctos, pero presenta un conflicto con 7 mA de
+    tablas CAD-250 que no corresponde a la referencia esperada y puede confundir. Además omite la discrepancia relevante
+    entre revisiones del manual: V2 = 17 mA frente a V1 = <15 mA.'
+  - Aporta el valor correcto de 17 mA y las características eléctricas principales, pero no identifica que ese es
+    el valor vigente a usar ni menciona la discrepancia real de la V1 (<15 mA). Introduce además un conflicto con
+    tablas CAD-250 de 7 mA que puede confundir al técnico frente a la respuesta esperada.
+  - Acierta el valor vigente de 17 mA y añade datos eléctricos correctos, recomendando usar el manual propio. Sin
+    embargo, introduce un conflicto 17 mA vs 7 mA que no corresponde a la referencia GOLD y omite el conflicto relevante
+    entre revisiones V2=17 mA y V1=<15 mA, lo que puede confundir al técnico.
+  - Incluye el valor correcto de 17 mA del manual del MAD-472, pero lo presenta como una discrepancia con tablas
+    de CAD-250 y no afirma claramente que debe usarse la revisión vigente del manual. Además omite la nota relevante
+    de la revisión anterior V1 (<15 mA), lo que puede confundir al técnico.
+  sufficiency:
+    bucket: INDETERMINADO-solo-debiles
+    sub: null
+    n_core_fuerte: 0
+    n_core_presente: 1
+    top5_sources:
+    - 55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2
+    - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+    - Manual instalacion CAD-250 (MI_372_es_2024 e)
+    - Manual_MAD-465-I (55346500 MI 620 m 2024 c)
+    facts:
+    - valor: 17 mA
+      probe:
+      - '17'
+      strength: debil
+      in_top5: true
+      in_filtered: true
+  atribucion: INDETERMINADO-solo-debiles
+- qid: hp001
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato: &id003
+  - multi-doc
+  veredicto: FALLO
+  bucket: residual
+  unanime: false
+  flag_review: true
+  n_valid: 5
+  votes:
+    PARCIAL: 2
+    FALLO: 3
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - Acierta en que se accede desde reposo pulsando el candado y entrando con un código, y luego navega hacia Ajustes/Avanzado.
+    Pero omite el dato clave de la contraseña de administrador por defecto 2222 y confunde/atenúa el nivel requerido
+    mencionando solo 1111, por lo que queda incompleto para un técnico.
+  - Aunque acierta en pulsar el candado desde reposo, indica la clave por defecto 1111, que según la referencia
+    es de usuario y no da acceso completo a programación avanzada; debía indicar la clave de administrador 2222.
+    Además desvía la respuesta a Ajustes > Avanzado y pestañas concretas, omitiendo el acceso correcto a la pantalla
+    de administrador y la advertencia relevante.
+  - Aunque acierta en iniciar desde la pantalla de reposo tocando el candado, da como clave por defecto 1111, que
+    según la referencia es clave de usuario y no permite la configuración avanzada completa; falta indicar la clave
+    de administrador 2222 y la pantalla de administrador. Además redefine el acceso como AJUSTES > AVANZADO, lo
+    que no responde correctamente al acceso al nivel avanzado/administrador solicitado.
+  - Acierta en que se accede desde la pantalla de reposo pulsando el candado y que se solicita un código, pero omite
+    la clave de administrador por defecto 2222 y destaca la de usuario 1111, que no da acceso completo a la programación
+    avanzada. Además mezcla el acceso al nivel administrador con una ruta concreta Ajustes > Avanzado, por lo que
+    puede desorientar al técnico.
+  - Acertó en que se parte de la pantalla de reposo pulsando el candado y luego se accede por menús, pero da como
+    clave por defecto 1111, cuando para programación avanzada/administrador debe usarse 2222. Además reduce el acceso
+    avanzado a Ajustes > Avanzado y omite la distinción clave usuario vs administrador, lo que puede impedir al
+    técnico entrar al nivel correcto.
+  sufficiency:
+    bucket: MIXTO
+    sub:
+      per_fact:
+      - valor: '2222'
+        fact_docs:
+        - CAD-250-MC-380-es
+        - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+        - Manual instalacion CAD-250 (MI_372_es_2024 e)
+        label: within-doc-miss
+      labels:
+        within-doc-miss: 1
+      estrato_anotado: *id003
+    n_core_fuerte: 2
+    n_core_presente: 3
+    top5_sources:
+    - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+    - Manual usuario CAD-250 (MU 376 es 2024 f)
+    facts:
+    - valor: candado
+      probe: ~candado
+      strength: debil
+      in_top5: true
+      in_filtered: true
+    - valor: '2222'
+      probe:
+      - '2222'
+      strength: fuerte
+      in_top5: false
+      in_filtered: false
+    - valor: '1111'
+      probe:
+      - '1111'
+      strength: fuerte
+      in_top5: true
+      in_filtered: true
+  atribucion: MIXTO
+- qid: hp002
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato: &id004
+  - oem-relabel
+  veredicto: PARCIAL
+  bucket: residual
+  unanime: true
+  flag_review: false
+  n_valid: 5
+  votes:
+    PARCIAL: 5
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - 'Acierta en señalar obstrucciones, filtro y revisión de eventos como causas/diagnóstico relevantes, pero es
+    incompleto: falta explicar que es un fallo de flujo por desviación respecto al reset inicial, los umbrales/retardo
+    por defecto, la lectura V01/V02 en %, y la interpretación <100% obstrucción / >100% rotura. Además afirma que
+    no dispone de la sección específica aunque la respuesta esperada sí está cubierta por el manual.'
+  - 'Acierta en que la causa probable puede ser obstrucción/suciedad en orificios, filtro o conducto y recomienda
+    inspección, memoria de eventos y reset inicial con precaución. Pero queda incompleta frente a la referencia:
+    no explica que es un fallo de flujo de aire por desviación respecto al reset inicial, omite los umbrales/retardo
+    típicos, no indica el diagnóstico clave con V01/V02 en % ni distingue claramente flujo bajo (<100%/<80%) de
+    rotura/fuga (>100%/>120%).'
+  - 'Acierta en señalar como causa probable una obstrucción del conducto/orificios/filtro y recomienda consultar
+    eventos e inspeccionar, además de advertir sobre el reset inicial. Pero omite elementos clave del diagnóstico
+    del ASD 535: lectura de flujo en V01/V02 en %, interpretación <100% vs >100%, umbrales ±20%/300 s, posible influencia
+    de turbulencias/configuración, y presenta indebidamente como no disponible información que el manual sí contiene.'
+  - 'Acertó en señalar obstrucciones/orificios/filtro y consultar eventos, pero omitió lo esencial del diagnóstico:
+    leer V01/V02 en % respecto al reset inicial, interpretar <100% como obstrucción y >100% como rotura/fuga, y
+    explicar la ventana/retardo de fallo de flujo. Además introduce causas menos probables como fallo del ventilador
+    y trata la rotura como posible flujo bajo, lo que puede confundir.'
+  - 'Acertó en identificar obstrucciones/filtro y consultar eventos, y advierte correctamente sobre el reset inicial
+    con conducto sucio. Pero es incompleto frente a la referencia: no explica que es un fallo de flujo de aire con
+    umbrales/retardo, no indica la lectura V01/V02 ni la interpretación <100%/>100%, omite turbulencias/configuración
+    LS-Ü y añade como causa la degradación del ventilador sin estar sustentada como causa más probable.'
+  sufficiency:
+    bucket: SUB-RETRIEVAL
+    sub:
+      per_fact:
+      - valor: 300 s
+        fact_docs:
+        - ASD535_TD_T131192es_h
+        label: within-doc-miss
+      - valor: 7.6.1
+        fact_docs:
+        - ASD535_TD_T131192es_h
+        label: within-doc-miss
+      labels:
+        within-doc-miss: 2
+      estrato_anotado: *id004
+    n_core_fuerte: 2
+    n_core_presente: 5
+    top5_sources:
+    - ASD535_TD_T131192es_h
+    facts:
+    - valor: fallo flujo de aire
+      probe: ~fallo flujo de aire
+      strength: debil
+      in_top5: true
+      in_filtered: true
+    - valor: 80 %
+      probe:
+      - '80'
+      strength: debil
+      in_top5: false
+      in_filtered: false
+    - valor: 300 s
+      probe:
+      - '300'
+      strength: fuerte
+      in_top5: false
+      in_filtered: false
+    - valor: 7.6.1
+      probe:
+      - 7.6.1
+      strength: fuerte
+      in_top5: false
+      in_filtered: false
+    - valor: reset inicial
+      probe: ~reset inicial
+      strength: debil
+      in_top5: true
+      in_filtered: true
+  atribucion: SUB-RETRIEVAL
+- qid: hp003
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato:
+  - multi-doc
+  veredicto: PARCIAL
+  bucket: residual
+  unanime: true
+  flag_review: false
+  n_valid: 5
+  votes:
+    PARCIAL: 5
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - La respuesta explica correctamente la conexión en serie, polaridades, ubicación, orden red/baterías, verificación
+    de tensión y botón BAT, con cita. Es algo incompleta/imprecisa porque afirma solo baterías de 12V 7Ah y omite
+    las variantes de capacidad según modelo, además de no mencionar el fusible de baterías ni la advertencia de
+    no manipular con alimentación conectada.
+  - 'La respuesta explica correctamente la conexión en serie, el puente, polaridad, ubicación y verificación de
+    tensión. Sin embargo, es incompleta frente al gold: omite variantes de capacidad de batería según modelo, fusible,
+    botón BAT y advertencias de seguridad clave; además afirma solo 7Ah y añade una frase potencialmente confusa
+    sobre no conectar a red hasta la puesta en marcha.'
+  - 'Responde correctamente lo esencial: dos baterías de 12V en serie, puente entre + y -, cables rojo/negro, verificación
+    >24V y pulsador BAT. Pero simplifica la capacidad a 7Ah sin mencionar variantes de 18/24Ah según modelo, omite
+    el fusible de baterías y parte de las advertencias de seguridad, y añade una frase sobre no conectar a red hasta
+    completar la puesta en marcha que puede resultar confusa frente al orden indicado.'
+  - 'La respuesta explica correctamente la conexión en serie, el puente entre + y -, la conexión rojo/negro y la
+    comprobación de >24V. Es incompleta frente a la referencia: omite variantes de capacidad 18/24Ah, el corte del
+    magnetotérmico antes de manipular, el botón BAT y el fusible de baterías, y además introduce una frase algo
+    confusa sobre no conectar a red hasta la puesta en marcha.'
+  - La respuesta cubre lo esencial de la conexión en serie, polaridad, ubicación, orden red-baterías y verificación
+    de tensión, con cita. Sin embargo, generaliza que son siempre 2 baterías de 12V 7Ah y omite variantes de capacidad
+    según modelo, además de detalles de seguridad/servicio como desconectar el magnetotérmico, botón BAT y fusible
+    de baterías.
+  sufficiency:
+    bucket: INDETERMINADO-solo-debiles
+    sub: null
+    n_core_fuerte: 0
+    n_core_presente: 4
+    top5_sources:
+    - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+    - 55315501 CAD150R Instalacion ES GB 191018
+    facts:
+    - valor: 12V
+      probe:
+      - '12'
+      strength: debil
+      in_top5: true
+      in_filtered: true
+    - valor: cable puente
+      probe: ~cable puente
+      strength: debil
+      in_top5: true
+      in_filtered: true
+    - valor: rojo y negro
+      probe: ~rojo y negro
+      strength: debil
+      in_top5: true
+      in_filtered: true
+    - valor: primero la red
+      probe: ~primero la red
+      strength: debil
+      in_top5: true
+      in_filtered: true
+  atribucion: INDETERMINADO-solo-debiles
+- qid: hp004
+  conducta_esperada: clarify
+  conducta_bot_modal: answer
+  estrato: []
+  veredicto: PARCIAL
+  bucket: K-INESTABLE
+  unanime: false
+  flag_review: true
+  n_valid: 5
+  votes:
+    PARCIAL: 4
+    PASS: 1
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - Da correctamente las dos versiones del DGD-600 con sus tensiones y consumos en reposo, e incluye cita. Sin embargo,
+    la conducta esperada era pedir aclaración sobre si se trata de la versión 24V o 220V; el bot no lo solicita
+    explícitamente.
+  - Indica correctamente que existen dos versiones (24V y 220V) y da los valores de tensión y consumo en reposo
+    para ambas, con cita. Además advierte verificar la versión instalada, cumpliendo la necesidad de aclaración
+    aunque no formule la pregunta exactamente como en la referencia.
+  - La respuesta da correctamente las dos versiones y sus valores de tensión y consumo en reposo, con fuente. Sin
+    embargo, la conducta esperada era pedir aclaración sobre si se trata de la versión 24V o 220V; el bot no lo
+    solicita explícitamente.
+  - Da correctamente las dos versiones del DGD-600 con sus tensiones y consumos en reposo, y cita la fuente. Sin
+    embargo, al no estar especificada la versión instalada, faltó pedir explícitamente la aclaración 24V/220V como
+    en la referencia.
+  - Aporta correctamente las dos versiones del DGD-600 con sus tensiones y consumos en reposo, incluso con cita.
+    Sin embargo, la conducta esperada era pedir aclaración sobre si se trata de la versión 24V o 220V; el bot no
+    solicita esa confirmación.
+- qid: hp005
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato:
+  - multi-doc
+  - tabla-matriz
+  veredicto: PARCIAL
+  bucket: residual
+  unanime: true
+  flag_review: false
+  n_valid: 5
+  votes:
+    PARCIAL: 5
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - Acierta la idea general de usar la Matriz de Control, limitar por tipo a detectores analógicos y no incluir
+    pulsadores en la coincidencia, con cita. Pero omite pasos clave del procedimiento oficial como seleccionar ALARMA/Normal
+    combinada, 'UNA ÚNICA zona', elegir explícitamente 'COINCIDENCIA 2 EQUIPOS', detalles de salida y requisitos
+    previos; además afirma que se deben crear dos instrucciones con MCP, cuando eso solo aplica si se quieren incluir
+    pulsadores.
+  - 'Acertó la idea principal: usar la Matriz de Control con entrada de alarma limitada a detectores de la zona/subzona,
+    activar coincidencia de 2 equipos y asociar una salida de sirena, además de advertir que los pulsadores deben
+    ir separados. Quedan lagunas importantes frente a la referencia: no da la ruta/selecciones exactas del menú
+    de la ID3000, omite la selección ''UNA ÚNICA zona'', los detalles de tipo de salida/modo/confirmación y los
+    requisitos previos de niveles de coincidencia; las citas son genéricas y poco verificables.'
+  - 'Acierta en lo esencial: usar la Matriz de Control con entrada de alarma por zona/subzona, limitar a detectores,
+    excluir pulsadores manuales y activar coincidencia de 2 equipos para disparar la sirena. Pero queda incompleto/impreciso
+    frente al procedimiento de referencia: no detalla bien la selección de salida y modo, omite pasos como ''una
+    única zona'', ''Normal (Combinada) Alarma'' para SMART y los requisitos previos de niveles de coincidencia;
+    además mezcla pantallas/terminología de programación sin distinguir claramente central vs PK-ID3000.'
+  - 'Acierta la idea principal: usar la Matriz de Control con entrada de alarma limitada a zona/subzona, tipo detector,
+    coincidencia de 2 equipos, y excluir pulsadores manuales. Pero queda incompleto frente al gold: apenas detalla
+    la programación de la salida de sirena, omite pasos de menú/confirmación y requisitos previos de niveles de
+    coincidencia, y mezcla detalles de software/red no necesarios con alguna formulación imprecisa.'
+  - 'La respuesta acierta en la idea principal: usar la Matriz de Control, entrada de ALARMA limitada a detectores
+    de la zona/subzona, excluir pulsadores y activar coincidencia de equipos antes de asignar la salida de sirena.
+    Pero queda incompleta/imprecisa frente al procedimiento correcto: no detalla la ruta y pantallas clave de la
+    central, no indica explícitamente seleccionar “COINCIDENCIA 2 EQUIPOS”, apenas especifica las opciones de salida/modo/retardo,
+    y omite el requisito previo de niveles de coincidencia configurados.'
+  sufficiency:
+    bucket: GENERACION
+    sub: null
+    n_core_fuerte: 1
+    n_core_presente: 4
+    top5_sources:
+    - MADT190_07
+    - MADT190_14
+    - MCDT190
+    facts:
+    - valor: Matriz de control
+      probe: ~Matriz de control
+      strength: debil
+      in_top5: true
+      in_filtered: true
+    - valor: COINCIDENCIA 2 EQUIPOS
+      probe: ~COINCIDENCIA 2 EQUIPOS
+      strength: fuerte
+      in_top5: true
+      in_filtered: true
+    - valor: misma zona o subzona
+      probe: ~misma zona o subzona
+      strength: debil
+      in_top5: false
+      in_filtered: false
+    - valor: CIRCUITO SIRENA
+      probe: ~CIRCUITO SIRENA
+      strength: debil
+      in_top5: true
+      in_filtered: true
+  atribucion: GENERACION
+- qid: hp006
+  conducta_esperada: answer
+  conducta_bot_modal: admit
+  estrato:
+  - multi-doc
+  veredicto: FALLO
+  bucket: residual
+  unanime: true
+  flag_review: false
+  n_valid: 5
+  votes:
+    FALLO: 5
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - 'El bot admite falta de información específica cuando la referencia sí documenta qué significa ''Tierra'' en
+    AFP-400 y aporta elementos concretos: detección de fallo de tierra en MPS-400, SLC, NAM-232W e ISO-X. Además
+    no responde de forma útil cómo acotar el fallo salvo remitir genéricamente al manual/soporte.'
+  - La respuesta acierta solo en que se trata de una avería del sistema, pero declara que no hay información específica
+    cuando la referencia sí documenta detección de tierra en MPS-400/SLC/NAM y el uso de ISO-X para acotar el fallo.
+    Omite la explicación técnica, las conexiones/puentes relevantes y el método general de localización citado en
+    los manuales.
+  - 'El bot admite que no hay información específica y solo da pautas genéricas, pero la referencia sí documenta
+    qué significa ''Tierra'' en AFP-400 y varios puntos técnicos para acotarlo: MPS-400, SLC, NAM-232W e ISO-X.
+    Omite la explicación esencial de fallo de aislamiento a tierra y el método documentado/general de aislamiento
+    progresivo.'
+  - El bot admite que no hay información específica sobre 'Tierra/Earth Fault', pero la referencia sí documenta
+    su significado como fallo de aislamiento a tierra y varias pistas técnicas para acotarlo en AFP-400/MPS-400/SLC/NAM/ISO-X.
+    Solo acierta parcialmente en que el manual de uso no da un procedimiento paso a paso, pero omite la respuesta
+    técnica esencial.
+  - El bot admite falta de información específica, pero la referencia sí documenta el significado del fallo a tierra
+    en AFP-400 y varios puntos técnicos para acotarlo (MPS-400, SLC, NAM-232W, ISO-X). Solo acierta en que no hay
+    un procedimiento paso a paso detallado, pero omite la explicación y las citas clave necesarias para ayudar al
+    técnico.
+  sufficiency:
+    bucket: INDETERMINADO-solo-debiles
+    sub: null
+    n_core_fuerte: 0
+    n_core_presente: 3
+    top5_sources:
+    - MFDT170
+    - MIDT170
+    - MPDT170
+    facts:
+    - valor: Fallo de Tierra
+      probe: ~Fallo de Tierra
+      strength: debil
+      in_top5: false
+      in_filtered: false
+    - valor: Tierra
+      probe: ~Tierra
+      strength: debil
+      in_top5: false
+      in_filtered: false
+    - valor: ISO-X
+      probe: ~ISO-X
+      strength: debil
+      in_top5: false
+      in_filtered: false
+  atribucion: INDETERMINADO-solo-debiles
+- qid: hp007
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato:
+  - multi-doc
+  - tabla-matriz
+  veredicto: PARCIAL
+  bucket: K-INESTABLE
+  unanime: false
+  flag_review: true
+  n_valid: 5
+  votes:
+    PARCIAL: 4
+    PASS: 1
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - La respuesta recoge correctamente las tareas anuales de la Tabla 7-1, las principales precauciones y las frecuencias
+    no anuales. Queda incompleta porque no indica la recomendación específica de poner el detector en modo En espera/Standby
+    para mantenimiento de tuberías o puntos de muestreo, ni matiza la sustitución del filtro ante fallo o en entornos
+    contaminados.
+  - 'La respuesta identifica correctamente las tareas anuales de la Tabla 7-1 y las precauciones principales, con
+    fuentes. Sin embargo, omite información relevante del gold: las tareas con otras frecuencias y la recomendación
+    de poner el detector en modo En espera para mantenimiento de tuberías/puntos de muestreo.'
+  - Acierta las cuatro tareas anuales y recoge varias precauciones clave con fuentes. Queda incompleto frente al
+    gold porque no aclara explícitamente que no existe un procedimiento único de “test anual”, omite las tareas
+    de otras frecuencias del calendario y la recomendación de poner el detector en Standby para mantenimiento de
+    tuberías/puntos de muestreo.
+  - La respuesta identifica correctamente que el manual lo trata como calendario de mantenimiento y enumera las
+    tareas anuales, las precauciones principales y que el filtro no es anual. Solo omite algunos detalles secundarios
+    de la referencia, como las tareas trimestrales/semestrales y la recomendación explícita de poner en Standby
+    para mantenimiento de tuberías/puntos de muestreo, pero no afecta sustancialmente a la utilidad para el técnico.
+  - Identifica correctamente que el manual da un calendario de mantenimiento y enumera las tareas anuales, otras
+    frecuencias y precauciones principales. Queda algo incompleto porque no incluye la recomendación específica
+    de poner el detector en modo En espera para mantenimiento de tuberías/puntos de muestreo, y sobrestima como
+    “obligatorias” tareas de un calendario sugerido.
+- qid: hp008
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato: &id005
+  - multi-doc
+  - tabla-matriz
+  - content-pobre
+  veredicto: PARCIAL
+  bucket: residual
+  unanime: true
+  flag_review: false
+  n_valid: 5
+  votes:
+    PARCIAL: 5
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - 'Responde con varios modelos compatibles reales y una cita, pero la lista es claramente incompleta frente al
+    Apéndice 3: faltan CPX-551E, SDX551E, SDX-751, IRX-751CTEM/IRX-751TEM, LPX-751 y los detectores de rayo LPB500/LPB-700.
+    Además cita el apéndice/manual equivocado y no menciona el protocolo CLIP ni el límite de 99 sensores por lazo.'
+  - 'Aporta varios modelos compatibles correctos (FSL-751E, CPX-751E, SDX-751EM, IDX-751, HPX-751E) y clasificaciones
+    útiles, pero la lista queda muy incompleta frente al manual: faltan CPX-551E, SDX551E/SDX-751, SDX-751-TEM,
+    SDX-551THE, IRX-751CTEM/IRX-751TEM, LPX-751 y detectores de rayo LPB. Además cita una fuente/apéndice distinto
+    y no menciona explícitamente CLIP ni el límite de 99 sensores por lazo.'
+  - 'La respuesta identifica algunos detectores compatibles correctos, pero es bastante incompleta frente al listado
+    de referencia: omite varios modelos iónicos, ópticos, multicriterio, VIEW y de rayo, y no menciona el límite
+    de 99 sensores ni el protocolo CLIP de forma precisa. Además cita una fuente/apéndice distinto al indicado por
+    la referencia.'
+  - 'Responde con varios modelos correctos y distingue que los FDX son térmicos, pero la lista es bastante incompleta
+    frente al manual: faltan CPX-551E, SDX551E/SDX-751, SDX-551THE, IRX-751CTEM/IRX-751TEM, LPX-751 y los detectores
+    de rayo LPB500/LPB-700. Además cita el apéndice/manual equivocado respecto a la referencia GOLD y presenta solo
+    parte de los tipos compatibles.'
+  - 'La respuesta incluye algunos modelos compatibles correctos (FSL-751E, CPX-751E, SDX-751EM, IDX-751, HPX-751E),
+    pero es bastante incompleta frente al Apéndice 3: omite varios sensores iónicos, ópticos, multicriterio, VIEW
+    y detectores por rayo. Además cita el apéndice/manual equivocado y no menciona el protocolo CLIP ni el límite
+    de 99 sensores por lazo.'
+  sufficiency:
+    bucket: SUB-RETRIEVAL
+    sub:
+      per_fact:
+      - valor: CPX-551E
+        fact_docs:
+        - MIDT190
+        label: multi-doc-miss
+      - valor: SDX-751
+        fact_docs:
+        - MIDT190
+        label: multi-doc-miss
+      - valor: IRX-751CTEM
+        fact_docs:
+        - MIDT190
+        label: multi-doc-miss
+      - valor: SDX-751-TEM
+        fact_docs:
+        - MIDT190
+        label: multi-doc-miss
+      labels:
+        multi-doc-miss: 4
+      estrato_anotado: *id005
+    n_core_fuerte: 4
+    n_core_presente: 4
+    top5_sources:
+    - MCDT190
+    - MCDT191
+    - MPDT190
+    facts:
+    - valor: CPX-551E
+      probe:
+      - '-551'
+      - cpx-551e
+      strength: fuerte
+      in_top5: false
+      in_filtered: false
+    - valor: SDX-751
+      probe:
+      - '-751'
+      - sdx-751
+      strength: fuerte
+      in_top5: false
+      in_filtered: false
+    - valor: IRX-751CTEM
+      probe:
+      - '-751'
+      - irx-751ctem
+      strength: fuerte
+      in_top5: false
+      in_filtered: false
+    - valor: SDX-751-TEM
+      probe:
+      - '-751'
+      - sdx-751
+      strength: fuerte
+      in_top5: false
+      in_filtered: false
+  atribucion: SUB-RETRIEVAL
+- qid: hp009
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato:
+  - diagrama
+  veredicto: FALLO
+  bucket: residual
+  unanime: true
+  flag_review: false
+  n_valid: 5
+  votes:
+    FALLO: 5
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - 'No responde la pregunta sobre el lazo analógico direccionable de la Morley ZXe: según la referencia no lleva
+    resistencia de fin de línea, se cablea en bucle cerrado con retorno al panel. El bot sustituye indebidamente
+    el producto por ZXAE/ZXEE y aporta valores de RFL de sirenas/RS-485 que pueden inducir a instalar una resistencia
+    donde no corresponde.'
+  - 'No responde correctamente para la Morley ZXe: usa documentación de ZXAE/ZXEE y acaba diciendo que no se especifica
+    la RFL del lazo analógico. La respuesta correcta es que el lazo analógico direccionable ZXe no lleva resistencia
+    de fin de línea; se cablea como bucle cerrado con retorno al panel.'
+  - 'No responde correctamente para la Morley ZXe: sustituye el producto por ZXAE/ZXEE y mezcla RFL de sirenas y
+    RS-485, lo que puede inducir a error. Falta la respuesta clave: el lazo analógico direccionable ZXe no lleva
+    RFL; se cablea como bucle cerrado con retorno al panel.'
+  - 'No responde correctamente para la Morley ZXe: el lazo analógico direccionable no lleva RFL y se cablea en bucle
+    cerrado con retorno al panel. Además mezcla valores de sirenas convencionales y RS-485 de ZXAE/ZXEE, lo que
+    puede inducir a error al técnico.'
+  - 'No responde correctamente para la Morley ZXe: usa documentación de ZXAE/ZXEE y ofrece RFL de sirenas/RS-485
+    que no aplican al lazo analógico direccionable. Falta la respuesta clave del manual ZXe: el lazo no lleva RFL,
+    se cablea como bucle cerrado con retorno al panel y aisladores.'
+  sufficiency:
+    bucket: INDETERMINADO-solo-debiles
+    sub: null
+    n_core_fuerte: 0
+    n_core_presente: 2
+    top5_sources:
+    - MIE-MI-310
+    facts:
+    - valor: Retorno
+      probe: ~Retorno
+      strength: debil
+      in_top5: false
+      in_filtered: false
+    - valor: aisladores internos
+      probe: ~aisladores internos
+      strength: debil
+      in_top5: false
+      in_filtered: false
+  atribucion: INDETERMINADO-solo-debiles
+- qid: hp010
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato:
+  - multi-doc
+  veredicto: PARCIAL
+  bucket: residual
+  unanime: false
+  flag_review: true
+  n_valid: 5
+  votes:
+    PARCIAL: 3
+    FALLO: 2
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - 'Acertó en lo esencial: el nuevo equipo se acepta mediante una autobúsqueda en Nivel 3 y relacionó correctamente
+    el evento “EQUIPO NUEVO”. Pero omite la ruta de menú y pasos concretos que sí están en la referencia, y afirma
+    indebidamente que no aparecen en los fragmentos disponibles.'
+  - Acertó en que debe ejecutarse una autobúsqueda y que el evento 'EQUIPO NUEVO' se acepta así, pero omitió el
+    procedimiento de menú de Nivel 3 y otros detalles importantes. Además afirma erróneamente que el manual no detalla
+    los pasos exactos, cuando la referencia sí los documenta.
+  - Acierta en que el evento 'EQUIPO NUEVO' se acepta realizando una autobúsqueda desde Nivel 3, pero no da la ruta/procedimiento
+    completo del menú ni pasos clave como desbloquear memoria, seleccionar lazo, confirmar y revisar resumen. También
+    omite la nota importante de esperar 2 minutos tras un cambio de protocolo y la edición posterior de propiedades
+    del equipo.
+  - 'Acertó en que hay que ejecutar una autobúsqueda en Nivel 3 para aceptar el ''EQUIPO NUEVO'' y advierte sobre
+    direcciones duplicadas. Pero es incompleto frente a la referencia: omite la ruta exacta de menús/teclas, confirmaciones,
+    revisión del resumen, edición posterior de propiedades y la espera de 2 minutos tras cambio de protocolo, además
+    de afirmar que no dispone del procedimiento cuando el gold sí lo cubre.'
+  - Acierta en que el evento 'EQUIPO NUEVO' se acepta mediante una autobúsqueda en Nivel 3, pero omite el procedimiento
+    de menú/teclas necesario para ejecutarla. Además afirma incorrectamente que el manual no detalla esos pasos,
+    cuando la referencia sí los cubre.
+  sufficiency:
+    bucket: GENERACION
+    sub: null
+    n_core_fuerte: 1
+    n_core_presente: 3
+    top5_sources:
+    - DXC-Porque-al-activan-elementos-en-alarma-no-se-enciende-su-led
+    - DXc_Guia de usuario_multiling
+    - DXc_Manual de configuracion
+    - DXc_Manual de usuario
+    - Eventos-Averias-de-Equipos-en-DXc
+    facts:
+    - valor: Autobusqueda
+      probe: ~Autobusqueda
+      strength: debil
+      in_top5: true
+      in_filtered: true
+    - valor: Nivel 3
+      probe: ~Nivel 3
+      strength: fuerte
+      in_top5: true
+      in_filtered: true
+    - valor: nuevos, eliminados y modificados
+      probe: ~nuevos, eliminados y modificados
+      strength: debil
+      in_top5: false
+      in_filtered: false
+  atribucion: GENERACION
+- qid: hp011
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato: &id006
+  - scan-ocr
+  - oem-relabel
+  veredicto: PARCIAL
+  bucket: residual
+  unanime: false
+  flag_review: true
+  n_valid: 5
+  votes:
+    PARCIAL: 3
+    FALLO: 2
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - 'Acierta en que el rearme debe hacerse desde nivel 2 y que pueden quedar averías/entradas enclavadas, pero omite
+    comprobaciones clave como ABORT, t.A, zonas en alarma y FLOW activo. Además interpreta mal el parámetro r.1/ri:
+    el valor 00 es rearme permitido por defecto, no inhibición, y cita de forma imprecisa la norma.'
+  - 'Acertó en indicar rearme desde nivel 2 y revisar averías enclavadas/condiciones como flujo, pero omite comprobaciones
+    clave del GOLD: entrada ABORT activa, parámetro t.A de duración de descarga y zonas aún en alarma. Además interpreta
+    mal el parámetro de rearme inhibido: lo llama ri, cita apartado/nombre incorrectos, omite la opción “--” y afirma
+    erróneamente que 00 mantiene inhibido cuando en la referencia es rearme permitido por defecto.'
+  - 'Acierta en indicar rearme en nivel 2 y revisar averías/entradas supervisadas, pero omite comprobaciones clave
+    como ABORT enclavado, t.A, zonas en alarma y Flow Press como rearme manual. Además describe mal el parámetro
+    de inhibición: en la referencia es r.1, no ri, con valores/default y apartado normativo incorrectos, lo que
+    puede inducir a diagnóstico erróneo.'
+  - 'Aunque acierta en mencionar averías enclavadas y el rearme desde nivel 2, explica de forma incorrecta el parámetro
+    de inhibición de rearme: en la referencia r.1=00 permite rearme en cualquier momento y es el valor por defecto,
+    no deja el sistema inhibido. Además omite comprobaciones clave como la entrada ABORT enclavada, el parámetro
+    t.A de duración de descarga, Flow Press como entrada que exige rearme manual y el estado de zonas/detectores.'
+  - 'Aunque incluye rearme en nivel 2 y averías enclavadas, interpreta mal el parámetro r.1/ri: afirma que 00 inhibe
+    y es por defecto, cuando el gold indica que 00 permite rearmar en cualquier momento y el valor inhibido hasta
+    fin/tiempo es "--". Además omite comprobaciones clave como ABORT enclavado, t.A, Flow Press activo y zonas aún
+    en alarma, por lo que puede orientar mal al técnico.'
+  sufficiency:
+    bucket: SUB-RETRIEVAL
+    sub:
+      per_fact:
+      - valor: 05 a 295 seg
+        fact_docs:
+        - HLSI-MN-103_RP1r-Supra_lr
+        label: within-doc-miss
+      labels:
+        within-doc-miss: 1
+      estrato_anotado: *id006
+    n_core_fuerte: 1
+    n_core_presente: 4
+    top5_sources:
+    - HLSI-BT-001
+    - HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr
+    - HLSI-MN-103_RP1r-Supra_lr
+    - MNDT102
+    facts:
+    - valor: ABORT
+      probe: ~ABORT
+      strength: debil
+      in_top5: true
+      in_filtered: true
+    - valor: r.1
+      probe: ~r.1
+      strength: debil
+      in_top5: false
+      in_filtered: false
+    - valor: 05 a 295 seg
+      probe:
+      - '05'
+      - '295'
+      strength: fuerte
+      in_top5: false
+      in_filtered: false
+    - valor: enclavadas
+      probe: ~enclavadas
+      strength: debil
+      in_top5: true
+      in_filtered: true
+  atribucion: SUB-RETRIEVAL
+- qid: hp012
+  conducta_esperada: answer-con-conflicto
+  conducta_bot_modal: answer
+  estrato: &id007
+  - multi-doc
+  - conflicto-es-us
+  veredicto: PARCIAL
+  bucket: residual
+  unanime: true
+  flag_review: false
+  n_valid: 5
+  votes:
+    PARCIAL: 5
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - 'Acertó la capacidad por lazo y la variante US de la AFP1010, además de la AM2020. Pero no surfaceó el conflicto
+    documental clave para AFP1010: Notifier España indica máximo 2 lazos/396 dispositivos, mientras Notifier US
+    indica 4 lazos/792 dispositivos.'
+  - Acierta para AM2020 y reproduce la variante US de AFP1010 (4 lazos/792 dispositivos), incluyendo 198 dispositivos
+    por lazo de forma implícita. Pero no surfacea el conflicto documental clave para AFP1010 con la variante Notifier
+    España (2 lazos/396 dispositivos), por lo que no cumple la conducta esperada answer-con-conflicto.
+  - 'Acierta la AM2020 y la capacidad por lazo, y da una de las variantes del AFP1010, pero no surfacea el conflicto
+    documental requerido: falta la variante Notifier España de AFP1010 con máximo 2 lazos/396 dispositivos. Al presentar
+    solo la variante de 4 lazos/792 dispositivos como definitiva puede inducir a error según el manual aplicable.'
+  - Acierta la AM2020 y la capacidad por lazo, y recoge la variante AFP1010 de 4 lazos/792 dispositivos, pero no
+    surfacea el conflicto documental con la variante Notifier España de 2 lazos/396 dispositivos. Al no presentar
+    ambas variantes ni advertir que depende del manual/configuración concreta, queda incompleto para la conducta
+    esperada.
+  - 'Acierta para AM2020 y recoge la variante US de AFP1010 con 4 lazos/792 dispositivos, pero no surfacea el conflicto
+    documental esperado: la variante Notifier España limita la AFP1010 a 2 lazos/396 dispositivos. Por ello no cumple
+    la conducta answer-con-conflicto requerida.'
+  sufficiency:
+    bucket: MIXTO
+    sub:
+      per_fact:
+      - valor: 99 + 99
+        fact_docs: []
+        label: fact-not-located
+      labels:
+        fact-not-located: 1
+      estrato_anotado: *id007
+    n_core_fuerte: 3
+    n_core_presente: 4
+    top5_sources:
+    - 15037SP
+    - 15088SP
+    - MFDT280
+    facts:
+    - valor: 10 lazos
+      probe:
+      - '10'
+      strength: debil
+      in_top5: true
+      in_filtered: true
+    - valor: 99 + 99
+      probe:
+      - '+99'
+      - '99'
+      strength: fuerte
+      in_top5: false
+      in_filtered: false
+    - valor: 2 lazos / 396
+      probe:
+      - '396'
+      strength: fuerte
+      in_top5: true
+      in_filtered: true
+    - valor: 4 lazos / 792
+      probe:
+      - '792'
+      strength: fuerte
+      in_top5: true
+      in_filtered: true
+  atribucion: MIXTO
+- qid: hp013
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato:
+  - oem-relabel
+  veredicto: PARCIAL
+  bucket: residual
+  unanime: true
+  flag_review: false
+  n_valid: 5
+  votes:
+    PARCIAL: 5
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - 'Acierta en que el manual no documenta un procedimiento específico de sustitución sin pérdida de configuración
+    y recomienda acudir al servicio técnico. Pero queda incompleta/imprecisa frente al GOLD: no cita que la configuración
+    específica se almacena en EEPROM, usa una inferencia débil sobre conmutadores y menciona soporte Detnov/Wagner
+    en lugar de Securiton/servicio autorizado.'
+  - 'Acierta en lo esencial: el manual no documenta un procedimiento de sustitución sin pérdida de configuración
+    y recomienda consultar soporte. Pero es incompleto/impreciso frente al gold: no cita que la configuración específica
+    se almacena en EEPROM, usa inferencias más débiles sobre conmutadores/reset y añade una indicación de reset
+    tras reparaciones del LMB 35 que puede resultar confusa como si aplicara necesariamente al cambio de batería.'
+  - 'Acierta en que el manual no da un procedimiento específico para cambiar la batería tampón sin perder configuración
+    y recomienda acudir a soporte. Pero queda incompleto/impreciso frente al gold: no menciona que la configuración
+    específica se almacena en EEPROM, omite la referencia a gestión de residuos de baterías y afirma que no se especifica
+    la retención en memoria no volátil cuando el manual sí documenta el almacenamiento en EEPROM.'
+  - 'Acierta en que el manual no documenta un procedimiento específico de sustitución y recomienda soporte técnico,
+    pero no recoge el punto clave de la referencia: que la configuración específica se almacena en EEPROM y por
+    tanto cabe esperar que se conserve. Además introduce datos/recomendaciones no respaldados o imprecisos (p. ej.
+    Detnov/Wagner, exportar configuración, inferencias sobre conmutadores) y omite citas concretas relevantes como
+    la retirada de la cinta y la gestión de la batería.'
+  - Acierta en que el manual no documenta un procedimiento específico para cambiar la batería sin perder configuración
+    y redirige a soporte. Pero omite el dato clave de la GOLD de que las configuraciones específicas se almacenan
+    en EEPROM y, en su lugar, da una explicación imprecisa sobre posiciones X01-X03, además de no citar los capítulos
+    relevantes.
+  sufficiency:
+    bucket: INDETERMINADO-solo-debiles
+    sub: null
+    n_core_fuerte: 0
+    n_core_presente: 2
+    top5_sources:
+    - ADW535_TD_T140358es_e
+    facts:
+    - valor: EEPROM
+      probe: ~EEPROM
+      strength: debil
+      in_top5: false
+      in_filtered: false
+    - valor: PWR-R
+      probe: ~PWR-R
+      strength: debil
+      in_top5: false
+      in_filtered: false
+  atribucion: INDETERMINADO-solo-debiles
+- qid: hp014
+  conducta_esperada: answer
+  conducta_bot_modal: admit
+  estrato: []
+  veredicto: FALLO
+  bucket: residual
+  unanime: false
+  flag_review: true
+  n_valid: 5
+  votes:
+    FALLO: 3
+    PARCIAL: 2
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - Aunque recoge algunos requisitos correctos sobre número de equipos y comprobaciones previas, no responde a cómo
+    se intercala/conecta el aislador en el lazo ni cita el esquema disponible en el manual. Además admite falta
+    de información sobre el conexionado cuando la referencia sí contiene una respuesta suficiente con ubicación,
+    polaridad, continuidad de pantalla y pruebas.
+  - El bot reconoce correctamente algunos requisitos de EN54/ID2000 y la necesidad de instrucciones específicas
+    para el cableado terminal a terminal, pero afirma que no hay esquema/conexionado disponible cuando la referencia
+    sí describe la conexión típica en serie, polaridad, pruebas puenteando 2-4, pantalla y límites eléctricos. Por
+    tanto no responde suficientemente a cómo conectar el aislador en el lazo.
+  - 'Aporta correctamente límites de equipos entre aisladores, obligación de instalarlos y comprobaciones previas,
+    además de remitir a instrucciones específicas del módulo. Pero no responde suficientemente cómo se conecta en
+    el lazo: omite la intercalación en serie con polaridad, el puente temporal 2-4 para pruebas, continuidad de
+    pantalla/tierra, unidades de inicio y resistencias, y afirma que no hay esquema cuando la referencia sí recoge
+    uno.'
+  - 'Aporta correctamente algunos requisitos de instalación (aisladores por lazo, límites 25/20 y pruebas antes
+    de conectarlos) y remite a instrucciones específicas para el detalle terminal a terminal. Pero es incompleta
+    para la pregunta: omite el conexionado típico en serie/polaridad, el puente temporal 2-4 para pruebas, pantalla/tierra,
+    resistencia del lazo y unidades de inicio, y afirma que no hay esquema en el manual cuando la referencia sí
+    lo contempla a nivel de lazo.'
+  - Aunque acierta en los límites de equipos entre aisladores y la comprobación previa de continuidad, no responde
+    al conexionado en el lazo y afirma que no hay procedimiento disponible cuando la referencia sí aporta esquema/criterios
+    de conexión, bypass de terminales 2-4, polaridad, pantalla y resistencias.
+  sufficiency:
+    bucket: GENERACION
+    sub: null
+    n_core_fuerte: 1
+    n_core_presente: 4
+    top5_sources:
+    - MIDT180
+    facts:
+    - valor: '25'
+      probe:
+      - '25'
+      strength: debil
+      in_top5: true
+      in_filtered: true
+    - valor: continuidad
+      probe: ~continuidad
+      strength: debil
+      in_top5: true
+      in_filtered: true
+    - valor: terminales 2 y 4
+      probe: ~terminales 2 y 4
+      strength: fuerte
+      in_top5: true
+      in_filtered: true
+    - valor: '35'
+      probe:
+      - '35'
+      strength: debil
+      in_top5: false
+      in_filtered: false
+  atribucion: GENERACION
+- qid: hp015
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato: []
+  veredicto: PASS
+  bucket: PASS-control
+  unanime: false
+  flag_review: true
+  n_valid: 5
+  votes:
+    PARCIAL: 1
+    PASS: 4
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - 'Acierta en lo esencial: la CCD-103 es convencional y no permite anular detectores individualmente desde la
+    central, solo zonas completas, citando llave/teclas/LEDs y límite de 32 detectores con RFL 4K7. Sin embargo
+    añade una recomendación no documentada y potencialmente engañosa sobre puentear/cortocircuitar un detector en
+    campo, cuando el gold solo remite al instalador/servicio técnico y advierte que cualquier intervención afecta
+    a la supervisión.'
+  - Responde correctamente que la CCD-103 no permite desactivar detectores individualmente desde la central y que
+    la anulación es por zona completa, indicando llave, doble pulsación e indicadores. Aunque omite detalles como
+    el máximo de 32 detectores por zona, la respuesta es suficiente y alineada con la referencia.
+  - Responde correctamente que la CCD-103 no permite desactivar detectores individualmente y que la anulación es
+    por zona completa, indicando la secuencia de pulsaciones y la llave. Aunque no menciona la resistencia de fin
+    de línea 4K7, la información esencial para el técnico está cubierta y no inventa un procedimiento individual.
+  - Responde correctamente que la CCD-103 no permite desactivar detectores individualmente y que la anulación es
+    por zona completa, incluyendo el doble pulsado y la llave. Le faltan algunos detalles del GOLD como la resistencia
+    fin de línea 4K7 y que es convencional de 3+1 zonas, pero no compromete la utilidad técnica de la respuesta.
+  - Responde correctamente que no hay desactivación individual desde la CCD-103 y que la anulación documentada es
+    por zona completa, indicando el procedimiento de doble pulsación y la llave. Omite mencionar explícitamente
+    que es una central convencional/no direccionable y la resistencia fin de línea 4K7, pero no afecta al núcleo
+    de la respuesta.
+- qid: hp017
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato:
+  - multi-doc
+  veredicto: PARCIAL
+  bucket: residual
+  unanime: true
+  flag_review: false
+  n_valid: 5
+  votes:
+    PARCIAL: 5
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - 'Acierta en que el retardo de salidas se programa mediante reglas de causa-efecto y no como parámetro global,
+    y menciona tipos/operativa relacionados. Pero es incompleto para un técnico: omite pasos clave del Apéndice
+    5 como borrar la Regla 1 por defecto, crear regla entrada/salida, límite de reglas, significado de lazo 0, pruebas
+    y notas EN54; además afirma que no dispone del procedimiento completo cuando la referencia sí lo cubre.'
+  - 'Acierta en lo esencial: el retardo de salida en PEARL se configura mediante reglas de causa-efecto y no como
+    un parámetro global, y distingue programación de operación. Pero queda incompleto frente a la referencia: no
+    da el procedimiento clave de creación/edición de reglas, omite borrar la Regla 1 por defecto, máximo/reglas/lazo
+    0, pruebas y notas normativas, y además contradice el GOLD al indicar 7 tipos de retardo cuando la referencia
+    habla de 6.'
+  - 'Acierta en que los retardos de salida se programan mediante reglas de causa-efecto y cita el manual/ITS, pero
+    la respuesta queda incompleta frente a la referencia: no da el procedimiento clave, omite borrar la Regla 1
+    por defecto, crear la regla entrada/salida y probarla, y además afirma que no dispone de la ruta/procedimiento
+    cuando el manual sí lo cubre.'
+  - Acierta en que el retardo se programa mediante reglas de causa-efecto y aporta funciones operativas relacionadas.
+    Pero omite pasos críticos de programación indicados en la referencia, especialmente borrar la Regla 1 por defecto,
+    crear la regla con entrada/salida, el significado de lazo 0, límite de reglas, pruebas, advertencias EN54 y
+    retardos por equipo/zona u horarios; además introduce alguna imprecisión sobre tipos/valores de temporizador.
+  - Acierta en que se programa mediante reglas de causa-efecto y menciona el uso del software ITS, pero omite pasos
+    críticos como borrar la Regla 1 por defecto, crear regla con entrada/salida, límite de reglas y significado
+    de lazo 0. Además contradice la referencia al indicar 7 tipos de retardo en lugar de 6 y no incluye las advertencias
+    sobre retardos de zona/horarios y EN54.
+  sufficiency:
+    bucket: INDETERMINADO-solo-debiles
+    sub: null
+    n_core_fuerte: 0
+    n_core_presente: 4
+    top5_sources:
+    - 997-670-005-3_Operating_ES
+    - 997-671-005-3_Configuration_ES
+    facts:
+    - valor: causa-efecto
+      probe: ~causa-efecto
+      strength: debil
+      in_top5: true
+      in_filtered: true
+    - valor: instruccion de entrada
+      probe: ~instruccion de entrada
+      strength: debil
+      in_top5: false
+      in_filtered: false
+    - valor: Editar Configuracion
+      probe: ~Editar Configuracion
+      strength: debil
+      in_top5: true
+      in_filtered: true
+    - valor: seis tipos de retardo
+      probe: ~seis tipos de retardo
+      strength: debil
+      in_top5: false
+      in_filtered: false
+  atribucion: INDETERMINADO-solo-debiles
+- qid: hp018
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato: []
+  veredicto: FALLO
+  bucket: residual
+  unanime: false
+  flag_review: true
+  n_valid: 5
+  votes:
+    FALLO: 4
+    PARCIAL: 1
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - Aunque acierta en valores como RFL 6K8/0,5 W y 1 A, confunde la Morley ZXe ZX2e/ZX5e con ZXAE/ZXEE y da un conexionado
+    en serie de sirenas que es incorrecto para estos circuitos convencionales supervisados. Además alucina/precisa
+    terminales y reglas de cableado no alineadas con la referencia.
+  - Da valores y método de conexión esencialmente correctos (polaridad, diodo, RFL 6K8/0,5 W, 1 A, supervisión),
+    pero responde principalmente para ZXAE/ZXEE y no para la Morley ZXe ZX2e/ZX5e, omitiendo la identificación correcta
+    de salidas/figuras de esos paneles. Además introduce detalles no presentes en la referencia para ZXe, como TB7/ZXEE
+    y sección mínima 1,5 mm², que pueden confundir al técnico.
+  - Aunque acierta valores clave como RFL 6K8/0,5 W y 1 A, contesta sobre ZXAE/ZXEE y no sobre ZX2e/ZX5e, citando
+    fuentes/terminales del producto equivocado. Además indica conectar las sirenas “en serie”, lo que es una instrucción
+    de cableado peligrosa/imprecisa frente al conexionado convencional supervisado con RFL al final de línea.
+  - Aunque acierta valores clave como 6K8/0,5 W, 1 A y la necesidad de polaridad/diodo, responde para ZXAE/ZXEE
+    en lugar de la ZXe ZX2e/ZX5e y da terminales no correspondientes. Además indica conectar las sirenas “en serie”,
+    lo que es una instrucción de cableado potencialmente errónea para circuitos convencionales supervisados.
+  - Aunque acierta valores importantes como RFL 6K8/0,5 W, supervisión inversa, diodo y 1 A, responde sobre ZXAE/ZXEE
+    en vez de la Morley ZXe ZX2e/ZX5e y mezcla manuales/modelos. Además indica conectar sirenas “en serie” y aporta
+    terminales/datos no alineados con la referencia, lo que puede llevar a un conexionado incorrecto.
+  sufficiency:
+    bucket: MIXTO
+    sub:
+      per_fact:
+      - valor: 4 circuitos
+        fact_docs:
+        - MIE-MI-310
+        - MIE-MI-530rv001
+        label: within-doc-miss
+      labels:
+        within-doc-miss: 1
+      estrato_anotado: []
+    n_core_fuerte: 2
+    n_core_presente: 5
+    top5_sources:
+    - MIE-MI-310
+    - MIE-MP-310
+    - MIE-MU-310
+    facts:
+    - valor: 4 circuitos
+      probe: ~4 circuitos
+      strength: fuerte
+      in_top5: false
+      in_filtered: false
+    - valor: 6K8
+      probe: ~6K8
+      strength: fuerte
+      in_top5: true
+      in_filtered: true
+    - valor: diodo
+      probe: ~diodo
+      strength: debil
+      in_top5: true
+      in_filtered: true
+    - valor: Sirenas A,B,C,D
+      probe: ~Sirenas A,B,C,D
+      strength: debil
+      in_top5: true
+      in_filtered: true
+    - valor: 1 A
+      probe: ~1 A
+      strength: debil
+      in_top5: true
+      in_filtered: true
+  atribucion: MIXTO
+- qid: hp019
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato:
+  - oem-relabel
+  veredicto: PASS
+  bucket: PASS-control
+  unanime: true
+  flag_review: false
+  n_valid: 5
+  votes:
+    PASS: 5
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - La respuesta recoge correctamente el rango estándar –30 °C a +60 °C, las excepciones UL/AS 1603.8, la fluctuación
+    máxima de 20 °C, almacenamiento y la restricción para ultracongelación con la directriz T 131 390. Añade una
+    nota de instalación extra, pero no contradice la respuesta de referencia.
+  - Responde correctamente el rango estándar –30 °C a +60 °C y añade las excepciones/restricciones relevantes (UL,
+    AS 1603.8, ultracongelación), fluctuación máxima y almacenamiento, con cita. Solo es levemente menos explícito
+    que la referencia al no repetir la limitación UL para el conducto, pero no compromete la utilidad técnica.
+  - 'La respuesta coincide con la referencia: da el rango estándar –30 °C a +60 °C para caja y conducto, las limitaciones
+    UL/AS 1603.8, fluctuación máxima, almacenamiento y restricción para ultracongelación con directriz T 131 390.
+    No introduce información contradictoria ni inventada.'
+  - 'Respuesta correcta y suficiente: incluye el rango estándar –30 °C a +60 °C para caja y conducto, las limitaciones
+    UL/AS 1603.8, la fluctuación máxima de 20 °C, almacenamiento y restricción para ultracongelación con la directriz
+    aplicable. Añade una nota de instalación extra, pero no contradice ni degrada la respuesta.'
+  - La respuesta cubre correctamente el rango estándar –30 °C a +60 °C, las excepciones UL/AS 1603.8, la fluctuación
+    máxima, almacenamiento y la restricción para ultracongelación con directriz. Añade una nota de instalación no
+    solicitada, pero no contradice ni afecta la respuesta técnica principal.
+- qid: hp020
+  conducta_esperada: answer
+  conducta_bot_modal: answer
+  estrato: []
+  veredicto: PASS
+  bucket: PASS-control
+  unanime: false
+  flag_review: true
+  n_valid: 5
+  votes:
+    PARCIAL: 2
+    PASS: 3
+  stop_reasons:
+    end_turn: 5
+  diagnosticos:
+  - La respuesta cubre correctamente el procedimiento principal y las reglas de quién puede cambiar NI2/NI3, con
+    pasos alineados con la referencia. Sin embargo, deja incompleto el flujo cuando se cambia desde Nivel 2 (no
+    incluye mensaje final/aceptar ni sincronización/copia de seguridad) y omite la nota importante sobre que portal
+    CLSS, app CLSS y programa de configuración CLSS comparten usuario/código/contraseña.
+  - La respuesta cubre correctamente el procedimiento, los permisos por nivel de acceso, el rango de 4 a 8 dígitos,
+    la confirmación, el mensaje final y la sincronización/copia en la nube. Solo omite la nota del GOLD sobre credenciales
+    compartidas de CLSS, pero no afecta de forma sustancial a la configuración de las contraseñas de Nivel 2 y 3.
+  - La respuesta cubre correctamente quién puede cambiar cada nivel, el procedimiento de cambio, el rango de 4 a
+    8 dígitos, la confirmación, el mensaje de éxito y la sincronización/copia en la nube, con citas. Solo omite
+    la nota de que el portal, app y configurador CLSS comparten usuario/código/contraseña, pero no afecta de forma
+    sustancial a la configuración solicitada.
+  - La respuesta reproduce correctamente las reglas por nivel de acceso y el procedimiento principal para cambiar
+    los códigos de Nivel 2 y 3, incluyendo longitud, confirmación, mensaje de éxito y sincronización/copia en nube.
+    Solo omite la nota sobre credenciales compartidas de CLSS, pero no afecta sustancialmente a la respuesta técnica
+    solicitada.
+  - La respuesta cubre correctamente el procedimiento principal, permisos por nivel, longitud del código, confirmación,
+    mensaje final y sincronización/copia en nube para NI3. Queda incompleta porque en el flujo de NI2 omite los
+    pasos finales de mensaje/Aceptar/sincronización, y no incluye la nota importante de que portal CLSS, app CLSS
+    y configurador CLSS comparten usuario/código/contraseña.

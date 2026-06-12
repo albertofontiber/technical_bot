@@ -3,10 +3,10 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 12 jun 2026 (s66, DEC-047 — re-gate del lever CE = GO con scope re-decidido a CE-PURO
-> [swap del reranker tras flag, sin L-i]: D1 6/6 + D2′ 0 pérdidas atribuibles + CE
-> determinista 39/39; falso-STOP de cat018 enmendado pre-paso-B con evidencia s63;
-> A/B en s67 por decisión de Alberto).
+> 12 jun 2026 (s67, DEC-048 — A/B del swap CE ejecutado = **ROLLBACK por tabla
+> pre-registrada** [F_post 8>5 + 2 regresiones de conducta]: lever CE ARCHIVADO con
+> evidencia end-to-end; **el re-freeze `s67base` queda como baseline NUEVO del ruler**;
+> el embed-cache compartido pasa a ser el pin de embeddings de los ciclos de eval).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -25,38 +25,45 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s66 — 12 jun 2026)
+## Estado actual (s67 — 12 jun 2026)
 
-**s66 (DEC-047): re-gate del lever CE = GO — la revisita condicional (DEC-042e) ejecutada
-con scope RE-DECIDIDO a CE-PURO.** Alberto confirmó (4 opciones en la mesa) re-scopear el
-lever de {L-i+CE} a **CE-puro**: swap del reranker tras flag (`RERANKER_BACKEND`, dispatch
-Y1 = CE solo sin `target_models`) sobre el retriever de main INTACTO — L-i archivado (su
-upside demostrado se evaporó: hp001 volvió al pool vía s64 SIN L-i y es frontera-de-pool;
-cat012 capturado río arriba por s63; rebase +315 líneas en zona caliente sin upside
-pendiente; branch `s59-lever-code-ROLLBACKED` vivo, renace en el ciclo
-profundidad-del-canal). Gate con probes CONGELADAS pre-paso-A (X1: anclas de cat018
-extraídas del gold_store y verificadas contra sustento real ANTES de cualquier retrieve) y
-**paridad-control** (pérdida ATRIBUIBLE := en-pool ∧ en-vista-LLM ∧ ¬en-vista-CE; UNA
-pérdida atribuible de un SHIP s63 = NO-GO): **D1 6/6 unánimes retienen sustento · D2′ 0
-pérdidas atribuibles (cat012 4/4 hechos — el mecanismo hermanos cerrado por s63 CONFIRMADO
-empíricamente bajo CE; cat018 h1+h4) · instrumento limpio (CE determinista 39/39 +
-orden-insensible 7/7 + 0 chunks sub-0.4)**. hp001 resolvió INFORMATIVA por branch
-pre-registrada ('candado' en pool y AMBAS vistas; '2222' fuera de pool — frontera
-re-confirmada). El precheck disparó **falso-STOP en cat018** (mis anclas sobre-especificadas
-vs lo que el PASS s63 realmente sirvió — h1+h4) → enmienda pre-paso-B APROBADA por Alberto
-con evidencia (frozen s63). Dado del LLM re-medido HOY: 12/39 votos no-unánimes (2× 1/1/1).
-Latencia rerank CE p95 0.84s vs LLM 2.86s (~3.4×). Coste real ~$4.5 — el "~$2" heredaba la
-subestimación s61 (X4). Dúo r1: sub-agente 8/8 + cross-model GPT-5.5 5/5, **0 FP** (F1
-refutó mi premisa "hp001 irrecuperable" contra s64). Build: transplante limpio de 5
-archivos desde `s61-lever-code-ROLLBACKED`, SIN `retriever.py`; 290 tests. **El GO
-habilita pero NO autoriza el A/B (DEC-016b) — Alberto: A/B en s67.** DEC-047; HISTORY.
+**s67 (DEC-048): A/B del swap CE ejecutado (GO de Alberto, ~$30 real vs ~$40-60 estimado)
+= ROLLBACK por la tabla pre-registrada — el lever CE queda ARCHIVADO con evidencia
+end-to-end.** Diseño v2 post-dúo r1 (sub-agente 7/7 + cross-model GPT-5.5 6/6, **0 FP**;
+F1 ALTA cerró el hueco dado-mediado en la clasificación de movers [freeze-A puede ser
+4ª-vista aun con gate 3/3]; F2 re-derivó el dado del LLM contra el artefacto: **11/39
+no-unánimes** [9× 2/1 + 2× 1/1/1; 24 unánimes con rerank + 4 short-circuit vacuos] — el
+"12/39" que circulaba era falso, patrón bias #35). Día D bajo ventana verificada (X2 7/7
++ X1 código pinneado al build): **el assert (i) cazó embed-drift server-side ANTES de
+pagar generación** (3/39 pools frontera, 1 chunk in/out; cat019 expuso además la frontera
+de redondeo del `round(sim,2)` — la firma fue FIEL al header real del generador; la
+reordenación F3/X6 del dúo pagó su valor) → **re-gate ~$5 con `EMBED_CACHE_PATH`
+compartido = GO** (`s67_gate_*`; **el cache ancla gate y A/B a la MISMA ventana de
+vectores POR CONSTRUCCIÓN** — el riesgo F3 muere estructuralmente; patrón nuevo para todo
+ciclo de eval) → brazo LLM 195/195 gen+juicios · brazo CE 175/175 (pairing 4 = los
+short-circuit) · herencia `shared_from` · juez servido idéntico entre brazos
+(`gpt-5.5-2026-04-23`) · 0 errores. **Resultado: Δ_net=0 (techo +0/+1 confirmado; cat012
+GANA PARCIAL→PASS pero 3/5 sin margen — no cuenta, coherente con el gate) · SIN regla-1
+(0 PASS perdidos atribuibles; cat023 dado-excluido, control=1 ok) · PERO F_post 8 >
+F_base 5 (cat007/cat017/hp001/hp014 PARCIAL→FALLO; hp001 ATRIBUIBLE-operacional — el
+gold-frontera eterno pierde su PARCIAL bajo CE) + 2 regresiones de conducta
+(cat016/hp014 answer→admit) = dos condiciones independientes de ROLLBACK.** El beneficio
+instrumento/prod del CE (determinismo, latencia rerank p95 0.81s vs 3.29s, coste ~15×) NO
+se compra al precio de degradar la cola PARCIAL→FALLO. El dado del rerank LLM (11/39)
+sigue como defecto de producto DECLARADO — se re-ataca en el ciclo profundidad-del-canal
+(donde renace L-i), no con este swap. **El re-freeze `s67base` SUSTITUYE a frozen-s58
+como baseline del ruler: 10/39 PASS-control (5 unánimes 5/5) · 4 K-INESTABLES
+(cat009/cat012/hp004/hp007) · residual 25 con atribución.** Flag `RERANKER_BACKEND`
+queda en main default `llm` (inerte; dispatcher + manifest honesto de bvg = instrumentos
+permanentes); Railway intacto. DEC-048; HISTORY.
 
 **Sistema (prod, Railway auto-deploy desde `main`; SWAP de corpus por `CHUNKS_TABLE`):**
 bot Telegram (polling) → pre-clasificación → retrieve híbrido wide (vector Voyage-4-large 1024
 + keyword + intent; `RETRIEVAL_TOP_K=50`; HyDE off) → filtro de modelos series-aware (3
 niveles, DEC-044) → **lifecycle end-to-end (4b + suplementos de diversify, DEC-045)** →
-rerank LLM Sonnet (top-5; dispatcher `RERANKER_BACKEND` default `llm` = inerte — el swap a
-CE Voyage está gateado-GO s66, pendiente de A/B) → generador `claude-sonnet-4-6` (temp=0,
+rerank LLM Sonnet (top-5; dispatcher `RERANKER_BACKEND` default `llm` — el swap a CE
+Voyage se midió en A/B s67 = **ROLLBACK**, lever archivado con evidencia; el dispatcher
+queda como instrumento) → generador `claude-sonnet-4-6` (temp=0,
 `max_tokens=2048`) sobre
 **`chunks_v2` = 25.090 chunks (262 excluidos por lifecycle → ~24.8k servibles; 25 huérfanos
 residuales) / 1.170 docs {active 998 · superseded 3 · needs_review 79 · retired 90} / 31
@@ -66,25 +73,15 @@ el SWAP s44, medidos:** `category` (#44) y diagramas (#45). Ventana DB ABIERTA (
 default mantener); ventana de freeze del corpus: CERRADA (s64); fingerprint con dimensión
 lifecycle (DEC-045e).
 
-**Eval (el ruler):** **51 golds = 39 dev + 12 held-out** (embargo vivo), taxonomía CONGELADA
-(DEC-033), juez GPT-5.5 + K-mayoría. Baseline s58 = referencia histórica; **el próximo ciclo
-de eval re-freeze** (el corpus efectivo cambió en s64: 3 docs fuera por lifecycle) — el A/B
-del CE (punto 1) lo incluye. Re-gate CE: **GO** (s66); build en rama `eval/s66-ce-regate`.
+**Eval (el ruler):** **51 golds = 39 dev + 12 held-out** (embargo vivo, intacto en s67),
+taxonomía CONGELADA (DEC-033), juez GPT-5.5 + K-mayoría. **Baseline VIGENTE = re-freeze
+`s67base`** (12 jun 2026: 10/39 PASS-control · 5 unánimes · 4 K-INESTABLES; manifest
+completo + `s67_embed_cache.json` como pin de embeddings); frozen-s58 = referencia
+histórica muerta. Próximo freeze: correr SIEMPRE con `EMBED_CACHE_PATH` (DEC-048c).
 
 ## Qué sigue (orden vigente)
 
-1. **A/B del swap CE (s67, autorizado el rumbo por Alberto en s66):** mini-diseño propio
-   (pairing por VISTA-del-generador idéntica — firma F1-s61; bajo mismo-pool el
-   shadow-rerank pierde su rol, el dado del LLM se mide con los votos n=3 del gate) + dúo
-   FRESCO + **re-freeze del baseline** (pendiente de todos modos) + brazo CE K=5; manifest
-   honesto de bvg (backend despachado) re-aplicado a mano sobre main (+70 divergidas).
-   Criterio §3-v4 transferido + **F7 endurecida**: GRIS-estable → recomendación pre-escrita
-   SHIP-por-estabilidad (beneficio NO-end-to-end: determinismo [dado LLM 12/39 hoy],
-   latencia ~3.4×, coste ~15×; SOLO path sin-target_models, Y1). **Ventana X2 del GO:**
-   vale con fingerprints idénticos a los del gate (corpus+registry+proconfig+modelos, en
-   `s66_gate_report.yaml:meta`) — drift material → re-gate ~$5. Coste ~$40-60 (marginal
-   atribuible al CE ~$20-30). Techo end-to-end honesto: ~+0/+1-frágil.
-2. **Corpus nuevo (Aritech/Kidde/Ziton-GST).** Antes de ingerir, los 3 prerrequisitos:
+1. **Corpus nuevo (Aritech/Kidde/Ziton-GST).** Antes de ingerir, los 3 prerrequisitos:
    **#44** (contrato de category — el escritor sigue sembrando) + **contrato #45** (diagramas)
    + **contrato de identidad/supersesión EN INGESTA**: el flujo debe CREAR fila en `documents`
    (hoy `resolve_document_id` casa pero no crea — el hueco que s65 backfilleó) **prefiriendo
@@ -92,9 +89,14 @@ del CE (punto 1) lo incluye. Re-gate CE: **GO** (s66); build en rama `eval/s66-c
    no cuelga chunks de una fila inactiva) + sha-check contra lo existente (DEC-045a). La
    **cola curada vive en los 74 `needs_review`** de s65 (inventario en
    `evals/s65_capab_inventory.yaml`) — candidatos ES/EN no migrados del corpus viejo.
-3. **Pendientes menores del ciclo s65:** 25 chunks huérfanos residuales (8 sources canal
+2. **Pendientes menores del ciclo s65:** 25 chunks huérfanos residuales (8 sources canal
    "Otros" sin marca — curación con Alberto o quedan como gap honesto); fragilidad de
    `_get_all_known_manufacturers` (TECH_DEBT #47, medido: la lista del diversify = 2 marcas).
+3. **Ciclo profundidad/estabilidad del canal vectorial** (futuro, post-corpus): el dado del
+   rerank LLM (11/39, defecto de producto medido s66/s67) + el canal con categoría muerta
+   (~85% de queries) + rank 51-70 (4× medido, DEC-042d). Ahí renacen L-i
+   (`s59-lever-code-ROLLBACKED`) y/o un reranker mejor — CUALQUIER lever nuevo arranca por
+   gate, con el baseline s67base como referencia y el embed-cache como pin.
 
 **Fases macro (rationale en HISTORY):** F1 calidad (en curso) → F2 escala (identidad de producto
 HECHA s55; resto gated) → F3 routing/tool-use + multi-dominio del scope M&A (gated por F1/F2) →

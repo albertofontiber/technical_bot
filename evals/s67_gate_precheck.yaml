@@ -1,0 +1,36 @@
+meta:
+  at: '2026-06-12T20:45:12'
+  git: 657c7b2
+  regla: diseño v2 §3.3b/§3.4/§5 — branch hp001 + STOPs pre-paso-B
+stops: null
+branch_hp001: INFORMATIVA
+hp001_detalle_pool:
+  h1_candado: true
+  h2_clave_admin: false
+d1_pool:
+  cat010:
+    h1_alimentacion: true
+    h2_parametros_si: true
+  cat014:
+    h1_vida_util: true
+  cat015: null
+  cat022:
+    h1_L_ir_25_30: true
+    h2_L4_45: true
+    h3_sufijo_B_BIT: true
+  hp015:
+    h1_convencional: true
+    h2_desconexion_zona: true
+    h3_32_detectores: true
+  hp019:
+    h1_rango_temp: true
+unanimes_con_ancla_fuera: []
+d2_pool:
+  cat012:
+    h1_factor_12: true
+    h2_reposo_alarma: true
+    h3_consumos_cpu: true
+    h4_capacidad_max: true
+  cat018:
+    h1_cbe_definicion: true
+    h4_sintaxis_apendice: true

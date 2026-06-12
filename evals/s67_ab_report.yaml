@@ -1,0 +1,946 @@
+meta:
+  at: '2026-06-12T21:22:54'
+  diseno: _s67_ab_design.md v2 post-dúo r1
+  k: 5
+  reglas: transfiere §7-s61; A1-A4 pre-datos (diseño §3)
+  juez_servido:
+    base:
+    - gpt-5.5-2026-04-23
+    ce:
+    - gpt-5.5-2026-04-23
+  juez_identico_entre_brazos: true
+veredicto: ROLLBACK
+f7_ship_por_estabilidad_aplica: false
+recomendacion: null
+metricas:
+  delta_net: 0
+  F_base: 5
+  F_post: 8
+  delta_inest: 0
+  ki_base:
+  - cat009
+  - cat012
+  - hp004
+  - hp007
+  ki_ce:
+  - cat009
+  - cat019
+  - hp004
+  - hp007
+  conducta_regresiones:
+  - cat016
+  - hp014
+  control_caidas_excluidas_por_dado:
+  - cat023
+  caidas_regla1_ROLLBACK: []
+  caidas_unanime_dado_GRIS_Alberto: []
+  ganancias_sin_margen:
+  - cat012
+  n_paired: 4
+  n_movers: 35
+golds:
+- qid: cat001
+  paired: false
+  dado_plausible: false
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 3
+  base:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  ce:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: cat005
+  paired: false
+  dado_plausible: false
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 3
+  base:
+    modal: PASS
+    votes:
+      PARCIAL: 2
+      PASS: 3
+    bucket: PASS-control
+    unanime: false
+  ce:
+    modal: PASS
+    votes:
+      PASS: 4
+      PARCIAL: 1
+    bucket: PASS-control
+    unanime: false
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: cat007
+  paired: false
+  dado_plausible: true
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 2
+  - 1
+  base:
+    modal: PARCIAL
+    votes:
+      FALLO: 2
+      PARCIAL: 3
+    bucket: residual
+    unanime: false
+  ce:
+    modal: FALLO
+    votes:
+      FALLO: 5
+    bucket: residual
+    unanime: true
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: cat008
+  paired: false
+  dado_plausible: true
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 2
+  - 1
+  base:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 4
+      FALLO: 1
+    bucket: residual
+    unanime: false
+  ce:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: cat009
+  paired: false
+  dado_plausible: false
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 3
+  base:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 3
+      PASS: 2
+    bucket: K-INESTABLE
+    unanime: false
+  ce:
+    modal: PARCIAL
+    votes:
+      PASS: 1
+      PARCIAL: 4
+    bucket: K-INESTABLE
+    unanime: false
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: cat010
+  paired: true
+  dado_plausible: false
+  clase_freeze_A: short-circuit
+  votos_gate:
+  - 3
+  base:
+    modal: PASS
+    votes:
+      PASS: 5
+    bucket: PASS-control
+    unanime: true
+  ce:
+    modal: PASS
+    votes:
+      PASS: 5
+    bucket: PASS-control
+    unanime: true
+  delta: null
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: cat011
+  paired: false
+  dado_plausible: false
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 3
+  base:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  ce:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 3
+      FALLO: 2
+    bucket: residual
+    unanime: false
+  delta: 0
+  conducta_esperada: clarify
+  conducta_base: clarify
+  conducta_ce: clarify
+- qid: cat012
+  paired: false
+  dado_plausible: false
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 3
+  base:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 4
+      PASS: 1
+    bucket: K-INESTABLE
+    unanime: false
+  ce:
+    modal: PASS
+    votes:
+      PASS: 3
+      PARCIAL: 2
+    bucket: PASS-control
+    unanime: false
+  delta: ganancia-sin-margen
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: cat013
+  paired: true
+  dado_plausible: false
+  clase_freeze_A: short-circuit
+  votos_gate:
+  - 3
+  base:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  ce:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  delta: null
+  conducta_esperada: refuse-inference
+  conducta_base: refuse-inference
+  conducta_ce: refuse-inference
+- qid: cat014
+  paired: true
+  dado_plausible: false
+  clase_freeze_A: short-circuit
+  votos_gate:
+  - 3
+  base:
+    modal: PASS
+    votes:
+      PASS: 5
+    bucket: PASS-control
+    unanime: true
+  ce:
+    modal: PASS
+    votes:
+      PASS: 5
+    bucket: PASS-control
+    unanime: true
+  delta: null
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: cat015
+  paired: false
+  dado_plausible: false
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 3
+  base:
+    modal: PASS
+    votes:
+      PASS: 5
+    bucket: PASS-control
+    unanime: true
+  ce:
+    modal: PASS
+    votes:
+      PASS: 4
+      PARCIAL: 1
+    bucket: PASS-control
+    unanime: false
+  delta: 0
+  conducta_esperada: admit
+  conducta_base: admit
+  conducta_ce: admit
+- qid: cat016
+  paired: false
+  dado_plausible: true
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 2
+  - 1
+  base:
+    modal: FALLO
+    votes:
+      FALLO: 5
+    bucket: residual
+    unanime: true
+  ce:
+    modal: FALLO
+    votes:
+      FALLO: 5
+    bucket: residual
+    unanime: true
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: admit
+- qid: cat017
+  paired: false
+  dado_plausible: true
+  clase_freeze_A: 4a-vista
+  votos_gate:
+  - 2
+  - 1
+  base:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  ce:
+    modal: FALLO
+    votes:
+      FALLO: 4
+      PARCIAL: 1
+    bucket: residual
+    unanime: false
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: cat018
+  paired: false
+  dado_plausible: true
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 2
+  - 1
+  base:
+    modal: PASS
+    votes:
+      PARCIAL: 1
+      PASS: 4
+    bucket: PASS-control
+    unanime: false
+  ce:
+    modal: PASS
+    votes:
+      PASS: 5
+    bucket: PASS-control
+    unanime: true
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: cat019
+  paired: false
+  dado_plausible: true
+  clase_freeze_A: 4a-vista
+  votos_gate:
+  - 2
+  - 1
+  base:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  ce:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 3
+      PASS: 2
+    bucket: K-INESTABLE
+    unanime: false
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: cat020
+  paired: false
+  dado_plausible: true
+  clase_freeze_A: minoritaria-gate
+  votos_gate:
+  - 1
+  - 1
+  - 1
+  base:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  ce:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: cat021
+  paired: false
+  dado_plausible: true
+  clase_freeze_A: minoritaria-gate
+  votos_gate:
+  - 2
+  - 1
+  base:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  ce:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 4
+      FALLO: 1
+    bucket: residual
+    unanime: false
+  delta: 0
+  conducta_esperada: clarify
+  conducta_base: clarify
+  conducta_ce: clarify
+- qid: cat022
+  paired: false
+  dado_plausible: false
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 3
+  base:
+    modal: PASS
+    votes:
+      PASS: 5
+    bucket: PASS-control
+    unanime: true
+  ce:
+    modal: PASS
+    votes:
+      PASS: 5
+    bucket: PASS-control
+    unanime: true
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: cat023
+  paired: false
+  dado_plausible: true
+  clase_freeze_A: 4a-vista
+  votos_gate:
+  - 3
+  base:
+    modal: PASS
+    votes:
+      PARCIAL: 2
+      PASS: 3
+    bucket: PASS-control
+    unanime: false
+  ce:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  delta: excluido-dado
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: cat024
+  paired: false
+  dado_plausible: false
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 3
+  base:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  ce:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer-con-conflicto
+  conducta_ce: answer-con-conflicto
+- qid: hp001
+  paired: false
+  dado_plausible: false
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 3
+  base:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 3
+      FALLO: 2
+    bucket: residual
+    unanime: false
+  ce:
+    modal: FALLO
+    votes:
+      PARCIAL: 2
+      FALLO: 3
+    bucket: residual
+    unanime: false
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: hp002
+  paired: false
+  dado_plausible: true
+  clase_freeze_A: 4a-vista
+  votos_gate:
+  - 2
+  - 1
+  base:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  ce:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: hp003
+  paired: false
+  dado_plausible: false
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 3
+  base:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  ce:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: hp004
+  paired: true
+  dado_plausible: false
+  clase_freeze_A: short-circuit
+  votos_gate:
+  - 3
+  base:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 4
+      PASS: 1
+    bucket: K-INESTABLE
+    unanime: false
+  ce:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 4
+      PASS: 1
+    bucket: K-INESTABLE
+    unanime: false
+  delta: null
+  conducta_esperada: clarify
+  conducta_base: answer
+  conducta_ce: answer
+- qid: hp005
+  paired: false
+  dado_plausible: false
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 3
+  base:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  ce:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: hp006
+  paired: false
+  dado_plausible: false
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 3
+  base:
+    modal: FALLO
+    votes:
+      FALLO: 5
+    bucket: residual
+    unanime: true
+  ce:
+    modal: FALLO
+    votes:
+      FALLO: 5
+    bucket: residual
+    unanime: true
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: admit
+  conducta_ce: admit
+- qid: hp007
+  paired: false
+  dado_plausible: false
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 3
+  base:
+    modal: PARCIAL
+    votes:
+      PASS: 2
+      PARCIAL: 3
+    bucket: K-INESTABLE
+    unanime: false
+  ce:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 4
+      PASS: 1
+    bucket: K-INESTABLE
+    unanime: false
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: hp008
+  paired: false
+  dado_plausible: false
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 3
+  base:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  ce:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: hp009
+  paired: false
+  dado_plausible: true
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 2
+  - 1
+  base:
+    modal: FALLO
+    votes:
+      FALLO: 4
+      PARCIAL: 1
+    bucket: residual
+    unanime: false
+  ce:
+    modal: FALLO
+    votes:
+      FALLO: 5
+    bucket: residual
+    unanime: true
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: clarify
+  conducta_ce: answer
+- qid: hp010
+  paired: false
+  dado_plausible: true
+  clase_freeze_A: minoritaria-gate
+  votos_gate:
+  - 2
+  - 1
+  base:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  ce:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 3
+      FALLO: 2
+    bucket: residual
+    unanime: false
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: hp011
+  paired: false
+  dado_plausible: true
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 2
+  - 1
+  base:
+    modal: FALLO
+    votes:
+      FALLO: 5
+    bucket: residual
+    unanime: true
+  ce:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 3
+      FALLO: 2
+    bucket: residual
+    unanime: false
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: hp012
+  paired: false
+  dado_plausible: true
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 2
+  - 1
+  base:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 3
+      FALLO: 2
+    bucket: residual
+    unanime: false
+  ce:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  delta: 0
+  conducta_esperada: answer-con-conflicto
+  conducta_base: answer
+  conducta_ce: answer
+- qid: hp013
+  paired: false
+  dado_plausible: false
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 3
+  base:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  ce:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: admit
+  conducta_ce: answer
+- qid: hp014
+  paired: false
+  dado_plausible: true
+  clase_freeze_A: 4a-vista
+  votos_gate:
+  - 2
+  - 1
+  base:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  ce:
+    modal: FALLO
+    votes:
+      FALLO: 3
+      PARCIAL: 2
+    bucket: residual
+    unanime: false
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: admit
+- qid: hp015
+  paired: false
+  dado_plausible: false
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 3
+  base:
+    modal: PASS
+    votes:
+      PASS: 4
+      PARCIAL: 1
+    bucket: PASS-control
+    unanime: false
+  ce:
+    modal: PASS
+    votes:
+      PARCIAL: 1
+      PASS: 4
+    bucket: PASS-control
+    unanime: false
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: hp017
+  paired: false
+  dado_plausible: false
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 3
+  base:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  ce:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+    unanime: true
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: hp018
+  paired: false
+  dado_plausible: false
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 3
+  base:
+    modal: FALLO
+    votes:
+      FALLO: 4
+      PARCIAL: 1
+    bucket: residual
+    unanime: false
+  ce:
+    modal: FALLO
+    votes:
+      FALLO: 4
+      PARCIAL: 1
+    bucket: residual
+    unanime: false
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: hp019
+  paired: false
+  dado_plausible: false
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 3
+  base:
+    modal: PASS
+    votes:
+      PASS: 5
+    bucket: PASS-control
+    unanime: true
+  ce:
+    modal: PASS
+    votes:
+      PASS: 5
+    bucket: PASS-control
+    unanime: true
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer
+- qid: hp020
+  paired: false
+  dado_plausible: false
+  clase_freeze_A: modal-gate
+  votos_gate:
+  - 3
+  base:
+    modal: PASS
+    votes:
+      PASS: 4
+      PARCIAL: 1
+    bucket: PASS-control
+    unanime: false
+  ce:
+    modal: PASS
+    votes:
+      PARCIAL: 2
+      PASS: 3
+    bucket: PASS-control
+    unanime: false
+  delta: 0
+  conducta_esperada: answer
+  conducta_base: answer
+  conducta_ce: answer

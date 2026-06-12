@@ -1,0 +1,102 @@
+meta:
+  at: '2026-06-12T20:46:57'
+  umbral_stop_sistemico: '>=9/35'
+asserts:
+  pool50_entre_brazos:
+    fallos: []
+    ok: true
+  vista_ce_vs_gate:
+    fallos: []
+    ok: true
+  vista_llm_vs_gate:
+    clase_por_gold:
+      cat001: modal-gate
+      cat005: modal-gate
+      cat007: modal-gate
+      cat008: modal-gate
+      cat009: modal-gate
+      cat010: short-circuit
+      cat011: modal-gate
+      cat012: modal-gate
+      cat013: short-circuit
+      cat014: short-circuit
+      cat015: modal-gate
+      cat016: modal-gate
+      cat017: 4a-vista
+      cat018: modal-gate
+      cat019: 4a-vista
+      cat020: minoritaria-gate
+      cat021: minoritaria-gate
+      cat022: modal-gate
+      cat023: 4a-vista
+      cat024: modal-gate
+      hp001: modal-gate
+      hp002: 4a-vista
+      hp003: modal-gate
+      hp004: short-circuit
+      hp005: modal-gate
+      hp006: modal-gate
+      hp007: modal-gate
+      hp008: modal-gate
+      hp009: modal-gate
+      hp010: minoritaria-gate
+      hp011: modal-gate
+      hp012: modal-gate
+      hp013: modal-gate
+      hp014: 4a-vista
+      hp015: modal-gate
+      hp017: modal-gate
+      hp018: modal-gate
+      hp019: modal-gate
+      hp020: modal-gate
+    fuera_de_vistas:
+    - cat017
+    - cat019
+    - cat023
+    - hp002
+    - hp014
+    n_fuera: 5
+    stop_sistemico: false
+pairing:
+  paired:
+  - cat010
+  - cat013
+  - cat014
+  - hp004
+  no_paired:
+  - cat001
+  - cat005
+  - cat007
+  - cat008
+  - cat009
+  - cat011
+  - cat012
+  - cat015
+  - cat016
+  - cat017
+  - cat018
+  - cat019
+  - cat020
+  - cat021
+  - cat022
+  - cat023
+  - cat024
+  - hp001
+  - hp002
+  - hp003
+  - hp005
+  - hp006
+  - hp007
+  - hp008
+  - hp009
+  - hp010
+  - hp011
+  - hp012
+  - hp013
+  - hp014
+  - hp015
+  - hp017
+  - hp018
+  - hp019
+  - hp020
+  qids_brazoB: cat001,cat005,cat007,cat008,cat009,cat011,cat012,cat015,cat016,cat017,cat018,cat019,cat020,cat021,cat022,cat023,cat024,hp001,hp002,hp003,hp005,hp006,hp007,hp008,hp009,hp010,hp011,hp012,hp013,hp014,hp015,hp017,hp018,hp019,hp020

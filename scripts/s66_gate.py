@@ -81,12 +81,17 @@ from src.rag.retriever import retrieve_chunks  # noqa: E402
 from src.rag.series_registry import registry_fingerprint, series_enabled  # noqa: E402
 
 EVALS = ROOT / "evals"
+# GATE_RUN_ID (s67): el re-gate de la cláusula X2 re-corre ESTE instrumento con otra
+# ventana (p.ej. EMBED_CACHE_PATH compartido con el A/B, tras el embed-drift que cazó
+# el assert (i) del A/B) sin pisar los artefactos del gate original. INPUTS congelados
+# (probes X1, artefacto s61 de la calibración F8) NO se parametrizan.
+GATE_RUN = os.environ.get("GATE_RUN_ID", "s66")
 F_PROBES = EVALS / "s66_gate_probes.yaml"
-F_CALIB = EVALS / "s66_gate_calibracion.yaml"
-F_POOLS = EVALS / "s66_gate_pools.json"
-F_PRECHECK = EVALS / "s66_gate_precheck.yaml"
-F_RERANKS = EVALS / "s66_gate_reranks.json"
-F_REPORT = EVALS / "s66_gate_report.yaml"
+F_CALIB = EVALS / f"{GATE_RUN}_gate_calibracion.yaml"
+F_POOLS = EVALS / f"{GATE_RUN}_gate_pools.json"
+F_PRECHECK = EVALS / f"{GATE_RUN}_gate_precheck.yaml"
+F_RERANKS = EVALS / f"{GATE_RUN}_gate_reranks.json"
+F_REPORT = EVALS / f"{GATE_RUN}_gate_report.yaml"
 F_S61_RERANKS = EVALS / "s61_gate_reranks.json"
 
 EF_EXPECTED = "hnsw.ef_search=120"
