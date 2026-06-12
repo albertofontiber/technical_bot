@@ -4,17 +4,22 @@ Ensures that when a technician asks about a specific model (e.g. MAD-491),
 we always find the right chunks even if vector similarity alone misses them.
 """
 
+import json
+import logging
+import math
 import re
 from concurrent.futures import ThreadPoolExecutor
 
 import httpx
 
 from ..config import (SUPABASE_URL, SUPABASE_SERVICE_KEY, RETRIEVAL_TOP_K,
-                      CHUNKS_TABLE, RPC_SUFFIX)
+                      CHUNKS_TABLE, RPC_SUFFIX, MERGE_STRATEGY)
 from ..ingestion.embedder import embed_query
 from .hyde import generate_hypothetical_document, HYDE_ENABLED
 from . import catalog as _catalog
 from . import series_registry as _series
+
+logger = logging.getLogger(__name__)
 
 # SEED pattern, hand-tuned (multi-manufacturer). Desde Fase 2 ya NO es el
 # detector primario en retrieval: extract_product_models usa el catálogo
@@ -878,6 +883,130 @@ def vector_search(
     return resp.json()
 
 
+def _tag_channel(chunks: list[dict], tag: str) -> list[dict]:
+    """(s68) Etiqueta el macro-canal de ORIGEN (VECTOR/MODEL/TARGETED/CONTENT) para el
+    reporte de composición del merge. Primera etiqueta gana (un chunk dual conserva la
+    de su primer canal). El campo viaja con el chunk — inocuo para los consumidores."""
+    for c in chunks:
+        c.setdefault("_channel", tag)
+    return chunks
+
+
+def _fetch_embeddings_by_id(ids: list[str]) -> dict[str, list[float]]:
+    """(s68, V-A′) Embeddings almacenados por id — re-score cliente-side de los
+    candidatos léxicos. Sin DDL (diseño v6.1 §2)."""
+    out: dict[str, list[float]] = {}
+    if not ids:
+        return out
+    headers = {"apikey": SUPABASE_SERVICE_KEY, "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}"}
+    for i in range(0, len(ids), 80):
+        id_list = ",".join(f'"{x}"' for x in ids[i:i + 80])
+        try:
+            with httpx.Client(timeout=30.0) as client:
+                r = client.get(f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}", headers=headers,
+                               params={"select": "id,embedding", "id": f"in.({id_list})"})
+            for row in r.json():
+                emb = row.get("embedding")
+                if isinstance(emb, str):
+                    emb = json.loads(emb)
+                if emb:
+                    out[row["id"]] = emb
+        except Exception as e:
+            logger.warning("fetch embeddings para re-score falló (%s) — %d ids sin coseno", e, len(ids))
+    return out
+
+
+def _cos(a: list[float], b: list[float]) -> float:
+    dot = sum(x * y for x, y in zip(a, b))
+    na = math.sqrt(sum(x * x for x in a))
+    nb = math.sqrt(sum(x * x for x in b))
+    return dot / (na * nb) if na and nb else 0.0
+
+
+def _rescore_to_cosine(chunks: list[dict], query_embedding: list[float]) -> list[dict]:
+    """(s68, V-A′) similarity := coseno real para los chunks que traen stamp (los del
+    canal VECTOR ya traen coseno del RPC). Chunk sin embedding recuperable conserva su
+    score actual (fallo-abierto declarado: mejor stamp que descartar contenido)."""
+    need = [c.get("id") for c in chunks
+            if c.get("id") and c.get("_channel") != "VECTOR"]
+    embs = _fetch_embeddings_by_id([i for i in dict.fromkeys(need)])
+    for c in chunks:
+        e = embs.get(c.get("id"))
+        if e is not None:
+            c["similarity"] = _cos(query_embedding, e)
+    return chunks
+
+
+def _merge_channels(keyword_results: list[dict], vector_results: list[dict],
+                    cap: int, strategy: str,
+                    query_embedding: list[float] | None = None) -> list[dict]:
+    """(s68) Step 4 — fusión de canales bajo MERGE_STRATEGY (diseño _s68_merge_design.md
+    v6.1 §2; configs ÚNICAS congeladas, anti-tuning).
+
+    stamps  → comportamiento histórico EXACTO: dedup keyword-first (el stamp PISA al
+              duplicado vectorial) + sort por similarity (stamps 0.65-0.85 arriba).
+    quota   → V-D composición: léxicos con sus límites actuales (en duales el registro
+              VECTOR conserva su coseno — volteo del keyword-first, efecto-vista F4
+              declarado) + VECTOR llena hasta `cap` por coseno desc; el sort por
+              similarity del pipeline se mantiene (el orden post-merge lo gestionan
+              los diversificadores, intocables — F6).
+    cosine  → V-A′: similarity := coseno real para TODO candidato (re-score
+              cliente-side); dedup simple por id; sort único; sin boosts.
+    """
+    if strategy == "cosine":
+        seen: set = set()
+        merged = []
+        for c in keyword_results + vector_results:
+            cid = c.get("id")
+            if cid and cid not in seen:
+                seen.add(cid)
+                merged.append(c)
+        _rescore_to_cosine(merged, query_embedding or [])
+        merged.sort(key=lambda c: c.get("similarity", 0), reverse=True)
+        return merged
+
+    if strategy == "quota":
+        by_id_vec = {}
+        for v in vector_results:
+            vid = v.get("id")
+            if vid and vid not in by_id_vec:
+                by_id_vec[vid] = v
+        seen = set()
+        merged = []
+        for c in keyword_results:                      # léxicos: límites actuales
+            cid = c.get("id")
+            if not cid or cid in seen:
+                continue
+            seen.add(cid)
+            merged.append(by_id_vec.get(cid, c))       # dual → registro VECTOR (coseno)
+        for v in vector_results:                       # vector llena hasta cap
+            if len(merged) >= cap:
+                break
+            vid = v.get("id")
+            if vid and vid not in seen:
+                seen.add(vid)
+                merged.append(v)
+        merged.sort(key=lambda c: c.get("similarity", 0), reverse=True)
+        return merged
+
+    # stamps (default) — histórico exacto
+    seen_ids: set = set()
+    merged = []
+    for chunk in keyword_results:                      # keyword first (exact matches)
+        chunk_id = chunk.get("id")
+        if chunk_id and chunk_id not in seen_ids:
+            seen_ids.add(chunk_id)
+            merged.append(chunk)
+    for chunk in vector_results:
+        chunk_id = chunk.get("id")
+        if chunk_id and chunk_id not in seen_ids:
+            seen_ids.add(chunk_id)
+            merged.append(chunk)
+    # Sort by similarity (keyword matches have 0.80, so they'll rank high)
+    merged.sort(key=lambda c: c.get("similarity", 0), reverse=True)
+    return merged
+
+
 def retrieve_chunks(
     query: str,
     top_k: int = RETRIEVAL_TOP_K,
@@ -946,16 +1075,23 @@ def retrieve_chunks(
 
     # Step 2 + 2b: Vector searches run in PARALLEL
     # (category-filtered + broad fallback)
+    #
+    # (s68, MERGE_STRATEGY≠stamps — L-i′, réplica de s59/DEC-040): el canal vectorial
+    # principal corre SIN filter_category (con category detectada devuelve 0 filas en
+    # ~85% de queries: chunks_v2 tiene 0 chunks con categoría canónica, re-verificado
+    # 12-jun-s68) y el broad-5 desaparece (redundante con el canal sano). Bajo
+    # `stamps` el comportamiento es el histórico EXACTO.
     vector_results = []
     vector_futures = []
+    _li_sano = MERGE_STRATEGY != "stamps"
     with ThreadPoolExecutor(max_workers=2) as pool:
-        # Main vector search (with category filter if detected)
+        # Main vector search (with category filter if detected; sin filtro bajo L-i′)
         vector_futures.append(pool.submit(
             vector_search, query, effective_top_k, threshold,
-            product_filter, detected_category, query_embedding,
+            product_filter, None if _li_sano else detected_category, query_embedding,
         ))
         # Broad search without category (only if category was auto-detected)
-        if detected_category and not category_filter:
+        if detected_category and not category_filter and not _li_sano:
             vector_futures.append(pool.submit(
                 vector_search, query, 5, threshold,
                 product_filter, None, query_embedding,
@@ -965,12 +1101,13 @@ def retrieve_chunks(
                 vector_results.extend(f.result())
             except Exception:
                 pass
+    _tag_channel(vector_results, "VECTOR")
 
     # Step 3: Keyword search for each detected model
     keyword_results = []
     for model in models:
         kw_chunks = keyword_search(model, limit=5)
-        keyword_results.extend(kw_chunks)
+        keyword_results.extend(_tag_channel(kw_chunks, "MODEL"))
 
     # Step 3a-intent: Intent-based targeted search for each model
     if models:
@@ -984,7 +1121,7 @@ def retrieve_chunks(
                     spec_results = content_search(kw, limit=3, product_model=model)
                     for c in spec_results:
                         c["similarity"] = 0.85  # Boost spec matches
-                    keyword_results.extend(spec_results)
+                    keyword_results.extend(_tag_channel(spec_results, "TARGETED"))
 
         # Troubleshooting intent → search for troubleshooting keywords
         if TROUBLESHOOT_INTENT.search(query_lower_intent):
@@ -994,7 +1131,7 @@ def retrieve_chunks(
                     trouble_results = content_search(kw, limit=3, product_model=model)
                     for c in trouble_results:
                         c["similarity"] = 0.85
-                    keyword_results.extend(trouble_results)
+                    keyword_results.extend(_tag_channel(trouble_results, "TARGETED"))
 
         # Wiring/installation intent → guarantee at least a few diagram chunks
         # for the model. Diagram density (~3-5% of corpus) is too low for
@@ -1006,7 +1143,7 @@ def retrieve_chunks(
         if WIRING_INTENT.search(query):
             for model in models:
                 diag_results = diagram_search(model, content_type="wiring", limit=3)
-                keyword_results.extend(diag_results)
+                keyword_results.extend(_tag_channel(diag_results, "TARGETED"))
 
     # Step 3b: Content search within detected model's chunks using query keywords + synonyms
     if models:
@@ -1023,21 +1160,21 @@ def retrieve_chunks(
             # Search each keyword individually
             for kw in query_keywords:
                 kw_content = content_search(kw, limit=10, product_model=model)
-                keyword_results.extend(kw_content)
+                keyword_results.extend(_tag_channel(kw_content, "CONTENT"))
 
             # Synonym-based searches get boosted score (they target the actual topic)
             for kw in synonym_keywords:
                 kw_content = content_search(kw, limit=10, product_model=model)
                 for c in kw_content:
                     c["similarity"] = 0.85  # Boost synonym matches
-                keyword_results.extend(kw_content)
+                keyword_results.extend(_tag_channel(kw_content, "TARGETED"))
 
             # Also search for the full query text (without model) to find chunks
             # containing multiple keywords together (e.g. "fallo alimentación")
             query_no_model = MODEL_PATTERN.sub("", query).strip()
             if len(query_no_model) > 10:
                 full_content = content_search(query_no_model[:60], limit=5, product_model=model)
-                keyword_results.extend(full_content)
+                keyword_results.extend(_tag_channel(full_content, "CONTENT"))
 
     # Step 3c: Content search when no specific model is detected
     # All content_search calls run in PARALLEL to avoid sequential latency.
@@ -1048,8 +1185,13 @@ def retrieve_chunks(
         # Collect all search tasks: (search_term, limit, category, boost)
         search_tasks: list[tuple[str, int, str | None, float]] = []
 
-        # 3c-i: Synonym-based content search within detected category (high priority)
-        if detected_category:
+        # 3c-i: Synonym-based content search within detected category (high priority).
+        # (s68, MERGE_STRATEGY≠stamps — L-i′): ELIMINADAS bajo las variantes, réplica
+        # de s59/DEC-040 ("devolvían 0 filas SIEMPRE"); premisa RE-VERIFICADA hoy
+        # contra el corpus actual (0 chunks con categoría canónica en chunks_v2,
+        # pre-check Y1 del diseño v6.1 — rama pre-registrada: con >0 filas se habrían
+        # CONSERVADO para no colar un segundo lever).
+        if detected_category and MERGE_STRATEGY == "stamps":
             for phrase, synonym in QUERY_SYNONYMS.items():
                 if phrase in query_lower:
                     search_tasks.append((synonym, 10, detected_category, 0.85))
@@ -1081,30 +1223,15 @@ def retrieve_chunks(
                 # (misma pregunta, respuesta distinta; ±4 facts de ruido en el eval).
                 for future in futures:
                     try:
-                        keyword_results.extend(future.result())
+                        keyword_results.extend(_tag_channel(future.result(), "CONTENT"))
                     except Exception:
                         pass
 
-    # Step 4: Merge and deduplicate (keyword results take priority)
-    seen_ids = set()
-    merged = []
-
-    # Add keyword results first (they're exact matches)
-    for chunk in keyword_results:
-        chunk_id = chunk.get("id")
-        if chunk_id and chunk_id not in seen_ids:
-            seen_ids.add(chunk_id)
-            merged.append(chunk)
-
-    # Add vector results
-    for chunk in vector_results:
-        chunk_id = chunk.get("id")
-        if chunk_id and chunk_id not in seen_ids:
-            seen_ids.add(chunk_id)
-            merged.append(chunk)
-
-    # Sort by similarity (keyword matches have 0.80, so they'll rank high)
-    merged.sort(key=lambda c: c.get("similarity", 0), reverse=True)
+    # Step 4: Merge and deduplicate — extraído a _merge_channels (s68): la estrategia
+    # de fusión es el LEVER bajo flag; `stamps` reproduce el comportamiento histórico
+    # EXACTO (keyword-first dedup + sort por similarity).
+    merged = _merge_channels(keyword_results, vector_results, effective_top_k,
+                             MERGE_STRATEGY, query_embedding)
 
     # Step 4b: Lifecycle filter — drop chunks whose parent document is not
     # 'active' (superseded / draft / retired / needs_review). Also enriches
@@ -1128,8 +1255,15 @@ def retrieve_chunks(
     # by whichever doc has more chunks — missing the doc that actually
     # holds the answer. Guarantee at least one chunk per source_file.
     if models and len(merged) > 0:
+        # (s68, V-A′/F5) bajo `cosine` los SUPLEMENTOS del diversify también van a
+        # coseno real (sin esto serían el top absoluto del re-sort interno con su
+        # stamp 0.72 > cosenos 0.5x — "sin boosts" incumplido por construcción).
+        supp_fn = ((lambda cs: _rescore_to_cosine(_tag_channel(cs, "SUPPLEMENT"),
+                                                  query_embedding))
+                   if MERGE_STRATEGY == "cosine" else None)
         merged = _diversify_by_source_file(merged, top_k, models, query, query_keywords=None,
-                                           include_superseded=include_superseded)
+                                           include_superseded=include_superseded,
+                                           supplement_rescore_fn=supp_fn)
 
     # Step 5b: Manufacturer diversity for generic queries (no specific model).
     # Ensures technicians see results from ALL manufacturers, not just whichever
@@ -1579,6 +1713,7 @@ def _diversify_by_source_file(
     original_query: str,
     query_keywords: list[str] | None = None,
     include_superseded: bool = False,
+    supplement_rescore_fn=None,
 ) -> list[dict]:
     """Guarantee at least one chunk per source_file when a product has
     multiple docs in corpus.
@@ -1679,6 +1814,12 @@ def _diversify_by_source_file(
 
     for c in supplementary:
         c["similarity"] = 0.72  # competitive but won't override direct matches
+    if supplement_rescore_fn:
+        # (s68, V-A′/F5) bajo MERGE_STRATEGY=cosine el stamp 0.72 se sustituye por el
+        # coseno real — la LÓGICA de selección/interleave de este diversify es intocable
+        # (consenso dúo s59 ×2); solo se parametriza el score del suplemento inyectado.
+        supplementary = supplement_rescore_fn(supplementary)
+    for c in supplementary:
         cid = c.get("id")
         if cid and cid not in seen_ids:
             seen_ids.add(cid)
