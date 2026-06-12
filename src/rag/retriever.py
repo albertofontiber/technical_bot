@@ -732,18 +732,30 @@ def get_available_manufacturers() -> list[str]:
         "apikey": SUPABASE_SERVICE_KEY,
         "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
     }
+    # PostgREST capa la respuesta a max-rows=1000 aunque limit pida más (misma
+    # lección que el fingerprint s64): con >1000 docs, las filas más allá del
+    # corte quedaban fuera y sus marcas desaparecían del catálogo (cazado en el
+    # smoke s65: Aritech/Kidde/Edwards invisibles tras el backfill). Paginar.
+    rows: list[dict] = []
+    offset = 0
     with httpx.Client(timeout=10.0) as client:
-        resp = client.get(
-            f"{SUPABASE_URL}/rest/v1/documents",
-            headers=headers,
-            params={
-                "select": "manufacturer",
-                "limit": "5000",
-            },
-        )
-        resp.raise_for_status()
+        while True:
+            resp = client.get(
+                f"{SUPABASE_URL}/rest/v1/documents",
+                headers=headers,
+                params={
+                    "select": "manufacturer",
+                    "limit": "1000",
+                    "offset": str(offset),
+                },
+            )
+            resp.raise_for_status()
+            batch = resp.json()
+            rows.extend(batch)
+            if len(batch) < 1000:
+                break
+            offset += 1000
 
-    rows = resp.json()
     manufacturers = sorted(set(
         r["manufacturer"] for r in rows
         if r.get("manufacturer") and r["manufacturer"] != "unknown"

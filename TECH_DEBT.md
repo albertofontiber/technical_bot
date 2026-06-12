@@ -10,11 +10,11 @@ Si alcanzas un trigger, para y refactoriza antes de seguir añadiendo features.
 
 ---
 
-## Índice de estado (s64 — 12 jun 2026; generado, no renumera)
+## Índice de estado (s65 — 12 jun 2026; generado, no renumera)
 
-- **Abiertos (trigger-gated):** #1, #2, #3, #5b, #5, #6, #7, #10, #11b, #12, #11g, #11h, #13, #15, #17, #18, #19, #20, #21, #22, #23, #25, #26, #27, #28, #29, #30, #31, #18, #32, #33, #34, #35, #36, #37, #39, #40, #41, #43 (solo capa B — capa A ✅ s63/DEC-044), #44, #45
+- **Abiertos (trigger-gated):** #1, #2, #3, #5b, #5, #6, #7, #10, #11b, #12, #11g, #11h, #13, #15, #17, #18, #19, #20, #21, #22, #23, #25, #26, #27, #28, #29, #30, #31, #18, #32, #33, #34, #35, #36, #37, #39, #40, #41, #44, #45, #47
 - **Parciales / elevados:** #8, #11f, #24
-- **Cerrados (✅ resueltos o 🔴 revertidos):** #4, #9, #11, #11c, #11i, #11d, #14, #16, #38, #42, #46 (✅ s64/DEC-045)
+- **Cerrados (✅ resueltos o 🔴 revertidos):** #4, #9, #11, #11c, #11i, #11d, #14, #16, #38, #42, #43 (✅ COMPLETO: capa A s63/DEC-044 + capa B s65/DEC-046; escritor-en-ingesta → PLAN punto 2), #46 (✅ s64/DEC-045)
 
 Nota: hay dos items "## 18" (judge false positive, sesión 14; y atribución de fabricante, 28 mayo) —
 se conservan ambos números porque las referencias cruzadas en DECISIONS/memoria los citan; el índice
@@ -1527,7 +1527,18 @@ vez de abrir el YAML directo.
 **Relacionado**: DEC-023 (backbone Track B + embargo en la puerta), `gold_store.py`
 (`verified`/`dev`/`heldout`), DEC-021 §F (run-manifest).
 
-## 43. Retrieval: los manuales de SERIE quedan invisibles a los productos hermanos por el filtro de modelo (sesión 55)
+## 43. ✅ COMPLETO (capa A s63/DEC-044 · capa B s65/DEC-046) — Retrieval: los manuales de SERIE quedan invisibles a los productos hermanos por el filtro de modelo (sesión 55)
+
+**Resolución capa B (s65, DEC-046)**: backfill de identidad de los lotes s55/s58 — 103 filas
+nuevas en `documents` + 2.040 chunks enlazados (entran al lifecycle y citan revisión); 86
+manufacturer corregidos por evidencia doc↔chunks (excepción MAD565: los chunks estaban mal);
+80 revisiones-basura de parser → NULL; 165 filas `active` sin contenido re-clasificadas (90
+retired + 74 needs_review = cola de re-ingesta). Residual declarado: 25 chunks / 8 sources del
+canal "Otros" sin marca demostrable. **⚠️ El ESCRITOR del hueco sigue vivo**: el flujo de
+ingesta (`src/reingest/index.py:resolve_document_id`) casa pero NO crea filas y NO prefiere
+filas active al casar (F2 s65: re-ingestar un doc retired colgaría chunks de una fila
+inactiva = invisibles) — el contrato de identidad EN ingesta es prerrequisito de la ingesta
+grande (PLAN punto 2). B4/B5 (language/revision_date/family masivos) diferidos a ese contrato.
 
 **Problema** (verificado en código, s55): el `product_model` se asigna a **nivel DOCUMENTO por filename**
 (`metadata.py:apply_metadata` copia `meta.product_model` a TODOS los chunks; `_detect_model` sobre
@@ -1698,3 +1709,27 @@ SUPERSEDED + C1 del runner + smoke). Si el ruler quisiera un trap dedicado, ahor
 **Relacionado**: DEC-045 (cierre), DEC-044(e), audit s62 (capa C), `scripts/s64_lifecycle46.py`
 (runner 5 fases con rollback), `scripts/s64_state46.py`, `config/manufacturers/detnov.yaml`
 (evidence actualizada).
+
+## 47. `_get_all_known_manufacturers` (diversify Step 5b) lee 200 chunks físicos sin ORDER BY — la lista real es 2 marcas (s65)
+
+**Estado actual (MEDIDO en s65, F9b del dúo)**: la lista que alimenta `_diversify_by_manufacturer`
+(`src/rag/retriever.py:1843`) se construye de los primeros ~200 chunks FÍSICOS de la tabla
+(sin ORDER BY, con cache de proceso). Medido en los snapshots before/after de s65: devuelve
+**['Argus Security', 'Aritech']** — 2 de las 31 marcas del corpus. Consecuencias: (a) el
+diversify por manufacturer del path no-model solo "ve" 2 marcas (sus fetches suplementarios
+solo rellenan esas); (b) la lista depende del ORDEN FÍSICO del heap de Postgres → un UPDATE
+masivo puede REORDENARLA en silencio y cambiar pools de golds genéricos sin tocar sus sources
+(dado de instrumento; en s65 no cambió — verificado en el report).
+
+**Por qué no se arregló en s65** (pregunta cero): es código de RUTINA de retrieval (cambiarlo
+= lever que debe medirse, DEC-019) y el Step 5b entero está ya DIFERIDO-a-propósito en #44
+(gatea con `category` basura; consenso dúo s59 ×2: tocarlo = mecanismo reactivado nunca medido).
+
+**Trigger para implementar**: al resolver #44 (el Step 5b se rediseña entero con el contrato
+de category) — la lista debe salir de `documents` (paginado, como el fix s65 de
+`get_available_manufacturers`) o de un agregado estable, NUNCA de un scan físico sin orden.
+O antes: si un C3-fail de pools en un ciclo futuro se atribuye a este mecanismo (la
+explicación pre-declarada quedó escrita en `evals/s65_capab_report.yaml`).
+
+**Relacionado**: #44 (Step 5b diferido), DEC-046e, `s65_capab_report.yaml`
+(known_manufacturers_diff), fix s65 de `get_available_manufacturers` (mismo patrón de causa).
