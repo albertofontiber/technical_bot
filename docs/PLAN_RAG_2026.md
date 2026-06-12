@@ -3,10 +3,11 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 12 jun 2026 (s67, DEC-048 — A/B del swap CE ejecutado = **ROLLBACK por tabla
-> pre-registrada** [F_post 8>5 + 2 regresiones de conducta]: lever CE ARCHIVADO con
-> evidencia end-to-end; **el re-freeze `s67base` queda como baseline NUEVO del ruler**;
-> el embed-cache compartido pasa a ser el pin de embeddings de los ciclos de eval).
+> 12 jun 2026 (s67b, DEC-049 — re-priorización post-A/B confirmada por Alberto: **el
+> ciclo del canal vectorial pasa a punto 1** ("el elefante en la habitación"); corpus
+> DIFERIDO demand-driven hasta chatbot estable (la meta 30+ fabricantes SIGUE, en fase
+> posterior); diagramas partidos en datos-paralelizable + cableado-post-canal. s67 =
+> DEC-048: A/B del CE = ROLLBACK pre-registrado; baseline del ruler = `s67base`).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -79,24 +80,44 @@ taxonomía CONGELADA (DEC-033), juez GPT-5.5 + K-mayoría. **Baseline VIGENTE = 
 completo + `s67_embed_cache.json` como pin de embeddings); frozen-s58 = referencia
 histórica muerta. Próximo freeze: correr SIEMPRE con `EMBED_CACHE_PATH` (DEC-048c).
 
-## Qué sigue (orden vigente)
+## Qué sigue (orden vigente — re-priorizado DEC-049, 12 jun 2026)
 
-1. **Corpus nuevo (Aritech/Kidde/Ziton-GST).** Antes de ingerir, los 3 prerrequisitos:
-   **#44** (contrato de category — el escritor sigue sembrando) + **contrato #45** (diagramas)
-   + **contrato de identidad/supersesión EN INGESTA**: el flujo debe CREAR fila en `documents`
-   (hoy `resolve_document_id` casa pero no crea — el hueco que s65 backfilleó) **prefiriendo
-   filas active al casar** (F2 s65: re-ingestar un doc retired lo reactiva conscientemente,
-   no cuelga chunks de una fila inactiva) + sha-check contra lo existente (DEC-045a). La
-   **cola curada vive en los 74 `needs_review`** de s65 (inventario en
-   `evals/s65_capab_inventory.yaml`) — candidatos ES/EN no migrados del corpus viejo.
-2. **Pendientes menores del ciclo s65:** 25 chunks huérfanos residuales (8 sources canal
-   "Otros" sin marca — curación con Alberto o quedan como gap honesto); fragilidad de
-   `_get_all_known_manufacturers` (TECH_DEBT #47, medido: la lista del diversify = 2 marcas).
-3. **Ciclo profundidad/estabilidad del canal vectorial** (futuro, post-corpus): el dado del
-   rerank LLM (11/39, defecto de producto medido s66/s67) + el canal con categoría muerta
-   (~85% de queries) + rank 51-70 (4× medido, DEC-042d). Ahí renacen L-i
-   (`s59-lever-code-ROLLBACKED`) y/o un reranker mejor — CUALQUIER lever nuevo arranca por
-   gate, con el baseline s67base como referencia y el embed-cache como pin.
+1. **CICLO DEL CANAL VECTORIAL (s68+) — el lever prioritario** ("el elefante en la
+   habitación", Alberto; 4 datos lo sostienen: canal principal devuelve 0 en ~85% de
+   queries [DEC-040] · el embedding SÍ encuentra los hechos, rank 7-110 · hechos en rank
+   51-70 medidos 4× [DEC-042d] · corte-a-50 muerde 9/39; + la lección de 3 ciclos de
+   reranker = 0: reordenar lo que entra no arregla lo que NO entra). **Paso 0: AUDIT de
+   dimensionamiento** ($0-barato; instrumentos existentes: funnel s58b + diagnosis-ranks
+   s59 + atribución s67base) con DOS preguntas pre-registradas: (a) cuánto del residual
+   es alcanzable río arriba (canal: ranks/corte/category-boost) vs (b) cuánto es
+   **calidad-de-chunk** (extracción/fragmentación — los 9 INDETERMINADO-solo-débiles;
+   lever #10 post-hoc) — si domina (b), el techo del canal baja y se sabe ANTES de
+   construir. → diseño con dúo → levers según audit: **#44 re-etiquetado de category
+   como BOOST** (no filtro duro — eso está medido como frágil; incluye el contrato del
+   ESCRITOR, raíz) · **L-i renacido** (`s59-lever-code-ROLLBACKED`) · profundidad/corte.
+   A/B vs `s67base` (embed-cache pin). **Riesgo declarado: redistribución de frontera
+   (regla-1, pasó en s59)** — paridad-control + clasificación de dado ya existen.
+2. **Re-gate del CE (~$5) SI el canal cambia los pools** (puerta DEC-048; sin promesa de
+   revival — perdió la cola con paridad de información completa).
+3. **Generación + cartera de levers (cada uno entra por gate/audit barato, DEC-016b):**
+   A/B 2×2 {Sonnet/Opus}×{blurb} (pre-registrado s56) sobre el freeze post-canal ·
+   **system prompt del generador** (no probado) · prompt del rerank-LLM (vs su dado
+   11/39) · k/corte. El orden interno lo dan los audits, no se pre-supone.
+4. **Diagramas (#45) — partido en dos (DEC-049d):** (a) **DATOS, paralelizable desde
+   ya** en sesiones sueltas: mapeo por (documento, página) desde la tabla vieja (44.035
+   chunks con diagrama allí vs 0/25.090 en v2 — nunca se extrajeron para v2) +
+   extracción de faltantes + poblar `has_diagram`/`diagram_url`; **eval-inerte
+   VERIFICADO** (before/after de pools por backfill — el fingerprint NO caza edits
+   in-place, DEC-036e); (b) **CABLEADO de entrega al bot post-canal** (chunks confiables
+   primero — si no, adjuntaríamos el diagrama equivocado).
+5. **Corpus: DIFERIDO demand-driven hasta chatbot estable/robusto (decisión de negocio,
+   DEC-049a).** Las 31 marcas actuales = las de uso frecuente de los técnicos; **la meta
+   30+ fabricantes SIGUE, en fase posterior**. Un gap real (conversación con
+   empresario/técnico, vía Excel inventario) reactiva la ingesta — y ENTONCES aplican los
+   prerrequisitos: contrato del escritor #44 + #45 + identidad/supersesión EN INGESTA
+   (crear fila + preferir active + sha-check, DEC-045a) + la cola de 74 `needs_review`.
+6. **Pendientes menores s65:** 25 chunks huérfanos residuales; TECH_DEBT #47
+   (`_get_all_known_manufacturers`).
 
 **Fases macro (rationale en HISTORY):** F1 calidad (en curso) → F2 escala (identidad de producto
 HECHA s55; resto gated) → F3 routing/tool-use + multi-dominio del scope M&A (gated por F1/F2) →
@@ -106,4 +127,8 @@ F4 eval orgánico + CI → F5 técnicos reales (post 1-sept).
 (admit/refuse); estratos de contenido a n=1; dual-judge (medido y diferido, s47 §D); prompt
 caching en prod (revisar al tener técnicos activos — umbral: ≥50 queries/día);
 language/revision_date/document_family masivos (B4/B5 s65 → contrato de ingesta, no
-backfill); TECH_DEBT #40 (recall-gate CI), #47 (lista de manufacturers del diversify).
+backfill); TECH_DEBT #40 (recall-gate CI), #47 (lista de manufacturers del diversify);
+**dureza de la tabla de decisión** (Alberto s67b: replantearse las reglas/su dureza —
+SOLO pre-registrado y motivado por evidencia, NUNCA post-hoc para dejar pasar un lever;
+las válvulas existentes [dado-plausible, enmienda-de-instrumento con evidencia+Alberto]
+ya absorben dureza legítima).
