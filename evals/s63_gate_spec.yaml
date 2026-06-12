@@ -115,10 +115,10 @@ probes_sinteticas:
     fuente_anclas: s61_gate_probes.yaml d2_movers.hp001 (MC-380 p20, congeladas pre-datos s61)
   g6_am8200g:
     query: '¿Cómo se instala la central AM-8200G? Resumen de pasos.'
-    lectura: composición (esperado: solo pm AM-8200G; sin chunks de base/N; |pool|≥3)
+    lectura: 'composición (esperado: solo pm AM-8200G; sin chunks de base/N; |pool|>=3)'
   g6_cad171:
     query: '¿Cómo configuro una zona en la central CAD-171?'
-    lectura: composición (esperado: pm CAD-171 + shared CAD-250 legítimos; sin marcas ajenas)
+    lectura: 'composición (esperado: pm CAD-171 + shared CAD-250 legítimos; sin marcas ajenas)'
 
 pairing_criterio: >-
   IDÉNTICO := secuencia de chunk-ids del pool igual entre brazos (orden

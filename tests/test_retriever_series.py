@@ -287,6 +287,28 @@ def test_diversify_sin_series_comportamiento_historico(empty_registry, diversify
     assert any(c["product_model"] == "AM-8200N" for c in result)
 
 
+def test_content_keywords_filtra_identidad():
+    """s63 gate G3: las keywords del fetch dirigido excluyen marca y modelo
+    (dentro de un doc fijado por source_file no discriminan contenido); las
+    de contenido sobreviven. Usa el catálogo real del repo."""
+    from src.rag.retriever import _content_keywords
+    kws = _content_keywords(
+        "En la Detnov CAD-201, ¿cómo se quita el candado y se entra al menú "
+        "de programación avanzada?")
+    lower = [k.lower() for k in kws]
+    assert "detnov" not in lower
+    assert "cad-201" not in lower
+    assert "candado" in lower
+
+
+def test_content_keywords_fail_open():
+    """Si todo lo extraído es identidad, devuelve las originales (mejor una
+    búsqueda imperfecta que ninguna)."""
+    from src.rag.retriever import _content_keywords
+    kws = _content_keywords("Detnov CAD-201")
+    assert kws  # no vacía
+
+
 def test_diversify_invariancia_cad250(series_registry, diversify_mocks):
     """G5/cat019: la query CAD-250 (owner = ella misma; shared ya es suyo) no
     pierde nada con el registry activo."""

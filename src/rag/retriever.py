@@ -1391,6 +1391,25 @@ def _get_pm_for_sources(source_files: list[str]) -> dict[str, str]:
     return {sf: cnt.most_common(1)[0][0] for sf, cnt in per_source.items()}
 
 
+def _content_keywords(query: str) -> list[str]:
+    """Keywords de la query SIN los tokens de IDENTIDAD (modelos detectados +
+    marcas del catálogo) — para búsquedas DENTRO de un doc ya fijado por
+    source_file (s63, gate G3): la identidad no discrimina contenido ahí;
+    'detnov' vive en los headers de todas las páginas → el FTS AND moría y el
+    fallback ilike cortaba en 2 chunks genéricos sin llegar a la keyword de
+    contenido ('candado'). Fail-open: si el filtro vacía la lista, devuelve
+    las originales."""
+    keywords = extract_search_keywords(query)
+    if not keywords:
+        return keywords
+    model_cores = {_series.normalize_model(m) for m in extract_product_models(query)}
+    mfrs = _catalog.known_manufacturers()
+    content = [kw for kw in keywords
+               if _series.normalize_model(kw) not in model_cores
+               and kw.lower() not in mfrs]
+    return content or keywords
+
+
 def _fetch_top_chunks_by_source_file(
     source_file: str,
     query: str,
@@ -1400,12 +1419,14 @@ def _fetch_top_chunks_by_source_file(
 
     Uses full-text search (plfts) on content for relevance. Falls back to
     most-similar-to-first-keyword via ilike if FTS returns nothing.
+
+    Keywords de CONTENIDO (no identidad) — ver ``_content_keywords`` (s63).
     """
     headers = {
         "apikey": SUPABASE_SERVICE_KEY,
         "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
     }
-    keywords = extract_search_keywords(query)
+    keywords = _content_keywords(query)
     select_cols = (
         "id,content,product_model,category,section_title,content_type,"
         "manufacturer,protocol,doc_type,language,has_diagram,diagram_url,source_file,"
