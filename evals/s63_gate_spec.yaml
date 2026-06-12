@@ -1,0 +1,133 @@
+# s63 — PRE-REGISTRO del gate del ciclo A (series) + enmiendas del A/B aprobadas
+# Escrito y commiteado ANTES de correr el gate (disciplina G6 s61: condiciones pre-datos).
+# Diseño completo: evals/_s63_seriesA_design_FINAL.md (post-dúo r1+r2, 4 piezas de review).
+# Aprobación Alberto 2026-06-12: enmiendas E1/E2/E3 con afinados 1-2 ("OK" tras re-examen).
+
+meta:
+  preregistrado: '2026-06-12'
+  proposito: >-
+    Gate barato (POOLS, sin juez/LLM/rerank — sin dado) del lever series-registry
+    + pairing por pool que alimenta el A/B. Veredicto del gate: GO/NO-GO para
+    pagar el A/B con juez.
+  poblacion: >-
+    notifier.yaml serie AM-8200 {AM-8200, AM-8200G, AM-8200N} sin shared_docs;
+    detnov.yaml serie Vesta {CAD-171, CAD-201, CAD-250} con 2 shared vigentes
+    (MC-380-es-2026-c, MS-416-es-2026-b). Curación Alberto s63 con evidence
+    anclada en chunks_v2.
+  brazos:
+    control: SERIES_REGISTRY_ENABLED=false (= bot actual exacto)
+    tratamiento: SERIES_REGISTRY_ENABLED=true (registry poblado)
+  invariantes_de_instrumento:
+    embedding: MISMO vector por par via EMBED_CACHE_PATH (control puebla, tratamiento lee;
+      neutraliza el drift 0.003 medido en DEC-042d)
+    pool: retrieve_chunks(top_k=50) post-diversify, SIN rerank
+    corpus: chunks_v2 congelado (fingerprint 25.090) — se verifica al inicio y fin
+    hyde: 'off (condición congelada de la serie s58+)'
+    matcher_anclas: scripts/strict_match.py anchor_present + norm_ocr (semántica s61
+      trasladada de vista a POOL — el gate mide retrieval; la vista la mide el A/B)
+  fuentes_de_anclas: >-
+    TODAS las anclas vienen congeladas de evals/s61_gate_probes.yaml (pre-datos s61):
+    d1_unanimes (G1/E3) · cat012 h2-h4 (G2) · hp001 h1 candado / h2 2222 (G3).
+  transparencia: >-
+    Las queries sintéticas (probe d2, G6) se fijaron tras un smoke DIRECCIONAL
+    (visto: pool OFF de la probe d2 = 17/17 MI-715, 0 docs de serie; cat012 OFF
+    28 con 19 de hermanos). Las ANCLAS no se tocaron tras el smoke. Las
+    condiciones de SHIP/ROLLBACK del A/B (abajo) quedan fijadas ANTES de correr
+    juez alguno y antes de leer pool alguno del gate formal.
+
+condiciones_gate:
+  G1_pass_control_retiene: >-
+    Los 6 PASS-control unánimes (cat010, cat014, cat015, cat022, hp015, hp019)
+    retienen sus anclas d1_unanimes EN POOL — leído PAREADO (afinado 2):
+    pérdida SOLO-en-tratamiento = FALLO G1 (culpa del lever); pérdida en AMBOS
+    brazos = no cuenta contra G1, cuenta para E3 (instrumento). cat015 (admit,
+    sin anclas posibles): cubierto por G4 si su query no detecta members.
+  G2_d1_cierra: >-
+    Pool TRATAMIENTO de cat012: (a) 0 chunks con product_model normalizado en
+    {am8200g, am8200n}; (b) anclas de la tabla retenidas en pool: h2 {24,72} ∧
+    h3 {179,345} ∧ h4 {np18-12b} (h1 '1,2' débil declarada — se reporta, no
+    condiciona). El 'gana hueco en top-5' es del A/B, no del gate.
+  G3_d2_abre: >-
+    Probe d2 (query sintética CAD-201): pool TRATAMIENTO contiene ≥1 chunk de
+    los shared Vesta CON el ancla 'candado' presente (hp001 h1, MC-380 p20);
+    '2222' (h2) se reporta. Pool CONTROL: 0 chunks de shared (re-confirmación).
+    Presencia de source SIN ancla NO basta (endurecida r2 R5).
+  G4_invariancia: >-
+    TODO gold dev cuya query NO detecte members poblados → pool IDÉNTICO
+    (secuencia de chunk-ids igual, orden incluido). hp003/#11e incluido
+    (CAD-150 sin serie). Equivale a: {cambiados del pairing} ⊆ {golds que
+    detectan members}.
+  G5_blast_radius: >-
+    Tabla pre/post para TODOS los golds con pool cambiado (esperados: cat012,
+    cat018; cat019/hp001 esperados INVARIANTES — CAD-250 es owner de sí misma y
+    sus shared ya pasaban). Por gold: |pool| OFF/ON, pm_counts diff, sources
+    diff. Lectura cualitativa anotada; cat018 esperable que MEJORE (su doc
+    propio manu-prog existe, 117 chunks).
+  G6_members_chicos: >-
+    Probes sintéticas por member chico (AM-8200G 52ch; CAD-171 75ch): |pool|≥3,
+    composición sin pm ajenos a la serie (CAD-171 puede y debe traer shared
+    CAD-250: es la apertura legítima), y el escalón del fail-open no degrada
+    a sin-filtro (observable: 0 chunks de marcas ajenas en pool).
+  G7_no_encoge_sanos: >-
+    Ningún gold SANO (sin members) cambia |pool| (cubierto por G4). En los
+    cambiados: |pool_ON| ≥ 3 y TODO chunk expulsado (OFF−ON) es de pm-hermano
+    vetado o fuera-de-shared — el encogimiento es la limpieza, no pérdida
+    (verificación mecánica chunk a chunk).
+  G8_registry_observable: >-
+    Brazo tratamiento: fingerprint ≠ empty/disabled + stats = 2 series / 6
+    members / 2 shared. Brazo control: 'disabled'. Ambos estampados en el
+    reporte (y en los manifests del A/B después).
+  veredicto_gate: >-
+    GO al A/B sii G1-G4 y G6-G8 PASS y G5 sin daño no-explicado y E3 sin STOP.
+    NO-GO → no se paga juez; vuelta a diseño/curación con el reporte.
+
+enmiendas_ab_aprobadas:
+  E1_dual_arm_pairing: >-
+    Dos brazos FRESCOS (control/tratamiento como arriba), MISMO embedding por
+    par. Pairing por pool del gate: gold con secuencia de ids IDÉNTICA →
+    comparte frozen top5 + generaciones + juicios (Δ:=0 ESTRUCTURAL: el rerank
+    corre UNA vez para ellos, en el brazo control, y se copia; NO se genera ni
+    juzga — no pueden divergir). Gold con pool CAMBIADO → rerank+generación+
+    juicio en AMBOS brazos (K=5 c/u). El baseline s58 congelado NO es brazo del
+    Δ: queda como referencia de continuidad (E3).
+  E2_criterio_del_par: >-
+    Por gold cambiado: veredicto modal K=5 por brazo (juez GPT-5.5 congelado,
+    aggregate() de bvg con ORDER; los 2 ejes de siempre integrados en el
+    veredicto del juez). MEJOR si modal sube (FALLO→PARCIAL→PASS), PEOR si
+    baja, IGUAL si igual. Δ_net = #mejor − #peor. AFINADO 1 (sin ambigüedad):
+    SHIP automático sii [Δ_net ≥ 1, o Δ_net = 0 con CERO cambios de veredicto]
+    ∧ ningún PASS-control unánime PEOR ∧ G1-G8 verdes. GRIS si Δ_net = 0 con
+    movimiento interno → decisión Alberto documentada. ROLLBACK si Δ_net < 0 o
+    PASS-control dañado. El shadow-rerank s61 queda FUERA (sin rol bajo E1).
+  E3_sanity_instrumento: >-
+    Para los 6 PASS-control unánimes: anclas d1_unanimes presentes en pool del
+    brazo CONTROL fresco (su presencia en s58 está pre-verificada — meta de
+    s61_gate_probes). AFINADO 2: pérdida en ≥2 unánimes → STOP de instrumento
+    (drift anómalo; investigar antes de leer nada). Pérdida en exactamente 1 →
+    el gold se marca 'instrumento-dudoso', se sigue, y si está entre los
+    cambiados su par se lee con cautela declarada.
+
+probes_sinteticas:
+  d2_cad201:
+    query: 'En la Detnov CAD-201, ¿cómo se quita el candado y se entra al menú de programación avanzada?'
+    anclas_condicion: {h1_candado: ['candado']}
+    anclas_informativas: {h2_clave_admin: ['2222']}
+    fuente_anclas: s61_gate_probes.yaml d2_movers.hp001 (MC-380 p20, congeladas pre-datos s61)
+  g6_am8200g:
+    query: '¿Cómo se instala la central AM-8200G? Resumen de pasos.'
+    lectura: composición (esperado: solo pm AM-8200G; sin chunks de base/N; |pool|≥3)
+  g6_cad171:
+    query: '¿Cómo configuro una zona en la central CAD-171?'
+    lectura: composición (esperado: pm CAD-171 + shared CAD-250 legítimos; sin marcas ajenas)
+
+pairing_criterio: >-
+  IDÉNTICO := secuencia de chunk-ids del pool igual entre brazos (orden
+  incluido — el orden del pool entra al rerank). Cualquier otra cosa →
+  CAMBIADO (paga doble en el A/B). Salida: evals/s63_pairing.yaml.
+
+artefactos:
+  - evals/s63_gate_pools_control.json
+  - evals/s63_gate_pools_treatment.json
+  - evals/s63_gate_report.yaml
+  - evals/s63_pairing.yaml
+  - evals/s63_embed_cache.json (compartido luego por el A/B)
