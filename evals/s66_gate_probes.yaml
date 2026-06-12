@@ -1,0 +1,94 @@
+# s66 — Probe-set CONGELADO del re-gate CE (D1 + D2′) — diseño _s66_ce_regate_design.md §3
+# CONGELADO ANTES de cualquier retrieve del gate (X1 cross-model r1 s66 — endurece el
+# precedente s61 "pre-paso-B": las anclas de cat018 se extrajeron del gold_store y se
+# verificaron por PRESENCIA contra el sustento real (lookup por source_file en chunks_v2,
+# 117 chunks de AM-8200-manu-prog-spa, 2026-06-12 — NO es un retrieve por query) antes de
+# congelar. Candidata DESCARTADA por el pre-check: ['apendice a'] = 0 hits (infalsable).
+# Matcher: scripts/strict_match.py — anchor_present(ancla, norm_ocr(content));
+#   numéricas = frontera de dígito, texto = frontera de palabra (token completo).
+# Semántica: hecho PRESENTE en la vista := ∃ chunk de la vista-del-generador
+#   (top-5 con similarity>=0.4) cuyo content contiene TODAS las anclas del hecho (AND).
+#   Hecho PRESENTE en el pool := ídem sobre el pool-50 congelado (precheck, paridad F2).
+meta:
+  congelado: '2026-06-12'
+  fase: pre-paso-A del gate s66 (X1 — antes de cualquier retrieve)
+  matcher: scripts/strict_match.py anchor_present + norm_ocr
+  regla_d1: >-
+    unánime FALLA si vía-1 (overlap >= min(3,|vista_CE|,|vista_LLM_modal|) contra la vista
+    LLM-modal ACTUAL n=3, mismo pool) Y vía-2 (TODOS los hechos abajo con paridad de pool:
+    un hecho cuyas anclas NO están en el pool-50 fresco se EXCLUYE del cómputo y se
+    reporta) fallan; golds con LLM-modal 1/1/1 → vía-1 no-decisiva, manda vía-2;
+    cat015 SOLO vía-1 (admit, sin anclas posibles): modal>=2/3 → vía-1 normal; si no →
+    vía-1 contra la UNIÓN de las 3 vistas LLM; si aun así falla → ESCALADA a Alberto
+    (nunca pasa/falla en silencio). STOP E3: >=2 unánimes con >=1 hecho de vía-2 fuera
+    del pool fresco → STOP instrumento/corpus (sin veredicto del lever).
+  regla_d2: >-
+    movers = SHIP vigentes s63 (cat012 + cat018) + hp001 SOLO si su branch (abajo) resuelve
+    CONDICION. Hecho PERDIDO-ATRIBUIBLE := anclas EN pool-50 ∧ EN vista_LLM-modal ∧ NO en
+    vista_CE. >=1 gold con >=1 hecho de condición perdido-atribuible → NO-GO (X3: son SHIP
+    de prod, una regresión atribuible basta). Ausencia compartida (no está en vista_LLM
+    tampoco) → se reporta, no cuenta. Hecho de condición FUERA del pool fresco → STOP
+    instrumento/corpus (F2: regresión río arriba, no veredicto del lever).
+  branch_hp001: >-
+    pre-registrada (F1): si AMBOS hechos de condición (candado, 2222) están en el pool-50
+    fresco → hp001 entra a D2′ como mover paridad-controlado (sus hechos están al alcance
+    de ambos rerankers — s64 los devolvió al sucesor MC-380-c). Si falta alguno → hp001 =
+    INFORMATIVA (frontera de pool re-confirmada, irrecuperable por cualquier reranker;
+    se reporta sin condicionar el veredicto).
+  criticos_permutado: [cat010, cat014, cat015, cat022, hp015, hp019, cat012, cat018, hp001]
+
+d1_unanimes:
+  cat010:
+    h1_alimentacion: {anclas: ['24', 'zener'], fuente: 'IS5001-F p1 §3'}
+    h2_parametros_si: {anclas: ['660', '93'], fuente: 'IS5001-F p2 §4.3 (Pi=660mW, Ii=93mA)'}
+  cat014:
+    h1_vida_util: {anclas: ['10 anos'], fuente: '55360004 p1 (vida útil 10 años)'}
+  cat015: {}   # admit — vía-2 NO EXISTE (core = ausente-probado); SOLO vía-1 (regla_d1)
+  cat022:
+    h1_L_ir_25_30: {anclas: ['2,5', '3,0'], fuente: 'MN-DT-722 p1 §1.1 (sensor IR 2,5-3,0 μm)'}
+    h2_L4_45: {anclas: ['4,5'], fuente: 'MN-DT-722 p1 (L4 = 4,5 μm)'}
+    h3_sufijo_B_BIT: {anclas: ['bit'], fuente: 'MN-DT-722 p1 (B = BIT prueba incorporada)'}
+  hp015:
+    h1_convencional: {anclas: ['convencional'], fuente: 'CCD-103 p5 §1.1'}
+    h2_desconexion_zona: {anclas: ['anular', 'desconexion'], fuente: 'CCD-103 p28 §6.4.4'}
+    h3_32_detectores: {anclas: ['32', 'detectores'], fuente: 'CCD-103 p13'}
+  hp019:
+    h1_rango_temp: {anclas: ['-30', '+60'], fuente: 'ASD535 p133 datos técnicos'}
+
+d2_movers:
+  cat012:
+    # transfieren del probe-set s61 (verificadas allí contra sustento real y re-verificadas
+    # en-pool por el gate s63: pool 28→9, 100% AM-8200, tabla h2-h4 retenida — DEC-044e)
+    condicion:
+      h1_factor_12: {anclas: ['1,2'], fuente: 'AM-8200 Instalación p52 §11 (débil declarada; h2-h4 fuertes)'}
+      h2_reposo_alarma: {anclas: ['24', '72'], fuente: 'p52 §11 Tabla 1'}
+      h3_consumos_cpu: {anclas: ['179', '345'], fuente: 'p14/p16 §3.12-3.13'}
+      h4_capacidad_max: {anclas: ['np18-12b'], fuente: 'p12 §3.4.1 (Yuasa NP18-12B)'}
+  cat018:
+    # NUEVAS (X1): de los 4 atomic_facts `core, presente` del gold_store; presencia
+    # verificada 2026-06-12 sobre los 117 chunks de AM-8200-manu-prog-spa (el manual del
+    # producto CORRECTO — el sustento s58 venía del manual del N, el SHIP s63 lo corrigió)
+    #
+    # ENMIENDA pre-paso-B (2026-06-12, APROBADA por Alberto explícito, paso B NO corrido):
+    # el precheck disparó STOP-D2 por h2/h3 fuera del pool fresco → diagnóstico regla-C:
+    # el PASS vigente de s63 se sostuvo con h1+h4 SOLAMENTE (s63treat_frozen_contexts.json:
+    # vista p21/p32/p65/p66+Instalación-p5; h2/h3 = False) y h2/h3 TAMPOCO estaban en el
+    # POOL s63 (s63_gate_pools_treatment.json: False/False); pool fresco equivalente
+    # (16/16 source-page keys de s63 presentes) → falso-STOP por anclas SOBRE-ESPECIFICADAS
+    # (exigían sustento que el statu-quo nunca tuvo en pool). condición := h1+h4 (lo que el
+    # SHIP s63 realmente usó); h2/h3 → informativas (su ganancia por el CE se reporta; su
+    # ausencia no condiciona — el statu-quo tampoco las tiene). Paralelo: enmienda de
+    # instrumento post-gate-r1 pre-juez de s63 (DEC-044d).
+    condicion:
+      h1_cbe_definicion: {anclas: ['cbe', 'comando'], fuente: 'AM-8200-manu-prog-spa p21/22/67 (CBE activa un comando por evento; 3 chunks; EN la vista del PASS s63)'}
+      h4_sintaxis_apendice: {anclas: ['control by event', 'apendice'], fuente: 'AM-8200-manu-prog-spa p21 (sintaxis en el Apéndice Control By Event; EN la vista del PASS s63)'}
+    informativo:
+      h2_menu_programacion: {anclas: ['programacion am8200'], fuente: 'AM-8200-manu-prog-spa p14 — NUNCA en pool/vista s63 ni en pool fresco (enmienda)'}
+      h3_salida_asociacion: {anclas: ['asociacion cbe'], fuente: 'AM-8200-manu-prog-spa p7 — NUNCA en pool/vista s63 ni en pool fresco (enmienda)'}
+  hp001:
+    # SOLO entra a D2′ si branch_hp001 = CONDICION (ver meta); si no, informativa.
+    condicion:
+      h1_candado: {anclas: ['candado'], fuente: 'MC-380-2026-c (sucesor s64) — s64_precheck: 1 hit'}
+      h2_clave_admin: {anclas: ['2222'], fuente: 'MC-380-2026-c — s64_precheck: 1 hit'}
+    informativo:
+      h3_clave_usuario: {anclas: ['1111'], fuente: 'MU-376 p10 — informativa también en s61 (la ganancia s59 no la necesitó)'}

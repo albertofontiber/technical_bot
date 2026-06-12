@@ -1,0 +1,172 @@
+meta:
+  at: '2026-06-12T17:09:56'
+  git: a19f0d0
+  fuente: s61_gate_reranks.json
+  caveat: 'INFORMATIVA (F8): pools s61 = L-i@ef120 ≠ pools s66 (main actual) — calibración
+    imperfecta declarada; no es condición del gate'
+n_golds: 39
+via1_pass: 27
+via1_pass_unanimes:
+  cat010: &id001
+    overlap: 3/3
+    via1: true
+    llm_inestable: false
+  cat014: &id002
+    overlap: 4/3
+    via1: true
+    llm_inestable: false
+  cat015: &id003
+    overlap: 4/3
+    via1: true
+    llm_inestable: false
+  cat022: &id004
+    overlap: 3/3
+    via1: true
+    llm_inestable: false
+  hp015: &id005
+    overlap: 4/3
+    via1: true
+    llm_inestable: false
+  hp019: &id006
+    overlap: 4/3
+    via1: true
+    llm_inestable: false
+por_gold:
+  cat001:
+    overlap: 2/3
+    via1: false
+    llm_inestable: false
+  cat005:
+    overlap: 4/3
+    via1: true
+    llm_inestable: false
+  cat007:
+    overlap: 4/3
+    via1: true
+    llm_inestable: false
+  cat008:
+    overlap: 1/3
+    via1: false
+    llm_inestable: false
+  cat009:
+    overlap: 3/3
+    via1: true
+    llm_inestable: false
+  cat010: *id001
+  cat011:
+    overlap: 3/3
+    via1: true
+    llm_inestable: false
+  cat012:
+    overlap: 2/3
+    via1: false
+    llm_inestable: false
+  cat013:
+    overlap: 5/3
+    via1: true
+    llm_inestable: false
+  cat014: *id002
+  cat015: *id003
+  cat016:
+    overlap: 3/3
+    via1: true
+    llm_inestable: false
+  cat017:
+    overlap: 1/3
+    via1: false
+    llm_inestable: true
+  cat018:
+    overlap: 1/3
+    via1: false
+    llm_inestable: false
+  cat019:
+    overlap: 2/3
+    via1: false
+    llm_inestable: false
+  cat020:
+    overlap: 3/3
+    via1: true
+    llm_inestable: false
+  cat021:
+    overlap: 4/3
+    via1: true
+    llm_inestable: false
+  cat022: *id004
+  cat023:
+    overlap: 3/3
+    via1: true
+    llm_inestable: false
+  cat024:
+    overlap: 4/3
+    via1: true
+    llm_inestable: false
+  hp001:
+    overlap: 1/3
+    via1: false
+    llm_inestable: false
+  hp002:
+    overlap: 3/3
+    via1: true
+    llm_inestable: false
+  hp003:
+    overlap: 2/3
+    via1: false
+    llm_inestable: false
+  hp004:
+    overlap: 4/3
+    via1: true
+    llm_inestable: false
+  hp005:
+    overlap: 1/3
+    via1: false
+    llm_inestable: false
+  hp006:
+    overlap: 3/3
+    via1: true
+    llm_inestable: false
+  hp007:
+    overlap: 2/3
+    via1: false
+    llm_inestable: false
+  hp008:
+    overlap: 3/3
+    via1: true
+    llm_inestable: false
+  hp009:
+    overlap: 3/3
+    via1: true
+    llm_inestable: false
+  hp010:
+    overlap: 3/3
+    via1: true
+    llm_inestable: false
+  hp011:
+    overlap: 1/3
+    via1: false
+    llm_inestable: true
+  hp012:
+    overlap: 2/3
+    via1: false
+    llm_inestable: false
+  hp013:
+    overlap: 3/3
+    via1: true
+    llm_inestable: false
+  hp014:
+    overlap: 3/3
+    via1: true
+    llm_inestable: false
+  hp015: *id005
+  hp017:
+    overlap: 4/3
+    via1: true
+    llm_inestable: false
+  hp018:
+    overlap: 4/3
+    via1: true
+    llm_inestable: false
+  hp019: *id006
+  hp020:
+    overlap: 3/3
+    via1: true
+    llm_inestable: false

@@ -35,11 +35,11 @@ os.environ["CHUNKS_TABLE"] = "chunks_v2"  # re-asegurar tras load_dotenv
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from src.rag.retriever import retrieve_chunks       # noqa: E402
-from src.rag.reranker import rerank_chunks, rerank_chunks_voyage  # noqa: E402
-from src.rag.generator import generate_answer        # noqa: E402
+from src.rag.reranker import rerank                  # noqa: E402
 from src.config import (                              # noqa: E402
-    CHUNKS_TABLE, CHUNKS_IS_V2, RETRIEVAL_TOP_K, RERANK_TOP_K,
+    CHUNKS_TABLE, CHUNKS_IS_V2, RETRIEVAL_TOP_K, RERANK_TOP_K, RERANKER_BACKEND,
 )
+from src.rag.generator import generate_answer        # noqa: E402
 
 # Reranker top-k overridable por env para A/B end-to-end (prod actual = 5).
 RERANK_K = int(os.getenv("RERANK_K_OVERRIDE", str(RERANK_TOP_K)))
@@ -48,7 +48,14 @@ RERANK_K = int(os.getenv("RERANK_K_OVERRIDE", str(RERANK_TOP_K)))
 # cross-model en s58: este comentario es lo único que algunos revisores ven).
 RETRIEVE_K = int(os.getenv("RETRIEVE_K_OVERRIDE", str(RETRIEVAL_TOP_K)))
 
-RERANKER = os.getenv("RERANKER", "llm")  # A/B Track A: llm (prod) | voyage (cross-encoder)
+# s61: el flag local `RERANKER` se RETIRÓ — el backend lo gobierna el canónico
+# RERANKER_BACKEND (src/config.py), el mismo que prod y bvg_kmajority. Si el flag
+# legacy sigue seteado en el entorno, abortamos: una corrida con flag viejo y
+# silencioso etiquetaría mal su artefacto.
+_legacy = os.getenv("RERANKER")
+if _legacy is not None and _legacy != RERANKER_BACKEND:
+    sys.exit(f"RERANKER={_legacy} es el flag RETIRADO (s61) — usa RERANKER_BACKEND")
+RERANKER = RERANKER_BACKEND  # naming local histórico; fuente única: config
 GOLD = "evals/gold_answers_v1.yaml"
 OUTPUT = (f"evals/bot_vs_gold_results_k{RERANK_K}.yaml" if RERANKER == "llm"
           else f"evals/bot_vs_gold_results_k{RERANK_K}_{RERANKER}.yaml")
@@ -93,9 +100,10 @@ _JUDGE_USER = (
 
 def run_bot(query: str) -> dict:
     # Replica el pipeline de producción: retrieve → rerank(top-k) → generate.
+    # Dispatcher canónico (sin target_models = paridad harness); strict: en eval un
+    # fail-open del backend es dato corrupto, no disponibilidad (s61 §4).
     chunks = retrieve_chunks(query, top_k=RETRIEVE_K)
-    chunks = (rerank_chunks_voyage(query, chunks, top_k=RERANK_K) if RERANKER == "voyage"
-              else rerank_chunks(query, chunks, top_k=RERANK_K))
+    chunks = rerank(query, chunks, top_k=RERANK_K, strict=True)
     res = generate_answer(query, chunks)
     answer = res.get("answer") if isinstance(res, dict) else str(res)
     sources = sorted({c.get("source_file") for c in chunks if c.get("source_file")})
