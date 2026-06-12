@@ -17,10 +17,11 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
-> Resumen estable (s64 — 12 jun 2026): producción = `chunks_v2` (25.090 chunks, de los que
+> Resumen estable (s65 — 12 jun 2026): producción = `chunks_v2` (25.090 chunks, de los que
 > **262 quedan excluidos en runtime por lifecycle** [220 superseded s64 + 42 needs_review] →
-> ~24.8k servibles / **1.067 docs {1059 active · 3 superseded · 5 needs_review}** / 31 marcas /
-> 587 modelos; Voyage-4-large 1024 + contextual-retrieval al 100%), retrieve-wide 50 →
+> ~24.8k servibles; 25 huérfanos residuales sin fila / **1.170 docs {998 active · 3 superseded
+> · 79 needs_review · 90 retired}** / 31 marcas / 587 modelos; Voyage-4-large 1024 +
+> contextual-retrieval al 100%), retrieve-wide 50 →
 > **filtro de modelos series-aware de 3 niveles** (registry de series data-driven en
 > `config/manufacturers/*.yaml`, DEC-044; flag `SERIES_REGISTRY_ENABLED` default ON =
 > kill-switch sin redeploy; sin entrada de registry el comportamiento es el histórico) →
@@ -29,12 +30,17 @@
 > arrastra HERMANOS; las variantes VEN los docs de serie). **s64 (DEC-045): el lifecycle es
 > end-to-end** — contrato de supersesión POBLADO (3 cadenas: MAD-472 V1→V2, MC-380 b→c,
 > MS-416 2020→2026; los sucesores con identidad en `documents` → el generador cita 'rev c') y
-> los suplementos de diversify ya NO se saltan el filtro de status (re-entraban needs_review/
-> superseded). El fingerprint de freeze incluye la dimensión lifecycle. Eval: **51 golds =
+> los suplementos de diversify ya NO se saltan el filtro de status. **s65 (DEC-046): capa B
+> de #43 cerrada** — los lotes s55/s58 CON identidad (103 filas backfilleadas, 2.040 chunks
+> al lifecycle; el lote Aritech/Kidde cita revisión r00X), 86 manufacturer corregidos, 80
+> revisiones-basura a NULL, **catálogo de fabricantes 30 marcas** (fix de paginación PostgREST
+> en `get_available_manufacturers`); cola de re-ingesta = los 74 `needs_review` nuevos.
+> El fingerprint de freeze incluye la dimensión lifecycle. Eval: **51 golds =
 > 39 dev + 12 held-out embargados**, juez GPT-5.5 + K-mayoría. Primer lever de retrieval
 > SHIPPED (s63, PR #70: dev Δ_net=+2, held-out DÉBIL-aceptada). Baseline s58 = referencia
-> histórica; **re-freeze al próximo ciclo de eval** (el corpus efectivo cambió en s64).
-> Ventana de freeze: **CERRADA** → la ingesta grande se desbloquea tras #44/#45.
+> histórica; **re-freeze al próximo ciclo de eval** (el corpus efectivo cambió en s64/s65).
+> Ventana de freeze: **CERRADA** → la ingesta grande se desbloquea tras #44/#45 + contrato
+> de identidad EN ingesta (PLAN punto 2).
 >
 > ⚠️ **Caveat s60 a este doc (TECH_DEBT #44/#45):** las secciones que describen el filtro por
 > categoría y la entrega de **diagramas** (§§ flujo/ingesta — "adjunta diagrama", canal

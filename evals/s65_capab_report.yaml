@@ -1,0 +1,41 @@
+ts: '2026-06-12T15:47:54'
+git: 9b4e5f4
+design: evals/_s65_capab_design.md (v2)
+criterios:
+  C_no_afectados_identicos:
+    pass: true
+    violaciones: {}
+    reclasificados_dado_red:
+      cat011: 'dado-de-red en el BEFORE (no en after): before n=15 degradado por timeouts de los fetches suplementarios
+        (fail-open, patron s63); el after n=40 coincide con el pool historico de s64 (before Y after de ayer: n=40,
+        SG*=25, VESDA=3 — evals/s64_pools_{before,after}.json) y es ESTABLE 3x (re-run del runner + 2 re-runs 12-jun
+        15:5x, firma byte-identica). Las 18 entradas son los suplementos del path no-model que el before degradado
+        perdio; 0 entradas de sources del plan.'
+afectados_diff:
+  hp020:
+    clase: identico
+    before_n: 21
+    after_n: 21
+    sources_esperados:
+    - 4188-1132-PT issue 4_04_2025-Qref
+known_manufacturers_diff:
+  before:
+  - Argus Security
+  - Aritech
+  after:
+  - Argus Security
+  - Aritech
+  igual: true
+invariante_a4_sin_chunks_v2:
+  pass: true
+  violaciones: []
+fingerprint:
+  documents_status:
+    active: 998
+    needs_review: 79
+    retired: 90
+    superseded: 3
+  chunks_orphan_restantes: 25
+verdict: GO — 38/39 identicos + hp020 (esperado) identico + cat011 reclasificado dado-de-red-en-before con evidencia
+  historica s64 + invariante A4 PASS
+reclasificacion_ts: '2026-06-12T15:52:23'

@@ -1,0 +1,2918 @@
+ts: '2026-06-12T15:11:36'
+git: 9b4e5f4
+design: evals/_s65_capab_design.md (v2)
+A1_link_existing:
+- doc_id: 29a4ee2c-3152-4e85-a7ca-992a0092e5aa
+  source_file: RIF_08791_01 - AC1469_It-eng
+  extraction_sha256: 16b6a4c2f6ddbe635d2e39864749954bbb254b918ea1cacf5141f735cbfc5e74
+  expected_chunks: 1
+  update_doc_sha_to_real: false
+A1_insert:
+- source_file: 00-3218-501-0000-07_r007_2x-lb_installation_sheet_ml
+  extraction_sha256: 43b499949e3ad47b4c0461d33c6b935208a73bf26d9b43117df0a4a6e91a1326
+  expected_chunks: 30
+  row:
+    document_family: 00 3218 501 0000 07 r007 2x lb installation sheet ml
+    revision: r007
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-LB
+    source_pdf_filename: 00-3218-501-0000-07_r007_2x-lb_installation_sheet_ml.pdf
+    source_pdf_sha256: 43b499949e3ad47b4c0461d33c6b935208a73bf26d9b43117df0a4a6e91a1326
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0
+  extraction_sha256: dfe2396c52a19e41dc5fb8fda17e5b07b39caae1b9272886b1f19addff6377a0
+  expected_chunks: 202
+  row:
+    document_family: 00 3280 501 4003 05 r005 2x a series installation manual en 0
+    revision: r005
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-A Táctil
+    source_pdf_filename: 00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0.pdf
+    source_pdf_sha256: dfe2396c52a19e41dc5fb8fda17e5b07b39caae1b9272886b1f19addff6377a0
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+  extraction_sha256: 3fda944ecbca316b0fa9f53cf947be63bd685205e8b824a645bfa1ea3dd2fefe
+  expected_chunks: 226
+  row:
+    document_family: 00 3280 501 4009 05 r005 2x a series installation manual es
+    revision: r005
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-A
+    source_pdf_filename: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf
+    source_pdf_sha256: 3fda944ecbca316b0fa9f53cf947be63bd685205e8b824a645bfa1ea3dd2fefe
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 00-3280-505-4009-04_r004_2x-a_series_operation_manual_es
+  extraction_sha256: e372eb64d1494dc0bbac837341c739b508a79e8507cae3711e35f67c21b5c0bf
+  expected_chunks: 45
+  row:
+    document_family: 00 3280 505 4009 04 r004 2x a series operation manual es
+    revision: r004
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-A
+    source_pdf_filename: 00-3280-505-4009-04_r004_2x-a_series_operation_manual_es.pdf
+    source_pdf_sha256: e372eb64d1494dc0bbac837341c739b508a79e8507cae3711e35f67c21b5c0bf
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 00-3280-507-4003-03_r003_2x-a_series_quick_installation_guide_en
+  extraction_sha256: 3b4ed1e3797566013a40e6cb1eb4ba88944ad6c0702dd2f641cd3e5f42d8988c
+  expected_chunks: 4
+  row:
+    document_family: 00 3280 507 4003 03 r003 2x a series quick installation guide en
+    revision: r003
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-A Táctil
+    source_pdf_filename: 00-3280-507-4003-03_r003_2x-a_series_quick_installation_guide_en.pdf
+    source_pdf_sha256: 3b4ed1e3797566013a40e6cb1eb4ba88944ad6c0702dd2f641cd3e5f42d8988c
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es
+  extraction_sha256: f683cc889e4b45671fc92f980433b8068ba5652570fcf34e44f2d2522e088b3f
+  expected_chunks: 4
+  row:
+    document_family: 00 3280 507 4009 03 r003 2x a series quick installation guide es
+    revision: r003
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-A
+    source_pdf_filename: 00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es.pdf
+    source_pdf_sha256: f683cc889e4b45671fc92f980433b8068ba5652570fcf34e44f2d2522e088b3f
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es
+  extraction_sha256: eb919b50ba3078fde1aeecc26b2a1e39e109a525b015e3f5570f3856fb4e7101
+  expected_chunks: 7
+  row:
+    document_family: 00 3280 508 4009 03 r003 2x a series quick operation guide es
+    revision: r003
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-A
+    source_pdf_filename: 00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf
+    source_pdf_sha256: eb919b50ba3078fde1aeecc26b2a1e39e109a525b015e3f5570f3856fb4e7101
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es
+  extraction_sha256: 5341cbee479122cccf2ad5902b828e4846fdc4de89ef9afbd819bbf888ac0c2f
+  expected_chunks: 33
+  row:
+    document_family: 00 3280 508 4109 06 r006 2x at series quick start guide es
+    revision: r006
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-A Táctil
+    source_pdf_filename: 00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es.pdf
+    source_pdf_sha256: 5341cbee479122cccf2ad5902b828e4846fdc4de89ef9afbd819bbf888ac0c2f
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 00-3280-508-4209-02_r002_2x-at_series_quick_operation_guide_es
+  extraction_sha256: 0afafe6d15e4d3fc1746f343b4d5b4cd5b5f4824fb6f23515dbf701c63ca0493
+  expected_chunks: 5
+  row:
+    document_family: 00 3280 508 4209 02 r002 2x at series quick operation guide es
+    revision: r002
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-A Táctil
+    source_pdf_filename: 00-3280-508-4209-02_r002_2x-at_series_quick_operation_guide_es.pdf
+    source_pdf_sha256: 0afafe6d15e4d3fc1746f343b4d5b4cd5b5f4824fb6f23515dbf701c63ca0493
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 00-3301-501-4000-04_r004_2x-a-lb_loop_board_installation_sheet_ml
+  extraction_sha256: 51e851f213987c18d079f16d5d990c5f14f5a227b3f77dfbbd01c6d7b855c44a
+  expected_chunks: 49
+  row:
+    document_family: 00 3301 501 4000 04 r004 2x a lb loop board installation sheet ml
+    revision: r004
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-A-LB
+    source_pdf_filename: 00-3301-501-4000-04_r004_2x-a-lb_loop_board_installation_sheet_ml.pdf
+    source_pdf_sha256: 51e851f213987c18d079f16d5d990c5f14f5a227b3f77dfbbd01c6d7b855c44a
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 00-3301-501-4100-04_r004_2010-2a-pak-hpl_registration_guide_ml
+  extraction_sha256: 1f096343f79d73520e4e677ee2588137fc797c90d5ca70fcc0e8d247d7a5ab80
+  expected_chunks: 34
+  row:
+    document_family: 00 3301 501 4100 04 r004 2010 2a pak hpl registration guide ml
+    revision: r004
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2010-2A-PAK-HPL
+    source_pdf_filename: 00-3301-501-4100-04_r004_2010-2a-pak-hpl_registration_guide_ml.pdf
+    source_pdf_sha256: 1f096343f79d73520e4e677ee2588137fc797c90d5ca70fcc0e8d247d7a5ab80
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 0044-055-02_-_aritech_ra_-_fd2705-10r_addendum_-_en_de
+  extraction_sha256: 2f265d9d974ae0a0aaf413778f67e2f0a059ce49ca1128a74ca2d5ee93077688
+  expected_chunks: 2
+  row:
+    document_family: 0044 055 02   aritech ra   fd2705 10r addendum   en de
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: FD2705R
+    source_pdf_filename: 0044-055-02_-_aritech_ra_-_fd2705-10r_addendum_-_en_de.pdf
+    source_pdf_sha256: 2f265d9d974ae0a0aaf413778f67e2f0a059ce49ca1128a74ca2d5ee93077688
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 03-0210-501-4300-06_r006_excellence_series_addressable_mcp_installation_sheet_ml
+  extraction_sha256: 2bbe5cfd6915552bd1679407f4145fded3294478272ae40a188cdec89b8d6bac
+  expected_chunks: 29
+  row:
+    document_family: 03 0210 501 4300 06 r006 excellence series addressable mcp installation sheet ml
+    revision: r006
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: KE-DM3010R-KIT
+    source_pdf_filename: 03-0210-501-4300-06_r006_excellence_series_addressable_mcp_installation_sheet_ml.pdf
+    source_pdf_sha256: 2bbe5cfd6915552bd1679407f4145fded3294478272ae40a188cdec89b8d6bac
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0
+  extraction_sha256: ec2d5396055cebf7c30051e15513a4932c5675cdfc223fc6c6bf7d6f737d7baa
+  expected_chunks: 140
+  row:
+    document_family: 04 4001 501 2009 12 r012 modulaser en 54 20 installation manual es edwards 0
+    revision: r012
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Edwards
+    product_model: FHSD8310
+    source_pdf_filename: 04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0.pdf
+    source_pdf_sha256: ec2d5396055cebf7c30051e15513a4932c5675cdfc223fc6c6bf7d6f737d7baa
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 10-5106-501-55nc-05_r005_iu2055nc_installation_sheet_ml
+  extraction_sha256: 047b3733efb097a3bb513b53f7937d1f9fcd8d9384b0cc89f110aa671dd3c1f0
+  expected_chunks: 51
+  row:
+    document_family: 10 5106 501 55nc 05 r005 iu2055nc installation sheet ml
+    revision: r005
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: IU2055NC
+    source_pdf_filename: 10-5106-501-55nc-05_r005_iu2055nc_installation_sheet_ml.pdf
+    source_pdf_sha256: 047b3733efb097a3bb513b53f7937d1f9fcd8d9384b0cc89f110aa671dd3c1f0
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 18-187110-10
+  extraction_sha256: a0acaf3fdd34111fe3bc88bc155e375ff6f8435ac915986db5c83d23475cb6e9
+  expected_chunks: 22
+  row:
+    document_family: 18 187110 10
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: AS2364
+    source_pdf_filename: 18-187110-10.pdf
+    source_pdf_sha256: a0acaf3fdd34111fe3bc88bc155e375ff6f8435ac915986db5c83d23475cb6e9
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 1998M0901_FS24X_PT-BR54-10_PT-BR_RevB_20July2015
+  extraction_sha256: 92aafda98c14c5923ab1136d8064e7fcea05a761716c8ee3dff750e1704386a3
+  expected_chunks: 2
+  row:
+    document_family: 1998m0901 fs24x pt br54 10 pt br revb 20july2015
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Honeywell
+    product_model: FS-24X
+    source_pdf_filename: 1998M0901_FS24X_PT-BR54-10_PT-BR_RevB_20July2015.pdf
+    source_pdf_sha256: 92aafda98c14c5923ab1136d8064e7fcea05a761716c8ee3dff750e1704386a3
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 2010-2-pak-rmsdk-161721-es
+  extraction_sha256: bc8acabdadc5855474a77c7803dc2af369649bcaba4b9826df3f0c29985dc469
+  expected_chunks: 2
+  row:
+    document_family: 2010 2 pak rmsdk 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2010-2-PAK-RMSDK
+    source_pdf_filename: 2010-2-pak-rmsdk-161721-es.pdf
+    source_pdf_sha256: bc8acabdadc5855474a77c7803dc2af369649bcaba4b9826df3f0c29985dc469
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 2010-2a-pak-hpl-161721-es
+  extraction_sha256: 9fc3911500d1223f0106ee7e244f2bda46ceba19c0ca2c335d193c5a9e67c920
+  expected_chunks: 2
+  row:
+    document_family: 2010 2a pak hpl 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2010-2A-PAK-HPL
+    source_pdf_filename: 2010-2a-pak-hpl-161721-es.pdf
+    source_pdf_sha256: 9fc3911500d1223f0106ee7e244f2bda46ceba19c0ca2c335d193c5a9e67c920
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 22318.18.08_-_aritech_ra_-_fd2705-10r_english_std_reflective_user_guide_-_en
+  extraction_sha256: 85da643e1044b861c6d725c6f66c61287f230510ab2422c2dd71fb9592aaea98
+  expected_chunks: 9
+  row:
+    document_family: 22318.18.08   aritech ra   fd2705 10r english std reflective user guide   en
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: FD2705R
+    source_pdf_filename: 22318.18.08_-_aritech_ra_-_fd2705-10r_english_std_reflective_user_guide_-_en.pdf
+    source_pdf_sha256: 85da643e1044b861c6d725c6f66c61287f230510ab2422c2dd71fb9592aaea98
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 2x-a-lb-161721-es
+  extraction_sha256: cd87f8b1aed8b509f69518e03632e790baf4a8b0525e89a47283618ec97b069b
+  expected_chunks: 2
+  row:
+    document_family: 2x a lb 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-A-LB
+    source_pdf_filename: 2x-a-lb-161721-es.pdf
+    source_pdf_sha256: cd87f8b1aed8b509f69518e03632e790baf4a8b0525e89a47283618ec97b069b
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 2x-af1-s-161721-es
+  extraction_sha256: fc589a85c97332c462ad3cdfb0630d47840c4d23f3543785500031e36afefa61
+  expected_chunks: 5
+  row:
+    document_family: 2x af1 s 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-AF1-S
+    source_pdf_filename: 2x-af1-s-161721-es.pdf
+    source_pdf_sha256: fc589a85c97332c462ad3cdfb0630d47840c4d23f3543785500031e36afefa61
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 2x-af2-09-161721-es
+  extraction_sha256: ce583291f2011f6c8a8bfb9f23dcffc71710d55245d58a6ae8593a6ceedae91e
+  expected_chunks: 7
+  row:
+    document_family: 2x af2 09 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-AF2-09
+    source_pdf_filename: 2x-af2-09-161721-es.pdf
+    source_pdf_sha256: ce583291f2011f6c8a8bfb9f23dcffc71710d55245d58a6ae8593a6ceedae91e
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 2x-af2-fb-161721-es
+  extraction_sha256: dbab7e17c19261a0ca75427644989271a2168a0fde29e35231191092ecd4bb57
+  expected_chunks: 6
+  row:
+    document_family: 2x af2 fb 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-AF2-FB
+    source_pdf_filename: 2x-af2-fb-161721-es.pdf
+    source_pdf_sha256: dbab7e17c19261a0ca75427644989271a2168a0fde29e35231191092ecd4bb57
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 2x-af2-fb-s-161721-es
+  extraction_sha256: 25140777a8545e27ff9678c6a10d509396cd67f98c746a18c54b9be1bc7d16ef
+  expected_chunks: 6
+  row:
+    document_family: 2x af2 fb s 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-AF2-FB-S
+    source_pdf_filename: 2x-af2-fb-s-161721-es.pdf
+    source_pdf_sha256: 25140777a8545e27ff9678c6a10d509396cd67f98c746a18c54b9be1bc7d16ef
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 2x-af2-scfb-161721-es
+  extraction_sha256: a5797dffa59f3ed1ede3f59cd7d6a1f5eb921aa13ee18a5b981c65feeec2e6c2
+  expected_chunks: 6
+  row:
+    document_family: 2x af2 scfb 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-AF2-SCFB
+    source_pdf_filename: 2x-af2-scfb-161721-es.pdf
+    source_pdf_sha256: a5797dffa59f3ed1ede3f59cd7d6a1f5eb921aa13ee18a5b981c65feeec2e6c2
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 2x-af2-scfb-s-161721-es
+  extraction_sha256: 0bf86a4bb834d56f611995a881d4af67cb3154ec4d736a7f3cedad293cef8b43
+  expected_chunks: 6
+  row:
+    document_family: 2x af2 scfb s 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-AF2-SCFB-S
+    source_pdf_filename: 2x-af2-scfb-s-161721-es.pdf
+    source_pdf_sha256: 0bf86a4bb834d56f611995a881d4af67cb3154ec4d736a7f3cedad293cef8b43
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 2x-at-f2-161721-es
+  extraction_sha256: 1b1ffdf7a9c6d7a2b2a52688643d614b58d3ba7cc65d190c7c08660abf3ed68c
+  expected_chunks: 7
+  row:
+    document_family: 2x at f2 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-AT-F2
+    source_pdf_filename: 2x-at-f2-161721-es.pdf
+    source_pdf_sha256: 1b1ffdf7a9c6d7a2b2a52688643d614b58d3ba7cc65d190c7c08660abf3ed68c
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 2x-at-f2-fb-161721-es
+  extraction_sha256: e30ff98036837f3652ecca697bb74dc3352a762a9b764081ca7a148edf42bd84
+  expected_chunks: 7
+  row:
+    document_family: 2x at f2 fb 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-AT-F2-FB
+    source_pdf_filename: 2x-at-f2-fb-161721-es.pdf
+    source_pdf_sha256: e30ff98036837f3652ecca697bb74dc3352a762a9b764081ca7a148edf42bd84
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 2x-at-f2-fb-p-161721-es
+  extraction_sha256: e3721c61ad9156da3d9ed382299a7f0075e8e000dd7f3a03e24c87eb98f30b7d
+  expected_chunks: 5
+  row:
+    document_family: 2x at f2 fb p 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-AT-F2-FB-P
+    source_pdf_filename: 2x-at-f2-fb-p-161721-es.pdf
+    source_pdf_sha256: e3721c61ad9156da3d9ed382299a7f0075e8e000dd7f3a03e24c87eb98f30b7d
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 2x-at-f2-fb-s-161721-es
+  extraction_sha256: 76a3d70a2ce6d7942209b72c7ff7544259b8d3753cafc5e0d9bbcb144c87d04d
+  expected_chunks: 7
+  row:
+    document_family: 2x at f2 fb s 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-AT-F2-FB-S
+    source_pdf_filename: 2x-at-f2-fb-s-161721-es.pdf
+    source_pdf_sha256: 76a3d70a2ce6d7942209b72c7ff7544259b8d3753cafc5e0d9bbcb144c87d04d
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 2x-at-f2-p-161721-es
+  extraction_sha256: f430fba84fa07f97349643cdce100f6e541726411a806fb445ae228454a506d9
+  expected_chunks: 7
+  row:
+    document_family: 2x at f2 p 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-AT-F2-P
+    source_pdf_filename: 2x-at-f2-p-161721-es.pdf
+    source_pdf_sha256: f430fba84fa07f97349643cdce100f6e541726411a806fb445ae228454a506d9
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 2x-at-f2-s-161721-es
+  extraction_sha256: a47e1d46b29eede4e9b907a50ecc8b544699a1d7db00bcc97be6c5e61d58c941
+  expected_chunks: 7
+  row:
+    document_family: 2x at f2 s 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-AT-F2-S
+    source_pdf_filename: 2x-at-f2-s-161721-es.pdf
+    source_pdf_sha256: a47e1d46b29eede4e9b907a50ecc8b544699a1d7db00bcc97be6c5e61d58c941
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 2x-lb-161721-es
+  extraction_sha256: e916090f2801f89af4042f4af4fb00d3f704f97206720ddfa0c03388b5fd7498
+  expected_chunks: 2
+  row:
+    document_family: 2x lb 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-LB
+    source_pdf_filename: 2x-lb-161721-es.pdf
+    source_pdf_sha256: e916090f2801f89af4042f4af4fb00d3f704f97206720ddfa0c03388b5fd7498
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 3102984-ml_r003_excellence_series_intelligent_addressable_dual_optical_detector_installation_sheet
+  extraction_sha256: b3aa13af3416b894337b9b541ed100ec366af31611d27eac91f753dd7a19577a
+  expected_chunks: 22
+  row:
+    document_family: 3102984 ml r003 excellence series intelligent addressable dual optical detector installation
+      sheet
+    revision: r003
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: KE-DP3020W
+    source_pdf_filename: 3102984-ml_r003_excellence_series_intelligent_addressable_dual_optical_detector_installation_sheet.pdf
+    source_pdf_sha256: b3aa13af3416b894337b9b541ed100ec366af31611d27eac91f753dd7a19577a
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet
+  extraction_sha256: 6b3de09763b3c07650c509c5c4fcdb451f7b7c66b0499ff8dba52511c4c10b79
+  expected_chunks: 21
+  row:
+    document_family: 3102986 ml r002 excellence series intelligent addressable class a b heat detector installation
+      sheet
+    revision: r002
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: KE-DT3001W-HAB
+    source_pdf_filename: 3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet.pdf
+    source_pdf_sha256: 6b3de09763b3c07650c509c5c4fcdb451f7b7c66b0499ff8dba52511c4c10b79
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 3102987-ml_r003_excellence_series_standard_mounting_base_installation_sheet
+  extraction_sha256: c1406d1f941c529a9685f774b2307d23c96c19c5e88a526107d53e99613fe353
+  expected_chunks: 14
+  row:
+    document_family: 3102987 ml r003 excellence series standard mounting base installation sheet
+    revision: r003
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: KE-DB3010W
+    source_pdf_filename: 3102987-ml_r003_excellence_series_standard_mounting_base_installation_sheet.pdf
+    source_pdf_sha256: c1406d1f941c529a9685f774b2307d23c96c19c5e88a526107d53e99613fe353
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 3103013-ml_r002_ke-dba-auxw_deep_accessory_for_standard_mounting_base_installation_sheet
+  extraction_sha256: 533f4d50dd4f250a7c3b40a9e49863b0886eec292b2e3d6e694e656e1e6ae65f
+  expected_chunks: 10
+  row:
+    document_family: 3103013 ml r002 ke dba auxw deep accessory for standard mounting base installation sheet
+    revision: r002
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: KE-DBA-AUXW
+    source_pdf_filename: 3103013-ml_r002_ke-dba-auxw_deep_accessory_for_standard_mounting_base_installation_sheet.pdf
+    source_pdf_sha256: 533f4d50dd4f250a7c3b40a9e49863b0886eec292b2e3d6e694e656e1e6ae65f
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 3103062-ml_r003_excellence_series_addressable_single_output_module_installation_sheet
+  extraction_sha256: 840189eca9d83fb75f750e20344cbdabbd43783f9500457130b87618a8651ca8
+  expected_chunks: 21
+  row:
+    document_family: 3103062 ml r003 excellence series addressable single output module installation sheet
+    revision: r003
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: KE-IO3101
+    source_pdf_filename: 3103062-ml_r003_excellence_series_addressable_single_output_module_installation_sheet.pdf
+    source_pdf_sha256: 840189eca9d83fb75f750e20344cbdabbd43783f9500457130b87618a8651ca8
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet
+  extraction_sha256: 8f7e0d1fa451dcf9c6d5fb690bca72a23355273968faba2460063ef0b79152e6
+  expected_chunks: 36
+  row:
+    document_family: 3103063 ml r003 excellence series addressable two four input output module installation sheet
+    revision: r003
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: KE-IO3122
+    source_pdf_filename: 3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet.pdf
+    source_pdf_sha256: 8f7e0d1fa451dcf9c6d5fb690bca72a23355273968faba2460063ef0b79152e6
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet
+  extraction_sha256: c3eb5ec2671491feb2671329b321912d35e1537ede0af2344b67286809fabc46
+  expected_chunks: 49
+  row:
+    document_family: 3103072 ml r004 excellence series intelligent addressable indoor notification device installation
+      sheet
+    revision: r004
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: KE-AS3115R-WM
+    source_pdf_filename: 3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet.pdf
+    source_pdf_sha256: c3eb5ec2671491feb2671329b321912d35e1537ede0af2344b67286809fabc46
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0
+  extraction_sha256: 3a41d329f0e1ec47ceb50f23d0982f30569cfd65c95fbdf42a9278040dd98c06
+  expected_chunks: 151
+  row:
+    document_family: 3103092 es r003 modulaser en 54 20 installation manual kidde 0
+    revision: r003
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: 9-30781-KID-EN
+    source_pdf_filename: 3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0.pdf
+    source_pdf_sha256: 3a41d329f0e1ec47ceb50f23d0982f30569cfd65c95fbdf42a9278040dd98c06
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet
+  extraction_sha256: 9625e2a91dd2779aca73da34dd56d0246ab9dd5c4c845f23637e333d2bb2ac3c
+  expected_chunks: 46
+  row:
+    document_family: 3103198 ml r002 excellence series intelligent addressable outdoor notification device installation
+      sheet
+    revision: r002
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: KE-AS3115R-WMIP
+    source_pdf_filename: 3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet.pdf
+    source_pdf_sha256: 9625e2a91dd2779aca73da34dd56d0246ab9dd5c4c845f23637e333d2bb2ac3c
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 3103267-en_r001_2x-a_series_kuwait_marketplace_manual
+  extraction_sha256: 520b945faadeb733e832730b01e770f969e6680d96f522a53a438cb91eaa98d1
+  expected_chunks: 7
+  row:
+    document_family: 3103267 en r001 2x a series kuwait marketplace manual
+    revision: r001
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-A Táctil
+    source_pdf_filename: 3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf
+    source_pdf_sha256: 520b945faadeb733e832730b01e770f969e6680d96f522a53a438cb91eaa98d1
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 4188-1124-PT issue 4_01-2026_To
+  extraction_sha256: 8d128ca2ca13754bb74e0dcf16014e74141e352ae819aa25e35784c2f60245f6
+  expected_chunks: 6
+  row:
+    document_family: 4188 1124 pt issue 4 01 2026 to
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Notifier
+    product_model: CLSS Configuration Tool
+    source_pdf_filename: 4188-1124-PT issue 4_01-2026_To.pdf
+    source_pdf_sha256: 8d128ca2ca13754bb74e0dcf16014e74141e352ae819aa25e35784c2f60245f6
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 4188-1132-PT issue 4_04_2025-Qref
+  extraction_sha256: 6652939b0bdea89af527a6ee2bf5b665abc117ac8152826156bb260a7dbd25c9
+  expected_chunks: 1
+  row:
+    document_family: 4188 1132 pt issue 4 04 2025 qref
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Notifier
+    product_model: INSPIRE E10/E15
+    source_pdf_filename: 4188-1132-PT issue 4_04_2025-Qref.pdf
+    source_pdf_sha256: 6652939b0bdea89af527a6ee2bf5b665abc117ac8152826156bb260a7dbd25c9
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 55312000 SCD-120_Manual_ES
+  extraction_sha256: 81c6a52758652cea7432a030d9241b689986a0499f2a588d8328ec2701d32f77
+  expected_chunks: 9
+  row:
+    document_family: 55312000 scd 120 manual es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Detnov
+    product_model: SCD-120
+    source_pdf_filename: 55312000 SCD-120_Manual_ES.pdf
+    source_pdf_sha256: 81c6a52758652cea7432a030d9241b689986a0499f2a588d8328ec2701d32f77
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 9-30781-kid-en-161721-es
+  extraction_sha256: 02d5cc901084b8f54b332ad7cce7fc8f18a52b4a65fd30b6e391977fbe891423
+  expected_chunks: 8
+  row:
+    document_family: 9 30781 kid en 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: 9-30781-KID-EN
+    source_pdf_filename: 9-30781-kid-en-161721-es.pdf
+    source_pdf_sha256: 02d5cc901084b8f54b332ad7cce7fc8f18a52b4a65fd30b6e391977fbe891423
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 9-30783-kid-en-161721-es
+  extraction_sha256: 20452ae4f60a9b844514ab2078abd6ccbd6c3801fcb8e8a6b76cf9a3441783c9
+  expected_chunks: 8
+  row:
+    document_family: 9 30783 kid en 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: 9-30783-KID-EN
+    source_pdf_filename: 9-30783-kid-en-161721-es.pdf
+    source_pdf_sha256: 20452ae4f60a9b844514ab2078abd6ccbd6c3801fcb8e8a6b76cf9a3441783c9
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: Datasheet-CAD-171-DS-737-en
+  extraction_sha256: b95e6cb485d9ad36b1328ba3626d0e569215bf9d4d6d9259432bb1c87de45c2f
+  expected_chunks: 4
+  row:
+    document_family: datasheet cad 171 ds 737 en
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Pfannenberg
+    product_model: DS-737
+    source_pdf_filename: Datasheet-CAD-171-DS-737-en.pdf
+    source_pdf_sha256: b95e6cb485d9ad36b1328ba3626d0e569215bf9d4d6d9259432bb1c87de45c2f
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: Datasheet_CAD-171-DS-736-es
+  extraction_sha256: 6289904c16360c37c49685610ab0529ce32cc7e089a092deac470a056949c079
+  expected_chunks: 4
+  row:
+    document_family: datasheet cad 171 ds 736 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Pfannenberg
+    product_model: DS-736
+    source_pdf_filename: Datasheet_CAD-171-DS-736-es.pdf
+    source_pdf_sha256: 6289904c16360c37c49685610ab0529ce32cc7e089a092deac470a056949c079
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: Datasheet_CAD-201-DS-740-es
+  extraction_sha256: ea304fefc12f9114ab0c5a599fb1564bd5496d1e9182d951aeeaeb38981a8dae
+  expected_chunks: 6
+  row:
+    document_family: datasheet cad 201 ds 740 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Pfannenberg
+    product_model: DS-740
+    source_pdf_filename: Datasheet_CAD-201-DS-740-es.pdf
+    source_pdf_sha256: ea304fefc12f9114ab0c5a599fb1564bd5496d1e9182d951aeeaeb38981a8dae
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: Datasheet_CAD-201-DS-741-en
+  extraction_sha256: 1993785d618862af0c77de498e570e251db1de550a896fca0c32dc22579b7fc6
+  expected_chunks: 6
+  row:
+    document_family: datasheet cad 201 ds 741 en
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Pfannenberg
+    product_model: DS-741
+    source_pdf_filename: Datasheet_CAD-201-DS-741-en.pdf
+    source_pdf_sha256: 1993785d618862af0c77de498e570e251db1de550a896fca0c32dc22579b7fc6
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: HLSI-DT-963_POL-200-TS_PT
+  extraction_sha256: 9513e95fdac0a4a2226ae55d3fe738314319814ec9c56da97b7e985b297329e4
+  expected_chunks: 1
+  row:
+    document_family: hlsi dt 963 pol 200 ts pt
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Notifier
+    product_model: POL-200-TS
+    source_pdf_filename: HLSI-DT-963_POL-200-TS_PT.pdf
+    source_pdf_sha256: 9513e95fdac0a4a2226ae55d3fe738314319814ec9c56da97b7e985b297329e4
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: HLSI-MA-025 Korte handleiding NFS_Supra_XP__15052015
+  extraction_sha256: faa1e1d64c921d0eee493b2cac4077f5601d48dafb3e7b4343b54ea1a1eaca7e
+  expected_chunks: 3
+  row:
+    document_family: hlsi ma 025 korte handleiding nfs supra xp  15052015
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Honeywell
+    product_model: NFS Supra
+    source_pdf_filename: HLSI-MA-025 Korte handleiding NFS_Supra_XP__15052015.pdf
+    source_pdf_sha256: faa1e1d64c921d0eee493b2cac4077f5601d48dafb3e7b4343b54ea1a1eaca7e
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: HLSI-MA-103 _Korte handleiding RP1r_Supra_NL
+  extraction_sha256: 33a09943b3b94e43843b09433f1c71f81bd10884a5dc5510966d8d1e3a34ab04
+  expected_chunks: 3
+  row:
+    document_family: hlsi ma 103  korte handleiding rp1r supra nl
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Honeywell
+    product_model: RP1r Supra
+    source_pdf_filename: HLSI-MA-103 _Korte handleiding RP1r_Supra_NL.pdf
+    source_pdf_sha256: 33a09943b3b94e43843b09433f1c71f81bd10884a5dc5510966d8d1e3a34ab04
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: I56-1657-001 MI-PTSE
+  extraction_sha256: c39518577fc4f0fb2852bc81223c54143c4994622204a7060ab9036ceb3b8138
+  expected_chunks: 10
+  row:
+    document_family: i56 1657 001 mi ptse
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Morley
+    product_model: DE-15
+    source_pdf_filename: I56-1657-001 MI-PTSE.pdf
+    source_pdf_sha256: c39518577fc4f0fb2852bc81223c54143c4994622204a7060ab9036ceb3b8138
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: I56-2129-002 M710-CZ
+  extraction_sha256: 12af7772b313c7fb3299f74a4ec2bb847bc8f35a96166e23bbaa13da2b218cad
+  expected_chunks: 11
+  row:
+    document_family: i56 2129 002 m710 cz
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Notifier
+    product_model: MIN-17
+    source_pdf_filename: I56-2129-002 M710-CZ.pdf
+    source_pdf_sha256: 12af7772b313c7fb3299f74a4ec2bb847bc8f35a96166e23bbaa13da2b218cad
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: MNDT102I_D FR
+  extraction_sha256: be6971a20a605b53d82904e49b4345d292e1054f1fcaadb6360c4286fb9f7a4d
+  expected_chunks: 1
+  row:
+    document_family: mndt102i d fr
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Notifier
+    product_model: RP1R
+    source_pdf_filename: MNDT102I_D FR.pdf
+    source_pdf_sha256: be6971a20a605b53d82904e49b4345d292e1054f1fcaadb6360c4286fb9f7a4d
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: Manual_CAD-171-MI-716-es
+  extraction_sha256: d879ac72c2d8b294087be8a24af1d07831e025791364598617cbe8e45015284f
+  expected_chunks: 75
+  row:
+    document_family: manual cad 171 mi 716 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Detnov
+    product_model: CAD-171
+    source_pdf_filename: Manual_CAD-171-MI-716-es.pdf
+    source_pdf_sha256: d879ac72c2d8b294087be8a24af1d07831e025791364598617cbe8e45015284f
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: Manual_CAD-201-MI-715-es
+  extraction_sha256: 70bc01916f2d41f1e208cd188e9855c2098febabe0a57904837b28046eb5b189
+  expected_chunks: 80
+  row:
+    document_family: manual cad 201 mi 715 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Detnov
+    product_model: CAD-201
+    source_pdf_filename: Manual_CAD-201-MI-715-es.pdf
+    source_pdf_sha256: 70bc01916f2d41f1e208cd188e9855c2098febabe0a57904837b28046eb5b189
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: aritech_ins570-8_combined
+  extraction_sha256: 6c6f5945803b19627e4ec20ee5cd58ecfca756918b9913d92908f8c2bfaa6b49
+  expected_chunks: 20
+  row:
+    document_family: aritech ins570 8 combined
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: ASW2367
+    source_pdf_filename: aritech_ins570-8_combined.pdf
+    source_pdf_sha256: 6c6f5945803b19627e4ec20ee5cd58ecfca756918b9913d92908f8c2bfaa6b49
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: as2363-62536-es
+  extraction_sha256: 1629c5c057154314500c324ba0cc76df4b7dd44de7b6db8897fac7c996008363
+  expected_chunks: 3
+  row:
+    document_family: as2363 62536 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: AS2363
+    source_pdf_filename: as2363-62536-es.pdf
+    source_pdf_sha256: 1629c5c057154314500c324ba0cc76df4b7dd44de7b6db8897fac7c996008363
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: as2364-62536-es
+  extraction_sha256: 380e624543e4e2b2b2411113e261553136dd256e27d5848eec0d9c0eb72603e9
+  expected_chunks: 2
+  row:
+    document_family: as2364 62536 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: AS2364
+    source_pdf_filename: as2364-62536-es.pdf
+    source_pdf_sha256: 380e624543e4e2b2b2411113e261553136dd256e27d5848eec0d9c0eb72603e9
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: asw2366-62536-es
+  extraction_sha256: c5f3675f625fb9f8061ec16644656ea861808afaeef62eafee8fafb4fe779c1f
+  expected_chunks: 3
+  row:
+    document_family: asw2366 62536 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: ASW2366
+    source_pdf_filename: asw2366-62536-es.pdf
+    source_pdf_sha256: c5f3675f625fb9f8061ec16644656ea861808afaeef62eafee8fafb4fe779c1f
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: asw2367-62536-es
+  extraction_sha256: fc6dbe933461c37bdc21aab89cfc6f68579103dceea159b57e40912661133ce8
+  expected_chunks: 3
+  row:
+    document_family: asw2367 62536 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: ASW2367
+    source_pdf_filename: asw2367-62536-es.pdf
+    source_pdf_sha256: fc6dbe933461c37bdc21aab89cfc6f68579103dceea159b57e40912661133ce8
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual
+  extraction_sha256: 609d5ef1533d65666f2c183d69a8ba5542a90c29c3fba7663eaa34d64b35d821
+  expected_chunks: 126
+  row:
+    document_family: bcn 3100017 es r002 nc series fire alarm control panel installation manual
+    revision: r002
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: NC
+    source_pdf_filename: bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual.pdf
+    source_pdf_sha256: 609d5ef1533d65666f2c183d69a8ba5542a90c29c3fba7663eaa34d64b35d821
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: bcn-3100018-es_r002_nc_series_fire_alarm_control_panel_operation_manual
+  extraction_sha256: 865877f5a7972524fe45a07fade36a014f8f0a6b42fcfdacd5efd2c2529a5332
+  expected_chunks: 42
+  row:
+    document_family: bcn 3100018 es r002 nc series fire alarm control panel operation manual
+    revision: r002
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: NC
+    source_pdf_filename: bcn-3100018-es_r002_nc_series_fire_alarm_control_panel_operation_manual.pdf
+    source_pdf_sha256: 865877f5a7972524fe45a07fade36a014f8f0a6b42fcfdacd5efd2c2529a5332
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: bcn-3100019-es_r002_nc_series_fire_alarm_control_panel_quick_installation_guide
+  extraction_sha256: f47d2625db84852831638288df8d00195affb1348d53c49f0c18802deacafef9
+  expected_chunks: 8
+  row:
+    document_family: bcn 3100019 es r002 nc series fire alarm control panel quick installation guide
+    revision: r002
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: NC
+    source_pdf_filename: bcn-3100019-es_r002_nc_series_fire_alarm_control_panel_quick_installation_guide.pdf
+    source_pdf_sha256: f47d2625db84852831638288df8d00195affb1348d53c49f0c18802deacafef9
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: bcn-3100020-es_r002_nc_series_fire_alarm_control_panel_quick_operation_guide
+  extraction_sha256: d1d080f82e5a1ae2ba3ea7dc2079a2f4e697e244dff087847471b218263e0546
+  expected_chunks: 4
+  row:
+    document_family: bcn 3100020 es r002 nc series fire alarm control panel quick operation guide
+    revision: r002
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: NC
+    source_pdf_filename: bcn-3100020-es_r002_nc_series_fire_alarm_control_panel_quick_operation_guide.pdf
+    source_pdf_sha256: d1d080f82e5a1ae2ba3ea7dc2079a2f4e697e244dff087847471b218263e0546
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: bcn-3100032-ml_r002_2010-2-pak-rmsdk_registration_guide
+  extraction_sha256: cf32450eb71ee9082da9805adbfb1b292d13112aac7366b9639a9001a838779d
+  expected_chunks: 23
+  row:
+    document_family: bcn 3100032 ml r002 2010 2 pak rmsdk registration guide
+    revision: r002
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2010-2-PAK-RMSDK
+    source_pdf_filename: bcn-3100032-ml_r002_2010-2-pak-rmsdk_registration_guide.pdf
+    source_pdf_sha256: cf32450eb71ee9082da9805adbfb1b292d13112aac7366b9639a9001a838779d
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: bcn-3100035-en_r006_2x-a_series_addressable_control_panel_compatibility_list_0
+  extraction_sha256: 6ad22328e34d3e7e397da198b2f0c92cdbceb3c761d93296585b2398cba602df
+  expected_chunks: 11
+  row:
+    document_family: bcn 3100035 en r006 2x a series addressable control panel compatibility list 0
+    revision: r006
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-A Táctil
+    source_pdf_filename: bcn-3100035-en_r006_2x-a_series_addressable_control_panel_compatibility_list_0.pdf
+    source_pdf_sha256: 6ad22328e34d3e7e397da198b2f0c92cdbceb3c761d93296585b2398cba602df
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: bcn-3100036-en_r002_2x-a_and_zp2-a_series_addressable_control_panel_compatibility_list_900_series_protocol
+  extraction_sha256: 575ded0ceac828a4b91047cb28133356dd9cefe3ba91513b70f24c3e8ba186f4
+  expected_chunks: 8
+  row:
+    document_family: bcn 3100036 en r002 2x a and zp2 a series addressable control panel compatibility list 900
+      series protocol
+    revision: r002
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: 2X-A Táctil
+    source_pdf_filename: bcn-3100036-en_r002_2x-a_and_zp2-a_series_addressable_control_panel_compatibility_list_900_series_protocol.pdf
+    source_pdf_sha256: 575ded0ceac828a4b91047cb28133356dd9cefe3ba91513b70f24c3e8ba186f4
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: fd2705r-62536-es
+  extraction_sha256: 809ecf79049ba44af7258c89c96b8b237c5f8ceb0fc53d8bc145e50f5c795433
+  expected_chunks: 2
+  row:
+    document_family: fd2705r 62536 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: FD2705R
+    source_pdf_filename: fd2705r-62536-es.pdf
+    source_pdf_sha256: 809ecf79049ba44af7258c89c96b8b237c5f8ceb0fc53d8bc145e50f5c795433
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: fd2710r-62536-es
+  extraction_sha256: abeea9cc130518635af60095625a1fd5444150fbb88121f63f45d366a91c8c20
+  expected_chunks: 3
+  row:
+    document_family: fd2710r 62536 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: FD2710R
+    source_pdf_filename: fd2710r-62536-es.pdf
+    source_pdf_sha256: abeea9cc130518635af60095625a1fd5444150fbb88121f63f45d366a91c8c20
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: fhsd8310-63296-es
+  extraction_sha256: 76e2d0ae947331997329916a6029f701a73924ecee389ad07272cca3a22f4dbc
+  expected_chunks: 8
+  row:
+    document_family: fhsd8310 63296 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Edwards
+    product_model: FHSD8310
+    source_pdf_filename: fhsd8310-63296-es.pdf
+    source_pdf_sha256: 76e2d0ae947331997329916a6029f701a73924ecee389ad07272cca3a22f4dbc
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: fhsd8330-63296-es
+  extraction_sha256: 2b3dd397ce389725dc446d670fde96b8fcb605b670b2f027f3b8aa77082421d1
+  expected_chunks: 8
+  row:
+    document_family: fhsd8330 63296 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Edwards
+    product_model: FHSD8330
+    source_pdf_filename: fhsd8330-63296-es.pdf
+    source_pdf_sha256: 2b3dd397ce389725dc446d670fde96b8fcb605b670b2f027f3b8aa77082421d1
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: iu2055nc-62536-es
+  extraction_sha256: 6b35c1ca2e873b4eb01e94edb1385b31f503d222a777c5525bc3057b0327f926
+  expected_chunks: 3
+  row:
+    document_family: iu2055nc 62536 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: IU2055NC
+    source_pdf_filename: iu2055nc-62536-es.pdf
+    source_pdf_sha256: 6b35c1ca2e873b4eb01e94edb1385b31f503d222a777c5525bc3057b0327f926
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: ke-as3115r-wm-161721-es
+  extraction_sha256: a6b27b40f733e7bd44d568874883a57617315a22beb2216896e14c7bd931f070
+  expected_chunks: 6
+  row:
+    document_family: ke as3115r wm 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: KE-AS3115R-WM
+    source_pdf_filename: ke-as3115r-wm-161721-es.pdf
+    source_pdf_sha256: a6b27b40f733e7bd44d568874883a57617315a22beb2216896e14c7bd931f070
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: ke-as3115r-wmip-161721-es
+  extraction_sha256: 2a6483030a1da398f4c71c4c5ed2517c86d3c17cde68025df3426c8337421d84
+  expected_chunks: 6
+  row:
+    document_family: ke as3115r wmip 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: KE-AS3115R-WMIP
+    source_pdf_filename: ke-as3115r-wmip-161721-es.pdf
+    source_pdf_sha256: 2a6483030a1da398f4c71c4c5ed2517c86d3c17cde68025df3426c8337421d84
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: ke-db3010w-161721-es
+  extraction_sha256: eaf4831d9412f636640479e7f362d20c820c342a16887102698007d1fdcf2d9c
+  expected_chunks: 4
+  row:
+    document_family: ke db3010w 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: KE-DB3010W
+    source_pdf_filename: ke-db3010w-161721-es.pdf
+    source_pdf_sha256: eaf4831d9412f636640479e7f362d20c820c342a16887102698007d1fdcf2d9c
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: ke-dba-auxw-161721-es
+  extraction_sha256: 832b20b348f11b00f94f710abf2860ab367c4ca6c107ca0a7bfd491ed2dbe7dc
+  expected_chunks: 2
+  row:
+    document_family: ke dba auxw 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: KE-DBA-AUXW
+    source_pdf_filename: ke-dba-auxw-161721-es.pdf
+    source_pdf_sha256: 832b20b348f11b00f94f710abf2860ab367c4ca6c107ca0a7bfd491ed2dbe7dc
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: ke-dm3010r-161721-es
+  extraction_sha256: 2bf54821d0c141a0c276d603264b06c0cd899789c955a4761b29fc1c775acd22
+  expected_chunks: 4
+  row:
+    document_family: ke dm3010r 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: KE-DM3010R
+    source_pdf_filename: ke-dm3010r-161721-es.pdf
+    source_pdf_sha256: 2bf54821d0c141a0c276d603264b06c0cd899789c955a4761b29fc1c775acd22
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: ke-dm3010r-kit-161721-es
+  extraction_sha256: 1c9b2ac340155590dee3eb9955f460550a44392c38172281a01a269802740324
+  expected_chunks: 4
+  row:
+    document_family: ke dm3010r kit 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: KE-DM3010R-KIT
+    source_pdf_filename: ke-dm3010r-kit-161721-es.pdf
+    source_pdf_sha256: 1c9b2ac340155590dee3eb9955f460550a44392c38172281a01a269802740324
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: ke-dp3020w-161721-es
+  extraction_sha256: 17714e34b341863812bb0d91bfb79863c59e61df5128ba8e132e154d26135ee9
+  expected_chunks: 4
+  row:
+    document_family: ke dp3020w 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: KE-DP3020W
+    source_pdf_filename: ke-dp3020w-161721-es.pdf
+    source_pdf_sha256: 17714e34b341863812bb0d91bfb79863c59e61df5128ba8e132e154d26135ee9
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: ke-dp3120w-161721-es
+  extraction_sha256: edab38bdf6ea13d6d5798d6b75a2bb9141b4a70282ef4a7b3fc2fb2a25a892f2
+  expected_chunks: 6
+  row:
+    document_family: ke dp3120w 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: KE-DP3120W
+    source_pdf_filename: ke-dp3120w-161721-es.pdf
+    source_pdf_sha256: edab38bdf6ea13d6d5798d6b75a2bb9141b4a70282ef4a7b3fc2fb2a25a892f2
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: ke-dt3001w-hab-161721-es
+  extraction_sha256: af76615f9d8f1db83758ded0a25f004b24d3e487140708c377d37031795a2ab9
+  expected_chunks: 5
+  row:
+    document_family: ke dt3001w hab 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: KE-DT3001W-HAB
+    source_pdf_filename: ke-dt3001w-hab-161721-es.pdf
+    source_pdf_sha256: af76615f9d8f1db83758ded0a25f004b24d3e487140708c377d37031795a2ab9
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: ke-io3101-161721-es
+  extraction_sha256: c3a4f88a8eed64b74a69f58817d7380446123ecf202aa4d2252308585dc11bdf
+  expected_chunks: 5
+  row:
+    document_family: ke io3101 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: KE-IO3101
+    source_pdf_filename: ke-io3101-161721-es.pdf
+    source_pdf_sha256: c3a4f88a8eed64b74a69f58817d7380446123ecf202aa4d2252308585dc11bdf
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: ke-io3122-161721-es
+  extraction_sha256: 4766061563967fc5370124d6a993fd1a57f05f7a63d9f21f2d48b4fec457e2a7
+  expected_chunks: 6
+  row:
+    document_family: ke io3122 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: KE-IO3122
+    source_pdf_filename: ke-io3122-161721-es.pdf
+    source_pdf_sha256: 4766061563967fc5370124d6a993fd1a57f05f7a63d9f21f2d48b4fec457e2a7
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: ke-io3144-161721-es
+  extraction_sha256: 3cd20f99d26fde523f2cd7fa26095adc83192bed2f7af0a1031ae04eab73aa71
+  expected_chunks: 6
+  row:
+    document_family: ke io3144 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: KE-IO3144
+    source_pdf_filename: ke-io3144-161721-es.pdf
+    source_pdf_sha256: 3cd20f99d26fde523f2cd7fa26095adc83192bed2f7af0a1031ae04eab73aa71
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: nc-pf2-161721-es
+  extraction_sha256: ddbfb33736f52cc6a11295b987fe6846e0a3147d619ae00eeec8dbfa236086e8
+  expected_chunks: 5
+  row:
+    document_family: nc pf2 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: NC-PF2
+    source_pdf_filename: nc-pf2-161721-es.pdf
+    source_pdf_sha256: ddbfb33736f52cc6a11295b987fe6846e0a3147d619ae00eeec8dbfa236086e8
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: nc-pf4-161721-es
+  extraction_sha256: 9383f47d648b1391feab19dfb637a9acd601ea3501a17ed292b70cc088d26784
+  expected_chunks: 5
+  row:
+    document_family: nc pf4 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: NC-PF4
+    source_pdf_filename: nc-pf4-161721-es.pdf
+    source_pdf_sha256: 9383f47d648b1391feab19dfb637a9acd601ea3501a17ed292b70cc088d26784
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: nc-pf4-sc-161721-es
+  extraction_sha256: f67ddc2c9edce53991e893894e5800beef65c3e6753dff86c4a367c7744d1383
+  expected_chunks: 4
+  row:
+    document_family: nc pf4 sc 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: NC-PF4-SC
+    source_pdf_filename: nc-pf4-sc-161721-es.pdf
+    source_pdf_sha256: f67ddc2c9edce53991e893894e5800beef65c3e6753dff86c4a367c7744d1383
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: nc-pf8-161721-es
+  extraction_sha256: 5ec6183b080ef3801e15250040200dc8b96b9eb464ccbda9c0b9e265b01ddcbe
+  expected_chunks: 5
+  row:
+    document_family: nc pf8 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: NC-PF8
+    source_pdf_filename: nc-pf8-161721-es.pdf
+    source_pdf_sha256: 5ec6183b080ef3801e15250040200dc8b96b9eb464ccbda9c0b9e265b01ddcbe
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: nc-pf8-sc-161721-es
+  extraction_sha256: a22b3c94ea1c2314ebc665ffd62f096f4fe9e4b74362af7d24ea9510ff0c1ee4
+  expected_chunks: 4
+  row:
+    document_family: nc pf8 sc 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: NC-PF8-SC
+    source_pdf_filename: nc-pf8-sc-161721-es.pdf
+    source_pdf_sha256: a22b3c94ea1c2314ebc665ffd62f096f4fe9e4b74362af7d24ea9510ff0c1ee4
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55/s58 (el pipeline de ingesta no crea filas en documents; identidad
+      = consenso de chunks cross-checked, diseño v2 A1).'
+- source_file: 03-0210-501-4301-02_r002_n-mc_series_mcp_backbox_installation_sheet_ml
+  extraction_sha256: 67b9f682a6f8fd63aa241d74eeaf7a57a35aa683955f2e0890ac3984e0822f36
+  expected_chunks: 12
+  curated_evidence: serie N-MC del lote (hermano 03-0210-501-4300 excellence MCP = chunks Aritech); equipo sidecar
+  set_chunks_manufacturer: Aritech
+  row:
+    document_family: 03 0210 501 4301 02 r002 n mc series mcp backbox installation sheet ml
+    revision: r002
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: N-MC-BB-G
+    source_pdf_filename: 03-0210-501-4301-02_r002_n-mc_series_mcp_backbox_installation_sheet_ml.pdf
+    source_pdf_sha256: 67b9f682a6f8fd63aa241d74eeaf7a57a35aa683955f2e0890ac3984e0822f36
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55 canal Otros — CURADO (serie N-MC del lote (hermano 03-0210-501-4300
+      excellence MCP = chunks Aritech); equipo sidecar).'
+- source_file: 03-0211-501-3000-05_r005_nc_series_conventional_mcp_installation_sheet_ml_0
+  extraction_sha256: 301c5c38a2ee301230f2ea1cc0a9afe271faebe8bf02d91da8fd09aee4936493
+  expected_chunks: 20
+  curated_evidence: serie NC convencional del portal UTC/Aritech; equipo sidecar
+  set_chunks_manufacturer: Aritech
+  row:
+    document_family: 03 0211 501 3000 05 r005 nc series conventional mcp installation sheet ml 0
+    revision: r005
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: NC-MC-0-G
+    source_pdf_filename: 03-0211-501-3000-05_r005_nc_series_conventional_mcp_installation_sheet_ml_0.pdf
+    source_pdf_sha256: 301c5c38a2ee301230f2ea1cc0a9afe271faebe8bf02d91da8fd09aee4936493
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55 canal Otros — CURADO (serie NC convencional del portal UTC/Aritech;
+      equipo sidecar).'
+- source_file: 04-4001-501-1700-06_r006_aritech_apic_installation_sheet_ml_0
+  extraction_sha256: c05473d53c0c53c2922a24f984e79b553aa1cbf7a31499e5b754740a50f922e0
+  expected_chunks: 10
+  curated_evidence: 'filename literal aritech_apic (equipo del sidecar cruzado: 9-30441)'
+  set_chunks_manufacturer: Aritech
+  row:
+    document_family: 04 4001 501 1700 06 r006 aritech apic installation sheet ml 0
+    revision: r006
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: unknown
+    source_pdf_filename: 04-4001-501-1700-06_r006_aritech_apic_installation_sheet_ml_0.pdf
+    source_pdf_sha256: c05473d53c0c53c2922a24f984e79b553aa1cbf7a31499e5b754740a50f922e0
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55 canal Otros — CURADO (filename literal aritech_apic (equipo del
+      sidecar cruzado: 9-30441)).'
+- source_file: 20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en
+  extraction_sha256: a7ebad741f6831dffba0f4fa9175db507449133a3739a2dbcf9287872a25b3c3
+  expected_chunks: 38
+  curated_evidence: AlarmLine II LHD = producto Kidde (codigo 20-85xx)
+  set_chunks_manufacturer: Kidde
+  row:
+    document_family: 20 8501 509 dl03 04 alarmline ii digital lhd cable technical manual en
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: unknown
+    source_pdf_filename: 20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en.pdf
+    source_pdf_sha256: a7ebad741f6831dffba0f4fa9175db507449133a3739a2dbcf9287872a25b3c3
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55 canal Otros — CURADO (AlarmLine II LHD = producto Kidde (codigo
+      20-85xx)).'
+- source_file: ad68n-0100-1-es
+  extraction_sha256: be225a682545a163c70a8b7f7e7e11ea2154fa80ed0a7a38b43801b1fa3baabf
+  expected_chunks: 2
+  curated_evidence: AD68N = interfaz AlarmLine (Kidde); equipo sidecar
+  set_chunks_manufacturer: Kidde
+  row:
+    document_family: ad68n 0100 1 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Kidde
+    product_model: AD68N-0100
+    source_pdf_filename: ad68n-0100-1-es.pdf
+    source_pdf_sha256: be225a682545a163c70a8b7f7e7e11ea2154fa80ed0a7a38b43801b1fa3baabf
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55 canal Otros — CURADO (AD68N = interfaz AlarmLine (Kidde); equipo
+      sidecar).'
+- source_file: dm715-63296-es
+  extraction_sha256: 000c492d6101ac03579f5740c8d9ddc585ff7481d9634c5fed7bcfc082f994a4
+  expected_chunks: 2
+  curated_evidence: DM715 = pulsador serie DM700 Aritech; equipo sidecar
+  set_chunks_manufacturer: Aritech
+  row:
+    document_family: dm715 63296 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: DM715
+    source_pdf_filename: dm715-63296-es.pdf
+    source_pdf_sha256: 000c492d6101ac03579f5740c8d9ddc585ff7481d9634c5fed7bcfc082f994a4
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55 canal Otros — CURADO (DM715 = pulsador serie DM700 Aritech; equipo
+      sidecar).'
+- source_file: n-mc-bb-g-161721-es
+  extraction_sha256: 8c681eff49d576a6bc3bdab77e8f05b8fbd1124aef91525b99f96d27fe0f70b4
+  expected_chunks: 2
+  curated_evidence: datasheet del equipo N-MC-BB-G (sidecar)
+  set_chunks_manufacturer: Aritech
+  row:
+    document_family: n mc bb g 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: N-MC-BB-G
+    source_pdf_filename: n-mc-bb-g-161721-es.pdf
+    source_pdf_sha256: 8c681eff49d576a6bc3bdab77e8f05b8fbd1124aef91525b99f96d27fe0f70b4
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55 canal Otros — CURADO (datasheet del equipo N-MC-BB-G (sidecar)).'
+- source_file: nc-mc-0-g-161721-es
+  extraction_sha256: 3b734d72eee0e36587edf9325e46e311d340ee297b07d78a90fe4b1ab41fdc84
+  expected_chunks: 4
+  curated_evidence: datasheet del equipo NC-MC-0-G (sidecar)
+  set_chunks_manufacturer: Aritech
+  row:
+    document_family: nc mc 0 g 161721 es
+    revision: null
+    revision_date: null
+    language: null
+    doc_type: null
+    manufacturer: Aritech
+    product_model: NC-MC-0-G
+    source_pdf_filename: nc-mc-0-g-161721-es.pdf
+    source_pdf_sha256: 3b734d72eee0e36587edf9325e46e311d340ee297b07d78a90fe4b1ab41fdc84
+    status: active
+    notes: 's65 capaB: backfill identidad lote s55 canal Otros — CURADO (datasheet del equipo NC-MC-0-G (sidecar)).'
+A1_curation_pendiente:
+- source_file: 9-10900-62576-es
+  n_chunks: 1
+  razon: sin evidencia de marca (canal Otros, brand=Otros) — residual honesto F13
+- source_file: 9-10906-62576-es
+  n_chunks: 1
+  razon: sin evidencia de marca (canal Otros, brand=Otros) — residual honesto F13
+- source_file: 9-10908-62576-es
+  n_chunks: 1
+  razon: sin evidencia de marca (canal Otros, brand=Otros) — residual honesto F13
+- source_file: 9-10909-62576-es
+  n_chunks: 2
+  razon: sin evidencia de marca (canal Otros, brand=Otros) — residual honesto F13
+- source_file: 9-10927-62576-es
+  n_chunks: 1
+  razon: sin evidencia de marca (canal Otros, brand=Otros) — residual honesto F13
+- source_file: 9-10954-100-62576-es
+  n_chunks: 2
+  razon: sin evidencia de marca (canal Otros, brand=Otros) — residual honesto F13
+- source_file: 9-30441-62576-es
+  n_chunks: 2
+  razon: sin evidencia de marca (canal Otros, brand=Otros) — residual honesto F13
+- source_file: sds0098es_solo_a10_iss_2.1
+  n_chunks: 15
+  razon: sin evidencia de marca (canal Otros, brand=Otros) — residual honesto F13
+A2_update_documents:
+- doc_id: 29c145dc-f036-4e24-b16f-66ba61f480b6
+  filename: Instruction Manual SG350 ENG
+  set:
+    manufacturer: Argus Security
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: b788bbda-6045-46f5-b645-b54a23bdae5c
+  filename: Instruction Manual SG100-IS ENG
+  set:
+    manufacturer: Argus Security
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 49748810-b5d2-40f6-acee-2aa8f6e8126b
+  filename: Instruction Manual SGCP100-IS ENG
+  set:
+    manufacturer: Argus Security
+    product_model: SGCP100-IS
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: fc285f22-cfa5-4c88-b12d-aa18a764a2a7
+  filename: Instruction Manual SG200 ENG
+  set:
+    manufacturer: Argus Security
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: cced2735-a3f6-4b7a-8bd7-cce6ce7482c2
+  filename: Instruction Manual SGMI200
+  set:
+    manufacturer: Argus Security
+    product_model: SGMI200
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: e2f0c96f-c1ac-4bab-9d22-95574cecb194
+  filename: Instruction Manual SGFI200-S
+  set:
+    manufacturer: Argus Security
+    product_model: SGFI200
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: c270c9c7-80f1-41a9-8639-0b1a624765b5
+  filename: Instruction Manual SG350-IS ENG
+  set:
+    manufacturer: Argus Security
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: b448478a-afd7-43b7-8274-7323227873da
+  filename: Instruction Manual SGCP100 RNG
+  set:
+    manufacturer: Argus Security
+    product_model: SGCP100
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 408a3a7b-aab9-40f5-af5b-a45e267d67c6
+  filename: Instruction Manual SGMCB200
+  set:
+    manufacturer: Argus Security
+    product_model: SGMCB200
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: f8020fa4-cd11-48e5-b80c-39d606dacc8b
+  filename: Instruction Manual SG200-IS ENG
+  set:
+    manufacturer: Argus Security
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 2e0ee11a-e42e-4c25-a5d6-d77924cbdb11
+  filename: Instruction Manual SG100 ENG
+  set:
+    manufacturer: Argus Security
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 7a0527ea-b325-4813-a325-ca2268afd304
+  filename: manual instrucciones Z728
+  set:
+    manufacturer: Pepperl-Fuchs
+    product_model: Z728
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 6ff80de4-54ca-4f2e-9e09-bd10225ae25f
+  filename: Z728_installation manual
+  set:
+    manufacturer: Pepperl-Fuchs
+    product_model: Z728
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: fc3d273e-7f99-402a-99e4-9099d8cefe8e
+  filename: 085501945t_PA5_Installation_manual_D-GB-F-RU-IT
+  set:
+    manufacturer: Pfannenberg
+  evidence: filename apoya a chunks (Pfannenberg)
+- doc_id: e837f20c-e05e-4cb3-9504-6ab35b6c3b23
+  filename: 085501996d_PYX-L-15-CPR_Installation_manual_D-GB-F-RU-I
+  set:
+    manufacturer: Pfannenberg
+    product_model: PYX-L-15
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 6acf23d4-b03b-4e07-b79d-af56f6ce92ef
+  filename: 085501946s_PA20_Installation-manual_D-GB-F-RU-IT
+  set:
+    manufacturer: Pfannenberg
+  evidence: filename apoya a chunks (Pfannenberg)
+- doc_id: ded06552-d28a-45c3-b54a-27c3e4a0505f
+  filename: 085501987j_PY X-M-05_10_Installation_manual_D-GB-F-RU-IT
+  set:
+    manufacturer: Pfannenberg
+    product_model: PY-X-M-05
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: d07637ff-d7eb-412a-a261-5863b606a360
+  filename: 085501949p_PY X-S-05_Installation_manual_D-GB-F-RU-IT
+  set:
+    manufacturer: Pfannenberg
+    product_model: PY-X-S-05
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: ac08957f-6488-4304-a8ec-173a7a4f08cd
+  filename: SFD-220_Manual_EN
+  set:
+    manufacturer: Pfannenberg
+    product_model: DS109F
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: d72657df-e074-4cae-bc4f-20abe98f7c4d
+  filename: 085501821n_DS10_Installation_manual_D-GB_F_IT
+  set:
+    manufacturer: Pfannenberg
+    product_model: DS10
+  evidence: filename apoya a chunks (Pfannenberg)
+- doc_id: 6d394c63-fd4c-4e82-9f96-82431127995b
+  filename: ASD531_OM_T811168es_b
+  set:
+    manufacturer: Securiton
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 3a9251e0-7502-445e-ab27-b3ef0212ba7f
+  filename: ASD532_TD_T140421es_a
+  set:
+    manufacturer: Securiton
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: ab258c38-30f7-4047-a421-ebb7a701a84a
+  filename: ASD535_TD_T131192es_h
+  set:
+    manufacturer: Securiton
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: dff3152a-8f8d-4be8-becc-8c9cda3cb6a6
+  filename: ADW535_TD_T140358es_e
+  set:
+    manufacturer: Securiton
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 1cc97b71-972e-4163-8d1d-548a4b57f275
+  filename: ASD533_TD_T140287es_e
+  set:
+    manufacturer: Securiton
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 3f41ff57-479a-470a-8b43-544af709bea3
+  filename: SW_MN_210-Series_CZ_flame_detectors_v1-ES
+  set:
+    manufacturer: SenseWare
+    product_model: 210-SERIES
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 27057b74-4ef1-4ec1-9d16-12ea2ffdbabf
+  filename: manual-spectrex-sharpeye-20-20ml-user-manual-spectrex-en-us-1459818
+  set:
+    manufacturer: Spectrex
+    product_model: 20-20ML-USER
+  evidence: filename apoya a chunks (Spectrex)
+- doc_id: 9a74d88b-7c87-4a23-b1ad-dbbda3b4fbb2
+  filename: guide-40-40r-single-ir-flame-detector-spectrex-en-us-1459812
+  set:
+    manufacturer: Spectrex
+    product_model: 40-40R-SINGLE
+  evidence: filename apoya a chunks (Spectrex)
+- doc_id: b6fbf3fc-e072-4145-8fb1-3dbc95596d9a
+  filename: guide-40-40-air-shield-p-n-777650-spectrex-en-us-1459942
+  set:
+    manufacturer: Spectrex
+    product_model: 40-40-AIR
+  evidence: filename apoya a chunks (Spectrex)
+- doc_id: 511e1109-ca9c-4777-8422-2779df702b8f
+  filename: manual-sharpeye-40-40-series-winhost-spectrex-en-us-4845694
+  set:
+    manufacturer: Spectrex
+    product_model: 40-40-SERIES
+  evidence: filename apoya a chunks (Spectrex)
+- doc_id: c3a3eb01-e91f-4732-9beb-b5e0cd011c44
+  filename: UCIP-Tabla-de-compatibilidad-con-receptoras-y-centrales.pdf
+  set:
+    manufacturer: Notifier
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 7ade556d-6cd5-429c-9b7e-b53dc392496d
+  filename: No-aparecen-el-el-TG-ID3000-los-elementos-Auxiliares-AUX.pdf
+  set:
+    manufacturer: Notifier
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 2096e504-08a9-4977-9ab0-12c6c8a20475
+  filename: UCIP-Como-conectar-con-TG.pdf
+  set:
+    manufacturer: Notifier
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: eb0e9e0a-4df5-4576-ac38-ddb0fccbc589
+  filename: ITAC-no-reconocido-por-la-Central.pdf
+  set:
+    manufacturer: Notifier
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: a6b55f34-a310-4273-9a41-0721e0de05c3
+  filename: Enlace entre TG
+  set:
+    manufacturer: Notifier
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: f4f88041-c12c-4132-8e6d-34bc4e6830c7
+  filename: MIE-MI-505rv01
+  set:
+    manufacturer: Notifier
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: dd0734bf-e05a-4809-99b8-2e32e4d1dec1
+  filename: MNDT1310
+  set:
+    manufacturer: Notifier
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 39795638-b4ec-4bbe-a68d-76d27f2d5d2b
+  filename: TG-Como-solucionar-problema-de-Error-CRC.pdf
+  set:
+    manufacturer: Notifier
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 7e2805f4-e43f-4369-9151-2e8b3cf2bf4f
+  filename: Conexionado-del-modulo-M710-MI-DMMI.pdf
+  set:
+    manufacturer: Notifier
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: cca29ddc-4475-492c-9b5d-41a116fba39d
+  filename: LEER PRIMERO_MADT951_10
+  set:
+    manufacturer: Notifier
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: e46d7ef9-e678-4cba-bf02-1fe8103b845c
+  filename: MNDT1311
+  set:
+    manufacturer: Notifier
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 4777ad8f-c33a-4e53-8a94-4912dc89b630
+  filename: UCIP-Conectar-con-equipo-via-Serie.pdf
+  set:
+    manufacturer: Notifier
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 92d645a5-869a-474a-acb0-826e2164f4de
+  filename: Conexionado-del-modulo-M710-CZR-MI-DCZRM.pdf
+  set:
+    manufacturer: Notifier
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 8dd14204-0a1c-4121-bc0a-f125e6114903
+  filename: UCIP-Conexionado-con-ID3000.pdf
+  set:
+    manufacturer: Notifier
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 1e1450f6-c905-4112-bb33-fca526de7491
+  filename: UCIP-Como hacer una Actualizacion.pdf
+  set:
+    manufacturer: Notifier
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 0d5ea3ca-1b69-4aeb-8d46-f5443ea285bd
+  filename: FAAST Area Coverage Planner_SP
+  set:
+    manufacturer: Notifier
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 0cbff62b-0f60-40fc-8c21-87e68475bedd
+  filename: Como-solucionar-una-deriva-a-tierra.pdf
+  set:
+    manufacturer: Notifier
+    product_model: ID-3000
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 34359e60-b822-4daa-89b1-6dd7b57e2669
+  filename: UCIP-Compatibilidades-con-centrales-actuales.pdf
+  set:
+    manufacturer: Notifier
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: a2bb8ee1-b20b-4f20-9a72-a59f6f560a0a
+  filename: Conexionado-del-modulo-M710-CZ-MI-DCZM.pdf
+  set:
+    manufacturer: Notifier
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 6f797fa1-3b44-488c-83c3-107a5ea42c9c
+  filename: MNDT102I_D FR VSN-RP1r_hlsi.pdf
+  set:
+    manufacturer: Notifier
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 7ac3ecd8-a93c-4b8b-bf8c-f36419241c1b
+  filename: Cursos formacion_Marzo 2026.pdf
+  set:
+    manufacturer: Xtralis
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: e32b4ef8-2d1b-4522-9b11-a3c9bfe343bd
+  filename: I560849010EMA24ALRANS4REng
+  set:
+    manufacturer: Morley
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: b2551c3c-4b41-4619-ad96-1681ad1da357
+  filename: 'D391 Issue 3 WW_WY_WR2001 '
+  set:
+    manufacturer: Morley
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: b17017ec-2201-4ba1-b4b4-1e239f469b69
+  filename: 'D427 Issue 2 WW_WY_WR4001 '
+  set:
+    manufacturer: Morley
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: ae01f36c-750e-4765-a31b-84109aa20fdc
+  filename: MIDT1041
+  set:
+    manufacturer: Pfannenberg
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: dd6d3f72-8a37-4f98-b044-589708b606d9
+  filename: I56-2166-02R DH500ACDC-E
+  set:
+    manufacturer: Pfannenberg
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 6bcf5666-e1e0-437e-8759-3870165bcd1e
+  filename: I56-6577-006_ES FAAST Notifier LT-200 QIG
+  set:
+    manufacturer: Securiton
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: be8f0c3a-be40-4ae4-9e09-738a9093273a
+  filename: I56-3947-202_FAAST LT_MULTI
+  set:
+    manufacturer: Securiton
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: eef91711-fcb7-4b46-ab86-21657490df40
+  filename: I56-6577-006_EN Notifier FAAST LT-200 QIG
+  set:
+    manufacturer: Securiton
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: aafa668c-f724-442f-ab27-d9abfbf84c7a
+  filename: MADT235
+  set:
+    manufacturer: Securiton
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 4421642f-29b2-4cc9-af08-2eb1f393316f
+  filename: MNDT710_B.pdf
+  set:
+    manufacturer: Spectrex
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 24b703a2-2e75-428f-b0e2-14a7530e1998
+  filename: MNDT700_C.pdf
+  set:
+    manufacturer: Spectrex
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 4ba70bd0-34a1-4977-ad31-0a8e788c4ebb
+  filename: MNDT722_40-40L
+  set:
+    manufacturer: Spectrex
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 2c76809e-1d12-4be7-a3e6-99b91f0c593c
+  filename: MNDT723_40-40U
+  set:
+    manufacturer: Spectrex
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: fcd3e3f3-ce22-43cc-a337-2d9cfbdc527e
+  filename: MNDT724_40-40R
+  set:
+    manufacturer: Spectrex
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: e14321a9-9ecc-4838-a35e-eb884444f8e5
+  filename: MNDT725_40-40M
+  set:
+    manufacturer: Spectrex
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 1e2b058a-4951-4d67-b9c9-61e009ccd59f
+  filename: MNDT720.pdf
+  set:
+    manufacturer: Spectrex
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 5213c5a9-b929-4932-94ff-bfde80af8d72
+  filename: MNDT721_40-40I
+  set:
+    manufacturer: Spectrex
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 3456a624-aa68-4f81-a261-ffac7481da9a
+  filename: MCDT280
+  set:
+    manufacturer: Spectrex
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: b9f20f94-76cc-48b2-9387-53348fdd38bd
+  filename: MNDT713.pdf
+  set:
+    manufacturer: Spectrex
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 0e009036-e798-4a5f-bf50-1acefd58ecda
+  filename: MADT696_01
+  set:
+    manufacturer: Spectrex
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: d886bc8d-6eb3-40a9-833b-53ee36a5b993
+  filename: 33037_05_VESDA-E_VEA-040-A10_Product_Guide_A4_Spanish_lores
+  set:
+    manufacturer: Xtralis
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: b22fdb7f-f9e9-49d0-9e40-e840c24d25e9
+  filename: 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores.pdf
+  set:
+    manufacturer: Xtralis
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: b37b71e7-dd47-4956-ab17-6d0b45b01e3d
+  filename: 35006_03_VESDA-E_VES-A10-P_Product_Guide_A4_Spanish_lores
+  set:
+    manufacturer: Xtralis
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: e2c7c875-aa95-4b3c-9ce2-3a2988f94ca8
+  filename: 11370_17_VESDA_VLF-500_Product_Guide_A4_Spanish_lores
+  set:
+    manufacturer: Xtralis
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 749f11a0-329a-4eb9-94d4-ef275088cd35
+  filename: 33978_12_VESDA-E_VEU-A00_Product_Guide_A4_Spanish_lores
+  set:
+    manufacturer: Xtralis
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: e3bd61d5-d177-4b77-9f09-8dd7e81b60e4
+  filename: 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  set:
+    manufacturer: Xtralis
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 0951df3f-2d52-46d2-9669-627ab7251776
+  filename: 33036_05_VESDA-E_VEA-040-A00_Product_Guide_A4_Spanish_lores
+  set:
+    manufacturer: Xtralis
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 3a7869bf-8c1d-4adf-8b80-28479b3cc924
+  filename: 18500_A4_VESDA_VLI_Product_Guide_A4_IE_lores
+  set:
+    manufacturer: Xtralis
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 2f7f38f0-bd8a-4486-8598-a7ad2e6df051
+  filename: 33979_12_VESDA-E_VEU-A10_Product_Guide_A4_Spanish_lores
+  set:
+    manufacturer: Xtralis
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: fc7b44be-1d87-4a34-a62f-9983972eef81
+  filename: HSLI_IN_020_Tabla equivalencia TG
+  set:
+    manufacturer: Xtralis
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 7aa2b161-a7b7-4c5b-8877-1bf04daf4e88
+  filename: 35007_03_VESDA-E_VES-A00-P_Product_Guide_A4_Spanish_lores
+  set:
+    manufacturer: Xtralis
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 144d759a-400f-44e7-8496-e5ffd706ec5e
+  filename: 11369_22_VESDA_VLF-250_Product_Guide_A4_Spanish_lores
+  set:
+    manufacturer: Xtralis
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 017af6a2-e90c-4405-a500-0b2bd1a39d63
+  filename: 18995_03_VESDA_VLI_Installation_Sheet_lores_A3
+  set:
+    manufacturer: Xtralis
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+- doc_id: 695e1a54-637f-4f5f-bd33-b6c3684ea7aa
+  filename: 32849_05_VESDA-E_VEA_Installation_Sheet_A3_Spanish_lores
+  set:
+    manufacturer: Xtralis
+  evidence: 'default: backfill viejo pierde vs identidad data-driven de chunks'
+A2_curation_pendiente:
+- doc_id: 4fd91cdd-885b-4862-9bdd-2d00e011a351
+  filename: 55356500-Manual-Sirena-Analogica-MAD565-I_ES_GB_MI-466-m-2020-e
+  doc_manufacturer: Detnov
+  chunks_moda: Spectrex
+  chunks_unanime: true
+  n_chunks: 8
+  direction: curation
+  evidence: código Detnov en filename (mad565) contra chunks — revisar
+  doc_model: MAD-565-I
+  chunks_model_moda: MAD-564-I
+A2_update_chunks_excepciones:
+- source_file: 55356500-Manual-Sirena-Analogica-MAD565-I_ES_GB_MI-466-m-2020-e
+  set_manufacturer: Detnov
+  n_chunks: 8
+  evidence: MAD-565 sirena Detnov (familia MAD, manual MI-466); chunks mal etiquetados Spectrex por la re-ingesta
+    — doc correcto, chunks pierden
+A3_revision_null:
+  values:
+  - Rev ia
+  - Rev iamente
+  - Rev ias
+  - Rev iatura
+  - Rev iaturas
+  - Rev io
+  - Rev isa
+  - Rev isar
+  - Rev ise
+  - Rev istas
+  - Rev isto
+  doc_ids:
+  - d61cc3d7-4a07-4039-832e-a785105afdc5
+  - ee4a01b8-4eef-41a4-8146-75f8b35d1c34
+  - 4656dc82-71ca-4ef9-b467-2d493e4ecbc1
+  - afacdf35-7423-40f4-8a77-39f48d4b8a35
+  - 446da5f5-a037-4827-8a52-b12d44afe4ce
+  - e1c0c914-a6d9-4f30-8c4e-f5f161e68b32
+  - c54c20a4-1b26-49ab-96d4-b9a99dbea0ba
+  - 25d726ff-0439-40a0-9c0f-0f672ca764fb
+  - f478ca19-0470-4c40-a98f-2f92cd32bd81
+  - c4f3d893-be94-4c64-9e10-a19b0aa1afe8
+  - ce9c8e1a-0e4f-4666-9467-1e3751edc5ec
+  - b46b9369-7a2c-455a-84ad-369b32d59043
+  - 750819d4-b388-47df-8f86-168356035df7
+  - 8491a2a8-3e8c-4f46-a0eb-931b29ac31db
+  - eb4f831e-80da-452a-b581-d26bbd578710
+  - 9b8073d0-72ea-4a14-931e-28974329c5c5
+  - d9e91e4f-9acf-4c43-8d6b-61dbb573bb22
+  - 24ec698e-b3cd-4400-9f35-19d3a037ce41
+  - 57ca7700-fbfd-4a2a-acd2-60055a642070
+  - 819f12cc-b75c-4c4f-9f82-4b0b781b8fbe
+  - 581d9d5a-e2f3-48cf-838f-88cf9bb079f6
+  - b001f716-1054-46a8-abad-b929817005a1
+  - 53dc8e94-7421-4aee-ba22-40d3ea637ebc
+  - 62872159-0fb9-4051-9a02-25e89c46d6a0
+  - b550e716-a752-4257-b2bf-1901b748c831
+  - 5f6287b0-1680-472d-93bf-8dbe32183ee7
+  - c7f714aa-2bcd-4852-a866-4f6b86e986ff
+  - a8bb21cf-8bdf-4b2c-b6da-3423543ced26
+  - eb273187-51a4-4fc0-97af-6cd6f312a0e9
+  - fb2bdd8d-76d4-4c24-a6ee-7d9929498f50
+  - d02cfdd5-dee9-4226-a9e0-38d225d0ff6d
+  - 7b5f4306-eddf-4a28-bf67-2428fbdcadc6
+  - 61279c02-3121-4106-81b2-94c092100e9a
+  - 01c8e123-864e-434a-80c3-6427d9de7ce8
+  - c9e68aee-a636-4690-bfc6-614f8e99ef3a
+  - 6985a8f7-9b30-4991-a8ef-e6a4a3d2184b
+  - 8f2fbbc2-c55a-4a39-92cb-b88a7afaf6c9
+  - 2c8e62dd-2289-4a19-b448-ad8aae2e02aa
+  - a7fd8fd5-2180-47ce-a5f6-868f853920de
+  - dee7f020-6434-4671-9d22-9499c45395d4
+  - 2b925c7b-8ab7-4fbd-ba27-fb041c07ffb7
+  - e8868878-fb01-4f4f-8acf-2e4c4aa8321b
+  - bc0c7b5f-95f7-4198-806c-b17dac41d32e
+  - a22a6842-5aaa-4fc5-bcb4-e677d7adedb9
+  - 13331545-94c5-461d-ab77-9be47594556a
+  - aa0d4deb-817c-4036-b402-9e47c8d9d38d
+  - 4112c5c1-0362-407e-8713-bbd4e3fcbf9a
+  - 1348f4ed-3c62-4fd3-b43d-0637c25b4d3b
+  - 4b0352b5-32b8-4d38-907d-db2acc12521b
+  - c93e42ea-725c-4401-8ad0-233e654ffa31
+  - 38882a58-85f5-48a1-83ac-6589c3dc94b2
+  - 2c970f38-1bf8-47d7-a005-e19f3f03839f
+  - cbc9c21c-4369-4316-905f-40cdce16af53
+  - e8b63990-d547-4fc3-ae41-bf6cdfe3c626
+  - 0131512d-e62d-4c40-b6a6-2c776760c5cc
+  - 10a840b5-bf48-40e5-a803-02450f1dc143
+  - ae4550fe-58ff-4e89-bd12-341a6eb919bd
+  - 50fbe217-23b4-49ed-bfbe-3de19869db12
+  - d06af30d-1ed9-49b3-8a0a-88f13fa160b2
+  - 5c223ffe-4296-457c-95cb-1023b870e2a6
+  - c0b1e530-f0ee-4060-8f0a-1ad39b2d5dfe
+  - 26df1e27-96c2-497e-aed1-5f5f47f6abb9
+  - 4ab719b2-34da-43e8-9336-70759fea4bf2
+  - 4a34c56f-dc71-4332-8edf-eba05a5b9c76
+  - d38e4f08-102d-4f11-b9a0-599b2ff4a4ad
+  - ca05027c-6814-4811-a7fb-0db800b6bcbf
+  - 7f2b752c-4f10-41af-8d23-8c7362d13996
+  - 20ed21c6-87d0-4bba-b67a-e606b0612832
+  - 676aca40-5ef0-4b7b-9542-64bb10182955
+  - 969c3f17-c429-4aff-9bbf-c04f6e55fbb8
+  - 4777ad8f-c33a-4e53-8a94-4912dc89b630
+  - 0e11bf91-bb4d-43c3-8bab-9dd5b612787b
+  - e3323da7-65ff-4927-a2db-edb651fb8e8d
+  - 4775e676-1974-4077-83f7-2c4e6cb9236a
+  - c3a3eb01-e91f-4732-9beb-b5e0cd011c44
+  - 6ea38997-d7c1-41f3-a5fa-a4e714966e78
+  - d90756e2-e023-44ce-be67-9b7b3e0a79c5
+  - 1bc55fe2-3f36-455d-9f7a-3f600200a94f
+  - 228ffa26-296c-469e-a879-f6a0d9aec575
+  - a4d46ae3-226e-46c1-a98b-201494b4c234
+A4_status:
+- doc_id: 4656dc82-71ca-4ef9-b467-2d493e4ecbc1
+  filename: MNDT250P.pdf
+  set_status: retired
+  append_note: 's65 capaB A4: no migrado a v2: portugués (sufijo P, política de idiomas)'
+- doc_id: 778c5f23-d2ba-493f-9c51-0e64e5267aa4
+  filename: MNDT510P.pdf
+  set_status: retired
+  append_note: 's65 capaB A4: no migrado a v2: portugués (sufijo P, política de idiomas)'
+- doc_id: 69ccea79-6908-493d-a29b-41979ba42f97
+  filename: MNDT515P.pdf
+  set_status: retired
+  append_note: 's65 capaB A4: no migrado a v2: portugués (sufijo P, política de idiomas)'
+- doc_id: d0c2a617-b872-4c83-a792-2830f8b17f6e
+  filename: MNDT655P.pdf
+  set_status: retired
+  append_note: 's65 capaB A4: no migrado a v2: portugués (sufijo P, política de idiomas)'
+- doc_id: 57ca7700-fbfd-4a2a-acd2-60055a642070
+  filename: MNDT710.pdf
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 2cb7dce7-afd5-4832-b106-32c95cd10d96
+  filename: MNDT747P.pdf
+  set_status: retired
+  append_note: 's65 capaB A4: no migrado a v2: portugués (sufijo P, política de idiomas)'
+- doc_id: e71f3007-24ed-42d4-997d-18c16cdc0706
+  filename: MNDT748P.pdf
+  set_status: retired
+  append_note: 's65 capaB A4: no migrado a v2: portugués (sufijo P, política de idiomas)'
+- doc_id: f643f5d6-66d3-452f-9305-b54dbdb01d3c
+  filename: MPDT180
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de d02cfdd5-dee9-4226-a9e0-38d225d0ff6d (0 chunks en ambas tablas)'
+- doc_id: 07b26aa2-5a74-40ab-ac6e-b6cc795bcef8
+  filename: MNDT250P
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 4656dc82-71ca-4ef9-b467-2d493e4ecbc1 (0 chunks en ambas tablas)'
+- doc_id: 9c69590f-70f7-4bd3-9fa2-79f135a6b820
+  filename: MNDT607
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de f478ca19-0470-4c40-a98f-2f92cd32bd81 (0 chunks en ambas tablas)'
+- doc_id: d925ad4b-6e75-48be-a336-b7f40949b2b7
+  filename: PL4_MT574E_Eng
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 38fa6760-cb28-413e-8a4d-b7d7ee2ccc1d (0 chunks en ambas tablas)'
+- doc_id: 2fc17b63-6813-4780-9870-4373e1199103
+  filename: MNDT741
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 53dc8e94-7421-4aee-ba22-40d3ea637ebc (0 chunks en ambas tablas)'
+- doc_id: 309b9f8a-6971-426f-b09a-8dc3eb8faa81
+  filename: MNDT250
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de ee4a01b8-4eef-41a4-8146-75f8b35d1c34 (0 chunks en ambas tablas)'
+- doc_id: 35f40c24-7f1a-48bb-845a-8e6272be8dc8
+  filename: MNDT722_40-40L_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: ee6a53da-27f7-4143-90b5-0ea8b04f24a1
+  filename: MNDT420
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de add5fd9a-d6ec-40eb-9f99-3de400786adc (0 chunks en ambas tablas)'
+- doc_id: 56351d61-c793-4f77-bd5c-f170983b4e78
+  filename: D1058-1_NFXI-WS-WSF
+  set_status: needs_review
+  append_note: 's65 capaB A4: sin contenido en ninguna tabla (gap de ingesta / chunks borrados)'
+- doc_id: e16430a0-3853-4dc6-bc10-37616ede411b
+  filename: NF30-50_Manuel_d'utilisation_lr
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de afb89db0-7b09-4540-ba0d-40846c78a5a6 (0 chunks en ambas tablas)'
+- doc_id: 248aa0d2-cfe2-4e39-8eed-1caee57dc27b
+  filename: MNDT1071_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: d520f03b-eea1-4f43-804c-dd3176c8a0d8
+  filename: MFDT180P
+  set_status: retired
+  append_note: 's65 capaB A4: no migrado a v2: portugués (sufijo P, política de idiomas)'
+- doc_id: cafb9c11-2376-43b0-8f5c-7afd4f241b52
+  filename: MFDT190P
+  set_status: retired
+  append_note: 's65 capaB A4: no migrado a v2: portugués (sufijo P, política de idiomas)'
+- doc_id: 00e08b81-42e9-4183-b4f7-d05ed5943e23
+  filename: MIDT015_2
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: b6169b43-4946-40b1-9e11-67d1f2f0811d
+  filename: MNDT515
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de bfb0fed7-7c19-43bd-b5f3-e4ac4aa2aaf3 (0 chunks en ambas tablas)'
+- doc_id: 6d46b4a2-9adf-4023-a1d8-a6d2c434c8a7
+  filename: MPDT230
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 3e4bd0bb-0541-4d5c-89a7-291c259c539c (0 chunks en ambas tablas)'
+- doc_id: 794926e1-3203-4b5a-ab49-dc489fefdac2
+  filename: MNDT951_v5-87
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 81534fd9-8884-4b7f-b322-8668465ed8c6 (0 chunks en ambas tablas)'
+- doc_id: 5d284aaf-a819-4fe6-b5c5-bfe12dd0d074
+  filename: '170019 02012012 ETIQUETA INSTRUCCIONES EXTINCION SUPRA REV A '
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 0b90a14c-2a10-4b10-96d2-d40e2f4186a7
+  filename: MNDT350
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 2d7f3a79-bda9-400c-9629-a830110d52e7 (0 chunks en ambas tablas)'
+- doc_id: 0142e1fe-812b-4a00-8771-5c2abf15b5d1
+  filename: MCDT191_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 25b925bd-ae21-4ff1-9246-184b8b09a045
+  filename: MNDT626
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 0ef10ac7-fb05-47bd-a85f-de393bbac45e (0 chunks en ambas tablas)'
+- doc_id: 46486f93-a754-47b0-9722-12672ac63262
+  filename: MNDT694
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 24ec698e-b3cd-4400-9f35-19d3a037ce41 (0 chunks en ambas tablas)'
+- doc_id: 4a48c7c5-356a-4e45-aacd-a9631ab764c4
+  filename: TD 003 007a  Technische Dokumentation SecuriSens ADW 535-1 ATEX en
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 3413c8ee-9c56-4e08-8faf-9a5a99de151c
+  filename: MPDT212
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de ef245515-0c5a-41c0-8454-52bf70c8e4ab (0 chunks en ambas tablas)'
+- doc_id: 83763f33-8827-4aae-b6b5-317755f8f9d1
+  filename: MNDT402
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 3a58b47d-69f4-423a-a476-e1f67ac42725 (0 chunks en ambas tablas)'
+- doc_id: c221d925-8233-4ae9-a3de-91c3420d2829
+  filename: MIE-MI-431rv2
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 2f3536bc-f322-4990-9005-11cf5f8f8591
+  filename: Smart 2_MT251_Ita-Eng
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 0d4e7b1a-4a59-40d0-9ebc-d7a70a06a3e8 (0 chunks en ambas tablas)'
+- doc_id: f377b3a4-fe7c-4cc1-ad61-7ae2d602fccf
+  filename: MNDT710_B
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 4421642f-29b2-4cc9-af08-2eb1f393316f (0 chunks en ambas tablas)'
+- doc_id: b65cd769-e719-497b-a817-831cc1cd9502
+  filename: MNDT723_40-40U_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: b9b4b389-7131-462b-ab43-fa9000ed9069
+  filename: MNDT521_Multiscann++_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: a05f27f7-b797-41f9-b493-cbb2c0d6c414
+  filename: MNDT1300I_E
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de a9a45a96-45a1-4ff9-8a3d-f979b9b55b0f (0 chunks en ambas tablas)'
+- doc_id: 36a7618a-cde5-4bcc-9ea0-f468da380205
+  filename: MNDT655P
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de d0c2a617-b872-4c83-a792-2830f8b17f6e (0 chunks en ambas tablas)'
+- doc_id: 621aa70f-bbed-4788-804f-340b0e262156
+  filename: MNDT520
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 3493f571-fb54-452d-8e6f-da369d0b6f12 (0 chunks en ambas tablas)'
+- doc_id: abb55e52-a3d4-4056-ba80-1002e33f2c9b
+  filename: TG-1020-USU
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 2ad4e69f-987b-452e-aefd-00a47457c4c6 (0 chunks en ambas tablas)'
+- doc_id: 351ff649-2b21-4a3f-abf9-73ce0391ff35
+  filename: MNDT440
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 79869dab-5224-41e4-a32b-98630d2f0898 (0 chunks en ambas tablas)'
+- doc_id: 0beb5d94-5f97-4843-b913-3100bdebb8e7
+  filename: MNDT951I_v7-1
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 9600e30e-8b80-4d53-a4bd-ca6b6053c166 (0 chunks en ambas tablas)'
+- doc_id: 43436831-0438-4f9d-bef8-b3151b93f528
+  filename: MNDT646_SMART3G toxic_SP-EN
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de eb4f831e-80da-452a-b581-d26bbd578710 (0 chunks en ambas tablas)'
+- doc_id: 228a47c5-4f0d-40fb-8d4b-14fe884744fe
+  filename: MPDT280
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de e6ccaa2e-65bf-45b8-84ba-34a0d3351b15 (0 chunks en ambas tablas)'
+- doc_id: 48a64d46-f538-4459-8a0a-57de50d342c0
+  filename: MNDT954
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de a8bb21cf-8bdf-4b2c-b6da-3423543ced26 (0 chunks en ambas tablas)'
+- doc_id: 8595c7c4-8e83-43b8-bece-0c05fa6844c5
+  filename: MNDT255
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de afacdf35-7423-40f4-8a77-39f48d4b8a35 (0 chunks en ambas tablas)'
+- doc_id: 0982e135-7cb9-44f9-9f16-035e078c25b2
+  filename: MNDT012P
+  set_status: retired
+  append_note: 's65 capaB A4: no migrado a v2: portugués (sufijo P, política de idiomas)'
+- doc_id: 93ccd8e1-0cc1-4cfd-8635-2fa992d7eb16
+  filename: MNDT010P
+  set_status: retired
+  append_note: 's65 capaB A4: no migrado a v2: portugués (sufijo P, política de idiomas)'
+- doc_id: 4682b6f7-6238-4f1b-b770-6551451efebc
+  filename: TG-1020-TEC
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 288e3202-3f8c-4168-8c8a-33842a8def77 (0 chunks en ambas tablas)'
+- doc_id: e086071f-d337-45d7-acb1-84d2964ac0b4
+  filename: MNDT722_40-40L_2
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: dc3e30ba-6af9-4d87-b021-f506368bfe8d
+  filename: MNDT951I
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 65669851-7431-412f-b727-bd65af27a170 (0 chunks en ambas tablas)'
+- doc_id: fdb3d033-4bc1-4e78-bcdf-4fb0bbbcbb1e
+  filename: HLSI-MN-025_rv05 NFS Supra
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 89b21f27-e2d8-4a8d-8663-af71ab6df943
+  filename: MNDT635
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 359934f9-c37c-4a86-84bb-9f90a7212667 (0 chunks en ambas tablas)'
+- doc_id: 8467093f-16ec-489e-a25b-14ad284b6bdd
+  filename: MADT015_01_2
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: a54471af-aaab-4a95-bb79-b265d23ffdfc
+  filename: 997-493-002-2_2
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: e737a5b6-bec6-486b-a94d-829a2f6a0f4a
+  filename: NFS4_NFS8-2PLUS_MANU_ITA
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 6ec89dc4-3b59-4a51-8d94-f6bfa245fedc (0 chunks en ambas tablas)'
+- doc_id: f803f779-de27-418c-bdc0-e930e666172c
+  filename: MNDT530_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: a6356efa-99ce-4f7c-964c-fb4dfa5a8f16
+  filename: I56-2005-002 M710 M720 M721 M701_2
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 700af1a7-28b3-468b-8780-d1b10a9a8e8a
+  filename: MNDT615
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de c4f3d893-be94-4c64-9e10-a19b0aa1afe8 (0 chunks en ambas tablas)'
+- doc_id: 1cd40961-0c7b-4f71-9209-75fc741a34d0
+  filename: MNDT506
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de f2a27fb6-d515-47cb-9594-5fd129031164 (0 chunks en ambas tablas)'
+- doc_id: e1172cd6-ad4c-41ef-9fb6-27d712ba1497
+  filename: MNDT1001P
+  set_status: retired
+  append_note: 's65 capaB A4: no migrado a v2: portugués (sufijo P, política de idiomas)'
+- doc_id: e18e2113-fbd9-4725-b76a-af54a31abb72
+  filename: MNDT285
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de e1c0c914-a6d9-4f30-8c4e-f5f161e68b32 (0 chunks en ambas tablas)'
+- doc_id: 9c595e46-0dd9-463e-bf13-0058b1be8e78
+  filename: MNDT742P_F
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 16aa7584-e943-499b-bb02-da17209158d5 (0 chunks en ambas tablas)'
+- doc_id: 1baaf865-531d-4cd0-ab19-b77cdce34217
+  filename: MNDT722_40-40L_3
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 890d5cf6-ad70-4365-b464-4500fe1e15ca
+  filename: MPDT170
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 80b23534-b090-41ff-b01a-f7916e665fbd (0 chunks en ambas tablas)'
+- doc_id: 23ff1fcf-4698-4813-a298-fb0d63c6a161
+  filename: 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de b22fdb7f-f9e9-49d0-9e40-e840c24d25e9 (0 chunks en ambas tablas)'
+- doc_id: 7e554fdb-89a7-4a35-98e3-fa2bce2c0717
+  filename: MNDT575
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 6c784967-fbcc-45b5-916a-c01baf3d5553 (0 chunks en ambas tablas)'
+- doc_id: f8f73b88-50d2-4d32-94f3-b0ae751ba885
+  filename: MNDT515P
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 69ccea79-6908-493d-a29b-41979ba42f97 (0 chunks en ambas tablas)'
+- doc_id: 9ccb9c98-58a3-4887-81ff-694c2b0e2f58
+  filename: MNDT503
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de acf63276-60d7-498d-8b97-c258dd53647f (0 chunks en ambas tablas)'
+- doc_id: cf07a74d-5e92-43e5-944f-348d5ff63914
+  filename: MNDT260
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 446da5f5-a037-4827-8a52-b12d44afe4ce (0 chunks en ambas tablas)'
+- doc_id: 9175a668-82be-4f6d-b54c-2696f93f35f9
+  filename: MNDT105P
+  set_status: retired
+  append_note: 's65 capaB A4: no migrado a v2: portugués (sufijo P, política de idiomas)'
+- doc_id: 609f0e11-2c47-4e29-bea3-c1b3ec3e0d43
+  filename: MNDT390
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 49a08cd1-e2b6-45dc-913f-f30e28b57ffe (0 chunks en ambas tablas)'
+- doc_id: 80789d8b-6a19-46f8-9504-4ffa8420b197
+  filename: MNDT744I_B
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 7cb57a84-5b33-4069-8c16-429fd57a246b (0 chunks en ambas tablas)'
+- doc_id: e2b1f1cf-2f1b-4512-94f1-0f978e1ccea4
+  filename: MP-DT-951_v7.2
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 067598cb-58b2-4ca1-850d-5cb8cc8dfafe (0 chunks en ambas tablas)'
+- doc_id: 559bec35-58ae-45ef-9730-a6912d0b250c
+  filename: MADT190_04_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: e3a75419-aa70-477f-a79c-e7950dba9535
+  filename: MNDT748
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 5f6287b0-1680-472d-93bf-8dbe32183ee7 (0 chunks en ambas tablas)'
+- doc_id: 65a37e17-5e00-4f3c-a309-c3e5b7bda838
+  filename: MNDT410
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 5403c7ed-aa89-4125-aa28-946deca1a4be (0 chunks en ambas tablas)'
+- doc_id: c84ca057-b91e-49f1-afd9-6664ba270e9d
+  filename: MNDT650
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de be99c95b-6693-46f9-892e-0ecbafd8f49d (0 chunks en ambas tablas)'
+- doc_id: 83c5f103-6730-4564-8bfd-eb9b7894b551
+  filename: MFDT155P
+  set_status: retired
+  append_note: 's65 capaB A4: no migrado a v2: portugués (sufijo P, política de idiomas)'
+- doc_id: 1ec81e7f-8b2e-4422-992f-dff0197cf28e
+  filename: PSU User Manual_MLT LNG_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 537879d2-e0b8-430c-9d8c-339215ddcc5f
+  filename: MNDT655
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 12278b1f-434b-4485-8940-8d95276d90c5 (0 chunks en ambas tablas)'
+- doc_id: 7c2bdff2-1694-4a86-94a0-f1b45e84f169
+  filename: MPDT951_v5-87
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 0903db56-30db-4df0-aad9-53c40dc551ea (0 chunks en ambas tablas)'
+- doc_id: 3e7328bf-8094-42e0-86b5-d31185d2be35
+  filename: MNDT150
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de d917a95d-a8f1-405c-ad86-edcba09f8ddb (0 chunks en ambas tablas)'
+- doc_id: 549c0b4e-46f4-429e-be0b-4df2f4c1474c
+  filename: MNDT690
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 150d6308-bd9b-4d7b-823f-657df782fa67 (0 chunks en ambas tablas)'
+- doc_id: 996551c8-131a-471c-9400-77c74aead225
+  filename: MNDT400
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de c604426a-a05e-4c4f-a78a-3a8e5cb24673 (0 chunks en ambas tablas)'
+- doc_id: edbca278-8884-4dce-badc-4eb9fe500e8a
+  filename: MNDT747
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de b550e716-a752-4257-b2bf-1901b748c831 (0 chunks en ambas tablas)'
+- doc_id: 84944fca-977a-4db6-83aa-6558858c581b
+  filename: MNDT720
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 1e2b058a-4951-4d67-b9c9-61e009ccd59f (0 chunks en ambas tablas)'
+- doc_id: 3737c7f5-996c-4a3f-9fee-abc983147c01
+  filename: TIDT108
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 2b925c7b-8ab7-4fbd-ba27-fb041c07ffb7 (0 chunks en ambas tablas)'
+- doc_id: 05d97d22-1595-47f1-8d82-5c7fc30a1077
+  filename: MNDT747P
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 2cb7dce7-afd5-4832-b106-32c95cd10d96 (0 chunks en ambas tablas)'
+- doc_id: 2f302211-e532-4144-a966-817471cac193
+  filename: MNDT710
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 57ca7700-fbfd-4a2a-acd2-60055a642070 (0 chunks en ambas tablas)'
+- doc_id: 7268b1ad-726a-48bb-9c55-be84cfd1374e
+  filename: MNDT1300_E
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de d61cc3d7-4a07-4039-832e-a785105afdc5 (0 chunks en ambas tablas)'
+- doc_id: aa9abc6c-17cd-4d05-bd68-fd65dae761b3
+  filename: MNDT748P
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de e71f3007-24ed-42d4-997d-18c16cdc0706 (0 chunks en ambas tablas)'
+- doc_id: a3845c17-d648-4bf8-a4d5-357d0112bdda
+  filename: MNDT530P
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 754f1b80-e85d-407b-a087-565552877507 (0 chunks en ambas tablas)'
+- doc_id: 32b35a7d-7b54-4d7f-b156-a9473367eddd
+  filename: 997-493-002-2_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 3a7e439f-0a14-4793-bc06-0756a97b1761
+  filename: MPDT281
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 932ac246-739c-4fc7-9d14-967bf8c1fef5 (0 chunks en ambas tablas)'
+- doc_id: 6972bec7-199a-432d-a40e-c125b5d7e54a
+  filename: RP1R - MAN ITA r.A2
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 03cf3cca-098c-4511-96ac-4885513c2019 (0 chunks en ambas tablas)'
+- doc_id: 0f2d1a81-a0f3-48f5-a123-4f7ec360b7b9
+  filename: MADT190_15_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: dbc8f8e8-6619-4e85-bf5b-8485874f4bff
+  filename: MPDT951I
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 38d6a8f3-8012-4fb3-869e-0ad13a7e8af3 (0 chunks en ambas tablas)'
+- doc_id: 18429c41-b85a-4dbc-bb9a-8933ec2b3de0
+  filename: MNDT960I
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de c295d7f9-f137-4ce4-96a6-d3fda323ba5c (0 chunks en ambas tablas)'
+- doc_id: a798da74-4379-42b1-9547-fbfa1757bb7f
+  filename: MNDT625
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 7601da55-96b9-4991-b97a-0b0ce9b44030 (0 chunks en ambas tablas)'
+- doc_id: 6ec55789-c5b2-42e0-808c-80946f055762
+  filename: MIDT015_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: ddb9d607-1858-4f2a-afd1-e607d67d9c2d
+  filename: MPS8ZS02 - MU-MANUAL DE USUARIO SERIE MPS rev2_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: e347c6b9-0499-4f87-a6f5-4c977085d18a
+  filename: MADT015_03_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: bb36bddd-6899-412b-815a-0601a8b6b2e3
+  filename: PAN_AVD1
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 7966c099-9a89-481b-a138-d1adc3731939 (0 chunks en ambas tablas)'
+- doc_id: 643e3377-4efb-48ad-82ea-93174c843233
+  filename: MNDT500
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 90787236-bb67-4f28-894d-8cff85bdd81d (0 chunks en ambas tablas)'
+- doc_id: 26a892f8-21a4-41af-9500-93d74d696fe9
+  filename: 08895_04-multiling_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 12d9af3e-4f95-4d96-81c0-e7180fb55817
+  filename: MNDT605
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de c54c20a4-1b26-49ab-96d4-b9a99dbea0ba (0 chunks en ambas tablas)'
+- doc_id: b7cb94d1-df41-4317-8335-de92d40efd60
+  filename: NCO-10-multinglingual
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de c2ae8cae-19e4-42db-9737-355d6de0360a (0 chunks en ambas tablas)'
+- doc_id: b3939194-c411-4db7-9800-3d8952e8111a
+  filename: MNDT700_C
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 24b703a2-2e75-428f-b0e2-14a7530e1998 (0 chunks en ambas tablas)'
+- doc_id: c39c0456-27e0-4c92-9fe9-039bdec4684a
+  filename: TIDT104
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 2c8e62dd-2289-4a19-b448-ad8aae2e02aa (0 chunks en ambas tablas)'
+- doc_id: 90ba7de1-d027-4528-8707-b6970db8fe84
+  filename: MNDT1104
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: b8c1750f-d082-4ba4-a2e3-2714821665de
+  filename: MNDT606
+  set_status: retired
+  append_note: 's65 capaB A4: duplicado-fantasma de 25d726ff-0439-40a0-9c0f-0f672ca764fb (0 chunks en ambas tablas)'
+- doc_id: db715b6f-de9f-4adb-a04d-88d5dbd67445
+  filename: 55320102 Manual Buzzer PAD-10 ES FR GB IT (x8)
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 4cb8ff55-e14f-4cf5-af47-c0edc08dec37
+  filename: D 1102-7 Beacon_Multi
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: a33cc981-344e-45f5-a06e-d3bcbce0564a
+  filename: I56-2081-001ES 6500R(S) Manual_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 92c629d0-f4d9-4c4f-a6eb-27aae2fd6127
+  filename: HLSI-MA-025 Guide rapide NFS_Supra_XP__FR version 03
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: aef924ce-22f9-4ce1-98c1-8e6d4b11799d
+  filename: HLSI-MA-025_rv03 Guia Rapida NFS_Supra
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: abcb2b8f-fe86-4cc4-91a6-f05281467248
+  filename: I56-2005-002 M710 M720 M721 M701_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 4e701e39-2b96-4e91-906d-d5c6d9bd7208
+  filename: Instruction Manual SGWE ENG
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: f1afce04-7ac2-4789-b001-80ba187b657e
+  filename: I56-3878-000 NFXI-BEAM(T)_ES_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 0233c38e-3e58-4059-b636-fc2250b2056f
+  filename: MADT190_07_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 4f8271db-bddd-4642-ab30-fa55a5bbc269
+  filename: 170020 21122011 TARJETAS IDIOMAS EXTINCION SUPRA REV A
+  set_status: needs_review
+  append_note: 's65 capaB A4: sin contenido en ninguna tabla (gap de ingesta / chunks borrados)'
+- doc_id: 3674b693-d8e9-45e8-a4c1-0f7a6cdaff52
+  filename: I56-2005-002 M710 M720 M721 M701_3
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 2ae1d34a-c668-4f94-b19b-2631d8748e6c
+  filename: HLSI-MA-103_Guide rapide RP1r_Supra_FR
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: c4327281-0fec-4b24-bacc-9d0afc61d544
+  filename: MNDT1100
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: dba4d7fd-ab5a-4111-abb2-0e0924ca724b
+  filename: MNDT1002P
+  set_status: retired
+  append_note: 's65 capaB A4: no migrado a v2: portugués (sufijo P, política de idiomas)'
+- doc_id: 530dc912-97b2-4dfd-911e-a14edeafd9af
+  filename: MADT015_01_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 9dad9318-a0d8-49df-bf6f-2c2152af00a1
+  filename: IRK-E-SI
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: a7817c12-3e45-4a09-972e-81e6d34d7877
+  filename: TIDT089_2
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 71028889-f788-42f4-b114-955a71a5ff05
+  filename: D 1128-1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 88c30be6-e810-4e42-a3b8-ebdd525c12d1
+  filename: MNDT1102_3
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: bffc4f82-303f-46e3-ade4-31544112a15e
+  filename: IRK-2E
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: db52b685-2699-4677-8ab3-54a608a28db1
+  filename: HLSI_MA102
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 3be78083-279c-4971-802e-3e5ce7305cfd
+  filename: MNDT1100_3
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 28f3e1ab-2074-46f1-b072-c8f27b289cfe
+  filename: MIE-MI-340
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 56544805-7d8b-4518-b951-3f5129eb2f3a
+  filename: MNDT1100_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 4fc952f8-ea67-4052-b073-cd252416ba18
+  filename: MNDT1100_2
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 20a00c7e-c20d-493c-94f9-532d949a4780
+  filename: MADT236P
+  set_status: retired
+  append_note: 's65 capaB A4: no migrado a v2: portugués (sufijo P, política de idiomas)'
+- doc_id: 4708c466-5967-4531-819a-c03345296f0b
+  filename: MNDT1102
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 302d9b4b-3a0b-432f-b6e7-676d82f75604
+  filename: MNDT1101
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 98d4bf2d-cd9d-4b84-a6bf-bc6b0bb05fd1
+  filename: MNDT1103
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 8be5dcd8-3fb2-4fdd-9ef7-173f3926cbce
+  filename: MADT015_03_2
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: caf05e64-c3d5-4815-8060-076a6c188703
+  filename: MNDT1104_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: e89ed842-9370-42e8-9198-4f202d7defac
+  filename: TIDT089_copia_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 1a5e0013-3980-4b3e-a0b6-d8e2dd948b0a
+  filename: MADT190P_02_1
+  set_status: retired
+  append_note: 's65 capaB A4: no migrado a v2: portugués (sufijo P, política de idiomas)'
+- doc_id: a07caa6f-ef13-41e0-a7db-47fd712a7501
+  filename: TIDT089_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: e02b1213-039b-405d-a37a-c0e74026a4a6
+  filename: D700-3-Sp_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 713400eb-0398-4689-8953-edd66b49ba40
+  filename: MNDT1105
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: ab4df7d3-2019-439d-9330-872695e9bbea
+  filename: MNDT1102_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 6db3c9b7-7e2e-42df-9abe-77761655cc7a
+  filename: HSR-E24_Multi
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: efe75d70-af8e-49c4-9c43-5a321fbbf5c4
+  filename: TIDT089_copia_2
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: f754ca92-1f81-4b86-986d-1234bf6a6ee2
+  filename: Actulizacion historico TG
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 63ee9814-f832-4fe0-a6d6-e70f51655c2e
+  filename: MNDT1116
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 5b976bba-89c0-4d52-b9f6-ca2b25c76146
+  filename: IIG4+IIG4N-ITAa4
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: c7ee54a1-351b-46fd-bdb2-889d2262fc23
+  filename: 2470-2480 Pulsador
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: e0045ee0-b031-4147-b8d6-16c13da598d6
+  filename: HSR-INT24_Multi
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: b813fb5c-3e85-4cd1-92a6-c5eb572b7304
+  filename: MADT190_02_1
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 1e1f7b29-11fa-4612-99e0-a0b45adc3e94
+  filename: MADT731_03_A
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 0766c530-57f9-47f7-a733-d2b3f29db9ed
+  filename: MNDT1102_2
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 7a69b8e8-e1ea-43e2-bbd8-d18fa87b273c
+  filename: MADT190P_02
+  set_status: retired
+  append_note: 's65 capaB A4: no migrado a v2: portugués (sufijo P, política de idiomas)'
+- doc_id: 428520af-fff8-4d95-a342-2856078370ce
+  filename: MIE-MA-100_02P.pdf
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 80dfebdf-9f3c-42d1-a246-7463e6977451
+  filename: MIE-MI-130P.PDF
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+- doc_id: 4d75f278-6ac4-4eb7-8d21-18481c8d6f81
+  filename: MIEMI430P.pdf
+  set_status: needs_review
+  append_note: 's65 capaB A4: contenido solo en tabla vieja — candidato a re-ingesta (cola punto 3)'
+A5_update_chunks: []
+curation_log: 'curación aplicada post-inventory (12-jun s65): 8 sources canal-Otros a A1_insert (6 Aritech + 2 Kidde,
+  evidencia por fila) + 8 residuales declarados + excepción MAD565. Si se re-corre inventory hay que re-aplicar
+  esta curación.'
