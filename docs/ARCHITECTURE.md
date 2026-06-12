@@ -17,7 +17,7 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
-> Resumen estable (s67 — 12 jun 2026): producción = `chunks_v2` (25.090 chunks, de los que
+> Resumen estable (s68 — 13 jun 2026): producción = `chunks_v2` (25.090 chunks, de los que
 > **262 quedan excluidos en runtime por lifecycle** [220 superseded s64 + 42 needs_review] →
 > ~24.8k servibles; 25 huérfanos residuales sin fila / **1.170 docs {998 active · 3 superseded
 > · 79 needs_review · 90 retired}** / 31 marcas / 587 modelos; Voyage-4-large 1024 +
@@ -49,8 +49,14 @@
 > frozen-s58 = histórico. Los freezes/gates corren con `EMBED_CACHE_PATH` (pin de
 > embeddings, DEC-048c). Ventana de freeze: **CERRADA**. La ingesta grande queda
 > **DIFERIDA demand-driven** (DEC-049: las 31 marcas = las de uso frecuente de los
-> técnicos; la meta 30+ fabricantes sigue, en fase posterior); el siguiente ciclo es el
-> **canal vectorial** (PLAN punto 1 re-priorizado).
+> técnicos; la meta 30+ fabricantes sigue, en fase posterior). **Ciclo del canal
+> vectorial EJECUTADO (s68, DEC-050):** el audit midió que los keyword-stamps planos
+> (0.80/0.85 del merge) expulsan del pool material que el canal vectorial sano rankea
+> ≤50; el lever MERGE+L-i′ quedó en **NO-GO de gate-0** (convierte 10/12 hechos al
+> top-5 pero re-baraja 9/10 PASS-control) — el flag `MERGE_STRATEGY` (default `stamps`
+> = histórico bit-idéntico) queda como instrumento; **chunk-quality DESCARTADA como
+> cuello** (chunks servidos sanos) → el residual no-retrieval es **GENERACIÓN** = el
+> siguiente lever (PLAN punto 1).
 >
 > ⚠️ **Caveat s60 a este doc (TECH_DEBT #44/#45):** las secciones que describen el filtro por
 > categoría y la entrega de **diagramas** (§§ flujo/ingesta — "adjunta diagrama", canal

@@ -3,11 +3,14 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 12 jun 2026 (s67b, DEC-049 — re-priorización post-A/B confirmada por Alberto: **el
-> ciclo del canal vectorial pasa a punto 1** ("el elefante en la habitación"); corpus
-> DIFERIDO demand-driven hasta chatbot estable (la meta 30+ fabricantes SIGUE, en fase
-> posterior); diagramas partidos en datos-paralelizable + cableado-post-canal. s67 =
-> DEC-048: A/B del CE = ROLLBACK pre-registrado; baseline del ruler = `s67base`).
+> 13 jun 2026 (s68 — sesión autónoma nocturna con GO de Alberto [$100; gasto real ~$7]:
+> **ciclo del canal EJECUTADO punta a punta** = audit por-hecho (stamps expulsan del
+> pool material que el canal sano rankea ≤50) → lever MERGE+L-i′ tras flag, dúo
+> completo → **gate-0 NO-GO pre-registrado** (mecanismo y conversión CONFIRMADOS
+> [cosine 12/12 al pool, 10/12 al top-5] pero re-baraja 9/10 PASS-control → el A/B no
+> se paga, DEC-016b) + **chunk-quality DESCARTADA como cuello con dato** (bloque-2:
+> chunks servidos sanos — el residual no-retrieval es GENERACIÓN). DEC-050. s67b =
+> DEC-049 [orden vigente]; s67 = DEC-048 [CE ROLLBACK; baseline `s67base`]).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -26,37 +29,36 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s67 — 12 jun 2026)
+## Estado actual (s68 — 13 jun 2026)
 
-**s67 (DEC-048): A/B del swap CE ejecutado (GO de Alberto, ~$30 real vs ~$40-60 estimado)
-= ROLLBACK por la tabla pre-registrada — el lever CE queda ARCHIVADO con evidencia
-end-to-end.** Diseño v2 post-dúo r1 (sub-agente 7/7 + cross-model GPT-5.5 6/6, **0 FP**;
-F1 ALTA cerró el hueco dado-mediado en la clasificación de movers [freeze-A puede ser
-4ª-vista aun con gate 3/3]; F2 re-derivó el dado del LLM contra el artefacto: **11/39
-no-unánimes** [9× 2/1 + 2× 1/1/1; 24 unánimes con rerank + 4 short-circuit vacuos] — el
-"12/39" que circulaba era falso, patrón bias #35). Día D bajo ventana verificada (X2 7/7
-+ X1 código pinneado al build): **el assert (i) cazó embed-drift server-side ANTES de
-pagar generación** (3/39 pools frontera, 1 chunk in/out; cat019 expuso además la frontera
-de redondeo del `round(sim,2)` — la firma fue FIEL al header real del generador; la
-reordenación F3/X6 del dúo pagó su valor) → **re-gate ~$5 con `EMBED_CACHE_PATH`
-compartido = GO** (`s67_gate_*`; **el cache ancla gate y A/B a la MISMA ventana de
-vectores POR CONSTRUCCIÓN** — el riesgo F3 muere estructuralmente; patrón nuevo para todo
-ciclo de eval) → brazo LLM 195/195 gen+juicios · brazo CE 175/175 (pairing 4 = los
-short-circuit) · herencia `shared_from` · juez servido idéntico entre brazos
-(`gpt-5.5-2026-04-23`) · 0 errores. **Resultado: Δ_net=0 (techo +0/+1 confirmado; cat012
-GANA PARCIAL→PASS pero 3/5 sin margen — no cuenta, coherente con el gate) · SIN regla-1
-(0 PASS perdidos atribuibles; cat023 dado-excluido, control=1 ok) · PERO F_post 8 >
-F_base 5 (cat007/cat017/hp001/hp014 PARCIAL→FALLO; hp001 ATRIBUIBLE-operacional — el
-gold-frontera eterno pierde su PARCIAL bajo CE) + 2 regresiones de conducta
-(cat016/hp014 answer→admit) = dos condiciones independientes de ROLLBACK.** El beneficio
-instrumento/prod del CE (determinismo, latencia rerank p95 0.81s vs 3.29s, coste ~15×) NO
-se compra al precio de degradar la cola PARCIAL→FALLO. El dado del rerank LLM (11/39)
-sigue como defecto de producto DECLARADO — se re-ataca en el ciclo profundidad-del-canal
-(donde renace L-i), no con este swap. **El re-freeze `s67base` SUSTITUYE a frozen-s58
-como baseline del ruler: 10/39 PASS-control (5 unánimes 5/5) · 4 K-INESTABLES
-(cat009/cat012/hp004/hp007) · residual 25 con atribución.** Flag `RERANKER_BACKEND`
-queda en main default `llm` (inerte; dispatcher + manifest honesto de bvg = instrumentos
-permanentes); Railway intacto. DEC-048; HISTORY.
+**s68 (DEC-050, sesión autónoma nocturna [GO de Alberto: $100; gasto real ~$7; prod y
+held-out intactos]): el CICLO DEL CANAL VECTORIAL (punto 1 de DEC-049) se ejecutó punta
+a punta — audit → lever → gate-0 NO-GO pre-registrado + chunk-quality descartada.**
+**(a) AUDIT por-hecho** (`s68_audit_canal.yaml`; 22 golds residual-answer, 28 hechos
+fuertes): el mecanismo dominante del lado-retrieval NO es profundidad (rank 51-110: solo
+2 hechos) sino la MEZCLA del pool — **10 hechos con rank vectorial ≤50 (canal sano)
+expulsados del pool servido por keyword-stamps planos** (0.8 ×12-28 por pool encima del
+coseno real 0.52-0.68 del winner); 11 hechos YA-servidos-que-fallan + 9 golds
+solo-débiles (≈50% del residual NO es retrieval); 3 sospecha-gap. **(b) Lever MERGE+L-i′**
+(revivió el plan-B congelado de s60 con el sustrato re-verificado): diseño v6.1 con dúo
+r1 completo (sub-agente **12/12 ALTA** [F1 banda-de-dado en m7; F3 L-i′=réplica exacta
+s59; F6 (d2) MUERTA — sustituía el interleave intocable del 5a; F7 hp001/hp011 fuera del
+techo k=50] + cross-model **6/6 CRÍTICO** [Y1: rama de 3c-i pre-registrada ANTES de
+medir — 0 filas verificado, se eliminan], **0 FP**, 18/18); build tras flag
+`MERGE_STRATEGY` (stamps|quota|cosine, default stamps = main bit-idéntico; PARIDAD
+verificada 39/39); 310 tests. **(c) GATE-0 ($5): NO-GO por la letra** — el mecanismo y
+la conversión quedaron CONFIRMADOS (cosine captura 12/12 hechos alcanzables al pool y
+**10/12 llegan al top-5 modal** — hp008 4/4; "recall no convierte" NO aplicó) PERO
+re-baraja el top-5 de **9/10 PASS-control** (cat022-quota overlap 0/5; cat010-cosine
+2/5) → la condición dura (≤1 fuera-de-banda) ni de lejos; **el prior DEC-041(A) se
+confirmó y el A/B (~$25-30) NO se pagó** (calibración DEC-016b). El flag queda en main
+default `stamps` (inerte, instrumento como el dispatcher CE). **(d) Bloque-2 ($0):
+chunk-quality DESCARTADA como cuello con dato** — los chunks servidos están SANOS (lens
+1.1-3.1K, 0 fragmentos, 100% blurb, legibles) ⇒ **el ~50% no-retrieval del residual es
+GENERACIÓN/síntesis**, no extracción (la pregunta-chunks de Alberto respondida; lever
+#10 al fondo del backlog). Candidata FUTURA declarada con forking-path (nació de mirar
+el gate-0): variante ADITIVA del merge (stamps intactos + cosenos del canal sano solo
+en slots libres) — exige ciclo propio con dúo y pre-registro. DEC-050; HISTORY.
 
 **Sistema (prod, Railway auto-deploy desde `main`; SWAP de corpus por `CHUNKS_TABLE`):**
 bot Telegram (polling) → pre-clasificación → retrieve híbrido wide (vector Voyage-4-large 1024
@@ -80,44 +82,41 @@ taxonomía CONGELADA (DEC-033), juez GPT-5.5 + K-mayoría. **Baseline VIGENTE = 
 completo + `s67_embed_cache.json` como pin de embeddings); frozen-s58 = referencia
 histórica muerta. Próximo freeze: correr SIEMPRE con `EMBED_CACHE_PATH` (DEC-048c).
 
-## Qué sigue (orden vigente — re-priorizado DEC-049, 12 jun 2026)
+## Qué sigue (orden vigente — DEC-049 con el punto 1 EJECUTADO en s68)
 
-1. **CICLO DEL CANAL VECTORIAL (s68+) — el lever prioritario** ("el elefante en la
-   habitación", Alberto; 4 datos lo sostienen: canal principal devuelve 0 en ~85% de
-   queries [DEC-040] · el embedding SÍ encuentra los hechos, rank 7-110 · hechos en rank
-   51-70 medidos 4× [DEC-042d] · corte-a-50 muerde 9/39; + la lección de 3 ciclos de
-   reranker = 0: reordenar lo que entra no arregla lo que NO entra). **Paso 0: AUDIT de
-   dimensionamiento** ($0-barato; instrumentos existentes: funnel s58b + diagnosis-ranks
-   s59 + atribución s67base) con DOS preguntas pre-registradas: (a) cuánto del residual
-   es alcanzable río arriba (canal: ranks/corte/category-boost) vs (b) cuánto es
-   **calidad-de-chunk** (extracción/fragmentación — los 9 INDETERMINADO-solo-débiles;
-   lever #10 post-hoc) — si domina (b), el techo del canal baja y se sabe ANTES de
-   construir. → diseño con dúo → levers según audit: **#44 re-etiquetado de category
-   como BOOST** (no filtro duro — eso está medido como frágil; incluye el contrato del
-   ESCRITOR, raíz) · **L-i renacido** (`s59-lever-code-ROLLBACKED`) · profundidad/corte.
-   A/B vs `s67base` (embed-cache pin). **Riesgo declarado: redistribución de frontera
-   (regla-1, pasó en s59)** — paridad-control + clasificación de dado ya existen.
-2. **Re-gate del CE (~$5) SI el canal cambia los pools** (puerta DEC-048; sin promesa de
-   revival — perdió la cola con paridad de información completa).
-3. **Generación + cartera de levers (cada uno entra por gate/audit barato, DEC-016b):**
-   A/B 2×2 {Sonnet/Opus}×{blurb} (pre-registrado s56) sobre el freeze post-canal ·
-   **system prompt del generador** (no probado) · prompt del rerank-LLM (vs su dado
-   11/39) · k/corte. El orden interno lo dan los audits, no se pre-supone.
-4. **Diagramas (#45) — partido en dos (DEC-049d):** (a) **DATOS, paralelizable desde
+0. **Decisión de Alberto al despertar (s68 dejó TODO preparado, nada shippeado):**
+   mergear el PR de s68 (audit + lever-NO-GO + canon; cero cambio de comportamiento:
+   flag default `stamps`) y confirmar el orden de abajo.
+1. **GENERACIÓN (sube del punto 3 — ahora con MÁS peso por el dato del bloque-2: el
+   ~50% no-retrieval del residual ES generación/síntesis con chunks sanos):** A/B 2×2
+   {Sonnet/Opus}×{blurb} (pre-registrado s56, sobre `s67base` — el freeze sigue válido:
+   el canal NO cambió) · **system prompt del generador** (no probado; los 11
+   ya-servidos-que-fallan son su diana medida) · prompt del rerank-LLM (dado 11/39 +
+   hp018: su hecho estaba EN el pool y el rerank no lo sube ni con pool sano). Cada
+   lever por gate/audit barato (DEC-016b).
+2. **Retrieval río-arriba (si Alberto quiere re-atacar tras el NO-GO):** candidata
+   ADITIVA del merge (stamps intactos + cosenos del canal sano en slots libres —
+   **declarada con forking-path: nació de mirar el gate-0 s68**; ciclo propio con dúo)
+   · profundidad k>50 (hp001 rank 54 / hp011 rank 65 — lever separado DEC-049b) ·
+   **#44 category-como-BOOST** (el re-etiquetado masivo; el contrato del ESCRITOR
+   incluido). El re-gate del CE quedó SIN MATERIA (el canal no cambió pools).
+3. **Diagramas (#45) — partido en dos (DEC-049d):** (a) **DATOS, paralelizable desde
    ya** en sesiones sueltas: mapeo por (documento, página) desde la tabla vieja (44.035
    chunks con diagrama allí vs 0/25.090 en v2 — nunca se extrajeron para v2) +
    extracción de faltantes + poblar `has_diagram`/`diagram_url`; **eval-inerte
    VERIFICADO** (before/after de pools por backfill — el fingerprint NO caza edits
    in-place, DEC-036e); (b) **CABLEADO de entrega al bot post-canal** (chunks confiables
    primero — si no, adjuntaríamos el diagrama equivocado).
-5. **Corpus: DIFERIDO demand-driven hasta chatbot estable/robusto (decisión de negocio,
+4. **Corpus: DIFERIDO demand-driven hasta chatbot estable/robusto (decisión de negocio,
    DEC-049a).** Las 31 marcas actuales = las de uso frecuente de los técnicos; **la meta
    30+ fabricantes SIGUE, en fase posterior**. Un gap real (conversación con
    empresario/técnico, vía Excel inventario) reactiva la ingesta — y ENTONCES aplican los
    prerrequisitos: contrato del escritor #44 + #45 + identidad/supersesión EN INGESTA
    (crear fila + preferir active + sha-check, DEC-045a) + la cola de 74 `needs_review`.
-6. **Pendientes menores s65:** 25 chunks huérfanos residuales; TECH_DEBT #47
-   (`_get_all_known_manufacturers`).
+   Los 3 sospecha-gap del audit s68 (cat017/hp010/hp012) alimentan esta cola.
+5. **Pendientes menores s65:** 25 chunks huérfanos residuales; TECH_DEBT #47
+   (`_get_all_known_manufacturers`); lever #10 (extracción) AL FONDO — chunk-quality
+   descartada como cuello con dato (s68 bloque-2).
 
 **Fases macro (rationale en HISTORY):** F1 calidad (en curso) → F2 escala (identidad de producto
 HECHA s55; resto gated) → F3 routing/tool-use + multi-dominio del scope M&A (gated por F1/F2) →
