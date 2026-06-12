@@ -10,9 +10,9 @@ Si alcanzas un trigger, para y refactoriza antes de seguir añadiendo features.
 
 ---
 
-## Índice de estado (s57 — 10 jun 2026; generado, no renumera)
+## Índice de estado (s63 — 12 jun 2026; generado, no renumera)
 
-- **Abiertos (trigger-gated):** #1, #2, #3, #5b, #5, #6, #7, #10, #11b, #12, #11g, #11h, #13, #15, #17, #18, #19, #20, #21, #22, #23, #25, #26, #27, #28, #29, #30, #31, #18, #32, #33, #34, #35, #36, #37, #39, #40, #41, #43
+- **Abiertos (trigger-gated):** #1, #2, #3, #5b, #5, #6, #7, #10, #11b, #12, #11g, #11h, #13, #15, #17, #18, #19, #20, #21, #22, #23, #25, #26, #27, #28, #29, #30, #31, #18, #32, #33, #34, #35, #36, #37, #39, #40, #41, #43 (solo capa B — capa A ✅ s63/DEC-044), #44, #45, #46
 - **Parciales / elevados:** #8, #11f, #24
 - **Cerrados (✅ resueltos o 🔴 revertidos):** #4, #9, #11, #11c, #11i, #11d, #14, #16, #38, #42
 
@@ -1556,6 +1556,19 @@ niveles (sin entrada de registry → comportamiento actual; con entrada → mism
 doc-de-serie; hermanos NO pasan). Diseño v1: `evals/_s62_seriesA_design.md`; dúo s63.**
 ⚠️ vigente: sin latest-wins naive (hp011/ES↔US viven de ambas variantes de mercado).
 
+**✅ CAPA A CERRADA — s63 (DEC-044, PR #70, SHIPPED a prod):** registry de series
+(`src/rag/series_registry.py` + clave `series:` en los yaml del seam s55) + filtro de 3 niveles
+(substring histórico como base; vetos de hermanos + aperturas de shared_docs DECLARADOS;
+fail-open escalonado) + diversify corregido (fetch dirigido de shared — sin él, d2 seguía
+cerrado: el doc de serie no llega por recall vectorial). Medido con esquema pre-registrado:
+gate G1-G8 GO → A/B K=5 con pairing **Δ_net=+2** (cat012 PARCIAL→PASS · cat018 FALLO→PASS ·
+0 regresiones) → held-out corrida única DÉBIL-aceptada (ho008 modal igual con vista más
+correcta). Población: AM-8200{base,G,N} sin shared · Vesta{171,201,250} con MC-380 rev-c +
+MS-416-2026. Ampliar series = añadir yaml con `evidence:` (la validación dura vive en
+`tests/test_series_registry.py`, incl. resolución contra corpus). **Sigue ABIERTO de este
+item: la capa B** (metadata de lotes viejos — ciclo de higiene propio, PLAN punto 2);
+el lifecycle de docs sustituidos pasó a **#46**.
+
 **Por qué no se arregló ahora** (pregunta cero): el corpus CAD **no está ingestado** (ingesta diferida tras
 el gate RULER) → gap FUTURO, hoy no hay chunks que recuperar. Y es un cambio de RETRIEVAL → debe MEDIRSE en
 el eval, no a ciegas (DEC-019).
@@ -1643,3 +1656,33 @@ re-puebla y el reranker activo es el CE, el soporte de diagramas para ese path s
 ciclo del fix (boost post-rerank, metadato en el header, o instrucción — rerank-2.5 es
 instruction-following), no se hereda en silencio. **Relacionado**: #44 (patrón contrato-roto-por-SWAP),
 DEC-016d (boosts load-bearing), gate-D s60 (`evals/s60_step0_order_sensitivity_voyage.yaml`).
+
+
+## 46. Lifecycle post-ciclo-A: 3 docs sustituidos conviviendo + MS-416 del portal actualizado in-place (s63, DEC-044)
+
+**Qué es**: el ciclo A dejó identificados, con evidencia, 3 documentos SUSTITUIDOS que conviven
+activos con su sucesor en chunks_v2 (el lifecycle filter no los excluye: `status=active`):
+1. **MAD-472 "…ES GB FR GB IT"** (V1) — sustituido por "…ES GB FR IT_V2" (J=0.74; audit s62; toca cat024).
+2. **CAD-250-MC-380-es** (rev b, 16/06/2020) — sustituido por la rev c 2026 ("Adaptación para CAD-171 y CAD-201").
+3. **CAD-250-MS-416-es** (rev a solo-250, 2020) — sustituido por la versión 2026 multi-central.
+
+**Y además**: el PDF del MS-416 en el portal Detnov fue ACTUALIZADO IN-PLACE (mismo URL/filename)
+después de nuestra descarga — el archivo actual (73 pp) difiere de lo ingestado → re-descargar +
+re-ingestar la versión vigente.
+
+**Por qué no se hizo dentro del ciclo A** (X5 r1 del dúo): marcar superseded muta el corpus a
+mitad de ciclo → contaminaba el aislamiento del A/B (cat024 está en dev). El corpus quedó
+congelado en 25.090 todo el ciclo.
+
+**Fix**: (a) `superseded` para los 3 viejos (mecanismo existente) con lectura de pool
+antes/después (cat024 mínimo); (b) re-ingesta del MS-416 actual con el CONTRATO DE SUPERSESIÓN
+del flujo de ingesta — su PRIMER caso real (el esquema existe, 0 poblado); (c) re-fingerprint y
+cierre de la ventana de freeze.
+
+**Trigger**: próxima sesión de corpus, ANTES de la ingesta grande Aritech/Kidde/Ziton (PLAN
+punto 1). **Ojo**: si la re-ingesta renombra el source del MS-416, actualizar la entrada de
+Vesta en `detnov.yaml` (el test de resolución de `tests/test_series_registry.py` lo caza).
+
+**Relacionado**: DEC-044(e), audit s62 (capa C), DEC-043 (supersesión sin materia retroactiva →
+flujo de ingesta), `config/manufacturers/detnov.yaml` (evidence del MS-416 con la trampa de la
+tabla de revisiones documentada).

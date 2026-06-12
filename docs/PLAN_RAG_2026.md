@@ -3,9 +3,9 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 11 jun 2026 (s62, DEC-043 — el audit #43 REFUTÓ "near-dups" (CORRECCIÓN a DEC-042): el
-> mecanismo real es identidad producto↔serie + metadata rota de lotes viejos; branch de
-> Alberto: ciclo A = registry de series en el seam s55 + filtro exacto-o-serie).
+> 12 jun 2026 (s63, DEC-044 — CICLO A SHIPPED, PR #70: registry de series + filtro de 3
+> niveles + diversify corregido EN PROD; dev Δ_net=+2 [cat012 y cat018 a PASS]; held-out
+> corrida única DÉBIL-aceptada por Alberto).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -24,68 +24,57 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s62 — 11 jun 2026)
+## Estado actual (s63 — 12 jun 2026)
 
-**s62 (DEC-043):** el AUDIT #43 (read-only, `scripts/s62_audit43.py` + verificaciones regla-C)
-**REFUTÓ el diagnóstico "near-dups" de s61** (CORRECCIÓN canonizada en DEC-042): J_doc entre los
-3 manuales AM-8200 = 0.001-0.032 — no hay duplicación textual; el mecanismo real de cat012 es
-**identidad producto↔serie** (el filtro de modelo matchea por substring → "am8200" deja pasar a
-los HERMANOS 8200G/N, y el CE llena el top-5 con sus secciones conceptualmente equivalentes,
-expulsando la tabla del producto correcto). Mix real de la deuda (diagnóstico
-`evals/s62_audit43_diagnosis.md`): **capa A** identidad producto↔serie (daño MEDIDO: cat012-gate
-+ antecedentes DEC-032/hp003) · **capa B** metadata de identidad rota en lotes viejos (≥15 docs
-Spectrex/Pfannenberg bajo manufacturer=Detnov; model=unknown masivo; revision con basura de
-parser; document_family=filename; supersedes 0/1065; 165 docs sin chunks) · **capa C** near-dup
-textual MARGINAL (1 revisión MAD-472 V2 [toca cat024] + 1 FAQ; los 41 grupos ES/EN son legítimos
-y se CONSERVAN). La "supersesión" retroactiva quedó SIN MATERIA → contrato al flujo de ingesta
-futura. **Branch (Alberto, 4 opciones): CICLO A** — registry de series en `config/manufacturers`
-(seam s55, cero DDL) + filtro de 3 niveles (sin entrada → comportamiento actual; con entrada →
-mismo-producto o doc-de-serie; hermanos NO pasan), capa B arreglada DIRIGIDA donde el ciclo la
-toque, C de propina. Diseño v1 en `evals/_s62_seriesA_design.md` (local, PRE-dúo). Lección #32
-al log de bias (mecanismo canonizado sin medir en un diagnóstico post-mortem).
+**s63 (DEC-044): CICLO A SHIPPED (PR #70, mergeado por Alberto).** El registry de series
+(`config/manufacturers/*.yaml`, seam s55, cero DDL) + el filtro de 3 niveles + diversify
+corregido están **EN PROD** (flag `SERIES_REGISTRY_ENABLED`, default ON; kill-switch en Railway
+sin redeploy). Cierra la capa A de #43 en ambas direcciones: d1 (la query del base ya no
+arrastra hermanos — cat012) y d2 (la variante VE los docs de serie — fetch dirigido en
+diversify). Medido con el esquema pre-registrado (`evals/s63_gate_spec.yaml`): **gate G1-G8
+GO** (cat012 pool 28→9 100% producto correcto; 38/42 queries byte-a-byte invariantes) →
+**A/B dual-arm con pairing K=5: SHIP Δ_net=+2** (cat012 PARCIAL→PASS · cat018 FALLO→PASS ·
+0 regresiones · 37/39 Δ:=0 estructural) → **held-out corrida ÚNICA (cláusula R, 1ª ejecución):
+DÉBIL Δ=0 ACEPTADO por Alberto** (11/12 idénticos; ho008/CAD-171 modal IGUAL con la vista
+ganando los docs de serie; 0 fabricaciones). Población curada por Alberto con `evidence:`
+anclada en chunks_v2 (AM-8200 sin shared; Vesta con MC-380 rev-c + MS-416-2026 vigentes).
+Dúo ×2 rondas frescas (36 findings, 0 FP netos); lección #33 al log de bias (la vigencia de un
+doc se ancla en contenido, no en su tabla de revisiones interna — corrección de Alberto).
+Instrumentos nuevos reutilizables: embed-cache por par (`EMBED_CACHE_PATH`), pairing por pool,
+`INCLUDE_HELDOUT`, convergencia anti-dado-de-red. Narración en HISTORY; mecánica en DEC-044.
 
 **Sistema (prod, Railway auto-deploy desde `main`; SWAP de corpus por `CHUNKS_TABLE`):**
 bot Telegram (polling) → pre-clasificación → retrieve híbrido wide (vector Voyage-4-large 1024
-+ keyword + intent; `RETRIEVAL_TOP_K=50`; HyDE off) → rerank LLM Sonnet (top-5) → generador
-`claude-sonnet-4-6` (temp=0, `max_tokens=2048`) sobre **`chunks_v2` = 25.090 chunks / 1.012
-docs / 31 marcas / 587 modelos** (contextual-retrieval 100%; identidad data-driven, DEC-035).
-**⚠️ Contratos rotos por el SWAP s44, medidos:** `category` (#44) y diagramas (#45). Prod sin
-cambios de código desde s58; ventana DB ABIERTA (ef_search=120, default mantener); **ventana de
-freeze del corpus ABIERTA** (fingerprint 25.090).
++ keyword + intent; `RETRIEVAL_TOP_K=50`; HyDE off) → **filtro de modelos series-aware (3
+niveles, DEC-044)** → rerank LLM Sonnet (top-5) → generador `claude-sonnet-4-6` (temp=0,
+`max_tokens=2048`) sobre **`chunks_v2` = 25.090 chunks / 1.012 docs / 31 marcas / 587 modelos**
+(contextual-retrieval 100%; identidad data-driven, DEC-035). **⚠️ Contratos rotos por el SWAP
+s44, medidos:** `category` (#44) y diagramas (#45). Ventana DB ABIERTA (ef_search=120, default
+mantener); **ventana de freeze del corpus: el ciclo A/B→held-out está CERRADO** → puede
+cerrarse al ejecutar el lifecycle #46 (la ingesta vuelve a estar permitida tras #46/#44/#45).
 
-**Eval (el ruler):** **51 golds = 39 dev + 12 held-out** (embargo vivo), taxonomía CONGELADA
-(DEC-033), juez GPT-5.5 + K-mayoría, baseline s58 congelado (PASS-control 10 / 6 unánimes);
-cláusula R FIRMADA (s59b). **s61 (DEC-042, resumen):** lever L-i+cross-encoder construido tras
-flag (`RERANKER_BACKEND`, 237 tests) y PARADO en gate pre-A/B (NO-GO por D2 sin pagar A/B);
-hallazgos de instrumento: **drift de `embed_query` 0.003 entre sesiones** (hp001
-frontera-frágil, irrecuperable por reranker) + CE determinista/5×rápido/15×barato con D1 limpio.
-Lever preservado en `s61-lever-code-ROLLBACKED` (revisita condicionada); plan B MERGE descartado
-con datos. Narración en HISTORY; mecánica en DEC-042 (+CORRECCIÓN s62).
+**Eval (el ruler):** **51 golds = 39 dev + 12 held-out** (embargo vivo — la corrida única s63
+NO lo rompe: no se itera contra ho008), taxonomía CONGELADA (DEC-033), juez GPT-5.5 +
+K-mayoría. Baseline s58 congelado sigue de referencia histórica; el próximo ciclo re-freeze
+(el corpus cambiará con la ingesta). Lever CE preservado en `s61-lever-code-ROLLBACKED`
+(revisita condicional, punto 3).
 
 ## Qué sigue (orden vigente)
 
-1. **(s63) Ciclo A — dúo FRESCO sobre el diseño v1** (`evals/_s62_seriesA_design.md`; corpus/
-   retrieval = zona de dolor → cross-model INNEGOCIABLE) → v2 → **build** (registry `series` en
-   `config/manufacturers/*.yaml` [seam s55, cero DDL] + `_filter_to_query_models` de 3 niveles:
-   sin entrada de registry → comportamiento ACTUAL intacto; con entrada → mismo-producto o
-   doc-de-serie, hermanos NO pasan; fail-open <3 se mantiene) → **gate barato** (filtro-nuevo vs
-   filtro-actual, MISMO embedding por par [neutraliza el drift 0.003], probes s61 reutilizables;
-   condiciones: PASS-control retiene sustento · cat012-mecanismo se cierra · hp003/#11e no
-   regresan) → **A/B K=5 vs baseline s58** (cambio de código puro — baseline comparable;
-   instrumentos s61: firma enmendada + shadow-rerank) → held-out bajo R si SHIP. **La curación
-   inicial de series (AM-8200{,G,N} · CAD-150{,-8,R} · Vesta latente) se valida con Alberto
-   ANTES del gate** (conocimiento de dominio con `evidence:` por entrada). De propina: marcar
-   `superseded` el MAD-472 V1 (capa C, cat024). Capa B dirigida solo donde el ciclo la toque.
-2. **Capa B completa (ciclo de higiene propio, tras A):** metadata de lotes viejos —
-   manufacturer mal asignado (≥15 docs), model=unknown masivo, revision-basura de parser,
+1. **Lifecycle post-ciclo-A (TECH_DEBT #46, barato):** marcar `superseded` los 3 docs
+   sustituidos (MAD-472 V1 [cat024] · MC-380 rev-b · MS-416 viejo solo-250) con lectura de
+   pool antes/después + **re-ingestar el MS-416 actualizado del portal** (Detnov actualizó el
+   PDF in-place; lo ingestado difiere) — primer caso REAL del contrato de supersesión en el
+   flujo de ingesta. Al ejecutarlo, cerrar la ventana de freeze (re-fingerprint).
+2. **Capa B completa (ciclo de higiene propio):** metadata de lotes viejos — manufacturer mal
+   asignado (≥15 docs), model=unknown masivo, revision-basura de parser,
    document_family=filename, 165 docs sin chunks. Extender el seam s55 hacia atrás; mini-eval
    de no-regresión (los filtros por manufacturer/model SÍ tocan retrieval).
-3. **Revisita condicional del lever CE** (tras ciclo A): re-gate ~$2 con el filtro nuevo —
-   el mecanismo cat012 (hermanos) quedaría cerrado río arriba; techo honesto +1-frágil.
-4. **Tras un lever shipped: confirmación held-out** — corrida ÚNICA `INCLUDE_HELDOUT=1` (PREREG).
-5. **Después:** corpus nuevo (Aritech/Kidde/Ziton-GST). Antes de ingerir: #44 + contrato #45 +
-   **contrato de supersesión EN EL FLUJO DE INGESTA** (sin materia retroactiva — audit s62: 1
-   caso en 1.065 docs; las revisiones nuevas de docs existentes son las que lo necesitarán).
+3. **Revisita condicional del lever CE:** re-gate ~$2 con el filtro de series ya en prod — el
+   mecanismo cat012 (hermanos) está cerrado río arriba; techo honesto +1-frágil (hp001 es
+   frontera de pool, irrecuperable por reranker).
+4. **Después:** corpus nuevo (Aritech/Kidde/Ziton-GST). Antes de ingerir: #44 + contrato #45 +
+   contrato de supersesión en ingesta (parcialmente ejercitado en el punto 1).
 
 **Fases macro (rationale en HISTORY):** F1 calidad (en curso) → F2 escala (identidad de producto
 HECHA s55; resto gated) → F3 routing/tool-use + multi-dominio del scope M&A (gated por F1/F2) →

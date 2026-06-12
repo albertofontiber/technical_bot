@@ -17,16 +17,20 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
-> Resumen estable (s58 — 10 jun 2026): producción = `chunks_v2` (25.090 chunks / 1.012 docs /
+> Resumen estable (s63 — 12 jun 2026): producción = `chunks_v2` (25.090 chunks / 1.012 docs /
 > 31 marcas / 587 modelos; Voyage-4-large 1024 + contextual-retrieval al 100%), retrieve-wide
-> 50 → rerank LLM 5 → generador `claude-sonnet-4-6` (con `stop_reason`/`output_tokens`
-> instrumentados, s58); HyDE off; identidad de producto data-driven (`config/manufacturers/`
-> + sidecar). Eval: **51 golds = 39 dev + 12 held-out embargados** (embargo en puerta +
-> lectores-directos), juez GPT-5.5 + K-mayoría. **Baseline K=5 FRESCO (s58, DEC-039)** vía
-> `scripts/bvg_kmajority.py` (contexts congelados + juez nuevo congelado de la ventana +
-> run-manifest DEC-021 §F): PASS-control fijado 10/39, residual 26 clasificado
-> (retrieval-localizado 8 / generación 4 / indeterminado 8), truncamiento descartado.
-> Ventana de freeze del corpus ABIERTA (ninguna ingesta hasta cerrar el ciclo A/B→held-out).
+> 50 → **filtro de modelos series-aware de 3 niveles** (registry de series data-driven en
+> `config/manufacturers/*.yaml`, DEC-044; flag `SERIES_REGISTRY_ENABLED` default ON =
+> kill-switch sin redeploy; sin entrada de registry el comportamiento es el histórico) →
+> rerank LLM 5 → generador `claude-sonnet-4-6`; HyDE off; identidad de producto data-driven
+> (`config/manufacturers/` + sidecar). El registry cierra #43-capa-A: la query de un producto
+> base ya no arrastra manuales de sus HERMANOS de serie (AM-8200 vs G/N), y las variantes VEN
+> los docs compartidos declarados de su serie (CAD-201 → MC-380/MS-416) vía fetch dirigido en
+> diversify. Eval: **51 golds = 39 dev + 12 held-out embargados**, juez GPT-5.5 + K-mayoría.
+> **Primer lever de retrieval SHIPPED (s63, PR #70): dev Δ_net=+2 (cat012 y cat018 a PASS, 0
+> regresiones), held-out corrida única DÉBIL-aceptada.** Baseline s58 (PASS-control 10/39)
+> queda de referencia histórica; re-freeze en el próximo ciclo. Ventana de freeze del corpus:
+> ciclo CERRADO → la ingesta se desbloquea tras el lifecycle #46 (+ #44/#45).
 >
 > ⚠️ **Caveat s60 a este doc (TECH_DEBT #44/#45):** las secciones que describen el filtro por
 > categoría y la entrega de **diagramas** (§§ flujo/ingesta — "adjunta diagrama", canal
@@ -41,7 +45,9 @@
 > elección entre sesiones con input bit-idéntico (3/12 golds, DEC-041d-bis); (2) el embedding
 > de la query deriva ~0.003 entre sesiones (Voyage no bit-estable, DEC-042d) y en la frontera
 > del corte del pool (k=50) eso cambia qué candidatos entran — esta segunda vía persiste con
-> CUALQUIER reranker. Tratamiento en curso vía ciclos de eval (lever CE preservado; #43).
+> CUALQUIER reranker. Tratamiento en curso vía ciclos de eval (lever CE preservado; #43
+> capa A CERRADA en s63/DEC-044 — el registry de series eliminó la contaminación de hermanos,
+> la mayor fuente de inestabilidad del top-5 en los golds de serie).
 
 ## 1. Visión general en 60 segundos
 
