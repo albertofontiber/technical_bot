@@ -10,11 +10,11 @@ Si alcanzas un trigger, para y refactoriza antes de seguir añadiendo features.
 
 ---
 
-## Índice de estado (s63 — 12 jun 2026; generado, no renumera)
+## Índice de estado (s64 — 12 jun 2026; generado, no renumera)
 
-- **Abiertos (trigger-gated):** #1, #2, #3, #5b, #5, #6, #7, #10, #11b, #12, #11g, #11h, #13, #15, #17, #18, #19, #20, #21, #22, #23, #25, #26, #27, #28, #29, #30, #31, #18, #32, #33, #34, #35, #36, #37, #39, #40, #41, #43 (solo capa B — capa A ✅ s63/DEC-044), #44, #45, #46
+- **Abiertos (trigger-gated):** #1, #2, #3, #5b, #5, #6, #7, #10, #11b, #12, #11g, #11h, #13, #15, #17, #18, #19, #20, #21, #22, #23, #25, #26, #27, #28, #29, #30, #31, #18, #32, #33, #34, #35, #36, #37, #39, #40, #41, #43 (solo capa B — capa A ✅ s63/DEC-044), #44, #45
 - **Parciales / elevados:** #8, #11f, #24
-- **Cerrados (✅ resueltos o 🔴 revertidos):** #4, #9, #11, #11c, #11i, #11d, #14, #16, #38, #42
+- **Cerrados (✅ resueltos o 🔴 revertidos):** #4, #9, #11, #11c, #11i, #11d, #14, #16, #38, #42, #46 (✅ s64/DEC-045)
 
 Nota: hay dos items "## 18" (judge false positive, sesión 14; y atribución de fabricante, 28 mayo) —
 se conservan ambos números porque las referencias cruzadas en DECISIONS/memoria los citan; el índice
@@ -1658,31 +1658,43 @@ instruction-following), no se hereda en silencio. **Relacionado**: #44 (patrón 
 DEC-016d (boosts load-bearing), gate-D s60 (`evals/s60_step0_order_sensitivity_voyage.yaml`).
 
 
-## 46. Lifecycle post-ciclo-A: 3 docs sustituidos conviviendo + MS-416 del portal actualizado in-place (s63, DEC-044)
+## 46. ✅ Lifecycle post-ciclo-A: 3 docs sustituidos conviviendo (s63, DEC-044 → CERRADO s64, DEC-045)
 
-**Qué es**: el ciclo A dejó identificados, con evidencia, 3 documentos SUSTITUIDOS que conviven
-activos con su sucesor en chunks_v2 (el lifecycle filter no los excluye: `status=active`):
-1. **MAD-472 "…ES GB FR GB IT"** (V1) — sustituido por "…ES GB FR IT_V2" (J=0.74; audit s62; toca cat024).
-2. **CAD-250-MC-380-es** (rev b, 16/06/2020) — sustituido por la rev c 2026 ("Adaptación para CAD-171 y CAD-201").
-3. **CAD-250-MS-416-es** (rev a solo-250, 2020) — sustituido por la versión 2026 multi-central.
+**Qué era**: el ciclo A dejó identificados, con evidencia, 3 documentos SUSTITUIDOS que convivían
+activos con su sucesor en chunks_v2: MAD-472 V1 (→ V2), CAD-250-MC-380-es rev-b (→ rev-c 2026),
+CAD-250-MS-416-es 2020 (→ versión 2026 multi-central). Y una claim arrastrada de s63: "el PDF
+del MS-416 en el portal fue actualizado in-place; el actual (73 pp) difiere de lo ingestado".
 
-**Y además**: el PDF del MS-416 en el portal Detnov fue ACTUALIZADO IN-PLACE (mismo URL/filename)
-después de nuestra descarga — el archivo actual (73 pp) difiere de lo ingestado → re-descargar +
-re-ingestar la versión vigente.
+**✅ CERRADO s64 (DEC-045):**
+- **(a) EJECUTADO** — contrato de supersesión poblado por PRIMERA vez (3 cadenas:
+  status='superseded' + superseded_by_id/supersedes_id) + backfill de identidad de los 2
+  sucesores Detnov en `documents` (el pipeline s44/s55 no crea filas; sus 224 chunks enlazados).
+  Con guardarraíl pre-registrado: precheck de hechos-gold en sucesores GO + cobertura de
+  secciones MS-416 viejo→nuevo 90%≥75% + pools before/after de los 39 dev (C1: 0 docs viejos
+  en pools; C3: 36 no-afectados byte-idénticos; cat024 pool 4→7) + smoke C4 del path real
+  (cita 'rev c' — los suplementos ahora llevan document_revision). Reporte:
+  `evals/s64_lifecycle46_report.yaml`; rollback documentado en el runner.
+- **(a+) FIX de re-entrada descubierto y cerrado** — diversify re-fetcheaba docs que el
+  lifecycle filter (4b) acababa de excluir (variante lifecycle del patrón F1-r1 s63; ya mordía
+  con los 5 needs_review Morley): pre-filtro del universo de missing_sources + cinturón batch
+  `_filter_by_document_status` en ambos paths (source_file y manufacturer), contrato
+  `include_superseded` respetado. 4 tests nuevos; fixture hermética (F4 r1).
+- **(b) SIN MATERIA — claim REFUTADA por verificación** (12-jun): los 4 URLs del portal
+  (páginas CAD-171, CAD-250 ES y CAD-201) sirven byte-idéntico lo ingestado (MS-416-2026-b
+  sha e1985c3d…; viejo sha 49d0f899…; ídem MC-380); Wayback sin snapshots. El "73 pp difiere
+  de lo ingestado" fue un CRUCE DE IDENTIDADES entre las dos ediciones conviviendo (73 pp =
+  el -2026-b YA ingestado; el viejo tiene 76). No hay nada que re-ingestar. El contrato de
+  supersesión EN INGESTA queda para la primera ingesta real (precedente retroactivo poblado).
+- **(c) EJECUTADO** — `corpus_fingerprint()` extendido con dimensión lifecycle
+  (documents_status + chunks_excluded_by_lifecycle; era ciego a status: una supersesión en
+  ventana de freeze era invisible). Post-s64: 1067 docs {active 1059 · superseded 3 ·
+  needs_review 5}, 262 chunks excluidos (220 s64 + 42 Morley). Ventana de freeze CERRADA.
 
-**Por qué no se hizo dentro del ciclo A** (X5 r1 del dúo): marcar superseded muta el corpus a
-mitad de ciclo → contaminaba el aislamiento del A/B (cat024 está en dev). El corpus quedó
-congelado en 25.090 todo el ciclo.
+**Residuo (no deuda nueva)**: supersede-traps de `eval_rag.py` (harness legacy) siguen
+placeholder — NO se autoran allí (el ruler vivo ya cubre: cat024 manda V2 con V1 anotado
+SUPERSEDED + C1 del runner + smoke). Si el ruler quisiera un trap dedicado, ahora HAY materia
+(3 cadenas reales) — decisión de autoría futura vía `gold_store`.
 
-**Fix**: (a) `superseded` para los 3 viejos (mecanismo existente) con lectura de pool
-antes/después (cat024 mínimo); (b) re-ingesta del MS-416 actual con el CONTRATO DE SUPERSESIÓN
-del flujo de ingesta — su PRIMER caso real (el esquema existe, 0 poblado); (c) re-fingerprint y
-cierre de la ventana de freeze.
-
-**Trigger**: próxima sesión de corpus, ANTES de la ingesta grande Aritech/Kidde/Ziton (PLAN
-punto 1). **Ojo**: si la re-ingesta renombra el source del MS-416, actualizar la entrada de
-Vesta en `detnov.yaml` (el test de resolución de `tests/test_series_registry.py` lo caza).
-
-**Relacionado**: DEC-044(e), audit s62 (capa C), DEC-043 (supersesión sin materia retroactiva →
-flujo de ingesta), `config/manufacturers/detnov.yaml` (evidence del MS-416 con la trampa de la
-tabla de revisiones documentada).
+**Relacionado**: DEC-045 (cierre), DEC-044(e), audit s62 (capa C), `scripts/s64_lifecycle46.py`
+(runner 5 fases con rollback), `scripts/s64_state46.py`, `config/manufacturers/detnov.yaml`
+(evidence actualizada).

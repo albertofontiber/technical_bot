@@ -1,0 +1,70 @@
+ts: '2026-06-12T13:09:06'
+git: fbdd356
+design: evals/_s64_lifecycle46_design.md (v3)
+criterios:
+  C1_viejos_fuera:
+    pass: true
+    violaciones: {}
+  C2_C2p_sucesores:
+    cat019:
+      sucesor_mc380c_en_pool: true
+      ms416_2026_en_pool: true
+      mad472_v2_en_pool: false
+      keyword_gold_sucesor_en_top15_servido: true
+    cat024:
+      sucesor_mc380c_en_pool: true
+      ms416_2026_en_pool: false
+      mad472_v2_en_pool: true
+    hp001:
+      sucesor_mc380c_en_pool: true
+      ms416_2026_en_pool: true
+      mad472_v2_en_pool: false
+  C3_no_afectados_identicos:
+    pass: true
+    violaciones: {}
+    reclasificados_dado_red:
+      cat005: dado-de-red (re-run convergió a before)
+    atribucion_si_stop: código main + datos nuevos (pre-declarada, F8a r1)
+afectados_diff:
+  cat019:
+    before_n: 50
+    after_n: 50
+    marcas_before:
+      docs_viejos_en_pool:
+      - CAD-250-MC-380-es
+      - CAD-250-MS-416-es
+      chunks_de_docs_inactivos: []
+    salieron: 29
+    entraron: 29
+  cat024:
+    before_n: 4
+    after_n: 7
+    marcas_before:
+      docs_viejos_en_pool:
+      - 55347200 Manual Sirena Analogica MAD-472 ES GB FR GB IT
+      chunks_de_docs_inactivos: []
+    salieron: 2
+    entraron: 5
+  hp001:
+    before_n: 29
+    after_n: 26
+    marcas_before:
+      docs_viejos_en_pool:
+      - CAD-250-MC-380-es
+      - CAD-250-MS-416-es
+      chunks_de_docs_inactivos: []
+    salieron: 24
+    entraron: 21
+fingerprint_lifecycle:
+  documents_status:
+    active: 1059
+    superseded: 3
+    needs_review: 5
+  chunks_excluded_by_lifecycle: 262
+  nota_instrumento: 'documents_status re-medido post-corrida con paginación correcta
+    (la 1ª lectura del runner pedía limit=2000 en una llamada y PostgREST corta a
+    max-rows=1000 → contó 1000/1067 docs; runner corregido en el mismo commit;
+    chunks_excluded_by_lifecycle no estaba afectado — los 8 docs inactivos entran
+    en una página). Verificación: 1067 = 1065 + 2 nuevos; active 1059 = 1060 - 3
+    superseded + 2 nuevos; excluidos 262 = 220 superseded s64 + 42 needs_review.'
+verdict: GO (C1+C3 pass; revisar C2/diff de afectados arriba)

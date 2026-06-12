@@ -522,9 +522,18 @@ def phase_after() -> int:
         }
     verdict["afectados_diff"] = diff_afectados
 
-    # fingerprint extendido (dimensión lifecycle — diseño §3)
-    st = Counter(r["status"] for r in get(
-        "documents", {"select": "status", "limit": "2000"}))
+    # fingerprint extendido (dimensión lifecycle — diseño §3). Paginado:
+    # PostgREST corta a max-rows=1000 aunque limit pida más.
+    all_status: list[str] = []
+    offset = 0
+    while True:
+        page = get("documents", {"select": "status", "limit": "1000",
+                                 "offset": str(offset)})
+        all_status.extend(r["status"] for r in page)
+        if len(page) < 1000:
+            break
+        offset += 1000
+    st = Counter(all_status)
     inact_docs = get("documents", {"select": "id", "status": "neq.active", "limit": "2000"})
     n_excl = 0
     for d in inact_docs:
