@@ -1,0 +1,221 @@
+{
+ "ho008": {
+  "question": "¿Cuántos puntos/zonas soporta la central compacta Detnov CAD-171 y cómo se amplía?",
+  "conducta_esperada": "answer",
+  "frozen_at": "2026-06-12T11:29:40",
+  "n_context_hydrated": 5,
+  "top5": [
+   {
+    "id": "7107cf01-396b-4913-819d-76ba9823ba62",
+    "content": "## 2.9. Arquitectura\n\nLa central CAD-171 dispone de las siguientes prestaciones:\n\n**2** lazos.\n**500** dispositivos.\n**2.000** zonas programables por panel.\n**250** áreas.\n**1.000** grupos.\n**1.000** controles o relés virtuales.\n**2.500** modos especiales.\n**100.000** acciones o eventos de maniobras.\n\n### 2.9.1. Composición del sistema\n\n**Cada una de las opciones de central principal o centrales de expansión incluyen:**\n\n**Placa principal (motherboard) que da opción:**\n\n- 2 salidas de sirena supervisadas.\n- 2 salidas de relé libres de tensión en placa.\n- 1 salida de relé libres de tensión en placa.\n- 1 salida auxiliar de 24V 500 mA.\n- Capacidad para la instalación de 3 tarjetas de 2 lazos ref. TBUD-NG.\n- 1 Fuente de alimentación.\n- Espacio para baterías de 12V x 7Ah o 12V x 12Ah.\n\n### 2.9.2. Composición del sistema de red\n\n```mermaid\ngraph LR\n    A[Unit 1] -->|max. 1000m| B[Unit 2]\n    B -->|max. 1000m| C[Unit 3]\n    C -->|max. 1000m| D[Unit 4]\n    A ---|max. 1000m| D\n```\n\nHasta 64 nodos",
+    "product_model": "CAD-171",
+    "category": null,
+    "section_title": "2.9. Arquitectura",
+    "content_type": "specification",
+    "manufacturer": "Detnov",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "Manual_CAD-171-MI-716-es",
+    "page_number": 8,
+    "document_id": null,
+    "similarity": 0.8,
+    "context": "Este fragmento pertenece al Manual de Instalación y Usuario del CAD-171 (central de detección de incendios analógica) y detalla en la sección 2.9 la arquitectura del sistema, especificando las prestaciones técnicas de la central, la composición de sus componentes principales y la configuración de la red de múltiples centrales interconectadas."
+   },
+   {
+    "id": "5cc86f44-36a2-4cce-8cc6-38836315910f",
+    "content": "## 4.5. Lazos analógicos\n\nCada lazo puede soportar hasta 250 dispositivos analógicos de DETNOV (sirenas, módulos de entrada, de salida, aisladores, detectores o barreras analógicas). En general todos estos dispositivos se alimentan del propio lazo.\n\nEs posible subdividir cada lazo en múltiples zonas sin superar el número de zonas absoluto de 2.000.\n\n> De acuerdo con la norma de diseño UNE 23007-14, el número máximo de elementos de iniciación de alarma de incendio por zona es de 32. Los sistemas de detección de incendio exigen emplear una topología en anillo para evitar que un único fallo provoque la pérdida de un sector significativamente grande.\n\n> Aunque los ramales son tolerados por el sistema, su uso no es aconsejable y debe ser restringido.\n>\n> El cable recomendado para el lazo analógico es un cable trenzado y apantallado (entre 20 y 40 vueltas /metro) , capacidad inferior a los 0,5 μF y una resistencia máxima de 52 ohmios para todo el recorrido del lazo. El consumo máximo de los dispositivos conectados al lazo no puede exceder los 750 mA.\n>\n> La sección estándar es 1,5 mm2 de diámetro para una longitud de lazo máxima de 1.500 m, sin embargo, esta puede ser mayor en función de la instalación.\n>\n> Los terminales de conexión en la tarjeta de lazo admiten una seccion de hasta 2,5 mm2 de diámetro para una distancia máxima de 2.000 m de longitud en el lazo.\n>\n> Recomendamos que el cableado del sistema se realice con cables de dos conductores y que cada cable sea específico para una función.\n>\n> Utilice terminales y/o fundas termorretractiles en las terminaciones de los cables para evitar posibles cortocircuitos.\n\n### 4.5.1. Continuidad de los lazos\n\n> Conecte el retorno de la conexión a tierra únicamente a la central, nunca a una conexión a tierra externa.\n\nPara conectar un lazo a la tarjeta de lazos siga los siguientes pasos:\n\n**PASO 1** Identifique los terminales de salida de lazo en la tarjeta.\n\n**PASO 2** Conecte el terminal positivo S+ al cable positivo de lazo de salida. Conecte el terminal S- al cable negativo de salida del lazo.\n\n**PASO 3** En caso que no se haya conectado la malla en los pernos del chasis, conecte únicamente la malla de uno de los extremos (salida o retorno) al terminal de tierra del conector de lazo. Se recomienda conectar la malla en los pernos.\n\n| \\[Diagram showing terminal connection block with 5 screw terminals and wavy lines representing cable shield connections below] |    |   |    |    |\n| :----------------------------------------------------------------------------------------------------------------------------: | -- | - | -- | -- |\n|                                                               S+                                                               | S- | ╧ | R+ | R- |\n|                                                            **LOOP**                                                            |    |   |    |    |\n\n**R-** Conexión de polo negativo de retorno de lazo\n**R+** Conexión de polo positivo de retorno de lazo\n**╧** Conexión de uno de los polos de la malla en caso de no usar los pernos\n**S-** Conexión de polo negativo de salida de lazo\n**S+** Conexión de polo positivo de salida de lazo\n\nESP",
+    "product_model": "CAD-171",
+    "category": null,
+    "section_title": "4.5. Lazos analógicos",
+    "content_type": "wiring",
+    "manufacturer": "Detnov",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "Manual_CAD-171-MI-716-es",
+    "page_number": 16,
+    "document_id": null,
+    "similarity": 0.8,
+    "context": "Este fragmento pertenece al Manual de Instalación y Usuario del CAD-171, específicamente a la Sección 4 \"Guía de conexión\", subsección 4.5 \"Lazos analógicos\". Describe las especificaciones técnicas, requisitos de cableado y procedimientos paso a paso para conectar correctamente los lazos analógicos a la tarjeta de lazo de la central de alarma contra incendios CAD-171."
+   },
+   {
+    "id": "445337f0-a497-4221-87f2-fbdea2682bb6",
+    "content": "## 4.4.3. Power Board\n\n| Item | Nombre                | Descripción                                                                                        |\n| ---- | --------------------- | -------------------------------------------------------------------------------------------------- |\n| 10   | LAZOS                 | Conectores de lazo con terminales de salida y de retorno y un terminal de malla.                   |\n| 11   |                       | La CAD-171 soporta hasta 8 lazos.                                                                  |\n| 12   | R.ALARM               | Terminales de salida para el relé de alarma tipo C-NA-NC, libre de tensión.                        |\n| 13   | R.FAULT               | Terminales de salida para el relé de avería tipo C-NA-NC, libre de tensión.                        |\n| 14   | CONECTOR SND1         | Conector 1 de la salida supervisada para sirenas.                                                  |\n| 15   | CONECTOR SND2         | Conector 2 de la salida supervisada para sirenas.                                                  |\n| 16   | CONECTOR 24V AUXILIAR | Conector de salida auxiliar protegida de 28V 500 mA.                                               |\n| 17   | RELE CRA              | Conector para transmitir un evento a una CRA.                                                      |\n| 18   | PSU\\_EXTERNA          | Conector de monitorización tarjeta FADAUXBAT.                                                      |\n| 19   | FUSIBLE BAT           | Fusible de baterías de 6.3 A5x20.                                                                  |\n| 20   | FUSIBLE PRINCIPAL     | Fusible de 6.3 A 5x20 de la alimentación principal de 28V.                                         |\n| 21   | JUMPER TIERRA         | Puente para la detección de fuga a tierra. Siempre debe de estar conectado.                        |\n| 22   | PSU\\_EXTERNA          | Conector de monitorización tarjeta FADAUXBAT                                                       |\n| 23   | BAT                   | Alimentación de la central mediante la batería auxiliar. Use únicamente las baterías recomendadas. |\n| 24   | NTC BAT               | Conector para la compensación en temperatura de la batería.                                        |\n\n15\n\n16",
+    "product_model": "CAD-171",
+    "category": null,
+    "section_title": "4.4.3. Power Board",
+    "content_type": "wiring",
+    "manufacturer": "Detnov",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "Manual_CAD-171-MI-716-es",
+    "page_number": 15,
+    "document_id": null,
+    "similarity": 0.8,
+    "context": "Este fragmento describe los componentes y conectores del Power Board (placa de potencia) de la central CAD-171, detallando los 15 elementos internos que conforman la arquitectura de alimentación, procesamiento de datos y conexiones de lazos, sirenas, relés y baterías del sistema de detección de incendios."
+   },
+   {
+    "id": "6940e70e-07f0-4c0f-8168-e79f90d8ae45",
+    "content": "## 6.5. Dispositivos\n\nEn este submenú podrá configurar de forma individual aquellos dispositivos conectados a un lazo.\n\n**LAZO (Menú principal) > DISPOSITIVOS (Submenú)**\n\nMenú principal:\n\n- **LAZO**\n- SECTORIZACION\n- MANIOBRAS\n- LOGS\n- RED\n- AJUSTES\n- INSTALACION\n- MAPAS\n- **INICIO**\n\nSubmenú:\n\n- **DISPOSITIVOS**\n- VALOR ANALOGICO\n- SALIDAS\n- AUTO-BUSQUEDA\n- AUTO-DIAGNOSTICO\n- CALIDAD COMUNICACION\n- AUTO-DIRECCIONAMIENTO\n- PROGRAMACION DE DIRECCION\n- **INICIO**\n\nVista principal:\n\nLazos 2\n\nLazo 1\nLazo 2Para ver la LISTA de dispositivos en cada lazo:\n\n**Pulse sobre el Lazo (n) > Lista de dispositivos**\n\n|   | ALARMA | AVERIA | TECNICO | |\n|---|--------|--------|---------|---|\n| (1.1) | SALA DE ESPERA | ⚪ | ⚪ | 🔴 |\n| (1.2) | SALA DE ESPERA | ⚪ | ⚪ | 🔴 |\n| (1.3) | SALA DE ESPERA | 🔴 | ⚪ | 🔴 |\n| (1.4) | SALA DE ESPERA | ⬜ | ⚪ | 🔴 |\n| (1.5) | SALA DE ESPERA | ⬜ | ⚪ | 🔴 |\n| (1.6) | SALA DE ESPERA | 🔴 | ⚪ | 🔴 |\n\nBajo los cursores de la barra de navegación se encuentran los botones de filtro de estado. Al tocar la opción de filtro, la lista de dispositivos quedará limitada a aquellos cuya condición coincida con el\n\nHasta que no introduzca manualmente equipos en el sistema\n\nDesde la barra de navegación y con ayuda de los botones puede visualizar las listas de dispositivos de cada uno de los lazos instalados.\n\n| Nombre  | Simbolo         | Descripcion                                                                                                                                                                                                                            |\n| ------- | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| ALARMA  | ALARMA<br/>001  | Dispositivos en condicion de alarma de incendio. Estos pueden ser detectores, pulsadores o entradas configuradas como zonas de incendio. Muestra el numero de elementos en esta condicion. Dispositivos en condicion de fallo o averia |\n| AVERIA  | AVERA<br/>000   | Entradas supervisadas que no se consideran alarmas. Estos solo pueden ser los modulos de entrada.                                                                                                                                      |\n| TECNICO | TECNICO<br/>000 |                                                                                                                                                                                                                                        |\n\nESP",
+    "product_model": "CAD-171",
+    "category": null,
+    "section_title": "6.5. Dispositivos",
+    "content_type": "troubleshooting",
+    "manufacturer": "Detnov",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "Manual_CAD-171-MI-716-es",
+    "page_number": 28,
+    "document_id": null,
+    "similarity": 0.8,
+    "context": "Este fragmento pertenece a la sección 6.5 del Manual de Instalación y Usuario del CAD-171 y describe cómo configurar dispositivos individuales conectados a los lazos analógicos de la central, incluyendo la visualización de listas de dispositivos con sus estados de alarma, avería y condición técnica."
+   },
+   {
+    "id": "bafffddd-208d-40e5-9572-9c71ba9d51d2",
+    "content": "29\n\n30\n\n## 6.6. Sectorización\n\nDesde la sección SECTORIZACIÓN del menú principal es posible crear, revisar y modificar el árbol de sectorización.\n\n### SECTORIZACIÓN (Menú principal) >\n\nMenú principal: Vista principal\n\n| * LAZO\n\n* SECTORIZACIÓN\n* MANIOBRAS\n* LOGS\n* RED | Contraer\tContraer\tFiltrosEntidad \\| Descripción \\| Modo de trabajo \\| Estado&#xA;Área 1\tPLANTA 1\t🟢 🟢&#xA;Área 2\tPLANTA 2\t🟢 🟢&#xA;▼ Área 3\tPLANTA 3\t🟢 🟠&#xA;▼ Zona 1\tSALA DE ESPERA\t🟢 🟠&#xA;Pulsador 1.1\t\t🟢 🟢&#xA;Óptico 1.2\t\t🟢 🟢&#xA;Sirena 1.3\t\t🟢 🟢&#xA;Detector de barrera 1.4\t\t🟢 🟠&#xA;Óptico 1.5\t\t🟢 🟢 |\n\n| ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n\n</td>\n</tr>\n</table>\n\n> Uno de los principios fundamentales del diseño de un sistema detección de incendios es la división de la instalación en áreas y zonas, con vistas a supervisar la indicación de eventos y las entradas de alarma. Las zonas permiten una mejor organización de los dispositivos dentro de la instalación estén o no instalados en el mismo lazo. Esto también permite cambiar de modo de trabajo estas ubicaciones (AREAS o ZONAS). Pueden existir límites establecidos por la regulación local para la definición, alcance y cobertura de las zonas.\n\n> Consulte el proyecto y las normas locales p.ej.UNE 23007-14 así como cualquier regulación sectorial que pueda ser de aplicación.\n\nAsí como con los dispositivos, es posible establecer modos de trabajo para ZONAS/ AREAS desde la sección SECTORIZACIÓN del menú principal.\n\n**HABILITADO**: los dispositivos y sus eventos se tienen en cuenta.\n\n**DESHABILITADO**: los dispositivos dentro de esta zona/área se ignoran.\n\n**PRUEBA**: permite realizar tareas de mantenimiento sin aviso de alarma.\n\nLos modos definen el comportamiento de forma jerárquica: Área > Zona > Dispositivo.\n\nSi un Área se deshabilita, todas las Zonas y Dispositivos dentro de ella también se deshabilitan. Sin embargo, si se deshabilita una Zona, solo afecta a los Dispositivos de esa Zona, no al Área.\n\nDeshabilitar un Dispositivo no afecta a su Zona ni a su Área.\n\nEn modo Prueba, el comportamiento es similar. No se pueden poner los Dispositivos en prueba uno a uno, solo entrarán en prueba si su Zona o Área están en modo Prueba.\n\nAl reactivar un nivel superior, los niveles inferiores se activarán a menos que se hayan configurado individualmente como deshabilitados.\n\n| Contraer | Contraer | Filtros |\n| -------- | -------- | ------- |",
+    "product_model": "CAD-171",
+    "category": null,
+    "section_title": "6. Configuración rápida de la central",
+    "content_type": "procedure",
+    "manufacturer": "Detnov",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "Manual_CAD-171-MI-716-es",
+    "page_number": 29,
+    "document_id": null,
+    "similarity": 0.8,
+    "context": "Sección 6.6 del Manual de Instalación CAD-171 que explica cómo crear y modificar la estructura de sectorización de la central (áreas y zonas), incluyendo los modos de trabajo jerárquicos (habilitado, deshabilitado y prueba) para organizar y supervisar los dispositivos de detección de incendios en la instalación."
+   }
+  ],
+  "pool50_light": [
+   {
+    "id": "1d07b79c-a2ff-4eec-a795-2a817cd2a6b8",
+    "source_file": "Manual_CAD-171-MI-716-es",
+    "page_number": 5,
+    "similarity": 0.8
+   },
+   {
+    "id": "06f95774-ab2e-4f7a-a05b-acf0a3b0655d",
+    "source_file": "Manual_CAD-171-MI-716-es",
+    "page_number": 22,
+    "similarity": 0.8
+   },
+   {
+    "id": "87688ff8-353f-4fa0-8e37-db530e6217b0",
+    "source_file": "Manual_CAD-171-MI-716-es",
+    "page_number": 45,
+    "similarity": 0.8
+   },
+   {
+    "id": "7107cf01-396b-4913-819d-76ba9823ba62",
+    "source_file": "Manual_CAD-171-MI-716-es",
+    "page_number": 8,
+    "similarity": 0.8
+   },
+   {
+    "id": "11641ad6-0d20-4c3c-a581-d060131aa57c",
+    "source_file": "Manual_CAD-171-MI-716-es",
+    "page_number": 10,
+    "similarity": 0.8
+   },
+   {
+    "id": "5cc86f44-36a2-4cce-8cc6-38836315910f",
+    "source_file": "Manual_CAD-171-MI-716-es",
+    "page_number": 16,
+    "similarity": 0.8
+   },
+   {
+    "id": "242f6327-27c3-49ec-b294-ed02f66723c8",
+    "source_file": "Manual_CAD-171-MI-716-es",
+    "page_number": 26,
+    "similarity": 0.8
+   },
+   {
+    "id": "6940e70e-07f0-4c0f-8168-e79f90d8ae45",
+    "source_file": "Manual_CAD-171-MI-716-es",
+    "page_number": 28,
+    "similarity": 0.8
+   },
+   {
+    "id": "89679a48-1210-438c-83b7-151f6f76fb6c",
+    "source_file": "Manual_CAD-171-MI-716-es",
+    "page_number": 29,
+    "similarity": 0.8
+   },
+   {
+    "id": "bafffddd-208d-40e5-9572-9c71ba9d51d2",
+    "source_file": "Manual_CAD-171-MI-716-es",
+    "page_number": 29,
+    "similarity": 0.8
+   },
+   {
+    "id": "78857ff5-c436-4e28-92fe-993dfdc619bd",
+    "source_file": "Manual_CAD-171-MI-716-es",
+    "page_number": 30,
+    "similarity": 0.8
+   },
+   {
+    "id": "7acfd2ef-d925-43a8-8e17-ef5ace931064",
+    "source_file": "Manual_CAD-171-MI-716-es",
+    "page_number": 32,
+    "similarity": 0.8
+   },
+   {
+    "id": "b148df9c-26cf-40af-89ab-282d9aeb7c32",
+    "source_file": "Manual_CAD-171-MI-716-es",
+    "page_number": 38,
+    "similarity": 0.8
+   },
+   {
+    "id": "445337f0-a497-4221-87f2-fbdea2682bb6",
+    "source_file": "Manual_CAD-171-MI-716-es",
+    "page_number": 15,
+    "similarity": 0.8
+   },
+   {
+    "id": "3829a9b0-3c82-4e74-8201-19544ccd13d6",
+    "source_file": "Manual_CAD-171-MI-716-es",
+    "page_number": 1,
+    "similarity": 0.65
+   },
+   {
+    "id": "fd51ebe8-9274-4cdf-b033-ca1617a24856",
+    "source_file": "Manual_CAD-171-MI-716-es",
+    "page_number": 2,
+    "similarity": 0.65
+   },
+   {
+    "id": "f346c732-fb65-4198-8f63-5669ea6c1367",
+    "source_file": "Manual_CAD-171-MI-716-es",
+    "page_number": 2,
+    "similarity": 0.65
+   },
+   {
+    "id": "ed3e77e9-4588-444f-8bd6-41d61597a24a",
+    "source_file": "Manual_CAD-171-MI-716-es",
+    "page_number": 2,
+    "similarity": 0.65
+   },
+   {
+    "id": "2f51bc69-602b-4700-9d5c-919d2781ec75",
+    "source_file": "Manual_CAD-171-MI-716-es",
+    "page_number": 2,
+    "similarity": 0.65
+   }
+  ]
+ }
+}
