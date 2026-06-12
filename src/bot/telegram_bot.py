@@ -24,7 +24,7 @@ from ..rag.retriever import (
     get_all_models_by_category, CATEGORY_TERMS, PCI_TERMS,
     lookup_model_manufacturer, get_available_manufacturers, manufacturer_in_db,
 )
-from ..rag.reranker import rerank_chunks
+from ..rag.reranker import rerank
 from ..rag.generator import generate_answer
 from ..logging_db import log_query, log_feedback, has_consent, set_consent
 from .whisper_vocabulary import get_whisper_prompt
@@ -446,8 +446,10 @@ async def _process_query(
         # Step 1d: Retrieve candidate chunks
         chunks = retrieve_chunks(query_for_retrieval, top_k=RETRIEVAL_TOP_K)
 
-        # Step 2: Rerank with Claude (using original query for semantic evaluation)
-        chunks = rerank_chunks(query, chunks, top_k=RERANK_TOP_K, target_models=target_models)
+        # Step 2: Rerank (using original query for semantic evaluation). Dispatcher
+        # RERANKER_BACKEND (s61): con target_models SIEMPRE LLM (dispatch condicional Y1
+        # — solo se enruta a voyage el path que el A/B midió).
+        chunks = rerank(query, chunks, top_k=RERANK_TOP_K, target_models=target_models)
 
         # Step 2b: Get available models in detected category (for dynamic conversation)
         available_models = None

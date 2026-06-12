@@ -43,6 +43,16 @@ RERANK_TOP_K = 5
 CHUNK_MAX_TOKENS = 1500
 CHUNK_OVERLAP_TOKENS = 200
 
+# Backend del reranker (s61, diseño _s61_lever_design.md §4). SWAP reversible por
+# entorno, como CHUNKS_TABLE:
+#   llm    → rerank_chunks (Claude Sonnet listwise; prod histórico)
+#   voyage → rerank_chunks_voyage (cross-encoder rerank-2.5) SOLO para llamadas
+#            sin target_models — el path con target_models conserva el LLM
+#            (dispatch condicional Y1: se shipea exactamente lo que el A/B mide;
+#            el harness de eval nunca pasa target_models).
+# voyage requiere VOYAGE_API_KEY (ya requerida por chunks_v2 / embed_query).
+RERANKER_BACKEND = os.getenv("RERANKER_BACKEND", "llm")
+
 # LLM config
 LLM_MODEL = "claude-sonnet-4-6"
 LLM_MAX_TOKENS = 2048
