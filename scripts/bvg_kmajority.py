@@ -181,10 +181,20 @@ def _only(args) -> set[str]:
     return {q.strip() for q in (args.qids or "").split(",") if q.strip()}
 
 
+def _golds_del_run() -> list[dict]:
+    """La puerta del run: dev (embargo DEC-023) salvo la corrida ÚNICA de
+    confirmación held-out (cláusula R / DEC-037c: INCLUDE_HELDOUT=1 bajo
+    freeze-contract completo — una vez por lever SHIPPED, sin iterar después)."""
+    if os.environ.get("INCLUDE_HELDOUT") == "1":
+        print("*** CORRIDA HELD-OUT (cláusula R, DEC-037c) — ÚNICA, no iterable ***")
+        return gold_store.heldout()
+    return gold_store.dev()
+
+
 def phase_freeze(args) -> None:
     assert CHUNKS_IS_V2, f"CHUNKS_TABLE debe ser chunks_v2, es {CHUNKS_TABLE}"
     data = _load(F_CONTEXTS)
-    golds = gold_store.dev()   # la puerta: verificado ∧ split=dev (embargo DEC-023)
+    golds = _golds_del_run()
     if _only(args):
         golds = [g for g in golds if g["qid"] in _only(args)]
     print(f"freeze | dev={len(golds)} | retrieve={RETRIEVAL_TOP_K} rerank={RERANK_TOP_K} "
@@ -357,7 +367,7 @@ def phase_judge(args) -> None:
     contexts = _load(F_CONTEXTS)
     gens = _load(F_GENERATIONS)
     assert gens, "no hay generations — corre generate primero"
-    golds = {g["qid"]: g for g in gold_store.dev()}
+    golds = {g["qid"]: g for g in _golds_del_run()}
     data = _load(F_JUDGMENTS)
     tasks = []
     for qid, runs in sorted(gens.items()):
