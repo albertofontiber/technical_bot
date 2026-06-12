@@ -1116,13 +1116,15 @@ def retrieve_chunks(
     # by whichever doc has more chunks — missing the doc that actually
     # holds the answer. Guarantee at least one chunk per source_file.
     if models and len(merged) > 0:
-        merged = _diversify_by_source_file(merged, top_k, models, query, query_keywords=None)
+        merged = _diversify_by_source_file(merged, top_k, models, query, query_keywords=None,
+                                           include_superseded=include_superseded)
 
     # Step 5b: Manufacturer diversity for generic queries (no specific model).
     # Ensures technicians see results from ALL manufacturers, not just whichever
     # happens to rank highest by embedding similarity.
     if not models and len(merged) > 0:
-        merged = _diversify_by_manufacturer(merged, top_k, query, query_embedding)
+        merged = _diversify_by_manufacturer(merged, top_k, query, query_embedding,
+                                            include_superseded=include_superseded)
 
     # Step 5c: Language filter — drop chunks outside the served languages
     # (ES/EN). Runs LAST so it also catches supplementary chunks added by the
@@ -1132,7 +1134,7 @@ def retrieve_chunks(
     return merged[:top_k]
 
 
-def _diversify_by_manufacturer(chunks: list[dict], top_k: int, original_query: str = "", precomputed_embedding: list[float] | None = None) -> list[dict]:
+def _diversify_by_manufacturer(chunks: list[dict], top_k: int, original_query: str = "", precomputed_embedding: list[float] | None = None, include_superseded: bool = False) -> list[dict]:
     """Interleave results across manufacturers so each is fairly represented.
 
     Strategy: round-robin across manufacturers, ordered by their best score.
@@ -1175,6 +1177,7 @@ def _diversify_by_manufacturer(chunks: list[dict], top_k: int, original_query: s
             )
             return mfr, extra
 
+        fetched: list[tuple[str, list[dict]]] = []
         with ThreadPoolExecutor(max_workers=4) as pool:
             futures = [pool.submit(_search_mfr, m) for m in underrepresented]
             # Orden de submit (no as_completed) → determinista. underrepresented viene
@@ -1185,20 +1188,35 @@ def _diversify_by_manufacturer(chunks: list[dict], top_k: int, original_query: s
                 except Exception:
                     continue
                 if extra:
-                    # Replace low-quality results (wrong category) with category-matched ones
-                    existing = by_mfr.get(other_mfr, [])
-                    category_matched = [c for c in existing if c.get("category") == category]
-                    # Keep category-matched originals + new supplementary results
-                    combined = category_matched + extra
-                    # Deduplicate
-                    seen = set()
-                    deduped = []
-                    for c in combined:
-                        cid = c.get("id")
-                        if cid not in seen:
-                            seen.add(cid)
-                            deduped.append(c)
-                    by_mfr[other_mfr] = deduped[:slots_each]
+                    fetched.append((other_mfr, extra))
+
+        # (s64, #46) Cinturón de LIFECYCLE sobre los suplementos ACUMULADOS
+        # (1 GET batch para todos los fabricantes): los fetches frescos no
+        # pasaron por el Step 4b — sin esto, docs superseded/needs_review
+        # re-entran como suplemento. Se omite con include_superseded.
+        if not include_superseded and fetched:
+            all_extra = [c for _, extra in fetched for c in extra]
+            allowed = {c.get("id") for c in _filter_by_document_status(all_extra)}
+            fetched = [(m, [c for c in extra if c.get("id") in allowed])
+                       for m, extra in fetched]
+
+        for other_mfr, extra in fetched:
+            if not extra:
+                continue
+            # Replace low-quality results (wrong category) with category-matched ones
+            existing = by_mfr.get(other_mfr, [])
+            category_matched = [c for c in existing if c.get("category") == category]
+            # Keep category-matched originals + new supplementary results
+            combined = category_matched + extra
+            # Deduplicate
+            seen = set()
+            deduped = []
+            for c in combined:
+                cid = c.get("id")
+                if cid not in seen:
+                    seen.add(cid)
+                    deduped.append(c)
+            by_mfr[other_mfr] = deduped[:slots_each]
 
     # If still only one manufacturer after supplementary, no interleaving needed
     if len(by_mfr) <= 1:
@@ -1356,6 +1374,68 @@ def _get_source_files_for_model(product_model: str) -> list[str]:
     return [sf for sf, _ in c.most_common()]
 
 
+def _sources_with_only_inactive_docs(source_files: list[str]) -> set[str]:
+    """Sources cuyos document_id conocidos están TODOS no-activos (s64, #46).
+
+    Pre-filtro de lifecycle para el universo de diversify: sin él, los sources
+    de docs superseded son "missing eternos" que queman slots del cap de fetch
+    (fetch→descarte) en cada query del producto. La identidad source→doc es
+    débil (puede haber mezcla de docs o chunks legacy bajo un mismo source) →
+    un source SOLO se excluye si ninguno de sus chunks es legacy (document_id
+    NULL) y todos sus docs resuelven a status ≠ 'active'; cualquier ambigüedad
+    lo deja pasar y el cinturón post-fetch (_filter_by_document_status) decide
+    por chunk. Fail-open: error de red → set() (no se excluye nada).
+    """
+    if not source_files:
+        return set()
+    headers = {
+        "apikey": SUPABASE_SERVICE_KEY,
+        "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
+    }
+    try:
+        quoted = ",".join('"' + sf.replace('"', '\\"') + '"' for sf in source_files)
+        with httpx.Client(timeout=5.0) as client:
+            resp = client.get(
+                f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
+                headers=headers,
+                params={
+                    "source_file": f"in.({quoted})",
+                    "select": "source_file,document_id",
+                    "limit": "5000",
+                },
+            )
+            resp.raise_for_status()
+        docids_by_source: dict[str, set] = {}
+        for r in resp.json():
+            sf = r.get("source_file")
+            if sf:
+                docids_by_source.setdefault(sf, set()).add(r.get("document_id"))
+        all_ids = {d for ids in docids_by_source.values() for d in ids if d}
+        if not all_ids:
+            return set()
+        id_list = ",".join(f'"{d}"' for d in all_ids)
+        with httpx.Client(timeout=5.0) as client:
+            resp2 = client.get(
+                f"{SUPABASE_URL}/rest/v1/documents",
+                headers=headers,
+                params={"id": f"in.({id_list})", "select": "id,status"},
+            )
+            resp2.raise_for_status()
+        status_by_id = {r["id"]: r.get("status") for r in resp2.json()}
+        out: set[str] = set()
+        for sf, ids in docids_by_source.items():
+            if None in ids:  # chunk legacy → el source no es excluible
+                continue
+            statuses = {status_by_id.get(d) for d in ids}
+            # doc no resuelto (None) → ambigüedad → no excluible (fail-open,
+            # espejo de _filter_by_document_status con doc inexistente)
+            if statuses and all(s is not None and s != "active" for s in statuses):
+                out.add(sf)
+        return out
+    except Exception:
+        return set()
+
+
 def _get_pm_for_sources(source_files: list[str]) -> dict[str, str]:
     """product_model dominante por source_file, en UN GET (pre-filtro de series
     en diversify — ciclo A s63, FINAL §1c-2). Fail-open: {} si la consulta
@@ -1486,6 +1566,7 @@ def _diversify_by_source_file(
     models: list[str],
     original_query: str,
     query_keywords: list[str] | None = None,
+    include_superseded: bool = False,
 ) -> list[dict]:
     """Guarantee at least one chunk per source_file when a product has
     multiple docs in corpus.
@@ -1554,19 +1635,42 @@ def _diversify_by_source_file(
 
         missing_sources = [sf for sf in missing_sources if _source_allowed(sf)]
 
+    # (s64, #46) PRE-FILTRO de lifecycle del universo: los sources cuyos docs
+    # están TODOS no-activos no queman slots del cap [:4] — misma lección que
+    # el pre-filtro de series §1c-2 (fetch→veto desperdicia el slot y los docs
+    # legítimos detrás del cap no se intentan). Identidad débil → solo se
+    # excluye lo inequívoco; el cinturón de abajo corrige por chunk.
+    if not include_superseded and missing_sources:
+        only_inactive = _sources_with_only_inactive_docs(missing_sources)
+        if only_inactive:
+            missing_sources = [sf for sf in missing_sources
+                               if sf not in only_inactive]
+
     seen_ids = {c.get("id") for c in chunks if c.get("id")}
+    supplementary: list[dict] = []
     for sf in missing_sources[:4]:
         extra = _fetch_top_chunks_by_source_file(sf, original_query, limit=2)
         # (s63 FINAL §1c-3) Cinturón post-fetch: el MISMO predicado del filtro
         # sobre los suplementos (sin fail-open — el pool principal ya está).
         if series_active:
             extra = [c for c in extra if _series.passes_nivel2(c, models)]
-        for c in extra:
-            c["similarity"] = 0.72  # competitive but won't override direct matches
-            cid = c.get("id")
-            if cid and cid not in seen_ids:
-                seen_ids.add(cid)
-                chunks.append(c)
+        supplementary.extend(extra)
+
+    # (s64, #46) Cinturón de LIFECYCLE sobre los suplementos ACUMULADOS (1 GET):
+    # los fetches frescos no pasaron por el Step 4b — sin esto, un doc
+    # superseded/needs_review re-entra al pool como suplemento 0.72 justo
+    # después de que 4b lo filtrara (variante lifecycle del patrón F1-r1 s63).
+    # Enriquece además document_revision (el generador cita revisión también
+    # en suplementos). Se omite con include_superseded (consistencia con 4b).
+    if not include_superseded and supplementary:
+        supplementary = _filter_by_document_status(supplementary)
+
+    for c in supplementary:
+        c["similarity"] = 0.72  # competitive but won't override direct matches
+        cid = c.get("id")
+        if cid and cid not in seen_ids:
+            seen_ids.add(cid)
+            chunks.append(c)
 
     # Re-sort by similarity
     chunks.sort(key=lambda c: c.get("similarity", 0), reverse=True)

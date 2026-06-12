@@ -125,9 +125,14 @@ _HEADERS = {"apikey": SUPABASE_SERVICE_KEY, "Authorization": f"Bearer {SUPABASE_
 
 
 def corpus_fingerprint() -> dict:
-    """count + max(created_at) de chunks_v2 — caza ingesta en la ventana de freeze.
-    Límite declarado: no detecta edits in-place (cláusula disciplinaria DEC-036e)."""
-    out = {"table": CHUNKS_TABLE, "count": None, "max_created_at": None}
+    """count + max(created_at) de chunks_v2 + dimensión LIFECYCLE (s64, #46) —
+    caza ingesta Y supersesiones/cambios de status en la ventana de freeze (el
+    corpus EFECTIVO que ve el retrieval puede cambiar sin tocar chunks_v2:
+    marcar un doc superseded lo saca de los pools con count/created_at
+    intactos). Límite declarado restante: no detecta edits in-place de content
+    (cláusula disciplinaria DEC-036e)."""
+    out = {"table": CHUNKS_TABLE, "count": None, "max_created_at": None,
+           "documents_status": None, "chunks_excluded_by_lifecycle": None}
     try:
         with httpx.Client(timeout=20.0) as c:
             r = c.get(f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
@@ -140,6 +145,30 @@ def corpus_fingerprint() -> dict:
                        params={"select": "created_at", "order": "created_at.desc", "limit": "1"})
             rows = r2.json()
             out["max_created_at"] = rows[0]["created_at"] if rows else None
+
+            # lifecycle: status de documents (paginado) + chunks excluidos en runtime
+            statuses: list[str] = []
+            offset = 0
+            while True:
+                page = c.get(f"{SUPABASE_URL}/rest/v1/documents", headers=_HEADERS,
+                             params={"select": "id,status", "limit": "1000",
+                                     "offset": str(offset)}).json()
+                statuses.extend((row.get("id"), row.get("status")) for row in page)
+                if len(page) < 1000:
+                    break
+                offset += 1000
+            from collections import Counter
+            out["documents_status"] = dict(Counter(s for _, s in statuses))
+            inactive_ids = [i for i, s in statuses if s != "active"]
+            n_excl = 0
+            for j in range(0, len(inactive_ids), 50):
+                id_list = ",".join(f'"{d}"' for d in inactive_ids[j:j + 50])
+                rx = c.get(f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
+                           headers={**_HEADERS, "Prefer": "count=exact", "Range": "0-0"},
+                           params={"select": "id", "document_id": f"in.({id_list})"})
+                crx = rx.headers.get("content-range", "*/0")
+                n_excl += int(crx.split("/")[-1]) if "/" in crx else 0
+            out["chunks_excluded_by_lifecycle"] = n_excl
     except Exception as e:
         out["error"] = str(e)[:200]
     return out
