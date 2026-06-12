@@ -1,0 +1,313 @@
+meta:
+  at: '2026-06-12T17:24:49'
+  git: 8112bd6
+  diseno: _s66_ce_regate_design.md (v2 post-dúo r1)
+  probes: s66_gate_probes.yaml (congeladas pre-paso-A, X1)
+  scope: CE-puro (sin L-i) — confirmado por Alberto
+  db_state:
+    match_chunks_v2:
+      proconfig:
+      - hnsw.ef_search=120
+      def_sha256_16: 68859165772e7159
+    search_chunks_text_v2:
+      proconfig: null
+      def_sha256_16: 516c97f85dcefde8
+    pgvector: 0.8.0
+    chunks_v2_count: 25090
+  corpus_fingerprint:
+    table: chunks_v2
+    count: 25090
+    max_created_at: '2026-06-09T19:15:25.848279+00:00'
+    documents_status:
+      active: 998
+      needs_review: 79
+      retired: 90
+      superseded: 3
+    chunks_excluded_by_lifecycle: 262
+  registry_fingerprint: 0bd1d3e979dc5147
+veredicto: GO
+paradas: null
+d1:
+  unanimes:
+    cat010:
+      via1_overlap: 5/3
+      via1: true
+      llm_votos: &id001
+      - 3
+      via2: true
+      fail_both: false
+      detalle_via2:
+        h1_alimentacion: true
+        h2_parametros_si: true
+    cat014:
+      via1_overlap: 4/3
+      via1: true
+      llm_votos: &id002
+      - 3
+      via2: true
+      fail_both: false
+      detalle_via2:
+        h1_vida_util: true
+    cat015:
+      via1_overlap: 4/3
+      via1: true
+      llm_votos: &id003
+      - 3
+      via2: null
+      fail_both: false
+    cat022:
+      via1_overlap: 4/3
+      via1: true
+      llm_votos: &id004
+      - 3
+      via2: true
+      fail_both: false
+      detalle_via2:
+        h1_L_ir_25_30: true
+        h2_L4_45: true
+        h3_sufijo_B_BIT: true
+    hp015:
+      via1_overlap: 4/3
+      via1: true
+      llm_votos: &id005
+      - 2
+      - 1
+      via2: true
+      fail_both: false
+      detalle_via2:
+        h1_convencional: true
+        h2_desconexion_zona: true
+        h3_32_detectores: true
+    hp019:
+      via1_overlap: 4/3
+      via1: true
+      llm_votos: &id006
+      - 3
+      via2: true
+      fail_both: false
+      detalle_via2:
+        h1_rango_temp: true
+  n_fail_both: 0
+  indecidibles: null
+  cat015_escalado: false
+  regla: '>=2 fail-both NO-GO; ==1 presentación; 1/1/1 → vía-2 manda; indecidible/escalado → presentación (nunca
+    silencio)'
+d2:
+  branch_hp001: INFORMATIVA
+  movers:
+    cat012:
+      perdida_atribuible: false
+      detalle:
+        h1_factor_12:
+          en_pool: true
+          en_vista_llm: true
+          en_vista_ce: true
+          perdido_atribuible: false
+          ganancia_ce: false
+          ausencia_compartida: false
+        h2_reposo_alarma:
+          en_pool: true
+          en_vista_llm: true
+          en_vista_ce: true
+          perdido_atribuible: false
+          ganancia_ce: false
+          ausencia_compartida: false
+        h3_consumos_cpu:
+          en_pool: true
+          en_vista_llm: true
+          en_vista_ce: true
+          perdido_atribuible: false
+          ganancia_ce: false
+          ausencia_compartida: false
+        h4_capacidad_max:
+          en_pool: true
+          en_vista_llm: true
+          en_vista_ce: true
+          perdido_atribuible: false
+          ganancia_ce: false
+          ausencia_compartida: false
+      informativo: null
+    cat018:
+      perdida_atribuible: false
+      detalle:
+        h1_cbe_definicion:
+          en_pool: true
+          en_vista_llm: true
+          en_vista_ce: true
+          perdido_atribuible: false
+          ganancia_ce: false
+          ausencia_compartida: false
+        h4_sintaxis_apendice:
+          en_pool: true
+          en_vista_llm: true
+          en_vista_ce: true
+          perdido_atribuible: false
+          ganancia_ce: false
+          ausencia_compartida: false
+      informativo:
+        h2_menu_programacion:
+          en_vista_llm: false
+          en_vista_ce: false
+        h3_salida_asociacion:
+          en_vista_llm: false
+          en_vista_ce: false
+  n_perdidas_atribuibles: 0
+  hp001_informativa:
+    h1_candado:
+      en_pool: true
+      en_vista_llm: true
+      en_vista_ce: true
+    h2_clave_admin:
+      en_pool: false
+      en_vista_llm: false
+      en_vista_ce: false
+  regla: '>=1 gold con pérdida ATRIBUIBLE (en-pool ∧ en-vista-LLM ∧ ¬en-vista-CE) → NO-GO (X3); ausencias compartidas
+    se reportan'
+informativas:
+  swap_aislado_ce_vs_llm_modal:
+    n_distintos: 35
+    distintos:
+    - cat001
+    - cat005
+    - cat007
+    - cat008
+    - cat009
+    - cat011
+    - cat012
+    - cat015
+    - cat016
+    - cat017
+    - cat018
+    - cat019
+    - cat020
+    - cat021
+    - cat022
+    - cat023
+    - cat024
+    - hp001
+    - hp002
+    - hp003
+    - hp005
+    - hp006
+    - hp007
+    - hp008
+    - hp009
+    - hp010
+    - hp011
+    - hp012
+    - hp013
+    - hp014
+    - hp015
+    - hp017
+    - hp018
+    - hp019
+    - hp020
+  top5_ce_chunks_sim_sub04: {}
+  pool_a_50_corte_activo:
+  - cat019
+  - cat022
+  - hp012
+  llm_votos:
+    cat001:
+    - 3
+    cat005:
+    - 3
+    cat007:
+    - 3
+    cat008:
+    - 3
+    cat009:
+    - 3
+    cat010: *id001
+    cat011:
+    - 3
+    cat012:
+    - 3
+    cat013:
+    - 3
+    cat014: *id002
+    cat015: *id003
+    cat016:
+    - 3
+    cat017:
+    - 3
+    cat018:
+    - 1
+    - 1
+    - 1
+    cat019:
+    - 3
+    cat020:
+    - 2
+    - 1
+    cat021:
+    - 2
+    - 1
+    cat022: *id004
+    cat023:
+    - 2
+    - 1
+    cat024:
+    - 3
+    hp001:
+    - 3
+    hp002:
+    - 3
+    hp003:
+    - 3
+    hp004:
+    - 3
+    hp005:
+    - 2
+    - 1
+    hp006:
+    - 3
+    hp007:
+    - 3
+    hp008:
+    - 2
+    - 1
+    hp009:
+    - 2
+    - 1
+    hp010:
+    - 2
+    - 1
+    hp011:
+    - 3
+    hp012:
+    - 2
+    - 1
+    hp013:
+    - 3
+    hp014:
+    - 1
+    - 1
+    - 1
+    hp015: *id005
+    hp017:
+    - 3
+    hp018:
+    - 3
+    hp019: *id006
+    hp020:
+    - 3
+  llm_inestables_1_1_1:
+  - cat018
+  - hp014
+  llm_padded_golds:
+  - cat015
+  - hp013
+  cat014_paridad_short_circuit: true
+  n_llamadas:
+    ce: 77
+    llm: 105
+  latencia_rerank_s:
+    ce:
+      p50: 0.428
+      p95: 0.842
+      n: 78
+    llm:
+      p50: 2.062
+      p95: 2.864
+      n: 117
