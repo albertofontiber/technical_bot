@@ -1,0 +1,207 @@
+meta:
+  at: '2026-06-12T11:07:05'
+  git: 87b282f
+  spec: evals/s63_gate_spec.yaml
+  n_queries: 42
+  corpus_fingerprint:
+    start:
+      table: chunks_v2
+      count: 25090
+      max_created_at: '2026-06-09T19:15:25.848279+00:00'
+    end:
+      table: chunks_v2
+      count: 25090
+      max_created_at: '2026-06-09T19:15:25.848279+00:00'
+  embed_cache: C:\Users\Admin\OneDrive - fontiber com\Documents\Claude\Technical Bot\evals\s63_embed_cache.json
+veredicto:
+  GO_al_AB: true
+pairing:
+  identicos:
+  - cat001
+  - cat005
+  - cat007
+  - cat008
+  - cat009
+  - cat010
+  - cat011
+  - cat013
+  - cat014
+  - cat015
+  - cat016
+  - cat017
+  - cat019
+  - cat020
+  - cat021
+  - cat022
+  - cat023
+  - cat024
+  - hp001
+  - hp002
+  - hp003
+  - hp004
+  - hp005
+  - hp006
+  - hp007
+  - hp008
+  - hp009
+  - hp010
+  - hp011
+  - hp012
+  - hp013
+  - hp014
+  - hp015
+  - hp017
+  - hp018
+  - hp019
+  - hp020
+  - probe:g6_am8200g
+  cambiados:
+  - cat012
+  - cat018
+  - probe:d2_cad201
+  - probe:g6_cad171
+  cambiados_golds_para_AB:
+  - cat012
+  - cat018
+  reclasificados_dado_de_red: {}
+G1:
+  PASS: true
+  fallos_solo_en_tratamiento: []
+  detalle:
+    cat010:
+      h1_alimentacion:
+        control: true
+        treatment: true
+      h2_parametros_si:
+        control: true
+        treatment: true
+    cat014:
+      h1_vida_util:
+        control: true
+        treatment: true
+    cat015: sin-anclas (cubierto por G4)
+    cat022:
+      h1_L_ir_25_30:
+        control: true
+        treatment: true
+      h2_L4_45:
+        control: true
+        treatment: true
+      h3_sufijo_B_BIT:
+        control: true
+        treatment: true
+    hp015:
+      h1_convencional:
+        control: true
+        treatment: true
+      h2_desconexion_zona:
+        control: true
+        treatment: true
+      h3_32_detectores:
+        control: true
+        treatment: true
+    hp019:
+      h1_rango_temp:
+        control: true
+        treatment: true
+G2:
+  aplica: true
+  n_hermanos_en_pool: 0
+  tabla_retenida:
+    h2_reposo_alarma: true
+    h3_consumos_cpu: true
+    h4_capacidad_max: true
+  h1_debil_informativa: true
+  PASS: true
+G3:
+  aplica: true
+  n_shared_en_control: 0
+  n_shared_en_treatment: 3
+  shared_sources_t:
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - CAD-250_Manual-software-configuracion-MS-416-es-2026-b
+  n_shared_con_candado: 1
+  info_2222: true
+  PASS: true
+G4:
+  PASS: true
+  violaciones: []
+G5:
+  cat012:
+    n_off_on:
+    - 28
+    - 9
+    pm_off:
+      AM-8200G: 15
+      AM-8200: 9
+      AM-8200N: 4
+    pm_on:
+      AM-8200: 9
+    perdidos: 19
+    ganados_sources: []
+  cat018:
+    n_off_on:
+    - 50
+    - 19
+    pm_off:
+      AM-8200G: 12
+      AM-8200N: 19
+      AM-8200: 19
+    pm_on:
+      AM-8200: 19
+    perdidos: 31
+    ganados_sources: []
+  probe:d2_cad201:
+    n_off_on:
+    - 17
+    - 20
+    pm_off:
+      CAD-201: 17
+    pm_on:
+      CAD-201: 17
+      CAD-250: 3
+    perdidos: 0
+    ganados_sources:
+    - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+    - CAD-250_Manual-software-configuracion-MS-416-es-2026-b
+  probe:g6_cad171:
+    n_off_on:
+    - 15
+    - 19
+    pm_off:
+      CAD-171: 15
+    pm_on:
+      CAD-171: 15
+      CAD-250: 4
+    perdidos: 0
+    ganados_sources:
+    - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+    - CAD-250_Manual-software-configuracion-MS-416-es-2026-b
+G6:
+  am8200g:
+    n: 8
+    pms:
+    - am8200g
+    PASS: true
+  cad171:
+    n: 19
+    pm_counts:
+      CAD-171: 15
+      CAD-250: 4
+    PASS: true
+G7:
+  PASS: true
+  perdidas_no_explicadas: []
+G8:
+  control_fingerprint: disabled
+  treatment_fingerprint: 0bd1d3e979dc5147
+  treatment_stats:
+    n_series: 2
+    n_members: 6
+    n_shared: 2
+  PASS: true
+E3:
+  STOP: false
+  perdidas_en_control_vs_s58: []
+  golds_afectados: []
+  instrumento_dudoso: []
