@@ -6,9 +6,11 @@ Cubren el contrato del FINAL §1b/1d:
   veto de hermanos (d1), nivel-1 para modelos sin serie
 - loader fail-open: yaml roto, entradas malformadas, colisiones (descartan ambas),
   flag off, fingerprint estable
-- VALIDACIÓN DURA de la población real (cuando exista): evidence presente.
+- VALIDACIÓN DURA de la población real (cuando exista): evidence presente +
+  resolución de shared_docs contra el corpus (integración, requiere DB).
 """
 import logging
+import os
 
 import pytest
 
@@ -311,3 +313,42 @@ def test_poblacion_real_evidence_obligatorio():
                     problemas.append(
                         f"{path.name}: shared_doc {item['source_file']} sin evidence")
     assert not problemas, "\n".join(problemas)
+
+
+@pytest.mark.skipif(not os.getenv("SUPABASE_URL"), reason="integración: requiere DB")
+def test_poblacion_real_shared_docs_resuelven_en_corpus(monkeypatch):
+    """FINAL §1d (anti-secuestro): cada shared_doc de la población REAL existe en
+    chunks_v2 (≥1 chunk) y TODOS sus chunks llevan product_model de la propia
+    serie. Caza typos de source_file y aperturas cross-marca. Re-correr tras
+    cada ingesta que renombre docs (contrato del workflow de ingesta)."""
+    import httpx
+    monkeypatch.delenv("SERIES_REGISTRY_ENABLED", raising=False)
+    sr.reset_registry_cache()      # fuerza la población real (config/manufacturers)
+    try:
+        url = os.environ["SUPABASE_URL"]
+        key = os.environ["SUPABASE_SERVICE_KEY"]
+        h = {"apikey": key, "Authorization": f"Bearer {key}"}
+        problemas: list[str] = []
+        for serie in sr._get().series:
+            for sf in serie.shared_sources:
+                # La población de series es del corpus v2 (DEC-043) — tabla explícita.
+                r = httpx.get(
+                    f"{url}/rest/v1/chunks_v2", headers=h, timeout=15.0,
+                    params={"source_file": f"eq.{sf}",
+                            "select": "product_model", "limit": "500"},
+                )
+                r.raise_for_status()
+                rows = r.json()
+                if not rows:
+                    problemas.append(f"{serie.name}: '{sf}' NO resuelve en chunks_v2")
+                    continue
+                pms = {x.get("product_model") or "" for x in rows}
+                ajenos = {pm for pm in pms
+                          if not serie.owners(sr.normalize_model(pm))}
+                if ajenos:
+                    problemas.append(
+                        f"{serie.name}: '{sf}' tiene chunks con pm fuera de la serie: "
+                        f"{sorted(ajenos)}")
+        assert not problemas, "\n".join(problemas)
+    finally:
+        sr.reset_registry_cache()

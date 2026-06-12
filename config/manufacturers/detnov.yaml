@@ -27,3 +27,25 @@ model_prefixes:
 folder_hints:
 - firebeam
 - signaline
+# Series producto<->familia para retrieval (ciclo A s63 — DEC-043; la consume
+# src/rag/series_registry.py, el loader de ingesta la ignora).
+series:
+- name: Vesta
+  members: [CAD-171, CAD-201, CAD-250]
+  evidence: >-
+    DEC-032 + curación Alberto s63. Cada member tiene manual PROPIO de
+    instalación+usuario que NO cruza: CAD-250 = MI-372/MU-376 (solo 250);
+    CAD-201 = MI-715 (portada verificada chunks_v2: "MANUAL DE INSTALACIÓN Y
+    USUARIO CAD-201 — CAD-201, CAD-201-PLUS, CAD-201-Z y CAD-201-ZPLUS");
+    CAD-171 = MI-716 (ídem, instalación y usuario).
+  shared_docs:
+  - source_file: "CAD-250_Manual-Configuracion-MC-380-es-2026-c"
+    evidence: >-
+      Manual de configuración de la SERIE — control de revisiones (p2, verificado
+      chunks_v2 s63): rev c = "Adaptación para CAD-171 y CAD-201", 23/04/2026.
+      Edición VIGENTE frente a CAD-250-MC-380-es (rev b, 16/06/2020), que queda
+      fuera del registry (candidata a superseded post-A/B).
+  # MS-416 (software de configuración): NO entra de momento — las dos copias en
+  # corpus son la MISMA rev "a" (jun 2020, anterior a 171/201; duplicado de
+  # ingesta, candidato a superseded post-A/B). Pendiente confirmación Alberto de
+  # si el software aplica a 171/201; si sí, añadir aquí la copia que se conserve.

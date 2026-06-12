@@ -22,3 +22,21 @@ model_prefixes:
 - MNDT
 - MADT
 - MCDT
+# Series producto<->familia para retrieval (ciclo A s63 — DEC-043; la consume
+# src/rag/series_registry.py, el loader de ingesta la ignora).
+series:
+- name: AM-8200
+  members: [AM-8200, AM-8200G, AM-8200N]
+  evidence: >-
+    Audit s62 (J_doc 0.001-0.032: tres manuales de instalación independientes,
+    productos hermanos) + curación Alberto s63: el manual de usuario/programación
+    del base ("AM-8200-manu-prog-spa") es SOLO del base (la 8200N es una central
+    más avanzada); el de usuario/programación del N es solo del N; la 8200G solo
+    tiene manual de instalación en corpus (responder desde él; sin doc de usuario
+    propio = gap honesto, no rellenar con docs de hermanos). UCIP MODBUS y
+    HONEYWELL-GTW Integración: asumido solo-base (Alberto: "no está claro").
+    AM-LCD: panel remoto para AM-8200N y AM-8100 (manual p3, verificado
+    chunks_v2) — no cruza a base/G, se queda bajo pm=AM-8200N. PK-8200 y
+    LCD-8200: periféricos SOLO del base (existe PK8200G aparte para la G);
+    sin daño medido en retrieval, fuera del registry.
+  # Sin shared_docs: ningún doc de la familia cruza entre members (curación s63).
