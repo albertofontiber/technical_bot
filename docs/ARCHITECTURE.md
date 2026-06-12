@@ -47,8 +47,10 @@
 > no-unánimes) queda como defecto de producto declarado. **Baseline VIGENTE del ruler =
 > `s67base`** (re-freeze 12 jun: 10/39 PASS-control · 5 unánimes · 4 K-INESTABLES);
 > frozen-s58 = histórico. Los freezes/gates corren con `EMBED_CACHE_PATH` (pin de
-> embeddings, DEC-048c). Ventana de freeze: **CERRADA** → la ingesta grande se desbloquea
-> tras #44/#45 + contrato de identidad EN ingesta (PLAN punto 1).
+> embeddings, DEC-048c). Ventana de freeze: **CERRADA**. La ingesta grande queda
+> **DIFERIDA demand-driven** (DEC-049: las 31 marcas = las de uso frecuente de los
+> técnicos; la meta 30+ fabricantes sigue, en fase posterior); el siguiente ciclo es el
+> **canal vectorial** (PLAN punto 1 re-priorizado).
 >
 > ⚠️ **Caveat s60 a este doc (TECH_DEBT #44/#45):** las secciones que describen el filtro por
 > categoría y la entrega de **diagramas** (§§ flujo/ingesta — "adjunta diagrama", canal
