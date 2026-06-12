@@ -65,8 +65,11 @@ F_BASE_GEN = EVALS / "s67base_generations.json"
 F_CE_GEN = EVALS / "s67ce_generations.json"
 F_BASE_JUD = EVALS / "s67base_judgments.json"
 F_CE_JUD = EVALS / "s67ce_judgments.json"
-F_GATE_RERANKS = EVALS / "s66_gate_reranks.json"
-F_GATE_POOLS = EVALS / "s66_gate_pools.json"
+# GATE_RUN_ID: tras el re-gate X2 (drift de embeddings detectado por el assert (i) el
+# 12-jun), la referencia del A/B es el re-gate s67 (pools del MISMO embed-cache).
+GATE_RUN = os.environ.get("GATE_RUN_ID", "s66")
+F_GATE_RERANKS = EVALS / f"{GATE_RUN}_gate_reranks.json"
+F_GATE_POOLS = EVALS / f"{GATE_RUN}_gate_pools.json"
 F_PAIRING = EVALS / "s67_pairing.yaml"
 F_REPORT = EVALS / "s67_ab_report.yaml"
 
