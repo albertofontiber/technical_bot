@@ -1,0 +1,33 @@
+ts: '2026-06-12T12:45:35'
+git: d242410
+checks:
+  hechos_gold_en_sucesor_mc380c:
+    cat019:
+      hits_por_keyword:
+        maniobra: 50
+        coincidencias: 6
+        '100.000': 1
+        sectorizac: 50
+      missing: []
+    hp001:
+      hits_por_keyword:
+        candado: 1
+        '2222': 1
+      missing: []
+  hp001_mitigacion_mi372:
+    candado: 0
+    '2222': 0
+  cobertura_secciones_ms416:
+    titulos_viejo: 60
+    titulos_no_cubiertos:
+    - condiciones de uso
+    - confirmacion de reset
+    - control de revisiones
+    - maniobras window
+    - menus del programa de configuracion
+    - tipo de lapso de tiempo
+    cobertura: 0.9
+    umbral_prereg: 0.75
+  shingle_coverage_informativa:
+    viejo_en_nuevo: 0.617
+verdict: GO

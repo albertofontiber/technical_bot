@@ -165,9 +165,28 @@ def test_filtro_flag_off_byte_a_byte(series_registry, monkeypatch):
 # _diversify_by_source_file — discovery + pre-filtro + cinturón
 # ===========================================================================
 
+class _DivMocks(list):
+    """Lista de sources fetcheados (compat con los tests existentes) + controles
+    de lifecycle (s64, #46): `doc_status` (document_id→status, default active),
+    `docid_by_source` (visible para pre-filtro Y fetch) y `fetch_docid`
+    (visible SOLO para el fetch — simula la ambigüedad source→doc que el
+    pre-filtro no resuelve y que el cinturón corrige por chunk)."""
+
+    def __init__(self):
+        super().__init__()
+        self.doc_status: dict[str, str] = {}
+        self.docid_by_source: dict[str, str] = {}
+        self.fetch_docid: dict[str, str] = {}
+
+
 @pytest.fixture
 def diversify_mocks(monkeypatch):
-    """Helpers DB parcheados con un mini-corpus AM-8200 + Vesta."""
+    """Helpers DB parcheados con un mini-corpus AM-8200 + Vesta.
+
+    s64 (#46): también parchea `_filter_by_document_status` y
+    `_sources_with_only_inactive_docs` — sin esto, el fix de lifecycle haría
+    GETs httpx REALES desde los tests (chunks fake sin document_id → Step A
+    lookup contra la DB; verdes por fail-open pero no-herméticos — F4 r1)."""
     sources_by_model = {
         "AM-8200": [
             "AM-8200N manual de usuario y programacion rev 3 30-10-2024",  # hermano (120ch)
@@ -193,7 +212,7 @@ def diversify_mocks(monkeypatch):
         "Manual_CAD-201-MI-715-es": "CAD-201",
         "CAD-250-MC-380-es": "CAD-250",
     }
-    fetched: list[str] = []
+    fetched = _DivMocks()
 
     def fake_sources(model):
         return list(sources_by_model.get(model, []))
@@ -204,12 +223,29 @@ def diversify_mocks(monkeypatch):
     def fake_fetch(source_file, query, limit=2):
         fetched.append(source_file)
         pm = pm_by_source.get(source_file, "X")
+        did = fetched.docid_by_source.get(source_file) or \
+            fetched.fetch_docid.get(source_file)
         return [{"id": f"extra-{source_file[:18]}-{i}", "product_model": pm,
-                 "source_file": source_file, "content": "x"} for i in range(limit)]
+                 "source_file": source_file, "content": "x",
+                 "document_id": did} for i in range(limit)]
+
+    def fake_filter_by_status(chunks):
+        # Réplica de las reglas reales: document_id NULL → keep (legacy);
+        # status != active → drop; lo demás → keep.
+        return [c for c in chunks
+                if c.get("document_id") is None
+                or fetched.doc_status.get(c["document_id"], "active") == "active"]
+
+    def fake_only_inactive(sfs):
+        return {sf for sf in sfs
+                if (did := fetched.docid_by_source.get(sf)) is not None
+                and fetched.doc_status.get(did, "active") != "active"}
 
     monkeypatch.setattr(retriever, "_get_source_files_for_model", fake_sources)
     monkeypatch.setattr(retriever, "_get_pm_for_sources", fake_pm_for_sources)
     monkeypatch.setattr(retriever, "_fetch_top_chunks_by_source_file", fake_fetch)
+    monkeypatch.setattr(retriever, "_filter_by_document_status", fake_filter_by_status)
+    monkeypatch.setattr(retriever, "_sources_with_only_inactive_docs", fake_only_inactive)
     return fetched
 
 
@@ -285,6 +321,95 @@ def test_diversify_sin_series_comportamiento_historico(empty_registry, diversify
     # el comportamiento actual: el doc del hermano (más chunks) SÍ se fetchea
     assert "AM-8200N manual de usuario y programacion rev 3 30-10-2024" in fetched
     assert any(c["product_model"] == "AM-8200N" for c in result)
+
+
+# ===========================================================================
+# lifecycle en diversify (s64, #46): pre-filtro + cinturón + contrato del flag
+# ===========================================================================
+
+def test_diversify_lifecycle_prefiltro_no_quema_slots(series_registry, diversify_mocks):
+    """s64 #46: un source cuyo doc está superseded sale del universo de
+    missing_sources (no se fetchea → no quema slot del cap [:4]) y el slot
+    va al siguiente doc legítimo."""
+    m = diversify_mocks
+    m.docid_by_source["AM-8200-manu-prog-spa"] = "doc-sup"
+    m.doc_status["doc-sup"] = "superseded"
+    pool = [
+        _c("1", "AM-8200", "AM-8200 Manual Instalacion", 0.9),
+        _c("2", "AM-8200", "AM-8200 Manual Instalacion", 0.85),
+        _c("3", "AM-8200", "AM-8200 Manual Instalacion", 0.8),
+    ]
+    result = _diversify_by_source_file(pool, top_k=10, models=["AM-8200"],
+                                       original_query="consumo baterías AM-8200")
+    assert "AM-8200-manu-prog-spa" not in m          # ni siquiera se fetcheó
+    assert "UCIP MODBUS AM8200 V5.1" in m            # el slot fue a un legítimo
+    assert all(c["source_file"] != "AM-8200-manu-prog-spa" for c in result)
+
+
+def test_diversify_lifecycle_cinturon_filtra_suplemento(series_registry, diversify_mocks):
+    """s64 #46 (X4 r2): si el pre-filtro no resuelve el source (identidad
+    débil), el chunk fetcheado con document_id no-activo cae en el cinturón."""
+    m = diversify_mocks
+    m.doc_status["doc-mix"] = "superseded"
+    m.fetch_docid["AM-8200-manu-prog-spa"] = "doc-mix"   # invisible al pre-filtro
+    pool = [
+        _c("1", "AM-8200", "AM-8200 Manual Instalacion", 0.9),
+        _c("2", "AM-8200", "AM-8200 Manual Instalacion", 0.85),
+        _c("3", "AM-8200", "AM-8200 Manual Instalacion", 0.8),
+    ]
+    result = _diversify_by_source_file(pool, top_k=10, models=["AM-8200"],
+                                       original_query="q")
+    assert "AM-8200-manu-prog-spa" in m              # el fetch SÍ ocurrió...
+    # ...pero el suplemento del doc superseded NO entró al pool:
+    assert all(c["source_file"] != "AM-8200-manu-prog-spa" for c in result)
+
+
+def test_diversify_lifecycle_include_superseded_respeta_contrato(
+        series_registry, diversify_mocks):
+    """s64 #46 (X2 r2): con include_superseded=True NI el pre-filtro NI el
+    cinturón se aplican — los suplementos no pueden ser más estrictos que el
+    pool principal (que con el flag tampoco filtra 4b)."""
+    m = diversify_mocks
+    m.docid_by_source["AM-8200-manu-prog-spa"] = "doc-sup"
+    m.doc_status["doc-sup"] = "superseded"
+    pool = [
+        _c("1", "AM-8200", "AM-8200 Manual Instalacion", 0.9),
+        _c("2", "AM-8200", "AM-8200 Manual Instalacion", 0.85),
+        _c("3", "AM-8200", "AM-8200 Manual Instalacion", 0.8),
+    ]
+    result = _diversify_by_source_file(pool, top_k=10, models=["AM-8200"],
+                                       original_query="q", include_superseded=True)
+    assert "AM-8200-manu-prog-spa" in m              # se fetcheó
+    assert any(c["source_file"] == "AM-8200-manu-prog-spa" for c in result)  # y entró
+
+
+def test_diversify_manufacturer_cinturon_lifecycle(monkeypatch):
+    """s64 #46: el path de queries genéricas (5b) también pasa sus suplementos
+    por el cinturón de lifecycle — batch único para todos los fabricantes."""
+    from src.rag.retriever import _diversify_by_manufacturer
+
+    def fake_search(query, mfr, category, limit=2, precomputed_embedding=None):
+        return [{"id": f"x-{mfr}-{i}", "manufacturer": mfr, "category": "cat",
+                 "source_file": f"doc-{mfr}", "similarity": 0.5,
+                 "document_id": f"doc-{mfr}"} for i in range(limit)]
+
+    statuses = {"doc-Detnov": "superseded"}  # Notifier activo, Detnov superseded
+
+    def fake_filter(chunks):
+        return [c for c in chunks
+                if statuses.get(c.get("document_id"), "active") == "active"]
+
+    monkeypatch.setattr(retriever, "_get_all_known_manufacturers",
+                        lambda: ["Detnov", "Notifier"])
+    monkeypatch.setattr(retriever, "_vector_search_by_manufacturer", fake_search)
+    monkeypatch.setattr(retriever, "_filter_by_document_status", fake_filter)
+
+    pool = [{"id": "a", "manufacturer": "Morley", "category": "cat",
+             "source_file": "m1", "similarity": 0.9}]
+    result = _diversify_by_manufacturer(pool, top_k=8, original_query="q genérica")
+    mfrs = {c.get("manufacturer") for c in result}
+    assert "Notifier" in mfrs                        # suplemento activo entró
+    assert "Detnov" not in mfrs                      # superseded filtrado
 
 
 def test_content_keywords_filtra_identidad():

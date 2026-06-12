@@ -1,0 +1,28 @@
+ts: '2026-06-12T13:02:09'
+git: fbdd356
+steps:
+- step: insert_mc380_c
+  id: 348c4ec1-210a-441a-9ce7-02014a51f26d
+  supersedes_id: bc6bdd33-72e6-4054-9ce4-60583be4b5c4
+- step: insert_ms416_2026
+  id: 23f0e4d2-5fd6-4f7c-992c-82584f311745
+  supersedes_id: 03b1ccf6-10cc-43a3-9041-4a2d42be0bc2
+- step: link_chunks_mc380_c
+  document_id: 348c4ec1-210a-441a-9ce7-02014a51f26d
+  n: 136
+- step: link_chunks_ms416_2026
+  document_id: 23f0e4d2-5fd6-4f7c-992c-82584f311745
+  n: 88
+- step: supersede
+  old_id: 43f4091d-1e7c-46b5-a8e9-a767ae3656a9
+  superseded_by_id: 27dec7c7-4277-41a8-891a-a3ada52eeb7a
+- step: supersede
+  old_id: bc6bdd33-72e6-4054-9ce4-60583be4b5c4
+  superseded_by_id: 348c4ec1-210a-441a-9ce7-02014a51f26d
+- step: supersede
+  old_id: 03b1ccf6-10cc-43a3-9041-4a2d42be0bc2
+  superseded_by_id: 23f0e4d2-5fd6-4f7c-992c-82584f311745
+- step: mad472_v2_supersedes
+  id: 27dec7c7-4277-41a8-891a-a3ada52eeb7a
+  supersedes_id: 43f4091d-1e7c-46b5-a8e9-a767ae3656a9
+result: OK

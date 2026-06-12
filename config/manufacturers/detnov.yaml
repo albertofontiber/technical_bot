@@ -43,14 +43,17 @@ series:
     evidence: >-
       Manual de configuración de la SERIE — control de revisiones (p2, verificado
       chunks_v2 s63): rev c = "Adaptación para CAD-171 y CAD-201", 23/04/2026.
-      Edición VIGENTE frente a CAD-250-MC-380-es (rev b, 16/06/2020), que queda
-      fuera del registry (candidata a superseded post-A/B).
+      Edición VIGENTE frente a CAD-250-MC-380-es (rev b, 16/06/2020), marcada
+      superseded en s64 (#46; cadena en documents, cobertura de hechos-gold
+      verificada en el sucesor antes de firmar).
   - source_file: "CAD-250_Manual-software-configuracion-MS-416-es-2026-b"
     evidence: >-
       Software de configuración de la SERIE — versión 2026 multi-central,
       verificado chunks_v2 s63: p12 "VESTA ... incluye en las versiones de la
       CAD-250, CAD-171 y CAD-201"; p8 referencia los manuales MI-715/716 (2026).
-      Confirmado por Alberto (sustituye a CAD-250-MS-416-es, solo-250, que queda
-      fuera — candidata a superseded post-A/B). OJO: la tabla "control de
-      revisiones" DENTRO de este PDF está desactualizada por Detnov (solo fila
-      "a" de 2020) — la vigencia se ancla en el contenido, no en esa tabla.
+      Confirmado por Alberto (sustituye a CAD-250-MS-416-es, solo-250, marcado
+      superseded en s64 — #46; cobertura de secciones viejo→nuevo 90% verificada).
+      OJO: la tabla "control de revisiones" DENTRO de este PDF está desactualizada
+      por Detnov (solo fila "a" de 2020) — la vigencia se ancla en el contenido,
+      no en esa tabla. s64: el PDF del portal (ambas páginas de producto) sigue
+      siendo byte-idéntico a lo ingestado (sha e1985c3d…, verificado 12-jun).

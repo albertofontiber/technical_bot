@@ -3,9 +3,9 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 12 jun 2026 (s63, DEC-044 — CICLO A SHIPPED, PR #70: registry de series + filtro de 3
-> niveles + diversify corregido EN PROD; dev Δ_net=+2 [cat012 y cat018 a PASS]; held-out
-> corrida única DÉBIL-aceptada por Alberto).
+> 12 jun 2026 (s64, DEC-045 — lifecycle #46 CERRADO: contrato de supersesión poblado [3
+> cadenas] + fix de re-entrada en diversify; la re-ingesta del MS-416 quedó SIN MATERIA
+> [claim s63 refutada por SHA]; ventana de freeze CERRADA).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -24,57 +24,52 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s63 — 12 jun 2026)
+## Estado actual (s64 — 12 jun 2026)
 
-**s63 (DEC-044): CICLO A SHIPPED (PR #70, mergeado por Alberto).** El registry de series
-(`config/manufacturers/*.yaml`, seam s55, cero DDL) + el filtro de 3 niveles + diversify
-corregido están **EN PROD** (flag `SERIES_REGISTRY_ENABLED`, default ON; kill-switch en Railway
-sin redeploy). Cierra la capa A de #43 en ambas direcciones: d1 (la query del base ya no
-arrastra hermanos — cat012) y d2 (la variante VE los docs de serie — fetch dirigido en
-diversify). Medido con el esquema pre-registrado (`evals/s63_gate_spec.yaml`): **gate G1-G8
-GO** (cat012 pool 28→9 100% producto correcto; 38/42 queries byte-a-byte invariantes) →
-**A/B dual-arm con pairing K=5: SHIP Δ_net=+2** (cat012 PARCIAL→PASS · cat018 FALLO→PASS ·
-0 regresiones · 37/39 Δ:=0 estructural) → **held-out corrida ÚNICA (cláusula R, 1ª ejecución):
-DÉBIL Δ=0 ACEPTADO por Alberto** (11/12 idénticos; ho008/CAD-171 modal IGUAL con la vista
-ganando los docs de serie; 0 fabricaciones). Población curada por Alberto con `evidence:`
-anclada en chunks_v2 (AM-8200 sin shared; Vesta con MC-380 rev-c + MS-416-2026 vigentes).
-Dúo ×2 rondas frescas (36 findings, 0 FP netos); lección #33 al log de bias (la vigencia de un
-doc se ancla en contenido, no en su tabla de revisiones interna — corrección de Alberto).
-Instrumentos nuevos reutilizables: embed-cache por par (`EMBED_CACHE_PATH`), pairing por pool,
-`INCLUDE_HELDOUT`, convergencia anti-dado-de-red. Narración en HISTORY; mecánica en DEC-044.
+**s64 (DEC-045): lifecycle #46 CERRADO.** El contrato de supersesión está **POBLADO por
+primera vez** (3 cadenas: MAD-472 V1→V2 · MC-380 rev-b→rev-c · MS-416 2020→2026, con
+status='superseded' + punteros; los 2 sucesores Detnov ganaron fila de identidad en
+`documents` y sus 224 chunks quedaron enlazados → el generador ahora **cita 'rev c'**).
+Guardarraíl pre-registrado completo: precheck de hechos-gold GO + pools before/after 39 dev
+(C1: 0 docs viejos en pools; C3: 36/36 no-afectados byte-idénticos; cat024 pool 4→7) + smoke
+del path real. **Fix estructural colateral**: los suplementos de diversify NO pasaban por el
+lifecycle filter (re-entraban docs needs_review/superseded post-4b) → pre-filtro de universo
++ cinturón batch en ambos paths, 260 tests verdes. **La re-ingesta del MS-416 quedó SIN
+MATERIA**: los 4 URLs del portal sirven byte-idéntico lo ingestado (SHA verificado; la claim
+s63 "73pp difiere" fue cruce de identidades entre las dos ediciones → lección #34). Dúo
+2 piezas: sub-agente 8/8 + cross-model 5/5, 0 FP. Apply autorizado explícito por Alberto
+(el clasificador bloqueó la 1ª ejecución — freno correcto). Narración en HISTORY; DEC-045.
 
 **Sistema (prod, Railway auto-deploy desde `main`; SWAP de corpus por `CHUNKS_TABLE`):**
 bot Telegram (polling) → pre-clasificación → retrieve híbrido wide (vector Voyage-4-large 1024
-+ keyword + intent; `RETRIEVAL_TOP_K=50`; HyDE off) → **filtro de modelos series-aware (3
-niveles, DEC-044)** → rerank LLM Sonnet (top-5) → generador `claude-sonnet-4-6` (temp=0,
-`max_tokens=2048`) sobre **`chunks_v2` = 25.090 chunks / 1.012 docs / 31 marcas / 587 modelos**
-(contextual-retrieval 100%; identidad data-driven, DEC-035). **⚠️ Contratos rotos por el SWAP
-s44, medidos:** `category` (#44) y diagramas (#45). Ventana DB ABIERTA (ef_search=120, default
-mantener); **ventana de freeze del corpus: el ciclo A/B→held-out está CERRADO** → puede
-cerrarse al ejecutar el lifecycle #46 (la ingesta vuelve a estar permitida tras #46/#44/#45).
++ keyword + intent; `RETRIEVAL_TOP_K=50`; HyDE off) → filtro de modelos series-aware (3
+niveles, DEC-044) → **lifecycle end-to-end (4b + suplementos de diversify, DEC-045)** →
+rerank LLM Sonnet (top-5) → generador `claude-sonnet-4-6` (temp=0, `max_tokens=2048`) sobre
+**`chunks_v2` = 25.090 chunks (262 excluidos por lifecycle → ~24.8k servibles) / 1.067 docs
+{active 1059 · superseded 3 · needs_review 5} / 31 marcas / 587 modelos** (contextual-retrieval
+100%; identidad data-driven, DEC-035). **⚠️ Contratos rotos por el SWAP s44, medidos:**
+`category` (#44) y diagramas (#45). Ventana DB ABIERTA (ef_search=120, default mantener);
+**ventana de freeze del corpus: CERRADA (s64)** — la ingesta vuelve a estar permitida tras
+#44/#45; el fingerprint de freeze ahora incluye la dimensión lifecycle (DEC-045e).
 
-**Eval (el ruler):** **51 golds = 39 dev + 12 held-out** (embargo vivo — la corrida única s63
-NO lo rompe: no se itera contra ho008), taxonomía CONGELADA (DEC-033), juez GPT-5.5 +
-K-mayoría. Baseline s58 congelado sigue de referencia histórica; el próximo ciclo re-freeze
-(el corpus cambiará con la ingesta). Lever CE preservado en `s61-lever-code-ROLLBACKED`
-(revisita condicional, punto 3).
+**Eval (el ruler):** **51 golds = 39 dev + 12 held-out** (embargo vivo), taxonomía CONGELADA
+(DEC-033), juez GPT-5.5 + K-mayoría. Baseline s58 = referencia histórica; **el próximo ciclo
+de eval re-freeze** (el corpus efectivo cambió en s64: 3 docs fuera por lifecycle). Lever CE
+preservado en `s61-lever-code-ROLLBACKED` (revisita condicional, punto 2).
 
 ## Qué sigue (orden vigente)
 
-1. **Lifecycle post-ciclo-A (TECH_DEBT #46, barato):** marcar `superseded` los 3 docs
-   sustituidos (MAD-472 V1 [cat024] · MC-380 rev-b · MS-416 viejo solo-250) con lectura de
-   pool antes/después + **re-ingestar el MS-416 actualizado del portal** (Detnov actualizó el
-   PDF in-place; lo ingestado difiere) — primer caso REAL del contrato de supersesión en el
-   flujo de ingesta. Al ejecutarlo, cerrar la ventana de freeze (re-fingerprint).
-2. **Capa B completa (ciclo de higiene propio):** metadata de lotes viejos — manufacturer mal
+1. **Capa B completa (ciclo de higiene propio):** metadata de lotes viejos — manufacturer mal
    asignado (≥15 docs), model=unknown masivo, revision-basura de parser,
-   document_family=filename, 165 docs sin chunks. Extender el seam s55 hacia atrás; mini-eval
-   de no-regresión (los filtros por manufacturer/model SÍ tocan retrieval).
-3. **Revisita condicional del lever CE:** re-gate ~$2 con el filtro de series ya en prod — el
+   document_family=filename, 165 docs sin chunks (y los lotes s55/s58 sin fila en `documents`
+   — el backfill s64 de los 2 Detnov es el patrón a extender). Extender el seam s55 hacia
+   atrás; mini-eval de no-regresión (los filtros por manufacturer/model SÍ tocan retrieval).
+2. **Revisita condicional del lever CE:** re-gate ~$2 con el filtro de series ya en prod — el
    mecanismo cat012 (hermanos) está cerrado río arriba; techo honesto +1-frágil (hp001 es
    frontera de pool, irrecuperable por reranker).
-4. **Después:** corpus nuevo (Aritech/Kidde/Ziton-GST). Antes de ingerir: #44 + contrato #45 +
-   contrato de supersesión en ingesta (parcialmente ejercitado en el punto 1).
+3. **Corpus nuevo (Aritech/Kidde/Ziton-GST).** Antes de ingerir: #44 + contrato #45 +
+   contrato de supersesión EN INGESTA (el retroactivo quedó poblado en s64 — DEC-045; el
+   flujo de ingesta debe crear fila en `documents` + sha-check contra lo existente).
 
 **Fases macro (rationale en HISTORY):** F1 calidad (en curso) → F2 escala (identidad de producto
 HECHA s55; resto gated) → F3 routing/tool-use + multi-dominio del scope M&A (gated por F1/F2) →
