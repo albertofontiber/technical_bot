@@ -125,6 +125,21 @@ pairing_criterio: >-
   incluido — el orden del pool entra al rerank). Cualquier otra cosa →
   CAMBIADO (paga doble en el A/B). Salida: evals/s63_pairing.yaml.
 
+enmienda_instrumento_12jun_convergencia: >-
+  POST-r1 del gate, PRE-cualquier-juez. Observado en r1: cat005 y cat011
+  (queries genéricas SIN members — su path de código es byte-a-byte idéntico
+  en ambos brazos por diseño) salieron 'cambiadas'. Diagnóstico verificado:
+  los fetches suplementarios del retriever fallan-abiertos (try/except →
+  continue, decisión deliberada de PROD) → timeouts de red transitorios
+  degradaron esos 2 pools SOLO en la pasada control (re-corridos 3×: estables
+  e idénticos al brazo treatment de r1 — el outlier fue la corrida, no el
+  lever). REGLA AÑADIDA (instrumento, no criterio): todo 'cambiado' del
+  pairing se re-corre como PAR fresco; si converge a idéntico → reclasificado
+  con motivo 'dado-de-red r1' anotado en el reporte; si persiste → cambiado
+  estable (los pools del reporte son los del par confirmado). Las anclas, las
+  condiciones G1-G8 y el criterio del A/B NO cambian. Misma clase de
+  corrección que E3 (drift) — el instrumento se protege de su propio ruido.
+
 artefactos:
   - evals/s63_gate_pools_control.json
   - evals/s63_gate_pools_treatment.json

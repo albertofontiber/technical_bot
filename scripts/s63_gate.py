@@ -158,12 +158,6 @@ def main() -> int:
         for qid, q in queries.items():
             pools[arm][qid] = retrieve_chunks(q, top_k=50)
             print(f"  {arm:9} {qid}: n={len(pools[arm][qid])}")
-        if not only:
-            F_POOLS[arm].write_text(json.dumps(
-                {qid: {"n": len(p), "ids": [c.get("id") for c in p],
-                       "pool": [light(c) for c in p]}
-                 for qid, p in pools[arm].items()},
-                indent=1, ensure_ascii=False), encoding="utf-8")
 
     # --- pairing (criterio del spec: secuencia de ids, orden incluido) --------
     pairing = {}
@@ -171,6 +165,41 @@ def main() -> int:
         ids_c = [c.get("id") for c in pools["control"][qid]]
         ids_t = [c.get("id") for c in pools["treatment"][qid]]
         pairing[qid] = "identico" if ids_c == ids_t else "cambiado"
+
+    # Re-verificación de CONVERGENCIA (enmienda de instrumento 12-jun, post-r1
+    # del gate — ver spec): los fetches suplementarios del retriever fallan-
+    # abiertos (try/except-continue, decisión de PROD) → un timeout transitorio
+    # degrada un pool y el criterio ids-exactos caza RUIDO de red como
+    # 'cambiado' (observado r1: cat005/cat011 control degradados; 3× estables
+    # después e idénticos al treatment). Todo 'cambiado' se re-corre como PAR
+    # fresco; si converge a idéntico → reclasificado (motivo anotado). No toca
+    # anclas ni criterios de éxito — es la misma clase de corrección que E3.
+    reclasificados: dict[str, str] = {}
+    for qid in sorted(q for q, v in pairing.items() if v == "cambiado"):
+        set_arm(treatment=False)
+        pool_c2 = retrieve_chunks(queries[qid], top_k=50)
+        set_arm(treatment=True)
+        pool_t2 = retrieve_chunks(queries[qid], top_k=50)
+        if [c.get("id") for c in pool_c2] == [c.get("id") for c in pool_t2]:
+            pairing[qid] = "identico"
+            reclasificados[qid] = "dado-de-red en r1 (par convergente en r2)"
+            pools["control"][qid] = pool_c2
+            pools["treatment"][qid] = pool_t2
+            print(f"  reclasificado {qid}: identico (dado-de-red r1)")
+        else:
+            # cambiado ESTABLE: los pools del reporte son los del re-run (par
+            # confirmado), no los de r1.
+            pools["control"][qid] = pool_c2
+            pools["treatment"][qid] = pool_t2
+
+    if not only:
+        for arm in ("control", "treatment"):
+            F_POOLS[arm].write_text(json.dumps(
+                {qid: {"n": len(p), "ids": [c.get("id") for c in p],
+                       "pool": [light(c) for c in p]}
+                 for qid, p in pools[arm].items()},
+                indent=1, ensure_ascii=False), encoding="utf-8")
+
     cambiados = sorted(q for q, v in pairing.items() if v == "cambiado")
     cambiados_golds = [q for q in cambiados if not q.startswith("probe:")]
 
@@ -302,7 +331,8 @@ def main() -> int:
         "veredicto": {"GO_al_AB": bool(go)},
         "pairing": {"identicos": sorted(q for q, v in pairing.items() if v == "identico"),
                     "cambiados": cambiados,
-                    "cambiados_golds_para_AB": cambiados_golds},
+                    "cambiados_golds_para_AB": cambiados_golds,
+                    "reclasificados_dado_de_red": reclasificados},
         "G1": {"PASS": g1_pass, "fallos_solo_en_tratamiento": g1_fallos,
                "detalle": g1_detail},
         "G2": g2, "G3": g3,
