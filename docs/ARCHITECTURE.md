@@ -17,7 +17,7 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
-> Resumen estable (s66 — 12 jun 2026): producción = `chunks_v2` (25.090 chunks, de los que
+> Resumen estable (s67 — 12 jun 2026): producción = `chunks_v2` (25.090 chunks, de los que
 > **262 quedan excluidos en runtime por lifecycle** [220 superseded s64 + 42 needs_review] →
 > ~24.8k servibles; 25 huérfanos residuales sin fila / **1.170 docs {998 active · 3 superseded
 > · 79 needs_review · 90 retired}** / 31 marcas / 587 modelos; Voyage-4-large 1024 +
@@ -25,8 +25,9 @@
 > **filtro de modelos series-aware de 3 niveles** (registry de series data-driven en
 > `config/manufacturers/*.yaml`, DEC-044; flag `SERIES_REGISTRY_ENABLED` default ON =
 > kill-switch sin redeploy; sin entrada de registry el comportamiento es el histórico) →
-> rerank LLM 5 (dispatcher `RERANKER_BACKEND` default `llm` = inerte, s66: el swap al
-> cross-encoder Voyage está gateado-GO, pendiente de A/B) → generador `claude-sonnet-4-6`;
+> rerank LLM 5 (dispatcher `RERANKER_BACKEND` default `llm`; s67: el swap al cross-encoder
+> se midió en A/B = **ROLLBACK** — lever archivado, el dispatcher queda como instrumento) →
+> generador `claude-sonnet-4-6`;
 > HyDE off; identidad de producto data-driven
 > (`config/manufacturers/` + sidecar). El registry cierra #43-capa-A (la query del base no
 > arrastra HERMANOS; las variantes VEN los docs de serie). **s64 (DEC-045): el lifecycle es
@@ -39,12 +40,15 @@
 > en `get_available_manufacturers`); cola de re-ingesta = los 74 `needs_review` nuevos.
 > El fingerprint de freeze incluye la dimensión lifecycle. Eval: **51 golds =
 > 39 dev + 12 held-out embargados**, juez GPT-5.5 + K-mayoría. Primer lever de retrieval
-> SHIPPED (s63, PR #70: dev Δ_net=+2, held-out DÉBIL-aceptada). **Re-gate CE GO (s66,
-> DEC-047)**: el swap del reranker a cross-encoder (determinista 39/39; rerank p95 0.84s vs
-> 2.86s) retiene el sustento de unánimes y SHIP vigentes — A/B en s67. Baseline s58 = referencia
-> histórica; **re-freeze al próximo ciclo de eval** (el corpus efectivo cambió en s64/s65).
-> Ventana de freeze: **CERRADA** → la ingesta grande se desbloquea tras #44/#45 + contrato
-> de identidad EN ingesta (PLAN punto 2).
+> SHIPPED (s63, PR #70: dev Δ_net=+2, held-out DÉBIL-aceptada). **A/B del CE = ROLLBACK
+> (s67, DEC-048)**: el cross-encoder es mejor instrumento (determinista 39/39; rerank p95
+> 0.81s vs 3.29s; ~15× más barato) pero degrada la cola end-to-end (FALLOs 5→8 + 2
+> regresiones de conducta) — archivado con evidencia; el dado del rerank LLM (11/39
+> no-unánimes) queda como defecto de producto declarado. **Baseline VIGENTE del ruler =
+> `s67base`** (re-freeze 12 jun: 10/39 PASS-control · 5 unánimes · 4 K-INESTABLES);
+> frozen-s58 = histórico. Los freezes/gates corren con `EMBED_CACHE_PATH` (pin de
+> embeddings, DEC-048c). Ventana de freeze: **CERRADA** → la ingesta grande se desbloquea
+> tras #44/#45 + contrato de identidad EN ingesta (PLAN punto 1).
 >
 > ⚠️ **Caveat s60 a este doc (TECH_DEBT #44/#45):** las secciones que describen el filtro por
 > categoría y la entrega de **diagramas** (§§ flujo/ingesta — "adjunta diagrama", canal
