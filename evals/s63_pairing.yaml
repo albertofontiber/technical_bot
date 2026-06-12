@@ -1,0 +1,51 @@
+criterio: 'IDÉNTICO := secuencia de chunk-ids del pool igual entre brazos (orden incluido
+  — el orden del pool entra al rerank). Cualquier otra cosa → CAMBIADO (paga doble
+  en el A/B). Salida: evals/s63_pairing.yaml.'
+at: '2026-06-12T11:07:05'
+identicos:
+- cat001
+- cat005
+- cat007
+- cat008
+- cat009
+- cat010
+- cat011
+- cat013
+- cat014
+- cat015
+- cat016
+- cat017
+- cat019
+- cat020
+- cat021
+- cat022
+- cat023
+- cat024
+- hp001
+- hp002
+- hp003
+- hp004
+- hp005
+- hp006
+- hp007
+- hp008
+- hp009
+- hp010
+- hp011
+- hp012
+- hp013
+- hp014
+- hp015
+- hp017
+- hp018
+- hp019
+- hp020
+- probe:g6_am8200g
+cambiados:
+- cat012
+- cat018
+- probe:d2_cad201
+- probe:g6_cad171
+cambiados_golds_para_AB:
+- cat012
+- cat018

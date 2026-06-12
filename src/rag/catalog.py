@@ -178,6 +178,16 @@ def model_manufacturer(model: str) -> str | None:
     return _model_to_mfr.get(_normkey(model))
 
 
+def known_manufacturers() -> set[str]:
+    """Marcas conocidas del catálogo, en minúsculas. Las consume el fetch
+    dirigido de diversify (s63) para filtrar tokens de IDENTIDAD de las
+    keywords de contenido: dentro de un doc ya fijado por source_file, la
+    marca no discrimina ('detnov' vive en los headers de todas las páginas
+    y envenenaba el fallback ilike). set() si no hay snapshot."""
+    _ensure()
+    return {m.lower() for m in _model_to_mfr.values()}
+
+
 def reload_snapshot() -> None:
     """Fuerza recarga del snapshot (tests / refresh tras regenerar el JSON)."""
     global _loaded, _pattern, _normkey_to_model, _model_to_mfr, _model_count

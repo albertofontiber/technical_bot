@@ -1,0 +1,76 @@
+{
+ "cat012": {
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente con la fórmula Ah=(A+B)×1,2, define reposo/alarma, autonomías 24/72 h y 0,5 h, suma de consumos y límites de batería 2×12 V hasta ~18 Ah. Hay algún detalle menor impreciso en modelos recomendados, pero no afecta al procedimiento de cálculo solicitado.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-12T11:20:12"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La fórmula, el procedimiento y los límites principales coinciden con la referencia y serían útiles para dimensionar la batería. Sin embargo, omite distinguir los consumos específicos en batería de la CPU indicados en la referencia y añade una línea potencialmente errónea sobre modelos/capacidades de baterías, mezclando NP7-12BFR con 17,2 Ah.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-12T11:20:12"
+  },
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde con la fórmula correcta, define A y B con autonomías 24/72 h y 0,5 h, aplica el factor 1,2 y recuerda sumar consumos de tarjetas, lazos y salidas, además de verificar el límite de 18 Ah. Hay alguna imprecisión menor en la lista de baterías recomendadas, pero no compromete el procedimiento de cálculo solicitado.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-12T11:20:13"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta da correctamente la fórmula (A+B)×1,2, las autonomías 24/72 h y 0,5 h, y la comprobación contra el máximo de 18 Ah, por lo que es útil para el cálculo. Sin embargo introduce alguna imprecisión/alucinación en baterías recomendadas (p. ej. NP7-12BFR tratada junto a 17,2 Ah) y no refleja claramente la distinción de consumos de alimentación vs consumos de batería de la CPU indicada en la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-12T11:20:13"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Respuesta correcta y suficiente: da la fórmula (A+B)×1,2, define reposo/alarma con 24/72 h y 0,5 h, suma consumos y verifica límites de lazos/salidas y capacidad máxima de baterías. Solo hay una imprecisión menor en el listado de baterías recomendadas, pero no afecta al procedimiento de cálculo.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-12T11:20:13"
+  }
+ },
+ "cat018": {
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "La respuesta cubre correctamente el concepto CBE, el acceso por Programación > Puntos > Módulos, la edición de la ecuación y remite al Apéndice A para sintaxis/operadores, con ejemplos útiles. Omite detalles menores de la referencia como registrar previamente las hojas de programación y no enfatiza el Tipo SW de salida, pero es suficiente para guiar al técnico.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-12T11:20:23"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "La respuesta cubre correctamente el concepto de CBE, dónde se programa en Puntos/Modulos, cómo introducir la ecuación y remite al apéndice de sintaxis, con ejemplos útiles. Aunque no enfatiza la asignación de zona, el Tipo SW de la salida ni las hojas de programación como en la referencia, lo esencial para que un evento active una salida está suficientemente respondido.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-12T11:20:24"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde con contenido útil y alineado con la referencia: explica que la CBE es la lógica causa-efecto, dónde editarla en Puntos/Modulos, cómo introducirla y aporta sintaxis/operadores. Aunque no menciona explícitamente las hojas de programación ni desarrolla tanto la asignación de zona/sensores como la GOLD, la respuesta es suficiente para guiar a un técnico y no contradice lo esencial.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-12T11:20:28"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en el concepto de CBE, la ruta general por Puntos > Módulos, la edición del campo CBE y aporta sintaxis/ejemplos útiles. Queda incompleto frente a la referencia porque no explica la programación también desde Sensores/Módulos con asignación de zona, no menciona el Tipo SW de la salida ni las hojas de programación, y las citas aparecen como marcadores [F] poco verificables.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-12T11:20:29"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta acierta el concepto de CBE, la programación en Puntos > Módulos y aporta sintaxis/operadores útiles con citas. Queda incompleta frente a la referencia porque no cubre el flujo completo con Sensores/zonas, no explica claramente el Tipo SW de la salida ni que se activa por asociación CBE, y no remite explícitamente al Apéndice A como fuente de la sintaxis.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-12T11:20:31"
+  }
+ }
+}

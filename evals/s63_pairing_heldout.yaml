@@ -1,0 +1,233 @@
+at: '2026-06-12T11:29:09'
+clausula: R / DEC-037c — corrida única
+criterio_pairing: spec s63 (ids exactos + convergencia r2)
+identicos:
+- ho001
+- ho002
+- ho003
+- ho004
+- ho005
+- ho006
+- ho007
+- ho009
+- ho010
+- ho011
+- ho014
+cambiados:
+- ho008
+detalle:
+  ho001:
+    n_ctrl_treat:
+    - 16
+    - 16
+    pm_ctrl:
+      2X-AF2-SCFB-S: 6
+      2X-AF2-FB-S: 2
+      2X-AF2-SCFB: 2
+      2X-AF2-09: 4
+      2X-AF2-FB: 2
+    pm_treat:
+      2X-AF2-SCFB-S: 6
+      2X-AF2-FB-S: 2
+      2X-AF2-SCFB: 2
+      2X-AF2-09: 4
+      2X-AF2-FB: 2
+  ho002:
+    n_ctrl_treat:
+    - 16
+    - 16
+    pm_ctrl:
+      FHSD8310: 16
+    pm_treat:
+      FHSD8310: 16
+  ho003:
+    n_ctrl_treat:
+    - 50
+    - 50
+    pm_ctrl:
+      KE-DP3020W: 15
+      2X-A Táctil: 14
+      2X-A: 14
+      2X-AT-F2: 1
+      2X-A-LB: 2
+      2X-AT-F2-FB-S: 2
+      2X-AT-F2-S: 2
+    pm_treat:
+      KE-DP3020W: 15
+      2X-A Táctil: 14
+      2X-A: 14
+      2X-AT-F2: 1
+      2X-A-LB: 2
+      2X-AT-F2-FB-S: 2
+      2X-AT-F2-S: 2
+  ho004:
+    n_ctrl_treat:
+    - 11
+    - 11
+    pm_ctrl:
+      FD2705R: 11
+    pm_treat:
+      FD2705R: 11
+  ho005:
+    n_ctrl_treat:
+    - 23
+    - 23
+    pm_ctrl:
+      2X-AF2-FB-S: 1
+      2X-AF2-SCFB: 1
+      2X-AF2-09: 4
+      2X-AF2-FB: 1
+      2X-A-LB: 11
+      2X-AF2-SCFB-S: 5
+    pm_treat:
+      2X-AF2-FB-S: 1
+      2X-AF2-SCFB: 1
+      2X-AF2-09: 4
+      2X-AF2-FB: 1
+      2X-A-LB: 11
+      2X-AF2-SCFB-S: 5
+  ho006:
+    n_ctrl_treat:
+    - 15
+    - 15
+    pm_ctrl:
+      2X-A: 3
+      TG: 1
+      AM-8200: 1
+      MI-200: 1
+      ID3000: 3
+      VSN 2-4: 1
+      ID-50: 1
+      VSN LT: 1
+      NFS Supra: 1
+      ID50/60: 1
+      TG-NOTIFIER: 1
+    pm_treat:
+      2X-A: 3
+      TG: 1
+      AM-8200: 1
+      MI-200: 1
+      ID3000: 3
+      VSN 2-4: 1
+      ID-50: 1
+      VSN LT: 1
+      NFS Supra: 1
+      ID50/60: 1
+      TG-NOTIFIER: 1
+  ho007:
+    n_ctrl_treat:
+    - 26
+    - 26
+    pm_ctrl:
+      2X-AT-F2: 1
+      2X-A: 15
+      2X-A-LB: 2
+      2X-A Táctil: 8
+    pm_treat:
+      2X-AT-F2: 1
+      2X-A: 15
+      2X-A-LB: 2
+      2X-A Táctil: 8
+  ho008:
+    n_ctrl_treat:
+    - 19
+    - 22
+    pm_ctrl:
+      CAD-171: 19
+    pm_treat:
+      CAD-171: 19
+      CAD-250: 3
+  ho009:
+    n_ctrl_treat:
+    - 24
+    - 24
+    pm_ctrl:
+      2X-AT-F2-FB-S: 4
+      2X-AT-F2-S: 4
+      2X-AT-F2-FB: 2
+      2X-AT-F2: 6
+      2X-AT-F2-FB-P: 2
+      2X-AT-F2-P: 2
+      2X-A Táctil: 4
+    pm_treat:
+      2X-AT-F2-FB-S: 4
+      2X-AT-F2-S: 4
+      2X-AT-F2-FB: 2
+      2X-AT-F2: 6
+      2X-AT-F2-FB-P: 2
+      2X-AT-F2-P: 2
+      2X-A Táctil: 4
+  ho010:
+    n_ctrl_treat:
+    - 15
+    - 15
+    pm_ctrl:
+      2X-A: 3
+      TG: 1
+      AM-8200: 1
+      NC: 5
+      ID3000: 3
+      ID-50: 1
+      ID50/60: 1
+    pm_treat:
+      2X-A: 3
+      TG: 1
+      AM-8200: 1
+      NC: 5
+      ID3000: 3
+      ID-50: 1
+      ID50/60: 1
+  ho011:
+    n_ctrl_treat:
+    - 5
+    - 5
+    pm_ctrl:
+      FD2705R: 5
+    pm_treat:
+      FD2705R: 5
+  ho014:
+    n_ctrl_treat:
+    - 40
+    - 40
+    pm_ctrl:
+      40-40R-SINGLE: 2
+      VESDA-E-VEP: 1
+      WEIGHT-96G: 1
+      DNRE: 1
+      FHSD8310: 1
+      9-30781-KID-EN: 2
+      SG100: 5
+      VESDA-E-VEU: 3
+      DH500: 1
+      SG350: 2
+      40-40L: 1
+      40-40I: 1
+      SGCWE-100: 2
+      VESDA-E-VES: 1
+      SGMI200: 2
+      SG350-IS: 3
+      SG200-IS: 3
+      SG200: 2
+      SGMCB200: 1
+      SG100-IS: 5
+    pm_treat:
+      40-40R-SINGLE: 2
+      VESDA-E-VEP: 1
+      WEIGHT-96G: 1
+      DNRE: 1
+      FHSD8310: 1
+      9-30781-KID-EN: 2
+      SG100: 5
+      VESDA-E-VEU: 3
+      DH500: 1
+      SG350: 2
+      40-40L: 1
+      40-40I: 1
+      SGCWE-100: 2
+      VESDA-E-VES: 1
+      SGMI200: 2
+      SG350-IS: 3
+      SG200-IS: 3
+      SG200: 2
+      SGMCB200: 1
+      SG100-IS: 5

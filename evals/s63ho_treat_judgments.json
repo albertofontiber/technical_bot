@@ -1,0 +1,39 @@
+{
+ "ho008": {
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta lo esencial: CAD-171 base con 2 lazos, 500 dispositivos/250 por lazo, 2.000 zonas, y ampliación interna con hasta 3 TBUD-NG para 8 lazos. Pero omite datos relevantes del gold sobre red VESTA (>512.000 dispositivos, RS485 T-Network/Ethernet) e introduce capacidades de familia/red por nodo como 32 lazos/8.000 dispositivos que no corresponden claramente a la CAD-171 y pueden confundir.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-12T11:31:07"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta la capacidad base (2 lazos, 500 dispositivos, 2.000 zonas) y la ampliación interna con hasta 3 TBUD-NG para 8 lazos. Queda incompleta frente al gold porque no recoge el límite/red VESTA de más de 512.000 dispositivos, Ethernet nativo ni el criterio UNE de 32 elementos de iniciación por zona; además las citas son genéricas.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-12T11:31:08"
+  },
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta los datos clave de capacidad base (2 lazos, 500 dispositivos, 2.000 zonas) y la ampliación interna con 3 TBUD-NG hasta 8 lazos, además de los 64 nodos en red. Queda incompleta frente al gold porque no cita la red T-Network/RS485 ni el alcance de >512.000 dispositivos, Ethernet nativo, ni el criterio UNE de 32 elementos por zona; además añade una nota sobre CAD-201/familia Vesta que puede distraer.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-12T11:31:08"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta lo esencial de la CAD-171: 2 lazos base, 500 dispositivos, 2.000 zonas, 250 dispositivos por lazo y ampliación interna con hasta 3 TBUD-NG para 8 lazos. Queda incompleta frente al gold porque omite el criterio UNE de 32 elementos de alarma por zona, la red VESTA de más de 512.000 dispositivos y Ethernet nativo, y añade capacidades generales de VESTA modular que podrían confundir aunque las matiza.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-12T11:31:11"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta lo principal: CAD-171 base 2 lazos, 250 dispositivos por lazo/500 base, 2.000 zonas, y ampliación interna con 3 tarjetas TBUD-NG hasta 8 lazos, además de red hasta 64 nodos. Queda incompleta frente al GOLD porque no explicita la capacidad total de dispositivos al ampliar, omite detalles relevantes de red/Ethernet y el alcance de red VESTA, y añade una nota sobre CAD-201/32 lazos que puede confundir aunque no sea el núcleo de la pregunta.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-12T11:31:12"
+  }
+ }
+}

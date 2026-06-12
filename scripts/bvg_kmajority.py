@@ -68,6 +68,8 @@ from src.rag.reranker import rerank_chunks, RERANK_MODEL  # noqa: E402
 from src.rag.generator import generate_answer, SYSTEM_PROMPT, RELEVANCE_THRESHOLD  # noqa: E402
 import src.rag.generator as _gen_mod  # noqa: E402
 import src.rag.reranker as _rr_mod  # noqa: E402
+import src.rag.retriever as _ret_mod  # noqa: E402
+import src.rag.series_registry as _series_mod  # noqa: E402
 
 EVALS = ROOT / "evals"
 # Run-id del ciclo (s59+, cláusula R4 del PREREG): BVG_RUN_ID selecciona el juego de
@@ -179,10 +181,20 @@ def _only(args) -> set[str]:
     return {q.strip() for q in (args.qids or "").split(",") if q.strip()}
 
 
+def _golds_del_run() -> list[dict]:
+    """La puerta del run: dev (embargo DEC-023) salvo la corrida ÚNICA de
+    confirmación held-out (cláusula R / DEC-037c: INCLUDE_HELDOUT=1 bajo
+    freeze-contract completo — una vez por lever SHIPPED, sin iterar después)."""
+    if os.environ.get("INCLUDE_HELDOUT") == "1":
+        print("*** CORRIDA HELD-OUT (cláusula R, DEC-037c) — ÚNICA, no iterable ***")
+        return gold_store.heldout()
+    return gold_store.dev()
+
+
 def phase_freeze(args) -> None:
     assert CHUNKS_IS_V2, f"CHUNKS_TABLE debe ser chunks_v2, es {CHUNKS_TABLE}"
     data = _load(F_CONTEXTS)
-    golds = gold_store.dev()   # la puerta: verificado ∧ split=dev (embargo DEC-023)
+    golds = _golds_del_run()
     if _only(args):
         golds = [g for g in golds if g["qid"] in _only(args)]
     print(f"freeze | dev={len(golds)} | retrieve={RETRIEVAL_TOP_K} rerank={RERANK_TOP_K} "
@@ -217,10 +229,25 @@ def phase_freeze(args) -> None:
                       "rerank_fn_sha": _sha(inspect.getsource(_rr_mod.rerank_chunks)),
                       "hyde_enabled": os.environ.get("HYDE_ENABLED"),
                       "target_models": None},
-        "embeddings": {"model": "voyage-4-large", "dims": 1024, "input_type": "query"},
+        "embeddings": {"model": "voyage-4-large", "dims": 1024, "input_type": "query",
+                       "embed_cache_path": os.getenv("EMBED_CACHE_PATH")},
+        # La VARIABLE DE TRATAMIENTO del ciclo A s63 (r2 Z5/R2d): sin esto, un
+        # registry silenciosamente vacío (fail-open) dejaría "evaluar tratamiento"
+        # siendo baseline. El veredicto del par exige fingerprints distintos y
+        # coherentes entre brazos (control=disabled, tratamiento=poblado).
+        "series_registry": {
+            "enabled": _series_mod.series_enabled(),
+            "fingerprint": _series_mod.registry_fingerprint(),
+            "stats": dict(zip(("n_series", "n_members", "n_shared"),
+                              _series_mod.registry_stats())),
+            "series_registry_sha": _sha(inspect.getsource(_series_mod)),
+            "filter_fn_sha": _sha(inspect.getsource(_ret_mod._filter_to_query_models)),
+            "diversify_fn_sha": _sha(inspect.getsource(_ret_mod._diversify_by_source_file)),
+        },
     }
     _save(F_MANIFEST, meta)
-    print(f"freeze OK → {F_CONTEXTS.name} ({len(data)} golds) | manifest estampado")
+    print(f"freeze OK → {F_CONTEXTS.name} ({len(data)} golds) | manifest estampado "
+          f"| series={meta['freeze']['series_registry']['fingerprint']}")
 
 
 # ------------------------------------------------------------- fase 2: generate
@@ -340,7 +367,7 @@ def phase_judge(args) -> None:
     contexts = _load(F_CONTEXTS)
     gens = _load(F_GENERATIONS)
     assert gens, "no hay generations — corre generate primero"
-    golds = {g["qid"]: g for g in gold_store.dev()}
+    golds = {g["qid"]: g for g in _golds_del_run()}
     data = _load(F_JUDGMENTS)
     tasks = []
     for qid, runs in sorted(gens.items()):
