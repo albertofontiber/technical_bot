@@ -1,0 +1,430 @@
+{
+ "cat012": {
+  "question": "¿Cómo se calcula la capacidad de batería (en Ah) necesaria para la central AM-8200?",
+  "conducta_esperada": "answer",
+  "frozen_at": "2026-06-12T11:18:53",
+  "n_context_hydrated": 4,
+  "top5": [
+   {
+    "id": "a766979a-205b-4050-a974-2716a087385f",
+    "content": "## 3.6 - *ALIMENTADOR*\n\nEl alimentador dispone de las siguientes salidas:\n\n* Alimentación regulada para central y para el cargador: 28,8 Vcc – 29 Vcc, 3,5 A rizado máx. 500 mVpp\n* Salida de dispositivos: 28,5 Vcc – 28,9 Vcc, 2A con fusible de restablecimiento desde 2A\n\n## 3.7 - *SECCIÓN DE CARGA DE BATERÍAS*\n\n* Tensión de salida = 27,5 Vcc.\n* Corriente de salida AM-8200 = 1 A ~ 500 mVpp máx. (compensación de temperatura).\n* Número de baterías a conectar = 2 x 12 V mín. 7 Ah máx.18 Ah máx.\n* La sección de carga de baterías tiene los siguientes umbrales de señalización:\n\n  Umbral de batería agotada = 21.5 Vcc.\n\n  Umbral de insuficiencia de recarga = 3,4 Vcc (diferencia de tensión entre las dos baterías).\n\n  Umbral de desenganche de batería = 21,5 Vcc.\n\n  Umbral de resistencia interna elevada de la batería = 0,6 Ω.\n\n### 3.7.1 - *BATERÍAS*\n\nDuración media declarada por el fabricante. 3-5 años a temperatura ambiente de 20 C°.\n\n**Nota:** La vida de las baterías disminuye en función de una temperatura más alta de funcionamiento de los posibles ciclos de carga-descarga.\n\n*Baterías recomendadas:*\n\n**17-18 Ah (capacidad máxima estándar)**\n\nYuasa tipo NP18-12B o NP7-12BFR (UL94) Perno-Capacidad (20h)=12V 17,2 Ah–Dimensiones:181 x 77 x 167 mm.\n\nFiamm tipo FG21803 o FGV21803 (UL94) Perno-Capacidad (20 h) = 12V 18 Ah – Dimensiones: 181 x 77 x 167 mm.\n\nPÁGINA - 12                      Manual de instalación                      AM-8200\nHoneywell Life Safety Iberia     Doc. AM-8200-ESP Rev. A.3     AM8200_manu-inst_ESP",
+    "product_model": "AM-8200",
+    "category": "ES",
+    "section_title": "3 - <ins>*CARACTERÍSTICAS ELÉCTRICAS*</ins>:",
+    "content_type": "specification",
+    "manufacturer": "Notifier",
+    "protocol": null,
+    "doc_type": "instalacion",
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 13,
+    "document_id": "c1834315-a779-4074-ba5f-baa590907a59",
+    "similarity": 0.8,
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "context": "Este fragmento pertenece al Manual de Instalación del AM-8200 (central de detección de incendios certificada EN 54.2/54.4) y forma parte de la sección 3 \"Características Eléctricas\", específicamente abordando las especificaciones técnicas del alimentador y la sección de carga de baterías para el modelo AM-8200BB, incluyendo recomendaciones de baterías compatibles y sus características de funcionamiento."
+   },
+   {
+    "id": "6c24fecd-a3f1-41c3-ab05-155e32c85fe6",
+    "content": "| Artículo                                        | C | Condiciones de NO ALARMA<br/>A<br/>Consumo Ud. | Condiciones de NO ALARMA<br/>A<br/>Total corriente (Ud. x C) | Condiciones de ALARMA<br/>B<br/>Consumo Ud. | Condiciones de ALARMA<br/>B<br/>Total, consumo (Ud. x C) |\n| ----------------------------------------------- | - | ---------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------- | -------------------------------------------------------- |\n| **AM-8200**                                     |   |                                                |                                                              |                                             |                                                          |\n| AM-8200 CPU(AM8200-KLCD)                        |   | 179 mA                                         |                                                              | 345 mA                                      |                                                          |\n| LIB-8200                                        |   | 50 mA                                          |                                                              | 92 mA                                       |                                                          |\n| AM82-2S2C                                       |   | 28 mA                                          |                                                              | 28 mA                                       |                                                          |\n| AM82-BST-C                                      |   | 39 mA                                          |                                                              | 39 mA                                       |                                                          |\n|                                                 |   |                                                |                                                              |                                             |                                                          |\n| Dispositivos conectados a la salida de sirena 1 |   | 0                                              | 0                                                            |                                             |                                                          |\n|                                                 |   |                                                |                                                              |                                             |                                                          |\n| **Corriente de los lazos 2**                    |   |                                                |                                                              |                                             |                                                          |\n| **Ver Tabla 3**                                 |   |                                                |                                                              |                                             |                                                          |\n| Lazo 1                                          |   |                                                |                                                              |                                             |                                                          |\n| Lazo 2                                          |   |                                                |                                                              |                                             |                                                          |\n| Lazo 3                                          |   |                                                |                                                              |                                             |                                                          |\n| Lazo 4                                          |   |                                                |                                                              |                                             |                                                          |\n| **Corriente salida usuario 3**                  |   | (Máx. 2 A)                                     |                                                              | (Máx. 2 A)                                  |                                                          |\n| LCD-8200                                        |   |                                                |                                                              |                                             |                                                          |\n| Campanas                                        |   | 0                                              | 0                                                            |                                             |                                                          |\n| Sirenas                                         |   | 0                                              | 0                                                            |                                             |                                                          |\n| Flashes                                         |   | 0                                              | 0                                                            |                                             |                                                          |\n| Otros dispositivos                              |   |                                                |                                                              |                                             |                                                          |\n|                                                 |   |                                                |                                                              |                                             |                                                          |\n|                                                 |   | **Total 4 =**                                  |                                                              | **Total =**                                 |                                                          |\n|                                                 |   | (x 24 h) o (x 72 h) =                          |                                                              | x 0,5 h =                                   |                                                          |\n|                                                 |   | **Espera (A)**                                 | **Ah**                                                       | **Alarma (B)**                              | **Ah**                                                   |\n| **Ah Batería = (A + B) x 1,2 5 =**              |   |                                                |                                                              | **Ah**                                      |                                                          |",
+    "context": "Tabla 1 de cálculo de consumos de corriente para la central AM-8200 en condiciones normales y de alarma, utilizada para dimensionar correctamente la fuente de alimentación y las baterías del sistema según los dispositivos instalados.",
+    "product_model": "AM-8200",
+    "category": "ES",
+    "section_title": "Tabla 1",
+    "section_path": "<ins>11 - ALIMENTACIÓN - CÁLCULO DE CONSUMOS</ins> > Tabla 1",
+    "content_type": "specification",
+    "manufacturer": "Notifier",
+    "distributor": null,
+    "protocol": null,
+    "doc_type": "instalacion",
+    "language": "es",
+    "is_flow_diagram": false,
+    "confidence": 0.996,
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 52,
+    "document_id": "c1834315-a779-4074-ba5f-baa590907a59",
+    "similarity": 0.679569640210915,
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active"
+   },
+   {
+    "id": "3393ccc0-01ff-474b-8b6f-9030ba0253ff",
+    "content": "1 Comprobar que la carga para todas las salidas se encuentre dentro de los límites admitidos.\n\n2 **Consumo de los lazos**: Hacer referencia a las fichas de datos del fabricante de los dispositivos para obtener la corriente en modo reposo. Calcular la corriente total requerida para todos los lazos usando **la tabla 2 (ver a continuación)**.\n **Corriente en alarmas**: Hacer referencia a las fichas de datos del fabricante de los dispositivos para obtener la corriente en condición de alarma.\n Calcular la corriente total necesaria para todos los lazos usando **la tabla 2 (ver a continuación)** teniendo presente que la central enciende **solo los primeros 6 LED** de los detectores y módulos de entrada en alarma.\n Comprobar que la corriente **total para todos los lazos sea inferior a 750 mA**.\n\n3 **Consumo en línea de 24Vcc.** Hacer referencia a las fichas de datos del fabricante de los dispositivos para obtener la corriente necesaria en reposo y en alarma.\nComprobar que **la corriente total sea inferior a 2 amperios.**\n\n4 La corriente en las condiciones de reposo o alarma no puede superar, en ningún caso, la capacidad de la fuente de alimentación.\n\nPÁGINA - 52\nHoneywell Life Safety Iberia Manual de instalación AM-8200\nDoc. AM-8200-ESP Rev. A.3 AM8200_manu-inst_ESP\n\nSi el valor de absorción calculado excede el valor de 3,5 A, la corriente en exceso necesaria durante las condiciones de alarma se extrae de las baterías.\n\n5 La suma de las corrientes obtenidas debe multiplicarse por un factor de 1,2 para tener en cuenta las tolerancias de fabricación de las baterías.\n\n## Tabla 3",
+    "product_model": "AM-8200",
+    "category": "ES",
+    "section_title": "Tabla 2",
+    "content_type": "specification",
+    "manufacturer": "Notifier",
+    "protocol": null,
+    "doc_type": "instalacion",
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 53,
+    "document_id": "c1834315-a779-4074-ba5f-baa590907a59",
+    "similarity": 0.8,
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "context": "Este fragmento pertenece al manual de instalación del AM-8200 (central de detección de incendios certificada EN 54.2/54.4) y forma parte de la sección 11 \"ALIMENTACIÓN - CÁLCULO DE CONSUMOS\", donde se explican las notas aclaratorias sobre cómo calcular correctamente el consumo de los dispositivos y las baterías necesarias para el sistema."
+   },
+   {
+    "id": "241c7c0c-0330-4d9b-b240-448cadfe5642",
+    "content": "# 3 - <ins>*CARACTERÍSTICAS ELÉCTRICAS*</ins>:\n\n* Temperatura de funcionamiento: -5 °C ÷ +40 °C.\n* Humedad relativa: 10 % ÷ 93 % (sin condensación).\n* Temperatura de almacenamiento: -10 °C ÷ + 50 °C.\n\n## <ins>*3.1 - INSTALACIÓN EN TIERRA*</ins>\n\nLa instalación en tierra debe realizarse de acuerdo con las normas CEI y ISPELS y debe contar con una resistencia inferior a 10 Ω (medida con los dispositivos desconectados). Es obligatoria la conexión del cable de tierra a la central que debe estar ejecutada en la caja de terminales CNAL. (ver topografía tarjeta base)\n\n## <ins>*3.2 - ALIMENTACIÓN CENTRAL (AM-8200)*</ins>\n\nLa central está alimentada por tensión de red y, en caso de la ausencia de esta, puede continuar funcionando de forma normal gracias a las baterías recargables que se encuentran en la misma central.\n\nLas características necesarias para la tensión de alimentación de red son:\n\n* Tensión: 100 -230 Vca mono fase -15 % ÷ +15 %.\n* Frecuencia: 50 / 60 Hz.\n* Corriente: 1,9 A (AM-8200), 3,8 A (AM-8200 + AM-8200BB)\n* ► **Nota: prestar especial atención cuando la instalación se encuentra cercana a fuentes electromagnéticas potenciales (como repetidores, antenas, motores, etc.).**\n\n## <ins>*3.3 - ALIMENTADOR*</ins>\n\nEl alimentador dispone de las siguientes salidas:\n\n* Alimentación regulada para central y para el cargador: 28,8 Vcc – 29 Vcc, 3,5 A un rizado máx. 500 mVpp\n* Salida de dispositivos: 28,5 Vcc – 28,9 Vcc, 2A con fusible de restablecimiento desde 2A\n\n## <ins>*3.4 - SECCIÓN DE CARGA DE BATERÍAS*</ins>\n\n* Tensión de salida = 26,5 Vcc ÷ 28,5 Vcc\n* Corriente de salida AM8200 = 1 A ~ 500 mVpp máx. (compensación de temperatura).\n* Número de baterías a conectar = 2 x 12 V mín. 7 Ah o 18 Ah máx.\n* La sección de carga de baterías tiene los siguientes umbrales de señalización:\n  - Umbral de batería agotada = 21,5 Vcc.\n  - Umbral de insuficiencia de recarga = 3,4 Vcc (diferencia de tensión entre las dos baterías).\n  - Umbral de desenganche de batería = 21,5 Vcc.\n  - Umbral de resistencia interna elevada de la batería 0,6 Ω.\n\n### <ins>*3.4.1 - BATERÍAS*</ins>\n\nDuración media declarada por el fabricante. 3-5 años a temperatura ambiente de 20 C°.\n**Nota:** La vida de las baterías disminuye en función de una temperatura más alta de funcionamiento de los posibles ciclos de carga-descarga.\n\n*Baterías recomendadas:*\n\n**17-18 Ah (capacidad máxima estándar)**\nYuasa tipo NP18-12B o NP7-12BFR (UL94) Perno-Capacidad (20h)=12V 17,2 Ah–Dimensiones:181 x 77 x 167 mm.\nFiamm tipo FG21803 o FGV21803 (UL94) Perno-Capacidad (20 h) = 12V 18 Ah – Dimensiones: 181 x 77 x 167 mm.\n\n**PÁGINA - 10** **Manual de instalación AM-8200**\n**Honeywell Life Safety Iberia Doc. AM-8200-ESP Rev. A.3 AM8200_manu-inst_ESP**\n\nAM8200_manu-inst_ESP                Manual de instalación                PÁGINA - 11\n                                    Doc. -AM-8200-ESP Rev. A.3           NOTIFIER\n\n## 3.5 - *ALIMENTACIÓN BLANK BOX (AM-8200BB)*",
+    "product_model": "AM-8200",
+    "category": "ES",
+    "section_title": "3 - <ins>*CARACTERÍSTICAS ELÉCTRICAS*</ins>:",
+    "content_type": "specification",
+    "manufacturer": "Notifier",
+    "protocol": null,
+    "doc_type": "instalacion",
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 12,
+    "document_id": "c1834315-a779-4074-ba5f-baa590907a59",
+    "similarity": 0.8,
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "context": "Esta sección describe las características eléctricas, requisitos de alimentación, configuración de baterías y especificaciones técnicas de la central de detección de incendios AM-8200 certificada EN 54.2/54.4, cubriendo detalles sobre instalación a tierra, tensión de red, cargador y tipos de baterías recomendadas."
+   },
+   {
+    "id": "39e63117-87de-4694-af41-926eac82e439",
+    "content": "# Normativas nacionales\n\n[Checkmark symbol] **Este equipo debe instalarse y operar de acuerdo con estas instrucciones y con las normativas vigentes en el lugar de la instalación.**\n\n## EN 54: Información\n\n[Warning triangle with EN54 symbol]\n\n**EN54-2 13.7\nMáximo de 512\ndetectores /\npulsadores de\nalarma por\nmicroprocesador.**\n\n* **La central tiene una capacidad máxima de ocho lazos**\n\n**Esta funcionalidad, si se usa de forma inapropiada, puede infringir los requisitos de la normativa EN54.**\n\n**Este límite incluye detectores y pulsadores de alarma convencionales conectados al sistema con módulos de zona.**\n\n**Preste atención al número y tipo de dispositivos instalados para cumplir con la normativa.**\n\n[Warning triangle with EN54 symbol]\n\n* **Esta central de detección de incendios cumple con los requisitos de la normativa EN54-2/4.**\n\n**Además de los requisitos básicos de la EN 54, la central cumple con los siguientes requisitos funcionales opcionales.**\n\n| Funciones opcionales                                                | Referencia en 54.2 |\n| ------------------------------------------------------------------- | ------------------ |\n| Salidas a los dispositivos de alarma de incendio                    | 7.8                |\n| Salidas del equipo de protección contra incendios                   | 7.10               |\n| Monitorización fallos de los sistemas automáticos anti-incendio     | 7.10               |\n| Retardo de las salidas                                              | 7.11               |\n| Dependencias en caso de más de una señal de alarma                  | 7.12 (tipo A)      |\n| Señal de fallo desde los puntos                                     | 8.3                |\n| Pérdida total de la fuente de alimentación.                         | 8.4                |\n| Punto a los que no se puede asignar una dirección fuera de servicio |                    |\n| Estado de ensayo (prueba)                                           | 9.5                |\n| Señalización de las condiciones de prueba                           | 10                 |\n| Señalización de las zonas en condición de prueba                    | 10.2               |\n|                                                                     | 10.3               |\n\n[Warning triangle with EN54 symbol]\n\n* **La sección de alimentación de las centrales AM-8200 cumple con los siguientes requisitos de la EN54-4.**\n\n| Función                                           | Referencia EN54-4 |\n| ------------------------------------------------- | ----------------- |\n| Alimentación desde fuente principal               | 5.1               |\n| Alimentación desde fuente con baterías de reserva | 5.2               |\n| Cargador                                          | 5.3               |\n| Averías                                           | 5.4               |",
+    "product_model": "AM-8200",
+    "category": "ES",
+    "section_title": "Normativas nacionales",
+    "content_type": "troubleshooting",
+    "manufacturer": "Notifier",
+    "protocol": null,
+    "doc_type": "instalacion",
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 4,
+    "document_id": "c1834315-a779-4074-ba5f-baa590907a59",
+    "similarity": 0.8,
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "context": "Este fragmento corresponde a la sección de \"Normativas nacionales\" del Manual de Instalación AM-8200 de Notifier, que especifica los requisitos de cumplimiento con las normativas EN 54-2 y EN 54-4 para la central de detección de incendios, incluyendo capacidades máximas de dispositivos, funciones opcionales y requisitos de alimentación."
+   }
+  ],
+  "pool50_light": [
+   {
+    "id": "3393ccc0-01ff-474b-8b6f-9030ba0253ff",
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 53,
+    "similarity": 0.8
+   },
+   {
+    "id": "8e1c5d2f-203e-4157-bb6c-dadf564156f9",
+    "source_file": "UCIP MODBUS AM8200 V5.1",
+    "page_number": 27,
+    "similarity": 0.8
+   },
+   {
+    "id": "3fdbf0b9-655c-406b-aed7-2d70ebdc3ae4",
+    "source_file": "AM-8200-manu-prog-spa",
+    "page_number": 51,
+    "similarity": 0.72
+   },
+   {
+    "id": "39e63117-87de-4694-af41-926eac82e439",
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 4,
+    "similarity": 0.8
+   },
+   {
+    "id": "241c7c0c-0330-4d9b-b240-448cadfe5642",
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 12,
+    "similarity": 0.8
+   },
+   {
+    "id": "a766979a-205b-4050-a974-2716a087385f",
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 13,
+    "similarity": 0.8
+   },
+   {
+    "id": "010003b1-73fc-4c5b-8ebe-584ed3e66b5b",
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 38,
+    "similarity": 0.8
+   },
+   {
+    "id": "fc78ab0a-c5ac-4d19-849a-e32a6c41cb0a",
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 50,
+    "similarity": 0.8
+   },
+   {
+    "id": "6c24fecd-a3f1-41c3-ab05-155e32c85fe6",
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 52,
+    "similarity": 0.679569640210915
+   }
+  ]
+ },
+ "cat018": {
+  "question": "¿Como se programa una ecuacion causa-efecto (CBE) en la Notifier AM-8200 para que un evento active una salida?",
+  "conducta_esperada": "answer",
+  "frozen_at": "2026-06-12T11:19:07",
+  "n_context_hydrated": 1,
+  "top5": [
+   {
+    "id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+    "content": "## Pestaña Programa (Programación ecuaciones CBE, asociación zona)\n\n| MENU PROGRAMMAZIONE\\Punti\\Sensori |                    |                          |                         |       |   |   |   |   |\n| --------------------------------- | ------------------ | ------------------------ | ----------------------- | ----- | - | - | - | - |\n| Principale                        | Programmazione     | Opzioni                  | Edit                    |       |   |   |   |   |\n| Zona                              | 2                  |                          |                         |       |   |   |   |   |\n| CBE                               | (G1)               |                          |                         |       |   |   |   |   |\n|                                   |                    |                          |                         |       |   |   |   |   |\n| CPU                               |                    | LINEA                    |                         | SENS. |   |   |   |   |\n| -                                 | 1                  | +                        | -                       | 1     | + | - | 2 | + |\n| EVACUAZIONE                       | AZZERA<br/>RITARDI | TACITAZIONE<br/>CICALINO | TACIT./RIPR.<br/>SIRENE | RESET |   |   |   |   |\n\n**Zona** - número de zona asignada\n\n**CBE** - ecuación CBE del punto.\nSi ya hay una ecuación configurada\nCBE se visualizará.\n\n**CBE** (Control By Events), son las ecuaciones que sirven para activar un comando en función de un evento.\nVer el apéndice «A» Control By Event al final del manual.\n\nPara modificar el campo «CBE» en esta pestaña se debe seleccionar el parámetro con las teclas flecha ▲▼, y después pulsar la tecla de confirmación ☑\n\nAM-8200\nAM-8200_manu-prog_ESP\n\nManual de programación\nDoc. M-162.1-AM8200-ESP Rev A.3\n\nPÁGINA - 19\nHONEYWELL LIFE SAFETY IBERIA\n\n| (G1) | (G1) | (G1)  | (G1) | (G1) | (G1) | (G1) | (G1)  | (G1) | (G1) | (G1) | ✘ |\n| ---- | ---- | ----- | ---- | ---- | ---- | ---- | ----- | ---- | ---- | ---- | - |\n| 1    | 2    | 3     | 4    | 5    | 6    | 7    | 8     | 9    | 0    |      |   |\n| NOT  | AND  | OR    | DEL  | SDEL | XGRP | TIM  | DIS   | PRE  | FLT  |      |   |\n| TAC  | TONE |       | SYS  | LU   | MA   | ME   | .     | \\~   | :    |      |   |\n| C    | L    | S     | M    | GI   | VE   | SA   | DO    | (    | )    |      |   |\n| G    | Z    | Space |      | ✘    | ◄    | ►    | Enter |      |      |      |   |\n\n<ins>CBE</ins> - ecuación CBE del punto.\nSi ya hay una ecuación configurada, se visualizará; de lo contrario, el campo estará vacío como en esta figura.\n\nLa longitud máxima de una CBE es de 64 caracteres.\n\nUtilizar el teclado alfanumérico para insertar los datos, y después pulsar la tecla de envío (Enter) para confirmar.",
+    "context": "Este fragmento pertenece al manual de programación de la central de incendios AM-8200 y describe la segunda pestaña de configuración de detectores (sensores), específicamente cómo asignar zonas y programar ecuaciones de Control por Eventos (CBE) para automatizar acciones basadas en eventos de alarma.",
+    "product_model": "AM-8200",
+    "category": "ES",
+    "section_title": "Pestaña Programa (Programación ecuaciones CBE, asociación zona)",
+    "section_path": "Programación puntos > Pestaña Programa (Programación ecuaciones CBE, asociación zona)",
+    "content_type": "general",
+    "manufacturer": "Notifier",
+    "distributor": null,
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "is_flow_diagram": false,
+    "confidence": 0.979,
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "AM-8200-manu-prog-spa",
+    "page_number": 21,
+    "document_id": "a89a7c31-4fed-45f6-88cc-f997d59c1ccb",
+    "similarity": 0.640927095440845,
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active"
+   },
+   {
+    "id": "5bebeb42-145d-4523-a98e-c728d6d54695",
+    "content": "| MENU PROGRAMMAZIONE\\Punti\\Moduli                |                    |                          |                         |       |             |   |   |            |   |   |           |   |\n| ----------------------------------------------- | ------------------ | ------------------------ | ----------------------- | ----- | ----------- | - | - | ---------- | - | - | --------- | - |\n| Principale \\| Programmazione \\| Opzioni \\| Edit |                    |                          |                         | ▲     |             |   |   |            |   |   |           |   |\n| Zona                                            | 4                  |                          |                         |       |             |   |   |            |   |   |           |   |\n| CBE                                             | (G1 G2)            |                          |                         | ◄     | ✔           |   | ► |            |   |   |           |   |\n|                                                 |                    |                          |                         | ▼     | ✖           |   |   |            |   |   |           |   |\n|                                                 |                    |                          |                         |       |             |   |   |            |   |   |           |   |\n| -                                               | CPU<br/>1          | +                        | -                       |       | LINEA<br/>1 | + | - | MOD.<br/>2 | + | - | SUB<br/>1 | + |\n| EVACUAZIONE                                     | AZZERA<br/>RITARDI | TACITAZIONE<br/>CICALINO | TACIT./RIPR.<br/>SIRENE | RESET |             |   |   |            |   |   |           |   |\n\nAM-8200\nAM-8200_manu-prog_ESP\n\nManual de programación\nDoc. M-162.1-AM8200-ESP Rev A.3\n\nPÁGINA - 30\nHONEYWELL LIFE SAFETY IBERIA\n\n**Pestaña Opciones** (Programación **Parpadeo LED**, silenciado habilitado, autosilenciado)",
+    "context": "Este fragmento pertenece al manual de programación de la Central AM-8200 de Honeywell y describe la pestaña de Programación de módulos de salida, específicamente mostrando cómo configurar la zona asociada y la ecuación CBE (Control By Event) para un módulo de salida.",
+    "product_model": "AM-8200",
+    "category": "ES",
+    "section_title": "MÓDULO DE SALIDA",
+    "section_path": "MÓDULOS > MÓDULO DE SALIDA",
+    "content_type": "general",
+    "manufacturer": "Notifier",
+    "distributor": null,
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "is_flow_diagram": false,
+    "confidence": 0.939,
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "AM-8200-manu-prog-spa",
+    "page_number": 32,
+    "document_id": "a89a7c31-4fed-45f6-88cc-f997d59c1ccb",
+    "similarity": 0.580386475255525,
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active"
+   },
+   {
+    "id": "cfc45181-f8e5-449f-99fb-babe0f565cf8",
+    "content": "* **FUNCIONES PRINCIPALES:**\n  - 3 niveles de acceso (usuario - mantenedor - programador).\n  - 4 niveles de acceso con total conformidad con la normativa EN54.\n  - Inscripciones programables: descripción de punto con 32 caracteres; descripción de zonas con 32 caracteres.\n  - 500 zonas físicas y 400 grupos lógicos para la central autónoma o con el sistema de 16 lazos totales.\n  - Ecuación de control CBE («Control by event») para la activación por funciones lógicas (AND, OR, DEL, etc.).\n  - Archivo histórico de eventos con los últimos 1000 eventos en memoria no volátil.\n  - Reloj en tiempo real.\n  - Auto-búsqueda del Lazo con reconocimiento automático del tipo de dispositivos conectados.\n  - Reconocimiento automático de puntos con la misma dirección (duplicados)\n  - Algoritmos de decisión para los criterios de alarmas y fallo.\n  - Cambio automático de la sensibilidad Día / Noche.\n  - Señalización de necesidad de limpieza de los detectores.\n  - Señalización de poca sensibilidad de los detectores.\n  - Umbral de alarmas programable para los detectores.\n  - Programación de función de software predefinido para los diferentes dispositivos en el campo.\n  - Función de prueba por zona.\n\nAM8200_manu-inst_ESP                Manual de instalación                PÁGINA - 3\n                                    Doc. -AM-8200-ESP Rev. A.3           NOTIFIER",
+    "product_model": "AM-8200",
+    "category": "ES",
+    "section_title": "1.1 - CARACTERÍSTICAS TÉCNICAS:",
+    "content_type": "general",
+    "manufacturer": "Notifier",
+    "protocol": null,
+    "doc_type": "instalacion",
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 5,
+    "document_id": "c1834315-a779-4074-ba5f-baa590907a59",
+    "similarity": 0.8,
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "context": "Este fragmento detalla las funciones principales y características funcionales de la central de detección de incendios AM-8200, como niveles de acceso, gestión de zonas, control de eventos y capacidades de monitorización, formando parte de la sección de características técnicas del manual de instalación."
+   },
+   {
+    "id": "fe6207ae-032f-4119-bbb3-7b0fd49b0ea8",
+    "content": "En este caso:\nSi el dispositivo en cuestión es un sensor o un módulo de ingreso, la central activará únicamente todas las indicaciones visuales o sonoras de carácter general (LED Alarma en la parte frontal, RELÉ de Alarma General, TIMBRE y módulos eventuales de salida programados con software TIPO ID para señalizaciones generales).\n\nSi, por el contrario, el dispositivo en cuestión es un módulo de salida, esta salida no se activará nunca, a no ser que se programe con software TIPO ID para señalizaciones generales.\n\n**NOTA: para los módulos de salida, la central no permite programar una ecuación si el módulo tiene un TIPO ID para señalizaciones de carácter general.**\n\n❑ **Operadores a usar en la ecuación control por evento**:\n\n| OR |\n| -- |\n\n**Es el operador el que solicita que AL MENOS UN operando esté ACTIVO.**\n\nEjemplo: la ecuación de un módulo de salida es: **OR (G9 G15 G23) o es posible omitir el operador OR introduciendo lo siguiente: (G9 G15 G23)**\n\nSi **CUALQUIERA** de los tres operandos de esta ecuación (G9 G15 G23) está en alarma, el módulo de salida se activará, es decir:\n\n- **SI** el grupo software 9 está en alarma, o\n- **SI** el grupo software 15 está en alarma, o\n- **SI** el grupo software 23 está en alarma\n- **ENTONCES** este módulo de salida se activará.\n\n| AND |\n| --- |\n\n**Es el operador el que solicita que TODOS los operandos estén ACTIVOS.**\n\nEjemplo: la ecuación de un módulo de salida es: **AND (G9 G15 G23).**\n\nSolo si **LOS TRES** operandos de esta ecuación están en alarma, el módulo de salida se activará, es decir:\n\n- **SI** el grupo software 9 está en alarma, y\n- **SI** el grupo software 15 está en alarma, y\n- **SI** el grupo software 23 está en alarma\n- **ENTONCES** este módulo de salida se activará.\n\n| NOT |\n| --- |\n\n**Es el operador el que NIEGA el operando o la serie de operandos entre paréntesis, que lo siguen.**\n\nEjemplo: la ecuación de un módulo de salida es: NOT (G23).\n\nEl módulo de salida estará activado hasta que el operando (G23) **NO** esté en alarma, es decir:\n\n- **SI** el grupo software 23 está en alarma\n- **ENTONCES** este módulo de salida se desactivará.\n\n**Nota: <ins>No se permite escribir una CBE para un grupo directo si los operandos contenidos en el interior del paréntesis son grupos con índice menor que el grupo para el que se quiere asociar la CBE como en el ejemplo siguiente:</ins>**\n\nAM-8200                                    Manual de programación                                    PÁGINA - 63\nAM-8200_manu-prog_ESP              Doc. M-162.1-AM8200-ESP Rev A.3              HONEYWELL LIFE SAFETY IBERIA\n\n<ins>CBE no permitida</ins>\n\n~~G33 = (G23 G24)~~\n\n<ins>CBE permitida</ins>\n\nG21 = (G23 G24)\n\n<ins>No se permite escribir una CBE para un grupo inverso si los operandos contenidos en el interior del paréntesis son grupos con índice mayor que el grupo para el que se quiere asociar la CBE como en el ejemplo siguiente:</ins>\n\n<ins>CBE no permitida</ins>\n\n~~G305 = (G306 G307)~~\n\n<ins>CBE permitida</ins>\n\nG307 = (G305 G306)",
+    "context": "Este fragmento describe las reglas de programación de ecuaciones de Control por Evento (CBE) para la central de incendio AM-8200, incluyendo los operadores lógicos (OR, AND, NOT) permitidos y las restricciones de indexación para grupos directos e inversos, complementando la sección de APÉNDICE «A» – ECUACIÓN CONTROL POR EVENTO del manual de programación.",
+    "product_model": "AM-8200",
+    "category": "ES",
+    "section_title": "**<ins>OPERADOR (OPERANDO-1, OPERANDO-2...)</ins>**",
+    "section_path": "<ins>APÉNDICE «A» – ECUACIÓN CONTROL POR EVENTO</ins> > **<ins>OPERADOR (OPERANDO-1, OPERANDO-2...)</ins>**",
+    "content_type": "general",
+    "manufacturer": "Notifier",
+    "distributor": null,
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "is_flow_diagram": false,
+    "confidence": 1,
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "AM-8200-manu-prog-spa",
+    "page_number": 65,
+    "document_id": "a89a7c31-4fed-45f6-88cc-f997d59c1ccb",
+    "similarity": 0.664538423474023,
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active"
+   },
+   {
+    "id": "88a36d45-103a-445b-afa1-1cfe9b3bfe73",
+    "content": "## XGRP\n\nEs el operador el que solicita que **AL MENOS DOS** elementos del grupo indicado a continuación estén **ACTIVOS**.\n\n**FORMATO: XGRP (GXXX)**        donde GXXX = Grupo 1 ÷ 400\n\n**Ejemplo:** la ecuación de un módulo de salida es **XGRP** (G23)\n\n**- SI CUALQUIER COMBINACIÓN** de dos o más dispositivos de entrada (sensores o módulos), que se han programado (con su ecuación CBE) en este grupo software (con **el parámetro Doble coincidencia = SI.**), están ACTIVOS.\n\n          - **ENTONCES** este módulo de salida se activará.\n\n**O** solo cuando un sensor térmico (tipo HW «THER») y un sensor óptico (tipo HW «PHOT» ) que se han programado (con su ecuación CBE) en este grupo software (con **el parámetro Doble coincidencia = NO**), están ACTIVOS.\n\n          - **ENTONCES** este módulo de salida se activará.\n\n<ins>No se permite escribir una ecuación de un módulo de salida con más grupos como en el ejemplo siguiente:</ins>\n\n<ins>CBE no permitida</ins>\n\n~~XGRP (G23 G24)~~",
+    "context": "Este fragmento pertenece al manual de programación del AM-8200 (Central de incendio direccionable de Honeywell) y forma parte de la sección de ecuaciones de Control por Evento (CBE) que define los operadores lógicos disponibles para configurar las condiciones de activación de dispositivos como sensores y módulos de salida en la instalación.",
+    "product_model": "AM-8200",
+    "category": "ES",
+    "section_title": "XGRP",
+    "section_path": "<ins>APÉNDICE «A» – ECUACIÓN CONTROL POR EVENTO</ins> > XGRP",
+    "content_type": "general",
+    "manufacturer": "Notifier",
+    "distributor": null,
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "is_flow_diagram": false,
+    "confidence": 0.994,
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "AM-8200-manu-prog-spa",
+    "page_number": 66,
+    "document_id": "a89a7c31-4fed-45f6-88cc-f997d59c1ccb",
+    "similarity": 0.6131683588028,
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active"
+   }
+  ],
+  "pool50_light": [
+   {
+    "id": "cfc45181-f8e5-449f-99fb-babe0f565cf8",
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 5,
+    "similarity": 0.8
+   },
+   {
+    "id": "d20e19b4-aa1e-4f6b-9e7f-697dfcb59979",
+    "source_file": "UCIP MODBUS AM8200 V5.1",
+    "page_number": 33,
+    "similarity": 0.72
+   },
+   {
+    "id": "fe6207ae-032f-4119-bbb3-7b0fd49b0ea8",
+    "source_file": "AM-8200-manu-prog-spa",
+    "page_number": 65,
+    "similarity": 0.664538423474023
+   },
+   {
+    "id": "3155e0c7-af4e-4e31-b57c-7d3dce0ff2a8",
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 38,
+    "similarity": 0.8
+   },
+   {
+    "id": "e77329cf-1659-4761-98bf-560f55e6dc63",
+    "source_file": "UCIP MODBUS AM8200 V5.1",
+    "page_number": 3,
+    "similarity": 0.72
+   },
+   {
+    "id": "deda3f61-887f-4e13-9172-1b2ba0dc908d",
+    "source_file": "AM-8200-manu-prog-spa",
+    "page_number": 66,
+    "similarity": 0.647524062241783
+   },
+   {
+    "id": "013e846e-6d4d-4f08-9245-795b5c9f564a",
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 3,
+    "similarity": 0.8
+   },
+   {
+    "id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+    "source_file": "AM-8200-manu-prog-spa",
+    "page_number": 21,
+    "similarity": 0.640927095440845
+   },
+   {
+    "id": "c9453b24-eefe-4e0e-9187-f36efe964c76",
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 43,
+    "similarity": 0.8
+   },
+   {
+    "id": "0c6cc5e0-0df9-428f-870f-a19fe461c3a9",
+    "source_file": "AM-8200-manu-prog-spa",
+    "page_number": 69,
+    "similarity": 0.624847836819679
+   },
+   {
+    "id": "fcb28f5c-062d-44bd-996f-395b72675b8e",
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 45,
+    "similarity": 0.8
+   },
+   {
+    "id": "66000996-017e-4e7e-88ec-ab8e46ad8c47",
+    "source_file": "AM-8200-manu-prog-spa",
+    "page_number": 67,
+    "similarity": 0.613641463897142
+   },
+   {
+    "id": "89e4d22f-b541-4220-9297-05f209162c01",
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 46,
+    "similarity": 0.8
+   },
+   {
+    "id": "88a36d45-103a-445b-afa1-1cfe9b3bfe73",
+    "source_file": "AM-8200-manu-prog-spa",
+    "page_number": 66,
+    "similarity": 0.6131683588028
+   },
+   {
+    "id": "e8fd9d03-c279-4d3d-8c25-638f6ecb2aac",
+    "source_file": "AM-8200-manu-prog-spa",
+    "page_number": 67,
+    "similarity": 0.602835106511699
+   },
+   {
+    "id": "720c6e5b-c3fd-4b66-8c6d-f38ce8b1b69f",
+    "source_file": "AM-8200-manu-prog-spa",
+    "page_number": 43,
+    "similarity": 0.589491261930837
+   },
+   {
+    "id": "018b1d28-f1e1-4589-b918-99de0e691f3e",
+    "source_file": "AM-8200-manu-prog-spa",
+    "page_number": 67,
+    "similarity": 0.581523281886482
+   },
+   {
+    "id": "5bebeb42-145d-4523-a98e-c728d6d54695",
+    "source_file": "AM-8200-manu-prog-spa",
+    "page_number": 32,
+    "similarity": 0.580386475255525
+   },
+   {
+    "id": "9ae1af23-a1f5-470b-a3a3-a8f4683ccaf2",
+    "source_file": "AM-8200-manu-prog-spa",
+    "page_number": 31,
+    "similarity": 0.577961648824118
+   }
+  ]
+ }
+}

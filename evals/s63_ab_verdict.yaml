@@ -1,0 +1,53 @@
+meta:
+  at: '2026-06-12T11:20:33'
+  criterio: E2 + afinado 1 (evals/s63_gate_spec.yaml, pre-registrado)
+  k: 5
+  pairing:
+    identicos: 38
+    cambiados_golds:
+    - cat012
+    - cat018
+  series_registry_tratamiento:
+    enabled: true
+    fingerprint: 0bd1d3e979dc5147
+    stats:
+      n_series: 2
+      n_members: 6
+      n_shared: 2
+    series_registry_sha: c42e8f0eefaa5b3c
+    filter_fn_sha: 6dcc00a1c7c310b2
+    diversify_fn_sha: d918a4316559d403
+pass_control: los 6 unánimes en IDÉNTICOS (Δ:=0 estructural) — intactos
+tabla:
+- qid: cat012
+  control:
+    modal: PARCIAL
+    votos:
+      PARCIAL: 4
+      PASS: 1
+    unanime: false
+  tratamiento:
+    modal: PASS
+    votos:
+      PASS: 3
+      PARCIAL: 2
+    unanime: false
+  delta: MEJOR
+- qid: cat018
+  control:
+    modal: FALLO
+    votos:
+      FALLO: 3
+      PARCIAL: 2
+    unanime: false
+  tratamiento:
+    modal: PASS
+    votos:
+      PASS: 3
+      PARCIAL: 2
+    unanime: false
+  delta: MEJOR
+delta_net: 2
+n_mejor: 2
+n_peor: 0
+veredicto: SHIP

@@ -1,0 +1,76 @@
+{
+ "cat012": {
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta lo esencial del cálculo: fórmula (A+B)×1,2, autonomía en reposo 24/72 h, alarma 0,5 h, suma de consumos y límite de baterías ~18 Ah. Pero introduce imprecisiones no alineadas con la referencia, como verificar 3,5 A en vez de la alimentación total indicada de 4 A y una lista de baterías recomendadas confusa, además de citas poco específicas.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-12T11:18:06"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta da la fórmula correcta, el procedimiento de suma de consumos, autonomías y factor 1,2, y recuerda verificar el límite de capacidad instalable. Sin embargo introduce algunas imprecisiones potencialmente confusas frente a la referencia, como el límite de alimentador de 3,5 A frente a 4 A y la lista de baterías recomendadas/capacidades, además de no distinguir claramente los consumos de alimentación y de batería de la CPU.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-12T11:18:07"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta la fórmula principal, los tiempos de autonomía, el factor 1,2, la suma de consumos y el límite máximo aproximado de 18 Ah. Pero introduce una recomendación de batería errónea/confusa al listar NP7-12BFR como si fuera de 17,2 Ah y no distingue los consumos de CPU de alimentación frente a consumos de batería que sí aparecen en la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-12T11:18:07"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde con la fórmula correcta, define A/B, aplica el factor 1,2, contempla 24/72 h y 0,5 h, suma consumos de tarjetas/lazos/salidas y verifica el límite de baterías 2×12 V hasta ~18 Ah. Solo hay detalles menores/imprecisos en la lista de baterías recomendadas, pero no afectan al método de cálculo principal.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-12T11:18:07"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta recoge correctamente la fórmula (A+B)×1,2, las autonomías 24/72 h y 0,5 h, la suma de consumos y el límite aproximado de 18 Ah. Sin embargo, es imprecisa en algunos datos auxiliares: no distingue los consumos de alimentación frente a consumos de batería de la CPU y lista erróneamente la Yuasa NP7-12BFR como si fuera de 17,2 Ah, además de usar citas poco trazables tipo [F].",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-12T11:18:17"
+  }
+ },
+ "cat018": {
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en identificar la CBE como lógica causa-efecto y aporta sintaxis/operadores, pero no reproduce claramente el flujo oficial de menú/pestaña ni la preparación en hojas de programación. Además introduce afirmaciones problemáticas o contradictorias con la referencia, especialmente que un módulo tipo SND no permite CBE, cuando la GOLD indica SND como ejemplo de módulo de salida activable por asociación CBE.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-12T11:18:22"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "FALLO",
+   "diagnostico": "Aunque explica el concepto CBE y aporta sintaxis/ejemplos, omite el flujo clave de programación en la AM-8200 desde Programación > Puntos y la asignación de zona. Además introduce una advertencia no respaldada y contradictoria con la referencia sobre módulos tipo SND no programables con CBE, lo que podría desorientar al técnico.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-12T11:18:23"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "FALLO",
+   "diagnostico": "Acierta en el concepto general de CBE y aporta sintaxis, pero omite el flujo clave de programación en menú/puntos/pestaña y añade una advertencia incorrecta: afirma que un módulo tipo SND no permite CBE, cuando la referencia indica precisamente que los módulos de salida, incluido SND como ejemplo, se activan por asociación CBE.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-12T11:18:23"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acerta en el concepto de CBE, la idea de asociar eventos con salidas y aporta sintaxis/ejemplos, pero omite el flujo de menú/pestaña indicado en la referencia para programarlo en la AM-8200. Además introduce afirmaciones potencialmente conflictivas o no sustentadas frente al gold, como que con Type ID SND no se permite CBE, cuando la referencia lo presenta como ejemplo de tipo de módulo de salida.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-12T11:18:26"
+  },
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "FALLO",
+   "diagnostico": "Acierta el concepto general de CBE y aporta sintaxis, pero omite el flujo de programación indicado en el GOLD y añade afirmaciones no soportadas/contradictorias, especialmente que un módulo SND no permite CBE cuando la referencia lo da como ejemplo de salida activada por CBE. También presenta métodos 'equivalentes' y citas tipo [F] sin anclaje verificable, lo que puede inducir a error al técnico.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-12T11:18:36"
+  }
+ }
+}
