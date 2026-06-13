@@ -1,0 +1,39 @@
+# s69 — diagnóstico $0 de los 4 golds reclasificados a retrieval (read-only, DB ilike).
+# Pregunta: ¿por qué el material correcto no se sirvió? gap-corpus / within-doc / identidad.
+meta:
+  fuente: chunks_v2 (ilike content+source) + s67base pool50_light congelado
+  metodo: para cada gold, ¿el material existe en corpus? ¿en el doc servido? ¿en el pool?
+
+hp006:
+  gold: Notifier AFP-400 — aviso 'Tierra' (Earth Fault)
+  hallazgo: 0 docs AFP-400 en corpus (filename); 0 chunks 'aislamiento'/'tierra' en docs AFP
+  servido: MFDT170/MIDT170 (detectores, producto equivocado)
+  clase: CORPUS-GAP (no hay manual AFP-400 ingestado) — el bot ADMITIÓ correcto
+  accion: corpus-diferido (DEC-049); ADEMÁS revisar si el gold es JUSTO (su fuente no está en corpus)
+
+hp009:
+  gold: Morley ZXe (e-series ZX2e/ZX5e) — RFL del lazo
+  hallazgo: 0 docs ZXe/ZX2e/ZX5e en corpus
+  servido: MIE-M* (= ZXAE/ZXEE, producto HERMANO distinto)
+  clase: CORPUS-GAP (la e-series ZXe no está ingestada) + el bot NO marcó el mismatch (respondió como si fuera ZXe)
+  accion: corpus-diferido; el "no marcar producto equivocado" es eje generación/identidad
+
+hp013:
+  gold: Detnov ADW535 — cambiar batería sin perder config (EEPROM)
+  hallazgo: EEPROM 6 chunks (p12/14/16/29/30/98) + BAT 6 chunks (p11/16/29/64/68/70) + 'cinta aislante' (p64/108) — TODO en el doc ADW535
+  servido: ADW535_TD_T140358es_e SÍ en top-5, pero los chunks con EEPROM/BAT NO entraron al top-5
+  clase: WITHIN-DOC-MISS (material en el doc servido, chunk fuera del top-5) — retrieval fixable
+  accion: ranking within-doc (depth/diversify), NO es el mecanismo de stamps de s68
+
+cat016:
+  gold: Detnov CAD-150 — alta de detector por autobúsqueda + prueba
+  hallazgo: 'autob' 1 chunk (p11) + 'alta' (p12) en el manual de INSTALACIÓN CAD-150 (55315013)
+  servido: los manuales CAD-150 user+install SÍ servidos, pero el chunk p11-12 NO en top-5 (cobertura fina)
+  clase: WITHIN-DOC-MISS (thin) — retrieval fixable
+  accion: ranking within-doc; cobertura escasa (1-2 chunks)
+
+resumen:
+  CORPUS-GAP: [hp006, hp009]   # diferido DEC-049; ninguno es lever de retrieval near-term
+  WITHIN-DOC-MISS: [hp013, cat016]   # retrieval fixable, mecanismo DISTINTO de s68 (no stamps, no aditivo)
+  implicacion: el lever aditivo del merge (s68 punto 2) NO ayudaría a estos 4 -> generación-primero se refuerza
+  ruler: hp006 candidato a gold-injusto (fuente ausente del corpus) — revisar con Alberto
