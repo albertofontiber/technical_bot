@@ -349,6 +349,11 @@ def _assert_instrument_equivalence(section: str, ours: dict) -> None:
 def phase_generate(args) -> None:
     assert os.getenv("GENERATOR_INCLUDE_CONTEXT") != "1", \
         "GENERATOR_INCLUDE_CONTEXT=1 detectado — el baseline es brazo A (blurb OFF)"
+    # s69 (cross-model): en el HARNESS el flag se valida ESTRICTO — un typo NO debe correr
+    # tratamiento-como-control en silencio (en PROD el default-base es fail-safe; aquí no).
+    _variant = os.getenv("GENERATOR_PROMPT_VARIANT", "base")
+    assert _variant in ("base", "fidelity"), \
+        f"GENERATOR_PROMPT_VARIANT={_variant!r} desconocido — abortado (esperado base|fidelity)"
     _assert_instrument_equivalence("generate", {
         "model": LLM_MODEL, "temperature": 0, "max_tokens": LLM_MAX_TOKENS,
         "include_context": 0,
