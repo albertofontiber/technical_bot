@@ -1,0 +1,237 @@
+resumen:
+  total: 13
+  injustos_confirmados:
+  - cat012->PASS (gold-estricto-unfair)
+  auditor_injusto_pero_defensa_lo_tumbo:
+  - 'cat009: El gold es JUSTO; el bot SI falló, y la defensa NO depende de la nota de revisión 4K7→6K8
+    que el auditor ataca. Verifica'
+  - 'cat011: EL GOLD ES JUSTO. La premisa central del auditor —que el penalty se apoya en "conocimiento
+    que el generador NO recibe"— '
+  - 'cat020: El gold es JUSTO; el veredicto PARCIAL (no PASS) es correcto. La tesis central del auditor
+    ("el bot transcribe TODOS eso'
+  - 'cat019: El gold cat019 es JUSTO y el bot SÍ falló (PARCIAL correcto). El auditor acertó un punto
+    procedimental pero lo usó para '
+  justos_bot_fallo:
+  - hp004 (real-fail-generacion)
+  - hp007 (real-fail-generacion)
+  - cat013 (retrieval-miss)
+  - cat021 (retrieval-miss)
+  - cat007 (retrieval-miss)
+  - hp006 (retrieval-miss)
+  - hp013 (retrieval-miss)
+  - hp009 (retrieval-miss)
+  dudas_para_alberto:
+  - 'cat009: El gold exige la nota historica 4K7→6K8 (latest-wins), pero su chunk-fuente (edicion v04,
+    ''HLSI-MN-025-I_NFS Supra Series'' p27) NO se sirvio en el top-5. ¿Cuenta como fallo del bot omitir
+    una advertencia que no estaba en su contexto? Mi lectura: no — es diligencia del autor, no info derivable.
+    Ademas, decidir el canon de tension: 24V (EN) vs 25V (ES), ambas en chunks v05 servidos y contradictorias
+    en la propia fuente; el gold deberia aceptar 25V como valido (fiel al chunk ES servido).'
+  - 'cat012: El residual legitimo (113/255 mA no servido) es retrieval-miss real, pero ese detalle es
+    un "p. ej." dentro de un hecho, NO un core del resumen del gold. ¿Cuentas esto como PASS (mi voto:
+    el core operativo esta 100% cubierto y los 2 motivos del juez son invalidos —uno alucinacion inventada,
+    otro miss no requerido) o como retrieval-miss/PARCIAL porque la distincion alimentacion-vs-bateria
+    si esta en los atomic_facts? Si priorizas el atomic_fact #3 literal => reclassify_to=retrieval-miss
+    + PARCIAL; si priorizas que el resumen-respuesta esta completo y los motivos del PARCIAL son falsos
+    => PASS/gold-estricto-unfair (mi recomendacion).'
+  - 'hp004: K-INESTABLE definicional: run1 (PASS) y run3 (PARCIAL) tienen un nudge casi idéntico (''verifica
+    en la etiqueta tu versión''). El juez oscila ±1 sobre si un nudge-suave a verificar la versión SATISFACE
+    la conducta clarify, o si clarify exige una PREGUNTA explícita de vuelta. No flipea el modal (PARCIAL),
+    pero ¿quieres canonizar en el ruler/judge-prompt que clarify a confianza-media se cumple si el bot
+    surfacea ambos candidatos acotados + dirige al usuario a determinar su versión, aunque no formule
+    literalmente la pregunta? Eso bajaría el ruido del juez en este tipo de gold.'
+  - 'hp007: Borde de severidad: ¿el modal PARCIAL es justo o debería ser PASS? Los 4 hechos estrictamente
+    ANUALES (lo que la pregunta pide literalmente) están en los 5 runs; las 3 frecuencias no-anuales que
+    runs 3/4 omiten del cuerpo el gold las tipa ''core'' aunque la pregunta es sobre el "test anual".
+    Si decides que freq no-anuales son contexto deseable pero no core para "anual", el modal viraría a
+    PASS (gold-estricto-unfair). Tal como está tipado el rubric (core), PARCIAL es defendible. Decisión
+    tuya sobre el peso de las freq no-anuales para una pregunta enmarcada como ''anual''.'
+  - 'cat011: El bot lista candidatos correctos PERO desde los chunks (SDX-751/CPX-751/LPX-751/IPX-751),
+    no desde el catálogo curado (CPX-751E/IDX-751/FSL-751E) — y el catálogo NO se inyecta a generación,
+    solo a retrieval/near-name. ¿Se cuenta como fallo del bot no producir nombres-de-catálogo que su contexto
+    no contiene? Si la respuesta es "el clarify es válido siempre que liste 751-reales del corpus + aísle
+    el ATEX (lo hizo) → PASS"; si se exige el set EXACTO del catálogo + el ⚠️ de no-intercambiabilidad
+    explícito → PARCIAL justo. Decisión de diseño: ¿inyectar la lista de candidatos del catálogo al prompt
+    cuando extract_models detecta un near-name ambiguo (p.ej. "751")? Eso cerraría este gap estructuralmente
+    y haría el gold alcanzable.'
+  - 'cat013: El veredicto PARCIAL es correcto y el cause-raiz es retrieval-miss (no generacion). Pero
+    hay un matiz para decidir el PASS-rate: el unico ''error'' real del bot (''no tengo doc del SDX-751'')
+    no es invencion ni afirmacion de compatibilidad — es admision honesta de un gap que en realidad SI
+    esta cubierto por el corpus pero NO fue servido. Si el criterio fuera ''el bot no puede ser mas completo
+    de lo que retrieval le da'', cat013 seria casi-PASS de conducta con techo de retrieval. ¿Cuenta como
+    FALLO del bot decir ''no tengo doc'' cuando el doc existe pero retrieval no lo sirvio? Mi lectura:
+    PARCIAL justo, atribuible a canal (retrieval), no a generacion.'
+  - 'cat020: Matiz UX real (no factual): runs 0/1 ABREN con ''la respuesta depende del tipo de detector''
+    ANTES de dar el titular 80/100/108; un tecnico que pregunta el default simple podria querer el valor
+    headline primero (runs 2/3/4 SI lo hacen). ¿Cuenta esa estructura indirecta como PARCIAL legitimo,
+    o es solo estilo? Mi lectura: factualmente PASS (todo correcto + source-grounded), pero es el borde
+    PASS/PARCIAL y la decision la fija cuan estricto quieras el gold sobre ''responder lo justo sin extra
+    correcto''. El 5/5 NO es ruido del juez — es estable porque el juez consistentemente confunde completitud-correcta
+    con contradiccion.'
+  - 'cat019: El gold tiene 4 facts core; el bot cubre 3 al 100% y el 4º (salidas) en mecanismo pero sin
+    el fraseo verbatim "sirenas o modulos de control" (que se perdio en el corte top-5, no en generacion).
+    ¿Cuentas eso como PASS pleno o PARCIAL legitimo? Mi lectura: el motor REAL del PARCIAL unanime es
+    una "truncacion" que NO existe -> el veredicto esta contaminado y deberia ser PASS; pero si exiges
+    literalidad del fact 4 core, seria a lo sumo PARCIAL por retrieval-miss, nunca por respuesta incompleta.'
+  - 'cat007: El residual de cat007 se clasifico como INDETERMINADO-solo-debiles en s67base, pero la verdad
+    es retrieval-miss DURO: la Tabla 3 (failsafe/no-enclavado) y Tabla 3a (10^5 ops) rankean #1/#2/#10/#23
+    en vectores crudos y aun asi el diversify/pool-assembly las expulso del pool-50. Esto es exactamente
+    el lever "alcanzable-en-pool (orden/top5)" que el ciclo de levers archivo como NO-GO — vale revisar
+    si la regla de diversify por-pagina (que mete p1-indice y p9-servicio en vez de p5-Tabla3) es un bug
+    de ensamblado concreto y barato de arreglar, no un lever generico.'
+  - 'hp013: El veredicto PARCIAL es JUSTO sobre la respuesta (es realmente incompleta vs gold), pero la
+    causa raiz es el CORTE top-5 (ranking), no la generacion: los chunks correctos (p29/p68/p113 con EEPROM/bateria/BR2032)
+    estaban en el pool-50 y el reranker sirvio 5 chunks de tubo-sensor irrelevantes. Esto NO sube el PASS-rate
+    (sigue PARCIAL), pero re-atribuye el residual de hp013 de ''generacion/indeterminado'' a ''retrieval-miss
+    del cut top-5'' — relevante para el diagnostico de donde esta el techo (canal rio arriba, lever orden/top-5).
+    Confirmar si quieres que cuente como retrieval-miss en el tally aunque el s68 no lo cazara por ser
+    ''solo-debiles''.'
+  - 'hp009: Nota mecanística (no cambia el veredicto): el RPC vectorial crudo SIN filtro (embed live,
+    HyDE off) rankea MIE-MI-530 MUY alto (rank 3 p27, rank 46 p19) — dentro del top-50. Pero el pool frozen
+    s67 (sims redondeadas 0.8, rerank_backend_used presente) no contiene NINGÚN 530. La escala difiere
+    (0.61 live vs 0.8 frozen) → el pipeline congelado usó otra representación de query (probablemente
+    HyDE ON en el freeze s67). Esto sugiere que el miss podría ser causado/agravado por HyDE o por el
+    reranker expulsando el doc correcto, no solo por profundidad del corte. ¿Quieres que confirme si HyDE
+    estaba ON en el freeze s67base y re-corra el retrieval real (no el RPC crudo) para localizar EXACTAMENTE
+    dónde se cae MIE-MI-530 (HyDE vs rerank vs diversify)? Es la diferencia entre retrieval-miss "profundidad/corte"
+    y "lever HyDE/rerank lo expulsa".'
+golds:
+- qid: cat009
+  auditor_gold_fair: false
+  should_be: PASS
+  reclassify_to: gold-estricto-unfair
+  defensa_gold_es_justo: true
+  doubt: 'El gold exige la nota historica 4K7→6K8 (latest-wins), pero su chunk-fuente (edicion v04, ''HLSI-MN-025-I_NFS
+    Supra Series'' p27) NO se sirvio en el top-5. ¿Cuenta como fallo del bot omitir una advertencia que
+    no estaba en su contexto? Mi lectura: no — es diligencia del autor, no info derivable. Ademas, decidir
+    el canon de tension: 24V (EN) vs 25V (ES), ambas en chunks v05 servidos y contradictorias en la propia
+    fuente; el gold deberia aceptar 25V como valido (fiel al chunk ES servido).'
+- qid: cat012
+  auditor_gold_fair: false
+  should_be: PASS
+  reclassify_to: gold-estricto-unfair
+  defensa_gold_es_justo: false
+  doubt: 'El residual legitimo (113/255 mA no servido) es retrieval-miss real, pero ese detalle es un
+    "p. ej." dentro de un hecho, NO un core del resumen del gold. ¿Cuentas esto como PASS (mi voto: el
+    core operativo esta 100% cubierto y los 2 motivos del juez son invalidos —uno alucinacion inventada,
+    otro miss no requerido) o como retrieval-miss/PARCIAL porque la distincion alimentacion-vs-bateria
+    si esta en los atomic_facts? Si priorizas el atomic_fact #3 literal => reclassify_to=retrieval-miss
+    + PARCIAL; si priorizas que el resumen-respuesta esta completo y los motivos del PARCIAL son falsos
+    => PASS/gold-estricto-unfair (mi recomendacion).'
+- qid: hp004
+  auditor_gold_fair: true
+  should_be: PARCIAL
+  reclassify_to: real-fail-generacion
+  defensa_gold_es_justo: null
+  doubt: 'K-INESTABLE definicional: run1 (PASS) y run3 (PARCIAL) tienen un nudge casi idéntico (''verifica
+    en la etiqueta tu versión''). El juez oscila ±1 sobre si un nudge-suave a verificar la versión SATISFACE
+    la conducta clarify, o si clarify exige una PREGUNTA explícita de vuelta. No flipea el modal (PARCIAL),
+    pero ¿quieres canonizar en el ruler/judge-prompt que clarify a confianza-media se cumple si el bot
+    surfacea ambos candidatos acotados + dirige al usuario a determinar su versión, aunque no formule
+    literalmente la pregunta? Eso bajaría el ruido del juez en este tipo de gold.'
+- qid: hp007
+  auditor_gold_fair: true
+  should_be: PARCIAL
+  reclassify_to: real-fail-generacion
+  defensa_gold_es_justo: null
+  doubt: 'Borde de severidad: ¿el modal PARCIAL es justo o debería ser PASS? Los 4 hechos estrictamente
+    ANUALES (lo que la pregunta pide literalmente) están en los 5 runs; las 3 frecuencias no-anuales que
+    runs 3/4 omiten del cuerpo el gold las tipa ''core'' aunque la pregunta es sobre el "test anual".
+    Si decides que freq no-anuales son contexto deseable pero no core para "anual", el modal viraría a
+    PASS (gold-estricto-unfair). Tal como está tipado el rubric (core), PARCIAL es defendible. Decisión
+    tuya sobre el peso de las freq no-anuales para una pregunta enmarcada como ''anual''.'
+- qid: cat011
+  auditor_gold_fair: false
+  should_be: PARCIAL
+  reclassify_to: gold-estricto-unfair
+  defensa_gold_es_justo: true
+  doubt: 'El bot lista candidatos correctos PERO desde los chunks (SDX-751/CPX-751/LPX-751/IPX-751), no
+    desde el catálogo curado (CPX-751E/IDX-751/FSL-751E) — y el catálogo NO se inyecta a generación, solo
+    a retrieval/near-name. ¿Se cuenta como fallo del bot no producir nombres-de-catálogo que su contexto
+    no contiene? Si la respuesta es "el clarify es válido siempre que liste 751-reales del corpus + aísle
+    el ATEX (lo hizo) → PASS"; si se exige el set EXACTO del catálogo + el ⚠️ de no-intercambiabilidad
+    explícito → PARCIAL justo. Decisión de diseño: ¿inyectar la lista de candidatos del catálogo al prompt
+    cuando extract_models detecta un near-name ambiguo (p.ej. "751")? Eso cerraría este gap estructuralmente
+    y haría el gold alcanzable.'
+- qid: cat013
+  auditor_gold_fair: true
+  should_be: PARCIAL
+  reclassify_to: retrieval-miss
+  defensa_gold_es_justo: null
+  doubt: 'El veredicto PARCIAL es correcto y el cause-raiz es retrieval-miss (no generacion). Pero hay
+    un matiz para decidir el PASS-rate: el unico ''error'' real del bot (''no tengo doc del SDX-751'')
+    no es invencion ni afirmacion de compatibilidad — es admision honesta de un gap que en realidad SI
+    esta cubierto por el corpus pero NO fue servido. Si el criterio fuera ''el bot no puede ser mas completo
+    de lo que retrieval le da'', cat013 seria casi-PASS de conducta con techo de retrieval. ¿Cuenta como
+    FALLO del bot decir ''no tengo doc'' cuando el doc existe pero retrieval no lo sirvio? Mi lectura:
+    PARCIAL justo, atribuible a canal (retrieval), no a generacion.'
+- qid: cat021
+  auditor_gold_fair: true
+  should_be: PARCIAL
+  reclassify_to: retrieval-miss
+  defensa_gold_es_justo: null
+  doubt: ''
+- qid: cat020
+  auditor_gold_fair: false
+  should_be: PASS
+  reclassify_to: gold-estricto-unfair
+  defensa_gold_es_justo: true
+  doubt: 'Matiz UX real (no factual): runs 0/1 ABREN con ''la respuesta depende del tipo de detector''
+    ANTES de dar el titular 80/100/108; un tecnico que pregunta el default simple podria querer el valor
+    headline primero (runs 2/3/4 SI lo hacen). ¿Cuenta esa estructura indirecta como PARCIAL legitimo,
+    o es solo estilo? Mi lectura: factualmente PASS (todo correcto + source-grounded), pero es el borde
+    PASS/PARCIAL y la decision la fija cuan estricto quieras el gold sobre ''responder lo justo sin extra
+    correcto''. El 5/5 NO es ruido del juez — es estable porque el juez consistentemente confunde completitud-correcta
+    con contradiccion.'
+- qid: cat019
+  auditor_gold_fair: false
+  should_be: PASS
+  reclassify_to: conducta-ok-unfair
+  defensa_gold_es_justo: true
+  doubt: 'El gold tiene 4 facts core; el bot cubre 3 al 100% y el 4º (salidas) en mecanismo pero sin el
+    fraseo verbatim "sirenas o modulos de control" (que se perdio en el corte top-5, no en generacion).
+    ¿Cuentas eso como PASS pleno o PARCIAL legitimo? Mi lectura: el motor REAL del PARCIAL unanime es
+    una "truncacion" que NO existe -> el veredicto esta contaminado y deberia ser PASS; pero si exiges
+    literalidad del fact 4 core, seria a lo sumo PARCIAL por retrieval-miss, nunca por respuesta incompleta.'
+- qid: cat007
+  auditor_gold_fair: true
+  should_be: PARCIAL
+  reclassify_to: retrieval-miss
+  defensa_gold_es_justo: null
+  doubt: 'El residual de cat007 se clasifico como INDETERMINADO-solo-debiles en s67base, pero la verdad
+    es retrieval-miss DURO: la Tabla 3 (failsafe/no-enclavado) y Tabla 3a (10^5 ops) rankean #1/#2/#10/#23
+    en vectores crudos y aun asi el diversify/pool-assembly las expulso del pool-50. Esto es exactamente
+    el lever "alcanzable-en-pool (orden/top5)" que el ciclo de levers archivo como NO-GO — vale revisar
+    si la regla de diversify por-pagina (que mete p1-indice y p9-servicio en vez de p5-Tabla3) es un bug
+    de ensamblado concreto y barato de arreglar, no un lever generico.'
+- qid: hp006
+  auditor_gold_fair: true
+  should_be: FALLO
+  reclassify_to: retrieval-miss
+  defensa_gold_es_justo: null
+  doubt: ''
+- qid: hp013
+  auditor_gold_fair: true
+  should_be: PARCIAL
+  reclassify_to: retrieval-miss
+  defensa_gold_es_justo: null
+  doubt: 'El veredicto PARCIAL es JUSTO sobre la respuesta (es realmente incompleta vs gold), pero la
+    causa raiz es el CORTE top-5 (ranking), no la generacion: los chunks correctos (p29/p68/p113 con EEPROM/bateria/BR2032)
+    estaban en el pool-50 y el reranker sirvio 5 chunks de tubo-sensor irrelevantes. Esto NO sube el PASS-rate
+    (sigue PARCIAL), pero re-atribuye el residual de hp013 de ''generacion/indeterminado'' a ''retrieval-miss
+    del cut top-5'' — relevante para el diagnostico de donde esta el techo (canal rio arriba, lever orden/top-5).
+    Confirmar si quieres que cuente como retrieval-miss en el tally aunque el s68 no lo cazara por ser
+    ''solo-debiles''.'
+- qid: hp009
+  auditor_gold_fair: true
+  should_be: FALLO
+  reclassify_to: retrieval-miss
+  defensa_gold_es_justo: null
+  doubt: 'Nota mecanística (no cambia el veredicto): el RPC vectorial crudo SIN filtro (embed live, HyDE
+    off) rankea MIE-MI-530 MUY alto (rank 3 p27, rank 46 p19) — dentro del top-50. Pero el pool frozen
+    s67 (sims redondeadas 0.8, rerank_backend_used presente) no contiene NINGÚN 530. La escala difiere
+    (0.61 live vs 0.8 frozen) → el pipeline congelado usó otra representación de query (probablemente
+    HyDE ON en el freeze s67). Esto sugiere que el miss podría ser causado/agravado por HyDE o por el
+    reranker expulsando el doc correcto, no solo por profundidad del corte. ¿Quieres que confirme si HyDE
+    estaba ON en el freeze s67base y re-corra el retrieval real (no el RPC crudo) para localizar EXACTAMENTE
+    dónde se cae MIE-MI-530 (HyDE vs rerank vs diversify)? Es la diferencia entre retrieval-miss "profundidad/corte"
+    y "lever HyDE/rerank lo expulsa".'
