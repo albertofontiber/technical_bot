@@ -12,7 +12,7 @@ Si alcanzas un trigger, para y refactoriza antes de seguir añadiendo features.
 
 ## Índice de estado (s65 — 12 jun 2026; generado, no renumera)
 
-- **Abiertos (trigger-gated):** #1, #2, #3, #5b, #5, #6, #7, #10, #11b, #12, #11g, #11h, #13, #15, #17, #18, #19, #20, #21, #22, #23, #25, #26, #27, #28, #29, #30, #31, #18, #32, #33, #34, #35, #36, #37, #39, #40, #41, #44, #45, #47, #48
+- **Abiertos (trigger-gated):** #1, #2, #3, #5b, #5, #6, #7, #10, #11b, #12, #11g, #11h, #13, #15, #17, #18, #19, #20, #21, #22, #23, #25, #26, #27, #28, #29, #30, #31, #18, #32, #33, #34, #35, #36, #37, #39, #40, #41, #44, #45, #47, #48, #49
 - **Parciales / elevados:** #8, #11f, #24
 - **Cerrados (✅ resueltos o 🔴 revertidos):** #4, #9, #11, #11c, #11i, #11d, #14, #16, #38, #42, #43 (✅ COMPLETO: capa A s63/DEC-044 + capa B s65/DEC-046; escritor-en-ingesta → PLAN punto 2), #46 (✅ s64/DEC-045)
 
@@ -1763,3 +1763,47 @@ de chunk del reranker (LLM y path Voyage CE). Coste ~1h código + medición.
 
 **Relacionado**: hp017 (su gold usa el PARENT `section_path` para el rescate sección-hermana —
 mecanismo distinto, Lever 1 de contigüidad/diversify, no la exposición del campo).
+
+---
+
+## 49. Identidad de variantes/familias NO auto-escala a 30+ — la curación es manual+reactiva, y una fracción grande es METADATA-INCONSISTENCY (no config-fixable) (s72)
+
+**Estado actual (scan s72 sobre chunks_v2)**: el seam config (`series:`/`model_aliases`, DEC-043/035)
+escala en CÓDIGO (añadir fabricante = añadir YAML) pero la CURACIÓN es manual y REACTIVA (cada familia
+se descubre porque un gold/queja la destapa — p.ej. ZXe vía hp009/hp018, DEC-053). Scan del solape-substring
+de `product_model` (la condición que dispara base-drags-variant + variant-misses-base + el matching del filtro):
+- **Same-brand base→variante: 80+ pares (consulta CAPADA), ~9 fabricantes** — Argus (SG*-IS), Aritech
+  (2X-AT-F2-*), Kidde (KE-*), Morley, Notifier (~25 bases: AM-8200, ID50/60, INSPIRE E10/E15, G-100-R,
+  SMART 3G, NAS-20…), Pfannenberg, Securiton (ADW535-1), Spectrex (40-40R-SINGLE), Xtralis (VESDA-E,
+  FAAST-FLEX). **Declaradas hoy: 3 series (Vesta, AM-8200, e-series) de ~47+ familias.**
+- **Cross-brand: 53 pares / 21 cores colisionan** (p.ej. FAAST bajo Morley/Notifier/Xtralis) → el filtro
+  substring puede arrastrar la MARCA equivocada.
+- **HALLAZGO CLAVE: una fracción grande NO es familia-de-variantes sino METADATA-INCONSISTENCY** — el MISMO
+  producto etiquetado de N formas (ID200/ID-200; Pearl/PEARL/Pearl-997-670-005-3; NFS Supra/NFS-Supra/
+  NFS-SUPRA; RP1r/RP1R/RP1r-Supra; SECURNET PLUS/SECURNETPLUS) + pm compuestos (AM2020/AFP1010, ID50/60,
+  M700KAC + M700KACI, UCIP/UCIP-GPRS). **El config seam NO arregla esto** (no se puede series-declarar una
+  inconsistencia de etiqueta) — es la raíz de DATOS (#43 capa B / #18-mfr).
+
+**Problema**: a 30+ fabricantes la curación a mano no llega (cubrimos 3 de ~47+); y el grueso ni siquiera
+es config-fixable (es calidad de dato). Además el matching es por substring → las colisiones crecen con el
+catálogo (fragilidad del MECANISMO, no solo de la curación).
+
+**Trigger para implementar**: (a) arranque de la INGESTA grande (la push a 30+ mete familias nuevas en
+bloque — el escritor debe NORMALIZAR `product_model` + poblar `product_family` AHÍ, no a posteriori); O
+(b) ≥2º gold de identidad que caiga FUERA de una serie declarada (la curación reactiva no da abasto); O
+(c) queja de técnico por arrastre/colisión de variante.
+
+**Solución propuesta** (en orden de estructura):
+1. **Raíz de datos (lo que SÍ escala)**: normalizar `product_model` a forma canónica + poblar
+   `product_family` (#21) EN INGESTA → la serie se DERIVA del corpus en vez de curarse a mano, Y desaparece
+   la clase metadata-inconsistency. Ligado a #43 capa B (escritor-en-ingesta) + #44/#45.
+2. **Detector proactivo (puente semi-auto)**: productizar el scan s72 (solape-substring same/cross-brand +
+   tokens-paraguas) → herramienta que PROPONE entradas series/alias para revisión humana y FLAGEA la
+   metadata-inconsistency para saneo. Descubrimiento reactivo→proactivo; alimenta (1).
+3. **Config a mano (lo actual)**: solo para las familias de más valor que surjan por gold, como tapón hasta (1)/(2).
+
+**Coste estimado**: detector ~3-4h; raíz de datos = parte del contrato de ingesta (#44/#45), lift grande gated.
+
+**Relacionado**: DEC-053 (Brazo A = primer caso curado a mano), DEC-043/#43 capa B (seam + escritor),
+#21 (product_family), #18-mfr (atribución/etiquetas), #44/#45 (contratos de ingesta), #47. Scan reproducible:
+self-join de `chunks_v2` por `lower(regexp_replace(product_model,'[- ]','',''))` con `LIKE`.
