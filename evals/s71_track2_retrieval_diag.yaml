@@ -1,0 +1,352 @@
+resumen:
+  total: 17
+  por_mecanismo:
+    filtro-modelo/series:
+    - cat016
+    - hp013
+    - hp008
+    - hp009
+    - cat001
+    - hp018
+    - cat013
+    - hp006
+    rerank-no-sube:
+    - hp003
+    stamps-dedup-pisa:
+    - cat017
+    - cat007
+    frontera-k>50:
+    - hp002
+    - hp001
+    - hp011
+    corpus-gap-real:
+    - hp017
+    producto-conflicto:
+    - cat008
+    - cat021
+  no_retrieval_fixable:
+  - cat008
+  fixables_por_mecanismo:
+    filtro-modelo/series:
+    - cat016
+    - hp013
+    - hp008
+    - hp009
+    - cat001
+    - hp018
+    - cat013
+    - hp006
+    rerank-no-sube:
+    - hp003
+    stamps-dedup-pisa:
+    - cat017
+    - cat007
+    frontera-k>50:
+    - hp002
+    - hp001
+    - hp011
+    corpus-gap-real:
+    - hp017
+    producto-conflicto:
+    - cat021
+  fixes_bajo_riesgo:
+  - 'hp003: Subir el preview del reranker LLM de 800 a ~2400 chars: src/rag/reranker.py linea 74, content_previe'
+  - 'hp013: Subir el limit del BROAD-fallback vectorial de 5 a ~50 en retriever.py retrieve_chunks Step
+    2 (línea'
+  - 'cat017: VECTOR-FLOOR quirurgico en retrieve_chunks, DESPUES de los filtros (model/lifecycle/language)
+    y ANTE'
+  - 'hp002: Subir la profundidad del fallback-broad del canal vectorial de limit=5 a effective_top_k (50).
+    En re'
+  - 'hp001: Quirurgico en _diversify_by_source_file (additivo, no re-baraja el pool): (1) lanzar el fetch
+    within'
+  - 'hp017: RESCATE POR SECCION-HERMANA (section-sibling contiguity), aditivo y gated, SIN re-barajar:
+    en _diver'
+  - 'hp009: Resolución de alias de modelo en extract_product_models (src/rag/retriever.py): expandir el
+    token ma'
+  - 'cat001: QUIRURGICO (no re-barajar): extender el suplemento por-source del diversify (_diversify_by_source_fi'
+  - 'hp018: Anadir una entrada `series:` en config/manufacturers/morley.yaml para la familia e-series
+    (members: '
+  - 'cat007: Candidata ADITIVA del merge que DEC-050 ya pre-marco como el siguiente lever de bajo riesgo:
+    (1) pro'
+  - 'cat013: Rescate per-modelo-detectado DENTRO de _filter_to_query_models (retriever.py:1445-1454),
+    SIN re-bara'
+  - 'cat021: Variant-aware diversify acotado a familia-ambigua: en _diversify_by_source_file, cuando la
+    query map'
+golds:
+- qid: cat016
+  mecanismo: filtro-modelo/series
+  donde_muere: merge
+  en_pool50: false
+  rank_vectorial_crudo: 'no-rankeado: cos(query)=0.4722, fuera del top-300 (el RPC k=300 thr=0.0 solo
+    devuelve 116 filas y el chunk no esta en el'
+  riesgo_pass_control: medio
+  retrieval_fixable: true
+  fix_propuesto: 'QUIRURGICO sobre keyword_search (src/rag/retriever.py L378-414), SIN re-barajar por
+    coseno: anadir un ''order'' DETERMINISTA al GET (hoy no tiene ninguno -> el ''primeros 5'' es orden
+    fisico arbitrario) priorizando content_type IN (procedure, wiring, troubleshooting) y/o page_number,
+    y/o subir limit de 5 a ~10 para familias profundas de un solo modelo. Con limit>=8 o page-order el
+    §3.3 (pos fisica 8) entra al pool; alli compite dentro de los slots del install en el round-robin
+    de _diversify_by_source_file (que ya garantiza representacion por source). NO toca el reranker ni
+    el merge-cosine (lever NO-GO s68). Alternativa aun mas acotada y mas segura: scope del cambio a queries
+    de UN solo modelo cu'
+- qid: hp003
+  mecanismo: rerank-no-sube
+  donde_muere: rerank
+  en_pool50: true
+  rank_vectorial_crudo: '#81 (RPC k=300, HyDE OFF, sin filtro; el chunk entra al pool por el canal keyword/model
+    con stamp 0.8, no por el canal v'
+  riesgo_pass_control: bajo
+  retrieval_fixable: true
+  fix_propuesto: 'Subir el preview del reranker LLM de 800 a ~2400 chars: src/rag/reranker.py linea 74,
+    content_preview = chunk.get("content","")[:800] -> [:2400] (o constante RERANK_PREVIEW_CHARS=2400).
+    Es QUIRURGICO: NO re-baraja el pool, NO toca merge/diversify/filtros/candidatos; solo cambia lo que
+    el reranker VE de cada chunk >800 chars. MEDIDO: re-corri el reranker sobre el pool congelado de hp003
+    con preview=2400 -> AHORA selecciona p8 eaa39792 en el top-5 (idx 2), conservando p9/p19/p7. Precedente:
+    el path Voyage CE ya lee 4000 chars (VOYAGE_RERANK_DOC_CHARS), o sea ventanas grandes ya son aceptadas
+    para reranking. NO es el lever ''canal merge / re-rankear por coseno'' (NO-GO s68): no perturba el
+    orden '
+- qid: hp013
+  mecanismo: filtro-modelo/series
+  donde_muere: merge
+  en_pool50: false
+  rank_vectorial_crudo: p104 (9.4.2 Sustitución LMB 35) = rank 33, sim 0.5194; p103 (9.4 Sustitución de
+    componentes) = rank 58; p14 (EEPROM core
+  riesgo_pass_control: bajo
+  retrieval_fixable: true
+  fix_propuesto: 'Subir el limit del BROAD-fallback vectorial de 5 a ~50 en retriever.py retrieve_chunks
+    Step 2 (línea ~1096: `vector_search(query, 5, ...)` -> `vector_search(query, effective_top_k, ...)`).
+    Es QUIRÚRGICO y aditivo bajo stamps: NO re-puntúa ni re-baraja (los stamps keyword 0.65-0.80 siguen
+    por encima de los cosenos 0.5x, el sort por similarity es idéntico) -> solo añade candidatos vectoriales
+    al pool que el rerank LLM ya puede elegir. Verificado en vivo: el pool pasa de 17->18 chunks, ENTRA
+    p104 (es la única página añadida) y los 17 originales se conservan al 100%. NO es el lever cosine-merge
+    NO-GO de s68 (ese re-rankeaba TODO por coseno y rebarajó 9/10 PASS-control); este toca SOLO el cap
+    del'
+- qid: cat017
+  mecanismo: stamps-dedup-pisa
+  donde_muere: merge
+  en_pool50: false
+  rank_vectorial_crudo: 7 (HOP-138-9 p47, cos real 0.6814 > corte#50 0.6412; rank 7 tanto en vector_search
+    live thr=0.3 como en RPC k=300 del s6
+  riesgo_pass_control: bajo
+  retrieval_fixable: true
+  fix_propuesto: 'VECTOR-FLOOR quirurgico en retrieve_chunks, DESPUES de los filtros (model/lifecycle/language)
+    y ANTES del reranker: garantizar que los top-N (p.ej. N=8) chunks de MAYOR COSENO REAL del canal VECTOR
+    que sobreviven los filtros esten PRESENTES en el pool servido, sin re-ordenar ni re-puntuar los chunks
+    keyword. NO toca los stamps ni la logica de diversify del resto (a diferencia del NO-GO s68 que re-barajaba
+    TODO por coseno). El reranker LLM hace la seleccion final del top-5 sobre un pool que ahora SI contiene
+    p47. Como p47 esta en rank 7 del coseno y es model-matched+active+es, un floor de N>=7-8 lo sirve.
+    Riesgo PASS-control bajo: solo AÑADE los chunks vectoriales de cabecera (que ya eran ele'
+- qid: hp002
+  mecanismo: frontera-k>50
+  donde_muere: model-filter
+  en_pool50: false
+  rank_vectorial_crudo: p101-troubleshooting (b5804921, el dato V01/V02 + <100% obstrucción / >100% rotura)
+    = rank 13, sim 0.550. p28-troublesho
+  riesgo_pass_control: bajo
+  retrieval_fixable: true
+  fix_propuesto: 'Subir la profundidad del fallback-broad del canal vectorial de limit=5 a effective_top_k
+    (50). En retriever.py ~L1094-1098, bajo MERGE_STRATEGY=stamps, el segundo vector_search (category=None)
+    está hard-capeado a 5 → solo alcanza el top-5 GLOBAL (todos producto-equivocado: MINILÁSER/LASERSTAR/FHSD,
+    que luego _filter_to_query_models tira). Verificado en vivo: con limit=50 el pool servido pasa de
+    17→23 y aparecen p101 (rank servido 18) + p28 (rank 22) de forma PURAMENTE ADITIVA — los 17 chunks
+    originales quedan idénticos en ranks 1-17, los 6 vectoriales ASD535 se apendizan en la cola (sus cosenos
+    0.5x quedan bajo los stamps keyword 0.65-0.8). NO re-baraja (≠ canal-broad/cosine s68). Raíz alter'
+- qid: hp008
+  mecanismo: filtro-modelo/series
+  donde_muere: merge (dimensionamiento del canal vectorial, AGUAS ARRIBA de diversify/rerank/corte-top5)
+  en_pool50: false
+  rank_vectorial_crudo: '#25 (sim 0.619; corte #50 = sim 0.595) — RPC match_chunks k=300 sin filtro, HyDE
+    off, embed-cache s67. NO es corpus-gap '
+  riesgo_pass_control: medio
+  retrieval_fixable: true
+  fix_propuesto: 'Subir el limite del broad-fallback vectorial de 5 a effective_top_k en src/rag/retriever.py
+    linea 1096 (vector_search(query, 5, ...) -> vector_search(query, effective_top_k, ...)). Causa raiz:
+    bajo MERGE_STRATEGY=stamps, _li_sano=False -> la busqueda vectorial PRINCIPAL corre con detected_category="Detectores
+    puntuales" que devuelve 0 filas (chunks_v2 sin categoria canonica poblada), y el unico aporte vectorial
+    es ese broad-fallback hard-codeado a limit=5. Con eso el canal vectorial queda recortado a su top-5
+    y el winner en rank-25 nunca entra al pool. NO toca stamps, merge-strategy, diversify ni rerank: solo
+    da mas candidatos vectoriales (con su coseno 0.6x, debajo de los stamps 0.8) al rer'
+- qid: hp001
+  mecanismo: frontera-k>50
+  donde_muere: 'ensamblado-del-pool: el chunk muere ANTES del rerank LLM, en la frontera del corte top_k=50
+    del canal vectorial (rank 54) y NO lo rescata _diversify_by_source_file. El rerank nunca lo ve (no
+    entra al pool-50; pool efectivo = 26 chunks CAD-250 tras _filter_to_query_models, p29/p18 ausentes).
+    NO es lifecycle (ambos docs status=active), NO es filtro-modelo (pm=CAD-250 pasa), NO es corpus-gap
+    (los 2 chunks existen con literal "Introduzca la clave de administrador por defecto, 2222").'
+  en_pool50: false
+  rank_vectorial_crudo: 54 (canal vectorial RPC match_chunks_v2 k=300, sin filtro, HyDE OFF) para el mejor
+    winner = MI_372 p29 (id 9bd17466), co
+  riesgo_pass_control: bajo
+  retrieval_fixable: true
+  fix_propuesto: 'Quirurgico en _diversify_by_source_file (additivo, no re-baraja el pool): (1) lanzar
+    el fetch within-doc suplementario tambien para los source_files YA PRESENTES pero infra-representados
+    de los modelos de la query (cap +1 pagina/doc, stamp competitivo 0.72 igual que hoy -> no pisa hits
+    directos); (2) en ESE fetch, ampliar las keywords de contenido con sinonimos de dominio de intencion-acceso/config
+    ("programacion avanzada"/"menu avanzado"/"configuracion" -> tambien FTS ''administrador''|''configuracion''),
+    porque la FTS por keyword-literal-de-query ([''entra'',''menu'']) devuelve 0 y la verdadera vocab
+    del dato es ''administrador''. MEDIDO: FTS within-doc ''administrador'' o ''clave & administrador''
+    devu'
+- qid: hp017
+  mecanismo: corpus-gap-real
+  donde_muere: merge
+  en_pool50: false
+  rank_vectorial_crudo: no-rankea (fuera del top-110; RPC k=300 HyDE-off sin-filtro devuelve solo 110
+    chunks sobre umbral 0.0, el chunk necesari
+  riesgo_pass_control: bajo
+  retrieval_fixable: true
+  fix_propuesto: 'RESCATE POR SECCION-HERMANA (section-sibling contiguity), aditivo y gated, SIN re-barajar:
+    en _diversify_by_source_file, tras fijar el top-5, para cada chunk YA SELECCIONADO cuyo section_path
+    pertenece a una seccion procedimental multi-parte (Apendice/A5.x/procedimiento), traer los chunks
+    NO-servidos del mismo source_file que comparten el PARENT section_path (p.ej. "Apendice 5. Programacion
+    de causa-efecto") y que no esten ya en el pool, e inyectarlos como suplemento con score contiguo al
+    del chunk ancla (no un stamp plano). Es puro append condicionado a chunks ya elegidos -> NO toca el
+    orden ni la composicion de los 9/10 PASS-control (solo se dispara cuando un doc-respuesta ya trajo
+    una sec'
+- qid: cat008
+  mecanismo: producto-conflicto
+  donde_muere: 'rerank (genera respuesta) — NO en el ensamblado del pool. El chunk necesario llega al
+    top-5 en rank #1; el gold se cae en GENERACION al elegir la fuente equivocada entre dos chunks servidos
+    que se contradicen.'
+  en_pool50: true
+  rank_vectorial_crudo: '#1 (RPC match_chunks k=300, HyDE OFF, sim=0.6446) — es el chunk MEJOR rankeado
+    de todo el corpus para esta query, y adem'
+  riesgo_pass_control: bajo
+  retrieval_fixable: false
+  fix_propuesto: 'NINGUN fix de retrieval/pool sirve mejor el chunk: ya está en rank #1 vectorial Y en
+    top-5 #1. El fallo es 100% de GENERACION por conflicto entre dos fuentes servidas que se CONTRADICEN
+    sobre la dirección IN/OUT de terminales 1-4. F1 (id 9cfb5d22, source ''Conexionado-del-modulo-M710-MI-DMMI'',
+    top-5 #1) dice 1=−Lazo IN / 3=−Lazo OUT = la del gold. F3 (id f3793f7a, source ''I56-2005-002 M710
+    M720 M721 M701'', top-5 #3) dice lo INVERSO: 1=Salida(OUT) − / 3=Entrada(IN) −. El bot citó F3 [F3]
+    en los 5 runs y heredó el etiquetado invertido. Como ambos chunks son del MISMO módulo (M710=MI-DMMI),
+    no es cross-brand ni cross-product que el filtro de series pueda separar — son dos manuales del mismo
+    equi'
+- qid: hp009
+  mecanismo: filtro-modelo/series
+  donde_muere: 'model-filter (_filter_to_query_models, Step 5a-pre) — mata el único chunk-530 que sobrevive
+    al merge; compuesto aguas arriba por el merge/corte-top5 (stamps del producto-equivocado inflan el
+    pool de 25 y expulsan los chunks-530 core p19/p20 antes del filtro). El filtro es el golpe formal:
+    deja 530-count 1→0.'
+  en_pool50: false
+  rank_vectorial_crudo: 'p20 (core, loop wiring) = rank 44; p19 (core, 3.4.3) = rank 42; p17 = rank 52;
+    p27 (RS485/aux, NO es el core) = rank 3. '
+  riesgo_pass_control: bajo
+  retrieval_fixable: true
+  fix_propuesto: 'Resolución de alias de modelo en extract_product_models (src/rag/retriever.py): expandir
+    el token marketing/familia ''ZXe'' a sus miembros canónicos del corpus {ZX2e, ZX5e}, anclado en config/manufacturers/morley.yaml
+    (que YA declara ''ZXe'' en letter_models). Con eso: (a) los canales keyword/typed/content (imatch)
+    buscan el producto CORRECTO (MIE-MI-530) en vez de ZXAE/ZXEE, (b) _filter_to_query_models pasa los
+    chunks ''ZX2e/ZX5e'' (core ''zx2e'' ⊂ ''zx2e/zx5e'') y veta los ZXAE/ZXEE espurios, (c) el diversify
+    trae el chunk de lazo. NO toca el orden por coseno (NO es el lever canal-broad NO-GO de s68): es puro
+    mapeo de identidad. Implementación mínima: un dict de alias {ZXe:[ZX2e,ZX5e]} resuelto tras'
+- qid: cat001
+  mecanismo: filtro-modelo/series
+  donde_muere: merge
+  en_pool50: false
+  rank_vectorial_crudo: '997-669 p51 (capacidad: 1/2 lazos + 159+159/99+99 + 0,75A) = rank #24 cos 0.5771
+    (corte#50=0.5617); 997-669 p38 (aislado'
+  riesgo_pass_control: bajo
+  retrieval_fixable: true
+  fix_propuesto: 'QUIRURGICO (no re-barajar): extender el suplemento por-source del diversify (_diversify_by_source_file
+    / _fetch_top_chunks_by_source_file) para que tambien dispare en sources INFRARREPRESENTADOS — presentes
+    en el pool pero cuyos chunks servidos NO contienen las content_keywords de la query — no solo en sources
+    AUSENTES (missing_sources). Acotado a los docs del modelo de la query, limit=2, stamp 0.72/coseno
+    real, el reranker decide. Verificado E2E: inyectado p51 al pool, el rerank LLM lo PROMUEVE al top-5
+    servido (posicion 2) y cierra 3 omisiones del juez (1/2 lazos, 0,75A, 99+99 CLIP). NO tocar el merge/sort/filtro-modelo
+    (intactos => PASS-control intacto). DESCARTADO explicitamente: profund'
+- qid: hp011
+  mecanismo: frontera-k>50
+  donde_muere: 'corte-top5 (en realidad: corte del CANAL VECTORIAL en match_count=RETRIEVAL_TOP_K=50,
+    aguas arriba del merge). Los chunks-respuesta del manual MN-103 rankean 51-80 por coseno y nunca entran
+    al pool; el merge/diversify/rerank operan sobre un pool ya starved de ellos.'
+  en_pool50: false
+  rank_vectorial_crudo: 'RPC k=300 sin filtro: p44(ABORT)=46 cos0.5454 · p56(t.A, hecho fuerte)=65 cos0.5385
+    · p63(r.1)=76 cos0.5354. Cutoff #50 '
+  riesgo_pass_control: medio
+  retrieval_fixable: true
+  fix_propuesto: 'Deepening VECTORIAL acotado al modelo de la query, inyectado por el path de SUPLEMENTOS
+    ya existente (NO re-rankea el pool). Concreto: en retrieve_chunks, cuando hay EXACTAMENTE 1 modelo
+    detectado, lanzar una 2ª vector_search con el MISMO query_embedding a match_count=80, tomar SÓLO la
+    banda de posiciones 51-80 (las que el corte k=50 dejó fuera), pasarlas por el _filter_to_query_models
+    YA existente (las acota a la familia del modelo: 30→24 en hp011) e inyectarlas como suplementos a
+    sim=0.72 vía el mismo mecanismo que _diversify_by_source_file usa hoy (que está probado inerte a PASS-control:
+    sólo AÑADE candidatos, el reranker filtra). El orden/sort/dedup de los chunks YA en el pool queda
+    inta'
+- qid: hp018
+  mecanismo: filtro-modelo/series
+  donde_muere: model-filter
+  en_pool50: false
+  rank_vectorial_crudo: '#5 (MIE-MI-530rv001 p22, sim 0.6052; p21 cita-gold = #25, sim 0.5688) — ambos
+    sobre el corte #50 (sim 0.5498) y por enci'
+  riesgo_pass_control: bajo
+  retrieval_fixable: true
+  fix_propuesto: 'Anadir una entrada `series:` en config/manufacturers/morley.yaml para la familia e-series
+    (members: [ZXe, ZX2e, ZX5e]; shared_docs: MIE-MI-530rv001, MIE-MP-530rv001, MIE-MU-530rv001 con evidence).
+    Esto usa el mecanismo YA construido (series_registry, DEC-043/#43) diseniado EXACTAMENTE para "la
+    query de una variante no alcanza los docs de su serie". Verificado en simulacion: con la entrada,
+    passes_nivel2 devuelve True para los chunks MI-530 (clausula b is_shared_source) PESE a que "zxe"
+    no es substring de "zx2e/zx5e", y shared_sources_for([ZXE]) hace que _diversify_by_source_file haga
+    un fetch DIRIGIDO de MI-530. El chunk necesario rankea #5 vectorial, asi que entra de sobra. NO re-baraja
+    el '
+- qid: cat007
+  mecanismo: stamps-dedup-pisa
+  donde_muere: merge
+  en_pool50: false
+  rank_vectorial_crudo: 'dd9e230c (LT-200 p5 Tabla2 sirena EOL 47k) = rank 12; d47ddbb0 (LT-200 p5 Tabla3
+    rele failsafe + spec electrica) = rank '
+  riesgo_pass_control: bajo
+  retrieval_fixable: true
+  fix_propuesto: 'Candidata ADITIVA del merge que DEC-050 ya pre-marco como el siguiente lever de bajo
+    riesgo: (1) profundizar el canal vectorial SANO de broad-5 a broad-50 (subir el top_k del vector_search
+    broad-fallback de 5 a RETRIEVAL_TOP_K=50 — linea ~1097 retriever.py), y (2) INYECTARLO ADITIVAMENTE:
+    stamps keyword intactos arriba (dedup/sort historico sin tocar), los cosenos del canal sano se APENDIZAN
+    SOLO a slots libres del pool (no re-baraja, no re-puntua, no pisa los stamps 0.80/0.85). Simulado:
+    con broad top_k 5->50 los 4 chunks LT-200 p5 (pm correcto ''FAAST LT-200'') entran al pool en pos
+    34/37/46/48 -> ahora SI servibles al reranker. Esto NO es el lever ''cosine/quota'' NO-GO de s68 (esos
+    re-baraja'
+- qid: cat013
+  mecanismo: filtro-modelo/series
+  donde_muere: model-filter (Step 5a-pre _filter_to_query_models, src/rag/retriever.py:1249-1250 / def
+    1400-1454)
+  en_pool50: false
+  rank_vectorial_crudo: rank 11 (MIDT190 p71 ID3000, el chunk SDX-751/CLIP Apendice-3, sim=0.5547); datasheets
+    SDX-751 (I56-1320-001/I56-1306-00
+  riesgo_pass_control: bajo
+  retrieval_fixable: true
+  fix_propuesto: 'Rescate per-modelo-detectado DENTRO de _filter_to_query_models (retriever.py:1445-1454),
+    SIN re-barajar el pool: tras computar `filtered`, para CADA query-core que produjo CERO survivors
+    por product_model, rescatar hasta 2 chunks del pool de entrada cuyo source_file O content contenga
+    literalmente el token del modelo (normalize_model) Y cuyo manufacturer == classify_model_manufacturer(model)
+    (anti-falso-positivo cross-brand). Se anaden a `filtered` preservando su orden/score actual (no se
+    re-ordena el resto). Esto sirve los chunks SDX-751 (manufacturer=Notifier, source_file ''I56-1320-001
+    SDX-751TEM'', product_model mis-atribuido a LOCAL-360 — raiz: TECH_DEBT #6) que hoy el filtro expulsa
+    porq'
+- qid: cat021
+  mecanismo: producto-conflicto
+  donde_muere: diversify-expulsa
+  en_pool50: true
+  rank_vectorial_crudo: 40-40I = rank 2 (sim 0.6871); 40-40M = rank 3 (sim 0.6722) en el canal vectorial
+    sin filtro (RPC k=300, HyDE off). Son e
+  riesgo_pass_control: bajo
+  retrieval_fixable: true
+  fix_propuesto: 'Variant-aware diversify acotado a familia-ambigua: en _diversify_by_source_file, cuando
+    la query mapea a >=3 product_models DISTINTOS de una misma familia base (gatillo RULER §1 D6 clarify/ambiguous-family
+    — aqui base "40-40" -> 40-40I/M/U/R/L), keyear el round-robin de pass-1 por la VARIANTE del product_model
+    (40-40I, 40-40M, ...) en vez de por source_file, y DESPRIORIZAR los docs no-variante de la misma familia
+    (40-40-SERIES overview, 40-40-AIR accesorio, 40-40R-SINGLE duplicado de R). Asi cada variante distinta
+    toma 1 slot del top-5 ANTES que un doc duplicado o no-variante. Esto sirve I y M (hoy en pos 6-7 porque
+    los slots 3-4-5 del diversify se gastan en SERIES+AIR+R-duplicado) SIN re-ba'
+- qid: hp006
+  mecanismo: filtro-modelo/series
+  donde_muere: model-filter
+  en_pool50: false
+  rank_vectorial_crudo: p71(SLC Tierra/ISO-X)=78; p54(MPS-400 Fallo de Tierra) y p62/p17/p130(ISO-X) >111
+    (fuera del RPC k=300, que tope a 111 f
+  riesgo_pass_control: medio
+  retrieval_fixable: true
+  fix_propuesto: 'Quirurgico de bajo coste: en extract_search_keywords (o en Step 3b de retrieve_chunks)
+    ELIMINAR los tokens de IDENTIDAD (cores de modelo + nombres de fabricante del catalogo) ANTES del
+    cap [:3] — exactamente la logica de _content_keywords que YA existe y se usa en el diversify (_fetch_top_chunks_by_source_file).
+    Asi el termino discriminativo de contenido (''tierra'') sobrevive al cap en vez de gastarse ''notifier''/''muestra''.
+    NO re-baraja el pool por coseno (el canal-broad fue NO-GO s68): el cambio es upstream, en QUE keyword
+    se busca dentro del doc ya filtrado por modelo; el content_search devuelve p54/p71 y el reranker (que
+    lee contenido) los selecciona. Verificado end-to-end a config producci'
