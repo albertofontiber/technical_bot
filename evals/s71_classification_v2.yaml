@@ -1,0 +1,116 @@
+cat007:
+  categoria: RETRIEVAL-miss
+  detalle: diversify expulsa Tabla3 (rank#1/2)
+  fuente: track1
+cat013:
+  categoria: RETRIEVAL-miss
+  detalle: doc existe, no servido
+  fuente: track1
+cat021:
+  categoria: RETRIEVAL-miss
+  detalle: no servido
+  fuente: track1
+hp006:
+  categoria: RETRIEVAL-miss
+  detalle: info en MIDT170/50253SP, no servida
+  fuente: track1
+hp009:
+  categoria: RETRIEVAL-miss
+  detalle: MIE-MI-530 rank-alto pero fuera del pool frozen
+  fuente: track1
+hp013:
+  categoria: RETRIEVAL-miss
+  detalle: chunks correctos en pool-50, rerank sirvio irrelevantes
+  fuente: track1
+cat016:
+  categoria: RETRIEVAL-miss
+  detalle: within-doc (autobusqueda fuera del top-5)
+  fuente: s70/track2
+hp003:
+  categoria: RETRIEVAL-miss
+  detalle: within-doc (2x12V fuera del top-5)
+  fuente: s70/track2
+cat017:
+  categoria: RETRIEVAL-miss
+  detalle: sub-retrieval (OPAL no servido)
+  fuente: s70/track2
+hp002:
+  categoria: RETRIEVAL-miss
+  detalle: sub-retrieval (hechos expulsados)
+  fuente: s70/track2
+hp008:
+  categoria: RETRIEVAL-miss
+  detalle: sub-retrieval (4 hechos expulsados)
+  fuente: s70/track2
+hp001:
+  categoria: RETRIEVAL-miss
+  detalle: frontera k>50 (rank 54)
+  fuente: s70/track2
+hp017:
+  categoria: RETRIEVAL-miss
+  detalle: mixto (lazo0/limite no servidos)
+  fuente: s70/track2
+cat001:
+  categoria: RETRIEVAL-miss
+  detalle: mixto
+  fuente: s70/track2
+hp011:
+  categoria: RETRIEVAL-miss
+  detalle: sub-retrieval
+  fuente: s70/track2
+hp018:
+  categoria: RETRIEVAL-miss
+  detalle: mixto
+  fuente: s70/track2
+cat008:
+  categoria: PRODUCTO-conflicto
+  detalle: chunks de modulos distintos con asignacion terminal OPUESTA
+  fuente: track2
+cat009:
+  categoria: CONFLICTO-canon/retrieval
+  detalle: nota latest-wins no servida + 24V/25V contradictorio en fuente
+  fuente: track1-DUDA
+hp005:
+  categoria: GENERACION-completitud
+  detalle: omite flujo sirena
+  fuente: s70
+hp014:
+  categoria: GENERACION-completitud
+  detalle: el prompt fidelity la subio sin flipear
+  fuente: s70
+hp004:
+  categoria: GENERACION-real
+  detalle: K-inestable, fallo real
+  fuente: track1-DUDA
+hp007:
+  categoria: GENERACION-real
+  detalle: omite freq no-anuales
+  fuente: track1-DUDA
+cat011:
+  categoria: DISENO-catalogo
+  detalle: clarify ok pero candidatos desde chunks no catalogo curado
+  fuente: track1-DUDA
+cat012:
+  categoria: GOLD-INJUSTO->PASS
+  detalle: core 100% cubierto, motivos del juez invalidos (debatible)
+  fuente: track1-DUDA
+cat019:
+  categoria: BORDERLINE-PARCIAL
+  detalle: truncacion-fantasma contamina el veredicto
+  fuente: track1-DUDA
+cat020:
+  categoria: BORDERLINE-PARCIAL
+  detalle: factualmente correcto, juez confunde completitud con contradiccion
+  fuente: track1-DUDA
+cat024:
+  categoria: CORPUS-GAP?
+  detalle: V1<15mA no servido (¿en corpus?)
+  fuente: s70-pend
+hp010:
+  categoria: CORPUS-GAP?
+  detalle: no-localizado
+  fuente: s70-pend
+hp012:
+  categoria: CORPUS-GAP?
+  detalle: no-localizado
+  fuente: s70-pend
