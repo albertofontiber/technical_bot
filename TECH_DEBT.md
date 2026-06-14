@@ -12,7 +12,7 @@ Si alcanzas un trigger, para y refactoriza antes de seguir añadiendo features.
 
 ## Índice de estado (s65 — 12 jun 2026; generado, no renumera)
 
-- **Abiertos (trigger-gated):** #1, #2, #3, #5b, #5, #6, #7, #10, #11b, #12, #11g, #11h, #13, #15, #17, #18, #19, #20, #21, #22, #23, #25, #26, #27, #28, #29, #30, #31, #18, #32, #33, #34, #35, #36, #37, #39, #40, #41, #44, #45, #47
+- **Abiertos (trigger-gated):** #1, #2, #3, #5b, #5, #6, #7, #10, #11b, #12, #11g, #11h, #13, #15, #17, #18, #19, #20, #21, #22, #23, #25, #26, #27, #28, #29, #30, #31, #18, #32, #33, #34, #35, #36, #37, #39, #40, #41, #44, #45, #47, #48
 - **Parciales / elevados:** #8, #11f, #24
 - **Cerrados (✅ resueltos o 🔴 revertidos):** #4, #9, #11, #11c, #11i, #11d, #14, #16, #38, #42, #43 (✅ COMPLETO: capa A s63/DEC-044 + capa B s65/DEC-046; escritor-en-ingesta → PLAN punto 2), #46 (✅ s64/DEC-045)
 
@@ -1733,3 +1733,33 @@ explicación pre-declarada quedó escrita en `evals/s65_capab_report.yaml`).
 
 **Relacionado**: #44 (Step 5b diferido), DEC-046e, `s65_capab_report.yaml`
 (known_manufacturers_diff), fix s65 de `get_available_manufacturers` (mismo patrón de causa).
+
+---
+
+## 48. `section_path` curado no llega al cliente ni al reranker — señal jerárquica desaprovechada (s72)
+
+**Estado actual (detectado s72, audit de campos para la tirada Lever 2)**: `chunks_v2.section_path`
+está POBLADO con breadcrumbs jerárquicos curados y ricos (p.ej. `"AJUSTES > 5.4 AVANZADO"`,
+`"6 Puesta en marcha > 6.4.2 Comprobaciones del lazo"`, `"A1.4 Prestaciones"`) y es el feed
+PRIMARIO del FTS (peso A, `migrations/006:174` — `coalesce(section_path, section_title)`)
+server-side. PERO el retriever NUNCA lo incluye en ningún `select=` de PostgREST (verificado:
+**0 referencias a `section_path` en `src/rag/`**) y el reranker usa solo `section_title` en su
+header (`src/rag/reranker.py:69-70`). → la señal de identidad jerárquica solo entra vía FTS
+server-side; NO llega al cliente para rank ni al LLM del reranker.
+
+**Problema**: el reranker elige el top-5 a ciegas del breadcrumb jerárquico (solo ve el título
+de la sección-hoja + `content[:800]`). Una señal curada de alto valor para desambiguar "en qué
+parte del manual vive este chunk" se desperdicia.
+
+**Trigger para implementar**: ABIERTO — candidato #1 de una tirada de "señal jerárquica/rank"
+(post-Lever 2). Construir tras flag propio y medir como brazo INDEPENDIENTE: es un cambio de
+RANK con blast-radius global (toca la entrada del reranker para las 39 de control) y ningún gold
+predice flip → medir cobertura granular amplia (s70) + NO-regresión de PASS-control + dúo
+cross-model (reranker = zona-de-dolor). NO empaquetar con la tirada de identidad: rompería la
+atribución del delta (DEC-019).
+
+**Solución propuesta**: añadir `section_path` al `select=` de los paths de retrieval y al header
+de chunk del reranker (LLM y path Voyage CE). Coste ~1h código + medición.
+
+**Relacionado**: hp017 (su gold usa el PARENT `section_path` para el rescate sección-hermana —
+mecanismo distinto, Lever 1 de contigüidad/diversify, no la exposición del campo).
