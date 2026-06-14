@@ -1,0 +1,31 @@
+# s69 — re-audit a NIVEL DE CONTENIDO de los 4 INDETERMINADO (read-only, $0).
+# Cierra el bias #20 de las rondas anteriores: ¿el material que el juez marcó omitido
+# está LITERALMENTE en el contenido de los chunks servidos (no en el relato del juez)?
+meta:
+  metodo: sondas (lo que el juez marcó omitido) buscadas en el content del top-5 congelado s67base
+  regla: material servido + respuesta incompleta = GENERACION; material no servido = retrieval/within-doc
+
+cat019:
+  servido: 3/3 (acciones/salidas + condición temporal + límite 100.000 TODO en el content servido)
+  juez: "truncada en la parte de salidas"; stop_reason end_turn (no max_tokens)
+  clase: GENERACION-confirmada — el modelo tenía todo y truncó su respuesta. RECUPERA a la diana.
+
+hp017:
+  servido: 2/4 (Causa-Efecto + borrar-regla SÍ servidos [§A5.2.1]; 'lazo 0=TODOS' + 'límite de reglas' AUSENTES)
+  clase: PARCIAL — omitió pasos SÍ servidos (componente generación) PERO el PASS exige pasos NO servidos -> capado
+
+cat024:
+  servido: 1/3 (17 mA servido y acertado; V1 <15 mA + 'revisión V1' AUSENTES del top-5)
+  juez: penaliza omitir V1<15mA (no servido) + añadir discrepancia 7mA (sobre-alcance, generación)
+  clase: NO-win de generación — el PASS exige el V1<15mA que NO está servido; arreglar el sobre-alcance no basta
+
+hp003:
+  servido: 1/4 ('dos baterías'/'12V serie'/'serie' AUSENTES; solo 'capacidad/Ah' servido en otro contexto)
+  clase: WITHIN-DOC-MISS — el material clave (2×12V en serie) NO está servido. NO es generación.
+
+resumen_diana_VERIFICADA:
+  generacion_solida: [cat008, cat020, hp005, hp014, cat019]   # 5 (4 mecánica + cat019 content-verificado)
+  generacion_parcial_capada: [hp017]                          # PASS limitado por material no servido
+  NO_generacion: [cat024, hp003]                              # cat024 corpus-limitado · hp003 within-doc-miss
+  techo_realista_flippable: "~4-5 (cat020 sobre-alcance + hp005/hp014/cat019 omisión; cat008 comprensión-incierto)"
+  nota: cierra el bias #20 de v1/v2 — diana honesta = 5 sólida, NO 12 NI 8 NI 4

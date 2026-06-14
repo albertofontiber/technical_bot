@@ -1,0 +1,156 @@
+m1_traza:
+  quota:
+    cat001:
+    - valor: 159+159 / 99+99
+      en_pool: true
+      muere_en: null
+      n_winners: 3
+    - valor: 0,75 A
+      en_pool: true
+      muere_en: null
+      n_winners: 1
+    - valor: 32 / 25 / 20
+      en_pool: true
+      muere_en: null
+      n_winners: 2
+    - valor: 255 / 8192
+      en_pool: true
+      muere_en: null
+      n_winners: 6
+    cat017:
+    - valor: modulo OPAL HOP-433-100
+      en_pool: false
+      muere_en: merge
+      n_winners: 1
+    hp001:
+    - valor: '2222'
+      en_pool: false
+      muere_en: merge
+      n_winners: 1
+    hp002:
+    - valor: 300 s
+      en_pool: true
+      muere_en: null
+      n_winners: 13
+    - valor: 7.6.1
+      en_pool: true
+      muere_en: null
+      n_winners: 8
+    hp008:
+    - valor: CPX-551E
+      en_pool: false
+      muere_en: merge
+      n_winners: 1
+    - valor: SDX-751
+      en_pool: false
+      muere_en: merge
+      n_winners: 1
+    - valor: IRX-751CTEM
+      en_pool: false
+      muere_en: merge
+      n_winners: 1
+    - valor: SDX-751-TEM
+      en_pool: false
+      muere_en: merge
+      n_winners: 1
+    hp011:
+    - valor: 05 a 295 seg
+      en_pool: false
+      muere_en: merge
+      n_winners: 2
+    hp018:
+    - valor: 4 circuitos
+      en_pool: true
+      muere_en: null
+      n_winners: 5
+  cosine:
+    cat001:
+    - valor: 159+159 / 99+99
+      en_pool: true
+      muere_en: null
+      n_winners: 3
+    - valor: 0,75 A
+      en_pool: true
+      muere_en: null
+      n_winners: 1
+    - valor: 32 / 25 / 20
+      en_pool: true
+      muere_en: null
+      n_winners: 2
+    - valor: 255 / 8192
+      en_pool: true
+      muere_en: null
+      n_winners: 6
+    cat017:
+    - valor: modulo OPAL HOP-433-100
+      en_pool: true
+      muere_en: null
+      n_winners: 1
+    hp001:
+    - valor: '2222'
+      en_pool: false
+      muere_en: merge
+      n_winners: 1
+    hp002:
+    - valor: 300 s
+      en_pool: true
+      muere_en: null
+      n_winners: 13
+    - valor: 7.6.1
+      en_pool: true
+      muere_en: null
+      n_winners: 8
+    hp008:
+    - valor: CPX-551E
+      en_pool: true
+      muere_en: null
+      n_winners: 1
+    - valor: SDX-751
+      en_pool: true
+      muere_en: null
+      n_winners: 1
+    - valor: IRX-751CTEM
+      en_pool: true
+      muere_en: null
+      n_winners: 1
+    - valor: SDX-751-TEM
+      en_pool: true
+      muere_en: null
+      n_winners: 1
+    hp011:
+    - valor: 05 a 295 seg
+      en_pool: false
+      muere_en: merge
+      n_winners: 2
+    hp018:
+    - valor: 4 circuitos
+      en_pool: true
+      muere_en: null
+      n_winners: 5
+m2_sanity:
+  quota:
+    hp001: false
+    hp011: false
+  cosine:
+    hp001: false
+    hp011: false
+m3_composicion:
+  quota:
+    CONTENT: 497
+    '?': 69
+    VECTOR: 365
+    MODEL: 157
+    TARGETED: 36
+  cosine:
+    VECTOR: 443
+    CONTENT: 489
+    SUPPLEMENT: 47
+    MODEL: 165
+    TARGETED: 27
+m5_tamano:
+  quota:
+    mediana: 27
+    delta_vs_control: 1
+  cosine:
+    mediana: 28
+    delta_vs_control: 1

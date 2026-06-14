@@ -53,6 +53,17 @@ CHUNK_OVERLAP_TOKENS = 200
 # voyage requiere VOYAGE_API_KEY (ya requerida por chunks_v2 / embed_query).
 RERANKER_BACKEND = os.getenv("RERANKER_BACKEND", "llm")
 
+# Estrategia del MERGE de canales del retriever (s68, diseño _s68_merge_design.md v6.1).
+# SWAP reversible por entorno, mismo patrón que RERANKER_BACKEND/CHUNKS_TABLE:
+#   stamps (default) → comportamiento histórico EXACTO (keyword-first dedup + sort por
+#                      similarity con stamps planos 0.65-0.85 — bit-idéntico a main).
+#   quota  (V-D)     → composición: léxicos con sus límites actuales + canal vectorial
+#                      SANO (sin filter_category, sin broad-5, sin 3c-i) llena hasta
+#                      top_k por coseno; en duales el registro VECTOR conserva su coseno.
+#   cosine (V-A′)    → score único := coseno real para TODO candidato (re-score
+#                      cliente-side de los léxicos); sin boosts.
+MERGE_STRATEGY = os.getenv("MERGE_STRATEGY", "stamps")
+
 # LLM config
 LLM_MODEL = "claude-sonnet-4-6"
 LLM_MAX_TOKENS = 2048

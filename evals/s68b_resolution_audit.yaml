@@ -1,0 +1,576 @@
+meta:
+  fuente: s67base (K=5) + s68_audit_canal + s67ce (paired) — read-only $0
+  regla_preregistrada: D>=4 -> resolucion OK; D<=3 -> expansion dirigida
+  D_definicion: gen-addressable AND ruido DECISIVO AND modal in {PARCIAL,FALLO}
+DECISION: RESOLUCION-OK (no ampliar; proceder con las palancas de generacion)
+D_golds_senal_limpia_generacion:
+- cat008
+- cat016
+- cat019
+- cat020
+- cat024
+- hp003
+- hp005
+- hp006
+- hp009
+- hp013
+- hp014
+- hp017
+D_n: 12
+banda_ruido_n_fragiles_total: 5
+gen_addressable_fragiles:
+- cat007
+resumen_diana:
+  RETRIEVAL-BLOQUEADO: 7
+  GEN-ADDRESSABLE: 13
+  OTRO: 7
+  GAP: 2
+resumen_diana_x_ruido:
+  RETRIEVAL-BLOQUEADO|DECISIVO: 6
+  GEN-ADDRESSABLE|FRAGIL: 1
+  GEN-ADDRESSABLE|DECISIVO: 12
+  OTRO|FRAGIL: 2
+  OTRO|DECISIVO: 5
+  RETRIEVAL-BLOQUEADO|FRAGIL: 1
+  GAP|DECISIVO: 1
+  GAP|FRAGIL: 1
+golds:
+- qid: cat001
+  bucket: residual
+  atribucion: MIXTO
+  verdicts:
+    PARCIAL: 5
+  modal: PARCIAL
+  ruido: DECISIVO
+  margen: 5
+  diana: RETRIEVAL-BLOQUEADO
+  flags:
+    muere_pool: true
+    servido_falla: true
+    solo_debiles: false
+    gap: false
+    atribucion: MIXTO
+  conducta_spread:
+    answer: 5
+  paired_doble_muestra: null
+- qid: cat007
+  bucket: residual
+  atribucion: INDETERMINADO-solo-debiles
+  verdicts:
+    FALLO: 2
+    PARCIAL: 3
+  modal: PARCIAL
+  ruido: FRAGIL
+  margen: 1
+  diana: GEN-ADDRESSABLE
+  flags:
+    muere_pool: false
+    servido_falla: false
+    solo_debiles: true
+    gap: false
+    atribucion: INDETERMINADO-solo-debiles
+  conducta_spread:
+    answer: 5
+  paired_doble_muestra: null
+- qid: cat008
+  bucket: residual
+  atribucion: GENERACION
+  verdicts:
+    PARCIAL: 4
+    FALLO: 1
+  modal: PARCIAL
+  ruido: DECISIVO
+  margen: 3
+  diana: GEN-ADDRESSABLE
+  flags:
+    muere_pool: false
+    servido_falla: true
+    solo_debiles: false
+    gap: false
+    atribucion: GENERACION
+  conducta_spread:
+    answer: 5
+  paired_doble_muestra: null
+- qid: cat009
+  bucket: K-INESTABLE
+  atribucion: K-INESTABLE
+  verdicts:
+    PARCIAL: 3
+    PASS: 2
+  modal: PARCIAL
+  ruido: FRAGIL
+  margen: 1
+  diana: OTRO
+  flags:
+    muere_pool: false
+    servido_falla: false
+    solo_debiles: false
+    gap: false
+    atribucion: null
+  conducta_spread:
+    answer: 5
+  paired_doble_muestra: null
+- qid: cat011
+  bucket: residual
+  atribucion: CUALITATIVA (conducta no-answer)
+  verdicts:
+    PARCIAL: 5
+  modal: PARCIAL
+  ruido: DECISIVO
+  margen: 5
+  diana: OTRO
+  flags:
+    muere_pool: false
+    servido_falla: false
+    solo_debiles: false
+    gap: false
+    atribucion: null
+  conducta_spread:
+    clarify: 5
+  paired_doble_muestra: null
+- qid: cat012
+  bucket: K-INESTABLE
+  atribucion: K-INESTABLE
+  verdicts:
+    PARCIAL: 4
+    PASS: 1
+  modal: PARCIAL
+  ruido: DECISIVO
+  margen: 3
+  diana: OTRO
+  flags:
+    muere_pool: false
+    servido_falla: false
+    solo_debiles: false
+    gap: false
+    atribucion: null
+  conducta_spread:
+    answer: 5
+  paired_doble_muestra: null
+- qid: cat013
+  bucket: residual
+  atribucion: CUALITATIVA (conducta no-answer)
+  verdicts:
+    PARCIAL: 5
+  modal: PARCIAL
+  ruido: DECISIVO
+  margen: 5
+  diana: OTRO
+  flags:
+    muere_pool: false
+    servido_falla: false
+    solo_debiles: false
+    gap: false
+    atribucion: null
+  conducta_spread:
+    refuse-inference: 5
+  paired_doble_muestra:
+    PARCIAL: 10
+- qid: cat016
+  bucket: residual
+  atribucion: INDETERMINADO-solo-debiles
+  verdicts:
+    FALLO: 5
+  modal: FALLO
+  ruido: DECISIVO
+  margen: 5
+  diana: GEN-ADDRESSABLE
+  flags:
+    muere_pool: false
+    servido_falla: false
+    solo_debiles: true
+    gap: false
+    atribucion: INDETERMINADO-solo-debiles
+  conducta_spread:
+    answer: 4
+    admit: 1
+  paired_doble_muestra: null
+- qid: cat017
+  bucket: residual
+  atribucion: SUB-RETRIEVAL
+  verdicts:
+    PARCIAL: 5
+  modal: PARCIAL
+  ruido: DECISIVO
+  margen: 5
+  diana: RETRIEVAL-BLOQUEADO
+  flags:
+    muere_pool: true
+    servido_falla: false
+    solo_debiles: false
+    gap: true
+    atribucion: SUB-RETRIEVAL
+  conducta_spread:
+    answer: 5
+  paired_doble_muestra: null
+- qid: cat019
+  bucket: residual
+  atribucion: INDETERMINADO-solo-debiles
+  verdicts:
+    PARCIAL: 5
+  modal: PARCIAL
+  ruido: DECISIVO
+  margen: 5
+  diana: GEN-ADDRESSABLE
+  flags:
+    muere_pool: false
+    servido_falla: false
+    solo_debiles: true
+    gap: false
+    atribucion: INDETERMINADO-solo-debiles
+  conducta_spread:
+    answer: 5
+  paired_doble_muestra: null
+- qid: cat020
+  bucket: residual
+  atribucion: GENERACION
+  verdicts:
+    PARCIAL: 5
+  modal: PARCIAL
+  ruido: DECISIVO
+  margen: 5
+  diana: GEN-ADDRESSABLE
+  flags:
+    muere_pool: false
+    servido_falla: true
+    solo_debiles: false
+    gap: false
+    atribucion: GENERACION
+  conducta_spread:
+    answer: 5
+  paired_doble_muestra: null
+- qid: cat021
+  bucket: residual
+  atribucion: CUALITATIVA (conducta no-answer)
+  verdicts:
+    PARCIAL: 5
+  modal: PARCIAL
+  ruido: DECISIVO
+  margen: 5
+  diana: OTRO
+  flags:
+    muere_pool: false
+    servido_falla: false
+    solo_debiles: false
+    gap: false
+    atribucion: null
+  conducta_spread:
+    clarify: 5
+  paired_doble_muestra: null
+- qid: cat024
+  bucket: residual
+  atribucion: INDETERMINADO-solo-debiles
+  verdicts:
+    PARCIAL: 5
+  modal: PARCIAL
+  ruido: DECISIVO
+  margen: 5
+  diana: GEN-ADDRESSABLE
+  flags:
+    muere_pool: false
+    servido_falla: false
+    solo_debiles: true
+    gap: false
+    atribucion: INDETERMINADO-solo-debiles
+  conducta_spread:
+    answer-con-conflicto: 4
+    answer: 1
+  paired_doble_muestra: null
+- qid: hp001
+  bucket: residual
+  atribucion: MIXTO
+  verdicts:
+    PARCIAL: 3
+    FALLO: 2
+  modal: PARCIAL
+  ruido: FRAGIL
+  margen: 1
+  diana: RETRIEVAL-BLOQUEADO
+  flags:
+    muere_pool: true
+    servido_falla: true
+    solo_debiles: false
+    gap: false
+    atribucion: MIXTO
+  conducta_spread:
+    answer: 5
+  paired_doble_muestra: null
+- qid: hp002
+  bucket: residual
+  atribucion: SUB-RETRIEVAL
+  verdicts:
+    PARCIAL: 5
+  modal: PARCIAL
+  ruido: DECISIVO
+  margen: 5
+  diana: RETRIEVAL-BLOQUEADO
+  flags:
+    muere_pool: true
+    servido_falla: false
+    solo_debiles: false
+    gap: false
+    atribucion: SUB-RETRIEVAL
+  conducta_spread:
+    answer: 5
+  paired_doble_muestra: null
+- qid: hp003
+  bucket: residual
+  atribucion: INDETERMINADO-solo-debiles
+  verdicts:
+    PARCIAL: 5
+  modal: PARCIAL
+  ruido: DECISIVO
+  margen: 5
+  diana: GEN-ADDRESSABLE
+  flags:
+    muere_pool: false
+    servido_falla: false
+    solo_debiles: true
+    gap: false
+    atribucion: INDETERMINADO-solo-debiles
+  conducta_spread:
+    answer: 5
+  paired_doble_muestra: null
+- qid: hp004
+  bucket: K-INESTABLE
+  atribucion: K-INESTABLE
+  verdicts:
+    PARCIAL: 4
+    PASS: 1
+  modal: PARCIAL
+  ruido: DECISIVO
+  margen: 3
+  diana: OTRO
+  flags:
+    muere_pool: false
+    servido_falla: false
+    solo_debiles: false
+    gap: false
+    atribucion: null
+  conducta_spread:
+    answer: 4
+    clarify: 1
+  paired_doble_muestra:
+    PARCIAL: 8
+    PASS: 2
+- qid: hp005
+  bucket: residual
+  atribucion: GENERACION
+  verdicts:
+    PARCIAL: 5
+  modal: PARCIAL
+  ruido: DECISIVO
+  margen: 5
+  diana: GEN-ADDRESSABLE
+  flags:
+    muere_pool: false
+    servido_falla: true
+    solo_debiles: false
+    gap: false
+    atribucion: GENERACION
+  conducta_spread:
+    answer: 5
+  paired_doble_muestra: null
+- qid: hp006
+  bucket: residual
+  atribucion: INDETERMINADO-solo-debiles
+  verdicts:
+    FALLO: 5
+  modal: FALLO
+  ruido: DECISIVO
+  margen: 5
+  diana: GEN-ADDRESSABLE
+  flags:
+    muere_pool: false
+    servido_falla: false
+    solo_debiles: true
+    gap: false
+    atribucion: INDETERMINADO-solo-debiles
+  conducta_spread:
+    admit: 5
+  paired_doble_muestra: null
+- qid: hp007
+  bucket: K-INESTABLE
+  atribucion: K-INESTABLE
+  verdicts:
+    PASS: 2
+    PARCIAL: 3
+  modal: PARCIAL
+  ruido: FRAGIL
+  margen: 1
+  diana: OTRO
+  flags:
+    muere_pool: false
+    servido_falla: false
+    solo_debiles: false
+    gap: false
+    atribucion: null
+  conducta_spread:
+    answer: 5
+  paired_doble_muestra: null
+- qid: hp008
+  bucket: residual
+  atribucion: SUB-RETRIEVAL
+  verdicts:
+    PARCIAL: 5
+  modal: PARCIAL
+  ruido: DECISIVO
+  margen: 5
+  diana: RETRIEVAL-BLOQUEADO
+  flags:
+    muere_pool: true
+    servido_falla: false
+    solo_debiles: false
+    gap: false
+    atribucion: SUB-RETRIEVAL
+  conducta_spread:
+    answer: 5
+  paired_doble_muestra: null
+- qid: hp009
+  bucket: residual
+  atribucion: INDETERMINADO-solo-debiles
+  verdicts:
+    FALLO: 4
+    PARCIAL: 1
+  modal: FALLO
+  ruido: DECISIVO
+  margen: 3
+  diana: GEN-ADDRESSABLE
+  flags:
+    muere_pool: false
+    servido_falla: false
+    solo_debiles: true
+    gap: false
+    atribucion: INDETERMINADO-solo-debiles
+  conducta_spread:
+    answer: 1
+    clarify: 4
+  paired_doble_muestra: null
+- qid: hp010
+  bucket: residual
+  atribucion: SUB-RETRIEVAL
+  verdicts:
+    PARCIAL: 5
+  modal: PARCIAL
+  ruido: DECISIVO
+  margen: 5
+  diana: GAP
+  flags:
+    muere_pool: false
+    servido_falla: false
+    solo_debiles: false
+    gap: true
+    atribucion: SUB-RETRIEVAL
+  conducta_spread:
+    answer: 5
+  paired_doble_muestra: null
+- qid: hp011
+  bucket: residual
+  atribucion: SUB-RETRIEVAL
+  verdicts:
+    FALLO: 5
+  modal: FALLO
+  ruido: DECISIVO
+  margen: 5
+  diana: RETRIEVAL-BLOQUEADO
+  flags:
+    muere_pool: true
+    servido_falla: false
+    solo_debiles: false
+    gap: false
+    atribucion: SUB-RETRIEVAL
+  conducta_spread:
+    answer: 5
+  paired_doble_muestra: null
+- qid: hp012
+  bucket: residual
+  atribucion: MIXTO
+  verdicts:
+    PARCIAL: 3
+    FALLO: 2
+  modal: PARCIAL
+  ruido: FRAGIL
+  margen: 1
+  diana: GAP
+  flags:
+    muere_pool: false
+    servido_falla: true
+    solo_debiles: false
+    gap: true
+    atribucion: MIXTO
+  conducta_spread:
+    answer: 5
+  paired_doble_muestra: null
+- qid: hp013
+  bucket: residual
+  atribucion: INDETERMINADO-solo-debiles
+  verdicts:
+    PARCIAL: 5
+  modal: PARCIAL
+  ruido: DECISIVO
+  margen: 5
+  diana: GEN-ADDRESSABLE
+  flags:
+    muere_pool: false
+    servido_falla: false
+    solo_debiles: true
+    gap: false
+    atribucion: INDETERMINADO-solo-debiles
+  conducta_spread:
+    admit: 5
+  paired_doble_muestra: null
+- qid: hp014
+  bucket: residual
+  atribucion: GENERACION
+  verdicts:
+    PARCIAL: 5
+  modal: PARCIAL
+  ruido: DECISIVO
+  margen: 5
+  diana: GEN-ADDRESSABLE
+  flags:
+    muere_pool: false
+    servido_falla: true
+    solo_debiles: false
+    gap: false
+    atribucion: GENERACION
+  conducta_spread:
+    answer: 5
+  paired_doble_muestra: null
+- qid: hp017
+  bucket: residual
+  atribucion: INDETERMINADO-solo-debiles
+  verdicts:
+    PARCIAL: 5
+  modal: PARCIAL
+  ruido: DECISIVO
+  margen: 5
+  diana: GEN-ADDRESSABLE
+  flags:
+    muere_pool: false
+    servido_falla: false
+    solo_debiles: true
+    gap: false
+    atribucion: INDETERMINADO-solo-debiles
+  conducta_spread:
+    answer: 5
+  paired_doble_muestra: null
+- qid: hp018
+  bucket: residual
+  atribucion: MIXTO
+  verdicts:
+    FALLO: 4
+    PARCIAL: 1
+  modal: FALLO
+  ruido: DECISIVO
+  margen: 3
+  diana: RETRIEVAL-BLOQUEADO
+  flags:
+    muere_pool: true
+    servido_falla: true
+    solo_debiles: false
+    gap: false
+    atribucion: MIXTO
+  conducta_spread:
+    answer: 5
+  paired_doble_muestra: null

@@ -1,0 +1,998 @@
+meta:
+  at: '2026-06-12T23:11:06'
+  git: '7014456'
+  fuente: s67base (sufficiency D3) + pool50 congelado + embed-cache s67
+  preguntas: DEC-049b (a) canal vs (b) chunk-quality
+  fuera_de_scope:
+  - qid: cat009
+    motivo: K-INESTABLE
+  - qid: cat011
+    motivo: CUALITATIVA (conducta no-answer)
+  - qid: cat012
+    motivo: K-INESTABLE
+  - qid: cat013
+    motivo: CUALITATIVA (conducta no-answer)
+  - qid: cat021
+    motivo: CUALITATIVA (conducta no-answer)
+  - qid: hp004
+    motivo: K-INESTABLE
+  - qid: hp007
+    motivo: K-INESTABLE
+  nota: read-only; rank vectorial real RPC k=300 sin filtro; NO-LOCALIZADO mantiene la semántica s58 (docs objetivo,
+    no corpus-wide)
+techo_por_lever_GOLDS:
+  alcanzable-en-pool (orden/top5): 4
+  solo-debiles (señal chunk-quality, no atribuible): 9
+  generacion-o-chunk-quality (todo servido): 4
+  con-sospecha-gap: 3
+  alcanzable-con-profundidad (canal río arriba): 2
+buckets_HECHOS:
+  EN-TOP5-pero-falla: 11
+  RANK<=50-fuera-de-pool (filtros/mezcla/diversify): 10
+  EN-POOL-no-top5: 2
+  NO-LOCALIZADO (sospecha gap): 3
+  RANK-51-110 (corte/profundidad): 2
+golds:
+- qid: cat001
+  atribucion_s67base: MIXTO
+  modal: PARCIAL
+  hechos_fuertes:
+  - valor: 1 o 2
+    bucket: EN-TOP5-pero-falla
+    chunk_servidor:
+      id: 503bc41c-4b85-4223-b8c1-103a54a96a26
+      source: 997-669-005-3_Instal-Comm_ES
+      page: 21
+      section_path: 4 Sensores y módulos
+      content_type: specification
+      len: 3092
+      has_blurb: true
+      frag_sospechosa: false
+      preview: '# 4 Sensores y módulos  Estos equipos van acompañados de instrucciones en las que se muestran las
+        interconexiones adecuadas para cada aplica'
+  - valor: 159+159 / 99+99
+    bucket: RANK<=50-fuera-de-pool (filtros/mezcla/diversify)
+    best_rank_vectorial: 25
+    cos_winner: 0.5771
+    cos_corte_50: 0.5617
+    indice_culpable: false
+    n_winners: 1
+    winner:
+      id: a952e347-75f7-4579-8c32-feaaf513300f
+      source: 997-669-005-3_Instal-Comm_ES
+      page: 51
+      section_path: A1.4 Prestaciones
+      content_type: specification
+      len: 2998
+      has_blurb: true
+      frag_sospechosa: false
+      preview: '# A1.4 Prestaciones  ## A1.4.1 Capacidad del sistema  **Lazos de detección:** 1 o 2. Cada lazo admite
+        hasta 159 sensores más 159 módulos (pr'
+  - valor: 0,75 A
+    bucket: RANK<=50-fuera-de-pool (filtros/mezcla/diversify)
+    best_rank_vectorial: 25
+    cos_winner: 0.5771
+    cos_corte_50: 0.5617
+    indice_culpable: false
+    n_winners: 1
+    winner:
+      id: a952e347-75f7-4579-8c32-feaaf513300f
+      source: 997-669-005-3_Instal-Comm_ES
+      page: 51
+      section_path: A1.4 Prestaciones
+      content_type: specification
+      len: 2998
+      has_blurb: true
+      frag_sospechosa: false
+      preview: '# A1.4 Prestaciones  ## A1.4.1 Capacidad del sistema  **Lazos de detección:** 1 o 2. Cada lazo admite
+        hasta 159 sensores más 159 módulos (pr'
+  - valor: 32 / 25 / 20
+    bucket: RANK<=50-fuera-de-pool (filtros/mezcla/diversify)
+    best_rank_vectorial: 7
+    cos_winner: 0.5981
+    cos_corte_50: 0.5617
+    indice_culpable: false
+    n_winners: 1
+    winner:
+      id: a92b566d-4a7e-4e04-91ef-a8d3b66d7723
+      source: 997-669-005-3_Instal-Comm_ES
+      page: 38
+      section_path: 6 Puesta en marcha > 6.4.2 Comprobaciones del lazo antes de conectar el cableado
+      content_type: wiring
+      len: 2826
+      has_blurb: true
+      frag_sospechosa: false
+      preview: '## 6.4.2 Comprobaciones del lazo antes de conectar el cableado  La siguiente ilustración muestra
+        las conexiones típicas de equipos direccion'
+  - valor: 255 / 8192
+    bucket: EN-POOL-no-top5
+    pos_en_pool: 19
+    n_winners: 7
+    winner:
+      id: e886f2e8-7b71-437b-8a0a-ad9a1800b930
+      source: 997-671-005-3_Configuration_ES
+      page: 30
+      section_path: Apéndice 1. Principales parámetros de configuración de la central
+      content_type: procedure
+      len: 2840
+      has_blurb: true
+      frag_sospechosa: false
+      preview: '# Apéndice 1. Principales parámetros de configuración de la central  En este apartado pueden realizarse
+        modificaciones en la configuración d'
+  solo_debiles: false
+- qid: cat007
+  atribucion_s67base: INDETERMINADO-solo-debiles
+  modal: PARCIAL
+  hechos_fuertes: []
+  solo_debiles: true
+  naturaleza_top5:
+  - id: f1828195-5188-49e4-9091-30bc9f462a59
+    source: I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+    page: 1
+    section_path: null
+    content_type: specification
+    len: 2793
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '## ESPECIFICACIONES  ### Características eléctricas  | Rango de tensión:                                   |
+      19 - 31,5 V CC                 '
+  - id: 5d583e18-084a-496b-ad5d-5c057f850d89
+    source: I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+    page: 1
+    section_path: null
+    content_type: wiring
+    len: 2667
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '# Fire Alarm Aspiration Sensing Technology<sup>®</sup> FL0111E-HS FL0112E-HS FL0122E-HS  ## FAAST
+      LT-200. MODELOS AUTÓNOMOS  ## GUÍA RÁPIDA '
+  - id: fd719684-17bc-4981-8c6d-6f4bc84edc72
+    source: I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+    page: 9
+    section_path: null
+    content_type: troubleshooting
+    len: 2975
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '# SERVICIO  ## ~~ADVERTENCIA~~  *Aísle el detector por aspiración del sistema de alarma de incendios
+      para evitar que se activen otras alarma'
+  - id: ff120c5b-d4f9-4006-b650-eb204fb99ed4
+    source: I56-3956-201_ES Morley Loop FAAST LT QIG
+    page: 1
+    section_path: null
+    content_type: wiring
+    len: 1488
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '## LISTA DE PIEZAS  | Descripción                          | Cantidad | | ------------------------------------
+      | -------- | | Unidad FAAST L'
+  - id: 4ba034f3-9a65-4129-a4ad-fbe94a0ba266
+    source: I56-3956-201_ES Morley Loop FAAST LT QIG
+    page: 5
+    section_path: null
+    content_type: troubleshooting
+    len: 4676
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '## Tabla 2: Designaciones de los terminales de cableado  (Nota: Los terminales con la marca CH2 solo
+      estarán disponibles en modelos de 2 can'
+- qid: cat008
+  atribucion_s67base: GENERACION
+  modal: PARCIAL
+  hechos_fuertes:
+  - valor: 2 estados / 3 estados
+    bucket: EN-TOP5-pero-falla
+    chunk_servidor:
+      id: 9cfb5d22-1082-4903-896b-efe36d5f4567
+      source: Conexionado-del-modulo-M710-MI-DMMI
+      page: 1
+      section_path: Conexionado del modulo M710 / MI-DMMI
+      content_type: wiring
+      len: 2106
+      has_blurb: true
+      frag_sospechosa: false
+      preview: '# Conexionado del modulo M710 / MI-DMMI  **Question** ¿Cómo conectar el moulo M710 o MI-DMMI?  **Answers**
+        Para conectar el modulo M710 o MI'
+  - valor: 1/2/3/4 lazo; 6-7 entrada A
+    bucket: EN-TOP5-pero-falla
+    chunk_servidor:
+      id: 9cfb5d22-1082-4903-896b-efe36d5f4567
+      source: Conexionado-del-modulo-M710-MI-DMMI
+      page: 1
+      section_path: Conexionado del modulo M710 / MI-DMMI
+      content_type: wiring
+      len: 2106
+      has_blurb: true
+      frag_sospechosa: false
+      preview: '# Conexionado del modulo M710 / MI-DMMI  **Question** ¿Cómo conectar el moulo M710 o MI-DMMI?  **Answers**
+        Para conectar el modulo M710 o MI'
+  solo_debiles: false
+- qid: cat016
+  atribucion_s67base: INDETERMINADO-solo-debiles
+  modal: FALLO
+  hechos_fuertes: []
+  solo_debiles: true
+  naturaleza_top5:
+  - id: 73e777ce-868a-418e-9b11-cfba3feca9cc
+    source: 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+    page: 15
+    section_path: null
+    content_type: procedure
+    len: 1167
+    has_blurb: true
+    frag_sospechosa: false
+    preview: La opción PRUEBA del menú ZONA, nos permite poner en modo de prueba la zona que seleccionemos. Esta
+      opción nos permite hacer la prueba de lo
+  - id: 15363ea6-10d2-4547-a869-fb5d0cd4290f
+    source: 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+    page: 26
+    section_path: null
+    content_type: procedure
+    len: 1445
+    has_blurb: true
+    frag_sospechosa: false
+    preview: El campo MODO que permite seleccionar el estado de la zona, es decir, conectada, desconectada o prueba
+      (en el caso de prueba aparece el camp
+  - id: 3b217e85-b5ad-47c7-aa9d-fd99ae2e6d2e
+    source: 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+    page: 51
+    section_path: null
+    content_type: general
+    len: 567
+    has_blurb: true
+    frag_sospechosa: false
+    preview: After 20 minutes of test mode selection, if the system detects that there has been no detectors tested,
+      the system will go back to the norma
+  - id: 0b74d5ee-d921-4480-814f-b1c635261f64
+    source: 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+    page: 62
+    section_path: null
+    content_type: procedure
+    len: 1855
+    has_blurb: true
+    frag_sospechosa: false
+    preview: The second window is an information box with the number of areas that are enabled, number of zones
+      that are disabled and the number of areas
+  - id: b0856e1f-d108-426f-beb9-17f244e46e98
+    source: 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+    page: 10
+    section_path: null
+    content_type: procedure
+    len: 2742
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '# 3- Guía de puesta en marcha del Sistema  Este capítulo define paso a paso como se debe realizar
+      una correcta puesta en marcha de las centr'
+- qid: cat017
+  atribucion_s67base: SUB-RETRIEVAL
+  modal: PARCIAL
+  hechos_fuertes:
+  - valor: modulo OPAL HOP-433-100
+    bucket: RANK<=50-fuera-de-pool (filtros/mezcla/diversify)
+    best_rank_vectorial: 7
+    cos_winner: 0.6814
+    cos_corte_50: 0.6412
+    indice_culpable: false
+    n_winners: 3
+    winner:
+      id: 4d76ec50-a17d-4af6-9334-f6d0b439f1cf
+      source: HOP-138-8ES  issue 6_01-2026_Co
+      page: 7
+      section_path: Circuitos de lazo
+      content_type: wiring
+      len: 1299
+      has_blurb: true
+      frag_sospechosa: false
+      preview: '# Circuitos de lazo  ## COMPROBACIONES DE DETECTORES Y MÓDULOS DE LAZO  Cada dispositivo lleva asociado
+        un folleto de instrucciones que mues'
+  - valor: 159 + 159
+    bucket: NO-LOCALIZADO (sospecha gap)
+    fact_docs:
+    - HOP-138-8ES  issue 6_01-2026_Co
+    - HOP-138-9ES issue 5_11-2025_In
+  solo_debiles: false
+- qid: cat019
+  atribucion_s67base: INDETERMINADO-solo-debiles
+  modal: PARCIAL
+  hechos_fuertes: []
+  solo_debiles: true
+  naturaleza_top5:
+  - id: d27aaa9e-a6e1-4245-a3f3-2cdef3f5be4c
+    source: CAD-250_Manual-Configuracion-MC-380-es-2026-c
+    page: 54
+    section_path: 8. MANIOBRAS
+    content_type: procedure
+    len: 2803
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '# 8. MANIOBRAS  Podemos definir la maniobra como un conjunto de acciones que se programan en un central
+      en función de los estados que toma e'
+  - id: 66596504-7f3b-4294-8459-72c7bd5c7983
+    source: CAD-250_Manual-Configuracion-MC-380-es-2026-c
+    page: 56
+    section_path: 8. MANIOBRAS > 8.2. CONFIGURANDO UNA MANIOBRA
+    content_type: procedure
+    len: 2607
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '## 8.2. CONFIGURANDO UNA MANIOBRA  Para crear una maniobra pulse el botón AÑADIR.  Esta acción dará
+      acceso a la pantalla de edición de la ma'
+  - id: 3d0273cf-dd42-4e48-89c3-a37e588396ca
+    source: CAD-250_Manual-Configuracion-MC-380-es-2026-c
+    page: 57
+    section_path: 8. MANIOBRAS > 8.2.1. Entradas para las maniobras, eventos.
+    content_type: procedure
+    len: 2946
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '## 8.2.1. Entradas para las maniobras, eventos.  **1.** Para añadir los eventos de entrada o salida
+      en la maniobra a configurar, toque el bo'
+  - id: ef6febfa-ae36-4dcf-927b-b793b698900c
+    source: CAD-250_Manual-Configuracion-MC-380-es-2026-c
+    page: 60
+    section_path: 8. MANIOBRAS > 8.2.3. Salidas para las maniobras
+    content_type: general
+    len: 1179
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '## 8.2.3. Salidas para las maniobras  Para crear una acción asociada a un evento volveremos al punto
+      1 de la sección anterior, entradas para'
+  - id: 6867b88b-9209-45b8-8403-66f5eb632e73
+    source: CAD-250_Manual-software-configuracion-MS-416-es-2026-b
+    page: 52
+    section_path: 7. CONFIGURACIÓN DE MANIOBRAS > 7.20.2. Eventos.
+    content_type: procedure
+    len: 1705
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '## 7.20.2. Eventos.  Arrastre con el ratón cualquiera de las entidades de la ventana de eventos que
+      van a ser una condición de entrada para '
+- qid: cat020
+  atribucion_s67base: GENERACION
+  modal: PARCIAL
+  hechos_fuertes:
+  - valor: 80 % / 100 % / 108 %
+    bucket: EN-TOP5-pero-falla
+    chunk_servidor:
+      id: 0a35b5c3-0063-4a8c-b49c-2b8eabe6da31
+      source: DXc_Manual variaciones de mercado
+      page: 6
+      section_path: Sección 5.3.10.3 Modo Sensibilidad > 5.3.10.4 Niveles de alarma
+      content_type: general
+      len: 1117
+      has_blurb: true
+      frag_sospechosa: false
+      preview: '``` [Niv.Modo Dia]         Jue 14/04/2011 15:46:57 L1 Selec.Equipo : ◄ ►:Pag  0-9:Dir S001 OTM Fuego:Niv4
+        Prealarma:Niv3 S002 OTM Fuego:Niv4'
+  - valor: 0-100 % normalizado
+    bucket: EN-TOP5-pero-falla
+    chunk_servidor:
+      id: 0a35b5c3-0063-4a8c-b49c-2b8eabe6da31
+      source: DXc_Manual variaciones de mercado
+      page: 6
+      section_path: Sección 5.3.10.3 Modo Sensibilidad > 5.3.10.4 Niveles de alarma
+      content_type: general
+      len: 1117
+      has_blurb: true
+      frag_sospechosa: false
+      preview: '``` [Niv.Modo Dia]         Jue 14/04/2011 15:46:57 L1 Selec.Equipo : ◄ ►:Pag  0-9:Dir S001 OTM Fuego:Niv4
+        Prealarma:Niv3 S002 OTM Fuego:Niv4'
+  solo_debiles: false
+- qid: cat024
+  atribucion_s67base: INDETERMINADO-solo-debiles
+  modal: PARCIAL
+  hechos_fuertes: []
+  solo_debiles: true
+  naturaleza_top5:
+  - id: 27355469-1dec-4539-9663-c20d556e1964
+    source: Manual instalacion CAD-250 (MI_372_es_2024 e)
+    page: 55
+    section_path: 10. Anexos > 10.2. Dispositivos compatibles y consumos
+    content_type: specification
+    len: 6968
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '57  ESP  | Referencia | Tipo   | Consumo Reposo | Consumo Alarma | Aislador | Alimentación externa
+      | Nº direcc. | Descripción               '
+  - id: 5bb653d4-fefc-45ca-81cf-6ddccb19738d
+    source: CAD-250_Manual-Configuracion-MC-380-es-2026-c
+    page: 87
+    section_path: 'ANEXO 1: Dispositivos compatibles y consumos'
+    content_type: specification
+    len: 6447
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '87  88  | Referencia | Tipo | Consumo Reposo | Consumo Alarma | Aislador | Alimentación externa |
+      Nº direcc. | Descripción                  '
+  - id: e19c4b0c-6845-4438-b1ff-06d79bef7d93
+    source: 55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2
+    page: 1
+    section_path: null
+    content_type: wiring
+    len: 2677
+    has_blurb: true
+    frag_sospechosa: false
+    preview: 'SIRENA ANALÓGICA DE ZÓCALO ANALOGUE BASE SOUNDER  # ESPAÑOL  ## Sirena Analógica de Zócalo  ### 1-
+      Introducción  La sirena analógica de zóca'
+  - id: 457f1b97-8798-4022-b740-7ab6414a2636
+    source: 55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2
+    page: 1
+    section_path: null
+    content_type: wiring
+    len: 2297
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '# ENGLISH  ## Analogue Base Sounder  ### 1- Introduction  The Analogue Base Sounder provide the fire
+      detection system with an audible alarm '
+  - id: 5f95d527-e037-4110-87ca-0d0dce16b5d8
+    source: MIDT212
+    page: 46
+    section_path: APÉNDICE III > Datos sobre el Proyecto
+    content_type: general
+    len: 2958
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '| Carga en reposo en Amperios (Fallo Alimentación)        | Nº | Corriente  | Total | | ----------------------------------------------------'
+- qid: hp001
+  atribucion_s67base: MIXTO
+  modal: PARCIAL
+  hechos_fuertes:
+  - valor: '2222'
+    bucket: RANK-51-110 (corte/profundidad)
+    best_rank_vectorial: 54
+    cos_winner: 0.5191
+    cos_corte_50: 0.5195
+    indice_culpable: false
+    n_winners: 2
+    winner:
+      id: 8cf55c57-dc8d-4e81-b35b-67f777580cd5
+      source: CAD-250_Manual-Configuracion-MC-380-es-2026-c
+      page: 18
+      section_path: 4. CONFIGURACION DE LA CENTRAL
+      content_type: general
+      len: 1968
+      has_blurb: true
+      frag_sospechosa: false
+      preview: '# 4. CONFIGURACION DE LA CENTRAL  ## 4.1. ACCESO COMO ADMINISTRADOR  [Screenshot showing initialization
+        screen with time "13:26" at top and '
+  - valor: '1111'
+    bucket: EN-TOP5-pero-falla
+    chunk_servidor:
+      id: edeb58a7-58c6-4865-8819-c70b57fe1135
+      source: Manual usuario CAD-250 (MU 376 es 2024 f)
+      page: 10
+      section_path: null
+      content_type: procedure
+      len: 2981
+      has_blurb: true
+      frag_sospechosa: false
+      preview: '# 4. Nivel usuario  ## 4.1. Primer arranque  Si ha seguido los pasos iniciales de esta guía una
+        LUZ VERDE se encenderá en la parte izquierda'
+  solo_debiles: false
+- qid: hp002
+  atribucion_s67base: SUB-RETRIEVAL
+  modal: PARCIAL
+  hechos_fuertes:
+  - valor: 300 s
+    bucket: RANK<=50-fuera-de-pool (filtros/mezcla/diversify)
+    best_rank_vectorial: 13
+    cos_winner: 0.5255
+    cos_corte_50: 0.5015
+    indice_culpable: false
+    n_winners: 11
+    winner:
+      id: 414ce99c-0dec-478c-b504-009f14631804
+      source: ASD535_TD_T131192es_h
+      page: 28
+      section_path: Funcionamiento
+      content_type: troubleshooting
+      len: 2910
+      has_blurb: true
+      frag_sospechosa: false
+      preview: '# Funcionamiento  ## 2.2.10 Monitorización del flujo de aire  La monitorización del flujo de aire
+        se basa en el método de medición calorimét'
+  - valor: 7.6.1
+    bucket: RANK<=50-fuera-de-pool (filtros/mezcla/diversify)
+    best_rank_vectorial: 27
+    cos_winner: 0.5267
+    cos_corte_50: 0.5015
+    indice_culpable: false
+    n_winners: 8
+    winner:
+      id: 2272ff5a-b85f-4e9c-bdae-b5d62682be1f
+      source: ASD535_TD_T131192es_h
+      page: 11
+      section_path: Historia del documento
+      content_type: general
+      len: 2749
+      has_blurb: true
+      frag_sospechosa: false
+      preview: 'Historia del documento  ## Índice «g» Fecha 16.01.2016 (sólo alemán, francés, inglés e italiano
+        disponibles)  Cambios más importantes respec'
+  solo_debiles: false
+- qid: hp003
+  atribucion_s67base: INDETERMINADO-solo-debiles
+  modal: PARCIAL
+  hechos_fuertes: []
+  solo_debiles: true
+  naturaleza_top5:
+  - id: b6602d5a-dbb5-4e2e-8814-1ac3ce066896
+    source: 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+    page: 9
+    section_path: null
+    content_type: wiring
+    len: 1371
+    has_blurb: true
+    frag_sospechosa: false
+    preview: Conecte los cables que salen del circuito (rojo y negro) al positivo y negativo de las baterías, y
+      recuerde conectar previamente entre sí la
+  - id: 332e566c-a8a6-492a-8751-1a58eadd6782
+    source: 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+    page: 7
+    section_path: null
+    content_type: troubleshooting
+    len: 1102
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '## PCB Base  [PCB Base diagram with numbered sections 1, 2, 3, 4 at top and numbered components 5,
+      6, 7, 8, 9, 10, 11 throughout]  | 1 | Con'
+  - id: f610b042-b450-470d-b410-eb4074184e6c
+    source: 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+    page: 19
+    section_path: null
+    content_type: general
+    len: 1176
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '## PCB Base  ```                 1           2           3           4         +                   LOOP                    LOOP             '
+  - id: b0856e1f-d108-426f-beb9-17f244e46e98
+    source: 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+    page: 10
+    section_path: null
+    content_type: procedure
+    len: 2742
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '# 3- Guía de puesta en marcha del Sistema  Este capítulo define paso a paso como se debe realizar
+      una correcta puesta en marcha de las centr'
+  - id: 05901e89-b657-485d-94e3-ecf9928fe695
+    source: 55315501 CAD150R Instalacion ES GB 191018
+    page: 1
+    section_path: null
+    content_type: troubleshooting
+    len: 2904
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '# MANUAL DEL INSTALADOR  **ES**  *Repetidores analógicos*  2  # 1 - El Repetidor Analógico  ## 1.1
+      - El Repetidor Analógico  **ES**  En este'
+- qid: hp005
+  atribucion_s67base: GENERACION
+  modal: PARCIAL
+  hechos_fuertes:
+  - valor: COINCIDENCIA 2 EQUIPOS
+    bucket: EN-TOP5-pero-falla
+    chunk_servidor:
+      id: 89f460aa-1441-4f03-8b7e-ffd9d43c76a7
+      source: MCDT190
+      page: 55
+      section_path: 6 Matriz de Control > 6.1.5 Coincidencia
+      content_type: procedure
+      len: 1841
+      has_blurb: true
+      frag_sospechosa: false
+      preview: '## 6.1.5 Coincidencia  Esta función se aplica sólo si la entrada está especificada como ''ZONA'',
+        ''SUBZONA'' o ''CUALQUIERA'', no si es un equipo'
+  solo_debiles: false
+- qid: hp006
+  atribucion_s67base: INDETERMINADO-solo-debiles
+  modal: FALLO
+  hechos_fuertes: []
+  solo_debiles: true
+  naturaleza_top5:
+  - id: eecdadb2-7f28-46bc-80ff-bfa5bb94c4c2
+    source: MFDT170
+    page: 8
+    section_path: null
+    content_type: troubleshooting
+    len: 2587
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '| Indicador                | Color    | En activo...                                                                                        '
+  - id: 10dc9cf7-dbe4-4dc4-8e9c-b3fb539b3531
+    source: MFDT170
+    page: 8
+    section_path: null
+    content_type: troubleshooting
+    len: 1601
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '## 2. Uso de la Central  ### Indicadores y Controles de la AFP-400  La AFP-400 consta de los siguientes
+      controles e indicadores:  * LEDs Ind'
+  - id: e3dd8dc0-58e3-4eb2-a8d1-8818a061d982
+    source: MFDT170
+    page: 10
+    section_path: null
+    content_type: troubleshooting
+    len: 2915
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '# 3. Modos de Funcionamiento  ## Funcionamiento Normal  El sistema funciona de manera Normal cuando
+      no existen alarmas ni averías. En estado'
+  - id: 27388b64-b37c-4b70-8e93-4b1e468fc2b2
+    source: MIDT170
+    page: 72
+    section_path: null
+    content_type: wiring
+    len: 1551
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '# Requisitos del Cableado Analógico de dos hilos  ## Resistencia de Lazo  > 📄 Si desea más detalles
+      sobre los requisitos del cableado, consu'
+  - id: bd0071c2-745b-4793-95b6-2171caf30f4d
+    source: MIDT170
+    page: 79
+    section_path: null
+    content_type: wiring
+    len: 1768
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '# Cableado del lazo con los Módulos Monitores MMX  ## MMX-1 – Conexión de un Circuito de Equipo de
+      Iniciación de Estilo B de NFPA  Puede ins'
+- qid: hp008
+  atribucion_s67base: SUB-RETRIEVAL
+  modal: PARCIAL
+  hechos_fuertes:
+  - valor: CPX-551E
+    bucket: RANK<=50-fuera-de-pool (filtros/mezcla/diversify)
+    best_rank_vectorial: 25
+    cos_winner: 0.619
+    cos_corte_50: 0.5946
+    indice_culpable: false
+    n_winners: 1
+    winner:
+      id: 11d96526-d627-4305-8cae-e6852af1b20b
+      source: MIDT190
+      page: 71
+      section_path: Equipos de lazo compatibles
+      content_type: wiring
+      len: 3056
+      has_blurb: true
+      frag_sospechosa: false
+      preview: '# Equipos de lazo compatibles  Sensores multicriterio:  IRX-751CTEM (SMART 4)  IRX-751TEM (SMART
+        3)  Módulos monitores:  M710 (MON, una entr'
+  - valor: SDX-751
+    bucket: RANK<=50-fuera-de-pool (filtros/mezcla/diversify)
+    best_rank_vectorial: 25
+    cos_winner: 0.619
+    cos_corte_50: 0.5946
+    indice_culpable: false
+    n_winners: 1
+    winner:
+      id: 11d96526-d627-4305-8cae-e6852af1b20b
+      source: MIDT190
+      page: 71
+      section_path: Equipos de lazo compatibles
+      content_type: wiring
+      len: 3056
+      has_blurb: true
+      frag_sospechosa: false
+      preview: '# Equipos de lazo compatibles  Sensores multicriterio:  IRX-751CTEM (SMART 4)  IRX-751TEM (SMART
+        3)  Módulos monitores:  M710 (MON, una entr'
+  - valor: IRX-751CTEM
+    bucket: RANK<=50-fuera-de-pool (filtros/mezcla/diversify)
+    best_rank_vectorial: 25
+    cos_winner: 0.619
+    cos_corte_50: 0.5946
+    indice_culpable: false
+    n_winners: 1
+    winner:
+      id: 11d96526-d627-4305-8cae-e6852af1b20b
+      source: MIDT190
+      page: 71
+      section_path: Equipos de lazo compatibles
+      content_type: wiring
+      len: 3056
+      has_blurb: true
+      frag_sospechosa: false
+      preview: '# Equipos de lazo compatibles  Sensores multicriterio:  IRX-751CTEM (SMART 4)  IRX-751TEM (SMART
+        3)  Módulos monitores:  M710 (MON, una entr'
+  - valor: SDX-751-TEM
+    bucket: RANK<=50-fuera-de-pool (filtros/mezcla/diversify)
+    best_rank_vectorial: 25
+    cos_winner: 0.619
+    cos_corte_50: 0.5946
+    indice_culpable: false
+    n_winners: 1
+    winner:
+      id: 11d96526-d627-4305-8cae-e6852af1b20b
+      source: MIDT190
+      page: 71
+      section_path: Equipos de lazo compatibles
+      content_type: wiring
+      len: 3056
+      has_blurb: true
+      frag_sospechosa: false
+      preview: '# Equipos de lazo compatibles  Sensores multicriterio:  IRX-751CTEM (SMART 4)  IRX-751TEM (SMART
+        3)  Módulos monitores:  M710 (MON, una entr'
+  solo_debiles: false
+- qid: hp009
+  atribucion_s67base: INDETERMINADO-solo-debiles
+  modal: FALLO
+  hechos_fuertes: []
+  solo_debiles: true
+  naturaleza_top5:
+  - id: 2e39e371-a009-4dd0-8e61-da9ce65b169a
+    source: MIE-MI-310
+    page: 22
+    section_path: null
+    content_type: wiring
+    len: 2889
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '## 3.3.9 LAZO PERIFÉRICO  Las cantrales ZXAE y ZXEE disponen de un puerto para conexión y control
+      de elementos periféricos conectados con el'
+  - id: 692718af-8d13-4e2f-80df-90d22dd832ec
+    source: MIE-MI-310
+    page: 18
+    section_path: null
+    content_type: wiring
+    len: 2946
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '# MANUAL DE INSTALACIÓN ZXAE/ZXEE  ## 3.3.5 SALIDA SIRENAS DE PLACA  La ZXAE dispone de 2 salidas
+      supervisadas para campanas convencionales '
+  - id: 35f4421a-d039-4672-9884-5540ab42a788
+    source: MIE-MI-310
+    page: 19
+    section_path: null
+    content_type: wiring
+    len: 1525
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '``` + Salida A sirenas de placa           ━━━━━━━━━━``` + Salida A sirenas de placa                +     +     +                            '
+  - id: d79a07b8-745f-4c62-8355-d0cee6fde1db
+    source: MIE-MI-310
+    page: 15
+    section_path: null
+    content_type: wiring
+    len: 3130
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '## 3.3.4 LAZOS ANALÓGICOS  Las Centrales de Control de Incendios ZXAE y ZXEE, controlan los dispositivos,
+      mediante placas de lazo con transm'
+  - id: 31ccb719-ddc0-4b2d-aefe-94b9e65aea3c
+    source: MIE-MI-310
+    page: 5
+    section_path: null
+    content_type: wiring
+    len: 3055
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '# 3 INSTALACIÓN  ## 3.1 INSTALACIÓN DE LA CAJA  Abrir la puerta del equipo y retirar los kit de cables
+      de baterías, resistencias y el filtro'
+- qid: hp010
+  atribucion_s67base: SUB-RETRIEVAL
+  modal: PARCIAL
+  hechos_fuertes:
+  - valor: Nivel 3
+    bucket: NO-LOCALIZADO (sospecha gap)
+    fact_docs: []
+  solo_debiles: false
+- qid: hp011
+  atribucion_s67base: SUB-RETRIEVAL
+  modal: FALLO
+  hechos_fuertes:
+  - valor: 05 a 295 seg
+    bucket: RANK-51-110 (corte/profundidad)
+    best_rank_vectorial: 65
+    cos_winner: 0.5385
+    cos_corte_50: 0.5447
+    indice_culpable: false
+    n_winners: 1
+    winner:
+      id: 2d45a70a-5202-442e-af84-c3a176c2178d
+      source: HLSI-MN-103_RP1r-Supra_lr
+      page: 56
+      section_path: 5 Configuración de la central > 5.3 Opciones disponibles > 5.3.1 Opciones extinción
+      content_type: general
+      len: 3338
+      has_blurb: true
+      frag_sospechosa: false
+      preview: '| Valor variable de<br/>05 a 295 seg. | Tiempo de activación del circuito de extinción, o periodo
+        de inundación. Variable en intervalos de 5'
+  solo_debiles: false
+- qid: hp012
+  atribucion_s67base: MIXTO
+  modal: PARCIAL
+  hechos_fuertes:
+  - valor: 99 + 99
+    bucket: NO-LOCALIZADO (sospecha gap)
+    fact_docs: []
+  - valor: 2 lazos / 396
+    bucket: EN-TOP5-pero-falla
+    chunk_servidor:
+      id: 11230b35-24ba-43e2-8df6-396e8f852f4a
+      source: 15088SP
+      page: 13
+      section_path: null
+      content_type: general
+      len: 3018
+      has_blurb: true
+      frag_sospechosa: false
+      preview: '# <ins>AM2020</ins> AFP1010  # CAPÍTULO UNO INSTALACIÓN  12    AM2020/AFP1010 PN 15088SP:H 10/21/98  Tabla
+        de Contenidos                    '
+  - valor: 4 lazos / 792
+    bucket: EN-TOP5-pero-falla
+    chunk_servidor:
+      id: f03d3ae4-6da1-4985-9b08-85f9581e31d7
+      source: 15088SP
+      page: 14
+      section_path: null
+      content_type: general
+      len: 3055
+      has_blurb: true
+      frag_sospechosa: false
+      preview: 'Dispositivos direccionables en todo el sistema                                                                                              '
+  solo_debiles: false
+- qid: hp013
+  atribucion_s67base: INDETERMINADO-solo-debiles
+  modal: PARCIAL
+  hechos_fuertes: []
+  solo_debiles: true
+  naturaleza_top5:
+  - id: d51349a4-0038-43f3-be15-47a8c7f1a917
+    source: ADW535_TD_T140358es_e
+    page: 20
+    section_path: null
+    content_type: procedure
+    len: 2920
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '## 2.2.9 Monitorización del tubo sensor  > **Indicación** > > La condición para el correcto funcionamiento
+      de la monitorización del tubo sen'
+  - id: 0b1efa58-03be-4392-9466-ba074a97f68b
+    source: ADW535_TD_T140358es_e
+    page: 65
+    section_path: null
+    content_type: wiring
+    len: 3094
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '### 7.1.1.2 Ajustar la configuración en el PC  Para que el PC pueda conectarse al ADW 535, ambos deben
+      encontrarse en la misma subred. Para '
+  - id: de6cce12-6d2a-44df-b904-0cbe4d9ac431
+    source: ADW535_TD_T140358es_e
+    page: 73
+    section_path: null
+    content_type: procedure
+    len: 985
+    has_blurb: true
+    frag_sospechosa: false
+    preview: 'Puesta en funcionamiento  ### 7.3.3 Ajuste en la posición de conmutador predefinida A1 a T3, W00 a
+      W09  El siguiente cuadro describe el proc'
+  - id: 3200ca07-cb92-412e-a235-af162096b15c
+    source: ADW535_TD_T140358es_e
+    page: 108
+    section_path: null
+    content_type: wiring
+    len: 6476
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '## G30 o G40, fallos verificación tubo sensor I / II  | Código | Significado                                                                '
+  - id: 295b747a-3d35-4807-97fc-d00642985d93
+    source: ADW535_TD_T140358es_e
+    page: 108
+    section_path: null
+    content_type: specification
+    len: 3931
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '## G50 o G60, fallos reset inicial tubo sensor I / II  | Código | Significado                                |
+      Comprobaciones:              '
+- qid: hp014
+  atribucion_s67base: GENERACION
+  modal: PARCIAL
+  hechos_fuertes:
+  - valor: terminales 2 y 4
+    bucket: EN-TOP5-pero-falla
+    chunk_servidor:
+      id: 458afc80-1df5-4936-a313-59452bfad4cd
+      source: MIDT180
+      page: 43
+      section_path: null
+      content_type: troubleshooting
+      len: 3020
+      has_blurb: true
+      frag_sospechosa: false
+      preview: '# 8 Puesta en marcha  ## 8.1 Introducción  Para poner la central en un estado funcional que permita
+        realizar la configuración, siga el proce'
+  solo_debiles: false
+- qid: hp017
+  atribucion_s67base: INDETERMINADO-solo-debiles
+  modal: PARCIAL
+  hechos_fuertes: []
+  solo_debiles: true
+  naturaleza_top5:
+  - id: 570d9951-e3a6-4c64-a927-e26b5e6db842
+    source: 997-671-005-3_Configuration_ES
+    page: 44
+    section_path: Apéndice 5. Programación de causa-efecto
+    content_type: procedure
+    len: 1572
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '## A5.2.1 Borrar una regla de causa-efecto  Con el cursor situado en cualquier columna de la regla
+      que desee borrar, pulse C. La última regl'
+  - id: 7e34cb72-0183-488a-9aa3-fcc81b40f3ef
+    source: 997-671-005-3_Configuration_ES
+    page: 44
+    section_path: Apéndice 5. Programación de causa-efecto > A5.3 Tipos de retardo
+    content_type: general
+    len: 2938
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '| Acción de usuario/indicación de estado                                                                                    |
+      Tipos de retar'
+  - id: ac308dbf-357e-4356-9049-1ccfcc6ff749
+    source: 997-670-005-3_Operating_ES
+    page: 25
+    section_path: Navegación por los menús del panel > 5.1.4 Retardos de activación de salidas
+    content_type: procedure
+    len: 2514
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '## 5.1.4 Retardos de activación de salidas  Esta opción solo está disponible si se han configurado
+      retardos como parte de una o más reglas d'
+  - id: 3ef1b823-b62e-40d4-8a9a-ebac320f6414
+    source: 997-670-005-3_Operating_ES
+    page: 11
+    section_path: 2 Eventos de alarma y avería. Qué hacer > 2.1.4 Retardos. ¿Qué debo hacer?
+    content_type: troubleshooting
+    len: 2798
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '## 2.1.4 Retardos. ¿Qué debo hacer?  Si se ha configurado la central para que retarde el funcionamiento
+      de las sirenas, etc., puede que la d'
+  - id: 9587cd83-e271-42b9-ba8f-dfd05ae94935
+    source: 997-671-005-3_Configuration_ES
+    page: 34
+    section_path: null
+    content_type: general
+    len: 717
+    has_blurb: true
+    frag_sospechosa: false
+    preview: '## A1.10 Ampliar Puls.Retardo  Esta opción de configuración de la central permite desactivar el pulsador
+      EXTENDER RETARDO, puesto que esta f'
+- qid: hp018
+  atribucion_s67base: MIXTO
+  modal: FALLO
+  hechos_fuertes:
+  - valor: 4 circuitos
+    bucket: EN-POOL-no-top5
+    pos_en_pool: 1
+    n_winners: 14
+    winner:
+      id: c40ac5cb-20a0-4f11-943e-6a6fc29bdedc
+      source: MIE-MI-310
+      page: 3
+      section_path: 1. INTRODUCCIÓN
+      content_type: procedure
+      len: 2522
+      has_blurb: true
+      frag_sospechosa: false
+      preview: '# 1. INTRODUCCIÓN  ## 1.1 NOTA  El material y las instrucciones de este manual, han sido cuidadosamente
+        revisados y se supone son correctos.'
+  - valor: 6K8
+    bucket: EN-TOP5-pero-falla
+    chunk_servidor:
+      id: 692718af-8d13-4e2f-80df-90d22dd832ec
+      source: MIE-MI-310
+      page: 18
+      section_path: null
+      content_type: wiring
+      len: 2946
+      has_blurb: true
+      frag_sospechosa: false
+      preview: '# MANUAL DE INSTALACIÓN ZXAE/ZXEE  ## 3.3.5 SALIDA SIRENAS DE PLACA  La ZXAE dispone de 2 salidas
+        supervisadas para campanas convencionales '
+  solo_debiles: false

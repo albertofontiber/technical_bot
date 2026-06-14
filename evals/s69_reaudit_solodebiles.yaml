@@ -1,0 +1,213 @@
+cat016:
+  n_facts: 4
+  n_in_filtered: 2
+  n_core_presente: 4
+  n_core_fuerte: 0
+  facts:
+  - valor: autobusqueda
+    strength: debil
+    in_top5: false
+    in_filtered: false
+  - valor: menu ZONA + ELEMENTO
+    strength: debil
+    in_top5: false
+    in_filtered: false
+  - valor: modo prueba
+    strength: debil
+    in_top5: true
+    in_filtered: true
+  - valor: 20 minutos
+    strength: debil
+    in_top5: true
+    in_filtered: true
+  labels_sufficiency: null
+  diag_modal: La parte de prueba de zona es mayormente correcta (modo PRUEBA, anulación de retardos, salida
+    a los 20 minutos y reconexión de zona), pero el bot afirma que no está documentado el alta del detector
+    cuando el manual sí indica hacerlo mediante AUTOBUSQUEDA del bucle, comprobación de elementos, asignación
+    a zona y configuración/nombre del elemento. Al admitir falta de información en un punto que el gold
+    sí cubre, deja sin responder una parte esencial de la consulta.
+  top5_sources:
+  - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+cat019:
+  n_facts: 4
+  n_in_filtered: 4
+  n_core_presente: 4
+  n_core_fuerte: 0
+  facts:
+  - valor: coincidencias
+    strength: debil
+    in_top5: true
+    in_filtered: true
+  - valor: EVENTO / ACCION
+    strength: debil
+    in_top5: true
+    in_filtered: true
+  - valor: ENTIDAD / CONDICION TEMPORAL
+    strength: debil
+    in_top5: true
+    in_filtered: true
+  - valor: salidas
+    strength: debil
+    in_top5: true
+    in_filtered: true
+  labels_sufficiency: null
+  diag_modal: 'Acierta la estructura principal de la programación de maniobras en CAD-250: crear en Maniobras/Añadir,
+    definir coincidencias, añadir eventos como entidad o condición temporal y añadir acciones como salidas.
+    Queda incompleta/imprecisa en la parte de salidas por estar truncada y no explicitar claramente que
+    las acciones actúan sobre sirenas o módulos de control; además omite la referencia al máximo de maniobras/eventos/acciones
+    y la conveniencia de la sectorización previa.'
+  top5_sources:
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - CAD-250_Manual-software-configuracion-MS-416-es-2026-b
+cat024:
+  n_facts: 1
+  n_in_filtered: 1
+  n_core_presente: 1
+  n_core_fuerte: 0
+  facts:
+  - valor: 17 mA
+    strength: debil
+    in_top5: true
+    in_filtered: true
+  labels_sufficiency: null
+  diag_modal: Responde correctamente el valor vigente de 17 mA a 80 dB(A) y añade datos eléctricos relevantes,
+    pero introduce una discrepancia de 7 mA con tablas CAD-250 que no forma parte de la referencia GOLD
+    y omite la discrepancia real documentada con la revisión V1 (<15 mA). La recomendación final de usar
+    17 mA es correcta, aunque la respuesta puede confundir al técnico con un conflicto no validado en
+    la referencia.
+  top5_sources:
+  - 55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - MIDT212
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+hp003:
+  n_facts: 4
+  n_in_filtered: 3
+  n_core_presente: 4
+  n_core_fuerte: 0
+  facts:
+  - valor: 12V
+    strength: debil
+    in_top5: true
+    in_filtered: true
+  - valor: cable puente
+    strength: debil
+    in_top5: true
+    in_filtered: true
+  - valor: rojo y negro
+    strength: debil
+    in_top5: true
+    in_filtered: true
+  - valor: primero la red
+    strength: debil
+    in_top5: false
+    in_filtered: false
+  labels_sufficiency: null
+  diag_modal: 'La respuesta acierta en la conexión en serie mediante puente, rojo a positivo/negro a negativo,
+    verificación >24V, orden red antes que baterías y uso del pulsador BAT. Queda incompleta frente a
+    la referencia: no explicita que son dos baterías de 12V en serie, omite ubicación/capacidades según
+    modelo, la advertencia de no manipular con alimentación conectada y el valor del fusible de baterías.'
+  top5_sources:
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315501 CAD150R Instalacion ES GB 191018
+hp006:
+  n_facts: 3
+  n_in_filtered: 0
+  n_core_presente: 3
+  n_core_fuerte: 0
+  facts:
+  - valor: Fallo de Tierra
+    strength: debil
+    in_top5: false
+    in_filtered: false
+  - valor: Tierra
+    strength: debil
+    in_top5: false
+    in_filtered: false
+  - valor: ISO-X
+    strength: debil
+    in_top5: false
+    in_filtered: false
+  labels_sufficiency: null
+  diag_modal: El bot afirma que no hay información específica sobre 'Tierra/Earth Fault', pero la referencia
+    sí documenta su significado y varios puntos relevantes de detección/localización en AFP-400/MPS-400/SLC/NAM-232W/ISO-X.
+    Además no explica el fallo de aislamiento a tierra ni el método general de aislamiento progresivo,
+    y sustituye la respuesta por datos genéricos de avería.
+  top5_sources:
+  - MFDT170
+  - MIDT170
+hp009:
+  n_facts: 2
+  n_in_filtered: 0
+  n_core_presente: 2
+  n_core_fuerte: 0
+  facts:
+  - valor: Retorno
+    strength: debil
+    in_top5: false
+    in_filtered: false
+  - valor: aisladores internos
+    strength: debil
+    in_top5: false
+    in_filtered: false
+  labels_sufficiency: null
+  diag_modal: 'No responde correctamente para la Morley ZXe: cambia el producto a ZXAE/ZXEE y solo dice
+    que no se especifica RFL para el lazo analógico, en vez de afirmar que el lazo ZXe no lleva RFL y
+    se cablea como bucle cerrado con retorno al panel. Además mezcla resistencias de RS-485 y sirenas,
+    lo que puede confundir al técnico.'
+  top5_sources:
+  - MIE-MI-310
+hp013:
+  n_facts: 2
+  n_in_filtered: 0
+  n_core_presente: 2
+  n_core_fuerte: 0
+  facts:
+  - valor: EEPROM
+    strength: debil
+    in_top5: false
+    in_filtered: false
+  - valor: PWR-R
+    strength: debil
+    in_top5: false
+    in_filtered: false
+  labels_sufficiency: null
+  diag_modal: 'Acertó al no inventar un procedimiento de sustitución y al indicar que el manual recuperado
+    no documenta cómo cambiar la batería sin perder configuración. Pero queda incompleto frente a la referencia:
+    omite que la batería BAT sí aparece documentada, la retirada de la cinta aislante, la gestión de residuos
+    y, sobre todo, que la configuración se almacena en EEPROM; además remite genéricamente a Detnov/manual
+    físico en vez de citar el fabricante/servicio autorizado indicado.'
+  top5_sources:
+  - ADW535_TD_T140358es_e
+hp017:
+  n_facts: 4
+  n_in_filtered: 3
+  n_core_presente: 4
+  n_core_fuerte: 0
+  facts:
+  - valor: causa-efecto
+    strength: debil
+    in_top5: true
+    in_filtered: true
+  - valor: instruccion de entrada
+    strength: debil
+    in_top5: false
+    in_filtered: false
+  - valor: Editar Configuracion
+    strength: debil
+    in_top5: true
+    in_filtered: true
+  - valor: seis tipos de retardo
+    strength: debil
+    in_top5: true
+    in_filtered: true
+  labels_sufficiency: null
+  diag_modal: 'Acierta en que el retardo de salida se asigna en reglas de causa-efecto y menciona tipos/teclas
+    de retardo, pero omite pasos críticos del procedimiento: acceso a Causa-Efecto, borrar la Regla 1
+    por defecto, definir entrada/salida, lazo 0=TODOS, límite de reglas y pruebas. Además es impreciso
+    al decir que hay seis tipos pero listar siete, y afirma que no dispone del procedimiento completo
+    cuando la referencia sí lo cubre.'
+  top5_sources:
+  - 997-670-005-3_Operating_ES
+  - 997-671-005-3_Configuration_ES

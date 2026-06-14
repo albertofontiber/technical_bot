@@ -1,0 +1,967 @@
+meta:
+  diseno: _s69_generation_design.md v3.2
+  juez:
+    control:
+    - gpt-5.5-2026-04-23
+    fidelity:
+    - gpt-5.5-2026-04-23
+  juez_identico: true
+  NOTA: 'veredicto NO auto-aplicado — los flips decisivos exigen verificación CONTENT-LEVEL antes de SHIP/rollback
+    (enmienda B, bias #20 en la decisión)'
+metricas:
+  delta_net_diana: 0
+  F_base: 7
+  F_post: 8
+  delta_inest: 0
+  ki_base:
+  - cat020
+  - hp004
+  - hp007
+  ki_fidelity:
+  - cat012
+  - cat019
+  - cat020
+  conducta_regresiones:
+  - cat011
+  pass_control_caidas: []
+  n_movers: 4
+FLIPS_DECISIVOS_a_verificar_content_level: []
+prediccion_§4_vs_resultado:
+  cat019: false
+  hp005: false
+  hp014: false
+  cat020: false
+  cat008: false
+verbosidad_PASS_control_delta_tokens>80:
+  cat010: 95.6
+  cat018: 116.6
+  cat023: 135.2
+tabla_s67: SHIP Δ_net≥+2 ∧ control≤1 ∧ F_post≤F_base ∧ conducta=0 ∧ Δ_inest≤+1 · ROLLBACK regla-1/control>1/F↑/Δ_net<0/conducta≥2/inest>+3
+  · resto GRIS — SOLO tras verificación content-level de los flips
+golds:
+- qid: cat001
+  diana: false
+  pass_control: false
+  retrieval_watch: false
+  control:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  fidelity:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 1394.0
+  tokens_fidelity: 1478.6
+  delta_tokens: 84.6
+- qid: cat005
+  diana: false
+  pass_control: true
+  retrieval_watch: false
+  control:
+    modal: PASS
+    votes:
+      PASS: 5
+    bucket: PASS-control
+  fidelity:
+    modal: PASS
+    votes:
+      PASS: 3
+      PARCIAL: 2
+    bucket: PASS-control
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 879.8
+  tokens_fidelity: 894.2
+  delta_tokens: 14.4
+- qid: cat007
+  diana: false
+  pass_control: false
+  retrieval_watch: false
+  control:
+    modal: PARCIAL
+    votes:
+      FALLO: 1
+      PARCIAL: 4
+    bucket: residual
+  fidelity:
+    modal: FALLO
+    votes:
+      PARCIAL: 2
+      FALLO: 3
+    bucket: residual
+  cambio: true
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 866.8
+  tokens_fidelity: 1004.2
+  delta_tokens: 137.4
+- qid: cat008
+  diana: true
+  pass_control: false
+  retrieval_watch: false
+  control:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  fidelity:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 711.6
+  tokens_fidelity: 692.8
+  delta_tokens: -18.8
+- qid: cat009
+  diana: false
+  pass_control: false
+  retrieval_watch: false
+  control:
+    modal: PASS
+    votes:
+      PASS: 4
+      PARCIAL: 1
+    bucket: PASS-control
+  fidelity:
+    modal: PASS
+    votes:
+      PASS: 4
+      PARCIAL: 1
+    bucket: PASS-control
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 673.4
+  tokens_fidelity: 635.6
+  delta_tokens: -37.8
+- qid: cat010
+  diana: false
+  pass_control: true
+  retrieval_watch: false
+  control:
+    modal: PASS
+    votes:
+      PASS: 5
+    bucket: PASS-control
+  fidelity:
+    modal: PASS
+    votes:
+      PASS: 5
+    bucket: PASS-control
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 879.4
+  tokens_fidelity: 975.0
+  delta_tokens: 95.6
+- qid: cat011
+  diana: false
+  pass_control: false
+  retrieval_watch: false
+  control:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  fidelity:
+    modal: FALLO
+    votes:
+      FALLO: 5
+    bucket: residual
+  cambio: true
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: clarify
+  conducta_control: clarify
+  conducta_fidelity: answer
+  tokens_control: 596.4
+  tokens_fidelity: 665.2
+  delta_tokens: 68.8
+- qid: cat012
+  diana: false
+  pass_control: false
+  retrieval_watch: false
+  control:
+    modal: PASS
+    votes:
+      PASS: 3
+      PARCIAL: 2
+    bucket: PASS-control
+  fidelity:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 4
+      PASS: 1
+    bucket: K-INESTABLE
+  cambio: true
+  flip_pos: false
+  flip_neg: true
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 1134.2
+  tokens_fidelity: 1169.2
+  delta_tokens: 35.0
+- qid: cat013
+  diana: false
+  pass_control: false
+  retrieval_watch: false
+  control:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  fidelity:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: refuse-inference
+  conducta_control: refuse-inference
+  conducta_fidelity: refuse-inference
+  tokens_control: 394.0
+  tokens_fidelity: 385.6
+  delta_tokens: -8.4
+- qid: cat014
+  diana: false
+  pass_control: true
+  retrieval_watch: false
+  control:
+    modal: PASS
+    votes:
+      PASS: 5
+    bucket: PASS-control
+  fidelity:
+    modal: PASS
+    votes:
+      PASS: 5
+    bucket: PASS-control
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 255.6
+  tokens_fidelity: 286.2
+  delta_tokens: 30.6
+- qid: cat015
+  diana: false
+  pass_control: true
+  retrieval_watch: false
+  control:
+    modal: PASS
+    votes:
+      PASS: 5
+    bucket: PASS-control
+  fidelity:
+    modal: PASS
+    votes:
+      PASS: 5
+    bucket: PASS-control
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: admit
+  conducta_control: admit
+  conducta_fidelity: admit
+  tokens_control: 338.8
+  tokens_fidelity: 305.8
+  delta_tokens: -33.0
+- qid: cat016
+  diana: false
+  pass_control: false
+  retrieval_watch: true
+  control:
+    modal: FALLO
+    votes:
+      FALLO: 5
+    bucket: residual
+  fidelity:
+    modal: FALLO
+    votes:
+      FALLO: 5
+    bucket: residual
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 881.0
+  tokens_fidelity: 793.2
+  delta_tokens: -87.8
+- qid: cat017
+  diana: false
+  pass_control: false
+  retrieval_watch: false
+  control:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  fidelity:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 1437.8
+  tokens_fidelity: 1461.8
+  delta_tokens: 24.0
+- qid: cat018
+  diana: false
+  pass_control: true
+  retrieval_watch: false
+  control:
+    modal: PASS
+    votes:
+      PASS: 4
+      PARCIAL: 1
+    bucket: PASS-control
+  fidelity:
+    modal: PASS
+    votes:
+      PASS: 5
+    bucket: PASS-control
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 1051.2
+  tokens_fidelity: 1167.8
+  delta_tokens: 116.6
+- qid: cat019
+  diana: true
+  pass_control: false
+  retrieval_watch: false
+  control:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  fidelity:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 4
+      PASS: 1
+    bucket: K-INESTABLE
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 1443.2
+  tokens_fidelity: 1408.4
+  delta_tokens: -34.8
+- qid: cat020
+  diana: true
+  pass_control: false
+  retrieval_watch: false
+  control:
+    modal: PARCIAL
+    votes:
+      FALLO: 1
+      PARCIAL: 3
+      PASS: 1
+    bucket: K-INESTABLE
+  fidelity:
+    modal: PARCIAL
+    votes:
+      PASS: 2
+      PARCIAL: 3
+    bucket: K-INESTABLE
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 773.6
+  tokens_fidelity: 726.6
+  delta_tokens: -47.0
+- qid: cat021
+  diana: false
+  pass_control: false
+  retrieval_watch: false
+  control:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  fidelity:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: clarify
+  conducta_control: clarify
+  conducta_fidelity: clarify
+  tokens_control: 283.6
+  tokens_fidelity: 853.6
+  delta_tokens: 570.0
+- qid: cat022
+  diana: false
+  pass_control: true
+  retrieval_watch: false
+  control:
+    modal: PASS
+    votes:
+      PASS: 5
+    bucket: PASS-control
+  fidelity:
+    modal: PASS
+    votes:
+      PASS: 4
+      PARCIAL: 1
+    bucket: PASS-control
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 799.6
+  tokens_fidelity: 819.6
+  delta_tokens: 20.0
+- qid: cat023
+  diana: false
+  pass_control: true
+  retrieval_watch: false
+  control:
+    modal: PASS
+    votes:
+      PARCIAL: 2
+      PASS: 3
+    bucket: PASS-control
+  fidelity:
+    modal: PASS
+    votes:
+      PASS: 3
+      PARCIAL: 2
+    bucket: PASS-control
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 1536.8
+  tokens_fidelity: 1672.0
+  delta_tokens: 135.2
+- qid: cat024
+  diana: false
+  pass_control: false
+  retrieval_watch: false
+  control:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  fidelity:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer-con-conflicto
+  conducta_fidelity: answer-con-conflicto
+  tokens_control: 507.8
+  tokens_fidelity: 504.6
+  delta_tokens: -3.2
+- qid: hp001
+  diana: false
+  pass_control: false
+  retrieval_watch: false
+  control:
+    modal: FALLO
+    votes:
+      FALLO: 3
+      PARCIAL: 2
+    bucket: residual
+  fidelity:
+    modal: FALLO
+    votes:
+      PARCIAL: 1
+      FALLO: 4
+    bucket: residual
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 708.4
+  tokens_fidelity: 670.8
+  delta_tokens: -37.6
+- qid: hp002
+  diana: false
+  pass_control: false
+  retrieval_watch: false
+  control:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  fidelity:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 938.8
+  tokens_fidelity: 888.2
+  delta_tokens: -50.6
+- qid: hp003
+  diana: false
+  pass_control: false
+  retrieval_watch: false
+  control:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  fidelity:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 491.0
+  tokens_fidelity: 480.8
+  delta_tokens: -10.2
+- qid: hp004
+  diana: false
+  pass_control: false
+  retrieval_watch: false
+  control:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 4
+      PASS: 1
+    bucket: K-INESTABLE
+  fidelity:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: clarify
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 295.6
+  tokens_fidelity: 233.4
+  delta_tokens: -62.2
+- qid: hp005
+  diana: true
+  pass_control: false
+  retrieval_watch: false
+  control:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  fidelity:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 1051.2
+  tokens_fidelity: 986.6
+  delta_tokens: -64.6
+- qid: hp006
+  diana: false
+  pass_control: false
+  retrieval_watch: true
+  control:
+    modal: FALLO
+    votes:
+      FALLO: 5
+    bucket: residual
+  fidelity:
+    modal: FALLO
+    votes:
+      FALLO: 5
+    bucket: residual
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: admit
+  conducta_fidelity: admit
+  tokens_control: 441.2
+  tokens_fidelity: 390.2
+  delta_tokens: -51.0
+- qid: hp007
+  diana: false
+  pass_control: false
+  retrieval_watch: false
+  control:
+    modal: PARCIAL
+    votes:
+      PASS: 1
+      PARCIAL: 4
+    bucket: K-INESTABLE
+  fidelity:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 744.8
+  tokens_fidelity: 663.6
+  delta_tokens: -81.2
+- qid: hp008
+  diana: false
+  pass_control: false
+  retrieval_watch: false
+  control:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  fidelity:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 489.6
+  tokens_fidelity: 608.2
+  delta_tokens: 118.6
+- qid: hp009
+  diana: false
+  pass_control: false
+  retrieval_watch: true
+  control:
+    modal: FALLO
+    votes:
+      FALLO: 4
+      PARCIAL: 1
+    bucket: residual
+  fidelity:
+    modal: FALLO
+    votes:
+      FALLO: 3
+      PARCIAL: 2
+    bucket: residual
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: clarify
+  conducta_fidelity: answer
+  tokens_control: 600.2
+  tokens_fidelity: 600.2
+  delta_tokens: 0.0
+- qid: hp010
+  diana: false
+  pass_control: false
+  retrieval_watch: false
+  control:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  fidelity:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 618.8
+  tokens_fidelity: 592.4
+  delta_tokens: -26.4
+- qid: hp011
+  diana: false
+  pass_control: false
+  retrieval_watch: false
+  control:
+    modal: FALLO
+    votes:
+      FALLO: 4
+      PARCIAL: 1
+    bucket: residual
+  fidelity:
+    modal: FALLO
+    votes:
+      FALLO: 4
+      PARCIAL: 1
+    bucket: residual
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 1072.6
+  tokens_fidelity: 1065.4
+  delta_tokens: -7.2
+- qid: hp012
+  diana: false
+  pass_control: false
+  retrieval_watch: false
+  control:
+    modal: FALLO
+    votes:
+      FALLO: 5
+    bucket: residual
+  fidelity:
+    modal: FALLO
+    votes:
+      FALLO: 4
+      PARCIAL: 1
+    bucket: residual
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer-con-conflicto
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 533.2
+  tokens_fidelity: 602.4
+  delta_tokens: 69.2
+- qid: hp013
+  diana: false
+  pass_control: false
+  retrieval_watch: true
+  control:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  fidelity:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: admit
+  conducta_fidelity: admit
+  tokens_control: 289.0
+  tokens_fidelity: 313.2
+  delta_tokens: 24.2
+- qid: hp014
+  diana: true
+  pass_control: false
+  retrieval_watch: false
+  control:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  fidelity:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 765.2
+  tokens_fidelity: 755.0
+  delta_tokens: -10.2
+- qid: hp015
+  diana: false
+  pass_control: true
+  retrieval_watch: false
+  control:
+    modal: PASS
+    votes:
+      PASS: 5
+    bucket: PASS-control
+  fidelity:
+    modal: PASS
+    votes:
+      PARCIAL: 1
+      PASS: 4
+    bucket: PASS-control
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 427.0
+  tokens_fidelity: 421.6
+  delta_tokens: -5.4
+- qid: hp017
+  diana: false
+  pass_control: false
+  retrieval_watch: false
+  control:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  fidelity:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 5
+    bucket: residual
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 1003.0
+  tokens_fidelity: 1139.4
+  delta_tokens: 136.4
+- qid: hp018
+  diana: false
+  pass_control: false
+  retrieval_watch: false
+  control:
+    modal: FALLO
+    votes:
+      PARCIAL: 2
+      FALLO: 3
+    bucket: residual
+  fidelity:
+    modal: PARCIAL
+    votes:
+      PARCIAL: 3
+      FALLO: 2
+    bucket: residual
+  cambio: true
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 854.6
+  tokens_fidelity: 873.2
+  delta_tokens: 18.6
+- qid: hp019
+  diana: false
+  pass_control: true
+  retrieval_watch: false
+  control:
+    modal: PASS
+    votes:
+      PASS: 5
+    bucket: PASS-control
+  fidelity:
+    modal: PASS
+    votes:
+      PASS: 5
+    bucket: PASS-control
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 477.0
+  tokens_fidelity: 527.6
+  delta_tokens: 50.6
+- qid: hp020
+  diana: false
+  pass_control: true
+  retrieval_watch: false
+  control:
+    modal: PASS
+    votes:
+      PASS: 3
+      PARCIAL: 2
+    bucket: PASS-control
+  fidelity:
+    modal: PASS
+    votes:
+      PASS: 3
+      PARCIAL: 2
+    bucket: PASS-control
+  cambio: false
+  flip_pos: false
+  flip_neg: false
+  conducta_exp: answer
+  conducta_control: answer
+  conducta_fidelity: answer
+  tokens_control: 1071.0
+  tokens_fidelity: 1026.4
+  delta_tokens: -44.6

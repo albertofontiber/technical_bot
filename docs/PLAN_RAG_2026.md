@@ -3,11 +3,12 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 12 jun 2026 (s67b, DEC-049 — re-priorización post-A/B confirmada por Alberto: **el
-> ciclo del canal vectorial pasa a punto 1** ("el elefante en la habitación"); corpus
-> DIFERIDO demand-driven hasta chatbot estable (la meta 30+ fabricantes SIGUE, en fase
-> posterior); diagramas partidos en datos-paralelizable + cableado-post-canal. s67 =
-> DEC-048: A/B del CE = ROLLBACK pre-registrado; baseline del ruler = `s67base`).
+> 13 jun 2026 (s71, DEC-052 — CORRIGE el pivote de s69: el re-análisis dirigido por
+> Alberto [escéptico del pivote] mostró que el residual SÍ es atacable y el cuello es
+> **RETRIEVAL** [~16-18 de 29 no-PASS], un bug concreto de **INANICIÓN DEL POOL**
+> [keyword_search/broad-fallback capados a 5; reranker ciego a content[:800]] — NO el
+> canal-broad NO-GO. El bot NO está infra-puntuado [Track 1: solo cat012 maybe-PASS].
+> Siguiente: construir los fixes de retrieval, objetivo 11+ de 16 → PASS).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -26,37 +27,60 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s67 — 12 jun 2026)
+## Estado actual (s71 — 13 jun 2026)
 
-**s67 (DEC-048): A/B del swap CE ejecutado (GO de Alberto, ~$30 real vs ~$40-60 estimado)
-= ROLLBACK por la tabla pre-registrada — el lever CE queda ARCHIVADO con evidencia
-end-to-end.** Diseño v2 post-dúo r1 (sub-agente 7/7 + cross-model GPT-5.5 6/6, **0 FP**;
-F1 ALTA cerró el hueco dado-mediado en la clasificación de movers [freeze-A puede ser
-4ª-vista aun con gate 3/3]; F2 re-derivó el dado del LLM contra el artefacto: **11/39
-no-unánimes** [9× 2/1 + 2× 1/1/1; 24 unánimes con rerank + 4 short-circuit vacuos] — el
-"12/39" que circulaba era falso, patrón bias #35). Día D bajo ventana verificada (X2 7/7
-+ X1 código pinneado al build): **el assert (i) cazó embed-drift server-side ANTES de
-pagar generación** (3/39 pools frontera, 1 chunk in/out; cat019 expuso además la frontera
-de redondeo del `round(sim,2)` — la firma fue FIEL al header real del generador; la
-reordenación F3/X6 del dúo pagó su valor) → **re-gate ~$5 con `EMBED_CACHE_PATH`
-compartido = GO** (`s67_gate_*`; **el cache ancla gate y A/B a la MISMA ventana de
-vectores POR CONSTRUCCIÓN** — el riesgo F3 muere estructuralmente; patrón nuevo para todo
-ciclo de eval) → brazo LLM 195/195 gen+juicios · brazo CE 175/175 (pairing 4 = los
-short-circuit) · herencia `shared_from` · juez servido idéntico entre brazos
-(`gpt-5.5-2026-04-23`) · 0 errores. **Resultado: Δ_net=0 (techo +0/+1 confirmado; cat012
-GANA PARCIAL→PASS pero 3/5 sin margen — no cuenta, coherente con el gate) · SIN regla-1
-(0 PASS perdidos atribuibles; cat023 dado-excluido, control=1 ok) · PERO F_post 8 >
-F_base 5 (cat007/cat017/hp001/hp014 PARCIAL→FALLO; hp001 ATRIBUIBLE-operacional — el
-gold-frontera eterno pierde su PARCIAL bajo CE) + 2 regresiones de conducta
-(cat016/hp014 answer→admit) = dos condiciones independientes de ROLLBACK.** El beneficio
-instrumento/prod del CE (determinismo, latencia rerank p95 0.81s vs 3.29s, coste ~15×) NO
-se compra al precio de degradar la cola PARCIAL→FALLO. El dado del rerank LLM (11/39)
-sigue como defecto de producto DECLARADO — se re-ataca en el ciclo profundidad-del-canal
-(donde renace L-i), no con este swap. **El re-freeze `s67base` SUSTITUYE a frozen-s58
-como baseline del ruler: 10/39 PASS-control (5 unánimes 5/5) · 4 K-INESTABLES
-(cat009/cat012/hp004/hp007) · residual 25 con atribución.** Flag `RERANKER_BACKEND`
-queda en main default `llm` (inerte; dispatcher + manifest honesto de bvg = instrumentos
-permanentes); Railway intacto. DEC-048; HISTORY.
+**s71 (DEC-052): el re-análisis del residual (pedido por Alberto, escéptico del pivote s69)
+= el cuello es RETRIEVAL, atacable con fixes concretos.** Dos tracks ortogonales con dúo
+adversarial (workflows batched; rate-limits y apagones gestionados con resume). **Track 1
+(audit del ruler, doble-escéptico auditor+defensor):** de 13 candidatos a "gold-injusto",
+solo **cat012** sobrevive como maybe-PASS (debatible) — el guard anti-"trampas al solitario"
+tumbó 4 que el auditor marcó injustos (cat009/cat011/cat019/cat020 = gold JUSTO, bot falló);
+**el bot NO está infra-puntuado, escepticismo de Alberto validado**; 6 golds reclasificados
+a retrieval-miss; 10 dudas para Alberto (`s71_track1_audit.yaml`). **Clasificación v2 de los
+29 no-PASS** (`s71_classification_v2.yaml`): **16 RETRIEVAL-miss + 2 retrieval-family ≈ 18
+(≈60%)** · 4 generación · 3 corpus-gap? · 2 borderline (bot ~correcto, PARCIAL conservador)
+· 1 diseño (cat011 catálogo) · 1 gold-injusto (cat012). **Track 2 (diagnóstico de retrieval,
+17 golds, 6 mecanismos, 16/17 fixable** — `s71_track2_retrieval_diag.yaml`): raíz común =
+**INANICIÓN DEL POOL aguas arriba** — `keyword_search` limit=5 sin order (orden físico
+arbitrario), broad-fallback vectorial capado a 5, reranker LLM lee solo `content[:800]` (el
+hecho cae fuera). Fixes CONCRETOS y baratos (subir límites, order, ventana del reranker),
+varios MEDIDOS end-to-end (hp003: preview 800→2400 → el reranker ya sirve el chunk correcto).
+NO es el canal-broad (NO-GO s68). **El pivote-a-producto de s69 queda CORREGIDO: el residual
+SÍ es lever-addressable — la conclusión "agotado" fue prematura (le faltaba este diagnóstico
+quirúrgico per-gold).** DEC-052; HISTORY.
+
+### Antecedente s69 (corregido por s71):
+
+**s69 (DEC-051): A/B del lever de GENERACIÓN (completitud + guarda de fidelidad tras flag)
+= NO-GO — y con él CIERRA la fase de levers-baratos del eval.** Tras el NO-GO del canal
+(s68), el ciclo de generación completo: audit de resolución ($0 — el eval SÍ tiene
+resolución) → **4 audits para fijar la diana** (el bias #20 reapareció en 2 capas: diana
+inflada 12→8→5; el re-audit por relato-del-juez ERA bias #20, cerrado solo a
+nivel-de-CONTENIDO: 4 sólida [cat008/cat020/hp005/hp014] + 1 recuperada [cat019]) → diseño
+v3.2 con dúo r1+r2 + 2 cortes cross-model (enmiendas: **verificación content-level de los
+flips decisivos** [bias #20 aplicado a la DECISIÓN], flag estricto, available_models como
+SHIP-gate) → build tras flag `GENERATOR_PROMPT_VARIANT` (default base = prod inerte;
+paridad a nivel-de-construcción $0 — no output-LLM que es no-determinista; suite 317) →
+A/B (~$20): brazo `fidelity` (195 gen, 0 err, `assembled_sha` distinto = corrió de verdad)
+vs `s67base` **re-juzgado en la misma tanda** (mata el drift del juez). **Resultado:
+Δ_net=0 — NINGÚN gold de la diana flipeó a PASS; la predicción §4 FALSADA · +1 regresión
+de conducta (cat011 clarify→answer, content-verificada) · verbosidad en 3 PASS-control.**
+La **verificación content-level (enmienda B) PAGÓ**: el Δ=0 del juez solo habría dicho
+"inerte", pero el prompt SÍ añadió completitud (hp014 metió FET=20 y el límite 32) sin
+flipear modal Y rompió clarify en cat011 → cuadro real = efecto modesto + colateral, no
+inercia. **Hallazgo del re-judge: ±2 de varianza del juez** (re-juzgar las MISMAS
+respuestas base dio F 5→7). **NO-GO: flag default base (inerte); NO se salta a Opus**
+(anti-racionalización §4 — el prompt-completitud falló, no es prueba de que la capacidad
+sea el cuello). DEC-051; HISTORY. (s68 DEC-050 canal NO-GO; s67 DEC-048 CE ROLLBACK.)
+
+**Lectura estratégica (la que define el rumbo de abajo):** 3 ciclos de lever barato, 3
+negativos. El residual está **mapeado y desmenuzado** (corpus-gap diferido · within-doc-miss
+· generación que el prompt no mueve · K-INESTABLE = ruido del juez) y **el ruler tiene ±2
+de ruido** justo donde SHIP exige +2. Conclusión honesta: **la fase de exprimir-el-residual-
+con-levers-baratos está agotada**; cada NO-GO costó ~$20-30 y evitó shippear ruido, pero el
+valor marginal del siguiente micro-lever es bajo. Los unlocks reales son corpus (diferido a
+demanda) y **eval orgánico (técnicos, ~sept)** — gated. El pivote: dejar de pulir el eval y
+**preparar producto/deploy para cuando lleguen los técnicos**.
 
 **Sistema (prod, Railway auto-deploy desde `main`; SWAP de corpus por `CHUNKS_TABLE`):**
 bot Telegram (polling) → pre-clasificación → retrieve híbrido wide (vector Voyage-4-large 1024
@@ -74,50 +98,49 @@ el SWAP s44, medidos:** `category` (#44) y diagramas (#45). Ventana DB ABIERTA (
 default mantener); ventana de freeze del corpus: CERRADA (s64); fingerprint con dimensión
 lifecycle (DEC-045e).
 
-**Eval (el ruler):** **51 golds = 39 dev + 12 held-out** (embargo vivo, intacto en s67),
+**Eval (el ruler):** **51 golds = 39 dev + 12 held-out** (embargo vivo, intacto en s69),
 taxonomía CONGELADA (DEC-033), juez GPT-5.5 + K-mayoría. **Baseline VIGENTE = re-freeze
 `s67base`** (12 jun 2026: 10/39 PASS-control · 5 unánimes · 4 K-INESTABLES; manifest
 completo + `s67_embed_cache.json` como pin de embeddings); frozen-s58 = referencia
 histórica muerta. Próximo freeze: correr SIEMPRE con `EMBED_CACHE_PATH` (DEC-048c).
+**⚠️ Límite de resolución medido (s69): ±2 de varianza del juez** — re-juzgar las MISMAS
+respuestas base dio F 5→7. SHIP exige Δ_net≥+2 = justo en el suelo de ruido → el ruler
+actual NO distingue fiable un win de +1/+2. Endurecerlo (dual-judge, s47§D) sería
+prerrequisito de MÁS lever-work; gated a "¿vale sin técnicos reales?" (lean: esperar al
+eval orgánico).
 
-## Qué sigue (orden vigente — re-priorizado DEC-049, 12 jun 2026)
+## Qué sigue (s71 — el residual SÍ es atacable; el cuello es RETRIEVAL)
 
-1. **CICLO DEL CANAL VECTORIAL (s68+) — el lever prioritario** ("el elefante en la
-   habitación", Alberto; 4 datos lo sostienen: canal principal devuelve 0 en ~85% de
-   queries [DEC-040] · el embedding SÍ encuentra los hechos, rank 7-110 · hechos en rank
-   51-70 medidos 4× [DEC-042d] · corte-a-50 muerde 9/39; + la lección de 3 ciclos de
-   reranker = 0: reordenar lo que entra no arregla lo que NO entra). **Paso 0: AUDIT de
-   dimensionamiento** ($0-barato; instrumentos existentes: funnel s58b + diagnosis-ranks
-   s59 + atribución s67base) con DOS preguntas pre-registradas: (a) cuánto del residual
-   es alcanzable río arriba (canal: ranks/corte/category-boost) vs (b) cuánto es
-   **calidad-de-chunk** (extracción/fragmentación — los 9 INDETERMINADO-solo-débiles;
-   lever #10 post-hoc) — si domina (b), el techo del canal baja y se sabe ANTES de
-   construir. → diseño con dúo → levers según audit: **#44 re-etiquetado de category
-   como BOOST** (no filtro duro — eso está medido como frágil; incluye el contrato del
-   ESCRITOR, raíz) · **L-i renacido** (`s59-lever-code-ROLLBACKED`) · profundidad/corte.
-   A/B vs `s67base` (embed-cache pin). **Riesgo declarado: redistribución de frontera
-   (regla-1, pasó en s59)** — paridad-control + clasificación de dado ya existen.
-2. **Re-gate del CE (~$5) SI el canal cambia los pools** (puerta DEC-048; sin promesa de
-   revival — perdió la cola con paridad de información completa).
-3. **Generación + cartera de levers (cada uno entra por gate/audit barato, DEC-016b):**
-   A/B 2×2 {Sonnet/Opus}×{blurb} (pre-registrado s56) sobre el freeze post-canal ·
-   **system prompt del generador** (no probado) · prompt del rerank-LLM (vs su dado
-   11/39) · k/corte. El orden interno lo dan los audits, no se pre-supone.
-4. **Diagramas (#45) — partido en dos (DEC-049d):** (a) **DATOS, paralelizable desde
-   ya** en sesiones sueltas: mapeo por (documento, página) desde la tabla vieja (44.035
-   chunks con diagrama allí vs 0/25.090 en v2 — nunca se extrajeron para v2) +
-   extracción de faltantes + poblar `has_diagram`/`diagram_url`; **eval-inerte
-   VERIFICADO** (before/after de pools por backfill — el fingerprint NO caza edits
-   in-place, DEC-036e); (b) **CABLEADO de entrega al bot post-canal** (chunks confiables
-   primero — si no, adjuntaríamos el diagrama equivocado).
-5. **Corpus: DIFERIDO demand-driven hasta chatbot estable/robusto (decisión de negocio,
-   DEC-049a).** Las 31 marcas actuales = las de uso frecuente de los técnicos; **la meta
-   30+ fabricantes SIGUE, en fase posterior**. Un gap real (conversación con
-   empresario/técnico, vía Excel inventario) reactiva la ingesta — y ENTONCES aplican los
-   prerrequisitos: contrato del escritor #44 + #45 + identidad/supersesión EN INGESTA
-   (crear fila + preferir active + sha-check, DEC-045a) + la cola de 74 `needs_review`.
-6. **Pendientes menores s65:** 25 chunks huérfanos residuales; TECH_DEBT #47
-   (`_get_all_known_manufacturers`).
+**Construir los fixes de retrieval (pool-starvation), por prioridad riesgo/leverage.** El
+re-análisis s70/s71 corrigió el pivote de s69: ~16-18 de 29 no-PASS son retrieval, un bug
+concreto de INANICIÓN DEL POOL (Track 2). **Objetivo: 11+ de los 16 retrieval → PASS.**
+No-fixables: hp017 (corpus-gap), cat008 (producto-conflicto).
+
+1. **Fixes de retrieval, en orden** (cada uno tras FLAG, medido contra `s67base` con la
+   métrica granular de cobertura per-hecho [s70, menos ruidosa que el juez ±2] + verificación
+   content-level de los flips [enmienda B] + dúo; el reranker/canal lo comparten los 39 golds
+   → gate sobre PASS-control SIEMPRE):
+   a. **Reranker preview `content[:800]`→`[:2400]`** (`src/rag/reranker.py:74`; hp003
+      REPRODUCIDO: el hecho en offset 2566 caía fuera de los 800; con 2400 el reranker ya
+      sirve el chunk correcto). Precedente: el path Voyage CE ya lee 4000 chars.
+   b. **Broad-fallback vectorial `limit=5`→`effective_top_k`** (`retriever.py` Step 2;
+      hp013/hp002 + los "filtro-modelo" — el canal vectorial sano está capado a 5).
+   c. **`keyword_search` order determinista + `limit`↑** (`retriever.py:378-414`; cat016 +
+      model-filter — limit=5 sin order devuelve por orden físico arbitrario; el chunk del
+      §3.3 estaba en posición física 8, justo pasado el cap).
+   d. **Rescates quirúrgicos del diversify + series/alias** (cat001/hp001/cat007/cat013/
+      cat021/hp018 [series morley e-series]/hp009 [alias de modelo]): aditivos, bajo riesgo,
+      sin re-barajar el pool. Detalle por gold en `evals/s71_track2_retrieval_diag.yaml`.
+2. **Dudas de Track 1 para Alberto** (`evals/s71_track1_audit.yaml`): cat012 (→PASS sí/no),
+   cat011 (¿inyectar el catálogo curado al prompt cuando hay near-name ambiguo?), hp004
+   (¿canonizar clarify-suave en el judge-prompt?), cat009 (canon 24V-EN/25V-ES), borderline
+   cat019/cat020. **El bot NO está infra-puntuado** — re-graduar como mucho cat012 (~11/39).
+3. **Después del retrieval:** generación (hp005/hp014) · diseño cat011 · corpus-gap
+   (cat024/hp010/hp012, confirmar) · #45 diagramas / available_models-fix / eval-orgánico
+   (eran el pivote s69, ahora secundarios — el retrieval mueve mucho más la aguja).
+
+**Nota de método (clave para no repetir el ±2):** medir cada fix con la cobertura per-hecho
+granular (s70) ADEMÁS del juez holístico — el juez tiene ±2 de ruido que oculta wins de +1.
 
 **Fases macro (rationale en HISTORY):** F1 calidad (en curso) → F2 escala (identidad de producto
 HECHA s55; resto gated) → F3 routing/tool-use + multi-dominio del scope M&A (gated por F1/F2) →

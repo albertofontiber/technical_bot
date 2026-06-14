@@ -1,0 +1,392 @@
+meta:
+  at: '2026-06-13T00:29:53'
+  git: b5be528
+  diseno: _s68_merge_design.md v6.1 (post-dúo r1 13+6/19, 0 FP)
+variantes:
+  quota:
+    m1:
+      cat001:
+      - valor: 159+159 / 99+99
+        en_pool: true
+        muere_en: null
+        n_winners: 3
+      - valor: 0,75 A
+        en_pool: true
+        muere_en: null
+        n_winners: 1
+      - valor: 32 / 25 / 20
+        en_pool: true
+        muere_en: null
+        n_winners: 2
+      - valor: 255 / 8192
+        en_pool: true
+        muere_en: null
+        n_winners: 6
+      cat017:
+      - valor: modulo OPAL HOP-433-100
+        en_pool: false
+        muere_en: merge
+        n_winners: 1
+      hp001:
+      - valor: '2222'
+        en_pool: false
+        muere_en: merge
+        n_winners: 1
+      hp002:
+      - valor: 300 s
+        en_pool: true
+        muere_en: null
+        n_winners: 13
+      - valor: 7.6.1
+        en_pool: true
+        muere_en: null
+        n_winners: 8
+      hp008:
+      - valor: CPX-551E
+        en_pool: false
+        muere_en: merge
+        n_winners: 1
+      - valor: SDX-751
+        en_pool: false
+        muere_en: merge
+        n_winners: 1
+      - valor: IRX-751CTEM
+        en_pool: false
+        muere_en: merge
+        n_winners: 1
+      - valor: SDX-751-TEM
+        en_pool: false
+        muere_en: merge
+        n_winners: 1
+      hp011:
+      - valor: 05 a 295 seg
+        en_pool: false
+        muere_en: merge
+        n_winners: 2
+      hp018:
+      - valor: 4 circuitos
+        en_pool: true
+        muere_en: null
+        n_winners: 5
+    m3:
+      CONTENT: 497
+      '?': 69
+      VECTOR: 365
+      MODEL: 157
+      TARGETED: 36
+    m4:
+      cat001:
+        n_sub04: 0
+        vista_len: 5
+      cat017:
+        n_sub04: 0
+        vista_len: 5
+      hp002:
+        n_sub04: 0
+        vista_len: 5
+      hp008:
+        n_sub04: 0
+        vista_len: 5
+      hp018:
+        n_sub04: 0
+        vista_len: 5
+      cat005:
+        n_sub04: 0
+        vista_len: 5
+      cat010:
+        n_sub04: 0
+        vista_len: 5
+      cat014:
+        n_sub04: 0
+        vista_len: 4
+      cat015:
+        n_sub04: 0
+        vista_len: 5
+      cat018:
+        n_sub04: 0
+        vista_len: 5
+      cat022:
+        n_sub04: 0
+        vista_len: 5
+      cat023:
+        n_sub04: 0
+        vista_len: 5
+      hp015:
+        n_sub04: 0
+        vista_len: 5
+      hp019:
+        n_sub04: 0
+        vista_len: 5
+      hp020:
+        n_sub04: 0
+        vista_len: 5
+    m5:
+      mediana: 27
+      delta_vs_control: 1
+    m6_conversion:
+      cat001:
+      - valor: 159+159 / 99+99
+        en_top5_modal: true
+      - valor: 0,75 A
+        en_top5_modal: true
+      - valor: 32 / 25 / 20
+        en_top5_modal: false
+      - valor: 255 / 8192
+        en_top5_modal: true
+      cat017:
+      - valor: modulo OPAL HOP-433-100
+        en_top5_modal: true
+      hp002:
+      - valor: 300 s
+        en_top5_modal: true
+      - valor: 7.6.1
+        en_top5_modal: true
+      hp008:
+      - valor: CPX-551E
+        en_top5_modal: false
+      - valor: SDX-751
+        en_top5_modal: true
+      - valor: IRX-751CTEM
+        en_top5_modal: false
+      - valor: SDX-751-TEM
+        en_top5_modal: true
+      hp018:
+      - valor: 4 circuitos
+        en_top5_modal: false
+    m6_total: 8/12
+    m7:
+      cat005:
+        fuera_de_banda: true
+        overlap_mejor_banda: 4
+      cat010:
+        fuera_de_banda: true
+        overlap_mejor_banda: 3
+      cat014:
+        fuera_de_banda: true
+        overlap_mejor_banda: 4
+      cat015:
+        fuera_de_banda: false
+        overlap_mejor_banda: 5
+      cat018:
+        fuera_de_banda: true
+        overlap_mejor_banda: 3
+      cat022:
+        fuera_de_banda: true
+        overlap_mejor_banda: 0
+      cat023:
+        fuera_de_banda: true
+        overlap_mejor_banda: 4
+      hp015:
+        fuera_de_banda: true
+        overlap_mejor_banda: 4
+      hp019:
+        fuera_de_banda: true
+        overlap_mejor_banda: 4
+      hp020:
+        fuera_de_banda: false
+        overlap_mejor_banda: 5
+    m7_fuera:
+    - cat005
+    - cat010
+    - cat014
+    - cat018
+    - cat022
+    - cat023
+    - hp015
+    - hp019
+    m7_pass: false
+    m7_patron_valvula: false
+  cosine:
+    m1:
+      cat001:
+      - valor: 159+159 / 99+99
+        en_pool: true
+        muere_en: null
+        n_winners: 3
+      - valor: 0,75 A
+        en_pool: true
+        muere_en: null
+        n_winners: 1
+      - valor: 32 / 25 / 20
+        en_pool: true
+        muere_en: null
+        n_winners: 2
+      - valor: 255 / 8192
+        en_pool: true
+        muere_en: null
+        n_winners: 6
+      cat017:
+      - valor: modulo OPAL HOP-433-100
+        en_pool: true
+        muere_en: null
+        n_winners: 1
+      hp001:
+      - valor: '2222'
+        en_pool: false
+        muere_en: merge
+        n_winners: 1
+      hp002:
+      - valor: 300 s
+        en_pool: true
+        muere_en: null
+        n_winners: 13
+      - valor: 7.6.1
+        en_pool: true
+        muere_en: null
+        n_winners: 8
+      hp008:
+      - valor: CPX-551E
+        en_pool: true
+        muere_en: null
+        n_winners: 1
+      - valor: SDX-751
+        en_pool: true
+        muere_en: null
+        n_winners: 1
+      - valor: IRX-751CTEM
+        en_pool: true
+        muere_en: null
+        n_winners: 1
+      - valor: SDX-751-TEM
+        en_pool: true
+        muere_en: null
+        n_winners: 1
+      hp011:
+      - valor: 05 a 295 seg
+        en_pool: false
+        muere_en: merge
+        n_winners: 2
+      hp018:
+      - valor: 4 circuitos
+        en_pool: true
+        muere_en: null
+        n_winners: 5
+    m3:
+      VECTOR: 443
+      CONTENT: 489
+      SUPPLEMENT: 47
+      MODEL: 165
+      TARGETED: 27
+    m4:
+      cat001:
+        n_sub04: 0
+        vista_len: 5
+      cat017:
+        n_sub04: 0
+        vista_len: 5
+      hp002:
+        n_sub04: 0
+        vista_len: 5
+      hp008:
+        n_sub04: 0
+        vista_len: 5
+      hp018:
+        n_sub04: 0
+        vista_len: 5
+      cat005:
+        n_sub04: 0
+        vista_len: 5
+      cat010:
+        n_sub04: 0
+        vista_len: 5
+      cat014:
+        n_sub04: 0
+        vista_len: 4
+      cat015:
+        n_sub04: 0
+        vista_len: 5
+      cat018:
+        n_sub04: 0
+        vista_len: 5
+      cat022:
+        n_sub04: 0
+        vista_len: 5
+      cat023:
+        n_sub04: 0
+        vista_len: 5
+      hp015:
+        n_sub04: 0
+        vista_len: 5
+      hp019:
+        n_sub04: 0
+        vista_len: 5
+      hp020:
+        n_sub04: 1
+        vista_len: 4
+    m5:
+      mediana: 28
+      delta_vs_control: 1
+    m6_conversion:
+      cat001:
+      - valor: 159+159 / 99+99
+        en_top5_modal: true
+      - valor: 0,75 A
+        en_top5_modal: true
+      - valor: 32 / 25 / 20
+        en_top5_modal: false
+      - valor: 255 / 8192
+        en_top5_modal: true
+      cat017:
+      - valor: modulo OPAL HOP-433-100
+        en_top5_modal: true
+      hp002:
+      - valor: 300 s
+        en_top5_modal: true
+      - valor: 7.6.1
+        en_top5_modal: true
+      hp008:
+      - valor: CPX-551E
+        en_top5_modal: true
+      - valor: SDX-751
+        en_top5_modal: true
+      - valor: IRX-751CTEM
+        en_top5_modal: true
+      - valor: SDX-751-TEM
+        en_top5_modal: true
+      hp018:
+      - valor: 4 circuitos
+        en_top5_modal: false
+    m6_total: 10/12
+    m7:
+      cat005:
+        fuera_de_banda: true
+        overlap_mejor_banda: 4
+      cat010:
+        fuera_de_banda: true
+        overlap_mejor_banda: 2
+      cat014:
+        fuera_de_banda: true
+        overlap_mejor_banda: 4
+      cat015:
+        fuera_de_banda: true
+        overlap_mejor_banda: 4
+      cat018:
+        fuera_de_banda: true
+        overlap_mejor_banda: 4
+      cat022:
+        fuera_de_banda: true
+        overlap_mejor_banda: 3
+      cat023:
+        fuera_de_banda: true
+        overlap_mejor_banda: 3
+      hp015:
+        fuera_de_banda: true
+        overlap_mejor_banda: 3
+      hp019:
+        fuera_de_banda: true
+        overlap_mejor_banda: 3
+      hp020:
+        fuera_de_banda: false
+        overlap_mejor_banda: 5
+    m7_fuera:
+    - cat005
+    - cat010
+    - cat014
+    - cat015
+    - cat018
+    - cat022
+    - cat023
+    - hp015
+    - hp019
+    m7_pass: false
+    m7_patron_valvula: false

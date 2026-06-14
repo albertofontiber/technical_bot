@@ -17,7 +17,7 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
-> Resumen estable (s67 — 12 jun 2026): producción = `chunks_v2` (25.090 chunks, de los que
+> Resumen estable (s71 — 13 jun 2026): producción = `chunks_v2` (25.090 chunks, de los que
 > **262 quedan excluidos en runtime por lifecycle** [220 superseded s64 + 42 needs_review] →
 > ~24.8k servibles; 25 huérfanos residuales sin fila / **1.170 docs {998 active · 3 superseded
 > · 79 needs_review · 90 retired}** / 31 marcas / 587 modelos; Voyage-4-large 1024 +
@@ -49,8 +49,17 @@
 > frozen-s58 = histórico. Los freezes/gates corren con `EMBED_CACHE_PATH` (pin de
 > embeddings, DEC-048c). Ventana de freeze: **CERRADA**. La ingesta grande queda
 > **DIFERIDA demand-driven** (DEC-049: las 31 marcas = las de uso frecuente de los
-> técnicos; la meta 30+ fabricantes sigue, en fase posterior); el siguiente ciclo es el
-> **canal vectorial** (PLAN punto 1 re-priorizado).
+> técnicos; la meta 30+ fabricantes sigue, en fase posterior). **Ciclo del canal
+> vectorial EJECUTADO (s68, DEC-050):** el audit midió que los keyword-stamps planos
+> expulsan del pool material que el canal sano rankea ≤50; el lever MERGE+L-i′ quedó en
+> **NO-GO de gate-0** (flag `MERGE_STRATEGY` default `stamps` = histórico, instrumento).
+> **A/B de GENERACIÓN (s69, DEC-051) = NO-GO** — el lever completitud+fidelidad tras flag
+> `GENERATOR_PROMPT_VARIANT` (default `base` = prod inerte) dio Δ_net=0 (ningún flip a PASS)
+> + regresión de conducta (cat011 clarify→answer) + verbosidad; archivado, flag inerte.
+> **Con 3 NO-GO seguidos (CE s67 · canal s68 · generación s69) CIERRA la fase de
+> levers-baratos del eval**; el re-judge midió **±2 de varianza del juez** (SHIP exige +2
+> = el suelo de ruido). **Pivote (DEC-051): de exprimir el eval → a producto/deploy para
+> los técnicos de ~sept** (#45 diagramas-datos + fix `available_models` + eval orgánico).
 >
 > ⚠️ **Caveat s60 a este doc (TECH_DEBT #44/#45):** las secciones que describen el filtro por
 > categoría y la entrega de **diagramas** (§§ flujo/ingesta — "adjunta diagrama", canal

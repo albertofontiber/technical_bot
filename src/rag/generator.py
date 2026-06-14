@@ -343,6 +343,37 @@ introducciones generales, o fuentes de datos tabulares sin esquema visual.
 RELEVANCE_THRESHOLD = 0.4
 
 
+# Lever de GENERACIÓN s69 (diseño _s69_generation_design.md v3.1, dúo r1+r2 + cross-model).
+# Bloque AÑADIDO al SYSTEM_PROMPT bajo GENERATOR_PROMPT_VARIANT=fidelity. Diana: los golds
+# donde el material está servido pero la respuesta falla por OMISIÓN (deja fuera lo servido)
+# o SOBRE-ALCANCE (añade/contradice más allá del fragmento). Las dos mitades a la vez:
+# extraer-todo-lo-que-está + no-sobre-interpretar-lo-que-no-está.
+_FIDELITY_BLOCK = """
+
+COMPLETITUD FIEL (consultas TIPO 1 con datos en los fragmentos):
+Cuando los fragmentos SÍ contienen datos sobre lo preguntado, recoge TODO lo que AFIRMAN \
+sobre la pregunta — no resumas eliminando valores, pasos, requisitos previos o entradas de \
+tabla/lista. Antes de cerrar, repasa los fragmentos: "¿hay algún valor, paso o requisito \
+relevante en los fragmentos que NO he incluido?" — si lo hay, inclúyelo con su [F<n>].
+La completitud NUNCA autoriza inventar ni sobre-interpretar: las relaciones estructurales \
+(qué terminal es entrada/salida, qué condición aplica a qué, qué tipo se distingue de cuál) \
+se afirman SOLO como el fragmento las establece LITERALMENTE; si el fragmento no deja clara \
+una relación, cítala textual en vez de resolverla. No añadas distinciones, casos o \
+condiciones que el fragmento no mencione, aunque "completen" la respuesta. Completar = \
+recoger lo que ESTÁ, no rellenar lo que falta."""
+
+
+def _assemble_system() -> str:
+    """A/B s69: GENERATOR_PROMPT_VARIANT=base|fidelity (env, leído en RUNTIME para togglear
+    el A/B en un mismo proceso; default base). base == SYSTEM_PROMPT BYTE-IDÉNTICO (el test
+    de paridad `tests/test_s69_prompt_variant.py` lo asserta sin llamar al LLM — el
+    aislamiento NO se prueba con output, que es no-determinista, DEC-015). fidelity añade
+    `_FIDELITY_BLOCK`. Reversible como GENERATOR_INCLUDE_CONTEXT; default INERTE = prod."""
+    if os.getenv("GENERATOR_PROMPT_VARIANT", "base") == "fidelity":
+        return SYSTEM_PROMPT + _FIDELITY_BLOCK
+    return SYSTEM_PROMPT
+
+
 def generate_answer(
     query: str,
     chunks: list[dict],
@@ -481,7 +512,7 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
         model=LLM_MODEL,
         max_tokens=LLM_MAX_TOKENS,
         temperature=0,  # eval reproducibility — same query + chunks → same answer
-        system=SYSTEM_PROMPT,
+        system=_assemble_system(),   # s69: base (== SYSTEM_PROMPT) | fidelity (+_FIDELITY_BLOCK)
         messages=[{"role": "user", "content": user_message}],
     )
 

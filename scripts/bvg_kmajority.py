@@ -349,12 +349,21 @@ def _assert_instrument_equivalence(section: str, ours: dict) -> None:
 def phase_generate(args) -> None:
     assert os.getenv("GENERATOR_INCLUDE_CONTEXT") != "1", \
         "GENERATOR_INCLUDE_CONTEXT=1 detectado — el baseline es brazo A (blurb OFF)"
+    # s69 (cross-model): en el HARNESS el flag se valida ESTRICTO — un typo NO debe correr
+    # tratamiento-como-control en silencio (en PROD el default-base es fail-safe; aquí no).
+    _variant = os.getenv("GENERATOR_PROMPT_VARIANT", "base")
+    assert _variant in ("base", "fidelity"), \
+        f"GENERATOR_PROMPT_VARIANT={_variant!r} desconocido — abortado (esperado base|fidelity)"
     _assert_instrument_equivalence("generate", {
         "model": LLM_MODEL, "temperature": 0, "max_tokens": LLM_MAX_TOKENS,
         "include_context": 0,
-        "system_prompt_sha": _sha(SYSTEM_PROMPT),
-        "generate_fn_sha": _sha(inspect.getsource(_gen_mod.generate_answer)),
+        "system_prompt_sha": _sha(SYSTEM_PROMPT),   # la CONSTANTE base — prueba que no se tocó
         "relevance_threshold": RELEVANCE_THRESHOLD,
+        # generate_fn_sha EXIMIDO del R4 (s69): el flag GENERATOR_PROMPT_VARIANT refactorizó
+        # generate_answer (system=_assemble_system()) → su source-sha cambió legítimamente. El
+        # aislamiento del refactor lo prueba el TEST DE PARIDAD (base ≡ SYSTEM_PROMPT byte-a-byte,
+        # $0 determinista — tests/test_s69_prompt_variant.py), no este sha. El manifest estampa
+        # el assembled_system_sha real (lo que de verdad corrió) + el generate_fn_sha nuevo.
     })
     contexts = _load(F_CONTEXTS)
     assert contexts, "no hay frozen_contexts — corre la fase freeze primero"
@@ -388,7 +397,11 @@ def phase_generate(args) -> None:
         "at": _now(), "git": _git_commit(), "k": args.k,
         "generator": {"model": LLM_MODEL, "temperature": 0, "max_tokens": LLM_MAX_TOKENS,
                       "include_context": 0, "available_models": None,
+                      # s69: variant + el sha del prompt REALMENTE ensamblado (honesto sobre
+                      # qué corrió); system_prompt_sha = la constante base (sin tocar).
+                      "prompt_variant": os.getenv("GENERATOR_PROMPT_VARIANT", "base"),
                       "system_prompt_sha": _sha(SYSTEM_PROMPT),
+                      "assembled_system_sha": _sha(_gen_mod._assemble_system()),
                       "generate_fn_sha": _sha(inspect.getsource(_gen_mod.generate_answer)),
                       "relevance_threshold": RELEVANCE_THRESHOLD},
         "n_errors": len(errs),

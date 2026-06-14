@@ -1,0 +1,54 @@
+# s70 — clasificación QUIRÚRGICA del residual por CAUSA RAÍZ (read-only, $0).
+# Consolida los audits s69 (reaudit_solodebiles/retrieval4/content_reaudit) + las
+# verificaciones content-level s70 (cat008 conflicto-fuente, cat020 bot-fiel-vs-gold).
+# Pregunta: ¿cuánto del residual es GENERACIÓN/CAPACIDAD (lo que un mejor modelo/prompt
+# arreglaría) vs RETRIEVAL / CORPUS-GAP / ARTEFACTO-DEL-EVAL?
+meta:
+  fuente: s67base (chunks servidos + answers + diagnósticos) verificado a nivel de contenido
+  hallazgo: la diana de "generación/capacidad" que motivó el panel Opus = ~2 golds; el
+            residual está dominado por RETRIEVAL + CORPUS-GAP + ARTEFACTO-DEL-EVAL
+
+golds:
+  # --- GENERACIÓN real (lo único que un lever de generación tocaría) ---
+  hp005: {causa: GENERACION-completitud, evidencia: "material servido; omite flujo de sirena; el prompt no lo movió"}
+  hp014: {causa: GENERACION-completitud, evidencia: "material servido; el prompt fidelity SÍ lo subió 0.60→0.75 (FET=20/límite-32) sin flipear el juez (±2)"}
+
+  # --- ARTEFACTO DEL EVAL / gold discutible (el "fallo" es del ruler, no del bot) ---
+  cat020: {causa: GOLD-ESTRICTO, evidencia: "la distinción OTM/LSR que el bot 'inventa' ESTÁ en los chunks servidos (S001 OTM Fuego:Niv4) — el bot es FIEL a la fuente; el gold quería la versión-España normalizada. Bot arguablemente correcto."}
+  cat019: {causa: ARTEFACTO-VACUO, evidencia: "INDETERMINADO-solo-débiles (fuertes=None); cobertura 1.00; el 'truncada' del juez sobre probes débiles = verdad-vacua (artefacto pre-registrado bvg)"}
+  cat007: {causa: ARTEFACTO-VACUO, evidencia: "solo_debiles, sin core fuerte — no atribuible determinista"}
+
+  # --- CONFLICTO DE FUENTE / producto-mezclado (retrieval sirve material contradictorio) ---
+  cat008: {causa: CONFLICTO-FUENTE, evidencia: "chunks servidos con asignación de terminal OPUESTA (Conexionado M710/MI-DMMI 'T1=Lazo-in' vs I56-2005 FIGURE-3 'T1=Salida'); módulos distintos servidos para una query. Ningún modelo lo arregla — es retrieval/identidad."}
+  hp009: {causa: PRODUCTO-EQUIVOCADO, evidencia: "sirvió ZXAE/ZXEE (MIE-M*) no la ZXe de la pregunta — corpus-gap + identidad; el bot respondió como si fuera ZXe"}
+
+  # --- RETRIEVAL (within-doc-miss / sub-retrieval / frontera) — mecanismo MIXTO, distinto del canal s68 ---
+  cat016: {causa: RETRIEVAL-within-doc, evidencia: "autobúsqueda en el CAD-150 install servido pero chunk fuera del top-5"}
+  hp003:  {causa: RETRIEVAL-within-doc, evidencia: "2×12V serie NO en el top-5 servido (material en el doc, chunk no surfaceado)"}
+  hp013:  {causa: RETRIEVAL-within-doc, evidencia: "EEPROM/BAT en 6 chunks del ADW535 servido pero fuera del top-5"}
+  cat017: {causa: RETRIEVAL-sub, evidencia: "SUB-RETRIEVAL (s67base); módulo OPAL no servido"}
+  hp002:  {causa: RETRIEVAL-sub, evidencia: "SUB-RETRIEVAL; hechos rank≤50 expulsados (familia canal s68, NO-GO)"}
+  hp008:  {causa: RETRIEVAL-sub, evidencia: "SUB-RETRIEVAL; 4 hechos expulsados (familia canal s68, NO-GO)"}
+  hp001:  {causa: RETRIEVAL-frontera, evidencia: "'2222' rank 54 fuera del pool-50 (frontera; lever k>50)"}
+  hp017:  {causa: MIXTO-retrieval, evidencia: "causa-efecto servido pero lazo0/límite NO servidos — PASS capado por material no servido"}
+
+  # --- CORPUS-GAP (diferido por decisión de negocio DEC-049) ---
+  hp006: {causa: CORPUS-GAP, evidencia: "0 docs AFP-400 en corpus; el bot admitió correcto"}
+  cat024: {causa: CORPUS-LIMITADO, evidencia: "el PASS exige V1<15mA que NO está servido"}
+  hp010: {causa: CORPUS-GAP, evidencia: "NO-LOCALIZADO (s68 sospecha-gap)"}
+  hp012: {causa: CORPUS-GAP, evidencia: "NO-LOCALIZADO / MIXTO (s68 sospecha-gap)"}
+
+tally:
+  GENERACION-real: 2          # hp005, hp014 (completitud; el prompt ayudó modesto a hp014)
+  CAPACIDAD-real: 0           # NINGUNO — cat008 (lo que parecía capacidad) es conflicto-fuente
+  ARTEFACTO-EVAL/gold-estricto: 3   # cat020 (bot arguablemente correcto), cat019, cat007
+  CONFLICTO-FUENTE/producto: 2      # cat008, hp009
+  RETRIEVAL (within-doc/sub/frontera/mixto): 8
+  CORPUS-GAP (diferido): 4
+
+implicacion:
+  - "El panel Opus (capacidad) tenía 0 golds de soporte limpio — el dúo tenía razón, verificado."
+  - "Generación-fixable = 2 golds (completitud), techo minúsculo."
+  - "3+ golds son del EVAL (gold estricto/vacuo) — el bot puede estar MEJOR que 10/39; el ruler tiene ±2 + golds discutibles."
+  - "El bulto es RETRIEVAL (8, mecanismo mixto distinto del canal) + CORPUS-GAP (4, diferido)."
+  - "Conclusión: no hay lever de generación/capacidad que mueva el residual; el cuello real es el INSTRUMENTO (ruler ruidoso + golds discutibles) y un resto de retrieval/identidad. → auditar golds + endurecer ruler + señal orgánica, NO un panel de modelos."

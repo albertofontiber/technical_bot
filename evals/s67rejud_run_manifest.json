@@ -1,0 +1,18 @@
+{
+ "judge": {
+  "at": "2026-06-13T17:44:55",
+  "git": "7798ac7",
+  "judge": {
+   "model_alias": "gpt-5.5",
+   "models_real": {
+    "gpt-5.5-2026-04-23": 195
+   },
+   "response_format": "json_object",
+   "truncation_chars": 3000,
+   "sys_sha": "8385a401352b98ec",
+   "user_sha": "30f9c60fc26d2439",
+   "parse_policy": "json.loads directo (response_format); error → veredicto '?' (re-lanzable; '?' se excluye del modal, ver report)"
+  },
+  "n_judge_errors": 0
+ }
+}
