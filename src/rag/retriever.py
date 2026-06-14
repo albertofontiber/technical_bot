@@ -7,6 +7,7 @@ we always find the right chunks even if vector similarity alone misses them.
 import json
 import logging
 import math
+import os
 import re
 from concurrent.futures import ThreadPoolExecutor
 
@@ -117,6 +118,12 @@ def extract_product_models(query: str) -> list[str]:
         if nk not in seen:
             seen.add(nk)
             out.append(up)
+
+    # s72 Brazo A (flag LEVER2_IDENTITY, default OFF = prod inerte): resolver el
+    # token-paraguas de marketing a sus variantes reales del corpus (ZXe → ZX2e/ZX5e)
+    # para que filtro/keyword/content busquen el producto correcto, no el espurio.
+    if os.getenv("LEVER2_IDENTITY", "").strip().lower() in ("1", "true", "yes", "on"):
+        out = _series.resolve_aliases(out)
 
     return out
 
@@ -1447,6 +1454,43 @@ def _filter_to_query_models(chunks: list[dict], models: list[str]) -> list[dict]
         pm_norm = _series.normalize_model(c.get("product_model", ""))
         if any(core in pm_norm for core in query_cores):
             filtered.append(c)
+
+    # s72 Brazo B (flag LEVER2_PM_RESCUE, default OFF = prod inerte): rescate de chunks
+    # cuyo product_model está MAL ATRIBUIDO (TECH_DEBT #43/#18-mfr) y que este filtro
+    # expulsa. Para cada modelo de la query con CERO supervivientes, recupera hasta 2
+    # chunks del pool de ENTRADA cuyo SOURCE_FILE contiene el token del modelo Y cuyo
+    # manufacturer == el del modelo (guarda anti-cross-brand: marca desconocida → NO
+    # rescata). cat013: sirve los datasheets SDX-751 (Notifier) mis-atribuidos a
+    # LOCAL-360. Append puro (no re-ordena ni re-puntúa; el reranker decide). NO toca el
+    # camino nivel-2 (series) ni el fail-open de abajo.
+    # Enmiendas del dúo s72: (a) SOLO source_file (no content) — matchear prosa colaba
+    # referencias secundarias y, vía seed-classify, marca equivocada (inversión
+    # cross-brand VESDA-X→Notifier); source_file es la señal estructurada fuerte y el
+    # caso canónico machea por ahí. (b) len(core)>=4 — cores cortos (zxe/dxc/m70)
+    # sub-string-matchean source_files ajenos; los modelos objetivo son >=4 (sdx751,
+    # midmmi, m710, 4040).
+    if os.getenv("LEVER2_PM_RESCUE", "").strip().lower() in ("1", "true", "yes", "on"):
+        already = {id(c) for c in filtered}
+        for m in models:
+            core = _series.normalize_model(m or "")
+            if len(core) < 4 or any(
+                core in _series.normalize_model(c.get("product_model", ""))
+                for c in filtered
+            ):
+                continue                       # core corto, o el modelo ya tiene supervivientes
+            mfr = classify_model_manufacturer(m)
+            if mfr is None:
+                continue                       # marca desconocida → no rescatar
+            added = 0
+            for c in chunks:
+                if added >= 2:
+                    break
+                if id(c) in already or c.get("manufacturer") != mfr:
+                    continue
+                if core in _series.normalize_model(c.get("source_file", "")):
+                    filtered.append(c)
+                    already.add(id(c))
+                    added += 1
 
     # Fail-open: better a noisy response than an empty one
     if len(filtered) < 3:

@@ -49,6 +49,7 @@ def registry_dir(tmp_path, monkeypatch):
     """Apunta el registry a un dir temporal y resetea la cache antes/después."""
     monkeypatch.setattr(sr, "_CONFIG_DIR", tmp_path)
     monkeypatch.delenv("SERIES_REGISTRY_ENABLED", raising=False)
+    monkeypatch.delenv("LEVER2_IDENTITY", raising=False)   # s72: hermético al flag del Brazo A
     sr.reset_registry_cache()
     yield tmp_path
     sr.reset_registry_cache()
@@ -266,6 +267,96 @@ def test_flag_off_registry_vacio(registry_dir, monkeypatch):
     # passes_nivel2 sin serie = substring puro (no debería llamarse en nivel 2,
     # pero si se llama no rompe nada)
     assert sr.passes_nivel2(_chunk("CAD-250"), ["CAD-201"]) is False
+
+
+# ---------------------------------------------------------------------------
+# s72 Brazo A — gating per-entrada por flag + model_aliases (Lever 2 identidad)
+# ---------------------------------------------------------------------------
+
+ESERIES_YAML = """\
+manufacturer: Morley
+model_aliases:
+  ZXe: [ZX2e, ZX5e]
+series:
+  - name: e-series
+    flag: LEVER2_IDENTITY
+    members: [ZX2e, ZX5e]
+    evidence: "fixture s72"
+    shared_docs:
+      - source_file: "MIE-MI-530rv001"
+        evidence: "fixture"
+"""
+
+
+def test_entry_flag_off_no_carga_la_serie(registry_dir):
+    """Flag OFF (default) → la entrada `flag: LEVER2_IDENTITY` NO se carga; el
+    registry es idéntico a no tenerla (build-parity: series vacío, fingerprint empty)."""
+    _write(registry_dir, "morley.yaml", ESERIES_YAML)
+    sr.reset_registry_cache()
+    assert sr.series_for("ZX2e") is None
+    assert sr.series_for("ZXe") is None
+    assert sr.registry_stats()[0] == 0
+    assert sr.registry_fingerprint() == "empty"
+
+
+def test_entry_flag_on_carga_la_serie(registry_dir, monkeypatch):
+    """Flag ON → la serie e-series se carga. El paraguas ZXe NO es member-core (vive
+    SOLO en model_aliases) → se resuelve a los reales; el espurio queda repudiado
+    (mina dúo-s72 cerrada: ZXe-como-member sería owner de ZXAE/ZXEE)."""
+    _write(registry_dir, "morley.yaml", ESERIES_YAML)
+    monkeypatch.setenv("LEVER2_IDENTITY", "1")
+    sr.reset_registry_cache()
+    assert sr.series_for("ZX2e") is not None            # member real
+    assert sr.series_for("ZXe") is None                 # paraguas: NO es member-core
+    assert sr.resolve_aliases(["ZXe"]) == ["ZX2e", "ZX5e"]   # se resuelve por la capa de alias
+    # tras resolver, [ZX2e] ve el shared_doc; y el espurio NO pasa el filtro
+    assert sr.passes_nivel2(_chunk("ZX2e/ZX5e", "MIE-MI-530rv001"), ["ZX2e"]) is True
+    assert sr.passes_nivel2(_chunk("ZXAE/ZXEE", "doc-x"), ["ZX2e"]) is False
+
+
+def test_entry_sin_flag_carga_siempre(registry_dir):
+    """No-regresión: una entrada SIN `flag:` (Vesta, AM-8200…) carga aunque el
+    flag del Brazo A esté OFF."""
+    _write(registry_dir, "detnov.yaml", DETNOV_YAML)
+    sr.reset_registry_cache()
+    assert sr.series_for("CAD-201") is not None
+
+
+def test_resolve_aliases_replace(registry_dir):
+    """REPLACE: el paraguas ZXe → variantes reales (dedup, normaliza la clave);
+    modelo sin alias = identidad. Las aliases cargan con el subsistema activo; su
+    APLICACIÓN la gatea el llamante (extract_product_models) — aquí la mecánica pura."""
+    _write(registry_dir, "morley.yaml", ESERIES_YAML)
+    sr.reset_registry_cache()
+    assert sr.resolve_aliases(["ZXe"]) == ["ZX2e", "ZX5e"]
+    assert sr.resolve_aliases(["zxe"]) == ["ZX2e", "ZX5e"]
+    assert sr.resolve_aliases(["CAD-250"]) == ["CAD-250"]
+    assert sr.resolve_aliases(["ZXe", "CAD-250"]) == ["ZX2e", "ZX5e", "CAD-250"]
+    assert sr.resolve_aliases([]) == []
+
+
+def test_resolve_aliases_sin_aliases_es_identidad(registry_dir):
+    _write(registry_dir, "detnov.yaml", DETNOV_YAML)   # sin model_aliases
+    sr.reset_registry_cache()
+    assert sr.resolve_aliases(["CAD-201", "ZXe"]) == ["CAD-201", "ZXe"]
+
+
+def test_alias_colision_con_member_avisa(registry_dir, caplog):
+    """Hardening dúo s72: un alias-paraguas que coincide con un member-core real
+    emite warning (no debe expandirse sobre un modelo real). Fail-open."""
+    _write(registry_dir, "x.yaml", """\
+manufacturer: X
+model_aliases:
+  AAA-1: [AAA-2]
+series:
+  - name: S
+    members: [AAA-1, AAA-2]
+    evidence: "fixture"
+""")
+    sr.reset_registry_cache()
+    with caplog.at_level(logging.WARNING):
+        sr.registry_stats()   # fuerza la carga
+    assert any("colisiona" in r.message for r in caplog.records)
 
 
 def test_fingerprint_estable_y_sensible(registry_dir):

@@ -11,3 +11,21 @@ model_prefixes:
 - ECO
 - MIE
 - WR
+# s72 Brazo A (Lever 2 identidad) — gated por LEVER2_IDENTITY, default OFF.
+# Paraguas de marketing → variantes reales del corpus (pm real "ZX2e/ZX5e").
+model_aliases:
+  ZXe: [ZX2e, ZX5e]
+series:
+- name: e-series
+  flag: LEVER2_IDENTITY
+  members: [ZX2e, ZX5e]
+  evidence: "s71 hp018 + audit corpus s72: familia e-series Morley; pm real 'ZX2e/ZX5e'. ZXe (paraguas de marketing) NO va en members -> vive SOLO en model_aliases: si fuera member-core, owners('zxae/zxee')={zxe} = seria 'owner' del producto espurio (verificado, duo s72)"
+  shared_docs:
+  - source_file: "MIE-MI-530rv001"
+    evidence: "manual de instalacion de la serie e-series (hp018 cita p21)"
+  - source_file: "MIE-MP-530rv001"
+    evidence: "manual de programacion de la serie e-series"
+  - source_file: "MIE-MU-530rv001"
+    evidence: "manual de usuario de la serie e-series"
+  - source_file: "MIE-MC-530"
+    evidence: "manual de configuracion de la serie (pm MK-ZX, inalcanzable por el filtro de modelo)"

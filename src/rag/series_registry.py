@@ -69,6 +69,19 @@ def series_enabled() -> bool:
     )
 
 
+def _entry_flag_enabled(raw: object) -> bool:
+    """Gating per-entrada (s72): si una entrada `series:` declara `flag: ENV_VAR`,
+    se carga SOLO si ese env está truthy (default OFF → build-parity: sin el flag,
+    la entrada no existe = comportamiento histórico). El flag es el toggle del A/B.
+    Entradas sin `flag:` cargan siempre (genérico, reutilizable para futuros levers)."""
+    if not isinstance(raw, dict):
+        return True   # _parse_series lo rechazará luego con warning
+    flag = raw.get("flag")
+    if not flag:
+        return True
+    return os.getenv(str(flag), "").strip().lower() in ("1", "true", "yes", "on")
+
+
 def normalize_model(s: str) -> str:
     """LA normalización canónica del subsistema filtro+series (idéntica a la
     histórica de `_filter_to_query_models`: quita '-'/espacio, lowercase).
@@ -120,6 +133,7 @@ class _Registry:
     def __init__(self) -> None:
         self.by_member_core: dict[str, Series] = {}
         self.series: list[Series] = []
+        self.aliases: dict[str, list[str]] = {}   # s72: normkey paraguas → variantes
         self.fingerprint: str = "empty"
 
     @property
@@ -186,9 +200,27 @@ def _load() -> _Registry:
                 continue
             mfr = data.get("manufacturer")
             for raw in data.get("series") or []:
+                if not _entry_flag_enabled(raw):
+                    continue                       # entrada gated por flag, OFF
                 s = _parse_series(raw, mfr, path.name)
                 if s is not None:
                     candidates.append(s)
+            # s72: model_aliases (paraguas → variantes reales). Se cargan siempre que
+            # el subsistema esté activo; su APLICACIÓN la gatea el llamante (Brazo A,
+            # LEVER2_IDENTITY en extract_product_models) → con el flag OFF, inertes.
+            for umbrella, variants in (data.get("model_aliases") or {}).items():
+                if not umbrella or not isinstance(variants, list):
+                    continue
+                key = normalize_model(str(umbrella))
+                vals = [str(v).strip() for v in variants if v and str(v).strip()]
+                if not key or not vals:
+                    continue
+                if key in reg.aliases and reg.aliases[key] != vals:
+                    logger.warning("series_registry: alias-paraguas '%s' redeclarado con "
+                                   "valores distintos en %s — se conserva el primero",
+                                   umbrella, path.name)
+                    continue
+                reg.aliases[key] = vals
 
     # Colisión de member entre DOS series → descartar AMBAS (degradan a nivel-1;
     # el test duro lo impide llegar a main — aquí solo protegemos el runtime).
@@ -208,6 +240,15 @@ def _load() -> _Registry:
     for s in reg.series:
         for core in s.member_cores:
             reg.by_member_core[core] = s
+
+    # s72 (hardening dúo): un alias-paraguas NO debe coincidir con un member-core real
+    # (ambiguo: ¿expandir como paraguas o tratar como modelo de serie?). Fail-open con
+    # warning — el paraguas debe vivir SOLO en la capa de alias, nunca en membership.
+    for key in reg.aliases:
+        if key in reg.by_member_core:
+            logger.warning("series_registry: alias-paraguas '%s' colisiona con un "
+                           "member-core de serie — revisar (no se expande sobre un "
+                           "modelo real)", key)
 
     if reg.series:
         canon = sorted(
@@ -278,6 +319,27 @@ def shared_sources_for(models: list[str]) -> list[str]:
             if key not in seen:
                 seen.add(key)
                 out.append(sf)
+    return out
+
+
+def resolve_aliases(models: list[str]) -> list[str]:
+    """REPLACE (s72, Brazo A): si un modelo de la query es un token-paraguas
+    declarado en `model_aliases`, se SUSTITUYE por sus variantes canónicas reales
+    (p.ej. 'ZXe' → ['ZX2e','ZX5e']) — replace, no add, para que el filtro vete el
+    producto parecido-equivocado (zx2e ⊄ zxae/zxee). Dedup con orden estable; un
+    modelo sin alias se conserva tal cual. El gating por flag lo decide el llamante."""
+    reg = _get()
+    if not reg.aliases:
+        return models
+    out: list[str] = []
+    seen: set[str] = set()
+    for m in models or []:
+        targets = reg.aliases.get(normalize_model(m), [m])   # paraguas→variantes, o el propio
+        for t in targets:
+            nk = normalize_model(t)
+            if nk and nk not in seen:
+                seen.add(nk)
+                out.append(t)
     return out
 
 

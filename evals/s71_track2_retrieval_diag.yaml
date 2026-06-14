@@ -318,7 +318,7 @@ golds:
     literalmente el token del modelo (normalize_model) Y cuyo manufacturer == classify_model_manufacturer(model)
     (anti-falso-positivo cross-brand). Se anaden a `filtered` preservando su orden/score actual (no se
     re-ordena el resto). Esto sirve los chunks SDX-751 (manufacturer=Notifier, source_file ''I56-1320-001
-    SDX-751TEM'', product_model mis-atribuido a LOCAL-360 — raiz: TECH_DEBT #6) que hoy el filtro expulsa
+    SDX-751TEM'', product_model mis-atribuido a LOCAL-360 — raiz: product_model a nivel-DOCUMENTO por filename via metadata.py:apply_metadata, TECH_DEBT #43; residual sin sanear cf. #18-mfr [#6 era erratum: #6 es idiomas]) que hoy el filtro expulsa
     porq'
 - qid: cat021
   mecanismo: producto-conflicto
