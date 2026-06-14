@@ -17,7 +17,7 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
-> Resumen estable (s69 — 13 jun 2026): producción = `chunks_v2` (25.090 chunks, de los que
+> Resumen estable (s71 — 13 jun 2026): producción = `chunks_v2` (25.090 chunks, de los que
 > **262 quedan excluidos en runtime por lifecycle** [220 superseded s64 + 42 needs_review] →
 > ~24.8k servibles; 25 huérfanos residuales sin fila / **1.170 docs {998 active · 3 superseded
 > · 79 needs_review · 90 retired}** / 31 marcas / 587 modelos; Voyage-4-large 1024 +

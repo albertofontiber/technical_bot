@@ -3,13 +3,12 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 13 jun 2026 (s69, DEC-051 — A/B del lever de GENERACIÓN = **NO-GO** [Δ_net=0, predicción
-> falsada + regresión de conducta content-verificada]: **CIERRA la fase de levers-baratos
-> del eval** — 3 ciclos seguidos sin GO [s67 CE ROLLBACK · s68 canal NO-GO · s69
-> generación NO-GO] + el re-judge destapó **±2 de varianza del juez**. **Pivote propuesto:
-> de exprimir el residual del eval → a preparar PRODUCTO/deploy para los técnicos de
-> sept** [#45 diagramas-datos + fix available_models + scaffolding de eval orgánico];
-> corpus sigue diferido [DEC-049]).
+> 13 jun 2026 (s71, DEC-052 — CORRIGE el pivote de s69: el re-análisis dirigido por
+> Alberto [escéptico del pivote] mostró que el residual SÍ es atacable y el cuello es
+> **RETRIEVAL** [~16-18 de 29 no-PASS], un bug concreto de **INANICIÓN DEL POOL**
+> [keyword_search/broad-fallback capados a 5; reranker ciego a content[:800]] — NO el
+> canal-broad NO-GO. El bot NO está infra-puntuado [Track 1: solo cat012 maybe-PASS].
+> Siguiente: construir los fixes de retrieval, objetivo 11+ de 16 → PASS).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -28,7 +27,29 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s69 — 13 jun 2026)
+## Estado actual (s71 — 13 jun 2026)
+
+**s71 (DEC-052): el re-análisis del residual (pedido por Alberto, escéptico del pivote s69)
+= el cuello es RETRIEVAL, atacable con fixes concretos.** Dos tracks ortogonales con dúo
+adversarial (workflows batched; rate-limits y apagones gestionados con resume). **Track 1
+(audit del ruler, doble-escéptico auditor+defensor):** de 13 candidatos a "gold-injusto",
+solo **cat012** sobrevive como maybe-PASS (debatible) — el guard anti-"trampas al solitario"
+tumbó 4 que el auditor marcó injustos (cat009/cat011/cat019/cat020 = gold JUSTO, bot falló);
+**el bot NO está infra-puntuado, escepticismo de Alberto validado**; 6 golds reclasificados
+a retrieval-miss; 10 dudas para Alberto (`s71_track1_audit.yaml`). **Clasificación v2 de los
+29 no-PASS** (`s71_classification_v2.yaml`): **16 RETRIEVAL-miss + 2 retrieval-family ≈ 18
+(≈60%)** · 4 generación · 3 corpus-gap? · 2 borderline (bot ~correcto, PARCIAL conservador)
+· 1 diseño (cat011 catálogo) · 1 gold-injusto (cat012). **Track 2 (diagnóstico de retrieval,
+17 golds, 6 mecanismos, 16/17 fixable** — `s71_track2_retrieval_diag.yaml`): raíz común =
+**INANICIÓN DEL POOL aguas arriba** — `keyword_search` limit=5 sin order (orden físico
+arbitrario), broad-fallback vectorial capado a 5, reranker LLM lee solo `content[:800]` (el
+hecho cae fuera). Fixes CONCRETOS y baratos (subir límites, order, ventana del reranker),
+varios MEDIDOS end-to-end (hp003: preview 800→2400 → el reranker ya sirve el chunk correcto).
+NO es el canal-broad (NO-GO s68). **El pivote-a-producto de s69 queda CORREGIDO: el residual
+SÍ es lever-addressable — la conclusión "agotado" fue prematura (le faltaba este diagnóstico
+quirúrgico per-gold).** DEC-052; HISTORY.
+
+### Antecedente s69 (corregido por s71):
 
 **s69 (DEC-051): A/B del lever de GENERACIÓN (completitud + guarda de fidelidad tras flag)
 = NO-GO — y con él CIERRA la fase de levers-baratos del eval.** Tras el NO-GO del canal
@@ -88,48 +109,38 @@ actual NO distingue fiable un win de +1/+2. Endurecerlo (dual-judge, s47§D) ser
 prerrequisito de MÁS lever-work; gated a "¿vale sin técnicos reales?" (lean: esperar al
 eval orgánico).
 
-## Qué sigue (PIVOTE propuesto s69 — pendiente de confirmación de Alberto)
+## Qué sigue (s71 — el residual SÍ es atacable; el cuello es RETRIEVAL)
 
-**El cambio:** cerrada la fase de levers-baratos del eval (3 NO-GO + ruler con ±2 ruido),
-el esfuerzo near-term pasa de "exprimir el residual" a **preparar PRODUCTO/deploy para los
-técnicos de ~sept** (= lo que DEC-049 pedía con "chatbot estable, robusto, que funcione
-bien"; está sin empezar y su valor marginal hoy supera al del siguiente micro-lever).
+**Construir los fixes de retrieval (pool-starvation), por prioridad riesgo/leverage.** El
+re-análisis s70/s71 corrigió el pivote de s69: ~16-18 de 29 no-PASS son retrieval, un bug
+concreto de INANICIÓN DEL POOL (Track 2). **Objetivo: 11+ de los 16 retrieval → PASS.**
+No-fixables: hp017 (corpus-gap), cat008 (producto-conflicto).
 
-0. **Decisión de Alberto:** mergear el PR de s69 (A/B-NO-GO + canon; flag inerte, cero
-   cambio de prod) + confirmar este pivote.
-1. **DIAGRAMAS #45 (datos) — sube a prioridad.** Feature VISIBLE para el técnico de campo;
-   la mitad de DATOS es eval-inerte (verificado, DEC-049d) → mapeo (documento, página)
-   desde la tabla vieja (44.035 chunks con diagrama vs 0/25.090 en v2) + extracción de
-   faltantes + poblar `has_diagram`/`diagram_url`, con before/after de pools por backfill
-   (el fingerprint no caza edits in-place, DEC-036e). El CABLEADO de entrega va después.
-2. **Fix de producto `available_models` (cross-model s69, SHIP-gate del lever):** el
-   `models_context` (generator.py:449-455) inyecta "responde con lo que tengas" que
-   CONTRADICE la regla dura clarify del SYSTEM_PROMPT — bug pre-existente, independiente
-   del lever. Corregirlo estructuralmente (alinear con TIPO 1/2). + el 2º path
-   (early-return sin chunks, gen:375-384, enumera modelos) que también roza la regla.
-3. **Scaffolding de EVAL ORGÁNICO (prep para sept):** la tabla `query_gaps` + logging de
-   queries reales → cuando lleguen los técnicos, se capturan los gaps que IMPORTAN (el
-   ruler que vence al adversarial-39). Es F4 adelantado en su parte barata.
-4. **Eval — fase de levers-baratos CERRADA.** Si se reabre: endurecer el ruler PRIMERO
-   (dual-judge, el ±2; s47§D) — gated a "¿vale sin técnicos?". Levers que quedan, BAJA
-   prioridad: within-doc-miss (hp013/cat016 — doc servido, chunk fuera del top-5; mecanismo
-   distinto de s68) · aditiva del merge (forking-path, s68) · k>50 · #44 boost · Opus
-   generación (NO auto — el prompt-completitud falló, no prueba que capacidad sea el cuello).
-5. **Corpus: DIFERIDO demand-driven (DEC-049a, sin cambio).** Las 31 marcas = uso frecuente;
-   la meta 30+ SIGUE en fase posterior. Gap real (vía Excel inventario) reactiva la ingesta
-   con sus prerrequisitos (#44 escritor + #45 + identidad/supersesión EN INGESTA, DEC-045a +
-   cola 74 `needs_review`). Los 3 sospecha-gap (hp006/hp009 corpus + cat017/hp010/hp012)
-   alimentan esta cola. Pendientes menores s65: 25 huérfanos · TECH_DEBT #47 · lever #10.
+1. **Fixes de retrieval, en orden** (cada uno tras FLAG, medido contra `s67base` con la
+   métrica granular de cobertura per-hecho [s70, menos ruidosa que el juez ±2] + verificación
+   content-level de los flips [enmienda B] + dúo; el reranker/canal lo comparten los 39 golds
+   → gate sobre PASS-control SIEMPRE):
+   a. **Reranker preview `content[:800]`→`[:2400]`** (`src/rag/reranker.py:74`; hp003
+      REPRODUCIDO: el hecho en offset 2566 caía fuera de los 800; con 2400 el reranker ya
+      sirve el chunk correcto). Precedente: el path Voyage CE ya lee 4000 chars.
+   b. **Broad-fallback vectorial `limit=5`→`effective_top_k`** (`retriever.py` Step 2;
+      hp013/hp002 + los "filtro-modelo" — el canal vectorial sano está capado a 5).
+   c. **`keyword_search` order determinista + `limit`↑** (`retriever.py:378-414`; cat016 +
+      model-filter — limit=5 sin order devuelve por orden físico arbitrario; el chunk del
+      §3.3 estaba en posición física 8, justo pasado el cap).
+   d. **Rescates quirúrgicos del diversify + series/alias** (cat001/hp001/cat007/cat013/
+      cat021/hp018 [series morley e-series]/hp009 [alias de modelo]): aditivos, bajo riesgo,
+      sin re-barajar el pool. Detalle por gold en `evals/s71_track2_retrieval_diag.yaml`.
+2. **Dudas de Track 1 para Alberto** (`evals/s71_track1_audit.yaml`): cat012 (→PASS sí/no),
+   cat011 (¿inyectar el catálogo curado al prompt cuando hay near-name ambiguo?), hp004
+   (¿canonizar clarify-suave en el judge-prompt?), cat009 (canon 24V-EN/25V-ES), borderline
+   cat019/cat020. **El bot NO está infra-puntuado** — re-graduar como mucho cat012 (~11/39).
+3. **Después del retrieval:** generación (hp005/hp014) · diseño cat011 · corpus-gap
+   (cat024/hp010/hp012, confirmar) · #45 diagramas / available_models-fix / eval-orgánico
+   (eran el pivote s69, ahora secundarios — el retrieval mueve mucho más la aguja).
 
-**Auto-pushback declarado (Protocolo 2):** (a) ¿el pivote es huir de la dificultad? No —
-el valor marginal del 4º micro-lever es demostrablemente bajo (3 NO-GO) y el deploy-prep
-es necesario y no-empezado. (b) ¿declaro el eval "terminado" antes de tiempo? No: el ±2 de
-ruido puede estar OCULTANDO wins de +1 (el content-level vio que fidelity SÍ completaba) →
-por eso "endurecer el ruler primero" si se reabre, no "los levers no sirven". (c) Gap: el
-pivote asume "bot bueno en lo común", medido por las conductas de seguridad + 10/39
-PASS-control, pero NO verificado con técnicos reales — esa verificación ES el eval orgánico
-(punto 3). Riesgo: producto-eng es otro modo de trabajo (no eval-driven con dúo); aplica el
-contrato BP igual.
+**Nota de método (clave para no repetir el ±2):** medir cada fix con la cobertura per-hecho
+granular (s70) ADEMÁS del juez holístico — el juez tiene ±2 de ruido que oculta wins de +1.
 
 **Fases macro (rationale en HISTORY):** F1 calidad (en curso) → F2 escala (identidad de producto
 HECHA s55; resto gated) → F3 routing/tool-use + multi-dominio del scope M&A (gated por F1/F2) →
