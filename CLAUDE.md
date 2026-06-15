@@ -60,8 +60,11 @@ actuar (Protocolo 1 aplica a su output); **(F)** aumenta, no reemplaza — yo de
 responsable. Guardarraíl anti-ritual: tally de confirmados/falsos-positivos; si degrada a
 "siempre alineado" o a fabricar trivialidades → revisar/matar. NO es un `/propose` 2.0:
 debe producir bite concreto anclado en evidencia (validado: cazó 5 fallos del localizador).
-**s56:** el sub-agente corre pin `model: fable` = mismo modelo que el autor → en ALTO/zona-de-dolor
-el cross-model es INNEGOCIABLE (no "recomendado"). Ronda nueva de review = agente FRESCO siempre.
+**s56→s73:** el sub-agente corre pin `model: opus` (Alberto, s73; era `fable`) = mismo modelo que el
+autor (Opus 4.8) → en ALTO/zona-de-dolor el cross-model GPT-5.5 es INNEGOCIABLE (no "recomendado").
+Ronda nueva de review = agente FRESCO siempre. (s73: el dúo-Opus cazó 4 issues que el dúo-sonnet de la
+ronda previa NO vio — factcov bucket-coupling, s67_ab no-portable, asserts inexistentes, eje hp018 — →
+Opus como sub-agente es materialmente más fuerte en verificación de código.)
 
 ## Protocolo 4 — Registro de procedimientos canónicos (gatillo → acción)
 **Regla rectora (extiende el Protocolo 1):** antes de declarar que seguiste un procedimiento o

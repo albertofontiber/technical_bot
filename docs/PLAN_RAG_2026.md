@@ -27,7 +27,24 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s72 — 14 jun 2026)
+## Estado actual (s73 — 15 jun 2026)
+
+**s73 (DEC-055): Brazo A (identidad e-series) MEDIDO = FALLO→PARCIAL ×2 (GRIS, 0 regresión) → SHIP
+`LEVER2_IDENTITY` como TAPÓN (Railway env on, lo activa Alberto) + combinar con Lever 1.** El harness
+se endureció tras un workflow adversarial que cazó 5 fallos (asserts inexistentes, factcov-bucket-coupling,
+path-mismatch prod, s67_ab no-portable, n=2) → `scripts/ab_verdict.py` (capa de veredicto COMPARTIDA,
+paga la deuda del patrón s59/s67/s69) + `scripts/s73_ab.py` (asserts ejecutables split, factcov-DESDE-BASE,
+árbol n=2, selftest) + `evals/_s73_prod_smoke.py` + dúo sobre el cableado (Opus + cross-model, **0 FP**, 2
+críticos: SHIP-CANDIDATO no auto-SHIP, asserts pre-pago). **Medición** (K=5, base=s67base reusado): ambos
+movers **FALLO→PARCIAL**, ninguno a PASS = **GRIS**, 0 regresión; **prod-smoke** (path real CON
+target_models): flag OFF responde sobre el producto EQUIVOCADO (ZXAE/ZXEE), flag ON sobre el correcto
+(ZX2e/ZX5e). **Decisión Alberto:** ship el tapón (deja de dar producto equivocado en dominio de seguridad,
+reversible) — el PASS no llega porque el cuello restante es **COMPLETITUD = Lever 1** (ortogonal a
+identidad). **Identidad ESTRUCTURAL (DEC-054):** la raíz es el detector LLM-en-ingesta (#49 refinado) —
+diseñado/anotado ahora, construido al gatillo (ingesta 30+); config a mano = tapón, **NO** "la identidad
+escala". 347 tests. Rama `eval/s73-lever2-ship` → PR. DEC-054/055; HISTORY.
+
+### Antecedente s72 (DEC-053)
 
 **s72 (DEC-053): primer build de los fixes de retrieval (DEC-052) — Lever 2 (IDENTIDAD) tras
 flags; Brazo A VERIFICADO end-to-end, Brazo B NO-OP hasta Lever 1.** Orden decidido con Alberto:
@@ -125,12 +142,12 @@ actual NO distingue fiable un win de +1/+2. Endurecerlo (dual-judge, s47§D) ser
 prerrequisito de MÁS lever-work; gated a "¿vale sin técnicos reales?" (lean: esperar al
 eval orgánico).
 
-## Qué sigue (s72 — medir A, luego Lever 1)
+## Qué sigue (s73 — Lever 1, luego combinar identidad+Lever 1)
 
-1. **Medir el PASS-delta del Brazo A** (hp009/hp018) — A/B vs `s67base` con cobertura granular
-   s70 (anti ±2) + gate PASS-control sobre los 39 + **pin `embed_cache`** (freeze-contract). El
-   retrieval ya está PROBADO (el pool se da la vuelta); falta confirmar el PASS end-to-end
-   (generador+juez). Si GO → ship A (flag `LEVER2_IDENTITY` on).
+1. ✅ **HECHO (s73, DEC-055): A medido = FALLO→PARCIAL ×2 (GRIS, 0 regresión) → SHIP `LEVER2_IDENTITY`
+   como tapón** (Railway env on, lo activa Alberto; reversible). El PASS NO llegó — el cuello restante es
+   COMPLETITUD = **Lever 1** (↓2). Identidad estructural (la raíz, NO el tapón) = DEC-054/#49, al gatillo
+   de ingesta 30+. **Combinar: re-medir A + Lever 1 JUNTOS** para la historia de PASS limpia.
 2. **Lever 1 — profundidad del pool** (el grueso de los ~16 + DESBLOQUEA cat013/Brazo B): el
    chunk correcto no entra al pool por la inanición aguas arriba. Fixes (cada uno tras flag,
    mismo método: cobertura granular + dúo + gate PASS-control):

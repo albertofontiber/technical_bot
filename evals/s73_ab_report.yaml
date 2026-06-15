@@ -1,0 +1,58 @@
+veredicto:
+  veredicto: GRIS
+  motivo: sin flip a PASS con margen (o factcov cae) → decide Alberto
+factcov_no_cae: false
+control_intacto: true
+movers:
+- qid: hp009
+  n_facts: 2
+  base_modal: FALLO
+  treat_modal: PARCIAL
+  base_votes:
+    FALLO: 4
+    PARCIAL: 1
+  treat_votes:
+    PARCIAL: 5
+  delta: neutral
+  factcov_base: 0.0
+  factcov_treat: 0.0
+  factcov_cae: false
+  treat_diagnosticos:
+  - Acierta al aclarar que la RFL de 6,8 kΩ aplica a las salidas de sirena y no a los lazos analógicos,
+    y que los lazos no requieren RFL. Pero centra la respuesta en los circuitos de sirenas y no explica
+    suficientemente el cableado del lazo ZXe como bucle cerrado con retorno al panel y aisladores, que
+    es la justificación técnica esperada.
+  - Acierta al indicar en la nota que los lazos analógicos de la ZXe trabajan en bucle cerrado con aisladores
+    y no con RFL convencional. Pero la respuesta principal da el valor 6,8 kΩ para circuitos de sirenas,
+    que no responde directamente a los lazos y puede inducir a confusión.
+  - Acierta al aclarar que los 6,8 kΩ son para circuitos de sirenas y que los lazos analógicos van en
+    bucle cerrado sin RFL mencionada. Pero responde inicialmente con el valor de sirenas, no afirma de
+    forma directa que el lazo direccionable ZXe no lleva resistencia de fin de línea, y queda menos claro
+    que la respuesta gold para un técnico.
+- qid: hp018
+  n_facts: 5
+  base_modal: FALLO
+  treat_modal: PARCIAL
+  base_votes:
+    FALLO: 4
+    PARCIAL: 1
+  treat_votes:
+    PARCIAL: 5
+  delta: neutral
+  factcov_base: 0.76
+  factcov_treat: 0.36
+  factcov_cae: true
+  treat_diagnosticos:
+  - Acertó en los bornes por circuito, número de salidas ZX2e/ZX5e, conexión respetando polaridad y RFL
+    de 6,8 kΩ al final de línea. Pero omite el requisito clave del diodo/polarización por inversión de
+    polaridad y la limitación de 1 A por circuito; además añade datos no necesarios que no compensan esas
+    faltas.
+  - 'La respuesta acierta en conectar las sirenas en paralelo respetando polaridad y con RFL de 6,8 kΩ
+    al final de línea, y menciona supervisión. Pero queda incompleta: no explica el requisito crítico
+    del diodo integrado o añadido por sirena ni la inversión de polaridad de la salida, omite el límite
+    de 1 A y la potencia mínima de la RFL, y no presenta claramente que la ZX5e tiene 4 salidas físicas.'
+  - 'Acierta en la conexión básica a salidas de sirena, polaridad, RFL de 6,8 kΩ al final de línea y que
+    son salidas supervisadas, e identifica parcialmente las salidas de ZX5e. Sin embargo omite un punto
+    clave del manual: la necesidad del diodo integrado o añadido en sirenas no polarizadas por la inversión
+    de polaridad, y también faltan datos relevantes como 1 A por circuito, número de salidas claramente
+    y RFL suministradas.'
