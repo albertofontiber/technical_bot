@@ -1,0 +1,561 @@
+{
+ "hp009": {
+  "question": "¿Cuál es la resistencia de fin de línea recomendada para los lazos de la central Morley ZXe?",
+  "conducta_esperada": "answer",
+  "frozen_at": "2026-06-15T12:59:17",
+  "n_context_hydrated": 5,
+  "top5": [
+   {
+    "id": "d4de9ba9-9206-49cf-9782-ba141168a0c2",
+    "content": "### Sirenas de placa\n\n[Technical wiring diagram showing two parallel siren circuits:\n\nCircuit A:\n\n- SIRENA A (+) - red line connecting four circular siren devices in series, ending with RFL (6800Ω) resistor\n- SIRENA A (-) - black line running parallel below, with notation \"Equipo no polarizado\" (non-polarized equipment) with symbol\n\nCircuit B:\n\n- SIRENA B (+) - red line connecting four circular siren devices in series, ending with RFL (6800Ω) resistor\n- SIRENA B (-) - black line running parallel below\n\nEach circular device shows internal wiring connections marked with + and - terminals.]\n\n**Figura 15 – Circuito de sirenas convencionales**\n\n> ✓ **No enrolle el cable en los terminales. Corte y empalme las conexiones adecuadamente para mantener la supervisión de la línea.**\n\nNo se recomienda cable de longitud superior a 1km, en otro caso la capacitancia e inductancia del lazo podrán afectar al funcionamiento de la línea.\n\nAsegúrese de que se han empleado las secciones adecuadas de cableado, para garantizar la alimentación de las sirenas para las tensiones recomendadas por el fabricante, cuando el panel se alimenta de fuente de alimentación principal o en condiciones de mínima tensión de baterías (Revise las tablas 10 y 11 para ver las condiciones de tensión mínima del panel).\n\nPágina 22 de 50                                    Documento No.MIE-MI-530, Revisión: 001,                                    Manual de Instalación\n\nPaneles de Incendio ZX2e / ZX5e                                                    MORLEY-IAS",
+    "product_model": "ZX2e/ZX5e",
+    "category": null,
+    "section_title": "Sirenas de placa",
+    "content_type": "wiring",
+    "manufacturer": "Morley",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 22,
+    "document_id": "0e9330c8-2c53-4941-bf4f-17fe40adbe84",
+    "similarity": 0.8,
+    "_channel": "CONTENT",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento describe la instalación y configuración de los circuitos de sirenas convencionales en los paneles de incendio ZX2e y ZX5e, detallando el cableado, conexiones y requisitos de supervisión necesarios para garantizar el funcionamiento correcto de las salidas de alarma sonora."
+   },
+   {
+    "id": "72fc4c53-f507-4e67-9192-ebc68b94be78",
+    "content": "Cada sirena deberá tener un diodo integrado, para impedir el consumo en polarización inversa (supervisión). El circuito de sirenas se polariza en inverso en reposo para supervisar la línea y cambia a su polarización normal, cuando se dispara la salida, permitiendo el funcionamiento de las sirenas.\n\n[Diagram showing a circuit board terminal block for ZX2e model. The board shows various components including a PL_LOOP2 connector at the top, and at the bottom there are terminal blocks labeled \"AUX RELAY A+ A- B+ B- SOUNDERS\" and \"B+ B- A+ A-\" on the left side, and \"RELAY 1\" and \"RELAY 2\" terminal blocks on the right side. An arrow points to the terminal blocks with the label \"Circuitos de sirena\".]\n\n**Figura 13 – Terminal de circuitos de sirena de placa – ZX2e**\n\n[Diagram showing a circuit board terminal block for ZX5e model. The board shows terminal blocks labeled from left to right: \"TB10\" with \"N/O N/C COM N/O N/C COM\", \"TB7\" with \"A- A+ B- B+ C- C+ D- D+\", \"TB8\", and \"TB9\" and \"TB6\" with \"0V 24V\". An arrow points to the middle terminal blocks with the label \"Circuitos de sirena\".]\n\n**Figura 14 – Terminal de circuitos de sirena de placa – ZX5e**\n\nEn caso de conectar otros dispositivos no polarizados, a la línea de sirenas, deberán usarse diodos de polarización y protección en cada uno.\n\nRevise la sección 3.4.13 para ver los cables recomendados.\n\nManual de Instalación                Documento No.MIE-MI-530, Revisión:001,                Página 21 de 50\n\nMORLEY-IAS                                                                                                    Paneles de Incendio ZX2e / ZX5e",
+    "product_model": "ZX2e/ZX5e",
+    "category": null,
+    "section_title": "3.4.4 Circuitos de Sirenas",
+    "content_type": "wiring",
+    "manufacturer": "Morley",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 21,
+    "document_id": "0e9330c8-2c53-4941-bf4f-17fe40adbe84",
+    "similarity": 0.8,
+    "_channel": "CONTENT",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento pertenece a la sección 3.4.4 \"Circuitos de Sirenas\" del manual de instalación de los paneles de control de incendios ZX2e y ZX5e, y describe los requisitos técnicos para la conexión y supervisión de los circuitos de sirenas, incluyendo el funcionamiento del diodo integrado y las especificaciones de los terminales de conexión para ambos modelos de panel."
+   },
+   {
+    "id": "dadab3e0-58d8-4346-b4fa-adf6b22f2c31",
+    "content": "**Tabla 2 – Longitudes típicas recomendadas**\n\nNOTA 1: No se recomienda longitudes de cable mayores de 2km. En cualquier caso deberá asegurarse de que la capacitancia máxima del cableado no supere los 0.5uF por lazo y aún así la inductancia podrá afectar al inicio de las comunicaciones. Remítase a la capacitancia máxima definida por el fabricante.\n\nEl cableado de lazo analógico debe instalarse en bucle cerrado con los aisladores de cortocircuito necesarios para cumplir los requerimientos de la norma EN54-14 y EN54-2.\n\nManual de Instalación                Documento No.MIE-MI-530, Revisión:001,                Página 17 de 50\n\nMORLEY-IAS     Paneles de Incendio ZX2e / ZX5e\n\n**EN54-14**\n\n**Apartado 8**\n\n**Puesta en servicio y Verificación.**\n\n* La verificación y pruebas del sistema deben cumplir con las normas y regulaciones locales.\n* La EN54-14 determina las condiciones de verificación y aceptación de los sistemas de detección y control de Incendios.\n\n**Todo cableado debe ser verificado antes de su conexionado al panel.**\n\n**Se recomiendan las siguientes verificaciones:**\n\nRevisar continuidad de todos los cables (incluidas las pantallas).\n\nRevisar la impedancia del cableado. Asegurar que en modo de alarma, las caídas de tensión no comprometan el funcionamiento o compatibilidad de ningún equipo. Asegúrese de que ninguna impedancia supera los límites recomendados en las especificaciones de este documento.\n\nRevise el aislamiento entre los diferentes conductores entre ellos, con pantalla o con tierra. El aislamiento mínimo recomendado es de 20MΩ.\n\nRevise que las pantallas no están derivadas a tierra en ninguna parte del edificio y cumplen con las recomendaciones – revise las secciones de cableado de este documento, para más información.\n\nRevise que los cables de señal, no discurren por bandejas con otro cableado. En especial que no se encuentran próximos a cables de alimentación pare este u otros equipos.\n\nLAS SIGUIENTES MEDIDAS PRÁCTICAS SOBRE EL CABLEADO, DEBEN REALIZARSE ANTES DE CONECTAR AL PANEL, PARA ASEGURAR EL FUNCIONAMIENTO DEL SISTEMA Y EVITAR DAÑOS:\n\nAISLADORES DE CORTOCIRCUITO: Si se han instalado aisladores estos deben puentearse antes o medir entre todos los aisladores (Los aisladores mantienen abierta la línea de señal de positivo hasta que se alimentan e impiden la verificación del cableado). De no tenerse en cuenta esta medida, podrá existir tensión externa en el cableado, que no sea posible medir y que al conectar el lazo al panel, se derive directamente a éste provocando daños irreparables.\n\nTENSIONES: Comprobar que no existe tensión de C.C. o C.A. entre ningún conductor, ni con pantalla o tierra de ningún lazo.\n\nCONTINUIDAD: Comprobar la continuidad independiente los conductores positivo, negativo y pantalla desde el inicio de lazo al final. Si hay ramales, estos deberán comprobarse por separado.\n\nDERIVACIONES: Comprobar que no existe continuidad entre los conductores de positivo, negativo y pantalla y que tampoco hay continuidad entre éstos y tierra.",
+    "product_model": "ZX2e/ZX5e",
+    "category": null,
+    "section_title": "3.4.3 Lazos Analógicos",
+    "content_type": "wiring",
+    "manufacturer": "Morley",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 17,
+    "document_id": "0e9330c8-2c53-4941-bf4f-17fe40adbe84",
+    "similarity": 0.8,
+    "_channel": "CONTENT",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento pertenece a la sección 3.4.3 (Lazos Analógicos) del Manual de Instalación de los Paneles de Incendio ZX2e/ZX5e de Honeywell, y detalla las especificaciones técnicas de cableado, verificaciones previas a la instalación y medidas prácticas de seguridad para garantizar el correcto funcionamiento de los lazos analógicos según la normativa EN54-14."
+   },
+   {
+    "id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+    "content": "## Conexionado lazo analógico con aisladores\n\n[Diagram showing loop wiring with isolators:\n\n- Four horizontal lines labeled from top to bottom:\n  - Datos/Alimentación (+) INICIO (red line)\n  - Datos/Alimentación (-) INICIO (black line)\n  - Datos/Alimentación (+) Retorno (red line)\n  - Datos/Alimentación (+) Retorno (black line)\n- Four circular devices shown on each line with internal wiring connections\n- Some devices are highlighted with blue circles\n- An arrow pointing to \"AISLADORES\" (isolators) on the right side\n- The isolators are shown as circular devices with internal connections]\n\n**Figura 11 – Lazo con aisladores. Opción recomendada.**\n\n### *3.4.3.2 Cumplimiento CE compatibilidad electromagnética*\n\n✓\n\n**Para cumplimiento de compatibilidad electromagnética instale las ferritas suministradas para los lazos.**\n\n**En el dibujo se muestra la instalación típica del lazo.**\n\n[Circular diagram showing ferrite filter installation with labels:\n\n- \"Ferrita grande\" (large ferrite) at top\n- \"Conecte un extremo de la pantalla al conector correspondiente\" (Connect one end of the shield to the corresponding connector) on left\n- Terminal block labeled \"LOOP 1\" with connections \"+ - E + -\" in center\n- \"Coloque una brida por debajo de la ferrita\" (Place a tie below the ferrite) on right]\n\n**Figura 12 – Lazo – Filtro de ferrita.**\n\n### *3.4.3.3 Carga del lazo analógico*\n\nDebe tenerse especial precaución en no exceder la carga máxima permitida de cada lazo. Cada lazo dispone de de una corriente limitada y no se debe superar el límite de alimentación del lazo analógico.\n\n1. Revise el manual de la placa de lazo para conocer el límite de corriente. Para mantener el funcionamiento del lazo analógico, solo será posible disponer de la mitad de la corriente máxima de lazo, para el consumo de equipos conectados a este.\n\n2. Revise la sección 6 para conocer la carga completa y especificaciones del sistema.\n\n3. Realice los cálculos de consumo de lazo para la situación más desfavorable, según el manual del fabricante de los equipos y asegúrese de no superar la mitad de la corriente máxima suministrada por el lazo, ni la corriente total entregada por la Fuente de Alimentación. El programa de configuración FIRE 6 dispone de una herramienta de cálculo de lazo.\n\nPágina 20 de 50     Documento No.MIE-MI-530, Revisión: 001,     Manual de Instalación\n\nPaneles de Incendio ZX2e / ZX5e                                                    MORLEY-IAS\n\n### 3.4.4 Circuitos de Sirenas\n\nEl panel de detección y control de incendio ZX2e tiene 2 circuitos de sirenas supervisados y limitados en corriente (Sirenas A y B).\n\nEl panel de detección y control de incendio ZX5e tiene 4 circuitos de sirenas supervisados y limitados en corriente (Sirenas A, B, C y D).\n\nCada circuito admite un consumo máximo de 1 Amp.\n\nCada circuito de sirena se supervisa ante cortocircuito y circuito abierto. Debe instalarse una resistencia (6.8KΩ, 0.5W mínimo) final de línea (RFL) en el final del circuito, para la supervisión del mismo.",
+    "product_model": "ZX2e/ZX5e",
+    "category": null,
+    "section_title": "Conexionado lazo analógico con aisladores",
+    "content_type": "wiring",
+    "manufacturer": "Morley",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 20,
+    "document_id": "0e9330c8-2c53-4941-bf4f-17fe40adbe84",
+    "similarity": 0.8,
+    "_channel": "CONTENT",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento pertenece a la sección 3.4.3 \"Lazos Analógicos\" del Manual de Instalación de los Paneles de Incendio ZX2e/ZX5e de Honeywell, y detalla las configuraciones de conexionado del lazo analógico con aisladores de cortocircuito, los requisitos de compatibilidad electromagnética mediante filtros de ferrita, y las consideraciones de carga máxima permitida en el lazo."
+   },
+   {
+    "id": "0259b568-d7e3-42dc-af41-9ee72c21bfa8",
+    "content": "## 3.4.13 Cables recomendados\n\n> **Todos los cables conectados al los paneles ZX2e y ZX5e, deberían ser cables resistentes al fuego de par trenzado y apantallado. La conexión de drenaje de las pantallas, deberá conectarse en un solo punto al conector específico o al chasis.**\n>\n> **Revise las regulaciones locales y reglamentos para asegurar el cumplimiento del cableado, según los requerimientos de los mismos.**\n\nA continuación se describen los cables recomendados para cada uso:\n\n* Cableado de Lazo analógico (Alimentación y señal de equipos analógicos) al menos será:\n\nCable de par trenzado y apantallado\n10/20 vueltas por metro mínimo\nConductor de cobre pulido flexible clase1\nAislamiento de espesor nominal del aislamiento 0,7 no propagador de la llama y baja emisión de humos\nPantalla laminar de aluminio con drenaje de cobre estañado rígido de 0,50 mm2.\nResistencia eléctrica del conductor a 20 ºC (Ω/Km) 13,1\nResistencia eléctrica del aislamiento a 20 ºC (Ω/Km) ≥ 20\nCapacidad entre conductores máxima total 0,5 μF\nImpedancia máxima total 40Ω\n\n* Cableado de Sirenas y control de incendio:\n\nEl cableado de señalización y aviso, así como aquellos sistemas que están vinculados con la evacuación y control de incendio del edificio o la interconexión de sistemas de detección de incendio, deberán garantizar su servicio para asegurar la evacuación y se estipula que deberán ser resistentes al fuego.\n\n* Cableado de comunicaciones RS-485:\n\nEl cableado de comunicaciones RS-485 deberá ser trenzado y apantallado con impedancia característica de 120Ω.\n\nTodo el cableado de señalización y control, deberá protegerse contra daños externos y realizarse en conducciones separadas de otros circuitos, para evitar interferencias o riego de daños colaterales.\n\nDeberá asegurarse que se soporta la carga conectada a cada cableado y que no existen caídas de tensión en la línea. Utilice la herramienta de cálculo de lazo suministrada en el programa de configuración, para asegurar el funcionamiento del sistema con los equipos y cableado previsto.\n\n> **No se recomienda el uso de mangueras de más de un par de cables o coaxiales.**\n>\n> **Esto podría generar pérdida de los lazos de comunicación. El funcionamiento del sistema y la capacidad de detectar condiciones de alarma, pueden verse comprometidos.**\n\n> **EN54-14**\n>\n> **6.11.3**\n>\n> **Protección contra daños por fuego**\n\n* Donde sea posible los cables deberán pasarse por lugares de bajo riesgo de incendio, corrosión y golpes. Si no es posible y la avería de dichos cables pueda afectar a funciones esenciales del sistema, el cableado deberá ser resistente al fuego o deberá protegerse contra el fuego.\n\n* El anexo A.6.11.3 determina que los cables que necesiten funcionar más de 1 minuto después de la detección del incendio, deberán protegerse contra el fuego al menos para 30 min.",
+    "product_model": "ZX2e/ZX5e",
+    "category": null,
+    "section_title": "3.4.13 Cables recomendados",
+    "content_type": "wiring",
+    "manufacturer": "Morley",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 29,
+    "document_id": "0e9330c8-2c53-4941-bf4f-17fe40adbe84",
+    "similarity": 0.8,
+    "_channel": "CONTENT",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento pertenece a la sección 3.4.13 del Manual de Instalación de los Paneles de Incendio ZX2e/ZX5e de Honeywell Morley-IAS, donde se detallan las especificaciones técnicas y recomendaciones para la selección e instalación de cables en los diferentes circuitos del sistema (lazos analógicos, sirenas y comunicaciones RS-485)."
+   }
+  ],
+  "pool50_light": [
+   {
+    "id": "041a3676-294c-4fd3-ba22-940d29dbce43",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 8,
+    "similarity": 0.8
+   },
+   {
+    "id": "00bc728f-12c0-4868-b40f-b2892b0be2de",
+    "source_file": "MIE-MU-530rv001",
+    "page_number": 20,
+    "similarity": 0.72
+   },
+   {
+    "id": "0cc44fe1-7a84-476a-a6d5-2b863a454be5",
+    "source_file": "MIE-MC-530",
+    "page_number": 24,
+    "similarity": 0.72
+   },
+   {
+    "id": "9dddacc0-18f7-4991-ae9a-1fa8299263da",
+    "source_file": "MIE-MP-530rv001",
+    "page_number": 29,
+    "similarity": 0.65
+   },
+   {
+    "id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 20,
+    "similarity": 0.8
+   },
+   {
+    "id": "e680fdf2-9229-4fee-b900-fc601bb338af",
+    "source_file": "MIE-MU-530rv001",
+    "page_number": 8,
+    "similarity": 0.72
+   },
+   {
+    "id": "2f8dfd7a-d781-42ac-9e7e-2e3ed6709ec9",
+    "source_file": "MIE-MC-530",
+    "page_number": 24,
+    "similarity": 0.72
+   },
+   {
+    "id": "5581f82d-2dff-4633-ba88-fdac74351b21",
+    "source_file": "MIE-MP-530rv001",
+    "page_number": 50,
+    "similarity": 0.65
+   },
+   {
+    "id": "127f77e4-644f-45ae-8f99-e0924fd0ef14",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 27,
+    "similarity": 0.8
+   },
+   {
+    "id": "83c32dfc-7967-4ec3-86d9-b8a2eff45b06",
+    "source_file": "MIE-MP-530rv001",
+    "page_number": 11,
+    "similarity": 0.65
+   },
+   {
+    "id": "0259b568-d7e3-42dc-af41-9ee72c21bfa8",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 29,
+    "similarity": 0.8
+   },
+   {
+    "id": "2cd2ba66-db10-4770-b142-04b572826fe8",
+    "source_file": "MIE-MP-530rv001",
+    "page_number": 36,
+    "similarity": 0.65
+   },
+   {
+    "id": "53e12a08-1cc2-45e3-8882-3e0854e3ed8c",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 43,
+    "similarity": 0.8
+   },
+   {
+    "id": "485b970c-2c3d-40c8-9fc2-91ce5cff62f1",
+    "source_file": "MIE-MP-530rv001",
+    "page_number": 40,
+    "similarity": 0.65
+   },
+   {
+    "id": "f2150c75-b312-4c1b-bac5-e3c6358032db",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 44,
+    "similarity": 0.8
+   },
+   {
+    "id": "dadab3e0-58d8-4346-b4fa-adf6b22f2c31",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 17,
+    "similarity": 0.8
+   },
+   {
+    "id": "63945365-8105-476f-b11c-fa866b842049",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 13,
+    "similarity": 0.8
+   },
+   {
+    "id": "72fc4c53-f507-4e67-9192-ebc68b94be78",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 21,
+    "similarity": 0.8
+   },
+   {
+    "id": "d4de9ba9-9206-49cf-9782-ba141168a0c2",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 22,
+    "similarity": 0.8
+   },
+   {
+    "id": "9930f0a2-9920-4b92-9af1-81b5aeaf61ee",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 16,
+    "similarity": 0.8
+   },
+   {
+    "id": "281dfd90-e02f-4c72-b32a-3c6aa0f667eb",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 4,
+    "similarity": 0.8
+   },
+   {
+    "id": "ed1aedb9-b92f-4e32-b4a1-642e501a6c2f",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 4,
+    "similarity": 0.8
+   },
+   {
+    "id": "2cd01a11-dfba-4fd4-b74e-8269046e6412",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 40,
+    "similarity": 0.8
+   }
+  ]
+ },
+ "hp018": {
+  "question": "¿Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe?",
+  "conducta_esperada": "answer",
+  "frozen_at": "2026-06-15T12:59:34",
+  "n_context_hydrated": 5,
+  "top5": [
+   {
+    "id": "d4de9ba9-9206-49cf-9782-ba141168a0c2",
+    "content": "### Sirenas de placa\n\n[Technical wiring diagram showing two parallel siren circuits:\n\nCircuit A:\n\n- SIRENA A (+) - red line connecting four circular siren devices in series, ending with RFL (6800Ω) resistor\n- SIRENA A (-) - black line running parallel below, with notation \"Equipo no polarizado\" (non-polarized equipment) with symbol\n\nCircuit B:\n\n- SIRENA B (+) - red line connecting four circular siren devices in series, ending with RFL (6800Ω) resistor\n- SIRENA B (-) - black line running parallel below\n\nEach circular device shows internal wiring connections marked with + and - terminals.]\n\n**Figura 15 – Circuito de sirenas convencionales**\n\n> ✓ **No enrolle el cable en los terminales. Corte y empalme las conexiones adecuadamente para mantener la supervisión de la línea.**\n\nNo se recomienda cable de longitud superior a 1km, en otro caso la capacitancia e inductancia del lazo podrán afectar al funcionamiento de la línea.\n\nAsegúrese de que se han empleado las secciones adecuadas de cableado, para garantizar la alimentación de las sirenas para las tensiones recomendadas por el fabricante, cuando el panel se alimenta de fuente de alimentación principal o en condiciones de mínima tensión de baterías (Revise las tablas 10 y 11 para ver las condiciones de tensión mínima del panel).\n\nPágina 22 de 50                                    Documento No.MIE-MI-530, Revisión: 001,                                    Manual de Instalación\n\nPaneles de Incendio ZX2e / ZX5e                                                    MORLEY-IAS",
+    "product_model": "ZX2e/ZX5e",
+    "category": null,
+    "section_title": "Sirenas de placa",
+    "content_type": "wiring",
+    "manufacturer": "Morley",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 22,
+    "document_id": "0e9330c8-2c53-4941-bf4f-17fe40adbe84",
+    "similarity": 0.8,
+    "_channel": "CONTENT",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento describe la instalación y configuración de los circuitos de sirenas convencionales en los paneles de incendio ZX2e y ZX5e, detallando el cableado, conexiones y requisitos de supervisión necesarios para garantizar el funcionamiento correcto de las salidas de alarma sonora."
+   },
+   {
+    "id": "276b5745-9ecc-4260-bb63-a5aacfc62579",
+    "content": "## 5.4 Sirenas\n\n### 5.4.1 Tipos de Sirenas\n\nEl sistema admite varios tipos de Sirenas:\n\n1. Sirenas convencionales, conectadas a las salidas de sirenas de la placa base.\n2. Sirenas analógicas conectadas directamente al lazo analógico.\n3. Sirenas convencionales conectadas a un módulo de salida conectado al lazo analógico.\n4. Sirenas convencionales conectadas a una placa de 4-Sirenas del lazo periférico RS-485.\n\n### 5.4.2 Avería de supervisión de Sirenas\n\nCualquier equipo reconocido como Sirena, queda configurado como salida supervisada. Cualquier fallo en la línea de la sirena, se mostrará en pantalla y quedará registrado en el registro del sistema.\n\n```\n!ATENCION!  CIRCUITO ABIERTO SIRENA B\n```\n\n### 5.4.3 Selección del Programa de disparo una Sirena\n\nTodos los tipos de Sirenas se configuran de la misma forma: Salidas de Sirena de placa, Sirenas autoalimentados del lazo o Módulo de lazo para sirenas convencionales.\n\nLa única diferencia funcional, es que en el caso de programación de forma pulsante algunas sirenas no pueden sincronizarse (Según el fabricante), por lo que se recomienda usar las sirenas de placa o de lazo si se desea esta opción.\n\nDesde el nivel 3 (Programación), seleccione la opción de Prog.Equipos [1)Prog.Equipos] en nivel 3.\n\n```\nPROGRAM. : Lazo 1) 2) 3) 4) 5)             [1]\n 6)Periferico 7) Sirenas 8)Reles 9)PC\n```\n\nSeleccione la opción '7' [7)Sirenas], para configurar los programas de disparo de las sirenas (Como funcionan las Sirenas para fuegos de zonas).\n\nCada salida tiene asignado un programa de disparo, es posible usar 150 programas diferentes. El programa se debe configurar para definir como opera la salida para diferentes fuegos de zona (Revise la sección 5.7 *Configuración de Programas de Salidas*), para conocer como modificar un programa. Por defecto se asignan los siguientes programas:\n\n✓\n\n**En una instalación nueva o después de un borrado de programación, se asignan los siguientes programas a cada salida:**\n\n**Todos los programas tienen seleccionado modo Si para todas las zonas (Disparo inmediato para cualquier fuego de zona).**\n\n**Sirena de placa A: Programa asignado: 3**\n\n**Sirena de placa B: Programa asignado: 4**\n\n**Sirena de placa C: Programa asignado: 5 (sólo en ZX5e)**\n\n**Sirena de placa D: Programa asignado: 6 (sólo en ZX5e)**\n\n**Cualquier otra sirena de lazo o modulo de sirenas de lazo o periférico, tendrá asignado el programa 1.**\n\nPágina 32 de 66                           Documento No. MIE-MP-530 revisión: 001                           Manual de Configuración\n\nPaneles de Incendio ZX2e/ZX5e                                               MORLEY-IAS\n\nCuando se seleccione la opción de Sirenas '7' [7)Sirenas], aparece en pantalla la sirena de placa A y el programa asociado:\n\n| SIRENA | Programa |\n| ------ | -------- |\n| A      | 003      |\n\nPara seleccionar una Sirena, pulse la tecla SI '✓', se mostrará la siguiente Sirena de la lista. Pulse hasta que aparezca la Sirena deseada.",
+    "product_model": "ZX2e/ZX5e",
+    "category": null,
+    "section_title": "5.4 Sirenas",
+    "content_type": "procedure",
+    "manufacturer": "Morley",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "MIE-MP-530rv001",
+    "page_number": 32,
+    "document_id": "0560ef38-c95d-4a01-8cdd-f8da35c0b551",
+    "similarity": 0.8,
+    "_channel": "CONTENT",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento pertenece a la sección 5.4 del Manual de Configuración de los Paneles de Incendio ZX2e/ZX5e de Honeywell, que describe los tipos de sirenas soportadas por el sistema, cómo configurar su supervisión y asignación de programas de disparo en función de las zonas de incendio."
+   },
+   {
+    "id": "3cbdba36-d4d8-459e-946f-e38d1d4bab17",
+    "content": "**Anotaciones de la tabla:**\n\n- Consumos del panel (sección \"Detalles de carga interna de panel\")\n- Número de placas de comunicaciones (sección \"Módulos Interfaces\")\n- Consumos internos del panel (fila \"CORRIENTE TOTAL INTERNA\")\n- Consumos de sirenas conectadas a las salidas de sirenas SND1 y SND2 placa (sección \"Sirenas internas de la placa\")\n\n• Si existen sirenas convencionales conectadas a las salidas de sirenas de placa de la central, haga clic en la flechas arriba/abajo en el campo **Sirena 1** y **Sirena 2** y seleccione el consumo total de éstas en alarma para cada salida.\n\nPágina 26 de 30                    Documento No-MIE-MC-530, Revisión: 001                    Manual de Funcionamiento\n\nFire6 serie ZX                                                                                                                                                    MORLEY-IAS\n\n• Si existen equipos alimentados de las salidas de alimentación auxiliar del panel, haga clic sobre la pestaña *Periféricos* y teclee el consumo total en reposo y alarma de los mismos en el campo *Equipos Auxiliares Varios*. Seleccione el número de repetidores sin teclado conectados a la salida de 24VAux. si existen.",
+    "product_model": "MK-ZX",
+    "category": null,
+    "section_title": "11.2 Calculo automático",
+    "content_type": "specification",
+    "manufacturer": "Morley",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "MIE-MC-530",
+    "page_number": 26,
+    "document_id": "123dc496-4b91-43a5-8855-c3998ed20d37",
+    "document_revision": "Rev 001",
+    "document_revision_date": null,
+    "document_status": "active",
+    "similarity": 0.72,
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento pertenece a la sección 11.2 \"Cálculo automático\" del capítulo 11 \"Herramienta de cálculo de Lazo y Baterías\" del manual Fire6 para paneles Morley-IAS ZX, y explica cómo configurar e interpretar los consumos de sirenas internas y equipos auxiliares conectados al panel para realizar cálculos precisos de capacidad de baterías."
+   },
+   {
+    "id": "2cd2ba66-db10-4770-b142-04b572826fe8",
+    "content": "## 5.7 Configuración de Programas de Salidas (Sirenas o Relés)\n\nTodos los tipos de Salidas se configuran de la misma forma: Salidas de Sirena de placa de la central, Sirenas autoalimentadas del lazo, módulo de Sirenas de lazo o Tarjeta periférica de 4-Sirenas, Relés de placa de central, Relés de lazo o placa de 4-Relés de lazo periférico.\n\nDesde el nivel 3 (Programación), seleccione la opción de Prog.Equipos [1)Prog.Equipos] en nivel 3. Seleccione la opción '7' y la opción '8' [8)Reles], para configurar los programas de disparo de las sirenas y (Como funcionan las Sirenas para fuegos de zonas).\n\n```\nPROGRAM. : Lazo 1) 2) 3) 4) 5)                    [1]\n 6)Periferico 7) Sirenas 8)Reles 9)PC\n```\n\nCada salida tiene asignado un programa de disparo, es posible usar 150 programas diferentes. Asigne un programa diferente para cada forma de disparo diferente.\n\nEl programa se debe configurar para definir como opera la salida para diferentes fuegos de zona.\n\nLas salidas que funcionan de la misma forma deberán usar el mismo programa.\n\n**Cualquier salida no configurada, tiene asignado el programa 1 (Disparo general), cambie el número de programa antes de modificarlo, para evitar modificar el programa 1.**\n\nPara inspeccionar o cambiar el modo de disparo de la salida, por zonas, presione la tecla ENTER '↵'. Se mostrará el primer grupo de zonas del programa y el modo de disparo de la salida para fuegos de éstas:\n\n```\nPrograma      Zona        Modo\n       3      01 a 80     Retardo      300 s\n```\n\nEn la pantalla pueden configurarse tanto los grupos de zona como el modo de disparo de la salida para dichas zonas. Para evitar confusión, en la pantalla parpadea el parámetro que se está configurando.\n\nEl cursor parpadea en la posición de número de programa, para permitir cambiar la forma de disparo del programa (como se dispara la salida para fuegos de zonas).\n\nPresione las teclas \"<\" o \">\" para seleccionar número de zona, Modo de disparo o Retardo en segundos. Si se precisa introducir un valor numérico, simplemente introduzca el Nuevo valor.\n\nPara modificar el modo de disparo, presione la tela CAMBIO 'Ω' cuando éste parpadee, en la pantalla se mostrarán las opciones cíclicamente hasta el valor deseado.\n\nConfirme la línea con ENTER '↵'. Debe seleccionar el funcionamiento del programa para todas las zonas.\n\n**Cada salida debe tener asociado un programa de disparo. En el programa debe definirse como se disparará la salida para todas las zonas. Por defecto a cualquier salida nueva se le asociará el programa 1 (Disparo inmediato para todas las zonas).**\n\n**Mantenga el programa 1 sin modificar como disparo general.**\n\n**Tenga en cuenta que al modificar un programa, se modifica el modo de disparo de todas las salidas que usen este programa de disparo.**\n\nA continuación se explican los posibles modos de disparo. Una vez asignada una zona o grupo de zonas, seleccione en modo de funcionamiento para éstas.",
+    "product_model": "ZX2e/ZX5e",
+    "category": null,
+    "section_title": "5.7 Configuración de Programas de Salidas (Sirenas o Relés)",
+    "content_type": "procedure",
+    "manufacturer": "Morley",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "MIE-MP-530rv001",
+    "page_number": 36,
+    "document_id": "0560ef38-c95d-4a01-8cdd-f8da35c0b551",
+    "similarity": 0.65,
+    "_channel": "MODEL",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Esta sección del Manual de Configuración del panel de incendios ZX2e/ZX5e de Honeywell explica cómo configurar los programas de disparo para las salidas de sirenas y relés, permitiendo definir el comportamiento de estas salidas ante alarmas en diferentes zonas del sistema."
+   },
+   {
+    "id": "25cd9c1e-3ad3-4566-96eb-1176000696bb",
+    "content": "# 4 Calculo de Baterías\n\nCalcule el consumo de cada equipo que reciba alimentación del panel o esté conectado al lazo analógico, según las tablas adjuntas. Revise la documentación publicada por el fabricante de cada equipo, para conocer los valores de consumos en reposo o alarma.\n\n| Elemento                            | Uds. | ReposoA<br/>Consumounitario (A)                    | ReposoA<br/>Total (A)(Uds.x A) | AlarmaB<br/>Consumounitario (A)                    | AlarmaB<br/>Total (A)(Uds.x A)) |\n| ----------------------------------- | ---- | -------------------------------------------------- | ------------------------------ | -------------------------------------------------- | ------------------------------- |\n| Panel ZX2e                          | 1    | 0.090                                              | 0.090                          | 0.250                                              | 0.250                           |\n| Placa RS485                         |      | 0.059                                              |                                | 0.059                                              |                                 |\n| Placa RS232                         |      | 0.059                                              |                                | 0.059                                              |                                 |\n| Placa Lazo Morley-IAS               |      | 0.020                                              |                                | 0.020                                              |                                 |\n| Periféricos                         |      | (Corriente total máxima de 24V Aux<br/>0.340 Amp)4 |                                | (Corriente total máxima de 24V Aux<br/>0.340 Amp)4 |                                 |\n| ZXRA/ZXRP                           |      | 0.902                                              |                                | 0.1203                                             |                                 |\n| ZXR5B/ZX4B                          |      | 0.1252                                             |                                | 0.1503                                             |                                 |\n| Placa 4 Relés (EXP-014)             |      | 0.0802                                             |                                | 0.1603                                             |                                 |\n| Placa 8 entradas (EXP-029)          |      | 0.0652                                             |                                | 0.0652                                             |                                 |\n| Placa 4 Sirenas (EXP-015)           |      | 0.1202                                             |                                | 0.2203                                             |                                 |\n| Placa 40 salidas Led zona (EXP-065) |      | 0.0302                                             |                                | 0.2803                                             |                                 |\n| Placa Hi485                         |      | 0.125 / 0.0402                                     |                                | 0.125 / 0.0402                                     |                                 |\n| Lazo Analógico 1                    |      |                                                    |                                |                                                    |                                 |\n| MI-PSE / MI-LZR                     |      | 0.00033                                            | ( )x1.25                       | 0.0065                                             | ( )x1.25                        |\n| MI-RHSE / MI-HTSE / MI-PTSE         |      | 0.0003                                             | ( )x1.25                       | 0.007                                              | ( )x1.25                        |\n| MI-LPB2 (0.020 A en alineamiento)   |      | 0.002                                              | ( )x1.25                       | 0.0085                                             | ( )x1.25                        |\n| MI-MCP                              |      | 0.0002                                             | ( )x1.25                       | 0.007                                              | ( )x1.25                        |\n| MI-CZME (alimentación externa)      |      | 0.0003                                             | ( )x1.25                       | 0.0075                                             | ( )x1.25                        |\n| MI-DMMI                             |      | 0.00051                                            | ( )x1.25                       | 0.0028                                             | ( )x1.25                        |\n| MI-DMM2I / MI-DCMO / MI-D2ICMO      |      | 0.00066                                            | ( )x1.25                       | 0.0066                                             | ( )x1.25                        |\n| MI-AWSR / MI-IBSE                   |      | 0.00065                                            | ( )x1.25                       | 0.0073                                             | ( )x1.25                        |\n| MI-DISO (0.024 A aislador abierto)  |      | 0.0002                                             | ( )x1.25                       | 0.0002                                             | ( )x1.25                        |\n| SIrena A (Carga externa)            |      | 0                                                  | 0                              |                                                    |                                 |\n| SIrena B (Carga externa)            |      | 0                                                  | 0                              |                                                    |                                 |\n| Otros equipos conectados al panel.  |      |                                                    |                                |                                                    |                                 |\n| MI-CZME(Alimentación a 24V Aux)     |      | 0                                                  | 0                              | 0.060                                              |                                 |\n| Pilotos Externos IRK                |      | 0                                                  | 0                              | 0.008                                              |                                 |\n| **Total A**                         |      |                                                    | **Total B**                    |                                                    |                                 |\n| Tiempo Reposo                       |      | Total A x 24 =                                     | Tiempo Alarma                  | Total B x 0.5 =                                    |                                 |\n| **Total C**                         |      |                                                    | **Total D**                    |                                                    |                                 |\n| **Baterías Ah ( C + D ) x 1.25 =**  |      |                                                    |                                |                                                    |                                 |",
+    "product_model": "ZX2e/ZX5e",
+    "category": null,
+    "section_title": "4 Calculo de Baterías",
+    "content_type": "specification",
+    "manufacturer": "Morley",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 37,
+    "document_id": "0e9330c8-2c53-4941-bf4f-17fe40adbe84",
+    "similarity": 0.8,
+    "_channel": "CONTENT",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento pertenece a la sección 4 \"Cálculo de Baterías\" del Manual de Instalación de los Paneles de Incendio ZX2e/ZX5e de Morley-IAS by Honeywell, y contiene la tabla de consumos en reposo y alarma para los equipos del panel ZX2e, necesaria para calcular la capacidad requerida de las baterías de respaldo."
+   }
+  ],
+  "pool50_light": [
+   {
+    "id": "b1b119f1-0dcf-44bd-83fb-f8d0cf604689",
+    "source_file": "MIE-MU-530rv001",
+    "page_number": 17,
+    "similarity": 0.8
+   },
+   {
+    "id": "25cd9c1e-3ad3-4566-96eb-1176000696bb",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 37,
+    "similarity": 0.8
+   },
+   {
+    "id": "4b4733ca-bef8-4e0f-bf2b-6e406f9e81a9",
+    "source_file": "MIE-MP-530rv001",
+    "page_number": 19,
+    "similarity": 0.8
+   },
+   {
+    "id": "83be329b-ee62-47e8-b5ef-d2ebc319cb5c",
+    "source_file": "MIE-MP-535rv001",
+    "page_number": 1,
+    "similarity": 0.72
+   },
+   {
+    "id": "3cbdba36-d4d8-459e-946f-e38d1d4bab17",
+    "source_file": "MIE-MC-530",
+    "page_number": 26,
+    "similarity": 0.72
+   },
+   {
+    "id": "3e060f66-2abe-4fae-acb3-f0c44aa8f161",
+    "source_file": "MIE-MU-530rv001",
+    "page_number": 24,
+    "similarity": 0.8
+   },
+   {
+    "id": "bb495d70-f41b-453a-a964-0a733db86928",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 9,
+    "similarity": 0.8
+   },
+   {
+    "id": "276b5745-9ecc-4260-bb63-a5aacfc62579",
+    "source_file": "MIE-MP-530rv001",
+    "page_number": 32,
+    "similarity": 0.8
+   },
+   {
+    "id": "ffb37fd8-2579-4cc0-992f-05200aa9abdd",
+    "source_file": "MIE-MP-535rv001",
+    "page_number": 2,
+    "similarity": 0.72
+   },
+   {
+    "id": "9930f0a2-9920-4b92-9af1-81b5aeaf61ee",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 16,
+    "similarity": 0.8
+   },
+   {
+    "id": "74c5ac6c-8daf-42db-856a-2d88b0e5b411",
+    "source_file": "MIE-MP-530rv001",
+    "page_number": 38,
+    "similarity": 0.8
+   },
+   {
+    "id": "dadab3e0-58d8-4346-b4fa-adf6b22f2c31",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 17,
+    "similarity": 0.8
+   },
+   {
+    "id": "cbc1d4b0-1586-45a3-aae6-399ae797d4b3",
+    "source_file": "MIE-MP-530rv001",
+    "page_number": 38,
+    "similarity": 0.8
+   },
+   {
+    "id": "894553bd-9feb-48d2-8a8e-01b2c97cfe5b",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 27,
+    "similarity": 0.8
+   },
+   {
+    "id": "417862f6-b965-4552-9746-191cf9402cbf",
+    "source_file": "MIE-MP-530rv001",
+    "page_number": 39,
+    "similarity": 0.8
+   },
+   {
+    "id": "d08c8381-3657-4057-a27f-4cd5968e44aa",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 2,
+    "similarity": 0.8
+   },
+   {
+    "id": "a321e053-c68c-495c-a38b-4f7aa2817ee8",
+    "source_file": "MIE-MP-530rv001",
+    "page_number": 39,
+    "similarity": 0.8
+   },
+   {
+    "id": "63945365-8105-476f-b11c-fa866b842049",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 13,
+    "similarity": 0.8
+   },
+   {
+    "id": "9dddacc0-18f7-4991-ae9a-1fa8299263da",
+    "source_file": "MIE-MP-530rv001",
+    "page_number": 29,
+    "similarity": 0.65
+   },
+   {
+    "id": "785ff67a-a4c9-48e9-88aa-6c7768e74d11",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 15,
+    "similarity": 0.8
+   },
+   {
+    "id": "5581f82d-2dff-4633-ba88-fdac74351b21",
+    "source_file": "MIE-MP-530rv001",
+    "page_number": 50,
+    "similarity": 0.65
+   },
+   {
+    "id": "281dfd90-e02f-4c72-b32a-3c6aa0f667eb",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 4,
+    "similarity": 0.8
+   },
+   {
+    "id": "83c32dfc-7967-4ec3-86d9-b8a2eff45b06",
+    "source_file": "MIE-MP-530rv001",
+    "page_number": 11,
+    "similarity": 0.65
+   },
+   {
+    "id": "d4de9ba9-9206-49cf-9782-ba141168a0c2",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 22,
+    "similarity": 0.8
+   },
+   {
+    "id": "2cd2ba66-db10-4770-b142-04b572826fe8",
+    "source_file": "MIE-MP-530rv001",
+    "page_number": 36,
+    "similarity": 0.65
+   },
+   {
+    "id": "4f0215e4-8d57-44d0-9698-3811e94c081c",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 47,
+    "similarity": 0.8
+   },
+   {
+    "id": "485b970c-2c3d-40c8-9fc2-91ce5cff62f1",
+    "source_file": "MIE-MP-530rv001",
+    "page_number": 40,
+    "similarity": 0.65
+   }
+  ]
+ }
+}

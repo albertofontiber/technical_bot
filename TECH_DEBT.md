@@ -1802,7 +1802,42 @@ bloque — el escritor debe NORMALIZAR `product_model` + poblar `product_family`
    metadata-inconsistency para saneo. Descubrimiento reactivo→proactivo; alimenta (1).
 3. **Config a mano (lo actual)**: solo para las familias de más valor que surjan por gold, como tapón hasta (1)/(2).
 
-**Coste estimado**: detector ~3-4h; raíz de datos = parte del contrato de ingesta (#44/#45), lift grande gated.
+**Refinamiento s73 (diseño del detector ANOTADO, NO construido — rumbo decidido con Alberto: medir A → Lever 1 primero; build del detector gated al trigger (a)/(b)). Se canoniza como DEC-054 al cierre.** Validado por dúo cross-model GPT-5.5 + workflow adversarial (estado verificado contra código):
+- **El detector (sol. 2) usa un LLM content-based** (lee título/propósito del manual), no solo el regex
+  genérico de #21 — desambigua pm compuestos (AM2020/AFP1010, ID50/60) y elige el modelo REAL sobre el
+  más-frecuente/prefijo que hoy escoge `_detect_model` (`metadata.py:109-118`), que es la raíz de la
+  mis-atribución (SDX-751→LOCAL-360). Esta es la mejora real de Alberto sobre el canon — se conserva.
+- **Alcance preciso (no sobre-afirmar)**: ataca P3(a) mis-atribución solo **PARCIAL** (aplicabilidad a
+  nivel-MANUAL ≠ atribución correcta a nivel-CHUNK: marcar un doc multi-producto entero como {X,Y,Z}
+  puede contaminar el pool de cada modelo). Resuelve bien P2 (shared-docs). **NO resuelve P3(b)**
+  metadata-inconsistency (conocer el conjunto de modelos ≠ IDs canónicos).
+- **Cross-check anti-alucinación OBLIGATORIO**: validar cada modelo derivado contra el catálogo de 587
+  modelos catalog-first (`classify_model_manufacturer`/`model_manufacturer`, `retriever.py:156,175`) — NO
+  contra el índice (circular: heredaría la contaminación de filename que se quiere sustituir). Árbitro
+  real = el manual / muestra humana.
+- **Prerequisitos antes de CUALQUIER backfill**: (a) cerrar **F2** del escritor
+  (`index.py:resolve_document_id` casa por hash/filename, devuelve None, no prefiere `active` ni crea
+  filas) **y replicar la normalización en el writer** — si no, backfill y writer divergen y la re-ingesta
+  repite la mis-atribución (chunk colgado de fila inactiva invisible); (b) **auditar P3(b) por-familia**
+  ANTES de mecanizar. [s73: F2 ANOTADO como prerequisito, NO cerrado aún — no hay ingesta activa.]
+- **Economía (clave, la propuesta "ZXe-ahora + tech-debt resto" la tiene invertida)**: lo barato = correr
+  el LLM (~Haiku/doc, ya probado a escala = B7-contextual-retrieval); lo caro/diferible = **VERIFICAR** el
+  backfill a ~47+ familias / 1.170 docs. → **NUNCA backfill ciego a 1.170 docs**; verificado solo de
+  familias de alto valor que un gold destape. "Done para ZXe" NO entrega valor estructural nuevo (ya
+  resuelto a mano, Brazo A/DEC-053) — solo prueba el aparato. Precedente de deuda silenciosa: las 318
+  correcciones de product_model de #18-mfr salieron como derivada y nunca se auditaron.
+- **Alcance honesto vs el cuello MEDIDO**: %resuelto de los ~16 retrieval-miss (DEC-052) ≈ **0** —
+  identidad es ORTOGONAL a la inanición del pool; el detector NO sustituye a Lever 1 (broad-fallback
+  capado a 5, `retriever.py:1103`). Probado por el Brazo B NO-OP de s72.
+- **Alternativa BARATA para la capa de filtrado** (ni el dúo previo ni el autor la habían puesto
+  explícita): mapping modelo→familia en registry/YAML lazy-load (como las series hoy), SIN tocar DDL —
+  evita ALTER+INDEX+cambiar RETURNS TABLE de `match_chunks_v2`/`search_chunks_text_v2` (migrations/006).
+  Nota: `documents.document_family` YA existe (migrations/001); denormalizar a columna en chunks solo si
+  un lever futuro exige exponer la familia al generador.
+
+**Coste estimado**: detector ~3-4h (regex) → +LLM/doc (~Haiku, escala B7) + verificación humana muestreada
+NO dimensionada (= el coste dominante real del backfill); raíz de datos = parte del contrato de ingesta
+(#44/#45), lift grande gated.
 
 **Relacionado**: DEC-053 (Brazo A = primer caso curado a mano), DEC-043/#43 capa B (seam + escritor),
 #21 (product_family), #18-mfr (atribución/etiquetas), #44/#45 (contratos de ingesta), #47. Scan reproducible:

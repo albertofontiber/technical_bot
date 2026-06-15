@@ -24,7 +24,11 @@
 > contextual-retrieval al 100%), retrieve-wide 50 →
 > **filtro de modelos series-aware de 3 niveles** (registry de series data-driven en
 > `config/manufacturers/*.yaml`, DEC-044; flag `SERIES_REGISTRY_ENABLED` default ON =
-> kill-switch sin redeploy; sin entrada de registry el comportamiento es el histórico) →
+> kill-switch sin redeploy; sin entrada de registry el comportamiento es el histórico;
+> **s73/DEC-055: `LEVER2_IDENTITY` (alias-paraguas ZXe→ZX2e/ZX5e + serie e-series) shippeado como
+> TAPÓN de identidad — activación Railway env `on` reversible; medido FALLO→PARCIAL ×2 (GRIS),
+> arregla el producto-equivocado en queries e-series, NO escala a 30+ [#49/DEC-054 = la raíz: detector
+> LLM-en-ingesta, al gatillo]**) →
 > rerank LLM 5 (dispatcher `RERANKER_BACKEND` default `llm`; s67: el swap al cross-encoder
 > se midió en A/B = **ROLLBACK** — lever archivado, el dispatcher queda como instrumento) →
 > generador `claude-sonnet-4-6`;
