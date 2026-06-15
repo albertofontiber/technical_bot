@@ -3,12 +3,12 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 14 jun 2026 (s72, DEC-053 — primer build de los fixes de retrieval de DEC-052: **Lever 2
-> [identidad]** construido tras flags. **Brazo A [e-series: hp009/hp018] VERIFICADO end-to-end**
-> [el pool se da la vuelta: 0→23/26 chunks reales, espurio→0] = candidato a ship, falta medir
-> PASS. **Brazo B [rescate pm, cat013] = NO-OP** [el chunk no entra al pool → bloqueado en
-> Lever 1]. 3 rondas de dúo, 0 FP; flags default OFF = prod inerte. Siguiente: medir PASS de A,
-> luego **Lever 1** [profundidad del pool] que desbloquea cat013 + el grueso de los 16).
+> 15 jun 2026 (s74, DEC-056 — **Lever 1 BATCH** [2a broad-fallback + 2b keyword-order + 2c
+> reranker-window@2400] construido tras flags inertes + gate-0 judge-free = lift de retrieval
+> **REAL pero MODESTO** [solo hp008/hp002 fuertes; ~3-4 regresiones incl. PASS-control] →
+> **BANCADO, no shipped; A/B con juez DIFERIDO**. El mapa de NO-PASS muestra que el cuello de
+> retrieval se **FRAGMENTÓ** → siguiente bloque = la **RAÍZ DE DATOS** [detector de identidad
+> DEC-054 + backfill `product_model`], NO más levers de retrieval).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -27,22 +27,33 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s73 — 15 jun 2026)
+## Estado actual (s74 — 15 jun 2026)
 
-**s73 (DEC-055): Brazo A (identidad e-series) MEDIDO = FALLO→PARCIAL ×2 (GRIS, 0 regresión) → SHIP
-`LEVER2_IDENTITY` como TAPÓN (Railway env on, lo activa Alberto) + combinar con Lever 1.** El harness
-se endureció tras un workflow adversarial que cazó 5 fallos (asserts inexistentes, factcov-bucket-coupling,
-path-mismatch prod, s67_ab no-portable, n=2) → `scripts/ab_verdict.py` (capa de veredicto COMPARTIDA,
-paga la deuda del patrón s59/s67/s69) + `scripts/s73_ab.py` (asserts ejecutables split, factcov-DESDE-BASE,
-árbol n=2, selftest) + `evals/_s73_prod_smoke.py` + dúo sobre el cableado (Opus + cross-model, **0 FP**, 2
-críticos: SHIP-CANDIDATO no auto-SHIP, asserts pre-pago). **Medición** (K=5, base=s67base reusado): ambos
-movers **FALLO→PARCIAL**, ninguno a PASS = **GRIS**, 0 regresión; **prod-smoke** (path real CON
-target_models): flag OFF responde sobre el producto EQUIVOCADO (ZXAE/ZXEE), flag ON sobre el correcto
-(ZX2e/ZX5e). **Decisión Alberto:** ship el tapón (deja de dar producto equivocado en dominio de seguridad,
-reversible) — el PASS no llega porque el cuello restante es **COMPLETITUD = Lever 1** (ortogonal a
-identidad). **Identidad ESTRUCTURAL (DEC-054):** la raíz es el detector LLM-en-ingesta (#49 refinado) —
-diseñado/anotado ahora, construido al gatillo (ingesta 30+); config a mano = tapón, **NO** "la identidad
-escala". 347 tests. Rama `eval/s73-lever2-ship` → PR. DEC-054/055; HISTORY.
+**s74 (DEC-056): Lever 1 BATCH (cluster de inanición del pool) CONSTRUIDO tras flags inertes + gate-0
+judge-free = lift de retrieval REAL pero MODESTO → BANCADO (no shipped), A/B con juez DIFERIDO; el cuello
+de retrieval se FRAGMENTÓ → siguiente = la RAÍZ DE DATOS, no más levers de retrieval.** Corrección de
+arranque: el "ship `LEVER2_IDENTITY`" de s73 era **NO-OP en prod** (el `manufacturer-check` del handler
+bloquea fabricante+pm-compuesto ANTES del retrieval; el eval lo bypasea = bias #40) → flag de vuelta a OFF.
+**Build (353 tests, paridad probada, default OFF = prod inerte):** 2a `LEVER1_BROAD_FALLBACK` (broad-fallback
+`5→effective_top_k`) · 2b `LEVER1_KEYWORD_ORDER` (keyword_search `order` determinista + limit 5→15; el dúo mató
+el `order` por content_type del diag = over-fit) · 2c `RERANK_PREVIEW_CHARS` (preview reranker 800→2400).
+**Gate-0 (factcov-sobre-top5, modal n=3 + firm-up n=7, ~$15, esquiva el ±2):** target 48%→67% @2400 PERO afinado
+= **solo 2 golds fuertes+estables (hp008/hp002)** + 5 marginales (+1, dado-ruidosos) + **~3-4 regresiones**
+(cat016, hp009, hp011-dado, **PASS-control cat022**). **2400 elegido por dato** (4000 peor; el CE Voyage lee su
+propio 4000 → 4000 no aporta). **Decisión Alberto:** bancar tras flags (NO shippear — modesto + colateral + sin
+usuarios + PASS sin medir); el A/B saldría casi seguro GRIS (±2 + dado). **Mapa de NO-PASS (workflow adversarial):**
+29 NO-PASS = ~16 retrieval + 5 generación + 4 corpus-gap + 2 borderline + 1 diseño + 1 gold-injusto (cat012, único;
+bias #20 verificado — el bot falla de verdad en 28/29). El cuello de retrieval **FRAGMENTADO** → no hay siguiente
+lever de retrieval que valga (re-entra en la fase que DEC-051e cerró); cuellos vinculantes = el ±2 del ruler
+(dual-judge = prerrequisito) + las raíces de datos del SWAP. 3 dúos + 2 workflows, 0 FP. Rama `eval/s74-lever1-batch` → PR.
+
+### Antecedente s73 (DEC-054/055)
+
+**Brazo A (identidad e-series) MEDIDO = FALLO→PARCIAL ×2 (GRIS, 0 regresión) → se shippeó `LEVER2_IDENTITY`
+como tapón, PERO resultó NO-OP en prod** (el manufacturer-check del handler lo bloquea antes del retrieval; el
+eval/smoke lo bypasean = bias #40 → corregido en s74, flag a OFF). **Identidad ESTRUCTURAL (DEC-054):** la raíz
+es el detector LLM-en-ingesta (#49 refinado) — diseñado/anotado, construido al gatillo (ingesta 30+); config a
+mano = tapón, NO "la identidad escala". Harness endurecido (`ab_verdict.py`+`s73_ab.py`, dúo 0 FP). 347 tests. DEC-054/055; HISTORY.
 
 ### Antecedente s72 (DEC-053)
 
@@ -142,42 +153,34 @@ actual NO distingue fiable un win de +1/+2. Endurecerlo (dual-judge, s47§D) ser
 prerrequisito de MÁS lever-work; gated a "¿vale sin técnicos reales?" (lean: esperar al
 eval orgánico).
 
-## Qué sigue (s73 — Lever 1, luego combinar identidad+Lever 1)
+## Qué sigue (s74 — la RAÍZ DE DATOS, no más levers de retrieval)
 
-1. ✅ **HECHO (s73, DEC-055): A medido = FALLO→PARCIAL ×2 (GRIS, 0 regresión) → SHIP `LEVER2_IDENTITY`
-   como tapón** (Railway env on, lo activa Alberto; reversible). El PASS NO llegó — el cuello restante es
-   COMPLETITUD = **Lever 1** (↓2). Identidad estructural (la raíz, NO el tapón) = DEC-054/#49, al gatillo
-   de ingesta 30+. **Combinar: re-medir A + Lever 1 JUNTOS** para la historia de PASS limpia.
-2. **Lever 1 — profundidad del pool** (el grueso de los ~16 + DESBLOQUEA cat013/Brazo B): el
-   chunk correcto no entra al pool por la inanición aguas arriba. Fixes (cada uno tras flag,
-   mismo método: cobertura granular + dúo + gate PASS-control):
-   a. **Broad-fallback vectorial `limit=5`→`effective_top_k`** (`retriever.py` Step 2; hp013/
-      hp002 + filtro-modelo — el canal vectorial sano está capado a 5; bajo categoría detectada
-      el principal devuelve 0 → solo el broad-5 aporta).
-   b. **`keyword_search` order determinista + `limit`↑** (cat016 — orden físico arbitrario).
-   c. **Reranker preview `content[:800]`→`[:2400]`** (`reranker.py:74`; hp003 reproducido).
-   d. **Rescates del diversify** (cat001/hp001/hp011/hp017 — aditivos, sin re-barajar el pool).
-3. **Reactivar Brazo B (cat013) tras Lever 1** — cuando Lever 1 meta el chunk SDX-751 al pool,
-   el rescate (ya construido) lo recupera; medir con el **gate de conducta refuse-inference**
-   (`undue_inferences==[]` ∧ completitud de los 2 core sube ∧ ausente sigue ausente), end-to-end.
-4. **Diferidos de s72:** C keyword-strip (hp006, blast global) · D section_path (#48, lever de
-   rank, su propia tanda) · generación (hp005/hp014) · diseño cat011 · corpus-gap · #45 diagramas
-   / available_models-fix / eval-orgánico. Dudas de Track 1 para Alberto (`s71_track1_audit.yaml`).
+**Por qué cambia el rumbo (s74):** el mapa de NO-PASS + el gate-0 del batch muestran que el cuello de
+retrieval se FRAGMENTÓ — Lever 1 ayuda 2 golds fuerte (hp008/hp002), 5 marginal (+1, sub-suelo de ruido)
+y regresa ~3-4. Picar el residual disperso re-entra en la fase de levers-baratos que DEC-051e cerró. El
+valor real está en las **raíces de datos del SWAP** (eval-medibles vía el filtro DENTRO del retrieval) +
+endurecer el ruler.
 
-**Nota de método (s72):** el **verify-first barato** (¿el chunk entra al pool?) ANTES de pagar la
-medición completa — ahorró medir el NO-OP del Brazo B. Y medir cada fix con la cobertura granular
-(s70) ADEMÁS del juez (±2 de ruido que oculta wins de +1).
+1. **Siguiente bloque = detector de identidad (DEC-054) + backfill `product_model`** (la raíz de #49/#43).
+   El pm COMPUESTO rompe en DOS sitios: el gate del handler (prod, eval-invisible) **Y** el filtro de modelo
+   `_filter_to_query_models` DENTRO del retrieval (**eval-MEDIBLE**: cat013/hp009/hp018 mueren ahí). Partir el
+   pm vía el detector-LLM-en-ingesta arregla ambos de raíz, es eval-medible, y es la MISMA herramienta de
+   escala 30+ (prep F2, no desechable). Diseño + dúo + plan de backfill (con re-baseline del freeze). Beneficio
+   eval modesto (~3 golds) → se justifica como **prep de escala**, no como lever de 3 golds.
+2. **Batch Lever 1 BANCADO tras flags** (`LEVER1_BROAD_FALLBACK`/`LEVER1_KEYWORD_ORDER`/`RERANK_PREVIEW_CHARS=2400`,
+   default OFF, reversible): lift de retrieval confirmado pero modesto + colateral (cat022). NO shippear; el A/B
+   con juez espera al ruler que importe (eval orgánico / dual-judge). Valor estructural demostrado por el gate-0.
+3. **Categorías (#44): NO backfill ahora** — filtro-EQ muerto (DEC-040, la respuesta puede vivir en otra
+   categoría); el batch ya rodea la categoría vacía. Si vuelve, será BOOST en el contrato de ingesta, NUNCA filtro.
 
-**Fases macro (rationale en HISTORY):** F1 calidad (en curso) → F2 escala (identidad de producto
-HECHA s55; resto gated) → F3 routing/tool-use + multi-dominio del scope M&A (gated por F1/F2) →
-F4 eval orgánico + CI → F5 técnicos reales (post 1-sept).
+**Fases macro (rationale en HISTORY):** F1 calidad (levers de retrieval = rendimiento decreciente; el ±2 del
+ruler es el techo) → **F2 escala (identidad de producto en ingesta = EL siguiente bloque)** → F3 routing/tool-use +
+multi-dominio del scope M&A → F4 eval orgánico + CI → F5 técnicos reales (post 1-sept).
 
-**Diferidos vivos:** es-us (sin manuales US en corpus); contrato de ausencia formal
-(admit/refuse); estratos de contenido a n=1; dual-judge (medido y diferido, s47 §D); prompt
-caching en prod (revisar al tener técnicos activos — umbral: ≥50 queries/día);
-language/revision_date/document_family masivos (B4/B5 s65 → contrato de ingesta, no
-backfill); TECH_DEBT #40 (recall-gate CI), #47 (lista de manufacturers del diversify);
-**dureza de la tabla de decisión** (Alberto s67b: replantearse las reglas/su dureza —
-SOLO pre-registrado y motivado por evidencia, NUNCA post-hoc para dejar pasar un lever;
-las válvulas existentes [dado-plausible, enmienda-de-instrumento con evidencia+Alberto]
-ya absorben dureza legítima).
+**Diferidos vivos:** gate-fix #49 del handler (deploy-prep pre-sept — prod-reachability; sin usuarios no urge,
+el eval no lo ve); **dual-judge** (s47 §D — prerrequisito si se mide algún win pequeño, DEC-051d); buckets
+residuales de bajo-leverage en el ruler ruidoso (generación 5 [s69 NO-GO], corpus-gap 4, frontera/stamps,
+cat016/cat007 [reranker no sube el chunk-en-pool], cat021 [variant-aware diversify], cat008 [generación pura]);
+es-us (sin manuales US); contrato de ausencia formal (admit/refuse); prompt caching (umbral ≥50 queries/día);
+language/revision_date masivos (contrato de ingesta); TECH_DEBT #40 (recall-gate CI)/#47/#48 (section_path);
+**dureza de la tabla de decisión** (SOLO pre-registrado y motivado por evidencia, NUNCA post-hoc).

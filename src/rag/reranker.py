@@ -11,7 +11,12 @@ import logging
 
 import anthropic
 
-from ..config import ANTHROPIC_API_KEY, RERANK_TOP_K, RERANKER_BACKEND
+from ..config import (
+    ANTHROPIC_API_KEY,
+    RERANK_PREVIEW_CHARS,
+    RERANK_TOP_K,
+    RERANKER_BACKEND,
+)
 from .retriever import SPEC_INTENT, TROUBLESHOOT_INTENT, WIRING_INTENT
 
 logger = logging.getLogger(__name__)
@@ -70,8 +75,10 @@ def rerank_chunks(
         content_type = chunk.get("content_type", "")
         has_diagram = bool(chunk.get("has_diagram") and chunk.get("diagram_url"))
         diagram_tag = " [DIAGRAMA DISPONIBLE]" if has_diagram else ""
-        # Show enough content for Claude to judge relevance accurately
-        content_preview = chunk.get("content", "")[:800]
+        # Show enough content for Claude to judge relevance accurately. La ventana
+        # (default 800, prod inerte) es configurable por RERANK_PREVIEW_CHARS — s74/2c:
+        # el hecho decisivo a veces cae más allá del char 800 y el reranker no lo ve.
+        content_preview = chunk.get("content", "")[:RERANK_PREVIEW_CHARS]
 
         chunk_summaries.append(
             f"[{i}] Producto: {product} | Sección: {section} | Tipo: {content_type}{diagram_tag}\n{content_preview}"

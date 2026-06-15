@@ -43,6 +43,16 @@ RERANK_TOP_K = 5
 CHUNK_MAX_TOKENS = 1500
 CHUNK_OVERLAP_TOKENS = 200
 
+# s74 Lever 1 / sub-fix 2c (DEC-052): cuántos chars de cada chunk VE el reranker LLM
+# (`reranker.py`, `chunk.get("content")[:RERANK_PREVIEW_CHARS]`). El hecho decisivo a veces
+# cae más allá del char 800 (offset fuera de ventana) → el reranker no puede juzgar relevancia
+# y no sube el chunk al top-5 (hp003). SWAP reversible por entorno, mismo patrón que
+# CHUNKS_TABLE/RERANKER_BACKEND/MERGE_STRATEGY:
+#   800 (default)  → comportamiento histórico EXACTO (prod inerte; paridad de prompt).
+#   2400 / 4000    → ventana ancha; el valor se ELIGE por dato en el gate-0 modal (no tuneado).
+# Solo afecta el path LLM-rerank; el cross-encoder Voyage ya lee VOYAGE_RERANK_DOC_CHARS=4000.
+RERANK_PREVIEW_CHARS = int(os.getenv("RERANK_PREVIEW_CHARS", "800"))
+
 # Backend del reranker (s61, diseño _s61_lever_design.md §4). SWAP reversible por
 # entorno, como CHUNKS_TABLE:
 #   llm    → rerank_chunks (Claude Sonnet listwise; prod histórico)
