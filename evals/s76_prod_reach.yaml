@@ -1,0 +1,287 @@
+meta:
+  proposito: 'Observabilidad del gap eval<->prod (bias #40). REACH != PASS.'
+  metodo: classify_pre_rag replica handle_message telegram_bot.py:261-344, funciones/regex reales, flags
+    default (OFF=prod), chunks_v2.
+  n_29: 29
+  n_dev_total: 39
+resumen_29:
+  counts:
+    REACHES_RAG: 20
+    CUT_model_not_found: 6
+    CUT_A_mismatch: 3
+  cut_total: 9
+  cut_qids:
+  - cat013
+  - cat021
+  - hp009
+  - hp013
+  - cat016
+  - hp003
+  - hp002
+  - hp011
+  - hp018
+base_rate_dev:
+  counts:
+    REACHES_RAG: 28
+    CUT_A_mismatch: 3
+    CUT_model_not_found: 8
+  cut_total: 11
+  cut_qids:
+  - cat013
+  - cat015
+  - cat016
+  - cat021
+  - cat022
+  - hp002
+  - hp003
+  - hp009
+  - hp011
+  - hp013
+  - hp018
+detalle_29:
+- qid: cat007
+  conducta: answer
+  question: En el detector por aspiración FAAST LT-200, ¿qué salidas de relé y de sirena tiene y con qué
+    contactos, cómo se comporta el relé de avería a
+  outcome: REACHES_RAG
+  detail: fall-through to RAG
+  mentioned_manufacturer: null
+  model: null
+  actual_manufacturer: null
+- qid: cat013
+  conducta: refuse-inference
+  question: Tengo una central Detnov CAD-150 y me ha sobrado de otra instalacion un detector optico Notifier
+    SDX-751; ¿es compatible / puedo montarlo en
+  outcome: CUT_model_not_found
+  detail: lookup_model_manufacturer(CAD-150)=None
+  mentioned_manufacturer: Detnov
+  model: CAD-150
+  actual_manufacturer: null
+- qid: cat021
+  conducta: clarify
+  question: Necesito un detector de llama SharpEye «40/40» (Spectrex / Notifier) para una instalación;
+    ¿qué modelo pido?
+  outcome: CUT_model_not_found
+  detail: lookup_model_manufacturer(40-40)=None
+  mentioned_manufacturer: Spectrex
+  model: 40-40
+  actual_manufacturer: null
+- qid: hp006
+  conducta: answer
+  question: La Notifier AFP-400 muestra el aviso 'Tierra' (Earth Fault). ¿Qué significa y cómo se localiza?
+  outcome: REACHES_RAG
+  detail: fall-through to RAG
+  mentioned_manufacturer: Notifier
+  model: AFP-400
+  actual_manufacturer: Notifier
+- qid: hp009
+  conducta: answer
+  question: ¿Cuál es la resistencia de fin de línea recomendada para los lazos de la central Morley ZXe?
+  outcome: CUT_model_not_found
+  detail: lookup_model_manufacturer(ZXE)=None
+  mentioned_manufacturer: Morley
+  model: ZXE
+  actual_manufacturer: null
+- qid: hp013
+  conducta: answer
+  question: ¿Cómo se cambia la batería tampón de la Detnov ADW535 sin perder configuración?
+  outcome: CUT_A_mismatch
+  detail: ADW535=Securiton != mencion Detnov
+  mentioned_manufacturer: Detnov
+  model: ADW535
+  actual_manufacturer: Securiton
+- qid: cat016
+  conducta: answer
+  question: En la Detnov CAD-150, ¿como se da de alta un detector nuevo en el lazo y como se prueba que
+    funciona?
+  outcome: CUT_model_not_found
+  detail: lookup_model_manufacturer(CAD-150)=None
+  mentioned_manufacturer: Detnov
+  model: CAD-150
+  actual_manufacturer: null
+- qid: hp003
+  conducta: answer
+  question: ¿Cómo se conectan las baterías de 24V en la Detnov CAD-150?
+  outcome: CUT_model_not_found
+  detail: lookup_model_manufacturer(CAD-150)=None
+  mentioned_manufacturer: Detnov
+  model: CAD-150
+  actual_manufacturer: null
+- qid: cat017
+  conducta: answer
+  question: ¿Como se cablea y se da de alta (configura) un lazo en la central Notifier INSPIRE (E10/E15)?
+  outcome: REACHES_RAG
+  detail: fall-through to RAG
+  mentioned_manufacturer: Notifier
+  model: INSPIRE
+  actual_manufacturer: Notifier
+- qid: hp002
+  conducta: answer
+  question: El detector ASD535 de Detnov está dando una alarma intermitente de flujo bajo. ¿Cuál es la
+    causa más probable y cómo se diagnostica?
+  outcome: CUT_A_mismatch
+  detail: ASD535=Securiton != mencion Detnov
+  mentioned_manufacturer: Detnov
+  model: ASD535
+  actual_manufacturer: Securiton
+- qid: hp008
+  conducta: answer
+  question: ¿Qué detectores de humo analógicos son compatibles con la Notifier ID3000?
+  outcome: REACHES_RAG
+  detail: fall-through to RAG
+  mentioned_manufacturer: Notifier
+  model: ID3000
+  actual_manufacturer: Notifier
+- qid: hp001
+  conducta: answer
+  question: En la Detnov CAD-250, ¿cómo se entra al menú de programación avanzada?
+  outcome: REACHES_RAG
+  detail: fall-through to RAG
+  mentioned_manufacturer: Detnov
+  model: CAD-250
+  actual_manufacturer: Detnov
+- qid: hp017
+  conducta: answer
+  question: ¿Cómo se programa el retardo de salida de alarma principal en la Notifier PEARL?
+  outcome: REACHES_RAG
+  detail: fall-through to RAG
+  mentioned_manufacturer: Notifier
+  model: Pearl
+  actual_manufacturer: Notifier
+- qid: cat001
+  conducta: answer
+  question: En la Notifier PEARL, ¿cuántos equipos admite un lazo SLC y qué límites de cableado hay (aisladores),
+    y cómo se dan de alta y editan esos eq
+  outcome: REACHES_RAG
+  detail: fall-through to RAG
+  mentioned_manufacturer: Notifier
+  model: Pearl
+  actual_manufacturer: Notifier
+- qid: hp011
+  conducta: answer
+  question: En la Morley RP1r, después de descargar la extinción el sistema no vuelve a estado normal
+    tras resetear. ¿Qué comprobar?
+  outcome: CUT_A_mismatch
+  detail: RP1R=Notifier != mencion Morley
+  mentioned_manufacturer: Morley
+  model: RP1R
+  actual_manufacturer: Notifier
+- qid: hp018
+  conducta: answer
+  question: ¿Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe?
+  outcome: CUT_model_not_found
+  detail: lookup_model_manufacturer(ZXE)=None
+  mentioned_manufacturer: Morley
+  model: ZXE
+  actual_manufacturer: null
+- qid: cat008
+  conducta: answer
+  question: ¿Cómo se cablea el módulo de entrada M710 / MI-DMMI en el lazo, y qué resistencias necesita
+    (fin de línea y modo 3 estados)?
+  outcome: REACHES_RAG
+  detail: fall-through to RAG
+  mentioned_manufacturer: null
+  model: null
+  actual_manufacturer: null
+- qid: cat009
+  conducta: answer
+  question: ¿Qué resistencia de fin de línea (EOL) hay que instalar en las líneas de zona de la central
+    convencional NFS Supra?
+  outcome: REACHES_RAG
+  detail: fall-through to RAG
+  mentioned_manufacturer: null
+  model: null
+  actual_manufacturer: null
+- qid: hp005
+  conducta: answer
+  question: En la Notifier ID3000, ¿cómo se programa una zona para que active una salida de sirena solo
+    cuando haya coincidencia de dos detectores?
+  outcome: REACHES_RAG
+  detail: fall-through to RAG
+  mentioned_manufacturer: Notifier
+  model: ID3000
+  actual_manufacturer: Notifier
+- qid: hp014
+  conducta: answer
+  question: ¿Cómo se conecta un módulo de aislamiento de línea en un lazo ID2000?
+  outcome: REACHES_RAG
+  detail: fall-through to RAG
+  mentioned_manufacturer: null
+  model: null
+  actual_manufacturer: null
+- qid: hp004
+  conducta: clarify
+  question: ¿Cuál es la tensión de funcionamiento y el consumo en reposo del detector DGD-600 de Detnov?
+  outcome: REACHES_RAG
+  detail: fall-through to RAG
+  mentioned_manufacturer: Detnov
+  model: DGD-600
+  actual_manufacturer: Detnov
+- qid: hp007
+  conducta: answer
+  question: ¿Cómo se realiza el test anual de un detector VESDA-E VEP según el manual del fabricante?
+  outcome: REACHES_RAG
+  detail: fall-through to RAG
+  mentioned_manufacturer: null
+  model: null
+  actual_manufacturer: null
+- qid: cat011
+  conducta: clarify
+  question: Necesito un detector de humos analógico direccionable «751» para una instalación Notifier;
+    ¿cuál es el modelo correcto?
+  outcome: REACHES_RAG
+  detail: fall-through to RAG
+  mentioned_manufacturer: Notifier
+  model: null
+  actual_manufacturer: null
+- qid: cat012
+  conducta: answer
+  question: ¿Cómo se calcula la capacidad de batería (en Ah) necesaria para la central AM-8200?
+  outcome: REACHES_RAG
+  detail: fall-through to RAG
+  mentioned_manufacturer: null
+  model: null
+  actual_manufacturer: null
+- qid: cat019
+  conducta: answer
+  question: '¿Como se configura una maniobra (causa-efecto) completa en la Detnov CAD-250: como se crea,
+    como se definen las entradas/eventos que la disp'
+  outcome: REACHES_RAG
+  detail: fall-through to RAG
+  mentioned_manufacturer: Detnov
+  model: CAD-250
+  actual_manufacturer: Detnov
+- qid: cat020
+  conducta: answer
+  question: En una central Morley DXc instalada en Espana, ¿cual es el nivel de alarma y de prealarma
+    por defecto de los detectores, y el maximo configu
+  outcome: REACHES_RAG
+  detail: fall-through to RAG
+  mentioned_manufacturer: Morley
+  model: DXc
+  actual_manufacturer: Morley
+- qid: cat024
+  conducta: answer
+  question: ¿Cuál es el consumo en alarma de la sirena analógica de zócalo Detnov MAD-472?
+  outcome: REACHES_RAG
+  detail: fall-through to RAG
+  mentioned_manufacturer: Detnov
+  model: MAD-472
+  actual_manufacturer: Detnov
+- qid: hp010
+  conducta: answer
+  question: En la Morley DXc, ¿cómo se añade un nuevo detector al lazo tras la puesta en marcha inicial?
+  outcome: REACHES_RAG
+  detail: fall-through to RAG
+  mentioned_manufacturer: Morley
+  model: DXc
+  actual_manufacturer: Morley
+- qid: hp012
+  conducta: answer-con-conflicto
+  question: ¿Cuántos lazos direccionables soporta la Notifier AM2020/AFP1010 y cuántos dispositivos por
+    lazo?
+  outcome: REACHES_RAG
+  detail: fall-through to RAG
+  mentioned_manufacturer: Notifier
+  model: AM-2020
+  actual_manufacturer: Notifier

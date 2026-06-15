@@ -1,0 +1,821 @@
+{
+  "meta": {
+    "gpt_model": "gpt-5.5",
+    "claude_model": "claude-opus-4-6",
+    "k_claude": 3,
+    "input": "s67base frozen (39 dev)",
+    "proposito": "measure-first dual-judge HOLISTICO"
+  },
+  "n_comparable": 39,
+  "agreement": 27,
+  "disagreement_total": 12,
+  "disagreement_rate": 0.308,
+  "claude_stricter": [
+    "hp012"
+  ],
+  "claude_looser": [
+    "cat009",
+    "cat011",
+    "cat012",
+    "cat016",
+    "cat019",
+    "cat020",
+    "hp006",
+    "hp007",
+    "hp009",
+    "hp011",
+    "hp018"
+  ],
+  "focus_borderline": {
+    "cat019": {
+      "gpt": "PARCIAL",
+      "claude": "PASS"
+    },
+    "cat020": {
+      "gpt": "PARCIAL",
+      "claude": "PASS"
+    }
+  },
+  "rows": [
+    {
+      "qid": "cat001",
+      "conducta": "answer",
+      "gpt_modal": "PARCIAL",
+      "claude_modal": "PARCIAL",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ],
+      "claude_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PASS"
+      ]
+    },
+    {
+      "qid": "cat005",
+      "conducta": "answer",
+      "gpt_modal": "PASS",
+      "claude_modal": "PASS",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
+      "claude_verdicts": [
+        "PASS",
+        "PASS",
+        "PASS"
+      ]
+    },
+    {
+      "qid": "cat007",
+      "conducta": "answer",
+      "gpt_modal": "PARCIAL",
+      "claude_modal": "PARCIAL",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "FALLO",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "FALLO"
+      ],
+      "claude_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ]
+    },
+    {
+      "qid": "cat008",
+      "conducta": "answer",
+      "gpt_modal": "PARCIAL",
+      "claude_modal": "PARCIAL",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "FALLO",
+        "PARCIAL"
+      ],
+      "claude_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ]
+    },
+    {
+      "qid": "cat009",
+      "conducta": "answer",
+      "gpt_modal": "PARCIAL",
+      "claude_modal": "PASS",
+      "agree": false,
+      "direction": "claude_looser",
+      "gpt_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PASS",
+        "PARCIAL",
+        "PASS"
+      ],
+      "claude_verdicts": [
+        "PASS",
+        "PASS",
+        "PASS"
+      ]
+    },
+    {
+      "qid": "cat010",
+      "conducta": "answer",
+      "gpt_modal": "PASS",
+      "claude_modal": "PASS",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
+      "claude_verdicts": [
+        "PASS",
+        "PASS",
+        "PASS"
+      ]
+    },
+    {
+      "qid": "cat011",
+      "conducta": "clarify",
+      "gpt_modal": "PARCIAL",
+      "claude_modal": "PASS",
+      "agree": false,
+      "direction": "claude_looser",
+      "gpt_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ],
+      "claude_verdicts": [
+        "PASS",
+        "PASS",
+        "PASS"
+      ]
+    },
+    {
+      "qid": "cat012",
+      "conducta": "answer",
+      "gpt_modal": "PARCIAL",
+      "claude_modal": "PASS",
+      "agree": false,
+      "direction": "claude_looser",
+      "gpt_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PASS",
+        "PARCIAL"
+      ],
+      "claude_verdicts": [
+        "PASS",
+        "PASS",
+        "PASS"
+      ]
+    },
+    {
+      "qid": "cat013",
+      "conducta": "refuse-inference",
+      "gpt_modal": "PARCIAL",
+      "claude_modal": "PARCIAL",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ],
+      "claude_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ]
+    },
+    {
+      "qid": "cat014",
+      "conducta": "answer",
+      "gpt_modal": "PASS",
+      "claude_modal": "PASS",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
+      "claude_verdicts": [
+        "PASS",
+        "PASS",
+        "PASS"
+      ]
+    },
+    {
+      "qid": "cat015",
+      "conducta": "admit",
+      "gpt_modal": "PASS",
+      "claude_modal": "PASS",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
+      "claude_verdicts": [
+        "PASS",
+        "PASS",
+        "PASS"
+      ]
+    },
+    {
+      "qid": "cat016",
+      "conducta": "answer",
+      "gpt_modal": "FALLO",
+      "claude_modal": "PARCIAL",
+      "agree": false,
+      "direction": "claude_looser",
+      "gpt_verdicts": [
+        "FALLO",
+        "FALLO",
+        "FALLO",
+        "FALLO",
+        "FALLO"
+      ],
+      "claude_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ]
+    },
+    {
+      "qid": "cat017",
+      "conducta": "answer",
+      "gpt_modal": "PARCIAL",
+      "claude_modal": "PARCIAL",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ],
+      "claude_verdicts": [
+        "PASS",
+        "PARCIAL",
+        "PARCIAL"
+      ]
+    },
+    {
+      "qid": "cat018",
+      "conducta": "answer",
+      "gpt_modal": "PASS",
+      "claude_modal": "PASS",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PARCIAL",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
+      "claude_verdicts": [
+        "PASS",
+        "PASS",
+        "PASS"
+      ]
+    },
+    {
+      "qid": "cat019",
+      "conducta": "answer",
+      "gpt_modal": "PARCIAL",
+      "claude_modal": "PASS",
+      "agree": false,
+      "direction": "claude_looser",
+      "gpt_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ],
+      "claude_verdicts": [
+        "PASS",
+        "PASS",
+        "PASS"
+      ]
+    },
+    {
+      "qid": "cat020",
+      "conducta": "answer",
+      "gpt_modal": "PARCIAL",
+      "claude_modal": "PASS",
+      "agree": false,
+      "direction": "claude_looser",
+      "gpt_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ],
+      "claude_verdicts": [
+        "PASS",
+        "PASS",
+        "PASS"
+      ]
+    },
+    {
+      "qid": "cat021",
+      "conducta": "clarify",
+      "gpt_modal": "PARCIAL",
+      "claude_modal": "PARCIAL",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ],
+      "claude_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ]
+    },
+    {
+      "qid": "cat022",
+      "conducta": "answer",
+      "gpt_modal": "PASS",
+      "claude_modal": "PASS",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
+      "claude_verdicts": [
+        "PASS",
+        "PASS",
+        "PASS"
+      ]
+    },
+    {
+      "qid": "cat023",
+      "conducta": "answer",
+      "gpt_modal": "PASS",
+      "claude_modal": "PASS",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PARCIAL",
+        "PASS",
+        "PARCIAL",
+        "PASS",
+        "PASS"
+      ],
+      "claude_verdicts": [
+        "PASS",
+        "PASS",
+        "PASS"
+      ]
+    },
+    {
+      "qid": "cat024",
+      "conducta": "answer",
+      "gpt_modal": "PARCIAL",
+      "claude_modal": "PARCIAL",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ],
+      "claude_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PASS"
+      ]
+    },
+    {
+      "qid": "hp001",
+      "conducta": "answer",
+      "gpt_modal": "PARCIAL",
+      "claude_modal": "PARCIAL",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "FALLO",
+        "PARCIAL",
+        "FALLO"
+      ],
+      "claude_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ]
+    },
+    {
+      "qid": "hp002",
+      "conducta": "answer",
+      "gpt_modal": "PARCIAL",
+      "claude_modal": "PARCIAL",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ],
+      "claude_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ]
+    },
+    {
+      "qid": "hp003",
+      "conducta": "answer",
+      "gpt_modal": "PARCIAL",
+      "claude_modal": "PARCIAL",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ],
+      "claude_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ]
+    },
+    {
+      "qid": "hp004",
+      "conducta": "clarify",
+      "gpt_modal": "PARCIAL",
+      "claude_modal": "PARCIAL",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PARCIAL",
+        "PASS",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ],
+      "claude_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ]
+    },
+    {
+      "qid": "hp005",
+      "conducta": "answer",
+      "gpt_modal": "PARCIAL",
+      "claude_modal": "PARCIAL",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ],
+      "claude_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PASS"
+      ]
+    },
+    {
+      "qid": "hp006",
+      "conducta": "answer",
+      "gpt_modal": "FALLO",
+      "claude_modal": "PARCIAL",
+      "agree": false,
+      "direction": "claude_looser",
+      "gpt_verdicts": [
+        "FALLO",
+        "FALLO",
+        "FALLO",
+        "FALLO",
+        "FALLO"
+      ],
+      "claude_verdicts": [
+        "PARCIAL",
+        "FALLO",
+        "PARCIAL"
+      ]
+    },
+    {
+      "qid": "hp007",
+      "conducta": "answer",
+      "gpt_modal": "PARCIAL",
+      "claude_modal": "PASS",
+      "agree": false,
+      "direction": "claude_looser",
+      "gpt_verdicts": [
+        "PASS",
+        "PASS",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ],
+      "claude_verdicts": [
+        "PASS",
+        "PASS",
+        "PASS"
+      ]
+    },
+    {
+      "qid": "hp008",
+      "conducta": "answer",
+      "gpt_modal": "PARCIAL",
+      "claude_modal": "PARCIAL",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ],
+      "claude_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ]
+    },
+    {
+      "qid": "hp009",
+      "conducta": "answer",
+      "gpt_modal": "FALLO",
+      "claude_modal": "PARCIAL",
+      "agree": false,
+      "direction": "claude_looser",
+      "gpt_verdicts": [
+        "FALLO",
+        "PARCIAL",
+        "FALLO",
+        "FALLO",
+        "FALLO"
+      ],
+      "claude_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ]
+    },
+    {
+      "qid": "hp010",
+      "conducta": "answer",
+      "gpt_modal": "PARCIAL",
+      "claude_modal": "PARCIAL",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ],
+      "claude_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ]
+    },
+    {
+      "qid": "hp011",
+      "conducta": "answer",
+      "gpt_modal": "FALLO",
+      "claude_modal": "PARCIAL",
+      "agree": false,
+      "direction": "claude_looser",
+      "gpt_verdicts": [
+        "FALLO",
+        "FALLO",
+        "FALLO",
+        "FALLO",
+        "FALLO"
+      ],
+      "claude_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ]
+    },
+    {
+      "qid": "hp012",
+      "conducta": "answer-con-conflicto",
+      "gpt_modal": "PARCIAL",
+      "claude_modal": "FALLO",
+      "agree": false,
+      "direction": "claude_stricter",
+      "gpt_verdicts": [
+        "PARCIAL",
+        "FALLO",
+        "PARCIAL",
+        "PARCIAL",
+        "FALLO"
+      ],
+      "claude_verdicts": [
+        "FALLO",
+        "FALLO",
+        "FALLO"
+      ]
+    },
+    {
+      "qid": "hp013",
+      "conducta": "answer",
+      "gpt_modal": "PARCIAL",
+      "claude_modal": "PARCIAL",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ],
+      "claude_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ]
+    },
+    {
+      "qid": "hp014",
+      "conducta": "answer",
+      "gpt_modal": "PARCIAL",
+      "claude_modal": "PARCIAL",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ],
+      "claude_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ]
+    },
+    {
+      "qid": "hp015",
+      "conducta": "answer",
+      "gpt_modal": "PASS",
+      "claude_modal": "PASS",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PARCIAL"
+      ],
+      "claude_verdicts": [
+        "PASS",
+        "PASS",
+        "PASS"
+      ]
+    },
+    {
+      "qid": "hp017",
+      "conducta": "answer",
+      "gpt_modal": "PARCIAL",
+      "claude_modal": "PARCIAL",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ],
+      "claude_verdicts": [
+        "PARCIAL",
+        "PASS",
+        "PARCIAL"
+      ]
+    },
+    {
+      "qid": "hp018",
+      "conducta": "answer",
+      "gpt_modal": "FALLO",
+      "claude_modal": "PARCIAL",
+      "agree": false,
+      "direction": "claude_looser",
+      "gpt_verdicts": [
+        "FALLO",
+        "PARCIAL",
+        "FALLO",
+        "FALLO",
+        "FALLO"
+      ],
+      "claude_verdicts": [
+        "PARCIAL",
+        "PARCIAL",
+        "PARCIAL"
+      ]
+    },
+    {
+      "qid": "hp019",
+      "conducta": "answer",
+      "gpt_modal": "PASS",
+      "claude_modal": "PASS",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
+      "claude_verdicts": [
+        "PASS",
+        "PASS",
+        "PASS"
+      ]
+    },
+    {
+      "qid": "hp020",
+      "conducta": "answer",
+      "gpt_modal": "PASS",
+      "claude_modal": "PASS",
+      "agree": true,
+      "direction": null,
+      "gpt_verdicts": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PARCIAL",
+        "PASS"
+      ],
+      "claude_verdicts": [
+        "PASS",
+        "PASS",
+        "PASS"
+      ]
+    }
+  ]
+}
