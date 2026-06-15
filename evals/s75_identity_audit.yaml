@@ -1,0 +1,750 @@
+meta:
+  at: '2026-06-15T19:48:54'
+  git: f1829e6
+  corpus: chunks_v2
+  proposito: 'audit-first DEC-054: medir escala (parte 1) y palanca eval (parte 2) del detector de identidad ANTES de decidir
+    build/defer/pivote'
+  metodo:
+    pm_compuesto: separador literal [/+&,] o ≥2 cores-modelo distintos (GENERIC_MODEL_RE) en la etiqueta
+    mis_atribucion: filename nombra ≥1 token-modelo cuyo core NO está en el product_model asignado (firma cat013, como el
+      filtro substring)
+    metadata_inconsistency: mismo core normalize_model(pm) con ≥2 labels crudas distintas
+    parte2: clasificación per-gold del fix real (s71 track2 + correcciones verificadas hp009/hp018=config, cat013=lever1-gated)
+  totales:
+    documents: 1170
+    chunks: 25090
+parte1_escala:
+  A_pm_compuesto:
+    n_docs: 78
+    n_chunks: 2371
+    por_fabricante:
+      Notifier: 67
+      Spectrex: 5
+      Morley: 3
+      Sensitron: 1
+      Pfannenberg: 1
+      System Sensor: 1
+    pms_compuestos_distintos_nivel_chunk: 33
+    ejemplos:
+    - mfr: Notifier
+      pm: RPT-485W/RPT-485WF
+      file: MNDT430.pdf
+      n_chunks: 16
+    - mfr: Notifier
+      pm: PARK 2000 / PARK 5000
+      file: MNDT530P.pdf
+      n_chunks: 3
+    - mfr: Notifier
+      pm: AM2020/AFP1010
+      file: MNDT285.pdf
+      n_chunks: 37
+    - mfr: Notifier
+      pm: GD-520-CO, GA-520-CO, GD-500-EP, GA-500-EP
+      file: MNDT605.pdf
+      n_chunks: 8
+    - mfr: Notifier
+      pm: S264O2GP / S290O2GP
+      file: MNDT619.pdf
+      n_chunks: 9
+    - mfr: Notifier
+      pm: Serie DOMÉSTICA (CAT/220, CAT/12, COMBIX/220, COMBIX/12)
+      file: MNDT655.pdf
+      n_chunks: 12
+    - mfr: Notifier
+      pm: S876xx / S877xx
+      file: MNDT656.pdf
+      n_chunks: 5
+    - mfr: Notifier
+      pm: S20/20SI
+      file: MNDT694.pdf
+      n_chunks: 47
+    - mfr: Notifier
+      pm: AFP-300/AFP-400
+      file: MPDT170.pdf
+      n_chunks: 60
+    - mfr: Notifier
+      pm: AM2020 and AFP1010
+      file: MPDT280.pdf
+      n_chunks: 127
+    - mfr: Notifier
+      pm: AM2020/AFP1010
+      file: MPDT281.pdf
+      n_chunks: 17
+    - mfr: Sensitron
+      pm: STS/CKD+
+      file: MT4508-CKDPLUS REV 0.pdf
+      n_chunks: 5
+    - mfr: Notifier
+      pm: CAT/220, CAT/12, COMBIX/220, COMBIX/12
+      file: MNDT655P.pdf
+      n_chunks: 0
+    - mfr: Notifier
+      pm: F50R / F100R
+      file: MNDT770.pdf
+      n_chunks: 17
+    - mfr: Spectrex
+      pm: 20/20U, 20/20UB
+      file: MNDT710_B.pdf
+      n_chunks: 49
+    - mfr: Spectrex
+      pm: 20/20I
+      file: MNDT700_C.pdf
+      n_chunks: 58
+    - mfr: Spectrex
+      pm: 20/20L, 20/20LB
+      file: MNDT720.pdf
+      n_chunks: 44
+    - mfr: Spectrex
+      pm: 20/20R
+      file: MNDT713.pdf
+      n_chunks: 51
+    - mfr: Notifier
+      pm: 5054/5064 (PAN-1)
+      file: MNDT1116
+      n_chunks: 0
+    - mfr: Notifier
+      pm: ID50/60
+      file: MIDT156
+      n_chunks: 155
+    - mfr: Notifier
+      pm: AFP-300/AFP-400
+      file: MIDT170
+      n_chunks: 246
+    - mfr: Notifier
+      pm: S40/40
+      file: TIDT105.pdf
+      n_chunks: 1
+    - mfr: Notifier
+      pm: NF30/NF50
+      file: NF30-50_Manuel_d'utilisation_lr.pdf
+      n_chunks: 1
+    - mfr: Notifier
+      pm: AFP-300/AFP-400
+      file: MFDT170
+      n_chunks: 67
+    - mfr: Notifier
+      pm: NF30/NF50
+      file: NF30-50_Manuel_d'utilisation_lr
+      n_chunks: 0
+    - mfr: Notifier
+      pm: AFP-300/AFP-400
+      file: 50253SP
+      n_chunks: 290
+    - mfr: Notifier
+      pm: ID50/60
+      file: MFDT156
+      n_chunks: 62
+    - mfr: Notifier
+      pm: S20/20SI
+      file: MNDT694
+      n_chunks: 0
+    - mfr: Notifier
+      pm: 20/20U, 20/20UB
+      file: MNDT710_B
+      n_chunks: 0
+    - mfr: Notifier
+      pm: MS-5210UD/MS-5210UDE
+      file: MNDT080
+      n_chunks: 196
+    - mfr: Notifier
+      pm: CAT/220, CAT/12, COMBIX/220, COMBIX/12
+      file: MNDT655P
+      n_chunks: 0
+    - mfr: Notifier
+      pm: AM2020 and AFP1010
+      file: MPDT280
+      n_chunks: 0
+    - mfr: Notifier
+      pm: AM2020/AFP1010
+      file: 15088SP
+      n_chunks: 342
+    - mfr: Notifier
+      pm: EFS/EM 8
+      file: MNDT012P
+      n_chunks: 0
+    - mfr: Notifier
+      pm: AM2020/AFP1010
+      file: 15037SP
+      n_chunks: 42
+    - mfr: Notifier
+      pm: ID50/60
+      file: MCDT156_A
+      n_chunks: 65
+    - mfr: Notifier
+      pm: AM2020/AFP1010
+      file: MNDT285
+      n_chunks: 0
+    - mfr: Notifier
+      pm: AFP-300/AFP-400
+      file: MPDT170
+      n_chunks: 0
+    - mfr: Pfannenberg
+      pm: DH500AC/DC
+      file: MIDT1041
+      n_chunks: 23
+    - mfr: Notifier
+      pm: 20/20L, 20/20LB
+      file: MNDT720
+      n_chunks: 0
+  B_mis_atribucion:
+    refined_catalog_first:
+      n_docs: 114
+      n_chunks: 1218
+      por_fabricante:
+        Morley: 54
+        Notifier: 25
+        Detnov: 15
+        LDA audioTech: 7
+        Securiton: 5
+        Pfannenberg: 4
+        System Sensor: 1
+        European Safety Systems: 1
+        Argus Security: 1
+        OGGIONI: 1
+      nota: 'titular: filename nombra un modelo RECONOCIDO por el catálogo (587) ausente del product_model — firma cat013
+        (SDX-751). Catalog-first (DEC-054), no el índice.'
+      ejemplos:
+      - mfr: Securiton
+        pm_asignado: ASD11
+        file: I56-3947-202_FAAST LT_MULTI
+        modelos_catalogo_en_filename:
+        - FAAST LT
+        n_chunks: 62
+      - mfr: Securiton
+        pm_asignado: ASD11
+        file: I56-6577-006_EN Notifier FAAST LT-200 QIG
+        modelos_catalogo_en_filename:
+        - FAAST LT-200
+        n_chunks: 31
+      - mfr: Detnov
+        pm_asignado: unknown
+        file: 55310600 Manual TCD-106 kit_ES
+        modelos_catalogo_en_filename:
+        - TCD-106
+        n_chunks: 10
+      - mfr: Securiton
+        pm_asignado: ASD11
+        file: I56-6577-006_ES FAAST Notifier LT-200 QIG
+        modelos_catalogo_en_filename:
+        - FAAST
+        - LT-200
+        n_chunks: 42
+      - mfr: Notifier
+        pm_asignado: unknown
+        file: MN-DT-951_v7.2
+        modelos_catalogo_en_filename:
+        - DT-951
+        n_chunks: 54
+      - mfr: Detnov
+        pm_asignado: unknown
+        file: TD 003 007a  Technische Dokumentation SecuriSens ADW 535-1 ATEX en
+        modelos_catalogo_en_filename:
+        - ADW-535-1
+        n_chunks: 0
+      - mfr: Notifier
+        pm_asignado: NFXI-FLX
+        file: A05-7030-000_B_ES_Notifier FAAST FLEX Addressable
+        modelos_catalogo_en_filename:
+        - FAAST FLEX
+        n_chunks: 83
+      - mfr: LDA audioTech
+        pm_asignado: unknown
+        file: ZES22S02-MU Manual de Usuario ZES-22 Rev 3.2
+        modelos_catalogo_en_filename:
+        - ZES-22
+        n_chunks: 11
+      - mfr: Notifier
+        pm_asignado: SMART 3G
+        file: SMART 3G ZONA 2 MTEX4805__SP Rev 3
+        modelos_catalogo_en_filename:
+        - MTEX-4805
+        n_chunks: 31
+      - mfr: System Sensor
+        pm_asignado: FAAST XM
+        file: I56-3836-006_FAAST_XM_8100E_ML
+        modelos_catalogo_en_filename:
+        - XM-8100E
+        n_chunks: 181
+      - mfr: Notifier
+        pm_asignado: NFXI-SMT3
+        file: I56-3390-002 NFX-SMT3_multi
+        modelos_catalogo_en_filename:
+        - NFX-SMT3
+        n_chunks: 10
+      - mfr: Securiton
+        pm_asignado: unknown
+        file: TD 003 006c_Technische Dokumentation_Externer Temperatursensor ART 535-x_es
+        modelos_catalogo_en_filename:
+        - ART 535-x
+        n_chunks: 20
+      - mfr: Detnov
+        pm_asignado: unknown
+        file: TCD-100 Tarjeta comunicadora a CRA ES GB
+        modelos_catalogo_en_filename:
+        - TCD-100
+        n_chunks: 27
+      - mfr: Morley
+        pm_asignado: F5000
+        file: F5K-Additional-Information-Spanish
+        modelos_catalogo_en_filename:
+        - F5K
+        n_chunks: 12
+      - mfr: Securiton
+        pm_asignado: unknown
+        file: ADW 535-1 ATEX_TD_003 007_en_a
+        modelos_catalogo_en_filename:
+        - ADW-535-1
+        n_chunks: 16
+      - mfr: Notifier
+        pm_asignado: B501
+        file: I56-0790-003_CPX-751E
+        modelos_catalogo_en_filename:
+        - CPX-751E
+        n_chunks: 15
+      - mfr: Detnov
+        pm_asignado: unknown
+        file: 55310008 Manual Tarjeta Modbus TMD-100 Instalacion ES FR GB IT
+        modelos_catalogo_en_filename:
+        - TMD-100
+        n_chunks: 2
+      - mfr: Notifier
+        pm_asignado: AM8200
+        file: UCIP MODBUS AM8200 V5.1
+        modelos_catalogo_en_filename:
+        - UCIP
+        n_chunks: 58
+      - mfr: LDA audioTech
+        pm_asignado: unknown
+        file: VAP1S0x-MU - Manual Usuario VAP rev3_1
+        modelos_catalogo_en_filename:
+        - VAP-1
+        n_chunks: 37
+      - mfr: Detnov
+        pm_asignado: unknown
+        file: LDA_ONE-LOOP_es_rev0
+        modelos_catalogo_en_filename:
+        - ONE-LOOP
+        n_chunks: 1
+      - mfr: European Safety Systems
+        pm_asignado: IS5001
+        file: IS5001-F_IS-mA1_EN
+        modelos_catalogo_en_filename:
+        - IS-mA1
+        n_chunks: 15
+      - mfr: Notifier
+        pm_asignado: MiniVista
+        file: HLSI-MA-202_01_Guia-MiniVista
+        modelos_catalogo_en_filename:
+        - MA-202
+        n_chunks: 6
+      - mfr: Detnov
+        pm_asignado: unknown
+        file: 55320102 Manual Buzzer Analogico PAD-10A ES FR GB IT (x8)
+        modelos_catalogo_en_filename:
+        - PAD-10A
+        n_chunks: 14
+      - mfr: Morley
+        pm_asignado: POL-200-TS
+        file: HLSI-MN-963_POL-200-TS
+        modelos_catalogo_en_filename:
+        - MN-963
+        n_chunks: 17
+      - mfr: Notifier
+        pm_asignado: unknown
+        file: MI-DT-951_V7.2
+        modelos_catalogo_en_filename:
+        - DT-951
+        n_chunks: 24
+      - mfr: LDA audioTech
+        pm_asignado: unknown
+        file: MPS8ZS02 - MU-MANUAL DE USUARIO SERIE MPS rev2
+        modelos_catalogo_en_filename:
+        - MPS 8Z
+        n_chunks: 25
+      - mfr: Argus Security
+        pm_asignado: unknown
+        file: Instruction Manual SGCWE100
+        modelos_catalogo_en_filename:
+        - SGCWE-100
+        n_chunks: 14
+      - mfr: Detnov
+        pm_asignado: unknown
+        file: 55315501 CAD150R Instalacion ES GB 191018
+        modelos_catalogo_en_filename:
+        - CAD-150R
+        n_chunks: 15
+      - mfr: Detnov
+        pm_asignado: unknown
+        file: 55310011- Tarjeta de Pasarela ES GB_FR_IT
+        modelos_catalogo_en_filename:
+        - '55310011'
+        n_chunks: 2
+      - mfr: Detnov
+        pm_asignado: unknown
+        file: Manual_PAD-20 (MU 591 m 2024 a)
+        modelos_catalogo_en_filename:
+        - PAD-20
+        n_chunks: 4
+      - mfr: Notifier
+        pm_asignado: F3000M
+        file: F3000M_Spanish User Guide_0044-047-02-ES
+        modelos_catalogo_en_filename:
+        - GUIDE-0044-047
+        n_chunks: 16
+      - mfr: OGGIONI
+        pm_asignado: unknown
+        file: TMP2_QRefnotiES_Rev_1_4_HLSI 2018
+        modelos_catalogo_en_filename:
+        - TMP2
+        n_chunks: 3
+      - mfr: Detnov
+        pm_asignado: unknown
+        file: 55315015_Guia_rapida_TED-151-CL_ES
+        modelos_catalogo_en_filename:
+        - TED-151
+        n_chunks: 1
+      - mfr: LDA audioTech
+        pm_asignado: unknown
+        file: LDA VCC-64 - Manual de Usuario
+        modelos_catalogo_en_filename:
+        - VCC-64
+        n_chunks: 11
+      - mfr: Detnov
+        pm_asignado: unknown
+        file: 55310007 Manual Tarjeta Expansion TRD-100 TSD-100 ES FR GB IT
+        modelos_catalogo_en_filename:
+        - TRD-100
+        n_chunks: 4
+      - mfr: Notifier
+        pm_asignado: NAS-1u
+        file: ETDT314
+        modelos_catalogo_en_filename:
+        - ETDT-314
+        n_chunks: 1
+      - mfr: Notifier
+        pm_asignado: RP1r
+        file: HLSI-MA-103_01_Itac
+        modelos_catalogo_en_filename:
+        - ITAC
+        n_chunks: 2
+      - mfr: Morley
+        pm_asignado: WW2001
+        file: 'D391 Issue 3 WW_WY_WR2001 '
+        modelos_catalogo_en_filename:
+        - WR-2001
+        n_chunks: 7
+      - mfr: Notifier
+        pm_asignado: NAS-2
+        file: ETDT312
+        modelos_catalogo_en_filename:
+        - ETDT-312
+        n_chunks: 1
+      - mfr: Morley
+        pm_asignado: unknown
+        file: MIE-MA-100_02P.pdf
+        modelos_catalogo_en_filename:
+        - MIE-MA-100
+        n_chunks: 0
+      - mfr: Morley
+        pm_asignado: unknown
+        file: MIE-MA-100_01.pdf
+        modelos_catalogo_en_filename:
+        - MIE-MA-100
+        n_chunks: 19
+      - mfr: Morley
+        pm_asignado: unknown
+        file: MIE-MA-100_02.pdf
+        modelos_catalogo_en_filename:
+        - MIE-MA-100
+        n_chunks: 11
+      - mfr: Detnov
+        pm_asignado: unknown
+        file: SGD-151 MC-399 es.pdf
+        modelos_catalogo_en_filename:
+        - SGD-151
+        n_chunks: 26
+      - mfr: Morley
+        pm_asignado: unknown
+        file: E56-6515ES-000_Morley_MI-OSI-RIE_Installation_Guide.pdf
+        modelos_catalogo_en_filename:
+        - MI-OSI-RIE
+        n_chunks: 36
+      - mfr: Morley
+        pm_asignado: unknown
+        file: MIEMA130.pdf
+        modelos_catalogo_en_filename:
+        - MIEMA-130
+        n_chunks: 2
+      - mfr: Morley
+        pm_asignado: unknown
+        file: DXC-Connexion-Compatibilidad-de-programas-con-versiones.pdf
+        modelos_catalogo_en_filename:
+        - DXc Connexion
+        n_chunks: 1
+      - mfr: Morley
+        pm_asignado: unknown
+        file: Averia-de-resistencia-de-baterias-en-central-DXc.pdf
+        modelos_catalogo_en_filename:
+        - DXc
+        n_chunks: 1
+      - mfr: Morley
+        pm_asignado: unknown
+        file: Con-que-Sistema-Operativo-es-compatible-el-programa-de-la-DXc-Connexion.pdf
+        modelos_catalogo_en_filename:
+        - DXc Connexion
+        n_chunks: 1
+      - mfr: Morley
+        pm_asignado: unknown
+        file: DXC-No-puedo-comunicar-con-la-central.pdf
+        modelos_catalogo_en_filename:
+        - DXc
+        n_chunks: 1
+      - mfr: Morley
+        pm_asignado: B501AP
+        file: DXC-Como-conectar-una-sirena-de-lazo.pdf
+        modelos_catalogo_en_filename:
+        - DXc
+        n_chunks: 1
+      - mfr: Morley
+        pm_asignado: unknown
+        file: DXc-Conexion-Como-solucionar-la-averia-de-Estado-Inconsistente-Anulado.pdf
+        modelos_catalogo_en_filename:
+        - DXc
+        n_chunks: 1
+      - mfr: Morley
+        pm_asignado: unknown
+        file: DXc-Configuracion-de-la-tarjeta-232-aislada-para-comunicarse-con-el-TG.pdf
+        modelos_catalogo_en_filename:
+        - DXc
+        n_chunks: 1
+      - mfr: Morley
+        pm_asignado: unknown
+        file: DXC-Connexion-Ajuste-contraste-display.pdf
+        modelos_catalogo_en_filename:
+        - DXc Connexion
+        n_chunks: 1
+      - mfr: Morley
+        pm_asignado: unknown
+        file: DXC-Connexion-Averia-F-Alimentacion-externa.pdf
+        modelos_catalogo_en_filename:
+        - DXc Connexion
+        n_chunks: 1
+      - mfr: Morley
+        pm_asignado: unknown
+        file: DXC-Connexion-Averia-Nueva-F-Alimentacion-externa.pdf
+        modelos_catalogo_en_filename:
+        - DXc Connexion
+        n_chunks: 1
+      - mfr: Morley
+        pm_asignado: unknown
+        file: DXC-Connexion-Como-programar-una-salida-de-averia-general.pdf
+        modelos_catalogo_en_filename:
+        - DXc Connexion
+        n_chunks: 1
+      - mfr: Morley
+        pm_asignado: unknown
+        file: DXc-Connexion-Como-solucionar-la-averia-de-Ent-Placa-1-o-2.pdf
+        modelos_catalogo_en_filename:
+        - DXc Connexion
+        n_chunks: 1
+      - mfr: Morley
+        pm_asignado: unknown
+        file: DXC-Connexion-Instalacion-y-configuracion-del-modulo-de-comunicacion-RS232.pdf
+        modelos_catalogo_en_filename:
+        - DXc Connexion
+        n_chunks: 1
+      - mfr: Morley
+        pm_asignado: unknown
+        file: DXC-Referencias-repuestos.pdf
+        modelos_catalogo_en_filename:
+        - DXc
+        n_chunks: 1
+      - mfr: Morley
+        pm_asignado: unknown
+        file: Compatibilidad-detectores-de-monoxido-NCO10-NCO100-VSN-CO.pdf
+        modelos_catalogo_en_filename:
+        - NCO-10
+        - VSN-CO
+        n_chunks: 1
+    raw_regex_CONTAMINADO:
+      n_docs: 368
+      n_chunks: 9192
+      por_fabricante:
+        Notifier: 264
+        Morley: 59
+        Detnov: 23
+        Spectrex: 5
+        Securiton: 5
+        Honeywell: 3
+        LDA audioTech: 2
+        Sensitron: 1
+        System Sensor: 1
+        Pfannenberg: 1
+        Argus Security: 1
+        COELBO: 1
+        Xtralis: 1
+        Kidde: 1
+      nota: 'SOBRE-CUENTA: el regex genérico parsea códigos de manual (MNDT-430, MPDT-280) como modelos. NO usar como cifra
+        de escala — solo referencia.'
+  C_metadata_inconsistency:
+    n_clusters: 18
+    ejemplos:
+    - mfr: Morley
+      core: nfssupra
+      labels:
+      - NFS Supra
+      - NFS-SUPRA
+      - NFS-Supra
+    - mfr: Notifier
+      core: smart3
+      labels:
+      - SMART 3
+      - SMART-3
+      - SMART3
+    - mfr: Morley
+      core: rp1r
+      labels:
+      - RP1R
+      - RP1r
+    - mfr: Morley
+      core: tghoneywell
+      labels:
+      - TG-HONEYWELL
+      - TG-Honeywell
+    - mfr: Morley
+      core: tgip1sec
+      labels:
+      - TG-IP-1-SEC
+      - TG-IP1-SEC
+    - mfr: Notifier
+      core: id200
+      labels:
+      - ID-200
+      - ID200
+    - mfr: Notifier
+      core: securnetplus
+      labels:
+      - SECURNET PLUS
+      - SecurNet Plus
+    - mfr: Notifier
+      core: smart3g
+      labels:
+      - SMART 3G
+      - SMART3G
+    - mfr: Notifier
+      core: id3000
+      labels:
+      - ID-3000
+      - ID3000
+    - mfr: Notifier
+      core: rp1r
+      labels:
+      - RP1R
+      - RP1r
+    - mfr: Notifier
+      core: am8200
+      labels:
+      - AM-8200
+      - AM8200
+    - mfr: Notifier
+      core: faastlt
+      labels:
+      - FAAST LT
+      - FAAST-LT
+    - mfr: Notifier
+      core: nfssupra
+      labels:
+      - NFS Supra
+      - NFS-SUPRA
+    - mfr: Notifier
+      core: am8100
+      labels:
+      - AM 8100
+      - AM-8100
+    - mfr: Notifier
+      core: pol200ts
+      labels:
+      - POL-200-TS
+      - POL200TS
+    - mfr: Notifier
+      core: faast
+      labels:
+      - FAAST
+      - faast-
+    - mfr: Notifier
+      core: am8200n
+      labels:
+      - AM 8200N
+      - AM-8200N
+    - mfr: Xtralis
+      core: firebeamxtra
+      labels:
+      - Firebeam XTRA
+      - Firebeam Xtra
+parte2_palanca_eval:
+  buckets:
+    lever1_pool_starvation: 9
+    config_seam_identity: 2
+    detector_mis_attribution_lever1_gated: 1
+    keyword: 1
+    rerank: 1
+    corpus_gap: 1
+    generation: 1
+    diversify: 1
+  detector_net_golds:
+  - cat013
+  lectura: 'NET atribuible al DETECTOR de datos = los golds en ''detector_mis_attribution_*''. hp009/hp018 son CONFIG (Brazo
+    A, ya construido), no el detector. cat013 (el único mis-attribution) está Lever-1-gated. → confirma DEC-054: ~0 de los
+    retrieval-miss; el detector es ORTOGONAL a la inanición del pool (= Lever 1).'
+  per_gold:
+    cat001:
+      bucket: lever1_pool_starvation
+      nota: diversify supplement; merge
+    cat007:
+      bucket: lever1_pool_starvation
+      nota: broad-fallback 5→50; stamps-dedup
+    cat008:
+      bucket: generation
+      nota: conflicto entre 2 fuentes servidas; NO retrieval-fixable
+    cat013:
+      bucket: detector_mis_attribution_lever1_gated
+      nota: SDX-751→LOCAL-360 mis-attribution; pm-rescue NO-OP hasta Lever 1 (s72 verify, DEC-052/053)
+    cat016:
+      bucket: lever1_pool_starvation
+      nota: keyword order+limit; donde_muere=merge, not in pool50
+    cat017:
+      bucket: lever1_pool_starvation
+      nota: vector-floor; stamps-dedup-pisa (merge)
+    cat021:
+      bucket: diversify
+      nota: variant-aware diversify (diferido)
+    hp001:
+      bucket: lever1_pool_starvation
+      nota: diversify within-doc; frontier k>50
+    hp002:
+      bucket: lever1_pool_starvation
+      nota: broad-fallback 5→50 (frontier k>50); s74 gate-0 STRONG
+    hp003:
+      bucket: rerank
+      nota: RERANK_PREVIEW_CHARS 800→2400 (Lever 1 batch 2c)
+    hp006:
+      bucket: keyword
+      nota: keyword-strip de tokens de identidad antes del cap [:3] (Lever C, diferido)
+    hp008:
+      bucket: lever1_pool_starvation
+      nota: broad-fallback 5→50; s74 gate-0 STRONG
+    hp009:
+      bucket: config_seam_identity
+      nota: alias ZXe→[ZX2e,ZX5e] en morley.yaml (Brazo A, DEC-053); compound w/ pool starvation
+    hp011:
+      bucket: lever1_pool_starvation
+      nota: vector deepening 51-80; frontier k>50
+    hp013:
+      bucket: lever1_pool_starvation
+      nota: broad-fallback 5→50; merge, not in pool50
+    hp017:
+      bucket: corpus_gap
+      nota: 'section-sibling rescue (TECH_DEBT #48)'
+    hp018:
+      bucket: config_seam_identity
+      nota: 'series: e-series en morley.yaml (Brazo A, DEC-053)'

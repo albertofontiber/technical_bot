@@ -1839,6 +1839,23 @@ bloque — el escritor debe NORMALIZAR `product_model` + poblar `product_family`
 NO dimensionada (= el coste dominante real del backfill); raíz de datos = parte del contrato de ingesta
 (#44/#45), lift grande gated.
 
-**Relacionado**: DEC-053 (Brazo A = primer caso curado a mano), DEC-043/#43 capa B (seam + escritor),
-#21 (product_family), #18-mfr (atribución/etiquetas), #44/#45 (contratos de ingesta), #47. Scan reproducible:
-self-join de `chunks_v2` por `lower(regexp_replace(product_model,'[- ]','',''))` con `LIKE`.
+**Medición s75 (audit-first, DEC-057 — `scripts/s75_identity_audit.py`):** Alberto eligió medir antes de construir.
+Resultado: **el detector tiene ~0 palanca eval real → DIFERIDO a su gatillo (ingesta-30+); NO se construye como lever.**
+- **Palanca eval ≈0** (lo decisivo): de los 17 NO-PASS de retrieval (s71 track2), el detector toca SOLO **cat013** — y
+  cat013 es gold de **CONDUCTA** (`refuse-inference` cross-marca, verificado en `gold_answers_v1.yaml`), no de
+  retrieval-recall: el detector no lo arregla y podría EMPEORARLO. hp009/hp018 son **config** (e-series, Brazo A), no el
+  detector. Confirma que la identidad es ORTOGONAL al cuello medido (Lever 1).
+- **Escala = real pero ACOTADA, en PROXIES RUIDOSOS (no pisos medidos)**: pm-compuesto **78 etiquetas** (sobre-cuenta:
+  `20/20I`, `DH500AC/DC` son modelos únicos con `/`); mis-atribución **≤114 docs** (crudo 368 CONTAMINADO — el regex y el
+  catálogo `model_catalog.json` MISMO heredan códigos de manual `MNDT-xxx` como pseudo-modelos = **la circularidad que
+  este #49 / DEC-054 predijo**; el refinado ≤114 sigue con residual `GUIDE-`/SKU); metadata-inconsistency **18 clusters**.
+  Concentrado en **3-4 marcas legacy** (Notifier/Morley/Detnov), no corpus-wide.
+- **El sizing EXACTO de la mis-atribución requiere lectura de CONTENIDO = el propio detector** (la circularidad). Sin
+  freeze-contract del corpus/catálogo, 78/≤114/18 se mueven sin traza. **Dúo Opus+GPT-5.5 (0 FP)** confirmó DIFERIR.
+- **Implicación**: el saneo del dato se hace EN el contrato de ingesta (#44/#45/escritor), NO a posteriori como lever;
+  el detector se justifica solo como prep de escala al gatillo, no por golds. La curación a mano sigue siendo el tapón.
+
+**Relacionado**: DEC-057 (audit-first → DIFERIR, cifras medidas), DEC-053 (Brazo A = primer caso curado a mano),
+DEC-043/#43 capa B (seam + escritor), #21 (product_family), #18-mfr (atribución/etiquetas), #44/#45 (contratos de
+ingesta), #47. Scan reproducible: self-join de `chunks_v2` por `lower(regexp_replace(product_model,'[- ]','',''))` con
+`LIKE`, o `scripts/s75_identity_audit.py` (pm-compuesto + mis-atribución catalog-first + inconsistencia + cruce eval).

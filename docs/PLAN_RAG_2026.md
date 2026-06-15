@@ -3,12 +3,12 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 15 jun 2026 (s74, DEC-056 — **Lever 1 BATCH** [2a broad-fallback + 2b keyword-order + 2c
-> reranker-window@2400] construido tras flags inertes + gate-0 judge-free = lift de retrieval
-> **REAL pero MODESTO** [solo hp008/hp002 fuertes; ~3-4 regresiones incl. PASS-control] →
-> **BANCADO, no shipped; A/B con juez DIFERIDO**. El mapa de NO-PASS muestra que el cuello de
-> retrieval se **FRAGMENTÓ** → siguiente bloque = la **RAÍZ DE DATOS** [detector de identidad
-> DEC-054 + backfill `product_model`], NO más levers de retrieval).
+> 15 jun 2026 (s75, DEC-057 — **audit-first de la raíz de identidad**: el detector de identidad
+> DEC-054 tiene **~0 palanca eval real** [el único gold que parecía suyo, cat013, es de CONDUCTA
+> refuse-inference, no de retrieval; hp009/hp018 son config] → **DIFERIDO a su gatillo ingesta-30+**,
+> NO se construye como lever. Escala del problema de datos = real pero acotada y en proxies ruidosos.
+> Dúo Opus+GPT-5.5 0 FP confirmó DIFERIR + corrigió el framing. **Siguiente (s76) = revisión EXHAUSTIVA
+> en ultracode de cómo recuperar NO-PASS de forma ESTRUCTURAL, no overfitting**).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -27,7 +27,24 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s74 — 15 jun 2026)
+## Estado actual (s75 — 15 jun 2026)
+
+**s75 (DEC-057): audit-first de la raíz de identidad (DEC-054) = el detector tiene ~0 palanca eval real → DIFERIDO
+a su gatillo (ingesta-30+), NO se construye como lever.** Alberto eligió medir antes de decidir build/defer/pivote.
+El audit ($0, read-only, `scripts/s75_identity_audit.py` → `evals/s75_identity_audit.yaml`): **(1) palanca eval ≈0** —
+de los 17 NO-PASS de retrieval (s71 track2), el detector toca SOLO cat013, y cat013 es gold de **CONDUCTA**
+(`refuse-inference` cross-marca, verificado en `gold_answers_v1.yaml`) que el detector no arregla y podría EMPEORAR;
+hp009/hp018 son **CONFIG** (e-series en `morley.yaml`, Brazo A ya construido), no el detector → confirma DEC-054
+(identidad ⊥ inanición del pool) y refina hacia abajo el sub-claim "eval-medible cat013/hp009/hp018" de DEC-056(f).
+**(2) escala = real pero ACOTADA, en proxies ruidosos** (no pisos): 78 etiquetas separador-aparente (sobre-cuenta:
+`20/20I`), ≤114 docs mis-atribución (crudo 368 contaminado por códigos de manual que el catálogo MISMO heredó =
+la circularidad que DEC-054 predijo), 18 clusters inconsistencia; concentrado en 3-4 marcas legacy (Notifier/Morley/Detnov).
+**Dúo (sub-agente Opus + cross-model GPT-5.5, ronda FRESCA, 0 FP, fuerte convergencia):** confirma DIFERIR, corrige mi
+FRAMING (sesgo #38/#39/#40: "≈0 medido/completo/BP" → honesto: 17/29 examinados, cat013=conducta, escala=proxy ruidoso,
+falta freeze-contract). DIFERIR = gate/audit-primero funcionando (no construir aparato de 0 palanca antes del gatillo).
+1 dúo, 0 FP. Rama `eval/s75-identity-audit` → PR.
+
+### Antecedente s74 (DEC-056)
 
 **s74 (DEC-056): Lever 1 BATCH (cluster de inanición del pool) CONSTRUIDO tras flags inertes + gate-0
 judge-free = lift de retrieval REAL pero MODESTO → BANCADO (no shipped), A/B con juez DIFERIDO; el cuello
@@ -153,20 +170,22 @@ actual NO distingue fiable un win de +1/+2. Endurecerlo (dual-judge, s47§D) ser
 prerrequisito de MÁS lever-work; gated a "¿vale sin técnicos reales?" (lean: esperar al
 eval orgánico).
 
-## Qué sigue (s74 — la RAÍZ DE DATOS, no más levers de retrieval)
+## Qué sigue (s76 — revisión ESTRUCTURAL de NO-PASS en ultracode, no overfitting)
 
-**Por qué cambia el rumbo (s74):** el mapa de NO-PASS + el gate-0 del batch muestran que el cuello de
-retrieval se FRAGMENTÓ — Lever 1 ayuda 2 golds fuerte (hp008/hp002), 5 marginal (+1, sub-suelo de ruido)
-y regresa ~3-4. Picar el residual disperso re-entra en la fase de levers-baratos que DEC-051e cerró. El
-valor real está en las **raíces de datos del SWAP** (eval-medibles vía el filtro DENTRO del retrieval) +
-endurecer el ruler.
+**Decidido con Alberto (s75):** la próxima sesión = **revisión EXHAUSTIVA en ultracode** de cómo recuperar los
+golds NO-PASS de forma **ESTRUCTURAL (no overfitting)**. El audit s75 cerró la rama "detector de identidad como
+lever" (≈0 palanca → DIFERIDO). El reto de s76: **confrontar de frente que DEC-051e declaró agotada la fase de
+levers-baratos** — ¿hay una clase de fix ESTRUCTURAL que esa fase NO agotó (raíz-de-datos / arquitectura de
+generación / arquitectura de retrieval), distinguible del overfitting del ruler? Restricciones que la revisión
+debe respetar: el **±2 del ruler** (dual-judge = prerrequisito si se mide un win pequeño, DEC-051d), el prior
+**"fase agotada"** (no re-litigar sin sustrato nuevo — lección dúo s75), y el **mapa de 29 NO-PASS** de s74
+(~16 retrieval + 5 generación + 4 corpus-gap + 2 borderline + 1 diseño + 1 gold-injusto). Entregable: un plan
+priorizado de fixes estructurales con su test de no-overfitting (held-out + ¿generaliza a la clase, no al gold?).
 
-1. **Siguiente bloque = detector de identidad (DEC-054) + backfill `product_model`** (la raíz de #49/#43).
-   El pm COMPUESTO rompe en DOS sitios: el gate del handler (prod, eval-invisible) **Y** el filtro de modelo
-   `_filter_to_query_models` DENTRO del retrieval (**eval-MEDIBLE**: cat013/hp009/hp018 mueren ahí). Partir el
-   pm vía el detector-LLM-en-ingesta arregla ambos de raíz, es eval-medible, y es la MISMA herramienta de
-   escala 30+ (prep F2, no desechable). Diseño + dúo + plan de backfill (con re-baseline del freeze). Beneficio
-   eval modesto (~3 golds) → se justifica como **prep de escala**, no como lever de 3 golds.
+1. **Detector de identidad (DEC-054): DIFERIDO** a su gatillo (ingesta-30+) — audit s75/DEC-057 midió ~0 palanca
+   eval (cat013 es gold de conducta, no de retrieval; hp009/hp018 son config). NO construir como lever; sigue
+   siendo prep de escala F2 al gatillo. El problema de datos (78 pm-compuesto / ≤114 mis-atribución / 18
+   inconsistencia, proxies ruidosos, 3-4 marcas legacy) se sanea EN el contrato de ingesta, no a posteriori.
 2. **Batch Lever 1 BANCADO tras flags** (`LEVER1_BROAD_FALLBACK`/`LEVER1_KEYWORD_ORDER`/`RERANK_PREVIEW_CHARS=2400`,
    default OFF, reversible): lift de retrieval confirmado pero modesto + colateral (cat022). NO shippear; el A/B
    con juez espera al ruler que importe (eval orgánico / dual-judge). Valor estructural demostrado por el gate-0.
