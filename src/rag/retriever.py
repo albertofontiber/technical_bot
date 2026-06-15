@@ -402,15 +402,25 @@ def keyword_search(
     if not pattern:
         return []
 
+    params = {
+        "product_model": f"imatch.{pattern}",
+        "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,language,has_diagram,diagram_url,source_file,page_number,document_id",
+        "limit": str(limit),
+    }
+    # s74 Lever 1 / 2b (LEVER1_KEYWORD_ORDER, default off = inerte): sin flag el GET no lleva
+    # `order` → los `limit` devueltos son orden FÍSICO arbitrario (PostgREST sin ORDER BY) y el
+    # chunk model-correcto en posición física >5 nunca entra (cat016 §3.3). Con flag: `order`
+    # DETERMINISTA neutral (page_number,id — anti-flapping; NO content_type, que ordena alfabético
+    # y entierra todo bajo 'general' — verificado s74) + limit alto; diversify+reranker seleccionan.
+    if os.getenv("LEVER1_KEYWORD_ORDER", "").strip().lower() in ("1", "true", "yes", "on"):
+        params["order"] = "page_number.asc,id.asc"
+        params["limit"] = "15"
+
     with httpx.Client(timeout=15.0) as client:
         resp = client.get(
             f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
             headers=headers,
-            params={
-                "product_model": f"imatch.{pattern}",
-                "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,language,has_diagram,diagram_url,source_file,page_number,document_id",
-                "limit": str(limit),
-            },
+            params=params,
         )
         resp.raise_for_status()
 
@@ -1099,8 +1109,15 @@ def retrieve_chunks(
         ))
         # Broad search without category (only if category was auto-detected)
         if detected_category and not category_filter and not _li_sano:
+            # s74 Lever 1 / 2a (LEVER1_BROAD_FALLBACK, default off = limit 5, inerte): el broad-
+            # fallback capeado a 5 = top-5 GLOBAL sin filtro-modelo → el chunk model-correcto
+            # (rank 13-33) no entra al pool. Con flag: effective_top_k para que el canal vectorial
+            # sano alcance su profundidad real. Aditivo-en-cabeza bajo stamps (cosenos 0.5x <
+            # stamps keyword 0.65); reordenable-en-cola para coseno>0.65 — el reranker re-selecciona.
+            _broad_limit = effective_top_k if os.getenv(
+                "LEVER1_BROAD_FALLBACK", "").strip().lower() in ("1", "true", "yes", "on") else 5
             vector_futures.append(pool.submit(
-                vector_search, query, 5, threshold,
+                vector_search, query, _broad_limit, threshold,
                 product_filter, None, query_embedding,
             ))
         for f in vector_futures:
