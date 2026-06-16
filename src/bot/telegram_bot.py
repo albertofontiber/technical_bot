@@ -313,16 +313,29 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     return
                 # else: correct manufacturer + model → fall through to RAG
             else:
-                # Model not found in DB at all
-                available = get_available_manufacturers()
-                manufacturers_str = ", ".join(f"*{m}*" for m in available)
-                await update.message.reply_text(
-                    f"No tengo información sobre el modelo *{model}*.\n\n"
-                    f"Tengo manuales de: {manufacturers_str}.\n"
-                    f"¿Puedo ayudarte con alguno de estos fabricantes?",
-                    parse_mode="Markdown",
-                )
-                return
+                # Model not in the product_model index. That index is KNOWN to be
+                # desynced from the corpus (TECH_DEBT #49: marketing FAMILY vs stored
+                # VARIANT — CAD-150 vs CAD-150-8, ZXe vs ZX2e/ZX5e, 40/40 vs 40-40L/M).
+                # So None here does NOT mean "we lack this product". If we HAVE the
+                # mentioned manufacturer's manuals, fall through to RAG and let
+                # retrieval + the generator's conduct rules resolve it; hard-refuse
+                # only when the manufacturer itself is absent. (s77/DEC-059 — measured
+                # judge-free: scripts/s77_fallthrough_measure.py + s77_regression_probes.py
+                # → fall-through gives correct-mfr answer / refuse-inference / clarify,
+                # never cross-brand hallucination; absent or near-miss model under a
+                # known brand still admits no-info. The model-index is an unreliable
+                # oracle for availability; retrieval+generator see the real content.)
+                if not manufacturer_in_db(mentioned_manufacturer):
+                    available = get_available_manufacturers()
+                    manufacturers_str = ", ".join(f"*{m}*" for m in available)
+                    await update.message.reply_text(
+                        f"No dispongo de manuales de _{mentioned_manufacturer}_.\n\n"
+                        f"Tengo información de: {manufacturers_str}.\n"
+                        f"¿Puedo ayudarte con alguno de estos?",
+                        parse_mode="Markdown",
+                    )
+                    return
+                # else: manufacturer IS in DB → fall through to RAG (model index desynced)
         else:
             # No model code, just a manufacturer name mentioned
             if not manufacturer_in_db(mentioned_manufacturer):

@@ -1,0 +1,703 @@
+meta:
+  proposito: Cierra huecos de medición del dúo s77 (vecino / ausente-cola / compuesto). reach != PASS.
+  metodo: K-mayoría=3; réplica _process_query; baseline prod-inerte (LEVER2_* OFF, preview 800, chunks_v2).
+  clases: vecino=modelo inexistente cerca de familia real; ausente-cola=inexistente marca minoritaria;
+    compuesto-cross-brand=marca A + model0 desinc + modelo B.
+resultados:
+- id: neighbor_detnov_cad151
+  clase: vecino
+  q: Tengo una central Detnov CAD-151 y necesito saber cómo se conectan las baterías de 24V.
+  model_extraido: CAD-151
+  lookup: null
+  fiel_a_optionD: true
+  K: 3
+  runs:
+  - answer: 'El modelo **CAD-151** no aparece en ninguno de los fragmentos recuperados. Los fragmentos
+      disponibles cubren los modelos **CAD-201**, **CAD-250**, **CCD-100**, **IDP-LB1** y **NC Series**,
+      todos de conexionado de baterías, pero ninguno corresponde a la CAD-151.
+
+
+      No puedo darte el procedimiento específico de la CAD-151 sin su manual, ya que los detalles de conexionado
+      (terminales, conector en placa, capacidad de baterías admitida) pueden diferir entre modelos.
+
+
+      **¿Qué hacer?**
+
+      Consulta directamente el manual de instalación de la CAD-151 de Detnov, o contacta con el soporte
+      técnico de Detnov para obtener la documentación correcta.
+
+
+      ---
+
+
+      > **Nota:** Si en tu instalación tienes en realidad una **CAD-201** o una **CAD-250**, puedo darte
+      el procedimiento completo de conexión de baterías para esos modelos, que sí están documentados en
+      mi base.'
+    top_mfrs:
+    - Detnov
+    - Detnov
+    - Notifier
+    - Detnov
+    - Kidde
+    top_models:
+    - CAD-201
+    - CAD-250
+    - IDP-LB1
+    - CCD-100
+    - NC
+  - answer: 'La pregunta es sobre la **CAD-151**, pero los fragmentos recuperados no contienen documentación
+      de ese modelo. Los fragmentos disponibles corresponden a otros productos: CAD-201, CAD-250, CCD-100,
+      IDP-LB1 y NC Series.
+
+
+      ¿Puedes confirmar el modelo exacto de tu central? Es posible que sea una **CAD-201** o **CAD-250**
+      — si es así, puedo darte el procedimiento de conexión de baterías detallado para ese modelo.'
+    top_mfrs:
+    - Detnov
+    - Detnov
+    - Notifier
+    - Detnov
+    - Kidde
+    top_models:
+    - CAD-201
+    - CAD-250
+    - IDP-LB1
+    - CCD-100
+    - NC
+  - answer: 'La pregunta es sobre la **CAD-151**, pero los fragmentos recuperados no contienen documentación
+      de ese modelo. Los fragmentos disponibles corresponden a otros productos: CAD-201, CAD-250, CCD-100,
+      IDP-LB1 y NC Series.
+
+
+      No puedo darte el procedimiento de conexión de baterías específico de la CAD-151 sin su manual,
+      ya que los valores, conectores y pasos pueden diferir entre modelos.
+
+
+      **¿Qué puedes hacer?**
+
+      - Consulta directamente el manual de instalación de la CAD-151 de Detnov.
+
+      - Contacta con el soporte técnico de Detnov para obtener la documentación correcta.
+
+
+      ---
+
+
+      Si lo que tienes en realidad es una **CAD-201** o una **CAD-250**, puedo darte el procedimiento
+      completo de conexión de baterías para esos modelos, que sí están disponibles en mi base documental.'
+    top_mfrs:
+    - Detnov
+    - Detnov
+    - Notifier
+    - Detnov
+    - Kidde
+    top_models:
+    - CAD-201
+    - CAD-250
+    - IDP-LB1
+    - CCD-100
+    - NC
+- id: neighbor_morley_zx9e
+  clase: vecino
+  q: ¿Cuál es la resistencia de fin de línea recomendada para los lazos de la central Morley ZX9e?
+  model_extraido: null
+  lookup: null
+  fiel_a_optionD: false
+  K: 3
+  runs:
+  - answer: 'La pregunta menciona la **ZX9e**, pero los fragmentos recuperados no contienen información
+      específica de ese modelo. Los fragmentos disponibles cubren las centrales ZXAE/ZXEE [F1], ZX-50
+      [F2], ZX2e/ZX5e [F3], HRZ2-8 [F4] y VSN 2-4 [F5].
+
+
+      ¿Qué modelo exacto estás usando? ¿Es posible que sea una **ZX2e**, **ZX5e** u otra variante de la
+      gama ZX? Si puedes confirmar el modelo (está en la etiqueta frontal del panel), te doy la información
+      exacta.'
+    top_mfrs:
+    - Morley
+    - Morley
+    - Morley
+    - Morley
+    - Morley
+    top_models:
+    - ZXAE/ZXEE
+    - ZX-50
+    - ZX2e/ZX5e
+    - HRZ2-8
+    - VSN 2-4
+  - answer: 'No tengo ese dato en los fragmentos recuperados.
+
+
+      Los fragmentos disponibles incluyen información de cableado de lazo para la **ZX-50** (resistencia
+      total del lazo inferior a **40 ohmios** [F5]), pero ningún fragmento hace referencia a la central
+      **ZX9e** ni a su resistencia de fin de línea.
+
+
+      Consulta directamente el manual de instalación de la **ZX9e** o contacta con el soporte técnico
+      de Morley-IAS para obtener el valor correcto.
+
+
+      ---
+
+
+      Fuente: MIE-MI-300 rev. 2 (referencia parcial, solo aplicable a ZX-50, no a ZX9e)'
+    top_mfrs:
+    - Aritech
+    - Morley
+    - Notifier
+    - Aritech
+    - Morley
+    top_models:
+    - 2X-A
+    - TG
+    - AM-8200
+    - 2X-A
+    - ZX-50
+  - answer: 'No tengo ese dato en los fragmentos recuperados.
+
+
+      Los fragmentos disponibles incluyen información de cableado de lazo para la **ZX-50** (resistencia
+      total del lazo inferior a **40 Ω** [F5]), pero ningún fragmento hace referencia a la central **ZX9e**
+      ni a su resistencia de fin de línea.
+
+
+      Consulta directamente el manual de instalación de la **ZX9e** o contacta con el soporte técnico
+      de Morley-IAS para obtener el valor correcto.
+
+
+      ---
+
+
+      Fuente: MIE-MI-300 rev. 2 (referencia parcial, solo aplicable a ZX-50, no a ZX9e)'
+    top_mfrs:
+    - Aritech
+    - Morley
+    - Notifier
+    - Aritech
+    - Morley
+    top_models:
+    - 2X-A
+    - TG
+    - AM-8200
+    - 2X-A
+    - ZX-50
+- id: neighbor_spectrex_4041
+  clase: vecino
+  q: Necesito un detector de llama SharpEye Spectrex 40/41R para una instalación; ¿qué referencia pido?
+  model_extraido: null
+  lookup: null
+  fiel_a_optionD: false
+  K: 3
+  runs:
+  - answer: 'El detector que mencionas es el **SharpEye 40/40R Single IR Flame Detector** de Spectrex.
+      La referencia completa se construye con el código **40/40R-XXXXX**, donde cada posición define una
+      característica específica [F2].
+
+
+      Según el esquema de codificación [F1], necesitas definir los 5 dígitos en este orden:
+
+
+      **Posición 1 — Configuración de cableado (Wiring Configuration):**
+
+      Ver Tabla 1 del manual [F1] — hay 5 opciones disponibles [F5]. Debes indicar cuál necesitas (1 a
+      5).
+
+
+      **Posición 2 — Rango de temperatura:**
+
+      - **1** → hasta **75°C** (–55°C ≤ Ta ≤ +75°C)
+
+      - **2** → hasta **85°C** (–55°C ≤ Ta ≤ +85°C)
+
+
+      **Posición 3 — Entradas de cable (Electrical Entries):**
+
+      - **1** → M25
+
+      - **2** → ¾" NPT
+
+
+      **Posición 4 — Material de carcasa (Housing):**
+
+      - **S** → Acero inoxidable (Stainless Steel)
+
+      - **A** → Aluminio ⚠️ *No disponible en versión FM* [F1]
+
+
+      **Posición 5 — Certificación (Ex-Approval):**
+
+      - **B** → Inmetro
+
+      - **F** → FM/CSA
+
+      - **C** → ATEX/IECEx
+
+      - **R** → TR-CU
+
+
+      ---
+
+
+      **Ejemplo de referencia completa:** `40/40R-11SC` sería: opción de cableado 1, temperatura 75°C,
+      entrada M25, carcasa inoxidable, certificación ATEX/IECEx.
+
+
+      Para completar tu pedido, necesitas confirmar estas 5 características según tu instalación. ¿Tienes
+      ya definidos los requisitos de certificación y rango de temperatura?
+
+
+      ---
+
+
+      Fuente: guide-40-40r-single-ir-flame-detector-spectrex-en-us-1459812 (sin revisión registrada)
+
+
+      ---
+
+
+      También puedo ayudarte con: **opciones de cableado y conexionado de terminales**, **certificaciones
+      ATEX disponibles** o **procedimiento de instalación y montaje** del 40/40R.'
+    top_mfrs:
+    - Spectrex
+    - Spectrex
+    - Spectrex
+    - Spectrex
+    - Spectrex
+    top_models:
+    - 40-40R-SINGLE
+    - 40-40R-SINGLE
+    - 40-40R-SINGLE
+    - 40-40R-SINGLE
+    - 40-40R-SINGLE
+  - answer: "El detector que mencionas es el **SharpEye 40/40R Single IR Flame Detector** de Spectrex.\
+      \ La referencia completa se construye según el esquema de número de parte definido en el manual\
+      \ [F1][F2]:\n\n**Formato: 40/40R - X X X X X**\n\nCada posición define una característica:\n\n-\
+      \ **Posición 1 — Configuración de cableado (Wiring Configuration):** ver Tabla 1 del manual [F1]\n\
+      - **Posición 2 — Rango de temperatura:**\n  - **1** → hasta **75°C**\n  - **2** → hasta **85°C**\
+      \ [F1]\n- **Posición 3 — Entradas eléctricas (Electrical Entries):**\n  - **1** → M25\n  - **2**\
+      \ → ¾\" NPT [F1]\n- **Posición 4 — Material de carcasa (Housing):**\n  - **S** → Acero inoxidable\
+      \ (Stainless Steel)\n  - **A** → Aluminio *(no disponible en versión FM)* [F1]\n- **Posición 5 —\
+      \ Certificación (Ex-Approval):**\n  - **B** → Inmetro\n  - **F** → FM/CSA\n  - **C** → ATEX/IECEx\n\
+      \  - **R** → TR-CU [F1]\n\n---\n\n**Para hacer el pedido correctamente**, necesitas definir las\
+      \ 5 posiciones según tu instalación. Por ejemplo, si necesitas ATEX/IECEx, carcasa de acero inoxidable,\
+      \ entrada M25, temperatura hasta 75°C y configuración de cableado opción 1, la referencia sería:\
+      \ **40/40R-11S1C** (verificar posición 1 con Tabla 1 del manual).\n\n> ⚠️ **Importante:** La Tabla\
+      \ 1 completa de opciones de cableado (posición 1) no está completamente reproducida en los fragmentos\
+      \ disponibles [F1]. Consulta el manual físico para confirmar el código de esa posición según tu\
+      \ configuración de salidas.\n\n---\n\nFuente: guide-40-40r-single-ir-flame-detector-spectrex-en-us-1459812\
+      \ (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **opciones de cableado y conexionado\
+      \ de terminales**, **certificaciones ATEX disponibles para este modelo** o **configuración de parámetros\
+      \ vía RS-485/HART**."
+    top_mfrs:
+    - Spectrex
+    - Spectrex
+    - Spectrex
+    - Spectrex
+    - Spectrex
+    top_models:
+    - 40-40R-SINGLE
+    - 40-40R-SINGLE
+    - 40-40R-SINGLE
+    - 40-40R-SINGLE
+    - 40-40R-SINGLE
+  - answer: "Para pedir el detector correcto, necesitas construir la referencia completa con el formato\
+      \ **40/40R-XXXXX**, donde cada posición define una característica [F1][F2]:\n\n---\n\n**Estructura\
+      \ del número de parte: 40/40R - [W][T][E][H][A]**\n\n- **[W] Configuración de cableado** → Ver Tabla\
+      \ 1 del manual (los fragmentos no incluyen los valores de esta posición) [F1]\n- **[T] Rango de\
+      \ temperatura:**\n  - **1** → hasta 75°C (–55°C ≤ Ta ≤ +75°C)\n  - **2** → hasta 85°C (–55°C ≤ Ta\
+      \ ≤ +85°C) [F1][F2]\n- **[E] Entrada de cable:**\n  - **1** → M25\n  - **2** → ¾\" NPT [F1]\n- **[H]\
+      \ Material de carcasa:**\n  - **S** → Acero inoxidable\n  - **A** → Aluminio *(no disponible en\
+      \ versión FM)* [F1]\n- **[A] Certificación/Aprobación:**\n  - **B** → Inmetro\n  - **F** → FM/CSA\n\
+      \  - **C** → ATEX/IECEx\n  - **R** → TR-CU [F1]\n\n---\n\n**⚠️ Dato que falta:** Los fragmentos\
+      \ no incluyen el contenido de la **Tabla 1** (valores de la primera posición — configuración de\
+      \ cableado). Consulta el manual físico *guide-40-40r-single-ir-flame-detector-spectrex-en-us-1459812*,\
+      \ sección 2.2, para completar esa posición antes de hacer el pedido [F1].\n\n---\n\n**Ejemplo de\
+      \ referencia completa** (ATEX/IECEx, 75°C, M25, acero inoxidable):\n`40/40R-X1S1C` ← sustituye la\
+      \ X por el código de cableado de la Tabla 1.\n\n---\n\nFuente: guide-40-40r-single-ir-flame-detector-spectrex-en-us-1459812,\
+      \ TM40/40R Rev. (Ad), febrero 2019 [F3]\n\n---\n\nTambién puedo ayudarte con: **opciones de cableado\
+      \ y terminales del 40/40R**, **certificaciones ATEX disponibles** o **accesorios compatibles (simulador\
+      \ FS-1300, montaje en conducto, protector de intemperie)**."
+    top_mfrs:
+    - Spectrex
+    - Spectrex
+    - Spectrex
+    - Spectrex
+    - Spectrex
+    top_models:
+    - 40-40R-SINGLE
+    - 40-40R-SINGLE
+    - 40-40R-SINGLE
+    - 40-40R-SINGLE
+    - 40-40R-SINGLE
+- id: absent_xtralis_vep999
+  clase: ausente-cola
+  q: ¿Cómo se realiza el test anual del detector Xtralis VESDA VEP-9990 según el fabricante?
+  model_extraido: VESDA
+  lookup: Xtralis
+  fiel_a_optionD: false
+  K: 3
+  runs:
+  - answer: '## Test anual del detector VESDA VEP-9990
+
+
+      Antes de responder, necesito aclararte dos puntos importantes:
+
+
+      **1. Sobre el modelo VEP-9990:** Los fragmentos disponibles no contienen documentación del modelo
+      **VEP-9990** específicamente. Los fragmentos recuperados corresponden al **VESDA-E VEP-A00-P** [F3].
+      Si tu equipo es un VEP-9990 (modelo de generación anterior), la información exacta puede diferir.
+      Verifica el modelo en la etiqueta del equipo.
+
+
+      **2. Sobre el calendario anual:** Los fragmentos sí contienen un calendario de mantenimiento, pero
+      este corresponde al **VES-A00-P** [F1], no al VEP. Te lo indico igualmente como referencia, señalando
+      su origen.
+
+
+      ---
+
+
+      ### Tareas con frecuencia ANUAL según el calendario del VES-A00-P [F1]:
+
+
+      - **Realizar una prueba de humos** para comprobar la integridad de la tubería
+
+      - **Comprobar el flujo de la tubería**
+
+      - **Limpiar los puntos de muestreo**
+
+      - **Limpiar con agua la red de tubería**
+
+
+      *(Frecuencia bianual: sustitución del filtro)*
+
+
+      ---
+
+
+      ### Comandos de prueba disponibles en el VESDA-E VEP-A00-P (ejecutables desde **Xtralis VSC**) [F2]:
+
+
+      - **Iniciar prueba de alarma ("Start Alarm Test"):** Simula nivel de humo de escala completa, activando
+      condiciones de Alerta, Acción, Fuego 1 y Fuego 2. Los relés de alarma se activarán salvo que el
+      detector esté desactivado [F2].
+
+      - **Inicio de la prueba de fallo de circulación del aire ("Start Air Flow Fault Test"):** Comprueba
+      el sistema de detección de circulación del aire apagando el aspirador [F2].
+
+      - **Iniciar prueba de relés ("Start Relay Test"):** Activa y desactiva los relés disponibles para
+      probarlos [F2].
+
+      - **Iniciar prueba de LED ("Start LED Test"):** Realiza un ciclo de prueba de cada indicador LED
+      del panel de visualización [F2].
+
+      - **Iniciar prueba de fallo importante ("Start Major Fault Test"):** Genera un fallo importante
+      y desactiva el relé de fallo durante **2 minutos** [F2].
+
+      - **Iniciar prueba de fallo menor ("Start Minor Fault Test"):** Genera un fallo menor y desactiva
+      el relé de fallo durante **2 minutos** [F2].
+
+
+      ---
+
+
+      ### ⚠️ Precauciones antes de realizar cualquier prueba [F1]:
+
+
+      1. Informa a la autoridad supervisora adecuada.
+
+      2. Asegúrate de que se aíslen los dispositivos existentes que dependan del detector antes de ponerlo
+      en funcionamiento.
+
+      3. Cuando el detector está deshabilitado o en espera, **no emitirá advertencias de fuego**.
+
+      4. Sigue los procedimientos del sitio para evitar falsas alarmas en los servicios supervisados.
+
+
+      > **Nota importante:** Solo las personas cualificadas que hayan asistido a un **curso de formación
+      acreditado de Xtralis** pueden instalar, probar y mantener el sistema [F3].
+
+
+      ---
+
+
+      **Fuentes:**
+
+      - Fragmento F1: Manual *35007_03_VESDA-E_VES-A00-P_Product_Guide_A4_Spanish_lores* (sin revisión
+      registrada)
+
+      - Fragmento F2/F3/F5: Manual *33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores*, enero
+      de 2019 (sin revisión registrada)
+
+
+      ---
+
+
+      También puedo ayudarte con: **procedimiento de modo en espera antes del mantenimiento**, **resolución
+      de fallos del VEP-A00-P** o **sustitución del filtro (mantenimiento bianual)**.'
+    top_mfrs:
+    - Xtralis
+    - Xtralis
+    - Xtralis
+    - Xtralis
+    - Xtralis
+    top_models:
+    - VESDA-E-VES
+    - VESDA-E-VEP
+    - VESDA-E-VEP
+    - VESDA-VLI
+    - VESDA-E-VEP
+  - answer: 'El modelo **VEP-9990** no aparece en ninguno de los fragmentos recuperados. Los fragmentos
+      disponibles cubren los modelos **VESDA-E VEP-A00-P / VEP-A00-1P**, **VESDA-E VES-A00-P** y **VESDA-E
+      VEA-040-A00 / VEA-040-A10** — todos de la gama VESDA-E, pero ninguno es el VEP-9990.
+
+
+      No tengo documentación del VEP-9990 en mi base. Consulta directamente la guía del producto del VEP-9990
+      en la web de Xtralis/Honeywell o contacta con el soporte técnico del fabricante.
+
+
+      ---
+
+
+      **Nota orientativa** (solo si tu equipo es realmente un VESDA-E VEP-A00-P):
+
+      Si el modelo instalado pertenece a la familia **VEP-A00-P**, puedo indicarte las tareas de mantenimiento
+      anual y los comandos de prueba disponibles según su manual. ¿Quieres que te lo detalle?'
+    top_mfrs:
+    - Xtralis
+    - Xtralis
+    - Xtralis
+    - Xtralis
+    - Xtralis
+    top_models:
+    - VESDA-E-VES
+    - VESDA-E-VEP
+    - VESDA-E-VEP
+    - VESDA-E-VEA
+    - VESDA-E-VEA
+  - answer: 'El modelo **VEP-9990** no aparece en ninguno de los fragmentos disponibles. Los fragmentos
+      recuperados cubren los modelos:
+
+
+      - **VESDA-E VEP-A00-P / VEP-A00-1P** [F2, F3]
+
+      - **VESDA-E VES-A00-P** [F1]
+
+      - **VESDA-E VEA-040-A00 / VEA-040-A10** [F4, F5]
+
+
+      No tengo documentación del **VEP-9990** en mi base. Consulta directamente la documentación técnica
+      de Xtralis para ese modelo específico.
+
+
+      ---
+
+
+      ¿Es posible que el modelo que tienes instalado sea el **VEP-A00-P** u otra variante de la gama VESDA-E?
+      Si confirmas el modelo exacto (puedes leerlo en la etiqueta del detector), puedo orientarte con
+      el procedimiento de mantenimiento anual disponible en los manuales que sí tengo.'
+    top_mfrs:
+    - Xtralis
+    - Xtralis
+    - Xtralis
+    - Xtralis
+    - Xtralis
+    top_models:
+    - VESDA-E-VES
+    - VESDA-E-VEP
+    - VESDA-E-VEP
+    - VESDA-E-VEA
+    - VESDA-E-VEA
+- id: absent_spectrex_2020z
+  clase: ausente-cola
+  q: ¿Cuál es el rango de detección del detector de llama Spectrex 20/20Z?
+  model_extraido: null
+  lookup: null
+  fiel_a_optionD: false
+  K: 3
+  runs:
+  - answer: 'El detector **Spectrex 20/20Z** no aparece en ninguno de los fragmentos recuperados. Los
+      fragmentos disponibles cubren los modelos:
+
+
+      - **20/20R** [F1]
+
+      - **20/20LB** [F2]
+
+      - **20/20ML** [F3, F5]
+
+      - **20/20UB / 20/20U** [F4]
+
+
+      No tengo documentación del **20/20Z** en mi base. Consulta directamente el manual técnico del fabricante
+      Spectrex para ese modelo.
+
+
+      ¿Es posible que el modelo sea uno de los listados arriba? Si puedes confirmar el modelo exacto (está
+      en la etiqueta del detector), puedo darte los rangos de detección con datos precisos del manual.'
+    top_mfrs:
+    - Spectrex
+    - Spectrex
+    - Spectrex
+    - Spectrex
+    - Spectrex
+    top_models:
+    - 20/20R
+    - 20/20LB
+    - 20-20ML-USER
+    - 20/20UB
+    - 20-20ML-USER
+  - answer: 'El modelo **20/20Z** no aparece en ninguno de los fragmentos recuperados. Los fragmentos
+      disponibles cubren los modelos **20/20R** [F1], **20/20LB** [F2], **20/20ML** [F3, F4], **20/20U**
+      y **20/20UB** [F5].
+
+
+      No tengo documentación del **20/20Z** en mi base. Consulta directamente el manual técnico del fabricante
+      Spectrex para ese modelo.
+
+
+      ---
+
+
+      Si tienes uno de los modelos disponibles, puedo darte su rango de detección. Por ejemplo:
+
+      - **20/20R**: rangos de **5 m** y **15 m** seleccionables [F1]
+
+      - **20/20LB**: hasta **15 m** para fuego de gasolina de 0,3 m × 0,3 m [F2]
+
+      - **20/20ML**: hasta **15 m / 50 ft** para fuego de gasolina de 0,1 m² [F3, F4]
+
+
+      ¿Es posible que el modelo instalado sea uno de estos?'
+    top_mfrs:
+    - Spectrex
+    - Spectrex
+    - Spectrex
+    - Spectrex
+    - Spectrex
+    top_models:
+    - 20/20R
+    - 20/20LB
+    - 20-20ML-USER
+    - 20-20ML-USER
+    - 20/20UB
+  - answer: 'El detector **Spectrex 20/20Z** no aparece en ninguno de los fragmentos recuperados. Los
+      fragmentos disponibles cubren los modelos:
+
+
+      - **20/20R** [F1]
+
+      - **20/20LB** [F2]
+
+      - **20/20ML** [F3, F5]
+
+      - **20/20UB / 20/20U** [F4]
+
+
+      No tengo documentación del **20/20Z** en mi base. No puedo proporcionarte el rango de detección
+      de ese modelo sin riesgo de darte datos incorrectos.
+
+
+      **¿Qué puedes hacer?**
+
+      - Consulta directamente el manual técnico del **20/20Z** en la web de Spectrex.
+
+      - Contacta con el soporte técnico del fabricante o distribuidor.
+
+
+      ---
+
+
+      Si el modelo que tienes instalado es en realidad uno de los listados arriba, dímelo y te doy los
+      datos exactos de rango de detección.'
+    top_mfrs:
+    - Spectrex
+    - Spectrex
+    - Spectrex
+    - Spectrex
+    - Spectrex
+    top_models:
+    - 20/20R
+    - 20/20LB
+    - 20-20ML-USER
+    - 20/20UB
+    - 20-20ML-USER
+- id: crossbrand_morley_zxe_sdx
+  clase: compuesto-cross-brand
+  q: En la Morley ZXe quiero montar un detector óptico Notifier SDX-751 que me sobró; ¿es compatible?
+  model_extraido: ZXE
+  lookup: null
+  fiel_a_optionD: true
+  K: 3
+  runs:
+  - answer: 'No tengo documentación sobre el detector **SDX-751 de Notifier** en mi base, ni información
+      sobre interoperabilidad entre equipos Notifier y la central **Morley ZXe** en los fragmentos disponibles.
+
+
+      Para verificar la compatibilidad, consulta directamente con Morley IAS o Notifier, o revisa la lista
+      oficial de detectores compatibles con el lazo analógico de la ZXe en su manual de instalación completo.'
+    top_mfrs:
+    - Morley
+    - Morley
+    - Morley
+    - Morley
+    - Morley
+    top_models:
+    - ZXAE/ZXEE
+    - ZXAE/ZXEE
+    - ZXAE/ZXEE
+    - ZXAE/ZXEE
+    - ZXAE/ZXEE
+  - answer: 'No tengo documentación sobre el detector **SDX-751 de Notifier** en mi base, ni información
+      sobre interoperabilidad entre equipos Notifier y la central **Morley ZXe** en los fragmentos disponibles.
+
+
+      Los fragmentos recuperados cubren únicamente programación, instalación y uso general de las centrales
+      **ZXAE/ZXEE** de Morley, sin incluir listas de detectores compatibles ni especificaciones de protocolo
+      de lazo analógico que permitan evaluar la compatibilidad.
+
+
+      Para verificar si el SDX-751 es compatible con la ZXe, consulta directamente:
+
+      - La documentación técnica de **Notifier** para el SDX-751 (protocolo y tipo de lazo).
+
+      - La documentación técnica de **Morley** para la ZXe (lista de equipos homologados para el lazo
+      analógico).
+
+      - O contacta con el soporte técnico de ambos fabricantes.
+
+
+      ---
+
+
+      Fuente: MIE-MI-310, MIE-MP-310, MIE-MU-310 (sin revisión registrada)'
+    top_mfrs:
+    - Morley
+    - Morley
+    - Morley
+    - Morley
+    - Morley
+    top_models:
+    - ZXAE/ZXEE
+    - ZXAE/ZXEE
+    - ZXAE/ZXEE
+    - ZXAE/ZXEE
+    - ZXAE/ZXEE
+  - answer: 'No tengo documentación sobre el detector **SDX-751 de Notifier** en mi base, ni información
+      sobre interoperabilidad entre equipos Notifier y la central **Morley ZXe** en los fragmentos disponibles.
+
+
+      Para verificar la compatibilidad debes consultar directamente con Morley IAS / Notifier, ya que
+      se trata de equipos de distintos fabricantes.'
+    top_mfrs:
+    - Morley
+    - Morley
+    - Morley
+    - Morley
+    - Morley
+    top_models:
+    - ZXAE/ZXEE
+    - ZXAE/ZXEE
+    - ZXAE/ZXEE
+    - ZXAE/ZXEE
+    - ZXAE/ZXEE

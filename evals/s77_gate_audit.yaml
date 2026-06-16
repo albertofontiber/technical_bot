@@ -1,0 +1,351 @@
+meta:
+  proposito: 'Raíz por-modelo de los 9 cortes (deploy-prep #49). reach != PASS.'
+  metodo: funciones reales (lookup/manufacturer_in_db/normalize_model) + PostgREST ilike sobre product_model/content;
+    chunks_v2. Re-verifica counts DEC-058.
+  n_cortes: 9
+audit:
+- qid: cat013
+  conducta: refuse-inference
+  model_extraido: CAD-150
+  mentioned_manufacturer: Detnov
+  gate_outcome: CUT_model_not_found
+  lookup_model_manufacturer: null
+  manufacturer_in_db(mentioned): true
+  subclase_raiz: casing/formato (existe product_model con el core, otra forma)
+  filtro_recuperaria: true
+  product_model_en_DB:
+  - product_model: CAD-150-8
+    manufacturer: Detnov
+    n: 88
+  - product_model: CAD-150R
+    manufacturer: Detnov
+    n: 15
+  content_coverage:
+    CAD-150:
+      total: 1
+      by_manufacturer_sample:
+        Detnov: 1
+    CAD 150:
+      total: 0
+      by_manufacturer_sample: {}
+- qid: cat021
+  conducta: clarify
+  model_extraido: 40-40
+  mentioned_manufacturer: Spectrex
+  gate_outcome: CUT_model_not_found
+  lookup_model_manufacturer: null
+  manufacturer_in_db(mentioned): true
+  subclase_raiz: casing/formato (existe product_model con el core, otra forma)
+  filtro_recuperaria: true
+  product_model_en_DB:
+  - product_model: 40-40L
+    manufacturer: Spectrex
+    n: 77
+  - product_model: 40-40M
+    manufacturer: Spectrex
+    n: 77
+  - product_model: 40-40I
+    manufacturer: Spectrex
+    n: 76
+  - product_model: 40-40R-SINGLE
+    manufacturer: Spectrex
+    n: 75
+  - product_model: 40-40U
+    manufacturer: Spectrex
+    n: 73
+  - product_model: 40-40R
+    manufacturer: Spectrex
+    n: 71
+  - product_model: 40-40-SERIES
+    manufacturer: Spectrex
+    n: 27
+  - product_model: 40-40-AIR
+    manufacturer: Spectrex
+    n: 10
+  content_coverage:
+    40/40:
+      total: 373
+      by_manufacturer_sample:
+        Spectrex: 372
+        Notifier: 1
+    40-40:
+      total: 12
+      by_manufacturer_sample:
+        Xtralis: 9
+        Notifier: 3
+- qid: hp009
+  conducta: answer
+  model_extraido: ZXE
+  mentioned_manufacturer: Morley
+  gate_outcome: CUT_model_not_found
+  lookup_model_manufacturer: null
+  manufacturer_in_db(mentioned): true
+  subclase_raiz: casing/formato (existe product_model con el core, otra forma)
+  filtro_recuperaria: true
+  product_model_en_DB:
+  - product_model: ZX2e/ZX5e
+    manufacturer: Morley
+    n: 198
+  - product_model: ZX50
+    manufacturer: Morley
+    n: 158
+  - product_model: ZXHE
+    manufacturer: Morley
+    n: 158
+  - product_model: ZXAE/ZXEE
+    manufacturer: Morley
+    n: 157
+  - product_model: ZX-50
+    manufacturer: Morley
+    n: 126
+  - product_model: ZXCE
+    manufacturer: Morley
+    n: 115
+  - product_model: MK-ZX
+    manufacturer: Morley
+    n: 61
+  - product_model: ZXR50A/ZXR50P
+    manufacturer: Morley
+    n: 22
+  - product_model: ZXr-A/ZXr-P
+    manufacturer: Morley
+    n: 18
+  - product_model: ZXR5B/ZXR4B
+    manufacturer: Morley
+    n: 11
+  - product_model: ZX2e y ZX5e
+    manufacturer: Morley
+    n: 9
+  - product_model: ZX/DX
+    manufacturer: Morley
+    n: 1
+  content_coverage:
+    ZXe:
+      total: 134
+      by_manufacturer_sample:
+        Morley: 133
+        Xtralis: 1
+    ZX5e:
+      total: 163
+      by_manufacturer_sample:
+        Morley: 157
+        Notifier: 6
+    ZX2e:
+      total: 163
+      by_manufacturer_sample:
+        Morley: 160
+        Notifier: 3
+- qid: hp013
+  conducta: answer
+  model_extraido: ADW535
+  mentioned_manufacturer: Detnov
+  gate_outcome: CUT_A_mismatch
+  lookup_model_manufacturer: Securiton
+  manufacturer_in_db(mentioned): true
+  subclase_raiz: mismatch/OEM (modelo SÍ en product_model, otra marca)
+  filtro_recuperaria: true
+  product_model_en_DB:
+  - product_model: ADW535
+    manufacturer: Securiton
+    n: 201
+  - product_model: ADW-535-1
+    manufacturer: Securiton
+    n: 16
+  content_coverage:
+    ADW535:
+      total: 0
+      by_manufacturer_sample: {}
+    ADW-535:
+      total: 0
+      by_manufacturer_sample: {}
+- qid: cat016
+  conducta: answer
+  model_extraido: CAD-150
+  mentioned_manufacturer: Detnov
+  gate_outcome: CUT_model_not_found
+  lookup_model_manufacturer: null
+  manufacturer_in_db(mentioned): true
+  subclase_raiz: casing/formato (existe product_model con el core, otra forma)
+  filtro_recuperaria: true
+  product_model_en_DB:
+  - product_model: CAD-150-8
+    manufacturer: Detnov
+    n: 88
+  - product_model: CAD-150R
+    manufacturer: Detnov
+    n: 15
+  content_coverage:
+    CAD-150:
+      total: 1
+      by_manufacturer_sample:
+        Detnov: 1
+    CAD 150:
+      total: 0
+      by_manufacturer_sample: {}
+- qid: hp003
+  conducta: answer
+  model_extraido: CAD-150
+  mentioned_manufacturer: Detnov
+  gate_outcome: CUT_model_not_found
+  lookup_model_manufacturer: null
+  manufacturer_in_db(mentioned): true
+  subclase_raiz: casing/formato (existe product_model con el core, otra forma)
+  filtro_recuperaria: true
+  product_model_en_DB:
+  - product_model: CAD-150-8
+    manufacturer: Detnov
+    n: 88
+  - product_model: CAD-150R
+    manufacturer: Detnov
+    n: 15
+  content_coverage:
+    CAD-150:
+      total: 1
+      by_manufacturer_sample:
+        Detnov: 1
+    CAD 150:
+      total: 0
+      by_manufacturer_sample: {}
+- qid: hp002
+  conducta: answer
+  model_extraido: ASD535
+  mentioned_manufacturer: Detnov
+  gate_outcome: CUT_A_mismatch
+  lookup_model_manufacturer: Securiton
+  manufacturer_in_db(mentioned): true
+  subclase_raiz: mismatch/OEM (modelo SÍ en product_model, otra marca)
+  filtro_recuperaria: true
+  product_model_en_DB:
+  - product_model: ASD535
+    manufacturer: Securiton
+    n: 242
+  content_coverage:
+    ASD535:
+      total: 0
+      by_manufacturer_sample: {}
+    ASD-535:
+      total: 0
+      by_manufacturer_sample: {}
+- qid: hp011
+  conducta: answer
+  model_extraido: RP1R
+  mentioned_manufacturer: Morley
+  gate_outcome: CUT_A_mismatch
+  lookup_model_manufacturer: Notifier
+  manufacturer_in_db(mentioned): true
+  subclase_raiz: mismatch/OEM (modelo SÍ en product_model, otra marca)
+  filtro_recuperaria: true
+  product_model_en_DB:
+  - product_model: RP1r-Supra
+    manufacturer: Morley
+    n: 312
+  - product_model: VSN-RP1r
+    manufacturer: Morley
+    n: 105
+  - product_model: RP1R
+    manufacturer: Notifier
+    n: 65
+  - product_model: RP1r
+    manufacturer: Notifier
+    n: 55
+  - product_model: OPC-RP1r
+    manufacturer: Notifier
+    n: 25
+  - product_model: RP1r Supra
+    manufacturer: Notifier
+    n: 11
+  - product_model: RP1001E
+    manufacturer: Notifier
+    n: 4
+  - product_model: RP1r Supra
+    manufacturer: Honeywell
+    n: 3
+  - product_model: RP1r-Supra
+    manufacturer: Notifier
+    n: 2
+  - product_model: RP1R-Supra
+    manufacturer: Morley
+    n: 1
+  - product_model: RP1r-Supra/VSNRP1r-2Plus
+    manufacturer: Morley
+    n: 1
+  - product_model: RP1R Supra
+    manufacturer: Morley
+    n: 1
+  content_coverage:
+    RP1R:
+      total: 308
+      by_manufacturer_sample:
+        Morley: 232
+        Notifier: 72
+        Xtralis: 3
+        Honeywell: 1
+    RP1r:
+      total: 308
+      by_manufacturer_sample:
+        Morley: 232
+        Notifier: 72
+        Xtralis: 3
+        Honeywell: 1
+- qid: hp018
+  conducta: answer
+  model_extraido: ZXE
+  mentioned_manufacturer: Morley
+  gate_outcome: CUT_model_not_found
+  lookup_model_manufacturer: null
+  manufacturer_in_db(mentioned): true
+  subclase_raiz: casing/formato (existe product_model con el core, otra forma)
+  filtro_recuperaria: true
+  product_model_en_DB:
+  - product_model: ZX2e/ZX5e
+    manufacturer: Morley
+    n: 198
+  - product_model: ZX50
+    manufacturer: Morley
+    n: 158
+  - product_model: ZXHE
+    manufacturer: Morley
+    n: 158
+  - product_model: ZXAE/ZXEE
+    manufacturer: Morley
+    n: 157
+  - product_model: ZX-50
+    manufacturer: Morley
+    n: 126
+  - product_model: ZXCE
+    manufacturer: Morley
+    n: 115
+  - product_model: MK-ZX
+    manufacturer: Morley
+    n: 61
+  - product_model: ZXR50A/ZXR50P
+    manufacturer: Morley
+    n: 22
+  - product_model: ZXr-A/ZXr-P
+    manufacturer: Morley
+    n: 18
+  - product_model: ZXR5B/ZXR4B
+    manufacturer: Morley
+    n: 11
+  - product_model: ZX2e y ZX5e
+    manufacturer: Morley
+    n: 9
+  - product_model: ZX/DX
+    manufacturer: Morley
+    n: 1
+  content_coverage:
+    ZXe:
+      total: 134
+      by_manufacturer_sample:
+        Morley: 133
+        Xtralis: 1
+    ZX5e:
+      total: 163
+      by_manufacturer_sample:
+        Morley: 157
+        Notifier: 6
+    ZX2e:
+      total: 163
+      by_manufacturer_sample:
+        Morley: 160
+        Notifier: 3
