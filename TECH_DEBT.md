@@ -109,8 +109,14 @@ y las citas nuevas deben desambiguar por título.
 el lever-phase de retrieval NO tocó (cat009/cat024; cat008 es OEM-relabel→identidad #43/#49, NO este contrato).
 Añade el **árbitro de precedencia** (revisión=latest-wins vs variante-regional=answer-con-conflicto vs OEM vs
 multi-parte vs datasheet; regla rectora: ante duda NO supersede) + **validación judge-free** (paridad de POOL
-servido, NO veredicto; desacoplada del dual-judge — solo el win end-to-end de 2 golds < ±2 lo necesita). Build EN
-el escritor de ingesta (F2), no UPDATE in-place del corpus congelado.
+servido, NO veredicto; desacoplada del dual-judge — solo el win end-to-end de 2 golds < ±2 lo necesita). **Vía
+corregida (s76, pushback de Alberto + verificación DB): BACKFILL guardarraíl-eado s64-style, NO re-ingestión ni
+DDL.** `documents` YA tiene las columnas (status/revision/revision_date/document_family/superseded_by_id);
+`revision_date` poblado **1/1170** = el gap real que llena el parser Phase 2 (el 70%); `document_family` 1170 pero
+**filename-naive** (s62) → re-derivar para agrupar revisiones; el `_filter_by_document_status` de s64 (DEC-045) YA
+excluye `superseded` (precedente: 3 cadenas pobladas retroactivamente sin re-ingestar). El escritor-en-ingesta
+(#43 capa B) = solo para no re-crear el hueco a FUTURO, NO bloqueante → #4 es **candidato cercano** (ciclo de
+backfill propio), no gated a la ingesta lejana.
 
 ---
 
