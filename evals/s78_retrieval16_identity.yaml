@@ -1,0 +1,781 @@
+meta:
+  proposito: Paso 0 s78 — eje de identidad de los 16 retrieval-miss. judge-free, reach!=PASS.
+  n: 16
+diagnostico:
+- qid: cat007
+  conducta: answer
+  models:
+  - FAAST LT-200
+  - FAAST LT
+  s71_detalle: diversify expulsa Tabla3 (rank#1/2)
+  model: FAAST LT-200
+  core: faastlt200
+  prefix: FAAST
+  lookup: Notifier
+  exact_pm: true
+  core_match:
+  - &id001
+    pm: FAAST LT-200
+    mfr: Notifier
+    n: 73
+  - &id002
+    pm: FAAST LT
+    mfr: Morley
+    n: 23
+  - &id003
+    pm: FAAST LT
+    mfr: Notifier
+    n: 11
+  - &id004
+    pm: FAAST
+    mfr: Xtralis
+    n: 6
+  - pm: FAAST
+    mfr: Morley
+    n: 2
+  - pm: FAAST-LT
+    mfr: Notifier
+    n: 1
+  fam_top:
+  - *id001
+  - pm: FAAST FLEX
+    mfr: Xtralis
+    n: 32
+  - *id002
+  - *id003
+  - pm: FAAST-8100E
+    mfr: Notifier
+    n: 8
+  - *id004
+  content_hosts:
+  - pm: FAAST LT-200
+    mfr: Notifier
+    n: 29
+  - pm: ASD11
+    mfr: Securiton
+    n: 27
+  - pm: LT-200
+    mfr: Xtralis
+    n: 25
+  - pm: LT-200
+    mfr: System Sensor
+    n: 16
+  - pm: LT-200
+    mfr: Notifier
+    n: 15
+  mfrs:
+  - Morley
+  - Notifier
+  - Xtralis
+  clase: CLEAN→B(retrieval)
+- qid: cat013
+  conducta: refuse-inference
+  models:
+  - CAD-150
+  - SDX-751
+  s71_detalle: doc existe, no servido
+  model: CAD-150
+  core: cad150
+  prefix: CAD
+  lookup: null
+  exact_pm: false
+  core_match:
+  - &id005
+    pm: CAD-150-8
+    mfr: Detnov
+    n: 88
+  - &id006
+    pm: CAD-150R
+    mfr: Detnov
+    n: 15
+  fam_top:
+  - pm: CAD-250
+    mfr: Detnov
+    n: 578
+  - *id005
+  - pm: CAD-201
+    mfr: Detnov
+    n: 80
+  - pm: CAD-171
+    mfr: Detnov
+    n: 75
+  - pm: CADA-50
+    mfr: Detnov
+    n: 25
+  - *id006
+  content_hosts:
+  - pm: CAD-250
+    mfr: Detnov
+    n: 1
+  mfrs:
+  - Detnov
+  clase: FAMILY-COLLAPSE→A
+- qid: cat021
+  conducta: clarify
+  models:
+  - 40-40
+  s71_detalle: no servido
+  model: 40-40
+  core: '4040'
+  prefix: ''
+  lookup: null
+  exact_pm: false
+  core_match: []
+  fam_top: []
+  content_hosts:
+  - pm: VESDA-E-VEA
+    mfr: Xtralis
+    n: 9
+  - pm: LTS-240
+    mfr: Notifier
+    n: 2
+  - pm: RP-1001
+    mfr: Notifier
+    n: 1
+  mfrs: []
+  clase: MIS-ATTRIB→A
+- qid: hp006
+  conducta: answer
+  models:
+  - AFP-400
+  s71_detalle: info en MIDT170/50253SP, no servida
+  model: AFP-400
+  core: afp400
+  prefix: AFP
+  lookup: Notifier
+  exact_pm: true
+  core_match:
+  - &id007
+    pm: AFP-400
+    mfr: Notifier
+    n: 377
+  - &id008
+    pm: AFP4000
+    mfr: Notifier
+    n: 143
+  - &id009
+    pm: AFP-4000
+    mfr: Notifier
+    n: 7
+  fam_top:
+  - *id007
+  - pm: AFP-300
+    mfr: Notifier
+    n: 309
+  - pm: AFP-200
+    mfr: Notifier
+    n: 178
+  - pm: AFP1010
+    mfr: Notifier
+    n: 148
+  - *id008
+  - *id009
+  content_hosts:
+  - pm: AFP-300
+    mfr: Notifier
+    n: 212
+  - pm: AFP-400
+    mfr: Notifier
+    n: 78
+  - pm: NRT
+    mfr: Notifier
+    n: 24
+  - pm: XP
+    mfr: Notifier
+    n: 21
+  - pm: UDACT
+    mfr: Notifier
+    n: 12
+  - pm: NOTI•FIRE•NET™
+    mfr: Notifier
+    n: 8
+  - pm: INA
+    mfr: Notifier
+    n: 7
+  - pm: TG-NOTIFIER
+    mfr: Notifier
+    n: 5
+  mfrs:
+  - Notifier
+  clase: CLEAN→B(retrieval)
+- qid: hp009
+  conducta: answer
+  models:
+  - ZXE
+  s71_detalle: MIE-MI-530 rank-alto pero fuera del pool frozen
+  model: ZXE
+  core: zxe
+  prefix: ZXE
+  lookup: null
+  exact_pm: false
+  core_match: []
+  fam_top: []
+  content_hosts:
+  - pm: ZXAE/ZXEE
+    mfr: Morley
+    n: 114
+  - pm: MK-ZX
+    mfr: Morley
+    n: 3
+  - pm: MOD.RS-485
+    mfr: Morley
+    n: 3
+  - pm: ZXr-A/ZXr-P
+    mfr: Morley
+    n: 2
+  - pm: MOD.EXP
+    mfr: Morley
+    n: 2
+  - pm: EXP-051
+    mfr: Morley
+    n: 2
+  - pm: EXP-060R
+    mfr: Morley
+    n: 2
+  - pm: ZXCE
+    mfr: Morley
+    n: 2
+  mfrs: []
+  clase: AMBIGUO (revisar)
+- qid: hp013
+  conducta: answer
+  models:
+  - ADW535
+  s71_detalle: chunks correctos en pool-50, rerank sirvio irrelevantes
+  model: ADW535
+  core: adw535
+  prefix: ADW
+  lookup: Securiton
+  exact_pm: true
+  core_match:
+  - &id010
+    pm: ADW535
+    mfr: Securiton
+    n: 201
+  - &id011
+    pm: ADW-535-1
+    mfr: Securiton
+    n: 16
+  fam_top:
+  - *id010
+  - *id011
+  content_hosts: []
+  mfrs:
+  - Securiton
+  clase: CLEAN→B(retrieval)
+- qid: cat016
+  conducta: answer
+  models:
+  - CAD-150
+  s71_detalle: within-doc (autobusqueda fuera del top-5)
+  model: CAD-150
+  core: cad150
+  prefix: CAD
+  lookup: null
+  exact_pm: false
+  core_match:
+  - &id012
+    pm: CAD-150-8
+    mfr: Detnov
+    n: 88
+  - &id013
+    pm: CAD-150R
+    mfr: Detnov
+    n: 15
+  fam_top:
+  - pm: CAD-250
+    mfr: Detnov
+    n: 578
+  - *id012
+  - pm: CAD-201
+    mfr: Detnov
+    n: 80
+  - pm: CAD-171
+    mfr: Detnov
+    n: 75
+  - pm: CADA-50
+    mfr: Detnov
+    n: 25
+  - *id013
+  content_hosts:
+  - pm: CAD-250
+    mfr: Detnov
+    n: 1
+  mfrs:
+  - Detnov
+  clase: FAMILY-COLLAPSE→A
+- qid: hp003
+  conducta: answer
+  models:
+  - CAD-150
+  s71_detalle: within-doc (2x12V fuera del top-5)
+  model: CAD-150
+  core: cad150
+  prefix: CAD
+  lookup: null
+  exact_pm: false
+  core_match:
+  - &id014
+    pm: CAD-150-8
+    mfr: Detnov
+    n: 88
+  - &id015
+    pm: CAD-150R
+    mfr: Detnov
+    n: 15
+  fam_top:
+  - pm: CAD-250
+    mfr: Detnov
+    n: 578
+  - *id014
+  - pm: CAD-201
+    mfr: Detnov
+    n: 80
+  - pm: CAD-171
+    mfr: Detnov
+    n: 75
+  - pm: CADA-50
+    mfr: Detnov
+    n: 25
+  - *id015
+  content_hosts:
+  - pm: CAD-250
+    mfr: Detnov
+    n: 1
+  mfrs:
+  - Detnov
+  clase: FAMILY-COLLAPSE→A
+- qid: cat017
+  conducta: answer
+  models:
+  - INSPIRE
+  s71_detalle: sub-retrieval (OPAL no servido)
+  model: INSPIRE
+  core: inspire
+  prefix: INSPIRE
+  lookup: Notifier
+  exact_pm: true
+  core_match:
+  - &id016
+    pm: INSPIRE E10/E15
+    mfr: Notifier
+    n: 166
+  - &id017
+    pm: INSPIRE E10
+    mfr: Notifier
+    n: 100
+  - &id018
+    pm: INSPIRE Panel
+    mfr: Notifier
+    n: 24
+  - &id019
+    pm: INSPIRE
+    mfr: Notifier
+    n: 13
+  fam_top:
+  - *id016
+  - *id017
+  - *id018
+  - *id019
+  content_hosts:
+  - pm: INSPIRE E10
+    mfr: Notifier
+    n: 73
+  - pm: INSPIRE E10/E15
+    mfr: Notifier
+    n: 68
+  - pm: CLSS
+    mfr: Notifier
+    n: 35
+  - pm: CLSS-10
+    mfr: Notifier
+    n: 13
+  - pm: INSPIRE Panel
+    mfr: Notifier
+    n: 10
+  - pm: VESDA
+    mfr: Xtralis
+    n: 4
+  - pm: INSPIRE
+    mfr: Notifier
+    n: 4
+  - pm: ITAC 2.0
+    mfr: Notifier
+    n: 1
+  mfrs:
+  - Notifier
+  clase: CLEAN→B(retrieval)
+- qid: hp002
+  conducta: answer
+  models:
+  - ASD535
+  s71_detalle: sub-retrieval (hechos expulsados)
+  model: ASD535
+  core: asd535
+  prefix: ASD
+  lookup: Securiton
+  exact_pm: true
+  core_match:
+  - &id020
+    pm: ASD535
+    mfr: Securiton
+    n: 242
+  fam_top:
+  - *id020
+  - pm: ASD532
+    mfr: Securiton
+    n: 210
+  - pm: ASD533
+    mfr: Securiton
+    n: 202
+  - pm: ASD11
+    mfr: Securiton
+    n: 135
+  - pm: ASD531
+    mfr: Securiton
+    n: 130
+  content_hosts: []
+  mfrs:
+  - Securiton
+  clase: CLEAN→B(retrieval)
+- qid: hp008
+  conducta: answer
+  models:
+  - ID3000
+  s71_detalle: sub-retrieval (4 hechos expulsados)
+  model: ID3000
+  core: id3000
+  prefix: ID
+  lookup: Notifier
+  exact_pm: true
+  core_match:
+  - &id021
+    pm: ID3000
+    mfr: Notifier
+    n: 683
+  - pm: ID-3000
+    mfr: Notifier
+    n: 30
+  fam_top:
+  - *id021
+  - pm: ID2000
+    mfr: Notifier
+    n: 274
+  - pm: ID1000
+    mfr: Notifier
+    n: 240
+  - pm: ID50
+    mfr: Notifier
+    n: 238
+  - pm: ID50/60
+    mfr: Notifier
+    n: 222
+  - pm: ID-200
+    mfr: Notifier
+    n: 110
+  content_hosts:
+  - pm: ID3000
+    mfr: Notifier
+    n: 473
+  - pm: TG-NOTIFIER
+    mfr: Notifier
+    n: 56
+  - pm: IBOX BACNET
+    mfr: Notifier
+    n: 54
+  - pm: TG
+    mfr: Morley
+    n: 33
+  - pm: ID-3000
+    mfr: Notifier
+    n: 16
+  - pm: IBOX MODBUS SERVER
+    mfr: Notifier
+    n: 15
+  - pm: iBox Modbus Server
+    mfr: Notifier
+    n: 13
+  - pm: UCIP/UCIP-GPRS
+    mfr: Morley
+    n: 9
+  mfrs:
+  - Notifier
+  clase: CLEAN→B(retrieval)
+- qid: hp001
+  conducta: answer
+  models:
+  - CAD-250
+  s71_detalle: frontera k>50 (rank 54)
+  model: CAD-250
+  core: cad250
+  prefix: CAD
+  lookup: Detnov
+  exact_pm: true
+  core_match:
+  - &id022
+    pm: CAD-250
+    mfr: Detnov
+    n: 578
+  fam_top:
+  - *id022
+  - pm: CAD-150-8
+    mfr: Detnov
+    n: 88
+  - pm: CAD-201
+    mfr: Detnov
+    n: 80
+  - pm: CAD-171
+    mfr: Detnov
+    n: 75
+  - pm: CADA-50
+    mfr: Detnov
+    n: 25
+  - pm: CAD-150R
+    mfr: Detnov
+    n: 15
+  content_hosts:
+  - pm: CAD-250
+    mfr: Detnov
+    n: 78
+  - pm: CAD-201
+    mfr: Detnov
+    n: 1
+  - pm: DS-737
+    mfr: Pfannenberg
+    n: 1
+  - pm: DS-736
+    mfr: Pfannenberg
+    n: 1
+  - pm: DS-740
+    mfr: Pfannenberg
+    n: 1
+  - pm: DS-741
+    mfr: Pfannenberg
+    n: 1
+  mfrs:
+  - Detnov
+  clase: CLEAN→B(retrieval)
+- qid: hp017
+  conducta: answer
+  models:
+  - Pearl
+  s71_detalle: mixto (lazo0/limite no servidos)
+  model: Pearl
+  core: pearl
+  prefix: Pearl
+  lookup: Notifier
+  exact_pm: true
+  core_match:
+  - &id023
+    pm: Pearl
+    mfr: Notifier
+    n: 239
+  - &id024
+    pm: Pearl 997-670-005-3
+    mfr: Notifier
+    n: 62
+  - &id025
+    pm: PEARL
+    mfr: Notifier
+    n: 9
+  fam_top:
+  - *id023
+  - *id024
+  - *id025
+  content_hosts:
+  - pm: Pearl
+    mfr: Notifier
+    n: 92
+  - pm: Pearl 997-670-005-3
+    mfr: Notifier
+    n: 16
+  - pm: MA-202
+    mfr: Notifier
+    n: 3
+  - pm: ASD11
+    mfr: Securiton
+    n: 3
+  - pm: PEARL
+    mfr: Notifier
+    n: 3
+  - pm: ID-50
+    mfr: Notifier
+    n: 1
+  - pm: VESDA
+    mfr: Xtralis
+    n: 1
+  - pm: unknown
+    mfr: Notifier
+    n: 1
+  mfrs:
+  - Notifier
+  clase: CLEAN→B(retrieval)
+- qid: cat001
+  conducta: answer
+  models:
+  - Pearl
+  s71_detalle: mixto
+  model: Pearl
+  core: pearl
+  prefix: Pearl
+  lookup: Notifier
+  exact_pm: true
+  core_match:
+  - &id026
+    pm: Pearl
+    mfr: Notifier
+    n: 239
+  - &id027
+    pm: Pearl 997-670-005-3
+    mfr: Notifier
+    n: 62
+  - &id028
+    pm: PEARL
+    mfr: Notifier
+    n: 9
+  fam_top:
+  - *id026
+  - *id027
+  - *id028
+  content_hosts:
+  - pm: Pearl
+    mfr: Notifier
+    n: 92
+  - pm: Pearl 997-670-005-3
+    mfr: Notifier
+    n: 16
+  - pm: MA-202
+    mfr: Notifier
+    n: 3
+  - pm: ASD11
+    mfr: Securiton
+    n: 3
+  - pm: PEARL
+    mfr: Notifier
+    n: 3
+  - pm: ID-50
+    mfr: Notifier
+    n: 1
+  - pm: VESDA
+    mfr: Xtralis
+    n: 1
+  - pm: unknown
+    mfr: Notifier
+    n: 1
+  mfrs:
+  - Notifier
+  clase: CLEAN→B(retrieval)
+- qid: hp011
+  conducta: answer
+  models:
+  - RP1R
+  s71_detalle: sub-retrieval
+  model: RP1R
+  core: rp1r
+  prefix: RP
+  lookup: Notifier
+  exact_pm: true
+  core_match:
+  - &id029
+    pm: RP1r-Supra
+    mfr: Morley
+    n: 312
+  - &id030
+    pm: RP1R
+    mfr: Notifier
+    n: 65
+  - &id031
+    pm: RP1r
+    mfr: Notifier
+    n: 55
+  - pm: RP1r Supra
+    mfr: Notifier
+    n: 11
+  - pm: RP1r Supra
+    mfr: Honeywell
+    n: 3
+  - pm: RP1r-Supra
+    mfr: Notifier
+    n: 2
+  fam_top:
+  - *id029
+  - *id030
+  - *id031
+  - pm: RP-1002E
+    mfr: Notifier
+    n: 47
+  - pm: RP-1001
+    mfr: Notifier
+    n: 43
+  - pm: RPT-485W
+    mfr: Notifier
+    n: 16
+  content_hosts:
+  - pm: RP1r-Supra
+    mfr: Morley
+    n: 203
+  - pm: OPC-RP1r
+    mfr: Notifier
+    n: 20
+  - pm: AM-8200
+    mfr: Notifier
+    n: 10
+  - pm: S-HSF v2.8.0
+    mfr: Notifier
+    n: 9
+  - pm: RP1r
+    mfr: Notifier
+    n: 8
+  - pm: ITAC
+    mfr: Morley
+    n: 8
+  - pm: RP1R
+    mfr: Notifier
+    n: 8
+  - pm: VSN-RP1r
+    mfr: Morley
+    n: 5
+  mfrs:
+  - Honeywell
+  - Morley
+  - Notifier
+  clase: CLEAN→B(retrieval)
+- qid: hp018
+  conducta: answer
+  models:
+  - ZXE
+  s71_detalle: mixto
+  model: ZXE
+  core: zxe
+  prefix: ZXE
+  lookup: null
+  exact_pm: false
+  core_match: []
+  fam_top: []
+  content_hosts:
+  - pm: ZXAE/ZXEE
+    mfr: Morley
+    n: 114
+  - pm: MK-ZX
+    mfr: Morley
+    n: 3
+  - pm: MOD.RS-485
+    mfr: Morley
+    n: 3
+  - pm: ZXr-A/ZXr-P
+    mfr: Morley
+    n: 2
+  - pm: MOD.EXP
+    mfr: Morley
+    n: 2
+  - pm: EXP-051
+    mfr: Morley
+    n: 2
+  - pm: EXP-060R
+    mfr: Morley
+    n: 2
+  - pm: ZXCE
+    mfr: Morley
+    n: 2
+  mfrs: []
+  clase: AMBIGUO (revisar)

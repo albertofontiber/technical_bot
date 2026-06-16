@@ -1,0 +1,230 @@
+meta:
+  proposito: Paso 0b s78 — punto-de-muerte del hecho-respuesta (PROD). judge-free, $0.
+  stages: RECALL(no-pool) / VENTANA(2400-rescata) / RERANK-WITHIN-DOC(pool-no-top5)
+deathpoint:
+- qid: cat007
+  n_quotes: 2
+  n_in_pool: 0
+  n_recall_miss: 2
+  ranks: []
+  fc800:
+  - 0
+  - 2
+  fc2400:
+  - 0
+  - 2
+  clase: RECALL (ninguna cita entra al pool-50)
+- qid: cat013
+  n_quotes: 3
+  n_in_pool: 0
+  n_recall_miss: 3
+  ranks: []
+  fc800:
+  - 0
+  - 3
+  fc2400:
+  - 0
+  - 3
+  clase: RECALL (ninguna cita entra al pool-50)
+- qid: cat021
+  n_quotes: 6
+  n_in_pool: 6
+  n_recall_miss: 0
+  ranks:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  fc800:
+  - 6
+  - 6
+  fc2400:
+  - 6
+  - 6
+  clase: MIXTO/servido (revisar)
+- qid: hp006
+  n_quotes: 0
+  n_in_pool: 0
+  n_recall_miss: 0
+  ranks: []
+  fc800: null
+  fc2400: null
+  clase: SIN-CITAS (revisar gold)
+- qid: hp009
+  n_quotes: 2
+  n_in_pool: 2
+  n_recall_miss: 0
+  ranks:
+  - 4
+  - 16
+  fc800:
+  - 2
+  - 2
+  fc2400:
+  - 1
+  - 2
+  clase: MIXTO/servido (revisar)
+- qid: hp013
+  n_quotes: 4
+  n_in_pool: 4
+  n_recall_miss: 0
+  ranks:
+  - 5
+  - 0
+  - 0
+  - 6
+  fc800:
+  - 2
+  - 4
+  fc2400:
+  - 3
+  - 4
+  clase: VENTANA-rerank (preview-2400 rescata) [A]
+- qid: cat016
+  n_quotes: 2
+  n_in_pool: 1
+  n_recall_miss: 1
+  ranks:
+  - 5
+  fc800:
+  - 1
+  - 2
+  fc2400:
+  - 0
+  - 2
+  clase: RERANK/WITHIN-DOC (citas en pool rank [5], no top-5; max 7 chunks/source)
+- qid: hp003
+  n_quotes: 6
+  n_in_pool: 6
+  n_recall_miss: 0
+  ranks:
+  - 0
+  - 0
+  - 2
+  - 4
+  - 0
+  - 5
+  fc800:
+  - 4
+  - 6
+  fc2400:
+  - 6
+  - 6
+  clase: VENTANA-rerank (preview-2400 rescata) [A]
+- qid: cat017
+  n_quotes: 3
+  n_in_pool: 2
+  n_recall_miss: 1
+  ranks:
+  - 10
+  - 9
+  fc800:
+  - 1
+  - 3
+  fc2400:
+  - 2
+  - 3
+  clase: VENTANA-rerank (preview-2400 rescata) [A]
+- qid: hp002
+  n_quotes: 7
+  n_in_pool: 4
+  n_recall_miss: 3
+  ranks:
+  - 0
+  - 0
+  - 5
+  - 2
+  fc800:
+  - 3
+  - 7
+  fc2400:
+  - 6
+  - 7
+  clase: VENTANA-rerank (preview-2400 rescata) [A]
+- qid: hp008
+  n_quotes: 4
+  n_in_pool: 1
+  n_recall_miss: 3
+  ranks:
+  - 11
+  fc800:
+  - 0
+  - 4
+  fc2400:
+  - 3
+  - 4
+  clase: VENTANA-rerank (preview-2400 rescata) [A]
+- qid: hp001
+  n_quotes: 4
+  n_in_pool: 2
+  n_recall_miss: 2
+  ranks:
+  - 8
+  - 8
+  fc800:
+  - 2
+  - 4
+  fc2400:
+  - 2
+  - 4
+  clase: RERANK/WITHIN-DOC (citas en pool rank [8, 8], no top-5; max 13 chunks/source)
+- qid: hp017
+  n_quotes: 4
+  n_in_pool: 2
+  n_recall_miss: 2
+  ranks:
+  - 24
+  - 11
+  fc800: null
+  fc2400: null
+  clase: RERANK/WITHIN-DOC (citas en pool rank [24, 11], no top-5; max 24 chunks/source)
+- qid: cat001
+  n_quotes: 5
+  n_in_pool: 4
+  n_recall_miss: 1
+  ranks:
+  - 3
+  - 28
+  - 1
+  - 1
+  fc800:
+  - 2
+  - 5
+  fc2400:
+  - 3
+  - 5
+  clase: VENTANA-rerank (preview-2400 rescata) [A]
+- qid: hp011
+  n_quotes: 5
+  n_in_pool: 4
+  n_recall_miss: 1
+  ranks:
+  - 17
+  - 6
+  - 7
+  - 17
+  fc800:
+  - 4
+  - 5
+  fc2400:
+  - 4
+  - 5
+  clase: RERANK/WITHIN-DOC (citas en pool rank [17, 6, 7, 17], no top-5; max 4 chunks/source)
+- qid: hp018
+  n_quotes: 5
+  n_in_pool: 4
+  n_recall_miss: 1
+  ranks:
+  - 8
+  - 4
+  - 24
+  - 24
+  fc800:
+  - 1
+  - 5
+  fc2400:
+  - 3
+  - 5
+  clase: VENTANA-rerank (preview-2400 rescata) [A]
