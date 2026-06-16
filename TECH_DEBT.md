@@ -105,6 +105,13 @@ y las citas nuevas deben desambiguar por título.
 
 **Coste estimado**: ~4-6h (el parser de revisiones es el 70% del trabajo)
 
+**Spec de precedencia (s76, DEC-058): `evals/_s76_revision_contract_spec.md`** — la ÚNICA clase estructural que
+el lever-phase de retrieval NO tocó (cat009/cat024; cat008 es OEM-relabel→identidad #43/#49, NO este contrato).
+Añade el **árbitro de precedencia** (revisión=latest-wins vs variante-regional=answer-con-conflicto vs OEM vs
+multi-parte vs datasheet; regla rectora: ante duda NO supersede) + **validación judge-free** (paridad de POOL
+servido, NO veredicto; desacoplada del dual-judge — solo el win end-to-end de 2 golds < ±2 lo necesita). Build EN
+el escritor de ingesta (F2), no UPDATE in-place del corpus congelado.
+
 ---
 
 ## 5b. Tratamiento de centrales de detección de gas en la taxonomía
@@ -1859,3 +1866,14 @@ Resultado: **el detector tiene ~0 palanca eval real → DIFERIDO a su gatillo (i
 DEC-043/#43 capa B (seam + escritor), #21 (product_family), #18-mfr (atribución/etiquetas), #44/#45 (contratos de
 ingesta), #47. Scan reproducible: self-join de `chunks_v2` por `lower(regexp_replace(product_model,'[- ]','',''))` con
 `LIKE`, o `scripts/s75_identity_audit.py` (pm-compuesto + mis-atribución catalog-first + inconsistencia + cruce eval).
+
+**Medición s76 (DEC-058, PROD-REACH — `scripts/s76_prod_reach.py`):** el gate manufacturer-check del handler
+(`telegram_bot.py:292-339`) corta **9/29 NO-PASS ANTES del RAG; 7 cortes ERRÓNEOS** — `lookup_model_manufacturer`
+(catálogo de 587) devuelve None para CAD-150/ZXe/40-40 (**DESINCRONIZADO con el corpus**: 103 / 157-207 / 486
+chunks resp., verificado con count_rows) y la marca equivocada para RP1R (está en `_NOTIFIER_PATTERNS`, pero el
+corpus lo tiene Morley); 2 son OEM-relabel (ADW535/ASD535=Securiton en el corpus). → **el gate-fix #49 sube a
+deploy-prep MEDIDO** (defecto latente de prod, sin usuarios aún = no urgente-por-daño). Confirma el mecanismo del
+NO-OP de LEVER2_IDENTITY (ZXe cortado antes del RAG). NO cierra bias #40 solo: los OEM/multimarca necesitan el
+contrato de identidad (esta capa). **reach ≠ PASS** (arreglar el gate los hace llegar al retrieval; el PASS sigue
+dependiendo del retrieval bancado). Corte cross-model: sin contrato de identidad, el gate-fix solo cambia
+falsos-rechazos por falsos-aceptados/mis-atribución.

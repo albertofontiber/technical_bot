@@ -3,12 +3,12 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 15 jun 2026 (s75, DEC-057 — **audit-first de la raíz de identidad**: el detector de identidad
-> DEC-054 tiene **~0 palanca eval real** [el único gold que parecía suyo, cat013, es de CONDUCTA
-> refuse-inference, no de retrieval; hp009/hp018 son config] → **DIFERIDO a su gatillo ingesta-30+**,
-> NO se construye como lever. Escala del problema de datos = real pero acotada y en proxies ruidosos.
-> Dúo Opus+GPT-5.5 0 FP confirmó DIFERIR + corrigió el framing. **Siguiente (s76) = revisión EXHAUSTIVA
-> en ultracode de cómo recuperar NO-PASS de forma ESTRUCTURAL, no overfitting**).
+> 15 jun 2026 (s76, DEC-058 — **revisión estructural de los 29 NO-PASS en ultracode**: la fase de
+> levers de RETRIEVAL está AGOTADA; la clase NO-tocada por esa fase es de DATOS = contrato de
+> REVISIÓN/precedencia [#4, spec escrito]. **PROD-REACH medido:** el gate del handler corta 7/9 mal
+> antes del RAG [catálogo desincronizado + regex] → deploy-prep #49 SUBE. **Sonda dual-judge:** el ruler
+> tiene un sesgo sistemático MEDIDO [30.8% cross-model; cat019/cat020 = falsos NO-PASS], no solo ±2.
+> NADA shippeado [3 builds gated]. 1 workflow + 2 cortes cross-model, 0 FP).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -27,7 +27,33 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s75 — 15 jun 2026)
+## Estado actual (s76 — 15 jun 2026)
+
+**s76 (DEC-058): revisión estructural EXHAUSTIVA de los 29 NO-PASS en ultracode = la fase de levers de
+RETRIEVAL está agotada de verdad; la única clase NO-tocada por esa fase es de DATOS.** 1 workflow
+ultracode (29 agentes, 7 clases × diagnóstico + 3 lentes adversariales) + 2 cortes cross-model GPT-5.5
+(8/8 y 7/7, **0 FP**). Alberto eligió ejecutar 3 acciones MEDIBLES (no parar):
+- **(1) PROD-REACH (medido, judge-free, `scripts/s76_prod_reach.py`):** el gate manufacturer-check del
+  handler (telegram_bot.py:292-339) corta **9/29 antes del RAG; 7 son cortes ERRÓNEOS** (verificado en DB:
+  corpus con 103-581 chunks del modelo, pero el catálogo de `lookup_model_manufacturer` está
+  DESINCRONIZADO [CAD-150/ZXe/40-40 ausentes] + el regex mete RP1r/Morley bajo Notifier); 2 son frontera
+  OEM-relabel. → para esos 7, ningún fix de retrieval ayuda en prod; el fix es el GATE (#49, deploy-prep).
+  Confirma el mecanismo del NO-OP de LEVER2_IDENTITY (ZXe cortado antes del RAG). **reach ≠ PASS.**
+- **(2) Contrato de revisión #4 = SPEC** (`evals/_s76_revision_contract_spec.md`, diseño no-build):
+  árbitro de precedencia (revisión=latest-wins vs variante-regional vs OEM vs multi-parte vs datasheet;
+  ante duda NO supersede) + validación judge-free; build a la ingesta F2. La única clase estructural que
+  el lever-phase de retrieval no tocó (cat009/cat024; cat008 es OEM-relabel→identidad).
+- **(3) Sonda dual-judge holística (medido, `scripts/s76_dualjudge_sonda.py`):** el dual-judge holístico
+  NUNCA se midió-primero (s47 midió los ejes del scorer, no el ruler de veredicto). Medido = **30.8%
+  desacuerdo cross-model, 11/12 Claude más laxo**; cat019/cat020 = sesgo sistemático del juez
+  triple-confirmado (audit humano should_be=PASS + Claude=PASS vs GPT-PARCIAL) → **2 falsos NO-PASS**
+  (+cat012 debatible). "2º-juez+voto"=NO (laxo global, no toca el ±2 sampling); recalibrar-rubric-por-principio = real pero gated.
+
+**NADA shippeado (plan MEDIDO, no delta de prod; eval-driven).** Sin cambio de código de prod (solo
+instrumentos de medición + specs). 353 tests. **Recomendación:** gate-fix #49 SUBE (defecto latente
+medido en prod, deploy-prep) · contrato #4 (build a ingesta) · rubric del juez (organic-eval ~sept).
+
+### Antecedente s75 (DEC-057)
 
 **s75 (DEC-057): audit-first de la raíz de identidad (DEC-054) = el detector tiene ~0 palanca eval real → DIFERIDO
 a su gatillo (ingesta-30+), NO se construye como lever.** Alberto eligió medir antes de decidir build/defer/pivote.
@@ -170,27 +196,26 @@ actual NO distingue fiable un win de +1/+2. Endurecerlo (dual-judge, s47§D) ser
 prerrequisito de MÁS lever-work; gated a "¿vale sin técnicos reales?" (lean: esperar al
 eval orgánico).
 
-## Qué sigue (s76 — revisión ESTRUCTURAL de NO-PASS en ultracode, no overfitting)
+## Qué sigue (s77 — builds estructurales GATED, priorizados por s76/DEC-058)
 
-**Decidido con Alberto (s75):** la próxima sesión = **revisión EXHAUSTIVA en ultracode** de cómo recuperar los
-golds NO-PASS de forma **ESTRUCTURAL (no overfitting)**. El audit s75 cerró la rama "detector de identidad como
-lever" (≈0 palanca → DIFERIDO). El reto de s76: **confrontar de frente que DEC-051e declaró agotada la fase de
-levers-baratos** — ¿hay una clase de fix ESTRUCTURAL que esa fase NO agotó (raíz-de-datos / arquitectura de
-generación / arquitectura de retrieval), distinguible del overfitting del ruler? Restricciones que la revisión
-debe respetar: el **±2 del ruler** (dual-judge = prerrequisito si se mide un win pequeño, DEC-051d), el prior
-**"fase agotada"** (no re-litigar sin sustrato nuevo — lección dúo s75), y el **mapa de 29 NO-PASS** de s74
-(~16 retrieval + 5 generación + 4 corpus-gap + 2 borderline + 1 diseño + 1 gold-injusto). Entregable: un plan
-priorizado de fixes estructurales con su test de no-overfitting (held-out + ¿generaliza a la clase, no al gold?).
+**s76 entregó el plan MEDIDO** (no delta de prod). Los 3 fixes estructurales, por orden, TODOS gated:
 
-1. **Detector de identidad (DEC-054): DIFERIDO** a su gatillo (ingesta-30+) — audit s75/DEC-057 midió ~0 palanca
-   eval (cat013 es gold de conducta, no de retrieval; hp009/hp018 son config). NO construir como lever; sigue
-   siendo prep de escala F2 al gatillo. El problema de datos (78 pm-compuesto / ≤114 mis-atribución / 18
-   inconsistencia, proxies ruidosos, 3-4 marcas legacy) se sanea EN el contrato de ingesta, no a posteriori.
-2. **Batch Lever 1 BANCADO tras flags** (`LEVER1_BROAD_FALLBACK`/`LEVER1_KEYWORD_ORDER`/`RERANK_PREVIEW_CHARS=2400`,
-   default OFF, reversible): lift de retrieval confirmado pero modesto + colateral (cat022). NO shippear; el A/B
-   con juez espera al ruler que importe (eval orgánico / dual-judge). Valor estructural demostrado por el gate-0.
-3. **Categorías (#44): NO backfill ahora** — filtro-EQ muerto (DEC-040, la respuesta puede vivir en otra
-   categoría); el batch ya rodea la categoría vacía. Si vuelve, será BOOST en el contrato de ingesta, NUNCA filtro.
+1. **Gate-fix #49 (deploy-prep) SUBE de prioridad** — PROD-REACH midió que el gate del handler corta **7/9
+   NO-PASS MAL antes del RAG** (catálogo `lookup_model_manufacturer` desincronizado con el corpus + regex
+   RP1r→Notifier). Defecto LATENTE de prod (sin usuarios aún → no urgente-por-daño-observado, pero medido).
+   Fix = sincronizar el check de existencia del gate con el corpus / fall-through al RAG ante duda (NO
+   hard-refuse). Toca prod → dúo + PR. NO cierra #40 solo (los OEM/multimarca necesitan el contrato de identidad #43/#49).
+2. **Contrato de revisión/precedencia #4** — spec escrito (`evals/_s76_revision_contract_spec.md`); la única
+   clase estructural que el lever-phase de retrieval NO tocó (cat009/cat024; cat008 es OEM-relabel→identidad).
+   Build EN la ingesta F2 (no in-place); validación de datos judge-free; el win end-to-end (2 golds < ±2)
+   necesita el dual-judge.
+3. **Rubric del juez (completitud-correcta ≠ contradicción)** — sesgo sistemático MEDIDO (cat019/cat020 =
+   falsos NO-PASS, triple-confirmado). Recalibrar por-principio cuando haya algo que shippear que dependa de
+   ello, o en el eval orgánico (~sept), con cross-model + held-out. NO "2º-juez-y-voto" (laxo global).
+
+**Diferidos confirmados (sin cambio):** detector de identidad (DEC-054/057, a ingesta-30+); batch Lever 1
+BANCADO tras flags (lift modesto + colateral cat022; el A/B espera al ruler que importe); categorías #44 (NO
+backfill — filtro-EQ muerto DEC-040; si vuelve, BOOST en ingesta nunca filtro).
 
 **Fases macro (rationale en HISTORY):** F1 calidad (levers de retrieval = rendimiento decreciente; el ±2 del
 ruler es el techo) → **F2 escala (identidad de producto en ingesta = EL siguiente bloque)** → F3 routing/tool-use +
