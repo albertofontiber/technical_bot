@@ -1,0 +1,518 @@
+meta:
+  proposito: Conducta del fall-through (Option D) vs falso hard-refuse actual. reach != PASS.
+  metodo: 'replica _process_query (extract->retrieve50->rerank5->generate). Baseline prod-inerte: LEVER2_*
+    OFF, preview 800, chunks_v2.'
+  baseline_actual_prod: '[hard-refuse] ''No tengo información sobre el modelo X. Tengo manuales de: ...'''
+  n_catalog_miss: 6
+  n_sondas_ausente: 2
+  clasificacion_pendiente: 'humano/Claude lee ''answer'' y marca: ANSWER_CORRECT_MFR | ADMIT_NO_INFO |
+    REFUSE_INFERENCE | CLARIFY | HALLUCINATE/CROSS_BRAND'
+resultados:
+- qid: cat013
+  tipo: catalog-miss
+  conducta_esperada: refuse-inference
+  question: Tengo una central Detnov CAD-150 y me ha sobrado de otra instalacion un detector optico Notifier
+    SDX-751; ¿es compatible / puedo montarlo en su lazo?
+  model_extraido: CAD-150
+  lookup_model_manufacturer: null
+  target_models:
+  - CAD-150
+  - SDX-751
+  top_chunk_mfrs:
+  - Detnov
+  - Detnov
+  - Detnov
+  - Detnov
+  - Detnov
+  top_chunk_models:
+  - CAD-150-8
+  - CAD-150-8
+  - CAD-150-8
+  - CAD-150-8
+  - CAD-150-8
+  answer: 'La pregunta es **cross-brand**: estás preguntando por compatibilidad entre una central **Detnov
+    CAD-150** y un detector **Notifier SDX-751**.
+
+
+    No tengo documentación del **SDX-751 de Notifier** en mi base, y los fragmentos recuperados de la
+    CAD-150 no incluyen ninguna lista de dispositivos compatibles con su lazo analógico — solo cubren
+    conexionado de sirenas, puesta en marcha y descripción de componentes físicos [F1][F3][F4][F5].
+
+
+    Por tanto, **no puedo confirmar ni descartar la compatibilidad** entre ambos equipos. Afirmar cualquier
+    cosa en un sentido u otro sería inventar datos que no tengo.
+
+
+    **Lo que debes hacer:**
+
+    Consulta directamente a **Detnov** (soporte técnico) para que confirmen si el protocolo de lazo de
+    la CAD-150 es compatible con el SDX-751. La compatibilidad en lazos analógicos depende del protocolo
+    propietario de cada fabricante, y eso debe venir del fabricante de la central.
+
+
+    ---
+
+
+    Fuente: 55315013 Manual Centrales Analógicas CAD-150-8 Instalación ES FR GB IT (sin revisión registrada)'
+- qid: cat016
+  tipo: catalog-miss
+  conducta_esperada: answer
+  question: En la Detnov CAD-150, ¿como se da de alta un detector nuevo en el lazo y como se prueba que
+    funciona?
+  model_extraido: CAD-150
+  lookup_model_manufacturer: null
+  target_models:
+  - CAD-150
+  top_chunk_mfrs:
+  - Detnov
+  - Detnov
+  - Detnov
+  - Detnov
+  - Detnov
+  top_chunk_models:
+  - CAD-150-8
+  - CAD-150-8
+  - CAD-150-8
+  - CAD-150-8
+  - CAD-150-8
+  answer: "# CAD-150-8: Alta de detector nuevo y prueba funcional\n\n## PARTE 1 — Alta de un detector\
+    \ nuevo en el lazo\n\nLos fragmentos disponibles **no describen el procedimiento específico de alta/enrolamiento\
+    \ de un detector nuevo** en el lazo analógico (asignación de dirección, escaneo de dispositivos, configuración\
+    \ desde software, etc.).\n\nLo que sí indica el manual de instalación es que, antes de energizar el\
+    \ sistema, debes verificar [F3]:\n\n1. Que el equipo esté instalado correctamente.\n2. Comprobar con\
+    \ voltímetro que en los lazos **no existen cortocircuitos ni circuitos abiertos** — verificar continuidad\
+    \ de línea.\n3. Verificar las conexiones de salida de la placa base.\n\nPara el procedimiento completo\
+    \ de enrolamiento/alta de dispositivos, consulta el manual de instalación completo o el software de\
+    \ configuración. El propio manual indica que **\"la configuración básica se recomienda realizar con\
+    \ el software de configuración, ya que el proceso será más sencillo y rápido\"** [F3].\n\n---\n\n\
+    ## PARTE 2 — Prueba del detector\n\nUna vez instalado el detector, tienes **dos métodos** para probarlo:\n\
+    \n### Método A — Prueba desde menú ZONA (recomendado para pruebas sin rearme)\n\n1. Accede al **menú\
+    \ ZONA → opción PRUEBA** [F1].\n2. Selecciona el **rango de zonas** a poner en prueba (campo `RANGO:\
+    \ [000] a [250]`) [F1].\n3. El sistema preguntará **\"ACTIVAR SIRENAS: [SI/NO]\"** [F1]:\n   - **SI**\
+    \ → las sirenas se activarán unos segundos tras la alarma del detector y se silenciarán automáticamente.\n\
+    \   - **NO** → la alarma se registra sin activar sirenas.\n4. Provoca el disparo del detector (aerosol,\
+    \ calor, etc.).\n5. Verifica que la central registra la alarma.\n6. **Para salir del modo prueba**:\
+    \ conecta la zona desde el menú CONECTAR [F1].\n\n> ⚠️ **Importante**: Si en **20 minutos** no se\
+    \ produce ningún disparo de alarma, el sistema cancela automáticamente el modo prueba y vuelve a estado\
+    \ normal [F1][F2].\n\n> ✅ **Ventaja clave**: En modo prueba, los retardos de sirena quedan **anulados**\
+    \ para agilizar la verificación [F1][F2].\n\n### Método B — Prueba de sistema general (puesta en marcha)\n\
+    \nDesde el manual de instalación [F4]:\n1. Provoca una **alarma** en el detector.\n2. Verifica que\
+    \ se activa el **relé de alarma**.\n3. Verifica que se activan las **salidas de sirena** una vez transcurrido\
+    \ el tiempo de retardo programado.\n\n### Mantenimiento periódico (referencia)\n\nEl manual indica\
+    \ que **anualmente** se debe poner el equipo en estado de prueba y verificar que todos los detectores\
+    \ funcionan según especificaciones del fabricante [F5]. **Mensualmente**, el usuario debe disparar\
+    \ un detector o pulsador, probando una zona diferente cada mes [F5].\n\n---\n\n**Fuentes:**\n- `55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT`\
+    \ (sin revisión registrada)\n- `55315013-Manual-Centrales-Analogicas-CAD-150-8-Instalacion-ES-FR-GB-IT`\
+    \ (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **conexionado del lazo analógico**,\
+    \ **configuración de zonas desde teclado** o **códigos de acceso y niveles de usuario de la CAD-150-8**."
+- qid: hp003
+  tipo: catalog-miss
+  conducta_esperada: answer
+  question: ¿Cómo se conectan las baterías de 24V en la Detnov CAD-150?
+  model_extraido: CAD-150
+  lookup_model_manufacturer: null
+  target_models:
+  - CAD-150
+  top_chunk_mfrs:
+  - Detnov
+  - Detnov
+  - Detnov
+  - Detnov
+  - Detnov
+  top_chunk_models:
+  - CAD-150-8
+  - CAD-150-8
+  - CAD-150-8
+  - CAD-150-8
+  - CAD-150R
+  answer: '## Conexión de baterías en la CAD-150 (CAD-150-8)
+
+
+    ### Procedimiento de conexión
+
+
+    1. **Conecta el cable puente entre las dos baterías** antes de cualquier otra conexión [F1]. Este
+    paso es previo e imprescindible.
+
+
+    2. **Conecta los cables del circuito** (rojo → positivo, negro → negativo) al conjunto de baterías
+    ya unidas con el puente [F1].
+
+
+    3. El conector de batería en la PCB Base está identificado como **Conector Batería (posición 11)**,
+    protegido por el **Fusible Baterías (posición 10)** [F2][F3].
+
+
+    ### Verificación previa a la conexión
+
+
+    Antes de conectar las baterías, verifica que tengan una **tensión superior a 24V** [F4].
+
+
+    ### Orden correcto de puesta en marcha
+
+
+    1. Conectar primero la **alimentación de red** activando el magnetotérmico bipolar [F4].
+
+    2. Conectar las **baterías** a continuación [F4].
+
+
+    > ⚠️ Si necesitas arrancar el equipo **solo con baterías** (sin red), es imprescindible pulsar el
+    pulsador **BAT** (posición 9 en PCB Base) para arrancar el equipo [F4].
+
+
+    ---
+
+
+    **Fuente:** 55315013 Manual Centrales Analógicas CAD-150-8 Instalación ES FR GB IT (sin revisión registrada)'
+- qid: hp009
+  tipo: catalog-miss
+  conducta_esperada: answer
+  question: ¿Cuál es la resistencia de fin de línea recomendada para los lazos de la central Morley ZXe?
+  model_extraido: ZXE
+  lookup_model_manufacturer: null
+  target_models:
+  - ZXE
+  top_chunk_mfrs:
+  - Morley
+  - Morley
+  - Morley
+  - Morley
+  - Morley
+  top_chunk_models:
+  - ZXAE/ZXEE
+  - ZXAE/ZXEE
+  - ZXAE/ZXEE
+  - ZXAE/ZXEE
+  - ZXAE/ZXEE
+  answer: 'El manual de instalación de la **ZXAE/ZXEE** distingue dos tipos de lazos con resistencias
+    de fin de línea diferentes:
+
+
+    ---
+
+
+    **1. Lazo analógico (detectores y módulos)**
+
+
+    Los fragmentos disponibles **no especifican una resistencia de fin de línea (RFL) para el lazo analógico**
+    [F4][F5]. El lazo analógico opera con comunicación digital a dos hilos y el manual describe la verificación
+    de continuidad e impedancia del lazo, pero no menciona una RFL para este circuito.
+
+
+    ---
+
+
+    **2. Salidas de sirenas convencionales (ZXAE y ZXEE)**
+
+
+    - RFL: **6.800 Ω (6K8 ohmios)** [F2][F3]
+
+    - Potencia mínima: **0,5 W** [F2]
+
+    - Se instala entre **+** y **−** de la última sirena del circuito [F2]
+
+    - Si no hay sirenas conectadas, la RFL se coloca directamente en los terminales de salida de la central
+    [F2]
+
+
+    ---
+
+
+    **3. Lazo periférico RS-485 (ZXAE y ZXEE)**
+
+
+    - RFL: **150 Ω** [F1]
+
+    - Potencia mínima: **0,5 W** [F1]
+
+    - Se instala en **cada extremo** del lazo cuando se trabaja en configuración de lazo abierto [F1]
+
+
+    ---
+
+
+    > ⚠️ Si tu pregunta se refiere específicamente al lazo analógico de detección, el manual no especifica
+    una RFL para ese circuito en los fragmentos disponibles. Consulta el manual completo o el soporte
+    técnico de Morley-IAS.
+
+
+    ---
+
+
+    Fuente: Manual de Instalación ZXAE/ZXEE — DOC.MIE-MI-310 (sin revisión registrada)
+
+
+    ---
+
+
+    También puedo ayudarte con: **longitudes máximas de cableado del lazo analógico**, **conexionado de
+    sirenas convencionales** o **instalación de aisladores de línea** en la ZXAE/ZXEE.'
+- qid: hp018
+  tipo: catalog-miss
+  conducta_esperada: answer
+  question: ¿Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe?
+  model_extraido: ZXE
+  lookup_model_manufacturer: null
+  target_models:
+  - ZXE
+  top_chunk_mfrs:
+  - Morley
+  - Morley
+  - Morley
+  - Morley
+  - Morley
+  top_chunk_models:
+  - ZXAE/ZXEE
+  - ZXAE/ZXEE
+  - ZXAE/ZXEE
+  - ZXAE/ZXEE
+  - ZXAE/ZXEE
+  answer: '## Conexionado de sirenas convencionales en salidas de sirena de la Morley ZXe (ZXAE/ZXEE)
+
+
+    ### Número de salidas disponibles
+
+
+    - **ZXAE**: 2 salidas supervisadas para campanas convencionales (Salida A y B) [F2]
+
+    - **ZXEE**: 4 salidas supervisadas para sirenas convencionales (Salida A, B, C y D) [F2]
+
+
+    ---
+
+
+    ### Parámetros eléctricos clave
+
+
+    - **Corriente máxima por circuito**: 1 A [F2]
+
+    - **Resistencia Final de Línea (RFL)**: **6.800 Ω (6K8), 0,5 W mínimo** [F2]
+
+    - **Sección mínima de cable**: **1,5 mm²** [F2]
+
+
+    ---
+
+
+    ### Procedimiento de conexionado
+
+
+    1. **Conecta las sirenas en serie en la línea**, respetando la polaridad (+ y –) de cada sirena con
+    polaridad [F1]. Las sirenas se conectan en cadena desde los terminales de salida de la central.
+
+
+    2. **Instala la RFL (6K8 Ω, 0,5 W mín.) entre + y – al final de la última sirena** de la línea, para
+    supervisión de apertura/cierre de línea [F2].
+
+
+    3. **Si no hay sirenas instaladas** en una salida, conecta la RFL directamente entre + y – en el terminal
+    de la central [F2].
+
+
+    4. **Para campanas sin polaridad**: instala un diodo entre el terminal + y uno de los terminales de
+    alimentación de la campana. Esto es obligatorio para evitar consumos durante la supervisión, ya que
+    las bobinas de estas campanas no tienen polaridad [F2].
+
+
+    5. **No realices ramales (derivaciones paralelas)** en la línea de sirenas. La supervisión se realiza
+    sobre la línea directa hasta la RFL; los ramales paralelos no quedan supervisados [F1].
+
+
+    ---
+
+
+    ### Funcionamiento de la supervisión
+
+
+    - La supervisión se realiza con una **corriente inversa** que lee la RFL [F2].
+
+    - La tensión de supervisión tiene **polaridad inversa** a la de activación [F2].
+
+    - Al activarse la salida, la corriente circula en sentido normal con la polaridad indicada en los
+    terminales [F2].
+
+
+    ---
+
+
+    ### Terminales de conexión (ZXEE)
+
+
+    Según el diagrama de la Figura 15 [F2], los terminales en la ZXEE son:
+
+    - **TB7**: S,A+ / S,A– / S,B+ / S,C+ / S,D+ / S,D–
+
+
+    Para la ZXAE, los terminales corresponden a las Salidas A y B según la Figura 15 de la ZXAE [F2].
+
+
+    ---
+
+
+    > ⚠️ **Advertencia**: Controla el consumo total de la central con todas las sirenas activadas para
+    no superar el límite de **1 A por circuito** ni el consumo total del equipo [F2].
+
+
+    ---
+
+
+    **Fuente:** Manual de Instalación ZXAE/ZXEE — DOC.MIE-MI-310 (sin revisión registrada)
+
+
+    También puedo ayudarte con: **configuración de zonas de disparo de sirenas**, **conexionado de sirenas
+    direccionables en lazo analógico** o **placas de sirenas del lazo periférico (4-Sirena)**.'
+- qid: cat021
+  tipo: catalog-miss
+  conducta_esperada: clarify
+  question: Necesito un detector de llama SharpEye «40/40» (Spectrex / Notifier) para una instalación;
+    ¿qué modelo pido?
+  model_extraido: 40-40
+  lookup_model_manufacturer: null
+  target_models:
+  - 40-40
+  top_chunk_mfrs:
+  - Spectrex
+  - Spectrex
+  - Spectrex
+  - Spectrex
+  - Spectrex
+  top_chunk_models:
+  - 40-40R
+  - 40-40R-SINGLE
+  - 40-40U
+  - 40-40U
+  - 40-40L
+  answer: 'El detector de llama SharpEye de la familia **40/40** existe en varias variantes según el principio
+    de detección. Con los fragmentos disponibles, identifico los siguientes modelos:
+
+
+    ---
+
+
+    ## Variantes disponibles de la familia SharpEye 40/40
+
+
+    - **S40/40R** — Detector de llama **infrarrojo (IR simple)** [F1]
+
+    - **S40/40U / S40/40UB** — Detector de llama **ultravioleta (UV)**, con o sin BIT (prueba incorporada)
+    [F3]
+
+    - **S40/40L / S40/40LB / S40/40L4 / S40/40L4B** — Detector de llama **UV/IR** [F5]
+
+
+    ---
+
+
+    ## Cómo construir la referencia de pedido (modelo IR — S40/40R)
+
+
+    El código de modelo se compone de 5 sufijos [F2]:
+
+
+    - **Configuración de cableado** (posición 1): ver Tabla 1 del manual
+
+    - **Rango de temperatura** (posición 2): **1** = 75 °C / **2** = 85 °C
+
+    - **Entrada de cable** (posición 3): **1** = M25 / **2** = ¾" NPT
+
+    - **Carcasa** (posición 4): **S** = acero inoxidable / **A** = aluminio *(aluminio no disponible en
+    versión FM)* [F2]
+
+    - **Homologación** (posición 5): **B** = Inmetro / **F** = FM/CSA / **C** = ATEX/IECEx / **R** = TR-CU
+    [F2]
+
+
+    **Ejemplo de referencia suministrada por defecto por Honeywell Life Safety Iberia** (para el modelo
+    UV): `S40/40xx-412AC` [F3], que corresponde a:
+
+    - Cableado opción 4, temperatura 75 °C, entrada ¾" NPT, carcasa aluminio, homologación ATEX/IECEx.
+
+
+    ---
+
+
+    ## ¿Qué modelo necesitas exactamente?
+
+
+    Para afinar la referencia de pedido, necesito que me confirmes:
+
+
+    1. **Principio de detección requerido**: ¿IR simple (40/40R), UV (40/40U/UB) o UV/IR (40/40L)?
+
+    2. **Homologación necesaria**: ATEX/IECEx, FM/CSA u otra.
+
+    3. **Entrada de cable**: M25 o ¾" NPT.
+
+    4. **Rango de temperatura**: 75 °C o 85 °C.
+
+    5. **Material de carcasa**: acero inoxidable o aluminio.
+
+
+    Con esos datos puedo darte la referencia completa.
+
+
+    ---
+
+
+    Fuente: MNDT724_40-40R (MN-DT-724, 10 octubre 2011, TM 40/40R Rev. 4); guide-40-40r-single-ir-flame-detector-spectrex-en-us-1459812
+    (sin revisión registrada); MNDT723_40-40U (MN-DT-723_B); MNDT722_40-40L (MN-DT-722_B, 10 octubre 2011,
+    TM 40/40L Rev. 5)'
+- qid: probe_absent_notifier
+  tipo: no-regresion(ausente)
+  conducta_esperada: admit_no_info
+  question: En la central Notifier AFP-9990, ¿cómo se programa el retardo de salida de alarma principal?
+  model_extraido: AFP-9990
+  lookup_model_manufacturer: null
+  target_models:
+  - AFP-9990
+  top_chunk_mfrs:
+  - Notifier
+  - Morley
+  - Notifier
+  - Notifier
+  - Morley
+  top_chunk_models:
+  - AFP4000
+  - DXc
+  - NFS 2-8
+  - ID50/60
+  - HRZ2-8
+  answer: 'No tengo documentación de la central **AFP-9990** en mi base de datos. Los fragmentos recuperados
+    corresponden a otros productos Notifier (AFP4000, NFS 2-8, ID50/60, HRZ2-8) y a la DXc de Detnov,
+    pero ninguno cubre la AFP-9990.
+
+
+    Para responderte con precisión, necesito saber: **¿es posible que el modelo sea otro?** Por ejemplo,
+    ¿podría ser una AFP-400, AFP-3030 u otra variante? Si puedes confirmar el modelo exacto leyendo la
+    etiqueta del panel, puedo buscarlo en mi base.'
+- qid: probe_absent_detnov
+  tipo: no-regresion(ausente)
+  conducta_esperada: admit_no_info
+  question: ¿Cómo se configura el nivel de sensibilidad del detector Detnov XQD-880?
+  model_extraido: null
+  lookup_model_manufacturer: null
+  target_models: []
+  top_chunk_mfrs:
+  - Notifier
+  - Detnov
+  - Xtralis
+  - Securiton
+  - System Sensor
+  top_chunk_models:
+  - AM2020
+  - CADA-50
+  - VESDA-E-VEA
+  - ASD531
+  - MODELO-6200R
+  answer: 'No tengo información sobre el detector **XQD-880 de Detnov** en los fragmentos recuperados.
+    Ninguno de los fragmentos disponibles corresponde a ese producto ni contiene datos sobre su configuración
+    de sensibilidad.
+
+
+    Los fragmentos recuperados corresponden a otros productos (AM2020, CADA-50, VESDA-E VEA, ASD531 y
+    MODELO-6200R) que no son relevantes para tu consulta.
+
+
+    **Recomendación:** Consulta directamente el manual técnico del XQD-880 de Detnov o contacta con el
+    soporte técnico de Detnov para obtener el procedimiento correcto de configuración de sensibilidad.'
