@@ -10,6 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from audit_locator import (  # noqa: E402
     citation_score, citation_present, locate, anchor_coverage, token_containment,
+    fact_present, fact_match_score, measurable, short_codes,
 )
 from strict_match import chunk_has_quote_strict  # noqa: E402
 
@@ -81,10 +82,54 @@ def test_same_number_different_fact():
     check("same-number-diff-fact: '47' presente pero prosa ajena -> no presente", score < 0.55)
 
 
+def test_measurable():
+    """s81/dúo r3: medible = el VALOR es verificable (datum anclable o prosa); single-digit-value
+    y frases sin tokens → NO-medible (candidatos al juez semántico, diferido)."""
+    check("47 kohm (anchor) -> medible", measurable("47 kohm") is True)
+    check("NC-C-NA (codigo) -> medible", measurable("NC-C-NA") is True)
+    check("'bucle cerrado' (prosa) -> medible", measurable("bucle cerrado") is True)
+    check("'1 A' (single-digit value) -> NO-medible", measurable("1 A") is False)
+    check("'4 circuitos' (single-digit value) -> NO-medible", measurable("4 circuitos") is False)
+    check("'una vez al ano' (sin tokens) -> NO-medible", measurable("una vez al año") is False)
+    check("'r.1' (seccion corta) -> NO-medible", measurable("r.1") is False)
+
+
+def test_fact_value_required():
+    """s81/dúo r3 (crít): el VALOR debe estar (cov>0); la prosa del enunciado SOLA no basta →
+    mata el FP 'valor marcado presente por contexto sin el dato'."""
+    texto = "la resistencia de fin de linea de las salidas de sirena es de 47 kohm"
+    con_valor = "cada salida lleva una resistencia de fin de linea de 47 kohm supervisada"
+    sin_valor = "cada salida de sirena lleva una resistencia de fin de linea supervisada en placa"
+    check("valor presente -> score alto (>=0.7)", (fact_match_score("47 kohm", texto, con_valor) or 0) >= 0.7)
+    check("valor AUSENTE (solo prosa del enunciado) -> 0.0 (NO FP)",
+          fact_match_score("47 kohm", texto, sin_valor) == 0.0)
+
+
+def test_fact_present_shortcode():
+    """s81/dúo: NC-C-NA via anchor_present (frontera); '1 A' no-medible -> None (no falso CORPUS-GAP)."""
+    check("NC-C-NA presente",
+          fact_present("NC-C-NA", "los rele de alarma de placa", "dos rele con contactos NC-C-NA y comun") is True)
+    check("NC-C-NA ausente -> False",
+          fact_present("NC-C-NA", "los rele de alarma de placa", "soporta 47 dispositivos en lazo cerrado") is False)
+    check("'1 A' no-medible -> None",
+          fact_present("1 A", "corriente maxima 1 A por salida de sirena", "salida de sirena de 1 A maxima") is None)
+
+
+def test_fact_no_fp_same_number():
+    """s81/dúo: el valor 47 presente pero en contexto AJENO → no presente (el texto desambigua)."""
+    texto = "resistencia de fin de linea de 47 kohm en las salidas de sirena"
+    ajeno = "el equipo soporta hasta 47 dispositivos direccionables en configuracion de lazo cerrado"
+    real = "cada salida de sirena lleva una resistencia de fin de linea de 47 kohm supervisada"
+    check("47 presente pero hecho ajeno -> NO presente", fact_present("47 kohm", texto, ajeno) is not True)
+    check("el hecho real SI se localiza", fact_present("47 kohm", texto, real) is True)
+
+
 def main():
     print("=== tests audit_locator ===")
     for t in (test_digit_boundary_fp, test_cross_product_source_tie, test_ocr_prose_fn_cat016,
-              test_true_negative, test_same_number_different_fact):
+              test_true_negative, test_same_number_different_fact,
+              test_measurable, test_fact_value_required, test_fact_present_shortcode,
+              test_fact_no_fp_same_number):
         print(f"\n[{t.__name__}]")
         t()
     print()

@@ -1,45 +1,738 @@
 meta:
-  generated_at: '2026-06-17T14:25:54'
-  git_commit: d5dfad1
+  generated_at: '2026-06-17T20:56:18'
+  git_commit: f37f332
   chunks_table: chunks_v2
   hyde_enabled: false
   retrieve_k: 50
   rerank_k: 5
+  rerank_runs: 1
   reranker: llm
   rerank_target_models: false
   gold_file: gold_answers_v1.yaml
-  bvg_file: _s45_results_k50_hydeOFF.yaml
-  n_qids: 5
+  bvg_file: bot_vs_gold_results_k5.yaml
+  matcher: audit_locator.fact_match_score (citation_score + anchor_present; s81/DEC-061)
+  freeze_note: 'PARCIAL (DEC-021§F): estampados chunks_table/hyde/retrieve_k/rerank_k/rerank_runs/git_commit.
+    NO estampados: corpus fingerprint, versión embeddings/retriever, orden-de-empates
+    → reproducibilidad LIMITADA. La membresía del pool es estable intra-corrida (dúo
+    #9 symdiff=∅); el orden de empates jitterea pero no afecta la decisión primaria
+    (in-pool).'
+  n_qids: 30
   qids:
-  - cat016
+  - cat001
   - cat007
+  - cat008
+  - cat009
+  - cat011
+  - cat012
+  - cat013
+  - cat016
+  - cat017
+  - cat019
+  - cat020
+  - cat021
+  - cat024
   - hp001
+  - hp002
+  - hp003
+  - hp004
+  - hp005
+  - hp006
+  - hp007
+  - hp008
+  - hp009
+  - hp010
   - hp011
+  - hp012
+  - hp013
+  - hp014
   - hp017
+  - hp018
+  - hp020
 results:
-- qid: cat016
-  veredicto_B: null
+- qid: cat001
+  veredicto_k5: PARCIAL
   conducta_esperada: answer
-  conducta_bot_B: null
-  n_core_presente: 4
+  conducta_bot_k5: answer
+  n_core_medible: 6
+  n_no_medible: 1
+  n_borderline: 0
+  n_rerank_unstable: 0
+  buckets:
+    SINTESIS: 4
+    RERANK-MISS: 1
+    RETRIEVAL: 1
+    CORPUS-GAP: 0
+  buckets_firme:
+    SINTESIS: 4
+    RERANK-MISS: 1
+    RETRIEVAL: 1
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool50: true
+  target_in_top5: true
+  primary_in_pool50: true
+  primary_in_top5: true
+  primary_not_retrieved: false
+  target_tokens:
+  - 997-669-005-3_Instal-Comm_ES
+  - 997-671-005-3_Configuration_ES
+  primary_tokens:
+  - 997-669-005-3_Instal-Comm_ES
+  - 997-671-005-3_Configuration_ES
+  corpus_counts:
+    997-669-005-3_Instal-Comm_ES: 112
+    997-671-005-3_Configuration_ES: 124
+  top5_sources:
+  - 997-669-005-3_Instal-Comm_ES
+  - 997-669-005-3_Instal-Comm_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  pool50_sources:
+  - 997-671-005-3_Configuration_ES
+  - 997-670-005-3_Operating_ES
+  - Guia basica instalacion_PEARL
+  - 997-669-005-3_Instal-Comm_ES
+  - 997-671-005-3_Configuration_ES
+  - Guia basica instalacion_PEARL
+  - 997-669-005-3_Instal-Comm_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-669-005-3_Instal-Comm_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  facts:
+  - valor: 1 o 2
+    medible: false
+    bucket: null
+  - valor: 159+159 / 99+99
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.944
+    borderline: false
+    rerank_unstable: false
+  - valor: 0,75 A
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 1.0
+    borderline: false
+    rerank_unstable: false
+  - valor: '40'
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.781
+    borderline: false
+    rerank_unstable: false
+  - valor: 32 / 25 / 20
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.792
+    borderline: false
+    rerank_unstable: false
+  - valor: autoconfiguracion
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.857
+    borderline: false
+    rerank_unstable: false
+  - valor: 255 / 8192
+    medible: true
+    bucket: RERANK-MISS
+    in_top5: false
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.893
+    borderline: false
+    rerank_unstable: false
+- qid: cat007
+  veredicto_k5: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_k5: answer
+  n_core_medible: 5
+  n_no_medible: 0
+  n_borderline: 1
+  n_rerank_unstable: 0
+  buckets:
+    SINTESIS: 2
+    RERANK-MISS: 1
+    RETRIEVAL: 1
+    CORPUS-GAP: 1
+  buckets_firme:
+    SINTESIS: 2
+    RERANK-MISS: 0
+    RETRIEVAL: 1
+    CORPUS-GAP: 1
+  target_servable: true
+  target_in_pool50: true
+  target_in_top5: true
+  primary_in_pool50: true
+  primary_in_top5: true
+  primary_not_retrieved: false
+  target_tokens:
+  - I56-6577-006_ES
+  - LT-200
+  - I56-6577-006_EN
+  primary_tokens:
+  - I56-6577-006_ES
+  - LT-200
+  - I56-6577-006_EN
+  corpus_counts:
+    I56-6577-006_ES: 42
+    LT-200: 269
+    I56-6577-006_EN: 31
+  top5_sources:
+  - I56-6577-006_ES FAAST Notifier LT-200 QIG
+  - I56-6575-005_ES FAAST LT-200 Loop QIG
+  - I56-6575-005_EN-FAAST-LT-200-Loop-QIG
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-6575-005_ES FAAST LT-200 Loop QIG
+  pool50_sources:
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-6575-005_ES FAAST LT-200 Loop QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - I56-6577-006_ES FAAST Notifier LT-200 QIG
+  - I56-6577-006_EN Notifier FAAST LT-200 QIG
+  - I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG
+  - I56-6575-005_EN-FAAST-LT-200-Loop-QIG
+  - ASD Cold Environments_SP
+  - FAAST-LT-No-puedo-comunicar-con-el-equipo
+  - FAAST-LT-Como-obtener-el-historico-del-equipo
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-6575-005_ES FAAST LT-200 Loop QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - I56-6577-006_ES FAAST Notifier LT-200 QIG
+  - I56-6577-006_EN Notifier FAAST LT-200 QIG
+  - I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG
+  - ASD Cold Environments_SP
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-6575-005_ES FAAST LT-200 Loop QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - I56-6577-006_ES FAAST Notifier LT-200 QIG
+  - I56-6577-006_EN Notifier FAAST LT-200 QIG
+  - I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-6575-005_ES FAAST LT-200 Loop QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - I56-6577-006_ES FAAST Notifier LT-200 QIG
+  - I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-6575-005_ES FAAST LT-200 Loop QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - I56-6577-006_ES FAAST Notifier LT-200 QIG
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-6575-005_ES FAAST LT-200 Loop QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - I56-6577-006_ES FAAST Notifier LT-200 QIG
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-6575-005_ES FAAST LT-200 Loop QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - I56-6577-006_ES FAAST Notifier LT-200 QIG
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-6575-005_ES FAAST LT-200 Loop QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - I56-6577-006_ES FAAST Notifier LT-200 QIG
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - I56-6577-006_ES FAAST Notifier LT-200 QIG
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  facts:
+  - valor: NC-C-NA
+    medible: true
+    bucket: CORPUS-GAP
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: false
+    best_score: 0.0
+    borderline: false
+    rerank_unstable: false
+  - valor: no enclavado
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.706
+    borderline: false
+    rerank_unstable: false
+  - valor: 47 kohm
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.75
+    borderline: false
+    rerank_unstable: false
+  - valor: 2 A / 0,5 A
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.857
+    borderline: false
+    rerank_unstable: false
+  - valor: 10^5
+    medible: true
+    bucket: RERANK-MISS
+    in_top5: false
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.577
+    borderline: true
+    rerank_unstable: false
+- qid: cat008
+  veredicto_k5: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_k5: answer
+  n_core_medible: 2
+  n_no_medible: 2
+  n_borderline: 0
+  n_rerank_unstable: 0
   buckets:
     SINTESIS: 2
     RERANK-MISS: 0
-    RETRIEVAL: 2
+    RETRIEVAL: 0
     CORPUS-GAP: 0
-  buckets_fuerte:
-    SINTESIS: 0
+  buckets_firme:
+    SINTESIS: 2
     RERANK-MISS: 0
     RETRIEVAL: 0
     CORPUS-GAP: 0
   target_servable: true
   target_in_pool50: true
   target_in_top5: true
+  primary_in_pool50: true
+  primary_in_top5: true
+  primary_not_retrieved: false
+  target_tokens:
+  - Conexionado-del-modulo-M710-MI-DMMI
+  - I56-2005-002
+  primary_tokens:
+  - Conexionado-del-modulo-M710-MI-DMMI
+  - I56-2005-002
+  corpus_counts:
+    Conexionado-del-modulo-M710-MI-DMMI: 1
+    I56-2005-002: 24
+  top5_sources:
+  - Conexionado-del-modulo-M710-MI-DMMI
+  - I56-2005-002 M710 M720 M721 M701
+  - I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE
+  - I56-2005-002 M710 M720 M721 M701
+  - BTDT075
+  pool50_sources:
+  - BTDT075
+  - Conexionado-del-modulo-M710-MI-DMMI
+  - I56-2005-002 M710 M720 M721 M701
+  - MIE-MI-490
+  - I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE
+  - I56-2005-002 M710 M720 M721 M701
+  facts:
+  - valor: 2 estados / 3 estados
+    medible: false
+    bucket: null
+  - valor: 47 kΩ
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 1.0
+    borderline: false
+    rerank_unstable: false
+  - valor: 18 kΩ
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.812
+    borderline: false
+    rerank_unstable: false
+  - valor: 1/2/3/4 lazo; 6-7 entrada A
+    medible: false
+    bucket: null
+- qid: cat009
+  veredicto_k5: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_k5: answer
+  n_core_medible: 1
+  n_no_medible: 0
+  n_borderline: 0
+  n_rerank_unstable: 0
+  buckets:
+    SINTESIS: 1
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  buckets_firme:
+    SINTESIS: 1
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool50: true
+  target_in_top5: true
+  primary_in_pool50: true
+  primary_in_top5: true
+  primary_not_retrieved: false
+  target_tokens:
+  - HLSI-MN-025-I
+  - HLSI-MN-025-I_NFS
+  - HLSI-MN-025_NFS
+  primary_tokens:
+  - HLSI-MN-025-I
+  corpus_counts:
+    HLSI-MN-025-I: 111
+    HLSI-MN-025-I_NFS: 111
+    HLSI-MN-025_NFS: 57
+  top5_sources:
+  - HLSI-MN-025-I_NFS Supra Series v05
+  - HLSI-MN-025_NFS Supra
+  - HLSI-MN-025-I_NFS Supra Series v05
+  - HLSI-MN-025_NFS Supra
+  - HLSI-MN-025_NFS Supra
+  pool50_sources:
+  - HLSI-MN-025_NFS Supra
+  - HLSI-MA-025 Guia Rapida NFS_Supra_ES
+  - HLSI-MN-025-I_NFS Supra Series
+  - HLSI-MN-025-I_NFS Supra Series v05
+  - HLSI-MN-025_NFS Supra
+  - HLSI-MN-025-I_NFS Supra Series
+  - HLSI-MN-025-I_NFS Supra Series v05
+  - HLSI-MN-025_NFS Supra
+  - HLSI-MN-025-I_NFS Supra Series v05
+  - HLSI-MN-025_NFS Supra
+  - HLSI-MN-025-I_NFS Supra Series v05
+  - HLSI-MN-025_NFS Supra
+  - HLSI-MN-025-I_NFS Supra Series v05
+  - HLSI-MN-025_NFS Supra
+  - HLSI-MN-025-I_NFS Supra Series v05
+  - HLSI-MN-025_NFS Supra
+  - HLSI-MN-025_NFS Supra
+  - HLSI-MN-025_NFS Supra
+  - HLSI-MN-025_NFS Supra
+  - HLSI-MN-025_NFS Supra
+  - HLSI-MN-025_NFS Supra
+  facts:
+  - valor: 6K8
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.846
+    borderline: false
+    rerank_unstable: false
+- qid: cat011
+  veredicto_k5: PARCIAL
+  conducta_esperada: clarify
+  conducta_bot_k5: clarify
+  n_core_medible: 3
+  n_no_medible: 0
+  n_borderline: 1
+  n_rerank_unstable: 0
+  buckets:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 2
+    CORPUS-GAP: 1
+  buckets_firme:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 1
+    CORPUS-GAP: 1
+  target_servable: true
+  target_in_pool50: false
+  target_in_top5: false
+  primary_in_pool50: false
+  primary_in_top5: false
+  primary_not_retrieved: true
+  target_tokens:
+  - I56-3383-002
+  - IDX-751
+  - I56-0790-003
+  - CPX-751E
+  - I56-0790-003_CPX-751E
+  primary_tokens:
+  - I56-3383-002
+  - IDX-751
+  - I56-0790-003
+  - CPX-751E
+  corpus_counts:
+    I56-3383-002: 6
+    IDX-751: 6
+    I56-0790-003: 15
+    CPX-751E: 15
+    I56-0790-003_CPX-751E: 15
+  top5_sources:
+  - MNDT1020
+  - I56-1320-001 SDX-751TEM
+  - I56-1320-001 SDX-751TEM
+  - MIDT170
+  - ASD531_OM_T811168es_b
+  pool50_sources:
+  - MADT281
+  - CALYPSO-II-R_manual
+  - 33037_05_VESDA-E_VEA-040-A10_Product_Guide_A4_Spanish_lores
+  - ASD531_OM_T811168es_b
+  - MNDT742_G
+  - 33037_05_VESDA-E_VEA-040-A10_Product_Guide_A4_Spanish_lores
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - 33037_05_VESDA-E_VEA-040-A10_Product_Guide_A4_Spanish_lores
+  - MNDT1020
+  - 33037_05_VESDA-E_VEA-040-A10_Product_Guide_A4_Spanish_lores
+  - I56-1320-001 SDX-751TEM
+  - 33037_05_VESDA-E_VEA-040-A10_Product_Guide_A4_Spanish_lores
+  - I56-1320-001 SDX-751TEM
+  - MIDT170
+  - MIDT230
+  facts:
+  - valor: '751'
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.6
+    borderline: true
+    rerank_unstable: false
+  - valor: seguridad intrínseca
+    medible: true
+    bucket: CORPUS-GAP
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: false
+    best_score: 0.0
+    borderline: false
+    rerank_unstable: false
+  - valor: iónico
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.812
+    borderline: false
+    rerank_unstable: false
+- qid: cat012
+  veredicto_k5: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_k5: answer
+  n_core_medible: 4
+  n_no_medible: 0
+  n_borderline: 1
+  n_rerank_unstable: 0
+  buckets:
+    SINTESIS: 4
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  buckets_firme:
+    SINTESIS: 3
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool50: true
+  target_in_top5: true
+  primary_in_pool50: true
+  primary_in_top5: true
+  primary_not_retrieved: false
+  target_tokens:
+  - AM-8200
+  primary_tokens:
+  - AM-8200
+  corpus_counts:
+    AM-8200: 309
+  top5_sources:
+  - AM-8200 Manual Instalacion
+  - AM-8200 Manual Instalacion
+  - AM-8200 Manual Instalacion
+  - AM-8200 Manual Instalacion
+  - AM-8200 Manual Instalacion
+  pool50_sources:
+  - AM-8200 Manual Instalacion
+  - UCIP MODBUS AM8200 V5.1
+  - AM-8200-manu-prog-spa
+  - AM-8200 Manual Instalacion
+  - AM-8200 Manual Instalacion
+  - AM-8200 Manual Instalacion
+  - AM-8200 Manual Instalacion
+  - AM-8200 Manual Instalacion
+  - AM-8200 Manual Instalacion
+  facts:
+  - valor: 1,2
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.667
+    borderline: true
+    rerank_unstable: false
+  - valor: 24 h
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 1.0
+    borderline: false
+    rerank_unstable: false
+  - valor: 179 mA
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.786
+    borderline: false
+    rerank_unstable: false
+  - valor: 18 Ah
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.864
+    borderline: false
+    rerank_unstable: false
+- qid: cat013
+  veredicto_k5: PARCIAL
+  conducta_esperada: refuse-inference
+  conducta_bot_k5: refuse-inference
+  n_core_medible: 2
+  n_no_medible: 0
+  n_borderline: 0
+  n_rerank_unstable: 0
+  buckets:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 2
+  buckets_firme:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 2
+  target_servable: true
+  target_in_pool50: true
+  target_in_top5: true
+  primary_in_pool50: true
+  primary_in_top5: true
+  primary_not_retrieved: false
+  target_tokens:
+  - '55315013'
+  - MIDT190
+  - CAD-150-8
+  - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+  primary_tokens:
+  - '55315013'
+  - MIDT190
+  corpus_counts:
+    '55315013': 25
+    MIDT190: 106
+    CAD-150-8: 88
+    55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT: 63
+  top5_sources:
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  pool50_sources:
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  facts:
+  - valor: bucle cerrado
+    medible: true
+    bucket: CORPUS-GAP
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: false
+    best_score: 0.0
+    borderline: false
+    rerank_unstable: false
+  - valor: CLIP
+    medible: true
+    bucket: CORPUS-GAP
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: false
+    best_score: 0.222
+    borderline: false
+    rerank_unstable: false
+- qid: cat016
+  veredicto_k5: FALLO
+  conducta_esperada: answer
+  conducta_bot_k5: answer
+  n_core_medible: 4
+  n_no_medible: 0
+  n_borderline: 2
+  n_rerank_unstable: 0
+  buckets:
+    SINTESIS: 2
+    RERANK-MISS: 0
+    RETRIEVAL: 2
+    CORPUS-GAP: 0
+  buckets_firme:
+    SINTESIS: 2
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool50: true
+  target_in_top5: true
+  primary_in_pool50: true
+  primary_in_top5: true
+  primary_not_retrieved: false
   target_tokens:
   - '55315013'
   - '55315008'
   - CAD-150-8
   - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+  primary_tokens:
+  - '55315013'
+  - '55315008'
   corpus_counts:
     '55315013': 25
     '55315008': 63
@@ -69,45 +762,505 @@ results:
   - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
   facts:
   - valor: autobusqueda
-    probe: ~autobusqueda
-    strength: debil
+    medible: true
+    bucket: RETRIEVAL
     in_top5: false
     in_pool50: false
     in_manual_corpus: true
-    bucket: RETRIEVAL
+    best_score: 0.562
+    borderline: true
+    rerank_unstable: false
   - valor: menu ZONA + ELEMENTO
-    probe: ~menu ZONA + ELEMENTO
-    strength: debil
+    medible: true
+    bucket: RETRIEVAL
     in_top5: false
     in_pool50: false
     in_manual_corpus: true
-    bucket: RETRIEVAL
+    best_score: 0.625
+    borderline: true
+    rerank_unstable: false
   - valor: modo prueba
-    probe: ~modo prueba
-    strength: debil
+    medible: true
+    bucket: SINTESIS
     in_top5: true
     in_pool50: true
     in_manual_corpus: true
-    bucket: SINTESIS
+    best_score: 0.818
+    borderline: false
+    rerank_unstable: false
   - valor: 20 minutos
-    probe:
-    - '20'
-    strength: debil
+    medible: true
+    bucket: SINTESIS
     in_top5: true
     in_pool50: true
     in_manual_corpus: true
-    bucket: SINTESIS
-- qid: cat007
-  veredicto_B: PARCIAL
+    best_score: 0.816
+    borderline: false
+    rerank_unstable: false
+- qid: cat017
+  veredicto_k5: PARCIAL
   conducta_esperada: answer
-  conducta_bot_B: answer
-  n_core_presente: 5
+  conducta_bot_k5: answer
+  n_core_medible: 5
+  n_no_medible: 0
+  n_borderline: 1
+  n_rerank_unstable: 0
   buckets:
-    SINTESIS: 4
+    SINTESIS: 2
     RERANK-MISS: 0
-    RETRIEVAL: 1
+    RETRIEVAL: 3
     CORPUS-GAP: 0
-  buckets_fuerte:
+  buckets_firme:
+    SINTESIS: 1
+    RERANK-MISS: 0
+    RETRIEVAL: 3
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool50: true
+  target_in_top5: true
+  primary_in_pool50: true
+  primary_in_top5: true
+  primary_not_retrieved: false
+  target_tokens:
+  - HOP-138-9
+  - HOP-138-8
+  - HOP-138-9ES
+  - 11-2025_In
+  - HOP-138-8ES
+  - 01-2026_Co
+  primary_tokens:
+  - HOP-138-9
+  - HOP-138-8
+  corpus_counts:
+    HOP-138-9: 107
+    HOP-138-8: 94
+    HOP-138-9ES: 100
+    11-2025_In: 100
+    HOP-138-8ES: 89
+    01-2026_Co: 94
+  top5_sources:
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-8ES  issue 6_01-2026_Co
+  pool50_sources:
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-9ES issue 5_11-2025_In
+  - 4188-1125-ES issue 5_11-2025_Li
+  - HOP-338-9ES issue 4_01-2026_Op
+  - 4188-1122-ES issue 4_04-2025_Cyb
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-9ES issue 5_11-2025_In
+  - HOP-338-9ES issue 4_01-2026_Op
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-9ES issue 5_11-2025_In
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-9ES issue 5_11-2025_In
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-9ES issue 5_11-2025_In
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-9ES issue 5_11-2025_In
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-9ES issue 5_11-2025_In
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-9ES issue 5_11-2025_In
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-8ES  issue 6_01-2026_Co
+  facts:
+  - valor: modulo OPAL HOP-433-100
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.781
+    borderline: false
+    rerank_unstable: false
+  - valor: 159 + 159
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.719
+    borderline: false
+    rerank_unstable: false
+  - valor: licencia CLIP por lazo
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.833
+    borderline: false
+    rerank_unstable: false
+  - valor: Auto Configuracion
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.615
+    borderline: true
+    rerank_unstable: false
+  - valor: CLSS
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.714
+    borderline: false
+    rerank_unstable: false
+- qid: cat019
+  veredicto_k5: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_k5: answer
+  n_core_medible: 4
+  n_no_medible: 0
+  n_borderline: 1
+  n_rerank_unstable: 0
+  buckets:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 4
+    CORPUS-GAP: 0
+  buckets_firme:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 3
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool50: false
+  target_in_top5: false
+  primary_in_pool50: false
+  primary_in_top5: false
+  primary_not_retrieved: true
+  target_tokens:
+  - CAD-250-MC-380-es
+  primary_tokens:
+  - CAD-250-MC-380-es
+  corpus_counts:
+    CAD-250-MC-380-es: 119
+  top5_sources:
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - CAD-250_Manual-software-configuracion-MS-416-es-2026-b
+  pool50_sources:
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - CAD-250_Manual-software-configuracion-MS-416-es-2026-b
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - CAD-250_Manual-software-configuracion-MS-416-es-2026-b
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - CAD-250_Manual-software-configuracion-MS-416-es-2026-b
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - CAD-250_Manual-software-configuracion-MS-416-es-2026-b
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - CAD-250_Manual-software-configuracion-MS-416-es-2026-b
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - CAD-250_Manual-software-configuracion-MS-416-es-2026-b
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - CAD-250_Manual-software-configuracion-MS-416-es-2026-b
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - CAD-250_Manual-software-configuracion-MS-416-es-2026-b
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - CAD-250_Manual-software-configuracion-MS-416-es-2026-b
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  facts:
+  - valor: coincidencias
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.81
+    borderline: false
+    rerank_unstable: false
+  - valor: EVENTO / ACCION
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.821
+    borderline: false
+    rerank_unstable: false
+  - valor: ENTIDAD / CONDICION TEMPORAL
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.955
+    borderline: false
+    rerank_unstable: false
+  - valor: salidas
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.682
+    borderline: true
+    rerank_unstable: false
+- qid: cat020
+  veredicto_k5: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_k5: answer
+  n_core_medible: 3
+  n_no_medible: 0
+  n_borderline: 0
+  n_rerank_unstable: 0
+  buckets:
+    SINTESIS: 2
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 1
+  buckets_firme:
+    SINTESIS: 2
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 1
+  target_servable: false
+  target_in_pool50: false
+  target_in_top5: false
+  primary_in_pool50: false
+  primary_in_top5: false
+  primary_not_retrieved: false
+  target_tokens: []
+  primary_tokens: []
+  corpus_counts: {}
+  top5_sources:
+  - DXc_Manual variaciones de mercado
+  - DXc_Manual variaciones de mercado
+  - DXc_Manual de configuracion
+  - DXC-Connexion-Compatibilidad-de-programas-con-versiones
+  - DXc_Manual de usuario
+  pool50_sources:
+  - DXC-Connexion-Como-programar-una-salida-de-averia-general
+  - DXc_Guia de usuario_multiling
+  - DXC-Connexion-Compatibilidad-de-programas-con-versiones
+  - DXc_Manual de usuario
+  - DXC-Connexion-Averia-F-Alimentacion-externa
+  - DXc_Guia de instalacion_multiling
+  - DXc_Manual de configuracion
+  - Rearme-remoto-en-central-DXc-Connexion
+  - DXC-Connexion-Instalacion-y-configuracion-del-modulo-de-comunicacion-RS232
+  - DXc_Manual variaciones de mercado
+  - Morley-Se-pueden-pasar-programaciones-de-ZX-y-Dimension-a-Connexion-DXC
+  - DXc_Connexion Averia-de-resistencia-de-baterias
+  - DXC-Porque-al-activan-elementos-en-alarma-no-se-enciende-su-led
+  - DXc_Guia de usuario_multiling
+  - DXc_Manual de usuario
+  - DXc_Manual de configuracion
+  - DXc_Manual variaciones de mercado
+  - DXc_Guia de usuario_multiling
+  - DXc_Manual de usuario
+  - DXc_Manual de configuracion
+  - DXc_Manual de usuario
+  - DXc_Manual de configuracion
+  - DXc_Manual de usuario
+  - DXc_Manual de usuario
+  - DXc_Manual de usuario
+  - DXc_Manual de usuario
+  - DXc_Manual de usuario
+  facts:
+  - valor: 80 % / 100 % / 108 %
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.875
+    borderline: false
+    rerank_unstable: false
+  - valor: 0-100 % normalizado
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.944
+    borderline: false
+    rerank_unstable: false
+  - valor: manual de variaciones Espana
+    medible: true
+    bucket: CORPUS-GAP
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: false
+    best_score: 0.265
+    borderline: false
+    rerank_unstable: false
+- qid: cat021
+  veredicto_k5: PARCIAL
+  conducta_esperada: clarify
+  conducta_bot_k5: clarify
+  n_core_medible: 3
+  n_no_medible: 1
+  n_borderline: 1
+  n_rerank_unstable: 0
+  buckets:
+    SINTESIS: 1
+    RERANK-MISS: 2
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  buckets_firme:
+    SINTESIS: 0
+    RERANK-MISS: 2
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  target_servable: false
+  target_in_pool50: true
+  target_in_top5: true
+  primary_in_pool50: true
+  primary_in_top5: true
+  primary_not_retrieved: false
+  target_tokens:
+  - MN-DT-721
+  - MN-DT-725_B
+  - MN-DT-721_D
+  - MN-DT-723_B
+  - MN-DT-722_B
+  - MN-DT-724
+  - MNDT721_40-40I
+  - MNDT722_40-40L
+  - MNDT723_40-40U
+  - MNDT724_40-40R
+  - MNDT725_40-40M
+  primary_tokens:
+  - MN-DT-721
+  corpus_counts:
+    MN-DT-721: 0
+    MN-DT-725_B: 0
+    MN-DT-721_D: 0
+    MN-DT-723_B: 0
+    MN-DT-722_B: 0
+    MN-DT-724: 0
+  top5_sources:
+  - MNDT724_40-40R
+  - guide-40-40r-single-ir-flame-detector-spectrex-en-us-1459812
+  - MNDT723_40-40U
+  - MNDT723_40-40U
+  - MNDT721_40-40I
+  pool50_sources:
+  - MNDT723_40-40U
+  - MNDT724_40-40R
+  - manual-sharpeye-40-40-series-winhost-spectrex-en-us-4845694
+  - guide-40-40-air-shield-p-n-777650-spectrex-en-us-1459942
+  - guide-40-40r-single-ir-flame-detector-spectrex-en-us-1459812
+  - MNDT721_40-40I
+  - MNDT725_40-40M
+  - MNDT722_40-40L
+  - MNDT723_40-40U
+  - manual-sharpeye-40-40-series-winhost-spectrex-en-us-4845694
+  - guide-40-40-air-shield-p-n-777650-spectrex-en-us-1459942
+  - guide-40-40r-single-ir-flame-detector-spectrex-en-us-1459812
+  - MNDT722_40-40L
+  - MNDT723_40-40U
+  - MNDT723_40-40U
+  - MNDT723_40-40U
+  - MNDT723_40-40U
+  - MNDT723_40-40U
+  - MNDT723_40-40U
+  - MNDT723_40-40U
+  - MNDT723_40-40U
+  - MNDT723_40-40U
+  - MNDT723_40-40U
+  - MNDT723_40-40U
+  - MNDT723_40-40U
+  - MNDT723_40-40U
+  - MNDT723_40-40U
+  - MNDT723_40-40U
+  - MNDT723_40-40U
+  facts:
+  - valor: 40/40
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.596
+    borderline: true
+    rerank_unstable: false
+  - valor: IR3
+    medible: true
+    bucket: RERANK-MISS
+    in_top5: false
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.7
+    borderline: false
+    rerank_unstable: false
+  - valor: Multi IR / hidrógeno
+    medible: true
+    bucket: RERANK-MISS
+    in_top5: false
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.7
+    borderline: false
+    rerank_unstable: false
+  - valor: UV
+    medible: false
+    bucket: null
+- qid: cat024
+  veredicto_k5: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_k5: answer-con-conflicto
+  n_core_medible: 1
+  n_no_medible: 0
+  n_borderline: 1
+  n_rerank_unstable: 0
+  buckets:
+    SINTESIS: 1
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  buckets_firme:
     SINTESIS: 0
     RERANK-MISS: 0
     RETRIEVAL: 0
@@ -115,114 +1268,58 @@ results:
   target_servable: true
   target_in_pool50: true
   target_in_top5: true
+  primary_in_pool50: true
+  primary_in_top5: true
+  primary_not_retrieved: false
   target_tokens:
-  - I56-6577-006_ES
-  - LT-200
-  - I56-6577-006_EN
+  - MAD-472
+  - '55347200'
+  - IT_V2
+  primary_tokens:
+  - MAD-472
+  - '55347200'
   corpus_counts:
-    I56-6577-006_ES: 42
-    LT-200: 269
-    I56-6577-006_EN: 31
+    MAD-472: 4
+    '55347200': 4
+    IT_V2: 21
   top5_sources:
-  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
-  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
-  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
-  - I56-3956-201_ES Morley Loop FAAST LT QIG
-  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - 55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2
+  - 55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2
+  - MIDT212
   pool50_sources:
-  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
-  - I56-3956-201_ES Morley Loop FAAST LT QIG
-  - I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG
-  - ASD Cold Environments_SP
-  - FAAST-LT-No-puedo-comunicar-con-el-equipo
-  - FAAST-LT-Como-obtener-el-historico-del-equipo
-  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
-  - I56-3956-201_ES Morley Loop FAAST LT QIG
-  - I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG
-  - ASD Cold Environments_SP
-  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
-  - I56-3956-201_ES Morley Loop FAAST LT QIG
-  - I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG
-  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
-  - I56-3956-201_ES Morley Loop FAAST LT QIG
-  - I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG
-  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
-  - I56-3956-201_ES Morley Loop FAAST LT QIG
-  - I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG
-  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
-  - I56-3956-201_ES Morley Loop FAAST LT QIG
-  - I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG
-  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
-  - I56-3956-201_ES Morley Loop FAAST LT QIG
-  - I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG
-  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
-  - I56-3956-201_ES Morley Loop FAAST LT QIG
-  - I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG
-  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
-  - I56-3956-201_ES Morley Loop FAAST LT QIG
-  - I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG
-  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
-  - I56-3956-201_ES Morley Loop FAAST LT QIG
-  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
-  - I56-3956-201_ES Morley Loop FAAST LT QIG
-  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
-  - I56-3956-201_ES Morley Loop FAAST LT QIG
-  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
-  - I56-3956-201_ES Morley Loop FAAST LT QIG
-  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
-  - I56-3956-201_ES Morley Loop FAAST LT QIG
-  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
-  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - 55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - Manual_MAD-465-I (55346500 MI 620 m 2024 c)
+  - MIDT212
+  - AM-8200 Manual Instalacion
+  - 55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2
   facts:
-  - valor: NC-C-NA
-    probe: ~NC-C-NA
-    strength: debil
+  - valor: 17 mA
+    medible: true
+    bucket: SINTESIS
     in_top5: true
     in_pool50: true
     in_manual_corpus: true
-    bucket: SINTESIS
-  - valor: no enclavado
-    probe: ~no enclavado
-    strength: debil
-    in_top5: false
-    in_pool50: false
-    in_manual_corpus: true
-    bucket: RETRIEVAL
-  - valor: 47 kohm
-    probe:
-    - '47'
-    strength: debil
-    in_top5: true
-    in_pool50: true
-    in_manual_corpus: true
-    bucket: SINTESIS
-  - valor: 2 A / 0,5 A
-    probe:
-    - 0,5
-    strength: debil
-    in_top5: true
-    in_pool50: true
-    in_manual_corpus: true
-    bucket: SINTESIS
-  - valor: 10^5
-    probe:
-    - '10'
-    strength: debil
-    in_top5: true
-    in_pool50: true
-    in_manual_corpus: true
-    bucket: SINTESIS
+    best_score: 0.688
+    borderline: true
+    rerank_unstable: false
 - qid: hp001
-  veredicto_B: PARCIAL
+  veredicto_k5: FALLO
   conducta_esperada: answer
-  conducta_bot_B: answer
-  n_core_presente: 3
+  conducta_bot_k5: answer
+  n_core_medible: 3
+  n_no_medible: 0
+  n_borderline: 1
+  n_rerank_unstable: 0
   buckets:
-    SINTESIS: 2
+    SINTESIS: 1
     RERANK-MISS: 0
-    RETRIEVAL: 1
+    RETRIEVAL: 2
     CORPUS-GAP: 0
-  buckets_fuerte:
+  buckets_firme:
     SINTESIS: 1
     RERANK-MISS: 0
     RETRIEVAL: 1
@@ -230,9 +1327,14 @@ results:
   target_servable: true
   target_in_pool50: true
   target_in_top5: true
+  primary_in_pool50: false
+  primary_in_top5: false
+  primary_not_retrieved: true
   target_tokens:
   - CAD-250-MC-380-es
   - CAD-250
+  primary_tokens:
+  - CAD-250-MC-380-es
   corpus_counts:
     CAD-250-MC-380-es: 119
     CAD-250: 578
@@ -271,39 +1373,723 @@ results:
   - Manual usuario CAD-250 (MU 376 es 2024 f)
   facts:
   - valor: candado
-    probe: ~candado
-    strength: debil
-    in_top5: true
-    in_pool50: true
-    in_manual_corpus: true
-    bucket: SINTESIS
-  - valor: '2222'
-    probe:
-    - '2222'
-    strength: fuerte
+    medible: true
+    bucket: RETRIEVAL
     in_top5: false
     in_pool50: false
     in_manual_corpus: true
+    best_score: 0.667
+    borderline: true
+    rerank_unstable: false
+  - valor: '2222'
+    medible: true
     bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.9
+    borderline: false
+    rerank_unstable: false
   - valor: '1111'
-    probe:
-    - '1111'
-    strength: fuerte
+    medible: true
+    bucket: SINTESIS
     in_top5: true
     in_pool50: true
     in_manual_corpus: true
-    bucket: SINTESIS
-- qid: hp011
-  veredicto_B: FALLO
+    best_score: 0.85
+    borderline: false
+    rerank_unstable: false
+- qid: hp002
+  veredicto_k5: PARCIAL
   conducta_esperada: answer
-  conducta_bot_B: answer
-  n_core_presente: 4
+  conducta_bot_k5: answer
+  n_core_medible: 5
+  n_no_medible: 0
+  n_borderline: 1
+  n_rerank_unstable: 0
   buckets:
-    SINTESIS: 1
-    RERANK-MISS: 2
-    RETRIEVAL: 1
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 4
+    CORPUS-GAP: 1
+  buckets_firme:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 3
+    CORPUS-GAP: 1
+  target_servable: true
+  target_in_pool50: true
+  target_in_top5: true
+  primary_in_pool50: true
+  primary_in_top5: true
+  primary_not_retrieved: false
+  target_tokens:
+  - ASD535_TD_T131192es_h
+  primary_tokens:
+  - ASD535_TD_T131192es_h
+  corpus_counts:
+    ASD535_TD_T131192es_h: 242
+  top5_sources:
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  pool50_sources:
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  - ASD535_TD_T131192es_h
+  facts:
+  - valor: fallo flujo de aire
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.678
+    borderline: true
+    rerank_unstable: false
+  - valor: 80 %
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.727
+    borderline: false
+    rerank_unstable: false
+  - valor: 300 s
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.955
+    borderline: false
+    rerank_unstable: false
+  - valor: 7.6.1
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.857
+    borderline: false
+    rerank_unstable: false
+  - valor: reset inicial
+    medible: true
+    bucket: CORPUS-GAP
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: false
+    best_score: 0.542
+    borderline: false
+    rerank_unstable: false
+- qid: hp003
+  veredicto_k5: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_k5: answer
+  n_core_medible: 4
+  n_no_medible: 0
+  n_borderline: 0
+  n_rerank_unstable: 0
+  buckets:
+    SINTESIS: 3
+    RERANK-MISS: 1
+    RETRIEVAL: 0
     CORPUS-GAP: 0
-  buckets_fuerte:
+  buckets_firme:
+    SINTESIS: 3
+    RERANK-MISS: 1
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool50: true
+  target_in_top5: true
+  primary_in_pool50: true
+  primary_in_top5: true
+  primary_not_retrieved: false
+  target_tokens:
+  - '55315013'
+  - CAD-150-8
+  - '55315008'
+  - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+  - '55315501'
+  - CAD150R
+  - '191018'
+  primary_tokens:
+  - '55315013'
+  - CAD-150-8
+  corpus_counts:
+    '55315013': 25
+    CAD-150-8: 88
+    '55315008': 63
+    55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT: 63
+    '55315501': 15
+    CAD150R: 15
+  top5_sources:
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315501 CAD150R Instalacion ES GB 191018
+  pool50_sources:
+  - 55315501 CAD150R Instalacion ES GB 191018
+  - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315501 CAD150R Instalacion ES GB 191018
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315501 CAD150R Instalacion ES GB 191018
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315501 CAD150R Instalacion ES GB 191018
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  facts:
+  - valor: 12V
+    medible: true
+    bucket: RERANK-MISS
+    in_top5: false
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.75
+    borderline: false
+    rerank_unstable: false
+  - valor: cable puente
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.857
+    borderline: false
+    rerank_unstable: false
+  - valor: rojo y negro
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.833
+    borderline: false
+    rerank_unstable: false
+  - valor: primero la red
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.833
+    borderline: false
+    rerank_unstable: false
+- qid: hp004
+  veredicto_k5: PARCIAL
+  conducta_esperada: clarify
+  conducta_bot_k5: answer
+  n_core_medible: 3
+  n_no_medible: 0
+  n_borderline: 1
+  n_rerank_unstable: 0
+  buckets:
+    SINTESIS: 3
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  buckets_firme:
+    SINTESIS: 2
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool50: true
+  target_in_top5: true
+  primary_in_pool50: true
+  primary_in_top5: true
+  primary_not_retrieved: false
+  target_tokens:
+  - '55360004'
+  - DGD-600
+  primary_tokens:
+  - '55360004'
+  - DGD-600
+  corpus_counts:
+    '55360004': 4
+    DGD-600: 4
+  top5_sources:
+  - 55360004 Manual Detector Gas DGD-600 ES EN IT FR
+  - 55360004 Manual Detector Gas DGD-600 ES EN IT FR
+  - 55360004 Manual Detector Gas DGD-600 ES EN IT FR
+  - 55360004 Manual Detector Gas DGD-600 ES EN IT FR
+  pool50_sources:
+  - 55360004 Manual Detector Gas DGD-600 ES EN IT FR
+  - 55360004 Manual Detector Gas DGD-600 ES EN IT FR
+  - 55360004 Manual Detector Gas DGD-600 ES EN IT FR
+  - 55360004 Manual Detector Gas DGD-600 ES EN IT FR
+  facts:
+  - valor: 24V y 220V
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.571
+    borderline: true
+    rerank_unstable: false
+  - valor: 22V a 38V
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.917
+    borderline: false
+    rerank_unstable: false
+  - valor: 180V a 240V
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.944
+    borderline: false
+    rerank_unstable: false
+- qid: hp005
+  veredicto_k5: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_k5: answer
+  n_core_medible: 3
+  n_no_medible: 1
+  n_borderline: 0
+  n_rerank_unstable: 0
+  buckets:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 3
+    CORPUS-GAP: 0
+  buckets_firme:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 3
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool50: true
+  target_in_top5: false
+  primary_in_pool50: true
+  primary_in_top5: false
+  primary_not_retrieved: false
+  target_tokens:
+  - MPDT190
+  - MCDT191
+  primary_tokens:
+  - MPDT190
+  - MCDT191
+  corpus_counts:
+    MPDT190: 186
+    MCDT191: 144
+  top5_sources:
+  - MCDT190
+  - MADT190_07
+  - MADT190_07
+  - MADT190_14
+  - MADT190_07
+  pool50_sources:
+  - MADT190_05
+  - TIDT104
+  - TIDT096
+  - TIDT108
+  - MPDT190
+  - MADT190_02
+  - MADT190_07
+  - MCDT191
+  - MIDT190
+  - MFDT190
+  - MADT190_14
+  - MCDT190
+  - MADT190_12
+  - MADT190_13
+  - TIDT104
+  - TIDT096
+  - MPDT190
+  - MADT190_07
+  - MCDT191
+  - MFDT190
+  - MADT190_14
+  - MCDT190
+  - MADT190_13
+  - TIDT096
+  - MADT190_07
+  - TIDT096
+  - MADT190_07
+  - TIDT096
+  - MADT190_07
+  - MADT190_07
+  - MADT190_07
+  facts:
+  - valor: Matriz de control
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.818
+    borderline: false
+    rerank_unstable: false
+  - valor: COINCIDENCIA 2 EQUIPOS
+    medible: false
+    bucket: null
+  - valor: misma zona o subzona
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 1.0
+    borderline: false
+    rerank_unstable: false
+  - valor: CIRCUITO SIRENA
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.714
+    borderline: false
+    rerank_unstable: false
+- qid: hp006
+  veredicto_k5: FALLO
+  conducta_esperada: answer
+  conducta_bot_k5: admit
+  n_core_medible: 3
+  n_no_medible: 0
+  n_borderline: 1
+  n_rerank_unstable: 0
+  buckets:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 3
+    CORPUS-GAP: 0
+  buckets_firme:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 2
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool50: true
+  target_in_top5: true
+  primary_in_pool50: true
+  primary_in_top5: true
+  primary_not_retrieved: false
+  target_tokens:
+  - MIDT170
+  - 50253SP
+  - MADT380_01
+  primary_tokens:
+  - MIDT170
+  - 50253SP
+  - MADT380_01
+  corpus_counts:
+    MIDT170: 246
+    50253SP: 290
+    MADT380_01: 3
+  top5_sources:
+  - MFDT170
+  - MFDT170
+  - MFDT170
+  - MIDT170
+  - MIDT170
+  pool50_sources:
+  - MIDT170
+  - MADT236
+  - MADT231
+  - MFDT170
+  - MPDT170
+  - MIDT170
+  - MADT236
+  - MFDT170
+  - MPDT170
+  - MIDT170
+  - MFDT170
+  - MIDT170
+  - MFDT170
+  - MIDT170
+  - MFDT170
+  - MIDT170
+  - MFDT170
+  - MIDT170
+  - MFDT170
+  - MIDT170
+  - MIDT170
+  - MIDT170
+  - MIDT170
+  - MIDT170
+  - MIDT170
+  - MIDT170
+  facts:
+  - valor: Fallo de Tierra
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.571
+    borderline: true
+    rerank_unstable: false
+  - valor: Tierra
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.727
+    borderline: false
+    rerank_unstable: false
+  - valor: ISO-X
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.808
+    borderline: false
+    rerank_unstable: false
+- qid: hp007
+  veredicto_k5: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_k5: answer
+  n_core_medible: 0
+  n_no_medible: 7
+  n_borderline: 0
+  n_rerank_unstable: 0
+  buckets:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  buckets_firme:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool50: true
+  target_in_top5: true
+  primary_in_pool50: true
+  primary_in_top5: true
+  primary_not_retrieved: false
+  target_tokens:
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - VEP-A10-P
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  primary_tokens:
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  corpus_counts:
+    33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores: 120
+    VEP-A10-P: 120
+    33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores: 120
+  top5_sources:
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  pool50_sources:
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  facts:
+  - valor: cada 3 meses
+    medible: false
+    bucket: null
+  - valor: cada 6 meses
+    medible: false
+    bucket: null
+  - valor: una vez al año
+    medible: false
+    bucket: null
+  - valor: una vez al año
+    medible: false
+    bucket: null
+  - valor: una vez al año
+    medible: false
+    bucket: null
+  - valor: una vez al año
+    medible: false
+    bucket: null
+  - valor: cada 2 años
+    medible: false
+    bucket: null
+- qid: hp008
+  veredicto_k5: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_k5: answer
+  n_core_medible: 4
+  n_no_medible: 0
+  n_borderline: 0
+  n_rerank_unstable: 0
+  buckets:
+    SINTESIS: 0
+    RERANK-MISS: 1
+    RETRIEVAL: 3
+    CORPUS-GAP: 0
+  buckets_firme:
+    SINTESIS: 0
+    RERANK-MISS: 1
+    RETRIEVAL: 3
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool50: true
+  target_in_top5: true
+  primary_in_pool50: true
+  primary_in_top5: false
+  primary_not_retrieved: false
+  target_tokens:
+  - MIDT190
+  - MCDT191
+  primary_tokens:
+  - MIDT190
+  corpus_counts:
+    MIDT190: 106
+    MCDT191: 144
+  top5_sources:
+  - MPDT190
+  - MPDT190
+  - MCDT190
+  - MPDT190
+  - MCDT191
+  pool50_sources:
+  - MADT190_07
+  - MADT951_03
+  - MCDT190
+  - MPDT190
+  - MCDT191
+  - MFDT190
+  - MIDT190
+  - MADT190_14
+  - TIDT104
+  - TIDT096
+  - MADT190_12
+  - MADT190_13
+  - MADT190_07
+  - MCDT190
+  - MPDT190
+  - MCDT191
+  - MFDT190
+  - MADT190_14
+  - MADT190_13
+  - MCDT190
+  - MPDT190
+  - MCDT191
+  - MFDT190
+  - MCDT190
+  - MCDT191
+  - MFDT190
+  - MCDT190
+  - MCDT191
+  - MFDT190
+  - MCDT190
+  - MCDT191
+  - MCDT190
+  - MCDT191
+  - MCDT190
+  - MCDT191
+  - MCDT190
+  - MCDT190
+  facts:
+  - valor: CPX-551E
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.875
+    borderline: false
+    rerank_unstable: false
+  - valor: SDX-751
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.833
+    borderline: false
+    rerank_unstable: false
+  - valor: IRX-751CTEM
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 1.0
+    borderline: false
+    rerank_unstable: false
+  - valor: SDX-751-TEM
+    medible: true
+    bucket: RERANK-MISS
+    in_top5: false
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.8
+    borderline: false
+    rerank_unstable: false
+- qid: hp009
+  veredicto_k5: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_k5: clarify
+  n_core_medible: 2
+  n_no_medible: 0
+  n_borderline: 1
+  n_rerank_unstable: 0
+  buckets:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 2
+    CORPUS-GAP: 0
+  buckets_firme:
     SINTESIS: 0
     RERANK-MISS: 0
     RETRIEVAL: 1
@@ -311,7 +2097,174 @@ results:
   target_servable: true
   target_in_pool50: true
   target_in_top5: true
+  primary_in_pool50: true
+  primary_in_top5: true
+  primary_not_retrieved: false
   target_tokens:
+  - MIE-MI-530rv001
+  - MIE-MI-310
+  primary_tokens:
+  - MIE-MI-530rv001
+  - MIE-MI-310
+  corpus_counts:
+    MIE-MI-530rv001: 64
+    MIE-MI-310: 42
+  top5_sources:
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MP-310
+  - MIE-MI-310
+  pool50_sources:
+  - MIE-MI-310
+  - MIE-MP-310
+  - MIE-MU-310
+  - MIE-MP-315
+  - MIE-MI-310
+  - MIE-MP-310
+  - MIE-MU-310
+  - MIE-MP-315
+  - MIE-MI-310
+  - MIE-MP-310
+  - MIE-MP-315
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  facts:
+  - valor: Retorno
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.579
+    borderline: true
+    rerank_unstable: false
+  - valor: aisladores internos
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.917
+    borderline: false
+    rerank_unstable: false
+- qid: hp010
+  veredicto_k5: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_k5: answer
+  n_core_medible: 2
+  n_no_medible: 1
+  n_borderline: 1
+  n_rerank_unstable: 0
+  buckets:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 1
+    CORPUS-GAP: 1
+  buckets_firme:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 1
+  target_servable: false
+  target_in_pool50: false
+  target_in_top5: false
+  primary_in_pool50: false
+  primary_in_top5: false
+  primary_not_retrieved: false
+  target_tokens: []
+  primary_tokens: []
+  corpus_counts: {}
+  top5_sources:
+  - Eventos-Averias-de-Equipos-en-DXc
+  - DXc_Manual de configuracion
+  - DXc_Manual de configuracion
+  - DXc_Manual de usuario
+  - DXc_Manual de usuario
+  pool50_sources:
+  - DXC-Connexion-Como-programar-una-salida-de-averia-general
+  - DXc_Guia de usuario_multiling
+  - DXC-Connexion-Compatibilidad-de-programas-con-versiones
+  - DXc_Manual de usuario
+  - Eventos-Averias-de-Equipos-en-DXc
+  - Morley-Se-pueden-pasar-programaciones-de-ZX-y-Dimension-a-Connexion-DXC
+  - DXc_Connexion Averia-de-resistencia-de-baterias
+  - DXc_Manual de configuracion
+  - DXC-Porque-al-activan-elementos-en-alarma-no-se-enciende-su-led
+  - DXc_Guia de usuario_multiling
+  - DXc_Manual de usuario
+  - DXc_Manual de configuracion
+  - DXc_Guia de usuario_multiling
+  - DXc_Manual de usuario
+  - DXc_Guia de usuario_multiling
+  - DXc_Manual de usuario
+  - DXc_Manual de usuario
+  - DXc_Manual de usuario
+  - DXc_Manual de usuario
+  - DXc_Manual de usuario
+  - DXc_Manual de usuario
+  - DXc_Manual de usuario
+  - DXc_Manual de usuario
+  - DXc_Manual de usuario
+  facts:
+  - valor: Autobusqueda
+    medible: true
+    bucket: CORPUS-GAP
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: false
+    best_score: 0.5
+    borderline: false
+    rerank_unstable: false
+  - valor: Nivel 3
+    medible: false
+    bucket: null
+  - valor: nuevos, eliminados y modificados
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.692
+    borderline: true
+    rerank_unstable: false
+- qid: hp011
+  veredicto_k5: FALLO
+  conducta_esperada: answer
+  conducta_bot_k5: answer
+  n_core_medible: 3
+  n_no_medible: 1
+  n_borderline: 0
+  n_rerank_unstable: 0
+  buckets:
+    SINTESIS: 1
+    RERANK-MISS: 0
+    RETRIEVAL: 2
+    CORPUS-GAP: 0
+  buckets_firme:
+    SINTESIS: 1
+    RERANK-MISS: 0
+    RETRIEVAL: 2
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool50: true
+  target_in_top5: true
+  primary_in_pool50: true
+  primary_in_top5: true
+  primary_not_retrieved: false
+  target_tokens:
+  - HLSI-MN-103_RP1r-Supra_lr
+  primary_tokens:
   - HLSI-MN-103_RP1r-Supra_lr
   corpus_counts:
     HLSI-MN-103_RP1r-Supra_lr: 190
@@ -346,54 +2299,368 @@ results:
   - MIEMN570I
   facts:
   - valor: ABORT
-    probe: ~ABORT
-    strength: debil
-    in_top5: false
-    in_pool50: true
-    in_manual_corpus: true
-    bucket: RERANK-MISS
-  - valor: r.1
-    probe: ~r.1
-    strength: debil
-    in_top5: false
-    in_pool50: true
-    in_manual_corpus: true
-    bucket: RERANK-MISS
-  - valor: 05 a 295 seg
-    probe:
-    - '05'
-    - '295'
-    strength: fuerte
+    medible: true
+    bucket: RETRIEVAL
     in_top5: false
     in_pool50: false
     in_manual_corpus: true
+    best_score: 0.8
+    borderline: false
+    rerank_unstable: false
+  - valor: r.1
+    medible: false
+    bucket: null
+  - valor: 05 a 295 seg
+    medible: true
     bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.75
+    borderline: false
+    rerank_unstable: false
   - valor: enclavadas
-    probe: ~enclavadas
-    strength: debil
+    medible: true
+    bucket: SINTESIS
     in_top5: true
     in_pool50: true
     in_manual_corpus: true
-    bucket: SINTESIS
-- qid: hp017
-  veredicto_B: PARCIAL
-  conducta_esperada: answer
-  conducta_bot_B: answer
-  n_core_presente: 4
+    best_score: 1.0
+    borderline: false
+    rerank_unstable: false
+- qid: hp012
+  veredicto_k5: FALLO
+  conducta_esperada: answer-con-conflicto
+  conducta_bot_k5: answer
+  n_core_medible: 4
+  n_no_medible: 0
+  n_borderline: 0
+  n_rerank_unstable: 0
   buckets:
     SINTESIS: 3
     RERANK-MISS: 0
-    RETRIEVAL: 1
-    CORPUS-GAP: 0
-  buckets_fuerte:
+    RETRIEVAL: 0
+    CORPUS-GAP: 1
+  buckets_firme:
+    SINTESIS: 3
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 1
+  target_servable: true
+  target_in_pool50: true
+  target_in_top5: true
+  primary_in_pool50: true
+  primary_in_top5: true
+  primary_not_retrieved: false
+  target_tokens:
+  - MFDT280
+  - MPDT280
+  - 15088SP
+  - MADT370
+  - 15092SP
+  - 15090SP
+  primary_tokens:
+  - MFDT280
+  - MPDT280
+  - 15088SP
+  corpus_counts:
+    MFDT280: 50
+    MPDT280: 127
+    15088SP: 342
+    MADT370: 15
+    15092SP: 92
+    15090SP: 134
+  top5_sources:
+  - 15088SP
+  - 15088SP
+  - MFDT280
+  - 15088SP
+  - 15088SP
+  pool50_sources:
+  - 15037SP
+  - 15088SP
+  - MFDT280
+  - MADT283
+  - BTDT032
+  - MIDT340
+  - MADT284
+  - MADT285
+  - MADT285_01
+  - MPDT281
+  - MADT281
+  - MADT280
+  - 15037SP
+  - 15088SP
+  - MFDT280
+  - MADT283
+  - MIDT340
+  - MADT284
+  - MADT285
+  - MPDT281
+  - 15037SP
+  - 15088SP
+  - MFDT280
+  - MIDT340
+  - 15037SP
+  - 15088SP
+  - MFDT280
+  - MIDT340
+  - 15037SP
+  - 15088SP
+  - MFDT280
+  - MIDT340
+  - 15037SP
+  - 15088SP
+  - MFDT280
+  - MIDT340
+  - 15037SP
+  - 15088SP
+  - MFDT280
+  - MIDT340
+  - 15037SP
+  - 15088SP
+  - MIDT340
+  - 15037SP
+  - 15088SP
+  - 15037SP
+  - 15088SP
+  - 15037SP
+  - 15088SP
+  - 15088SP
+  facts:
+  - valor: 10 lazos
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.8
+    borderline: false
+    rerank_unstable: false
+  - valor: 99 + 99
+    medible: true
+    bucket: CORPUS-GAP
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: false
+    best_score: 0.523
+    borderline: false
+    rerank_unstable: false
+  - valor: 2 lazos / 396
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.7
+    borderline: false
+    rerank_unstable: false
+  - valor: 4 lazos / 792
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.75
+    borderline: false
+    rerank_unstable: false
+- qid: hp013
+  veredicto_k5: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_k5: admit
+  n_core_medible: 2
+  n_no_medible: 0
+  n_borderline: 1
+  n_rerank_unstable: 0
+  buckets:
     SINTESIS: 0
     RERANK-MISS: 0
+    RETRIEVAL: 1
+    CORPUS-GAP: 1
+  buckets_firme:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 1
+  target_servable: true
+  target_in_pool50: true
+  target_in_top5: true
+  primary_in_pool50: true
+  primary_in_top5: true
+  primary_not_retrieved: false
+  target_tokens:
+  - ADW535_TD_T140358es_e
+  primary_tokens:
+  - ADW535_TD_T140358es_e
+  corpus_counts:
+    ADW535_TD_T140358es_e: 201
+  top5_sources:
+  - ADW535_TD_T140358es_e
+  - ADW535_TD_T140358es_e
+  - ADW535_TD_T140358es_e
+  - ADW535_TD_T140358es_e
+  - ADW535_TD_T140358es_e
+  pool50_sources:
+  - ADW535_TD_T140358es_e
+  - ADW535_TD_T140358es_e
+  - ADW535_TD_T140358es_e
+  - ADW535_TD_T140358es_e
+  - ADW535_TD_T140358es_e
+  - ADW535_TD_T140358es_e
+  - ADW535_TD_T140358es_e
+  - ADW535_TD_T140358es_e
+  - ADW535_TD_T140358es_e
+  - ADW535_TD_T140358es_e
+  - ADW535_TD_T140358es_e
+  - ADW535_TD_T140358es_e
+  - ADW535_TD_T140358es_e
+  - ADW535_TD_T140358es_e
+  - ADW535_TD_T140358es_e
+  - ADW535_TD_T140358es_e
+  - ADW535_TD_T140358es_e
+  facts:
+  - valor: EEPROM
+    medible: true
+    bucket: CORPUS-GAP
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: false
+    best_score: 0.5
+    borderline: false
+    rerank_unstable: false
+  - valor: PWR-R
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.643
+    borderline: true
+    rerank_unstable: false
+- qid: hp014
+  veredicto_k5: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_k5: answer
+  n_core_medible: 3
+  n_no_medible: 1
+  n_borderline: 0
+  n_rerank_unstable: 0
+  buckets:
+    SINTESIS: 2
+    RERANK-MISS: 1
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  buckets_firme:
+    SINTESIS: 2
+    RERANK-MISS: 1
     RETRIEVAL: 0
     CORPUS-GAP: 0
   target_servable: true
   target_in_pool50: true
   target_in_top5: true
+  primary_in_pool50: true
+  primary_in_top5: true
+  primary_not_retrieved: false
   target_tokens:
+  - MIDT180
+  primary_tokens:
+  - MIDT180
+  corpus_counts:
+    MIDT180: 88
+  top5_sources:
+  - MIDT180
+  - MIDT180
+  - MIDT180
+  - MPDT180
+  - MIDT180
+  pool50_sources:
+  - MPDT180
+  - MFDT180
+  - MIDT180
+  - MPDT180
+  - MFDT180
+  - MIDT180
+  - MPDT180
+  - MFDT180
+  - MIDT180
+  - MPDT180
+  - MFDT180
+  - MIDT180
+  - MPDT180
+  - MFDT180
+  - MIDT180
+  - MPDT180
+  - MFDT180
+  - MIDT180
+  - MFDT180
+  - MIDT180
+  - MFDT180
+  - MIDT180
+  - MFDT180
+  - MIDT180
+  - MFDT180
+  - MIDT180
+  - MFDT180
+  - MFDT180
+  - MFDT180
+  facts:
+  - valor: '25'
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.923
+    borderline: false
+    rerank_unstable: false
+  - valor: continuidad
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.8
+    borderline: false
+    rerank_unstable: false
+  - valor: terminales 2 y 4
+    medible: false
+    bucket: null
+  - valor: '35'
+    medible: true
+    bucket: RERANK-MISS
+    in_top5: false
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.893
+    borderline: false
+    rerank_unstable: false
+- qid: hp017
+  veredicto_k5: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_k5: answer
+  n_core_medible: 4
+  n_no_medible: 0
+  n_borderline: 0
+  n_rerank_unstable: 0
+  buckets:
+    SINTESIS: 2
+    RERANK-MISS: 0
+    RETRIEVAL: 2
+    CORPUS-GAP: 0
+  buckets_firme:
+    SINTESIS: 2
+    RERANK-MISS: 0
+    RETRIEVAL: 2
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool50: true
+  target_in_top5: true
+  primary_in_pool50: true
+  primary_in_top5: true
+  primary_not_retrieved: false
+  target_tokens:
+  - 997-671-005-3_Configuration_ES
+  primary_tokens:
   - 997-671-005-3_Configuration_ES
   corpus_counts:
     997-671-005-3_Configuration_ES: 124
@@ -437,30 +2704,227 @@ results:
   - 997-671-005-3_Configuration_ES
   facts:
   - valor: causa-efecto
-    probe: ~causa-efecto
-    strength: debil
+    medible: true
+    bucket: SINTESIS
     in_top5: true
     in_pool50: true
     in_manual_corpus: true
-    bucket: SINTESIS
+    best_score: 0.893
+    borderline: false
+    rerank_unstable: false
   - valor: instruccion de entrada
-    probe: ~instruccion de entrada
-    strength: debil
+    medible: true
+    bucket: RETRIEVAL
     in_top5: false
     in_pool50: false
     in_manual_corpus: true
-    bucket: RETRIEVAL
+    best_score: 0.846
+    borderline: false
+    rerank_unstable: false
   - valor: Editar Configuracion
-    probe: ~Editar Configuracion
-    strength: debil
-    in_top5: true
-    in_pool50: true
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
     in_manual_corpus: true
-    bucket: SINTESIS
+    best_score: 0.895
+    borderline: false
+    rerank_unstable: false
   - valor: seis tipos de retardo
-    probe: ~seis tipos de retardo
-    strength: debil
+    medible: true
+    bucket: SINTESIS
     in_top5: true
     in_pool50: true
     in_manual_corpus: true
+    best_score: 0.867
+    borderline: false
+    rerank_unstable: false
+- qid: hp018
+  veredicto_k5: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_k5: answer
+  n_core_medible: 3
+  n_no_medible: 2
+  n_borderline: 0
+  n_rerank_unstable: 0
+  buckets:
+    SINTESIS: 1
+    RERANK-MISS: 0
+    RETRIEVAL: 2
+    CORPUS-GAP: 0
+  buckets_firme:
+    SINTESIS: 1
+    RERANK-MISS: 0
+    RETRIEVAL: 2
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool50: true
+  target_in_top5: true
+  primary_in_pool50: false
+  primary_in_top5: false
+  primary_not_retrieved: true
+  target_tokens:
+  - MIE-MI-530rv001
+  - MIE-MI-310
+  primary_tokens:
+  - MIE-MI-530rv001
+  corpus_counts:
+    MIE-MI-530rv001: 64
+    MIE-MI-310: 42
+  top5_sources:
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MP-310
+  - MIE-MI-310
+  pool50_sources:
+  - MIE-MI-310
+  - MIE-MU-310
+  - MIE-MP-315
+  - MIE-MP-310
+  - MIE-MI-310
+  - MIE-MU-310
+  - MIE-MP-315
+  - MIE-MP-310
+  - MIE-MI-310
+  - MIE-MP-315
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  - MIE-MI-310
+  facts:
+  - valor: 4 circuitos
+    medible: false
+    bucket: null
+  - valor: 6K8
+    medible: true
     bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.944
+    borderline: false
+    rerank_unstable: false
+  - valor: diodo
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.765
+    borderline: false
+    rerank_unstable: false
+  - valor: Sirenas A,B,C,D
+    medible: true
+    bucket: RETRIEVAL
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    best_score: 0.8
+    borderline: false
+    rerank_unstable: false
+  - valor: 1 A
+    medible: false
+    bucket: null
+- qid: hp020
+  veredicto_k5: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_k5: answer
+  n_core_medible: 2
+  n_no_medible: 2
+  n_borderline: 0
+  n_rerank_unstable: 0
+  buckets:
+    SINTESIS: 2
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  buckets_firme:
+    SINTESIS: 2
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool50: true
+  target_in_top5: true
+  primary_in_pool50: true
+  primary_in_top5: true
+  primary_not_retrieved: false
+  target_tokens:
+  - HOP-138-8ES
+  - 01-2026_Co
+  - HOP-138-9ES
+  - 11-2025_In
+  primary_tokens:
+  - HOP-138-8ES
+  - 01-2026_Co
+  corpus_counts:
+    HOP-138-8ES: 89
+    01-2026_Co: 94
+    HOP-138-9ES: 100
+    11-2025_In: 100
+  top5_sources:
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-338-9ES issue 4_01-2026_Op
+  - HOP-338-9ES issue 4_01-2026_Op
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-8ES  issue 6_01-2026_Co
+  pool50_sources:
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-9ES issue 5_11-2025_In
+  - HOP-138-8PT-issue 5_01-2026_Co-
+  - 4188-1125-ES issue 5_11-2025_Li
+  - 4188-1122-ES issue 4_04-2025_Cyb
+  - Actualizacion del firmware de INSPIRE a R1.35
+  - 4188-1132-PT issue 4_04_2025-Qref
+  - HOP-338-9ES issue 4_01-2026_Op
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-9ES issue 5_11-2025_In
+  - HOP-138-8PT-issue 5_01-2026_Co-
+  - 4188-1122-ES issue 4_04-2025_Cyb
+  - HOP-338-9ES issue 4_01-2026_Op
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-9ES issue 5_11-2025_In
+  - HOP-138-8PT-issue 5_01-2026_Co-
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-8ES  issue 6_01-2026_Co
+  facts:
+  - valor: nivel 2 o 3
+    medible: false
+    bucket: null
+  - valor: Cambio del codigo de acceso
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.769
+    borderline: false
+    rerank_unstable: false
+  - valor: 4 y 8
+    medible: false
+    bucket: null
+  - valor: satisfactorio
+    medible: true
+    bucket: SINTESIS
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    best_score: 0.792
+    borderline: false
+    rerank_unstable: false

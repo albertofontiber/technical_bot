@@ -134,3 +134,69 @@ def locate(quote: str, chunks: list[dict], gold_sources: list[str] | None = None
                         "product_model": c.get("product_model")})
     out.sort(key=lambda r: r["score"], reverse=True)
     return out
+
+
+# --- s81: predicado grado-audit a NIVEL DE HECHO (DEC-061 + dúo #9 r1/r2/r3) --------------
+# fact_match_score EXIGE el VALOR distintivo del hecho (nº anclable / código) en el chunk + usa el
+# texto como CONTEXTO que desambigua → mata el FP 'prosa del enunciado sin el dato' (crít dúo r3) y
+# el FN del token-corto (NC-C-NA, dúo r1). La CONFIANZA del bucket sale del SCORE (no a priori, r2).
+# `measurable` segrega los valores no-verificables léxicamente (single-digit '1 A'/'4 circuitos',
+# frases sin tokens) → NO se bucketizan (ni falso CORPUS-GAP ni falso SINTESIS); candidatos al juez
+# semántico (diferido). Leaf, testeable; DEC-061(e)(ii).
+_GENERIC_CODES = {"1a", "2a"}  # códigos demasiado genéricos para anchor (1 A / 2 A amperaje)
+
+
+def short_codes(valor: str) -> list[str]:
+    """Códigos/siglas ESTRUCTURALES del valor que distinctive()/_content_tokens NO captan
+    (NC-C-NA, PWR-R, ISO-X, 6K8): separador (.-/) o dígito, contienen letra, >=3 alnum (dúo r2:
+    >=3 evita 'r.1'/secciones cortas). anchor_present (frontera) los recupera sin el FP del `in`
+    crudo. El guard estructural excluye palabras de prosa."""
+    out = []
+    for t in re.findall(r"[a-z0-9][a-z0-9.\-/]*[a-z0-9]", norm_ocr(valor or "")):
+        alnum = re.sub(r"[^a-z0-9]", "", t)
+        structural = bool(re.search(r"[.\-/]", t)) or bool(re.search(r"\d", t))
+        if structural and re.search(r"[a-z]", t) and 3 <= len(alnum) <= 8 and alnum not in _GENERIC_CODES:
+            out.append(t)
+    return out
+
+
+def measurable(valor: str, texto: str = "") -> bool:
+    """¿El VALOR del hecho es verificable LÉXICAMENTE? (corrección dúo r3 — antes se medía el texto,
+    que marcaba presente '1 A' por la prosa del enunciado sin el dato):
+      - datum ANCLABLE (nº≥2díg / código / short_code): 47 kohm, NC-C-NA, 105 → se EXIGE el dato.
+      - prosa pura SIN dígito (claim verbal): 'bucle cerrado', 'Retorno' → se matchea el claim.
+    NO-medible (→ candidato al juez semántico, diferido): valor con dígito pero SIN nº anclable
+    ('1 A', '4 circuitos' — single-digit NO se ancla por riesgo FP) o frase sin tokens ('una vez al
+    año'). El funnel NO los bucketiza (evita falso CORPUS-GAP y falso SINTESIS-por-prosa)."""
+    v = valor or ""
+    if distinctive(v) or short_codes(v):
+        return True
+    if re.search(r"\d", v):
+        return False
+    return len(_content_tokens(v)) >= 1
+
+
+def fact_match_score(valor: str, texto: str, content: str) -> "float | None":
+    """Score 0..1 de presencia del HECHO (su VALOR distintivo + contexto) en `content`; None si el
+    valor es no-medible. EXIGE el datum del valor cuando lo tiene (cov>0 obligatorio → mata el FP
+    'prosa del enunciado sin el valor', crít dúo r3); el texto da el contexto que desambigua (mata el
+    FP 'mismo nº, hecho ajeno'). Valor-prosa (sin dígito) → citation_score del claim."""
+    v = valor or ""
+    pin = distinctive(v) | set(short_codes(v))
+    if pin:
+        nc = norm_ocr(content or "")
+        cov = sum(1 for a in pin if anchor_present(a, nc)) / len(pin)
+        if cov == 0:
+            return 0.0
+        return 0.5 * cov + 0.5 * token_containment((texto + " " + v).strip(), content)
+    if re.search(r"\d", v):
+        return None  # dígito no-anclable (1 A / 4 circuitos) → no-medible (coherente con measurable)
+    if _content_tokens(v):
+        return citation_score((texto + " " + v).strip() if texto else v, content)
+    return None
+
+
+def fact_present(valor: str, texto: str, content: str) -> "bool | None":
+    """¿`content` contiene el hecho? True/False, o None si el valor es no-medible léxicamente."""
+    s = fact_match_score(valor, texto, content)
+    return None if s is None else s >= SCORE_FLOOR
