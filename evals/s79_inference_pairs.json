@@ -1,0 +1,356 @@
+[
+ {
+  "qid": "cat016",
+  "fact_idx": 0,
+  "tipo": "core",
+  "gold_texto": "ALTA: se da de alta un detector nuevo ejecutando una AUTOBUSQUEDA del lazo desde el menu BUCLE -> el sistema escanea y muestra los elementos encontrados (deben coincidir con los instalados segun los planos)",
+  "gold_valor": "autobusqueda",
+  "missing_tokens": [
+   "alta",
+   "detector",
+   "ejecutando",
+   "encontrados",
+   "escanea",
+   "muestra",
+   "nuevo"
+  ],
+  "chunk_id": "294a778c-1dca-40de-8a1b-a9f0c471ea36",
+  "chunk_content": "* **Configurar un bucle.** Realice una aubusqueda del lazo que desee configurar, de esta forma el sistema hará un escaneo y nos mostrará todos los elementos que encuentra. Dicha búsqueda deberá coincidir con los elementos instalados, para ello compruébelo con los planos de la instalación. Para realizar la autobusqueda acceda al *menú BUCLE*.\n\n* **Configurar las zonas.** La instalación se puede dividir en zonas, esto permite tener la instalación bien estructurada. Para crear y asignarlas zonas a los elementos acceda al menú ZONA.\n\n* **Configurar los elementos.** A los elementos del lazo se les puede asignar un nombre que los identifique y una zona de ubicación. Los elementos pueden ser desconectados si es preciso. Para nombrarlos y asignarles zona acceda *al menú ELEMENTOS*.\n\n* **Configurar las maniobras.** La maniobra es la acción generada por un evento en la instalación. El modo de configurar una maniobra, es primero definir un punto de entrada que genera el evento y después el punto de salida que activa la maniobra. Las maniobras pueden tener asociado un retardo de tiempo expresado en segundos, para evitar las acciones inmediatas en caso de falsas alarmas. Para programar las maniobras acceda *al menú MANIOBRAS*.\n\nUna vez realizados todos los pasos expuestos anteriormente, el sistema estará configurado para proteger la instalación.\n\n10"
+ },
+ {
+  "qid": "cat016",
+  "fact_idx": 1,
+  "tipo": "core",
+  "gold_texto": "Tras la autobusqueda, el detector se asigna a una ZONA (menu ZONA) y se le da nombre + zona de ubicacion en el menu ELEMENTO",
+  "gold_valor": "menu ZONA + ELEMENTO",
+  "missing_tokens": [
+   "asigna",
+   "detector",
+   "elemento"
+  ],
+  "chunk_id": "294a778c-1dca-40de-8a1b-a9f0c471ea36",
+  "chunk_content": "* **Configurar un bucle.** Realice una aubusqueda del lazo que desee configurar, de esta forma el sistema hará un escaneo y nos mostrará todos los elementos que encuentra. Dicha búsqueda deberá coincidir con los elementos instalados, para ello compruébelo con los planos de la instalación. Para realizar la autobusqueda acceda al *menú BUCLE*.\n\n* **Configurar las zonas.** La instalación se puede dividir en zonas, esto permite tener la instalación bien estructurada. Para crear y asignarlas zonas a los elementos acceda al menú ZONA.\n\n* **Configurar los elementos.** A los elementos del lazo se les puede asignar un nombre que los identifique y una zona de ubicación. Los elementos pueden ser desconectados si es preciso. Para nombrarlos y asignarles zona acceda *al menú ELEMENTOS*.\n\n* **Configurar las maniobras.** La maniobra es la acción generada por un evento en la instalación. El modo de configurar una maniobra, es primero definir un punto de entrada que genera el evento y después el punto de salida que activa la maniobra. Las maniobras pueden tener asociado un retardo de tiempo expresado en segundos, para evitar las acciones inmediatas en caso de falsas alarmas. Para programar las maniobras acceda *al menú MANIOBRAS*.\n\nUna vez realizados todos los pasos expuestos anteriormente, el sistema estará configurado para proteger la instalación.\n\n10"
+ },
+ {
+  "qid": "cat016",
+  "fact_idx": 2,
+  "tipo": "core",
+  "gold_texto": "PRUEBA: se pone la ZONA en MODO DE PRUEBA (menu ZONA > PRUEBA) -> permite probar los detectores SIN rearmar la central tras cada disparo",
+  "gold_valor": "modo prueba",
+  "missing_tokens": [
+   "pone",
+   "probar"
+  ],
+  "chunk_id": "73e777ce-868a-418e-9b11-cfba3feca9cc",
+  "chunk_content": "La opción PRUEBA del menú ZONA, nos permite poner en modo de prueba la zona que seleccionemos. Esta opción nos permite hacer la prueba de los detectores sin tener que rearmar la central. Si se selecciona esta opción el sistema nos pregunta si deben dispararse las sirenas. Si la respuesta es SI, las sirenas se activarán durante unos segundos, después de que el detector asociado a dicha sirena entre en alarma, tras lo cual se silenciarán automáticamente. Si existiese algún tipo de retardo asociado a las sirenas, en el modo de prueba, quedaría anulado, para agilizar la prueba del sistema.\n\nSi trascurridos 20 minutos desde la selección de modo prueba, y el sistema detectase que no se ha efectuado ningún disparo de alarma, el equipo pasará a estado normal, anulando el estado de prueba.\n\n14\n\n```\n*ZONA                           | Ver zonas en prue\n                                | Conectar\n                                | Desconectar\n                            ►|■|Prueba\n```\n\n```\nPRUEBA ZONA\nRANGO  : [000] a  [250]\nACTIVAR SIRENAS: [SI]\n < Aceptar >                    < Salir >\n```\n\nPara salir del modo de prueba de una zona se realiza conectando la zona."
+ },
+ {
+  "qid": "cat016",
+  "fact_idx": 3,
+  "tipo": "core",
+  "gold_texto": "En modo prueba el retardo de sirenas queda ANULADO (agiliza la prueba); si pasan 20 minutos sin disparo el equipo vuelve solo a estado normal; para salir manualmente se CONECTA la zona",
+  "gold_valor": "20 minutos",
+  "missing_tokens": [
+   "agiliza",
+   "conecta",
+   "manualmente",
+   "pasan",
+   "queda",
+   "solo",
+   "vuelve"
+  ],
+  "chunk_id": "73e777ce-868a-418e-9b11-cfba3feca9cc",
+  "chunk_content": "La opción PRUEBA del menú ZONA, nos permite poner en modo de prueba la zona que seleccionemos. Esta opción nos permite hacer la prueba de los detectores sin tener que rearmar la central. Si se selecciona esta opción el sistema nos pregunta si deben dispararse las sirenas. Si la respuesta es SI, las sirenas se activarán durante unos segundos, después de que el detector asociado a dicha sirena entre en alarma, tras lo cual se silenciarán automáticamente. Si existiese algún tipo de retardo asociado a las sirenas, en el modo de prueba, quedaría anulado, para agilizar la prueba del sistema.\n\nSi trascurridos 20 minutos desde la selección de modo prueba, y el sistema detectase que no se ha efectuado ningún disparo de alarma, el equipo pasará a estado normal, anulando el estado de prueba.\n\n14\n\n```\n*ZONA                           | Ver zonas en prue\n                                | Conectar\n                                | Desconectar\n                            ►|■|Prueba\n```\n\n```\nPRUEBA ZONA\nRANGO  : [000] a  [250]\nACTIVAR SIRENAS: [SI]\n < Aceptar >                    < Salir >\n```\n\nPara salir del modo de prueba de una zona se realiza conectando la zona."
+ },
+ {
+  "qid": "cat016",
+  "fact_idx": 4,
+  "tipo": "supplementary",
+  "gold_texto": "El estado de cada elemento (conectado/desconectado/en prueba) y su tipo (optico, termico, etc.) se consulta en el menu ELEMENTO > Ver",
+  "gold_valor": "menu ELEMENTO",
+  "missing_tokens": [
+   "consulta"
+  ],
+  "chunk_id": "25411b75-a6d1-4c98-b1e4-e86eaef68a02",
+  "chunk_content": "## 3.1.2 Menú ELEMENTO\n\nEn el menú Elemento podremos acceder a los submenús Ver, Conectar, Desconectar\n\n### 3.1.2.1 Menú VER Elementos\n\nPulsando OK la opción VER del menú ELEMENTO nos permite comprobar el estado actual del elemento seleccionado.\n\n```\n*ELEMENTO                   ►|■|Ver\n                                | Conectar\n                                | Desconectar\n                                ▼\n```\n\n```\nBUCLE:<1>      DIR <001>        ZONA : <001>\nTIPO :         MODO:             VA:\nTEXTO:\n    <=>        <+>              < Salir >\n```\n\nCon los cursores derecha e izquierda podremos seleccionar el campo del bucle o dirección del elemento del bucle seleccionado.\n\nCon la tecla `<+>` `<->` o cursores subir y bajar podremos incrementar o decrementar estos campos y pasar de un elemento a otro.\n\nEl campo ZONA indica a la zona que pertenece el elemento seleccionado.\n\nEl campo TIPO nos muestra el tipo de elemento configurado (óptico, térmico, sirenas, etc.).\n\nEl campo MODO indica si el elemento esta: conectado, desconectado o en prueba.\n\nES\n\nEl campo VA indica el valor analógico del elemento.\nEl campo TEXTO indica la denominación del elemento\n\n### 3.1.2.2 Menú CONECTAR elemento\n\nLa opción CONECTAR del menú ELEMENTO, nos permite poner en estado de conectado los elementos que estuviesen en estado de desconexión.\n\nPara ello hay que introducir el bucle al que pertenece y el rango de direcciones que queremos conectar.\n\n```\n*ELEMENTO         ►|■Ver\n                   | Conectar\n                   | Desconectar\n                   ▼\n```\n\n```\nBUCLE:<1>        DIR <001>      ZONA "
+ },
+ {
+  "qid": "cat007",
+  "fact_idx": 0,
+  "tipo": "core",
+  "gold_texto": "El LT-200 tiene salida de rele de ALARMA y de AVERIA (canal 1 y, en modelos de 2 canales, canal 2), con contactos NC-C-NA",
+  "gold_valor": "NC-C-NA",
+  "missing_tokens": [
+   "averia",
+   "contactos",
+   "rele"
+  ],
+  "chunk_id": "18210329-020d-459d-b81e-5b98c29bd191",
+  "chunk_content": "# INSTALACIÓN DEL CABLEADO\n\n## ~~Conexiones de alimentación, alarma y control~~\n\n[Detailed wiring diagram showing:]\n\n**FILTRO DEL CANAL 1    FILTRO DEL CANAL 2**\n\n**MONTAJE DE CONEXIÓN A TIERRA**\n\n**CONEXIÓN A TIERRA F-LT-EB (OPCIONAL)**\n\n**CONEXIONES DE ALIMENTACIÓN Y ALARMA**\n\n**COLOQUE AQUÍ LA ETIQUETA DE CABLEADO** [with icons for USB and other connections]\n\n**PUERTO USB**\n\n**MONTAJE DE CONEXIÓN A TIERRA**\n\n**MONTAJE DEL MÓDULO**\n\n**KIT DE MONTAJE DEL MÓDULO F-LT-PMB**\n\n**MONTAJE DEL MÓDULO**\n\n[Lower section of device showing:]\n\n**TAPA DEL    SENSOR**\n\n**1            2**\n\n**(OPCIONAL)***\n*Es posible instalar un módulo de entrada/ salida en la unidad FAAST LT. Para ello se precisará el kit opcional de montaje del módulo (F-LT-200-PMB).\n\n**POSICIÓN DEL IMÁN DE PRUEBA**\n\n[Right side diagram:]\n\n**Figura 9: Interior del detector**\n\n[Illustration showing interior view of detector with arrow pointing to door mechanism]\n\npuerta del FAAST LT-200 permanece cerrada durante mucho tiempo (especialmente a alta temperatura), puede ser necesario utilizar un tornillo de punta plana entre las dos pestañas ubicadas en la parte superior de la unidad para hacer palanca y abrir la puerta (tal como se muestra más arriba).\n\n**Nota 1: El cableado debe cumplir con la normativa local vigente.**\n\n**Nota 2: El cableado del panel debe atenerse a las recomendaciones del fabricante de este.**\n\nN200-102-01                                5                                I56-6577-006\n\n## Instalación de los bloques de terminales\n\nUtilice este método para insertar los bloques de terminales en la unidad:\n\n1"
+ },
+ {
+  "qid": "cat007",
+  "fact_idx": 1,
+  "tipo": "core",
+  "gold_texto": "El rele de AVERIA es FAILSAFE (se desenergiza para senalar): la averia se indica ante condicion de averia en canal 1/2 o averia comun, en Modo Servicio y al quedar la unidad SIN alimentacion; el estado de averia NO esta enclavado",
+  "gold_valor": "no enclavado",
+  "missing_tokens": [
+   "ante",
+   "desenergiza",
+   "failsafe",
+   "quedar",
+   "senalar"
+  ],
+  "chunk_id": "8221ec70-6882-41b5-8dd6-705a1a7e739a",
+  "chunk_content": "### Tabla 3: Relés\n\n| RELÉ         | ACCIÓN:                                                                                                                                                                                 | NOTAS                                          |\n| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |\n| ALARMA 1 o 2 | Controlada por el panel si determina que se da la condición de alarma.                                                                                                                  | Encendido y apagado por el panel; no enclavado |\n| AVERÍA 1 o 2 | Cuando se produce una CONDICIÓN DE AVERÍA en el canal 1 o 2 o una AVERÍA común. La avería también se indica en el modo de servicio y cuando se desconecta la alimentación de la unidad. | El estado de avería no está enclavado.         |\n| SIRENA 1 o 2 | Se activa cuando el canal está en ALARMA. La sirena 1 se corresponde con el canal 1 y la sirena 2 con el canal 2.                                                                       | Estado predet.= establecido en ALARMA.         |"
+ },
+ {
+  "qid": "cat007",
+  "fact_idx": 2,
+  "tipo": "core",
+  "gold_texto": "Las 2 salidas de sirena tienen bornes de polaridad -/+ (supervisadas) y resistencia de fin de linea de 47 kohm; no son contactos de rele",
+  "gold_valor": "47 kohm",
+  "missing_tokens": [
+   "bornes",
+   "contactos",
+   "polaridad",
+   "salidas",
+   "supervisadas"
+  ],
+  "chunk_id": "af6ba10e-7f43-4f83-abed-1037cac32034",
+  "chunk_content": "| N.º | Función                        |          |                                  |     |\n| --- | ------------------------------ | -------- | -------------------------------- | --- |\n| 1   | Entr. alim. ext. +             |          | Fuente de alimentación principal | T1  |\n| 2   | Entr. alim. ext. -             |          | Fuente de alimentación principal |     |\n| 3   | Entr. alim. aux. +             |          | No se usa en predet.             |     |\n| 4   | Entr. alim. aux. -             |          | No se usa en predet.             |     |\n| 5   | Relé de alarma NC              | C 1      |                                  | T2  |\n| 6   | Relé de alarma C               | C 1      |                                  |     |\n| 7   | Relé de alarma NA              | C 1      |                                  |     |\n| 8   | Relé de alarma NC              | C 2      |                                  | T3  |\n| 9   | Relé de alarma C               | C 2      |                                  |     |\n| 10  | Relé de alarma NA              | C 2      |                                  |     |\n| 11  | Relé de avería NC              | C 1      |                                  | T4  |\n| 12  | Relé de avería C               | C 1      |                                  |     |\n| 13  | Relé de avería NA              | C 1      |                                  |     |\n| 14  | Relé de avería NC (AUX.)       | C 2      |                                  | T5  |\n| 15  | Relé de avería C (AUX.)        | C 2      |                                  |     |\n| 16  | Relé de ave"
+ },
+ {
+  "qid": "cat007",
+  "fact_idx": 3,
+  "tipo": "core",
+  "gold_texto": "Especificacion electrica de los contactos de rele: maximo 2 A (carga resistiva 30 V CC) / maximo 0,5 A (carga resistiva 30 V CA)",
+  "gold_valor": "2 A / 0,5 A",
+  "missing_tokens": [
+   "maximo",
+   "rele"
+  ],
+  "chunk_id": "856cae09-99d5-4b03-b08a-fe6a368e1207",
+  "chunk_content": "### Tabla 3a: Especificación eléctrica de los relés\n\n| ESPECIFICACIÓN                    | MÍN. | MÁX. | UNIDADES    | OBSERVACIONES           |\n| --------------------------------- | ---- | ---- | ----------- | ----------------------- |\n| Potencia nominal de los contactos |      | 2    | A           | Carga resistiva 30 V CC |\n|                                   |      | 0,5  | A           | Carga resistiva 30 V CA |\n| Vida útil                         | 105  |      | Operaciones |                         |"
+ },
+ {
+  "qid": "cat007",
+  "fact_idx": 5,
+  "tipo": "supplementary",
+  "gold_texto": "Mapa de bornes: alarma C1 en T2 (5 NC / 6 C / 7 NA), alarma C2 en T3 (8/9/10), averia C1 en T4 (11/12/13), averia AUX C2 en T5 (14/15/16); sirena 1 en T6 (17- / 18+), sirena 2 en T7 (19- / 20+)",
+  "gold_valor": "5/6/7",
+  "missing_tokens": [
+   "bornes",
+   "mapa"
+  ],
+  "chunk_id": "af6ba10e-7f43-4f83-abed-1037cac32034",
+  "chunk_content": "| N.º | Función                        |          |                                  |     |\n| --- | ------------------------------ | -------- | -------------------------------- | --- |\n| 1   | Entr. alim. ext. +             |          | Fuente de alimentación principal | T1  |\n| 2   | Entr. alim. ext. -             |          | Fuente de alimentación principal |     |\n| 3   | Entr. alim. aux. +             |          | No se usa en predet.             |     |\n| 4   | Entr. alim. aux. -             |          | No se usa en predet.             |     |\n| 5   | Relé de alarma NC              | C 1      |                                  | T2  |\n| 6   | Relé de alarma C               | C 1      |                                  |     |\n| 7   | Relé de alarma NA              | C 1      |                                  |     |\n| 8   | Relé de alarma NC              | C 2      |                                  | T3  |\n| 9   | Relé de alarma C               | C 2      |                                  |     |\n| 10  | Relé de alarma NA              | C 2      |                                  |     |\n| 11  | Relé de avería NC              | C 1      |                                  | T4  |\n| 12  | Relé de avería C               | C 1      |                                  |     |\n| 13  | Relé de avería NA              | C 1      |                                  |     |\n| 14  | Relé de avería NC (AUX.)       | C 2      |                                  | T5  |\n| 15  | Relé de avería C (AUX.)        | C 2      |                                  |     |\n| 16  | Relé de ave"
+ },
+ {
+  "qid": "hp001",
+  "fact_idx": 0,
+  "tipo": "core",
+  "gold_texto": "Desde la PANTALLA DE REPOSO, tocar con el dedo el icono del candado en la pantalla tactil -> accede a la PANTALLA DE ACCESO, que pide el codigo/password",
+  "gold_valor": "candado",
+  "missing_tokens": [
+   "accede",
+   "icono",
+   "pide",
+   "tocar"
+  ],
+  "chunk_id": "9bd17466-1a22-4ade-bb16-a44624c9f166",
+  "chunk_content": "# 6. Configuración rápida de la central\n\nEl objetivo de este apartado es realizar, de forma sencilla, una primera puesta en marcha configurando los parámetros básicos tanto de la central como los elementos (dispositivos, lazos, redes) de forma que pueda comprobar el correcto funcionamiento de la misma y de la instalación.\n\nSi desea información detallada de utilización y configuración de la central consulte la Guía Avanzada de Configuración.\n\n## 6.1. Acceso como administrador\n\nUna vez que el sistema haya arrancado verá la siguiente pantalla, llamada PANTALLA DE REPOSO.\n\n----\n\n**detnov** Showroom 11:54 - martes, 27 de julio de 2021\n\n**11:54**\nmartes, 27 de julio de 2021\n\n**detnov**\n\n🔒\n\n**SISTEMA EN REPOSO**\n\n| ALTA OCUPACIÓN | BAJA OCUPACIÓN | Test zona | ⚙️ |\n| -------------- | -------------- | --------- | -- |\n\n----\n\nEsta pantalla muestra la fecha y la hora en la BARRA SUPERIOR, el NOMBRE DE LA CENTRAL y un candado. Esta pantalla permanecerá fija siempre y cuando el sistema no detecte\n\nningún evento (alarma, avería o evento técnico).\n\nToque la pantalla táctil con el dedo sobre la figura del candado (🔒). Al hacerlo accederá a la PANTALLA DE ACCESO solicitando el código de acceso o password. Esta pantalla permanecerá fija siempre y cuando el sistema no detecte ningún evento (alarma, avería, evento técnico, eventos de deshabilitaciones o tests de entidades).\n\n----\n\n**detnov** HOSPITAL UNIVERSITARIO 00:11 - miércoles, 9 de octubre de 202\n\nContraseña\n◻ ◻ ◻ ◻\n\n| 1 | 2 | 3 |\n| - | - | - |\n| 4 | 5 | 6 |\n| 7 | 8 | 9 |\n| X | 0 | ✓ |\n\n----\n\n> 📄 Dependiendo de la clave introducida cier"
+ },
+ {
+  "qid": "hp001",
+  "fact_idx": 1,
+  "tipo": "core",
+  "gold_texto": "Introducir la clave de ADMINISTRADOR por defecto 2222 -> da acceso al nivel de configuracion/administrador (donde se configuran todos los parametros)",
+  "gold_valor": "2222",
+  "missing_tokens": [
+   "configuran",
+   "introducir"
+  ],
+  "chunk_id": "9bd17466-1a22-4ade-bb16-a44624c9f166",
+  "chunk_content": "# 6. Configuración rápida de la central\n\nEl objetivo de este apartado es realizar, de forma sencilla, una primera puesta en marcha configurando los parámetros básicos tanto de la central como los elementos (dispositivos, lazos, redes) de forma que pueda comprobar el correcto funcionamiento de la misma y de la instalación.\n\nSi desea información detallada de utilización y configuración de la central consulte la Guía Avanzada de Configuración.\n\n## 6.1. Acceso como administrador\n\nUna vez que el sistema haya arrancado verá la siguiente pantalla, llamada PANTALLA DE REPOSO.\n\n----\n\n**detnov** Showroom 11:54 - martes, 27 de julio de 2021\n\n**11:54**\nmartes, 27 de julio de 2021\n\n**detnov**\n\n🔒\n\n**SISTEMA EN REPOSO**\n\n| ALTA OCUPACIÓN | BAJA OCUPACIÓN | Test zona | ⚙️ |\n| -------------- | -------------- | --------- | -- |\n\n----\n\nEsta pantalla muestra la fecha y la hora en la BARRA SUPERIOR, el NOMBRE DE LA CENTRAL y un candado. Esta pantalla permanecerá fija siempre y cuando el sistema no detecte\n\nningún evento (alarma, avería o evento técnico).\n\nToque la pantalla táctil con el dedo sobre la figura del candado (🔒). Al hacerlo accederá a la PANTALLA DE ACCESO solicitando el código de acceso o password. Esta pantalla permanecerá fija siempre y cuando el sistema no detecte ningún evento (alarma, avería, evento técnico, eventos de deshabilitaciones o tests de entidades).\n\n----\n\n**detnov** HOSPITAL UNIVERSITARIO 00:11 - miércoles, 9 de octubre de 202\n\nContraseña\n◻ ◻ ◻ ◻\n\n| 1 | 2 | 3 |\n| - | - | - |\n| 4 | 5 | 6 |\n| 7 | 8 | 9 |\n| X | 0 | ✓ |\n\n----\n\n> 📄 Dependiendo de la clave introducida cier"
+ },
+ {
+  "qid": "hp001",
+  "fact_idx": 2,
+  "tipo": "core",
+  "gold_texto": "La clave de USUARIO por defecto es 1111, que NO da acceso a la configuracion avanzada completa (solo el nivel de usuario)",
+  "gold_valor": "1111",
+  "missing_tokens": [
+   "avanzada",
+   "completa",
+   "solo"
+  ],
+  "chunk_id": "edeb58a7-58c6-4865-8819-c70b57fe1135",
+  "chunk_content": "# 4. Nivel usuario\n\n## 4.1. Primer arranque\n\nSi ha seguido los pasos iniciales de esta guía una LUZ VERDE se encenderá en la parte izquierda de la puerta (PANEL PRINCIPAL) y la pantalla mostrará:\n\n**Primero:** Una barra de estado que indica que la central está iniciando, espere.\n\n[Screenshot showing initialization screen with time 13:26 and a progress bar displaying \"Initializing: 63%\"]\n\n**Segundo:** Aparecerá la PANTALLA DE REPOSO que muestra información básica de la central.\n\n[Screenshot showing rest screen with:\n\n- Header: \"detnov\" and \"Showroom 11:54 - martes, 27 de julio de 2021\"\n- Large time display: \"11:54\"\n- Date: \"martes, 27 de julio de 2021\"\n- detnov logo with red dot\n- Lock icon\n- Text: \"SISTEMA EN REPOSO\"\n- Bottom buttons: \"ALTA OCUPACION\", \"BAJA OCUPACION\", \"Test zona\"\n- Settings icon in bottom right]\n\n## 4.2. Pantalla de reposo\n\nHasta que no se produzca un evento en la instalación el sistema se dice que está EN REPOSO.\n\nEsta pantalla muestra la fecha y la hora en la BARRA SUPERIOR, el NOMBRE DE LA CENTRAL y un candado. Si toca el candado (🔒) accederá a la PANTALLA DE ACCESO que le solicitará un código de seguridad.\n\n## 4.3. Acceso de usuario\n\nAsegúrese de tener la autorización y los conocimientos necesarios para operar esta central, si no fuera así no use este nivel sin la supervisión de una persona autorizada.\n\n> 📄 Dependiendo de la clave introducida ciertos parámetros de configuración no estarán disponibles para prevenir el uso indebido del sistema.\n\n> ⚠️ El uso indebido o negligente del nivel de acceso de USUARIO puede provocar un mal funcionamiento de la i"
+ },
+ {
+  "qid": "hp001",
+  "fact_idx": 3,
+  "tipo": "supplementary",
+  "gold_texto": "Con la clave correcta se accede a la PANTALLA DE ADMINISTRADOR, dividida en 6 secciones: Menu Principal (izq), Submenu (der), Barra de Navegacion, Vista Principal, Barra de Estado y Barra de Mensajes",
+  "gold_valor": "PANTALLA DE ADMINISTRADOR",
+  "missing_tokens": [
+   "accede",
+   "correcta",
+   "mensajes",
+   "navegacion",
+   "submenu",
+   "vista"
+  ],
+  "chunk_id": "edeb58a7-58c6-4865-8819-c70b57fe1135",
+  "chunk_content": "# 4. Nivel usuario\n\n## 4.1. Primer arranque\n\nSi ha seguido los pasos iniciales de esta guía una LUZ VERDE se encenderá en la parte izquierda de la puerta (PANEL PRINCIPAL) y la pantalla mostrará:\n\n**Primero:** Una barra de estado que indica que la central está iniciando, espere.\n\n[Screenshot showing initialization screen with time 13:26 and a progress bar displaying \"Initializing: 63%\"]\n\n**Segundo:** Aparecerá la PANTALLA DE REPOSO que muestra información básica de la central.\n\n[Screenshot showing rest screen with:\n\n- Header: \"detnov\" and \"Showroom 11:54 - martes, 27 de julio de 2021\"\n- Large time display: \"11:54\"\n- Date: \"martes, 27 de julio de 2021\"\n- detnov logo with red dot\n- Lock icon\n- Text: \"SISTEMA EN REPOSO\"\n- Bottom buttons: \"ALTA OCUPACION\", \"BAJA OCUPACION\", \"Test zona\"\n- Settings icon in bottom right]\n\n## 4.2. Pantalla de reposo\n\nHasta que no se produzca un evento en la instalación el sistema se dice que está EN REPOSO.\n\nEsta pantalla muestra la fecha y la hora en la BARRA SUPERIOR, el NOMBRE DE LA CENTRAL y un candado. Si toca el candado (🔒) accederá a la PANTALLA DE ACCESO que le solicitará un código de seguridad.\n\n## 4.3. Acceso de usuario\n\nAsegúrese de tener la autorización y los conocimientos necesarios para operar esta central, si no fuera así no use este nivel sin la supervisión de una persona autorizada.\n\n> 📄 Dependiendo de la clave introducida ciertos parámetros de configuración no estarán disponibles para prevenir el uso indebido del sistema.\n\n> ⚠️ El uso indebido o negligente del nivel de acceso de USUARIO puede provocar un mal funcionamiento de la i"
+ },
+ {
+  "qid": "hp001",
+  "fact_idx": 4,
+  "tipo": "supplementary",
+  "gold_texto": "Desde el MENU PRINCIPAL se accede a: Lazos, Sectorizacion, Maniobras, Logs, Red, Ajustes e Instalacion",
+  "gold_valor": "Sectorizacion",
+  "missing_tokens": [
+   "accede"
+  ],
+  "chunk_id": "edeb58a7-58c6-4865-8819-c70b57fe1135",
+  "chunk_content": "# 4. Nivel usuario\n\n## 4.1. Primer arranque\n\nSi ha seguido los pasos iniciales de esta guía una LUZ VERDE se encenderá en la parte izquierda de la puerta (PANEL PRINCIPAL) y la pantalla mostrará:\n\n**Primero:** Una barra de estado que indica que la central está iniciando, espere.\n\n[Screenshot showing initialization screen with time 13:26 and a progress bar displaying \"Initializing: 63%\"]\n\n**Segundo:** Aparecerá la PANTALLA DE REPOSO que muestra información básica de la central.\n\n[Screenshot showing rest screen with:\n\n- Header: \"detnov\" and \"Showroom 11:54 - martes, 27 de julio de 2021\"\n- Large time display: \"11:54\"\n- Date: \"martes, 27 de julio de 2021\"\n- detnov logo with red dot\n- Lock icon\n- Text: \"SISTEMA EN REPOSO\"\n- Bottom buttons: \"ALTA OCUPACION\", \"BAJA OCUPACION\", \"Test zona\"\n- Settings icon in bottom right]\n\n## 4.2. Pantalla de reposo\n\nHasta que no se produzca un evento en la instalación el sistema se dice que está EN REPOSO.\n\nEsta pantalla muestra la fecha y la hora en la BARRA SUPERIOR, el NOMBRE DE LA CENTRAL y un candado. Si toca el candado (🔒) accederá a la PANTALLA DE ACCESO que le solicitará un código de seguridad.\n\n## 4.3. Acceso de usuario\n\nAsegúrese de tener la autorización y los conocimientos necesarios para operar esta central, si no fuera así no use este nivel sin la supervisión de una persona autorizada.\n\n> 📄 Dependiendo de la clave introducida ciertos parámetros de configuración no estarán disponibles para prevenir el uso indebido del sistema.\n\n> ⚠️ El uso indebido o negligente del nivel de acceso de USUARIO puede provocar un mal funcionamiento de la i"
+ },
+ {
+  "qid": "hp001",
+  "fact_idx": 5,
+  "tipo": "supplementary",
+  "gold_texto": "AVISO de seguridad: el uso indebido del nivel de administrador puede provocar mal funcionamiento; se recomienda cambiar la clave por defecto desde Ajustes > Usuarios",
+  "gold_valor": null,
+  "missing_tokens": [
+   "aviso",
+   "cambiar",
+   "recomienda",
+   "usuarios"
+  ],
+  "chunk_id": "edeb58a7-58c6-4865-8819-c70b57fe1135",
+  "chunk_content": "# 4. Nivel usuario\n\n## 4.1. Primer arranque\n\nSi ha seguido los pasos iniciales de esta guía una LUZ VERDE se encenderá en la parte izquierda de la puerta (PANEL PRINCIPAL) y la pantalla mostrará:\n\n**Primero:** Una barra de estado que indica que la central está iniciando, espere.\n\n[Screenshot showing initialization screen with time 13:26 and a progress bar displaying \"Initializing: 63%\"]\n\n**Segundo:** Aparecerá la PANTALLA DE REPOSO que muestra información básica de la central.\n\n[Screenshot showing rest screen with:\n\n- Header: \"detnov\" and \"Showroom 11:54 - martes, 27 de julio de 2021\"\n- Large time display: \"11:54\"\n- Date: \"martes, 27 de julio de 2021\"\n- detnov logo with red dot\n- Lock icon\n- Text: \"SISTEMA EN REPOSO\"\n- Bottom buttons: \"ALTA OCUPACION\", \"BAJA OCUPACION\", \"Test zona\"\n- Settings icon in bottom right]\n\n## 4.2. Pantalla de reposo\n\nHasta que no se produzca un evento en la instalación el sistema se dice que está EN REPOSO.\n\nEsta pantalla muestra la fecha y la hora en la BARRA SUPERIOR, el NOMBRE DE LA CENTRAL y un candado. Si toca el candado (🔒) accederá a la PANTALLA DE ACCESO que le solicitará un código de seguridad.\n\n## 4.3. Acceso de usuario\n\nAsegúrese de tener la autorización y los conocimientos necesarios para operar esta central, si no fuera así no use este nivel sin la supervisión de una persona autorizada.\n\n> 📄 Dependiendo de la clave introducida ciertos parámetros de configuración no estarán disponibles para prevenir el uso indebido del sistema.\n\n> ⚠️ El uso indebido o negligente del nivel de acceso de USUARIO puede provocar un mal funcionamiento de la i"
+ },
+ {
+  "qid": "hp011",
+  "fact_idx": 0,
+  "tipo": "core",
+  "gold_texto": "Entrada ABORT (paro de emergencia): por defecto enclavada (latched); una vez activada requiere rearme manual de la central para rehabilitar el proceso de extincion",
+  "gold_valor": "ABORT",
+  "missing_tokens": [
+   "activada",
+   "latched",
+   "rehabilitar"
+  ],
+  "chunk_id": "cc45b0e4-4a26-47b0-b151-ecb7fe103554",
+  "chunk_content": "### Opciones zonas\n\n#### Co - Condición coincidencia zonas\n\nDetermina qué combinación de alarmas por zona debe darse para que la central entre en estado de ACTIVADO, e inicie la secuencia de extinción.\n\n| 00 | Alarma en Z1 y Z2, o en Z3 (por defecto)                                                                 |\n| -- | -------------------------------------------------------------------------------------------------------- |\n| 01 | Alarma en cualquier zona (Z1 o Z2 o Z3), con extinción a una zona                                        |\n| 02 | Cualquiera de las siguientes combinaciones, con extinción a dos zonas: (Z1 y Z2) o (Z1 y Z3) o (Z2 y Z3) |\n| 03 | Necesario todas las zonas en alarma (Z1 y Z2 y Z3)                                                       |\n\n#### LZ - Modo de Zona 3\n\nDetermina el modo de funcionamiento de la zona 3:\n\n| 00 | Z3 como pulsador (por defecto) |\n| -- | ------------------------------ |\n| 01 | Z3 como detector               |\n\n#### Au - Verificación zonas\n\nEl sistema permite esperar confirmación de la alarma de una zona, con el objeto de verificar si ésta es real. Activando este parámetro, de producirse una alarma en cualquiera de las 3 zonas, la central rearma la zona de manera automática esperando, durante 10 minutos, a que la alarma se confirme. De repetirse la alarma en la misma zona, ésta se indicará de forma inmediata. De lo contrario, una vez transcurridos los 10 minutos, la central reinicia el temporizador de verificación.\n\n| 00 | Sin verificación de la alarma (por defecto) |\n| -- | ------------------------------------------- |\n| 01 | "
+ },
+ {
+  "qid": "hp011",
+  "fact_idx": 1,
+  "tipo": "core",
+  "gold_texto": "Parametro r.1 \"Rearme inhibido tras extincion\": \"--\"=inhibido hasta finalizar la extincion o agotar t.A; \"00\"=rearme permitido en cualquier momento (POR DEFECTO); \"01\" a \"30\"=inhibido durante ese intervalo en minutos",
+  "gold_valor": "r.1",
+  "missing_tokens": [
+   "agotar"
+  ],
+  "chunk_id": "77d07600-c619-4ea0-b1ab-0683ddb79697",
+  "chunk_content": "|                                  |                                |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |\n| -------------------------------- | ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| \\[Digital display showing \"r.5\"] | Retardo de sirenas             | Tiempo en minutos desde la entrada en estado preactivado hasta la activación de las sirenas. En caso de alarma de una sola zona, se dispone de ese tiempo para poder verificar la alarma y rearmar la central antes de la activación de las sirenas.<br/><br/>Retardo t para la activación de las sirenas (valor por defecto: **00 min.**)<br/><br/>Valor variable de 00 a 10 min.                                                              "
+ },
+ {
+  "qid": "hp011",
+  "fact_idx": 2,
+  "tipo": "core",
+  "gold_texto": "Parametro t.A \"Duracion de la descarga\" (soak time): variable de 05 a 295 seg en pasos de 5 s; \"--\"=circuito activado hasta el rearme de la central (POR DEFECTO)",
+  "gold_valor": "05 a 295 seg",
+  "missing_tokens": [
+   "parametro",
+   "pasos"
+  ],
+  "chunk_id": "fb6f9f30-156f-4f94-87e3-12f4d052b75c",
+  "chunk_content": "## Guía rápida - Opciones de configuración\n\n**Nota:** Opciones de configuración accesibles sólo desde Nivel 3. Consultar manual de usuario para más información acerca de procedimientos de acceso, selección y modificación.\n\n### Opciones extinción\n\n#### Et - Retardo previo a extinción\n\nDe acuerdo con la norma UNE-EN 12094-1:2004, apartado 4.17, se especifica un tiempo de retardo previo a la descarga o activación de la extinción, denominado tiempo de preaviso o pre-descarga, variable de 00 a 60 seg., en intervalos de 5 seg.\n\nRetardo t para la extinción (valor por defecto: 60 seg.)\n\nValor variable de 00 a 60 seg.\n\n#### LA - Duración de la descarga para circuito extinción 1\n\nEn el modo de introducción del valor, la posición del punto se utiliza para el cálculo del tiempo total:\n\n- = 15 seg.\n- +100 (115 seg.) = +200 (215 seg.)\n\nDe acuerdo con la norma UNE-EN 12094-1:2004, apartado 4.21, se especifica un tiempo de descarga o de inundación (soak time) para los sistemas de extinción de baja presión.\n\n| Valor variable de 05 a 295 seg. en intervalos de 5 seg. | Tiempo de activación del circuito de extinción, o periodo de inundación. Variable |\n| ------------------------------------------------------- | --------------------------------------------------------------------------------- |\n| - -                                                     | Circuito activado hasta rearme de la central (por defecto)                        |\n\n#### Pd - Retardo en caso de disparo manual\n\nEn caso que el disparo de la extinción se produzca mediante la activación del pulsador manual, en lugar de por la d"
+ },
+ {
+  "qid": "hp011",
+  "fact_idx": 5,
+  "tipo": "supplementary",
+  "gold_texto": "Procedimiento de rearme: desde nivel de acceso 2 (llave de desbloqueo), pulsar la tecla \"Rearme\"",
+  "gold_valor": null,
+  "missing_tokens": [
+   "procedimiento",
+   "pulsar"
+  ],
+  "chunk_id": "ee9390aa-d4a6-4222-8f81-b83d0484bbe0",
+  "chunk_content": "HLSI-1vN-1O3v.O7                                                                                                                    Manual de usuario\nhttp://www.honeywelllifesafety.es                                                                                                                    33\n\nRP1r-Supra | Funcionamiento\n\n## 4.2.2 Teclas de función\n\nLas teclas de función disponibles en el panel frontal de la central, son el medio a través del cual el usuario puede interactuar con el dispositivo. La mayor parte de ellas solo estarán habilitadas para el nivel de acceso 2.\n\n① Tecla Z1 para anulación/prueba individual de la zona 1 (sólo nivel 2)\n\n② Tecla Z2 para anulación/prueba individual de la zona 2 (sólo nivel 2)\n\n③ Tecla Z3 para anulación/prueba individual de la zona 3 (sólo nivel 2)\n\n④ Introducción de secuencias de programación y test de leds (sólo nivel 2)*\n\n⑤ Anular/habilitar sirenas (sólo nivel 2)\n\n⑥ Activación manual de la señal de evacuación (sólo nivel 2)\n\n⑦ Activar/desactivar retardo previo a activación de las sirenas (sólo nivel 2)\n\n⑧ Silenciar zumbador (nivel 1 - siempre disponible)\n\n⑨ Rearme de la central (sólo nivel 2)\n\n⑩ Selección del modo de funcionamiento de la central (sólo nivel 2)**\n\n⑪ Llave para habilitar/anular el acceso al teclado (acceso a nivel 2)\n\n> (*) La función \"Test de leds\" de la tecla (4) también es accesible desde el nivel 1.\n>\n> (**) La tecla para selección del modo de funcionamiento (10) sólo se encuentra habilitada desde el nivel 2 si el acceso al mismo se lleva a cabo mediante la llave de desbloqueo (11).\n>\n> Por razones de seguri"
+ },
+ {
+  "qid": "hp017",
+  "fact_idx": 0,
+  "tipo": "core",
+  "gold_texto": "El retardo de las salidas se programa mediante PROGRAMACION CAUSA-EFECTO (reglas) en el Manual de configuracion 997-671-005-3 (Apendice 5), NO con un parametro unico de \"retardo de salida\"",
+  "gold_valor": "causa-efecto",
+  "missing_tokens": [
+   "parametro",
+   "salidas",
+   "unico"
+  ],
+  "chunk_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+  "chunk_content": "997-671-005-3\n\nProgramación de causa-efecto\n\n# Apéndice 5. Programación de causa-efecto\n\nLa central contra incendios Pearl ofrece una potente prestación integrada que permite programar su funcionamiento para satisfacer una amplia gama de requisitos del cliente sin dejar de cumplir con la normativa local contra incendios. Se trata de la programación de causa-efecto.\n\n## A5.1 ¿Qué es la programación de causa-efecto?\n\nEsencialmente, el objetivo de la programación causa-efecto es ofrecer un claro conjunto de reglas, o instrucciones lógicas, para determinar el comportamiento de los equipos de salida al responder a un cambio de estado en una o más condiciones de entrada.\n\n**Se recomienda utilizar el programa de configuración por ordenador como principal método de programación. El menú de la central debería emplearse solo para realizar modificaciones menores en las reglas, tal vez para responder a cambios posteriores de configuración; aun así, como se ha dicho, el uso del programa de configuración siempre será el método más adecuado para realizar las actualizaciones pertinentes.**\n\nUna regla solo puede configurarse para realizar una tarea, si bien una serie de reglas pueden combinarse para dar soluciones a una programación de causa-efecto más compleja (mediante enlaces de instrucciones lógicas llamados flags de transferencia).\n\nUna regla consta de dos instrucciones de acción, como se explica a continuación:\n\n* Instrucción de entrada: esta parte de la regla es una condición de entrada, como una alarma, una avería o la detección de un cambio de estado en una determinada categoría de"
+ },
+ {
+  "qid": "hp017",
+  "fact_idx": 1,
+  "tipo": "core",
+  "gold_texto": "Una regla consta de una INSTRUCCION DE ENTRADA (condicion, p.ej. alarma en zona/lazo) y una INSTRUCCION DE SALIDA (equipo a accionar: sirenas o reles)",
+  "gold_valor": "instruccion de entrada",
+  "missing_tokens": [
+   "accionar",
+   "lazo"
+  ],
+  "chunk_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+  "chunk_content": "997-671-005-3\n\nProgramación de causa-efecto\n\n# Apéndice 5. Programación de causa-efecto\n\nLa central contra incendios Pearl ofrece una potente prestación integrada que permite programar su funcionamiento para satisfacer una amplia gama de requisitos del cliente sin dejar de cumplir con la normativa local contra incendios. Se trata de la programación de causa-efecto.\n\n## A5.1 ¿Qué es la programación de causa-efecto?\n\nEsencialmente, el objetivo de la programación causa-efecto es ofrecer un claro conjunto de reglas, o instrucciones lógicas, para determinar el comportamiento de los equipos de salida al responder a un cambio de estado en una o más condiciones de entrada.\n\n**Se recomienda utilizar el programa de configuración por ordenador como principal método de programación. El menú de la central debería emplearse solo para realizar modificaciones menores en las reglas, tal vez para responder a cambios posteriores de configuración; aun así, como se ha dicho, el uso del programa de configuración siempre será el método más adecuado para realizar las actualizaciones pertinentes.**\n\nUna regla solo puede configurarse para realizar una tarea, si bien una serie de reglas pueden combinarse para dar soluciones a una programación de causa-efecto más compleja (mediante enlaces de instrucciones lógicas llamados flags de transferencia).\n\nUna regla consta de dos instrucciones de acción, como se explica a continuación:\n\n* Instrucción de entrada: esta parte de la regla es una condición de entrada, como una alarma, una avería o la detección de un cambio de estado en una determinada categoría de"
+ },
+ {
+  "qid": "hp017",
+  "fact_idx": 2,
+  "tipo": "core",
+  "gold_texto": "Acceder a la pantalla \"Causa y Efecto\" desde el menu \"Editar Configuracion\"; borrar la Regla 1 por defecto (CUALQUIER entrada de alarma activa TODOS los equipos de salida) si se va a hacer una programacion especifica",
+  "gold_valor": "Editar Configuracion",
+  "missing_tokens": [
+   "acceder",
+   "hacer"
+  ],
+  "chunk_id": "94cbb0ce-0f89-46f0-9a83-d47680c79d17",
+  "chunk_content": "Cada regla debe usar un número discreto. El máximo número de reglas configurables es de 512.Es así tanto si se trata de una sola central como si es una red de centrales.\n\nPor defecto cada central tiene las dos reglas siguientes:\n\nRegla 1: CUALQUIER entrada de alarma activa TODOS los equipos de salida.\n\nRegla 2: La tecla EVACUACIÓN activa TODOS los equipos de salida.\n\n<ins>Es fundamental borrar la regla 1 si se va a realizar una programación específica, ya que, si no, esta será anulada.</ins>\n\nPara crear o editar reglas de causa-efecto vaya a la pantalla «Causa y Efecto» desde el menú «Editar Configuración». Esta pantalla muestra las dos reglas por defecto, a menos que la transferencia de un archivo de configuración con reglas de causa-efecto específicas las haya sobrescrito o que se hayan eliminado mediante esta opción.\n\nLos campos de edición constan de:\n\n- Filas (números de registro)\n- Columnas (todas editables para definir instrucciones de entrada y salida)\n\nAl crear reglas de causa-efecto, debe tenerse en cuenta que un valor «0» significa «TODOS» o «no especificado», en función de la lógica que se aplique. Si en la columna «Lazo» se deja «0», entonces se tiene en cuenta cualquier lazo en la lógica de la regla.\n\nEn el ejemplo de la derecha, el valor «0» de la columna «E/P Cent.» junto con la columna no marcada «Local» significa que la entrada, alarma, de «cualquier» central se considerará parte del cumplimiento de la instrucción de entrada. Además, «cualquier» sensor de «cualquier» lazo también se tendrá en cuenta cuando se examinen las reglas para ver si alguna condición"
+ },
+ {
+  "qid": "hp017",
+  "fact_idx": 3,
+  "tipo": "core",
+  "gold_texto": "Asignar a la regla uno de los SEIS tipos de retardo de salida (seccion A5.3 \"Tipos de retardo\"), que determina el comportamiento del retardo y su control por teclas (SILENCIAR SIRENAS / SONIDO ALARMAS)",
+  "gold_valor": "seis tipos de retardo",
+  "missing_tokens": [
+   "alarmas",
+   "comportamiento",
+   "seccion",
+   "sonido"
+  ],
+  "chunk_id": "570d9951-e3a6-4c64-a927-e26b5e6db842",
+  "chunk_content": "## A5.2.1 Borrar una regla de causa-efecto\n\nCon el cursor situado en cualquier columna de la regla que desee borrar, pulse C. La última regla no puede borrarse (es la que tiene un asterisco delante del número).\n\n## A5.3 Tipos de retardo\n\nLas reglas de causa-efecto pueden especificar diferentes condiciones para retardos de salida y cómo se controlan. Se puede asignar uno de seis tipos de retardo de salida a una regla, como se explica a continuación.\n\nCuando se examina una matriz de causa-efecto y hay una o más reglas con un retardo antes de la activación de equipos de salida, el tipo de retardo seleccionado determina qué acciones podrán realizarse mientras el retardo esté activo. Pueden utilizarse varias reglas en toda la matriz de causa-efecto para conseguir las funciones específicas del sitio necesarias, en las que pueden configurarse distintos retardos con diferentes acciones de control antes y/o después de que se activen las salidas. Una salida puede ser una sirena, un faro o una acción de control normalmente configurada mediante un módulo de salida. En función del tipo de salida seleccionado, el usuario puede tener acceso a controles sobre la salida mediante las teclas de la central o el menú «Anular/Habilitar» (función de nivel de acceso 2).\n\nEn la siguiente tabla se muestra el efecto sobre los retardos de salida al pulsar las teclas SILENCIAR SIRENAS o AMPLIAR RETARDO, otras funciones de usuario y si la cuenta atrás del temporizador se muestra en el LCD.\n\nTECLU\ntardoRet.Tipo\nEstándar\nFijo\nEst.Ext.\nNo Silenc.\nNo Sil.Ext\nEstándar 0\nEstándar 0"
+ },
+ {
+  "qid": "hp017",
+  "fact_idx": 4,
+  "tipo": "supplementary",
+  "gold_texto": "A nivel de equipo/zona existe el parametro \"Retardo de alarma\" en la programacion del lazo; el retardo de confirmacion de coincidencia puede ajustarse hasta 240 s (4 min)",
+  "gold_valor": "240 s",
+  "missing_tokens": [
+   "existe",
+   "lazo",
+   "parametro"
+  ],
+  "chunk_id": "39e581ab-3536-4fe5-8faa-4537ca38213f",
+  "chunk_content": "# 4.2 Editar equipos\n\nEs posible realizar una edición individual de los sensores o los módulos. Pueden editarse las siguientes funciones.\n\nPara sensores:\n\n- Números de referencia de la zona de red\n- Tipo de equipo\n- Entorno del número de referencia de zona (opcional)\n- Número de central (Central LOCAL; 1-125: otras centrales de red). Esta columna no siempre se muestra, ya que depende del tipo de numeración de zona seleccionada.\n- Número de zonas (hasta 255 zonas locales o 8192 zonas de red)\n- Número de células (hasta 255)\n- Prioridad de interrogación (operación solo protocolo CLIP: limitada a 30 equipos)\n- Acción de parpadeo en equipo interrogado. Elección del color solo para equipos Opal.\n- Opción de tipo de equipo (VIEW, Optiplex y SMART)\n- Ajuste del nivel de alarma\n- Ajuste del nivel de alarma horaria\n- Ajuste del nivel de prealarma\n- Selección de programación horaria (cambio de sensibilidad de sensor)\n- Grupo AWACS (50 grupos con todos los sensores CLIP salvo HEAT)\n- Retardo de alarma\n- Ajuste no silenciable para la función de LED remoto (solo equipos Opal); respuesta a la orden SILENCIAR SIRENAS.\n- Operación solo modo térmico (L6) (solo SMART y Optiplex)\n- Número de aplicación (solo equipos SMART 4)\n- Ajuste de la función LED remota (solo equipos Opal): las opciones son: Seguir el equipo (predeterminada) o Controlada por las reglas de causa-efecto.\n- Retardo de confirmación de coincidencia de detector; puede ajustarse hasta 240 s (4 min). Puede usarse con dependencia tipo B."
+ }
+]

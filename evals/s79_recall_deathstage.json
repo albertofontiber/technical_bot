@@ -1,0 +1,118 @@
+[
+ {
+  "qid": "cat016",
+  "models_detected": [
+   "CAD-150"
+  ],
+  "n_quotes": 2,
+  "n_in_pool": 1,
+  "missing_quote_idx": [
+   1
+  ],
+  "retrieved_in_search": [
+   0
+  ],
+  "vec_rank_of_quotes": {},
+  "recall_VECTORIAL_miss_idx": [
+   1
+  ],
+  "died_in_FILTERS_idx": [],
+  "stage_trace": []
+ },
+ {
+  "qid": "hp001",
+  "models_detected": [
+   "CAD-250"
+  ],
+  "n_quotes": 4,
+  "n_in_pool": 2,
+  "missing_quote_idx": [
+   0,
+   2
+  ],
+  "retrieved_in_search": [
+   1,
+   3
+  ],
+  "vec_rank_of_quotes": {},
+  "recall_VECTORIAL_miss_idx": [
+   0,
+   2
+  ],
+  "died_in_FILTERS_idx": [],
+  "stage_trace": []
+ },
+ {
+  "qid": "hp017",
+  "models_detected": [
+   "Pearl"
+  ],
+  "n_quotes": 4,
+  "n_in_pool": 2,
+  "missing_quote_idx": [
+   0,
+   1
+  ],
+  "retrieved_in_search": [
+   2,
+   3
+  ],
+  "vec_rank_of_quotes": {
+   "2": 3
+  },
+  "recall_VECTORIAL_miss_idx": [
+   0,
+   1
+  ],
+  "died_in_FILTERS_idx": [],
+  "stage_trace": []
+ },
+ {
+  "qid": "hp011",
+  "models_detected": [
+   "RP1R"
+  ],
+  "n_quotes": 5,
+  "n_in_pool": 4,
+  "missing_quote_idx": [
+   2
+  ],
+  "retrieved_in_search": [
+   0,
+   1,
+   3,
+   4
+  ],
+  "vec_rank_of_quotes": {
+   "0": 0,
+   "3": 0,
+   "4": 0
+  },
+  "recall_VECTORIAL_miss_idx": [
+   2
+  ],
+  "died_in_FILTERS_idx": [],
+  "stage_trace": []
+ },
+ {
+  "qid": "cat007",
+  "models_detected": [
+   "FAAST LT-200",
+   "FAAST LT"
+  ],
+  "n_quotes": 2,
+  "n_in_pool": 0,
+  "missing_quote_idx": [
+   0,
+   1
+  ],
+  "retrieved_in_search": [],
+  "vec_rank_of_quotes": {},
+  "recall_VECTORIAL_miss_idx": [
+   0,
+   1
+  ],
+  "died_in_FILTERS_idx": [],
+  "stage_trace": []
+ }
+]

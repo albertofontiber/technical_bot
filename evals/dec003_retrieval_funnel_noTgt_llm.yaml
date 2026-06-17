@@ -1,6 +1,6 @@
 meta:
-  generated_at: '2026-06-10T16:45:09'
-  git_commit: 787df83
+  generated_at: '2026-06-17T14:25:54'
+  git_commit: d5dfad1
   chunks_table: chunks_v2
   hyde_enabled: false
   retrieve_k: 50
@@ -9,243 +9,204 @@ meta:
   rerank_target_models: false
   gold_file: gold_answers_v1.yaml
   bvg_file: _s45_results_k50_hydeOFF.yaml
-  n_qids: 8
+  n_qids: 5
   qids:
-  - cat001
-  - cat017
+  - cat016
+  - cat007
   - hp001
-  - hp002
-  - hp007
-  - hp008
   - hp011
-  - hp018
+  - hp017
 results:
-- qid: cat001
-  veredicto_B: PARCIAL
-  conducta_esperada: answer
-  conducta_bot_B: answer
-  n_core_presente: 7
-  buckets:
-    SINTESIS: 3
-    RERANK-MISS: 1
-    RETRIEVAL: 3
-    CORPUS-GAP: 0
-  buckets_fuerte:
-    SINTESIS: 1
-    RERANK-MISS: 1
-    RETRIEVAL: 3
-    CORPUS-GAP: 0
-  target_servable: true
-  target_in_pool50: true
-  target_in_top5: true
-  target_tokens:
-  - 997-669-005-3_Instal-Comm_ES
-  - 997-671-005-3_Configuration_ES
-  corpus_counts:
-    997-669-005-3_Instal-Comm_ES: 112
-    997-671-005-3_Configuration_ES: 124
-  top5_sources:
-  - 997-669-005-3_Instal-Comm_ES
-  - 997-669-005-3_Instal-Comm_ES
-  - 997-671-005-3_Configuration_ES
-  - 997-671-005-3_Configuration_ES
-  - 997-671-005-3_Configuration_ES
-  pool50_sources:
-  - 997-671-005-3_Configuration_ES
-  - 997-670-005-3_Operating_ES
-  - Guia basica instalacion_PEARL
-  - 997-670-007-3_Operating_PT
-  - 997-669-005-3_Instal-Comm_ES
-  - 997-671-005-3_Configuration_ES
-  - 997-669-005-3_Instal-Comm_ES
-  - 997-671-005-3_Configuration_ES
-  - 997-669-005-3_Instal-Comm_ES
-  - 997-671-005-3_Configuration_ES
-  - 997-671-005-3_Configuration_ES
-  - 997-671-005-3_Configuration_ES
-  - 997-671-005-3_Configuration_ES
-  - 997-671-005-3_Configuration_ES
-  - 997-671-005-3_Configuration_ES
-  - 997-671-005-3_Configuration_ES
-  - 997-671-005-3_Configuration_ES
-  - 997-671-005-3_Configuration_ES
-  - 997-671-005-3_Configuration_ES
-  - 997-671-005-3_Configuration_ES
-  - 997-671-005-3_Configuration_ES
-  - 997-671-005-3_Configuration_ES
-  - 997-671-005-3_Configuration_ES
-  - 997-671-005-3_Configuration_ES
-  - 997-671-005-3_Configuration_ES
-  - 997-671-005-3_Configuration_ES
-  - 997-671-005-3_Configuration_ES
-  - 997-671-005-3_Configuration_ES
-  - 997-671-005-3_Configuration_ES
-  - 997-671-005-3_Configuration_ES
-  facts:
-  - valor: 1 o 2
-    probe: ~1 o 2
-    strength: fuerte
-    in_top5: true
-    in_pool50: true
-    in_manual_corpus: true
-    bucket: SINTESIS
-  - valor: 159+159 / 99+99
-    probe:
-    - '159'
-    - '99'
-    strength: fuerte
-    in_top5: false
-    in_pool50: false
-    in_manual_corpus: true
-    bucket: RETRIEVAL
-  - valor: 0,75 A
-    probe:
-    - 0,75
-    strength: fuerte
-    in_top5: false
-    in_pool50: false
-    in_manual_corpus: true
-    bucket: RETRIEVAL
-  - valor: '40'
-    probe:
-    - '40'
-    strength: debil
-    in_top5: true
-    in_pool50: true
-    in_manual_corpus: true
-    bucket: SINTESIS
-  - valor: 32 / 25 / 20
-    probe:
-    - '20'
-    - '25'
-    - '32'
-    strength: fuerte
-    in_top5: false
-    in_pool50: false
-    in_manual_corpus: true
-    bucket: RETRIEVAL
-  - valor: autoconfiguracion
-    probe: ~autoconfiguracion
-    strength: debil
-    in_top5: true
-    in_pool50: true
-    in_manual_corpus: true
-    bucket: SINTESIS
-  - valor: 255 / 8192
-    probe:
-    - '255'
-    - '8192'
-    strength: fuerte
-    in_top5: false
-    in_pool50: true
-    in_manual_corpus: true
-    bucket: RERANK-MISS
-- qid: cat017
+- qid: cat016
   veredicto_B: null
   conducta_esperada: answer
   conducta_bot_B: null
-  n_core_presente: 5
+  n_core_presente: 4
   buckets:
     SINTESIS: 2
     RERANK-MISS: 0
     RETRIEVAL: 2
-    CORPUS-GAP: 1
+    CORPUS-GAP: 0
   buckets_fuerte:
     SINTESIS: 0
     RERANK-MISS: 0
-    RETRIEVAL: 1
-    CORPUS-GAP: 1
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
   target_servable: true
   target_in_pool50: true
   target_in_top5: true
   target_tokens:
-  - HOP-138-9
-  - HOP-138-8
-  - HOP-138-9ES
-  - 11-2025_In
-  - HOP-138-8ES
-  - 01-2026_Co
+  - '55315013'
+  - '55315008'
+  - CAD-150-8
+  - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
   corpus_counts:
-    HOP-138-9: 107
-    HOP-138-8: 94
-    HOP-138-9ES: 100
-    11-2025_In: 100
-    HOP-138-8ES: 89
-    01-2026_Co: 94
+    '55315013': 25
+    '55315008': 63
+    CAD-150-8: 88
+    55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT: 63
   top5_sources:
-  - HOP-138-8ES  issue 6_01-2026_Co
-  - HOP-138-8ES  issue 6_01-2026_Co
-  - HOP-138-8ES  issue 6_01-2026_Co
-  - HOP-138-8ES  issue 6_01-2026_Co
-  - HOP-138-8ES  issue 6_01-2026_Co
+  - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+  - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+  - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+  - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
   pool50_sources:
-  - HOP-138-8ES  issue 6_01-2026_Co
-  - HOP-138-9ES issue 5_11-2025_In
-  - 4188-1125-ES issue 5_11-2025_Li
-  - HOP-338-9ES issue 4_01-2026_Op
-  - 4188-1122-ES issue 4_04-2025_Cyb
-  - HOP-138-8ES  issue 6_01-2026_Co
-  - HOP-138-9ES issue 5_11-2025_In
-  - HOP-338-9ES issue 4_01-2026_Op
-  - HOP-138-8ES  issue 6_01-2026_Co
-  - HOP-138-9ES issue 5_11-2025_In
-  - HOP-138-8ES  issue 6_01-2026_Co
-  - HOP-138-9ES issue 5_11-2025_In
-  - HOP-138-8ES  issue 6_01-2026_Co
-  - HOP-138-9ES issue 5_11-2025_In
-  - HOP-138-8ES  issue 6_01-2026_Co
-  - HOP-138-9ES issue 5_11-2025_In
-  - HOP-138-8ES  issue 6_01-2026_Co
-  - HOP-138-9ES issue 5_11-2025_In
-  - HOP-138-8ES  issue 6_01-2026_Co
-  - HOP-138-9ES issue 5_11-2025_In
-  - HOP-138-8ES  issue 6_01-2026_Co
-  - HOP-138-8ES  issue 6_01-2026_Co
-  - HOP-138-8ES  issue 6_01-2026_Co
-  - HOP-138-8ES  issue 6_01-2026_Co
-  - HOP-138-8ES  issue 6_01-2026_Co
-  - HOP-138-8ES  issue 6_01-2026_Co
-  - HOP-138-8ES  issue 6_01-2026_Co
-  - HOP-138-8ES  issue 6_01-2026_Co
-  - HOP-138-8ES  issue 6_01-2026_Co
-  - HOP-138-8ES  issue 6_01-2026_Co
-  - HOP-138-8ES  issue 6_01-2026_Co
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315501 CAD150R Instalacion ES GB 191018
+  - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
   facts:
-  - valor: modulo OPAL HOP-433-100
-    probe:
-    - '-433'
-    - '100'
-    - hop-433
-    strength: fuerte
-    in_top5: false
-    in_pool50: false
-    in_manual_corpus: true
-    bucket: RETRIEVAL
-  - valor: 159 + 159
-    probe:
-    - '+159'
-    - '159'
-    strength: fuerte
-    in_top5: false
-    in_pool50: false
-    in_manual_corpus: false
-    bucket: CORPUS-GAP
-  - valor: licencia CLIP por lazo
-    probe: ~licencia CLIP por lazo
+  - valor: autobusqueda
+    probe: ~autobusqueda
     strength: debil
     in_top5: false
     in_pool50: false
     in_manual_corpus: true
     bucket: RETRIEVAL
-  - valor: Auto Configuracion
-    probe: ~Auto Configuracion
+  - valor: menu ZONA + ELEMENTO
+    probe: ~menu ZONA + ELEMENTO
+    strength: debil
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL
+  - valor: modo prueba
+    probe: ~modo prueba
     strength: debil
     in_top5: true
     in_pool50: true
     in_manual_corpus: true
     bucket: SINTESIS
-  - valor: CLSS
-    probe: ~CLSS
+  - valor: 20 minutos
+    probe:
+    - '20'
+    strength: debil
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+- qid: cat007
+  veredicto_B: PARCIAL
+  conducta_esperada: answer
+  conducta_bot_B: answer
+  n_core_presente: 5
+  buckets:
+    SINTESIS: 4
+    RERANK-MISS: 0
+    RETRIEVAL: 1
+    CORPUS-GAP: 0
+  buckets_fuerte:
+    SINTESIS: 0
+    RERANK-MISS: 0
+    RETRIEVAL: 0
+    CORPUS-GAP: 0
+  target_servable: true
+  target_in_pool50: true
+  target_in_top5: true
+  target_tokens:
+  - I56-6577-006_ES
+  - LT-200
+  - I56-6577-006_EN
+  corpus_counts:
+    I56-6577-006_ES: 42
+    LT-200: 269
+    I56-6577-006_EN: 31
+  top5_sources:
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  pool50_sources:
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG
+  - ASD Cold Environments_SP
+  - FAAST-LT-No-puedo-comunicar-con-el-equipo
+  - FAAST-LT-Como-obtener-el-historico-del-equipo
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG
+  - ASD Cold Environments_SP
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-3956-201_ES Morley Loop FAAST LT QIG
+  facts:
+  - valor: NC-C-NA
+    probe: ~NC-C-NA
+    strength: debil
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: no enclavado
+    probe: ~no enclavado
+    strength: debil
+    in_top5: false
+    in_pool50: false
+    in_manual_corpus: true
+    bucket: RETRIEVAL
+  - valor: 47 kohm
+    probe:
+    - '47'
+    strength: debil
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: 2 A / 0,5 A
+    probe:
+    - 0,5
+    strength: debil
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: 10^5
+    probe:
+    - '10'
     strength: debil
     in_top5: true
     in_pool50: true
@@ -257,14 +218,14 @@ results:
   conducta_bot_B: answer
   n_core_presente: 3
   buckets:
-    SINTESIS: 0
+    SINTESIS: 2
     RERANK-MISS: 0
-    RETRIEVAL: 3
+    RETRIEVAL: 1
     CORPUS-GAP: 0
   buckets_fuerte:
-    SINTESIS: 0
+    SINTESIS: 1
     RERANK-MISS: 0
-    RETRIEVAL: 2
+    RETRIEVAL: 1
     CORPUS-GAP: 0
   target_servable: true
   target_in_pool50: true
@@ -277,50 +238,45 @@ results:
     CAD-250: 578
   top5_sources:
   - CAD-250_Manual-Configuracion-MC-380-es-2026-c
-  - CAD-250-MC-380-es
-  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
-  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
-  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - CAD-250_Manual-software-configuracion-MS-416-es-2026-b
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
   pool50_sources:
-  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
-  - CAD-250-MC-380-es
-  - CAD-250-MS-416-es
-  - CAD-250_Manual-software-configuracion-MS-416-es-2026-b
   - Manual usuario CAD-250 (MU 376 es 2024 f)
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
   - Manual instalacion CAD-250 (MI_372_es_2024 e)
-  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
-  - CAD-250-MC-380-es
-  - CAD-250-MS-416-es
   - CAD-250_Manual-software-configuracion-MS-416-es-2026-b
   - Manual usuario CAD-250 (MU 376 es 2024 f)
   - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - CAD-250_Manual-software-configuracion-MS-416-es-2026-b
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
   - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
   - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
   - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
   - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
   - CAD-250_Manual-Configuracion-MC-380-es-2026-c
-  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
-  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
-  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
-  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
-  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
-  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
-  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
-  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
-  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
-  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
-  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
-  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
-  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
-  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
+  - Manual usuario CAD-250 (MU 376 es 2024 f)
   facts:
   - valor: candado
     probe: ~candado
     strength: debil
-    in_top5: false
-    in_pool50: false
+    in_top5: true
+    in_pool50: true
     in_manual_corpus: true
-    bucket: RETRIEVAL
+    bucket: SINTESIS
   - valor: '2222'
     probe:
     - '2222'
@@ -333,315 +289,10 @@ results:
     probe:
     - '1111'
     strength: fuerte
-    in_top5: false
-    in_pool50: false
-    in_manual_corpus: true
-    bucket: RETRIEVAL
-- qid: hp002
-  veredicto_B: PARCIAL
-  conducta_esperada: answer
-  conducta_bot_B: answer
-  n_core_presente: 5
-  buckets:
-    SINTESIS: 2
-    RERANK-MISS: 0
-    RETRIEVAL: 3
-    CORPUS-GAP: 0
-  buckets_fuerte:
-    SINTESIS: 0
-    RERANK-MISS: 0
-    RETRIEVAL: 2
-    CORPUS-GAP: 0
-  target_servable: true
-  target_in_pool50: true
-  target_in_top5: true
-  target_tokens:
-  - ASD535_TD_T131192es_h
-  corpus_counts:
-    ASD535_TD_T131192es_h: 242
-  top5_sources:
-  - ASD535_TD_T131192es_h
-  - ASD535_TD_T131192es_h
-  - ASD535_TD_T131192es_h
-  - ASD535_TD_T131192es_h
-  - ASD535_TD_T131192es_h
-  pool50_sources:
-  - ASD535_TD_T131192es_h
-  - ASD535_TD_T131192es_h
-  - ASD535_TD_T131192es_h
-  - ASD535_TD_T131192es_h
-  - ASD535_TD_T131192es_h
-  - ASD535_TD_T131192es_h
-  - ASD535_TD_T131192es_h
-  - ASD535_TD_T131192es_h
-  - ASD535_TD_T131192es_h
-  - ASD535_TD_T131192es_h
-  - ASD535_TD_T131192es_h
-  - ASD535_TD_T131192es_h
-  - ASD535_TD_T131192es_h
-  - ASD535_TD_T131192es_h
-  - ASD535_TD_T131192es_h
-  - ASD535_TD_T131192es_h
-  - ASD535_TD_T131192es_h
-  facts:
-  - valor: fallo flujo de aire
-    probe: ~fallo flujo de aire
-    strength: debil
     in_top5: true
     in_pool50: true
     in_manual_corpus: true
     bucket: SINTESIS
-  - valor: 80 %
-    probe:
-    - '80'
-    strength: debil
-    in_top5: false
-    in_pool50: false
-    in_manual_corpus: true
-    bucket: RETRIEVAL
-  - valor: 300 s
-    probe:
-    - '300'
-    strength: fuerte
-    in_top5: false
-    in_pool50: false
-    in_manual_corpus: true
-    bucket: RETRIEVAL
-  - valor: 7.6.1
-    probe:
-    - 7.6.1
-    strength: fuerte
-    in_top5: false
-    in_pool50: false
-    in_manual_corpus: true
-    bucket: RETRIEVAL
-  - valor: reset inicial
-    probe: ~reset inicial
-    strength: debil
-    in_top5: true
-    in_pool50: true
-    in_manual_corpus: true
-    bucket: SINTESIS
-- qid: hp007
-  veredicto_B: PASS
-  conducta_esperada: answer
-  conducta_bot_B: answer
-  n_core_presente: 7
-  buckets:
-    SINTESIS: 4
-    RERANK-MISS: 0
-    RETRIEVAL: 1
-    CORPUS-GAP: 2
-  buckets_fuerte:
-    SINTESIS: 0
-    RERANK-MISS: 0
-    RETRIEVAL: 1
-    CORPUS-GAP: 2
-  target_servable: true
-  target_in_pool50: true
-  target_in_top5: true
-  target_tokens:
-  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
-  - VEP-A10-P
-  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
-  corpus_counts:
-    33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores: 120
-    VEP-A10-P: 120
-    33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores: 120
-  top5_sources:
-  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
-  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
-  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
-  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
-  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
-  pool50_sources:
-  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
-  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
-  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
-  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
-  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
-  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
-  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
-  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
-  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
-  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
-  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
-  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
-  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
-  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
-  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
-  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
-  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
-  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
-  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
-  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
-  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
-  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
-  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
-  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
-  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
-  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
-  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
-  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
-  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
-  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
-  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
-  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
-  facts:
-  - valor: cada 3 meses
-    probe: ~cada 3 meses
-    strength: fuerte
-    in_top5: false
-    in_pool50: false
-    in_manual_corpus: false
-    bucket: CORPUS-GAP
-  - valor: cada 6 meses
-    probe: ~cada 6 meses
-    strength: fuerte
-    in_top5: false
-    in_pool50: false
-    in_manual_corpus: false
-    bucket: CORPUS-GAP
-  - valor: una vez al año
-    probe: ~una vez al año
-    strength: debil
-    in_top5: true
-    in_pool50: true
-    in_manual_corpus: true
-    bucket: SINTESIS
-  - valor: una vez al año
-    probe: ~una vez al año
-    strength: debil
-    in_top5: true
-    in_pool50: true
-    in_manual_corpus: true
-    bucket: SINTESIS
-  - valor: una vez al año
-    probe: ~una vez al año
-    strength: debil
-    in_top5: true
-    in_pool50: true
-    in_manual_corpus: true
-    bucket: SINTESIS
-  - valor: una vez al año
-    probe: ~una vez al año
-    strength: debil
-    in_top5: true
-    in_pool50: true
-    in_manual_corpus: true
-    bucket: SINTESIS
-  - valor: cada 2 años
-    probe: ~cada 2 años
-    strength: fuerte
-    in_top5: false
-    in_pool50: false
-    in_manual_corpus: true
-    bucket: RETRIEVAL
-- qid: hp008
-  veredicto_B: PARCIAL
-  conducta_esperada: answer
-  conducta_bot_B: answer
-  n_core_presente: 4
-  buckets:
-    SINTESIS: 0
-    RERANK-MISS: 0
-    RETRIEVAL: 4
-    CORPUS-GAP: 0
-  buckets_fuerte:
-    SINTESIS: 0
-    RERANK-MISS: 0
-    RETRIEVAL: 4
-    CORPUS-GAP: 0
-  target_servable: true
-  target_in_pool50: true
-  target_in_top5: true
-  target_tokens:
-  - MIDT190
-  - MCDT191
-  corpus_counts:
-    MIDT190: 106
-    MCDT191: 144
-  top5_sources:
-  - MPDT190
-  - MPDT190
-  - MCDT190
-  - MCDT191
-  - MPDT190
-  pool50_sources:
-  - MADT190_07
-  - MADT951_03
-  - MCDT190
-  - MPDT190
-  - MCDT191
-  - MFDT190
-  - MIDT190
-  - MADT190_14
-  - TIDT104
-  - TIDT096
-  - MADT190_12
-  - MADT190_13
-  - MADT190_07
-  - MCDT190
-  - MPDT190
-  - MCDT191
-  - MFDT190
-  - MADT190_14
-  - MADT190_13
-  - MCDT190
-  - MPDT190
-  - MCDT191
-  - MFDT190
-  - MCDT190
-  - MCDT191
-  - MFDT190
-  - MCDT190
-  - MCDT191
-  - MFDT190
-  - MCDT190
-  - MCDT191
-  - MCDT190
-  - MCDT191
-  - MCDT190
-  - MCDT191
-  - MCDT190
-  - MCDT190
-  facts:
-  - valor: CPX-551E
-    probe:
-    - '-551'
-    - cpx-551e
-    strength: fuerte
-    in_top5: false
-    in_pool50: false
-    in_manual_corpus: true
-    bucket: RETRIEVAL
-  - valor: SDX-751
-    probe:
-    - '-751'
-    - sdx-751
-    strength: fuerte
-    in_top5: false
-    in_pool50: false
-    in_manual_corpus: true
-    bucket: RETRIEVAL
-  - valor: IRX-751CTEM
-    probe:
-    - '-751'
-    - irx-751ctem
-    strength: fuerte
-    in_top5: false
-    in_pool50: false
-    in_manual_corpus: true
-    bucket: RETRIEVAL
-  - valor: SDX-751-TEM
-    probe:
-    - '-751'
-    - sdx-751
-    strength: fuerte
-    in_top5: false
-    in_pool50: false
-    in_manual_corpus: true
-    bucket: RETRIEVAL
 - qid: hp011
   veredicto_B: FALLO
   conducta_esperada: answer
@@ -665,26 +316,25 @@ results:
   corpus_counts:
     HLSI-MN-103_RP1r-Supra_lr: 190
   top5_sources:
+  - HLSI-MN-103_RP1r-Supra_lr
   - HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr
   - HLSI-MN-103_RP1r-Supra_lr
-  - HLSI-MN-103_RP1r-Supra_lr
   - HLSI-BT-001
-  - MIEMN570I
+  - MNDT102
   pool50_sources:
   - MIEMN570I
   - MIEMN570
   - MN-DT-102I
   - HLSI-MN-103_RP1r-Supra_lr
-  - HLSI-MN-103I_RP1r-Supra_lr
   - HLSI-TI-001I
-  - HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr
+  - HLSI-MN-103I_RP1r-Supra_lr
   - MNDT102
+  - HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr
   - MN-DT-959_OPC-RP1r
   - HLSI-BT-001
   - MIEMN570I
   - MIEMN570
   - HLSI-MN-103_RP1r-Supra_lr
-  - HLSI-MN-103I_RP1r-Supra_lr
   - MNDT102
   - MIEMN570I
   - MIEMN570
@@ -692,7 +342,8 @@ results:
   - MNDT102
   - MIEMN570I
   - MIEMN570
-  - HLSI-MN-103_RP1r-Supra_lr
+  - MNDT102
+  - MIEMN570I
   facts:
   - valor: ABORT
     probe: ~ABORT
@@ -724,94 +375,90 @@ results:
     in_pool50: true
     in_manual_corpus: true
     bucket: SINTESIS
-- qid: hp018
+- qid: hp017
   veredicto_B: PARCIAL
   conducta_esperada: answer
   conducta_bot_B: answer
-  n_core_presente: 5
+  n_core_presente: 4
   buckets:
-    SINTESIS: 4
-    RERANK-MISS: 1
-    RETRIEVAL: 0
+    SINTESIS: 3
+    RERANK-MISS: 0
+    RETRIEVAL: 1
     CORPUS-GAP: 0
   buckets_fuerte:
-    SINTESIS: 1
-    RERANK-MISS: 1
+    SINTESIS: 0
+    RERANK-MISS: 0
     RETRIEVAL: 0
     CORPUS-GAP: 0
   target_servable: true
   target_in_pool50: true
   target_in_top5: true
   target_tokens:
-  - MIE-MI-530rv001
-  - MIE-MI-310
+  - 997-671-005-3_Configuration_ES
   corpus_counts:
-    MIE-MI-530rv001: 64
-    MIE-MI-310: 42
+    997-671-005-3_Configuration_ES: 124
   top5_sources:
-  - MIE-MI-310
-  - MIE-MI-310
-  - MIE-MI-310
-  - MIE-MI-310
-  - MIE-MI-310
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-670-005-3_Operating_ES
+  - 997-670-005-3_Operating_ES
+  - 997-671-005-3_Configuration_ES
   pool50_sources:
-  - MIE-MI-310
-  - MIE-MU-310
-  - MIE-MP-315
-  - MIE-MP-310
-  - MIE-MI-310
-  - MIE-MU-310
-  - MIE-MP-315
-  - MIE-MP-310
-  - MIE-MI-310
-  - MIE-MP-315
-  - MIE-MI-310
-  - MIE-MI-310
-  - MIE-MI-310
-  - MIE-MI-310
-  - MIE-MI-310
-  - MIE-MI-310
-  - MIE-MI-310
-  - MIE-MI-310
-  - MIE-MI-310
-  - MIE-MI-310
-  - MIE-MI-310
-  - MIE-MI-310
-  - MIE-MI-310
-  - MIE-MI-310
-  - MIE-MI-310
-  - MIE-MI-310
+  - 997-671-005-3_Configuration_ES
+  - 997-669-005-3_Instal-Comm_ES
+  - Guia basica instalacion_PEARL
+  - 997-671-007-3_Configuration_PT
+  - 997-670-007-3_Operating_PT
+  - 997-670-005-3_Operating_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-669-005-3_Instal-Comm_ES
+  - 997-670-005-3_Operating_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
+  - 997-671-005-3_Configuration_ES
   facts:
-  - valor: 4 circuitos
-    probe: ~4 circuitos
-    strength: fuerte
+  - valor: causa-efecto
+    probe: ~causa-efecto
+    strength: debil
+    in_top5: true
+    in_pool50: true
+    in_manual_corpus: true
+    bucket: SINTESIS
+  - valor: instruccion de entrada
+    probe: ~instruccion de entrada
+    strength: debil
     in_top5: false
-    in_pool50: true
+    in_pool50: false
     in_manual_corpus: true
-    bucket: RERANK-MISS
-  - valor: 6K8
-    probe: ~6K8
-    strength: fuerte
-    in_top5: true
-    in_pool50: true
-    in_manual_corpus: true
-    bucket: SINTESIS
-  - valor: diodo
-    probe: ~diodo
+    bucket: RETRIEVAL
+  - valor: Editar Configuracion
+    probe: ~Editar Configuracion
     strength: debil
     in_top5: true
     in_pool50: true
     in_manual_corpus: true
     bucket: SINTESIS
-  - valor: Sirenas A,B,C,D
-    probe: ~Sirenas A,B,C,D
-    strength: debil
-    in_top5: true
-    in_pool50: true
-    in_manual_corpus: true
-    bucket: SINTESIS
-  - valor: 1 A
-    probe: ~1 A
+  - valor: seis tipos de retardo
+    probe: ~seis tipos de retardo
     strength: debil
     in_top5: true
     in_pool50: true
