@@ -52,24 +52,33 @@ load_dotenv(ROOT / ".env", override=True)
 os.environ["CHUNKS_TABLE"] = "chunks_v2"
 os.environ["HYDE_ENABLED"] = "false"
 sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "scripts"))  # audit_locator hace `from strict_match import ...` (bare)
 
 from src.config import CHUNKS_IS_V2, SUPABASE_URL, SUPABASE_SERVICE_KEY  # noqa: E402
 from src.rag.retriever import retrieve_chunks, extract_product_models  # noqa: E402
 from src.rag.reranker import rerank_chunks, rerank_chunks_voyage  # noqa: E402
 from src.rag.hyde import HYDE_ENABLED  # noqa: E402
-from scripts.strict_match import norm_ocr, distinctive, chunk_has_quote_strict, anchor_present  # noqa: E402
+from scripts.strict_match import norm_ocr, distinctive, anchor_present, chunk_has_quote_strict  # noqa: E402
+# s81/DEC-061: el AUDIT usa el predicado limpio de audit_locator (fact_match_score). Las funciones
+# LEGACY (fact_probe/_chunk_has/present_in con el matcher viejo) se conservan abajo SOLO para
+# bvg_kmajority.sufficiency_for (su fix es separado, fuera de scope de DEC-061 que arregla ESTE funnel).
+from scripts.audit_locator import fact_match_score, measurable, SCORE_FLOOR  # noqa: E402
 
 GOLD = ROOT / "evals" / "gold_answers_v1.yaml"  # lee directo + exclude_heldout (embargo; TECH_DEBT #42 cerrado s57)
-# Veredictos de la corrida HyDE-OFF @ pool-50 de s45 (solo ANOTACION; los BUCKETS son la senal).
-BVG = ROOT / "evals" / "_s45_results_k50_hydeOFF.yaml"
+# s81/DEC-061(iv): veredictos canónicos k5 (los 30 dev NO-PASS) — antes _s45 (17 golds, desfasado).
+# Define el UNIVERSO del audit (NO-PASS) + anota veredicto/conducta_bot por gold.
+BVG = ROOT / "evals" / "bot_vs_gold_results_k5.yaml"
 OUT = ROOT / "evals" / "dec003_retrieval_funnel.yaml"
 
 RETRIEVE_K = 50   # s45: pool-50 (retrieve-wide RETRIEVAL_TOP_K=50, shipped s44). Antes 15
                   # = medía un pipeline que ya no existe (bug cazado por el dúo s45).
 RERANK_K = 5
+RERANK_RUNS = 1   # s81/FIX B (DEC-061(iii) + dúo r3): el reranker de PROD es temp=0 → DETERMINISTA
+                  # (jitter nulo verificado, dúo r3) → K=1 basta. La decisión PRIMARIA (in-pool) es
+                  # rerank-INDEPENDIENTE igualmente. Configurable si aparece jitter (>1 → re-ver flags top5).
 
-# El unico PASS estable (B y A). Los 18 restantes = universo a auditar (DEC-003).
-STABLE_PASS = {"hp013"}
+# s81/FIX C (DEC-061(iv)): el universo del audit = dev NO-PASS de la corrida k5 (BVG). PASS excluido.
+NO_PASS = {"PARCIAL", "FALLO"}
 
 
 def _git_commit() -> str | None:
@@ -82,36 +91,23 @@ def _git_commit() -> str | None:
         return None
 
 
-# --- anchors -----------------------------------------------------------------
-# El anchor sale del VALOR (identificador distintivo del hecho, RULER_DESIGN §3),
-# NO del texto: el texto lleva REFERENCIAS de cita ("(MIDT170)", "(50253SP 2-44)",
-# "(cap A5.3)") que NO son contenido del manual -> exigirlas en un chunk daba
-# falsos negativos (hp006 pedia midt170/50253/-44 dentro del chunk).
+# --- predicado LEGACY (solo bvg_kmajority.sufficiency_for; pre-existente, NO tocar comportamiento) ---
+# DEC-061 arregla el AUDIT (este funnel, abajo), NO el diagnóstico sufficiency_for de bvg_kmajority.
+# Para no romper ese consumidor, se conserva el matcher viejo bajo sus nombres originales.
 _GENERIC = {"1 a", "1a", "2", "3", "0", "00", "no", "si"}  # valores demasiado debiles
 
 
 def fact_probe(valor: str, texto: str) -> tuple[str, object, str]:
-    """Devuelve (kind, probe, strength).
-
-    kind='anchors' -> set de numeros>=2dig/codigos (de VALOR); todos en un chunk.
-    kind='quote'   -> substring/overlap del valor (prosa o codigo corto tipo 6K8).
-    strength='fuerte' (numero>=2dig/codigo/codigo-corto>=3 alnum) | 'debil' (prosa
-       generica). La conclusion se apoya en los fuertes; los debiles se reportan.
-    """
+    """[LEGACY bvg_kmajority] (kind, probe, strength). El audit s81 NO usa esto (usa fact_match_score)."""
     v = (valor or "").strip()
     if v:
         anchors = distinctive(v)
         if anchors:
-            # FUERTE solo si hay codigo de modelo, o un numero >=3 digitos, o >=2
-            # anchors distintos. Un SOLO numero de 2 digitos ('10','25','80',...)
-            # matchea espuriamente cualquier chunk con ese numero -> DEBIL (cazado
-            # por el revisor adversarial: inflaba SINTESIS y deflactaba RETRIEVAL).
             has_model = any(re.search(r"[a-z]", a) for a in anchors)
             has_long_num = any(len(re.sub(r"\D", "", a)) >= 3 for a in anchors)
             strength = "fuerte" if (has_model or has_long_num or len(anchors) >= 2) else "debil"
             return "anchors", anchors, strength
         nv = norm_ocr(v)
-        # codigo corto alfanumerico con letra+digito (6K8, JP2, ISO-X, TB1-3, 7.6.1) -> fuerte
         strong_code = (bool(re.search(r"\d", nv)) and bool(re.search(r"[a-z]", nv))
                        and len(re.sub(r"[^a-z0-9]", "", nv)) >= 3 and nv not in _GENERIC)
         strength = "fuerte" if strong_code else "debil"
@@ -120,12 +116,7 @@ def fact_probe(valor: str, texto: str) -> tuple[str, object, str]:
 
 
 def _chunk_has(content: str, kind: str, probe) -> bool:
-    """¿UN chunk concreto contiene el dato? (per-chunk, no blob agregado).
-
-    Per-chunk es la semantica correcta ('el chunk que contiene el dato'): exigir
-    TODOS los anchors en el MISMO chunk evita el falso positivo de ensamblar el
-    dato a partir de numeros de chunks distintos (hp019: '-30' de una nota + '+60'
-    del rango de la TUBERIA, sin que ningun chunk tenga el spec del DETECTOR)."""
+    """[LEGACY bvg_kmajority] matcher viejo (chunk_has_quote_strict en el path quote)."""
     if kind == "anchors":
         nc = norm_ocr(content or "")
         return all(anchor_present(a, nc) for a in probe)
@@ -133,7 +124,33 @@ def _chunk_has(content: str, kind: str, probe) -> bool:
 
 
 def present_in(chunks: list[dict], kind: str, probe) -> bool:
+    """[LEGACY bvg_kmajority]"""
     return any(_chunk_has(c.get("content") or "", kind, probe) for c in chunks)
+
+
+# --- predicado del AUDIT (s81, DEC-061: limpio, portado de audit_locator) ----------------------
+# Matchea el ENUNCIADO (texto) vía audit_locator.fact_match_score; la CONFIANZA del bucket sale del
+# SCORE del match (no a priori). Hechos no-medibles los segrega el caller (measurable) ANTES.
+
+
+def present_fact(chunks: list[dict], valor: str, texto: str, targets=None):
+    """Devuelve (present: bool, best_score: float, sources: set). EXIGE el valor (fact_match_score).
+    best_score = mejor score sobre TODOS los chunks atados (no solo ≥FLOOR) → cuantifica near-misses:
+    un CORPUS-GAP con best=0.54 es casi-match (riesgo FN, crít dúo r3) vs best=0.1 (ausencia real).
+    Source-tie FAIL-OPEN: si `targets`, solo cuenta chunks cuya fuente machea el gold (mata el FP
+    'chunk de OTRO manual'); si targets vacío, NO ata (fuentes descriptivas hp010)."""
+    tie = bool(targets)
+    best, srcs = 0.0, set()
+    for c in chunks:
+        if tie and not source_matches_target(c.get("source_file") or "", targets):
+            continue
+        s = fact_match_score(valor, texto, c.get("content") or "")
+        if s is None:
+            continue
+        best = max(best, s)
+        if s >= SCORE_FLOOR:
+            srcs.add(c.get("source_file") or "")
+    return (best >= SCORE_FLOOR), best, srcs
 
 
 # --- target manual (servabilidad) -------------------------------------------
@@ -190,7 +207,9 @@ def corpus_count_for_token(token: str) -> int:
 def target_servable(gold: dict) -> tuple[bool, dict]:
     prov = gold.get("_provenance") or {}
     fuente = prov.get("fuente", "")
-    cits = " ".join(c.get("manual", "") for c in (gold.get("citations") or []))
+    # citations puede ser lista de dicts {manual,quote} (esquema v2) o de strings (golds legacy) — robusto a ambos.
+    cits = " ".join((c.get("manual", "") if isinstance(c, dict) else str(c))
+                    for c in (gold.get("citations") or []))
     targets = doc_tokens(fuente, cits, " ".join(gold.get("pdfs_used") or []))
     counts = {}
     for t in targets[:6]:
@@ -241,7 +260,7 @@ def main() -> int:
     except Exception:
         pass
     ap = argparse.ArgumentParser()
-    ap.add_argument("--all", action="store_true", help="incluir hp013 (PASS)")
+    ap.add_argument("--all", action="store_true", help="incluir también los PASS (default: solo NO-PASS k5)")
     ap.add_argument("--qids", default="", help="csv de qids concretos")
     ap.add_argument("--dump", default="", help="qid: volcar contenido de chunks (validacion)")
     ap.add_argument("--grep", default="", help="con --dump: resaltar este substring (OCR-norm)")
@@ -290,7 +309,8 @@ def main() -> int:
     if args.qids:
         qids = [q.strip() for q in args.qids.split(",") if q.strip()]
     else:
-        qids = [q for q in sorted(golds) if args.all or q not in STABLE_PASS]
+        qids = [q for q in sorted(golds)
+                if args.all or bvg.get(q, {}).get("veredicto") in NO_PASS]
 
     variant = ("tgtmodels" if args.target_models else "noTgt") + f"_{args.reranker}"
     out_path = OUT.with_name(f"dec003_retrieval_funnel_{variant}.yaml")
@@ -304,59 +324,89 @@ def main() -> int:
         q = g["question"]
         models = extract_product_models(q)
         pool = retrieve_chunks(q, top_k=RETRIEVE_K)
-        top5 = _rerank(q, pool, target_models=models if args.target_models else None)
+        # FIX B (dúo r3): el reranker de PROD es temp=0 → determinista (jitter nulo verificado); K=1.
+        # La membresía del pool-50 es estable intra-corrida → la decisión PRIMARIA (in-pool) no usa el rerank.
+        top5_runs = [_rerank(q, pool, target_models=models if args.target_models else None)
+                     for _ in range(RERANK_RUNS)]
+        top5 = top5_runs[0]  # K=1 → el único run; usado consistentemente para facts + flags de fuente
 
         pool_src = [c.get("source_file") for c in pool]
         top_src = [c.get("source_file") for c in top5]
 
         servable, srv = target_servable(g)
         targets = srv["target_tokens"]
+        # Fuente PRIMARIA (solo _provenance.fuente) vs targets (fuente + citations + pdfs_used, que
+        # incluyen CORROBORADORES). Distinguirlas expone el FP 'corroborador enmascara primario'
+        # (crít dúo r2: hp018 recupera MI-310 corroborador, NO MI-530 primario, y el agregado mentía).
+        primary_tokens = doc_tokens((g.get("_provenance") or {}).get("fuente", ""))
         # Servibilidad A NIVEL DE HECHO (cierra critico GPT-5.5): chunks del manual objetivo.
         # Fallback a las fuentes recuperadas si no hay tokens (hp010: nombres DXc descriptivos).
         fetch_tokens = targets or sorted({s for s in pool_src if s})
         manual_chunks = fetch_manual_chunks(fetch_tokens)
         tgt_in_pool = any(source_matches_target(s or "", targets) for s in pool_src)
         tgt_in_top5 = any(source_matches_target(s or "", targets) for s in top_src)
+        primary_in_pool = bool(primary_tokens) and any(source_matches_target(s or "", primary_tokens) for s in pool_src)
+        primary_in_top5 = bool(primary_tokens) and any(source_matches_target(s or "", primary_tokens) for s in top_src)
 
         facts_out = []
         buckets = {"SINTESIS": 0, "RERANK-MISS": 0, "RETRIEVAL": 0, "CORPUS-GAP": 0}
-        buckets_fuerte = {"SINTESIS": 0, "RERANK-MISS": 0, "RETRIEVAL": 0, "CORPUS-GAP": 0}
+        buckets_firme = {"SINTESIS": 0, "RERANK-MISS": 0, "RETRIEVAL": 0, "CORPUS-GAP": 0}
+        n_unmeasurable = n_rerank_unstable = n_borderline = 0
         for f in g.get("atomic_facts") or []:
-            if f.get("tipo") != "core":
-                continue
-            if f.get("estado") != "presente":
+            if f.get("tipo") != "core" or f.get("estado") != "presente":
                 continue  # ausente-probado = legitimamente no en corpus (admit)
-            kind, probe, strength = fact_probe(f.get("valor", ""), f.get("texto", ""))
-            in_top5 = present_in(top5, kind, probe)
-            in_pool = present_in(pool, kind, probe)
-            in_corpus = in_pool or present_in(manual_chunks, kind, probe)
+            valor = f.get("valor", "")
+            texto = (f.get("texto") or "").strip()
+            if not measurable(valor, texto):  # valor no-verificable léxicamente → NO bucketizar (ni falso CORPUS-GAP ni falso SINTESIS)
+                n_unmeasurable += 1
+                facts_out.append({"valor": valor, "medible": False, "bucket": None})
+                continue
+            votes = [present_fact(t5, valor, texto, targets)[0] for t5 in top5_runs]
+            n_yes = sum(1 for v in votes if v)
+            in_top5 = n_yes > RERANK_RUNS / 2
+            unstable = 0 < n_yes < RERANK_RUNS  # K=1 → siempre False (reranker temp=0)
+            n_rerank_unstable += int(unstable)
+            in_pool, pool_score, _ = present_fact(pool, valor, texto, targets)
+            corpus_present, corpus_score, _ = present_fact(manual_chunks, valor, texto, None)  # ya pre-filtrado; sin tie (evita FN, dúo r2)
+            in_corpus = in_pool or corpus_present
             bucket = classify(in_top5, in_pool, in_corpus)
+            best_score = max(pool_score, corpus_score)
+            # CONFIANZA del bucket = SCORE del match (no a priori). borderline = cerca del FLOOR
+            # (el bucket podría flipear). CORPUS-GAP no es borderline-por-score (su riesgo es FN, aparte).
+            borderline = bucket != "CORPUS-GAP" and SCORE_FLOOR <= best_score < 0.70
             buckets[bucket] += 1
-            if strength == "fuerte":
-                buckets_fuerte[bucket] += 1
+            if not borderline:
+                buckets_firme[bucket] += 1
+            n_borderline += int(borderline)
             facts_out.append({
-                "valor": f.get("valor"),
-                "probe": sorted(probe) if kind == "anchors" else f"~{probe}",
-                "strength": strength,
-                "in_top5": in_top5,
-                "in_pool50": in_pool,
-                "in_manual_corpus": in_corpus,
-                "bucket": bucket,
+                "valor": valor, "medible": True, "bucket": bucket,
+                "in_top5": in_top5, "in_pool50": in_pool, "in_manual_corpus": in_corpus,
+                "best_score": round(best_score, 3), "borderline": borderline,
+                "rerank_unstable": unstable,
             })
 
         bvg_row = bvg.get(qid, {})
+        n_medible = len(facts_out) - n_unmeasurable
+        primary_not_retrieved = bool(primary_tokens) and not primary_in_pool
         rec = {
             "qid": qid,
-            "veredicto_B": bvg_row.get("veredicto"),
+            "veredicto_k5": bvg_row.get("veredicto"),
             "conducta_esperada": g.get("conducta_esperada"),
-            "conducta_bot_B": bvg_row.get("conducta_bot"),
-            "n_core_presente": len(facts_out),
+            "conducta_bot_k5": bvg_row.get("conducta_bot"),
+            "n_core_medible": n_medible,
+            "n_no_medible": n_unmeasurable,
+            "n_borderline": n_borderline,
+            "n_rerank_unstable": n_rerank_unstable,
             "buckets": buckets,
-            "buckets_fuerte": buckets_fuerte,
+            "buckets_firme": buckets_firme,
             "target_servable": servable,
             "target_in_pool50": tgt_in_pool,
             "target_in_top5": tgt_in_top5,
+            "primary_in_pool50": primary_in_pool,
+            "primary_in_top5": primary_in_top5,
+            "primary_not_retrieved": primary_not_retrieved,
             "target_tokens": targets,
+            "primary_tokens": primary_tokens,
             "corpus_counts": srv["corpus_counts"],
             "top5_sources": top_src,
             "pool50_sources": pool_src,
@@ -365,12 +415,19 @@ def main() -> int:
         results.append(rec)
 
         b = buckets
-        flag = "" if (tgt_in_top5 or not facts_out) else ("  <<TARGET NO EN TOP5" + ("" if tgt_in_pool else " NI POOL50") + ">>")
-        print(f"=== {qid} [{rec['veredicto_B']}] esp={rec['conducta_esperada']} "
-              f"-> bot={rec['conducta_bot_B']} ===")
-        print(f"  core-presente={len(facts_out)} | SINTESIS={b['SINTESIS']} "
-              f"RERANK-MISS={b['RERANK-MISS']} RETRIEVAL={b['RETRIEVAL']} CORPUS-GAP={b['CORPUS-GAP']}")
-        print(f"  target servible={servable} en_pool50={tgt_in_pool} en_top5={tgt_in_top5}{flag}")
+        tags = []
+        if primary_not_retrieved:
+            tags.append("PRIMARIO-NO-RECUPERADO")
+        if n_medible and not tgt_in_top5:
+            tags.append("TARGET-NO-TOP5" + ("" if tgt_in_pool else "-NI-POOL"))
+        flag = ("  <<" + " | ".join(tags) + ">>") if tags else ""
+        print(f"=== {qid} [{rec['veredicto_k5']}] esp={rec['conducta_esperada']} "
+              f"-> bot={rec['conducta_bot_k5']} ===")
+        print(f"  core-medible={n_medible} (+{n_unmeasurable} no-medible) | SINTESIS={b['SINTESIS']} "
+              f"RERANK-MISS={b['RERANK-MISS']} RETRIEVAL={b['RETRIEVAL']} CORPUS-GAP={b['CORPUS-GAP']}"
+              f" | borderline={n_borderline} rerank-inest={n_rerank_unstable}")
+        print(f"  servible={servable} | target pool={tgt_in_pool} top5={tgt_in_top5}"
+              f" | PRIMARIO pool={primary_in_pool} top5={primary_in_top5}{flag}")
         print(f"  top5_src={sorted(set(s for s in top_src if s))}")
         print()
 
@@ -382,35 +439,54 @@ def main() -> int:
         "hyde_enabled": HYDE_ENABLED,
         "retrieve_k": RETRIEVE_K,
         "rerank_k": RERANK_K,
+        "rerank_runs": RERANK_RUNS,
         "reranker": args.reranker,
         "rerank_target_models": bool(args.target_models),
         "gold_file": GOLD.name,
         "bvg_file": BVG.name,
+        "matcher": "audit_locator.fact_match_score (citation_score + anchor_present; s81/DEC-061)",
+        "freeze_note": "PARCIAL (DEC-021§F): estampados chunks_table/hyde/retrieve_k/rerank_k/rerank_runs/git_commit. "
+                       "NO estampados: corpus fingerprint, versión embeddings/retriever, orden-de-empates → "
+                       "reproducibilidad LIMITADA. La membresía del pool es estable intra-corrida (dúo #9 symdiff=∅); "
+                       "el orden de empates jitterea pero no afecta la decisión primaria (in-pool).",
         "n_qids": len(qids),
         "qids": qids,
     }
     out_path.write_text(yaml.safe_dump({"meta": meta, "results": results},
                                        allow_unicode=True, sort_keys=False), encoding="utf-8")
 
-    # Resumen agregado
+    # Resumen agregado — la DECISIÓN se lee del histograma FIRME (matches NO-borderline); banda =
+    # [FIRME, ALL] = sensibilidad a matches cerca del FLOOR. Las demás incertidumbres van APARTE
+    # (no-medibles, CORPUS-GAP=riesgo FN, rerank-inestables, PRIMARIO-no-recuperado).
     print("=" * 70)
     agg = {"SINTESIS": 0, "RERANK-MISS": 0, "RETRIEVAL": 0, "CORPUS-GAP": 0}
-    for r in results:
-        for k, v in r["buckets"].items():
-            agg[k] += v
     aggf = {"SINTESIS": 0, "RERANK-MISS": 0, "RETRIEVAL": 0, "CORPUS-GAP": 0}
     for r in results:
-        for k, v in r["buckets_fuerte"].items():
-            aggf[k] += v
-    print(f"HECHOS CORE-PRESENTE por cuello (todos):   {agg}")
-    print(f"HECHOS CORE-PRESENTE por cuello (FUERTES): {aggf}")
-    print("\nPor pregunta [fuertes: top5/rerank/retr/gap] + manual objetivo:")
+        for k in agg:
+            agg[k] += r["buckets"][k]
+            aggf[k] += r["buckets_firme"][k]
+    tot_no_medible = sum(r["n_no_medible"] for r in results)
+    tot_unstable = sum(r["n_rerank_unstable"] for r in results)
+    tot_border = sum(r["n_borderline"] for r in results)
+    prim_miss = [r["qid"] for r in results if r["primary_not_retrieved"]]
+    print(f"HISTOGRAMA por cuello — FIRME (decisor):     {aggf}")
+    print(f"                        ALL (cota superior): {agg}")
+    print(f"  banda (FIRME→ALL) = {tot_border} matches borderline (score en [{SCORE_FLOOR}, 0.70)).")
+    print(f"  incertidumbre APARTE: {tot_no_medible} no-medibles léxicamente | "
+          f"{agg['CORPUS-GAP']} CORPUS-GAP (riesgo FN es-en/OCR → verificar a mano) | "
+          f"{tot_unstable} rerank-inestables.")
+    print(f"  PRIMARIO-NO-RECUPERADO ({len(prim_miss)}/{len(results)}): {prim_miss}")
+    print("\nPor pregunta [FIRME: top5/rerank/retr/gap] | prim_pool | flags:")
     for r in results:
-        bf = r["buckets_fuerte"]
-        tag = "TARGET-MANUAL-MISS" if not r["target_in_pool50"] else (
-            "target-en-pool-no-top5" if not r["target_in_top5"] else "")
-        print(f"  {r['qid']} [{r['veredicto_B']}] esp={r['conducta_esperada']}: "
-              f"{bf['SINTESIS']}/{bf['RERANK-MISS']}/{bf['RETRIEVAL']}/{bf['CORPUS-GAP']}  {tag}")
+        bf = r["buckets_firme"]
+        tags = []
+        if r["primary_not_retrieved"]:
+            tags.append("PRIM-NO-POOL")
+        if not r["target_in_top5"]:
+            tags.append("tgt-no-top5")
+        print(f"  {r['qid']} [{r['veredicto_k5']}] esp={r['conducta_esperada']}: "
+              f"{bf['SINTESIS']}/{bf['RERANK-MISS']}/{bf['RETRIEVAL']}/{bf['CORPUS-GAP']} "
+              f"| prim_pool={r['primary_in_pool50']} | {' '.join(tags)}")
     print(f"\nDetalle: {out_path}")
     return 0
 
