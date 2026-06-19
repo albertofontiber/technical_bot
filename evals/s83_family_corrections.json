@@ -1,11 +1,17 @@
 {
-  "_meta": "Overlay de correcciones HUMANAS sobre la 2a pasada de familias (s83). Precede al workflow y crece con la review de Alberto. Lo consumen el Excel-gen y la futura declaracion en config/manufacturers. Clave = modelo (case/sep-insensitive).",
+  "_meta": "Overlay de correcciones HUMANAS sobre la 2a pasada de familias (s83). Precede al workflow y crece con la review de Alberto. Lo consumen el Excel-gen y la futura declaracion en config/manufacturers. 'rules' = patrones regex (generalizan a variantes futuras, BP); 'corrections' = modelos puntuales (exact, case/sep-insensitive).",
+  "rules": [
+    {
+      "pattern": "(?i)(nfxi-?flx|^flx-?\\d|mi-?flx|faast[\\s_-]*flex)",
+      "family": "FAAST FLEX (aspiracion SMB, Xtralis)",
+      "manufacturer": "Xtralis",
+      "confidence": "high",
+      "by": "Alberto s83",
+      "note": "REGLA (no token-exacto): cualquier variante FLEX (FLX-0xx, NFXI-FLX*, MI-FLX*, FAAST FLEX/FAAST-FLEX) = Xtralis, familia DISTINTA de FAAST LT-200 (System Sensor) aunque ambas se llamen FAAST. Generaliza a futuras variantes (FLX-020, NFXI-FLX-020...). Probado: NO pilla 'Innovair flex D2E' (detector de conducto System Sensor) ni los LT-200/ASD."
+    }
+  ],
   "corrections": {
-    "NFXI-FLX":   {"family": "FAAST FLEX (aspiracion SMB, Xtralis)", "manufacturer": "Xtralis", "confidence": "high", "by": "Alberto s83", "note": "FAAST FLEX = Xtralis; familia DISTINTA de FAAST LT-200 = System Sensor, aunque ambas se llamen FAAST. NUNCA fusionar."},
-    "MI-FLX-010": {"family": "FAAST FLEX (aspiracion SMB, Xtralis)", "manufacturer": "Xtralis", "confidence": "high", "by": "Alberto s83", "note": "FLEX OEM via Morley"},
-    "FLX-010":    {"family": "FAAST FLEX (aspiracion SMB, Xtralis)", "manufacturer": "Xtralis", "confidence": "high", "by": "Alberto s83", "note": "FLEX Xtralis"},
-    "FAAST FLEX": {"family": "FAAST FLEX (aspiracion SMB, Xtralis)", "manufacturer": "Xtralis", "confidence": "high", "by": "Alberto s83", "note": "FLEX Xtralis"},
     "FAAST-8100E": {"family": "FAAST 8100 (aspiracion) - REVISAR: System Sensor XM-8100 vs Xtralis FLEX?", "manufacturer": "", "confidence": "low", "by": "Alberto s83", "note": "separar de LT-200; serie 8100 ambigua -> Alberto confirma"},
-    "XM-8100E":   {"family": "FAAST 8100 (aspiracion) - REVISAR: System Sensor XM-8100 vs Xtralis FLEX?", "manufacturer": "System Sensor", "confidence": "low", "by": "Alberto s83", "note": "serie 8100 ambigua -> Alberto confirma"}
+    "XM-8100E": {"family": "FAAST 8100 (aspiracion) - REVISAR: System Sensor XM-8100 vs Xtralis FLEX?", "manufacturer": "System Sensor", "confidence": "low", "by": "Alberto s83", "note": "serie 8100 ambigua -> Alberto confirma"}
   }
 }
