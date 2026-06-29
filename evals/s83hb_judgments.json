@@ -1,0 +1,76 @@
+{
+ "hp009": {
+  "1": {
+   "conducta_bot": "clarify",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acertó al indicar que el lazo analógico no tiene RFL especificada, pero no responde de forma directa que en la Morley ZXe el lazo direccionable no lleva resistencia y se cablea en bucle cerrado con retorno al panel. Además introduce valores de otros circuitos/modelo ZXAE/ZXEE que pueden confundir ante una pregunta que el gold considera respondible para ZXe.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-18T12:30:58"
+  },
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acertó en indicar que los lazos analógicos no utilizan resistencia de fin de línea. Pero mezcla la ZXe con ZXAE/ZXEE, cita un manual no correspondiente y añade valores de otros circuitos que no responden a los lazos direccionables de la ZXe y pueden inducir a confusión.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-18T12:31:00"
+  },
+  "4": {
+   "conducta_bot": "clarify",
+   "veredicto": "FALLO",
+   "diagnostico": "Pide aclaración y responde sobre ZXAE/ZXEE en vez de contestar la ZXe, aunque el manual de ZXe sí permite responder: el lazo analógico no lleva RFL, se cablea en bucle cerrado con retorno al panel. Además introduce valores de 6K8 y 150 Ω de otros circuitos/modelos que pueden confundir al técnico.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-18T12:31:00"
+  },
+  "2": {
+   "conducta_bot": "clarify",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Distingue correctamente que la RFL 6K8 corresponde a sirenas y que los lazos analógicos no llevan una RFL documentada en los fragmentos, pero no responde de forma directa para la Morley ZXe ni cita el manual ZXe MIE-MI-530. La aclaración es innecesaria frente a la referencia y los valores de RS-485/sirenas pueden distraer o confundir al técnico.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-18T12:31:03"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "FALLO",
+   "diagnostico": "No responde correctamente para la Morley ZXe/e-series: usa como fuente y encuadre ZXAE/ZXEE y mezcla sirenas/RS-485 con el lazo analógico, pudiendo inducir a aplicar valores de RFL indebidos. Aunque menciona que el lazo analógico no especifica RFL, no da la respuesta clave de que en la ZXe no lleva RFL y se cablea como bucle cerrado con retorno al panel.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-18T12:31:03"
+  }
+ },
+ "hp018": {
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en lo esencial aplicable a las salidas convencionales: 2/4 salidas, supervisión, 1 A, RFL 6K8 0,5 W y uso de diodos/polaridad. Pero contesta principalmente con ZXAE/ZXEE en vez de ZX2e/ZX5e, omite la referencia correcta a placa/figuras del manual ZXe y añade afirmaciones imprecisas o potencialmente engañosas como 'conectar sirenas en serie' y consumos no pertinentes.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-18T12:31:08"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en lo esencial del conexionado práctico: polaridad, diodo para sirenas no polarizadas, RFL 6K8 0,5 W al final y límite de 1 A. Pero responde principalmente para ZXAE/ZXEE y no para la Morley ZXe e-series ZX2e/ZX5e, omitiendo las referencias correctas a Sirenas A-D en placa base/Figuras 13-14 y aportando terminales/citas potencialmente irrelevantes.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-18T12:31:09"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Da varios datos correctos para el conexionado (RFL 6K8/0,5 W, polaridad/diodo, 1 A y número de salidas equivalente), pero responde principalmente sobre ZXAE/ZXEE y cita ese manual en lugar de la ZXe e-series ZX2e/ZX5e solicitada. Además introduce detalles potencialmente imprecisos o no verificados para la ZXe, como terminales TB7 y 'serie en línea directa', y omite referencias correctas a Fig. 13/14 y a las RFL suministradas.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-18T12:31:12"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Da pautas clave correctas (RFL 6K8/0,5 W, polaridad, supervisión inversa, diodo para campanas no polarizadas y límite 1 A), pero contesta con la documentación/modelos ZXAE/ZXEE en vez de la Morley ZXe e-series ZX2e/ZX5e y añade detalles no verificados para ZXe (terminales, sección mínima, no derivaciones). La confusión de variante/modelo impide considerarla plenamente correcta aunque el conexionado básico coincida en gran parte.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-18T12:31:13"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Da varios datos correctos para el conexionado (RFL 6K8/0,5 W, 1 A por circuito, salidas supervisadas y uso de diodo en sirenas no polarizadas), pero confunde la Morley ZXe e-series ZX2e/ZX5e con ZXAE/ZXEE y cita el manual equivocado. Además omite explicar claramente la inversión de polaridad de supervisión/alarma y su esquema/terminología de conexión en 'serie' puede inducir a error.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-18T12:31:14"
+  }
+ }
+}

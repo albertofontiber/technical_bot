@@ -1,0 +1,76 @@
+{
+ "hp009": {
+  "0": {
+   "conducta_bot": "clarify",
+   "veredicto": "FALLO",
+   "diagnostico": "Pide una aclaración innecesaria: ZX2e y ZX5e son precisamente la gama ZXe cubierta por el manual. No responde que el lazo direccionable no lleva resistencia de fin de línea y debe cablearse como bucle cerrado con retorno al panel.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-18T12:32:31"
+  },
+  "1": {
+   "conducta_bot": "clarify",
+   "veredicto": "FALLO",
+   "diagnostico": "Pidió una aclaración innecesaria: ZXe engloba los modelos ZX2e/ZX5e y el manual sí permite responder. Falta la información clave: el lazo direccionable ZXe no lleva resistencia de fin de línea; se cablea como bucle cerrado con retorno al panel.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-18T12:32:32"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Incluye la afirmación clave correcta de que los lazos analógicos ZX2e/ZX5e no utilizan resistencia de fin de línea y son en bucle cerrado con aisladores. Sin embargo, centra la respuesta en la RFL de sirenas 6,8 kΩ antes de contestar lo preguntado, lo que puede confundir a un técnico, y omite detalles relevantes del conexionado de retorno y la referencia precisa a figuras/sección.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-18T12:32:33"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acertó al indicar que los lazos analógicos ZX2e/ZX5e van en bucle cerrado y no usan resistencia de fin de línea. Pero abre la respuesta con el valor 6,8 kΩ de sirenas, que no era lo preguntado y puede inducir a error; además introduce una duda innecesaria sobre “ZXe” frente a ZX2e/ZX5e.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-18T12:32:34"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente que el lazo analógico direccionable ZX2e/ZX5e no utiliza resistencia de fin de línea y que la RFL de 6,8 kΩ corresponde a circuitos de sirenas, no al lazo. Aunque empieza por el dato de sirenas y podría estar mejor enfocado, la aclaración esencial coincide con la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-18T12:32:37"
+  }
+ },
+ "hp018": {
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en conectar las sirenas respetando polaridad y colocar una RFL de 6,8 kΩ al final, y menciona la supervisión. Pero omite el requisito clave del diodo integrado o añadido y la inversión de polaridad, no indica el límite de 1 A ni la potencia mínima de la RFL, y es impreciso con el número de salidas de la ZX5e al presentar inicialmente solo A/B.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-18T12:32:38"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta acierta en conectar respetando polaridad y colocar RFL de 6,8 kΩ al final, y menciona supervisión. Pero omite el requisito crítico del diodo de polarización/protección en cada sirena, no indica el límite de 1 A por circuito y es imprecisa con el número de salidas de la ZX5e al describir inicialmente solo A/B.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-18T12:32:38"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta da un esquema básico correcto: salidas supervisadas, conexión en paralelo respetando polaridad y RFL de 6,8 kΩ al final de línea. Pero omite puntos importantes del gold para un técnico: diodo integrado o añadido en cada sirena por la inversión de polaridad, límite de 1 A por circuito, potencia mínima 0,5 W de la RFL y número completo de salidas ZX2e/ZX5e.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-18T12:32:39"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta acierta en lo esencial del conexionado: salidas de sirena, polaridad, sirenas en paralelo y RFL de 6,8 kΩ al final de línea. Pero queda incompleta frente al manual: no explica claramente el requisito del diodo/polarización por inversión de polaridad, no indica límite de 1 A ni supervisión por cortocircuito, y trata de forma insuficiente las 4 salidas de la ZX5e.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-18T12:32:41"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en lo básico del conexionado: bornes +/- de sirena, sirenas en paralelo, RFL de 6,8 kΩ al final y supervisión de abierto/corto. Pero omite puntos importantes del manual/gold: diodo integrado o añadido en sirenas no polarizadas, límite de 1 A por circuito, número de salidas ZX2e/ZX5e y datos de RFL 0,5 W/suministro; además la mención a equipos no polarizados no da la instrucción correcta.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-06-18T12:32:44"
+  }
+ }
+}

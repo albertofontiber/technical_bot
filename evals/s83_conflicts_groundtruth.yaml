@@ -1,0 +1,231 @@
+# Adjudicación de los 29 conflicts de cobertura genuinos (s83)
+# ============================================================
+# Conflicto = Opus y GPT discrepan en QUÉ PRODUCTOS cubre el doc (uno lista X, el otro ni lo menciona).
+# Ya filtrado el ruido de superficie (canon-merge por aliases) y el cross-brand (residual de curación, apartado).
+#
+# Cada entrada: lo que SOLO dijo Opus, lo SOLO dijo GPT, mi recomendación + porqué, y un campo `decision:` para ti.
+# Rellena `decision:` con uno de: merge_same | opus | gpt | union | <texto libre>.  (vacío = aceptas mi recomendación)
+#
+# Leyenda de recomendación:
+#   merge_same = mismo producto, solo nombre distinto (descriptivo vs SKU) -> 1 registro
+#   opus       = el set de Opus es lo cubierto; GPT sobre-listó sistemas COMPATIBLES/objetivo como cubiertos
+#   gpt        = el set de GPT es lo cubierto; Opus nombró una herramienta/genérico o se quedó corto
+#   union      = ambos cubren de verdad -> unión (secundarios = candidate)
+#   his_call   = frontera genuina, sin default fuerte -> tu criterio
+
+# ─────────────────────────────────────────────────────────────────────────────
+# GRUPO 1 — MISMO PRODUCTO, nombre distinto (descriptivo vs SKU). Recomiendo merge_same.
+# ─────────────────────────────────────────────────────────────────────────────
+- source_file: "55393002 Manual Fuentes de Alimentacion FAD-905 ES FR GB IT_V2"
+  opus_only: ["Fuente de Alimentación 2A", "Fuente de Alimentación 5A"]
+  gpt_only:  ["FAD-905"]
+  recommendation: merge_same
+  why: "FAD-905 es la fuente; '2A/5A' son su descripción por amperaje. Mismo producto. canonical=FAD-905."
+  decision: la realidad es que son dos productos: el FAD-902 y el FAD-905, según lo que aparece en este enlace (https://www.detnov.com/wp-content/uploads/2019/04/Datasheet_FAD-902_905-DS-361-es-2019-a.pdf)
+
+- source_file: "FS2-1"
+  opus_only: ["Panel de Control de 1 Zona", "Panel de Control de 2 Zonas", "Panel de Control de 4 Zonas"]
+  gpt_only:  ["FS2-1"]
+  recommendation: merge_same
+  why: "FS2-1 es la familia de paneles de zona; '1/2/4 Zonas' son sus variantes descriptivas. canonical=FS2-1 + variantes."
+  decision: Creo que el modelo en realidad es el "FS1-4", y el 1-4 se refiere a las zonas que tiene. de hecho, en el link "https://www.notifier.es/index.php/empresa/delegaciones-en-el-mundo/item/manual-de-instrucciones-fs-1-4", haciendo click te lleva al mismo archivo que el que me has dicho. por lo tanto, te diría que el modelo es el FS, y que las variantes son 1,2 y 4 zonas.
+
+- source_file: "MNDT696"
+  opus_only: ["S20/20MI"]
+  gpt_only:  ["787640"]
+  recommendation: merge_same
+  why: "Probable mismo detector de llama: S20/20MI (nombre) vs 787640 (part-number). Verifica que 787640 es el SKU de S20/20MI."
+  decision: opus tiene razón. lo que GPT dice "787640" es en realidad el SKU del soporte (páginas 30 y 31 del pdf que me has indicado), por lo que gpt no es correcto. 
+
+# ─────────────────────────────────────────────────────────────────────────────
+# GRUPO 2 — FOCO vs COMPATIBILIDAD: un modelo sobre-listó sistemas COMPATIBLES/objetivo como cubiertos.
+# El doc trata de UN producto (herramienta/transmisor/kit); los paneles son compatibilidad = mention.
+# ─────────────────────────────────────────────────────────────────────────────
+- source_file: "MP-DT-951_v7.2"
+  opus_only: ["TG-NOTIFIER"]
+  gpt_only:  ["ID50","ID3000","ID3002","AM2000","AM6000","AFP200","AFP300","AFP400","AM2020","AFP1010","INA","Wavecom (GSM)"]
+  recommendation: opus
+  why: "Doc del TG-NOTIFIER (transmisor GSM). GPT listó TODOS los paneles compatibles como cubiertos -> son compatibilidad, no cobertura."
+  decision: Ojo que TG-NOTIFIER es un "software de Supervisión y Control parametrizable", no un modelo. no obstante, el software es aplicable a las centrales que menciona GPT (salvo la de "wavecom (GSM)" que no aplica)
+
+- source_file: "MPDT951_v5-87"
+  opus_only: ["TG-NOTIFIER"]
+  gpt_only:  ["AM2000","ID1000","AFP 200","ID200","ID50","ID3000","ID3002","AM6000","AFP400","AM2020","AFP1010","INA"]
+  recommendation: opus
+  why: "Igual que MP-DT-951 (otra revisión). Cubierto=TG-NOTIFIER; los paneles=compatibilidad."
+  decision: misma lógica que el documento "MP-DT-951_v7.2", solo que este archivo es una versión más antigua del "MP-DT-951_v7.2" (revisión 7.2, mientras que este es la 5.87, de mayo de 2005)
+
+- source_file: "MCDT280"
+  opus_only: ["UPDL-2020"]
+  gpt_only:  ["AM2020"]
+  recommendation: opus
+  why: "UPDL-2020 = herramienta upload/download del panel AM2020. Doc de la herramienta; AM2020 es el objetivo (mention)."
+  decision: el UPDL-2020 es un software de transferencia que aplica a la AM2020 y a la AFP1010, no solo a la AM2020. según lo que dice el documento, "el UPDL-2020 se utiliza para recuperar y salvar la programación realizada por el usuario en la AM2020". aunque no menciona la AFP1010 en el resto del documento, sí que la menciona en el título del pdf. por lo tanto, te diría que estoy de acuerdo con tu veredicto pero añadiría la AFP1010
+
+- source_file: "MNDT285"
+  opus_only: ["VeriFire™ -1020", "UPDL-1020"]
+  gpt_only:  ["AM2020", "AFP1010"]
+  recommendation: opus
+  why: "VeriFire/UPDL-1020 = herramientas de programación de AM2020/AFP1010. Cubierto=la herramienta; paneles=objetivo."
+  decision: Opus. misma lógica de software que el caso anterior. en la página inicial del pdf aparece "para programación fuera de línea de paneles AM2020/AFP1010",por lo que ambos paneles son objetivos, pero el foco del documento es la herramienta de programación.
+
+- source_file: "MCDT120"
+  opus_only: ["PK-AFP200E"]
+  gpt_only:  ["AFP200"]
+  recommendation: opus
+  why: "PK-AFP200E = kit de programación del AFP200. Cubierto=el kit; AFP200=objetivo. (Confirma si el kit es el foco del doc.)"
+  decision: según aparece en la primera página, el software cubierto es el PK-AFP200E, que sirve "para programación fuera de línea de centrales analógicas AFP200". en esta primera página también aparece que el tipo de archivo es "manual de usuario"
+
+- source_file: "PK-8200 manu-spa"
+  opus_only: ["PK-8200"]
+  gpt_only:  ["AM-8200", "LCD-8200", "AM82-BST-C"]
+  recommendation: his_call
+  why: "PK-8200 = kit de programación de la serie AM-8200. ¿El doc cubre el kit (Opus) o también los paneles/accesorios (GPT)? Frontera tool-vs-target."
+  decision: Manual de programación y uso del software PK-8200, que es "una aplicación de soporte para la programación de la nueva central AM8200". también puedes programar el dispositivo "LCD-8200", el "Booster Can-Bus", y el "CBE"
+
+- source_file: "MN-DT-959_OPC-RP1r"
+  opus_only: ["OPC-RP1r", "OPC-RP1rcfg"]
+  gpt_only:  ["RP1r"]
+  recommendation: opus
+  why: "OPC-RP1r = servidor OPC para la central RP1r. Cubierto=el OPC; RP1r=sistema objetivo (mention)."
+  decision: Es la pasarela OPC-RP1r, que sirve para la integración de centrales de extinción RP1r en SCADA o sistemas de monitorización/control. el modelo "OPC-RP1rcfg" no es tal, sino que es el archivo .exe para configurarlo, pero el modelo es el "OPC-RP1r"
+
+- source_file: "I56-3909-010_A_AgileIQ_ES"
+  opus_only: ["AgileIQ"]
+  gpt_only:  ["U-RIB DONGLE"]
+  recommendation: opus
+  why: "Doc del AgileIQ; U-RIB DONGLE = accesorio. Cubierto=AgileIQ."
+  decision: Opus
+
+- source_file: "Averia-de-resistencia-de-baterias-en-central-DXc"
+  opus_only: ["DXc"]
+  gpt_only:  ["NP 7-12"]
+  recommendation: opus
+  why: "Guía de avería de la central DXc; NP 7-12 = batería (Yuasa) mencionada. Cubierto=DXc."
+  decision: Opus
+
+- source_file: "DXc_Connexion Averia-de-resistencia-de-baterias"
+  opus_only: ["DXc"]
+  gpt_only:  ["NP 7-12"]
+  recommendation: opus
+  why: "Igual que el anterior (DXc Connexion). Cubierto=DXc; NP 7-12=batería mencionada."
+  decision: Opus
+
+- source_file: "MNDT021"
+  opus_only: ["Repetidor serie 800"]
+  gpt_only:  ["Microprocesador/Visualizador PCB del Repetidor (124-143)"]
+  recommendation: opus
+  why: "Mismo repetidor serie 800; GPT nombró un PCB interno (124-143), no un producto aparte. Cubierto=Repetidor serie 800."
+  decision: el modelo es "repetidor y la interface RS485" para la central CFP-800. lo que dice gpt no es correcto.
+
+- source_file: "manual-sharpeye-40-40-series-winhost-spectrex-en-us-4845694"
+  opus_only: ["WinHost"]
+  gpt_only:  ["40/40I","40/40M","40/40UFI","40/40LB","40/40L","40/40L4","40/40UB","40/40U","40/40L4B","40/40UFL","40/40R"]
+  recommendation: gpt
+  why: "Doc de la serie de detectores de llama 40/40; GPT dio las variantes reales. WinHost=software accesorio (mention/candidate)."
+  decision: aquí diría gpt, porque WinHost es el nombre del software, que en este caso sirve para configurar los modelos que menciona gpt, pero es importante que el software se llama "WinHost", por lo que es importante aunque aplica a más modelos de otras familias.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# GRUPO 3 — CENTRAL MULTI-PRODUCTO: ambos listan módulos/accesorios reales pero DISTINTOS. Tu criterio
+# (recomiendo union con secundarios=candidate, salvo que algún listado sea claramente compatibilidad).
+# ─────────────────────────────────────────────────────────────────────────────
+- source_file: "15088SP"
+  opus_only: ["CMX", "BGX-101L"]
+  gpt_only:  ["DIA-2020","DIA-1010","CAB-A3","CAB-B3","CAB-C3","CAB-D3","CHS-4","CHS-4L","MOD-1","BP-3","DP-1"]
+  recommendation: his_call
+  why: "Central AM2020/AFP1010 (15088). GPT listó muchos módulos/gabinetes; Opus solo 2. ¿unión, o GPT sobre-listó accesorios?"
+  decision: el documento va sobre la AM2020/AFP1010. CMX es un módulo de control, BGX-101L es una estación pulsadora direccionable. los elementos que menciona gpt son módulos o accesorios de la central, y en el apéndice B está todo el detalle (pag 244 del pdf)
+
+- source_file: "MIDT170"
+  opus_only: ["NIB-96", "UDACT", "LCD-80"]
+  gpt_only:  ["AFP-300","CAB-A3","CAB-B3","CAB-C3","CAB-D3","CAB-400AA","CHS-4","CHS-4L"]
+  recommendation: his_call
+  why: "Listas disjuntas de módulos/gabinetes. ¿unión de accesorios cubiertos, o uno sobre-listó?"
+  decision: los modelos son AFP300/AFP400. los "CAB" son cabinas, CHS es un chasis de la cabina. la NIB-96 es una tarjeta de interconexiones de red, el UDACT es el comunicador/transmisor de alarma digital universal (por lo que no parece exclusivo de este manual). adicionalmente, hay módulos/elementos que no has listado e.g. CPU-400 UZC-256, que no son elementos principales del documento pero sí pueden ser relevantes si un técnico pregunta por ellos. 
+
+- source_file: "MNDT060"
+  opus_only: ["AIM-200","TCM-2","TCM-4","VCM-4","VCE-4","DCM-4","AMG-1","FFT-7","AA-30","ACM-16AT","ACM-32A","AEM-16AT","AEM-32A","LDM-32","LDM-E32","LDM-R32"]
+  gpt_only:  ["MP-1","BM-1","DP-1","BP-1","VP-1","TR-500","DP-AA","CAB-A3","CAB-B3","CAB-C3","CAB-D3"]
+  recommendation: union
+  why: "Catálogo grande de módulos; ambos listan reales y distintos (Opus=módulos de anunciación/lazo, GPT=fuentes/gabinetes). Unión, secundarios=candidate."
+  decision: el modelo es el "sistema 5000" de notifier. los "modelos" que mencionan tanto opus como gpt son en realidad módulos o accesorios del sistema, por lo que sí que aplicaría el "union", teniendo en cuenta que el modelo principal es el "sistema 5000".
+
+- source_file: "Manual Testifire_Spanish"
+  opus_only: ["Cápsula de humo TS3", "Cápsula de CO TC3"]
+  gpt_only:  ["Testifire® 1001","Testifire® 6001","Testifire® 9001","Testifire® 2001","Testifire® 6201","Testifire® 9201","Solo™ 760 Battery Baton™","SoloTM 725"]
+  recommendation: union
+  why: "Manual del probador Testifire: GPT dio las unidades, Opus las cápsulas consumibles. Ambos cubiertos -> unión."
+  decision: union. en los modelos que menciona gpt aparece "(R)" de marca registrada o "TM" de trademark, pero cuidado que esto es solo de marca registrada/trademark y por lo tanto el modelo debería ir sin eso en el nombre.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# GRUPO 4 — FRONTERA de COMPONENTE/VARIANTE: discrepan en un módulo/variante concreta. Tu criterio.
+# ─────────────────────────────────────────────────────────────────────────────
+- source_file: "997-669-005-3_Instal-Comm_ES"
+  opus_only: ["Pearl"]
+  gpt_only:  ["FAT3000"]
+  recommendation: his_call
+  why: "Pearl (panel) vs FAT3000 (¿repetidor/anunciador?). ¿El doc cubre ambos o FAT3000 es mención? (patrón que ya viste en el piloto)."
+  decision: FAT300 es un repetidor. el documento trata principalmente sobre la central Pearl, pero tambi'en cubre como conectar el repetidor FAT3000 a la central Pearl, por lo que sí que se puede considerar que ambos están cubiertos. Adicionalmente, parece que hay 3 modelos de Pearl - la Pearl (de 12Ah, que utiliza la caja y el soporte de montaje en pared de la batería de 12Ah), la PRL-D-1 (un lazo), y la PRL-D-2 (dos lazos), aunque me es difícil distinguir la "Pearl" vs D-1/D-2, y creo que es un tema de baterías y de layout del teclado, porque luego comparten gran cantidad de elementos del manual. adicionalmente, hay otros modulos/elementos que están cubiertos en este manual como la PRL-BOX (apéndice 4), PRL-COM (apendice A.5.2), PRL-VDS (A5.3), ADP PCB (A5.4), placa Loop Splitter (A5.5), que sin ser el foco principal del documento, sí que están cubiertos en detalle.
+
+- source_file: "997-671-005-3_Configuration_ES"
+  opus_only: ["Pearl"]
+  gpt_only:  ["PRL-COM"]
+  recommendation: his_call
+  why: "Pearl vs PRL-COM (tarjeta COM del Pearl). ¿PRL-COM es producto cubierto aparte o parte de la config del Pearl?"
+  decision: el documento cubre principalmente la central Pearl (y parece que también la PRL-D-1 y PRL-D-2), pero también cubre la tarjeta PRL-COM, que es un módulo de comunicación para la central Pearl. por lo tanto, sí que se puede considerar que ambos están cubiertos.
+
+- source_file: "MIE-MC-350"
+  opus_only: ["MK-ZX"]
+  gpt_only:  ["ZXAE", "ZXEE"]
+  recommendation: his_call
+  why: "Zona ZX (ground-truth). MK-ZX (¿kit?) vs ZXAE/ZXEE (variantes ZX). Relevante para curación de identidad ZX."
+  decision: el documento e relevante para el software MK-ZX, que se utiliza, entre otras, para las centrales ZXAE/ZXEE. según aparece en el manual, se refiere al MK-ZX como "paquete de configuración en el que se incluye el programa de configuración FIRE5", (viendo otros documentos e.g. "MIE-MC-530", también aparece como Fire6 por lo que el 5 será una versión más antigua) 
+
+- source_file: "CAD-250-MS-416-es"
+  opus_only: ["SCD250", "CAD-250-BLED", "CAD-250B"]
+  gpt_only:  ["CAD 250-P"]
+  recommendation: union
+  why: "Familia CAD-250 (Detnov, ground-truth tuyo). Variantes distintas; probable unión. CAD 250-P = otra variante."
+  decision: Trata sobre la CAD-250. no obstante, la CAD-250-BLED es una cabina con 250 Leds dobles de zona, y la CAD-250B es una cabina ciega que puede expandir hasta 8 lazos. con 1 CAD-250, 1 CAD-250BLED y una CAD-250B se pueden alcanzar los 32 lazos que indica el manual. estos dos elementos se mencionan en la página 13 pero no vuelven a aparecer, ni siquiera en otro manual, por lo que se cubren aquí pero la información es muy limitada. este manual aplica también a la CAD 250-P. SCD-250 se refiere al programa de configuración de la CAD-250, por lo que el documento sí que menciona esto en el punto 4.13 del manual (p25) y sí puede ser útil.
+
+- source_file: "Manual instalacion CAD-250 (MI_372_es_2024 e)"
+  opus_only: ["CAD-250-P"]
+  gpt_only:  ["TBUD-250", "SPR_250"]
+  recommendation: his_call
+  why: "CAD-250-P (panel) vs TBUD-250/SPR_250 (accesorios). ¿unión o accesorios=candidate?"
+  decision: el manual trata sobre la CAD-250 (y CAD-250-P). el SPR_250 es un soporte de pared para la CAD-250, y el TBUD-250 es una "Tarjeta de expansión microprocesada de 2 lazos para centrales analógicas CAD-250", pero que solo se menciona en el documento por lo que no es relevante.
+
+- source_file: "SMART 3 TOXICOS MTEX 4749_SP REV 3"
+  opus_only: ["SMART 3G"]
+  gpt_only:  ["STS/IDI", "STS1REL", "STS3REL"]
+  recommendation: his_call
+  why: "SMART 3G (detector) vs STS/STSxREL (módulos). ¿unión o uno es el foco?"
+  decision: el foco principal es el Smart3G. STS/IDI es "Tarjeta enchufable de identificación para programación de sensores “SMART 3”", y los STSREL 1 y STSREL 3 son tarjetas de relé para integrar diferentes detectores de salida estándar, por lo que son accesorios pero sí que se mencionan y se da algo de información, si bien es cierto que según dice el manual, la propia tarjeta STS/IDI tiene su propio manual.
+
+- source_file: "DXC-Connexion-Como-programar-una-salida-de-averia-general"
+  opus_only: ["DX-Connexion"]
+  gpt_only:  ["MI-CMO"]
+  recommendation: opus
+  why: "Guía de la central DX-Connexion; MI-CMO = módulo de salida mencionado en el procedimiento. Cubierto=DX-Connexion."
+  decision: modelo principal es el DX-Connexion, y el MI-CMO es un módulo de salida que se menciona en el manual, que parece relevante para programar la salida de avería general sobre lo que trata el documento. además, el documento menciona el programa "MK-DXC Configuration tools" para configurar la salida de avería general
+
+- source_file: "AM 8100-manual instalacion RV 3 30-01-2025"
+  opus_only: ["E-SIB"]
+  gpt_only:  ["AM-82N-TOP"]
+  recommendation: union
+  why: "Ambos coinciden en AM-8100 (no en conflicto); difieren solo en un accesorio cada uno (E-SIB / AM-82N-TOP). Unión, candidate."
+  decision: Este documento es el manual de instalación de la AM-8100. el E-SIB es una "llave USB que habilita la comunicación serie", y que sirve tanto para la AM8100 como para la AM-8200N. el "AM-82N-TOP" es una estructura metálica para la instalación fija de los cables en pared y extracción simplificada de la central, por lo que no es el foco del documento pero sí se cubre.
+
+- source_file: "MNDT350"
+  opus_only: ["N-ELR"]
+  gpt_only:  ["XPDP"]
+  recommendation: union
+  why: "Ambos accesorios distintos del mismo transpondedor. Unión, candidate."
+  decision: el documento trata sobre el transponder serie XP. dentro de sus componentes está el equipo básico (equipo mínimo para el funcionamiento) y componentes opcionales. este documento parece cubrir todos. XPP-1, CHS-4, XPDP, XPM-8, XPC-8, XPR-8, XPM-8L, N-ELR, XRAM-1, y luego fuentes de alimentación como MPS-24AE, MPS-24B, AA-30/AA-100/AA-120, AVPS-24E, MPM-2, y componentes opcionales como cabinas, DP-1, CHS-4L, BP-3, VP-2, y parece que donde se cubren dichos elementos es en este documento y no otro.
+
+- source_file: "MNDT400"
+  opus_only: ["AIM-200"]
+  gpt_only:  ["CCM-1"]
+  recommendation: his_call
+  why: "AIM-200 vs CCM-1 (módulos). ¿unión o uno es el foco del doc?"
+  decision: el foco del documento es el "anunciador LCD-80". no obstamte, el "AIM-200" se cubre en apéndice B por lo que sí lo incluiría (igual que el EIA-485). El CCM-1 también.
