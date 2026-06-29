@@ -1,0 +1,179 @@
+# Resolución estructurada de los 29 conflicts (traducción de las decisiones de Alberto a campos explícitos).
+# Buckets:
+#   primary    = modelos cubiertos principales (role=primary)
+#   secondary  = módulos/accesorios cubiertos en detalle (role=secondary)
+#   candidate  = cubiertos con info limitada / tienen manual propio / 1 sola fuente (role=secondary, candidate=true)
+#   software   = sujeto cubierto que es SOFTWARE (category=software)
+#   compat     = compatible_with (aplicabilidad/objetivo, NO covered)
+#   mention    = mencionado, NO covered
+#   drop       = NO-producto a excluir (config .exe, SKU de soporte, PCB interno)
+#   aliases    = {canonical: [alias,...]} solo donde el nombre necesita puente explícito
+# El build parte de la UNIÓN canónica (build_models, igual que los 985) salvo replace=true, y la adjudicación
+# MODIFICA encima (drop/compat/mention quitan; buckets reclasifican rol; no-nombrados con primary adjudicado -> secondary).
+# Los nombres que Alberto AÑADIÓ y no están en crudo entran como found_by=adjudication (metadata vacía).
+
+# ── GRUPO 1 ───────────────────────────────────────────────────────────────────
+- sf: "55393002 Manual Fuentes de Alimentacion FAD-905 ES FR GB IT_V2"
+  replace: true
+  primary: ["FAD-902", "FAD-905"]
+  aliases: {"FAD-902": ["Fuente de Alimentación 2A"], "FAD-905": ["Fuente de Alimentación 5A"]}
+  note: "2 productos distintos (2A=FAD-902, 5A=FAD-905); GPT solo vio el 905. replace=override (la extracción tenía descriptivos falsos 'FAD-905 2A/5A'). Datasheet Detnov DS-361."
+
+- sf: "FS2-1"
+  replace: true
+  primary: ["FS-1", "FS-2", "FS-4"]
+  family: "FS"
+  aliases: {"FS-1": ["Panel de Control de 1 Zona"], "FS-2": ["Panel de Control de 2 Zonas"], "FS-4": ["Panel de Control de 4 Zonas"]}
+  note: "Familia FS por nº de zonas (manual FS-1-4). 'FS2-1' = mis-parse; replace=override de los descriptivos crudos. Designación FS-1/FS-2/FS-4 CONFIRMADA por Alberto."
+
+- sf: "MNDT696"
+  primary: ["S20/20MI"]
+  drop: ["787640", "20/20MI-XX-X-C", "20/20MI-XX-C"]
+  note: "787640 = SKU del soporte (págs 30-31), no es producto. Variantes 20/20MI-1/3 + 20/20-310 (simulador) = unión OK. 20/20MI-XX-X-C = plantilla/placeholder, no producto → drop."
+
+# ── GRUPO 2 (software + aplicabilidad) ────────────────────────────────────────
+- sf: "MP-DT-951_v7.2"
+  software: ["TG-NOTIFIER"]
+  compat: ["ID50","ID3000","ID3002","AM2000","AM6000","AFP200","AFP300","AFP400","AM2020","AFP1010","INA"]
+  drop: ["Wavecom (GSM)"]
+  note: "Software de supervisión/control. Wavecom no aplica. Revisión gemela de MPDT951_v5-87."
+
+- sf: "MPDT951_v5-87"
+  software: ["TG-NOTIFIER"]
+  compat: ["AM2000","ID1000","AFP 200","ID200","ID50","ID3000","ID3002","AM6000","AFP400","AM2020","AFP1010","INA"]
+  note: "Rev antigua (5.87, mayo 2005) de MP-DT-951. Mismo software."
+  same_doc_as: "MP-DT-951_v7.2"
+
+- sf: "MCDT280"
+  software: ["UPDL-2020"]
+  compat: ["AM2020", "AFP1010"]
+  note: "AFP1010 añadida por Alberto (en el título del pdf)."
+
+- sf: "MNDT285"
+  software: ["VeriFire-1020", "UPDL-1020"]
+  compat: ["AM2020", "AFP1010"]
+  aliases: {"VeriFire-1020": ["VeriFire 1020"]}
+
+- sf: "MCDT120"
+  software: ["PK-AFP200E"]
+  compat: ["AFP200"]
+  note: "doc_type=manual de usuario."
+
+- sf: "PK-8200 manu-spa"
+  software: ["PK-8200"]
+  compat: ["AM-8200", "LCD-8200", "AM82-BST-C", "CBE"]
+  note: "AM82-BST-C = el MISMO producto que 'Booster Can-Bus' (Alberto) → un solo entry (la SKU) en compat, no covered."
+
+- sf: "MN-DT-959_OPC-RP1r"
+  software: ["OPC-RP1r"]
+  compat: ["RP1r"]
+  drop: ["OPC-RP1rcfg"]
+  note: "OPC-RP1rcfg = .exe de configuración, no un modelo. Pasarela OPC para integrar RP1r en SCADA."
+
+- sf: "I56-3909-010_A_AgileIQ_ES"
+  primary: ["AgileIQ"]
+  mention: ["U-RIB DONGLE"]
+
+- sf: "Averia-de-resistencia-de-baterias-en-central-DXc"
+  primary: ["DXc"]
+  mention: ["NP 7-12"]
+
+- sf: "DXc_Connexion Averia-de-resistencia-de-baterias"
+  primary: ["DXc"]
+  mention: ["NP 7-12"]
+
+- sf: "MNDT021"
+  primary: ["Repetidor serie 800"]
+  secondary: ["Interface RS485 serie 800"]
+  compat: ["CFP-800"]
+  drop: ["Microprocesador/Visualizador PCB del Repetidor", "124-142", "124-143", "124-128"]
+  aliases: {"Interface RS485 serie 800": ["Conjunto de Interface RS485"]}
+  note: "Repetidor + interface RS485 = 2 entidades separadas (Alberto). Códigos 124-xxx = refs internas de PCB ambiguas/misleading -> drop (Alberto: no incluir). RS485 parece interfaz de comunicación genérica (aparece en otros docs). 'PCB' = elemento genérico, no producto."
+
+- sf: "manual-sharpeye-40-40-series-winhost-spectrex-en-us-4845694"
+  primary: ["40/40I","40/40M","40/40UFI","40/40LB","40/40L","40/40L4","40/40UB","40/40U","40/40L4B","40/40UFL","40/40R"]
+  software_tool: ["WinHost"]
+  note: "El doc es de los detectores de llama 40/40 (primary). WinHost = software de config documentado (secondary; aplica a varias familias)."
+
+# ── GRUPO 3 (central multi-producto: primary = central/sistema) ────────────────
+- sf: "15088SP"
+  primary: ["AM2020", "AFP1010"]
+  secondary: ["CMX","BGX-101L","DIA-2020","DIA-1010","CAB-A3","CAB-B3","CAB-C3","CAB-D3","CHS-4","CHS-4L","MOD-1","BP-3","DP-1"]
+  note: "Apéndice B (p244) = lista autoritativa de módulos."
+
+- sf: "MIDT170"
+  primary: ["AFP-300", "AFP-400"]
+  package: ["BE-400"]
+  mention: ["FCPS-24E"]
+  family: "AFP-300/400"
+  note: "Central AFP-300/400. Los ~32 módulos (CPU-400 núcleo, MPS-400, UZC-256 opcional con sección P49, NIB-96 P138, etc.) los extrajeron AMBOS -> set recuperado por base-unión. BE-400=paquete equipo básico (CPU-400+MPS-400+chasis, P13). FCPS-24E=solo mención. UDACT no-exclusivo de este doc."
+
+- sf: "MNDT060"
+  primary: ["Sistema 5000"]
+  secondary: ["AIM-200","TCM-2","TCM-4","VCM-4","VCE-4","DCM-4","AMG-1","FFT-7","AA-30","ACM-16AT","ACM-32A","AEM-16AT","AEM-32A","LDM-32","LDM-E32","LDM-R32","MP-1","BM-1","DP-1","BP-1","VP-1","TR-500","DP-AA","CAB-A3","CAB-B3","CAB-C3","CAB-D3"]
+  note: "Sistema 5000 Notifier; todo lo demás = módulos del sistema."
+
+- sf: "Manual Testifire_Spanish"
+  primary: ["Testifire 1001","Testifire 6001","Testifire 9001","Testifire 2001","Testifire 6201","Testifire 9201"]
+  secondary: ["TS3", "TC3", "Solo 760", "Solo 725"]
+  aliases: {"TS3": ["Cápsula de humo TS3"], "TC3": ["Cápsula de CO TC3"], "Solo 760": ["Solo 760 Battery Baton"]}
+  note: "El doc es de las unidades Testifire (primary). Solo 725/760 (pértiga+cargador) y cápsulas TS3/TC3 = accesorios (secondary). Quitar ®/™ del canonical."
+
+# ── GRUPO 4 (frontera componente/variante) ────────────────────────────────────
+- sf: "997-669-005-3_Instal-Comm_ES"
+  primary: ["Pearl", "PRL-D-1", "PRL-D-2"]
+  secondary: ["FAT3000","PRL-COM","PRL-BOX","PRL-VDS","ADP PCB","Loop Splitter","PRL-P2P"]
+  family: "Pearl"
+  note: "3 variantes Pearl DISTINTAS (Alberto confirmó): Pearl 'a secas'=batería 12Ah; PRL-D-1/D-2=alimentación primaria 230V/50Hz (por eso casi todo el manual aplica a las 3). FAT3000=repetidor. Módulos en apéndices A5.2-A5.5+4."
+
+- sf: "997-671-005-3_Configuration_ES"
+  primary: ["Pearl", "PRL-D-1", "PRL-D-2"]
+  secondary: ["PRL-COM"]
+  family: "Pearl"
+  note: "3 variantes Pearl (Pearl=12Ah, D-1/D-2=230V). PRL-COM = módulo de comunicación del Pearl."
+
+- sf: "MIE-MC-350"
+  software: ["MK-ZX"]
+  compat: ["ZXAE", "ZXEE"]
+  note: "Paquete de config (programa FIRE5; FIRE6 en MIE-MC-530). Patrón software, no variante ZX."
+
+- sf: "CAD-250-MS-416-es"
+  primary: ["CAD-250", "CAD-250-P"]
+  mention: ["SCD250", "CAD-250-BLED", "CAD-250B"]
+  family: "CAD-250"
+  note: "BLED=cabina 250 LEDs zona; B=cabina ciega. Solo MENCIONADOS (Alberto: el doc no da más detalle) → mention. SCD250=programa config, mención."
+
+- sf: "Manual instalacion CAD-250 (MI_372_es_2024 e)"
+  primary: ["CAD-250", "CAD-250-P"]
+  secondary: ["SPR_250"]
+  mention: ["CAD-250-BLED", "CAD-250B"]
+  drop: ["TBUD-250"]
+  family: "CAD-250"
+  note: "Trata sobre CAD-250 (y CAD-250-P). SPR_250=soporte de pared (cubierto). BLED/B = solo mencionados (Alberto, sin detalle) → mention. TBUD-250 solo mencionado → drop."
+
+- sf: "SMART 3 TOXICOS MTEX 4749_SP REV 3"
+  primary: ["SMART 3G"]
+  candidate: ["STS/IDI", "STS1REL", "STS3REL"]
+  note: "STS/IDI=tarjeta ID programación SMART 3 (tiene manual propio); STSxREL=tarjetas relé. Accesorios con algo de info."
+
+- sf: "DXC-Connexion-Como-programar-una-salida-de-averia-general"
+  primary: ["DX-Connexion"]
+  secondary: ["MI-CMO"]
+  mention: ["MK-DXC"]
+  note: "MI-CMO=módulo de salida (relevante al tema). MK-DXC=Configuration tools, solo MENCIONADO (Alberto) → no covered."
+
+- sf: "AM 8100-manual instalacion RV 3 30-01-2025"
+  primary: ["AM-8100"]
+  secondary: ["E-SIB", "AM-82N-TOP"]
+  note: "E-SIB=llave USB comm serie (también AM-8200N). AM-82N-TOP=estructura metálica instalación (cubierta)."
+
+- sf: "MNDT350"
+  primary: ["Transponder serie XP"]
+  package: ["BE-XP"]
+  secondary: ["XPP-1","CHS-4","XPDP","XPM-8","XPC-8","XPR-8","XPM-8L","N-ELR","XRAM-1","NR45-24","MPS-24AE","MPS-24B","AA-30","AA-100","AA-120","AVPS-24E","MPM-2","DP-1","CHS-4L","BP-3","VP-2"]
+  note: "Transponder XP. BE-XP=paquete equipo básico (umbrella de los módulos mínimos para funcionar, P5; NO un modelo discreto - Alberto). Set recuperado por base-unión + adjudicación."
+
+- sf: "MNDT400"
+  primary: ["LCD-80"]
+  secondary: ["AIM-200", "CCM-1", "EIA-485"]
+  note: "Anunciador LCD-80; AIM-200/CCM-1/EIA-485 cubiertos en apéndice B."

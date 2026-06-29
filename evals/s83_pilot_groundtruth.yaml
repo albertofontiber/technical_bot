@@ -1,0 +1,145 @@
+_meta: >
+  Ground-truth ADJUDICADO POR ALBERTO sobre los 15 docs del piloto v3 (s83). Es el denominador
+  de PRECISION (no solo acuerdo Opus<->GPT). Cada doc: covered = SKU de producto con fuente
+  sustantiva (regla: covered = el doc es FUENTE real de X; mencion = referencia de paso).
+  family_scope = familia/linea (no es covered). 'open' = pendiente de confirmar. status low_ocr /
+  fuzzy = la FUENTE limita la extraccion (confidence low, no es fallo del modelo).
+  Uso: comparar opus_covered y gpt_covered del jsonl contra 'covered' -> precision/recall por modelo.
+
+adjudicador: Alberto
+fecha_base: s83
+golds: []  # ninguno de los 15 es gold; es validacion de metodo
+
+docs:
+  - n: 1
+    source_file: "36864_00_FAAST_FLEX_Product_Guide_(I56-7020-000_ES)_A4_Spanish_lores"
+    family_scope: "FAAST FLEX"
+    covered: ["FLX-010", "FLX-020"]   # ambos primary, prov body
+    mention_notable: ["FLX-SP-0x (repuestos)"]
+    confidence: high
+    status: clean
+  - n: 2
+    source_file: "37430_00_FAAST_FLEX_Bluetooth_User_Guide_(A05-0600-000_ES)_A4_Spanish"
+    family_scope: "FAAST FLEX"
+    covered: []                       # doc generico de familia + app (app NO es covered)
+    mention_notable: ["SmartConfig App (software)"]
+    confidence: high
+    status: clean
+  - n: 3
+    source_file: "A05-7030-000_B_ES_Notifier FAAST FLEX Addressable"
+    family_scope: "FAAST FLEX direccionable"
+    covered: ["NFXI-FLX-010", "NFXI-FLX-020"]
+    mention_notable: ["FLX-SP-0x (repuestos)", "Pearl/ID3000/Inspire (compat)"]
+    confidence: high
+    status: clean
+  - n: 4
+    source_file: "A05-7030-100_B_ES_Morley FAAST FLEX Addressable"
+    family_scope: "FAAST FLEX direccionable"
+    covered: ["MI-FLX-010", "MI-FLX-020"]
+    mention_notable: ["FLX-SP-0x (repuestos)"]
+    confidence: high
+    status: clean
+  - n: 5
+    source_file: "997-671-005-3_Configuration_ES"
+    family_scope: "Pearl"
+    covered: ["Pearl"]                # Alberto: Pearl es el producto principal del doc
+    mention_notable: ["PRL-COM (apenas, A7.1 - tarjeta comms)"]
+    confidence: high
+    status: clean
+    nota: "Opus=correcto (Pearl); GPT=falso (PRL-COM covered + Pearl mencion)"
+  - n: 6
+    source_file: "997-669-005-3_Instal-Comm_ES"
+    family_scope: "Pearl"
+    covered: ["PRL-D-1", "PRL-D-2", "PRL-BOX", "PRL-COM", "PRL-VDS", "ADP-N3E", "795-131"]
+    mention_notable: ["FAT3000 (nombrado DENTRO de PRL-VDS)", "PRL-P2P"]
+    confidence: high
+    status: clean
+    nota: "Opus=ground-truth EXACTO; GPT sobre-incluyo FAT3000+PRL-P2P. PRL-COM aqui SI covered (A5.2 detalle) vs doc5 mencion = rol per-doc"
+  - n: 7
+    source_file: "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT"
+    family_scope: "CAD-150"
+    covered: ["CAD-150-8"]            # prov filename (no en cuerpo)
+    mention_notable: []
+    confidence: medium
+    status: clean
+    nota: "token solo en filename -> provenance:filename (capturado por ambos). Variantes implicitas (1/2/4 lazos) NO inventadas = correcto"
+  - n: 8
+    source_file: "55315501 CAD150R Instalacion ES GB 191018"
+    family_scope: "CAD-150"
+    covered: ["CAD150R"]              # prov filename
+    mention_notable: []
+    confidence: medium
+    status: clean
+  - n: 9
+    source_file: "MFDT280"
+    family_scope: "AM2020 / AFP1010"
+    covered: ["AM2020", "AFP1010", "CRT-1"]   # CRT-1 covered: Apendice 1 + sin manual propio (Alberto)
+    covered_open: ["DIA-1010", "DIA-2020"]    # GPT covered / Opus mencion; mismo test que CRT-1, Alberto por confirmar
+    mention_notable: ["detectores/modulos (SDX/CPX/MMX...)"]
+    confidence: high
+    status: open
+  - n: 10
+    source_file: "BTDT032"
+    family_scope: "AM2020 / AFP1010"
+    covered: ["AM2020", "AFP1010"]
+    mention_notable: ["LIB200/200A/400 (tarjetas, de paso en el boletin)"]
+    confidence: high
+    status: clean
+  - n: 11
+    source_file: "997-670-007-3_Operating_PT"
+    family_scope: "PEARL"
+    covered: []
+    mention_notable: []
+    confidence: medium
+    status: clean
+  - n: 12
+    source_file: "MADT281"
+    family_scope: "AM2020"
+    covered: ["AM2020"]
+    mention_notable: []
+    confidence: high
+    status: clean
+  - n: 13
+    source_file: "MIDT340"
+    family_scope: "Sistema de Megafonia/Telefonia AM2020/AFP1010"
+    covered: ["VCC-1", "VCC-2", "VTCC-1", "VTCC-2", "VTCC-AVL", "TCC-1",
+              "AMG-1", "ATG-2", "AA-30", "AA-30E", "AA-100", "AA-100E", "AA-120", "AA-120E",
+              "FFT-7", "FFT-7S"]
+    mention_notable: ["AM2020/AFP1010 (centrales host = mencion)"]
+    confidence: low
+    status: fuzzy
+    nota: "Sistema-accesorio; VCC-* son configs que EMPAQUETAN AMG-1/ATG-2 etc (pantallazo Alberto). El doc no deja claro el corte producto-vs-componente -> low confidence; Alberto: 'honestamente no lo deja muy claro'"
+  - n: 14
+    source_file: "MADT283"
+    family_scope: "AM2020 / AFP1010"
+    covered: ["AM2020", "AFP1010"]
+    mention_notable: ["tipos de ID de programacion (CMXC/SACM...) y devices (CPX-551/IOMIX/MMX...)"]
+    confidence: low
+    status: low_ocr
+    nota: "tablas son TIPOS DE ID (no productos) + OCR malo (pantallazo Alberto). covered=centrales; devices=mencion. La fuente limita, no el modelo"
+  - n: 15
+    source_file: "MADT285"
+    family_scope: "AM2020 / AFP1010"
+    covered: ["AM2020", "AFP1010"]
+    mention_notable: []
+    confidence: high
+    status: clean
+
+# Casos de VALIDACION desde identidad ya curada a mano (Q3b/Q4 de Alberto): la extraccion DEBE
+# reproducir lo que Alberto curo a mano por familia. Si lo hace -> clasificacion validada; si no -> gap.
+validation_curated_families:
+  - family: "ZXe"
+    members_expected: ["ZX1e", "ZX2e", "ZX5e"]
+    doc: "MIE-MI-530 (combinado e-series)"
+    source: "LEVER2_IDENTITY / morley.yaml (Brazo A, candidato B4, NO mergeado)"
+    nota: "la extraccion sobre MIE-MI-530 debe sacar covered={ZX2e,ZX5e...} family=ZXe -> valida"
+  - family: "ZXSe"
+    members_expected: ["ZX1Se", "ZX2Se", "ZX5Se", "ZX10Se"]
+    doc: "MIE-MI-600 (tagueado unknown)"
+    source: "ground-truth Alberto (reference_morley_zx_rp1r); DIFERIDO (eval-inerte, sin gold)"
+    nota: "no afecta golds pero es validacion + findability (F2). Hoy unknown -> la extraccion lo resolveria"
+  - family: "FAAST LT-200"
+    members_expected: ["NFXI-ASD11", "NFXI-ASD12", "NFXI-ASD22 (6577)", "6574 standalone", "6575 addressable"]
+    doc: "varios (FX1/FX2/FX3)"
+    source: "backfill APLICADO en prod s80 (DEC-062, serie); submodelos NFXI-ASD diferidos D3"
+    nota: "serie ya en prod; la extraccion debe reproducirla Y separar los submodelos (lo que D3 difirio)"

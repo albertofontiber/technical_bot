@@ -1,0 +1,556 @@
+{
+ "hp009": {
+  "question": "¿Cuál es la resistencia de fin de línea recomendada para los lazos de la central Morley ZXe?",
+  "conducta_esperada": "answer",
+  "frozen_at": "2026-06-18T12:30:07",
+  "n_context_hydrated": 5,
+  "top5": [
+   {
+    "id": "692718af-8d13-4e2f-80df-90d22dd832ec",
+    "content": "# MANUAL DE INSTALACIÓN ZXAE/ZXEE\n\n## 3.3.5 SALIDA SIRENAS DE PLACA\n\nLa ZXAE dispone de 2 salidas supervisadas para campanas convencionales (Salida A y B) y la ZXEE dispone de 4 salidas supervisadas para sirenas convencionales (Salida A,B,C y D).\n\nLas salidas de sirenas son limitadas en corriente. Cada circuito tiene un consumo máximo de 1 Amp. Se debe tener en cuenta el consumo total de la central, para no exceder el valor del consumo total con las sirenas activadas.\n\nLas salidas de sirenas convencionales producen el disparo de todas las sirenas conectadas a la salida.\n\nLa supervisión del circuito se realiza con una corriente inversa que lee la resistencia final de línea de 6K8 ohmios y 0,5 w mínimo (RFL). Debe instalarse siempre una resistencia RFL entre + y - de la última sirena para controlar la apertura o cierre de la línea de sirenas.\n\nSi no se instalan sirenas convencionales en esta salida es preciso conectar la resistencia RFL entre + y - de la salida directamente al terminal de la central.\n\nLa corriente de supervisión tiene sentido inverso a la de activación, con una pequeña tensión de supervisión con polaridad inversa a la de la salida de sirenas. Al activarse la salida de sirenas, la corriente circula normalmente y la tensión tiene la polaridad expresada en los terminales de la salida.\n\nSiempre que se instalen campanas sin polaridad, se precisa instalar un diodo entre + y uno de los terminales de alimentación de la campana para evitar consumos en supervisión ,ya que las bobinas de estas no tienen polaridad.\n\nDebe tenerse la precaución de no realizar cableados de sección inferior a 1,5mm2 y longitudes excesivas, que pueden provocar grandes caídas de tensión en la línea.\n\n**Figura 15 SALIDA DE SIRENAS CONVENCIONALES DE PLACA DE ZXAE**\n\n[Technical wiring diagram showing:\n\n- Left side: Terminal connections with wavy line representing wiring\n- Center: Two rectangular boxes representing equipment\n- Right side: Terminal block labeled \"PL LOOP2\" and connection blocks showing:\n  - ALM O/P terminals\n  - COM terminals\n  - SOUNDERS section\n  - RELAY 1 and RELAY 2 sections with multiple terminal connections\n- Bottom label: \"SALIDA SIRENAS A,B\" (Siren Output A,B)\n- Various ground symbols (⊕) marked at connection points]\n\n**Figura 15 SALIDA DE SIRENAS CONVENCIONALES DE PLACA DE ZXEE**\n\n[Technical wiring diagram showing:\n\n- Top: Wavy line representing building outline with four rectangular boxes\n- Center: Terminal blocks labeled:\n  - TB10: +NO NC COM +NO NC COM\n  - TB7: S,A+ S,A- S,B+ S,C+ S,D+ S,D-\n  - TB8: Terminal connections\n  - TB9: Terminal connections with +24V and TB6 markings\n- Multiple terminal connection points shown with circles\n- Bottom label: \"SALIDA SIRENAS A,B,C,D\" (Siren Output A,B,C,D)]\n\nDOC.MIE-MI-310 Pag.17\n\n![MORLEY-IAS FIRE SYSTEMS Logo]\n\nMANUAL DE INSTALACIÓN                                                    ZXAE/ZXEE\n\n**Figura 17 CIRCUITO DE SIRENAS (SALIDA DE PLACA Ay B)**",
+    "product_model": "ZXAE/ZXEE",
+    "category": null,
+    "section_title": "MANUAL DE INSTALACIÓN ZXAE/ZXEE",
+    "content_type": "wiring",
+    "manufacturer": "Morley",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "MIE-MI-310",
+    "page_number": 18,
+    "document_id": "e59480a1-7ea7-40b3-9c38-18acf96d4f4c",
+    "similarity": 0.8,
+    "_channel": "CONTENT",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento pertenece a la sección 3.3.5 del manual de instalación de las Centrales de Control de Incendios ZXAE/ZXEE y describe la configuración y conexionado de las salidas supervisadas para sirenas convencionales, incluyendo especificaciones técnicas y diagramas de cableado para ambos modelos."
+   },
+   {
+    "id": "35f4421a-d039-4672-9884-5540ab42a788",
+    "content": "```\n+ Salida A\nsirenas de\nplaca           ━━━━━━━━━━```\n+ Salida A\nsirenas de\nplaca                +     +     +           \n                    ━━━▶|◀━━━▶|◀━━━▶|◀━━━━━▶|◀━━━━━━━┓\n                     -     -     -                     │  RESISTENCIA FINAL DE\n                                                       │  LÍNEA DE SUPERVISIÓN DE\n- Salida A          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛  6800 Ohmios\nsirenas de               ╲                    ╲\nplaca                     ╲                    ╲\n                    SIRENAS CON POLARIDAD    CAMPANA SIN POLARIDAD\n\n+ Salida B\nsirenas de\nplaca                +     +           \n                    ━━━▶|◀━━━▶|◀━━━━━▶|◀━━━━━▶|◀━━━━━━┓\n                     -     -                           │  RESISTENCIA FINAL DE\n                                                       │  LÍNEA DE SUPERVISIÓN DE\n- Salida B          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛  6800 Ohmios\nsirenas de               ╲                    ╲\nplaca                     ╲                    ╲\n                    SIRENAS CON POLARIDAD    CAMPANA SIN POLARIDAD\n```\n\nNo se deben realizar ramales en la conexión de sirenas convencionales, ya que la supervisión se realiza en la línea directa hasta la resistencia final de línea, de forma que los ramales paralelos realizados, no podrán se supervisados.\n\nDOC.MIE-MI-310                                                           Pag.18\n\nMORLEY-IAS FIRE SYSTEMS\n\nMANUAL DE INSTALACIÓN                                                              ZXAE/ZXEE",
+    "product_model": "ZXAE/ZXEE",
+    "category": null,
+    "section_title": "3.3.5 SALIDA SIRENAS DE PLACA",
+    "content_type": "wiring",
+    "manufacturer": "Morley",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "MIE-MI-310",
+    "page_number": 19,
+    "document_id": "e59480a1-7ea7-40b3-9c38-18acf96d4f4c",
+    "similarity": 0.8,
+    "_channel": "CONTENT",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento pertenece a la sección 3.3.5 \"Salida Sirenas de Placa\" del Manual de Instalación de las Centrales ZXAE/ZXEE de Morley-IAS, y describe el circuito de conexión de sirenas convencionales con polaridad y sin polaridad, incluyendo la resistencia final de línea de supervisión de 6800 ohmios para ambas salidas (A y B)."
+   },
+   {
+    "id": "2e39e371-a009-4dd0-8e61-da9ce65b169a",
+    "content": "## 3.3.9 LAZO PERIFÉRICO\n\nLas cantrales ZXAE y ZXEE disponen de un puerto para conexión y control de elementos periféricos conectados con el equipo mediante canal de comunicaciones RS-485. Este lazo es independiente del lazo analógico, pero los equipos conectados trabajan como equipos del sistema.\n\nLa conexión de la tarjeta se realiza en el Puerto D de comunicaciones de la placa base. La tarjeta dispone de una protección mediante aisladores en las salidas de comunicaciones.\n\nCada equipo del lazo periférico se conecta con dos hilos de comunicaciones y puede realizarse en lazo cerrado o lazo abierto con resistencia final de línea de 150 Ohmios y 0,5 W mínimo (RFL), en cada extremo.\n\nEl lazo periférico admite direcciones de equipos de 1 a 126 aunque algunos equipos no alcanzan todas las direcciones. El número máximo de equipos conectados al lazo es de 31.\n\nEl cableado de comunicaciones del lazo periférico se realizará siempre con cable apantallado, conectado a una tierra adecuada. Es importante revisar que las tierras sean lo más independientes posible, para evitar la comunicación de otras fugas sobre el cableado de tierra usado.\n\nLa sección del cable, la longitud de la instalación y el conexionado de los terminales, puede ocasionar caídas de tensión que produzcan fallos de comunicación y operatividad de los sistemas.\n\n> ⚠️\n> \n> Los circuitos de comunicaciones deben separarse de otras conducciones eléctricas para minimizar el riesgo de interferencias externas.\n> \n> En condiciones extremas de ruido electromagnético, es altamente recomendable el uso de cableado de pares trenzados.\n\n**Tabla 3 LONGITUD MÁXIMA DE LAZO COMPLETO EN CONDICIONES NORMALES SIN INTERFERENCIAS PARA CABLE TRENZADO APANTALLADO**\n\n| Sección del conductor                   | 1,5mm2 |\n| --------------------------------------- | ------ |\n| Longitud máxima del lazo (Ida y Vuelta) | 1,2Km  |\n\nLa conexión del lazo de comunicaciones periférico se realiza mediante la conexión del terminal AB de placa de un equipo o tarjeta de RS-485 de un lado del conector, al terminal AB de un lado del conector del siguiente equipo y de los terminales AB del otro lado del conector a los terminales AB de un lado del conector del siguiente equipo. Es imprescindible comprobar que no hay conexión entre los terminales A y B y que el lazo entra a un lado del conector y sale por el otro o termina en la resistencia RFL de 150 Ohmios.\n\n**Figura 22 INSTALACIÓN DE LAZO PERIFÉRICO EN LAZO ABIERTO**\n\n| 150 Ohmios&#xA;RFL\t\t150 Ohmios&#xA;RFL |   |   |\n| -------------------------------------- | - | - |\n\n</td>\n</tr>\n<tr>\n<td>\n\n| B | A | B | A |\n| - | - | - | - |\n\n○ ▬▬▬▬ ᴾ\n</td>\n<td>\n\n| B | A | B | A |\n| - | - | - | - |\n\n○ ▬▬▬▬ ᴾ\n</td>\n<td>\n\n| B | A | B | A |\n| - | - | - | - |\n\n○ ▬▬▬▬ ᴾ\n</td>\n</tr>\n<tr>\n<td colspan=\"3\">\n\n| B A B A |\n| ------- |\n\n</td>\n</tr>\n</table>\n\nDOC.MIE-MI-310 Pag.21\n\nMORLEY-IAS FIRE SYSTEMS",
+    "product_model": "ZXAE/ZXEE",
+    "category": null,
+    "section_title": "3.3.9 LAZO PERIFÉRICO",
+    "content_type": "wiring",
+    "manufacturer": "Morley",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "MIE-MI-310",
+    "page_number": 22,
+    "document_id": "e59480a1-7ea7-40b3-9c38-18acf96d4f4c",
+    "similarity": 0.8,
+    "_channel": "CONTENT",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento pertenece al Manual de Instalación de las Centrales ZXAE/ZXEE y describe la configuración del lazo periférico RS-485, un sistema de comunicaciones independiente para conectar hasta 31 dispositivos periféricos a la central mediante dos hilos de transmisión de datos."
+   },
+   {
+    "id": "ebe26de8-6468-40f4-b15b-4ef84c51464f",
+    "content": "## 5.2.3.3 TIPO\n\nLos módulos de control (Relé) supervisado con resistencia final de línea en la actuación, se autodetectan como sirenas y es necesario, modificarlos y cambiar su tipo a Relé si no tienen sirenas conectadas, para evitar su uso como sirenas, ya que las configuraciones posteriores, para el tipo de disparo de relé, no admiten pulsos y no se desconectan con la tecla de corte de sirena.\n\n## 5.2.3.4 ACCIÓN\n\nLas acciones definidas para las entradas como pulsadores o módulos monitores (PAI), pueden modificarse para generar diferentes tipos de alarma.\n\nTIPOS DE ACCIONES PARA MÓDULOS MONITORES Y PULSADORES\n\n-Fuego Zona: Genera una alarma de «fuego» de elemento en el display, se ilumina el LED de fuego de la zona correspondiente, suena el zumbador de la central, y dispara las sirenas de la zona.\n\n-Avería: Genera un «Aviso» en el display con el elemento que lo produce, ilumina el LED de la zona correspondiente y suena el zumbador de la central.\n\n-Disparo zona: Dispara todos los relés y sirenas del sistema asociados a la zona y genera un aviso de «Disparo Zona» en el display.\n\n-Disparo sirenas: Dispara todas las salidas de sirenas de lazo de la placa de la central y no para hasta restablecer la entrada.\n\nDOC.MIE-MP-310                                                                 Pag.28\n\nMORLEYIAS FIRE SYSTEMS\nMANUAL DE PROGRAMACIÓN ZXAE/ZXEE\n\n-Seguridad: Dispara un aviso de «Seguridad» en el display para el elemento asociado, se enciende el LED de avería y el zumbador de la central.\n\n-Rearmable: Genera un disparo del elemento, pero sin indicación en el display, sin iluminar los LEDs y desaparece automáticamente al devolver a su estado la entrada.\n\n-Aviso: Produce un «Aviso» de avería en el dysplay para el elemento, con disparo de zumbador interno pero sin iluminar los LEDs.\n\n-Anular grupo: Desconecta todos los equipos asociados al mismo grupo que el elemento de entrada cuando este se activa (Pulsador o Mod.Monitor), se iluminan los LEDs de desconexión general y los de zona si se ha desconectado la zona entera. Se rearma automáticamente al devolver a su estado la entrada.\n\n-No usado: Desconecta el elemento, ignorando cualquier entrada.\n\n✓ El procedimiento de configuración descrito, se realiza para cada equipo, y para cada lazo, seleccionando el número de lazo, en el Paso 5.1.2.1.",
+    "product_model": "ZXAE/ZXEE",
+    "category": null,
+    "section_title": "Acceso a Nivel 3 (Configuración):",
+    "content_type": "troubleshooting",
+    "manufacturer": "Morley",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "MIE-MP-310",
+    "page_number": 29,
+    "document_id": "89aefc9e-5b92-4bba-94f4-a2dabede0d01",
+    "similarity": 0.65,
+    "_channel": "MODEL",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento pertenece a la sección 5.2.3 (Equipos) del Manual de Programación de las Centrales ZXAE/ZXEE, específicamente a los pasos 5.2.3.3 y 5.2.3.4 que detallan cómo modificar el tipo de elementos (relés/sirenas) y configurar las acciones de disparo para pulsadores y módulos monitores dentro de la configuración de lazos analógicos."
+   },
+   {
+    "id": "d79a07b8-745f-4c62-8355-d0cee6fde1db",
+    "content": "## 3.3.4 LAZOS ANALÓGICOS\n\nLas Centrales de Control de Incendios ZXAE y ZXEE, controlan los dispositivos, mediante placas de lazo con transmisión digital a dos hilos por los que se mantiene la comunicación y la alimentación de los equipos. Algunos equipos requieren alimentación exterior para no sobrecargar el lazo. A cada lazo se pueden conectar 99 Detectores + 99 Módulos, con direcciones independientes entre Detectores o Módulos.\n\nEl cableado de comunicaciones del lazo analógico se realizará con cable apantallado, conectado a una tierra adecuada. Es importante revisar que las tierras sean lo más independientes posible, para evitar la comunicación de otras fugas sobre el cableado de tierra usado.\n\nLa sección del cable, la longitud de la instalación y el conexionado de los terminales, puede ocasionar caídas de tensión que produzcan fallos de comunicación y operatividad de los sistemas.\n\n> ⚠️\n>\n> Los circuitos de detección deben separarse de otras conducciones eléctricas para minimizar el riesgo de interferencias externas.\n>\n> En condiciones extremas de ruido electromagnético, es altamente recomendable el uso de cableado de pares trenzados.\n>\n> Siempre debe comprobarse que la sección del cable usado mantiene la tensión de funcionamiento de los equipos especificada por el fabricante.\n\n**Tabla 2 LONGITUD MÁXIMA DE LAZO EN CONDICIONES NORMALES SIN INTERFERENCIAS PARA CABLE TRENZADO APANTALLADO**\n\n| Sección del conductor    | 1mm2 | 1,5mm2  | 2,5mm2  |\n| ------------------------ | ---- | ------- | ------- |\n| Longitud máxima del lazo | 1Km  | 1,800Km | 2,400Km |\n\n> ⚠️\n>\n> No se recomienda realizar instalaciones con longitud de lazo superior a 2Km, ya que la capacitancia del cable y la impedancia, pueden causar interferencias en la comunicación entre equipos y central.\n\nPara comprobar si un lazo analógico se ha instalado adecuadamente, una vez instalados los equipos, siga los siguientes pasos:\n\nPuentear todos los módulos aisladores, (positivo con positivo y negativo con negativo) y realizar la siguiente medición:\n\n-Con un TESTER en posición de continuidad (⊣⊢), se debe medir 500mV entre + y -, y circuito abierto en el otro sentido, en caso contrario hay una conexión cruzada del lazo. Deberá aislarse por tramos y realizar esta medición hasta localizarlo.\n\n-Con el tester en posición de resistencia, comprobar que el lazo, con un extremo puenteado (Unir + y - en un extremo y medir en el otro) no supera los 36 Ohmios. En caso contrario el sistema puede perder comunicación. En este caso el cableado usado, longitudes o conexiones no son la adecuadas y deberán sustituirse.\n\n-Con el tester en posición de resistencia y sin conectar los conductores ni la malla, se comprobará que no hay continuidad entre tierra y malla, positivo y malla y negativo y malla del cableado del lazo y se comprobará por separado la continuidad de positivo, negativo y malla. En caso contrario se revisarán las conexiones de los equipos hasta encontrar la avería y solucionarla antes de conectar el lazo al sistema.\n\nDOC.MIE-MI-310                                                            Pag.14\n\nMORLEYMIAS\nFIRE SYSTEMS",
+    "product_model": "ZXAE/ZXEE",
+    "category": null,
+    "section_title": "3.3.4 LAZOS ANALÓGICOS",
+    "content_type": "wiring",
+    "manufacturer": "Morley",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "MIE-MI-310",
+    "page_number": 15,
+    "document_id": "e59480a1-7ea7-40b3-9c38-18acf96d4f4c",
+    "similarity": 0.8,
+    "_channel": "CONTENT",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento pertenece a la sección 3.3.4 del Manual de Instalación de las Centrales ZXAE/ZXEE y proporciona especificaciones técnicas sobre la instalación y verificación de los lazos analógicos, incluyendo requisitos de cableado, longitudes máximas permitidas y procedimientos de prueba de continuidad."
+   }
+  ],
+  "pool50_light": [
+   {
+    "id": "1a353c9c-9472-4883-941b-1c927428d24b",
+    "source_file": "MIE-MI-310",
+    "page_number": 4,
+    "similarity": 0.8
+   },
+   {
+    "id": "7f4ad443-539c-4219-87d1-951921cab68e",
+    "source_file": "MIE-MP-310",
+    "page_number": 22,
+    "similarity": 0.8
+   },
+   {
+    "id": "2ccd4e39-4f13-462e-8d3d-f2107e074a96",
+    "source_file": "MIE-MU-310",
+    "page_number": 4,
+    "similarity": 0.72
+   },
+   {
+    "id": "7226629a-cdd1-477b-a89d-63d208e39c8e",
+    "source_file": "MIE-MP-315",
+    "page_number": 1,
+    "similarity": 0.65
+   },
+   {
+    "id": "2e39e371-a009-4dd0-8e61-da9ce65b169a",
+    "source_file": "MIE-MI-310",
+    "page_number": 22,
+    "similarity": 0.8
+   },
+   {
+    "id": "ebe26de8-6468-40f4-b15b-4ef84c51464f",
+    "source_file": "MIE-MP-310",
+    "page_number": 29,
+    "similarity": 0.65
+   },
+   {
+    "id": "7492c9e4-01e2-4ba9-ba1b-955395b3692f",
+    "source_file": "MIE-MU-310",
+    "page_number": 4,
+    "similarity": 0.72
+   },
+   {
+    "id": "94fa45c8-d4f3-4a33-b4d2-7b8e68883b82",
+    "source_file": "MIE-MP-315",
+    "page_number": 4,
+    "similarity": 0.65
+   },
+   {
+    "id": "d79a07b8-745f-4c62-8355-d0cee6fde1db",
+    "source_file": "MIE-MI-310",
+    "page_number": 15,
+    "similarity": 0.8
+   },
+   {
+    "id": "d4d54d05-bd6e-4861-81db-be2f6d67cd88",
+    "source_file": "MIE-MP-310",
+    "page_number": 38,
+    "similarity": 0.65
+   },
+   {
+    "id": "caf6c8be-761e-464a-a9ad-73bb56626d62",
+    "source_file": "MIE-MP-315",
+    "page_number": 4,
+    "similarity": 0.65
+   },
+   {
+    "id": "31ccb719-ddc0-4b2d-aefe-94b9e65aea3c",
+    "source_file": "MIE-MI-310",
+    "page_number": 5,
+    "similarity": 0.8
+   },
+   {
+    "id": "692718af-8d13-4e2f-80df-90d22dd832ec",
+    "source_file": "MIE-MI-310",
+    "page_number": 18,
+    "similarity": 0.8
+   },
+   {
+    "id": "35f4421a-d039-4672-9884-5540ab42a788",
+    "source_file": "MIE-MI-310",
+    "page_number": 19,
+    "similarity": 0.8
+   },
+   {
+    "id": "c0692a93-cea3-4a75-b617-4ac51c343795",
+    "source_file": "MIE-MI-310",
+    "page_number": 31,
+    "similarity": 0.8
+   },
+   {
+    "id": "022c78b2-b0ca-4ac7-af45-7323a96845bd",
+    "source_file": "MIE-MI-310",
+    "page_number": 31,
+    "similarity": 0.8
+   },
+   {
+    "id": "8f81c44f-6fd8-4350-ac13-bfe360af0e85",
+    "source_file": "MIE-MI-310",
+    "page_number": 17,
+    "similarity": 0.8
+   },
+   {
+    "id": "f1686ba8-f699-4cfc-ae87-e30ae2c4fb23",
+    "source_file": "MIE-MI-310",
+    "page_number": 28,
+    "similarity": 0.8
+   },
+   {
+    "id": "9c348384-ea78-4e6e-bb5c-d8c2e564c8b0",
+    "source_file": "MIE-MI-310",
+    "page_number": 4,
+    "similarity": 0.8
+   },
+   {
+    "id": "ab06ceb7-8190-4f0a-9076-b58ede92ab8d",
+    "source_file": "MIE-MI-310",
+    "page_number": 21,
+    "similarity": 0.8
+   },
+   {
+    "id": "51427912-d63c-4424-bd65-2857737f3adc",
+    "source_file": "MIE-MI-310",
+    "page_number": 24,
+    "similarity": 0.8
+   },
+   {
+    "id": "0f932db5-07bd-4936-b1dd-cd43e0729e3b",
+    "source_file": "MIE-MI-310",
+    "page_number": 25,
+    "similarity": 0.8
+   },
+   {
+    "id": "4ad8fdae-4759-4610-987e-225c0daa6aec",
+    "source_file": "MIE-MI-310",
+    "page_number": 30,
+    "similarity": 0.8
+   }
+  ]
+ },
+ "hp018": {
+  "question": "¿Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe?",
+  "conducta_esperada": "answer",
+  "frozen_at": "2026-06-18T12:30:17",
+  "n_context_hydrated": 5,
+  "top5": [
+   {
+    "id": "35f4421a-d039-4672-9884-5540ab42a788",
+    "content": "```\n+ Salida A\nsirenas de\nplaca           ━━━━━━━━━━```\n+ Salida A\nsirenas de\nplaca                +     +     +           \n                    ━━━▶|◀━━━▶|◀━━━▶|◀━━━━━▶|◀━━━━━━━┓\n                     -     -     -                     │  RESISTENCIA FINAL DE\n                                                       │  LÍNEA DE SUPERVISIÓN DE\n- Salida A          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛  6800 Ohmios\nsirenas de               ╲                    ╲\nplaca                     ╲                    ╲\n                    SIRENAS CON POLARIDAD    CAMPANA SIN POLARIDAD\n\n+ Salida B\nsirenas de\nplaca                +     +           \n                    ━━━▶|◀━━━▶|◀━━━━━▶|◀━━━━━▶|◀━━━━━━┓\n                     -     -                           │  RESISTENCIA FINAL DE\n                                                       │  LÍNEA DE SUPERVISIÓN DE\n- Salida B          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛  6800 Ohmios\nsirenas de               ╲                    ╲\nplaca                     ╲                    ╲\n                    SIRENAS CON POLARIDAD    CAMPANA SIN POLARIDAD\n```\n\nNo se deben realizar ramales en la conexión de sirenas convencionales, ya que la supervisión se realiza en la línea directa hasta la resistencia final de línea, de forma que los ramales paralelos realizados, no podrán se supervisados.\n\nDOC.MIE-MI-310                                                           Pag.18\n\nMORLEY-IAS FIRE SYSTEMS\n\nMANUAL DE INSTALACIÓN                                                              ZXAE/ZXEE",
+    "product_model": "ZXAE/ZXEE",
+    "category": null,
+    "section_title": "3.3.5 SALIDA SIRENAS DE PLACA",
+    "content_type": "wiring",
+    "manufacturer": "Morley",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "MIE-MI-310",
+    "page_number": 19,
+    "document_id": "e59480a1-7ea7-40b3-9c38-18acf96d4f4c",
+    "similarity": 0.8,
+    "_channel": "CONTENT",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento pertenece a la sección 3.3.5 \"Salida Sirenas de Placa\" del Manual de Instalación de las Centrales ZXAE/ZXEE de Morley-IAS, y describe el circuito de conexión de sirenas convencionales con polaridad y sin polaridad, incluyendo la resistencia final de línea de supervisión de 6800 ohmios para ambas salidas (A y B)."
+   },
+   {
+    "id": "692718af-8d13-4e2f-80df-90d22dd832ec",
+    "content": "# MANUAL DE INSTALACIÓN ZXAE/ZXEE\n\n## 3.3.5 SALIDA SIRENAS DE PLACA\n\nLa ZXAE dispone de 2 salidas supervisadas para campanas convencionales (Salida A y B) y la ZXEE dispone de 4 salidas supervisadas para sirenas convencionales (Salida A,B,C y D).\n\nLas salidas de sirenas son limitadas en corriente. Cada circuito tiene un consumo máximo de 1 Amp. Se debe tener en cuenta el consumo total de la central, para no exceder el valor del consumo total con las sirenas activadas.\n\nLas salidas de sirenas convencionales producen el disparo de todas las sirenas conectadas a la salida.\n\nLa supervisión del circuito se realiza con una corriente inversa que lee la resistencia final de línea de 6K8 ohmios y 0,5 w mínimo (RFL). Debe instalarse siempre una resistencia RFL entre + y - de la última sirena para controlar la apertura o cierre de la línea de sirenas.\n\nSi no se instalan sirenas convencionales en esta salida es preciso conectar la resistencia RFL entre + y - de la salida directamente al terminal de la central.\n\nLa corriente de supervisión tiene sentido inverso a la de activación, con una pequeña tensión de supervisión con polaridad inversa a la de la salida de sirenas. Al activarse la salida de sirenas, la corriente circula normalmente y la tensión tiene la polaridad expresada en los terminales de la salida.\n\nSiempre que se instalen campanas sin polaridad, se precisa instalar un diodo entre + y uno de los terminales de alimentación de la campana para evitar consumos en supervisión ,ya que las bobinas de estas no tienen polaridad.\n\nDebe tenerse la precaución de no realizar cableados de sección inferior a 1,5mm2 y longitudes excesivas, que pueden provocar grandes caídas de tensión en la línea.\n\n**Figura 15 SALIDA DE SIRENAS CONVENCIONALES DE PLACA DE ZXAE**\n\n[Technical wiring diagram showing:\n\n- Left side: Terminal connections with wavy line representing wiring\n- Center: Two rectangular boxes representing equipment\n- Right side: Terminal block labeled \"PL LOOP2\" and connection blocks showing:\n  - ALM O/P terminals\n  - COM terminals\n  - SOUNDERS section\n  - RELAY 1 and RELAY 2 sections with multiple terminal connections\n- Bottom label: \"SALIDA SIRENAS A,B\" (Siren Output A,B)\n- Various ground symbols (⊕) marked at connection points]\n\n**Figura 15 SALIDA DE SIRENAS CONVENCIONALES DE PLACA DE ZXEE**\n\n[Technical wiring diagram showing:\n\n- Top: Wavy line representing building outline with four rectangular boxes\n- Center: Terminal blocks labeled:\n  - TB10: +NO NC COM +NO NC COM\n  - TB7: S,A+ S,A- S,B+ S,C+ S,D+ S,D-\n  - TB8: Terminal connections\n  - TB9: Terminal connections with +24V and TB6 markings\n- Multiple terminal connection points shown with circles\n- Bottom label: \"SALIDA SIRENAS A,B,C,D\" (Siren Output A,B,C,D)]\n\nDOC.MIE-MI-310 Pag.17\n\n![MORLEY-IAS FIRE SYSTEMS Logo]\n\nMANUAL DE INSTALACIÓN                                                    ZXAE/ZXEE\n\n**Figura 17 CIRCUITO DE SIRENAS (SALIDA DE PLACA Ay B)**",
+    "product_model": "ZXAE/ZXEE",
+    "category": null,
+    "section_title": "MANUAL DE INSTALACIÓN ZXAE/ZXEE",
+    "content_type": "wiring",
+    "manufacturer": "Morley",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "MIE-MI-310",
+    "page_number": 18,
+    "document_id": "e59480a1-7ea7-40b3-9c38-18acf96d4f4c",
+    "similarity": 0.8,
+    "_channel": "CONTENT",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento pertenece a la sección 3.3.5 del manual de instalación de las Centrales de Control de Incendios ZXAE/ZXEE y describe la configuración y conexionado de las salidas supervisadas para sirenas convencionales, incluyendo especificaciones técnicas y diagramas de cableado para ambos modelos."
+   },
+   {
+    "id": "0f932db5-07bd-4936-b1dd-cd43e0729e3b",
+    "content": "```\n                    Sirenas y 24V        RS485 / RS232      Lazos analógicos\n                    aux.                 Corriente limitada Corriente limitada\n                    Corriente limitada                      \n                                                             Alimentación\n                                                             220 Vca\n                    ┌─────────────────────────────────────────────────┐\n                    │                                                 │\n                    │    ║║║║                                        │\n                    │                                                 │\n                    │    ┌─┐  ┌─┐                                   │\n                    │    │ │  │ │                          ┌──┐     │\n                    │    └─┘  └─┘                          └──┘     │\n                    │                                                 │\n                    │                                                 │\n                    │                                                 │\n                    │                                                 │\n                    │                                                 │\n                    │                                                 │\n                    │                                                 │\n                    │                                                 │\n                    │         Salida para armario          Contactos Relé\n                    │         de baterías auxiliares       No limitado\n                    └─────────────────────────────────────────────────┘\n```\n\n**Figura 28 Entradas de cableado recomendadas ZXEE**",
+    "product_model": "ZXAE/ZXEE",
+    "category": null,
+    "section_title": "3.3.12 ENTRADAS DE CABLE",
+    "content_type": "general",
+    "manufacturer": "Morley",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "MIE-MI-310",
+    "page_number": 25,
+    "document_id": "e59480a1-7ea7-40b3-9c38-18acf96d4f4c",
+    "similarity": 0.8,
+    "_channel": "CONTENT",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento corresponde a la Sección 3.3.12 \"Entradas de Cable\" del Manual de Instalación ZXAE/ZXEE y muestra el diagrama de distribución recomendada de entradas de cableado para la central ZXEE, indicando cómo separar los diferentes tipos de alimentación y comunicaciones para evitar interferencias electromagnéticas."
+   },
+   {
+    "id": "1ae04811-40d2-4436-b385-495660b27bb0",
+    "content": "Otros equipos conectados a la central pero no listados aquí o alimentación 24 Vcc Aux. de equipos como módulos de zona convencional, sirenas con alimentación externa, disparos con alimentación externa...\n(Corriente máxima de salida 24 Aux. 340 mA)\n\n|                              |               |                 |               |                  |\n| ---------------------------- | ------------- | --------------- | ------------- | ---------------- |\n|                              |               |                 |               |                  |\n|                              | Total A       | Total B         |               |                  |\n|                              | Tiempo reposo | Total A x 24h = | Tiempo Alarma | Total B x 0.5h = |\n|                              | Total C       | Total D         |               |                  |\n| Battery Ah ( C + D x 1.2 ) = |               |                 |               |                  |\n\n1 Consumos para equipos Morley-IAS\n2 Consumo típico en reposo. Vea las características del equipo para consumo en todas las condiciones\n3 Consumo típico en Alarma. Vea las características del equipo para consumo en todas las condiciones\n4 Asegúrese de que el consumo máximo de los equipos alimentados por la salida de 24V Aux. de la central no excede de 340 mA y en caso contrario incorpore una fuente de alimentación exterior para estos.\n\nDOC.MIE-MI-310                                                           Pag.25\n\nMANUAL DE INSTALACIÓN ZXAE/ZXEE",
+    "product_model": "ZXAE/ZXEE",
+    "category": null,
+    "section_title": "Tabla 4 CALCULO DE CONSUMO GENERAL DE ZXAE",
+    "content_type": "specification",
+    "manufacturer": "Morley",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "MIE-MI-310",
+    "page_number": 26,
+    "document_id": "e59480a1-7ea7-40b3-9c38-18acf96d4f4c",
+    "similarity": 0.8,
+    "_channel": "CONTENT",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento pertenece a la sección \"4 CONSUMOS (CALCULO DE BATERÍAS)\" del Manual de Instalación de las Centrales ZXAE/ZXEE y contiene la tabla de cálculo de consumo total y dimensionamiento de baterías de emergencia, incluyendo los pasos finales para determinar la capacidad en Amperios-hora (Ah) necesaria para el sistema."
+   },
+   {
+    "id": "2f07a3c0-860a-4ad0-bb09-99b0d5ee4de5",
+    "content": "# 4 CONSUMOS (CALCULO DE BATERÍAS)\n\n## Tabla 4 CALCULO DE CONSUMO GENERAL DE ZXAE\n\n| ELEMENTO                                     | Uds.                                                                                                        | Consumo ReposoA<br/>ConsumoUnitario | Consumo ReposoA<br/>ConsumoTotal A | Consumo AlarmaB<br/>ConsumoUnitario  | Consumo AlarmaB<br/>ConsumoTotal B |\n| -------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ----------------------------------- | ---------------------------------- | ------------------------------------ | ---------------------------------- |\n| PLACA ZXAE                                   | 1                                                                                                           | 0.090                               | 0.090                              | 0.250                                | 0.250                              |\n| Módulo RS485 (Periférico o Comunicaciones)   |                                                                                                             | 0.059                               |                                    | 0.059                                |                                    |\n| Módulo RS232                                 |                                                                                                             | 0.059                               |                                    | 0.059                                |                                    |\n| Tarjeta de LEDs de zona                      |                                                                                                             | 0.014                               |                                    | 0.014 + 0.0005 por<br/>LED iluminado |                                    |\n| Tarjeta de lazo analógico                    |                                                                                                             | 0.020                               |                                    | 0.020                                |                                    |\n| CONSUMO DE EQUIPOS EN<br/>LAZO PERIFÉRICO    | (Corriente máxima de salida Aux. de24V = 0.340 Amps)4 (Corriente máxima de salida Aux. de24V = 0.340 Amps)4 |                                     |                                    |                                      |                                    |\n| Repetidor Bidireccional con teclado          |                                                                                                             | 0.125 2                             |                                    | 0.150 3                              |                                    |\n| Repetidor                                    |                                                                                                             | 0.125 2                             |                                    | 0.150 3                              |                                    |\n| Tarjeta de 4-Relés                           |                                                                                                             | 0.080 2                             |                                    | 0.160 3                              |                                    |\n| Tarjeta de 8-Entradas                        |                                                                                                             | 0.065 2                             |                                    | 0.065 2                              |                                    |\n| Tarjeta de 4-Sirenas                         |                                                                                                             | 0.120 2                             |                                    | 0.220 3                              |                                    |\n| EQUIPOS EN LAZO<br/>ANALÓGICO                |                                                                                                             |                                     |                                    |                                      |                                    |\n| Consumo Detector Analógico                   |                                                                                                             | 0.0002 1                            |                                    | 0.0065 1                             |                                    |\n| Consumo Pulsador direccionable               |                                                                                                             | 0.0002 1                            |                                    | 0.007 1                              |                                    |\n| Consumo Sirena Autoalimentada lazo           |                                                                                                             | 0.0003 1                            |                                    | 0.023 1                              |                                    |\n| Consumo Módulo Monitor                       |                                                                                                             | 0.0003 1                            |                                    | 0.007 1                              |                                    |\n| Consumo Módulo Zona                          |                                                                                                             | 0.0003 1                            |                                    | 0.0075 1                             |                                    |\n| Consumo Módulo Aislador                      |                                                                                                             | 0.00045 1                           |                                    |                                      |                                    |\n| Consumo Módulo Control                       |                                                                                                             | 0.0003 1                            |                                    | 0.005 1                              |                                    |\n| CONSUMO SALIDA DE SIRENAS<br/>CONVENCIONALES |                                                                                                             |                                     |                                    |                                      |                                    |\n| Sirenas en salida A                          |                                                                                                             | 0                                   | 0                                  | 0.018 4                              |                                    |\n| Sirenas en salida B                          |                                                                                                             | 0                                   | 0                                  | 0.018 4                              |                                    |",
+    "product_model": "ZXAE/ZXEE",
+    "category": null,
+    "section_title": "4 CONSUMOS (CALCULO DE BATERÍAS)",
+    "content_type": "specification",
+    "manufacturer": "Morley",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "MIE-MI-310",
+    "page_number": 26,
+    "document_id": "e59480a1-7ea7-40b3-9c38-18acf96d4f4c",
+    "similarity": 0.8,
+    "_channel": "CONTENT",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento pertenece a la Sección 4 \"CONSUMOS (CÁLCULO DE BATERÍAS)\" del Manual de Instalación de las Centrales ZXAE/ZXEE, y contiene la Tabla 4 con los parámetros de consumo eléctrico en reposo y alarma de todos los componentes de la central ZXAE para dimensionar correctamente las baterías de emergencia del sistema."
+   }
+  ],
+  "pool50_light": [
+   {
+    "id": "c40ac5cb-20a0-4f11-943e-6a6fc29bdedc",
+    "source_file": "MIE-MI-310",
+    "page_number": 3,
+    "similarity": 0.8
+   },
+   {
+    "id": "1d58bcf8-a838-4d31-b65c-89c068b6ce6b",
+    "source_file": "MIE-MU-310",
+    "page_number": 11,
+    "similarity": 0.72
+   },
+   {
+    "id": "7226629a-cdd1-477b-a89d-63d208e39c8e",
+    "source_file": "MIE-MP-315",
+    "page_number": 1,
+    "similarity": 0.65
+   },
+   {
+    "id": "ebe26de8-6468-40f4-b15b-4ef84c51464f",
+    "source_file": "MIE-MP-310",
+    "page_number": 29,
+    "similarity": 0.65
+   },
+   {
+    "id": "8f81c44f-6fd8-4350-ac13-bfe360af0e85",
+    "source_file": "MIE-MI-310",
+    "page_number": 17,
+    "similarity": 0.8
+   },
+   {
+    "id": "ce7883c4-1a38-4df4-83f1-e35fa854340b",
+    "source_file": "MIE-MU-310",
+    "page_number": 11,
+    "similarity": 0.72
+   },
+   {
+    "id": "94fa45c8-d4f3-4a33-b4d2-7b8e68883b82",
+    "source_file": "MIE-MP-315",
+    "page_number": 4,
+    "similarity": 0.65
+   },
+   {
+    "id": "d4d54d05-bd6e-4861-81db-be2f6d67cd88",
+    "source_file": "MIE-MP-310",
+    "page_number": 38,
+    "similarity": 0.65
+   },
+   {
+    "id": "1ae04811-40d2-4436-b385-495660b27bb0",
+    "source_file": "MIE-MI-310",
+    "page_number": 26,
+    "similarity": 0.8
+   },
+   {
+    "id": "caf6c8be-761e-464a-a9ad-73bb56626d62",
+    "source_file": "MIE-MP-315",
+    "page_number": 4,
+    "similarity": 0.65
+   },
+   {
+    "id": "2e39e371-a009-4dd0-8e61-da9ce65b169a",
+    "source_file": "MIE-MI-310",
+    "page_number": 22,
+    "similarity": 0.8
+   },
+   {
+    "id": "f1686ba8-f699-4cfc-ae87-e30ae2c4fb23",
+    "source_file": "MIE-MI-310",
+    "page_number": 28,
+    "similarity": 0.8
+   },
+   {
+    "id": "d79a07b8-745f-4c62-8355-d0cee6fde1db",
+    "source_file": "MIE-MI-310",
+    "page_number": 15,
+    "similarity": 0.8
+   },
+   {
+    "id": "9c348384-ea78-4e6e-bb5c-d8c2e564c8b0",
+    "source_file": "MIE-MI-310",
+    "page_number": 4,
+    "similarity": 0.8
+   },
+   {
+    "id": "31ccb719-ddc0-4b2d-aefe-94b9e65aea3c",
+    "source_file": "MIE-MI-310",
+    "page_number": 5,
+    "similarity": 0.8
+   },
+   {
+    "id": "c069b771-519a-44ae-930d-96ce1bec986a",
+    "source_file": "MIE-MI-310",
+    "page_number": 1,
+    "similarity": 0.8
+   },
+   {
+    "id": "692718af-8d13-4e2f-80df-90d22dd832ec",
+    "source_file": "MIE-MI-310",
+    "page_number": 18,
+    "similarity": 0.8
+   },
+   {
+    "id": "35f4421a-d039-4672-9884-5540ab42a788",
+    "source_file": "MIE-MI-310",
+    "page_number": 19,
+    "similarity": 0.8
+   },
+   {
+    "id": "ab06ceb7-8190-4f0a-9076-b58ede92ab8d",
+    "source_file": "MIE-MI-310",
+    "page_number": 21,
+    "similarity": 0.8
+   },
+   {
+    "id": "0f932db5-07bd-4936-b1dd-cd43e0729e3b",
+    "source_file": "MIE-MI-310",
+    "page_number": 25,
+    "similarity": 0.8
+   },
+   {
+    "id": "2f07a3c0-860a-4ad0-bb09-99b0d5ee4de5",
+    "source_file": "MIE-MI-310",
+    "page_number": 26,
+    "similarity": 0.8
+   },
+   {
+    "id": "13b03acd-e32c-4f9d-b68f-116d86d1cb94",
+    "source_file": "MIE-MI-310",
+    "page_number": 27,
+    "similarity": 0.8
+   },
+   {
+    "id": "3e9709d2-f0b2-457d-95e4-c509da3990b7",
+    "source_file": "MIE-MI-310",
+    "page_number": 27,
+    "similarity": 0.8
+   },
+   {
+    "id": "c0692a93-cea3-4a75-b617-4ac51c343795",
+    "source_file": "MIE-MI-310",
+    "page_number": 31,
+    "similarity": 0.8
+   },
+   {
+    "id": "022c78b2-b0ca-4ac7-af45-7323a96845bd",
+    "source_file": "MIE-MI-310",
+    "page_number": 31,
+    "similarity": 0.8
+   },
+   {
+    "id": "c3d345b3-418a-44f6-97ab-34578c145ca2",
+    "source_file": "MIE-MI-310",
+    "page_number": 35,
+    "similarity": 0.8
+   }
+  ]
+ }
+}
