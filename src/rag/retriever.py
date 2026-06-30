@@ -1030,6 +1030,7 @@ def retrieve_chunks(
     product_filter: str | None = None,
     category_filter: str | None = None,
     include_superseded: bool = False,
+    _trace: dict | None = None,
 ) -> list[dict]:
     """Hybrid retrieval: vector search + keyword search by product model.
 
@@ -1205,11 +1206,20 @@ def retrieve_chunks(
                     except Exception:
                         pass
 
+    # (s85 B1) trace inerte: si _trace es un dict, registra la membresía por-etapa (ids) para
+    # diagnosticar DÓNDE se pierde un chunk-valor. Default None → cero efecto en prod.
+    def _tr(stage, chunks):
+        if _trace is not None:
+            _trace[stage] = {c.get("id") for c in chunks}
+
+    _tr("channels", vector_results + keyword_results)
+
     # Step 4: Merge and deduplicate — extraído a _merge_channels (s68): la estrategia
     # de fusión es el LEVER bajo flag; `stamps` reproduce el comportamiento histórico
     # EXACTO (keyword-first dedup + sort por similarity).
     merged = _merge_channels(keyword_results, vector_results, effective_top_k,
                              MERGE_STRATEGY, query_embedding)
+    _tr("post_merge", merged)
 
     # Step 4b: Lifecycle filter — drop chunks whose parent document is not
     # 'active' (superseded / draft / retired / needs_review). Also enriches
@@ -1217,6 +1227,7 @@ def retrieve_chunks(
     # so the generator can cite the exact revision (Phase 5).
     if not include_superseded:
         merged = _filter_by_document_status(merged)
+    _tr("post_superseded", merged)
 
     # Step 5a-pre: Filter to queried models (TECH_DEBT #11e + #11f fix).
     # When a specific model was mentioned in the query, drop chunks whose
@@ -1226,6 +1237,7 @@ def retrieve_chunks(
     # query). Fail-open: if filter would drop too many, keep originals.
     if models and len(merged) > 0:
         merged = _filter_to_query_models(merged, models)
+    _tr("post_model_filter", merged)
 
     # Step 5a: Multi-doc diversity for queries with a specific model.
     # When a product has several source_files in corpus (e.g. CAD-250 has
@@ -1250,10 +1262,14 @@ def retrieve_chunks(
         merged = _diversify_by_manufacturer(merged, top_k, query, query_embedding,
                                             include_superseded=include_superseded)
 
+    _tr("post_diversify", merged)
+
     # Step 5c: Language filter — drop chunks outside the served languages
     # (ES/EN). Runs LAST so it also catches supplementary chunks added by the
     # diversity steps (which fetch fresh from the corpus). ~0.4% of chunks_v2.
     merged = _filter_by_language(merged)
+    _tr("post_lang", merged)
+    _tr("final", merged[:top_k])
 
     return merged[:top_k]
 

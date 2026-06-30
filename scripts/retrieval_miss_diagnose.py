@@ -1,23 +1,27 @@
 #!/usr/bin/env python3
-"""retrieval_miss_diagnose.py (s85·B1) — diagnóstico de cada retrieval-miss por (CANAL × MOTIVO).
+"""retrieval_miss_diagnose.py (s85·B1) — diagnóstico de cada retrieval-miss por ETAPA-DE-FALLO
+(MECE, del pipeline REAL) × MOTIVO (predicados ortogonales).
 
-CANAL = el paso del retrieval que debió cazar el chunk-valor y falló:
-  - IDENTIDAD/model-filter : el manual de la familia CORRECTA no entra al pool (solo familia
-                             equivocada). Señal: ningún chunk de gold_family en el pool. [hp018]
-  - VECTOR/semántico       : el chunk-valor existe pero el embedding no lo rankea al top-50.
-  - LÉXICO/keyword         : el token del valor/modelo existe pero keyword/content no lo surfacea.
-  - PROFUNDIDAD/ranking    : el manual correcto SÍ está en el pool pero el chunk-valor rankea >50
-                             (competición within-doc).
-MOTIVO = el por qué (el fix concreto):
-  - es-en (valor en columna EN) · vocab informal↔formal · familia-mal-tagueada · within-doc ·
-    chunking/extracción · token-corto/formato.
+Reescrito tras el dúo (sub-agente Opus): la versión anterior inferia el punto-de-fallo desde
+universos PARALELOS (vector_search(q,200) SIN filtros + keyword), que NO replican el pipeline →
+no distinguía "el model-filter lo expulsó" de "rankea >50" (colapsaban). FIX: instrumentar
+`retrieve_chunks(_trace=...)` para que emita la membresía del chunk-valor en CADA etapa real, y
+clasificar por la PRIMERA etapa donde se pierde. MECE por construcción del pipeline.
 
-Input: la salida family-aware (famtie) con los misses + el pin del pool. Para cada miss, el
-chunk-valor = los chunks del MANUAL que el juez acreditó (votos≥THRESH ∩ manual_pin, same-family).
-Se analiza por qué ese chunk no entró al pool.
+ETAPA-DE-FALLO (MECE — el chunk-valor se pierde en exactamente una):
+  RECALL        : ningún canal (vector/keyword/content) lo trajo como candidato.
+  MERGE         : estaba en un canal pero el merge/dedup lo perdió.
+  SUPERSEDED    : el filtro de lifecycle lo quitó (doc deprecado).
+  MODEL-FILTER  : `_filter_to_query_models` lo expulsó (identidad — el manual correcto filtrado). [hp018]
+  DIVERSIFY     : el paso de diversidad lo dejó fuera.
+  LANGUAGE      : el filtro de idioma lo quitó.
+  DEPTH         : sobrevivió todos los filtros pero rankeó >top_k (competición/ranking).
+
+MOTIVO (predicados independientes, se emite el conjunto): es-en · token-corto · within-doc.
+El chunk-valor = chunks del MANUAL que el juez acreditó (votos≥THRESH ∩ manual same-family).
 
 Uso: python scripts/retrieval_miss_diagnose.py evals/s85_retrieval_miss_DEF.yaml
-(corre DESPUÉS de la pasada definitiva + dúo del famtie aprobado).
+(corre DESPUÉS de la pasada definitiva + famtie. Re-dúo (sub-agente + cross-model) antes de B2.)
 """
 import os, sys, re, json
 os.environ.setdefault("CHUNKS_TABLE", "chunks_v2"); os.environ["HYDE_ENABLED"] = "false"
@@ -26,146 +30,115 @@ from dotenv import load_dotenv
 load_dotenv(os.path.join(os.getcwd(), ".env"), override=True)
 os.environ["CHUNKS_TABLE"] = "chunks_v2"; os.environ["HYDE_ENABLED"] = "false"
 import yaml
-from src.rag.retriever import vector_search, keyword_search, content_search, extract_product_models
-from scripts.retrieval_miss_famtie import rederive, fam_norm, gold_family, THRESH_FIRM
-from scripts.audit_locator import fact_match_score
+from collections import Counter
+from src.rag.retriever import retrieve_chunks
+from scripts.retrieval_miss_famtie import rederive, THRESH_FIRM
+
+# Lever ESTRUCTURAL por etapa-de-fallo (mapa completo, sin fallback silencioso).
+LEVER = {
+    "RECALL":       "recall: embedding/HyDE/expansión + keyword/sinónimos (refinar con el motivo)",
+    "MERGE":        "merge/dedup: estrategia de fusión de canales (MERGE_STRATEGY)",
+    "SUPERSEDED":   "transversal: revisar marcado de superseded (¿deprecado de verdad? DEC-058)",
+    "MODEL-FILTER": "identidad: _filter_to_query_models / resolución de familia (el manual correcto filtrado)",
+    "DIVERSIFY":    "diversify: cuota por source_file/fabricante deja fuera el chunk-valor",
+    "LANGUAGE":     "idioma: el filtro ES/EN quita el chunk-valor (es-en)",
+    "DEPTH":        "profundidad/ranking: sobrevive filtros pero cae del top-k (competición within-doc)",
+}
+STAGE_SEQ = ["channels", "post_merge", "post_superseded", "post_model_filter",
+             "post_diversify", "post_lang", "final"]
+DROP_LABEL = {"post_merge": "MERGE", "post_superseded": "SUPERSEDED",
+              "post_model_filter": "MODEL-FILTER", "post_diversify": "DIVERSIFY",
+              "post_lang": "LANGUAGE", "final": "DEPTH"}
 
 EN_HINT = re.compile(r"\b(the|and|with|fault|earth|ground|alarm|output|input|circuit|loop|reset|"
-                     r"detector|zone|level|default|value|range|terminal|relay|short|open)\b", re.I)
+                     r"zone|level|default|value|range|terminal|relay|short|open|latch)\b", re.I)
 ES_HINT = re.compile(r"\b(el|la|los|de|con|fallo|tierra|alarma|salida|entrada|circuito|lazo|"
-                     r"nivel|valor|rango|terminal|relé|rearme|avería|zona)\b", re.I)
+                     r"nivel|valor|rango|terminal|relé|rearme|avería|zona|enclav)\b", re.I)
 
 
-def _lang(text: str) -> str:
+def _lang(text):
     en = len(EN_HINT.findall(text or "")); es = len(ES_HINT.findall(text or ""))
-    return "EN" if en > es * 1.5 else ("ES" if es > en * 1.5 else "?")
+    if en == 0 and es == 0:
+        return "?"
+    return "EN" if en > es * 1.3 else ("ES" if es > en * 1.3 else "MIX")
 
 
-# Levers accionables por (punto-de-fallo × motivo) — para B2.
-LEVER = {
-    ("PRE-RETRIEVAL", "identidad"): "model-filter / resolución de identidad (familia correcta al pool)",
-    ("PRE-RETRIEVAL", "superseding"): "detección+marcado de superseded (pre-exclude deprecados)",
-    ("RECALL", "es-en"): "es-en: alinear/traducir columna EN en vector+keyword",
-    ("RECALL", "vocab"): "HyDE / expansión de query / sinónimos",
-    ("RECALL", "token-corto"): "keyword/format-aware para tokens cortos/códigos",
-    ("RECALL", "chunking"): "re-chunk / extracción (el valor se parte/pierde)",
-    ("DEPTH", "within-doc"): "within-doc surfacing / merge / diversify-depth",
-    ("DEPTH", "competicion"): "merge/ranking depth (el candidato cae del top-50)",
-}
-
-
-def diagnose_miss(gold: dict, miss: dict, pin: list[dict], val_chunks: list[dict],
-                  wide_vids: list[str], kw_ids: set[str]) -> dict:
-    """Clasifica el miss en DOS ejes ORTOGONALES:
-      punto_fallo (MECE): PRE-RETRIEVAL | RECALL | DEPTH
-      motivo (raíz): identidad | superseding | es-en | vocab | within-doc | chunking | token-corto
-    val_chunks = chunks del manual (same-family) que el juez acreditó (el dato vive ahí)."""
+def diagnose_miss(gold, miss, pin, val_chunks):
+    """val_chunks = chunks del manual same-family que el juez acreditó (el dato vive ahí)."""
     q = gold["question"]
-    gfam = set(miss.get("gold_family") or [])
-    pool_fams = {fam_norm(c.get("pm")) for c in pin}
-    pool_srcs = {c.get("src") for c in pin}
-    val_ids = {c.get("id") for c in val_chunks}
-    val_srcs = {c.get("source_file") for c in val_chunks}
+    val_ids = {c["id"] for c in val_chunks}
+    # TRACE del pipeline REAL para esos ids
+    trace = {}
+    try:
+        retrieve_chunks(q, top_k=50, _trace=trace)
+    except Exception:
+        pass
+    present = {s: bool(val_ids & trace.get(s, set())) for s in STAGE_SEQ}
+    # ETAPA-DE-FALLO = primera etapa donde se pierde (MECE)
+    if not present.get("channels"):
+        etapa = "RECALL"
+    else:
+        etapa = "DEPTH"   # si nunca se pierde antes de 'final', cayó por rank en el top-k
+        for i in range(1, len(STAGE_SEQ)):
+            if present[STAGE_SEQ[i - 1]] and not present[STAGE_SEQ[i]]:
+                etapa = DROP_LABEL[STAGE_SEQ[i]]; break
 
-    # SEÑALES (ortogonales, computadas todas)
-    family_in_pool = bool(gfam & pool_fams) if gfam else None      # ¿familia correcta en pool?
-    manual_in_pool = bool(val_srcs & pool_srcs)                    # ¿el manual del valor en pool (otros chunks)?
-    in_wide_vector = bool(val_ids & set(wide_vids))               # ¿candidato en vector-top-200?
-    vrank = min([wide_vids.index(i) + 1 for i in val_ids if i in wide_vids], default=None)
-    in_keyword = bool(val_ids & kw_ids)                           # ¿candidato vía keyword?
-    is_candidate = in_wide_vector or in_keyword
+    # MOTIVOS (predicados INDEPENDIENTES, se emite el conjunto)
     val_lang = _lang(" ".join((c.get("content") or "")[:800] for c in val_chunks))
     q_lang = _lang(q + " " + miss.get("valor", ""))
-    es_en = (val_lang == "EN" and q_lang == "ES")
-    short_tok = len(re.sub(r"\s", "", miss.get("valor", ""))) <= 4
-
-    # EJE 1 — PUNTO DE FALLO (MECE, secuencial):
-    if gfam and (family_in_pool is False) and not is_candidate and not manual_in_pool:
-        punto = "PRE-RETRIEVAL"        # el manual de la familia correcta ni aparece → filtrado/no-surfaceado
-    elif is_candidate:
-        punto = "DEPTH"               # era candidato (vector-200/keyword) pero no llegó al top-50
-    else:
-        punto = "RECALL"             # ni vector-200 ni keyword lo trajeron como candidato
-
-    # EJE 2 — MOTIVO (raíz, ortogonal — el dominante):
-    if punto == "PRE-RETRIEVAL":
-        motivo = "identidad"          # (superseding se marca aparte si el doc es deprecado — TODO transversal)
-    elif manual_in_pool:
-        motivo = "within-doc"         # el manual está en pool, el chunk-valor compite
-    elif es_en:
-        motivo = "es-en"
-    elif short_tok:
-        motivo = "token-corto"
-    elif punto == "DEPTH":
-        motivo = "competicion"
-    else:
-        motivo = "vocab"             # recall sin es-en/token-corto → vocab/chunking (refinar con contenido)
-
-    lever = LEVER.get((punto, motivo)) or LEVER.get((punto, "competicion")) or "revisar manual"
-    return {"qid": miss["qid"], "valor": miss["valor"], "punto_fallo": punto, "motivo": motivo,
-            "lever": lever,
-            "señales": {"family_in_pool": family_in_pool, "manual_in_pool": manual_in_pool,
-                        "in_wide_vector": in_wide_vector, "vector_rank": vrank,
-                        "in_keyword": in_keyword, "val_lang": val_lang, "es_en": es_en,
-                        "short_tok": short_tok}}
+    motivos = []
+    if val_lang == "EN" and q_lang in ("ES", "MIX"):
+        motivos.append("es-en")
+    if len(re.sub(r"\s", "", miss.get("valor", ""))) <= 4:
+        motivos.append("token-corto")
+    pool_srcs = {c.get("src") for c in pin}
+    if {c.get("source_file") for c in val_chunks} & pool_srcs:
+        motivos.append("within-doc")   # el manual tiene OTROS chunks en pool, el valor no
+    return {"qid": miss["qid"], "valor": miss["valor"], "etapa": etapa, "motivos": motivos,
+            "lever": LEVER[etapa], "gold_family": miss.get("gold_family"),
+            "trace_present": {s: present[s] for s in STAGE_SEQ}, "val_lang": val_lang}
 
 
-def _fetch_content(ids: list[str]) -> dict:
-    import httpx
-    from src.config import SUPABASE_URL, SUPABASE_SERVICE_KEY
-    H = {"apikey": SUPABASE_SERVICE_KEY, "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}"}
-    out = {}
-    for i in range(0, len(ids), 40):
-        ch = ids[i:i + 40]; q = ",".join(f'"{x}"' for x in ch)
-        try:
-            r = httpx.get(f"{SUPABASE_URL}/rest/v1/chunks_v2", headers=H,
-                          params={"select": "id,content", "id": f"in.({q})"}, timeout=20)
-            for x in r.json():
-                out[x["id"]] = x.get("content")
-        except Exception:
-            pass
-    return out
-
-
-def main(run_path: str):
+def main(run_path):
     fam = rederive(run_path)
     d = yaml.safe_load(open(run_path, encoding="utf-8"))
     res_by_qid = {r["qid"]: r for r in d["reps"][0]["results"]}
     golds = {g["qid"]: g for g in yaml.safe_load(
         open(os.path.join(os.getcwd(), "evals", "gold_answers_v1.yaml"), encoding="utf-8"))}
-    # cache por gold de vector-wide + keyword (varios misses comparten gold)
-    wide_cache, kw_cache = {}, {}
+    import httpx
+    from src.config import SUPABASE_URL, SUPABASE_SERVICE_KEY
+    H = {"apikey": SUPABASE_SERVICE_KEY, "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}"}
+
+    def fetch_content(ids):
+        out = {}
+        for i in range(0, len(ids), 40):
+            q = ",".join(f'"{x}"' for x in ids[i:i + 40])
+            try:
+                r = httpx.get(f"{SUPABASE_URL}/rest/v1/chunks_v2", headers=H,
+                              params={"select": "id,content", "id": f"in.({q})"}, timeout=20)
+                for x in r.json():
+                    out[x["id"]] = x.get("content")
+            except Exception:
+                pass
+        return out
+
     out = []
     for miss in fam["misses"]:
-        qid = miss["qid"]; res = res_by_qid[qid]; g = golds[qid]; q = g["question"]
+        res = res_by_qid[miss["qid"]]
         man = {c["id"]: c for c in res.get("manual_pin", [])}
         fact = next((f for f in res["facts"] if f["valor"] == miss["valor"]), {})
         sup = [i for i, v in (fact.get("votes") or {}).items() if v >= THRESH_FIRM and i in man]
-        cont = _fetch_content(sup)
-        val_chunks = [{"id": i, "source_file": man[i].get("src"), "pm": man[i].get("pm"),
-                       "content": cont.get(i, "")} for i in sup]
-        if qid not in wide_cache:
-            try:
-                wide_cache[qid] = [c.get("id") for c in vector_search(q, 200, 0.0, None, None, None)]
-            except Exception:
-                wide_cache[qid] = []
-            kw = set()
-            for m in extract_product_models(q):
-                try:
-                    kw |= {c.get("id") for c in keyword_search(m, limit=30)}
-                except Exception:
-                    pass
-            kw_cache[qid] = kw
-        out.append(diagnose_miss(g, miss, res.get("pool_pin", []), val_chunks,
-                                 wide_cache[qid], kw_cache[qid]))
-    from collections import Counter
-    print("retrieval-miss FAMILY-AWARE =", fam["retrieval_miss_family"])
-    print("\n=== (PUNTO-FALLO × MOTIVO) por miss ===")
+        cont = fetch_content(sup)
+        val_chunks = [{"id": i, "source_file": man[i].get("src"), "content": cont.get(i, "")} for i in sup]
+        out.append(diagnose_miss(golds[miss["qid"]], miss, res.get("pool_pin", []), val_chunks))
+    print("retrieval-miss FAMILY-AWARE =", fam["retrieval_miss_family"],
+          "| UNRESOLVED:", fam.get("unresolved"), "| meta excl:", fam.get("n_meta_excluded"))
+    print("\n=== (ETAPA-FALLO × MOTIVOS) por miss ===")
     for o in out:
-        print(f"  {o['qid']:8} {o['valor'][:22]!r:24} [{o['punto_fallo']:13}|{o['motivo']:12}] → {o['lever']}")
-    print("\n=== distribución PUNTO-FALLO ===", dict(Counter(o["punto_fallo"] for o in out)))
-    print("=== distribución MOTIVO ===", dict(Counter(o["motivo"] for o in out)))
-    json.dump({"misses": out, "retrieval_miss_family": fam["retrieval_miss_family"]},
+        print(f"  {o['qid']:8} {o['valor'][:20]!r:22} [{o['etapa']:12}] motivos={o['motivos']} → {o['lever'][:48]}")
+    print("\n=== distribución ETAPA-DE-FALLO (MECE) ===", dict(Counter(o["etapa"] for o in out)))
+    json.dump({"misses": out, "retrieval_miss_family": fam["retrieval_miss_family"],
+               "unresolved": fam.get("unresolved")},
               open(os.path.join(os.getcwd(), "evals", "s85_b1_diagnosis.json"), "w", encoding="utf-8"),
               ensure_ascii=False, indent=1)
 
