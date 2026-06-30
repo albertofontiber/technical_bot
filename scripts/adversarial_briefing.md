@@ -39,7 +39,12 @@ la fuente o el árbitro end-to-end) · perfeccionismo-de-instrumento · contamin
 freeze-contract (congelar los golds ≠ congelar corpus/índice/embeddings/juez/seeds/config; un
 A/B que solo fija el gold NO aísla el lever si el índice o el juez cambian) · apuesta
 anticipatoria no-eval-driven (cambio justificado solo por principio, sin delta medible — válido
-a veces, pero debe declararse como tal, no disfrazarse de medido).
+a veces, pero debe declararse como tal, no disfrazarse de medido) · **mismatch de métrica del
+«settled»** (un veredicto NO-GO/ROLLBACK/«settled» citado se midió en una MÉTRICA distinta del
+objetivo actual —p.ej. NO-GO-en-PASS usado para zanjar un lever medido en retrieval-miss— → el
+lever NO está zanjado; marca el MISMATCH, no endoses el kill) · **brief sin OBJETIVO+MÉTRICA
+declarados** (no puedes auditar un kill «settled» contra un objetivo no declarado → exígelo y
+señálalo como fallo de framing del AUTOR, no del revisor).
 
 ## Si tienes acceso al repo, ÁRMATE con las fuentes canónicas
 `TECH_DEBT.md`, `docs/RULER_DESIGN.md`, `docs/ADVERSARIAL_REVIEWER.md`, y la memoria del
