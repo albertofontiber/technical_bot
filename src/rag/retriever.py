@@ -519,9 +519,8 @@ def content_search(
     search_term: str,
     limit: int = 5,
     product_model: str | None = None,
-    category: str | None = None,
 ) -> list[dict]:
-    """Search chunks by content (+ optional model/category filters).
+    """Search chunks by content (+ optional model filter).
 
     When ``product_model`` is provided, we bypass the ``search_chunks_text`` RPC
     (whose ``filter_product`` clause does strict equality and silently returns
@@ -529,13 +528,17 @@ def content_search(
     PostgREST directly with ``imatch`` on ``product_model`` + ``ilike`` on
     ``content``.  Without a model, the RPC's fts ranking is still the best
     path.
+
+    (s85, DEC-071) The ``category`` filter was removed: ``chunks_v2.category`` is
+    the DEAD column (0 canonical rows since the SWAP s44) — filtering by it only
+    ever returned 0 rows.
     """
     headers_get = {
         "apikey": SUPABASE_SERVICE_KEY,
         "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
     }
-    # Determine score: higher when filtered by model or category (more targeted)
-    has_filter = product_model or category
+    # Determine score: higher when filtered by model (more targeted)
+    has_filter = product_model
     base_score = 0.80 if has_filter else 0.70
 
     # --- Path A: product_model set → skip RPC, use PostgREST imatch ---
@@ -549,8 +552,6 @@ def content_search(
             "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,language,has_diagram,diagram_url,source_file,page_number,document_id",
             "limit": str(limit),
         }
-        if category:
-            params["category"] = f"eq.{category}"
         try:
             with httpx.Client(timeout=3.0) as client:
                 resp = client.get(
@@ -576,7 +577,7 @@ def content_search(
         "search_query": search_term,
         "filter_product": None,
         "filter_manufacturer": None,
-        "filter_category": category,
+        "filter_category": None,
         "match_limit": limit,
     }
     try:
@@ -600,8 +601,6 @@ def content_search(
         "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,language,has_diagram,diagram_url,source_file,page_number,document_id",
         "limit": str(limit),
     }
-    if category:
-        params["category"] = f"eq.{category}"
     try:
         with httpx.Client(timeout=3.0) as client:
             resp = client.get(
@@ -1055,22 +1054,11 @@ def retrieve_chunks(
     # Step 1: Detect product models in query
     models = extract_product_models(query)
 
-    # Step 1b: Detect category from query keywords
-    # Check compound phrases first (longest match wins), then single words
-    detected_category = category_filter
-    if not detected_category:
-        query_lower = query.lower()
-        # Phase 1: compound phrases (more specific)
-        for phrase, cat in _CATEGORY_PHRASES:
-            if phrase in query_lower:
-                detected_category = cat
-                break
-        # Phase 2: single-word fallback
-        if not detected_category:
-            for term, cat in CATEGORY_TERMS.items():
-                if term in query_lower:
-                    detected_category = cat
-                    break
+    # (s85, DEC-071) Query-category detection was removed here: it only ever fed the dead
+    # `category` filter (chunks_v2.category = 0 canonical rows since the SWAP s44). The
+    # `category_filter` param is kept for API stability but is now inert. The category
+    # detection that feeds the CATALOG lives separately in the handler (telegram_bot.py,
+    # CATEGORY_TERMS → get_category_models) and is untouched.
 
     # For comparisons (2+ models), increase top_k to get enough chunks from each model
     effective_top_k = top_k * len(models) if len(models) >= 2 else top_k
@@ -1091,48 +1079,18 @@ def retrieve_chunks(
     query_embedding = embed_query(embedding_text)
 
     # Step 2 + 2b: Vector searches run in PARALLEL
-    # (category-filtered + broad fallback)
-    #
-    # (s68, MERGE_STRATEGY≠stamps — L-i′, réplica de s59/DEC-040): el canal vectorial
-    # principal corre SIN filter_category (con category detectada devuelve 0 filas en
-    # ~85% de queries: chunks_v2 tiene 0 chunks con categoría canónica, re-verificado
-    # 12-jun-s68) y el broad-5 desaparece (redundante con el canal sano). Bajo
-    # `stamps` el comportamiento es el histórico EXACTO.
-    vector_results = []
-    vector_futures = []
-    _li_sano = MERGE_STRATEGY != "stamps"
-    # (s84) VECTOR_NOCAT (default OFF): the main vector channel filters by `detected_category`
-    # under stamps, but `chunks_v2.category` is DEAD (0 canonical rows since the SWAP, DEC-040)
-    # → returns 0 rows for ~85% of queries → the semantic channel is silently dead. This flag
-    # bypasses the dead filter (category=None) WHILE KEEPING stamps merge (isolated from the
-    # cosine-merge of L-i′/DEC-050). It is the category-bug fix, measurable on RETRIEVAL.
-    _nocat = os.getenv("VECTOR_NOCAT", "").strip().lower() in ("1", "true", "yes", "on")
-    with ThreadPoolExecutor(max_workers=2) as pool:
-        # Main vector search (with category filter if detected; sin filtro bajo L-i′ o VECTOR_NOCAT)
-        vector_futures.append(pool.submit(
-            vector_search, query, effective_top_k, threshold,
-            product_filter, None if (_li_sano or _nocat) else detected_category, query_embedding,
-        ))
-        # Broad search without category (only if category was auto-detected).
-        # (s84) Under VECTOR_NOCAT the main channel is already alive (uncapped) → the
-        # broad-5 workaround is redundant and only adds global no-model noise → skip.
-        if detected_category and not category_filter and not _li_sano and not _nocat:
-            # s74 Lever 1 / 2a (LEVER1_BROAD_FALLBACK, default off = limit 5, inerte): el broad-
-            # fallback capeado a 5 = top-5 GLOBAL sin filtro-modelo → el chunk model-correcto
-            # (rank 13-33) no entra al pool. Con flag: effective_top_k para que el canal vectorial
-            # sano alcance su profundidad real. Aditivo-en-cabeza bajo stamps (cosenos 0.5x <
-            # stamps keyword 0.65); reordenable-en-cola para coseno>0.65 — el reranker re-selecciona.
-            _broad_limit = effective_top_k if os.getenv(
-                "LEVER1_BROAD_FALLBACK", "").strip().lower() in ("1", "true", "yes", "on") else 5
-            vector_futures.append(pool.submit(
-                vector_search, query, _broad_limit, threshold,
-                product_filter, None, query_embedding,
-            ))
-        for f in vector_futures:
-            try:
-                vector_results.extend(f.result())
-            except Exception:
-                pass
+    # Main vector channel — runs WITHOUT a category filter (s85, DEC-071: limpieza de raíz).
+    # `chunks_v2.category` has been DEAD since the SWAP s44 (0 canonical rows, DEC-040):
+    # filtering by it returned 0 rows for ~85% of queries, silently killing the semantic
+    # channel. The fix (measured as VECTOR_NOCAT in s84, now permanent) drops the dead filter,
+    # and the old broad-5 fallback (the workaround for that dead channel, DEC-040) is removed
+    # with it. MERGE_STRATEGY (the merge lever) is untouched downstream.
+    try:
+        vector_results = vector_search(
+            query, effective_top_k, threshold, product_filter, None, query_embedding,
+        )
+    except Exception:
+        vector_results = []
     _tag_channel(vector_results, "VECTOR")
 
     # Step 3: Keyword search for each detected model
@@ -1212,41 +1170,25 @@ def retrieve_chunks(
     # All content_search calls run in PARALLEL to avoid sequential latency.
     if not models:
         query_lower = query.lower()
-        query_keywords = extract_search_keywords(query)
 
-        # Collect all search tasks: (search_term, limit, category, boost)
-        search_tasks: list[tuple[str, int, str | None, float]] = []
+        # Collect all search tasks: (search_term, limit, boost)
+        search_tasks: list[tuple[str, int, float]] = []
 
-        # 3c-i: Synonym-based content search within detected category (high priority).
-        # (s68, MERGE_STRATEGY≠stamps — L-i′): ELIMINADAS bajo las variantes, réplica
-        # de s59/DEC-040 ("devolvían 0 filas SIEMPRE"); premisa RE-VERIFICADA hoy
-        # contra el corpus actual (0 chunks con categoría canónica en chunks_v2,
-        # pre-check Y1 del diseño v6.1 — rama pre-registrada: con >0 filas se habrían
-        # CONSERVADO para no colar un segundo lever).
-        # (s84) `… and not _nocat`: these 3c-i tasks filter by the DEAD `category`
-        # column (0 rows since the SWAP, DEC-040) → under the bug-fix they are skipped
-        # (they returned 0 anyway; the 3c-ii generic fallback below stays). Completes the
-        # category-bug fix on the content channel for no-model queries (matches L-i scope).
-        if detected_category and MERGE_STRATEGY == "stamps" and not _nocat:
-            for phrase, synonym in QUERY_SYNONYMS.items():
-                if phrase in query_lower:
-                    search_tasks.append((synonym, 10, detected_category, 0.85))
-
-            # Also search each keyword within the category
-            for kw in query_keywords:
-                search_tasks.append((kw, 10, detected_category, 0.80))
+        # 3c-i REMOVED (s85, DEC-071): the synonym/keyword tasks here filtered no-model
+        # content_search by the DEAD `category` column (0 rows since the SWAP, DEC-040) →
+        # they always returned 0. Only the 3c-ii generic fallback (no category) survives.
 
         # 3c-ii: PCI terms generic search (broader, lower priority)
         for term, search_key in PCI_TERMS.items():
             if term in query_lower:
-                search_tasks.append((search_key, 10, None, 0.70))
+                search_tasks.append((search_key, 10, 0.70))
                 break  # One term match is enough
 
         # Execute all content searches in parallel (max 6 concurrent)
         if search_tasks:
             def _run_search(task: tuple) -> list[dict]:
-                term, lim, cat, boost = task
-                results = content_search(term, limit=lim, category=cat)
+                term, lim, boost = task
+                results = content_search(term, limit=lim)
                 for c in results:
                     c["similarity"] = boost
                 return results
@@ -1331,14 +1273,11 @@ def _diversify_by_manufacturer(chunks: list[dict], top_k: int, original_query: s
         mfr = chunk.get("manufacturer", "unknown")
         by_mfr[mfr].append(chunk)
 
-    # Identify the dominant category from the top results.
-    # (s84) 4th site of the category bug (DEC-040 "A6 tocar 5b"): `chunks[0].category`
-    # is the DEAD column (58% NULL / 25% 'ES' / inventory labels) → using it to gate the
-    # manufacturer-diversity fetch filters by garbage → degrades diversity for no-model
-    # queries. Under VECTOR_NOCAT drop it: still diversify across manufacturers, just by
-    # query relevance, WITHOUT the dead-category filter.
-    _nocat = os.getenv("VECTOR_NOCAT", "").strip().lower() in ("1", "true", "yes", "on")
-    category = None if _nocat else (chunks[0].get("category") if chunks else None)
+    # (s85, DEC-071) The manufacturer-diversity fetch no longer gates on category:
+    # `chunks[0].category` is the DEAD column (58% NULL / 25% 'ES' / inventory labels,
+    # DEC-040) → using it filtered by garbage and degraded diversity. We diversify across
+    # manufacturers by query relevance, WITHOUT the dead-category filter.
+    category = None
 
     # Find underrepresented manufacturers: absent or with < min_per_mfr
     # CATEGORY-MATCHED results (off-category results don't count)
@@ -1352,8 +1291,8 @@ def _diversify_by_manufacturer(chunks: list[dict], top_k: int, original_query: s
             underrepresented.append(m)
 
     # Run supplementary searches for underrepresented manufacturers (in PARALLEL).
-    # Under VECTOR_NOCAT the supplement runs WITHOUT category (None passed downstream).
-    if (category or _nocat) and underrepresented:
+    # category is None (dead-column filter removed, s85) → supplement runs WITHOUT category.
+    if underrepresented:
         slots_each = max(2, top_k // len(all_known_mfrs))
 
         def _search_mfr(mfr: str) -> tuple[str, list[dict]]:

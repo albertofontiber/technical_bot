@@ -56,7 +56,7 @@ def test_2b_keyword_flag_adds_order_and_raises_limit(monkeypatch):
     assert p["limit"] == "15"                         # limit subido para que el winner entre
 
 
-# ====================== 2a: broad-fallback limit ======================
+# ============= broad-fallback REMOVED (s85, DEC-071) =============
 
 def _run_retrieve_capturing_vector(monkeypatch):
     calls = []
@@ -72,19 +72,17 @@ def _run_retrieve_capturing_vector(monkeypatch):
     monkeypatch.setattr(R, "content_search", lambda *a, **k: [])
     monkeypatch.setattr(R, "diagram_search", lambda *a, **k: [])
     monkeypatch.setattr(R, "typed_search", lambda *a, **k: [])
-    # query con categoría ("detector") y SIN modelo → dispara el broad-fallback
-    # (detected_category set, _li_sano False bajo stamps); effective_top_k = top_k (sin modelos).
+    # query con categoría ("detector") y SIN modelo. Antes disparaba el broad-fallback;
+    # tras la limpieza s85 sólo corre el canal principal (a effective_top_k, category=None).
     R.retrieve_chunks("cómo funciona un detector", top_k=50)
-    return [c for c in calls if c["category"] is None]  # el broad corre sin categoría
+    return calls
 
 
-def test_2a_broad_fallback_default_inert(monkeypatch):
-    monkeypatch.delenv("LEVER1_BROAD_FALLBACK", raising=False)
-    broad = _run_retrieve_capturing_vector(monkeypatch)
-    assert broad and broad[0]["limit"] == 5     # capeado a 5 = comportamiento histórico
-
-
-def test_2a_broad_fallback_flag_uses_effective_top_k(monkeypatch):
-    monkeypatch.setenv("LEVER1_BROAD_FALLBACK", "on")
-    broad = _run_retrieve_capturing_vector(monkeypatch)
-    assert broad and broad[0]["limit"] == 50    # effective_top_k (=top_k=50, sin modelos)
+def test_broad_fallback_removed_single_vector_call(monkeypatch):
+    """(s85, DEC-071) El broad-5 (workaround del canal muerto, DEC-040) está eliminado:
+    una sola llamada vectorial (el canal principal), a effective_top_k y SIN filtro de
+    categoría. El flag legacy LEVER1_BROAD_FALLBACK ya no existe."""
+    calls = _run_retrieve_capturing_vector(monkeypatch)
+    assert len(calls) == 1, f"se esperaba 1 sola llamada vectorial (sin broad-5); got {calls}"
+    assert calls[0]["category"] is None, "el canal principal corre sin filtro de categoría"
+    assert calls[0]["limit"] == 50, "el canal principal corre a effective_top_k (=top_k=50)"
