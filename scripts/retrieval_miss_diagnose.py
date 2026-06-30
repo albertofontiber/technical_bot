@@ -41,45 +41,90 @@ def _lang(text: str) -> str:
     return "EN" if en > es * 1.5 else ("ES" if es > en * 1.5 else "?")
 
 
-def diagnose_miss(gold: dict, miss: dict, pin: list[dict], val_chunks: list[dict]) -> dict:
-    """val_chunks = chunks del manual (same-family) que el juez acreditó (el dato vive ahí)."""
+# Levers accionables por (punto-de-fallo × motivo) — para B2.
+LEVER = {
+    ("PRE-RETRIEVAL", "identidad"): "model-filter / resolución de identidad (familia correcta al pool)",
+    ("PRE-RETRIEVAL", "superseding"): "detección+marcado de superseded (pre-exclude deprecados)",
+    ("RECALL", "es-en"): "es-en: alinear/traducir columna EN en vector+keyword",
+    ("RECALL", "vocab"): "HyDE / expansión de query / sinónimos",
+    ("RECALL", "token-corto"): "keyword/format-aware para tokens cortos/códigos",
+    ("RECALL", "chunking"): "re-chunk / extracción (el valor se parte/pierde)",
+    ("DEPTH", "within-doc"): "within-doc surfacing / merge / diversify-depth",
+    ("DEPTH", "competicion"): "merge/ranking depth (el candidato cae del top-50)",
+}
+
+
+def diagnose_miss(gold: dict, miss: dict, pin: list[dict], val_chunks: list[dict],
+                  wide_vids: list[str], kw_ids: set[str]) -> dict:
+    """Clasifica el miss en DOS ejes ORTOGONALES:
+      punto_fallo (MECE): PRE-RETRIEVAL | RECALL | DEPTH
+      motivo (raíz): identidad | superseding | es-en | vocab | within-doc | chunking | token-corto
+    val_chunks = chunks del manual (same-family) que el juez acreditó (el dato vive ahí)."""
     q = gold["question"]
     gfam = set(miss.get("gold_family") or [])
     pool_fams = {fam_norm(c.get("pm")) for c in pin}
     pool_srcs = {c.get("src") for c in pin}
-    # CANAL 1 — IDENTIDAD: ¿hay algún chunk de la familia correcta en el pool?
-    family_in_pool = bool(gfam & pool_fams) if gfam else None
-    # CANAL 4 — PROFUNDIDAD/within-doc: ¿el manual del chunk-valor está en el pool (otros chunks) pero no el valor?
+    val_ids = {c.get("id") for c in val_chunks}
     val_srcs = {c.get("source_file") for c in val_chunks}
-    manual_in_pool = bool(val_srcs & pool_srcs)
-    # CANAL 2 — VECTOR: rank del chunk-valor en el canal vectorial (top 200)
-    vrank = None
-    try:
-        vres = vector_search(q, 200, 0.0, None, None, None)
-        vids = [c.get("id") for c in vres]
-        for c in val_chunks:
-            if c.get("id") in vids:
-                vrank = min(vrank or 1e9, vids.index(c.get("id")) + 1)
-    except Exception:
-        pass
-    # MOTIVO — es-en: ¿el chunk-valor es EN y la query/valor ES?
-    val_lang = _lang(" ".join((c.get("content") or "")[:600] for c in val_chunks))
+
+    # SEÑALES (ortogonales, computadas todas)
+    family_in_pool = bool(gfam & pool_fams) if gfam else None      # ¿familia correcta en pool?
+    manual_in_pool = bool(val_srcs & pool_srcs)                    # ¿el manual del valor en pool (otros chunks)?
+    in_wide_vector = bool(val_ids & set(wide_vids))               # ¿candidato en vector-top-200?
+    vrank = min([wide_vids.index(i) + 1 for i in val_ids if i in wide_vids], default=None)
+    in_keyword = bool(val_ids & kw_ids)                           # ¿candidato vía keyword?
+    is_candidate = in_wide_vector or in_keyword
+    val_lang = _lang(" ".join((c.get("content") or "")[:800] for c in val_chunks))
     q_lang = _lang(q + " " + miss.get("valor", ""))
     es_en = (val_lang == "EN" and q_lang == "ES")
-    # síntesis de canal × motivo
-    if gfam and family_in_pool is False:
-        canal = "IDENTIDAD"; motivo = "familia-correcta-no-recuperada (solo familia equivocada en pool)"
-    elif manual_in_pool:
-        canal = "PROFUNDIDAD/within-doc"; motivo = "manual en pool, chunk-valor compite y rankea >50"
-    elif es_en:
-        canal = "VECTOR/LÉXICO"; motivo = "es-en (valor en EN, query ES)"
-    elif vrank and vrank <= 200:
-        canal = "PROFUNDIDAD/VECTOR"; motivo = f"chunk-valor rankea {vrank} en vector (fuera del top-50)"
+    short_tok = len(re.sub(r"\s", "", miss.get("valor", ""))) <= 4
+
+    # EJE 1 — PUNTO DE FALLO (MECE, secuencial):
+    if gfam and (family_in_pool is False) and not is_candidate and not manual_in_pool:
+        punto = "PRE-RETRIEVAL"        # el manual de la familia correcta ni aparece → filtrado/no-surfaceado
+    elif is_candidate:
+        punto = "DEPTH"               # era candidato (vector-200/keyword) pero no llegó al top-50
     else:
-        canal = "VECTOR/LÉXICO"; motivo = "ni vector(top200) ni léxico surfacean el chunk-valor (vocab/chunking)"
-    return {"qid": miss["qid"], "valor": miss["valor"], "canal": canal, "motivo": motivo,
-            "family_in_pool": family_in_pool, "manual_in_pool": manual_in_pool,
-            "vector_rank": vrank, "val_lang": val_lang, "es_en": es_en}
+        punto = "RECALL"             # ni vector-200 ni keyword lo trajeron como candidato
+
+    # EJE 2 — MOTIVO (raíz, ortogonal — el dominante):
+    if punto == "PRE-RETRIEVAL":
+        motivo = "identidad"          # (superseding se marca aparte si el doc es deprecado — TODO transversal)
+    elif manual_in_pool:
+        motivo = "within-doc"         # el manual está en pool, el chunk-valor compite
+    elif es_en:
+        motivo = "es-en"
+    elif short_tok:
+        motivo = "token-corto"
+    elif punto == "DEPTH":
+        motivo = "competicion"
+    else:
+        motivo = "vocab"             # recall sin es-en/token-corto → vocab/chunking (refinar con contenido)
+
+    lever = LEVER.get((punto, motivo)) or LEVER.get((punto, "competicion")) or "revisar manual"
+    return {"qid": miss["qid"], "valor": miss["valor"], "punto_fallo": punto, "motivo": motivo,
+            "lever": lever,
+            "señales": {"family_in_pool": family_in_pool, "manual_in_pool": manual_in_pool,
+                        "in_wide_vector": in_wide_vector, "vector_rank": vrank,
+                        "in_keyword": in_keyword, "val_lang": val_lang, "es_en": es_en,
+                        "short_tok": short_tok}}
+
+
+def _fetch_content(ids: list[str]) -> dict:
+    import httpx
+    from src.config import SUPABASE_URL, SUPABASE_SERVICE_KEY
+    H = {"apikey": SUPABASE_SERVICE_KEY, "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}"}
+    out = {}
+    for i in range(0, len(ids), 40):
+        ch = ids[i:i + 40]; q = ",".join(f'"{x}"' for x in ch)
+        try:
+            r = httpx.get(f"{SUPABASE_URL}/rest/v1/chunks_v2", headers=H,
+                          params={"select": "id,content", "id": f"in.({q})"}, timeout=20)
+            for x in r.json():
+                out[x["id"]] = x.get("content")
+        except Exception:
+            pass
+    return out
 
 
 def main(run_path: str):
@@ -88,22 +133,38 @@ def main(run_path: str):
     res_by_qid = {r["qid"]: r for r in d["reps"][0]["results"]}
     golds = {g["qid"]: g for g in yaml.safe_load(
         open(os.path.join(os.getcwd(), "evals", "gold_answers_v1.yaml"), encoding="utf-8"))}
+    # cache por gold de vector-wide + keyword (varios misses comparten gold)
+    wide_cache, kw_cache = {}, {}
     out = []
     for miss in fam["misses"]:
-        res = res_by_qid[miss["qid"]]
+        qid = miss["qid"]; res = res_by_qid[qid]; g = golds[qid]; q = g["question"]
         man = {c["id"]: c for c in res.get("manual_pin", [])}
-        # chunk-valor = votos del fact en el manual (recupera el fact por valor)
         fact = next((f for f in res["facts"] if f["valor"] == miss["valor"]), {})
-        sup = [i for i, v in (fact.get("votes") or {}).items() if v >= THRESH_FIRM]
+        sup = [i for i, v in (fact.get("votes") or {}).items() if v >= THRESH_FIRM and i in man]
+        cont = _fetch_content(sup)
         val_chunks = [{"id": i, "source_file": man[i].get("src"), "pm": man[i].get("pm"),
-                       "content": ""} for i in sup if i in man]
-        out.append(diagnose_miss(golds[miss["qid"]], miss, res.get("pool_pin", []), val_chunks))
+                       "content": cont.get(i, "")} for i in sup]
+        if qid not in wide_cache:
+            try:
+                wide_cache[qid] = [c.get("id") for c in vector_search(q, 200, 0.0, None, None, None)]
+            except Exception:
+                wide_cache[qid] = []
+            kw = set()
+            for m in extract_product_models(q):
+                try:
+                    kw |= {c.get("id") for c in keyword_search(m, limit=30)}
+                except Exception:
+                    pass
+            kw_cache[qid] = kw
+        out.append(diagnose_miss(g, miss, res.get("pool_pin", []), val_chunks,
+                                 wide_cache[qid], kw_cache[qid]))
     from collections import Counter
     print("retrieval-miss FAMILY-AWARE =", fam["retrieval_miss_family"])
-    print("\n=== (CANAL × MOTIVO) por miss ===")
+    print("\n=== (PUNTO-FALLO × MOTIVO) por miss ===")
     for o in out:
-        print(f"  {o['qid']:8} {o['valor'][:24]!r:26} [{o['canal']}] {o['motivo']}")
-    print("\n=== distribución por CANAL ===", dict(Counter(o["canal"] for o in out)))
+        print(f"  {o['qid']:8} {o['valor'][:22]!r:24} [{o['punto_fallo']:13}|{o['motivo']:12}] → {o['lever']}")
+    print("\n=== distribución PUNTO-FALLO ===", dict(Counter(o["punto_fallo"] for o in out)))
+    print("=== distribución MOTIVO ===", dict(Counter(o["motivo"] for o in out)))
     json.dump({"misses": out, "retrieval_miss_family": fam["retrieval_miss_family"]},
               open(os.path.join(os.getcwd(), "evals", "s85_b1_diagnosis.json"), "w", encoding="utf-8"),
               ensure_ascii=False, indent=1)
