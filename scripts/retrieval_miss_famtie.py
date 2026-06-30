@@ -88,6 +88,32 @@ def gold_family(primary: list[str], targets: list[str], fuente: str) -> set[str]
     return fams
 
 
+def _pm_by_ids(ids: list[str]) -> dict:
+    """product_model de chunks por ID (deterministe). Salva el bug manual_pin pm=None sin re-juzgar."""
+    out = {}
+    ids = [i for i in ids if i]
+    for i in range(0, len(ids), 50):
+        ch = ids[i:i + 50]; q = ",".join(f'"{x}"' for x in ch)
+        try:
+            r = httpx.get(f"{SUPABASE_URL}/rest/v1/chunks_v2", headers=_H,
+                          params={"select": "id,product_model", "id": f"in.({q})"}, timeout=20)
+            for x in r.json():
+                out[x["id"]] = x.get("product_model")
+        except Exception:
+            pass
+    return out
+
+
+# Meta-referencia = el `valor` es un PUNTERO (nombre de manual/sección/apéndice/tabla), NO un dato
+# recuperable. No debe contar como retrieval-miss. Predicado principial (no string hardcodeado).
+_META_RE = re.compile(r"^\s*(ap[eé]ndice|anexo|secci[oó]n|cap[ií]tulo|tabla|manual|figura|p[aá]gina)\b",
+                      re.I)
+
+
+def _is_meta_ref(valor: str) -> bool:
+    return bool(_META_RE.match(valor or ""))
+
+
 def rederive(run_path: str) -> dict:
     d = yaml.safe_load(open(run_path, encoding="utf-8"))
     results = d["reps"][0]["results"]
@@ -96,21 +122,40 @@ def rederive(run_path: str) -> dict:
     agg = Counter()
     per_gold = {}
     misses = []
+    unresolved = []          # golds sin familia resoluble (NO fail-open: se excluyen y reportan)
+    n_meta = 0
     for res in results:
         fuente = ((golds.get(res["qid"], {}).get("_provenance") or {}).get("fuente", ""))
         gfam = gold_family(res.get("primary") or [], res.get("targets") or [], fuente)
         pin = {c["id"]: c for c in res.get("pool_pin", [])}
         man = {c["id"]: c for c in res.get("manual_pin", [])}
+        # CRÍTICO #1 fix: manual_pin venía con pm=None (SELECT sin product_model). Lo parcheo
+        # por-ID (sin re-juzgar). Solo los chunks-manual votados (no todo el manual).
+        man_need = [i for i, c in man.items() if c.get("pm") in (None, "")]
+        if man_need:
+            for cid, pmv in _pm_by_ids(man_need).items():
+                if cid in man:
+                    man[cid] = {**man[cid], "pm": pmv}
         top5 = set(res.get("top5_ids", []))
+
+        # CRÍTICO #2 fix: si la familia del gold NO se resuelve → UNRESOLVED (excluir+reportar),
+        # NO fail-open (que desinflaría misses silenciosamente).
+        measurable_facts = [f for f in res["facts"] if not _is_meta_ref(f["valor"])]
+        if not gfam and measurable_facts:
+            unresolved.append(res["qid"])
+            per_gold[res["qid"]] = {"UNRESOLVED": len(measurable_facts)}
+            continue
+
         gb = Counter()
         for f in res["facts"]:
-            if f["valor"] == "manual de variaciones Espana":   # meta-ref, no es dato recuperable
+            if _is_meta_ref(f["valor"]):     # meta-ref (Apéndice/Manual/Tabla…): no es dato recuperable
+                n_meta += 1
                 continue
             sup = [i for i, v in (f.get("votes") or {}).items() if v >= THRESH_FIRM]
 
             def same_fam(cid):
                 c = pin.get(cid) or man.get(cid)
-                return bool(c) and ((not gfam) or (fam_norm(c.get("pm")) in gfam))
+                return bool(c) and (fam_norm(c.get("pm")) in gfam)   # gfam garantizado no-vacío aquí
 
             in_top5 = any((cid in top5) and same_fam(cid) for cid in sup)
             in_pool = any((cid in pin) and same_fam(cid) for cid in sup)
@@ -124,7 +169,8 @@ def rederive(run_path: str) -> dict:
                                "sup_fams": [x for x in sup_fams if x]})
         per_gold[res["qid"]] = dict(gb)
     return {"agg": dict(agg), "retrieval_miss_family": agg.get("RETRIEVAL", 0),
-            "n_facts": sum(agg.values()), "misses": misses, "per_gold": per_gold}
+            "n_facts": sum(agg.values()), "misses": misses, "per_gold": per_gold,
+            "unresolved": unresolved, "n_meta_excluded": n_meta}
 
 
 if __name__ == "__main__":
