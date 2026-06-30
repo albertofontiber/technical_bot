@@ -220,13 +220,18 @@ def measure_gold(gold: dict, workers: int = 6) -> dict:
 # ───────────────────────── agregación + manifest ─────────────────────────
 def aggregate(results: list[dict]) -> dict:
     agg = {"by_primary": Counter(), "by_target": Counter()}
+    n_fail_total = facts_with_fail = 0
     for r in results:
         for f in r["facts"]:
             agg["by_primary"][f["bucket_primary"]] += 1
             agg["by_target"][f["bucket_target"]] += 1
+            nf = f.get("n_fail", 0)
+            n_fail_total += nf
+            facts_with_fail += int(nf > 0)
     return {"by_primary": dict(agg["by_primary"]), "by_target": dict(agg["by_target"]),
             "retrieval_miss_primary": agg["by_primary"].get("RETRIEVAL", 0),
-            "retrieval_miss_target": agg["by_target"].get("RETRIEVAL", 0)}
+            "retrieval_miss_target": agg["by_target"].get("RETRIEVAL", 0),
+            "n_fail_total": n_fail_total, "facts_with_fail": facts_with_fail}
 
 
 def manifest(extra: dict) -> dict:
@@ -307,20 +312,47 @@ def main():
         print(f"[written] {out}")
         return
 
+    # Resumibilidad (los runs largos mueren al cerrarse la sesión): cada gold completado se
+    # persiste a <out>.partial.jsonl; al arrancar se cargan y se SALTAN los ya hechos.
+    out_name = args.out or f"s85_retrieval_miss_{args.mode}.yaml"
+    partial = ROOT / "evals" / (out_name + ".partial.jsonl")
+    done = {}
+    if partial.exists():
+        skipped_bad = 0
+        for line in partial.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            rec = json.loads(line)
+            nf = sum(f.get("n_fail", 0) for f in rec["result"].get("facts", []))
+            if nf > 0:           # gold corrupto (cuota/rate-limit) → re-correr limpio
+                skipped_bad += 1
+                continue
+            done[(rec["rep"], rec["qid"])] = rec["result"]
+        print(f"[resume] {len(done)} (rep,gold) limpios cargados, {skipped_bad} corruptos (n_fail>0) se re-corren",
+              flush=True)
+
     reps_out = []
     for rep in range(args.reps):
         t0 = time.time()
         results = []
         for qid in qids:
-            r = measure_gold(dev[qid], workers=args.workers)
+            if (rep, qid) in done:
+                r = done[(rep, qid)]
+            else:
+                r = measure_gold(dev[qid], workers=args.workers)
+                with partial.open("a", encoding="utf-8") as fh:
+                    fh.write(json.dumps({"rep": rep, "qid": qid, "result": r}, ensure_ascii=False) + "\n")
             results.append(r)
             agg_q = Counter(f["bucket_primary"] for f in r["facts"])
-            print(f"  rep{rep} {qid}: {dict(agg_q)}  (pool={r['pool_n']} manual={r['manual_n']})", flush=True)
+            nf = sum(f.get("n_fail", 0) for f in r["facts"])
+            print(f"  rep{rep} {qid}: {dict(agg_q)}  (pool={r['pool_n']} manual={r['manual_n']}"
+                  f"{' n_fail='+str(nf) if nf else ''})", flush=True)
         agg = aggregate(results)
         reps_out.append({"rep": rep, "agg": agg, "results": results,
                          "elapsed_s": round(time.time() - t0, 1)})
-        print(f"  rep{rep} AGG primary={agg['by_primary']} | retrieval_miss(primary)={agg['retrieval_miss_primary']}",
-              flush=True)
+        print(f"  rep{rep} AGG primary={agg['by_primary']} | retrieval_miss(primary)={agg['retrieval_miss_primary']}"
+              f" | n_fail={agg['n_fail_total']} (facts_afectados={agg['facts_with_fail']}) "
+              f"{'<<< CORRUPTO si >0' if agg['n_fail_total'] else 'LIMPIO'}", flush=True)
 
     out = ROOT / "evals" / (args.out or f"s85_retrieval_miss_{args.mode}.yaml")
     out.write_text(yaml.safe_dump(
