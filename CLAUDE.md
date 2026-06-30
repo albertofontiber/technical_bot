@@ -44,7 +44,10 @@ Cuando presentes la propuesta → incluye SIEMPRE, visible en el texto:
 1. la recomendación;
 2. alternativas consideradas y por qué se descartan;
 3. gaps / riesgos conocidos (declarados de entrada, sin esperar pushback);
-4. por qué es BP + estructural + escalable.
+4. por qué es BP + estructural + escalable;
+5. **si toca un lever YA medido:** declara visible la MÉTRICA del objetivo de HOY + la métrica de
+   cada «settled/NO-GO» citado + si coinciden (un settled-en-PASS NO zanja un lever medido en
+   retrieval-miss). La visibilidad ES el control.
 
 La ausencia de (2) y (3) en una propuesta es la señal de que no hiciste el
 análisis. La visibilidad ES el control — no una auto-pregunta privada.
@@ -78,7 +81,7 @@ premisa no verificada de contextual-retrieval — `feedback_my_bias`: el sistema
 | Autorar/editar un gold | **ANTES (selección, s50):** revisa las preguntas YA existentes → **no-duplicado**; elige por **DIMENSIÓN DE FALLO desde la FUENTE** — `chunks_v2` JAMÁS criterio **ni en la SELECCIÓN** (artefactos content-pobre/fragmento = causa post-hoc, no eje de autoría). **DESPUÉS:** checklist completo de localización + verificación; ancla en la FUENTE; escribe vía `gold_store` (la puerta valida) | `RULER_DESIGN §2`; `DEC-025` |
 | Tocar retrieval/generación/una premisa/un "cimiento" | Verifica el **código y el estado real PRIMERO**; no teorices sobre premisas no verificadas (Protocolo 1 aplicado a premisas) | `DEC-022`; bias #20 |
 | Correr eval / medir un lever | Held-out **embargado**; juez GPT-5.5 + **K-mayoría** (no single-pass); 2 ejes (completitud↑ sin invención↑); freeze-contract (corpus+índice+embeddings+juez+seeds+config) | `DEC-023/015/001/021§F` |
-| Proponer/elegir un lever | **Gate/audit primero** (no pre-suponer — Protocolo 2); mide **delta en eval**, no proxies | `DEC-019/005` |
+| Proponer/elegir/opinar/**NEGAR** sobre un lever o un hecho estructural (¿existe X? ¿ya probamos Y?) | **NUNCA de memoria:** revisa el digest de levers (inyectado al inicio · `docs/LEVER_DIGEST.md`) + grep `DECISIONS.md`/`TECH_DEBT.md` ANTES de responder. **Gate/audit primero** (no pre-suponer — Protocolo 2); mide **delta en eval**, no proxies. **El "settled" tiene MÉTRICA:** cita la métrica del veredicto y verifica que coincide con el objetivo de HOY (settled-en-PASS ≠ settled-en-retrieval-miss) | `DEC-019/005`; `LEVER_DIGEST`; bias #51/#52 |
 
 **Criterio de inclusión** (que el registro no crezca arbitrario): solo procedimientos/contratos
 RECURRENTES (se aplican en un gatillo repetido), no decisiones puntuales. Extender al cerrar sesión
@@ -106,7 +109,9 @@ Antes del commit final, actualizar (en orden de canonicidad):
    estado: PLAN manda (lección s35 — el desalineamiento §9.14 vs RULER_DESIGN §4 costó una sesión).
 2. **`docs/DECISIONS.md`** — apendizar toda decisión de impacto MEDIO/ALTO de la sesión
    (decisión · motivo · alternativas descartadas · ref al `adversarial_review_log.jsonl`). Es
-   la traza para no re-litigar el rumbo en el futuro.
+   la traza para no re-litigar el rumbo en el futuro. **Si la sesión cambió el veredicto de un
+   lever** (o estableció uno nuevo), SOBRESCRIBE su fila en `docs/LEVER_DIGEST.md` in-place (el
+   digest que el hook `SessionStart` inyecta; una fila por lever, con su MÉTRICA — nunca apilar).
 3. **`docs/ARCHITECTURE.md`** (cifras, estado del sistema) + la **memoria del proyecto**. El detalle
    de sesión va al **topic file** (`memory/*.md`) + `docs/DECISIONS.md`; el índice **`MEMORY.md` es UNA
    línea por memoria (puntero estable, NO log)** — nunca apilar el resultado de la sesión en la línea
