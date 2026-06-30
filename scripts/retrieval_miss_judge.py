@@ -209,10 +209,16 @@ def measure_gold(gold: dict, workers: int = 6) -> dict:
             "borderline": bool(sup_pool_band - sup_pool), "n_fail": n_fail,
             "votes": all_votes,
         })
+    # (s85 upgrade) PIN del pool/top5/manual: guardamos id+product_model+source_file de cada chunk
+    # → la re-derivación family-aware es EXACTA (no re-retrieve, mata el ruido del pool jitter).
+    def _pin(chunks):
+        return [{"id": c.get("id"), "pm": c.get("product_model"), "src": c.get("source_file")}
+                for c in chunks]
     return {
         "qid": gold["qid"], "n_models": len(models), "servable": servable,
         "targets": targets, "primary": primary,
         "pool_n": len(pool), "manual_n": len(manual),
+        "pool_pin": _pin(pool), "top5_ids": list(top5_ids), "manual_pin": _pin(manual),
         "facts": facts_out,
     }
 
