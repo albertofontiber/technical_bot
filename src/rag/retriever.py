@@ -1101,14 +1101,22 @@ def retrieve_chunks(
     vector_results = []
     vector_futures = []
     _li_sano = MERGE_STRATEGY != "stamps"
+    # (s84) VECTOR_NOCAT (default OFF): the main vector channel filters by `detected_category`
+    # under stamps, but `chunks_v2.category` is DEAD (0 canonical rows since the SWAP, DEC-040)
+    # → returns 0 rows for ~85% of queries → the semantic channel is silently dead. This flag
+    # bypasses the dead filter (category=None) WHILE KEEPING stamps merge (isolated from the
+    # cosine-merge of L-i′/DEC-050). It is the category-bug fix, measurable on RETRIEVAL.
+    _nocat = os.getenv("VECTOR_NOCAT", "").strip().lower() in ("1", "true", "yes", "on")
     with ThreadPoolExecutor(max_workers=2) as pool:
-        # Main vector search (with category filter if detected; sin filtro bajo L-i′)
+        # Main vector search (with category filter if detected; sin filtro bajo L-i′ o VECTOR_NOCAT)
         vector_futures.append(pool.submit(
             vector_search, query, effective_top_k, threshold,
-            product_filter, None if _li_sano else detected_category, query_embedding,
+            product_filter, None if (_li_sano or _nocat) else detected_category, query_embedding,
         ))
-        # Broad search without category (only if category was auto-detected)
-        if detected_category and not category_filter and not _li_sano:
+        # Broad search without category (only if category was auto-detected).
+        # (s84) Under VECTOR_NOCAT the main channel is already alive (uncapped) → the
+        # broad-5 workaround is redundant and only adds global no-model noise → skip.
+        if detected_category and not category_filter and not _li_sano and not _nocat:
             # s74 Lever 1 / 2a (LEVER1_BROAD_FALLBACK, default off = limit 5, inerte): el broad-
             # fallback capeado a 5 = top-5 GLOBAL sin filtro-modelo → el chunk model-correcto
             # (rank 13-33) no entra al pool. Con flag: effective_top_k para que el canal vectorial
@@ -1215,7 +1223,11 @@ def retrieve_chunks(
         # contra el corpus actual (0 chunks con categoría canónica en chunks_v2,
         # pre-check Y1 del diseño v6.1 — rama pre-registrada: con >0 filas se habrían
         # CONSERVADO para no colar un segundo lever).
-        if detected_category and MERGE_STRATEGY == "stamps":
+        # (s84) `… and not _nocat`: these 3c-i tasks filter by the DEAD `category`
+        # column (0 rows since the SWAP, DEC-040) → under the bug-fix they are skipped
+        # (they returned 0 anyway; the 3c-ii generic fallback below stays). Completes the
+        # category-bug fix on the content channel for no-model queries (matches L-i scope).
+        if detected_category and MERGE_STRATEGY == "stamps" and not _nocat:
             for phrase, synonym in QUERY_SYNONYMS.items():
                 if phrase in query_lower:
                     search_tasks.append((synonym, 10, detected_category, 0.85))
@@ -1319,8 +1331,14 @@ def _diversify_by_manufacturer(chunks: list[dict], top_k: int, original_query: s
         mfr = chunk.get("manufacturer", "unknown")
         by_mfr[mfr].append(chunk)
 
-    # Identify the dominant category from the top results
-    category = chunks[0].get("category") if chunks else None
+    # Identify the dominant category from the top results.
+    # (s84) 4th site of the category bug (DEC-040 "A6 tocar 5b"): `chunks[0].category`
+    # is the DEAD column (58% NULL / 25% 'ES' / inventory labels) → using it to gate the
+    # manufacturer-diversity fetch filters by garbage → degrades diversity for no-model
+    # queries. Under VECTOR_NOCAT drop it: still diversify across manufacturers, just by
+    # query relevance, WITHOUT the dead-category filter.
+    _nocat = os.getenv("VECTOR_NOCAT", "").strip().lower() in ("1", "true", "yes", "on")
+    category = None if _nocat else (chunks[0].get("category") if chunks else None)
 
     # Find underrepresented manufacturers: absent or with < min_per_mfr
     # CATEGORY-MATCHED results (off-category results don't count)
@@ -1333,8 +1351,9 @@ def _diversify_by_manufacturer(chunks: list[dict], top_k: int, original_query: s
         if len(on_category) < min_per_mfr:
             underrepresented.append(m)
 
-    # Run supplementary searches for underrepresented manufacturers (in PARALLEL)
-    if category and underrepresented:
+    # Run supplementary searches for underrepresented manufacturers (in PARALLEL).
+    # Under VECTOR_NOCAT the supplement runs WITHOUT category (None passed downstream).
+    if (category or _nocat) and underrepresented:
         slots_each = max(2, top_k // len(all_known_mfrs))
 
         def _search_mfr(mfr: str) -> tuple[str, list[dict]]:
