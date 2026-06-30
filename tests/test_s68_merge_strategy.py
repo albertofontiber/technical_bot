@@ -114,18 +114,14 @@ def _run_retrieve(monkeypatch, strategy):
     return calls
 
 
-def test_li_stamps_mantiene_category_broad5_y_3ci(monkeypatch):
-    calls = _run_retrieve(monkeypatch, "stamps")
-    cats = [v["category"] for v in calls["vector"]]
-    assert any(c is not None for c in cats), "canal principal CON categoría (histórico)"
-    assert len(calls["vector"]) == 2, "broad-5 presente (histórico)"
-    assert any(c["category"] is not None for c in calls["content"]), "3c-i vivas (histórico)"
-
-
-@pytest.mark.parametrize("strategy", ["quota", "cosine"])
-def test_li_variantes_sin_category_sin_broad5_sin_3ci(monkeypatch, strategy):
+@pytest.mark.parametrize("strategy", ["stamps", "quota", "cosine"])
+def test_dead_category_filter_removed_all_strategies(monkeypatch, strategy):
+    """(s85, DEC-071) El filtro de la columna `category` MUERTA está quitado de raíz bajo
+    TODAS las estrategias de merge: UN solo canal vectorial, SIN filter_category, SIN
+    broad-5; y las tasks 3c-i (que filtraban por la categoría muerta) eliminadas — solo
+    sobrevive el 3c-ii genérico (category=None)."""
     calls = _run_retrieve(monkeypatch, strategy)
     assert [v["category"] for v in calls["vector"]] == [None], \
-        "L-i′: UN solo canal vectorial, SIN filter_category, SIN broad-5 (réplica s59)"
+        "un solo canal vectorial, SIN filter_category, SIN broad-5"
     assert all(c["category"] is None for c in calls["content"]), \
-        "L-i′: 3c-i eliminadas (pre-check Y1: 0 filas con categoría canónica)"
+        "3c-i eliminadas: ninguna content_search filtra por la categoría muerta"
