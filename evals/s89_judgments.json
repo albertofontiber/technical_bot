@@ -1,0 +1,150 @@
+{
+ "cat009": {
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Responde correctamente que la RFL/EOL resistiva es de 6K8 Ω y menciona el modo por defecto con condensador de 47 µF y la instalación en todas las zonas. Le falta la cita precisa a la sección/versión vigente y no advierte el conflicto con ediciones anteriores que indicaban 4K7 Ω, relevante para evitar confusión en campo.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-01T23:54:48"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta el valor principal de la RFL: 6K8 Ω, menciona el condensador de 47 µF por defecto y que debe instalarse fin de línea en todas las zonas, incluidas las no usadas. Sin embargo, la cita es imprecisa y no identifica la revisión/sección vigente ni advierte el conflicto con ediciones anteriores que indicaban 4K7 Ω; además introduce un rango admisible que puede confundir frente al valor EOL especificado.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-01T23:54:50"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente que la RFL/EOL resistiva para las zonas de la NFS Supra es 6K8 Ω y menciona el condensador de 47 µF por defecto, así como la instalación en todas las zonas. Solo omite la nota histórica de que ediciones anteriores indicaban 4K7 Ω, pero no afecta al valor vigente solicitado.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-01T23:54:50"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta el punto principal: en la NFS Supra las zonas pueden terminarse con 47 µF por defecto o con RFL de 6K8 Ω, y debe ponerse en todas las zonas. Sin embargo añade un supuesto rango admisible 3K–7K que puede inducir a instalar otro valor distinto de 6K8, y no menciona la nota relevante de ediciones anteriores con 4K7 frente a la revisión vigente.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-01T23:54:51"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta el dato principal: en modo resistivo la RFL/EOL es de 6K8 Ω y menciona el condensador de 47 µF por defecto y la instalación en todas las zonas. Sin embargo, no cita la sección/revisión vigente del manual ni advierte el conflicto con ediciones anteriores que indicaban 4K7 Ω, por lo que queda incompleta frente a la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-01T23:54:51"
+  }
+ },
+ "cat020": {
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta los valores clave de la versión España/Morley-IAS: prealarma 80 %, alarma 100 % y máximo 108 %. Pero introduce una supuesta dependencia por tipo de detector y valores por niveles para OTM/LSR como si fueran los defaults aplicables, lo que contradice o confunde frente a la referencia, que fija los defaults de España en la escala normalizada.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-01T23:54:56"
+  },
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Incluye los valores clave correctos para la versión España/Morley-IAS: prealarma 80 %, alarma 100 % y máximo 108 %. Pero introduce una división por tipos OTM/LSR como si sus valores por defecto fueran otros, lo que puede contradecir o confundir respecto a la respuesta esperada del manual de variaciones de España.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-01T23:54:58"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta los valores clave para la versión España/Morley-IAS: prealarma 80%, alarma 100% y máximo 108%. Pero introduce una separación por tipos OTM/LSR con niveles por defecto distintos como si aplicaran a la respuesta principal, lo que contradice o al menos confunde la referencia: en España los valores por defecto los fija el manual de variaciones y los niveles solo son una forma de ajuste/mapeo para algunos tipos.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-01T23:54:58"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acertó los valores clave de la versión España/Morley-IAS: prealarma 80%, alarma 100% y máximo 108%. Pero introduce una distinción por tipo de detector que resulta engañosa frente al gold: para España la escala analógica común aplica y los niveles de OTM/LSR son mapeos de configuración, no una respuesta alternativa con otros valores por defecto.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-01T23:55:00"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Incluye los valores clave correctos para la versión España/Morley-IAS: prealarma 80%, alarma 100% y máximo 108%. Pero introduce una supuesta dependencia por tipo de detector y defaults OTM/LSR del manual base que pueden contradecir o confundir respecto a los valores por defecto específicos de España que fija el manual de variaciones.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-01T23:55:01"
+  }
+ },
+ "hp004": {
+  "0": {
+   "conducta_bot": "answer-con-conflicto",
+   "veredicto": "PASS",
+   "diagnostico": "La respuesta da correctamente ambas versiones del DGD-600 con tensión y consumo en reposo separados, e indica que debe verificarse la versión instalada. Cumple con la referencia y evita mezclar valores.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-01T23:55:01"
+  },
+  "1": {
+   "conducta_bot": "answer-con-conflicto",
+   "veredicto": "PASS",
+   "diagnostico": "Da correctamente las dos versiones del DGD-600 con sus tensiones y consumos en reposo, separadas y con referencia a la fuente. Además advierte verificar la versión instalada, cumpliendo lo esperado aunque no formule una pregunta explícita de aclaración.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-01T23:55:02"
+  },
+  "2": {
+   "conducta_bot": "answer-con-conflicto",
+   "veredicto": "PASS",
+   "diagnostico": "Da correctamente y separadas las dos versiones del DGD-600, con sus tensiones y consumos en reposo, y advierte que debe verificarse la versión instalada. Añade consumos en alarma, pero no afecta a la corrección de la respuesta.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-01T23:55:05"
+  },
+  "4": {
+   "conducta_bot": "answer-con-conflicto",
+   "veredicto": "PASS",
+   "diagnostico": "Da correctamente las dos versiones del DGD-600 con sus tensiones y consumos en reposo, separando 24V y 220V y sin mezclar valores. Aunque no formula una pregunta directa de aclaración, sí deja claro que debe identificarse la versión instalada.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-01T23:55:06"
+  },
+  "3": {
+   "conducta_bot": "answer-con-conflicto",
+   "veredicto": "PASS",
+   "diagnostico": "Da correctamente las dos variantes del DGD-600, separando tensión y consumo en reposo para 24V y 220V, y advierte que se verifique la versión instalada. Añade consumo en alarma, pero no contradice ni perjudica la respuesta.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-01T23:55:06"
+  }
+ },
+ "cat024": {
+  "0": {
+   "conducta_bot": "answer-con-conflicto",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta al detectar la discrepancia documental entre 7 mA y 17 mA y cita el manual del dispositivo, pero presenta inicialmente 7 mA como respuesta y no deja claro que debe prevalecer el valor vigente de 17 mA según la revisión V2. Además omite la nota sobre la revisión anterior que indicaba <15 mA.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-01T23:59:07"
+  },
+  "1": {
+   "conducta_bot": "answer-con-conflicto",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Detecta la discrepancia documental y menciona el valor correcto de 17 mA del manual del dispositivo, además del 7 mA de la tabla CAD-250. Pero presenta inicialmente 7 mA como respuesta, no identifica la revisión vigente V2 ni el valor anterior <15 mA, y no deja claro que debe prevalecer 17 mA para el cálculo del lazo.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-01T23:59:07"
+  },
+  "2": {
+   "conducta_bot": "answer-con-conflicto",
+   "veredicto": "PARCIAL",
+   "diagnostico": "El bot identifica la discrepancia documental y cita tanto 7 mA como 17 mA, incluyendo el valor correcto del manual específico. Sin embargo, empieza dando 7 mA como respuesta y no deja claro que debe prevalecer la revisión vigente del manual del dispositivo con 17 mA, ni menciona la revisión V2/valor anterior <15 mA.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-01T23:59:08"
+  },
+  "3": {
+   "conducta_bot": "answer-con-conflicto",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Detecta correctamente la discrepancia documental entre 7 mA y 17 mA y cita el manual específico, pero presenta inicialmente 7 mA como respuesta y no afirma con claridad que debe prevalecer el valor vigente de 17 mA. Además omite la referencia a la revisión V2 vigente y al valor anterior de V1 (<15 mA).",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-01T23:59:08"
+  },
+  "4": {
+   "conducta_bot": "answer-con-conflicto",
+   "veredicto": "PARCIAL",
+   "diagnostico": "El bot detecta y cita la discrepancia documental 7 mA vs 17 mA, e incluye el valor correcto de 17 mA del manual del dispositivo. Pero presenta inicialmente 7 mA como respuesta y no indica que la revisión vigente V2 prevalece ni que debe usarse 17 mA para el cálculo conservador del lazo.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-01T23:59:08"
+  }
+ }
+}

@@ -1,5 +1,18 @@
 # s88 — Paquete de adjudicación GOLD/JUEZ-review (Clase A del dossier) · para tu sí/no en lote
 
+> ## ✅ RESUELTO (s89) — resultados del re-juicio dirigido (K=5) tras las marcas de Alberto
+> | caso | marca | aplicado | resultado |
+> |---|---|---|---|
+> | A1 cat009 | ✅ | "suministrado"→condensador (literal ES) | sin movimiento (4-1 PARCIAL; el juez pide ahora la cita de revisión) |
+> | A2 cat020 | ✅ | quitada "independiente del tipo de equipo" | sin movimiento (5 PARCIAL; el juez sigue penalizando OTM/LSR añadido = juez-bias → dual-judge) |
+> | A3 cat024 | (b) | discrepancia 7-vs-17 como hecho + precedencia manual-del-dispositivo (verificada al píxel: MISMO modelo, 5 chunks) | **FALLO(2)+PARCIAL(3) → PARCIAL 5/5** (cola mejorada; el bot lideró con 7 mA sin precedencia → bot, no gold) |
+> | A4 hp004 | (a) | nota de equivalencia answer-ambas+confirmación | **PARCIAL(4-1) → PASS 5/5 UNÁNIME** ✅ |
+> | A5 cat012 | — | **RESUELTO SOLO**: ya es PASS 5/5 unánime en s87 (está en el PASS-control). La línea "residual PARCIAL" de abajo era dato STALE de s67base — error del autor del packet, corregido. | nada que adjudicar |
+>
+> **Neto:** PASS-map actual = **10/39** (+hp004); cat024 sin FALLOs. cat009/cat020 confirman el plateau
+> (el juez completista encuentra el siguiente hecho) → refuerza dual-judge como el lever del bucket.
+> Pregunta ES/EN de A1 → respondida (BP: no excluir; language-variants al catálogo F1). Nota respondida en sesión.
+
 > **Cómo usarlo (~15-20 min):** cada caso trae el literal del manual + lo que dice el gold + la
 > edición PROPUESTA. Marca ✅ (aplicar tal cual) / ✏️ (aplicar con tu matiz) / ❌ (el gold se queda).
 > YO aplico después las ✅/✏️ vía `gold_store` (la puerta valida) y re-mido SOLO los golds tocados
@@ -25,7 +38,7 @@ suministrado (por defecto), o bien la resistencia de 6K8 Ω») y quitar la exige
 bot afirme la 6K8 como suministrada.
 **Impacto esperado:** K-INESTABLE al borde → candidato a re-juicio (no promesa; PASS es holístico ±2).
 
-**TU MARCA: [ ] ✅ [ ] ✏️ [ ] ❌** — notas: ______________________
+**TU MARCA: [X] ✅ [ ] ✏️ [ ] ❌** — notas: _En estos casos en los que EN =ES, ¿deberíamos excluir el manual en inglés para reducir el ruido? ¿cómo se gestiona en RAGs BP con esta problemática?
 
 ---
 
@@ -42,7 +55,7 @@ en la config de campo algunos tipos (OTM/LSR) se ajustan por Niveles 0-9 que map
 al menos quitar «independiente del tipo de equipo» como hecho exigido.
 **Impacto esperado:** residual 5-PARCIAL → el hecho-conflicto desaparece; sin promesa de flip.
 
-**TU MARCA: [ ] ✅ [ ] ✏️ [ ] ❌** — notas: ______________________
+**TU MARCA: [X] ✅ [ ] ✏️ [ ] ❌** — notas: ______________________
 
 ---
 
@@ -57,7 +70,7 @@ es «surfacear ambos, NO resolver» (briefing/adversarial + answer-con-conflicto
  (b) añadir al gold la discrepancia como hecho esperado («las tablas del sistema CAD-250 listan 7 mA;
      ante discrepancia, prevalece el manual del dispositivo / verificar en campo»);
  (c) ❌ dejarlo (si tu ground-truth es que 17 mA es EL dato y mencionar 7 mA confunde).
-**TU MARCA: [ ] a [ ] b [ ] c** — notas: ______________________
+**TU MARCA: [ ] a [ ] b [ ] c** — notas: ¿estamos 100% seguros de que hay un conflicto, o es que por ejemplo el valor depende del modelo de la familia?
 
 ---
 
@@ -71,7 +84,7 @@ s79/s80 (la divergencia está surfaceada); formalmente no es un clarify puro.
      variantes (editar `conducta_esperada` → clarify|answer-ambas o anotar equivalencia en el gold);
  (b) ❌ mantener clarify estricto (el técnico DEBE identificar su versión antes de recibir specs — más
      seguro en campo si mezclar specs es peligroso).
-**TU MARCA: [ ] a [ ] b** — notas: ______________________ *(b es defendible en PCI; tu llamada de dominio)*
+**TU MARCA: [X] a [ ] b** — notas: ______________________ *(b es defendible en PCI; tu llamada de dominio)*
 
 ---
 
@@ -80,7 +93,7 @@ s79/s80 (la divergencia está surfaceada); formalmente no es un clarify puro.
 **Situación:** ya auditado en s71 (único superviviente "maybe-injusto" del audit) y s74. Flickerea con el
 juez. Sin edición concreta propuesta — **pregunta directa:** ¿quieres que prepare el desglose per-hecho de
 cat012 (como A1/A2) para la próxima tanda, o lo cerramos como "ruido de juez, esperar dual-judge"?
-**TU MARCA: [ ] preparar desglose [ ] cerrar como ruido** — notas: ______________________
+**TU MARCA: [ ] preparar desglose [ ] cerrar como ruido** — notas:¿qué me recomiendas? ¿tiene sentido revisar el gold para que deje de ser "maybe-injusto"?
 
 ---
 

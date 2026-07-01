@@ -35,7 +35,14 @@ homonimo  { termino → [id_canonico...] SIN relación de familia, politica: cla
 relacion  { origen, destino, tipo: variant-of | rebrand-of(OEM↔vendedor) | shared-doc |
             supersedes }                               # RP1r-Supra rebrand-of Notifier-RP1r
 doc_map   { document_id → [{id_canonico, role: primary|secondary, scope: doc|paginas[], provenance}] }
+docrel    { document_id ↔ document_id, tipo: language-variant-of | revision-of }   # pares ES/EN (s89)
 ```
+
+- **`docrel language-variant-of`** (añadido s89, pregunta de Alberto en el gold-review): los ~9 pares
+  ES/EN casi-idénticos (~205 chunks duplicados, DEC-066) se marcan como variantes de idioma del mismo
+  doc lógico → habilita **prefer-ES/dedup en el pool** en el consumo (BP: NO excluir EN en ingesta —
+  hay contenido EN-only y el EN a veces lleva la revisión más nueva, p.ej. cat009 HLSI-MN-025-I v05).
+  El activo s83 trae `languages[]` por doc → detección casi gratis en F1.
 
 - **Clave de `doc_map` = `document_id`** (la tabla `documents` ya tiene ids estables), NO
   `source_file` — filename-keys rompen ante renames (TECH_DEBT: migrar a document-identity);

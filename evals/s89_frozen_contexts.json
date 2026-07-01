@@ -1,0 +1,1158 @@
+{
+ "cat009": {
+  "question": "¿Qué resistencia de fin de línea (EOL) hay que instalar en las líneas de zona de la central convencional NFS Supra?",
+  "conducta_esperada": "answer",
+  "frozen_at": "2026-07-01T23:53:31",
+  "n_context_hydrated": 3,
+  "top5": [
+   {
+    "id": "72c0a9a1-f6d9-4fba-9559-ed5ce74714eb",
+    "content": "## 5.4.9 Tipo de supervisión de líneas (Resistivo/Capacitivo)\n\nEl sistema supervisa las líneas de detección con condensadores de 47µF y las de sirena con diodos con el fin de garantizar una estabilidad ante transitorios y para un consumo bajo en reposo. Para compatibilidad con sistemas antiguos, es posible configurar el tipo de supervisión de las líneas de zonas y sirenas, entre capacitivo (Diodo en sirenas y condensador de 47µF en las zonas) o resistivo (6K8 Ω).\n\n<ins>Configurar Tipo de Supervisión Circuitos de Zonas y Sirenas</ins>\n\nSeleccionar el menú de configuración de Final de línea presionando **(Tecla _TECLADO_=ON + Tecla _EVACUACIÓN_=ON)**\n\nCambio cíclico del retardo con tecla _REARME_                                               Cambiar\n                                                                                            Capacitivo/\nLed 1 Alarma Rojo      = ON = **Final de Línea Resistivo 6K8 Ω**                           Resistivo\n\nLed 2 Anulada Ámbar    = ON = **Final de Línea Capacitivo 47µF/Diodo** (Por Defecto)\n\n[The right side shows another configuration interface screenshot displaying zones Z1-Z12 with control buttons including \"Teclado Test Leds\", \"Silenciar Sirenas\", \"Evaluación\", \"Retardo SINo\", \"Silenciar Zumbador\", and \"Rearme\". At the bottom is a status panel with an arrow pointing to it labeled \"Cambiar Capacitivo/Resistivo\"]\n\nTecla Rearme: **Cambiar Opción** (Configuración Nivel acceso 3)\n\nHLS-MN-025 v.05                                                                                                                  Manual de usuario\nwww.honeywelllifesafety.es                                                                                                                   43\n\nNFS Supra                                                                                                                    Configuración especial",
+    "context": "Este fragmento pertenece al manual de la central de incendios NFS Supra y explica cómo configurar el tipo de supervisión de las líneas de zonas y sirenas, permitiendo elegir entre modo capacitivo (con condensadores y diodos) o resistivo (con resistencias de 6K8Ω) para compatibilidad con sistemas antiguos.",
+    "product_model": "NFS Supra",
+    "category": null,
+    "section_title": "5.4.9 Tipo de supervisión de líneas (Resistivo/Capacitivo)",
+    "section_path": "NFS Supra                                                                                                                   Configuración > 5.4.9 Tipo de supervisión de líneas (Resistivo/Capacitivo)",
+    "content_type": "procedure",
+    "manufacturer": "Morley",
+    "distributor": null,
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "is_flow_diagram": false,
+    "confidence": 0.835,
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "HLSI-MN-025_NFS Supra",
+    "page_number": 43,
+    "document_id": "e8158594-3afd-4bb5-bb85-af29da6f1aac",
+    "similarity": 0.65040085616117,
+    "_channel": "VECTOR",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm"
+   },
+   {
+    "id": "ab35b763-1c39-45e1-93bb-8b52bb270eb7",
+    "content": "HLS-MN-025 v.05                                                                                          Manual de usuario\nwww.honeywelllifesafety.es                                                                                              28\n\nNFS Supra                                                                                                                                    Instalación\n\n## Conexionado de Detectores de alarma\n\nLos detectores de incendio se conectan directamente a la línea de zona y se alimentan de ésta para su funcionamiento.\n\nLa extracción de un detector en la línea de zona debe detectarse como avería (EN54/2). Para ello, deberá instalar el equipo final de línea (EFL) condensador de 47µF o 6k8 Ω (en modo RFL) entre positivo y negativo de la línea, en la conexión de la salida del último equipo.\n\nLas centrales NFS Supra permiten conectar hasta 32 Sensores convencionales de Honeywell en cada línea, no obstante determinadas normativas locales pueden ser más restrictivas.\n\nLea detenidamente los manuales de los sensores antes de conectarlos. Revise los márgenes de funcionamiento de la línea de zona en el apartado de características técnicas de este manual y el consumo de los sensores, para conocer la cantidad de sensores admisible por zona.\n\n-El consumo máximo total admisible en cada zona para detectar avería es de 3 mA, debido a los equipos en reposo. Consumos superiores en reposo provocarán un mal funcionamiento.\n\nEl número máximo de sensores en zona debe ser 32, según la norma EN54-2. Por otro lado, su consumo no puede superar los 4 mA (4000 µA) aprox., según el final de línea usado. Esto significa que debe calcular el número de sensores a instalar dependiendo de su consumo sin sobrepasar nunca los 32 sensores. (Por ejemplo, con sensores que consumen 0,2 mA (200 µA) cada uno, no podrá instalar más de 20).\n\n**Nº máximo sensores <** 4000 µA / **consumo cada sensor ( µA)**\n\n**\\*Como máximo se instalarán 32 sensores según EN54**\n\n**Ejemplo** de cálculo de Nº máximo de de sensores por zona, usando Sensores de Eco1000 o Serie 800 de Honeywell: Consumo máximo: 80µA (0,08 mA) en reposo.\n\nNº máx. sensores < 4000 µA / 80 µA **= 50**\n\nNº máx. sensores. Sin embargo, según EN54-2 no debe instalar más de 32.\n\n*El número máx. de sensores serie 800 o ECO1000 de Honeywell será 32.*\n\n[Diagram showing alarm zone wiring configuration:\n\n- At top: Condensador de 47 µF connected to positive terminal\n- Vertical line labeled \"Línea de Zona de alarma\" (Alarm Zone Line)\n- Three alarm detectors connected in series along the line, each with 4 terminals (+ - + -)\n- Label pointing to detectors: \"Detectores de Alarma\"\n- At bottom: Positive (+) and negative (-) terminals\n- Three zone terminals at bottom labeled Z1, Z2, Z3 (shown in green boxes with + - terminals)]",
+    "context": "Este fragmento pertenece a la sección **4.3.1 \"Circuitos de Zona\" del capítulo \"Instalación\"** del manual NFS Supra y explica cómo conectar detectores de alarma convencionales a las líneas de zona, incluyendo cálculos de consumo máximo y número máximo de sensores permitidos por zona según la norma EN54-2.",
+    "product_model": "NFS Supra",
+    "category": null,
+    "section_title": "NFS Supra                                                                                                    Instalación",
+    "section_path": "NFS Supra                                                                                                    Instalación",
+    "content_type": "wiring",
+    "manufacturer": "Morley",
+    "distributor": null,
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "is_flow_diagram": false,
+    "confidence": 0.853,
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "HLSI-MN-025_NFS Supra",
+    "page_number": 28,
+    "document_id": "e8158594-3afd-4bb5-bb85-af29da6f1aac",
+    "similarity": 0.632916174357176,
+    "_channel": "VECTOR",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm"
+   },
+   {
+    "id": "7d6e56a0-300f-4c82-b89d-34160fe594fd",
+    "content": "## Connecting autonomous Detectors with Alarm and Fault contact relay\n\nAutonomous conventional detectors as aspiration systems, beam detectors, sensor cable control panels, etc. have an alarm relay and a fault relay for connection to alarm circuits as a conventional zone.\n\nTo connect these devices to the conventional zone line the detector alarm relay should be connected in normally open (NO) mode, in series with the alarm resistor or 5V zener between positive and negative as shown in the drawing.\n\nThe detector fault relay must be connected in normally closed (NC) mode in series with the end of line (EOL or RFL), between positive and negative, as shown in the drawing.\n\n[Diagram showing: A zone line connection with a 47 µF Capacitor at the top, a Fault Contact (NC) with Fault relay showing C and NC terminals, and below that a resistor marked \"470 Ω min to 1K max\" connected to an Alarm Contact (NO) with C and NO terminals labeled \"Alarm\". The zone line connects to positive and negative terminals leading to three zone modules labeled Z1, Z2, and Z3 (shown in green).]\n\nHLS-MN-025 v.05                                                                                                                    Installation and Operating Manual\nwww.honeywelllifesafety.es                                                                                                                               Page 28\n\nNFS Supra                                                                                                                                Installation",
+    "product_model": "NFS-Supra",
+    "category": "EN_unico",
+    "section_title": "Connecting autonomous Detectors with Alarm and Fault contact relay",
+    "content_type": "wiring",
+    "manufacturer": "Notifier",
+    "protocol": null,
+    "doc_type": null,
+    "language": "en",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "HLSI-MN-025-I_NFS Supra Series v05",
+    "page_number": 28,
+    "document_id": "751d3588-ea0d-4d57-893c-ec2bf4d5869e",
+    "similarity": 0.65,
+    "_channel": "MODEL",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento pertenece a la sección 4.4.1 \"Zone Wirings\" del manual de instalación del panel de control de alarma de incendios NFS Supra de Honeywell, y describe cómo conectar detectores autónomos con relés de alarma y fallo a las líneas de zona convencionales del panel."
+   },
+   {
+    "id": "2adae9b9-0763-46cf-98fc-05e5fbd5365a",
+    "content": "# NFS Supra                                                                                                    Instalación\n\n## Conexionado de Pulsadores\n\nLos pulsadores de alarma de incendio se conectan a la línea de zona mediante un Diodo Zener de 5,1V /0,25w (no suministrado). El pulsador PUL-VSN incorpora este diodo Zener.\n\nLa central permite conectar un número ilimitado de pulsadores de alarma en cada zona. No obstante, la norma EN54-14 limita a 10 el número máximo de pulsadores de alarma por zona.\n\nPara que la central identifique alarma por pulsador (Led de alarma fijo), cada contacto de pulsador normalmente abierto (NA) deberá conectarse en serie con un diodo Zener de 5,1V (1/4W mínimo) entre positivo y negativo de la línea como se muestra en el dibujo.\n\nDe forma alternativa, si no se dispone de Zener de 5V, es posible usar una resistencia de alarma de valor 470 Ω < R < 1K en serie con el contacto normalmente abierto (NA) del pulsador.\n\nConecte el equipo final de línea (EFL) condensador de 47µF o 6K8 (en modo RFL) entre positivo y negativo de la línea después del último equipo.\n\n[Circuit Diagram 1 - Push Button Connection:\n\n- Vertical label on left: \"Línea de Zona de alarma\"\n- Top: Condensador de 47 µF\n- Circuit shows:\n  - Zener 5V with contacts C and NA\n  - Contacto Pulsador (NA)\n  - 470 Ω min a 1K máx resistor\n  - C and NA contacts\n- Bottom: Three terminal blocks labeled Z1, Z2, Z3 with + and - terminals\n- Positive (+) and negative (-) connections shown]\n\n## Conexionado de Detectores autónomos con contacto de Alarma y Avería\n\nLos detectores convencionales autónomos como los sistemas de aspiración, barreras de humos, centralitas de cable sensor, etc. disponen de un relé de alarma y un relé de avería para su conexión a circuitos de alarma como los de zona convencional de la central.\n\nPara conectar estos equipos a la línea de zona convencional, debe conectar el relé de alarma del detector, en modo normalmente abierto (NA) en serie con la resistencia de alarma o el zener de 5V entre positivo y negativo de la línea de zona, como se muestra en el dibujo.\n\nEl relé de avería del detector debe conectarse a en modo normalmente cerrado (NC) en serie con el final de línea (EFL o RFL) de la zona, entre positivo y negativo de la línea de zona, como se muestra en el dibujo.\n\nConecte el equipo final de línea (EFL) condensador de 47µF o 6K8 (en modo RFL) entre positivo y negativo de la línea después del contacto (NC) del relé de avería.\n\n[Circuit Diagram 2 - Autonomous Detector Connection:\n\n- Vertical label on left: \"Línea de Zona de alarma\"\n- Top right: Condensador de 47 µF\n- Labels: \"Contacto de Avería (NC)\" and \"Avería\"\n- Circuit shows:\n  - C and NC contacts for Avería\n  - 470 Ω min a 1K máx resistor\n  - C and NA contacts for Alarma\n  - Contacto de Alarma (NA)\n- Bottom: Three terminal blocks labeled Z1, Z2, Z3 with + and - terminals\n- Positive (+) and negative (-) connections shown]",
+    "product_model": "NFS Supra",
+    "category": null,
+    "section_title": "NFS Supra                                                                                                    Instalación",
+    "content_type": "troubleshooting",
+    "manufacturer": "Morley",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "HLSI-MN-025_NFS Supra",
+    "page_number": 28,
+    "document_id": "e8158594-3afd-4bb5-bb85-af29da6f1aac",
+    "similarity": 0.8,
+    "_channel": "CONTENT",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento pertenece a la sección de Instalación del Manual de Instalación y Funcionamiento de la central convencional de incendios NFS Supra, y describe detalladamente cómo conectar pulsadores de alarma y detectores autónomos a los circuitos de zona de la central, incluyendo diagramas de cableado con especificaciones de componentes como diodos Zener y resistencias de alarma."
+   },
+   {
+    "id": "dccf72bf-37da-4ab9-ae74-56fa6552a1c8",
+    "content": "## 4.3.1 Circuitos de Zona (conectores 1 a 12)\n\nLas líneas de cableado de sensores y pulsadores de detección y alarma de incendios deben estar separadas de otras conducciones de diferente tensión o usos.\n\nLa central NFS Supra tiene cuatro, ocho o doce zonas de alarma.\n\nLas centrales NFS Supra permiten el conexionado de Sensores y Pulsadores en la misma línea de zona, identificando mediante el Led de zona si la alarma es de Sensores (led intermitente) o de Pulsadores (led fijo). Además, permite que la alarma de pulsadores elimine retardos, si éstos estuvieran programados cumpliendo con los requerimientos de la norma EN54/2.\n\nSin embargo, la instalación de Sensores y Pulsadores en la misma línea de zona, puede incumplir algunos apartados de determinadas normativas locales.\n\nLas centrales NFS Supra permiten conectar un número ilimitado de pulsadores en cada línea, no obstante determinadas normas locales pueden ser más restrictivas. Revise la reglamentación vigente aplicable antes de realizar la instalación de los equipos de alarma.\n\n**Terminación de zona RFL**\n\nLas líneas de zona deben terminarse en el último equipo, con un equipo final de línea **(EFL) de condensador de 47µF** (suministrado) o resistencia **(RFL) de 6K8Ω**, que estabiliza la zona a la tensión de reposo y alimentación de equipos de 25V (estado normal/reposo).\n\nTodas las zonas, incluso las no usadas deben tener instalada su final de línea según la configuración del sistema (EFL o RFL). En modo resistivo (RFL) la central admite un rango de resistencia final de línea entre 3KΩ (consumo máx. por zona 2,5mA) y 7 KΩ (consumo máx. por zona 4mA).\n\n| ℹ️ | **VALORES<br/>APROXIMADOS**   |            |                  |\n| -- | ----------------------------- | ---------- | ---------------- |\n|    | **Rangos de Tensión en Zona** |            |                  |\n|    | 0                             | a 3,9 Vdc  | Cortocircuito    |\n|    | 4                             | a 7,4 Vdc  | Alarma Pulsador  |\n|    | 7,6                           | a 24 Vdc   | Alarma Detector  |\n|    | 24.1                          | a 26 Vdc   | Normal           |\n|    | 26                            | a 27,9 Vdc | Circuito Abierto |\n\n**CIRCUITOS DE ZONA**\n\n- Condensador de 47 µF (modo EFL, por defecto) o\n- resistencia de 6K8 Ω (modo RFL)\n\nHLS-MN-025 v.05                                                                                                                                    Manual de usuario\nwww.honeywelllifesafety.es                                                                                                                         27",
+    "product_model": "NFS Supra",
+    "category": null,
+    "section_title": "4.3.1 Circuitos de Zona (conectores 1 a 12)",
+    "content_type": "specification",
+    "manufacturer": "Morley",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "HLSI-MN-025_NFS Supra",
+    "page_number": 27,
+    "document_id": "e8158594-3afd-4bb5-bb85-af29da6f1aac",
+    "similarity": 0.8,
+    "_channel": "CONTENT",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento pertenece a la sección de **Instalación** del manual de la **Central NFS Supra** y explica en detalle cómo conectar y configurar los circuitos de zona para sensores y pulsadores de detección de incendios, incluyendo las especificaciones técnicas de terminación de línea y rangos de tensión."
+   }
+  ],
+  "pool50_light": [
+   {
+    "id": "dccf72bf-37da-4ab9-ae74-56fa6552a1c8",
+    "source_file": "HLSI-MN-025_NFS Supra",
+    "page_number": 27,
+    "similarity": 0.8
+   },
+   {
+    "id": "cbf6d1c3-2089-4a8d-838e-44f68a739177",
+    "source_file": "HLSI-MA-025 Guia Rapida NFS_Supra_ES",
+    "page_number": 2,
+    "similarity": 0.8
+   },
+   {
+    "id": "ec2c308e-34e2-4cbc-8a22-6303b1995644",
+    "source_file": "HLSI-MN-025-I_NFS Supra Series v05",
+    "page_number": 27,
+    "similarity": 0.683591444278284
+   },
+   {
+    "id": "c2eafe7a-71ee-49bc-9af5-1c7b091a721c",
+    "source_file": "HLSI-MN-025-I_NFS Supra Series",
+    "page_number": 28,
+    "similarity": 0.626344621181492
+   },
+   {
+    "id": "8ed39797-f15d-4647-8adc-78c01fb7b0d0",
+    "source_file": "HLSI-MN-025_NFS Supra",
+    "page_number": 12,
+    "similarity": 0.8
+   },
+   {
+    "id": "bd280d16-85ee-4716-b452-5eb23ba4ca8c",
+    "source_file": "HLSI-MN-025-I_NFS Supra Series v05",
+    "page_number": 34,
+    "similarity": 0.65
+   },
+   {
+    "id": "4dccf4c3-2d45-4acf-930d-72cc0eab5028",
+    "source_file": "HLSI-MN-025_NFS Supra",
+    "page_number": 5,
+    "similarity": 0.8
+   },
+   {
+    "id": "fd4061c1-95d7-4b43-8205-06d5b155c177",
+    "source_file": "HLSI-MN-025-I_NFS Supra Series v05",
+    "page_number": 44,
+    "similarity": 0.65
+   },
+   {
+    "id": "f412ba28-c317-432f-9413-41e673ac3147",
+    "source_file": "HLSI-MN-025_NFS Supra",
+    "page_number": 36,
+    "similarity": 0.8
+   },
+   {
+    "id": "0e63b2ea-2196-49d2-a25f-b3b8d0172a84",
+    "source_file": "HLSI-MN-025-I_NFS Supra Series v05",
+    "page_number": 47,
+    "similarity": 0.65
+   },
+   {
+    "id": "2adae9b9-0763-46cf-98fc-05e5fbd5365a",
+    "source_file": "HLSI-MN-025_NFS Supra",
+    "page_number": 28,
+    "similarity": 0.8
+   },
+   {
+    "id": "f7446982-b8c5-4873-ad50-1e51fa491844",
+    "source_file": "HLSI-MN-025-I_NFS Supra Series v05",
+    "page_number": 3,
+    "similarity": 0.65
+   },
+   {
+    "id": "6ce4e65d-97b2-49af-ab95-bc34f7fae28b",
+    "source_file": "HLSI-MN-025_NFS Supra",
+    "page_number": 29,
+    "similarity": 0.8
+   },
+   {
+    "id": "7d6e56a0-300f-4c82-b89d-34160fe594fd",
+    "source_file": "HLSI-MN-025-I_NFS Supra Series v05",
+    "page_number": 28,
+    "similarity": 0.65
+   },
+   {
+    "id": "a9320350-3c42-4a2c-87c8-bec42dffa84c",
+    "source_file": "HLSI-MN-025_NFS Supra",
+    "page_number": 3,
+    "similarity": 0.8
+   },
+   {
+    "id": "a8275677-4498-431f-9ca9-a756cb804938",
+    "source_file": "HLSI-MN-025_NFS Supra",
+    "page_number": 21,
+    "similarity": 0.8
+   },
+   {
+    "id": "c23baed9-35ab-49e1-9695-1fcc803047b9",
+    "source_file": "HLSI-MN-025_NFS Supra",
+    "page_number": 22,
+    "similarity": 0.8
+   },
+   {
+    "id": "8b726d5a-1491-40e9-a488-34ae5629526e",
+    "source_file": "HLSI-MN-025_NFS Supra",
+    "page_number": 23,
+    "similarity": 0.8
+   },
+   {
+    "id": "b80aa594-2c33-4a7e-94dc-2040e4da860a",
+    "source_file": "HLSI-MN-025_NFS Supra",
+    "page_number": 24,
+    "similarity": 0.8
+   },
+   {
+    "id": "8fef952b-9b12-4fcf-81f4-216b1f91ae79",
+    "source_file": "HLSI-MN-025_NFS Supra",
+    "page_number": 43,
+    "similarity": 0.8
+   },
+   {
+    "id": "72c0a9a1-f6d9-4fba-9559-ed5ce74714eb",
+    "source_file": "HLSI-MN-025_NFS Supra",
+    "page_number": 43,
+    "similarity": 0.65040085616117
+   },
+   {
+    "id": "ab35b763-1c39-45e1-93bb-8b52bb270eb7",
+    "source_file": "HLSI-MN-025_NFS Supra",
+    "page_number": 28,
+    "similarity": 0.632916174357176
+   }
+  ]
+ },
+ "cat020": {
+  "question": "En una central Morley DXc instalada en Espana, ¿cual es el nivel de alarma y de prealarma por defecto de los detectores, y el maximo configurable?",
+  "conducta_esperada": "answer",
+  "frozen_at": "2026-07-01T23:53:44",
+  "n_context_hydrated": 2,
+  "top5": [
+   {
+    "id": "827d36e5-6890-4245-beef-43359d021cff",
+    "content": "# Sección 5.3.10.3 Modo Sensibilidad\n\n• Los detectores Multicriterio y láser de Morley-IAS son equipos que disponen de varios niveles de alarma. Estos equipos se pueden configurar para que tengan respuestas a prealarmas y alarmas a diferentes niveles. Solo se puede ajustar el nivel de alarma combinado, es decir, se ajusta el nivel procesado por algoritmos y no el nivel independiente. Cuando se visualiza el valor analógico asociado a estos equipos, es importante observar que el nivel analógico no se puede comparar a un umbral de alarma de fuego fijado; el umbral de alarma de fuego depende del ajuste del nivel/modo y es diferente para cada nivel de alarma. Los niveles/ modos de funcionamiento para estos equipos se describen en la siguiente tabla:\n\n| VALOR ANALÓGICO | NIVEL / MODO DE ALARMA | SENSIBILIDAD                       |\n| --------------- | ---------------------- | ---------------------------------- |\n| 47              | NIVEL 1                | 3,2% osc./m                        |\n| 55              | NIVEL 2                | 3,2% a 6,5% osc./m (autoajustado)  |\n| 72 \\*P          | NIVEL 3                | 6,5% osc./m                        |\n| 86 \\*A          | NIVEL 4                | 6,5% a 11,5% osc./m (autoajustado) |\n| 101             | NIVEL 5                | 11,5% osc./m                       |\n| 116             | NIVEL 6                | Solo temperatura                   |\n\n*Niveles de los detectores óptico-térmicos de Morley-IAS*\n\n| VALOR ANALÓGICO | NIVEL / MODO DE ALARMA | SENSIBILIDAD |\n| --------------- | ---------------------- | ------------ |\n| 50              | NIVEL 1                | 0,06% osc./m |\n| 55              | NIVEL 2                | 0,10% osc./m |\n| 62              | NIVEL 3                | 0,16% osc./m |\n| 69 \\*P          | NIVEL 4                | 0,32% osc./m |\n| 76 \\*A          | NIVEL 5                | 0,65% osc./m |\n| 83              | NIVEL 6                | 1,64% osc./m |\n| 90              | NIVEL 7                | 3,28% osc./m |\n| 97              | NIVEL 8                | 4,92% osc./m |\n| 105             | NIVEL 9                | 6,5% osc./m  |\n\n*Niveles del detector láser de Morley-IAS*\n\n**Leyenda:** *P: nivel de prealarma recomendado; *A: nivel de alarma recomendado; osc./m: oscurecimiento / metro\n\nLas secciones siguientes muestran ejemplos para ilustrar estos procedimientos:\n\n## 5.3.10.3 Modo de sensibilidad\n\n• A continuación se muestra la información típica que aparece en pantalla sobre el nivel de sensibilidad para los detectores multicriterio (OTM) de Morley-IAS.\n\n```\n[S001-OTM-DIA]      Jue 14/04/2011 15:46:33\nFuego       : Niv4\nPrealarma: Niv3\n\nOK:Edit     $:Selec     ←:Cancel\n```\n\n## 5.3.10.4 Niveles de alarma\n\n• A continuación se muestra la información típica que aparece en pantalla sobre el nivel de alarma para los detectores multicriterio (OTM).",
+    "context": "Este fragmento pertenece a la sección 5.3.10 del Manual de configuración DX Connexion para España y describe los niveles de sensibilidad y alarma específicos para los detectores Multicriterio y láser de Morley-IAS, incluyendo tablas de configuración y ejemplos de pantalla.",
+    "product_model": "DXc",
+    "category": null,
+    "section_title": "Sección 5.3.10.3 Modo Sensibilidad",
+    "section_path": "Sección 5.3.10.3 Modo Sensibilidad",
+    "content_type": "procedure",
+    "manufacturer": "Morley",
+    "distributor": null,
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "is_flow_diagram": false,
+    "confidence": 1,
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "DXc_Manual variaciones de mercado",
+    "page_number": 5,
+    "document_id": "ce44f1a5-7cfa-4ba7-a5ce-0a0fc18dcc36",
+    "similarity": 0.660129885658039,
+    "_channel": "VECTOR",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm"
+   },
+   {
+    "id": "0a35b5c3-0063-4a8c-b49c-2b8eabe6da31",
+    "content": "```\n[Niv.Modo Dia]         Jue 14/04/2011 15:46:57\nL1 Selec.Equipo : ◄ ►:Pag  0-9:Dir\nS001 OTM Fuego:Niv4 Prealarma:Niv3\nS002 OTM Fuego:Niv4 Prealarma:Niv3\nS003 LSR Fuego:Niv5 Prealarma:Niv4\nS004 OPT Fuego:100% Prealarma: 80%\n```\n\n```\n[S001-OTM-NORM.]       14/04/11 15:45:38\nFuego    : Niv4\nPrealarma: Niv3\n\nOK:Edit     ↕:Selec                    ↔:Cancel\n```\n\n```\n[S001-OTM-NORM.]       14/04/11 15:47:57\nFuego    : Niv4\nPrealarma: Niv3\n\nIntrod nivel Fuego     : 3\nOK:Confirm     0-9,↕:Edit              ↔:Cancel\n```\n\n• Estas opciones se indican como complemento a las descritas en el manual de configuración en la sección de Modos Horarios, que varían según el modelo de equipo y fabricante.\n\n## 5.3.10.5 Información específica según el protocolo\n\n### 5.3.10.5.1 Información específica para protocolo Morley-IAS\n\n• El valor analógico debe ser un número normalizado entre 0% – 100%, independientemente del tipo de equipo. Para los detectores, el nivel de prealarma por defecto es el 80% y el nivel de alarma por defecto es el 100%.\n\n• El ajuste máximo para el nivel de alarma es el 108%.\n\n– PÁGINA 6 –\n\n– PÁGINA 7 –",
+    "context": "Este fragmento pertenece al Manual de variaciones para España de la central de incendios DX Connexion de Honeywell Morley-IAS y trata sobre la configuración de los niveles de sensibilidad y alarma en los detectores multicriterio y láser, mostrando ejemplos de pantalla y especificaciones técnicas del protocolo Morley-IAS.",
+    "product_model": "DXc",
+    "category": null,
+    "section_title": "5.3.10.4 Niveles de alarma",
+    "section_path": "Sección 5.3.10.3 Modo Sensibilidad > 5.3.10.4 Niveles de alarma",
+    "content_type": "general",
+    "manufacturer": "Morley",
+    "distributor": null,
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "is_flow_diagram": false,
+    "confidence": 0.932,
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "DXc_Manual variaciones de mercado",
+    "page_number": 6,
+    "document_id": "ce44f1a5-7cfa-4ba7-a5ce-0a0fc18dcc36",
+    "similarity": 0.699201220416806,
+    "_channel": "VECTOR",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm"
+   },
+   {
+    "id": "4b983da1-5723-4c90-a305-5737fcf03987",
+    "content": "```\n[Modos Dia]      Jue 14/04/2011 13:33:48\n1:Sin Accion  ✓  2:Sensibilidad\n3:Retardo        4:Verificacion\n\nOK:Confirm                          ←:Cancel\n```\n\n* Pulse ⊙ para seleccionar la opción de Sensibilidad. Si la central dispone de más de un lazo, deberá introducir el número de lazo, para ello utilice el teclado numérico o las teclas ▲ / ▼. En el siguiente ejemplo, se ha introducido el lazo 1.\n\n```\n[Niv.Modo Dia]   Jue 14/04/2011 13:46:25\nSel.Num.Lazo (1-2) :1\n\nOK:Confirm       1-2:,:Edit         ←:Cancel\n```\n\n* Pulse ⊙ para seleccionar. La pantalla mostrará los equipos ordenados por orden ascendente de dirección. Utilice las teclas ▲ / ▼ para desplazarse por las direcciones, de una en una o las teclas ◄ / ► para avanzar de pantalla en pantalla.\n\n```\n[Niv.Modo Dia]   Jue 14/04/2011 13:46:25\nL1 Selec.Equipo : ◄ ►:Pag   0-9:Dir\nS001 OTM Fuego:Niv4 Prealarma:Niv3\nS002 OTM Fuego:Niv4 Prealarma:Niv3\nS003 LSR Fuego:Niv5 Prealarma:Niv4\nS004 OPT Fuego:100% Prealarma: 80%\n```\n\n* Con la opción seleccionada, pulse la tecla ⊙ para ver el umbral de alarma actual.\n\n```\n[S001-OTM-NORM.]     14/04/11 13:52:06\nFuego    : Niv4\nPrealarma: Niv3\n\nIntrod nivel Fuego   : 5\nOK:Confirm       0-9,:Edit          ←:Cancel\n```\n\n* Pulse ⊙ de nuevo para editar el umbral de alarma. Introduzca un nuevo valor, ya sea mediante el teclado numérico o con las teclas ▲ / ▼.\n\n* Consulte el Manual de variaciones de la versión del país si desea más detalles.\n\n* Introduzca un nuevo umbral de alarma y pulse ⊙ para confirmar.\n\n> [Blue checkmark icon]\n>\n> La central no permite ajustar niveles que impidan el reconocimiento de las alarmas.\n>\n> El nivel de prealarma no puede ser superior al nivel de alarma.\n\n- PÁGINA 67 -\n\n• Tras realizar los ajustes, pulse ⊙ para guardar los cambios y regresar a la pantalla de modo de verificación. Pulse la tecla ◀ para regresar al menú de Modo horario; la opción de Sensibilidad aparece ahora seleccionada:\n\n```\n[Modos Dia]              Jue 14/04/2011 13:33:48\n1:Sin Accion      ✓      2:Sensibilidad\n3:Retardo                4:Verificacion\n\nOK:Confirm               ←:Cancel\n```",
+    "context": "Este fragmento pertenece a la sección 5.3.10.3 \"Modo de sensibilidad\" del Manual de configuración de DX CONNEXION y describe los pasos para ajustar los niveles de umbral de alarma y prealarma de los detectores de humo y térmicos en dos modos horarios diferentes (ocupado y desocupado).",
+    "product_model": "DXc",
+    "category": null,
+    "section_title": "5.3.10.2 Modo de verificación",
+    "section_path": "EN54-2 > 5.3.10 Modos horarios > 5.3.10.2 Modo de verificación",
+    "content_type": "procedure",
+    "manufacturer": "Morley",
+    "distributor": null,
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "is_flow_diagram": false,
+    "confidence": 0.937,
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "DXc_Manual de configuracion",
+    "page_number": 66,
+    "document_id": "d1299a40-5128-464d-b8d7-1c8c2b86562c",
+    "similarity": 0.592883968777421,
+    "_channel": "VECTOR",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm"
+   },
+   {
+    "id": "cdc3ecad-a1ad-4825-838c-3a83a7002a3d",
+    "content": "## 5.3.4 Opciones generales\n\n* Desde el menú de Programación, al seleccionar Opciones Generales ('Op. Generales'), aparecerán en pantalla los cinco primeros elementos de una lista de opciones configurables.\n\n* Utilice las teclas ▲ y ▼ para seleccionar la opción deseada. Utilice ► / ◄ para avanzar o retroceder de pantalla en pantalla. Pulse ⊙ para confirmar la selección. Aparecerá un segundo menú con más funciones u opciones de configuración.\n\n|    | FUNCIÓN                                            | POR DEFECTO               | OPCIONES                                                                   | DESCRIPCIÓN                                                                                                                                                                                                                                                                                                                           |\n| -- | -------------------------------------------------- | ------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| 1  | Idioma                                             | Inglés                    | Inglés, Español, Portugués                                                 | Cambiar el idioma de la pantalla LCD.                                                                                                                                                                                                                                                                                                 |\n| 2  | Formato fecha                                      | dd/mm/aaaa<br/>mm/dd/aaaa |                                                                            | Configurar el formato en el que aparecerá la fecha en la pantalla.                                                                                                                                                                                                                                                                    |\n| 3  | Parpadeo leds                                      | ON                        | ON<br/>OFF                                                                 | Apagar el parpadeo de equipos en comunicaciones.                                                                                                                                                                                                                                                                                      |\n| 4  | Protocolo Lazo                                     | –                         | -                                                                          | Opción no disponible en todos los países. Consulte el Manual de variaciones del país para conocer la disponibilidad en su país.                                                                                                                                                                                                       |\n| 5  | React.Sirenas Aut:\\*                               |                           | NO                                                                         | Si se configura a SÍ, habrá reactivación automát de sirenas ante CUALQUIER nueva alarma tras silenciar las salidas de sirenas. Si se configura a NO, no habrá reactivación de sirenas ante NINGUNA nueva alarma tras silenciar las salidas de sirena                                                                                  |\n| 6  | Prueba autom.                                      | -                         | –                                                                          | Consulte el Manual de variaciones del país para conocer la disponibilidad en su versión.                                                                                                                                                                                                                                              |\n| 7  | Anular sirenas                                     | NO                        | NO                                                                         | Si se configura a NO, las sirenas no se pueden en grupo / anular utilizando las opciones de anulación individual de grupo/equipo, sino solo a través de la función de anulación global.                                                                                                                                               |\n|    |                                                    |                           | SÍ                                                                         | Si se ajusta a SÍ, las sirenas se pueden anular a través de las opciones de anulación grupo/equipo.<br/><br/>Este modo NO CUMPLE EN54.                                                                                                                                                                                                |\n| 8  | Confirmaciones                                     | 4                         | 4, 5, 6                                                                    | Nº de lecturas consecutivas requeridas de fallos antes de indicar una avería de equipo. Este ajuste se aplica a: FALLO NIVEL EQUIPO, DOBLE DIRECCIÓN, NO RESPONDE, ERROR DE RESPUESTA, EQUIPO NUEVO, EQUIPO NO RECONOCIDO, TIPO EQUIPO CAMBIADO. Consulte el Manual de variaciones del país para averías específicas de su protocolo. |\n| 9  | Teléfono                                           | Vacío                     | 20 caracteres                                                              | Introducir teléfono de la empresa de mantenimiento para que aparezca en avería.                                                                                                                                                                                                                                                       |\n| 10 | Nombre                                             | Vacío                     | 20 caracteres                                                              | Introducir nombre de la instalación para instalación que sirva de referencia a la empresa de mantenimiento para que aparezca en avería.                                                                                                                                                                                               |\n| 11 | Mantenimiento                                      | 01/01/00                  | Fecha                                                                      | Ajustar fecha de aviso de la próxima revisión para según los plazos programados. Junto con esta información se visualiza también el nombre de la instalación y el teléfono de la empresa de mantenimiento (se mostrará en repetidores).                                                                                               |\n| 12 | Opción cNET\\*                                      | NO                        | NO                                                                         | Incluir la central en una red de centrales cNET.                                                                                                                                                                                                                                                                                      |\n|    |                                                    |                           | SÍ                                                                         | SÍ \\* Si la central forma parte de una red, los ajustes de reactivar, anular equipo/grupo sirenas y topología de la red DEBEN ser los mismos. También para modo horario, retardos 1 y 2 y horarios.                                                                                                                                   |\n| 13 | No. Repetidores                                    | 0                         | 0 – 16 D                                                                   | eterminar cuántos repetidores activos se conectan al lazo de comunicaciones RS485. (Los repetidores deben tener nos del 1 al configurado.                                                                                                                                                                                             |\n| 14 | Puerto Serie 2<br/>Protocolo Integración<br/>(TTP) | Anulado                   | Anulado TPP<br/>Velocidad<br/>Baudios;<br/>Supervisión;<br/>Control remoto | TPP permite configurar el interfaz RS232 para usar con equipos periféricos (de terceros).<br/>Valores disponibles (baudios): 9600, 14400, 19200, 38400, 57600.<br/>Funciones de control remoto y supervisión de comunicaciones.                                                                                                       |\n| 15 | FA externa instalada                               | NO                        | NO<br/>SÍ                                                                  | Permite configurar la central con una segunda F.A para funcionamiento autónomo de 72 horas                                                                                                                                                                                                                                            |",
+    "product_model": "DXc",
+    "category": null,
+    "section_title": "5.3.4 Opciones generales",
+    "content_type": "procedure",
+    "manufacturer": "Morley",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "DXc_Manual de configuracion",
+    "page_number": 40,
+    "document_id": "d1299a40-5128-464d-b8d7-1c8c2b86562c",
+    "similarity": 0.8,
+    "_channel": "CONTENT",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento forma parte del Manual de configuración del sistema DX CONNEXION de Honeywell y corresponde a la sección 5.3.4 \"Opciones generales\" dentro del capítulo de Programación manual, donde se detalla cómo acceder y configurar los parámetros generales del sistema como idioma, formato de fecha, protocolo de lazo y opciones de sirenas desde el menú de programación de la central."
+   },
+   {
+    "id": "1a021bd5-8dfd-4333-a015-855c307b3219",
+    "content": "### 5.3.4 Modo Ver\n\n• Para visualizar el menú Ver, pulse la tecla '4'. En pantalla, aparecerán las siguientes opciones:\n\n```\n[S1 Ver]            Lun 28/03/2011 10:59:42\n1:Equipos           2:Historico\n3:AVERIAS           4:ANULADO\n5:Mantenimiento     6:Contador Alarmas\n7:Voltajes          8:Info.Sistema\n```\n\n• Es posible ver en pantalla:\n\n1. El valor analógico actual y otros parámetros de funcionamiento de un equipo del lazo.\n2. El histórico de eventos.\n3. Las averías registradas.\n4. Las anulaciones.\n5. Información sobre el mantenimiento.\n6. El contador de alarmas.\n7. Las tensiones de funcionamiento y otra información de diagnóstico de la central.\n8. Las referencias y versiones de software instaladas en la central y en los controladores del lazo.\n\n#### 5.3.4.1 Ver equipos\n\n• Esta función muestra la información del equipo de lazo de señalización seleccionado y se actualiza cada vez que se realiza un muestreo. La información se presenta de forma diferente según el protocolo.\n\n• Mientras se encuentra en la pantalla de ver estado de equipos, se ilumina el led del equipo de esa dirección. Esta indicación puede ser útil a la hora de identificar equipos en la instalación.\n\n• Pulse la tecla '1' para seleccionar la opción de Equipos. Deberá entonces seleccionar el lazo de señalización requerido de entre el número de lazos disponibles que muestra la pantalla (a menos que sea una central de un solo lazo, en cuyo caso se muestra directamente el primer equipo del lazo):\n\n```\n[S1 Equipos]        Lun 28/03/2011 11:00:36\nIntr.Num.Lazo(1-2)\n\nOK:Edit         1-2↕:Selec      ↔:Cancel\n```\n\n• Introduzca el número de lazo de señalización requerido utilizando las teclas numéricas y pulse OK para seleccionar. La pantalla muestra entonces la información referente a las cuatro primeras direcciones de equipo en el lazo.\n\n```\n[S1 Equipos]        Lun 28/03/2011 11:00:36\nL1 Selec.Equipo : ◄ ►:Pag    0-9:Dir\nS001 OTM Niv0 Z1    DESPACHO 106            ▼\nS002 OTM Niv0 Z2    HABITACION 233\nS003 LSR Niv0 Z2    LABORATORIO 21\nS004 OPT  33% Z3    PASILLO 32              ▼\n```\n\n- PÁGINA 28 -\n\n* Pulse ⊙ para mostrar la información sobre el equipo resaltado o, mediante las teclas ▲ y ▼, seleccione otro equipo en otra dirección en el lazo y pulse ⊙ para seleccionar.\n\n* La pantalla muestra información relacionada con el equipo seleccionado. La pantalla muestra el número de lazo (L1), la dirección del equipo, el tipo de equipo (OPT) y el valor analógico del estado actual.\n\n* La información del equipo seleccionado es significativa solo para el técnico de mantenimiento por lo que este manual no entra en detalles.\n\n* Pulse ESC para abandonar esta pantalla informativa y regresar a la lista de equipos de lazo.\n\n* Pulse ESC de nuevo para regresar al menú Ver.",
+    "product_model": "DXc",
+    "category": null,
+    "section_title": "5.3.4 Modo Ver",
+    "content_type": "procedure",
+    "manufacturer": "Morley",
+    "protocol": null,
+    "doc_type": "usuario",
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "DXc_Manual de usuario",
+    "page_number": 27,
+    "document_id": "1544459a-c3f4-4343-8ba0-4a49f36465d9",
+    "similarity": 0.8,
+    "_channel": "CONTENT",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento forma parte del Manual de usuario del sistema de alarma contra incendios DX CONNEXION de Honeywell, específicamente de la Sección 5.3.4 \"Modo Ver\" del Nivel de acceso 2, que describe cómo visualizar y consultar la información de equipos, histórico, averías y parámetros del sistema a través de la pantalla LCD."
+   }
+  ],
+  "pool50_light": [
+   {
+    "id": "a3321174-f71e-4654-8bf6-7f3dbfc95aef",
+    "source_file": "DXC-Connexion-Como-programar-una-salida-de-averia-general",
+    "page_number": 1,
+    "similarity": 0.8
+   },
+   {
+    "id": "35ad037c-c396-496a-b968-33304e809a4e",
+    "source_file": "DXc_Guia de usuario_multiling",
+    "page_number": 1,
+    "similarity": 0.8
+   },
+   {
+    "id": "9c05940e-dd72-43db-b950-7acb38d2a922",
+    "source_file": "DXC-Connexion-Compatibilidad-de-programas-con-versiones",
+    "page_number": 1,
+    "similarity": 0.8
+   },
+   {
+    "id": "7d9aaa12-cb12-4fe1-aab6-fcd6fe195a3b",
+    "source_file": "DXc_Manual de usuario",
+    "page_number": 5,
+    "similarity": 0.8
+   },
+   {
+    "id": "5ee63352-b90a-49a5-a253-ff4a82cadd42",
+    "source_file": "DXC-Connexion-Averia-F-Alimentacion-externa",
+    "page_number": 1,
+    "similarity": 0.8
+   },
+   {
+    "id": "03ae5580-bbfe-4393-b8d3-bd7a2cc0f071",
+    "source_file": "DXc_Guia de instalacion_multiling",
+    "page_number": 4,
+    "similarity": 0.8
+   },
+   {
+    "id": "6a5a8ba9-0abe-415d-b3aa-10946432ea49",
+    "source_file": "DXc_Manual de configuracion",
+    "page_number": 12,
+    "similarity": 0.8
+   },
+   {
+    "id": "69cb8f73-3c8c-4de2-9446-e366d04dc602",
+    "source_file": "Rearme-remoto-en-central-DXc-Connexion",
+    "page_number": 1,
+    "similarity": 0.72
+   },
+   {
+    "id": "d79dd608-79b8-4f56-af2c-3707d030ca05",
+    "source_file": "DXC-Connexion-Instalacion-y-configuracion-del-modulo-de-comunicacion-RS232",
+    "page_number": 1,
+    "similarity": 0.72
+   },
+   {
+    "id": "0a35b5c3-0063-4a8c-b49c-2b8eabe6da31",
+    "source_file": "DXc_Manual variaciones de mercado",
+    "page_number": 6,
+    "similarity": 0.699201220416806
+   },
+   {
+    "id": "5dcf480f-3d6b-4a11-aa03-d06ba851f824",
+    "source_file": "Morley-Se-pueden-pasar-programaciones-de-ZX-y-Dimension-a-Connexion-DXC",
+    "page_number": 1,
+    "similarity": 0.65
+   },
+   {
+    "id": "c9952764-8b68-4aea-b7ca-9d6a85fa917c",
+    "source_file": "DXc_Connexion Averia-de-resistencia-de-baterias",
+    "page_number": 1,
+    "similarity": 0.65
+   },
+   {
+    "id": "c866a8b3-933b-4a99-855e-d13983c93ed9",
+    "source_file": "DXC-Porque-al-activan-elementos-en-alarma-no-se-enciende-su-led",
+    "page_number": 1,
+    "similarity": 0.65
+   },
+   {
+    "id": "4671350f-f088-4caa-af47-b6def87e7073",
+    "source_file": "DXc_Guia de usuario_multiling",
+    "page_number": 2,
+    "similarity": 0.8
+   },
+   {
+    "id": "469b98c9-58d4-4b92-8c69-6aafa15b6978",
+    "source_file": "DXc_Manual de usuario",
+    "page_number": 6,
+    "similarity": 0.8
+   },
+   {
+    "id": "cdc3ecad-a1ad-4825-838c-3a83a7002a3d",
+    "source_file": "DXc_Manual de configuracion",
+    "page_number": 40,
+    "similarity": 0.8
+   },
+   {
+    "id": "827d36e5-6890-4245-beef-43359d021cff",
+    "source_file": "DXc_Manual variaciones de mercado",
+    "page_number": 5,
+    "similarity": 0.660129885658039
+   },
+   {
+    "id": "31295f9c-2f2f-4248-9b77-38024af1dcb6",
+    "source_file": "DXc_Guia de usuario_multiling",
+    "page_number": 3,
+    "similarity": 0.8
+   },
+   {
+    "id": "9d6b170a-c6c3-4c12-8eee-2f8c8d6c4998",
+    "source_file": "DXc_Manual de usuario",
+    "page_number": 11,
+    "similarity": 0.8
+   },
+   {
+    "id": "d21a29c8-41c2-43f6-be15-1c11f5ec8ffd",
+    "source_file": "DXc_Manual de configuracion",
+    "page_number": 19,
+    "similarity": 0.65
+   },
+   {
+    "id": "86168af5-8ede-40d6-9e27-1342d2c275c7",
+    "source_file": "DXc_Manual de usuario",
+    "page_number": 15,
+    "similarity": 0.8
+   },
+   {
+    "id": "73babdc6-895b-4d3b-aedc-fd6e44133f39",
+    "source_file": "DXc_Manual de configuracion",
+    "page_number": 19,
+    "similarity": 0.65
+   },
+   {
+    "id": "e8527da2-c31c-4bb0-a315-b026bb67bb1a",
+    "source_file": "DXc_Manual de usuario",
+    "page_number": 17,
+    "similarity": 0.8
+   },
+   {
+    "id": "4b983da1-5723-4c90-a305-5737fcf03987",
+    "source_file": "DXc_Manual de configuracion",
+    "page_number": 66,
+    "similarity": 0.592883968777421
+   },
+   {
+    "id": "c5da1b88-737c-474b-bb11-295928746cee",
+    "source_file": "DXc_Manual de usuario",
+    "page_number": 4,
+    "similarity": 0.8
+   },
+   {
+    "id": "9051e732-a413-4711-86d9-93a10211dbaf",
+    "source_file": "DXc_Manual de usuario",
+    "page_number": 9,
+    "similarity": 0.8
+   },
+   {
+    "id": "3c552cd9-8381-44cd-ae35-919b017aee61",
+    "source_file": "DXc_Manual de usuario",
+    "page_number": 26,
+    "similarity": 0.8
+   },
+   {
+    "id": "1a021bd5-8dfd-4333-a015-855c307b3219",
+    "source_file": "DXc_Manual de usuario",
+    "page_number": 27,
+    "similarity": 0.8
+   }
+  ]
+ },
+ "hp004": {
+  "question": "¿Cuál es la tensión de funcionamiento y el consumo en reposo del detector DGD-600 de Detnov?",
+  "conducta_esperada": "clarify",
+  "frozen_at": "2026-07-01T23:53:57",
+  "n_context_hydrated": 4,
+  "top5": [
+   {
+    "id": "bf78e1db-f87b-4b60-b77f-2afae628c736",
+    "content": "# DETECTORES DE GAS AUTÓNOMO\n\n## Detectores de gas autónomo\n\n*Leer detenidamente este manual antes de poner en servicio el dispositivo.*\n\n*Este dispositivo debe ser instalado por personal cualificado.*\n\n*Algunos productos de limpieza como lejía, amoniaco… disolventes o pinturas y sus gases puede afectar en el proceso de detección.*\n\n*No manipular el dispositivo sin desconectar previamente los cables de alimentación*\n\n*Limpiar únicamente con un paño húmedo.*\n\n*Es posible oler a gas antes de detectar la fuga*\n\n*En caso de alarma: No operar ningún interruptor eléctrico, no fumar ni crear ninguna llama. Abrir puertas y ventanas para ventilar el área, verificar que los aparatos que funcionan con gas están apagados y si es posible cerrar la llave de paso del gas.*\n\n## ~~Colocación de los detectores~~\n\nTeniendo en cuenta las diferentes densidades de los gases, el detector para gases LP debe instalarse 30 cm sobre el suelo y el detector para gasas más ligeros que el aire 30 cm bajo el techo. Tal como muestra la siguiente figura:\n\n| 30 cm | DGD-600 |\n| ----- | ------- |\n| 30 cm | DGD-620 |\n\n## ~~Montaje del detector~~\n\nPara desmontar un detector previamente montado es necesario presionar con un destornillador sobre la pestaña\n\nLas bases pueden atornillarse directamente en la pared o montarse sobre un carril DIN de 35mm.\n\nLa carcasa se fija sobre la base como muestra la imagen:\n\n## 1- Introducción\n\nLa gama de detectores de gas autónomos ha sido desarrollada para detectar cualquier fuga de gases inflamables de uso cotidiano. Está compuesta de los siguientes modelos:\n\n- Gases más ligeros que el aire: Metano, gas ciudad, gas natural. DGD-600\n- Gases licuados del petróleo (LP): Butano y Propano. DGD-620\n\nAmbos incluyen 1 relé de alarma y otro apara avería además de 3 LEDS para indicar el estado del detector en todo momento: Verde-servicio, amarillo-avería, rojo-alarma.\n\n## 2- Instalación\n\nEl DGD-600 debe conectarse a 24v o 220v (según modelo) a través de los conectores destinados para ello, tal y como muestran las siguientes imágenes:\n\n**220V:**\n\n```\nL -------- 230VAC\nN\n           + LOOP IN\n           + LOOP OUT ---- ADDRESSABLE\n                      ---- CONVENTIONAL\n```\n\n**24V:**\n\n```\n           + -------- 24VCC\n           -\n           + LOOP IN\n           + LOOP OUT ---- ADDRESSABLE\n                      ---- CONVENTIONAL\n```\n\nOpcionalmente los detectores pueden conectarse al lazo de comunicaciones de cualquier sistema analógico DETNOV.\n\n```\nL -------- 230VAC\nN\nLOOP IN\nLOOP OUT\n           + LOOP IN\n           + LOOP OUT ---- ADDRESSABLE\n                      ---- CONVENTIONAL\n```\n\nPara conectarlo es necesario asignarle una dirección correcta mediante el programador de direcciones PGD-200 y colocar todos los 3 jumpers en los terminales \"addresable\". En caso contrario, colocar sobre \"stand alone\".\n\nLos relés se pueden utilizar para actuar sobre cualquier tipo de circuito eléctrico. Verifique en el apartado de Características Técnicas el valor de corriente y tensión máxima de los contactos.\n\n## 3- Test y mantenimiento",
+    "product_model": "DGD-600",
+    "category": "Detección analógica",
+    "section_title": "DETECTORES DE GAS AUTÓNOMO",
+    "content_type": "troubleshooting",
+    "manufacturer": "Detnov",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "55360004 Manual Detector Gas DGD-600 ES EN IT FR",
+    "page_number": 1,
+    "document_id": "4fa6d176-48a2-4283-a52a-b681c792d394",
+    "similarity": 0.65,
+    "_channel": "MODEL",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "short-circuit",
+    "context": "Este fragmento corresponde a la sección en español del manual de los detectores de gas autónomo DGD-600 y DGD-620, abarcando desde la portada hasta la sección de prueba y mantenimiento, e incluye instrucciones de seguridad, colocación, montaje e instalación eléctrica de estos dispositivos."
+   },
+   {
+    "id": "9786969a-8168-457b-aed8-3337235d874f",
+    "content": "Los detectores estarán operativos unos segundos después de encenderse. El botón de test permite comprobar el correcto funcionamiento de los LEDS y los relés. El detector debe ser sustituido 10 años después de su fecha de fabricación. La fecha de fabricación está impresa en la pegatina adjunta en el lateral del dispositivo.\n\n## 4- Características técnicas\n\n### Características medioambiantales\n\n| Temperatura de trabajo        | -10 ºC a 40 ºC       |\n| ----------------------------- | -------------------- |\n| Temperatura de almacenamiento | -10 º a 40 º C       |\n| Humedad relative              | 90% sin condensación |\n| Indice IP                     | IP32D                |\n\n### Especificaciones detector\n\n|                                        | 24V                           | 220V           |\n| -------------------------------------- | ----------------------------- | -------------- |\n| Tensión de funcionamiento              | De 22V a 38V                  | de 180V a 240V |\n| Consumo en reposo                      | 45 mA                         | 70 mA          |\n| Consumo en alarma                      | 65 mA                         | 70 mA          |\n| Área cobertura                         | 20m²                          |                |\n| Contactos de Relés                     | 1A\\@30VDC                     |                |\n| Limite infereior de explosividad (LIE) | 10%                           |                |\n| Vida útil                              | 10 años desde su fabricación. |                |\n\n### Características Conexiado\n\n| Tipo de cable | 2x1,5 |\n| ------------- | ----- |\n\n### Características físicas\n\n| Ancho x Largo x Alto | 89mm x 146.5mm x 39mm |\n| -------------------- | --------------------- |\n\nREF: 55360004\n\n----",
+    "product_model": "DGD-600",
+    "category": "Detección analógica",
+    "section_title": "DETECTORES DE GAS AUTÓNOMO",
+    "content_type": "specification",
+    "manufacturer": "Detnov",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "55360004 Manual Detector Gas DGD-600 ES EN IT FR",
+    "page_number": 1,
+    "document_id": "4fa6d176-48a2-4283-a52a-b681c792d394",
+    "similarity": 0.65,
+    "_channel": "MODEL",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "short-circuit",
+    "context": "Este fragmento contiene la sección 3 de Test y Mantenimiento y la sección 4 de Características Técnicas del detector de gas autónomo DGD-600/DGD-620 en su versión en español, incluyendo especificaciones de funcionamiento, consumo energético, rango de temperaturas y dimensiones físicas del dispositivo."
+   },
+   {
+    "id": "c686587f-ed88-4594-af2c-0402264d2cec",
+    "content": "# STAND - ALONE GAS DETECTOR\n\n## Stand - alone gas detector\n\n*Read and understand manual before operating or servicing this device.*\n\n*This device should be installed by qualified personnel.*\n\n*Some cleaning products like bleach, ammonia… thinners or paints and its gases may effect on the detection process.*\n\n*Do not handle without disconnecting power supplier wires.*\n\n*Only clean the Detector with a wet cloth.*\n\n*It's posible to smell gas before to detect the leak*\n\n*in case of alarm: do not operate any electrical switches (on or off), do not smoke or use a naked flame. Open doors and windows to ventilate the area, check your gas appliances and turn them off and if it's posible turn the gas supply off at the main control valve.*\n\n## ~~Placement of the detectors~~\n\nConsidering the different density of gases, the detector for LP gases will be installed at 30cm from the ground. And the detector for gases lighter than air at 30cm from the roof, as indicates in the figure:\n\n| 30 cm | DGD-600 |\n| ----- | ------- |\n| 30 cm | DGD-620 |\n\n## ~~Sensor mounting~~\n\nTo extract a detector that has been mounted, it is necessary to press with a screwdriver into the slot to release the locking tab.\n\nBases could be screwed to the wall or mounted over a 35mm DIN rail\n\nDetectors are directly fixed to their base as the image shows.\n\n## 1- Introducction\n\nThe range of stand-alone gas detectors has been developed in order to detect any leak of flammable gas for everyday use and it is composed of the following models:\n\n- Gases lighter than air: Methane, city gas, natural gas. DGD-600\n- Liquefied petroleum gas (LP): butane and propane. DGD-620\n\nBoth of them include 1 relay to alarm signal and other to fault signal, also 3 LEDS to indicate what the status is at that moment: green- service, yellow-fault and red-alarm.\n\n## 2- Installation\n\nDGD-600 must be connected to 24V or 220V (depending on the model) through the connectors intended for it. The images below show the standard connection for the stand alone detectors.\n\n**220V:**\n\n```\nL -------- 230VAC\nN\n           + LOOP IN\n           + LOOP OUT ---- ADDRESSABLE\n                      ---- CONVENTIONAL\n```\n\n**24V:**\n\n```\n           + -------- 24VCC\n           -\n           + LOOP IN\n           + LOOP OUT ---- ADDRESSABLE\n                      ---- CONVENTIONAL\n```\n\nOptionally detectors can be connected to the information lines of the loop to add them to any analogue DETNOV detection systems\n\n```\nL -------- 230VAC\nN\nLOOP IN\nLOOP OUT\n           + LOOP IN\n           + LOOP OUT ---- ADDRESSABLE\n                      ---- CONVENTIONAL\n```\n\nTo connect the detector to the analogue system is necessary give it a correct addresses with PGD-200 and place three jumpers on addressable position. If not all of them must be on stand-alone position.\n\nThe relays can be used on any electrical circuit. Check the technical data section for specifications off relays\n\n## 3- Test and maintenance",
+    "product_model": "DGD-600",
+    "category": "Detección analógica",
+    "section_title": "STAND - ALONE GAS DETECTOR",
+    "content_type": "general",
+    "manufacturer": "Detnov",
+    "protocol": null,
+    "doc_type": null,
+    "language": "en",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "55360004 Manual Detector Gas DGD-600 ES EN IT FR",
+    "page_number": 1,
+    "document_id": "4fa6d176-48a2-4283-a52a-b681c792d394",
+    "similarity": 0.65,
+    "_channel": "MODEL",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "short-circuit",
+    "context": "Este fragmento corresponde a la sección de **STAND-ALONE GAS DETECTOR** en idioma inglés, que forma parte del manual técnico de los detectores de gas autónomos DGD-600 y DGD-620, cubriendo desde las advertencias iniciales hasta las instrucciones de instalación y prueba del dispositivo."
+   },
+   {
+    "id": "ac2b2d28-bc04-4c4c-80f9-804f192eb88a",
+    "content": "Detectors will be operational a few seconds after turning it on. Test button allows user to test the correct functioning of LEDS and relays.\n\nThe detector has to be replaced 10 years after manufacturing. Manufacturing date is printed on the sticker attached on the detector.\n\n## 4-Technical features\n\n### Environmental Range\n\n| Working Temperature | -10 ºC a 40 ºC          |\n| ------------------- | ----------------------- |\n| Storage Temperature | -10 º a 40 º C          |\n| Relative Humidity   | 90% without condesation |\n| Protection Index    | IP32D                   |\n\n### Detector Specification\n\n|                               | 24V                          | 220V        |\n| ----------------------------- | ---------------------------- | ----------- |\n| Working Voltage               | 22V a 38V                    | 180V a 240V |\n| Quiescent current consumption | 45 mA                        | 70 mA       |\n| Alarm consumption             | 65 mA                        | 70 mA       |\n| Coverage area                 | 20m²                         |             |\n| Relays contact                | 1A\\@30VDC                    |             |\n| Lower explosive Limit (LEL)   | 10%                          |             |\n| Useful life                   | 10 years since manufacturing |             |\n\n### Wiring recommend\n\n| Cable type | 2x1,5 |\n| ---------- | ----- |\n\n### Características físicas\n\n| Width x Depth x Height | 89mm x 146.5mm x 39mm |\n| ---------------------- | --------------------- |\n\nREF: 55360004",
+    "product_model": "DGD-600",
+    "category": "Detección analógica",
+    "section_title": "STAND - ALONE GAS DETECTOR",
+    "content_type": "general",
+    "manufacturer": "Detnov",
+    "protocol": null,
+    "doc_type": null,
+    "language": "en",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "55360004 Manual Detector Gas DGD-600 ES EN IT FR",
+    "page_number": 1,
+    "document_id": "4fa6d176-48a2-4283-a52a-b681c792d394",
+    "similarity": 0.65,
+    "_channel": "MODEL",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "short-circuit",
+    "context": "Este fragmento corresponde a la sección 3 (Test y mantenimiento) y sección 4 (Características técnicas) del manual en inglés del Detector de Gas Stand-Alone DGD-600/DGD-620, detallando los procedimientos de prueba, mantenimiento y las especificaciones técnicas ambientales, eléctricas y físicas del dispositivo."
+   }
+  ],
+  "pool50_light": [
+   {
+    "id": "bf78e1db-f87b-4b60-b77f-2afae628c736",
+    "source_file": "55360004 Manual Detector Gas DGD-600 ES EN IT FR",
+    "page_number": 1,
+    "similarity": 0.65
+   },
+   {
+    "id": "9786969a-8168-457b-aed8-3337235d874f",
+    "source_file": "55360004 Manual Detector Gas DGD-600 ES EN IT FR",
+    "page_number": 1,
+    "similarity": 0.65
+   },
+   {
+    "id": "c686587f-ed88-4594-af2c-0402264d2cec",
+    "source_file": "55360004 Manual Detector Gas DGD-600 ES EN IT FR",
+    "page_number": 1,
+    "similarity": 0.65
+   },
+   {
+    "id": "ac2b2d28-bc04-4c4c-80f9-804f192eb88a",
+    "source_file": "55360004 Manual Detector Gas DGD-600 ES EN IT FR",
+    "page_number": 1,
+    "similarity": 0.65
+   }
+  ]
+ },
+ "cat024": {
+  "question": "¿Cuál es el consumo en alarma de la sirena analógica de zócalo Detnov MAD-472?",
+  "conducta_esperada": "answer",
+  "frozen_at": "2026-07-01T23:58:45",
+  "n_context_hydrated": 1,
+  "top5": [
+   {
+    "id": "e19c4b0c-6845-4438-b1ff-06d79bef7d93",
+    "content": "SIRENA ANALÓGICA DE ZÓCALO\nANALOGUE BASE SOUNDER\n\n# ESPAÑOL\n\n## Sirena Analógica de Zócalo\n\n### 1- Introducción\n\nLa sirena analógica de zócalo proporciona al sistema de detección de incendio una señal acústica y de alarma en el interior de los edificios con el fin de avisar a las personas que se encuentran en el interior de un edificio para avisarlas de una alarma.\n\n### Direccionamiento.\n\nLa sirena analógica de zócalo, forma parte del sistema analógico, por lo cual precisa de direccionamiento para su identificación. La sirena analógica de zócalo ocupa 1 dirección del lazo y pueden ser numerados de la posición 1 hasta la 250 utilizando el programador.\n\nPara su numeración inserte el cable del programador en el módulo a través del conector situado en el centro de la sirena..\n\n### 3- Prueba y mantenimiento\n\nEl mantenimiento de la sirena consistirá en una inspección visual para verificar su correcto estado, y una prueba de funcionamiento.\n\nREF: 55347200\nREF: 55347200\n\n### 2- Instalación\n\nLas sirenas deben instalarse de modo que la señal acústica cubra todo el local protegido, sin quedar zonas muertas.\n\nLa conexión a la instalación de protección contra incendio debe hacerse siguiendo las instrucciones del siguiente esquema eléctrico, teniendo en cuenta siempre que la alimentación de la instalación esté desconectada. La sirena analógica no precisa alimentación auxiliar, alimentándose directamente del lazo teniendo en cuenta el cuadro de abajo.\n\n```\nWiring Diagram:\nLoop Out -          Loop In -\nLoop Out +          Loop In +\n```\n\n### 4- Características Técnicas\n\n| Características Medioambientales | Características Medioambientales |\n| -------------------------------- | -------------------------------- |\n| •Temperatura trabajo             | -10 à 50 ºC                      |\n| •Temperatura almacén             | -10 à 70 ºC                      |\n| •Humedad relativa                | 95%                              |\n\n| Características Módulo  | Características Módulo |\n| ----------------------- | ---------------------- |\n| •Tensión funcionamiento | 22-38 VDC              |\n| •Consumo                | < 350 μA               |\n| •Consumo en Alarma      | 17 mA (80 dB A)        |\n\n| Características Conexionado | Características Conexionado |\n| --------------------------- | --------------------------- |\n| •Tipo cable                 | 1.5 mm² a regleta extraíble |\n| •Tipo cable                 | Par trenzado apantallado    |\n\n| Características Físicas | Características Físicas |\n| ----------------------- | ----------------------- |\n| Dimensiones             |                         |\n| •Sirena                 | 100 Ø x 150 mm          |\n\n----",
+    "product_model": "MAD-472",
+    "category": "Detección analógica",
+    "section_title": "ESPAÑOL",
+    "content_type": "wiring",
+    "manufacturer": "Detnov",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2",
+    "page_number": 1,
+    "document_id": "27dec7c7-4277-41a8-891a-a3ada52eeb7a",
+    "similarity": 0.65,
+    "_channel": "MODEL",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento corresponde a la sección en español del documento sobre la Sirena Analógica de Zócalo, un dispositivo de alarma acústica para sistemas de detección de incendios. Contiene las instrucciones completas de introducción, direccionamiento, instalación, prueba y mantenimiento, así como las características técnicas del dispositivo."
+   },
+   {
+    "id": "181ac6b0-f83e-43cd-bf0e-a8adafac9970",
+    "content": "| Características Medioambientales | Características Medioambientales |\n| -------------------------------- | -------------------------------- |\n| •Temperatura trabajo             | -10 à 50 ºC                      |\n| •Temperatura almacén             | -10 à 70 ºC                      |\n| •Humedad relativa                | 95%                              |\n| Características Módulo           |                                  |\n| •Tensión funcionamiento          | 22-38 VDC                        |\n| •Consumo                         | < 350 μA                         |\n| •Consumo en Alarma               | 10 mA (80 dB A)                  |\n| Características Conexionado      |                                  |\n| •Tipo cable                      | 1.5 mm² a regleta extraíble      |\n| •Tipo cable                      | Par trenzado apantallado         |\n| Características Físicas          |                                  |\n| Dimensiones                      |                                  |\n| •Sirena                          | 100 Ø x 32 mm                    |\n\n----",
+    "context": "Este fragmento contiene las características técnicas completas de la Sirena Analógica de Zócalo con Flash en la sección 4, incluyendo especificaciones medioambientales, del módulo, de conexionado y físicas del dispositivo de referencia 55347101.",
+    "product_model": "MAD-471",
+    "category": "Detección analógica",
+    "section_title": "4- Características Técnicas",
+    "section_path": "SIRENA ANALÓGICA DE ZÓCALO CON FLASH > Sirena Analógica de Zócalo con Flash > 4- Características Técnicas",
+    "content_type": "specification",
+    "manufacturer": "Detnov",
+    "distributor": null,
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "is_flow_diagram": false,
+    "confidence": 0.889,
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "55347101 Manual Sirena Analogica MAD-471 ES FR GB IT",
+    "page_number": 1,
+    "document_id": "15015287-4b41-4623-96a5-e8076641560b",
+    "similarity": 0.609328389167786,
+    "_channel": "VECTOR",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm"
+   },
+   {
+    "id": "63bf11d7-4029-40a2-b7bf-b5181df199b7",
+    "content": "## 10.2. Dispositivos compatibles y consumos\n\n| Referencia  | Tipo             | Consumo Reposo | Consumo Alarma | Aislador | Alimentación externa | Nº direcc. | Descripción                                                                         |\n| ----------- | ---------------- | -------------- | -------------- | -------- | -------------------- | ---------- | ----------------------------------------------------------------------------------- |\n| DTD-210A    | D.TÉRMICO        | 0,3 mA         | 3 mA           | No       | No                   | 1          | Detector termovelocimétrico analógico                                               |\n| DTD-215A    | D.TÉRMICO        | 0,3 mA         | 3 mA           | No       | No                   | 1          | Detector térmico de alta temperatura analógico                                      |\n| DOD-220A    | D.OPTICO         | 0,3 mA         | 3 mA           | No       | No                   | 1          | Detector óptico analógico                                                           |\n| DOTD-230A   | D.OPTICO-TERMICO | 0,3 mA         | 3 mA           | No       | No                   | 1          | Detector óptico térmico                                                             |\n| DTD-210A-I  | D.TERMICO        | 0,3 mA         | 3 mA           | Si       | No                   | 1          | Detector termovelocimétrico Analógico con aislador                                  |\n| DTD-215A-I  | D.TERMICO        | 0,3 mA         | 3 mA           | Si       | No                   | 1          | Detector térmico de alta temperatura analógico con aislador                         |\n| DOD-220A-I  | D.OPTICO         | 0,3 mA         | 3 mA           | Si       | No                   | 1          | Detector óptico analógico con aislador                                              |\n| DOTD-230A-I | D.OPTICO-TERMICO | 0,3 mA         | 3 mA           | Si       | No                   | 1          | Detector termovelocimétrico analógico con aislador                                  |\n| DGD-600     | GAS              | 4,5 mA         | 65 mA          | No       | No                   | 1          | Detector de gases inflamables ligeros, Metano, Gas Natural, Hidrógeno               |\n| DGD-600-AC  |                  | 3,5 mA         | 62 mA          | No       | No                   |            |                                                                                     |\n| DGD-620     | GAS              | 4,5 mA         | 65 mA          | No       | No                   | 1          | Detector de gases inflamables pesados, Gases Licuados del Petroleo, Propano, Butano |\n| DGD-620-AC  |                  | 3,5 mA         | 62 mA          | No       | No                   |            |                                                                                     |\n| MAD-401     | MOD              | 0,3 mA         | 1,5 mA         | No       | No                   | 1          | Módulo analógico monitor de 1 entrada.                                              |\n| MAD-401-I   | MOD              | 0,3 mA         | 1,5 mA         | Sí       | No                   | 1          | Módulo analógico monitor de 1 entrada con aislador.                                 |\n| MAD-402     | MOD              | 0,3 mA         | 1,5 mA         | No       | No                   | 2          | Módulo monitor analógico de 2 entradas.                                             |\n| MAD-402-I   | MOD              | 0,3 mA         | 1,5 mA         | Sí       | No                   | 2          | Módulo monitor analógico de 2 entradas con aislador.                                |\n| MAD-405-I   | MOD              | 0,3 mA         | 1,5 mA         | Si       | No                   | 5          | Módulo analógico de 5 entradas con aislador.                                        |\n| MAD-409-I   | MOD              | 0,3 mA         | 1,5 mA         | Si       | No                   | 10         | Módulo analógico de 10 entradas con aislador.                                       |\n| MAD-410-I   | MOD              | 0,3 mA         | 1,5 mA         | Si       | No                   | 10         |                                                                                     |\n| MAD-411     | MOD              | 0,3 mA         | 1,5 mA         | No       | No                   | 1          | Módulo analógico de control de 1 salida.                                            |\n| MAD-411-I   | MOD              | 0,3 mA         | 1,5 mA         | Si       | No                   | 1          | Módulo analógico de control de 1 salida con aislador                                |\n| MAD-412     | MOD              | 0,3 mA         | 1,5 mA         | No       | No                   | 2          | Módulo analógico de control de 2 salidas.                                           |\n| MAD-412-I   | MOD              | 0,3 mA         | 1,5 mA         | Si       | No                   | 2          | Módulo analógico de control de 2 salidas con aislador.                              |\n| MAD-415-I   | MOD              | 0,3 mA         | 1,5 mA         | Si       | Sí                   | 5          | Módulo analógico de 5 salidas de relé con aislador                                  |\n| MAD-419-I   | MOD              | 0,3 mA         | 1,5 mA         | Si       | Sí                   | 10         | Módulo analógico de 10 salidas de relé. con aislador.                               |\n| MAD-421     | MOD              | 0,3 mA         | 1,5 mA         | No       | No                   | 2          | Módulo analógico monitor y de control de 1 entrada.                                 |\n| MAD-421-I   | MOD              | 0,3 mA         | 1,5 mA         | Si       | No                   | 2          | Módulo analógico monitor y de control de 1 entrada con aislador.                    |",
+    "context": "Este fragmento forma parte del Anexo 2 \"Dispositivos compatibles y consumos\" de la Guía de Instalación de la central de alarma contra incendios CAD-250 de Detnov, y proporciona una tabla detallada de los dispositivos analógicos compatibles (detectores, módulos, pulsadores y sirenas) con sus especificaciones técnicas de consumo eléctrico y características funcionales.",
+    "product_model": "CAD-250",
+    "category": "Detección analógica",
+    "section_title": "10.2. Dispositivos compatibles y consumos",
+    "section_path": "10. Anexos > 10.2. Dispositivos compatibles y consumos",
+    "content_type": "specification",
+    "manufacturer": "Detnov",
+    "distributor": null,
+    "protocol": null,
+    "doc_type": "instalacion",
+    "language": "es",
+    "is_flow_diagram": false,
+    "confidence": 0.993,
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+    "page_number": 55,
+    "document_id": "d58f75b3-ce81-4bc7-add5-096933e254c7",
+    "similarity": 0.602702260017395,
+    "_channel": "VECTOR",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm"
+   },
+   {
+    "id": "27355469-1dec-4539-9663-c20d556e1964",
+    "content": "57\n\nESP\n\n| Referencia | Tipo   | Consumo Reposo | Consumo Alarma | Aislador | Alimentación externa | Nº direcc. | Descripción                                                                                                                  |\n| ---------- | ------ | -------------- | -------------- | -------- | -------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------- |\n| MAD-422    | MOD    | 0,3 mA         | 1,5 mA         | No       | Sí                   | 4          | Módulo monitor y de control analógico de 2 entradas y 2 salidas de relés                                                     |\n| MAD-422-I  | MOD    | 0,3 mA         | 1,5 mA         | Si       | Sí                   | 4          | Módulo monitor y de control analógico de 2 entradas y 2 salidas de relés con aislador.                                       |\n| MAD-425-I  | MOD    | 0,3 mA         | 1,5 mA         | Si       | Sí                   | 10         | Módulo analógico de 5 entradas técnicas y 5 salidas de relé                                                                  |\n| MAD-429-I  | MOD    | 0,3 mA         | 1,5 mA         | Si       | Sí                   | 20         | Módulo analógico de 10 entradas técnicas y 10 salidas de relé                                                                |\n| MAD-431    | MOD    | 0,3 mA         | 1,5 mA         | No       | Sí                   | 1          | Módulo de control analógico de 1 salida de 24v supervisados                                                                  |\n| MAD-431-I  | MOD    | 0,3 mA         | 1,5 mA         | Si       | Sí                   | 1          | Módulo de control analógico de 1 salida de 24v supervisados con aislador                                                     |\n| MAD-432    | MOD    | 0,3 mA         | 1,5 mA         | No       | Sí                   | 2          | Módulo de control analógico de 2 salidas de 24v                                                                              |\n| MAD-432-I  | MOD    | 0,3 mA         | 1,5 mA         | Si       | Sí                   | 2          | Módulo de control analógico de 2 salidas de 24v con aislador                                                                 |\n| MAD-441    | MOD    | 0,3 mA         | 1,5 mA         | No       | Sí                   | 1          | Módulo monitor analógico de 1 zona convencional.                                                                             |\n| MAD-441-I  | MOD    | 0,3 mA         | 1,5 mA         | Si       | Sí                   | 1          | Módulo monitor analógico de 1 zona convencional. con aislador                                                                |\n| MAD-442    | MOD    | 0,3 mA         | 1,5 mA         | No       | Sí                   | 2          | Módulo monitor analógico de 2 zonas convencionales.                                                                          |\n| MAD-442-I  | MOD    | 0,3 mA         | 1,5 mA         | Si       | Sí                   | 2          | Módulo monitor analógico de 2 zonas convencionales con aislador                                                              |\n| MAD-450    | PUL    | 0,3 mA         | 1,5 mA         | No       | No                   | 1          | Pulsador Analógico                                                                                                           |\n| MAD-450-I  | PUL    | 0,3 mA         | 1,5 mA         | Si       | No                   | 1          | Pulsador Analógico con aislador                                                                                              |\n| MAD-451-I  | PUL    | 0,3 mA         | 1,5 mA         | Sí       | No                   | 1          | Pulsador de alarma analógico rearmable con aislador incorporado                                                              |\n| MAD-450-IW | PUL    | 0,3 mA         | 1,5 mA         | No       | No                   | 1          | Pulsador IP67 de alarma analógico rearmable                                                                                  |\n| MAD-461-I  | SIR    | 0,3 mA         | 4,5 mA         | Sí       | No                   | 1          | Sirena direccionable con aislador.                                                                                           |\n| MAD-464-I  | SIR    | 0,3 mA         | 6,5 mA         | Sí       | No                   | 1          | Sirena direccionable con aislador incorporado.                                                                               |\n| MAD-465-I  | SIR    | 0,3 mA         | 6,5 mA         | Sí       | No                   | 1          | Sirena con flash direccionable con aislador incorporado.                                                                     |\n| MAD-467-IC | SIR    |                |                | Sí       |                      | 1          | Sirena analógica de alarma de color rojo con flash de                                                                        |\n| MAD-467-IW | SIR    |                |                | Sí       |                      | 1          | Sirena analógica de alarma de color rojo con flash de color blanco para instalación en pared, con aislador incorporado       |\n| MAD-469-IC | SIR    |                |                | Sí       |                      | 1          | Flash analógico de color blanco con base roja para instalación en techo con entrada de tubo visto, con aislador incorporado. |\n| MAD-469-IW | SIR    |                |                | Sí       |                      | 1          | Flash analógico de color blanco con base roja para instalación en pared con entrada de tubo visto, con aislador incorporado. |\n| MAD-472    | SIR    | 0,35 mA        | 7 mA           | No       |                      | 1          |                                                                                                                              |\n| MAD-473    | SIR    | 0,35 mA        | 7,5 mA         | No       |                      | 1          | Base de conexión con sirena y flash analógico incorporada.                                                                   |\n| MAD-481    | MOD    | 0,3 mA         | 1,5 mA         | No       | Sí                   | 1          | Módulo de control analógico de 1 salida de relé libre de tensión de 240 Vac y 5A.                                            |\n| MAD-490    | ISO    | 0,3 mA         |                | N/A      | No                   | N/A        | Módulo aislador                                                                                                              |\n| PAD-10     | PILOTO | 0,625 mA       | 2,5 mA         |          | No                   | 1          | Piloto remoto direccionable                                                                                                  |",
+    "context": "Este fragmento es parte de la sección \"10.2. Dispositivos compatibles y consumos\" de la Guía de Instalación de la central CAD-250, que proporciona una tabla detallada de dispositivos analógicos Detnov compatibles (módulos, pulsadores y sirenas) con sus especificaciones de consumo, aislador y funcionalidad.",
+    "product_model": "CAD-250",
+    "category": "Detección analógica",
+    "section_title": "10.2. Dispositivos compatibles y consumos",
+    "section_path": "10. Anexos > 10.2. Dispositivos compatibles y consumos",
+    "content_type": "specification",
+    "manufacturer": "Detnov",
+    "distributor": null,
+    "protocol": null,
+    "doc_type": "instalacion",
+    "language": "es",
+    "is_flow_diagram": false,
+    "confidence": 0.993,
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+    "page_number": 55,
+    "document_id": "d58f75b3-ce81-4bc7-add5-096933e254c7",
+    "similarity": 0.632850367809843,
+    "_channel": "VECTOR",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm"
+   },
+   {
+    "id": "7d5c8a6f-1ace-47a1-aa29-aaeac6190e76",
+    "content": "# SIRENA Y SIRENA ANALÓGICA CON FLASH\n\n| Sirena Analógica | Sirena con Flash Analógica |\n| ---------------- | -------------------------- |\n\n## Direccionamiento.\n\nLa sirena analógica y la sirena analógica con flash, forma parte del sistema analógico, por lo cual precisa de direccionamiento para su identificación. Tanto la sirena analógica como el Flash analógico ocupan 1 dirección del lazo y ambos pueden ser numerados de la posición 1 hasta la 250 utilizando el programador.\n\nPara su numeración inserte el cable del programador en el módulo a través del conector marcado con LOOP IN.\n\n## 3- Prueba y mantenimiento\n\nEl mantenimiento de las sirenas consistirá en una inspección visual para verificar su correcto estado, y una prueba de funcionamiento.\n\n## 1- Introducción\n\nLa sirena analógica y la sirena analógica con flash proporcionan al sistema de detección de incendio una señal acústica y óptica-acústica de alarma en el interior de los edificios con el fin de avisar a las personas que se encuentran en el interior de un edificio para avisarlas de una alarma.\n\nAmbas sirenas están disponible en dos modelos, con o sin aislador.\n\nREF: 55346102\n\n## 2- Instalación\n\nLas sirenas deben instalarse de modo que la señal acústica cubra todo el local protegido, sin quedar zonas muertas.\n\nLa conexión a la instalación de protección contra incendio debe hacerse siguiendo las instrucciones del siguiente esquema eléctrico, teniendo en cuenta siempre que la alimentación de la instalación esté desconectada. La sirena analógica y el flash analógico no precisa alimentación auxiliar, alimentándose directamente del lazo teniendo en cuenta el cuadro de abajo.\n\n[Wiring diagram showing circular ceiling mount with connections:\n\n- S IN\n- + LOOP\n- 0 OUT\n- LOOP]\n\n## 4- Características Técnicas\n\n### Modelo-Referencia\n\n| Características Medioambientales | Características Medioambientales | Características Medioambientales |\n| -------------------------------- | -------------------------------- | -------------------------------- |\n| •Temperatura trabajo             | -10 a 50º C                      | -10 a 50º C                      |\n| •Temperatura almacén             | -10 a 70º C                      | -10 a 70º C                      |\n| •Humedad relativa                | 95%                              | 95%                              |\n\n| Características Módulo  | Características Módulo | Características Módulo |\n| ----------------------- | ---------------------- | ---------------------- |\n| •Tensión funcionamiento | 22 - 38 VDC            | 22 - 38 VDC            |\n| •Consumo                | < 300 μA               | < 300 μA               |\n| •Consumo en Alarma      | <10mA @ 82,5dB(A)      | <10mA @ 82,5dB(A)      |",
+    "context": "Este fragmento corresponde a la sección de documentación técnica en español sobre la Sirena Analógica y Sirena Analógica con Flash, que forma parte de un sistema de detección de incendios. Describe la introducción del producto, instalación, direccionamiento, pruebas de mantenimiento y características técnicas de estos dispositivos de alarma acústica y óptica-acústica.",
+    "product_model": "MAD-461",
+    "category": "Detección analógica",
+    "section_title": "SIRENA Y SIRENA ANALÓGICA CON FLASH",
+    "section_path": "SIRENA Y SIRENA ANALÓGICA CON FLASH",
+    "content_type": "specification",
+    "manufacturer": "Detnov",
+    "distributor": null,
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "is_flow_diagram": false,
+    "confidence": 0.988,
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "55346102 Manual Sirena Analogica MAD-461 ES FR GB IT",
+    "page_number": 1,
+    "document_id": "f00d814e-666b-4487-a0e9-fdbe01b7c410",
+    "similarity": 0.580912938009154,
+    "_channel": "VECTOR",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm"
+   }
+  ],
+  "pool50_light": [
+   {
+    "id": "457f1b97-8798-4022-b740-7ab6414a2636",
+    "source_file": "55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2",
+    "page_number": 1,
+    "similarity": 0.65
+   },
+   {
+    "id": "27355469-1dec-4539-9663-c20d556e1964",
+    "source_file": "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+    "page_number": 55,
+    "similarity": 0.632850367809843
+   },
+   {
+    "id": "5bb653d4-fefc-45ca-81cf-6ddccb19738d",
+    "source_file": "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+    "page_number": 87,
+    "similarity": 0.623582490042013
+   },
+   {
+    "id": "e9ee8c79-22cb-47e0-b99d-8ddedce5d036",
+    "source_file": "CAD-250_Manual-software-configuracion-MS-416-es-2026-b",
+    "page_number": 70,
+    "similarity": 0.621933396631487
+   },
+   {
+    "id": "f9cab9b2-da8c-4181-8413-0bbbeefa11b1",
+    "source_file": "Manual_MAD-465-I (55346500 MI 620 m 2024 c)",
+    "page_number": 1,
+    "similarity": 0.620856165885925
+   },
+   {
+    "id": "5f95d527-e037-4110-87ca-0d0dce16b5d8",
+    "source_file": "MIDT212",
+    "page_number": 46,
+    "similarity": 0.618698037785176
+   },
+   {
+    "id": "248eb7da-80d0-470f-bddb-b024c21de8a4",
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 53,
+    "similarity": 0.616305351257324
+   },
+   {
+    "id": "d4ec2100-53ef-4cd2-9401-16efc2a1ae5c",
+    "source_file": "Manual MAD-567_569 (55356900 Mi 535 m 2022 b)",
+    "page_number": 1,
+    "similarity": 0.611422469274257
+   },
+   {
+    "id": "345b497d-714d-4cb8-9cf2-a07783f5ab1e",
+    "source_file": "AM 8200G manual instalacion Rv 3",
+    "page_number": 37,
+    "similarity": 0.609455676295716
+   },
+   {
+    "id": "181ac6b0-f83e-43cd-bf0e-a8adafac9970",
+    "source_file": "55347101 Manual Sirena Analogica MAD-471 ES FR GB IT",
+    "page_number": 1,
+    "similarity": 0.609328389167786
+   },
+   {
+    "id": "e6effb9d-63c2-4f68-b807-3a3b6ac455d9",
+    "source_file": "55356500-Manual-Sirena-Analogica-MAD565-I_ES_GB_MI-466-m-2020-e",
+    "page_number": 1,
+    "similarity": 0.60783436251674
+   },
+   {
+    "id": "e425ed99-4943-49b9-998a-9961c34402f6",
+    "source_file": "MIDT190",
+    "page_number": 73,
+    "similarity": 0.606108701593204
+   },
+   {
+    "id": "2f07a3c0-860a-4ad0-bb09-99b0d5ee4de5",
+    "source_file": "MIE-MI-310",
+    "page_number": 26,
+    "similarity": 0.606005061746558
+   },
+   {
+    "id": "ab988e51-d18f-4d1d-9f0e-3b4bd73179b2",
+    "source_file": "AM 8100-manual instalacion RV 3 30-01-2025",
+    "page_number": 30,
+    "similarity": 0.605320894401021
+   },
+   {
+    "id": "09ef555b-d7d5-4f0e-a910-b0f87eadcdc4",
+    "source_file": "MIDT260",
+    "page_number": 25,
+    "similarity": 0.604733419982607
+   },
+   {
+    "id": "f4568dc5-fcfd-434e-8673-f5c7f7d9526c",
+    "source_file": "I56-1671-003 LPB-620 ManualES",
+    "page_number": 2,
+    "similarity": 0.599151015281677
+   },
+   {
+    "id": "25cd9c1e-3ad3-4566-96eb-1176000696bb",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 37,
+    "similarity": 0.597438746461759
+   },
+   {
+    "id": "cea283b2-94a6-4209-9489-54dc57d64160",
+    "source_file": "AM 8200N-manual instalacion RV 4 30-01-2025",
+    "page_number": 34,
+    "similarity": 0.596983313560486
+   },
+   {
+    "id": "69f393a5-0df7-4fbd-ab18-1694bb0b667f",
+    "source_file": "MNDT410",
+    "page_number": 13,
+    "similarity": 0.594587255169485
+   },
+   {
+    "id": "f8941cdc-5029-4903-ad95-6f4168757fde",
+    "source_file": "MIE-MC-530",
+    "page_number": 26,
+    "similarity": 0.592294145549046
+   },
+   {
+    "id": "6a6a9cbb-ddfb-4e94-b884-8a2035d266e8",
+    "source_file": "MNDT725_40-40M",
+    "page_number": 52,
+    "similarity": 0.591236251331456
+   },
+   {
+    "id": "d753f9dc-d87d-401e-9bc3-7b3cdf291649",
+    "source_file": "MIDT156",
+    "page_number": 103,
+    "similarity": 0.590706962070077
+   },
+   {
+    "id": "2e7d8b71-638b-4bdf-9d6a-4b8fa53a04d6",
+    "source_file": "MIE-MI-600",
+    "page_number": 41,
+    "similarity": 0.588868021965027
+   },
+   {
+    "id": "e2b54550-d1a7-4727-b9a9-c7a6bec837b0",
+    "source_file": "MNDT721_40-40I",
+    "page_number": 51,
+    "similarity": 0.586352604220885
+   },
+   {
+    "id": "b1d1a463-c2fc-4b67-a354-85f8b0e645ac",
+    "source_file": "guide-40-40r-single-ir-flame-detector-spectrex-en-us-1459812",
+    "page_number": 54,
+    "similarity": 0.586018621921539
+   },
+   {
+    "id": "8d8e2b00-43e9-4c5b-b37f-aafefe688cd0",
+    "source_file": "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual",
+    "page_number": 103,
+    "similarity": 0.585837830801273
+   },
+   {
+    "id": "52eff084-ab8d-4a8f-b8e8-5114373d7e93",
+    "source_file": "MIE-MC-520",
+    "page_number": 25,
+    "similarity": 0.584633876724977
+   },
+   {
+    "id": "67bca831-a90c-4b3b-b293-d87e922aa0f9",
+    "source_file": "MNDT724_40-40R",
+    "page_number": 49,
+    "similarity": 0.584004114151496
+   },
+   {
+    "id": "3b91745f-fec3-4d8b-9a0d-fbcc8d71737a",
+    "source_file": "I56-2166-02R DH500ACDC-E",
+    "page_number": 6,
+    "similarity": 0.582247103318746
+   },
+   {
+    "id": "9bbf1e7c-96cc-4af3-8367-b04974b739c2",
+    "source_file": "MNDT722_40-40L",
+    "page_number": 50,
+    "similarity": 0.582215478156156
+   },
+   {
+    "id": "448b5890-9468-43e5-91f8-c7d420e4c3a3",
+    "source_file": "MNDT150",
+    "page_number": 52,
+    "similarity": 0.581424390162492
+   },
+   {
+    "id": "7d5c8a6f-1ace-47a1-aa29-aaeac6190e76",
+    "source_file": "55346102 Manual Sirena Analogica MAD-461 ES FR GB IT",
+    "page_number": 1,
+    "similarity": 0.580912938009154
+   },
+   {
+    "id": "f4d847d5-14a8-4ade-98e7-3c642f5ece9b",
+    "source_file": "NSRE24",
+    "page_number": 1,
+    "similarity": 0.580019881722945
+   },
+   {
+    "id": "7b4badef-4642-41e5-ae96-539a9ef55912",
+    "source_file": "MIDT170",
+    "page_number": 62,
+    "similarity": 0.579796825635245
+   },
+   {
+    "id": "dcf67ed9-53f4-498c-b172-b4c61833f976",
+    "source_file": "MIDT180",
+    "page_number": 72,
+    "similarity": 0.579594289040226
+   },
+   {
+    "id": "e2c1077f-2c64-43b2-84a4-f05396cda81a",
+    "source_file": "55310401 Manual Sirenas Convencionales SCD-100 ES FR GB IT",
+    "page_number": 1,
+    "similarity": 0.579311072826385
+   },
+   {
+    "id": "800d2902-dd22-4867-b52c-1e3ab8c0f115",
+    "source_file": "18-187110-10",
+    "page_number": 8,
+    "similarity": 0.578863876428124
+   },
+   {
+    "id": "3790fb44-a8fb-44be-a32a-50b754806840",
+    "source_file": "MNDT723_40-40U",
+    "page_number": 51,
+    "similarity": 0.578710556030273
+   },
+   {
+    "id": "e19c4b0c-6845-4438-b1ff-06d79bef7d93",
+    "source_file": "55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2",
+    "page_number": 1,
+    "similarity": 0.65
+   },
+   {
+    "id": "63bf11d7-4029-40a2-b7bf-b5181df199b7",
+    "source_file": "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+    "page_number": 55,
+    "similarity": 0.602702260017395
+   },
+   {
+    "id": "2ee0e070-d200-49e7-b28e-91af2e6476fd",
+    "source_file": "Manual_MAD-465-I (55346500 MI 620 m 2024 c)",
+    "page_number": 3,
+    "similarity": 0.59520820350696
+   },
+   {
+    "id": "67308087-f356-4575-990a-8bd732f5c47e",
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 56,
+    "similarity": 0.61417421018039
+   },
+   {
+    "id": "ea8ee504-75b9-4912-b13f-a118c3b3e24e",
+    "source_file": "AM 8200G manual instalacion Rv 3",
+    "page_number": 36,
+    "similarity": 0.606114382098413
+   },
+   {
+    "id": "cd803e80-a916-4aff-a9ba-c5118ab65c69",
+    "source_file": "MIDT190",
+    "page_number": 76,
+    "similarity": 0.592623436890637
+   },
+   {
+    "id": "cc360d25-501b-45f2-a159-7e2be1c9babd",
+    "source_file": "AM 8100-manual instalacion RV 3 30-01-2025",
+    "page_number": 28,
+    "similarity": 0.595500880077562
+   },
+   {
+    "id": "cad4ad9e-0b68-4423-9516-7c00b9651bd6",
+    "source_file": "AM 8200N-manual instalacion RV 4 30-01-2025",
+    "page_number": 36,
+    "similarity": 0.596783399581909
+   },
+   {
+    "id": "4b923403-01fb-49aa-9d79-dd684f3d8ee0",
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 55,
+    "similarity": 0.611630457986309
+   },
+   {
+    "id": "ed3ee7f0-0d65-4f8e-a743-a770fb4f13f7",
+    "source_file": "AM 8200G manual instalacion Rv 3",
+    "page_number": 35,
+    "similarity": 0.602920067658437
+   },
+   {
+    "id": "2e283d46-094a-4c5d-8831-721dd1978e5e",
+    "source_file": "AM 8100-manual instalacion RV 3 30-01-2025",
+    "page_number": 31,
+    "similarity": 0.592484527154376
+   },
+   {
+    "id": "6c24fecd-a3f1-41c3-ab05-155e32c85fe6",
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 52,
+    "similarity": 0.595872104167938
+   }
+  ]
+ }
+}
