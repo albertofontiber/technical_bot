@@ -19,6 +19,13 @@ su valor es **escala-30+ / findability / corrección** (cimiento). (b) Un filtro
 ambigüedad — la política es resolver determinista, y ante ambigüedad REAL con divergencia,
 **clarify** (s79/s80). (c) Otro Excel opaco — el riesgo declarado en DEC-074: si la gobernanza de
 §4 degenera, el catálogo muere; por eso cada regla de este doc tiene enforcement, no intención.
+(d) **El superseding de REVISIONES de manuales** (frontera declarada, pregunta de Alberto s89):
+qué edición de un manual prevalece (latest-wins vs variante-regional vs OEM vs datasheet — la clase
+cat009 4K7→6K8 / cat024 V1→V2) es el **contrato de revisión/precedencia #4**, workstream HERMANO ya
+especificado (spec s76 `evals/_s76_revision_contract_spec.md`, DEC-058) que vive en el ciclo de vida
+de DOCUMENTOS (`documents.status`, que el retrieval consume desde s64). **Punto de contacto único:**
+`docrel revision-of` puede REPRESENTAR la relación entre docs; la POLÍTICA de precedencia se decide
+en #4, no aquí. Identidad de PRODUCTO ≠ ciclo de vida de DOCUMENTO — fusionarlos sería scope-creep.
 
 ## 2. Modelo de datos (entidades canónicas)
 
@@ -86,10 +93,13 @@ docrel    { document_id ↔ document_id, tipo: language-variant-of | revision-of
 
 **Jerarquía de fuentes de verdad (de mayor a menor):**
 1. **Ground-truth de Alberto** (adjudicación explícita; como los 29 conflicts s83) — gana siempre.
-2. **Dúo-validado** (extracción Opus+GPT convergente, `found_by: both`) — entra sin adjudicación
-   SOLO si no-conflictivo Y es entrada de BAJO blast-radius (producto/alias). **⚠ Convergente ≠
-   correcto** (*el dúo lo falseó con dato*: la semilla trae `CAD150R → family_scope 'CAD-150'`
-   dúo-convergente y MAL — el ground-truth dice producto DISTINTO).
+2. **Dúo-validado** (extracción CROSS-ÁRBOL convergente: Claude + no-Claude, `found_by: both`) —
+   entra sin adjudicación SOLO si no-conflictivo Y es entrada de BAJO blast-radius (producto/alias).
+   *Precisión de modelos (Alberto, s89): la SEMILLA s83 se extrajo con Opus 4.8 + GPT-5.5 (histórico,
+   su provenance no cambia); las extracciones FUTURAS (F4/ingesta-30+) las hace el Claude vigente
+   (hoy Fable 5) + el cross-model — la propiedad que valida es el cross-árbol, no la versión.*
+   **⚠ Convergente ≠ correcto** (*el dúo lo falseó con dato*: la semilla trae `CAD150R →
+   family_scope 'CAD-150'` dúo-convergente y MAL — el ground-truth dice producto DISTINTO).
 3. **Extractor single / heurística** — entra como `candidate: true` (visible, NO consumido por
    la resolución query-side hasta promoción).
 
