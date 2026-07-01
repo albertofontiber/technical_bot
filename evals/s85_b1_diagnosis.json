@@ -1,0 +1,375 @@
+{
+ "misses": [
+  {
+   "qid": "cat013",
+   "valor": "CLIP",
+   "etapa": "RECALL",
+   "motivos": [
+    "token-corto"
+   ],
+   "jitter": false,
+   "dist": {
+    "RECALL": 3
+   },
+   "lever": "recall: embedding/HyDE/expansión + keyword/sinónimos (refinar con el motivo)",
+   "gold_family": [
+    "CAD-150-8",
+    "ID3000"
+   ],
+   "trace_present": {
+    "channels": false,
+    "post_merge": false,
+    "post_superseded": false,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_lang": "ES"
+  },
+  {
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "etapa": "RECALL",
+   "motivos": [
+    "within-doc"
+   ],
+   "jitter": false,
+   "dist": {
+    "RECALL": 3
+   },
+   "lever": "recall: embedding/HyDE/expansión + keyword/sinónimos (refinar con el motivo)",
+   "gold_family": [
+    "CAD-150-8"
+   ],
+   "trace_present": {
+    "channels": false,
+    "post_merge": false,
+    "post_superseded": false,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_lang": "MIX"
+  },
+  {
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "etapa": "RECALL",
+   "motivos": [
+    "within-doc"
+   ],
+   "jitter": false,
+   "dist": {
+    "RECALL": 3
+   },
+   "lever": "recall: embedding/HyDE/expansión + keyword/sinónimos (refinar con el motivo)",
+   "gold_family": [
+    "AFP-300",
+    "AFP-400",
+    "NAM-232"
+   ],
+   "trace_present": {
+    "channels": false,
+    "post_merge": false,
+    "post_superseded": false,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_lang": "ES"
+  },
+  {
+   "qid": "hp006",
+   "valor": "Tierra",
+   "etapa": "RECALL",
+   "motivos": [
+    "within-doc"
+   ],
+   "jitter": false,
+   "dist": {
+    "RECALL": 3
+   },
+   "lever": "recall: embedding/HyDE/expansión + keyword/sinónimos (refinar con el motivo)",
+   "gold_family": [
+    "AFP-300",
+    "AFP-400",
+    "NAM-232"
+   ],
+   "trace_present": {
+    "channels": false,
+    "post_merge": false,
+    "post_superseded": false,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_lang": "ES"
+  },
+  {
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "etapa": "RECALL",
+   "motivos": [
+    "within-doc"
+   ],
+   "jitter": false,
+   "dist": {
+    "RECALL": 3
+   },
+   "lever": "recall: embedding/HyDE/expansión + keyword/sinónimos (refinar con el motivo)",
+   "gold_family": [
+    "AFP-300",
+    "AFP-400",
+    "NAM-232"
+   ],
+   "trace_present": {
+    "channels": false,
+    "post_merge": false,
+    "post_superseded": false,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_lang": "ES"
+  },
+  {
+   "qid": "hp011",
+   "valor": "05 a 295 seg",
+   "etapa": "RECALL",
+   "motivos": [
+    "within-doc"
+   ],
+   "jitter": false,
+   "dist": {
+    "RECALL": 3
+   },
+   "lever": "recall: embedding/HyDE/expansión + keyword/sinónimos (refinar con el motivo)",
+   "gold_family": [
+    "RP1R-SUPRA"
+   ],
+   "trace_present": {
+    "channels": false,
+    "post_merge": false,
+    "post_superseded": false,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_lang": "ES"
+  },
+  {
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "etapa": "RECALL",
+   "motivos": [
+    "within-doc"
+   ],
+   "jitter": false,
+   "dist": {
+    "RECALL": 3
+   },
+   "lever": "recall: embedding/HyDE/expansión + keyword/sinónimos (refinar con el motivo)",
+   "gold_family": [
+    "AM-2020",
+    "AM2020 Y AFP1010",
+    "MPDT-280"
+   ],
+   "trace_present": {
+    "channels": false,
+    "post_merge": false,
+    "post_superseded": false,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_lang": "ES"
+  },
+  {
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "etapa": "RECALL",
+   "motivos": [
+    "within-doc"
+   ],
+   "jitter": false,
+   "dist": {
+    "RECALL": 3
+   },
+   "lever": "recall: embedding/HyDE/expansión + keyword/sinónimos (refinar con el motivo)",
+   "gold_family": [
+    "ADW535"
+   ],
+   "trace_present": {
+    "channels": false,
+    "post_merge": false,
+    "post_superseded": false,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_lang": "ES"
+  },
+  {
+   "qid": "hp014",
+   "valor": "35",
+   "etapa": "RECALL",
+   "motivos": [
+    "token-corto",
+    "within-doc"
+   ],
+   "jitter": false,
+   "dist": {
+    "RECALL": 3
+   },
+   "lever": "recall: embedding/HyDE/expansión + keyword/sinónimos (refinar con el motivo)",
+   "gold_family": [
+    "ID2000"
+   ],
+   "trace_present": {
+    "channels": false,
+    "post_merge": false,
+    "post_superseded": false,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_lang": "ES"
+  },
+  {
+   "qid": "hp018",
+   "valor": "4 circuitos",
+   "etapa": "MODEL-FILTER",
+   "motivos": [],
+   "jitter": false,
+   "dist": {
+    "MODEL-FILTER": 3
+   },
+   "lever": "identidad: _filter_to_query_models / resolución de familia (el manual correcto filtrado)",
+   "gold_family": [
+    "ZX2E/ZX5E"
+   ],
+   "trace_present": {
+    "channels": true,
+    "post_merge": true,
+    "post_superseded": true,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_lang": "MIX"
+  },
+  {
+   "qid": "hp018",
+   "valor": "6K8",
+   "etapa": "MODEL-FILTER",
+   "motivos": [
+    "token-corto"
+   ],
+   "jitter": false,
+   "dist": {
+    "MODEL-FILTER": 3
+   },
+   "lever": "identidad: _filter_to_query_models / resolución de familia (el manual correcto filtrado)",
+   "gold_family": [
+    "ZX2E/ZX5E"
+   ],
+   "trace_present": {
+    "channels": true,
+    "post_merge": true,
+    "post_superseded": true,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_lang": "ES"
+  },
+  {
+   "qid": "hp018",
+   "valor": "diodo",
+   "etapa": "MODEL-FILTER",
+   "motivos": [],
+   "jitter": false,
+   "dist": {
+    "MODEL-FILTER": 3
+   },
+   "lever": "identidad: _filter_to_query_models / resolución de familia (el manual correcto filtrado)",
+   "gold_family": [
+    "ZX2E/ZX5E"
+   ],
+   "trace_present": {
+    "channels": true,
+    "post_merge": true,
+    "post_superseded": true,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_lang": "MIX"
+  },
+  {
+   "qid": "hp018",
+   "valor": "Sirenas A,B,C,D",
+   "etapa": "MODEL-FILTER",
+   "motivos": [],
+   "jitter": false,
+   "dist": {
+    "MODEL-FILTER": 3
+   },
+   "lever": "identidad: _filter_to_query_models / resolución de familia (el manual correcto filtrado)",
+   "gold_family": [
+    "ZX2E/ZX5E"
+   ],
+   "trace_present": {
+    "channels": true,
+    "post_merge": true,
+    "post_superseded": true,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_lang": "MIX"
+  },
+  {
+   "qid": "hp018",
+   "valor": "1 A",
+   "etapa": "RECALL",
+   "motivos": [
+    "es-en",
+    "token-corto"
+   ],
+   "jitter": false,
+   "dist": {
+    "RECALL": 3
+   },
+   "lever": "recall: embedding/HyDE/expansión + keyword/sinónimos (refinar con el motivo)",
+   "gold_family": [
+    "ZX2E/ZX5E"
+   ],
+   "trace_present": {
+    "channels": false,
+    "post_merge": false,
+    "post_superseded": false,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_lang": "EN"
+  }
+ ],
+ "retrieval_miss_family": 14,
+ "unresolved": []
+}

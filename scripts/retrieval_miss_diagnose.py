@@ -43,6 +43,7 @@ LEVER = {
     "DIVERSIFY":    "diversify: cuota por source_file/fabricante deja fuera el chunk-valor",
     "LANGUAGE":     "idioma: el filtro ES/EN quita el chunk-valor (es-en)",
     "DEPTH":        "profundidad/ranking: sobrevive filtros pero cae del top-k (competición within-doc)",
+    "IN-POOL":      "JITTERY: llega a final en algunas corridas (miss inestable — estabilizar el retrieval)",
 }
 STAGE_SEQ = ["channels", "post_merge", "post_superseded", "post_model_filter",
              "post_diversify", "post_lang", "final"]
@@ -63,25 +64,36 @@ def _lang(text):
     return "EN" if en > es * 1.3 else ("ES" if es > en * 1.3 else "MIX")
 
 
-def diagnose_miss(gold, miss, pin, val_chunks):
-    """val_chunks = chunks del manual same-family que el juez acreditó (el dato vive ahí)."""
+def _stage_of(present):
+    """ETAPA-DE-FALLO = primera etapa donde se pierde el chunk-valor (MECE)."""
+    if not present.get("channels"):
+        return "RECALL"
+    for i in range(1, len(STAGE_SEQ)):
+        if present[STAGE_SEQ[i - 1]] and not present[STAGE_SEQ[i]]:
+            return DROP_LABEL[STAGE_SEQ[i]]
+    return "IN-POOL"   # el chunk-valor SÍ llegó a final en esta corrida (miss jittery — no estable)
+
+
+def diagnose_miss(gold, miss, pin, val_chunks, k=3):
+    """val_chunks = chunks del manual same-family que el juez acreditó (el dato vive ahí).
+    K traces (el retrieval de identidad es NO-DETERMINISTA, p.ej. hp018 model-filter) → moda + jitter."""
     q = gold["question"]
     val_ids = {c["id"] for c in val_chunks}
-    # TRACE del pipeline REAL para esos ids
-    trace = {}
-    try:
-        retrieve_chunks(q, top_k=50, _trace=trace)
-    except Exception:
-        pass
-    present = {s: bool(val_ids & trace.get(s, set())) for s in STAGE_SEQ}
-    # ETAPA-DE-FALLO = primera etapa donde se pierde (MECE)
-    if not present.get("channels"):
-        etapa = "RECALL"
-    else:
-        etapa = "DEPTH"   # si nunca se pierde antes de 'final', cayó por rank en el top-k
-        for i in range(1, len(STAGE_SEQ)):
-            if present[STAGE_SEQ[i - 1]] and not present[STAGE_SEQ[i]]:
-                etapa = DROP_LABEL[STAGE_SEQ[i]]; break
+    etapas_k = []
+    last_present = {}
+    for _ in range(k):
+        trace = {}
+        try:
+            retrieve_chunks(q, top_k=50, _trace=trace)
+        except Exception:
+            continue
+        present = {s: bool(val_ids & trace.get(s, set())) for s in STAGE_SEQ}
+        last_present = present
+        etapas_k.append(_stage_of(present))
+    dist = Counter(etapas_k)
+    etapa = dist.most_common(1)[0][0] if dist else "RECALL"
+    jitter = len(dist) > 1
+    present = last_present
 
     # MOTIVOS (predicados INDEPENDIENTES, se emite el conjunto)
     val_lang = _lang(" ".join((c.get("content") or "")[:800] for c in val_chunks))
@@ -95,8 +107,9 @@ def diagnose_miss(gold, miss, pin, val_chunks):
     if {c.get("source_file") for c in val_chunks} & pool_srcs:
         motivos.append("within-doc")   # el manual tiene OTROS chunks en pool, el valor no
     return {"qid": miss["qid"], "valor": miss["valor"], "etapa": etapa, "motivos": motivos,
-            "lever": LEVER[etapa], "gold_family": miss.get("gold_family"),
-            "trace_present": {s: present[s] for s in STAGE_SEQ}, "val_lang": val_lang}
+            "jitter": jitter, "dist": dict(dist), "lever": LEVER.get(etapa, "revisar (jittery)"),
+            "gold_family": miss.get("gold_family"),
+            "trace_present": {s: present.get(s) for s in STAGE_SEQ}, "val_lang": val_lang}
 
 
 def main(run_path):
@@ -122,12 +135,19 @@ def main(run_path):
                 pass
         return out
 
+    from scripts.retrieval_miss_famtie import fam_norm, _pm_by_ids
     out = []
     for miss in fam["misses"]:
         res = res_by_qid[miss["qid"]]
         man = {c["id"]: c for c in res.get("manual_pin", [])}
         fact = next((f for f in res["facts"] if f["valor"] == miss["valor"]), {})
-        sup = [i for i, v in (fact.get("votes") or {}).items() if v >= THRESH_FIRM and i in man]
+        sup_all = [i for i, v in (fact.get("votes") or {}).items() if v >= THRESH_FIRM and i in man]
+        # CLAVE: trazar SOLO los val_chunks de la MISMA FAMILIA (el miss family-aware es porque el
+        # chunk SAME-FAMILY no está en pool; los wrong-family que SÍ están no son el dato correcto).
+        # manual_pin trae pm=None → fetch por-ID.
+        gfam = set(miss.get("gold_family") or [])
+        pm = _pm_by_ids(sup_all)
+        sup = [i for i in sup_all if (not gfam) or (fam_norm(pm.get(i)) in gfam)]
         cont = fetch_content(sup)
         val_chunks = [{"id": i, "source_file": man[i].get("src"), "content": cont.get(i, "")} for i in sup]
         out.append(diagnose_miss(golds[miss["qid"]], miss, res.get("pool_pin", []), val_chunks))
@@ -135,8 +155,10 @@ def main(run_path):
           "| UNRESOLVED:", fam.get("unresolved"), "| meta excl:", fam.get("n_meta_excluded"))
     print("\n=== (ETAPA-FALLO × MOTIVOS) por miss ===")
     for o in out:
-        print(f"  {o['qid']:8} {o['valor'][:20]!r:22} [{o['etapa']:12}] motivos={o['motivos']} → {o['lever'][:48]}")
-    print("\n=== distribución ETAPA-DE-FALLO (MECE) ===", dict(Counter(o["etapa"] for o in out)))
+        j = f" JITTER{o['dist']}" if o.get("jitter") else ""
+        print(f"  {o['qid']:8} {o['valor'][:20]!r:22} [{o['etapa']:10}]{j} motivos={o['motivos']} -> {o['lever'][:44]}")
+    print("\n=== distribución ETAPA-DE-FALLO (moda K=3) ===", dict(Counter(o["etapa"] for o in out)))
+    print("=== jittery (etapa inestable entre corridas) ===", [o["qid"] for o in out if o.get("jitter")])
     json.dump({"misses": out, "retrieval_miss_family": fam["retrieval_miss_family"],
                "unresolved": fam.get("unresolved")},
               open(os.path.join(os.getcwd(), "evals", "s85_b1_diagnosis.json"), "w", encoding="utf-8"),
