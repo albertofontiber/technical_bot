@@ -438,6 +438,8 @@
     - Versión 220V: Tensión de funcionamiento de 180V a 240V; consumo en reposo de 70 mA.
 
     ¿Podría indicarme qué versión (24V o 220V) tiene instalada para confirmarle los valores correspondientes?
+
+    Nota: tambien se considera CORRECTA una respuesta que de las especificaciones de AMBAS versiones claramente separadas (24V y 220V) e indique la necesidad de confirmar la version instalada — cubre la divergencia sin riesgo de mezclar valores.
   atomic_facts:
   - texto: El DGD-600 existe en DOS versiones de alimentacion (24V y 220V) con especificaciones electricas
       distintas; la pregunta no indica cual -> ofrecer ambas y pedir aclaracion
@@ -464,9 +466,11 @@
   - manual: 55360004 Manual Detector Gas DGD-600 ES EN IT FR.pdf
     page: 1
     quote: Consumo en reposo 45 mA 70 mA
-  notes: La pregunta no especifica la variante de alimentación (24V o 220V). Ambos valores están claramente
-    tabulados en la sección 'Especificaciones detector' del manual. Se ofrece la información completa
-    pero se solicita aclaración para confirmar la versión específica.
+  notes: 'La pregunta no especifica la variante de alimentación (24V o 220V). Ambos valores están claramente
+    tabulados en la sección ''Especificaciones detector'' del manual. Se ofrece la información completa
+    pero se solicita aclaración para confirmar la versión específica. | gold-review s89: edicion adjudicada
+    por Alberto (packet s88 Clase A) A4a: answer-ambas-ramas+confirmacion aceptado como cumplimiento del
+    clarify.'
   confidence: alta
   pdfs_used:
   - 55360004 Manual Detector Gas DGD-600 ES EN IT FR.pdf
@@ -2802,7 +2806,7 @@
   estrato:
   - conflicto-revision
   gold_answer: |-
-    En la central convencional NFS Supra (Honeywell Life Safety / Notifier; incluye las variantes VSN-Plus2 y ESS-2Plus), las líneas de zona se terminan con la resistencia de fin de línea (EOL) suministrada de 6K8 Ω (6,8 kΩ), o bien con el condensador de 47 µF que viene por defecto. La resistencia EOL mantiene la zona estable a 24 V en estado de reposo/normal y debe instalarse en cada zona, incluidas las no utilizadas (sección 4.4.1 «Zone Wirings» del manual de instalación y funcionamiento).
+    En la central convencional NFS Supra (Honeywell Life Safety / Notifier; incluye las variantes VSN-Plus2 y ESS-2Plus), las líneas de zona se terminan con el condensador de 47 µF suministrado (por defecto), o bien con la resistencia de fin de línea (RFL) de 6K8 Ω (6,8 kΩ). La resistencia EOL mantiene la zona estable a 24 V en estado de reposo/normal y debe instalarse en cada zona, incluidas las no utilizadas (sección 4.4.1 «Zone Wirings» del manual de instalación y funcionamiento).
 
     Nota: 6K8 Ω es el valor de la edición vigente del manual (HLSI-MN-025-I v.05, abril 2015). Ediciones anteriores (v.04) indicaban 4K7 Ω; debe usarse el valor de la última revisión (6K8 Ω).
   atomic_facts:
@@ -2841,7 +2845,8 @@
     la edición ES v.05 y en las guías rápidas ES. Caveat de la fuente: la v.05 actualizó el cuerpo a 6K8
     pero dejó la ETIQUETA de la figura de §4.4.2 (Sounder Circuits) en 4K7 (inconsistencia interna de
     la propia v.05); el anclaje del gold es §4.4.1 (zona), que es limpio. Nota de scorer: vigilar 6K8
-    <-> 6,8 kΩ en el matcher de anchors.'
+    <-> 6,8 kΩ en el matcher de anchors. | gold-review s89: edicion adjudicada por Alberto (packet s88
+    Clase A) A1: (suministrado) acompaña al condensador — literal HLSI-MN-025 ES p27.'
   confidence: alta
   pdfs_used:
   - HLSI-MN-025-I_NFS Supra Series v05.pdf
@@ -3911,7 +3916,7 @@
     - Nivel de ALARMA por defecto: 100 %.
     - Ajuste MAXIMO del nivel de alarma: 108 %.
 
-    El valor analogico del nivel de alarma es un numero normalizado entre 0 % y 100 %, independiente del tipo de equipo. Estos valores se editan por detector (Fuego / Prealarma).
+    El valor analogico del nivel de alarma es un numero normalizado entre 0 % y 100 % (la ESCALA analogica es comun; en la configuracion de campo algunos tipos, p.ej. OTM/LSR, se ajustan por Niveles 0-9 que mapean a esa escala). Estos valores se editan por detector (Fuego / Prealarma).
 
     IMPORTANTE: estos valores son especificos de la version de Espana y figuran en el «Manual de variaciones para Espana» de la DX Connexion, que COMPLEMENTA el manual de configuracion base (996-203-005-X) — la configuracion general del nivel de alarma esta en la seccion de Modos Horarios del manual base, pero los valores por defecto de Espana los fija el manual de variaciones.
   atomic_facts:
@@ -3921,8 +3926,8 @@
     estado: presente
     valor: 80 % / 100 % / 108 %
     cita: DXc Manual de variaciones Espana §5.3.10.5.1 p6 (render)
-  - texto: El valor analogico del nivel de alarma es un numero normalizado entre 0 % y 100 %, independiente
-      del tipo de equipo
+  - texto: El valor analogico del nivel de alarma es un numero normalizado entre 0 % y 100 % (escala comun;
+      algunos tipos OTM/LSR se configuran en campo por Niveles 0-9 que mapean a esa escala)
     tipo: core
     estado: presente
     valor: 0-100 % normalizado
@@ -3957,7 +3962,9 @@
     Fallo-dimension real: el bot puede servir la config GENERAL del manual base sin el override de Espana.
     AUTO-CATCH del principio del duo (s52b): pivote desde ''DXc causa-efecto'' (que habria sido el 3er
     gold de causa-efecto-sintesis tras cat018/cat019 = mismo patron = over-index) a esta dimension distinta
-    (market-override) -> diversifica el batch. NO solapa con hp010 (alta de detector DXc). Manual digital-native.'
+    (market-override) -> diversifica el batch. NO solapa con hp010 (alta de detector DXc). Manual digital-native.
+    | gold-review s89: edicion adjudicada por Alberto (packet s88 Clase A) A2: quitada la exigencia "independiente
+    del tipo de equipo"; el manual de variaciones configura OTM/LSR por Niveles.'
   confidence: alta
   pdfs_used:
   - DXc_Manual variaciones de mercado.pdf
