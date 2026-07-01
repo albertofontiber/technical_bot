@@ -257,3 +257,57 @@ def test_provenance_obligatorio_en_umbrellas(cat_dir):
     _write(cat_dir, "umbrellas", [{"termino": "Z2", "ids": ["morley:zx2e"], "tipo": "serie",
                                    "divergent": True, "candidate": False}])
     assert any("provenance" in e and "umbrellas" in e for e in cs.validate(cat_dir))
+
+
+def test_alias_a_producto_candidate_no_se_consume(cat_dir):
+    """Fix dúo s90: 'candidate NO se consume' aplica al DESTINO del alias."""
+    _write(cat_dir, "aliases", [{"alias": "quizas", "id": "morley:maybe-x",
+                                 "tipo": "nombre-largo", "provenance": "t", "added_by": "t"}])
+    cat = cs.load(cat_dir)
+    assert cat.resolve("quizas") is None
+
+
+def test_umbrella_filtra_miembros_candidate(cat_dir):
+    rows = [{"termino": "MIX", "ids": ["morley:zx2e", "morley:maybe-x"], "tipo": "serie",
+             "divergent": True, "candidate": False, "provenance": "t", "added_by": "t"}]
+    _write(cat_dir, "umbrellas", rows)
+    cat = cs.load(cat_dir)
+    r = cat.resolve("MIX")
+    assert r["ids"] == ["morley:zx2e"]      # maybe-x (candidate) filtrado
+
+
+def test_docmap_document_id_duplicado_falla(cat_dir):
+    _write(cat_dir, "doc_map", [
+        {"document_id": "d1", "source_file": "a", "entries": [
+            {"id": "morley:zx2e", "role": "primary", "scope": "doc", "provenance": "t"}]},
+        {"document_id": "d1", "source_file": "b", "entries": [
+            {"id": "morley:zx5e", "role": "primary", "scope": "doc", "provenance": "t"}]},
+    ])
+    assert any("document_id DUPLICADO" in e for e in cs.validate(cat_dir))
+
+
+def test_canonical_duplicado_falla(cat_dir):
+    rows = [json.loads(l) for l in (cat_dir / "products.jsonl").read_text(encoding="utf-8").splitlines()]
+    rows.append({"id": "morley:zx2e-bis", "canonical_model": "ZX-2E", "vendido_bajo": ["m"],
+                 "estado": "activo", "provenance": "t", "added_by": "t"})
+    _write(cat_dir, "products", rows)
+    assert any("canonical_model DUPLICADO" in e for e in cs.validate(cat_dir))
+
+
+def test_slice_real_test_cases_del_contrato():
+    """Pinea los test-cases del gate F1a contra data/catalog REAL (skip si no cargado)."""
+    real = cs.CATALOG_DIR
+    if not (real / "products.jsonl").exists():
+        pytest.skip("slice no cargado")
+    assert cs.validate(real) == []
+    cat = cs.load(real)
+    r = cat.resolve("RP1r")            # hp011: homónimo prefer → Supra
+    assert r["via"] == "homonimo" and r["ids"] == ["notifier:rp1r-supra"] and r["expand"]
+    r = cat.resolve("ZXe")             # hp018: paraguas → 3 variantes
+    assert set(r["ids"]) == {"morley:zx1e", "morley:zx2e", "morley:zx5e"} and r["expand"]
+    assert cat.resolve("ZX")["expand"] is False          # homónimo candidate bloquea
+    assert cat.resolve("ZXSe")["expand"] is False        # unknown → fail-open (hasta adjudicar)
+    for fam in ("DX", "VSN", "Vision"):                  # fix dúo: sin colapso familia→variante
+        r = cat.resolve(fam)
+        assert r is None or r.get("expand") is False, f"{fam} colapsa a variante: {r}"
+    assert cat.resolve("RS-232") is None                 # estándar de interfaz ≠ producto

@@ -81,13 +81,20 @@ class Catalog:
     _by_umbrella: dict[str, dict] = field(default_factory=dict)
     _by_homonym: dict[str, dict] = field(default_factory=dict)
 
+    def _consumable(self, pid: str) -> bool:
+        """Un id es consumible si su producto (tras redirects) está activo y NO-candidate.
+        Fix dúo s90: 'candidate NO se consume' aplica al DESTINO, no solo al row que apunta."""
+        p = self.products.get(self.follow_redirect(pid))
+        return bool(p) and p.get("estado") == "activo" and not p.get("candidate")
+
     def build_indexes(self) -> None:
         self._by_canonical = {}
         for pid, p in self.products.items():
             if p.get("estado") == "activo" and not p.get("candidate"):
                 self._by_canonical[norm_token(p["canonical_model"])] = pid
+        # alias: ni el ROW candidate ni un DESTINO candidate/retirado se consumen
         self._by_alias = {norm_token(a["alias"]): a["id"] for a in self.aliases
-                          if not a.get("candidate")}
+                          if not a.get("candidate") and self._consumable(a["id"])}
         self._by_umbrella = {norm_token(u["termino"]): u for u in self.umbrellas
                              if not u.get("candidate")}
         self._by_homonym = {norm_token(h["termino"]): h for h in self.homonyms}
@@ -124,8 +131,11 @@ class Catalog:
                         "expand": False}
             pol = h.get("politica", "fail-open")
             if pol.startswith("prefer:"):
-                pid = self.follow_redirect(pol.split(":", 1)[1])
-                return {"ids": [pid], "via": "homonimo", "politica": pol, "expand": True}
+                pid = pol.split(":", 1)[1]
+                if not self._consumable(pid):   # prefer a candidate/retirado → fail-open
+                    return {"ids": [], "via": "homonimo", "politica": pol, "expand": False}
+                return {"ids": [self.follow_redirect(pid)], "via": "homonimo",
+                        "politica": pol, "expand": True}
             # clarify/fail-open: los ids son OPCIONES (productos DISTINTOS sin familia) —
             # expandirlos al retrieval contaminaría el pool (la clase hp011).
             return {"ids": [self.follow_redirect(i) for i in h["ids"]],
@@ -145,8 +155,11 @@ class Catalog:
                         "expand": False}
             # divergent True/False: el RETRIEVAL expande igual (recuperar los docs de las
             # variantes = el fix hp018); la conducta clarify-vs-answer es del consumidor F2.
-            return {"ids": [self.follow_redirect(i) for i in u["ids"]],
-                    "via": "paraguas", "divergent": div, "expand": True}
+            # Los miembros candidate/retirados se FILTRAN (no se consumen — fix dúo s90).
+            ids = [self.follow_redirect(i) for i in u["ids"] if self._consumable(i)]
+            if not ids:
+                return {"ids": [], "via": "paraguas", "divergent": div, "expand": False}
+            return {"ids": ids, "via": "paraguas", "divergent": div, "expand": True}
         return None   # fail-open
 
 
@@ -233,9 +246,15 @@ def validate(catalog_dir: Path = CATALOG_DIR) -> list[str]:
         if not row.get("provenance") or (added_by and not row.get("added_by")):
             errors.append(f"{kind}[{key}]: provenance/added_by obligatorios (anti-Excel-opaco)")
 
-    # canonicals activos indexables (para detectar colisión alias↔canonical)
-    canon_norm = {norm_token(r["canonical_model"]): r["id"] for r in prows
-                  if r.get("estado") == "activo" and r.get("canonical_model")}
+    # canonicals activos indexables (para detectar colisión alias↔canonical) + dup canonical↔canonical
+    canon_norm: dict[str, str] = {}
+    for r in prows:
+        if r.get("estado") == "activo" and r.get("canonical_model"):
+            k = norm_token(r["canonical_model"])
+            if k in canon_norm:
+                errors.append(f"products: canonical_model DUPLICADO tras normalizar "
+                              f"({canon_norm[k]!r} vs {r['id']!r}) — exact sería last-wins silencioso; adjudicar (¿merge?)")
+            canon_norm[k] = r["id"]
     seen_alias: set[str] = set()
     for a in _read_jsonl(catalog_dir / FILES["aliases"]):
         k = norm_token(a.get("alias", ""))
@@ -255,7 +274,12 @@ def validate(catalog_dir: Path = CATALOG_DIR) -> list[str]:
             errors.append(f"aliases[{a.get('alias')}]: tipo inválido {a.get('tipo')!r}")
         _check_ref("aliases", a.get("alias", "?"), a.get("id", ""))
         _check_prov("aliases", a.get("alias", "?"), a)
+    seen_terms: set[str] = set()
     for u in _read_jsonl(catalog_dir / FILES["umbrellas"]):
+        tk = norm_token(u.get("termino", ""))
+        if tk in seen_terms:
+            errors.append(f"umbrellas: término DUPLICADO tras normalizar: {u.get('termino')!r}")
+        seen_terms.add(tk)
         _check_prov("umbrellas", u.get("termino", "?"), u)
         if u.get("tipo") not in TIPOS_UMBRELLA:
             errors.append(f"umbrellas[{u.get('termino')}]: tipo inválido {u.get('tipo')!r}")
@@ -267,7 +291,12 @@ def validate(catalog_dir: Path = CATALOG_DIR) -> list[str]:
             errors.append(f"umbrellas[{u.get('termino')}]: ids vacío")
         for pid in u.get("ids") or []:
             _check_ref("umbrellas", u.get("termino", "?"), pid)
+    seen_hterms: set[str] = set()
     for h in _read_jsonl(catalog_dir / FILES["homonyms"]):
+        tk = norm_token(h.get("termino", ""))
+        if tk in seen_hterms:
+            errors.append(f"homonyms: término DUPLICADO tras normalizar: {h.get('termino')!r}")
+        seen_hterms.add(tk)
         _check_prov("homonyms", h.get("termino", "?"), h)
         ids = h.get("ids") or []
         if len(ids) < 2:
@@ -287,9 +316,14 @@ def validate(catalog_dir: Path = CATALOG_DIR) -> list[str]:
             errors.append(f"relations: tipo inválido {rel.get('tipo')!r}")
         for k in ("origen", "destino"):
             _check_ref("relations", f"{rel.get('origen')}→{rel.get('destino')}", rel.get(k, ""))
+    seen_docids: set[str] = set()
     for dm in _read_jsonl(catalog_dir / FILES["doc_map"]):
         if not dm.get("document_id"):
             errors.append(f"doc_map: document_id obligatorio (clave estable, no source_file): {dm.get('source_file')}")
+        elif dm["document_id"] in seen_docids:
+            errors.append(f"doc_map: document_id DUPLICADO: {dm['document_id']!r} ({dm.get('source_file')})")
+        else:
+            seen_docids.add(dm["document_id"])
         for e in dm.get("entries") or []:
             if e.get("role") not in ROLES:
                 errors.append(f"doc_map[{dm.get('document_id')}]: role inválido {e.get('role')!r}")

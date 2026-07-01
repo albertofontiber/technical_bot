@@ -144,6 +144,9 @@ def gt_rows() -> tuple[list, list, list, list, list, list]:
         ("MIE-MP-315", [("morley:zxae", "primary"), ("morley:zxee", "primary")]),
         ("MIE-MI-600", [("morley:zx1se", "primary"), ("morley:zx2se", "primary"),
                         ("morley:zx5se", "primary"), ("morley:zx10se", "primary")]),
+        # MK-ZX = MIE-MC-530, MC-350 (config) — memoria :17 (fix dúo s90: faltaba transcribir)
+        ("MIE-MC-530", [("morley:mk-zx", "primary")]),
+        ("MIE-MC-350", [("morley:mk-zx", "primary")]),
         ("HLSI-MN-103", [("notifier:rp1r-supra", "primary")]),
         ("HLSI-MA-103", [("notifier:rp1r-supra", "primary")]),
         ("MNDT102", [("notifier:rp1r", "primary")]),
@@ -154,9 +157,29 @@ def gt_rows() -> tuple[list, list, list, list, list, list]:
     return products, aliases, umbrellas, homonyms, relations, doc_map_gt
 
 
-# etiquetas de la semilla que NO son productos (familia/combinada/genérica) → cola de QA
+# etiquetas de la semilla que NO son productos (familia/combinada/genérica) → cola de QA.
+# Se aplican a canonical_model Y a los ALIASES (fix dúo s90: 'DX'/'VSN'/'Vision' entraban como
+# alias de UNA variante = colapso familia→variante por la puerta de atrás, la clase hp018/hp009).
+# Tokens en forma NORMALIZADA (norm_token).
 NOT_A_PRODUCT_RX = re.compile(r"(/| y | e )", re.IGNORECASE)
-GENERIC_LABELS = {"zx", "dx", "vsn", "zxe", "zxse", "dxc", "morley", "morley-ias"}
+GENERIC_LABELS = {"zx", "dx", "vsn", "zxe", "zxse", "dxc", "morley", "morleyias", "vision",
+                  "dimension", "connexion", "lite", "plus", "max", "agile", "eco2000"}
+# sustantivos descriptivos y estándares de interfaz — no son identidad de producto
+GENERIC_WORDS_RX = re.compile(
+    r"^(impresora|placa( de lazo)?|gateway|pasarela|tarjeta|central|detector|sirena|panel|"
+    r"repetidor|modulo|módulo|fuente|llave( opcional)?|base|zocalo|zócalo|rs-?232|rs-?485|"
+    r"printer|loop card|key|power supply)\b", re.IGNORECASE)
+
+
+def not_a_product(label: str) -> str | None:
+    """Motivo por el que la etiqueta NO puede ser producto/alias consumible; None si ok."""
+    if NOT_A_PRODUCT_RX.search(label):
+        return "combinada/familia (contiene separador)"
+    if cs.norm_token(label) in GENERIC_LABELS:
+        return "término-familia/marca genérico"
+    if GENERIC_WORDS_RX.match(label.strip()):
+        return "sustantivo descriptivo / estándar de interfaz"
+    return None
 
 
 def main() -> int:
@@ -194,8 +217,15 @@ def main() -> int:
         if hit:
             docid_by_src[doc["source_file"]] = hit[0]
     def find_docids(prefix: str) -> list[tuple[str, str]]:
+        """Match DELIMITADO (fix crítico dúo s90): tras el prefijo normalizado, el siguiente
+        carácter NO puede ser un dígito — 'MNDT102' matchea MNDT102/MNDT102P/MNDT102I pero
+        NO MNDT1020/1025/1026 (que son detectores IDX/FSL/LPX → el greedy fabricaba gt)."""
         p = cs.norm_token(prefix)
-        return [(did, src) for norm, (did, src) in docid_by_norm.items() if norm.startswith(p)]
+        out = []
+        for norm, (did, src) in docid_by_norm.items():
+            if norm.startswith(p) and not (len(norm) > len(p) and norm[len(p)].isdigit()):
+                out.append((did, src))
+        return out
     print(f"[DB] documents: {len(rows)} | semilla-Morley matcheados a document_id: {len(docid_by_src)}/{len(morley_docs)}")
 
     gt_products, gt_aliases, gt_umbrellas, gt_homonyms, gt_relations, doc_map_gt = gt_rows()
@@ -221,14 +251,16 @@ def main() -> int:
             key = cs.norm_token(cm)
             if key in reserved:
                 continue  # el gt ya lo define (ZX2e etc.) — la semilla no lo pisa
-            if NOT_A_PRODUCT_RX.search(cm) or key in GENERIC_LABELS:
-                qa["etiqueta-no-producto (familia/combinada) → NO cargada"].append(
+            why = not_a_product(cm)
+            if why:
+                qa[f"etiqueta-no-producto ({why}) → NO cargada"].append(
                     f"`{cm}` (doc {doc['source_file'][:50]})")
                 continue
             pid = f"morley:{slug(cm)}"
             if pid in products:
-                if m.get("found_by") == "both":
+                if m.get("found_by") == "both" and products[pid].get("candidate"):
                     products[pid]["candidate"] = False   # una mención both promueve
+                    products[pid]["provenance"] += f" | promoted:found_by=both ({doc['source_file'][:40]})"
                 continue
             products[pid] = {
                 "id": pid, "canonical_model": cm, "vendido_bajo": [doc.get("brand_on_doc") or "Morley-IAS"],
@@ -239,7 +271,17 @@ def main() -> int:
             n_seed_prod += 1
             for al in (m.get("aliases") or []):
                 akey = cs.norm_token(al)
-                if not akey or akey in reserved or akey in aliases:
+                if not akey or akey in reserved:
+                    continue
+                why = not_a_product(al)   # fix dúo: mismos filtros para ALIASES
+                if why:
+                    qa[f"alias-no-consumible ({why}) → NO cargado (¿umbrella candidate?)"].append(
+                        f"alias `{al}`→{pid}")
+                    continue
+                if akey in aliases:
+                    if aliases[akey]["id"] != pid:   # conflicto alias↔alias → QA, no first-wins
+                        qa["conflicto alias↔alias (mismo token, productos distintos) → adjudicar"].append(
+                            f"`{al}`: {aliases[akey]['id']} vs {pid}")
                     continue
                 tipo = "numero-de-parte" if re.search(r"\d{4,}", al) else "nombre-largo"
                 aliases[akey] = {"alias": al, "id": pid, "tipo": tipo,
@@ -257,32 +299,43 @@ def main() -> int:
                 f"alias `{a['alias']}`→{a['id']} vs canonical de `{owner}`")
     print(f"[semilla] productos nuevos: {n_seed_prod} | aliases: {len(aliases)} | QA-skips: {sum(len(v) for v in qa.values())}")
 
-    # ── doc_map: gt (por prefijo) + semilla (docs Morley restantes con primary claro) ──
-    doc_map, mapped = [], set()
+    # ── doc_map: gt (por prefijo DELIMITADO) + semilla — DEDUPE por document_id (fix dúo s90) ──
+    doc_map_by_id: dict[str, dict] = {}
     for prefix, entries in doc_map_gt:
         hits = find_docids(prefix)
         if not hits:
             qa["doc_map gt SIN match en documents (revisar prefijo)"].append(f"`{prefix}`")
             continue
         for did, src in hits:
-            doc_map.append({"document_id": did, "source_file": src,
-                            "entries": [{"id": i, "role": r, "scope": "doc", "provenance": GT}
-                                        for i, r in entries]})
-            mapped.add(src)
+            if did in doc_map_by_id:   # dos prefijos gt que norman igual (MNDT102/MN-DT-102) → 1 fila
+                continue
+            doc_map_by_id[did] = {"document_id": did, "source_file": src,
+                                  "entries": [{"id": i, "role": r, "scope": "doc", "provenance": GT}
+                                              for i, r in entries]}
+    # lookup canonical→pid vía NORM contra los productos cargados (fix dúo: el slug divergía —
+    # 'ZXR-4B'→slug zxr-4b ∉ products vs gt morley:zxr4b → docs de Alberto caían en silencio)
+    pid_by_norm = {cs.norm_token(p["canonical_model"]): p["id"] for p in products.values()}
+    pid_by_norm.update({akey: a["id"] for akey, a in aliases.items()})   # canonical+ALIAS (dúo)
     for doc in morley_docs:
         src = doc["source_file"]
-        if src in mapped or src not in docid_by_src:
-            if src not in docid_by_src:
-                qa["doc de la semilla SIN document_id en DB"].append(f"`{src[:60]}`")
+        if src not in docid_by_src:
+            qa["doc de la semilla SIN document_id en DB"].append(f"`{src[:60]}`")
+            continue
+        did = docid_by_src[src]
+        if did in doc_map_by_id:
             continue
         entries = []
         for m in (models_by_src.get(src, {}).get("models") or []):
-            pid = f"morley:{slug(m.get('canonical_model') or '')}"
-            if pid in products and not NOT_A_PRODUCT_RX.search(m.get("canonical_model") or ""):
+            cm = m.get("canonical_model") or ""
+            pid = pid_by_norm.get(cs.norm_token(cm))
+            if pid and not not_a_product(cm):
                 entries.append({"id": pid, "role": m.get("role") or "secondary", "scope": "doc",
                                 "provenance": f"s83 found_by={m.get('found_by')}"})
         if entries:
-            doc_map.append({"document_id": docid_by_src[src], "source_file": src, "entries": entries})
+            doc_map_by_id[did] = {"document_id": did, "source_file": src, "entries": entries}
+        else:
+            qa["doc Morley SIN entrada en doc_map (0 productos mapeables) → revisar"].append(f"`{src[:60]}`")
+    doc_map = list(doc_map_by_id.values())
 
     # ── escribir vía la puerta (writes intermedios sin validar; validación del CONJUNTO al final) ──
     cs.write_jsonl("products", sorted(products.values(), key=lambda r: r["id"]), validate_after=False)
@@ -302,8 +355,12 @@ def main() -> int:
     lines = ["# s90 · F1a — QA-sample del slice Morley (para revisión de Alberto, ~15 min)\n",
              f"products: {len(products)} ({n_cand} candidate) · aliases: {len(aliases)} · "
              f"umbrellas: {len(gt_umbrellas)} · homonyms: {len(gt_homonyms)} · doc_map: {len(doc_map)} docs\n",
+             "\n## ⚡ ADJUDICACIÓN QUE DESBLOQUEA (fix dúo: antes estaba mal listada como 'confirmar')",
+             "- **`divergent` de ZXSe**: hoy `unknown` → la familia ZXSe está FAIL-OPEN (MIE-MI-600, 'el caso",
+             "  de más valor del lado ZX', queda invisible a la resolución hasta que adjudiques). ¿Las respuestas",
+             "  divergen entre ZX1Se/ZX2Se/ZX5Se/ZX10Se (→true) o son family-genéricas (→false)? [ ] true [ ] false",
              "\n## Alto blast-radius cargado como ADJUDICADO (gt tuyo — confirma que sigue vigente)",
-             "- paraguas `ZXe` → zx1e/zx2e/zx5e (divergent=true) · `ZXSe` → los 4 Se (unknown) · `ZX2e/ZX5e` → ambos",
+             "- paraguas `ZXe` → zx1e/zx2e/zx5e (divergent=true) · `ZX2e/ZX5e` → ambos",
              "- homónimo `RP1r` → prefer:notifier:rp1r-supra (D7; gold hp011)",
              "\n## Pendiente de tu QA (candidate=true, NO se consume hasta promoción)"]
     lines.append("- umbrella `ZXR` → zxr50a/zxr50p (de family_scope semilla, sin gt)")
