@@ -156,6 +156,16 @@ incluye error-rate por spot-check** (N entradas re-verificadas por lote), no sol
 
 Orden estricto F2 (query-side, read-only, reversible-por-flag) ANTES de F3 (DB) — D6.
 
+**Beneficiario downstream declarado (pregunta de Alberto, s89): la atribución de modelos POR CHUNK.**
+El catálogo la convierte de problema ABIERTO (¿de qué producto habla este chunk? — contra 587+ modelos
+ruidosos) en clasificación CERRADA (¿cuál de los N candidatos del `doc_map` de este doc aplica a esta
+página? — con alias normalizados para el match). La cadena: `doc_map.scope: paginas[]` +
+`chunks_v2.page_number` (ya existe) → F3b aplica el mapa mecánicamente; y el **escritor-en-ingesta**
+(TECH_DEBT #49.1, la raíz que escala) atribuye por-chunk EN ESCRITURA consultando el catálogo — sin
+catálogo no tiene contra qué resolver. Afina el **model-filter** (menos contaminación de pool, clase
+hp018); NO arregla el hard-tail del coseno (RECALL-INTRADOC = multi-granularidad de la capa-ingesta,
+DEC-074) — dos ejes que convergen en el mismo escritor futuro.
+
 ## 7. Criterios de aceptación del workstream (medibles, declarados ANTES de construir)
 
 1. **Corrección**: hp018 resuelve 4/4 SIN regresión hp009/aisladores — criterio MÁS estricto que lo
