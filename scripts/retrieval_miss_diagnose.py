@@ -34,17 +34,27 @@ from collections import Counter
 from src.rag.retriever import retrieve_chunks
 from scripts.retrieval_miss_famtie import rederive, THRESH_FIRM
 
-# Lever ESTRUCTURAL por etapa-de-fallo (mapa completo, sin fallback silencioso).
+# Lever ESTRUCTURAL. RECALL se DISCRIMINA por within-doc (dúo B1: 8/10 RECALL son intra-doc, y
+# HyDE/embedding-global NO los toca — colapsarlos mis-dirige B2).
 LEVER = {
-    "RECALL":       "recall: embedding/HyDE/expansión + keyword/sinónimos (refinar con el motivo)",
+    "RECALL-INTRADOC": "recall INTRA-doc/chunking: el manual correcto YA está en el pool pero no el "
+                       "chunk-valor concreto → cobertura/chunking/within-doc (NO HyDE-global)",
+    "RECALL-GLOBAL":   "recall global: findability del chunk-valor (embedding/HyDE/keyword/sinónimos)",
     "MERGE":        "merge/dedup: estrategia de fusión de canales (MERGE_STRATEGY)",
     "SUPERSEDED":   "transversal: revisar marcado de superseded (¿deprecado de verdad? DEC-058)",
     "MODEL-FILTER": "identidad: _filter_to_query_models / resolución de familia (el manual correcto filtrado)",
     "DIVERSIFY":    "diversify: cuota por source_file/fabricante deja fuera el chunk-valor",
     "LANGUAGE":     "idioma: el filtro ES/EN quita el chunk-valor (es-en)",
     "DEPTH":        "profundidad/ranking: sobrevive filtros pero cae del top-k (competición within-doc)",
-    "IN-POOL":      "JITTERY: llega a final en algunas corridas (miss inestable — estabilizar el retrieval)",
+    "NO_VAL_CHUNKS": "INVÁLIDO: sin val_chunks same-family (familia mal resuelta/PM ausente) — revisar, NO es RECALL",
+    "RETRIEVE_ERROR": "INVÁLIDO: retrieve_chunks falló las K corridas — error instrumental, NO es RECALL",
 }
+
+
+def lever_for(etapa, motivos):
+    if etapa == "RECALL":
+        return LEVER["RECALL-INTRADOC" if "within-doc" in motivos else "RECALL-GLOBAL"]
+    return LEVER.get(etapa, "revisar")
 STAGE_SEQ = ["channels", "post_merge", "post_superseded", "post_model_filter",
              "post_diversify", "post_lang", "final"]
 DROP_LABEL = {"post_merge": "MERGE", "post_superseded": "SUPERSEDED",
@@ -79,37 +89,56 @@ def diagnose_miss(gold, miss, pin, val_chunks, k=3):
     K traces (el retrieval de identidad es NO-DETERMINISTA, p.ej. hp018 model-filter) → moda + jitter."""
     q = gold["question"]
     val_ids = {c["id"] for c in val_chunks}
+    # GUARD (dúo cross-model): val_chunks vacío (familia mal resuelta) NO es RECALL — es inválido.
+    if not val_ids:
+        return {"qid": miss["qid"], "valor": miss["valor"], "etapa": "NO_VAL_CHUNKS",
+                "motivos": [], "jitter": False, "dist": {}, "lever": LEVER["NO_VAL_CHUNKS"],
+                "gold_family": miss.get("gold_family"), "trace_present": {}}
     etapas_k = []
-    last_present = {}
+    present_by_etapa = {}   # trace_present de la corrida MODAL (no la última — dúo)
+    n_err = 0
+    # el retrieval es DETERMINISTA por diseño (HyDE off + orden de submit fijo, verificado 4× idénticas
+    # por el dúo) → K NO prueba estabilidad; se mantiene bajo para robustez ante fallos transitorios.
     for _ in range(k):
         trace = {}
         try:
             retrieve_chunks(q, top_k=50, _trace=trace)
         except Exception:
-            continue
+            n_err += 1; continue
         present = {s: bool(val_ids & trace.get(s, set())) for s in STAGE_SEQ}
-        last_present = present
-        etapas_k.append(_stage_of(present))
+        # MECE CONDICIONAL (dúo): el diversify hace fetch-fresco → un chunk puede re-entrar en
+        # post_diversify sin estar en channels. Se anota si pasa (hoy no se materializa).
+        e = _stage_of(present)
+        etapas_k.append(e); present_by_etapa.setdefault(e, present)
+    # GUARD: si las K corridas fallaron → error instrumental, NO RECALL.
+    if not etapas_k:
+        return {"qid": miss["qid"], "valor": miss["valor"], "etapa": "RETRIEVE_ERROR",
+                "motivos": [], "jitter": False, "dist": {}, "lever": LEVER["RETRIEVE_ERROR"],
+                "gold_family": miss.get("gold_family"), "trace_present": {}}
     dist = Counter(etapas_k)
-    etapa = dist.most_common(1)[0][0] if dist else "RECALL"
+    etapa = dist.most_common(1)[0][0]
     jitter = len(dist) > 1
-    present = last_present
+    present = present_by_etapa[etapa]   # trace de la corrida MODAL
+    diversify_reentry = present.get("post_diversify") and not present.get("channels")
 
-    # MOTIVOS (predicados INDEPENDIENTES, se emite el conjunto)
-    val_lang = _lang(" ".join((c.get("content") or "")[:800] for c in val_chunks))
-    q_lang = _lang(q + " " + miss.get("valor", ""))
+    # MOTIVOS (predicados independientes — HEURÍSTICAS, no predicados certeros; dúo).
+    # es-en: usar la columna `language` de la DB (fiable) — NO la heurística de keywords (daba FP).
+    val_langs = {(c.get("language") or "").lower() for c in val_chunks}
+    q_es = bool(ES_HINT.search(q))
     motivos = []
-    if val_lang == "EN" and q_lang in ("ES", "MIX"):
+    if val_langs == {"en"} and q_es:
         motivos.append("es-en")
     if len(re.sub(r"\s", "", miss.get("valor", ""))) <= 4:
         motivos.append("token-corto")
     pool_srcs = {c.get("src") for c in pin}
     if {c.get("source_file") for c in val_chunks} & pool_srcs:
-        motivos.append("within-doc")   # el manual tiene OTROS chunks en pool, el valor no
+        motivos.append("within-doc")   # el manual tiene OTROS chunks en pool, el chunk-valor no
     return {"qid": miss["qid"], "valor": miss["valor"], "etapa": etapa, "motivos": motivos,
-            "jitter": jitter, "dist": dict(dist), "lever": LEVER.get(etapa, "revisar (jittery)"),
-            "gold_family": miss.get("gold_family"),
-            "trace_present": {s: present.get(s) for s in STAGE_SEQ}, "val_lang": val_lang}
+            "jitter": jitter, "dist": dict(dist), "lever": lever_for(etapa, motivos),
+            "gold_family": miss.get("gold_family"), "n_err": n_err,
+            "diversify_reentry": bool(diversify_reentry),
+            "trace_present": {s: present.get(s) for s in STAGE_SEQ},
+            "val_langs": sorted(val_langs)}
 
 
 def main(run_path):
@@ -122,15 +151,15 @@ def main(run_path):
     from src.config import SUPABASE_URL, SUPABASE_SERVICE_KEY
     H = {"apikey": SUPABASE_SERVICE_KEY, "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}"}
 
-    def fetch_content(ids):
+    def fetch_meta(ids):   # content + language (columna fiable de la DB, para es-en)
         out = {}
         for i in range(0, len(ids), 40):
             q = ",".join(f'"{x}"' for x in ids[i:i + 40])
             try:
                 r = httpx.get(f"{SUPABASE_URL}/rest/v1/chunks_v2", headers=H,
-                              params={"select": "id,content", "id": f"in.({q})"}, timeout=20)
+                              params={"select": "id,content,language", "id": f"in.({q})"}, timeout=20)
                 for x in r.json():
-                    out[x["id"]] = x.get("content")
+                    out[x["id"]] = x
             except Exception:
                 pass
         return out
@@ -148,8 +177,10 @@ def main(run_path):
         gfam = set(miss.get("gold_family") or [])
         pm = _pm_by_ids(sup_all)
         sup = [i for i in sup_all if (not gfam) or (fam_norm(pm.get(i)) in gfam)]
-        cont = fetch_content(sup)
-        val_chunks = [{"id": i, "source_file": man[i].get("src"), "content": cont.get(i, "")} for i in sup]
+        meta = fetch_meta(sup)
+        val_chunks = [{"id": i, "source_file": man[i].get("src"),
+                       "content": (meta.get(i) or {}).get("content", ""),
+                       "language": (meta.get(i) or {}).get("language")} for i in sup]
         out.append(diagnose_miss(golds[miss["qid"]], miss, res.get("pool_pin", []), val_chunks))
     print("retrieval-miss FAMILY-AWARE =", fam["retrieval_miss_family"],
           "| UNRESOLVED:", fam.get("unresolved"), "| meta excl:", fam.get("n_meta_excluded"))
@@ -157,8 +188,17 @@ def main(run_path):
     for o in out:
         j = f" JITTER{o['dist']}" if o.get("jitter") else ""
         print(f"  {o['qid']:8} {o['valor'][:20]!r:22} [{o['etapa']:10}]{j} motivos={o['motivos']} -> {o['lever'][:44]}")
-    print("\n=== distribución ETAPA-DE-FALLO (moda K=3) ===", dict(Counter(o["etapa"] for o in out)))
-    print("=== jittery (etapa inestable entre corridas) ===", [o["qid"] for o in out if o.get("jitter")])
+    print("\n=== distribución ETAPA-DE-FALLO ===", dict(Counter(o["etapa"] for o in out)))
+    # cluster de LEVER (RECALL discriminado por within-doc — lo que dirige B2)
+    def cluster(o):
+        if o["etapa"] == "RECALL":
+            return "RECALL-INTRADOC" if "within-doc" in o["motivos"] else "RECALL-GLOBAL"
+        return o["etapa"]
+    print("=== cluster LEVER para B2 ===", dict(Counter(cluster(o) for o in out)))
+    print("=== jittery ===", [o["qid"] for o in out if o.get("jitter")],
+          "| retrieve-errors:", [o["qid"] for o in out if o.get("n_err")])
+    print("=== NOTA: en paralelo hay RERANK-MISS =", fam["agg"].get("RERANK-MISS", 0),
+          "(findability tiene 2 cubos; B2 = retrieval-miss) ===")
     json.dump({"misses": out, "retrieval_miss_family": fam["retrieval_miss_family"],
                "unresolved": fam.get("unresolved")},
               open(os.path.join(os.getcwd(), "evals", "s85_b1_diagnosis.json"), "w", encoding="utf-8"),
