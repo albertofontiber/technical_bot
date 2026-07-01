@@ -1,0 +1,61 @@
+n: 8
+n_fp: 1
+fp_rate: 0.125
+n_coincidencia: 1
+cases:
+- qid: hp007
+  valor_real: cada 3 meses
+  valor_fake: cada 6 meses
+  kind: num
+  yes_fake: 0
+  coincide: true
+  FP: false
+- qid: hp007
+  valor_real: cada 6 meses
+  valor_fake: cada 9 meses
+  kind: num
+  yes_fake: 0
+  coincide: false
+  FP: false
+- qid: hp007
+  valor_real: cada 2 años
+  valor_fake: cada 5 años
+  kind: num
+  yes_fake: 0
+  coincide: false
+  FP: false
+- qid: cat007
+  valor_real: NC-C-NA
+  valor_fake: solo NA (sin NC ni C)
+  kind: nonnum
+  yes_fake: 0
+  coincide: false
+  FP: false
+- qid: cat007
+  valor_real: no enclavado
+  valor_fake: enclavado
+  kind: nonnum
+  yes_fake: 5
+  coincide: false
+  FP: true
+- qid: cat007
+  valor_real: 47 kohm
+  valor_fake: 70 kohm
+  kind: num
+  yes_fake: 0
+  coincide: false
+  FP: false
+- qid: cat007
+  valor_real: 2 A / 0,5 A
+  valor_fake: 5 A / 3,8 A
+  kind: num
+  yes_fake: 0
+  coincide: false
+  FP: false
+- qid: cat007
+  valor_real: 10^5
+  valor_fake: 43^8
+  kind: num
+  yes_fake: 0
+  coincide: false
+  FP: false
