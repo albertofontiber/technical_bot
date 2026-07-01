@@ -1221,6 +1221,14 @@ def retrieve_chunks(
                              MERGE_STRATEGY, query_embedding)
     _tr("post_merge", merged)
 
+    # Step 4a (s86 B2 · flag NEIGHBOR_WINDOW, default OFF = prod inerte): neighbor-window /
+    # parent-document expansion (cluster RECALL-INTRADOC). ANTES de superseded/model-filter
+    # para que los vecinos pasen todos los filtros (dúo s86, CRÍTICO 2).
+    _nw = int((os.getenv("NEIGHBOR_WINDOW", "0") or "0").strip() or "0")
+    if _nw > 0:
+        merged = _expand_neighbors(merged, _nw, models)
+    _tr("post_neighbor", merged)
+
     # Step 4b: Lifecycle filter — drop chunks whose parent document is not
     # 'active' (superseded / draft / retired / needs_review). Also enriches
     # each surviving chunk with document_revision and document_revision_date
@@ -1428,6 +1436,19 @@ def _filter_to_query_models(chunks: list[dict], models: list[str]) -> list[dict]
     """
     if not models or not chunks:
         return chunks
+
+    # (s86 B2 · flag IDENTITY_MAP, default OFF = prod inerte) consumo FILTER-BASED del registro
+    # canónico data-driven (índice inverso s84): filtra por membresía-de-doc del query-model
+    # (subtractivo → limpia el wrong-family que el substring del tag DB no separa: afp400⊄afp4000,
+    # los 4 RP1r, manuales combinados). NO aditivo (DEC-069 fue NO-OP). Fail-open escalonado: si el
+    # mapa cubre el modelo y deja ≥3 → filtra; si <3 (o sin cobertura) → cae al substring/nivel-2.
+    if os.getenv("IDENTITY_MAP", "").strip().lower() in ("1", "true", "yes", "on"):
+        from src.rag.identity_index import allowed_sources
+        allowed = allowed_sources(models)
+        if allowed:
+            by_map = [c for c in chunks if (c.get("source_file") or "") in allowed]
+            if len(by_map) >= 3:
+                return by_map
 
     query_cores = [_series.normalize_model(m) for m in models if m]
     if not query_cores:
@@ -1739,6 +1760,122 @@ def _fetch_top_chunks_by_source_file(
         except Exception:
             continue
     return []
+
+
+# columnas completas (idénticas a los canales) + chunk_index para el neighbor-window.
+_NEIGHBOR_SELECT = (
+    "id,content,product_model,category,section_title,content_type,manufacturer,"
+    "protocol,doc_type,language,has_diagram,diagram_url,source_file,page_number,"
+    "document_id,chunk_index"
+)
+
+
+def _fetch_chunk_index_by_id(ids: list[str]) -> dict[str, int]:
+    """id -> chunk_index (batched). El canal VECTOR (RPC match_chunks) no devuelve
+    chunk_index, así que las anclas que vengan de ahí lo necesitan por lookup."""
+    headers = {"apikey": SUPABASE_SERVICE_KEY,
+               "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}"}
+    out: dict[str, int] = {}
+    for i in range(0, len(ids), 50):
+        batch = [x for x in ids[i:i + 50] if x]
+        if not batch:
+            continue
+        inlist = "(" + ",".join(batch) + ")"
+        try:
+            with httpx.Client(timeout=5.0) as client:
+                resp = client.get(
+                    f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}", headers=headers,
+                    params={"id": f"in.{inlist}", "select": "id,chunk_index",
+                            "limit": "1000"})
+                if resp.status_code in (200, 206):
+                    for r in resp.json():
+                        if r.get("chunk_index") is not None:
+                            out[r["id"]] = r["chunk_index"]
+        except Exception:
+            continue
+    return out
+
+
+def _fetch_neighbor_chunks(source_file: str, indices: list[int]) -> list[dict]:
+    """Chunks de un source_file con chunk_index ∈ indices (rango de vecinos)."""
+    headers = {"apikey": SUPABASE_SERVICE_KEY,
+               "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}"}
+    inlist = "(" + ",".join(str(j) for j in sorted(set(indices))) + ")"
+    try:
+        with httpx.Client(timeout=5.0) as client:
+            resp = client.get(
+                f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}", headers=headers,
+                params={"source_file": f"eq.{source_file}",
+                        "chunk_index": f"in.{inlist}",
+                        "select": _NEIGHBOR_SELECT, "limit": "1000"})
+            if resp.status_code in (200, 206):
+                return resp.json()
+    except Exception:
+        pass
+    return []
+
+
+def _expand_neighbors(chunks: list[dict], window: int, models: list[str] | None = None) -> list[dict]:
+    """(s86 B2 · flag NEIGHBOR_WINDOW, default OFF = prod inerte) Neighbor-window /
+    parent-document expansion para el cluster RECALL-INTRADOC: para cada chunk-ancla,
+    trae sus vecinos posicionales chunk_index ∈ [i−W, i+W] del MISMO source_file y los
+    añade al pool con `similarity = sim_ancla − ε` (sortean adyacentes al ancla → sobreviven
+    el corte final; CRÍTICO 1 del dúo s86). Se inserta ANTES de superseded/model-filter →
+    los vecinos pasan TODOS los filtros (CRÍTICO 2). Diagnóstico: el chunk-valor bare/token-corto
+    tiene baja findability propia PERO vecino findable → recall por adyacencia, ortogonal a FTS.
+
+    Restricción a FAMILIA-OBJETIVO (s86, flag NEIGHBOR_MODELS_ONLY): si hay `models` en la
+    query, SOLO se expanden anclas cuyo product_model matchea (nivel-1 substring, como
+    `_filter_to_query_models`) → evita floodear el pool con vecinos de docs irrelevantes
+    (broad = −29 regresiones, medido s86).
+    """
+    if window <= 0 or not chunks:
+        return chunks
+    models_only = os.getenv("NEIGHBOR_MODELS_ONLY", "").strip().lower() in ("1", "true", "yes", "on")
+    query_cores = [_series.normalize_model(m) for m in (models or []) if m] if models_only else []
+
+    def _anchor_ok(c):
+        if not query_cores:
+            return True
+        pm = _series.normalize_model(c.get("product_model") or "")
+        return any(core and core in pm for core in query_cores)
+
+    anchors = [c for c in chunks if _anchor_ok(c)]
+    if not anchors:
+        return chunks
+    present_ids = {c.get("id") for c in chunks if c.get("id")}
+    # anclas sin chunk_index (canal vector) → backfill por lookup
+    missing = [c["id"] for c in anchors
+               if c.get("source_file") and c.get("chunk_index") is None and c.get("id")]
+    if missing:
+        idx_map = _fetch_chunk_index_by_id(missing)
+        for c in anchors:
+            if c.get("id") in idx_map:
+                c["chunk_index"] = idx_map[c["id"]]
+    # rango deseado por source_file + mejor similarity de ancla que alcanza cada índice
+    wanted: dict[str, dict[int, float]] = {}
+    EPS = 1e-4
+    for c in anchors:
+        sf, ci = c.get("source_file"), c.get("chunk_index")
+        if not sf or ci is None:
+            continue
+        sim = c.get("similarity", 0) or 0
+        bucket = wanted.setdefault(sf, {})
+        for j in range(ci - window, ci + window + 1):
+            if j < 0 or j == ci:
+                continue
+            if sim > bucket.get(j, -1):
+                bucket[j] = sim
+    neighbors: list[dict] = []
+    for sf, idx_sims in wanted.items():
+        for row in _fetch_neighbor_chunks(sf, list(idx_sims.keys())):
+            rid = row.get("id")
+            if not rid or rid in present_ids:
+                continue
+            present_ids.add(rid)
+            row["similarity"] = idx_sims.get(row.get("chunk_index"), 0) - EPS
+            neighbors.append(_tag_channel([row], "NEIGHBOR")[0])
+    return chunks + neighbors
 
 
 def _diversify_by_source_file(

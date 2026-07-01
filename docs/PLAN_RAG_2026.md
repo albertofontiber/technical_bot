@@ -27,16 +27,26 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s85 — 1 jul 2026)
+## Estado actual (s86 — 1 jul 2026)
 
-**s85 (DEC-073): limpieza A mergeada + instrumento family-aware de retrieval-miss (=14) + diagnóstico B1 por (etapa×motivo) = 3 clusters accionables para B2.** Tres bloques:
+**s86 (DEC-074): B2 por los 3 clusters de retrieval-miss.** Resultado: **RECALL-INTRADOC (8)** = 5 hard-tail de INGESTA (coseno sub-suelo/"aguja en chunk grande"; neighbor-window NO-GO retrieval + ef_search marginal + más-contexto insuficiente, todo DESCARTADO midiendo → fix BP = capa-ingesta multi-granularidad/tablas, foundational futuro); 3 "coupled" = within-doc. **MODEL-FILTER (4, hp018) = identidad, ~4 de palanca REAL** (no el cuello): `LEVER2_IDENTITY` curado da 4/4 pero es **quick-fix** (per-familia, regresa hp009) → NO shipear; **hp011 mis-diagnosticado** (gold verificado = RP1r-Supra, within-doc; dúo cazó la racionalización). **La BP de identidad = catálogo canónico de 2 ETAPAS** (dúo+literatura EVPI/CLAM: catálogo gobernado + re-tag DOC canónico + resolución query-side híbrida + clarify-on-ambiguity) = workstream (A); el mapa data-driven solo (`family_scope`) = net-negativo (matching texto-libre frágil). Código `neighbor-window`+`IDENTITY_MAP` flag-gated OFF (354 tests). **DECISIÓN: (A)||SÍNTESIS en paralelo** (ver Qué sigue).
+
+<details><summary>Antecedente s85 (DEC-073) — limpieza A mergeada + instrumento family-aware (=14) + B1</summary>
+
+- **A — limpieza de raíz MERGEADA (PR #94, en demo):** `VECTOR_NOCAT` permanente (sin flag) — el filtro por la columna `category` MUERTA fuera de raíz (4 sitios + broad-fallback + 3c-i + detección inerte + param content_search). Verificado judge-free: 354 tests + equivalencia de pools 38/39 (net −63 líneas). Conserva MERGE_STRATEGY/LEVER2_IDENTITY/PM_RESCUE + detección para catálogo.
 - **A — limpieza de raíz MERGEADA (PR #94, en demo):** `VECTOR_NOCAT` permanente (sin flag) — el filtro por la columna `category` MUERTA fuera de raíz (4 sitios + broad-fallback + 3c-i + detección inerte + param content_search). Verificado judge-free: 354 tests + equivalencia de pools 38/39 (net −63 líneas). Conserva MERGE_STRATEGY/LEVER2_IDENTITY/PM_RESCUE + detección para catálogo.
 - **B0 — instrumento family-aware de retrieval-miss (`retrieval_miss_judge.py` + `_famtie.py`):** juez semántico GPT-5.5 K=5 (sustituye el matcher léxico que inflaba ~45%, DEC-070) + **tie por FAMILIA de `product_model`** (corrección de Alberto: by-target acreditaba hp018 vía manual de familia equivocada ZXAE/ZXEE por azar) + pin del pool. **retrieval-miss canónico = 14** (SÍNTESIS 103 = el cuello sigue siendo síntesis; CORPUS-GAP=1 residual FN). Dúos #17/#18 cazaron 8 bugs (2+2 CRÍTICO) → arreglados sin re-juzgar.
-- **B1 — diagnóstico por ETAPA-DE-FALLO (MECE del pipeline real, `retrieve_chunks(_trace=…)` inerte):** dúos #19/#20 (demolieron la v1 de universos-paralelos → trace del pipeline). **Mapa B2: RECALL-INTRADOC 8 (within-doc/chunking, NO HyDE-global) · MODEL-FILTER 4 (hp018=identidad, el model-filter expulsa el manual correcto) · RECALL-GLOBAL 2 (findability).**
+- **B0/B1 — instrumento family-aware (=14) + diagnóstico por (etapa×motivo):** juez GPT-5.5 K=5 + tie por FAMILIA de `product_model` + pin del pool. Mapa B2: RECALL-INTRADOC 8 · MODEL-FILTER 4 (hp018) · RECALL-GLOBAL 2. (Detalle: DEC-073.)
+</details>
 
-**Modelo operativo (DEC-071e) VIGENTE:** `main`=dev=demo, stop-line=tests-verdes, PASS diferido a síntesis, freeze per-eval. Coste s85 ~$12-14 (disciplina tras el incidente $50, `feedback_cost_discipline`).
+**Modelo operativo (DEC-071e) VIGENTE:** `main`=dev=demo, stop-line=tests-verdes, PASS diferido a síntesis, freeze per-eval. Disciplina de coste (`feedback_cost_discipline`).
 
-**Qué sigue (s86, sesión dedicada):** **B2 — método estructural por los 3 clusters** (contrato BP+raíz+escalable+anti-overfit, dúo cada uno en frame retrieval-miss, re-medición dirigida barata). RECALL-INTRADOC + RECALL-GLOBAL = autónomo; **MODEL-FILTER (identidad) = settled-lever** → check-de-métrica del digest (identidad ⊥ recall DEC-057/066/069 medido en funnel léxico → el instrumento corregido lo RE-ABRE = re-medición, no re-litigación) + dúo+contrato con Alberto. Luego SÍNTESIS (el cuello, donde el PASS se moverá). **DEC-056 SIGUE (ranking); DEC-068 SIGUE (L-i por PASS settled).**
+**Qué sigue — DOS workstreams PARALELOS (decisión Alberto s86, en 2 sesiones):**
+1. **SÍNTESIS = el cuello del eval (103/132 = PASS).** Arranca por **diagnóstico autónomo** de los 103 (barato; puede re-caracterizar el número — el funnel léxico mintió ~45%, DEC-070). Es la palanca de eval medible. Gates de Alberto: gold-design que aflore, des-diferir PASS, merge.
+2. **(A) catálogo canónico de identidad (BP entity-linking 2-etapas; escala-30+, ⊥ el PASS).** 4-7 sesiones casi-autónomas; **~3.5-6.5h de Alberto** (el ground-truth caro de s83 YA gastado; nuevo = QA-sample pre-filtrado de los 985 + re-adjudicar hp018/hp011/hp009 + aprobar contrato+DB-apply). Fase 0 = asistente drafta el contrato de gobernanza.
+- **Paralelizable** (verificado: solape código≈0 — identidad toca catalog/series/identity_index/retriever-query-side; síntesis toca `generator.py`, que NO importa identidad; único conflicto = el DB re-tag, gated y serializado tras síntesis).
+
+**DEC-056 SIGUE (ranking); DEC-068 SIGUE (L-i por PASS settled). Identidad ~4-palanca (DEC-074), NO el cuello.**
 
 ### Antecedente s83·F2 (DEC-067)
 

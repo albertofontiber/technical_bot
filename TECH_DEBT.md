@@ -1883,3 +1883,37 @@ NO-OP de LEVER2_IDENTITY (ZXe cortado antes del RAG). NO cierra bias #40 solo: l
 contrato de identidad (esta capa). **reach ≠ PASS** (arreglar el gate los hace llegar al retrieval; el PASS sigue
 dependiendo del retrieval bancado). Corte cross-model: sin contrato de identidad, el gate-fix solo cambia
 falsos-rechazos por falsos-aceptados/mis-atribución.
+
+## 50. ELIMINAR `LEVER2_IDENTITY` (+ su YAML por-familia) — sustituido por resolución data-driven (s86)
+
+**Decisión (Alberto, s86):** marcar para eliminación próxima. El flag `LEVER2_IDENTITY` (s72, brazo A:
+`resolve_aliases` + `passes_nivel2` en `retriever.py:125/1445`) y su dato (`config/manufacturers/*.yaml`
+`model_aliases`/`series`) NO se van a usar como el fix de identidad: es **curación manual por-familia**
+(3/11 fabricantes con entrada; solo Morley con `model_aliases`, y esa entrada se hizo PARA hp018 →
+validarlo en hp018 es circular). No auto-escala a 30+ (relacionado #49).
+
+**Trigger de eliminación:** cuando la resolución de identidad **data-driven** (consumo del activo DEC-067:
+`evals/s83_document_identity_final.jsonl` 2761 productos + índice `s84_identity_index.json`) esté cableada
+y medida con el instrumento family-aware. Entonces borrar: el bloque del flag en `retriever.py` (125-126,
+el brazo `passes_nivel2` en `_filter_to_query_models`, `LEVER2_PM_RESCUE`), `series_registry.py` si queda
+huérfano, y las entradas `model_aliases`/`series` de los YAML. **Medido s86:** ON resuelve 4/4 hp018 pero
+regresa hp009/aisladores (tensión clarify-vs-answer family-genérico) → es stopgap de familia-conocida, no BP.
+Ref: DEC de cierre s86; el +4 hp018 = cota de "lo que un buen registro lograría", no el fix a shipear.
+
+## 51. Frescura de corpus: auditar revisiones nuevas vs Excel/fabricante + poblar `revision_date` (s86)
+
+**Contexto (s86, verificado en DB):** el superseding-*detection* está SANO y completo — `document_management`
+(migración 001) corrió sistemático (1170/1170 con `document_family`); donde había dos versiones en el corpus
+(Detnov CAD-250 MC-380/MS-416, 2026-c/b) las cazó y marcó `superseded` + cadena `supersedes_id`; el resto de
+los 68 filenames "versionados" son versión-única (`fam_total=1`) → correctamente no-superseded. Total real = 3
+superseded / 220 chunks (~1%). NO es un hueco de detección.
+
+**La deuda real = FRESCURA, no detección:** el mecanismo solo supersede lo que está ingestado. Ej: tenemos
+"Manual instalacion CAD-250 (MI_372_es_**2024** e)" como único manual de instalación; si Detnov sacó una revisión
+2026 del de instalación (además de los de config que sí tenemos), la serviríamos como vigente sin saberlo.
+
+**Trigger:** cuando montemos el registro canónico index-time (workstream de identidad data-driven) O antes de
+un demo con técnico real. **Acción:** (a) auditoría de frescura por-fabricante contra `data/Inventario_Manuales.xlsx`
++ webs (¿falta la última revisión?); (b) poblar `revision_date` (hoy 1/1170) desde páginas 1-5 → activa el orden
+de las supersede-chains para citar la revisión vigente. **Baja palanca en el eval** (golds píxel-verificados active);
+es **producto-calidad** (un técnico no debe recibir un manual obsoleto), NO gate del trabajo de identidad. Ref: cierre s86.

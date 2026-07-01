@@ -1,0 +1,204 @@
+{
+ "WTEST": 2,
+ "resolved": [
+  [
+   "cat016",
+   "autobusqueda"
+  ],
+  [
+   "hp006",
+   "Tierra"
+  ],
+  [
+   "hp006",
+   "ISO-X"
+  ],
+  [
+   "hp013",
+   "PWR-R"
+  ]
+ ],
+ "regressions": [
+  [
+   "cat001",
+   "1 o 2"
+  ],
+  [
+   "cat001",
+   "159+159 / 99+99"
+  ],
+  [
+   "cat001",
+   "0,75 A"
+  ],
+  [
+   "cat001",
+   "255 / 8192"
+  ],
+  [
+   "cat007",
+   "NC-C-NA"
+  ],
+  [
+   "cat007",
+   "47 kohm"
+  ],
+  [
+   "cat007",
+   "2 A / 0,5 A"
+  ],
+  [
+   "cat007",
+   "10^5"
+  ],
+  [
+   "cat017",
+   "modulo OPAL HOP-433-100"
+  ],
+  [
+   "cat017",
+   "159 + 159"
+  ],
+  [
+   "cat017",
+   "licencia CLIP por lazo"
+  ],
+  [
+   "cat017",
+   "CLSS"
+  ],
+  [
+   "hp005",
+   "COINCIDENCIA 2 EQUIPOS"
+  ],
+  [
+   "hp005",
+   "misma zona o subzona"
+  ],
+  [
+   "hp005",
+   "CIRCUITO SIRENA"
+  ],
+  [
+   "hp011",
+   "ABORT"
+  ],
+  [
+   "hp011",
+   "enclavadas"
+  ],
+  [
+   "hp012",
+   "99 + 99"
+  ],
+  [
+   "hp012",
+   "4 lazos / 792"
+  ],
+  [
+   "hp014",
+   "terminales 2 y 4"
+  ],
+  [
+   "hp017",
+   "causa-efecto"
+  ],
+  [
+   "hp017",
+   "seis tipos de retardo"
+  ],
+  [
+   "hp020",
+   "nivel 2 o 3"
+  ],
+  [
+   "hp020",
+   "Cambio del codigo de acceso"
+  ],
+  [
+   "hp020",
+   "4 y 8"
+  ],
+  [
+   "hp020",
+   "satisfactorio"
+  ]
+ ],
+ "per_gold_delta": {
+  "cat001": {
+   "added_vs_W0": 23,
+   "evicted_vs_W0": 10,
+   "n_neighbor": 23
+  },
+  "cat007": {
+   "added_vs_W0": 22,
+   "evicted_vs_W0": 22,
+   "n_neighbor": 22
+  },
+  "cat013": {
+   "added_vs_W0": 5,
+   "evicted_vs_W0": 0,
+   "n_neighbor": 5
+  },
+  "cat016": {
+   "added_vs_W0": 33,
+   "evicted_vs_W0": 0,
+   "n_neighbor": 33
+  },
+  "cat017": {
+   "added_vs_W0": 26,
+   "evicted_vs_W0": 16,
+   "n_neighbor": 26
+  },
+  "cat022": {
+   "added_vs_W0": 18,
+   "evicted_vs_W0": 18,
+   "n_neighbor": 19
+  },
+  "hp005": {
+   "added_vs_W0": 22,
+   "evicted_vs_W0": 15,
+   "n_neighbor": 22
+  },
+  "hp006": {
+   "added_vs_W0": 28,
+   "evicted_vs_W0": 4,
+   "n_neighbor": 28
+  },
+  "hp011": {
+   "added_vs_W0": 29,
+   "evicted_vs_W0": 29,
+   "n_neighbor": 29
+  },
+  "hp012": {
+   "added_vs_W0": 15,
+   "evicted_vs_W0": 15,
+   "n_neighbor": 15
+  },
+  "hp013": {
+   "added_vs_W0": 32,
+   "evicted_vs_W0": 0,
+   "n_neighbor": 32
+  },
+  "hp014": {
+   "added_vs_W0": 26,
+   "evicted_vs_W0": 7,
+   "n_neighbor": 26
+  },
+  "hp017": {
+   "added_vs_W0": 26,
+   "evicted_vs_W0": 7,
+   "n_neighbor": 26
+  },
+  "hp018": {
+   "added_vs_W0": 23,
+   "evicted_vs_W0": 0,
+   "n_neighbor": 23
+  },
+  "hp020": {
+   "added_vs_W0": 30,
+   "evicted_vs_W0": 1,
+   "n_neighbor": 30
+  }
+ }
+}
