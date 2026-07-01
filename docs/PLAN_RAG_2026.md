@@ -27,9 +27,24 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s86 — 1 jul 2026)
+## Estado actual (s87 — 1 jul 2026)
 
-**s86 (DEC-074): B2 por los 3 clusters de retrieval-miss.** Resultado: **RECALL-INTRADOC (8)** = 5 hard-tail de INGESTA (coseno sub-suelo/"aguja en chunk grande"; neighbor-window NO-GO retrieval + ef_search marginal + más-contexto insuficiente, todo DESCARTADO midiendo → fix BP = capa-ingesta multi-granularidad/tablas, foundational futuro); 3 "coupled" = within-doc. **MODEL-FILTER (4, hp018) = identidad, ~4 de palanca REAL** (no el cuello): `LEVER2_IDENTITY` curado da 4/4 pero es **quick-fix** (per-familia, regresa hp009) → NO shipear; **hp011 mis-diagnosticado** (gold verificado = RP1r-Supra, within-doc; dúo cazó la racionalización). **La BP de identidad = catálogo canónico de 2 ETAPAS** (dúo+literatura EVPI/CLAM: catálogo gobernado + re-tag DOC canónico + resolución query-side híbrida + clarify-on-ambiguity) = workstream (A); el mapa data-driven solo (`family_scope`) = net-negativo (matching texto-libre frágil). Código `neighbor-window`+`IDENTITY_MAP` flag-gated OFF (354 tests). **DECISIÓN: (A)||SÍNTESIS en paralelo** (ver Qué sigue).
+**s87 (DEC-075): diagnóstico autónomo de SÍNTESIS → el "cuello 103" era una COTA, no fallos.** El bucket
+SÍNTESIS `by_target` (103/132, DEC-070/073) contaba hechos SINTETIZABLES (soportados por un chunk del top-5),
+NO fallos de síntesis. Midiendo la RESPUESTA actual directamente (instrumento nuevo `synthesis_miss_judge.py`,
+juez GPT-5.5 K=5 a nivel-proposición, dúo-hardened, 2 gen para varianza): el pipeline actual **sintetiza
+~76-80% de los hechos en-contexto**; el cuello de síntesis ROBUSTO = **16 stable-MISS (~13-14 genuinos)**, cola
+pequeña y HETEROGÉNEA — completeness ~10 (=lever de generación **settled NO-GO en PASS**, DEC-051) · contradicts
+~4 (FIDELIDAD: bot afirma inconsistente, p.ej. hp001 '1111' access-level, hp013 'EEPROM' invertido) · hedge ~2 ·
+judge-FN ~3-4 · identidad hp018 (DEC-074). **Sin lever barato de síntesis.** Atribución verificada: mejora vs
+s67base con el MISMO modelo/temp/tabla → efecto de **VECTOR_NOCAT** (mejor retrieval → contexto más rico).
+Certificado por dúo de agentes (adjudica-ciego + verifica-adversarial) que corrigió en AMBAS direcciones (cazó
+over-credit hp018 + confirmó OMITTED reales). **NADA en prod, reach≠PASS, 354 tests. Refina (NO refuta) DEC-070/073.**
+
+<details><summary>Antecedente s86 (DEC-074) — B2 por los 3 clusters: identidad ~4-palanca (no el cuello), BP=catálogo 2-etapas</summary>
+
+**s86 (DEC-074): B2 por los 3 clusters de retrieval-miss.** **RECALL-INTRADOC (8)** = 5 hard-tail de INGESTA (coseno sub-suelo/"aguja en chunk grande"; neighbor-window NO-GO + ef_search marginal + más-contexto insuficiente, todo DESCARTADO midiendo → fix BP = capa-ingesta multi-granularidad/tablas, foundational futuro); 3 within-doc. **MODEL-FILTER (4, hp018) = identidad, ~4 de palanca REAL** (no el cuello): `LEVER2_IDENTITY` curado da 4/4 pero es quick-fix (per-familia, regresa hp009) → NO shipear; hp011 mis-diagnosticado (RP1r-Supra, within-doc). **BP identidad = catálogo canónico de 2 ETAPAS** (workstream A); mapa data-driven solo (`family_scope`) = net-negativo. Código `neighbor-window`+`IDENTITY_MAP` flag-gated OFF.
+</details>
 
 <details><summary>Antecedente s85 (DEC-073) — limpieza A mergeada + instrumento family-aware (=14) + B1</summary>
 
@@ -41,12 +56,20 @@
 
 **Modelo operativo (DEC-071e) VIGENTE:** `main`=dev=demo, stop-line=tests-verdes, PASS diferido a síntesis, freeze per-eval. Disciplina de coste (`feedback_cost_discipline`).
 
-**Qué sigue — DOS workstreams PARALELOS (decisión Alberto s86, en 2 sesiones):**
-1. **SÍNTESIS = el cuello del eval (103/132 = PASS).** Arranca por **diagnóstico autónomo** de los 103 (barato; puede re-caracterizar el número — el funnel léxico mintió ~45%, DEC-070). Es la palanca de eval medible. Gates de Alberto: gold-design que aflore, des-diferir PASS, merge.
-2. **(A) catálogo canónico de identidad (BP entity-linking 2-etapas; escala-30+, ⊥ el PASS).** 4-7 sesiones casi-autónomas; **~3.5-6.5h de Alberto** (el ground-truth caro de s83 YA gastado; nuevo = QA-sample pre-filtrado de los 985 + re-adjudicar hp018/hp011/hp009 + aprobar contrato+DB-apply). Fase 0 = asistente drafta el contrato de gobernanza.
-- **Paralelizable** (verificado: solape código≈0 — identidad toca catalog/series/identity_index/retriever-query-side; síntesis toca `generator.py`, que NO importa identidad; único conflicto = el DB re-tag, gated y serializado tras síntesis).
+**Qué sigue — SÍNTESIS diagnosticada (s87): el cuello era una cota, no un workstream. Decisiones para Alberto:**
+1. **Des-diferir PASS y medir el baseline actual (GATE de Alberto).** El diagnóstico s87 muestra que el pipeline
+   mejoró materialmente (VECTOR_NOCAT) y el "103" era cota, no fallos → el PASS actual probablemente subió mucho
+   vs la última medición (`s67base` 10/39). No se puede planear sobre un cuello sobre-estimado ~5×. El asistente
+   TIENE las respuestas frescas (rep0/rep1) → re-juzgar holístico es barato; **lo ofrece, no lo corre solo** (gate).
+2. **"Atacar síntesis" como workstream está MIS-DIMENSIONADO** (no hay cuello de 103; el residual = ~13-14 cola
+   heterogénea SIN lever barato: completeness=settled NO-GO, ~4 fidelity-contradicts per-caso, ~2 hedge). La
+   leverage real está en **(A) catálogo/escala + retrieval foundational (DEC-074, capa-ingesta) + eval orgánico**.
+3. **(A) catálogo canónico de identidad (BP entity-linking 2-etapas; escala-30+, ⊥ el PASS)** SIGUE disponible:
+   4-7 sesiones casi-autónomas, **~3.5-6.5h de Alberto**; Fase 0 = asistente drafta el contrato de gobernanza.
+4. **3-4 fidelity-contradicts** (hp001 '1111', hp013 'EEPROM', cat020) merecen vistazo per-caso: ¿error del bot,
+   retrieval de sección equivocada, o matiz de gold? No un lever.
 
-**DEC-056 SIGUE (ranking); DEC-068 SIGUE (L-i por PASS settled). Identidad ~4-palanca (DEC-074), NO el cuello.**
+**DEC-056 SIGUE (ranking); DEC-068 SIGUE (L-i por PASS settled). Identidad ~4-palanca (DEC-074). SÍNTESIS ROBUSTA ~16 stable-MISS (DEC-075), NO el cuello de 103.**
 
 ### Antecedente s83·F2 (DEC-067)
 

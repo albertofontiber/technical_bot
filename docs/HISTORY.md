@@ -1404,3 +1404,23 @@ Sesión larga colaborativa (Alberto guiando + dúos #16-#20). Tres bloques:
 **Plan (decisión Alberto): (A) catálogo canónico || SÍNTESIS, en 2 sesiones.** (A) = 4-7 sesiones casi-autónomas, ~3.5-6.5h de Alberto (s83 ground-truth ya gastado); ⊥ el PASS (cimiento escala-30+/catálogo). SÍNTESIS = el cuello (103), arranca por diagnóstico autónomo; la palanca del eval. Paralelizable (código disjunto verificado; solo el DB re-tag serializa). Código s86 (neighbor-window + IDENTITY_MAP/identity_index.py) flag-gated OFF, 354 tests, NADA mergeado.
 
 **Cierre:** DEC-074 + LEVER_DIGEST (fila identidad) + PLAN + memoria. Sesión larga con muchas mis-diagnosis mías cazadas por el dúo/medición/Alberto (`feedback_my_bias` convergencia) = el sistema de control funcionando. Próxima: síntesis (diagnóstico) + (A) Fase 0 (contrato) en paralelo.
+
+---
+
+## Sesión 87 (1 jul 2026) — diagnóstico autónomo de SÍNTESIS: el "cuello 103" era una COTA, no fallos (DEC-075)
+
+Alberto eligió arrancar s87 por SÍNTESIS (diagnóstico autónomo). **Hallazgo central: el bucket "SÍNTESIS 103/132" (DEC-070/073) contaba hechos SINTETIZABLES (soportados por un chunk del top-5), NO fallos de síntesis** — la re-caracterización que el PLAN anticipaba ("el funnel léxico mintió ~45%").
+
+**Método (dúo-hardened ANTES de build, Protocolo 3):** brief del instrumento → cross-model GPT-5.5 + sub-agente Opus CONVERGIERON en el CRÍTICO (capturar el contexto POST-`RELEVANCE_THRESHOLD`=0.4, no el top-5 crudo — un top-5 con sim<0.4 se cae del prompt) + el sub-agente cazó el artefacto-semilla equivocado (pins en `DEF.yaml`, no `FINAL`). 6/6 findings confirmados, 0 FP. Instrumento `synthesis_miss_judge.py`: juez GPT-5.5 K=5 **a nivel-PROPOSICIÓN** (valor EN su relación `texto`) sobre la respuesta del pipeline fiel a prod; `reaches_gen = support_ids(votos≥4) ∩ ctx_ids(post-0.4)`.
+
+**Fase A ($0):** de los 103, **25 en golds PASS** + 78 en NO-PASS. **Full (103):** SYNTH-OK 82 · SYNTH-MISS 20 · NOT-IN-CTX 1. **Subset eyeball-verificado:** las respuestas actuales son MÁS completas que s67base — cat007 pasó de FALLO (se escudaba, omitía 'no enclavado'/'10⁵') a transmitir los 5 hechos. **Atribución limpia:** mismo generador/temp/tabla que s67base (verificado) → la mejora es de **VECTOR_NOCAT** (mejor retrieval → contexto más rico).
+
+**Varianza (Sonnet temp=0 no-determinista, declarado en s67base):** 2 generaciones → **16 stable-MISS · 9 flip · 78 stable-OK**. Cuello ROBUSTO = 16.
+
+**Certificación (workflow adjudica-ciego + verifica-adversarial, cross-model del juez GPT-5.5; + trampa):** de los 20 SYNTH-MISS → ~3-4 **judge-FN** (bot SÍ transmite), 9 **PARTIAL**, ~7 **OMITTED** (2=hp007 varianza). Controles **10/11 CONVEYED**; 1 over-credit = **hp018 '4 circuitos'** (respuesta del producto EQUIVOCADO ZXAE≠ZX5e → IDENTIDAD, DEC-074). Ambas correcciones REDUCEN el cuello → **~13-14 genuinos**. El dúo de agentes corrigió en AMBAS direcciones (cazó el over-credit hp018 Y confirmó OMITTED reales) — no solo confirmó mi narrativa (resultado sesgo-sensible → `feedback_my_bias` control operando).
+
+**Mecanismo (heterogéneo, SIN lever barato):** completeness ~10 (=lever de generación **settled NO-GO en PASS**, DEC-051) · **contradicts ~4 (FIDELIDAD:** hp001 '1111' invertido, hp013 'EEPROM' invertido, cat020) · hedge-defensive ~2.
+
+**Recomendación (Protocolo 2; des-diferir PASS = gate de Alberto):** (1) **des-diferir PASS y medir el baseline actual** (probablemente subió mucho post-VECTOR_NOCAT; tengo las respuestas frescas rep0/rep1, re-juzgar es barato, lo ofrezco sin correrlo); (2) **"atacar síntesis" está mis-dimensionado** (no hay cuello de 103; residual ~13-14 sin lever barato) → leverage real = (A) catálogo/escala + retrieval foundational (DEC-074) + eval orgánico; (3) 3-4 fidelity-contradicts per-caso.
+
+**Disciplina de coste:** validé el juez en subset antes del full; el primer workflow se rate-limiteó (agentes leyendo un JSON de 73k → 2.2M tokens) → rehecho leaner con archivos por-fila. **NADA en prod, reach≠PASS, 354 tests verdes.** Instrumentos: `synthesis_miss_judge.py` + `_trampa`/`_calib_sample`/`_stability`, `evals/s87_synthesis_findings.md` + `_instrument_brief.md`. **Cierre:** DEC-075 + LEVER_DIGEST (fila cuello) + PLAN + memoria. Branch `eval/s87-synthesis-diagnosis` → PR.

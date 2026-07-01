@@ -1,0 +1,99 @@
+n_pairs: 103
+stable_miss: 16
+flip: 9
+stable_ok: 78
+stable_miss_facts:
+- qid: cat001
+  idx: 0
+  valor: 1 o 2
+- qid: cat011
+  idx: 0
+  valor: '751'
+- qid: cat013
+  idx: 0
+  valor: bucle cerrado
+- qid: cat016
+  idx: 0
+  valor: menu ZONA + ELEMENTO
+- qid: cat017
+  idx: 2
+  valor: licencia CLIP por lazo
+- qid: cat017
+  idx: 3
+  valor: CLSS
+- qid: cat018
+  idx: 1
+  valor: 'pestana Programacion: Zona + CBE'
+- qid: cat018
+  idx: 2
+  valor: Tipo SW / asociacion CBE
+- qid: cat020
+  idx: 1
+  valor: 0-100 % normalizado
+- qid: hp002
+  idx: 3
+  valor: reset inicial
+- qid: hp003
+  idx: 0
+  valor: cable puente
+- qid: hp007
+  idx: 1
+  valor: cada 6 meses
+- qid: hp010
+  idx: 1
+  valor: nuevos, eliminados y modificados
+- qid: hp012
+  idx: 0
+  valor: 10 lazos
+- qid: hp012
+  idx: 1
+  valor: 99 + 99
+- qid: hp013
+  idx: 0
+  valor: EEPROM
+flip_facts:
+- qid: cat008
+  idx: 3
+  valor: 1/2/3/4 lazo; 6-7 entrada A
+  r0: SYNTH-OK
+  r1: SYNTH-MISS
+- qid: cat016
+  idx: 1
+  valor: modo prueba
+  r0: SYNTH-MISS
+  r1: SYNTH-OK
+- qid: cat018
+  idx: 3
+  valor: Apendice A
+  r0: SYNTH-OK
+  r1: SYNTH-MISS
+- qid: hp001
+  idx: 2
+  valor: '1111'
+  r0: SYNTH-MISS
+  r1: SYNTH-OK
+- qid: hp002
+  idx: 0
+  valor: fallo flujo de aire
+  r0: SYNTH-OK
+  r1: SYNTH-MISS
+- qid: hp007
+  idx: 0
+  valor: cada 3 meses
+  r0: SYNTH-MISS
+  r1: SYNTH-OK
+- qid: hp015
+  idx: 2
+  valor: '32'
+  r0: SYNTH-MISS
+  r1: SYNTH-OK
+- qid: hp018
+  idx: 2
+  valor: diodo
+  r0: SYNTH-OK
+  r1: SYNTH-MISS
+- qid: hp018
+  idx: 3
+  valor: Sirenas A,B,C,D
+  r0: SYNTH-OK
+  r1: SYNTH-MISS
