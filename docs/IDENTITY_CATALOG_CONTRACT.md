@@ -1,7 +1,7 @@
 # Contrato de gobernanza — Catálogo canónico de identidad de producto (workstream A, Fase 0)
 
-> **Estado: DRAFT para revisión de Alberto (~1h).** Deliverable de la Fase 0 de (A) (DEC-074e).
-> Al aprobarse (con tus decisiones D1-D6 de §9), pasa a CANÓNICO y gobierna las fases F1-F4.
+> **Estado: ✅ CANÓNICO — F0 APROBADO por Alberto (2 jul 2026, s90/DEC-079), D1-D7 según las
+> recomendaciones.** Gobierna las fases F1-F4. Cualquier cambio material a este contrato = PR + su OK.
 > Nace de: DEC-074(c) (BP = entity-linking 2 etapas, dúo + literatura arXiv 2502.01555 /
 > EVPI-CLAM 2212.07769), el activo s83 (DEC-067: 1014 docs / 2761 productos dúo-extraídos +
 > tus 29 adjudicaciones), TECH_DEBT #49/#50, y los ground-truths tuyos (Morley ZX/RP1r,
