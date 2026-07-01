@@ -109,5 +109,42 @@
    "judge_model_real": "gpt-5.5-2026-04-23",
    "at": "2026-07-01T23:55:06"
   }
+ },
+ "cat024": {
+  "0": {
+   "conducta_bot": "answer-con-conflicto",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta al detectar la discrepancia documental entre 7 mA y 17 mA y cita el manual del dispositivo, pero presenta inicialmente 7 mA como respuesta y no deja claro que debe prevalecer el valor vigente de 17 mA según la revisión V2. Además omite la nota sobre la revisión anterior que indicaba <15 mA.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-01T23:59:07"
+  },
+  "1": {
+   "conducta_bot": "answer-con-conflicto",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Detecta la discrepancia documental y menciona el valor correcto de 17 mA del manual del dispositivo, además del 7 mA de la tabla CAD-250. Pero presenta inicialmente 7 mA como respuesta, no identifica la revisión vigente V2 ni el valor anterior <15 mA, y no deja claro que debe prevalecer 17 mA para el cálculo del lazo.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-01T23:59:07"
+  },
+  "2": {
+   "conducta_bot": "answer-con-conflicto",
+   "veredicto": "PARCIAL",
+   "diagnostico": "El bot identifica la discrepancia documental y cita tanto 7 mA como 17 mA, incluyendo el valor correcto del manual específico. Sin embargo, empieza dando 7 mA como respuesta y no deja claro que debe prevalecer la revisión vigente del manual del dispositivo con 17 mA, ni menciona la revisión V2/valor anterior <15 mA.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-01T23:59:08"
+  },
+  "3": {
+   "conducta_bot": "answer-con-conflicto",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Detecta correctamente la discrepancia documental entre 7 mA y 17 mA y cita el manual específico, pero presenta inicialmente 7 mA como respuesta y no afirma con claridad que debe prevalecer el valor vigente de 17 mA. Además omite la referencia a la revisión V2 vigente y al valor anterior de V1 (<15 mA).",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-01T23:59:08"
+  },
+  "4": {
+   "conducta_bot": "answer-con-conflicto",
+   "veredicto": "PARCIAL",
+   "diagnostico": "El bot detecta y cita la discrepancia documental 7 mA vs 17 mA, e incluye el valor correcto de 17 mA del manual del dispositivo. Pero presenta inicialmente 7 mA como respuesta y no indica que la revisión vigente V2 prevalece ni que debe usarse 17 mA para el cálculo conservador del lazo.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-01T23:59:08"
+  }
  }
 }

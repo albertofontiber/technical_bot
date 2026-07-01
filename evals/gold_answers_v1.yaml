@@ -4295,6 +4295,8 @@
     El consumo en alarma de la sirena analógica de zócalo Detnov MAD-472 es de 17 mA (a 80 dB(A)), según la edición vigente del manual (documento 55347200, revisión V2). Otras características eléctricas del módulo: tensión de funcionamiento 22-38 VDC y consumo en reposo inferior a 350 µA.
 
     Nota: 17 mA es el valor de la última revisión del manual. La edición anterior (V1 del mismo documento 55347200) indicaba <15 mA @ 80 dB(A) para ese mismo consumo en alarma; debe usarse el valor de la revisión vigente (17 mA).
+
+    Discrepancia documental conocida: las tablas de calculo de consumo del sistema CAD-250 (manuales MI_372 p55 / MC-380 p87-94 / MS-416 p70) listan para la MAD-472 un consumo en alarma de 7 mA (y 0,35 mA en reposo, coherente con el manual del dispositivo). Ante la discrepancia (7 mA tabla vs 17 mA manual del dispositivo), prevalece el manual del dispositivo vigente (17 mA @ 80 dB(A), el valor conservador para el calculo del lazo) y se recomienda verificar en campo.
   atomic_facts:
   - texto: El consumo en alarma de la sirena Detnov MAD-472 es 17 mA a 80 dB(A) — valor de la edición
       vigente (revisión V2)
@@ -4312,6 +4314,13 @@
     estado: presente
     valor: < 350 µA
     cita: 55347200 MAD-472 p1 (Características Módulo)
+  - texto: Las tablas de calculo del sistema CAD-250 listan 7 mA en alarma para la MAD-472 — discrepancia
+      documental REAL con el manual del dispositivo (17 mA @ 80 dB(A) V2); surfacear ambos, prevalece
+      el manual del dispositivo vigente, verificar en campo
+    tipo: core
+    estado: presente
+    valor: 7 mA (tablas) vs 17 mA (manual)
+    cita: 'MI_372 p55 / MC-380 p87-94 / MS-416 p70 (tabla equipos: MAD-472 | SIR | 0,35 mA | 7 mA)'
   citations:
   - manual: 55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2.pdf (revisión V2, vigente)
     page: 1
@@ -4323,7 +4332,9 @@
     revisiones del MISMO manual (doc. 55347200, mismo idioma): V1 = <15 mA -> V2 = 17 mA (ambos a 80 dB(A)).
     Manda la última (17 mA); NO es answer-con-conflicto (eso es para variantes de mercado ES-vs-US). Es
     el ÚNICO valor que cambió entre V1 y V2 (tensión, consumo en reposo, temperatura, cableado y dimensiones
-    son idénticos). Nota de scorer: el valor distintivo es 17 mA (vigilar el obsoleto ''<15 mA'').'
+    son idénticos). Nota de scorer: el valor distintivo es 17 mA (vigilar el obsoleto ''<15 mA''). | gold-review
+    s89 A3(b) adjudicado por Alberto: discrepancia 7-vs-17 verificada al pixel (mismo modelo, 5 chunks)
+    — surfacear + precedencia manual-del-dispositivo.'
   confidence: alta
   pdfs_used:
   - 55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2.pdf

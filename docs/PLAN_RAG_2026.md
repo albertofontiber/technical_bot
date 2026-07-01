@@ -85,6 +85,13 @@ los 30 NO-PASS** (`evals/s88_nopass_dossier.md`) para decisión-en-lote de Alber
 **DÚO v2 (pedido Alberto):** sub-agente→`fable` + cross-model CON tools read-only sobre el repo (paridad de
 información; cierra TECH_DEBT #36; smoke validado).
 
+**s89 (DEC-078): gold-review Clase A APLICADO (adjudicación de Alberto; #97/#98 mergeadas).** hp004 →
+**PASS 5/5 unánime (+1, PASS-map ~10/39)**; cat024 → PARCIAL 5/5 (sin FALLOs; discrepancia 7-vs-17
+verificada al píxel = MISMO modelo); cat009/cat020 sin movimiento (el juez completista encuentra la
+siguiente arista) → **el plateau se confirma post-gold-edit; el lever restante del bucket OTRO = dual-judge**.
+cat012 resuelto-solo (ya PASS 5/5). ES/EN → `docrel language-variant-of` añadido al contrato del catálogo.
+**Pendiente de Alberto: contrato F0 (D1-D7, ~1h) → F1.**
+
 **s88b (2ª tanda nocturna): (A) Fase 0 DRAFTEADA + paquete de adjudicación.** (1) **Contrato de gobernanza del
 catálogo canónico** (`docs/IDENTITY_CATALOG_CONTRACT.md`, DRAFT dúo-hardened): modelo de datos (producto/alias/
 paraguas/**homónimo**/relación/doc_map por `document_id`), gobernanza anti-Excel-opaco (jerarquía de fuentes,

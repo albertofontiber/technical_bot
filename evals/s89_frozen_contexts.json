@@ -708,5 +708,451 @@
     "similarity": 0.65
    }
   ]
+ },
+ "cat024": {
+  "question": "¿Cuál es el consumo en alarma de la sirena analógica de zócalo Detnov MAD-472?",
+  "conducta_esperada": "answer",
+  "frozen_at": "2026-07-01T23:58:45",
+  "n_context_hydrated": 1,
+  "top5": [
+   {
+    "id": "e19c4b0c-6845-4438-b1ff-06d79bef7d93",
+    "content": "SIRENA ANALÓGICA DE ZÓCALO\nANALOGUE BASE SOUNDER\n\n# ESPAÑOL\n\n## Sirena Analógica de Zócalo\n\n### 1- Introducción\n\nLa sirena analógica de zócalo proporciona al sistema de detección de incendio una señal acústica y de alarma en el interior de los edificios con el fin de avisar a las personas que se encuentran en el interior de un edificio para avisarlas de una alarma.\n\n### Direccionamiento.\n\nLa sirena analógica de zócalo, forma parte del sistema analógico, por lo cual precisa de direccionamiento para su identificación. La sirena analógica de zócalo ocupa 1 dirección del lazo y pueden ser numerados de la posición 1 hasta la 250 utilizando el programador.\n\nPara su numeración inserte el cable del programador en el módulo a través del conector situado en el centro de la sirena..\n\n### 3- Prueba y mantenimiento\n\nEl mantenimiento de la sirena consistirá en una inspección visual para verificar su correcto estado, y una prueba de funcionamiento.\n\nREF: 55347200\nREF: 55347200\n\n### 2- Instalación\n\nLas sirenas deben instalarse de modo que la señal acústica cubra todo el local protegido, sin quedar zonas muertas.\n\nLa conexión a la instalación de protección contra incendio debe hacerse siguiendo las instrucciones del siguiente esquema eléctrico, teniendo en cuenta siempre que la alimentación de la instalación esté desconectada. La sirena analógica no precisa alimentación auxiliar, alimentándose directamente del lazo teniendo en cuenta el cuadro de abajo.\n\n```\nWiring Diagram:\nLoop Out -          Loop In -\nLoop Out +          Loop In +\n```\n\n### 4- Características Técnicas\n\n| Características Medioambientales | Características Medioambientales |\n| -------------------------------- | -------------------------------- |\n| •Temperatura trabajo             | -10 à 50 ºC                      |\n| •Temperatura almacén             | -10 à 70 ºC                      |\n| •Humedad relativa                | 95%                              |\n\n| Características Módulo  | Características Módulo |\n| ----------------------- | ---------------------- |\n| •Tensión funcionamiento | 22-38 VDC              |\n| •Consumo                | < 350 μA               |\n| •Consumo en Alarma      | 17 mA (80 dB A)        |\n\n| Características Conexionado | Características Conexionado |\n| --------------------------- | --------------------------- |\n| •Tipo cable                 | 1.5 mm² a regleta extraíble |\n| •Tipo cable                 | Par trenzado apantallado    |\n\n| Características Físicas | Características Físicas |\n| ----------------------- | ----------------------- |\n| Dimensiones             |                         |\n| •Sirena                 | 100 Ø x 150 mm          |\n\n----",
+    "product_model": "MAD-472",
+    "category": "Detección analógica",
+    "section_title": "ESPAÑOL",
+    "content_type": "wiring",
+    "manufacturer": "Detnov",
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2",
+    "page_number": 1,
+    "document_id": "27dec7c7-4277-41a8-891a-a3ada52eeb7a",
+    "similarity": 0.65,
+    "_channel": "MODEL",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm",
+    "context": "Este fragmento corresponde a la sección en español del documento sobre la Sirena Analógica de Zócalo, un dispositivo de alarma acústica para sistemas de detección de incendios. Contiene las instrucciones completas de introducción, direccionamiento, instalación, prueba y mantenimiento, así como las características técnicas del dispositivo."
+   },
+   {
+    "id": "181ac6b0-f83e-43cd-bf0e-a8adafac9970",
+    "content": "| Características Medioambientales | Características Medioambientales |\n| -------------------------------- | -------------------------------- |\n| •Temperatura trabajo             | -10 à 50 ºC                      |\n| •Temperatura almacén             | -10 à 70 ºC                      |\n| •Humedad relativa                | 95%                              |\n| Características Módulo           |                                  |\n| •Tensión funcionamiento          | 22-38 VDC                        |\n| •Consumo                         | < 350 μA                         |\n| •Consumo en Alarma               | 10 mA (80 dB A)                  |\n| Características Conexionado      |                                  |\n| •Tipo cable                      | 1.5 mm² a regleta extraíble      |\n| •Tipo cable                      | Par trenzado apantallado         |\n| Características Físicas          |                                  |\n| Dimensiones                      |                                  |\n| •Sirena                          | 100 Ø x 32 mm                    |\n\n----",
+    "context": "Este fragmento contiene las características técnicas completas de la Sirena Analógica de Zócalo con Flash en la sección 4, incluyendo especificaciones medioambientales, del módulo, de conexionado y físicas del dispositivo de referencia 55347101.",
+    "product_model": "MAD-471",
+    "category": "Detección analógica",
+    "section_title": "4- Características Técnicas",
+    "section_path": "SIRENA ANALÓGICA DE ZÓCALO CON FLASH > Sirena Analógica de Zócalo con Flash > 4- Características Técnicas",
+    "content_type": "specification",
+    "manufacturer": "Detnov",
+    "distributor": null,
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "is_flow_diagram": false,
+    "confidence": 0.889,
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "55347101 Manual Sirena Analogica MAD-471 ES FR GB IT",
+    "page_number": 1,
+    "document_id": "15015287-4b41-4623-96a5-e8076641560b",
+    "similarity": 0.609328389167786,
+    "_channel": "VECTOR",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm"
+   },
+   {
+    "id": "63bf11d7-4029-40a2-b7bf-b5181df199b7",
+    "content": "## 10.2. Dispositivos compatibles y consumos\n\n| Referencia  | Tipo             | Consumo Reposo | Consumo Alarma | Aislador | Alimentación externa | Nº direcc. | Descripción                                                                         |\n| ----------- | ---------------- | -------------- | -------------- | -------- | -------------------- | ---------- | ----------------------------------------------------------------------------------- |\n| DTD-210A    | D.TÉRMICO        | 0,3 mA         | 3 mA           | No       | No                   | 1          | Detector termovelocimétrico analógico                                               |\n| DTD-215A    | D.TÉRMICO        | 0,3 mA         | 3 mA           | No       | No                   | 1          | Detector térmico de alta temperatura analógico                                      |\n| DOD-220A    | D.OPTICO         | 0,3 mA         | 3 mA           | No       | No                   | 1          | Detector óptico analógico                                                           |\n| DOTD-230A   | D.OPTICO-TERMICO | 0,3 mA         | 3 mA           | No       | No                   | 1          | Detector óptico térmico                                                             |\n| DTD-210A-I  | D.TERMICO        | 0,3 mA         | 3 mA           | Si       | No                   | 1          | Detector termovelocimétrico Analógico con aislador                                  |\n| DTD-215A-I  | D.TERMICO        | 0,3 mA         | 3 mA           | Si       | No                   | 1          | Detector térmico de alta temperatura analógico con aislador                         |\n| DOD-220A-I  | D.OPTICO         | 0,3 mA         | 3 mA           | Si       | No                   | 1          | Detector óptico analógico con aislador                                              |\n| DOTD-230A-I | D.OPTICO-TERMICO | 0,3 mA         | 3 mA           | Si       | No                   | 1          | Detector termovelocimétrico analógico con aislador                                  |\n| DGD-600     | GAS              | 4,5 mA         | 65 mA          | No       | No                   | 1          | Detector de gases inflamables ligeros, Metano, Gas Natural, Hidrógeno               |\n| DGD-600-AC  |                  | 3,5 mA         | 62 mA          | No       | No                   |            |                                                                                     |\n| DGD-620     | GAS              | 4,5 mA         | 65 mA          | No       | No                   | 1          | Detector de gases inflamables pesados, Gases Licuados del Petroleo, Propano, Butano |\n| DGD-620-AC  |                  | 3,5 mA         | 62 mA          | No       | No                   |            |                                                                                     |\n| MAD-401     | MOD              | 0,3 mA         | 1,5 mA         | No       | No                   | 1          | Módulo analógico monitor de 1 entrada.                                              |\n| MAD-401-I   | MOD              | 0,3 mA         | 1,5 mA         | Sí       | No                   | 1          | Módulo analógico monitor de 1 entrada con aislador.                                 |\n| MAD-402     | MOD              | 0,3 mA         | 1,5 mA         | No       | No                   | 2          | Módulo monitor analógico de 2 entradas.                                             |\n| MAD-402-I   | MOD              | 0,3 mA         | 1,5 mA         | Sí       | No                   | 2          | Módulo monitor analógico de 2 entradas con aislador.                                |\n| MAD-405-I   | MOD              | 0,3 mA         | 1,5 mA         | Si       | No                   | 5          | Módulo analógico de 5 entradas con aislador.                                        |\n| MAD-409-I   | MOD              | 0,3 mA         | 1,5 mA         | Si       | No                   | 10         | Módulo analógico de 10 entradas con aislador.                                       |\n| MAD-410-I   | MOD              | 0,3 mA         | 1,5 mA         | Si       | No                   | 10         |                                                                                     |\n| MAD-411     | MOD              | 0,3 mA         | 1,5 mA         | No       | No                   | 1          | Módulo analógico de control de 1 salida.                                            |\n| MAD-411-I   | MOD              | 0,3 mA         | 1,5 mA         | Si       | No                   | 1          | Módulo analógico de control de 1 salida con aislador                                |\n| MAD-412     | MOD              | 0,3 mA         | 1,5 mA         | No       | No                   | 2          | Módulo analógico de control de 2 salidas.                                           |\n| MAD-412-I   | MOD              | 0,3 mA         | 1,5 mA         | Si       | No                   | 2          | Módulo analógico de control de 2 salidas con aislador.                              |\n| MAD-415-I   | MOD              | 0,3 mA         | 1,5 mA         | Si       | Sí                   | 5          | Módulo analógico de 5 salidas de relé con aislador                                  |\n| MAD-419-I   | MOD              | 0,3 mA         | 1,5 mA         | Si       | Sí                   | 10         | Módulo analógico de 10 salidas de relé. con aislador.                               |\n| MAD-421     | MOD              | 0,3 mA         | 1,5 mA         | No       | No                   | 2          | Módulo analógico monitor y de control de 1 entrada.                                 |\n| MAD-421-I   | MOD              | 0,3 mA         | 1,5 mA         | Si       | No                   | 2          | Módulo analógico monitor y de control de 1 entrada con aislador.                    |",
+    "context": "Este fragmento forma parte del Anexo 2 \"Dispositivos compatibles y consumos\" de la Guía de Instalación de la central de alarma contra incendios CAD-250 de Detnov, y proporciona una tabla detallada de los dispositivos analógicos compatibles (detectores, módulos, pulsadores y sirenas) con sus especificaciones técnicas de consumo eléctrico y características funcionales.",
+    "product_model": "CAD-250",
+    "category": "Detección analógica",
+    "section_title": "10.2. Dispositivos compatibles y consumos",
+    "section_path": "10. Anexos > 10.2. Dispositivos compatibles y consumos",
+    "content_type": "specification",
+    "manufacturer": "Detnov",
+    "distributor": null,
+    "protocol": null,
+    "doc_type": "instalacion",
+    "language": "es",
+    "is_flow_diagram": false,
+    "confidence": 0.993,
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+    "page_number": 55,
+    "document_id": "d58f75b3-ce81-4bc7-add5-096933e254c7",
+    "similarity": 0.602702260017395,
+    "_channel": "VECTOR",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm"
+   },
+   {
+    "id": "27355469-1dec-4539-9663-c20d556e1964",
+    "content": "57\n\nESP\n\n| Referencia | Tipo   | Consumo Reposo | Consumo Alarma | Aislador | Alimentación externa | Nº direcc. | Descripción                                                                                                                  |\n| ---------- | ------ | -------------- | -------------- | -------- | -------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------- |\n| MAD-422    | MOD    | 0,3 mA         | 1,5 mA         | No       | Sí                   | 4          | Módulo monitor y de control analógico de 2 entradas y 2 salidas de relés                                                     |\n| MAD-422-I  | MOD    | 0,3 mA         | 1,5 mA         | Si       | Sí                   | 4          | Módulo monitor y de control analógico de 2 entradas y 2 salidas de relés con aislador.                                       |\n| MAD-425-I  | MOD    | 0,3 mA         | 1,5 mA         | Si       | Sí                   | 10         | Módulo analógico de 5 entradas técnicas y 5 salidas de relé                                                                  |\n| MAD-429-I  | MOD    | 0,3 mA         | 1,5 mA         | Si       | Sí                   | 20         | Módulo analógico de 10 entradas técnicas y 10 salidas de relé                                                                |\n| MAD-431    | MOD    | 0,3 mA         | 1,5 mA         | No       | Sí                   | 1          | Módulo de control analógico de 1 salida de 24v supervisados                                                                  |\n| MAD-431-I  | MOD    | 0,3 mA         | 1,5 mA         | Si       | Sí                   | 1          | Módulo de control analógico de 1 salida de 24v supervisados con aislador                                                     |\n| MAD-432    | MOD    | 0,3 mA         | 1,5 mA         | No       | Sí                   | 2          | Módulo de control analógico de 2 salidas de 24v                                                                              |\n| MAD-432-I  | MOD    | 0,3 mA         | 1,5 mA         | Si       | Sí                   | 2          | Módulo de control analógico de 2 salidas de 24v con aislador                                                                 |\n| MAD-441    | MOD    | 0,3 mA         | 1,5 mA         | No       | Sí                   | 1          | Módulo monitor analógico de 1 zona convencional.                                                                             |\n| MAD-441-I  | MOD    | 0,3 mA         | 1,5 mA         | Si       | Sí                   | 1          | Módulo monitor analógico de 1 zona convencional. con aislador                                                                |\n| MAD-442    | MOD    | 0,3 mA         | 1,5 mA         | No       | Sí                   | 2          | Módulo monitor analógico de 2 zonas convencionales.                                                                          |\n| MAD-442-I  | MOD    | 0,3 mA         | 1,5 mA         | Si       | Sí                   | 2          | Módulo monitor analógico de 2 zonas convencionales con aislador                                                              |\n| MAD-450    | PUL    | 0,3 mA         | 1,5 mA         | No       | No                   | 1          | Pulsador Analógico                                                                                                           |\n| MAD-450-I  | PUL    | 0,3 mA         | 1,5 mA         | Si       | No                   | 1          | Pulsador Analógico con aislador                                                                                              |\n| MAD-451-I  | PUL    | 0,3 mA         | 1,5 mA         | Sí       | No                   | 1          | Pulsador de alarma analógico rearmable con aislador incorporado                                                              |\n| MAD-450-IW | PUL    | 0,3 mA         | 1,5 mA         | No       | No                   | 1          | Pulsador IP67 de alarma analógico rearmable                                                                                  |\n| MAD-461-I  | SIR    | 0,3 mA         | 4,5 mA         | Sí       | No                   | 1          | Sirena direccionable con aislador.                                                                                           |\n| MAD-464-I  | SIR    | 0,3 mA         | 6,5 mA         | Sí       | No                   | 1          | Sirena direccionable con aislador incorporado.                                                                               |\n| MAD-465-I  | SIR    | 0,3 mA         | 6,5 mA         | Sí       | No                   | 1          | Sirena con flash direccionable con aislador incorporado.                                                                     |\n| MAD-467-IC | SIR    |                |                | Sí       |                      | 1          | Sirena analógica de alarma de color rojo con flash de                                                                        |\n| MAD-467-IW | SIR    |                |                | Sí       |                      | 1          | Sirena analógica de alarma de color rojo con flash de color blanco para instalación en pared, con aislador incorporado       |\n| MAD-469-IC | SIR    |                |                | Sí       |                      | 1          | Flash analógico de color blanco con base roja para instalación en techo con entrada de tubo visto, con aislador incorporado. |\n| MAD-469-IW | SIR    |                |                | Sí       |                      | 1          | Flash analógico de color blanco con base roja para instalación en pared con entrada de tubo visto, con aislador incorporado. |\n| MAD-472    | SIR    | 0,35 mA        | 7 mA           | No       |                      | 1          |                                                                                                                              |\n| MAD-473    | SIR    | 0,35 mA        | 7,5 mA         | No       |                      | 1          | Base de conexión con sirena y flash analógico incorporada.                                                                   |\n| MAD-481    | MOD    | 0,3 mA         | 1,5 mA         | No       | Sí                   | 1          | Módulo de control analógico de 1 salida de relé libre de tensión de 240 Vac y 5A.                                            |\n| MAD-490    | ISO    | 0,3 mA         |                | N/A      | No                   | N/A        | Módulo aislador                                                                                                              |\n| PAD-10     | PILOTO | 0,625 mA       | 2,5 mA         |          | No                   | 1          | Piloto remoto direccionable                                                                                                  |",
+    "context": "Este fragmento es parte de la sección \"10.2. Dispositivos compatibles y consumos\" de la Guía de Instalación de la central CAD-250, que proporciona una tabla detallada de dispositivos analógicos Detnov compatibles (módulos, pulsadores y sirenas) con sus especificaciones de consumo, aislador y funcionalidad.",
+    "product_model": "CAD-250",
+    "category": "Detección analógica",
+    "section_title": "10.2. Dispositivos compatibles y consumos",
+    "section_path": "10. Anexos > 10.2. Dispositivos compatibles y consumos",
+    "content_type": "specification",
+    "manufacturer": "Detnov",
+    "distributor": null,
+    "protocol": null,
+    "doc_type": "instalacion",
+    "language": "es",
+    "is_flow_diagram": false,
+    "confidence": 0.993,
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+    "page_number": 55,
+    "document_id": "d58f75b3-ce81-4bc7-add5-096933e254c7",
+    "similarity": 0.632850367809843,
+    "_channel": "VECTOR",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm"
+   },
+   {
+    "id": "7d5c8a6f-1ace-47a1-aa29-aaeac6190e76",
+    "content": "# SIRENA Y SIRENA ANALÓGICA CON FLASH\n\n| Sirena Analógica | Sirena con Flash Analógica |\n| ---------------- | -------------------------- |\n\n## Direccionamiento.\n\nLa sirena analógica y la sirena analógica con flash, forma parte del sistema analógico, por lo cual precisa de direccionamiento para su identificación. Tanto la sirena analógica como el Flash analógico ocupan 1 dirección del lazo y ambos pueden ser numerados de la posición 1 hasta la 250 utilizando el programador.\n\nPara su numeración inserte el cable del programador en el módulo a través del conector marcado con LOOP IN.\n\n## 3- Prueba y mantenimiento\n\nEl mantenimiento de las sirenas consistirá en una inspección visual para verificar su correcto estado, y una prueba de funcionamiento.\n\n## 1- Introducción\n\nLa sirena analógica y la sirena analógica con flash proporcionan al sistema de detección de incendio una señal acústica y óptica-acústica de alarma en el interior de los edificios con el fin de avisar a las personas que se encuentran en el interior de un edificio para avisarlas de una alarma.\n\nAmbas sirenas están disponible en dos modelos, con o sin aislador.\n\nREF: 55346102\n\n## 2- Instalación\n\nLas sirenas deben instalarse de modo que la señal acústica cubra todo el local protegido, sin quedar zonas muertas.\n\nLa conexión a la instalación de protección contra incendio debe hacerse siguiendo las instrucciones del siguiente esquema eléctrico, teniendo en cuenta siempre que la alimentación de la instalación esté desconectada. La sirena analógica y el flash analógico no precisa alimentación auxiliar, alimentándose directamente del lazo teniendo en cuenta el cuadro de abajo.\n\n[Wiring diagram showing circular ceiling mount with connections:\n\n- S IN\n- + LOOP\n- 0 OUT\n- LOOP]\n\n## 4- Características Técnicas\n\n### Modelo-Referencia\n\n| Características Medioambientales | Características Medioambientales | Características Medioambientales |\n| -------------------------------- | -------------------------------- | -------------------------------- |\n| •Temperatura trabajo             | -10 a 50º C                      | -10 a 50º C                      |\n| •Temperatura almacén             | -10 a 70º C                      | -10 a 70º C                      |\n| •Humedad relativa                | 95%                              | 95%                              |\n\n| Características Módulo  | Características Módulo | Características Módulo |\n| ----------------------- | ---------------------- | ---------------------- |\n| •Tensión funcionamiento | 22 - 38 VDC            | 22 - 38 VDC            |\n| •Consumo                | < 300 μA               | < 300 μA               |\n| •Consumo en Alarma      | <10mA @ 82,5dB(A)      | <10mA @ 82,5dB(A)      |",
+    "context": "Este fragmento corresponde a la sección de documentación técnica en español sobre la Sirena Analógica y Sirena Analógica con Flash, que forma parte de un sistema de detección de incendios. Describe la introducción del producto, instalación, direccionamiento, pruebas de mantenimiento y características técnicas de estos dispositivos de alarma acústica y óptica-acústica.",
+    "product_model": "MAD-461",
+    "category": "Detección analógica",
+    "section_title": "SIRENA Y SIRENA ANALÓGICA CON FLASH",
+    "section_path": "SIRENA Y SIRENA ANALÓGICA CON FLASH",
+    "content_type": "specification",
+    "manufacturer": "Detnov",
+    "distributor": null,
+    "protocol": null,
+    "doc_type": null,
+    "language": "es",
+    "is_flow_diagram": false,
+    "confidence": 0.988,
+    "has_diagram": true,
+    "diagram_url": null,
+    "source_file": "55346102 Manual Sirena Analogica MAD-461 ES FR GB IT",
+    "page_number": 1,
+    "document_id": "f00d814e-666b-4487-a0e9-fdbe01b7c410",
+    "similarity": 0.580912938009154,
+    "_channel": "VECTOR",
+    "document_revision": null,
+    "document_revision_date": null,
+    "document_status": "active",
+    "rerank_backend_used": "llm"
+   }
+  ],
+  "pool50_light": [
+   {
+    "id": "457f1b97-8798-4022-b740-7ab6414a2636",
+    "source_file": "55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2",
+    "page_number": 1,
+    "similarity": 0.65
+   },
+   {
+    "id": "27355469-1dec-4539-9663-c20d556e1964",
+    "source_file": "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+    "page_number": 55,
+    "similarity": 0.632850367809843
+   },
+   {
+    "id": "5bb653d4-fefc-45ca-81cf-6ddccb19738d",
+    "source_file": "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+    "page_number": 87,
+    "similarity": 0.623582490042013
+   },
+   {
+    "id": "e9ee8c79-22cb-47e0-b99d-8ddedce5d036",
+    "source_file": "CAD-250_Manual-software-configuracion-MS-416-es-2026-b",
+    "page_number": 70,
+    "similarity": 0.621933396631487
+   },
+   {
+    "id": "f9cab9b2-da8c-4181-8413-0bbbeefa11b1",
+    "source_file": "Manual_MAD-465-I (55346500 MI 620 m 2024 c)",
+    "page_number": 1,
+    "similarity": 0.620856165885925
+   },
+   {
+    "id": "5f95d527-e037-4110-87ca-0d0dce16b5d8",
+    "source_file": "MIDT212",
+    "page_number": 46,
+    "similarity": 0.618698037785176
+   },
+   {
+    "id": "248eb7da-80d0-470f-bddb-b024c21de8a4",
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 53,
+    "similarity": 0.616305351257324
+   },
+   {
+    "id": "d4ec2100-53ef-4cd2-9401-16efc2a1ae5c",
+    "source_file": "Manual MAD-567_569 (55356900 Mi 535 m 2022 b)",
+    "page_number": 1,
+    "similarity": 0.611422469274257
+   },
+   {
+    "id": "345b497d-714d-4cb8-9cf2-a07783f5ab1e",
+    "source_file": "AM 8200G manual instalacion Rv 3",
+    "page_number": 37,
+    "similarity": 0.609455676295716
+   },
+   {
+    "id": "181ac6b0-f83e-43cd-bf0e-a8adafac9970",
+    "source_file": "55347101 Manual Sirena Analogica MAD-471 ES FR GB IT",
+    "page_number": 1,
+    "similarity": 0.609328389167786
+   },
+   {
+    "id": "e6effb9d-63c2-4f68-b807-3a3b6ac455d9",
+    "source_file": "55356500-Manual-Sirena-Analogica-MAD565-I_ES_GB_MI-466-m-2020-e",
+    "page_number": 1,
+    "similarity": 0.60783436251674
+   },
+   {
+    "id": "e425ed99-4943-49b9-998a-9961c34402f6",
+    "source_file": "MIDT190",
+    "page_number": 73,
+    "similarity": 0.606108701593204
+   },
+   {
+    "id": "2f07a3c0-860a-4ad0-bb09-99b0d5ee4de5",
+    "source_file": "MIE-MI-310",
+    "page_number": 26,
+    "similarity": 0.606005061746558
+   },
+   {
+    "id": "ab988e51-d18f-4d1d-9f0e-3b4bd73179b2",
+    "source_file": "AM 8100-manual instalacion RV 3 30-01-2025",
+    "page_number": 30,
+    "similarity": 0.605320894401021
+   },
+   {
+    "id": "09ef555b-d7d5-4f0e-a910-b0f87eadcdc4",
+    "source_file": "MIDT260",
+    "page_number": 25,
+    "similarity": 0.604733419982607
+   },
+   {
+    "id": "f4568dc5-fcfd-434e-8673-f5c7f7d9526c",
+    "source_file": "I56-1671-003 LPB-620 ManualES",
+    "page_number": 2,
+    "similarity": 0.599151015281677
+   },
+   {
+    "id": "25cd9c1e-3ad3-4566-96eb-1176000696bb",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 37,
+    "similarity": 0.597438746461759
+   },
+   {
+    "id": "cea283b2-94a6-4209-9489-54dc57d64160",
+    "source_file": "AM 8200N-manual instalacion RV 4 30-01-2025",
+    "page_number": 34,
+    "similarity": 0.596983313560486
+   },
+   {
+    "id": "69f393a5-0df7-4fbd-ab18-1694bb0b667f",
+    "source_file": "MNDT410",
+    "page_number": 13,
+    "similarity": 0.594587255169485
+   },
+   {
+    "id": "f8941cdc-5029-4903-ad95-6f4168757fde",
+    "source_file": "MIE-MC-530",
+    "page_number": 26,
+    "similarity": 0.592294145549046
+   },
+   {
+    "id": "6a6a9cbb-ddfb-4e94-b884-8a2035d266e8",
+    "source_file": "MNDT725_40-40M",
+    "page_number": 52,
+    "similarity": 0.591236251331456
+   },
+   {
+    "id": "d753f9dc-d87d-401e-9bc3-7b3cdf291649",
+    "source_file": "MIDT156",
+    "page_number": 103,
+    "similarity": 0.590706962070077
+   },
+   {
+    "id": "2e7d8b71-638b-4bdf-9d6a-4b8fa53a04d6",
+    "source_file": "MIE-MI-600",
+    "page_number": 41,
+    "similarity": 0.588868021965027
+   },
+   {
+    "id": "e2b54550-d1a7-4727-b9a9-c7a6bec837b0",
+    "source_file": "MNDT721_40-40I",
+    "page_number": 51,
+    "similarity": 0.586352604220885
+   },
+   {
+    "id": "b1d1a463-c2fc-4b67-a354-85f8b0e645ac",
+    "source_file": "guide-40-40r-single-ir-flame-detector-spectrex-en-us-1459812",
+    "page_number": 54,
+    "similarity": 0.586018621921539
+   },
+   {
+    "id": "8d8e2b00-43e9-4c5b-b37f-aafefe688cd0",
+    "source_file": "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual",
+    "page_number": 103,
+    "similarity": 0.585837830801273
+   },
+   {
+    "id": "52eff084-ab8d-4a8f-b8e8-5114373d7e93",
+    "source_file": "MIE-MC-520",
+    "page_number": 25,
+    "similarity": 0.584633876724977
+   },
+   {
+    "id": "67bca831-a90c-4b3b-b293-d87e922aa0f9",
+    "source_file": "MNDT724_40-40R",
+    "page_number": 49,
+    "similarity": 0.584004114151496
+   },
+   {
+    "id": "3b91745f-fec3-4d8b-9a0d-fbcc8d71737a",
+    "source_file": "I56-2166-02R DH500ACDC-E",
+    "page_number": 6,
+    "similarity": 0.582247103318746
+   },
+   {
+    "id": "9bbf1e7c-96cc-4af3-8367-b04974b739c2",
+    "source_file": "MNDT722_40-40L",
+    "page_number": 50,
+    "similarity": 0.582215478156156
+   },
+   {
+    "id": "448b5890-9468-43e5-91f8-c7d420e4c3a3",
+    "source_file": "MNDT150",
+    "page_number": 52,
+    "similarity": 0.581424390162492
+   },
+   {
+    "id": "7d5c8a6f-1ace-47a1-aa29-aaeac6190e76",
+    "source_file": "55346102 Manual Sirena Analogica MAD-461 ES FR GB IT",
+    "page_number": 1,
+    "similarity": 0.580912938009154
+   },
+   {
+    "id": "f4d847d5-14a8-4ade-98e7-3c642f5ece9b",
+    "source_file": "NSRE24",
+    "page_number": 1,
+    "similarity": 0.580019881722945
+   },
+   {
+    "id": "7b4badef-4642-41e5-ae96-539a9ef55912",
+    "source_file": "MIDT170",
+    "page_number": 62,
+    "similarity": 0.579796825635245
+   },
+   {
+    "id": "dcf67ed9-53f4-498c-b172-b4c61833f976",
+    "source_file": "MIDT180",
+    "page_number": 72,
+    "similarity": 0.579594289040226
+   },
+   {
+    "id": "e2c1077f-2c64-43b2-84a4-f05396cda81a",
+    "source_file": "55310401 Manual Sirenas Convencionales SCD-100 ES FR GB IT",
+    "page_number": 1,
+    "similarity": 0.579311072826385
+   },
+   {
+    "id": "800d2902-dd22-4867-b52c-1e3ab8c0f115",
+    "source_file": "18-187110-10",
+    "page_number": 8,
+    "similarity": 0.578863876428124
+   },
+   {
+    "id": "3790fb44-a8fb-44be-a32a-50b754806840",
+    "source_file": "MNDT723_40-40U",
+    "page_number": 51,
+    "similarity": 0.578710556030273
+   },
+   {
+    "id": "e19c4b0c-6845-4438-b1ff-06d79bef7d93",
+    "source_file": "55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2",
+    "page_number": 1,
+    "similarity": 0.65
+   },
+   {
+    "id": "63bf11d7-4029-40a2-b7bf-b5181df199b7",
+    "source_file": "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+    "page_number": 55,
+    "similarity": 0.602702260017395
+   },
+   {
+    "id": "2ee0e070-d200-49e7-b28e-91af2e6476fd",
+    "source_file": "Manual_MAD-465-I (55346500 MI 620 m 2024 c)",
+    "page_number": 3,
+    "similarity": 0.59520820350696
+   },
+   {
+    "id": "67308087-f356-4575-990a-8bd732f5c47e",
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 56,
+    "similarity": 0.61417421018039
+   },
+   {
+    "id": "ea8ee504-75b9-4912-b13f-a118c3b3e24e",
+    "source_file": "AM 8200G manual instalacion Rv 3",
+    "page_number": 36,
+    "similarity": 0.606114382098413
+   },
+   {
+    "id": "cd803e80-a916-4aff-a9ba-c5118ab65c69",
+    "source_file": "MIDT190",
+    "page_number": 76,
+    "similarity": 0.592623436890637
+   },
+   {
+    "id": "cc360d25-501b-45f2-a159-7e2be1c9babd",
+    "source_file": "AM 8100-manual instalacion RV 3 30-01-2025",
+    "page_number": 28,
+    "similarity": 0.595500880077562
+   },
+   {
+    "id": "cad4ad9e-0b68-4423-9516-7c00b9651bd6",
+    "source_file": "AM 8200N-manual instalacion RV 4 30-01-2025",
+    "page_number": 36,
+    "similarity": 0.596783399581909
+   },
+   {
+    "id": "4b923403-01fb-49aa-9d79-dd684f3d8ee0",
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 55,
+    "similarity": 0.611630457986309
+   },
+   {
+    "id": "ed3ee7f0-0d65-4f8e-a743-a770fb4f13f7",
+    "source_file": "AM 8200G manual instalacion Rv 3",
+    "page_number": 35,
+    "similarity": 0.602920067658437
+   },
+   {
+    "id": "2e283d46-094a-4c5d-8831-721dd1978e5e",
+    "source_file": "AM 8100-manual instalacion RV 3 30-01-2025",
+    "page_number": 31,
+    "similarity": 0.592484527154376
+   },
+   {
+    "id": "6c24fecd-a3f1-41c3-ab05-155e32c85fe6",
+    "source_file": "AM-8200 Manual Instalacion",
+    "page_number": 52,
+    "similarity": 0.595872104167938
+   }
+  ]
  }
 }
