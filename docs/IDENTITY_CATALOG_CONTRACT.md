@@ -19,6 +19,13 @@ su valor es **escala-30+ / findability / corrección** (cimiento). (b) Un filtro
 ambigüedad — la política es resolver determinista, y ante ambigüedad REAL con divergencia,
 **clarify** (s79/s80). (c) Otro Excel opaco — el riesgo declarado en DEC-074: si la gobernanza de
 §4 degenera, el catálogo muere; por eso cada regla de este doc tiene enforcement, no intención.
+(d) **El superseding de REVISIONES de manuales** (frontera declarada, pregunta de Alberto s89):
+qué edición de un manual prevalece (latest-wins vs variante-regional vs OEM vs datasheet — la clase
+cat009 4K7→6K8 / cat024 V1→V2) es el **contrato de revisión/precedencia #4**, workstream HERMANO ya
+especificado (spec s76 `evals/_s76_revision_contract_spec.md`, DEC-058) que vive en el ciclo de vida
+de DOCUMENTOS (`documents.status`, que el retrieval consume desde s64). **Punto de contacto único:**
+`docrel revision-of` puede REPRESENTAR la relación entre docs; la POLÍTICA de precedencia se decide
+en #4, no aquí. Identidad de PRODUCTO ≠ ciclo de vida de DOCUMENTO — fusionarlos sería scope-creep.
 
 ## 2. Modelo de datos (entidades canónicas)
 
@@ -54,6 +61,20 @@ docrel    { document_id ↔ document_id, tipo: language-variant-of | revision-of
 - **Granularidad canónica = la regla s83 dúo-validada** (DEC-067): el producto es la unidad
   COMERCIAL-operativa (CAD-150-2 ≠ CAD-150-8; ZX2e ≠ ZX5e), NO el SKU tipográfico ni el rango.
   Los rangos/series son `paraguas`, nunca productos.
+- **Anti-sobre-ingeniería v0 (ajuste s89b):** los campos descriptivos (`cert[]`, `protocolo`,
+  `categoria`) se cargan SOLO-si-gratis desde el activo s83 y NUNCA se curan en v0 — ningún
+  consumidor los lee aún; curarlos sería aparato sin demanda.
+- **IDs: namespace de marca + inmutabilidad (ajuste s89e, BP MDM):** `id_canonico` lleva namespace
+  de marca (p.ej. `morley:zx2e`) — 53 pares cross-brand COLISIONAN por token (TECH_DEBT #49); el
+  namespace mata la clase. Los ids son **INMUTABLES**: nunca se borran ni se reciclan.
+- **Política de MERGE/SPLIT de identidades (ajuste s89e — el gap que la BP MDM señala y que YA nos
+  pasó 2×):** los ground-truths llegan TARDE por naturaleza (RP1r-Supra=Notifier se descubrió en s78
+  con tags puestos; FAAST re-atribuido en s80 — ambos fueron merges manuales). Reglas: **merge**
+  (X e Y eran el mismo producto) → uno sobrevive como golden-id, el otro pasa a **redirect**
+  (alias-forwarding permanente; los consumidores que lo referencien resuelven al superviviente);
+  **split** (X eran dos productos) → ids NUEVOS + el viejo queda redirect-ambiguo con adjudicación
+  (como `homonimo`). Ambos son cambios de ALTO blast-radius → siempre adjudicados (nivel 1), nunca
+  auto. Esto protege el re-tag F3: los chunks re-taguedos con un id viejo siguen resolviendo.
 - **Semilla = el activo s83** (`s83_document_identity_final.jsonl` + `s83_document_models_final.jsonl`,
   1014 docs / 2761 productos, con `aliases`, `role`, `found_by`, `provenance` ya poblados) + el índice
   s84 (5274 keys model-keyed) + las 3 series declaradas en config (`series_registry`). Los paraguas
@@ -83,10 +104,13 @@ docrel    { document_id ↔ document_id, tipo: language-variant-of | revision-of
 
 **Jerarquía de fuentes de verdad (de mayor a menor):**
 1. **Ground-truth de Alberto** (adjudicación explícita; como los 29 conflicts s83) — gana siempre.
-2. **Dúo-validado** (extracción Opus+GPT convergente, `found_by: both`) — entra sin adjudicación
-   SOLO si no-conflictivo Y es entrada de BAJO blast-radius (producto/alias). **⚠ Convergente ≠
-   correcto** (*el dúo lo falseó con dato*: la semilla trae `CAD150R → family_scope 'CAD-150'`
-   dúo-convergente y MAL — el ground-truth dice producto DISTINTO).
+2. **Dúo-validado** (extracción CROSS-ÁRBOL convergente: Claude + no-Claude, `found_by: both`) —
+   entra sin adjudicación SOLO si no-conflictivo Y es entrada de BAJO blast-radius (producto/alias).
+   *Precisión de modelos (Alberto, s89): la SEMILLA s83 se extrajo con Opus 4.8 + GPT-5.5 (histórico,
+   su provenance no cambia); las extracciones FUTURAS (F4/ingesta-30+) las hace el Claude vigente
+   (hoy Fable 5) + el cross-model — la propiedad que valida es el cross-árbol, no la versión.*
+   **⚠ Convergente ≠ correcto** (*el dúo lo falseó con dato*: la semilla trae `CAD150R →
+   family_scope 'CAD-150'` dúo-convergente y MAL — el ground-truth dice producto DISTINTO).
 3. **Extractor single / heurística** — entra como `candidate: true` (visible, NO consumido por
    la resolución query-side hasta promoción).
 
@@ -99,6 +123,9 @@ incluye error-rate por spot-check** (N entradas re-verificadas por lote), no sol
 
 **Reglas de cambio (enforcement, no intención):**
 - Todo cambio al catálogo = PR (aunque sea auto-generada); NUNCA edición directa en main.
+- **La puerta del catálogo (ajuste s89e, patrón `gold_store`):** un `catalog_store` valida TODO
+  write (unicidad de ids, alias sin huérfanos, paraguas→ids existentes, redirects acíclicos) y
+  corre en CI — el mismo patrón que ya funciona para el ruler (la puerta valida, nadie edita a mano).
 - Conflicto (dos fuentes discrepan sobre el mismo producto/alias) → cola de adjudicación
   para Alberto, EN LOTE (no a goteo) — el formato de los 29 de s83 funcionó.
 - Cada entrada lleva `provenance` (de qué doc/decisión sale) y `added_by` (s83-extraction /
@@ -135,12 +162,24 @@ incluye error-rate por spot-check** (N entradas re-verificadas por lote), no sol
 | Fase | Qué | Gate de Alberto | Medición |
 |---|---|---|---|
 | **F0** | Este contrato | **Aprobar D1-D6 (~1h)** | — |
+| **F1a** | **SLICE VERTICAL: Morley PRIMERO (ajuste s89e)** — la marca con TODOS los casos duros (homónimo RP1r ×4, paraguas ZXe/ZXSe, rebrands Notifier, y el MÁXIMO ground-truth tuyo ya adjudicado) cargada end-to-end (esquema→carga→resolución smoke→QA) ANTES del bulk. Si el esquema no aguanta Morley, no aguanta nada — y descubrirlo aquí cuesta 1/10 (patrón rebanada-vertical validado s38/s39) | revisar el slice (~15 min) | los test-cases hp011/hp018/hp009 resuelven correcto en el slice |
 | **F1** | Esquema + **normalización/merge de la semilla** (*etapa REAL declarada — corrección del dúo*: `family_scope` = 844/1014 no-vacío pero **592 valores únicos free-text** con dups ES/EN a fundir; merge doc-scoped→producto con regla ante atributos en conflicto [brand ES vs EN]; `oem` de la semilla = entidades LEGALES [Pittway S.r.l.] ≠ OEM-marca [System Sensor] → mapear) + carga → catálogo v0 (branch) + QA | **QA-sample pre-filtrado** (~30-60 entradas de riesgo, en lote) + re-adjudicar hp018/hp011/hp009 **+ los homónimos/paraguas `candidate` de mayor blast-radius** | integridad (0 huérfanos, 0 colisiones id); **cobertura vs el CORPUS** — incl. declarar los **~156 docs SIN entrada** (semilla=1014, corpus=1170; en F3 → fail-open sin re-tag) — la DB de 587 modelos es SOLO cross-check informativo (desincronizada: CAD-150/ZXe/40-40 ausentes, TECH_DEBT #49 — usarla de vara = certificar contra el legacy contaminado; *corrección del dúo*) |
 | **F2** | Resolución query-side tras flag (OFF) + clarify | revisar la medición | **hp018 4/4 SIN regresar hp009** (el criterio DEC-074b), medido con el instrumento famtie bajo **freeze-contract COMPLETO** (corpus+índice+embeddings+juez+seeds+config+**catálogo-commit**; *corrección del dúo*) + retrieval-miss=14 no empeora + 354 tests |
-| **F3** | Re-tag DOC en chunks_v2 (snapshot reversible, lotes, s78-style) | **aprobar DB-apply + la política multi-producto** | no-regresión eval (freeze-contract completo) + findability probes. **Política multi-producto explícita** (*corrección del dúo, TECH_DEBT #49: doc-level ≠ chunk-level — taguear un doc multi-producto entero a un id contamina el pool de cada modelo*): los docs multi-producto se re-taguean **multi-valor o al paraguas** (NUNCA colapsados a un solo id); la atribución por-página (`scope: paginas`, p.ej. CAD-150) es F3b GATED aparte — F3a solo toca docs mono-producto/inconsistencia-tipográfica (el caso seguro) |
+| **F2.5** | **SHADOW-MODE (ajuste s89b):** la resolución corre en modo sombra (log-only) sobre TODAS las queries del harness/demo — qué resolvería el catálogo por query, sin afectar nada. Amplía la cobertura de F2 (39 golds = estrecha) a la cola larga, GRATIS, antes del paso caro | revisar el log de discrepancias (en lote) | % queries donde catálogo ≠ comportamiento actual, clasificado (mejora/regresión/neutro) |
+| **F3** | Re-tag DOC en chunks_v2 (snapshot reversible, lotes, s78-style). **El switch del GATE del handler a la tabla derivada = flag PROPIO + smoke del handler real (s77-style)** — toca el path de prod que hoy corta 7/9 mal (s76); no va implícito (ajuste s89b) | **aprobar DB-apply + la política multi-producto** | no-regresión eval (freeze-contract completo) + findability probes. **Política multi-producto explícita** (*corrección del dúo, TECH_DEBT #49: doc-level ≠ chunk-level — taguear un doc multi-producto entero a un id contamina el pool de cada modelo*): los docs multi-producto se re-taguean **multi-valor o al paraguas** (NUNCA colapsados a un solo id); la atribución por-página (`scope: paginas`, p.ej. CAD-150) es F3b GATED aparte — F3a solo toca docs mono-producto/inconsistencia-tipográfica (el caso seguro) |
 | **F4** | Retirar LEVER2+YAML (#50) + detector proactivo s72 productizado para ingesta-30+ (#49.2) | — (limpieza gated a F2/F3 verdes) | tests + tally |
 
 Orden estricto F2 (query-side, read-only, reversible-por-flag) ANTES de F3 (DB) — D6.
+
+**Beneficiario downstream declarado (pregunta de Alberto, s89): la atribución de modelos POR CHUNK.**
+El catálogo la convierte de problema ABIERTO (¿de qué producto habla este chunk? — contra 587+ modelos
+ruidosos) en clasificación CERRADA (¿cuál de los N candidatos del `doc_map` de este doc aplica a esta
+página? — con alias normalizados para el match). La cadena: `doc_map.scope: paginas[]` +
+`chunks_v2.page_number` (ya existe) → F3b aplica el mapa mecánicamente; y el **escritor-en-ingesta**
+(TECH_DEBT #49.1, la raíz que escala) atribuye por-chunk EN ESCRITURA consultando el catálogo — sin
+catálogo no tiene contra qué resolver. Afina el **model-filter** (menos contaminación de pool, clase
+hp018); NO arregla el hard-tail del coseno (RECALL-INTRADOC = multi-granularidad de la capa-ingesta,
+DEC-074) — dos ejes que convergen en el mismo escritor futuro.
 
 ## 7. Criterios de aceptación del workstream (medibles, declarados ANTES de construir)
 
@@ -148,7 +187,9 @@ Orden estricto F2 (query-side, read-only, reversible-por-flag) ANTES de F3 (DB) 
    que LEVER2 logró (4/4 PERO regresando hp009 −1, net +3, DEC-074b) — medido en retrieval-miss con
    famtie, NO en PASS (métrica declarada). + **hp011 resuelve a RP1r-Supra/answer** (test-case homónimo).
 2. **Escala**: añadir un fabricante nuevo = correr extracción dúo + adjudicar SOLO conflictos
-   (medible en el 1er lote de ingesta nueva: horas-Alberto por fabricante ≤ ~15 min).
+   (horas-Alberto por fabricante ≤ ~15 min). **Medible SIN esperar ingesta nueva (ajuste s89b):
+   DRY-RUN en F4** — re-procesar un fabricante YA ingestado como si fuera nuevo → mide el pipeline
+   completo (extracción→conflictos→carga) contra un ground-truth que ya existe.
 3. **Cero regresión**: eval PASS sin movimiento fuera de ±2 (freeze per-eval) + 354 tests verdes
    en cada fase.
 4. **Anti-Excel-opaco**: 100% de entradas con provenance; tally de salud publicado en cada cierre.
