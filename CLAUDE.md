@@ -63,11 +63,14 @@ actuar (Protocolo 1 aplica a su output); **(F)** aumenta, no reemplaza — yo de
 responsable. Guardarraíl anti-ritual: tally de confirmados/falsos-positivos; si degrada a
 "siempre alineado" o a fabricar trivialidades → revisar/matar. NO es un `/propose` 2.0:
 debe producir bite concreto anclado en evidencia (validado: cazó 5 fallos del localizador).
-**s56→s73:** el sub-agente corre pin `model: opus` (Alberto, s73; era `fable`) = mismo modelo que el
-autor (Opus 4.8) → en ALTO/zona-de-dolor el cross-model GPT-5.5 es INNEGOCIABLE (no "recomendado").
-Ronda nueva de review = agente FRESCO siempre. (s73: el dúo-Opus cazó 4 issues que el dúo-sonnet de la
-ronda previa NO vio — factcov bucket-coupling, s67_ab no-portable, asserts inexistentes, eje hp018 — →
-Opus como sub-agente es materialmente más fuerte en verificación de código.)
+**s56→s73→s88:** el sub-agente corre pin `model: fable` (Alberto, s88; s73→s88 fue `opus`) = mismo
+modelo que el autor (Fable 5) → en ALTO/zona-de-dolor el cross-model GPT-5.5 es INNEGOCIABLE (no
+"recomendado"). **s88 (Alberto): el cross-model también LEE el repo** — `adversarial_review.py` corre
+un loop agéntico con tools read-only (`read_file`/`grep_repo`/`list_dir`; sandbox + deny `.env*`/tally;
+cap 30 calls; `--no-tools` escape) → PARIDAD de información entre ambos lados del dúo (cierra
+TECH_DEBT #36; smoke: cazó 2 claims falsas plantadas con ancla fichero:línea). Ronda nueva de review =
+agente FRESCO siempre. (Histórico s73: el dúo-Opus cazó 4 issues que el dúo-sonnet previo NO vio →
+el modelo top del momento como sub-agente es materialmente más fuerte en verificación de código.)
 
 ## Protocolo 4 — Registro de procedimientos canónicos (gatillo → acción)
 **Regla rectora (extiende el Protocolo 1):** antes de declarar que seguiste un procedimiento o

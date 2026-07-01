@@ -78,6 +78,13 @@ noise-limited CONFIRMADO al nivel de gold (DEC-051e medido); NO hay lever de pip
 
 **DEC-056 SIGUE (ranking); DEC-068 SIGUE (L-i por PASS settled). Identidad ~4-palanca (DEC-074). SÍNTESIS ROBUSTA ~16 stable-MISS (DEC-075). PASS plano ~9/39 MEDIDO (DEC-075f) — plateau noise-limited.**
 
+**s88 (DEC-076/077, nocturna autónoma):** per-caso al píxel de los "fidelity-errors" → **CERO invenciones del
+generador** (se disuelven en within-doc + gold/juez-review; corrige un FN del rootcause en hp001); **dossier de
+los 30 NO-PASS** (`evals/s88_nopass_dossier.md`) para decisión-en-lote de Alberto — la Clase A (gold/juez-review,
+~6-7 candidatos con evidencia literal) es la palanca CANDIDATA más barata de PASS (delta no medido, gate Alberto).
+**DÚO v2 (pedido Alberto):** sub-agente→`fable` + cross-model CON tools read-only sobre el repo (paridad de
+información; cierra TECH_DEBT #36; smoke validado).
+
 ### Antecedente s83·F2 (DEC-067)
 
 **s83·F2: activo de IDENTIDAD MULTI-LABEL LIMPIO de los 1014 docs construido (1014 docs, 2761 productos) vía extracción dúo (Opus 4.8 + GPT-5.5, ~$145 Batches API) + adjudicación de Alberto de los 29 conflicts; regla de granularidad + fold-in base-unión dúo-validados ×3; branch-local en `main` (PR #90), NADA en DB.** Es el bloque F2 que DEC-066 señaló como el lever (`LEVER2_IDENTITY`). **s84 midió su CONSUMO = NO-OP en el eval (DEC-069)** → el activo vale para findability/catálogo/30+/corrección, NO para recall del eval. Detalle: DEC-067, `s83_identity_asset.md`.

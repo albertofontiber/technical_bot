@@ -12,9 +12,9 @@ Si alcanzas un trigger, para y refactoriza antes de seguir añadiendo features.
 
 ## Índice de estado (s65 — 12 jun 2026; generado, no renumera)
 
-- **Abiertos (trigger-gated):** #1, #2, #3, #5b, #5, #6, #7, #10, #11b, #12, #11g, #11h, #13, #15, #17, #18, #19, #20, #21, #22, #23, #25, #26, #27, #28, #29, #30, #31, #18, #32, #33, #34, #35, #36, #37, #39, #40, #41, #44, #45, #47, #48, #49
+- **Abiertos (trigger-gated):** #1, #2, #3, #5b, #5, #6, #7, #10, #11b, #12, #11g, #11h, #13, #15, #17, #18, #19, #20, #21, #22, #23, #25, #26, #27, #28, #29, #30, #31, #18, #32, #33, #34, #35, #37, #39, #40, #41, #44, #45, #47, #48, #49
 - **Parciales / elevados:** #8, #11f, #24
-- **Cerrados (✅ resueltos o 🔴 revertidos):** #4, #9, #11, #11c, #11i, #11d, #14, #16, #38, #42, #43 (✅ COMPLETO: capa A s63/DEC-044 + capa B s65/DEC-046; escritor-en-ingesta → PLAN punto 2), #46 (✅ s64/DEC-045)
+- **Cerrados (✅ resueltos o 🔴 revertidos):** #4, #9, #11, #11c, #11i, #11d, #14, #16, #36 (✅ s88: cross-model agéntico con tools read-only, paridad con el sub-agente), #38, #42, #43 (✅ COMPLETO: capa A s63/DEC-044 + capa B s65/DEC-046; escritor-en-ingesta → PLAN punto 2), #46 (✅ s64/DEC-045)
 
 Nota: hay dos items "## 18" (judge false positive, sesión 14; y atribución de fabricante, 28 mayo) —
 se conservan ambos números porque las referencias cruzadas en DECISIONS/memoria los citan; el índice
@@ -1396,7 +1396,14 @@ ROI de los reviews: sano (bugs + over-claims reales, no ritual). El cross-model 
 
 **Trigger**: al escalar el scorer a más golds (Fase 1) o al fiarse de un veredicto como gate firme.
 
-## 36. Cross-model adversarial reviewer ciego al repo → agéntico/grounded (DIFERIDO, sesión 32)
+## 36. Cross-model adversarial reviewer ciego al repo → agéntico/grounded (✅ CERRADO s88 — pedido de Alberto)
+
+**CERRADO (s88, 1 jul 2026):** `adversarial_review.py` corre ahora el loop AGÉNTICO con tools READ-ONLY
+(`read_file`/`grep_repo`/`list_dir`) sandboxeadas al repo — deny `.env*`/`.git`/el log de tally, cap 30
+tool-calls, `--no-tools` como escape. El invariante de abajo se PRESERVA: el cross-model ve el artefacto
+por su propia lente + lee el repo él mismo + su salida se lee CRUDA (NO anidado en el sub-agente).
+Smoke: cazó 2 claims falsas plantadas con ancla `fichero:línea` exacta (14 tool-calls). Paridad de
+información con el sub-agente (que desde s88 corre pin `fable`). Texto original ↓ como histórico.
 
 `scripts/adversarial_review.py` (revisor cross-model GPT-5.5, Protocolo 3) es una llamada single-shot CIEGA al repo: solo ve los ficheros que se le pegan a mano → medio-adivina sobre código que no ve. Mejora ideal: que GPT-5.5 lea el código él mismo (agéntico, tool-use) y su salida se lea en crudo → grounding + independencia conceptual sin filtro Claude.
 

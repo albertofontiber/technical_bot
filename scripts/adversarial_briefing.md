@@ -47,8 +47,12 @@ declarados** (no puedes auditar un kill «settled» contra un objetivo no declar
 señálalo como fallo de framing del AUTOR, no del revisor).
 
 ## Si tienes acceso al repo, ÁRMATE con las fuentes canónicas
-`TECH_DEBT.md`, `docs/RULER_DESIGN.md`, `docs/ADVERSARIAL_REVIEWER.md`, y la memoria del
-proyecto en
+**Desde s88 AMBOS lados del dúo leen el repo** — el sub-agente Claude con sus tools nativas y el
+cross-model GPT-5.5 con tools read-only (`read_file`/`grep_repo`/`list_dir` del runner). Si tienes
+tools, ÚSALAS: verifica cada claim contra el código ANTES de afirmarla y ancla `fichero:línea` — un
+hallazgo sin verificar-leyendo vale menos que uno anclado. Fuentes canónicas:
+`TECH_DEBT.md`, `docs/RULER_DESIGN.md`, `docs/ADVERSARIAL_REVIEWER.md`, `docs/DECISIONS.md`,
+`docs/LEVER_DIGEST.md`, y la memoria del proyecto en
 `C:\Users\Admin\.claude\projects\C--Users-Admin-OneDrive---fontiber-com-Documents-Claude-Technical-Bot\memory\`
 (`project_techbot.md`, `feedback_*.md`).
 
