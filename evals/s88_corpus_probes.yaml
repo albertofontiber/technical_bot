@@ -1,0 +1,96 @@
+corpus_fingerprint:
+  count: 25090
+  max_created_at: '2026-06-09T19:15:25.848279+00:00'
+  verificado_identico_a_manifest_s87: true
+probes:
+- qid: hp001
+  pattern: '2222'
+  source_glob: '*CAD-250*'
+  n_hits: 3
+  hits:
+  - src: Manual instalacion CAD-250 (MI_372_es_2024 e)
+    p: 29
+    id: 9bd17466-1a22-4ade-bb16-a44624c9f166
+  - src: CAD-250_Manual-Configuracion-MC-380-es-2026-c
+    p: 18
+    id: 8cf55c57-dc8d-4e81-b35b-67f777580cd5
+  - src: CAD-250-MC-380-es
+    p: 20
+    id: 2fe06904-158e-4922-82a5-76d95e938c7f
+- qid: hp001
+  pattern: '2222'
+  source_glob: '*CAD*'
+  n_hits: 10
+  hits:
+  - src: 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+    p: 12
+    id: 4b851e17-b6a9-4856-9f83-d078d4d16618
+  - src: 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+    p: 24
+    id: 98592de4-07e4-46ce-9049-d327b40aa13b
+  - src: Manual instalacion CAD-250 (MI_372_es_2024 e)
+    p: 29
+    id: 9bd17466-1a22-4ade-bb16-a44624c9f166
+  - src: Manual_CAD-171-MI-716-es
+    p: 25
+    id: 6711d9eb-3597-4103-9ce6-197a75e804d2
+  - src: 55315501 CAD150R Instalacion ES GB 191018
+    p: 7
+    id: 720a386b-f7ab-4d81-9759-1c37a8e1d6f0
+  - src: 55315501 CAD150R Instalacion ES GB 191018
+    p: 9
+    id: b64d1cf7-039b-42ae-90c4-1dcab57120f2
+- qid: cat022
+  pattern: longitud de onda
+  source_glob: '*MNDT722*'
+  n_hits: 1
+  hits:
+  - src: MNDT722_40-40L
+    p: 8
+    id: 74cc9f95-6bbf-43cc-84bd-3cae03c48371
+- qid: cat022
+  pattern: 2,5
+  source_glob: '*MNDT722*'
+  n_hits: 7
+  hits:
+  - src: MNDT722_40-40L
+    p: 8
+    id: 74cc9f95-6bbf-43cc-84bd-3cae03c48371
+  - src: MNDT722_40-40L
+    p: 12
+    id: 36ca37d0-280f-497f-90da-c6f34fc8e81a
+  - src: MNDT722_40-40L
+    p: 29
+    id: 211ad7d3-d314-45d4-992f-8edba878226a
+  - src: MNDT722_40-40L
+    p: 38
+    id: 1b40f879-7e75-4432-bc4d-ca8a58e5f7b6
+  - src: MNDT722_40-40L
+    p: 49
+    id: a6eae6a1-8be9-46db-bd16-c3e6891357d0
+  - src: MNDT722_40-40L
+    p: 50
+    id: 9bbf1e7c-96cc-4af3-8367-b04974b739c2
+- qid: hp013
+  pattern: EEPROM
+  source_glob: '*ADW535*'
+  n_hits: 7
+  hits:
+  - src: ADW535_TD_T140358es_e
+    p: 16
+    id: dfe7d132-b879-43e9-9cdb-b1e1c7d6992d
+  - src: ADW535_TD_T140358es_e
+    p: 12
+    id: 2365dfaa-45e5-4c65-9328-194441e375c9
+  - src: ADW535_TD_T140358es_e
+    p: 14
+    id: efc6ce1f-9c12-4af8-8570-6d68e553fd23
+  - src: ADW535_TD_T140358es_e
+    p: 29
+    id: af577289-5d7f-4dfc-9187-8a3aca92d40d
+  - src: ADW535_TD_T140358es_e
+    p: 30
+    id: 721167ef-2a18-4b7d-a57d-00d2690460c7
+  - src: ADW535_TD_T140358es_e
+    p: 98
+    id: 976f3413-90bf-49ea-a864-8f0d56ecbfd4

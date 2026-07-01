@@ -64,19 +64,28 @@ depender de que yo elija bien el contexto (sesgo de selección). **Fallback**: s
 disponible, el suelo es sub-agente Claude + mi verificación, y se **marca explícitamente
 "cross-model omitido"** (no se finge que se hizo).
 
-## Simetría de información: pasarle las FUENTES al cross-model (s52/DEC-028)
-El sub-agente Claude **lee el repo**; el cross-model **solo ve lo que se le pasa** (no navega). Para
-que no quede en desventaja conceptual NI factual frente al sub-agente, en gates de **selección/diseño**
-hay que **pasarle explícitamente las fuentes que debe VERIFICAR** —no solo la propuesta—:
+## Simetría de información — RESUELTA DE RAÍZ en s88 (pedido de Alberto; cierra TECH_DEBT #36)
+**Desde s88 el cross-model LEE EL REPO él mismo:** `adversarial_review.py` corre un loop agéntico
+(OpenAI function-calling) con tools **READ-ONLY** sandboxeadas al repo:
+- `read_file(path, start_line, max_lines)` — con números de línea (anclas `fichero:línea`).
+- `grep_repo(pattern, glob, max_hits)` — regex sobre el repo.
+- `list_dir(path)`.
+- **Deny-list:** `.env*` (secretos), `.git/` y dirs internos, y el **propio log de tally**
+  (anti-contaminación). Sandbox: paths resueltos bajo la raíz (no traversal).
+- **Cap 30 tool-calls** (disciplina de coste); al agotarlo se fuerza la review con lo leído.
+  `--no-tools` restaura el modo legacy (pegado) como escape. `--diff` se mantiene.
+- El tally registra `tool_calls` + `files_read` (auditable qué miró).
+**Invariante preservado (el activo del cross-model):** ve el artefacto por lente no-Claude + su
+salida se lee CRUDA — NO anidado en el sub-agente. **Smoke (s88):** con 2 claims falsas plantadas
+(umbral 0.5; reranker voyage-en-prod) las cazó AMBAS leyendo el código (14 tool-calls; anclas
+`generator.py:342-343`, `config.py:56-64`).
 
-```
-python scripts/adversarial_review.py propuesta.md data/model_catalog.json <extractos>
-```
+*Histórico (s52/DEC-028, superado):* antes el cross-model solo veía lo pegado → la regla era pasarle
+las fuentes a mano (extractos, catálogo) y `--diff`; el síntoma s52b ("no puedo validar existencia
+desde la propuesta") era la asimetría. Pasar ficheros como CONTEXTO sigue siendo útil como punto de
+partida (ahorra tool-calls), pero ya no es el techo de lo que el revisor puede ver.
 
-(p.ej. `data/model_catalog.json` para existencia de productos; extractos del gold YAML para no-duplicado.)
-`--diff` cubre los ficheros **tracked-cambiados** pero NO las fuentes no-cambiadas (el catálogo) → en un
-gate de **selección** (donde aún nada ha cambiado) hay que pasarlas a mano. **Síntoma de que faltó
-(s52b):** el cross-model dijo *"no puedo validar existencia desde la propuesta"* mientras el sub-agente
-(con repo) sí → asimetría re-introducida por infra-alimentar al cross-model. Límite práctico: el gold
-YAML entero es grande (~77k tokens) → pasar **extractos relevantes**, no el fichero completo. Es la
-realización s47 ("cross-model-con-fuentes") hecha REGLA, no discrecional.
+## Modelos del dúo (s88)
+Sub-agente: pin `model: fable` (Fable 5; Alberto s88 — antes `opus` s73→s88) = MISMO árbol que el
+autor → en ALTO/zona-de-dolor el cross-model GPT-5.5 es INNEGOCIABLE. Cross-model: `ADVERSARIAL_MODEL`
+(default gpt-5.5), ahora con las mismas capacidades de lectura que el sub-agente.
