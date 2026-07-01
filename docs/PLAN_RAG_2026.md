@@ -41,6 +41,14 @@ s67base con el MISMO modelo/temp/tabla → efecto de **VECTOR_NOCAT** (mejor ret
 Certificado por dúo de agentes (adjudica-ciego + verifica-adversarial) que corrigió en AMBAS direcciones (cazó
 over-credit hp018 + confirmó OMITTED reales). **NADA en prod, reach≠PASS, 354 tests. Refina (NO refuta) DEC-070/073.**
 
+**PASS des-diferido MEDIDO (Alberto autorizó): PASS-control = 9 · K-INESTABLE 6 · residual 24 — PLANO vs s67base
+(10+4), dentro del ruido ±2.** Mi predicción "subió mucho" FALSADA por la medición (VECTOR_NOCAT mejoró el
+mecanismo pero no el PASS holístico; "80% hechos ≠ 80% PASS" confirmado). **Root-cause SEMÁNTICO de los 30
+NO-PASS:** SÍNTESIS 11 (completeness=NO-GO+fidelidad) · **OTRO gold/juez 10 (sin miss de pipeline** → fidelity-errors
+reales cat022/hp001/cat009, falso-NO-PASS juez cat019, conducta, supp) · RERANK 6 (settled) · RETRIEVAL 2 (ingesta) ·
+IDENTIDAD 1. **Meta-hallazgo: ~10/30 fallan ⊥ el pipeline → arreglar retrieval+síntesis NO los pasaría. Plateau
+noise-limited CONFIRMADO al nivel de gold (DEC-051e medido); NO hay lever de pipeline que mueva PASS.**
+
 <details><summary>Antecedente s86 (DEC-074) — B2 por los 3 clusters: identidad ~4-palanca (no el cuello), BP=catálogo 2-etapas</summary>
 
 **s86 (DEC-074): B2 por los 3 clusters de retrieval-miss.** **RECALL-INTRADOC (8)** = 5 hard-tail de INGESTA (coseno sub-suelo/"aguja en chunk grande"; neighbor-window NO-GO + ef_search marginal + más-contexto insuficiente, todo DESCARTADO midiendo → fix BP = capa-ingesta multi-granularidad/tablas, foundational futuro); 3 within-doc. **MODEL-FILTER (4, hp018) = identidad, ~4 de palanca REAL** (no el cuello): `LEVER2_IDENTITY` curado da 4/4 pero es quick-fix (per-familia, regresa hp009) → NO shipear; hp011 mis-diagnosticado (RP1r-Supra, within-doc). **BP identidad = catálogo canónico de 2 ETAPAS** (workstream A); mapa data-driven solo (`family_scope`) = net-negativo. Código `neighbor-window`+`IDENTITY_MAP` flag-gated OFF.
@@ -56,20 +64,19 @@ over-credit hp018 + confirmó OMITTED reales). **NADA en prod, reach≠PASS, 354
 
 **Modelo operativo (DEC-071e) VIGENTE:** `main`=dev=demo, stop-line=tests-verdes, PASS diferido a síntesis, freeze per-eval. Disciplina de coste (`feedback_cost_discipline`).
 
-**Qué sigue — SÍNTESIS diagnosticada (s87): el cuello era una cota, no un workstream. Decisiones para Alberto:**
-1. **Des-diferir PASS y medir el baseline actual (GATE de Alberto).** El diagnóstico s87 muestra que el pipeline
-   mejoró materialmente (VECTOR_NOCAT) y el "103" era cota, no fallos → el PASS actual probablemente subió mucho
-   vs la última medición (`s67base` 10/39). No se puede planear sobre un cuello sobre-estimado ~5×. El asistente
-   TIENE las respuestas frescas (rep0/rep1) → re-juzgar holístico es barato; **lo ofrece, no lo corre solo** (gate).
-2. **"Atacar síntesis" como workstream está MIS-DIMENSIONADO** (no hay cuello de 103; el residual = ~13-14 cola
-   heterogénea SIN lever barato: completeness=settled NO-GO, ~4 fidelity-contradicts per-caso, ~2 hedge). La
-   leverage real está en **(A) catálogo/escala + retrieval foundational (DEC-074, capa-ingesta) + eval orgánico**.
-3. **(A) catálogo canónico de identidad (BP entity-linking 2-etapas; escala-30+, ⊥ el PASS)** SIGUE disponible:
-   4-7 sesiones casi-autónomas, **~3.5-6.5h de Alberto**; Fase 0 = asistente drafta el contrato de gobernanza.
-4. **3-4 fidelity-contradicts** (hp001 '1111', hp013 'EEPROM', cat020) merecen vistazo per-caso: ¿error del bot,
-   retrieval de sección equivocada, o matiz de gold? No un lever.
+**Qué sigue — PASS MEDIDO PLANO (~9-10/39, plateau noise-limited al nivel de gold). NO hay lever de pipeline. Decisiones para Alberto:**
+1. **NO perseguir levers de síntesis/rerank/retrieval** — MEDIDO: no mueven PASS de forma fiable (plateau confirmado;
+   ~10/30 NO-PASS fallan ⊥ el pipeline; DEC-051e re-confirmado). El "cuello 103" era una cota; el residual per-hecho es cola heterogénea.
+2. **Highest-leverage PASS = dual-judge + gold-review del bucket OTRO (10 golds)** (s47 §D / s76): cat019 ya medido
+   falso-NO-PASS (juez-bias); los 6 K-INESTABLE tienen votos PASS. Recuperaría varios PASS reales-pero-juzgados-PARCIAL
+   **sin tocar el bot**. Es el ruler-hardening que DEC-051d gatea. Requiere held-out + cross-model.
+3. **Fidelity-errors reales del bot (cat022 longitud-onda-IR, hp001 '1111', cat009 6K8)** = per-caso: ¿retrieval de
+   sección equivocada o generación? Bugs de calidad genuinos, actionable (barato).
+4. **Foundational (⊥ PASS a corto): (A) catálogo canónico de identidad** (BP entity-linking 2-etapas; escala-30+;
+   4-7 ses, ~3.5-6.5h Alberto; Fase 0 = drafta contrato) + **capa-ingesta retrieval** (DEC-074) para RETRIEVAL/IDENTIDAD.
+5. **El unlock de calidad REAL = eval orgánico (técnicos, ~sept)** — el ruler ±2 es el techo (DEC-051e/s69).
 
-**DEC-056 SIGUE (ranking); DEC-068 SIGUE (L-i por PASS settled). Identidad ~4-palanca (DEC-074). SÍNTESIS ROBUSTA ~16 stable-MISS (DEC-075), NO el cuello de 103.**
+**DEC-056 SIGUE (ranking); DEC-068 SIGUE (L-i por PASS settled). Identidad ~4-palanca (DEC-074). SÍNTESIS ROBUSTA ~16 stable-MISS (DEC-075). PASS plano ~9/39 MEDIDO (DEC-075f) — plateau noise-limited.**
 
 ### Antecedente s83·F2 (DEC-067)
 

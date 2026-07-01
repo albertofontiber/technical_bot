@@ -1,0 +1,367 @@
+focus:
+  RERANK: 6
+  OTRO(gold/juez): 10
+  SÍNTESIS: 11
+  RETRIEVAL: 2
+  IDENTIDAD: 1
+per_gold:
+  cat001:
+    bucket: residual
+    veredicto: PARCIAL
+    n_retr: 0
+    ident: 0
+    n_synth: 1
+    n_rerank: 2
+    retr_subs: {}
+    primary: RERANK
+  cat005:
+    bucket: PASS-control
+    veredicto: PASS
+    n_retr: 0
+    ident: 0
+    n_synth: 0
+    n_rerank: 0
+    retr_subs: {}
+    primary: —
+  cat007:
+    bucket: residual
+    veredicto: PARCIAL
+    n_retr: 0
+    ident: 0
+    n_synth: 0
+    n_rerank: 0
+    retr_subs: {}
+    primary: OTRO(gold/juez)
+  cat008:
+    bucket: residual
+    veredicto: PARCIAL
+    n_retr: 0
+    ident: 0
+    n_synth: 0
+    n_rerank: 0
+    retr_subs: {}
+    primary: OTRO(gold/juez)
+  cat009:
+    bucket: K-INESTABLE
+    veredicto: PARCIAL
+    n_retr: 0
+    ident: 0
+    n_synth: 0
+    n_rerank: 0
+    retr_subs: {}
+    primary: OTRO(gold/juez)
+  cat010:
+    bucket: K-INESTABLE
+    veredicto: PARCIAL
+    n_retr: 0
+    ident: 0
+    n_synth: 0
+    n_rerank: 1
+    retr_subs: {}
+    primary: RERANK
+  cat011:
+    bucket: residual
+    veredicto: PARCIAL
+    n_retr: 0
+    ident: 0
+    n_synth: 1
+    n_rerank: 0
+    retr_subs: {}
+    primary: SÍNTESIS
+  cat012:
+    bucket: PASS-control
+    veredicto: PASS
+    n_retr: 0
+    ident: 0
+    n_synth: 0
+    n_rerank: 0
+    retr_subs: {}
+    primary: —
+  cat013:
+    bucket: residual
+    veredicto: PARCIAL
+    n_retr: 1
+    ident: 0
+    n_synth: 1
+    n_rerank: 0
+    retr_subs:
+      RECALL-GLOBAL: 1
+    primary: SÍNTESIS
+  cat014:
+    bucket: PASS-control
+    veredicto: PASS
+    n_retr: 0
+    ident: 0
+    n_synth: 0
+    n_rerank: 0
+    retr_subs: {}
+    primary: —
+  cat015:
+    bucket: PASS-control
+    veredicto: PASS
+    n_retr: 0
+    ident: 0
+    n_synth: 0
+    n_rerank: 0
+    retr_subs: {}
+    primary: —
+  cat016:
+    bucket: residual
+    veredicto: FALLO
+    n_retr: 1
+    ident: 0
+    n_synth: 1
+    n_rerank: 0
+    retr_subs:
+      RECALL-INTRADOC: 1
+    primary: SÍNTESIS
+  cat017:
+    bucket: residual
+    veredicto: PARCIAL
+    n_retr: 0
+    ident: 0
+    n_synth: 2
+    n_rerank: 1
+    retr_subs: {}
+    primary: SÍNTESIS
+  cat018:
+    bucket: PASS-control
+    veredicto: PASS
+    n_retr: 0
+    ident: 0
+    n_synth: 2
+    n_rerank: 0
+    retr_subs: {}
+    primary: SÍNTESIS
+  cat019:
+    bucket: K-INESTABLE
+    veredicto: PARCIAL
+    n_retr: 0
+    ident: 0
+    n_synth: 0
+    n_rerank: 0
+    retr_subs: {}
+    primary: OTRO(gold/juez)
+  cat020:
+    bucket: residual
+    veredicto: PARCIAL
+    n_retr: 0
+    ident: 0
+    n_synth: 1
+    n_rerank: 0
+    retr_subs: {}
+    primary: SÍNTESIS
+  cat021:
+    bucket: PASS-control
+    veredicto: PASS
+    n_retr: 0
+    ident: 0
+    n_synth: 0
+    n_rerank: 1
+    retr_subs: {}
+    primary: RERANK
+  cat022:
+    bucket: residual
+    veredicto: FALLO
+    n_retr: 0
+    ident: 0
+    n_synth: 0
+    n_rerank: 0
+    retr_subs: {}
+    primary: OTRO(gold/juez)
+  cat023:
+    bucket: PASS-control
+    veredicto: PASS
+    n_retr: 0
+    ident: 0
+    n_synth: 0
+    n_rerank: 0
+    retr_subs: {}
+    primary: —
+  cat024:
+    bucket: residual
+    veredicto: PARCIAL
+    n_retr: 0
+    ident: 0
+    n_synth: 0
+    n_rerank: 0
+    retr_subs: {}
+    primary: OTRO(gold/juez)
+  hp001:
+    bucket: residual
+    veredicto: FALLO
+    n_retr: 0
+    ident: 0
+    n_synth: 0
+    n_rerank: 0
+    retr_subs: {}
+    primary: OTRO(gold/juez)
+  hp002:
+    bucket: residual
+    veredicto: PARCIAL
+    n_retr: 0
+    ident: 0
+    n_synth: 1
+    n_rerank: 1
+    retr_subs: {}
+    primary: SÍNTESIS
+  hp003:
+    bucket: residual
+    veredicto: PARCIAL
+    n_retr: 0
+    ident: 0
+    n_synth: 1
+    n_rerank: 1
+    retr_subs: {}
+    primary: SÍNTESIS
+  hp004:
+    bucket: K-INESTABLE
+    veredicto: PARCIAL
+    n_retr: 0
+    ident: 0
+    n_synth: 0
+    n_rerank: 0
+    retr_subs: {}
+    primary: OTRO(gold/juez)
+  hp005:
+    bucket: residual
+    veredicto: PARCIAL
+    n_retr: 0
+    ident: 0
+    n_synth: 0
+    n_rerank: 1
+    retr_subs: {}
+    primary: RERANK
+  hp006:
+    bucket: residual
+    veredicto: FALLO
+    n_retr: 3
+    ident: 0
+    n_synth: 0
+    n_rerank: 0
+    retr_subs:
+      RECALL-INTRADOC: 3
+    primary: RETRIEVAL
+  hp007:
+    bucket: residual
+    veredicto: PARCIAL
+    n_retr: 0
+    ident: 0
+    n_synth: 1
+    n_rerank: 0
+    retr_subs: {}
+    primary: SÍNTESIS
+  hp008:
+    bucket: residual
+    veredicto: PARCIAL
+    n_retr: 0
+    ident: 0
+    n_synth: 0
+    n_rerank: 0
+    retr_subs: {}
+    primary: OTRO(gold/juez)
+  hp009:
+    bucket: residual
+    veredicto: PARCIAL
+    n_retr: 0
+    ident: 0
+    n_synth: 0
+    n_rerank: 2
+    retr_subs: {}
+    primary: RERANK
+  hp010:
+    bucket: residual
+    veredicto: PARCIAL
+    n_retr: 0
+    ident: 0
+    n_synth: 1
+    n_rerank: 1
+    retr_subs: {}
+    primary: SÍNTESIS
+  hp011:
+    bucket: residual
+    veredicto: FALLO
+    n_retr: 1
+    ident: 0
+    n_synth: 0
+    n_rerank: 2
+    retr_subs:
+      RECALL-INTRADOC: 1
+    primary: RERANK
+  hp012:
+    bucket: residual
+    veredicto: FALLO
+    n_retr: 1
+    ident: 0
+    n_synth: 2
+    n_rerank: 0
+    retr_subs:
+      RECALL-INTRADOC: 1
+    primary: SÍNTESIS
+  hp013:
+    bucket: K-INESTABLE
+    veredicto: PARCIAL
+    n_retr: 1
+    ident: 0
+    n_synth: 1
+    n_rerank: 0
+    retr_subs:
+      RECALL-INTRADOC: 1
+    primary: SÍNTESIS
+  hp014:
+    bucket: residual
+    veredicto: PARCIAL
+    n_retr: 1
+    ident: 0
+    n_synth: 0
+    n_rerank: 0
+    retr_subs:
+      RECALL-INTRADOC: 1
+    primary: RETRIEVAL
+  hp015:
+    bucket: PASS-control
+    veredicto: PASS
+    n_retr: 0
+    ident: 0
+    n_synth: 0
+    n_rerank: 0
+    retr_subs: {}
+    primary: —
+  hp017:
+    bucket: residual
+    veredicto: PARCIAL
+    n_retr: 0
+    ident: 0
+    n_synth: 0
+    n_rerank: 2
+    retr_subs: {}
+    primary: RERANK
+  hp018:
+    bucket: residual
+    veredicto: FALLO
+    n_retr: 5
+    ident: 4
+    n_synth: 0
+    n_rerank: 0
+    retr_subs:
+      MODEL-FILTER/identidad: 4
+      RECALL-GLOBAL: 1
+    primary: IDENTIDAD
+  hp019:
+    bucket: PASS-control
+    veredicto: PASS
+    n_retr: 0
+    ident: 0
+    n_synth: 0
+    n_rerank: 0
+    retr_subs: {}
+    primary: —
+  hp020:
+    bucket: K-INESTABLE
+    veredicto: PARCIAL
+    n_retr: 0
+    ident: 0
+    n_synth: 0
+    n_rerank: 0
+    retr_subs: {}
+    primary: OTRO(gold/juez)

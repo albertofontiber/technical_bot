@@ -69,6 +69,37 @@ el MISMO modelo/temp/tabla (verificado) → efecto de **VECTOR_NOCAT** (mejor re
 3. **3-4 fidelity-contradicts merecen un vistazo** (hp001 '1111', hp013 'EEPROM'): ¿error del bot, retrieval de
    sección equivocada, o matiz de gold? Per-caso, no un lever.
 
+## PASS des-diferido (Alberto autorizó) — MEDIDO, corrige mi optimismo
+`bvg_kmajority all BVG_RUN_ID=s87` (K=5 holístico GPT-5.5, freeze-contract, held-out embargado):
+**PASS-control (modal PASS) = 9** · K-INESTABLE 6 · residual 24. **vs s67base 10 PASS + 4 K-INESTABLE.**
+⇒ **el PASS está PLANO (9 vs 10, dentro del ruido ±2 del juez), NO subió.** Mi hipótesis ("el baseline
+probablemente subió mucho post-VECTOR_NOCAT") **FALSADA por la medición** — VECTOR_NOCAT mejoró el MECANISMO
+(retrieval-miss 27→14, síntesis ~80% cobertura) pero el PASS holístico no se movió (el caveat "80% hechos ≠
+80% PASS" se confirmó). `feedback_my_bias`: des-diferir fue lo correcto — el gate/medición me corrigió.
+
+## Root-cause por-gold (SEMÁNTICO, no léxico) de los 30 NO-PASS — el mapa de foco (`s87_rootcause.py`)
+Cada hecho fallado clasificado mutuamente-exclusivo: no-retrieve / no-rerank-a-top5 / en-top5-pero-no-sintetiza / identidad. Blocker primario por gold NO-PASS:
+| foco | golds | naturaleza |
+|---|---|---|
+| **SÍNTESIS** | 11 | omisión estable en top-5; mayormente completeness (=lever gen **NO-GO** DEC-051) + fidelidad |
+| **OTRO (gold/juez)** | 10 | **sin miss de pipeline** → falla por juez/gold/fidelidad. Incluye: **fidelity-errors reales del bot** (cat022 longitud-onda-IR, hp001 '1111', cat009 6K8), **falso NO-PASS de juez** (cat019, s76-flagged), conducta (hp004 debía clarify), supp-facts (cat008/hp008/hp020) |
+| **RERANK** | 6 | hecho en pool-50 pero no surfaceado a top-5 (=ranking **settled** DEC-048/050) |
+| **RETRIEVAL** | 2 | hp006/hp014 = hard-tail de ingesta (capa-ingesta, DEC-074) |
+| **IDENTIDAD** | 1 | hp018 (DEC-074) |
+
+**Meta-hallazgo:** el PASS lo gobierna el juez HOLÍSTICO, solo PARCIALMENTE explicado por los instrumentos per-hecho
+(retrieval-miss=14, síntesis=16). **~10/30 NO-PASS fallan por razones ⊥ el pipeline** (fidelidad, conducta, supp,
+ruido de juez) → arreglar TODO retrieval+síntesis NO los pasaría. **Plateau noise-limited CONFIRMADO al nivel de
+gold** (DEC-051e medido): NO hay lever de pipeline (retrieval/síntesis/rerank) que mueva PASS de forma fiable.
+
+## Recomendación REVISADA (post-medición)
+1. **NO perseguir levers de síntesis/rerank** (settled NO-GO / ruido). El plateau ~9-10/39 es real.
+2. **Highest-leverage PASS = dual-judge + gold-review del bucket OTRO** (s47/s76): cat019 ya medido falso-NO-PASS;
+   los 6 K-INESTABLE tienen votos PASS. Recuperaría varios PASS reales-pero-juzgados-PARCIAL sin tocar el bot.
+3. **Fidelity-errors reales (cat022/hp001/cat009)** = per-caso: ¿retrieval de sección equivocada, o generación? Bugs de calidad genuinos, actionable.
+4. **Foundational (⊥ PASS a corto):** (A) catálogo identidad + capa-ingesta retrieval (DEC-074) para RETRIEVAL/IDENTIDAD.
+5. **El unlock de calidad REAL = eval orgánico (técnicos, ~sept)** — el ruler ±2 es el techo.
+
 ## Artefactos
 `scripts/synthesis_miss_judge.py` (+ `_trampa.py`, `_calib_sample.py`, `_stability.py`), `evals/s87_synthesis_full.yaml`
 (+ `_rep1`, `_subset`, `_trampa`), `evals/s87_calib_rows.json` + `s87_rows/`, workflow `s87-synthesis-adjudicate-lean`.
