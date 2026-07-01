@@ -54,6 +54,9 @@ docrel    { document_id ↔ document_id, tipo: language-variant-of | revision-of
 - **Granularidad canónica = la regla s83 dúo-validada** (DEC-067): el producto es la unidad
   COMERCIAL-operativa (CAD-150-2 ≠ CAD-150-8; ZX2e ≠ ZX5e), NO el SKU tipográfico ni el rango.
   Los rangos/series son `paraguas`, nunca productos.
+- **Anti-sobre-ingeniería v0 (ajuste s89b):** los campos descriptivos (`cert[]`, `protocolo`,
+  `categoria`) se cargan SOLO-si-gratis desde el activo s83 y NUNCA se curan en v0 — ningún
+  consumidor los lee aún; curarlos sería aparato sin demanda.
 - **Semilla = el activo s83** (`s83_document_identity_final.jsonl` + `s83_document_models_final.jsonl`,
   1014 docs / 2761 productos, con `aliases`, `role`, `found_by`, `provenance` ya poblados) + el índice
   s84 (5274 keys model-keyed) + las 3 series declaradas en config (`series_registry`). Los paraguas
@@ -137,7 +140,8 @@ incluye error-rate por spot-check** (N entradas re-verificadas por lote), no sol
 | **F0** | Este contrato | **Aprobar D1-D6 (~1h)** | — |
 | **F1** | Esquema + **normalización/merge de la semilla** (*etapa REAL declarada — corrección del dúo*: `family_scope` = 844/1014 no-vacío pero **592 valores únicos free-text** con dups ES/EN a fundir; merge doc-scoped→producto con regla ante atributos en conflicto [brand ES vs EN]; `oem` de la semilla = entidades LEGALES [Pittway S.r.l.] ≠ OEM-marca [System Sensor] → mapear) + carga → catálogo v0 (branch) + QA | **QA-sample pre-filtrado** (~30-60 entradas de riesgo, en lote) + re-adjudicar hp018/hp011/hp009 **+ los homónimos/paraguas `candidate` de mayor blast-radius** | integridad (0 huérfanos, 0 colisiones id); **cobertura vs el CORPUS** — incl. declarar los **~156 docs SIN entrada** (semilla=1014, corpus=1170; en F3 → fail-open sin re-tag) — la DB de 587 modelos es SOLO cross-check informativo (desincronizada: CAD-150/ZXe/40-40 ausentes, TECH_DEBT #49 — usarla de vara = certificar contra el legacy contaminado; *corrección del dúo*) |
 | **F2** | Resolución query-side tras flag (OFF) + clarify | revisar la medición | **hp018 4/4 SIN regresar hp009** (el criterio DEC-074b), medido con el instrumento famtie bajo **freeze-contract COMPLETO** (corpus+índice+embeddings+juez+seeds+config+**catálogo-commit**; *corrección del dúo*) + retrieval-miss=14 no empeora + 354 tests |
-| **F3** | Re-tag DOC en chunks_v2 (snapshot reversible, lotes, s78-style) | **aprobar DB-apply + la política multi-producto** | no-regresión eval (freeze-contract completo) + findability probes. **Política multi-producto explícita** (*corrección del dúo, TECH_DEBT #49: doc-level ≠ chunk-level — taguear un doc multi-producto entero a un id contamina el pool de cada modelo*): los docs multi-producto se re-taguean **multi-valor o al paraguas** (NUNCA colapsados a un solo id); la atribución por-página (`scope: paginas`, p.ej. CAD-150) es F3b GATED aparte — F3a solo toca docs mono-producto/inconsistencia-tipográfica (el caso seguro) |
+| **F2.5** | **SHADOW-MODE (ajuste s89b):** la resolución corre en modo sombra (log-only) sobre TODAS las queries del harness/demo — qué resolvería el catálogo por query, sin afectar nada. Amplía la cobertura de F2 (39 golds = estrecha) a la cola larga, GRATIS, antes del paso caro | revisar el log de discrepancias (en lote) | % queries donde catálogo ≠ comportamiento actual, clasificado (mejora/regresión/neutro) |
+| **F3** | Re-tag DOC en chunks_v2 (snapshot reversible, lotes, s78-style). **El switch del GATE del handler a la tabla derivada = flag PROPIO + smoke del handler real (s77-style)** — toca el path de prod que hoy corta 7/9 mal (s76); no va implícito (ajuste s89b) | **aprobar DB-apply + la política multi-producto** | no-regresión eval (freeze-contract completo) + findability probes. **Política multi-producto explícita** (*corrección del dúo, TECH_DEBT #49: doc-level ≠ chunk-level — taguear un doc multi-producto entero a un id contamina el pool de cada modelo*): los docs multi-producto se re-taguean **multi-valor o al paraguas** (NUNCA colapsados a un solo id); la atribución por-página (`scope: paginas`, p.ej. CAD-150) es F3b GATED aparte — F3a solo toca docs mono-producto/inconsistencia-tipográfica (el caso seguro) |
 | **F4** | Retirar LEVER2+YAML (#50) + detector proactivo s72 productizado para ingesta-30+ (#49.2) | — (limpieza gated a F2/F3 verdes) | tests + tally |
 
 Orden estricto F2 (query-side, read-only, reversible-por-flag) ANTES de F3 (DB) — D6.
@@ -148,7 +152,9 @@ Orden estricto F2 (query-side, read-only, reversible-por-flag) ANTES de F3 (DB) 
    que LEVER2 logró (4/4 PERO regresando hp009 −1, net +3, DEC-074b) — medido en retrieval-miss con
    famtie, NO en PASS (métrica declarada). + **hp011 resuelve a RP1r-Supra/answer** (test-case homónimo).
 2. **Escala**: añadir un fabricante nuevo = correr extracción dúo + adjudicar SOLO conflictos
-   (medible en el 1er lote de ingesta nueva: horas-Alberto por fabricante ≤ ~15 min).
+   (horas-Alberto por fabricante ≤ ~15 min). **Medible SIN esperar ingesta nueva (ajuste s89b):
+   DRY-RUN en F4** — re-procesar un fabricante YA ingestado como si fuera nuevo → mide el pipeline
+   completo (extracción→conflictos→carga) contra un ground-truth que ya existe.
 3. **Cero regresión**: eval PASS sin movimiento fuera de ±2 (freeze per-eval) + 354 tests verdes
    en cada fase.
 4. **Anti-Excel-opaco**: 100% de entradas con provenance; tally de salud publicado en cada cierre.
