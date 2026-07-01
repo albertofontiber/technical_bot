@@ -231,7 +231,7 @@ def fetch_manual_chunks(tokens: list[str], limit: int = 600) -> list[dict]:
             with httpx.Client(timeout=20.0) as c:
                 r = c.get(f"{SUPABASE_URL}/rest/v1/chunks_v2",
                           headers=_HEADERS,
-                          params={"select": "id,content,source_file,page_number",
+                          params={"select": "id,content,source_file,page_number,product_model",
                                   "source_file": f"ilike.*{t}*", "limit": str(limit)})
             if r.status_code in (200, 206):
                 for row in r.json():

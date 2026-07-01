@@ -1,0 +1,432 @@
+{
+ "misses": [
+  {
+   "qid": "cat013",
+   "valor": "CLIP",
+   "etapa": "RECALL",
+   "motivos": [
+    "token-corto"
+   ],
+   "jitter": false,
+   "dist": {
+    "RECALL": 3
+   },
+   "lever": "recall global: findability del chunk-valor (embedding/HyDE/keyword/sinónimos)",
+   "gold_family": [
+    "CAD-150-8",
+    "ID3000"
+   ],
+   "n_err": 0,
+   "diversify_reentry": false,
+   "trace_present": {
+    "channels": false,
+    "post_merge": false,
+    "post_superseded": false,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_langs": [
+    "es"
+   ]
+  },
+  {
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "etapa": "RECALL",
+   "motivos": [
+    "within-doc"
+   ],
+   "jitter": false,
+   "dist": {
+    "RECALL": 3
+   },
+   "lever": "recall INTRA-doc/chunking: el manual correcto YA está en el pool pero no el chunk-valor concreto → cobertura/chunking/within-doc (NO HyDE-global)",
+   "gold_family": [
+    "CAD-150-8"
+   ],
+   "n_err": 0,
+   "diversify_reentry": false,
+   "trace_present": {
+    "channels": false,
+    "post_merge": false,
+    "post_superseded": false,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_langs": [
+    "en",
+    "es"
+   ]
+  },
+  {
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "etapa": "RECALL",
+   "motivos": [
+    "within-doc"
+   ],
+   "jitter": false,
+   "dist": {
+    "RECALL": 3
+   },
+   "lever": "recall INTRA-doc/chunking: el manual correcto YA está en el pool pero no el chunk-valor concreto → cobertura/chunking/within-doc (NO HyDE-global)",
+   "gold_family": [
+    "AFP-300",
+    "AFP-400",
+    "NAM-232"
+   ],
+   "n_err": 0,
+   "diversify_reentry": false,
+   "trace_present": {
+    "channels": false,
+    "post_merge": false,
+    "post_superseded": false,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_langs": [
+    "es"
+   ]
+  },
+  {
+   "qid": "hp006",
+   "valor": "Tierra",
+   "etapa": "RECALL",
+   "motivos": [
+    "within-doc"
+   ],
+   "jitter": false,
+   "dist": {
+    "RECALL": 3
+   },
+   "lever": "recall INTRA-doc/chunking: el manual correcto YA está en el pool pero no el chunk-valor concreto → cobertura/chunking/within-doc (NO HyDE-global)",
+   "gold_family": [
+    "AFP-300",
+    "AFP-400",
+    "NAM-232"
+   ],
+   "n_err": 0,
+   "diversify_reentry": false,
+   "trace_present": {
+    "channels": false,
+    "post_merge": false,
+    "post_superseded": false,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_langs": [
+    "es"
+   ]
+  },
+  {
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "etapa": "RECALL",
+   "motivos": [
+    "within-doc"
+   ],
+   "jitter": false,
+   "dist": {
+    "RECALL": 3
+   },
+   "lever": "recall INTRA-doc/chunking: el manual correcto YA está en el pool pero no el chunk-valor concreto → cobertura/chunking/within-doc (NO HyDE-global)",
+   "gold_family": [
+    "AFP-300",
+    "AFP-400",
+    "NAM-232"
+   ],
+   "n_err": 0,
+   "diversify_reentry": false,
+   "trace_present": {
+    "channels": false,
+    "post_merge": false,
+    "post_superseded": false,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_langs": [
+    "es"
+   ]
+  },
+  {
+   "qid": "hp011",
+   "valor": "05 a 295 seg",
+   "etapa": "RECALL",
+   "motivos": [
+    "within-doc"
+   ],
+   "jitter": false,
+   "dist": {
+    "RECALL": 3
+   },
+   "lever": "recall INTRA-doc/chunking: el manual correcto YA está en el pool pero no el chunk-valor concreto → cobertura/chunking/within-doc (NO HyDE-global)",
+   "gold_family": [
+    "RP1R-SUPRA"
+   ],
+   "n_err": 0,
+   "diversify_reentry": false,
+   "trace_present": {
+    "channels": false,
+    "post_merge": false,
+    "post_superseded": false,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_langs": [
+    "es"
+   ]
+  },
+  {
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "etapa": "RECALL",
+   "motivos": [
+    "within-doc"
+   ],
+   "jitter": false,
+   "dist": {
+    "RECALL": 3
+   },
+   "lever": "recall INTRA-doc/chunking: el manual correcto YA está en el pool pero no el chunk-valor concreto → cobertura/chunking/within-doc (NO HyDE-global)",
+   "gold_family": [
+    "AM-2020",
+    "AM2020 Y AFP1010",
+    "MPDT-280"
+   ],
+   "n_err": 0,
+   "diversify_reentry": false,
+   "trace_present": {
+    "channels": false,
+    "post_merge": false,
+    "post_superseded": false,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_langs": [
+    "es"
+   ]
+  },
+  {
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "etapa": "RECALL",
+   "motivos": [
+    "within-doc"
+   ],
+   "jitter": false,
+   "dist": {
+    "RECALL": 3
+   },
+   "lever": "recall INTRA-doc/chunking: el manual correcto YA está en el pool pero no el chunk-valor concreto → cobertura/chunking/within-doc (NO HyDE-global)",
+   "gold_family": [
+    "ADW535"
+   ],
+   "n_err": 0,
+   "diversify_reentry": false,
+   "trace_present": {
+    "channels": false,
+    "post_merge": false,
+    "post_superseded": false,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_langs": [
+    "en",
+    "es"
+   ]
+  },
+  {
+   "qid": "hp014",
+   "valor": "35",
+   "etapa": "RECALL",
+   "motivos": [
+    "token-corto",
+    "within-doc"
+   ],
+   "jitter": false,
+   "dist": {
+    "RECALL": 3
+   },
+   "lever": "recall INTRA-doc/chunking: el manual correcto YA está en el pool pero no el chunk-valor concreto → cobertura/chunking/within-doc (NO HyDE-global)",
+   "gold_family": [
+    "ID2000"
+   ],
+   "n_err": 0,
+   "diversify_reentry": false,
+   "trace_present": {
+    "channels": false,
+    "post_merge": false,
+    "post_superseded": false,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_langs": [
+    "es"
+   ]
+  },
+  {
+   "qid": "hp018",
+   "valor": "4 circuitos",
+   "etapa": "MODEL-FILTER",
+   "motivos": [],
+   "jitter": false,
+   "dist": {
+    "MODEL-FILTER": 3
+   },
+   "lever": "identidad: _filter_to_query_models / resolución de familia (el manual correcto filtrado)",
+   "gold_family": [
+    "ZX2E/ZX5E"
+   ],
+   "n_err": 0,
+   "diversify_reentry": false,
+   "trace_present": {
+    "channels": true,
+    "post_merge": true,
+    "post_superseded": true,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_langs": [
+    "es"
+   ]
+  },
+  {
+   "qid": "hp018",
+   "valor": "6K8",
+   "etapa": "MODEL-FILTER",
+   "motivos": [
+    "token-corto"
+   ],
+   "jitter": false,
+   "dist": {
+    "MODEL-FILTER": 3
+   },
+   "lever": "identidad: _filter_to_query_models / resolución de familia (el manual correcto filtrado)",
+   "gold_family": [
+    "ZX2E/ZX5E"
+   ],
+   "n_err": 0,
+   "diversify_reentry": false,
+   "trace_present": {
+    "channels": true,
+    "post_merge": true,
+    "post_superseded": true,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_langs": [
+    "es"
+   ]
+  },
+  {
+   "qid": "hp018",
+   "valor": "diodo",
+   "etapa": "MODEL-FILTER",
+   "motivos": [],
+   "jitter": false,
+   "dist": {
+    "MODEL-FILTER": 3
+   },
+   "lever": "identidad: _filter_to_query_models / resolución de familia (el manual correcto filtrado)",
+   "gold_family": [
+    "ZX2E/ZX5E"
+   ],
+   "n_err": 0,
+   "diversify_reentry": false,
+   "trace_present": {
+    "channels": true,
+    "post_merge": true,
+    "post_superseded": true,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_langs": [
+    "es"
+   ]
+  },
+  {
+   "qid": "hp018",
+   "valor": "Sirenas A,B,C,D",
+   "etapa": "MODEL-FILTER",
+   "motivos": [],
+   "jitter": false,
+   "dist": {
+    "MODEL-FILTER": 3
+   },
+   "lever": "identidad: _filter_to_query_models / resolución de familia (el manual correcto filtrado)",
+   "gold_family": [
+    "ZX2E/ZX5E"
+   ],
+   "n_err": 0,
+   "diversify_reentry": false,
+   "trace_present": {
+    "channels": true,
+    "post_merge": true,
+    "post_superseded": true,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_langs": [
+    "es"
+   ]
+  },
+  {
+   "qid": "hp018",
+   "valor": "1 A",
+   "etapa": "RECALL",
+   "motivos": [
+    "token-corto"
+   ],
+   "jitter": false,
+   "dist": {
+    "RECALL": 3
+   },
+   "lever": "recall global: findability del chunk-valor (embedding/HyDE/keyword/sinónimos)",
+   "gold_family": [
+    "ZX2E/ZX5E"
+   ],
+   "n_err": 0,
+   "diversify_reentry": false,
+   "trace_present": {
+    "channels": false,
+    "post_merge": false,
+    "post_superseded": false,
+    "post_model_filter": false,
+    "post_diversify": false,
+    "post_lang": false,
+    "final": false
+   },
+   "val_langs": [
+    "es"
+   ]
+  }
+ ],
+ "retrieval_miss_family": 14,
+ "unresolved": []
+}

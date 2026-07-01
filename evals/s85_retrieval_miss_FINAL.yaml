@@ -1,0 +1,2576 @@
+manifest:
+  instrument: retrieval_miss_judge
+  judge_model: gpt-5.5
+  K: 5
+  thresh_firm: 4
+  thresh_band: 3
+  batch: 8
+  pool_k: 50
+  content_chars: 8000
+  judge_sys_sha: ef9fed2a9673
+  judge_user_sha: c790959cf4a7
+  git_commit: 405c54a6f4cb0486a5b923f4e59a7db414011d59
+  chunks_table: chunks_v2
+  hyde: 'false'
+  mode: full
+  qids:
+  - cat001
+  - cat005
+  - cat007
+  - cat008
+  - cat009
+  - cat010
+  - cat011
+  - cat012
+  - cat013
+  - cat014
+  - cat015
+  - cat016
+  - cat017
+  - cat018
+  - cat019
+  - cat020
+  - cat021
+  - cat022
+  - cat023
+  - cat024
+  - hp001
+  - hp002
+  - hp003
+  - hp004
+  - hp005
+  - hp006
+  - hp007
+  - hp008
+  - hp009
+  - hp010
+  - hp011
+  - hp012
+  - hp013
+  - hp014
+  - hp015
+  - hp017
+  - hp018
+  - hp019
+  - hp020
+  reps: 1
+  assembled_from: partial.jsonl (paced, n_fail=0)
+reps:
+- rep: 0
+  agg:
+    by_primary:
+      SINTESIS: 90
+      RERANK-MISS: 14
+      RETRIEVAL: 22
+      CORPUS-GAP: 8
+    by_target:
+      SINTESIS: 103
+      RERANK-MISS: 14
+      RETRIEVAL: 15
+      CORPUS-GAP: 2
+    retrieval_miss_primary: 22
+    retrieval_miss_target: 15
+    n_fail_total: 0
+    facts_with_fail: 0
+  results:
+  - qid: cat001
+    n_models: 1
+    servable: true
+    targets:
+    - 997-669-005-3_Instal-Comm_ES
+    - 997-671-005-3_Configuration_ES
+    primary:
+    - 997-669-005-3_Instal-Comm_ES
+    - 997-671-005-3_Configuration_ES
+    pool_n: 37
+    manual_n: 236
+    facts:
+    - valor: 1 o 2
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        a952e347-75f7-4579-8c32-feaaf513300f: 5
+    - valor: 159+159 / 99+99
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        a952e347-75f7-4579-8c32-feaaf513300f: 5
+    - valor: 0,75 A
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        a952e347-75f7-4579-8c32-feaaf513300f: 5
+    - valor: '40'
+      bucket_target: RERANK-MISS
+      bucket_primary: RERANK-MISS
+      in_pool_target: true
+      in_top5_target: false
+      in_pool_primary: true
+      in_top5_primary: false
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        8339f632-88c4-41c3-8b14-82348f7ab837: 5
+    - valor: 32 / 25 / 20
+      bucket_target: RERANK-MISS
+      bucket_primary: RERANK-MISS
+      in_pool_target: true
+      in_top5_target: false
+      in_pool_primary: true
+      in_top5_primary: false
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        26ac9301-36da-4392-9f7b-1e4cab5d80da: 4
+        a92b566d-4a7e-4e04-91ef-a8d3b66d7723: 5
+    - valor: autoconfiguracion
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 2
+      borderline: true
+      n_fail: 0
+      votes:
+        da4aa672-a202-4432-b19e-f7b0164ebc30: 5
+        af876e35-9069-4edb-a508-4f9fe2148a35: 3
+    - valor: 255 / 8192
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        a952e347-75f7-4579-8c32-feaaf513300f: 5
+        39e581ab-3536-4fe5-8faa-4537ca38213f: 5
+  - qid: cat005
+    n_models: 0
+    servable: true
+    targets:
+    - Manual-de-Usuario-CS4
+    primary:
+    - Manual-de-Usuario-CS4
+    pool_n: 50
+    manual_n: 11
+    facts:
+    - valor: 110-230 Vac
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        8c9b9f0b-8a51-417f-b05e-63d4dd61ed48: 5
+        8ff1618c-ffe3-4215-b68e-a67c224a20b7: 5
+    - valor: 30 W
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        8c9b9f0b-8a51-417f-b05e-63d4dd61ed48: 5
+        8ff1618c-ffe3-4215-b68e-a67c224a20b7: 5
+    - valor: '4'
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 3
+      n_support_band: 3
+      borderline: false
+      n_fail: 0
+      votes:
+        8c9b9f0b-8a51-417f-b05e-63d4dd61ed48: 5
+        934b00a8-739f-4d7b-8853-32caad5232a4: 5
+        3a74be02-e58b-4f8a-bf51-1eebefed425b: 5
+    - valor: NA-C-NC
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 3
+      n_support_band: 3
+      borderline: false
+      n_fail: 0
+      votes:
+        8c9b9f0b-8a51-417f-b05e-63d4dd61ed48: 5
+        934b00a8-739f-4d7b-8853-32caad5232a4: 5
+        3a74be02-e58b-4f8a-bf51-1eebefed425b: 5
+    - valor: 250 mA
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        8c9b9f0b-8a51-417f-b05e-63d4dd61ed48: 5
+    - valor: 3244 / 3270
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        8c9b9f0b-8a51-417f-b05e-63d4dd61ed48: 5
+  - qid: cat007
+    n_models: 2
+    servable: true
+    targets:
+    - I56-6577-006_ES
+    - LT-200
+    - I56-6577-006_EN
+    primary:
+    - I56-6577-006_ES
+    - LT-200
+    - I56-6577-006_EN
+    pool_n: 50
+    manual_n: 269
+    facts:
+    - valor: NC-C-NA
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        e49a4944-4157-42e3-a1c5-15ec4a6e8926: 5
+    - valor: no enclavado
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 3
+      n_support_band: 3
+      borderline: false
+      n_fail: 0
+      votes:
+        7362ea0f-2b9d-42aa-8b2c-43b81b1931c0: 5
+        5ba44464-842b-46f7-ac43-259be83ad416: 5
+        8221ec70-6882-41b5-8dd6-705a1a7e739a: 5
+    - valor: 47 kohm
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        e49a4944-4157-42e3-a1c5-15ec4a6e8926: 5
+    - valor: 2 A / 0,5 A
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        18facf8e-a482-4b51-92b8-dcf4098ada32: 5
+        5ba44464-842b-46f7-ac43-259be83ad416: 5
+    - valor: 10^5
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        18facf8e-a482-4b51-92b8-dcf4098ada32: 5
+        5ba44464-842b-46f7-ac43-259be83ad416: 5
+  - qid: cat008
+    n_models: 2
+    servable: true
+    targets:
+    - Conexionado-del-modulo-M710-MI-DMMI
+    - I56-2005-002
+    primary:
+    - Conexionado-del-modulo-M710-MI-DMMI
+    - I56-2005-002
+    pool_n: 50
+    manual_n: 25
+    facts:
+    - valor: 2 estados / 3 estados
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        9cfb5d22-1082-4903-896b-efe36d5f4567: 5
+    - valor: 47 kΩ
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        9cfb5d22-1082-4903-896b-efe36d5f4567: 5
+    - valor: 18 kΩ
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 4
+      n_support_band: 4
+      borderline: false
+      n_fail: 0
+      votes:
+        9cfb5d22-1082-4903-896b-efe36d5f4567: 5
+        33f0ef2f-8e6d-4720-b28b-0a5b7612cd6c: 5
+        e7088366-3294-4d1f-b474-14911f6800ae: 5
+        93a35630-853a-47e8-b560-ea20cb5b5621: 5
+    - valor: 1/2/3/4 lazo; 6-7 entrada A
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        9cfb5d22-1082-4903-896b-efe36d5f4567: 5
+  - qid: cat009
+    n_models: 1
+    servable: true
+    targets:
+    - HLSI-MN-025-I
+    - HLSI-MN-025-I_NFS
+    - HLSI-MN-025_NFS
+    primary:
+    - HLSI-MN-025-I
+    pool_n: 22
+    manual_n: 168
+    facts:
+    - valor: 6K8
+      bucket_target: SINTESIS
+      bucket_primary: RERANK-MISS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: false
+      n_support_firm: 6
+      n_support_band: 6
+      borderline: false
+      n_fail: 0
+      votes:
+        dccf72bf-37da-4ab9-ae74-56fa6552a1c8: 5
+        2adae9b9-0763-46cf-98fc-05e5fbd5365a: 5
+        ab35b763-1c39-45e1-93bb-8b52bb270eb7: 5
+        72c0a9a1-f6d9-4fba-9559-ed5ce74714eb: 5
+        ec2c308e-34e2-4cbc-8a22-6303b1995644: 5
+        cbf6d1c3-2089-4a8d-838e-44f68a739177: 5
+  - qid: cat010
+    n_models: 1
+    servable: true
+    targets:
+    - IS5001-F_IS-mA1_EN
+    primary:
+    - IS5001-F_IS-mA1_EN
+    pool_n: 14
+    manual_n: 15
+    facts:
+    - valor: 24V dc
+      bucket_target: RERANK-MISS
+      bucket_primary: RERANK-MISS
+      in_pool_target: true
+      in_top5_target: false
+      in_pool_primary: true
+      in_top5_primary: false
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        aad31581-bef4-4991-80cf-b014e889b1c3: 5
+    - valor: 660mW
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        d4ae732f-2838-4134-a558-680b1ac36bb8: 5
+        77003e0f-fbaa-4def-adc3-cbf7cc000683: 5
+  - qid: cat011
+    n_models: 0
+    servable: true
+    targets:
+    - I56-3383-002
+    - IDX-751
+    - I56-0790-003
+    - CPX-751E
+    - I56-0790-003_CPX-751E
+    primary:
+    - I56-3383-002
+    - IDX-751
+    - I56-0790-003
+    - CPX-751E
+    pool_n: 50
+    manual_n: 21
+    facts:
+    - valor: '751'
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 4
+      n_support_band: 4
+      borderline: false
+      n_fail: 0
+      votes:
+        0c5342b8-e338-426e-b55f-cd202b60a2e4: 5
+        25119b6e-748c-4fcd-81c9-e5ce2d193cc7: 5
+        d6d6e4c8-625e-45fc-9ee0-4cff1f472e2d: 4
+        38d11da2-f534-4436-ae0a-f58fc8735fed: 5
+    - valor: seguridad intrínseca
+      bucket_target: RETRIEVAL
+      bucket_primary: RETRIEVAL
+      in_pool_target: false
+      in_top5_target: false
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 5
+      n_support_band: 5
+      borderline: false
+      n_fail: 0
+      votes:
+        38d11da2-f534-4436-ae0a-f58fc8735fed: 5
+        24abeb0c-610d-45c5-a06b-211c3918aa21: 5
+        15802028-20a4-4775-a35c-ad37fec0e73e: 5
+        0b92cea6-d248-428c-aca4-72aa8e82051c: 5
+        06b0857f-b283-45bb-baf5-6aff8376d875: 1
+        c806054a-fb15-494f-b85c-c3bce7618a6e: 2
+        49df31eb-626a-4025-9f49-f9706fc7e3d2: 5
+        9618dc1b-610e-43a2-81f6-dee3a5ea697b: 5
+        c721f320-8f35-4540-a49a-b9e604e5e7da: 5
+        1194d4b5-175f-40a1-ac6e-7295cd0c3104: 5
+        8370e6f2-3ebd-4d2e-a9df-a269f8d93de9: 5
+    - valor: iónico
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        25119b6e-748c-4fcd-81c9-e5ce2d193cc7: 5
+  - qid: cat012
+    n_models: 1
+    servable: true
+    targets:
+    - AM-8200
+    primary:
+    - AM-8200
+    pool_n: 11
+    manual_n: 309
+    facts:
+    - valor: 1,2
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 3
+      n_support_band: 3
+      borderline: false
+      n_fail: 0
+      votes:
+        3393ccc0-01ff-474b-8b6f-9030ba0253ff: 5
+        6c24fecd-a3f1-41c3-ab05-155e32c85fe6: 5
+        248eb7da-80d0-470f-bddb-b024c21de8a4: 5
+    - valor: 24 h
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        6c24fecd-a3f1-41c3-ab05-155e32c85fe6: 5
+        248eb7da-80d0-470f-bddb-b024c21de8a4: 5
+    - valor: 179 mA
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        6c24fecd-a3f1-41c3-ab05-155e32c85fe6: 5
+    - valor: 18 Ah
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        a766979a-205b-4050-a974-2716a087385f: 5
+  - qid: cat013
+    n_models: 2
+    servable: true
+    targets:
+    - '55315013'
+    - MIDT190
+    - CAD-150-8
+    - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+    primary:
+    - '55315013'
+    - MIDT190
+    pool_n: 5
+    manual_n: 194
+    facts:
+    - valor: bucle cerrado
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        b0856e1f-d108-426f-beb9-17f244e46e98: 4
+    - valor: CLIP
+      bucket_target: RETRIEVAL
+      bucket_primary: RETRIEVAL
+      in_pool_target: false
+      in_top5_target: false
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 0
+      n_support_band: 0
+      borderline: false
+      n_fail: 0
+      votes:
+        cfcdc8f7-bdaf-412f-a85e-0ffb76878d99: 5
+  - qid: cat014
+    n_models: 1
+    servable: true
+    targets:
+    - '55360004'
+    - DGD-600
+    primary:
+    - '55360004'
+    - DGD-600
+    pool_n: 4
+    manual_n: 4
+    facts:
+    - valor: 10 anos
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        ac2b2d28-bc04-4c4c-80f9-804f192eb88a: 5
+        9786969a-8168-457b-aed8-3337235d874f: 5
+  - qid: cat015
+    n_models: 1
+    servable: true
+    targets:
+    - CAD-150
+    - '55315013'
+    - '55315008'
+    - '55315501'
+    - CAD-150-8
+    - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+    - CAD150R
+    - '191018'
+    primary:
+    - CAD-150
+    - '55315013'
+    - '55315008'
+    - '55315501'
+    pool_n: 8
+    manual_n: 103
+    facts: []
+  - qid: cat016
+    n_models: 1
+    servable: true
+    targets:
+    - '55315013'
+    - '55315008'
+    - CAD-150-8
+    - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+    primary:
+    - '55315013'
+    - '55315008'
+    pool_n: 15
+    manual_n: 88
+    facts:
+    - valor: autobusqueda
+      bucket_target: RETRIEVAL
+      bucket_primary: RETRIEVAL
+      in_pool_target: false
+      in_top5_target: false
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 0
+      n_support_band: 0
+      borderline: false
+      n_fail: 0
+      votes:
+        294a778c-1dca-40de-8a1b-a9f0c471ea36: 5
+        af6ab292-dbf8-4a9d-a3f8-b048e2f781d9: 5
+    - valor: menu ZONA + ELEMENTO
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        0b74d5ee-d921-4480-814f-b1c635261f64: 5
+    - valor: modo prueba
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 4
+      n_support_band: 4
+      borderline: false
+      n_fail: 0
+      votes:
+        15363ea6-10d2-4547-a869-fb5d0cd4290f: 5
+        73e777ce-868a-418e-9b11-cfba3feca9cc: 5
+        3b217e85-b5ad-47c7-aa9d-fd99ae2e6d2e: 4
+        0b74d5ee-d921-4480-814f-b1c635261f64: 5
+    - valor: 20 minutos
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 4
+      n_support_band: 4
+      borderline: false
+      n_fail: 0
+      votes:
+        15363ea6-10d2-4547-a869-fb5d0cd4290f: 5
+        73e777ce-868a-418e-9b11-cfba3feca9cc: 5
+        3b217e85-b5ad-47c7-aa9d-fd99ae2e6d2e: 5
+        0b74d5ee-d921-4480-814f-b1c635261f64: 5
+  - qid: cat017
+    n_models: 1
+    servable: true
+    targets:
+    - HOP-138-9
+    - HOP-138-8
+    - HOP-138-9ES
+    - 11-2025_In
+    - HOP-138-8ES
+    - 01-2026_Co
+    primary:
+    - HOP-138-9
+    - HOP-138-8
+    pool_n: 40
+    manual_n: 201
+    facts:
+    - valor: modulo OPAL HOP-433-100
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        f0dc41c3-25e3-4b21-b58a-416177fdcbff: 5
+        4d76ec50-a17d-4af6-9334-f6d0b439f1cf: 5
+    - valor: 159 + 159
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        f0dc41c3-25e3-4b21-b58a-416177fdcbff: 5
+        4d76ec50-a17d-4af6-9334-f6d0b439f1cf: 5
+    - valor: licencia CLIP por lazo
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        4d76ec50-a17d-4af6-9334-f6d0b439f1cf: 5
+    - valor: Auto Configuracion
+      bucket_target: RERANK-MISS
+      bucket_primary: RERANK-MISS
+      in_pool_target: true
+      in_top5_target: false
+      in_pool_primary: true
+      in_top5_primary: false
+      n_support_firm: 3
+      n_support_band: 3
+      borderline: false
+      n_fail: 0
+      votes:
+        7a09deff-43dc-407a-8e82-d861eba56c6f: 5
+        e472044e-ce86-4569-ac6f-2bd297bb1c93: 5
+        6596dfec-a47e-46ec-9aba-8807575b6983: 5
+    - valor: CLSS
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        68d812f5-c2ac-40be-8634-a420f082ab81: 5
+  - qid: cat018
+    n_models: 1
+    servable: true
+    targets:
+    - AM-8200-manu-prog-spa
+    primary:
+    - AM-8200-manu-prog-spa
+    pool_n: 19
+    manual_n: 117
+    facts:
+    - valor: Control By Events
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 3
+      n_support_band: 3
+      borderline: false
+      n_fail: 0
+      votes:
+        fe6207ae-032f-4119-bbb3-7b0fd49b0ea8: 4
+        8514e83a-e8ca-4204-bd21-af945633ff06: 5
+        cfc45181-f8e5-449f-99fb-babe0f565cf8: 5
+    - valor: 'pestana Programacion: Zona + CBE'
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        8514e83a-e8ca-4204-bd21-af945633ff06: 5
+        5bebeb42-145d-4523-a98e-c728d6d54695: 2
+    - valor: Tipo SW / asociacion CBE
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        fe6207ae-032f-4119-bbb3-7b0fd49b0ea8: 5
+        88a36d45-103a-445b-afa1-1cfe9b3bfe73: 1
+    - valor: Apendice A
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        8514e83a-e8ca-4204-bd21-af945633ff06: 5
+  - qid: cat019
+    n_models: 1
+    servable: true
+    targets:
+    - CAD-250-MC-380-es
+    primary:
+    - CAD-250-MC-380-es
+    pool_n: 50
+    manual_n: 119
+    facts:
+    - valor: coincidencias
+      bucket_target: RETRIEVAL
+      bucket_primary: RETRIEVAL
+      in_pool_target: false
+      in_top5_target: false
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 9
+      n_support_band: 10
+      borderline: true
+      n_fail: 0
+      votes:
+        66596504-7f3b-4294-8459-72c7bd5c7983: 5
+        6867b88b-9209-45b8-8403-66f5eb632e73: 5
+        a47cb7d8-c480-48e8-bab8-f1fc6c5c841c: 3
+        505e0bec-3fdd-4637-ba17-ceb78b604975: 5
+        2720d4cf-7be8-4482-be1a-fba10cc59d5b: 1
+        32e17768-0b00-4823-b938-ea59349eb94a: 5
+        c038b515-54b3-4234-bc76-ffe709b5abf0: 5
+        582d4499-d0f7-4de7-a88e-8fc99cd2b452: 4
+        608d1ba5-3d64-45c2-bc02-4e39782b9f90: 5
+        e70df264-ff6e-4c72-b2ec-bc254f916fa7: 5
+        e19c19bc-3245-4048-856f-a6ed8b1f6aee: 5
+        10263269-f1a6-41e8-b55d-fde0571a7b6d: 1
+        7f39cc8f-5012-41ab-aa95-5cbca65902a5: 5
+        a88f2145-24da-4c68-ad14-ac51d46c2fdc: 5
+        1aca0594-4d5d-4c35-8935-f308af6af7f3: 3
+        095cffc4-2a90-40b2-952b-f7e00bba6f6c: 5
+    - valor: EVENTO / ACCION
+      bucket_target: RETRIEVAL
+      bucket_primary: RETRIEVAL
+      in_pool_target: false
+      in_top5_target: false
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 10
+      n_support_band: 13
+      borderline: true
+      n_fail: 0
+      votes:
+        ef6febfa-ae36-4dcf-927b-b793b698900c: 5
+        3d0273cf-dd42-4e48-89c3-a37e588396ca: 5
+        a47cb7d8-c480-48e8-bab8-f1fc6c5c841c: 5
+        3dec7409-961e-4bc1-b1e4-2e3585de739b: 5
+        2720d4cf-7be8-4482-be1a-fba10cc59d5b: 5
+        505e0bec-3fdd-4637-ba17-ceb78b604975: 3
+        83f24b31-28e3-4b31-a32a-9a80665392e6: 3
+        32e17768-0b00-4823-b938-ea59349eb94a: 5
+        70819dee-cba1-4311-a434-4208eeac8dfc: 5
+        d24671ba-e00c-498a-8053-e310e23297d3: 4
+        582d4499-d0f7-4de7-a88e-8fc99cd2b452: 5
+        4a0c23d0-ef25-400e-989e-48ce4bbabd12: 3
+        e19c19bc-3245-4048-856f-a6ed8b1f6aee: 5
+        bbb33e8a-b5e5-49d0-b31c-c02664b3e26e: 5
+        6119db90-ce67-4cc0-b2c7-b9f7042943f0: 5
+        b2430ba9-7d8e-4142-a715-6d49cc3401ff: 5
+    - valor: ENTIDAD / CONDICION TEMPORAL
+      bucket_target: RETRIEVAL
+      bucket_primary: RETRIEVAL
+      in_pool_target: false
+      in_top5_target: false
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 6
+      n_support_band: 7
+      borderline: true
+      n_fail: 0
+      votes:
+        3d0273cf-dd42-4e48-89c3-a37e588396ca: 5
+        2720d4cf-7be8-4482-be1a-fba10cc59d5b: 5
+        32e17768-0b00-4823-b938-ea59349eb94a: 5
+        af9b2fdb-64ac-4582-9a5a-c7ee72b4bdbd: 4
+        70819dee-cba1-4311-a434-4208eeac8dfc: 5
+        d24671ba-e00c-498a-8053-e310e23297d3: 1
+        4a0c23d0-ef25-400e-989e-48ce4bbabd12: 3
+        ac174c24-34a0-4e50-bc03-1126d329ed5f: 5
+        bbb33e8a-b5e5-49d0-b31c-c02664b3e26e: 5
+        797ce815-3ee5-4666-a554-c210c5b3c40b: 5
+        e231f343-1688-4f6e-bad8-5993123ef899: 5
+    - valor: salidas
+      bucket_target: RETRIEVAL
+      bucket_primary: RETRIEVAL
+      in_pool_target: false
+      in_top5_target: false
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 13
+      n_support_band: 13
+      borderline: false
+      n_fail: 0
+      votes:
+        ef6febfa-ae36-4dcf-927b-b793b698900c: 5
+        d27aaa9e-a6e1-4245-a3f3-2cdef3f5be4c: 5
+        3d0273cf-dd42-4e48-89c3-a37e588396ca: 5
+        66596504-7f3b-4294-8459-72c7bd5c7983: 5
+        a47cb7d8-c480-48e8-bab8-f1fc6c5c841c: 5
+        2720d4cf-7be8-4482-be1a-fba10cc59d5b: 5
+        83f24b31-28e3-4b31-a32a-9a80665392e6: 5
+        32e17768-0b00-4823-b938-ea59349eb94a: 5
+        70819dee-cba1-4311-a434-4208eeac8dfc: 5
+        d24671ba-e00c-498a-8053-e310e23297d3: 5
+        4a0c23d0-ef25-400e-989e-48ce4bbabd12: 5
+        608d1ba5-3d64-45c2-bc02-4e39782b9f90: 5
+        10263269-f1a6-41e8-b55d-fde0571a7b6d: 5
+        e0b298e9-cf0d-4781-acb3-1e91c85732dc: 5
+        a88f2145-24da-4c68-ad14-ac51d46c2fdc: 5
+        c6d8a694-13c4-4690-ab55-eabc20f8941a: 5
+        6119db90-ce67-4cc0-b2c7-b9f7042943f0: 5
+        bb9944b4-9d7f-4540-9220-df532f750899: 5
+        bbb33e8a-b5e5-49d0-b31c-c02664b3e26e: 5
+        7f39cc8f-5012-41ab-aa95-5cbca65902a5: 5
+        3d62aef4-36e6-4523-ac6e-5f6d8f9d91af: 5
+        e2546861-0ce5-44de-b750-bb3984c2e23c: 5
+        1d858018-a1a2-4977-a0bb-866035f57dda: 2
+        dda4f249-31e4-43d7-be07-30bb2dd2a9f0: 5
+        afc332e5-3586-4d3e-9e8e-0b680b212fc9: 3
+  - qid: cat020
+    n_models: 1
+    servable: false
+    targets: []
+    primary: []
+    pool_n: 28
+    manual_n: 0
+    facts:
+    - valor: 80 % / 100 % / 108 %
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        0a35b5c3-0063-4a8c-b49c-2b8eabe6da31: 5
+    - valor: 0-100 % normalizado
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        0a35b5c3-0063-4a8c-b49c-2b8eabe6da31: 5
+    - valor: manual de variaciones Espana
+      bucket_target: CORPUS-GAP
+      bucket_primary: CORPUS-GAP
+      in_pool_target: false
+      in_top5_target: false
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 0
+      n_support_band: 0
+      borderline: false
+      n_fail: 0
+      votes: {}
+  - qid: cat021
+    n_models: 1
+    servable: false
+    targets:
+    - MN-DT-721
+    - MN-DT-725_B
+    - MN-DT-721_D
+    - MN-DT-723_B
+    - MN-DT-722_B
+    - MN-DT-724
+    - MNDT721_40-40I
+    - MNDT722_40-40L
+    - MNDT723_40-40U
+    - MNDT724_40-40R
+    - MNDT725_40-40M
+    primary:
+    - MN-DT-721
+    pool_n: 50
+    manual_n: 0
+    facts:
+    - valor: 40/40
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 5
+      n_support_band: 5
+      borderline: false
+      n_fail: 0
+      votes:
+        2eac233c-1958-4ada-b8a6-e3e4115dca14: 5
+        db3fd5dc-f704-4d6b-b187-b9499236ba97: 5
+        29e64652-3152-40a6-9a4c-a5cb929a81b0: 5
+        5bf7d313-6a2c-478e-967f-94dfa83b0ddc: 5
+        132b33d9-bbe1-4264-b5ca-1e724d8a5c0b: 5
+    - valor: IR3
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 3
+      n_support_band: 3
+      borderline: false
+      n_fail: 0
+      votes:
+        2eac233c-1958-4ada-b8a6-e3e4115dca14: 5
+        29e64652-3152-40a6-9a4c-a5cb929a81b0: 5
+        5bf7d313-6a2c-478e-967f-94dfa83b0ddc: 5
+    - valor: Multi IR / hidrógeno
+      bucket_target: SINTESIS
+      bucket_primary: CORPUS-GAP
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 3
+      n_support_band: 3
+      borderline: false
+      n_fail: 0
+      votes:
+        db3fd5dc-f704-4d6b-b187-b9499236ba97: 5
+        5bf7d313-6a2c-478e-967f-94dfa83b0ddc: 5
+        ef3e8cf2-a763-4e7e-b70d-11aafbb51c85: 5
+    - valor: UV
+      bucket_target: RERANK-MISS
+      bucket_primary: CORPUS-GAP
+      in_pool_target: true
+      in_top5_target: false
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 4
+      n_support_band: 4
+      borderline: false
+      n_fail: 0
+      votes:
+        5bf7d313-6a2c-478e-967f-94dfa83b0ddc: 5
+        255948d3-961e-44ff-8cfc-7601178c2172: 5
+        4f16cb96-5536-4f43-ba58-2244867dfe64: 5
+        cbad0308-ba9c-495b-9466-3b709b6999af: 5
+  - qid: cat022
+    n_models: 2
+    servable: true
+    targets:
+    - MN-DT-722_B
+    - MNDT722_40-40L
+    primary:
+    - MN-DT-722_B
+    pool_n: 50
+    manual_n: 77
+    facts:
+    - valor: 2,5-3,0 μm
+      bucket_target: SINTESIS
+      bucket_primary: CORPUS-GAP
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        74cc9f95-6bbf-43cc-84bd-3cae03c48371: 5
+        a6eae6a1-8be9-46db-bd16-c3e6891357d0: 5
+        36ca37d0-280f-497f-90da-c6f34fc8e81a: 5
+    - valor: 4,5 μm
+      bucket_target: SINTESIS
+      bucket_primary: CORPUS-GAP
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        74cc9f95-6bbf-43cc-84bd-3cae03c48371: 5
+        e914fb84-d574-4fff-9247-e44ce5a2f7f2: 5
+        c94d2270-f525-400d-af18-eb7c400aa4a1: 5
+        36ca37d0-280f-497f-90da-c6f34fc8e81a: 5
+    - valor: BIT
+      bucket_target: SINTESIS
+      bucket_primary: CORPUS-GAP
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        74cc9f95-6bbf-43cc-84bd-3cae03c48371: 5
+        e1168c37-7454-48a8-972a-1e55205cc469: 1
+        125c42a7-17c5-4baa-a382-fe86edab49e0: 1
+        cb1cb126-713f-476c-b489-4c6049e5e72c: 1
+        b1d538d4-ee23-4561-949f-34ab324f4615: 2
+        e914fb84-d574-4fff-9247-e44ce5a2f7f2: 2
+        3fb6c1d7-792f-4205-b091-607b3c80aaf3: 2
+        993ab78f-7e4f-4ad7-89a3-a001a6b9cf51: 2
+        20d7830d-d77d-41be-8bf2-bf44bf1b75b6: 5
+        c94d2270-f525-400d-af18-eb7c400aa4a1: 5
+  - qid: cat023
+    n_models: 1
+    servable: true
+    targets:
+    - ASD532_TD_T140421es_a
+    primary:
+    - ASD532_TD_T140421es_a
+    pool_n: 30
+    manual_n: 210
+    facts:
+    - valor: A/B/C EN 54-20
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 3
+      n_support_band: 3
+      borderline: false
+      n_fail: 0
+      votes:
+        bf8e9937-5d72-4752-84ca-4025dc794600: 5
+        212e15d2-6eda-44d9-9d4e-589c0018fe28: 5
+        a3a4679b-03d2-46c3-a857-bd9314e3bcac: 5
+    - valor: W01-W44 / 10-60 min / ±20-50 %
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        212e15d2-6eda-44d9-9d4e-589c0018fe28: 5
+  - qid: cat024
+    n_models: 1
+    servable: true
+    targets:
+    - MAD-472
+    - '55347200'
+    - IT_V2
+    primary:
+    - MAD-472
+    - '55347200'
+    pool_n: 50
+    manual_n: 23
+    facts:
+    - valor: 17 mA
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        e19c4b0c-6845-4438-b1ff-06d79bef7d93: 5
+  - qid: hp001
+    n_models: 1
+    servable: true
+    targets:
+    - CAD-250-MC-380-es
+    - CAD-250
+    primary:
+    - CAD-250-MC-380-es
+    pool_n: 28
+    manual_n: 578
+    facts:
+    - valor: candado
+      bucket_target: SINTESIS
+      bucket_primary: RETRIEVAL
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 3
+      n_support_band: 3
+      borderline: false
+      n_fail: 0
+      votes:
+        9bd17466-1a22-4ade-bb16-a44624c9f166: 5
+        edeb58a7-58c6-4865-8819-c70b57fe1135: 5
+        8ff8b580-456c-4aa1-9b62-031611f8ce6f: 5
+        2fe06904-158e-4922-82a5-76d95e938c7f: 5
+        8cf55c57-dc8d-4e81-b35b-67f777580cd5: 5
+        5e04c75b-aa86-419a-a62a-18624ed38861: 5
+        46ff2a4b-cbe2-4010-807e-8ce20bea679a: 5
+        6262c437-de1f-4915-9c64-ac1bb9a1eee9: 5
+        ff6d8078-66fc-4738-ade1-3ddc188d51d4: 5
+    - valor: '2222'
+      bucket_target: SINTESIS
+      bucket_primary: RETRIEVAL
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        9bd17466-1a22-4ade-bb16-a44624c9f166: 5
+        2fe06904-158e-4922-82a5-76d95e938c7f: 5
+        8cf55c57-dc8d-4e81-b35b-67f777580cd5: 5
+    - valor: '1111'
+      bucket_target: SINTESIS
+      bucket_primary: CORPUS-GAP
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        edeb58a7-58c6-4865-8819-c70b57fe1135: 5
+        59b104c5-c28c-41e7-92c1-a98f04ae5a1d: 5
+        c3397a68-5710-4a69-a0a0-395b96fcde27: 5
+  - qid: hp002
+    n_models: 1
+    servable: true
+    targets:
+    - ASD535_TD_T131192es_h
+    primary:
+    - ASD535_TD_T131192es_h
+    pool_n: 23
+    manual_n: 242
+    facts:
+    - valor: fallo flujo de aire
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 3
+      borderline: true
+      n_fail: 0
+      votes:
+        aa698b5e-646d-45e2-8d49-696e6015d587: 4
+        b5804921-836c-49ca-8316-cecae6da409b: 3
+        414ce99c-0dec-478c-b504-009f14631804: 5
+    - valor: 80 %
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        b5804921-836c-49ca-8316-cecae6da409b: 5
+        414ce99c-0dec-478c-b504-009f14631804: 5
+    - valor: 300 s
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        b5804921-836c-49ca-8316-cecae6da409b: 5
+        414ce99c-0dec-478c-b504-009f14631804: 5
+    - valor: 7.6.1
+      bucket_target: RERANK-MISS
+      bucket_primary: RERANK-MISS
+      in_pool_target: true
+      in_top5_target: false
+      in_pool_primary: true
+      in_top5_primary: false
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        6d5a807f-3a42-401b-96a4-83c51d796114: 5
+        5b6a3a19-a924-4cf4-9513-bd50786ee3d9: 5
+    - valor: reset inicial
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 3
+      borderline: true
+      n_fail: 0
+      votes:
+        aa698b5e-646d-45e2-8d49-696e6015d587: 3
+        7b95d320-ba51-4729-87d2-1858625d4b79: 5
+        b5804921-836c-49ca-8316-cecae6da409b: 4
+        414ce99c-0dec-478c-b504-009f14631804: 2
+  - qid: hp003
+    n_models: 1
+    servable: true
+    targets:
+    - '55315013'
+    - CAD-150-8
+    - '55315008'
+    - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+    - '55315501'
+    - CAD150R
+    - '191018'
+    primary:
+    - '55315013'
+    - CAD-150-8
+    pool_n: 13
+    manual_n: 103
+    facts:
+    - valor: 12V
+      bucket_target: RERANK-MISS
+      bucket_primary: RERANK-MISS
+      in_pool_target: true
+      in_top5_target: false
+      in_pool_primary: true
+      in_top5_primary: false
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        b33b4816-f245-4e1d-98b5-f9bc3f7d3ac0: 5
+        eaa39792-fb91-411d-a666-d85fb7f7b591: 5
+    - valor: cable puente
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        b6602d5a-dbb5-4e2e-8814-1ac3ce066896: 5
+    - valor: rojo y negro
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        b6602d5a-dbb5-4e2e-8814-1ac3ce066896: 5
+    - valor: primero la red
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        b0856e1f-d108-426f-beb9-17f244e46e98: 5
+  - qid: hp004
+    n_models: 1
+    servable: true
+    targets:
+    - '55360004'
+    - DGD-600
+    primary:
+    - '55360004'
+    - DGD-600
+    pool_n: 4
+    manual_n: 4
+    facts:
+    - valor: 24V y 220V
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 4
+      n_support_band: 4
+      borderline: false
+      n_fail: 0
+      votes:
+        bf78e1db-f87b-4b60-b77f-2afae628c736: 5
+        ac2b2d28-bc04-4c4c-80f9-804f192eb88a: 5
+        9786969a-8168-457b-aed8-3337235d874f: 5
+        c686587f-ed88-4594-af2c-0402264d2cec: 5
+    - valor: 22V a 38V
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        ac2b2d28-bc04-4c4c-80f9-804f192eb88a: 5
+        9786969a-8168-457b-aed8-3337235d874f: 5
+    - valor: 180V a 240V
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        ac2b2d28-bc04-4c4c-80f9-804f192eb88a: 5
+        9786969a-8168-457b-aed8-3337235d874f: 5
+  - qid: hp005
+    n_models: 1
+    servable: true
+    targets:
+    - MPDT190
+    - MCDT191
+    primary:
+    - MPDT190
+    - MCDT191
+    pool_n: 43
+    manual_n: 330
+    facts:
+    - valor: Matriz de control
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 4
+      n_support_band: 4
+      borderline: false
+      n_fail: 0
+      votes:
+        3c93aac0-2fdb-4335-badb-85fdab9fe0de: 5
+        f2ace207-4052-44d2-bddf-800950c66119: 5
+        89f460aa-1441-4f03-8b7e-ffd9d43c76a7: 5
+        d130cfae-91e7-4692-abf7-9841f29398e7: 5
+    - valor: COINCIDENCIA 2 EQUIPOS
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        3c93aac0-2fdb-4335-badb-85fdab9fe0de: 5
+    - valor: misma zona o subzona
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        3c93aac0-2fdb-4335-badb-85fdab9fe0de: 5
+        89f460aa-1441-4f03-8b7e-ffd9d43c76a7: 5
+    - valor: CIRCUITO SIRENA
+      bucket_target: RERANK-MISS
+      bucket_primary: RERANK-MISS
+      in_pool_target: true
+      in_top5_target: false
+      in_pool_primary: true
+      in_top5_primary: false
+      n_support_firm: 5
+      n_support_band: 5
+      borderline: false
+      n_fail: 0
+      votes:
+        5000894b-8e17-4b30-affb-a19918b92bb3: 5
+        89d01b41-50d3-47c5-9c23-85a2ea719b2c: 5
+        6dcccb36-f67b-4057-959b-494d9279e5d4: 5
+        5d89b512-318c-43f3-b34d-4cebd57bc494: 5
+        c7f8bda4-8aa3-4160-b7e0-0b52af2499b1: 5
+  - qid: hp006
+    n_models: 1
+    servable: true
+    targets:
+    - MIDT170
+    - 50253SP
+    - MADT380_01
+    primary:
+    - MIDT170
+    - 50253SP
+    - MADT380_01
+    pool_n: 26
+    manual_n: 539
+    facts:
+    - valor: Fallo de Tierra
+      bucket_target: RETRIEVAL
+      bucket_primary: RETRIEVAL
+      in_pool_target: false
+      in_top5_target: false
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 0
+      n_support_band: 0
+      borderline: false
+      n_fail: 0
+      votes:
+        6f10426e-8d30-4726-a9d4-efa780c8c8b8: 5
+        7cc8e74a-cc18-4eee-8add-350663d47b92: 5
+    - valor: Tierra
+      bucket_target: RETRIEVAL
+      bucket_primary: RETRIEVAL
+      in_pool_target: false
+      in_top5_target: false
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 0
+      n_support_band: 0
+      borderline: false
+      n_fail: 0
+      votes:
+        68463fcb-3770-4b62-aec7-4cd684f41c81: 5
+        b41d31e1-c155-46fb-92ad-f707dff545af: 5
+    - valor: ISO-X
+      bucket_target: RETRIEVAL
+      bucket_primary: RETRIEVAL
+      in_pool_target: false
+      in_top5_target: false
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 0
+      n_support_band: 0
+      borderline: false
+      n_fail: 0
+      votes:
+        3f9dc99b-76d0-43b6-8943-0d18335917cc: 4
+        a0ee9631-d156-48c6-92f9-126f899f35cb: 5
+        9503f5a0-24ad-44af-94ff-d63cbe6c742b: 5
+        717a8dac-596f-4ef9-96e3-3f61c96f6250: 5
+        d96f4566-d841-4aa7-a418-f0ddb71e6edc: 5
+        d0d6a7ba-c71c-486d-82e8-95801157a172: 5
+        096600ba-6680-4114-bd62-f5dce9ac7d59: 5
+        d35de7dd-0acd-40a1-99c5-d143e30a507d: 5
+        597cf90f-21ed-4cb4-a9cc-7239bda100d5: 3
+        cc29b97f-dca0-4bd1-a335-b038304ca11b: 5
+        dbd4ce93-2918-4a7e-985e-0e0a033ec101: 5
+        0ebf60d9-47f9-4311-9762-39205302be4a: 5
+        66a941ea-035e-4552-a215-1d97074d9d9d: 5
+  - qid: hp007
+    n_models: 1
+    servable: true
+    targets:
+    - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+    - VEP-A10-P
+    - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+    primary:
+    - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+    pool_n: 35
+    manual_n: 240
+    facts:
+    - valor: cada 3 meses
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        289e81d3-0584-4bc3-b2ca-3bbab6e64a94: 5
+        06e00b48-9ab7-419d-a9c4-f3a448a6f64b: 5
+    - valor: cada 6 meses
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        289e81d3-0584-4bc3-b2ca-3bbab6e64a94: 5
+        06e00b48-9ab7-419d-a9c4-f3a448a6f64b: 5
+    - valor: una vez al año
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        289e81d3-0584-4bc3-b2ca-3bbab6e64a94: 5
+        06e00b48-9ab7-419d-a9c4-f3a448a6f64b: 5
+    - valor: una vez al año
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        289e81d3-0584-4bc3-b2ca-3bbab6e64a94: 5
+        06e00b48-9ab7-419d-a9c4-f3a448a6f64b: 5
+    - valor: una vez al año
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        289e81d3-0584-4bc3-b2ca-3bbab6e64a94: 5
+        06e00b48-9ab7-419d-a9c4-f3a448a6f64b: 5
+    - valor: una vez al año
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        289e81d3-0584-4bc3-b2ca-3bbab6e64a94: 5
+        06e00b48-9ab7-419d-a9c4-f3a448a6f64b: 5
+    - valor: cada 2 años
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        289e81d3-0584-4bc3-b2ca-3bbab6e64a94: 5
+        06e00b48-9ab7-419d-a9c4-f3a448a6f64b: 5
+  - qid: hp008
+    n_models: 1
+    servable: true
+    targets:
+    - MIDT190
+    - MCDT191
+    primary:
+    - MIDT190
+    pool_n: 39
+    manual_n: 250
+    facts:
+    - valor: CPX-551E
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        11d96526-d627-4305-8cae-e6852af1b20b: 5
+    - valor: SDX-751
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        11d96526-d627-4305-8cae-e6852af1b20b: 5
+    - valor: IRX-751CTEM
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        11d96526-d627-4305-8cae-e6852af1b20b: 5
+    - valor: SDX-751-TEM
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 3
+      n_support_band: 3
+      borderline: false
+      n_fail: 0
+      votes:
+        accdf650-6212-44e0-92b0-d4a7fd691bb4: 5
+        f15e1eca-7985-4abf-83ee-130d66e1849d: 5
+        11d96526-d627-4305-8cae-e6852af1b20b: 5
+  - qid: hp009
+    n_models: 1
+    servable: true
+    targets:
+    - MIE-MI-530rv001
+    - MIE-MI-310
+    primary:
+    - MIE-MI-530rv001
+    - MIE-MI-310
+    pool_n: 23
+    manual_n: 106
+    facts:
+    - valor: Retorno
+      bucket_target: RERANK-MISS
+      bucket_primary: RERANK-MISS
+      in_pool_target: true
+      in_top5_target: false
+      in_pool_primary: true
+      in_top5_primary: false
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        8f81c44f-6fd8-4350-ac13-bfe360af0e85: 5
+    - valor: aisladores internos
+      bucket_target: RERANK-MISS
+      bucket_primary: RERANK-MISS
+      in_pool_target: true
+      in_top5_target: false
+      in_pool_primary: true
+      in_top5_primary: false
+      n_support_firm: 1
+      n_support_band: 2
+      borderline: true
+      n_fail: 0
+      votes:
+        2e39e371-a009-4dd0-8e61-da9ce65b169a: 3
+        8f81c44f-6fd8-4350-ac13-bfe360af0e85: 5
+  - qid: hp010
+    n_models: 1
+    servable: false
+    targets: []
+    primary: []
+    pool_n: 27
+    manual_n: 0
+    facts:
+    - valor: Autobusqueda
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        69d17074-4136-4163-b6d9-083c29e52d85: 5
+        64cecd3f-204f-456e-91cc-e563280b1b99: 5
+    - valor: Nivel 3
+      bucket_target: RERANK-MISS
+      bucket_primary: RERANK-MISS
+      in_pool_target: true
+      in_top5_target: false
+      in_pool_primary: true
+      in_top5_primary: false
+      n_support_firm: 3
+      n_support_band: 3
+      borderline: false
+      n_fail: 0
+      votes:
+        a3321174-f71e-4654-8bf6-7f3dbfc95aef: 5
+        b0d7b838-90c0-4f70-9de0-123f74a478b4: 5
+        e8527da2-c31c-4bb0-a315-b026bb67bb1a: 5
+    - valor: nuevos, eliminados y modificados
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        64cecd3f-204f-456e-91cc-e563280b1b99: 5
+  - qid: hp011
+    n_models: 1
+    servable: true
+    targets:
+    - HLSI-MN-103_RP1r-Supra_lr
+    primary:
+    - HLSI-MN-103_RP1r-Supra_lr
+    pool_n: 50
+    manual_n: 190
+    facts:
+    - valor: ABORT
+      bucket_target: RERANK-MISS
+      bucket_primary: RERANK-MISS
+      in_pool_target: true
+      in_top5_target: false
+      in_pool_primary: true
+      in_top5_primary: false
+      n_support_firm: 10
+      n_support_band: 11
+      borderline: true
+      n_fail: 0
+      votes:
+        6459f1d6-c47e-4bb6-8e32-f602d15070cd: 1
+        ad40228f-f65f-4579-a7a4-0f69b4c04a28: 1
+        f5ea54c2-9eaf-46a1-84d6-7df666d3a58d: 5
+        312c3d98-1f37-4f21-a04a-b1b4431b2a76: 5
+        ecf04c43-d3e5-4d12-8467-22e6d90c38b3: 5
+        c8924d59-a9ce-4379-a3b7-57058ff86a82: 2
+        296aa5f1-b728-41e8-a4a8-93e19a1708d4: 5
+        7c374020-ccb5-4b90-aed5-5cab01fc6e5b: 4
+        e0f3141e-0488-48e8-91ee-67280cb2ea53: 5
+        f3cb2463-3852-430e-a6b3-07edc0db3701: 3
+        688c07f0-4617-4c47-9778-d6f6cb230d0c: 5
+        c8cb30ce-f372-46fd-b0ff-730e98648e0b: 5
+        bbeca288-d35e-4f6d-96ac-3248fe0d7a15: 5
+        24ec927e-141b-43b6-9169-3f0645dd8354: 1
+        f9bed261-c2b3-40ef-86fb-8a74fa4e6de9: 5
+    - valor: r.1
+      bucket_target: CORPUS-GAP
+      bucket_primary: CORPUS-GAP
+      in_pool_target: false
+      in_top5_target: false
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 3
+      n_support_band: 3
+      borderline: false
+      n_fail: 0
+      votes:
+        6459f1d6-c47e-4bb6-8e32-f602d15070cd: 5
+        ad40228f-f65f-4579-a7a4-0f69b4c04a28: 5
+        c0121c61-562a-4049-a163-e80b75d69aa2: 5
+    - valor: 05 a 295 seg
+      bucket_target: RETRIEVAL
+      bucket_primary: RETRIEVAL
+      in_pool_target: false
+      in_top5_target: false
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 0
+      n_support_band: 0
+      borderline: false
+      n_fail: 0
+      votes:
+        4581dc4b-db9e-437f-8f96-3db8b57a045a: 5
+        2d45a70a-5202-442e-af84-c3a176c2178d: 5
+    - valor: enclavadas
+      bucket_target: RERANK-MISS
+      bucket_primary: RERANK-MISS
+      in_pool_target: true
+      in_top5_target: false
+      in_pool_primary: true
+      in_top5_primary: false
+      n_support_firm: 5
+      n_support_band: 6
+      borderline: true
+      n_fail: 0
+      votes:
+        27aef5f9-d66f-4a3b-a9e0-eb15dcf60acb: 3
+        c8924d59-a9ce-4379-a3b7-57058ff86a82: 5
+        751747ed-9b8d-4a66-bc9d-15668eacdf1f: 5
+        24ec927e-141b-43b6-9169-3f0645dd8354: 5
+        51349cbd-048d-40cc-a110-f8b97719d231: 5
+        a9a55135-1b42-4f05-a60b-1b1591d31bba: 5
+  - qid: hp012
+    n_models: 2
+    servable: true
+    targets:
+    - MFDT280
+    - MPDT280
+    - 15088SP
+    - MADT370
+    - 15092SP
+    - 15090SP
+    primary:
+    - MFDT280
+    - MPDT280
+    - 15088SP
+    pool_n: 50
+    manual_n: 760
+    facts:
+    - valor: 10 lazos
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 3
+      n_support_band: 3
+      borderline: false
+      n_fail: 0
+      votes:
+        1776fb30-b6b1-46f4-91fe-92b5c3f4f809: 5
+        0f4e1541-fa46-4a0b-8f1c-461d20aca99e: 5
+        d8892f08-aae2-4ecb-b9d4-808dea7ec7d2: 5
+    - valor: 99 + 99
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        11230b35-24ba-43e2-8df6-396e8f852f4a: 4
+    - valor: 2 lazos / 396
+      bucket_target: RETRIEVAL
+      bucket_primary: RETRIEVAL
+      in_pool_target: false
+      in_top5_target: false
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 0
+      n_support_band: 0
+      borderline: false
+      n_fail: 0
+      votes:
+        5730afb3-6aaf-4968-a022-37db21dde42f: 5
+        f42f4901-9bf7-4633-967d-1c74756ec859: 4
+    - valor: 4 lazos / 792
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 3
+      n_support_band: 3
+      borderline: false
+      n_fail: 0
+      votes:
+        11230b35-24ba-43e2-8df6-396e8f852f4a: 4
+        f03d3ae4-6da1-4985-9b08-85f9581e31d7: 5
+        d8892f08-aae2-4ecb-b9d4-808dea7ec7d2: 5
+  - qid: hp013
+    n_models: 1
+    servable: true
+    targets:
+    - ADW535_TD_T140358es_e
+    primary:
+    - ADW535_TD_T140358es_e
+    pool_n: 18
+    manual_n: 201
+    facts:
+    - valor: EEPROM
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        af577289-5d7f-4dfc-9187-8a3aca92d40d: 5
+    - valor: PWR-R
+      bucket_target: RETRIEVAL
+      bucket_primary: RETRIEVAL
+      in_pool_target: false
+      in_top5_target: false
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 0
+      n_support_band: 0
+      borderline: false
+      n_fail: 0
+      votes:
+        2365dfaa-45e5-4c65-9328-194441e375c9: 5
+        a5564c62-c198-4b5a-957d-96443a7a22a0: 5
+        a19e8735-0e84-471a-9224-4be148cc65b9: 5
+  - qid: hp014
+    n_models: 1
+    servable: true
+    targets:
+    - MIDT180
+    primary:
+    - MIDT180
+    pool_n: 31
+    manual_n: 88
+    facts:
+    - valor: '25'
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        6d5eb18f-4b4b-45fa-bee3-dec0f6026610: 5
+        330d7551-7bb0-4c0e-a27d-ec47c0065128: 5
+    - valor: continuidad
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        6d5eb18f-4b4b-45fa-bee3-dec0f6026610: 5
+        330d7551-7bb0-4c0e-a27d-ec47c0065128: 5
+    - valor: terminales 2 y 4
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        6d5eb18f-4b4b-45fa-bee3-dec0f6026610: 5
+    - valor: '35'
+      bucket_target: RETRIEVAL
+      bucket_primary: RETRIEVAL
+      in_pool_target: false
+      in_top5_target: false
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 0
+      n_support_band: 0
+      borderline: false
+      n_fail: 0
+      votes:
+        d4018c9b-8eff-4b19-b826-5bb4df55d29e: 5
+  - qid: hp015
+    n_models: 1
+    servable: true
+    targets:
+    - CCD-103_Manual_ES_FR_GB_IT
+    primary:
+    - CCD-103_Manual_ES_FR_GB_IT
+    pool_n: 17
+    manual_n: 109
+    facts:
+    - valor: convencional
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        fdb14497-4a5a-43db-a5f3-90f36448663e: 5
+    - valor: 2 veces la tecla de zona
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        10b9c723-e2df-45e0-8da9-09b88bbea7f2: 5
+    - valor: '32'
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        fdb14497-4a5a-43db-a5f3-90f36448663e: 5
+        98c139e8-cc63-4a0b-99c2-36de14c68576: 5
+  - qid: hp017
+    n_models: 1
+    servable: true
+    targets:
+    - 997-671-005-3_Configuration_ES
+    primary:
+    - 997-671-005-3_Configuration_ES
+    pool_n: 31
+    manual_n: 124
+    facts:
+    - valor: causa-efecto
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        ac308dbf-357e-4356-9049-1ccfcc6ff749: 5
+        7e34cb72-0183-488a-9aa3-fcc81b40f3ef: 1
+        570d9951-e3a6-4c64-a927-e26b5e6db842: 5
+    - valor: instruccion de entrada
+      bucket_target: RETRIEVAL
+      bucket_primary: RETRIEVAL
+      in_pool_target: false
+      in_top5_target: false
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 0
+      n_support_band: 0
+      borderline: false
+      n_fail: 0
+      votes:
+        bc1de145-c91e-4c98-8cf6-4d5d7946ec94: 2
+        d27b1a1b-69cd-4318-a459-f3c86eb757ba: 5
+        a95f8659-2277-4b32-a413-edd0e6cd2f10: 5
+        94cbb0ce-0f89-46f0-9a83-d47680c79d17: 5
+        f9729924-ab4d-4bd7-9c83-b51a618a1685: 5
+        342d782a-db3c-489e-bac4-c49426bd18cc: 5
+        08402af7-0c6c-4f2f-bba3-a4eb12dabdbd: 1
+        3bb9cc63-746b-4123-ac97-5ba3503c0035: 2
+        ae9fd5d9-55a8-472a-ba6b-dcf62176dda2: 5
+    - valor: Editar Configuracion
+      bucket_target: RERANK-MISS
+      bucket_primary: RERANK-MISS
+      in_pool_target: true
+      in_top5_target: false
+      in_pool_primary: true
+      in_top5_primary: false
+      n_support_firm: 5
+      n_support_band: 5
+      borderline: false
+      n_fail: 0
+      votes:
+        f68b0586-ae54-4089-b286-ee8792834c3d: 5
+        e522c315-ef36-4830-ae62-cf6de8d2d0db: 5
+        51df7a51-4970-4cfc-8ef1-3771f480dd78: 5
+        02576ce6-0189-445d-a13f-bc2d72234f87: 5
+        e886f2e8-7b71-437b-8a0a-ad9a1800b930: 5
+    - valor: seis tipos de retardo
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        570d9951-e3a6-4c64-a927-e26b5e6db842: 5
+  - qid: hp018
+    n_models: 1
+    servable: true
+    targets:
+    - MIE-MI-530rv001
+    - MIE-MI-310
+    primary:
+    - MIE-MI-530rv001
+    pool_n: 27
+    manual_n: 106
+    facts:
+    - valor: 4 circuitos
+      bucket_target: SINTESIS
+      bucket_primary: RETRIEVAL
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 6
+      n_support_band: 6
+      borderline: false
+      n_fail: 0
+      votes:
+        d4d54d05-bd6e-4861-81db-be2f6d67cd88: 5
+        bf70bdde-b22e-47a9-b6e9-eff5b6e51c85: 5
+        692718af-8d13-4e2f-80df-90d22dd832ec: 5
+        1d58bcf8-a838-4d31-b65c-89c068b6ce6b: 5
+        13b03acd-e32c-4f9d-b68f-116d86d1cb94: 5
+        022c78b2-b0ca-4ac7-af45-7323a96845bd: 5
+        6c409fd4-17e1-46a8-9d00-1ab319b078cb: 5
+        72fc4c53-f507-4e67-9192-ebc68b94be78: 5
+        90d51dac-bd0b-4051-b414-ced0fe6e33bb: 5
+    - valor: 6K8
+      bucket_target: SINTESIS
+      bucket_primary: RETRIEVAL
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 4
+      n_support_band: 4
+      borderline: false
+      n_fail: 0
+      votes:
+        692718af-8d13-4e2f-80df-90d22dd832ec: 5
+        35f4421a-d039-4672-9884-5540ab42a788: 5
+        c0692a93-cea3-4a75-b617-4ac51c343795: 5
+        022c78b2-b0ca-4ac7-af45-7323a96845bd: 5
+        53e12a08-1cc2-45e3-8882-3e0854e3ed8c: 5
+        f2150c75-b312-4c1b-bac5-e3c6358032db: 5
+        041a3676-294c-4fd3-ba22-940d29dbce43: 5
+        90d51dac-bd0b-4051-b414-ced0fe6e33bb: 5
+        d4de9ba9-9206-49cf-9782-ba141168a0c2: 5
+    - valor: diodo
+      bucket_target: SINTESIS
+      bucket_primary: RETRIEVAL
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 2
+      n_support_band: 2
+      borderline: false
+      n_fail: 0
+      votes:
+        692718af-8d13-4e2f-80df-90d22dd832ec: 5
+        35f4421a-d039-4672-9884-5540ab42a788: 5
+        72fc4c53-f507-4e67-9192-ebc68b94be78: 5
+    - valor: Sirenas A,B,C,D
+      bucket_target: SINTESIS
+      bucket_primary: RETRIEVAL
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 4
+      n_support_band: 5
+      borderline: true
+      n_fail: 0
+      votes:
+        bf70bdde-b22e-47a9-b6e9-eff5b6e51c85: 5
+        692718af-8d13-4e2f-80df-90d22dd832ec: 4
+        ce7883c4-1a38-4df4-83f1-e35fa854340b: 3
+        1d58bcf8-a838-4d31-b65c-89c068b6ce6b: 5
+        13b03acd-e32c-4f9d-b68f-116d86d1cb94: 5
+        72fc4c53-f507-4e67-9192-ebc68b94be78: 5
+        90d51dac-bd0b-4051-b414-ced0fe6e33bb: 5
+        875834e9-73cf-4d52-aa9b-dcbb8b2ebee5: 5
+    - valor: 1 A
+      bucket_target: SINTESIS
+      bucket_primary: RETRIEVAL
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: false
+      in_top5_primary: false
+      n_support_firm: 4
+      n_support_band: 4
+      borderline: false
+      n_fail: 0
+      votes:
+        692718af-8d13-4e2f-80df-90d22dd832ec: 5
+        ab06ceb7-8190-4f0a-9076-b58ede92ab8d: 5
+        c0692a93-cea3-4a75-b617-4ac51c343795: 5
+        022c78b2-b0ca-4ac7-af45-7323a96845bd: 5
+        90d51dac-bd0b-4051-b414-ced0fe6e33bb: 5
+  - qid: hp019
+    n_models: 1
+    servable: true
+    targets:
+    - ASD535_TD_T131192es_h
+    primary:
+    - ASD535_TD_T131192es_h
+    pool_n: 36
+    manual_n: 242
+    facts:
+    - valor: -30 a +60
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        99908a8c-aa47-4d92-aba4-17d0188e9f6c: 5
+  - qid: hp020
+    n_models: 1
+    servable: true
+    targets:
+    - HOP-138-8ES
+    - 01-2026_Co
+    - HOP-138-9ES
+    - 11-2025_In
+    primary:
+    - HOP-138-8ES
+    - 01-2026_Co
+    pool_n: 21
+    manual_n: 194
+    facts:
+    - valor: nivel 2 o 3
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        1e38f728-ce6a-4753-b24f-46c9106d8c6a: 5
+    - valor: Cambio del codigo de acceso
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        1e38f728-ce6a-4753-b24f-46c9106d8c6a: 5
+        ce6e37f4-5a28-4510-99ca-07a490624e02: 2
+    - valor: 4 y 8
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 3
+      n_support_band: 3
+      borderline: false
+      n_fail: 0
+      votes:
+        1e38f728-ce6a-4753-b24f-46c9106d8c6a: 5
+        93e8cc33-6534-4c6d-b15c-0ff7cee8e7bd: 5
+        ce6e37f4-5a28-4510-99ca-07a490624e02: 5
+    - valor: satisfactorio
+      bucket_target: SINTESIS
+      bucket_primary: SINTESIS
+      in_pool_target: true
+      in_top5_target: true
+      in_pool_primary: true
+      in_top5_primary: true
+      n_support_firm: 1
+      n_support_band: 1
+      borderline: false
+      n_fail: 0
+      votes:
+        1e38f728-ce6a-4753-b24f-46c9106d8c6a: 5

@@ -65,13 +65,14 @@
 > = el suelo de ruido). **Pivote (DEC-051): de exprimir el eval → a producto/deploy para
 > los técnicos de ~sept** (#45 diagramas-datos + fix `available_models` + eval orgánico).
 >
-> ⚠️ **Caveat s60 a este doc (TECH_DEBT #44/#45):** las secciones que describen el filtro por
-> categoría y la entrega de **diagramas** (§§ flujo/ingesta — "adjunta diagrama", canal
-> `diagram_search`, tag del reranker) describen el sistema sobre la tabla VIEJA. En `chunks_v2`
-> (el corpus ACTIVO) ambos contratos están rotos desde el SWAP s44: `category` sin taxonomía
-> canónica (0 filas canónicas; DEC-040) y `has_diagram`/`diagram_url` a **0 de 25.090** (vs
-> 44.035 en la vieja; DEC-041) → **el bot hoy NO adjunta diagramas**. Fix con contrato propio
-> en TECH_DEBT #44/#45; estas secciones se reescribirán al resolverse.
+> ⚠️ **Caveat s60→s85 (TECH_DEBT #44/#45):** las secciones que describen el filtro por categoría
+> y la entrega de **diagramas** describen el sistema sobre la tabla VIEJA. En `chunks_v2` ambos
+> contratos están rotos desde el SWAP s44. **s85 (DEC-073, PR #94 mergeado): el filtro por `category`
+> MUERTA se QUITÓ de raíz del path de retrieval** (`VECTOR_NOCAT` permanente — 4 sitios + broad-fallback
+> + 3c-i + detección inerte; la detección de categoría viva para catálogo queda en el handler). La
+> entrega de **diagramas** SIGUE rota (`has_diagram`/`diagram_url` a **0 de 25.090**, DEC-041) → el bot
+> hoy NO adjunta diagramas. **Estado retrieval s85:** retrieval-miss family-aware = 14 (instrumento
+> `retrieval_miss_judge.py`); el cuello del eval sigue siendo SÍNTESIS (DEC-070/073).
 >
 > ⚠️ **Caveat s60/s61 — no-determinismo del pipeline, MEDIDO:** el mismo técnico con la misma
 > pregunta puede recibir distinto top-5 entre días por DOS vías: (1) el reranker LLM cambia su
