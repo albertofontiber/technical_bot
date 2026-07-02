@@ -1261,6 +1261,17 @@ def retrieve_chunks(
             identity_allowed=(_identity_res or {}).get("allowed_sources") or None)
     _tr("post_model_filter", merged)
 
+    # (s93 · flag IDENTITY_FETCH=on, default off; requiere IDENTITY_RESOLVE=on) fetch acotado
+    # de la escalera v2.1d — diagnóstico s92: 11/12 misses = doc adjudicado que NUNCA entra
+    # al top-50. APPEND puro de ≤3 chunks/doc adjudicado ausente (nunca desplaza — DEC-069;
+    # el reranker decide). Fail-open total.
+    if _identity_res and _resolver.fetch_enabled():
+        fetched = _resolver.fetch_missing_doc_chunks(query, _identity_res, merged)
+        if fetched:
+            have = {c.get("id") for c in merged}
+            merged = merged + [c for c in fetched if c.get("id") not in have]
+            _tr("post_identity_fetch", merged)
+
     # Step 5a: Multi-doc diversity for queries with a specific model.
     # When a product has several source_files in corpus (e.g. CAD-250 has
     # Instalación + Usuario + MC-380 + MS-416), the top-k can be dominated

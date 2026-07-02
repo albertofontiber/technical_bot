@@ -302,3 +302,64 @@ def resolve_for_retrieval(query: str, models: list[str]) -> tuple[list[str], dic
     if m == "shadow":
         return models, None
     return models_after, res
+
+
+# ─────────────────────── fetch acotado (s93, escalera v2.1d MEDIDA como brazo nuevo) ───────────────────────
+FETCH_PER_DOC = 3          # chunks máx por doc adjudicado (append puro — DEC-069: NUNCA desplazar)
+FETCH_MAX_DOCS = 4         # docs máx por query (disciplina de coste/latencia)
+
+
+def fetch_enabled() -> bool:
+    """IDENTITY_FETCH=on requiere IDENTITY_RESOLVE=on (config incoherente ⇒ error, fail-fast)."""
+    f = os.getenv("IDENTITY_FETCH", "").strip().lower() in ("1", "true", "yes", "on")
+    if f and mode() != "on":
+        raise RuntimeError("IDENTITY_FETCH=on requiere IDENTITY_RESOLVE=on (fail-fast)")
+    return f
+
+
+def _score_chunk(content: str, qtokens: list[str]) -> int:
+    cl = (content or "").lower()
+    return sum(1 for t in qtokens if t in cl)
+
+
+def fetch_missing_doc_chunks(query: str, res: dict, pool: list[dict]) -> list[dict]:
+    """Diagnóstico s92: 11/12 misses = el doc adjudicado NUNCA entra al top-50 (pool-entry
+    loss). Para cada doc de allowed_sources SIN chunks en el pool → trae los FETCH_PER_DOC
+    chunks con mejor score léxico query-vs-content (patrón fetch_manual_chunks, sin RPC
+    nuevo — limitación declarada). APPEND puro con marcador `identity_fetch` (el reranker
+    decide; nunca desplaza)."""
+    if not res or not res.get("allowed_sources"):
+        return []
+    in_pool_srcs = {(c.get("source_file") or "") for c in pool}
+    missing = [s for s in sorted(res["allowed_sources"]) if s not in in_pool_srcs]
+    if not missing:
+        return []
+    qtokens = [t for t in re_tokens(query) if len(t) >= 3][:12]
+    out: list[dict] = []
+    try:
+        import httpx
+
+        from src.config import SUPABASE_SERVICE_KEY, SUPABASE_URL
+        headers = {"apikey": SUPABASE_SERVICE_KEY,
+                   "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}"}
+        with httpx.Client(timeout=15.0) as client:
+            for src in missing[:FETCH_MAX_DOCS]:
+                r = client.get(f"{SUPABASE_URL}/rest/v1/{os.getenv('CHUNKS_TABLE', 'chunks_v2')}",
+                               headers=headers,
+                               params={"select": "id,content,source_file,product_model,page_number",
+                                       "source_file": f"eq.{src}", "limit": "300"})
+                if r.status_code not in (200, 206):
+                    continue
+                rows = sorted(r.json(), key=lambda c: -_score_chunk(c.get("content"), qtokens))
+                for c in rows[:FETCH_PER_DOC]:
+                    c["identity_fetch"] = True
+                    out.append(c)
+    except Exception as e:
+        logger.warning(f"identity_fetch fail-open ({e})")
+        return out
+    return out
+
+
+def re_tokens(q: str) -> list[str]:
+    import re as _re
+    return _re.findall(r"[a-záéíóúñ0-9][a-záéíóúñ0-9.-]{1,}", (q or "").lower())
