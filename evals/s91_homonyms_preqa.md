@@ -1,6 +1,12 @@
 # s91 — PRE-QA de los 25 homónimos cross-brand · agrupados por patrón (~10 min)
 
-> Evidencia = corpus (docs + categoría + family_scope) **+ revisión web exhaustiva (6 búsquedas dirigidas; 2 propuestas corregidas: 6424→G1, PAK→kidde; APIC confirmado B; VSN multi-mercado; M710 sin vendido-Morley)**. El patrón dominante es
+> Evidencia = corpus + web (6 búsquedas; 2 correcciones) **+ VERIFICACIÓN AL PÍXEL (14 portadas
+> renderizadas de los PDFs reales, lección s80)**. Hallazgos del píxel:
+> · **CMX-10RM y 6424: manuales GEMELOS Morley/Notifier** (mismo texto/foto, solo cambia el logo) = venta dual REAL, no mera compat.
+> · **B501AP/6200R/LPB-620: © System Sensor** en los propios docs (el manual "Notifier" del LPB-620 lleva copyright SS) — aunque LPB-620 (direccionable) ≠ 6200R (convencional): mismo HW óptico, electrónica distinta; los REFL* son el accesorio compartido.
+> · **APIC: anfitriones DISTINTOS al píxel** (MIDT731 = LaserStar-HSSD-2/Stratos vs doc Aritech = ModuLaser) → B definitivo.
+> · **Z978: el doc Notifier TIDT089 ES la tabla de mapeo OEM↔vendedor** ("referencia de PEPPER KFDO-CS-Ex… = referencia Notifier AIS-GALD1") — el patrón G2 escrito por el propio fabricante.
+> · **UCIP: la portada es Honeywell Life Safety Iberia** (ni Notifier ni Morley) → producto de la filial del grupo; vendido_bajo=[HLSI, Notifier, Morley (Supra)] con canonical notifier pragmático. El patrón dominante es
 > **A: mismo producto, OEM + marca(s) que lo venden** — el grupo Honeywell operando. Marca por GRUPO
 > (✅ = todo el grupo tal cual; ✏️ = di qué ítem cambia). Al aprobar: el OEM/naming-owner queda
 > canonical, los otros ids → redirect, `vendido_bajo` = unión, relación rebrand-of, homónimo retirado.
@@ -14,7 +20,7 @@ con idéntica categoría.
 | `B501` | I56-2055 B500 Series vs Notifier MNDT150 (base para ID-200) |
 | `REFL20/30/40/50/60` (×5) | reflectores compartidos del 6200R (I56-1726, SS) y del LPB-620 Notifier (I56-1671) — **ambos docs llevan numeración I56-* de System Sensor** (señal OEM); el rebrand completo LPB↔6200 no está probado en web, pero los REFL* son el mismo accesorio |
 | `6500R` / `6500RS` | detector de haz 6500 (I56-2081, SS) vs doc Notifier MADT780 que lo lista |
-| `6424` ⬅ movido de G3 | **web-confirmado OEM System Sensor** ([datasheet SS 6424](https://www.systemsensor.com/en-us/Documents/6424_DataSheet_A05-0217.pdf)); vendido Notifier (MIDT750) y Morley (MIE-MI-140) |
+| `6424` ⬅ movido de G3 | **web+PÍXEL: OEM System Sensor** ([datasheet](https://www.systemsensor.com/en-us/Documents/6424_DataSheet_A05-0217.pdf)); manuales GEMELOS Morley (MIE-MI-140) y Notifier (MIDT750) = venta dual real |
 | `DH500` / `DH500ACDC-E` | carcasas de conducto DH500 (I56-512/I56-2166, SS) vs Notifier MIDT1040/1041 |
 
 **Canonical → `systemsensor:*` (OEM), redirect desde notifier/morley, vendido_bajo=[System Sensor, Notifier, Morley-IAS].**
@@ -35,11 +41,11 @@ con idéntica categoría.
 ## G3 · Intra-Honeywell (naming Vision/Supra/CMX/UCIP…) — 11 ítems (6424→G1), propongo A con canonical en la marca de los docs PROPIOS
 | token | propuesta canonical | evidencia |
 |---|---|---|
-| `UCIP` / `UCIP-GPRS` | notifier (docs propios HLSI-MN/MA-192) | la mención morley = referencia en el manual de la NFS Supra (accesorio) |
+| `UCIP` / `UCIP-GPRS` | notifier (pragmático) | **PÍXEL: la portada del HLSI-MN-192 es Honeywell Life Safety Iberia** (filial del grupo, ni N ni M) → vendido_bajo=[HLSI, Notifier, Morley (Supra)] |
 | `VSN-4REL` | **morley** (naming VSN=Vision=Morley, tu gt) | tarjeta 4 relés de Vision/Supra; vendido_bajo +Notifier (Supra) |
 | `VSN 4 PLUS` / `VSN12-2Plus` / `VSN-CO` | **morley** (centrales Vision Plus; tu gt Vision=Morley) | **web: la familia VSN es multi-marca POR MERCADO** — [notifier.it la lista en su catálogo](https://www.notifier.it/catalogo.asp?id=2) (incl. el bundle VSN4-PLUS+VSN-4REL) y el doc ITA vive en morley-ias.es → vendido_bajo=[Morley-IAS (ES), Notifier (IT)] |
 | `IDR-6A` | notifier (docs propios MNDT200/MCDT191, repetidores IDR) | la mención morley = FAQ de CONNEXION que lo cita |
-| `CMX-10RM` | notifier (MNDT1004) | tarjeta 10 relés idéntica en Morley MIE-MI-470 → +Morley |
+| `CMX-10RM` | notifier (MNDT1004) | **PÍXEL: manuales GEMELOS** (Morley: 'módulos MI-CME'; Notifier: 'módulos CMX-2' — mismo HW, naming interno por marca) → vendido_bajo=[Notifier, Morley-IAS] |
 | `MI-DCZM` | **morley** (prefijo MI- = Morley-IAS naming) | la mención notifier = doc compat |
 | `M710` | notifier | **web-confirmado Notifier** ([datasheet](https://prod-edam.honeywell.com/content/dam/honeywell-edam/hbt/en-us/documents/literature-and-specs/datasheets/notifier-it/HBT-Fire-201710270924-M710-M720-dep-eng.pdf)); el equivalente Morley es el MI/DMMIE (línea SEPARADA) → la mención morley = compat/secondary, NO vendido_bajo |
 | `2010-2-PAK-RMSDK` | **kidde** (corregido tras web: se vende como Kidde/Ziton/Kilsen/UTC — todo el grupo Carrier; [ficha](https://www.ibdglobal.com/en/slides/slide/2010-2-pak-rmsdk-ficha-tecnica-kidde-commercial-7326/datas)) | vendido_bajo +Edwards (doc bcn-*), +Ziton |
