@@ -22,5 +22,5 @@
 **ADJUDICADO COMPLETO s91 (Alberto, 3 tandas) — PACKET CERRADO:**
 - Filas 9/10/11/13/15-16/17/18 ✅ → APLICADAS (22 productos más; total C2 = 42 re-domiciliados).
 - Fila 14 (HLS-formación) = **ruido** (doc administrativo; sin acción de catálogo).
-- Filas 4-5 (FAAST) — resolución semántica de Alberto: esta tabla mapea el STRING-del-doc, y debe apuntar al OEM cuando lo nombra → **"FAAST (System Sensor Europe)"→`systemsensor`; "FAAST (Honeywell)"→contextual-GRUPO** (bajo Honeywell conviven OEM SS [LT-200] y Xtralis [FLEX] — un string de grupo no decide per-modelo). 0 productos; BRAND_MAP-only.
+- Filas 4-5 (FAAST) — **CORRECCIÓN FINAL de Alberto: "FAAST (…)" NO es marca — es FAMILIA de productos** (el extractor la clasificó mal como marca). Materializado como PARAGUAS por la puerta: `FAAST` (familia, 13 miembros, divergent=true) + `FAAST LT-200` adjudicado (divergent=true, 12 miembros incl. los 3 SKUs MI-FL* de Morley — antes estaba unknown/fail-open). Ambos tokens ahora EXPANDEN en retrieval; comercialización en vendido_bajo (Morley/Notifier), OEM per-modelo en `oem_manufacturer_marca` (SS hoy; Xtralis si entra el FLEX). NADA entra a BRAND_MAP.
 - TODO (no bloquea): trasladar los strings adjudicados a BRAND_MAP en `catalog_gt.py` para re-runs del loader (tier adjudicado); 'DELTA'/'Golmar'/'FUEGO' NO se generalizan (genéricos/artefacto-de-título).
