@@ -317,9 +317,17 @@ def fetch_enabled() -> bool:
     return f
 
 
+# F6 dúo s93: stopwords mínimas — sin ellas 'para'/'como'/'que' puntúan y queman el cap
+_QSTOP = {"para", "como", "que", "qué", "con", "una", "uno", "por", "sobre", "tiene",
+          "hay", "los", "las", "del", "esta", "este", "cual", "cuál", "cuando", "donde",
+          "central", "panel", "detector", "sistema", "manual"}
+
+
 def _score_chunk(content: str, qtokens: list[str]) -> int:
+    import re as _re
     cl = (content or "").lower()
-    return sum(1 for t in qtokens if t in cl)
+    # word-boundary (F6): 'clip' no debe puntuar dentro de 'eclipse'
+    return sum(1 for t in qtokens if _re.search(rf"(?<![a-z0-9]){_re.escape(t)}(?![a-z0-9])", cl))
 
 
 def fetch_missing_doc_chunks(query: str, res: dict, pool: list[dict]) -> list[dict]:
@@ -334,7 +342,13 @@ def fetch_missing_doc_chunks(query: str, res: dict, pool: list[dict]) -> list[di
     missing = [s for s in sorted(res["allowed_sources"]) if s not in in_pool_srcs]
     if not missing:
         return []
-    qtokens = [t for t in re_tokens(query) if len(t) >= 3][:12]
+    seen_t: set[str] = set()
+    qtokens = []
+    for tk in re_tokens(query):
+        if len(tk) >= 3 and tk not in _QSTOP and tk not in seen_t:   # F6: dedupe + stoplist
+            seen_t.add(tk)
+            qtokens.append(tk)
+    qtokens = qtokens[:12]
     out: list[dict] = []
     try:
         import httpx
@@ -342,15 +356,22 @@ def fetch_missing_doc_chunks(query: str, res: dict, pool: list[dict]) -> list[di
         from src.config import SUPABASE_SERVICE_KEY, SUPABASE_URL
         headers = {"apikey": SUPABASE_SERVICE_KEY,
                    "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}"}
-        with httpx.Client(timeout=15.0) as client:
+        # F8: timeout 5.0 (patrón de la casa); F3: order=id.asc — PostgREST sin order es
+        # NO-DETERMINISTA y limit=300 truncaría un set distinto por run (15088SP=342 chunks);
+        # la famtie compara chunk-ids EXACTOS → el brazo debe ser reproducible
+        with httpx.Client(timeout=5.0) as client:
             for src in missing[:FETCH_MAX_DOCS]:
                 r = client.get(f"{SUPABASE_URL}/rest/v1/{os.getenv('CHUNKS_TABLE', 'chunks_v2')}",
                                headers=headers,
-                               params={"select": "id,content,source_file,product_model,page_number",
-                                       "source_file": f"eq.{src}", "limit": "300"})
+                               params={"select": "id,content,source_file,product_model,"
+                                                 "page_number,language",
+                                       "source_file": f"eq.{src}", "order": "id.asc",
+                                       "limit": "400"})
                 if r.status_code not in (200, 206):
                     continue
-                rows = sorted(r.json(), key=lambda c: -_score_chunk(c.get("content"), qtokens))
+                rows = sorted(r.json(),
+                              key=lambda c: (-_score_chunk(c.get("content"), qtokens),
+                                             c.get("id") or ""))     # F3: tie-break estable
                 for c in rows[:FETCH_PER_DOC]:
                     c["identity_fetch"] = True
                     out.append(c)

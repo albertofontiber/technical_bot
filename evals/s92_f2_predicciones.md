@@ -40,6 +40,52 @@ hp011-gana → **FALSADA** (sigue miss en ambos brazos — la expansión prefer-
 meter su chunk-soporte en el pool-50; pendiente diagnóstico); total ~8±1 → REAL 12 vs control 15
 (dirección ✓, magnitud menor).
 
-**Decisión por el criterio pre-registrado: GANA ADD** — los 4 hechos históricos de hp018 (el
-criterio DEC-074b "4/4") ganados, hp009 intacto, total mejora vs control (−3 neto). Pendientes
-declarados: hp018 '1 A' + hp011 (diagnóstico per-hecho), hp012 '99+99' (coste de la unión, −1).
+**ERRATA (cazada por el cross-model s93, bias de framing #51-clase): el criterio LOCAL de esta
+tabla (hp018 5/5) NO se cumplió — se cumplió el criterio del CONTRATO (hp018 4/4, DEC-074b), que
+es el gate oficial de F2. Mi texto original los fundió presentando 4/5 como cumplimiento del
+pre-registro local; ambos criterios y ambos resultados quedan ahora visibles.** Con esa
+corrección: ADD gana el brazo (contrato cumplido, hp009 intacto, −3 neto vs control); pendientes
+hp018 '1 A' + hp011 + hp012 '99+99'.
+
+---
+
+## S3-FETCH · Predicciones PRE-REGISTRADAS del brazo fetch-acotado (ANTES de medir)
+
+Config: IDENTITY_RESOLVE=on + POLICY=add + IDENTITY_FETCH=on. Baseline de comparación:
+ON+add = 12 · OFF-control = 15.
+
+| hecho (miss en ON+add) | predicción | mecanismo |
+|---|---|---|
+| hp011 '05 a 295 seg' | **GANA** | HLSI-MN-103 (ALLOW, ausente del pool) → fetch trae sus chunks; el soporte está ahí |
+| hp006 ×3 | **GANAN** (alta) | 50253SP/MIDT170 ALLOW ausentes → fetch |
+| hp013 'PWR-R' · hp014 '35' · cat016 | GANAN (media) | docs ALLOW ausentes; depende de que el score léxico elija el chunk-soporte entre ≤3 |
+| hp001 '2222' · hp012 ×2 | GANAN (media) | ALLOW ausentes; '99+99' además recupera el −1 del desplazamiento |
+| hp018 '1 A' | GANA (media) | MIE-MI-530rv001 ALLOW ausente |
+| cat013 'CLIP' | GANA (media) | MIDT190 ahora en doc_map (fix s93) vía SDX-751 secondary — exige que 'sdx-751' se detecte y el léxico encuentre el chunk CLIP |
+| **total** | **12 → 2-5** | si >8 → el score léxico es el cuello (diagnóstico per-doc) |
+
+**Correcciones del dúo s93 ANTES de medir:**
+- **Todas las filas "GANA" son HIPÓTESIS CONDICIONADAS** a que el score léxico elija, entre ≤3
+  de hasta 300, exactamente los chunk-ids YA JUZGADOS (la famtie no re-juzga: un chunk nuevo
+  del doc correcto sin votos sigue midiendo MISS — cota inferior, igual que en S2).
+- **El gate de SHIP no es la famtie sola**: el contrato del workstream exige cero-regresión
+  PASS (±2, freeze per-eval) en cada fase → encender IDENTITY_FETCH en demo requiere famtie OK
+  **+ bvg PASS-control ±2** (cuesta juez GPT — decisión de Alberto cuándo). "≤5 → ship-candidate"
+  queda RETIRADO como criterio.
+- **Por qué esto NO re-litiga DEC-069** (delimitación explícita): el aditivo muerto era unión
+  CIEGA del índice dentro del pool capado (desplazaba soporte). Este fetch: (a) fuente =
+  SOLO docs adjudicados por humano vía doc_map (whitelist), (b) APPEND tras el corte [:top_k]
+  — extensión acotada ≤12, desplaza a NADIE (el bug de truncado que lo convertía en no-op
+  silencioso fue cazado por el dúo y movido tras el corte), (c) entra como BRAZO MEDIDO nuevo,
+  la autorización explícita de la fila del LEVER_DIGEST.
+
+### RESULTADO S3-FETCH (predicción-vs-resultado)
+**retrieval-miss = 12 — IDÉNTICO a ON+add sin fetch. Predicción (2-5) FALSADA.**
+El mecanismo FUNCIONA (pools >50 prueban los appends: hp018=57) pero el selector léxico NO
+encuentra los chunk-ids juzgados entre cientos por doc — exactamente el criterio pre-escrito
+">8 → el score léxico es el cuello". Lectura estructural: los 12 residuales son la clase
+FINE-GRAINED de s86 (aguja-en-chunk-grande: el soporte vive en tablas/celdas que ni el vector
+ni el léxico superficial puntúan) → pertenecen al workstream foundational de ingesta
+(multi-granularidad + extracción-tablas + BM25), YA mapeado como futuro. **Veredicto del brazo:
+NO-SHIP (sin beneficio medido, +latencia); el código queda tras flag default-off con este
+veredicto. El lever identidad-en-retrieval queda EXHAUSTO con −3 neto (la expansión ADD).**

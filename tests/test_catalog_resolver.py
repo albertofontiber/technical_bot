@@ -295,3 +295,42 @@ def test_fetch_marca_los_chunks(monkeypatch):
     out = R.fetch_missing_doc_chunks("instalación de la central ZXSe", res, [])
     assert len(out) == R.FETCH_PER_DOC and all(c["identity_fetch"] for c in out)
     assert calls["params"]["source_file"] == "eq.MIE-MI-600"
+    assert calls["params"]["order"] == "id.asc"        # F3: determinismo del fetch
+
+
+def test_fetch_cap_max_docs(monkeypatch):
+    # F7: >FETCH_MAX_DOCS docs ausentes → solo los 4 primeros (orden alfabético estable)
+    seen = []
+    class _R:
+        status_code = 200
+        def json(self): return []
+    class _Client:
+        def __init__(self, **kw): pass
+        def __enter__(self): return self
+        def __exit__(self, *a): return False
+        def get(self, url, headers=None, params=None):
+            seen.append(params["source_file"])
+            return _R()
+    import httpx
+    monkeypatch.setattr(httpx, "Client", _Client)
+    res = {"allowed_sources": frozenset({f"DOC-{i}" for i in range(7)})}
+    R.fetch_missing_doc_chunks("query de prueba tecnica", res, [])
+    assert len(seen) == R.FETCH_MAX_DOCS
+    assert seen == sorted(seen)
+
+
+def test_invariante_colocacion_fetch_tras_el_corte():
+    # F1/F7 dúo s93: el hook DEBE vivir tras merged[:top_k] — antes, el append moría
+    # truncado (no-op silencioso) o desplazaba vía diversify (la clase DEC-069).
+    # Guard textual: quien reordene los steps rompe este test, no la medición.
+    src = (Path(R.ROOT) / "src" / "rag" / "retriever.py").read_text(encoding="utf-8")
+    i_cut = src.index("base = merged[:top_k]")
+    i_hook = src.index("fetch_missing_doc_chunks(query, _identity_res, base)")
+    i_div = src.index("Step 5a: Multi-doc diversity")
+    assert i_div < i_cut < i_hook, "el fetch debe ir DESPUÉS del corte [:top_k] y del diversify"
+
+
+def test_score_chunk_word_boundary_y_stopwords():
+    assert R._score_chunk("modulo con protocolo CLIP integrado", ["clip"]) == 1
+    assert R._score_chunk("un eclipse total", ["clip"]) == 0            # F6: boundary
+    assert "para" in R._QSTOP and "central" in R._QSTOP

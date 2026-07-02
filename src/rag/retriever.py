@@ -1261,17 +1261,6 @@ def retrieve_chunks(
             identity_allowed=(_identity_res or {}).get("allowed_sources") or None)
     _tr("post_model_filter", merged)
 
-    # (s93 · flag IDENTITY_FETCH=on, default off; requiere IDENTITY_RESOLVE=on) fetch acotado
-    # de la escalera v2.1d — diagnóstico s92: 11/12 misses = doc adjudicado que NUNCA entra
-    # al top-50. APPEND puro de ≤3 chunks/doc adjudicado ausente (nunca desplaza — DEC-069;
-    # el reranker decide). Fail-open total.
-    if _identity_res and _resolver.fetch_enabled():
-        fetched = _resolver.fetch_missing_doc_chunks(query, _identity_res, merged)
-        if fetched:
-            have = {c.get("id") for c in merged}
-            merged = merged + [c for c in fetched if c.get("id") not in have]
-            _tr("post_identity_fetch", merged)
-
     # Step 5a: Multi-doc diversity for queries with a specific model.
     # When a product has several source_files in corpus (e.g. CAD-250 has
     # Instalación + Usuario + MC-380 + MS-416), the top-k can be dominated
@@ -1302,9 +1291,36 @@ def retrieve_chunks(
     # diversity steps (which fetch fresh from the corpus). ~0.4% of chunks_v2.
     merged = _filter_by_language(merged)
     _tr("post_lang", merged)
-    _tr("final", merged[:top_k])
 
-    return merged[:top_k]
+    # (s93 · flag IDENTITY_FETCH=on, default off; requiere IDENTITY_RESOLVE=on) fetch acotado
+    # de la escalera v2.1d — diagnóstico s92: 11/12 misses = doc adjudicado que NUNCA entra al
+    # top-50. Va AQUÍ, DESPUÉS del truncado [:top_k] (dúo s93 #3: antes del corte, el append
+    # moría truncado con pool lleno = no-op silencioso) — extensión ACOTADA del pool
+    # (≤FETCH_MAX_DOCS×FETCH_PER_DOC extra, nunca desplaza a nadie — DEC-069; el reranker
+    # decide). Pasa el MISMO filtro de idioma que el resto. Fail-open total.
+    base = merged[:top_k]
+    # F2 dúo s93: fetch_enabled() PRIMERO — con `_identity_res and ...` el fail-fast de
+    # coherencia (FETCH=on exige RESOLVE=on) era código muerto y FETCH+shadow = no-op
+    # silencioso que corrompería la medición como "el fetch no mueve nada"
+    if _resolver.fetch_enabled() and _identity_res:
+        fetched = _resolver.fetch_missing_doc_chunks(query, _identity_res, base)
+        if fetched:
+            have = {c.get("id") for c in base}
+            extra = [c for c in fetched if c.get("id") not in have]
+            # F4 dúo s93: mismo cinturón lifecycle que los suplementos del diversify
+            # (doc superseded/needs_review no re-entra; enriquece document_revision)
+            extra = _filter_by_document_status(extra)
+            # F5 dúo s93: idioma ESTRICTO (el fail-open de _filter_by_language sobre una
+            # lista corta lo INVERTIRÍA: 3 chunks FR → los 3 dentro)
+            extra = [c for c in extra
+                     if not c.get("language")
+                     or (c.get("language") or "").lower() in _SERVED_LANGUAGES]
+            if extra:
+                base = base + extra
+                _tr("post_identity_fetch", base)
+
+    _tr("final", base)
+    return base
 
 
 def _diversify_by_manufacturer(chunks: list[dict], top_k: int, original_query: str = "", precomputed_embedding: list[float] | None = None, include_superseded: bool = False) -> list[dict]:
