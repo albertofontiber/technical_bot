@@ -73,11 +73,25 @@ def not_a_product(label: str) -> str | None:
 
 
 LANG_SUFFIX_RX = re.compile(r"[\s_-]*(ES|EN|PT|FR|IT|DE|I|P)$", re.IGNORECASE)
+# H4 (sub-agente s91): la señal FUERTE es el DOC-NUMBER inicial compartido (I56-6574-005,
+# 00-3280-501-…, 55315013) + idioma distinto — el sufijo-final solo daba 1/~9 pares (DEC-066).
+DOCNUM_RX = re.compile(r"^([A-Z]{0,4}\d[\dA-Z]*(?:-\d[\dA-Z]*){1,5})", re.IGNORECASE)
+LANG_MARK_RX = re.compile(r"[\s_-](ES|EN|PT|FR|IT|DE)[\s_-]|[\s_-](ES|EN|PT|FR|IT|DE)$", re.IGNORECASE)
 
 
 def lang_stem(src: str) -> str:
     """Stem sin marcador de idioma (heurística CONSERVADORA: solo sufijo final corto)."""
     return LANG_SUFFIX_RX.sub("", src.strip())
+
+
+def doc_number(src: str) -> str | None:
+    m = DOCNUM_RX.match(src.strip())
+    return m.group(1).upper() if m else None
+
+
+def lang_mark(src: str) -> str | None:
+    m = LANG_MARK_RX.search(src)
+    return (m.group(1) or m.group(2)).upper() if m else None
 
 
 def main() -> int:
@@ -170,8 +184,13 @@ def main() -> int:
             for ns, cnt in tok_ns.get(cs.norm_token(cm), {}).items():
                 if ns != "unresolved":
                     votes[ns] += cnt
-        if votes and votes.most_common(1)[0][1] >= 2:
-            ns_by_src[doc["source_file"]] = (votes.most_common(1)[0][0], "contextual")
+        top2 = votes.most_common(2)
+        # fix H3 (sub-agente s91): mayoría CLARA (≥2 y sin empate) — y aun así el tier
+        # 'contextual' fuerza candidate (inferencia, no marca declarada) + va al QA.
+        if top2 and top2[0][1] >= 2 and (len(top2) == 1 or top2[0][1] > top2[1][1]):
+            ns_by_src[doc["source_file"]] = (top2[0][0], "contextual")
+            qa["asignación CONTEXTUAL de marca (inferida por productos del doc — confirmar)"].append(
+                f"`{doc['source_file'][:50]}` → {top2[0][0]} (votos {dict(votes)})")
             n_ctx += 1
         else:
             ns_by_src[doc["source_file"]] = ("unresolved", "candidate")
@@ -193,7 +212,8 @@ def main() -> int:
         if any(cs.norm_token(src).startswith(cs.norm_token(ig)) for ig in gt.GT90_IGNORED_DOCS):
             continue
         ns, tier = ns_by_src[src]
-        forced_cand = tier in ("candidate",) or ns == "unresolved"
+        # H3: 'contextual' también fuerza candidate (marca INFERIDA ≠ declarada)
+        forced_cand = tier in ("candidate", "contextual") or ns == "unresolved"
         for m in (models_by_src.get(src, {}).get("models") or []):
             cm = (m.get("canonical_model") or "").strip()
             if not cm:
@@ -220,7 +240,12 @@ def main() -> int:
             n_prod += 1
             for al in (m.get("aliases") or []):
                 akey = cs.norm_token(al)
-                if not akey or akey in reserved or akey in gt.GT90_BLOCKED or akey in aliases:
+                if not akey or akey in reserved or akey in gt.GT90_BLOCKED:
+                    continue
+                if akey in aliases:
+                    if aliases[akey]["id"] != pid:   # H6 (sub-agente s91): señal OEM/rebrand → QA
+                        qa["conflicto alias↔alias (mismo token, productos distintos) → adjudicar"].append(
+                            f"`{al}`: {aliases[akey]['id']} vs {pid}")
                     continue
                 if not_a_product(al):
                     continue
@@ -267,11 +292,8 @@ def main() -> int:
             if not o.get("candidate"):
                 products[keep]["candidate"] = False
             products[keep]["provenance"] += f" | typo-merge:{o['canonical_model']}"
-            ak = cs.norm_token(o["canonical_model"])
-            if ak not in aliases and ak != cs.norm_token(products[keep]["canonical_model"]):
-                aliases[ak] = {"alias": o["canonical_model"], "id": keep,
-                               "tipo": "variante-tipografica",
-                               "provenance": "f1-bulk typo-merge (#49)", "added_by": "f1-bulk"}
+            # (H5, sub-agente s91: NO se crea alias — ambos comparten norm_token por construcción,
+            # así que resolve() ya colapsa las dos grafías al superviviente)
             n_typo += 1
 
     def remap(pid: str) -> str:
@@ -342,16 +364,22 @@ def main() -> int:
                                                   for i, r in entries]}
     pid_by_norm = {cs.norm_token(p["canonical_model"]): p["id"] for p in products.values()}
     pid_by_norm.update({k: a["id"] for k, a in aliases.items()})
+    alive_ids = set(products)
     n_unmapped = 0
     for doc in ident:
         src = doc["source_file"]
         did = docid_by_src.get(src)
         if not did or did in doc_map_by_id:
             continue
+        ns_doc = ns_by_src.get(src, ("unresolved", ""))[0]
         entries = []
         for m in (models_by_src.get(src, {}).get("models") or []):
             cm = (m.get("canonical_model") or "").strip()
-            pid = pid_by_norm.get(cs.norm_token(cm))
+            # fix H1 (sub-agente s91): PRIMERO el namespace del PROPIO doc — el lookup global
+            # last-wins atribuía 68 entries a la marca equivocada (doc Aritech → notifier:apic)
+            pid = f"{ns_doc}:{slug(cm)}" if cm else None
+            if pid not in alive_ids:
+                pid = pid_by_norm.get(cs.norm_token(cm))
             if pid and not not_a_product(cm):
                 entries.append({"id": pid, "role": m.get("role") or "secondary", "scope": "doc",
                                 "provenance": f"s83 found_by={m.get('found_by')}"})
@@ -360,22 +388,27 @@ def main() -> int:
         else:
             n_unmapped += 1
 
-    # ── docrel language-variant (heurística de stem conservadora) ──
-    by_stem: dict[str, list[str]] = defaultdict(list)
+    # ── docrel language-variant: DOC-NUMBER compartido + idioma distinto (H4, sub-agente s91) ──
+    by_docnum: dict[str, list[tuple[str, str]]] = defaultdict(list)
     for src, did in docid_by_src.items():
-        st = cs.norm_token(lang_stem(src))
-        if st:
-            by_stem[st].append(did)
+        dn = doc_number(src)
+        if dn and len(dn) >= 6:                       # doc-numbers cortos = ambiguos, fuera
+            by_docnum[dn].append((did, src))
     docrel = []
-    for st, dids in by_stem.items():
-        dids = sorted(set(dids))
-        if 2 <= len(dids) <= 4:                       # pares/tríos plausibles; >4 = stem genérico
-            langs = {doclang_by_id.get(d, "") for d in dids}
-            if len(langs) > 1:                         # idiomas DISTINTOS en DB = señal fuerte
-                for i in range(len(dids) - 1):
-                    docrel.append({"doc_a": dids[i], "doc_b": dids[i + 1],
-                                   "tipo": "language-variant-of",
-                                   "provenance": f"f1-bulk stem-heurística ({st[:30]}) + language DB"})
+    for dn, items in by_docnum.items():
+        if not (2 <= len(items) <= 5):
+            continue
+        # idioma por doc: marcador en filename > columna language de DB
+        langs = {}
+        for did, src in items:
+            langs[did] = lang_mark(src) or (doclang_by_id.get(did) or "").upper() or "?"
+        vals = [v for v in langs.values() if v != "?"]
+        if len(set(vals)) > 1:                        # idiomas DISTINTOS = variantes del mismo doc
+            dids = sorted(langs)
+            for i in range(len(dids) - 1):
+                docrel.append({"doc_a": dids[i], "doc_b": dids[i + 1],
+                               "tipo": "language-variant-of",
+                               "provenance": f"f1-bulk doc-number {dn} + idiomas {sorted(set(vals))}"})
     print(f"[doc_map] {len(doc_map_by_id)} docs | sin-entries: {n_unmapped} | docrel lang-pairs: {len(docrel)}")
 
     # ── escribir + validar (remap aplicado a TODAS las colecciones) ──

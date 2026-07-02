@@ -138,17 +138,34 @@ def gt_products() -> list[dict]:
            categoria="impresora de lazo periférico"),
         _p("morley:mi-dcmo", "MI-DCMO", ["Morley-IAS"], GT90 + " P7 (I56-4407, MIE-MI-230)",
            categoria="módulo de salida de control (serie ZX)"),
-        # ── FAAST (gt s80/D3: manufacturer=Notifier pragmático; OEM System Sensor) ──
-        _p("notifier:nfxi-asd11", "NFXI-ASD11", ["Notifier"], GTFAAST + " — 6577 addressable-Notifier",
+        # ── FAAST LT-200 (gt s78/s80: OEM System Sensor; manufacturer=Notifier pragmático D3;
+        #    los standalone/addressable APLICAN a Morley Y Notifier — transcripción FIEL de
+        #    reference_faast.md L13-16, con los sufijos -HS que la 1ª transcripción perdió) ──
+        # standalone/autónomos (doc I56-6574):
+        _p("notifier:fl0111e-hs", "FL0111E-HS", ["Notifier", "Morley-IAS"], GTFAAST + " — standalone (I56-6574)",
            familia="FAAST LT-200", oem_manufacturer_marca="System Sensor"),
-        _p("notifier:nfxi-asd12", "NFXI-ASD12", ["Notifier"], GTFAAST, familia="FAAST LT-200",
+        _p("notifier:fl0112e-hs", "FL0112E-HS", ["Notifier", "Morley-IAS"], GTFAAST,
+           familia="FAAST LT-200", oem_manufacturer_marca="System Sensor"),
+        _p("notifier:fl0122e-hs", "FL0122E-HS", ["Notifier", "Morley-IAS"], GTFAAST,
+           familia="FAAST LT-200", oem_manufacturer_marca="System Sensor"),
+        # addressable/direccionables (doc I56-6575, EN/ES mismo doc):
+        _p("notifier:fl2011ei-hs", "FL2011EI-HS", ["Notifier", "Morley-IAS"], GTFAAST + " — addressable (I56-6575)",
+           familia="FAAST LT-200", oem_manufacturer_marca="System Sensor"),
+        _p("notifier:fl2012ei-hs", "FL2012EI-HS", ["Notifier", "Morley-IAS"], GTFAAST,
+           familia="FAAST LT-200", oem_manufacturer_marca="System Sensor"),
+        _p("notifier:fl2022ei-hs", "FL2022EI-HS", ["Notifier", "Morley-IAS"], GTFAAST,
+           familia="FAAST LT-200", oem_manufacturer_marca="System Sensor"),
+        # addressable marca-Notifier EXCLUSIVA (docs I56-6577 + I56-3947):
+        _p("notifier:nfxi-asd11-hs", "NFXI-ASD11-HS", ["Notifier"], GTFAAST + " — EXCLUSIVA Notifier (6577/3947)",
+           familia="FAAST LT-200", oem_manufacturer_marca="System Sensor"),
+        _p("notifier:nfxi-asd12-hs", "NFXI-ASD12-HS", ["Notifier"], GTFAAST, familia="FAAST LT-200",
            oem_manufacturer_marca="System Sensor"),
-        _p("notifier:nfxi-asd22", "NFXI-ASD22", ["Notifier"], GTFAAST, familia="FAAST LT-200",
+        _p("notifier:nfxi-asd22-hs", "NFXI-ASD22-HS", ["Notifier"], GTFAAST, familia="FAAST LT-200",
            oem_manufacturer_marca="System Sensor"),
         # Pearl — central Notifier (los golds píxel-verificados cat001/cat005 la usan; el brand
         # 'Pearl' del doc 997-670 ya mapea a notifier). Promoción gt para que resuelva exact.
         _p("notifier:pearl", "Pearl", ["Notifier"],
-           "gt-golds (cat001/cat005 píxel-verificados; docs 997-67x-005-3)", categoria="central analógica"),
+           "gt-golds (cat001 píxel-verificado; docs 997-669/670/671-005-3)", categoria="central analógica"),
         # ── Detnov CAD-150 (gt Alberto: familia por nº de lazos; CAD-150R DISTINTO) ──
         _p("detnov:cad-150-1", "CAD-150-1", ["Detnov"], GTCAD, familia="CAD-150"),
         _p("detnov:cad-150-2", "CAD-150-2", ["Detnov"], GTCAD, familia="CAD-150"),
@@ -170,6 +187,16 @@ def gt_aliases() -> list[dict]:
         A("VSN-RP1r-PLUS2", "notifier:rp1r-supra", "codigo-comercial", GT78),
         A("ESS-RP1r-Supra", "notifier:rp1r-supra", "codigo-comercial", GT78),
         A("DX2", "morley:dx2e", "variante-tipografica", GT90 + " P2"),
+        # formas cortas FAAST (el path de usuario bare "NFXI-ASD11" y las compat-lists "FL2011EI")
+        A("NFXI-ASD11", "notifier:nfxi-asd11-hs", "variante-tipografica", GTFAAST),
+        A("NFXI-ASD12", "notifier:nfxi-asd12-hs", "variante-tipografica", GTFAAST),
+        A("NFXI-ASD22", "notifier:nfxi-asd22-hs", "variante-tipografica", GTFAAST),
+        A("FL0111E", "notifier:fl0111e-hs", "variante-tipografica", GTFAAST),
+        A("FL0112E", "notifier:fl0112e-hs", "variante-tipografica", GTFAAST),
+        A("FL0122E", "notifier:fl0122e-hs", "variante-tipografica", GTFAAST),
+        A("FL2011EI", "notifier:fl2011ei-hs", "variante-tipografica", GTFAAST),
+        A("FL2012EI", "notifier:fl2012ei-hs", "variante-tipografica", GTFAAST),
+        A("FL2022EI", "notifier:fl2022ei-hs", "variante-tipografica", GTFAAST),
         A("BRH-PC-I05", "morley:mi-brh-pc-i", "codigo-comercial", GT90 + " P7 (ref nueva, pantallazo)"),
         A("BRS-PC-I05", "morley:mi-brs-pc-i", "codigo-comercial", GT90 + " P7 (ref nueva, pantallazo)"),
     ]
@@ -187,7 +214,9 @@ def gt_umbrellas() -> list[dict]:
     MPS = ["morley:mps15", "morley:mps25", "morley:mps50"]
     CAD = ["detnov:cad-150-1", "detnov:cad-150-2", "detnov:cad-150-2-mb",
            "detnov:cad-150-4", "detnov:cad-150-8", "detnov:cad-150-8-plus"]
-    FLT = ["notifier:nfxi-asd11", "notifier:nfxi-asd12", "notifier:nfxi-asd22"]
+    FLT = ["notifier:fl0111e-hs", "notifier:fl0112e-hs", "notifier:fl0122e-hs",
+           "notifier:fl2011ei-hs", "notifier:fl2012ei-hs", "notifier:fl2022ei-hs",
+           "notifier:nfxi-asd11-hs", "notifier:nfxi-asd12-hs", "notifier:nfxi-asd22-hs"]
     return [
         U("ZXe", ZXE, "familia", True, GT78 + " + s79/s80"),
         U("ZXSe", ZXSE, "familia", True, GT78 + " + " + GT90 + " P1 (lazos 1/1-2/1-5, PSU 4.2/8.6A)"),
@@ -204,8 +233,9 @@ def gt_umbrellas() -> list[dict]:
         U("MCP5A", ["morley:mcp5a-p05", "morley:mcp5a-p06"], "rango", "unknown",
           GT90 + " P5: PULSADOR; P05-vs-P06 sin adjudicar"),
         # FAAST/CAD-150 (gt memorias)
-        U("FAAST LT-200", FLT, "serie", "unknown", GTFAAST + " — divergent sin adjudicar (cat007: specs "
-          "relé/sirena idénticos standalone/addressable → mucho común); QA"),
+        U("FAAST LT-200", FLT, "serie", "unknown", GTFAAST + " — los 9 modelos (standalone 6574 + "
+          "addressable 6575 + NFXI 6577); divergent sin adjudicar (cat007: specs relé/sirena "
+          "idénticos en las 3 sub-series → mucho común; standalone tiene PREALARMA, addressable LAZO); QA"),
         U("CAD-150", CAD, "familia", True, GTCAD + " — variantes por nº de lazos"),
     ]
 
@@ -232,7 +262,9 @@ def gt_relations() -> list[dict]:
         R("morley:dx1e-40m", "morley:dx1e", "variant-of", GT90 + " P2"),
         R("morley:dx2e-40m", "morley:dx2e", "variant-of", GT90 + " P2"),
         R("morley:dx4e-40l", "morley:dx4e", "variant-of", GT90 + " P2"),
-        R("notifier:nfxi-asd11", "notifier:nfxi-asd12", "shared-doc", GTFAAST + " (6577)"),
+        R("notifier:nfxi-asd11-hs", "notifier:nfxi-asd12-hs", "shared-doc", GTFAAST + " (6577/3947)"),
+        R("notifier:fl0111e-hs", "notifier:fl0112e-hs", "shared-doc", GTFAAST + " (6574)"),
+        R("notifier:fl2011ei-hs", "notifier:fl2012ei-hs", "shared-doc", GTFAAST + " (6575)"),
     ]
 
 
@@ -268,6 +300,15 @@ def gt_doc_map() -> list[tuple[str, list[tuple[str, str]]]]:
         ("55315013", [(f"detnov:cad-150-{v}", "primary") for v in ("1", "2", "2-mb", "4", "8", "8-plus")]),
         ("55315008", [(f"detnov:cad-150-{v}", "primary") for v in ("1", "2", "2-mb", "4", "8", "8-plus")]),
         ("55315501", [("detnov:cad-150r", "primary")]),
+        # FAAST LT-200 (gt: cada doc → su sub-serie; reference_faast L13-16)
+        ("I56-6574", [("notifier:fl0111e-hs", "primary"), ("notifier:fl0112e-hs", "primary"),
+                      ("notifier:fl0122e-hs", "primary")]),
+        ("I56-6575", [("notifier:fl2011ei-hs", "primary"), ("notifier:fl2012ei-hs", "primary"),
+                      ("notifier:fl2022ei-hs", "primary")]),
+        ("I56-6577", [("notifier:nfxi-asd11-hs", "primary"), ("notifier:nfxi-asd12-hs", "primary"),
+                      ("notifier:nfxi-asd22-hs", "primary")]),
+        ("I56-3947", [("notifier:nfxi-asd11-hs", "primary"), ("notifier:nfxi-asd12-hs", "primary"),
+                      ("notifier:nfxi-asd22-hs", "primary")]),
     ]
 
 
