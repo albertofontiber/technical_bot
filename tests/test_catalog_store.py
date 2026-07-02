@@ -305,8 +305,11 @@ def test_slice_real_test_cases_del_contrato():
     assert r["via"] == "homonimo" and r["ids"] == ["notifier:rp1r-supra"] and r["expand"]
     r = cat.resolve("ZXe")             # hp018: paraguas → 3 variantes
     assert set(r["ids"]) == {"morley:zx1e", "morley:zx2e", "morley:zx5e"} and r["expand"]
-    assert cat.resolve("ZX")["expand"] is False          # homónimo candidate bloquea
-    assert cat.resolve("ZXSe")["expand"] is False        # unknown → fail-open (hasta adjudicar)
+    r = cat.resolve("ZX")                                # P6 (QA s90): clarify adjudicado
+    assert r["expand"] is False and r.get("politica") == "clarify" and len(r["ids"]) >= 4
+    r = cat.resolve("ZXSe")                              # P1 (QA s90): divergent=true, expande
+    assert r["expand"] is True and set(r["ids"]) == {
+        "morley:zx1se", "morley:zx2se", "morley:zx5se", "morley:zx10se"}
     for fam in ("DX", "VSN", "Vision"):                  # fix dúo: sin colapso familia→variante
         r = cat.resolve(fam)
         assert r is None or r.get("expand") is False, f"{fam} colapsa a variante: {r}"

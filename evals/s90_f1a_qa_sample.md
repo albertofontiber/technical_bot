@@ -1,6 +1,6 @@
 # s90 · F1a — QA-sample del slice Morley (para revisión de Alberto, ~15 min)
 
-products: 136 (24 candidate) · aliases: 164 · umbrellas: 4 · homonyms: 2 · doc_map: 114 docs
+products: 129 (7 candidate) · aliases: 155 · umbrellas: 13 · homonyms: 2 · doc_map: 113 docs
 
 
 ## ⚡ ADJUDICACIÓN QUE DESBLOQUEA (fix dúo: antes estaba mal listada como 'confirmar')
@@ -15,13 +15,13 @@ products: 136 (24 candidate) · aliases: 164 · umbrellas: 4 · homonyms: 2 · d
 ## Pendiente de tu QA (candidate=true, NO se consume hasta promoción)
 - umbrella `ZXR` → zxr50a/zxr50p (de family_scope semilla, sin gt)
 - homónimo `ZX` → clarify (ambiguo entre familias, sin gt)
-- 24 productos candidate (found_by=single) — lista en products.jsonl
+- 7 productos candidate (found_by=single) — lista en products.jsonl
 
 ## Gaps DECLARADOS del slice (no es F1 completa)
 - `docrel.jsonl` VACÍO: los pares language-variant ES/EN y revision-of se pueblan en F1 bulk (detección vía languages[] de s83) — el slice no los cubre (dúo s90).
 - Solo docs Morley (114/1170); la normalización free-text completa (592 family_scope) es F1 bulk.
 
-## alias-no-consumible (sustantivo descriptivo / estándar de interfaz) → NO cargado (¿umbrella candidate?) (72)
+## alias-no-consumible (sustantivo descriptivo / estándar de interfaz) → NO cargado (¿umbrella candidate?) (67)
 - alias `detector de un canal`→morley:mi-flx-010
 - alias `detector de dos canales`→morley:mi-flx-020
 - alias `Central de 1 lazo`→morley:dxc1
@@ -45,58 +45,27 @@ products: 136 (24 candidate) · aliases: 164 · umbrellas: 4 · homonyms: 2 · d
 - alias `Módulo de Control MI-SC6`→morley:mi-sc6
 - alias `Módulo Monitor MI-IM10`→morley:mi-im10
 - alias `Módulo de supervisión MI-MM3E-S2`→morley:mi-mm3e-s2
-- alias `Central (8 zonas convencional)`→morley:mie-ma-100
 - alias `Tarjeta de relé de 8 salidas`→morley:nfs8rel
-- … (+47)
+- alias `Placa de comunicador Mod. VSN-CRA`→morley:vsn-cra
+- … (+42)
 
-## conflicto alias↔alias (mismo token, productos distintos) → adjudicar (35)
-- `MCP5A`: morley:mcp5a-p05 vs morley:mcp5a-p06
+## conflicto alias↔alias (mismo token, productos distintos) → adjudicar (16)
 - `MCP5A models`: morley:mcp5a-p05 vs morley:mcp5a-p06
-- `serie DX Connexion`: morley:dx-connexion vs morley:dxc1
-- `serie DX Connexion`: morley:dx-connexion vs morley:dxc2
-- `serie DX Connexion`: morley:dx-connexion vs morley:dxc4
-- `MIE-MA-100_01`: morley:ma-100 vs morley:mie-ma-100
-- `MIE-MA-100_01_C`: morley:ma-100 vs morley:mie-ma-100
+- `serie DX Connexion`: morley:dxc1 vs morley:dxc2
+- `serie DX Connexion`: morley:dxc1 vs morley:dxc4
 - `centrales de la serie Dimension (DX)`: morley:dx1e vs morley:dx2e
-- `serie Dimension`: morley:dx1e vs morley:dx2e
 - `centrales de la serie Dimension (DX)`: morley:dx1e vs morley:dx4e
-- `serie Dimension`: morley:dx1e vs morley:dx4e
-- `Serie MPS`: morley:mps15 vs morley:mps25
-- `Serie MPS`: morley:mps15 vs morley:mps50
 - `VSN 2-4-8-12`: morley:vsn12-lt vs morley:vsn2-lt
-- `Vision LT`: morley:vsn12-lt vs morley:vsn2-lt
-- `Vision-LT`: morley:vsn12-lt vs morley:vsn2-lt
-- `VSN LT`: morley:vsn12-lt vs morley:vsn2-lt
 - `VSN 2-4-8-12`: morley:vsn12-lt vs morley:vsn4-lt
-- `Vision LT`: morley:vsn12-lt vs morley:vsn4-lt
-- `Vision-LT`: morley:vsn12-lt vs morley:vsn4-lt
-- `VSN LT`: morley:vsn12-lt vs morley:vsn4-lt
 - `VSN 2-4-8-12`: morley:vsn12-lt vs morley:vsn8-lt
-- `Vision LT`: morley:vsn12-lt vs morley:vsn8-lt
-- `Vision-LT`: morley:vsn12-lt vs morley:vsn8-lt
-- `VSN LT`: morley:vsn12-lt vs morley:vsn8-lt
-- … (+10)
-
-## alias-no-consumible (término-familia/marca genérico) → NO cargado (¿umbrella candidate?) (16)
-- alias `DXC`→morley:dxc-connexion
-- alias `DXc`→morley:dx-connexion
-- alias `DX`→morley:dx1e
-- alias `DX`→morley:dx2e
-- alias `DX`→morley:dx4e
-- alias `DX`→morley:dx1e-20s
-- alias `DX`→morley:dx1e-40m
-- alias `DX`→morley:dx2e-40m
-- alias `DX`→morley:dx4e-40l
-- alias `VSN`→morley:vsn2
-- alias `Vision`→morley:vsn2
-- alias `VSN`→morley:vsn4
-- alias `Vision`→morley:vsn4
-- alias `Vision`→morley:vsn-12-plus
-- alias `Vision`→morley:vsn-4-plus
-- alias `Vision`→morley:vsn-8-plus
-
-## etiqueta-no-producto (término-familia/marca genérico) → NO cargada (1)
-- `DXc` (doc DXC-puedo-cambiar-la-clave-de-nivel-3)
+- `paneles DX1e`: morley:dx1e-20s vs morley:dx1e-40m
+- `centrales DX`: morley:dx1 vs morley:dx4
+- `Cualquier panel DX`: morley:dx1 vs morley:dx4
+- `VSN 2-4`: morley:vsn2 vs morley:vsn4
+- `VSN PLUS`: morley:vsn-12-plus vs morley:vsn-4-plus
+- `VISION PLUS`: morley:vsn-12-plus vs morley:vsn-4-plus
+- `VSN PLUS`: morley:vsn-12-plus vs morley:vsn-8-plus
+- `VISION PLUS`: morley:vsn-12-plus vs morley:vsn-8-plus
 
 ## alias-no-consumible (combinada/familia (contiene separador)) → NO cargado (¿umbrella candidate?) (16)
 - alias `DXc2/4`→morley:dxc2
@@ -122,25 +91,40 @@ products: 136 (24 candidate) · aliases: 164 · umbrellas: 4 · homonyms: 2 · d
 - `RS-485` (doc MIE-MI-390)
 - `Impresora opcional` (doc MIE-MP-520rv04)
 
+## alias-no-consumible (término-familia/marca genérico) → NO cargado (¿umbrella candidate?) (14)
+- alias `DX`→morley:dx1e
+- alias `DX`→morley:dx2e
+- alias `DX`→morley:dx4e
+- alias `DX`→morley:dx1e-20s
+- alias `DX`→morley:dx1e-40m
+- alias `DX`→morley:dx2e-40m
+- alias `DX`→morley:dx4e-40l
+- alias `VSN`→morley:vsn2
+- alias `Vision`→morley:vsn2
+- alias `VSN`→morley:vsn4
+- alias `Vision`→morley:vsn4
+- alias `Vision`→morley:vsn-12-plus
+- alias `Vision`→morley:vsn-4-plus
+- alias `Vision`→morley:vsn-8-plus
+
 ## etiqueta-no-producto (combinada/familia (contiene separador)) → NO cargada (1)
 - `EXP/SS` (doc MIE-MI-530rv001)
 
-## colisión alias↔canonical (¿mismo producto? adjudicar merge) (2)
-- alias `EXP`→morley:miw-exp vs canonical de `morley:exp`
-- alias `DX2`→morley:dx2e vs canonical de `morley:dx2`
+## doc_map gt SIN match en documents (revisar prefijo) (1)
+- `MIE-MA-100`
 
 ## doc Morley SIN entrada en doc_map (0 productos mapeables) → revisar (14)
 - `996-130-000-3 Manuel d'utilisation ZX_hlsi`
 - `Compatibilidad-entre-equipos-Notifier-y-Morley`
+- `DXC-Connexion-Compatibilidad-de-programas-con-versiones`
 - `DXC-No-puedo-comunicar-con-la-central`
 - `DXC-puedo-cambiar-la-clave-de-nivel-3`
-- `DXc_Manual variaciones de mercado`
+- `DXc_Guia de usuario_multiling`
 - `Docs Morley-IAS Lite&Plus - QR`
 - `Docs Morley-IAS Max - QR`
+- `I56-3956-201_PT Morley Loop FAAST LT QIG`
+- `MIE-MA-100_01`
 - `MIE-MI-330`
 - `MIE-MI-390`
-- `MIE-MU-315`
-- `MIE-MU-535rv001`
-- `MIEMU520P`
 - `Morley-Se-pueden-pasar-programaciones-de-ZX-y-Dimension-a-Co`
 - `Relacion-de-producto-obsoleto-de-Morley-IAS-by-Honeywell`

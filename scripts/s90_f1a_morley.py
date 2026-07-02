@@ -41,6 +41,23 @@ H = {"apikey": SUPABASE_SERVICE_KEY, "Authorization": f"Bearer {SUPABASE_SERVICE
 
 GT = "gt-s78-morley (memory/reference_morley_zx_rp1r.md)"
 GT86 = "gt-s86-hp011 (DEC-074b, adjudicación Alberto)"
+GT90 = "gt-s90-alberto-qa (adjudicación del packet s90_f1a_qa_propuesta)"
+
+# Tokens ADJUDICADOS como no-producto/ambiguos (P2/P3/P4/P7 del QA s90) — se skipean de la
+# semilla (productos Y aliases) con su razón. En forma normalizada (cs.norm_token).
+GT90_BLOCKED = {
+    "ma100": "P4: 'MA-100' no existe como producto — MIE-MA-100 es código de MANUAL de la HRZ2-8",
+    "miema100": "P4: código de manual de la HRZ2-8, no producto",
+    "dx2": "P2: abreviatura de DX2e (alias gt)",
+    "brh": "P7: 'BRH' ambiguo cross-brand (Morley MI-BRH-PC-I vs Notifier NFXI-BSF-WCH) → fail-open",
+    "bgl": "P7: 'BGL' ambiguo cross-brand (Morley MI-BGL-PC-I vs Notifier NFXI-BF-WCS) → fail-open",
+    "exp": "P3: 'EXP' ambiguo (Mod.EXP tarjeta / Mod.EXP-060R impresora / MIW-EXP wireless) → fail-open",
+    "faastlt": "P7: FAAST LT es FAMILIA multi-marca (reference_faast, clasificación s80) → F1 bulk",
+    "dxconnexion": "P5/P7: término-familia → umbrella DXc",
+    "dxcconnexion": "P5/P7: término-familia → umbrella DXc",
+}
+# Docs adjudicados fuera de alcance (no ensucian la cola QA)
+GT90_IGNORED_DOCS = {"MIEMU520P": "P8: manual en PORTUGUÉS — no contemplar (docrel PT en F1 bulk)"}
 
 
 def slug(model: str) -> str:
@@ -86,6 +103,13 @@ def gt_rows() -> tuple[list, list, list, list, list, list]:
           provenance=GT + " — central de extinción Morley (MIEMN570*)"),
         P("notifier:opc-rp1r", "OPC-RP1r", ["Notifier"],
           provenance=GT + " — SOFTWARE/pasarela SCADA, no producto físico (MN-DT-959)"),
+        # ── adjudicaciones del QA s90 (P4/P3/P7, Alberto) ──
+        P("morley:hrz2-8", "HRZ2-8", ["Morley-IAS"], categoria="central convencional 8 zonas",
+          provenance=GT90 + " P4: los docs MIE-MA-100_* son manuales de la HRZ2-8 (corpus: MIE-MI-100)"),
+        P("morley:mod-exp-060r", "Mod.EXP-060R", ["Morley-IAS"], categoria="impresora de lazo periférico",
+          provenance=GT90 + " P3 (corpus: MIE-MP-530 p61, MIE-MI-450)"),
+        P("morley:mi-dcmo", "MI-DCMO", ["Morley-IAS"], categoria="módulo de salida de control (serie ZX)",
+          provenance=GT90 + " P7 (web Honeywell + corpus: MIE-MI-230, I56-4407 MI-DCMOE)"),
     ]
     A = lambda a, i, t: {"alias": a, "id": i, "tipo": t, "provenance": GT, "added_by": "f1a-gt"}
     aliases = [
@@ -96,6 +120,14 @@ def gt_rows() -> tuple[list, list, list, list, list, list]:
         A("VSN-RP1r-PLUS2", "notifier:rp1r-supra", "codigo-comercial"),
         A("ESS-RP1r-Supra", "notifier:rp1r-supra", "codigo-comercial"),
     ]
+    aliases += [
+        {"alias": "DX2", "id": "morley:dx2e", "tipo": "variante-tipografica",
+         "provenance": GT90 + " P2 (0 filas propias en DB)", "added_by": "f1a-gt"},
+        {"alias": "BRH-PC-I05", "id": "morley:mi-brh-pc-i", "tipo": "codigo-comercial",
+         "provenance": GT90 + " P7: ref NUEVA (datasheet, pantallazo Alberto); antigua=MI-BRH-PC-I", "added_by": "f1a-gt"},
+        {"alias": "BRS-PC-I05", "id": "morley:mi-brs-pc-i", "tipo": "codigo-comercial",
+         "provenance": GT90 + " P7: ref NUEVA (datasheet, pantallazo Alberto); antigua=MI-BRS-PC-I", "added_by": "f1a-gt"},
+    ]
     umbrellas = [
         # divergent=true ADJUDICADO: las specs divergen entre variantes (hp018: ZX2e=2 sirenas,
         # ZX5e=4); NOTA: no toda query diverge (hp009 EOL es family-genérico) — la decisión
@@ -104,16 +136,45 @@ def gt_rows() -> tuple[list, list, list, list, list, list]:
          "divergent": True, "candidate": False, "provenance": GT + " + s79/s80 clarify-vs-diverge",
          "added_by": "f1a-gt"},
         {"termino": "ZXSe", "ids": ["morley:zx1se", "morley:zx2se", "morley:zx5se", "morley:zx10se"],
-         "tipo": "familia", "divergent": "unknown", "candidate": False,
-         "provenance": GT + " (MIE-MI-600, aplicabilidad por-sección)", "added_by": "f1a-gt"},
+         "tipo": "familia", "divergent": True, "candidate": False,
+         "provenance": GT + " + " + GT90 + " P1: divergent=TRUE adjudicado (lazos 1/1-2/1-5, PSU 4.2 vs 8.6A)",
+         "added_by": "f1a-gt"},
         # la etiqueta COMBINADA del corpus (tag de doc, también aparece en queries)
         {"termino": "ZX2e/ZX5e", "ids": ["morley:zx2e", "morley:zx5e"], "tipo": "rango",
          "divergent": True, "candidate": False, "provenance": GT + " (etiqueta combinada corpus)",
          "added_by": "f1a-gt"},
-        # ZXR genérico: razonable pero NO adjudicado explícitamente → candidate (QA)
+        # ZXR — P6 adjudicado: promover, divergent=true (A=con teclado / P=sin)
         {"termino": "ZXR", "ids": ["morley:zxr50a", "morley:zxr50p"], "tipo": "rango",
-         "divergent": "unknown", "candidate": True, "provenance": "semilla family_scope 'ZXR (repetidores)'",
-         "added_by": "f1a-seed"},
+         "divergent": True, "candidate": False, "provenance": GT90 + " P6", "added_by": "f1a-gt"},
+        # ── P5: los términos-familia que la semilla metía como alias de variantes (adjudicados) ──
+        {"termino": "Dimension", "ids": ["morley:dx1e", "morley:dx2e", "morley:dx4e"],
+         "tipo": "familia", "divergent": True, "candidate": False,
+         "provenance": GT90 + " P5 (1/2/4 lazos)", "added_by": "f1a-gt"},
+        {"termino": "serie Dimension", "ids": ["morley:dx1e", "morley:dx2e", "morley:dx4e"],
+         "tipo": "familia", "divergent": True, "candidate": False,
+         "provenance": GT90 + " P5", "added_by": "f1a-gt"},
+        {"termino": "DXc", "ids": ["morley:dxc1", "morley:dxc2", "morley:dxc4"],
+         "tipo": "familia", "divergent": True, "candidate": False,
+         "provenance": GT90 + " P5 (1/2/4 lazos; el doc de cat020)", "added_by": "f1a-gt"},
+        {"termino": "DX Connexion", "ids": ["morley:dxc1", "morley:dxc2", "morley:dxc4"],
+         "tipo": "familia", "divergent": True, "candidate": False,
+         "provenance": GT90 + " P5", "added_by": "f1a-gt"},
+        {"termino": "Vision LT", "ids": ["morley:vsn2-lt", "morley:vsn4-lt", "morley:vsn8-lt", "morley:vsn12-lt"],
+         "tipo": "familia", "divergent": True, "candidate": False,
+         "provenance": GT90 + " P5 (2/4/8/12 zonas)", "added_by": "f1a-gt"},
+        {"termino": "VSN LT", "ids": ["morley:vsn2-lt", "morley:vsn4-lt", "morley:vsn8-lt", "morley:vsn12-lt"],
+         "tipo": "familia", "divergent": True, "candidate": False,
+         "provenance": GT90 + " P5", "added_by": "f1a-gt"},
+        {"termino": "MPS", "ids": ["morley:mps15", "morley:mps25", "morley:mps50"],
+         "tipo": "familia", "divergent": True, "candidate": False,
+         "provenance": GT90 + " P5 (amperajes)", "added_by": "f1a-gt"},
+        {"termino": "Serie MPS", "ids": ["morley:mps15", "morley:mps25", "morley:mps50"],
+         "tipo": "familia", "divergent": True, "candidate": False,
+         "provenance": GT90 + " P5", "added_by": "f1a-gt"},
+        {"termino": "MCP5A", "ids": ["morley:mcp5a-p05", "morley:mcp5a-p06"],
+         "tipo": "rango", "divergent": "unknown", "candidate": False,
+         "provenance": GT90 + " P5: PULSADOR (D707 MI-MCPA5 + web Honeywell); P05-vs-P06 sin adjudicar → fail-open",
+         "added_by": "f1a-gt"},
     ]
     homonyms = [
         # LA clase hp011: 'RP1r' a secas — 4 productos sin relación de familia.
@@ -122,15 +183,21 @@ def gt_rows() -> tuple[list, list, list, list, list, list]:
                                     "morley:vsn-rp1r", "notifier:opc-rp1r"],
          "politica": "prefer:notifier:rp1r-supra", "candidate": False,
          "provenance": GT86, "added_by": "f1a-gt"},
-        # 'ZX' a secas: ambiguo entre familias (ZX50/ZXe/ZXSe/ZXAE...) — SIN adjudicar → candidate
-        # (bloquea el exact de 'ZX' → fail-open, mejor que resolver mal).
-        {"termino": "ZX", "ids": ["morley:zx50", "morley:zx2e", "morley:zxae", "morley:zx2se"],
-         "politica": "clarify", "candidate": True,
-         "provenance": "semilla family_scope 'ZX'/'ZX / ZXe' (ambiguo, sin gt)", "added_by": "f1a-seed"},
+        # 'ZX' a secas — P6 ADJUDICADO por Alberto: CLARIFY ("más seguro que adivinar").
+        # Los ids = representantes de cada familia ZX (las opciones del clarify; F2 genera el texto).
+        {"termino": "ZX", "ids": ["morley:zx50", "morley:zx2e", "morley:zx2se",
+                                  "morley:zxae", "morley:zxhe", "morley:zxce"],
+         "politica": "clarify", "candidate": False,
+         "provenance": GT90 + " P6: clarify adjudicado (ambiguo entre 6 familias ZX)", "added_by": "f1a-gt"},
     ]
     relations = [
         {"origen": "morley:zx2e", "destino": "morley:zx5e", "tipo": "shared-doc", "provenance": GT + " (MIE-*-530)"},
         {"origen": "morley:zxae", "destino": "morley:zxee", "tipo": "shared-doc", "provenance": GT + " (MIE-*-310)"},
+        # P2 (nota Alberto): los SKU de cabina de la serie Dimension = variantes de sus bases
+        {"origen": "morley:dx1e-20s", "destino": "morley:dx1e", "tipo": "variant-of", "provenance": GT90 + " P2"},
+        {"origen": "morley:dx1e-40m", "destino": "morley:dx1e", "tipo": "variant-of", "provenance": GT90 + " P2"},
+        {"origen": "morley:dx2e-40m", "destino": "morley:dx2e", "tipo": "variant-of", "provenance": GT90 + " P2"},
+        {"origen": "morley:dx4e-40l", "destino": "morley:dx4e", "tipo": "variant-of", "provenance": GT90 + " P2"},
     ]
     # doc→productos del gt (match por prefijo de source_file en DB)
     doc_map_gt = [
@@ -153,6 +220,13 @@ def gt_rows() -> tuple[list, list, list, list, list, list]:
         ("MN-DT-102", [("notifier:rp1r", "primary")]),
         ("MIEMN570", [("morley:vsn-rp1r", "primary")]),
         ("MN-DT-959", [("notifier:opc-rp1r", "primary")]),
+        # ── QA s90 (P4/P8, Alberto) ──
+        ("MIE-MI-100", [("morley:hrz2-8", "primary")]),          # el doc principal de la central
+        ("MIE-MA-100", [("morley:hrz2-8", "primary")]),          # los "MA-100" son manuales de la HRZ2-8
+        ("MIE-MU-315", [("morley:zxae", "primary"), ("morley:zxee", "primary")]),
+        ("MIE-MU-535", [("morley:zx2e", "primary"), ("morley:zx5e", "primary")]),
+        ("DXc_Manual variaciones", [("morley:dxc1", "primary"), ("morley:dxc2", "primary"),
+                                    ("morley:dxc4", "primary")]),
     ]
     return products, aliases, umbrellas, homonyms, relations, doc_map_gt
 
@@ -251,6 +325,8 @@ def main() -> int:
             key = cs.norm_token(cm)
             if key in reserved:
                 continue  # el gt ya lo define (ZX2e etc.) — la semilla no lo pisa
+            if key in GT90_BLOCKED:
+                continue  # adjudicado por Alberto (QA s90) — razón en GT90_BLOCKED (no re-ensucia la cola)
             why = not_a_product(cm)
             if why:
                 qa[f"etiqueta-no-producto ({why}) → NO cargada"].append(
@@ -271,7 +347,7 @@ def main() -> int:
             n_seed_prod += 1
             for al in (m.get("aliases") or []):
                 akey = cs.norm_token(al)
-                if not akey or akey in reserved:
+                if not akey or akey in reserved or akey in GT90_BLOCKED:
                     continue
                 why = not_a_product(al)   # fix dúo: mismos filtros para ALIASES
                 if why:
@@ -287,6 +363,28 @@ def main() -> int:
                 aliases[akey] = {"alias": al, "id": pid, "tipo": tipo,
                                  "provenance": f"s83:{doc['source_file'][:60]}", "added_by": "f1a-seed"}
                 n_seed_alias += 1
+    # ── P7 (QA s90): promociones adjudicadas por Alberto, con categoría/nota de dominio ──
+    GT90_PROMOTE = {
+        "morley:mk-vsn": "software de configuración (centrales VISION PLUS + comunicador VSN-CRA)",
+        "morley:mkdx": "software de configuración (serie Dimension: DX1e/DX2e/DX4e)",
+        "morley:mk50": "software de configuración (central ZX50)",
+        "morley:mi-brh-pc-i": "base sirena premium (ref nueva BRH-PC-I05; doc D 1150-1 BRH Morley)",
+        "morley:mi-brs-pc-i": "base sirena estándar (ref nueva BRS-PC-I05; doc D 1151-1 BRS Morley)",
+        "morley:mi-bgl-pc-i": "base sirena/baliza (versión Notifier=NFXI-BF-WCS, F1 bulk)",
+        "morley:020-891": "cable/accesorio (web oficial morley-ias.es)",
+        "morley:795-072-100": "placa de lazo protocolo MorleyIAS para ZXSe (MIE-MI-600 p15 Tabla 2)",
+        "morley:795-068-100": "placa de lazo protocolo System Sensor para ZXSe (MIE-MI-600 p15 Tabla 2)",
+        "morley:sib5485": "módulo interfaz RS-485 Ref SIB5485 (MIE-MI-300, ZX50)",
+    }
+    for pid, cat_note in GT90_PROMOTE.items():
+        if pid in products:
+            products[pid]["candidate"] = False
+            products[pid]["categoria"] = cat_note.split(" (")[0]
+            products[pid]["provenance"] += f" | {GT90} P7: {cat_note}"
+    # mi-cmo: posible typo/pariente de MI-DCMO (web Honeywell) — queda candidate con nota
+    if "morley:mi-cmo" in products:
+        products["morley:mi-cmo"]["provenance"] += f" | {GT90} P7: posible alias de MI-DCMO — verificar en F1"
+
     # pase de reconciliación (la clase DX2/EXP cazada por la puerta): un alias cuyo token
     # coincide con el canonical de OTRO producto = posible mismo-producto-dos-formas → QA
     # (adjudicar merge), NUNCA cargado (exact pisaría el alias en silencio).
@@ -318,6 +416,8 @@ def main() -> int:
     pid_by_norm.update({akey: a["id"] for akey, a in aliases.items()})   # canonical+ALIAS (dúo)
     for doc in morley_docs:
         src = doc["source_file"]
+        if any(cs.norm_token(src).startswith(cs.norm_token(ig)) for ig in GT90_IGNORED_DOCS):
+            continue   # adjudicado fuera de alcance (P8: MIEMU520P = PT)
         if src not in docid_by_src:
             qa["doc de la semilla SIN document_id en DB"].append(f"`{src[:60]}`")
             continue
