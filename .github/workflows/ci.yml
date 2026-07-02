@@ -47,3 +47,9 @@ jobs:
 
       - name: Tests
         run: python -m pytest tests/ -q
+
+      # La puerta del catálogo canónico (contrato F0/DEC-079, fix dúo s90): los jsonl de
+      # data/catalog/ no pueden romper el contrato (ids/refs/redirects/provenance) sin
+      # bloquear el merge. $0, sin keys (validación local de ficheros).
+      - name: Catalog gate
+        run: python scripts/catalog_store.py validate
