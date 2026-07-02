@@ -28,7 +28,7 @@
 > **s73/DEC-055: `LEVER2_IDENTITY` (alias-paraguas ZXe→ZX2e/ZX5e + serie e-series) shippeado como
 > TAPÓN de identidad — activación Railway env `on` reversible; medido FALLO→PARCIAL ×2 (GRIS),
 > arregla el producto-equivocado en queries e-series, NO escala a 30+ [#49/DEC-054 = la raíz: detector
-> LLM-en-ingesta, al gatillo]**) →
+> LLM-en-ingesta, al gatillo]. s91: el REEMPLAZO estructural existe — catálogo canónico gobernado `data/catalog/*.jsonl` EN GIT (D1; adjudicado por Alberto: homónimos G1-G4 + C2 completo, DEC-081/083) + resolver query-side `catalog_resolver.py` tras `IDENTITY_RESOLVE=off|shadow|on` default off (F2-S1 PR #106; contrato §5.1 enmendado expand-only); LEVER2/series-YAML/IDENTITY_MAP se retiran en F4, fail-fast anti-doble-vía en arranque**) →
 > rerank LLM 5 (dispatcher `RERANKER_BACKEND` default `llm`; s67: el swap al cross-encoder
 > se midió en A/B = **ROLLBACK** — lever archivado, el dispatcher queda como instrumento) →
 > generador `claude-sonnet-4-6`;
