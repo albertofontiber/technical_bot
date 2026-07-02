@@ -3,7 +3,8 @@
 > Regla de clase (plan v2.2 S3): tú adjudicas la FILA (marca→namespace), yo aplico por la puerta
 > (BRAND_MAP + re-namespace de sus productos con provenance `gt-s91-alberto-c2`). Los dudosos
 > quedan candidate igual que hoy — marcar "✏️/dudosa" no rompe nada (fail-open).
-> **2ª pasada (petición Alberto): FAAST revisado contra el gt s80 (filas 4-5) + 6 dudosas verificadas en web (filas 2/3/6/8/12 resueltas; solo la 7 queda dudosa-media).**
+> **2ª pasada (petición Alberto): FAAST revisado contra el gt s80 (filas 4-5) + 6 dudosas verificadas en web.**
+> **3ª pasada (corrección de Alberto: hosting ≠ OEM): filas 8/12 re-verificadas con la lente OEM — la 12 CAMBIÓ (`ada`, OEM al píxel en portada); la 8 se re-fundamentó con evidencia interna (numeración 997-* de Notifier, 5 hermanos en corpus). Solo la 7 (DELTA) queda dudosa.**
 
 | # | marca en el doc | propuesta namespace | nota |
 |---|---|---|---|
@@ -14,11 +15,11 @@
 | 5 | FAAST (System Sensor Europe) | `notifier` **(revisado vs gt s80)** | mismo criterio que #4 (los FL0111E-HS del 6574 YA viven en notifier:* con oem=SS). ⚠ Nota de coherencia: el patrón G1 de ayer (canonical=OEM) sugeriría re-domiciliar los FL* a systemsensor — si lo quieres, es un follow-up aparte, no esta fila |
 | 6 | ENScape (D 1101 Sounder Beacon) | `kac` **(verificado web)** | ENscape CWSS = línea de notificación Honeywell VENDIDA COMO KAC (retail 'KAC CWSS-WW-W5 ENScape'); D-numbering = KAC (D716/D1036/D1101) |
 | 7 | DELTA (D391, WR2001) | `kac` (dudosa-media) | web no concluyente para WR2001, pero D391 = numeración KAC (patrón 3/3 confirmado: D716/D1036/D1101) y KAC fabrica campanas; 'DELTA' = probable nombre de serie — ✏️ si conoces la marca real |
-| 8 | EFS (FS8) | `notifier` **(verificado web)** | FS8.pdf vive en notifier.es: 'Panel de control de incendios de 8 zonas EFS/EM 8' — EFS/EM = familia de panel legacy del catálogo Notifier ES, no una marca |
+| 8 | EFS (FS8) | `notifier` **(evidencia INTERNA, no hosting)** | doc-number 997-201-103 = numeración PROPIA de Notifier — 5 hermanos 997-* en el corpus, todos Notifier (Pearl 997-669/670/671, NAS-2 997-528) → el panel EFS/EM 8 es producto Notifier; 'EFS' = familia, no marca |
 | 9 | Calectro (conduct detector) | `calectro` | sueco, detectores de conducto |
 | 10 | Fire-Lite Alarms (MNDT080) | `firelite` | marca US del grupo Honeywell (doc servido por Notifier ES) |
 | 11 | AVOTEC (REXD-103, PAN AVD2) | `avotec` | rótulos/señalización — 2 docs |
-| 12 | FUEGO (NSRE24) | `notifier` **(verificado web)** | NSRE24.pdf y NSRE24_EXTERNO.PDF viven en notifier.es ('sirena exterior fuego 24 v') — 'FUEGO' era el TÍTULO del doc, no una marca; ESTELA-1/2 = modelos de esa sirena |
+| 12 | FUEGO (NSRE24) | `ada` **(OEM al PÍXEL — corrección de Alberto aplicada)** | la portada lleva el logo del FABRICANTE: **'ADA Componentes Electrónicos, S.L.'** (OEM español); doc dual 'Sirena exterior ROBO 12V / FUEGO 24V' ('FUEGO' era el rótulo de la lente, no marca); notifier.es solo la ALOJA/vende → vendido_bajo=[ADA, Notifier] |
 | 13 | Cranford Controls (SFD-220) | `cranford` | sirenas UK |
 | 14 | Honeywell Life Safety (doc de formación) | GRUPO → contextual | como GRUPO_BRANDS (no namespace propio); el doc es administrativo |
 | 15 | Desarrollo de Sistemas Integrados de Control S.L. (TG-1020-TEC) | `desico` | = DESICO (el acrónimo de la razón social) |
