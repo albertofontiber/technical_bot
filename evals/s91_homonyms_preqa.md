@@ -37,7 +37,7 @@ con idéntica categoría.
 | `M700KAC` / `M700KACI` | **KAC** — **PÍXEL: el pie del doc Notifier D1036 dice 'KAC ALARM COMPANY LIMITED… www.kac.co.uk'** (el OEM firmado en el doc del vendedor); modelos 'System Sensor Protocol' | Notifier |
 
 **Canonical → el OEM, redirect desde el vendedor, vendido_bajo=unión.**
-**TU MARCA G2: [ ] ✅ [ ] ✏️** — notas: __________
+**TU MARCA G2: [x] ✅ (adjudicado en sesión s91, Alberto: los 5 ítems OK tal cual)** — notas: SMART 2→Sensitron; Z978→Pepperl+Fuchs; 777163→Spectrex; 140KIT160/70KIT140→Firebeam; M700KAC(I)→KAC.
 
 ## G3 · Intra-Honeywell (naming Vision/Supra/CMX/UCIP…) — 11 ítems (6424→G1), propongo A con canonical en la marca de los docs PROPIOS
 | token | propuesta canonical | evidencia |
