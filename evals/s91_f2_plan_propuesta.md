@@ -1,4 +1,4 @@
-# s91 → F2: plan v2 (POST-DÚO — v1 corregida con 15 hallazgos verificados, 0 FP)
+# s91 → F2: plan v2.1 (POST-DÚO + iteración con Alberto sobre vigencia de los settled)
 
 > Artefacto de revisión del dúo (Protocolo 3). Autor: Claude. **v1 → v2: el dúo completo
 > (sub-agente Fable fresco + cross-model GPT-5.5 con tools) tumbó el mecanismo central de v1**
@@ -59,6 +59,13 @@ frases con '808'-clase) + detección-en-frase + pinned hp011/hp018/hp009 + muest
 del catálogo (H8: el round-trip completo es parcialmente tautológico — valida el índice, no la
 adjudicación; muestrear, no "miles de asserts"). En paralelo: packet C2 (19 marcas → 196
 productos unresolved).
+**+v2.1a — test de EXCLUSIÓN de flags de identidad**: un test que enumera los flags de las vías
+coexistentes (`IDENTITY_RESOLVE`/`LEVER2_IDENTITY`/`IDENTITY_MAP`) y ASERTA precedencia/exclusión
+— el riesgo real del periodo F2-F4 es un flag olvidado ON co-disparando doble expansión; que lo
+cace un test, no una medición rara.
+**+v2.1b — stamp del catálogo-commit**: la famtie/eval estampa el commit de `data/catalog/` en
+sus resultados (posible desde el fix D1 — el catálogo está versionado). Es la pieza que
+materializa el "catálogo-commit" del freeze-contract, no una promesa.
 
 ### S2 — Shadow + medición famtie (1 sesión)
 - Replay: 39 golds dev + `query_logs` (la tabla REAL — `query_gaps` NO existe, TECH_DEBT #8
@@ -66,6 +73,16 @@ productos unresolved).
   no como gate estadístico; declarado.** El gate real es la famtie.
 - FP-rate del detector en shadow → si limpio, flag `on` en dev → **famtie bajo freeze-contract
   completo** (hp018 4/4, hp009 sin regresión, retrieval-miss=14 no empeora) + bvg como control ±2.
+- **+v2.1c — tabla de predicciones PRE-REGISTRADA** (disciplina s69/C3, predicción-vs-resultado):
+  ANTES de correr la famtie, por-gold: hp018×4 → qué doc/chunk esperamos que entre y por qué seam
+  (models vs whitelist); hp009 → sin cambio; hp011 → Supra. La medición confirma o FALSA cada
+  fila — mata la racionalización post-hoc (bias #20/#51).
+- **+v2.1d — escalera de fallback PRE-REGISTRADA** (de la iteración con Alberto sobre DEC-069
+  pre-NOCAT): si hp018 <4/4 → diagnóstico per-gold de DÓNDE se pierde el doc (la famtie es
+  family-aware) → si la pérdida es en entrada-al-pool (el doc ni se recupera), el brazo
+  siguiente es **fetch acotado GATEADO por el whitelist** (nunca unión ciega — la mitad
+  regresión de DEC-069 es mecanismo-inherente al pool capado) como medición NUEVA bajo la
+  config actual. Pre-registrado aquí para no inventar levers a mitad de medición.
 - Scaffolding `query_gaps` (TECH_DEBT #8, ya decidido en DEC-051 como deploy-prep): opcional en
   esta sesión, da el ruler orgánico de ~sept.
 
@@ -81,6 +98,16 @@ residual declarado. Alberto adjudica la REGLA (1 decisión/clase).
 ### S4 — F3: re-tag DB (gated por S2; sin cambio de v1)
 Dry-run diff → revisión Alberto → apply con snapshot. Política multi-producto del contrato
 (multi-valor o paraguas, NUNCA colapso a un id); F3b (por-página) gated aparte.
+
+## Vigencia de los settled que este plan pisa (+v2.1e, de la pregunta de Alberto)
+- **DEC-069 (aditivo NO-OP)**: medido 29-30 jun, PRE-VECTOR_NOCAT (1 jul) → sus números no
+  transfieren formalmente; su mitad regresión (desplazamiento en pool capado) es
+  mecanismo-inherente y sí transfiere. v2 no depende de él: lo respeta por diseño.
+- **LEVER2 hp018 4/4 (DEC-074)**: medido 1 jul, POST-NOCAT → el seam en que v2 se apoya está
+  evidenciado bajo la config ACTUAL. Esta asimetría (negativo pre-fix, positivo post-fix) es la
+  base de elegir los seams.
+- CE/MERGE/generación: settled en PASS y pre-NOCAT — fuera del terreno de F2; si algún día se
+  re-pisa su terreno con métrica retrieval, re-medir, no recordar.
 
 ## Riesgos declarados (v2)
 1. Palanca ~4 golds; éxito = famtie + shadow-metrics, NO PASS (settled).
