@@ -43,15 +43,15 @@ con idéntica categoría.
 | token | propuesta canonical | evidencia |
 |---|---|---|
 | `UCIP` / `UCIP-GPRS` | notifier (pragmático) | **PÍXEL: la portada del HLSI-MN-192 es Honeywell Life Safety Iberia** (filial del grupo, ni N ni M) → vendido_bajo=[HLSI, Notifier, Morley (Supra)] |
-| `VSN-4REL` | **morley** (naming VSN=Vision=Morley, tu gt) | tarjeta 4 relés de Vision/Supra; vendido_bajo +Notifier (Supra) |
+| `VSN-4REL` | **notifier** (pragmático, AJUSTADO s91 por Alberto: NO es Morley-only) | **Alberto: vale también para las NFS-Supra de Notifier; fabricante probable = Esser (Honeywell)** — VERIFICADO: la VSN-4REL aparece en el catálogo de extinción PROPIO de Esser (p3, junto a VSN-232/VSN-485) y la central figura como `ESS-RP1R-SUPRA` (p4) → oem=Esser (declarado+catálogo); vendido_bajo=[Notifier (NFS-Supra), Morley-IAS (Supra), Esser]; imágenes en mercado branded Notifier. **Bonus: vendido_bajo de `notifier:rp1r-supra` += Esser (ESS-RP1R-SUPRA)** |
 | `VSN 4 PLUS` / `VSN12-2Plus` / `VSN-CO` | **morley** (confirmado) | **PÍXEL (ajuste): brand-swap por mercado** — MIE-MI-130 (ES, Morley) y HLSI-MI-130I (EN, firmado solo 'vision') son EL MISMO manual (mismo nº MI-130); el doc ITA lleva logo Notifier PERO la etiqueta física del panel fotografiado dice 'vision' → **Vision = marca de línea/HLSI subyacente**; vendido_bajo=[Morley-IAS (ES), Notifier (IT), Vision/HLSI]. VSN-CO caveat: la portada MIE-MI-591 dice 'VSN Park / Detección CO' — el string 'VSN-CO' exigiría página interior |
 | `IDR-6A` | notifier (docs propios MNDT200/MCDT191, repetidores IDR) | la mención morley = FAQ de CONNEXION que lo cita |
-| `CMX-10RM` | notifier (MNDT1004) | **PÍXEL: manuales GEMELOS** (Morley: 'módulos MI-CME'; Notifier: 'módulos CMX-2' — mismo HW, naming interno por marca) → vendido_bajo=[Notifier, Morley-IAS] |
+| `CMX-10RM` | notifier (MNDT1004) | **PÍXEL: manuales GEMELOS** (Morley: 'módulos MI-CME'; Notifier: 'módulos CMX-2' — mismo HW, naming interno por marca) → vendido_bajo=[Notifier, Morley-IAS]. **AJUSTE s91 (Alberto): oem=Xtralis** — VERIFICADO en la ficha ADI del CMX-10RME: brand='Xtralis by Honeywell' en el JSON de producto |
 | `MI-DCZM` | **morley** (canonical confirmado al píxel: portada Morley-IAS) | **PÍXEL: '© System Sensor 2005' + hardware serie M200E** → registrar oem=System Sensor (mismo patrón FAAST); mención notifier=compat |
 | `M710` | notifier | **web-confirmado Notifier** ([datasheet](https://prod-edam.honeywell.com/content/dam/honeywell-edam/hbt/en-us/documents/literature-and-specs/datasheets/notifier-it/HBT-Fire-201710270924-M710-M720-dep-eng.pdf)); el equivalente Morley es el MI/DMMIE (línea SEPARADA) → la mención morley = compat/secondary, NO vendido_bajo |
-| `2010-2-PAK-RMSDK` | **kidde** (corregido tras web: se vende como Kidde/Ziton/Kilsen/UTC — todo el grupo Carrier; [ficha](https://www.ibdglobal.com/en/slides/slide/2010-2-pak-rmsdk-ficha-tecnica-kidde-commercial-7326/datas)) | vendido_bajo +Edwards (doc bcn-*), +Ziton |
+| `2010-2-PAK-RMSDK` | **kidde** (corregido tras web: se vende como Kidde/Ziton/Kilsen/UTC — todo el grupo Carrier; [ficha](https://www.ibdglobal.com/en/slides/slide/2010-2-pak-rmsdk-ficha-tecnica-kidde-commercial-7326/datas)) | vendido_bajo +Edwards (doc bcn-*), +Ziton. **AJUSTE s91 (Alberto): oem=Carrier (grupo), lo vende Kidde** — VERIFICADO en la ficha ADI: brand-span='Carrier', descripción referencia paneles Edwards |
 
-**TU MARCA G3: [ ] ✅ [ ] ✏️** — notas: __________
+**TU MARCA G3: [x] ✏️ (adjudicado en sesión s91: 5 OK tal cual + 3 ajustes)** — notas: UCIP✅; VSN-4REL✏️ (no Morley-only: NFS-Supra también, oem=Esser, abierto a Notifier+Morley); VSN panels✅; IDR-6A✅; CMX-10RM✏️ (oem=Xtralis, vendido para N+M); MI-DCZM✅; M710✅; PAK✏️ (oem=Carrier, lo vende Kidde).
 
 ## G4 · El único DUDOSO — propongo B (homónimo clarify), 1 ítem
 | token | por qué B |
