@@ -63,4 +63,5 @@ con idéntica categoría.
 ## Qué pasa tras tus marcas
 Aplico por la puerta: canonical+redirects+rebrand-of+vendido_bajo (provenance `gt-s91-alberto-homonyms`);
 los homónimos-candidate adjudicados se retiran (el token resuelve limpio); re-valido + smoke + tests.
-Los 12 homónimos restantes de la cola (menos docs) quedan fail-open para un 2º lote cuando quieras.
+Los 6 homónimos restantes de la cola (MCX-55M, MMX-10M, NFS8REL, PL4, SP-200, VSN-LL — menos docs;
+el "12" anterior era un miscount, cazado por el revisor s91) quedan fail-open para un 2º lote cuando quieras.
