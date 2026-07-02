@@ -90,8 +90,7 @@ información; cierra TECH_DEBT #36; smoke validado).
 PRIMERO) + slice cargado (`data/catalog/`: gt nivel-1 + semilla s83, doc_map por document_id 114/114) +
 Catalog gate en CI + 378 tests. **El slice cazó 3 clases de bug antes del bulk** (colisión
 alias↔canonical, divergent-unknown expandiendo, CI sin gate). Smoke: hp011 `RP1r`→prefer Supra ✓,
-hp018 `ZXe`→3 variantes ✓. **Gates de Alberto:** QA-cola del slice (~15 min, `s90_f1a_qa_sample.md`:
-4 conflictos + ZXR/ZX candidates + divergent de ZXSe) → F1 bulk (31 marcas) → F2 query-side tras flag.
+hp018 `ZXe`→3 variantes ✓. **QA ADJUDICADO y APLICADO (s90b: P1-P8, correcciones de dominio HRZ2-8/EXP×3/BRH-BGL cross-brand) → F1a CERRADO. Gate: merge #101 → F1 bulk (31 marcas) → F2 query-side tras flag.**
 
 **s89 (DEC-078): gold-review Clase A APLICADO (adjudicación de Alberto; #97/#98 mergeadas).** hp004 →
 **PASS 5/5 unánime (+1, PASS-map ~10/39)**; cat024 → PARCIAL 5/5 (sin FALLOs; discrepancia 7-vs-17
