@@ -1055,6 +1055,13 @@ def retrieve_chunks(
     # Step 1: Detect product models in query
     models = extract_product_models(query)
 
+    # (s91 F2-S1 · flag IDENTITY_RESOLVE=off|shadow|on, default off = prod inerte) Resolución
+    # query-side del catálogo canónico gobernado — plan v2.2 + contrato §5.1 enmendado
+    # (expand-only). off→passthrough; shadow→log-only; on→seam 1 (models) + seam 2 abajo.
+    # UNA llamada por query (aquí, no en extract_product_models: se llama en 3 sitios).
+    from src.rag import catalog_resolver as _resolver
+    models, _identity_res = _resolver.resolve_for_retrieval(query, models)
+
     # (s85, DEC-071) Query-category detection was removed here: it only ever fed the dead
     # `category` filter (chunks_v2.category = 0 canonical rows since the SWAP s44). The
     # `category_filter` param is kept for API stability but is now inert. The category
@@ -1244,7 +1251,9 @@ def retrieve_chunks(
     # query, or MINILÁSER 25 Notifier chunks answering an ASD535 Detnov
     # query). Fail-open: if filter would drop too many, keep originals.
     if models and len(merged) > 0:
-        merged = _filter_to_query_models(merged, models)
+        merged = _filter_to_query_models(
+            merged, models,
+            identity_allowed=(_identity_res or {}).get("allowed_sources") or None)
     _tr("post_model_filter", merged)
 
     # Step 5a: Multi-doc diversity for queries with a specific model.
@@ -1403,7 +1412,8 @@ def _diversify_by_manufacturer(chunks: list[dict], top_k: int, original_query: s
 # ---------------------------------------------------------------------------
 # Model-family filter (TECH_DEBT #11e + #11f fix — 22 abril 2026)
 # ---------------------------------------------------------------------------
-def _filter_to_query_models(chunks: list[dict], models: list[str]) -> list[dict]:
+def _filter_to_query_models(chunks: list[dict], models: list[str],
+                            identity_allowed: frozenset[str] | None = None) -> list[dict]:
     """Drop chunks whose product_model doesn't match any queried model family.
 
     Protects against two bugs:
@@ -1436,6 +1446,15 @@ def _filter_to_query_models(chunks: list[dict], models: list[str]) -> list[dict]
     """
     if not models or not chunks:
         return chunks
+
+    # (s91 F2-S1 · seam 2, solo con IDENTITY_RESOLVE=on) whitelist doc_map-aware del catálogo
+    # gobernado — SUSTRACTIVO (patrón IDENTITY_MAP probado abajo, NO aditivo/DEC-069): protege
+    # del veto del substring a los chunks de docs adjudicados al producto resuelto (la clase
+    # MIE-MI-600: pm=unknown que el vector SÍ trae y este filtro mataría). Fail-open ≥3.
+    if identity_allowed:
+        by_cat = [c for c in chunks if (c.get("source_file") or "") in identity_allowed]
+        if len(by_cat) >= 3:
+            return by_cat
 
     # (s86 B2 · flag IDENTITY_MAP, default OFF = prod inerte) consumo FILTER-BASED del registro
     # canónico data-driven (índice inverso s84): filtra por membresía-de-doc del query-model
