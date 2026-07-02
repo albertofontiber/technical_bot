@@ -95,7 +95,25 @@ y APLICADOS** (`s91_apply_homonyms.py`: 30 winners / 33 redirects+rebrand-of / q
 APIC + 6 cola]; `systemsensor:6424` creado; umbrella B500; oem SOLO adjudicado: Esser/Xtralis/Carrier/SS×2).
 Sub-agente adversarial cazó 3 H5 en MIS añadidos pre-commit (0 FP). **FIX D1: `data/catalog/` entra a git**
 (`.gitignore data/*` lo dejaba SIN versionar y el test de integración skippeaba → repo-first real).
-**Gate restante: merge PR #103 (Alberto; la #102 se mergeó antes del arco de adjudicación → re-montado) → F2 query-side tras flag + F2.5 shadow-mode.**
+**Gate restante: merge PR #103 (Alberto) — CUMPLIDO.**
+
+**s91c (DEC-082): plan F2 v2.2 dúo-hardened (×2 rondas, 15+13 hallazgos 0 FP)** — mecanismo = los 2
+seams medidos (models-list LEVER2→catálogo + unión-protectora doc_map en `_filter_to_query_models`),
+NO vía aditiva (DEC-069, fila nueva en LEVER_DIGEST con VENDIMIA de config); **contrato §5.1
+ENMENDADO (✅ Alberto, PR #105): F2 expand-only, clarify conduct-level → fase posterior por-pregunta.**
+
+**s91d (DEC-083): F2-S1 CONSTRUIDO (PR #106, dúo r3: 14 hallazgos aplicados pre-PR)** — resolver
+query-side tras `IDENTITY_RESOLVE=off|shadow|on` (default off), detector regex-generada del catálogo,
+brazos add/replace, fail-fast de flags en arranque, shadow a Supabase (`identity_resolve_shadow`
+creada), stamp catálogo-commit; 28 tests nuevos (suite 411). **+ packet C2 COMPLETO adjudicado
+(3 tandas Alberto): 19 marcas → 43 productos re-domiciliados; lecciones: hosting≠OEM,
+string-grupo→contextual, familia≠marca (FAAST→paraguas familia+LT-200 divergent=true, expanden).**
+
+**Qué sigue: (gates Alberto) merge #105 + #106 → S2** (shadow-replay 39 golds+query_logs → FP-rate →
+flag on dev → **pin-regen** → famtie freeze+catálogo-commit con tabla de predicciones pre-registrada,
+brazos add/replace; aceptación hp018 4/4 sin regresar hp009) **→ S3** (candidates ~630 por clase,
+demanda del shadow) **→ S4/F3** (re-tag DB, dry-run + snapshot). Backlog: BRAND_MAP strings
+adjudicados a `catalog_gt.py`; re-homing FL*→systemsensor (opcional, marca Alberto); 6 homónimos cola.
 
 **s90 (DEC-079): F0 APROBADO (D1-D7) → contrato CANÓNICO; F1a slice vertical Morley CONSTRUIDO.**
 `catalog_store.py` (la puerta: validate reglas-duras + resolve con contrato `expand`, check-homónimo

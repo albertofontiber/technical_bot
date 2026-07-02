@@ -1055,6 +1055,14 @@ def retrieve_chunks(
     # Step 1: Detect product models in query
     models = extract_product_models(query)
 
+    # (s91 F2-S1 · flag IDENTITY_RESOLVE=off|shadow|on, default off = prod inerte) Resolución
+    # query-side del catálogo canónico gobernado — plan v2.2 + contrato §5.1 enmendado
+    # (expand-only). off→passthrough; shadow→log-only; on→seam 1 (models) + seam 2 abajo.
+    # UNA llamada por query (aquí, no en extract_product_models: se llama en 3 sitios).
+    from src.rag import catalog_resolver as _resolver
+    _n_models_pre_resolve = len(models)   # presupuesto ANTES de expandir (anti-confounder, dúo S1)
+    models, _identity_res = _resolver.resolve_for_retrieval(query, models)
+
     # (s85, DEC-071) Query-category detection was removed here: it only ever fed the dead
     # `category` filter (chunks_v2.category = 0 canonical rows since the SWAP s44). The
     # `category_filter` param is kept for API stability but is now inert. The category
@@ -1062,7 +1070,11 @@ def retrieve_chunks(
     # CATEGORY_TERMS → get_category_models) and is untouched.
 
     # For comparisons (2+ models), increase top_k to get enough chunks from each model
-    effective_top_k = top_k * len(models) if len(models) >= 2 else top_k
+    # (dúo S1) presupuesto por el nº de modelos PRE-expansión: si el resolver expande
+    # (ZXe→3 variantes), NO multiplica top_k — separaría mal la atribución del lever
+    # (¿mejora por resolver o por más presupuesto?) y cambiaría coste sin declarar.
+    _n_budget = _n_models_pre_resolve if _identity_res else len(models)
+    effective_top_k = top_k * _n_budget if _n_budget >= 2 else top_k
 
     # HyDE (TECH_DEBT #25 Fase 2): generate hypothetical manual passage and use ITS
     # embedding for vector search. Resolves vocabulary mismatch — when técnico uses
@@ -1244,7 +1256,9 @@ def retrieve_chunks(
     # query, or MINILÁSER 25 Notifier chunks answering an ASD535 Detnov
     # query). Fail-open: if filter would drop too many, keep originals.
     if models and len(merged) > 0:
-        merged = _filter_to_query_models(merged, models)
+        merged = _filter_to_query_models(
+            merged, models,
+            identity_allowed=(_identity_res or {}).get("allowed_sources") or None)
     _tr("post_model_filter", merged)
 
     # Step 5a: Multi-doc diversity for queries with a specific model.
@@ -1403,7 +1417,8 @@ def _diversify_by_manufacturer(chunks: list[dict], top_k: int, original_query: s
 # ---------------------------------------------------------------------------
 # Model-family filter (TECH_DEBT #11e + #11f fix — 22 abril 2026)
 # ---------------------------------------------------------------------------
-def _filter_to_query_models(chunks: list[dict], models: list[str]) -> list[dict]:
+def _filter_to_query_models(chunks: list[dict], models: list[str],
+                            identity_allowed: frozenset[str] | None = None) -> list[dict]:
     """Drop chunks whose product_model doesn't match any queried model family.
 
     Protects against two bugs:
@@ -1436,6 +1451,19 @@ def _filter_to_query_models(chunks: list[dict], models: list[str]) -> list[dict]
     """
     if not models or not chunks:
         return chunks
+
+    # (s91 F2-S1 · seam 2, solo con IDENTITY_RESOLVE=on) UNIÓN-PROTECTORA doc_map-aware del
+    # catálogo gobernado: el filtro medido (nivel-2/nivel-1/rescue) corre INTACTO y después se
+    # re-incorporan los chunks YA RECUPERADOS cuyos docs están adjudicados al producto resuelto
+    # y que el veto habría tirado (la clase MIE-MI-600: pm=unknown). NO reemplaza el filtro
+    # (fix dúo build-S1 #1: el replace estrechaba pools corpus-wide con doc_map 861/1014 y
+    # bypasseaba nivel-2) y NO es aditivo al pool (solo protege lo que el retrieval ya trajo).
+    if identity_allowed:
+        base = _filter_to_query_models(chunks, models, identity_allowed=None)
+        seen_ids = {id(c) for c in base}
+        protected = [c for c in chunks
+                     if id(c) not in seen_ids and (c.get("source_file") or "") in identity_allowed]
+        return base + protected
 
     # (s86 B2 · flag IDENTITY_MAP, default OFF = prod inerte) consumo FILTER-BASED del registro
     # canónico data-driven (índice inverso s84): filtra por membresía-de-doc del query-model

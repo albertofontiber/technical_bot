@@ -7,7 +7,7 @@
 > citarlo. Todos los hallazgos verificados contra código/DB antes de aceptar (regla C).
 > Contrato canónico: `docs/IDENTITY_CATALOG_CONTRACT.md`. Tally: `evals/adversarial_review_log.jsonl`.
 
-## Objetivo de F2 (sin cambio)
+## Objetivo de F2 (métrica sin cambio; la CONDUCTA enmienda el contrato §5.1 — ✅ Alberto, PR #105)
 Consumir el catálogo gobernado en query-side. Métrica pre-registrada (contrato F2, línea 167):
 **hp018 4/4 SIN regresar hp009, medida con el instrumento famtie (`retrieval_miss_famtie.py`)
 bajo freeze-contract COMPLETO (corpus+índice+embeddings+juez+seeds+config+catálogo-commit)** +
