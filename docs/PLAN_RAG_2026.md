@@ -88,8 +88,14 @@ información; cierra TECH_DEBT #36; smoke validado).
 **s91 (DEC-080): F1 BULK — las 31 marcas en el catálogo canónico.** ~1.6k productos / 39 homónimos /
 861 doc_map / 9 docrel ES/EN (los de DEC-066); BRAND_MAP 96→31; typo-merge #49 (30); x-brand jamás-merge-auto;
 dúo 2 rondas (14 findings aplicados; la clase H5 reincidió en el gt FAAST → re-transcrito fiel). Golds-clave
-resuelven; lo dudoso fail-open. PR #102. **Gates: paquete-decisión ~25 homónimos (Alberto, no bloquea) →
-F2 query-side tras flag + F2.5 shadow-mode.**
+resuelven; lo dudoso fail-open. PR #102.
+
+**s91b (DEC-081): los 25 homónimos ADJUDICADOS por Alberto (G1✅ G2✅ G3✏️×3-verificados G4=APIC-clarify)
+y APLICADOS** (`s91_apply_homonyms.py`: 30 winners / 33 redirects+rebrand-of / quedan 9 homónimos [2 gt +
+APIC + 6 cola]; `systemsensor:6424` creado; umbrella B500; oem SOLO adjudicado: Esser/Xtralis/Carrier/SS×2).
+Sub-agente adversarial cazó 3 H5 en MIS añadidos pre-commit (0 FP). **FIX D1: `data/catalog/` entra a git**
+(`.gitignore data/*` lo dejaba SIN versionar y el test de integración skippeaba → repo-first real).
+**Gate restante: merge PR #103 (Alberto; la #102 se mergeó antes del arco de adjudicación → re-montado) → F2 query-side tras flag + F2.5 shadow-mode.**
 
 **s90 (DEC-079): F0 APROBADO (D1-D7) → contrato CANÓNICO; F1a slice vertical Morley CONSTRUIDO.**
 `catalog_store.py` (la puerta: validate reglas-duras + resolve con contrato `expand`, check-homónimo

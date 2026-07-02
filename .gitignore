@@ -37,6 +37,12 @@ evals/results/
 # aunque viva en data/. Regenerar con scripts/update_inventario.py.
 !data/Inventario_Manuales.xlsx
 
+# Catálogo canónico de identidad (IDENTITY_CATALOG_CONTRACT §3, D1 REPO-FIRST
+# aprobado por Alberto): la FUENTE es el repo — rollback = git revert; la DB
+# deriva de aquí (F3). Editar SOLO vía scripts/catalog_store.py (la puerta valida).
+# Gap cazado en s91: data/* lo dejaba fuera y el test de integración skippeaba.
+!data/catalog
+
 # Manuales descargados — grandes, no van al repo
 Manuales_ES/
 Manuales_Morley/
