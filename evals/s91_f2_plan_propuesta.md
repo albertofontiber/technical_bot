@@ -86,10 +86,14 @@ escape a la regla.
 sus resultados (posible desde el fix D1 — el catálogo está versionado). Es la pieza que
 materializa el "catálogo-commit" del freeze-contract, no una promesa.
 
-### S2 — Shadow + medición famtie (1 sesión)
-- Replay: 39 golds dev + `query_logs` (la tabla REAL — `query_gaps` NO existe, TECH_DEBT #8
-  pendiente; H3 verificado con 404). **N≈69 queries del mismo autor (demo) — vale como SMOKE,
-  no como gate estadístico; declarado.** El gate real es la famtie.
+### S2 — Shadow + medición famtie (1 sesión) — AJUSTES Alberto s92
+- Replay: **39 golds dev SOLO** — `query_logs` DESCARTADO por Alberto (sus ~30 queries live son
+  copias de las preguntas del eval, para ver las respuestas con sus ojos → duplicarían golds,
+  no aportan forma-de-usuario). El shadow queda como smoke puro; el gate real es la famtie.
+- **1er replay YA CORRIDO (s92, pre-medición): 27/39 golds expanden, 0 bloqueados-por-candidate,
+  0 clarify. Cazó la clase FP 'palabra-común-como-alias'** ('Solo'→hp005; colores/CARGADOR/
+  'Dimension') → detector endurecido: alias `nombre-largo` solo si llevan dígito (model-shaped)
+  + DETECT_STOPWORDS; hp002/hp013/hp019 conservados vía la regla por-forma.
 - FP-rate del detector en shadow → si limpio, flag `on` en dev → **famtie bajo freeze-contract
   completo** (hp018 4/4, hp009 sin regresión, retrieval-miss=14 no empeora) + bvg como control ±2.
   **⚠ Trampa de instrumento cazada en r2: la famtie NO re-recupera — lee el `pool_pin`**
@@ -109,7 +113,14 @@ materializa el "catálogo-commit" del freeze-contract, no una promesa.
 - Scaffolding `query_gaps` (TECH_DEBT #8, ya decidido en DEC-051 como deploy-prep): opcional en
   esta sesión, da el ruler orgánico de ~sept.
 
-### S3 — Candidates por CLASE (gated por demanda del shadow + reglas con guard)
+### S3 — Candidates: DIFERIDO-IDENTIFICADO (ajuste Alberto s92, respaldado con dato)
+**MEDIDO en el replay s92: 0 de los 39 golds dev tiene token bloqueado-por-candidate** → los
+~630 candidates NO tocan ningún gold; fail-open = comportamiento de hoy, no muerden. Alberto:
+no analizarlos ahora (él no quiere ser el stopper) — quedan IDENTIFICADOS aquí y en el QA de F1
+(`evals/s91_f1_qa_riesgo.md`) para trabajarlos POR DEMANDA (cuando el shadow orgánico o un gold
+nuevo los toque), con las reglas-de-clase + guards de abajo como método pre-acordado.
+
+### S3 (método pre-acordado para cuando toque) — Candidates por CLASE
 Desglose verificado: 353 single-extractor · 196 unresolved (~19 marcas) · 70 colisiones ·
 41 contextual · 14 x-brand (cola 6 homónimos). **Guard v3 (r2 tumbó el v2 con su propio
 contraejemplo: `notifier:z978` ES role=primary en TIDT089 con namespace coincidente — el guard
