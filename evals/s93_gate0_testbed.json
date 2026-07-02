@@ -1,0 +1,661 @@
+{
+ "pin": "evals/s92_retrieval_miss_ON_add.yaml",
+ "n_miss_facts": 11,
+ "excluded": [
+  {
+   "qid": "hp006",
+   "valor": "Tierra",
+   "motivo": "hecho presente en la pregunta"
+  }
+ ],
+ "rows": [
+  {
+   "qid": "cat013",
+   "valor": "CLIP",
+   "question": "Tengo una central Detnov CAD-150 y me ha sobrado de otra instalacion un detector optico Notifier SDX-751; ¿es compatible / puedo montarlo en su lazo?",
+   "models_detected": [
+    "CAD-150",
+    "SDX-751"
+   ],
+   "question_sin_modelo": "Tengo una central Detnov y me ha sobrado de otra instalacion un detector optico Notifier ; ¿es compatible / puedo montarlo en su lazo",
+   "gold_family": [
+    "CAD-150-8",
+    "ID3000"
+   ],
+   "sup_family_ids": [
+    {
+     "id": "cfcdc8f7-bdaf-412f-a85e-0ffb76878d99",
+     "pm": "ID3000",
+     "src": "MIDT190"
+    }
+   ],
+   "sup_all_n": 1,
+   "pool_n": 5
+  },
+  {
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "question": "En la Detnov CAD-150, ¿como se da de alta un detector nuevo en el lazo y como se prueba que funciona?",
+   "models_detected": [
+    "CAD-150"
+   ],
+   "question_sin_modelo": "En la Detnov , ¿como se da de alta un detector nuevo en el lazo y como se prueba que funciona",
+   "gold_family": [
+    "CAD-150-8"
+   ],
+   "sup_family_ids": [
+    {
+     "id": "294a778c-1dca-40de-8a1b-a9f0c471ea36",
+     "pm": "CAD-150-8",
+     "src": "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT"
+    },
+    {
+     "id": "af6ab292-dbf8-4a9d-a3f8-b048e2f781d9",
+     "pm": "CAD-150-8",
+     "src": "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT"
+    }
+   ],
+   "sup_all_n": 2,
+   "pool_n": 15
+  },
+  {
+   "qid": "hp001",
+   "valor": "2222",
+   "question": "En la Detnov CAD-250, ¿cómo se entra al menú de programación avanzada?",
+   "models_detected": [
+    "CAD-250"
+   ],
+   "question_sin_modelo": "En la Detnov , ¿cómo se entra al menú de programación avanzada",
+   "gold_family": [
+    "CAD-250"
+   ],
+   "sup_family_ids": [
+    {
+     "id": "9bd17466-1a22-4ade-bb16-a44624c9f166",
+     "pm": "CAD-250",
+     "src": "Manual instalacion CAD-250 (MI_372_es_2024 e)"
+    },
+    {
+     "id": "2fe06904-158e-4922-82a5-76d95e938c7f",
+     "pm": "CAD-250",
+     "src": "CAD-250-MC-380-es"
+    },
+    {
+     "id": "8cf55c57-dc8d-4e81-b35b-67f777580cd5",
+     "pm": "CAD-250",
+     "src": "CAD-250_Manual-Configuracion-MC-380-es-2026-c"
+    }
+   ],
+   "sup_all_n": 3,
+   "pool_n": 28
+  },
+  {
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "question": "La Notifier AFP-400 muestra el aviso 'Tierra' (Earth Fault). ¿Qué significa y cómo se localiza?",
+   "models_detected": [
+    "AFP-400"
+   ],
+   "question_sin_modelo": "La Notifier muestra el aviso 'Tierra' (Earth Fault). ¿Qué significa y cómo se localiza",
+   "gold_family": [
+    "AFP-300",
+    "AFP-400",
+    "NAM-232"
+   ],
+   "sup_family_ids": [
+    {
+     "id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+     "pm": "AFP-300",
+     "src": "50253SP"
+    },
+    {
+     "id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+     "pm": "AFP-400",
+     "src": "MIDT170"
+    }
+   ],
+   "sup_all_n": 2,
+   "pool_n": 26
+  },
+  {
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "question": "La Notifier AFP-400 muestra el aviso 'Tierra' (Earth Fault). ¿Qué significa y cómo se localiza?",
+   "models_detected": [
+    "AFP-400"
+   ],
+   "question_sin_modelo": "La Notifier muestra el aviso 'Tierra' (Earth Fault). ¿Qué significa y cómo se localiza",
+   "gold_family": [
+    "AFP-300",
+    "AFP-400",
+    "NAM-232"
+   ],
+   "sup_family_ids": [
+    {
+     "id": "9503f5a0-24ad-44af-94ff-d63cbe6c742b",
+     "pm": "AFP-300",
+     "src": "50253SP"
+    },
+    {
+     "id": "3f9dc99b-76d0-43b6-8943-0d18335917cc",
+     "pm": "AFP-300",
+     "src": "50253SP"
+    },
+    {
+     "id": "d0d6a7ba-c71c-486d-82e8-95801157a172",
+     "pm": "AFP-400",
+     "src": "MIDT170"
+    },
+    {
+     "id": "a0ee9631-d156-48c6-92f9-126f899f35cb",
+     "pm": "AFP-400",
+     "src": "MIDT170"
+    },
+    {
+     "id": "d96f4566-d841-4aa7-a418-f0ddb71e6edc",
+     "pm": "AFP-300",
+     "src": "50253SP"
+    },
+    {
+     "id": "717a8dac-596f-4ef9-96e3-3f61c96f6250",
+     "pm": "AFP-400",
+     "src": "MIDT170"
+    },
+    {
+     "id": "096600ba-6680-4114-bd62-f5dce9ac7d59",
+     "pm": "AFP-400",
+     "src": "MIDT170"
+    },
+    {
+     "id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+     "pm": "AFP-300",
+     "src": "50253SP"
+    },
+    {
+     "id": "d35de7dd-0acd-40a1-99c5-d143e30a507d",
+     "pm": "AFP-300",
+     "src": "50253SP"
+    },
+    {
+     "id": "dbd4ce93-2918-4a7e-985e-0e0a033ec101",
+     "pm": "AFP-400",
+     "src": "MIDT170"
+    },
+    {
+     "id": "cc29b97f-dca0-4bd1-a335-b038304ca11b",
+     "pm": "AFP-300",
+     "src": "50253SP"
+    },
+    {
+     "id": "66a941ea-035e-4552-a215-1d97074d9d9d",
+     "pm": "AFP-300",
+     "src": "50253SP"
+    },
+    {
+     "id": "597cf90f-21ed-4cb4-a9cc-7239bda100d5",
+     "pm": "AFP-400",
+     "src": "MIDT170"
+    }
+   ],
+   "sup_all_n": 13,
+   "pool_n": 26
+  },
+  {
+   "qid": "hp011",
+   "valor": "05 a 295 seg",
+   "question": "En la Morley RP1r, después de descargar la extinción el sistema no vuelve a estado normal tras resetear. ¿Qué comprobar?",
+   "models_detected": [
+    "RP1R"
+   ],
+   "question_sin_modelo": "En la Morley , después de descargar la extinción el sistema no vuelve a estado normal tras resetear. ¿Qué comprobar",
+   "gold_family": [
+    "RP1R-SUPRA"
+   ],
+   "sup_family_ids": [
+    {
+     "id": "2d45a70a-5202-442e-af84-c3a176c2178d",
+     "pm": "RP1r-Supra",
+     "src": "HLSI-MN-103_RP1r-Supra_lr"
+    },
+    {
+     "id": "4581dc4b-db9e-437f-8f96-3db8b57a045a",
+     "pm": "RP1r-Supra",
+     "src": "HLSI-MN-103_RP1r-Supra_lr"
+    }
+   ],
+   "sup_all_n": 2,
+   "pool_n": 50
+  },
+  {
+   "qid": "hp012",
+   "valor": "99 + 99",
+   "question": "¿Cuántos lazos direccionables soporta la Notifier AM2020/AFP1010 y cuántos dispositivos por lazo?",
+   "models_detected": [
+    "AM-2020",
+    "AFP1010"
+   ],
+   "question_sin_modelo": "Cuántos lazos direccionables soporta la Notifier / y cuántos dispositivos por lazo",
+   "gold_family": [
+    "AM-2020",
+    "AM2020 Y AFP1010",
+    "MPDT-280"
+   ],
+   "sup_family_ids": [
+    {
+     "id": "11230b35-24ba-43e2-8df6-396e8f852f4a",
+     "pm": "AM-2020",
+     "src": "15088SP"
+    }
+   ],
+   "sup_all_n": 1,
+   "pool_n": 50
+  },
+  {
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "question": "¿Cuántos lazos direccionables soporta la Notifier AM2020/AFP1010 y cuántos dispositivos por lazo?",
+   "models_detected": [
+    "AM-2020",
+    "AFP1010"
+   ],
+   "question_sin_modelo": "Cuántos lazos direccionables soporta la Notifier / y cuántos dispositivos por lazo",
+   "gold_family": [
+    "AM-2020",
+    "AM2020 Y AFP1010",
+    "MPDT-280"
+   ],
+   "sup_family_ids": [
+    {
+     "id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+     "pm": "MPDT-280",
+     "src": "MPDT280"
+    },
+    {
+     "id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+     "pm": "AM2020 y AFP1010",
+     "src": "MFDT280"
+    }
+   ],
+   "sup_all_n": 2,
+   "pool_n": 50
+  },
+  {
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "question": "¿Cómo se cambia la batería tampón de la Detnov ADW535 sin perder configuración?",
+   "models_detected": [
+    "ADW535"
+   ],
+   "question_sin_modelo": "Cómo se cambia la batería tampón de la Detnov sin perder configuración",
+   "gold_family": [
+    "ADW535"
+   ],
+   "sup_family_ids": [
+    {
+     "id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+     "pm": "ADW535",
+     "src": "ADW535_TD_T140358es_e"
+    },
+    {
+     "id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+     "pm": "ADW535",
+     "src": "ADW535_TD_T140358es_e"
+    },
+    {
+     "id": "a5564c62-c198-4b5a-957d-96443a7a22a0",
+     "pm": "ADW535",
+     "src": "ADW535_TD_T140358es_e"
+    }
+   ],
+   "sup_all_n": 3,
+   "pool_n": 18
+  },
+  {
+   "qid": "hp014",
+   "valor": "35",
+   "question": "¿Cómo se conecta un módulo de aislamiento de línea en un lazo ID2000?",
+   "models_detected": [
+    "ID2000"
+   ],
+   "question_sin_modelo": "Cómo se conecta un módulo de aislamiento de línea en un lazo",
+   "gold_family": [
+    "ID2000"
+   ],
+   "sup_family_ids": [
+    {
+     "id": "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+     "pm": "ID2000",
+     "src": "MIDT180"
+    }
+   ],
+   "sup_all_n": 1,
+   "pool_n": 31
+  },
+  {
+   "qid": "hp018",
+   "valor": "1 A",
+   "question": "¿Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe?",
+   "models_detected": [
+    "ZXE"
+   ],
+   "question_sin_modelo": "Cómo se conecta una sirena convencional en las salidas de sirena de la Morley",
+   "gold_family": [
+    "ZX2E/ZX5E"
+   ],
+   "sup_family_ids": [
+    {
+     "id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+     "pm": "ZX2e/ZX5e",
+     "src": "MIE-MI-530rv001"
+    }
+   ],
+   "sup_all_n": 5,
+   "pool_n": 27
+  }
+ ],
+ "controls": [
+  {
+   "qid": "cat001",
+   "question": "En la Notifier PEARL, ¿cuántos equipos admite un lazo SLC y qué límites de cableado hay (aisladores), y cómo se dan de alta y editan esos equipos desde la central?",
+   "models_detected": [
+    "Pearl"
+   ],
+   "question_sin_modelo": "En la Notifier , ¿cuántos equipos admite un lazo SLC y qué límites de cableado hay (aisladores), y cómo se dan de alta y editan esos equipos desde la central",
+   "pool_ids": [
+    "a8b16f43-1421-4275-a5bb-8e9b636fd3c2",
+    "c4b77fc9-33f7-4de3-9470-6caeb080d46b",
+    "0dd67468-e2bb-4150-848f-e0a4369e1a11",
+    "503bc41c-4b85-4223-b8c1-103a54a96a26",
+    "f1ef9e2b-f192-4650-8bd1-81830f049a29",
+    "4126828c-e8cb-4e8b-9666-18d3da540abc",
+    "d2b411b3-6a3a-4fa8-81aa-5ec531e94479",
+    "af876e35-9069-4edb-a508-4f9fe2148a35",
+    "26ac9301-36da-4392-9f7b-1e4cab5d80da",
+    "67fe670e-eaf9-4f09-8c18-69e257d91913",
+    "a92b566d-4a7e-4e04-91ef-a8d3b66d7723",
+    "f68b0586-ae54-4089-b286-ee8792834c3d",
+    "4077de83-9ac8-4187-bc52-06cbabd29458",
+    "e522c315-ef36-4830-ae62-cf6de8d2d0db",
+    "a952e347-75f7-4579-8c32-feaaf513300f",
+    "1a056cda-fe17-4518-9af0-9f9b94f2e08a",
+    "b8b6aa5c-1a81-4c6c-997c-f53df112c155",
+    "c8d2f19a-cd19-4d91-9431-2688caec66e3",
+    "51df7a51-4970-4cfc-8ef1-3771f480dd78",
+    "bee5f0c3-bbb4-4ddc-a6c9-e047002379e4",
+    "da4aa672-a202-4432-b19e-f7b0164ebc30",
+    "8339f632-88c4-41c3-8b14-82348f7ab837",
+    "e886f2e8-7b71-437b-8a0a-ad9a1800b930",
+    "8fa27528-3067-4851-95ad-9f00e4e9826c",
+    "2bacf5d8-e2b4-4520-b412-0bdb72431a6c",
+    "02e717d8-6bf6-47b0-977e-a11f2194d5db",
+    "dd20df27-b0f3-493b-a811-25bfa50229a2",
+    "7f2313e6-f6f3-49d1-b0c1-331468185f6a",
+    "d190c7a5-f29c-4411-8e2d-6e7f0174c444",
+    "f87cd4f4-690a-4fb6-a898-72f55586284f",
+    "a59b95ed-b287-46f7-a4e6-3a1630e23ae0",
+    "5d177041-9316-4168-928f-7fbcb41e4b7d",
+    "aea8910f-3309-4d88-a61f-6eee9d0955a7",
+    "fcea5cc3-937f-4553-ba66-d82605de297f",
+    "39e581ab-3536-4fe5-8faa-4537ca38213f",
+    "ac652044-a4ff-40bd-9011-95521bb79e0f",
+    "18634dc9-8552-4ffe-8150-38be6b08fef4"
+   ],
+   "pool_n": 37
+  },
+  {
+   "qid": "cat005",
+   "question": "¿Cuáles son las características técnicas de la central de detección de gas Fidegas CS4, y en qué se diferencian las versiones digital y analógica?",
+   "models_detected": [],
+   "question_sin_modelo": "Cuáles son las características técnicas de la central de detección de gas Fidegas CS4, y en qué se diferencian las versiones digital y analógica",
+   "pool_ids": [
+    "340a3c39-bbfd-4402-9aca-6e199b999128",
+    "0c120e45-a546-4947-bf68-2924cdab2705",
+    "8ff1618c-ffe3-4215-b68e-a67c224a20b7",
+    "268e3343-dd97-4f67-95a4-b7476794e4ce",
+    "bee212b7-691a-4e30-9848-fdbaa8fdfb74",
+    "7e077f72-302a-41d5-8c06-fce51959d64f",
+    "7b512eee-389c-4c49-921a-59f86f24a1d9",
+    "0493c949-cd49-488e-b7bc-c2a516d98f23",
+    "f87cd4f4-690a-4fb6-a898-72f55586284f",
+    "f9a572be-fbe7-44c1-a85b-38adeb897a90",
+    "8c9b9f0b-8a51-417f-b05e-63d4dd61ed48",
+    "46064145-348d-4173-946b-6b0bfdabfcf7",
+    "b40905f6-473f-4c62-88ee-b508eee5935a",
+    "8695e14f-2df2-4718-87a5-63f99f7c1ca6",
+    "345022d4-fc48-4a16-97d7-1651a100191f",
+    "8a77f97e-f987-44c2-89dc-d7ac1f819fdf",
+    "3a74be02-e58b-4f8a-bf51-1eebefed425b",
+    "378d6ece-f60c-4f08-98d4-dbbd4ae2b817",
+    "fc43c6ca-628b-4bde-aaba-440d7667b357",
+    "15802028-20a4-4775-a35c-ad37fec0e73e",
+    "a0d68efa-8909-459c-81b8-8ae40385d5ce",
+    "cd02528d-f8d7-4e1e-912b-ff906bd96877",
+    "934b00a8-739f-4d7b-8853-32caad5232a4",
+    "f418e702-97da-4086-8b17-c5a0dd45449f",
+    "a33a3d5f-a963-40a5-87d5-e6792599d7e7",
+    "d95f92a5-f28e-4565-87f8-306d479d983d",
+    "5d177041-9316-4168-928f-7fbcb41e4b7d",
+    "2160bd36-9ecc-4f7f-b30d-5cf828216d13",
+    "4caa43cd-a550-498e-b730-b33cfeb1f20c",
+    "59b832f5-b88c-427d-a02a-e17a77ce63c0",
+    "20275b97-4f62-4c39-a4a9-3b517d178382",
+    "aea8910f-3309-4d88-a61f-6eee9d0955a7",
+    "4ded9db9-604e-4586-881d-e567567f9a20",
+    "ea3e5666-68c7-4216-ac3c-79ca6f06a75c",
+    "bf32d0b0-2b7a-4a9a-a8ff-3b400c72eca5",
+    "36213d62-8f1a-4a62-9cae-f9d97a20c4dd",
+    "a223976c-be70-41eb-a345-cf9b3f412078",
+    "6bba4f04-ba44-47c7-9310-72ba7a8b4f91",
+    "e5569d77-cfdf-4eb4-bc00-135ae38fc761",
+    "9bdba248-3896-434d-acd0-c8e6c9220845",
+    "fcea5cc3-937f-4553-ba66-d82605de297f",
+    "bdd69c04-f496-4323-847a-395295d57bc3",
+    "295d7f86-d023-435c-83e9-4f84771ca523",
+    "1e776678-2641-4b8c-92ab-6999199ded16",
+    "a8b16f43-1421-4275-a5bb-8e9b636fd3c2",
+    "88c17022-6e34-4da1-8abd-8f8cb721d086",
+    "d9faa49b-300b-4491-9a18-6f1d65caba99",
+    "f22c14d2-9be3-4ea2-b630-c4c872db5499",
+    "40b32fb7-02a4-459b-8e5f-b8cc5a0a2d5e",
+    "27658dc6-a3d8-45ce-bd03-d993a28f01f4"
+   ],
+   "pool_n": 50
+  },
+  {
+   "qid": "cat007",
+   "question": "En el detector por aspiración FAAST LT-200, ¿qué salidas de relé y de sirena tiene y con qué contactos, cómo se comporta el relé de avería ante un fallo o un corte de alimentación, qué resistencia de fin de línea llevan las salidas de sirena y cuál es la especificación eléctrica de los contactos de relé?",
+   "models_detected": [
+    "FAAST LT-200",
+    "FAAST LT"
+   ],
+   "question_sin_modelo": "En el detector por aspiración , ¿qué salidas de relé y de sirena tiene y con qué contactos, cómo se comporta el relé de avería ante un fallo o un corte de alimentación, qué resistencia de fin de línea llevan las salidas de sirena y cuál es la especificación eléctrica de los contactos de relé",
+   "pool_ids": [
+    "fd719684-17bc-4981-8c6d-6f4bc84edc72",
+    "f539c939-6e6a-4b18-8e3f-abab6f4459b4",
+    "85ca9208-a4e1-4ad1-b360-1b2820bf1953",
+    "8c1cd486-3510-42d7-b71b-1ae43cb2893f",
+    "2f0ca0a4-d9a8-4969-ab0e-7d2d9dcb9e49",
+    "b113531b-1954-428b-b08c-bf0721e3a1e5",
+    "373cf16b-8155-4820-abcf-93ebe84b26c1",
+    "8060eb42-9c8d-4dd9-a9c9-582946fb5734",
+    "77e12a99-b1d0-4c1d-b9fa-f39572d24189",
+    "0438dbce-ae0f-4b74-8209-b86c42da87ef",
+    "7362ea0f-2b9d-42aa-8b2c-43b81b1931c0",
+    "78e0cbd2-1dd9-46c2-b9c4-57921c8d6dbd",
+    "6c3cb8df-8369-4cd4-bd8a-fc5f35be7e49",
+    "d7dbcba9-9104-4216-90fe-37d2baafbe86",
+    "8b7287ea-e8ea-4e92-84f2-33050751a1e3",
+    "493aa3ce-e315-4595-a5af-43a8e88c82ba",
+    "9ee4655c-2220-43d7-af96-e643e5f720e6",
+    "64b8c346-f75d-48d7-b1e1-9a1627b8b943",
+    "1b3a2b55-ea39-4a6c-b676-c70673708fa0",
+    "0d64909d-a005-48f9-b0ab-af2de2269cff",
+    "154a7bfd-fa11-43e8-8e7b-703c2371d8dd",
+    "ff120c5b-d4f9-4006-b650-eb204fb99ed4",
+    "7ea28e5a-8693-40f4-a738-8f3bc4c70c47",
+    "a3f2c932-d3c6-459c-994a-e361fde80878",
+    "225af315-9e59-4a89-931a-fd551e5a45ca",
+    "686013cf-af20-4aa0-bbf6-78e2978dc72b",
+    "48b1b2c1-fae7-48ec-b8e1-08a273c83ea0",
+    "89b96f56-a83e-4b46-8b15-99c482faee6e",
+    "5ba0d514-7b1f-4d56-88f7-901f28242468",
+    "7bf36711-6c18-43e4-aee4-4864dd59792b",
+    "80f7a04f-3b43-4a6f-a0dd-13a57721f442",
+    "94a04ec2-e032-4da1-b181-37462df15445",
+    "422ed8a7-8bea-49d6-ac82-da39d6fb9050",
+    "b379f1db-8866-44b8-b434-74a3bf0073e0",
+    "65f6882e-51af-49b4-b712-3148dd15d5d8",
+    "57ba5142-1091-4748-8df4-ed552340f199",
+    "2e549215-e5e4-4865-8687-e6f2f183058a",
+    "e49a4944-4157-42e3-a1c5-15ec4a6e8926",
+    "5ba44464-842b-46f7-ac43-259be83ad416",
+    "e42b41f2-2f38-499f-831d-2773cac1834e",
+    "b7225872-6c06-471e-8eee-acb73e324b84",
+    "bf4c7e36-4482-42c8-a760-36caa0842631",
+    "18210329-020d-459d-b81e-5b98c29bd191",
+    "6c2f09a5-3ac0-490b-83e0-f4aac8068a1d",
+    "de962291-ba9d-448d-ad88-b3cc930cd2a5",
+    "9053f7f3-04cb-443d-a6a1-d47cab0b6772",
+    "3ca56038-9521-4d46-9461-355942d72e38",
+    "8221ec70-6882-41b5-8dd6-705a1a7e739a",
+    "62ded8a4-c738-435e-87d1-32e0beca01aa",
+    "c7df95ad-c092-4ae8-ac6a-4cf0a2a674fd"
+   ],
+   "pool_n": 50
+  },
+  {
+   "qid": "cat008",
+   "question": "¿Cómo se cablea el módulo de entrada M710 / MI-DMMI en el lazo, y qué resistencias necesita (fin de línea y modo 3 estados)?",
+   "models_detected": [
+    "M710",
+    "MI-DMMI"
+   ],
+   "question_sin_modelo": "Cómo se cablea el módulo de entrada / en el lazo, y qué resistencias necesita (fin de línea y modo 3 estados)",
+   "pool_ids": [
+    "5ed7a581-6f70-45b4-a792-cff6899e60ca",
+    "9cfb5d22-1082-4903-896b-efe36d5f4567",
+    "f3793f7a-c0ab-4a5a-847b-534dbccd58a9",
+    "91485500-6a29-4dc7-ac54-a6f50b802f6c",
+    "97e161bb-3466-46d4-95c4-b3a005b468ab",
+    "c9c64902-9134-4da3-87e1-0cacfcaaa718",
+    "f8694450-9b18-46cc-93e6-edb1a772835e",
+    "e2a07867-2ab8-4da6-a412-d95c9b07020f",
+    "63227855-47c0-49a3-aebd-eb81e93ae2db",
+    "fb21b453-85ec-4e91-941a-922ccf098880",
+    "33f0ef2f-8e6d-4720-b28b-0a5b7612cd6c",
+    "93a35630-853a-47e8-b560-ea20cb5b5621",
+    "4da4d8a2-0b2c-463a-ab25-faf7271a28e9",
+    "7ab756c7-06a9-45fd-bc6d-1b238dc570fe",
+    "312c3fa0-2397-4b7b-a7a3-9cfef74ddfee",
+    "457f8596-41d1-46cf-bca6-917718e58a43",
+    "8c063677-40c1-45c5-9660-9e0d9a9cd0ed",
+    "423b5aeb-5431-495f-8ee8-cdc27b74816f",
+    "d3557caf-897b-4e6c-8046-85124d76cfc1",
+    "52e85a17-d7b8-4ea6-8b0a-4c83fa9eabca",
+    "c8f2d5f8-e1b0-4b91-9800-817e38084b60",
+    "5d339c96-50ca-4541-aa8e-3e78e9e834e3",
+    "89eeed41-856d-4ce6-be85-cfb465c403e5",
+    "33544fa8-4dfb-415c-8879-a5c17ab71218",
+    "7a3a1a6a-a77d-464b-b23c-eba56b475472",
+    "e7088366-3294-4d1f-b474-14911f6800ae",
+    "74e8c683-b7f2-4a3e-a6d4-e3ce77384561",
+    "8112656a-4345-4cb7-8787-30d0defb5bc0",
+    "9f188445-0039-493a-95c0-5f23ad69af50",
+    "e5574ef9-16d1-4d31-b7a7-27351634e18a",
+    "5c09f6c2-2f5b-4c29-aacf-c7123e21529f",
+    "07caf53a-5a6f-415d-b522-5f23f2a7f190",
+    "e6ca983f-14aa-468a-aabd-998e987c4c97",
+    "d9516b90-18ce-48ce-b774-f57a1077ac08",
+    "6c45494f-2c27-4838-b278-2a4a11695933",
+    "f045190c-e4fb-43df-94ea-4dd64540a516",
+    "ba9f7a3f-1b84-45a6-9058-925903d6fee3",
+    "a1bd675d-18c9-472f-a0a3-19c354a70fac",
+    "baa54f68-81a7-4158-9190-61d5c3d73b5b",
+    "b04a00a4-1013-4dcb-b803-f2ff3192ae7d",
+    "2a678814-603d-460e-b051-668919f374e2",
+    "0272e8fd-22ce-4e47-8464-046e5aa63252",
+    "29635bbc-78e3-4ee3-ab03-78ea4a33992f",
+    "c9561a27-7d1a-4795-99ac-09cad363bfba",
+    "6b594fa7-c372-4ad4-b03a-8a8c31d42975",
+    "c9a2d0c0-4c5f-47c8-8560-8c0325184b2c",
+    "53c3aaaa-7524-4892-af8f-b2785cadc672",
+    "05ce4dd8-8351-4630-9957-c5dce16cfb89",
+    "b3bfbf1c-f60c-48ec-8e94-63a9be4834af",
+    "7c5423ea-a50c-4636-a698-2b4d3915af11"
+   ],
+   "pool_n": 50
+  },
+  {
+   "qid": "cat009",
+   "question": "¿Qué resistencia de fin de línea (EOL) hay que instalar en las líneas de zona de la central convencional NFS Supra?",
+   "models_detected": [
+    "NFS-Supra"
+   ],
+   "question_sin_modelo": "Qué resistencia de fin de línea (EOL) hay que instalar en las líneas de zona de la central convencional",
+   "pool_ids": [
+    "dccf72bf-37da-4ab9-ae74-56fa6552a1c8",
+    "cbf6d1c3-2089-4a8d-838e-44f68a739177",
+    "ec2c308e-34e2-4cbc-8a22-6303b1995644",
+    "c2eafe7a-71ee-49bc-9af5-1c7b091a721c",
+    "8ed39797-f15d-4647-8adc-78c01fb7b0d0",
+    "bd280d16-85ee-4716-b452-5eb23ba4ca8c",
+    "4dccf4c3-2d45-4acf-930d-72cc0eab5028",
+    "fd4061c1-95d7-4b43-8205-06d5b155c177",
+    "f412ba28-c317-432f-9413-41e673ac3147",
+    "0e63b2ea-2196-49d2-a25f-b3b8d0172a84",
+    "2adae9b9-0763-46cf-98fc-05e5fbd5365a",
+    "f7446982-b8c5-4873-ad50-1e51fa491844",
+    "6ce4e65d-97b2-49af-ab95-bc34f7fae28b",
+    "7d6e56a0-300f-4c82-b89d-34160fe594fd",
+    "a9320350-3c42-4a2c-87c8-bec42dffa84c",
+    "a8275677-4498-431f-9ca9-a756cb804938",
+    "c23baed9-35ab-49e1-9695-1fcc803047b9",
+    "8b726d5a-1491-40e9-a488-34ae5629526e",
+    "b80aa594-2c33-4a7e-94dc-2040e4da860a",
+    "8fef952b-9b12-4fcf-81f4-216b1f91ae79",
+    "72c0a9a1-f6d9-4fba-9559-ed5ce74714eb",
+    "ab35b763-1c39-45e1-93bb-8b52bb270eb7"
+   ],
+   "pool_n": 22
+  },
+  {
+   "qid": "cat010",
+   "question": "¿Cómo se alimenta la sirena/avisador intrínsecamente seguro IS-mA1 en una zona peligrosa (ATEX) y cuáles son sus parámetros de seguridad intrínseca de entrada?",
+   "models_detected": [
+    "IS-mA1"
+   ],
+   "question_sin_modelo": "Cómo se alimenta la sirena/avisador intrínsecamente seguro en una zona peligrosa (ATEX) y cuáles son sus parámetros de seguridad intrínseca de entrada",
+   "pool_ids": [
+    "aad31581-bef4-4991-80cf-b014e889b1c3",
+    "d4ae732f-2838-4134-a558-680b1ac36bb8",
+    "77003e0f-fbaa-4def-adc3-cbf7cc000683",
+    "0731690b-65c4-4b56-83f2-c0606d8ee2d3",
+    "2b9a9f41-f468-42db-895b-920fb5050472",
+    "4feea9a8-59d3-4742-9ab9-2ff9aee1caa0",
+    "f214a7fc-cff4-4a8b-b6f8-74af62c936b8",
+    "87bf83d1-2602-4199-8d3e-d45e7a17048f",
+    "7eff6257-85e6-402d-9947-90c7336ff7e1",
+    "9d4ae236-ad66-428e-91b2-5fd254715b23",
+    "c07ed164-df92-4e07-9e8a-d1a4d730d3f0",
+    "1a7ac511-31fd-4281-a482-157c3dabcb15",
+    "e10519a0-e237-49df-a151-83a859609a8e",
+    "44e017be-c4d8-450b-89a8-3d819901ca74",
+    "048f407c-eda7-416e-a63e-6d07a583dd78",
+    "77a0cce8-b238-4507-a4ab-17491badfe0c",
+    "a979aa4c-ad14-41ea-b48d-2f2faf038c1a",
+    "ba38fed9-e1a9-4388-941e-78de2289e27a",
+    "68c40b6f-c4a4-478e-adff-bf32febc2cd7",
+    "75d15cc3-9784-4690-8009-18c943828329",
+    "25d7fd21-e168-43e4-b2e6-b73b15aff49d",
+    "a455d3ec-65fd-40bf-b0f4-fe603694c7d3",
+    "2be22a51-7a94-4d38-af02-7c24046965bb",
+    "1ffd36f5-2f6d-4759-aac5-e1cf532833da",
+    "d335a010-5715-4214-975b-1e18bf58ac75",
+    "df475873-b2d4-4884-9086-a527771a3f82",
+    "afcc6b00-22f4-4a2c-8ec5-98325d407845",
+    "e3a101aa-41dd-4aa1-a042-1b7b01bcf467"
+   ],
+   "pool_n": 14
+  }
+ ]
+}

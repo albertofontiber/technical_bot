@@ -109,11 +109,29 @@ creada), stamp catálogo-commit; 28 tests nuevos (suite 411). **+ packet C2 COMP
 (3 tandas Alberto): 19 marcas → 43 productos re-domiciliados; lecciones: hosting≠OEM,
 string-grupo→contextual, familia≠marca (FAAST→paraguas familia+LT-200 divergent=true, expanden).**
 
-**Qué sigue: (gates Alberto) merge #105 + #106 → S2** (shadow-replay 39 golds+query_logs → FP-rate →
-flag on dev → **pin-regen** → famtie freeze+catálogo-commit con tabla de predicciones pre-registrada,
-brazos add/replace; aceptación hp018 4/4 sin regresar hp009) **→ S3** (candidates ~630 por clase,
-demanda del shadow) **→ S4/F3** (re-tag DB, dry-run + snapshot). Backlog: BRAND_MAP strings
-adjudicados a `catalog_gt.py`; re-homing FL*→systemsensor (opcional, marca Alberto); 6 homónimos cola.
+**s92-s93 (DEC-084): F2 MEDIDO Y SHIPPEADO A DEMO; el lever identidad-en-retrieval queda EXHAUSTO.**
+S2 con predicciones pre-registradas + pin-regen: **ADD gana** (retrieval-miss famtie 15-control→**12**;
+hp018 4/4 contrato; hp009 intacto; REPLACE reproduce la regresión hp009 CON mecanismo visible) →
+`IDENTITY_RESOLVE=on`+`add` **ON en Railway** (PRs #107-#109; verificado vivo vía shadow: ZXe→+3
+variantes). S3-fetch acotado: **NO-OP 12→12** (el selector léxico no encuentra los chunk-ids juzgados)
+→ NO-SHIP, código tras flag default-off. **−3 neto banked; el residual 12 ≠ identidad.**
+
+**s93b (DEC-085): BAKE-OFF fine-grained EJECUTADO (8h autónomas; plan v3.2 dúo-hardened ×2 +
+pushback de Alberto "no solo FTS")** — `evals/s93_bakeoff_resultados.md` = artefacto de decisión.
+**PASO-0 trace: 30/31 soportes nunca entran a canal (fine-grained confirmado); hp012 '99+99' muere
+en diversify → lever diversify, no ingesta. A-FTS: NO-GO 1/11 + desplazamiento 12-19/20 en controles.
+B-multigranularidad cruda: 1/10 (aislar ALEJA: 5/8 sub<padre). C-extracción-tablas→ENUNCIADOS: 2/4 ✅
+único mecanismo con hechos que nada más gana → ES el que financia la re-ingesta (~$150-300, gate
+presupuesto Alberto; piloto natural = ~6 docs del testbed + famtie). HyDE solo: 0-1/10 (comprime
+gaps, no cruza; re-evaluable post-ingesta). Cuello re-caracterizado: gap de VOCABULARIO query↔celda,
+no tamaño del chunk per se.** Nada cablado (FTS_ALL_QUERIES no se construyó; flags intactos).
+
+**Qué sigue:** (1) **decisión de presupuesto Alberto**: piloto extracción-tablas→enunciados sobre los
+docs del testbed (~$5-15) → si famtie confirma, re-ingesta corpus (~$150-300); (2) lever diversify
+(hp012 '99+99', barato); (3) conduct-level clarify (caso ZXe demo) + calc-assist (par del empresario)
+CON Alberto; (4) S4/F3 re-tag DB gateado por consumo. Backlog: BRAND_MAP→`catalog_gt.py`; re-homing
+FL*; 6 homónimos cola; ~630 candidates demand-driven; bvg PASS-control ±2 antes de cualquier ship de
+flag (coste juez, gate Alberto); dual-judge ~sept.
 
 **s90 (DEC-079): F0 APROBADO (D1-D7) → contrato CANÓNICO; F1a slice vertical Morley CONSTRUIDO.**
 `catalog_store.py` (la puerta: validate reglas-duras + resolve con contrato `expand`, check-homónimo

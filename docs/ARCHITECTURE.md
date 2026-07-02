@@ -71,8 +71,11 @@
 > MUERTA se QUITÓ de raíz del path de retrieval** (`VECTOR_NOCAT` permanente — 4 sitios + broad-fallback
 > + 3c-i + detección inerte; la detección de categoría viva para catálogo queda en el handler). La
 > entrega de **diagramas** SIGUE rota (`has_diagram`/`diagram_url` a **0 de 25.090**, DEC-041) → el bot
-> hoy NO adjunta diagramas. **Estado retrieval s85:** retrieval-miss family-aware = 14 (instrumento
-> `retrieval_miss_judge.py`); el cuello del eval sigue siendo SÍNTESIS (DEC-070/073).
+> hoy NO adjunta diagramas. **Estado retrieval s93:** retrieval-miss family-aware = **12** con
+> `IDENTITY_RESOLVE=on`+`add` EN DEMO (F2, DEC-084; control-mismo-día 15); el lever identidad queda
+> EXHAUSTO y el residual 12 = clase fine-grained (gap vocabulario query↔celda; el mecanismo que la
+> paga = extracción-tablas→enunciados, DEC-085, re-ingesta gateada por presupuesto). El cuello del
+> eval PASS sigue siendo SÍNTESIS/plateau (DEC-070/073/075).
 >
 > ⚠️ **Caveat s60/s61 — no-determinismo del pipeline, MEDIDO:** el mismo técnico con la misma
 > pregunta puede recibir distinto top-5 entre días por DOS vías: (1) el reranker LLM cambia su
