@@ -23,6 +23,13 @@ VB = {
     "ada": ["ADA Componentes Electronicos", "Notifier"],
     "coelbo": ["COELBO", "Notifier (It)"],
     "ffe": ["Fire Fighting Enterprises"],
+    "calectro": ["Calectro"],
+    "firelite": ["Fire-Lite Alarms", "Notifier"],
+    "avotec": ["AVOTEC"],
+    "cranford": ["Cranford Controls"],
+    "desico": ["DESICO"],
+    "detectortesters": ["Detectortesters (No Climb Products)"],
+    "morley": ["Morley-IAS"],
 }
 MOVES = {
     "unresolved:f5000": "ffe",           # fila 1, adjudicada por Alberto (2ª tanda)
@@ -35,6 +42,21 @@ MOVES = {
     "unresolved:nsre24": "ada", "unresolved:estela-1": "ada", "unresolved:estela-2": "ada",
     "unresolved:efd1": "coelbo", "unresolved:efd2": "coelbo",
     "unresolved:efd3": "coelbo", "unresolved:efd4": "coelbo",
+    # 3ª tanda (Alberto): filas 9/10/11/13/15/17/18 ✅; la 14 (HLS-formación) = ruido, sin acción;
+    # 4→contextual-GRUPO y 5→systemsensor son BRAND_MAP-only (0 productos)
+    "unresolved:ug-3-a4o": "calectro", "unresolved:ug-3-a5o": "calectro",
+    "unresolved:acm-8rf": "firelite", "unresolved:afm-16af": "firelite",
+    "unresolved:afm-16atf": "firelite", "unresolved:afm-16atx": "firelite",
+    "unresolved:cac-10f": "firelite", "unresolved:fcps-24f": "firelite",
+    "unresolved:fcps-24fe": "firelite", "unresolved:ldm-32f": "firelite",
+    "unresolved:led-10": "firelite", "unresolved:led-10im": "firelite",
+    "unresolved:ms-5210ud": "firelite", "unresolved:ms-5210ude": "firelite",
+    "unresolved:nac-rem": "firelite", "unresolved:prt-24": "firelite",
+    "unresolved:pan-avd2": "avotec",
+    "unresolved:vtb-32e": "cranford",
+    "unresolved:tg-1020": "desico",
+    "unresolved:solo-a10": "detectortesters", "unresolved:solo-a3": "detectortesters",
+    "unresolved:795-122": "morley",
 }
 
 

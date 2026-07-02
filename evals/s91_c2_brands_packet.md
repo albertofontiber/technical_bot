@@ -19,4 +19,8 @@
 | 17 | Detectortesters | `detectortesters` | línea Solo de No Climb Products (OEM); datasheet propio ES | 2 (Solo A10/A3) |
 | 18 | DXc Connexion | `morley` | NO es marca (panel DXc + Connexion de Morley); **el producto desbloqueado es `795-122` = numeración 795-* de tarjetas Morley** (tu pantallazo s90: 795-072/068-100) | 1 (795-122) |
 
-**TU MARCA: [ ] ✅ tal cual (aplico las 10) [ ] ✏️** — notas: __________
+**ADJUDICADO COMPLETO s91 (Alberto, 3 tandas) — PACKET CERRADO:**
+- Filas 9/10/11/13/15-16/17/18 ✅ → APLICADAS (22 productos más; total C2 = 42 re-domiciliados).
+- Fila 14 (HLS-formación) = **ruido** (doc administrativo; sin acción de catálogo).
+- Filas 4-5 (FAAST) — resolución semántica de Alberto: esta tabla mapea el STRING-del-doc, y debe apuntar al OEM cuando lo nombra → **"FAAST (System Sensor Europe)"→`systemsensor`; "FAAST (Honeywell)"→contextual-GRUPO** (bajo Honeywell conviven OEM SS [LT-200] y Xtralis [FLEX] — un string de grupo no decide per-modelo). 0 productos; BRAND_MAP-only.
+- TODO (no bloquea): trasladar los strings adjudicados a BRAND_MAP en `catalog_gt.py` para re-runs del loader (tier adjudicado); 'DELTA'/'Golmar'/'FUEGO' NO se generalizan (genéricos/artefacto-de-título).
