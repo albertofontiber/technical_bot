@@ -246,10 +246,11 @@ def validate(catalog_dir: Path = CATALOG_DIR) -> list[str]:
         if not row.get("provenance") or (added_by and not row.get("added_by")):
             errors.append(f"{kind}[{key}]: provenance/added_by obligatorios (anti-Excel-opaco)")
 
-    # canonicals activos indexables (para detectar colisión alias↔canonical) + dup canonical↔canonical
+    # canonicals CONSUMIBLES (activo + no-candidate = los que entran a _by_canonical) — la
+    # colisión solo es ambigüedad real entre consumibles; los candidate no se indexan (s91).
     canon_norm: dict[str, str] = {}
     for r in prows:
-        if r.get("estado") == "activo" and r.get("canonical_model"):
+        if r.get("estado") == "activo" and r.get("canonical_model") and not r.get("candidate"):
             k = norm_token(r["canonical_model"])
             if k in canon_norm:
                 errors.append(f"products: canonical_model DUPLICADO tras normalizar "
