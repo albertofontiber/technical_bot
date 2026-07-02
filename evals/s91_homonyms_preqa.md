@@ -17,15 +17,15 @@ La firma en corpus: doc PROPIO System Sensor (I56-*) + docs Notifier/Morley que 
 con idéntica categoría.
 | token | evidencia |
 |---|---|
-| `B501AP` | doc propio I56-2668 (base de detector B500); Morley/Notifier la citan en sus sirenas/estrobos |
-| `B501` | **PÍXEL: tabla 'B500 SERIES BASE OPTIONS' con la fila B501 en el manual propio SS** (© System Sensor 2004, Pittway Trieste); MNDT150 = manual de la central ID-200 que la usa |
-| `REFL20/30/40/50/60` (×5) | reflectores compartidos del 6200R (I56-1726, SS) y del LPB-620 Notifier (I56-1671) — **ambos docs llevan numeración I56-* de System Sensor** (señal OEM); el rebrand completo LPB↔6200 no está probado en web, pero los REFL* son el mismo accesorio |
+| `B501AP` | doc propio I56-2668 (base de detector B500); Morley/Notifier la citan en sus sirenas/estrobos. **Nota s91 (pregunta Alberto): B524HTR SÍ está contemplado** — I56-2668 cubre B501AP+B524HTR y el doc_map mapea a AMBOS; `systemsensor:b524htr` ya está limpio (solo namespace SS, sin homónimo) → no necesita adjudicación |
+| `B501` | **PÍXEL: tabla 'B500 SERIES BASE OPTIONS' con la fila B501 en el manual propio SS** (© System Sensor 2004, Pittway Trieste); MNDT150 = manual de la central ID-200 que la usa. **Adjudicado s91 (Alberto): OEM SS confirmado; vendedor = Notifier SOLO → vendido_bajo=[System Sensor, Notifier]. Serie B500 confirmada (tabla Alberto): B501/B501DG/B524HTR/B524IEFT-1/B524RTE → registrar umbrella `B500` (divergent=true; B524RTE sin doc en corpus, miembro declarado)** |
+| `REFL20/30/40/50/60` (×5) | **RESUELTO al píxel (s91, PDFs de notifier.es aportados por Alberto): AMBOS manuales llevan "© System Sensor 2002" en TODAS las páginas.** El del 6200R firma Pittway Tecnologica SpA Trieste (planta europea SS); el del LPB-620 firma Notifier España como *garante/distribuidor* ("Notifier garantiza este producto") pero el copyright es SS — por eso "parecía OEM Notifier". Tablas de reflectores IDÉNTICAS (REFL20/30-40/50-60 + kits calefactores REFL20-C/REFL50-C + "6200 FILTER", mismas dims 205/305/400/548/600 mm); el manual del LPB-620 hasta conserva copiada la línea "Detector convencional… con contacto de relé seco" del 6200R. Alias de marketing "Reflex 20..60" en ambos → registrar. LPB-620 sigue producto Notifier (direccionable) con oem=System Sensor |
 | `6500R` / `6500RS` | detector de haz 6500 (I56-2081, SS) vs doc Notifier MADT780 que lo lista |
 | `6424` ⬅ movido de G3 | **web+PÍXEL: OEM System Sensor** ([datasheet](https://www.systemsensor.com/en-us/Documents/6424_DataSheet_A05-0217.pdf)); manuales GEMELOS Morley (MIE-MI-140) y Notifier (MIDT750) = venta dual real |
 | `DH500` / `DH500ACDC-E` | **PÍXEL: el doc Notifier MIDT1040 CITA en su propia caja el doc SS '156-512-07R'** — es la localización ES del manual OEM; SS propio confirmado (St. Charles, Illinois) |
 
 **Canonical → `systemsensor:*` (OEM), redirect desde notifier/morley, vendido_bajo=[System Sensor, Notifier, Morley-IAS].**
-**TU MARCA G1: [ ] ✅ [ ] ✏️** — notas: __________
+**TU MARCA G1: [x] ✅ (adjudicado en sesión s91)** — notas: B501AP✅ (incluye B524HTR); B501✅ (vendedor solo Notifier); REFL✅ (duda de Alberto resuelta al píxel: © SS en ambos docs); 6500R✅; 6424✅; DH500✅.
 
 ## G2 · OEM tercero → vendido por Notifier/Detnov — 7 ítems, propongo A
 | token | OEM (doc propio) | quién lo vende |
@@ -58,7 +58,7 @@ con idéntica categoría.
 |---|---|
 | `APIC` | "Addressable Protocol Interface Card" = tarjeta de interfaz en productos anfitriones DISTINTOS: Aritech APIC para **ModuLaser** vs Notifier APIC para **LaserStar HSSD-2 (Stratos)**. **Web-CONFIRMADO que son tarjetas DISTINTAS**: el APIC AirSense/Aritech para ModuLaser declara literalmente "NOT compatible for installation in Stratos range aspirating devices" ([installation sheet](https://www.manualslib.com/manual/3481648/Airsense-Aritech-Apic.html)) — incompatibles entre sí → clarify. |
 
-**TU MARCA G4: [ ] ✅ B-clarify [ ] ✏️ (es el mismo HW → A)** — notas: __________
+**TU MARCA G4: [x] ✅ B-clarify (adjudicado s91, Alberto: "B-clarify por seguridad")** — notas: tarjetas incompatibles entre sí (web + píxel); el bot pregunta el sistema anfitrión antes de responder.
 
 ## Qué pasa tras tus marcas
 Aplico por la puerta: canonical+redirects+rebrand-of+vendido_bajo (provenance `gt-s91-alberto-homonyms`);
