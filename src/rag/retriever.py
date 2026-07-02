@@ -1060,6 +1060,7 @@ def retrieve_chunks(
     # (expand-only). off→passthrough; shadow→log-only; on→seam 1 (models) + seam 2 abajo.
     # UNA llamada por query (aquí, no en extract_product_models: se llama en 3 sitios).
     from src.rag import catalog_resolver as _resolver
+    _n_models_pre_resolve = len(models)   # presupuesto ANTES de expandir (anti-confounder, dúo S1)
     models, _identity_res = _resolver.resolve_for_retrieval(query, models)
 
     # (s85, DEC-071) Query-category detection was removed here: it only ever fed the dead
@@ -1069,7 +1070,11 @@ def retrieve_chunks(
     # CATEGORY_TERMS → get_category_models) and is untouched.
 
     # For comparisons (2+ models), increase top_k to get enough chunks from each model
-    effective_top_k = top_k * len(models) if len(models) >= 2 else top_k
+    # (dúo S1) presupuesto por el nº de modelos PRE-expansión: si el resolver expande
+    # (ZXe→3 variantes), NO multiplica top_k — separaría mal la atribución del lever
+    # (¿mejora por resolver o por más presupuesto?) y cambiaría coste sin declarar.
+    _n_budget = _n_models_pre_resolve if _identity_res else len(models)
+    effective_top_k = top_k * _n_budget if _n_budget >= 2 else top_k
 
     # HyDE (TECH_DEBT #25 Fase 2): generate hypothetical manual passage and use ITS
     # embedding for vector search. Resolves vocabulary mismatch — when técnico uses
@@ -1447,14 +1452,18 @@ def _filter_to_query_models(chunks: list[dict], models: list[str],
     if not models or not chunks:
         return chunks
 
-    # (s91 F2-S1 · seam 2, solo con IDENTITY_RESOLVE=on) whitelist doc_map-aware del catálogo
-    # gobernado — SUSTRACTIVO (patrón IDENTITY_MAP probado abajo, NO aditivo/DEC-069): protege
-    # del veto del substring a los chunks de docs adjudicados al producto resuelto (la clase
-    # MIE-MI-600: pm=unknown que el vector SÍ trae y este filtro mataría). Fail-open ≥3.
+    # (s91 F2-S1 · seam 2, solo con IDENTITY_RESOLVE=on) UNIÓN-PROTECTORA doc_map-aware del
+    # catálogo gobernado: el filtro medido (nivel-2/nivel-1/rescue) corre INTACTO y después se
+    # re-incorporan los chunks YA RECUPERADOS cuyos docs están adjudicados al producto resuelto
+    # y que el veto habría tirado (la clase MIE-MI-600: pm=unknown). NO reemplaza el filtro
+    # (fix dúo build-S1 #1: el replace estrechaba pools corpus-wide con doc_map 861/1014 y
+    # bypasseaba nivel-2) y NO es aditivo al pool (solo protege lo que el retrieval ya trajo).
     if identity_allowed:
-        by_cat = [c for c in chunks if (c.get("source_file") or "") in identity_allowed]
-        if len(by_cat) >= 3:
-            return by_cat
+        base = _filter_to_query_models(chunks, models, identity_allowed=None)
+        seen_ids = {id(c) for c in base}
+        protected = [c for c in chunks
+                     if id(c) not in seen_ids and (c.get("source_file") or "") in identity_allowed]
+        return base + protected
 
     # (s86 B2 · flag IDENTITY_MAP, default OFF = prod inerte) consumo FILTER-BASED del registro
     # canónico data-driven (índice inverso s84): filtra por membresía-de-doc del query-model

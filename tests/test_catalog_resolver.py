@@ -24,6 +24,9 @@ pytestmark = pytest.mark.skipif(
 def _clean_env(monkeypatch):
     for f in ("IDENTITY_RESOLVE", "IDENTITY_RESOLVE_POLICY", *R.LEGACY_FLAGS):
         monkeypatch.delenv(f, raising=False)
+    # dúo build-S1 #4: los tests NO escriben en la tabla shadow REAL de Supabase — ensuciaría
+    # el dataset que S2 lee como evidencia (FP-rate/demanda) + network-call en tests unitarios
+    monkeypatch.setattr(R, "_shadow_log", lambda *a, **k: None)
     yield
 
 
@@ -53,10 +56,15 @@ def test_legacy_on_con_resolve_off_no_falla(monkeypatch):
 
 
 def test_lista_de_flags_legacy_cubre_el_codigo():
-    # v2.1a: si aparece un flag de identidad nuevo en el retriever, esta lista debe crecer
-    src = (Path(R.ROOT) / "src" / "rag" / "retriever.py").read_text(encoding="utf-8")
-    for f in ("LEVER2_IDENTITY", "LEVER2_PM_RESCUE", "IDENTITY_MAP"):
-        assert f in src and f in R.LEGACY_FLAGS
+    # v2.1a (afilado dúo #6): ESCANEO dinámico — cualquier os.getenv de identidad en el código
+    # de retrieval debe estar en LEGACY_FLAGS o ser el flag nuevo; un flag nuevo no escapa
+    import re
+    known = set(R.LEGACY_FLAGS) | {"IDENTITY_RESOLVE", "IDENTITY_RESOLVE_POLICY"}
+    for fname in ("src/rag/retriever.py", "src/rag/catalog_resolver.py"):
+        src = (Path(R.ROOT) / fname).read_text(encoding="utf-8")
+        for var in re.findall(r'os\.getenv\(\s*"([A-Z0-9_]+)"', src):
+            if "IDENTITY" in var or "LEVER2" in var:
+                assert var in known, f"flag de identidad NO registrado en LEGACY_FLAGS: {var} ({fname})"
 
 
 # ─── detección (regex generada del catálogo) ───
@@ -76,6 +84,23 @@ def test_no_detecta_digit_only():
 
 def test_no_detecta_en_query_generica():
     assert R.detect("cuántos detectores soporta un lazo estándar de la central") == []
+
+
+def test_no_detecta_dimensiones_como_paraguas_dimension():
+    # dúo build-S1 #2 (reproducido): sin boundary trasero, 'dimensiones' disparaba el
+    # paraguas 'Dimension' — y 'dimensiones' es palabra de spec_keywords (query MUY común)
+    assert R.detect("cuáles son las dimensiones del panel") == []
+
+
+def test_hp009_premisa_add_conserva_match_family_level():
+    # hp009 (family-genérico → answer): bajo el brazo ADD, los docs tagueados combinado
+    # ('ZX2e/ZX5e', la clase MIE-MI-530) deben seguir pasando el filtro de modelos
+    from src.rag.retriever import _filter_to_query_models
+    res = R.resolve_query("central ZXe")
+    models = R.apply_to_models(["ZXE"], res)          # add: ZXE + ZX1e/ZX2e/ZX5e
+    chunks = [{"product_model": "ZX2e/ZX5e", "source_file": "MIE-MI-530", "content": "x"}] * 3
+    out = _filter_to_query_models(chunks, models)
+    assert len(out) == 3, "la expansión ADD no debe expulsar los docs family-level de hp009"
 
 
 # ─── resolución por la puerta (contrato expand) ───
@@ -152,21 +177,30 @@ def _chunk(pm, src):
     return {"product_model": pm, "source_file": src, "content": "x"}
 
 
-def test_seam2_whitelist_protege_pm_unknown():
+def test_seam2_union_protectora_reincorpora_pm_unknown():
+    # dúo build-S1 #1: el filtro medido corre INTACTO y los chunks de docs adjudicados se
+    # RE-INCORPORAN si el veto los tiró — no reemplaza al filtro
     from src.rag.retriever import _filter_to_query_models
     allowed = frozenset({"MIE-MI-600"})
-    chunks = [_chunk("unknown", "MIE-MI-600")] * 3 + [_chunk("ZXAE", "MIE-MI-310")]
+    chunks = ([_chunk("ZX2Se", "doc-x")] * 3
+              + [_chunk("unknown", "MIE-MI-600")] * 3
+              + [_chunk("ZXAE", "MIE-MI-310")])
     out = _filter_to_query_models(chunks, ["ZX2Se"], identity_allowed=allowed)
-    assert len(out) == 3 and all(c["source_file"] == "MIE-MI-600" for c in out)
+    assert sum(1 for c in out if c["product_model"] == "ZX2Se") == 3      # el filtro medido, intacto
+    assert sum(1 for c in out if c["source_file"] == "MIE-MI-600") == 3   # protegidos re-incorporados
+    assert not any(c["product_model"] == "ZXAE" for c in out)             # el veto a hermanos sigue
 
 
-def test_seam2_fail_open_bajo_3():
+def test_seam2_no_estrecha_el_pool_de_otros_modelos():
+    # el replace antiguo vetaba chunks legítimos de docs SIN entrada en doc_map (861/1014);
+    # la unión nunca deja el resultado más estrecho que el filtro medido
     from src.rag.retriever import _filter_to_query_models
     allowed = frozenset({"MIE-MI-600"})
     chunks = [_chunk("unknown", "MIE-MI-600")] * 2 + [_chunk("CAD-150-8", "55315013")] * 3
     out = _filter_to_query_models(chunks, ["CAD-150"], identity_allowed=allowed)
-    # <3 supervivientes del whitelist → cae al substring nivel-1 (CAD-150 matchea CAD-150-8)
-    assert any(c["product_model"] == "CAD-150-8" for c in out)
+    base = _filter_to_query_models(chunks, ["CAD-150"])
+    assert {id(c) for c in base} <= {id(c) for c in out}
+    assert sum(1 for c in out if c["product_model"] == "CAD-150-8") == 3
 
 
 def test_seam2_none_es_el_comportamiento_actual():

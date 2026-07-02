@@ -150,7 +150,9 @@ def _build() -> None:
     seen: set[str] = set()
     alts = [c for c in cores if not (c in seen or seen.add(c))]
     if alts:
-        _pattern = re.compile(r"\b(" + "|".join(alts) + r")(?!\d)")
+        # boundary trasero (?![a-z0-9]) — sin él, 'dimensiones' dispara el paraguas
+        # 'Dimension' (reproducido por el dúo build-S1); (?!\d) solo no basta
+        _pattern = re.compile(r"\b(" + "|".join(alts) + r")(?![a-z0-9])")
 
 
 def _ensure() -> None:
@@ -212,17 +214,20 @@ def apply_to_models(models: list[str], res: dict) -> list[str]:
     IDENTITY_RESOLVE_POLICY: 'add' (default; hipótesis anti-hp009) mantiene el token
     original Y añade variantes; 'replace' (el brazo MEDIDO de LEVER2) retira el token
     paraguas/alias resuelto. Dedup por normkey, orden estable."""
+    # keying por catalog_store.norm_token (no C.normkey): C.normkey conserva '+'/'.', y un
+    # match 'zx.2e' resolvería bien pero el drop fallaría silencioso (replace→add) — dúo #8
     policy = (os.getenv("IDENTITY_RESOLVE_POLICY", "") or "add").strip().lower()
-    drop = {C.normkey(t) for t in res["drop_tokens"]} if policy == "replace" else set()
+    nt = catalog_store.norm_token
+    drop = {nt(t) for t in res["drop_tokens"]} if policy == "replace" else set()
     out, seen = [], set()
     for m in models:
-        nk = C.normkey(m)
+        nk = nt(m)
         if nk in drop or nk in seen:
             continue
         seen.add(nk)
         out.append(m)
     for m in res["add_models"]:
-        nk = C.normkey(m)
+        nk = nt(m)
         if nk not in seen:
             seen.add(nk)
             out.append(m)
@@ -243,21 +248,28 @@ def _shadow_log(query: str, models_before: list[str], models_after: list[str],
         "allowed_sources_n": len(res["allowed_sources"]),
         "catalog_commit": catalog_commit(),
     }
-    try:
-        import httpx
+    def _post() -> None:
+        try:
+            import httpx
 
-        from src.config import SUPABASE_SERVICE_KEY, SUPABASE_URL
-        headers = {"apikey": SUPABASE_SERVICE_KEY,
-                   "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
-                   "Content-Type": "application/json", "Prefer": "return=minimal"}
-        with httpx.Client(timeout=5.0) as client:
-            resp = client.post(f"{SUPABASE_URL}/rest/v1/identity_resolve_shadow",
-                               headers=headers, json=row)
-            if resp.status_code >= 400:
-                logger.info(f"identity_resolve_shadow no disponible ({resp.status_code}); "
-                            f"registro local: {json.dumps(row, ensure_ascii=False)[:500]}")
-    except Exception as e:
-        logger.info(f"shadow-log fallback ({e}): {json.dumps(row, ensure_ascii=False)[:500]}")
+            from src.config import SUPABASE_SERVICE_KEY, SUPABASE_URL
+            headers = {"apikey": SUPABASE_SERVICE_KEY,
+                       "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
+                       "Content-Type": "application/json", "Prefer": "return=minimal"}
+            with httpx.Client(timeout=5.0) as client:
+                resp = client.post(f"{SUPABASE_URL}/rest/v1/identity_resolve_shadow",
+                                   headers=headers, json=row)
+                if resp.status_code >= 400:
+                    logger.warning(f"identity_resolve_shadow no disponible ({resp.status_code}) "
+                                   f"— S2 pierde su artefacto; registro local: "
+                                   f"{json.dumps(row, ensure_ascii=False)[:500]}")
+        except Exception as e:
+            logger.warning(f"shadow-log fallback ({e}): {json.dumps(row, ensure_ascii=False)[:500]}")
+
+    # fire-and-forget (dúo #5): el POST corre ANTES del vector search — 5s de timeout
+    # síncrono en el path de cada query con token sería latencia real
+    import threading
+    threading.Thread(target=_post, daemon=True).start()
 
 
 def resolve_for_retrieval(query: str, models: list[str]) -> tuple[list[str], dict | None]:

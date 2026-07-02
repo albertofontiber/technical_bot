@@ -666,6 +666,12 @@ def run_bot():
     """Start the Telegram bot."""
     validate_config(require_telegram=True)
 
+    # (s91 F2-S1, dúo #3) fail-fast del flag de identidad EN ARRANQUE: un misconfig en Railway
+    # (flag legacy ON junto a IDENTITY_RESOLVE, o typo en el valor) debe tumbar el deploy
+    # visible, no fallar el 100% de queries en runtime.
+    from src.rag import catalog_resolver as _resolver
+    _resolver.mode()
+
     app = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
 
     app.add_handler(CommandHandler("start", start_command))
