@@ -1,27 +1,52 @@
 # s91 · F1 bulk — QA de RIESGO (pre-filtrado para Alberto)
 
-products: 1619 (674 candidate) · aliases: 1754 · umbrellas: 15 · homonyms: 2 · doc_map: 861 · docrel: 1
+products: 1614 (742 candidate) · aliases: 1748 · umbrellas: 15 · **homonyms: 42** (2 gt + 40 candidate auto) · doc_map: 861 · docrel: 1 ⚠ (esperados ~9 pares ES/EN por DEC-066 — la heurística stem+language-DB es conservadora; GAP DECLARADO, mejora en follow-up)
 
-## Namespaces (top): notifier:660, unresolved:221, kidde:152, morley:140, systemsensor:98, pepperl-fuchs:67, xtralis:47, detnov:40, securiton:38, lda:24, aritech:18, menvier:13, patrol:12, kac:12, argus:12
+## Namespaces (top): notifier:663, unresolved:200, kidde:152, morley:140, systemsensor:98, pepperl-fuchs:67, xtralis:56, detnov:40, securiton:38, lda:24, aritech:18, menvier:13, patrol:12, kac:12, argus:12
 
-## brand SIN mapear (añadir a BRAND_MAP) (25)
+## ⚡ PAQUETE DE DECISIÓN (~25, por blast-radius: homónimos cross-brand con más docs)
+Por cada uno: ¿mismo producto rebrandeado (→relación rebrand-of + merge de namespace) o productos distintos (→homónimo con política)?
+- `UCIP-GPRS` → ['morley:ucip-gprs', 'notifier:ucip-gprs'] (10 docs)
+- `B501AP` → ['morley:b501ap', 'notifier:b501ap', 'systemsensor:b501ap'] (7 docs)
+- `VSN-4REL` → ['morley:vsn-4rel', 'notifier:vsn-4rel'] (7 docs)
+- `VSN 4 PLUS` → ['morley:vsn-4-plus', 'notifier:vsn4-plus'] (4 docs)
+- `REFL20` → ['notifier:refl20', 'systemsensor:refl20'] (4 docs)
+- `REFL30` → ['notifier:refl30', 'systemsensor:refl30'] (4 docs)
+- `REFL40` → ['notifier:refl40', 'systemsensor:refl40'] (4 docs)
+- `REFL50` → ['notifier:refl50', 'systemsensor:refl50'] (4 docs)
+- `REFL60` → ['notifier:refl60', 'systemsensor:refl60'] (4 docs)
+- `FL2011EI-HS` → ['notifier:fl2011ei-hs', 'systemsensor:fl2011ei-hs'] (3 docs)
+- `FL2012EI-HS` → ['notifier:fl2012ei-hs', 'systemsensor:fl2012ei-hs'] (3 docs)
+- `FL2022EI-HS` → ['notifier:fl2022ei-hs', 'systemsensor:fl2022ei-hs'] (3 docs)
+- `140KIT160` → ['detnov:140kit160', 'firebeam:140kit160'] (3 docs)
+- `70KIT140` → ['detnov:70kit140', 'firebeam:70kit140'] (3 docs)
+- `VSN12-2Plus` → ['morley:vsn12-2plus', 'notifier:vsn12-2plus'] (3 docs)
+- `6500R` → ['notifier:6500r', 'systemsensor:6500r'] (3 docs)
+- `6500RS` → ['notifier:6500rs', 'systemsensor:6500rs'] (3 docs)
+- `IDR-6A` → ['morley:idr6a', 'notifier:idr-6a'] (3 docs)
+- `SMART 2` → ['notifier:smart-2', 'sensitron:smart-2'] (3 docs)
+- `Z978` → ['notifier:z978', 'pepperl-fuchs:z978'] (3 docs)
+- `APIC` → ['aritech:apic', 'notifier:apic'] (2 docs)
+- `2010-2-PAK-RMSDK` → ['edwards:2010-2-pak-rmsdk', 'kidde:2010-2-pak-rmsdk'] (2 docs)
+- `MI-DCZM` → ['morley:mi-dczm', 'notifier:mi-dczm'] (2 docs)
+- `M710` → ['morley:m710', 'notifier:m710'] (2 docs)
+- `M700KAC` → ['kac:m700kac', 'notifier:m700kac'] (2 docs)
+
+---
+# BACKLOG (no bloquea F2; se adjudica por lotes)
+
+## brand SIN mapear (añadir a BRAND_MAP) (19)
 - `Fire Fighting Enterprises` (doc 0044-033-01 Guia F5000)
 - `Golmar` (doc 55348101 Manual Modulo 1 Rele 240VAC MAD-481 )
 - `COELBO` (doc AC1460R - CESI 03 ATEX 050)
 - `FAAST (Honeywell)` (doc ASD Cold Environments_SP)
 - `ENScape` (doc D 1101-7 Sounder Beacon)
 - `DELTA` (doc D391 Issue 3 WR2001 )
-- `Honeywell / Morley-IAS` (doc DXc_Manual de configuracion)
 - `EFS` (doc FS8)
-- `Honeywell / Notifier` (doc HLSI_MNDT1410_B)
 - `FAAST (System Sensor Europe)` (doc I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-Q)
-- `E2S (European Safety Systems Ltd.)` (doc IS5001-F_IS-mA1_EN)
 - `Calectro` (doc Installation manual_conduct detector)
-- `Honeywell / Xtralis` (doc Li-ion_Tamer_User_Manual)
 - `Fire-Lite Alarms` (doc MNDT080)
 - `AVOTEC` (doc Manual Rotulo REXD-103_EN)
-- `Fidegas` (doc Manual-de-Usuario-S3-2)
-- `Fidegas` (doc Manual-de-Usuario-S3-T2-y-S2-T2)
 - `FUEGO` (doc NSRE24)
 - `AVOTEC` (doc PAN AVD2_SPANISH)
 - `Cranford Controls` (doc SFD-220_Manual_EN)
@@ -64,7 +89,7 @@ products: 1619 (674 candidate) · aliases: 1754 · umbrellas: 15 · homonyms: 2 
 - `idr6a` → ['morley:idr6a', 'notifier:idr-6a']
 - … (+10)
 
-## colisión alias↔canonical (¿mismo producto? adjudicar) (78)
+## colisión alias↔canonical (¿mismo producto? adjudicar) (77)
 - alias `9-30441`→aritech:apic vs canonical de `xtralis:9-30441`
 - alias `NRT`→notifier:nrt-586t vs canonical de `notifier:nrt`
 - alias `CRE-4`→notifier:crm-4 vs canonical de `notifier:cre-4`
@@ -95,4 +120,4 @@ products: 1619 (674 candidate) · aliases: 1754 · umbrellas: 15 · homonyms: 2 
 - alias `UCIP GPRS`→notifier:ucip-gprs vs canonical de `morley:ucip-gprs`
 - alias `VSN PLUS`→morley:vsn-12-plus vs canonical de `notifier:vsn-plus`
 - alias `ESS-2Plus`→morley:ess12-2plus vs canonical de `notifier:ess-2plus`
-- … (+48)
+- … (+47)

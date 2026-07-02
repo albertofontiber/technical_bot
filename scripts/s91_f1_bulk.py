@@ -122,12 +122,23 @@ def main() -> int:
     qa: dict[str, list[str]] = defaultdict(list)
 
     # ── namespace por doc: brand_map directo; GRUPO → contextual (2ª pasada) ──
+    # lookup case-insensitive (fix cross-model s91: 'e2S…' vs 'E2S…' era carga humana trivial)
+    brand_map_cf = {k.casefold(): v for k, v in gt.BRAND_MAP.items()}
+    grupo_cf = {g.casefold() for g in gt.GRUPO_BRANDS}
+
     def brand_ns(doc) -> tuple[str | None, str]:
         b = (doc.get("brand_on_doc") or "(vacio)").strip()
-        if b in gt.GRUPO_BRANDS:
+        if b.casefold() in grupo_cf:
             return None, "grupo"
-        if b in gt.BRAND_MAP:
-            return gt.BRAND_MAP[b]
+        hit = brand_map_cf.get(b.casefold())
+        if hit:
+            return hit
+        # compuestos 'Grupo / Marca' → la marca específica gana (Honeywell / Morley-IAS → morley)
+        if "/" in b:
+            for part in b.split("/"):
+                hit = brand_map_cf.get(part.strip().casefold())
+                if hit:
+                    return hit[0], "mecanico-compuesto"
         qa["brand SIN mapear (añadir a BRAND_MAP)"].append(f"`{b}` (doc {doc['source_file'][:45]})")
         return "unresolved", "candidate"
 
@@ -310,6 +321,14 @@ def main() -> int:
             a = aliases.pop(akey)
             qa["colisión alias↔canonical (¿mismo producto? adjudicar)"].append(
                 f"alias `{a['alias']}`→{a['id']} vs canonical de `{owner}`")
+            # fix cross-model s91: AMBOS productos implicados → candidate hasta adjudicar
+            # (dejarlos consumibles = exact-over-ambiguity, la clase que el contrato prohíbe);
+            # el gt nunca se degrada (nivel 1).
+            for pid in (owner, a["id"]):
+                p = products.get(pid)
+                if p is not None and p.get("added_by") != "f1-gt" and not p.get("candidate"):
+                    p["candidate"] = True
+                    p["provenance"] += " | alias-canonical-collision→candidate"
             n_recon += 1
 
     # ── doc_map (gt delimitado + semilla, dedupe por document_id) ──
@@ -391,11 +410,27 @@ def main() -> int:
 
     n_cand = sum(1 for p in products.values() if p.get("candidate"))
     ns_counts = Counter(p["id"].split(":")[0] for p in products.values())
+    # PAQUETE DE DECISIÓN Alberto-size (contrato: ~30-60) por BLAST-RADIUS; el resto = backlog
+    # declarado (fix cross-model s91: 143 decisiones sin priorizar no es el lote contratado).
+    ndocs_by_pid: Counter = Counter()
+    for dm in doc_map_by_id.values():
+        for e in dm["entries"]:
+            ndocs_by_pid[e["id"]] += 1
+    top_homs = sorted(auto_homonyms, key=lambda h: -sum(ndocs_by_pid.get(i, 0) for i in h["ids"]))[:25]
     lines = ["# s91 · F1 bulk — QA de RIESGO (pre-filtrado para Alberto)\n",
              f"products: {len(products)} ({n_cand} candidate) · aliases: {len(aliases)} · "
-             f"umbrellas: {len(gt.gt_umbrellas())} · homonyms: {len(gt.gt_homonyms())} · "
-             f"doc_map: {len(doc_map_by_id)} · docrel: {len(docrel)}\n",
-             "## Namespaces (top): " + ", ".join(f"{k}:{v}" for k, v in ns_counts.most_common(15))]
+             f"umbrellas: {len(gt.gt_umbrellas())} · **homonyms: {len(gt.gt_homonyms()) + len(auto_homonyms)}** "
+             f"(2 gt + {len(auto_homonyms)} candidate auto) · doc_map: {len(doc_map_by_id)} · "
+             f"docrel: {len(docrel)} ⚠ (esperados ~9 pares ES/EN por DEC-066 — la heurística "
+             f"stem+language-DB es conservadora; GAP DECLARADO, mejora en follow-up)\n",
+             "## Namespaces (top): " + ", ".join(f"{k}:{v}" for k, v in ns_counts.most_common(15)),
+             "\n## ⚡ PAQUETE DE DECISIÓN (~25, por blast-radius: homónimos cross-brand con más docs)",
+             "Por cada uno: ¿mismo producto rebrandeado (→relación rebrand-of + merge de namespace) "
+             "o productos distintos (→homónimo con política)?"]
+    for h in top_homs:
+        nd = sum(ndocs_by_pid.get(i, 0) for i in h["ids"])
+        lines.append(f"- `{h['termino']}` → {h['ids']} ({nd} docs)")
+    lines.append("\n---\n# BACKLOG (no bloquea F2; se adjudica por lotes)")
     for reason, items in qa.items():
         lines.append(f"\n## {reason} ({len(items)})")
         lines.extend(f"- {i}" for i in items[:30])
