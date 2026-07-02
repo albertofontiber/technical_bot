@@ -85,6 +85,12 @@ los 30 NO-PASS** (`evals/s88_nopass_dossier.md`) para decisión-en-lote de Alber
 **DÚO v2 (pedido Alberto):** sub-agente→`fable` + cross-model CON tools read-only sobre el repo (paridad de
 información; cierra TECH_DEBT #36; smoke validado).
 
+**s91 (DEC-080): F1 BULK — las 31 marcas en el catálogo canónico.** ~1.6k productos / 39 homónimos /
+861 doc_map / 9 docrel ES/EN (los de DEC-066); BRAND_MAP 96→31; typo-merge #49 (30); x-brand jamás-merge-auto;
+dúo 2 rondas (14 findings aplicados; la clase H5 reincidió en el gt FAAST → re-transcrito fiel). Golds-clave
+resuelven; lo dudoso fail-open. PR #102. **Gates: paquete-decisión ~25 homónimos (Alberto, no bloquea) →
+F2 query-side tras flag + F2.5 shadow-mode.**
+
 **s90 (DEC-079): F0 APROBADO (D1-D7) → contrato CANÓNICO; F1a slice vertical Morley CONSTRUIDO.**
 `catalog_store.py` (la puerta: validate reglas-duras + resolve con contrato `expand`, check-homónimo
 PRIMERO) + slice cargado (`data/catalog/`: gt nivel-1 + semilla s83, doc_map por document_id 114/114) +
