@@ -95,7 +95,7 @@ y APLICADOS** (`s91_apply_homonyms.py`: 30 winners / 33 redirects+rebrand-of / q
 APIC + 6 cola]; `systemsensor:6424` creado; umbrella B500; oem SOLO adjudicado: Esser/Xtralis/Carrier/SS×2).
 Sub-agente adversarial cazó 3 H5 en MIS añadidos pre-commit (0 FP). **FIX D1: `data/catalog/` entra a git**
 (`.gitignore data/*` lo dejaba SIN versionar y el test de integración skippeaba → repo-first real).
-**Gate restante: merge PR #102 (Alberto) → F2 query-side tras flag + F2.5 shadow-mode.**
+**Gate restante: merge PR #103 (Alberto; la #102 se mergeó antes del arco de adjudicación → re-montado) → F2 query-side tras flag + F2.5 shadow-mode.**
 
 **s90 (DEC-079): F0 APROBADO (D1-D7) → contrato CANÓNICO; F1a slice vertical Morley CONSTRUIDO.**
 `catalog_store.py` (la puerta: validate reglas-duras + resolve con contrato `expand`, check-homónimo
