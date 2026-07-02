@@ -27,5 +27,7 @@
 | 17 | Detectortesters (Solo A10) | `detectortesters` | No Climb Products (equipos de prueba) |
 | 18 | DXc Connexion | `morley` | NO es marca: es el panel DXc + Connexion de Morley |
 
-**TU MARCA C2: [ ] ✅ todo tal cual [ ] ✏️** — notas: __________
+**ADJUDICADO PARCIAL s91 (Alberto, en sesión): filas 2✅detnov · 3✅coelbo · 6✅kac · 7✅kac · 8✅notifier · 12✅ada — APLICADAS** (`scripts/s91_apply_c2.py`: 19 productos re-domiciliados + 15 alias re-apuntados; validate + 411 tests).
+**PENDIENTES tus marcas (12 filas): 1 (FFE) · 4-5 (FAAST→notifier) · 9 (Calectro) · 10 (Fire-Lite) · 11 (AVOTEC) · 13 (Cranford) · 14 (HLS→contextual) · 15-16 (DESICO) · 17 (Detectortesters) · 18 (DXc→morley).**
+**TU MARCA resto: [ ] ✅ tal cual [ ] ✏️** — notas: __________
 (#15+#16 son la misma decisión → 18 filas, 17 decisiones reales)
