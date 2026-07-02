@@ -59,7 +59,8 @@ def test_lista_de_flags_legacy_cubre_el_codigo():
     # v2.1a (afilado dúo #6): ESCANEO dinámico — cualquier os.getenv de identidad en el código
     # de retrieval debe estar en LEGACY_FLAGS o ser el flag nuevo; un flag nuevo no escapa
     import re
-    known = set(R.LEGACY_FLAGS) | {"IDENTITY_RESOLVE", "IDENTITY_RESOLVE_POLICY"}
+    known = set(R.LEGACY_FLAGS) | {"IDENTITY_RESOLVE", "IDENTITY_RESOLVE_POLICY",
+                                   "IDENTITY_FETCH"}
     for fname in ("src/rag/retriever.py", "src/rag/catalog_resolver.py"):
         src = (Path(R.ROOT) / fname).read_text(encoding="utf-8")
         for var in re.findall(r'os\.getenv\(\s*"([A-Z0-9_]+)"', src):
@@ -251,3 +252,85 @@ def test_nombre_largo_con_digito_si_detecta():
 def test_stopwords_explicitos():
     for w in R.DETECT_STOPWORDS:
         assert R.detect(f"pregunta sobre {w} en la instalación") == []
+
+
+# ─── s93: fetch acotado (escalera v2.1d) ───
+def test_fetch_off_por_defecto():
+    assert R.fetch_enabled() is False
+
+
+def test_fetch_requiere_resolve_on(monkeypatch):
+    monkeypatch.setenv("IDENTITY_FETCH", "on")
+    with pytest.raises(RuntimeError, match="requiere IDENTITY_RESOLVE=on"):
+        R.fetch_enabled()
+    monkeypatch.setenv("IDENTITY_RESOLVE", "on")
+    assert R.fetch_enabled() is True
+
+
+def test_fetch_append_puro_no_desplaza(monkeypatch):
+    # si todos los docs adjudicados YA están en el pool → no trae nada (y nunca quita)
+    res = {"allowed_sources": frozenset({"MIE-MI-600"})}
+    pool = [{"id": "x", "source_file": "MIE-MI-600"}]
+    assert R.fetch_missing_doc_chunks("central ZXSe", res, pool) == []
+
+
+def test_fetch_marca_los_chunks(monkeypatch):
+    # doc ausente → fetch por REST (mockeado) con marcador identity_fetch
+    calls = {}
+    class _R:
+        status_code = 200
+        def json(self):
+            return [{"id": f"c{i}", "content": f"la central ZXSe seccion {i}",
+                     "source_file": "MIE-MI-600", "product_model": "unknown"} for i in range(6)]
+    class _Client:
+        def __init__(self, **kw): pass
+        def __enter__(self): return self
+        def __exit__(self, *a): return False
+        def get(self, url, headers=None, params=None):
+            calls["params"] = params
+            return _R()
+    import httpx
+    monkeypatch.setattr(httpx, "Client", _Client)
+    res = {"allowed_sources": frozenset({"MIE-MI-600"})}
+    out = R.fetch_missing_doc_chunks("instalación de la central ZXSe", res, [])
+    assert len(out) == R.FETCH_PER_DOC and all(c["identity_fetch"] for c in out)
+    assert calls["params"]["source_file"] == "eq.MIE-MI-600"
+    assert calls["params"]["order"] == "id.asc"        # F3: determinismo del fetch
+
+
+def test_fetch_cap_max_docs(monkeypatch):
+    # F7: >FETCH_MAX_DOCS docs ausentes → solo los 4 primeros (orden alfabético estable)
+    seen = []
+    class _R:
+        status_code = 200
+        def json(self): return []
+    class _Client:
+        def __init__(self, **kw): pass
+        def __enter__(self): return self
+        def __exit__(self, *a): return False
+        def get(self, url, headers=None, params=None):
+            seen.append(params["source_file"])
+            return _R()
+    import httpx
+    monkeypatch.setattr(httpx, "Client", _Client)
+    res = {"allowed_sources": frozenset({f"DOC-{i}" for i in range(7)})}
+    R.fetch_missing_doc_chunks("query de prueba tecnica", res, [])
+    assert len(seen) == R.FETCH_MAX_DOCS
+    assert seen == sorted(seen)
+
+
+def test_invariante_colocacion_fetch_tras_el_corte():
+    # F1/F7 dúo s93: el hook DEBE vivir tras merged[:top_k] — antes, el append moría
+    # truncado (no-op silencioso) o desplazaba vía diversify (la clase DEC-069).
+    # Guard textual: quien reordene los steps rompe este test, no la medición.
+    src = (Path(R.ROOT) / "src" / "rag" / "retriever.py").read_text(encoding="utf-8")
+    i_cut = src.index("base = merged[:top_k]")
+    i_hook = src.index("fetch_missing_doc_chunks(query, _identity_res, base)")
+    i_div = src.index("Step 5a: Multi-doc diversity")
+    assert i_div < i_cut < i_hook, "el fetch debe ir DESPUÉS del corte [:top_k] y del diversify"
+
+
+def test_score_chunk_word_boundary_y_stopwords():
+    assert R._score_chunk("modulo con protocolo CLIP integrado", ["clip"]) == 1
+    assert R._score_chunk("un eclipse total", ["clip"]) == 0            # F6: boundary
+    assert "para" in R._QSTOP and "central" in R._QSTOP

@@ -302,3 +302,85 @@ def resolve_for_retrieval(query: str, models: list[str]) -> tuple[list[str], dic
     if m == "shadow":
         return models, None
     return models_after, res
+
+
+# ─────────────────────── fetch acotado (s93, escalera v2.1d MEDIDA como brazo nuevo) ───────────────────────
+FETCH_PER_DOC = 3          # chunks máx por doc adjudicado (append puro — DEC-069: NUNCA desplazar)
+FETCH_MAX_DOCS = 4         # docs máx por query (disciplina de coste/latencia)
+
+
+def fetch_enabled() -> bool:
+    """IDENTITY_FETCH=on requiere IDENTITY_RESOLVE=on (config incoherente ⇒ error, fail-fast)."""
+    f = os.getenv("IDENTITY_FETCH", "").strip().lower() in ("1", "true", "yes", "on")
+    if f and mode() != "on":
+        raise RuntimeError("IDENTITY_FETCH=on requiere IDENTITY_RESOLVE=on (fail-fast)")
+    return f
+
+
+# F6 dúo s93: stopwords mínimas — sin ellas 'para'/'como'/'que' puntúan y queman el cap
+_QSTOP = {"para", "como", "que", "qué", "con", "una", "uno", "por", "sobre", "tiene",
+          "hay", "los", "las", "del", "esta", "este", "cual", "cuál", "cuando", "donde",
+          "central", "panel", "detector", "sistema", "manual"}
+
+
+def _score_chunk(content: str, qtokens: list[str]) -> int:
+    import re as _re
+    cl = (content or "").lower()
+    # word-boundary (F6): 'clip' no debe puntuar dentro de 'eclipse'
+    return sum(1 for t in qtokens if _re.search(rf"(?<![a-z0-9]){_re.escape(t)}(?![a-z0-9])", cl))
+
+
+def fetch_missing_doc_chunks(query: str, res: dict, pool: list[dict]) -> list[dict]:
+    """Diagnóstico s92: 11/12 misses = el doc adjudicado NUNCA entra al top-50 (pool-entry
+    loss). Para cada doc de allowed_sources SIN chunks en el pool → trae los FETCH_PER_DOC
+    chunks con mejor score léxico query-vs-content (patrón fetch_manual_chunks, sin RPC
+    nuevo — limitación declarada). APPEND puro con marcador `identity_fetch` (el reranker
+    decide; nunca desplaza)."""
+    if not res or not res.get("allowed_sources"):
+        return []
+    in_pool_srcs = {(c.get("source_file") or "") for c in pool}
+    missing = [s for s in sorted(res["allowed_sources"]) if s not in in_pool_srcs]
+    if not missing:
+        return []
+    seen_t: set[str] = set()
+    qtokens = []
+    for tk in re_tokens(query):
+        if len(tk) >= 3 and tk not in _QSTOP and tk not in seen_t:   # F6: dedupe + stoplist
+            seen_t.add(tk)
+            qtokens.append(tk)
+    qtokens = qtokens[:12]
+    out: list[dict] = []
+    try:
+        import httpx
+
+        from src.config import SUPABASE_SERVICE_KEY, SUPABASE_URL
+        headers = {"apikey": SUPABASE_SERVICE_KEY,
+                   "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}"}
+        # F8: timeout 5.0 (patrón de la casa); F3: order=id.asc — PostgREST sin order es
+        # NO-DETERMINISTA y limit=300 truncaría un set distinto por run (15088SP=342 chunks);
+        # la famtie compara chunk-ids EXACTOS → el brazo debe ser reproducible
+        with httpx.Client(timeout=5.0) as client:
+            for src in missing[:FETCH_MAX_DOCS]:
+                r = client.get(f"{SUPABASE_URL}/rest/v1/{os.getenv('CHUNKS_TABLE', 'chunks_v2')}",
+                               headers=headers,
+                               params={"select": "id,content,source_file,product_model,"
+                                                 "page_number,language",
+                                       "source_file": f"eq.{src}", "order": "id.asc",
+                                       "limit": "400"})
+                if r.status_code not in (200, 206):
+                    continue
+                rows = sorted(r.json(),
+                              key=lambda c: (-_score_chunk(c.get("content"), qtokens),
+                                             c.get("id") or ""))     # F3: tie-break estable
+                for c in rows[:FETCH_PER_DOC]:
+                    c["identity_fetch"] = True
+                    out.append(c)
+    except Exception as e:
+        logger.warning(f"identity_fetch fail-open ({e})")
+        return out
+    return out
+
+
+def re_tokens(q: str) -> list[str]:
+    import re as _re
+    return _re.findall(r"[a-záéíóúñ0-9][a-záéíóúñ0-9.-]{1,}", (q or "").lower())
