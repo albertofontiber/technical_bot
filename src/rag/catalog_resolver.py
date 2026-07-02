@@ -88,10 +88,18 @@ def catalog_commit() -> str:
     return _catalog_commit
 
 
+DETECT_ALIAS_TIPOS = {"variante-tipografica", "codigo-comercial", "numero-de-parte"}
+# términos reales del catálogo que matarían la precisión en prosa (s92: el 1er replay
+# sobre golds cazó 'Solo'→detectortesters en hp005; 'Dimension' colisiona con 'dimensión')
+DETECT_STOPWORDS = {"solo", "dimension"}
+
+
 def _resolvable_terms(cat: "catalog_store.Catalog") -> dict[str, str]:
-    """normkey -> término almacenado, de TODO lo que resolve() puede responder:
-    canonical de consumibles + alias con destino consumible + paraguas no-candidate +
-    términos de homónimo (el homónimo DEBE detectarse para poder fail-open/prefer)."""
+    """normkey -> término almacenado para el DETECTOR: canonical de consumibles + alias
+    MODEL-SHAPED (DETECT_ALIAS_TIPOS — los `nombre-largo` [1.465/1.741] son DESCRIPCIONES
+    de la extracción: 'Solo', 'amarillo', 'CARGADOR', 'Deep Base'… válidas como metadato,
+    venenosas como detector en prosa) + paraguas no-candidate + términos de homónimo
+    (el homónimo DEBE detectarse para poder fail-open/prefer)."""
     terms: dict[str, str] = {}
 
     import re as _re
@@ -104,7 +112,7 @@ def _resolvable_terms(cat: "catalog_store.Catalog") -> dict[str, str]:
         # 'normkey' conserva '+'/'.' y dejaba pasar alias tipo '2+' cuyo core regex matchea un
         # '2' suelto ("2 lazos") — el smoke S1 lo cazó
         segs = "".join(_re.findall(r"[a-z]+|\d+", C._fold(t)))
-        if not segs or segs.isdigit():
+        if not segs or segs.isdigit() or nk in DETECT_STOPWORDS:
             return
         terms.setdefault(nk, t)
 
@@ -112,8 +120,15 @@ def _resolvable_terms(cat: "catalog_store.Catalog") -> dict[str, str]:
         if p.get("estado") == "activo" and not p.get("candidate"):
             _add(p["canonical_model"])
     for a in cat.aliases:
-        if not a.get("candidate") and cat._consumable(a["id"]):
-            _add(a["alias"])
+        if a.get("candidate") or not cat._consumable(a["id"]):
+            continue
+        # nombre-largo: DESCRIPCIONES de la extracción — entran SOLO si son model-shaped
+        # (llevan dígito: 'ASD535'/'REFLEX 20' sí; 'Solo'/'verde'/'Deep Base' no) — el
+        # replay s92 perdía hp002/hp013/hp019 con la exclusión total del tipo
+        if a.get("tipo") not in DETECT_ALIAS_TIPOS and not any(
+                ch.isdigit() for ch in a["alias"]):
+            continue
+        _add(a["alias"])
     for u in cat.umbrellas:
         if not u.get("candidate"):
             _add(u["termino"])

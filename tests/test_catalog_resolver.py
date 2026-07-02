@@ -232,3 +232,22 @@ def test_roundtrip_muestra_de_canonicals():
         if not R.detect(f"manual del {cm} por favor"):
             fallos.append(cm)
     assert not fallos, f"canonicals no detectados: {fallos[:10]}"
+
+
+# ─── s92: la clase FP 'palabra-común-como-alias' (1er replay sobre golds la cazó) ───
+def test_no_detecta_palabras_comunes_de_alias_nombre_largo():
+    # 'Solo' (detectortesters), colores, descripciones — alias nombre-largo SIN dígito
+    # NO entran al detector (hp005 tenía 'solo' adverbio → expandía a test-equipment)
+    assert R.detect("solo quiero saber el consumo del detector") == []
+    assert R.detect("el cable verde y el amarillo van al positivo") == []
+    assert R.detect("qué dimensión tiene la central") == []
+
+
+def test_nombre_largo_con_digito_si_detecta():
+    # la regla es por FORMA (dígito), no por tipo: 'ASD535' es nombre-largo pero model-shaped
+    assert R.detect("avería en el ASD535 por flujo bajo") != []
+
+
+def test_stopwords_explicitos():
+    for w in R.DETECT_STOPWORDS:
+        assert R.detect(f"pregunta sobre {w} en la instalación") == []
