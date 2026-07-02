@@ -22,8 +22,10 @@ VB = {
     "kac": ["KAC"],
     "ada": ["ADA Componentes Electronicos", "Notifier"],
     "coelbo": ["COELBO", "Notifier (It)"],
+    "ffe": ["Fire Fighting Enterprises"],
 }
 MOVES = {
+    "unresolved:f5000": "ffe",           # fila 1, adjudicada por Alberto (2ª tanda)
     "unresolved:mad-481": "detnov",
     "unresolved:cwss-xx-s5": "kac", "unresolved:cwss-xx-s6": "kac",
     "unresolved:cwss-xx-w5": "kac", "unresolved:cwss-xx-w6": "kac",
