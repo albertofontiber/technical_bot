@@ -1023,6 +1023,75 @@ def _merge_channels(keyword_results: list[dict], vector_results: list[dict],
     return merged
 
 
+_PILOT_SWAP_MAP: dict | None = None
+_PILOT_SELECT = ("id,content,context,product_model,category,section_title,content_type,"
+                 "manufacturer,protocol,doc_type,language,has_diagram,diagram_url,"
+                 "source_file,page_number,document_id")
+
+
+def _pilot_swap_map() -> dict:
+    """(s94) Sidecar surrogate_id→parent_id (PILOT_SWAP_MAP, default el artefacto del
+    piloto). Cache de proceso; fichero ilegible → mapa vacío (swap inerte, fail-closed)."""
+    global _PILOT_SWAP_MAP
+    if _PILOT_SWAP_MAP is None:
+        path = os.getenv("PILOT_SWAP_MAP", "evals/s94_f3_surrogate_map.json")
+        try:
+            with open(path, encoding="utf-8") as fh:
+                _PILOT_SWAP_MAP = json.load(fh)
+        except Exception:
+            _PILOT_SWAP_MAP = {}
+    return _PILOT_SWAP_MAP
+
+
+def _pilot_parent_swap(chunks: list[dict]) -> list[dict]:
+    """(s94, spec v2 inv.3) Sustituye surrogates del piloto por su chunk-padre hidratado
+    (multi-vector canónico): 1:1 con la similarity del SURROGATE (la famtie acredita
+    presencia, no score); keep-max si varios surrogates → mismo padre; padre no hidratable
+    → surrogate FUERA (fail-closed: el texto derivado jamás se cita como manual)."""
+    smap = _pilot_swap_map()
+    if not smap:
+        return chunks
+    surr_ids = [c.get("id") for c in chunks if c.get("id") in smap]
+    if not surr_ids:
+        return chunks
+    parent_ids = sorted({smap[i] for i in surr_ids})
+    parents: dict = {}
+    headers = {"apikey": SUPABASE_SERVICE_KEY, "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}"}
+    for i in range(0, len(parent_ids), 40):
+        ids = ",".join(f'"{x}"' for x in parent_ids[i:i + 40])
+        try:
+            with httpx.Client(timeout=5.0) as client:
+                resp = client.get(f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}", headers=headers,
+                                  params={"select": _PILOT_SELECT, "id": f"in.({ids})"})
+                resp.raise_for_status()
+            for row in resp.json():
+                parents[row["id"]] = row
+        except Exception:
+            pass
+    out: list[dict] = []
+    best: dict = {}
+    for c in chunks:
+        cid = c.get("id")
+        if cid not in smap:
+            out.append(c)
+            continue
+        p = parents.get(smap[cid])
+        if not p:
+            continue
+        sim = c.get("similarity", 0)
+        prev = best.get(p["id"])
+        if prev is not None:
+            prev["similarity"] = max(prev.get("similarity", 0), sim)
+            continue
+        rec = dict(p)
+        rec["similarity"] = sim
+        rec["_pilot_swapped_from"] = cid
+        rec["_channel"] = c.get("_channel")
+        best[p["id"]] = rec
+        out.append(rec)
+    return out
+
+
 def retrieve_chunks(
     query: str,
     top_k: int = RETRIEVAL_TOP_K,
@@ -1217,6 +1286,16 @@ def retrieve_chunks(
                         keyword_results.extend(_tag_channel(future.result(), "CONTENT"))
                     except Exception:
                         pass
+
+    # (s94 piloto · flag PILOT_PARENT_SWAP, default OFF = prod inerte): multi-vector swap —
+    # los surrogates del piloto (enunciados extraídos, mapa sidecar surrogate→padre) se
+    # SUSTITUYEN 1:1 por su chunk-padre HIDRATADO, conservando la similarity del surrogate
+    # (keep-max si varios apuntan al mismo padre). PRE-merge (dúo s94 H6: después morirían
+    # en superseded/lang/model-filter o la famtie no acreditaría). El swap NO infla el pool;
+    # el desplazamiento por-índice lo mide el guard nueva-miss del piloto (H2).
+    if os.getenv("PILOT_PARENT_SWAP", "off") == "on":
+        vector_results = _pilot_parent_swap(vector_results)
+        keyword_results = _pilot_parent_swap(keyword_results)
 
     # (s85 B1) trace inerte: si _trace es un dict, registra la membresía por-etapa (ids) para
     # diagnosticar DÓNDE se pierde un chunk-valor. Default None → cero efecto en prod.

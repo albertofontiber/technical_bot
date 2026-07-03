@@ -1,0 +1,366 @@
+{
+ "spec": "evals/s94_pilot_spec.md v2",
+ "n_hechos": 10,
+ "n_tabla": 4,
+ "n_prosa": 6,
+ "docs": {
+  "MIDT190": "925f7f47481b7febd4af6527891f46f63255ed397f33b92bd4fdb0b6d81466db",
+  "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6",
+  "Manual instalacion CAD-250 (MI_372_es_2024 e)": "1ea43ca62743178f89e976220e025c712a36654474e8f90ba921108841a8686c",
+  "CAD-250_Manual-Configuracion-MC-380-es-2026-c": "3797d14d071d618d2a6b0343dfb3d0e4bc4a8cebe75016fce5206cd9687ab68e",
+  "50253SP": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+  "MIDT170": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+  "HLSI-MN-103_RP1r-Supra_lr": "ccabe3df906990c9b95d0d180d811e0444278089d4ce30678d86948cb197e93e",
+  "MPDT280": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+  "MFDT280": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+  "ADW535_TD_T140358es_e": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+  "MIDT180": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6",
+  "MIE-MI-530rv001": "18518a293c1fdf6c18882cdaff5f3541de44a9a5c72ead0fc94daf82ea4eb97d"
+ },
+ "rows": [
+  {
+   "qid": "cat013",
+   "valor": "CLIP",
+   "clase": "prosa-datos",
+   "base_clase": "match literal: linea contenedora es prosa",
+   "question": "Tengo una central Detnov CAD-150 y me ha sobrado de otra instalacion un detector optico Notifier SDX-751; ¿es compatible / puedo montarlo en su lazo?",
+   "acreditables": [
+    {
+     "id": "cfcdc8f7-bdaf-412f-a85e-0ffb76878d99",
+     "source_file": "MIDT190",
+     "page": 69,
+     "pm": "ID3000",
+     "language": "es",
+     "store_sha256": "925f7f47481b7febd4af6527891f46f63255ed397f33b92bd4fdb0b6d81466db"
+    }
+   ],
+   "duplicados_no_acreditables": [],
+   "medible": true
+  },
+  {
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "clase": "prosa-datos",
+   "base_clase": "match literal: linea contenedora es prosa",
+   "question": "En la Detnov CAD-150, ¿como se da de alta un detector nuevo en el lazo y como se prueba que funciona?",
+   "acreditables": [
+    {
+     "id": "294a778c-1dca-40de-8a1b-a9f0c471ea36",
+     "source_file": "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT",
+     "page": 11,
+     "pm": "CAD-150-8",
+     "language": "es",
+     "store_sha256": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6"
+    },
+    {
+     "id": "af6ab292-dbf8-4a9d-a3f8-b048e2f781d9",
+     "source_file": "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT",
+     "page": 22,
+     "pm": "CAD-150-8",
+     "language": "en",
+     "store_sha256": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6"
+    }
+   ],
+   "duplicados_no_acreditables": [],
+   "medible": true
+  },
+  {
+   "qid": "hp001",
+   "valor": "2222",
+   "clase": "prosa-datos",
+   "base_clase": "match literal: linea contenedora es prosa",
+   "question": "En la Detnov CAD-250, ¿cómo se entra al menú de programación avanzada?",
+   "acreditables": [
+    {
+     "id": "9bd17466-1a22-4ade-bb16-a44624c9f166",
+     "source_file": "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+     "page": 29,
+     "pm": "CAD-250",
+     "language": "es",
+     "store_sha256": "1ea43ca62743178f89e976220e025c712a36654474e8f90ba921108841a8686c"
+    },
+    {
+     "id": "8cf55c57-dc8d-4e81-b35b-67f777580cd5",
+     "source_file": "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+     "page": 18,
+     "pm": "CAD-250",
+     "language": "es",
+     "store_sha256": "3797d14d071d618d2a6b0343dfb3d0e4bc4a8cebe75016fce5206cd9687ab68e"
+    }
+   ],
+   "duplicados_no_acreditables": [
+    {
+     "id": "2fe06904",
+     "duplicate_of": "9bd17466"
+    }
+   ],
+   "medible": true
+  },
+  {
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "clase": "prosa-datos",
+   "base_clase": "match literal: linea contenedora es prosa",
+   "question": "La Notifier AFP-400 muestra el aviso 'Tierra' (Earth Fault). ¿Qué significa y cómo se localiza?",
+   "acreditables": [
+    {
+     "id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+     "source_file": "50253SP",
+     "page": 80,
+     "pm": "AFP-300",
+     "language": "es",
+     "store_sha256": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5"
+    },
+    {
+     "id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+     "source_file": "MIDT170",
+     "page": 54,
+     "pm": "AFP-400",
+     "language": "es",
+     "store_sha256": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152"
+    }
+   ],
+   "duplicados_no_acreditables": [],
+   "medible": true
+  },
+  {
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "clase": "tabla",
+   "base_clase": "match literal: linea contenedora es fila markdown",
+   "question": "La Notifier AFP-400 muestra el aviso 'Tierra' (Earth Fault). ¿Qué significa y cómo se localiza?",
+   "acreditables": [
+    {
+     "id": "9503f5a0-24ad-44af-94ff-d63cbe6c742b",
+     "source_file": "50253SP",
+     "page": 22,
+     "pm": "AFP-300",
+     "language": "es",
+     "store_sha256": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5"
+    },
+    {
+     "id": "3f9dc99b-76d0-43b6-8943-0d18335917cc",
+     "source_file": "50253SP",
+     "page": 98,
+     "pm": "AFP-300",
+     "language": "es",
+     "store_sha256": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5"
+    },
+    {
+     "id": "d0d6a7ba-c71c-486d-82e8-95801157a172",
+     "source_file": "MIDT170",
+     "page": 71,
+     "pm": "AFP-400",
+     "language": "es",
+     "store_sha256": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152"
+    },
+    {
+     "id": "a0ee9631-d156-48c6-92f9-126f899f35cb",
+     "source_file": "MIDT170",
+     "page": 17,
+     "pm": "AFP-400",
+     "language": "es",
+     "store_sha256": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152"
+    },
+    {
+     "id": "d96f4566-d841-4aa7-a418-f0ddb71e6edc",
+     "source_file": "50253SP",
+     "page": 89,
+     "pm": "AFP-300",
+     "language": "es",
+     "store_sha256": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5"
+    },
+    {
+     "id": "717a8dac-596f-4ef9-96e3-3f61c96f6250",
+     "source_file": "MIDT170",
+     "page": 77,
+     "pm": "AFP-400",
+     "language": "es",
+     "store_sha256": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152"
+    },
+    {
+     "id": "096600ba-6680-4114-bd62-f5dce9ac7d59",
+     "source_file": "MIDT170",
+     "page": 76,
+     "pm": "AFP-400",
+     "language": "es",
+     "store_sha256": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152"
+    },
+    {
+     "id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+     "source_file": "50253SP",
+     "page": 88,
+     "pm": "AFP-300",
+     "language": "es",
+     "store_sha256": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5"
+    },
+    {
+     "id": "d35de7dd-0acd-40a1-99c5-d143e30a507d",
+     "source_file": "50253SP",
+     "page": 207,
+     "pm": "AFP-300",
+     "language": "es",
+     "store_sha256": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5"
+    },
+    {
+     "id": "dbd4ce93-2918-4a7e-985e-0e0a033ec101",
+     "source_file": "MIDT170",
+     "page": 174,
+     "pm": "AFP-400",
+     "language": "es",
+     "store_sha256": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152"
+    },
+    {
+     "id": "cc29b97f-dca0-4bd1-a335-b038304ca11b",
+     "source_file": "50253SP",
+     "page": 96,
+     "pm": "AFP-300",
+     "language": "es",
+     "store_sha256": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5"
+    },
+    {
+     "id": "66a941ea-035e-4552-a215-1d97074d9d9d",
+     "source_file": "50253SP",
+     "page": 97,
+     "pm": "AFP-300",
+     "language": "es",
+     "store_sha256": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5"
+    },
+    {
+     "id": "597cf90f-21ed-4cb4-a9cc-7239bda100d5",
+     "source_file": "MIDT170",
+     "page": 74,
+     "pm": "AFP-400",
+     "language": "es",
+     "store_sha256": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152"
+    }
+   ],
+   "duplicados_no_acreditables": [],
+   "medible": true
+  },
+  {
+   "qid": "hp011",
+   "valor": "05 a 295 seg",
+   "clase": "tabla",
+   "base_clase": "match literal: linea contenedora es fila markdown",
+   "question": "En la Morley RP1r, después de descargar la extinción el sistema no vuelve a estado normal tras resetear. ¿Qué comprobar?",
+   "acreditables": [
+    {
+     "id": "2d45a70a-5202-442e-af84-c3a176c2178d",
+     "source_file": "HLSI-MN-103_RP1r-Supra_lr",
+     "page": 56,
+     "pm": "RP1r-Supra",
+     "language": "es",
+     "store_sha256": "ccabe3df906990c9b95d0d180d811e0444278089d4ce30678d86948cb197e93e"
+    }
+   ],
+   "duplicados_no_acreditables": [
+    {
+     "id": "4581dc4b",
+     "duplicate_of": "b4347ec9"
+    }
+   ],
+   "medible": true
+  },
+  {
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "clase": "prosa-datos",
+   "base_clase": "DECLARADA (sin match literal): track C: el enunciado ganador venia de parrafo de capacidad ('AFP1010 con dos LIB-200 soporta 396')",
+   "question": "¿Cuántos lazos direccionables soporta la Notifier AM2020/AFP1010 y cuántos dispositivos por lazo?",
+   "acreditables": [
+    {
+     "id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+     "source_file": "MPDT280",
+     "page": 3,
+     "pm": "MPDT-280",
+     "language": "es",
+     "store_sha256": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b"
+    },
+    {
+     "id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+     "source_file": "MFDT280",
+     "page": 5,
+     "pm": "AM2020 y AFP1010",
+     "language": "es",
+     "store_sha256": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f"
+    }
+   ],
+   "duplicados_no_acreditables": [],
+   "medible": true
+  },
+  {
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "clase": "tabla",
+   "base_clase": "match literal: linea contenedora es fila markdown",
+   "question": "¿Cómo se cambia la batería tampón de la Detnov ADW535 sin perder configuración?",
+   "acreditables": [
+    {
+     "id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+     "source_file": "ADW535_TD_T140358es_e",
+     "page": 12,
+     "pm": "ADW535",
+     "language": "es",
+     "store_sha256": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f"
+    },
+    {
+     "id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+     "source_file": "ADW535_TD_T140358es_e",
+     "page": 56,
+     "pm": "ADW535",
+     "language": "es",
+     "store_sha256": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f"
+    },
+    {
+     "id": "a5564c62-c198-4b5a-957d-96443a7a22a0",
+     "source_file": "ADW535_TD_T140358es_e",
+     "page": 16,
+     "pm": "ADW535",
+     "language": "en",
+     "store_sha256": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f"
+    }
+   ],
+   "duplicados_no_acreditables": [],
+   "medible": true
+  },
+  {
+   "qid": "hp014",
+   "valor": "35",
+   "clase": "prosa-datos",
+   "base_clase": "match literal: linea contenedora es prosa",
+   "question": "¿Cómo se conecta un módulo de aislamiento de línea en un lazo ID2000?",
+   "acreditables": [
+    {
+     "id": "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+     "source_file": "MIDT180",
+     "page": 17,
+     "pm": "ID2000",
+     "language": "es",
+     "store_sha256": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6"
+    }
+   ],
+   "duplicados_no_acreditables": [],
+   "medible": true
+  },
+  {
+   "qid": "hp018",
+   "valor": "1 A",
+   "clase": "tabla",
+   "base_clase": "DECLARADA (sin match literal): bake-off s93: 'la tabla del 1 A en MIE-MI-530' (spec sirenas)",
+   "question": "¿Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe?",
+   "acreditables": [
+    {
+     "id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+     "source_file": "MIE-MI-530rv001",
+     "page": 20,
+     "pm": "ZX2e/ZX5e",
+     "language": "es",
+     "store_sha256": "18518a293c1fdf6c18882cdaff5f3541de44a9a5c72ead0fc94daf82ea4eb97d"
+    }
+   ],
+   "duplicados_no_acreditables": [],
+   "medible": true
+  }
+ ]
+}

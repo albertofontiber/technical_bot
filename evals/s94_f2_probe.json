@@ -1,0 +1,333 @@
+{
+ "results": [
+  {
+   "qid": "cat013",
+   "valor": "CLIP",
+   "clase": "prosa-datos",
+   "canal_sim50": 0.5331,
+   "n_cands": 3,
+   "por_brazo": {
+    "R2": {
+     "cos": 0.4438,
+     "text": "El panel de control de incendios ID3000 utiliza el protocolo CLIP de Notifier para la comunicación con los equipos conectados en el lazo.",
+     "parent": "cfcdc8f7",
+     "fb": true,
+     "cruza_proxy": false
+    },
+    "R2_fb": {
+     "cos": 0.4438,
+     "text": "El panel de control de incendios ID3000 utiliza el protocolo CLIP de Notifier para la comunicación con los equipos conectados en el lazo.",
+     "parent": "cfcdc8f7",
+     "cruza_proxy": false
+    }
+   }
+  },
+  {
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "clase": "prosa-datos",
+   "canal_sim50": 0.5485,
+   "n_cands": 22,
+   "por_brazo": {
+    "R2": {
+     "cos": 0.5423,
+     "text": "La sección 3.1 del manual del CAD-150-8 indica que se debe usar el tester para verificar la continuidad de la línea.",
+     "parent": "af6ab292",
+     "fb": false,
+     "cruza_proxy": false
+    },
+    "R2_fb": {
+     "cos": 0.5234,
+     "text": "La verificación de la autobúsqueda de lazo en la central CAD-150-8 se realiza comparando los elementos detectados con los planos de la instalación.",
+     "parent": "294a778c",
+     "cruza_proxy": false
+    }
+   }
+  },
+  {
+   "qid": "hp001",
+   "valor": "2222",
+   "clase": "prosa-datos",
+   "canal_sim50": 0.5195,
+   "n_cands": 7,
+   "por_brazo": {
+    "R2": {
+     "cos": 0.4613,
+     "text": "La clave de administrador por defecto del CAD-250 es 2222.",
+     "parent": "9bd17466",
+     "fb": true,
+     "cruza_proxy": false
+    },
+    "R2_fb": {
+     "cos": 0.4613,
+     "text": "La clave de administrador por defecto del CAD-250 es 2222.",
+     "parent": "9bd17466",
+     "cruza_proxy": false
+    },
+    "R3": {
+     "cos": 0.4913,
+     "text": "Esta tabla del manual técnico del CAD-250 tiene como propósito clasificar los estados operativos del detector según el nivel de ocupación del canal, r",
+     "parent": "9bd17466",
+     "fb": false,
+     "cruza_proxy": false
+    },
+    "R1": {
+     "cos": 0.5145,
+     "text": "CAD-250 · 1=4; 2=5; 3=6",
+     "parent": "9bd17466",
+     "fb": false,
+     "cruza_proxy": false
+    }
+   }
+  },
+  {
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "clase": "prosa-datos",
+   "canal_sim50": 0.532,
+   "n_cands": 57,
+   "por_brazo": {
+    "R2": {
+     "cos": 0.5917,
+     "text": "La placa de alimentación de la MPS-400 dispone de un LED de fallo de tierra ubicado en el lado derecho.",
+     "parent": "6f10426e",
+     "fb": true,
+     "cruza_proxy": true
+    },
+    "R2_fb": {
+     "cos": 0.5917,
+     "text": "La placa de alimentación de la MPS-400 dispone de un LED de fallo de tierra ubicado en el lado derecho.",
+     "parent": "6f10426e",
+     "cruza_proxy": true
+    },
+    "R1": {
+     "cos": 0.5854,
+     "text": "AFP-400 · Pin=TB1-3; Función=Toma Tierra",
+     "parent": "6f10426e",
+     "fb": false,
+     "cruza_proxy": true
+    },
+    "R3": {
+     "cos": 0.5222,
+     "text": "Esta tabla del manual técnico del panel AFP-400 indica la asignación funcional de cada pin del bloque de terminales TB1, respondiendo a la pregunta de",
+     "parent": "6f10426e",
+     "fb": false,
+     "cruza_proxy": false
+    }
+   }
+  },
+  {
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "clase": "tabla",
+   "canal_sim50": 0.5328,
+   "n_cands": 48,
+   "por_brazo": {
+    "R2": {
+     "cos": 0.4792,
+     "text": "En el AFP-400 configurado en Estilo 7, el diagrama muestra un Detector en Base Aisladora identificado como \"4\" conectado en el lado derecho del lazo.",
+     "parent": "096600ba",
+     "fb": false,
+     "cruza_proxy": false
+    },
+    "R2_fb": {
+     "cos": 0.4588,
+     "text": "En el AFP-400 configurado en Estilo 7, el diagrama muestra un Módulo Aislador ISO-X ubicado en el lado izquierdo inferior del lazo.",
+     "parent": "096600ba",
+     "cruza_proxy": false
+    },
+    "R1": {
+     "cos": 0.4741,
+     "text": "AFP-400 · Conectar...=Retorno de Lazo; A...=TB5-2 (+)<br/>TB5-4 (-)",
+     "parent": "096600ba",
+     "fb": false,
+     "cruza_proxy": false
+    },
+    "R3": {
+     "cos": 0.4731,
+     "text": "Esta tabla del AFP-400 responde a la pregunta de cómo cablear las conexiones de lazo en el panel, indicando a qué borneras específicas (TB5) deben con",
+     "parent": "096600ba",
+     "fb": false,
+     "cruza_proxy": false
+    },
+    "R1_fb": {
+     "cos": 0.4255,
+     "text": "AFP-300 · Temas=Alambrando un Módulo Aislador ISO-X; Refiérase a=\"Alambrando un módulo ISO-X\" en la página 2-62,cual cubre:<br/>La descripción de un M",
+     "parent": "0ebf60d9",
+     "cruza_proxy": false
+    },
+    "R3_fb": {
+     "cos": 0.4366,
+     "text": "Esta tabla del manual técnico del panel AFP-300 funciona como índice de referencia cruzada para la sección de instalación del Circuito de Lazo de Seña",
+     "parent": "0ebf60d9",
+     "cruza_proxy": false
+    }
+   }
+  },
+  {
+   "qid": "hp011",
+   "valor": "05 a 295 seg",
+   "clase": "tabla",
+   "canal_sim50": 0.5393,
+   "n_cands": 4,
+   "por_brazo": {
+    "R2": {
+     "cos": 0.5432,
+     "text": "El valor \"--\" del tiempo de activación del circuito de extinción de la central RP1r-Supra indica que el circuito permanece activado hasta el rearme de",
+     "parent": "2d45a70a",
+     "fb": false,
+     "cruza_proxy": true
+    },
+    "R2_fb": {
+     "cos": 0.4783,
+     "text": "El tiempo de activación del circuito de extinción de la central RP1r-Supra, también denominado periodo de inundación, es configurable con un valor var",
+     "parent": "2d45a70a",
+     "cruza_proxy": false
+    },
+    "R1": {
+     "cos": 0.5055,
+     "text": "RP1r-Supra · Valor variable de 05 a 295 seg.=- -; Tiempo de activación del circuito de extinción, o periodo de inundación. Variable en intervalos de 5",
+     "parent": "2d45a70a",
+     "fb": true,
+     "cruza_proxy": false
+    },
+    "R1_fb": {
+     "cos": 0.5055,
+     "text": "RP1r-Supra · Valor variable de 05 a 295 seg.=- -; Tiempo de activación del circuito de extinción, o periodo de inundación. Variable en intervalos de 5",
+     "parent": "2d45a70a",
+     "cruza_proxy": false
+    },
+    "R3": {
+     "cos": 0.5117,
+     "text": "La tabla del panel de extinción RP1r-Supra especifica las opciones de configuración del tiempo de activación del circuito de extinción (periodo de inu",
+     "parent": "2d45a70a",
+     "fb": false,
+     "cruza_proxy": false
+    }
+   }
+  },
+  {
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "clase": "prosa-datos",
+   "canal_sim50": 0.5692,
+   "n_cands": 56,
+   "por_brazo": {
+    "R2": {
+     "cos": 0.6079,
+     "text": "El manual técnico MP-DT-280 en la sección de Introducción indica que el AFP1010 con dos LIB-200 tiene un total máximo de 396 dispositivos en el sistem",
+     "parent": "5730afb3",
+     "fb": false,
+     "cruza_proxy": true
+    },
+    "R3": {
+     "cos": 0.4641,
+     "text": "Esta tabla del manual técnico del MPDT-280 describe el flujo de navegación en el menú de programación del nivel dos, respondiendo a la pregunta de cóm",
+     "parent": "5730afb3",
+     "fb": false,
+     "cruza_proxy": false
+    }
+   }
+  },
+  {
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "clase": "tabla",
+   "canal_sim50": 0.516,
+   "n_cands": 136,
+   "por_brazo": {
+    "R2": {
+     "cos": 0.4464,
+     "text": "El borne LMB 16 del ADW535 corresponde a la señal ResExt + con función de Entrada Reset externo y su conexión se realiza según la Fig. 23 y Fig. 25.",
+     "parent": "a19e8735",
+     "fb": false,
+     "cruza_proxy": false
+    },
+    "R1": {
+     "cos": 0.4384,
+     "text": "ADW535 · Borne LMB=16; Señal=ResExt +; Señal=Entrada Reset externo; Cableado=Conexión<br/>según la Fig. 23 y Fig. 25",
+     "parent": "a19e8735",
+     "fb": false,
+     "cruza_proxy": false
+    },
+    "R1_fb": {
+     "cos": 0.4232,
+     "text": "ADW535 · Borne LMB=3; Señal=PWR-R +; Señal=+9 hasta +30 V-CC ➀; Cableado=Cable de alimentación redundante de la CDI",
+     "parent": "a19e8735",
+     "cruza_proxy": false
+    },
+    "R3": {
+     "cos": 0.3998,
+     "text": "Esta tabla del ADW535 especifica la asignación de bornes del conector LMB, respondiendo a la pregunta de qué señal y tipo de cableado corresponde a ca",
+     "parent": "a19e8735",
+     "fb": false,
+     "cruza_proxy": false
+    },
+    "R2_fb": {
+     "cos": 0.4307,
+     "text": "El borne LMB 3 del ADW535 corresponde a la señal PWR-R + con un nivel de señal de +9 hasta +30 V-CC y se conecta mediante el cable de alimentación red",
+     "parent": "a19e8735",
+     "cruza_proxy": false
+    }
+   }
+  },
+  {
+   "qid": "hp014",
+   "valor": "35",
+   "clase": "prosa-datos",
+   "canal_sim50": 0.5273,
+   "n_cands": 16,
+   "por_brazo": {
+    "R2": {
+     "cos": 0.4494,
+     "text": "La resistencia máxima del lazo del panel ID2000 puede comprobarse uniendo los extremos B+ y B- y midiendo a través de los extremos A+ y A-.",
+     "parent": "d4018c9b",
+     "fb": false,
+     "cruza_proxy": false
+    },
+    "R2_fb": {
+     "cos": 0.4197,
+     "text": "La resistencia máxima del lazo del panel ID2000 no debe superar los 35 ohmios.",
+     "parent": "d4018c9b",
+     "cruza_proxy": false
+    },
+    "R1": {
+     "cos": 0.4028,
+     "text": "ID2000 · Tipo de cable=7/0,2 mm<br/>4-núcleos, apantallado; Fabricante=Arrow; Nombre cable=-; Referencia=7-2-4S; Aplicación=RS232 externo<br/>(ej. imp",
+     "parent": "d4018c9b",
+     "fb": false,
+     "cruza_proxy": false
+    },
+    "R3": {
+     "cos": 0.3641,
+     "text": "Esta tabla del manual técnico del ID2000 responde a la pregunta de qué cables son compatibles y aprobados para su instalación, listando para cada opci",
+     "parent": "d4018c9b",
+     "fb": false,
+     "cruza_proxy": false
+    }
+   }
+  },
+  {
+   "qid": "hp018",
+   "valor": "1 A",
+   "clase": "tabla",
+   "canal_sim50": 0.5498,
+   "n_cands": 17,
+   "por_brazo": {
+    "R2": {
+     "cos": 0.4167,
+     "text": "El lazo analógico de los paneles ZX2e y ZX5e utiliza cuatro conductores denominados Datos/Alimentación (+) INICIO, Datos/Alimentación (-) INICIO, Dato",
+     "parent": "90d51dac",
+     "fb": false,
+     "cruza_proxy": false
+    },
+    "R2_fb": {
+     "cos": 0.4008,
+     "text": "El bloque de terminales de lazo en los paneles ZX2e y ZX5e está identificado como LOOP 1 con conexiones etiquetadas +, -, E, +, -.",
+     "parent": "90d51dac",
+     "cruza_proxy": false
+    }
+   }
+  }
+ ]
+}
