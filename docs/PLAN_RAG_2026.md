@@ -148,12 +148,21 @@ Umbral QA re-registrado a calibración-en-T1 (~78-86% real full-doc, no el 97% d
 re-estimado: T1 ~$40-100 y su medición fija T2-T3 (banda $160-270 obsoleta). 435 tests; demo intacta
 (flag off, 0 surrogates).
 
-**Qué sigue:** (1) **GO de gasto de Alberto → T1** (~$40-100: docs de marcas-golds + 2-3 marcas
-no-vistas isPerfect-bajo; gates: reproducción famtie ≤8 swap-on con ≥4/6 flips DEC-086 · nueva-miss
-±2 · panel-overlap · QA-rate calibrado en los primeros ~20 docs + muestreo estratificado) → T2-T3
-mecánicos si T1 pasa → bvg PASS-control ±2 antes de `ENUNCIADOS_MULTIVECTOR=on` en demo; (2) lever
-diversify (hp011 + '99+99'); (3) conduct-level clarify + calc-assist CON Alberto; (4) S4/F3 re-tag.
-Backlog: BRAND_MAP→`catalog_gt.py`; re-homing FL*; 6 homónimos cola; ~630 candidates; dual-judge ~sept.
+**s94c/T1 (DEC-088): pase corpus EJECUTADO → NO-GO del enfoque "surrogates en índice compartido".**
+Gate G1 (reproducción) FALLA 2/6: los 21.995 enunciados en el MISMO HNSW que los 22.339 chunks
+reales lo diluyen (índice ×2) → recall real cae 12→19, multivector 13 (neto peor que 12). El
+piloto s94 (12→6) no escaló: usó 251 surrogates dirigidos/transitorios; a docs-enteros el mecanismo
+se ahoga (dilución + enterramiento). **T1 (~$50-75) cazó el fallo ANTES del gasto de corpus ($150+)
+= tramos funcionando.** Demo restaurada (dump+delete+revert+VACUUM); schema T0 conservado; bug
+latente arreglado (FK duplicate_of → migración 009). Side-by-side: **Sonnet 5** es el vintage
+(mejor calidad, ≤coste). 435 tests.
+
+**Qué sigue: (1) REDESIGN del mecanismo enunciados (dúo + decisión Alberto, ANTES de más gasto)** —
+(A) tabla/índice HNSW SEPARADO para surrogates (el fix propio: el churn nunca toca los chunks
+reales), (B) índices HNSW parciales en la misma tabla, (C) generación DIRIGIDA no docs-enteros
+(reduce volumen+enterramiento). Con Sonnet 5. Nada de T2-T3 hasta resolver. (2) lever diversify
+(hp011 + '99+99'); (3) conduct-level clarify + calc-assist CON Alberto; (4) S4/F3 re-tag. Backlog:
+BRAND_MAP→`catalog_gt.py`; re-homing FL*; 6 homónimos cola; ~630 candidates; dual-judge ~sept.
 
 **s90 (DEC-079): F0 APROBADO (D1-D7) → contrato CANÓNICO; F1a slice vertical Morley CONSTRUIDO.**
 `catalog_store.py` (la puerta: validate reglas-duras + resolve con contrato `expand`, check-homónimo

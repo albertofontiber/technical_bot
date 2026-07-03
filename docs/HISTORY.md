@@ -1501,3 +1501,18 @@ el filtro 'heldout' vs 'held-out' metía los 12 embargados al pin; query_gaps er
 pase idempotente por-doc con smoke real (MIDT180: 427 QA-OK, cobertura 65%). Dúo del build: 6+9
 hallazgos, 0 FP, todos aplicados + 4 tests (14 total del feature). Umbral QA y coste re-registrados
 por el smoke (T1 ~$40-100 medirá el real). 435 tests. Demo intacta. DEC-087. Gate: GO de gasto T1.
+
+## s94c/T1 (3 jul 2026) — Pase corpus por tramos: NO-GO del enfoque; T1 cazó un fallo de arquitectura antes del gasto de corpus
+GO de Alberto al gasto de T1 (~$50-75). Piloto de 14 docs generado con Sonnet 4.6 (21.995
+enunciados) para el gate de reproducción. **G1 FALLA (2/6 flips):** insertar los surrogates
+en el MISMO índice HNSW que los chunks reales lo diluyó (índice ×2, 47% surrogates) →
+recall de los originales cae (control 12→19); el multivector dio 13, neto PEOR que el
+baseline limpio 12. El mecanismo del piloto s94 (12→6) no escaló porque aquel usó 251
+surrogates transitorios y dirigidos; a docs-enteros se ahoga (dilución + enterramiento del
+enunciado relevante entre sus hermanos). Aislamiento verificado: 12→19 (inserción) →17
+(delete, fantasmas HNSW) →12 (VACUUM, lista idéntica a s92). Side-by-side confirmó Sonnet 5
+como vintage (mejor calidad, ≤coste). Restauré la demo (dump + delete + revert RPC + VACUUM),
+cacé y arreglé un bug latente (FK duplicate_of sin índice → migración 009), 435 tests verdes.
+**T1 (~$50-75) cazó un fallo arquitectónico ANTES del gasto de corpus ($150+) = el diseño de
+tramos funcionando.** Redesign pendiente (dúo+Alberto): tabla/índice separado para surrogates,
+índices parciales, o generación dirigida. DEC-088. Nada de T2-T3 hasta resolver.

@@ -1,0 +1,43 @@
+{
+ "control_miss": 17,
+ "multivector_miss": 13,
+ "flips_total": [
+  [
+   "hp006",
+   "Fallo de Tierra"
+  ],
+  [
+   "hp006",
+   "ISO-X"
+  ],
+  [
+   "hp006",
+   "Tierra"
+  ],
+  [
+   "hp012",
+   "2 lazos / 396"
+  ]
+ ],
+ "flips_dec086": [
+  [
+   "hp006",
+   "Fallo de Tierra"
+  ],
+  [
+   "hp012",
+   "2 lazos / 396"
+  ]
+ ],
+ "nuevas_miss": [],
+ "G1_reproduccion": {
+  "pasa": false,
+  "criterio": ">=4/6 flips DEC-086",
+  "reproducidos": 2
+ },
+ "G2_no_regresion": {
+  "pasa": true,
+  "criterio": "nuevas-miss <=2",
+  "nuevas": 0
+ }
+}
