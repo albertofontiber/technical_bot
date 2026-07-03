@@ -38,8 +38,18 @@ def _norm(s: str) -> str:
     return re.sub(r"\s+", " ", re.sub(r"[^a-z0-9ñ]+", " ", s)).strip()
 
 
+def _normv(s: str) -> str:
+    """Norm PRESERVANDO decimales (dúo T0 H2, REPRODUCIDO: '13,9' alucinado pasaba
+    porque _norm partía '13,8'→'13 8' y el token quedaba en '13'). El separador
+    decimal se protege como 'p' ANTES de matar puntuación: 13.8 → token '13p8'."""
+    s = unicodedata.normalize("NFD", s or "")
+    s = "".join(c for c in s if unicodedata.category(c) != "Mn").lower()
+    s = re.sub(r"(?<=\d)[.,](?=\d)", "p", s)
+    return re.sub(r"\s+", " ", re.sub(r"[^a-z0-9ñ]+", " ", s)).strip()
+
+
 def tokens_valor(text: str) -> set:
-    return {t for t in re.findall(r"[a-z0-9][a-z0-9./+-]{1,}", _norm(text))
+    return {t for t in re.findall(r"[a-z0-9][a-z0-9/+-]{1,}", _normv(text))
             if any(ch.isdigit() for ch in t)}
 
 
@@ -63,9 +73,10 @@ def region_filas(items: list) -> list[str]:
 
 
 def qa_statement(text: str, items: list, whitelist_meta: str = "") -> tuple[bool, str]:
-    """(a) fidelidad + (b) anti-mispairing fila-nivel. Devuelve (pass, motivo)."""
+    """(a) fidelidad + (b) anti-mispairing fila-nivel. Devuelve (pass, motivo).
+    AMBOS lados con _normv (decimales preservados — H2); discriminadores con _norm."""
     filas = region_filas(items)
-    filas_norm = [_norm(f) for f in filas]
+    filas_norm = [_normv(f) for f in filas]
     src_norm = " \n ".join(filas_norm)
     wl = tokens_valor(whitelist_meta)
     vals = tokens_valor(text) - wl
@@ -76,8 +87,14 @@ def qa_statement(text: str, items: list, whitelist_meta: str = "") -> tuple[bool
     for t in sorted(vals):
         pat = re.compile(rf"(?<![a-z0-9]){re.escape(t)}(?![a-z0-9])")
         lineas_t = [f for f in filas_norm if pat.search(f)]
-        if lineas_t and disc and not any(any(d in f for d in disc) for f in lineas_t):
-            return False, f"(b) valor '{t}' sin discriminador en su fila fuente"
+        if not lineas_t or not disc:
+            continue
+        # valores FRECUENTES (>3 filas) co-ocurren por azar (MEDIO cross-model T0):
+        # exigir >=2 discriminadores en una misma fila; raros: >=1. Residual declarado —
+        # el muestreo estratificado es el control complementario.
+        req = 2 if len(lineas_t) > 3 else 1
+        if not any(sum(d in f for d in set(disc)) >= req for f in lineas_t):
+            return False, f"(b) valor '{t}' sin discriminador suficiente en su fila (req={req})"
     return True, ""
 
 

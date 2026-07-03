@@ -35,17 +35,29 @@ _H = {"apikey": SUPABASE_SERVICE_KEY, "Authorization": f"Bearer {SUPABASE_SERVIC
 
 def panel_queries() -> list[dict]:
     golds = yaml.safe_load(open("evals/gold_answers_v1.yaml", encoding="utf-8"))
+    # EMBARGO (dúo T0 H1 — el filtro v1 comparaba "heldout" y el YAML dice "held-out":
+    # código muerto que metía los 12 embargados al pin): solo dev, doble variante.
     qs = [{"src": "gold", "id": g["qid"], "q": g["question"]}
-          for g in golds if g.get("split") != "heldout"]
+          for g in golds if g.get("split") not in ("held-out", "heldout")]
+    assert len(qs) < len(golds), "el filtro de embargo no filtró nada — revisar splits"
+    # queries REALES: query_logs (la tabla que existe — query_gaps era 404, dúo H1);
+    # limitación declarada: muchas son copias-de-eval de Alberto (feedback s92), pero
+    # incluyen las no-gold reales (p.ej. el caso calc-assist del empresario).
     try:
-        r = httpx.get(f"{SUPABASE_URL}/rest/v1/query_gaps", headers=_H,
-                      params={"select": "id,query_text", "order": "id.desc", "limit": "20"},
+        r = httpx.get(f"{SUPABASE_URL}/rest/v1/query_logs", headers=_H,
+                      params={"select": "id,query", "order": "id.desc", "limit": "40"},
                       timeout=15)
+        r.raise_for_status()
+        vistos = {q["q"] for q in qs}
         for row in r.json():
-            if row.get("query_text"):
-                qs.append({"src": "query_gaps", "id": f"qg{row['id']}", "q": row["query_text"]})
+            texto = (row.get("query") or "").strip()
+            if texto and texto not in vistos and len(texto) > 12:
+                vistos.add(texto)
+                qs.append({"src": "query_logs", "id": f"ql{row['id']}", "q": texto})
+            if sum(1 for x in qs if x["src"] == "query_logs") >= 20:
+                break
     except Exception as exc:
-        print(f"[warn] query_gaps no disponible ({exc}) — panel solo-golds")
+        print(f"[warn] query_logs no disponible ({exc}) — panel solo-golds-dev")
     return qs
 
 
@@ -78,6 +90,14 @@ def main() -> int:
     if cmd == "compare":
         pin = json.load(open(PIN_PATH, encoding="utf-8"))
         now = run_pools()
+        # freeze-guard (MEDIO del cross-model T0): un shift por catálogo/flags NO es del
+        # tramo — configs distintas invalidan la comparación.
+        difs = {k: (pin["_config"].get(k), now["_config"].get(k))
+                for k in set(pin["_config"]) | set(now["_config"])
+                if pin["_config"].get(k) != now["_config"].get(k)}
+        if difs:
+            print(f"⚠ CONFIG DISTINTA pin-vs-ahora — comparación INVÁLIDA: {difs}")
+            return 2
         rows, alerta = [], 0
         for qid, ids0 in pin["pools"].items():
             ids1 = now["pools"].get(qid)
@@ -86,13 +106,17 @@ def main() -> int:
             s0, s1 = set(ids0), set(ids1)
             ov = len(s0 & s1) / max(len(s0), 1)
             top10_ov = len(set(ids0[:10]) & set(ids1[:10])) / 10
-            rows.append((qid, round(ov, 3), round(top10_ov, 2)))
+            # rank-shift REAL (mediana de |Δpos| de los ids comunes)
+            pos1 = {cid: i for i, cid in enumerate(ids1)}
+            deltas = sorted(abs(i - pos1[cid]) for i, cid in enumerate(ids0) if cid in pos1)
+            med_shift = deltas[len(deltas) // 2] if deltas else None
+            rows.append((qid, round(ov, 3), round(top10_ov, 2), med_shift))
             if ov < 0.8:
                 alerta += 1
         rows.sort(key=lambda r: r[1])
-        print("qid        overlap@50  overlap@10  (peores 12)")
+        print("qid        overlap@50  overlap@10  medΔrank  (peores 12)")
         for r in rows[:12]:
-            print(f"  {r[0]:10} {r[1]:8} {r[2]:8}")
+            print(f"  {r[0]:10} {r[1]:8} {r[2]:8} {r[3]}")
         frac = alerta / max(len(rows), 1)
         print(f"\nqueries con overlap<0.8: {alerta}/{len(rows)} ({100*frac:.0f}%) — "
               f"umbral pre-registrado: investigar si >20%  → {'⚠ INVESTIGAR' if frac > 0.2 else 'OK'}")

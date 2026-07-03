@@ -8,7 +8,9 @@ QA gate: `enunciados_qa.qa_statement` (fidelidad + anti-mispairing fila-nivel,
 calibrado: caza 2/2 alucinaciones del piloto). Solo QA-OK se inserta.
 
 Contrato de fila (migración 007 + dúo s94b):
-  id            = uuid5(ancla) → IDEMPOTENTE (re-corrida = mismos ids)
+  id            = uuid5(ancla) → estable DENTRO de una generación; la idempotencia
+                  OPERATIVA la da el delete por-DOC previo al insert (dúo H4/H7 — una
+                  re-generación LLM produce otros textos/ids; temperature=0 pineada)
   parent_id     = chunk del mismo source_file/página con máx. solape de tokens-valor
                   (tie → chunk_index menor). Sin padre resoluble → item FUERA (declarado).
   extraction_sha256 = el del DOC REAL (semántica intacta: re-proceso del manual borra
@@ -69,7 +71,12 @@ def doc_chunks(source_file: str) -> list[dict]:
 
 def resolve_parent(item_txt: str, page_1b: int, chunks: list[dict]) -> dict | None:
     """Padre = chunk de la página con máx. solape de tokens-valor (tie → chunk_index)."""
-    cand = [c for c in chunks if c.get("page_number") == page_1b] or chunks
+    # Fallback ACOTADO a ±1 página (cross-model T0 + dúo H6: el fallback a doc-entero
+    # amplificaba mispairing que nadie caza; el drift real store↔DB es de ±1). Más allá
+    # → sin_padre (declarado).
+    cand = [c for c in chunks if c.get("page_number") == page_1b]
+    if not cand:
+        cand = [c for c in chunks if c.get("page_number") in (page_1b - 1, page_1b + 1)]
     if not cand:
         return None
     vals = tokens_valor(item_txt)
@@ -123,17 +130,18 @@ def process_doc(client, source_file: str, tranche: str, dry: bool) -> dict:
             wl = " ".join(str(parent.get(k) or "") for k in
                           ("product_model", "manufacturer", "source_file"))
             outs = []
-            msg = client.messages.create(model=LLM_MODEL, max_tokens=1500,
+            msg = client.messages.create(model=LLM_MODEL, max_tokens=1500, temperature=0,
                                          system=R2_PROMPT_V1.format(producto=producto),
                                          messages=[{"role": "user",
                                                     "content": item_text(it)[:8000]}])
             outs += [("R2", ln.strip()) for ln in msg.content[0].text.splitlines() if ln.strip()]
             if it.get("rows"):
-                msg = client.messages.create(model=LLM_MODEL, max_tokens=300,
+                msg = client.messages.create(model=LLM_MODEL, max_tokens=300, temperature=0,
                                              system=R3_PROMPT_V1.format(producto=producto),
                                              messages=[{"role": "user",
                                                         "content": item_text(it)[:6000]}])
                 outs.append(("R3", msg.content[0].text.strip()))
+            n_item = 0
             for arm, text in outs:
                 stats["gen"] += 1
                 ok, motivo = qa_statement(text, [it], wl)
@@ -141,7 +149,10 @@ def process_doc(client, source_file: str, tranche: str, dry: bool) -> dict:
                     stats["qa_fail"] += 1
                     continue
                 page_stmts.append(text)
-                ancla = f"{sha}:{pidx}:{j}:{arm}:{len(rows)}"
+                # contador POR-ITEM (MENOR del cross-model: len(rows) global dependía de
+                # omisiones previas → ids no estables entre reruns)
+                ancla = f"{sha}:{pidx}:{j}:{arm}:{n_item}"
+                n_item += 1
                 rows.append({
                     "id": str(uuid.uuid5(NAMESPACE, ancla)),
                     "content": text, "context": parent.get("context"),
@@ -159,6 +170,14 @@ def process_doc(client, source_file: str, tranche: str, dry: bool) -> dict:
         cov = cobertura_pagina(items, page_stmts)
         if cov is not None:
             cov_by_page.append(cov)
+    if not dry:
+        # idempotencia POR-DOC (dúo H4: el rollback global re-pagaba el tramo entero
+        # tras un crash en el doc N): borrar SOLO lo previo de este doc+batch.
+        httpx.delete(f"{SUPABASE_URL}/rest/v1/chunks_v2",
+                     headers={**_H, "Prefer": "return=minimal"},
+                     params={"ingest_batch": f"eq.{batch}",
+                             "source_file": f"eq.{source_file}"},
+                     timeout=60).raise_for_status()
     if not dry and rows:
         from src.reingest.embed import embed as _embed
         texts = [(f"{r['context']}\n\n{r['content']}" if r.get("context") else r["content"])
@@ -204,8 +223,9 @@ def main() -> int:
     assert a.tranche and a.docs, "--tranche y --docs son obligatorios"
     docs = [ln.strip() for ln in open(a.docs, encoding="utf-8") if ln.strip()]
     batch = f"enunciados-v1:{a.tranche}:p1"
-    if not a.dry:
-        rollback(batch)                       # idempotencia de tramo
+    # (dúo H4) SIN rollback global aquí: la idempotencia es por-DOC dentro de
+    # process_doc → una re-corrida tras crash salta lo ya pagado (--rollback existe
+    # como comando explícito para limpiar un tramo entero).
     client = anthropic.Anthropic()
     results = []
     for i, doc in enumerate(docs):

@@ -366,6 +366,11 @@ def fetch_missing_doc_chunks(query: str, res: dict, pool: list[dict]) -> list[di
                                params={"select": "id,content,source_file,product_model,"
                                                  "page_number,language",
                                        "source_file": f"eq.{src}", "order": "id.asc",
+                                       # (T0 s94b, invariante de no-servicio — CRÍTICO del
+                                       # cross-model): este path appendea al pool SIN swap;
+                                       # jamás debe servir surrogates, aunque IDENTITY_FETCH
+                                       # esté NO-SHIP.
+                                       "parent_id": "is.null",
                                        "limit": "400"})
                 if r.status_code not in (200, 206):
                     continue

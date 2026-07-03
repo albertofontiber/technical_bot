@@ -135,12 +135,25 @@ resumen/tabla complemento barato (12→8, gana ISO-X).** Triage: hp011+'99+99' m
 aún). Seam `PILOT_PARENT_SWAP` default-off (5 tests); inserciones REVERTIDAS ×3 (0 restantes);
 nada shippeado. Artefactos: `evals/s94_pilot_{spec,run}.md` + `s94_f3_results.json`.
 
-**Qué sigue:** (1) **decisión de presupuesto Alberto (AHORA con GO medido)**: pase corpus R2(+R3)
-≈ $160-270 LLM + QA aparte (~$10-30); tras el pase → famtie + bvg PASS-control ±2 antes de encender
-el multi-vector en demo; (2) lever diversify (hp011 + hp012 '99+99' — el swap prueba que el soporte
-LLEGA y muere ahí; barato); (3) conduct-level clarify (caso ZXe demo) + calc-assist CON Alberto;
-(4) S4/F3 re-tag DB gateado por consumo. Backlog: BRAND_MAP→`catalog_gt.py`; re-homing FL*;
-6 homónimos cola; ~630 candidates demand-driven; dual-judge ~sept.
+**s94b/T0 (DEC-087): la infraestructura PERMANENTE del pase construida y dúo-hardened (2 rondas
+del dúo sobre plan + 2 sobre build; 30 hallazgos aplicados, 0 FP).** Migración **007 APLICADA**
+(parent_id CASCADE + ingest_batch + RPC include_surrogates default-false; ef_search s59b preservado
+vía set_config; rollback ejecutable `007_rollback.sql`) · **invariante de NO-SERVICIO** (9 GETs +
+RPC: una fila con parent_id JAMÁS se sirve cruda — cierra la ventana demo-sirve-derivado F1) ·
+swap `ENUNCIADOS_MULTIVECTOR` from-row (14 tests) · **QA generalizado calibrado ×3** (fix DECIMALES
+reproducido: '13,9' alucinado pasaba; 86.6% final, 2/2 conocidas siempre) · panel de desplazamiento
+(fix EMBARGO: los 12 held-out estaban dentro del pin v1; re-pineado dev+query_logs + suelo de ruido)
+· pase idempotente por-doc (temperature=0, prompts v1 congelados; smoke MIDT180 427 QA-OK, cov 65%).
+Umbral QA re-registrado a calibración-en-T1 (~78-86% real full-doc, no el 97% del piloto); coste
+re-estimado: T1 ~$40-100 y su medición fija T2-T3 (banda $160-270 obsoleta). 435 tests; demo intacta
+(flag off, 0 surrogates).
+
+**Qué sigue:** (1) **GO de gasto de Alberto → T1** (~$40-100: docs de marcas-golds + 2-3 marcas
+no-vistas isPerfect-bajo; gates: reproducción famtie ≤8 swap-on con ≥4/6 flips DEC-086 · nueva-miss
+±2 · panel-overlap · QA-rate calibrado en los primeros ~20 docs + muestreo estratificado) → T2-T3
+mecánicos si T1 pasa → bvg PASS-control ±2 antes de `ENUNCIADOS_MULTIVECTOR=on` en demo; (2) lever
+diversify (hp011 + '99+99'); (3) conduct-level clarify + calc-assist CON Alberto; (4) S4/F3 re-tag.
+Backlog: BRAND_MAP→`catalog_gt.py`; re-homing FL*; 6 homónimos cola; ~630 candidates; dual-judge ~sept.
 
 **s90 (DEC-079): F0 APROBADO (D1-D7) → contrato CANÓNICO; F1a slice vertical Morley CONSTRUIDO.**
 `catalog_store.py` (la puerta: validate reglas-duras + resolve con contrato `expand`, check-homónimo

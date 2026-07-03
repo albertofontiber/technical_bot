@@ -1488,3 +1488,16 @@ SWAP pre-merge + rollback verificado ×3: **R2 12→6 (5/10, 0 nuevas-miss, pred
 R1 12→10 (0/4 tabla, FALSADA → descartado) · R3 12→8 (4 flips/11 surrogates, falsada al alza)**.
 Triage: hp011/'99+99' mueren en diversify (lever pipeline); cat013/cat016 sin mecanismo (vocab
 operativo). Pase corpus ≈$160-270+QA = decisión Alberto. DEC-086; digest actualizado; nada en demo.
+
+## s94b/T0 (3 jul 2026) — Infra permanente del pase de enunciados (GO de Alberto al enfoque por tramos)
+Alberto preguntó si el pase corpus debía ser de golpe o por partes → tramos validados por el dúo,
+que tumbó la v1 por heredar la infra del PILOTO (6 CRÍTICOS: sidecar fail-open, sin contrato de
+schema, ventana demo-sirve-derivado F1). T0 ejecutado con GO: migración 007 aplicada (regla-C
+pre-apply salvó el ef_search de s59b, que las defs del repo habían perdido; un DROP fallido no tiró
+la demo — transaccional), invariante de no-servicio en 9 GETs + RPC, swap ENUNCIADOS_MULTIVECTOR
+from-row, QA generalizado con 3 vueltas de calibración (el sub-agente REPRODUJO la ceguera a
+decimales: '13,9' alucinado pasaba — fix _normv verificado), panel de desplazamiento (fix EMBARGO:
+el filtro 'heldout' vs 'held-out' metía los 12 embargados al pin; query_gaps era 404 → query_logs),
+pase idempotente por-doc con smoke real (MIDT180: 427 QA-OK, cobertura 65%). Dúo del build: 6+9
+hallazgos, 0 FP, todos aplicados + 4 tests (14 total del feature). Umbral QA y coste re-registrados
+por el smoke (T1 ~$40-100 medirá el real). 435 tests. Demo intacta. DEC-087. Gate: GO de gasto T1.

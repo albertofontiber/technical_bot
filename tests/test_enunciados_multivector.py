@@ -128,3 +128,38 @@ def test_swap_fail_closed_padre_no_hidratable(fake_http):
 def test_swap_noop_sin_surrogates(fake_http):
     chunks = [{"id": "a", "similarity": 0.6}, {"id": "b", "parent_id": None}]
     assert retriever._enunciados_swap(chunks) == chunks
+
+
+# ---------- H8 (dúo T0): huecos de cobertura ----------
+
+def test_content_search_path_a_lleva_el_filtro(fake_http, monkeypatch):
+    monkeypatch.setattr(retriever, "CHUNKS_TABLE", "chunks_v2")
+    retriever.content_search("relé de avería", product_model="ZX2e", limit=5)
+    assert fake_http.last_get_params.get("parent_id") == "is.null"
+
+
+def test_rpc_legacy_suffix_no_pide_surrogates_ni_con_flag(fake_http, monkeypatch):
+    monkeypatch.setenv("ENUNCIADOS_MULTIVECTOR", "on")
+    monkeypatch.setattr(retriever, "RPC_SUFFIX", "")          # tabla legacy
+    retriever.vector_search("query", 5, 0.3, None, None, [0.0] * 4)
+    assert "include_surrogates" not in fake_http.last_post_json
+
+
+def test_fetch_missing_doc_chunks_excluye_surrogates_textual():
+    """(H3/CRÍTICO cross-model) El path IDENTITY_FETCH appendea sin swap → su GET debe
+    excluir surrogates INCONDICIONALMENTE. Test textual del invariante en el código."""
+    import inspect
+    import src.rag.catalog_resolver as cr
+    src = inspect.getsource(cr.fetch_missing_doc_chunks)
+    assert '"parent_id": "is.null"' in src
+
+
+def test_swap_corre_antes_del_trace_de_canales():
+    """(H8) El swap debe ser PRE-merge y PRE-trace: si corriera después, los surrogates
+    morirían en filtros o la famtie no acreditaría (dúo s94 H6)."""
+    import inspect
+    src = inspect.getsource(retriever.retrieve_chunks)
+    i_swap = src.index("_enunciados_swap")
+    i_trace = src.index('_tr("channels"')
+    i_merge = src.index("_merge_channels(")
+    assert i_swap < i_trace < i_merge

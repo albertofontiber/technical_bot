@@ -1704,11 +1704,14 @@ def _get_source_files_for_model(product_model: str) -> list[str]:
             resp = client.get(
                 f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                 headers=headers,
-                params={
+                # _no_surrogates (dúo T0 H5): el CONTEO ordena qué sources ganan los
+                # slots del diversify — los surrogates inflarían docs enunciado-ricos
+                # incluso con el flag off (cambio de comportamiento no declarado).
+                params=_no_surrogates({
                     "product_model": f"imatch.{pattern}",
                     "select": "source_file",
                     "limit": "5000",
-                },
+                }),
             )
             resp.raise_for_status()
     except Exception:
