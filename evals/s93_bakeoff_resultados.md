@@ -67,3 +67,44 @@ AND-pregunta-completa ≈ 0 matches corpus-wide (5/6 controles) — celda inutil
 
 Artefactos: `s93_gate0_testbed.json` · `s93_gate0_sql/` · `s93_gate0_results.json` ·
 `s93_paso0_trace.json` · `s93_trackB_results.json` · `s93_trackC_hyde_results.json`.
+
+## Validación BP (pregunta de Alberto, 3-jul; research 4 ángulos con fuentes web)
+**Extracción-tablas→enunciados ES práctica establecida**, con nombres canónicos:
+- **Frameworks/vendors**: "multi-vector retriever" (LangChain, blog oficial semi-structured RAG),
+  "recursive retrieval / small-to-big" (LlamaIndex, pdf_tables), **"language model augmentation"
+  (Azure Architecture Center, guía oficial de chunking 2026 — lista 'technical manuals,
+  maintenance guidelines' como caso de uso)**, "table annotation" (Google Vertex layout parser).
+  Unstructured.io diagnostica EXACTAMENTE nuestro gap: "Embedding raw table content often
+  produces poor retrieval results because vector models are optimized for natural language".
+- **Academia**: "table verbalization" fila-a-fila (UDT-QA, ACL 2022: +3.4 EM en NQ indexando
+  tablas verbalizadas; KELM/TEKGEN NAACL 2021); **Dense X (arXiv:2312.06648): la unidad fina
+  solo funciona "contextualized and self-contained" = nuestro hallazgo B-vs-C medido de forma
+  independiente** (span aislado pierde, enunciado-con-contexto gana); DTR (NAACL 2021): los
+  retrievers densos genéricos fallan sobre tabla cruda (nuestro síntoma).
+- **Industria**: TabRAG (Imperial College, arXiv:2511.06582, nov 2025) = el mecanismo exacto
+  (estructura→descripción natural que preserva el contenido factual→índice), 92.4% vs 66.8%
+  del mejor parser-baseline en TAT-DQA.
+
+**3 matices del research que REFINAN el diseño del piloto** (adoptados como spec):
+1. **Desacoplar retrieval de síntesis (el patrón canónico)**: el enunciado se EMBEBE para
+   retrieval pero la cita/síntesis debe venir de la tabla FUENTE — cada enunciado lleva
+   puntero a chunk/página original y idealmente arrastra el chunk-tabla al contexto. Sin esto,
+   un valor alucinado en la extracción llegaría al técnico como cita de manual (riesgo
+   RD-TableBench: los VLM/LLM "confidently hallucinate rows"). Crítico para nuestro contrato
+   "responde SOLO desde manuales".
+2. **Brazo plantilla-determinista en el piloto**: Pinecone (experimento oficial) midió que
+   concatenar fila+cabeceras rinde igual que la frase fluida LLM; Herzig valida linearización
+   sin LLM. Una plantilla `producto · sección · cabecera=valor` cuesta ~$0 y no alucina →
+   el piloto compara plantilla vs enunciado-LLM ANTES de pagar el pase completo (puede
+   recortar mucho el ~$150-300).
+3. **Límite documentado (Smile.eu)**: filas que solo difieren en números colisionan en
+   embedding (>95% idénticas) — directamente relevante a nuestras familias de variantes
+   (CAD-150-1/-2/-4/-8 por lazos): el enunciado DEBE llevar el discriminador de variante.
+   Y el coste de QA de la extracción no está en el ~$150-300 — presupuestarlo aparte.
+
+**Lo que el mecanismo NO cubre (settled con métrica distinta, no usarlo en contra)**: queries
+ANALÍTICAS/agregación sobre tablas → la práctica ahí es text-to-SQL routing (AWS GenAIIC,
+LlamaIndex SQLAutoVector) — nuestros misses son lookup-de-celda-única, no agregación; los
+rerankers no aplican (el fallo es recall del primer stage); ColBERT también sería re-ingesta
+y no cierra un gap de solapamiento-cero de tokens. Higiene: 1 cita fantasma detectada y
+descartada durante la verificación (TTQA-RS no hace lo que un resumen le atribuía).
