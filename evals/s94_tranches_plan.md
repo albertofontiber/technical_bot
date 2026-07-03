@@ -63,6 +63,24 @@ no-regresión + panel + QA/cobertura + muestreo — no hay métrica de flips nue
 golds. El guard no es "$0" absoluto: pin-regen = embeddings de query ×39 (céntimos).
 Coste total por tramos ≈ igual que de golpe; lo que se compra es detección temprana.
 
+## Correcciones del SMOKE de T0 (MIDT180 --dry, declaradas pre-T1)
+1. **El umbral QA-rate ≥97% estaba mal calibrado** (dúo tenía razón en la dirección
+   equivocada de mi fix): venía de la tasa del PILOTO, que generaba solo sobre
+   regiones-de-hecho. El pase full-doc real da **~78%** (427/548 en MIDT180 — el gate
+   descarta más porque procesa TODOS los items de datos, incl. tablas imperfectas).
+   **Gate re-registrado: el umbral por-marca se CALIBRA con la distribución de los
+   primeros ~20 docs de T1** (banda = mediana ±10 pts como detector de drift) + el
+   muestreo estratificado como control de mispairing. Un absoluto heredado del piloto
+   era teatro con el signo cambiado.
+2. **Coste por-doc re-estimado**: el piloto costaba ~$0.15-0.25/doc (región-scoped);
+   el pase full-doc en un doc DENSO (MIDT180: 115 data-items) ≈ $2-3. La media del
+   corpus será menor (~23 chunks/doc vs los ~40+ de MIDT180), pero la extrapolación
+   $160-270 queda OBSOLETA: **el número real lo da T1 medido por-doc** — otra razón
+   para tramos. T1 se presupuesta ~$40-100 (banda ancha declarada) y su medición
+   fija el coste de T2-T3 ANTES de comprometerlos.
+3. Cobertura medida en el smoke: 65% de tablas con ≥1 enunciado — la métrica funciona;
+   el piso de cobertura por-marca se pre-registra también con los primeros docs de T1.
+
 ## Registro del dúo (v1 NO-SÓLIDA → v2)
 Cross-model: 7/7 confirmados (3 CRÍTICOS: sidecar-como-permanente, sin contrato schema,
 colisión semántica extraction_sha256). Sub-agente: 8/8 confirmados (F1 ventana-demo =

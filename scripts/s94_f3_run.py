@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 """s94_f3_run.py — F3 del piloto (spec v2): inserción por-brazo + SWAP + famtie + triage.
 
+⚠️ HISTÓRICO (T0 s94b): este harness usaba el sidecar PILOT_SWAP_MAP/PILOT_PARENT_SWAP del
+PILOTO, retirado en T0 (el linkage vive ahora en chunks_v2.parent_id + flag
+ENUNCIADOS_MULTIVECTOR; migración 007). Sus mediciones están archivadas en
+evals/s94_f3_results.json + DEC-086. NO re-correr tal cual — el pase real es
+scripts/enunciados_pass.py (T0-4).
+
 Subcomandos:
   control        pin-regen HOY sin inserts (flag off) + famtie → baseline mismo-día
   arm R1|R2|R3   insert batch del brazo → pin-regen (RESOLVE=on/add + PILOT_PARENT_SWAP=on

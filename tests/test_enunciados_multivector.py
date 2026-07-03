@@ -1,0 +1,130 @@
+"""Tests del multi-vector de enunciados T0 (s94b; sustituye a los del sidecar del piloto).
+
+Contratos: invariante de NO-SERVICIO (los GET léxicos llevan parent_id=is.null sobre
+chunks_v2; el RPC solo recibe include_surrogates con el flag on), swap-from-ROW
+(linkage en la fila, sin sidecar), 1:1 con similarity del surrogate, keep-max,
+fail-closed, flag default OFF.
+"""
+import os
+
+import pytest
+
+import src.rag.retriever as retriever
+
+
+class _FakeResp:
+    def __init__(self, rows):
+        self._rows = rows
+
+    def raise_for_status(self):
+        pass
+
+    @property
+    def status_code(self):
+        return 200
+
+    def json(self):
+        return self._rows
+
+
+class _FakeClient:
+    rows: list = []
+    last_get_params: dict | None = None
+    last_post_json: dict | None = None
+
+    def __init__(self, *a, **k):
+        pass
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *a):
+        return False
+
+    def get(self, *a, **k):
+        _FakeClient.last_get_params = k.get("params")
+        return _FakeResp(_FakeClient.rows)
+
+    def post(self, *a, **k):
+        _FakeClient.last_post_json = k.get("json")
+        return _FakeResp([])
+
+
+@pytest.fixture
+def fake_http(monkeypatch):
+    _FakeClient.rows, _FakeClient.last_get_params, _FakeClient.last_post_json = [], None, None
+    monkeypatch.setattr(retriever.httpx, "Client", _FakeClient)
+    return _FakeClient
+
+
+def test_flag_default_off():
+    assert os.getenv("ENUNCIADOS_MULTIVECTOR", "off") == "off"
+    assert retriever._multivector_on() is False
+
+
+# ---------- invariante de no-servicio ----------
+
+def test_no_surrogates_inyecta_filtro_en_chunks_v2(monkeypatch):
+    monkeypatch.setattr(retriever, "CHUNKS_TABLE", "chunks_v2")
+    p = retriever._no_surrogates({"select": "id"})
+    assert p["parent_id"] == "is.null"
+
+
+def test_no_surrogates_inerte_en_tabla_legacy(monkeypatch):
+    monkeypatch.setattr(retriever, "CHUNKS_TABLE", "chunks")
+    p = retriever._no_surrogates({"select": "id"})
+    assert "parent_id" not in p           # la tabla legacy no tiene la columna
+
+
+def test_keyword_search_lleva_el_filtro(fake_http, monkeypatch):
+    monkeypatch.setattr(retriever, "CHUNKS_TABLE", "chunks_v2")
+    retriever.keyword_search("ZX2e", limit=3)
+    assert fake_http.last_get_params.get("parent_id") == "is.null"
+
+
+def test_rpc_sin_flag_no_pide_surrogates(fake_http, monkeypatch):
+    monkeypatch.delenv("ENUNCIADOS_MULTIVECTOR", raising=False)
+    retriever.vector_search("query", 5, 0.3, None, None, [0.0] * 4)
+    assert "include_surrogates" not in fake_http.last_post_json
+
+
+def test_rpc_con_flag_pide_surrogates(fake_http, monkeypatch):
+    monkeypatch.setenv("ENUNCIADOS_MULTIVECTOR", "on")
+    monkeypatch.setattr(retriever, "RPC_SUFFIX", "_v2")
+    retriever.vector_search("query", 5, 0.3, None, None, [0.0] * 4)
+    assert fake_http.last_post_json.get("include_surrogates") is True
+
+
+# ---------- swap from-row ----------
+
+def test_swap_sustituye_y_conserva_similarity(fake_http):
+    fake_http.rows = [{"id": "p1", "content": "tabla fuente", "product_model": "ZX2e",
+                       "parent_id": None}]
+    out = retriever._enunciados_swap(
+        [{"id": "s1", "parent_id": "p1", "similarity": 0.77, "_channel": "VECTOR"},
+         {"id": "normal", "similarity": 0.5}])
+    assert [c["id"] for c in out] == ["p1", "normal"]
+    assert out[0]["similarity"] == 0.77                  # presencia, score del surrogate
+    assert out[0]["_swapped_from_surrogate"] == "s1"
+    assert out[0]["product_model"] == "ZX2e"             # hidratado
+
+
+def test_swap_keep_max(fake_http):
+    fake_http.rows = [{"id": "p1", "content": "t", "parent_id": None}]
+    out = retriever._enunciados_swap(
+        [{"id": "s1", "parent_id": "p1", "similarity": 0.60},
+         {"id": "s2", "parent_id": "p1", "similarity": 0.82}])
+    assert len(out) == 1 and out[0]["id"] == "p1" and out[0]["similarity"] == 0.82
+
+
+def test_swap_fail_closed_padre_no_hidratable(fake_http):
+    fake_http.rows = []                                   # el fetch no devuelve el padre
+    out = retriever._enunciados_swap(
+        [{"id": "s1", "parent_id": "p-missing", "similarity": 0.9},
+         {"id": "n1", "similarity": 0.4}])
+    assert [c["id"] for c in out] == ["n1"]               # surrogate FUERA
+
+
+def test_swap_noop_sin_surrogates(fake_http):
+    chunks = [{"id": "a", "similarity": 0.6}, {"id": "b", "parent_id": None}]
+    assert retriever._enunciados_swap(chunks) == chunks
