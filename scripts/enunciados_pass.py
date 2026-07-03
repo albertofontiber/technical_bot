@@ -216,6 +216,10 @@ def main() -> int:
     ap.add_argument("--tranche")
     ap.add_argument("--docs", help="fichero con un source_file por línea")
     ap.add_argument("--dry", action="store_true")
+    ap.add_argument("--resume", action="store_true",
+                    help="salta docs que YA tienen filas en el batch (no re-paga LLM)")
+    ap.add_argument("--model", default=None,
+                    help="override del modelo LLM (side-by-side p2; default LLM_MODEL)")
     ap.add_argument("--rollback")
     a = ap.parse_args()
     if a.rollback:
@@ -226,9 +230,19 @@ def main() -> int:
     # (dúo H4) SIN rollback global aquí: la idempotencia es por-DOC dentro de
     # process_doc → una re-corrida tras crash salta lo ya pagado (--rollback existe
     # como comando explícito para limpiar un tramo entero).
+    if a.model:
+        globals()["LLM_MODEL"] = a.model         # override declarado (vintage distinto)
     client = anthropic.Anthropic()
     results = []
     for i, doc in enumerate(docs):
+        if a.resume and not a.dry:
+            chk = httpx.get(f"{SUPABASE_URL}/rest/v1/chunks_v2", headers=_H,
+                            params={"select": "id", "ingest_batch": f"eq.{batch}",
+                                    "source_file": f"eq.{doc}", "limit": "1"}, timeout=15)
+            if chk.status_code == 200 and chk.json():
+                print(f"[{i+1}/{len(docs)}] {doc[:44]:46} RESUME: ya en batch, saltado")
+                results.append({"doc": doc, "skipped": True})
+                continue
         res = process_doc(client, doc, a.tranche, a.dry)
         results.append(res)
         print(f"[{i+1}/{len(docs)}] {doc[:44]:46} ins={res.get('insertables','-'):4} "
