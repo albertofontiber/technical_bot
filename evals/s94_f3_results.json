@@ -1,0 +1,360 @@
+{
+ "control": {
+  "tag": "control",
+  "retrieval_miss_family": 12,
+  "misses": [
+   {
+    "qid": "cat013",
+    "valor": "CLIP"
+   },
+   {
+    "qid": "cat016",
+    "valor": "autobusqueda"
+   },
+   {
+    "qid": "hp001",
+    "valor": "2222"
+   },
+   {
+    "qid": "hp006",
+    "valor": "Fallo de Tierra"
+   },
+   {
+    "qid": "hp006",
+    "valor": "Tierra"
+   },
+   {
+    "qid": "hp006",
+    "valor": "ISO-X"
+   },
+   {
+    "qid": "hp011",
+    "valor": "05 a 295 seg"
+   },
+   {
+    "qid": "hp012",
+    "valor": "99 + 99"
+   },
+   {
+    "qid": "hp012",
+    "valor": "2 lazos / 396"
+   },
+   {
+    "qid": "hp013",
+    "valor": "PWR-R"
+   },
+   {
+    "qid": "hp014",
+    "valor": "35"
+   },
+   {
+    "qid": "hp018",
+    "valor": "1 A"
+   }
+  ],
+  "pin": "s94_retrieval_miss_control.yaml"
+ },
+ "R2": {
+  "tag": "R2",
+  "retrieval_miss_family": 6,
+  "misses": [
+   {
+    "qid": "cat013",
+    "valor": "CLIP"
+   },
+   {
+    "qid": "cat016",
+    "valor": "autobusqueda"
+   },
+   {
+    "qid": "hp001",
+    "valor": "2222"
+   },
+   {
+    "qid": "hp006",
+    "valor": "Tierra"
+   },
+   {
+    "qid": "hp006",
+    "valor": "ISO-X"
+   },
+   {
+    "qid": "hp011",
+    "valor": "05 a 295 seg"
+   }
+  ],
+  "pin": "s94_retrieval_miss_R2.yaml",
+  "triage": [
+   {
+    "qid": "cat013",
+    "valor": "CLIP",
+    "padre_llega_a": "NUNCA",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "cat016",
+    "valor": "autobusqueda",
+    "padre_llega_a": "NUNCA",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "hp001",
+    "valor": "2222",
+    "padre_llega_a": "final",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "hp006",
+    "valor": "Fallo de Tierra",
+    "padre_llega_a": "final",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "hp006",
+    "valor": "ISO-X",
+    "padre_llega_a": "NUNCA",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "hp011",
+    "valor": "05 a 295 seg",
+    "padre_llega_a": "post_model_filter",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "hp012",
+    "valor": "2 lazos / 396",
+    "padre_llega_a": "final",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "hp013",
+    "valor": "PWR-R",
+    "padre_llega_a": "final",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "hp014",
+    "valor": "35",
+    "padre_llega_a": "final",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "hp018",
+    "valor": "1 A",
+    "padre_llega_a": "final",
+    "surrogate_llega_a": "NUNCA"
+   }
+  ]
+ },
+ "R1": {
+  "tag": "R1",
+  "retrieval_miss_family": 10,
+  "misses": [
+   {
+    "qid": "cat013",
+    "valor": "CLIP"
+   },
+   {
+    "qid": "cat016",
+    "valor": "autobusqueda"
+   },
+   {
+    "qid": "hp001",
+    "valor": "2222"
+   },
+   {
+    "qid": "hp006",
+    "valor": "Tierra"
+   },
+   {
+    "qid": "hp006",
+    "valor": "ISO-X"
+   },
+   {
+    "qid": "hp011",
+    "valor": "05 a 295 seg"
+   },
+   {
+    "qid": "hp012",
+    "valor": "99 + 99"
+   },
+   {
+    "qid": "hp012",
+    "valor": "2 lazos / 396"
+   },
+   {
+    "qid": "hp013",
+    "valor": "PWR-R"
+   },
+   {
+    "qid": "hp018",
+    "valor": "1 A"
+   }
+  ],
+  "pin": "s94_retrieval_miss_R1.yaml",
+  "triage": [
+   {
+    "qid": "cat013",
+    "valor": "CLIP",
+    "padre_llega_a": "NUNCA",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "cat016",
+    "valor": "autobusqueda",
+    "padre_llega_a": "NUNCA",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "hp001",
+    "valor": "2222",
+    "padre_llega_a": "final",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "hp006",
+    "valor": "Fallo de Tierra",
+    "padre_llega_a": "final",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "hp006",
+    "valor": "ISO-X",
+    "padre_llega_a": "NUNCA",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "hp011",
+    "valor": "05 a 295 seg",
+    "padre_llega_a": "NUNCA",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "hp012",
+    "valor": "2 lazos / 396",
+    "padre_llega_a": "NUNCA",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "hp013",
+    "valor": "PWR-R",
+    "padre_llega_a": "NUNCA",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "hp014",
+    "valor": "35",
+    "padre_llega_a": "final",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "hp018",
+    "valor": "1 A",
+    "padre_llega_a": "NUNCA",
+    "surrogate_llega_a": "NUNCA"
+   }
+  ]
+ },
+ "R3": {
+  "tag": "R3",
+  "retrieval_miss_family": 8,
+  "misses": [
+   {
+    "qid": "cat013",
+    "valor": "CLIP"
+   },
+   {
+    "qid": "cat016",
+    "valor": "autobusqueda"
+   },
+   {
+    "qid": "hp006",
+    "valor": "Tierra"
+   },
+   {
+    "qid": "hp011",
+    "valor": "05 a 295 seg"
+   },
+   {
+    "qid": "hp012",
+    "valor": "99 + 99"
+   },
+   {
+    "qid": "hp012",
+    "valor": "2 lazos / 396"
+   },
+   {
+    "qid": "hp013",
+    "valor": "PWR-R"
+   },
+   {
+    "qid": "hp018",
+    "valor": "1 A"
+   }
+  ],
+  "pin": "s94_retrieval_miss_R3.yaml",
+  "triage": [
+   {
+    "qid": "cat013",
+    "valor": "CLIP",
+    "padre_llega_a": "NUNCA",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "cat016",
+    "valor": "autobusqueda",
+    "padre_llega_a": "NUNCA",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "hp001",
+    "valor": "2222",
+    "padre_llega_a": "NUNCA",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "hp006",
+    "valor": "Fallo de Tierra",
+    "padre_llega_a": "final",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "hp006",
+    "valor": "ISO-X",
+    "padre_llega_a": "final",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "hp011",
+    "valor": "05 a 295 seg",
+    "padre_llega_a": "NUNCA",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "hp012",
+    "valor": "2 lazos / 396",
+    "padre_llega_a": "NUNCA",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "hp013",
+    "valor": "PWR-R",
+    "padre_llega_a": "NUNCA",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "hp014",
+    "valor": "35",
+    "padre_llega_a": "final",
+    "surrogate_llega_a": "NUNCA"
+   },
+   {
+    "qid": "hp018",
+    "valor": "1 A",
+    "padre_llega_a": "NUNCA",
+    "surrogate_llega_a": "NUNCA"
+   }
+  ]
+ }
+}

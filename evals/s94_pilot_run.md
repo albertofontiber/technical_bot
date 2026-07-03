@@ -53,5 +53,44 @@ hp012 '2 lazos/396' ídem (el enunciado ganador del track C venía de párrafo d
   ganadores del track C REAPARECEN) · **R1 1/10** (FdT 0.585) · **R3 0/10** (máx 0.522).
   Nadie se mata (R3 no llega a extremo-consistente); decide F3.
 
-### F3 (famtie + triage): pendiente
-### F4 (decisión): pendiente
+### F3 — famtie ON/OFF vs control mismo-día (predicción-vs-resultado)
+Control HOY (sin inserts, flag off): **12** — lista IDÉNTICA al pin s92 (cero jitter, baseline limpio).
+
+| brazo | famtie | flips testbed (10) | clase tabla (4) | clase prosa (6) | nuevas-miss | predicción → real |
+|---|---|---|---|---|---|---|
+| **R2 enunciado LLM** (251 surr.) | **12 → 6** | **5/10** (PWR-R · '1 A' · '35' · '2 lazos/396' · FdT) **+ colateral hp012 '99+99'** (clase diversify, fuera de testbed) | **2/4 ✓ GO-tabla** | **3/6 ✓ GO-prosa** | **0** (subconjunto estricto del control) | tabla 2-3→2 ✓ · prosa 2-4→3 ✓ · headline 4-7→5 ✓ |
+| R1 plantilla (104 surr.) | 12 → 10 | 2/10 (FdT · '35') | **0/4 — predicción 1-3 FALSADA** | 2/6 | 0 | R1 NO compite: no hay empate, R2 gana el sub-decisor de coste |
+| R3 resumen/tabla (11 surr.) | 12 → 8 | 4/10 ('2222'\* · FdT · **ISO-X** · '35') | 1/4 (ISO-X — que R2 no ganó) | 3/6 | 0 | 0-2→4: FALSADA al alza (11 surrogates, 4 flips — eficiencia notable) |
+
+\* hp001 '2222' es el borderline documentado (padre→final en triage de R1/R2 con famtie-miss
+en el mismo run): su flip en R3 puede ser jitter — lectura conservadora R3=3-4.
+
+**Triage de los no-flips (H1 — el porqué de cada NO, no solo el conteo):**
+- hp011 '05 a 295 seg': el padre ENTRA por el swap y muere en diversify → **mecanismo VIVO,
+  killer = lever pipeline** (misma clase que '99+99'; backlog diversify, NO ingesta).
+- cat013 'CLIP' · cat016 'autobusqueda' · (ISO-X para R2): padre→NUNCA — el mecanismo no
+  alcanza ahí (coherente con el probe F2: cos 0.44-0.52 lejos de la barra).
+- Nota de instrumento: "surrogate→NUNCA" en el triage es ESPERADO (el swap corre antes del
+  primer stage del trace) — la presencia del padre ES la huella del surrogate (en control
+  los padres jamás entran a canal, paso-0 s93).
+- Unión R2∪R3 (no medida combinada — declarado): cubriría 7/10 + '99+99' → famtie ~4-5.
+  Residual sin mecanismo: CLIP, autobusqueda (vocabulario operativo puro) + hp011 (diversify).
+
+### F4 — decisión (para Alberto)
+- **GO del mecanismo, criterio pre-registrado CUMPLIDO en las 3 barras (R2):** headline 5≥3 ✓
+  GO-tabla 2/4 ✓ · GO-prosa 3/6 ✓ · guard 0 nuevas-miss ✓. **La famtie pasaría 12 → 6
+  (−50%) solo con R2; ~4-5 con R2+R3.**
+- **Brazo recomendado: R2 (enunciado LLM) + R3 como complemento barato** (11 resúmenes → 4
+  flips; es además el patrón canónico de vendors). R1 descartado por medición (0/4 tabla).
+- **Coste de escalar (estimación por-doc DECLARADA, no medición):** piloto ≈ $0.15-0.25/doc
+  (12 docs, ~$2-3 LLM) → corpus 1.069 docs ≈ **$160-270 LLM** + embeddings marginales +
+  **QA como línea APARTE** (gate automático fila-nivel es $0; muestreo humano/agente de
+  fidelidad a presupuestar ~$10-30). Dentro de la banda ~$150-300 estimada en s93.
+- **Effect-size corpus-wide = ESTIMADO** (extrapolación por-doc del testbed; H8) — la
+  decisión de presupuesto es sobre "mecanismo GO con 5/10 medidos + estimación", no sobre
+  una medición corpus.
+- **Nada shippeado**: los surrogates se insertaron y REVIRTIERON por brazo (rollback
+  verificado 0 restantes ×3); `PILOT_PARENT_SWAP` default off (5 tests); el ship real
+  (pase corpus + multi-vector en producción) queda gateado por: (1) decisión de presupuesto
+  de Alberto; (2) bvg PASS-control ±2 antes de encender nada en demo (coste juez, gate
+  Alberto).

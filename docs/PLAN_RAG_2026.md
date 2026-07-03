@@ -126,12 +126,21 @@ presupuesto Alberto; piloto natural = ~6 docs del testbed + famtie). HyDE solo: 
 gaps, no cruza; re-evaluable post-ingesta). Cuello re-caracterizado: gap de VOCABULARIO query↔celda,
 no tamaño del chunk per se.** Nada cablado (FTS_ALL_QUERIES no se construyó; flags intactos).
 
-**Qué sigue:** (1) **decisión de presupuesto Alberto**: piloto extracción-tablas→enunciados sobre los
-docs del testbed (~$5-15) → si famtie confirma, re-ingesta corpus (~$150-300); (2) lever diversify
-(hp012 '99+99', barato); (3) conduct-level clarify (caso ZXe demo) + calc-assist (par del empresario)
-CON Alberto; (4) S4/F3 re-tag DB gateado por consumo. Backlog: BRAND_MAP→`catalog_gt.py`; re-homing
-FL*; 6 homónimos cola; ~630 candidates demand-driven; bvg PASS-control ±2 antes de cualquier ship de
-flag (coste juez, gate Alberto); dual-judge ~sept.
+**s94 (DEC-086): PILOTO extracción→enunciados EJECUTADO — GO del mecanismo (criterio pre-registrado
+cumplido en las 3 barras).** Spec v2 dúo-hardened + validación BP (multi-vector/verbalization =
+canon). **R2 enunciado-LLM: famtie 12→6 (5/10 testbed + colateral '99+99'; GO-tabla 2/4 ✓ GO-prosa
+3/6 ✓ 0 nuevas-miss; predicciones clavadas) · R1 plantilla DESCARTADO por medición (0/4) · R3
+resumen/tabla complemento barato (12→8, gana ISO-X).** Triage: hp011+'99+99' mueren en DIVERSIFY
+(mecanismo vivo → lever pipeline aparte); cat013/cat016 = vocabulario operativo puro (sin mecanismo
+aún). Seam `PILOT_PARENT_SWAP` default-off (5 tests); inserciones REVERTIDAS ×3 (0 restantes);
+nada shippeado. Artefactos: `evals/s94_pilot_{spec,run}.md` + `s94_f3_results.json`.
+
+**Qué sigue:** (1) **decisión de presupuesto Alberto (AHORA con GO medido)**: pase corpus R2(+R3)
+≈ $160-270 LLM + QA aparte (~$10-30); tras el pase → famtie + bvg PASS-control ±2 antes de encender
+el multi-vector en demo; (2) lever diversify (hp011 + hp012 '99+99' — el swap prueba que el soporte
+LLEGA y muere ahí; barato); (3) conduct-level clarify (caso ZXe demo) + calc-assist CON Alberto;
+(4) S4/F3 re-tag DB gateado por consumo. Backlog: BRAND_MAP→`catalog_gt.py`; re-homing FL*;
+6 homónimos cola; ~630 candidates demand-driven; dual-judge ~sept.
 
 **s90 (DEC-079): F0 APROBADO (D1-D7) → contrato CANÓNICO; F1a slice vertical Morley CONSTRUIDO.**
 `catalog_store.py` (la puerta: validate reglas-duras + resolve con contrato `expand`, check-homónimo

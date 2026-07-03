@@ -1477,3 +1477,14 @@ query↔celda, no chunk-size. Regla-C contra mi propio instrumento cazó 3: even
 falsa (8/10 WIN falsos→1/10), brazo HyDE NO-OP silencioso (hyde.py:84 sin flag), 2/31 sup
 duplicate_of. Nada cablado. Artefacto: `evals/s93_bakeoff_resultados.md`. DEC-084/085; digest con
 4 filas tocadas. Decisión pendiente de Alberto: piloto extracción (~$5-15) → re-ingesta (~$150-300).
+
+## s94 (3 jul 2026) — Piloto extracción→enunciados: GO medido (famtie 12→6 con R2)
+GO de Alberto tras validar el spec v2 con el dúo (fork del SWAP resuelto por regla-C contra código:
+la famtie acredita presencia; el multi-vector swap es medición válida). F0 pre-registro (4 tabla /
+6 prosa; padres acreditables; predicciones por brazo×clase) → F1 generación 368 candidatos + QA
+(v1→v2 por regla-C: whitelist de metadata inyectada; tras el fix el gate cazó 2 alucinaciones
+reales sin FP; delta-check confirmó blurb-padre) → F2 probe (R2 3/10 proxy) → F3 por-brazo con
+SWAP pre-merge + rollback verificado ×3: **R2 12→6 (5/10, 0 nuevas-miss, predicciones 3/3 ✓) ·
+R1 12→10 (0/4 tabla, FALSADA → descartado) · R3 12→8 (4 flips/11 surrogates, falsada al alza)**.
+Triage: hp011/'99+99' mueren en diversify (lever pipeline); cat013/cat016 sin mecanismo (vocab
+operativo). Pase corpus ≈$160-270+QA = decisión Alberto. DEC-086; digest actualizado; nada en demo.
