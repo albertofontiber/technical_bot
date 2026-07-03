@@ -27,6 +27,7 @@ Uso:
 """
 import argparse
 import glob
+from concurrent.futures import ThreadPoolExecutor
 import json
 import os
 import re
@@ -51,6 +52,40 @@ NAMESPACE = uuid.UUID("6d0c6f2a-94b4-4e10-9c1e-a1b2c3d4e5f6")   # fijo: ids idem
 STORE = "data/extraction/agent_anthropic-sonnet-45"
 _H = {"apikey": SUPABASE_SERVICE_KEY, "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
       "Content-Type": "application/json"}
+
+def _msg_text(msg) -> str:
+    """Texto robusto: la familia Claude 5 emite ThinkingBlock antes del TextBlock —
+    content[0].text peta (cazado en el brazo p2). Concatena solo bloques text."""
+    return "".join(getattr(b, "text", "") for b in msg.content
+                   if getattr(b, "type", "") == "text")
+
+
+def _temp_kw() -> dict:
+    """temperature=0 solo donde el modelo lo acepta: la familia Claude 5 lo DEPRECÓ
+    (400 explícito, cazado en el brazo p2). Vintage declarado: p1 pineado a 0;
+    p2 con el default del modelo."""
+    return {} if "-5" in str(LLM_MODEL) or "fable" in str(LLM_MODEL) else {"temperature": 0}
+
+
+def _insert_rows(rows: list, poison_log: list) -> int:
+    """Insert con BISECCIÓN de filas venenosas (un 500 de PostgREST suele ser UNA fila
+    que revienta un trigger — cazado en 15088SP): si un batch falla se parte en dos
+    hasta aislar la(s) fila(s), que se loguean y SALTAN (drop medido, no crash)."""
+    if not rows:
+        return 0
+    r = httpx.post(f"{SUPABASE_URL}/rest/v1/chunks_v2",
+                   headers={**_H, "Prefer": "return=minimal"},
+                   json=rows, timeout=120)
+    if r.status_code < 300:
+        return len(rows)
+    if len(rows) == 1:
+        poison_log.append({"id": rows[0]["id"], "source_file": rows[0].get("source_file"),
+                           "status": r.status_code, "err": r.text[:200],
+                           "content_head": (rows[0].get("content") or "")[:120]})
+        return 0
+    mid = len(rows) // 2
+    return _insert_rows(rows[:mid], poison_log) + _insert_rows(rows[mid:], poison_log)
+
 
 # PROMPTS v1 CONGELADOS (= piloto DEC-086; NO editar — un cambio es p2 y se declara)
 R2_PROMPT_V1 = """Convierte el siguiente fragmento de un manual técnico PCI en ENUNCIADOS autónomos, uno por línea.
@@ -118,6 +153,25 @@ def process_doc(client, source_file: str, tranche: str, dry: bool) -> dict:
         data_items = [(j, it) for j, it in enumerate(items)
                       if it.get("rows") or len(tokens_valor(item_text(it))) >= 3]
         page_stmts: list[str] = []
+        def _gen_item(par):
+            """Fase LLM de un item (paralela: el SDK es thread-safe y reintenta 429)."""
+            j, it, parent = par
+            producto = parent.get("product_model") or "el equipo del manual"
+            outs = []
+            msg = client.messages.create(model=LLM_MODEL, max_tokens=1500, **_temp_kw(),
+                                         system=R2_PROMPT_V1.format(producto=producto),
+                                         messages=[{"role": "user",
+                                                    "content": item_text(it)[:8000]}])
+            outs += [("R2", ln.strip()) for ln in _msg_text(msg).splitlines() if ln.strip()]
+            if it.get("rows"):
+                msg = client.messages.create(model=LLM_MODEL, max_tokens=300, **_temp_kw(),
+                                             system=R3_PROMPT_V1.format(producto=producto),
+                                             messages=[{"role": "user",
+                                                        "content": item_text(it)[:6000]}])
+                outs.append(("R3", _msg_text(msg).strip()))
+            return j, it, parent, outs
+
+        pend = []
         for j, it in enumerate(items):
             if (j, it) not in data_items:
                 continue
@@ -126,21 +180,12 @@ def process_doc(client, source_file: str, tranche: str, dry: bool) -> dict:
             if parent is None:
                 stats["sin_padre"] += 1
                 continue
-            producto = parent.get("product_model") or "el equipo del manual"
+            pend.append((j, it, parent))
+        with ThreadPoolExecutor(max_workers=4) as ex:
+            resultados = list(ex.map(_gen_item, pend))
+        for j, it, parent, outs in resultados:
             wl = " ".join(str(parent.get(k) or "") for k in
                           ("product_model", "manufacturer", "source_file"))
-            outs = []
-            msg = client.messages.create(model=LLM_MODEL, max_tokens=1500, temperature=0,
-                                         system=R2_PROMPT_V1.format(producto=producto),
-                                         messages=[{"role": "user",
-                                                    "content": item_text(it)[:8000]}])
-            outs += [("R2", ln.strip()) for ln in msg.content[0].text.splitlines() if ln.strip()]
-            if it.get("rows"):
-                msg = client.messages.create(model=LLM_MODEL, max_tokens=300, temperature=0,
-                                             system=R3_PROMPT_V1.format(producto=producto),
-                                             messages=[{"role": "user",
-                                                        "content": item_text(it)[:6000]}])
-                outs.append(("R3", msg.content[0].text.strip()))
             n_item = 0
             for arm, text in outs:
                 stats["gen"] += 1
@@ -155,7 +200,8 @@ def process_doc(client, source_file: str, tranche: str, dry: bool) -> dict:
                 n_item += 1
                 rows.append({
                     "id": str(uuid.uuid5(NAMESPACE, ancla)),
-                    "content": text, "context": parent.get("context"),
+                    "content": text.replace(chr(0), "")[:8000],
+                    "context": parent.get("context"),
                     "parent_id": parent["id"], "ingest_batch": batch,
                     "extraction_sha256": parent.get("extraction_sha256") or sha,
                     **{k: parent.get(k) for k in
@@ -187,11 +233,14 @@ def process_doc(client, source_file: str, tranche: str, dry: bool) -> dict:
             embs.extend(_embed(texts[i:i + 100], "document"))
         for r, e in zip(rows, embs):
             r["embedding"] = e
+        poison: list = []
         for i in range(0, len(rows), 50):
-            resp = httpx.post(f"{SUPABASE_URL}/rest/v1/chunks_v2",
-                              headers={**_H, "Prefer": "return=minimal"},
-                              json=rows[i:i + 50], timeout=60)
-            resp.raise_for_status()
+            _insert_rows(rows[i:i + 50], poison)
+        if poison:
+            stats["filas_venenosas"] = len(poison)
+            with open(f"evals/enunciados_poison_{tranche}.jsonl", "a", encoding="utf-8") as fh:
+                for x in poison:
+                    fh.write(json.dumps(x, ensure_ascii=False) + "\n")
     cov_doc = sum(cov_by_page) / len(cov_by_page) if cov_by_page else None
     return {"doc": source_file, "marca": marca, "insertables": len(rows),
             "cobertura": round(cov_doc, 3) if cov_doc is not None else None,
