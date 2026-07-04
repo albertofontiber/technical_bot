@@ -1550,3 +1550,13 @@ inusable para comparar brazos; matriz pareada multi-run sobre los golds cuyo inp
 Bonus del gate: hp006 JP2→JP6 = mispairing de SÍNTESIS sobre el chunk correcto que el rescate
 por fin trae (expuesto, no creado; en control el bot fabricaba) → evidencia nueva al dossier
 síntesis. Pendiente SOLO de Alberto: flag on en Railway + smoke post-flip. Held-out intacto.
+
+## s96b (5 jul 2026) — A3 SHIPPED: merge + flag on + verificado en producción
+Alberto mergeó la PR #111 y puso `ENUNCIADOS_MULTIVECTOR=on` en Railway. Post-flip completo:
+smoke e2e local con flag efectivo (rescate al pool + rerank + generación OK, fail-open detrás)
+→ 2 queries reales de Alberto por Telegram → verificación en producción: los timestamps del RPC
+`match_chunks_v2_enunciados` en los logs de Supabase casan exactamente con ambas queries
+(21:03-21:05 UTC); la respuesta de AFP-400 cita el hecho antes-inencontrable ('LED de Fallo de
+Tierra en la placa MPS-400'); la de CAD-150 es idéntica a su versión pre-deploy del 2-jul (0
+regresión); latencia 34-47s dentro de la banda histórica. **El canal multi-vector de enunciados
+queda VIVO en la demo.** Rollback = quitar la env var.

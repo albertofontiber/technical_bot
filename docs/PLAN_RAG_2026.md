@@ -174,15 +174,20 @@ invención sin subida (matriz pareada 10/33=10/33; **eje factual del atomic a K=
 A/B — norma nueva DEC-090**) · latencia p50 +725ms. hp006 JP2→JP6 = mispairing de SÍNTESIS
 expuesto por el rescate → dossier síntesis. Held-out no consumido. 443 tests.
 
-**Qué sigue (decisiones de Alberto):** (1) **SHIP A3**: `ENUNCIADOS_MULTIVECTOR=on` en Railway
-(env var reversible) + post-flip pre-registrado (smoke completo + flag efectivo + verificación en
-demo) — **el gate ya está PASADO, solo falta su GO**; (2) **packet doc_map** (MIE-MI-310↔zxe [DB:
-ZXAE/ZXEE] · MIDT190↔sdx-751 [DB: ID3000] · 15092SP [DB: INA]); (3) **T2-T3 re-scopeado** (no
-gastar por famtie; si se retoma: Sonnet 5 + gates por-tramo, DEC-088); (4) '35' → regeneración
-dirigida (C) opcional. Luego: lever diversify (hp011 + '99+99'); conduct-level clarify +
-calc-assist CON Alberto (el deep-lookup D queda aparcado flag-off como hipótesis de ese modo);
-S4/F3 re-tag. Backlog: BRAND_MAP→`catalog_gt.py`; re-homing FL*; 6 homónimos cola; ~630
-candidates; dual-judge ~sept.
+**A3 SHIPPED A DEMO (5 jul):** PR #111 mergeada por Alberto + `ENUNCIADOS_MULTIVECTOR=on` en
+Railway + **verificado en producción** (post-flip completo: smoke e2e local con flag efectivo;
+RPC de enunciados llamado por 2 queries reales de Telegram — timestamps casan con query_logs;
+AFP-400 responde con el hecho antes-inencontrable 'Fallo de Tierra'/MPS-400 citado; CAD-150
+idéntica pre/post-deploy = 0 regresión; latencia 34-47s en banda histórica). Rollback = quitar
+la env var.
+
+**Qué sigue (decisiones de Alberto, sin dependencia entre sí):** (1) **packet doc_map**
+(MIE-MI-310↔zxe [DB: ZXAE/ZXEE] · MIDT190↔sdx-751 [DB: ID3000] · 15092SP [DB: INA]); (2) **T2-T3
+re-scopeado** (no gastar por famtie; si se retoma: Sonnet 5 + gates por-tramo, DEC-088); (3) '35'
+→ regeneración dirigida (C) opcional. Luego: lever diversify (hp011 + '99+99'); conduct-level
+clarify + calc-assist CON Alberto (el deep-lookup D queda aparcado flag-off como hipótesis de ese
+modo); S4/F3 re-tag; workstream SÍNTESIS (dossier con la evidencia nueva JP2→JP6). Backlog:
+BRAND_MAP→`catalog_gt.py`; re-homing FL*; 6 homónimos cola; ~630 candidates; dual-judge ~sept.
 
 **s90 (DEC-079): F0 APROBADO (D1-D7) → contrato CANÓNICO; F1a slice vertical Morley CONSTRUIDO.**
 `catalog_store.py` (la puerta: validate reglas-duras + resolve con contrato `expand`, check-homónimo

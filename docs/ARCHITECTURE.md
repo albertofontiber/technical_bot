@@ -32,12 +32,13 @@
 > rerank LLM 5 (dispatcher `RERANKER_BACKEND` default `llm`; s67: el swap al cross-encoder
 > se midió en A/B = **ROLLBACK** — lever archivado, el dispatcher queda como instrumento) →
 > generador `claude-sonnet-4-6`;
-> **s95 (DEC-089): canal multi-vector de ENUNCIADOS candidato-a-ship** — tabla
+> **s95-s96 (DEC-089/090): canal multi-vector de ENUNCIADOS — VIVO EN DEMO (5 jul)** — tabla
 > `chunks_v2_enunciados` SEPARADA (21.995 enunciados-LLM de 14 docs, HNSW propio,
 > migraciones 011/012; el índice real NO se toca — lección DEC-088: compartir índice
 > diluye el recall de los chunks originales) + colapso Dense-X + swap surrogate→padre;
-> flag `ENUNCIADOS_MULTIVECTOR` default **off** (famtie 12→7 medido; ship tras bvg
-> PASS-control ±2 + GO de Alberto; el texto derivado JAMÁS se cita como manual);
+> flag `ENUNCIADOS_MULTIVECTOR=on` en Railway (default de código: off; famtie 12→7 +
+> gate bvg 4/4 + verificado en producción con queries reales; fail-open a solo-reales;
+> el texto derivado JAMÁS se cita como manual; rollback = quitar la env var);
 > HyDE off; identidad de producto data-driven
 > (`config/manufacturers/` + sidecar). El registry cierra #43-capa-A (la query del base no
 > arrastra HERMANOS; las variantes VEN los docs de serie). **s64 (DEC-045): el lifecycle es

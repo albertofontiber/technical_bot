@@ -1,0 +1,693 @@
+- bot_answer: "## Notifier PEARL — Capacidad de lazo SLC, límites de aisladores y\
+    \ alta/edición de equipos\n\n---\n\n### 1. Capacidad máxima por lazo\n\n- **Máximo\
+    \ 318 equipos por lazo analógico**: hasta **159 sensores** + **159 módulos** (protocolo\
+    \ Opal) [F1]\n- En protocolo **CLIP**: hasta **99 sensores + 99 módulos** por\
+    \ lazo [F2]\n- En lazos mixtos Opal/CLIP se aplican ambos límites combinados [F2]\n\
+    - **Carga máxima por lazo: 0,75 A** [F2]\n- Límite global del sistema (norma **EN54-2:\
+    \ 13-7**): máximo **512 sensores y/o pulsadores manuales** entre los dos lazos\
+    \ combinados [F1]\n\n---\n\n### 2. Límites de aisladores (EN54-2: 12.5.2)\n\n\
+    - **Regla general EN54-2**: máximo **32 equipos entre aisladores** [F1]\n- **Equipos\
+    \ SIN aisladores internos** (incluidos CLIP y algunos Opal): **NO más de 20 equipos\
+    \ entre aisladores** [F1]\n- **Equipos CON aisladores internos** (usados con base\
+    \ **B501 AP**): el lazo cumple directamente los requisitos de EN54-2 [F1]\n- La\
+    \ mayoría de equipos Opal incorporan **aisladores internos FET**; con bases compatibles\
+    \ Opal, el aislador se conecta a los terminales **+2 y +4** en el extremo positivo\
+    \ [F1]\n\n> ⚠️ **Aviso importante**: Si hay aisladores instalados, el conductor\
+    \ positivo (+) del lazo será circuito abierto. **NUNCA uses un multímetro de alta\
+    \ tensión (tipo Megger) en el lazo de detección** [F1].\n\n---\n\n### 3. Alta\
+    \ de equipos: Autoconfiguración desde la central\n\nEl procedimiento recomendado\
+    \ es usar el **programa de configuración ITS** para mayor eficiencia, aunque también\
+    \ puede hacerse desde los menús de la central [F3].\n\n**Pasos para la autoconfiguración:**\n\
+    \n1. Accede al menú de configuración (nivel de acceso 3) [F4]\n2. Selecciona **1:\
+    \ Autoconfiguración** [F3]\n3. Elige si aplica a **todos los lazos** o a un **lazo\
+    \ específico** [F3]\n4. Selecciona el modo de autoconfiguración [F3]:\n   - **1:\
+    \ Todos Prot. OPAL/CLIP** → detecta duplicidades de dirección\n   - **2: OPAL/CLIP\
+    \ (No detecta duplicidad)** → más rápido, sin comprobación de duplicados\n   -\
+    \ **3: Sólo con protocolo CLIP** → solo autoconfigura equipos CLIP aunque haya\
+    \ Opal en el lazo\n5. Elige entre [F3]:\n   - **\"Permite Añadir/Borrar/Cambiar\"\
+    **\n   - **\"Sólo Añadir Nuevos Equipos\"**\n6. El proceso se inicia automáticamente.\
+    \ Al finalizar, los resultados se muestran en la pantalla LCD [F3]\n7. Los equipos\
+    \ configurados pueden consultarse en cualquier momento desde **nivel de acceso\
+    \ 2 → \"Resumen de Equipos\"** [F3]\n\n> La configuración resultante puede transferirse\
+    \ a un ordenador portátil para editarla y archivarla mediante el programa ITS\
+    \ [F3].\n\n---\n\n### 4. Edición individual de equipos\n\nPara añadir, borrar\
+    \ o modificar un equipo concreto: **Sección 4.2 Edición de equipos** del manual\
+    \ de configuración [F4].\n\nParámetros editables por sensor [F5]:\n\n- Tipo de\
+    \ equipo, zona (hasta **255 zonas locales** o **8192 zonas de red**), número de\
+    \ células (hasta **255**)\n- Ajuste de nivel de alarma, prealarma y alarma horaria\n\
+    - Retardo de alarma y retardo de confirmación de coincidencia (hasta **240 s /\
+    \ 4 min**)\n- Prioridad de interrogación (solo CLIP, limitada a **30 equipos**)\n\
+    - Grupo AWACS (**50 grupos**, solo sensores CLIP salvo HEAT)\n- Opciones específicas\
+    \ por tipo: VIEW, Optiplex, SMART, SMART 4 [F5]\n\n---\n\n**Fuentes:**\n- Manual\
+    \ de instalación y puesta en marcha **997-669-005-3\\_Instal-Comm\\_ES** (sin\
+    \ revisión registrada)\n- Manual de configuración de la central **997-671-005-3\\\
+    _Configuration\\_ES** (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte\
+    \ con: **configuración de zonas y reglas causa-efecto**, **conexionado físico\
+    \ del lazo SLC** o **puesta en marcha y prueba funcional** de la Pearl."
+  qid: cat001
+- bot_answer: 'El modelo correcto para tu instalación Notifier es el **SDX-751** (versión
+    óptica analógica direccionable de bajo perfil) [F3].
+
+
+    Sin embargo, en los fragmentos disponibles tengo documentación técnica detallada
+    de dos variantes con sufijo «751» que pueden interesarte según la aplicación:
+
+
+    ---
+
+
+    ## Opción 1: SDX-751 (detector óptico estándar)
+
+
+    Aparece listado en la documentación de la central **AFP4000** [F3] como:
+
+    - **SDX-751**: versión de bajo perfil del SDX-551, sensor óptico analógico de
+    humo.
+
+    - Se monta en base **B501** [F3].
+
+
+    No tengo ficha técnica independiente del SDX-751 en los fragmentos recuperados,
+    solo su mención en la lista de sensores compatibles con la AFP4000.
+
+
+    ---
+
+
+    ## Opción 2: SDX-751TEM (óptico + térmico combinado)
+
+
+    Si necesitas detección multicriterio, el **SDX-751TEM** [F2][F5] añade sensor
+    de temperatura fija a **58 °C** [F2]:
+
+
+    - **Tensión de funcionamiento:** 15 a 32 Vdc [F2]
+
+    - **Corriente en reposo (sin comunicación):** 250 µA a 24 Vdc [F2]
+
+    - **Corriente media en reposo (con comunicaciones cada 5 s):** 300 µA [F2]
+
+    - **Corriente máxima en alarma (LED encendido):** 7 mA a 24 Vdc [F2]
+
+    - **Temperatura de funcionamiento:** -30 °C a 80 °C [F2]
+
+    - **Humedad de funcionamiento:** 10% a 93% HR, no condensada [F2]
+
+    - **Altura:** 43 mm instalado en base B501 [F2]
+
+    - **Diámetro:** 102 mm instalado en base B501 [F2]
+
+    - **Peso:** 111 g [F2]
+
+    - **Certificación:** EN54:2000 partes 5 y 7 y CEA4021 [F2]
+
+    - Dirección ajustable mediante **selectores rotatorios** entre 01 y 99 [F5]
+
+
+    ---
+
+
+    ## Opción 3: IDX-751 (intrínsecamente seguro)
+
+
+    Si la instalación es en **zona con riesgo de explosión (ATEX)**, el modelo es
+    el **IDX-751** [F1], que es intrínsecamente seguro y requiere un traductor externo
+    **IMX-1** [F1]. No es el detector estándar para instalaciones convencionales.
+
+
+    ---
+
+
+    ## Recomendación
+
+
+    Para una instalación Notifier estándar con detector óptico «751», el modelo habitual
+    es el **SDX-751** o **SDX-751TEM** [F3][F2]. Confirma con la central instalada
+    (p. ej. AFP4000) la compatibilidad de protocolo antes de pedir el material.
+
+
+    ---
+
+
+    Fuentes:
+
+    - MIDT230 – Manual de Instalación AFP4000, Notifier España (sin revisión registrada)
+    [F3]
+
+    - I56-1320-001 SDX-751TEM – Instrucciones de instalación y mantenimiento SDX-751TEM,
+    Notifier (sin revisión registrada) [F2][F5]
+
+    - MNDT1020 – IDX-751 Instrucciones de instalación y mantenimiento, Notifier España,
+    15 junio 2004 (sin revisión registrada) [F1]
+
+
+    ---
+
+
+    También puedo ayudarte con: **conexionado del SDX-751TEM a la base B501**, **ajuste
+    de dirección rotatorio** o **compatibilidad con otras centrales Notifier**.'
+  qid: cat011
+- bot_answer: '# Cálculo de capacidad de batería — AM-8200
+
+
+    El manual describe un procedimiento en 5 pasos usando las Tablas 1, 2 y 3 [F3][F4][F5].
+
+
+    ---
+
+
+    ## Fórmula final
+
+
+    **Ah Batería = (A + B) × 1,2** [F4][F5]
+
+
+    Donde:
+
+    - **A** = Amperios-hora en condiciones de espera (reposo)
+
+    - **B** = Amperios-hora en condiciones de alarma
+
+    - **1,2** = Factor de corrección por tolerancias de fabricación de las baterías
+    [F3]
+
+
+    ---
+
+
+    ## Procedimiento paso a paso
+
+
+    **Paso 1 — Consumo en reposo (columna A)**
+
+
+    Suma los consumos de todos los componentes instalados en condiciones de NO ALARMA
+    usando la Tabla 1 (para AM-8200 con CPU AM8200-KLCD) [F4] o la Tabla 2 (para AM-8200BB)
+    [F5]:
+
+
+    - AM-8200 CPU (AM8200-KLCD): **179 mA** en reposo [F4]
+
+    - LIB-8200: **50 mA** en reposo [F4]
+
+    - AM82-2S2C: **28 mA** en reposo [F4]
+
+    - AM82-BST-C: **39 mA** en reposo [F4]
+
+    - Corriente de lazos: consultar Tabla 3 del manual [F3]
+
+    - Corriente salida usuario: máx. **2 A** [F4]
+
+    - Dispositivos externos (campanas, sirenas, flashes, otros): añadir según instalación
+    [F4]
+
+
+    Multiplica el total por la duración de espera requerida: **(Total A) × 24 h**
+    o **(Total A) × 72 h** según la autonomía exigida → resultado en **Ah (A)** [F4]
+
+
+    ---
+
+
+    **Paso 2 — Consumo en alarma (columna B)**
+
+
+    Suma los consumos de todos los componentes en condiciones de ALARMA:
+
+
+    - AM-8200 CPU (AM8200-KLCD): **345 mA** en alarma [F4]
+
+    - LIB-8200: **92 mA** en alarma [F4]
+
+    - AM82-2S2C: **28 mA** en alarma [F4]
+
+    - AM82-BST-C: **39 mA** en alarma [F4]
+
+    - Corriente de lazos en alarma: la central activa **solo los primeros 6 LED**
+    de detectores y módulos de entrada en alarma; consultar Tabla 3 [F3]
+
+    - Corriente total de lazos debe ser **inferior a 750 mA** [F3]
+
+    - Corriente salida usuario: máx. **2 A** [F3]
+
+
+    Multiplica el total por **(Total B) × 0,5 h** → resultado en **Ah (B)** [F4]
+
+
+    ---
+
+
+    **Paso 3 — Verificación de capacidad de la fuente**
+
+
+    - Si el consumo total calculado supera **3,5 A**, la corriente en exceso durante
+    alarma se extrae de las baterías [F3]
+
+    - La corriente total de la salida de 24 Vcc no puede superar **2 A** [F3]
+
+
+    ---
+
+
+    **Paso 4 — Aplicar factor de corrección**
+
+
+    **Ah Batería = (A + B) × 1,2** [F4]
+
+
+    ---
+
+
+    **Paso 5 — Verificar que la batería elegida está dentro del rango admitido**
+
+
+    El manual especifica [F1]:
+
+    - Capacidad mínima: **7 Ah**
+
+    - Capacidad máxima: **18 Ah**
+
+    - Configuración: **2 × 12 V** en serie
+
+
+    Baterías recomendadas [F1]:
+
+    - Yuasa NP18-12B o NP7-12BFR (UL94) — 12 V / 17,2 Ah
+
+    - Fiamm FG21803 o FGV21803 (UL94) — 12 V / 18 Ah
+
+
+    ---
+
+
+    > ⚠️ **Nota:** Las marcas de asignación de las celdas de las Tablas 1, 2 y 3 no
+    son completamente legibles en los fragmentos recuperados [F4][F5]. Consulta las
+    tablas originales del manual físico para completar los valores de cada componente
+    específico de tu instalación.
+
+
+    ---
+
+
+    **Fuente:** AM-8200 Manual de Instalación — Doc. AM-8200-ESP Rev. A.3
+
+
+    ---
+
+
+    También puedo ayudarte con: **consumos de dispositivos de lazo (Tabla 3)**, **límites
+    de la salida de sirenas** o **conexionado de baterías** en la AM-8200.'
+  qid: cat012
+- bot_answer: 'No tengo documentación de la central **CAD-150 de Detnov** en los fragmentos
+    recuperados, y tampoco tengo información sobre compatibilidad entre equipos de
+    Detnov y Notifier.
+
+
+    Los fragmentos disponibles muestran que el **SDX-751** es un detector analógico
+    fotoeléctrico de bajo perfil de Notifier [F3][F4], diseñado para trabajar con
+    centrales Notifier como la **AFP-200** [F1][F3] y la **ID-200** [F2][F4], usando
+    la base **BX-501** / **B501** y el protocolo de lazo analógico de Notifier.
+
+
+    **No puedo afirmar ni descartar la compatibilidad** del SDX-751 con la CAD-150
+    de Detnov, ya que:
+
+    - No tengo documentación técnica de la CAD-150 en mi base.
+
+    - La compatibilidad entre equipos de distintos fabricantes debe verificarse directamente
+    con cada fabricante — no es algo que pueda inferirse de las especificaciones individuales.
+
+
+    **Recomendación:** Consulta directamente a Detnov o a Notifier España para verificar
+    si el SDX-751 es compatible con el lazo de la CAD-150 antes de instalarlo.
+
+
+    Fuentes: MNDT120 (AFP-200, sin revisión registrada); MNDT150 (ID-200, sin revisión
+    registrada)'
+  qid: cat013
+- bot_answer: "## Diferencias entre 40/40L, 40/40L4 y sufijo «B»\n\n### 40/40L vs.\
+    \ 40/40L4 — Longitud de onda del sensor IR\n\nLa diferencia principal está en\
+    \ la longitud de onda de trabajo del sensor IR [F1]:\n\n- **S40/40L (y LB):**\
+    \ sensor IR que funciona a una longitud de onda entre **2,5 y 3,0 µm**. Detecta:\n\
+    \  - Combustibles a base de hidrocarburos y fuegos de gas\n  - Fuegos de hidróxido\
+    \ e hidrógeno\n  - Fuegos de metales o materia inorgánica\n\n- **S40/40L4 (y L4B):**\
+    \ sensor IR que funciona a una longitud de onda de **4,5 µm**. Detecta **únicamente\
+    \ fuegos de hidrocarburos** [F1].\n\n> En ambos casos, la combinación UV/IR es\
+    \ la misma base; la diferencia es exclusivamente la longitud de onda del canal\
+    \ IR y, por tanto, el tipo de combustible detectable [F1].\n\n---\n\n### Sufijo\
+    \ «B» — Prueba incorporada (BIT) y certificación SIL-2\n\nEl sufijo **B** indica\
+    \ que el modelo incorpora la función de **Prueba incorporada (BIT)** [F1]:\n\n\
+    - **Sin sufijo B** (40/40L, 40/40L4): **no incluyen** la función BIT.\n- **Con\
+    \ sufijo B** (40/40LB, 40/40L4B): **sí incluyen** la función BIT [F1].\n\nAdemás,\
+    \ el sufijo B conlleva una certificación adicional [F2]:\n\n- Los modelos **S40/40LB\
+    \ y L4B** están certificados **SIL-2 (TÜV)** según **IEC 61508.4, Capítulo 3.5.12**\
+    \ [F2].\n- Los modelos sin sufijo B (L y L4) **no tienen** esta certificación\
+    \ SIL-2 [F2].\n\n---\n\n### Resumen rápido\n\n- **Longitud de onda IR:** L/LB\
+    \ → 2,5–3,0 µm (multicombus­tible) | L4/L4B → 4,5 µm (solo hidrocarburos) [F1]\n\
+    - **BIT integrado:** solo en LB y L4B [F1]\n- **SIL-2 (TÜV):** solo en LB y L4B\
+    \ [F2]\n- **EN54-10, ATEX, FM, CSA:** todos los modelos (L, LB, L4, L4B) [F2]\n\
+    \n---\n\nFuente: Manual de usuario. Detector S40/40L-LB-L4-L4B — MNDT722_40-40L\
+    \ (MN-DT-722_B, Honeywell Life Safety Iberia, sin revisión registrada)\n\n---\n\
+    \nTambién puedo ayudarte con: **rangos de sensibilidad del 40/40L vs. 40/40L4**,\
+    \ **procedimiento de prueba BIT manual/automática** o **certificaciones ATEX detalladas**\
+    \ de estos detectores."
+  qid: cat022
+- bot_answer: 'El consumo en alarma de la **MAD-472** es **7 mA** [F3][F4][F5].
+
+
+    Este dato está confirmado en tres fuentes distintas. Adicionalmente, el propio
+    manual de la sirena indica un consumo en alarma de **17 mA a 80 dB A** [F1] —
+    nótese que este valor del manual del producto incluye la condición acústica (nivel
+    sonoro), mientras que los 7 mA de las tablas de la CAD-250 son el valor de referencia
+    para el cálculo de carga del lazo.
+
+
+    > ⚠️ **Nota:** Existe una discrepancia entre el valor del manual propio de la
+    MAD-472 (**17 mA** [F1]) y el valor reflejado en las tablas de dispositivos compatibles
+    de la CAD-250 (**7 mA** [F3][F4][F5]). Para el dimensionamiento del lazo en una
+    central CAD-250, utiliza el valor de la tabla de dispositivos compatibles. Para
+    verificación del consumo real del dispositivo, consulta el manual propio de la
+    sirena.
+
+
+    **Resumen de consumos MAD-472:**
+
+    - Consumo en reposo: **0,35 mA** [F3][F4][F5]
+
+    - Consumo en alarma (tabla CAD-250): **7 mA** [F3][F4][F5]
+
+    - Consumo en alarma (manual propio): **17 mA a 80 dB A** [F1]
+
+    - Sin aislador incorporado [F3][F4][F5]
+
+    - Ocupa **1 dirección** de lazo [F3][F4][F5]
+
+
+    ---
+
+
+    Fuentes: 55347200 Manual Sirena Analógica MAD-472 ES GB FR IT_V2 (sin revisión
+    registrada); Manual instalacion CAD-250 (MI_372_es_2024 e, sin revisión registrada);
+    CAD-250_Manual-software-configuracion-MS-416-es-2026-b (rev. b); CAD-250_Manual-Configuracion-MC-380-es-2026-c
+    (rev. c, 2026-04-23)
+
+
+    ---
+
+
+    También puedo ayudarte con: **conexionado del lazo con MAD-472**, **direccionamiento
+    de la sirena** o **cálculo de carga total del lazo en la CAD-250**.'
+  qid: cat024
+- bot_answer: '## Acceso al menú de programación avanzada en la CAD-250
+
+
+    El acceso se realiza en dos fases: primero entrar como administrador, luego navegar
+    al submenú **AVANZADO**.
+
+
+    ---
+
+
+    ### Paso 1 — Acceder como administrador
+
+
+    1. Desde la **PANTALLA DE REPOSO**, toca el icono del **candado** (🔒) en la pantalla
+    táctil [F3].
+
+    2. Se abrirá la **PANTALLA DE ACCESO** solicitando contraseña [F1].
+
+    3. Introduce la **clave de administrador por defecto: 2222** [F1].
+
+
+    > ⚠️ El uso indebido del nivel de administrador puede provocar un mal funcionamiento
+    de la instalación [F1].
+
+
+    ---
+
+
+    ### Paso 2 — Navegar al menú AVANZADO
+
+
+    Una vez dentro como administrador, sigue esta ruta de navegación [F2]:
+
+
+    **AJUSTES** (Menú principal) **→ AVANZADO** (Submenú)
+
+
+    ---
+
+
+    ### Paso 3 — Pestañas disponibles en AVANZADO
+
+
+    Dentro del submenú **AVANZADO** encontrarás 3 pestañas [F2]:
+
+
+    - **SISTEMA**: configuración de número de cabinas (PANELES: 1 a 4), número de
+    lazos y LEDs de zona.
+
+    - **OTROS**: interruptores para facilitar puesta en marcha y mantenimiento (tiempo
+    de inactividad, salto a scroll, timeout de test, etc.) [F4].
+
+    - **REINICIAR**: devuelve los valores de configuración del panel a valores por
+    defecto (no afecta a entidades, lazos, maniobras, grupos, módulos virtuales, modos
+    especiales, filtros de red ni registros de eventos) [F4].
+
+
+    > 📄 Para información detallada de configuración avanzada, el manual de instalación
+    remite a la **Guía Avanzada de Configuración** [F1].
+
+
+    ---
+
+
+    **Fuentes:**
+
+    - Manual instalacion CAD-250 (MI\_372\_es\_2024 e) — sin revisión registrada
+
+    - CAD-250\_Manual-Configuracion-MC-380-es-2026-c (rev. c, 2026-04-23)
+
+    - Manual usuario CAD-250 (MU 376 es 2024 f) — sin revisión registrada
+
+    - CAD-250\_Manual-software-configuracion-MS-416-es-2026-b (rev. b)
+
+
+    ---
+
+
+    También puedo ayudarte con: **configuración del número de lazos en AVANZADO >
+    SISTEMA**, **opciones de la pestaña OTROS** o **gestión de usuarios y niveles
+    de acceso** de la CAD-250.'
+  qid: hp001
+- bot_answer: '## Fallo de Tierra (Earth Fault) en la AFP-400
+
+
+    Los fragmentos recuperados del manual de la AFP-400 **no contienen información
+    específica sobre el aviso "Tierra" (Earth Fault)**: ni su significado exacto,
+    ni el procedimiento de localización, ni los valores de resistencia de aislamiento
+    asociados.
+
+
+    Lo que sí puedo confirmar a partir de los fragmentos disponibles:
+
+
+    - Cuando la central detecta una avería, el **LED "Avería del Sistema"** (amarillo)
+    parpadea [F3].
+
+    - El **piezo interno suena** y se activa el **relé de avería** [F3].
+
+    - La pantalla LCD muestra un mensaje con el tipo de evento, tipo de equipo, ubicación
+    y hora [F3].
+
+    - Para silenciar el piezo y reconocer la avería: pulsa **\<Aceptar>** [F3].
+
+
+    Sin embargo, el procedimiento específico de diagnóstico y localización de un fallo
+    de tierra (Earth Fault) — incluyendo cómo interpretar el mensaje en pantalla,
+    qué circuitos verificar y cómo medirlo — **no aparece en los fragmentos recuperados**.
+
+
+    > **Recomendación:** Consulta el manual completo MFDT170 / MIDT170, específicamente
+    el apartado de averías o el Apéndice B (mencionado en [F4] para requisitos de
+    cableado), donde es probable que se detalle este tipo de fallo.
+
+
+    ---
+
+
+    Fuente: MFDT170 y MIDT170 — Notifier AFP-400 (sin revisión registrada)
+
+
+    ---
+
+
+    También puedo ayudarte con: **resistencia máxima de lazo SLC**, **conexionado
+    de módulos MMX-1** o **interpretación de mensajes de avería en pantalla LCD**
+    de la AFP-400.'
+  qid: hp006
+- bot_answer: 'La pregunta menciona "ZXe" sin sufijo numérico completo. Los fragmentos
+    disponibles cubren modelos **ZXAE/ZXEE** y **ZX2e/ZX5e**. Para darte el dato exacto
+    del modelo correcto, ¿qué central tienes instalada?
+
+
+    ¿Es una **ZXAE**, **ZXEE**, **ZX2e** o **ZX5e**?'
+  qid: hp009
+- bot_answer: '## RP1r — Sistema no vuelve a estado normal tras resetear después de
+    descarga
+
+
+    Hay dos causas principales documentadas. Comprueba en este orden:
+
+
+    ---
+
+
+    ### 1. Inhibición de reset activa (parámetro r1)
+
+
+    La central puede tener configurado un **tiempo de inhibición de reset** tras el
+    estado Activado [F1].
+
+
+    - Por defecto esta función está **deshabilitada** (microswitch **SW1-6 en posición
+    OFF**) [F1].
+
+    - Si SW1-6 está en **ON**, el reset queda bloqueado durante el tiempo programado
+    en el parámetro **r1** (hasta **30 minutos**) [F1].
+
+    - Mientras ese tiempo no haya transcurrido, el reset no se ejecutará aunque pulses
+    la tecla.
+
+
+    **Qué comprobar:**
+
+    1. Verifica la posición del microswitch **SW1-6** en la placa de la central [F1][F2].
+
+    2. Entra en modo programación y consulta el valor del parámetro **r1** [F1].
+
+    3. Si r1 > 00 minutos, espera a que transcurra el tiempo configurado, o reduce
+    el valor a **00** si procede [F1].
+
+
+    > **Nota:** Cuando la central está en modo **Abort/Hold**, el reset sí está disponible
+    independientemente de r1 [F1].
+
+
+    ---
+
+
+    ### 2. Fallo de Sistema (FALLO DE SISTEMA) — requiere Rearme, no Reset
+
+
+    Si tras el reset el panel muestra el indicador **Fallo Sistema** [F4], el problema
+    es distinto:
+
+
+    - La central **RP1r** dispone de dos microprocesadores [F3].
+
+    - Si el microprocesador principal tarda en inicializar o detecta tensiones fuera
+    de rango, activa **FALLO DE SISTEMA** [F3].
+
+    - En este estado, la central **no ejecutará el proceso de extinción** al considerar
+    que no funciona correctamente [F3].
+
+    - La solución es **REARMAR** la central (tecla **Rearme**), no simplemente resetear
+    [F3][F4].
+
+
+    **Qué comprobar:**
+
+    1. Observa si el LED **Fallo Sistema** está encendido en el panel [F4].
+
+    2. Si es así, pulsa la tecla **Rearme** [F3][F4].
+
+    3. Verifica que no haya perturbaciones externas en la alimentación que provoquen
+    lecturas de tensión fuera de rango [F3].
+
+
+    ---
+
+
+    ### Resumen de acciones
+
+
+    - **LED Fallo Sistema encendido** → pulsar **Rearme** [F3]
+
+    - **Reset bloqueado sin fallo visible** → comprobar SW1-6 y parámetro r1 [F1]
+
+    - **Reset disponible** → nivel de acceso 2 + tecla **Reset** [F2]
+
+
+    ---
+
+
+    Fuentes: MN-DT-102I (sin revisión registrada); HLSI-BT-001 (sin revisión registrada,
+    04/11/2011)
+
+
+    ---
+
+
+    También puedo ayudarte con: **configuración del parámetro r1 paso a paso**, **procedimiento
+    de acceso a nivel 2 y 3** o **diagnóstico de otros LEDs de avería del RP1r**.'
+  qid: hp011
+- bot_answer: '## Lazos direccionables de la AM2020/AFP1010
+
+
+    Los fragmentos recuperados permiten responder parcialmente:
+
+
+    ### Número máximo de lazos
+
+
+    - La **AM2020** soporta un máximo de **10 lazos** [F4]: *"un gabinete CAB-C3 utilizado
+    con los módulos LIB-400 exclusivamente, lo que significa que puede resguardar
+    un máximo de diez lazos del sistema AM2020"* [F4].
+
+    - La **AFP1010** soporta un máximo de **4 lazos** [F2/F4]: *"puede dar alojo a
+    un máximo de cuatro lazos del sistema AFP1010"* [F2].
+
+
+    ### Tarjetas de lazo (LIB)
+
+
+    Cada lazo requiere una tarjeta LIB. Los modelos mencionados son [F5]:
+
+    - **LIB-200**
+
+    - **LIB-200A**
+
+    - **LIB-400**
+
+
+    El diagrama de la Figura 12 muestra la numeración de lazos del 1 al 10 para la
+    AM2020, con distintas combinaciones de tarjetas LIB según posición [F2].
+
+
+    ### Dispositivos por lazo
+
+
+    **El manual no especifica el número máximo de dispositivos direccionables por
+    lazo en los fragmentos recuperados.** Los fragmentos disponibles cubren la configuración
+    del sistema, colocación de componentes y modo local, pero no incluyen la capacidad
+    máxima de dispositivos por lazo.
+
+
+    Para ese dato, consulta la sección de especificaciones técnicas del manual **15088SP**
+    o el soporte técnico de Notifier.
+
+
+    ---
+
+
+    Fuente: AM2020/AFP1010 manual de instalación y programación (PN 15088SP:H, 10/21/98);
+    BTDT032 sin revisión registrada; MFDT280 sin revisión registrada.
+
+
+    ---
+
+
+    También puedo ayudarte con: **tarjetas LIB compatibles por posición**, **configuración
+    del modo local** o **parámetros de temporización del sistema**.'
+  qid: hp012
