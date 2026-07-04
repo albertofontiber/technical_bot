@@ -1407,9 +1407,12 @@ def retrieve_chunks(
         supp_fn = ((lambda cs: _rescore_to_cosine(_tag_channel(cs, "SUPPLEMENT"),
                                                   query_embedding))
                    if MERGE_STRATEGY == "cosine" else None)
+        # (s97) query_embedding THREADEADO desde el pipeline (dúo C4: jamás re-embeber
+        # dentro del diversify — con HyDE el embedding real es sobre embedding_text).
         merged = _diversify_by_source_file(merged, top_k, models, query, query_keywords=None,
                                            include_superseded=include_superseded,
-                                           supplement_rescore_fn=supp_fn)
+                                           supplement_rescore_fn=supp_fn,
+                                           query_embedding=query_embedding)
 
     # Step 5b: Manufacturer diversity for generic queries (no specific model).
     # Ensures technicians see results from ALL manufacturers, not just whichever
@@ -2070,6 +2073,17 @@ def _expand_neighbors(chunks: list[dict], window: int, models: list[str] | None 
     return chunks + neighbors
 
 
+def _tiebreak_on() -> bool:
+    """(s97) Flag del tie-break semántico de empates en el diversify. Parser estricto
+    fail-fast (lección s96-H3: un typo en Railway no puede medio-apagar en silencio)."""
+    raw = os.getenv("DIVERSIFY_TIEBREAK", "off").strip().lower()
+    if raw == "cosine":
+        return True
+    if raw in ("", "off", "0", "false", "no"):
+        return False
+    raise RuntimeError(f"DIVERSIFY_TIEBREAK={raw!r} no reconocido (off|cosine) — fail-fast")
+
+
 def _diversify_by_source_file(
     chunks: list[dict],
     top_k: int,
@@ -2078,6 +2092,7 @@ def _diversify_by_source_file(
     query_keywords: list[str] | None = None,
     include_superseded: bool = False,
     supplement_rescore_fn=None,
+    query_embedding: list[float] | None = None,
 ) -> list[dict]:
     """Guarantee at least one chunk per source_file when a product has
     multiple docs in corpus.
@@ -2199,6 +2214,33 @@ def _diversify_by_source_file(
     by_source: dict[str, list[dict]] = defaultdict(list)
     for c in chunks:
         by_source[c.get("source_file") or "_nosrc"].append(c)
+
+    # (s97, pre-registro v2 [D-050(d) "stamps intactos + cosenos acotados"]) Tie-break
+    # SEMÁNTICO within-source: los stamps planos de los canales léxicos (0.80/0.70,
+    # content_search:554) crean grupos EMPATADOS grandes; el sort estable convierte el
+    # empate en orden-de-inserción ARBITRARIO y el round-robin selecciona a ciegas (la
+    # aguja de hp012·'99+99' era el mejor chunk de su doc y quedaba fuera por sorteo).
+    # Con DIVERSIFY_TIEBREAK=cosine, cada lista by_source se re-ordena por clave-TUPLA
+    # (-similarity, -coseno_real): `similarity` JAMÁS se muta (dúo s97 H2: mutarla =
+    # cosine-merge DEC-050 entero; el helper _rescore_to_cosine NO se reutiliza por eso);
+    # el coseno se calcula SOLO para chunks empatados dentro de su grupo; `source_order`
+    # y el sort global quedan intactos (scope within-source, dúo H6/C1). Fail-open total.
+    if _tiebreak_on() and query_embedding:
+        try:
+            tied_ids: list[str] = []
+            for group in by_source.values():
+                sims = [c.get("similarity", 0) for c in group]
+                for c in group:
+                    if sims.count(c.get("similarity", 0)) > 1 and c.get("id"):
+                        tied_ids.append(c["id"])
+            if tied_ids:
+                embs = _fetch_embeddings_by_id(tied_ids)
+                cos_by_id = {cid: _cos(query_embedding, e) for cid, e in embs.items()}
+                for src, group in by_source.items():
+                    group.sort(key=lambda c: (-(c.get("similarity") or 0),
+                                              -cos_by_id.get(c.get("id"), 0.0)))
+        except Exception:
+            logger.warning("DIVERSIFY_TIEBREAK fail-open: orden de empates sin desempate")
 
     # Best-first source order
     source_order = sorted(

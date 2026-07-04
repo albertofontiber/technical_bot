@@ -1,0 +1,34 @@
+{
+ "config": {
+  "multivector": "on",
+  "identity": "on/add",
+  "top_k": 50
+ },
+ "targets": {
+  "hp012·99 + 99": {
+   "off": {
+    "needle_in": 0,
+    "pool_out": 50,
+    "sim_intacta": true
+   },
+   "cosine": {
+    "needle_in": 1,
+    "pool_out": 50,
+    "sim_intacta": true
+   }
+  },
+  "hp018·1 A": {
+   "off": {
+    "needle_in": 2,
+    "pool_out": 50,
+    "sim_intacta": true
+   },
+   "cosine": {
+    "needle_in": 4,
+    "pool_out": 50,
+    "sim_intacta": true
+   }
+  }
+ },
+ "gate0": "PASA"
+}
