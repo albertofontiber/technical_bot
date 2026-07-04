@@ -120,3 +120,32 @@ selección de página en docs de 50-260 pp + supervivencia post-rerank (sin medi
 en el set de flips). Orden de ejecución: A primero (más barato/rápido, aísla la pregunta de
 arquitectura), D después — son independientes; si A-G1 pasa holgado, D se corre igual (la
 tabla de decisión necesita ambos brazos).
+
+---
+
+## RESULTADOS PILOTO A (2026-07-04 · 3 brazos medidos, mismo harness t1_gates.py)
+| brazo | famtie | flips canónicos | flips totales | nuevas-miss |
+|---|---|---|---|---|
+| A1 corpus-wide (011) | 12→**8** | 2/6 | FdT, 2lazos, +ISO-X, +Tierra | 0 |
+| A2 +paridad de filtros (012) | 12→**8** | 2/6 | = A1 | 0 |
+| A3 +colapso Dense-X (fetch 200 → padres únicos keep-max → fusión) | 12→**7** | 2/6 | = A2 +hp001·'2222' | 0 |
+
+- **Control 12 INTACTO en todos** (A-G2 ✅): la separación de índice elimina la dilución
+  por construcción — la arquitectura queda VALIDADA. **A-G1 (reproducción) FALLA: 2/6.**
+- **Trace por-hecho de los 4 no reproducidos (mecanismos distintos):**
+  - `hp014·'35'`: **0 enunciados de sus chunks-aguja** en el batch T1 → gap de GENERACIÓN
+    (cobertura T1 0.42-0.91 por doc) — irrecuperable sin regenerar (opción C).
+  - `hp013·'PWR-R'`: 97 enunciados existen, texto casi idéntico a los de s94, mejor cos
+    0.442 — **el probe F2 de s94 ya lo medía en 0.4464 < frontera 0.516**: ni en s94 entró
+    por la puerta corpus-wide. La puerta exacta de su flip en s94 queda SIN identificar
+    (declarado); con 2.987 hermanos ADW535 (s94: ~136) no entra por ninguna.
+  - `hp018·'1 A'`: 2 enunciados existen, fuera del top-1000 corpus-wide (fraseo fila-nivel
+    lejísimos de la pregunta) → misma clase.
+  - `hp012·'99+99'`: rank 325 — clase colateral/diversify (caveat pre-registrado).
+- **Lectura honesta:** la CIFRA casi reproduce (-5 vs -6 de DEC-086) pero el CONJUNTO de
+  hechos difiere (gana ISO-X/Tierra/2222; pierde PWR-R/35/1A). El gap residual NO es de
+  índice: es (a) cobertura de generación y (b) distancia de vocabulario pregunta-tarea ↔
+  enunciado-fila que el volumen no arregla — exactamente la clase que el piloto D
+  (deep-lookup con razonamiento) ataca por diseño.
+- Por la tabla de decisión → rama **parcial informativo** (mejor que la banda 9-11):
+  NO auto-archivar; dossier a Alberto. D pendiente de build/medición.

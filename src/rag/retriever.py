@@ -893,11 +893,6 @@ def vector_search(
         "filter_category": category_filter,
         "filter_manufacturer": None,
     }
-    # (T0 s94b) El RPC excluye surrogates por DEFAULT (invariante de no-servicio, 007);
-    # solo el modo multi-vector los pide — y entonces el swap los sustituye por su padre.
-    if _multivector_on() and RPC_SUFFIX == "_v2":
-        payload["include_surrogates"] = True
-
     headers = {
         "apikey": SUPABASE_SERVICE_KEY,
         "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
@@ -911,8 +906,40 @@ def vector_search(
             json=payload,
         )
         resp.raise_for_status()
+        results = resp.json()
 
-    return resp.json()
+        # (s95 piloto A, pre-registro v2 [D2] + 012 paridad de filtros + A3 colapso
+        # Dense-X) Multi-vector = 2ª llamada al RPC de la tabla SEPARADA de enunciados
+        # (DEC-088: compartir HNSW diluye los reales). Receta canónica Dense X ("retrieve
+        # a slightly larger number of text units, map each unit to the source passage,
+        # and return the top-k unique passages"): fetch ENUNCIADOS_FETCH_K → COLAPSO por
+        # parent_id keep-max (post-swap colapsan al mismo padre igual — capar antes de
+        # colapsar desperdicia slots en redundancia del mismo padre) → unión con los
+        # reales → sort similarity desc → cap top_k. Entra PRE-swap. Mismos filtros que
+        # la llamada real (s94: 3/6 flips entraban por el canal model-filtered).
+        if _multivector_on() and RPC_SUFFIX == "_v2":
+            e_resp = client.post(
+                f"{SUPABASE_URL}/rest/v1/rpc/match_chunks_v2_enunciados",
+                headers=headers,
+                json={"query_embedding": query_embedding,
+                      "match_threshold": threshold,
+                      "match_count": ENUNCIADOS_FETCH_K,
+                      "filter_product": product_filter,
+                      "filter_manufacturer": None},
+            )
+            e_resp.raise_for_status()
+            by_parent: dict = {}
+            for s in e_resp.json():
+                pid = s.get("parent_id")
+                if pid and (pid not in by_parent
+                            or (s.get("similarity") or 0)
+                            > (by_parent[pid].get("similarity") or 0)):
+                    by_parent[pid] = s
+            merged = results + list(by_parent.values())
+            merged.sort(key=lambda c: c.get("similarity") or 0, reverse=True)
+            results = merged[:top_k]
+
+    return results
 
 
 def _tag_channel(chunks: list[dict], tag: str) -> list[dict]:
@@ -1042,6 +1069,11 @@ def _merge_channels(keyword_results: list[dict], vector_results: list[dict],
 _HYDRATE_SELECT = ("id,content,context,product_model,category,section_title,content_type,"
                  "manufacturer,protocol,doc_type,language,has_diagram,diagram_url,"
                  "source_file,page_number,document_id,parent_id")
+
+
+# (s95-A3) Cuántos enunciados se piden ANTES del colapso por padre (Dense X: se
+# recuperan más unidades de las que se devuelven porque colapsan a padres únicos).
+ENUNCIADOS_FETCH_K = 200
 
 
 def _multivector_on() -> bool:

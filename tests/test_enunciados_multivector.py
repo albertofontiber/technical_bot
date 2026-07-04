@@ -29,8 +29,10 @@ class _FakeResp:
 
 class _FakeClient:
     rows: list = []
+    post_rows_by_url: dict = {}       # substring de URL → rows a devolver
     last_get_params: dict | None = None
     last_post_json: dict | None = None
+    posts: list = []                  # [(url, json), ...] — todas las llamadas POST
 
     def __init__(self, *a, **k):
         pass
@@ -45,14 +47,19 @@ class _FakeClient:
         _FakeClient.last_get_params = k.get("params")
         return _FakeResp(_FakeClient.rows)
 
-    def post(self, *a, **k):
+    def post(self, url="", *a, **k):
         _FakeClient.last_post_json = k.get("json")
+        _FakeClient.posts.append((url, k.get("json")))
+        for frag, rows in _FakeClient.post_rows_by_url.items():
+            if frag in url:
+                return _FakeResp(rows)
         return _FakeResp([])
 
 
 @pytest.fixture
 def fake_http(monkeypatch):
     _FakeClient.rows, _FakeClient.last_get_params, _FakeClient.last_post_json = [], None, None
+    _FakeClient.posts, _FakeClient.post_rows_by_url = [], {}
     monkeypatch.setattr(retriever.httpx, "Client", _FakeClient)
     return _FakeClient
 
@@ -82,17 +89,59 @@ def test_keyword_search_lleva_el_filtro(fake_http, monkeypatch):
     assert fake_http.last_get_params.get("parent_id") == "is.null"
 
 
-def test_rpc_sin_flag_no_pide_surrogates(fake_http, monkeypatch):
+def test_rpc_sin_flag_una_sola_llamada(fake_http, monkeypatch):
     monkeypatch.delenv("ENUNCIADOS_MULTIVECTOR", raising=False)
     retriever.vector_search("query", 5, 0.3, None, None, [0.0] * 4)
-    assert "include_surrogates" not in fake_http.last_post_json
+    assert len(fake_http.posts) == 1
+    assert "match_chunks_v2_enunciados" not in fake_http.posts[0][0]
 
 
-def test_rpc_con_flag_pide_surrogates(fake_http, monkeypatch):
+def test_rpc_con_flag_llama_al_canal_enunciados(fake_http, monkeypatch):
+    """(s95 [D2]) flag on + _v2 → 2ª llamada al RPC de la tabla SEPARADA con los
+    MISMOS threshold/count pineados (nunca include_surrogates: DEC-088)."""
     monkeypatch.setenv("ENUNCIADOS_MULTIVECTOR", "on")
     monkeypatch.setattr(retriever, "RPC_SUFFIX", "_v2")
-    retriever.vector_search("query", 5, 0.3, None, None, [0.0] * 4)
-    assert fake_http.last_post_json.get("include_surrogates") is True
+    retriever.vector_search("query", 5, 0.3, "ADW535", None, [0.0] * 4)
+    assert len(fake_http.posts) == 2
+    url2, json2 = fake_http.posts[1]
+    assert "match_chunks_v2_enunciados" in url2
+    assert json2["match_threshold"] == 0.3
+    # (A3 Dense-X) se piden ENUNCIADOS_FETCH_K unidades (colapsan a padres únicos)
+    assert json2["match_count"] == retriever.ENUNCIADOS_FETCH_K
+    # (012) paridad de canal: el filtro de producto viaja también al canal enunciados
+    assert json2["filter_product"] == "ADW535"
+    assert all("include_surrogates" not in (j or {}) for _, j in fake_http.posts)
+
+
+def test_colapso_por_padre_antes_de_fusionar(fake_http, monkeypatch):
+    """(A3 Dense-X) 2 surrogates del MISMO padre → colapsan keep-max ANTES del cap:
+    no desperdician slots (post-swap serían el mismo padre igualmente)."""
+    monkeypatch.setenv("ENUNCIADOS_MULTIVECTOR", "on")
+    monkeypatch.setattr(retriever, "RPC_SUFFIX", "_v2")
+    fake_http.post_rows_by_url = {
+        "match_chunks_v2_enunciados": [{"id": "e1", "parent_id": "p1", "similarity": 0.9},
+                                       {"id": "e1b", "parent_id": "p1", "similarity": 0.85},
+                                       {"id": "e2", "parent_id": "p2", "similarity": 0.6}],
+        "match_chunks_v2": [{"id": "r1", "similarity": 0.8}],
+    }
+    out = retriever.vector_search("query", 3, 0.3, None, None, [0.0] * 4)
+    # e1b (mismo padre que e1, menor sim) colapsa → entra e2 en su lugar
+    assert [c["id"] for c in out] == ["e1", "r1", "e2"]
+
+
+def test_fusion_pineada_union_sort_cap(fake_http, monkeypatch):
+    """(s95 [D2]) unión → sort similarity desc → cap top_k: un solo ranking con el
+    mismo cap que T1 (misma semántica de competición, sin el artefacto de índice)."""
+    monkeypatch.setenv("ENUNCIADOS_MULTIVECTOR", "on")
+    monkeypatch.setattr(retriever, "RPC_SUFFIX", "_v2")
+    fake_http.post_rows_by_url = {
+        "match_chunks_v2_enunciados": [{"id": "e1", "parent_id": "p1", "similarity": 0.9},
+                                       {"id": "e2", "parent_id": "p2", "similarity": 0.5}],
+        "match_chunks_v2": [{"id": "r1", "similarity": 0.8},
+                            {"id": "r2", "similarity": 0.7}],
+    }
+    out = retriever.vector_search("query", 3, 0.3, None, None, [0.0] * 4)
+    assert [c["id"] for c in out] == ["e1", "r1", "r2"]     # e2 (0.5) cae por el cap
 
 
 # ---------- swap from-row ----------
@@ -138,10 +187,11 @@ def test_content_search_path_a_lleva_el_filtro(fake_http, monkeypatch):
     assert fake_http.last_get_params.get("parent_id") == "is.null"
 
 
-def test_rpc_legacy_suffix_no_pide_surrogates_ni_con_flag(fake_http, monkeypatch):
+def test_rpc_legacy_suffix_sin_canal_enunciados_ni_con_flag(fake_http, monkeypatch):
     monkeypatch.setenv("ENUNCIADOS_MULTIVECTOR", "on")
     monkeypatch.setattr(retriever, "RPC_SUFFIX", "")          # tabla legacy
     retriever.vector_search("query", 5, 0.3, None, None, [0.0] * 4)
+    assert len(fake_http.posts) == 1
     assert "include_surrogates" not in fake_http.last_post_json
 
 
