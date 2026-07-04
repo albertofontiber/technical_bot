@@ -157,12 +157,24 @@ se ahoga (dilución + enterramiento). **T1 (~$50-75) cazó el fallo ANTES del ga
 latente arreglado (FK duplicate_of → migración 009). Side-by-side: **Sonnet 5** es el vintage
 (mejor calidad, ≤coste). 435 tests.
 
-**Qué sigue: (1) REDESIGN del mecanismo enunciados (dúo + decisión Alberto, ANTES de más gasto)** —
-(A) tabla/índice HNSW SEPARADO para surrogates (el fix propio: el churn nunca toca los chunks
-reales), (B) índices HNSW parciales en la misma tabla, (C) generación DIRIGIDA no docs-enteros
-(reduce volumen+enterramiento). Con Sonnet 5. Nada de T2-T3 hasta resolver. (2) lever diversify
-(hp011 + '99+99'); (3) conduct-level clarify + calc-assist CON Alberto; (4) S4/F3 re-tag. Backlog:
-BRAND_MAP→`catalog_gt.py`; re-homing FL*; 6 homónimos cola; ~630 candidates; dual-judge ~sept.
+**s95 (DEC-089): redesign MEDIDO con 2 pilotos ($3.5).** Research verificado (BP unánime: surrogates
+en índice propio; Dense X +2.2 con embedder fuerte; agentic-RAG-como-arquitectura descartado con
+evidencia ACL-2026 + perfil de fallo propio) + dúo sobre el plan (15/15 confirmados, 0 FP, 4
+críticos) + ejecución: **A3 (tabla `chunks_v2_enunciados` SEPARADA + paridad de filtros + colapso
+Dense-X; migraciones 011/012) = famtie 12→7, 0 regresiones, control 12 INTACTO — arquitectura
+VALIDADA, candidato a ship.** Piloto D (deep-lookup Haiku en seam IDENTITY_FETCH, parser
+3-estados) = NO-GO (12→11, 0/6, 38% gatillado: el seam solo corre con doc AUSENTE y la clase
+dominante es doc-presente-aguja-ausente). Residual 7 caracterizado por clase. Flag OFF en demo;
+nada shippeado. 441 tests.
+
+**Qué sigue (decisiones de Alberto):** (1) **ship-path A3**: `ENUNCIADOS_MULTIVECTOR=on` en demo
+SOLO tras bvg PASS-control ±2 (ship-gate DEC-086); (2) **packet doc_map** (MIE-MI-310↔zxe [DB:
+ZXAE/ZXEE] · MIDT190↔sdx-751 [DB: ID3000] · 15092SP [DB: INA] — 3 adjudicaciones de identidad que
+el gate-0 de D cazó); (3) **alcance T2-T3 re-scopeado**: no gastar $100+ por famtie — el valor en
+queries reales de técnicos NO está medido; si se retoma: Sonnet 5 + gates por-tramo (DEC-088);
+(4) '35' → regeneración dirigida (C) opcional. Luego: lever diversify (hp011 + '99+99');
+conduct-level clarify + calc-assist CON Alberto; S4/F3 re-tag. Backlog: BRAND_MAP→`catalog_gt.py`;
+re-homing FL*; 6 homónimos cola; ~630 candidates; dual-judge ~sept.
 
 **s90 (DEC-079): F0 APROBADO (D1-D7) → contrato CANÓNICO; F1a slice vertical Morley CONSTRUIDO.**
 `catalog_store.py` (la puerta: validate reglas-duras + resolve con contrato `expand`, check-homónimo

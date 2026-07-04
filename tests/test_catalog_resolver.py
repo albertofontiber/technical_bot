@@ -334,3 +334,70 @@ def test_score_chunk_word_boundary_y_stopwords():
     assert R._score_chunk("modulo con protocolo CLIP integrado", ["clip"]) == 1
     assert R._score_chunk("un eclipse total", ["clip"]) == 0            # F6: boundary
     assert "para" in R._QSTOP and "central" in R._QSTOP
+
+
+# ---------- s95 piloto D: parser 3-estados + brazo llm ----------
+
+def test_fetch_mode_3_estados(monkeypatch):
+    """(s95 [D-cross-1 CRÍTICO]) 'llm' NO puede ser NO-OP silencioso."""
+    from src.rag import catalog_resolver as cr
+    monkeypatch.setenv("IDENTITY_RESOLVE", "on")
+    for raw, esperado in [("", "off"), ("off", "off"), ("on", "on"), ("llm", "llm")]:
+        monkeypatch.setenv("IDENTITY_FETCH", raw)
+        assert cr.fetch_mode() == esperado, raw
+    monkeypatch.setenv("IDENTITY_FETCH", "lllm")   # typo → error, no silencio
+    import pytest as _pt
+    with _pt.raises(RuntimeError):
+        cr.fetch_mode()
+
+
+def test_fetch_llm_exige_resolve_on(monkeypatch):
+    from src.rag import catalog_resolver as cr
+    monkeypatch.setenv("IDENTITY_FETCH", "llm")
+    monkeypatch.setenv("IDENTITY_RESOLVE", "off")
+    import pytest as _pt
+    with _pt.raises(RuntimeError):
+        cr.fetch_enabled()
+
+
+def test_fetch_llm_activa_deep_lookup(monkeypatch):
+    """flag=llm → el seam llama a deep_lookup (NO al score léxico)."""
+    from src.rag import catalog_resolver as cr
+    monkeypatch.setenv("IDENTITY_FETCH", "llm")
+    monkeypatch.setenv("IDENTITY_RESOLVE", "on")
+    llamadas = []
+    import src.rag.deep_lookup as dl
+    monkeypatch.setattr(dl, "deep_lookup",
+                        lambda q, src: llamadas.append(src) or [{"id": f"x-{src}",
+                                                                 "identity_fetch": "llm"}])
+    res = {"allowed_sources": ["DOC-A", "DOC-B"]}
+    out = cr.fetch_missing_doc_chunks("¿spec?", res, pool=[])
+    assert llamadas == ["DOC-A", "DOC-B"]
+    assert [c["id"] for c in out] == ["x-DOC-A", "x-DOC-B"]
+
+
+def test_deep_lookup_seleccion_pagina_exacta_primero(monkeypatch):
+    """[D4] página exacta primero, ±1 después, orden chunk_index, cap 6, sin re-corte léxico."""
+    import src.rag.deep_lookup as dl
+
+    class _R:
+        status_code = 200
+        def __init__(self, rows): self._rows = rows
+        def json(self): return self._rows
+
+    class _C:
+        def __init__(self, *a, **k): pass
+        def __enter__(self): return self
+        def __exit__(self, *a): return False
+        def get(self, url, headers=None, params=None):
+            pages = params["page_number"]          # "in.(31)" luego "in.(30,32)"
+            if pages == "in.(31)":
+                return _R([{"id": "a", "page_number": 31, "chunk_index": 2},
+                           {"id": "b", "page_number": 31, "chunk_index": 5}])
+            return _R([{"id": "c", "page_number": 30, "chunk_index": 1},
+                       {"id": "d", "page_number": 32, "chunk_index": 9}])
+
+    monkeypatch.setattr(dl.httpx, "Client", _C)
+    out = dl.fetch_pages_chunks("DOC", [31])
+    assert [c["id"] for c in out] == ["a", "b", "c", "d"]       # exacta primero
+    assert all(c["identity_fetch"] == "llm" for c in out)

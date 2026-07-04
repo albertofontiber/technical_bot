@@ -1,0 +1,170 @@
+{
+ "tranche": "SXSP1",
+ "batch": "enunciados-v1:SXSP1:p1",
+ "dry": true,
+ "prompt_vintage": "p1",
+ "results": [
+  {
+   "doc": "2x-af2-09-161721-es",
+   "marca": "Aritech",
+   "insertables": 101,
+   "cobertura": 1.0,
+   "sample": [
+    {
+     "marca": "Aritech",
+     "isPerfect": true,
+     "text": "El panel 2X-AF2-09 no dispone de controles de Bomberos en su interfaz de usuario."
+    },
+    {
+     "marca": "Aritech",
+     "isPerfect": true,
+     "text": "La capacidad máxima del sistema del panel 2X-AF2-09 es de hasta 32512 dispositivos."
+    },
+    {
+     "marca": "Aritech",
+     "isPerfect": true,
+     "text": "El tamaño de la red del panel 2X-AF2-09 es de hasta 64 nodos."
+    }
+   ],
+   "items": 15,
+   "gen": 101,
+   "qa_fail": 0,
+   "sin_padre": 0
+  },
+  {
+   "doc": "asw2366-62536-es",
+   "marca": "Aritech",
+   "insertables": 60,
+   "cobertura": 0.889,
+   "sample": [
+    {
+     "marca": "Aritech",
+     "isPerfect": true,
+     "text": "El panel ASW2366 es compatible con los sistemas Aritech 2000 Series."
+    },
+    {
+     "marca": "Aritech",
+     "isPerfect": true,
+     "text": "Esta tabla indica la compatibilidad del dispositivo ASW2366 con los sistemas de la serie Aritech 2000, respondiendo a la pregunta de con qué plataformas o centr"
+    },
+    {
+     "marca": "Aritech",
+     "isPerfect": false,
+     "text": "El interruptor de sobrecarga del ASW2366 activa con una corriente menor a 1.2 mA."
+    }
+   ],
+   "items": 12,
+   "gen": 62,
+   "qa_fail": 2,
+   "sin_padre": 0
+  },
+  {
+   "doc": "2x-af2-fb-161721-es",
+   "marca": "Aritech",
+   "insertables": 91,
+   "cobertura": 1.0,
+   "sample": [
+    {
+     "marca": "Aritech",
+     "isPerfect": true,
+     "text": "El panel 2X-AF2-FB dispone de interfaz de usuario con controles de Bomberos."
+    },
+    {
+     "marca": "Aritech",
+     "isPerfect": true,
+     "text": "La capacidad máxima del sistema del panel 2X-AF2-FB es de hasta 32512 dispositivos."
+    },
+    {
+     "marca": "Aritech",
+     "isPerfect": true,
+     "text": "El tamaño de la red del panel 2X-AF2-FB es de hasta 64 nodos."
+    }
+   ],
+   "items": 15,
+   "gen": 99,
+   "qa_fail": 8,
+   "sin_padre": 0
+  },
+  {
+   "doc": "2x-af2-fb-s-161721-es",
+   "marca": "Aritech",
+   "insertables": 88,
+   "cobertura": 1.0,
+   "sample": [
+    {
+     "marca": "Aritech",
+     "isPerfect": true,
+     "text": "El panel 2X-AF2-FB-S dispone de interfaz de usuario con controles de Bomberos."
+    },
+    {
+     "marca": "Aritech",
+     "isPerfect": true,
+     "text": "La capacidad máxima del sistema del panel 2X-AF2-FB-S es de hasta 32512 dispositivos."
+    },
+    {
+     "marca": "Aritech",
+     "isPerfect": true,
+     "text": "El tamaño de la red del panel 2X-AF2-FB-S es de hasta 64 nodos."
+    }
+   ],
+   "items": 15,
+   "gen": 95,
+   "qa_fail": 7,
+   "sin_padre": 0
+  },
+  {
+   "doc": "55347101 Manual Sirena Analogica MAD-471 ES FR GB IT",
+   "marca": "Detnov",
+   "insertables": 32,
+   "cobertura": 0.875,
+   "sample": [
+    {
+     "marca": "Detnov",
+     "isPerfect": false,
+     "text": "La temperatura de trabajo del MAD-471 es de -10 à 50 ºC según sus Características Medioambientales."
+    },
+    {
+     "marca": "Detnov",
+     "isPerfect": false,
+     "text": "La temperatura de almacén del MAD-471 es de -10 à 70 ºC según sus Características Medioambientales."
+    },
+    {
+     "marca": "Detnov",
+     "isPerfect": false,
+     "text": "La humedad relativa del MAD-471 es del 95% según sus Características Medioambientales."
+    }
+   ],
+   "items": 10,
+   "gen": 46,
+   "qa_fail": 14,
+   "sin_padre": 0
+  },
+  {
+   "doc": "55347200 Manual Sirena Analogica MAD-472 ES GB FR GB IT",
+   "marca": "Detnov",
+   "insertables": 32,
+   "cobertura": 1.0,
+   "sample": [
+    {
+     "marca": "Detnov",
+     "isPerfect": true,
+     "text": "El MAD-472 tiene una temperatura de trabajo de -10 à 50 ºC según la sección de Características Medioambientales."
+    },
+    {
+     "marca": "Detnov",
+     "isPerfect": true,
+     "text": "El MAD-472 tiene una temperatura de almacén de -10 à 70 ºC según la sección de Características Medioambientales."
+    },
+    {
+     "marca": "Detnov",
+     "isPerfect": true,
+     "text": "El MAD-472 tiene una humedad relativa de 95% según la sección de Características Medioambientales."
+    }
+   ],
+   "items": 10,
+   "gen": 46,
+   "qa_fail": 14,
+   "sin_padre": 0
+  }
+ ]
+}

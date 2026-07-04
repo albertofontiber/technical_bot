@@ -149,3 +149,32 @@ tabla de decisión necesita ambos brazos).
   (deep-lookup con razonamiento) ataca por diseño.
 - Por la tabla de decisión → rama **parcial informativo** (mejor que la banda 9-11):
   NO auto-archivar; dossier a Alberto. D pendiente de build/medición.
+
+## RESULTADOS PILOTO D (2026-07-04 · IDENTITY_FETCH=llm, multivector off)
+- **Gate-0 recall-safe: 16 OK · 3 FAIL** — los 3 = docs-aguja SIN adjudicar en doc_map
+  (`MIE-MI-310` [hp018·'1 A': DB lo taguea ZXAE/ZXEE, no ZXe], `MIDT190` [cat013, vía
+  sdx-751], `15092SP` [hp012]) → **adjudicación de identidad REAL, packet a Alberto; NO
+  se tocó el catálogo unilateralmente**. 5/6 needles canónicos alcanzables → se midió.
+- **D-G1 ❌ NO-GO: famtie 12→11, flips canónicos 0/6** (solo hp001·'2222', que A3 ya
+  gana). D-G2 ✅ (0 nuevas). D-G3: 39 llamadas Haiku, 94k in / 7.4k out (~$0.13), 0
+  errores; smoke 8.3k tokens/doc < presupuesto; p50 retrieval 17.6s con el brazo on.
+  **D-G4 ❌: gatilla 15/39 = 38% (>25%)**.
+- **Por qué (estructural, no de ejecución):** el seam heredado (`fetch_missing_doc_chunks`)
+  solo gatilla si el doc está AUSENTE del pool. Post identity-ADD (s93), la clase dominante
+  del residual es "doc PRESENTE, chunk-aguja ausente" → el deep-lookup ni corre para esos
+  (hp013/ADW535: 18 chunks en pool → skip). Donde sí corrió, la selección de páginas fue
+  razonable-pero-no-aguja (smoke hp013: eligió configuración/mantenimiento; las agujas
+  PWR-R viven en la Fig. 22 de cableado). Extender el trigger a "doc presente" = brazo
+  nuevo con 38%+ de gatillado y coste/latencia por-query recurrente — NO se itera on-eval.
+
+## VEREDICTO s95 (ambos brazos medidos, $ total ≈ $3.5)
+| brazo | famtie | canónicos | regresiones | veredicto |
+|---|---|---|---|---|
+| **A3** tabla separada + paridad filtros + colapso Dense-X | **12→7** | 2/6 | 0 | **candidato a ship** (gate bvg PASS-control pendiente) |
+| **D** deep-lookup llm en seam fetch | 12→11 | 0/6 | 0 | **NO-GO** (trigger heredado + selección no-aguja) |
+
+Residual 7 tras A3, por clase: '35' = cobertura de GENERACIÓN (recuperable con
+regeneración dirigida, opción C); PWR-R + '1 A' = distancia pregunta-tarea↔enunciado-fila
+(clase E/estructurada o clarify); '99+99' + hp011 = diversify (lever pipeline aparte);
+CLIP/autobusqueda (cat013/cat016) = vocabulario operativo puro (el mecanismo no alcanza,
+coherente con el probe s93). Flag OFF en demo; NADA shippeado; decisiones → Alberto.

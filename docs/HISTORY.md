@@ -1516,3 +1516,20 @@ cacé y arreglé un bug latente (FK duplicate_of sin índice → migración 009)
 **T1 (~$50-75) cazó un fallo arquitectónico ANTES del gasto de corpus ($150+) = el diseño de
 tramos funcionando.** Redesign pendiente (dúo+Alberto): tabla/índice separado para surrogates,
 índices parciales, o generación dirigida. DEC-088. Nada de T2-T3 hasta resolver.
+
+## s95 (4 jul 2026) — Redesign de enunciados medido con 2 pilotos: arquitectura tabla-separada VALIDADA (12→7); deep-lookup NO-GO; agentic RAG descartado con evidencia
+Pregunta de Alberto ("¿cómo se hace en RAGs similares? ¿agentic RAG?") → research con fuentes
+verificadas (workflow 3 agentes): la BP unánime es surrogates en índice PROPIO con padre-por-ID
+(LangChain/LlamaIndex/Dense X/pgvector partial-index) — el T1 re-derivó empíricamente por qué; y
+agentic RAG como arquitectura NO paga para nuestro perfil de fallo (ACL 2026). Plan de 2 pilotos
+pre-registrado → dúo (15/15 confirmados regla-C, 0 FP, 4 críticos: parser booleano habría hecho
+de IDENTITY_FETCH=llm un NO-OP silencioso; punto de fusión sin pinear; pre-filtro léxico
+re-introducía el techo DEC-085) → ejecución. **Piloto A: tabla `chunks_v2_enunciados` separada
+(011/012), dump T1 re-embebido ($3), 3 brazos: 12→8 → 12→8 → 12→7 con colapso Dense-X; control
+12 INTACTO en todos y 0 regresiones = dilución eliminada por construcción, candidato a ship
+(gate bvg pendiente).** Trace de los no-reproducidos: el residual NO es de índice ('35' = gap de
+generación; PWR-R/'1 A' = distancia pregunta-tarea↔enunciado-fila que ni s94 cruzaba por cos —
+puerta de su flip s94 sin identificar, declarado). **Piloto D: NO-GO estructural** (12→11, 0/6;
+el seam solo gatilla con doc AUSENTE del pool y la clase dominante es doc-presente-aguja-ausente;
+38% gatillado > 25%). Gate-0 de D cazó 3 gaps de doc_map → packet a Alberto (catálogo NO tocado).
+DEC-089. 441 tests. Coste total s95 ≈ $3.5.

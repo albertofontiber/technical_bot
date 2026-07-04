@@ -309,11 +309,25 @@ FETCH_PER_DOC = 3          # chunks máx por doc adjudicado (append puro — DEC
 FETCH_MAX_DOCS = 4         # docs máx por query (disciplina de coste/latencia)
 
 
+def fetch_mode() -> str:
+    """(s95 [D-cross-1 CRÍTICO]) Parser 3-ESTADOS de IDENTITY_FETCH: 'off' | 'on'
+    (selector léxico s93, NO-OP medido DEC-084) | 'llm' (selector deep-lookup s95).
+    El booleano viejo habría hecho de IDENTITY_FETCH=llm un NO-OP SILENCIOSO."""
+    raw = os.getenv("IDENTITY_FETCH", "").strip().lower()
+    if raw in ("1", "true", "yes", "on"):
+        return "on"
+    if raw == "llm":
+        return "llm"
+    if raw in ("", "0", "false", "no", "off"):
+        return "off"
+    raise RuntimeError(f"IDENTITY_FETCH={raw!r} no reconocido (off|on|llm) — fail-fast")
+
+
 def fetch_enabled() -> bool:
-    """IDENTITY_FETCH=on requiere IDENTITY_RESOLVE=on (config incoherente ⇒ error, fail-fast)."""
-    f = os.getenv("IDENTITY_FETCH", "").strip().lower() in ("1", "true", "yes", "on")
+    """IDENTITY_FETCH∈{on,llm} requiere IDENTITY_RESOLVE=on (config incoherente ⇒ error)."""
+    f = fetch_mode() != "off"
     if f and mode() != "on":
-        raise RuntimeError("IDENTITY_FETCH=on requiere IDENTITY_RESOLVE=on (fail-fast)")
+        raise RuntimeError("IDENTITY_FETCH=on/llm requiere IDENTITY_RESOLVE=on (fail-fast)")
     return f
 
 
@@ -342,6 +356,19 @@ def fetch_missing_doc_chunks(query: str, res: dict, pool: list[dict]) -> list[di
     missing = [s for s in sorted(res["allowed_sources"]) if s not in in_pool_srcs]
     if not missing:
         return []
+    # (s95 piloto D) brazo llm: selector deep-lookup (LLM lee el outline del extraction
+    # store y elige páginas) en vez del score léxico (NO-OP medido s93/DEC-084 — "los
+    # appends llegan, el selector léxico no elige los chunk-ids juzgados"). Mismo seam,
+    # mismos caps de docs, fail-open.
+    if fetch_mode() == "llm":
+        from src.rag.deep_lookup import deep_lookup
+        out_llm: list[dict] = []
+        for src in missing[:FETCH_MAX_DOCS]:
+            try:
+                out_llm.extend(deep_lookup(query, src))
+            except Exception as e:
+                logger.warning(f"deep_lookup fail-open ({e})")
+        return out_llm
     seen_t: set[str] = set()
     qtokens = []
     for tk in re_tokens(query):
