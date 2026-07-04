@@ -64,3 +64,25 @@ MIE-MI-310↔¿zxe? (DB: ZXAE/ZXEE) · MIDT190↔¿sdx-751? (DB: ID3000) · 1509
 | H2/H5 | P1 sobre bvg_kmajority + stamp manifest + timing + atomic_scorer | pre-registrado (build de P1, gateado por GO) |
 | H4 | R3 retirado | ✅ corregido en este doc |
 | H6/H7 | caveat selección multi-turn + post-flip/held-out | ✅ escritos arriba |
+
+---
+
+## RESULTADOS DEL GATE (2026-07-04/05 · brazos s96ctl / s96on, mismo día, manifests estampados)
+| criterio pre-registrado | resultado | veredicto |
+|---|---|---|
+| P1(a) rescate llega al top-5 | **3/3 golds-flip** (hp001, hp006, hp012) con padre-rescatado en el top-5 congelado | ✅ |
+| Δ_net PASS-control ±2 | control **11** → tratamiento **13** (+2, dentro de banda, dirección positiva; residual 23→19; cat013/hp018 suben de residual a K-INESTABLE) | ✅ |
+| invención sin subida | **10/33 = 10/33** (matriz pareada 11-golds-top5-cambiado × 3 runs × brazo). REDISTRIBUCIÓN: cat011+cat024 3/3→0/3 (el flag LIMPIA contradicciones consistentes); hp006 0→3/3 = mispairing JP2→JP6 sobre el chunk correcto que el flag por fin trae (clase SÍNTESIS conocida — el retrieval la expone, no la crea; en control el bot FABRICABA el procedimiento) | ✅ |
+| latencia e2e añadida | p50 **+725ms** (<1s ✓); p90 +1.1s (declarado) | ✅ |
+
+**Hallazgo de INSTRUMENTO (cazado con regla-C, 2 verificaciones):** el eje factual del
+atomic_scorer a K=1 es INUSABLE para comparar brazos — el mismo brazo control da 2→20
+contradicciones entre runs (varianza de muestreo de generación + detector no-determinista;
+verdictos distintos sobre input idéntico). La comparación válida = matriz pareada multi-run
+sobre los golds cuyo top-5 cambió (los de top-5 idéntico NO pueden ser efecto del flag —
+9/13 de la "alarma" inicial lo eran). Misma lección que llevó el juez a K-mayoría (DEC-015).
+
+### VEREDICTO: GATE PASADO (4/4). El ship (flag on en Railway) = decisión de Alberto.
+Post-flip pre-registrado: smoke del bot completo + verificación del flag efectivo (parser
+estricto ya protege el typo) + verificación en producción-demo. Reversible (env var).
+Coste del gate ≈ $12-18. Held-out NO consumido (declarado).
