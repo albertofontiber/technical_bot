@@ -213,3 +213,41 @@ def test_swap_corre_antes_del_trace_de_canales():
     i_trace = src.index('_tr("channels"')
     i_merge = src.index("_merge_channels(")
     assert i_swap < i_trace < i_merge
+
+
+# ---------- s96 dúo: H1 fail-open propio + H3 parser estricto ----------
+
+def test_flag_valores_truthy_y_fail_fast(monkeypatch):
+    """(H3) 'true'/'1' NO pueden ser OFF silencioso; typo → error (espejo fetch_mode)."""
+    for raw, esperado in [("on", True), ("true", True), ("1", True), ("yes", True),
+                          ("off", False), ("", False), ("0", False)]:
+        monkeypatch.setenv("ENUNCIADOS_MULTIVECTOR", raw)
+        assert retriever._multivector_on() is esperado, raw
+    monkeypatch.setenv("ENUNCIADOS_MULTIVECTOR", "onn")
+    import pytest as _pt
+    with _pt.raises(RuntimeError):
+        retriever._multivector_on()
+
+
+def test_fallo_del_rpc_enunciados_no_mata_el_canal_real(fake_http, monkeypatch):
+    """(H1 CRÍTICO) hiccup del RPC de enunciados → fail-open a solo-reales; el canal
+    vectorial NO puede caer por la tabla nueva."""
+    monkeypatch.setenv("ENUNCIADOS_MULTIVECTOR", "on")
+    monkeypatch.setattr(retriever, "RPC_SUFFIX", "_v2")
+
+    class _Boom:
+        status_code = 500
+        def raise_for_status(self):
+            raise RuntimeError("supabase hiccup")
+        def json(self): return []
+
+    real_post = fake_http.post
+    def post(self, url="", *a, **k):
+        if "match_chunks_v2_enunciados" in url:
+            _FakeClient.posts.append((url, k.get("json")))
+            return _Boom()
+        return real_post(self, url, *a, **k)
+    monkeypatch.setattr(_FakeClient, "post", post)
+    fake_http.post_rows_by_url = {"match_chunks_v2": [{"id": "r1", "similarity": 0.8}]}
+    out = retriever.vector_search("query", 3, 0.3, None, None, [0.0] * 4)
+    assert [c["id"] for c in out] == ["r1"]        # los reales sobreviven

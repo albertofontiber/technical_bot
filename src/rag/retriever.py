@@ -917,27 +917,34 @@ def vector_search(
         # colapsar desperdicia slots en redundancia del mismo padre) → unión con los
         # reales → sort similarity desc → cap top_k. Entra PRE-swap. Mismos filtros que
         # la llamada real (s94: 3/6 flips entraban por el canal model-filtered).
+        # (s96 H1 dúo — CRÍTICO): fail-open PROPIO. Sin este try, un hiccup del RPC de
+        # enunciados subiría al `except` del caller (vector_results = []) y mataría el
+        # canal vectorial ENTERO en silencio — el flag jamás debe acoplar la
+        # disponibilidad del canal real a la tabla nueva. Fallo aquí → solo-reales.
         if _multivector_on() and RPC_SUFFIX == "_v2":
-            e_resp = client.post(
-                f"{SUPABASE_URL}/rest/v1/rpc/match_chunks_v2_enunciados",
-                headers=headers,
-                json={"query_embedding": query_embedding,
-                      "match_threshold": threshold,
-                      "match_count": ENUNCIADOS_FETCH_K,
-                      "filter_product": product_filter,
-                      "filter_manufacturer": None},
-            )
-            e_resp.raise_for_status()
-            by_parent: dict = {}
-            for s in e_resp.json():
-                pid = s.get("parent_id")
-                if pid and (pid not in by_parent
-                            or (s.get("similarity") or 0)
-                            > (by_parent[pid].get("similarity") or 0)):
-                    by_parent[pid] = s
-            merged = results + list(by_parent.values())
-            merged.sort(key=lambda c: c.get("similarity") or 0, reverse=True)
-            results = merged[:top_k]
+            try:
+                e_resp = client.post(
+                    f"{SUPABASE_URL}/rest/v1/rpc/match_chunks_v2_enunciados",
+                    headers=headers,
+                    json={"query_embedding": query_embedding,
+                          "match_threshold": threshold,
+                          "match_count": ENUNCIADOS_FETCH_K,
+                          "filter_product": product_filter,
+                          "filter_manufacturer": None},
+                )
+                e_resp.raise_for_status()
+                by_parent: dict = {}
+                for s in e_resp.json():
+                    pid = s.get("parent_id")
+                    if pid and (pid not in by_parent
+                                or (s.get("similarity") or 0)
+                                > (by_parent[pid].get("similarity") or 0)):
+                        by_parent[pid] = s
+                merged = results + list(by_parent.values())
+                merged.sort(key=lambda c: c.get("similarity") or 0, reverse=True)
+                results = merged[:top_k]
+            except Exception:
+                logger.warning("canal enunciados fail-open: sirviendo solo chunks reales")
 
     return results
 
@@ -1080,7 +1087,14 @@ def _multivector_on() -> bool:
     """(T0 s94b) Flag PERMANENTE del multi-vector de enunciados (sustituye al PILOT_*
     del piloto s94). off (default) = los surrogates ni se piden al RPC ni se sirven
     (invariante de no-servicio en 007 + _no_surrogates)."""
-    return os.getenv("ENUNCIADOS_MULTIVECTOR", "off").strip().lower() == "on"
+    raw = os.getenv("ENUNCIADOS_MULTIVECTOR", "off").strip().lower()
+    if raw in ("1", "true", "yes", "on"):
+        return True
+    if raw in ("", "0", "false", "no", "off"):
+        return False
+    # (s96 H3 dúo, espejo de fetch_mode) valor no reconocido = error, no OFF silencioso —
+    # el paso de ship es literalmente "env var en Railway"; un typo no puede medio-apagar.
+    raise RuntimeError(f"ENUNCIADOS_MULTIVECTOR={raw!r} no reconocido (on|off) — fail-fast")
 
 
 def _enunciados_swap(chunks: list[dict]) -> list[dict]:
