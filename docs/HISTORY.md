@@ -1533,3 +1533,20 @@ puerta de su flip s94 sin identificar, declarado). **Piloto D: NO-GO estructural
 el seam solo gatilla con doc AUSENTE del pool y la clase dominante es doc-presente-aguja-ausente;
 38% gatillado > 25%). Gate-0 de D cazó 3 gaps de doc_map → packet a Alberto (catálogo NO tocado).
 DEC-089. 441 tests. Coste total s95 ≈ $3.5.
+
+## s96 (4-5 jul 2026) — Gate bvg de A3 PASADO 4/4; el ship del flag queda en manos de Alberto
+Pregunta de Alberto ("¿qué opina el dúo de cómo proceder?") → plan s96 pre-registrado → dúo
+(11/11 confirmados regla-C, 0 FP, 3 críticos): el sub-agente cazó que un hiccup de Supabase en
+el RPC de enunciados habría matado el canal vectorial ENTERO en silencio (fail-open propio
+aplicado + test) y que 'true'/'1' eran OFF silencioso en el flag (parser estricto); ambos lados
+cazaron que yo citaba el harness equivocado para el gate (single-pass vs bvg_kmajority
+K-mayoría) y el manifest sin stamp de la variable de tratamiento; mi "riesgo R3" resultó falso
+(escrito sin leer el código — retirado). Gate ejecutado (~$12-18, brazos s96ctl/s96on mismo
+día): **rescate→top-5 3/3 golds-flip · PASS-control 11→13 (+2 en banda, residual 23→19) ·
+invención sin subida · latencia p50 +725ms → PASADO 4/4 (DEC-090).** Regla-C ×2 contra mi
+propia alarma de invención: el "2 vs 13" era FALSO (9/13 golds con top-5 idéntico entre brazos
++ el mismo control da 2→20 entre runs) → **norma nueva: el eje factual del atomic a K=1 es
+inusable para comparar brazos; matriz pareada multi-run sobre los golds cuyo input cambió**.
+Bonus del gate: hp006 JP2→JP6 = mispairing de SÍNTESIS sobre el chunk correcto que el rescate
+por fin trae (expuesto, no creado; en control el bot fabricaba) → evidencia nueva al dossier
+síntesis. Pendiente SOLO de Alberto: flag on en Railway + smoke post-flip. Held-out intacto.

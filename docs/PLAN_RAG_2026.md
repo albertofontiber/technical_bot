@@ -167,14 +167,22 @@ VALIDADA, candidato a ship.** Piloto D (deep-lookup Haiku en seam IDENTITY_FETCH
 dominante es doc-presente-aguja-ausente). Residual 7 caracterizado por clase. Flag OFF en demo;
 nada shippeado. 441 tests.
 
-**Qué sigue (decisiones de Alberto):** (1) **ship-path A3**: `ENUNCIADOS_MULTIVECTOR=on` en demo
-SOLO tras bvg PASS-control ±2 (ship-gate DEC-086); (2) **packet doc_map** (MIE-MI-310↔zxe [DB:
-ZXAE/ZXEE] · MIDT190↔sdx-751 [DB: ID3000] · 15092SP [DB: INA] — 3 adjudicaciones de identidad que
-el gate-0 de D cazó); (3) **alcance T2-T3 re-scopeado**: no gastar $100+ por famtie — el valor en
-queries reales de técnicos NO está medido; si se retoma: Sonnet 5 + gates por-tramo (DEC-088);
-(4) '35' → regeneración dirigida (C) opcional. Luego: lever diversify (hp011 + '99+99');
-conduct-level clarify + calc-assist CON Alberto; S4/F3 re-tag. Backlog: BRAND_MAP→`catalog_gt.py`;
-re-homing FL*; 6 homónimos cola; ~630 candidates; dual-judge ~sept.
+**s96 (DEC-090): gate bvg de A3 EJECUTADO y PASADO 4/4** (plan dúo-hardened: 11/11 confirmados,
+0 FP, 2 fixes críticos de código aplicados — fail-open del canal enunciados + parser estricto del
+flag): rescate→top-5 3/3 golds-flip · PASS-control 11→13 (+2 en banda; residual 23→19) ·
+invención sin subida (matriz pareada 10/33=10/33; **eje factual del atomic a K=1 INUSABLE para
+A/B — norma nueva DEC-090**) · latencia p50 +725ms. hp006 JP2→JP6 = mispairing de SÍNTESIS
+expuesto por el rescate → dossier síntesis. Held-out no consumido. 443 tests.
+
+**Qué sigue (decisiones de Alberto):** (1) **SHIP A3**: `ENUNCIADOS_MULTIVECTOR=on` en Railway
+(env var reversible) + post-flip pre-registrado (smoke completo + flag efectivo + verificación en
+demo) — **el gate ya está PASADO, solo falta su GO**; (2) **packet doc_map** (MIE-MI-310↔zxe [DB:
+ZXAE/ZXEE] · MIDT190↔sdx-751 [DB: ID3000] · 15092SP [DB: INA]); (3) **T2-T3 re-scopeado** (no
+gastar por famtie; si se retoma: Sonnet 5 + gates por-tramo, DEC-088); (4) '35' → regeneración
+dirigida (C) opcional. Luego: lever diversify (hp011 + '99+99'); conduct-level clarify +
+calc-assist CON Alberto (el deep-lookup D queda aparcado flag-off como hipótesis de ese modo);
+S4/F3 re-tag. Backlog: BRAND_MAP→`catalog_gt.py`; re-homing FL*; 6 homónimos cola; ~630
+candidates; dual-judge ~sept.
 
 **s90 (DEC-079): F0 APROBADO (D1-D7) → contrato CANÓNICO; F1a slice vertical Morley CONSTRUIDO.**
 `catalog_store.py` (la puerta: validate reglas-duras + resolve con contrato `expand`, check-homónimo
