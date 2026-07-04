@@ -1,0 +1,5773 @@
+{
+ "stats": {
+  "R1": {
+   "generados": 104,
+   "qa_fail": 0
+  },
+  "R2": {
+   "generados": 253,
+   "qa_fail": 2
+  },
+  "R3": {
+   "generados": 11,
+   "qa_fail": 0
+  }
+ },
+ "delta_check_prefijo": [
+  {
+   "qid": "hp011",
+   "valor": "05 a 295 seg",
+   "delta": 0.0098,
+   "supera_tie": true
+  },
+  {
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "delta": null,
+   "motivo": "sin candidato fact-bearing (v2)"
+  },
+  {
+   "qid": "hp014",
+   "valor": "35",
+   "delta": 0.0337,
+   "supera_tie": true
+  },
+  {
+   "qid": "hp018",
+   "valor": "1 A",
+   "delta": 0.0541,
+   "supera_tie": true
+  }
+ ],
+ "candidatos": [
+  {
+   "arm": "R2",
+   "qid": "cat013",
+   "valor": "CLIP",
+   "parent_id": "cfcdc8f7-bdaf-412f-a85e-0ffb76878d99",
+   "anchor": {
+    "sha": "925f7f47481b7febd4af6527891f46f63255ed397f33b92bd4fdb0b6d81466db",
+    "page_idx": 68,
+    "item": "region"
+   },
+   "text": "El panel de control de incendios ID3000 utiliza el protocolo CLIP de Notifier para la comunicación con los equipos conectados en el lazo.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R2",
+   "qid": "cat013",
+   "valor": "CLIP",
+   "parent_id": "cfcdc8f7-bdaf-412f-a85e-0ffb76878d99",
+   "anchor": {
+    "sha": "925f7f47481b7febd4af6527891f46f63255ed397f33b92bd4fdb0b6d81466db",
+    "page_idx": 68,
+    "item": "region"
+   },
+   "text": "El manual técnico del ID3000 remite al Apéndice 3: Diseño del sistema para obtener información sobre equipos compatibles con el protocolo CLIP.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R2",
+   "qid": "cat013",
+   "valor": "CLIP",
+   "parent_id": "cfcdc8f7-bdaf-412f-a85e-0ffb76878d99",
+   "anchor": {
+    "sha": "925f7f47481b7febd4af6527891f46f63255ed397f33b92bd4fdb0b6d81466db",
+    "page_idx": 68,
+    "item": "region"
+   },
+   "text": "El manual técnico del ID3000 remite al Apéndice 3: Diseño del sistema para obtener información sobre las limitaciones de carga de los equipos en el lazo.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "parent_id": "294a778c-1dca-40de-8a1b-a9f0c471ea36",
+   "anchor": {
+    "sha": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6",
+    "page_idx": 10,
+    "item": "region"
+   },
+   "text": "La central CAD-150-8 dispone de una función de autobúsqueda de lazo accesible desde el menú BUCLE para configurar un bucle.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R2",
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "parent_id": "294a778c-1dca-40de-8a1b-a9f0c471ea36",
+   "anchor": {
+    "sha": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6",
+    "page_idx": 10,
+    "item": "region"
+   },
+   "text": "La función de autobúsqueda del menú BUCLE de la central CAD-150-8 realiza un escaneo del lazo seleccionado y muestra todos los elementos encontrados en dicho lazo.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R2",
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "parent_id": "294a778c-1dca-40de-8a1b-a9f0c471ea36",
+   "anchor": {
+    "sha": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6",
+    "page_idx": 10,
+    "item": "region"
+   },
+   "text": "El resultado de la autobúsqueda de lazo en la central CAD-150-8 debe coincidir con los elementos instalados reflejados en los planos de la instalación.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R2",
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "parent_id": "294a778c-1dca-40de-8a1b-a9f0c471ea36",
+   "anchor": {
+    "sha": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6",
+    "page_idx": 10,
+    "item": "region"
+   },
+   "text": "La verificación de la autobúsqueda de lazo en la central CAD-150-8 se realiza comparando los elementos detectados con los planos de la instalación.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R2",
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "parent_id": "294a778c-1dca-40de-8a1b-a9f0c471ea36",
+   "anchor": {
+    "sha": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6",
+    "page_idx": 10,
+    "item": "region"
+   },
+   "text": "Para configurar un bucle en la central CAD-150-8 se debe acceder al menú BUCLE y ejecutar la autobúsqueda del lazo que se desea configurar.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R2",
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "parent_id": "af6ab292-dbf8-4a9d-a3f8-b048e2f781d9",
+   "anchor": {
+    "sha": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6",
+    "page_idx": 21,
+    "item": "region"
+   },
+   "text": "El manual técnico del CAD-150-8 presenta en la sección 3 una guía de puesta en marcha del sistema que define paso a paso cómo instalar correctamente el panel analógico.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "parent_id": "af6ab292-dbf8-4a9d-a3f8-b048e2f781d9",
+   "anchor": {
+    "sha": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6",
+    "page_idx": 21,
+    "item": "region"
+   },
+   "text": "La sección 3.1 del manual del CAD-150-8 establece que antes de conectar la alimentación de red se deben verificar los puntos listados en dicha sección.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "parent_id": "af6ab292-dbf8-4a9d-a3f8-b048e2f781d9",
+   "anchor": {
+    "sha": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6",
+    "page_idx": 21,
+    "item": "region"
+   },
+   "text": "La sección 3.1 del manual del CAD-150-8 indica que se debe comprobar que el equipo ha sido instalado correctamente antes de conectar la alimentación.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "parent_id": "af6ab292-dbf8-4a9d-a3f8-b048e2f781d9",
+   "anchor": {
+    "sha": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6",
+    "page_idx": 21,
+    "item": "region"
+   },
+   "text": "La sección 3.1 del manual del CAD-150-8 indica que se debe utilizar un voltímetro para verificar que no existen cortocircuitos ni circuitos abiertos.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "parent_id": "af6ab292-dbf8-4a9d-a3f8-b048e2f781d9",
+   "anchor": {
+    "sha": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6",
+    "page_idx": 21,
+    "item": "region"
+   },
+   "text": "La sección 3.1 del manual del CAD-150-8 indica que se debe usar el tester para verificar la continuidad de la línea.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "parent_id": "af6ab292-dbf8-4a9d-a3f8-b048e2f781d9",
+   "anchor": {
+    "sha": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6",
+    "page_idx": 21,
+    "item": "region"
+   },
+   "text": "La sección 3.1 del manual del CAD-150-8 establece que los circuitos conectados a los módulos de zona deben disponer de resistencias de final de línea de 4k7.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "parent_id": "af6ab292-dbf8-4a9d-a3f8-b048e2f781d9",
+   "anchor": {
+    "sha": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6",
+    "page_idx": 21,
+    "item": "region"
+   },
+   "text": "La sección 3.1 del manual del CAD-150-8 establece que los circuitos de sirenas deben estar conectados con la polaridad correcta.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "parent_id": "af6ab292-dbf8-4a9d-a3f8-b048e2f781d9",
+   "anchor": {
+    "sha": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6",
+    "page_idx": 21,
+    "item": "region"
+   },
+   "text": "La sección 3.1 del manual del CAD-150-8 establece que los circuitos de sirenas deben disponer de resistencias EOL de 4K7.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "parent_id": "af6ab292-dbf8-4a9d-a3f8-b048e2f781d9",
+   "anchor": {
+    "sha": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6",
+    "page_idx": 21,
+    "item": "region"
+   },
+   "text": "La sección 3.1 del manual del CAD-150-8 indica que se deben comprobar las conexiones de salida en la placa base y verificar que están correctamente instaladas.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "parent_id": "af6ab292-dbf8-4a9d-a3f8-b048e2f781d9",
+   "anchor": {
+    "sha": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6",
+    "page_idx": 21,
+    "item": "region"
+   },
+   "text": "La sección 3.1 del manual del CAD-150-8 indica que se debe configurar el retardo deseado para las sirenas antes de conectar la alimentación.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "parent_id": "af6ab292-dbf8-4a9d-a3f8-b048e2f781d9",
+   "anchor": {
+    "sha": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6",
+    "page_idx": 21,
+    "item": "region"
+   },
+   "text": "La sección 3.1 del manual del CAD-150-8 establece que la tensión de red debe ser 230VAC, verificable mediante voltímetro.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "parent_id": "af6ab292-dbf8-4a9d-a3f8-b048e2f781d9",
+   "anchor": {
+    "sha": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6",
+    "page_idx": 21,
+    "item": "region"
+   },
+   "text": "La sección 3.1 del manual del CAD-150-8 establece que las baterías deben tener una tensión superior a 24V antes de conectar la alimentación.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "parent_id": "af6ab292-dbf8-4a9d-a3f8-b048e2f781d9",
+   "anchor": {
+    "sha": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6",
+    "page_idx": 21,
+    "item": "region"
+   },
+   "text": "La sección 3.2 del manual del CAD-150-8 establece que el orden correcto para conectar la alimentación es primero conectar la alimentación de red y después conectar las baterías.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "parent_id": "af6ab292-dbf8-4a9d-a3f8-b048e2f781d9",
+   "anchor": {
+    "sha": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6",
+    "page_idx": 21,
+    "item": "region"
+   },
+   "text": "La sección 3.2 del manual del CAD-150-8 indica que es posible encender el panel únicamente con la batería conectada, pero en ese caso es imprescindible pulsar TAB para arrancar el panel.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "parent_id": "af6ab292-dbf8-4a9d-a3f8-b048e2f781d9",
+   "anchor": {
+    "sha": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6",
+    "page_idx": 21,
+    "item": "region"
+   },
+   "text": "La sección 3.2 del manual del CAD-150-8 establece que, una vez conectadas ambas fuentes de alimentación, todos los indicadores del panel deben estar apagados a excepción del LED verde de alimentación.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "parent_id": "af6ab292-dbf8-4a9d-a3f8-b048e2f781d9",
+   "anchor": {
+    "sha": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6",
+    "page_idx": 21,
+    "item": "region"
+   },
+   "text": "La sección 3.2 del manual del CAD-150-8 establece que, si se ha programado un retardo de sirena, el LED de retardo de sirena debe estar encendido tras conectar las dos fuentes de alimentación.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "parent_id": "af6ab292-dbf8-4a9d-a3f8-b048e2f781d9",
+   "anchor": {
+    "sha": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6",
+    "page_idx": 21,
+    "item": "region"
+   },
+   "text": "La sección 3.2 del manual del CAD-150-8 indica que si se observa cualquier indicación distinta a las descritas en dicha sección, se debe detectar el origen del problema en la instalación y reparar el fallo antes de continuar.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp001",
+   "valor": "2222",
+   "parent_id": "8cf55c57-dc8d-4e81-b35b-67f777580cd5",
+   "anchor": {
+    "sha": "3797d14d071d618d2a6b0343dfb3d0e4bc4a8cebe75016fce5206cd9687ab68e",
+    "page_idx": 17,
+    "item": "region"
+   },
+   "text": "La clave de administrador por defecto del CAD-250 es 2222.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R2",
+   "qid": "hp001",
+   "valor": "2222",
+   "parent_id": "9bd17466-1a22-4ade-bb16-a44624c9f166",
+   "anchor": {
+    "sha": "1ea43ca62743178f89e976220e025c712a36654474e8f90ba921108841a8686c",
+    "page_idx": 28,
+    "item": "region"
+   },
+   "text": "La clave de administrador por defecto del CAD-250 es 2222.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R3",
+   "qid": "hp001",
+   "valor": "2222",
+   "parent_id": "9bd17466-1a22-4ade-bb16-a44624c9f166",
+   "anchor": {
+    "sha": "1ea43ca62743178f89e976220e025c712a36654474e8f90ba921108841a8686c",
+    "page_idx": 28,
+    "item_idx": 12
+   },
+   "text": "Esta tabla del manual técnico del CAD-250 tiene como propósito clasificar los estados operativos del detector según el nivel de ocupación del canal, respondiendo a la pregunta de qué condición de carga presenta el sistema en un momento dado. Las columnas registran las magnitudes de alta ocupación, baja ocupación, zona de prueba y el parámetro de configuración asociado.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp001",
+   "valor": "2222",
+   "parent_id": "9bd17466-1a22-4ade-bb16-a44624c9f166",
+   "anchor": {
+    "sha": "1ea43ca62743178f89e976220e025c712a36654474e8f90ba921108841a8686c",
+    "page_idx": 28,
+    "item_idx": 20,
+    "row_idx": 1,
+    "isPerfect": true
+   },
+   "text": "CAD-250 · 1=4; 2=5; 3=6",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp001",
+   "valor": "2222",
+   "parent_id": "9bd17466-1a22-4ade-bb16-a44624c9f166",
+   "anchor": {
+    "sha": "1ea43ca62743178f89e976220e025c712a36654474e8f90ba921108841a8686c",
+    "page_idx": 28,
+    "item_idx": 20,
+    "row_idx": 2,
+    "isPerfect": true
+   },
+   "text": "CAD-250 · 1=7; 2=8; 3=9",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp001",
+   "valor": "2222",
+   "parent_id": "9bd17466-1a22-4ade-bb16-a44624c9f166",
+   "anchor": {
+    "sha": "1ea43ca62743178f89e976220e025c712a36654474e8f90ba921108841a8686c",
+    "page_idx": 28,
+    "item_idx": 20,
+    "row_idx": 3,
+    "isPerfect": true
+   },
+   "text": "CAD-250 · 1=X; 2=0; 3=✓",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R3",
+   "qid": "hp001",
+   "valor": "2222",
+   "parent_id": "9bd17466-1a22-4ade-bb16-a44624c9f166",
+   "anchor": {
+    "sha": "1ea43ca62743178f89e976220e025c712a36654474e8f90ba921108841a8686c",
+    "page_idx": 28,
+    "item_idx": 20
+   },
+   "text": "Esta tabla representa el teclado numérico del panel o dispositivo CAD-250, respondiendo a la pregunta de cómo está distribuida la disposición física de las teclas. Las columnas muestran la organización en tres columnas de los dígitos del 0 al 9, junto con las teclas de función de cancelación (X) y confirmación (✓).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 53,
+    "item": "region"
+   },
+   "text": "La placa de alimentación de la MPS-400 dispone de bloques de terminales para conectar la fuente de alimentación de la MPS-400.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 53,
+    "item": "region"
+   },
+   "text": "La placa de alimentación de la MPS-400 incluye el bloque de terminales TB1 ubicado en la parte superior izquierda.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 53,
+    "item": "region"
+   },
+   "text": "La placa de alimentación de la MPS-400 incluye el bloque de terminales TB2 ubicado en la parte superior central.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 53,
+    "item": "region"
+   },
+   "text": "La placa de alimentación de la MPS-400 incluye los bloques de terminales TB3, TB4, TB5 y TB6 ubicados en la parte superior derecha.",
+   "qa_pass": false,
+   "qa_motivo": "token 'tb4' no existe en la región (v2)",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 53,
+    "item": "region"
+   },
+   "text": "La placa de alimentación de la MPS-400 incluye los bloques de terminales TB7, TB8, TB9 y TB10 ubicados en el extremo derecho.",
+   "qa_pass": false,
+   "qa_motivo": "token 'tb9' no existe en la región (v2)",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 53,
+    "item": "region"
+   },
+   "text": "La placa de alimentación de la MPS-400 incorpora un interruptor de selección de voltaje 115V/230V ubicado en el lado izquierdo.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 53,
+    "item": "region"
+   },
+   "text": "La placa de alimentación de la MPS-400 incorpora los circuitos de Aviso y Señalizaciones 1-4 ubicados en el lado derecho.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 53,
+    "item": "region"
+   },
+   "text": "La placa de alimentación de la MPS-400 dispone de un LED de fallo de tierra ubicado en el lado derecho.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 53,
+    "item": "region"
+   },
+   "text": "La placa de alimentación de la MPS-400 dispone de un LED de activación de la alimentación AC ubicado en el lado derecho.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 53,
+    "item": "region"
+   },
+   "text": "Para información detallada sobre cada bloque de terminales de la MPS-400 se debe consultar la sección \"Conexiones de Bloques de Terminales\".",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 53,
+    "item_idx": 10,
+    "row_idx": 1,
+    "isPerfect": false
+   },
+   "text": "AFP-400 · Pin=TB1-1; Función=Montaje",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 53,
+    "item_idx": 10,
+    "row_idx": 2,
+    "isPerfect": false
+   },
+   "text": "AFP-400 · Pin=TB1-2; Función=Neutro",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 53,
+    "item_idx": 10,
+    "row_idx": 3,
+    "isPerfect": false
+   },
+   "text": "AFP-400 · Pin=TB1-3; Función=Toma Tierra",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 53,
+    "item_idx": 10,
+    "row_idx": 4,
+    "isPerfect": false
+   },
+   "text": "AFP-400 · Pin=TB1-4; Función=Fase",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 53,
+    "item_idx": 10,
+    "row_idx": 5,
+    "isPerfect": false
+   },
+   "text": "AFP-400 · Pin=TB1-5; Función=Montaje",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 53,
+    "item_idx": 10,
+    "row_idx": 6,
+    "isPerfect": false
+   },
+   "text": "AFP-400 · Pin=TB1-6; Función=Entrada de batería de + 24VDC",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 53,
+    "item_idx": 10,
+    "row_idx": 7,
+    "isPerfect": false
+   },
+   "text": "AFP-400 · Pin=TB1-7; Función=Entrada de batería de – 24VDC",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R3",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 53,
+    "item_idx": 10
+   },
+   "text": "Esta tabla del manual técnico del panel AFP-400 indica la asignación funcional de cada pin del bloque de terminales TB1, respondiendo a la pregunta de qué señal o conexión corresponde a cada punto de cableado. Las columnas presentan el identificador de cada pin y su función eléctrica asociada, incluyendo conexiones de alimentación de red, tierra y entrada de batería de respaldo de 24 VDC.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 53,
+    "item_idx": 12,
+    "row_idx": 1,
+    "isPerfect": false
+   },
+   "text": "AFP-400 · Pin=TB2-1; Función=no rearmable + 1.25A máx.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 53,
+    "item_idx": 12,
+    "row_idx": 2,
+    "isPerfect": false
+   },
+   "text": "AFP-400 · Pin=TB2-2; Función=no rearmable – 1.25A máx.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 53,
+    "item_idx": 12,
+    "row_idx": 3,
+    "isPerfect": false
+   },
+   "text": "AFP-400 · Pin=TB2-3; Función=no rearmable + 1.25A máx.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 53,
+    "item_idx": 12,
+    "row_idx": 4,
+    "isPerfect": false
+   },
+   "text": "AFP-400 · Pin=TB2-4; Función=no rearmable – 1.25A máx.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 53,
+    "item_idx": 12,
+    "row_idx": 5,
+    "isPerfect": false
+   },
+   "text": "AFP-400 · Pin=TB2-5; Función=alimen. detec. de humo rearmable de + 1.25A",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 53,
+    "item_idx": 12,
+    "row_idx": 6,
+    "isPerfect": false
+   },
+   "text": "AFP-400 · Pin=TB2-6; Función=alimen. detec. de humo rearmable de – 1.25A",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R3",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "6f10426e-8d30-4726-a9d4-efa780c8c8b8",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 53,
+    "item_idx": 12
+   },
+   "text": "Esta tabla del AFP-400 especifica la asignación funcional de los pines del bloque de terminales TB2, respondiendo a la pregunta de qué señal o alimentación corresponde a cada pin de conexión. Las columnas registran el identificador de cada pin y su función eléctrica asociada, indicando la polaridad y la corriente máxima admisible para circuitos de alimentación rearmables y no rearmables de detectores de humo.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "El tablero de la fuente de alimentación MPS-400 forma parte del sistema AFP-300 y contiene bloques de terminal, NACs, interruptores y enchufes utilizados para el alambrado en campo.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el AFP-300, antes de proporcionar cualquier servicio al panel de control, se deben desconectar todas las entradas de alimentación porque varias fuentes de alimentación pueden estar conectadas simultáneamente al panel.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el AFP-300, mientras el panel de control está electrizado, el panel y sus equipos asociados pueden ser dañados al remover y/o insertar tableros, módulos o al interconectar cables.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, el pin 1 de TB1 corresponde a Falla de Tierra.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, el pin 2 de TB1 corresponde a Neutro.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, el pin 3 de TB1 corresponde a Tierra.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, el pin 4 de TB1 corresponde a Caliente.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, el pin 5 de TB1 corresponde a Instalación.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, el pin 6 de TB1 corresponde a +24 VDC batería.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, el pin 7 de TB1 corresponde a –24 VDC batería.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, las conexiones de TB1 se describen en la sección \"Conexiones de la Alimentación AC y de Batería (MPS-400)\" en la página 2-45.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, el pin 1 de TB2 corresponde al terminal + con corriente máxima de 1.25 A no restablecido.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, el pin 2 de TB2 corresponde al terminal – con corriente máxima de 1.25 A no restablecido.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, el pin 3 de TB2 corresponde al terminal + con corriente máxima de 1.25 A no restablecido.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, el pin 4 de TB2 corresponde al terminal – con corriente máxima de 1.25 A no restablecido.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, el pin 5 de TB2 corresponde al terminal + con corriente máxima de 1.25 A restablecido.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, el pin 6 de TB2 corresponde al terminal – con corriente máxima de 1.25 A restablecido.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, las conexiones de TB2 se describen en la sección \"Conexiones de Salida de Alimentación DC (MPS-400)\" en la página 2-45.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, TB2 suministra una salida de +24 VDC de fuente de alimentación con salida limitada.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, los bloques de terminal TB3 a TB6 corresponden a contactos secos de relevadores.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, el pin 1 de TB3 a TB6 corresponde a Contactos N.A.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, el pin 2 de TB3 a TB6 corresponde a Contactos N.C.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, el pin 3 de TB3 a TB6 corresponde al contacto C.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, las conexiones de TB3 a TB6 se describen en la sección \"Alambrando los Circuitos de Salida de la MPS-400\" en la página 2-46.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, el pin 1 de TB7 a TB10 corresponde a + NAC/Salida de descarga (fuente).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, el pin 2 de TB7 a TB10 corresponde a – NAC/Salida de descarga (fuente).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, el pin 3 de TB7 a TB10 corresponde a + NAC Clase A (regreso).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, el pin 4 de TB7 a TB10 corresponde a – NAC Clase A (regreso).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, las conexiones de TB7 a TB10 se describen en la sección \"Alambrando los Circuitos de Salida de la MPS-400\" en la página 2-46.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, el conector P2 es un conector de 7 pines.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, el interruptor S9 es el Interruptor de Selección de Voltaje con opciones de 115 VAC y 230 VAC.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, el conector P1 es un conector de 7 pines etiquetado como J6 CPU Power.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el tablero de la MPS-400 del AFP-300, el conector P3 está etiquetado como Enet P3 Sis Bio.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "parent_id": "7cc8e74a-cc18-4eee-8add-350663d47b92",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 79,
+    "item": "region"
+   },
+   "text": "En el",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "096600ba-6680-4114-bd62-f5dce9ac7d59",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 75,
+    "item": "region"
+   },
+   "text": "Para que el AFP-400 funcione según el Estilo 7 se deben utilizar Bases Aisladoras B524BI o B224BI con Módulos ISO-X a uno y otro lado de los módulos monitores.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "096600ba-6680-4114-bd62-f5dce9ac7d59",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 75,
+    "item": "region"
+   },
+   "text": "En el AFP-400 configurado en Estilo 7, los cortocircuitos en el lazo de comunicaciones no impiden que la central reciba señales de alarma.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "096600ba-6680-4114-bd62-f5dce9ac7d59",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 75,
+    "item": "region"
+   },
+   "text": "En el AFP-400 configurado en Estilo 7, el diagrama muestra un Detector en Base Aisladora identificado como \"1\" conectado al lazo SLC.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "096600ba-6680-4114-bd62-f5dce9ac7d59",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 75,
+    "item": "region"
+   },
+   "text": "En el AFP-400 configurado en Estilo 7, el diagrama muestra un Detector en Base Aisladora identificado como \"2\" conectado al lazo SLC.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "096600ba-6680-4114-bd62-f5dce9ac7d59",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 75,
+    "item": "region"
+   },
+   "text": "En el AFP-400 configurado en Estilo 7, el diagrama muestra un Detector en Base Aisladora identificado como \"3\" conectado al lazo SLC.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "096600ba-6680-4114-bd62-f5dce9ac7d59",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 75,
+    "item": "region"
+   },
+   "text": "En el AFP-400 configurado en Estilo 7, el diagrama muestra un Módulo Aislador ISO-X ubicado en el lado izquierdo del lazo.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "096600ba-6680-4114-bd62-f5dce9ac7d59",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 75,
+    "item": "region"
+   },
+   "text": "En el AFP-400 configurado en Estilo 7, el diagrama muestra una Estación de Pulsadores Manuales con módulo MMX-101 flanqueada por módulos ISO-X en el lado izquierdo del lazo.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "096600ba-6680-4114-bd62-f5dce9ac7d59",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 75,
+    "item": "region"
+   },
+   "text": "En el AFP-400 configurado en Estilo 7, el diagrama muestra un Módulo Aislador ISO-X ubicado en el lado izquierdo inferior del lazo.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "096600ba-6680-4114-bd62-f5dce9ac7d59",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 75,
+    "item": "region"
+   },
+   "text": "En el AFP-400 configurado en Estilo 7, el diagrama muestra un Detector en Base Aisladora identificado como \"4\" conectado en el lado derecho del lazo.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "096600ba-6680-4114-bd62-f5dce9ac7d59",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 75,
+    "item": "region"
+   },
+   "text": "En el AFP-400 configurado en Estilo 7, el diagrama muestra la CPU-400 con un bloque de terminales que incluye las conexiones etiquetadas B+, A+, B-, A- y ReferTH correspondientes a TB5 SLC1.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "096600ba-6680-4114-bd62-f5dce9ac7d59",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 75,
+    "item": "region"
+   },
+   "text": "En la instalación del AFP-400 configurado en Estilo 7, todo el cableado entre una estación de pulsadores manuales y los módulos ISO-X debe instalarse en conducto.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R1",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "096600ba-6680-4114-bd62-f5dce9ac7d59",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 75,
+    "item_idx": 5,
+    "row_idx": 1,
+    "isPerfect": false
+   },
+   "text": "AFP-400 · Conectar...=Salida de Lazo; A...=TB5-1 (+)<br/>TB5-3 (-)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "096600ba-6680-4114-bd62-f5dce9ac7d59",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 75,
+    "item_idx": 5,
+    "row_idx": 2,
+    "isPerfect": false
+   },
+   "text": "AFP-400 · Conectar...=Retorno de Lazo; A...=TB5-2 (+)<br/>TB5-4 (-)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R3",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "096600ba-6680-4114-bd62-f5dce9ac7d59",
+   "anchor": {
+    "sha": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+    "page_idx": 75,
+    "item_idx": 5
+   },
+   "text": "Esta tabla del AFP-400 responde a la pregunta de cómo cablear las conexiones de lazo en el panel, indicando a qué borneras específicas (TB5) deben conectarse la Salida de Lazo y el Retorno de Lazo, con sus respectivas polaridades positiva y negativa.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item": "region"
+   },
+   "text": "El manual técnico del AFP-300 indica que el tema de ajuste de dirección para un módulo MMX o CMX se encuentra referenciado en la Figura 2-80 en la página 2-63.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item": "region"
+   },
+   "text": "El manual técnico del AFP-300 indica que los métodos para la terminación del alambrado dejando el panel de control se encuentran en la sección \"Terminación del Blindado del SLC\" en la página 2-56.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item": "region"
+   },
+   "text": "El manual técnico del AFP-300 indica que los requisitos de alambrado para el SLC de Dos Hilos se encuentran en la sección \"Requisitos de Alambre para un SLC de Dos Alambres (Estilo 4)\" en la página 2-57.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item": "region"
+   },
+   "text": "El manual técnico del AFP-300 indica que la sección \"Requisitos de Alambre para un SLC de Dos Alambres (Estilo 4)\" en la página 2-57 cubre la Resistencia de Lazo para un SLC de Dos Hilos.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item": "region"
+   },
+   "text": "El manual técnico del AFP-300 indica que la sección \"Requisitos de Alambre para un SLC de Dos Alambres (Estilo 4)\" en la página 2-57 cubre la longitud total de alambrado para un SLC de Dos Hilos.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item": "region"
+   },
+   "text": "El manual técnico del AFP-300 indica que la sección \"Requisitos de Alambre para un SLC de Dos Alambres (Estilo 4)\" en la página 2-57 cubre el alambrado típico para un SLC de Dos Hilos.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item": "region"
+   },
+   "text": "El manual técnico del AFP-300 indica que los requisitos de alambre para un SLC de Cuatro Hilos se encuentran en la sección \"Requisitos de Alambre para un SLC de Cuatro Hilos (Estilo 6, Estilo 7)\" en la página 2-59.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item": "region"
+   },
+   "text": "El manual técnico del AFP-300 indica que la sección \"Requisitos de Alambre para un SLC de Cuatro Hilos (Estilo 6, Estilo 7)\" en la página 2-59 cubre la Resistencia de Lazo para un SLC de Cuatro Hilos.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item": "region"
+   },
+   "text": "El manual técnico del AFP-300 indica que la sección \"Requisitos de Alambre para un SLC de Cuatro Hilos (Estilo 6, Estilo 7)\" en la página 2-59 cubre la longitud total de alambrado para un SLC de Cuatro Hilos.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item": "region"
+   },
+   "text": "El manual técnico del AFP-300 indica que la sección \"Requisitos de Alambre para un SLC de Cuatro Hilos (Estilo 6, Estilo 7)\" en la página 2-59 cubre el alambrado típico para un SLC de Cuatro Hilos.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item": "region"
+   },
+   "text": "El manual técnico del AFP-300 indica que el tema de alambrado del módulo aislador ISO-X se encuentra en la sección \"Alambrando un módulo ISO-X\" en la página 2-62.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item": "region"
+   },
+   "text": "El manual técnico del AFP-300 indica que la sección \"Alambrando un módulo ISO-X\" en la página 2-62 cubre la descripción de un Módulo ISO-X.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item": "region"
+   },
+   "text": "El manual técnico del AFP-300 indica que la sección \"Alambrando un módulo ISO-X\" en la página 2-62 cubre el aislamiento de una Rama de un SLC de Dos Hilos.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item": "region"
+   },
+   "text": "El manual técnico del AFP-300 indica que el tema de alambrado de un Circuito de Dispositivo de Iniciación Convencional (IDC) se encuentra en la sección \"Alambrando un IDC con Módulos MMX\" en la página 2-63.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item": "region"
+   },
+   "text": "El manual técnico del AFP-300 indica que la sección \"Alambrando un IDC con Módulos MMX\" en la página 2-63 cubre la descripción de los Módulos de Monitoreo MMX-1, MMX-2 y MMX-101.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item": "region"
+   },
+   "text": "El manual técnico del AFP-300 indica que la sección \"Alambrando un IDC con Módulos MMX\" en la página 2-63 cubre el alambrado de un IDC de Dos o Cuatro Hilos.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item": "region"
+   },
+   "text": "El manual técnico del AFP-300 indica que el tema de alambrado de los Circuitos de los Aparatos de Notificación (NACs) se encuentra en la sección \"Alambrado del SLC con los Módulos CMX\" en la página 2-70.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item": "region"
+   },
+   "text": "El manual técnico del AFP-300 indica que la sección \"Alambrado del SLC con los Módulos CMX\" en la página 2-70 cubre la descripción de los Módulos de Control CMX.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item": "region"
+   },
+   "text": "El manual técnico del AFP-300 indica que la sección \"Alambrado del SLC con los Módulos CMX\" en la página 2-70 cubre el alambrado de un CMX como un Relevador de Forma-C.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item": "region"
+   },
+   "text": "El manual técnico del AFP-300 indica que la sección \"Alambrado del SLC con los Módulos CMX\" en la página 2-70 cubre el alambrado de un NAC de Dos Hilos (Estilo Y).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item": "region"
+   },
+   "text": "El manual técnico del AFP-300 indica que la sección \"Alambrado del SLC con los Módulos CMX\" en la página 2-70 cubre el alambrado de un NAC de Cuatro Hilos (Estilo Z).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item": "region"
+   },
+   "text": "El manual técnico del AFP-300 indica que el tema de alambrado de un Detector Inteligente se encuentra en la sección \"Alambrado del SLC con un Detector Inteligente\" en la página 2-75.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item": "region"
+   },
+   "text": "El manual técnico del AFP-300 indica que la sección \"Alambrado del SLC con un Detector Inteligente\" en la página 2-75 cubre el alambrado de una BGX-101L en un SLC.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item": "region"
+   },
+   "text": "El manual técnico del AFP-300 indica que el tema de alambrado de la Estación Pulsadora Direccionable BX-101L",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item_idx": 4,
+    "row_idx": 1,
+    "isPerfect": false
+   },
+   "text": "AFP-300 · Temas=Ajustando una Dirección para un Módulo MMX o CMX; Refiérase a=La Figura 2-80 en la página 2-63.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item_idx": 4,
+    "row_idx": 2,
+    "isPerfect": false
+   },
+   "text": "AFP-300 · Temas=Métodos para la terminación del alambrado dejando el panel de control; Refiérase a=\"Terminación del Blindado del SLC\" en la página 2-56.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item_idx": 4,
+    "row_idx": 3,
+    "isPerfect": false
+   },
+   "text": "AFP-300 · Temas=Requisitos de Alambrado para el SLC de Dos Hilos; Refiérase a=\"Requisitos de Alambre para un SLC de Dos Alambres (Estilo 4)\" en la página 2-57, cual cubre:<br/>Resistencia de Lazo para un SLC de Dos Hilos.<br/>Longitud total de alambrado para un SLC de Dos Hilos.<br/>Alambrado típico para un SLC de Dos Hilos.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item_idx": 4,
+    "row_idx": 4,
+    "isPerfect": false
+   },
+   "text": "AFP-300 · Temas=Requisitos de Alambre para un SLC de Cuatro Hilos; Refiérase a=\"Requisitos de Alambre para un SLC de Cuatro Hilos (Estilo 6, Estilo 7)\" en la página 2-59, cual cubre:<br/>Resistencia de Lazo para un SLC de Cuatro Hilos.<br/>Longitud total de alambrado para un SLC de Cuatro Hilos.<br/>Alambrado típico para un SLC de Cuatro Hilos.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item_idx": 4,
+    "row_idx": 5,
+    "isPerfect": false
+   },
+   "text": "AFP-300 · Temas=Alambrando un Módulo Aislador ISO-X; Refiérase a=\"Alambrando un módulo ISO-X\" en la página 2-62,cual cubre:<br/>La descripción de un Módulo ISO-X.<br/>Aislando una Rama de un SLC de Dos Hilos.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R1",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item_idx": 4,
+    "row_idx": 6,
+    "isPerfect": false
+   },
+   "text": "AFP-300 · Temas=Alambrando un Circuito de Dispositivo de Iniciación Convencional (IDC); Refiérase a=\"Alambrando un IDC con Módulos MMX\" en la página 2-63, cual cubre:<br/>La descripción de los Módulos de Monitoreo (MMX-1, MMX-2, MMX-101).<br/>Alambrando un IDC de Dos o Cuatro Hilos.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item_idx": 4,
+    "row_idx": 7,
+    "isPerfect": false
+   },
+   "text": "AFP-300 · Temas=Alambrando los Circuitos de los Aparatos de Notificación (NACs); Refiérase a=\"Alambrado del SLC con los Módulos CMX\" en la página 2-70, cual cubre:<br/>La descripción de los Módulos de Control (CMX).<br/>Alambrando un CMX como un Relevador de Forma-C.<br/>Alambrando un NAC de Dos Hilos (Estilo Y).<br/>Alambrando un NAC de Cuatro Hilos (Estilo Z).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item_idx": 4,
+    "row_idx": 8,
+    "isPerfect": false
+   },
+   "text": "AFP-300 · Temas=Alambrando un Detector Inteligente; Refiérase a=\"Alambrado del SLC con un Detector Inteligente\" en la página 2-75, cual cubre el alambrado de una BGX-101L en un SLC.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item_idx": 4,
+    "row_idx": 9,
+    "isPerfect": false
+   },
+   "text": "AFP-300 · Temas=Alambrando una Estación Pulsadora Direccionable BX-101L; Refiérase a=\"Alambrado SLC con una Estación Pulsadora Manual direccionable BX-101L\" en la página 2-76, cual cubre el alambrado de un Detector Inteligente en el SLC.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R3",
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "parent_id": "0ebf60d9-47f9-4311-9762-39205302be4a",
+   "anchor": {
+    "sha": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+    "page_idx": 87,
+    "item_idx": 4
+   },
+   "text": "Esta tabla del manual técnico del panel AFP-300 funciona como índice de referencia cruzada para la sección de instalación del Circuito de Lazo de Señalización (SLC), respondiendo a la pregunta de dónde ubicar las instrucciones específicas según el componente o tarea de alambrado que se desee realizar. Lista dos columnas: los temas de instalación y configuración del SLC (módulos MMX, CMX, ISO-X, detectores inteligentes, estaciones pulsadoras y tipos de alambrado de dos y cuatro hilos) junto con las referencias exactas de página y sección correspondientes del manual.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R2",
+   "qid": "hp011",
+   "valor": "05 a 295 seg",
+   "parent_id": "2d45a70a-5202-442e-af84-c3a176c2178d",
+   "anchor": {
+    "sha": "ccabe3df906990c9b95d0d180d811e0444278089d4ce30678d86948cb197e93e",
+    "page_idx": 55,
+    "item": "region"
+   },
+   "text": "El tiempo de activación del circuito de extinción de la central RP1r-Supra, también denominado periodo de inundación, es configurable con un valor variable de 05 a 295 segundos en intervalos de 5 segundos.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R2",
+   "qid": "hp011",
+   "valor": "05 a 295 seg",
+   "parent_id": "2d45a70a-5202-442e-af84-c3a176c2178d",
+   "anchor": {
+    "sha": "ccabe3df906990c9b95d0d180d811e0444278089d4ce30678d86948cb197e93e",
+    "page_idx": 55,
+    "item": "region"
+   },
+   "text": "El valor \"--\" del tiempo de activación del circuito de extinción de la central RP1r-Supra indica que el circuito permanece activado hasta el rearme de la central, siendo esta la configuración por defecto.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp011",
+   "valor": "05 a 295 seg",
+   "parent_id": "2d45a70a-5202-442e-af84-c3a176c2178d",
+   "anchor": {
+    "sha": "ccabe3df906990c9b95d0d180d811e0444278089d4ce30678d86948cb197e93e",
+    "page_idx": 55,
+    "item_idx": 6,
+    "row_idx": 1,
+    "isPerfect": true
+   },
+   "text": "RP1r-Supra · Valor variable de 05 a 295 seg.=- -; Tiempo de activación del circuito de extinción, o periodo de inundación. Variable en intervalos de 5 seg.=Circuito activado hasta rearme de la central (por defecto)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R3",
+   "qid": "hp011",
+   "valor": "05 a 295 seg",
+   "parent_id": "2d45a70a-5202-442e-af84-c3a176c2178d",
+   "anchor": {
+    "sha": "ccabe3df906990c9b95d0d180d811e0444278089d4ce30678d86948cb197e93e",
+    "page_idx": 55,
+    "item_idx": 6
+   },
+   "text": "La tabla del panel de extinción RP1r-Supra especifica las opciones de configuración del tiempo de activación del circuito de extinción (periodo de inundación), respondiendo a la pregunta de cuánto tiempo permanece activo dicho circuito tras su disparo. Las columnas presentan el rango de valores ajustables y la descripción funcional de cada modo de operación, incluida la opción de activación indefinida hasta rearme manual.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 corresponde al documento de programación del panel de control NOTIFIER ESPAÑA, S.A.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 presenta la guía de programación desde la perspectiva del Monitor CRT.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 incluye en el Apéndice C una vista general del Conjunto del Display de la Interfaz del panel para programar el panel control desde el teclado incorporado en él.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 indica que el Conjunto del Display de la Interfaz del panel puede ser el modelo DIA-1010 o el modelo DIA-2020.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 especifica que las notas aclaratorias que aparecen debajo de los indicadores del menú en las pantallas del CRT se muestran en formato itálico.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 advierte que las notas aclaratorias en itálica no aparecen en las pantallas reales del CRT.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 en la sección de Introducción indica que el AFP1010 está limitado a un máximo de dos LIB-200.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 en la sección de Introducción indica que el AFP1010 con dos LIB-200 tiene un total máximo de 396 dispositivos en el sistema.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 en la sección de Introducción muestra la pantalla del CRT con la opción de menú: PULSAR 1=INST. 2=CLS. 3=TMPO. 4=AVPS. 5=ZLIM. 6=EXTEQ. 7=LOCP, 8=ISIB, 9=ZSEN.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 en la sección de Introducción muestra que la selección introducida en la pantalla PULSAR 1=INST. 2=CLS. 3=TMPO. 4=AVPS. 5=ZLIM. 6=EXTEQ. 7=LOCP, 8=ISIB, 9=ZSEN es el valor 3.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 en la sección de Introducción muestra la línea de parámetros de temporización: VER=45, SIL=060, COR=0150.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 en la sección de Introducción define VER como Verificación del tiempo de alarma con valor literal 45.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 en la sección de Introducción define SIL como Tiempo Deshabilitado de Señal lanzada con valor literal 060.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 en la sección de Introducción define CUT como Tiempo de Corte de la Señal con valor literal 0150.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 en la subsección Menús indica que en la parte superior de cada submenú se visualizan una serie de teclas para mostrar los pasos a realizar secuencialmente para alcanzar un menú en particular.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 en la subsección Menús indica que para programar el punto parcial se debe introducir la clave de acceso del nivel dos y seleccionar la opción 1.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 en la subsección Menús indica que para cambiar el Rótulo Personal del Cliente se debe seleccionar la opción MESAJE.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 en la subsección Claves de acceso indica que el AM2020 es enviado con las claves de acceso de nivel uno y de nivel dos de cinco ceros (00000).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 en la subsección Claves de acceso indica que el AFP1010 es enviado con las claves de acceso de nivel uno y de nivel dos de cinco ceros (00000).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 en la subsección Claves de acceso establece que la Programación requiere la clave de acceso de nivel dos.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 en la subsección Claves de acceso establece que Alterar situaciones requiere la clave de acceso de nivel uno.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 en la subsección Claves de acceso establece que la Lectura de Estados no requiere clave de acceso.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 en la subsección Claves de acceso establece que las Funciones especiales no requieren clave de acceso.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 en la subsección Tecla de retroceso indica que la tecla [Back Space] sirve para varios propósitos.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 en la subsección Tecla de retroceso indica que en un indicador de menú la tecla de retroceso aborta la selección de esa opción.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 en la subsección Tecla de retroceso indica que cuando se introduzcan datos la tecla de retroceso borra el último carácter o dígito introducido.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 en la subsección Tecla de retroceso advierte que en ciertos puntos durante las funciones de operador o de programación la tecla de retroceso aborta todos los datos que se acaben de introducir.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 en la subsección Tecla de retroceso advierte que durante la Programación de Punto Completo un punto en particular deberá ser completamente programado antes de que el panel de control pueda utilizar la información.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item": "region"
+   },
+   "text": "El manual técnico MP-DT-280 en la subsección Tecla de retroceso advierte que si se oprime la tecla de retroceso en un indicador (:) antes de que se introduzcan en el panel de control todos los parámetros para ese punto, entonces todas las entradas previas correspondientes a ese punto serán ignoradas",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R3",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "5730afb3-6aaf-4968-a022-37db21dde42f",
+   "anchor": {
+    "sha": "218483ec239f507037bbcaf7df6bbb4620ad6a92c69dae2f929f95bcff84c61b",
+    "page_idx": 2,
+    "item_idx": 8
+   },
+   "text": "Esta tabla del manual técnico del MPDT-280 describe el flujo de navegación en el menú de programación del nivel dos, respondiendo a la pregunta de cómo acceder y configurar opciones como el punto parcial y el rótulo personal del cliente. Las columnas listan los pasos secuenciales de entrada de clave, selección de programación y selección de opción de mensaje.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "El manual MF-DT-280 sirve como guía para el control del Sistema de Señalización de Protección Combinada Incendio/Robo de la AM2020/AFP1010.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "Las características de control de la AM2020/AFP1010 están disponibles para el operador a través del DIA (DIA-2020 o DIA-1010).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "El apéndice A del manual MF-DT-280 muestra el funcionamiento del CRT-1 para el funcionamiento remoto de la AM2020/AFP1010.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "Para más información del terminal CRT de la AM2020/AFP1010 se debe consultar la guía de programación de la AM2020/AFP1010, Documento 15334.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "El manual MF-DT-280 hace referencia a los Módulos de Control CMX y Módulos Monitor MMX de la AM2020/AFP1010.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "En la AM2020/AFP1010, los Módulos Monitor MMX pueden ser substituidos por circuitos XPm de los Transponders Serie XP de Notifier.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "En la AM2020/AFP1010, los Módulos de Control CMX configurados como contactos conmutados pueden ser substituidos por circuitos XPR de los Transponders Serie XP de Notifier.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "En la AM2020/AFP1010, los Módulos de Control CMX no configurados como contactos conmutados pueden ser substituidos por circuitos XPC de los Transponders Serie XP de Notifier.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "Para más información del Transponder Serie XP utilizado con la AM2020/AFP1010 se debe consultar el Documento 15888.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "La AM2020/AFP1010 opera bajo uno de los tres niveles siguientes: Nivel de Operación, Nivel Uno y Nivel Dos.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "En el Nivel de Operación de la AM2020/AFP1010 el operario puede realizar reconocimiento de alarmas, averías y borrados (clears) por teclado.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "En el Nivel de Operación de la AM2020/AFP1010 el operario puede visualizar reconocimiento de alarmas, averías y borrados por teclado.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "En el Nivel de Operación de la AM2020/AFP1010 el operario puede silenciar dispositivos de aviso de alarma de incendios por teclado.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "En el Nivel de Operación de la AM2020/AFP1010 el operario puede rearmar la central por teclado.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "En el Nivel de Operación de la AM2020/AFP1010 el operario puede probar todos los detectores analógicos direccionables del sistema por teclado.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "En el Nivel de Operación de la AM2020/AFP1010 el operario puede probar los LED del panel, la pantalla de cristal liquido LCD, incluyendo los equipos direccionables, por teclado.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "En el Nivel de Operación de la AM2020/AFP1010 el operario puede realizar la lectura de estado del sistema completo incluyendo los equipos direccionables por teclado.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "En el Nivel de Operación de la AM2020/AFP1010 el operario puede imprimir un informe del estado del sistema o acceder a la memoria del histórico por teclado.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "En la AM2020/AFP1010, la función Alterar Estados necesita la clave de acceso Nivel Uno.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "En la AM2020/AFP1010, la función Programación necesita la clave de acceso Nivel Dos.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "Para más información sobre la programación o la alteración de estados en la AM2020/AFP1010 se debe consultar la Guía de Programación de la AM2020/AFP1010, referencia 15334.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "Siempre que el operario seleccione un menú, la AM2020/AFP1010 inicia un contador de un minuto.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "En la AM2020/AFP1010, si no se presiona ninguna tecla durante el período de un minuto del contador, la función seleccionada será cancelada y el control pasará al estado del panel anterior a la selección.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "En la AM2020/AFP1010, dependiendo de la versión del programa, algunas funciones y características del sistema pueden no estar disponibles.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "En la AM2020/AFP1010, si se intenta ejecutar una función no disponible, el panel responderá con el mensaje \"FUNCIÓN NO DISPONIBLE\".",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "parent_id": "f42f4901-9bf7-4633-967d-1c74756ec859",
+   "anchor": {
+    "sha": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+    "page_idx": 4,
+    "item": "region"
+   },
+   "text": "Para obtener información de la última versión de software disponible para la AM2020/AFP1010 se debe contactar con Notifier.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término µC designa Microcontroller / microprocesador.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término ABS designa Acrilonitrilo butadieno estireno (plástico).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término ADW designa Detector térmico lineal (line type heat detector).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término ADW Config designa el software de configuración del ADW535.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término ADW HeatCalc designa el software de cálculo para el tubo sensor denominado «ADW HeatCalc».",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término AF designa Alta frecuencia.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término Al designa Alarma.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término ART 535 designa el sensor de temperatura externo de referencia (reference temperature-sensor del ADW).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término ATEX designa ATmosphères EXplosibles, es decir, atmósferas explosivas.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término Borne designa Borne de conexión.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término CDI designa Central de detección de incendios.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término CE designa Communauté Européenne (Comunidad Europea).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término CEM designa Compatibilidad electromagnética.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término Cu designa Cobre.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término Defecto designa Valores o ajustes predefinidos.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término DIN designa Normativa industrial alemana.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término EasyConfig designa el procedimiento de puesta en funcionamiento sin el software de configuración «ADW Config».",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término EDV designa Tratamiento electrónico de datos.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término EEPROM designa el módulo de memoria para los datos del sistema y la configuración del ADW535.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término EN 54-22 designa la norma de producto europea sobre detectores térmicos lineales.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el fabricante del producto es Securiton.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término Fault / Flt designa Fallo.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término Flash-PROM designa el módulo de memoria para el firmware.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término FW designa Firmware.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término GND designa Conexión a tierra (polo negativo).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término H-Al designa Alarma principal.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término HW designa Hardware.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término IEC designa Comisión Electrotécnica Internacional.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término KFI designa Korea Fire Institute (oficina de control coreana).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término LEB 35 designa el módulo de ampliación para un segundo tubo sensor (LTHD Extension Board).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término LED designa Diodo emisor de luz (visualización).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término LMB 35 designa el ADW Main Board (LTHD Main Board).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término LSU 35 designa el dispositivo de medición de la presión y control (LTHD Supervising Unit).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término mbar designa la unidad de presión mbar.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término NFPA 72 designa la National Fire Protection Association – National Fire Alarm-Code (directiva de EE. UU. para detectores de incendios).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, los términos NO / COM / NC designan contactos de relé: NO (normally open), COM (common) y NC (normally closed).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término OC designa Salida Open Collector.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término OEM designa Original Equipment Manufacturer (fabricante o distribuidor del equipo original).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término PA designa Poliamida (plástico).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término PC designa Ordenador personal.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término PC designa también Policarbonato (plástico).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término PMR 81 designa Relé semiconductor.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término PSB 35 designa la unidad de sensor de presión en el dispositivo de medición de la presión y control (Pressure Sensor Board).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW535, el término PTFE designa Teflón (plástico).",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item": "region"
+   },
+   "text": "En el glosario del manual técnico del ADW",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 1,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=ABS; = Microcontroller / microprocesador== Acrilonitrilo butadieno estireno (plástico)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 2,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=ADW; = Microcontroller / microprocesador== Detector térmico lineal (line type heat detector)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 3,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=ADW Config; = Microcontroller / microprocesador== Software de configuración del ADW 535",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 4,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=ADW HeatCalc; = Microcontroller / microprocesador== Software de cálculo para el tubo sensor, «ADW HeatCalc»",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 5,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=AF; = Microcontroller / microprocesador== Alta frecuencia",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 6,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=Al; = Microcontroller / microprocesador== Alarma",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 7,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=ART 535; = Microcontroller / microprocesador== Sensor de temperatura externo de referencia (reference temperature-sensor del ADW)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 8,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=ATEX; = Microcontroller / microprocesador== **ATmosphères EXplosibles** = atmósferas explosivas",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 9,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=Borne; = Microcontroller / microprocesador== Borne de conexión",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 10,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=CDI; = Microcontroller / microprocesador== Central de detección de incendios",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 11,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=CE; = Microcontroller / microprocesador== Communauté Européenne (Comunidad Europea)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 12,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=CEM; = Microcontroller / microprocesador== Compatibilidad electromagnética",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 13,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=Cu; = Microcontroller / microprocesador== Cobre",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 14,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=Defecto; = Microcontroller / microprocesador== Valores o ajustes predefinidos",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 15,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=DIN; = Microcontroller / microprocesador== Normativa industrial alemana",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 16,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=EasyConfig; = Microcontroller / microprocesador== Procedimiento de puesta en funcionamiento sin el software de configuración «ADW Config»",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 17,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=EDV; = Microcontroller / microprocesador== Tratamiento electrónico de datos",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 18,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=EEPROM; = Microcontroller / microprocesador== Módulo de memoria para los datos del sistema y la configuración del ADW",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 19,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=EN 54-22; = Microcontroller / microprocesador== Norma de producto europea sobre detectores térmicos lineales",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 20,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=Fabricante; = Microcontroller / microprocesador== Securiton",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 21,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=Fault / Flt; = Microcontroller / microprocesador== Fallo",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 22,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=Flash-PROM; = Microcontroller / microprocesador== Módulo de memoria para el firmware",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 23,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=FW; = Microcontroller / microprocesador== Firmware",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 24,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=GND; = Microcontroller / microprocesador== Conexión a tierra (polo negativo)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 25,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=H-Al; = Microcontroller / microprocesador== Alarma principal",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 26,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=HW; = Microcontroller / microprocesador== Hardware",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 27,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=IEC; = Microcontroller / microprocesador== Comisión Electrotécnica Internacional",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 28,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=KFI; = Microcontroller / microprocesador== Korea Fire Institute (oficina de control coreana)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 29,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=LEB 35; = Microcontroller / microprocesador== Módulo de ampliación para un segundo tubo sensor (LTHD Extension Board)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 30,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=LED; = Microcontroller / microprocesador== Diodo emisor de luz (visualización)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 31,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=LMB 35; = Microcontroller / microprocesador== ADW Main Board (LTHD Main Board)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 32,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=LSU 35; = Microcontroller / microprocesador== Dispositivo de medición de la presión y control (LTHD Supervising Unit)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 33,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=mbar; = Microcontroller / microprocesador== Unidad de presión",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 34,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=NFPA 72; = Microcontroller / microprocesador== National Fire Protection Association – National Fire Alarm-Code (directiva de EE. UU. para detectores de incendios)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 35,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=NO / COM / NC; = Microcontroller / microprocesador== Contactos de relé; NO (normally open), COM (common), NC (normally closed)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 36,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=OC; = Microcontroller / microprocesador== Salida Open Collector",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 37,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=OEM; = Microcontroller / microprocesador== Original Equipment Manufacturer (fabricante o distribuidor del equipo original)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 38,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=PA; = Microcontroller / microprocesador== Poliamida (plástico)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 39,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=PC; = Microcontroller / microprocesador== Ordenador personal",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 40,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=PC; = Microcontroller / microprocesador== Policarbonato (plástico)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 41,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=PMR 81; = Microcontroller / microprocesador== Relé semiconductor",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 42,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=PSB 35; = Microcontroller / microprocesador== Unidad de sensor de presión en el dispositivo de medición de la presión y control (Pressure Sensor Board)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 43,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=PTFE; = Microcontroller / microprocesador=Teflón (plástico)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 44,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=PWR; = Microcontroller / microprocesador== Entrada de alimentación / indicador de alimentación (Power)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 45,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=PWR-R; = Microcontroller / microprocesador== Entrada de alimentación redundante",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 46,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=RAM; = Microcontroller / microprocesador== Módulo de memoria",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3,
+    "row_idx": 47,
+    "isPerfect": true
+   },
+   "text": "ADW535 · µC=Reset inicial; = Microcontroller / microprocesador== Registro de los datos básicos del tubo sensor durante la puesta en funcionamiento del ADW 535",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R3",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 11,
+    "item_idx": 3
+   },
+   "text": "Esta tabla es un glosario de abreviaturas y términos técnicos del manual del detector térmico lineal ADW 535, cuyo propósito es responder a la pregunta de qué significa cada sigla, acrónimo o denominación empleada a lo largo del documento. Lista dos columnas: el término o abreviatura y su definición o equivalencia en español técnico.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item": "region"
+   },
+   "text": "El borne LMB 1 del ADW535 corresponde a la señal PWR + con un nivel de señal de +9 hasta +30 V-CC y se conecta mediante el cable de alimentación principal de la CDI.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item": "region"
+   },
+   "text": "El borne LMB 2 del ADW535 corresponde a la señal PWR – con un nivel de señal de 0 V y se conecta mediante cable de alimentación principal de la CDI o externo según la Fig. 22.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item": "region"
+   },
+   "text": "El borne LMB 3 del ADW535 corresponde a la señal PWR-R + con un nivel de señal de +9 hasta +30 V-CC y se conecta mediante el cable de alimentación redundante de la CDI.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item": "region"
+   },
+   "text": "El borne LMB 4 del ADW535 corresponde a la señal PWR-R – con un nivel de señal de 0 V y se conecta mediante cable de alimentación redundante de la CDI o externo según la Fig. 22.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item": "region"
+   },
+   "text": "El borne LMB 5 del ADW535 corresponde a la señal OC + con función de Alimentación + y su conexión de señales de respuesta se realiza según la Fig. 29.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item": "region"
+   },
+   "text": "El borne LMB 6 del ADW535 corresponde a la señal Flt OC-Out1 con función de Salida OC Fallo I.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item": "region"
+   },
+   "text": "El borne LMB 7 del ADW535 corresponde a la señal Al OC-Out1 con función de Salida OC Alarma I.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item": "region"
+   },
+   "text": "El borne LMB 8 del ADW535 corresponde a la señal Rel Flt1 («NO») con función de Fallo I y su conexión de línea se realiza según Fig. 26 o Fig. 27 o las especificaciones de la línea utilizada.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item": "region"
+   },
+   "text": "El borne LMB 9 del ADW535 corresponde a la señal Rel Flt1 («NC») asociada al relé de Fallo I.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item": "region"
+   },
+   "text": "El borne LMB 10 del ADW535 corresponde a la señal Rel Flt1 «COM» asociada al relé de Fallo I.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item": "region"
+   },
+   "text": "El borne LMB 11 del ADW535 corresponde a la señal Rel Al1 «NO» con función de Alarma I.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item": "region"
+   },
+   "text": "El borne LMB 12 del ADW535 corresponde a la señal Rel Al1 «NC» asociada al relé de Alarma I.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item": "region"
+   },
+   "text": "El borne LMB 13 del ADW535 corresponde a la señal Rel Al1 «COM» asociada al relé de Alarma I.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item": "region"
+   },
+   "text": "El borne LMB 14 del ADW535 corresponde a la señal TempSens1 + con función de Sensor de temperatura externo I y su conexión se realiza según la Fig. 30.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item": "region"
+   },
+   "text": "El borne LMB 15 del ADW535 corresponde a la señal TempSens1 – asociada al sensor de temperatura externo I y su conexión se realiza según la Fig. 30.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item": "region"
+   },
+   "text": "El borne LMB 16 del ADW535 corresponde a la señal ResExt + con función de Entrada Reset externo y su conexión se realiza según la Fig. 23 y Fig. 25.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item": "region"
+   },
+   "text": "El borne LMB 17 del ADW535 corresponde a la señal ResExt – con función de entrada de optoacoplador para la Entrada Reset externo y su conexión se realiza según la Fig. 23 y Fig. 25.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item": "region"
+   },
+   "text": "El borne LMB 18 del ADW535 corresponde a la señal InPrg1 + con función de Control día/noche desde CDI y su conexión se realiza según el principio de la Fig. 23.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item": "region"
+   },
+   "text": "El borne LMB 19 del ADW535 corresponde a la señal InPrg1 – con función de entrada de optoacoplador para el Control día/noche desde CDI y su conexión se realiza según el principio de la Fig. 23.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item": "region"
+   },
+   "text": "El borne LMB 20 del ADW535 corresponde a la señal InPrg2 + con estado Reserva, no operativo.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item": "region"
+   },
+   "text": "El borne LMB 21 del ADW535 corresponde a la señal InPrg2 – con función de entrada de optoacoplador y estado Reserva, no operativo.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item_idx": 3,
+    "row_idx": 1,
+    "isPerfect": false
+   },
+   "text": "ADW535 · Borne LMB=1; Señal=PWR +; Señal=+9 hasta +30 V-CC ➀; Cableado=Cable de alimentación principal de la CDI",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item_idx": 3,
+    "row_idx": 2,
+    "isPerfect": false
+   },
+   "text": "ADW535 · Borne LMB=2; Señal=PWR –; Señal=0 V; Cableado=o externo según la Fig. 22",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item_idx": 3,
+    "row_idx": 3,
+    "isPerfect": false
+   },
+   "text": "ADW535 · Borne LMB=3; Señal=PWR-R +; Señal=+9 hasta +30 V-CC ➀; Cableado=Cable de alimentación redundante de la CDI",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item_idx": 3,
+    "row_idx": 4,
+    "isPerfect": false
+   },
+   "text": "ADW535 · Borne LMB=4; Señal=PWR-R –; Señal=0 V; Cableado=o externo según la Fig. 22",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item_idx": 3,
+    "row_idx": 5,
+    "isPerfect": false
+   },
+   "text": "ADW535 · Borne LMB=5; Señal=OC +; Señal=Alimentación +; Cableado=Conexión de<br/>señales de respuesta<br/>según la Fig. 29",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item_idx": 3,
+    "row_idx": 6,
+    "isPerfect": false
+   },
+   "text": "ADW535 · Borne LMB=6; Señal=Flt OC-Out1; Señal=Salida OC Fallo I",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item_idx": 3,
+    "row_idx": 7,
+    "isPerfect": false
+   },
+   "text": "ADW535 · Borne LMB=7; Señal=Al OC-Out1; Señal=Salida OC Alarma I",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item_idx": 3,
+    "row_idx": 8,
+    "isPerfect": false
+   },
+   "text": "ADW535 · Borne LMB=8; Señal=Rel Flt1 («NO») ➁; Señal=Fallo I; Cableado=Conexión de la línea<br/>según Fig. 26 o Fig. 27<br/>o especificaciones<br/>de la línea utilizada",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item_idx": 3,
+    "row_idx": 9,
+    "isPerfect": false
+   },
+   "text": "ADW535 · Borne LMB=9; Señal=Rel Flt1 («NC»)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item_idx": 3,
+    "row_idx": 10,
+    "isPerfect": false
+   },
+   "text": "ADW535 · Borne LMB=10; Señal=Rel Flt1 «COM» ➁",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item_idx": 3,
+    "row_idx": 11,
+    "isPerfect": false
+   },
+   "text": "ADW535 · Borne LMB=11; Señal=Rel Al1 «NO»; Señal=Alarma I",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item_idx": 3,
+    "row_idx": 12,
+    "isPerfect": false
+   },
+   "text": "ADW535 · Borne LMB=12; Señal=Rel Al1 «NC»",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item_idx": 3,
+    "row_idx": 13,
+    "isPerfect": false
+   },
+   "text": "ADW535 · Borne LMB=13; Señal=Rel Al1 «COM»",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item_idx": 3,
+    "row_idx": 14,
+    "isPerfect": false
+   },
+   "text": "ADW535 · Borne LMB=14; Señal=TempSens1 +; Señal=Sensor de temperatura externo I; Cableado=Conexión<br/>según la Fig. 30",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item_idx": 3,
+    "row_idx": 15,
+    "isPerfect": false
+   },
+   "text": "ADW535 · Borne LMB=15; Señal=TempSens1 –",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item_idx": 3,
+    "row_idx": 16,
+    "isPerfect": false
+   },
+   "text": "ADW535 · Borne LMB=16; Señal=ResExt +; Señal=Entrada Reset externo; Cableado=Conexión<br/>según la Fig. 23 y Fig. 25",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item_idx": 3,
+    "row_idx": 17,
+    "isPerfect": false
+   },
+   "text": "ADW535 · Borne LMB=17; Señal=ResExt –; Señal=(entrada de optoacoplador)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item_idx": 3,
+    "row_idx": 18,
+    "isPerfect": false
+   },
+   "text": "ADW535 · Borne LMB=18; Señal=InPrg1 +; Señal=Control día/noche desde CDI; Cableado=Conexión según el principio de la Fig. 23",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item_idx": 3,
+    "row_idx": 19,
+    "isPerfect": false
+   },
+   "text": "ADW535 · Borne LMB=19; Señal=InPrg1 –; Señal=(entrada de optoacoplador)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item_idx": 3,
+    "row_idx": 20,
+    "isPerfect": false
+   },
+   "text": "ADW535 · Borne LMB=20; Señal=InPrg2 +; Señal=Reserva, no operativo",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item_idx": 3,
+    "row_idx": 21,
+    "isPerfect": false
+   },
+   "text": "ADW535 · Borne LMB=21; Señal=InPrg2 –; Señal=(entrada de optoacoplador)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R3",
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "parent_id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+   "anchor": {
+    "sha": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+    "page_idx": 55,
+    "item_idx": 3
+   },
+   "text": "Esta tabla del ADW535 especifica la asignación de bornes del conector LMB, respondiendo a la pregunta de qué señal y tipo de cableado corresponde a cada pin de conexión del equipo. Lista las columnas de número de borne, denominación de la señal, descripción funcional de la señal y referencia al esquema de cableado aplicable.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp014",
+   "valor": "35",
+   "parent_id": "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+   "anchor": {
+    "sha": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6",
+    "page_idx": 17,
+    "item": "region"
+   },
+   "text": "La resistencia máxima del lazo del panel ID2000 no debe superar los 35 ohmios.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R2",
+   "qid": "hp014",
+   "valor": "35",
+   "parent_id": "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+   "anchor": {
+    "sha": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6",
+    "page_idx": 17,
+    "item": "region"
+   },
+   "text": "La capacidad del cable del lazo del panel ID2000 debe ser inferior a 0,5µF.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp014",
+   "valor": "35",
+   "parent_id": "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+   "anchor": {
+    "sha": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6",
+    "page_idx": 17,
+    "item": "region"
+   },
+   "text": "La resistencia máxima del lazo del panel ID2000 puede comprobarse uniendo los extremos B+ y B- y midiendo a través de los extremos A+ y A-.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp014",
+   "valor": "35",
+   "parent_id": "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+   "anchor": {
+    "sha": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6",
+    "page_idx": 17,
+    "item": "region"
+   },
+   "text": "La longitud máxima del lazo del panel ID2000 es de 2000 metros utilizando cable apantallado de 1,5mm².",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp014",
+   "valor": "35",
+   "parent_id": "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+   "anchor": {
+    "sha": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6",
+    "page_idx": 17,
+    "item": "region"
+   },
+   "text": "El panel ID2000 recomienda utilizar cable MICC con un revestimiento de LSF PVC para el cableado del lazo.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp014",
+   "valor": "35",
+   "parent_id": "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+   "anchor": {
+    "sha": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6",
+    "page_idx": 17,
+    "item": "region"
+   },
+   "text": "El panel ID2000 recomienda utilizar cable resistente al fuego según BS7629 para el cableado del lazo.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp014",
+   "valor": "35",
+   "parent_id": "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+   "anchor": {
+    "sha": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6",
+    "page_idx": 17,
+    "item": "region"
+   },
+   "text": "El panel ID2000 recomienda utilizar cable PVC/SWA/PVC según BS6387 para el cableado del lazo.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp014",
+   "valor": "35",
+   "parent_id": "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+   "anchor": {
+    "sha": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6",
+    "page_idx": 17,
+    "item_idx": 6,
+    "row_idx": 1,
+    "isPerfect": false
+   },
+   "text": "ID2000 · Tipo de cable=Pantalla metálica; Fabricante=Pirelli; Nombre cable=FP200; Referencia=-; Aplicación=Todas",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp014",
+   "valor": "35",
+   "parent_id": "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+   "anchor": {
+    "sha": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6",
+    "page_idx": 17,
+    "item_idx": 6,
+    "row_idx": 2,
+    "isPerfect": false
+   },
+   "text": "ID2000 · Tipo de cable=Pantalla metálica; Fabricante=Pirelli; Nombre cable=FP200 Gold; Referencia=-; Aplicación=Todas",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp014",
+   "valor": "35",
+   "parent_id": "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+   "anchor": {
+    "sha": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6",
+    "page_idx": 17,
+    "item_idx": 6,
+    "row_idx": 3,
+    "isPerfect": false
+   },
+   "text": "ID2000 · Tipo de cable=Pantalla metálica; Fabricante=Delta Crompton; Nombre cable=Firetuf; Referencia=FTZ 2E1.5; Aplicación=Todas",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp014",
+   "valor": "35",
+   "parent_id": "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+   "anchor": {
+    "sha": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6",
+    "page_idx": 17,
+    "item_idx": 6,
+    "row_idx": 4,
+    "isPerfect": false
+   },
+   "text": "ID2000 · Tipo de cable=Revestim. cobre; Fabricante=BICC; Nombre cable=MICC; Referencia=CCM2L1.5RG; Aplicación=Todas",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp014",
+   "valor": "35",
+   "parent_id": "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+   "anchor": {
+    "sha": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6",
+    "page_idx": 17,
+    "item_idx": 6,
+    "row_idx": 5,
+    "isPerfect": false
+   },
+   "text": "ID2000 · Tipo de cable=Pantalla metálica; Fabricante=H & S; Nombre cable=RADOX; Referencia=FR Comms; Aplicación=Todas",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp014",
+   "valor": "35",
+   "parent_id": "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+   "anchor": {
+    "sha": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6",
+    "page_idx": 17,
+    "item_idx": 6,
+    "row_idx": 6,
+    "isPerfect": false
+   },
+   "text": "ID2000 · Tipo de cable=Pantalla metálica; Fabricante=Delta Crompton; Nombre cable=-; Referencia=FDZ 1000; Aplicación=Comunic datos",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp014",
+   "valor": "35",
+   "parent_id": "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+   "anchor": {
+    "sha": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6",
+    "page_idx": 17,
+    "item_idx": 6,
+    "row_idx": 7,
+    "isPerfect": false
+   },
+   "text": "ID2000 · Tipo de cable=Pantalla metálica; Fabricante=AEI; Nombre cable=Firetech; Referencia=F2C1.5E; Aplicación=Comunic datos",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R1",
+   "qid": "hp014",
+   "valor": "35",
+   "parent_id": "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+   "anchor": {
+    "sha": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6",
+    "page_idx": 17,
+    "item_idx": 6,
+    "row_idx": 8,
+    "isPerfect": false
+   },
+   "text": "ID2000 · Tipo de cable=7/0,2 mm<br/>4-núcleos, apantallado; Fabricante=Arrow; Nombre cable=-; Referencia=7-2-4S; Aplicación=RS232 externo<br/>(ej. impresora)",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R3",
+   "qid": "hp014",
+   "valor": "35",
+   "parent_id": "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+   "anchor": {
+    "sha": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6",
+    "page_idx": 17,
+    "item_idx": 6
+   },
+   "text": "Esta tabla del manual técnico del ID2000 responde a la pregunta de qué cables son compatibles y aprobados para su instalación, listando para cada opción el tipo de cable, el fabricante, el nombre comercial, la referencia de producto y la aplicación o uso específico dentro del sistema.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp018",
+   "valor": "1 A",
+   "parent_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+   "anchor": {
+    "sha": "18518a293c1fdf6c18882cdaff5f3541de44a9a5c72ead0fc94daf82ea4eb97d",
+    "page_idx": 19,
+    "item": "region"
+   },
+   "text": "Los paneles de incendio ZX2e y ZX5e requieren la instalación de aisladores de cortocircuito en lugares estratégicos para evitar que un cortocircuito provoque la pérdida de más de 32 equipos.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp018",
+   "valor": "1 A",
+   "parent_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+   "anchor": {
+    "sha": "18518a293c1fdf6c18882cdaff5f3541de44a9a5c72ead0fc94daf82ea4eb97d",
+    "page_idx": 19,
+    "item": "region"
+   },
+   "text": "Los paneles de incendio ZX2e y ZX5e disponen de aisladores internos en el panel en cada lazo analógico.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp018",
+   "valor": "1 A",
+   "parent_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+   "anchor": {
+    "sha": "18518a293c1fdf6c18882cdaff5f3541de44a9a5c72ead0fc94daf82ea4eb97d",
+    "page_idx": 19,
+    "item": "region"
+   },
+   "text": "Los paneles de incendio ZX2e y ZX5e no precisan instalación de aisladores externos en el panel gracias a los aisladores internos de cada lazo.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp018",
+   "valor": "1 A",
+   "parent_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+   "anchor": {
+    "sha": "18518a293c1fdf6c18882cdaff5f3541de44a9a5c72ead0fc94daf82ea4eb97d",
+    "page_idx": 19,
+    "item": "region"
+   },
+   "text": "El número máximo de equipos entre aisladores en los paneles ZX2e y ZX5e es determinado por el fabricante de los equipos conectados al lazo.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp018",
+   "valor": "1 A",
+   "parent_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+   "anchor": {
+    "sha": "18518a293c1fdf6c18882cdaff5f3541de44a9a5c72ead0fc94daf82ea4eb97d",
+    "page_idx": 19,
+    "item": "region"
+   },
+   "text": "La Figura 11 del manual de instalación MIE-MI-530 revisión 001 muestra el conexionado de lazo analógico con aisladores como opción recomendada para los paneles ZX2e y ZX5e.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp018",
+   "valor": "1 A",
+   "parent_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+   "anchor": {
+    "sha": "18518a293c1fdf6c18882cdaff5f3541de44a9a5c72ead0fc94daf82ea4eb97d",
+    "page_idx": 19,
+    "item": "region"
+   },
+   "text": "El lazo analógico de los paneles ZX2e y ZX5e utiliza cuatro conductores denominados Datos/Alimentación (+) INICIO, Datos/Alimentación (-) INICIO, Datos/Alimentación (+) Retorno y Datos/Alimentación (-) Retorno.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp018",
+   "valor": "1 A",
+   "parent_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+   "anchor": {
+    "sha": "18518a293c1fdf6c18882cdaff5f3541de44a9a5c72ead0fc94daf82ea4eb97d",
+    "page_idx": 19,
+    "item": "region"
+   },
+   "text": "Para cumplir con la compatibilidad electromagnética CE, los paneles ZX2e y ZX5e requieren la instalación de las ferritas suministradas en los lazos analógicos.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp018",
+   "valor": "1 A",
+   "parent_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+   "anchor": {
+    "sha": "18518a293c1fdf6c18882cdaff5f3541de44a9a5c72ead0fc94daf82ea4eb97d",
+    "page_idx": 19,
+    "item": "region"
+   },
+   "text": "La instalación del filtro de ferrita en los paneles ZX2e y ZX5e incluye una ferrita grande colocada en el conector de lazo con una brida por debajo de la ferrita.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp018",
+   "valor": "1 A",
+   "parent_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+   "anchor": {
+    "sha": "18518a293c1fdf6c18882cdaff5f3541de44a9a5c72ead0fc94daf82ea4eb97d",
+    "page_idx": 19,
+    "item": "region"
+   },
+   "text": "La instalación del filtro de ferrita en los paneles ZX2e y ZX5e requiere conectar un extremo de la pantalla del cable al conector correspondiente del bloque de terminales del lazo.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp018",
+   "valor": "1 A",
+   "parent_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+   "anchor": {
+    "sha": "18518a293c1fdf6c18882cdaff5f3541de44a9a5c72ead0fc94daf82ea4eb97d",
+    "page_idx": 19,
+    "item": "region"
+   },
+   "text": "El bloque de terminales de lazo en los paneles ZX2e y ZX5e está identificado como LOOP 1 con conexiones etiquetadas +, -, E, +, -.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": true
+  },
+  {
+   "arm": "R2",
+   "qid": "hp018",
+   "valor": "1 A",
+   "parent_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+   "anchor": {
+    "sha": "18518a293c1fdf6c18882cdaff5f3541de44a9a5c72ead0fc94daf82ea4eb97d",
+    "page_idx": 19,
+    "item": "region"
+   },
+   "text": "La Figura 12 del manual de instalación MIE-MI-530 revisión 001 muestra la instalación típica del filtro de ferrita para el lazo analógico de los paneles ZX2e y ZX5e.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp018",
+   "valor": "1 A",
+   "parent_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+   "anchor": {
+    "sha": "18518a293c1fdf6c18882cdaff5f3541de44a9a5c72ead0fc94daf82ea4eb97d",
+    "page_idx": 19,
+    "item": "region"
+   },
+   "text": "Cada lazo analógico de los paneles ZX2e y ZX5e dispone de una corriente limitada que no debe superarse.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp018",
+   "valor": "1 A",
+   "parent_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+   "anchor": {
+    "sha": "18518a293c1fdf6c18882cdaff5f3541de44a9a5c72ead0fc94daf82ea4eb97d",
+    "page_idx": 19,
+    "item": "region"
+   },
+   "text": "Para mantener el funcionamiento del lazo analógico de los paneles ZX2e y ZX5e, el consumo de los equipos conectados al lazo no debe superar la mitad de la corriente máxima del lazo.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp018",
+   "valor": "1 A",
+   "parent_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+   "anchor": {
+    "sha": "18518a293c1fdf6c18882cdaff5f3541de44a9a5c72ead0fc94daf82ea4eb97d",
+    "page_idx": 19,
+    "item": "region"
+   },
+   "text": "El límite de corriente del lazo analógico de los paneles ZX2e y ZX5e se encuentra especificado en el manual de la placa de lazo correspondiente.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp018",
+   "valor": "1 A",
+   "parent_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+   "anchor": {
+    "sha": "18518a293c1fdf6c18882cdaff5f3541de44a9a5c72ead0fc94daf82ea4eb97d",
+    "page_idx": 19,
+    "item": "region"
+   },
+   "text": "Las especificaciones de carga completa del sistema de los paneles ZX2e y ZX5e se encuentran en la sección 6 del manual de instalación MIE-MI-530 revisión 001.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp018",
+   "valor": "1 A",
+   "parent_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+   "anchor": {
+    "sha": "18518a293c1fdf6c18882cdaff5f3541de44a9a5c72ead0fc94daf82ea4eb97d",
+    "page_idx": 19,
+    "item": "region"
+   },
+   "text": "Los cálculos de consumo del lazo analógico de los paneles ZX2e y ZX5e deben realizarse para la situación más desfavorable y no deben superar la mitad de la corriente máxima suministrada por el lazo ni la corriente total entregada por la Fuente de Alimentación.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  },
+  {
+   "arm": "R2",
+   "qid": "hp018",
+   "valor": "1 A",
+   "parent_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+   "anchor": {
+    "sha": "18518a293c1fdf6c18882cdaff5f3541de44a9a5c72ead0fc94daf82ea4eb97d",
+    "page_idx": 19,
+    "item": "region"
+   },
+   "text": "El programa de configuración FIRE 6 dispone de una herramienta de cálculo de lazo para los paneles ZX2e y ZX5e.",
+   "qa_pass": true,
+   "qa_motivo": "",
+   "fact_bearing": false
+  }
+ ],
+ "_qa_version": "v2 (whitelist metadata + fact-bearing compuestos + fuente nivel-página)"
+}

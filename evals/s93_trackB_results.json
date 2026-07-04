@@ -1,0 +1,192 @@
+{
+ "_freeze": {
+  "embed_model": "voyage-4-large",
+  "hyde": "off",
+  "tie_band": 0.003,
+  "pin": "evals/s92_retrieval_miss_ON_add.yaml",
+  "excluidos_paso0": [
+   [
+    "hp012",
+    "99 + 99"
+   ]
+  ]
+ },
+ "results": [
+  {
+   "qid": "cat013",
+   "valor": "CLIP",
+   "verdict": "solo-vs-pool(v1)",
+   "canal_sim50": 0.5331,
+   "canal_sim100": 0.5192,
+   "pos_pool_equiv": 1,
+   "pool_n": 5,
+   "frontier_pool_v1": 0.3606,
+   "top1_pool": 0.4258,
+   "best": {
+    "sup": "cfcdc8f7",
+    "span_chars": 199,
+    "cos_sub": 0.4823,
+    "cos_padre": 0.4957,
+    "span": "La comunicación con los equipos en el lazo utiliza el protocolo 'CLIP' de Notifier. Consulte el Apéndice 3: Diseño del sistema, si desea información sobre equipos compatibles y limitaciones de carga."
+   }
+  },
+  {
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "verdict": "solo-vs-pool(v1)",
+   "canal_sim50": 0.5485,
+   "canal_sim100": 0.538,
+   "pos_pool_equiv": 4,
+   "pool_n": 15,
+   "frontier_pool_v1": 0.3214,
+   "top1_pool": 0.5155,
+   "best": {
+    "sup": "294a778c",
+    "span_chars": 343,
+    "cos_sub": 0.4882,
+    "cos_padre": 0.4722,
+    "span": "* **Configurar un bucle.** Realice una aubusqueda del lazo que desee configurar, de esta forma el sistema hará un escaneo y nos mostrará todos los elementos que encuentra. Dicha búsqueda deberá coinci"
+   }
+  },
+  {
+   "qid": "hp001",
+   "valor": "2222",
+   "verdict": "solo-vs-pool(v1)",
+   "canal_sim50": 0.5195,
+   "canal_sim100": 0.5038,
+   "pos_pool_equiv": 5,
+   "pool_n": 27,
+   "frontier_pool_v1": 0.3309,
+   "top1_pool": 0.5313,
+   "best": {
+    "sup": "9bd17466",
+    "span_chars": 55,
+    "cos_sub": 0.4836,
+    "cos_padre": 0.5191,
+    "span": "Introduzca la clave de administrador por defecto, 2222."
+   }
+  },
+  {
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "verdict": "WIN-canal50",
+   "canal_sim50": 0.532,
+   "canal_sim100": 0.5079,
+   "pos_pool_equiv": 1,
+   "pool_n": 26,
+   "frontier_pool_v1": 0.3289,
+   "top1_pool": 0.486,
+   "best": {
+    "sup": "6f10426e",
+    "span_chars": 407,
+    "cos_sub": 0.6123,
+    "cos_padre": 0.5033,
+    "span": "A continuación se muestran los bloques de terminales que se utilizan para conectar la fuente de alimentación de la MPS-400. Si desea información sobre cada bloque de terminales consulte las \"Conexione"
+   }
+  },
+  {
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "verdict": "solo-vs-pool(v1)",
+   "canal_sim50": 0.532,
+   "canal_sim100": 0.5079,
+   "pos_pool_equiv": 4,
+   "pool_n": 26,
+   "frontier_pool_v1": 0.3289,
+   "top1_pool": 0.486,
+   "best": {
+    "sup": "717a8dac",
+    "span_chars": 1055,
+    "cos_sub": 0.4647,
+    "cos_padre": 0.4375,
+    "span": "# Conexión de un Módulo Aislador (ISO-X)\n## Introducción - ISO-X\nUtilice un Módulo Aislador (ISO-X) para proteger elementos técnicos del lazo de comunicaciones de fallos en las derivaciones o seccione"
+   }
+  },
+  {
+   "qid": "hp011",
+   "valor": "05 a 295 seg",
+   "verdict": "solo-vs-pool(v1)",
+   "canal_sim50": 0.5447,
+   "canal_sim100": null,
+   "pos_pool_equiv": 35,
+   "pool_n": 50,
+   "frontier_pool_v1": 0.3097,
+   "top1_pool": 0.6086,
+   "best": {
+    "sup": "2d45a70a",
+    "span_chars": 147,
+    "cos_sub": 0.481,
+    "cos_padre": 0.5385,
+    "span": "| Valor variable de<br/>05 a 295 seg. | Tiempo de activación del circuito de extinción, o periodo de inundación. Variable en intervalos de 5 seg. |"
+   }
+  },
+  {
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "verdict": "FLAG-sin-span",
+   "canal_sim50": 0.5687,
+   "canal_sim100": 0.5572,
+   "pos_pool_equiv": null,
+   "pool_n": 50,
+   "frontier_pool_v1": 0.3453,
+   "top1_pool": 0.6249,
+   "best": {
+    "sup": "5730afb3",
+    "flag": "SIN-MATCH-LITERAL",
+    "cos_sub": null
+   }
+  },
+  {
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "verdict": "solo-vs-pool(v1)",
+   "canal_sim50": 0.5135,
+   "canal_sim100": 0.4957,
+   "pos_pool_equiv": 10,
+   "pool_n": 23,
+   "frontier_pool_v1": 0.2647,
+   "top1_pool": 0.5194,
+   "best": {
+    "sup": "a19e8735",
+    "span_chars": 503,
+    "cos_sub": 0.4254,
+    "cos_padre": 0.4318,
+    "span": "| Borne LMB | Señal             | Señal                           | Cableado                                                                                          |\n| 3         | PWR-R +           "
+   }
+  },
+  {
+   "qid": "hp014",
+   "valor": "35",
+   "verdict": "solo-vs-pool(v1)",
+   "canal_sim50": 0.5313,
+   "canal_sim100": 0.5143,
+   "pos_pool_equiv": 8,
+   "pool_n": 31,
+   "frontier_pool_v1": 0.2208,
+   "top1_pool": 0.5728,
+   "best": {
+    "sup": "d4018c9b",
+    "span_chars": 596,
+    "cos_sub": 0.4404,
+    "cos_padre": 0.4621,
+    "span": "e. La resistencia máxima del lazo no debe superar los 35 ohmios. Puede comprobarlo uniendo los extremos B+ y B- y midiendo a través de los extremos A+ y A-. Igualmente, la capacidad del cable debe ser"
+   }
+  },
+  {
+   "qid": "hp018",
+   "valor": "1 A",
+   "verdict": "FLAG-sin-span",
+   "canal_sim50": 0.5498,
+   "canal_sim100": 0.5314,
+   "pos_pool_equiv": null,
+   "pool_n": 50,
+   "frontier_pool_v1": 0.2843,
+   "top1_pool": 0.65,
+   "best": {
+    "sup": "90d51dac",
+    "flag": "SIN-MATCH-LITERAL",
+    "cos_sub": null
+   }
+  }
+ ]
+}

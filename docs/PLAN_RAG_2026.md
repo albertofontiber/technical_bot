@@ -109,11 +109,80 @@ creada), stamp catálogo-commit; 28 tests nuevos (suite 411). **+ packet C2 COMP
 (3 tandas Alberto): 19 marcas → 43 productos re-domiciliados; lecciones: hosting≠OEM,
 string-grupo→contextual, familia≠marca (FAAST→paraguas familia+LT-200 divergent=true, expanden).**
 
-**Qué sigue: (gates Alberto) merge #105 + #106 → S2** (shadow-replay 39 golds+query_logs → FP-rate →
-flag on dev → **pin-regen** → famtie freeze+catálogo-commit con tabla de predicciones pre-registrada,
-brazos add/replace; aceptación hp018 4/4 sin regresar hp009) **→ S3** (candidates ~630 por clase,
-demanda del shadow) **→ S4/F3** (re-tag DB, dry-run + snapshot). Backlog: BRAND_MAP strings
-adjudicados a `catalog_gt.py`; re-homing FL*→systemsensor (opcional, marca Alberto); 6 homónimos cola.
+**s92-s93 (DEC-084): F2 MEDIDO Y SHIPPEADO A DEMO; el lever identidad-en-retrieval queda EXHAUSTO.**
+S2 con predicciones pre-registradas + pin-regen: **ADD gana** (retrieval-miss famtie 15-control→**12**;
+hp018 4/4 contrato; hp009 intacto; REPLACE reproduce la regresión hp009 CON mecanismo visible) →
+`IDENTITY_RESOLVE=on`+`add` **ON en Railway** (PRs #107-#109; verificado vivo vía shadow: ZXe→+3
+variantes). S3-fetch acotado: **NO-OP 12→12** (el selector léxico no encuentra los chunk-ids juzgados)
+→ NO-SHIP, código tras flag default-off. **−3 neto banked; el residual 12 ≠ identidad.**
+
+**s93b (DEC-085): BAKE-OFF fine-grained EJECUTADO (8h autónomas; plan v3.2 dúo-hardened ×2 +
+pushback de Alberto "no solo FTS")** — `evals/s93_bakeoff_resultados.md` = artefacto de decisión.
+**PASO-0 trace: 30/31 soportes nunca entran a canal (fine-grained confirmado); hp012 '99+99' muere
+en diversify → lever diversify, no ingesta. A-FTS: NO-GO 1/11 + desplazamiento 12-19/20 en controles.
+B-multigranularidad cruda: 1/10 (aislar ALEJA: 5/8 sub<padre). C-extracción-tablas→ENUNCIADOS: 2/4 ✅
+único mecanismo con hechos que nada más gana → ES el que financia la re-ingesta (~$150-300, gate
+presupuesto Alberto; piloto natural = ~6 docs del testbed + famtie). HyDE solo: 0-1/10 (comprime
+gaps, no cruza; re-evaluable post-ingesta). Cuello re-caracterizado: gap de VOCABULARIO query↔celda,
+no tamaño del chunk per se.** Nada cablado (FTS_ALL_QUERIES no se construyó; flags intactos).
+
+**s94 (DEC-086): PILOTO extracción→enunciados EJECUTADO — GO del mecanismo (criterio pre-registrado
+cumplido en las 3 barras).** Spec v2 dúo-hardened + validación BP (multi-vector/verbalization =
+canon). **R2 enunciado-LLM: famtie 12→6 (5/10 testbed + colateral '99+99'; GO-tabla 2/4 ✓ GO-prosa
+3/6 ✓ 0 nuevas-miss; predicciones clavadas) · R1 plantilla DESCARTADO por medición (0/4) · R3
+resumen/tabla complemento barato (12→8, gana ISO-X).** Triage: hp011+'99+99' mueren en DIVERSIFY
+(mecanismo vivo → lever pipeline aparte); cat013/cat016 = vocabulario operativo puro (sin mecanismo
+aún). Seam `PILOT_PARENT_SWAP` default-off (5 tests); inserciones REVERTIDAS ×3 (0 restantes);
+nada shippeado. Artefactos: `evals/s94_pilot_{spec,run}.md` + `s94_f3_results.json`.
+
+**s94b/T0 (DEC-087): la infraestructura PERMANENTE del pase construida y dúo-hardened (2 rondas
+del dúo sobre plan + 2 sobre build; 30 hallazgos aplicados, 0 FP).** Migración **007 APLICADA**
+(parent_id CASCADE + ingest_batch + RPC include_surrogates default-false; ef_search s59b preservado
+vía set_config; rollback ejecutable `007_rollback.sql`) · **invariante de NO-SERVICIO** (9 GETs +
+RPC: una fila con parent_id JAMÁS se sirve cruda — cierra la ventana demo-sirve-derivado F1) ·
+swap `ENUNCIADOS_MULTIVECTOR` from-row (14 tests) · **QA generalizado calibrado ×3** (fix DECIMALES
+reproducido: '13,9' alucinado pasaba; 86.6% final, 2/2 conocidas siempre) · panel de desplazamiento
+(fix EMBARGO: los 12 held-out estaban dentro del pin v1; re-pineado dev+query_logs + suelo de ruido)
+· pase idempotente por-doc (temperature=0, prompts v1 congelados; smoke MIDT180 427 QA-OK, cov 65%).
+Umbral QA re-registrado a calibración-en-T1 (~78-86% real full-doc, no el 97% del piloto); coste
+re-estimado: T1 ~$40-100 y su medición fija T2-T3 (banda $160-270 obsoleta). 435 tests; demo intacta
+(flag off, 0 surrogates).
+
+**s94c/T1 (DEC-088): pase corpus EJECUTADO → NO-GO del enfoque "surrogates en índice compartido".**
+Gate G1 (reproducción) FALLA 2/6: los 21.995 enunciados en el MISMO HNSW que los 22.339 chunks
+reales lo diluyen (índice ×2) → recall real cae 12→19, multivector 13 (neto peor que 12). El
+piloto s94 (12→6) no escaló: usó 251 surrogates dirigidos/transitorios; a docs-enteros el mecanismo
+se ahoga (dilución + enterramiento). **T1 (~$50-75) cazó el fallo ANTES del gasto de corpus ($150+)
+= tramos funcionando.** Demo restaurada (dump+delete+revert+VACUUM); schema T0 conservado; bug
+latente arreglado (FK duplicate_of → migración 009). Side-by-side: **Sonnet 5** es el vintage
+(mejor calidad, ≤coste). 435 tests.
+
+**s95 (DEC-089): redesign MEDIDO con 2 pilotos ($3.5).** Research verificado (BP unánime: surrogates
+en índice propio; Dense X +2.2 con embedder fuerte; agentic-RAG-como-arquitectura descartado con
+evidencia ACL-2026 + perfil de fallo propio) + dúo sobre el plan (15/15 confirmados, 0 FP, 4
+críticos) + ejecución: **A3 (tabla `chunks_v2_enunciados` SEPARADA + paridad de filtros + colapso
+Dense-X; migraciones 011/012) = famtie 12→7, 0 regresiones, control 12 INTACTO — arquitectura
+VALIDADA, candidato a ship.** Piloto D (deep-lookup Haiku en seam IDENTITY_FETCH, parser
+3-estados) = NO-GO (12→11, 0/6, 38% gatillado: el seam solo corre con doc AUSENTE y la clase
+dominante es doc-presente-aguja-ausente). Residual 7 caracterizado por clase. Flag OFF en demo;
+nada shippeado. 441 tests.
+
+**s96 (DEC-090): gate bvg de A3 EJECUTADO y PASADO 4/4** (plan dúo-hardened: 11/11 confirmados,
+0 FP, 2 fixes críticos de código aplicados — fail-open del canal enunciados + parser estricto del
+flag): rescate→top-5 3/3 golds-flip · PASS-control 11→13 (+2 en banda; residual 23→19) ·
+invención sin subida (matriz pareada 10/33=10/33; **eje factual del atomic a K=1 INUSABLE para
+A/B — norma nueva DEC-090**) · latencia p50 +725ms. hp006 JP2→JP6 = mispairing de SÍNTESIS
+expuesto por el rescate → dossier síntesis. Held-out no consumido. 443 tests.
+
+**Qué sigue (decisiones de Alberto):** (1) **SHIP A3**: `ENUNCIADOS_MULTIVECTOR=on` en Railway
+(env var reversible) + post-flip pre-registrado (smoke completo + flag efectivo + verificación en
+demo) — **el gate ya está PASADO, solo falta su GO**; (2) **packet doc_map** (MIE-MI-310↔zxe [DB:
+ZXAE/ZXEE] · MIDT190↔sdx-751 [DB: ID3000] · 15092SP [DB: INA]); (3) **T2-T3 re-scopeado** (no
+gastar por famtie; si se retoma: Sonnet 5 + gates por-tramo, DEC-088); (4) '35' → regeneración
+dirigida (C) opcional. Luego: lever diversify (hp011 + '99+99'); conduct-level clarify +
+calc-assist CON Alberto (el deep-lookup D queda aparcado flag-off como hipótesis de ese modo);
+S4/F3 re-tag. Backlog: BRAND_MAP→`catalog_gt.py`; re-homing FL*; 6 homónimos cola; ~630
+candidates; dual-judge ~sept.
 
 **s90 (DEC-079): F0 APROBADO (D1-D7) → contrato CANÓNICO; F1a slice vertical Morley CONSTRUIDO.**
 `catalog_store.py` (la puerta: validate reglas-duras + resolve con contrato `expand`, check-homónimo

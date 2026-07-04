@@ -1,0 +1,134 @@
+{
+ "trackC": [
+  {
+   "qid": "hp011",
+   "valor": "05 a 295 seg",
+   "verdict": "WIN-canal50",
+   "canal_sim50": 0.5393,
+   "best": {
+    "sup": "2d45a70a",
+    "cos": 0.5913,
+    "stmt": "En la central de extinción RP1r-Supra, sección 5.3.1 \"Opciones extinción\", cuando el parámetro F.E está activado y la señal de flujo (FLOW PRESS) sigue sin activarse tras las repet",
+    "n_stmts": 19
+   }
+  },
+  {
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "verdict": "WIN-canal50",
+   "canal_sim50": 0.5687,
+   "best": {
+    "sup": "5730afb3",
+    "cos": 0.6206,
+    "stmt": "El AFP1010 con un máximo de dos LIB-200 soporta un total de 396 dispositivos en el sistema.",
+    "n_stmts": 24
+   }
+  },
+  {
+   "qid": "hp014",
+   "valor": "35",
+   "verdict": "NO",
+   "canal_sim50": 0.5274,
+   "best": {
+    "sup": "d4018c9b",
+    "cos": 0.4593,
+    "stmt": "La Central Analógica contra Incendios ID2000 de NOTIFIER ESPAÑA indica, según la Sección 3.2 \"Notas sobre la instalación del cable\", que la resistencia del lazo puede comprobarse u",
+    "n_stmts": 14
+   }
+  },
+  {
+   "qid": "hp018",
+   "valor": "1 A",
+   "verdict": "NO",
+   "canal_sim50": 0.5498,
+   "best": {
+    "sup": "90d51dac",
+    "cos": 0.4034,
+    "stmt": "El bloque de terminales LOOP 1 para la instalación del filtro de ferrita en los Paneles de Incendio ZX2e/ZX5e de Honeywell presenta las conexiones etiquetadas como + - E + -.",
+    "n_stmts": 22
+   }
+  }
+ ],
+ "hyde": [
+  {
+   "qid": "cat013",
+   "valor": "CLIP",
+   "verdict": "TIE-canal50",
+   "cos_padre_hyde": 0.6516,
+   "cos_span_hyde": 0.6683,
+   "canal_sim50_hyde": 0.671
+  },
+  {
+   "qid": "cat016",
+   "valor": "autobusqueda",
+   "verdict": "NO",
+   "cos_padre_hyde": 0.6481,
+   "cos_span_hyde": 0.6543,
+   "canal_sim50_hyde": 0.6813
+  },
+  {
+   "qid": "hp001",
+   "valor": "2222",
+   "verdict": "NO",
+   "cos_padre_hyde": 0.695,
+   "cos_span_hyde": 0.6874,
+   "canal_sim50_hyde": 0.706
+  },
+  {
+   "qid": "hp006",
+   "valor": "Fallo de Tierra",
+   "verdict": "NO",
+   "cos_padre_hyde": 0.6284,
+   "cos_span_hyde": 0.6685,
+   "canal_sim50_hyde": 0.6836
+  },
+  {
+   "qid": "hp006",
+   "valor": "ISO-X",
+   "verdict": "NO",
+   "cos_padre_hyde": 0.6598,
+   "cos_span_hyde": 0.6619,
+   "canal_sim50_hyde": 0.6836
+  },
+  {
+   "qid": "hp011",
+   "valor": "05 a 295 seg",
+   "verdict": "NO",
+   "cos_padre_hyde": 0.6567,
+   "cos_span_hyde": 0.6145,
+   "canal_sim50_hyde": 0.677
+  },
+  {
+   "qid": "hp012",
+   "valor": "2 lazos / 396",
+   "verdict": "NO",
+   "cos_padre_hyde": 0.6954,
+   "cos_span_hyde": null,
+   "canal_sim50_hyde": 0.7015
+  },
+  {
+   "qid": "hp013",
+   "valor": "PWR-R",
+   "verdict": "NO",
+   "cos_padre_hyde": 0.6309,
+   "cos_span_hyde": 0.6238,
+   "canal_sim50_hyde": 0.6923
+  },
+  {
+   "qid": "hp014",
+   "valor": "35",
+   "verdict": "NO",
+   "cos_padre_hyde": 0.667,
+   "cos_span_hyde": 0.6543,
+   "canal_sim50_hyde": 0.708
+  },
+  {
+   "qid": "hp018",
+   "valor": "1 A",
+   "verdict": "NO",
+   "cos_padre_hyde": 0.6923,
+   "cos_span_hyde": null,
+   "canal_sim50_hyde": 0.7082
+  }
+ ]
+}

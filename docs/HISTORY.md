@@ -1462,3 +1462,91 @@ Alberto aprobó el contrato F0 (D1-D7 según recomendaciones, tras SUS 3 rondas 
 Tras el merge de #101 (F1a+QA de Alberto), la carga completa: 1014 docs / 2761 menciones → **~1.6k productos, 39 homónimos, 861 doc_map, 9 docrel ES/EN** (los ~9 de DEC-066, vía doc-number+idioma). BRAND_MAP 96→31 con resolución contextual gateada; typo-merge #49 (AFP-400≡AFP400, 30 fusiones); x-brand jamás-merge-auto. **Dúo completo 2 rondas** — el sub-agente cazó la REINCIDENCIA de la clase H5 (gt FAAST sin los -HS creaba duplicados consumibles → re-transcrito FIEL leyendo la memoria) + doc_map con namespace equivocado (68); el cross-model cazó colisiones-consumibles y el QA infradeclarado. Todo aplicado y verificado. Golds-clave resuelven (Pearl/AM-8200/ID3000/CAD-150/FAAST); lo dudoso fail-open. PR #102. **Gates: paquete-decisión ~25 homónimos (Alberto) — no bloquea F2; siguiente = F2 query-side tras flag + F2.5 shadow.**
 
 - **s91 (2 jul 2026)** — **La sesión del catálogo VIVO: adjudicación masiva de Alberto (3 packets) + F2 diseñado-y-construido con el dúo mordiendo en cada capa.** (1) **Homónimos (DEC-081):** pre-QA 3-capas (corpus+web+píxel — 30 portadas + 2 PDFs de notifier.es descargados en sesión: © System Sensor 2002 en AMBOS manuales 6200R/LPB-620 zanjó el caso REFL) → Alberto adjudicó G1✅ G2✅ G3✏️×3 (VSN-4REL oem=Esser verificado en catálogo esser.es; CMX oem=Xtralis y PAK oem=Carrier verificados en fichas ADI) G4=APIC-clarify → APLICADO por la puerta (30 winners/33 redirects/quedan 9); el sub-agente cazó 3 H5 en MIS añadidos pre-commit (oem no adjudicados). **Gap D1 cazado: data/catalog NO estaba versionado** (.gitignore data/* + test skip silencioso) → los 7 JSONL a git (~1MB), CI ejecuta el catálogo por primera vez. PR #103 (re-montada tras 2ª reincidencia push-a-rama-mergeada → regla viva afilada: el check DEBE gatear). (2) **Plan F2 (DEC-082):** v1 TUMBADA por el dúo — "expansión aditiva del pool" re-litigaba DEC-069 sin citarlo (¡yo incumplí Protocolo 4!); v2.2 tras 2 rondas (15+13 hallazgos, 0 FP): seams medidos (models-list + unión-protectora doc_map), famtie+pin-regen (la famtie NO re-recupera — hallazgo que salvó una sesión de medición NO-OP), detector sin la bomba '≤3 chars mata zxe', vendimias pre/post-NOCAT al LEVER_DIGEST (pregunta de Alberto sobre contaminación de settled → fila DEC-069 + columna vendimia). **Contrato §5.1 enmendado (✅ Alberto): expand-only, clarify por-pregunta diferido** (PR #105). (3) **F2-S1 CONSTRUIDO (PR #106):** resolver query-side flag 3-estados, dúo r3 sobre el build = 14 hallazgos aplicados pre-PR (seam-2 reemplazaba→unión-protectora; 'dimensiones' disparaba paraguas Dimension; tests escribían en la shadow real), suite 411. (4) **Packet C2 COMPLETO (DEC-083):** 19 marcas → 43 productos re-domiciliados en 3 tandas de Alberto (~10 min), con 3 correcciones suyas convertidas en reglas: hosting≠OEM (NSRE24 → OEM 'ADA Componentes Electrónicos' al píxel), string-grupo→contextual, **familia≠marca (FAAST → paraguas familia + LT-200 adjudicado divergent=true, ambos EXPANDEN; estaba unknown/fail-open desde s80)**. Gates abiertos: merge #105+#106 → S2 (shadow+famtie).
+
+## s93b (2-3 jul 2026) — Bake-off fine-grained: el mecanismo que financia la re-ingesta es EXTRACCIÓN→ENUNCIADOS
+Alberto empujó el plan gate-0 (PR #110, FTS-only) a bake-off multi-mecanismo ("no sé si deberías
+tratar otros métodos FINE-GRAINED") — pushback aceptado: enmienda v3.2 con tracks B (multi-gran) y
+C (extracción-tablas) + mini-brazo HyDE, dúo completo PRE-ejecución (cross-model 7 hallazgos, 2
+CRÍTICOS confirmados contra código; sub-agente F1-F7 con el paso-0 `_trace` como adición estrella).
+Ejecución 8h autónomas sobre el testbed de 11 miss-facts (guard excluyó hp006 'Tierra'):
+**paso-0**: 30/31 soportes nunca entran a canal; hp012 '99+99' muere en diversify → re-atribuido.
+**A-FTS**: NO-GO 1/11 + desplazamiento 0-15/20 en controles. **B**: 1/10 vs frontera real (aislar
+ALEJA, 5/8 sub<padre). **C**: 2/4 ✅ (hp011, hp012-'2 lazos/396' con margen) — único mecanismo con
+hechos únicos. **HyDE**: 0-1/10 (comprime sin cruzar). Lectura: el cuello es gap de VOCABULARIO
+query↔celda, no chunk-size. Regla-C contra mi propio instrumento cazó 3: evento-v1 con frontera
+falsa (8/10 WIN falsos→1/10), brazo HyDE NO-OP silencioso (hyde.py:84 sin flag), 2/31 sup
+duplicate_of. Nada cablado. Artefacto: `evals/s93_bakeoff_resultados.md`. DEC-084/085; digest con
+4 filas tocadas. Decisión pendiente de Alberto: piloto extracción (~$5-15) → re-ingesta (~$150-300).
+
+## s94 (3 jul 2026) — Piloto extracción→enunciados: GO medido (famtie 12→6 con R2)
+GO de Alberto tras validar el spec v2 con el dúo (fork del SWAP resuelto por regla-C contra código:
+la famtie acredita presencia; el multi-vector swap es medición válida). F0 pre-registro (4 tabla /
+6 prosa; padres acreditables; predicciones por brazo×clase) → F1 generación 368 candidatos + QA
+(v1→v2 por regla-C: whitelist de metadata inyectada; tras el fix el gate cazó 2 alucinaciones
+reales sin FP; delta-check confirmó blurb-padre) → F2 probe (R2 3/10 proxy) → F3 por-brazo con
+SWAP pre-merge + rollback verificado ×3: **R2 12→6 (5/10, 0 nuevas-miss, predicciones 3/3 ✓) ·
+R1 12→10 (0/4 tabla, FALSADA → descartado) · R3 12→8 (4 flips/11 surrogates, falsada al alza)**.
+Triage: hp011/'99+99' mueren en diversify (lever pipeline); cat013/cat016 sin mecanismo (vocab
+operativo). Pase corpus ≈$160-270+QA = decisión Alberto. DEC-086; digest actualizado; nada en demo.
+
+## s94b/T0 (3 jul 2026) — Infra permanente del pase de enunciados (GO de Alberto al enfoque por tramos)
+Alberto preguntó si el pase corpus debía ser de golpe o por partes → tramos validados por el dúo,
+que tumbó la v1 por heredar la infra del PILOTO (6 CRÍTICOS: sidecar fail-open, sin contrato de
+schema, ventana demo-sirve-derivado F1). T0 ejecutado con GO: migración 007 aplicada (regla-C
+pre-apply salvó el ef_search de s59b, que las defs del repo habían perdido; un DROP fallido no tiró
+la demo — transaccional), invariante de no-servicio en 9 GETs + RPC, swap ENUNCIADOS_MULTIVECTOR
+from-row, QA generalizado con 3 vueltas de calibración (el sub-agente REPRODUJO la ceguera a
+decimales: '13,9' alucinado pasaba — fix _normv verificado), panel de desplazamiento (fix EMBARGO:
+el filtro 'heldout' vs 'held-out' metía los 12 embargados al pin; query_gaps era 404 → query_logs),
+pase idempotente por-doc con smoke real (MIDT180: 427 QA-OK, cobertura 65%). Dúo del build: 6+9
+hallazgos, 0 FP, todos aplicados + 4 tests (14 total del feature). Umbral QA y coste re-registrados
+por el smoke (T1 ~$40-100 medirá el real). 435 tests. Demo intacta. DEC-087. Gate: GO de gasto T1.
+
+## s94c/T1 (3 jul 2026) — Pase corpus por tramos: NO-GO del enfoque; T1 cazó un fallo de arquitectura antes del gasto de corpus
+GO de Alberto al gasto de T1 (~$50-75). Piloto de 14 docs generado con Sonnet 4.6 (21.995
+enunciados) para el gate de reproducción. **G1 FALLA (2/6 flips):** insertar los surrogates
+en el MISMO índice HNSW que los chunks reales lo diluyó (índice ×2, 47% surrogates) →
+recall de los originales cae (control 12→19); el multivector dio 13, neto PEOR que el
+baseline limpio 12. El mecanismo del piloto s94 (12→6) no escaló porque aquel usó 251
+surrogates transitorios y dirigidos; a docs-enteros se ahoga (dilución + enterramiento del
+enunciado relevante entre sus hermanos). Aislamiento verificado: 12→19 (inserción) →17
+(delete, fantasmas HNSW) →12 (VACUUM, lista idéntica a s92). Side-by-side confirmó Sonnet 5
+como vintage (mejor calidad, ≤coste). Restauré la demo (dump + delete + revert RPC + VACUUM),
+cacé y arreglé un bug latente (FK duplicate_of sin índice → migración 009), 435 tests verdes.
+**T1 (~$50-75) cazó un fallo arquitectónico ANTES del gasto de corpus ($150+) = el diseño de
+tramos funcionando.** Redesign pendiente (dúo+Alberto): tabla/índice separado para surrogates,
+índices parciales, o generación dirigida. DEC-088. Nada de T2-T3 hasta resolver.
+
+## s95 (4 jul 2026) — Redesign de enunciados medido con 2 pilotos: arquitectura tabla-separada VALIDADA (12→7); deep-lookup NO-GO; agentic RAG descartado con evidencia
+Pregunta de Alberto ("¿cómo se hace en RAGs similares? ¿agentic RAG?") → research con fuentes
+verificadas (workflow 3 agentes): la BP unánime es surrogates en índice PROPIO con padre-por-ID
+(LangChain/LlamaIndex/Dense X/pgvector partial-index) — el T1 re-derivó empíricamente por qué; y
+agentic RAG como arquitectura NO paga para nuestro perfil de fallo (ACL 2026). Plan de 2 pilotos
+pre-registrado → dúo (15/15 confirmados regla-C, 0 FP, 4 críticos: parser booleano habría hecho
+de IDENTITY_FETCH=llm un NO-OP silencioso; punto de fusión sin pinear; pre-filtro léxico
+re-introducía el techo DEC-085) → ejecución. **Piloto A: tabla `chunks_v2_enunciados` separada
+(011/012), dump T1 re-embebido ($3), 3 brazos: 12→8 → 12→8 → 12→7 con colapso Dense-X; control
+12 INTACTO en todos y 0 regresiones = dilución eliminada por construcción, candidato a ship
+(gate bvg pendiente).** Trace de los no-reproducidos: el residual NO es de índice ('35' = gap de
+generación; PWR-R/'1 A' = distancia pregunta-tarea↔enunciado-fila que ni s94 cruzaba por cos —
+puerta de su flip s94 sin identificar, declarado). **Piloto D: NO-GO estructural** (12→11, 0/6;
+el seam solo gatilla con doc AUSENTE del pool y la clase dominante es doc-presente-aguja-ausente;
+38% gatillado > 25%). Gate-0 de D cazó 3 gaps de doc_map → packet a Alberto (catálogo NO tocado).
+DEC-089. 441 tests. Coste total s95 ≈ $3.5.
+
+## s96 (4-5 jul 2026) — Gate bvg de A3 PASADO 4/4; el ship del flag queda en manos de Alberto
+Pregunta de Alberto ("¿qué opina el dúo de cómo proceder?") → plan s96 pre-registrado → dúo
+(11/11 confirmados regla-C, 0 FP, 3 críticos): el sub-agente cazó que un hiccup de Supabase en
+el RPC de enunciados habría matado el canal vectorial ENTERO en silencio (fail-open propio
+aplicado + test) y que 'true'/'1' eran OFF silencioso en el flag (parser estricto); ambos lados
+cazaron que yo citaba el harness equivocado para el gate (single-pass vs bvg_kmajority
+K-mayoría) y el manifest sin stamp de la variable de tratamiento; mi "riesgo R3" resultó falso
+(escrito sin leer el código — retirado). Gate ejecutado (~$12-18, brazos s96ctl/s96on mismo
+día): **rescate→top-5 3/3 golds-flip · PASS-control 11→13 (+2 en banda, residual 23→19) ·
+invención sin subida · latencia p50 +725ms → PASADO 4/4 (DEC-090).** Regla-C ×2 contra mi
+propia alarma de invención: el "2 vs 13" era FALSO (9/13 golds con top-5 idéntico entre brazos
++ el mismo control da 2→20 entre runs) → **norma nueva: el eje factual del atomic a K=1 es
+inusable para comparar brazos; matriz pareada multi-run sobre los golds cuyo input cambió**.
+Bonus del gate: hp006 JP2→JP6 = mispairing de SÍNTESIS sobre el chunk correcto que el rescate
+por fin trae (expuesto, no creado; en control el bot fabricaba) → evidencia nueva al dossier
+síntesis. Pendiente SOLO de Alberto: flag on en Railway + smoke post-flip. Held-out intacto.

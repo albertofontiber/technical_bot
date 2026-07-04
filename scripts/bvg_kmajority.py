@@ -127,6 +127,27 @@ def _save(path: Path, data: dict) -> None:
 _HEADERS = {"apikey": SUPABASE_SERVICE_KEY, "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}"}
 
 
+def _enunciados_fingerprint() -> dict:
+    """(s96 H5) count + batches de chunks_v2_enunciados — la tabla del canal
+    multi-vector. Fail-open a None (tabla ausente ≠ crash del freeze)."""
+    out = {"count": None, "batches": None}
+    try:
+        with httpx.Client(timeout=20.0) as c:
+            r = c.get(f"{SUPABASE_URL}/rest/v1/chunks_v2_enunciados",
+                      headers={**_HEADERS, "Prefer": "count=exact", "Range": "0-0"},
+                      params={"select": "id"})
+            cr = r.headers.get("content-range", "*/0")
+            out["count"] = int(cr.split("/")[-1]) if "/" in cr else None
+            r2 = c.get(f"{SUPABASE_URL}/rest/v1/chunks_v2_enunciados",
+                       headers=_HEADERS,
+                       params={"select": "ingest_batch", "limit": "1"})
+            rows = r2.json()
+            out["batches"] = sorted({x["ingest_batch"] for x in rows}) if rows else []
+    except Exception:
+        pass
+    return out
+
+
 def corpus_fingerprint() -> dict:
     """count + max(created_at) de chunks_v2 + dimensión LIFECYCLE (s64, #46) —
     caza ingesta Y supersesiones/cambios de status en la ventana de freeze (el
@@ -258,7 +279,13 @@ def phase_freeze(args) -> None:
         if qid in data:
             continue
         q = g["question"]
+        # (s96 P1b, dúo H2: NINGÚN harness emitía latencia) timing e2e de la fase de
+        # retrieval — es donde vive el coste del flag ENUNCIADOS_MULTIVECTOR (2º RPC +
+        # colapso + hidratación de padres en el swap).
+        import time as _time
+        _t0 = _time.time()
         pool = retrieve_chunks(q, top_k=RETRIEVAL_TOP_K)
+        _retrieve_ms = int((_time.time() - _t0) * 1000)
         # sin target_models = paridad harness; dispatcher respeta RERANKER_BACKEND (s61).
         # strict=True: en eval un fail-open del backend = dato corrupto, no disponibilidad.
         top5 = rerank(q, pool, top_k=RERANK_TOP_K, strict=True)
@@ -266,6 +293,7 @@ def phase_freeze(args) -> None:
         n_hyd = hydrate_context(top5)
         data[qid] = {
             "question": q,
+            "retrieve_ms": _retrieve_ms,
             "conducta_esperada": g.get("conducta_esperada"),
             "frozen_at": _now(),
             "n_context_hydrated": n_hyd,
@@ -309,6 +337,20 @@ def phase_freeze(args) -> None:
             "filter_fn_sha": _sha(inspect.getsource(_ret_mod._filter_to_query_models)),
             "diversify_fn_sha": _sha(inspect.getsource(_ret_mod._diversify_by_source_file)),
         },
+        # La VARIABLE DE TRATAMIENTO del ciclo s96 (dúo H5 — misma lección que
+        # series_registry arriba): sin el stamp, los artefactos de los dos brazos no
+        # pueden probar qué brazo son. Flag EFECTIVO (parser estricto, no el raw) +
+        # fingerprint de la tabla de surrogates + resolver de identidad.
+        "enunciados_multivector": {
+            "enabled": _ret_mod._multivector_on(),
+            "fetch_k": _ret_mod.ENUNCIADOS_FETCH_K,
+            "tabla": _enunciados_fingerprint(),
+            "swap_fn_sha": _sha(inspect.getsource(_ret_mod._enunciados_swap)),
+        },
+        "identity_resolve": {"mode": os.environ.get("IDENTITY_RESOLVE"),
+                             "policy": os.environ.get("IDENTITY_RESOLVE_POLICY")},
+        "retrieve_ms": {"p50": sorted(d.get("retrieve_ms", 0) for d in data.values())
+                        [len(data) // 2] if data else None},
     }
     _save(F_MANIFEST, meta)
     print(f"freeze OK → {F_CONTEXTS.name} ({len(data)} golds) | manifest estampado "

@@ -382,6 +382,18 @@ def extract_search_keywords(query: str) -> list[str]:
     return unique[:3]
 
 
+def _no_surrogates(params: dict) -> dict:
+    """(T0 s94b, INVARIANTE DE NO-SERVICIO — dúo F1) Los canales léxicos y fetch de
+    chunks JAMÁS sirven surrogates (filas con parent_id, enunciados derivados): el texto
+    derivado nunca se cita como manual. Server-side (`parent_id=is.null`); solo sobre
+    chunks_v2 (la tabla legacy no tiene la columna). El canal VECTORIAL gobierna su
+    exclusión en el RPC (include_surrogates, default false) y el swap multi-vector
+    sustituye surrogate→padre cuando ENUNCIADOS_MULTIVECTOR=on."""
+    if CHUNKS_TABLE == "chunks_v2":
+        params.setdefault("parent_id", "is.null")
+    return params
+
+
 def keyword_search(
     product_model: str,
     limit: int = 5,
@@ -420,7 +432,7 @@ def keyword_search(
         resp = client.get(
             f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
             headers=headers,
-            params=params,
+            params=_no_surrogates(params),
         )
         resp.raise_for_status()
 
@@ -473,7 +485,7 @@ def diagram_search(
         resp = client.get(
             f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
             headers=headers,
-            params=params,
+            params=_no_surrogates(params),
         )
         resp.raise_for_status()
     rows = resp.json()
@@ -500,12 +512,12 @@ def typed_search(
         resp = client.get(
             f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
             headers=headers,
-            params={
+            params=_no_surrogates({
                 "product_model": f"imatch.{pattern}",
                 "content_type": f"eq.{content_type}",
                 "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,language,has_diagram,diagram_url,source_file,page_number,document_id",
                 "limit": str(limit),
-            },
+            }),
         )
         resp.raise_for_status()
 
@@ -557,7 +569,7 @@ def content_search(
                 resp = client.get(
                     f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                     headers=headers_get,
-                    params=params,
+                    params=_no_surrogates(params),
                 )
                 resp.raise_for_status()
             rows = resp.json()
@@ -606,7 +618,7 @@ def content_search(
             resp = client.get(
                 f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                 headers=headers_get,
-                params=params,
+                params=_no_surrogates(params),
             )
             resp.raise_for_status()
         rows = resp.json()
@@ -881,7 +893,6 @@ def vector_search(
         "filter_category": category_filter,
         "filter_manufacturer": None,
     }
-
     headers = {
         "apikey": SUPABASE_SERVICE_KEY,
         "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
@@ -895,8 +906,47 @@ def vector_search(
             json=payload,
         )
         resp.raise_for_status()
+        results = resp.json()
 
-    return resp.json()
+        # (s95 piloto A, pre-registro v2 [D2] + 012 paridad de filtros + A3 colapso
+        # Dense-X) Multi-vector = 2ª llamada al RPC de la tabla SEPARADA de enunciados
+        # (DEC-088: compartir HNSW diluye los reales). Receta canónica Dense X ("retrieve
+        # a slightly larger number of text units, map each unit to the source passage,
+        # and return the top-k unique passages"): fetch ENUNCIADOS_FETCH_K → COLAPSO por
+        # parent_id keep-max (post-swap colapsan al mismo padre igual — capar antes de
+        # colapsar desperdicia slots en redundancia del mismo padre) → unión con los
+        # reales → sort similarity desc → cap top_k. Entra PRE-swap. Mismos filtros que
+        # la llamada real (s94: 3/6 flips entraban por el canal model-filtered).
+        # (s96 H1 dúo — CRÍTICO): fail-open PROPIO. Sin este try, un hiccup del RPC de
+        # enunciados subiría al `except` del caller (vector_results = []) y mataría el
+        # canal vectorial ENTERO en silencio — el flag jamás debe acoplar la
+        # disponibilidad del canal real a la tabla nueva. Fallo aquí → solo-reales.
+        if _multivector_on() and RPC_SUFFIX == "_v2":
+            try:
+                e_resp = client.post(
+                    f"{SUPABASE_URL}/rest/v1/rpc/match_chunks_v2_enunciados",
+                    headers=headers,
+                    json={"query_embedding": query_embedding,
+                          "match_threshold": threshold,
+                          "match_count": ENUNCIADOS_FETCH_K,
+                          "filter_product": product_filter,
+                          "filter_manufacturer": None},
+                )
+                e_resp.raise_for_status()
+                by_parent: dict = {}
+                for s in e_resp.json():
+                    pid = s.get("parent_id")
+                    if pid and (pid not in by_parent
+                                or (s.get("similarity") or 0)
+                                > (by_parent[pid].get("similarity") or 0)):
+                        by_parent[pid] = s
+                merged = results + list(by_parent.values())
+                merged.sort(key=lambda c: c.get("similarity") or 0, reverse=True)
+                results = merged[:top_k]
+            except Exception:
+                logger.warning("canal enunciados fail-open: sirviendo solo chunks reales")
+
+    return results
 
 
 def _tag_channel(chunks: list[dict], tag: str) -> list[dict]:
@@ -1021,6 +1071,79 @@ def _merge_channels(keyword_results: list[dict], vector_results: list[dict],
     # Sort by similarity (keyword matches have 0.80, so they'll rank high)
     merged.sort(key=lambda c: c.get("similarity", 0), reverse=True)
     return merged
+
+
+_HYDRATE_SELECT = ("id,content,context,product_model,category,section_title,content_type,"
+                 "manufacturer,protocol,doc_type,language,has_diagram,diagram_url,"
+                 "source_file,page_number,document_id,parent_id")
+
+
+# (s95-A3) Cuántos enunciados se piden ANTES del colapso por padre (Dense X: se
+# recuperan más unidades de las que se devuelven porque colapsan a padres únicos).
+ENUNCIADOS_FETCH_K = 200
+
+
+def _multivector_on() -> bool:
+    """(T0 s94b) Flag PERMANENTE del multi-vector de enunciados (sustituye al PILOT_*
+    del piloto s94). off (default) = los surrogates ni se piden al RPC ni se sirven
+    (invariante de no-servicio en 007 + _no_surrogates)."""
+    raw = os.getenv("ENUNCIADOS_MULTIVECTOR", "off").strip().lower()
+    if raw in ("1", "true", "yes", "on"):
+        return True
+    if raw in ("", "0", "false", "no", "off"):
+        return False
+    # (s96 H3 dúo, espejo de fetch_mode) valor no reconocido = error, no OFF silencioso —
+    # el paso de ship es literalmente "env var en Railway"; un typo no puede medio-apagar.
+    raise RuntimeError(f"ENUNCIADOS_MULTIVECTOR={raw!r} no reconocido (on|off) — fail-fast")
+
+
+def _enunciados_swap(chunks: list[dict]) -> list[dict]:
+    """(T0 s94b, spec v2 inv.3 → permanente) Multi-vector canónico: sustituye cada
+    surrogate (fila con parent_id — el linkage vive EN LA FILA, dúo s94b F2: sin
+    sidecar) por su chunk-padre HIDRATADO, 1:1 con la similarity del SURROGATE (la
+    famtie acredita presencia, no score); keep-max si varios surrogates → mismo padre;
+    padre no hidratable → surrogate FUERA (fail-closed: el texto derivado jamás se
+    cita como manual)."""
+    smap = {c.get("id"): c.get("parent_id") for c in chunks
+            if c.get("parent_id") and c.get("id")}
+    if not smap:
+        return chunks
+    parent_ids = sorted(set(smap.values()))
+    parents: dict = {}
+    headers = {"apikey": SUPABASE_SERVICE_KEY, "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}"}
+    for i in range(0, len(parent_ids), 40):
+        ids = ",".join(f'"{x}"' for x in parent_ids[i:i + 40])
+        try:
+            with httpx.Client(timeout=5.0) as client:
+                resp = client.get(f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}", headers=headers,
+                                  params={"select": _HYDRATE_SELECT, "id": f"in.({ids})"})
+                resp.raise_for_status()
+            for row in resp.json():
+                parents[row["id"]] = row
+        except Exception:
+            pass
+    out: list[dict] = []
+    best: dict = {}
+    for c in chunks:
+        cid = c.get("id")
+        if cid not in smap:
+            out.append(c)
+            continue
+        p = parents.get(smap[cid])
+        if not p:
+            continue
+        sim = c.get("similarity", 0)
+        prev = best.get(p["id"])
+        if prev is not None:
+            prev["similarity"] = max(prev.get("similarity", 0), sim)
+            continue
+        rec = dict(p)
+        rec["similarity"] = sim
+        rec["_swapped_from_surrogate"] = cid
+        rec["_channel"] = c.get("_channel")
+        best[p["id"]] = rec
+        out.append(rec)
+    return out
 
 
 def retrieve_chunks(
@@ -1217,6 +1340,17 @@ def retrieve_chunks(
                         keyword_results.extend(_tag_channel(future.result(), "CONTENT"))
                     except Exception:
                         pass
+
+    # (T0 s94b · flag ENUNCIADOS_MULTIVECTOR, default OFF = prod inerte): multi-vector —
+    # los surrogates (enunciados, filas con parent_id que el RPC solo devuelve en este
+    # modo) se SUSTITUYEN 1:1 por su chunk-padre HIDRATADO, conservando la similarity del
+    # surrogate (keep-max si varios apuntan al mismo padre). PRE-merge (dúo s94 H6:
+    # después morirían en superseded/lang/model-filter o la famtie no acreditaría). El
+    # swap NO INFLA el pool; el desplazamiento por-ÍNDICE (los surrogates ocupan slots
+    # del top-50 corpus-wide) es real y lo mide el guard nueva-miss por tramo (dúo H2).
+    if _multivector_on():
+        vector_results = _enunciados_swap(vector_results)
+        keyword_results = _enunciados_swap(keyword_results)
 
     # (s85 B1) trace inerte: si _trace es un dict, registra la membresía por-etapa (ids) para
     # diagnosticar DÓNDE se pierde un chunk-valor. Default None → cero efecto en prod.
@@ -1616,11 +1750,14 @@ def _get_source_files_for_model(product_model: str) -> list[str]:
             resp = client.get(
                 f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                 headers=headers,
-                params={
+                # _no_surrogates (dúo T0 H5): el CONTEO ordena qué sources ganan los
+                # slots del diversify — los surrogates inflarían docs enunciado-ricos
+                # incluso con el flag off (cambio de comportamiento no declarado).
+                params=_no_surrogates({
                     "product_model": f"imatch.{pattern}",
                     "select": "source_file",
                     "limit": "5000",
-                },
+                }),
             )
             resp.raise_for_status()
     except Exception:
@@ -1777,12 +1914,12 @@ def _fetch_top_chunks_by_source_file(
                 resp = client.get(
                     f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                     headers=headers,
-                    params={
+                    params=_no_surrogates({
                         "source_file": f"eq.{source_file}",
                         "search_vector": f"plfts.{fts_query}",
                         "select": select_cols,
                         "limit": str(limit),
-                    },
+                    }),
                 )
                 if resp.status_code == 200:
                     rows = resp.json()
@@ -1801,12 +1938,12 @@ def _fetch_top_chunks_by_source_file(
                 resp = client.get(
                     f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                     headers=headers,
-                    params={
+                    params=_no_surrogates({
                         "source_file": f"eq.{source_file}",
                         "content": f"ilike.*{stem}*",
                         "select": select_cols,
                         "limit": str(limit),
-                    },
+                    }),
                 )
                 if resp.status_code == 200:
                     rows = resp.json()
@@ -1860,9 +1997,9 @@ def _fetch_neighbor_chunks(source_file: str, indices: list[int]) -> list[dict]:
         with httpx.Client(timeout=5.0) as client:
             resp = client.get(
                 f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}", headers=headers,
-                params={"source_file": f"eq.{source_file}",
+                params=_no_surrogates({"source_file": f"eq.{source_file}",
                         "chunk_index": f"in.{inlist}",
-                        "select": _NEIGHBOR_SELECT, "limit": "1000"})
+                        "select": _NEIGHBOR_SELECT, "limit": "1000"}))
             if resp.status_code in (200, 206):
                 return resp.json()
     except Exception:

@@ -1,0 +1,35 @@
+{
+ "tranche": "SMOKE",
+ "batch": "enunciados-v1:SMOKE:p1",
+ "dry": true,
+ "prompt_vintage": "p1",
+ "results": [
+  {
+   "doc": "MIDT180",
+   "marca": "Notifier",
+   "insertables": 427,
+   "cobertura": 0.648,
+   "sample": [
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "La central ID2000 incluye una advertencia que indica que no se debe utilizar la caja posterior como guía cuando se taladren los agujeros."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "Esta tabla de advertencia responde a la pregunta de cómo evitar errores durante la instalación física del panel ID2000, indicando específicamente que la caja po"
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "Esta tabla del manual técnico del panel de incendio ID2000 ilustra esquemáticamente la disposición y etiquetado de los componentes o conectores de una placa o m"
+    }
+   ],
+   "items": 115,
+   "gen": 548,
+   "qa_fail": 121,
+   "sin_padre": 5
+  }
+ ]
+}
