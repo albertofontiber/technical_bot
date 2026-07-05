@@ -1072,15 +1072,20 @@
     valor: null
     cita: MIE-MI-530 (lazo sin RFL) + MIE-MI-310 Fig 11/12/13
   citations:
-  - manual: MIE-MI-310.pdf
-    page: 16
-    quote: Conexión del lazo analógico
-  - manual: MIE-MI-310.pdf
+  - manual: MIE-MI-530rv001.pdf
     page: 17
-    quote: Conectar la malla a la arandela del pasacables en contacto con el chasis
+    quote: El cableado de lazo analógico debe instalarse en bucle cerrado con los aisladores de cortocircuito
+      necesarios (EN54-14, EN54-2).
+  - manual: MIE-MI-530rv001.pdf
+    page: 19
+    quote: Retorne el final del lazo al otro extremo del conector de lazo — bucle cerrado, el lazo NO
+      usa resistencia de fin de línea (RFL solo en salidas de sirena, 6K8).
+  - manual: MIE-MI-530rv001.pdf
+    page: 20
+    quote: Cada lazo dispone de aisladores internos en el panel.
   confidence: alta
   pdfs_used:
-  - MIE-MI-310.pdf
+  - MIE-MI-530rv001.pdf
   _provenance:
     estado: verificado
     metodo: render_pdf
@@ -1132,6 +1137,8 @@
   _usage:
     in: 13347
     out: 555
+  notas: 's98 (Alberto): citations/pdfs_used sincronizados a MI-530 (ya era la fuente primaria en _provenance
+    desde s33; el bloque legacy apuntaba a MI-310). Lazo = bucle cerrado sin RFL.'
 - qid: hp010
   question: En la Morley DXc, ¿cómo se añade un nuevo detector al lazo tras la puesta en marcha inicial?
   conducta_esperada: answer
@@ -2053,24 +2060,21 @@
     valor: 3.4.13
     cita: MI-530 p21
   citations:
-  - manual: MIE-MI-310.pdf
-    page: 18
-    quote: SALIDAS SIRENAS 24V
-  - manual: MIE-MI-310.pdf
-    page: 18
-    quote: La ZX1e dispone de 2 salidas de sirena... la ZX5e dispone de 5 salidas de sirena
-  - manual: MIE-MI-310.pdf
-    page: 17
-    quote: Conectar la malla a la arandela del pasacables en contacto con el chasis
+  - manual: MIE-MI-530rv001.pdf
+    page: 21
+    quote: El panel ZX2e tiene 2 circuitos de sirenas (A, B); el ZX5e tiene 4 (A, B, C, D). Cada circuito
+      admite un consumo máximo de 1 Amp. Resistencia (6.8KΩ, 0.5W mínimo) final de línea (RFL). Cada sirena
+      con diodo integrado.
+  - manual: MIE-MI-530rv001.pdf
+    page: 44
+    quote: 'Salida Sirenas de placa: 4 programables (ZX5e). Resistencia final de línea 6K8. Carga máxima
+      1A por salida.'
   - manual: MIE-MI-310.pdf
     page: 31
-    quote: 'Salidas de sirena: 2 (ZX1e) supervisadas, 24Vcc, 500 mA máx, EOL 10 kΩ'
-  - manual: MIE-MI-310.pdf
-    page: 32
-    quote: 5 salidas de sirena supervisadas, 24Vcc, 500 mA, EOL 10 kΩ (ZX5e)
+    quote: (corroboración familia hermana ZXAE) 2 salidas, 6K8, 1A por salida — mismos valores que ZXe.
   confidence: media
   pdfs_used:
-  - MIE-MI-310.pdf
+  - MIE-MI-530rv001.pdf
   _provenance:
     estado: verificado
     metodo: render_pdf + cross_model
@@ -2128,6 +2132,9 @@
   _usage:
     in: 13345
     out: 1503
+  notas: 's98 (Alberto): bloque citations legacy CORREGIDO — tenía valores FALSOS (ZX1e/ZX5e, 5 salidas,
+    500mA, EOL 10kΩ) verificados inexistentes al píxel+GPT-5.5. Reemplazado por MI-530 p21/p44 (verificado:
+    1A, 6K8, ZX2e=2/ZX5e=4). pdfs_used→MI-530 (la familia correcta; corrige el ancla de famtie).'
 - qid: hp019
   question: ¿Cuál es el rango de temperatura de funcionamiento del detector de aspiración ASD535 (Securiton,
     distribuido por Detnov)?
