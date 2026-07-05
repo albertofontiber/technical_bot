@@ -46,3 +46,10 @@ síntoma) y el gold no lo captura. Opcional añadirlo como hecho core.
 - Eje completitud (atomic) + contexto del juez: esos golds se evalúan por sus cores
   restantes (los procedimientos/causas que las preguntas piden) — la dirección exacta de
   tu adjudicación de CLIP.
+
+---
+## ADJUDICADO (Alberto, 5 jul 2026): "OK a todo"
+Los 3 re-tipados APLICADOS + el hecho nuevo core de hp011 ('t.A=-- → activado hasta
+rearme', valor='hasta rearme', cita p56 con doble señal) AÑADIDO. gold_store validate OK.
+famtie intacta (pineada); ejes atomic/juez pasan a exigir solo los cores que cada
+pregunta pide.

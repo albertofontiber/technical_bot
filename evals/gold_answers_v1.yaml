@@ -1296,10 +1296,17 @@
     cita: p63
   - texto: 'Parametro t.A "Duracion de la descarga" (soak time): variable de 05 a 295 seg en pasos de
       5 s; "--"=circuito activado hasta el rearme de la central (POR DEFECTO)'
-    tipo: core
+    tipo: supplementary
     estado: presente
     valor: 05 a 295 seg
     cita: p56
+  - texto: 'Parametro t.A en ''- -'' (valor por DEFECTO): el circuito de extincion queda activado hasta
+      el rearme de la central — la descarga no termina sola, lo que explica que el sistema no vuelva a
+      estado normal hasta rearmar.'
+    tipo: core
+    estado: presente
+    valor: hasta rearme
+    cita: p56 (tabla t.A, fila '- -' por defecto; render s97c + cross-model GPT-5.5)
   - texto: 'Averias enclavadas: por defecto todas las averias son enclavadas y requieren rearme manual
       de la central para su restablecimiento'
     tipo: core
@@ -1362,6 +1369,11 @@
       "i" (r.1, no r.i); "L" (E.L) también se confunde con "i". Cross-model ingenuo compartía ese sesgo;
       ahora la verificación lleva la restricción de 7 segmentos. Puntos 1/4/5 (Abort, flujo, averías)
       de páginas citadas del corpus (no re-renderizadas).'
+  notas: '''05 a 295 seg'' core→supplementary por adjudicación Alberto s97c (5 jul 2026, packet s97c_gold_review_packet.md):
+    la pregunta pide procedimiento/causas; el dato es spec/contexto (guardia anti-contradicción se conserva).
+    | hecho NUEVO core ''t.A=-- activado hasta rearme (default)'' añadido por adjudicación Alberto s97c
+    (5 jul 2026, packet s97c_gold_review_packet.md) — el repaso s97c lo cazó como el dato más relevante
+    de p.56 para esta pregunta.'
 - qid: hp012
   question: ¿Cuántos lazos direccionables soporta la Notifier AM2020/AFP1010 y cuántos dispositivos por
     lazo?
@@ -1659,7 +1671,7 @@
     cita: p42 (f46) 8.4.2/8.4.3
   - texto: La pantalla del cable debe ser continua y conectarse a tierra SOLO en el panel; la resistencia
       maxima del lazo no debe superar 35 ohmios (uniendo B+/B- y midiendo en A+/A-)
-    tipo: core
+    tipo: supplementary
     estado: presente
     valor: '35'
     cita: p14 (f18)
@@ -1770,6 +1782,8 @@
   _usage:
     in: 66247
     out: 2180
+  notas: '''35'' core→supplementary por adjudicación Alberto s97c (5 jul 2026, packet s97c_gold_review_packet.md):
+    la pregunta pide procedimiento/causas; el dato es spec/contexto (guardia anti-contradicción se conserva).'
 - qid: hp015
   question: En la Detnov CCD-103, ¿cómo se desactiva un detector individualmente sin afectar al resto
     del lazo?
@@ -3498,7 +3512,7 @@
     cita: 55315008 (usuario) §3.1.1.5 (Menu PRUEBA Zonas)
   - texto: En modo prueba el retardo de sirenas queda ANULADO (agiliza la prueba); si pasan 20 minutos
       sin disparo el equipo vuelve solo a estado normal; para salir manualmente se CONECTA la zona
-    tipo: core
+    tipo: supplementary
     estado: presente
     valor: 20 minutos
     cita: 55315008 §3.1.1.5
@@ -3566,6 +3580,8 @@
       - 15
       nota: 'alta = §3.3 instalacion (render fisica p11); prueba = §3.1.1.5 usuario (extraccion limpia).
         Multi-doc confirmado: ningun manual tiene ambas partes.'
+  notas: '''20 minutos'' core→supplementary por adjudicación Alberto s97c (5 jul 2026, packet s97c_gold_review_packet.md):
+    la pregunta pide procedimiento/causas; el dato es spec/contexto (guardia anti-contradicción se conserva).'
 - qid: cat017
   question: ¿Como se cablea y se da de alta (configura) un lazo en la central Notifier INSPIRE (E10/E15)?
   conducta_esperada: answer
