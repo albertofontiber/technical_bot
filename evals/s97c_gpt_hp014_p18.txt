@@ -1,0 +1,29 @@
+--- gpt-5.5 sobre MIDT180_p18_170dpi.png ---
+**Transcripción relevante de la página:**
+
+> **d.** La pantalla debe continuar a lo largo de todo el lazo.  
+> **e.** La resistencia máxima del lazo no debe superar los **35 ohmios**. Puede comprobarlo uniendo los extremos **B+ y B-** y midiendo a través de los extremos **A+ y A-**. Igualmente, la capacidad del cable debe ser inferior a **0,5 µF**. Normalmente, esto permite disponer de una longitud máxima de lazo de **2000 metros** de cable apantallado de **1,5 mm²**.
+
+**Límites indicados:**
+
+- **Resistencia máxima del lazo:** **35 Ω**.  
+- **Capacidad máxima del cable/lazo:** **< 0,5 µF**.  
+- Como referencia práctica, eso suele corresponder a un máximo de unos **2000 m** de cable apantallado de **1,5 mm²**, según el texto.
+
+**A qué se refieren:**
+
+- Los **35 Ω** se refieren a la **resistencia eléctrica del lazo de cableado**, es decir, a los conductores del circuito entre los extremos **A+/A-** y **B+/B-**.  
+- No se refiere a la resistencia de la **pantalla** o malla del cable.
+- La **pantalla** se menciona aparte: debe ser continua a lo largo de todo el lazo y se debe evitar conectarla a tierra en múltiples puntos.
+- La **capacidad < 0,5 µF** se refiere a la **capacidad del cable del lazo**, no específicamente a la pantalla.
+
+**Método de comprobación descrito:**
+
+Para comprobar la resistencia del lazo:
+
+1. Desconectar el lazo del panel, en frío/sin tensión.  
+2. Unir entre sí los extremos **B+** y **B-**.  
+3. Medir con un óhmetro entre **A+** y **A-**.  
+4. La lectura obtenida no debe superar **35 Ω**.
+
+Es decir, se cortocircuita un extremo del lazo y se mide desde el otro extremo la resistencia total de ida y vuelta de los conductores.
