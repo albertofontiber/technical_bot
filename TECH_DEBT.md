@@ -1924,3 +1924,19 @@ un demo con técnico real. **Acción:** (a) auditoría de frescura por-fabricant
 + webs (¿falta la última revisión?); (b) poblar `revision_date` (hoy 1/1170) desde páginas 1-5 → activa el orden
 de las supersede-chains para citar la revisión vigente. **Baja palanca en el eval** (golds píxel-verificados active);
 es **producto-calidad** (un técnico no debe recibir un manual obsoleto), NO gate del trabajo de identidad. Ref: cierre s86.
+
+## #71 — Stamps planos de los canales léxicos vs fusión por rank (RRF) — deuda vs BP, con condición de activación
+**Qué:** los canales léxicos etiquetan por canal (0.85/0.82/0.80/0.72/0.70/0.65, p.ej. `content_search`
+`base_score` retriever.py:~554) en vez de puntuar por resultado. NO es BP de RAG híbrido: el estándar es
+score léxico real (BM25/ts_rank normalizado) o **Reciprocal Rank Fusion** (fusión por posiciones, esquiva
+las escalas incomparables). La jerarquía entre-canales es intencional y medida-estable; lo dañino eran los
+EMPATES intra-canal → **el síntoma peor ya está pagado** (s97 `DIVERSIFY_TIEBREAK`: desempate por coseno
+within-source, famtie 7→6 estable, 0 regresiones, +0.12s).
+**Por qué NO migrar a RRF hoy:** re-rankear la fusión del pool = terreno DEC-050 (cosine-merge gate-0:
+mecanismo confirmado pero RE-BARAJA PASS-control → NO-GO; vigencia "re-medir, no recordar"). El residual
+famtie (6/132) NO es de esta clase (hechos que no entran por ningún canal). Blast radius sistémico sin
+evidencia de que los stamps EN SÍ (no sus empates) cuesten algo.
+**Trigger de activación:** evidencia nueva de coste de los stamps más allá de empates (p.ej. queries reales
+de técnicos donde el orden inter-canal falle sistemáticamente, o un re-diseño del retrieve por otra causa).
+**Acción si se activa:** RRF como brazo A/B completo (famtie + bvg PASS-control, patrón DEC-090), nunca
+swap directo. Ref: s97 (pregunta de Alberto "¿es BP el score plano?"), DEC-050, `evals/s97_diversify_tiebreak.md`.
