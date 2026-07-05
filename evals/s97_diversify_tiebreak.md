@@ -77,3 +77,19 @@ la mete → NO construir el brazo (ahorra la medición).
 hp011 (no entra a canales; residual fine-grained) · VALORES de los stamps (jerarquía
 0.65-0.85 intocada) · lógica del interleave (s59×2) · `_diversify_by_manufacturer` [H8] ·
 desempate ENTRE fuentes [H6].
+
+---
+
+## RESULTADOS (2026-07-05 · artefactos: s97_gate0.json, s97_gates.json, s97_miss_*.yaml)
+- Gate-0 (replay del diversify real): hp012 aguja 0→1 · hp018 2→4 → PASA.
+- **famtie K=3: control 7/7/7 → tratamiento 6/6/6** (cero varianza); flip '99+99'
+  persistente 3/3; **G2: cero nuevas-miss, ni persistentes ni transitorias** `[[],[],[]]`;
+  G3: +0.12s p50. **G1✅ G2✅ G3✅.** hp018 '1 A' NO se estabilizó (miss 3/3 en ambos
+  brazos — su varianza es de ENTRADA al canal, aguas arriba de cualquier fusión/orden).
+- Residual queda en 6/132: idénticos en los 3 runs, y el dúo s97b los DESCOMPUSO:
+  **5 no-entran** (cat013, cat016, hp011, hp013, hp014 — `in_pool_target: false` 3/3;
+  convergente con s93 paso-0 y el trace s95) **+ 1 de CONTABILIDAD DE IDENTIDAD** (hp018·
+  '1 A': `in_pool_target: true` + `in_top5_target: true` 3/3 — el hecho SE SIRVE vía
+  MIE-MI-310, cuenta como miss porque la famtie ancla en familia primaria y el doc está
+  tagueado ZXAE/ZXEE → su fix es el packet doc_map de Alberto, no código).
+- Pendiente ship-path: gate bvg (test del colateral DEC-050) → GO Alberto → flag Railway.
