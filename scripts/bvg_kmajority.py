@@ -349,6 +349,11 @@ def phase_freeze(args) -> None:
         },
         "identity_resolve": {"mode": os.environ.get("IDENTITY_RESOLVE"),
                              "policy": os.environ.get("IDENTITY_RESOLVE_POLICY")},
+        # (s97, dúo s96-H5) VARIABLE DE TRATAMIENTO del lever tie-break: flag EFECTIVO
+        # (parser estricto, no el raw) + sha del diversify → los 2 brazos son probables.
+        "diversify_tiebreak": {"enabled": _ret_mod._tiebreak_on(),
+                               "diversify_fn_sha": _sha(
+                                   inspect.getsource(_ret_mod._diversify_by_source_file))},
         "retrieve_ms": {"p50": sorted(d.get("retrieve_ms", 0) for d in data.values())
                         [len(data) // 2] if data else None},
     }
