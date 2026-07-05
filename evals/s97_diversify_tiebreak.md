@@ -113,3 +113,38 @@ Tabla-28-cableado, no la identidad del detector.
 diferencia del limpio de A3, +2 con rescate-top5 3/3). Dos honestidades: (1) el −1 es
 UN run, dentro del suelo de ruido ±2 → indistinguible de 0 (lección DEC-090). (2) "churn
 benigno" es MI juicio de 3 golds, y conviene a mi sesgo pro-GO → debe verificarlo el dúo.
+
+---
+## VEREDICTO FINAL DEL DÚO (2026-07-05): **NO-GO al ship** (dispara el tripwire pre-registrado)
+Dúo completo (3 familias: autor Opus 4.8 · sub-agente Sonnet · cross-model GPT-5.5 — el pin
+Fable sin créditos). **Ambas mitades convergen independientemente + regla-C del autor confirma.**
+
+**El caso decisivo: hp001 (PASS-control → FALLO, salto de 2 niveles).** El tie-break sacó del
+top-5 el chunk `edeb58a7` (Manual usuario CAD-250 p.10) que contiene el atomic_fact **core #1**
+del gold: *"toca el candado 🔒 → PANTALLA DE ACCESO → código 2222"* = literalmente la respuesta a
+"cómo entrar al menú de programación avanzada". El juez del tratamiento falla 4/5 citando esa
+omisión exacta. **Mi "churn benigno" fue una racionalización basada en leer 55 caracteres del
+chunk** (lo etiqueté "icono info contacto"); al leerlo completo, era load-bearing. El dúo lo cazó.
+
+**Cuadro real refinado (Sonnet, chunk-por-chunk):**
+- ENTRAN (ganancias REALES): cat012, hp007 — eran K-INESTABLE en control, el tie-break los
+  estabiliza a PASS.
+- SALEN: hp001 (regresión REAL de contenido) · cat021 (filler: reference-docs laterales, K-ruido)
+  · hp013 (fallo de GENERACIÓN, no del tie-break; cores intactos ambos brazos).
+- Neto PASS 15→14; famtie 7→6 real. Pero **1 regresión de contenido verificada = NO-GO** por el
+  pre-registro ("re-barajado que saca contenido de un PASS-control = NO-GO sin racionalizar").
+
+**Lección de fondo (la valiosa):** el coseno-desempate NO es "estrictamente mejor" que el orden
+arbitrario — **hereda el gap de vocabulario**. Cuando el chunk-respuesta tiene coseno bajo porque
+su vocabulario (candado/reposo) no casa con la pregunta (programación avanzada), el tie-break lo
+DEGRADA bajo chunks de coseno alto que casan con la pregunta pero no contienen la respuesta. Gana
+hp012 (donde el mejor coseno SÍ es la respuesta), pierde hp001 (donde no). Es un reshuffle con la
+misma debilidad que intenta arreglar → callejón sin salida por esta vía.
+
+**Gap de instrumento cazado:** el bvg-agregado (±2 sobre 39 golds) fue CIEGO a hp001 (regresión
+puntual promediada). Instrumento cheap que lo cazaría (Sonnet H4): "¿algún atomic_fact core del
+top5-control desaparece del top5-tratamiento?" para los PASS-control, antes de fiarse del agregado.
+
+**Decisión:** flag `DIVERSIFY_TIEBREAK` se queda OFF; el lever NO se mergea a main. El código
+queda en la rama como medición reproducible (no-shippeada). Catálogo + golds re-tipados (valor
+independiente, adjudicados por Alberto) SÍ van a main.

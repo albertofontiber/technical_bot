@@ -1940,3 +1940,15 @@ evidencia de que los stamps EN SÍ (no sus empates) cuesten algo.
 de técnicos donde el orden inter-canal falle sistemáticamente, o un re-diseño del retrieve por otra causa).
 **Acción si se activa:** RRF como brazo A/B completo (famtie + bvg PASS-control, patrón DEC-090), nunca
 swap directo. Ref: s97 (pregunta de Alberto "¿es BP el score plano?"), DEC-050, `evals/s97_diversify_tiebreak.md`.
+
+## #72 — El gate bvg (agregado PASS-control ±2) es CIEGO a regresiones puntuales de contenido
+**Qué:** el bvg K-mayoría reporta Δ PASS-control agregado (±2 sobre 39 golds). Promedia sobre el
+set → una regresión REAL de contenido en 1 gold (s97/hp001: el tie-break sacó del top-5 el chunk
+con el atomic_fact core, PASS→FALLO) queda ENMASCARADA por un Δ-neto −1 "en banda". Cazado solo
+porque el dúo bajó chunk-por-chunk; el instrumento no lo señaló. **DEC-091.**
+**Fix (barato, pre-registrado por el sub-agente s97 H4):** añadir al reporte del bvg un check
+determinista por gold PASS-control: "¿algún atomic_fact `core` presente en el top5-CONTROL
+desaparece del top5-TRATAMIENTO?" (comparar los frozen_contexts de ambos brazos contra los cores
+del gold). Cualquier core-desaparecido = bandera roja aunque el agregado esté en banda. $0 (sobre
+artefactos ya generados), corre antes de fiarse del Δ agregado.
+**Trigger:** el próximo A/B que use el gate bvg para una decisión de ship. Ref: DEC-091, s97.
