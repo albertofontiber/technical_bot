@@ -1952,3 +1952,19 @@ desaparece del top5-TRATAMIENTO?" (comparar los frozen_contexts de ambos brazos 
 del gold). Cualquier core-desaparecido = bandera roja aunque el agregado esté en banda. $0 (sobre
 artefactos ya generados), corre antes de fiarse del Δ agregado.
 **Trigger:** el próximo A/B que use el gate bvg para una decisión de ship. Ref: DEC-091, s97.
+
+## #73 — 3 fallos de retrieval/merge aparcados para próximas sesiones (post-rerank)
+Guardados por Alberto (s98) para re-atacar más adelante, a expensas de si recuperamos el tie-break:
+- **cat016·'autobúsqueda'** (Detnov CAD-150, "dar de alta un detector"): DOCUMENT-SIDE puro — aguja
+  en 55315013 p.11, rank vectorial 343/1500 (cos 0.503 vs frontera 0.54); gap de vocabulario
+  "dar de alta detector"↔"configurar bucle/autobúsqueda" (+ typo "aubusqueda" en el doc). Fix =
+  hypothetical-questions (question-side). El ÚNICO document-side puro de los 3.
+- **hp011·'r.1'** (Morley RP1r, rearme tras extinción): BORDERLINE — aguja en MIEMN570I (inglés)
+  p.30, rank 49/1500 (cos 0.546 vs frontera 0.545, pegado al corte); param display 7-seg "r1".
+  Recuperación marginal, no gap profundo. Un empujón pequeño o el tie-break lo mete.
+- **hp012·'99+99'** (Notifier AM2020/AFP1010 lazos): MERGE/tie-break — el vector lo encuentra
+  (rank 6/1500, cos 0.636) pero el merge/diversify lo hunde bajo los stamps léxicos 0.80 de
+  15088SP. Era LA recuperación del tie-break (famtie 7→6, llegaba al top-5 servido). Su
+  recuperación está RÍO ABAJO de arreglar el rerank (que desbloquea el tie-break). Ref DEC-091b.
+**Trigger:** tras cerrar el workstream de rerank (s98+). cat016 → lever hypothetical-questions;
+hp012/hp011 → re-evaluar tras el tie-break re-shippeado.

@@ -46,6 +46,7 @@ def rerank_chunks(
     target_models: list[str] | None = None,
     *,
     strict: bool = False,
+    relevance_instruction: str | None = None,
 ) -> list[dict]:
     """Rerank chunks using Claude to determine true relevance.
 
@@ -121,7 +122,7 @@ Fragmentos candidatos recuperados de manuales técnicos:
 
 {chunks_text}
 
-Evalúa qué fragmentos son REALMENTE relevantes para responder la pregunta del técnico.{model_instruction}{type_instruction}
+{relevance_instruction or "Evalúa qué fragmentos son REALMENTE relevantes para responder la pregunta del técnico."}{model_instruction}{type_instruction}
 Devuelve SOLO un JSON array con los índices de los {top_k} fragmentos más relevantes, ordenados de más a menos relevante.
 Formato: [4, 1, 7, 0, 3]
 
