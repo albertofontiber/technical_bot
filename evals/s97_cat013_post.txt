@@ -1,0 +1,21 @@
+cat013 allowed_sources (5): ['55315013 Manual Centrales An', 'MNDT120', '55315008-Manual-Centrales-An', 'MIDT190', 'MNDT150']
+hp012 allowed_sources (18): ['15088SP', 'MNDT370', '15092SP', 'BTDT017', 'BTDT032', 'MADT284', 'MADT951_01', 'Tg-Honeywell_Tecnico']
+
+pool: 11 chunks · MIDT190 en pool: 1 (págs [71])
+DOCS top5: ['MNDT120', 'MNDT150', 'MNDT120', 'MNDT150', '55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT']
+
+RESPUESTA POST-adjudicación:
+ No tengo documentación sobre interoperabilidad entre la central **CAD-150** (Detnov) y el detector **SDX-751** (Notifier) en mi base de conocimiento.
+
+Lo que sí puedo decirte es lo siguiente:
+
+- El **SDX-751** aparece en los fragmentos como detector analógico fotoeléctrico de bajo perfil compatible con las centrales **AFP-200** [F3] e **ID-200** [F4] de **Notifier**, montado sobre base **BX-501** (AFP-200) [F1] o **B501** (ID-200) [F2].
+- Los fragmentos de la **CAD-150** recuperados [F5] no mencionan en ningún momento el SDX-751 ni ningún detector Notifier como equipo compatible.
+
+**No puedo afirmar ni descartar la compatibilidad** entre ambos equipos basándome en la documentación disponible. Los lazos analógicos direccionables utilizan protocolos de comunicación propietarios que varían entre fabricantes, y la compatibilidad debe verificarse explícitamente en la documentación técnica de la CAD-150 o consultando directamente a **Detnov**.
+
+**Recomendación práctica:** Consulta el manual completo de la CAD-150 (sección de dispositivos compatibles) o contacta con el soporte técnico de Detnov antes de instalar el SDX-751 en ese lazo.
+
+---
+
+Fuentes: Manual Centrales Analógicas CAD-150-8 
