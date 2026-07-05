@@ -1,0 +1,1445 @@
+{
+ "cat001": {
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta la capacidad básica del lazo, carga, alta por autoconfiguración y parte de la edición, pero omite límites clave del GOLD: máximo 25 equipos entre aisladores en PEARL y el caso de 20 con aisladores FET, además del límite de autoconfiguración de 40 equipos CLIP en lazos mixtos Opal/CLIP. También deja incompleta la edición, faltando la reinicialización de equipos OPAL.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:58:51"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acerta en la capacidad básica del lazo, carga máxima, autoconfiguración y parte de la edición desde la central. Pero omite el límite crítico de 40 CLIP en autoconfiguración de lazos mixtos, no incluye la reinicialización OPAL y trata de forma imprecisa los aisladores al no reflejar el límite PEARL de 25 equipos entre aisladores ni el caso de 20 con FET/sin aislador interno.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:58:53"
+  },
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta la capacidad básica del lazo, carga, límite global y el procedimiento general de autoconfiguración/edición. Pero omite el límite específico de PEARL de no más de 25 equipos entre aisladores, confunde el caso de aisladores FET/aislador interno, y no incluye la advertencia clave de autoconfiguración en lazos mixtos Opal/CLIP: los CLIP quedan limitados a 40 salvo usar «Sólo con protocolo CLIP».",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:58:53"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta la capacidad general del lazo, carga, límite EN54 y el procedimiento básico de autoconfiguración/edición. Pero omite el límite clave de 40 equipos CLIP en autoconfiguración de lazos mixtos, no recoge correctamente el criterio PEARL de aisladores de no más de 25 equipos entre aisladores (20 en ciertos casos) y falta la reinicialización de equipos OPAL.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:58:54"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "FALLO",
+   "diagnostico": "Acierta en la capacidad básica del lazo, carga, autoconfiguración y parte de la edición, pero falla en un punto crítico: para PEARL no debe dejar más de 25 equipos entre aisladores, o 20 con FET/sin aislador interno, y el bot sugiere 32 con aislador interno. Además omite la advertencia importante de autoconfiguración en lazos mixtos Opal/CLIP, donde los CLIP quedan limitados a 40 salvo usar el modo sólo CLIP.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:58:55"
+  }
+ },
+ "cat005": {
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "La respuesta cubre las características técnicas clave y distingue correctamente las versiones por código 3244 digital y 3270 analógica, indicando la diferencia de conexión de sensores. Añade detalles adicionales no presentes en la referencia, pero no contradicen el contenido GOLD.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:01"
+  },
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "La respuesta cubre correctamente las características técnicas clave de la CS4 y distingue bien las versiones por código 3244 digital y 3270 analógica 4-20 mA. Añade detalles adicionales no exigidos, pero no contradicen la referencia y la información esencial está completa.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:03"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Incluye las características técnicas esenciales del manual y distingue correctamente las versiones por código de producto: digital 3244 y analógica 3270, asociando la diferencia al tipo de entrada de sensores. Añade detalles adicionales, pero no contradicen la respuesta GOLD ni impiden que sea útil para un técnico.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:04"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Incluye correctamente las características técnicas principales y los códigos de las versiones digital 3244 y analógica 3270, así como la diferencia básica de conexión de sensores. Sin embargo añade información no presente en la referencia GOLD, como compatibilidades concretas de sensores, montaje, LEDs y señal digital 0-10/15 V, que puede ser imprecisa o no justificada frente a la respuesta esperada.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:05"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Incluye las características clave y distingue correctamente los códigos 3244 digital y 3270 analógica, así como 4-20 mA para la analógica. Sin embargo añade detalles no presentes en la referencia y una afirmación potencialmente contradictoria sobre alarmas enclavadas frente a rearme seleccionable manual/automático, por lo que puede inducir a confusión técnica.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:08"
+  }
+ },
+ "cat007": {
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta cubre correctamente contactos NC-C-NA, salidas de sirena con 47 kΩ y especificación eléctrica de los relés. Sin embargo, es imprecisa en el punto crítico del relé de avería: dice que “se activa” incluso al cortar alimentación, pero no explicita que es FAILSAFE y que se desenergiza para señalizar avería, lo que puede inducir a error en el cableado.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:09"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta recoge correctamente la mayoría de datos: relés de alarma/avería con NC-C-NA, salidas de sirena +/- con RFL de 47 kΩ y especificación eléctrica. Sin embargo, es imprecisa al tratar las sirenas como si fueran relés en un apartado y, sobre todo, describe el relé de avería como que 'se activa' ante fallo o corte, sin indicar correctamente que es fail-safe y se desenergiza para señalizar, incluido al perder alimentación.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:11"
+  },
+  "4": {
+   "conducta_bot": "answer-con-conflicto",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Cubre correctamente contactos NC-C-NA, salidas de sirena -/+, EOL de 47 kΩ y especificación eléctrica. Pero es impreciso/incorrecto en el punto clave del relé de avería: no indica claramente que es FAILSAFE y se desenergiza para señalizar avería/corte de alimentación; además llama “relé de sirena” a salidas que no son contactos de relé, aunque luego da sus bornes correctamente.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:16"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Cubre la mayoría de datos requeridos: relés NC-C-NA, salidas de sirena -/+ con 47 kΩ y especificación eléctrica. Pero describe el relé de avería como que 'se activa' incluso sin alimentación y no deja claro el punto clave FAILSAFE/desenergizado; además introduce una variante Stand-Alone irrelevante que puede confundir.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:16"
+  },
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en la mayoría de bornes/contactos NC-C-NA, salidas de sirena y resistencia EOL de 47 kΩ, y menciona que la avería no queda enclavada y se señaliza sin alimentación. Pero no expresa correctamente el carácter FAILSAFE como desenergización del relé de avería, añade una recomendación de cableado discutible/no pedida, y deja incompleta la especificación eléctrica de contactos al faltar 30 V CA y la vida útil mínima de 10^5 operaciones.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:22"
+  }
+ },
+ "cat008": {
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta las resistencias principales (RFL 47 kΩ y 18 kΩ en serie para 3 estados), los modos 2/3 estados y la entrada 6-7. Pero el conexionado del lazo no coincide con la referencia GOLD en la asignación in/out de terminales y la explicación del aislador, y además omite la opción VdS con fin de línea polarizado M200E-EOL-RD.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:19"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta las resistencias principales (RFL 47 kΩ y 18 kΩ en serie para 3 estados) y la entrada 6-7, pero invierte la asignación entrada/salida de los terminales del lazo respecto a la referencia y no menciona la opción VdS M200E-EOL-RD ni la referencia M200E-EOL-R18.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:21"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Cubre correctamente los bornes principales del lazo, la entrada 6-7, la RFL de 47 kΩ y la resistencia de 18 kΩ para 3 estados. Es incompleta frente al gold porque omite las referencias de pieza M200E-EOL-R18 y la opción VdS M200E-EOL-RD, y la explicación del terminal 5 queda algo imprecisa aunque luego la corrige en la nota.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:25"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta las resistencias principales (RFL 47 kΩ y 18 kΩ en serie para 3 estados) y la entrada 6-7, pero el mapeo de terminales del lazo no coincide con la referencia GOLD (invierte entrada/salida y describe de forma distinta el uso de T5 para anular el aislador). Además omite la referencia de la resistencia M200E-EOL-R18 y la opción VdS M200E-EOL-RD.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:28"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta las resistencias principales: RFL de 47 kΩ y 18 kΩ en serie para modo 3 estados, así como la entrada 6-7 y la anulación del aislador con 4-5. Pero da invertida/imprecisa la asignación de terminales de entrada/salida del lazo frente al gold y omite la opción VdS con fin de línea polarizada M200E-EOL-RD.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:29"
+  }
+ },
+ "cat009": {
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente que la NFS Supra usa por defecto condensador de 47 µF y, en modo resistivo, RFL/EOL de 6K8 Ω, instalable en todas las zonas incluidas las no usadas. Aunque no menciona la nota histórica de ediciones anteriores con 4K7 Ω ni cita exactamente la sección 4.4.1, la información técnica principal coincide con la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:33"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente que en NFS Supra puede usarse el condensador de 47 µF por defecto o la RFL de 6K8 Ω, e indica instalación en todas las zonas y cita el manual v.05. Omite la nota histórica de que ediciones anteriores indicaban 4K7 Ω, pero no compromete la respuesta técnica principal.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:34"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente que la NFS Supra usa por defecto condensador de 47 µF y, en modo resistivo, RFL de 6K8 Ω, indicando instalación en todas las zonas incluidas las no usadas. Añade detalles extra no presentes en la referencia, pero no contradicen lo esencial; solo falta mencionar la nota histórica de ediciones anteriores con 4K7 Ω.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:35"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente que la RFL para zonas es 6K8 Ω y también menciona el condensador de 47 µF por defecto, la instalación al final de línea y en zonas no usadas. Solo omite la nota histórica de que una edición anterior indicaba 4K7 Ω, pero no compromete la respuesta técnica principal.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:35"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente que la NFS Supra usa 6K8 Ω como RFL/EOL resistiva y menciona la alternativa por defecto de 47 µF, además de indicar que debe colocarse al final de cada zona incluso si no se usa. No cita la nota histórica de la v.04 con 4K7 Ω, pero no afecta a la respuesta técnica principal.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:38"
+  }
+ },
+ "cat010": {
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta los parámetros de seguridad intrínseca de entrada (+/−: Ui 28 V, Ii 93 mA, Pi 660 mW, Ci/Li 0) y la necesidad de barrera/aislador certificado con límites equivalentes. Pero no indica claramente que la alimentación nominal es 24 Vdc ni recoge la advertencia importante sobre uso sin barrera en zona segura y la limitación interna por encima de 16 V, por lo que queda incompleta frente a la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:44"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta los parámetros de entrada principales (+/−: Ui 28V, Ii 93mA, Pi 660mW, Ci/Li 0) y la necesidad de barrera Zener o fuente/aislador galvánico con salidas limitadas, además del marcado ATEX. Pero no indica claramente que la alimentación nominal es 24V dc ni recoge la advertencia relevante de uso sin barrera en zona segura y el límite interno por encima de 16V, por lo que queda incompleta frente a la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:44"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta los parámetros de entidad de entrada (+/−: Ui 28 V, Ii 93 mA, Pi 660 mW, Ci/Li 0) y que debe usarse aparato asociado/barrera o aislador con límites no superiores. Sin embargo, no indica claramente la alimentación nominal a 24 Vdc en zona peligrosa ni la condición relevante de uso/prueba sin barrera en zona segura con limitación por encima de 16 V.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:45"
+  },
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta los parámetros de entidad de entrada (+/−: Ui 28 V, Ii 93 mA, Pi 660 mW, Ci/Li 0) y el marcado ATEX, y menciona barrera Zener/aislador galvánico con límites correctos. Pero no indica claramente la alimentación nominal a 24 Vdc a través de una barrera/aislador certificado ni la advertencia de uso sin barrera en zona segura y el límite interno por encima de 16 V; además llama “parámetros mínimos” a límites que deben ser máximos.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:47"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta los parámetros intrínsecos principales de entrada (+/−) y que debe alimentarse mediante aparato asociado certificado tipo barrera Zener o aislador galvánico con límites 28 V/93 mA/660 mW. Sin embargo no indica claramente la alimentación nominal a 24 Vcc ni la recomendación/limitación de uso directo sin barrera por encima de 16 V, por lo que queda incompleto frente a la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:51"
+  }
+ },
+ "cat011": {
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acertó al indicar que «751» no identifica un único detector y distinguió CPX-751/CPX-751E e IDX-751 con la necesidad de zona ATEX/IS. Pero no realiza una aclaración explícita como conducta principal, omite el FSL-751E de la referencia y añade variantes/compatibilidades no solicitadas que pueden desviar la elección.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:52"
+  },
+  "1": {
+   "conducta_bot": "clarify",
+   "veredicto": "PARCIAL",
+   "diagnostico": "El bot acierta al no elegir un único «751» y pedir aclaración, y menciona CPX-751/CPX-751E e IDX-751 con su uso ATEX. Pero queda incompleto frente a la referencia: omite FSL-751E/VIEW, añade variantes no contempladas en el gold, y no remarca suficientemente que son tecnologías/aplicaciones no intercambiables ni la advertencia crítica de seguridad.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:54"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Reconoce que «751» no identifica un único detector y distingue CPX/IDX y zona ATEX, lo que va en la línea de pedir aclaración. Pero no formula una aclaración clara, omite el FSL-751E indicado en la referencia y añade/afirma variantes y compatibilidades generales no cubiertas por el gold.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T16:59:55"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acertó en que «751» no es un único modelo y distingue CPX-751/CPX-751E e IDX-751 para ATEX, con cierta orientación por aplicación. Pero no pide una aclaración explícita como conducta principal, omite el FSL-751E de la referencia, añade variantes no contempladas en la respuesta gold y hace afirmaciones/recomendaciones que pueden desviar la selección correcta.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:00"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Reconoce que «751» es ambiguo y distingue varias tecnologías, incluyendo CPX-751/CPX-751E e IDX-751 para zona intrínsecamente segura. Pero no adopta claramente la conducta de aclaración, omite FSL-751E de la familia indicada en la referencia, añade variantes no contempladas y hace afirmaciones generales de compatibilidad/montaje que pueden inducir a elegir sin confirmar la aplicación exacta.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:02"
+  }
+ },
+ "cat012": {
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "La respuesta da la fórmula correcta (A+B)×1,2, define A y B con 24/72 h y 0,5 h, suma consumos de tarjetas/lazos/salidas y verifica el límite de batería de 2×12 V hasta 18 Ah. Tiene alguna imprecisión menor en la lista de baterías recomendadas y no menciona el dato alternativo de consumo en baterías de la CPU, pero no compromete el procedimiento principal.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:03"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta recoge correctamente la fórmula, los tiempos de autonomía, el factor 1,2, la suma de consumos y el límite aproximado de 18 Ah, por lo que sirve para el cálculo. Sin embargo introduce alguna imprecisión potencialmente confusa en las baterías recomendadas/capacidades y no distingue claramente los consumos de alimentación frente a consumos de batería de la CPU que sí aparecen en la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:05"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente con la fórmula (A+B)×1,2, las autonomías 24/72 h y 0,5 h, suma de consumos en reposo/alarma, límites de corriente y capacidad máxima instalable. Hay algún detalle accesorio discutible en la lista de baterías, pero no afecta al procedimiento de cálculo solicitado.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:05"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta reproduce correctamente el método esencial: fórmula (A+B)×1,2, autonomía de reposo 24/72 h, alarma 0,5 h, suma de consumos y límite aproximado de 18 Ah. Sin embargo, introduce alguna imprecisión potencialmente confusa en las baterías recomendadas/capacidades (p. ej. mezclar NP7-12BFR con 17,2 Ah), por lo que no es completamente limpia frente a la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:11"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta da la fórmula correcta, los tiempos de autonomía/alarma, el factor 1,2, los consumos principales y el límite de 18 Ah, por lo que sería útil para el cálculo. Sin embargo, omite la distinción indicada en el manual entre consumo de alimentación y consumo de baterías para la CPU, y contiene una imprecisión al agrupar el modelo NP7-12BFR como si fuera batería de 17,2 Ah.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:13"
+  }
+ },
+ "cat013": {
+  "0": {
+   "conducta_bot": "refuse-inference",
+   "veredicto": "PASS",
+   "diagnostico": "Responde sin inferir compatibilidad cross-marca: no afirma ni niega que el SDX-751 funcione en la CAD-150, separa los hechos documentados y remite a fabricantes. Es algo menos detallado que la referencia sobre el lazo/protocolo, pero cubre correctamente la decisión técnica principal.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:11"
+  },
+  "3": {
+   "conducta_bot": "refuse-inference",
+   "veredicto": "PASS",
+   "diagnostico": "El bot aplica correctamente la conducta esperada: no infiere compatibilidad ni incompatibilidad entre marcas, separa lo documentado para cada producto y remite a los fabricantes. Aunque no incluye todos los detalles técnicos del GOLD como el protocolo CLIP o las características del lazo Detnov, la respuesta es suficiente y no alucina.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:15"
+  },
+  "4": {
+   "conducta_bot": "refuse-inference",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente sin inferir compatibilidad ni incompatibilidad cross-marca: separa hechos documentados, indica que CAD-150 no lista el SDX-751 y redirige a fabricantes. Aunque no menciona el protocolo CLIP ni algunos datos del lazo Detnov del gold, la respuesta es suficiente y segura para el técnico.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:18"
+  },
+  "1": {
+   "conducta_bot": "refuse-inference",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente sin afirmar ni negar la compatibilidad cross-marca no documentada, separa los datos por fabricante y redirige a Detnov/Notifier para confirmación oficial. Omite algunos detalles del gold sobre el lazo CAD-150 y el protocolo CLIP, pero no compromete la conclusión técnica.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:19"
+  },
+  "2": {
+   "conducta_bot": "refuse-inference",
+   "veredicto": "PASS",
+   "diagnostico": "El bot no afirma ni niega compatibilidad cross-marca y separa correctamente lo documentado para cada producto, redirigiendo a Detnov/Notifier. Aunque aporta menos detalle que la referencia sobre el protocolo CLIP y las características del lazo CAD-150, la respuesta es suficiente y no incurre en inferencias no soportadas.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:20"
+  }
+ },
+ "cat014": {
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente que la vida útil esperada es de 10 años desde la fecha de fabricación, con sustitución al cumplirse ese plazo, y que el MTBF no está especificado en la documentación. Además remite adecuadamente a Detnov para obtener un MTBF concreto.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:15"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Respuesta correcta y suficiente: indica la vida útil de 10 años desde fabricación, la sustitución obligatoria y que la fecha está en la pegatina lateral. También distingue correctamente que el MTBF no está especificado y remite a Detnov para ese dato.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:17"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente que la vida útil esperada es de 10 años desde la fecha de fabricación, que debe sustituirse después y que el MTBF no está especificado en la documentación. Incluye referencia a la fuente y no inventa un valor de MTBF.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:18"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente que la vida útil esperada es de 10 años desde la fecha de fabricación y que debe sustituirse entonces, indicando la pegatina lateral. También aclara adecuadamente que el MTBF no está especificado en la documentación y remite a Detnov para obtenerlo.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:20"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente que la vida útil esperada es de 10 años desde la fecha de fabricación y que debe sustituirse después, citando la pegatina lateral. También distingue adecuadamente que el MTBF no está especificado en la documentación y remite a Detnov para obtenerlo.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:20"
+  }
+ },
+ "cat015": {
+  "0": {
+   "conducta_bot": "admit",
+   "veredicto": "PASS",
+   "diagnostico": "Admite correctamente que los manuales/fragmentos disponibles no documentan el procedimiento de actualización de firmware y no inventa pasos. Además redirige al soporte de Detnov y cita las fuentes relevantes, aunque podría enfatizar más que la configuración por USB no equivale a actualizar firmware.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:21"
+  },
+  "3": {
+   "conducta_bot": "admit",
+   "veredicto": "PASS",
+   "diagnostico": "Admite correctamente que la documentación recuperada no contiene un procedimiento de actualización de firmware y no inventa pasos. Además redirige al soporte técnico de Detnov y cita las fuentes disponibles, alineado con la respuesta esperada.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:24"
+  },
+  "1": {
+   "conducta_bot": "admit",
+   "veredicto": "PASS",
+   "diagnostico": "Admite correctamente que no hay procedimiento de actualización de firmware documentado en el material disponible y redirige al soporte de Detnov sin inventar pasos. La respuesta es coherente con la referencia, aunque formula la ausencia como limitada a los fragmentos recuperados.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:24"
+  },
+  "4": {
+   "conducta_bot": "admit",
+   "veredicto": "PASS",
+   "diagnostico": "Admite correctamente que la documentación disponible no contiene un procedimiento de actualización de firmware y no inventa pasos. Además redirige al soporte de Detnov/fabricante, aunque lo formula como 'fragmentos recuperados' en vez de afirmar sobre el corpus completo.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:25"
+  },
+  "2": {
+   "conducta_bot": "admit",
+   "veredicto": "PASS",
+   "diagnostico": "Admite correctamente que los manuales/fragmentos disponibles no documentan el procedimiento de actualización de firmware y redirige al soporte de Detnov sin inventar pasos. La respuesta es suficiente y alineada con la referencia, aunque habla de 'fragmentos recuperados' en vez de afirmar sobre todo el corpus.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:25"
+  }
+ },
+ "cat016": {
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "FALLO",
+   "diagnostico": "La parte de prueba de zona es mayormente correcta, incluyendo modo prueba, anulación de retardos y retorno automático a los 20 minutos. Pero falla en el alta: afirma que el corpus no contiene el procedimiento, cuando el manual de instalación sí indica la autobúsqueda del lazo, comprobación de elementos y asignación a zona/elemento.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:28"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "FALLO",
+   "diagnostico": "La parte de prueba de zona es mayoritariamente correcta, incluyendo modo PRUEBA, anulación de retardos, salida manual y retorno automático a los 20 minutos. Pero falla en lo esencial del alta: afirma que no hay procedimiento de enrolamiento en los fragmentos, cuando el gold sí documenta la AUTOBUSQUEDA del lazo y la posterior asignación a zona/nombre en los menús BUCLE, ZONA y ELEMENTO.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:32"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "FALLO",
+   "diagnostico": "La parte de prueba de zona está mayormente correcta y cita el modo PRUEBA, anulación de retardos, salida y timeout de 20 minutos. Pero falla en lo esencial del alta: afirma que no hay procedimiento documentado cuando el manual sí indica la autobúsqueda del bucle, comprobación de elementos, asignación a zona y configuración/nombre del elemento.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:32"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "FALLO",
+   "diagnostico": "Acierta en gran parte el procedimiento de prueba de zona, incluido el modo prueba, disparo, salida y retorno automático a los 20 minutos. Pero falla una parte esencial de la pregunta: afirma que no hay procedimiento de alta cuando el manual sí indica la autobusqueda del bucle, comprobación de elementos y asignación/configuración de zona y nombre.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:33"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "FALLO",
+   "diagnostico": "La parte de prueba en modo ZONA > PRUEBA es mayormente correcta, incluyendo sirenas, retardos y retorno a normal a los 20 minutos. Pero falla en el alta: afirma que no hay procedimiento disponible cuando el manual sí indica AUTOBUSQUEDA del bucle, comprobación de elementos y asignación/nombre de zona/elemento.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:35"
+  }
+ },
+ "cat017": {
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta bastante en el cableado del módulo HOP-433-100, bornes, pantalla a tierra, capacidades OPAL/CLIP, no mezcla y límites principales. Pero la parte de alta/configuración queda incompleta frente al gold: no indica claramente ejecutar la Auto Configuración para detectar/dar de alta dispositivos, no menciona el flujo CLSS de sitio/edificio/licencia .bin ni la herramienta POL-200-TS, y añade pasos/detalles no esenciales o confusos sobre el primer encendido.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:37"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta gran parte del cableado del módulo OPAL, capacidades, licencia CLIP y no mezclar OPAL/CLIP, pero la parte de alta/configuración queda incompleta y no menciona claramente la Auto Configuración ni POL-200-TS. Además introduce una indicación problemática/no soportada sobre instalar RFL en el lazo.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:40"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en lo esencial del cableado del módulo HOP-433-100, capacidades OPAL/CLIP, no mezclar protocolos, licencia CLIP y uso de CLSS. Pero la parte de alta/configuración queda incompleta/truncada: no explica claramente ejecutar Auto Configuración para dar de alta los dispositivos, no menciona el flujo sitio/edificio/.bin ni la herramienta POL-200-TS, y añade pasos/detalles no contrastados con la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:41"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acertó bastante en el cableado del módulo HOP-433-100, terminales, pantalla, capacidades y no mezclar OPAL/CLIP. Pero la parte de alta/configuración queda incompleta/truncada: no indica la Auto Configuración para detectar y dar de alta dispositivos, no explica el flujo CLSS de sitio/edificio/licencia .bin ni menciona la herramienta POL-200-TS.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:43"
+  },
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta buena parte del cableado del módulo HOP-433-100, capacidades OPAL/CLIP, licencia CLIP y uso de CLSS. Pero la parte de alta/configuración queda incompleta frente al gold (no menciona la Auto Configuración, archivo .bin/licencia ni POL-200-TS) y además introduce una recomendación dudosa/incorrecta de RFL en un lazo direccionable.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:44"
+  }
+ },
+ "cat018": {
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Cubre correctamente el concepto CBE, la ruta de programación en Puntos/Modulos, el campo CBE de la salida, la edición de la ecuación y remite al Apéndice A para la sintaxis, con citas. Añade detalles adicionales y no menciona explícitamente las hojas de programación ni el Tipo SW como SND, pero no afecta a la utilidad técnica de la respuesta.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:47"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "La respuesta cubre correctamente el concepto CBE, el acceso por Programación > Puntos > Módulos, la edición del campo CBE, ejemplos de sintaxis y remite al Apéndice A con citas. Aunque no menciona explícitamente la asignación de zona ni el Tipo SW de la salida como en la referencia, para la pregunta planteada resulta suficiente y útil para un técnico.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:53"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Cubre correctamente el concepto CBE, la ruta de programación en Puntos/Modulos, la edición del campo CBE, ejemplos de sintaxis y remite al Apéndice A con cita al manual. Omite algún detalle secundario del GOLD como registrar previamente las hojas de programación y la mención explícita del Tipo SW, pero la respuesta es suficiente para guiar al técnico.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:53"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "La respuesta cubre correctamente el concepto CBE, el acceso por Programación > Puntos > Módulos, la edición del campo CBE, operadores/sintaxis y que la salida se activa al cumplirse la ecuación, citando el apéndice correspondiente. Omite detalles menores del gold como la asignación de zona en la pestaña de programación y la recomendación de hojas de programación, pero no afecta sustancialmente a la utilidad técnica.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:53"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "La respuesta cubre correctamente el concepto de CBE, el acceso por Programación > Puntos > Módulos, la edición/confirmación del campo CBE y remite al Apéndice A para la sintaxis, con ejemplos útiles. Omite algunos matices del gold como la asignación de zona, la programación también desde sensores y la recomendación de hojas de programación, pero no impide que guíe correctamente al técnico.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:55"
+  }
+ },
+ "cat019": {
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en lo esencial de crear la maniobra, usar Coincidencias y definir eventos sobre entidades o condiciones temporales. Pero queda incompleta justo en la asignación de salidas/acciones y omite puntos relevantes del GOLD como que las acciones actúan sobre sirenas o módulos de control, el límite de 100.000 eventos/acciones y la sectorización previa.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:00:53"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta la estructura principal: crear desde Maniobras/Añadir, usar Coincidencias y definir eventos por entidad o condición temporal, además de empezar a describir acciones. Pero la respuesta queda truncada e incompleta en la asignación de salidas, no explicita claramente que las acciones actúan sobre sirenas/módulos de control ni menciona el límite de 100.000 maniobras ni la sectorización previa.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:00"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en lo esencial de crear la maniobra, definir coincidencias y añadir eventos/entidades/condiciones temporales, con citas. Pero la parte de asignación de salidas queda truncada e incompleta, y omite detalles relevantes del gold como el límite de 100.000 eventos/acciones y la recomendación previa de sectorización.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:01"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta cubre correctamente el flujo principal: menú Maniobras, crear con coincidencias, añadir EVENTO como entrada y ACCIÓN como salida, con entidades y condición temporal. Queda incompleta frente a la referencia porque omite la sectorización previa y el límite de 100.000 maniobras entre eventos/acciones, y la parte de salidas queda algo truncada/imprecisa.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:02"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Cubre correctamente la creación de la maniobra, la lógica de coincidencias, la definición de eventos/entidades/condición temporal y la asignación básica de acciones/salidas, con citas. Añade algunos detalles no presentes en la gold y omite el recordatorio de sectorización previa, pero no afecta de forma relevante a la utilidad técnica.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:07"
+  }
+ },
+ "cat020": {
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Incluye los valores clave correctos para la versión España/Morley-IAS: prealarma 80%, alarma 100% y máximo 108%. Pero introduce una separación por tipos OTM/LSR con valores y rangos alternativos que no responde fielmente al criterio GOLD y puede confundir, ya que los valores por defecto de España son los fijados por el manual de variaciones y la escala/niveles solo son una forma de ajuste/mapeo.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:05"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta los valores clave para la variante España/Morley-IAS: prealarma 80%, alarma 100% y máximo 108%, con cita. Pero introduce una separación por tipo de detector que puede confundir: para OTM/LSR presenta niveles numerados y rangos como si sustituyeran la respuesta principal, cuando la referencia indica que esos niveles mapean a la escala común y que los valores por defecto de España siguen siendo 80%/100% y máximo 108%.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:10"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta los valores clave para la versión España/Morley-IAS: prealarma 80%, alarma 100% y máximo 108%, con cita. Pero introduce una separación por tipos/protocolo que puede confundir: presenta OTM/LSR como si tuvieran otros valores por defecto/recomendados sin explicar claramente que son niveles que mapean a la misma escala analógica y que el dato normativo pedido es el de la variación de España.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:12"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta los valores clave para la versión España/Morley-IAS: prealarma 80 %, alarma 100 % y máximo de alarma 108 %, con cita. Pero introduce una separación por tipo de detector que puede confundir: presenta OTM/LSR como si no aplicara la escala porcentual común, cuando la referencia indica que sus niveles 0-9 mapean a esa escala y los valores por defecto de España los fija el manual de variaciones.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:13"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Da la respuesta clave esperada para la versión España/Morley-IAS: prealarma 80%, alarma 100% y máximo de alarma 108%, con cita. Añade información por tipo de detector y niveles OTM/LSR que puede sobrecomplicar, pero no impide que el técnico obtenga los valores solicitados.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:24"
+  }
+ },
+ "cat021": {
+  "0": {
+   "conducta_bot": "clarify",
+   "veredicto": "PASS",
+   "diagnostico": "Reconoce correctamente que «40/40» no es un único modelo y pide aclarar el tipo de llama/combustible antes de indicar qué pedir, citando variantes relevantes. Añade variantes adicionales y preguntas útiles; aunque no enfatiza tanto la no intercambiabilidad/advertencia de seguridad del gold, no elige un modelo ni induce a error.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:16"
+  },
+  "3": {
+   "conducta_bot": "clarify",
+   "veredicto": "PASS",
+   "diagnostico": "Acierta al no tratar «40/40» como un único detector, enumera variantes relevantes por tecnología y pide aclarar tipo de llama/combustible antes de indicar modelo. Aunque no enfatiza tanto como la referencia el riesgo de no intercambiabilidad, la respuesta es correcta y suficiente para orientar al técnico.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:19"
+  },
+  "1": {
+   "conducta_bot": "clarify",
+   "veredicto": "PASS",
+   "diagnostico": "Acierta en que «40/40» no es un modelo único y pide la aclaración clave sobre tipo de llama/combustible antes de recomendar uno, listando variantes relevantes con tecnología de detección. Añade algunas variantes y requisitos adicionales, pero no cambia la conclusión ni induce a elegir un modelo incorrecto.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:21"
+  },
+  "2": {
+   "conducta_bot": "clarify",
+   "veredicto": "PASS",
+   "diagnostico": "Aclara correctamente que «40/40» no es un modelo único y pide el tipo de llama/combustible antes de seleccionar variante, listando las tecnologías principales documentadas. Aunque no enfatiza tanto la no intercambiabilidad ni la advertencia de seguridad del caso hidrógeno/IR3, la respuesta es técnicamente útil y alineada con la conducta esperada.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:21"
+  },
+  "4": {
+   "conducta_bot": "clarify",
+   "veredicto": "PASS",
+   "diagnostico": "Acierta al indicar que «40/40» no es un único modelo y pide aclarar el tipo de llama/combustible antes de seleccionar la referencia. La lista de variantes es más amplia que la GOLD, pero no contradice el criterio principal y orienta correctamente al técnico.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:23"
+  }
+ },
+ "cat022": {
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente lo esencial: 40/40L y 40/40L4 son UV/IR y se diferencian por la banda IR, y el sufijo B identifica los modelos con BIT. Añade información adicional no requerida, pero no contradice la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:28"
+  },
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente lo esencial: 40/40L usa IR 2,5–3,0 µm, 40/40L4 usa 4,5 µm para hidrocarburos, y el sufijo B identifica los modelos con BIT. Añade información adicional sobre certificaciones que no era necesaria, pero no contradice la respuesta de referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:28"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente lo esencial: 40/40L y 40/40L4 son UV/IR y se diferencian por la longitud de onda IR, y el sufijo B identifica las versiones con BIT. Añade información adicional de aplicaciones/certificación, pero no contradice la referencia y aporta cita de manual.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:30"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente lo esencial: 40/40L y 40/40L4 son UV/IR y se diferencian por la longitud de onda IR, y el sufijo B identifica los modelos con BIT. Añade detalles adicionales no presentes en la referencia, pero no contradicen el núcleo de la respuesta esperada.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:30"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente la diferencia principal entre 40/40L y 40/40L4 por la banda IR, e identifica correctamente que el sufijo B corresponde a modelos con BIT. Añade información adicional sobre SIL-2 y aplicaciones que no estaba en la referencia, pero no contradice el contenido esencial esperado.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:34"
+  }
+ },
+ "cat023": {
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta las tres clases EN 54-20 y menciona que las posiciones W01–W44 permiten ajustar ±20/±50 % y 10/60 min. Sin embargo añade información no pedida y potencialmente confusa sobre A11–C31/300 s y que W01–W44 “no están homologadas” y requieren consulta al fabricante, además de dejar truncados los ejemplos clave que sí aparecen en la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:38"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente las tres clases EN 54-20 y explica que la monitorización del flujo se configura mediante posiciones W01-W44 con retardos de 10/60 min y desviaciones ±20/±50 %. Añade información extra sobre A11-C31 y sensores SSD, pero no contradice lo esencial de la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:39"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente las tres clases EN 54-20 y explica que la monitorización del flujo se configura mediante posiciones W01–W44 con retardos de 10/60 min y desviaciones ±20/±50 %. Añade información adicional no presente en la referencia, pero no contradice lo esencial.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:40"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente las tres clases EN 54-20 y explica que la monitorización del flujo en W01–W44 fija retardo 10/60 min y desviación ±20/±50, con cita. Añade información adicional y alguna advertencia no presente en la referencia, pero no impide que la respuesta técnica principal sea correcta y suficiente.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:42"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente las tres clases EN 54-20 y explica que la monitorización del flujo se configura mediante posiciones W01-W44 con retardos 10/60 min y desviaciones ±20/±50 %, incluyendo ejemplos. Añade información extra sobre A11-C31 y sensores, pero no contradice lo esencial de la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:47"
+  }
+ },
+ "cat024": {
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente que el consumo en alarma es 17 mA a 80 dB(A), cita el manual del MAD-472 y además señala la discrepancia con la tabla CAD-250 de 7 mA recomendando usar la fuente primaria. Solo omite la nota histórica de la revisión V1 (<15 mA), pero no afecta a la respuesta técnica principal.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:47"
+  },
+  "2": {
+   "conducta_bot": "answer-con-conflicto",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Reconoce la discrepancia documental y acaba recomendando usar 17 mA del manual propio vigente, lo cual coincide con la referencia. Sin embargo, abre afirmando que el consumo es 7 mA, lo que puede inducir a error, y omite la nota de la revisión anterior V1 con <15 mA.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:49"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Incluye la discrepancia documental y recomienda correctamente usar 17 mA del manual propio vigente, con datos eléctricos adicionales coherentes. Sin embargo abre dando como respuesta principal 7 mA, que es el valor discrepante de la tabla CAD-250 y no el consumo correcto según el manual vigente, lo que puede inducir a error.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:49"
+  },
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente el valor vigente de 17 mA a 80 dB(A), incluye datos eléctricos relevantes y cita la fuente del manual del MAD-472. También surfacea la discrepancia documental de 7 mA en CAD-250; solo omite la nota histórica de la revisión V1 con <15 mA, pero no afecta a la respuesta principal.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:51"
+  },
+  "4": {
+   "conducta_bot": "answer-con-conflicto",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Detecta y cita la discrepancia entre la tabla CAD-250 y el manual propio, incluyendo el valor correcto de 17 mA. Sin embargo, responde inicialmente 7 mA y no indica que debe prevalecer el manual vigente del dispositivo ni el valor conservador de 17 mA para el cálculo del lazo.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:56"
+  }
+ },
+ "hp001": {
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Indica correctamente el acceso desde reposo tocando el candado, la pantalla de acceso y la clave de administrador por defecto 2222, además de incluir advertencia y citas. Añade navegación a Ajustes > Avanzado y detalles extra; aunque no menciona la clave de usuario 1111 ni la recomendación de cambiar la clave, no impide que la respuesta sea útil y suficiente.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:59"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta los pasos esenciales de acceso desde reposo mediante el candado e introducción de la clave de administrador 2222, e incluye advertencia. Sin embargo, confunde o estrecha el objetivo hacia el submenú AJUSTES → AVANZADO y omite detalles relevantes de la pantalla de administrador y la distinción con la clave de usuario 1111 recomendados en la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:01:59"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde con los pasos clave correctos: desde reposo tocar el candado, abrir pantalla de acceso e introducir la clave de administrador por defecto 2222, incluyendo advertencia y cita/fuentes. Añade una navegación posterior a Ajustes > Avanzado que no aparece en la referencia, pero no contradice lo esencial y resulta útil para el técnico.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:01"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde con los pasos esenciales: desde reposo tocar el candado, entrar en pantalla de acceso e introducir la clave de administrador por defecto 2222, incluyendo advertencia. Añade navegación y detalles del submenú AVANZADO; aunque omite mencionar la clave de usuario 1111 y la recomendación de cambiar la clave por defecto, la respuesta es suficiente para un técnico.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:02"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "La respuesta incluye los pasos esenciales para acceder: pantalla de reposo, icono del candado, pantalla de acceso y clave de administrador por defecto 2222, además de una advertencia. Añade navegación a Ajustes > Avanzado y detalles extra; aunque omite la nota de la clave 1111 y la recomendación de cambiar la clave, no compromete la utilidad técnica de la respuesta.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:07"
+  }
+ },
+ "hp002": {
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en lo esencial: el ASD535 genera un fallo de flujo de aire por desviación respecto al 100%, y un valor bajo apunta principalmente a obstrucción/filtro/sensor sucio, con diagnóstico por eventos y lectura de flujo. Queda incompleto para una alarma intermitente porque no menciona turbulencias/fluctuaciones ambientales ni revisar sensibilidad/retardo LS-Ü, y omite detalles importantes del reset inicial como esperar 5 min y hacerlo solo con la instalación limpia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:09"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acertó la causa principal probable (obstrucción) y el umbral ±20%/300 s del fallo de flujo de aire, además de proponer inspección/limpieza y reset con cautela. Pero el diagnóstico queda incompleto frente al gold: omite la lectura del valor actual de flujo en V01/V02 e interpretación <100/>100, no menciona turbulencias/fluctuaciones como causa de intermitencia ni rotura/fugas para valores altos, y añade códigos específicos no contrastados en la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:09"
+  },
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta la causa principal (obstrucción/filtro/sensor) y el criterio <80% respecto al reset inicial, e incluye revisión de eventos e inspección. Queda incompleto frente al gold: no explica que es un fallo de flujo de aire y no una alarma, no da el procedimiento preciso de lectura V01/V02, omite turbulencias/fluctuaciones y la revisión de sensibilidad/retardo LS-Ü, y algunas afirmaciones de códigos como 'causa exacta' son demasiado tajantes.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:10"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta la causa principal (obstrucción/filtro/sensor sucio) y los umbrales ±20%/300 s, y orienta a revisar eventos y limpiar antes del reset. Pero el diagnóstico queda incompleto frente al manual: no explica cómo leer el valor actual en V01/V02 ni interpretar <100% vs >100%, omite turbulencias/ajustes LS-Ü y el procedimiento/espera del reset inicial; además introduce códigos concretos y afirmaciones de sensores que pueden ser imprecisos según variante.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:16"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en lo esencial: el fallo se produce por desviación del flujo respecto al 100%, un valor bajo apunta a obstrucción, y propone leer eventos/valor de flujo e inspeccionar filtros, orificios y sensores. Queda incompleta para el caso intermitente porque no contempla turbulencias/oscilaciones ambientales ni revisar/ajustar la ventana y retardo LS-Ü, y omite detalles importantes del reset inicial como esperar 5 min y ejecutarlo solo tras dejar el sistema en estado correcto.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:16"
+  }
+ },
+ "hp003": {
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta explica correctamente el orden crítico, la conexión en serie mediante puente, la conexión rojo/negro, la comprobación de >24V, el pulsador BAT y el fusible. Queda incompleta frente a la referencia porque no explicita claramente que son dos baterías de 12V en serie ni incluye la advertencia de desconectar el magnetotérmico/no manipular con alimentación conectada ni la ubicación física de las baterías.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:15"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta cubre el orden de conexión, verificación de tensión, puente entre baterías, conexión rojo/negro y arranque con BAT, por lo que ayudaría en lo esencial. Sin embargo no explicita claramente que son dos baterías de 12V en serie uniendo + con -, omite ubicación y precaución de desconectar el magnetotérmico, y da un dato conflictivo/erróneo del fusible de baterías como 5A frente a los 2A de la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:16"
+  },
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta acierta en el orden crítico, uso de dos baterías con puente, verificación de >24V, fusible/conector y botón BAT, con cita. Pero queda incompleta para un técnico porque no explicita que son dos baterías de 12V en serie uniendo el positivo de una con el negativo de la otra, ni que rojo/negro van a los polos libres; además omite advertencias de desconexión y ubicación.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:16"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta acierta en el orden crítico de conexión, verificación de tensión, conexión a la placa, fusible/conector y pulsador BAT. Sin embargo, no explicita lo esencial de la conexión en serie: dos baterías de 12V uniendo el positivo de una con el negativo de la otra, y omite algunas precauciones/ubicación indicadas en la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:23"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acertó el orden de conexión, la verificación de tensión, el uso del puente, la conexión rojo/negro y el arranque con BAT. Pero no explicita que son dos baterías de 12V en serie uniendo + de una con - de la otra, omite algunas precauciones/ubicación y además contradice la referencia al indicar fusible de baterías de 5A en lugar de 2A.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:23"
+  }
+ },
+ "hp004": {
+  "1": {
+   "conducta_bot": "answer-con-conflicto",
+   "veredicto": "PASS",
+   "diagnostico": "Da correctamente las dos versiones (24V y 220V) con sus tensiones y consumos en reposo, claramente separadas, y advierte que se verifique la versión instalada. Añade consumos en alarma y una fuente, sin mezclar valores ni elegir una variante.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:20"
+  },
+  "2": {
+   "conducta_bot": "answer-con-conflicto",
+   "veredicto": "PASS",
+   "diagnostico": "Da correctamente las dos versiones del DGD-600 (24V y 220V) con sus tensiones y consumos en reposo, y advierte que se verifique la versión instalada. La información adicional de consumo en alarma no afecta a la corrección.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:21"
+  },
+  "0": {
+   "conducta_bot": "answer-con-conflicto",
+   "veredicto": "PASS",
+   "diagnostico": "Da correctamente las dos variantes del DGD-600, separando 24V y 220V, con sus tensiones y consumos en reposo, y advierte que debe verificarse la versión instalada. Añade consumos en alarma, pero no contradice la respuesta requerida.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:23"
+  },
+  "3": {
+   "conducta_bot": "answer-con-conflicto",
+   "veredicto": "PASS",
+   "diagnostico": "Da correctamente las dos variantes del DGD-600 con sus tensiones y consumos en reposo, separando 24V y 220V, e indica que debe verificarse la versión instalada. Añade consumo en alarma, pero no afecta negativamente.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:25"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Da correctamente las dos variantes del DGD-600 con tensión y consumo en reposo claramente separados, y cita fuente. Aunque no pide explícitamente confirmar la versión instalada, no mezcla valores y la distinción 24V/220V queda clara para el técnico.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:31"
+  }
+ },
+ "hp005": {
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en lo esencial: usar la Matriz de Control, limitar a la zona, seleccionar coincidencia de 2 equipos y excluir pulsadores manuales. Pero omite pasos importantes de la entrada y salida indicados en la referencia (definir ALARMA/Normal combinada, selección formal de salidas activadas, tipo de sirena, modo fijo/pulsante, confirmación y requisitos previos de niveles de coincidencia) y añade alguna advertencia/confusión no necesaria sobre coincidencia de zonas y limitación por tipo.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:30"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en lo esencial: usar la Matriz de Control, seleccionar la zona, aplicar COINCIDENCIA 2 EQUIPOS, no incluir pulsadores y asignar salida de sirena. Pero omite pasos importantes del procedimiento oficial como definir ENTRADA=ALARMA/Normal combinada, dejar 'UNA ÚNICA zona', configurar el tipo de salida/modo/confirmación y los niveles previos de coincidencia; además introduce una instrucción para pulsadores no solicitada que puede confundir.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:31"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en lo esencial: usar la Matriz de Control, coincidencia de 2 equipos en la misma zona/subzona y excluir pulsadores manuales. Pero omite pasos clave del flujo oficial como seleccionar ENTRADA=ALARMA/Normal combinada, dejar 'UNA ÚNICA zona', configurar correctamente la SALIDA de sirena, modo/retardo/confirmación y los requisitos previos de niveles de coincidencia; además algunas indicaciones son imprecisas.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:31"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en lo esencial: usar la Matriz de Control, limitar a zona/subzona, excluir pulsadores y seleccionar 'COINCIDENCIA 2 EQUIPOS' antes de asociar una salida de sirena. Pero omite pasos clave del gold como seleccionar ENTRADA=ALARMA, 'Normal (Combinada) Alarma' para SMART, dejar 'UNA ÚNICA zona', detallar correctamente el tipo de salida y los niveles previos de coincidencia; además añade afirmaciones de red/compatibilidad y opciones algo imprecisas que pueden confundir.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:34"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en que debe hacerse en la Matriz de Control con entrada por zona/subzona, coincidencia de 2 equipos y exclusión de pulsadores manuales. Pero queda incompleto para la pregunta porque no programa la SALIDA de sirena, omite pasos clave como 'Salidas activadas', tipo de salida/modo/retardo/confirmación, y contiene una advertencia confusa sobre limitación por tipo frente a coincidencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:39"
+  }
+ },
+ "hp006": {
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta el significado general del fallo de tierra y reconoce que no hay procedimiento detallado en los fragmentos, pero introduce imprecisiones importantes: cita JP6 cuando la referencia indica JP2, sobreafirma que la pantalla indicará zona/punto del fallo, y omite elementos documentados como TB1-3, NAM-232W SW2/SW3 e ISO-X para acotar el lazo.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:37"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta el significado general del Earth Fault y reconoce que no hay procedimiento paso a paso documentado, pero omite datos relevantes del gold como TB1-3/puesta a tierra, SLC, NAM-232W e ISO-X. Además introduce errores técnicos: afirma que el LED de la MPS-400 confirma el origen en esa placa/cableado y cita un jumper JP6 cuando la referencia indica JP2.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:37"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta el significado general de 'Tierra' como fallo de aislamiento a tierra y menciona el LED de fallo de tierra en la MPS-400, además de admitir que no hay procedimiento detallado paso a paso. Pero omite puntos relevantes documentados como TB1-3/JP2, NAM-232W e ISO-X, y sugiere de forma imprecisa que la pantalla/zonas permiten localizar el punto afectado y que el origen queda confirmado en la fuente o cableado asociado.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:41"
+  },
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta el significado general del fallo de tierra y menciona la MPS-400/TB1-3, además de admitir que no hay procedimiento paso a paso documentado. Pero contiene un error técnico importante al citar el jumper como JP6 en vez de JP2, omite elementos documentados como ISO-X y NAM-232W, y presenta pasos de localización parcialmente inferidos como si estuvieran respaldados.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:42"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acertó el significado general del fallo de tierra y que los manuales no dan un procedimiento paso a paso, además de mencionar el LED y TB1-3 en la MPS-400. Pero omite puntos documentados importantes como ISO-X y NAM-232W, y contiene errores/alucinaciones relevantes: identifica el jumper como JP6 en vez de JP2 y presenta el LED de MPS-400 como confirmación del origen en la alimentación.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:45"
+  }
+ },
+ "hp007": {
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta identifica correctamente las tareas anuales del calendario de mantenimiento, otras frecuencias y varias precauciones clave. Sin embargo, omite la recomendación explícita de poner el detector en modo En espera para mantenimiento de tuberías/puntos de muestreo, relevante para un técnico durante esas tareas.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:50"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "La respuesta recoge correctamente que el manual lo presenta como calendario de mantenimiento, enumera las tareas anuales y distingue otras frecuencias, además de incluir las principales precauciones y fuentes. Solo omite de forma explícita la recomendación de poner el detector en Standby para trabajos en tuberías/puntos de muestreo, pero no afecta sustancialmente a la corrección.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:50"
+  },
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta las tareas anuales de la Tabla 7-1 y las precauciones principales, y advierte que el detalle de la prueba de humos está en otra guía. Sin embargo, no deja claro que el manual no define un 'test anual' único y omite parte del contexto relevante del calendario no anual y la recomendación de poner el detector en Standby para mantenimiento de tuberías/puntos de muestreo.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:52"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta identifica correctamente las tareas anuales de la Tabla 7-1 y las precauciones principales, con citas. Sin embargo, omite parte del contexto relevante del manual recogido en la referencia: que no existe un procedimiento anual único, las tareas de otras frecuencias y la recomendación específica de poner el detector en Standby para mantenimiento de tuberías/puntos de muestreo.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:53"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "La respuesta recoge correctamente que el manual remite a la Tabla 7-1 de mantenimiento, enumera las cuatro tareas anuales, distingue las frecuencias no anuales y añade las precauciones principales con citas. Solo omite de forma explícita la recomendación de poner el detector en modo En espera para mantenimiento de tuberías/puntos, pero no afecta sustancialmente a la corrección de la respuesta.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:57"
+  }
+ },
+ "hp008": {
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta enumera correctamente la mayoría de sensores de humo analógicos compatibles de la ID3000, incluyendo iónicos, ópticos, multicriterio, VIEW y ambientes especiales. Sin embargo omite los detectores por rayo LPB500 y LPB-700/LPB-700T, no menciona claramente el protocolo CLIP ni el límite de 99 sensores por lazo, y clasifica de forma algo imprecisa algún modelo combinado.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:55"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La lista principal de detectores puntuales coincide en gran medida con la referencia, pero omite los detectores por rayo LPB500 y LPB-700/LPB-700T, y no recoge datos relevantes del apéndice como protocolo CLIP y límite de 99 sensores por lazo. Añade información extra de sensibilidad VIEW no solicitada y potencialmente imprecisa, aunque no cambia la compatibilidad principal.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:57"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Incluye prácticamente todos los detectores del listado correcto y menciona el límite de LPB500, pero tiene imprecisiones que pueden confundir: escribe LBP-700/LBP-700T en vez de LPB-700/LPB-700T y duplica/mal etiqueta el SDX-751TEM como SMART 3. También omite la referencia explícita al Apéndice 3 y al protocolo CLIP/hasta 99 sensores por lazo.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:02:59"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta lista la mayoría de sensores de humo analógicos compatibles y cita manuales, pero omite los detectores por rayo LPB500 y LPB-700/LPB-700T que sí aparecen en la referencia. Además introduce una imprecisión al asociar SDX-751TEM con SMART 3, cuando SMART 3 corresponde a IRX-751TEM.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:01"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Incluye prácticamente todos los detectores del listado GOLD y aporta fuentes, por lo que sería útil. Sin embargo tiene imprecisiones: escribe LPB-700/LPB-700T como LBP-700/LBP-700T, clasifica SDX-551THE como óptico en vez de óptico/térmico multicriterio, y no menciona explícitamente CLIP ni el límite de 99 sensores por lazo.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:01"
+  }
+ },
+ "hp009": {
+  "1": {
+   "conducta_bot": "clarify",
+   "veredicto": "FALLO",
+   "diagnostico": "La pregunta se refiere a los lazos de la central Morley ZXe y la referencia permite responder directamente: el lazo direccionable ZX2e/ZX5e no lleva RFL, se cablea en bucle cerrado. El bot pide una aclaración innecesaria y además desvía la cuestión hacia ZXAE/ZXEE, sirenas o RS-485 sin aportar la respuesta correcta.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:01"
+  },
+  "0": {
+   "conducta_bot": "clarify",
+   "veredicto": "FALLO",
+   "diagnostico": "No responde la cuestión principal: en los lazos direccionables Morley ZXe/ZX2e/ZX5e no hay resistencia de fin de línea, se cablean en bucle cerrado. La aclaración es innecesaria y además introduce una afirmación dudosa sobre que los valores de RFL coinciden, cuando la RFL aplica a circuitos convencionales/sirenas, no al lazo.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:02"
+  },
+  "2": {
+   "conducta_bot": "clarify",
+   "veredicto": "FALLO",
+   "diagnostico": "Pide aclaración innecesaria cuando la referencia sí permite responder para ZX2e/ZX5e: el lazo analógico direccionable ZXe no lleva RFL, se cablea en bucle cerrado con retorno al panel. Además desvía la pregunta hacia RS-485/sirenas sin aportar la distinción clave de que las RFL aplican a circuitos convencionales o salidas monitorizadas, no al lazo direccionable.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:04"
+  },
+  "3": {
+   "conducta_bot": "clarify",
+   "veredicto": "FALLO",
+   "diagnostico": "La pregunta sobre los lazos de la Morley ZXe sí tiene respuesta documentada: los lazos analógicos ZX2e/ZX5e no llevan resistencia de fin de línea, se cablean en bucle cerrado con retorno al panel. El bot pide aclaración innecesaria y no aporta el dato técnico clave ni distingue correctamente la RFL de circuitos convencionales/sirenas.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:06"
+  },
+  "4": {
+   "conducta_bot": "clarify",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Distingue correctamente que la RFL de 6K8 aplica a sirenas convencionales y no al lazo analógico, pero pide una aclaración innecesaria y no da la respuesta directa para la ZXe/ZX2e/ZX5e: el lazo direccionable no lleva RFL y se cablea como bucle cerrado con retorno al panel. Además introduce datos irrelevantes de RS-485/ZXAE-ZXEE que pueden confundir.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:11"
+  }
+ },
+ "hp010": {
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta acierta en lo esencial: ejecutar la Autobúsqueda del lazo para aceptar el 'EQUIPO NUEVO', verificar el resumen y esperar 2 minutos si hubo cambio de protocolo. Sin embargo, omite pasos importantes del acceso a Nivel 3/desbloqueo de memoria y la ruta completa de programación, y no menciona claramente la edición posterior de propiedades del equipo.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:08"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta identifica correctamente que hay que aceptar el nuevo detector mediante Autobúsqueda, menciona el evento EQUIPO NUEVO, el resumen final y la espera de 2 minutos tras cambio de protocolo. Sin embargo omite pasos importantes del procedimiento de programación indicados en la referencia, como acceder a Nivel 3, desbloquear memoria, entrar por Menú/Programación/Lazo, y tampoco menciona la edición posterior de propiedades del equipo.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:11"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Identifica correctamente que hay que ejecutar la Autobúsqueda del lazo, confirmar, revisar el resumen de nuevos/eliminados/cambiados y menciona el evento EQUIPO NUEVO y la espera de 2 minutos tras cambio de protocolo. Sin embargo, omite pasos importantes del acceso de Nivel 3/desbloqueo de memoria y la ruta completa de Programación > Lazo, y no menciona la edición posterior de propiedades del equipo, por lo que queda algo incompleta frente a la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:11"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta identifica correctamente que hay que ejecutar una Autobúsqueda, confirmar el lazo, revisar el resumen, esperar 2 minutos si hubo cambio de protocolo y que el evento EQUIPO NUEVO se acepta así. Sin embargo omite pasos importantes de acceso/programación indicados en la referencia: entrar a Nivel 3, desbloquear memoria y navegar desde el menú de Programación hasta Lazo.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:13"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta identifica correctamente que debe ejecutarse la Autobúsqueda del lazo, menciona el evento EQUIPO NUEVO, la confirmación, el resumen final y la espera de 2 minutos tras cambio de protocolo. Sin embargo, omite pasos clave de acceso a Nivel 3/desbloqueo de memoria y no indica la edición posterior de propiedades del nuevo equipo; además añade advertencias de instalación no necesarias para la pregunta.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:14"
+  }
+ },
+ "hp011": {
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "FALLO",
+   "diagnostico": "Aunque identifica que puede haber inhibición de rearme y menciona el rearme en nivel de acceso 2, interpreta mal el parámetro r.1/ri y sus valores por defecto, cita apartados incorrectos y omite comprobaciones clave: Abort enclavado, Flow Press, t.A, averías enclavadas y zonas en alarma. Además añade un procedimiento con SW1-6/PROG que no corresponde claramente a la comprobación solicitada y puede inducir a una actuación errónea.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:17"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "FALLO",
+   "diagnostico": "Aunque identifica que debe revisarse la inhibición de rearme y menciona el nivel de acceso 2, da valores erróneos del parámetro r.1/ri: en la referencia 00 permite rearme en cualquier momento y es el valor por defecto, no un estado inhibido. Además omite comprobaciones clave tras descarga como Abort enclavado, Flow Press, t.A, averías enclavadas y zonas/detectores aún en alarma, e introduce un procedimiento de programación no pertinente.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:18"
+  },
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "FALLO",
+   "diagnostico": "Aunque apunta a la inhibición de rearme y a comprobar averías, da valores/default del parámetro incorrectos (confunde r.1/ri y afirma que 00 inhibe por defecto cuando el gold indica que permite rearme), cita mal la norma y añade un procedimiento de programación dudoso/no pertinente. Además omite comprobaciones clave: Abort enclavado, t.A, Flow Press y zonas en alarma.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:19"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "FALLO",
+   "diagnostico": "La respuesta identifica de forma incompleta la inhibición de rearme, pero describe mal el parámetro y sus valores por defecto: en la referencia el r.1=00 permite rearme en cualquier momento, no lo inhibe. Además omite comprobaciones clave como ABORT, Flow Press, t.A, averías enclavadas y zonas en alarma, e introduce procedimientos/errores irrelevantes o alucinados como SW1-6 y la indicación rI.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:19"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "FALLO",
+   "diagnostico": "Aunque identifica que debe revisarse la inhibición de rearme y menciona el rearme en nivel 2 y averías, interpreta mal el parámetro r.1/ri y sus valores por defecto, cita mal la norma y omite comprobaciones clave como Abort, Flow Press, t.A y zonas en alarma. Además introduce procedimientos y afirmaciones no sustentadas que podrían inducir a un técnico a una actuación incorrecta.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:22"
+  }
+ },
+ "hp012": {
+  "1": {
+   "conducta_bot": "answer-con-conflicto",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta parcialmente al indicar AM2020 con 10 lazos y al mencionar las dos cifras conflictivas para AFP1010 (4 lazos vs 2 LIB-200/396 dispositivos), pero no explica claramente la discrepancia documental España/US. Falla en la parte clave de dispositivos por lazo: dice que no está especificado, cuando la referencia indica 99 detectores + 99 módulos por lazo (198), y omite el total de 1980 para AM2020.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:25"
+  },
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta que la AM2020 llega a 10 lazos y menciona ambas cifras documentales para AFP1010 (4 lazos y 2 LIB-200/396 dispositivos), pero no las presenta claramente como conflicto España vs US y afirma 4 como máximo. Además omite el dato clave de 99 detectores + 99 módulos por lazo (198) y declara erróneamente que no está especificado.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:26"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "FALLO",
+   "diagnostico": "Acertó en AM2020=10 lazos y mencionó parcialmente las dos variantes de AFP1010, pero no las presentó claramente como discrepancia documental España vs US y además formuló mal la variante de 4 lazos. Lo más grave es que afirmó que no se especifican dispositivos por lazo, cuando la referencia sí indica 99 detectores + 99 módulos por lazo, dato central de la pregunta.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:29"
+  },
+  "4": {
+   "conducta_bot": "answer-con-conflicto",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acertó en AM2020=10 lazos y llegó a mostrar las dos cifras en conflicto para AFP1010 (4 lazos vs 2 LIB-200/396 dispositivos), pero no explicó claramente la discrepancia por documentación/mercado ni los totales. Falló en el dato clave de dispositivos por lazo: el gold sí establece 99 detectores + 99 módulos = 198 por lazo, mientras el bot afirma que no está especificado.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:31"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta parcialmente al indicar AM2020 con 10 lazos y mencionar las dos capacidades documentadas para AFP1010, pero no las presenta claramente como conflicto documental España/US y además afirma erróneamente que no consta el máximo por lazo. Falta el dato clave de 99 detectores + 99 módulos por lazo y la equivalencia de 198 dispositivos por lazo.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:31"
+  }
+ },
+ "hp013": {
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente que el procedimiento específico de cambio de batería sin pérdida de configuración no está documentado y remite a soporte, citando hechos relevantes del manual. También identifica adecuadamente que la configuración está en memoria no volátil, aunque es algo más cauteloso que la referencia y omite detalles secundarios como la eliminación de baterías.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:33"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente que el procedimiento de sustitución de la batería tampón sin pérdida de configuración no está documentado y recomienda soporte técnico; además identifica la batería y el almacenamiento no volátil de configuración. Es algo más conservador que la referencia sobre la conservación esperable de la configuración, pero no inventa un procedimiento.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:33"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acertó al indicar que el manual no documenta un procedimiento específico para cambiar la batería tampón y que debe consultarse al servicio técnico. Pero omite el dato clave de que las configuraciones específicas se almacenan en EEPROM según el manual y, en cambio, especula incorrectamente con que podrían residir en RAM respaldada por batería, generando una incertidumbre no alineada con la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:38"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "La respuesta acierta en lo esencial: no hay procedimiento documentado para cambiar solo la batería tampón sin perder configuración, identifica la batería de litio del LMB 35 y menciona que la configuración está en memorias no volátiles. Es algo menos precisa que la referencia al hablar de 'fragmentos recuperados' y no citar capítulos concretos ni la nota de eliminación, pero no inventa un procedimiento y redirige correctamente a soporte técnico.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:39"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Acierta en lo esencial: no hay procedimiento documentado para cambiar la batería tampón sin perder configuración, identifica la batería de litio del LMB 35 y señala que la configuración está en memorias no volátiles, recomendando soporte técnico. Solo es algo menos preciso que la referencia al hablar de 'fragmentos recuperados' y no citar capítulos concretos, pero no induce a una operación incorrecta.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:44"
+  }
+ },
+ "hp014": {
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en límites de equipos entre aisladores, puente temporal 2-4 para pruebas y en remitir al folleto del aislador para el detalle terminal a terminal. Pero no da la conexión típica esperada en serie en el lazo respetando polaridad A/B ni continuidad de pantalla/tierra, omite SU y resistencias añadidas, e introduce valores/procedimientos de resistencia no alineados con la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:40"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en los límites de equipos entre aisladores, la prueba previa y el puente temporal 2-4, y reconoce que el detalle terminal a terminal está en las instrucciones del aislador. Pero queda incompleto para la pregunta: no explica claramente la conexión en serie en el lazo respetando polaridad A/B, omite pantalla/tierra, unidades de inicio y resistencias añadidas por tipo de aislador, e introduce valores de resistencia alternativos sin contextualizarlos frente al criterio principal del manual.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:40"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en los límites de equipos entre aisladores, la comprobación previa cortocircuitando 2-4 y la nota de que el manual no da el pin a pin del módulo. Pero falta la descripción clave de conexión en serie respetando polaridad A/B, continuidad de pantalla/tierra, retirar los puentes temporales antes de conectar al panel, unidades de inicio y cálculo/resistencia de aisladores; además introduce valores de resistencia no alineados con la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:46"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en los límites de equipos entre aisladores, la necesidad de instalarlos, el puente temporal entre terminales 2 y 4 para pruebas y que el manual remite al cableado específico del aislador. Queda incompleta frente a la referencia: no indica continuidad de pantalla y tierra solo en panel, no cubre unidades de inicio ni resistencias añadidas por tipo de aislador, no deja claro retirar los puentes antes de conectar el lazo, y añade valores de resistencia que pueden confundir respecto al límite de 35 Ω citado en la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:48"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en los límites principales entre aisladores y en la prueba previa cortocircuitando terminales 2 y 4, además de advertir que el manual no da el conexionado terminal a terminal completo. Sin embargo queda incompleto para “cómo se conecta”: no indica claramente la conexión en serie respetando A+/A-, B+/B-, continuidad y puesta a tierra de pantalla, retirada de puentes temporales, unidades de inicio ni cálculo de resistencia de lazo; además introduce valores de resistencia/diagnóstico no presentes en la referencia y potencialmente confusos.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:50"
+  }
+ },
+ "hp015": {
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "La respuesta acierta en lo esencial: la CCD-103 es convencional y no permite anular detectores individualmente desde la central, solo zonas completas, indicando el procedimiento de doble pulsación y los indicadores. También menciona correctamente la resistencia de fin de línea 4K7 y evita inventar un método físico no documentado.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:48"
+  },
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en lo esencial: la CCD-103 es convencional, no permite anular un detector individual desde la central y solo se puede desconectar la zona completa con llave habilitada y doble pulsación. Sin embargo, añade una sugerencia no documentada de cortocircuitar o puentear el detector en su base, que el GOLD no contempla y puede inducir a una intervención física incorrecta o insegura.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:48"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente que la CCD-103 no permite desactivar detectores individualmente desde la central y que la anulación es por zona completa, afectando a todos los detectores de esa zona. Incluye datos relevantes como máximo 32 detectores por zona y resistencia final de línea 4,7 kΩ; solo omite algún detalle operativo menor como la llave en ON.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:53"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente que la CCD-103 no permite desactivar detectores individualmente desde la central y que la anulación es por zona completa, indicando doble pulsación y efectos de anulación. Añade contexto de central convencional, máximo de 32 elementos y resistencia 4K7; aunque omite la llave en ON, no afecta a la corrección principal.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:54"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Acierta en lo esencial: la CCD-103 es convencional y no permite desactivar detectores individualmente desde la central; la anulación es por zona completa con llave y doble pulsación, con indicación de anular/fallo. Falta algún detalle menor del gold como el máximo de 32 detectores por zona, pero la respuesta es técnicamente suficiente.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:55"
+  }
+ },
+ "hp017": {
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acertó en que el retardo se programa mediante reglas de causa-efecto y que existen tipos de retardo con comportamiento asociado a teclas. Pero omite pasos críticos del procedimiento, especialmente borrar la Regla 1 por defecto, definir entrada/salida de la regla y consideraciones de lazo/reglas, además de listar incoherentemente 7 tipos tras decir que son 6.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:56"
+  },
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acertó en que el retardo se programa mediante reglas de causa-efecto y describió el comportamiento de los retardos, pero omitió pasos clave de programación indicados en la referencia: acceso desde Editar Configuración, borrar la Regla 1 por defecto, crear instrucción de entrada/salida, uso de lazo 0, pruebas y advertencias EN54. Además afirma que hay 6 tipos pero lista 7, lo que introduce una imprecisión relevante.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:03:57"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en que el retardo se asigna mediante reglas de causa-efecto y menciona tipos/comportamiento de retardo, pero omite pasos clave del procedimiento experto como acceder desde Editar Configuración, borrar la Regla 1 por defecto, crear la regla con entrada/salida, límite de reglas y lazo 0=todos. Además es impreciso al decir que hay 6 tipos pero listar 7, y añade una advertencia de falta de procedimiento que el manual/gold sí cubre.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:04:00"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acertó en que el retardo se programa mediante reglas de causa-efecto y menciona la sección A5.3, pero omite pasos clave del procedimiento: acceso desde Editar Configuración, borrar la Regla 1 por defecto, creación de instrucciones de entrada/salida, máximo de reglas y significado de lazo 0. Además afirma que hay 6 tipos pero enumera 7, lo que introduce confusión o posible alucinación.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:04:00"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en que el retardo se programa mediante reglas de causa-efecto y que hay tipos de retardo asociados a la regla, pero queda incompleto frente al procedimiento de referencia: no explica acceso/creación de reglas, entradas/salidas, lazo 0, máximo de reglas ni la necesidad crítica de borrar la Regla 1 por defecto. Además presenta una inconsistencia al decir que hay 6 tipos pero listar 7, y omite advertencias adicionales como retardo por equipo/zona, programaciones horarias y consideraciones EN54.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:04:03"
+  }
+ },
+ "hp018": {
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "FALLO",
+   "diagnostico": "Aunque acierta en RFL 6K8, diodo/polaridad inversa, número de salidas y límite de 1 A, indica conectar las sirenas “en serie” (+ de una al −/+/siguiente) y su esquema refuerza esa idea; en una salida convencional deben ir sobre el par del circuito respetando polaridad, con RFL al final. Ese error de conexionado es crítico para un técnico.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:04:05"
+  },
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en los puntos principales: salidas supervisadas, RFL 6K8/0,5 W, polaridad invertida en reposo, diodos y límite de 1 A, además de distinguir ZX2e/ZX5e y ZXAE/ZXEE. Pero introduce una instrucción potencialmente errónea al decir que las sirenas se conectan “en serie” y añade detalles/terminales y recomendaciones no necesarios o posiblemente imprecisos, por lo que no es plenamente fiable frente a la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:04:07"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Cubre los puntos esenciales (número de salidas, supervisión, 1 A, polaridad, diodo/RFL 6K8 0,5 W y variantes ZX2e/ZX5e/ZXAE/ZXEE), pero introduce una imprecisión peligrosa al decir que las sirenas se conectan “en serie”; deberían cablearse en línea con los dispositivos sobre el circuito y la RFL al final, no en serie eléctrica.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:04:11"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "FALLO",
+   "diagnostico": "Aunque acierta en RFL 6K8, polaridad/diodos, supervisión y límite de 1 A, da una instrucción crítica errónea al indicar conectar las sirenas \"en serie\" y muestra un esquema serie; las sirenas convencionales deben cablearse sobre el circuito respetando polaridad, con la RFL al final de línea.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:04:11"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "Acierta en lo esencial: salidas supervisadas, RFL 6K8/0,5 W, polaridad, diodo en sirenas no polarizadas, límite de 1 A y variantes ZX2e/ZX5e/ZXAE/ZXEE. Pero introduce una instrucción peligrosa/imprecisa al decir que las sirenas se conectan “en serie”; en estos circuitos se cablean sobre una línea de dos hilos con la RFL al final, no eléctricamente en serie entre sí.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:04:13"
+  }
+ },
+ "hp019": {
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde con el rango estándar correcto para caja y conducto, las excepciones UL/AS 1603.8, fluctuación máxima, almacenamiento y restricción para ultracongelación, alineado con la referencia. Añade una nota adicional de fabricante/condensación que no contradice el contenido esperado.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:04:08"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente el rango principal de –30 °C a +60 °C para caja y conducto, e incluye las excepciones UL/AS 1603.8, fluctuación máxima, almacenamiento y ultracongelación tal como en la referencia. Añade una nota adicional no conflictiva del manual, sin afectar la corrección.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:04:12"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "Responde correctamente el rango de funcionamiento del ASD 535 para caja y conducto, incluyendo límites UL/AS 1603.8, fluctuación máxima, almacenamiento y restricción para ultracongelación conforme a la referencia. Añade notas pertinentes sin contradecir el gold.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:04:14"
+  },
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "La respuesta recoge correctamente el rango estándar –30 °C a +60 °C para caja y conducto, las limitaciones UL/AS 1603.8, la fluctuación máxima, almacenamiento y el caso de ultracongelación. Añade una nota adicional sobre consultar al fabricante, pero no contradice la referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:04:14"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "La respuesta reproduce correctamente el rango estándar –30 °C a +60 °C para caja y conducto, e incluye las restricciones UL/AS, fluctuación máxima, almacenamiento y ultracongelación con cita. No introduce inferencias problemáticas y es suficiente para un técnico.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:04:16"
+  }
+ },
+ "hp020": {
+  "4": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "La respuesta cubre correctamente las reglas por nivel de acceso y el procedimiento completo para cambiar los códigos de Nivel 2 y Nivel 3, incluyendo sincronización/backup en CLSS y referencias. Añade información adicional sobre contraseña de fábrica y timeout, pero no contradice la respuesta de referencia.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:04:21"
+  },
+  "2": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "La respuesta reproduce correctamente las reglas por nivel de acceso y el procedimiento para cambiar códigos de Nivel 2 y Nivel 3, incluyendo longitud, confirmación, mensaje final y sincronización/copia en la nube. Solo omite la nota sobre credenciales compartidas de CLSS, pero no afecta de forma sustancial a la configuración solicitada.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:04:21"
+  },
+  "1": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "La respuesta cubre correctamente quién puede cambiar cada nivel y el procedimiento para modificar los códigos de acceso, incluyendo longitud, confirmación, mensaje de éxito, sincronización y copia en la nube, con referencias. Solo omite la nota del GOLD sobre credenciales compartidas entre portal/app/programa CLSS, pero no afecta sustancialmente a la configuración de contraseñas de Nivel 2 y 3.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:04:22"
+  },
+  "3": {
+   "conducta_bot": "answer",
+   "veredicto": "PARCIAL",
+   "diagnostico": "La respuesta reproduce correctamente el procedimiento, las reglas por nivel de acceso, el rango de 4 a 8 dígitos y la sincronización/copia en la nube. Falta la nota de la referencia sobre que el portal CLSS, la app CLSS y el programa de configuración CLSS comparten el mismo usuario/código/contraseña, y añade datos adicionales no necesarios.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:04:23"
+  },
+  "0": {
+   "conducta_bot": "answer",
+   "veredicto": "PASS",
+   "diagnostico": "La respuesta cubre correctamente quién puede cambiar cada nivel, el procedimiento en la central, longitud del código, confirmación, mensaje de éxito y sincronización/copia en CLSS. Añade información contextual no problemática y aporta referencias a manuales.",
+   "judge_model_real": "gpt-5.5-2026-04-23",
+   "at": "2026-07-05T17:04:25"
+  }
+ }
+}

@@ -93,3 +93,23 @@ desempate ENTRE fuentes [H6].
   MIE-MI-310, cuenta como miss porque la famtie ancla en familia primaria y el doc está
   tagueado ZXAE/ZXEE → su fix es el packet doc_map de Alberto, no código).
 - Pendiente ship-path: gate bvg (test del colateral DEC-050) → GO Alberto → flag Railway.
+
+---
+## GATE BVG (2026-07-05 · s97ctl vs s97on · A3 on en ambos · manifests estampan tiebreak)
+| criterio pre-registrado | resultado | ¿pasa? |
+|---|---|---|
+| Δ PASS-control ±2 | 15 → 14 (**−1**, dentro de banda) | ✅ letra |
+| invención sin subida | conductas-con-conflicto 9 → 8 (no sube) | ✅ |
+| re-barajado DEC-050 | 26/39 top-5 cambian; 5 golds flipan verdicto (2 in: cat012/hp007 · 3 out: cat021/hp001/hp013) | ⚠ ver mecanismo |
+
+**Mecanismo del churn (inspección de los 3 que caen):** el tie-break desplazó chunks de
+BAJA relevancia (tabla de cableado, icono "info contacto", "control estanqueidad", "puesta
+en funcionamiento") y promovió chunks pág-1/config más pertinentes — NO sacó el
+chunk-respuesta de ningún gold. Los 3 flips caen en K-INESTABLE/residual = frontera
+K-mayoría, no daño de contenido. cat021 era unánime→inestable pero su desplazado es la
+Tabla-28-cableado, no la identidad del detector.
+
+**VEREDICTO: gate pasa los 3 criterios EN LA LETRA, pero es un pase MARGINAL** (a
+diferencia del limpio de A3, +2 con rescate-top5 3/3). Dos honestidades: (1) el −1 es
+UN run, dentro del suelo de ruido ±2 → indistinguible de 0 (lección DEC-090). (2) "churn
+benigno" es MI juicio de 3 golds, y conviene a mi sesgo pro-GO → debe verificarlo el dúo.
