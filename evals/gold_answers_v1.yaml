@@ -3224,7 +3224,7 @@
     cita: 55315013 impresa p7 (2.6) + p9 (3.x); render fisica p9
   - texto: El detector optico Notifier SDX-751 es un sensor analogico direccionable de la gama Notifier
       que usa el protocolo CLIP de Notifier
-    tipo: core
+    tipo: supplementary
     estado: presente
     valor: CLIP
     cita: MIDT190 p69 + p71 (Apendice 3), via hp008 render-verificado
@@ -3298,6 +3298,9 @@
       - 9
       nota: extraccion buena (40 hits analogica/lazo/bucle); 0 cross-mentions de Notifier/CLIP/compatib
         en los 2 manuales CAD-150 -> ausencia real, no trampa-scan.
+  notas: 'CLIP core→supplementary por adjudicación de Alberto (s97, 5 jul 2026): en un gold refuse-inference,
+    el veredicto de no-compatibilidad es lo core; el protocolo CLIP es mecanismo secundario una vez dicho
+    que no son compatibles.'
 - qid: cat014
   question: ¿Cual es el MTBF / vida util esperada del detector de gas DGD-600 de Detnov?
   conducta_esperada: answer
