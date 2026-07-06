@@ -39,7 +39,12 @@ EMBEDDING_DIMENSIONS = 1536
 # Medido A/B K=3 HyDE-off (test_bot_vs_gold): FALLO ~6→1 estable (3 réplicas idénticas),
 # 7 mejoras / 1 regresión (hp013, completitud). RERANK_TOP_K (generador) se queda en 5.
 RETRIEVAL_TOP_K = 50
-RERANK_TOP_K = 5
+# s98/s99: ancho de la ventana SERVIDA al generador (rerank top-N). Default 5 = prod histórico
+# (DEC-018 "generate narrow"). SWAP reversible por entorno (patrón CHUNKS_TABLE/RERANKER_BACKEND).
+# s99: gate de NO-REGRESIÓN PASADO (K=5 juez K-mayoría; las 3 "regresiones" verificadas = artefactos
+# del juez, el bot sirve MÁS info correcta con fuente, 0 invención) + GO de Alberto → SHIPPEABLE.
+# En Railway se pone RERANK_TOP_K=10 (con LLM_MAX_TOKENS=3500, ver abajo). DEC-092. Rollback = quitar.
+RERANK_TOP_K = int(os.getenv("RERANK_TOP_K", "5"))
 CHUNK_MAX_TOKENS = 1500
 CHUNK_OVERLAP_TOKENS = 200
 
@@ -76,7 +81,11 @@ MERGE_STRATEGY = os.getenv("MERGE_STRATEGY", "stamps")
 
 # LLM config
 LLM_MODEL = "claude-sonnet-4-6"
-LLM_MAX_TOKENS = 2048
+# s99: tope de tokens de SALIDA del generador. SWAP reversible por entorno (patrón RERANK_TOP_K)
+# — default 2048 = prod histórico INERTE. Se sube a 3500 en Railway JUNTO con RERANK_TOP_K=10:
+# servir 10 chunks produce respuestas más completas que a veces rozaban el cap de 2048 (cat019
+# truncaba, TECH_DEBT #74). Sin el bump, top-10 truncaría respuestas verbosas. DEC-092.
+LLM_MAX_TOKENS = int(os.getenv("LLM_MAX_TOKENS", "2048"))
 
 # Validator post-generación: experimentado s13 y REVERTIDO (net-neutral, 2-3x coste/latencia);
 # código borrado en s56 tras 7 semanas muerto (TECH_DEBT #11i; rationale completo y el código
