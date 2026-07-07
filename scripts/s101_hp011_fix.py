@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""s101_hp011_fix.py — fix puntual de OCR 7-segmentos en el corpus (hp011): 'r.i'→'r.1' y 'r.5'→'r.S'.
+"""s101_hp011_fix.py — fix puntual de OCR 7-segmentos en el corpus (hp011): 'r.5'→'r.S' (r.1 REVERTIDO s101: adjudicación corregida rI).
 
 Ground-truth: adjudicación de Alberto s30 + s101 (`feedback_7segment_reading`, vía tabla clara de
 MNDT102 — SIN unir familias de producto, solo el glifo):

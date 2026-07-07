@@ -1277,7 +1277,7 @@
 
     1. Entrada de Abort (paro de emergencia): la entrada ABORT es por defecto enclavada (latched); una vez activada requiere un rearme manual de la central para habilitar de nuevo el proceso de extinción. Si permanece activa, el sistema no se restaura. Verificar el pulsador de paro y su circuito de supervisión.
 
-    2. Inhibición temporal del rearme tras activación — parámetro "r.1" ("Rearme inhibido tras extinción", UNE-EN 12094-1:2004 ap. 4.12.2): "--" = rearme inhibido hasta finalizar la extinción o agotar el tiempo de descarga (parámetro t.A); "00" = rearme permitido en cualquier momento (POR DEFECTO); "01" a "30" = rearme inhibido durante el intervalo definido en minutos. Comprobar el valor configurado.
+    2. Inhibición temporal del rearme tras activación — parámetro "r.I" ("Rearme inhibido tras extinción", UNE-EN 12094-1:2004 ap. 4.12.2): "--" = rearme inhibido hasta finalizar la extinción o agotar el tiempo de descarga (parámetro t.A); "00" = rearme permitido en cualquier momento (POR DEFECTO); "01" a "30" = rearme inhibido durante el intervalo definido en minutos. Comprobar el valor configurado.
 
     3. Tiempo de descarga del circuito de extinción — parámetro "t.A" ("Duración de la descarga", soak time, UNE-EN 12094-1:2004 ap. 4.21): valor variable de 05 a 295 seg en intervalos de 5 seg; el valor POR DEFECTO es "--" (circuito activado hasta el rearme de la central). Hasta que no finalice este tiempo (o se rearme), no se podrá rearmar correctamente.
 
@@ -1295,13 +1295,15 @@
     estado: presente
     valor: ABORT
     cita: p44
-  - texto: 'Parametro r.1 "Rearme inhibido tras extincion": "--"=inhibido hasta finalizar la extincion
+  - texto: 'Parametro r.I "Rearme inhibido tras extincion": "--"=inhibido hasta finalizar la extincion
       o agotar t.A; "00"=rearme permitido en cualquier momento (POR DEFECTO); "01" a "30"=inhibido durante
       ese intervalo en minutos'
     tipo: core
     estado: presente
-    valor: r.1
+    valor: r.I
     cita: p63
+    nota_edit: 's101: adjudicacion CORREGIDA por Alberto (rI = Rearme Inhibido, esquema mnemonico rS/rI;
+      revierte s30 r.1). El corpus r.i era correcto; el error era del gold.'
   - texto: 'Parametro t.A "Duracion de la descarga" (soak time): variable de 05 a 295 seg en pasos de
       5 s; "--"=circuito activado hasta el rearme de la central (POR DEFECTO)'
     tipo: core
