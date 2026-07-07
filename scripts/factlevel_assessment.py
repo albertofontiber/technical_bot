@@ -399,6 +399,12 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
 
         # SOPORTE regenerado SIEMPRE (anti-bit-rot) — juez SEMÁNTICO del hecho contra el pool-50 VIVO
         v_pool = judge_fact(valor, texto, pipe["pool"], workers=workers)
+        # FAIL-FAST del PRIMARIO (incidente s101: la cuota OpenAI murió a MITAD del full → 77 rescates
+        # Opus + 25 falsos corpus-gap = run inválido en silencio). Si el juez primario está MUERTO
+        # (0 votos válidos y >K/2 fallos), ABORTAR — el espejo de H4b aplicado al primario.
+        if not v_pool.get("votes") and v_pool.get("n_fail", 0) > (K * 2):
+            raise RuntimeError(f"{qid}/{valor[:20]}: juez primario (GPT-5.5) MUERTO "
+                               f"({v_pool.get('n_fail')} fallos, 0 votos) — run abortado, partial limpio")
         sup = supported_ids(v_pool, THRESH_FIRM)
         sup_fam = {cid for cid in sup if same_family(cid)}      # FAMILY-AWARE (fix #3)
         entry_support_flip = None
@@ -441,6 +447,8 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
 
         if reaches_gen:
             conv = judge_conveyed(valor, texto, pipe["answer"], workers=workers)
+            if conv.get("n_fail", 0) >= K:      # primario muerto también en conveyed → abortar
+                raise RuntimeError(f"{qid}/{valor[:20]}: juez conveyed primario MUERTO ({conv['n_fail']}/{K} fallos)")
             entry["conveyed_yes"] = conv["yes"]
             if conv["yes"] >= THRESH_FIRM:
                 clase = "OK"
