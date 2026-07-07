@@ -29,7 +29,7 @@ OUT = ROOT / "evals" / "s99_hyq_generated.jsonl"
 SLICE_QIDS = ["cat001", "cat010", "hp002", "hp003", "hp005", "hp006", "hp009", "hp017",
               "cat016", "hp011", "hp012",
               # s101 (Fase 1): RECALL del deathpoint cuyos docs faltaban en la 1ª pasada
-              "hp013", "hp020"]
+              "hp013", "hp020", "hp014"]
 # few-shot NO-CIRCULAR: golds FUERA del slice (registro real de Alberto, no del instrumento medido)
 # s101: hp013 SALE del few-shot (entró al slice de medición — regla anti-fuga del prereg); entra hp008.
 FEWSHOT_QIDS = ["cat019", "cat024", "hp004", "hp008", "cat009", "cat011"]

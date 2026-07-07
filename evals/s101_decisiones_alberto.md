@@ -2,11 +2,10 @@
 
 > Se APENDIZA durante la noche. Las "tomadas-inequívocas" van al final para tu validación.
 
-## D1 · Recarga OpenAI (BLOQUEA el scoreboard v2 y la Fase 2)
-La cuota murió ~23:00 a mitad del full v2 (run en cuarentena). Sin ella: no hay scoreboard v2,
-no hay jueces para synthesis (Fase 2), no hay cross-model del dúo.
-**Recomendación: recargar ~$30-40** (full v2 limpio ≈ $25 con los duales + margen para re-mediciones
-de Fase 2). Al recargar, lo corro serializado (lección de hoy: no en paralelo con otros runs de juez).
+## D1 · Recarga OpenAI — ✅ RESUELTA (Alberto recargó antes de dormir)
+Full v2 RELANZADO limpio y serializado (~00:30). Desbloquea también: cross-model del dúo (pendientes:
+dual-soporte final, tiebreak port, iteraciones hyq) + jueces semánticos (hp020-'4y8', cat013 probe) +
+Fase 2. La cola nocturna se re-secuencia: full v2 primero (solo), cross-models después.
 
 ## D2 · Ship-path del mecanismo hyq (GO del piloto ya dado por los gates del prereg)
 El piloto validó el mecanismo (cat016 + hp018-6K8 flip, control negativo limpio con barra 0.45).

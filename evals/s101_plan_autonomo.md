@@ -6,13 +6,13 @@ REDUCCIÓN DEL BUCKET (pool-50 same-family), no OK ni PASS. BP+estructural+escal
 de OVERFITTING si se llega a fine-tuning de golds. Decisiones inequívocas = las tomo y las
 comunico; las ambiguas → `evals/s101_decisiones_alberto.md` (con recomendación).
 
-**Restricción de la noche: OpenAI SIN CUOTA** (429 desde ~23:00). Implicaciones:
-- NO full v2 (scoreboard) · NO jueces GPT (retrieval_miss_judge/conveyed/semantic-corpus) ·
-  NO cross-model (`adversarial_review.py`).
-- SÍ: harnesses léxicos (fact_match), Voyage (embed), Claude (generación hyq, rerank, sub-agente).
-- → los misses ANCLABLES se pueden medir judge-free; los no-anclables (hp020-'4y8') esperan cuota.
-- Tiering: revisiones de esta noche = sub-agente only, **cross-model PENDIENTE de cuota** →
-  NADA se shipea ni se mergea esta noche (todo flag-gated OFF / branch-local).
+**UPDATE ~00:30: Alberto RECARGÓ OpenAI antes de dormir** → cola re-secuenciada:
+1. Full v2 relanzado LIMPIO y SERIALIZADO (bjukzd5d6) — nada más pesado de GPT en paralelo.
+2. Al cerrar el full: cross-models pendientes (dual-soporte final · tiebreak port · hyq seam
+   post-iteraciones) + jueces semánticos (hp020-'4y8' · cat013 probe · hp018-'1A').
+3. Lo Anthropic/Voyage sigue en paralelo sin conflicto (hyq gen MIDT180/MIDT190, tiebreak measure).
+Guardarraíl intacto: NADA se shipea esta noche (los cross-models corren, pero el ship-gate de
+cualquier lever = bvg + GO de Alberto).
 
 ## Estado al escribir esto (commits en rama eval/s100-factlevel-assessment)
 | Pieza | Estado |
