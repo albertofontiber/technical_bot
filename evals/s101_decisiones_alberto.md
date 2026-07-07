@@ -45,3 +45,14 @@ son contexto). Con tu OK los aplico vía gold_store.
   del juez primario muerto cableado (el próximo run aborta limpio).
 - **Nada se shipea esta noche**: tiering incompleto (cross-model sin cuota) → todo flag-gated
   OFF/branch-local hasta el dúo completo.
+
+- **[inequívoca, ~01:00] TIEBREAK = NO-GO DEFINITIVO (2ª medición, ahora CON ancho-10 — cierra la
+  hipótesis abierta de DEC-091b)**: hp012 SÍ flipea, PERO el centinela hp001 regresa ('1111' sale del
+  top-10 servido) + control negativo 9 EXCESS-HIGH/null=0 (el re-barajado de s97 reproducido). El
+  tripwire pre-registrado de DEC-091 dispara otra vez → lever CERRADO (LEVER_DIGEST se actualiza al
+  cierre); código flag-OFF en rama, jamás a demo; hp012 al residual declarado.
+  Artefacto: `evals/s101_tiebreak_measure.yaml`.
+- **[inequívoca, ~01:15] hyq-extensión MIDT180/MIDT190 medida**: hp014 ya estaba IN-POOL (su chunk
+  real MIDT180-p68 incluido → es clase juez/relación, el dual-soporte del full v2 lo arbitra);
+  cat013 confirmado IDENTIDAD (query CAD-150 vs doc ID3000 — ni hyq ni léxico lo puentean →
+  workstream DEC-074, como ya estaba). El lever hyq queda en 2 flips netos (cat016, hp018-6K8).
