@@ -1560,3 +1560,81 @@ smoke e2e local con flag efectivo (rescate al pool + rerank + generación OK, fa
 Tierra en la placa MPS-400'); la de CAD-150 es idéntica a su versión pre-deploy del 2-jul (0
 regresión); latencia 34-47s dentro de la banda histórica. **El canal multi-vector de enunciados
 queda VIVO en la demo.** Rollback = quitar la env var.
+
+---
+## s98 — 5 jul 2026 — Matriz de rerank autónoma: el lever que paga es SERVIR-MÁS, no tocar el reranker; reencuadrado a hiperparámetro-de-ancho; smoke caza truncado → NO ship limpio (DEC-092)
+Alberto pidió trabajo autónomo nocturno: matriz de experimentos del rerank para dejar el
+rerank-miss en 1-2 con una mejora ESTRUCTURAL (no overfit), dúo antes de implementar, medir en DEV
+(held-out embargado). Construí un harness que congela el pool-50 real por gold dev (con similarity/
+target_models/todos los campos — fidelidad corregida por el dúo v1) y re-rankea el pool congelado
+por método → top-N → filtro sim≥0.4 = "servido"; métrica RERANK-MISS = aguja-en-pool que NO
+sobrevive al servido (baseline top-5 = 13).
+
+**Matriz de 8 métodos.** Las SEIS intervenciones SOBRE el reranker fallan o empeoran: prompt
+"¿contiene la respuesta?" (wash 14), prompt forzado (17), modelo Opus 4.8 (16 — capacidad NO es el
+límite), ventana 800→2500 (21), Voyage cross-encoder (21, coherente DEC-048), RRF fusión retrieval+
+rerank (45 — retrieval es baja-precisión, fusionar mete ruido, +3/−35). La que paga: **servir top-8
+= 6 (+7/−0), servir top-10 = 2 (+11/−0), alcanza el objetivo**. Mecanismo: el reranker NO se
+equivoca de relevancia, coloca los chunks-respuesta en rank 6-15; la ventana de servicio de 5
+(DEC-018 "generate narrow") era el cuello.
+
+**El dúo (cross-model GPT-5.5 + sub-agente Sonnet — Fable sin créditos, override; convergentes, 0
+FP) reencuadró el hallazgo de "breakthrough estructural" a "hiperparámetro de ANCHO dev-elegido".**
+Críticos confirmados (regla-C): (a) el bvg histórico rerankea SIN target_models → no es el path
+prod; (b) T10 cambia `top_k` en el prompt → mide "pedir-10+servir-10", el mecanismo "rank 6-10" sin
+probar; (c) `LLM_MAX_TOKENS=2048` fijo → riesgo de truncado con 10 chunks; (d) falta eje coste/
+latencia. Experimento **CUT15** (petición fija=15, cortes 5/8/10/15 → 18/10/3/1) ZANJA: 17 agujas
+en rank 5-14 (diagnóstico confirmado) PERO cut@5-de-15=18≠M0=13 (el tamaño de petición cambia el
+orden) → palanca de ancho, no arreglo del reranker.
+
+**Smoke e2e barato (path prod real, top_k 5 vs 10) — el gate barato ANTES del bvg caro (disciplina
+de coste) — cazó el riesgo load-bearing:** cat019 (CONTROL) truncó a k=10 en 1 de 2 runs (roza el
+cap 2048, intermitente; k=8=1920 no trunca). Rescate a nivel-respuesta PARCIAL 3/9 (hp011/hp015/
+hp017 ganan el fact; 4 no-show = synthesis-drop). **Veredicto: rerank-miss 1-2 ES alcanzable a nivel
+retrieval (T10=2) PERO top_k=10 NO es ship limpio** (truncado intermitente + rescate parcial + coste
+2×). NO se cablea. Gate bvg prod-fiel (`BVG_TARGET_MODELS`) + flag `RERANK_TOP_K` (getenv) + pre-
+registro LISTOS para el GO de Alberto; recomendación = no-ship-10-as-is (subir LLM_MAX_TOKENS o
+top_k=8). Fixes prod defensibles: retry-sin-temperature (modelos 2026), parser regex robusto,
+`relevance_instruction`. Tests 450 verdes. Residual del reranker (hp005/hp006 >rank-15) =
+document-side. **No corrí el bvg caro autónomo (pregunta cero: no cambia una decisión que yo pueda
+tomar — ship = Alberto + cross-model FULL; el smoke ya recomienda no-ship-as-is).**
+
+## s99b (6 jul 2026) — rumbo demo-vs-nota, identidad re-scopeada, DEC-075 caduco, y estándar de medición (DEC-093)
+Sesión larga, mucha exploración, 3 muros — y el DÚO como caballo de batalla anti-bias (cortó ~5 sobre-afirmaciones
+de framing MÍAS). Arrancó por FOCO 1 (cablear el detector `extract_product_models` al catálogo gobernado). El dúo
+×2 lo re-scopeó: el detector vive del catálogo VIEJO (`model_catalog.json`); el resolver gobernado
+(`catalog_resolver`, `IDENTITY_RESOLVE=on`) es OTRO extractor; CS4 es `candidate:true` → ni uno ni otro la reconoce
+→ cablear NO arregla CS4 (eso es B/DEC-074, adjudicar datos). Alberto decidió **blindar-demo → luego nota**, gas
+FUERA (PCI-fuego puro, TECH_DEBT #75; Pepperl-Fuchs SÍ es PCI vía Detnov — corregido over-reach mío). Packet de
+candidatos (630 sin confirmar, T1≈363 incendios BRUTO que necesita QA, no toggle). El "fix barato de demo" falló
+3×: heurístico carry-forward v1 (marca+longitud) y v2 (código-sólido) TUMBADOS por el dúo (FP sobre vocab técnico
+RS485/IP54); el reescritor conversacional (condense-question, BP para multi-turn) resultó NO arreglar el CS4 —
+**medido: query CS4 limpia → el bot RESPONDE la CS4 gas** (2388 chars, retrieval semántico pese a `extract=[]`) →
+viola PCI-puro; el fix del CS4 visible = declinar-gas (pequeño) + B. Reescritor **APARCADO** con checklist de retake
+(`evals/s99_rewriter_design.md`). **Pivote a la NOTA (opción c).** Al recargar el estado, hallazgo clave: **DEC-075
+(síntesis "settled, sin lever barato; PASS plano ~9/39") está CADUCO** — medido s87 sobre corpus 9-jun, ANTES de
+ancho-10/A3/identidad, sin re-medir a nivel-hecho (Alberto lo cazó; yo corregía con datos caducos). Idea de Alberto:
+re-medir a nivel-hecho (132 hechos) con datos actuales. Al intentarlo: **la infra de medición BIT-ROTEÓ** — el DEF
+s85 se desalineó de los golds (editados s97c) → `synthesis_miss_judge.py:114` crashea; reusar el DEF viejo no es
+viable; assessment actual ≈$15. Alberto pidió **estandarizar el proceso** (repetido 4× ad-hoc): spec v2 dúo-hardened
+(`evals/s99_factlevel_assessment_spec.md`) que unifica los 4 instrumentos (retrieval_miss+synthesis_miss+
+audit_retrieval_funnel+s87_rootcause), taxonomía consistente 5-clases + sub-motivo, anti-bit-rot (regenerar-siempre),
+freeze-contract completo. **NADA en prod, NADA cablado** (todo diseño+medición+docs). **1ª tarea próxima sesión =
+construir el estándar → correrlo (~$15-20) → decidir foco con datos frescos.** DEC-093.
+
+## s100 (6-7 jul 2026) — assessment a nivel-hecho ESTANDARIZADO construido+corrido → síntesis RE-CONFIRMADA como cuello (DEC-094)
+Construido `scripts/factlevel_assessment.py` (unifica los 7 instrumentos ad-hoc) + doc canónico `docs/FACTLEVEL_ASSESSMENT.md`
+con **scoreboard append-only** (petición de Alberto = source-of-truth de "qué tal funciona el bot" a nivel-hecho, para
+trazar cómo cada mejora mueve la aguja). Proceso dúo-intensivo: spec v2→**v3** (dúo ×3, 8 fixes verificados regla-C, 2
+BLOQUEA-medición: bug-s45 top-5-vs-10 + flag muerto DIVERSIFY_TIEBREAK); build v1→v2→v3 (dúo código ×2 cazó 8 issues, incl.
+mi over-claim "pipeline shippeado" cuando era ruta harness); **3 smokes cazaron 2 bugs de diseño reales** (measurable() gate
+filtraba 38% = la cola de síntesis → no reproducía DEC-075; corpus-gap mislabel de cross-familia). Flag-set de la demo
+confirmado con Alberto vía Railway. Fork resuelto (ruta HARNESS, no Telegram — paridad con bvg/DEC-075).
+**RESULTADO (39 golds, 133 facts, ruta harness):** OK 89 (67%) · **synth-miss 16 estructural** (+6 flip) · retrieval within-doc
+~17 (gap vocabulario) · rerank 4 · **corpus-gap ~0** (5 raw, TODOS FN verificados a mano — `feedback_corpus_gap` 4ª vez) ·
+**identidad 0**. **Titular: síntesis SIGUE siendo el cuello dominante post-ancho/A3/identidad → DEC-075 re-confirmado en
+veredicto (su medición s87 sí era caduca); identidad+corpus descartados con datos frescos.** Refinado por sub-motivo
+(~10 omitted/hedged=lever prompt + ~5 partial=lever retrieval + 2 contradicted) PERO el sub-motivo está contaminado por
+scope/gold (hp007: bot respondió lo preguntado) → qué-lever-dentro-de-síntesis = gold-review por-hecho, NO zanjado (spot-check
+regla-C me frenó de sobre-afirmar el lever de prompt). Punch-list dúo-final de 7 aplicado al código; #4/#7 documentados como
+limitación. **Rama `eval/s100-factlevel-assessment` (fresca desde main+#113); baseline en el scoreboard.** DEC-094.
