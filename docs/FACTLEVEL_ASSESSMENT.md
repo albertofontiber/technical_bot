@@ -58,6 +58,19 @@ histórico (DEC-075/s87/s99) es single-GPT. Esto EXTIENDE DEC-021 (que difirió 
 **Protocolo del run:** spot-check regla-C de los `judge_disagreements` listados (la suite de aceptación
 n=5/6 es chica — la salvaguarda real es la trazabilidad del flip).
 
+**Dual-SOPORTE targeted (s101):** el juez de soporte (GPT-5.5, mismo patrón estricto) mostró la MISMA
+clase de FN — 6/7 facts "retrieval-miss" con candidato léxico en el pool eran FN (artefacto versionado:
+`evals/s101_inpool_adjudication.json` — workflow de 7 adjudicadores + 21 refuters adversariales, 0/18
+votos de refutación; p.ej. hp001 '2222' = "clave de administrador por defecto, 2222" literal). Regla:
+**`sup_fam=∅`** (sin soporte same-family — no `sup` raw, que perdería el caso GPT-acredita-solo-cross-family)
++ `fact_match≥FLOOR` en pool → Opus K=5 re-juzga los candidatos ORDENADOS por score (cap 8, truncation
+flagged); el flip = UNIÓN con sup y queda flagged `support_judge_disagreement`. **Residual declarado:**
+soporte parafraseado NO-léxico con sup_fam=∅ sigue single-judge (clase no demostrada). El eje de
+INVENCIÓN sigue single GPT-5.5. **Protocolo del run (igual que conveyed):** spot-check regla-C de los
+`support_disagreements` listados. Caveat de validación (H6 dúo): los 7 adjudicadores/21 refuters del
+artefacto eran Claude-family (validan a Opus con posibles blind spots compartidos) — mitigado por el
+pre-gate léxico (el valor está LITERAL en el chunk acreditado) + trazabilidad del flip.
+
 ## Limitaciones conocidas (declaradas — leer antes de sobre-interpretar)
 1. **corpus-gap = FN por defecto** (`feedback_corpus_gap`): los golds son píxel-verificados servibles →
    corpus-gap real ≈ 0. Todo corpus-gap que reporte el instrumento se VERIFICA a mano (grep del valor en el

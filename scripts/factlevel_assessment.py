@@ -286,6 +286,54 @@ def judge_conveyed_dual(valor: str, texto: str, answer: str, workers: int = 5) -
     return {"yes": sum(valid), "n_fail": votes.count(None), "n_valid": len(valid)}
 
 
+# ── DUAL-SOPORTE targeted (s101): 2º juez Opus sobre el eje de SOPORTE, solo cuando sup=∅ ──
+# Evidencia (s101, workflow 7 adjudicadores + 21 refuters): 6/7 facts "retrieval-miss" con candidato
+# léxico en pool eran FN del juez de soporte (el chunk SÍ afirma el hecho en SU relación; 0/18 votos de
+# refutación). Targeted = solo los candidatos LÉXICOS del pool (fact_match>=FLOOR, típicamente 1-3
+# chunks → 1 batch × K Opus, barato). MISMO prompt congelado del juez de soporte. Regla espejo del dual
+# de conveyed: acreditar requiere >=4/5 votos válidos; el flip queda flagged (support_judge_disagreement).
+# Residual declarado: soporte parafraseado NO-léxico con sup=∅ sigue single-judge (clase no demostrada).
+SUPPORT_BATCH_CAP = 8
+
+def _support2_once(valor: str, texto: str, batch: list[dict]) -> set[str] | None:
+    client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+    chunk_txt = "\n\n".join(f"[ID: {c['id']}]\n{(c.get('content') or '')[:CONTENT_CHARS]}" for c in batch)
+    valid_ids = {c["id"] for c in batch}
+    for attempt in range(4):
+        try:
+            m = client.messages.create(
+                model=JUDGE2_MODEL, max_tokens=400, system=SUPPORT_SYS,
+                messages=[{"role": "user", "content": SUPPORT_USER.format(
+                    valor=valor, texto=(texto or "")[:400], chunks=chunk_txt)}])
+            t = m.content[0].text.strip()
+            j = re.search(r"\{.*\}", t, re.S)
+            if not j:
+                raise ValueError("respuesta sin JSON")
+            out = json.loads(j.group(0))
+            ids = out.get("supported_ids")
+            if not isinstance(ids, list):
+                raise ValueError(f"supported_ids no-lista: {ids!r}")
+            return {str(i) for i in ids} & valid_ids
+        except Exception:
+            time.sleep(2 ** attempt)
+    return None
+
+
+def judge_support_dual(valor: str, texto: str, candidates: list[dict], workers: int = 5) -> dict:
+    """K votos Opus sobre los candidatos léxicos (YA ordenados por score por el caller).
+    Devuelve ids con votos>=THRESH_FIRM. n_valid==0 = fallo TOTAL (el caller flaggea error, H3)."""
+    batch = candidates[:SUPPORT_BATCH_CAP]
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        votes = [f.result() for f in [pool.submit(_support2_once, valor, texto, batch) for _ in range(K)]]
+    valid = [v for v in votes if v is not None]
+    tally: dict[str, int] = {}
+    for vs in valid:
+        for cid in vs:
+            tally[cid] = tally.get(cid, 0) + 1
+    sup2 = {cid for cid, n in tally.items() if n >= THRESH_FIRM}
+    return {"sup": sup2, "votes": tally, "n_fail": votes.count(None), "n_valid": len(valid)}
+
+
 SEM_CORPUS_BOUND = 40   # chunks del manual a juzgar semánticamente (acotado por coste; subido de 24, fix #3)
 def semantic_corpus_present(valor: str, texto: str, manual: list[dict], workers: int) -> tuple[bool, bool]:
     """Para facts NO-anclables-léxicamente que NO están en el pool: ¿el manual objetivo los sirve?
@@ -353,6 +401,34 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
         v_pool = judge_fact(valor, texto, pipe["pool"], workers=workers)
         sup = supported_ids(v_pool, THRESH_FIRM)
         sup_fam = {cid for cid in sup if same_family(cid)}      # FAMILY-AWARE (fix #3)
+        entry_support_flip = None
+        if not sup_fam and anchorable:
+            # DUAL-SOPORTE targeted (s101): SIN soporte same-family + candidato léxico en pool → Opus
+            # adjudica (FN demostrado 6/7). Trigger sobre sup_fam (crít cross-model: sobre sup raw perdía
+            # el caso "GPT acredita solo cross-family"). Candidatos ORDENADOS por score, cap declarado.
+            lex_scored = sorted(
+                ((fact_match_score(valor, texto, c.get("content") or "") or 0, c) for c in pipe["pool"]),
+                key=lambda t: -t[0])
+            lex = [c for s, c in lex_scored if s >= SCORE_FLOOR]
+            if lex:
+                d2 = judge_support_dual(valor, texto, lex, workers=workers)
+                truncated = len(lex) > SUPPORT_BATCH_CAP
+                if d2["n_valid"] == 0:
+                    # H3 (dúo): fallo TOTAL del 2º juez ≠ "agreed_none" — flag de ERROR visible
+                    entry_support_flip = {"support_judge2_error": True,
+                                          "support_judge2_n_fail": d2["n_fail"],
+                                          "support_candidates_truncated": truncated}
+                elif d2["sup"]:
+                    sup = sup | d2["sup"]                        # UNIÓN (no reemplazo: sup podía tener cross-family)
+                    sup_fam = {cid for cid in sup if same_family(cid)}
+                    entry_support_flip = {"support_judge_disagreement": True,
+                                          "support_judge2_votes": d2["votes"],
+                                          "support_judge2_n_fail": d2["n_fail"],
+                                          "support_candidates_truncated": truncated}
+                else:
+                    entry_support_flip = {"support_judge2_agreed_none": True,
+                                          "support_judge2_n_fail": d2["n_fail"],
+                                          "support_candidates_truncated": truncated}
         reaches_gen = bool(sup_fam & served_ids)
         in_topk = bool(sup_fam & topk_ids)
         in_pool = bool(sup_fam)
@@ -360,6 +436,8 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
         entry = {"key": key, "valor": valor, "texto": texto, "lexically_anchorable": anchorable,
                  "family_resolved": family_resolved, "n_support_fam": len(sup_fam),
                  "n_support_raw": len(sup), "reaches_gen": reaches_gen, "in_topk": in_topk, "in_pool": in_pool}
+        if entry_support_flip:
+            entry.update(entry_support_flip)
 
         if reaches_gen:
             conv = judge_conveyed(valor, texto, pipe["answer"], workers=workers)
@@ -509,7 +587,8 @@ def build_manifest() -> dict:
                      "GENERATOR_INCLUDE_CONTEXT": gic},
         "judge": {"model": JUDGE_MODEL, "K": K, "K_stability": K_STAB,
                   "judge2_model": JUDGE2_MODEL,
-                  "judge2_rule": "dual-consensus: synthesis-miss requiere miss de AMBOS; Opus>=4/5 => OK flagged judge_disagreement (validado s100: 5 flips FN, 0 FP fakes)",
+                  "judge2_rule": "dual-consensus: synthesis-miss requiere miss de AMBOS; Opus>=4/5 => OK flagged judge_disagreement (suite s100: 5 flips FN, 0 FP fakes)",
+                  "support_dual_rule": f"targeted-lexical (s101): sup_fam=∅ + fact_match>=SCORE_FLOOR({SCORE_FLOOR}) en pool => Opus K={K} re-juzga candidatos ordenados por score cap {SUPPORT_BATCH_CAP} (truncation flagged); flip=UNION flagged support_judge_disagreement (evidencia: evals/s101_inpool_adjudication.json 6/7 supports, 0/18 refuters). Residual no-léxico sigue single",
                   "support_sha": _sha(SUPPORT_SYS + SUPPORT_USER),
                   "conveyed_sha": _sha(CONVEY_SYS + CONVEY_USER),
                   "submotivo_sha": _sha(SUBMOTIVO_SYS + SUBMOTIVO_USER)},
@@ -528,7 +607,8 @@ def estimate_cost(n_golds: int, avg_facts: float = 3.2) -> str:
     stability = int(n_facts * 0.25) * (K_STAB - 1) * (1 + K)   # 1 gen + K conveyed por synth-miss
     sem_corpus = int(n_facts * 0.15) * K * 3   # no-anclables-no-en-pool (~15%) × K × 3 batches acotados
     judge2 = int(n_facts * 0.3) * K            # dual-judge Opus: K por cada miss del primario (~30%)
-    calls = support + conveyed + submotivo + stability + sem_corpus + judge2
+    support2 = int(n_facts * 0.12) * K         # dual-soporte Opus: K por fact sin soporte same-family (~12%)
+    calls = support + conveyed + submotivo + stability + sem_corpus + judge2 + support2
     usd = calls * 0.004
     return (f"~{n_golds} golds × ~{avg_facts} facts ≈ {n_facts} hechos · ~{calls} llamadas "
             f"(support≈{support}, conveyed≈{conveyed}, judge2≈{judge2}, submotivo≈{submotivo}, "
@@ -578,10 +658,11 @@ def main() -> int:
     # CUALQUIERA de corpus/flags/juez/código (el corpus INCLUIDO: sin él, un fix de chunks con el mismo
     # commit reusaría un partial incompatible — justo el caso hp011).
     gold_sha = _sha((ROOT / "evals" / "gold_answers_v1.yaml").read_text(encoding="utf-8", errors="replace"))
+    script_sha = _sha(Path(__file__).read_text(encoding="utf-8", errors="replace"))  # árbol sucio: el código TAMBIÉN ancla
     freeze_hash = _sha(json.dumps({"c": manifest["git_commit"], "f": manifest["flags_demo"],
                                    "r": manifest["resolved"], "j": manifest["judge"],
                                    "corpus": manifest["corpus"],
-                                   "golds": gold_sha}, sort_keys=True))   # H6: git_commit no cubre árbol sucio
+                                   "golds": gold_sha, "script": script_sha}, sort_keys=True))
     if "error" in manifest["corpus"]:
         print("  ⚠ corpus fingerprint FALLÓ — el freeze-hash no ancla el corpus este run")
 
@@ -635,14 +716,19 @@ def main() -> int:
     n_non_anchorable = sum(r.get("n_non_anchorable", 0) for r in per_gold)
     judge_flips = [(r["qid"], f["valor"]) for r in per_gold for f in r["facts"]
                    if f.get("judge_disagreement")]
-    n_judge2_err = sum(1 for r in per_gold for f in r["facts"] if f.get("judge2_error"))
-    n_judge2_fails = sum(f.get("judge2_n_fail", 0) for r in per_gold for f in r["facts"])
+    n_judge2_err = sum(1 for r in per_gold for f in r["facts"]
+                       if f.get("judge2_error") or f.get("support_judge2_error"))
+    n_judge2_fails = sum(f.get("judge2_n_fail", 0) + f.get("support_judge2_n_fail", 0)
+                         for r in per_gold for f in r["facts"])
+    support_flips = [(r["qid"], f["valor"]) for r in per_gold for f in r["facts"]
+                     if f.get("support_judge_disagreement")]
 
     result = {"manifest": manifest, "mode": args.mode, "n_golds": len(per_gold),
               "aggregate_hist": agg, "gold_juez_axis": axis, "gold_juez_advisory": bool(bvg),
               "n_no_pass_perp_pipeline": n_perp, "n_family_unresolved": n_unresolved,
               "n_non_anchorable": n_non_anchorable,
               "judge_disagreements": [{"qid": q, "valor": v} for q, v in judge_flips],
+              "support_disagreements": [{"qid": q, "valor": v} for q, v in support_flips],
               "per_gold": per_gold}
     out_path.write_text(yaml.safe_dump(result, allow_unicode=True, sort_keys=False), encoding="utf-8")
 
@@ -655,6 +741,8 @@ def main() -> int:
     print(f"  family-unresolved: {n_unresolved} golds (soporte NO family-filtrado ahí)")
     print(f"  dual-judge: {len(judge_flips)} desacuerdos resueltos a OK (GPT-miss/Opus-conveyed): "
           f"{[f'{q}:{v[:18]}' for q, v in judge_flips]}")
+    print(f"  dual-soporte: {len(support_flips)} flips (sup=∅→Opus acredita candidato léxico): "
+          f"{[f'{q}:{v[:18]}' for q, v in support_flips]}")
     if n_judge2_err or n_judge2_fails:
         print(f"  ⚠ judge2: {n_judge2_err} facts con fallo TOTAL (degradación a pre-dual) · "
               f"{n_judge2_fails} votos fallidos en total — si es alto, revisar API/modelo ANTES de fiarse del synth-miss")
