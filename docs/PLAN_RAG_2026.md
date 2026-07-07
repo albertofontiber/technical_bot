@@ -27,8 +27,25 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s87 — 1 jul 2026)
+## Estado actual (s100 — 7 jul 2026)
 
+**s100 (DEC-094) — assessment a nivel-hecho ESTANDARIZADO construido+corrido → foco RE-DERIVADO con datos frescos.**
+Se construyó `scripts/factlevel_assessment.py` (unifica los 7 instrumentos ad-hoc) + doc canónico
+`docs/FACTLEVEL_ASSESSMENT.md` con **scoreboard append-only** (source-of-truth de "qué tal funciona el bot" a
+nivel-hecho, para trazar la aguja; medido en ruta HARNESS con flags-demo, NO el bot Telegram — caveat declarado).
+**RESULTADO (39 golds, 133 facts):** OK 89 (67%) · **synth-miss 16 estructural** (+6 flip) · retrieval within-doc ~17
+(gap vocabulario) · rerank 4 · **corpus-gap ~0** (5 raw TODOS FN, verificados a mano — `feedback_corpus_gap`) ·
+**identidad 0**. **Titular: síntesis SIGUE siendo el cuello dominante post-ancho/A3/identidad → DEC-075 re-confirmado
+en veredicto (su medición s87 sí era caduca); identidad+corpus descartados con datos frescos.** Refinado por sub-motivo
+(~10 omitted/hedged=lever prompt + ~5 partial=lever retrieval + 2 contradicted) PERO **contaminado por scope/gold**
+(hp007: el bot respondió lo preguntado) → qué-lever-DENTRO-de-síntesis = gold-review por-hecho, NO zanjado por este run.
+Dúo-intensivo (spec ×3 + código ×2 + 3 smokes cazaron 4 bugs de diseño). Rama `eval/s100-factlevel-assessment`.
+**Rumbo previo (s99b) VIGENTE en lo suyo:** blindar-demo→nota pivotó a NOTA; reescritor APARCADO (`evals/s99_rewriter_design.md`);
+identidad B = QA ~363 candidatos (DEC-074); PCI-fuego puro (TECH_DEBT #75).
+
+---
+
+**Antecedente s87 (DEC-075) — diagnóstico de síntesis (⚠️ CADUCO, pre-ancho/A3/identidad):**
 **s87 (DEC-075): diagnóstico autónomo de SÍNTESIS → el "cuello 103" era una COTA, no fallos.** El bucket
 SÍNTESIS `by_target` (103/132, DEC-070/073) contaba hechos SINTETIZABLES (soportados por un chunk del top-5),
 NO fallos de síntesis. Midiendo la RESPUESTA actual directamente (instrumento nuevo `synthesis_miss_judge.py`,
@@ -64,9 +81,13 @@ noise-limited CONFIRMADO al nivel de gold (DEC-051e medido); NO hay lever de pip
 
 **Modelo operativo (DEC-071e) VIGENTE:** `main`=dev=demo, stop-line=tests-verdes, PASS diferido a síntesis, freeze per-eval. Disciplina de coste (`feedback_cost_discipline`).
 
-**Qué sigue — PASS MEDIDO PLANO (~9-10/39, plateau noise-limited al nivel de gold). NO hay lever de pipeline. Decisiones para Alberto:**
-1. **NO perseguir levers de síntesis/rerank/retrieval** — MEDIDO: no mueven PASS de forma fiable (plateau confirmado;
-   ~10/30 NO-PASS fallan ⊥ el pipeline; DEC-051e re-confirmado). El "cuello 103" era una cota; el residual per-hecho es cola heterogénea.
+**Qué sigue — s100 RE-CONFIRMÓ síntesis como cuello a nivel-hecho (16 estructural); PASS sigue plano (~9-10/39). Decisiones para Alberto:**
+0. **(s100, fresco) El cuello a nivel-HECHO es síntesis (16 estruct.) + retrieval within-doc (~17, vocabulario).** Identidad/corpus
+   descartados con datos frescos. El **lever dentro de síntesis** (prompt para omitted/hedged vs retrieval/chunking para partial) NO
+   está zanjado: el sub-motivo está contaminado por scope/gold → requiere **gold-review por-hecho** de los 16 (eje gold/juez) ANTES
+   de apostar. El retrieval within-doc = gap de vocabulario, lever caro (re-ingesta A3/tablas, DEC-085/86, gate presupuesto).
+1. **NO perseguir levers de síntesis/rerank/retrieval CIEGAMENTE por PASS** — el PASS sigue plano (~10/30 NO-PASS ⊥ pipeline,
+   DEC-051e). Pero el nivel-HECHO SÍ tiene señal accionable (síntesis 16) — separar "mejora el bot a nivel-hecho" de "mueve PASS".
 2. **Highest-leverage PASS = dual-judge + gold-review del bucket OTRO (10 golds)** (s47 §D / s76): cat019 ya medido
    falso-NO-PASS (juez-bias); los 6 K-INESTABLE tienen votos PASS. Recuperaría varios PASS reales-pero-juzgados-PARCIAL
    **sin tocar el bot**. Es el ruler-hardening que DEC-051d gatea. Requiere held-out + cross-model.
@@ -166,6 +187,18 @@ VALIDADA, candidato a ship.** Piloto D (deep-lookup Haiku en seam IDENTITY_FETCH
 3-estados) = NO-GO (12→11, 0/6, 38% gatillado: el seam solo corre con doc AUSENTE y la clase
 dominante es doc-presente-aguja-ausente). Residual 7 caracterizado por clase. Flag OFF en demo;
 nada shippeado. 441 tests.
+
+**s98 (DEC-092): matriz de rerank autónoma → el lever que paga es SERVIR-MÁS al generador
+(top-8/10), NO tocar el reranker (6 métodos NO-GO: prompt×2, Opus 4.8, ventana 2500, Voyage-CE,
+RRF). El dúo lo reencuadró de "estructural" a HIPERPARÁMETRO-DE-ANCHO (CUT15 confirma agujas en
+rank 6-15 + el confound tamaño-petición). rerank-miss 1-2 ES alcanzable a nivel retrieval (top-10=2)
+PERO el smoke e2e cazó truncado intermitente en un control (`LLM_MAX_TOKENS=2048` fijo, TECH_DEBT
+#74) + rescate en respuesta parcial 3/9 → NO ship limpio.** Gate bvg prod-fiel (flag
+`BVG_TARGET_MODELS`) + flag `RERANK_TOP_K` (getenv, default 5) + pre-registro
+(`evals/s98_bvg_gate_prereg.md`) LISTOS para GO de Alberto; **recomendación = no-ship-10-as-is**
+(subir LLM_MAX_TOKENS o quedarse en top_k=8). Residual reranker (hp005/hp006 >rank-15) =
+document-side. **s97 (DEC-091/091b): tie-break diversify NO-GO** (hp001 regresión de contenido;
+bloqueado en el reranker — s98 midió ese "afinar el reranker" = NO-GO como fix de calidad).
 
 **s96 (DEC-090): gate bvg de A3 EJECUTADO y PASADO 4/4** (plan dúo-hardened: 11/11 confirmados,
 0 FP, 2 fixes críticos de código aplicados — fail-open del canal enunciados + parser estricto del
