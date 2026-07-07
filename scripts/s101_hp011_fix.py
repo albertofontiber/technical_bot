@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """s101_hp011_fix.py — fix puntual de OCR 7-segmentos en el corpus (hp011): 'r.5'→'r.S' (r.1 REVERTIDO s101: adjudicación corregida rI).
 
-Ground-truth: adjudicación de Alberto s30 + s101 (`feedback_7segment_reading`, vía tabla clara de
-MNDT102 — SIN unir familias de producto, solo el glifo):
-  - fila "Rearme inhibido tras extinción": glifo = dígito 1 (no 'i') → r.1  [el gold hp011]
-  - fila "Retardo de sirenas / Sounders delay": glifo = letra S (no '5', sesgo 5↔S) → r.S
+Ground-truth: adjudicación de Alberto s101 (CORRIGE la s30; `feedback_7segment_reading`, vía tabla
+clara de MNDT102 — SIN unir familias de producto, solo el glifo). Esquema MNEMÓNICO de parámetros:
+  - fila "Rearme inhibido tras extinción": **rI** (Rearme Inhibido) → el corpus 'r.i' era CORRECTO;
+    el fix r.i→r.1 del primer apply fue REVERTIDO; el error era del GOLD hp011 (corregido a 'r.I').
+  - fila "Retardo de sirenas / Sounders delay": **rS** (Retardo Sirenas; no '5', sesgo 5↔S) → r.S APLICADO.
 3 chunks afectados (HLSI-MN-103 ES ×2 + HLSI-MN-103I EN ×1, todos p63, 1 ocurrencia de cada glifo).
 
 Diseño (patrón s80 backfill): content-only (SIN re-embed — Δ2 chars/~2000 = coseno negligible;
@@ -51,9 +52,11 @@ def main() -> int:
     snap = json.loads(SNAP.read_text(encoding="utf-8"))
     ids = [c["id"] for c in snap]
 
-    # ambos glifos adjudicados: (patrón_mal, texto_bien). El patrón exige el contexto 'showing "…"'
+    # glifos adjudicados: (patrón_mal, texto_bien). El patrón exige el contexto 'showing "…"'
     # para no tocar NADA fuera del display transcrito (p.ej. rangos numéricos como '05 a 295').
-    FIXES = [(r'showing "r\.i"', 'showing "r.1"'),
+    # s101-corrección: r.i es CORRECTO (rI mnemónico) → SOLO queda el fix de rS. Si un apply viejo
+    # dejó 'r.1', se revierte a 'r.i' (idempotente en ambas direcciones de la corrección).
+    FIXES = [(r'showing "r\.1"', 'showing "r.i"'),
              (r'showing "r\.5"', 'showing "r.S"')]
 
     if mode == "verify":
