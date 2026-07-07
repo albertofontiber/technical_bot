@@ -199,10 +199,12 @@
       9-10), una nueva lectura de los valores de flujo (p122 punto 13) sigue FUERA DE TOLERANCIA, y SOLO
       con el conducto limpio e intacto (si no, la toma de muestras puede ser insuficiente y la alarma
       podria no dispararse)
-    tipo: core
+    tipo: supplementary
     estado: presente
     valor: reset inicial
     cita: p122 punto 13 + recuadro Peligro + cap 2.2.17 / 7.3.5
+    nota_demote: 's100 gold-review: fuera de scope de la PREGUNTA (adjudicado Alberto + duo Fable/GPT-5.5);
+      valor VERIFICADO correcto vs fuente'
   - texto: En entornos con grandes turbulencias de aire u oscilaciones termicas puede ser necesario aumentar
       el tiempo de retardo o el tamano de la ventana; pero por encima de +-20 % deja de cumplir EN 54-20
       (consultar con el fabricante)
@@ -796,15 +798,19 @@
     detección de alarmas, pero no la de fallos).
   atomic_facts:
   - texto: 'Fuente de alimentación y batería: revisión cada 3 meses (trimestral)'
-    tipo: core
+    tipo: supplementary
     estado: presente
     valor: cada 3 meses
     cita: Tabla 7-1, p81
+    nota_demote: 's100 gold-review: fuera de scope de la PREGUNTA (adjudicado Alberto + duo Fable/GPT-5.5);
+      valor VERIFICADO correcto vs fuente'
   - texto: 'Comprobar la red de tubería: cada 6 meses (semestral)'
-    tipo: core
+    tipo: supplementary
     estado: presente
     valor: cada 6 meses
     cita: Tabla 7-1, p81
+    nota_demote: 's100 gold-review: fuera de scope de la PREGUNTA (adjudicado Alberto + duo Fable/GPT-5.5);
+      valor VERIFICADO correcto vs fuente'
   - texto: 'Prueba de humos para integridad de tuberías: anual'
     tipo: core
     estado: presente
@@ -826,10 +832,12 @@
     valor: una vez al año
     cita: Tabla 7-1, p81
   - texto: 'Sustitución del filtro: cada 2 años (bianual)'
-    tipo: core
+    tipo: supplementary
     estado: presente
     valor: cada 2 años
     cita: Tabla 7-1, p81
+    nota_demote: 's100 gold-review: fuera de scope de la PREGUNTA (adjudicado Alberto + duo Fable/GPT-5.5);
+      valor VERIFICADO correcto vs fuente'
   - texto: 'Antes del mantenimiento: detector deshabilitado/en espera NO emite avisos de fuego; informar
       a la autoridad supervisora; aislar los dispositivos auxiliares'
     tipo: supplementary
@@ -2355,10 +2363,12 @@
     - La edición individual de sensores permite ajustar el número de zona (hasta 255 zonas locales o 8192 de red), el tipo de equipo y los niveles de alarma/prealarma. Los equipos Opal pueden reinicializarse con «4: Inicializar equipo prot.OPAL».
   atomic_facts:
   - texto: La central PEARL admite 1 o 2 lazos de deteccion analogicos
-    tipo: core
+    tipo: supplementary
     estado: presente
     valor: 1 o 2
     cita: 997-669 p51
+    nota_demote: 's100 gold-review: fuera de scope de la PREGUNTA (adjudicado Alberto + duo Fable/GPT-5.5);
+      valor VERIFICADO correcto vs fuente'
   - texto: 'Cada lazo admite hasta 318 equipos: 159 sensores + 159 modulos (protocolo Opal) o 99 sensores
       + 99 modulos (protocolo CLIP), combinables'
     tipo: core

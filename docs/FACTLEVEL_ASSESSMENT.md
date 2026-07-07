@@ -42,6 +42,22 @@ OTRO producto acredita mal (bug hp018/DEC-091b). **`lexically_anchorable`** es F
 periodicidades se clasifican vía juez SEMÁNTICO (recupera la cola de síntesis que el gate `measurable()`
 antes filtraba — comparabilidad con DEC-075).
 
+## Dual-judge de conveyed (s100b — CAMBIO DE JUEZ declarado)
+El juez conveyed **v1 era GPT-5.5 single K=5** (contrato DEC-021). En s100 se verificó (leyendo las
+respuestas del full) que daba **~5-7 FN/16 synth-miss** (valor LITERAL en la respuesta con conveyed=0:
+hp006 'MPS-400', hp013 'EEPROM', hp018 '4 salidas'). **v2 = DUAL-JUDGE**: GPT-5.5 primario estricto → si
+miss, **Opus 4.8 K=5 adjudica** (mismo prompt congelado); synthesis-miss requiere **consenso de miss**;
+Opus≥4/5 (0 fails) → OK flagged `judge_disagreement` (listado en el output). Las reps de stability usan
+el MISMO árbitro dual. Validación balanceada (artefacto: `evals/s100_dualjudge_validation.txt`): 5 flips
+FN / coincide-miss 11/16 / **0 FP sobre valores perturbados-falsos (5/5 rechaza)** / 6/6 OK-reales.
+**Implicación de comparabilidad:** filas del scoreboard con juez v1 y v2 NO son directamente comparables
+en synth-miss (v1 sobre-cuenta) — por eso la columna "Juez". **Para comparar contra corridas v1:
+`synth-miss_v1-equiv = synth-miss_v2 + judge_disagreements`** (el output lo imprime). Todo synth-miss
+histórico (DEC-075/s87/s99) es single-GPT. Esto EXTIENDE DEC-021 (que difirió el dual-judge y fijó juez
+único GPT-5.5), declarado como CAMBIO de juez: el eje soporte/invención sigue single GPT-5.5 + K-mayoría.
+**Protocolo del run:** spot-check regla-C de los `judge_disagreements` listados (la suite de aceptación
+n=5/6 es chica — la salvaguarda real es la trazabilidad del flip).
+
 ## Limitaciones conocidas (declaradas — leer antes de sobre-interpretar)
 1. **corpus-gap = FN por defecto** (`feedback_corpus_gap`): los golds son píxel-verificados servibles →
    corpus-gap real ≈ 0. Todo corpus-gap que reporte el instrumento se VERIFICA a mano (grep del valor en el
@@ -64,9 +80,9 @@ antes filtraba — comparabilidad con DEC-075).
 > Números = salida cruda del instrumento; "corpus→verif" = tras verificación manual anti-FN. Clases
 > mayoritarias (OK/synth/retrieval/rerank) son el eje comparable. Detalle por-hecho en el `.yaml` del run.
 
-| Fecha | Commit | Corpus | OK | synth (estruct/flip) | retrieval | rerank | corpus-gap (raw→verif) | Flags demo | Notas |
-|---|---|---|---|---|---|---|---|---|---|
-| 2026-07-07 | e5d745d (+build s100 sin commitear) | 25090 | 89 (67%) | **22 (16/6)** | 13 (+~4 de corpus FN) ≈ **17** | 4 | 5 → **~0** (FN verif.) | RERANK_TOP_K=10 · ENUNCIADOS=on · IDENTITY=ADD · LLM_MAX=3500 | **BASELINE s100.** Síntesis = cuello dominante (16 estruct.: ~10 omitted/hedged=lever prompt + ~5 partial=lever retrieval + 2 contradicted). Retrieval within-doc (11)=gap vocabulario (DEC-085/86). **Identidad + corpus ≈ 0** con datos frescos. `s100_factlevel_full.yaml` |
+| Fecha | Commit | Juez | Corpus | OK | synth (estruct/flip) | retrieval | rerank | corpus-gap (raw→verif) | Flags demo | Notas |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 2026-07-07 | e5d745d (+build s100 sin commitear) | v1 GPT-5.5 single | 25090 | 89 (67%) | **22 (16/6)** ⚠ sobre-cuenta (juez v1: ~5-7 FN verificados) | 13 (+~4 de corpus FN) ≈ **17** | 4 | 5 → **~0** (FN verif.) | RERANK_TOP_K=10 · ENUNCIADOS=on · IDENTITY=ADD · LLM_MAX=3500 | **BASELINE s100.** Síntesis = cuello dominante A NIVEL CLASE. Gold-review posterior (s100b): de los 16 "estruct." → ~5 judge-FN + ~6 scope (5 demotados) + 1 error real (hp010 Nivel-2/3) + cola real pequeña. Retrieval within-doc (11)=gap vocabulario. **Identidad + corpus ≈ 0.** `s100_factlevel_full.yaml` |
 
 **Cómo añadir una fila:** correr `full` tras un cambio de pipeline/golds → estampar la fila (fecha, commit,
 corpus count del manifest, el agregado, flags) → verificar corpus-gaps a mano → nota de qué cambió.
