@@ -33,7 +33,14 @@ def main() -> int:
     except Exception:
         pass
     questions, chunk_ids, srcs = [], [], []
-    bad = 0
+    bad = n_dup = n_capped = n_dupchunk = n_excl = 0
+    CAP_PER_CHUNK = 4                # prereg: "2-4 preguntas por chunk" — el parser del generador no capaba (fix dúo s101)
+    # H2 (dúo s101): MIE-MI-310 = ZXAE/ZXEE, el doc del que hp009 fue DES-anclado (pdfs_used stale) —
+    # sus preguntas invadirían el pool de hp009 con la familia equivocada → FUERA del índice.
+    EXCLUDE_SRC = ("MIE-MI-310",)
+    seen_global: set[str] = set()    # dedup GLOBAL normalizado (duplicados compiten por slots del pool)
+    seen_chunks: set[str] = set()    # H1 (dúo s101): el jsonl s99 tiene 2 registros/chunk → keep-FIRST por chunk_id
+    kept_by_chunk: dict[str, int] = {}
     for line in HYQ.read_text(encoding="utf-8-sig").splitlines():
         line = line.strip()
         if not line:
@@ -43,14 +50,34 @@ def main() -> int:
         except Exception:
             bad += 1
             continue
+        cid = r["chunk_id"]
+        src = r.get("source_file") or ""
+        if any(x in src for x in EXCLUDE_SRC):
+            n_excl += 1
+            continue
+        if cid in seen_chunks:       # registro DUPLICADO del mismo chunk (re-generación s99) → skip entero
+            n_dupchunk += 1
+            continue
+        seen_chunks.add(cid)
         for q in r.get("questions") or []:
             q = (q or "").strip()
             if len(q) < 15:          # ruido/fragmentos
                 continue
+            norm = " ".join(q.lower().split())
+            if norm in seen_global:
+                n_dup += 1
+                continue
+            if kept_by_chunk.get(cid, 0) >= CAP_PER_CHUNK:   # cap por CHUNK_ID, no por línea
+                n_capped += 1
+                continue
+            seen_global.add(norm)
+            kept_by_chunk[cid] = kept_by_chunk.get(cid, 0) + 1
             questions.append(q)
-            chunk_ids.append(r["chunk_id"])
-            srcs.append(r.get("source_file") or "")
-    print(f"{len(questions)} preguntas de {len(set(chunk_ids))} chunks ({bad} líneas malas skip)")
+            chunk_ids.append(cid)
+            srcs.append(src)
+    print(f"{len(questions)} preguntas de {len(set(chunk_ids))} chunks "
+          f"({bad} malas, {n_dupchunk} registros-dup-chunk, {n_dup} dups-texto, "
+          f"{n_capped} sobre-cap, {n_excl} excluidos MI-310)")
 
     vo = voyageai.Client()          # VOYAGE_API_KEY del entorno
     embs = []

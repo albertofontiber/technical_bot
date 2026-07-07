@@ -946,6 +946,52 @@ def vector_search(
             except Exception:
                 logger.warning("canal enunciados fail-open: sirviendo solo chunks reales")
 
+        # (s101 PILOTO hyq — prereg evals/s99_hyq_pilot_prereg.md) Canal question-side OFFLINE,
+        # flag-gated a `HYQ_PILOT_FILE` (default "" = OFF, prod inerte). Espejo del bloque A3:
+        # top-K preguntas por cos (numpy, in-process — 0 DDL en DB) → colapso por chunk-padre
+        # keep-max → hidratar padres → unión → sort → cap top_k. Fail-open propio (patrón s96 H1).
+        # Paridad de filtros: SOLO corre sin product_filter (el path del harness); con filtro se
+        # salta (declarado — el piloto no simula el filter_product server-side del RPC).
+        if HYQ_PILOT_FILE and RPC_SUFFIX == "_v2" and not product_filter:
+            # H3 (dúo s101, lección s96-H3): la CARGA del índice es fail-FAST — un path malo con el
+            # flag ON haría "hyq ON" con 0 surrogates = OFF-silencioso-medido-como-ON (false NO-GO).
+            # Solo la hidratación REST (transitoria) queda fail-open.
+            hyq_parents = _hyq_pilot_hits(query_embedding, threshold)
+            try:
+                have = {c.get("id") for c in results}
+                new_ids = [pid for pid in hyq_parents if pid not in have]
+                hyq_rows: list[dict] = []
+                for i in range(0, len(new_ids), 40):
+                    ids = ",".join(f'"{x}"' for x in new_ids[i:i + 40])
+                    h_resp = client.get(f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}", headers={
+                        "apikey": SUPABASE_SERVICE_KEY,
+                        "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}"},
+                        params={"select": _HYDRATE_SELECT, "id": f"in.({ids})"})
+                    h_resp.raise_for_status()
+                    for row in h_resp.json():
+                        sim, qwin = hyq_parents[row["id"]]
+                        row["similarity"] = sim
+                        row["_hyq_surrogate"] = True
+                        row["_hyq_question"] = qwin      # traceability (prereg): QUÉ pregunta ganó el padre
+                        hyq_rows.append(row)
+                for c in results:                      # keep-max si el padre ya estaba como hit real
+                    pid = c.get("id")
+                    if pid in hyq_parents and (c.get("similarity") or 0) < hyq_parents[pid][0]:
+                        c["similarity"] = hyq_parents[pid][0]
+                        c["_hyq_boosted"] = True         # traceability: el hit real subió por una pregunta
+                        c["_hyq_question"] = hyq_parents[pid][1]
+                # FUSIÓN POR CUOTA (fix s101, medido): cos pregunta↔query (~0.48-0.52, espacio asimétrico
+                # deflactado) y cos chunk↔query (suelo top-50 ≈0.58) son ESCALAS INCOMENSURABLES — el
+                # sort-mixto del patrón A3 (enunciados = content-side, escala comensurable) corta TODOS
+                # los padres hyq en el cap. BP HyPE: el índice de preguntas tiene su PROPIO top-k.
+                # Cuota fija (hiperparámetro de PILOTO, declarado en el addendum): los padres desplazan
+                # la cola del canal real — competencia de slots explícita, el control negativo la mide.
+                hyq_rows.sort(key=lambda c: c.get("similarity") or 0, reverse=True)
+                quota = hyq_rows[:HYQ_PILOT_QUOTA]
+                results = (results[:max(0, top_k - len(quota))] + quota) if quota else results
+            except Exception:
+                logger.warning("canal hyq-pilot fail-open: sirviendo sin surrogates-pregunta")
+
     return results
 
 
@@ -1081,6 +1127,47 @@ _HYDRATE_SELECT = ("id,content,context,product_model,category,section_title,cont
 # (s95-A3) Cuántos enunciados se piden ANTES del colapso por padre (Dense X: se
 # recuperan más unidades de las que se devuelven porque colapsan a padres únicos).
 ENUNCIADOS_FETCH_K = 200
+
+# (s101 piloto hyq) Path al .npz de embeddings de preguntas-hipotéticas (scripts/s101_hyq_embed.py).
+# "" (default) = canal APAGADO, prod inerte. Solo para la MEDICIÓN del piloto (prereg s99).
+HYQ_PILOT_FILE = os.getenv("HYQ_PILOT_FILE", "")
+# Cuota de padres-por-pregunta que entran al canal vectorial (fusión por CUOTA, no sort-mixto —
+# las escalas question↔query y chunk↔query no son comparables). Hiperparámetro de PILOTO.
+HYQ_PILOT_QUOTA = int(os.getenv("HYQ_PILOT_QUOTA", "10"))
+# Barra de confianza en el ESPACIO-PREGUNTA (fix control-negativo s101): sin barra, la cuota admite
+# padres con cos marginal (0.30-0.42) = trades basura que desplazan chunks load-bearing en golds
+# no-diana (medido: 9 EXCESS-HIGH/6 golds). Solo matches genuinos question↔query entran; un gold sin
+# pregunta relevante recibe 0 hyq (0 desplazamiento). Hiperparámetro de PILOTO (dev-elegido, declarado).
+HYQ_PILOT_MIN_COS = float(os.getenv("HYQ_PILOT_MIN_COS", "0.45"))
+_HYQ_CACHE: tuple | None = None
+
+
+def _hyq_pilot_hits(query_embedding: list[float], threshold: float) -> dict:
+    """cos in-process query↔preguntas (numpy) → colapso por chunk-padre keep-max.
+    Devuelve {chunk_id_padre: (mejor_similarity, pregunta_ganadora)} — la pregunta ganadora viaja
+    para la TRACEABILITY que exige el prereg (diagnosticar realista-vs-genérica y podar sintéticas;
+    crít cross-model s101). Espejo offline del RPC de enunciados."""
+    global _HYQ_CACHE
+    import numpy as np                      # lazy: solo si el flag está ON
+    if _HYQ_CACHE is None:
+        d = np.load(HYQ_PILOT_FILE, allow_pickle=True)
+        _HYQ_CACHE = (d["embeddings"].astype(np.float32), [str(x) for x in d["chunk_ids"]],
+                      [str(x) for x in d["questions"]])
+    embs, cids, qtexts = _HYQ_CACHE
+    q = np.asarray(query_embedding, dtype=np.float32)
+    n = float(np.linalg.norm(q)) or 1.0
+    sims = embs @ (q / n)
+    idx = np.argsort(-sims)[:ENUNCIADOS_FETCH_K]
+    bar = max(threshold, HYQ_PILOT_MIN_COS)   # la barra del espacio-pregunta manda sobre el umbral del canal
+    by_parent: dict = {}
+    for i in idx:
+        s = float(sims[i])
+        if s < bar:
+            break
+        pid = cids[i]
+        if pid not in by_parent or s > by_parent[pid][0]:
+            by_parent[pid] = (s, qtexts[i])
+    return by_parent
 
 
 def _multivector_on() -> bool:
