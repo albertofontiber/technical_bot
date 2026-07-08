@@ -65,3 +65,7 @@ DEC-051 lo midió NO-GO en PASS; a nivel-hecho es net-positivo — el patrón DE
 **Recomendación: SHIP-candidato** → gate bvg de no-regresión (invención especialmente: el bloque tiene
 anti-sobre-alcance y midió 0 regresiones, prometedor) + tu GO. Artefacto: `evals/s101_fidelity_measure.yaml`.
 - **[nota H5, s102]** `s101_fidelity_measure.py` quedó mixed-version tras v2.1 (su +3/0 se midió pre-v2.1 y es válido como medición congelada; re-runs futuros necesitan su propia copia del juez).
+
+## D4 — ✅ RESUELTA (Alberto, s102): cat020 MANTENER core · hp009-'aisladores internos' DEMOTE a supp
+Aplicación: el demote de hp009 se aplica vía gold_store AL CERRAR el full v3 en curso (no invalidar su
+partial). cat020 queda como está. El v3 aún cuenta hp009-aisladores en el denominador (nota de lectura).
