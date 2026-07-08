@@ -50,6 +50,10 @@ DEMO_FLAGS = {
     "MERGE_STRATEGY": "stamps",
     "RERANK_PREVIEW_CHARS": "800",
     "HYDE_ENABLED": "false",
+    # seams de PILOTO vivos en el código (s101) — PINEADOS a off: un env sucio no puede
+    # contaminar una medición "demo" (crít cross-model s101b).
+    "DIVERSIFY_TIEBREAK": "off",
+    "HYQ_PILOT_FILE": "",
 }
 
 
@@ -115,7 +119,8 @@ from src.rag.hyde import HYDE_ENABLED as _hyde_on  # noqa: E402
 assert not _hyde_on, "HYDE_ENABLED=true ≠ demo(off) — pipeline fantasma"
 # Flags de generación que alteran el prompt en runtime → paridad bvg exige OFF (fix dúo build2 #2).
 assert not os.getenv("GENERATOR_INCLUDE_CONTEXT"), "GENERATOR_INCLUDE_CONTEXT ON rompe paridad bvg/DEC-075"
-assert not os.getenv("GENERATOR_PROMPT_VARIANT"), "GENERATOR_PROMPT_VARIANT set rompe paridad bvg/DEC-075"
+assert os.getenv("GENERATOR_PROMPT_VARIANT", "base") in ("", "base"), \
+    "GENERATOR_PROMPT_VARIANT≠base rompe paridad bvg/DEC-075"
 
 JUDGE_MODEL = "gpt-5.5"
 JUDGE2_MODEL = "claude-opus-4-8"   # dual-judge (s100, suite de aceptación n=5 fakes/6 OK + 5 flips regla-C;
@@ -406,6 +411,9 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
             raise RuntimeError(f"{qid}/{valor[:20]}: juez primario (GPT-5.5) MUERTO "
                                f"({v_pool.get('n_fail')} fallos, 0 votos) — run abortado, partial limpio")
         sup = supported_ids(v_pool, THRESH_FIRM)
+        # C3 (cross-model s101b): degradación PARCIAL del primario (un batch entero murió pero otros
+        # votaron) → el hecho puede caer como falso miss SIN abortar. Flag por-fact visible.
+        support_degraded = v_pool.get("n_fail", 0) >= K
         sup_fam = {cid for cid in sup if same_family(cid)}      # FAMILY-AWARE (fix #3)
         entry_support_flip = None
         if not sup_fam and anchorable:
@@ -442,6 +450,8 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
         entry = {"key": key, "valor": valor, "texto": texto, "lexically_anchorable": anchorable,
                  "family_resolved": family_resolved, "n_support_fam": len(sup_fam),
                  "n_support_raw": len(sup), "reaches_gen": reaches_gen, "in_topk": in_topk, "in_pool": in_pool}
+        if support_degraded:
+            entry["support_judge_degraded"] = True   # >=K fallos del primario en este hecho — clase con FN-riesgo
         if entry_support_flip:
             entry.update(entry_support_flip)
 
@@ -602,7 +612,9 @@ def build_manifest() -> dict:
                   "submotivo_sha": _sha(SUBMOTIVO_SYS + SUBMOTIVO_USER)},
         "similarity_note": "pin de pool NO estampa `similarity` como fiel: stamp plano léxico "
                            "(retriever.py:554) ≠ coseno (fix G).",
-        "diversify_tiebreak": "AUSENTE del pipeline (flag muerto, DEC-091 NO-GO) — no en freeze (fix B).",
+        "diversify_tiebreak": "flag VIVO en el código (portado s101 para la re-medición) pero PINEADO "
+                              "off en DEMO_FLAGS; NO-GO definitivo s101 (tripwire con ambos anchos) — jamás a demo.",
+        "hyq_pilot": "seam VIVO (s101) pineado '' (off); piloto GO del mecanismo, ship gated (D2 Alberto).",
         "family_aware": "acreditación de soporte SAME-FAMILY vía product_model (fix #3, reusa retrieval_miss_famtie).",
     }
 
@@ -666,11 +678,16 @@ def main() -> int:
     # CUALQUIERA de corpus/flags/juez/código (el corpus INCLUIDO: sin él, un fix de chunks con el mismo
     # commit reusaría un partial incompatible — justo el caso hp011).
     gold_sha = _sha((ROOT / "evals" / "gold_answers_v1.yaml").read_text(encoding="utf-8", errors="replace"))
-    script_sha = _sha(Path(__file__).read_text(encoding="utf-8", errors="replace"))  # árbol sucio: el código TAMBIÉN ancla
+    # árbol sucio: ancla el código de ESTE script + el del PIPELINE que se mide (crít cross-model s101b:
+    # un cambio en retriever/reranker/generator con el mismo commit reutilizaría un partial incompatible).
+    pipe_sha = _sha("".join((ROOT / "src" / "rag" / f).read_text(encoding="utf-8", errors="replace")
+                            for f in ("retriever.py", "reranker.py", "generator.py")))
+    script_sha = _sha(Path(__file__).read_text(encoding="utf-8", errors="replace"))
     freeze_hash = _sha(json.dumps({"c": manifest["git_commit"], "f": manifest["flags_demo"],
                                    "r": manifest["resolved"], "j": manifest["judge"],
                                    "corpus": manifest["corpus"],
-                                   "golds": gold_sha, "script": script_sha}, sort_keys=True))
+                                   "golds": gold_sha, "script": script_sha,
+                                   "pipeline": pipe_sha}, sort_keys=True))
     if "error" in manifest["corpus"]:
         print("  ⚠ corpus fingerprint FALLÓ — el freeze-hash no ancla el corpus este run")
 
