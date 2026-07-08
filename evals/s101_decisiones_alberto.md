@@ -7,7 +7,8 @@ Full v2 RELANZADO limpio y serializado (~00:30). Desbloquea también: cross-mode
 dual-soporte final, tiebreak port, iteraciones hyq) + jueces semánticos (hp020-'4y8', cat013 probe) +
 Fase 2. La cola nocturna se re-secuencia: full v2 primero (solo), cross-models después.
 
-## D2 · Ship-path del mecanismo hyq (GO del piloto ya dado por los gates del prereg)
+## D2 · Ship-path del mecanismo hyq — ✅ RESUELTA (Alberto: opción a; re-confirmada 8-jul)
+> En ejecución: tramos 1-3/8 generados (QA muestral 15/15 en cada uno), tramo 4 en vuelo.
 El piloto validó el mecanismo (cat016 + hp018-6K8 flip, control negativo limpio con barra 0.45).
 El prereg dice: corpus-wide/activación = decisión TUYA, nunca auto-ship. Opciones:
   a) **Tabla A3-style** (`chunks_v2_hyq`, HNSW propio, patrón enunciados) + generación corpus-wide
@@ -19,6 +20,10 @@ El prereg dice: corpus-wide/activación = decisión TUYA, nunca auto-ship. Opcio
 bucket en el scoreboard.** El coste se estima ANTES (disciplina), y el corpus-wide se hace por tramos
 con gates (lección DEC-088).
 
+## D3 — ✅ RESUELTA POR MEDICIÓN (s102, sin tocar golds): al volver la cuota, los fulls v2/v3
+## los midieron con el juez semántico/dual — hp020 quedó 4/4 OK; hp018-'1A' clasificado
+## retrieval-miss (cross-family, DEC-091b). No hace falta re-anclar ningún gold.
+## (texto original de la decisión debajo, por trazabilidad)
 ## D3 · Golds hp018-'1 A' y hp020-'nivel 2 o 3' (los 2 "NO_VAL_CHUNKS" del piloto)
 Son no-anclables (single-digit / prosa) → el harness judge-free no puede localizar su chunk-valor de
 forma estable, y el juez semántico está sin cuota. Además hp018-'1 A' arrastra la ambigüedad
@@ -27,7 +32,10 @@ ADD-coincidencia (DEC-091b).
 siguen inestables, candidato a re-anclar el valor en el gold (p.ej. '1 A' → citar la fila de la tabla
 con su contexto) — eso sería edición de gold y te la propondría aparte.
 
-## D4 · cat020 y hp009-'aisladores' (scope-borderline del gold-review s100b, aún pendientes de ti)
+## D4 — ✅ RESUELTA (Alberto, s102: "D4.1: mantener · D4.2: demote") y APLICADA vía gold_store
+## (cat020 sigue core; hp009-'aisladores internos' → supplementary, commit 87997ab).
+## (texto original debajo, por trazabilidad — el header viejo decía "pendientes" y confundía)
+## D4 · cat020 y hp009-'aisladores' (scope-borderline del gold-review s100b)
 Del gold-review: cat020-'0-100% normalizado' (Fable: demote con tu sign-off por la edición s89;
 GPT-5.5: mantener) y hp009-'aisladores internos' (Fable: demote; GPT-5.5: mantener).
 **Recomendación: cat020 mantener core** (la escala normalizada es parte de "nivel de alarma por
@@ -57,6 +65,13 @@ son contexto). Con tu OK los aplico vía gold_store.
   cat013 confirmado IDENTIDAD (query CAD-150 vs doc ID3000 — ni hyq ni léxico lo puentean →
   workstream DEC-074, como ya estaba). El lever hyq queda en 2 flips netos (cat016, hp018-6K8).
 
+## D5 — ✅ RESUELTA (Alberto, 8-jul: "OK a no perseguir")
+> Su pregunta "¿son prioritarios para responder la pregunta?" → NO: son detalle de completitud,
+> no el corazón de la respuesta (hp011: el rango '05 a 295 seg' del retardo — la comprobación se
+> resuelve con ABORT/r.I/enclavadas; hp013: el LED PWR-R — la respuesta es "la config vive en
+> EEPROM" + procedimiento; hp017: la 'instrucción de entrada' — el procedimiento es causa-efecto
+> + Editar Configuración). SÍ pertenecen a la respuesta ideal (por eso son core del gold y
+> cuentan en el scoreboard) — demotarlos para maquillar el número sería gaming del ledger.
 ## D5 · Residual-ancilar del lever hyq (hp011·'05a295' · hp013·PWR-R · hp017·instrucción)
 > (Omisión mía: esta sección se referenció como "D5" en mis reportes pero no se había volcado al
 > fichero hasta ahora, s102 — el salto D4→D6 que viste era eso, no una decisión perdida.)
@@ -71,6 +86,12 @@ Alternativa si quieres atacarlos igualmente (decisión tuya): ampliar la VARIEDA
 chunk de forma UNIFORME corpus-wide (sube coste de generación ~2-3×, sin garantía — la señal del
 piloto fue que el matching prioriza intent, no que falten preguntas). Mi lectura: no paga.
 
+## D6 — ✅ RESUELTA (Alberto, 8-jul: "OK como propones") → EN EJECUCIÓN
+> Gate bvg de no-regresión lanzado (scripts/s102_fidelity_gate.py: ctrl=base vs treat=fidelity,
+> pipe compartida t10@3500, K=3, juez canónico; población = 12 PASS + 8 PARCIAL del K5 vigente +
+> los 3 rescatados fact-level; ~$8-12). Toda "regresión" se verifica leyendo respuestas
+> (DEC-092b) antes de declararla. Si sale limpio → ship = GENERATOR_PROMPT_VARIANT=fidelity en
+> Railway (te aviso con el resultado del gate para ese último paso).
 ## D6 · Ship del fidelity-block (GENERATOR_PROMPT_VARIANT=fidelity) — NUEVO, medido esta noche
 A/B fact-level (13 golds synth-miss, brazo fidelity ×2 gens, árbitro dual): **+3 rescates
 (hp002·hp006·hp010) − 0 regresiones**. Neto positivo, coste ~0 (bloque de prompt), pero NO es el
@@ -101,15 +122,17 @@ partial). cat020 queda como está. El v3 aún cuenta hp009-aisladores en el deno
   1 FP); tally completo en adversarial_review_log.jsonl. El crítico: mi claim "temp=0 ⇒ delta=solo
   el lever" refutado por mis propios datos → framing corregido en yaml+docstrings+DEC.
 
-## D7 · Gold hp014 con `targets: []` vacío (hallado en la verificación de corpus-gaps s102)
-El hecho hp014#2 ('terminales 2 y 4') aterrizó corpus-gap FALSO porque el gold no declara
-targets → el check de corpus no tenía manual donde mirar. El hecho está LITERAL en MIDT180 p.44
-(verificado píxel: "cortocircuitando los terminales 2 y 4 de cada aislador"); el hecho '35'
-(≤35Ω) también vive en MIDT180 (s101).
-**Recomendación: añadir `targets: [MIDT180]` al gold hp014 vía gold_store con el checklist de
-localización** (es completar metadata verificada, no re-autoría). Con tu OK lo aplico — o lo
-aplico yo directamente si lo consideras inequívoco (es la clase "gold-metadata incompleta", no
-cambia valor/texto de ningún hecho).
+## D7 — ⛔ RETRACTADA (s102, tras tu OK: mi diagnóstico era FALSO — Protocolo 1 aplicado al verificar antes de tocar)
+El gold hp014 está SANO: los targets no son un campo del gold sino que se DERIVAN de la
+provenance (fuente + citations + pdfs_used, `audit_retrieval_funnel.target_servable`), y hp014
+deriva `['MIDT180']` correctamente (provenance completa: 9 citations con página). Yo leí un
+campo `targets` que no existe en ningún gold. La causa REAL del falso corpus-gap: el hecho
+'terminales 2 y 4' es no-anclable → fue por la rama SEMÁNTICA del check de corpus, cuyo bound
+(SEM_CORPUS_BOUND=40 chunks ordenados por página) dejó fuera la p.44 → `sem_bound_truncated:
+True` → el instrumento lo marcó `suspect_fn_mine` COMO ESTÁ DISEÑADO y el protocolo de
+verificación manual lo cazó. **No hay nada que arreglar en el gold; no aplico nada.** La
+limitación del bound ya está declarada en el artefacto (flag visible); si algún día molesta,
+el fix sería instrumento (subir bound / grep léxico previo), no gold.
 
 ### s102 (tarde-2, 8-jul) — L4 selection-block: NO-GO tal-cual-medido (DEC-097)
 - Construí y medí el bloque de generación para el cluster cat021 («¿qué modelo pido?» → enumerar
