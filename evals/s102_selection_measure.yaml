@@ -1,0 +1,948 @@
+treatment:
+  seam: GENERATOR_SELECTION_BLOCK=on (s102/L4)
+  block_sha: 55a82fa47750
+  gens_selection: 2
+  metric: conveyed fact-level árbitro dual; GO=cat021 ≥2/4 sin regresión sentinels
+demo_flags:
+  CHUNKS_TABLE: chunks_v2
+  ENUNCIADOS_MULTIVECTOR: 'on'
+  IDENTITY_RESOLVE: 'on'
+  IDENTITY_RESOLVE_POLICY: ADD
+  LLM_MAX_TOKENS: '3500'
+  RERANK_TOP_K: '10'
+  RERANKER_BACKEND: llm
+  MERGE_STRATEGY: stamps
+  RERANK_PREVIEW_CHARS: '800'
+  HYDE_ENABLED: 'false'
+  HYQ_PILOT_FILE: ''
+  DIVERSIFY_TIEBREAK: 'off'
+  GENERATOR_PROMPT_VARIANT: base
+  GENERATOR_SELECTION_BLOCK: 'off'
+aggregate:
+  rescued: 0
+  regressed: 0
+  still-miss: 1
+  ok-both: 16
+results:
+- qid: cat021
+  role: target
+  len_base: 2349
+  len_sel: 3146
+  answer_base: '## Familia SharpEye 40/40 — Modelos disponibles
+
+
+    La denominación comercial "40/40" corresponde a una **familia completa de detectores de llama** de Spectrex
+    / Notifier, no a un modelo único. Antes de pedir el equipo, necesitas identificar qué variante se ajusta a tu
+    aplicación. Los modelos documentados son [F10]:
+
+
+    ---
+
+
+    ### Modelos de la serie S40/40
+
+
+    - **S40/40R** — Detector de llama **infrarrojo simple (Single IR)** [F1]
+
+    - **S40/40I** — Detector de llama **triple infrarrojo (IR3)** [F3][F6]
+
+    - **S40/40M** — Detector de llama **múltiple infrarrojo** (hidrógeno e hidrocarburo) [F2][F7]
+
+    - **S40/40L / LB** — Detector de llama **UV/IR** (longitud de onda 2,5–3,0 µm; hidrocarburos, hidrógeno, metales)
+    [F8]
+
+    - **S40/40L4 / L4B** — Detector de llama **UV/IR** (longitud de onda 4,5 µm; solo hidrocarburos) [F8]
+
+    - **S40/40U / UB** — Detector de llama **UV** [F5][F10]
+
+    - **S40/40UFL** — Detector de llama **UV/IR ultrarrápido** [F10]
+
+    - **S40/40UFI** — Detector de llama **IR3 ultrarrápido** [F10]
+
+
+    ---
+
+
+    ### Nota sobre la referencia de pedido
+
+
+    Cada modelo se suministra en varias configuraciones según opciones de cableado, rango de temperatura, tipo de
+    entrada de cable, tipo de carcasa y homologaciones requeridas [F6][F7][F8]. La referencia completa de pedido
+    tiene el formato **S40/40X XXXXX**, donde los últimos cinco caracteres definen la configuración exacta. El detalle
+    de esos sufijos está en la sección **1.2 Tipos y modelos** del manual de cada variante.
+
+
+    ---
+
+
+    ### ¿Qué modelo necesitas?
+
+
+    Para orientarte, dime:
+
+    1. **¿Qué tipo de combustible** hay en la instalación? (hidrocarburos, hidrógeno, metales, gas, etc.)
+
+    2. **¿Requieres función BIT** (prueba incorporada automática)?
+
+    3. **¿Hay requisito de velocidad de detección** (aplicación con destellos rápidos / flares)?
+
+
+    Con eso puedo indicarte qué variante S40/40 se ajusta mejor y qué sección del manual consultar para construir
+    la referencia de pedido completa.
+
+
+    ---
+
+
+    Fuentes:
+
+    - Manual S40/40R — MNDT724_40-40R (TM 40/40R, Rev. 4, 10 octubre 2011)
+
+    - Manual S40/40M — MNDT725_40-40M (TM 40/40M, Rev. 4, 10 octubre 2011)
+
+    - Manual S40/40I — MNDT721_40-40I (sin revisión registrada)
+
+    - Manual S40/40L — MNDT722_40-40L (TM 40/40L, Rev. 5, 10 octubre 2011)
+
+    - Manual S40/40U — MNDT723_40-40U (sin revisión registrada)
+
+    - SharpEye 40/40 Series WinHost User Guide — TM777050 Rev. (Da), octubre 2017'
+  answer_sel: '# Familia SharpEye 40/40 — ¿Qué modelo pedir?
+
+
+    La serie SharpEye 40/40 (Spectrex / Notifier) incluye **varias variantes con tecnología de detección distinta
+    e intercambiables entre sí**. El modelo correcto depende del tipo de riesgo/combustible de tu instalación. Aquí
+    tienes los miembros documentados:
+
+
+    ---
+
+
+    ## **S40/40R** — IR simple (Single IR)
+
+    - Tecnología: **un único sensor infrarrojo** [F1]
+
+    - Referencia de manual: **TM40/40R** [F10]
+
+    - Sensibilidades disponibles: **5 m y 15 m** [F9]
+
+    - Uso típico según los fragmentos: no se especifica el riesgo concreto en los fragmentos disponibles.
+
+
+    ---
+
+
+    ## **S40/40I** — Triple infrarrojo (IR3)
+
+    - Tecnología: **tres sensores infrarrojos (IR3)** para máxima inmunidad a falsas alarmas [F6]
+
+    - Referencia de manual: **TM40/40I** [F10]
+
+    - Sensibilidades disponibles: **15 m, 30 m, 45 m y 65 m** [F9]
+
+    - Apto para: hidrocarburos y gases en general [F6]
+
+
+    ---
+
+
+    ## **S40/40M** — Multi-IR (hidrocarburos + hidrógeno)
+
+    - Tecnología: **múltiple infrarrojo**, específico para **llamas de hidrógeno y combustibles de hidrocarburos**
+    [F2]
+
+    - Referencia de manual: **TM40/40M** [F10]
+
+    - Sensibilidades disponibles: **15 m, 30 m, 45 m y 65 m** [F9]
+
+    - Capacidad declarada: detección de gasolina a **65 m** y llama de hidrógeno a **30 m** en menos de **5 segundos**
+    [F7]
+
+    - Diferenciador clave respecto al 40/40I: **incluye detección de hidrógeno** [F2]
+
+
+    ---
+
+
+    ## **S40/40L / LB** — UV/IR (hidrocarburos, hidrógeno, metales)
+
+    - Tecnología: **combinación UV + IR**, sensor IR a longitud de onda **2,5–3,0 µm** [F8]
+
+    - Apto para: combustibles de hidrocarburos, fuegos de gas, hidrógeno y **fuegos de metales o materia inorgánica**
+    [F8]
+
+    - Sensibilidad disponible: **15 m** [F9]
+
+    - Nota: el modelo **LB incluye función BIT** (prueba incorporada); el L no [F8]
+
+
+    ## **S40/40L4 / L4B** — UV/IR (solo hidrocarburos)
+
+    - Igual al S40/40L pero con sensor IR a **4,5 µm** → **solo apto para hidrocarburos** (no hidrógeno, no metales)
+    [F8]
+
+    - Sensibilidad disponible: **28 m** [F9]
+
+    - Nota: el modelo **L4B incluye función BIT**; el L4 no [F8]
+
+
+    ---
+
+
+    ## **S40/40U / UB** — UV puro
+
+    - Tecnología: **ultravioleta** [F5]
+
+    - Referencia de manual: **TM40/40U** [F10]
+
+    - Sensibilidad disponible: **15 m** [F9]
+
+    - El manual no especifica en los fragmentos recuperados los combustibles objetivo concretos del 40/40U.
+
+
+    ---
+
+
+    ## ⚠️ Dato que decide la elección
+
+
+    Las variantes **NO son intercambiables** entre sí: cada una usa una tecnología de detección distinta y cubre
+    riesgos diferentes.
+
+
+    **¿Qué tipo de riesgo/combustible tienes en la instalación?**
+
+    - ¿Hidrocarburos únicamente? → **40/40I** o **40/40L4**
+
+    - ¿Hidrógeno o mezcla hidrógeno + hidrocarburos? → **40/40M** o **40/40L**
+
+    - ¿Fuegos de metales o materia inorgánica? → **40/40L**
+
+    - ¿Necesitas función de prueba BIT integrada? → variante con sufijo **B** (LB, L4B, UB)
+
+
+    ---
+
+
+    Fuentes:
+
+    - MNDT724_40-40R (TM 40/40R, Rev. 4, 10 octubre 2011)
+
+    - MNDT725_40-40M (TM 40/40M, Rev. 4, 10 octubre 2011)
+
+    - MNDT721_40-40I (MN-DT-721_D)
+
+    - MNDT722_40-40L (TM 40/40L, Rev. 5, 10 octubre 2011)
+
+    - MNDT723_40-40U (MN-DT-723_B)
+
+    - manual-sharpeye-40-40-series-winhost-spectrex-en-us-4845694 (TM777050 Rev. Da, octubre 2017)'
+  answer_sel2: "# Familia SharpEye 40/40 — ¿Qué modelo pedir?\n\nLa familia SharpEye 40/40 (Spectrex / Notifier)\
+    \ tiene **varias variantes con tecnología de detección distinta y no intercambiables entre sí**. El modelo correcto\
+    \ depende del tipo de riesgo/combustible de tu instalación.\n\nAquí tienes los modelos disponibles en los fragmentos:\n\
+    \n---\n\n## Variantes disponibles\n\n- **S40/40R** — Detector de llama de **infrarrojo simple (Single IR)**\
+    \ [F1]\n  - Sensibilidades configurables: **5 m y 15 m** [F9]\n  - Referencia de manual: TM40/40R [F10]\n\n\
+    - **S40/40M** — Detector de llama de **múltiple infrarrojo (Multi IR)** para **llamas de hidrógeno e hidrocarburo**\
+    \ [F2]\n  - Detecta fuego de gasolina a **65 m** y llama de hidrógeno a **30 m** en menos de **5 segundos**\
+    \ [F7]\n  - Sensibilidades configurables: **15, 30, 45 y 65 m** [F9]\n  - Referencia de manual: TM40/40M [F10]\n\
+    \n- **S40/40I** — Detector de llama de **triple espectro infrarrojo (IR3)** [F3]\n  - Máxima inmunidad a falsas\
+    \ alarmas mediante análisis digital de radiación IR [F6]\n  - Sensibilidades configurables: **15, 30, 45 y 65\
+    \ m** [F9]\n  - Referencia de manual: TM40/40I [F10]\n\n- **S40/40L / LB** — Detector de llama **UV/IR** (IR\
+    \ a **2,5–3,0 µm**) para hidrocarburos, gas, hidrógeno y metales/materia inorgánica [F8]\n  - La variante **LB**\
+    \ incluye función de Prueba incorporada (BIT) [F8]\n  - Sensibilidad configurada a **15 m** [F9]\n  - Referencia\
+    \ de manual: TM40/40L [F10]\n\n- **S40/40L4 / L4B** — Detector **UV/IR** (IR a **4,5 µm**), **solo para fuegos\
+    \ de hidrocarburos** [F8]\n  - La variante **L4B** incluye función BIT [F8]\n  - Sensibilidad configurada a\
+    \ **28 m** [F9]\n\n- **S40/40U / UB** — Detector de llama **UV** [F5]\n  - Sensibilidad configurada a **15 m**\
+    \ [F9]\n  - Referencia de manual: TM40/40U [F10]\n\n---\n\n## Características comunes a toda la serie [F6][F7][F8]\n\
+    \n- Ventana óptica calefactada (resistente a escarcha, nieve y condensación)\n- Carcasa antideflagrante certificada\
+    \ **ATEX / IECEx**: Ex II 2 GD, EExde IIB+H2 T5 (75°C)\n- Homologaciones **FM, CSA**: Clase I Div. 1 Grupos\
+    \ B, C, D; Clase II/III Div. 1 Grupos E, F, G\n- Comunicaciones **Modbus RS-485 / HART** (en modelos con salida\
+    \ 0-20 mA)\n\n---\n\n## ¿Cuál pedir?\n\nEl dato que decide la elección es el **tipo de combustible/riesgo**\
+    \ y la **distancia de detección requerida**:\n\n- ¿Hidrógeno + hidrocarburos a larga distancia? → **S40/40M**\n\
+    - ¿Máxima inmunidad a falsas alarmas con IR3? → **S40/40I**\n- ¿Detección UV/IR de amplio espectro (incluye\
+    \ metales/inorgánicos)? → **S40/40L o LB**\n- ¿Solo hidrocarburos con UV/IR? → **S40/40L4 o L4B**\n- ¿IR simple,\
+    \ aplicación básica? → **S40/40R**\n- ¿UV puro? → **S40/40U**\n\n¿Qué tipo de riesgo tienes (combustible, distancia,\
+    \ entorno) y si necesitas BIT integrado? Con eso te confirmo el modelo exacto y el sufijo de configuración (carcasa,\
+    \ entradas de cable, rango de temperatura).\n\n---\n\nFuentes:\n- MNDT724_40-40R (TM 40/40R, Rev. 4, 10 octubre\
+    \ 2011)\n- MNDT725_40-40M (TM 40/40M, Rev. 4, 10 octubre 2011)\n- MNDT721_40-40I (MN-DT-721_D)\n- MNDT722_40-40L\
+    \ (TM 40/40L, Rev. 5, 10 octubre 2011)\n- MNDT723_40-40U\n- manual-sharpeye-40-40-series-winhost-spectrex-en-us-4845694\
+    \ (TM777050 Rev. Da, octubre 2017)"
+  facts:
+  - valor: 40/40
+    base: true
+    selection: true
+    status: ok-both
+  - valor: IR3
+    base: true
+    selection: true
+    status: ok-both
+  - valor: Multi IR / hidrógeno
+    base: true
+    selection: true
+    status: ok-both
+  - valor: UV
+    base: true
+    selection: true
+    status: ok-both
+- qid: hp009
+  role: sentinel
+  len_base: 1881
+  len_sel: 208
+  answer_base: '## Resistencia de Fin de Línea en la Morley ZXe
+
+
+    La pregunta hace referencia a la "ZXe", que es una familia con varios modelos. Los fragmentos disponibles cubren
+    la **ZXAE/ZXEE** y la **ZX2e/ZX5e**. Te indico los valores según el tipo de circuito, ya que difieren:
+
+
+    ---
+
+
+    ### 🔔 Salidas de Sirenas (circuitos de sirenas convencionales)
+
+
+    - **Resistencia de fin de línea (RFL): 6.800 Ω (6K8), 0,5 W mínimo** [F1][F2]
+
+    - Aplica a las salidas de sirenas de placa de la **ZXAE/ZXEE** [F1] y también a la **ZX2e/ZX5e** [F4]
+
+    - La RFL se instala entre **+** y **−** de la última sirena de la línea [F1]
+
+    - Si no hay sirenas conectadas, la RFL se conecta directamente en los terminales de salida de la central [F1]
+
+    - **No se deben realizar ramales** en la línea de sirenas, ya que la supervisión solo cubre la línea directa
+    hasta la RFL [F2]
+
+
+    ---
+
+
+    ### 📡 Lazo Periférico (RS-485)
+
+
+    - **Resistencia de fin de línea (RFL): 150 Ω, 0,5 W mínimo**, en cada extremo [F3]
+
+    - Aplica cuando el lazo periférico se configura en **lazo abierto** [F3]
+
+    - El cableado debe ser **apantallado** [F3]
+
+
+    ---
+
+
+    ### 🔁 Lazos Analógicos
+
+
+    Los fragmentos disponibles **no especifican una resistencia de fin de línea** para los lazos analógicos de la
+    ZXAE/ZXEE. El manual describe estos lazos como circuitos de comunicación digital a dos hilos en bucle cerrado
+    [F5], pero no menciona RFL para este tipo de lazo.
+
+
+    ---
+
+
+    > ⚠️ Para confirmar qué modelo exacto de la familia ZXe tienes instalado (ZXAE, ZXEE, ZX2e o ZX5e), revisa la
+    etiqueta del panel, ya que los valores anteriores están confirmados para esos modelos concretos.
+
+
+    **Fuente:** Manual de Instalación ZXAE/ZXEE (DOC.MIE-MI-310, sin revisión registrada); Manual de Instalación
+    ZX2e/ZX5e (MIE-MI-530rv001)
+
+
+    ---
+
+
+    También puedo ayudarte con: **conexionado completo de sirenas**, **verificación del lazo analógico** o **cálculo
+    de consumos y baterías** para la ZXAE/ZXEE.'
+  answer_sel: 'La pregunta menciona la "ZXe" pero los fragmentos recuperados corresponden a las centrales **ZXAE/ZXEE**
+    y **ZX2e/ZX5e**. Dado que son modelos distintos, necesito confirmar: ¿qué modelo concreto estás usando?'
+  answer_sel2: 'La pregunta menciona la "ZXe" pero los fragmentos recuperados corresponden a las centrales **ZXAE/ZXEE**
+    y **ZX2e/ZX5e**. Antes de responder con precisión: ¿qué modelo concreto tienes instalado?
+
+
+    Dicho esto, si tu equipo es una **ZXAE, ZXEE, ZX2e o ZX5e**, puedo darte ya la información, ya que los fragmentos
+    cubren estas familias y la resistencia de fin de línea varía según el circuito:
+
+
+    ---
+
+
+    ### Salidas de sirenas convencionales (ZXAE/ZXEE y ZX2e/ZX5e)
+
+
+    - **RFL: 6.800 Ω (6K8), 0,5 W mínimo** [F1][F2][F4]
+
+    - Se instala entre **+** y **−** de la última sirena del circuito [F1]
+
+    - Si no hay sirenas conectadas, la RFL se coloca directamente en los terminales de salida de la central [F1]
+
+    - **No se deben realizar ramales** en la línea de sirenas, ya que la supervisión solo cubre la línea directa
+    hasta la RFL [F2]
+
+
+    ---
+
+
+    ### Lazo periférico RS-485 (ZXAE/ZXEE)
+
+
+    - **RFL: 150 Ω, 0,5 W mínimo**, en **cada extremo** del lazo [F3]
+
+    - Aplica tanto en configuración de lazo abierto como cerrado [F3]
+
+
+    ---
+
+
+    ### Lazos analógicos (ZXAE/ZXEE)
+
+
+    - Los lazos analógicos **no utilizan resistencia de fin de línea** según los fragmentos disponibles. La supervisión
+    se realiza mediante comunicación digital a dos hilos [F5]. El manual no especifica RFL para este circuito.
+
+
+    ---
+
+
+    Fuente: Manual de Instalación ZXAE/ZXEE, DOC.MIE-MI-310 (sin revisión registrada); Manual de Instalación ZX2e/ZX5e,
+    MIE-MI-530rv001 (sin revisión registrada)
+
+
+    ---
+
+
+    También puedo ayudarte con: **longitudes máximas de lazo**, **cableado apantallado y secciones recomendadas**
+    o **consumos máximos de las salidas de sirenas** de estas centrales.'
+  facts:
+  - valor: Retorno
+    base: false
+    selection: false
+    status: still-miss
+- qid: hp018
+  role: sentinel
+  len_base: 3347
+  len_sel: 3313
+  answer_base: "# Conexionado de sirenas convencionales en la ZXe\n\n> **Nota previa:** La denominación \"ZXe\"\
+    \ puede referirse a la **ZXAE/ZXEE** (Morley-IAS) o a la **ZX2e/ZX5e** (Morley). Los fragmentos disponibles\
+    \ cubren ambas familias. A continuación te doy el procedimiento completo para las dos, ya que el principio de\
+    \ conexionado es el mismo.\n\n---\n\n## Principio de funcionamiento del circuito\n\nLas salidas de sirenas son\
+    \ **supervisadas con polaridad inversa** en reposo [F1][F3]. La central inyecta una pequeña corriente inversa\
+    \ para leer la **Resistencia Final de Línea (RFL)** y detectar apertura o cortocircuito. Al dispararse la alarma,\
+    \ la polaridad se invierte a la normal y las sirenas suenan [F1].\n\n---\n\n## Número de salidas disponibles\n\
+    \n- **ZXAE:** 2 salidas supervisadas (Salida A y B) [F1]\n- **ZXEE:** 4 salidas supervisadas (Salida A, B, C\
+    \ y D) [F1]\n- **ZX2e:** 2 salidas (A y B) — terminales **S,A+ / S,A- / S,B+ / S,B-** en TB7 [F1]\n- **ZX5e:**\
+    \ 4 salidas (A, B, C, D) — terminales **A- A+ B- B+ C- C+ D- D+** en TB7 [F3]\n\n---\n\n## Pasos de conexionado\n\
+    \n1. **Identifica los terminales de sirena** en la placa base:\n   - ZXAE/ZXEE: bloque **TB7** con terminales\
+    \ S,A+ / S,A- / S,B+ / S,B- (y C, D en ZXEE) [F1]\n   - ZX2e: terminales marcados **SOUNDERS A+ A- B+ B-** [F3]\n\
+    \   - ZX5e: bloque **TB7** con terminales A- A+ B- B+ C- C+ D- D+ [F3]\n\n2. **Conecta las sirenas en serie**\
+    \ (línea directa, sin ramales) respetando la polaridad:\n   - Terminal **+** de la salida → **+** de la primera\
+    \ sirena\n   - **-** de la primera sirena → **+** de la siguiente sirena\n   - Continúa en cadena hasta la última\
+    \ sirena [F2][F4]\n\n3. **Sirenas con polaridad:** conéctalas directamente respetando + y - [F2]\n\n4. **Campanas/sirenas\
+    \ SIN polaridad:** instala un **diodo** entre el terminal + y uno de los bornes de alimentación de la campana,\
+    \ para evitar consumo durante la supervisión en polaridad inversa [F1][F3]\n\n5. **Instala la RFL al final de\
+    \ la línea:**\n   - Resistencia de **6.800 Ω (6K8) / 0,5 W mínimo** entre el + y el - de la **última sirena**\
+    \ de la cadena [F1]\n   - Si no hay ninguna sirena conectada, coloca la RFL directamente en los terminales de\
+    \ la central [F1]\n\n6. **Si la salida queda sin sirenas:** conecta igualmente la RFL en bornes de la central\
+    \ para evitar fallo de supervisión [F1]\n\n---\n\n## Restricciones críticas de cableado\n\n- ❌ **No hagas ramales**\
+    \ en la línea de sirenas — los ramales paralelos no quedan supervisados [F2]\n- ⚠️ **Sección mínima de cable:\
+    \ 1,5 mm²** [F1]\n- ⚠️ **Longitud máxima recomendada: 1 km** — por encima, la capacitancia e inductancia pueden\
+    \ afectar al funcionamiento [F4]\n- **Corriente máxima por circuito: 1 A** — verifica que el consumo total de\
+    \ la central con sirenas activadas no supere el límite [F1]\n\n---\n\n## Resumen esquemático\n\n```\n(+) Salida\
+    \ ──► Sirena 1 ──► Sirena 2 ──► Sirena N ──┐\n                                                      RFL 6K8Ω\n\
+    (-) Salida ────────────────────────────────────────────┘\n```\n*(Cada sirena con diodo integrado o externo si\
+    \ no tiene polaridad)* [F2][F4]\n\n---\n\nFuente: Manual de Instalación ZXAE/ZXEE — DOC.MIE-MI-310 (sin revisión\
+    \ registrada); Manual de Instalación ZX2e/ZX5e — DOC.MIE-MI-530, Revisión 001\n\n---\n\nTambién puedo ayudarte\
+    \ con: **verificación de supervisión y averías de sirena**, **programación de patrones de disparo** o **cálculo\
+    \ de consumo máximo por salida**."
+  answer_sel: "# Conexionado de sirena convencional en salidas de sirena de la ZXe\n\n**Nota previa:** Los fragmentos\
+    \ recuperados corresponden a los manuales de la **ZXAE/ZXEE** [F1][F2] y de la **ZX2e/ZX5e** [F3][F4]. La familia\
+    \ \"ZXe\" incluye varios modelos. A continuación te doy la información de conexionado que aplica a ambas, indicando\
+    \ las diferencias.\n\n---\n\n## Número de salidas disponibles\n\n- **ZXAE:** 2 salidas supervisadas para sirenas\
+    \ convencionales (Salida A y B) [F1]\n- **ZXEE:** 4 salidas supervisadas para sirenas convencionales (Salida\
+    \ A, B, C y D) [F1]\n- **ZX2e:** 2 salidas de sirenas de placa (A y B) [F3]\n- **ZX5e:** 4 salidas de sirenas\
+    \ de placa (A, B, C y D) [F3]\n\n---\n\n## Parámetros eléctricos clave\n\n- **Corriente máxima por circuito:**\
+    \ **1 A** [F1]\n- **Resistencia final de línea (RFL):** **6.800 Ω (6K8), 0,5 W mínimo** [F1]\n- **Sección mínima\
+    \ de cable:** **1,5 mm²** [F1]\n- **Longitud máxima de cable recomendada (ZX2e/ZX5e):** no superior a **1 km**\
+    \ [F4]\n\n---\n\n## Procedimiento de conexionado\n\n1. **Conecta las sirenas en serie** (en línea directa, sin\
+    \ ramales) entre los terminales **+** y **−** de la salida correspondiente [F2].\n\n2. **Sirenas con polaridad:**\
+    \ Conecta respetando la polaridad (+/−) de cada sirena. La corriente de supervisión circula en sentido inverso\
+    \ al de activación [F1].\n\n3. **Sirenas/campanas sin polaridad:** Instala un **diodo** entre el terminal **+**\
+    \ de la salida y el terminal de alimentación de la campana, para evitar consumo durante la supervisión (polaridad\
+    \ inversa en reposo) [F1][F3].\n\n4. **Resistencia final de línea (RFL):** Coloca una resistencia de **6.800\
+    \ Ω** entre el **+** y el **−** al final de la última sirena de cada circuito [F1][F2].\n   - Si no se instala\
+    \ ninguna sirena en la salida, conecta la RFL directamente en los terminales de la central [F1].\n\n5. **No\
+    \ realices ramales paralelos:** La supervisión se realiza sobre la línea directa hasta la RFL. Los ramales paralelos\
+    \ no quedan supervisados [F2].\n\n6. **No enrolles el cable en los terminales:** Corta y empalma las conexiones\
+    \ adecuadamente para mantener la supervisión de la línea [F4].\n\n---\n\n## Terminales físicos (según modelo)\n\
+    \n- **ZXAE:** Terminales **SOUNDERS** en la placa (Salidas A y B) [F1]\n- **ZXEE:** Terminales **TB7** → `S,A+\
+    \ / S,A- / S,B+ / S,B- / S,C+ / S,D+ / S,D-` [F1]\n- **ZX2e:** Terminales **AUX / A+ / A- / B+ / B-** en bloque\
+    \ SOUNDERS [F3]\n- **ZX5e:** Terminales **TB7** → `A- / A+ / B- / B+ / C- / C+ / D- / D+` [F3]\n\n---\n\n##\
+    \ Advertencias importantes\n\n- ⚠️ Verifica que el **consumo total de todas las sirenas activadas no supere\
+    \ la capacidad total de la central** [F1].\n- ⚠️ Evita cables de sección inferior a **1,5 mm²** y longitudes\
+    \ excesivas para no provocar caídas de tensión que impidan el funcionamiento de las sirenas [F1][F4].\n- ⚠️\
+    \ Asegúrate de que la tensión en los terminales de cada sirena sea la recomendada por el fabricante, tanto en\
+    \ alimentación principal como en condiciones de mínima tensión de baterías [F4].\n\n---\n\n**Fuente:** Manual\
+    \ de Instalación ZXAE/ZXEE — DOC.MIE-MI-310 (sin revisión registrada); Manual de Instalación ZX2e/ZX5e — DOC.MIE-MI-530,\
+    \ Revisión 001\n\n---\n\nTambién puedo ayudarte con: **configuración del programa de disparo de sirenas**, **supervisión\
+    \ y averías de línea de sirenas** o **conexionado de sirenas sin polaridad con diodo**."
+  answer_sel2: "# Conexionado de sirena convencional en salidas de sirena de la ZXe\n\n> **Nota previa:** La denominación\
+    \ \"ZXe\" puede referirse a la **ZX2e** (2 salidas de sirena) o a la **ZX5e** (4 salidas de sirena). Los fragmentos\
+    \ disponibles cubren ambas. El procedimiento de conexionado es el mismo en ambos casos.\n\n---\n\n## Reglas\
+    \ generales de conexionado [F1][F2][F4]\n\n1. **Polaridad:** Las sirenas convencionales deben ser **polarizadas**\
+    \ (con diodo integrado). La corriente de supervisión circula en sentido **inverso** a la de activación, por\
+    \ lo que sin diodo la sirena consumiría corriente en reposo [F1][F4].\n\n2. **Sirenas sin polaridad (campanas):**\
+    \ Si la campana no tiene polaridad, instala un **diodo en serie** entre el terminal `+` de la salida y uno de\
+    \ los terminales de alimentación de la campana, para bloquear la corriente inversa de supervisión [F1].\n\n\
+    3. **Resistencia Final de Línea (RFL):** Instala siempre una resistencia de **6.800 Ω / 0,5 W mínimo** entre\
+    \ `+` y `–` al final de la última sirena de cada circuito [F1][F4].\n   - Si no hay ninguna sirena conectada\
+    \ en esa salida, conecta la RFL directamente en los terminales de la central [F1].\n\n4. **Sin ramales:** **No\
+    \ realices derivaciones en paralelo** en el cableado de sirenas. La supervisión se realiza sobre la línea directa\
+    \ hasta la RFL; los ramales no quedan supervisados [F2].\n\n5. **Corriente máxima por circuito:** **1 A por\
+    \ salida** [F1]. Verifica que el consumo total de la central con sirenas activadas no supera el límite del sistema.\n\
+    \n6. **Sección de cable:** Mínimo **1,5 mm²** [F1]. No uses longitudes excesivas que provoquen caídas de tensión\
+    \ significativas.\n\n7. **Longitud máxima recomendada (ZX2e/ZX5e):** No se recomienda superar **1 km**, ya que\
+    \ la capacitancia e inductancia del lazo pueden afectar al funcionamiento [F4].\n\n---\n\n## Esquema de conexión\
+    \ (por circuito) [F2][F4]\n\n```\n+ Salida A ──[+Sirena1-]──[+Sirena2-]──[+SirenaN-]──┐\n                  \
+    \                                    │ RFL 6800 Ω\n- Salida A ───────────────────────────────────────────┘\n\
+    ```\n\n- Cada sirena polarizada se conecta en **serie** en la línea, respetando la polaridad `+/–`.\n- La RFL\
+    \ cierra el circuito al final de la última sirena.\n\n---\n\n## Terminales físicos [F1][F3]\n\n**ZX2e:**\n-\
+    \ Terminales en bloque inferior de placa: `A+ A- B+ B-` (sección **SOUNDERS**) [F3]\n\n**ZX5e:**\n- Terminales\
+    \ en **TB7**: `A- A+ B- B+ C- C+ D- D+` [F3]\n\n---\n\n## Supervisión [F1]\n\nLa central supervisa continuamente\
+    \ cada circuito mediante corriente inversa. Cualquier apertura o cortocircuito en la línea generará una avería\
+    \ visible en pantalla [F5]:\n\n```\n!ATENCION!  CIRCUITO ABIERTO SIRENA B\n```\n\n---\n\nFuente: Manual de Instalación\
+    \ ZXAE/ZXEE – DOC.MIE-MI-310 (sin revisión registrada); Manual de Instalación ZX2e/ZX5e – DOC.MIE-MI-530, Revisión\
+    \ 001; Manual de Configuración ZX2e/ZX5e – DOC.MIE-MP-530, Revisión 001."
+  facts:
+  - valor: 4 circuitos
+    base: true
+    selection: true
+    status: ok-both
+  - valor: 6K8
+    base: true
+    selection: true
+    status: ok-both
+  - valor: diodo
+    base: true
+    selection: true
+    status: ok-both
+  - valor: Sirenas A,B,C,D
+    base: true
+    selection: true
+    status: ok-both
+  - valor: 1 A
+    base: true
+    selection: true
+    status: ok-both
+- qid: cat022
+  role: sentinel
+  len_base: 1976
+  len_sel: 2229
+  answer_base: "## Diferencias entre el 40/40L, el 40/40L4 y el sufijo «B»\n\n### 40/40L vs. 40/40L4 — Longitud\
+    \ de onda del sensor IR\n\nAmbos modelos son detectores UV/IR, pero difieren en la longitud de onda de trabajo\
+    \ del sensor infrarrojo [F1]:\n\n- **S40/40L (y LB):** el sensor IR opera entre **2,5 y 3,0 µm**. Es capaz de\
+    \ detectar:\n  - Combustibles a base de hidrocarburos y fuegos de gas\n  - Fuegos de hidróxido e hidrógeno\n\
+    \  - Fuegos de metales o materia inorgánica\n\n- **S40/40L4 (y L4B):** el sensor IR opera a **4,5 µm**. Es adecuado\
+    \ **únicamente** para la detección de fuegos de hidrocarburos.\n\n> En resumen: el **40/40L** tiene un espectro\
+    \ de detección más amplio; el **40/40L4** está optimizado exclusivamente para hidrocarburos.\n\n---\n\n### Sufijo\
+    \ «B» — Función BIT incorporada\n\nEl sufijo **«B»** indica que el modelo incluye la función de **Prueba Incorporada\
+    \ (BIT)** [F1]:\n\n- **Sin sufijo B** (40/40L, 40/40L4): **NO** incluyen la función BIT.\n- **Con sufijo B**\
+    \ (40/40LB, 40/40L4B): **SÍ** incluyen la función BIT.\n\nAdicionalmente, la certificación **SIL-2 (TÜV)** según\
+    \ **IEC 61508.4, Capítulo 3.5.12** está disponible **exclusivamente en los modelos con sufijo B** (S40/40LB\
+    \ y L4B) [F2].\n\n---\n\n### Resumen rápido\n\n- **40/40L** → IR a 2,5–3,0 µm · detección amplia · sin BIT ·\
+    \ sin SIL-2\n- **40/40LB** → igual que el L + **BIT incorporada** + **certificación SIL-2**\n- **40/40L4** →\
+    \ IR a 4,5 µm · solo hidrocarburos · sin BIT · sin SIL-2\n- **40/40L4B** → igual que el L4 + **BIT incorporada**\
+    \ + **certificación SIL-2**\n\nTodos los modelos comparten la misma carcasa antideflagrante EExde IIB+H₂ y la\
+    \ ventana óptica calefactada [F1].\n\n---\n\n**Fuente:** Manual de usuario. Detector S40/40L-LB-L4-L4B — MNDT722_40-40L\
+    \ (MN-DT-722_B, Honeywell Life Safety Iberia, sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con:\
+    \ **rangos de sensibilidad del 40/40L vs. 40/40L4**, **procedimiento de prueba BIT manual/automática** o **especificaciones\
+    \ eléctricas y consumos** de estos detectores."
+  answer_sel: "## Diferencias entre el 40/40L, el 40/40L4 y el sufijo «B»\n\n### 40/40L vs. 40/40L4 — Longitud de\
+    \ onda del sensor IR\n\nLa diferencia fundamental entre ambos modelos es la **longitud de onda de trabajo del\
+    \ sensor IR** y, en consecuencia, los tipos de fuego que pueden detectar [F1]:\n\n- **S40/40L**: el sensor IR\
+    \ opera en la banda de **2,5 a 3,0 µm**. Es apto para detectar:\n  - Combustibles a base de hidrocarburos y\
+    \ fuegos de gas\n  - Fuegos de hidróxido e hidrógeno\n  - Fuegos de metales o materia inorgánica\n\n- **S40/40L4**:\
+    \ el sensor IR opera a **4,5 µm**. Es apto **únicamente** para:\n  - Detección de fuegos de hidrocarburos\n\n\
+    > ⚠️ El 40/40L4 **no es intercambiable** con el 40/40L en aplicaciones donde se requiera detectar hidrógeno,\
+    \ metales o materia inorgánica.\n\nAmbos modelos comparten la misma arquitectura UV/IR y la ventana óptica calefactada\
+    \ [F1].\n\n---\n\n### Sufijo «B» — Función BIT incorporada y certificación SIL-2\n\nEl sufijo **«B»** (modelos\
+    \ **40/40LB** y **40/40L4B**) añade dos características exclusivas respecto a sus variantes sin sufijo [F1]\
+    \ [F2]:\n\n1. **Prueba incorporada (BIT — Built-In Test)**: la función de autotest integrado **solo** está disponible\
+    \ en los modelos con sufijo B.\n\n2. **Certificación SIL-2 (TÜV)**: la certificación según **IEC 61508.4, Capítulo\
+    \ 3.5.12** es **exclusiva de los modelos LB y L4B** [F2]. La condición de alerta SIL-2 se implementa mediante:\n\
+    \   - Una señal de alerta a través del lazo de **0-20 mA**, o\n   - Una señal de alerta mediante relé de alarma\
+    \ y avería.\n\nLos modelos sin sufijo B (40/40L y 40/40L4) **no disponen de BIT ni de certificación SIL-2**\
+    \ [F1] [F2].\n\n---\n\n### Resumen rápido\n\n- **40/40L** → IR a 2,5–3,0 µm · hidrocarburos + H₂ + metales ·\
+    \ sin BIT · sin SIL-2\n- **40/40LB** → igual que L + **BIT** + **SIL-2**\n- **40/40L4** → IR a 4,5 µm · solo\
+    \ hidrocarburos · sin BIT · sin SIL-2\n- **40/40L4B** → igual que L4 + **BIT** + **SIL-2**\n\n---\n\nFuente:\
+    \ Manual de usuario. Detector S40/40L-LB-L4-L4B — MNDT722_40-40L (MN-DT-722_B, Honeywell Life Safety Iberia,\
+    \ sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **sensibilidades de detección por modelo**,\
+    \ **conexionado eléctrico y sección de cable** o **procedimiento de prueba BIT manual** del 40/40LB/L4B."
+  answer_sel2: "## Diferencias entre el 40/40L, el 40/40L4 y el sufijo «B»\n\n### 40/40L vs. 40/40L4 — Longitud\
+    \ de onda del sensor IR\n\nLa diferencia principal entre ambos modelos es la **longitud de onda de trabajo del\
+    \ sensor IR** y, en consecuencia, los **tipos de fuego que pueden detectar** [F1]:\n\n- **S40/40L**: combina\
+    \ sensores UV e IR. El sensor IR trabaja a una longitud de onda entre **2,5 y 3,0 µm**. Es apto para detectar:\n\
+    \  - Combustibles a base de hidrocarburos y fuegos de gas\n  - Fuegos de hidróxido e hidrógeno\n  - Fuegos de\
+    \ metales o materia inorgánica\n\n- **S40/40L4**: igual al S40/40L en todo lo demás, pero el sensor IR trabaja\
+    \ a una longitud de onda de **4,5 µm**. **Solo es adecuado para la detección de fuegos de hidrocarburos** [F1].\n\
+    \n> ⚠️ Los dos modelos **no son intercambiables** si el riesgo incluye hidrógeno, metales o materia inorgánica\
+    \ — en ese caso solo sirve el 40/40L.\n\n---\n\n### Sufijo «B» — Función BIT incorporada y certificación SIL-2\n\
+    \nEl sufijo **«B»** indica que el modelo incorpora la función de **Prueba incorporada (BIT)** [F1]:\n\n- **40/40LB**:\
+    \ versión del 40/40L con BIT integrado.\n- **40/40L4B**: versión del 40/40L4 con BIT integrado.\n- Los modelos\
+    \ **sin sufijo «B»** (40/40L y 40/40L4) **no incluyen** la función BIT [F1].\n\nAdemás, el sufijo «B» conlleva\
+    \ una certificación adicional [F2]:\n\n- Los modelos **40/40LB y 40/40L4B** están certificados **SIL-2 (TÜV)**\
+    \ según **IEC 61508.4, Capítulo 3.5.12** [F2].\n- Los modelos sin sufijo «B» (40/40L y 40/40L4) **no tienen**\
+    \ certificación SIL-2 [F2].\n\nLa condición de alerta SIL-2 se puede implementar mediante [F2]:\n- Una señal\
+    \ de alerta a través del lazo de **0-20 mA**, o\n- Una señal de alerta mediante un **relé de alarma y avería**.\n\
+    \n---\n\n### Resumen rápido\n\n- **Longitud de onda IR**: 2,5–3,0 µm (40/40L) vs. **4,5 µm** (40/40L4) [F1]\n\
+    - **Tipos de fuego**: amplio espectro (40/40L) vs. **solo hidrocarburos** (40/40L4) [F1]\n- **Sufijo «B»**:\
+    \ añade **BIT integrado** y certificación **SIL-2 (TÜV)** [F1][F2]\n\n---\n\nFuente: Manual de usuario. Detector\
+    \ S40/40L-LB-L4-L4B — MNDT722_40-40L (MN-DT-722_B, Honeywell Life Safety Iberia, sin revisión registrada)\n\n\
+    ---\n\nTambién puedo ayudarte con: **conexionado eléctrico del 40/40L/LB**, **procedimiento de prueba BIT manual**\
+    \ o **especificaciones de consumo y corriente** de estos detectores."
+  facts:
+  - valor: 2,5-3,0 μm
+    base: true
+    selection: true
+    status: ok-both
+  - valor: 4,5 μm
+    base: true
+    selection: true
+    status: ok-both
+  - valor: BIT
+    base: true
+    selection: true
+    status: ok-both
+- qid: cat019
+  role: sentinel
+  len_base: 5163
+  len_sel: 4991
+  answer_base: "# Configuración de una Maniobra (Causa-Efecto) en la CAD-250\n\n> ⚠️ La programación de maniobras\
+    \ es una de las funciones más críticas de la configuración del sistema. Requiere conocimiento específico del\
+    \ sistema instalado y del plan de protección [F6].\n\n---\n\n## CONCEPTO PREVIO\n\nUna maniobra es un conjunto\
+    \ de acciones programadas en función de los estados del sistema. Los cambios de estado se llaman **eventos**\
+    \ (entradas) y a cada evento se asocia una **acción** (salida: sirenas, relés, etc.) [F1].\n\nLa lógica es:\
+    \ **Entradas → Lógica (coincidencias) → Salidas** [F1].\n\nEl sistema soporta hasta **100.000 entradas y salidas**\
+    \ configuradas en distintas maniobras [F3][F10].\n\n---\n\n## PASO 1 — ACCEDER AL MENÚ DE MANIOBRAS\n\nRuta\
+    \ de acceso desde el panel [F1]:\n\n**MENÚ** → **MANIOBRAS** → **+AÑADIR** (barra de navegación inferior)\n\n\
+    Al entrar por primera vez puede estar vacío o incluir maniobras preestablecidas de fábrica [F6].\n\n---\n\n\
+    ## PASO 2 — CREAR LA MANIOBRA Y DEFINIR COINCIDENCIAS\n\n1. Pulsa **AÑADIR** para crear una nueva maniobra [F2].\n\
+    2. Se accede a la pantalla de edición de **Maniobra 000X** [F2].\n3. Define el campo **COINCIDENCIAS**: número\
+    \ de eventos que deben cumplirse simultáneamente para que la salida se ejecute [F2]:\n\n   - **Coincidencias\
+    \ = 1** → lógica **OR**: cualquier evento dispara la acción [F2].\n   - **Coincidencias = 2** (con 2 eventos)\
+    \ → lógica **AND**: todos los eventos deben cumplirse [F2].\n   - **Coincidencias = 3** (con 4 eventos) → lógica\
+    \ **3 de N**: 3 eventos cualesquiera deben cumplirse [F2].\n\n---\n\n## PASO 3 — DEFINIR LAS ENTRADAS (EVENTOS)\n\
+    \n1. Pulsa **AÑADIR** en el margen inferior → selecciona **EVENTO** en la ventana emergente [F3].\n2. Elige\
+    \ el tipo de evento [F3]:\n   - **ENTIDAD**: cualquier elemento de la jerarquía del sistema.\n   - **CONDICIÓN\
+    \ TEMPORAL**: periodo de tiempo durante el que la ecuación de entrada es verdadera.\n\n3. Si seleccionas **ENTIDAD**,\
+    \ configura los siguientes parámetros en la pantalla **EVENTO DE LA ENTIDAD** [F6][F7]:\n\n**Origen:**\n- Local\
+    \ o Red [F6]\n- Instalación, Panel, Lazo, Área, Zona, Dispositivo, Grupo o Módulo Virtual [F6]\n\n**Condición\
+    \ (Tipo — estado):**\n- **Alarma**: uno o más elementos en alarma [F7]\n- **Avería**: uno o más elementos en\
+    \ avería [F7]\n- **Técnico**: una o más entradas activas [F7]\n\n**Tipo de dispositivo:**\n- **Todos**: cualquier\
+    \ dispositivo activo [F7]\n- **Pulsadores**: únicamente pulsadores [F7]\n- **Detectores**: únicamente detectores\
+    \ [F7]\n- **Entrada**: únicamente entradas [F7]\n\n**Lógico:**\n- **Normal**: la condición de estado es verdadera\
+    \ [F7]\n- **No (Negado)**: la condición de estado es falsa (p.ej. \"no hay alarma\") [F7]\n\n**Repeticiones:**\n\
+    - Valor entero hasta **9999** [F6]\n- Número de veces que el evento debe repetirse en la entidad para que la\
+    \ entrada sea válida [F7]\n- Ejemplo: zona en alarma de detectores con repeticiones = 3 → la condición es verdadera\
+    \ cuando **3 detectores** estén en alarma [F7]\n\n> ⚠️ La maniobra gestiona **eventos** (cambios de estado),\
+    \ no estados estáticos. El evento es el cambio de estado; si coincide con la condición establecida, activa las\
+    \ salidas [F3].\n\n4. Pulsa **GUARDAR**. Repite el proceso para añadir más eventos si la maniobra lo requiere\
+    \ [F5].\n\n> Desde la versión 1.1.1 es posible seleccionar un elemento de **salida** como condición de entrada;\
+    \ en ese caso, el cambio a condición de avería hace verdadera la entrada. Para ello, desmarca la casilla **\"\
+    Sólo dispositivos de entrada\"** [F5].\n\n---\n\n## PASO 4 — DEFINIR LAS SALIDAS (ACCIONES)\n\n1. Desde la misma\
+    \ pantalla de la maniobra, pulsa **AÑADIR** → selecciona **ACCIÓN** [F4].\n2. Configura los campos de **ACCIÓN\
+    \ DE LA ENTIDAD** [F4][F6]:\n\n**Retraso:**\n- Tiempo configurable entre **0 y 600 segundos** antes de iniciar\
+    \ la acción [F4][F6]\n- Se inicia a partir del momento en que la condición de entrada es verdadera [F6]\n\n\
+    **Entidad (destino):**\n- Panel, Lazo, Área, Zona, Dispositivo, Grupo o Módulo Virtual [F4]\n- Las acciones\
+    \ siempre son relativas a la entidad seleccionada [F4]\n- **El programa no permite mezclar acciones sobre entidades\
+    \ de paneles diferentes** [F10]\n\n**Acción:**\n- Activar, Desactivar, Habilitar, Deshabilitar, Test, Reiniciar\
+    \ o Pulso [F6]\n\n**Tipo de dispositivo de salida:**\n- Todos, Sirenas, Relés, Sirena discontinua [F6]\n\n3.\
+    \ Pulsa **GUARDAR**. La pantalla mostrará la maniobra completa con eventos y acciones [F9].\n\n---\n\n## RESUMEN\
+    \ DEL FLUJO COMPLETO\n\n```\nAÑADIR maniobra\n    ↓\nDefinir COINCIDENCIAS (1=OR / N=AND / X de N)\n    ↓\n\
+    AÑADIR → EVENTO → ENTIDAD o CONDICIÓN TEMPORAL\n    → Configurar: Origen / Condición / Tipo / Lógico / Repeticiones\n\
+    \    (repetir para cada evento necesario)\n    ↓\nAÑADIR → ACCIÓN → ENTIDAD\n    → Configurar: Retraso / Entidad\
+    \ destino / Acción / Tipo\n    (repetir para cada acción necesaria)\n    ↓\nGUARDAR → Maniobra completa activa\n\
+    ```\n\n---\n\n**Fuentes:**\n- CAD-250 Manual de Configuración MC-380-es-2026-c (rev. c, 2026-04-23)\n- Manual\
+    \ de Instalación CAD-250 MI-372-es-2024-e (sin revisión registrada)\n- CAD-250 Manual Software de Configuración\
+    \ MS-416-es-2026-b (rev. b)\n\n---\n\nTambién puedo ayudarte con: **configuración de Grupos**, **Módulos Virtuales**\
+    \ o **Condiciones Temporales** en la CAD-250."
+  answer_sel: "# Configuración de una maniobra completa en la CAD-250\n\n> ⚠️ La programación de maniobras es una\
+    \ de las funciones más críticas de la configuración del sistema. Requiere conocimiento específico del sistema\
+    \ instalado, del plan de protección y del producto [F6].\n\n---\n\n## CONCEPTO PREVIO\n\nUna maniobra es un\
+    \ conjunto de **entradas (eventos)** → **lógica (coincidencias)** → **salidas (acciones)** [F1].\n\n- El **evento**\
+    \ es el cambio de estado, no el estado en sí [F3].\n- El sistema soporta hasta **100.000 entradas y salidas**\
+    \ configuradas en distintas maniobras [F3][F10].\n- El retardo de acción es configurable entre **0 y 600 segundos**\
+    \ [F6].\n\n---\n\n## PASO 1 — ACCEDER AL MENÚ DE MANIOBRAS\n\nRuta: **MENÚ > MANIOBRAS > +AÑADIR** [F1]\n\n\
+    En el submenú de MANIOBRAS también encontrarás: **GRUPOS**, **MÓDULOS VIRTUALES** y **ESTADO VM** [F1].\n\n\
+    ---\n\n## PASO 2 — CREAR LA MANIOBRA\n\n1. Pulsa **AÑADIR** en la barra de navegación inferior [F2].\n2. Se\
+    \ abre la pantalla de edición de la maniobra (ej: \"Maniobra 0001\") [F2].\n3. Define el campo **COINCIDENCIAS**:\
+    \ número de eventos que deben cumplirse simultáneamente para que la salida se active [F2]:\n   - **Coincidencias\
+    \ = 1** → lógica **OR** (cualquier evento activa la salida) [F2].\n   - **Coincidencias = N (igual al total\
+    \ de eventos)** → lógica **AND** (todos deben cumplirse) [F2].\n   - **Coincidencias = X de N** → lógica de\
+    \ mayoría (X eventos cualesquiera de N totales) [F2].\n\n---\n\n## PASO 3 — DEFINIR LAS ENTRADAS (EVENTOS)\n\
+    \n1. Pulsa **AÑADIR** en el margen inferior y selecciona **EVENTO** [F3].\n2. Elige el tipo de evento [F3]:\n\
+    \   - **ENTIDAD**: cualquier elemento de la jerarquía del sistema.\n   - **CONDICIÓN TEMPORAL**: periodo de\
+    \ tiempo durante el cual la entrada es verdadera.\n\n### Si eliges ENTIDAD:\n\n3. Selecciona el origen: **LOCAL**\
+    \ (central actual) o **RED** (cualquier central en red) [F3][F6].\n4. Selecciona el nivel de entidad [F6][F8]:\n\
+    \   - Instalación, Panel, Lazo, Área, Zona, Dispositivo, Grupo o Módulo Virtual.\n5. Configura los parámetros\
+    \ del evento [F7]:\n\n   - **Tipo / Condición de estado:**\n     - *Alarma*: uno o más elementos en alarma.\n\
+    \     - *Avería*: uno o más elementos en avería.\n     - *Técnico*: una o más entradas activas.\n\n   - **Tipo\
+    \ / Condición de tipo** (filtra qué dispositivo activa la condición) [F7]:\n     - *Todos*, *Pulsadores*, *Detectores*\
+    \ o *Entrada*.\n\n   - **Lógico** [F7]:\n     - *Normal*: la condición de estado es verdadera.\n     - *No (Negado)*:\
+    \ invierte la condición (ej: \"no hay alarma\").\n\n   - **Repeticiones** [F7]: valor entero hasta **9999**.\
+    \ Número de veces que el evento debe darse en la entidad para que la entrada sea válida. Ejemplo: zona en alarma\
+    \ con 3 repeticiones → condición verdadera cuando 3 detectores estén en alarma.\n\n6. Pulsa **GUARDAR** para\
+    \ confirmar el evento [F9].\n7. Repite para añadir más eventos si es necesario [F5].\n\n> \U0001F4A1 Desde la\
+    \ versión **1.1.1** es posible seleccionar un elemento de salida como condición de entrada. En ese caso, el\
+    \ cambio a condición de avería hace verdadera la entrada. Para ello, desmarca la casilla **\"Sólo dispositivos\
+    \ de entrada\"** [F5].\n\n---\n\n## PASO 4 — DEFINIR LAS SALIDAS (ACCIONES)\n\n1. Desde la misma pantalla de\
+    \ la maniobra, pulsa **AÑADIR** y selecciona **ACCIÓN** [F4].\n2. Configura los campos [F4][F6]:\n\n   - **Retraso\
+    \ (s):** tiempo de espera antes de ejecutar la acción, de **0 a 600 segundos** [F4][F6]. El retardo se inicia\
+    \ cuando la condición de entrada es verdadera [F6].\n\n   - **Entidad (destino):** Panel, Lazo, Área, Zona,\
+    \ Dispositivo, Grupo o Módulo Virtual [F4].\n     > ⚠️ El programa **no permite mezclar acciones sobre entidades\
+    \ de paneles diferentes** [F10].\n\n   - **Tipo / Acción:** Activar, Desactivar, Habilitar, Deshabilitar, Test,\
+    \ Reiniciar o Pulso [F6].\n\n   - **Tipo de dispositivo:** Todos, Sirenas, Relés, Sirena discontinua [F6].\n\
+    \n3. Pulsa **GUARDAR** [F10].\n4. Repite para añadir más acciones si es necesario.\n\n---\n\n## PASO 5 — VERIFICAR\
+    \ LA MANIOBRA COMPLETA\n\nLa pantalla de la maniobra mostrará [F10]:\n- **Cuadro izquierdo (Eventos):** todas\
+    \ las entradas configuradas.\n- **Cuadro derecho (Acciones):** todas las salidas que se activarán cuando se\
+    \ cumplan las condiciones.\n\nDesde esta pantalla puedes [F10]:\n- **Editar** un evento o acción seleccionándolo\
+    \ y pulsando EDITAR.\n- **Borrar elemento** individual.\n- **Borrar maniobra** completa.\n\n---\n\n## RESUMEN\
+    \ DEL FLUJO\n\n```\nAÑADIR maniobra\n    ↓\nDefinir COINCIDENCIAS (1=OR / N=AND / X de N)\n    ↓\nAÑADIR EVENTO(S)\
+    \ → Entidad + Estado + Tipo + Lógico + Repeticiones\n    ↓\nAÑADIR ACCIÓN(ES) → Retraso + Entidad destino +\
+    \ Acción + Tipo dispositivo\n    ↓\nGUARDAR\n```\n\n---\n\n**Fuentes:**\n- CAD-250 Manual de Configuración MC-380-es-2026-c\
+    \ (rev. c, 2026-04-23)\n- CAD-250 Manual de Software de Configuración MS-416-es-2026-b (rev. b)\n- Manual de\
+    \ Instalación CAD-250 MI-372-es-2024-e (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **configuración\
+    \ de Grupos**, **uso de Módulos Virtuales** o **configuración de Condiciones Temporales** en la CAD-250."
+  answer_sel2: "# Configuración de una maniobra completa en la CAD-250\n\n> ⚠️ La programación de maniobras es una\
+    \ de las funciones más críticas de la configuración del sistema. Requiere conocimiento específico del sistema\
+    \ instalado, del plan de protección y del producto [F6].\n\n---\n\n## CONCEPTO PREVIO\n\nUna maniobra es un\
+    \ conjunto de **Entradas (Eventos)** → **Lógica (Coincidencias)** → **Salidas (Acciones)** [F1].\n\n- El **evento**\
+    \ es el cambio de estado, no el estado en sí [F3].\n- El sistema soporta hasta **100.000 entradas y salidas**\
+    \ configuradas en distintas maniobras [F3][F10].\n- El retardo de acción es configurable entre **0 y 600 segundos**\
+    \ [F6].\n\n---\n\n## PASO 1 — ACCEDER AL MENÚ DE MANIOBRAS\n\nRuta: **MENÚ > MANIOBRAS > +AÑADIR** [F1]\n\n\
+    En el submenú de MANIOBRAS también encontrarás: **GRUPOS**, **MÓDULOS VIRTUALES** y **ESTADO VM** [F1].\n\n\
+    ---\n\n## PASO 2 — CREAR LA MANIOBRA\n\n1. Pulsa **AÑADIR** en la barra de navegación inferior [F2].\n2. Se\
+    \ abre la pantalla de edición de **Maniobra 000X** [F2].\n3. Define el campo **COINCIDENCIAS**: número de eventos\
+    \ que deben cumplirse simultáneamente para que la maniobra se ejecute [F2]:\n   - **Coincidencias = 1** → lógica\
+    \ **OR** (cualquier evento dispara la acción) [F2]\n   - **Coincidencias = N (igual al total de eventos)** →\
+    \ lógica **AND** (todos deben cumplirse) [F2]\n   - **Coincidencias = X de N** → lógica de mayoría (X eventos\
+    \ cualesquiera de los N definidos) [F2]\n\n---\n\n## PASO 3 — DEFINIR LAS ENTRADAS (EVENTOS)\n\n1. Pulsa **AÑADIR**\
+    \ en el margen inferior y selecciona **EVENTO** [F3].\n2. Elige el tipo de evento [F3]:\n   - **ENTIDAD**: cualquier\
+    \ elemento de la jerarquía del sistema (instalación, panel, lazo, área, zona, dispositivo, grupo o módulo virtual),\
+    \ tanto local como en red [F3][F6].\n   - **CONDICIÓN TEMPORAL**: establece un periodo de tiempo durante el\
+    \ cual la condición de entrada es verdadera [F3].\n\n3. Si eliges **ENTIDAD**, configura los siguientes parámetros\
+    \ en la pantalla **EVENTO DE LA ENTIDAD** [F6][F7]:\n\n   - **Origen:** Local o Red [F6]\n   - **Condición (estado):**\n\
+    \     - *Alarma*: uno o más elementos en alarma [F7]\n     - *Avería*: uno o más elementos en avería [F7]\n\
+    \     - *Técnico*: una o más entradas activas [F7]\n   - **Tipo (discriminación de dispositivo):**\n     - *Todos*,\
+    \ *Pulsadores*, *Detectores* o *Entrada* [F7]\n   - **Lógico:**\n     - *Normal*: la condición es verdadera\
+    \ [F7]\n     - *No (Negado)*: invierte la condición (p. ej. \"no hay alarma\") [F7]\n   - **Repeticiones:**\
+    \ valor entero hasta **9999**; número de veces que el evento debe darse en la entidad para que la entrada sea\
+    \ válida [F7]. Ejemplo: zona en alarma con 3 repeticiones → condición verdadera cuando 3 detectores estén en\
+    \ alarma [F7].\n\n4. Pulsa **GUARDAR** para confirmar el evento [F9].\n5. Repite el proceso para añadir más\
+    \ eventos si la maniobra lo requiere [F5].\n\n> \U0001F4A1 Desde la versión 1.1.1 es posible seleccionar un\
+    \ **elemento de salida como condición de entrada**; en ese caso, el cambio a condición de avería hace verdadera\
+    \ la entrada. Para ello, desmarca la casilla **\"Sólo dispositivos de entrada\"** [F5].\n\n---\n\n## PASO 4\
+    \ — DEFINIR LAS SALIDAS (ACCIONES)\n\n1. Desde la misma pantalla de la maniobra, pulsa **AÑADIR** y selecciona\
+    \ **ACCIÓN** [F4].\n2. Configura los campos de la ventana **ACCIÓN DE LA ENTIDAD** [F4][F6]:\n\n   - **Retraso\
+    \ (s):** tiempo de espera antes de ejecutar la acción, de **0 a 600 segundos** [F4][F6]. El retardo se inicia\
+    \ cuando la condición de entrada es verdadera [F6].\n   - **Entidad destino:** panel, lazo, área, zona, dispositivo,\
+    \ grupo o módulo virtual (siempre entidad **local**) [F4].\n   - **Tipo de acción:** Activar, Desactivar, Habilitar,\
+    \ Deshabilitar, Test, Reiniciar o Pulso [F6].\n   - **Tipo de elemento:** Todos, Sirenas, Relés, Sirena discontinua\
+    \ [F6].\n\n3. Pulsa **GUARDAR** [F10].\n4. Repite para añadir más acciones si es necesario [F4].\n\n> ⚠️ El\
+    \ programa **no permite mezclar acciones sobre entidades de paneles diferentes** en la misma maniobra [F10].\n\
+    \n---\n\n## PASO 5 — VERIFICAR LA MANIOBRA COMPLETA\n\nUna vez guardada, la pantalla mostrará:\n- **Cuadro izquierdo\
+    \ (Eventos):** todas las entradas configuradas [F10].\n- **Cuadro derecho (Acciones):** todas las salidas que\
+    \ se ejecutarán cuando se cumplan las condiciones [F10].\n\nDesde esta pantalla puedes usar **EDITAR** o **BORRAR\
+    \ ELEMENTO** para modificar eventos o acciones individuales, y **BORRAR MANIOBRA** para eliminar la maniobra\
+    \ completa [F10].\n\n---\n\n## RESUMEN VISUAL DEL FLUJO\n\n```\n[Evento 1] ─┐\n[Evento 2] ─┤→ [Coincidencias:\
+    \ X de N] → [Retardo 0-600s] → [Acción 1]\n[Evento N] ─┘                                               → [Acción\
+    \ N]\n```\n\n---\n\n**Fuentes:**\n- CAD-250 Manual de Configuración MC-380-es-2026-c (rev. c, 2026-04-23)\n\
+    - CAD-250 Manual de Software de Configuración MS-416-es-2026-b (rev. b)\n- Manual de Instalación CAD-250 MI-372-es-2024-e\
+    \ (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **configuración de Grupos**, **uso de Módulos\
+    \ Virtuales** o **configuración de Condiciones Temporales** en la CAD-250."
+  facts:
+  - valor: coincidencias
+    base: true
+    selection: true
+    status: ok-both
+  - valor: EVENTO / ACCION
+    base: true
+    selection: true
+    status: ok-both
+  - valor: ENTIDAD / CONDICION TEMPORAL
+    base: true
+    selection: true
+    status: ok-both
+  - valor: salidas
+    base: true
+    selection: true
+    status: ok-both
+- qid: cat013
+  role: behavioral
+  len_base: 1777
+  len_sel: 1801
+  answer_base: '## Compatibilidad SDX-751 (Notifier) con CAD-150 (Detnov)
+
+
+    La respuesta directa es: **no puedo confirmarte compatibilidad**, y te explico por qué:
+
+
+    ---
+
+
+    ### Lo que dicen los fragmentos
+
+
+    **Sobre el SDX-751:**
+
+    Los fragmentos recuperados mencionan el **SDX-751** únicamente en el contexto de centrales **Notifier**:
+
+    - Es compatible con la central **AFP-200** de Notifier, montado sobre base **BX-501** [F2][F5]
+
+    - Es compatible con la central **ID-200** de Notifier, montado sobre base **B501** [F3][F6]
+
+
+    En ambos casos se describe como un detector analógico fotoeléctrico de humo de bajo perfil [F5][F6].
+
+
+    **Sobre la CAD-150:**
+
+    El manual de instalación de la **CAD-150-8** no menciona en ningún fragmento el detector **SDX-751**, ni ningún
+    otro detector Notifier, ni lista los detectores compatibles con su lazo analógico [F1][F4][F7][F9][F10].
+
+
+    ---
+
+
+    ### Conclusión
+
+
+    No tengo documentación sobre interoperabilidad entre la **CAD-150 (Detnov)** y el **SDX-751 (Notifier)**. Los
+    fragmentos disponibles del manual de la CAD-150 no especifican qué detectores de terceros son compatibles con
+    su lazo.
+
+
+    > ⚠️ **Mezclar equipos de distintos fabricantes en un lazo analógico sin confirmación del fabricante puede provocar
+    fallos de comunicación, falsas alarmas o ausencia de detección.** La compatibilidad debe verificarse directamente
+    con **Detnov** (para la CAD-150) antes de proceder.
+
+
+    ---
+
+
+    **Fuentes:**
+
+    - 55315013 Manual Centrales Analógicas CAD-150-8 Instalación ES FR GB IT (sin revisión registrada)
+
+    - MNDT120 — AFP-200 (sin revisión registrada)
+
+    - MNDT150 — ID-200 (sin revisión registrada)
+
+
+    ---
+
+
+    También puedo ayudarte con: **detectores compatibles con la CAD-150**, **conexionado del lazo analógico de la
+    CAD-150** o **especificaciones técnicas del SDX-751 en centrales Notifier**.'
+  answer_sel: '## Compatibilidad SDX-751 con CAD-150 (Detnov) — Respuesta directa
+
+
+    **No puedo confirmar esa compatibilidad**, y es importante que lo tengas claro antes de montarlo.
+
+
+    ### Lo que dicen los fragmentos:
+
+
+    **Sobre la CAD-150-8 (Detnov):**
+
+    Los fragmentos disponibles del manual de la CAD-150-8 [F1, F4, F7, F9, F10] describen su instalación, conexionado
+    de sirenas, puesta en marcha y componentes de placa base, pero **en ningún momento mencionan el SDX-751 ni ningún
+    otro detector Notifier como dispositivo compatible**. El manual no incluye lista de detectores homologados para
+    su lazo.
+
+
+    **Sobre el SDX-751 (Notifier):**
+
+    El SDX-751 aparece en los fragmentos como detector analógico fotoeléctrico de bajo perfil [F5], diseñado para
+    conectarse al lazo de la **AFP-200** [F2] y la **ID-200** [F3] de Notifier, usando la base **BX-501** (AFP-200)
+    [F2] o **B501** (ID-200) [F3]. Su protocolo de comunicación es el propio de las centrales Notifier.
+
+
+    ### Conclusión:
+
+
+    Se trata de una consulta **cross-brand** (Detnov + Notifier). Los fragmentos disponibles **no contienen ninguna
+    información sobre interoperabilidad entre la CAD-150-8 y dispositivos Notifier**. No puedo afirmar compatibilidad,
+    y tampoco puedo descartarla técnicamente desde los manuales disponibles.
+
+
+    > ⚠️ **Recomendación:** Consulta directamente a **Detnov** (soporte técnico) si el protocolo de lazo de la CAD-150-8
+    admite el SDX-751. Montar un detector de protocolo incompatible puede provocar fallos de comunicación, falsas
+    alarmas o que el dispositivo directamente no sea reconocido por la central.
+
+
+    ---
+
+
+    Fuentes:
+
+    - Manual CAD-150-8: *55315013 Manual Centrales Analógicas CAD-150-8 Instalación ES FR GB IT* (sin revisión registrada)
+
+    - Manual AFP-200: *MNDT120* (sin revisión registrada)
+
+    - Manual ID-200: *MNDT150* (sin revisión registrada)'
+  answer_sel2: 'La respuesta corta es: **no puedo confirmarte esa compatibilidad** con los datos que tengo disponibles.
+
+
+    Aquí está el problema concreto:
+
+
+    **Lo que sí está en los fragmentos:**
+
+
+    - El **SDX-751** aparece documentado como detector analógico fotoeléctrico de bajo perfil [F5], compatible con
+    las centrales **AFP-200** [F2] e **ID-200** [F3] de **Notifier**, montado sobre base **BX-501** (AFP-200) [F2]
+    o **B501** (ID-200) [F3].
+
+    - La **CAD-150-8** de **Detnov** es una central analógica con lazos de comunicaciones propios [F9], pero los
+    fragmentos disponibles de su manual **no incluyen ninguna lista de detectores compatibles**, ni mencionan el
+    SDX-751 ni ningún otro detector de Notifier.
+
+
+    **Lo que no puedo afirmar:**
+
+
+    - Los fragmentos del manual de la CAD-150-8 [F1, F4, F7, F9, F10] no especifican qué detectores son compatibles
+    con su lazo, ni el protocolo de comunicaciones que utiliza.
+
+    - El SDX-751 está documentado únicamente para lazos de centrales Notifier (AFP-200 e ID-200). No hay ningún
+    fragmento que lo vincule a Detnov.
+
+
+    **Recomendación:**
+
+
+    La compatibilidad entre equipos de distintos fabricantes debe verificarse directamente con los fabricantes.
+    Contacta con **soporte técnico de Detnov** para confirmar si el protocolo de lazo de la CAD-150-8 es compatible
+    con el SDX-751, o consulta el manual completo de la CAD-150-8 en su sección de dispositivos de lazo compatibles.
+
+
+    ---
+
+
+    Fuentes: Manual Centrales Analógicas CAD-150-8 Instalación (55315013, sin revisión registrada); MNDT120 AFP-200
+    (sin revisión registrada); MNDT150 ID-200 (sin revisión registrada)'
+verdict_s102: 'NO-GO tal-cual-medido — fundamento PRIMARIO (suficiente solo): cat021 base HOY transmite los 4 hechos
+  (enumera la familia citando un chunk-catálogo F10) → bajo la métrica DECLARADA (conveyed fact-level dual, GO=cat021
+  ≥2/4) el GO es aritméticamente imposible con la pipe de hoy. PRECISIÓN del mecanismo (SA2 sub-agente, corrige
+  mi framing): lo ESTOCÁSTICO es la COMPOSICIÓN SERVIDA (DEC-096b: rerank no-determinista a temp=0); DADA la composición
+  mala del v3, la generación falló ESTABLE (stability=stable-miss ×4, in_topk=True ×4) → el prompt-lever sigue VIVO
+  para la rama composición-mala; la reapertura honesta es un FORK (replay de composición fallida → decidir serving-side
+  vs prompt), NO un rumbo pre-decidido. Deuda cerrada en el instrumento: no persistía served_ids/topk_ids (la composición
+  fallida no era replayable) → cableado s102. SECUNDARIO (X1 cross-model corrigió mi over-claim ''ambas gens''):
+  hp009 shift conductual INTERMITENTE 1/2 — gen1 clarify puro 208 chars (viola gold s79/s80 family-genérico→responder;
+  disparó en pregunta de PROPIEDAD ignorando su cláusula de escape — los guardrails del prompt no auto-ejecutan),
+  gen2 clarify-preámbulo + respuesta completa. No fue gate pre-declarado (X3): re-mediciones futuras deben PRE-declarar
+  eje conductual. (SA4) primario del A/B = judge_conveyed pre-v2.1 (consistente ambos brazos; la comparación cruzada
+  con v3 mezcla jueces). (SA5) sel=OR-de-2-gens sesga PRO-tratamiento → refuerza el NO-GO (ni con ventaja rescató).
+  Sentinels hp018/cat022/cat019 estables; cat013 sano. Rescatable: la clase ''consulta de selección'' como taxonomía
+  conductual para golds futuros (dimensión-de-fallo desde FUENTE, DEC-025 — jamás para justificar el bloque retroactivamente).
+  Seam: evals/s102_selection_seam.patch'

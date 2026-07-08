@@ -656,6 +656,11 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
             "family_resolved": family_resolved, "gold_families": sorted(gfam),
             "n_non_anchorable": n_non_anchorable,
             "pool_n": len(pipe["pool"]), "served_n": len(pipe["served"]), "topk_n": len(pipe["topk"]),
+            # SA3 (dúo s102/L4): PERSISTIR la composición servida — el rerank es no-determinista a
+            # temp=0 (DEC-096b) y sin estos ids una composición-que-falla no es replayable (el fork
+            # serving-vs-prompt de cat021 quedó indecidible por no tenerlos). Provenance pura.
+            "topk_ids": [c.get("id") for c in pipe["topk"]],
+            "served_ids": [c.get("id") for c in pipe["served"]],
             "hist": hist, "facts": facts_out}
 
 

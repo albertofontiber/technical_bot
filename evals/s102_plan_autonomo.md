@@ -12,6 +12,7 @@ BP+estructural+escalable-30+; flag de overfitting; decisiones inequívocas = tom
 | L2c demote-TOC | ✅ **NO-GO** (DEC-096) — seam en `evals/s102_toc_seam.patch`; colateral: LLM-rerank NO determinista a temp=0 |
 | Tiebreak port | ✅ fuera de src/ (`evals/s101_tiebreak_port.patch` + guard) |
 | hyq corpus-wide (D2-OK) | tramos 1-2 ✅ QA 15/15 c/u · **tramo 3 EN VUELO** · fix S4 aplicado (error≠done) |
+| L4 selection-block | ✅ **NO-GO tal-cual-medido** (DEC-097) — seam en `evals/s102_selection_seam.patch`; reapertura=FORK con replay (instrumento ya persiste topk/served_ids) |
 | Fidelity block (D6) | +3/0 congelado válido — ship-candidato, gate bvg pendiente, SIN decisión Alberto |
 | D5 (residual-ancilar) | recomendación NO perseguir — pendiente Alberto |
 

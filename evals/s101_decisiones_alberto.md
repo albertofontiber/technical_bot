@@ -96,3 +96,15 @@ targets → el check de corpus no tenía manual donde mirar. El hecho está LITE
 localización** (es completar metadata verificada, no re-autoría). Con tu OK lo aplico — o lo
 aplico yo directamente si lo consideras inequívoco (es la clase "gold-metadata incompleta", no
 cambia valor/texto de ningún hecho).
+
+### s102 (tarde-2, 8-jul) — L4 selection-block: NO-GO tal-cual-medido (DEC-097)
+- Construí y medí el bloque de generación para el cluster cat021 («¿qué modelo pido?» → enumerar
+  variantes divergentes). **NO-GO**: cat021 base HOY ya transmite los 4 hechos (el miss del v3
+  depende de la COMPOSICIÓN servida — estocástica por DEC-096b — y dada la mala, la generación
+  falla estable) + shift conductual 1/2 en hp009 (clarify en pregunta de propiedad).
+- **El dúo me corrigió el framing DOS veces** (over-claim "ambas gens" + pre-suponer "serving-side"):
+  reapertura honesta = FORK con replay — el instrumento ahora persiste topk_ids/served_ids para
+  que una composición-que-falla sea replayable.
+- Seam → patch (patrón consolidado); src/tests limpios; nada shippeado.
+- **Para ti**: la clase «consulta de selección» es una dimensión conductual que crecerá con 30+
+  fabricantes — candidata a golds futuros autorados desde FUENTE (DEC-025), si te encaja.
