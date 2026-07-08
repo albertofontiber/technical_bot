@@ -56,3 +56,11 @@ son contexto). Con tu OK los aplico vía gold_store.
   real MIDT180-p68 incluido → es clase juez/relación, el dual-soporte del full v2 lo arbitra);
   cat013 confirmado IDENTIDAD (query CAD-150 vs doc ID3000 — ni hyq ni léxico lo puentean →
   workstream DEC-074, como ya estaba). El lever hyq queda en 2 flips netos (cat016, hp018-6K8).
+
+## D6 · Ship del fidelity-block (GENERATOR_PROMPT_VARIANT=fidelity) — NUEVO, medido esta noche
+A/B fact-level (13 golds synth-miss, brazo fidelity ×2 gens, árbitro dual): **+3 rescates
+(hp002·hp006·hp010) − 0 regresiones**. Neto positivo, coste ~0 (bloque de prompt), pero NO es el
+rompe-bucket (21 still-miss: clusters hp011×4, cat021×3-variantes, cat017/cat018-procedimientos).
+DEC-051 lo midió NO-GO en PASS; a nivel-hecho es net-positivo — el patrón DEC-092b (la vara importa).
+**Recomendación: SHIP-candidato** → gate bvg de no-regresión (invención especialmente: el bloque tiene
+anti-sobre-alcance y midió 0 regresiones, prometedor) + tu GO. Artefacto: `evals/s101_fidelity_measure.yaml`.
