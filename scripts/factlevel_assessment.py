@@ -250,6 +250,55 @@ def pool_rank_of(supported: set[str], pool_ids: list[str]) -> int:
     return min(ranks) if ranks else 10**6
 
 
+# ── JUEZ conveyed v2.1 (s102, L3 del mapa Fase-2): cap de answer 12k (con ancho-10 las respuestas
+# llegan a ~7k y el cap 6k del juez legacy TRUNCABA lo juzgado — falso miss del tramo final, medido
+# cat017) + rúbrica explícita de morfología/cuantificadores (relation-slip: 'by Event/Events',
+# 'requiere licencia' vs 'una por lazo'). MISMO esquema JSON; sha propio en manifest (cambio declarado).
+CONVEY21_USER = (
+    "HECHO a verificar:\n"
+    "  · VALOR: «{valor}»\n"
+    "  · RELACIÓN (de qué trata el hecho): {texto}\n\n"
+    "RESPUESTA del asistente:\n<<<\n{answer}\n>>>\n\n"
+    "¿La RESPUESTA AFIRMA o IMPLICA DIRECTAMENTE el HECHO — es decir, transmite el VALOR «{valor}» "
+    "EN esa RELACIÓN? Admite traducción ES↔EN, paráfrasis, OCR imperfecto y VARIACIÓN MORFOLÓGICA "
+    "(singular/plural, mayúsculas, 'Event/Events', notación con/sin puntos). PERO los CUANTIFICADORES "
+    "materiales cuentan: si el hecho dice 'una licencia POR CADA lazo' y la respuesta solo dice "
+    "'requiere licencia' sin la cardinalidad, NO está transmitido. Marca 'no' si: el valor no aparece, "
+    "aparece en OTRA relación/condición/componente, la respuesta se escuda o afirma un valor DISTINTO. "
+    "Ante la duda, 'no'.\n"
+    'Responde EXCLUSIVAMENTE JSON: {{"afirmado": true|false}}.'
+)
+CONVEY21_ANSWER_CAP = 12000
+
+
+def _conveyed21_once(valor: str, texto: str, answer: str) -> int | None:
+    oai = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+    for attempt in range(4):
+        try:
+            resp = oai.chat.completions.create(
+                model=JUDGE_MODEL, response_format={"type": "json_object"},
+                messages=[{"role": "system", "content": CONVEY_SYS},
+                          {"role": "user", "content": CONVEY21_USER.format(
+                              valor=valor, texto=(texto or "")[:600],
+                              answer=(answer or "")[:CONVEY21_ANSWER_CAP])}])
+            out = json.loads(resp.choices[0].message.content.strip())
+            af = out.get("afirmado")
+            if isinstance(af, bool):
+                return 1 if af else 0
+            raise ValueError(f"afirmado no-bool: {af!r}")
+        except Exception:
+            time.sleep(2 ** attempt)
+    return None
+
+
+def judge_conveyed21(valor: str, texto: str, answer: str, workers: int = 6) -> dict:
+    """Primario conveyed v2.1 (GPT-5.5 K=5, cap 12k, rúbrica morfología+cuantificadores)."""
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        votes = [f.result() for f in [pool.submit(_conveyed21_once, valor, texto, answer) for _ in range(K)]]
+    valid = [v for v in votes if v is not None]
+    return {"yes": sum(valid), "n_fail": votes.count(None)}
+
+
 # ── DUAL-JUDGE de conveyed (s100): 2º juez Opus 4.8 SOLO sobre los MISS del primario ──
 # Motivación (verificado s100): GPT-5.5 single dio ~5-7 FN/16 synth-miss (valor LITERAL en la respuesta
 # y conveyed=0, p.ej. hp006 'MPS-400', hp013 'EEPROM', hp018 '4 salidas'). Validación balanceada:
@@ -263,8 +312,9 @@ def _judge2_once(valor: str, texto: str, answer: str) -> int | None:
         try:
             m = client.messages.create(
                 model=JUDGE2_MODEL, max_tokens=200, system=CONVEY_SYS,
-                messages=[{"role": "user", "content": CONVEY_USER.format(
-                    valor=valor, texto=(texto or "")[:600], answer=(answer or "")[:6000])}])
+                messages=[{"role": "user", "content": CONVEY21_USER.format(
+                    valor=valor, texto=(texto or "")[:600],
+                    answer=(answer or "")[:CONVEY21_ANSWER_CAP])}])   # paridad de prompt/cap con el primario v2.1
             t = m.content[0].text.strip()
             j = re.search(r"\{.*\}", t, re.S)
             if not j:                                   # H2 (dúo): sin JSON = fallo, NO voto "no"
@@ -284,11 +334,19 @@ def _judge2_once(valor: str, texto: str, answer: str) -> int | None:
 
 
 def judge_conveyed_dual(valor: str, texto: str, answer: str, workers: int = 5) -> dict:
-    """K votos del 2º juez (Opus). Se llama SOLO cuando el primario (GPT-5.5) dio miss."""
+    """K votos del 2º juez (Opus). Se llama SOLO cuando el primario (GPT-5.5) dio miss.
+    NOTA (s102): prompt v2.1 compartido con el primario — la suite s100 validó el prompt v1;
+    v2.1 = cambio declarado, la salvaguarda es el spot-check regla-C de flips (protocolo del doc).
+    C2 (cross-model s102): con fallos parciales, el umbral es PROPORCIONAL a los votos válidos
+    (yes >= ceil(4/5·n_valid)) — un hipo de API no decide clase terminal; n_valid<K queda flagged."""
     with ThreadPoolExecutor(max_workers=workers) as pool:
         votes = [f.result() for f in [pool.submit(_judge2_once, valor, texto, answer) for _ in range(K)]]
     valid = [v for v in votes if v is not None]
-    return {"yes": sum(valid), "n_fail": votes.count(None), "n_valid": len(valid)}
+    n_valid = len(valid)
+    import math
+    thresh = math.ceil(THRESH_FIRM * n_valid / K) if n_valid else THRESH_FIRM
+    return {"yes": sum(valid), "n_fail": votes.count(None), "n_valid": n_valid,
+            "firm": bool(n_valid and sum(valid) >= thresh)}
 
 
 # ── DUAL-SOPORTE targeted (s101): 2º juez Opus sobre el eje de SOPORTE, solo cuando sup=∅ ──
@@ -331,12 +389,15 @@ def judge_support_dual(valor: str, texto: str, candidates: list[dict], workers: 
     with ThreadPoolExecutor(max_workers=workers) as pool:
         votes = [f.result() for f in [pool.submit(_support2_once, valor, texto, batch) for _ in range(K)]]
     valid = [v for v in votes if v is not None]
+    import math
+    n_valid = len(valid)
+    thresh = math.ceil(THRESH_FIRM * n_valid / K) if n_valid else THRESH_FIRM   # C2: proporcional
     tally: dict[str, int] = {}
     for vs in valid:
         for cid in vs:
             tally[cid] = tally.get(cid, 0) + 1
-    sup2 = {cid for cid, n in tally.items() if n >= THRESH_FIRM}
-    return {"sup": sup2, "votes": tally, "n_fail": votes.count(None), "n_valid": len(valid)}
+    sup2 = {cid for cid, n in tally.items() if n >= thresh}
+    return {"sup": sup2, "votes": tally, "n_fail": votes.count(None), "n_valid": n_valid}
 
 
 SEM_CORPUS_BOUND = 40   # chunks del manual a juzgar semánticamente (acotado por coste; subido de 24, fix #3)
@@ -404,6 +465,7 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
 
         # SOPORTE regenerado SIEMPRE (anti-bit-rot) — juez SEMÁNTICO del hecho contra el pool-50 VIVO
         v_pool = judge_fact(valor, texto, pipe["pool"], workers=workers)
+        by_id_pool = {c.get("id"): c for c in pipe["pool"]}
         # FAIL-FAST del PRIMARIO (incidente s101: la cuota OpenAI murió a MITAD del full → 77 rescates
         # Opus + 25 falsos corpus-gap = run inválido en silencio). Si el juez primario está MUERTO
         # (0 votos válidos y >K/2 fallos), ABORTAR — el espejo de H4b aplicado al primario.
@@ -411,6 +473,14 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
             raise RuntimeError(f"{qid}/{valor[:20]}: juez primario (GPT-5.5) MUERTO "
                                f"({v_pool.get('n_fail')} fallos, 0 votos) — run abortado, partial limpio")
         sup = supported_ids(v_pool, THRESH_FIRM)
+        # L1 (s102, diagnóstico Fase-2: ~10/21 "synthesis-miss" eran chunks servidos ACREDITADOS que NO
+        # portan el valor — TOC/colisiones léxicas): para hechos ANCLABLES, un chunk acreditado solo
+        # cuenta si ADEMÁS porta el anchor (fact_match >= FLOOR-0.15, slack anti-FN). Los no-anclables
+        # conservan el crédito semántico (no hay anchor que exigir — residual declarado).
+        if anchorable and sup:
+            sup = {cid for cid in sup
+                   if (fact_match_score(valor, texto, (by_id_pool.get(cid) or {}).get("content") or "") or 0)
+                   >= SCORE_FLOOR - 0.15}
         # C3 (cross-model s101b): degradación PARCIAL del primario (un batch entero murió pero otros
         # votaron) → el hecho puede caer como falso miss SIN abortar. Flag por-fact visible.
         support_degraded = v_pool.get("n_fail", 0) >= K
@@ -452,11 +522,16 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
                  "n_support_raw": len(sup), "reaches_gen": reaches_gen, "in_topk": in_topk, "in_pool": in_pool}
         if support_degraded:
             entry["support_judge_degraded"] = True   # >=K fallos del primario en este hecho — clase con FN-riesgo
+        elif v_pool.get("n_fail", 0) and not reaches_gen:
+            # M3 (cross-model s102): fallos PARCIALES del soporte + el hecho cae miss-side → el batch
+            # del chunk-portador pudo quedar matemáticamente sin quorum. Flag visible (mitigado por
+            # L1-crosscheck + dual-soporte targeted, pero NUNCA silencioso).
+            entry["support_votes_missing"] = v_pool["n_fail"]
         if entry_support_flip:
             entry.update(entry_support_flip)
 
         if reaches_gen:
-            conv = judge_conveyed(valor, texto, pipe["answer"], workers=workers)
+            conv = judge_conveyed21(valor, texto, pipe["answer"], workers=workers)
             if conv.get("n_fail", 0) >= K:      # primario muerto también en conveyed → abortar
                 raise RuntimeError(f"{qid}/{valor[:20]}: juez conveyed primario MUERTO ({conv['n_fail']}/{K} fallos)")
             entry["conveyed_yes"] = conv["yes"]
@@ -469,9 +544,9 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
                 entry["judge2_n_fail"] = dual["n_fail"]
                 if dual["n_valid"] == 0:              # H4b (dúo): fallo TOTAL del 2º juez = degradación
                     entry["judge2_error"] = True      # a pre-dual → flag VISIBLE, nunca silencioso
-                # H4 (dúo): yes>=4 ya implica 4 votos VÁLIDOS afirmativos — la guarda n_fail==0 era
-                # asimétrica (un hipo de API re-introducía el FN que el dual existe para eliminar).
-                if dual["yes"] >= THRESH_FIRM:
+                elif dual["n_valid"] < K:
+                    entry["judge2_partial"] = dual["n_valid"]   # C2: votos incompletos, umbral proporcional
+                if dual.get("firm"):
                     clase = "OK"                      # desacuerdo resuelto a conveyed — flagged, no silencioso
                     entry["judge_disagreement"] = True
                 else:
@@ -524,10 +599,10 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
     if do_stability and synth_miss_refs:
         ans_reps = [gen_answer_only(gold["question"], pipe["topk"]) for _ in range(K_STAB - 1)]
         def _rep_is_miss(valor, texto, ans):
-            if judge_conveyed(valor, texto, ans, workers=workers)["yes"] >= THRESH_FIRM:
+            if judge_conveyed21(valor, texto, ans, workers=workers)["yes"] >= THRESH_FIRM:
                 return False
             d = judge_conveyed_dual(valor, texto, ans, workers=workers)
-            return d["yes"] < THRESH_FIRM             # misma regla que la clasificación (H4: sin guarda n_fail)
+            return not d.get("firm")                  # misma regla proporcional que la clasificación (C2)
         for e in synth_miss_refs:
             misses = [_rep_is_miss(e["valor"], e["texto"], a) for a in ans_reps]
             e["stability"] = "stable-miss" if all(misses) else "flip"   # MISS en todas las reps = estructural
@@ -608,7 +683,8 @@ def build_manifest() -> dict:
                   "judge2_rule": "dual-consensus: synthesis-miss requiere miss de AMBOS; Opus>=4/5 => OK flagged judge_disagreement (suite s100: 5 flips FN, 0 FP fakes)",
                   "support_dual_rule": f"targeted-lexical (s101): sup_fam=∅ + fact_match>=SCORE_FLOOR({SCORE_FLOOR}) en pool => Opus K={K} re-juzga candidatos ordenados por score cap {SUPPORT_BATCH_CAP} (truncation flagged); flip=UNION flagged support_judge_disagreement (evidencia: evals/s101_inpool_adjudication.json 6/7 supports, 0/18 refuters). Residual no-léxico sigue single",
                   "support_sha": _sha(SUPPORT_SYS + SUPPORT_USER),
-                  "conveyed_sha": _sha(CONVEY_SYS + CONVEY_USER),
+                  "conveyed_sha": _sha(CONVEY_SYS + CONVEY21_USER) + "-v2.1cap12k",
+                  "support_l1_rule": f"anchorable: crédito solo si fact_match>=FLOOR-0.15 en el chunk acreditado (anti TOC/colisión, s102-L1)",
                   "submotivo_sha": _sha(SUBMOTIVO_SYS + SUBMOTIVO_USER)},
         "similarity_note": "pin de pool NO estampa `similarity` como fiel: stamp plano léxico "
                            "(retriever.py:554) ≠ coseno (fix G).",
@@ -687,7 +763,9 @@ def main() -> int:
                                    "r": manifest["resolved"], "j": manifest["judge"],
                                    "corpus": manifest["corpus"],
                                    "golds": gold_sha, "script": script_sha,
-                                   "pipeline": pipe_sha}, sort_keys=True))
+                                   "pipeline": pipe_sha,
+                                   "cli": {"submotivo": not args.no_submotivo,      # M4: los flags CLI
+                                           "stability": not args.no_stability}}, sort_keys=True))
     if "error" in manifest["corpus"]:
         print("  ⚠ corpus fingerprint FALLÓ — el freeze-hash no ancla el corpus este run")
 

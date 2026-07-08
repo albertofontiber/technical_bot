@@ -84,7 +84,7 @@ pre-gate léxico (el valor está LITERAL en el chunk acreditado) + trazabilidad 
 4. **corpus-check por `targets` (no primario/family):** `target_servable` incluye corroboradores → un hecho
    servible solo vía manual corroborador puede tapar un corpus-gap del primario (dirección conservadora,
    consistente con #1). No corregido (impacto ≈0 dado #1).
-5. **`answer[:6000]` en los jueces conveyed/submotivo:** con respuestas largas (ancho-10) un hecho
+5. **`answer[:12000]` (v2.1; era 6000 y truncaba respuestas ancho-10) en los jueces conveyed/submotivo:** con respuestas largas (ancho-10) un hecho
    transmitido al final puede truncarse → falso synth-miss. Heredado del juez; nice-to-have subir el cap.
 6. **family fail-open:** si no se resuelve la familia del gold (`family_resolved=False`), el filtro se
    desactiva (marcado en el output, NO silencioso) — el famtie canónico los excluía. En s100: 0 golds.
