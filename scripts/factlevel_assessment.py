@@ -167,7 +167,7 @@ def _submotivo_once(valor: str, texto: str, served: str, answer: str) -> str | N
                 messages=[{"role": "system", "content": SUBMOTIVO_SYS},
                           {"role": "user", "content": SUBMOTIVO_USER.format(
                               valor=valor, texto=(texto or "")[:400],
-                              served=served, answer=(answer or "")[:6000])}],
+                              served=served, answer=(answer or "")[:CONVEY21_ANSWER_CAP])}],
             )
             out = json.loads(resp.choices[0].message.content.strip())
             sm = str(out.get("submotivo", "")).strip()
@@ -477,10 +477,28 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
         # portan el valor — TOC/colisiones léxicas): para hechos ANCLABLES, un chunk acreditado solo
         # cuenta si ADEMÁS porta el anchor (fact_match >= FLOOR-0.15, slack anti-FN). Los no-anclables
         # conservan el crédito semántico (no hay anchor que exigir — residual declarado).
+        l1_killed: set = set()
         if anchorable and sup:
-            sup = {cid for cid in sup
-                   if (fact_match_score(valor, texto, (by_id_pool.get(cid) or {}).get("content") or "") or 0)
-                   >= SCORE_FLOOR - 0.15}
+            keep = {cid for cid in sup
+                    if (fact_match_score(valor, texto, (by_id_pool.get(cid) or {}).get("content") or "") or 0)
+                    >= SCORE_FLOOR - 0.15}
+            l1_killed = sup - keep
+            sup = keep
+            # H1 (dúo s102): el anchor léxico NO reconoce variantes de notación ("6.800 Ω" ≠ '6K8') →
+            # si L1 VACIÓ el soporte, Opus re-adjudica LOS CHUNKS MATADOS ("¿porta el valor en otra
+            # notación?") — nunca aterrizar corpus/retrieval-limpio por un kill de notación.
+            if not sup and l1_killed:
+                killed_chunks = [by_id_pool[cid] for cid in l1_killed if by_id_pool.get(cid)]
+                d1 = judge_support_dual(valor, texto, killed_chunks, workers=workers)
+                if d1["sup"]:
+                    sup = d1["sup"]
+                    entry_l1_override = True
+                else:
+                    entry_l1_override = False
+            else:
+                entry_l1_override = None
+        else:
+            entry_l1_override = None
         # C3 (cross-model s101b): degradación PARCIAL del primario (un batch entero murió pero otros
         # votaron) → el hecho puede caer como falso miss SIN abortar. Flag por-fact visible.
         support_degraded = v_pool.get("n_fail", 0) >= K
@@ -520,6 +538,9 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
         entry = {"key": key, "valor": valor, "texto": texto, "lexically_anchorable": anchorable,
                  "family_resolved": family_resolved, "n_support_fam": len(sup_fam),
                  "n_support_raw": len(sup), "reaches_gen": reaches_gen, "in_topk": in_topk, "in_pool": in_pool}
+        if l1_killed:                                # H2: los kills de L1 VISIBLES (pre/post + ids)
+            entry["support_l1_killed"] = sorted(l1_killed)[:6]
+            entry["support_l1_override"] = entry_l1_override   # True=Opus restauró; False=confirmó kill
         if support_degraded:
             entry["support_judge_degraded"] = True   # >=K fallos del primario en este hecho — clase con FN-riesgo
         elif v_pool.get("n_fail", 0) and not reaches_gen:
@@ -588,6 +609,9 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
             else:
                 clase = "corpus-gap"
                 entry["corpus_gap"] = corpus_gap_suspect(corpus_score, valor, sem_truncated)
+                if l1_killed:                        # H1b: aterrizaje post-L1-kill JAMÁS es "limpio"
+                    entry["corpus_gap"]["suspect_fn_mine"] = True
+                    entry["corpus_gap"]["l1_killed_support"] = True
 
         entry["clase"] = clase
         hist[clase] += 1
@@ -683,7 +707,7 @@ def build_manifest() -> dict:
                   "judge2_rule": "dual-consensus: synthesis-miss requiere miss de AMBOS; Opus>=4/5 => OK flagged judge_disagreement (suite s100: 5 flips FN, 0 FP fakes)",
                   "support_dual_rule": f"targeted-lexical (s101): sup_fam=∅ + fact_match>=SCORE_FLOOR({SCORE_FLOOR}) en pool => Opus K={K} re-juzga candidatos ordenados por score cap {SUPPORT_BATCH_CAP} (truncation flagged); flip=UNION flagged support_judge_disagreement (evidencia: evals/s101_inpool_adjudication.json 6/7 supports, 0/18 refuters). Residual no-léxico sigue single",
                   "support_sha": _sha(SUPPORT_SYS + SUPPORT_USER),
-                  "conveyed_sha": _sha(CONVEY_SYS + CONVEY21_USER) + "-v2.1cap12k",
+                  "conveyed_sha": _sha(CONVEY_SYS + CONVEY21_USER) + f"-v2.1cap{CONVEY21_ANSWER_CAP}",
                   "support_l1_rule": f"anchorable: crédito solo si fact_match>=FLOOR-0.15 en el chunk acreditado (anti TOC/colisión, s102-L1)",
                   "submotivo_sha": _sha(SUBMOTIVO_SYS + SUBMOTIVO_USER)},
         "similarity_note": "pin de pool NO estampa `similarity` como fiel: stamp plano léxico "
@@ -850,7 +874,7 @@ def main() -> int:
         print(f"  ⚠ judge2: {n_judge2_err} facts con fallo TOTAL (degradación a pre-dual) · "
               f"{n_judge2_fails} votos fallidos en total — si es alto, revisar API/modelo ANTES de fiarse del synth-miss")
     # comparabilidad v1: synth-miss_v1-equivalente = synth-miss_v2 + judge_disagreements (H1 dúo)
-    print(f"  comparabilidad juez-v1: synth-miss_v1-equiv = {agg['synthesis-miss']} + {len(judge_flips)} flips")
+    print(f"  flips-dual listados para spot-check regla-C (juez v2.1: la equivalencia-v1 YA no se reconstruye — rúbrica cambió)")
     print(f"  eje gold/juez (ADVISORY): {n_perp} golds NO-PASS ⊥ pipeline (DEC-075 caduco, re-derivado)")
     print(f"\n→ {out_path.name}")
     return 0

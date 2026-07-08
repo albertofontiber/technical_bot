@@ -64,3 +64,4 @@ rompe-bucket (21 still-miss: clusters hp011×4, cat021×3-variantes, cat017/cat0
 DEC-051 lo midió NO-GO en PASS; a nivel-hecho es net-positivo — el patrón DEC-092b (la vara importa).
 **Recomendación: SHIP-candidato** → gate bvg de no-regresión (invención especialmente: el bloque tiene
 anti-sobre-alcance y midió 0 regresiones, prometedor) + tu GO. Artefacto: `evals/s101_fidelity_measure.yaml`.
+- **[nota H5, s102]** `s101_fidelity_measure.py` quedó mixed-version tras v2.1 (su +3/0 se midió pre-v2.1 y es válido como medición congelada; re-runs futuros necesitan su propia copia del juez).
