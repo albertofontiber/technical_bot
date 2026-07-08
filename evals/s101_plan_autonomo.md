@@ -52,3 +52,16 @@ cualquier lever = bvg + GO de Alberto).
   → scoreboard v2 (fila con juez-v2, no comparable directo a v1 — sumar judge_disagreements).
 - Pendiente dúo: cross-model sobre (a) dual-soporte final, (b) tiebreak port, (c) cualquier cambio de
   esta noche — ANTES de considerar ship de nada.
+
+---
+
+## FASE 2 — mapa de ataque (cierre de la noche, ~03:30; detalle: `evals/s101_fase2_map.md`)
+Diagnóstico de los 21 still-miss (workflow 21 agentes + síntesis lever-aware): **solo ~6 son fallos
+REALES del generador** — el resto: ~10 mis-clasificación del instrumento (serving a nivel-doc, no
+chunk-portador; TOC como ancla falsa; hp010 = matcheo por string no fact-id) + ~4 juez sobre-estricto.
+**Levers (orden recomendado):**
+1. **L1 — endurecer el clasificador** (serving a nivel-chunk + fact-id + TOC=not-served) → re-run (~$15-20). El scoreboard se VUELVE honesto; los ~10 pasan al ledger retrieval.
+2. **L3 — juez v2 refinos** (morfología, cuantificadores, answer sin truncar) — mismo batch que L1; micro-check cat008 in/out vs fuente.
+3. **L2 — ship de levers retrieval YA-GO** (los reclasificados los necesitan): hyq corpus-wide (D2) · **tramo A3-enunciados dirigido a las tablas señaladas** (params RP1r → r.I/05-295/ABORT; bornes ADW535 → EEPROM/PWR-R; Tipo SW AM-8200) · demote-TOC en rerank (barato) · split ZXe D1 (DEC-074).
+4. **L4 — gate de familia-de-variantes en generación** (cat021: enumerar variantes o clarify-si-diverge, regla s79/s80; MÉTRICA declarada ≠ DEC-051-PASS) + **L5 directiva de cobertura** (los 2 de length/position — el fidelity-block ya midió +3/0, D6).
+5. Residual esperado post-L1..L5: ~1-3 synth reales. Los reclasificados-a-retrieval se atacan con L2 y sus gates.
