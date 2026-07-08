@@ -21,6 +21,9 @@ BP+estructural+escalable-30+; flag de overfitting; decisiones inequívocas = tom
    Al CERRAR tramos: (a) pasada retry-empties (~848 `[]` históricos, ~$3, el fix S4 ya separa
    error/NONE hacia adelante); (b) commit del jsonl (NUNCA con tramo en append — S3);
    (c) build tabla A3-style `chunks_v2_hyq` con **dedup por chunk_id** (1.877 dupes de origen)
+   — QA-obs tramo 4: los chunks con `product_model=unknown` generan preguntas SIN ancla de
+   producto ("¿estos módulos…?") → decidir en el build: excluirlas o confiar en barra 0.45
+   (riesgo: capturan queries genéricas hacia el doc equivocado) —
    + HNSW + RPC (patrón migración s95 con rollback) + embed (~$2-5) + cuota/barra portadas del
    piloto → (d) gate bvg no-regresión → (e) GO final Alberto para activación.
 2. **L4 — gate de familia-de-variantes en generación** (cluster cat021 ×4, el mayor bloque synth
