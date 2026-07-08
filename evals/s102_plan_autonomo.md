@@ -22,9 +22,16 @@ BP+estructural+escalable-30+; flag de overfitting; decisiones inequívocas = tom
    (c) build tabla A3-style `chunks_v2_hyq` con **dedup por chunk_id** (1.877 dupes de origen)
    + HNSW + RPC (patrón migración s95 con rollback) + embed (~$2-5) + cuota/barra portadas del
    piloto → (d) gate bvg no-regresión → (e) GO final Alberto para activación.
-2. **L4 — gate de familia-de-variantes en generación** (cluster cat021 ×3-4, el mayor bloque synth
-   real): regla s79/s80 = enumerar-por-variante o clarify SOLO-si-diverge. Empezar leyendo los 4
-   facts cat021 + answer v3 (evals/s100_factlevel_full_v3juez.yaml) + los docs MNDT722-725/Spectrex.
+2. **L4 — gate de familia-de-variantes en generación** (cluster cat021 ×4, el mayor bloque synth
+   real): GROUND HECHO (s102): los 4 facts cat021 tienen reaches_gen=True (contenido servido) pero
+   el bot ELIGIÓ 40/40R y respondió solo su código de pedido — «40/40» es ambiguo entre variantes
+   de tecnología DIVERGENTE (I=IR3 · U=UV · M=Multi-IR/hidrógeno · R=single-IR · L=?) → la regla
+   s79/s80 exige ENUMERAR variantes (diverge) — fallo 100% generación, cero retrieval.
+   Diseño candidato: bloque de prompt flag-gated (GENERATOR_VARIANT_GATE) «si la query referencia
+   una familia y los fragmentos muestran variantes con tecnología/valores DISTINTOS → enumera por
+   variante; clarify solo si no puedes enumerar». SENTINEL OBLIGATORIO: hp009 (family-genérico →
+   answer directo, NO clarify — el otro lado de la regla s79/s80) + hp018 mixto. Medición fact-level
+   A/B con árbitro dual; dúo antes de commit (generador = zona de dolor).
    Métrica declarada: facts cat021 conveyed en fact-level A/B + sentinels sin regresión (≠ DEC-051
    que fue PASS). OJO: cambio de generador = zona de dolor → dúo antes de commit.
 3. **L5 — directiva de cobertura** (length-pressure/position-late, ~2 facts): relacionado con el
