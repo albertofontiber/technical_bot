@@ -27,6 +27,11 @@ load_dotenv(os.path.join(os.getcwd(), ".env"), override=False)
 for k, v in BASE.items():
     os.environ[k] = v
 from src.rag import retriever as R
+# (s102) El port del tie-break NO vive en src/ (lever CERRADO NO-GO, DEC-095): re-correr esta
+# medición exige aplicar antes `git apply evals/s101_tiebreak_port.patch`. Sin este guard, el env
+# se ignoraría en silencio y se "mediría" OFF-vs-OFF (clase s96-H3).
+if not hasattr(R, "_tiebreak_on"):
+    raise RuntimeError("port tie-break ausente en retriever — aplica evals/s101_tiebreak_port.patch")
 from src.rag.reranker import rerank
 from scripts.gold_store import dev, get as gs_get
 from scripts.audit_locator import fact_match_score, SCORE_FLOOR
