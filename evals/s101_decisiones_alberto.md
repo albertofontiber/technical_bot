@@ -86,12 +86,15 @@ Alternativa si quieres atacarlos igualmente (decisión tuya): ampliar la VARIEDA
 chunk de forma UNIFORME corpus-wide (sube coste de generación ~2-3×, sin garantía — la señal del
 piloto fue que el matching prioriza intent, no que falten preguntas). Mi lectura: no paga.
 
-## D6 — ✅ RESUELTA (Alberto, 8-jul: "OK como propones") → EN EJECUCIÓN
-> Gate bvg de no-regresión lanzado (scripts/s102_fidelity_gate.py: ctrl=base vs treat=fidelity,
-> pipe compartida t10@3500, K=3, juez canónico; población = 12 PASS + 8 PARCIAL del K5 vigente +
-> los 3 rescatados fact-level; ~$8-12). Toda "regresión" se verifica leyendo respuestas
-> (DEC-092b) antes de declararla. Si sale limpio → ship = GENERATOR_PROMPT_VARIANT=fidelity en
-> Railway (te aviso con el resultado del gate para ese último paso).
+## D6 — ✅ RESUELTA (Alberto: "OK como propones") → **GATE PASADO (8-jul tarde) — te queda 1 paso**
+> Gate bvg (23 golds × 2 brazos × K=3, juez canónico): **0 regresiones reales** (las 3 PASS→PARCIAL
+> verificadas leyendo respuestas = artefactos del juez, patrón DEC-092b: cores intactos 6/6 en las
+> tres; los deltas eran caveat/supplementary/framing) · **3 gains a PASS** (hp020, cat012, cat015)
+> · 0 truncados. Con el +3/0 fact-level previo ⇒ SHIP.
+> **TU PASO: Railway → añadir `GENERATOR_PROMPT_VARIANT=fidelity`** (el código s69 ya está en
+> main; reversible quitando la variable). Coste declarado a vigilar en el próximo full: el bloque
+> deja caer caveats/supplementary periféricos (p.ej. la línea "verifica la etiqueta" en hp004)
+> mientras densifica lo afirmado-sobre-la-pregunta — no toca cores. Artefacto: evals/s102_fidelity_gate.json.
 ## D6 · Ship del fidelity-block (GENERATOR_PROMPT_VARIANT=fidelity) — NUEVO, medido esta noche
 A/B fact-level (13 golds synth-miss, brazo fidelity ×2 gens, árbitro dual): **+3 rescates
 (hp002·hp006·hp010) − 0 regresiones**. Neto positivo, coste ~0 (bloque de prompt), pero NO es el
