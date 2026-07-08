@@ -54,6 +54,10 @@ DEMO_FLAGS = {
     # contaminar una medición "demo" (crít cross-model s101b).
     "DIVERSIFY_TIEBREAK": "off",
     "HYQ_PILOT_FILE": "",
+    # s102/DEC-098: fidelity SHIPPEADO a Railway (Alberto confirmó var + redeploy 8-jul) →
+    # la "demo" que este instrumento mide lo lleva ON. Cambia el freeze-hash (correcto: los
+    # partials pre-ship no son comparables).
+    "GENERATOR_PROMPT_VARIANT": "fidelity",
 }
 
 
@@ -120,8 +124,8 @@ from src.rag.hyde import HYDE_ENABLED as _hyde_on  # noqa: E402
 assert not _hyde_on, "HYDE_ENABLED=true ≠ demo(off) — pipeline fantasma"
 # Flags de generación que alteran el prompt en runtime → paridad bvg exige OFF (fix dúo build2 #2).
 assert not os.getenv("GENERATOR_INCLUDE_CONTEXT"), "GENERATOR_INCLUDE_CONTEXT ON rompe paridad bvg/DEC-075"
-assert os.getenv("GENERATOR_PROMPT_VARIANT", "base") in ("", "base"), \
-    "GENERATOR_PROMPT_VARIANT≠base rompe paridad bvg/DEC-075"
+assert os.getenv("GENERATOR_PROMPT_VARIANT") == "fidelity", \
+    "GENERATOR_PROMPT_VARIANT≠fidelity ≠ demo (DEC-098: shippeado 8-jul; si se revierte en Railway, actualizar DEMO_FLAGS)"
 
 JUDGE_MODEL = "gpt-5.5"
 JUDGE2_MODEL = "claude-opus-4-8"   # dual-judge (s100, suite de aceptación n=5 fakes/6 OK + 5 flips regla-C;
