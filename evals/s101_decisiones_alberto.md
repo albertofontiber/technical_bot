@@ -57,6 +57,20 @@ son contexto). Con tu OK los aplico vía gold_store.
   cat013 confirmado IDENTIDAD (query CAD-150 vs doc ID3000 — ni hyq ni léxico lo puentean →
   workstream DEC-074, como ya estaba). El lever hyq queda en 2 flips netos (cat016, hp018-6K8).
 
+## D5 · Residual-ancilar del lever hyq (hp011·'05a295' · hp013·PWR-R · hp017·instrucción)
+> (Omisión mía: esta sección se referenció como "D5" en mis reportes pero no se había volcado al
+> fichero hasta ahora, s102 — el salto D4→D6 que viste era eso, no una decisión perdida.)
+
+Los 3 hechos son ANCILARES al intent de sus queries: el question-matching de hyq prioriza
+correctamente las preguntas directas-al-intent (338 padres sobre-barra en hp011; el top-10 son
+todos matches genuinos al intent), y estos hechos secundarios no compiten. Para rescatarlos vía
+hyq habría que generar variedad de preguntas dirigida a ELLOS (regen dirigida / cuotas mayores)
+= sweep-peak sobre 3 golds concretos → **overfitting flagged** (tu mandato: flagearlo, no hacerlo).
+**Recomendación: NO perseguir.** Quedan como residual declarado del lever hyq (LEVER_DIGEST).
+Alternativa si quieres atacarlos igualmente (decisión tuya): ampliar la VARIEDAD de preguntas por
+chunk de forma UNIFORME corpus-wide (sube coste de generación ~2-3×, sin garantía — la señal del
+piloto fue que el matching prioriza intent, no que falten preguntas). Mi lectura: no paga.
+
 ## D6 · Ship del fidelity-block (GENERATOR_PROMPT_VARIANT=fidelity) — NUEVO, medido esta noche
 A/B fact-level (13 golds synth-miss, brazo fidelity ×2 gens, árbitro dual): **+3 rescates
 (hp002·hp006·hp010) − 0 regresiones**. Neto positivo, coste ~0 (bloque de prompt), pero NO es el
