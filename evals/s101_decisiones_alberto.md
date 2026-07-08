@@ -69,3 +69,20 @@ anti-sobre-alcance y midió 0 regresiones, prometedor) + tu GO. Artefacto: `eval
 ## D4 — ✅ RESUELTA (Alberto, s102): cat020 MANTENER core · hp009-'aisladores internos' DEMOTE a supp
 Aplicación: el demote de hp009 se aplica vía gold_store AL CERRAR el full v3 en curso (no invalidar su
 partial). cat020 queda como está. El v3 aún cuenta hp009-aisladores en el denominador (nota de lectura).
+
+### s102 (tarde 8-jul) — L2c demote-TOC + instrumento v2.2 + higiene hyq
+- **L2c (demote de páginas de índice en el rerank) = NO-GO** con la métrica del mandato (GO=reducción
+  de bucket): 0 gains, superficie ~1-2 TOCs servidos/run, churn 11/39 del orden del ruido. DEC-096.
+  **Colateral importante: el LLM-rerank NO es determinista ni a temperature=0** (2 golds con input
+  idéntico cambiaron slots) — norma nueva para futuros A/B de rerank (control OFF-vs-OFF o N-reps).
+- **La heurística TOC pasa al instrumento (v2.2, cierra H4)**: anclas-TOC ya no acreditan soporte
+  (inflaban synthesis-miss); red dual re-adjudica; `instrument: v2.2` estampado en el artefacto.
+  El próximo full estrenará la fila v2.2 del scoreboard.
+- **Patrón seam-a-patch**: ni el tiebreak (cerrado) ni el seam TOC (NO-GO) viajan a main — patches
+  reproducibles en evals/ + guards fail-fast en sus scripts de medición.
+- **Higiene hyq (S4 del dúo)**: un error de API ya no marca el chunk como done-para-siempre
+  (reintenta al siguiente tramo + fail-fast a 20 errores). Al cierre de tramos: pasada
+  retry-empties (~848 registros históricos `[]`, ~$3) + dedup por chunk_id en el build de la tabla.
+- **Dúo completo corrido** (sub-agente 7 hallazgos/1 crítico confirmado + cross-model 6/4 confirmados,
+  1 FP); tally completo en adversarial_review_log.jsonl. El crítico: mi claim "temp=0 ⇒ delta=solo
+  el lever" refutado por mis propios datos → framing corregido en yaml+docstrings+DEC.

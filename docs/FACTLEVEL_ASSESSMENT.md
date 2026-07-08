@@ -71,6 +71,20 @@ INVENCIÓN sigue single GPT-5.5. **Protocolo del run (igual que conveyed):** spo
 artefacto eran Claude-family (validan a Opus con posibles blind spots compartidos) — mitigado por el
 pre-gate léxico (el valor está LITERAL en el chunk acreditado) + trazabilidad del flip.
 
+## v2.2 — kill de anclas-TOC en el crédito de soporte (s102, cierra la cuarentena H4)
+Una página de ÍNDICE acreditada como soporte matchea el anchor léxico (sus títulos contienen los
+términos) sin portar el CONTENIDO → un miss con soporte solo-TOC se clasificaba synthesis-miss
+("el soporte llegó al generador") cuando el contenido nunca llegó. **v2.2**: en el crédito L1 de
+hechos anclables, un chunk que `is_toc_page` (`scripts/toc_heuristic.py`, determinista, 9 tests)
+se mata (`support_toc_killed` visible) y entra en el MISMO canal `l1_killed` → si el soporte queda
+vacío, el rescate dual Opus re-adjudica (un título de TOC sí puede soportar hechos nominales:
+"Importar archivo de licencia (.bin)"); la regla H1b (post-kill jamás aterriza corpus-gap limpio)
+aplica. Efecto esperado: misses solo-TOC se re-bucketizan synthesis→rerank/retrieval (ledger
+honesto). **El artefacto estampa `instrument: v2.2`** (cada cambio de juez/clasificador se declara
+EN el output, no solo aquí). Residuo declarado: si el TOC-kill NO vacía el soporte, los killed no
+se re-adjudican (consistente con L1 v2.1). Origen: lever demote-TOC en rerank medido NO-GO
+(DEC-096, `evals/s102_toc_measure.yaml` — colateral: el LLM-rerank NO es determinista a temp=0).
+
 ## Limitaciones conocidas (declaradas — leer antes de sobre-interpretar)
 1. **corpus-gap = FN por defecto** (`feedback_corpus_gap`): los golds son píxel-verificados servibles →
    corpus-gap real ≈ 0. Todo corpus-gap que reporte el instrumento se VERIFICA a mano (grep del valor en el

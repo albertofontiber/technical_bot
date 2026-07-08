@@ -102,6 +102,7 @@ from scripts.audit_retrieval_funnel import (
 )
 from scripts.audit_locator import measurable, fact_match_score, SCORE_FLOOR
 from scripts.retrieval_miss_famtie import gold_family, fam_norm, _pm_by_ids, _is_meta_ref
+from scripts.toc_heuristic import is_toc_page
 
 _assert_demo_flags()   # 2º set: RE-AFIRMAR tras los imports (fix #2 — los legacy hicieron override=True)
 
@@ -269,6 +270,13 @@ CONVEY21_USER = (
     'Responde EXCLUSIVAMENTE JSON: {{"afirmado": true|false}}.'
 )
 CONVEY21_ANSWER_CAP = 12000
+
+# Versión del INSTRUMENTO (F4 cross-model s102: cada cambio de juez/clasificador rompe la
+# comparabilidad del scoreboard y debe quedar declarado EN el artefacto, no solo en el doc).
+# v2   = dual-judge (GPT-5.5 K=5 → Opus K=5) en conveyed + soporte-targeted
+# v2.1 = juez conveyed cap 12k + rúbrica morfología/cuantificadores + umbral proporcional
+# v2.2 = H4: kill de anclas-TOC en el crédito de soporte L1 (re-adjudicable por la red dual)
+INSTRUMENT_VERSION = "v2.2"
 
 
 def _conveyed21_once(valor: str, texto: str, answer: str) -> int | None:
@@ -478,11 +486,22 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
         # cuenta si ADEMÁS porta el anchor (fact_match >= FLOOR-0.15, slack anti-FN). Los no-anclables
         # conservan el crédito semántico (no hay anchor que exigir — residual declarado).
         l1_killed: set = set()
+        toc_killed: set = set()
         if anchorable and sup:
-            keep = {cid for cid in sup
-                    if (fact_match_score(valor, texto, (by_id_pool.get(cid) or {}).get("content") or "") or 0)
-                    >= SCORE_FLOOR - 0.15}
-            l1_killed = sup - keep
+            keep = set()
+            for cid in sup:
+                _content = (by_id_pool.get(cid) or {}).get("content") or ""
+                if (fact_match_score(valor, texto, _content) or 0) < SCORE_FLOOR - 0.15:
+                    continue
+                # H4 cerrado (s102): un ÍNDICE acreditado no es soporte por defecto — sus títulos
+                # matchean el anchor sin portar el contenido (inflaba synthesis-miss). Va al MISMO
+                # canal de kills re-adjudicables: un título de TOC sí puede soportar hechos
+                # nominales ("Importar archivo de licencia (.bin)") y esos los decide la red dual.
+                if is_toc_page(_content):
+                    toc_killed.add(cid)
+                    continue
+                keep.add(cid)
+            l1_killed = sup - keep      # incluye los TOC-kills (mismo rescate Opus + regla H1b)
             sup = keep
             # H1 (dúo s102): el anchor léxico NO reconoce variantes de notación ("6.800 Ω" ≠ '6K8') →
             # si L1 VACIÓ el soporte, Opus re-adjudica LOS CHUNKS MATADOS ("¿porta el valor en otra
@@ -541,6 +560,8 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
         if l1_killed:                                # H2: los kills de L1 VISIBLES (pre/post + ids)
             entry["support_l1_killed"] = sorted(l1_killed)[:6]
             entry["support_l1_override"] = entry_l1_override   # True=Opus restauró; False=confirmó kill
+        if toc_killed:                               # H4: subconjunto matado por ser página de índice
+            entry["support_toc_killed"] = sorted(toc_killed)[:6]
         if support_degraded:
             entry["support_judge_degraded"] = True   # >=K fallos del primario en este hecho — clase con FN-riesgo
         elif v_pool.get("n_fail", 0) and not reaches_gen:
@@ -850,7 +871,8 @@ def main() -> int:
     support_flips = [(r["qid"], f["valor"]) for r in per_gold for f in r["facts"]
                      if f.get("support_judge_disagreement")]
 
-    result = {"manifest": manifest, "mode": args.mode, "n_golds": len(per_gold),
+    result = {"instrument": INSTRUMENT_VERSION,
+              "manifest": manifest, "mode": args.mode, "n_golds": len(per_gold),
               "aggregate_hist": agg, "gold_juez_axis": axis, "gold_juez_advisory": bool(bvg),
               "n_no_pass_perp_pipeline": n_perp, "n_family_unresolved": n_unresolved,
               "n_non_anchorable": n_non_anchorable,

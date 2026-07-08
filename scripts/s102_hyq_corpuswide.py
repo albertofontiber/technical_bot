@@ -37,18 +37,25 @@ def main():
         pass
     limit = int(sys.argv[2]) if len(sys.argv) > 2 else 3000
     done = set()
+    n_corrupt = 0
     if OUT.exists():
         for ln in OUT.open(encoding="utf-8"):
             try:
                 done.add(json.loads(ln)["chunk_id"])
             except Exception:
-                pass
+                # línea corrupta (append interrumpido): su chunk_id se pierde del done-set →
+                # el chunk se REGENERA en este tramo (auto-sanación). Pero JAMÁS en silencio
+                # (cross-model s102): si pasa de anecdótico, el fichero necesita reparación.
+                n_corrupt += 1
+    if n_corrupt:
+        print(f"AVISO: {n_corrupt} linea(s) corrupta(s) ignoradas en {OUT.name} — "
+              f"sus chunks se regeneran; si >2, repara el fichero antes de seguir")
     print(f"tramo: hasta {limit} chunks nuevos · ya generados {len(done)} · modelo {LLM_MODEL}")
     _, fewshot = _docs_and_fewshot()
     fewshot_txt = "\n".join(f"- {q}" for q in fewshot)
     client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
     kw = {} if ("-5" in LLM_MODEL or "fable" in LLM_MODEL) else {"temperature": 0}
-    n = 0; offset = 0
+    n = 0; offset = 0; n_err = 0
     with OUT.open("a", encoding="utf-8") as f:
         while n < limit:
             rows = all_chunks_paged(offset)
@@ -72,9 +79,17 @@ def main():
                             producto=prod, fewshot=fewshot_txt, content=content)}])
                     raw = msg.content[0].text.strip()
                 except Exception as e:
-                    raw = f"ERROR: {type(e).__name__}"
+                    # S4 (dúo s102): un error de API NO se escribe (escribir questions=[] lo
+                    # marcaba done PARA SIEMPRE, indistinguible del NONE legítimo) — el chunk
+                    # queda fuera del done-set y REINTENTA en el próximo tramo. Fail-fast si
+                    # la API está caída (clase cuota-s100: no barrer 3000 chunks a error).
+                    n_err += 1
+                    print(f"  API error {cid}: {type(e).__name__} — no marcado, reintenta", flush=True)
+                    if n_err >= 20:
+                        raise RuntimeError(f"{n_err} errores de API en el tramo — abortando (fail-fast)")
+                    continue
                 qs = [q.strip("-• ").strip() for q in raw.splitlines() if q.strip()
-                      and "NONE" not in q and not q.startswith("ERROR")]
+                      and "NONE" not in q]
                 f.write(json.dumps({"chunk_id": cid, "source_file": c.get("source_file"),
                                     "page_number": c.get("page_number"), "product_model": prod,
                                     "manufacturer": c.get("manufacturer"), "questions": qs,
