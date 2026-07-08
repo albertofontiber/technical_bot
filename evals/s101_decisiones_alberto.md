@@ -86,3 +86,13 @@ partial). cat020 queda como está. El v3 aún cuenta hp009-aisladores en el deno
 - **Dúo completo corrido** (sub-agente 7 hallazgos/1 crítico confirmado + cross-model 6/4 confirmados,
   1 FP); tally completo en adversarial_review_log.jsonl. El crítico: mi claim "temp=0 ⇒ delta=solo
   el lever" refutado por mis propios datos → framing corregido en yaml+docstrings+DEC.
+
+## D7 · Gold hp014 con `targets: []` vacío (hallado en la verificación de corpus-gaps s102)
+El hecho hp014#2 ('terminales 2 y 4') aterrizó corpus-gap FALSO porque el gold no declara
+targets → el check de corpus no tenía manual donde mirar. El hecho está LITERAL en MIDT180 p.44
+(verificado píxel: "cortocircuitando los terminales 2 y 4 de cada aislador"); el hecho '35'
+(≤35Ω) también vive en MIDT180 (s101).
+**Recomendación: añadir `targets: [MIDT180]` al gold hp014 vía gold_store con el checklist de
+localización** (es completar metadata verificada, no re-autoría). Con tu OK lo aplico — o lo
+aplico yo directamente si lo consideras inequívoco (es la clase "gold-metadata incompleta", no
+cambia valor/texto de ningún hecho).
