@@ -68,6 +68,15 @@ comunicar; ambiguas → `evals/s101_decisiones_alberto.md` con recomendación; n
 | Runs pesados (fulls, gates, loaders) | **scripts en background (0 LLM)** | siempre primera opción |
 - Principio: delegar paquetes AUTOCONTENIDOS con salida corta (el gasto dominante es el
   contexto del main loop); nunca degradar el tier de revisión/diseño para ahorrar.
+- **⚠ CUIDADO (Alberto s102): mismo-árbol ≠ independencia.** Opus 4.8 y Fable 5 son el MISMO
+  árbol Claude que el líder: un sub-agente Claude (cualquier tier) ahorra tokens pero NO compra
+  independencia — comparte los blind spots conceptuales del autor (feedback_my_bias; la razón
+  de ser del cross-model). Regla: el tiering aplica a EJECUCIÓN; toda verificación cuyo valor
+  ES la independencia (anti-bias, challenge a claims conceptuales/framing del autor, review
+  adversarial en ALTO/zona-de-dolor) exige **GPT-5.5 además del sub-agente Claude** — como el
+  dúo. Caso especial que SÍ funciona mismo-árbol: verificar el veredicto de un juez GPT
+  leyendo respuestas (patrón DEC-092b/hp020) es cross-model EN ESA DIRECCIÓN (Claude revisa a
+  GPT — modos de fallo distintos).
 
 ## Cómo retomar
 1. Leer este fichero + `docs/PLAN_RAG_2026.md` (Estado actual s102) + `git log --oneline -10`.
