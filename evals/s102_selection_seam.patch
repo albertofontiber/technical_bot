@@ -1,0 +1,148 @@
+diff --git a/src/rag/generator.py b/src/rag/generator.py
+index 1715e5d..56d21d5 100644
+--- a/src/rag/generator.py
++++ b/src/rag/generator.py
+@@ -363,15 +363,56 @@ condiciones que el fragmento no mencione, aunque "completen" la respuesta. Compl
+ recoger lo que ESTÁ, no rellenar lo que falta."""
+ 
+ 
++# Lever de GENERACIÓN s102/L4 (cluster cat021, DEC-096-next). Bloque AÑADIDO bajo
++# GENERATOR_SELECTION_BLOCK=on. Diana: consultas de SELECCIÓN sobre una familia («necesito un
++# 40/40, ¿qué modelo pido?») donde el bot ASUMÍA un miembro (respondió el pedido del 40/40R)
++# en vez de exponer la divergencia de la familia (I=IR3 · U=UV · M=Multi-IR/hidrógeno — NO
++# intercambiables). Complementa TIPO 2 sin tocarlo: la regla «no enumeres miembros» asume
++# técnico-frente-al-panel (avería/config de equipo YA instalado); en SELECCIÓN no hay etiqueta
++# que leer y la enumeración con diferenciador ES la respuesta (regla s79/s80: enumerar/clarify
++# SOLO si la respuesta diverge entre variantes; si es family-genérica, respuesta directa).
++_SELECTION_BLOCK = """
++
++CONSULTA DE SELECCIÓN SOBRE UNA FAMILIA (complementa TIPO 2 — no lo sustituye):
++Dispara cuando la query pide ELEGIR o PEDIR equipo nombrando la familia sin sufijo completo \
++(«necesito un X, ¿qué modelo pido?», «¿cuál me recomiendas?», «voy a instalar un X, ¿cuál va?») \
++y los fragmentos muestran VARIAS variantes de esa familia con tecnología/uso/capacidad DISTINTOS:
++- NO asumas una variante ni respondas solo con la más mencionada en los fragmentos.
++- Tu respuesta ES la enumeración: una línea por variante presente en los fragmentos con su \
++diferenciador clave (tecnología de detección, riesgo/combustible al que aplica, capacidad), \
++citando su [F<n>].
++- Si las variantes NO son intercambiables entre sí, dilo explícitamente.
++- Cierra preguntando el dato que decide la elección (tipo de riesgo, combustible, entorno).
++- La regla «no enumeres miembros del corpus» del formato de clarificación NO aplica en \
++selección: el técnico está ELIGIENDO equipo nuevo, no tiene etiqueta que leer. Esa regla sigue \
++intacta para averías/configuración de un equipo ya instalado (ahí sí: pregunta abierta).
++- Si la respuesta NO diverge entre variantes (dato común de familia), responde directo (TIPO 1)."""
++
++
++def _selection_block_on() -> bool:
++    """(s102, L4) Flag del bloque de selección. Parser estricto fail-fast (lección s96-H3)."""
++    raw = os.getenv("GENERATOR_SELECTION_BLOCK", "off").strip().lower()
++    if raw == "on":
++        return True
++    if raw in ("", "off", "0", "false", "no"):
++        return False
++    raise RuntimeError(f"GENERATOR_SELECTION_BLOCK={raw!r} no reconocido (off|on) — fail-fast")
++
++
+ def _assemble_system() -> str:
+     """A/B s69: GENERATOR_PROMPT_VARIANT=base|fidelity (env, leído en RUNTIME para togglear
+     el A/B en un mismo proceso; default base). base == SYSTEM_PROMPT BYTE-IDÉNTICO (el test
+     de paridad `tests/test_s69_prompt_variant.py` lo asserta sin llamar al LLM — el
+     aislamiento NO se prueba con output, que es no-determinista, DEC-015). fidelity añade
+-    `_FIDELITY_BLOCK`. Reversible como GENERATOR_INCLUDE_CONTEXT; default INERTE = prod."""
++    `_FIDELITY_BLOCK`. Reversible como GENERATOR_INCLUDE_CONTEXT; default INERTE = prod.
++    (s102) GENERATOR_SELECTION_BLOCK=on añade `_SELECTION_BLOCK` — COMPOSABLE con fidelity
++    (bloques independientes y medibles por separado); default INERTE."""
++    out = SYSTEM_PROMPT
+     if os.getenv("GENERATOR_PROMPT_VARIANT", "base") == "fidelity":
+-        return SYSTEM_PROMPT + _FIDELITY_BLOCK
+-    return SYSTEM_PROMPT
++        out = out + _FIDELITY_BLOCK
++    if _selection_block_on():
++        out = out + _SELECTION_BLOCK
++    return out
+ 
+ 
+ def generate_answer(
+diff --git a/tests/test_s102_selection_block.py b/tests/test_s102_selection_block.py
+new file mode 100644
+index 0000000..ed336c0
+--- /dev/null
++++ b/tests/test_s102_selection_block.py
+@@ -0,0 +1,78 @@
++"""s102/L4 — test de PARIDAD del bloque de SELECCIÓN (GENERATOR_SELECTION_BLOCK).
++
++Mismo contrato que test_s69_prompt_variant: el aislamiento se prueba a nivel de
++CONSTRUCCIÓN-DEL-PROMPT ($0, determinista, DEC-015). Cubre además la COMPOSICIÓN con
++fidelity (bloques independientes) y el parser estricto (lección s96-H3: un typo no
++puede medio-apagar en silencio — a diferencia del variant legacy, que cae a base).
++"""
++import os
++
++import pytest
++
++os.environ.setdefault("CHUNKS_TABLE", "chunks_v2")
++
++from src.rag.generator import (  # noqa: E402
++    _FIDELITY_BLOCK,
++    _SELECTION_BLOCK,
++    SYSTEM_PROMPT,
++    _assemble_system,
++    _selection_block_on,
++)
++
++
++def test_default_sin_env_es_inerte(monkeypatch):
++    monkeypatch.delenv("GENERATOR_SELECTION_BLOCK", raising=False)
++    monkeypatch.setenv("GENERATOR_PROMPT_VARIANT", "base")
++    assert _assemble_system() == SYSTEM_PROMPT           # prod intacto
++
++
++def test_on_anade_el_bloque(monkeypatch):
++    monkeypatch.setenv("GENERATOR_PROMPT_VARIANT", "base")
++    monkeypatch.setenv("GENERATOR_SELECTION_BLOCK", "on")
++    out = _assemble_system()
++    assert out == SYSTEM_PROMPT + _SELECTION_BLOCK
++    assert out.startswith(SYSTEM_PROMPT)
++    assert "CONSULTA DE SELECCIÓN SOBRE UNA FAMILIA" in out
++
++
++def test_composicion_con_fidelity(monkeypatch):
++    # bloques independientes: fidelity + selection = base + ambos, en ese orden
++    monkeypatch.setenv("GENERATOR_PROMPT_VARIANT", "fidelity")
++    monkeypatch.setenv("GENERATOR_SELECTION_BLOCK", "on")
++    assert _assemble_system() == SYSTEM_PROMPT + _FIDELITY_BLOCK + _SELECTION_BLOCK
++
++
++def test_off_no_contiene_el_bloque(monkeypatch):
++    monkeypatch.setenv("GENERATOR_SELECTION_BLOCK", "off")
++    monkeypatch.setenv("GENERATOR_PROMPT_VARIANT", "base")
++    assert "CONSULTA DE SELECCIÓN" not in _assemble_system()
++
++
++def test_parser_estricto(monkeypatch):
++    monkeypatch.delenv("GENERATOR_SELECTION_BLOCK", raising=False)
++    assert _selection_block_on() is False
++    monkeypatch.setenv("GENERATOR_SELECTION_BLOCK", "on")
++    assert _selection_block_on() is True
++    monkeypatch.setenv("GENERATOR_SELECTION_BLOCK", "enabled")   # typo → fail-fast
++    with pytest.raises(RuntimeError):
++        _selection_block_on()
++
++
++def test_runtime_toggle(monkeypatch):
++    monkeypatch.setenv("GENERATOR_PROMPT_VARIANT", "base")
++    monkeypatch.setenv("GENERATOR_SELECTION_BLOCK", "on")
++    a = _assemble_system()
++    monkeypatch.setenv("GENERATOR_SELECTION_BLOCK", "off")
++    b = _assemble_system()
++    assert a != b and b == SYSTEM_PROMPT
++
++
++def test_bloque_no_contradice_tipo2_ni_clarificacion(monkeypatch):
++    # el bloque COMPLEMENTA TIPO 2: la regla de clarificación abierta sigue presente,
++    # y el bloque declara explícitamente el límite de su excepción.
++    monkeypatch.setenv("GENERATOR_PROMPT_VARIANT", "base")
++    monkeypatch.setenv("GENERATOR_SELECTION_BLOCK", "on")
++    out = _assemble_system()
++    assert "FORMATO CUANDO PIDES CLARIFICACIÓN" in out    # TIPO 2 intacto
++    assert "no lo sustituye" in out                       # el bloque se declara complemento
++    assert "ya instalado" in out                          # límite de la excepción declarado

@@ -27,7 +27,22 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s100 — 7 jul 2026)
+## Estado actual (s101 — 8 jul 2026)
+
+**s101 (DEC-095) — instrumento dual×2 + 4 levers upstream MEDIDOS + scoreboard v2 (autónomo nocturno,
+mandato OK>95%).** El instrumento cazó y arregló 2 clases de FN de su propio juez (conveyed + soporte,
+dual GPT→Opus con evidencia adversarial); gold-review pixel-vs-fuente (5 demotes + hp011 r.I — Alberto
+corrigió su s30; el cross-model tenía razón contra el ground-truth humano). **Scoreboard v2 (juez v2):
+OK 91 (71%) · synth 22 (14 stable/8 flip; cluster cat021×4 = variantes 40/40) · retrieval 8 · rerank 5 ·
+corpus 2.** Levers: **hyq/HyPE piloto GO** (2/7 flips, cuota+barra; ship=D2 Alberto; residual-ancilar
+declarado anti-overfit) · **tiebreak CERRADO** (2ª medición, con ancho-10: centinela hp001 regresa) ·
+cat013=identidad (DEC-074). **Qué sigue: Fase 2 (synth 22→1-2)** — A/B fact-level del fidelity-block
+en vuelo (métrica ≠ DEC-051-PASS); cluster cat021 (variantes) = candidato específico; luego D2-D5 de
+`evals/s101_decisiones_alberto.md`. Plan reanudable: `evals/s101_plan_autonomo.md`.
+
+---
+
+## Estado anterior (s100 — 7 jul 2026)
 
 **s100 (DEC-094) — assessment a nivel-hecho ESTANDARIZADO construido+corrido → foco RE-DERIVADO con datos frescos.**
 Se construyó `scripts/factlevel_assessment.py` (unifica los 7 instrumentos ad-hoc) + doc canónico

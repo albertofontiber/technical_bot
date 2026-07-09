@@ -61,7 +61,7 @@ def test_2b_keyword_flag_adds_order_and_raises_limit(monkeypatch):
 def _run_retrieve_capturing_vector(monkeypatch):
     calls = []
 
-    def fake_vector_search(query, limit, threshold, product_filter, category, embedding):
+    def fake_vector_search(query, limit, threshold, product_filter, category, embedding, **kw):
         calls.append({"limit": limit, "category": category})
         return []
 

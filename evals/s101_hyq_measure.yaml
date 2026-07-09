@@ -1,0 +1,101 @@
+treatment:
+  hyq_file: C:\Users\Admin\OneDrive - fontiber com\Documents\Claude\Technical Bot\evals\s101_hyq_embeddings.npz
+  npz_sha256_16: fbf3e3669088278d
+  n_questions: 6426
+demo_flags:
+  CHUNKS_TABLE: chunks_v2
+  ENUNCIADOS_MULTIVECTOR: 'on'
+  IDENTITY_RESOLVE: 'on'
+  IDENTITY_RESOLVE_POLICY: ADD
+  LLM_MAX_TOKENS: '3500'
+  RERANK_TOP_K: '10'
+  RERANKER_BACKEND: llm
+  MERGE_STRATEGY: stamps
+  RERANK_PREVIEW_CHARS: '800'
+  HYDE_ENABLED: 'false'
+  HYQ_PILOT_FILE: C:\Users\Admin\OneDrive - fontiber com\Documents\Claude\Technical
+    Bot\evals\s101_hyq_embeddings.npz
+n_flips: 2
+n_recall_targets: 7
+gate_cat016: true
+results:
+- qid: cat016
+  valor: autobusqueda
+  etapa_OFF: RECALL
+  etapa_ON: IN-POOL
+  flip: true
+  invalid_run: false
+  hyq_question_won:
+  - id: 294a778c-1dc
+    q: ¿Cómo hago la autobúsqueda del lazo en la CAD-150-8 para que me detecte todos
+      los dispositivos del bucle?
+  n_val_chunks: 1
+  n_hyq_in_pool: 3
+- qid: hp011
+  valor: 05 a 295 seg
+  etapa_OFF: RECALL
+  etapa_ON: RECALL
+  flip: false
+  invalid_run: false
+  hyq_question_won: []
+  n_val_chunks: 2
+  n_hyq_in_pool: 4
+- qid: hp013
+  valor: PWR-R
+  etapa_OFF: RECALL
+  etapa_ON: RECALL
+  flip: false
+  invalid_run: false
+  hyq_question_won: []
+  n_val_chunks: 2
+  n_hyq_in_pool: 5
+- qid: hp017
+  valor: instruccion de entrada
+  etapa_OFF: RECALL
+  etapa_ON: RECALL
+  flip: false
+  invalid_run: false
+  hyq_question_won: []
+  n_val_chunks: 4
+  n_hyq_in_pool: 1
+- qid: hp018
+  valor: 6K8
+  etapa_OFF: RECALL
+  etapa_ON: IN-POOL
+  flip: true
+  invalid_run: false
+  hyq_question_won:
+  - id: 53e12a08-1cc
+    q: ¿Qué resistencia de final de línea hay que poner en las salidas de sirenas
+      de la ZX2e/ZX5e?
+  n_val_chunks: 2
+  n_hyq_in_pool: 1
+- qid: hp018
+  valor: 1 A
+  etapa_OFF: RECALL
+  etapa_ON: NO_VAL_CHUNKS
+  flip: false
+  invalid_run: true
+  hyq_question_won: []
+  n_val_chunks: 0
+  n_hyq_in_pool: 1
+- qid: hp020
+  valor: nivel 2 o 3
+  etapa_OFF: RECALL
+  etapa_ON: NO_VAL_CHUNKS
+  flip: false
+  invalid_run: true
+  hyq_question_won: []
+  n_val_chunks: 0
+  n_hyq_in_pool: 0
+- qid: hp014
+  valor: '35'
+  etapa_OFF: IN-POOL
+  etapa_ON: IN-POOL
+  flip: false
+  invalid_run: false
+  hyq_question_won: []
+  n_val_chunks: 7
+  n_hyq_in_pool: 0
+nota: control negativo full-dev(39) corre APARTE con el baseline del full v2 (addendum
+  §4)

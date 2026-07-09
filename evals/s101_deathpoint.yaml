@@ -1,0 +1,473 @@
+demo_flags:
+  CHUNKS_TABLE: chunks_v2
+  ENUNCIADOS_MULTIVECTOR: 'on'
+  IDENTITY_RESOLVE: 'on'
+  IDENTITY_RESOLVE_POLICY: ADD
+  LLM_MAX_TOKENS: '3500'
+  RERANK_TOP_K: '10'
+  RERANKER_BACKEND: llm
+  MERGE_STRATEGY: stamps
+  RERANK_PREVIEW_CHARS: '800'
+  HYDE_ENABLED: 'false'
+n: 18
+etapas:
+  NO_VAL_CHUNKS: 3
+  RECALL: 7
+  IN-POOL: 7
+  DIVERSIFY: 1
+results:
+- qid: cat013
+  valor: bucle cerrado
+  etapa: NO_VAL_CHUNKS
+  motivos: []
+  jitter: false
+  dist: {}
+  lever: 'INVÁLIDO: sin val_chunks same-family (familia mal resuelta/PM ausente) —
+    revisar, NO es RECALL'
+  gold_family: null
+  trace_present: {}
+  clase_s100: corpus-gap
+  n_val_chunks: 0
+  val_srcs: []
+- qid: cat013
+  valor: CLIP
+  etapa: NO_VAL_CHUNKS
+  motivos: []
+  jitter: false
+  dist: {}
+  lever: 'INVÁLIDO: sin val_chunks same-family (familia mal resuelta/PM ausente) —
+    revisar, NO es RECALL'
+  gold_family: null
+  trace_present: {}
+  clase_s100: corpus-gap
+  n_val_chunks: 0
+  val_srcs: []
+- qid: cat016
+  valor: autobusqueda
+  etapa: RECALL
+  motivos:
+  - within-doc
+  jitter: false
+  dist:
+    RECALL: 3
+  lever: 'recall INTRA-doc/chunking: el manual correcto YA está en el pool pero no
+    el chunk-valor concreto → cobertura/chunking/within-doc (NO HyDE-global)'
+  gold_family: null
+  n_err: 0
+  diversify_reentry: false
+  trace_present:
+    channels: false
+    post_merge: false
+    post_superseded: false
+    post_model_filter: false
+    post_diversify: false
+    post_lang: false
+    final: false
+  val_langs:
+  - ''
+  clase_s100: retrieval-miss
+  n_val_chunks: 1
+  val_srcs:
+  - 55315013 Manual Centrale#p11
+- qid: hp001
+  valor: '2222'
+  etapa: IN-POOL
+  motivos:
+  - token-corto
+  - within-doc
+  jitter: false
+  dist:
+    IN-POOL: 3
+  lever: revisar
+  gold_family: null
+  n_err: 0
+  diversify_reentry: false
+  trace_present:
+    channels: true
+    post_merge: true
+    post_superseded: true
+    post_model_filter: true
+    post_diversify: true
+    post_lang: true
+    final: true
+  val_langs:
+  - ''
+  clase_s100: retrieval-miss
+  n_val_chunks: 3
+  val_srcs:
+  - CAD-250-MC-380-es#p20
+  - CAD-250_Manual-Configura#p18
+  - Manual instalacion CAD-2#p29
+- qid: hp011
+  valor: 05 a 295 seg
+  etapa: RECALL
+  motivos:
+  - within-doc
+  jitter: false
+  dist:
+    RECALL: 3
+  lever: 'recall INTRA-doc/chunking: el manual correcto YA está en el pool pero no
+    el chunk-valor concreto → cobertura/chunking/within-doc (NO HyDE-global)'
+  gold_family: null
+  n_err: 0
+  diversify_reentry: false
+  trace_present:
+    channels: false
+    post_merge: false
+    post_superseded: false
+    post_model_filter: false
+    post_diversify: false
+    post_lang: false
+    final: false
+  val_langs:
+  - ''
+  clase_s100: retrieval-miss
+  n_val_chunks: 2
+  val_srcs:
+  - HLSI-MN-103_RP1r-Supra_l#p56
+- qid: hp012
+  valor: 4 lazos / 792
+  etapa: DIVERSIFY
+  motivos:
+  - within-doc
+  jitter: false
+  dist:
+    DIVERSIFY: 3
+  lever: 'diversify: cuota por source_file/fabricante deja fuera el chunk-valor'
+  gold_family: null
+  n_err: 0
+  diversify_reentry: false
+  trace_present:
+    channels: true
+    post_merge: true
+    post_superseded: true
+    post_model_filter: true
+    post_diversify: false
+    post_lang: false
+    final: false
+  val_langs:
+  - ''
+  clase_s100: retrieval-miss
+  n_val_chunks: 2
+  val_srcs:
+  - 15088SP#p14
+  - 15088SP#p151
+- qid: hp013
+  valor: PWR-R
+  etapa: RECALL
+  motivos:
+  - within-doc
+  jitter: false
+  dist:
+    RECALL: 3
+  lever: 'recall INTRA-doc/chunking: el manual correcto YA está en el pool pero no
+    el chunk-valor concreto → cobertura/chunking/within-doc (NO HyDE-global)'
+  gold_family: null
+  n_err: 0
+  diversify_reentry: false
+  trace_present:
+    channels: false
+    post_merge: false
+    post_superseded: false
+    post_model_filter: false
+    post_diversify: false
+    post_lang: false
+    final: false
+  val_langs:
+  - ''
+  clase_s100: retrieval-miss
+  n_val_chunks: 2
+  val_srcs:
+  - ADW535_TD_T140358es_e#p12
+  - ADW535_TD_T140358es_e#p56
+- qid: hp014
+  valor: '35'
+  etapa: IN-POOL
+  motivos:
+  - token-corto
+  - within-doc
+  jitter: false
+  dist:
+    IN-POOL: 3
+  lever: revisar
+  gold_family: null
+  n_err: 0
+  diversify_reentry: false
+  trace_present:
+    channels: true
+    post_merge: true
+    post_superseded: true
+    post_model_filter: true
+    post_diversify: true
+    post_lang: true
+    final: true
+  val_langs:
+  - ''
+  clase_s100: retrieval-miss
+  n_val_chunks: 7
+  val_srcs:
+  - MIDT180#p10
+  - MIDT180#p17
+  - MIDT180#p3
+  - MIDT180#p39
+- qid: hp017
+  valor: instruccion de entrada
+  etapa: RECALL
+  motivos:
+  - within-doc
+  jitter: false
+  dist:
+    RECALL: 3
+  lever: 'recall INTRA-doc/chunking: el manual correcto YA está en el pool pero no
+    el chunk-valor concreto → cobertura/chunking/within-doc (NO HyDE-global)'
+  gold_family: null
+  n_err: 0
+  diversify_reentry: false
+  trace_present:
+    channels: false
+    post_merge: false
+    post_superseded: false
+    post_model_filter: false
+    post_diversify: false
+    post_lang: false
+    final: false
+  val_langs:
+  - ''
+  clase_s100: retrieval-miss
+  n_val_chunks: 4
+  val_srcs:
+  - 997-671-005-3_Configurat#p41
+  - 997-671-005-3_Configurat#p45
+  - 997-671-005-3_Configurat#p47
+  - 997-671-005-3_Configurat#p6
+- qid: hp018
+  valor: 6K8
+  etapa: RECALL
+  motivos:
+  - token-corto
+  - within-doc
+  jitter: false
+  dist:
+    RECALL: 3
+  lever: 'recall INTRA-doc/chunking: el manual correcto YA está en el pool pero no
+    el chunk-valor concreto → cobertura/chunking/within-doc (NO HyDE-global)'
+  gold_family: null
+  n_err: 0
+  diversify_reentry: false
+  trace_present:
+    channels: false
+    post_merge: false
+    post_superseded: false
+    post_model_filter: false
+    post_diversify: false
+    post_lang: false
+    final: false
+  val_langs:
+  - ''
+  clase_s100: retrieval-miss
+  n_val_chunks: 2
+  val_srcs:
+  - MIE-MI-530rv001#p43
+  - MIE-MI-530rv001#p44
+- qid: hp018
+  valor: diodo
+  etapa: IN-POOL
+  motivos:
+  - within-doc
+  jitter: false
+  dist:
+    IN-POOL: 3
+  lever: revisar
+  gold_family: null
+  n_err: 0
+  diversify_reentry: false
+  trace_present:
+    channels: true
+    post_merge: true
+    post_superseded: true
+    post_model_filter: true
+    post_diversify: true
+    post_lang: true
+    final: true
+  val_langs:
+  - ''
+  clase_s100: retrieval-miss
+  n_val_chunks: 1
+  val_srcs:
+  - MIE-MI-530rv001#p21
+- qid: hp018
+  valor: Sirenas A,B,C,D
+  etapa: IN-POOL
+  motivos:
+  - within-doc
+  jitter: false
+  dist:
+    IN-POOL: 3
+  lever: revisar
+  gold_family: null
+  n_err: 0
+  diversify_reentry: false
+  trace_present:
+    channels: true
+    post_merge: true
+    post_superseded: true
+    post_model_filter: true
+    post_diversify: true
+    post_lang: true
+    final: true
+  val_langs:
+  - ''
+  clase_s100: retrieval-miss
+  n_val_chunks: 3
+  val_srcs:
+  - MIE-MI-530rv001#p2
+  - MIE-MI-530rv001#p21
+  - MIE-MI-530rv001#p4
+- qid: hp018
+  valor: 1 A
+  etapa: RECALL
+  motivos:
+  - token-corto
+  - within-doc
+  jitter: false
+  dist:
+    RECALL: 3
+  lever: 'recall INTRA-doc/chunking: el manual correcto YA está en el pool pero no
+    el chunk-valor concreto → cobertura/chunking/within-doc (NO HyDE-global)'
+  gold_family: null
+  n_err: 0
+  diversify_reentry: false
+  trace_present:
+    channels: false
+    post_merge: false
+    post_superseded: false
+    post_model_filter: false
+    post_diversify: false
+    post_lang: false
+    final: false
+  val_langs:
+  - ''
+  clase_s100: corpus-gap
+  n_val_chunks: 1
+  val_srcs:
+  - MIE-MI-530rv001#p20
+- qid: hp019
+  valor: -30 a +60
+  etapa: IN-POOL
+  motivos:
+  - within-doc
+  jitter: false
+  dist:
+    IN-POOL: 3
+  lever: revisar
+  gold_family: null
+  n_err: 0
+  diversify_reentry: false
+  trace_present:
+    channels: true
+    post_merge: true
+    post_superseded: true
+    post_model_filter: true
+    post_diversify: true
+    post_lang: true
+    final: true
+  val_langs:
+  - ''
+  clase_s100: retrieval-miss
+  n_val_chunks: 2
+  val_srcs:
+  - ASD535_TD_T131192es_h#p133
+  - ASD535_TD_T131192es_h#p7
+- qid: hp020
+  valor: nivel 2 o 3
+  etapa: RECALL
+  motivos:
+  - within-doc
+  jitter: false
+  dist:
+    RECALL: 3
+  lever: 'recall INTRA-doc/chunking: el manual correcto YA está en el pool pero no
+    el chunk-valor concreto → cobertura/chunking/within-doc (NO HyDE-global)'
+  gold_family: null
+  n_err: 0
+  diversify_reentry: false
+  trace_present:
+    channels: false
+    post_merge: false
+    post_superseded: false
+    post_model_filter: false
+    post_diversify: false
+    post_lang: false
+    final: false
+  val_langs:
+  - ''
+  clase_s100: corpus-gap
+  n_val_chunks: 1
+  val_srcs:
+  - HOP-138-8ES  issue 6_01-#p2
+- qid: hp020
+  valor: Cambio del codigo de acceso
+  etapa: IN-POOL
+  motivos:
+  - within-doc
+  jitter: false
+  dist:
+    IN-POOL: 3
+  lever: revisar
+  gold_family: null
+  n_err: 0
+  diversify_reentry: false
+  trace_present:
+    channels: true
+    post_merge: true
+    post_superseded: true
+    post_model_filter: true
+    post_diversify: true
+    post_lang: true
+    final: true
+  val_langs:
+  - ''
+  clase_s100: retrieval-miss
+  n_val_chunks: 2
+  val_srcs:
+  - HOP-138-8ES  issue 6_01-#p49
+  - HOP-138-8ES  issue 6_01-#p55
+- qid: hp020
+  valor: 4 y 8
+  etapa: NO_VAL_CHUNKS
+  motivos: []
+  jitter: false
+  dist: {}
+  lever: 'INVÁLIDO: sin val_chunks same-family (familia mal resuelta/PM ausente) —
+    revisar, NO es RECALL'
+  gold_family: null
+  trace_present: {}
+  clase_s100: corpus-gap
+  n_val_chunks: 0
+  val_srcs: []
+- qid: hp020
+  valor: satisfactorio
+  etapa: IN-POOL
+  motivos:
+  - within-doc
+  jitter: false
+  dist:
+    IN-POOL: 3
+  lever: revisar
+  gold_family: null
+  n_err: 0
+  diversify_reentry: false
+  trace_present:
+    channels: true
+    post_merge: true
+    post_superseded: true
+    post_model_filter: true
+    post_diversify: true
+    post_lang: true
+    final: true
+  val_langs:
+  - ''
+  clase_s100: retrieval-miss
+  n_val_chunks: 1
+  val_srcs:
+  - HOP-138-8ES  issue 6_01-#p49

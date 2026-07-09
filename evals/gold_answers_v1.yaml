@@ -199,10 +199,12 @@
       9-10), una nueva lectura de los valores de flujo (p122 punto 13) sigue FUERA DE TOLERANCIA, y SOLO
       con el conducto limpio e intacto (si no, la toma de muestras puede ser insuficiente y la alarma
       podria no dispararse)
-    tipo: core
+    tipo: supplementary
     estado: presente
     valor: reset inicial
     cita: p122 punto 13 + recuadro Peligro + cap 2.2.17 / 7.3.5
+    nota_demote: 's100 gold-review: fuera de scope de la PREGUNTA (adjudicado Alberto + duo Fable/GPT-5.5);
+      valor VERIFICADO correcto vs fuente'
   - texto: En entornos con grandes turbulencias de aire u oscilaciones termicas puede ser necesario aumentar
       el tiempo de retardo o el tamano de la ventana; pero por encima de +-20 % deja de cumplir EN 54-20
       (consultar con el fabricante)
@@ -796,15 +798,19 @@
     detección de alarmas, pero no la de fallos).
   atomic_facts:
   - texto: 'Fuente de alimentación y batería: revisión cada 3 meses (trimestral)'
-    tipo: core
+    tipo: supplementary
     estado: presente
     valor: cada 3 meses
     cita: Tabla 7-1, p81
+    nota_demote: 's100 gold-review: fuera de scope de la PREGUNTA (adjudicado Alberto + duo Fable/GPT-5.5);
+      valor VERIFICADO correcto vs fuente'
   - texto: 'Comprobar la red de tubería: cada 6 meses (semestral)'
-    tipo: core
+    tipo: supplementary
     estado: presente
     valor: cada 6 meses
     cita: Tabla 7-1, p81
+    nota_demote: 's100 gold-review: fuera de scope de la PREGUNTA (adjudicado Alberto + duo Fable/GPT-5.5);
+      valor VERIFICADO correcto vs fuente'
   - texto: 'Prueba de humos para integridad de tuberías: anual'
     tipo: core
     estado: presente
@@ -826,10 +832,12 @@
     valor: una vez al año
     cita: Tabla 7-1, p81
   - texto: 'Sustitución del filtro: cada 2 años (bianual)'
-    tipo: core
+    tipo: supplementary
     estado: presente
     valor: cada 2 años
     cita: Tabla 7-1, p81
+    nota_demote: 's100 gold-review: fuera de scope de la PREGUNTA (adjudicado Alberto + duo Fable/GPT-5.5);
+      valor VERIFICADO correcto vs fuente'
   - texto: 'Antes del mantenimiento: detector deshabilitado/en espera NO emite avisos de fuego; informar
       a la autoridad supervisora; aislar los dispositivos auxiliares'
     tipo: supplementary
@@ -1054,10 +1062,12 @@
     cita: MIE-MI-530 p19 (3.4.3.1, Fig 9/10)
   - texto: Cada lazo dispone de aisladores de cortocircuito INTERNOS en el panel; el cableado del lazo
       debe realizarse en bucle cerrado con los aisladores necesarios (EN54-14 / EN54-2)
-    tipo: core
+    tipo: supplementary
     estado: presente
     valor: aisladores internos
     cita: MIE-MI-530 p17 / p20
+    nota_demote: 's102 D4 (Alberto): fuera de scope de la pregunta RFL; hermano 32-entre-aisladores ya
+      supp; valor verificado correcto vs MIE-MI-530 p19'
   - texto: Maximo 32 sensores/pulsadores entre aisladores (EN54-2 12.5.2); se recomienda un aislador cada
       32 equipos o por zona fisica (EN54-14) para acotar corto/abierto, no una RFL
     tipo: supplementary
@@ -1269,7 +1279,7 @@
 
     1. Entrada de Abort (paro de emergencia): la entrada ABORT es por defecto enclavada (latched); una vez activada requiere un rearme manual de la central para habilitar de nuevo el proceso de extinción. Si permanece activa, el sistema no se restaura. Verificar el pulsador de paro y su circuito de supervisión.
 
-    2. Inhibición temporal del rearme tras activación — parámetro "r.1" ("Rearme inhibido tras extinción", UNE-EN 12094-1:2004 ap. 4.12.2): "--" = rearme inhibido hasta finalizar la extinción o agotar el tiempo de descarga (parámetro t.A); "00" = rearme permitido en cualquier momento (POR DEFECTO); "01" a "30" = rearme inhibido durante el intervalo definido en minutos. Comprobar el valor configurado.
+    2. Inhibición temporal del rearme tras activación — parámetro "r.I" ("Rearme inhibido tras extinción", UNE-EN 12094-1:2004 ap. 4.12.2): "--" = rearme inhibido hasta finalizar la extinción o agotar el tiempo de descarga (parámetro t.A); "00" = rearme permitido en cualquier momento (POR DEFECTO); "01" a "30" = rearme inhibido durante el intervalo definido en minutos. Comprobar el valor configurado.
 
     3. Tiempo de descarga del circuito de extinción — parámetro "t.A" ("Duración de la descarga", soak time, UNE-EN 12094-1:2004 ap. 4.21): valor variable de 05 a 295 seg en intervalos de 5 seg; el valor POR DEFECTO es "--" (circuito activado hasta el rearme de la central). Hasta que no finalice este tiempo (o se rearme), no se podrá rearmar correctamente.
 
@@ -1287,13 +1297,15 @@
     estado: presente
     valor: ABORT
     cita: p44
-  - texto: 'Parametro r.1 "Rearme inhibido tras extincion": "--"=inhibido hasta finalizar la extincion
+  - texto: 'Parametro r.I "Rearme inhibido tras extincion": "--"=inhibido hasta finalizar la extincion
       o agotar t.A; "00"=rearme permitido en cualquier momento (POR DEFECTO); "01" a "30"=inhibido durante
       ese intervalo en minutos'
     tipo: core
     estado: presente
-    valor: r.1
+    valor: r.I
     cita: p63
+    nota_edit: 's101: adjudicacion CORREGIDA por Alberto (rI = Rearme Inhibido, esquema mnemonico rS/rI;
+      revierte s30 r.1). El corpus r.i era correcto; el error era del gold.'
   - texto: 'Parametro t.A "Duracion de la descarga" (soak time): variable de 05 a 295 seg en pasos de
       5 s; "--"=circuito activado hasta el rearme de la central (POR DEFECTO)'
     tipo: core
@@ -2355,10 +2367,12 @@
     - La edición individual de sensores permite ajustar el número de zona (hasta 255 zonas locales o 8192 de red), el tipo de equipo y los niveles de alarma/prealarma. Los equipos Opal pueden reinicializarse con «4: Inicializar equipo prot.OPAL».
   atomic_facts:
   - texto: La central PEARL admite 1 o 2 lazos de deteccion analogicos
-    tipo: core
+    tipo: supplementary
     estado: presente
     valor: 1 o 2
     cita: 997-669 p51
+    nota_demote: 's100 gold-review: fuera de scope de la PREGUNTA (adjudicado Alberto + duo Fable/GPT-5.5);
+      valor VERIFICADO correcto vs fuente'
   - texto: 'Cada lazo admite hasta 318 equipos: 159 sensores + 159 modulos (protocolo Opal) o 99 sensores
       + 99 modulos (protocolo CLIP), combinables'
     tipo: core

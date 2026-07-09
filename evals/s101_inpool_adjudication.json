@@ -1,0 +1,28 @@
+{
+  "que_es": "s101 — adjudicación de los 7 facts IN-POOL del deathpoint (clasificados retrieval-miss por el assessment s100 pero con el chunk-valor EN el pool-50). Workflow: 1 adjudicador/fact (lee chunk completo vs hecho+relación) + 3 refuters adversariales por cada verdict=supports (lentes: relación exacta / producto-familia / condición-contexto). Evidencia de entrada: pool-50 fresco del pipeline demo, chunks con fact_match>=FLOOR (snapshot del contenido en el run).",
+  "fecha": "2026-07-07",
+  "conclusion": "6/7 = supports UNÁNIME (0/18 votos de refutación) => FN del juez de soporte GPT-5.5 single; 1/7 (hp014 '35') = different_relation (el juez hizo bien). Motiva el DUAL-SOPORTE targeted del instrumento.",
+  "resultados": [
+    {"qid": "hp001", "valor": "2222", "verdict": "supports", "refute_votes": [false, false, false],
+     "quote": "Introduzca la clave de administrador por defecto, 2222.",
+     "fuente_chunk": "Manual instalación CAD-250 MI_372 p29 §6.1 Acceso como administrador"},
+    {"qid": "hp014", "valor": "35", "verdict": "different_relation",
+     "rationale": "el '35' de los chunks del pool es temperatura (+5 a 35°C) u otras resistencias (14,5/28,5 ohm deteccion direccion duplicada) — NO la resistencia máxima de lazo <=35 ohm del hecho"},
+    {"qid": "hp018", "valor": "diodo", "verdict": "supports", "refute_votes": [false, false, false],
+     "quote": "Cada sirena deberá tener un diodo integrado, para impedir el consumo en polarización inversa (supervisión).",
+     "fuente_chunk": "MIE-MI-530rv001 p21 (pool_rank 46)"},
+    {"qid": "hp018", "valor": "Sirenas A,B,C,D", "verdict": "supports", "refute_votes": [false, false, false],
+     "quote": "TB7: A- A+ B- B+ C- C+ D- D+ (Figura 13 ZX2e / Figura 14 ZX5e, Terminal de circuitos de sirena de placa)",
+     "fuente_chunk": "MIE-MI-530rv001 p21"},
+    {"qid": "hp019", "valor": "-30 a +60", "verdict": "supports", "refute_votes": [false, false, false],
+     "quote": "Rango de temperatura caja del detector: –30 – +60 (UL máx. +40) °C",
+     "fuente_chunk": "ASD535_TD_T131192es_h p133 tabla 13 Datos técnicos (pool_rank 26, score 1.0)"},
+    {"qid": "hp020", "valor": "Cambio del codigo de acceso", "verdict": "supports", "refute_votes": [false, false, false],
+     "quote": "01 Seleccione el icono del menú y seleccione Ajustes... nivel de acceso 3. 02 Seleccione la opción Cambio del código de acceso.",
+     "fuente_chunk": "HOP-138-8ES issue 6 p49 (pool_rank 20)"},
+    {"qid": "hp020", "valor": "satisfactorio", "verdict": "supports", "refute_votes": [false, false, false],
+     "quote": "08 Observe el mensaje Cambio de código de acceso satisfactorio. Seleccione Aceptar para reconocer.",
+     "fuente_chunk": "HOP-138-8ES issue 6 p49"}
+  ],
+  "trazas": "workflow wf_83b5954d-47e (transcripts en el dir de subagents de la sesión); evidencia de entrada generada por scratchpad/inpool_dump.py (pool fresco, flags demo)"
+}

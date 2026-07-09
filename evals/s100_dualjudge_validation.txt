@@ -1,0 +1,32 @@
+=== 16 SYNTH-MISS (GPT-5.5=miss; que dice Opus?) ===
+  cat001   «1 o 2                     » GPT=0 Opus=5/5  FLIP->conveyed
+  cat016   «menu ZONA + ELEMENTO      » GPT=0 Opus=0/5  agree-miss
+  cat017   «licencia CLIP por lazo    » GPT=0 Opus=0/5  agree-miss
+  cat017   «CLSS                      » GPT=2 Opus=0/5  agree-miss
+  cat018   «pestana Programacion: Zona» GPT=0 Opus=4/5  FLIP->conveyed
+  cat018   «Tipo SW / asociacion CBE  » GPT=0 Opus=0/5  agree-miss
+  cat020   «0-100 % normalizado       » GPT=0 Opus=4/5  FLIP->conveyed
+  hp002    «reset inicial             » GPT=0 Opus=5/5  FLIP->conveyed
+  hp006    «Fallo de Tierra           » GPT=0 Opus=1/5  agree-miss
+  hp007    «cada 6 meses              » GPT=0 Opus=0/5  agree-miss
+  hp009    «Retorno                   » GPT=0 Opus=0/5  agree-miss
+  hp009    «aisladores internos       » GPT=0 Opus=0/5  agree-miss
+  hp010    «Nivel 3                   » GPT=3 Opus=0/5  agree-miss
+  hp011    «r.1                       » GPT=0 Opus=0/5  agree-miss
+  hp013    «EEPROM                    » GPT=0 Opus=0/5  agree-miss
+  hp018    «4 circuitos               » GPT=0 Opus=5/5  FLIP->conveyed
+  RESUMEN: FLIP-a-conveyed=5 | agree-miss=11 | borderline=0
+=== FP-CHECK A: OK facts (Opus deberia CONVEYED >=4) ===
+  cat001   «159+159 / 99+99           » Opus=5/5 ok
+  cat001   «0,75 A                    » Opus=5/5 ok
+  cat001   «40                        » Opus=5/5 ok
+  cat001   «autoconfiguracion         » Opus=5/5 ok
+  cat001   «255 / 8192                » Opus=5/5 ok
+  cat005   «110-230 Vac               » Opus=5/5 ok
+=== FP-CHECK B: valor PERTURBADO-falso (Opus deberia NO <=1) ===
+  cat001   FAKE«482+482 / 22+22           » Opus=0/5 ok-rechaza
+  cat001   FAKE«3,08 A                    » Opus=0/5 ok-rechaza
+  cat001   FAKE«73                        » Opus=0/5 ok-rechaza
+  cat001   FAKE«588 / 1425                » Opus=0/5 ok-rechaza
+  cat005   FAKE«443-563 Vac               » Opus=0/5 ok-rechaza
+DONE

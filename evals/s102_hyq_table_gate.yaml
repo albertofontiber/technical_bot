@@ -1,0 +1,124 @@
+treatment:
+  backend: chunks_v2_hyq/match_hyq (migración 013)
+  quota: 10
+  min_cos: 0.45
+demo_flags:
+  CHUNKS_TABLE: chunks_v2
+  ENUNCIADOS_MULTIVECTOR: 'on'
+  IDENTITY_RESOLVE: 'on'
+  IDENTITY_RESOLVE_POLICY: ADD
+  LLM_MAX_TOKENS: '3500'
+  RERANK_TOP_K: '10'
+  RERANKER_BACKEND: llm
+  MERGE_STRATEGY: stamps
+  RERANK_PREVIEW_CHARS: '800'
+  HYDE_ENABLED: 'false'
+  GENERATOR_PROMPT_VARIANT: fidelity
+  HYQ_TABLE: 'on'
+  HYQ_PILOT_FILE: ''
+gate_must_reproduce:
+- cat016·autobusqueda
+- hp018·6K8
+reproduced:
+  cat016·autobusqueda: true
+  hp018·6K8: true
+new_flips: []
+flips_unattributed: []
+gate_pass: true
+results:
+- qid: cat016
+  valor: autobusqueda
+  etapa_OFF: RECALL
+  etapa_ON: IN-POOL
+  flip: true
+  flip_unattributed: false
+  invalid_run: false
+  pilot_flip: true
+  hyq_question_won:
+  - id: 294a778c-1dc
+    q: ¿Cómo hago la autobúsqueda del lazo en la CAD-150-8 para que me detecte todos
+      los dispositivos del bucle?
+  n_val_chunks: 1
+  n_hyq_in_pool: 4
+- qid: hp011
+  valor: 05 a 295 seg
+  etapa_OFF: RECALL
+  etapa_ON: RECALL
+  flip: false
+  flip_unattributed: false
+  invalid_run: false
+  pilot_flip: false
+  hyq_question_won: []
+  n_val_chunks: 2
+  n_hyq_in_pool: 13
+- qid: hp013
+  valor: PWR-R
+  etapa_OFF: RECALL
+  etapa_ON: RECALL
+  flip: false
+  flip_unattributed: false
+  invalid_run: false
+  pilot_flip: false
+  hyq_question_won: []
+  n_val_chunks: 2
+  n_hyq_in_pool: 6
+- qid: hp017
+  valor: instruccion de entrada
+  etapa_OFF: RECALL
+  etapa_ON: RECALL
+  flip: false
+  flip_unattributed: false
+  invalid_run: false
+  pilot_flip: false
+  hyq_question_won: []
+  n_val_chunks: 4
+  n_hyq_in_pool: 2
+- qid: hp018
+  valor: 6K8
+  etapa_OFF: RECALL
+  etapa_ON: IN-POOL
+  flip: true
+  flip_unattributed: false
+  invalid_run: false
+  pilot_flip: true
+  hyq_question_won:
+  - id: 53e12a08-1cc
+    q: ¿Qué resistencia de final de línea hay que poner en las salidas de sirenas
+      de la ZX2e/ZX5e?
+  n_val_chunks: 2
+  n_hyq_in_pool: 5
+- qid: hp018
+  valor: 1 A
+  etapa_OFF: RECALL
+  etapa_ON: RECALL
+  flip: false
+  flip_unattributed: false
+  invalid_run: false
+  pilot_flip: false
+  hyq_question_won: []
+  n_val_chunks: 1
+  n_hyq_in_pool: 5
+- qid: hp020
+  valor: nivel 2 o 3
+  etapa_OFF: RECALL
+  etapa_ON: RECALL
+  flip: false
+  flip_unattributed: false
+  invalid_run: false
+  pilot_flip: false
+  hyq_question_won: []
+  n_val_chunks: 1
+  n_hyq_in_pool: 1
+- qid: hp014
+  valor: '35'
+  etapa_OFF: IN-POOL
+  etapa_ON: IN-POOL
+  flip: false
+  flip_unattributed: false
+  invalid_run: false
+  pilot_flip: false
+  hyq_question_won: []
+  n_val_chunks: 7
+  n_hyq_in_pool: 2
+nota: famtie/bvg no-regresión (con control OFF-vs-OFF, DEC-096) corre APARTE; la activación
+  en Railway queda gateada al GO de Alberto.

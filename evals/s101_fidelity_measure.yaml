@@ -1,0 +1,307 @@
+treatment:
+  seam: GENERATOR_PROMPT_VARIANT=fidelity (s69, dúo-hardened)
+  block_sha: b36514b30f26
+  gens_fidelity: 2
+  metric: conveyed fact-level árbitro dual (≠ DEC-051 PASS)
+demo_flags:
+  CHUNKS_TABLE: chunks_v2
+  ENUNCIADOS_MULTIVECTOR: 'on'
+  IDENTITY_RESOLVE: 'on'
+  IDENTITY_RESOLVE_POLICY: ADD
+  LLM_MAX_TOKENS: '3500'
+  RERANK_TOP_K: '10'
+  RERANKER_BACKEND: llm
+  MERGE_STRATEGY: stamps
+  RERANK_PREVIEW_CHARS: '800'
+  HYDE_ENABLED: 'false'
+  HYQ_PILOT_FILE: ''
+  DIVERSIFY_TIEBREAK: 'off'
+mode: full
+aggregate:
+  rescued: 3
+  regressed: 0
+  still-miss: 21
+  ok-both: 22
+results:
+- qid: cat008
+  facts:
+  - valor: 2 estados / 3 estados
+    base: true
+    fidelity: true
+    status: ok-both
+    was_miss_fullv2: false
+  - valor: 47 kΩ
+    base: true
+    fidelity: true
+    status: ok-both
+    was_miss_fullv2: false
+  - valor: 18 kΩ
+    base: true
+    fidelity: true
+    status: ok-both
+    was_miss_fullv2: false
+  - valor: 1/2/3/4 lazo; 6-7 entrada A
+    base: false
+    fidelity: false
+    status: still-miss
+    was_miss_fullv2: true
+  len_base: 2084
+  len_fid: 2064
+- qid: cat011
+  facts:
+  - valor: '751'
+    base: true
+    fidelity: true
+    status: ok-both
+    was_miss_fullv2: true
+  - valor: seguridad intrínseca
+    base: true
+    fidelity: true
+    status: ok-both
+    was_miss_fullv2: true
+  - valor: iónico
+    base: true
+    fidelity: true
+    status: ok-both
+    was_miss_fullv2: true
+  len_base: 2199
+  len_fid: 2727
+- qid: cat016
+  facts:
+  - valor: autobusqueda
+    base: false
+    fidelity: false
+    status: still-miss
+    was_miss_fullv2: false
+  - valor: menu ZONA + ELEMENTO
+    base: false
+    fidelity: false
+    status: still-miss
+    was_miss_fullv2: true
+  - valor: modo prueba
+    base: true
+    fidelity: true
+    status: ok-both
+    was_miss_fullv2: false
+  - valor: 20 minutos
+    base: true
+    fidelity: true
+    status: ok-both
+    was_miss_fullv2: false
+  len_base: 2768
+  len_fid: 3082
+- qid: cat017
+  facts:
+  - valor: modulo OPAL HOP-433-100
+    base: true
+    fidelity: true
+    status: ok-both
+    was_miss_fullv2: false
+  - valor: 159 + 159
+    base: true
+    fidelity: true
+    status: ok-both
+    was_miss_fullv2: false
+  - valor: licencia CLIP por lazo
+    base: false
+    fidelity: false
+    status: still-miss
+    was_miss_fullv2: true
+  - valor: Auto Configuracion
+    base: true
+    fidelity: true
+    status: ok-both
+    was_miss_fullv2: false
+  - valor: CLSS
+    base: false
+    fidelity: false
+    status: still-miss
+    was_miss_fullv2: true
+  len_base: 6334
+  len_fid: 7086
+- qid: cat018
+  facts:
+  - valor: Control By Events
+    base: true
+    fidelity: true
+    status: ok-both
+    was_miss_fullv2: false
+  - valor: 'pestana Programacion: Zona + CBE'
+    base: false
+    fidelity: false
+    status: still-miss
+    was_miss_fullv2: true
+  - valor: Tipo SW / asociacion CBE
+    base: false
+    fidelity: false
+    status: still-miss
+    was_miss_fullv2: true
+  - valor: Apendice A
+    base: false
+    fidelity: false
+    status: still-miss
+    was_miss_fullv2: false
+  len_base: 3659
+  len_fid: 3732
+- qid: cat021
+  facts:
+  - valor: 40/40
+    base: false
+    fidelity: false
+    status: still-miss
+    was_miss_fullv2: true
+  - valor: IR3
+    base: true
+    fidelity: true
+    status: ok-both
+    was_miss_fullv2: true
+  - valor: Multi IR / hidrógeno
+    base: false
+    fidelity: false
+    status: still-miss
+    was_miss_fullv2: true
+  - valor: UV
+    base: false
+    fidelity: false
+    status: still-miss
+    was_miss_fullv2: true
+  len_base: 2036
+  len_fid: 1938
+- qid: hp002
+  facts:
+  - valor: fallo flujo de aire
+    base: true
+    fidelity: true
+    status: ok-both
+    was_miss_fullv2: false
+  - valor: 80 %
+    base: true
+    fidelity: true
+    status: ok-both
+    was_miss_fullv2: false
+  - valor: 300 s
+    base: true
+    fidelity: true
+    status: ok-both
+    was_miss_fullv2: false
+  - valor: 7.6.1
+    base: false
+    fidelity: true
+    status: rescued
+    was_miss_fullv2: true
+  len_base: 3042
+  len_fid: 3030
+- qid: hp006
+  facts:
+  - valor: Fallo de Tierra
+    base: false
+    fidelity: true
+    status: rescued
+    was_miss_fullv2: false
+  - valor: Tierra
+    base: true
+    fidelity: true
+    status: ok-both
+    was_miss_fullv2: false
+  - valor: ISO-X
+    base: true
+    fidelity: true
+    status: ok-both
+    was_miss_fullv2: true
+  len_base: 3029
+  len_fid: 2946
+- qid: hp009
+  facts:
+  - valor: Retorno
+    base: false
+    fidelity: false
+    status: still-miss
+    was_miss_fullv2: true
+  - valor: aisladores internos
+    base: false
+    fidelity: false
+    status: still-miss
+    was_miss_fullv2: true
+  len_base: 1899
+  len_fid: 1527
+- qid: hp010
+  facts:
+  - valor: Autobusqueda
+    base: true
+    fidelity: true
+    status: ok-both
+    was_miss_fullv2: false
+  - valor: Nivel 3
+    base: false
+    fidelity: false
+    status: still-miss
+    was_miss_fullv2: false
+  - valor: nuevos, eliminados y modificados
+    base: false
+    fidelity: true
+    status: rescued
+    was_miss_fullv2: true
+  len_base: 2586
+  len_fid: 2623
+- qid: hp011
+  facts:
+  - valor: ABORT
+    base: false
+    fidelity: false
+    status: still-miss
+    was_miss_fullv2: true
+  - valor: r.I
+    base: false
+    fidelity: false
+    status: still-miss
+    was_miss_fullv2: true
+  - valor: 05 a 295 seg
+    base: false
+    fidelity: false
+    status: still-miss
+    was_miss_fullv2: false
+  - valor: enclavadas
+    base: false
+    fidelity: false
+    status: still-miss
+    was_miss_fullv2: false
+  len_base: 3167
+  len_fid: 3418
+- qid: hp013
+  facts:
+  - valor: EEPROM
+    base: false
+    fidelity: false
+    status: still-miss
+    was_miss_fullv2: true
+  - valor: PWR-R
+    base: false
+    fidelity: false
+    status: still-miss
+    was_miss_fullv2: false
+  len_base: 2059
+  len_fid: 2588
+- qid: hp017
+  facts:
+  - valor: causa-efecto
+    base: true
+    fidelity: true
+    status: ok-both
+    was_miss_fullv2: false
+  - valor: instruccion de entrada
+    base: false
+    fidelity: false
+    status: still-miss
+    was_miss_fullv2: true
+  - valor: Editar Configuracion
+    base: true
+    fidelity: true
+    status: ok-both
+    was_miss_fullv2: false
+  - valor: seis tipos de retardo
+    base: true
+    fidelity: true
+    status: ok-both
+    was_miss_fullv2: false
+  len_base: 3294
+  len_fid: 3197

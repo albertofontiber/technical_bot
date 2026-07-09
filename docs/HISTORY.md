@@ -1638,3 +1638,23 @@ veredicto (su medición s87 sí era caduca); identidad+corpus descartados con da
 scope/gold (hp007: bot respondió lo preguntado) → qué-lever-dentro-de-síntesis = gold-review por-hecho, NO zanjado (spot-check
 regla-C me frenó de sobre-afirmar el lever de prompt). Punch-list dúo-final de 7 aplicado al código; #4/#7 documentados como
 limitación. **Rama `eval/s100-factlevel-assessment` (fresca desde main+#113); baseline en el scoreboard.** DEC-094.
+
+## s100b-s101 (7-8 jul 2026, autónomo nocturno) — instrumento dual×2, 4 levers upstream medidos, scoreboard v2 (DEC-095)
+Mandato Alberto (Fable 5 ultracode): OK>95% bajando buckets, upstream-first, GO=reducción-de-bucket,
+flag de overfit. **Instrumento**: dual-judge en conveyed Y soporte (2 clases de FN del juez GPT-single
+cazadas con evidencia adversarial el mismo día: 5-7 conveyed-FN verificados leyendo respuestas + 6/7
+"retrieval-miss" adjudicados supports por workflow 7-jueces/21-refuters 0-refutaciones) + fail-fast del
+primario (incidente real: cuota OpenAI murió mid-run 2×; run inválido en cuarentena) + freeze-hash con
+pipeline-src + seams pineados. **Gold-review pixel-vs-fuente** (dúo, NUNCA vs bot): 5 demotes de scope +
+hp011 r.1→r.I (Alberto se retractó de s30 — mnemónicos rS/rI; el corpus r.i era correcto; lección:
+el cross-model dictaminó GOLD-ERROR y fue anulado citando al humano — tenía razón). **Levers**: hyq/HyPE
+piloto GO (2/7 flips incl. el gate falsable cat016; cuota-propia + barra 0.45 = los 2 hiperparámetros
+que separan señal de desplazamiento; residual-ancilar DECLARADO anti-overfit) · tiebreak CERRADO
+definitivo (re-medido con ancho-10: centinela hp001 regresa + 9 EXCESS/null=0) · cat013=identidad
+(DEC-074) · no-anclables=clase-juez. Método nuevo de la noche: **control negativo null-corrected**
+(el jitter run-a-run NO es cero — sin null, el 1er control dio 9 falsos EXCESS). **Scoreboard v2**
+(juez v2, sanos): OK 91 (71%) · synth 22 (14/8; cluster cat021×4 variantes) · retrieval 8 · rerank 5 ·
+corpus 2. Fase 2 abierta: A/B fact-level del fidelity-block (smoke 0/0; full en vuelo al cierre).
+NADA shippeado (tiering nocturno + ship-gates = Alberto). Ficheros para Alberto:
+`evals/s101_plan_autonomo.md` + `evals/s101_decisiones_alberto.md` (D2 ship-hyq · D3 no-anclables ·
+D4 scope-borderline · D5 residual-ancilar, con recomendaciones). DEC-095.

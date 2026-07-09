@@ -1,0 +1,43 @@
+arms: off vs cosine · RERANK_TOP_K=10 · HYQ off
+hp012:
+  off_in_pool: false
+  on_in_pool: true
+hp001_sentinels:
+  'off':
+    candado: true
+    '2222': true
+    '1111': true
+  'on':
+    candado: true
+    '2222': true
+    '1111': false
+  regressed:
+  - '1111'
+negcontrol:
+  tot_null: 0
+  tot_excess: 9
+  rows:
+  - qid: hp012
+    excess_high:
+    - 1
+    - 24
+    null_high: []
+  - qid: hp018
+    excess_high:
+    - 0
+    - 16
+    - 24
+    null_high: []
+  - qid: cat005
+    excess_high:
+    - 6
+    null_high: []
+  - qid: cat021
+    excess_high:
+    - 8
+    null_high: []
+  - qid: cat022
+    excess_high:
+    - 0
+    - 23
+    null_high: []

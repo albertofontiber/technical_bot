@@ -1,0 +1,162 @@
+manifest:
+  route: eval-harness (sin target_models, strict, available_models=None) — paridad
+    bvg/DEC-075
+  git_commit: 42e6533
+  corpus:
+    table: chunks_v2
+    count: '25090'
+    max_created_at: '2026-06-09T19:15:25.848279+00:00'
+  flags_demo:
+    CHUNKS_TABLE: chunks_v2
+    ENUNCIADOS_MULTIVECTOR: 'on'
+    IDENTITY_RESOLVE: 'on'
+    IDENTITY_RESOLVE_POLICY: ADD
+    LLM_MAX_TOKENS: '3500'
+    RERANK_TOP_K: '10'
+    RERANKER_BACKEND: llm
+    MERGE_STRATEGY: stamps
+    RERANK_PREVIEW_CHARS: '800'
+    HYDE_ENABLED: 'false'
+  flags_source: 6 overrides Railway DEC-asserted (valores enmascarados en dashboard)
+    + defaults de código
+  resolved:
+    RETRIEVAL_TOP_K: 50
+    RERANK_TOP_K: 10
+    LLM_MAX_TOKENS: 3500
+    LLM_MODEL: claude-sonnet-4-6
+    RELEVANCE_THRESHOLD: 0.4
+    RERANKER_BACKEND: llm
+    MERGE_STRATEGY: stamps
+    RERANK_PREVIEW_CHARS: 800
+    GENERATOR_INCLUDE_CONTEXT: null
+  judge:
+    model: gpt-5.5
+    K: 5
+    K_stability: 3
+    judge2_model: claude-opus-4-8
+    judge2_rule: 'dual-consensus: synthesis-miss requiere miss de AMBOS; Opus>=4/5
+      => OK flagged judge_disagreement (suite s100: 5 flips FN, 0 FP fakes)'
+    support_dual_rule: 'targeted-lexical (s101): sup=∅ + fact_match>=FLOOR en pool
+      => Opus K=5 re-juzga ese batch; flip flagged support_judge_disagreement (evidencia:
+      6/7 adjudicados supports, 0/18 refuters). Residual no-léxico sigue single'
+    support_sha: fd3090e74655
+    conveyed_sha: 6a5035159c03
+    submotivo_sha: a5941215c021
+  similarity_note: 'pin de pool NO estampa `similarity` como fiel: stamp plano léxico
+    (retriever.py:554) ≠ coseno (fix G).'
+  diversify_tiebreak: AUSENTE del pipeline (flag muerto, DEC-091 NO-GO) — no en freeze
+    (fix B).
+  family_aware: 'acreditación de soporte SAME-FAMILY vía product_model (fix #3, reusa
+    retrieval_miss_famtie).'
+mode: smoke
+n_golds: 1
+aggregate_hist:
+  OK: 3
+  synthesis-miss: 0
+  rerank-miss: 0
+  retrieval-miss: 0
+  corpus-gap: 0
+  meta-ref: 0
+gold_juez_axis:
+- qid: hp001
+  verdict: '?'
+  n_classified: 3
+  n_ok: 3
+  primary_blocker: null
+  n_identidad_facts: 0
+  family_resolved: true
+  no_pass_perp_pipeline: false
+gold_juez_advisory: true
+n_no_pass_perp_pipeline: 0
+n_family_unresolved: 0
+n_non_anchorable: 0
+judge_disagreements: []
+support_disagreements:
+- qid: hp001
+  valor: '2222'
+per_gold:
+- qid: hp001
+  question: En la Detnov CAD-250, ¿cómo se entra al menú de programación avanzada?
+  answer: "# Acceso al menú AVANZADO en la CAD-250\n\n## Ruta de acceso\n\nEl acceso\
+    \ al menú de programación avanzada se realiza desde el menú principal siguiendo\
+    \ esta ruta [F1]:\n\n**AJUSTES** (Menú principal) **> AVANZADO** (Submenú)\n\n\
+    ## Pasos detallados\n\n1. Desde la **PANTALLA DE REPOSO**, toca el icono del candado\
+    \ (\U0001F512) [F4].\n2. Introduce tu código de acceso en la **PANTALLA DE ACCESO**\
+    \ [F4].\n   - Clave de usuario por defecto: **1111** [F4]\n   - Clave de administrador\
+    \ por defecto: **2222** [F3]\n   > ⚠️ Para acceder a AVANZADO necesitas nivel\
+    \ de instalador. El nivel de usuario tiene acceso restringido a algunas funciones\
+    \ de configuración [F7].\n3. Una vez dentro, selecciona **AJUSTES** en el menú\
+    \ principal (barra lateral izquierda) [F1].\n4. En el submenú derecho, selecciona\
+    \ **AVANZADO** [F1].\n\n## Contenido del menú AVANZADO\n\nUna vez dentro, dispones\
+    \ de **3 pestañas** [F1]:\n\n- **SISTEMA:** Configura número de cabinas (Paneles:\
+    \ 1 a 4), número de lazos (2, 4, 6, 8... hasta 32 según cabinas) y cabina de LEDs\
+    \ de zona (0 ó 1) [F1].\n- **OTROS:** Interruptores para facilitar puesta en marcha\
+    \ y mantenimiento (tiempo de inactividad, salto a scroll, timeout, etc.) [F5].\n\
+    - **REINICIAR:** Devuelve los valores de configuración del panel a valores por\
+    \ defecto. No afecta a entidades, lazos, maniobras, grupos, módulos virtuales,\
+    \ modos especiales, filtros de red ni registros de eventos [F5].\n\n> ⚠️ Tras\
+    \ modificar parámetros en la pestaña SISTEMA, debes pulsar el botón **\"Guardar\
+    \ y Reiniciar\"** para validar los cambios [F1].\n\n---\n\n**Fuentes:**\n- CAD-250\
+    \ Manual de Configuración MC-380-es-2026-c (rev. c, 2026-04-23)\n- Manual de Usuario\
+    \ CAD-250 MU-376-es-2024-f (sin revisión registrada)\n- Manual de Instalación\
+    \ CAD-250 MI-372-es-2024-e (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte\
+    \ con: **configuración de lazos en AVANZADO > SISTEMA**, **gestión de usuarios\
+    \ y niveles de acceso** o **opciones de la pestaña OTROS para puesta en marcha**."
+  family_resolved: true
+  gold_families:
+  - CAD-250
+  n_non_anchorable: 0
+  pool_n: 34
+  served_n: 10
+  topk_n: 10
+  hist:
+    OK: 3
+    synthesis-miss: 0
+    rerank-miss: 0
+    retrieval-miss: 0
+    corpus-gap: 0
+    meta-ref: 0
+  facts:
+  - key: hp001#0:candado
+    valor: candado
+    texto: Desde la PANTALLA DE REPOSO, tocar con el dedo el icono del candado en
+      la pantalla tactil -> accede a la PANTALLA DE ACCESO, que pide el codigo/password
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 3
+    n_support_raw: 3
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: hp001#1:2222
+    valor: '2222'
+    texto: Introducir la clave de ADMINISTRADOR por defecto 2222 -> da acceso al nivel
+      de configuracion/administrador (donde se configuran todos los parametros)
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_judge_disagreement: true
+    support_judge2_votes:
+      9bd17466-1a22-4ade-bb16-a44624c9f166: 5
+    support_judge2_n_fail: 0
+    conveyed_yes: 5
+    clase: OK
+  - key: hp001#2:1111
+    valor: '1111'
+    texto: La clave de USUARIO por defecto es 1111, que NO da acceso a la configuracion
+      avanzada completa (solo el nivel de usuario)
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK

@@ -50,6 +50,14 @@ DEMO_FLAGS = {
     "MERGE_STRATEGY": "stamps",
     "RERANK_PREVIEW_CHARS": "800",
     "HYDE_ENABLED": "false",
+    # seams de PILOTO vivos en el código (s101) — PINEADOS a off: un env sucio no puede
+    # contaminar una medición "demo" (crít cross-model s101b).
+    "DIVERSIFY_TIEBREAK": "off",
+    "HYQ_PILOT_FILE": "",
+    # s102/DEC-098: fidelity SHIPPEADO a Railway (Alberto confirmó var + redeploy 8-jul) →
+    # la "demo" que este instrumento mide lo lleva ON. Cambia el freeze-hash (correcto: los
+    # partials pre-ship no son comparables).
+    "GENERATOR_PROMPT_VARIANT": "fidelity",
 }
 
 
@@ -65,12 +73,13 @@ def _assert_demo_flags():
 
 _assert_demo_flags()   # 1º set (antes de importar el pipeline → config.py lee getenv en import)
 
-import sys, json, time, hashlib, argparse, subprocess
+import sys, re, json, time, hashlib, argparse, subprocess
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 
 import httpx
 import yaml
+import anthropic
 from openai import OpenAI
 from dotenv import load_dotenv
 
@@ -97,19 +106,30 @@ from scripts.audit_retrieval_funnel import (
 )
 from scripts.audit_locator import measurable, fact_match_score, SCORE_FLOOR
 from scripts.retrieval_miss_famtie import gold_family, fam_norm, _pm_by_ids, _is_meta_ref
+from scripts.toc_heuristic import is_toc_page
 
 _assert_demo_flags()   # 2º set: RE-AFIRMAR tras los imports (fix #2 — los legacy hicieron override=True)
 
 # Sanity: el pipeline importado DEBE ver el flag-set de la demo, no el default local (fix dúo build2 #1).
-# Assertar TODOS los load-bearing (no solo RERANK_TOP_K): un load_dotenv legacy pudo pisar constantes import-time.
+# Assertar TODOS los load-bearing (no solo RERANK_TOP_K): `src.config` hace load_dotenv(override=True) EN
+# IMPORT → si el .env local pisa una constante import-time, re-fijar os.environ después NO la corrige.
 assert RERANK_TOP_K == 10, f"RERANK_TOP_K={RERANK_TOP_K} ≠ demo(10) — pipeline fantasma"
 assert LLM_MAX_TOKENS == 3500, f"LLM_MAX_TOKENS={LLM_MAX_TOKENS} ≠ demo(3500) — pipeline fantasma"
 assert CHUNKS_TABLE == "chunks_v2", f"CHUNKS_TABLE={CHUNKS_TABLE} ≠ demo(chunks_v2) — pipeline fantasma"
+assert RERANKER_BACKEND == "llm", f"RERANKER_BACKEND={RERANKER_BACKEND} ≠ demo(llm) — pipeline fantasma"
+assert MERGE_STRATEGY == "stamps", f"MERGE_STRATEGY={MERGE_STRATEGY} ≠ demo(stamps) — pipeline fantasma"
+assert RERANK_PREVIEW_CHARS == 800, f"RERANK_PREVIEW_CHARS={RERANK_PREVIEW_CHARS} ≠ demo(800) — pipeline fantasma"
+from src.config import CHUNKS_IS_V2 as _isv2  # noqa: E402
+from src.rag.hyde import HYDE_ENABLED as _hyde_on  # noqa: E402
+assert not _hyde_on, "HYDE_ENABLED=true ≠ demo(off) — pipeline fantasma"
 # Flags de generación que alteran el prompt en runtime → paridad bvg exige OFF (fix dúo build2 #2).
 assert not os.getenv("GENERATOR_INCLUDE_CONTEXT"), "GENERATOR_INCLUDE_CONTEXT ON rompe paridad bvg/DEC-075"
-assert not os.getenv("GENERATOR_PROMPT_VARIANT"), "GENERATOR_PROMPT_VARIANT set rompe paridad bvg/DEC-075"
+assert os.getenv("GENERATOR_PROMPT_VARIANT") == "fidelity", \
+    "GENERATOR_PROMPT_VARIANT≠fidelity ≠ demo (DEC-098: shippeado 8-jul; si se revierte en Railway, actualizar DEMO_FLAGS)"
 
 JUDGE_MODEL = "gpt-5.5"
+JUDGE2_MODEL = "claude-opus-4-8"   # dual-judge (s100, suite de aceptación n=5 fakes/6 OK + 5 flips regla-C;
+                                   # artefacto evals/s100_dualjudge_validation.txt; spot-check de flips = protocolo del run)
 K = 5                       # K-mayoría (Protocolo 4 — nunca single-pass)
 K_STAB = 3                  # reps de estabilidad (gated a synth-miss → K menor para acotar coste)
 OUT_DIR = ROOT / "evals"
@@ -152,7 +172,7 @@ def _submotivo_once(valor: str, texto: str, served: str, answer: str) -> str | N
                 messages=[{"role": "system", "content": SUBMOTIVO_SYS},
                           {"role": "user", "content": SUBMOTIVO_USER.format(
                               valor=valor, texto=(texto or "")[:400],
-                              served=served, answer=(answer or "")[:6000])}],
+                              served=served, answer=(answer or "")[:CONVEY21_ANSWER_CAP])}],
             )
             out = json.loads(resp.choices[0].message.content.strip())
             sm = str(out.get("submotivo", "")).strip()
@@ -235,6 +255,163 @@ def pool_rank_of(supported: set[str], pool_ids: list[str]) -> int:
     return min(ranks) if ranks else 10**6
 
 
+# ── JUEZ conveyed v2.1 (s102, L3 del mapa Fase-2): cap de answer 12k (con ancho-10 las respuestas
+# llegan a ~7k y el cap 6k del juez legacy TRUNCABA lo juzgado — falso miss del tramo final, medido
+# cat017) + rúbrica explícita de morfología/cuantificadores (relation-slip: 'by Event/Events',
+# 'requiere licencia' vs 'una por lazo'). MISMO esquema JSON; sha propio en manifest (cambio declarado).
+CONVEY21_USER = (
+    "HECHO a verificar:\n"
+    "  · VALOR: «{valor}»\n"
+    "  · RELACIÓN (de qué trata el hecho): {texto}\n\n"
+    "RESPUESTA del asistente:\n<<<\n{answer}\n>>>\n\n"
+    "¿La RESPUESTA AFIRMA o IMPLICA DIRECTAMENTE el HECHO — es decir, transmite el VALOR «{valor}» "
+    "EN esa RELACIÓN? Admite traducción ES↔EN, paráfrasis, OCR imperfecto y VARIACIÓN MORFOLÓGICA "
+    "(singular/plural, mayúsculas, 'Event/Events', notación con/sin puntos). PERO los CUANTIFICADORES "
+    "materiales cuentan: si el hecho dice 'una licencia POR CADA lazo' y la respuesta solo dice "
+    "'requiere licencia' sin la cardinalidad, NO está transmitido. Marca 'no' si: el valor no aparece, "
+    "aparece en OTRA relación/condición/componente, la respuesta se escuda o afirma un valor DISTINTO. "
+    "Ante la duda, 'no'.\n"
+    'Responde EXCLUSIVAMENTE JSON: {{"afirmado": true|false}}.'
+)
+CONVEY21_ANSWER_CAP = 12000
+
+# Versión del INSTRUMENTO (F4 cross-model s102: cada cambio de juez/clasificador rompe la
+# comparabilidad del scoreboard y debe quedar declarado EN el artefacto, no solo en el doc).
+# v2   = dual-judge (GPT-5.5 K=5 → Opus K=5) en conveyed + soporte-targeted
+# v2.1 = juez conveyed cap 12k + rúbrica morfología/cuantificadores + umbral proporcional
+# v2.2 = H4: kill de anclas-TOC en el crédito de soporte L1 (re-adjudicable por la red dual)
+INSTRUMENT_VERSION = "v2.2"
+
+
+def _conveyed21_once(valor: str, texto: str, answer: str) -> int | None:
+    oai = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+    for attempt in range(4):
+        try:
+            resp = oai.chat.completions.create(
+                model=JUDGE_MODEL, response_format={"type": "json_object"},
+                messages=[{"role": "system", "content": CONVEY_SYS},
+                          {"role": "user", "content": CONVEY21_USER.format(
+                              valor=valor, texto=(texto or "")[:600],
+                              answer=(answer or "")[:CONVEY21_ANSWER_CAP])}])
+            out = json.loads(resp.choices[0].message.content.strip())
+            af = out.get("afirmado")
+            if isinstance(af, bool):
+                return 1 if af else 0
+            raise ValueError(f"afirmado no-bool: {af!r}")
+        except Exception:
+            time.sleep(2 ** attempt)
+    return None
+
+
+def judge_conveyed21(valor: str, texto: str, answer: str, workers: int = 6) -> dict:
+    """Primario conveyed v2.1 (GPT-5.5 K=5, cap 12k, rúbrica morfología+cuantificadores)."""
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        votes = [f.result() for f in [pool.submit(_conveyed21_once, valor, texto, answer) for _ in range(K)]]
+    valid = [v for v in votes if v is not None]
+    return {"yes": sum(valid), "n_fail": votes.count(None)}
+
+
+# ── DUAL-JUDGE de conveyed (s100): 2º juez Opus 4.8 SOLO sobre los MISS del primario ──
+# Motivación (verificado s100): GPT-5.5 single dio ~5-7 FN/16 synth-miss (valor LITERAL en la respuesta
+# y conveyed=0, p.ej. hp006 'MPS-400', hp013 'EEPROM', hp018 '4 salidas'). Validación balanceada:
+# Opus flipea 5/16 a conveyed, coincide-miss en 11, 0 FP sobre valores perturbados-falsos (5/5 rechaza),
+# 6/6 en OK-reales. Regla de adjudicación: synthesis-miss REQUIERE CONSENSO (ambos jueces < firme);
+# Opus≥4 → 'judge-disagreement' (cuenta OK, flagged y listado aparte — trazable, no silencioso).
+# El eje de SOPORTE (judge_fact) y el de INVENCIÓN no se tocan. MISMO prompt congelado (sha en manifest).
+def _judge2_once(valor: str, texto: str, answer: str) -> int | None:
+    client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+    for attempt in range(4):
+        try:
+            m = client.messages.create(
+                model=JUDGE2_MODEL, max_tokens=200, system=CONVEY_SYS,
+                messages=[{"role": "user", "content": CONVEY21_USER.format(
+                    valor=valor, texto=(texto or "")[:600],
+                    answer=(answer or "")[:CONVEY21_ANSWER_CAP])}])   # paridad de prompt/cap con el primario v2.1
+            t = m.content[0].text.strip()
+            j = re.search(r"\{.*\}", t, re.S)
+            if not j:                                   # H2 (dúo): sin JSON = fallo, NO voto "no"
+                raise ValueError("respuesta sin JSON")
+            out = json.loads(j.group(0))
+            af = out.get("afirmado")
+            if isinstance(af, bool):                    # H3 (dúo): solo bool real; string truthy era voto-YES falso
+                return 1 if af else 0
+            if isinstance(af, str) and af.strip().lower() in ("true", "si", "sí", "yes"):
+                return 1
+            if isinstance(af, str) and af.strip().lower() in ("false", "no"):
+                return 0
+            raise ValueError(f"afirmado no-bool: {af!r}")
+        except Exception:
+            time.sleep(2 ** attempt)
+    return None
+
+
+def judge_conveyed_dual(valor: str, texto: str, answer: str, workers: int = 5) -> dict:
+    """K votos del 2º juez (Opus). Se llama SOLO cuando el primario (GPT-5.5) dio miss.
+    NOTA (s102): prompt v2.1 compartido con el primario — la suite s100 validó el prompt v1;
+    v2.1 = cambio declarado, la salvaguarda es el spot-check regla-C de flips (protocolo del doc).
+    C2 (cross-model s102): con fallos parciales, el umbral es PROPORCIONAL a los votos válidos
+    (yes >= ceil(4/5·n_valid)) — un hipo de API no decide clase terminal; n_valid<K queda flagged."""
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        votes = [f.result() for f in [pool.submit(_judge2_once, valor, texto, answer) for _ in range(K)]]
+    valid = [v for v in votes if v is not None]
+    n_valid = len(valid)
+    import math
+    thresh = math.ceil(THRESH_FIRM * n_valid / K) if n_valid else THRESH_FIRM
+    return {"yes": sum(valid), "n_fail": votes.count(None), "n_valid": n_valid,
+            "firm": bool(n_valid and sum(valid) >= thresh)}
+
+
+# ── DUAL-SOPORTE targeted (s101): 2º juez Opus sobre el eje de SOPORTE, solo cuando sup=∅ ──
+# Evidencia (s101, workflow 7 adjudicadores + 21 refuters): 6/7 facts "retrieval-miss" con candidato
+# léxico en pool eran FN del juez de soporte (el chunk SÍ afirma el hecho en SU relación; 0/18 votos de
+# refutación). Targeted = solo los candidatos LÉXICOS del pool (fact_match>=FLOOR, típicamente 1-3
+# chunks → 1 batch × K Opus, barato). MISMO prompt congelado del juez de soporte. Regla espejo del dual
+# de conveyed: acreditar requiere >=4/5 votos válidos; el flip queda flagged (support_judge_disagreement).
+# Residual declarado: soporte parafraseado NO-léxico con sup=∅ sigue single-judge (clase no demostrada).
+SUPPORT_BATCH_CAP = 8
+
+def _support2_once(valor: str, texto: str, batch: list[dict]) -> set[str] | None:
+    client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+    chunk_txt = "\n\n".join(f"[ID: {c['id']}]\n{(c.get('content') or '')[:CONTENT_CHARS]}" for c in batch)
+    valid_ids = {c["id"] for c in batch}
+    for attempt in range(4):
+        try:
+            m = client.messages.create(
+                model=JUDGE2_MODEL, max_tokens=400, system=SUPPORT_SYS,
+                messages=[{"role": "user", "content": SUPPORT_USER.format(
+                    valor=valor, texto=(texto or "")[:400], chunks=chunk_txt)}])
+            t = m.content[0].text.strip()
+            j = re.search(r"\{.*\}", t, re.S)
+            if not j:
+                raise ValueError("respuesta sin JSON")
+            out = json.loads(j.group(0))
+            ids = out.get("supported_ids")
+            if not isinstance(ids, list):
+                raise ValueError(f"supported_ids no-lista: {ids!r}")
+            return {str(i) for i in ids} & valid_ids
+        except Exception:
+            time.sleep(2 ** attempt)
+    return None
+
+
+def judge_support_dual(valor: str, texto: str, candidates: list[dict], workers: int = 5) -> dict:
+    """K votos Opus sobre los candidatos léxicos (YA ordenados por score por el caller).
+    Devuelve ids con votos>=THRESH_FIRM. n_valid==0 = fallo TOTAL (el caller flaggea error, H3)."""
+    batch = candidates[:SUPPORT_BATCH_CAP]
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        votes = [f.result() for f in [pool.submit(_support2_once, valor, texto, batch) for _ in range(K)]]
+    valid = [v for v in votes if v is not None]
+    import math
+    n_valid = len(valid)
+    thresh = math.ceil(THRESH_FIRM * n_valid / K) if n_valid else THRESH_FIRM   # C2: proporcional
+    tally: dict[str, int] = {}
+    for vs in valid:
+        for cid in vs:
+            tally[cid] = tally.get(cid, 0) + 1
+    sup2 = {cid for cid, n in tally.items() if n >= thresh}
+    return {"sup": sup2, "votes": tally, "n_fail": votes.count(None), "n_valid": n_valid}
+
+
 SEM_CORPUS_BOUND = 40   # chunks del manual a juzgar semánticamente (acotado por coste; subido de 24, fix #3)
 def semantic_corpus_present(valor: str, texto: str, manual: list[dict], workers: int) -> tuple[bool, bool]:
     """Para facts NO-anclables-léxicamente que NO están en el pool: ¿el manual objetivo los sirve?
@@ -300,8 +477,83 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
 
         # SOPORTE regenerado SIEMPRE (anti-bit-rot) — juez SEMÁNTICO del hecho contra el pool-50 VIVO
         v_pool = judge_fact(valor, texto, pipe["pool"], workers=workers)
+        by_id_pool = {c.get("id"): c for c in pipe["pool"]}
+        # FAIL-FAST del PRIMARIO (incidente s101: la cuota OpenAI murió a MITAD del full → 77 rescates
+        # Opus + 25 falsos corpus-gap = run inválido en silencio). Si el juez primario está MUERTO
+        # (0 votos válidos y >K/2 fallos), ABORTAR — el espejo de H4b aplicado al primario.
+        if not v_pool.get("votes") and v_pool.get("n_fail", 0) > (K * 2):
+            raise RuntimeError(f"{qid}/{valor[:20]}: juez primario (GPT-5.5) MUERTO "
+                               f"({v_pool.get('n_fail')} fallos, 0 votos) — run abortado, partial limpio")
         sup = supported_ids(v_pool, THRESH_FIRM)
+        # L1 (s102, diagnóstico Fase-2: ~10/21 "synthesis-miss" eran chunks servidos ACREDITADOS que NO
+        # portan el valor — TOC/colisiones léxicas): para hechos ANCLABLES, un chunk acreditado solo
+        # cuenta si ADEMÁS porta el anchor (fact_match >= FLOOR-0.15, slack anti-FN). Los no-anclables
+        # conservan el crédito semántico (no hay anchor que exigir — residual declarado).
+        l1_killed: set = set()
+        toc_killed: set = set()
+        if anchorable and sup:
+            keep = set()
+            for cid in sup:
+                _content = (by_id_pool.get(cid) or {}).get("content") or ""
+                if (fact_match_score(valor, texto, _content) or 0) < SCORE_FLOOR - 0.15:
+                    continue
+                # H4 cerrado (s102): un ÍNDICE acreditado no es soporte por defecto — sus títulos
+                # matchean el anchor sin portar el contenido (inflaba synthesis-miss). Va al MISMO
+                # canal de kills re-adjudicables: un título de TOC sí puede soportar hechos
+                # nominales ("Importar archivo de licencia (.bin)") y esos los decide la red dual.
+                if is_toc_page(_content):
+                    toc_killed.add(cid)
+                    continue
+                keep.add(cid)
+            l1_killed = sup - keep      # incluye los TOC-kills (mismo rescate Opus + regla H1b)
+            sup = keep
+            # H1 (dúo s102): el anchor léxico NO reconoce variantes de notación ("6.800 Ω" ≠ '6K8') →
+            # si L1 VACIÓ el soporte, Opus re-adjudica LOS CHUNKS MATADOS ("¿porta el valor en otra
+            # notación?") — nunca aterrizar corpus/retrieval-limpio por un kill de notación.
+            if not sup and l1_killed:
+                killed_chunks = [by_id_pool[cid] for cid in l1_killed if by_id_pool.get(cid)]
+                d1 = judge_support_dual(valor, texto, killed_chunks, workers=workers)
+                if d1["sup"]:
+                    sup = d1["sup"]
+                    entry_l1_override = True
+                else:
+                    entry_l1_override = False
+            else:
+                entry_l1_override = None
+        else:
+            entry_l1_override = None
+        # C3 (cross-model s101b): degradación PARCIAL del primario (un batch entero murió pero otros
+        # votaron) → el hecho puede caer como falso miss SIN abortar. Flag por-fact visible.
+        support_degraded = v_pool.get("n_fail", 0) >= K
         sup_fam = {cid for cid in sup if same_family(cid)}      # FAMILY-AWARE (fix #3)
+        entry_support_flip = None
+        if not sup_fam and anchorable:
+            # DUAL-SOPORTE targeted (s101): SIN soporte same-family + candidato léxico en pool → Opus
+            # adjudica (FN demostrado 6/7). Trigger sobre sup_fam (crít cross-model: sobre sup raw perdía
+            # el caso "GPT acredita solo cross-family"). Candidatos ORDENADOS por score, cap declarado.
+            lex_scored = sorted(
+                ((fact_match_score(valor, texto, c.get("content") or "") or 0, c) for c in pipe["pool"]),
+                key=lambda t: -t[0])
+            lex = [c for s, c in lex_scored if s >= SCORE_FLOOR]
+            if lex:
+                d2 = judge_support_dual(valor, texto, lex, workers=workers)
+                truncated = len(lex) > SUPPORT_BATCH_CAP
+                if d2["n_valid"] == 0:
+                    # H3 (dúo): fallo TOTAL del 2º juez ≠ "agreed_none" — flag de ERROR visible
+                    entry_support_flip = {"support_judge2_error": True,
+                                          "support_judge2_n_fail": d2["n_fail"],
+                                          "support_candidates_truncated": truncated}
+                elif d2["sup"]:
+                    sup = sup | d2["sup"]                        # UNIÓN (no reemplazo: sup podía tener cross-family)
+                    sup_fam = {cid for cid in sup if same_family(cid)}
+                    entry_support_flip = {"support_judge_disagreement": True,
+                                          "support_judge2_votes": d2["votes"],
+                                          "support_judge2_n_fail": d2["n_fail"],
+                                          "support_candidates_truncated": truncated}
+                else:
+                    entry_support_flip = {"support_judge2_agreed_none": True,
+                                          "support_judge2_n_fail": d2["n_fail"],
+                                          "support_candidates_truncated": truncated}
         reaches_gen = bool(sup_fam & served_ids)
         in_topk = bool(sup_fam & topk_ids)
         in_pool = bool(sup_fam)
@@ -309,19 +561,47 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
         entry = {"key": key, "valor": valor, "texto": texto, "lexically_anchorable": anchorable,
                  "family_resolved": family_resolved, "n_support_fam": len(sup_fam),
                  "n_support_raw": len(sup), "reaches_gen": reaches_gen, "in_topk": in_topk, "in_pool": in_pool}
+        if l1_killed:                                # H2: los kills de L1 VISIBLES (pre/post + ids)
+            entry["support_l1_killed"] = sorted(l1_killed)[:6]
+            entry["support_l1_override"] = entry_l1_override   # True=Opus restauró; False=confirmó kill
+        if toc_killed:                               # H4: subconjunto matado por ser página de índice
+            entry["support_toc_killed"] = sorted(toc_killed)[:6]
+        if support_degraded:
+            entry["support_judge_degraded"] = True   # >=K fallos del primario en este hecho — clase con FN-riesgo
+        elif v_pool.get("n_fail", 0) and not reaches_gen:
+            # M3 (cross-model s102): fallos PARCIALES del soporte + el hecho cae miss-side → el batch
+            # del chunk-portador pudo quedar matemáticamente sin quorum. Flag visible (mitigado por
+            # L1-crosscheck + dual-soporte targeted, pero NUNCA silencioso).
+            entry["support_votes_missing"] = v_pool["n_fail"]
+        if entry_support_flip:
+            entry.update(entry_support_flip)
 
         if reaches_gen:
-            conv = judge_conveyed(valor, texto, pipe["answer"], workers=workers)
+            conv = judge_conveyed21(valor, texto, pipe["answer"], workers=workers)
+            if conv.get("n_fail", 0) >= K:      # primario muerto también en conveyed → abortar
+                raise RuntimeError(f"{qid}/{valor[:20]}: juez conveyed primario MUERTO ({conv['n_fail']}/{K} fallos)")
             entry["conveyed_yes"] = conv["yes"]
             if conv["yes"] >= THRESH_FIRM:
                 clase = "OK"
             else:
-                clase = "synthesis-miss"
-                entry["borderline"] = THRESH_BAND <= conv["yes"] < THRESH_FIRM
-                if do_submotivo:
-                    entry["submotivo"] = submotivo_synthesis(valor, texto, pipe["served"], pipe["answer"],
-                                                             sup_fam & served_ids, workers=workers)
-                synth_miss_refs.append(entry)
+                # DUAL-JUDGE (s100): el miss del primario NO basta — Opus 4.8 adjudica.
+                dual = judge_conveyed_dual(valor, texto, pipe["answer"], workers=workers)
+                entry["conveyed_yes_judge2"] = dual["yes"]
+                entry["judge2_n_fail"] = dual["n_fail"]
+                if dual["n_valid"] == 0:              # H4b (dúo): fallo TOTAL del 2º juez = degradación
+                    entry["judge2_error"] = True      # a pre-dual → flag VISIBLE, nunca silencioso
+                elif dual["n_valid"] < K:
+                    entry["judge2_partial"] = dual["n_valid"]   # C2: votos incompletos, umbral proporcional
+                if dual.get("firm"):
+                    clase = "OK"                      # desacuerdo resuelto a conveyed — flagged, no silencioso
+                    entry["judge_disagreement"] = True
+                else:
+                    clase = "synthesis-miss"          # CONSENSO de miss (o borderline del 2º juez)
+                    entry["borderline"] = THRESH_BAND <= max(conv["yes"], dual["yes"]) < THRESH_FIRM
+                    if do_submotivo:
+                        entry["submotivo"] = submotivo_synthesis(valor, texto, pipe["served"], pipe["answer"],
+                                                                 sup_fam & served_ids, workers=workers)
+                    synth_miss_refs.append(entry)
         elif in_topk:
             clase = "synthesis-miss"     # en top-k pero cayó por RELEVANCE_THRESHOLD (raro, fix H)
             entry["submotivo"] = {"submotivo": "threshold-drop", "nota": "en top-k pero <RELEVANCE_THRESHOLD"}
@@ -354,23 +634,37 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
             else:
                 clase = "corpus-gap"
                 entry["corpus_gap"] = corpus_gap_suspect(corpus_score, valor, sem_truncated)
+                if l1_killed:                        # H1b: aterrizaje post-L1-kill JAMÁS es "limpio"
+                    entry["corpus_gap"]["suspect_fn_mine"] = True
+                    entry["corpus_gap"]["l1_killed_support"] = True
 
         entry["clase"] = clase
         hist[clase] += 1
         facts_out.append(entry)
 
-    # ── STABILITY (absorbe synthesis_stability, gateado a synth-miss): 2ª generación → stable vs flip ──
+    # ── STABILITY (absorbe synthesis_stability, gateado a synth-miss dual-confirmado) ──
+    # fix dúo dual-judge #4: las reps se adjudican con el MISMO árbitro dual (GPT → si miss, Opus),
+    # no GPT-solo — si no, "stable-miss" significaría "estable para GPT", no estable bajo el instrumento.
     if do_stability and synth_miss_refs:
         ans_reps = [gen_answer_only(gold["question"], pipe["topk"]) for _ in range(K_STAB - 1)]
+        def _rep_is_miss(valor, texto, ans):
+            if judge_conveyed21(valor, texto, ans, workers=workers)["yes"] >= THRESH_FIRM:
+                return False
+            d = judge_conveyed_dual(valor, texto, ans, workers=workers)
+            return not d.get("firm")                  # misma regla proporcional que la clasificación (C2)
         for e in synth_miss_refs:
-            misses = [judge_conveyed(e["valor"], e["texto"], a, workers=workers)["yes"] < THRESH_FIRM
-                      for a in ans_reps]
+            misses = [_rep_is_miss(e["valor"], e["texto"], a) for a in ans_reps]
             e["stability"] = "stable-miss" if all(misses) else "flip"   # MISS en todas las reps = estructural
 
     return {"qid": qid, "question": gold["question"], "answer": pipe["answer"],
             "family_resolved": family_resolved, "gold_families": sorted(gfam),
             "n_non_anchorable": n_non_anchorable,
             "pool_n": len(pipe["pool"]), "served_n": len(pipe["served"]), "topk_n": len(pipe["topk"]),
+            # SA3 (dúo s102/L4): PERSISTIR la composición servida — el rerank es no-determinista a
+            # temp=0 (DEC-096b) y sin estos ids una composición-que-falla no es replayable (el fork
+            # serving-vs-prompt de cat021 quedó indecidible por no tenerlos). Provenance pura.
+            "topk_ids": [c.get("id") for c in pipe["topk"]],
+            "served_ids": [c.get("id") for c in pipe["served"]],
             "hist": hist, "facts": facts_out}
 
 
@@ -439,12 +733,18 @@ def build_manifest() -> dict:
                      "MERGE_STRATEGY": MERGE_STRATEGY, "RERANK_PREVIEW_CHARS": RERANK_PREVIEW_CHARS,
                      "GENERATOR_INCLUDE_CONTEXT": gic},
         "judge": {"model": JUDGE_MODEL, "K": K, "K_stability": K_STAB,
+                  "judge2_model": JUDGE2_MODEL,
+                  "judge2_rule": "dual-consensus: synthesis-miss requiere miss de AMBOS; Opus>=4/5 => OK flagged judge_disagreement (suite s100: 5 flips FN, 0 FP fakes)",
+                  "support_dual_rule": f"targeted-lexical (s101): sup_fam=∅ + fact_match>=SCORE_FLOOR({SCORE_FLOOR}) en pool => Opus K={K} re-juzga candidatos ordenados por score cap {SUPPORT_BATCH_CAP} (truncation flagged); flip=UNION flagged support_judge_disagreement (evidencia: evals/s101_inpool_adjudication.json 6/7 supports, 0/18 refuters). Residual no-léxico sigue single",
                   "support_sha": _sha(SUPPORT_SYS + SUPPORT_USER),
-                  "conveyed_sha": _sha(CONVEY_SYS + CONVEY_USER),
+                  "conveyed_sha": _sha(CONVEY_SYS + CONVEY21_USER) + f"-v2.1cap{CONVEY21_ANSWER_CAP}",
+                  "support_l1_rule": f"anchorable: crédito solo si fact_match>=FLOOR-0.15 en el chunk acreditado (anti TOC/colisión, s102-L1)",
                   "submotivo_sha": _sha(SUBMOTIVO_SYS + SUBMOTIVO_USER)},
         "similarity_note": "pin de pool NO estampa `similarity` como fiel: stamp plano léxico "
                            "(retriever.py:554) ≠ coseno (fix G).",
-        "diversify_tiebreak": "AUSENTE del pipeline (flag muerto, DEC-091 NO-GO) — no en freeze (fix B).",
+        "diversify_tiebreak": "flag VIVO en el código (portado s101 para la re-medición) pero PINEADO "
+                              "off en DEMO_FLAGS; NO-GO definitivo s101 (tripwire con ambos anchos) — jamás a demo.",
+        "hyq_pilot": "seam VIVO (s101) pineado '' (off); piloto GO del mecanismo, ship gated (D2 Alberto).",
         "family_aware": "acreditación de soporte SAME-FAMILY vía product_model (fix #3, reusa retrieval_miss_famtie).",
     }
 
@@ -456,11 +756,13 @@ def estimate_cost(n_golds: int, avg_facts: float = 3.2) -> str:
     submotivo = int(n_facts * 0.25) * K
     stability = int(n_facts * 0.25) * (K_STAB - 1) * (1 + K)   # 1 gen + K conveyed por synth-miss
     sem_corpus = int(n_facts * 0.15) * K * 3   # no-anclables-no-en-pool (~15%) × K × 3 batches acotados
-    calls = support + conveyed + submotivo + stability + sem_corpus
+    judge2 = int(n_facts * 0.3) * K            # dual-judge Opus: K por cada miss del primario (~30%)
+    support2 = int(n_facts * 0.12) * K         # dual-soporte Opus: K por fact sin soporte same-family (~12%)
+    calls = support + conveyed + submotivo + stability + sem_corpus + judge2 + support2
     usd = calls * 0.004
     return (f"~{n_golds} golds × ~{avg_facts} facts ≈ {n_facts} hechos · ~{calls} llamadas "
-            f"(support≈{support}, conveyed≈{conveyed}, submotivo≈{submotivo}, stability≈{stability}, "
-            f"sem-corpus≈{sem_corpus}) · ≈ ${usd:.0f}")
+            f"(support≈{support}, conveyed≈{conveyed}, judge2≈{judge2}, submotivo≈{submotivo}, "
+            f"stability≈{stability}, sem-corpus≈{sem_corpus}) · ≈ ${usd:.0f}")
 
 
 def main() -> int:
@@ -502,10 +804,24 @@ def main() -> int:
         print(f"  ⚠ eje gold/juez ADVISORY (veredictos de {bvg_path.name}, bvg previo — no zanja)")
     manifest = build_manifest()
     print(f"  manifest: commit={manifest['git_commit']} corpus={manifest['corpus']}")
-    # fix dúo build2 #5: freeze-hash del run → el .partial se auto-invalida si cambió corpus/flags/juez/código
-    # (antes era cache ciega → podía MEZCLAR corridas incompatibles, contra "regenerar SIEMPRE").
+    # fix dúo build2 #5 + dúo dual-judge #1: freeze-hash del run → el .partial se auto-invalida si cambió
+    # CUALQUIERA de corpus/flags/juez/código (el corpus INCLUIDO: sin él, un fix de chunks con el mismo
+    # commit reusaría un partial incompatible — justo el caso hp011).
+    gold_sha = _sha((ROOT / "evals" / "gold_answers_v1.yaml").read_text(encoding="utf-8", errors="replace"))
+    # árbol sucio: ancla el código de ESTE script + el del PIPELINE que se mide (crít cross-model s101b:
+    # un cambio en retriever/reranker/generator con el mismo commit reutilizaría un partial incompatible).
+    pipe_sha = _sha("".join((ROOT / "src" / "rag" / f).read_text(encoding="utf-8", errors="replace")
+                            for f in ("retriever.py", "reranker.py", "generator.py")))
+    script_sha = _sha(Path(__file__).read_text(encoding="utf-8", errors="replace"))
     freeze_hash = _sha(json.dumps({"c": manifest["git_commit"], "f": manifest["flags_demo"],
-                                   "r": manifest["resolved"], "j": manifest["judge"]}, sort_keys=True))
+                                   "r": manifest["resolved"], "j": manifest["judge"],
+                                   "corpus": manifest["corpus"],
+                                   "golds": gold_sha, "script": script_sha,
+                                   "pipeline": pipe_sha,
+                                   "cli": {"submotivo": not args.no_submotivo,      # M4: los flags CLI
+                                           "stability": not args.no_stability}}, sort_keys=True))
+    if "error" in manifest["corpus"]:
+        print("  ⚠ corpus fingerprint FALLÓ — el freeze-hash no ancla el corpus este run")
 
     out_path = OUT_DIR / f"s100_factlevel_{args.mode}.yaml"
     partial = out_path.with_suffix(".partial.jsonl")
@@ -555,11 +871,23 @@ def main() -> int:
     n_perp = sum(1 for a in axis if a["no_pass_perp_pipeline"])
     n_unresolved = sum(1 for r in per_gold if not r["family_resolved"])
     n_non_anchorable = sum(r.get("n_non_anchorable", 0) for r in per_gold)
+    judge_flips = [(r["qid"], f["valor"]) for r in per_gold for f in r["facts"]
+                   if f.get("judge_disagreement")]
+    n_judge2_err = sum(1 for r in per_gold for f in r["facts"]
+                       if f.get("judge2_error") or f.get("support_judge2_error"))
+    n_judge2_fails = sum(f.get("judge2_n_fail", 0) + f.get("support_judge2_n_fail", 0)
+                         for r in per_gold for f in r["facts"])
+    support_flips = [(r["qid"], f["valor"]) for r in per_gold for f in r["facts"]
+                     if f.get("support_judge_disagreement")]
 
-    result = {"manifest": manifest, "mode": args.mode, "n_golds": len(per_gold),
+    result = {"instrument": INSTRUMENT_VERSION,
+              "manifest": manifest, "mode": args.mode, "n_golds": len(per_gold),
               "aggregate_hist": agg, "gold_juez_axis": axis, "gold_juez_advisory": bool(bvg),
               "n_no_pass_perp_pipeline": n_perp, "n_family_unresolved": n_unresolved,
-              "n_non_anchorable": n_non_anchorable, "per_gold": per_gold}
+              "n_non_anchorable": n_non_anchorable,
+              "judge_disagreements": [{"qid": q, "valor": v} for q, v in judge_flips],
+              "support_disagreements": [{"qid": q, "valor": v} for q, v in support_flips],
+              "per_gold": per_gold}
     out_path.write_text(yaml.safe_dump(result, allow_unicode=True, sort_keys=False), encoding="utf-8")
 
     print("\n── AGREGADO (hechos a nivel-pipeline, family-aware · TODOS los facts clasificados, fix v3) ──")
@@ -569,6 +897,15 @@ def main() -> int:
     print(f"  {'meta-ref':16s} {agg['meta-ref']:3d} (puntero, fuera del histograma)")
     print(f"  no-anclables-léxicamente: {n_non_anchorable}/{total_c} facts (clasificados vía juez SEMÁNTICO, no filtrados)")
     print(f"  family-unresolved: {n_unresolved} golds (soporte NO family-filtrado ahí)")
+    print(f"  dual-judge: {len(judge_flips)} desacuerdos resueltos a OK (GPT-miss/Opus-conveyed): "
+          f"{[f'{q}:{v[:18]}' for q, v in judge_flips]}")
+    print(f"  dual-soporte: {len(support_flips)} flips (sup=∅→Opus acredita candidato léxico): "
+          f"{[f'{q}:{v[:18]}' for q, v in support_flips]}")
+    if n_judge2_err or n_judge2_fails:
+        print(f"  ⚠ judge2: {n_judge2_err} facts con fallo TOTAL (degradación a pre-dual) · "
+              f"{n_judge2_fails} votos fallidos en total — si es alto, revisar API/modelo ANTES de fiarse del synth-miss")
+    # comparabilidad v1: synth-miss_v1-equivalente = synth-miss_v2 + judge_disagreements (H1 dúo)
+    print(f"  flips-dual listados para spot-check regla-C (juez v2.1: la equivalencia-v1 YA no se reconstruye — rúbrica cambió)")
     print(f"  eje gold/juez (ADVISORY): {n_perp} golds NO-PASS ⊥ pipeline (DEC-075 caduco, re-derivado)")
     print(f"\n→ {out_path.name}")
     return 0

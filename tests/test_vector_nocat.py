@@ -14,7 +14,7 @@ def _run_capturing_category(monkeypatch, query):
     """Captura el `category_filter` pasado a CADA llamada de vector_search en retrieve_chunks."""
     cats = []
 
-    def fake_vector_search(query, top_k, threshold, product_filter, category_filter, query_embedding):
+    def fake_vector_search(query, top_k, threshold, product_filter, category_filter, query_embedding, **kw):
         cats.append(category_filter)
         return []
 
