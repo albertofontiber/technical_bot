@@ -17,9 +17,9 @@ BP+estructural+escalable-30+; flag de overfitting; decisiones inequívocas = tom
 | D5 (residual-ancilar) | recomendación NO perseguir — pendiente Alberto |
 
 ## Cola de ejecución (en orden)
-1. **Tramos hyq 4-8** (~$12 c/u): al notificar cada tramo → QA muestral 15 (seed nuevo) → siguiente.
-   Al CERRAR tramos: (a) pasada retry-empties (~848 `[]` históricos, ~$3, el fix S4 ya separa
-   error/NONE hacia adelante); (b) commit del jsonl (NUNCA con tramo en append — S3);
+1. ✅ **Tramos hyq COMPLETOS (8/8)**: 25.086 chunks (~100% corpus), 76.287 preguntas, QA 15/15
+   por tramo. ✅ retry-empties (56 sanados / 1.792 NONE legítimos). ✅ jsonl committeado.
+   SIGUIENTE → build de la tabla (c):
    (c) build tabla A3-style `chunks_v2_hyq` con **dedup por chunk_id** (1.877 dupes de origen)
    — QA-obs tramo 4: los chunks con `product_model=unknown` generan preguntas SIN ancla de
    producto ("¿estos módulos…?") → decidir en el build: excluirlas o confiar en barra 0.45
