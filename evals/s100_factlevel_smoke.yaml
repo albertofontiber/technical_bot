@@ -1,7 +1,8 @@
+instrument: v2.2
 manifest:
   route: eval-harness (sin target_models, strict, available_models=None) — paridad
     bvg/DEC-075
-  git_commit: 42e6533
+  git_commit: c4b540e
   corpus:
     table: chunks_v2
     count: '25090'
@@ -17,6 +18,10 @@ manifest:
     MERGE_STRATEGY: stamps
     RERANK_PREVIEW_CHARS: '800'
     HYDE_ENABLED: 'false'
+    DIVERSIFY_TIEBREAK: 'off'
+    HYQ_PILOT_FILE: ''
+    GENERATOR_PROMPT_VARIANT: fidelity
+    HYQ_TABLE: 'on'
   flags_source: 6 overrides Railway DEC-asserted (valores enmascarados en dashboard)
     + defaults de código
   resolved:
@@ -36,28 +41,58 @@ manifest:
     judge2_model: claude-opus-4-8
     judge2_rule: 'dual-consensus: synthesis-miss requiere miss de AMBOS; Opus>=4/5
       => OK flagged judge_disagreement (suite s100: 5 flips FN, 0 FP fakes)'
-    support_dual_rule: 'targeted-lexical (s101): sup=∅ + fact_match>=FLOOR en pool
-      => Opus K=5 re-juzga ese batch; flip flagged support_judge_disagreement (evidencia:
-      6/7 adjudicados supports, 0/18 refuters). Residual no-léxico sigue single'
+    support_dual_rule: 'targeted-lexical (s101): sup_fam=∅ + fact_match>=SCORE_FLOOR(0.55)
+      en pool => Opus K=5 re-juzga candidatos ordenados por score cap 8 (truncation
+      flagged); flip=UNION flagged support_judge_disagreement (evidencia: evals/s101_inpool_adjudication.json
+      6/7 supports, 0/18 refuters). Residual no-léxico sigue single'
     support_sha: fd3090e74655
-    conveyed_sha: 6a5035159c03
+    conveyed_sha: 2a6f1beaa811-v2.1cap12000
+    support_l1_rule: 'anchorable: crédito solo si fact_match>=FLOOR-0.15 en el chunk
+      acreditado (anti TOC/colisión, s102-L1)'
     submotivo_sha: a5941215c021
   similarity_note: 'pin de pool NO estampa `similarity` como fiel: stamp plano léxico
     (retriever.py:554) ≠ coseno (fix G).'
-  diversify_tiebreak: AUSENTE del pipeline (flag muerto, DEC-091 NO-GO) — no en freeze
-    (fix B).
+  diversify_tiebreak: flag VIVO en el código (portado s101 para la re-medición) pero
+    PINEADO off en DEMO_FLAGS; NO-GO definitivo s101 (tripwire con ambos anchos) —
+    jamás a demo.
+  hyq_pilot: seam VIVO (s101) pineado '' (off); piloto GO del mecanismo, ship gated
+    (D2 Alberto).
   family_aware: 'acreditación de soporte SAME-FAMILY vía product_model (fix #3, reusa
     retrieval_miss_famtie).'
 mode: smoke
-n_golds: 1
+n_golds: 5
 aggregate_hist:
-  OK: 3
+  OK: 17
   synthesis-miss: 0
-  rerank-miss: 0
-  retrieval-miss: 0
+  rerank-miss: 2
+  retrieval-miss: 4
   corpus-gap: 0
   meta-ref: 0
 gold_juez_axis:
+- qid: hp007
+  verdict: '?'
+  n_classified: 4
+  n_ok: 4
+  primary_blocker: null
+  n_identidad_facts: 0
+  family_resolved: true
+  no_pass_perp_pipeline: false
+- qid: cat007
+  verdict: '?'
+  n_classified: 5
+  n_ok: 3
+  primary_blocker: retrieval-miss
+  n_identidad_facts: 2
+  family_resolved: true
+  no_pass_perp_pipeline: false
+- qid: hp018
+  verdict: PARCIAL
+  n_classified: 5
+  n_ok: 1
+  primary_blocker: retrieval-miss
+  n_identidad_facts: 2
+  family_resolved: true
+  no_pass_perp_pipeline: false
 - qid: hp001
   verdict: '?'
   n_classified: 3
@@ -66,49 +101,928 @@ gold_juez_axis:
   n_identidad_facts: 0
   family_resolved: true
   no_pass_perp_pipeline: false
+- qid: cat005
+  verdict: '?'
+  n_classified: 6
+  n_ok: 6
+  primary_blocker: null
+  n_identidad_facts: 0
+  family_resolved: true
+  no_pass_perp_pipeline: false
 gold_juez_advisory: true
 n_no_pass_perp_pipeline: 0
 n_family_unresolved: 0
-n_non_anchorable: 0
+n_non_anchorable: 7
 judge_disagreements: []
 support_disagreements:
-- qid: hp001
-  valor: '2222'
+- qid: cat007
+  valor: 2 A / 0,5 A
+- qid: cat007
+  valor: 10^5
 per_gold:
+- qid: hp007
+  question: ¿Cómo se realiza el test anual de un detector VESDA-E VEP según el manual
+    del fabricante?
+  answer: '# Test anual del detector VESDA-E VEP según el manual del fabricante
+
+
+    ## Tareas que el manual asigna a frecuencia anual ("Una vez al año")
+
+
+    Según la **Tabla 7-1** del calendario de mantenimiento [F1][F2], las comprobaciones
+    anuales son:
+
+
+    1. **Realizar una prueba de humos** para comprobar la integridad de la red de
+    tubería
+
+    2. **Comprobar el flujo** de la red de tubería
+
+    3. **Limpiar los puntos de muestreo**
+
+    4. **Limpiar con agua la red de tubería**
+
+
+    ---
+
+
+    ## Detalle de la prueba de humos anual
+
+
+    El manual describe que la prueba de humo consiste en [F3][F4]:
+
+    - Introducir una muestra de humo en el **orificio de muestreo más alejado**
+
+    - Medir el **tiempo de transporte** hasta que el humo llega al detector
+
+    - Registrar los resultados y compararlos con pruebas anteriores para detectar
+    variaciones del sistema
+
+
+    > ⚠️ El procedimiento detallado paso a paso de la prueba de humos se encuentra
+    en la **VESDA-E Commissioning Guide** (guía de puesta en marcha de VESDA-E), no
+    en la Guía del Producto [F3][F4]. Deberás consultar ese documento para el procedimiento
+    completo.
+
+
+    ---
+
+
+    ## Pruebas funcionales disponibles vía software Xtralis VSC
+
+
+    Desde el software **Xtralis VSC** se pueden ejecutar los siguientes comandos de
+    prueba, relevantes para el mantenimiento anual [F5][F6]:
+
+
+    - **Start Alarm Test** ("Iniciar prueba de alarma"): simula nivel de humo de escala
+    completa, generando condiciones de Alerta, Acción, Fuego 1 y Fuego 2. Los relés
+    de alarma se activarán salvo que el detector esté desactivado.
+
+    - **Start Air Flow Fault Test** ("Inicio de la prueba de fallo de circulación
+    del aire"): comprueba el sistema de detección de flujo apagando el aspirador.
+
+    - **Start Relay Test** ("Iniciar prueba de relés"): activa y desactiva los relés
+    disponibles para probarlos.
+
+    - **Start Major Fault Test** / **Start Minor Fault Test**: generan un fallo importante/menor
+    y desactivan el relé de fallo durante **2 minutos** [F5][F6].
+
+    - **Start LED Test** ("Iniciar prueba de LED"): realiza un ciclo de prueba de
+    cada indicador LED del panel de visualización.
+
+
+    ---
+
+
+    ## Precauciones obligatorias antes de realizar el mantenimiento
+
+
+    El manual establece las siguientes precauciones [F1][F2]:
+
+
+    - **Informar a la autoridad supervisora adecuada** antes de iniciar cualquier
+    prueba o mantenimiento.
+
+    - **Aislar los dispositivos existentes** que dependan del detector antes de ponerlo
+    en funcionamiento.
+
+    - Cuando el detector está deshabilitado o en espera, **no emitirá advertencias
+    de fuego**.
+
+    - Seguir los **procedimientos del sitio** para evitar falsas alarmas en los servicios
+    supervisados.
+
+
+    ---
+
+
+    ## Modo en espera durante el mantenimiento
+
+
+    Para trabajos en la red de tubería o puntos de muestreo, se recomienda poner el
+    detector en **modo en espera** [F10]:
+
+    - Desde **Xtralis VSC**: menú Dispositivo → "Go to Standby" (Ir a modo en espera)
+
+    - El aspirador se desactiva y se detiene la detección de alarmas (la detección
+    de fallos continúa activa)
+
+    - Para reactivar: menú Dispositivo → "End Standby" (Finalizar modo en espera)
+
+
+    ---
+
+
+    ## Nota sobre la sustitución del filtro
+
+
+    La **sustitución del filtro** tiene frecuencia **bienal** (cada dos años), no
+    anual [F1][F2].
+
+
+    ---
+
+
+    **Fuentes:**
+
+    - `33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores` (sin revisión registrada)
+
+    - `33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores` (sin revisión registrada)
+
+
+    ---
+
+
+    También puedo ayudarte con: **procedimiento de modo en espera detallado**, **comandos
+    disponibles desde el botón físico del detector** o **comprobaciones de mantenimiento
+    trimestral y semestral** del VESDA-E VEP.'
+  family_resolved: true
+  gold_families:
+  - VESDA-E-VEP
+  n_non_anchorable: 4
+  pool_n: 39
+  served_n: 10
+  topk_n: 10
+  topk_ids:
+  - 289e81d3-0584-4bc3-b2ca-3bbab6e64a94
+  - 06e00b48-9ab7-419d-a9c4-f3a448a6f64b
+  - bd4e288b-d65b-4491-bee1-8e140a9e56f8
+  - d62a697e-576a-4147-a87f-c5cba6f8c15b
+  - d5ee9633-6f1e-4cac-b5df-02eafd30d39f
+  - 9aed283d-f604-4425-9132-8a09de361c6d
+  - 4a971ddc-cc1b-4bcb-8119-f4873a6bb4f9
+  - 9f81aece-6754-42f6-a4f9-b5e53417ce68
+  - 1b3428c7-36b9-4021-b9a2-53ea38799010
+  - df226f92-98ec-4f61-9940-718a2f3d95f5
+  served_ids:
+  - 289e81d3-0584-4bc3-b2ca-3bbab6e64a94
+  - 06e00b48-9ab7-419d-a9c4-f3a448a6f64b
+  - bd4e288b-d65b-4491-bee1-8e140a9e56f8
+  - d62a697e-576a-4147-a87f-c5cba6f8c15b
+  - d5ee9633-6f1e-4cac-b5df-02eafd30d39f
+  - 9aed283d-f604-4425-9132-8a09de361c6d
+  - 4a971ddc-cc1b-4bcb-8119-f4873a6bb4f9
+  - 9f81aece-6754-42f6-a4f9-b5e53417ce68
+  - 1b3428c7-36b9-4021-b9a2-53ea38799010
+  - df226f92-98ec-4f61-9940-718a2f3d95f5
+  hist:
+    OK: 4
+    synthesis-miss: 0
+    rerank-miss: 0
+    retrieval-miss: 0
+    corpus-gap: 0
+    meta-ref: 0
+  facts:
+  - key: hp007#0:una vez al año
+    valor: una vez al año
+    texto: 'Prueba de humos para integridad de tuberías: anual'
+    lexically_anchorable: false
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 2
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: hp007#1:una vez al año
+    valor: una vez al año
+    texto: 'Comprobar el flujo de las tuberías: anual'
+    lexically_anchorable: false
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 2
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: hp007#2:una vez al año
+    valor: una vez al año
+    texto: 'Limpiar los puntos de muestreo: anual'
+    lexically_anchorable: false
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 2
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: hp007#3:una vez al año
+    valor: una vez al año
+    texto: 'Limpiar con agua la red de tubería: anual'
+    lexically_anchorable: false
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 2
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+- qid: cat007
+  question: En el detector por aspiración FAAST LT-200, ¿qué salidas de relé y de
+    sirena tiene y con qué contactos, cómo se comporta el relé de avería ante un fallo
+    o un corte de alimentación, qué resistencia de fin de línea llevan las salidas
+    de sirena y cuál es la especificación eléctrica de los contactos de relé?
+  answer: '# FAAST LT-200 — Salidas de relé y sirena: especificaciones completas
+
+
+    ---
+
+
+    ## 1. Tipos de relés disponibles
+
+
+    Los fragmentos cubren **dos variantes** del FAAST LT-200 con diferente dotación
+    de relés:
+
+
+    ### Variante Stand-Alone (HS)
+
+
+    Dispone de los siguientes relés [F1] [F6]:
+
+
+    - **ALARMA 1 y 2** — Se activa cuando se cumple la condición de alarma en el canal
+    correspondiente. Estado predeterminado = Nivel 1. El estado de alarma queda **enclavado**
+    por defecto; se requiere RESET manual para desactivar el LED y el relé.
+
+    - **PRE-ALARMA 1 y 2** — Se activa cuando se cumple la condición de pre-alarma
+    en el canal. Estado predeterminado = Nivel 1. Nota: cuando Pre-ALARMA = ALARMA
+    = Nivel 1, la Pre-ALARMA responde al **70% del Nivel 1**.
+
+    - **AVERÍA 1 y 2** — Se activa ante condición de avería en CH1 o CH2, o ante avería
+    común. También se activa en modo servicio y cuando la unidad está **sin alimentación**.
+    Estado de avería **no enclavado** (por defecto).
+
+    - **SIRENA 1 y 2** — Se activa cuando el canal está en ALARMA o PRE-ALARMA. Sirena
+    1 → CH1; Sirena 2 → CH2. Estado predeterminado = activado en ALARMA.
+
+
+    ### Variante Loop (lazo) y variante Notifier Loop
+
+
+    Dispone de [F3] [F4]:
+
+
+    - **ALARMA 1 y 2** — Controlada por el panel cuando determina que se cumple la
+    condición de alarma. Activada y desactivada por el panel; **no enclavada**.
+
+    - **AVERÍA 1 y 2** — Igual comportamiento que en la variante Stand-Alone. Estado
+    **no enclavado**.
+
+    - **SIRENA 1 y 2** — Igual que en Stand-Alone. Estado predeterminado = activado
+    en ALARMA.
+
+
+    > ⚠️ **Diferencia clave entre variantes**: la variante Stand-Alone incluye relés
+    de **PRE-ALARMA** y el relé de ALARMA es **enclavado**; en la variante Loop, el
+    relé de ALARMA es **no enclavado** y no hay relé de PRE-ALARMA.
+
+
+    ---
+
+
+    ## 2. Contactos de los relés (terminales de bornes)
+
+
+    ### Variante Stand-Alone [F6]
+
+
+    - **Relé ALARMA CH1** (bloque T2): terminales 5 (NC), 6 (C), 7 (NO)
+
+    - **Relé ALARMA CH2** (bloque T3): terminales 8 (NC), 9 (C), 10 (NO)
+
+    - **Relé AVERÍA CH1** (bloque T4): terminales 11 (NC), 12 (C), 13 (NO)
+
+    - **Relé AVERÍA CH2 / AUX** (bloque T5): terminales 14 (NC), 15 (C), 16 (NO)
+
+    - **Relé PRE-ALARMA CH1** (bloque T9): terminales 23 (NC), 24 (C), 25 (NO)
+
+    - **Relé PRE-ALARMA CH2** (bloque T10): terminales 26 (NC), 27 (C), 28 (NO)
+
+
+    ### Variante Loop / Notifier Loop [F5] [F7]
+
+
+    - **Relé ALARMA CH1** (bloque T2): terminales 5 (NC), 6 (C), 7 (NO)
+
+    - **Relé ALARMA CH2** (bloque T3): terminales 8 (NC), 9 (C), 10 (NO)
+
+    - **Relé AVERÍA CH1** (bloque T4): terminales 11 (NC), 12 (C), 13 (NO)
+
+    - **Relé AVERÍA CH2 / AUX** (bloque T5): terminales 14 (NC), 15 (C), 16 (NO)
+
+    - Los terminales 23–28 en esta variante corresponden a **entradas de lazo**, no
+    a relés de pre-alarma.
+
+
+    Todos los relés disponen de contacto **NC, C (común) y NO**.
+
+
+    ---
+
+
+    ## 3. Comportamiento del relé de avería ante fallo o corte de alimentación
+
+
+    El relé de AVERÍA se activa en los siguientes casos [F1] [F2] [F3] [F4]:
+
+
+    - Condición de avería en **CH1 o CH2**
+
+    - **Avería común**
+
+    - Cuando la unidad está en **modo servicio** (puerta abierta) [F8] [F9]
+
+    - Cuando la unidad está **sin alimentación** (desconectada)
+
+
+    El estado de avería **no está enclavado** por defecto [F1] [F2].
+
+
+    ---
+
+
+    ## 4. Resistencia de fin de línea (EOL) en salidas de sirena
+
+
+    Las salidas de sirena llevan una resistencia de fin de línea de **47 kΩ** [F5]
+    [F6] [F7]:
+
+
+    - **Salida Sirena 1** (bloque T6): terminales 17 (–) y 18 (+) — resistencia EOL
+    de **47 kΩ**
+
+    - **Salida Sirena 2** (bloque T7): terminales 19 (–) y 20 (+) — resistencia EOL
+    de **47 kΩ**
+
+
+    ---
+
+
+    ## 5. Especificación eléctrica de los contactos de relé
+
+
+    Según la Tabla 3a [F1] [F4]:
+
+
+    - **Corriente máxima (DC):** 2 A a 30 VDC (carga resistiva)
+
+    - **Corriente máxima (AC):** 0,5 A a 30 VAC (carga resistiva)
+
+    - **Vida útil mínima:** 10⁵ operaciones
+
+
+    > ⚠️ **Advertencia para cargas inductivas**: los fragmentos incluyen diagramas
+    de advertencia sobre la conmutación de cargas inductivas [F4]. Si conectas cargas
+    inductivas, consulta el esquema de protección con diodo (referencia **1N6284CA**)
+    indicado en el manual.
+
+
+    ---
+
+
+    **Fuentes:**
+
+    - I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG (sin revisión registrada)
+
+    - I56-6574-005_ES-HS Stand Alone FAAST LT-200 QIG (sin revisión registrada)
+
+    - I56-6575-005_EN-FAAST-LT-200-Loop-QIG (sin revisión registrada)
+
+    - I56-6577-006_EN Notifier FAAST LT-200 QIG (sin revisión registrada)
+
+    - I56-6577-006_ES FAAST Notifier LT-200 QIG (sin revisión registrada)
+
+
+    ---
+
+
+    También puedo ayudarte con: **conexionado de la alimentación principal y auxiliar**,
+    **configuración de la entrada configurable (Reset)** o **procedimiento de sustitución
+    de sensores** del FAAST LT-200.'
+  family_resolved: true
+  gold_families:
+  - FAAST LT-200
+  - LT-200
+  n_non_anchorable: 0
+  pool_n: 50
+  served_n: 10
+  topk_n: 10
+  topk_ids:
+  - 5ba44464-842b-46f7-ac43-259be83ad416
+  - 8221ec70-6882-41b5-8dd6-705a1a7e739a
+  - 7362ea0f-2b9d-42aa-8b2c-43b81b1931c0
+  - 80f7a04f-3b43-4a6f-a0dd-13a57721f442
+  - e49a4944-4157-42e3-a1c5-15ec4a6e8926
+  - 6c2f09a5-3ac0-490b-83e0-f4aac8068a1d
+  - 3298a4d6-d8c9-444e-a56e-0ce54ce1b990
+  - fd719684-17bc-4981-8c6d-6f4bc84edc72
+  - f539c939-6e6a-4b18-8e3f-abab6f4459b4
+  - 422ed8a7-8bea-49d6-ac82-da39d6fb9050
+  served_ids:
+  - 5ba44464-842b-46f7-ac43-259be83ad416
+  - 8221ec70-6882-41b5-8dd6-705a1a7e739a
+  - 7362ea0f-2b9d-42aa-8b2c-43b81b1931c0
+  - 80f7a04f-3b43-4a6f-a0dd-13a57721f442
+  - e49a4944-4157-42e3-a1c5-15ec4a6e8926
+  - 6c2f09a5-3ac0-490b-83e0-f4aac8068a1d
+  - 3298a4d6-d8c9-444e-a56e-0ce54ce1b990
+  - fd719684-17bc-4981-8c6d-6f4bc84edc72
+  - f539c939-6e6a-4b18-8e3f-abab6f4459b4
+  - 422ed8a7-8bea-49d6-ac82-da39d6fb9050
+  hist:
+    OK: 3
+    synthesis-miss: 0
+    rerank-miss: 0
+    retrieval-miss: 2
+    corpus-gap: 0
+    meta-ref: 0
+  facts:
+  - key: cat007#0:NC-C-NA
+    valor: NC-C-NA
+    texto: El LT-200 tiene salida de rele de ALARMA y de AVERIA (canal 1 y, en modelos
+      de 2 canales, canal 2), con contactos NC-C-NA
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 3
+    n_support_raw: 4
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - 1b3a2b55-ea39-4a6c-b676-c70673708fa0
+    - 3298a4d6-d8c9-444e-a56e-0ce54ce1b990
+    - 6c2f09a5-3ac0-490b-83e0-f4aac8068a1d
+    - e49a4944-4157-42e3-a1c5-15ec4a6e8926
+    support_l1_override: true
+    conveyed_yes: 5
+    clase: OK
+  - key: cat007#1:no enclavado
+    valor: no enclavado
+    texto: 'El rele de AVERIA es FAILSAFE (se desenergiza para senalar): la averia
+      se indica ante condicion de averia en canal 1/2 o averia comun, en Modo Servicio
+      y al quedar la unidad SIN alimentacion; el estado de averia NO esta enclavado'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 2
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - 0438dbce-ae0f-4b74-8209-b86c42da87ef
+    - 5ba44464-842b-46f7-ac43-259be83ad416
+    - 80f7a04f-3b43-4a6f-a0dd-13a57721f442
+    support_l1_override: null
+    conveyed_yes: 5
+    clase: OK
+  - key: cat007#2:47 kohm
+    valor: 47 kohm
+    texto: Las 2 salidas de sirena tienen bornes de polaridad -/+ (supervisadas) y
+      resistencia de fin de linea de 47 kohm; no son contactos de rele
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 3
+    n_support_raw: 5
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: cat007#3:2 A / 0,5 A
+    valor: 2 A / 0,5 A
+    texto: 'Especificacion electrica de los contactos de rele: maximo 2 A (carga resistiva
+      30 V CC) / maximo 0,5 A (carga resistiva 30 V CA)'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 0
+    n_support_raw: 2
+    reaches_gen: false
+    in_topk: false
+    in_pool: false
+    support_l1_killed:
+    - 0438dbce-ae0f-4b74-8209-b86c42da87ef
+    - 5ba44464-842b-46f7-ac43-259be83ad416
+    - 80f7a04f-3b43-4a6f-a0dd-13a57721f442
+    support_l1_override: null
+    support_judge_disagreement: true
+    support_judge2_votes:
+      686013cf-af20-4aa0-bbf6-78e2978dc72b: 5
+      422ed8a7-8bea-49d6-ac82-da39d6fb9050: 5
+    support_judge2_n_fail: 0
+    support_candidates_truncated: false
+    cross_family_only: true
+    best_pool_rank: 25
+    submotivo: model-filter
+    clase: retrieval-miss
+  - key: cat007#4:10^5
+    valor: 10^5
+    texto: 'Vida util minima de los contactos de rele: 10^5 operaciones (en el texto
+      extraido aparece como ''105'' por perdida del superindice; leido como 10^5 en
+      el render)'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 0
+    n_support_raw: 1
+    reaches_gen: false
+    in_topk: false
+    in_pool: false
+    support_l1_killed:
+    - 0438dbce-ae0f-4b74-8209-b86c42da87ef
+    - 5ba44464-842b-46f7-ac43-259be83ad416
+    - 80f7a04f-3b43-4a6f-a0dd-13a57721f442
+    support_l1_override: null
+    support_judge_disagreement: true
+    support_judge2_votes:
+      686013cf-af20-4aa0-bbf6-78e2978dc72b: 5
+    support_judge2_n_fail: 0
+    support_candidates_truncated: false
+    cross_family_only: true
+    best_pool_rank: 25
+    submotivo: model-filter
+    clase: retrieval-miss
+- qid: hp018
+  question: ¿Cómo se conecta una sirena convencional en las salidas de sirena de la
+    Morley ZXe?
+  answer: '# Conexionado de sirena convencional en salidas de sirena de la ZXe
+
+
+    > **Nota previa:** Los fragmentos recuperados corresponden a los manuales de instalación
+    de la **ZXAE/ZXEE** y la **ZX2e/ZX5e**. La denominación "ZXe" puede referirse
+    a cualquiera de estas variantes. A continuación te doy la información de conexionado
+    que aplica a ambas, indicando las diferencias.
+
+
+    ---
+
+
+    ## Número de salidas disponibles
+
+
+    - **ZXAE:** 2 salidas supervisadas para sirenas convencionales (Salida A y B)
+    [F1]
+
+    - **ZXEE:** 4 salidas supervisadas para sirenas convencionales (Salida A, B, C
+    y D) [F1]
+
+    - **ZX2e/ZX5e:** 2 salidas de sirena (A y B); la ZX5e añade C y D [F4]
+
+
+    ---
+
+
+    ## Parámetros eléctricos de las salidas
+
+
+    - **Corriente máxima por circuito:** 1 A [F1]
+
+    - **Resistencia final de línea (RFL):** **6.800 Ω, 0,5 W mínimo** [F1]
+
+    - **Sección mínima de cable:** **1,5 mm²** [F1]
+
+    - **Longitud máxima de cable (ZX2e/ZX5e):** no se recomienda superar **1 km**
+    [F3]
+
+
+    ---
+
+
+    ## Procedimiento de conexionado
+
+
+    1. **Conecta las sirenas en serie** (en línea directa, sin ramales) entre los
+    terminales **+** y **−** de la salida correspondiente [F2].
+
+
+    2. **Sirenas con polaridad:** conecta respetando la polaridad + / − de cada sirena
+    [F2].
+
+
+    3. **Campanas/sirenas sin polaridad:** instala un **diodo** entre el terminal
+    + de la salida y uno de los terminales de alimentación de la campana, para evitar
+    consumos durante la supervisión [F1].
+
+
+    4. **Resistencia final de línea (RFL):** coloca una resistencia de **6.800 Ω**
+    entre el terminal **+** y **−** de la **última sirena** de la línea. Esta RFL
+    es imprescindible para la supervisión de apertura y cierre de línea [F1].
+
+
+    5. **Si no hay sirenas conectadas en esa salida:** conecta la RFL de **6.800 Ω**
+    directamente entre los terminales + y − de la salida en la central [F1].
+
+
+    6. **No realices ramales paralelos:** la supervisión se realiza sobre la línea
+    directa hasta la RFL; los ramales paralelos no quedan supervisados [F2].
+
+
+    ---
+
+
+    ## Funcionamiento de la supervisión
+
+
+    - La supervisión utiliza una **corriente inversa** que lee la RFL [F1].
+
+    - La corriente de supervisión tiene **polaridad inversa** a la de activación [F1].
+
+    - Al activarse la salida, la corriente circula en sentido normal con la polaridad
+    indicada en los terminales [F1].
+
+    - Cualquier fallo en la línea (apertura o cortocircuito) se mostrará en pantalla
+    y quedará registrado en el sistema [F4].
+
+
+    ---
+
+
+    ## Advertencia sobre el consumo total
+
+
+    Verifica que el consumo total de la central (con todas las sirenas activadas)
+    no supere el límite del sistema. Cada salida admite **máximo 1 A** [F1].
+
+
+    ---
+
+
+    Fuente: Manual de Instalación ZXAE/ZXEE (DOC.MIE-MI-310, sin revisión registrada);
+    Manual de Instalación ZX2e/ZX5e (DOC.MIE-MI-530, rev. 001)'
+  family_resolved: true
+  gold_families:
+  - ZX2E/ZX5E
+  n_non_anchorable: 2
+  pool_n: 50
+  served_n: 10
+  topk_n: 10
+  topk_ids:
+  - 692718af-8d13-4e2f-80df-90d22dd832ec
+  - 35f4421a-d039-4672-9884-5540ab42a788
+  - d4de9ba9-9206-49cf-9782-ba141168a0c2
+  - 276b5745-9ecc-4260-bb63-a5aacfc62579
+  - bf70bdde-b22e-47a9-b6e9-eff5b6e51c85
+  - d4d54d05-bd6e-4861-81db-be2f6d67cd88
+  - 1d58bcf8-a838-4d31-b65c-89c068b6ce6b
+  - ebe26de8-6468-40f4-b15b-4ef84c51464f
+  - 4ec32bc7-289e-45a6-992b-f9a06dd93500
+  - ce7883c4-1a38-4df4-83f1-e35fa854340b
+  served_ids:
+  - 692718af-8d13-4e2f-80df-90d22dd832ec
+  - 35f4421a-d039-4672-9884-5540ab42a788
+  - d4de9ba9-9206-49cf-9782-ba141168a0c2
+  - 276b5745-9ecc-4260-bb63-a5aacfc62579
+  - bf70bdde-b22e-47a9-b6e9-eff5b6e51c85
+  - d4d54d05-bd6e-4861-81db-be2f6d67cd88
+  - 1d58bcf8-a838-4d31-b65c-89c068b6ce6b
+  - ebe26de8-6468-40f4-b15b-4ef84c51464f
+  - 4ec32bc7-289e-45a6-992b-f9a06dd93500
+  - ce7883c4-1a38-4df4-83f1-e35fa854340b
+  hist:
+    OK: 1
+    synthesis-miss: 0
+    rerank-miss: 2
+    retrieval-miss: 2
+    corpus-gap: 0
+    meta-ref: 0
+  facts:
+  - key: hp018#0:4 circuitos
+    valor: 4 circuitos
+    texto: 'La ZX5e dispone de 4 circuitos/salidas de sirena de placa (la ZX2e, 2:
+      Sirenas A y B); supervisados ante cortocircuito y circuito abierto, limitados
+      en corriente'
+    lexically_anchorable: false
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 4
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: hp018#1:6K8
+    valor: 6K8
+    texto: Resistencia de fin de linea (RFL) = 6,8 kOhm (6K8), 0,5 W minimo, en el
+      final de cada circuito de sirena (en la ultima sirena) para la supervision
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 2
+    reaches_gen: false
+    in_topk: false
+    in_pool: true
+    support_l1_killed:
+    - 35f4421a-d039-4672-9884-5540ab42a788
+    - d4de9ba9-9206-49cf-9782-ba141168a0c2
+    support_l1_override: null
+    best_pool_rank: 47
+    submotivo: pos-buried
+    clase: rerank-miss
+  - key: hp018#2:diodo
+    valor: diodo
+    texto: Cada sirena debe llevar un diodo integrado; el circuito se polariza en
+      inverso en reposo (supervision) y cambia a polarizacion normal al dispararse;
+      los dispositivos no polarizados requieren anadir un diodo en cada uno
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 0
+    n_support_raw: 2
+    reaches_gen: false
+    in_topk: false
+    in_pool: false
+    support_l1_killed:
+    - 35f4421a-d039-4672-9884-5540ab42a788
+    - 692718af-8d13-4e2f-80df-90d22dd832ec
+    support_l1_override: true
+    cross_family_only: true
+    best_pool_rank: 39
+    submotivo: model-filter
+    clase: retrieval-miss
+  - key: hp018#3:Sirenas A,B,C,D
+    valor: Sirenas A,B,C,D
+    texto: La conexion se hace en el bloque de terminales de circuitos de sirena de
+      la placa base (Figura 13 ZX2e / Figura 14 ZX5e), respetando la polaridad +/-
+      de cada salida (A/B/C/D)
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 0
+    n_support_raw: 2
+    reaches_gen: false
+    in_topk: false
+    in_pool: false
+    support_l1_killed:
+    - 1d58bcf8-a838-4d31-b65c-89c068b6ce6b
+    - 276b5745-9ecc-4260-bb63-a5aacfc62579
+    - 4ec32bc7-289e-45a6-992b-f9a06dd93500
+    - 692718af-8d13-4e2f-80df-90d22dd832ec
+    support_l1_override: true
+    support_judge2_agreed_none: true
+    support_judge2_n_fail: 0
+    support_candidates_truncated: false
+    cross_family_only: true
+    best_pool_rank: 4
+    submotivo: model-filter
+    clase: retrieval-miss
+  - key: hp018#4:1 A
+    valor: 1 A
+    texto: Carga maxima 1 A por circuito/salida de sirena
+    lexically_anchorable: false
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 2
+    reaches_gen: false
+    in_topk: false
+    in_pool: true
+    best_pool_rank: 47
+    submotivo: pos-buried
+    clase: rerank-miss
 - qid: hp001
   question: En la Detnov CAD-250, ¿cómo se entra al menú de programación avanzada?
-  answer: "# Acceso al menú AVANZADO en la CAD-250\n\n## Ruta de acceso\n\nEl acceso\
-    \ al menú de programación avanzada se realiza desde el menú principal siguiendo\
-    \ esta ruta [F1]:\n\n**AJUSTES** (Menú principal) **> AVANZADO** (Submenú)\n\n\
-    ## Pasos detallados\n\n1. Desde la **PANTALLA DE REPOSO**, toca el icono del candado\
-    \ (\U0001F512) [F4].\n2. Introduce tu código de acceso en la **PANTALLA DE ACCESO**\
-    \ [F4].\n   - Clave de usuario por defecto: **1111** [F4]\n   - Clave de administrador\
-    \ por defecto: **2222** [F3]\n   > ⚠️ Para acceder a AVANZADO necesitas nivel\
-    \ de instalador. El nivel de usuario tiene acceso restringido a algunas funciones\
-    \ de configuración [F7].\n3. Una vez dentro, selecciona **AJUSTES** en el menú\
-    \ principal (barra lateral izquierda) [F1].\n4. En el submenú derecho, selecciona\
-    \ **AVANZADO** [F1].\n\n## Contenido del menú AVANZADO\n\nUna vez dentro, dispones\
-    \ de **3 pestañas** [F1]:\n\n- **SISTEMA:** Configura número de cabinas (Paneles:\
-    \ 1 a 4), número de lazos (2, 4, 6, 8... hasta 32 según cabinas) y cabina de LEDs\
-    \ de zona (0 ó 1) [F1].\n- **OTROS:** Interruptores para facilitar puesta en marcha\
-    \ y mantenimiento (tiempo de inactividad, salto a scroll, timeout, etc.) [F5].\n\
-    - **REINICIAR:** Devuelve los valores de configuración del panel a valores por\
-    \ defecto. No afecta a entidades, lazos, maniobras, grupos, módulos virtuales,\
-    \ modos especiales, filtros de red ni registros de eventos [F5].\n\n> ⚠️ Tras\
-    \ modificar parámetros en la pestaña SISTEMA, debes pulsar el botón **\"Guardar\
-    \ y Reiniciar\"** para validar los cambios [F1].\n\n---\n\n**Fuentes:**\n- CAD-250\
-    \ Manual de Configuración MC-380-es-2026-c (rev. c, 2026-04-23)\n- Manual de Usuario\
-    \ CAD-250 MU-376-es-2024-f (sin revisión registrada)\n- Manual de Instalación\
-    \ CAD-250 MI-372-es-2024-e (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte\
-    \ con: **configuración de lazos en AVANZADO > SISTEMA**, **gestión de usuarios\
-    \ y niveles de acceso** o **opciones de la pestaña OTROS para puesta en marcha**."
+  answer: '## Acceso al menú de programación avanzada — CAD-250
+
+
+    El acceso al nivel de configuración avanzada se realiza en dos pasos: primero
+    acceder como administrador (nivel 3), y luego navegar al submenú correspondiente.
+
+
+    ---
+
+
+    ### Paso 1 — Acceder desde la pantalla de reposo
+
+
+    1. En la **PANTALLA DE REPOSO**, toca el icono del **candado (🔒)** [F1][F2].
+
+    2. Se abrirá la **PANTALLA DE ACCESO**, que solicita un código numérico [F1][F2].
+
+    3. Introduce la **clave de administrador por defecto: `2222`** [F1][F2].
+
+
+    > ⚠️ El uso indebido del nivel de administrador puede provocar un mal funcionamiento
+    de la instalación. Asegúrate de tener la autorización necesaria [F1][F2].
+
+
+    ---
+
+
+    ### Paso 2 — Navegar al menú de configuración avanzada
+
+
+    Una vez dentro del nivel de administrador (nivel 3), tienes acceso completo a
+    todos los parámetros de configuración [F3][F10]. La estructura de menús es la
+    siguiente:
+
+
+    **Para acceder a AJUSTES AVANZADOS:**
+
+
+    **AJUSTES** (Menú principal) **→ AVANZADO** (Submenú) [F7]
+
+
+    Dentro de **AVANZADO** dispones de 3 pestañas [F7][F8]:
+
+    - **SISTEMA**: número de cabinas (paneles 1–4), número de lazos (2, 4, 6, 8...
+    hasta 32), y LEDs de zona (0 ó 1) [F7].
+
+    - **OTROS**: interruptores de puesta en marcha y mantenimiento (tiempo de inactividad,
+    salto a scroll, timeout, módulos virtuales, salida automática del modo test) [F8].
+
+    - **REINICIAR**: devuelve los valores de configuración del panel a valores por
+    defecto (no afecta a entidades, lazos, maniobras, grupos, módulos virtuales, modos
+    especiales, filtros de red ni registros de eventos) [F8].
+
+
+    > ⚠️ Para validar cambios en la pestaña SISTEMA, debes pulsar el botón **"Guardar
+    y Reiniciar"** [F7].
+
+
+    ---
+
+
+    ### Referencia de niveles de acceso
+
+
+    - **Nivel 1**: sin contraseña — visualización y funciones básicas de control [F10].
+
+    - **Nivel 2** (usuario, clave por defecto `1111`): deshabilitaciones, logs, ajustes
+    generales [F4][F10].
+
+    - **Nivel 3** (administrador/configuración, clave por defecto `2222`): acceso
+    completo a toda la configuración [F1][F3][F10].
+
+
+    ---
+
+
+    **Fuentes:**
+
+    - CAD-250 Manual de Configuración (MC-380-es-2026-c, rev. c, 2026-04-23)
+
+    - Manual de Instalación CAD-250 (MI_372_es_2024 e, sin revisión registrada)
+
+    - Manual de Usuario CAD-250 (MU_376_es_2024 f, sin revisión registrada)
+
+    - Manual de Software de Configuración CAD-250 (MS-416-es-2026-b, rev. b)
+
+
+    ---
+
+
+    También puedo ayudarte con: **configuración de lazos y dispositivos**, **creación
+    de maniobras** o **gestión de usuarios y contraseñas** en la CAD-250.'
   family_resolved: true
   gold_families:
   - CAD-250
   n_non_anchorable: 0
-  pool_n: 34
+  pool_n: 41
   served_n: 10
   topk_n: 10
+  topk_ids:
+  - 8cf55c57-dc8d-4e81-b35b-67f777580cd5
+  - 9bd17466-1a22-4ade-bb16-a44624c9f166
+  - a9f55361-6fc8-4c4b-b8c9-a2c4ba6e93b1
+  - edeb58a7-58c6-4865-8819-c70b57fe1135
+  - 6262c437-de1f-4915-9c64-ac1bb9a1eee9
+  - 5e04c75b-aa86-419a-a62a-18624ed38861
+  - adc2214e-926f-40e7-a014-c86683dd1673
+  - c9073247-3baf-4064-a26d-b755bee5449d
+  - 8ff8b580-456c-4aa1-9b62-031611f8ce6f
+  - 74ccb29f-849a-4b16-9aea-e39a4d1222a0
+  served_ids:
+  - 8cf55c57-dc8d-4e81-b35b-67f777580cd5
+  - 9bd17466-1a22-4ade-bb16-a44624c9f166
+  - a9f55361-6fc8-4c4b-b8c9-a2c4ba6e93b1
+  - edeb58a7-58c6-4865-8819-c70b57fe1135
+  - 6262c437-de1f-4915-9c64-ac1bb9a1eee9
+  - 5e04c75b-aa86-419a-a62a-18624ed38861
+  - adc2214e-926f-40e7-a014-c86683dd1673
+  - c9073247-3baf-4064-a26d-b755bee5449d
+  - 8ff8b580-456c-4aa1-9b62-031611f8ce6f
+  - 74ccb29f-849a-4b16-9aea-e39a4d1222a0
   hist:
     OK: 3
     synthesis-miss: 0
@@ -123,11 +1037,14 @@ per_gold:
       la pantalla tactil -> accede a la PANTALLA DE ACCESO, que pide el codigo/password
     lexically_anchorable: true
     family_resolved: true
-    n_support_fam: 3
-    n_support_raw: 3
+    n_support_fam: 4
+    n_support_raw: 4
     reaches_gen: true
     in_topk: true
     in_pool: true
+    support_l1_killed:
+    - 8ff8b580-456c-4aa1-9b62-031611f8ce6f
+    support_l1_override: null
     conveyed_yes: 5
     clase: OK
   - key: hp001#1:2222
@@ -136,21 +1053,174 @@ per_gold:
       de configuracion/administrador (donde se configuran todos los parametros)
     lexically_anchorable: true
     family_resolved: true
-    n_support_fam: 1
-    n_support_raw: 1
+    n_support_fam: 2
+    n_support_raw: 2
     reaches_gen: true
     in_topk: true
     in_pool: true
-    support_judge_disagreement: true
-    support_judge2_votes:
-      9bd17466-1a22-4ade-bb16-a44624c9f166: 5
-    support_judge2_n_fail: 0
     conveyed_yes: 5
     clase: OK
   - key: hp001#2:1111
     valor: '1111'
     texto: La clave de USUARIO por defecto es 1111, que NO da acceso a la configuracion
       avanzada completa (solo el nivel de usuario)
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+- qid: cat005
+  question: ¿Cuáles son las características técnicas de la central de detección de
+    gas Fidegas CS4, y en qué se diferencian las versiones digital y analógica?
+  answer: "# Central de Alarmas FIDEGAS® CS4 — Características Técnicas y Diferencias\
+    \ entre Versiones\n\n## Características técnicas generales\n\n- **Tensión de alimentación:**\
+    \ 110-230 Vac, 50-60 Hz [F2]\n- **Potencia:** 30 W, Clase II [F2][F3]\n- **Firmware:**\
+    \ versión 1.2 (tanto en versión digital como analógica) [F3][F7]\n- **Sensores:**\
+    \ hasta 4 conexiones simultáneas en modo analógico o digital [F2]\n- **Salidas:**\
+    \ 2 salidas conmutadas LP (relé apto para 230 Vac) con contactos NA-C-NC [F2]\n\
+    - **Corriente máxima:** 250 mA [F2]\n- **Rearme:** seleccionable manual o automático\
+    \ [F2]\n- **Indicaciones:** presencia, alarma y avería por sensor; avería de central;\
+    \ corte de red [F2]\n- **Dimensiones:** 90 x 106 x 58 mm [F2]\n- **Peso:** 300\
+    \ g [F2]\n- **Instalación:** carril DIN o armario de superficie [F1]\n\n---\n\n\
+    ## Indicaciones luminosas y acústicas\n\n- **LED verde PWR:** alimentación presente\
+    \ (fijo) / corte de red (intermitente) [F1]\n- **LED bicolor ON/ALARM** (por sensor):\
+    \ sensor conectado (verde) / alarma (rojo) [F1]\n- **LED amarillo ERROR** (por\
+    \ sensor): avería del sensor remoto [F1]\n- **LED verde OUT1 / OUT2:** salida\
+    \ activa (verde) / desactivada (apagado) [F1]\n- **Avisador acústico:** apoyo\
+    \ sonoro a las indicaciones ópticas [F1]\n\n---\n\n## Diferencias entre versión\
+    \ digital y analógica\n\n**Código de producto:**\n- Versión digital: **3244**\
+    \ [F2]\n- Versión analógica: **3270** [F2]\n\n**Tipo de entrada de señal:**\n\
+    - Versión digital: entradas **0-10/15 V** [F1]\n- Versión analógica: entradas\
+    \ **4-20 mA** [F1]\n\n**Sensores compatibles:**\n- Versión analógica [F3]:\n \
+    \ - Sensores S/3 gases combustibles\n  - Sensores S/3 y S/2 gases tóxicos\n  -\
+    \ Sensores S/10 gases tóxicos\n- Versión digital [F3]:\n  - Sensores S/10 gases\
+    \ combustibles\n\n---\n\n## Conexionado de sensores\n\nLos conectores de cada\
+    \ sensor tienen la siguiente asignación [F4]:\n- **Terminal 1:** positivo de alimentación\
+    \ (12 a 24 Vdc)\n- **Terminal 2:** entrada de señal\n- **Terminal 3:** negativo\
+    \ común de alimentación y señal\n\n---\n\n## Umbral de alarma\n\nLa alarma se\
+    \ activa cuando la concentración de gas supera el **20% del fondo de escala**\
+    \ [F5]. Las alarmas son enclavadas y requieren pulsación del botón **RESET** para\
+    \ rearmar. Si la concentración no ha disminuido, la alarma puede silenciarse durante\
+    \ **24 horas** con el botón RESET pero no se puede rearmar [F5].\n\n---\n\n> ⚠️\
+    \ **Nota:** Durante los primeros **30 segundos** tras el encendido, el LED PWR\
+    \ parpadea y las salidas OUT1/OUT2 permanecen en posición NA. El enclavamiento\
+    \ del corte de red es configurable como rearme manual (de serie) o automático\
+    \ [F1][F5].\n\n---\n\n**Fuente:** Manual de Usuario CS4 (Analógica o Digital),\
+    \ elaborado y aprobado en Revisión 2, 10/2018. Fabricado por C.A.E., S.L. [F6]\n\
+    \n---\n\nTambién puedo ayudarte con: **procedimiento de configuración de la CS4**,\
+    \ **conexionado de las salidas OUT1/OUT2** o **funcionamiento del rearme automático\
+    \ vs. manual**."
+  family_resolved: true
+  gold_families:
+  - EL-10
+  n_non_anchorable: 1
+  pool_n: 50
+  served_n: 10
+  topk_n: 10
+  topk_ids:
+  - 934b00a8-739f-4d7b-8853-32caad5232a4
+  - 8c9b9f0b-8a51-417f-b05e-63d4dd61ed48
+  - 8ff1618c-ffe3-4215-b68e-a67c224a20b7
+  - 3a74be02-e58b-4f8a-bf51-1eebefed425b
+  - 6bba4f04-ba44-47c7-9310-72ba7a8b4f91
+  - 2160bd36-9ecc-4f7f-b30d-5cf828216d13
+  - 4ded9db9-604e-4586-881d-e567567f9a20
+  - 268e3343-dd97-4f67-95a4-b7476794e4ce
+  - f22c14d2-9be3-4ea2-b630-c4c872db5499
+  - bdd69c04-f496-4323-847a-395295d57bc3
+  served_ids:
+  - 934b00a8-739f-4d7b-8853-32caad5232a4
+  - 8c9b9f0b-8a51-417f-b05e-63d4dd61ed48
+  - 8ff1618c-ffe3-4215-b68e-a67c224a20b7
+  - 3a74be02-e58b-4f8a-bf51-1eebefed425b
+  - 6bba4f04-ba44-47c7-9310-72ba7a8b4f91
+  - 2160bd36-9ecc-4f7f-b30d-5cf828216d13
+  - 4ded9db9-604e-4586-881d-e567567f9a20
+  - 268e3343-dd97-4f67-95a4-b7476794e4ce
+  - f22c14d2-9be3-4ea2-b630-c4c872db5499
+  - bdd69c04-f496-4323-847a-395295d57bc3
+  hist:
+    OK: 6
+    synthesis-miss: 0
+    rerank-miss: 0
+    retrieval-miss: 0
+    corpus-gap: 0
+    meta-ref: 0
+  facts:
+  - key: cat005#0:110-230 Vac
+    valor: 110-230 Vac
+    texto: 'Alimentacion de la CS4: 110-230 Vac, 50-60 Hz'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 3
+    n_support_raw: 3
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: cat005#1:30 W
+    valor: 30 W
+    texto: 'Potencia de la CS4: 30 W'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 3
+    n_support_raw: 3
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: cat005#2:4
+    valor: '4'
+    texto: La CS4 admite hasta 4 conexiones de sensores, en modo analogico (4-20 mA)
+      o digital
+    lexically_anchorable: false
+    family_resolved: true
+    n_support_fam: 4
+    n_support_raw: 6
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: cat005#3:NA-C-NC
+    valor: NA-C-NC
+    texto: La CS4 dispone de 2 salidas conmutadas LP, con rele apto para 230 Vac y
+      contactos NA-C-NC
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 2
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - 2160bd36-9ecc-4f7f-b30d-5cf828216d13
+    - 3a74be02-e58b-4f8a-bf51-1eebefed425b
+    support_l1_override: null
+    conveyed_yes: 5
+    clase: OK
+  - key: cat005#4:250 mA
+    valor: 250 mA
+    texto: 'Corriente maxima de la CS4: 250 mA'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: cat005#5:3244 / 3270
+    valor: 3244 / 3270
+    texto: 'Las dos versiones se distinguen por el codigo de producto: version DIGITAL
+      = 3244; version ANALOGICA = 3270 (difieren en el modo de conexion de sensores)'
     lexically_anchorable: true
     family_resolved: true
     n_support_fam: 1
