@@ -946,17 +946,30 @@ def vector_search(
             except Exception:
                 logger.warning("canal enunciados fail-open: sirviendo solo chunks reales")
 
-        # (s101 PILOTO hyq — prereg evals/s99_hyq_pilot_prereg.md) Canal question-side OFFLINE,
-        # flag-gated a `HYQ_PILOT_FILE` (default "" = OFF, prod inerte). Espejo del bloque A3:
-        # top-K preguntas por cos (numpy, in-process — 0 DDL en DB) → colapso por chunk-padre
-        # keep-max → hidratar padres → unión → sort → cap top_k. Fail-open propio (patrón s96 H1).
-        # Paridad de filtros: SOLO corre sin product_filter (el path del harness); con filtro se
-        # salta (declarado — el piloto no simula el filter_product server-side del RPC).
-        if HYQ_PILOT_FILE and RPC_SUFFIX == "_v2" and not product_filter:
-            # H3 (dúo s101, lección s96-H3): la CARGA del índice es fail-FAST — un path malo con el
-            # flag ON haría "hyq ON" con 0 surrogates = OFF-silencioso-medido-como-ON (false NO-GO).
-            # Solo la hidratación REST (transitoria) queda fail-open.
+        # (s101 piloto → s102 SHIP, D2/DEC-095) Canal question-side (HyPE). Dos backends con
+        # la MISMA mecánica MEDIDA en el piloto: tabla chunks_v2_hyq vía RPC match_hyq
+        # (HYQ_TABLE=on — migración 013, HNSW propio: dilución eliminada por construcción,
+        # DEC-089) o npz in-process (HYQ_PILOT_FILE — instrumento del piloto, se conserva
+        # para replay/paridad). Mecánica pineada (fix s101, medido): hits en el espacio-
+        # pregunta (la barra MIN_COS manda sobre el umbral del canal) → colapso keep-max por
+        # chunk-padre → hidratar padres → FUSIÓN POR CUOTA (no sort-mixto — ver nota abajo).
+        # Paridad de filtros: SOLO corre sin product_filter (declarado desde el piloto — el
+        # canal no simula el filter_product server-side del RPC de chunks).
+        hyq_parents: dict = {}
+        if HYQ_TABLE_ON and RPC_SUFFIX == "_v2" and not product_filter:
+            # fail-open PROPIO (patrón s96 H1, espejo del canal enunciados): un hiccup del
+            # RPC hyq jamás tumba el canal vectorial entero. La observabilidad anti
+            # OFF-silencioso (lección s96-H3) vive en el gate: assert n_hyq_in_pool>0.
+            try:
+                hyq_parents = _hyq_table_hits(client, query_embedding, threshold)
+            except Exception:
+                logger.warning("canal hyq-table fail-open: sirviendo sin surrogates-pregunta")
+        elif HYQ_PILOT_FILE and RPC_SUFFIX == "_v2" and not product_filter:
+            # H3 (dúo s101, lección s96-H3): la CARGA del índice npz es fail-FAST — un path
+            # malo con el flag ON haría "hyq ON" con 0 surrogates = OFF-silencioso-medido-
+            # como-ON (false NO-GO). Solo la hidratación REST (transitoria) queda fail-open.
             hyq_parents = _hyq_pilot_hits(query_embedding, threshold)
+        if hyq_parents:
             try:
                 have = {c.get("id") for c in results}
                 new_ids = [pid for pid in hyq_parents if pid not in have]
@@ -1167,6 +1180,55 @@ def _hyq_pilot_hits(query_embedding: list[float], threshold: float) -> dict:
         pid = cids[i]
         if pid not in by_parent or s > by_parent[pid][0]:
             by_parent[pid] = (s, qtexts[i])
+    return by_parent
+
+
+def _hyq_table_on() -> bool:
+    """(s102 ship hyq, D2/DEC-095) Flag PERMANENTE del canal question-side servido por la
+    tabla chunks_v2_hyq (migración 013). off (default) = ni RPC ni servicio — prod inerte.
+    Parser estricto (espejo de _multivector_on, lección s96-H3): el paso de ship es
+    literalmente "env var en Railway"; un typo no puede medio-apagar el canal."""
+    raw = os.getenv("HYQ_TABLE", "off").strip().lower()
+    if raw in ("1", "true", "yes", "on"):
+        return True
+    if raw in ("", "0", "false", "no", "off"):
+        return False
+    raise RuntimeError(f"HYQ_TABLE={raw!r} no reconocido (on|off) — fail-fast")
+
+
+# (fix cross-model s102, CRÍTICO) El flag se evalúa EN EL IMPORT, no por-request: dentro de
+# vector_search el RuntimeError del parser lo tragaría el fail-open de retrieve_chunks
+# (`except Exception: vector_results = []`) → un typo en Railway mataría el canal vectorial
+# ENTERO en silencio — exactamente el medio-apagado que el parser estricto quiere impedir.
+# A nivel de módulo, el typo revienta el arranque del proceso = deploy falla RUIDOSO.
+# (Los harnesses setean DEMO_FLAGS antes del import — patrón ya usado por HYQ_PILOT_FILE.)
+HYQ_TABLE_ON = _hyq_table_on()
+
+
+def _hyq_table_hits(client: httpx.Client, query_embedding: list[float],
+                    threshold: float) -> dict:
+    """(s102) Espejo servido-por-DB de _hyq_pilot_hits: RPC match_hyq (tabla propia con su
+    HNSW — DEC-089, sin dilución del índice real) → colapso keep-max por chunk-padre.
+    MISMA barra (max(threshold, MIN_COS) — el espacio-pregunta manda) y MISMO fetch-K que
+    el piloto. Devuelve {chunk_id_padre: (mejor_similarity, pregunta_ganadora)} — la
+    pregunta ganadora viaja para la traceability (_hyq_question)."""
+    bar = max(threshold, HYQ_PILOT_MIN_COS)
+    r = client.post(
+        f"{SUPABASE_URL}/rest/v1/rpc/match_hyq",
+        headers={"apikey": SUPABASE_SERVICE_KEY,
+                 "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
+                 "Content-Type": "application/json"},
+        json={"query_embedding": query_embedding,
+              "match_threshold": bar,
+              "match_count": ENUNCIADOS_FETCH_K},
+    )
+    r.raise_for_status()
+    by_parent: dict = {}
+    for row in r.json():
+        pid = str(row.get("chunk_id") or "")
+        s = float(row.get("similarity") or 0)
+        if pid and (pid not in by_parent or s > by_parent[pid][0]):
+            by_parent[pid] = (s, row.get("question") or "")
     return by_parent
 
 

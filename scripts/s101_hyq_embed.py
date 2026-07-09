@@ -27,17 +27,18 @@ MODEL = "voyage-4-large"          # el MISMO del corpus chunks_v2 (paridad de es
 BATCH = 128
 
 
-def main() -> int:
-    try:
-        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-    except Exception:
-        pass
+CAP_PER_CHUNK = 4                    # prereg: "2-4 preguntas por chunk" — el parser del generador no capaba (fix dúo s101)
+# H2 (dúo s101): MIE-MI-310 = ZXAE/ZXEE, el doc del que hp009 fue DES-anclado (pdfs_used stale) —
+# sus preguntas invadirían el pool de hp009 con la familia equivocada → FUERA del índice.
+EXCLUDE_SRC = ("MIE-MI-310",)
+
+
+def parse_questions() -> tuple[list[str], list[str], list[str], dict]:
+    """Parse PINEADO del jsonl (criterios dúo s101): keep-FIRST por chunk_id, cap 4/chunk,
+    dedup global normalizado, len>=15, exclusión MIE-MI-310. Lo importa el loader s102 para
+    garantizar que npz y tabla salen del MISMO universo de preguntas (paridad exacta)."""
     questions, chunk_ids, srcs = [], [], []
     bad = n_dup = n_capped = n_dupchunk = n_excl = 0
-    CAP_PER_CHUNK = 4                # prereg: "2-4 preguntas por chunk" — el parser del generador no capaba (fix dúo s101)
-    # H2 (dúo s101): MIE-MI-310 = ZXAE/ZXEE, el doc del que hp009 fue DES-anclado (pdfs_used stale) —
-    # sus preguntas invadirían el pool de hp009 con la familia equivocada → FUERA del índice.
-    EXCLUDE_SRC = ("MIE-MI-310",)
     seen_global: set[str] = set()    # dedup GLOBAL normalizado (duplicados compiten por slots del pool)
     seen_chunks: set[str] = set()    # H1 (dúo s101): el jsonl s99 tiene 2 registros/chunk → keep-FIRST por chunk_id
     kept_by_chunk: dict[str, int] = {}
@@ -75,9 +76,20 @@ def main() -> int:
             questions.append(q)
             chunk_ids.append(cid)
             srcs.append(src)
+    stats = {"bad": bad, "dup_chunk": n_dupchunk, "dup_texto": n_dup,
+             "sobre_cap": n_capped, "excl_mi310": n_excl}
+    return questions, chunk_ids, srcs, stats
+
+
+def main() -> int:
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+    questions, chunk_ids, srcs, st = parse_questions()
     print(f"{len(questions)} preguntas de {len(set(chunk_ids))} chunks "
-          f"({bad} malas, {n_dupchunk} registros-dup-chunk, {n_dup} dups-texto, "
-          f"{n_capped} sobre-cap, {n_excl} excluidos MI-310)")
+          f"({st['bad']} malas, {st['dup_chunk']} registros-dup-chunk, {st['dup_texto']} dups-texto, "
+          f"{st['sobre_cap']} sobre-cap, {st['excl_mi310']} excluidos MI-310)")
 
     vo = voyageai.Client()          # VOYAGE_API_KEY del entorno
     embs = []

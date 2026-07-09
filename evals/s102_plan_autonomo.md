@@ -17,9 +17,23 @@ BP+estructural+escalable-30+; flag de overfitting; decisiones inequívocas = tom
 | D5 (residual-ancilar) | recomendación NO perseguir — pendiente Alberto |
 
 ## Cola de ejecución (en orden)
-1. ✅ **Tramos hyq COMPLETOS (8/8)**: 25.086 chunks (~100% corpus), 76.287 preguntas, QA 15/15
-   por tramo. ✅ retry-empties (56 sanados / 1.792 NONE legítimos). ✅ jsonl committeado.
-   SIGUIENTE → build de la tabla (c) — DISEÑO CONCRETO (ejecutar con contexto fresco + dúo):
+1. ✅ **Tramos hyq COMPLETOS (8/8)** + retry-empties + jsonl committeado (76.287 preguntas).
+   **BUILD TABLA (9 jul): CONSTRUIDO + DÚO PASADO — DDL BLOQUEADO pendiente de Alberto.**
+   · Piezas committeadas: migración 013 (con fixes dúo: ef_search=GREATEST(match_count,120) ·
+     ingest_batch vintage) · loader `s102_hyq_load.py` (guardas vintage npz↔parse y DB↔npz,
+     fail-fast 404, paginación 1000, --wipe) · seam `HYQ_TABLE` en retriever (flag a IMPORT-time
+     — typo=crash-al-boot, no medio-apagado silencioso) · gate `s102_hyq_table_gate.py` (flip
+     exige ATRIBUCIÓN hyq_won; assert anti-vacuo). 452 tests verdes post-fixes.
+   · Dúo COMPLETO (tally en adversarial_review_log 2026-07-09): cross-model 5/5 confirmados
+     (2 críticos) · sub-agente 8/9 (1 FP; verdict APLICAR-CON-FIXES; convergencia independiente
+     en los 2 críticos). Todos los fixes aplicados.
+   · npz corpus-wide re-embebido: 70.134 preguntas × 1024 alineado con el parse (~$0.5).
+   · **BLOQUEO**: el clasificador de permisos denegó `apply_migration` en auto-mode (DDL a DB
+     compartida exige prompt visible). SIGUIENTE = Alberto aprueba el DDL → load (~70k filas)
+     → gate flips (cat016·hp018) → famtie/bvg OFF-vs-OFF → GO activación Railway.
+   · Post-activación (pedido sub-agente, Protocolo 1): smoke en Railway con HYQ_TABLE=on
+     verificando que el canal dispara (stamps _hyq en logs) antes de declarar shipped.
+   Diseño original de referencia:
    · Migración 013 (patrón s95/011-012 enunciados, CON rollback): tabla `chunks_v2_hyq`
      (id pk · chunk_id fk→chunks_v2 · question text · embedding vector(1024) · source_file ·
      page_number) + índice HNSW coseno propio (dilución eliminada por construcción, DEC-089)
