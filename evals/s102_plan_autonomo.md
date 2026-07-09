@@ -28,9 +28,24 @@ BP+estructural+escalable-30+; flag de overfitting; decisiones inequívocas = tom
      (2 críticos) · sub-agente 8/9 (1 FP; verdict APLICAR-CON-FIXES; convergencia independiente
      en los 2 críticos). Todos los fixes aplicados.
    · npz corpus-wide re-embebido: 70.134 preguntas × 1024 alineado con el parse (~$0.5).
-   · **BLOQUEO**: el clasificador de permisos denegó `apply_migration` en auto-mode (DDL a DB
-     compartida exige prompt visible). SIGUIENTE = Alberto aprueba el DDL → load (~70k filas)
-     → gate flips (cat016·hp018) → famtie/bvg OFF-vs-OFF → GO activación Railway.
+   · ✅ DDL aplicado (Alberto, SQL editor) · ✅ LOAD 70.134 filas 0-poison count+self-hit OK.
+   · **GATE FLIPS v1 FALLÓ 0/2** → 2 causas MEDIDAS + 2 fixes de mecánica (→ **v2**):
+     (1) family-parity nivel-FILA patrón 012 (`_hyq_family_rows`: espacio-pregunta
+     fuerte-en-tema/débil-en-producto, ganadores rank ~49-53; cuota global = slots que
+     _filter_to_query_models tira) · (2) carve-out del diversify por-fichero con dedup
+     (la cuota no se re-litiga con sims incomensurables; interleave INTOCADO s59).
+     **GATE v4 PASA 2/2 CON atribución** · dúo r2 completo (cross-model 4/5+1FP; sub-agente
+     8/8, 2 MAJOR cableados) · 10 tests nuevos (suite 462) · TECH_DEBT #52 (3 límites
+     declarados) · commit 6369f93.
+   · **Negcontrol tabla (OFF/OFF/ON, null-corrected): ❌ pool-level** — 7 EXCESS-HIGH en
+     4 golds (cat009/cat018/cat019/cat021; null=0; canal dispara 31/39 vs ~0 del piloto).
+     Mecanismo TRAZADO: la fusión corta la cola cruda del vector (results[:40]+cuota) PRE
+     model-filter, y en queries con modelo esa cola es load-bearing post-filtro; lo que
+     entra es same-family question-anchored (posible trade neto-positivo). NO se mueve la
+     portería: veredicto registrado tal cual; el árbitro de DAÑO = **gate bvg de outcome
+     EN VUELO** (K=3, pairing por pool s63-R1, juez canónico, fidelity ambos brazos; los 4
+     golds afectados están en la población). Regresión real en bvg → NO-GO + rediseño
+     fusión (cap post-filtro). bvg limpio → paquete GO a Alberto (con el ❌ visible).
    · Post-activación (pedido sub-agente, Protocolo 1): smoke en Railway con HYQ_TABLE=on
      verificando que el canal dispara (stamps _hyq en logs) antes de declarar shipped.
    Diseño original de referencia:
