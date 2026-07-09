@@ -1658,3 +1658,23 @@ corpus 2. Fase 2 abierta: A/B fact-level del fidelity-block (smoke 0/0; full en 
 NADA shippeado (tiering nocturno + ship-gates = Alberto). Ficheros para Alberto:
 `evals/s101_plan_autonomo.md` + `evals/s101_decisiones_alberto.md` (D2 ship-hyq · D3 no-anclables ·
 D4 scope-borderline · D5 residual-ancilar, con recomendaciones). DEC-095.
+
+## s102 (9 jul 2026) — hyq de piloto a PRODUCCIÓN en un día, con el gate haciendo su trabajo
+
+Sesión de ship completo del canal question-side (D2/D8): migración 013 aplicada por Alberto →
+load 70.134 preguntas (0 poison) → **el gate de flips v1 FALLÓ 0/2** e hizo exactamente su
+trabajo: diagnóstico medido (corpus-wide el espacio-pregunta es fuerte-en-tema/débil-en-producto;
+la cuota global compraba slots que el model-filter tira; el diversify re-litigaba la cuota con
+sims incomensurables) → mecánica v2 (family-parity nivel-fila patrón-012 + carve-out) → gate v4
+2/2 CON atribución causal. Dúo Protocolo 3 ×2 rondas (4 tallies, 0 rubber-stamp: typo-flag que
+mataba el canal vectorial en silencio → flag a import-time; false-PASS sin atribución; ventana
+id-duplicado; keep-max-antes-del-filtro; ef_search<match_count; paginación Supabase 1000). bvg
+outcome: 0 regresiones reales (hp020 = 4ª instancia del artefacto DEC-092b, verificado por agente
+independiente) + 4 gains PASS. Negcontrol pool-level ROJO registrado sin edulcorar y arbitrado.
+Cazado en el smoke de prod: la var apuntaba a main SIN el código → PR #115 → **flip cat016
+verificado en query_logs** (10:54Z admit → 11:15Z autobúsqueda completa). Full v2.2 (demo real):
+OK 91 (72%) · synth 18→8 (cluster cat021×4 resuelto por composición — confirma DEC-097) ·
+corpus-gap real 0. La factura del canal quedó visible y trazada (cat022×3+hp018×3 desplazados por
+el squeeze del diversify sobre keyword) → siguiente lever: aterrizar el desplazamiento en la cola
+VECTOR (a medir). Extra: regla operativa de Alberto = orchestrator (Fable lidera; sub-agentes
+mecánicos en Opus/Sonnet; el pin fable del dúo intocable). DEC-096..099 · TECH_DEBT #52.

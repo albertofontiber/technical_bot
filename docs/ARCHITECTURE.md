@@ -39,7 +39,15 @@
 > flag `ENUNCIADOS_MULTIVECTOR=on` en Railway (default de código: off; famtie 12→7 +
 > gate bvg 4/4 + verificado en producción con queries reales; fail-open a solo-reales;
 > el texto derivado JAMÁS se cita como manual; rollback = quitar la env var);
-> HyDE off; identidad de producto data-driven
+> **s102 (DEC-099): canal question-side hyq/HyPE — VIVO EN DEMO (9 jul)** — tabla
+> `chunks_v2_hyq` SEPARADA (70.134 preguntas-hipotéticas corpus-wide, HNSW propio,
+> migración 013 + RPC `match_hyq`), mecánica v2: cuota 10 + barra 0.45 (medidas en
+> piloto s101) + family-parity nivel-fila (patrón 012) + carve-out del diversify;
+> flag `HYQ_TABLE=on` en Railway (default off; import-time fail-fast: typo=crash-al-boot;
+> gates: flips 2/2 con atribución + bvg 0-regresiones; flip cat016 verificado en
+> query_logs de prod; scoreboard v2.2: synth 18→8 con el cluster cat021 resuelto;
+> factura declarada: desplazamiento cat022/hp018, TECH_DEBT #52; rollback = quitar la
+> env var); HyDE off; identidad de producto data-driven
 > (`config/manufacturers/` + sidecar). El registry cierra #43-capa-A (la query del base no
 > arrastra HERMANOS; las variantes VEN los docs de serie). **s64 (DEC-045): el lifecycle es
 > end-to-end** — contrato de supersesión POBLADO (3 cadenas: MAD-472 V1→V2, MC-380 b→c,

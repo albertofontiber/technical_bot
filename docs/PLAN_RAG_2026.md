@@ -27,7 +27,26 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s101 — 8 jul 2026)
+## Estado actual (s102 — 9 jul 2026)
+
+**s102 (DEC-096..099) — canal hyq SHIPPEADO A PROD y VERIFICADO + demo completa medida (scoreboard
+v2.2).** El canal question-side (tabla `chunks_v2_hyq` 70.134 preguntas + seam `HYQ_TABLE`, mecánica
+v2: cuota 10 + barra 0.45 + family-parity nivel-fila patrón-012 + carve-out del diversify) pasó
+flips 2/2 CON atribución + bvg 0-regresiones-reales, PR #115 mergeado, **flip cat016 verificado en
+query_logs de prod** (d355867). **Scoreboard v2.2 (demo real: fidelity+hyq ON): OK 91 (72%) ·
+synth 18→8 (¡cluster cat021×4 → OK vía composición-servida, sin tocar generador — confirma DEC-097!)
+· retrieval 12 · rerank 13 · corpus-gap real 0.** Factura del canal VISIBLE y con mecanismo
+verificado: cat022×3 + hp018×3 desplazados (el presupuesto reducido del diversify aprieta al canal
+keyword — negcontrol rojo pool-level lo anticipó). **Qué sigue:** (1) lever candidato = aterrizar el
+desplazamiento en la cola del canal VECTOR (no keyword) — medir antes de cablear, anti-overfit
+flagged; (2) synth residual 8 (~reales); (3) el estructural grande = entity-linking/identidad
+(DEC-074, F1 construido sin consumir). Levers cerrados: demote-TOC NO-GO (DEC-096) · selection-block
+NO-GO+fork (DEC-097) · fidelity SHIPPED (DEC-098) · hyq SHIPPED (DEC-099). Límites declarados:
+TECH_DEBT #52. Plan reanudable: `evals/s102_plan_autonomo.md`.
+
+---
+
+## Estado anterior (s101 — 8 jul 2026)
 
 **s101 (DEC-095) — instrumento dual×2 + 4 levers upstream MEDIDOS + scoreboard v2 (autónomo nocturno,
 mandato OK>95%).** El instrumento cazó y arregló 2 clases de FN de su propio juez (conveyed + soporte,
