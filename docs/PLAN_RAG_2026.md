@@ -27,7 +27,26 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s102 — 9 jul 2026)
+## Estado actual (s103 — 9 jul 2026)
+
+**s103 (DEC-100) — lever displacement-landing MEDIDO → NO-GO por gate pre-declarado → REVERTIDO;
+el camino queda re-dirigido al entity-linking (DEC-074).** El rediseño del carve-out hyq (diversify
+a top_k completo + eviction VECTOR por posición + trim del aside; dúo 2 rondas × 2 lados, 14+
+findings/0 FP) FUNCIONA para su diana (cat022 recupera 3/3 chunks; anclaje corpus-amplio +1/−0)
+pero los CONTROLES amplios lo tumban: rompe el flip shippeado hp018·6K8 (gate DEC-099), hp011
+fuera del null, negcontrol EXCESS-HIGH 7→9. **Lección medida: canal/score/sim-pregunta/posición —
+los 4 ejes observables son ciegos al valor; el discriminador restante es FAMILIA → el landing
+family-aware es el PRIMER CONSUMO medible del entity-linking (§3 del plan s103).** Seam
+reproducible `evals/s103_displacement_seam.patch`; matriz v3→v2.2 `evals/s103_transition_matrix.json`.
+Synth residual mapeado (`evals/s103_synth_residual_map.md`): 6/8 stable-miss, cluster cat021 NO
+reaparece (fork DEC-097 cerrado), 5×omitted procedimental → gold-review (DEC-094), no lever synth
+nuevo. **Qué sigue:** (1) **entity-linking/identidad (DEC-074)** — arrancada con DOS consumos
+candidatos a gatear: (a) landing family-aware del desplazamiento hyq (nuevo, DEC-100), (b) resolver
+sinónimos/series del family-filter hyq (TECH_DEBT #52.1); F1 (índice producto→docs) construido sin
+consumir (s83/s84). (2) Menores gateados: enunciados R2 corpus-wide ($160-270, presupuesto Alberto)
+· #52.2 al gatillo. Prod NO tocado en s103 (revert por pre-registro; demo = v2.2 intacta).
+
+## Estado anterior (s102 — 9 jul 2026)
 
 **s102 (DEC-096..099) — canal hyq SHIPPEADO A PROD y VERIFICADO + demo completa medida (scoreboard
 v2.2).** El canal question-side (tabla `chunks_v2_hyq` 70.134 preguntas + seam `HYQ_TABLE`, mecánica

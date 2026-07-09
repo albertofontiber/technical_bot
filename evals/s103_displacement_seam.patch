@@ -1,0 +1,201 @@
+diff --git a/src/rag/retriever.py b/src/rag/retriever.py
+index bc30b8c..5a2360c 100644
+--- a/src/rag/retriever.py
++++ b/src/rag/retriever.py
+@@ -1612,7 +1612,12 @@ def retrieve_chunks(
+         _hyq_aside = [c for c in merged if c.get("_hyq_surrogate")]
+         if _hyq_aside:
+             merged = [c for c in merged if not c.get("_hyq_surrogate")]
+-        merged = _diversify_by_source_file(merged, max(1, top_k - len(_hyq_aside)),
++        # (s103 displacement-landing, dúo r1+r2) El diversify corre a top_k COMPLETO. El
++        # presupuesto reducido (top_k - aside) era un DOBLE descuento: la fusión de
++        # vector_search ya paga la cuota con la cola de SU canal, y el recorte de aquí
++        # apretaba el interleave de TODOS los canales (slots + max_per_source) → tiraba
++        # keyword load-bearing (factura v2.2: cat022×3 + hp018×2 chunk-level).
++        merged = _diversify_by_source_file(merged, top_k,
+                                            models, query, query_keywords=None,
+                                            include_superseded=include_superseded,
+                                            supplement_rescore_fn=supp_fn)
+@@ -1623,7 +1628,42 @@ def retrieve_chunks(
+             # pool. El aside gana (conserva los stamps de traceability).
+             _aside_ids = {c.get("id") for c in _hyq_aside}
+             merged = [c for c in merged if c.get("id") not in _aside_ids]
+-            merged = merged[:max(0, top_k - len(_hyq_aside))] + _hyq_aside
++            # El sitio del aside lo paga la COLA DEL PROPIO CANAL VECTORIAL — el mismo
++            # trade de la fusión, por POSICIÓN (no por score: _enunciados_swap y el boost
++            # hyq dejan sims incomensurables bajo _channel=='VECTOR'). Pre-truncado
++            # primero: los early-returns del diversify y el merge stamps (sin cap) pueden
++            # entregar >top_k y sin él la eviction arrasaría el canal entero (dúo r1).
++            # Candidato = VECTOR real (ni _hyq_boosted ni _swapped_from_surrogate) cuyo
++            # source conserve ≥2 chunks (contrato sole-representative del interleave; el
++            # contador se decrementa al evictar para no vaciar un source). Si no hay cola
++            # vectorial elegible que pague, la CUOTA se encoge (trim de peores
++            # sim-pregunta) — jamás desplaza a un canal no-vectorial; el gate s103 mide
++            # el trim-rate para que el aside no muera en silencio.
++            merged = merged[:top_k]
++            n_evict = len(merged) + len(_hyq_aside) - top_k
++            if n_evict > 0:
++                src_count: dict = {}
++                for c in merged:
++                    sf = c.get("source_file")
++                    src_count[sf] = src_count.get(sf, 0) + 1
++                evict_ids: set = set()
++                for c in reversed(merged):
++                    if len(evict_ids) >= n_evict:
++                        break
++                    sf = c.get("source_file")
++                    if (c.get("id") and c.get("_channel") == "VECTOR"
++                            and not c.get("_hyq_boosted")
++                            and not c.get("_swapped_from_surrogate")
++                            and src_count.get(sf, 0) >= 2):
++                        evict_ids.add(c["id"])
++                        src_count[sf] -= 1
++                if evict_ids:
++                    merged = [c for c in merged if c.get("id") not in evict_ids]
++                room = top_k - len(merged)
++                if room < len(_hyq_aside):
++                    _hyq_aside.sort(key=lambda c: c.get("similarity") or 0, reverse=True)
++                    _hyq_aside = _hyq_aside[:room]
++            merged = merged + _hyq_aside
+ 
+     # Step 5b: Manufacturer diversity for generic queries (no specific model).
+     # Ensures technicians see results from ALL manufacturers, not just whichever
+diff --git a/tests/test_hyq_channel.py b/tests/test_hyq_channel.py
+index 281ec80..3662e9d 100644
+--- a/tests/test_hyq_channel.py
++++ b/tests/test_hyq_channel.py
+@@ -105,7 +105,7 @@ def test_family_rows_before_collapse_rescues_parent_with_unanchored_winner():
+ # ---------------------------------------------------------------------------
+ # Carve-out del diversify — la cuota hyq no se re-litiga por el interleave
+ # ---------------------------------------------------------------------------
+-def _chunk(cid, src, sim, hyq=False, boosted=False):
++def _chunk(cid, src, sim, hyq=False, boosted=False, swapped=False, channel=None):
+     c = {"id": cid, "source_file": src, "similarity": sim, "content": f"c-{cid}",
+          "product_model": "CAD-150"}
+     if hyq:
+@@ -113,6 +113,12 @@ def _chunk(cid, src, sim, hyq=False, boosted=False):
+         c["_hyq_question"] = "q"
+     if boosted:
+         c["_hyq_boosted"] = True
++    if swapped:
++        c["_swapped_from_surrogate"] = f"enun-{cid}"
++    if channel:
++        # pre-tagged: _tag_channel usa setdefault → simula un chunk de canal léxico
++        # (MODEL/CONTENT) inyectado por el pipeline antes del merge
++        c["_channel"] = channel
+     return c
+ 
+ 
+@@ -169,9 +175,10 @@ def test_carveout_no_duplicate_when_supplement_refetches_parent(monkeypatch):
+     assert len(out) <= top_k
+ 
+ 
+-def test_carveout_reduces_diversify_budget_not_boosted(monkeypatch):
+-    """El diversify recibe top_k reducido por el aside; los _hyq_boosted (hits reales) NO
+-    se apartan — compiten como siempre."""
++def test_carveout_diversify_full_budget_not_boosted(monkeypatch):
++    """(s103 displacement-landing) El diversify recibe top_k COMPLETO — el presupuesto
++    reducido era el DOBLE descuento que desplazaba keyword load-bearing (dúo s103). El
++    aside sigue FUERA del interleave; los _hyq_boosted (hits reales) dentro."""
+     seen = {}
+ 
+     def spy_diversify(chunks, k, *a, **kw):
+@@ -187,7 +194,97 @@ def test_carveout_reduces_diversify_budget_not_boosted(monkeypatch):
+     top_k = 5
+     out = rt.retrieve_chunks("¿Cómo se resetea la CAD-150?", top_k=top_k)
+     ids = [c["id"] for c in out]
+-    assert seen["k"] == top_k - 1, "el diversify debe correr con el presupuesto reducido por el aside"
++    assert seen["k"] == top_k, "el diversify corre a top_k COMPLETO (s103: sin doble descuento)"
+     assert "hyq1" not in seen["ids"], "el surrogate NO entra al interleave"
+     assert "boost1" in seen["ids"], "el boosted (hit real) SÍ compite en el diversify"
+     assert "hyq1" in ids and len(out) <= top_k
++
++
++def test_carveout_eviction_tail_vector_only(monkeypatch):
++    """(s103) Pass-through OVERSIZE con canales mixtos: el sitio del aside lo paga la COLA
++    del canal VECTOR — el top-coseno vectorial y los keyword-stamps sobreviven (el bug
++    CRÍTICO r1 era arrasar el canal entero cuando merged>top_k)."""
++    rows = [
++        _chunk("k1", "DOC-K", 0.85, channel="MODEL"),
++        _chunk("vtop", "DOC-T", 0.84),
++        _chunk("k2", "DOC-K", 0.80, channel="MODEL"),
++        _chunk("v2", "DOC-A", 0.66),
++        _chunk("v3", "DOC-A", 0.60),
++        _chunk("v4", "DOC-B", 0.58),
++        _chunk("v5", "DOC-B", 0.55),
++        _chunk("hyq1", "DOC-B", 0.46, hyq=True),
++    ]
++    _patch_pipeline(monkeypatch, rows)
++
++    top_k = 5
++    out = rt.retrieve_chunks("¿Cómo se resetea la CAD-150?", top_k=top_k)
++    ids = [c["id"] for c in out]
++    assert len(out) <= top_k
++    assert "hyq1" in ids, "el aside sobrevive"
++    assert "vtop" in ids, "el TOP-coseno VECTOR jamás se evicta (es sole-rep y head)"
++    assert "k1" in ids and "k2" in ids, "los keyword-stamps NO pagan la cuota"
++    assert "v3" not in ids, "paga la COLA del canal VECTOR (posición, no score)"
++
++
++def test_carveout_eviction_skips_boosted_and_swapped(monkeypatch):
++    """(s103) Las exclusiones: _hyq_boosted (hit real con señal-pregunta) y
++    _swapped_from_surrogate (rescate A3/enunciados) NO se evictan aunque estén en la
++    cola — paga el siguiente VECTOR real hacia arriba."""
++    rows = [
++        _chunk("k1", "DOC-K", 0.85, channel="MODEL"),
++        _chunk("v1", "DOC-A", 0.70),
++        _chunk("b1", "DOC-A", 0.52, boosted=True),
++        _chunk("sw1", "DOC-A", 0.50, swapped=True),
++        _chunk("hyq1", "DOC-B", 0.46, hyq=True),
++    ]
++    _patch_pipeline(monkeypatch, rows)
++
++    top_k = 4
++    out = rt.retrieve_chunks("¿Cómo se resetea la CAD-150?", top_k=top_k)
++    ids = [c["id"] for c in out]
++    assert "b1" in ids and "sw1" in ids, "boosted/swapped protegidos de la eviction"
++    assert "v1" not in ids, "paga el siguiente VECTOR real hacia arriba"
++    assert "hyq1" in ids and len(out) <= top_k
++
++
++def test_carveout_eviction_respects_sole_representative(monkeypatch):
++    """(s103, contrato G1 — convergencia dúo r2) El ÚNICO chunk VECTOR de un source no se
++    evicta aunque sea la cola: la garantía per-source del interleave sobrevive a la
++    eviction."""
++    rows = [
++        _chunk("k1", "DOC-K", 0.85, channel="MODEL"),
++        _chunk("v2", "DOC-B", 0.60),
++        _chunk("v3", "DOC-B", 0.55),
++        _chunk("v1", "DOC-A", 0.50),   # sole-rep de DOC-A, en la cola
++        _chunk("hyq1", "DOC-C", 0.46, hyq=True),
++    ]
++    _patch_pipeline(monkeypatch, rows)
++
++    top_k = 4
++    out = rt.retrieve_chunks("¿Cómo se resetea la CAD-150?", top_k=top_k)
++    ids = [c["id"] for c in out]
++    assert "v1" in ids, "el sole-representative de DOC-A sobrevive (contrato, no claim)"
++    assert "v3" not in ids, "paga la cola del source con ≥2 chunks"
++    assert "hyq1" in ids and len(out) <= top_k
++
++
++def test_carveout_trims_aside_when_no_vector_candidates(monkeypatch):
++    """(s103, fallback G5) Pool sin candidatos VECTOR elegibles: la CUOTA se encoge (trim
++    de peores sim-pregunta) — jamás desplaza a un canal no-vectorial. El gate mide el
++    trim-rate para que esto no pase en silencio corpus-wide."""
++    rows = [
++        _chunk("k1", "DOC-K", 0.85, channel="MODEL"),
++        _chunk("k2", "DOC-K", 0.82, channel="MODEL"),
++        _chunk("k3", "DOC-K", 0.80, channel="CONTENT"),
++        _chunk("hyq1", "DOC-B", 0.50, hyq=True),
++        _chunk("hyq2", "DOC-C", 0.46, hyq=True),
++    ]
++    _patch_pipeline(monkeypatch, rows)
++
++    top_k = 4
++    out = rt.retrieve_chunks("¿Cómo se resetea la CAD-150?", top_k=top_k)
++    ids = [c["id"] for c in out]
++    assert all(k in ids for k in ("k1", "k2", "k3")), "ningún canal no-vectorial pierde slots"
++    assert "hyq1" in ids, "el trim conserva los MEJORES surrogates por sim-pregunta"
++    assert "hyq2" not in ids, "el peor surrogate es el que se recorta"
++    assert len(out) <= top_k

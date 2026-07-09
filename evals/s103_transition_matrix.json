@@ -1,0 +1,110 @@
+{
+ "derivation": "git show 8ec8db0 (v3) vs 59fe1a2 (v2.2) de evals/s100_factlevel_full.yaml — reproducible",
+ "lost_10": {
+  "cat022#0:2,5-3,0 μm": {
+   "v3": "OK",
+   "v22": "retrieval-miss"
+  },
+  "cat022#1:4,5 μm": {
+   "v3": "OK",
+   "v22": "retrieval-miss"
+  },
+  "cat022#2:BIT": {
+   "v3": "OK",
+   "v22": "retrieval-miss"
+  },
+  "hp005#1:COINCIDENCIA 2 EQUIPOS": {
+   "v3": "OK",
+   "v22": "synthesis-miss"
+  },
+  "hp006#1:Tierra": {
+   "v3": "OK",
+   "v22": "rerank-miss"
+  },
+  "hp012#2:2 lazos / 396": {
+   "v3": "OK",
+   "v22": "synthesis-miss"
+  },
+  "hp017#2:Editar Configuracion": {
+   "v3": "OK",
+   "v22": "rerank-miss"
+  },
+  "hp018#0:4 circuitos": {
+   "v3": "OK",
+   "v22": "synthesis-miss"
+  },
+  "hp018#2:diodo": {
+   "v3": "OK",
+   "v22": "retrieval-miss"
+  },
+  "hp018#3:Sirenas A,B,C,D": {
+   "v3": "OK",
+   "v22": "retrieval-miss"
+  }
+ },
+ "gained_12": {
+  "cat016#0:autobusqueda": {
+   "v3": "retrieval-miss",
+   "v22": "OK"
+  },
+  "cat020#1:0-100 % normalizado": {
+   "v3": "synthesis-miss",
+   "v22": "OK"
+  },
+  "cat021#0:40/40": {
+   "v3": "synthesis-miss",
+   "v22": "OK"
+  },
+  "cat021#1:IR3": {
+   "v3": "synthesis-miss",
+   "v22": "OK"
+  },
+  "cat021#2:Multi IR / hidrógeno": {
+   "v3": "synthesis-miss",
+   "v22": "OK"
+  },
+  "cat021#3:UV": {
+   "v3": "synthesis-miss",
+   "v22": "OK"
+  },
+  "hp001#2:1111": {
+   "v3": "synthesis-miss",
+   "v22": "OK"
+  },
+  "hp002#3:7.6.1": {
+   "v3": "synthesis-miss",
+   "v22": "OK"
+  },
+  "hp005#2:misma zona o subzona": {
+   "v3": "synthesis-miss",
+   "v22": "OK"
+  },
+  "hp006#0:Fallo de Tierra": {
+   "v3": "synthesis-miss",
+   "v22": "OK"
+  },
+  "hp011#1:r.I": {
+   "v3": "synthesis-miss",
+   "v22": "OK"
+  },
+  "hp015#2:32": {
+   "v3": "synthesis-miss",
+   "v22": "OK"
+  }
+ },
+ "target_6_displacement": [
+  "cat022#0:2,5-3,0 μm",
+  "cat022#1:4,5 μm",
+  "cat022#2:BIT",
+  "hp018#0:4 circuitos",
+  "hp018#2:diodo",
+  "hp018#3:Sirenas A,B,C,D"
+ ],
+ "lost_4_not_attributed": [
+  "hp005#1:COINCIDENCIA 2 EQUIPOS",
+  "hp006#1:Tierra",
+  "hp012#2:2 lazos / 396",
+  "hp017#2:Editar Configuracion"
+ ],
+ "note": "hp018#0 in_pool:true (synth por composicion); gate judge-free = composicion pool/servido, conveyed via assessment posterior"
+}

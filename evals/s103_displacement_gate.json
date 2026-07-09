@@ -1,0 +1,154 @@
+{
+ "stamps": {
+  "old": {
+   "arm": "old",
+   "git_sha": "29695cf83385c12b67e3ee92fc72f1c59bf67562",
+   "git_dirty_src": "",
+   "flags": {
+    "CHUNKS_TABLE": "chunks_v2",
+    "ENUNCIADOS_MULTIVECTOR": "on",
+    "IDENTITY_RESOLVE": "on",
+    "IDENTITY_RESOLVE_POLICY": "ADD",
+    "LLM_MAX_TOKENS": "3500",
+    "RERANK_TOP_K": "10",
+    "RERANKER_BACKEND": "llm",
+    "MERGE_STRATEGY": "stamps",
+    "RERANK_PREVIEW_CHARS": "800",
+    "HYDE_ENABLED": "false",
+    "GENERATOR_PROMPT_VARIANT": "fidelity",
+    "HYQ_PILOT_FILE": "",
+    "HYQ_TABLE": "on (call-time flip)",
+    "NEIGHBOR_WINDOW": "0"
+   },
+   "top_k": 50,
+   "n_golds": 39
+  },
+  "fix": {
+   "arm": "fix",
+   "git_sha": "29695cf83385c12b67e3ee92fc72f1c59bf67562",
+   "git_dirty_src": "M src/rag/retriever.py",
+   "flags": {
+    "CHUNKS_TABLE": "chunks_v2",
+    "ENUNCIADOS_MULTIVECTOR": "on",
+    "IDENTITY_RESOLVE": "on",
+    "IDENTITY_RESOLVE_POLICY": "ADD",
+    "LLM_MAX_TOKENS": "3500",
+    "RERANK_TOP_K": "10",
+    "RERANKER_BACKEND": "llm",
+    "MERGE_STRATEGY": "stamps",
+    "RERANK_PREVIEW_CHARS": "800",
+    "HYDE_ENABLED": "false",
+    "GENERATOR_PROMPT_VARIANT": "fidelity",
+    "HYQ_PILOT_FILE": "",
+    "HYQ_TABLE": "on (call-time flip)",
+    "NEIGHBOR_WINDOW": "0"
+   },
+   "top_k": 50,
+   "n_golds": 39
+  }
+ },
+ "gate1_diana": {
+  "cat022·MNDT723:p58": {
+   "old": false,
+   "fix": true
+  },
+  "cat022·MNDT723:p10": {
+   "old": false,
+   "fix": true
+  },
+  "cat022·MNDT722:p14": {
+   "old": false,
+   "fix": true
+  },
+  "hp018·MIEMI530:p21": {
+   "old": false,
+   "fix": false
+  }
+ },
+ "gate2a_anchor_transition": {
+  "n_facts": 109,
+  "gained": [
+   "cat022#1:4,5 μm"
+  ],
+  "lost": []
+ },
+ "gate2b_served_gained_golds": {
+  "cat016": {
+   "missing_fix": [],
+   "missing_old": []
+  },
+  "cat020": {
+   "missing_fix": [],
+   "missing_old": []
+  },
+  "cat021": {
+   "missing_fix": [],
+   "missing_old": []
+  },
+  "hp001": {
+   "missing_fix": [],
+   "missing_old": []
+  },
+  "hp002": {
+   "missing_fix": [],
+   "missing_old": []
+  },
+  "hp005": {
+   "missing_fix": [],
+   "missing_old": []
+  },
+  "hp006": {
+   "missing_fix": [],
+   "missing_old": []
+  },
+  "hp011": {
+   "missing_fix": [
+    "731ace03-99d6-47ff-8d1a-da5b381b5c47",
+    "c8924d59-a9ce-4379-a3b7-57058ff86a82",
+    "e0f49eb5-7e1d-437e-a9d0-9887ecd79a1b"
+   ],
+   "missing_old": []
+  },
+  "hp015": {
+   "missing_fix": [
+    "51d3ea46-6c8a-46d4-9218-411c58c1fe41"
+   ],
+   "missing_old": []
+  }
+ },
+ "gate3b_trim_proxy": {
+  "golds_with_fewer_hyq": [
+   {
+    "qid": "cat008",
+    "old": 3,
+    "fix": 2
+   },
+   {
+    "qid": "cat023",
+    "old": 2,
+    "fix": 1
+   },
+   {
+    "qid": "hp006",
+    "old": 5,
+    "fix": 4
+   },
+   {
+    "qid": "hp012",
+    "old": 4,
+    "fix": 2
+   },
+   {
+    "qid": "hp015",
+    "old": 3,
+    "fix": 2
+   },
+   {
+    "qid": "hp018",
+    "old": 5,
+    "fix": 2
+   }
+  ],
+  "trim_rate": "6/39"
+ }
+}

@@ -1579,3 +1579,50 @@ canal (`tests/test_hyq_channel.py`), suite 462 verdes.
 1: verificar stamps `_hyq` en una query real con modelo antes de declarar shipped) → full v2.2
 (estrena H4 + provenance + fidelity + hyq) → nueva fila del scoreboard. Rollback trivial: quitar
 la env var (flag-off = prod inerte); tabla/RPC con rollback declarado en 013.
+
+## DEC-100 — s103: lever displacement-landing (eviction VECTOR post-diversify) MEDIDO → NO-GO por gate pre-declarado; el landing correcto es FAMILY-AWARE → primer consumo medible del entity-linking (DEC-074)
+
+**Decisión.** El rediseño del carve-out hyq (diversify a top_k COMPLETO + eviction por
+posición-de-cola de `_channel=='VECTOR'` con exclusiones `_hyq_boosted`/`_swapped_from_surrogate`
++ contrato sole-representative + fallback trim-del-aside) se cableó, se midió judge-free con A/B
+same-day (old@29695cf vía git worktree vs fix working-tree, misma DB, config-stamped) y **FALLA el
+gate pre-declarado en 3 puntos → REVERTIDO por pre-registro**. Seam reproducible:
+`evals/s103_displacement_seam.patch`; diseño+veredicto: `evals/s103_displacement_landing_design.md`;
+artefactos: `s103_displacement_probe_{old,old_b,fix}.json` · `s103_displacement_gate.json` ·
+`s103_displacement_null.json` · `s103_hyq_{negcontrol,table_gate}_fixarm.yaml` ·
+`s103_transition_matrix.json` (matriz v3→v2.2 reconstruida de git, 10 perdidos/12 ganados).
+
+**Resultado medido (lo que el NO-GO compra).**
+- El mecanismo FUNCIONA para su clase diana: cat022 recupera **3/3 chunks** desplazados
+  (MNDT723 p58/p10, MNDT722 p14) y la transición de anclaje corpus-amplia es +1/−0 (109 facts,
+  null 0/0). La clase "stamps load-bearing desplazados" es REAL y recuperable.
+- PERO: (a) **rompe el flip shippeado hp018·6K8** (gate de aceptación DEC-099): en pools
+  protected-heavy el trim recorta el surrogate load-bearing por 3 milésimas de sim-pregunta
+  (0.454 vs 0.457 — la sim-pregunta no discrimina valor); (b) **hp011 fuera del null** (3
+  served-v2.2 evictados; null 0/0); (c) **negcontrol EXCESS-HIGH SUBE 7→9** (posición-de-
+  interleave ≠ rank OFF: la eviction de "cola" desplaza top-25); (d) hp018 p21 NO recuperable
+  por diseño (ES cola vectorial = el precio medido del canal).
+
+**Lección estructural.** Los 50 slots los paga alguien SIEMPRE. Los 4 ejes observables — canal,
+score (incomensurable, dúo r1), sim-pregunta (6K8), posición de interleave (negcontrol) — son
+TODOS ciegos al valor. El discriminador restante es **FAMILIA/identidad**: la cola que v2.1
+protegió en hp018 era junk cross-family (MIE-MI-310 para pregunta ZXe) y la que el carve-out
+viejo desplaza en cat022 es gold same-family (MNDT72x). **El landing family-aware queda como
+HIPÓTESIS A GATEAR dentro del workstream entity-linking (DEC-074/§3 del plan s103) — su primer
+consumo medible.** No se itera el landing por otro eje ciego (sería tuning; G4 declarado).
+
+**Alternativas descartadas (medidas o razonadas en el diseño v2.1).** A1 quitar carve-out (anula
+el canal, s102) · A2 crecer pool (contradice competencia-de-slots medida) · A3 tocar el diversify
+(consenso s59 ×2) · A4 eviction por score (escalas incomensurables + arrasa canal en oversize,
+CRÍTICO r1) · A5 cola global (empates de stamp evictan mejor-rankeados) · iterar v3 con otro eje
+observable-ciego (los 4 están agotados por medición).
+
+**Proceso (dúo Protocolo 3, MEDIO-en-zona-de-dolor → cross-model INNEGOCIABLE).** 2 rondas × 2
+lados, agentes frescos: r1 sub-agente 7 findings (1 CRÍTICO: early-returns sin truncar + merge
+stamps sin cap → eviction v1 arrasaría el canal) + cross-model 6/6 (escalas incomensurables:
+`_enunciados_swap` propaga sim+`_channel` :1331, boost sobrescribe :999); r2 convergente ×2 en
+sobre-claim "G1-safe" y gate ciego al trim + **el cross-model corrigió la cita errónea `:2456`
+que AMBOS sub-agentes Claude repitieron** (mismo-árbol = mismo blind spot — validación en vivo de
+la regla de Alberto s102). Tally: 14+ findings, 0 falsos positivos (`adversarial_review_log.jsonl`
+2026-07-09 ×2 s103). El gate amplio (negcontrol+flips+null) cazó lo que los 6 diana no podían —
+el guardarraíl anti-overfit G4 funcionó por diseño.

@@ -1678,3 +1678,25 @@ corpus-gap real 0. La factura del canal quedó visible y trazada (cat022×3+hp01
 el squeeze del diversify sobre keyword) → siguiente lever: aterrizar el desplazamiento en la cola
 VECTOR (a medir). Extra: regla operativa de Alberto = orchestrator (Fable lidera; sub-agentes
 mecánicos en Opus/Sonnet; el pin fable del dúo intocable). DEC-096..099 · TECH_DEBT #52.
+
+## s103 (9 jul 2026) — el gate tumba mi lever y eso es el sistema funcionando (DEC-100)
+
+Sesión limpia arrancada del plan s102→s103. El lever §1 (displacement-landing: que la cuota hyq
+desplace cola VECTOR, no keyword) fue de diseño a veredicto en una sesión: dúo Protocolo 3 en 2
+rondas × 2 lados (el sub-agente r1 cazó un CRÍTICO — los early-returns del diversify + merge
+stamps sin cap habrían hecho que mi eviction v1 arrasara el canal vectorial entero; el cross-model
+cazó las escalas incomensurables Y una cita errónea que AMBOS sub-agentes Claude repitieron —
+validación en vivo del mismo-árbol≠independencia de Alberto s102), cableado v2.1 con 5 contratos
+de test nuevos (466 verdes), y gate judge-free A/B same-day (worktree@HEAD vs fix, config-stamped,
+null OFF-vs-OFF incluido). Resultado: el mecanismo CUMPLE su diseño (cat022 3/3 chunks diana
+recuperados, anclaje corpus-amplio +1/−0 con null 0/0) y AUN ASÍ es NO-GO — rompe el flip
+shippeado hp018·6K8 (el trim recortó el surrogate load-bearing por 3 milésimas de sim-pregunta),
+deja hp011 fuera del null y SUBE el negcontrol 7→9 (la posición-de-interleave tampoco es proxy de
+rank). Revert por pre-registro, seam preservado. Lo que el NO-GO compra: la clase cat022 queda
+PROBADA recuperable (target correcto) y los 4 ejes observables (canal/score/sim-pregunta/posición)
+quedan MEDIDOS como ciegos al valor — el discriminador restante es FAMILIA, lo que convierte el
+landing family-aware en el primer consumo medible del entity-linking (DEC-074) en vez de otra
+iteración de tuning. El flag anti-overfit (G4) funcionó por diseño: los 6 diana no podían tumbar
+el lever; los controles amplios sí. De propina: synth residual mapeado (6/8 estables, cluster
+cat021 NO reaparece → fork DEC-097 sigue cerrado) y matriz de transición v3→v2.2 reconstruida de
+git como artefacto reproducible. Prod intacto todo el día.
