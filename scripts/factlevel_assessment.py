@@ -58,6 +58,9 @@ DEMO_FLAGS = {
     # la "demo" que este instrumento mide lo lleva ON. Cambia el freeze-hash (correcto: los
     # partials pre-ship no son comparables).
     "GENERATOR_PROMPT_VARIANT": "fidelity",
+    # s102/DEC-099: canal hyq SHIPPEADO (PR#115 merged 9-jul; flip cat016 verificado en
+    # query_logs de prod, bot_version=d355867) → la demo lo lleva ON. Cambia el freeze-hash.
+    "HYQ_TABLE": "on",
 }
 
 
@@ -126,6 +129,15 @@ assert not _hyde_on, "HYDE_ENABLED=true ≠ demo(off) — pipeline fantasma"
 assert not os.getenv("GENERATOR_INCLUDE_CONTEXT"), "GENERATOR_INCLUDE_CONTEXT ON rompe paridad bvg/DEC-075"
 assert os.getenv("GENERATOR_PROMPT_VARIANT") == "fidelity", \
     "GENERATOR_PROMPT_VARIANT≠fidelity ≠ demo (DEC-098: shippeado 8-jul; si se revierte en Railway, actualizar DEMO_FLAGS)"
+# DEC-099: el canal hyq de la demo va ON — guard seam-a-código (patrón s102): el flag es
+# IMPORT-time (HYQ_TABLE_ON) y el dispatcher debe CONSULTARLO (un revert en Railway sin
+# actualizar DEMO_FLAGS, o un env sucio, mediría una demo fantasma).
+import inspect as _inspect  # noqa: E402
+from src.rag import retriever as _rt_guard  # noqa: E402
+assert _rt_guard.HYQ_TABLE_ON is True, \
+    "HYQ_TABLE≠on ≠ demo (DEC-099: shippeado 9-jul; si se revierte en Railway, actualizar DEMO_FLAGS)"
+assert "HYQ_TABLE_ON" in _inspect.getsource(_rt_guard.vector_search), \
+    "vector_search NO consulta HYQ_TABLE_ON — seam no cableado"
 
 JUDGE_MODEL = "gpt-5.5"
 JUDGE2_MODEL = "claude-opus-4-8"   # dual-judge (s100, suite de aceptación n=5 fakes/6 OK + 5 flips regla-C;

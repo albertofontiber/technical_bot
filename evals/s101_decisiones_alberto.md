@@ -153,7 +153,14 @@ el fix sería instrumento (subir bound / grep léxico previo), no gold.
 
 ## D8 (s102, 9-jul) — GO de ACTIVACIÓN del canal hyq en Railway (`HYQ_TABLE=on`)
 
-**Estado: PENDIENTE de tu GO.** Todo lo demás está hecho y gateado (DEC-099): tabla cargada
+**Estado: ✅ EJECUTADA (mismo día).** GO de Alberto → var en Railway → (cazado: el código no
+estaba en main — la var apuntaba al deploy viejo c2490e4, y el admit del primer test era el
+comportamiento correcto del código sin canal) → PR #115 mergeado por Alberto → deploy
+d355867 → **flip cat016 VERIFICADO EN PRODUCCIÓN** (query_logs 11:15Z: la misma query que
+falló a las 10:54Z responde el procedimiento completo de autobúsqueda del 55315013).
+Instrumento fact-level actualizado a la demo real (HYQ_TABLE=on + guard). Sigue: full v2.2.
+
+**(Texto original de la decisión, para la traza:)** Todo lo demás está hecho y gateado (DEC-099): tabla cargada
 (70.134 preguntas), mecánica v2 con dúo ×2 rondas, gate de flips 2/2 CON atribución, bvg
 0 regresiones reales + 4 gains PASS (hp001/cat009/hp013/hp007), negcontrol pool-level rojo
 TRAZADO y arbitrado en outcome (el gold más desplazado, cat009, GANA a PASS).
