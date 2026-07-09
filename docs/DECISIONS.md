@@ -1520,3 +1520,62 @@
 - **Coste declarado (vigilar en el próximo full v2.2)**: el bloque re-prioriza — densifica lo afirmado-sobre-la-pregunta y DEJA CAER caveats/supplementary periféricos (caveat "verifica la etiqueta" hp004 3/3→0/3; rango 24,1-26Vdc cat009 3/3→0/3). No toca cores. Si el v2.2 muestra pérdida de facts supplementary atribuible al bloque → re-abrir con ese dato.
 - **Ship**: `GENERATOR_PROMPT_VARIANT=fidelity` en Railway (paso de Alberto; el código s69 vive en main desde entonces; reversible quitando la variable). El assessment NO pinea este flag en DEMO_FLAGS → al confirmarse el ship, pinearlo "fidelity" para que el próximo full mida la demo real.
 - **Relacionado**: DEC-051 (veredicto sustituido), DEC-092b (patrón vara-justa + artefactos-del-juez), DEC-095 (medición fact-level), D6 en `evals/s101_decisiones_alberto.md`.
+
+## DEC-099 — s102: SHIP hyq corpus-wide CONSTRUIDO Y GATEADO (mecánica v2) — pendiente SOLO GO de Alberto para activar
+
+**Decisión.** El canal question-side hyq (piloto GO DEC-095, ship D2 aprobado por Alberto) queda
+materializado y VERIFICADO end-to-end: migración 013 (`chunks_v2_hyq` + HNSW propio + RPC
+`match_hyq`, aplicada por Alberto) · load 70.134 preguntas (0 poison, count==universo, self-hits
+1.0000, `ingest_batch=hyq-v1-37a843f9`) · seam `HYQ_TABLE=on|off` (flag a IMPORT-time: typo =
+crash-al-boot, no medio-apagado silencioso) · **mecánica v2** = cuota 10 + barra 0.45 del piloto
++ family-parity a NIVEL FILA (`_hyq_family_rows`, patrón 012) + carve-out del diversify con dedup.
+La activación (`HYQ_TABLE=on` en Railway) queda gateada al GO de Alberto (mandato: nunca auto-ship).
+
+**Por qué mecánica v2 (el gate lo exigió, no fue pre-diseño).** El gate de reproducción v1 falló
+0/2 con causa MEDIDA: corpus-wide (70k preguntas vs 6.4k del piloto) el espacio-pregunta es
+fuerte-en-TEMA y débil-en-PRODUCTO — los padres de la familia diana rankean ~49-53 tras paráfrasis
+genéricas de otras marcas, la cuota global compraba slots que `_filter_to_query_models` tira
+(n_hyq_in_pool=0 en todas las queries con modelo); y el diversify por-fichero re-litigaba la cuota
+con sims incomensurables (hp018 RECALL→DIVERSIFY). Fix 1 = filtro de familia sobre el TEXTO de cada
+pregunta ANTES del colapso keep-max (anclaje condicional del generador — fix #2 dúo r2), fallback
+a-cero-matches no-peor. Fix 2 = set-aside de `_hyq_surrogate` alrededor del diversify (lógica
+interna INTOCADA, consenso s59) con dedup del re-adjunte (ventana id-duplicado, fix #1 dúo r2).
+
+**Evidencia (métricas declaradas).**
+- Gate flips (pool-50 same-family CON atribución causal — sin atribución sería false-PASS, fix
+  cross-model r1): **2/2** (cat016·autobúsqueda + hp018·6K8, las MISMAS preguntas ganadoras del
+  piloto vía tabla) · 0 flips espurios · hp014 control-expectativa estable · `s102_hyq_table_gate.yaml`.
+- bvg outcome (K=3, pairing por pool s63-R1 — 6/23 paired delta:=0, juez canónico, fidelity ambos
+  brazos): **0 regresiones reales · 4 GAINS PASS (hp001/cat009/hp013/hp007)**. hp020 PASS→PARCIAL
+  verificado ARTEFACTO DEL JUEZ por agente independiente elemento-a-elemento (4ª instancia
+  DEC-092b) · `s102_hyq_bvg_gate.json` (gate_verdict estampado).
+- Negcontrol pool-level (OFF/OFF/ON null-corrected): **ROJO registrado sin edulcorar** — 7
+  EXCESS-HIGH en 4 golds (null=0; canal dispara 31/39 vs ~0 del piloto). Mecanismo TRAZADO con
+  `_trace`: la fusión corta la cola CRUDA del vector (`results[:40]+cuota`) PRE-model-filter y en
+  queries con modelo esa cola es load-bearing post-filtro (cat009: rank crudo 44 = rank 3 final).
+  Arbitrado en OUTCOME: cat009 GANA a PASS, cat018/019/021 estables → trade neto-positivo en esta
+  población. Si un full futuro muestra daño de esta clase → rediseño de la fusión (cap post-filtro).
+
+**Alternativas descartadas.** Subir cuota/fetch-K (tuning ciego + desplazamiento medido s101) ·
+family-filter server-side vía RPC (exigiría migración nueva y pm poco fiable justo donde importa
+— ZXe=combinado/unknown; el texto-de-pregunta es la señal diseñada) · re-stamp de sims a 0.72
+patrón-supplements (violaría la mecánica medida MUCHO más que el carve-out) · carve-out también en
+`_diversify_by_manufacturer` (rama no-modelo = mecánica medida en piloto+negcontrol, sin evidencia
+de fallo — asimetría DELIBERADA como disciplina de medición).
+
+**Gaps/deuda declarados.** TECH_DEBT #52 (ventana series/shared-docs · techo top-200 client-side a
+escala 30+ · pm=unknown sin adjudicar → workstream identidad DEC-074). Replay exacto del piloto
+imposible (el npz medido s101 fue sobrescrito; backup en disco = vintage posterior 7004). Flake
+orden-dependiente pre-existente en test_enunciados_multivector:212 (no relacionado).
+
+**Proceso.** Dúo Protocolo 3 ×2 rondas (ALTO/zona-de-dolor, cross-model INNEGOCIABLE): r1
+cross-model 5/5 (2 críticos: typo-flag silencioso → import-time; false-PASS sin atribución) +
+sub-agente 9 (8 conf/1 FP; ef_search<match_count; 404-bisección; paginación-1000 verificada EN
+VIVO). r2 cross-model 5 (4 conf/1 refutado) + sub-agente 8/8 (id-duplicado; keep-max-antes-del-
+filtro). Tally completo en `adversarial_review_log.jsonl` (2026-07-09 ×4). 10 tests nuevos del
+canal (`tests/test_hyq_channel.py`), suite 462 verdes.
+
+**Ship-step restante.** GO Alberto → `HYQ_TABLE=on` en Railway → smoke post-activación (Protocolo
+1: verificar stamps `_hyq` en una query real con modelo antes de declarar shipped) → full v2.2
+(estrena H4 + provenance + fidelity + hyq) → nueva fila del scoreboard. Rollback trivial: quitar
+la env var (flag-off = prod inerte); tabla/RPC con rollback declarado en 013.

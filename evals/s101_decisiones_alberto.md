@@ -148,3 +148,20 @@ el fix sería instrumento (subir bound / grep léxico previo), no gold.
 - Seam → patch (patrón consolidado); src/tests limpios; nada shippeado.
 - **Para ti**: la clase «consulta de selección» es una dimensión conductual que crecerá con 30+
   fabricantes — candidata a golds futuros autorados desde FUENTE (DEC-025), si te encaja.
+
+---
+
+## D8 (s102, 9-jul) — GO de ACTIVACIÓN del canal hyq en Railway (`HYQ_TABLE=on`)
+
+**Estado: PENDIENTE de tu GO.** Todo lo demás está hecho y gateado (DEC-099): tabla cargada
+(70.134 preguntas), mecánica v2 con dúo ×2 rondas, gate de flips 2/2 CON atribución, bvg
+0 regresiones reales + 4 gains PASS (hp001/cat009/hp013/hp007), negcontrol pool-level rojo
+TRAZADO y arbitrado en outcome (el gold más desplazado, cat009, GANA a PASS).
+
+**Recomendación: GO.** El único dato en contra (negcontrol pool-level) tiene mecanismo
+identificado y el outcome lo arbitra a favor; el rollback es quitar la env var (flag-off =
+prod inerte, 0 DDL).
+
+**Si das GO:** pones `HYQ_TABLE=on` en Railway (única variable; cuota/barra ya van por
+defecto) y me lo dices → corro el smoke post-activación (verificar stamps `_hyq` en una
+query real, Protocolo 1) y después el full v2.2 para la fila nueva del scoreboard.
