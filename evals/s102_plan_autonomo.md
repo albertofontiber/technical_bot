@@ -19,7 +19,20 @@ BP+estructural+escalable-30+; flag de overfitting; decisiones inequívocas = tom
 ## Cola de ejecución (en orden)
 1. ✅ **Tramos hyq COMPLETOS (8/8)**: 25.086 chunks (~100% corpus), 76.287 preguntas, QA 15/15
    por tramo. ✅ retry-empties (56 sanados / 1.792 NONE legítimos). ✅ jsonl committeado.
-   SIGUIENTE → build de la tabla (c):
+   SIGUIENTE → build de la tabla (c) — DISEÑO CONCRETO (ejecutar con contexto fresco + dúo):
+   · Migración 013 (patrón s95/011-012 enunciados, CON rollback): tabla `chunks_v2_hyq`
+     (id pk · chunk_id fk→chunks_v2 · question text · embedding vector(1024) · source_file ·
+     page_number) + índice HNSW coseno propio (dilución eliminada por construcción, DEC-089)
+     + RPC `match_hyq(query_embedding, match_count)` → (chunk_id, question, similarity).
+   · Loader desde el jsonl: dedup por chunk_id KEEP-FIRST (mismo criterio que el npz del
+     piloto — los 1.877 dupes s99); pm=unknown-sin-ancla NO se excluye (la barra 0.45 filtra;
+     re-evaluar en el gate). Embed Voyage-1024 (mismo modelo del corpus), ~76k preguntas ≈ $2-5.
+   · Retriever: seam nuevo `HYQ_TABLE=on|off` (parser estricto) que sustituye al npz
+     conservando la mecánica MEDIDA del piloto: fusión por CUOTA=10 + barra MIN_COS=0.45 +
+     colapso keep-max por padre + traceability `_hyq_question`. Flag OFF por defecto.
+   · Gate pre-activación: reproducir los 2 flips del piloto (cat016 · hp018-6K8) vía tabla +
+     famtie/bvg no-regresión (control ruido: OFF-vs-OFF, norma DEC-096) → GO Alberto → Railway.
+   · Dúo (sub-agente + cross-model) sobre migración+loader+seam ANTES de aplicar el DDL.
    (c) build tabla A3-style `chunks_v2_hyq` con **dedup por chunk_id** (1.877 dupes de origen)
    — QA-obs tramo 4: los chunks con `product_model=unknown` generan preguntas SIN ancla de
    producto ("¿estos módulos…?") → decidir en el build: excluirlas o confiar en barra 0.45
