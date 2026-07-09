@@ -1924,3 +1924,30 @@ un demo con técnico real. **Acción:** (a) auditoría de frescura por-fabricant
 + webs (¿falta la última revisión?); (b) poblar `revision_date` (hoy 1/1170) desde páginas 1-5 → activa el orden
 de las supersede-chains para citar la revisión vigente. **Baja palanca en el eval** (golds píxel-verificados active);
 es **producto-calidad** (un técnico no debe recibir un manual obsoleto), NO gate del trabajo de identidad. Ref: cierre s86.
+
+## 52. Canal hyq: family-parity por texto-de-pregunta — 3 límites declarados (s102, dúo r2)
+
+**Contexto:** el ship del canal question-side (tabla `chunks_v2_hyq`, mecánica v2 con
+`_hyq_family_rows` — family-parity a nivel fila, patrón 012) pasó su gate 2/2 con atribución.
+El dúo r2 (cross-model + sub-agente) dejó 3 límites CONOCIDOS del matcher de familia, ninguno
+bloquea la activación (el fallback a-cero-matches acota el daño a "no-peor que cuota global"):
+
+1. **Ventana series/shared-docs**: el filtro (texto de pregunta vs modelos post-resolver) es
+   más estricto que la apertura nivel-2 de docs compartidos de `_filter_to_query_models`
+   (CAD-201→MC-380): una pregunta que solo nombra el doc de serie se filtra aunque el pipeline
+   downstream la habría admitido.
+2. **Techo de escalabilidad del top-200 client-side**: la paridad 012 VERDADERA sería el
+   family-pattern como parámetro del RPC `match_hyq` (server-side, migración futura). Con 70k
+   preguntas la familia rankea ~49-53 (cabe en 200); a 200k+ (contrato 30+ fabricantes) el
+   top-200 puede traer CERO filas de familia → fallback silencioso a cuota global condenada.
+   Trigger: al duplicar el corpus o si el gate de un fabricante nuevo pierde flips.
+3. **Padres pm=unknown sin adjudicar**: la pregunta de familia pasa el filtro pero el padre
+   hidratado muere en `_filter_to_query_models` salvo rescate del fail-open <3 o del
+   union-protector de identidad (hp018 sobrevivió vía IDENTITY_RESOLVE=on + doc adjudicado).
+   Los ~150 docs sin adjudicar quedan fuera → se resuelve con el workstream identidad (DEC-074),
+   no con parches al matcher.
+
+Además: el anclaje a producto de las preguntas generadas es CONDICIONAL («cuando aporte»,
+prompt s99; QA muestral 15/15 ≈ cota inferior ~80%) — mitigado con el filtro a nivel FILA
+(pre-colapso, fix #2 r2), no eliminado. Ref: DEC-099 (pendiente al cierre), gate
+`evals/s102_hyq_table_gate.yaml`, tests `tests/test_hyq_channel.py`.

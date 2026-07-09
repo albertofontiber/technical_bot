@@ -109,6 +109,8 @@ def main() -> int:
             val_chunks = [c for c in ordered[:SEM_BOUND] if c.get("id") in supported_ids(v, THRESH_FIRM)]
 
         pool = retrieve_chunks(g["question"], top_k=50)
+        # OJO (nit #8 dúo r2): cuenta surrogates (cuota ≤10) + _hyq_boosted (hits REALES
+        # cuya sim subió una pregunta) → puede superar la cuota; no es violación.
         n_hyq_in_pool = sum(1 for c in pool if c.get("_hyq_surrogate") or c.get("_hyq_boosted"))
         pin = [{"id": c.get("id"), "src": c.get("source_file")} for c in pool]
         diag = diagnose_miss({"question": g["question"]},

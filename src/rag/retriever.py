@@ -881,6 +881,7 @@ def vector_search(
     product_filter: str | None = None,
     category_filter: str | None = None,
     precomputed_embedding: list[float] | None = None,
+    hyq_models: list[str] | None = None,
 ) -> list[dict]:
     """Vector similarity search via the match_chunks RPC function."""
     query_embedding = precomputed_embedding or embed_query(query)
@@ -947,12 +948,16 @@ def vector_search(
                 logger.warning("canal enunciados fail-open: sirviendo solo chunks reales")
 
         # (s101 piloto → s102 SHIP, D2/DEC-095) Canal question-side (HyPE). Dos backends con
-        # la MISMA mecánica MEDIDA en el piloto: tabla chunks_v2_hyq vía RPC match_hyq
-        # (HYQ_TABLE=on — migración 013, HNSW propio: dilución eliminada por construcción,
-        # DEC-089) o npz in-process (HYQ_PILOT_FILE — instrumento del piloto, se conserva
-        # para replay/paridad). Mecánica pineada (fix s101, medido): hits en el espacio-
-        # pregunta (la barra MIN_COS manda sobre el umbral del canal) → colapso keep-max por
-        # chunk-padre → hidratar padres → FUSIÓN POR CUOTA (no sort-mixto — ver nota abajo).
+        # mecánicas DISTINTAS (corrección framing, cross-model r2 — no vender paridad):
+        # · tabla chunks_v2_hyq vía RPC match_hyq (HYQ_TABLE=on — migración 013, HNSW propio,
+        #   DEC-089) = mecánica **v2**: añade family-parity (_hyq_family_filter, patrón 012)
+        #   — necesaria corpus-wide (70k preguntas: espacio fuerte-en-tema/débil-en-producto,
+        #   medido en el gate s102) y GATEADA por la reproducción de los flips del piloto.
+        # · npz in-process (HYQ_PILOT_FILE) = mecánica **v1** del piloto, se conserva para
+        #   replay del instrumento; NO lleva family-filter.
+        # Común a ambos (lo que SÍ es paridad): barra MIN_COS sobre el umbral del canal →
+        # colapso keep-max por chunk-padre → hidratar padres → FUSIÓN POR CUOTA (no
+        # sort-mixto — ver nota abajo).
         # Paridad de filtros: SOLO corre sin product_filter (declarado desde el piloto — el
         # canal no simula el filter_product server-side del RPC de chunks).
         hyq_parents: dict = {}
@@ -961,7 +966,8 @@ def vector_search(
             # RPC hyq jamás tumba el canal vectorial entero. La observabilidad anti
             # OFF-silencioso (lección s96-H3) vive en el gate: assert n_hyq_in_pool>0.
             try:
-                hyq_parents = _hyq_table_hits(client, query_embedding, threshold)
+                hyq_parents = _hyq_table_hits(client, query_embedding, threshold,
+                                              models=hyq_models)
             except Exception:
                 logger.warning("canal hyq-table fail-open: sirviendo sin surrogates-pregunta")
         elif HYQ_PILOT_FILE and RPC_SUFFIX == "_v2" and not product_filter:
@@ -1205,13 +1211,46 @@ def _hyq_table_on() -> bool:
 HYQ_TABLE_ON = _hyq_table_on()
 
 
+def _hyq_family_rows(rows: list[dict], models: list[str] | None) -> list[dict]:
+    """(s102, fix del gate — PARIDAD DE CANAL, patrón 012; nivel-FILA por fix #2 dúo r2)
+    Cuando la query nombra modelos, la cuota hyq compite DENTRO de la familia. Medido en el
+    gate corpus-wide: el espacio-pregunta es fuerte-en-tema y débil-en-producto (los padres
+    de la familia diana rankean ~50 tras paráfrasis genéricas de otras marcas) y
+    _filter_to_query_models TIRA del pool los padres fuera-de-familia (n_hyq_in_pool=0 en
+    todas las queries con modelo) → la cuota global compra slots que el pipeline descarta.
+    Match del patrón de familia (mismas reglas que model_to_imatch_pattern, variante Python
+    — misma asimetría de separadores: 'ZX2e' no captura 'ZX-2e') contra el TEXTO de cada
+    pregunta. A NIVEL FILA y ANTES del colapso keep-max (fix #2 dúo r2): el anclaje a
+    producto de las hyq es CONDICIONAL («cuando aporte», prompt s99), no invariante — si se
+    colapsara primero, un padre de familia cuya pregunta GANADORA no nombra el modelo se
+    excluiría entero aunque tenga una pregunta anclada en el top-200. Sin filas de familia
+    → filas globales sin cambios (fallback declarado: no-peor; con modelos detectados los
+    padres globales mueren downstream igual). Limitaciones declaradas (TECH_DEBT #52):
+    ventana series/shared-docs + techo top-200 a escala 30+ + pm=unknown sin adjudicar.
+    Recibe los modelos POST-resolver de retrieve_chunks (expansiones ZXe→variantes)."""
+    if not models or not rows:
+        return rows
+    pats = []
+    for m in models:
+        parts = [p for p in re.split(r"[- ]+", m.strip()) if p]
+        if parts:
+            pats.append(re.compile(
+                r"\b" + r"[- ]*".join(re.escape(p) for p in parts) + r"(?!\d)",
+                re.IGNORECASE))
+    if not pats:
+        return rows
+    fam = [row for row in rows if any(p.search(row.get("question") or "") for p in pats)]
+    return fam or rows
+
+
 def _hyq_table_hits(client: httpx.Client, query_embedding: list[float],
-                    threshold: float) -> dict:
+                    threshold: float, models: list[str] | None = None) -> dict:
     """(s102) Espejo servido-por-DB de _hyq_pilot_hits: RPC match_hyq (tabla propia con su
-    HNSW — DEC-089, sin dilución del índice real) → colapso keep-max por chunk-padre.
-    MISMA barra (max(threshold, MIN_COS) — el espacio-pregunta manda) y MISMO fetch-K que
-    el piloto. Devuelve {chunk_id_padre: (mejor_similarity, pregunta_ganadora)} — la
-    pregunta ganadora viaja para la traceability (_hyq_question)."""
+    HNSW — DEC-089, sin dilución del índice real) → family-parity a nivel fila
+    (_hyq_family_rows, mecánica v2) → colapso keep-max por chunk-padre. Barra
+    max(threshold, MIN_COS) — el espacio-pregunta manda — y fetch-K del piloto.
+    Devuelve {chunk_id_padre: (mejor_similarity, pregunta_ganadora)} — la pregunta
+    ganadora viaja para la traceability (_hyq_question)."""
     bar = max(threshold, HYQ_PILOT_MIN_COS)
     r = client.post(
         f"{SUPABASE_URL}/rest/v1/rpc/match_hyq",
@@ -1224,7 +1263,7 @@ def _hyq_table_hits(client: httpx.Client, query_embedding: list[float],
     )
     r.raise_for_status()
     by_parent: dict = {}
-    for row in r.json():
+    for row in _hyq_family_rows(r.json(), models):
         pid = str(row.get("chunk_id") or "")
         s = float(row.get("similarity") or 0)
         if pid and (pid not in by_parent or s > by_parent[pid][0]):
@@ -1373,6 +1412,7 @@ def retrieve_chunks(
     try:
         vector_results = vector_search(
             query, effective_top_k, threshold, product_filter, None, query_embedding,
+            hyq_models=models or None,
         )
     except Exception:
         vector_results = []
@@ -1556,9 +1596,34 @@ def retrieve_chunks(
         supp_fn = ((lambda cs: _rescore_to_cosine(_tag_channel(cs, "SUPPLEMENT"),
                                                   query_embedding))
                    if MERGE_STRATEGY == "cosine" else None)
-        merged = _diversify_by_source_file(merged, top_k, models, query, query_keywords=None,
+        # (s102 ship hyq — carve-out puntual al consenso s59, a dúo) Los surrogates-pregunta
+        # ya pagaron su CUOTA dedicada (≤10) en la fusión de vector_search; su similarity
+        # vive en el espacio-pregunta (~0.45-0.53, incomensurable con el cos chunk↔query)
+        # → dentro de un grupo-fichero son SIEMPRE los últimos y el cap del interleave los
+        # corta (medido en el gate corpus-wide: hp018·6K8 RECALL→DIVERSIFY, precisamente
+        # porque el family-filter concentra los surrogates en los ficheros de la familia
+        # diana). El diversify existe para des-floodear el canal REAL — re-litigar aquí la
+        # cuota hyq la anula end-to-end. Set-aside: la lógica interna del diversify queda
+        # INTOCADA (consenso s59); la cuota se re-adjunta con la MISMA protección que la
+        # fusión (espejo del cap de vector_search, sobrevive al [:top_k] final). Solo
+        # _hyq_surrogate (entraron por el canal-pregunta); los _hyq_boosted son hits reales
+        # y compiten como siempre. El diversify de FABRICANTE (queries sin modelo, rama de
+        # abajo) queda SIN carve-out: es la mecánica medida en piloto + neg-control.
+        _hyq_aside = [c for c in merged if c.get("_hyq_surrogate")]
+        if _hyq_aside:
+            merged = [c for c in merged if not c.get("_hyq_surrogate")]
+        merged = _diversify_by_source_file(merged, max(1, top_k - len(_hyq_aside)),
+                                           models, query, query_keywords=None,
                                            include_superseded=include_superseded,
                                            supplement_rescore_fn=supp_fn)
+        if _hyq_aside:
+            # (fix #1 dúo r2) dedup ANTES del re-adjunte: al apartar el surrogate, el
+            # diversify deja de ver su fichero → el fetch suplementario puede re-traer EL
+            # MISMO chunk-padre (seen_ids se construye post-remoción) → id duplicado en el
+            # pool. El aside gana (conserva los stamps de traceability).
+            _aside_ids = {c.get("id") for c in _hyq_aside}
+            merged = [c for c in merged if c.get("id") not in _aside_ids]
+            merged = merged[:max(0, top_k - len(_hyq_aside))] + _hyq_aside
 
     # Step 5b: Manufacturer diversity for generic queries (no specific model).
     # Ensures technicians see results from ALL manufacturers, not just whichever

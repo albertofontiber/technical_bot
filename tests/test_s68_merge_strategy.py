@@ -95,7 +95,7 @@ def _run_retrieve(monkeypatch, strategy):
     monkeypatch.setattr(rt, "embed_query", lambda q: [0.1, 0.2])
     monkeypatch.setattr(rt, "HYDE_ENABLED", False)
 
-    def fake_vector(query, top_k, threshold, product, category, emb=None):
+    def fake_vector(query, top_k, threshold, product, category, emb=None, **kw):
         calls["vector"].append({"top_k": top_k, "category": category})
         return []
 
