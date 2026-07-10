@@ -1732,3 +1732,27 @@ a GO de Alberto: merge + `GENERATOR_SELECTION_BLOCK=on` en Railway (sin el env v
 +cat022/−cat021 — asimetría de activación declarada). Coste ~$90. El día entero es el sistema
 funcionando: 5 rondas de dúo, ~50 findings confirmados/~1 FP, 3 instrumentos cazados mintiendo
 (D1-v1, table-gate, mi regex) — y cada gate que tumbó algo compró el diseño siguiente.
+
+## s104 (10 jul 2026) — R2 con red de seguridad completa: el día en que TODOS los gates dispararon y ninguno mintió
+
+Alberto dio GO a R2 con dos mandatos (no gastar dos veces; modelo barato sin perder calidad) y
+la sesión fue una cadena de puertas haciendo su trabajo. La auditoría previa encontró el tramo
+T1 YA en prod (21.995 enunciados — nada que re-pagar) y el dúo del diseño cazó el CRÍTICO que
+habría quemado ~$115 en el sitio equivocado: el pase legacy insertaba al índice COMPARTIDO
+(el NO-GO medido de DEC-088). Pipeline reconstruido (generar→dump→loader-A3) + 9 fixes con
+bugs ejecutados por el propio sub-agente («claude-haiku-4-5» contiene "-5" y el guard de la
+familia 5 le quitaba el temperature=0 justo al brazo del A/B; sha_of por substring colisionaba
+en 5 nombres reales del store). G0 midió a Haiku MEJOR que Sonnet en QA-pass y 4x más barato,
+con el panel de 40 pares cazando meta-líneas conversacionales DEL BRAZO CARO que el QA
+determinista no ve. T2 generó 81/81 docs (45.889 enunciados, ~$10) sobreviviendo a una
+desconexión de internet (checkpoint por-doc + ledger con snapshot que pagó cuando OneDrive
+desmaterializó el fichero) y a la cuota de OpenAI agotándose a mitad (recarga de Alberto).
+Y entonces la puerta grande: cargados 49K a la tabla A3 (71K total), el gate anti-dilución
+disparó — 0 ganancias de ancla, 2 OK perdidas, el sort-mixto sin cuota no aguanta 3x
+(exactamente el riesgo-mayor declarado, exactamente la clase que hyq resolvió con cuota) →
+rollback verificado 0/0, tail no gastado, activo a salvo en dumps. En paralelo, el assessment
+v3 estampó la medición del ship de ayer: OK 91→93, retrieval-miss 12→7, la lista diana completa
+del DEC-101 convertida, y los 2 "corpus-gap" nuevos verificados a mano como FN (5ª y 6ª vez).
+El día deja: +2 OK en el scoreboard, un activo de 55K enunciados pagado y protegido, el modo
+de fallo de escala diagnosticado con artefactos, y la cabeza de cola nítida — la cuota del
+canal enunciados, con dúo y su gate de re-carga ya construido.

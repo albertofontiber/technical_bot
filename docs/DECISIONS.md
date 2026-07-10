@@ -1678,3 +1678,40 @@ el bucket in-pool del assessment gana +10 mecánico donde el canal dispara (cave
 la fila v3 del scoreboard); fallback-truncate del rerank mata el aside (paridad con extras del
 fetch, cambio en failure-path declarado); ⚠ ANTI-OVERFIT: misma población dev — contrapesos:
 negcontrol 39 + null + anclas amplias + flips + sweep negativo del regex.
+
+## DEC-102 — s104: R2 corpus-wide EJECUTADO HASTA SU GATE — generación Haiku GO (G0 medido) + activo corpus-adyacente pagado y a salvo; carga a escala NO-GO (crowding del canal sin cuota) → rollback verificado; el fix = cuota del canal enunciados (diseño siguiente, dúo + gate propio)
+
+**Decisión/estado.** Con GO explícito de Alberto (presupuesto + modelo barato si no pierde
+calidad): (1) **pipeline reconstruido seguro** — generar→dump→loader-A3 (el dúo cazó CRÍTICO:
+el pase legacy insertaba en `chunks_v2`, el índice compartido del NO-GO DEC-088) + 9 fixes
+verificados (temp-kw haiku-4-5, sha-map exacto con desambiguación por ancla-DB [5 colisiones
+reales], vintage, guard pm-unknown, tope de gasto, chaff/meta contados, cinturón por-doc,
+ledger con pre-seed T1 y reconciliación). (2) **G0 equivalencia MEDIDO: Haiku 4.5 GO**
+(QA-pass 0.879 > Sonnet 0.861; útiles/item 0.98; hechos-tabla 0.94; banda cobertura NO-PASA
+con diagnóstico = concentrado 2 docs + Sonnet-solo 0.799 → enmienda declarada; panel 40 pares
+leído: paridad de atribución Y cazó meta-líneas DE SONNET pasando el QA → filtro nuevo).
+Coste 4x menor ($0.86 vs $3.49 los brazos). (3) **T2 generado 81/81** (45.889 enunciados
+QA-passed, ~$9.7; ambiguo HLSI-MN-103 resuelto por ancla-DB). (4) **Carga T2+G0H (49.207 →
+tabla a 71K) → GATE T2 DISPARÓ: NO-GO a escala** — 0 ganancias de ancla en 39 pools (STOP
+pre-declarado) + 2 anclas OK perdidas (hp005#2, hp006#2/ISO-X) + served-churn ×3 + 8 golds con
+menos surrogates hyq. Mecanismo DIAGNOSTICADO: crowding interno (keep-max dedup + cap de
+fusión desplazan cola vectorial sin aportar valor; cat021 inundado por docs 40-40 incl. el
+guide EN de s103b). El sort-mixto SIN CUOTA (bien a 22K, DEC-089) no aguanta 71K = la clase
+que hyq resolvió con fusión-por-cuota. (5) **Rollback DELETE-por-batch + VACUUM PG-directo →
+restauración VERIFICADA probe 0/0** (pools = T1 exacto). Tail (~900 docs, ~$95) NO gastado.
+
+**Activo pagado y a salvo** (mandato no-gastar-dos-veces CUMPLIDO): dumps locales con 54.849
+enunciados Haiku QA-passed (T2+G0+SMOKE) + 21.995 T1 en prod. Re-carga post-fix ≈ $1.
+Ledger+manifests committeados; coste R2 total ≈ $14.
+
+**Siguiente (cabeza de cola):** diseño de la CUOTA del canal enunciados (espejo del patrón hyq
+DEC-099: presupuesto propio en la fusión + barra; opciones: cuota fija de swapped-parents ·
+cap por-doc en colapso · barra escalada) — dúo obligatorio (retrieval) + gate de re-carga =
+el probe pre/post ya committeado (artefactos pre_t2/post_t2 = referencia del modo de fallo).
+
+**Proceso.** Dúo R2 r1: cross-model 5/5 (CRÍTICO índice compartido) + sub-agente 13 (3 bugs
+de código ejecutados/verificados). Los gates pagaron DOS veces en un día (T2 aquí; el bvg en
+DEC-101) — el sistema de pre-registro + STOP funciona. Colaterales: ledger dañado por OneDrive
+en la desconexión → restaurado del snapshot (el backup pre-declarado pagó); cuota OpenAI
+agotada mid-run → recarga de Alberto; assessment v3 estampado (fila scoreboard, DEC-101 medido:
+OK 93/73%, retrieval 12→7, lista diana completa convertida).

@@ -27,7 +27,23 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s103b — 10 jul 2026)
+## Estado actual (s104 — 10 jul 2026)
+
+**s104 (DEC-102) — R2 corpus-wide ejecutado hasta su gate; DEC-101 MEDIDO en scoreboard (fila
+v3: OK 93/73%, retrieval 12→7, lista diana completa convertida +9/−7).** R2: pipeline seguro
+(generar→dump→loader-A3; el dúo cazó que el pase legacy insertaba al índice compartido del
+NO-GO DEC-088) · G0 = Haiku GO medido (4x más barato, QA-pass superior; panel cazó meta-líneas
+DE Sonnet) · T2 81/81 generado (45.889 enunciados QA-passed en dumps, ~$10) · **carga a 71K =
+GATE T2 DISPARÓ** (0 ganancias de ancla, 2 OK perdidas, crowding del sort-mixto sin cuota —
+la clase que hyq resolvió con fusión-por-cuota) → **rollback a T1 VERIFICADO 0/0; tail (~$95)
+NO gastado**. Activo a salvo: 54.849 enunciados Haiku en dumps locales; re-carga post-fix ≈$1.
+**Qué sigue (cabeza de cola): CUOTA del canal enunciados** (espejo hyq DEC-099; dúo obligatorio
++ gate de re-carga = probe pre/post committeado) → re-cargar T2 → si gate pasa, tail → gate
+final (bvg + assessment fila v4). Después: synth/gold-review (DEC-094) + entity-linking #52.1.
+Costes sesión: ~$135 envelope + R2 $14/$180. Prod = demo v3 (DEC-101) con tabla A3 en estado
+T1 exacto.
+
+## Estado anterior (s103b — 10 jul 2026)
 
 **s103b (DEC-101) — landing RESUELTO por extensión acotada + selección code-gated: CANDIDATO DE
 SHIP GATEADO, pendiente GO de Alberto (merge + Railway `GENERATOR_SELECTION_BLOCK=on`).** Tras el
