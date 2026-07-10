@@ -199,3 +199,36 @@ telemetría `uncovered_pages` por doc (mantiene abierta la REPARACIÓN dirigida 
 contingencia si el gate T2(b) muestra misses ligados a cobertura — no se construye especulativa).
 Coste real de brazos G0: Sonnet $3.49 vs Haiku $0.86 (4x). Decisión no-bloqueante reportada a
 Alberto en lote (su mandato s104).
+
+---
+
+## GATE T2 — VEREDICTO: NO-GO A ESCALA → ROLLBACK A T1 (10-jul; el gate hizo su trabajo ANTES del tail)
+
+**Generación T2: ÉXITO operativo** (81/81 docs, 0 errores, 45.889 enunciados QA-passed al dump,
+~$9.7 Haiku; el doc ambiguo HLSI-MN-103 resuelto por ancla-DB; cinturón por-doc estrenado).
+**Carga: 49.207 filas (T2+G0H) → tabla A3 a ~71K. Y el gate anti-dilución DISPARÓ:**
+
+- **T2(b) famtie: 0 ganancias de ancla** en los 39 pools (STOP pre-declarado: "<2 mejoran" → PARA).
+- **T2(c): 2 anclas OK PERDIDAS** (hp005#2 «misma zona o subzona», hp006#2 «ISO-X» — victoria del
+  propio piloto R2 en s94) + served-churn en cat021/hp005/hp006 + 8 golds con menos surrogates hyq.
+- **Mecanismo DIAGNOSTICADO** (probe pre/post + DB): crowding INTERNO del canal a escala —
+  hp005/hp006: entraron 0 / salieron 5 y 3 (los padres-enunciado deduplican keep-max contra hits
+  existentes y desplazan la cola vectorial cruda dentro del cap de fusión = pérdida pura);
+  cat021: 12 entraron / 13 salieron, inundado por docs 40-40 (incl. el guide EN del 40/40R —
+  el mismo doc del episodio s103b). El sort-mixto SIN CUOTA del canal enunciados (medido bien
+  a 22K, DEC-089) no aguanta 71K: **la misma clase de fallo que el canal hyq resolvió con
+  FUSIÓN POR CUOTA** — el precedente que este diseño declaró como riesgo mayor.
+
+**Acciones ejecutadas:** rollback DELETE por batch (T2:h1 + G0H:h1) → tabla a 21.995 (T1 exacto)
++ VACUUM directo-PG (fantasmas HNSW, DEC-088). Prod restaurado al estado que TODAS las
+mediciones de hoy asumen. **El tail (~900 docs, ~$95) NO se gasta** hasta el fix.
+
+**Lo que NO se pierde:** los 45.889 enunciados T2 (+8.960 G0/SMOKE) están QA-passed en dumps —
+el activo caro está pagado y a salvo; el fix es de SERVING (canal), no de generación. Re-carga
+post-fix = ~$1 de embeddings.
+
+**Siguiente (diseño nuevo con su propio gate, dúo obligatorio):** cuota del canal enunciados en
+la fusión (espejo del patrón hyq DEC-099: presupuesto propio + barra; opciones a evaluar:
+cuota fija de swapped-parents por query · cap por-doc en el colapso · barra de sim escalada).
+Gate de re-carga = ESTE MISMO probe pre/post (los artefactos pre_t2/post_t2 quedan como
+referencia del modo de fallo).

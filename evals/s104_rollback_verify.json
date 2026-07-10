@@ -1,0 +1,128 @@
+{
+ "stamps": {
+  "old": {
+   "arm": "pre_t2",
+   "git_sha": "9200510991903327285b3bc24d3c3e33fd870532",
+   "git_dirty_src": "",
+   "flags": {
+    "CHUNKS_TABLE": "chunks_v2",
+    "ENUNCIADOS_MULTIVECTOR": "on",
+    "IDENTITY_RESOLVE": "on",
+    "IDENTITY_RESOLVE_POLICY": "ADD",
+    "LLM_MAX_TOKENS": "3500",
+    "RERANK_TOP_K": "10",
+    "RERANKER_BACKEND": "llm",
+    "MERGE_STRATEGY": "stamps",
+    "RERANK_PREVIEW_CHARS": "800",
+    "HYDE_ENABLED": "false",
+    "GENERATOR_PROMPT_VARIANT": "fidelity",
+    "GENERATOR_SELECTION_BLOCK": "off",
+    "HYQ_PILOT_FILE": "",
+    "HYQ_TABLE": "on (call-time flip)",
+    "NEIGHBOR_WINDOW": "0"
+   },
+   "top_k": 50,
+   "n_golds": 39
+  },
+  "fix": {
+   "arm": "post_rollback",
+   "git_sha": "9200510991903327285b3bc24d3c3e33fd870532",
+   "git_dirty_src": "",
+   "flags": {
+    "CHUNKS_TABLE": "chunks_v2",
+    "ENUNCIADOS_MULTIVECTOR": "on",
+    "IDENTITY_RESOLVE": "on",
+    "IDENTITY_RESOLVE_POLICY": "ADD",
+    "LLM_MAX_TOKENS": "3500",
+    "RERANK_TOP_K": "10",
+    "RERANKER_BACKEND": "llm",
+    "MERGE_STRATEGY": "stamps",
+    "RERANK_PREVIEW_CHARS": "800",
+    "HYDE_ENABLED": "false",
+    "GENERATOR_PROMPT_VARIANT": "fidelity",
+    "GENERATOR_SELECTION_BLOCK": "off",
+    "HYQ_PILOT_FILE": "",
+    "HYQ_TABLE": "on (call-time flip)",
+    "NEIGHBOR_WINDOW": "0"
+   },
+   "top_k": 50,
+   "n_golds": 39
+  }
+ },
+ "gate1_diana": {
+  "cat022·MNDT723:p58": {
+   "old": true,
+   "fix": true
+  },
+  "cat022·MNDT723:p10": {
+   "old": true,
+   "fix": true
+  },
+  "cat022·MNDT722:p14": {
+   "old": true,
+   "fix": true
+  },
+  "hp018·MIEMI530:p21": {
+   "old": true,
+   "fix": true
+  }
+ },
+ "gate2a_anchor_transition": {
+  "n_facts": 109,
+  "gained": [],
+  "lost": []
+ },
+ "gate2b_served_gained_golds": {
+  "cat016": {
+   "missing_fix": [],
+   "missing_old": []
+  },
+  "cat020": {
+   "missing_fix": [],
+   "missing_old": []
+  },
+  "cat021": {
+   "missing_fix": [],
+   "missing_old": []
+  },
+  "hp001": {
+   "missing_fix": [],
+   "missing_old": []
+  },
+  "hp002": {
+   "missing_fix": [],
+   "missing_old": []
+  },
+  "hp005": {
+   "missing_fix": [],
+   "missing_old": []
+  },
+  "hp006": {
+   "missing_fix": [],
+   "missing_old": []
+  },
+  "hp011": {
+   "missing_fix": [],
+   "missing_old": []
+  },
+  "hp015": {
+   "missing_fix": [],
+   "missing_old": []
+  }
+ },
+ "gate3b_trim_proxy": {
+  "golds_with_fewer_hyq": [
+   {
+    "qid": "hp012",
+    "old": 6,
+    "fix": 4
+   },
+   {
+    "qid": "hp018",
+    "old": 6,
+    "fix": 5
+   }
+  ],
+  "trim_rate": "2/39"
+ }
+}
