@@ -1,0 +1,42 @@
+{
+ "tranche": "SMOKE0",
+ "batch": "enunciados-v1:SMOKE0:h1",
+ "dry": false,
+ "prompt_vintage": "h1",
+ "model": "claude-haiku-4-5-20251001",
+ "budget_usd": 2.0,
+ "spent_after": 0.17,
+ "results": [
+  {
+   "doc": "MNDT110",
+   "marca": "Notifier",
+   "insertables": 577,
+   "cobertura": 0.979,
+   "sample": [
+    {
+     "marca": "Notifier",
+     "isPerfect": true,
+     "text": "El indicador de estado FUERA DE SERVICIO del UDS-1N se ilumina en color amarillo."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": true,
+     "text": "El indicador de estado PREALARMA del UDS-1N se ilumina en color rojo."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": true,
+     "text": "El indicador de estado ALARMA del UDS-1N se ilumina en color rojo."
+    }
+   ],
+   "items": 76,
+   "gen": 671,
+   "qa_fail": 94,
+   "sin_padre": 1,
+   "chaff": 2,
+   "cost_usd": 0.1651,
+   "tokens_in": 43530,
+   "tokens_out": 24310
+  }
+ ]
+}

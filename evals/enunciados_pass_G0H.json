@@ -1,0 +1,510 @@
+{
+ "tranche": "G0H",
+ "batch": "enunciados-v1:G0H:h1",
+ "dry": false,
+ "prompt_vintage": "h1",
+ "model": "claude-haiku-4-5-20251001",
+ "budget_usd": 15.0,
+ "spent_after": 4.52,
+ "results": [
+  {
+   "doc": "MNDT110",
+   "marca": "Notifier",
+   "insertables": 549,
+   "cobertura": 0.979,
+   "sample": [
+    {
+     "marca": "Notifier",
+     "isPerfect": true,
+     "text": "El indicador de estado FUERA DE SERVICIO del UDS-1N se ilumina en color amarillo."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": true,
+     "text": "El indicador de estado PREALARMA del UDS-1N se ilumina en color rojo."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": true,
+     "text": "El indicador de estado ALARMA del UDS-1N se ilumina en color rojo."
+    }
+   ],
+   "items": 76,
+   "gen": 644,
+   "qa_fail": 95,
+   "sin_padre": 1,
+   "chaff": 2,
+   "cost_usd": 0.1598,
+   "tokens_in": 43530,
+   "tokens_out": 23250
+  },
+  {
+   "doc": "33979_12_VESDA-E_VEU-A10_Product_Guide_A4_Spanish_lores",
+   "marca": "Xtralis",
+   "insertables": 577,
+   "cobertura": 0.311,
+   "sample": [
+    {
+     "marca": "Xtralis",
+     "isPerfect": false,
+     "text": "La Negrita se utiliza para dar énfasis en el manual técnico del VESDA-E-VEU."
+    },
+    {
+     "marca": "Xtralis",
+     "isPerfect": false,
+     "text": "La Negrita se usa en nombres de menú del VESDA-E-VEU."
+    },
+    {
+     "marca": "Xtralis",
+     "isPerfect": false,
+     "text": "La Negrita se usa en opciones de menú del VESDA-E-VEU."
+    }
+   ],
+   "items": 108,
+   "gen": 616,
+   "qa_fail": 39,
+   "sin_padre": 34,
+   "chaff": 0,
+   "cost_usd": 0.2015,
+   "tokens_in": 53333,
+   "tokens_out": 29627
+  },
+  {
+   "doc": "I56-2083-013 LPB-700(T)_ES",
+   "marca": "Notifier",
+   "insertables": 190,
+   "cobertura": 0.8,
+   "sample": [
+    {
+     "marca": "Notifier",
+     "isPerfect": true,
+     "text": "El LPB-700 incluye una unidad con transmisor/receptor."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": true,
+     "text": "El LPB-700 incluye un marco embellecedor que se puede pintar."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": true,
+     "text": "El LPB-700 incluye un reflector."
+    }
+   ],
+   "items": 25,
+   "gen": 197,
+   "qa_fail": 7,
+   "sin_padre": 2,
+   "chaff": 1,
+   "cost_usd": 0.045,
+   "tokens_in": 10715,
+   "tokens_out": 6849
+  },
+  {
+   "doc": "MIE-MI-130P",
+   "error": "sin chunks en DB"
+  },
+  {
+   "doc": "MADT606",
+   "marca": "Notifier",
+   "insertables": 57,
+   "cobertura": 1.0,
+   "sample": [
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "En la sección SALIDA 4-20mA del MADT-606, con SALIDAR=200 y rango FS100, a 4,0 mA corresponde valor 0."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "En la sección SALIDA 4-20mA del MADT-606, con SALIDAR=200 y rango FS500, a 4,0 mA corresponde valor 0."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "En la sección SALIDA 4-20mA del MADT-606, con SALIDAR=200 y rango FS1000, a 4,0 mA corresponde valor 0."
+    }
+   ],
+   "items": 7,
+   "gen": 64,
+   "qa_fail": 7,
+   "sin_padre": 0,
+   "chaff": 2,
+   "cost_usd": 0.0361,
+   "tokens_in": 20196,
+   "tokens_out": 3186
+  },
+  {
+   "doc": "Manual_PAD-20 (MU 591 m 2024 a)",
+   "marca": "Detnov",
+   "insertables": 56,
+   "cobertura": 1.0,
+   "sample": [
+    {
+     "marca": "Detnov",
+     "isPerfect": false,
+     "text": "El piloto PAD-20 tiene tensión de trabajo de 5 a 36VdC."
+    },
+    {
+     "marca": "Detnov",
+     "isPerfect": false,
+     "text": "El piloto PAD-20 consume 6mA en alarma a 36VdC."
+    },
+    {
+     "marca": "Detnov",
+     "isPerfect": false,
+     "text": "El piloto PAD-20 consume 1,4mA en alarma a 5Vdc."
+    }
+   ],
+   "items": 12,
+   "gen": 78,
+   "qa_fail": 22,
+   "sin_padre": 0,
+   "chaff": 0,
+   "cost_usd": 0.0183,
+   "tokens_in": 4825,
+   "tokens_out": 2686
+  },
+  {
+   "doc": "HLSI-MA-025 Guia Rapida NFS_Supra_XP_c",
+   "marca": "Notifier",
+   "insertables": 65,
+   "cobertura": 1.0,
+   "sample": [
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "La configuración de fábrica del equipo se realiza manteniendo presionado el botón Access mientras se presiona la secuencia de teclas Z1, Z2, Z2, Z1."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "El retardo primario del equipo se configura mediante el botón Delay Yes/Not con opciones de 1 minuto, 2 minutos, 3 minutos, 4 minutos, 5 minutos, 6 minutos, 7 m"
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "El retardo de silencio del equipo se configura mediante el botón Mute Buzzer con opciones de 1 minuto, 2 minutos, 3 minutos, 4 minutos, 5 minutos, 6 minutos, 7 "
+    }
+   ],
+   "items": 10,
+   "gen": 66,
+   "qa_fail": 1,
+   "sin_padre": 6,
+   "chaff": 0,
+   "cost_usd": 0.0183,
+   "tokens_in": 4344,
+   "tokens_out": 2798
+  },
+  {
+   "doc": "MIDT193_ID3008-001_Instal_esp",
+   "marca": "Notifier",
+   "insertables": 43,
+   "cobertura": 1.0,
+   "sample": [
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "El fusible F200 del ID3008 es de tipo T 10A H con resistencia de 1KOhm instalada de fábrica."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "El fusible F201 del ID3008 es de tipo T 10A H con resistencia de 1KOhm instalada de fábrica."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "La designación H en los fusibles del ID3008 indica alta capacidad de ruptura."
+    }
+   ],
+   "items": 14,
+   "gen": 71,
+   "qa_fail": 28,
+   "sin_padre": 0,
+   "chaff": 0,
+   "cost_usd": 0.0136,
+   "tokens_in": 3477,
+   "tokens_out": 2027
+  },
+  {
+   "doc": "D838-1_kac sounders",
+   "marca": "Notifier",
+   "insertables": 12,
+   "cobertura": 0.5,
+   "sample": [
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "El NFS-32-001 con configuración DIP 0,0,0,1,0 genera tono continuo de 1200 Hz."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "El NFS-32-001 con configuración DIP 1,0,0,1,0 genera tono continuo de 2850 Hz para alarma Banshee/Bedlam HF."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "El NFS-32-001 con configuración DIP 0,1,0,1,0 genera tono continuo de 4000 Hz."
+    }
+   ],
+   "items": 9,
+   "gen": 50,
+   "qa_fail": 38,
+   "sin_padre": 0,
+   "chaff": 0,
+   "cost_usd": 0.026,
+   "tokens_in": 7957,
+   "tokens_out": 3613
+  },
+  {
+   "doc": "Instruction Manual SG200-IS ENG",
+   "marca": "Argus Security",
+   "insertables": 52,
+   "cobertura": 0.25,
+   "sample": [
+    {
+     "marca": "Argus Security",
+     "isPerfect": false,
+     "text": "En modo de encendido del SG200-IS, el LED verde parpadea."
+    },
+    {
+     "marca": "Argus Security",
+     "isPerfect": false,
+     "text": "En modo de encendido del SG200-IS, el LED naranja permanece encendido durante 2 segundos."
+    },
+    {
+     "marca": "Argus Security",
+     "isPerfect": false,
+     "text": "En modo de encendido del SG200-IS, el LED rojo parpadea."
+    }
+   ],
+   "items": 14,
+   "gen": 79,
+   "qa_fail": 27,
+   "sin_padre": 1,
+   "chaff": 0,
+   "cost_usd": 0.0206,
+   "tokens_in": 5270,
+   "tokens_out": 3068
+  },
+  {
+   "doc": "ke-dp3020w-161721-es",
+   "marca": "Kidde",
+   "insertables": 58,
+   "cobertura": 0.667,
+   "sample": [
+    {
+     "marca": "Kidde",
+     "isPerfect": true,
+     "text": "El KE-DP3020W dispone de indicación de estado mediante LED tricolor."
+    },
+    {
+     "marca": "Kidde",
+     "isPerfect": true,
+     "text": "El KE-DP3020W es compatible con Sistemas Excellence de Kidde Commercial."
+    },
+    {
+     "marca": "Kidde",
+     "isPerfect": true,
+     "text": "El KE-DP3020W presenta 3 niveles de alarma."
+    }
+   ],
+   "items": 11,
+   "gen": 58,
+   "qa_fail": 0,
+   "sin_padre": 0,
+   "chaff": 0,
+   "cost_usd": 0.0156,
+   "tokens_in": 4457,
+   "tokens_out": 2238
+  },
+  {
+   "doc": "MFDT170",
+   "marca": "Notifier",
+   "insertables": 655,
+   "cobertura": 0.685,
+   "sample": [
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "El Manual de Funcionamiento de la AFP-400 tiene referencia 50260."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "El Manual de Programación de la AFP-400 tiene referencia 50259."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "La Serie de Anunciadores LDM tiene referencia 15885."
+    }
+   ],
+   "items": 100,
+   "gen": 716,
+   "qa_fail": 61,
+   "sin_padre": 6,
+   "chaff": 1,
+   "cost_usd": 0.1769,
+   "tokens_in": 44733,
+   "tokens_out": 26426
+  },
+  {
+   "doc": "I56-3990-000 NFX-MM1M",
+   "marca": "Notifier",
+   "insertables": 61,
+   "cobertura": null,
+   "sample": [],
+   "items": 35,
+   "gen": 84,
+   "qa_fail": 23,
+   "sin_padre": 12,
+   "chaff": 1,
+   "cost_usd": 0.016,
+   "tokens_in": 5118,
+   "tokens_out": 2168
+  },
+  {
+   "doc": "MCDT120",
+   "marca": "Notifier",
+   "insertables": 106,
+   "cobertura": 1.0,
+   "sample": [
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "La fecha del documento es 08 de julio de 2003."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "La tabla del manual técnico PCI para el modelo MC-DT-120 (fecha 08 de julio de 2003) presenta las especificaciones de rendimiento y características técnicas del"
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "El detector D. 1 del PK-AFP200E es de tipo V con código TERM de sensor térmico en zona 717 con nivel de integridad de seguridad 7 y sin uso de UER."
+    }
+   ],
+   "items": 15,
+   "gen": 116,
+   "qa_fail": 10,
+   "sin_padre": 0,
+   "chaff": 0,
+   "cost_usd": 0.0305,
+   "tokens_in": 8561,
+   "tokens_out": 4385
+  },
+  {
+   "doc": "TIDT096",
+   "marca": "Notifier",
+   "insertables": 41,
+   "cobertura": 0.667,
+   "sample": [
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "La Central ID3000 permite importar configuración desde archivo .id3."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "La Central ID3000 soporta la operación de añadir nueva central a base de datos."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "La Central ID3000 soporta la operación de recuperar central de la base de datos."
+    }
+   ],
+   "items": 14,
+   "gen": 47,
+   "qa_fail": 6,
+   "sin_padre": 0,
+   "chaff": 0,
+   "cost_usd": 0.0144,
+   "tokens_in": 5201,
+   "tokens_out": 1837
+  },
+  {
+   "doc": "MPDT170",
+   "marca": "Notifier",
+   "insertables": 516,
+   "cobertura": 0.647,
+   "sample": [
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "En la sección de instrucciones de entrada del AFP-400, para indicar que debe pulsarse información o una tecla, aparecerá el símbolo <1> que denota pulsar la tec"
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "En la sección de instrucciones de entrada del AFP-400, para indicar que debe pulsarse la tecla gráfica ESC, aparecerá la referencia ESC que denota pulsar la tec"
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "Esta tabla del manual técnico del AFP-400 describe la convención de notación utilizada para indicar las acciones de entrada del usuario, especificando cómo se r"
+    }
+   ],
+   "items": 71,
+   "gen": 575,
+   "qa_fail": 59,
+   "sin_padre": 2,
+   "chaff": 3,
+   "cost_usd": 0.1465,
+   "tokens_in": 38037,
+   "tokens_out": 21694
+  },
+  {
+   "doc": "MN-DT-951_v7.2",
+   "marca": "Notifier",
+   "insertables": 248,
+   "cobertura": 0.579,
+   "sample": [
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "La central TG-NOTIFIER Nueva ID3000 soporta hasta 50 detectores distribuidos en los ocho lazos disponibles."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "La central TG-NOTIFIER Nueva ID3000 permite la conexión de detectores numerados del 1 al 50 en su configuración de lazos."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "Esta tabla de la central ID3000 presenta la distribución y estado de detectores y módulos conectados al sistema, organizando visualmente 50 detectores distribui"
+    }
+   ],
+   "items": 50,
+   "gen": 275,
+   "qa_fail": 27,
+   "sin_padre": 12,
+   "chaff": 0,
+   "cost_usd": 0.0754,
+   "tokens_in": 20773,
+   "tokens_out": 10928
+  },
+  {
+   "doc": "55350007 Manual Tarjeta Regulacion Motores TRMD-50X ES FR GB IT",
+   "marca": "Detnov",
+   "insertables": 32,
+   "cobertura": null,
+   "sample": [],
+   "items": 8,
+   "gen": 41,
+   "qa_fail": 9,
+   "sin_padre": 0,
+   "chaff": 0,
+   "cost_usd": 0.0116,
+   "tokens_in": 2837,
+   "tokens_out": 1750
+  }
+ ]
+}

@@ -1,0 +1,510 @@
+{
+ "tranche": "G0S",
+ "batch": "enunciados-v1:G0S:p1",
+ "dry": false,
+ "prompt_vintage": "p1",
+ "model": "claude-sonnet-4-6",
+ "budget_usd": 15.0,
+ "spent_after": 3.66,
+ "results": [
+  {
+   "doc": "MNDT110",
+   "marca": "Notifier",
+   "insertables": 554,
+   "cobertura": 0.979,
+   "sample": [
+    {
+     "marca": "Notifier",
+     "isPerfect": true,
+     "text": "En el UDS-1N, el indicador de estado FUERA DE SERVICIO se muestra en color amarillo."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": true,
+     "text": "En el UDS-1N, el indicador de estado PREALARMA se muestra en color rojo."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": true,
+     "text": "En el UDS-1N, el indicador de estado ALARMA se muestra en color rojo."
+    }
+   ],
+   "items": 76,
+   "gen": 692,
+   "qa_fail": 138,
+   "sin_padre": 1,
+   "chaff": 0,
+   "cost_usd": 0.5847,
+   "tokens_in": 43644,
+   "tokens_out": 30248
+  },
+  {
+   "doc": "33979_12_VESDA-E_VEU-A10_Product_Guide_A4_Spanish_lores",
+   "marca": "Xtralis",
+   "insertables": 619,
+   "cobertura": 0.322,
+   "sample": [
+    {
+     "marca": "Xtralis",
+     "isPerfect": false,
+     "text": "El manual técnico del VESDA-E-VEU utiliza la convención de texto en negrita para dar énfasis y para representar nombres de menú, opciones de menú y botones de b"
+    },
+    {
+     "marca": "Xtralis",
+     "isPerfect": false,
+     "text": "El manual técnico del VESDA-E-VEU utiliza la convención de texto en cursiva para hacer referencias a otras partes de ese documento u otros documentos."
+    },
+    {
+     "marca": "Xtralis",
+     "isPerfect": false,
+     "text": "El manual técnico del VESDA-E-VEU utiliza la convención de texto en cursiva para indicar el resultado de una acción."
+    }
+   ],
+   "items": 108,
+   "gen": 659,
+   "qa_fail": 40,
+   "sin_padre": 34,
+   "chaff": 1,
+   "cost_usd": 0.6489,
+   "tokens_in": 53455,
+   "tokens_out": 32566
+  },
+  {
+   "doc": "I56-2083-013 LPB-700(T)_ES",
+   "marca": "Notifier",
+   "insertables": 179,
+   "cobertura": 0.8,
+   "sample": [
+    {
+     "marca": "Notifier",
+     "isPerfect": true,
+     "text": "El LPB-700 incluye en su contenido de caja 1 unidad con transmisor/receptor."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": true,
+     "text": "El LPB-700 incluye en su contenido de caja 1 marco embellecedor que se puede pintar."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": true,
+     "text": "El LPB-700 incluye en su contenido de caja 1 reflector."
+    }
+   ],
+   "items": 25,
+   "gen": 188,
+   "qa_fail": 9,
+   "sin_padre": 2,
+   "chaff": 2,
+   "cost_usd": 0.1471,
+   "tokens_in": 10745,
+   "tokens_out": 7657
+  },
+  {
+   "doc": "MIE-MI-130P",
+   "error": "sin chunks en DB"
+  },
+  {
+   "doc": "MADT606",
+   "marca": "Notifier",
+   "insertables": 49,
+   "cobertura": 1.0,
+   "sample": [
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "En la tabla de conversión de salida 4-20 mA del MADT-606, una SALIDA 4-20 mA de 4,0 mA corresponde a una SALIDAR=200 de 0,8, un valor FS200 de 0, un valor FS100"
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "En la tabla de conversión de salida 4-20 mA del MADT-606, una SALIDA 4-20 mA de 4,1 mA corresponde a una SALIDAR=200 de 0,82, un valor FS200 de 1, un valor FS10"
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "En la tabla de conversión de salida 4-20 mA del MADT-606, una SALIDA 4-20 mA de 4,2 mA corresponde a una SALIDAR=200 de 0,84, un valor FS200 de 3, un valor FS10"
+    }
+   ],
+   "items": 7,
+   "gen": 72,
+   "qa_fail": 23,
+   "sin_padre": 0,
+   "chaff": 0,
+   "cost_usd": 0.142,
+   "tokens_in": 20206,
+   "tokens_out": 5424
+  },
+  {
+   "doc": "Manual_PAD-20 (MU 591 m 2024 a)",
+   "marca": "Detnov",
+   "insertables": 53,
+   "cobertura": 1.0,
+   "sample": [
+    {
+     "marca": "Detnov",
+     "isPerfect": false,
+     "text": "El tipo de cable de conexionado del piloto del PAD-20 es par trenzado sin malla de 0,5 a 2,5 mm²."
+    },
+    {
+     "marca": "Detnov",
+     "isPerfect": false,
+     "text": "La temperatura de trabajo del piloto del PAD-20 es de -10 ºC a 55 ºC."
+    },
+    {
+     "marca": "Detnov",
+     "isPerfect": false,
+     "text": "La humedad relativa de trabajo del piloto del PAD-20 es del 95% sin condensación."
+    }
+   ],
+   "items": 12,
+   "gen": 84,
+   "qa_fail": 31,
+   "sin_padre": 0,
+   "chaff": 0,
+   "cost_usd": 0.0592,
+   "tokens_in": 4841,
+   "tokens_out": 2976
+  },
+  {
+   "doc": "HLSI-MA-025 Guia Rapida NFS_Supra_XP_c",
+   "marca": "Notifier",
+   "insertables": 53,
+   "cobertura": 1.0,
+   "sample": [
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "El acceso al menú de configuración de fábrica del panel de incendios requiere mantener pulsado el botón Access mientras se pulsa la secuencia de teclas Z1, Z2, "
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "La función Primary Delay del panel de incendios se activa o desactiva mediante la tecla Delay Yes/Not."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "La función Primary Delay del panel de incendios permite seleccionar un retardo de 1 minuto pulsando la tecla Reset Key 1."
+    }
+   ],
+   "items": 10,
+   "gen": 53,
+   "qa_fail": 0,
+   "sin_padre": 6,
+   "chaff": 0,
+   "cost_usd": 0.0545,
+   "tokens_in": 4350,
+   "tokens_out": 2762
+  },
+  {
+   "doc": "MIDT193_ID3008-001_Instal_esp",
+   "marca": "Notifier",
+   "insertables": 39,
+   "cobertura": 1.0,
+   "sample": [
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "La letra H en la designación de tipo de fusible del ID3008 significa Alta capacidad de ruptura."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "Los fusibles del ID3008 con designación H pueden estar etiquetados como 'HBC'."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "Los fusibles F200 y F201 del ID3008 requieren eliminar una resistencia de 1KOhm instalada de fábrica."
+    }
+   ],
+   "items": 14,
+   "gen": 59,
+   "qa_fail": 20,
+   "sin_padre": 0,
+   "chaff": 0,
+   "cost_usd": 0.0457,
+   "tokens_in": 3492,
+   "tokens_out": 2346
+  },
+  {
+   "doc": "D838-1_kac sounders",
+   "marca": "Notifier",
+   "insertables": 19,
+   "cobertura": 0.5,
+   "sample": [
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "El tono número 1 del producto NFS-32-001 corresponde al estándar French Fire Sound AFNOR NFS 32-001."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "El tono número 1 del producto NFS-32-001 alterna entre 554 Hz y 440 Hz."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "El tono número 2 del producto NFS-32-001 tiene un período total de 1 s."
+    }
+   ],
+   "items": 9,
+   "gen": 98,
+   "qa_fail": 79,
+   "sin_padre": 0,
+   "chaff": 0,
+   "cost_usd": 0.0843,
+   "tokens_in": 7969,
+   "tokens_out": 4024
+  },
+  {
+   "doc": "Instruction Manual SG200-IS ENG",
+   "marca": "Argus Security",
+   "insertables": 56,
+   "cobertura": 0.75,
+   "sample": [
+    {
+     "marca": "Argus Security",
+     "isPerfect": false,
+     "text": "En el modo \"Power up\" del SG200-IS, que se activa cuando se extrae la pestaña aislante o se inserta la batería principal, el LED verde parpadea."
+    },
+    {
+     "marca": "Argus Security",
+     "isPerfect": false,
+     "text": "En el modo \"Power up\" del SG200-IS, que se activa cuando se extrae la pestaña aislante o se inserta la batería principal, el LED naranja permanece encendido dur"
+    },
+    {
+     "marca": "Argus Security",
+     "isPerfect": false,
+     "text": "En el modo \"Power up\" del SG200-IS, que se activa cuando se extrae la pestaña aislante o se inserta la batería principal, el LED rojo parpadea."
+    }
+   ],
+   "items": 14,
+   "gen": 72,
+   "qa_fail": 16,
+   "sin_padre": 1,
+   "chaff": 0,
+   "cost_usd": 0.0631,
+   "tokens_in": 5288,
+   "tokens_out": 3151
+  },
+  {
+   "doc": "ke-dp3020w-161721-es",
+   "marca": "Kidde",
+   "insertables": 56,
+   "cobertura": 0.667,
+   "sample": [
+    {
+     "marca": "Kidde",
+     "isPerfect": true,
+     "text": "El detector KE-DP3020W dispone de un LED tricolor como indicación de estado."
+    },
+    {
+     "marca": "Kidde",
+     "isPerfect": true,
+     "text": "El detector KE-DP3020W es compatible con los sistemas Excellence de Kidde Commercial."
+    },
+    {
+     "marca": "Kidde",
+     "isPerfect": true,
+     "text": "El detector KE-DP3020W cuenta con 3 niveles de alarma."
+    }
+   ],
+   "items": 11,
+   "gen": 56,
+   "qa_fail": 0,
+   "sin_padre": 0,
+   "chaff": 0,
+   "cost_usd": 0.0466,
+   "tokens_in": 4477,
+   "tokens_out": 2211
+  },
+  {
+   "doc": "MFDT170",
+   "marca": "Notifier",
+   "insertables": 661,
+   "cobertura": 0.685,
+   "sample": [
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "El documento \"Serie de Anunciadores LDM\" relacionado con la AFP-400 tiene la referencia 15885."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "El documento \"Pantalla de Cristal Líquido LCD-80\" relacionado con la AFP-400 tiene la referencia 15037."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "El documento \"Documento de Compatibilidad de Dispositivos\" relacionado con la AFP-400 tiene la referencia 15378."
+    }
+   ],
+   "items": 100,
+   "gen": 717,
+   "qa_fail": 56,
+   "sin_padre": 6,
+   "chaff": 4,
+   "cost_usd": 0.5882,
+   "tokens_in": 44861,
+   "tokens_out": 30241
+  },
+  {
+   "doc": "I56-3990-000 NFX-MM1M",
+   "marca": "Notifier",
+   "insertables": 46,
+   "cobertura": null,
+   "sample": [],
+   "items": 35,
+   "gen": 67,
+   "qa_fail": 21,
+   "sin_padre": 12,
+   "chaff": 3,
+   "cost_usd": 0.046,
+   "tokens_in": 5141,
+   "tokens_out": 2039
+  },
+  {
+   "doc": "MCDT120",
+   "marca": "Notifier",
+   "insertables": 110,
+   "cobertura": 1.0,
+   "sample": [
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "El manual técnico del PK-AFP200E con código MC-DT-120 tiene fecha de emisión 08 JULIO 2003."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "Esta tabla de especificaciones técnicas del documento MC-DT-120, fechado el 8 de julio de 2003, tiene como propósito identificar el código de documento y su fec"
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "En la pantalla de configuración de dispositivos del software AfpV2.exe (ruta E:\\PROGRA\\~1\\PK200\\AFP200\\AfpV2.exe) del PK-AFP200E, la dirección D. 1 tiene asigna"
+    }
+   ],
+   "items": 15,
+   "gen": 130,
+   "qa_fail": 20,
+   "sin_padre": 0,
+   "chaff": 1,
+   "cost_usd": 0.1197,
+   "tokens_in": 8581,
+   "tokens_out": 6264
+  },
+  {
+   "doc": "TIDT096",
+   "marca": "Notifier",
+   "insertables": 54,
+   "cobertura": 1.0,
+   "sample": [
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "El software de gestión del ID3000 incluye en el menú Archivo la opción Añadir Nueva Central a Base de Datos."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "El software de gestión del ID3000 incluye en el menú Archivo la opción Recuperar Central de la Base de Datos."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "El software de gestión del ID3000 incluye en el menú Archivo la opción Editar Opciones Central."
+    }
+   ],
+   "items": 14,
+   "gen": 66,
+   "qa_fail": 12,
+   "sin_padre": 0,
+   "chaff": 0,
+   "cost_usd": 0.0634,
+   "tokens_in": 5218,
+   "tokens_out": 3185
+  },
+  {
+   "doc": "MPDT170",
+   "marca": "Notifier",
+   "insertables": 525,
+   "cobertura": 0.647,
+   "sample": [
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "En el AFP-400, para indicar que se debe pulsar una tecla alfanumérica, el manual utiliza el número o carácter entre corchetes angulares, como en el ejemplo <1> "
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "En el AFP-400, para indicar que se debe pulsar una tecla gráfica, el manual muestra el nombre de la tecla en recuadro, como en el ejemplo ESC que indica pulsar "
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "Esta tabla del manual técnico del AFP-400 establece las convenciones tipográficas utilizadas para representar instrucciones de pulsación de teclas, respondiendo"
+    }
+   ],
+   "items": 71,
+   "gen": 570,
+   "qa_fail": 45,
+   "sin_padre": 2,
+   "chaff": 6,
+   "cost_usd": 0.472,
+   "tokens_in": 38140,
+   "tokens_out": 23836
+  },
+  {
+   "doc": "MN-DT-951_v7.2",
+   "marca": "Notifier",
+   "insertables": 277,
+   "cobertura": 0.632,
+   "sample": [
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "La pantalla \"Ver Detectores/Módulos\" de la central TG-NOTIFIER Nueva ID3000 muestra una vista de navegación organizada por lazos identificados como L1, L2, L3, "
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "La pantalla \"Ver Detectores/Módulos\" de la central TG-NOTIFIER Nueva ID3000 presenta una sección denominada \"Detectores\" con posiciones numeradas del 1 al 50."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "La pantalla \"Ver Detectores/Módulos\" de la central TG-NOTIFIER Nueva ID3000 presenta una sección denominada \"Módulos\" con posiciones numeradas del 1 al 20."
+    }
+   ],
+   "items": 50,
+   "gen": 304,
+   "qa_fail": 27,
+   "sin_padre": 12,
+   "chaff": 1,
+   "cost_usd": 0.2832,
+   "tokens_in": 20827,
+   "tokens_out": 14713
+  },
+  {
+   "doc": "55350007 Manual Tarjeta Regulacion Motores TRMD-50X ES FR GB IT",
+   "marca": "Detnov",
+   "insertables": 37,
+   "cobertura": null,
+   "sample": [],
+   "items": 8,
+   "gen": 47,
+   "qa_fail": 10,
+   "sin_padre": 0,
+   "chaff": 0,
+   "cost_usd": 0.0436,
+   "tokens_in": 2845,
+   "tokens_out": 2340
+  }
+ ]
+}
