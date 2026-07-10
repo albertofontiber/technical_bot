@@ -47,7 +47,20 @@
 > gates: flips 2/2 con atribución + bvg 0-regresiones; flip cat016 verificado en
 > query_logs de prod; scoreboard v2.2: synth 18→8 con el cluster cat021 resuelto;
 > factura declarada: desplazamiento cat022/hp018, TECH_DEBT #52; rollback = quitar la
-> env var); HyDE off; identidad de producto data-driven
+> env var);
+> **s103b (DEC-101): landing hyq v3.1 + bloque de selección CODE-GATED — VIVO EN DEMO (10 jul)** —
+> el aside hyq se re-adjunta como EXTENSIÓN acotada tras el corte top_k (pool ≤ top_k+cuota,
+> cinturón de idioma inline; arregla la factura de desplazamiento de DEC-099) + guía de
+> selección de producto en el prompt del generador solo si la query dispara `_SELECTION_INTENT`
+> (regex endurecida, flag `GENERATOR_SELECTION_BLOCK=on` en Railway, default off; PR #116).
+> MEDIDO post-ship (scoreboard fila v3, 10 jul): **OK 91→93 (73%) · retrieval-miss 12→7** ·
+> lista diana del ship convertida completa (+9/−7); rollback = quitar la env var (el neto sin
+> ella es +cat022/−cat021). **s104 (DEC-102): R2 enunciados corpus-wide GATEADO a escala** —
+> 55K enunciados Haiku generados y a salvo en dumps locales (~$14; Haiku GO en G0: QA-pass >
+> Sonnet a ¼ de coste) PERO la carga a 71K filas ahogó el canal (crowding del sort-mixto sin
+> cuota: 0 ganancias, 2 anclas OK perdidas) → rollback a T1 VERIFICADO (tabla enunciados =
+> 21.995, estado s95-s96 exacto); fix pendiente = CUOTA propia del canal (patrón hyq);
+> HyDE off; identidad de producto data-driven
 > (`config/manufacturers/` + sidecar). El registry cierra #43-capa-A (la query del base no
 > arrastra HERMANOS; las variantes VEN los docs de serie). **s64 (DEC-045): el lifecycle es
 > end-to-end** — contrato de supersesión POBLADO (3 cadenas: MAD-472 V1→V2, MC-380 b→c,
