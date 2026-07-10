@@ -455,8 +455,17 @@ def main() -> int:
                 results.append({"doc": doc, "skipped": True})
                 continue
             print(f"[{i+1}/{len(docs)}] {doc[:44]:46} ledger SIN respaldo en dump -> re-procesa (F7)")
-        res = process_doc(client, doc, a.tranche, a.dry, vintage=a.vintage,
-                          to_dump=dump_path)
+        try:
+            res = process_doc(client, doc, a.tranche, a.dry, vintage=a.vintage,
+                              to_dump=dump_path)
+        except KeyboardInterrupt:
+            raise
+        except Exception as e:
+            # (s104) cinturón por-DOC: un hipo de red/API no mata el tramo entero (el tail
+            # son ~900 docs); el doc queda como error en el manifest y NO en el ledger →
+            # un --resume posterior lo re-intenta.
+            res = {"doc": doc, "error": f"{type(e).__name__}: {str(e)[:120]}"}
+
         results.append(res)
         if not res.get("error") and not a.dry:
             led["docs"][doc] = {"sha": sha_of(doc), "tranche": a.tranche,
