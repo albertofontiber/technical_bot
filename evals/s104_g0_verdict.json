@@ -1,0 +1,498 @@
+{
+ "verdict_bandas": "NO PASA",
+ "detail": {
+  "qa_pass_rate": {
+   "sonnet": 0.861,
+   "haiku": 0.8785,
+   "ratio": 1.02,
+   "band": 0.9,
+   "ok": true
+  },
+  "cobertura": {
+   "sonnet": 0.7988,
+   "haiku": 0.739,
+   "ratio": 0.925,
+   "band": 0.95,
+   "ok": false
+  },
+  "utiles_por_item": {
+   "sonnet": 5.8187,
+   "haiku": 5.7133,
+   "ratio": 0.982,
+   "band": 0.85,
+   "ok": true
+  },
+  "hechos_por_tabla": {
+   "sonnet": 1847,
+   "haiku": 1738,
+   "ratio": 0.941,
+   "band": 0.9,
+   "ok": true
+  }
+ },
+ "sonnet": {
+  "docs": 17,
+  "items": 579,
+  "gen": 3934,
+  "qa_pass_rate": 0.8609557702084393,
+  "cobertura": 0.7988,
+  "insertables": 3387,
+  "chaff": 18,
+  "utiles_por_item": 5.818652849740933,
+  "hechos_tokens_total": 1847,
+  "cost_usd": 3.66
+ },
+ "haiku": {
+  "docs": 17,
+  "items": 579,
+  "gen": 3777,
+  "qa_pass_rate": 0.8784749801429707,
+  "cobertura": 0.7390000000000001,
+  "insertables": 3318,
+  "chaff": 10,
+  "utiles_por_item": 5.713298791018998,
+  "hechos_tokens_total": 1738,
+  "cost_usd": 4.52
+ },
+ "panel_semantico": [
+  {
+   "doc": "MNDT110",
+   "p": 14,
+   "pm": "UDS-1N",
+   "sonnet": "Las salidas de relé de prealarma del UDS-1N se conectan mediante bloque de terminales M4.",
+   "haiku_mismapagina": [
+    "El relé de extinción del UDS-1N dispone de salida controlada con terminal con tensión de 24 Vdc.",
+    "El bloque de terminales del relé de extinción del UDS-1N es M3 con terminales 1 y 2.",
+    "Los contactos del relé de extinción del UDS-1N soportan 2,5 Amp."
+   ]
+  },
+  {
+   "doc": "33979_12_VESDA-E_VEU-A10_Product_Guide_A4_Spanish_lores",
+   "p": 47,
+   "pm": "VESDA-E-VEU",
+   "sonnet": "El VESDA-E-VEU presenta un estado de relé NO con indicador de círculo vacío (○).",
+   "haiku_mismapagina": [
+    "El relé de FALLO URGENTE en el VESDA-E-VEU sin fallo activado presenta contacto NC abierto y contacto FAULT cerrado.",
+    "El relé de FALLO URGENTE en el VESDA-E-VEU en estado de fallo o sin alimentación presenta contacto C cerrado.",
+    "Todos los demás relés del VESDA-E-VEU sin fuego desactivado presentan contacto NO abierto."
+   ]
+  },
+  {
+   "doc": "MPDT170",
+   "p": 30,
+   "pm": "AFP-400",
+   "sonnet": "El panel AFP-400 permite visualizar ACS de puntos de funciones de extinción anunciando cualquiera de las zonas de software, incluyendo las zonas R0-R9.",
+   "haiku_mismapagina": [
+    "El módulo CMX del AFP-400 debe asociarse a zonas de riesgo R0-R9 cuando el temporizador de retardo se inicia, cuando se activa la extinción, o ambos.",
+    "El módulo CMX del AFP-400 debe asociarse a una zona independiente distinta de R0-R9 y además a una zona de extinción para activar la sirena inmediatamente cuando se activa uno de los equipos de inicio.",
+    "Esta tabla del manual técnico del AFP-400 describe las condiciones y procedimientos requeridos para activar una sirena, especificando qué asociaciones de módulo CMX a zonas de riesgo (R0-R9) o zonas independientes de ext"
+   ]
+  },
+  {
+   "doc": "MN-DT-951_v7.2",
+   "p": 24,
+   "pm": "TG-NOTIFIER",
+   "sonnet": "En el sistema TG-NOTIFIER, el dispositivo con dirección 3/A9 de la central EXTINTORES, descrito como Auxiliar 9, presenta estado CADUCADO con fecha y hora de evento 30/04/2004 12.",
+   "haiku_mismapagina": [
+    "El TG-NOTIFIER en la sección Histórico de Eventos permite filtrar por Día Desde con fecha 30/04/2004.",
+    "El TG-NOTIFIER en la sección Histórico de Eventos permite filtrar por Hora Desde con valor 0:00:00.",
+    "El TG-NOTIFIER en la sección Histórico de Eventos permite filtrar por Día Hasta con fecha 30/04/2004."
+   ]
+  },
+  {
+   "doc": "33979_12_VESDA-E_VEU-A10_Product_Guide_A4_Spanish_lores",
+   "p": 66,
+   "pm": "VESDA-E-VEU",
+   "sonnet": "En el VESDA-E-VEU, una vez completado el proceso de AutoLearn Flow, se debe confirmar que los umbrales resultantes se encuentren dentro de los intervalos permitidos por las normas locales.",
+   "haiku_mismapagina": [
+    "El comando Inicio de AutoLearn Flow en el software Xtralis VSC solicita establecer el período de tiempo en que se monitorea el entorno para que el sistema VESDA-E-VEU decida los umbrales de flujo de aire más apropiados.",
+    "El proceso de AutoLearn Flow en el detector VESDA-E-VEU sobrescribe los umbrales de flujo al finalizar.",
+    "Después de completar el proceso de AutoLearn Flow en el VESDA-E-VEU, debe confirmarse que los umbrales se encuentren dentro de los intervalos permitidos por las normas locales."
+   ]
+  },
+  {
+   "doc": "Instruction Manual SG200-IS ENG",
+   "p": 3,
+   "pm": "SG200-IS",
+   "sonnet": "El sistema SG200-IS incorpora un mecanismo de bloqueo en la base del detector al que se accede desde la parte inferior de dicha base.",
+   "haiku_mismapagina": [
+    "El detector SG200-IS dispone de una pestaña de bloqueo de plástico ubicada en el lateral de la base circular.",
+    "La pestaña de bloqueo del detector SG200-IS se acciona mediante una herramienta de desbloqueo tipo destornillador.",
+    "El acceso al mecanismo de bloqueo del detector SG200-IS se realiza insertando el destornillador en la zona inferior de la base del detector."
+   ]
+  },
+  {
+   "doc": "MADT606",
+   "p": 2,
+   "pm": "MADT-606",
+   "sonnet": "Por favor, comparte el texto completo del fragmento y procederé a convertirlo según las reglas indicadas.",
+   "haiku_mismapagina": [
+    "El modelo MADT-606 es un producto de NOTIFIER ESPAÑA con fecha de documento 28/06/01.",
+    "El documento MADT-606 corresponde a la página 2 de 3 del manual técnico.",
+    "El fragmento proporcionado contiene únicamente una tabla de valores numéricos sin identificación de modelo, sección, contexto técnico ni información descriptiva que permita generar enunciados autónomos conforme a las reg"
+   ]
+  },
+  {
+   "doc": "MNDT110",
+   "p": 5,
+   "pm": "UDS-1N",
+   "sonnet": "La central de incendios UDS-1N cumple con la directriz de enmienda 92/31/EEC relativa a compatibilidad electromagnética.",
+   "haiku_mismapagina": [
+    "El UDS-1N cumple con la Directriz sobre compatibilidad electromagnética 89/336/EEC.",
+    "El UDS-1N cumple con la Directriz de enmienda 92/31/EEC sobre compatibilidad electromagnética."
+   ]
+  },
+  {
+   "doc": "MPDT170",
+   "p": 26,
+   "pm": "AFP-400",
+   "sonnet": "El AFP-400 es compatible con el estándar NFPA 12, el cual cubre Sistemas de Extinción CO2 (solamente alta presión).",
+   "haiku_mismapagina": [
+    "La Central de Incendios AFP-400 dispone de 10 zonas de software para funciones de extinción.",
+    "Las zonas R0-R9 de la Central de Incendios AFP-400 están reservadas a funciones especiales de extinción.",
+    "Cada zona de la Central de Incendios AFP-400 funciona independientemente."
+   ]
+  },
+  {
+   "doc": "MNDT110",
+   "p": 27,
+   "pm": "UDS-1N",
+   "sonnet": "El parámetro de Sensibilidad Alta del detector ION en el Lazo 1, Dirección 1 del UDS-1N tiene un valor configurado de 9.",
+   "haiku_mismapagina": [
+    "La UDS-1N es compatible con las centrales AM-6000 y AM-2000.",
+    "La programación de la UDS-1N se realiza a través de las centrales AM-6000 y AM-2000.",
+    "La UDS-1N requiere configuración específica cuando se integra con la central AM-6000."
+   ]
+  },
+  {
+   "doc": "MN-DT-951_v7.2",
+   "p": 50,
+   "pm": "TG-NOTIFIER",
+   "sonnet": "En la sección \"Ver Planos\" del software TG-NOTIFIER, el nodo \"Planos\" contiene un subnodo llamado \"Principal\".",
+   "haiku_mismapagina": [
+    "El TG-NOTIFIER dispone de la tecla de función F2 en la interfaz de software.",
+    "El TG-NOTIFIER dispone de la tecla de función F3 en la interfaz de software.",
+    "El TG-NOTIFIER dispone de la tecla de función F4 en la interfaz de software."
+   ]
+  },
+  {
+   "doc": "55350007 Manual Tarjeta Regulacion Motores TRMD-50X ES FR GB IT",
+   "p": 1,
+   "pm": "TRMD-50X",
+   "sonnet": "El procedimiento de instalación de la tarjeta de expansión del TRMD-50X indica que la tarjeta de expansión se fija a la placa base utilizando los mismos tornillos que venían con la placa base.",
+   "haiku_mismapagina": [
+    "El sistema de monóxido debe desconectarse de la red antes de realizar el desmontaje de módulos.",
+    "Cada módulo de CO del sistema de monóxido requiere la extracción de 4 tornillos para su desmontaje.",
+    "El conector enchufado en el conector JP14 debe extraerse durante el desmontaje de los módulos de CO."
+   ]
+  },
+  {
+   "doc": "MNDT110",
+   "p": 13,
+   "pm": "UDS-1N",
+   "sonnet": "En el UDS-1N, cuando el microinterruptor SW2/6 se encuentra en posición ON, el circuito de entrada N.C. (bloque de terminales M2, terminales 11 y 12) sí inhibe la extinción.",
+   "haiku_mismapagina": [
+    "El UDS-1N dispone de 2 circuitos lógicos que simulan módulos CMX programables con TIPO ID supervisado o forma relé.",
+    "El UDS-1N posee 2 terminales para la entrada del lazo de comunicaciones.",
+    "El UDS-1N posee 2 terminales para el retorno del lazo de comunicaciones con polaridad menos menos."
+   ]
+  },
+  {
+   "doc": "33979_12_VESDA-E_VEU-A10_Product_Guide_A4_Spanish_lores",
+   "p": 17,
+   "pm": "VESDA-E-VEU",
+   "sonnet": "El detector VESDA-E-VEU dispone de 7 relés programables.",
+   "haiku_mismapagina": [
+    "El VESDA-E-VEU acepta voltaje de suministro de 18 a 30 V CC con nominal de 24 V CC.",
+    "El VESDA-E-VEU en condición de Alimentación Inactivo con Ajuste 1 consume 8.2 W a 24 V CC.",
+    "El VESDA-E-VEU en condición de Alimentación Inactivo con Ajuste 5 consume 10.0 W a 24 V CC."
+   ]
+  },
+  {
+   "doc": "MNDT110",
+   "p": 24,
+   "pm": "UDS-1N",
+   "sonnet": "El módulo M-10 del Lazo 1 de la central UDS-1N tiene el parámetro R.Auto configurado como No.",
+   "haiku_mismapagina": [
+    "El detector D-01 del Lazo 1 del sistema UDS-1N es de tipo Smoke(Ion).",
+    "El detector D-01 del Lazo 1 del sistema UDS-1N está ubicado en SALA CPD PRODUCCION.",
+    "El detector D-01 del Lazo 1 del sistema UDS-1N tiene dirección de panel A-Pn igual a 0."
+   ]
+  },
+  {
+   "doc": "33979_12_VESDA-E_VEU-A10_Product_Guide_A4_Spanish_lores",
+   "p": 7,
+   "pm": "VESDA-E-VEU",
+   "sonnet": "El manual técnico VESDA-E-VEU contiene una subsección 3.4 titulada Administración del aire de escape ubicada en la página 18.",
+   "haiku_mismapagina": [
+    "El detector VESDA-E-VEU modelo VEU-A10 se describe en la sección 2.2 Funcionamiento de VEU-A10.",
+    "El detector VESDA-E-VEU modelo VEU-A10 posee componentes del detector detallados en la sección 2.1.",
+    "El panel frontal del detector VESDA-E-VEU modelo VEU-A10 se especifica en la sección 2.3."
+   ]
+  },
+  {
+   "doc": "MNDT110",
+   "p": 26,
+   "pm": "UDS-1N",
+   "sonnet": "El sensor de equipo 1:1 de la central UDS-1N es de tipo IONICO según la columna SENSORES equipo tipo.",
+   "haiku_mismapagina": [
+    "El sensor UDS-1N equipo 1:1 es de tipo IONICO.",
+    "El sensor UDS-1N equipo 1:1 protege zona tipo ALAR.",
+    "El sensor UDS-1N equipo 1:1 está asignado a zona número 1."
+   ]
+  },
+  {
+   "doc": "MNDT110",
+   "p": 22,
+   "pm": "UDS-1N",
+   "sonnet": "El código 91 del módulo CNTL tipo CONTROL del UDS-1N corresponde al estado \"FALLO TENSION UDS\".",
+   "haiku_mismapagina": [
+    "El detector D.1 del sistema UDS-1N es de tipo ION con código de descripción HUMO(IONICO) y sensibilidad M N.",
+    "El detector D.1 del sistema UDS-1N tiene nivel SIL / y versión Y.",
+    "El detector D.1 del sistema UDS-1N requiere preactivación de trabajo Y."
+   ]
+  },
+  {
+   "doc": "MPDT170",
+   "p": 12,
+   "pm": "AFP-400",
+   "sonnet": "En el AFP-400, el tipo de código Llamada Gral. permite la activación de todas las llamadas desde cualquier punto de telefonía.",
+   "haiku_mismapagina": [
+    "El código Monitor en el AFP-400 no realiza función alguna por defecto.",
+    "El código Pulsador en el AFP-400 no realiza función alguna.",
+    "El código Detec.Humo en el AFP-400 no realiza función alguna."
+   ]
+  },
+  {
+   "doc": "MN-DT-951_v7.2",
+   "p": 4,
+   "pm": "TG-NOTIFIER",
+   "sonnet": "El manual técnico del TG-NOTIFIER contiene la sección 7.1 dedicada a Detectores/Módulos, ubicada en la página 52.",
+   "haiku_mismapagina": [
+    "La sección 6.1 del manual técnico PCI del TG-NOTIFIER trata sobre Fecha Hora en la página 49.",
+    "La sección 6.2 del manual técnico PCI del TG-NOTIFIER trata sobre Cambio de clave en la página 50.",
+    "La subsección 6.3.2 del manual técnico PCI del TG-NOTIFIER trata sobre Sólo Eventos en la página 51."
+   ]
+  },
+  {
+   "doc": "MADT606",
+   "p": 1,
+   "pm": "MADT-606",
+   "sonnet": "El número de fax de NOTIFIER ESPAÑA, S.L. es 93 465 86 35.",
+   "haiku_mismapagina": [
+    "NOTIFIER ESPAÑA, S.L. tiene su central ubicada en Avda. Conflent, 84 Nave 23 del Polígono Industrial Pomar de Dalt en 08916 BADALONA, BARCELONA.",
+    "El número de fax de NOTIFIER ESPAÑA, S.L. es 93 465 86 35.",
+    "En la sección SALIDA 4-20mA del MADT-606, con SALIDAR=200 y rango FS100, a 4,0 mA corresponde valor 0."
+   ]
+  },
+  {
+   "doc": "MIDT193_ID3008-001_Instal_esp",
+   "p": 1,
+   "pm": "ID3008",
+   "sonnet": "El diagrama de despiece del ID3008 muestra el componente LIB3000M como una tarjeta asociada a la unidad de control principal BE3000 en la zona central del ensamblaje.",
+   "haiku_mismapagina": [
+    "Honeywell Life Safety Iberia tiene domicilio en C/Pau Vila 15-19, 08911 Badalona Barcelona.",
+    "Honeywell Life Safety Iberia mantiene presencia web en www.honeywelllifesafety.es.",
+    "Honeywell Life Safety Iberia puede ser contactada mediante correo electrónico en infohlsiberia@honeywell.com."
+   ]
+  },
+  {
+   "doc": "MPDT170",
+   "p": 10,
+   "pm": "AFP-400",
+   "sonnet": "En el AFP-400, el valor 1 en el campo PA corresponde al nivel de mayor sensibilidad de Pre-Alarma.",
+   "haiku_mismapagina": [
+    "El AFP-400 en la sección de Programación de Humo Iónico establece el nivel de Pre-Alarma con código AL:5.",
+    "El AFP-400 en la sección de Programación de Humo Iónico establece el umbral de Alarma con código PA:0.",
+    "El AFP-400 en la sección de Programación de Humo Iónico implementa Verificación de Alarma en Modo Multi-detector para la dirección de sensor 101."
+   ]
+  },
+  {
+   "doc": "MNDT110",
+   "p": 21,
+   "pm": "UDS-1N",
+   "sonnet": "El detector D.1 del UDS-1N es de tipo ION con código de descripción HUMO(IONICO), sensibilidad MIN, asignado al Grupo/Zona Z1=01 y Grupo/Zona G2=17, con SIL=/, VER=S, PRE WKT=S y descripción SALA CPD PRODUCCION.",
+   "haiku_mismapagina": [
+    "El detector D.1 del sistema UDS-1N es de tipo ION con código de descripción HUMO(IONICO).",
+    "El detector D.1 del sistema UDS-1N tiene sensibilidad mínima.",
+    "El detector D.1 del sistema UDS-1N está asignado al grupo/zona Z1 con valor 01."
+   ]
+  },
+  {
+   "doc": "33979_12_VESDA-E_VEU-A10_Product_Guide_A4_Spanish_lores",
+   "p": 48,
+   "pm": "VESDA-E-VEU",
+   "sonnet": "El relé 4 del VESDA-E-VEU tiene como asignación predeterminada la condición Alerta.",
+   "haiku_mismapagina": [
+    "El relé 3 del detector VESDA-E-VEU tiene asignación predeterminada de Fallo urgente, Inhibido, Standby.",
+    "El relé 3 del detector VESDA-E-VEU está fijo de forma predeterminada en Activado normalmente.",
+    "El relé 3 del detector VESDA-E-VEU se desactiva cuando se detecta un fallo urgente."
+   ]
+  },
+  {
+   "doc": "MCDT120",
+   "p": 1,
+   "pm": "PK-AFP200E",
+   "sonnet": "El panel de control analógico de incendios PK-AFP200E incluye un teclado numérico con las teclas 1 a 9, 0, * y # en el panel central oscuro de su interfaz de software.",
+   "haiku_mismapagina": [
+    "NOTIFIER ESPAÑA, S.L. está ubicada en Avda Conflent 84, nave 23 del Pol. Ind. Pomar de Dalt en 08916 Badalona (Barcelona).",
+    "NOTIFIER ESPAÑA, S.L. tiene número de fax 93 465 86 35.",
+    "La central PK-AFP200E es una central analógica de detección de incendios."
+   ]
+  },
+  {
+   "doc": "33979_12_VESDA-E_VEU-A10_Product_Guide_A4_Spanish_lores",
+   "p": 81,
+   "pm": "VESDA-E-VEU",
+   "sonnet": "El parámetro Puerto preferido del VESDA-E-VEU tiene un rango mínimo de Puerto A en la sección VESDAnet.",
+   "haiku_mismapagina": [
+    "El nombre de red del detector VESDA-E-VEU tiene valor predeterminado en blanco y es afectado por el comando para restablecer los valores predeterminados de fábrica.",
+    "La ubicación del detector VESDA-E-VEU tiene valor predeterminado en blanco y es afectada por el comando para restablecer los valores predeterminados de fábrica.",
+    "La dirección de zona VESDA del detector VESDA-E-VEU tiene valor predeterminado 0 con rango mínimo 1 y rango máximo 254, siendo afectada por el comando para restablecer los valores predeterminados de fábrica."
+   ]
+  },
+  {
+   "doc": "Instruction Manual SG200-IS ENG",
+   "p": 3,
+   "pm": "SG200-IS",
+   "sonnet": "El desbloqueo del detector SG200-IS se realiza mediante una herramienta de desbloqueo consistente en un destornillador (screwdriver).",
+   "haiku_mismapagina": [
+    "El detector SG200-IS dispone de una pestaña de bloqueo de plástico ubicada en el lateral de la base circular.",
+    "La pestaña de bloqueo del detector SG200-IS se acciona mediante una herramienta de desbloqueo tipo destornillador.",
+    "El acceso al mecanismo de bloqueo del detector SG200-IS se realiza insertando el destornillador en la zona inferior de la base del detector."
+   ]
+  },
+  {
+   "doc": "I56-2083-013 LPB-700(T)_ES",
+   "p": 6,
+   "pm": "LPB-700",
+   "sonnet": "En el LPB-700, en el modo de avería denominado Inicialización del filtro de compensación por suciedad, el anunciador remoto permanece apagado (Off).",
+   "haiku_mismapagina": [
+    "En modo Normal del LPB-700, el indicador Rojo está Off.",
+    "En modo Normal del LPB-700, el indicador Amarillo está Off.",
+    "En modo Normal del LPB-700, el indicador Verde está Intermitente."
+   ]
+  },
+  {
+   "doc": "MPDT170",
+   "p": 2,
+   "pm": "AFP-400",
+   "sonnet": "El sistema AFP-400 cumple los requisitos de la NFPA para operar a una humedad relativa de 85% RH no condensada a 30 °C.",
+   "haiku_mismapagina": [
+    "El sistema AFP-400 debe ser probado después de cualquier cambio en la instalación o en la programación.",
+    "Se recomienda hacer un restablecimiento general del AFP-400 después de cualquier cambio de componentes, modificaciones o reajustes.",
+    "El AFP-400 completa los requisitos de la NFPA para operar a temperaturas entre 0-49ºC."
+   ]
+  },
+  {
+   "doc": "33979_12_VESDA-E_VEU-A10_Product_Guide_A4_Spanish_lores",
+   "p": 18,
+   "pm": "VESDA-E-VEU",
+   "sonnet": "El tiempo recomendado de AutoLearn del VESDA-E-VEU es de 14 días.",
+   "haiku_mismapagina": [
+    "El rango de ajuste del umbral de Alerta en el VESDA-E-VEU es 0.001%–2.0% obs/m según la sección de especificación de umbrales.",
+    "El rango de ajuste del umbral de Acción en el VESDA-E-VEU es 0.001%–2.0% obs/m según la sección de especificación de umbrales.",
+    "El rango de ajuste del umbral de Fuego 1 en el VESDA-E-VEU es 0.001%–2.0% obs/m según la sección de especificación de umbrales."
+   ]
+  },
+  {
+   "doc": "MPDT170",
+   "p": 3,
+   "pm": "AFP-400",
+   "sonnet": "El manual técnico AFP-400 incluye la descripción de la función especial F0 (Preseñal) en la página 17.",
+   "haiku_mismapagina": [
+    "El AFP-400 permite introducir una Clave de Acceso en la sección de Modo Programación.",
+    "El AFP-400 permite cambiar una Clave de Acceso en la sección de Modo Programación.",
+    "El AFP-400 dispone de Modo Programación para la configuración del sistema."
+   ]
+  },
+  {
+   "doc": "I56-2083-013 LPB-700(T)_ES",
+   "p": 2,
+   "pm": "LPB-700",
+   "sonnet": "En el LPB-700, los bloques de terminales de LAZO correspondientes a las filas OPCIÓN DE PRUEBA REMOTA, ALARMA REMOTA SALIDA y REARME ENTRADA no presentan asignación de polaridad especificada en la tabla.",
+   "haiku_mismapagina": [
+    "El LPB-700 en la sección T2 opción de prueba de avería dispone de terminal (+) en posición 1.",
+    "El LPB-700 en la sección T2 opción de prueba de avería dispone de terminal (-) en posición 2.",
+    "El LPB-700 en la sección T2 opción de prueba de avería dispone de salida en posición 3."
+   ]
+  },
+  {
+   "doc": "MFDT170",
+   "p": 1,
+   "pm": "AFP-400",
+   "sonnet": "NOTIFIER ESPAÑA, S.A. está situada en 08916 Badalona (Barcelona).",
+   "haiku_mismapagina": [
+    "NOTIFIER ESPAÑA, S.A. es una empresa ubicada en Avda Conflent 84, nave 23 del Polígono Industrial Pomar de Dalt en 08916 Badalona, Barcelona.",
+    "El número de fax de NOTIFIER ESPAÑA, S.A. es 93 465 86 35."
+   ]
+  },
+  {
+   "doc": "MNDT110",
+   "p": 19,
+   "pm": "UDS-1N",
+   "sonnet": "En el UDS-1N, para la dirección CMX 10-11 el interruptor INT.-1 debe estar en posición ON.",
+   "haiku_mismapagina": [
+    "En la dirección CMX 10-11 del UDS-1N, el interruptor INT.-1 está en posición ON.",
+    "En la dirección CMX 10-11 del UDS-1N, el interruptor INT.-2 está en posición ON.",
+    "En la dirección CMX 10-11 del UDS-1N, el interruptor INT.-3 está en posición OFF."
+   ]
+  },
+  {
+   "doc": "MFDT170",
+   "p": 14,
+   "pm": "AFP-400",
+   "sonnet": "Como función estándar, la central AFP-400 permite que todos los leds se activen en alarma en la función de LEDs de Control.",
+   "haiku_mismapagina": [
+    "La central AFP-400 lee y muestra información analógica de los detectores analógicos en la Pantalla Analógica.",
+    "La Pantalla Analógica de la central AFP-400 muestra el porcentaje del umbral de alarma para cada detector.",
+    "La función Ajuste Sensibilidad de la central AFP-400 dispone de nueve selecciones para niveles de alarma en detectores."
+   ]
+  },
+  {
+   "doc": "MFDT170",
+   "p": 11,
+   "pm": "AFP-400",
+   "sonnet": "El panel AFP-400 muestra en pantalla el tipo de evento ALARMA con la descripción EST. MANUAL durante una condición de alarma activa.",
+   "haiku_mismapagina": [
+    "El piezoeléctrico del AFP-400 emite un sonido fijo durante la alarma.",
+    "Se activa el relé de Alarma de Fuego en el módulo MPS-400 en la terminal TB3.",
+    "El LED de Alarma de Fuego del AFP-400 parpadea durante la condición de alarma."
+   ]
+  },
+  {
+   "doc": "MFDT170",
+   "p": 29,
+   "pm": "AFP-400",
+   "sonnet": "Esta tabla del AFP-400 responde a la pregunta de cómo configurar cada posición de los conmutadores DIP del módulo de audio, indicando la función activada según el estado ON u OFF de cada uno. Lista los números de conmuta",
+   "haiku_mismapagina": [
+    "El anunciador A1 del AFP-400 está configurado con valor 1 en la sección SELEC ANUNCIADOR.",
+    "El anunciador A2 del AFP-400 está configurado con valor * en la sección SELEC ANUNCIADOR.",
+    "El anunciador A3 del AFP-400 está configurado con valor * en la sección SELEC ANUNCIADOR."
+   ]
+  },
+  {
+   "doc": "33979_12_VESDA-E_VEU-A10_Product_Guide_A4_Spanish_lores",
+   "p": 73,
+   "pm": "VESDA-E-VEU",
+   "sonnet": "El umbral de flujo de aire Major Low del VESDA-E VEU en la sección Air Flow es 70% del flujo normalizado para el tubo 3.",
+   "haiku_mismapagina": [
+    "El fragmento proporcionado contiene únicamente encabezados de secciones de configuración y una tabla de umbrales de flujo de aire sin texto descriptivo que permita extraer enunciados técnicos autónomos sobre el VESDA-E-V",
+    "Para generar enunciados autónomos válidos se requiere el texto descriptivo del manual que acompañe a esta tabla.",
+    "Esta tabla del manual técnico PCI para el detector VESDA-E-VEU especifica los umbrales de flujo de aire normalizado (en porcentaje) que definen las condiciones de alarma y fallo del sistema, listando los valores límite d"
+   ]
+  },
+  {
+   "doc": "33979_12_VESDA-E_VEU-A10_Product_Guide_A4_Spanish_lores",
+   "p": 81,
+   "pm": "VESDA-E-VEU",
+   "sonnet": "El parámetro Circuito abierto terminado del VESDA-E-VEU se ve afectado por el comando para restablecer los valores predeterminados de fábrica en la sección VESDAnet.",
+   "haiku_mismapagina": [
+    "El nombre de red del detector VESDA-E-VEU tiene valor predeterminado en blanco y es afectado por el comando para restablecer los valores predeterminados de fábrica.",
+    "La ubicación del detector VESDA-E-VEU tiene valor predeterminado en blanco y es afectada por el comando para restablecer los valores predeterminados de fábrica.",
+    "La dirección de zona VESDA del detector VESDA-E-VEU tiene valor predeterminado 0 con rango mínimo 1 y rango máximo 254, siendo afectada por el comando para restablecer los valores predeterminados de fábrica."
+   ]
+  }
+ ],
+ "nota": "verdict final = bandas ∧ lectura del panel (atribución/utilidad, F1 dúo)"
+}

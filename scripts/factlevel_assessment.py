@@ -61,6 +61,11 @@ DEMO_FLAGS = {
     # s102/DEC-099: canal hyq SHIPPEADO (PR#115 merged 9-jul; flip cat016 verificado en
     # query_logs de prod, bot_version=d355867) → la demo lo lleva ON. Cambia el freeze-hash.
     "HYQ_TABLE": "on",
+    # s103b/DEC-101: landing v3.1 (código, entra con el merge PR#116) + bloque de selección
+    # CODE-GATED shippeados (Alberto confirmó merge + var en Railway 10-jul) → la demo lo
+    # lleva ON. Cambia el freeze-hash. CAVEAT declarado para la fila v3 del scoreboard: el
+    # bucket in-pool gana +10 de ancho mecánico donde el canal dispara (pool ≤ top_k+cuota).
+    "GENERATOR_SELECTION_BLOCK": "on",
 }
 
 

@@ -1,0 +1,23 @@
+{
+ "derivation": "git show HEAD (v2.2) vs working (v3) de s100_factlevel_full.yaml",
+ "lost": {
+  "hp001#2:1111": "synthesis-miss",
+  "hp002#3:7.6.1": "synthesis-miss",
+  "hp003#0:12V": "rerank-miss",
+  "hp003#1:cable puente": "synthesis-miss",
+  "hp011#1:r.I": "rerank-miss",
+  "hp011#3:enclavadas": "synthesis-miss",
+  "hp015#2:32": "synthesis-miss"
+ },
+ "gained": {
+  "cat022#0:2,5-3,0 μm": "retrieval-miss",
+  "cat022#1:4,5 μm": "retrieval-miss",
+  "cat022#2:BIT": "retrieval-miss",
+  "hp005#1:COINCIDENCIA 2 EQUIPOS": "synthesis-miss",
+  "hp012#2:2 lazos / 396": "synthesis-miss",
+  "hp014#2:terminales 2 y 4": "corpus-gap",
+  "hp018#0:4 circuitos": "synthesis-miss",
+  "hp018#2:diodo": "retrieval-miss",
+  "hp018#3:Sirenas A,B,C,D": "retrieval-miss"
+ }
+}
