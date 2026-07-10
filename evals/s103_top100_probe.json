@@ -1,0 +1,139 @@
+{
+ "stamp": {
+  "git_sha": "ae624cd31e57d47aab01873e68c40692ab7c2515",
+  "flags": {
+   "CHUNKS_TABLE": "chunks_v2",
+   "ENUNCIADOS_MULTIVECTOR": "on",
+   "IDENTITY_RESOLVE": "on",
+   "IDENTITY_RESOLVE_POLICY": "ADD",
+   "LLM_MAX_TOKENS": "3500",
+   "RERANK_TOP_K": "10",
+   "RERANKER_BACKEND": "llm",
+   "MERGE_STRATEGY": "stamps",
+   "RERANK_PREVIEW_CHARS": "800",
+   "HYDE_ENABLED": "false",
+   "GENERATOR_PROMPT_VARIANT": "fidelity",
+   "HYQ_PILOT_FILE": "",
+   "HYQ_TABLE": "on (call-time flip)",
+   "NEIGHBOR_WINDOW": "0"
+  },
+  "ef_search_constraint": "match_chunks_v2 ef=120 (s59); multi-modelo eff_k=200>120",
+  "n_retrieval_miss_total_v22": 12,
+  "n_anchorable_probed": 11
+ },
+ "rows": [
+  {
+   "key": "cat007#3:2 A / 0,5 A",
+   "qid": "cat007",
+   "n_models": 2,
+   "pool50_n": 50,
+   "pool100_n": 67,
+   "in_pool50": false,
+   "rank_at_100": null
+  },
+  {
+   "key": "cat007#4:10^5",
+   "qid": "cat007",
+   "n_models": 2,
+   "pool50_n": 50,
+   "pool100_n": 67,
+   "in_pool50": false,
+   "rank_at_100": null
+  },
+  {
+   "key": "cat022#0:2,5-3,0 μm",
+   "qid": "cat022",
+   "n_models": 2,
+   "pool50_n": 50,
+   "pool100_n": 100,
+   "in_pool50": false,
+   "rank_at_100": null
+  },
+  {
+   "key": "cat022#1:4,5 μm",
+   "qid": "cat022",
+   "n_models": 2,
+   "pool50_n": 50,
+   "pool100_n": 100,
+   "in_pool50": false,
+   "rank_at_100": 55
+  },
+  {
+   "key": "hp011#2:05 a 295 seg",
+   "qid": "hp011",
+   "n_models": 1,
+   "pool50_n": 50,
+   "pool100_n": 100,
+   "in_pool50": false,
+   "rank_at_100": 91
+  },
+  {
+   "key": "hp012#3:4 lazos / 792",
+   "qid": "hp012",
+   "n_models": 2,
+   "pool50_n": 50,
+   "pool100_n": 91,
+   "in_pool50": false,
+   "rank_at_100": null
+  },
+  {
+   "key": "hp013#1:PWR-R",
+   "qid": "hp013",
+   "n_models": 1,
+   "pool50_n": 29,
+   "pool100_n": 30,
+   "in_pool50": false,
+   "rank_at_100": null
+  },
+  {
+   "key": "hp014#3:35",
+   "qid": "hp014",
+   "n_models": 1,
+   "pool50_n": 33,
+   "pool100_n": 33,
+   "in_pool50": true,
+   "rank_at_100": 10
+  },
+  {
+   "key": "hp017#1:instruccion de entrada",
+   "qid": "hp017",
+   "n_models": 1,
+   "pool50_n": 33,
+   "pool100_n": 35,
+   "in_pool50": false,
+   "rank_at_100": 33
+  },
+  {
+   "key": "hp018#2:diodo",
+   "qid": "hp018",
+   "n_models": 1,
+   "pool50_n": 50,
+   "pool100_n": 61,
+   "in_pool50": true,
+   "rank_at_100": 41
+  },
+  {
+   "key": "hp018#3:Sirenas A,B,C,D",
+   "qid": "hp018",
+   "n_models": 1,
+   "pool50_n": 50,
+   "pool100_n": 61,
+   "in_pool50": true,
+   "rank_at_100": 41
+  }
+ ],
+ "verdict_raw": {
+  "gains_51_100": [
+   "cat022#1:4,5 μm",
+   "hp011#2:05 a 295 seg",
+   "hp017#1:instruccion de entrada"
+  ],
+  "ni_a_100": [
+   "cat007#3:2 A / 0,5 A",
+   "cat007#4:10^5",
+   "cat022#0:2,5-3,0 μm",
+   "hp012#3:4 lazos / 792",
+   "hp013#1:PWR-R"
+  ]
+ }
+}

@@ -396,9 +396,15 @@ def phase_generate(args) -> None:
     _variant = os.getenv("GENERATOR_PROMPT_VARIANT", "base")
     assert _variant in ("base", "fidelity"), \
         f"GENERATOR_PROMPT_VARIANT={_variant!r} desconocido — abortado (esperado base|fidelity)"
+    # (s103b) el bloque de selección es CODE-GATED por query → con el flag ON el prompt es
+    # por-query y un sha único de _assemble_system() no lo representa; el freeze-contract exige
+    # que el flag entre al equivalence-dict (un resume con el flag cambiado ABORTA, no mezcla).
+    _sel_block = os.getenv("GENERATOR_SELECTION_BLOCK", "off")
+    assert _sel_block in ("off", "on", "", "0", "false", "no"),         f"GENERATOR_SELECTION_BLOCK={_sel_block!r} desconocido — abortado"
     _assert_instrument_equivalence("generate", {
         "model": LLM_MODEL, "temperature": 0, "max_tokens": LLM_MAX_TOKENS,
         "include_context": 0,
+        "selection_block": _sel_block or "off",
         "system_prompt_sha": _sha(SYSTEM_PROMPT),   # la CONSTANTE base — prueba que no se tocó
         "relevance_threshold": RELEVANCE_THRESHOLD,
         # generate_fn_sha EXIMIDO del R4 (s69): el flag GENERATOR_PROMPT_VARIANT refactorizó
@@ -443,7 +449,10 @@ def phase_generate(args) -> None:
                       # qué corrió); system_prompt_sha = la constante base (sin tocar).
                       "prompt_variant": os.getenv("GENERATOR_PROMPT_VARIANT", "base"),
                       "system_prompt_sha": _sha(SYSTEM_PROMPT),
-                      "assembled_system_sha": _sha(_gen_mod._assemble_system()),
+                      # (s103b) sin query = ensamblado BASE (sin selection-block); con el flag
+                      # ON el prompt real es por-query — se estampa el flag para no mentir.
+                      "selection_block": os.getenv("GENERATOR_SELECTION_BLOCK", "off") or "off",
+                      "assembled_system_sha_base": _sha(_gen_mod._assemble_system()),
                       "generate_fn_sha": _sha(inspect.getsource(_gen_mod.generate_answer)),
                       "relevance_threshold": RELEVANCE_THRESHOLD},
         "n_errors": len(errs),

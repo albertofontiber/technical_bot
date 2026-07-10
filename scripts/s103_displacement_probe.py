@@ -26,7 +26,7 @@ BASE = {"CHUNKS_TABLE": "chunks_v2", "ENUNCIADOS_MULTIVECTOR": "on", "IDENTITY_R
         "IDENTITY_RESOLVE_POLICY": "ADD", "LLM_MAX_TOKENS": "3500", "RERANK_TOP_K": "10",
         "RERANKER_BACKEND": "llm", "MERGE_STRATEGY": "stamps", "RERANK_PREVIEW_CHARS": "800",
         "HYDE_ENABLED": "false", "GENERATOR_PROMPT_VARIANT": "fidelity",
-        "HYQ_PILOT_FILE": "", "HYQ_TABLE": "off", "NEIGHBOR_WINDOW": "0"}
+        "GENERATOR_SELECTION_BLOCK": "off", "HYQ_PILOT_FILE": "", "HYQ_TABLE": "off", "NEIGHBOR_WINDOW": "0"}
 for k, v in BASE.items():
     os.environ[k] = v
 import json  # noqa: E402

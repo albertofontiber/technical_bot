@@ -24,8 +24,8 @@
    "n_golds": 39
   },
   "fix": {
-   "arm": "fix",
-   "git_sha": "29695cf83385c12b67e3ee92fc72f1c59bf67562",
+   "arm": "v3",
+   "git_sha": "ae624cd31e57d47aab01873e68c40692ab7c2515",
    "git_dirty_src": "M src/rag/retriever.py",
    "flags": {
     "CHUNKS_TABLE": "chunks_v2",
@@ -62,7 +62,7 @@
   },
   "hp018·MIEMI530:p21": {
    "old": false,
-   "fix": false
+   "fix": true
   }
  },
  "gate2a_anchor_transition": {
@@ -102,53 +102,22 @@
    "missing_old": []
   },
   "hp011": {
-   "missing_fix": [
-    "731ace03-99d6-47ff-8d1a-da5b381b5c47",
-    "c8924d59-a9ce-4379-a3b7-57058ff86a82",
-    "e0f49eb5-7e1d-437e-a9d0-9887ecd79a1b"
-   ],
+   "missing_fix": [],
    "missing_old": []
   },
   "hp015": {
-   "missing_fix": [
-    "51d3ea46-6c8a-46d4-9218-411c58c1fe41"
-   ],
+   "missing_fix": [],
    "missing_old": []
   }
  },
  "gate3b_trim_proxy": {
   "golds_with_fewer_hyq": [
    {
-    "qid": "cat008",
-    "old": 3,
-    "fix": 2
-   },
-   {
-    "qid": "cat023",
-    "old": 2,
-    "fix": 1
-   },
-   {
     "qid": "hp006",
     "old": 5,
     "fix": 4
-   },
-   {
-    "qid": "hp012",
-    "old": 4,
-    "fix": 2
-   },
-   {
-    "qid": "hp015",
-    "old": 3,
-    "fix": 2
-   },
-   {
-    "qid": "hp018",
-    "old": 5,
-    "fix": 2
    }
   ],
-  "trim_rate": "6/39"
+  "trim_rate": "1/39"
  }
 }

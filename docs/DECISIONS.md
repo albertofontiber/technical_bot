@@ -1626,3 +1626,55 @@ que AMBOS sub-agentes Claude repitieron** (mismo-árbol = mismo blind spot — v
 la regla de Alberto s102). Tally: 14+ findings, 0 falsos positivos (`adversarial_review_log.jsonl`
 2026-07-09 ×2 s103). El gate amplio (negcontrol+flips+null) cazó lo que los 6 diana no podían —
 el guardarraíl anti-overfit G4 funcionó por diseño.
+
+## DEC-101 — s103b: landing v3.1 = EXTENSIÓN ACOTADA del aside (re-apertura MEDIDA de la A2 de DEC-100) + bloque de selección CODE-GATED (fork DEC-097 ejecutado) — CANDIDATO DE SHIP gateado, pendiente GO de Alberto
+
+**Decisión.** El landing del coste de la cuota hyq se resuelve QUITANDO el segundo cobro: el
+carve-out deja de reservar slots del diversify y el aside viaja como **extensión acotada** del
+pool (`≤ top_k + HYQ_PILOT_QUOTA`), post-`[:top_k]`, patrón identity-fetch, cinturón idioma
+estricto, traza `post_hyq_aside`. La regresión que ESTA composición causa (cat021: el rerank-60
+sirve el user-guide EN del 40/40R y la generación ASUME la variante) se cura con el **bloque de
+selección s102 con trigger EN CÓDIGO** (`_SELECTION_INTENT` + `_assemble_system(query)`,
+`GENERATOR_SELECTION_BLOCK`, default off). Diseño+código validados por dúo (2 rondas diseño + 1
+ronda diff, ×2 lados; ~50 findings confirmados hoy, ~1 FP). **Ship = merge + Railway
+`GENERATOR_SELECTION_BLOCK=on`** (la landing activa sola con HYQ_TABLE on — F5: sin el env var,
+prod quedaría +cat022/−cat021; el deploy DEBE llevar ambos). Rollbacks separados: selection =
+flag; landing = revert de código (o HYQ_TABLE=off, que mata el canal entero).
+
+**Evidencia (misma DB, mismo día, artefactos evals/s103_*).**
+- Judge-free: diana cat022 3/3 + hp018·p21 (4/4, lo que v2.1 no podía) · anclajes 39-golds
+  +1/−0 (null 0/0) · served-v2.2 containment 0-missing (hp011=0 vs 3 en v2.1) · negcontrol
+  EXCESS 6 ≤ 7 (mejor que el shipped) · flips 2/2 · churn-servido anclas-OK LOSS 0/GAIN +1 ·
+  suite 473 (12 tests nuevos).
+- Outcome (bvg K=3, 23 golds, ctrl=pools-old-dump vs treat=v3.1-live): **+cat022 FALLO→PASS**;
+  cat024 = artefacto del juez (5ª instancia DEC-092b, K-votos {F,P,PASS} sobre respuestas casi
+  idénticas y MEJOR ordenadas); **cat021 PASS→FALLO 3/3 REAL** → curado por el bloque
+  (PASS/PARCIAL/PASS bajo config de ship — target flaky declarado s102, residual PARCIAL en el
+  mapa); hp009 ATRIBUIDO (probe 2 brazos): PARCIAL=PARCIAL, conducta baseline K-INESTABLE, no
+  v3.1. Latencia rerank mediana 2.18→2.55s (+17%, input 50→≤60).
+- Selection code-gated: sweep 39 dev = SOLO cat021 dispara; fraseo negativo de técnico real
+  («¿cuál pongo?» jumpers/resistencias — cazado EJECUTANDO por el sub-agente) en tests; hp009 y
+  toda spec/avería byte-idénticas POR CONSTRUCCIÓN (unit tests, $0).
+
+**Desviaciones de proceso, DECLARADAS (cross-model diff-review, 2 CRÍTICOS de proceso).** El D1
+pre-declarado se corrió con instrumento de contraste INVÁLIDO (v1: medía la PRESENCIA del canal
+ya shippeado y penalizaba el flip cat016; artefacto NO-PASA conservado sin editar); el v2
+corrigió el contraste (old-vs-v3) y REFINÓ la métrica a anclas-OK-en-servido = cambio de métrica
+post-declaración, visible en el ADDENDUM del diseño. El bvg corrió tras el v2. Fix de instrumento
+colateral: `_stage_of` del diagnose clasificaba por primera-desaparición y el pipeline ya no es
+monotónico (aside/fetch re-adjuntan post-lang) → `final` se comprueba primero (idéntico para
+trazas monotónicas; el 0/2 del table-gate era ese artefacto — con el fix, 2/2). bvg_kmajority:
+flag nuevo en equivalence-dict + manifest (freeze DEC-023).
+
+**Alternativas descartadas (medidas).** v2.1 eviction (DEC-100 NO-GO) · cascada family-aware
+(artefacto `s103_family_tier_probe.json`: 0 cross-family positivos con lista RESUELTA en TODOS
+los golds clave → degenera a v2.1; queda como hygiene en DEC-074) · seam prompt-gated tal-cual
+(cura cat021 3/3 pero hp009 2/3 clarify; iteración de wording lo EMPEORA 3/3 → los guardrails
+de prompt no auto-ejecutan, 2ª medición) · top-100 (probe: 3/11 entran a ranks 55-91, 5 ni a
+100 = gap vocabulario; coste medido del ancho en rerank s98 + ef_search=120 < eff_k 200).
+
+**Gaps declarados.** cat021 sigue siendo target flaky (composición-sensible; residual PARCIAL);
+el bucket in-pool del assessment gana +10 mecánico donde el canal dispara (caveat a estampar en
+la fila v3 del scoreboard); fallback-truncate del rerank mata el aside (paridad con extras del
+fetch, cambio en failure-path declarado); ⚠ ANTI-OVERFIT: misma población dev — contrapesos:
+negcontrol 39 + null + anclas amplias + flips + sweep negativo del regex.

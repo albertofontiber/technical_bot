@@ -27,24 +27,38 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s103 — 9 jul 2026)
+## Estado actual (s103b — 10 jul 2026)
 
-**s103 (DEC-100) — lever displacement-landing MEDIDO → NO-GO por gate pre-declarado → REVERTIDO;
-el camino queda re-dirigido al entity-linking (DEC-074).** El rediseño del carve-out hyq (diversify
-a top_k completo + eviction VECTOR por posición + trim del aside; dúo 2 rondas × 2 lados, 14+
-findings/0 FP) FUNCIONA para su diana (cat022 recupera 3/3 chunks; anclaje corpus-amplio +1/−0)
-pero los CONTROLES amplios lo tumban: rompe el flip shippeado hp018·6K8 (gate DEC-099), hp011
-fuera del null, negcontrol EXCESS-HIGH 7→9. **Lección medida: canal/score/sim-pregunta/posición —
-los 4 ejes observables son ciegos al valor; el discriminador restante es FAMILIA → el landing
-family-aware es el PRIMER CONSUMO medible del entity-linking (§3 del plan s103).** Seam
-reproducible `evals/s103_displacement_seam.patch`; matriz v3→v2.2 `evals/s103_transition_matrix.json`.
-Synth residual mapeado (`evals/s103_synth_residual_map.md`): 6/8 stable-miss, cluster cat021 NO
-reaparece (fork DEC-097 cerrado), 5×omitted procedimental → gold-review (DEC-094), no lever synth
-nuevo. **Qué sigue:** (1) **entity-linking/identidad (DEC-074)** — arrancada con DOS consumos
-candidatos a gatear: (a) landing family-aware del desplazamiento hyq (nuevo, DEC-100), (b) resolver
-sinónimos/series del family-filter hyq (TECH_DEBT #52.1); F1 (índice producto→docs) construido sin
-consumir (s83/s84). (2) Menores gateados: enunciados R2 corpus-wide ($160-270, presupuesto Alberto)
-· #52.2 al gatillo. Prod NO tocado en s103 (revert por pre-registro; demo = v2.2 intacta).
+**s103b (DEC-101) — landing RESUELTO por extensión acotada + selección code-gated: CANDIDATO DE
+SHIP GATEADO, pendiente GO de Alberto (merge + Railway `GENERATOR_SELECTION_BLOCK=on`).** Tras el
+NO-GO de la eviction (DEC-100, abajo), la re-apertura MEDIDA de su alternativa A2: el carve-out
+deja de reservar slots (el doble cobro desaparece de raíz) y el aside viaja como extensión
+(≤ top_k+cuota, patrón identity-fetch). Gates: diana 4/4 (incl. hp018·p21) · anclas +1/−0 ·
+containment 0-missing · negcontrol 6≤7 · flips 2/2 · churn anclas-OK 0-loss · **bvg +cat022
+FALLO→PASS**; la única regresión real (cat021, composición-sensible DEC-097) curada con el bloque
+de selección con trigger EN CÓDIGO (el prompt-gated sobre-dispara hp009 — 2 mediciones; regex
+determinista: sweep 39 = solo cat021, spec/avería byte-idénticas por construcción). cat024/hp009
+= artefacto-juez/baseline (leídos). Family-aware landing MEDIDO NO-OP (0 cross-family con lista
+resuelta) → queda como hygiene DEC-074. Top-100 MEDIDO no-paga (3/11 a ranks 55-91; 5 ni a 100 =
+vocabulario). Desviaciones de proceso declaradas en DEC-101 (D1-v1 inválido→v2, métrica
+refinada; fix `_stage_of` no-monotonía). Suite 473. Coste sesión ~$90/$150. **Qué sigue:** (1)
+GO/NO-GO de Alberto al ship DEC-101; tras ship → assessment smoke→full (fila v3 del scoreboard,
+caveat bucket in-pool +10). (2) **Entity-linking (DEC-074)**: primer consumo = sinónimos/series
+del family-filter hyq (#52.1) — el family-aware landing quedó medido NO-OP; hygiene bajo REPLACE
+sigue candidata. (3) Gateados: enunciados R2 ($160-270, presupuesto Alberto) · #52.2 al gatillo.
+
+## Estado anterior (s103 — 9 jul 2026)
+
+**s103 (DEC-100) — lever displacement-landing (eviction) MEDIDO → NO-GO por gate pre-declarado →
+REVERTIDO.** El rediseño del carve-out hyq (diversify a top_k completo + eviction VECTOR por
+posición + trim del aside; dúo 2 rondas × 2 lados, 14+ findings/0 FP) FUNCIONA para su diana
+(cat022 recupera 3/3 chunks; anclaje corpus-amplio +1/−0) pero los CONTROLES amplios lo tumban:
+rompe el flip shippeado hp018·6K8 (gate DEC-099), hp011 fuera del null, negcontrol EXCESS-HIGH
+7→9. **Lección medida: canal/score/sim-pregunta/posición — los 4 ejes observables son ciegos al
+valor.** Seam `evals/s103_displacement_seam.patch`; matriz v3→v2.2
+`evals/s103_transition_matrix.json`. Synth residual mapeado (`evals/s103_synth_residual_map.md`):
+6/8 stable-miss, cluster cat021 NO reaparece, 5×omitted → gold-review (DEC-094), no lever synth
+nuevo. Prod NO tocado (revert por pre-registro).
 
 ## Estado anterior (s102 — 9 jul 2026)
 

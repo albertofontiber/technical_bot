@@ -1,0 +1,645 @@
+{
+ "stamp": {
+  "git_sha": "ae624cd31e57d47aab01873e68c40692ab7c2515",
+  "flags": {
+   "CHUNKS_TABLE": "chunks_v2",
+   "HYDE_ENABLED": "false",
+   "ENUNCIADOS_MULTIVECTOR": "on",
+   "IDENTITY_RESOLVE": "on",
+   "IDENTITY_RESOLVE_POLICY": "add",
+   "DIVERSIFY_TIEBREAK": "off",
+   "HYQ_PILOT_FILE": "",
+   "HYQ_TABLE": "on (ambos brazos, call-time)",
+   "LLM_MAX_TOKENS": "3500",
+   "RERANK_TOP_K": "10",
+   "RERANKER_BACKEND": "llm",
+   "MERGE_STRATEGY": "stamps",
+   "RERANK_PREVIEW_CHARS": "800",
+   "GENERATOR_PROMPT_VARIANT": "fidelity"
+  },
+  "ctrl_pools": "evals/s103_pools_old.jsonl (worktree@ae624cd)"
+ },
+ "rows": [
+  {
+   "qid": "cat013",
+   "shared": true,
+   "ctrl": "PASS",
+   "treat": "PASS",
+   "k_ctrl": [
+    "PASS",
+    "PASS",
+    "PASS"
+   ],
+   "k_treat": [
+    "PASS",
+    "PASS",
+    "PASS"
+   ],
+   "answers_treat": [
+    "La respuesta corta es **no puedo confirmarte compatibilidad** entre la CAD-150 y el SDX-751 de Notifier, y te explico por qué:\n\n---\n\n## Lo que dicen los fragmentos\n\n**Sobre la CAD-150-8 (Detnov):**\nLos fragmentos disponibles del manual de la CAD-150-8 [F1, F4, F7, F9, F10] describen su arquitectura, conexionado de sirenas, puesta en marcha y componentes de placa base, pero **en ningún momento listan los detectores compatibles con su lazo analógico**. No hay ninguna tabla de dispositivos homologados ni referencia al SDX-751 en la documentación de Detnov recuperada.\n\n**Sobre el SDX-751 (Notifier",
+    "La respuesta corta es: **no puedo confirmarte esa compatibilidad**, y te explico por qué.\n\n---\n\n## Lo que dicen los fragmentos\n\nEl **SDX-751** aparece documentado en los fragmentos, pero siempre asociado a centrales **Notifier**:\n\n- En la **AFP-200** [F2][F5]: el SDX-751 se conecta mediante la base **BX-501** al lazo de comunicaciones de esa central.\n- En la **ID-200** [F3][F6]: el SDX-751 se conecta mediante la base **B501** al lazo de comunicaciones de esa central.\n\nEn ambos casos, el SDX-751 es un detector analógico direccionable que usa el **protocolo de comunicaciones propio de Notifier**",
+    "La respuesta corta es: **no puedo confirmarte compatibilidad**, y te explico por qué.\n\n---\n\n## Lo que dicen los fragmentos\n\n**Sobre la CAD-150-8 (Detnov):**\nLos fragmentos disponibles del manual de la CAD-150-8 [F1, F4, F7, F9, F10] describen la puesta en marcha, conexionado de sirenas y componentes de la placa base, pero **no incluyen ninguna lista de detectores compatibles con su lazo analógico**. No hay ninguna mención al SDX-751 ni a ningún detector Notifier en la documentación de la CAD-150-8 recuperada.\n\n**Sobre el SDX-751 (Notifier):**\nEl SDX-751 aparece en los fragmentos como detector "
+   ],
+   "answers_ctrl": [
+    "La respuesta corta es **no puedo confirmarte compatibilidad** entre la CAD-150 y el SDX-751 de Notifier, y te explico por qué:\n\n---\n\n## Lo que dicen los fragmentos\n\n**Sobre la CAD-150-8 (Detnov):**\nLos fragmentos disponibles del manual de la CAD-150-8 [F1, F4, F7, F9, F10] describen su arquitectura, conexionado de sirenas, puesta en marcha y componentes de placa base, pero **en ningún momento listan los detectores compatibles con su lazo analógico**. No hay ninguna tabla de dispositivos homologados ni referencia al SDX-751 en la documentación de Detnov recuperada.\n\n**Sobre el SDX-751 (Notifier",
+    "La respuesta corta es: **no puedo confirmarte esa compatibilidad**, y te explico por qué.\n\n---\n\n## Lo que dicen los fragmentos\n\nEl **SDX-751** aparece documentado en los fragmentos, pero siempre asociado a centrales **Notifier**:\n\n- En la **AFP-200** [F2][F5]: el SDX-751 se conecta mediante la base **BX-501** al lazo de comunicaciones de esa central.\n- En la **ID-200** [F3][F6]: el SDX-751 se conecta mediante la base **B501** al lazo de comunicaciones de esa central.\n\nEn ambos casos, el SDX-751 es un detector analógico direccionable que usa el **protocolo de comunicaciones propio de Notifier**",
+    "La respuesta corta es: **no puedo confirmarte compatibilidad**, y te explico por qué.\n\n---\n\n## Lo que dicen los fragmentos\n\n**Sobre la CAD-150-8 (Detnov):**\nLos fragmentos disponibles del manual de la CAD-150-8 [F1, F4, F7, F9, F10] describen la puesta en marcha, conexionado de sirenas y componentes de la placa base, pero **no incluyen ninguna lista de detectores compatibles con su lazo analógico**. No hay ninguna mención al SDX-751 ni a ningún detector Notifier en la documentación de la CAD-150-8 recuperada.\n\n**Sobre el SDX-751 (Notifier):**\nEl SDX-751 aparece en los fragmentos como detector "
+   ]
+  },
+  {
+   "qid": "cat014",
+   "shared": true,
+   "ctrl": "PASS",
+   "treat": "PASS",
+   "k_ctrl": [
+    "PASS",
+    "PASS",
+    "PASS"
+   ],
+   "k_treat": [
+    "PASS",
+    "PASS",
+    "PASS"
+   ],
+   "answers_treat": [
+    "El manual del **DGD-600** no especifica un valor de **MTBF** (Mean Time Between Failures).\n\nLo que sí indica el manual es la **vida útil**:\n\n- **Vida útil: 10 años desde la fecha de fabricación** [F2][F4]\n- La fecha de fabricación está impresa en la **pegatina lateral del dispositivo** [F2]\n- Transcurridos los 10 años, el detector **debe ser sustituido** [F2][F4]\n\n> ⚠️ El manual no proporciona ningún dato de MTBF ni tasa de fallos (λ). Si necesitas ese valor para un proyecto o documentación técnica, deberás solicitarlo directamente al departamento técnico de Detnov.\n\n---\n\n**Fuente:** 55360004 ",
+    "El manual del **DGD-600** no especifica un valor de MTBF (Mean Time Between Failures).\n\nLo que sí indica el manual es la **vida útil**:\n\n- **Vida útil: 10 años desde la fecha de fabricación** [F2][F4]\n- La fecha de fabricación está impresa en la **pegatina lateral del dispositivo** [F2]\n- Una vez superados los 10 años, el detector **debe ser sustituido** [F2][F4]\n\n> ⚠️ El MTBF es un parámetro distinto a la vida útil. El manual no proporciona ningún valor de MTBF para el DGD-600. Si necesitas ese dato para documentación técnica o de proyecto, deberás solicitarlo directamente a Detnov.\n\n---\n\nFue",
+    "El manual del **DGD-600** no especifica un valor de MTBF (Mean Time Between Failures). Lo que sí indica es la **vida útil** del detector:\n\n- **Vida útil: 10 años desde la fecha de fabricación** [F2][F4]\n- La fecha de fabricación está impresa en la **pegatina lateral del dispositivo** [F2]\n- Transcurridos los 10 años, el detector **debe ser sustituido** [F2][F4]\n\n> ⚠️ El MTBF como dato estadístico de fiabilidad no aparece en ningún fragmento del manual. Si necesitas ese valor para un proyecto o documentación técnica, deberás solicitarlo directamente a **Detnov**.\n\n---\n\nFuente: 55360004 Manual D"
+   ],
+   "answers_ctrl": [
+    "El manual del **DGD-600** no especifica un valor de **MTBF** (Mean Time Between Failures).\n\nLo que sí indica el manual es la **vida útil**:\n\n- **Vida útil: 10 años desde la fecha de fabricación** [F2][F4]\n- La fecha de fabricación está impresa en la **pegatina lateral del dispositivo** [F2]\n- Transcurridos los 10 años, el detector **debe ser sustituido** [F2][F4]\n\n> ⚠️ El manual no proporciona ningún dato de MTBF ni tasa de fallos (λ). Si necesitas ese valor para un proyecto o documentación técnica, deberás solicitarlo directamente al departamento técnico de Detnov.\n\n---\n\n**Fuente:** 55360004 ",
+    "El manual del **DGD-600** no especifica un valor de MTBF (Mean Time Between Failures).\n\nLo que sí indica el manual es la **vida útil**:\n\n- **Vida útil: 10 años desde la fecha de fabricación** [F2][F4]\n- La fecha de fabricación está impresa en la **pegatina lateral del dispositivo** [F2]\n- Una vez superados los 10 años, el detector **debe ser sustituido** [F2][F4]\n\n> ⚠️ El MTBF es un parámetro distinto a la vida útil. El manual no proporciona ningún valor de MTBF para el DGD-600. Si necesitas ese dato para documentación técnica o de proyecto, deberás solicitarlo directamente a Detnov.\n\n---\n\nFue",
+    "El manual del **DGD-600** no especifica un valor de MTBF (Mean Time Between Failures). Lo que sí indica es la **vida útil** del detector:\n\n- **Vida útil: 10 años desde la fecha de fabricación** [F2][F4]\n- La fecha de fabricación está impresa en la **pegatina lateral del dispositivo** [F2]\n- Transcurridos los 10 años, el detector **debe ser sustituido** [F2][F4]\n\n> ⚠️ El MTBF como dato estadístico de fiabilidad no aparece en ningún fragmento del manual. Si necesitas ese valor para un proyecto o documentación técnica, deberás solicitarlo directamente a **Detnov**.\n\n---\n\nFuente: 55360004 Manual D"
+   ]
+  },
+  {
+   "qid": "cat018",
+   "shared": true,
+   "ctrl": "PARCIAL",
+   "treat": "PARCIAL",
+   "k_ctrl": [
+    "PASS",
+    "PARCIAL",
+    "PARCIAL"
+   ],
+   "k_treat": [
+    "PASS",
+    "PARCIAL",
+    "PARCIAL"
+   ],
+   "answers_treat": [
+    "# Programación de ecuación CBE en AM-8200 para activar una salida\n\n## Concepto previo\n\nUna ecuación CBE (Control By Event) se asocia a cada punto, zona o grupo para definir qué condiciones deben cumplirse para activar una salida [F1]. La condición \"ACTIVO\" para un punto de entrada (sensor o módulo de entrada) equivale a **en alarma** [F1].\n\n---\n\n## Procedimiento paso a paso\n\n### Paso 1 — Acceder a la programación del módulo de salida\n\nNavega en el menú a la sección del módulo de salida que quieres activar [F3]:\n\n> **MENU PROGRAMMAZIONE → Punti → (módulo de salida)**\n\n### Paso 2 — Seleccionar e",
+    "# Programación de ecuación CBE en AM-8200 para activar una salida\n\n## Concepto previo\n\nUna ecuación CBE (Control By Event) se asocia a cada punto, zona o grupo y define las condiciones que, al cumplirse, activan una salida [F1]. La condición \"ACTIVO\" para un punto de entrada (sensor o módulo de entrada) equivale a **en alarma** [F1].\n\n---\n\n## Paso a paso: programar la CBE de un módulo de salida\n\n### 1. Acceder al menú del módulo de salida\n\nNavega hasta el módulo de salida en el menú de programación. La ruta mostrada en el manual es:\n**MENU PROGRAMMAZIONE \\ Punti \\ Sensori** (o módulos de salid",
+    "# Programación de ecuación CBE en AM-8200 para activar una salida\n\n## Concepto previo\n\nUna ecuación CBE (Control By Event) se asocia a cada punto, zona o grupo para definir qué condiciones deben cumplirse para activar una salida [F1]. La condición \"ACTIVO\" para un punto de entrada (sensor o módulo de entrada) equivale a **en alarma** [F1].\n\n---\n\n## Procedimiento paso a paso\n\n### Paso 1 — Acceder al punto de salida a programar\n\nNavega en el menú a la sección del módulo de salida correspondiente (por ejemplo: `MENU PROGRAMMAZIONE\\Punti\\Sensori`) [F3].\n\n### Paso 2 — Seleccionar el campo CBE\n\nCon "
+   ],
+   "answers_ctrl": [
+    "# Programación de ecuación CBE en AM-8200 para activar una salida\n\n## Concepto previo\n\nUna ecuación CBE (Control By Event) se asocia a cada punto, zona o grupo para definir qué condiciones deben cumplirse para activar una salida [F1]. La condición \"ACTIVO\" para un punto de entrada (sensor o módulo de entrada) equivale a **en alarma** [F1].\n\n---\n\n## Procedimiento paso a paso\n\n### Paso 1 — Acceder a la programación del módulo de salida\n\nNavega en el menú a la sección del módulo de salida que quieres activar [F3]:\n\n> **MENU PROGRAMMAZIONE → Punti → (módulo de salida)**\n\n### Paso 2 — Seleccionar e",
+    "# Programación de ecuación CBE en AM-8200 para activar una salida\n\n## Concepto previo\n\nUna ecuación CBE (Control By Event) se asocia a cada punto, zona o grupo y define las condiciones que, al cumplirse, activan una salida [F1]. La condición \"ACTIVO\" para un punto de entrada (sensor o módulo de entrada) equivale a **en alarma** [F1].\n\n---\n\n## Paso a paso: programar la CBE de un módulo de salida\n\n### 1. Acceder al menú del módulo de salida\n\nNavega hasta el módulo de salida en el menú de programación. La ruta mostrada en el manual es:\n**MENU PROGRAMMAZIONE \\ Punti \\ Sensori** (o módulos de salid",
+    "# Programación de ecuación CBE en AM-8200 para activar una salida\n\n## Concepto previo\n\nUna ecuación CBE (Control By Event) se asocia a cada punto, zona o grupo para definir qué condiciones deben cumplirse para activar una salida [F1]. La condición \"ACTIVO\" para un punto de entrada (sensor o módulo de entrada) equivale a **en alarma** [F1].\n\n---\n\n## Procedimiento paso a paso\n\n### Paso 1 — Acceder al punto de salida a programar\n\nNavega en el menú a la sección del módulo de salida correspondiente (por ejemplo: `MENU PROGRAMMAZIONE\\Punti\\Sensori`) [F3].\n\n### Paso 2 — Seleccionar el campo CBE\n\nCon "
+   ]
+  },
+  {
+   "qid": "cat021",
+   "shared": false,
+   "ctrl": "PASS",
+   "treat": "FALLO",
+   "k_ctrl": [
+    "PASS",
+    "PASS",
+    "PASS"
+   ],
+   "k_treat": [
+    "FALLO",
+    "FALLO",
+    "FALLO"
+   ],
+   "answers_treat": [
+    "## Detector de llama SharpEye 40/40R — Cómo construir la referencia de pedido\n\nLa familia que buscas es el **S40/40R** (detector de llama infrarrojo simple, Single IR) [F1][F2]. La referencia completa se construye añadiendo **5 dígitos** al código base, cada uno con su significado [F2][F3]:\n\n---\n\n### Estructura de la referencia: `40/40R – X X X X X`\n\n**Posición 1 — Configuración de cableado:**\n- Ver Tabla 1 del manual (las opciones concretas no son legibles en el fragmento recuperado) [F2]\n\n**Posición 2 — Temperatura máxima:**\n- `1` → **75 °C**\n- `2` → **85 °C** [F2][F3]\n\n**Posición 3 — Entrad",
+    "El detector de llama SharpEye \"40/40\" de infrarrojo simple (Single IR) es el modelo **S40/40R** (denominación Notifier/Honeywell Life Safety Iberia) o **40/40R** (denominación Spectrex) [F1][F4].\n\n---\n\n## Cómo construir la referencia de pedido\n\nLa referencia completa sigue el formato **40/40R-XXXXX**, donde cada posición define una opción [F2][F3]:\n\n**Posición 1 — Configuración de cableado:**\n- Ver Tabla 1 del manual (define las opciones de cableado disponibles) [F2]\n\n**Posición 2 — Temperatura máxima:**\n- 1 → 75 °C\n- 2 → 85 °C [F2][F3]\n\n**Posición 3 — Entradas de cable:**\n- 1 → M25\n- 2 → ¾\" N",
+    "El detector de llama SharpEye \"40/40\" de infrarrojo simple (Single IR) corresponde al modelo **S40/40R** (denominación Notifier/Honeywell Life Safety Iberia) o **40/40R** (denominación Spectrex) [F1][F4].\n\nSin embargo, no puedes pedir simplemente \"un S40/40R\" porque la referencia completa del producto tiene **5 dígitos adicionales** que definen la configuración exacta [F2][F3]. La estructura es:\n\n**40/40R – X X X X X**\n\n- **1er dígito – Configuración de cableado:** ver Tabla 1 del manual (los fragmentos no reproducen el contenido completo de esa tabla) [F2]\n- **2º dígito – Temperatura de traba"
+   ],
+   "answers_ctrl": [
+    "## Familia SharpEye 40/40 — ¿Qué modelo pedir?\n\nLa denominación \"40/40\" corresponde a una **familia completa de detectores de llama** (serie S40/40), no a un modelo único. Antes de hacer el pedido necesitas identificar qué variante se adapta a tu instalación.\n\n---\n\n### Modelos disponibles en la serie SharpEye 40/40\n\nSegún los fragmentos recuperados, la familia incluye los siguientes modelos:\n\n- **S40/40R** — Detector de llama infrarrojo simple (Single IR) [F1][F2]\n- **S40/40M** — Detector de llama de múltiple infrarrojo (llamas de hidrógeno e hidrocarburo) [F3]\n- **S40/40I** — Detector de llam",
+    "## Familia SharpEye 40/40 — ¿Qué modelo pedir?\n\nLa denominación \"40/40\" corresponde a una **familia completa de detectores de llama** (serie SharpEye 40/40), no a un modelo único. Antes de hacer el pedido necesitas identificar qué variante se adapta a tu aplicación.\n\n---\n\n### Modelos disponibles en la serie SharpEye 40/40\n\n- **S40/40R** — Detector de llama **infrarrojo simple (Single IR)** [F1][F2]\n- **S40/40M** — Detector de llama de **múltiple infrarrojo** (llamas de hidrógeno e hidrocarburo) [F3]\n- **S40/40I** — Detector de llama de **triple espectro infrarrojo (IR3)** [F4]\n- **S40/40L / LB",
+    "## Familia SharpEye 40/40 — ¿Qué modelo pedir?\n\nLa denominación \"40/40\" corresponde a una **familia completa de detectores de llama** (serie SharpEye 40/40), no a un modelo único. Antes de hacer el pedido necesitas identificar qué variante se adapta a tu instalación.\n\n---\n\n### Modelos disponibles en la serie SharpEye 40/40\n\nSegún los fragmentos recuperados, existen los siguientes modelos [F6]:\n\n- **S40/40R** — Detector de llama de **infrarrojo simple (Single IR)** [F1]\n- **S40/40M** — Detector de llama de **múltiple infrarrojo** (llamas de hidrógeno e hidrocarburo) [F3]\n- **S40/40I** — Detecto"
+   ]
+  },
+  {
+   "qid": "cat022",
+   "shared": false,
+   "ctrl": "FALLO",
+   "treat": "PASS",
+   "k_ctrl": [
+    "FALLO",
+    "FALLO",
+    "FALLO"
+   ],
+   "k_treat": [
+    "PASS",
+    "PASS",
+    "PASS"
+   ],
+   "answers_treat": [
+    "## Diferencias entre el 40/40L, el 40/40L4 y el sufijo «B»\n\n### 40/40L vs. 40/40L4 — Longitud de onda IR y tipos de fuego detectables\n\nLa diferencia principal entre ambos modelos es la **longitud de onda del sensor IR** y, en consecuencia, los tipos de fuego que pueden detectar [F1]:\n\n- **S40/40L (y LB):** sensor IR que funciona a una longitud de onda entre **2,5 y 3,0 µm**. Es adecuado para detectar:\n  - Combustibles a base de hidrocarburos y fuegos de gas\n  - Fuegos de hidróxido e hidrógeno\n  - Fuegos de metales o materia inorgánica\n\n- **S40/40L4 (y L4B):** sensor IR que funciona a una longi",
+    "## Diferencias entre el 40/40L, el 40/40L4 y el sufijo «B»\n\n### 40/40L vs. 40/40L4 — Longitud de onda IR y tipo de fuego detectable\n\nLa diferencia principal entre ambos modelos es la **longitud de onda del sensor IR** y, en consecuencia, los tipos de fuego que pueden detectar [F1]:\n\n- **S40/40L**: el sensor IR opera en la longitud de onda entre **2,5 y 3,0 µm**. Es adecuado para detectar:\n  - Combustibles a base de hidrocarburos y fuegos de gas\n  - Fuegos de hidróxido e hidrógeno\n  - Fuegos de metales o materia inorgánica\n\n- **S40/40L4**: el sensor IR opera a **4,5 µm**. Es adecuado **únicamen",
+    "## Diferencias entre 40/40L, 40/40L4 y sufijo «B»\n\n### 40/40L vs. 40/40L4 — Longitud de onda IR\n\nLa diferencia principal es la **longitud de onda del sensor IR** [F1]:\n\n- **S40/40L**: sensor IR que funciona a una longitud de onda entre **2,5 y 3,0 µm**. Es adecuado para detectar:\n  - Combustibles a base de hidrocarburos y fuegos de gas\n  - Fuegos de hidróxido e hidrógeno\n  - Fuegos de metales o materia inorgánica [F1]\n\n- **S40/40L4**: funciona a una longitud de onda de **4,5 µm** y **solo es adecuado para la detección de fuegos de hidrocarburos** [F1]\n\nAmbos modelos comparten la misma combinac"
+   ],
+   "answers_ctrl": [
+    "## Diferencias entre 40/40L, 40/40L4 y significado del sufijo «B»\n\n### 40/40L vs. 40/40L4 — Sensibilidad\n\nLa diferencia más clara que aparece en los fragmentos es la **sensibilidad de detección**:\n\n**Modelo 40/40L (y 40/40LB):**\n- Ajuste de sensibilidad disponible: **15** → alcance **50 ft / 15 m** [F1]\n\n**Modelo 40/40L4 (y 40/40L4B):**\n- Ajuste de sensibilidad disponible: **28** → alcance **93 ft / 28 m** [F1]\n\nEs decir, el **40/40L4** tiene un mayor alcance de detección que el **40/40L** según la configuración de sensibilidad documentada.\n\n> ⚠️ Los fragmentos disponibles solo muestran **un v",
+    "## Diferencias entre 40/40L, 40/40L4 y sufijo «B»\n\n### Lo que los fragmentos confirman\n\n**Sobre la sensibilidad (diferencia más clara entre 40/40L y 40/40L4):**\n\nEl fragmento [F1] muestra tablas de ajuste de sensibilidad distintas para cada modelo:\n\n- **40/40L** (y 40/40LB): ajuste de sensibilidad en **50/15 ft/m** [F1] — Tabla 6\n- **40/40L4** (y 40/40L4B): ajuste de sensibilidad en **93/28 ft/m** [F1] — Tabla 7\n\nEsto indica que el **40/40L4 tiene mayor alcance de detección** que el 40/40L en su ajuste disponible, aunque los fragmentos no describen explícitamente qué tecnología óptica o espect",
+    "## Diferencias entre 40/40L, 40/40L4 y significado del sufijo «B»\n\n### 40/40L vs. 40/40L4 — Sensibilidad\n\nLa diferencia más clara que aparece en los fragmentos es la **sensibilidad de detección**:\n\n**Modelo 40/40L (y 40/40LB):**\n- Ajuste de sensibilidad disponible: **15** → alcance **50 ft / 15 m** [F1]\n\n**Modelo 40/40L4 (y 40/40L4B):**\n- Ajuste de sensibilidad disponible: **28** → alcance **93 ft / 28 m** [F1]\n\nEs decir, el **40/40L4** tiene un mayor alcance de detección que el **40/40L** según la tabla de ajustes de sensibilidad del software WinHost [F1].\n\n> ⚠️ Los fragmentos disponibles no "
+   ]
+  },
+  {
+   "qid": "hp001",
+   "shared": true,
+   "ctrl": "PASS",
+   "treat": "PASS",
+   "k_ctrl": [
+    "PASS",
+    "PASS",
+    "PASS"
+   ],
+   "k_treat": [
+    "PASS",
+    "PASS",
+    "PASS"
+   ],
+   "answers_treat": [
+    "# Acceso al menú de programación avanzada — CAD-250\n\n## Paso a paso\n\n1. **Desde la pantalla de reposo**, toca el icono del **candado (🔒)** en el centro de la pantalla [F1][F2].\n\n2. Se abrirá la **pantalla de acceso** solicitando contraseña. Introduce la **clave de administrador por defecto: `2222`** [F1][F2].\n\n3. Una vez en la **pantalla de administrador**, navega por el menú principal hasta **AJUSTES** [F3].\n\n4. En el submenú de la derecha, selecciona **AVANZADO** [F4].\n\n   La ruta completa es:\n   **AJUSTES** (Menú principal) **> AVANZADO** (Submenú) [F4]\n\n5. Dentro de **AVANZADO** dispones d",
+    "# Acceso al menú de programación avanzada — CAD-250\n\n## Paso 1: Acceder al nivel de administrador\n\n1. Espera a que la central arranque y muestre la **PANTALLA DE REPOSO** [F1][F2].\n2. Toca el icono del **candado (🔒)** en la pantalla táctil [F1][F2].\n3. Se abrirá la **PANTALLA DE ACCESO** solicitando contraseña [F1][F2].\n4. Introduce la clave de administrador por defecto: **2222** [F1][F2].\n\n> ⚠️ El uso indebido del nivel de administrador puede provocar mal funcionamiento de la instalación. Asegúrate de tener autorización y conocimientos necesarios [F1][F2].\n\n---\n\n## Paso 2: Navegar hasta el me",
+    "# Acceso al menú de programación avanzada — CAD-250\n\n## Paso 1: Desbloquear la pantalla de reposo\n\nDesde la **PANTALLA DE REPOSO**, toca el icono del candado (🔒) en el centro de la pantalla [F1][F2]. Esto abre la **PANTALLA DE ACCESO** con teclado numérico.\n\n## Paso 2: Introducir la clave de administrador\n\nIntroduce la clave de administrador por defecto: **2222** [F1][F2].\n\n> ⚠️ Asegúrate de tener la autorización y los conocimientos necesarios. El uso indebido del nivel de administrador puede provocar un mal funcionamiento de la instalación [F1][F2].\n\n## Paso 3: Navegar al menú AVANZADO\n\nUna v"
+   ],
+   "answers_ctrl": [
+    "# Acceso al menú de programación avanzada — CAD-250\n\n## Paso a paso\n\n1. **Desde la pantalla de reposo**, toca el icono del **candado (🔒)** en el centro de la pantalla [F1][F2].\n\n2. Se abrirá la **pantalla de acceso** solicitando contraseña. Introduce la **clave de administrador por defecto: `2222`** [F1][F2].\n\n3. Una vez en la **pantalla de administrador**, navega por el menú principal hasta **AJUSTES** [F3].\n\n4. En el submenú de la derecha, selecciona **AVANZADO** [F4].\n\n   La ruta completa es:\n   **AJUSTES** (Menú principal) **> AVANZADO** (Submenú) [F4]\n\n5. Dentro de **AVANZADO** dispones d",
+    "# Acceso al menú de programación avanzada — CAD-250\n\n## Paso 1: Acceder al nivel de administrador\n\n1. Espera a que la central arranque y muestre la **PANTALLA DE REPOSO** [F1][F2].\n2. Toca el icono del **candado (🔒)** en la pantalla táctil [F1][F2].\n3. Se abrirá la **PANTALLA DE ACCESO** solicitando contraseña [F1][F2].\n4. Introduce la clave de administrador por defecto: **2222** [F1][F2].\n\n> ⚠️ El uso indebido del nivel de administrador puede provocar mal funcionamiento de la instalación. Asegúrate de tener autorización y conocimientos necesarios [F1][F2].\n\n---\n\n## Paso 2: Navegar hasta el me",
+    "# Acceso al menú de programación avanzada — CAD-250\n\n## Paso 1: Desbloquear la pantalla de reposo\n\nDesde la **PANTALLA DE REPOSO**, toca el icono del candado (🔒) en el centro de la pantalla [F1][F2]. Esto abre la **PANTALLA DE ACCESO** con teclado numérico.\n\n## Paso 2: Introducir la clave de administrador\n\nIntroduce la clave de administrador por defecto: **2222** [F1][F2].\n\n> ⚠️ Asegúrate de tener la autorización y los conocimientos necesarios. El uso indebido del nivel de administrador puede provocar un mal funcionamiento de la instalación [F1][F2].\n\n## Paso 3: Navegar al menú AVANZADO\n\nUna v"
+   ]
+  },
+  {
+   "qid": "hp004",
+   "shared": true,
+   "ctrl": "PASS",
+   "treat": "PASS",
+   "k_ctrl": [
+    "PARCIAL",
+    "PASS",
+    "PASS"
+   ],
+   "k_treat": [
+    "PARCIAL",
+    "PASS",
+    "PASS"
+   ],
+   "answers_treat": [
+    "## Tensión de funcionamiento y consumo en reposo — DGD-600\n\nEl DGD-600 existe en dos versiones de alimentación. Los valores son [F2]:\n\n**Versión 24V:**\n- Tensión de funcionamiento: **22 V a 38 V CC**\n- Consumo en reposo: **45 mA**\n\n**Versión 220V:**\n- Tensión de funcionamiento: **180 V a 240 V CA**\n- Consumo en reposo: **70 mA**\n\n> **Nota:** El consumo en alarma de la versión 24V sube a **65 mA**, mientras que en la versión 220V se mantiene en **70 mA** tanto en reposo como en alarma [F2].\n\n---\n\nFuente: 55360004 Manual Detector Gas DGD-600 ES EN IT FR (sin revisión registrada)\n\n---\n\nTambién pu",
+    "## Tensión de funcionamiento y consumo en reposo — DGD-600\n\nEl DGD-600 existe en dos versiones de alimentación con valores distintos [F2]:\n\n**Versión 24V:**\n- Tensión de funcionamiento: **22 V a 38 V CC** [F2]\n- Consumo en reposo: **45 mA** [F2]\n- Consumo en alarma: **65 mA** [F2]\n\n**Versión 220V:**\n- Tensión de funcionamiento: **180 V a 240 V CA** [F2]\n- Consumo en reposo: **70 mA** [F2]\n- Consumo en alarma: **70 mA** [F2]\n\n> **Nota:** Los contactos de relé soportan un máximo de **1 A @ 30 VDC** [F2]. Verifica este valor antes de conectar cualquier circuito externo a los relés.\n\n---\n\nFuente: ",
+    "## Tensión de funcionamiento y consumo en reposo — DGD-600\n\nEl DGD-600 existe en dos versiones de alimentación. Los datos son [F2]:\n\n**Versión 24V:**\n- Tensión de funcionamiento: **22 V a 38 V CC**\n- Consumo en reposo: **45 mA**\n\n**Versión 220V:**\n- Tensión de funcionamiento: **180 V a 240 V CA**\n- Consumo en reposo: **70 mA**\n\n> ⚠️ El consumo en alarma de la versión 24V sube a **65 mA** [F2], mientras que en la versión 220V se mantiene en **70 mA** tanto en reposo como en alarma [F2].\n\n---\n\nFuente: 55360004 Manual Detector Gas DGD-600 ES EN IT FR (sin revisión registrada)\n\n---\n\nTambién puedo "
+   ],
+   "answers_ctrl": [
+    "## Tensión de funcionamiento y consumo en reposo — DGD-600\n\nEl DGD-600 existe en dos versiones de alimentación. Los valores son [F2]:\n\n**Versión 24V:**\n- Tensión de funcionamiento: **22 V a 38 V CC**\n- Consumo en reposo: **45 mA**\n\n**Versión 220V:**\n- Tensión de funcionamiento: **180 V a 240 V CA**\n- Consumo en reposo: **70 mA**\n\n> **Nota:** El consumo en alarma de la versión 24V sube a **65 mA**, mientras que en la versión 220V se mantiene en **70 mA** tanto en reposo como en alarma [F2].\n\n---\n\nFuente: 55360004 Manual Detector Gas DGD-600 ES EN IT FR (sin revisión registrada)\n\n---\n\nTambién pu",
+    "## Tensión de funcionamiento y consumo en reposo — DGD-600\n\nEl DGD-600 existe en dos versiones de alimentación con valores distintos [F2]:\n\n**Versión 24V:**\n- Tensión de funcionamiento: **22 V a 38 V CC** [F2]\n- Consumo en reposo: **45 mA** [F2]\n- Consumo en alarma: **65 mA** [F2]\n\n**Versión 220V:**\n- Tensión de funcionamiento: **180 V a 240 V CA** [F2]\n- Consumo en reposo: **70 mA** [F2]\n- Consumo en alarma: **70 mA** [F2]\n\n> **Nota:** Los contactos de relé soportan un máximo de **1 A @ 30 VDC** [F2]. Verifica este valor antes de conectar cualquier circuito externo a los relés.\n\n---\n\nFuente: ",
+    "## Tensión de funcionamiento y consumo en reposo — DGD-600\n\nEl DGD-600 existe en dos versiones de alimentación. Los datos son [F2]:\n\n**Versión 24V:**\n- Tensión de funcionamiento: **22 V a 38 V CC**\n- Consumo en reposo: **45 mA**\n\n**Versión 220V:**\n- Tensión de funcionamiento: **180 V a 240 V CA**\n- Consumo en reposo: **70 mA**\n\n> ⚠️ El consumo en alarma de la versión 24V sube a **65 mA** [F2], mientras que en la versión 220V se mantiene en **70 mA** tanto en reposo como en alarma [F2].\n\n---\n\nFuente: 55360004 Manual Detector Gas DGD-600 ES EN IT FR (sin revisión registrada)\n\n---\n\nTambién puedo "
+   ]
+  },
+  {
+   "qid": "hp015",
+   "shared": true,
+   "ctrl": "PASS",
+   "treat": "PASS",
+   "k_ctrl": [
+    "PASS",
+    "PASS",
+    "PASS"
+   ],
+   "k_treat": [
+    "PASS",
+    "PASS",
+    "PASS"
+   ],
+   "answers_treat": [
+    "## Desactivación en la CCD-103: por zona, no por detector individual\n\nLa **CCD-103** es una central convencional. El manual **no describe ningún procedimiento para desactivar un detector individual** sin afectar al resto del lazo. Los fragmentos disponibles solo contemplan la desactivación a nivel de **zona completa**.\n\n---\n\n### Lo que sí permite el sistema: desconexión por zona\n\nEl procedimiento para desconectar una zona completa es el siguiente [F1][F3]:\n\n1. Asegúrate de que la **llave de bloqueo de teclado (G)** está en posición **abierta** (ON), de lo contrario las pulsaciones no tendrán e",
+    "## Desactivación en la CCD-103: por zona, no por detector individual\n\nLa **CCD-103** es una central convencional. El manual no describe ningún procedimiento para desactivar un detector de forma individual. La unidad mínima de desconexión es la **zona completa** [F1][F3].\n\n---\n\n### Cómo desconectar una zona completa\n\nSegún la sección **6.4.4** y **6.3.1** del manual [F1][F3]:\n\n1. Asegúrate de que la **llave de bloqueo del teclado de detección (G)** está en posición **abierta** (ON) [F3].\n2. Pulsa la **tecla de zona** correspondiente **dos veces**:\n   - 1ª pulsación → zona en **modo prueba**\n   ",
+    "## Desactivación en la CCD-103: por zona, no por detector individual\n\nLa **CCD-103** es una central convencional. El manual no describe ningún procedimiento para desactivar un detector de forma individual. La unidad mínima de desconexión es la **zona completa** [F1][F3].\n\n---\n\n### Cómo desconectar una zona completa\n\nSegún la sección **6.4.4** y **6.3.1** del manual [F1][F3]:\n\n1. Asegúrate de que la **llave de bloqueo de teclado (G)** está en posición **abierta** (ON) [F3].\n2. Pulsa la **tecla de zona** correspondiente **dos veces**:\n   - 1ª pulsación → zona entra en **modo prueba**\n   - 2ª pul"
+   ],
+   "answers_ctrl": [
+    "## Desactivación en la CCD-103: por zona, no por detector individual\n\nLa **CCD-103** es una central convencional. El manual **no describe ningún procedimiento para desactivar un detector individual** sin afectar al resto del lazo. Los fragmentos disponibles solo contemplan la desactivación a nivel de **zona completa**.\n\n---\n\n### Lo que sí permite el sistema: desconexión por zona\n\nEl procedimiento para desconectar una zona completa es el siguiente [F1][F3]:\n\n1. Asegúrate de que la **llave de bloqueo de teclado (G)** está en posición **abierta** (ON), de lo contrario las pulsaciones no tendrán e",
+    "## Desactivación en la CCD-103: por zona, no por detector individual\n\nLa **CCD-103** es una central convencional. El manual no describe ningún procedimiento para desactivar un detector de forma individual. La unidad mínima de desconexión es la **zona completa** [F1][F3].\n\n---\n\n### Cómo desconectar una zona completa\n\nSegún la sección **6.4.4** y **6.3.1** del manual [F1][F3]:\n\n1. Asegúrate de que la **llave de bloqueo del teclado de detección (G)** está en posición **abierta** (ON) [F3].\n2. Pulsa la **tecla de zona** correspondiente **dos veces**:\n   - 1ª pulsación → zona en **modo prueba**\n   ",
+    "## Desactivación en la CCD-103: por zona, no por detector individual\n\nLa **CCD-103** es una central convencional. El manual no describe ningún procedimiento para desactivar un detector de forma individual. La unidad mínima de desconexión es la **zona completa** [F1][F3].\n\n---\n\n### Cómo desconectar una zona completa\n\nSegún la sección **6.4.4** y **6.3.1** del manual [F1][F3]:\n\n1. Asegúrate de que la **llave de bloqueo de teclado (G)** está en posición **abierta** (ON) [F3].\n2. Pulsa la **tecla de zona** correspondiente **dos veces**:\n   - 1ª pulsación → zona entra en **modo prueba**\n   - 2ª pul"
+   ]
+  },
+  {
+   "qid": "hp019",
+   "shared": false,
+   "ctrl": "PASS",
+   "treat": "PASS",
+   "k_ctrl": [
+    "PASS",
+    "PASS",
+    "PASS"
+   ],
+   "k_treat": [
+    "PASS",
+    "PASS",
+    "PASS"
+   ],
+   "answers_treat": [
+    "## Rango de temperatura de funcionamiento — ASD 535\n\nEl manual especifica los siguientes rangos de temperatura en condiciones ambientales ampliadas [F1]:\n\n**Caja del detector:**\n- Rango estándar: **–30 °C hasta +60 °C** [F1]\n- Según estándar UL: máx. **+40 °C** [F1]\n- Según estándar australiano AS 1603.8: **–30 °C hasta +55 °C** [F1]\n\n**Conducto de aspiración:**\n- Rango estándar: **–30 °C hasta +60 °C** [F1]\n- Según estándar australiano AS 1603.8: **–30 °C hasta +55 °C** [F1]\n\n**Temperatura de almacenamiento** (caja del detector, sin condensación):\n- **–30 °C hasta +70 °C** [F1]\n\n---\n\n**Consid",
+    "## Rango de temperatura de funcionamiento — ASD 535\n\nEl manual especifica los siguientes rangos de temperatura en condiciones ambientales ampliadas [F1]:\n\n**Caja del detector:**\n- Rango estándar: **–30 °C hasta +60 °C** [F1]\n- Según estándar UL: máx. **+40 °C** [F1]\n- Según estándar australiano AS 1603.8: **–30 °C hasta +55 °C** [F1]\n\n**Conducto de aspiración:**\n- Rango estándar: **–30 °C hasta +60 °C** [F1]\n- Según estándar australiano AS 1603.8: **–30 °C hasta +55 °C** [F1]\n\n**Temperatura máxima de almacenamiento (caja del detector, sin condensación):**\n- **–30 °C hasta +70 °C** [F1]\n\n---\n\n*",
+    "## Rango de temperatura de funcionamiento — ASD 535\n\nEl manual especifica los siguientes rangos de temperatura en condiciones ambientales ampliadas [F1]:\n\n**Caja del detector:**\n- Rango estándar: **–30 °C hasta +60 °C** [F1]\n- Según normativa UL: máx. **+40 °C** [F1]\n- Según estándar australiano AS 1603.8: **–30 °C hasta +55 °C** [F1]\n\n**Conducto de aspiración:**\n- Rango estándar: **–30 °C hasta +60 °C** ➂ [F1]\n- Según estándar australiano AS 1603.8: **–30 °C hasta +55 °C** [F1]\n\n**Temperatura de almacenamiento** (caja del detector, sin condensación):\n- **–30 °C hasta +70 °C** [F1]\n\n---\n\n**Con"
+   ],
+   "answers_ctrl": [
+    "El rango de temperatura de funcionamiento del **ASD 535** según su manual técnico es el siguiente [F1]:\n\n**Caja del detector:**\n- Rango estándar: **–30 °C hasta +60 °C** (para certificación UL, máximo +40 °C)\n- Según estándar australiano AS 1603.8: **–30 °C hasta +55 °C**\n\n**Conducto de aspiración:**\n- Rango estándar: **–30 °C hasta +60 °C** ➂\n- Según estándar australiano AS 1603.8: **–30 °C hasta +55 °C**\n\n**Fluctuación máxima permitida durante el funcionamiento** (tanto en caja como en conducto): **20 °C** [F1]\n\n**Temperatura máxima de almacenamiento** (sin condensación): **–30 °C hasta +70 ",
+    "## Rango de temperatura de funcionamiento — ASD 535\n\nEl manual especifica los siguientes rangos de temperatura en la sección de datos técnicos [F1]:\n\n**Caja del detector:**\n- Rango de temperatura estándar: **–30 °C hasta +60 °C** [F1]\n- Límite UL: máx. **+40 °C** [F1]\n- Según estándar australiano **AS 1603.8**: **–30 °C hasta +55 °C** [F1]\n\n**Conducto de aspiración:**\n- Rango de temperatura estándar: **–30 °C hasta +60 °C** [F1]\n- Según estándar australiano **AS 1603.8**: **–30 °C hasta +55 °C** [F1]\n\n**Temperatura de almacenamiento (caja del detector, sin condensación):**\n- **–30 °C hasta +70",
+    "## Rango de temperatura de funcionamiento — ASD 535\n\nSegún la sección de datos técnicos del manual [F1], los rangos de temperatura son:\n\n**Caja del detector:**\n- Rango de temperatura de funcionamiento: **–30 °C hasta +60 °C** [F1]\n- Según estándar australiano AS 1603.8: **–30 °C hasta +55 °C** [F1]\n- Según certificación UL: máximo **+40 °C** [F1]\n- Temperatura máxima de almacenamiento (sin condensación): **–30 °C hasta +70 °C** [F1]\n\n**Conducto de aspiración:**\n- Rango de temperatura: **–30 °C hasta +60 °C** [F1]\n- Según estándar australiano AS 1603.8: **–30 °C hasta +55 °C** [F1]\n\n**Restricci"
+   ]
+  },
+  {
+   "qid": "hp020",
+   "shared": true,
+   "ctrl": "PASS",
+   "treat": "PASS",
+   "k_ctrl": [
+    "PASS",
+    "PASS",
+    "PASS"
+   ],
+   "k_treat": [
+    "PASS",
+    "PASS",
+    "PASS"
+   ],
+   "answers_treat": [
+    "# Configuración de contraseñas Nivel 2 y Nivel 3 — Notifier INSPIRE E10/E15\n\n---\n\n## Información general sobre contraseñas\n\n- El código de acceso de fábrica para **Nivel 2** es **\"22222222\"** [F3].\n- Se recomienda encarecidamente cambiar la contraseña de fábrica [F3].\n- La longitud válida para cualquier contraseña es de **mínimo 4 dígitos y máximo 8 dígitos** [F1][F2][F3].\n- El código de acceso de **Nivel 2** permite acceder a controles de la central. Si no se usa durante **5 minutos**, la sesión se cierra automáticamente y vuelve al Nivel 1 [F3].\n\n---\n\n## Cambio de contraseña de Nivel 2 (desd",
+    "# Configuración de contraseñas Nivel 2 y Nivel 3 — Notifier INSPIRE E10/E15\n\n---\n\n## Información general previa\n\n- El código de acceso de fábrica para **Nivel 2** es **\"22222222\"** [F3]. Se recomienda cambiarlo.\n- El código debe tener entre **4 y 8 dígitos** [F1][F2][F3].\n- Si estás en **Nivel 2**, solo puedes cambiar la contraseña del **Nivel 2**. Si estás en **Nivel 3**, puedes cambiar la contraseña del **Nivel 2 o del Nivel 3** [F1].\n\n---\n\n## Cambio de contraseña desde Nivel 3 (NI2 y/o NI3)\n\nProcedimiento según sección \"CAMBIE LA CONTRASEÑA DEL CÓDIGO DE ACCESO NI2/NI3\" [F1]:\n\n1. Selecciona",
+    "# Configuración de contraseñas Nivel 2 y Nivel 3 — Notifier INSPIRE E10/E15\n\n---\n\n## Información general sobre contraseñas\n\n- El código de acceso de fábrica para **Nivel 2** es **\"22222222\"** [F3].\n- Se recomienda encarecidamente cambiar la contraseña de fábrica [F3].\n- La longitud válida es de **mínimo 4 dígitos y máximo 8 dígitos** [F1][F2][F3].\n- El código de acceso debe mantenerse seguro y solo conocerlo usuarios autorizados [F3].\n\n---\n\n## Cambio de contraseña de Nivel 2 (desde sesión NI2)\n\nAccede con usuario de **Nivel 2** [F2]:\n\n1. Selecciona el **icono del menú ①** y luego **\"Configurac"
+   ],
+   "answers_ctrl": [
+    "# Configuración de contraseñas Nivel 2 y Nivel 3 — Notifier INSPIRE E10/E15\n\n---\n\n## Información general sobre contraseñas\n\n- El código de acceso de fábrica para **Nivel 2** es **\"22222222\"** [F3].\n- Se recomienda encarecidamente cambiar la contraseña de fábrica [F3].\n- La longitud válida para cualquier contraseña es de **mínimo 4 dígitos y máximo 8 dígitos** [F1][F2][F3].\n- El código de acceso de **Nivel 2** permite acceder a controles de la central. Si no se usa durante **5 minutos**, la sesión se cierra automáticamente y vuelve al Nivel 1 [F3].\n\n---\n\n## Cambio de contraseña de Nivel 2 (desd",
+    "# Configuración de contraseñas Nivel 2 y Nivel 3 — Notifier INSPIRE E10/E15\n\n---\n\n## Información general previa\n\n- El código de acceso de fábrica para **Nivel 2** es **\"22222222\"** [F3]. Se recomienda cambiarlo.\n- El código debe tener entre **4 y 8 dígitos** [F1][F2][F3].\n- Si estás en **Nivel 2**, solo puedes cambiar la contraseña del **Nivel 2**. Si estás en **Nivel 3**, puedes cambiar la contraseña del **Nivel 2 o del Nivel 3** [F1].\n\n---\n\n## Cambio de contraseña desde Nivel 3 (NI2 y/o NI3)\n\nProcedimiento según sección \"CAMBIE LA CONTRASEÑA DEL CÓDIGO DE ACCESO NI2/NI3\" [F1]:\n\n1. Selecciona",
+    "# Configuración de contraseñas Nivel 2 y Nivel 3 — Notifier INSPIRE E10/E15\n\n---\n\n## Información general sobre contraseñas\n\n- El código de acceso de fábrica para **Nivel 2** es **\"22222222\"** [F3].\n- Se recomienda encarecidamente cambiar la contraseña de fábrica [F3].\n- La longitud válida es de **mínimo 4 dígitos y máximo 8 dígitos** [F1][F2][F3].\n- El código de acceso debe mantenerse seguro y solo conocerlo usuarios autorizados [F3].\n\n---\n\n## Cambio de contraseña de Nivel 2 (desde sesión NI2)\n\nAccede con usuario de **Nivel 2** [F2]:\n\n1. Selecciona el **icono del menú ①** y luego **\"Configurac"
+   ]
+  },
+  {
+   "qid": "cat012",
+   "shared": true,
+   "ctrl": "PASS",
+   "treat": "PASS",
+   "k_ctrl": [
+    "PARCIAL",
+    "PASS",
+    "PASS"
+   ],
+   "k_treat": [
+    "PARCIAL",
+    "PASS",
+    "PASS"
+   ],
+   "answers_treat": [
+    "# Cálculo de capacidad de batería — AM-8200\n\nEl manual proporciona un método de cálculo estructurado en tablas. Aquí tienes el procedimiento completo:\n\n---\n\n## Fórmula final\n\n**Ah Batería = (A + B) × 1,2** [F4][F5]\n\nDonde:\n- **A** = Ah consumidos en reposo (corriente total en NO ALARMA × horas de autonomía requeridas: **24 h o 72 h**) [F4][F5]\n- **B** = Ah consumidos en alarma (corriente total en ALARMA × **0,5 h**) [F4][F5]\n- **1,2** = factor de corrección para tolerancias de fabricación de las baterías [F6]\n\n---\n\n## Pasos del cálculo\n\n### Paso 1 — Selecciona la tabla según tu variante de cen",
+    "# Cálculo de capacidad de batería — AM-8200\n\nEl manual proporciona un método estructurado en tablas para calcular los Ah necesarios. Aquí tienes el procedimiento completo:\n\n---\n\n## Fórmula final\n\n**Ah Batería = (A + B) × 1,2** [F4][F5]\n\nDonde:\n- **A** = Ah consumidos en reposo (espera)\n- **B** = Ah consumidos en alarma\n- **1,2** = factor de corrección por tolerancias de fabricación de las baterías [F6]\n\n---\n\n## Paso a paso\n\n**1. Determina la corriente en condiciones de NO ALARMA (reposo)**\n\nUsa la **Tabla 1** (para AM-8200 con CPU AM8200-KLCD) o la **Tabla 2** (para AM-8200BB) [F3][F4][F5].\n\nS",
+    "# Cálculo de capacidad de batería — AM-8200\n\nEl manual proporciona un método estructurado en tablas para calcular los Ah necesarios. Aquí tienes el procedimiento completo:\n\n---\n\n## Fórmula final\n\n**Ah Batería = (A + B) × 1,2** [F4][F5]\n\nDonde:\n- **A** = Ah consumidos en reposo (espera)\n- **B** = Ah consumidos en alarma\n- **1,2** = factor de corrección por tolerancias de fabricación de las baterías [F6]\n\n---\n\n## Paso a paso\n\n**1. Determina la corriente en condiciones de NO ALARMA (reposo)**\n\nUsa la **Tabla 1** (para AM-8200 con CPU AM8200-KLCD) o la **Tabla 2** (para AM-8200BB) [F3][F4][F5].\n\nS"
+   ],
+   "answers_ctrl": [
+    "# Cálculo de capacidad de batería — AM-8200\n\nEl manual proporciona un método de cálculo estructurado en tablas. Aquí tienes el procedimiento completo:\n\n---\n\n## Fórmula final\n\n**Ah Batería = (A + B) × 1,2** [F4][F5]\n\nDonde:\n- **A** = Ah consumidos en reposo (corriente total en NO ALARMA × horas de autonomía requeridas: **24 h o 72 h**) [F4][F5]\n- **B** = Ah consumidos en alarma (corriente total en ALARMA × **0,5 h**) [F4][F5]\n- **1,2** = factor de corrección para tolerancias de fabricación de las baterías [F6]\n\n---\n\n## Pasos del cálculo\n\n### Paso 1 — Selecciona la tabla según tu variante de cen",
+    "# Cálculo de capacidad de batería — AM-8200\n\nEl manual proporciona un método estructurado en tablas para calcular los Ah necesarios. Aquí tienes el procedimiento completo:\n\n---\n\n## Fórmula final\n\n**Ah Batería = (A + B) × 1,2** [F4][F5]\n\nDonde:\n- **A** = Ah consumidos en reposo (espera)\n- **B** = Ah consumidos en alarma\n- **1,2** = factor de corrección por tolerancias de fabricación de las baterías [F6]\n\n---\n\n## Paso a paso\n\n**1. Determina la corriente en condiciones de NO ALARMA (reposo)**\n\nUsa la **Tabla 1** (para AM-8200 con CPU AM8200-KLCD) o la **Tabla 2** (para AM-8200BB) [F3][F4][F5].\n\nS",
+    "# Cálculo de capacidad de batería — AM-8200\n\nEl manual proporciona un método estructurado en tablas para calcular los Ah necesarios. Aquí tienes el procedimiento completo:\n\n---\n\n## Fórmula final\n\n**Ah Batería = (A + B) × 1,2** [F4][F5]\n\nDonde:\n- **A** = Ah consumidos en reposo (espera)\n- **B** = Ah consumidos en alarma\n- **1,2** = factor de corrección por tolerancias de fabricación de las baterías [F6]\n\n---\n\n## Paso a paso\n\n**1. Determina la corriente en condiciones de NO ALARMA (reposo)**\n\nUsa la **Tabla 1** (para AM-8200 con CPU AM8200-KLCD) o la **Tabla 2** (para AM-8200BB) [F3][F4][F5].\n\nS"
+   ]
+  },
+  {
+   "qid": "cat020",
+   "shared": true,
+   "ctrl": "PARCIAL",
+   "treat": "PARCIAL",
+   "k_ctrl": [
+    "PARCIAL",
+    "PARCIAL",
+    "PARCIAL"
+   ],
+   "k_treat": [
+    "PARCIAL",
+    "PARCIAL",
+    "PARCIAL"
+   ],
+   "answers_treat": [
+    "## Niveles de alarma y prealarma en la DXc — Versión España\n\nLa respuesta depende del **tipo de detector** y del **protocolo** utilizado.\n\n---\n\n### Detectores con protocolo Morley-IAS (detectores ópticos convencionales / OPT)\n\nSegún el fragmento de información específica de protocolo [F2]:\n\n- **Nivel de prealarma por defecto: 80%**\n- **Nivel de alarma por defecto: 100%**\n- **Ajuste máximo para el nivel de alarma: 108%**\n\nEsto se puede ver también en la pantalla de ejemplo del listado de equipos, donde el detector OPT aparece como [F2] [F3]:\n`S004 OPT Fuego:100% Prealarma: 80%`\n\n---\n\n### Detect",
+    "## Niveles de alarma y prealarma por defecto en la DXc (España)\n\nLa respuesta depende del **tipo de detector** instalado:\n\n---\n\n### Detectores con protocolo Morley-IAS (detectores ópticos convencionales — OPT)\n\nPara estos detectores, el valor analógico se expresa en porcentaje [F2]:\n\n- **Nivel de prealarma por defecto: 80%**\n- **Nivel de alarma por defecto: 100%**\n- **Nivel de alarma máximo configurable: 108%** [F2]\n\nEsto se puede ver en pantalla como: `S004 OPT Fuego:100% Prealarma: 80%` [F2]\n\n---\n\n### Detectores Multicriterio óptico-térmicos (OTM)\n\nLos niveles se expresan como \"Nivel N\" (no ",
+    "## Niveles de alarma y prealarma por defecto en la DXc — Protocolo Morley-IAS\n\nLa respuesta depende del **tipo de detector** (protocolo):\n\n---\n\n### Detectores con protocolo Morley-IAS (OPT y similares con valor analógico 0–100%)\n\nPara estos detectores, el fragmento es explícito [F2]:\n\n- **Nivel de prealarma por defecto: 80%**\n- **Nivel de alarma por defecto: 100%**\n- **Ajuste máximo para el nivel de alarma: 108%** [F2]\n\n---\n\n### Detectores Multicriterio OTM (óptico-térmicos Morley-IAS)\n\nEstos detectores trabajan por **niveles**, no por porcentaje [F1]. Los valores por defecto que muestra la pa"
+   ],
+   "answers_ctrl": [
+    "## Niveles de alarma y prealarma en la DXc — Versión España\n\nLa respuesta depende del **tipo de detector** y del **protocolo** utilizado.\n\n---\n\n### Detectores con protocolo Morley-IAS (detectores ópticos convencionales / OPT)\n\nSegún el fragmento de información específica de protocolo [F2]:\n\n- **Nivel de prealarma por defecto: 80%**\n- **Nivel de alarma por defecto: 100%**\n- **Ajuste máximo para el nivel de alarma: 108%**\n\nEsto se puede ver también en la pantalla de ejemplo del listado de equipos, donde el detector OPT aparece como [F2] [F3]:\n`S004 OPT Fuego:100% Prealarma: 80%`\n\n---\n\n### Detect",
+    "## Niveles de alarma y prealarma por defecto en la DXc (España)\n\nLa respuesta depende del **tipo de detector** instalado:\n\n---\n\n### Detectores con protocolo Morley-IAS (detectores ópticos convencionales — OPT)\n\nPara estos detectores, el valor analógico se expresa en porcentaje [F2]:\n\n- **Nivel de prealarma por defecto: 80%**\n- **Nivel de alarma por defecto: 100%**\n- **Nivel de alarma máximo configurable: 108%** [F2]\n\nEsto se puede ver en pantalla como: `S004 OPT Fuego:100% Prealarma: 80%` [F2]\n\n---\n\n### Detectores Multicriterio óptico-térmicos (OTM)\n\nLos niveles se expresan como \"Nivel N\" (no ",
+    "## Niveles de alarma y prealarma por defecto en la DXc — Protocolo Morley-IAS\n\nLa respuesta depende del **tipo de detector** (protocolo):\n\n---\n\n### Detectores con protocolo Morley-IAS (OPT y similares con valor analógico 0–100%)\n\nPara estos detectores, el fragmento es explícito [F2]:\n\n- **Nivel de prealarma por defecto: 80%**\n- **Nivel de alarma por defecto: 100%**\n- **Ajuste máximo para el nivel de alarma: 108%** [F2]\n\n---\n\n### Detectores Multicriterio OTM (óptico-térmicos Morley-IAS)\n\nEstos detectores trabajan por **niveles**, no por porcentaje [F1]. Los valores por defecto que muestra la pa"
+   ]
+  },
+  {
+   "qid": "cat005",
+   "shared": false,
+   "ctrl": "PASS",
+   "treat": "PASS",
+   "k_ctrl": [
+    "PASS",
+    "PASS",
+    "PASS"
+   ],
+   "k_treat": [
+    "PASS",
+    "PASS",
+    "PASS"
+   ],
+   "answers_treat": [
+    "# Central de Alarmas FIDEGAS® CS4 — Características Técnicas\n\n## Especificaciones generales (ambas versiones)\n\nLas siguientes características son comunes a la versión digital y analógica [F1]:\n\n- **Tensión de alimentación:** 110-230 Vac, 50-60 Hz [F1]\n- **Potencia:** 30 W, Clase II [F1][F3]\n- **Sensores:** Hasta 4 conexiones en modo analógico o digital [F1]\n- **Salidas:** 2 salidas conmutadas LP (relé apto para 230 Vac) con contactos NA-C-NC [F1]\n- **Corriente máxima:** 250 mA [F1]\n- **Rearme:** Seleccionable manual o automático [F1]\n- **Indicaciones:** Presencia, alarma y avería por sensor, a",
+    "# Central de Alarmas FIDEGAS® CS4 — Características Técnicas\n\n## Especificaciones generales (ambas versiones)\n\n- **Tensión de alimentación:** 110-230 Vac 50-60 Hz [F1]\n- **Potencia:** 30 W, Clase II [F1][F3]\n- **Sensores:** hasta 4 conexiones simultáneas en modo analógico o digital [F1][F2]\n- **Salidas:** 2 salidas conmutadas LP (relé apto para 230 Vac) con contactos NA-C-NC [F1]\n- **Corriente máxima:** 250 mA [F1]\n- **Rearme:** seleccionable manual o automático [F1]\n- **Dimensiones:** 90 x 106 x 58 mm [F1]\n- **Peso:** 300 gr [F1]\n- **Firmware:** versión 1.2 (en ambas versiones) [F3][F7]\n- **I",
+    "# Central de Alarmas FIDEGAS® CS4 — Características Técnicas\n\n## Especificaciones generales (ambas versiones)\n\nLas siguientes características son comunes a la versión digital y analógica [F1]:\n\n- **Tensión de alimentación:** 110-230 Vac, 50-60 Hz [F1]\n- **Potencia:** 30 W, Clase II [F1][F3]\n- **Sensores:** Hasta 4 conexiones en modo analógico o digital [F1]\n- **Salidas:** 2 salidas conmutadas LP (relé apto para 230 Vac) con contactos NA-C-NC [F1]\n- **Corriente máxima:** 250 mA [F1]\n- **Rearme:** Seleccionable manual o automático [F1]\n- **Indicaciones:** Presencia, alarma y avería por sensor, a"
+   ],
+   "answers_ctrl": [
+    "# Central de Detección de Gas FIDEGAS CS4 — Características Técnicas\n\n## Características técnicas generales\n\nBasándome en los fragmentos del Manual de Usuario CS4 [F2]:\n\n- **Tensión de alimentación:** 110-230 Vac, 50-60 Hz [F2]\n- **Potencia:** 30 W [F2]\n- **Número de sensores:** hasta 4 conexiones simultáneas [F2]\n- **Salidas:** 2 salidas conmutadas LP (relé apto para 230 Vac) con contactos NA-C-NC [F2]\n- **Corriente máxima:** 250 mA [F2]\n- **Rearme:** seleccionable manual o automático [F2]\n- **Indicaciones:** presencia, alarma y avería por sensor, avería de central, corte de red [F2]\n- **Dime",
+    "# Central de Detección de Gas FIDEGAS CS4 — Características Técnicas\n\n## Características técnicas generales\n\n- **Tensión de alimentación:** 110-230 Vac, 50-60 Hz [F2]\n- **Potencia:** 30 W [F2]\n- **Clase de aislamiento:** Clase II [F3]\n- **Número de sensores:** Hasta 4 conexiones simultáneas [F2]\n- **Salidas:** 2 salidas conmutadas LP (relé apto para 230 Vac) con contactos NA-C-NC [F2]\n- **Corriente máxima:** 250 mA [F2]\n- **Rearme:** Seleccionable manual o automático [F2]\n- **Indicaciones:** Presencia, alarma y avería por sensor, avería de central, corte de red [F2]\n- **Dimensiones:** 90 x 106",
+    "# Central de Detección de Gas FIDEGAS CS4 — Características Técnicas\n\n## Características técnicas generales\n\nBasándome en los fragmentos del Manual de Usuario CS4 [F2]:\n\n- **Tensión de alimentación:** 110-230 Vac, 50-60 Hz [F2]\n- **Potencia:** 30 W [F2]\n- **Número de sensores:** Hasta 4 conexiones simultáneas [F2]\n- **Salidas:** 2 salidas conmutadas LP (relé apto para 230 Vac) con contactos NA-C-NC [F2]\n- **Corriente máxima:** 250 mA [F2]\n- **Rearme:** Seleccionable manual o automático [F2]\n- **Indicaciones:** Presencia, alarma y avería por sensor, avería de central, corte de red [F2]\n- **Dime"
+   ]
+  },
+  {
+   "qid": "cat009",
+   "shared": true,
+   "ctrl": "PASS",
+   "treat": "PASS",
+   "k_ctrl": [
+    "PASS",
+    "PARCIAL",
+    "PASS"
+   ],
+   "k_treat": [
+    "PASS",
+    "PARCIAL",
+    "PASS"
+   ],
+   "answers_treat": [
+    "## Resistencia de Fin de Línea (EOL) — NFS Supra\n\nLa central **NFS Supra** admite **dos modos de supervisión de zona**, y el valor del EOL depende del modo configurado:\n\n---\n\n### Modo por defecto: **Capacitivo (EFL)**\n\n- Equipo Final de Línea (EFL): **condensador de 47 µF** [F5]\n- Se instala entre positivo y negativo de la línea, en la salida del último equipo [F2]\n- Es el modo de fábrica (por defecto) [F1]\n\n---\n\n### Modo alternativo: **Resistivo (RFL)**\n\n- Resistencia Final de Línea (RFL): **6K8 Ω** [F5]\n- En modo resistivo, la central admite un **rango de resistencia final de línea entre 3 K",
+    "## Resistencia de Fin de Línea (EOL) — NFS Supra\n\nLa central **NFS Supra** admite **dos modos de supervisión de zona**, y el valor del EOL depende del modo configurado:\n\n---\n\n### Modo por defecto: **Capacitivo (EFL)**\n\n- Equipo Final de Línea (EFL): **condensador de 47 µF** [F5]\n- Se instala entre positivo y negativo de la línea, en la salida del último equipo [F2]\n- Es el modo de fábrica (por defecto) [F1]\n\n---\n\n### Modo alternativo: **Resistivo (RFL)**\n\n- Resistencia Final de Línea (RFL): **6K8 Ω** [F5]\n- Rango admisible en modo resistivo: entre **3 KΩ** (consumo máx. por zona **2,5 mA**) y ",
+    "## Resistencia de Fin de Línea (EOL) — NFS Supra\n\nLa central **NFS Supra** admite **dos modos de supervisión de zona**, y el valor del EOL depende del modo configurado:\n\n---\n\n### Modo por defecto: **Capacitivo (EFL)**\n\n- Equipo final de línea: **condensador de 47 µF** [F5]\n- Se instala entre positivo y negativo de la línea, en la salida del **último equipo** de la zona [F2]\n- Es el modo de fábrica (por defecto) [F1]\n\n---\n\n### Modo alternativo: **Resistivo (RFL)**\n\n- Resistencia final de línea: **6K8 Ω** [F5]\n- La central admite un rango de resistencia final de línea entre **3 KΩ** (consumo máx"
+   ],
+   "answers_ctrl": [
+    "## Resistencia de Fin de Línea (EOL) — NFS Supra\n\nLa central **NFS Supra** admite **dos modos de supervisión de zona**, y el valor del EOL depende del modo configurado:\n\n---\n\n### Modo por defecto: **Capacitivo (EFL)**\n\n- Equipo Final de Línea (EFL): **condensador de 47 µF** [F5]\n- Se instala entre positivo y negativo de la línea, en la salida del último equipo [F2]\n- Es el modo de fábrica (por defecto) [F1]\n\n---\n\n### Modo alternativo: **Resistivo (RFL)**\n\n- Resistencia Final de Línea (RFL): **6K8 Ω** [F5]\n- En modo resistivo, la central admite un **rango de resistencia final de línea entre 3 K",
+    "## Resistencia de Fin de Línea (EOL) — NFS Supra\n\nLa central **NFS Supra** admite **dos modos de supervisión de zona**, y el valor del EOL depende del modo configurado:\n\n---\n\n### Modo por defecto: **Capacitivo (EFL)**\n\n- Equipo Final de Línea (EFL): **condensador de 47 µF** [F5]\n- Se instala entre positivo y negativo de la línea, en la salida del último equipo [F2]\n- Es el modo de fábrica (por defecto) [F1]\n\n---\n\n### Modo alternativo: **Resistivo (RFL)**\n\n- Resistencia Final de Línea (RFL): **6K8 Ω** [F5]\n- Rango admisible en modo resistivo: entre **3 KΩ** (consumo máx. por zona **2,5 mA**) y ",
+    "## Resistencia de Fin de Línea (EOL) — NFS Supra\n\nLa central **NFS Supra** admite **dos modos de supervisión de zona**, y el valor del EOL depende del modo configurado:\n\n---\n\n### Modo por defecto: **Capacitivo (EFL)**\n\n- Equipo final de línea: **condensador de 47 µF** [F5]\n- Se instala entre positivo y negativo de la línea, en la salida del **último equipo** de la zona [F2]\n- Es el modo de fábrica (por defecto) [F1]\n\n---\n\n### Modo alternativo: **Resistivo (RFL)**\n\n- Resistencia final de línea: **6K8 Ω** [F5]\n- La central admite un rango de resistencia final de línea entre **3 KΩ** (consumo máx"
+   ]
+  },
+  {
+   "qid": "cat015",
+   "shared": true,
+   "ctrl": "PASS",
+   "treat": "PASS",
+   "k_ctrl": [
+    "PASS",
+    "PASS",
+    "PASS"
+   ],
+   "k_treat": [
+    "PASS",
+    "PASS",
+    "PASS"
+   ],
+   "answers_treat": [
+    "Los fragmentos recuperados de los manuales de la **CAD-150-8** y **CAD-150R** no contienen ningún procedimiento de actualización de firmware.\n\nLos fragmentos disponibles cubren únicamente:\n- Menús de usuario (zonas, elementos, relés, sirenas) [F1][F4]\n- Guía de puesta en marcha y configuración rápida [F3]\n- Descripción de componentes y conexionado [F6][F7][F8]\n- Configuración de red del CAD-150R [F2]\n\n**Para obtener el procedimiento de actualización de firmware te recomiendo:**\n- Consultar el manual completo de instalación/programación de tu modelo exacto de CAD-150\n- Contactar directamente co",
+    "Los fragmentos recuperados de los manuales de la **CAD-150-8** y **CAD-150R** no contienen ningún procedimiento de actualización de firmware.\n\nLos fragmentos disponibles cubren únicamente:\n- Menús de usuario (zonas, elementos, relés, sirenas) [F1][F4]\n- Guía de puesta en marcha y configuración rápida [F3]\n- Descripción de componentes y conexionado [F6][F7][F8]\n- Configuración de red y prueba del sistema [F2]\n\n**Para obtener el procedimiento de actualización de firmware de la CAD-150, te recomiendo:**\n- Consultar directamente el manual completo de instalación en la web de Detnov\n- Contactar con",
+    "Los fragmentos recuperados de los manuales de la **CAD-150-8** y **CAD-150R** no contienen ningún procedimiento de actualización de firmware.\n\nLos fragmentos disponibles cubren únicamente:\n- Menús de usuario (zonas, elementos, relés, sirenas) [F1][F4]\n- Guía de puesta en marcha y verificación del sistema [F3]\n- Descripción de componentes y conexionado [F6][F7][F8]\n- Configuración rápida de instalación [F2][F3]\n\n**Para obtener el procedimiento de actualización de firmware te recomiendo:**\n- Consultar el manual completo de instalación/programación de la CAD-150 en la documentación oficial de Det"
+   ],
+   "answers_ctrl": [
+    "Los fragmentos recuperados de los manuales de la **CAD-150-8** y **CAD-150R** no contienen ningún procedimiento de actualización de firmware.\n\nLos fragmentos disponibles cubren únicamente:\n- Menús de usuario (zonas, elementos, relés, sirenas) [F1][F4]\n- Guía de puesta en marcha y configuración rápida [F3]\n- Descripción de componentes y conexionado [F6][F7][F8]\n- Configuración de red del CAD-150R [F2]\n\n**Para obtener el procedimiento de actualización de firmware te recomiendo:**\n- Consultar el manual completo de instalación/programación de tu modelo exacto de CAD-150\n- Contactar directamente co",
+    "Los fragmentos recuperados de los manuales de la **CAD-150-8** y **CAD-150R** no contienen ningún procedimiento de actualización de firmware.\n\nLos fragmentos disponibles cubren únicamente:\n- Menús de usuario (zonas, elementos, relés, sirenas) [F1][F4]\n- Guía de puesta en marcha y configuración rápida [F3]\n- Descripción de componentes y conexionado [F6][F7][F8]\n- Configuración de red y prueba del sistema [F2]\n\n**Para obtener el procedimiento de actualización de firmware de la CAD-150, te recomiendo:**\n- Consultar directamente el manual completo de instalación en la web de Detnov\n- Contactar con",
+    "Los fragmentos recuperados de los manuales de la **CAD-150-8** y **CAD-150R** no contienen ningún procedimiento de actualización de firmware.\n\nLos fragmentos disponibles cubren únicamente:\n- Menús de usuario (zonas, elementos, relés, sirenas) [F1][F4]\n- Guía de puesta en marcha y verificación del sistema [F3]\n- Descripción de componentes y conexionado [F6][F7][F8]\n- Configuración rápida de instalación [F2][F3]\n\n**Para obtener el procedimiento de actualización de firmware te recomiendo:**\n- Consultar el manual completo de instalación/programación de la CAD-150 en la documentación oficial de Det"
+   ]
+  },
+  {
+   "qid": "cat023",
+   "shared": true,
+   "ctrl": "FALLO",
+   "treat": "FALLO",
+   "k_ctrl": [
+    "FALLO",
+    "PARCIAL",
+    "PASS"
+   ],
+   "k_treat": [
+    "FALLO",
+    "PARCIAL",
+    "PASS"
+   ],
+   "answers_treat": [
+    "## ASD 532 — Clases EN 54-20 y configuración de monitorización de flujo de aire\n\n---\n\n### 1. Clases de sensibilidad según EN 54-20\n\nEl ASD 532 cumple los tres niveles de la norma **EN 54-20** [F8]:\n\n- **Clase A** — Sensibilidad muy alta\n- **Clase B** — Sensibilidad alta\n- **Clase C** — Sensibilidad normal\n\nLa elección del sensor de humo adecuado según la clase requerida depende del rango de sensibilidad [F1]:\n\n- **SSD 532-1** → Rango de alarma: **0,5 %/m a 10 %/m**\n- **SSD 532-2** → Rango de alarma: **0,1 %/m a 10 %/m**\n- **SSD 532-3** → Rango de alarma: **0,02 %/m a 10 %/m**\n\n---\n\n### 2. Conf",
+    "# ASD532 — Clases EN 54-20 y configuración de monitorización de flujo de aire\n\n---\n\n## 1. Clases de sensibilidad según EN 54-20\n\nEl ASD 532 cumple los tres niveles de la norma **EN 54-20** [F8]:\n\n- **Clase A** — Sensibilidad muy alta\n- **Clase B** — Sensibilidad alta\n- **Clase C** — Sensibilidad normal\n\nLa elección del sensor de humo adecuado depende de la clase requerida [F1]:\n\n- **SSD 532-1** → Rango de sensibilidad de alarma: **0,5 %/m hasta 10 %/m**\n- **SSD 532-2** → Rango de sensibilidad de alarma: **0,1 %/m hasta 10 %/m**\n- **SSD 532-3** → Rango de sensibilidad de alarma: **0,02 %/m hast",
+    "## ASD532 — Clases EN 54-20 y configuración de monitorización de flujo de aire\n\n---\n\n### 1. Clases de sensibilidad según EN 54-20\n\nEl ASD 532 cumple los tres niveles de la norma **EN 54-20** [F8]:\n\n- **Clase A** — Sensibilidad muy alta\n- **Clase B** — Sensibilidad alta\n- **Clase C** — Sensibilidad normal\n\nLa elección del sensor de humo adecuado según la clase requerida depende del rango de sensibilidad [F1]:\n\n- **SSD 532-1**: rango **0,5 %/m a 10 %/m**\n- **SSD 532-2**: rango **0,1 %/m a 10 %/m**\n- **SSD 532-3**: rango **0,02 %/m a 10 %/m**\n\nLa selección del tipo de sensor debe realizarse sigui"
+   ],
+   "answers_ctrl": [
+    "## ASD 532 — Clases EN 54-20 y configuración de monitorización de flujo de aire\n\n---\n\n### 1. Clases de sensibilidad según EN 54-20\n\nEl ASD 532 cumple los tres niveles de la norma **EN 54-20** [F8]:\n\n- **Clase A** — Sensibilidad muy alta\n- **Clase B** — Sensibilidad alta\n- **Clase C** — Sensibilidad normal\n\nLa elección del sensor de humo adecuado según la clase requerida depende del rango de sensibilidad [F1]:\n\n- **SSD 532-1** → Rango de alarma: **0,5 %/m a 10 %/m**\n- **SSD 532-2** → Rango de alarma: **0,1 %/m a 10 %/m**\n- **SSD 532-3** → Rango de alarma: **0,02 %/m a 10 %/m**\n\n---\n\n### 2. Conf",
+    "# ASD532 — Clases EN 54-20 y configuración de monitorización de flujo de aire\n\n---\n\n## 1. Clases de sensibilidad según EN 54-20\n\nEl ASD 532 cumple los tres niveles de la norma **EN 54-20** [F8]:\n\n- **Clase A** — Sensibilidad muy alta\n- **Clase B** — Sensibilidad alta\n- **Clase C** — Sensibilidad normal\n\nLa elección del sensor de humo adecuado depende de la clase requerida [F1]:\n\n- **SSD 532-1** → Rango de sensibilidad de alarma: **0,5 %/m hasta 10 %/m**\n- **SSD 532-2** → Rango de sensibilidad de alarma: **0,1 %/m hasta 10 %/m**\n- **SSD 532-3** → Rango de sensibilidad de alarma: **0,02 %/m hast",
+    "## ASD532 — Clases EN 54-20 y configuración de monitorización de flujo de aire\n\n---\n\n### 1. Clases de sensibilidad según EN 54-20\n\nEl ASD 532 cumple los tres niveles de la norma **EN 54-20** [F8]:\n\n- **Clase A** — Sensibilidad muy alta\n- **Clase B** — Sensibilidad alta\n- **Clase C** — Sensibilidad normal\n\nLa elección del sensor de humo adecuado según la clase requerida depende del rango de sensibilidad [F1]:\n\n- **SSD 532-1**: rango **0,5 %/m a 10 %/m**\n- **SSD 532-2**: rango **0,1 %/m a 10 %/m**\n- **SSD 532-3**: rango **0,02 %/m a 10 %/m**\n\nLa selección del tipo de sensor debe realizarse sigui"
+   ]
+  },
+  {
+   "qid": "hp013",
+   "shared": true,
+   "ctrl": "PARCIAL",
+   "treat": "PARCIAL",
+   "k_ctrl": [
+    "PARCIAL",
+    "PARCIAL",
+    "PARCIAL"
+   ],
+   "k_treat": [
+    "PARCIAL",
+    "PARCIAL",
+    "PARCIAL"
+   ],
+   "answers_treat": [
+    "## Sustitución de la batería de litio del ADW535\n\nLos fragmentos recuperados del manual **ADW535_TD_T140358es_e** no contienen un procedimiento específico para la sustitución de la batería tampón (batería de litio) del ADW535 sin perder la configuración.\n\nLo que sí puedo confirmar a partir de los fragmentos:\n\n**Sobre la batería de litio:**\n- El LMB 35 incluye una **batería de litio** [F3] ubicada en la placa principal.\n- En la primera puesta en funcionamiento, debe retirarse la **cinta aislante de la batería de litio** del LMB 35 antes del primer encendido [F10].\n- La batería de litio aparece ",
+    "## Sustitución de la batería de litio del ADW535\n\nLos fragmentos recuperados del manual **ADW535_TD_T140358es_e** no contienen un procedimiento específico para la sustitución de la batería tampón (batería de litio) del ADW535 sin pérdida de configuración.\n\nLo que sí puedo confirmar a partir de los fragmentos:\n\n**Sobre la batería de litio:**\n- El LMB 35 incluye una **batería de litio** [F3] ubicada en la placa principal.\n- En la primera puesta en funcionamiento, debe retirarse la **cinta aislante de la batería de litio** del LMB 35 justo antes del primer encendido [F10].\n- La batería de litio a",
+    "## Sustitución de la batería de litio del ADW535\n\nLos fragmentos recuperados del manual **ADW535_TD_T140358es_e** no contienen un procedimiento específico para la sustitución de la **batería de litio** del LMB 35 sin pérdida de configuración.\n\nLo que sí está documentado en los fragmentos es:\n\n- La batería de litio está ubicada en el **Main Board LMB 35** [F3][F9].\n- Antes del primer encendido del ADW 535, debe retirarse la **cinta aislante de la batería de litio (LMB 35)** [F10] — lo que indica que es un componente accesible en esa placa.\n- Si se sustituye el **LMB 35 completo** (no solo la ba"
+   ],
+   "answers_ctrl": [
+    "## Sustitución de la batería de litio del ADW535\n\nLos fragmentos recuperados del manual **ADW535_TD_T140358es_e** no contienen un procedimiento específico para la sustitución de la batería tampón (batería de litio) del ADW535 sin perder la configuración.\n\nLo que sí puedo confirmar a partir de los fragmentos:\n\n**Sobre la batería de litio:**\n- El LMB 35 incluye una **batería de litio** [F3] ubicada en la placa principal.\n- En la primera puesta en funcionamiento, debe retirarse la **cinta aislante de la batería de litio** del LMB 35 antes del primer encendido [F10].\n- La batería de litio aparece ",
+    "## Sustitución de la batería de litio del ADW535\n\nLos fragmentos recuperados del manual **ADW535_TD_T140358es_e** no contienen un procedimiento específico para la sustitución de la batería tampón (batería de litio) del ADW535 sin pérdida de configuración.\n\nLo que sí puedo confirmar a partir de los fragmentos:\n\n**Sobre la batería de litio:**\n- El LMB 35 incluye una **batería de litio** [F3] ubicada en la placa principal.\n- En la primera puesta en funcionamiento, debe retirarse la **cinta aislante de la batería de litio** del LMB 35 justo antes del primer encendido [F10].\n- La batería de litio a",
+    "## Sustitución de la batería de litio del ADW535\n\nLos fragmentos recuperados del manual **ADW535_TD_T140358es_e** no contienen un procedimiento específico para la sustitución de la **batería de litio** del LMB 35 sin pérdida de configuración.\n\nLo que sí está documentado en los fragmentos es:\n\n- La batería de litio está ubicada en el **Main Board LMB 35** [F3][F9].\n- Antes del primer encendido del ADW 535, debe retirarse la **cinta aislante de la batería de litio (LMB 35)** [F10] — lo que indica que es un componente accesible en esa placa.\n- Si se sustituye el **LMB 35 completo** (no solo la ba"
+   ]
+  },
+  {
+   "qid": "cat019",
+   "shared": false,
+   "ctrl": "PARCIAL",
+   "treat": "PARCIAL",
+   "k_ctrl": [
+    "PARCIAL",
+    "PARCIAL",
+    "PARCIAL"
+   ],
+   "k_treat": [
+    "PARCIAL",
+    "PARCIAL",
+    "PARCIAL"
+   ],
+   "answers_treat": [
+    "# Configuración de una maniobra (causa-efecto) en la CAD-250\n\n## Concepto general\n\nUna maniobra es un conjunto de acciones programadas en función de los estados del sistema [F4]. El proceso siempre sigue el orden: **primero definir eventos (entradas) → lógica de coincidencias → después asignar acciones (salidas)** [F4]. El sistema soporta hasta **100.000 entradas y salidas** configuradas en distintas maniobras [F2][F9].\n\n> ⚠️ La programación de maniobras es una de las funciones más críticas de la configuración. Requiere conocimiento específico del sistema instalado, del plan de protección y de",
+    "# Configuración de una maniobra (causa-efecto) en la CAD-250\n\n## Concepto general\n\nUna maniobra es un conjunto de acciones programadas en función de los estados del sistema [F4]. El proceso siempre sigue el orden: **definir eventos (entradas) → configurar lógica → asignar acciones (salidas)** [F4]. La configuración gestiona **eventos** (cambios de estado), no estados estáticos [F2].\n\n> ⚠️ La programación de maniobras es una de las funciones más críticas de la configuración. Requiere conocimiento específico del sistema instalado, del plan de protección y del producto [F5].\n\n---\n\n## PASO 1 — Acc",
+    "# Configuración de una maniobra (causa-efecto) en la CAD-250\n\n## Concepto general\n\nUna maniobra es un conjunto de acciones programadas en función de los estados del sistema [F4]. El sistema gestiona **eventos** (cambios de estado) como entradas, y **acciones** como salidas [F4]. El proceso siempre sigue el orden: primero definir eventos de entrada, luego asociar acciones de salida [F4].\n\n> ⚠️ La programación de maniobras es una de las funciones más críticas de la configuración. Requiere conocimiento específico del sistema instalado, del plan de protección y del producto [F5].\n\n---\n\n## PASO 1 —"
+   ],
+   "answers_ctrl": [
+    "# Configuración de una maniobra completa en la CAD-250\n\n> ⚠️ La programación de maniobras es una de las funciones más críticas de la configuración del sistema. Requiere conocimiento específico del sistema instalado, del plan de protección y del producto [F6].\n\n---\n\n## CONCEPTO PREVIO\n\nUna maniobra es un conjunto de **entradas (eventos)** + **lógica (coincidencias)** + **salidas (acciones)** [F1]. El sistema gestiona **eventos** (cambios de estado), no estados estáticos. El número máximo de entradas y salidas configuradas entre todas las maniobras es de **100.000** [F2][F10].\n\n---\n\n## PASO 1 — ",
+    "# Configuración de una maniobra completa en la CAD-250\n\n> ⚠️ La programación de maniobras es una de las funciones más críticas de la configuración del sistema. Requiere conocimiento específico del sistema instalado, del plan de protección y del producto [F6].\n\n---\n\n## CONCEPTO PREVIO\n\nUna maniobra es un conjunto de **entradas (eventos)** + **lógica (coincidencias)** + **salidas (acciones)** [F1]. El sistema gestiona **eventos** (cambios de estado), no estados estáticos. El número máximo de entradas y salidas configuradas entre todas las maniobras es de **100.000** [F2][F10].\n\n---\n\n## PASO 1 — ",
+    "# Configuración de una maniobra completa en la CAD-250\n\n> ⚠️ La programación de maniobras es una de las funciones más críticas de la configuración del sistema. Requiere conocimiento específico del sistema instalado, del plan de protección y del producto [F6].\n\n---\n\n## CONCEPTO PREVIO\n\nUna maniobra es un conjunto de **Entradas (Eventos) → Lógica (Coincidencias) → Salidas (Acciones)** [F1]. La central gestiona **eventos** (cambios de estado), no estados estáticos. El sistema soporta hasta **100.000 entradas y salidas** configuradas en distintas maniobras [F2][F10].\n\n---\n\n## PASO 1 — Acceder al m"
+   ]
+  },
+  {
+   "qid": "cat024",
+   "shared": false,
+   "ctrl": "PARCIAL",
+   "treat": "FALLO",
+   "k_ctrl": [
+    "FALLO",
+    "PARCIAL",
+    "PARCIAL"
+   ],
+   "k_treat": [
+    "FALLO",
+    "PASS",
+    "PARCIAL"
+   ],
+   "answers_treat": [
+    "El consumo en alarma de la **MAD-472** (Sirena Analógica de Zócalo Detnov) es:\n\n- **Consumo en Alarma: 17 mA (80 dB A)** [F1]\n- **Consumo en reposo: < 350 μA** [F1]\n\n> ⚠️ **Nota:** Los manuales de la central **CAD-250** indican para la MAD-472 un consumo en alarma de **7 mA** [F5][F6][F7]. Existe una discrepancia entre el manual propio de la sirena (17 mA) y las tablas de dispositivos compatibles de la CAD-250 (7 mA). Para el cálculo de carga del lazo en la CAD-250, utiliza el valor de **7 mA** indicado en su manual de instalación. Para las características técnicas del dispositivo en sí, el da",
+    "El consumo en alarma de la **MAD-472** (Sirena Analógica de Zócalo Detnov) es:\n\n- **Consumo en Alarma: 17 mA (a 80 dB A)** [F1]\n- **Consumo en reposo: < 350 μA** [F1]\n\n> ⚠️ **Nota importante:** Existe una discrepancia entre fuentes. El manual propio de la MAD-472 indica **17 mA** [F1][F2], mientras que las tablas de dispositivos compatibles de la CAD-250 indican **7 mA** [F5][F6][F7] para este mismo modelo. Para el cálculo de consumos del lazo, verifica con Detnov cuál es el valor vigente, o consulta la revisión más reciente del manual de la MAD-472.\n\n**Resto de especificaciones eléctricas** [",
+    "El consumo en alarma de la **MAD-472** (Sirena Analógica de Zócalo Detnov) es:\n\n- **Consumo en alarma: 17 mA (a 80 dB A)** [F1]\n- **Consumo en reposo: < 350 μA** [F1]\n\n> ⚠️ **Nota importante:** Existe una discrepancia entre fuentes. El manual propio de la MAD-472 indica **17 mA** [F1][F2], mientras que las tablas de dispositivos compatibles de la CAD-250 indican **7 mA** [F5][F6][F7] para este mismo modelo. Verifica con Detnov cuál es el valor correcto para tu versión de producto antes de realizar el cálculo de carga del lazo.\n\n**Otros datos técnicos del MAD-472** [F1]:\n- Tensión de funcionami"
+   ],
+   "answers_ctrl": [
+    "## Consumo en alarma del MAD-472\n\nHay una **discrepancia entre fuentes** que debes tener en cuenta:\n\n**Según el manual propio del MAD-472:**\n- Consumo en alarma: **17 mA (a 80 dB A)** [F1]\n- Consumo en reposo: **< 350 μA** [F1]\n\n**Según las tablas de dispositivos compatibles de la CAD-250** (tres documentos distintos, todos coincidentes):\n- Consumo en alarma: **7 mA** [F6][F7][F8]\n- Consumo en reposo: **0,35 mA** [F6][F7][F8]\n\n> ⚠️ **Atención:** Los valores difieren entre el manual del propio dispositivo (17 mA) y las tablas de la central CAD-250 (7 mA). Para el cálculo de carga del lazo en la",
+    "## Consumo en alarma del MAD-472\n\nHay una **discrepancia entre fuentes** que debes tener en cuenta:\n\n**Según el manual propio del MAD-472:**\n- Consumo en alarma: **17 mA (a 80 dB A)** [F1]\n- Consumo en reposo: **< 350 μA** [F1]\n\n**Según las tablas de dispositivos compatibles de la CAD-250** (tres documentos distintos coinciden):\n- Consumo en alarma: **7 mA** [F6][F7][F8]\n- Consumo en reposo: **0,35 mA** [F6][F7][F8]\n\n> ⚠️ **Atención:** Los valores difieren entre el manual del propio dispositivo (17 mA) y las tablas de la central CAD-250 (7 mA). Para el cálculo de carga del lazo, verifica con D",
+    "## Consumo en alarma — MAD-472 Sirena Analógica de Zócalo\n\nHay una **discrepancia entre fuentes** que debes tener en cuenta:\n\n**Según el manual propio del MAD-472:**\n- Consumo en Alarma: **17 mA (80 dB A)** [F1]\n- Consumo en reposo: **< 350 μA** [F1]\n\n**Según las tablas de dispositivos compatibles de la CAD-250** (tres documentos distintos coinciden):\n- Consumo en Alarma: **7 mA** [F6][F7][F8]\n- Consumo en reposo: **0,35 mA** [F6][F7][F8]\n\n⚠️ **Advertencia:** Los valores no coinciden entre el manual del propio dispositivo (17 mA) y las tablas de la central CAD-250 (7 mA). Para el cálculo de ca"
+   ]
+  },
+  {
+   "qid": "hp007",
+   "shared": true,
+   "ctrl": "PASS",
+   "treat": "PASS",
+   "k_ctrl": [
+    "PASS",
+    "PASS",
+    "PASS"
+   ],
+   "k_treat": [
+    "PASS",
+    "PASS",
+    "PASS"
+   ],
+   "answers_treat": [
+    "## Test anual del detector VESDA-E VEP según el manual del fabricante\n\nSegún la **Tabla 7-1: Calendario de mantenimiento sugerido** [F1][F2], las tareas que corresponden a realizarse **una vez al año** son las siguientes:\n\n---\n\n### Tareas anuales obligatorias\n\n1. **Realizar una prueba de humos** para comprobar la integridad de la red de tubería [F1][F2]\n2. **Comprobar el flujo de la red de tubería** [F1][F2]\n3. **Limpiar los puntos de muestreo** [F1][F2]\n4. **Limpiar con agua la red de tubería** [F1][F2]\n\n---\n\n### Procedimiento previo al mantenimiento (obligatorio)\n\nAntes de iniciar cualquier ",
+    "## Test anual del detector VESDA-E VEP según el manual del fabricante\n\nSegún la **Tabla 7-1: Calendario de mantenimiento sugerido** del manual, las tareas que corresponden a realizarse **una vez al año** son las siguientes [F1][F2]:\n\n- **Realizar una prueba de humos** para comprobar la integridad de la red de tubería\n- **Comprobar el flujo** de la red de tubería\n- **Limpiar los puntos de muestreo**\n- **Limpiar con agua la red de tubería**\n\n---\n\n### Sobre la prueba de humos anual\n\nLa prueba de humos consiste en [F3][F4]:\n\n1. Introducir una muestra de humo en el **orificio de muestreo más alejad",
+    "## Test anual del detector VESDA-E VEP según el manual del fabricante\n\nSegún la **Tabla 7-1: Calendario de mantenimiento sugerido** del manual, las tareas que corresponden a realizarse **una vez al año** son las siguientes [F1] [F2]:\n\n- **Realizar una prueba de humos** para comprobar la integridad de la red de tubería\n- **Comprobar el flujo** de la red de tubería\n- **Limpiar los puntos de muestreo**\n- **Limpiar con agua la red de tubería**\n\n---\n\n### Consideraciones previas obligatorias antes de realizar el test [F1] [F2]\n\n⚠️ **Precaución:** Cuando el detector está deshabilitado o en espera, **"
+   ],
+   "answers_ctrl": [
+    "## Test anual del detector VESDA-E VEP según el manual del fabricante\n\nSegún la **Tabla 7-1: Calendario de mantenimiento sugerido** [F1][F2], las tareas que corresponden a realizarse **una vez al año** son las siguientes:\n\n---\n\n### Tareas anuales obligatorias\n\n1. **Realizar una prueba de humos** para comprobar la integridad de la red de tubería [F1][F2]\n2. **Comprobar el flujo de la red de tubería** [F1][F2]\n3. **Limpiar los puntos de muestreo** [F1][F2]\n4. **Limpiar con agua la red de tubería** [F1][F2]\n\n---\n\n### Procedimiento previo al mantenimiento (obligatorio)\n\nAntes de iniciar cualquier ",
+    "## Test anual del detector VESDA-E VEP según el manual del fabricante\n\nSegún la **Tabla 7-1: Calendario de mantenimiento sugerido** del manual, las tareas que corresponden a realizarse **una vez al año** son las siguientes [F1][F2]:\n\n- **Realizar una prueba de humos** para comprobar la integridad de la red de tubería\n- **Comprobar el flujo** de la red de tubería\n- **Limpiar los puntos de muestreo**\n- **Limpiar con agua la red de tubería**\n\n---\n\n### Sobre la prueba de humos anual\n\nLa prueba de humos consiste en [F3][F4]:\n\n1. Introducir una muestra de humo en el **orificio de muestreo más alejad",
+    "## Test anual del detector VESDA-E VEP según el manual del fabricante\n\nSegún la **Tabla 7-1: Calendario de mantenimiento sugerido** del manual, las tareas que corresponden a realizarse **una vez al año** son las siguientes [F1] [F2]:\n\n- **Realizar una prueba de humos** para comprobar la integridad de la red de tubería\n- **Comprobar el flujo** de la red de tubería\n- **Limpiar los puntos de muestreo**\n- **Limpiar con agua la red de tubería**\n\n---\n\n### Consideraciones previas obligatorias antes de realizar el test [F1] [F2]\n\n⚠️ **Precaución:** Cuando el detector está deshabilitado o en espera, **"
+   ]
+  },
+  {
+   "qid": "hp002",
+   "shared": true,
+   "ctrl": "PARCIAL",
+   "treat": "PARCIAL",
+   "k_ctrl": [
+    "PARCIAL",
+    "PARCIAL",
+    "PARCIAL"
+   ],
+   "k_treat": [
+    "PARCIAL",
+    "PARCIAL",
+    "PARCIAL"
+   ],
+   "answers_treat": [
+    "# ASD535 — Alarma intermitente de flujo bajo: diagnóstico\n\n## Causa más probable\n\nUn valor de flujo **por debajo del 100 %** apunta a una **obstrucción en el conducto de aspiración** [F2]. El ASD535 dispara el aviso «fallo flujo de aire» cuando el valor real cae por debajo del **80 %** del valor nominal (con sensibilidad estándar ±20 %, posiciones de conmutador **A11 a C32**), transcurrido el tiempo de retardo de **300 s** de la LS-Ü [F1][F2].\n\nEl carácter **intermitente** puede deberse a turbulencias de aire que hacen que el valor oscile cerca del umbral. El ASD535 dispone de un circuito de c",
+    "# ASD535 — Alarma intermitente de flujo bajo: diagnóstico\n\n## Causa más probable\n\nUna alarma intermitente de flujo bajo (valor < 100 % del nominal) indica **obstrucción en el conducto de aspiración** [F2]. El ASD535 usa medición calorimétrica con dos sensores de flujo [F1]; cuando el valor real cae por debajo del umbral configurado, dispara el aviso de fallo de flujo de aire.\n\nEl comportamiento intermitente sugiere que el valor está oscilando cerca del límite de la ventana de monitorización, posiblemente agravado por turbulencias de aire o suciedad parcial [F1].\n\n---\n\n## Diagnóstico paso a pas",
+    "# ASD535 — Alarma intermitente de flujo bajo: diagnóstico\n\n## Causa más probable\n\nUn valor de flujo **por debajo del 100 %** apunta a una **obstrucción en el conducto de aspiración** [F2]. El ASD535 dispara el aviso «fallo flujo de aire» cuando el valor real cae por debajo del **80 %** del valor nominal (con sensibilidad estándar ±20 %, posiciones de conmutador **A11 a C32**), una vez transcurrido el tiempo de retardo de **300 s** de la LS-Ü [F1].\n\nEl carácter **intermitente** puede deberse a turbulencias de aire que hacen que el valor oscile cerca del umbral, o a una obstrucción parcial que v"
+   ],
+   "answers_ctrl": [
+    "# ASD535 — Alarma intermitente de flujo bajo: diagnóstico\n\n## Causa más probable\n\nUn valor de flujo **por debajo del 100 %** apunta a una **obstrucción en el conducto de aspiración** [F2]. El ASD535 dispara el aviso «fallo flujo de aire» cuando el valor real cae por debajo del **80 %** del valor nominal (con sensibilidad estándar ±20 %, posiciones de conmutador **A11 a C32**), transcurrido el tiempo de retardo de **300 s** de la LS-Ü [F1][F2].\n\nEl carácter **intermitente** puede deberse a turbulencias de aire que hacen que el valor oscile cerca del umbral. El ASD535 dispone de un circuito de c",
+    "# ASD535 — Alarma intermitente de flujo bajo: diagnóstico\n\n## Causa más probable\n\nUna alarma intermitente de flujo bajo (valor < 100 % del nominal) indica **obstrucción en el conducto de aspiración** [F2]. El ASD535 usa medición calorimétrica con dos sensores de flujo [F1]; cuando el valor real cae por debajo del umbral configurado, dispara el aviso de fallo de flujo de aire.\n\nEl comportamiento intermitente sugiere que el valor está oscilando cerca del límite de la ventana de monitorización, posiblemente agravado por turbulencias de aire o suciedad parcial [F1].\n\n---\n\n## Diagnóstico paso a pas",
+    "# ASD535 — Alarma intermitente de flujo bajo: diagnóstico\n\n## Causa más probable\n\nUn valor de flujo **por debajo del 100 %** apunta a una **obstrucción en el conducto de aspiración** [F2]. El ASD535 dispara el aviso «fallo flujo de aire» cuando el valor real cae por debajo del **80 %** del valor nominal (con sensibilidad estándar ±20 %, posiciones de conmutador **A11 a C32**), una vez transcurrido el tiempo de retardo de **300 s** de la LS-Ü [F1].\n\nEl carácter **intermitente** puede deberse a turbulencias de aire que hacen que el valor oscile cerca del umbral, o a una obstrucción parcial que v"
+   ]
+  },
+  {
+   "qid": "hp006",
+   "shared": true,
+   "ctrl": "PARCIAL",
+   "treat": "PARCIAL",
+   "k_ctrl": [
+    "FALLO",
+    "PARCIAL",
+    "PARCIAL"
+   ],
+   "k_treat": [
+    "FALLO",
+    "PARCIAL",
+    "PARCIAL"
+   ],
+   "answers_treat": [
+    "## Fallo de Tierra (Earth Fault) en la AFP-400\n\n### ¿Qué significa?\n\nEl aviso **\"Tierra\"** (Earth Fault / Fallo de Tierra) indica que el sistema ha detectado una conexión no deseada entre algún conductor del cableado del sistema y tierra (masa). La AFP-400 dispone de un **LED específico de \"Fallo de Tierra\"** ubicado en la placa de alimentación **MPS-400** [F1], que se activa cuando se produce esta condición.\n\nEl sistema entra en modo **Avería**, lo que implica [F3]:\n- El piezo suena\n- El LED de **Avería del Sistema** parpadea\n- Se activa el relé de avería\n- Se envía un mensaje a la pantalla L",
+    "## Fallo de Tierra (Earth Fault) en la AFP-400\n\n### ¿Qué significa?\n\nEl aviso **\"Tierra\"** (Earth Fault / Fallo de Tierra) indica que el sistema ha detectado una conexión no deseada entre algún conductor del cableado del sistema y tierra (masa). La AFP-400 dispone de un **LED específico de \"Fallo de Tierra\"** ubicado en la placa de alimentación **MPS-400** [F1], que se activa cuando se produce esta condición.\n\nEl sistema entra en modo **Avería**, con las siguientes consecuencias [F3]:\n- El piezo suena\n- El **LED de \"Avería del Sistema\"** parpadea (amarillo) [F2]\n- Se activa el relé de avería\n-",
+    "## Fallo de Tierra (Earth Fault) en la AFP-400\n\n### ¿Qué significa?\n\nEl aviso **\"Tierra\"** (Earth Fault / Fallo de Tierra) indica que el sistema ha detectado una conexión no deseada entre algún conductor del cableado del sistema y tierra (masa). La AFP-400 dispone de un **LED específico de \"Fallo de Tierra\"** ubicado en la placa de alimentación **MPS-400** [F1], que se activa cuando se produce esta condición.\n\nEl sistema entra en modo **Avería** [F3], lo que implica:\n- El piezo suena [F3]\n- El **LED de \"Avería del Sistema\" parpadea** [F2] [F3]\n- Se activa el relé de avería [F3]\n- Se envía un m"
+   ],
+   "answers_ctrl": [
+    "## Fallo de Tierra (Earth Fault) en la AFP-400\n\n### ¿Qué significa?\n\nEl aviso **\"Tierra\"** (Earth Fault / Fallo de Tierra) indica que el sistema ha detectado una conexión no deseada entre algún conductor del cableado del sistema y tierra (masa). La AFP-400 dispone de un **LED específico de \"Fallo de Tierra\"** ubicado en la placa de alimentación **MPS-400** [F1], que se activa cuando se produce esta condición.\n\nEl sistema entra en modo **Avería**, lo que implica [F3]:\n- El piezo suena\n- El LED de **Avería del Sistema** parpadea\n- Se activa el relé de avería\n- Se envía un mensaje a la pantalla L",
+    "## Fallo de Tierra (Earth Fault) en la AFP-400\n\n### ¿Qué significa?\n\nEl aviso **\"Tierra\"** (Earth Fault / Fallo de Tierra) indica que el sistema ha detectado una conexión no deseada entre algún conductor del cableado del sistema y tierra (masa). La AFP-400 dispone de un **LED específico de \"Fallo de Tierra\"** ubicado en la placa de alimentación **MPS-400** [F1], que se activa cuando se produce esta condición.\n\nEl sistema entra en modo **Avería**, con las siguientes consecuencias [F3]:\n- El piezo suena\n- El **LED de \"Avería del Sistema\"** parpadea (amarillo) [F2]\n- Se activa el relé de avería\n-",
+    "## Fallo de Tierra (Earth Fault) en la AFP-400\n\n### ¿Qué significa?\n\nEl aviso **\"Tierra\"** (Earth Fault / Fallo de Tierra) indica que el sistema ha detectado una conexión no deseada entre algún conductor del cableado del sistema y tierra (masa). La AFP-400 dispone de un **LED específico de \"Fallo de Tierra\"** ubicado en la placa de alimentación **MPS-400** [F1], que se activa cuando se produce esta condición.\n\nEl sistema entra en modo **Avería** [F3], lo que implica:\n- El piezo suena [F3]\n- El **LED de \"Avería del Sistema\" parpadea** [F2] [F3]\n- Se activa el relé de avería [F3]\n- Se envía un m"
+   ]
+  },
+  {
+   "qid": "hp010",
+   "shared": true,
+   "ctrl": "PARCIAL",
+   "treat": "PARCIAL",
+   "k_ctrl": [
+    "PARCIAL",
+    "PARCIAL",
+    "PARCIAL"
+   ],
+   "k_treat": [
+    "PARCIAL",
+    "PARCIAL",
+    "PARCIAL"
+   ],
+   "answers_treat": [
+    "# Añadir un nuevo detector al lazo en la DXc (tras puesta en marcha)\n\nCuando la central detecta un equipo nuevo en el lazo, genera el evento **\"EQUIPO NUEVO\"** [F2]. El procedimiento para aceptarlo es realizar una **Autobúsqueda** desde el menú de Lazos [F2].\n\n---\n\n## Procedimiento paso a paso\n\n### 1. Acceder al Nivel 2\n\nPulsa la tecla **'5'** en el menú de estado y, cuando se solicite, introduce la **clave de Nivel 2** (por defecto: **1234**) [F9]. También puedes girar la llave 90° en sentido horario si está instalada [F9].\n\n### 2. Acceder al menú de Lazos\n\nDesde el menú de Nivel 2, navega ha",
+    "# Añadir un nuevo detector al lazo en la DXc (tras puesta en marcha)\n\nCuando la central detecta un equipo nuevo en el lazo, genera el evento **\"EQUIPO NUEVO\"** [F2]. El procedimiento para aceptarlo es realizar una **Autobúsqueda de equipos**.\n\n---\n\n## Procedimiento paso a paso\n\n**1. Acceder al Nivel 2**\n\nPulsa la tecla `5` en la pantalla de estado y, cuando se solicite, introduce la clave de Nivel 2 (por defecto **1234**) [F9]. También puedes girar la llave 90° en sentido horario si está instalada [F9].\n\n**2. Acceder al menú de Lazos**\n\nDesde el menú de Nivel 2, navega hasta la opción de **Pro",
+    "## Añadir un nuevo detector al lazo en la DXc (tras puesta en marcha)\n\nCuando se conecta un nuevo detector al lazo, la central generará el evento **\"EQUIPO NUEVO\"** [F2], indicando que ha detectado un equipo no reconocido. El procedimiento para aceptarlo es realizar una **Autobúsqueda**.\n\n---\n\n### Paso 1 — Acceder al Nivel 2\n\n1. Pulsa cualquier tecla (OK, navegación o numérica) para activar el menú de estado [F9].\n2. Pulsa la tecla **'5'** para acceder al menú [F9].\n3. Introduce la **clave de Nivel 2** (por defecto: **1234**) y pulsa **OK** [F9].\n   - Alternativamente, gira la llave 90° en sen"
+   ],
+   "answers_ctrl": [
+    "# Añadir un nuevo detector al lazo en la DXc (tras puesta en marcha)\n\nCuando la central detecta un equipo nuevo en el lazo, genera el evento **\"EQUIPO NUEVO\"** [F2]. El procedimiento para aceptarlo es realizar una **Autobúsqueda** desde el menú de Lazos [F2].\n\n---\n\n## Procedimiento paso a paso\n\n### 1. Acceder al Nivel 2\n\nPulsa la tecla **'5'** en el menú de estado y, cuando se solicite, introduce la **clave de Nivel 2** (por defecto: **1234**) [F9]. También puedes girar la llave 90° en sentido horario si está instalada [F9].\n\n### 2. Acceder al menú de Lazos\n\nDesde el menú de Nivel 2, navega ha",
+    "# Añadir un nuevo detector al lazo en la DXc (tras puesta en marcha)\n\nCuando la central detecta un equipo nuevo en el lazo, genera el evento **\"EQUIPO NUEVO\"** [F2]. El procedimiento para aceptarlo es realizar una **Autobúsqueda de equipos**.\n\n---\n\n## Procedimiento paso a paso\n\n**1. Acceder al Nivel 2**\n\nPulsa la tecla `5` en la pantalla de estado y, cuando se solicite, introduce la clave de Nivel 2 (por defecto **1234**) [F9]. También puedes girar la llave 90° en sentido horario si está instalada [F9].\n\n**2. Acceder al menú de Lazos**\n\nDesde el menú de Nivel 2, navega hasta la opción de **Pro",
+    "## Añadir un nuevo detector al lazo en la DXc (tras puesta en marcha)\n\nCuando se conecta un nuevo detector al lazo, la central generará el evento **\"EQUIPO NUEVO\"** [F2], indicando que ha detectado un equipo no reconocido. El procedimiento para aceptarlo es realizar una **Autobúsqueda**.\n\n---\n\n### Paso 1 — Acceder al Nivel 2\n\n1. Pulsa cualquier tecla (OK, navegación o numérica) para activar el menú de estado [F9].\n2. Pulsa la tecla **'5'** para acceder al menú [F9].\n3. Introduce la **clave de Nivel 2** (por defecto: **1234**) y pulsa **OK** [F9].\n   - Alternativamente, gira la llave 90° en sen"
+   ]
+  }
+ ],
+ "regressions": [
+  {
+   "qid": "cat021",
+   "ctrl": "PASS",
+   "treat": "FALLO"
+  },
+  {
+   "qid": "cat024",
+   "ctrl": "PARCIAL",
+   "treat": "FALLO"
+  }
+ ],
+ "gains": [
+  {
+   "qid": "cat022",
+   "ctrl": "FALLO",
+   "treat": "PASS"
+  }
+ ],
+ "lat_rerank_median_s": {
+  "ctrl": 2.178306000001612,
+  "treat": 2.5534497999997257
+ }
+}
