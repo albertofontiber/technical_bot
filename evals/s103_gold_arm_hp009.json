@@ -1,0 +1,72 @@
+{
+ "stamp": {
+  "git_sha": "ae624cd31e57d47aab01873e68c40692ab7c2515",
+  "flags": {
+   "CHUNKS_TABLE": "chunks_v2",
+   "HYDE_ENABLED": "false",
+   "ENUNCIADOS_MULTIVECTOR": "on",
+   "IDENTITY_RESOLVE": "on",
+   "IDENTITY_RESOLVE_POLICY": "add",
+   "GENERATOR_SELECTION_BLOCK": "off",
+   "HYQ_PILOT_FILE": "",
+   "HYQ_TABLE": "on (call-time)",
+   "LLM_MAX_TOKENS": "3500",
+   "RERANK_TOP_K": "10",
+   "RERANKER_BACKEND": "llm",
+   "MERGE_STRATEGY": "stamps",
+   "RERANK_PREVIEW_CHARS": "800",
+   "GENERATOR_PROMPT_VARIANT": "fidelity"
+  }
+ },
+ "qid": "hp009",
+ "arms": {
+  "ctrl_old": {
+   "votes": [
+    "PARCIAL",
+    "PARCIAL",
+    "PARCIAL"
+   ],
+   "answers": [
+    "La pregunta menciona \"lazos de la central ZXe\" pero los fragmentos recuperados corresponden a los modelos **ZXAE/ZXEE** y **ZX2e/ZX5e**. Hay distintos tipos de \"lazos\" en estas centrales, cada uno con su propia resistencia de fin de línea. Te detallo lo que aparece en los fragmentos:\n\n---\n\n## Resistencias de fin de línea según tipo de circuito\n\n### 1. Salidas de sirenas convencionales (ZXAE/ZXEE y ZX2e/ZX5e)\n\n- **Valor RFL: 6.800 Ω (6K8), 0,5 W mínimo** [F1][F2][F4]\n- Se instala entre **+** y **−** de la última sirena del circuito [F1]\n- Si no hay sirenas conectadas, la RFL se coloca directamente en los terminales de salida de la central [F1]\n- **No se deben realizar ramales** en la línea de sirenas, ya que la supervisión solo cubre la línea directa hasta la RFL [F2]\n\n### 2. Lazo periféric",
+    "La pregunta menciona \"lazos de la central ZXe\" — necesito aclarar a qué tipo de lazo te refieres, ya que el manual distingue varios circuitos con resistencias de fin de línea diferentes:\n\n**¿Me puedes confirmar de qué lazo o salida se trata?**\n\n- **Salidas de sirenas convencionales** (Salida A, B, C, D)\n- **Lazo periférico RS-485**\n- **Lazo analógico** (detectores y módulos)\n\n---\n\nSi me lo confirmas te doy el valor exacto. De todas formas, aquí tienes un resumen rápido de los valores que sí aparecen en los fragmentos para la **ZXAE/ZXEE** (modelos de la familia ZX):\n\n- **Salidas de sirenas convencionales:** RFL de **6.800 Ω, 0,5 W mínimo** [F1][F2]\n- **Lazo periférico RS-485:** RFL de **150 Ω, 0,5 W mínimo** en cada extremo (en configuración lazo abierto) [F3]\n- **Lazo analógico:** Los fra",
+    "La pregunta menciona \"lazos de la central ZXe\" pero los fragmentos recuperados corresponden a los modelos **ZXAE/ZXEE** y **ZX2e/ZX5e**. Hay distintos tipos de \"lazos\" en estas centrales (analógico, sirenas, periférico), cada uno con su propia resistencia de fin de línea.\n\nTe detallo lo que especifican los fragmentos:\n\n---\n\n## Resistencias de fin de línea por tipo de circuito\n\n### 1. Salidas de sirenas convencionales (ZXAE/ZXEE y ZX2e/ZX5e)\n- **RFL: 6.800 Ω (6K8), 0,5 W mínimo** [F1][F2][F4]\n- Se instala entre + y – de la **última sirena** del circuito [F1]\n- Si no hay sirenas conectadas, la RFL se coloca directamente en los terminales de salida de la central [F1]\n- No se deben realizar ramales en la línea de sirenas, ya que la supervisión solo cubre la línea directa hasta la RFL [F2]\n\n###"
+   ],
+   "served_srcs": [
+    "MIE-MI-310",
+    "MIE-MI-310",
+    "MIE-MI-310",
+    "MIE-MI-530rv001",
+    "MIE-MI-310",
+    "MIE-MI-310",
+    "MIE-MI-310",
+    "MIE-MI-310",
+    "MIE-MI-310",
+    "MIE-MP-310"
+   ]
+  },
+  "treat_v3": {
+   "votes": [
+    "PARCIAL",
+    "PARCIAL",
+    "FALLO"
+   ],
+   "answers": [
+    "La pregunta menciona \"lazos de la central ZXe\" pero los fragmentos recuperados corresponden a los modelos **ZXAE/ZXEE** y **ZX2e/ZX5e**. Hay distintos tipos de \"lazos\" en estas centrales (lazo analógico, salidas de sirenas, lazo periférico), cada uno con su propia resistencia de fin de línea.\n\nTe detallo lo que especifican los fragmentos para cada circuito:\n\n---\n\n## Salidas de sirenas convencionales (ZXAE/ZXEE y ZX2e/ZX5e)\n\n- **RFL: 6.800 Ω (6K8), 0,5 W mínimo** [F1][F2][F4]\n- Se instala entre **+** y **−** de la última sirena de la línea [F1]\n- Si no hay sirenas conectadas, la RFL se coloca directamente en los terminales de salida de la central [F1]\n- **No se deben realizar ramales** en la línea de sirenas, ya que la supervisión solo cubre la línea directa hasta la RFL [F2]\n\n---\n\n## Lazo ",
+    "La pregunta menciona \"lazos de la central ZXe\", pero los fragmentos recuperados cubren distintos tipos de circuitos (lazos analógicos, lazo periférico y salidas de sirenas). La resistencia de fin de línea varía según el circuito. Te detallo lo que aparece en los fragmentos:\n\n---\n\n## Resistencias de fin de línea según tipo de circuito\n\n### 1. Salidas de sirenas convencionales (ZXAE/ZXEE)\n- **RFL: 6.800 Ω (6K8), 0,5 W mínimo** [F1][F2]\n- Se instala entre + y – de la última sirena de cada salida [F1]\n- Si no hay sirenas conectadas, la RFL se conecta directamente en los terminales de la central [F1]\n- No se deben realizar ramales en la línea de sirenas, ya que la supervisión no alcanzará los ramales paralelos [F2]\n\n### 2. Lazo periférico RS-485 (ZXAE/ZXEE)\n- **RFL: 150 Ω, 0,5 W mínimo**, en ca",
+    "La pregunta menciona \"lazos de la central ZXe\" — necesito aclarar a qué tipo de lazo te refieres, ya que el manual distingue varios circuitos con resistencias de fin de línea distintas:\n\n**¿Me puedes confirmar de qué lazo o salida se trata?**\n\n- ¿Las **salidas de sirenas** (campanas/sirenas convencionales)?\n- ¿El **lazo periférico** (RS-485)?\n- ¿El **lazo analógico** (detectores y módulos)?\n\nLa razón es que cada uno usa un valor de RFL diferente según los fragmentos disponibles, y no quiero darte el valor incorrecto."
+   ],
+   "served_srcs": [
+    "MIE-MI-310",
+    "MIE-MI-310",
+    "MIE-MI-310",
+    "MIE-MI-530rv001",
+    "MIE-MI-310",
+    "MIE-MI-310",
+    "MIE-MI-310",
+    "MIE-MI-310",
+    "MIE-MI-310",
+    "MIE-MP-310"
+   ]
+  }
+ }
+}

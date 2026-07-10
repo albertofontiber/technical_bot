@@ -53,6 +53,11 @@ from src.rag.generator import generate_answer
 # re-correr esta medición exige `git apply evals/s102_selection_seam.patch`. Sin el guard,
 # el env se ignoraría en silencio y se "mediría" OFF-vs-OFF (clase s96-H3).
 if not hasattr(_gen, "_selection_block_on"):
+
+# (s103b) GUARD adicional: el bloque pasó a CODE-GATED por query (_SELECTION_INTENT). Este
+# script mide ON-vs-OFF asumiendo que el bloque ENTRA al prompt del target; si el target no
+# dispara el regex, ON==OFF en silencio (la clase s96-H3). Fail-fast:
+from src.rag.generator import _is_selection_query as _isq  # noqa: E402
     raise RuntimeError("seam selection-block ausente en generator — aplica evals/s102_selection_seam.patch")
 _SELECTION_BLOCK = _gen._SELECTION_BLOCK
 from src.config import RETRIEVAL_TOP_K, RERANK_TOP_K
@@ -100,6 +105,10 @@ def main() -> int:
         ans_s2 = generate_answer(g["question"], topk).get("answer", "")
         os.environ["GENERATOR_SELECTION_BLOCK"] = "off"
 
+        if qid == TARGET:
+            assert _isq(g["question"]), (
+                f"{qid}: el target NO dispara _SELECTION_INTENT — con el gate en codigo, "
+                "ON==OFF en silencio (s96-H3); revisa el regex o el target antes de medir")
         row = {"qid": qid, "role": ("target" if qid == TARGET else
                                     "behavioral" if qid in BEHAVIORAL else "sentinel"),
                # X2 cross-model: reportar AMBAS gens del brazo tratado (len de una sola infla

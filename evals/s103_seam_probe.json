@@ -1,0 +1,52 @@
+{
+ "stamp": {
+  "git_sha": "ae624cd31e57d47aab01873e68c40692ab7c2515",
+  "flags": {
+   "CHUNKS_TABLE": "chunks_v2",
+   "HYDE_ENABLED": "false",
+   "ENUNCIADOS_MULTIVECTOR": "on",
+   "IDENTITY_RESOLVE": "on",
+   "IDENTITY_RESOLVE_POLICY": "add",
+   "HYQ_PILOT_FILE": "",
+   "HYQ_TABLE": "on (call-time)",
+   "LLM_MAX_TOKENS": "3500",
+   "RERANK_TOP_K": "10",
+   "RERANKER_BACKEND": "llm",
+   "MERGE_STRATEGY": "stamps",
+   "RERANK_PREVIEW_CHARS": "800",
+   "GENERATOR_PROMPT_VARIANT": "fidelity",
+   "GENERATOR_SELECTION_BLOCK": "on"
+  },
+  "seam": "evals/s102_selection_seam.patch aplicado"
+ },
+ "rows": [
+  {
+   "qid": "cat021",
+   "votes": [
+    "PASS",
+    "PARCIAL",
+    "PASS"
+   ],
+   "pool_n": 60,
+   "answers": [
+    "La familia SharpEye 40/40 incluye **varias variantes con tecnologías de detección distintas** y no son intercambiables entre sí. Antes de pedir el modelo, necesitas definir qué tipo de llama quieres detectar y qué configuración necesitas.\n\n---\n\n## Variantes disponibles en la serie SharpEye 40/40\n\n**40/40R — Single IR (infrarrojo simple)**\nDetecta llamas de combustibles de hidrocarburo y gases mediante un único canal IR (entre 4,4 y 4,6 micrones) [F3]. Es el modelo documentado en detalle en los fragmentos disponibles [F1][F2].\n\n**40/40I — IR3 (triple espectro infrarrojo)**\nDetector de llama de triple espectro infrarrojo [F9]. Tecnología distinta al 40/40R.\n\n**40/40M — Multi IR**\nDiseñado específicamente para llamas de **hidrógeno e hidrocarburo** [F10]. Tecnología multi-infrarrojo.\n\nAdemás,",
+    "La familia SharpEye 40/40 incluye **varias variantes con tecnologías de detección distintas y no intercambiables entre sí**. Antes de pedir el modelo, necesitas definir qué tipo de llama quieres detectar y qué configuración necesitas.\n\n---\n\n## Variantes disponibles en la serie SharpEye 40/40\n\n- **S40/40R** — Detector de llama de **un único canal IR** (4,4–4,6 micrones) [F3]. Detecta combustibles de hidrocarburo y fuego de gases [F2]. Es el modelo al que hace referencia tu consulta (\"40/40R\").\n\n- **S40/40I** — Detector de llama de **triple espectro infrarrojo (IR3)** [F9].\n\n- **S40/40M** — Detector de llama de **múltiple infrarrojo**, para llamas de **hidrógeno e hidrocarburo** [F10].\n\n- **S40/40L** — SharpEye UV/IR [F8].\n\n- **S40/40U** — SharpEye UV [F8].\n\n- **S40/40UFL** — SharpEye Ultra ",
+    "La familia SharpEye 40/40 incluye **varias variantes con tecnologías de detección distintas y no intercambiables entre sí**. Antes de pedir el modelo, necesitas definir qué variante se adapta a tu aplicación:\n\n---\n\n**Variantes disponibles en la serie SharpEye 40/40:**\n\n- **S40/40R** — Detector de llama de **un único canal infrarrojo (Single IR)**, entre 4,4 y 4,6 micrones. Detecta combustibles de hidrocarburo y fuego de gases [F2]. Es el modelo que comercializa Honeywell Life Safety Iberia bajo la referencia **S40/40R** [F1].\n\n- **S40/40I** — Detector de llama de **triple espectro infrarrojo (IR3)** [F9].\n\n- **S40/40M** — Detector de llama de **múltiple infrarrojo**, para llamas de **hidrógeno e hidrocarburo** [F10].\n\n- Además, los documentos de referencia mencionan otras variantes de la f"
+   ]
+  },
+  {
+   "qid": "hp009",
+   "votes": [
+    "PARCIAL",
+    "PARCIAL",
+    "PARCIAL"
+   ],
+   "pool_n": 45,
+   "answers": [
+    "## Resistencia de fin de línea en la Morley ZXe\n\nLa pregunta menciona la \"ZXe\", pero los fragmentos recuperados corresponden a los modelos **ZXAE/ZXEE** y **ZX2e/ZX5e**. Antes de responder con precisión, necesito saber qué modelo concreto tienes instalado.\n\nNo obstante, puedo darte los valores que sí aparecen en los fragmentos disponibles, diferenciando por tipo de circuito:\n\n---\n\n### Salidas de sirenas convencionales (ZXAE/ZXEE y ZX2e/ZX5e)\n\n- **RFL: 6.800 Ω (6K8), 0,5 W mínimo** [F1][F2][F4]\n- Se instala entre **+** y **−** de la última sirena del circuito [F1]\n- Si no hay sirenas conectadas, la RFL se coloca directamente en los terminales de salida de la central [F1]\n- **No se deben realizar ramales** en la línea de sirenas, ya que la supervisión solo cubre la línea directa hasta la RFL",
+    "## Resistencia de fin de línea en la Morley ZXe\n\nLa pregunta menciona la \"ZXe\", pero los fragmentos recuperados corresponden a los modelos **ZXAE/ZXEE** y **ZX2e/ZX5e**. Antes de responder, necesito aclarar qué tipo de lazo te interesa, ya que los valores de RFL varían según el circuito:\n\n---\n\n### Valores de RFL según tipo de circuito (ZXAE/ZXEE y ZX2e/ZX5e):\n\n**1. Salidas de sirenas convencionales (Salida A, B, C, D):**\n- RFL: **6.800 Ω (6K8), 0,5 W mínimo** [F1][F2]\n- Se instala entre + y – de la última sirena del circuito [F1]\n- Si no hay sirenas, se conecta directamente en los terminales de la central [F1]\n- ⚠️ No realizar ramales en la línea de sirenas, ya que los ramales paralelos no quedan supervisados [F2]\n\n**2. Lazo periférico RS-485:**\n- RFL: **150 Ω, 0,5 W mínimo**, en cada extr",
+    "## Resistencia de Fin de Línea en la Morley ZXe\n\nLa pregunta menciona la \"ZXe\", pero los fragmentos recuperados corresponden a los modelos **ZXAE/ZXEE** y **ZX2e/ZX5e**. Dado que son modelos distintos dentro de la familia ZX, te indico los valores disponibles para cada uno:\n\n---\n\n### ⚠️ Importante: el lazo analógico NO usa RFL\n\nLos lazos analógicos de la ZXAE/ZXEE funcionan con transmisión digital a dos hilos [F5] y **no requieren resistencia de fin de línea**. El manual no especifica ninguna RFL para el lazo analógico.\n\n---\n\n### RFL para salidas de sirenas convencionales\n\n- **Valor:** **6.800 Ω (6K8)**, **0,5 W mínimo** [F1][F2]\n- Se instala entre **+** y **−** de la última sirena del circuito [F1]\n- Si no hay sirenas conectadas, la RFL se coloca directamente en los terminales de salida d"
+   ]
+  }
+ ]
+}

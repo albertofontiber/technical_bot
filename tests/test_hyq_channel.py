@@ -134,8 +134,9 @@ def _patch_pipeline(monkeypatch, vector_rows, diversify=None):
 
 
 def test_carveout_surrogate_survives_diversify_and_final_cap(monkeypatch):
-    """El surrogate (sim baja, espacio-pregunta) sobrevive al diversify y al [:top_k] final
-    aunque el diversify devuelva pass-through largo — la protección espejo del cap de fusión."""
+    """(s103b v3.1) El surrogate sobrevive al diversify y al corte [:top_k] final — ahora como
+    EXTENSIÓN ACOTADA post-corte (sin reserva de slots). Contrato de tamaño COMPUESTO:
+    pool ≤ top_k + n_aside; los chunks reales del top_k NO pierden slots por el aside."""
     top_k = 5
     real = [_chunk(f"r{i}", "DOC-A", 0.9 - i * 0.01) for i in range(10)]
     surrogate = _chunk("hyq1", "DOC-A", 0.46, hyq=True)
@@ -144,7 +145,30 @@ def test_carveout_surrogate_survives_diversify_and_final_cap(monkeypatch):
     out = rt.retrieve_chunks("¿Cómo se resetea la CAD-150?", top_k=top_k)
     ids = [c["id"] for c in out]
     assert "hyq1" in ids, "el surrogate debe sobrevivir end-to-end (presupuesto del canal)"
-    assert len(out) <= top_k, "el carve-out no puede inflar el pool por encima de top_k"
+    assert len(out) <= top_k + 1, "extensión acotada: pool ≤ top_k + n_aside"
+    assert [i for i in ids if i != "hyq1"] == [f"r{i}" for i in range(top_k)], \
+        "los top_k reales quedan INTACTOS (la extensión no desplaza a nadie)"
+    assert ids[-1] == "hyq1", "el aside viaja al final (el reranker decide)"
+
+
+def test_extension_aside_language_strict(monkeypatch):
+    """(s103b v3.1, F5 dúo) El aside post-corte esquiva el Step 5c → cinturón de idioma
+    ESTRICTO inline: un surrogate FR se cae; ES/EN/sin-language pasan (mismo cinturón que
+    el identity-fetch — el fail-open de _filter_by_language sobre lista corta se invertiría)."""
+    top_k = 4
+    real = [_chunk(f"r{i}", "DOC-A", 0.9 - i * 0.01) for i in range(2)]
+    s_fr = _chunk("hyqFR", "DOC-B", 0.50, hyq=True)
+    s_fr["language"] = "fr"
+    s_es = _chunk("hyqES", "DOC-B", 0.48, hyq=True)
+    s_es["language"] = "es"
+    s_nil = _chunk("hyqNIL", "DOC-C", 0.46, hyq=True)
+    _patch_pipeline(monkeypatch, real + [s_fr, s_es, s_nil])
+
+    out = rt.retrieve_chunks("¿Cómo se resetea la CAD-150?", top_k=top_k)
+    ids = [c["id"] for c in out]
+    assert "hyqES" in ids and "hyqNIL" in ids, "ES y sin-language pasan el cinturón"
+    assert "hyqFR" not in ids, "idioma fuera de servicio NO entra vía extensión"
+    assert len(out) <= top_k + 3
 
 
 def test_carveout_no_duplicate_when_supplement_refetches_parent(monkeypatch):
@@ -166,12 +190,47 @@ def test_carveout_no_duplicate_when_supplement_refetches_parent(monkeypatch):
     assert ids.count("hyq1") == 1, "id duplicado en el pool (ventana fix #1)"
     kept = next(c for c in out if c["id"] == "hyq1")
     assert kept.get("_hyq_surrogate"), "debe sobrevivir la copia CON stamps (traceability)"
-    assert len(out) <= top_k
+    assert len(out) <= top_k + 1   # (s103b F7) bound compuesto: top_k + n_aside
 
 
-def test_carveout_reduces_diversify_budget_not_boosted(monkeypatch):
-    """El diversify recibe top_k reducido por el aside; los _hyq_boosted (hits reales) NO
-    se apartan — compiten como siempre."""
+def test_extension_no_model_query_no_aside(monkeypatch):
+    """(s103b F8a) Rama SIN modelo: no hay carve-out ni extensión — los surrogates compiten
+    en el flujo normal (mecánica medida en piloto+negcontrol) y el pool respeta top_k."""
+    top_k = 4
+    real = [_chunk(f"r{i}", "DOC-A", 0.9 - i * 0.01) for i in range(6)]
+    surrogate = _chunk("hyq1", "DOC-B", 0.95, hyq=True)   # sim alta: sobrevive por ranking
+    _patch_pipeline(monkeypatch, real + [surrogate])
+    monkeypatch.setattr(rt, "extract_product_models", lambda q: [])
+    monkeypatch.setattr(rt, "_diversify_by_manufacturer",
+                        lambda chunks, k, *a, **kw: chunks[:k])
+
+    out = rt.retrieve_chunks("¿Cómo se resetea un panel tras alarma?", top_k=top_k)
+    assert len(out) <= top_k, "sin modelo NO hay extensión: el pool respeta top_k"
+    assert "hyq1" in [c["id"] for c in out], "el surrogate compite por ranking normal"
+
+
+def test_extension_identity_fetch_sees_aside_ids(monkeypatch):
+    """(s103b F8b) El aside se adjunta ANTES del bloque identity-fetch → su `have` ve los
+    ids del aside y un fetch que re-trae el MISMO chunk no lo duplica."""
+    top_k = 4
+    real = [_chunk(f"r{i}", "DOC-A", 0.9 - i * 0.01) for i in range(2)]
+    surrogate = _chunk("hyq1", "DOC-B", 0.46, hyq=True)
+    _patch_pipeline(monkeypatch, real + [surrogate])
+    from src.rag import catalog_resolver as _cr   # import local en retrieve_chunks
+    monkeypatch.setattr(_cr, "fetch_enabled", lambda: True)
+    monkeypatch.setattr(_cr, "fetch_missing_doc_chunks",
+                        lambda q, res, base: [_chunk("hyq1", "DOC-B", 0.72)])
+
+    out = rt.retrieve_chunks("¿Cómo se resetea la CAD-150?", top_k=top_k)
+    ids = [c["id"] for c in out]
+    if "hyq1" in ids:   # el fetch requiere _identity_res truthy; si no corre, el aside manda
+        assert ids.count("hyq1") == 1, "el have del fetch debe ver los ids del aside"
+
+
+def test_carveout_full_budget_extension_not_boosted(monkeypatch):
+    """(s103b v3.1) El diversify recibe top_k COMPLETO (la reserva era el doble descuento
+    medido en DEC-100); el aside sigue FUERA del interleave (consenso s59) y los _hyq_boosted
+    (hits reales) dentro, compitiendo como siempre."""
     seen = {}
 
     def spy_diversify(chunks, k, *a, **kw):
@@ -187,7 +246,7 @@ def test_carveout_reduces_diversify_budget_not_boosted(monkeypatch):
     top_k = 5
     out = rt.retrieve_chunks("¿Cómo se resetea la CAD-150?", top_k=top_k)
     ids = [c["id"] for c in out]
-    assert seen["k"] == top_k - 1, "el diversify debe correr con el presupuesto reducido por el aside"
+    assert seen["k"] == top_k, "el diversify corre a top_k COMPLETO (sin doble descuento)"
     assert "hyq1" not in seen["ids"], "el surrogate NO entra al interleave"
     assert "boost1" in seen["ids"], "el boosted (hit real) SÍ compite en el diversify"
-    assert "hyq1" in ids and len(out) <= top_k
+    assert "hyq1" in ids and len(out) <= top_k + 1

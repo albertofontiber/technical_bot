@@ -1,0 +1,98 @@
+{
+ "stamp": {
+  "git_sha": "ae624cd31e57d47aab01873e68c40692ab7c2515",
+  "flags": {
+   "CHUNKS_TABLE": "chunks_v2",
+   "ENUNCIADOS_MULTIVECTOR": "on",
+   "IDENTITY_RESOLVE": "on",
+   "IDENTITY_RESOLVE_POLICY": "ADD",
+   "LLM_MAX_TOKENS": "3500",
+   "RERANK_TOP_K": "10",
+   "RERANKER_BACKEND": "llm",
+   "MERGE_STRATEGY": "stamps",
+   "RERANK_PREVIEW_CHARS": "800",
+   "HYDE_ENABLED": "false",
+   "HYQ_PILOT_FILE": "",
+   "HYQ_TABLE": "on (call-time flip)",
+   "NEIGHBOR_WINDOW": "0"
+  },
+  "nota": "modelos = lista RESUELTA capturada en el diversify (spy)"
+ },
+ "rows": [
+  {
+   "qid": "cat022",
+   "models_resueltos": [
+    "40-40",
+    "40-40L"
+   ],
+   "pool_n": 58,
+   "crossfam_total": 0,
+   "crossfam_tail10": 0,
+   "crossfam_sources": {}
+  },
+  {
+   "qid": "hp011",
+   "models_resueltos": [
+    "RP1R",
+    "RP1r-Supra"
+   ],
+   "pool_n": 59,
+   "crossfam_total": 0,
+   "crossfam_tail10": 0,
+   "crossfam_sources": {}
+  },
+  {
+   "qid": "hp018",
+   "models_resueltos": [
+    "ZXE",
+    "ZX1e",
+    "ZX2e",
+    "ZX5e"
+   ],
+   "pool_n": 55,
+   "crossfam_total": 0,
+   "crossfam_tail10": 0,
+   "crossfam_sources": {}
+  },
+  {
+   "qid": "cat021",
+   "models_resueltos": [
+    "40-40"
+   ],
+   "pool_n": 60,
+   "crossfam_total": 0,
+   "crossfam_tail10": 0,
+   "crossfam_sources": {}
+  },
+  {
+   "qid": "hp012",
+   "models_resueltos": [
+    "AM-2020",
+    "AFP1010"
+   ],
+   "pool_n": 54,
+   "crossfam_total": 5,
+   "crossfam_tail10": 0,
+   "crossfam_sources": {
+    "MPDT280": 4,
+    "MNDT370": 1
+   }
+  },
+  {
+   "qid": "cat016",
+   "models_resueltos": [
+    "CAD-150",
+    "CAD-150-1",
+    "CAD-150-2",
+    "CAD-150-2-MB",
+    "CAD-150-4",
+    "CAD-150-8",
+    "CAD-150-8-PLUS"
+   ],
+   "pool_n": 19,
+   "crossfam_total": 0,
+   "crossfam_tail10": 0,
+   "crossfam_sources": {}
+  }
+ ]
+}

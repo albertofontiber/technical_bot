@@ -1,0 +1,274 @@
+stamp:
+  git_sha: ae624cd31e57d47aab01873e68c40692ab7c2515
+  flags:
+    CHUNKS_TABLE: chunks_v2
+    ENUNCIADOS_MULTIVECTOR: 'on'
+    IDENTITY_RESOLVE: 'on'
+    IDENTITY_RESOLVE_POLICY: ADD
+    LLM_MAX_TOKENS: '3500'
+    RERANK_TOP_K: '10'
+    RERANKER_BACKEND: llm
+    MERGE_STRATEGY: stamps
+    RERANK_PREVIEW_CHARS: '800'
+    HYDE_ENABLED: 'false'
+    HYQ_PILOT_FILE: ''
+    HYQ_TABLE: on (call-time flip)
+    NEIGHBOR_WINDOW: '0'
+  rerank_model: claude-sonnet-4-6 strict
+tot_null: 8
+tot_excess: 65
+verdict: NO PASA
+to_read:
+- hp001
+- hp002
+- hp003
+- hp005
+- hp006
+- hp009
+- hp011
+- hp013
+- hp014
+- hp015
+- hp018
+- hp020
+- cat009
+- cat012
+- cat016
+- cat018
+- cat019
+- cat021
+- cat022
+rows:
+- qid: hp001
+  fired: true
+  n_aside: 9
+  'null': 1
+  treat: 4
+  excess: 3
+  surrogates_served: 4
+- qid: hp002
+  fired: true
+  n_aside: 7
+  'null': 0
+  treat: 3
+  excess: 3
+  surrogates_served: 3
+- qid: hp003
+  fired: true
+  n_aside: 6
+  'null': 0
+  treat: 2
+  excess: 2
+  surrogates_served: 2
+- qid: hp004
+  fired: false
+- qid: hp005
+  fired: true
+  n_aside: 8
+  'null': 1
+  treat: 3
+  excess: 2
+  surrogates_served: 3
+- qid: hp006
+  fired: true
+  n_aside: 5
+  'null': 0
+  treat: 3
+  excess: 3
+  surrogates_served: 3
+- qid: hp007
+  fired: true
+  n_aside: 6
+  'null': 2
+  treat: 3
+  excess: 1
+  surrogates_served: 3
+- qid: hp008
+  fired: true
+  n_aside: 5
+  'null': 1
+  treat: 1
+  excess: 0
+  surrogates_served: 1
+- qid: hp009
+  fired: true
+  n_aside: 1
+  'null': 0
+  treat: 2
+  excess: 2
+  surrogates_served: 1
+- qid: hp010
+  fired: false
+- qid: hp011
+  fired: true
+  n_aside: 9
+  'null': 0
+  treat: 4
+  excess: 4
+  surrogates_served: 3
+- qid: hp012
+  fired: true
+  n_aside: 4
+  'null': 1
+  treat: 2
+  excess: 1
+  surrogates_served: 1
+- qid: hp013
+  fired: true
+  n_aside: 6
+  'null': 0
+  treat: 4
+  excess: 4
+  surrogates_served: 4
+- qid: hp014
+  fired: true
+  n_aside: 2
+  'null': 0
+  treat: 3
+  excess: 3
+  surrogates_served: 2
+- qid: hp015
+  fired: true
+  n_aside: 3
+  'null': 0
+  treat: 3
+  excess: 3
+  surrogates_served: 3
+- qid: hp017
+  fired: true
+  n_aside: 2
+  'null': 1
+  treat: 2
+  excess: 1
+  surrogates_served: 1
+- qid: hp018
+  fired: true
+  n_aside: 5
+  'null': 0
+  treat: 2
+  excess: 2
+  surrogates_served: 1
+- qid: hp019
+  fired: true
+  n_aside: 9
+  'null': 0
+  treat: 1
+  excess: 1
+  surrogates_served: 0
+- qid: hp020
+  fired: true
+  n_aside: 1
+  'null': 0
+  treat: 2
+  excess: 2
+  surrogates_served: 1
+- qid: cat001
+  fired: true
+  n_aside: 2
+  'null': 0
+  treat: 1
+  excess: 1
+  surrogates_served: 1
+- qid: cat005
+  fired: false
+- qid: cat007
+  fired: true
+  n_aside: 1
+  'null': 0
+  treat: 1
+  excess: 1
+  surrogates_served: 0
+- qid: cat008
+  fired: true
+  n_aside: 2
+  'null': 0
+  treat: 0
+  excess: 0
+  surrogates_served: 0
+- qid: cat009
+  fired: true
+  n_aside: 8
+  'null': 1
+  treat: 3
+  excess: 2
+  surrogates_served: 3
+- qid: cat010
+  fired: false
+- qid: cat011
+  fired: true
+  n_aside: 1
+  'null': 0
+  treat: 1
+  excess: 1
+  surrogates_served: 1
+- qid: cat012
+  fired: true
+  n_aside: 3
+  'null': 0
+  treat: 2
+  excess: 2
+  surrogates_served: 2
+- qid: cat013
+  fired: false
+- qid: cat014
+  fired: false
+- qid: cat015
+  fired: true
+  n_aside: 1
+  'null': 0
+  treat: 0
+  excess: 0
+  surrogates_served: 1
+- qid: cat016
+  fired: true
+  n_aside: 4
+  'null': 0
+  treat: 3
+  excess: 3
+  surrogates_served: 3
+- qid: cat017
+  fired: true
+  n_aside: 9
+  'null': 0
+  treat: 1
+  excess: 1
+  surrogates_served: 1
+- qid: cat018
+  fired: true
+  n_aside: 5
+  'null': 0
+  treat: 2
+  excess: 2
+  surrogates_served: 2
+- qid: cat019
+  fired: true
+  n_aside: 7
+  'null': 0
+  treat: 3
+  excess: 3
+  surrogates_served: 2
+- qid: cat020
+  fired: false
+- qid: cat021
+  fired: true
+  n_aside: 10
+  'null': 0
+  treat: 8
+  excess: 8
+  surrogates_served: 1
+- qid: cat022
+  fired: true
+  n_aside: 8
+  'null': 0
+  treat: 3
+  excess: 3
+  surrogates_served: 1
+- qid: cat023
+  fired: true
+  n_aside: 1
+  'null': 0
+  treat: 1
+  excess: 1
+  surrogates_served: 1
+- qid: cat024
+  fired: false

@@ -75,13 +75,21 @@ def _lang(text):
 
 
 def _stage_of(present):
-    """ETAPA-DE-FALLO = primera etapa donde se pierde el chunk-valor (MECE)."""
+    """ETAPA-DE-FALLO = primera etapa donde se pierde el chunk-valor (MECE).
+
+    (s103b) `final` se comprueba PRIMERO: el pipeline ya NO es monotónico — el aside hyq
+    (carve-out v3.1) y el identity-fetch re-adjuntan chunks DESPUÉS de post_lang, así que
+    "ausente en una etapa intermedia" ya no implica "perdido". Para trazas monotónicas el
+    resultado es IDÉNTICO al scan histórico (si estaba en final sin pérdida intermedia, el
+    scan devolvía IN-POOL igualmente) — comparabilidad con artefactos previos preservada."""
+    if present.get("final"):
+        return "IN-POOL"   # llegó al pool final — no se perdió (aunque saliera-y-volviera)
     if not present.get("channels"):
         return "RECALL"
     for i in range(1, len(STAGE_SEQ)):
         if present[STAGE_SEQ[i - 1]] and not present[STAGE_SEQ[i]]:
             return DROP_LABEL[STAGE_SEQ[i]]
-    return "IN-POOL"   # el chunk-valor SÍ llegó a final en esta corrida (miss jittery — no estable)
+    return "IN-POOL"
 
 
 def diagnose_miss(gold, miss, pin, val_chunks, k=3):

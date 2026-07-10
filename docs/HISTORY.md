@@ -1658,3 +1658,77 @@ corpus 2. Fase 2 abierta: A/B fact-level del fidelity-block (smoke 0/0; full en 
 NADA shippeado (tiering nocturno + ship-gates = Alberto). Ficheros para Alberto:
 `evals/s101_plan_autonomo.md` + `evals/s101_decisiones_alberto.md` (D2 ship-hyq · D3 no-anclables ·
 D4 scope-borderline · D5 residual-ancilar, con recomendaciones). DEC-095.
+
+## s102 (9 jul 2026) — hyq de piloto a PRODUCCIÓN en un día, con el gate haciendo su trabajo
+
+Sesión de ship completo del canal question-side (D2/D8): migración 013 aplicada por Alberto →
+load 70.134 preguntas (0 poison) → **el gate de flips v1 FALLÓ 0/2** e hizo exactamente su
+trabajo: diagnóstico medido (corpus-wide el espacio-pregunta es fuerte-en-tema/débil-en-producto;
+la cuota global compraba slots que el model-filter tira; el diversify re-litigaba la cuota con
+sims incomensurables) → mecánica v2 (family-parity nivel-fila patrón-012 + carve-out) → gate v4
+2/2 CON atribución causal. Dúo Protocolo 3 ×2 rondas (4 tallies, 0 rubber-stamp: typo-flag que
+mataba el canal vectorial en silencio → flag a import-time; false-PASS sin atribución; ventana
+id-duplicado; keep-max-antes-del-filtro; ef_search<match_count; paginación Supabase 1000). bvg
+outcome: 0 regresiones reales (hp020 = 4ª instancia del artefacto DEC-092b, verificado por agente
+independiente) + 4 gains PASS. Negcontrol pool-level ROJO registrado sin edulcorar y arbitrado.
+Cazado en el smoke de prod: la var apuntaba a main SIN el código → PR #115 → **flip cat016
+verificado en query_logs** (10:54Z admit → 11:15Z autobúsqueda completa). Full v2.2 (demo real):
+OK 91 (72%) · synth 18→8 (cluster cat021×4 resuelto por composición — confirma DEC-097) ·
+corpus-gap real 0. La factura del canal quedó visible y trazada (cat022×3+hp018×3 desplazados por
+el squeeze del diversify sobre keyword) → siguiente lever: aterrizar el desplazamiento en la cola
+VECTOR (a medir). Extra: regla operativa de Alberto = orchestrator (Fable lidera; sub-agentes
+mecánicos en Opus/Sonnet; el pin fable del dúo intocable). DEC-096..099 · TECH_DEBT #52.
+
+## s103 (9 jul 2026) — el gate tumba mi lever y eso es el sistema funcionando (DEC-100)
+
+Sesión limpia arrancada del plan s102→s103. El lever §1 (displacement-landing: que la cuota hyq
+desplace cola VECTOR, no keyword) fue de diseño a veredicto en una sesión: dúo Protocolo 3 en 2
+rondas × 2 lados (el sub-agente r1 cazó un CRÍTICO — los early-returns del diversify + merge
+stamps sin cap habrían hecho que mi eviction v1 arrasara el canal vectorial entero; el cross-model
+cazó las escalas incomensurables Y una cita errónea que AMBOS sub-agentes Claude repitieron —
+validación en vivo del mismo-árbol≠independencia de Alberto s102), cableado v2.1 con 5 contratos
+de test nuevos (466 verdes), y gate judge-free A/B same-day (worktree@HEAD vs fix, config-stamped,
+null OFF-vs-OFF incluido). Resultado: el mecanismo CUMPLE su diseño (cat022 3/3 chunks diana
+recuperados, anclaje corpus-amplio +1/−0 con null 0/0) y AUN ASÍ es NO-GO — rompe el flip
+shippeado hp018·6K8 (el trim recortó el surrogate load-bearing por 3 milésimas de sim-pregunta),
+deja hp011 fuera del null y SUBE el negcontrol 7→9 (la posición-de-interleave tampoco es proxy de
+rank). Revert por pre-registro, seam preservado. Lo que el NO-GO compra: la clase cat022 queda
+PROBADA recuperable (target correcto) y los 4 ejes observables (canal/score/sim-pregunta/posición)
+quedan MEDIDOS como ciegos al valor — el discriminador restante es FAMILIA, lo que convierte el
+landing family-aware en el primer consumo medible del entity-linking (DEC-074) en vez de otra
+iteración de tuning. El flag anti-overfit (G4) funcionó por diseño: los 6 diana no podían tumbar
+el lever; los controles amplios sí. De propina: synth residual mapeado (6/8 estables, cluster
+cat021 NO reaparece → fork DEC-097 sigue cerrado) y matriz de transición v3→v2.2 reconstruida de
+git como artefacto reproducible. Prod intacto todo el día.
+
+## s103b (9-10 jul 2026, autónomo con tope $150) — del NO-GO al candidato de ship en una noche: la alternativa que el gate compró
+
+Alberto autorizó continuar autónomo (≤$150) y preguntó por top-100. Respuesta medida, no
+opinada: probe judge-free → NO paga (3/11 retrieval-miss entrarían, a ranks 55-91; 5 ni a 100 =
+gap de vocabulario s93; el coste del ancho en el rerank está medido s98 y ef_search=120 se queda
+corto multi-modelo). Lo grande: al aterrizar la arrancada del entity-linking, el artefacto F9
+(regla C contra mi propia claim, con lista RESUELTA de modelos) tumbó el family-aware landing
+(0 cross-family positivos en TODOS los golds clave — habría sido NO-OP) y eso forzó re-examinar
+la A2 que DEC-100 descartó sin medir: NO re-cobrar. v3.1 = el aside como EXTENSIÓN ACOTADA
+(patrón identity-fetch) — el doble descuento desaparece de raíz. Dúo r1 sobre el diseño (ambos
+lados CON-CAMBIOS: 5/6 filas de mi tabla eran tautológicas, el spec tenía dos cableados y uno
+era NO-OP silencioso, el gate no medía el efecto real rerank-50→60) → v3.1 cableada → TODOS los
+gates judge-free en verde (diana 4/4 incluido hp018·p21; containment 0-missing; negcontrol 6≤7;
+flips 2/2 tras cazar un artefacto de instrumento — `_stage_of` clasificaba por primera-
+desaparición y el pipeline ya no es monotónico) → bvg K=3: +cat022 FALLO→PASS, cat024 artefacto
+del juez (5ª instancia DEC-092b), y UNA regresión real: cat021, el cluster composición-sensible
+de DEC-097, cuyo fork pre-declarado disparó con composición fallida reproducible (el rerank-60
+sirve el user-guide EN del 40/40R y la generación asume la variante). Su remedio: el seam s102
+cura cat021 3/3 pero rompe hp009 (2/3; la iteración de wording lo EMPEORÓ a 3/3 — segunda
+medición de "los guardrails de prompt no auto-ejecutan") → trigger movido A CÓDIGO
+(`_SELECTION_INTENT`): sweep 39 dev = solo cat021 dispara, spec/avería byte-idénticas POR
+CONSTRUCCIÓN. Ronda de dúo sobre el DIFF: el cross-model clavó 2 CRÍTICOS de PROCESO (el D1-v1
+decía NO-PASA y seguí — instrumento inválido, pero la desviación del pre-registro va DECLARADA,
+no narrada como pasó; cambio de métrica visible en addendum) y el sub-agente EJECUTÓ el regex
+contra fraseo real de técnico y tumbó mis alternativas laxas («¿cuál pongo?» = resistencias/
+jumpers) + el agujero de freeze en bvg_kmajority. Todo corregido y testeado (473 verdes, 12
+tests nuevos). hp009 atribuido con probe de 2 brazos: PARCIAL=PARCIAL, baseline. Paquete DEC-101
+a GO de Alberto: merge + `GENERATOR_SELECTION_BLOCK=on` en Railway (sin el env var el neto sería
++cat022/−cat021 — asimetría de activación declarada). Coste ~$90. El día entero es el sistema
+funcionando: 5 rondas de dúo, ~50 findings confirmados/~1 FP, 3 instrumentos cazados mintiendo
+(D1-v1, table-gate, mi regex) — y cada gate que tumbó algo compró el diseño siguiente.

@@ -1589,7 +1589,8 @@ def retrieve_chunks(
     # Instalación + Usuario + MC-380 + MS-416), the top-k can be dominated
     # by whichever doc has more chunks — missing the doc that actually
     # holds the answer. Guarantee at least one chunk per source_file.
-    if models and len(merged) > 0:
+    _hyq_aside: list = []      # (s103b) solo se llena en la rama con-modelo; el diversify de
+    if models and len(merged) > 0:  # FABRICANTE (sin modelo) queda SIN carve-out (mecánica medida)
         # (s68, V-A′/F5) bajo `cosine` los SUPLEMENTOS del diversify también van a
         # coseno real (sin esto serían el top absoluto del re-sort interno con su
         # stamp 0.72 > cosenos 0.5x — "sin boosts" incumplido por construcción).
@@ -1609,21 +1610,25 @@ def retrieve_chunks(
         # _hyq_surrogate (entraron por el canal-pregunta); los _hyq_boosted son hits reales
         # y compiten como siempre. El diversify de FABRICANTE (queries sin modelo, rama de
         # abajo) queda SIN carve-out: es la mecánica medida en piloto + neg-control.
+        # (s103b v3.1, DEC-100→dúo ×2) El aside se aparta ANTES del diversify (consenso s59:
+        # el interleave cortaría los surrogates — medido s102 gate v1) pero YA NO se re-adjunta
+        # aquí con reserva de slots: la reserva era un SEGUNDO cobro de la cuota (la fusión de
+        # vector_search ya paga con la cola de SU canal) y apretaba el interleave de TODOS los
+        # canales (factura cat022/hp018 medida en DEC-100). El re-adjunte vive DESPUÉS del
+        # corte [:top_k] como EXTENSIÓN ACOTADA (ver bloque post-corte, idioma identity-fetch).
         _hyq_aside = [c for c in merged if c.get("_hyq_surrogate")]
         if _hyq_aside:
             merged = [c for c in merged if not c.get("_hyq_surrogate")]
-        merged = _diversify_by_source_file(merged, max(1, top_k - len(_hyq_aside)),
+        merged = _diversify_by_source_file(merged, top_k,
                                            models, query, query_keywords=None,
                                            include_superseded=include_superseded,
                                            supplement_rescore_fn=supp_fn)
         if _hyq_aside:
-            # (fix #1 dúo r2) dedup ANTES del re-adjunte: al apartar el surrogate, el
-            # diversify deja de ver su fichero → el fetch suplementario puede re-traer EL
-            # MISMO chunk-padre (seen_ids se construye post-remoción) → id duplicado en el
-            # pool. El aside gana (conserva los stamps de traceability).
+            # (fix #1 dúo r2) dedup: al apartar el surrogate, el diversify deja de ver su
+            # fichero → el fetch suplementario puede re-traer EL MISMO chunk-padre → id
+            # duplicado. El aside gana (conserva los stamps de traceability).
             _aside_ids = {c.get("id") for c in _hyq_aside}
             merged = [c for c in merged if c.get("id") not in _aside_ids]
-            merged = merged[:max(0, top_k - len(_hyq_aside))] + _hyq_aside
 
     # Step 5b: Manufacturer diversity for generic queries (no specific model).
     # Ensures technicians see results from ALL manufacturers, not just whichever
@@ -1647,6 +1652,22 @@ def retrieve_chunks(
     # (≤FETCH_MAX_DOCS×FETCH_PER_DOC extra, nunca desplaza a nadie — DEC-069; el reranker
     # decide). Pasa el MISMO filtro de idioma que el resto. Fail-open total.
     base = merged[:top_k]
+    # (s103b v3.1, dúo ×2 — DEC-100/A2 re-abierta y medida) El aside hyq se re-adjunta como
+    # EXTENSIÓN ACOTADA (≤ HYQ_PILOT_QUOTA extra) DESPUÉS del corte — mismo idioma que el
+    # identity-fetch de abajo (dúo s93 #3: antes del corte moriría truncado = no-op silencioso).
+    # ANTES del fetch, para que su `have` vea estos ids (sin ventana de duplicado). Cinturón de
+    # idioma ESTRICTO inline: el aside se apartó antes del Step 5c y el fail-open de
+    # _filter_by_language sobre lista corta se INVERTIRÍA (mismo cinturón que el fetch).
+    # Lifecycle/model-filter ya aplicados (el aside pasó los Steps 4b/5a-pre en `merged`).
+    if _hyq_aside:
+        _kept = {c.get("id") for c in base}
+        _aside_ok = [c for c in _hyq_aside
+                     if c.get("id") and c.get("id") not in _kept
+                     and (not c.get("language")
+                          or (c.get("language") or "").lower() in _SERVED_LANGUAGES)]
+        if _aside_ok:
+            base = base + _aside_ok
+            _tr("post_hyq_aside", base)
     # F2 dúo s93: fetch_enabled() PRIMERO — con `_identity_res and ...` el fail-fast de
     # coherencia (FETCH=on exige RESOLVE=on) era código muerto y FETCH+shadow = no-op
     # silencioso que corrompería la medición como "el fetch no mueve nada"

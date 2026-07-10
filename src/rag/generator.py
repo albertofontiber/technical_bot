@@ -363,15 +363,71 @@ condiciones que el fragmento no mencione, aunque "completen" la respuesta. Compl
 recoger lo que ESTÁ, no rellenar lo que falta."""
 
 
-def _assemble_system() -> str:
+# (s103b, fork DEC-097 ejecutado) Bloque de SELECCIÓN con trigger EN CÓDIGO. La versión
+# prompt-gated de s102 mide: cura cat021 (bajo config de ship: K-mayoría PASS/PARCIAL/PASS —
+# target flaky declarado en s102; el residual PARCIAL queda en el mapa) pero el trigger
+# textual sobre-dispara en preguntas de especificación (hp009 clarify-en-vez-de-answer 2/3;
+# la iteración de wording lo EMPEORÓ 3/3 — los guardrails de prompt no auto-ejecutan,
+# DEC-097 reconfirmado con dato). Fix estructural: el bloque solo ENTRA al prompt cuando la
+# QUERY es de selección/compra por regex → hp009 y toda pregunta de spec/avería quedan
+# intactas POR CONSTRUCCIÓN (prompt byte-idéntico, unit-testeable a $0).
+# Regex: VERBO DE ADQUISICIÓN obligatorio (pido/compro/elijo/recomiendas). El dúo s103b
+# EJECUTÓ contra fraseo real de técnico y tumbó las alternativas laxas («¿cuál pongo?» es
+# fraseo de resistencias/jumpers/DIP; «cuál necesito»/«qué modelo va» = identificación/spec)
+# — fuera. Gap acotado permitido entre «modelo» y el verbo («qué modelo de detector … pido»).
+_SELECTION_INTENT = re.compile(
+    r"(qu[eé]\s+modelo[^?.;:]{0,60}?\b(pido|compro|elijo|me\s+recomiendas)\b"
+    r"|cu[aá]l\s+(me\s+recomiendas|pido|compro|elijo)\b"
+    r"|qu[eé]\s+(detector|central|sirena|equipo|panel|m[oó]dulo|fuente)"
+    r"[^?.;:]{0,40}?\b(pido|compro|elijo|me\s+recomiendas)\b)", re.IGNORECASE)
+
+_SELECTION_BLOCK = """
+
+CONSULTA DE SELECCIÓN SOBRE UNA FAMILIA (complementa TIPO 2 — no lo sustituye):
+El usuario pide ELEGIR o PEDIR equipo nombrando la familia sin sufijo completo. Si los \
+fragmentos muestran VARIAS variantes de esa familia con tecnología/uso/capacidad DISTINTOS:
+- NO asumas una variante ni respondas solo con la más mencionada en los fragmentos.
+- Tu respuesta ES la enumeración: una línea por variante presente en los fragmentos con su \
+diferenciador clave (tecnología de detección, riesgo/combustible al que aplica, capacidad), \
+citando su [F<n>].
+- Si las variantes NO son intercambiables entre sí, dilo explícitamente.
+- Cierra preguntando el dato que decide la elección (tipo de riesgo, combustible, entorno).
+- La regla «no enumeres miembros del corpus» del formato de clarificación NO aplica en \
+selección: el técnico está ELIGIENDO equipo nuevo, no tiene etiqueta que leer. Esa regla sigue \
+intacta para averías/configuración de un equipo ya instalado (ahí sí: pregunta abierta).
+- Si la respuesta NO diverge entre variantes (dato común de familia), responde directo (TIPO 1)."""
+
+
+def _selection_block_on() -> bool:
+    """(s102 L4 → s103b code-gated) Flag del bloque de selección. Parser estricto fail-fast
+    (lección s96-H3: un typo no puede medio-apagar un lever)."""
+    raw = os.getenv("GENERATOR_SELECTION_BLOCK", "off").strip().lower()
+    if raw == "on":
+        return True
+    if raw in ("", "off", "0", "false", "no"):
+        return False
+    raise RuntimeError(f"GENERATOR_SELECTION_BLOCK={raw!r} no reconocido (on|off) — fail-fast")
+
+
+def _is_selection_query(query: str) -> bool:
+    """Trigger DETERMINISTA del bloque de selección (el LLM no decide si aplica)."""
+    return bool(_SELECTION_INTENT.search(query or ""))
+
+
+def _assemble_system(query: str | None = None) -> str:
     """A/B s69: GENERATOR_PROMPT_VARIANT=base|fidelity (env, leído en RUNTIME para togglear
     el A/B en un mismo proceso; default base). base == SYSTEM_PROMPT BYTE-IDÉNTICO (el test
     de paridad `tests/test_s69_prompt_variant.py` lo asserta sin llamar al LLM — el
     aislamiento NO se prueba con output, que es no-determinista, DEC-015). fidelity añade
-    `_FIDELITY_BLOCK`. Reversible como GENERATOR_INCLUDE_CONTEXT; default INERTE = prod."""
+    `_FIDELITY_BLOCK`. Reversible como GENERATOR_INCLUDE_CONTEXT; default INERTE = prod.
+    (s103b) + `_SELECTION_BLOCK` SOLO si GENERATOR_SELECTION_BLOCK=on ∧ la query dispara
+    `_SELECTION_INTENT` (trigger en código, no en el prompt — ver bloque arriba)."""
+    base = SYSTEM_PROMPT
     if os.getenv("GENERATOR_PROMPT_VARIANT", "base") == "fidelity":
-        return SYSTEM_PROMPT + _FIDELITY_BLOCK
-    return SYSTEM_PROMPT
+        base = SYSTEM_PROMPT + _FIDELITY_BLOCK
+    if _selection_block_on() and query is not None and _is_selection_query(query):
+        base = base + _SELECTION_BLOCK
+    return base
 
 
 def generate_answer(
@@ -512,7 +568,7 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
         model=LLM_MODEL,
         max_tokens=LLM_MAX_TOKENS,
         temperature=0,  # eval reproducibility — same query + chunks → same answer
-        system=_assemble_system(),   # s69: base (== SYSTEM_PROMPT) | fidelity (+_FIDELITY_BLOCK)
+        system=_assemble_system(query),  # s69 base|fidelity (+s103b selection code-gated)
         messages=[{"role": "user", "content": user_message}],
     )
 
