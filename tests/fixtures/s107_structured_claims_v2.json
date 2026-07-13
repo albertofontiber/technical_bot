@@ -1,0 +1,272 @@
+{
+  "schema": "s107_structured_claims_fixture_cohort_v2",
+  "cohort_role": "non_target_adversarial_conformance_not_blind_precision",
+  "cases": [
+    {
+      "id": "p01_es_prose_max_resistance",
+      "expected": true,
+      "entity": "PX100",
+      "statement": "La resistencia maxima del lazo del PX100 es 35 ohmios.",
+      "source": "Para el PX100, la resistencia maxima del lazo no debe superar 35 ohmios."
+    },
+    {
+      "id": "p02_en_prose_max_voltage",
+      "expected": true,
+      "entity": "QX200",
+      "statement": "The maximum voltage of QX200 is 24 V.",
+      "source": "The QX200 maximum voltage must not exceed 24 V."
+    },
+    {
+      "id": "p03_es_to_en_cross_language",
+      "expected": true,
+      "entity": "RX300",
+      "statement": "La tension maxima del RX300 es 48 V.",
+      "source": "The maximum voltage of the RX300 is 48 volts."
+    },
+    {
+      "id": "p04_es_range",
+      "expected": true,
+      "entity": "TX400",
+      "statement": "El retardo del TX400 es variable de 5 a 295 segundos.",
+      "source": "En el TX400 el tiempo de retardo esta comprendido entre 05 y 295 seg."
+    },
+    {
+      "id": "p05_en_range",
+      "expected": true,
+      "entity": "UX500",
+      "statement": "The UX500 delay is adjustable from 1 to 30 minutes.",
+      "source": "For UX500, the delay is adjustable from 01 to 30 min."
+    },
+    {
+      "id": "p06_es_standard_table_column_binding",
+      "expected": true,
+      "entity": "VX600",
+      "statement": "La tension maxima del VX600 es 24 V.",
+      "source": "| Modelo | Tension maxima | Resistencia maxima del lazo |\n| --- | --- | --- |\n| VX600 | 24 V | 35 ohmios |"
+    },
+    {
+      "id": "p07_en_standard_table_column_binding",
+      "expected": true,
+      "entity": "WX700",
+      "statement": "The maximum loop resistance of WX700 is 18 ohms.",
+      "source": "| Model | Maximum voltage | Maximum loop resistance |\n| --- | --- | --- |\n| WX700 | 12 V | 18 ohms |"
+    },
+    {
+      "id": "p08_es_key_value_table_range",
+      "expected": true,
+      "entity": "YX800",
+      "statement": "El tiempo de activacion del YX800 es variable de 5 a 295 segundos.",
+      "source": "| Valor variable de 05 a 295 seg. | Tiempo de activacion del circuito |\n| --- | --- |\n| -- | Activado hasta rearme |"
+    },
+    {
+      "id": "p09_decimal_comma",
+      "expected": true,
+      "entity": "ZX900",
+      "statement": "La capacidad maxima del cable del ZX900 es 0,5 uF.",
+      "source": "La capacidad maxima del cable para ZX900 no debe superar 0.50 microfaradios."
+    },
+    {
+      "id": "p10_qualifier_per_output",
+      "expected": true,
+      "entity": "AX110",
+      "statement": "La corriente maxima por salida del AX110 es 1 A.",
+      "source": "Para AX110, la corriente maxima por cada salida es de 1 amperio."
+    },
+    {
+      "id": "p11_minimum_temperature",
+      "expected": true,
+      "entity": "BX120",
+      "statement": "La temperatura minima del BX120 es 5 grados.",
+      "source": "The minimum temperature for BX120 is 5 celsius."
+    },
+    {
+      "id": "p12_range_unit_on_both_bounds",
+      "expected": true,
+      "entity": "CX130",
+      "statement": "El intervalo del CX130 es variable de 5 s a 10 s.",
+      "source": "For CX130, the time interval is from 5 seconds to 10 seconds."
+    },
+    {
+      "id": "n01_cross_attribute_same_number",
+      "expected": false,
+      "entity": "DX140",
+      "statement": "La tension maxima del DX140 es 35 V.",
+      "source": "La tension maxima del DX140 es 24 V; la resistencia maxima del lazo es 35 ohmios."
+    },
+    {
+      "id": "n02_wrong_operator",
+      "expected": false,
+      "entity": "EX150",
+      "statement": "La resistencia maxima del lazo del EX150 es 35 ohmios.",
+      "source": "La resistencia minima del lazo del EX150 es 35 ohmios."
+    },
+    {
+      "id": "n03_wrong_exact_value",
+      "expected": false,
+      "entity": "FX160",
+      "statement": "La tension maxima del FX160 es 25 V.",
+      "source": "La tension maxima del FX160 es 24 V."
+    },
+    {
+      "id": "n04_wrong_range_lower_bound",
+      "expected": false,
+      "entity": "GX170",
+      "statement": "El retardo del GX170 es variable de 10 a 295 s.",
+      "source": "El retardo del GX170 es variable de 5 a 295 s."
+    },
+    {
+      "id": "n05_reversed_range",
+      "expected": false,
+      "entity": "HX180",
+      "statement": "El retardo del HX180 es variable de 5 a 295 s.",
+      "source": "El retardo del HX180 es variable de 295 a 5 s."
+    },
+    {
+      "id": "n06_range_missing_unit",
+      "expected": false,
+      "entity": "IX190",
+      "statement": "El retardo del IX190 es variable de 5 a 295 s.",
+      "source": "El retardo del IX190 es variable de 5 a 295."
+    },
+    {
+      "id": "n07_range_mixed_units",
+      "expected": false,
+      "entity": "JX210",
+      "statement": "El retardo del JX210 es variable de 5 a 295 s.",
+      "source": "El retardo del JX210 es variable de 5 min a 295 s."
+    },
+    {
+      "id": "n08_table_column_transposition",
+      "expected": false,
+      "entity": "KX220",
+      "statement": "La tension maxima del KX220 es 35 V.",
+      "source": "| Modelo | Tension maxima | Resistencia maxima del lazo |\n| --- | --- | --- |\n| KX220 | 24 V | 35 ohmios |"
+    },
+    {
+      "id": "n09_table_model_row_transposition",
+      "expected": false,
+      "entity": "LX230",
+      "statement": "La tension maxima del LX230 es 48 V.",
+      "source": "| Modelo | Tension maxima |\n| --- | --- |\n| LX230 | 24 V |\n| MX240 | 48 V |"
+    },
+    {
+      "id": "n10_table_only_other_model",
+      "expected": false,
+      "entity": "NX250",
+      "statement": "The maximum voltage of NX250 is 24 V.",
+      "source": "| Model | Maximum voltage |\n| --- | --- |\n| OX260 | 24 V |"
+    },
+    {
+      "id": "n11_ragged_markdown_table",
+      "expected": false,
+      "entity": "PX270",
+      "statement": "La tension maxima del PX270 es 24 V.",
+      "source": "| Modelo | Tension maxima | Resistencia |\n| --- | --- | --- |\n| PX270 | 24 V |"
+    },
+    {
+      "id": "n12_table_without_separator",
+      "expected": false,
+      "entity": "QX280",
+      "statement": "La tension maxima del QX280 es 24 V.",
+      "source": "| Modelo | Tension maxima |\n| QX280 | 24 V |"
+    },
+    {
+      "id": "n13_html_table_unsupported",
+      "expected": false,
+      "entity": "RX290",
+      "statement": "La tension maxima del RX290 es 24 V.",
+      "source": "<table><tr><th>Modelo</th><th>Tension maxima</th></tr><tr><td>RX290</td><td>24 V</td></tr></table>"
+    },
+    {
+      "id": "n14_html_colspan_unsupported",
+      "expected": false,
+      "entity": "SX310",
+      "statement": "La tension maxima del SX310 es 24 V.",
+      "source": "<table><tr><td colspan=2>SX310 tension maxima 24 V</td></tr></table>"
+    },
+    {
+      "id": "n15_ambiguous_alternative_values",
+      "expected": false,
+      "entity": "TX320",
+      "statement": "La tension maxima del TX320 es 48 V.",
+      "source": "La tension maxima del TX320 es 24 / 48 V."
+    },
+    {
+      "id": "n16_qualifier_transposition",
+      "expected": false,
+      "entity": "UX330",
+      "statement": "La corriente maxima por salida del UX330 es 1 A.",
+      "source": "La corriente maxima por dispositivo del UX330 es 1 A."
+    },
+    {
+      "id": "n17_statement_entity_omitted",
+      "expected": false,
+      "entity": "VX340",
+      "statement": "La tension maxima es 24 V.",
+      "source": "La tension maxima del VX340 es 24 V."
+    },
+    {
+      "id": "n18_conflicting_source_entity",
+      "expected": false,
+      "entity": "WX350",
+      "statement": "La tension maxima del WX350 es 24 V.",
+      "source": "La tension maxima del XX360 es 24 V."
+    },
+    {
+      "id": "n19_unsupported_french",
+      "expected": false,
+      "entity": "YX370",
+      "statement": "La tension maxima del YX370 es 24 V.",
+      "source": "La tension maximale du YX370 est de 24 V."
+    },
+    {
+      "id": "n20_multiple_entity_columns",
+      "expected": false,
+      "entity": "ZX380",
+      "statement": "La tension maxima del ZX380 es 24 V.",
+      "source": "| Modelo | Product | Tension maxima |\n| --- | --- | --- |\n| ZX380 | ZX380 | 24 V |"
+    },
+    {
+      "id": "n21_multiple_ranges_same_clause",
+      "expected": false,
+      "entity": "AX390",
+      "statement": "El retardo del AX390 es variable de 5 a 10 s.",
+      "source": "El retardo del AX390 es variable de 5 a 10 s o de 20 a 30 s."
+    },
+    {
+      "id": "n22_range_wrong_attribute_unit",
+      "expected": false,
+      "entity": "BX410",
+      "statement": "La resistencia del lazo del BX410 es variable de 5 a 10 ohmios.",
+      "source": "La resistencia del lazo del BX410 es variable de 5 a 10 segundos."
+    },
+    {
+      "id": "n23_key_value_row_two_numeric_cells",
+      "expected": false,
+      "entity": "CX420",
+      "statement": "El retardo del CX420 es variable de 5 a 10 s.",
+      "source": "| Retardo variable de 5 a 10 s | Tiempo alternativo de 20 a 30 s |\n| --- | --- |\n| Valor A | Valor B |"
+    },
+    {
+      "id": "n24_ocr_replacement_character",
+      "expected": false,
+      "entity": "DX430",
+      "statement": "La tension maxima del DX430 es 24 V.",
+      "source": "La tensi�n maxima del DX430 es 24 V."
+    },
+    {
+      "id": "n25_cross_language_wrong_qualifier",
+      "expected": false,
+      "entity": "EX440",
+      "statement": "La corriente maxima por salida del EX440 es 1 A.",
+      "source": "The maximum current per device for EX440 is 1 ampere."
+    },
+    {
+      "id": "n26_table_range_wrong_upper_bound",
+      "expected": false,
+      "entity": "FX450",
+      "statement": "El intervalo del FX450 es variable de 5 a 295 s.",
+      "source": "| Valor variable de 05 a 300 seg. | Tiempo de intervalo |\n| --- | --- |\n| -- | Sin limite |"
+    }
+  ]
+}
