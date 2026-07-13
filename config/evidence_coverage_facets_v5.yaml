@@ -1,0 +1,90 @@
+schema: evidence_coverage_facets_v5
+max_cards: 4
+window_chars: 360
+min_window_chars: 20
+min_distinct_terms: 2
+query_alignment_min_terms:
+  intrinsic_safety: 0
+  loop_eol_topology: 0
+  compatibility: 0
+  replace_without_loss: 0
+  connect_install_wire: 0
+  battery_sizing: 0
+  capacity_quantity: 0
+  fault_reset_recovery: 0
+  program_delay_cause_effect: 0
+archetypes:
+  intrinsic_safety:
+    - id: power_path
+      terms: [alimentacion, barrera, aislador, galvanico, peligrosa, segura, power, supply, barrier, isolator, hazardous, safe]
+    - id: entity_parameters
+      terms: [parametro, entrada, tension, corriente, potencia, capacitancia, inductancia, input, voltage, current, power, capacitance, inductance]
+    - id: terminals_control
+      terms: [terminal, etapa, control, conexion, terminals, stage, connection]
+
+  loop_eol_topology:
+    - id: loop_topology
+      terms: [lazo, cerrado, inicio, retorno, salida, loop, closed, start, return, out]
+    - id: termination
+      terms: [resistencia, linea, terminacion, rfl, eol, resistor, line, termination]
+    - id: wiring_continuity
+      terms: [borne, cableado, continuidad, terminal, wiring, continuity]
+
+  compatibility:
+    - id: compatibility_scope
+      terms: [compatible, compatibilidad, protocolo, fabricante, familia, protocol, manufacturer, family]
+    - id: installation_requirements
+      terms: [electrico, mecanico, instalacion, requisito, electrical, mechanical, installation, requirement]
+
+  replace_without_loss:
+    - id: component_identity
+      terms: [bateria, litio, componente, rtc, reloj, battery, lithium, component, clock]
+    - id: main_power
+      terms: [alimentacion, principal, suministro, borne, tension, voltaje, main, supply, terminal, voltage]
+      required_any: [principal, main]
+    - id: redundant_power
+      terms: [alimentacion, respaldo, redundan, pwr, borne, tension, suministro, backup, redundant, supply, terminal]
+      required_any: [respaldo, redundan, backup, redundant]
+    - id: persistence
+      terms: [memoria, eeprom, flash, configuracion, conservar, persist, memory, configuration, retain]
+
+  connect_install_wire:
+    - id: connection
+      terms: [terminal, borne, polaridad, conexion, cableado, polarity, connection, wiring]
+    - id: continuity
+      terms: [pantalla, tierra, continuidad, resistencia, circuito, lazo, shield, earth, continuity, resistance, circuit, loop]
+    - id: limits_safety
+      terms: [limite, maxim, seguridad, comprobar, medicion, instalacion, limit, maximum, safety, check, measurement, installation]
+
+  battery_sizing:
+    - id: consumption_autonomy
+      terms: [consumo, reposo, alarma, autonomia, bateria, consumption, standby, alarm, autonomy, battery]
+    - id: ageing_margin
+      terms: [coeficiente, envejecimiento, margen, reglamentario, coefficient, ageing, margin, regulatory]
+
+  capacity_quantity:
+    - id: per_unit_capacity
+      terms: [lazo, capacidad, detector, modulo, dispositivo, canal, loop, capacity, module, device, channel]
+      required_any: [lazo, canal, loop, channel]
+    - id: system_total
+      terms: [total, sistema, lazo, dispositivo, capacidad, system, loop, device, capacity]
+      max_cards: 2
+      required_any: [total]
+    - id: variant_reconciliation
+      terms: [variante, revision, mercado, documento, conflicto, maximo, variant, market, document, conflict, maximum]
+
+  fault_reset_recovery:
+    - id: state_blockers
+      terms: [condicion, activa, enclavada, inhibicion, bloqueo, abort, condition, active, latched, inhibit, blocked, manual, reset]
+    - id: timing_state
+      terms: [temporizador, duracion, tiempo, periodo, intervalo, posterior, evento, rearme, timer, duration, time, period, interval, event, reset]
+    - id: verification_recovery
+      terms: [diagnostico, comprobacion, recuperacion, normal, reposo, averia, diagnostic, check, recovery, standby, fault]
+
+  program_delay_cause_effect:
+    - id: navigation
+      terms: [ruta, menu, programacion, edicion, route, programming, edit]
+    - id: logic_structure
+      terms: [condicion, entrada, regla, causa, efecto, matriz, coincidencia, condition, input, rule, cause, effect, matrix, coincidence]
+    - id: output_action
+      terms: [accion, salida, seleccionar, aplicar, transferir, circuito, equipo, funcion, sirena, activar, action, output, select, apply, transfer, circuit, equipment, function, sounder, siren, activation]

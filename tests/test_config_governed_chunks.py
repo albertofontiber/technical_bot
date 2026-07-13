@@ -77,6 +77,7 @@ def test_post_rerank_release_flags_are_strict_and_default_off():
         "POST_RERANK_COVERAGE",
         "STRUCTURAL_NEIGHBOR_COVERAGE",
         "CANONICAL_HYQ_COVERAGE",
+        "RERANK_POOL_COVERAGE",
     ):
         env.pop(name, None)
     default = subprocess.run(
@@ -86,7 +87,8 @@ def test_post_rerank_release_flags_are_strict_and_default_off():
             "import src.config as c; "
             "assert not c.POST_RERANK_COVERAGE; "
             "assert not c.STRUCTURAL_NEIGHBOR_COVERAGE; "
-            "assert not c.CANONICAL_HYQ_COVERAGE",
+            "assert not c.CANONICAL_HYQ_COVERAGE; "
+            "assert not c.RERANK_POOL_COVERAGE",
         ],
         cwd=ROOT,
         env=env,

@@ -4,8 +4,10 @@ from src.rag.doc_scoped_hyq_coverage import LANE as HYQ_LANE
 from src.rag.post_rerank_coverage import (
     append_validated_coverage,
     apply_post_rerank_coverage_with_trace,
+    coverage_context_content,
     is_validated_coverage_chunk,
 )
+from src.rag.rerank_pool_coverage import LANE as POOL_LANE
 from src.rag.structural_neighbor_coverage import LANE as STRUCTURAL_LANE
 
 
@@ -49,8 +51,10 @@ def test_master_off_is_bit_inert_and_does_not_call_lanes():
         enabled=False,
         structural_enabled=True,
         hyq_enabled=True,
+        pool_enabled=True,
         structural_collector=forbidden,
         hyq_collector=forbidden,
+        pool_collector=forbidden,
     )
 
     assert output is reranked
@@ -88,6 +92,43 @@ def test_generator_boundary_rejects_forged_attestation_without_lane_receipt():
     candidate.update({"coverage_validated": True, "post_rerank_coverage": True})
 
     assert is_validated_coverage_chunk(candidate) is False
+
+
+def test_coverage_context_is_bounded_to_attested_exact_source_spans():
+    content = "cabecera irrelevante\n\nDato de salida validado.\n\ncola irrelevante"
+    quote = "Dato de salida validado."
+    start = content.index(quote)
+    candidate = {
+        "id": "pool",
+        "content": content,
+        "source_file": "manual.pdf",
+        "retrieval_lane": POOL_LANE,
+        "local_semantic_validated": True,
+        "rerank_pool_coverage_validated": True,
+        "coverage_cards": [
+            {
+                "candidate_id": "pool",
+                "start": start,
+                "end": start + len(quote),
+                "quote": quote,
+                "facet": "output_action",
+                "exact_source_span_validated": True,
+            }
+        ],
+    }
+    served = append_validated_coverage([], [candidate])[0]
+
+    assert coverage_context_content(served) == quote
+    assert served["content"] == content
+
+
+def test_structural_coverage_context_uses_the_same_exact_excerpt_boundary():
+    candidate = _candidate("structural-excerpt", lane=STRUCTURAL_LANE)
+    served = append_validated_coverage([], [candidate])[0]
+    card = candidate["coverage_cards"][0]
+
+    assert coverage_context_content(served) == card["quote"]
+    assert served["content"] == candidate["content"]
 
 
 def test_lane_failure_is_fail_open_and_other_lane_can_still_append():

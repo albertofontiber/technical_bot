@@ -15,6 +15,7 @@ import yaml
 from ..config import (
     CANONICAL_HYQ_COVERAGE,
     POST_RERANK_COVERAGE,
+    RERANK_POOL_COVERAGE,
     STRUCTURAL_NEIGHBOR_COVERAGE,
 )
 from .doc_scoped_hyq_coverage import (
@@ -27,9 +28,13 @@ from .structural_neighbor_coverage import (
     select_structural_neighbors,
 )
 from .structural_neighbor_shadow import fetch_structural_neighbor_rows
+from .rerank_pool_coverage import (
+    LANE as POOL_LANE,
+    select_rerank_pool_coverage,
+)
 
 logger = logging.getLogger(__name__)
-ALLOWED_LANES = frozenset({STRUCTURAL_LANE, HYQ_LANE})
+ALLOWED_LANES = frozenset({STRUCTURAL_LANE, HYQ_LANE, POOL_LANE})
 MAX_APPENDED = 4
 MAX_APPENDED_PER_LANE = 2
 STRUCTURAL_SERVING_TIMEOUT_SECONDS = 2.0
@@ -70,6 +75,9 @@ def is_validated_coverage_chunk(chunk: dict[str, Any]) -> bool:
     ) or (
         lane == HYQ_LANE
         and chunk.get("hyq_navigation_validated") is True
+    ) or (
+        lane == POOL_LANE
+        and chunk.get("rerank_pool_coverage_validated") is True
     )
     return (
         bool(str(chunk.get("source_file") or "").strip())
@@ -81,6 +89,32 @@ def is_validated_coverage_chunk(chunk: dict[str, Any]) -> bool:
     )
 
 
+def coverage_context_content(chunk: dict[str, Any]) -> str:
+    """Serve bounded exact excerpts for every validated coverage lane.
+
+    Coverage complements can be long table/UI chunks, so synthesis sees only
+    spans independently attested by the lane. This bounds token cost and
+    prevents an unrelated tail of the same chunk from influencing the answer.
+    The original parent row remains intact for provenance and revalidation.
+    """
+    content = str(chunk.get("content") or "")
+    if not is_validated_coverage_chunk(chunk):
+        return content
+    ranges = sorted(
+        (int(card["start"]), int(card["end"]))
+        for card in chunk.get("coverage_cards") or []
+    )
+    merged: list[list[int]] = []
+    for start, end in ranges:
+        if merged and start <= merged[-1][1]:
+            merged[-1][1] = max(merged[-1][1], end)
+        else:
+            merged.append([start, end])
+    return "\n\n[... otro extracto fuente ...]\n\n".join(
+        content[start:end] for start, end in merged
+    )
+
+
 def _attest(candidate: dict[str, Any]) -> dict[str, Any] | None:
     if not candidate.get("source_file") or not has_exact_coverage_receipt(candidate):
         return None
@@ -88,6 +122,8 @@ def _attest(candidate: dict[str, Any]) -> dict[str, Any] | None:
     if lane == STRUCTURAL_LANE and candidate.get("structural_neighbor_validated") is not True:
         return None
     if lane == HYQ_LANE and candidate.get("hyq_navigation_validated") is not True:
+        return None
+    if lane == POOL_LANE and candidate.get("rerank_pool_coverage_validated") is not True:
         return None
     attested = dict(candidate)
     attested.update(
@@ -173,11 +209,14 @@ def apply_post_rerank_coverage_with_trace(
     query: str,
     reranked: list[dict[str, Any]],
     *,
+    retrieval_pool: list[dict[str, Any]] | None = None,
     enabled: bool | None = None,
     structural_enabled: bool | None = None,
     hyq_enabled: bool | None = None,
+    pool_enabled: bool | None = None,
     structural_collector: Callable[..., tuple[list[dict], dict]] = collect_structural_coverage,
     hyq_collector: Callable[..., tuple[list[dict], dict]] = collect_document_scoped_hyq,
+    pool_collector: Callable[..., tuple[list[dict], dict]] = select_rerank_pool_coverage,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Apply enabled lanes independently; every failure is contained."""
     active = POST_RERANK_COVERAGE if enabled is None else enabled
@@ -186,6 +225,7 @@ def apply_post_rerank_coverage_with_trace(
         if structural_enabled is None else structural_enabled
     )
     hyq = CANONICAL_HYQ_COVERAGE if hyq_enabled is None else hyq_enabled
+    pool = RERANK_POOL_COVERAGE if pool_enabled is None else pool_enabled
     trace: dict[str, Any] = {
         "enabled": active,
         "protected_prefix_rows": len(reranked),
@@ -194,7 +234,7 @@ def apply_post_rerank_coverage_with_trace(
         "model_calls": 0,
         "database_writes": 0,
     }
-    if not active or not reranked or not (structural or hyq):
+    if not active or not reranked or not (structural or hyq or pool):
         trace["status"] = "disabled_or_not_applicable"
         return reranked, trace
 
@@ -204,6 +244,19 @@ def apply_post_rerank_coverage_with_trace(
         lane_calls.append((STRUCTURAL_LANE, lambda: structural_collector(query, reranked)))
     if hyq:
         lane_calls.append((HYQ_LANE, lambda: hyq_collector(query)))
+    # Pool coverage is deliberately last. Existing S109 candidates keep their
+    # places inside the global four-row append budget; this lane only fills
+    # unused capacity and cannot displace a previously validated recovery.
+    if pool and retrieval_pool:
+        lane_calls.append(
+            # The pool lane sees earlier validated candidates as coverage
+            # context, so its two-row budget complements rather than repeats
+            # structural/HYQ recoveries. The protected prefix itself remains
+            # unchanged and is still the only ordering authority.
+            (POOL_LANE, lambda: pool_collector(
+                query, retrieval_pool, [*reranked, *candidates]
+            ))
+        )
     for lane, call in lane_calls:
         try:
             selected, lane_trace = call()
@@ -227,7 +280,12 @@ def apply_post_rerank_coverage_with_trace(
 
 
 def apply_post_rerank_coverage(
-    query: str, reranked: list[dict[str, Any]]
+    query: str,
+    reranked: list[dict[str, Any]],
+    *,
+    retrieval_pool: list[dict[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
-    output, _ = apply_post_rerank_coverage_with_trace(query, reranked)
+    output, _ = apply_post_rerank_coverage_with_trace(
+        query, reranked, retrieval_pool=retrieval_pool
+    )
     return output

@@ -11,7 +11,10 @@ import re
 import anthropic
 
 from ..config import ANTHROPIC_API_KEY, LLM_MODEL, LLM_MAX_TOKENS
-from .post_rerank_coverage import is_validated_coverage_chunk
+from .post_rerank_coverage import (
+    coverage_context_content,
+    is_validated_coverage_chunk,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -517,16 +520,17 @@ def generate_answer(
             f" | Manual: {manual_name} | Rev: {rev_str}]"
         )
         blurb = chunk.get("context") or ""
+        source_content = coverage_context_content(chunk)
         if _include_context() and blurb:
             # Blurb situacional (B7) marcado como orientativo y NO citable, para que el
             # generador lo use para ubicar el fragmento sin afirmarlo como dato (el blurb
             # lo generó un LLM, no es texto-fuente — riesgo de fabricación señalado por el dúo).
             context_parts.append(
                 f"{header}\n(Contexto orientativo del fragmento, NO es cita textual ni dato "
-                f"citable: {blurb})\n{chunk['content']}"
+                f"citable: {blurb})\n{source_content}"
             )
         else:
-            context_parts.append(f"{header}\n{chunk['content']}")
+            context_parts.append(f"{header}\n{source_content}")
 
         if has_diagram:
             diagram_map[i + 1] = {

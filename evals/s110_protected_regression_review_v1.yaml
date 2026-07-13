@@ -1,0 +1,69 @@
+instrument: s110_protected_regression_review_v1
+review_method: local_side_by_side_against_frozen_s100_ok_facts
+official_ok_delta: 0
+rerank_stage:
+  residual_claims: 8
+  reaches_generator: 8
+  verdict: GO
+  reason: >-
+    Every adjudicated residual rerank claim reaches the generator in the local
+    frozen replay and in the combined structural+HYQ+pool runtime. The reranker
+    prefix is byte-preserved and no prior evidence is removed.
+protected_answer_regression:
+  protected_ok_total: 93
+  bit_inert_no_context_change: 70
+  changed_context_reviewed: 23
+  full_parent_v1:
+    pass: 22
+    regressions:
+      - cat001#1:0,75 A
+  exact_excerpt_v2:
+    pass: 22
+    regressions:
+      - cat017#1:750 mA
+    regression_detail: >-
+      The compound fact still conveys 159+159, 99+99, no OPAL/CLIP mixing and
+      3.5 km, but omits the 750 mA subclaim in this single generation.
+  common_regressions_across_v1_v2: []
+  interpretation: >-
+    The changing single omission with an immutable top-10 is downstream
+    synthesis attention/variance, not loss of rerank evidence. It must be
+    addressed in the synthesis phase; it does not revoke the rerank-stage GO.
+  final_selector_delta_after_paid_freeze:
+    affected_protected_qids:
+      - cat019
+      - hp017
+    target_qids_changed: 0
+    interpretation: >-
+      A final same-location near-duplicate fix changed only these two protected
+      pool selections. Their paid answers are diagnostic but not release
+      evidence for the final selector. Re-run them once after synthesis changes
+      to avoid paying twice; the 8/8 rerank-stage result is unaffected.
+downstream_target_result_v2:
+  present_and_cited: 5
+  total: 8
+  synthesis_misses:
+    - hp009.loop.return_terminals
+    - hp011.reset_inhibit.dash_until_extinction_or_tA
+    - hp011.reset_inhibit.default_00_anytime
+separate_open_item:
+  - hp011.abort.same_family_provenance
+release:
+  verdict: HOLD
+  reason: >-
+    Default-off code is acceptable as a measured rerank mechanism, but global
+    activation waits for the downstream obligation/synthesis pass and a bounded
+    release regression. No qid-specific exception is permitted.
+cost_control:
+  reranker_calls: 0
+  judge_calls: 0
+  first_generator_calls: 11
+  second_generator_calls_new: 7
+  second_generator_calls_reused: 4
+  cumulative_paid_generator_calls: 18
+  cumulative_input_tokens: 275943
+  cumulative_output_tokens: 28413
+  compression_input_reduction_on_7_changed_prompts:
+    before: 113268
+    after: 103711
+    percent: 8.44
