@@ -91,8 +91,17 @@ def _strict_on_off(name: str, default: str = "off") -> bool:
 # candidates bypass the mono-intent reranker only after its top-k is frozen.
 POST_RERANK_COVERAGE = _strict_on_off("POST_RERANK_COVERAGE")
 
-# S107 v4 candidate, default inert. One flag enables the complete governed
-# canonical-document HYQ lane; it does not require the older coverage lanes.
+# S109 release lane for same-blob structural neighbours.  The master switch
+# above and this lane-specific switch must both be on before a candidate can
+# reach the generator.  It is intentionally separate from the observer: the
+# observer can be sampled without changing answers, while this flag is a
+# serving decision.
+STRUCTURAL_NEIGHBOR_COVERAGE = _strict_on_off(
+    "STRUCTURAL_NEIGHBOR_COVERAGE"
+)
+
+# S107 v4 candidate, default inert. This lane flag and the S109 master switch
+# enable canonical-document HYQ independently of the other coverage lanes.
 CANONICAL_HYQ_COVERAGE = _strict_on_off("CANONICAL_HYQ_COVERAGE")
 
 # S107 upstream candidate, default inert. Follows explicit numeric section

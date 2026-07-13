@@ -22,7 +22,7 @@ class _FakeMessages:
         return SimpleNamespace(
             content=[SimpleNamespace(text="Respuesta técnica [F1].\nFuente: manual X (rev. 1)")],
             stop_reason=self._stop_reason,
-            usage=SimpleNamespace(output_tokens=self._output_tokens),
+            usage=SimpleNamespace(input_tokens=456, output_tokens=self._output_tokens),
         )
 
 
@@ -50,6 +50,7 @@ def test_stop_reason_propagado(monkeypatch):
     fake = _fake_anthropic(monkeypatch, stop_reason="end_turn", output_tokens=321)
     res = gen.generate_answer("¿Tensión del lazo de la CAD-250?", [_chunk()])
     assert res["stop_reason"] == "end_turn"
+    assert res["input_tokens"] == 456
     assert res["output_tokens"] == 321
     assert res["answer"].startswith("Respuesta técnica")
     assert len(fake.calls) == 1
@@ -69,6 +70,7 @@ def test_early_return_sin_llm_stop_reason_none(monkeypatch):
     # Todos los chunks bajo RELEVANCE_THRESHOLD (0.4) → early-return sin llamada API.
     res = gen.generate_answer("pregunta", [_chunk(similarity=0.1)])
     assert res["stop_reason"] is None
+    assert res["input_tokens"] is None
     assert res["output_tokens"] is None
     assert "answer" in res and "diagrams" in res
     assert fake.calls == []  # NO hubo llamada LLM
@@ -78,5 +80,55 @@ def test_early_return_con_available_models(monkeypatch):
     fake = _fake_anthropic(monkeypatch)
     res = gen.generate_answer("pregunta", [], available_models=["CAD-250", "ZXe"])
     assert res["stop_reason"] is None
+    assert res["input_tokens"] is None
     assert res["output_tokens"] is None
+    assert fake.calls == []
+
+
+def test_validated_post_rerank_source_bypasses_similarity_floor(monkeypatch):
+    fake = _fake_anthropic(monkeypatch)
+    chunk = _chunk(similarity=0.0)
+    chunk.update(
+        {
+            "id": "source-parent",
+            "retrieval_lane": "canonical_document_hyq_coverage_v1",
+            "local_semantic_validated": True,
+            "hyq_navigation_validated": True,
+            "coverage_validated": True,
+            "post_rerank_coverage": True,
+            "coverage_cards": [
+                {
+                    "candidate_id": "source-parent",
+                    "start": 0,
+                    "end": len(chunk["content"]),
+                    "quote": chunk["content"],
+                    "exact_source_span_validated": True,
+                }
+            ],
+        }
+    )
+
+    res = gen.generate_answer("pregunta", [chunk])
+
+    assert res["stop_reason"] == "end_turn"
+    assert len(fake.calls) == 1
+
+
+def test_unvalidated_low_similarity_coverage_claim_is_rejected(monkeypatch):
+    fake = _fake_anthropic(monkeypatch)
+    chunk = _chunk(similarity=0.0)
+    chunk.update(
+        {
+            "id": "source-parent",
+            "retrieval_lane": "canonical_document_hyq_coverage_v1",
+            "local_semantic_validated": True,
+            "coverage_validated": True,
+            "post_rerank_coverage": True,
+            "coverage_cards": [{"quote": "not an exact receipt"}],
+        }
+    )
+
+    res = gen.generate_answer("pregunta", [chunk])
+
+    assert res["stop_reason"] is None
     assert fake.calls == []

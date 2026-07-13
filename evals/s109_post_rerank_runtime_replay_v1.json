@@ -1,0 +1,640 @@
+{
+  "instrument": "s109_post_rerank_runtime_replay_v1",
+  "read_only": true,
+  "actual_bot_module": "src.rag.post_rerank_coverage",
+  "selection_contract": {
+    "target_facts_available_during_selection": false,
+    "frozen_paid_reranker_prefix": true,
+    "generated_hyq_prose_served": false,
+    "real_source_span_required": true,
+    "protected_prefix_required": true,
+    "railway_changed": false
+  },
+  "frozen_inputs": {
+    "baseline_sha256": "49e8cbaab5f86f89b67e0457267ceeca7a1078ac503fbe5a7249b798aeabe503",
+    "git_head": "c3f085dc321a77b1f1b1d8eebd93f2521a245366"
+  },
+  "elapsed_seconds": 11.093455,
+  "gate": {
+    "queries": 5,
+    "retrieval_facts": 5,
+    "runtime_appended_rows": 12,
+    "generator_admitted_rows": 12,
+    "protected_prefixes_equal": true,
+    "model_calls": 0,
+    "database_writes": 0,
+    "recovered_retrieval_keys": [
+      "hp011#2:05 a 295 seg",
+      "hp012#3:4 lazos / 792",
+      "hp013#1:PWR-R",
+      "hp014#3:35",
+      "hp017#1:instruccion de entrada"
+    ],
+    "interpretation": "GO_REAL_RUNTIME_5_OF_5_TO_DOWNSTREAM"
+  },
+  "retrieval_facts_after_runtime": [
+    {
+      "key": "hp011#2:05 a 295 seg",
+      "qid": "hp011",
+      "baseline_class": "retrieval-miss",
+      "selected_ids": [
+        "2d45a70a-5202-442e-af84-c3a176c2178d",
+        "e8c03d86-539f-42b2-b919-50f96949f016"
+      ],
+      "matching_candidates": [
+        {
+          "chunk_id": "2d45a70a-5202-442e-af84-c3a176c2178d",
+          "rank": 1,
+          "same_family": true,
+          "candidate_priority": [
+            0,
+            0.75
+          ],
+          "content_sha256": "58f4b136b75ceb20ab5dbd62a0a7c4141e6b769fae32663124ec566b5e2000f2"
+        }
+      ],
+      "same_family_supporting_ids": [
+        "2d45a70a-5202-442e-af84-c3a176c2178d"
+      ],
+      "structural_retrieval_precondition": true
+    },
+    {
+      "key": "hp012#3:4 lazos / 792",
+      "qid": "hp012",
+      "baseline_class": "retrieval-miss",
+      "selected_ids": [
+        "0c689993-1954-459b-af05-dc6a0851a39c",
+        "096fb0bb-eda2-4aa3-80a0-6001f2a348bc",
+        "a2451f0d-4382-4820-b058-eb0d7d8af45c",
+        "b162a7eb-50bd-4b0f-88f7-40ad855c6c94"
+      ],
+      "matching_candidates": [
+        {
+          "chunk_id": "b162a7eb-50bd-4b0f-88f7-40ad855c6c94",
+          "rank": 4,
+          "same_family": true,
+          "candidate_priority": [
+            0,
+            0.75
+          ],
+          "content_sha256": "f61af580879b0050d6dc0a2df6cca4397cffe244e8826b23ca4e8a3241a0aa78"
+        }
+      ],
+      "same_family_supporting_ids": [
+        "b162a7eb-50bd-4b0f-88f7-40ad855c6c94"
+      ],
+      "structural_retrieval_precondition": true
+    },
+    {
+      "key": "hp013#1:PWR-R",
+      "qid": "hp013",
+      "baseline_class": "retrieval-miss",
+      "selected_ids": [
+        "2365dfaa-45e5-4c65-9328-194441e375c9",
+        "af577289-5d7f-4dfc-9187-8a3aca92d40d"
+      ],
+      "matching_candidates": [
+        {
+          "chunk_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+          "rank": 1,
+          "same_family": true,
+          "candidate_priority": [
+            0,
+            0.6428571428571428
+          ],
+          "content_sha256": "f8e39c048c9aee39597d2e8c966ae381e1557329567c6ec982d01c71cf962828"
+        }
+      ],
+      "same_family_supporting_ids": [
+        "2365dfaa-45e5-4c65-9328-194441e375c9"
+      ],
+      "structural_retrieval_precondition": true
+    },
+    {
+      "key": "hp014#3:35",
+      "qid": "hp014",
+      "baseline_class": "retrieval-miss",
+      "selected_ids": [
+        "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+        "c3541bb2-a33c-4213-8cf1-0ffcf98604ea"
+      ],
+      "matching_candidates": [
+        {
+          "chunk_id": "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+          "rank": 1,
+          "same_family": true,
+          "candidate_priority": [
+            0,
+            0.8928571428571428
+          ],
+          "content_sha256": "3aa4dc41b19721a797b9070d96daa0d09e48b407baa952b84d395f1486bda7e8"
+        }
+      ],
+      "same_family_supporting_ids": [
+        "d4018c9b-8eff-4b19-b826-5bb4df55d29e"
+      ],
+      "structural_retrieval_precondition": true
+    },
+    {
+      "key": "hp017#1:instruccion de entrada",
+      "qid": "hp017",
+      "baseline_class": "retrieval-miss",
+      "selected_ids": [
+        "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+        "d27b1a1b-69cd-4318-a459-f3c86eb757ba"
+      ],
+      "matching_candidates": [
+        {
+          "chunk_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+          "rank": 1,
+          "same_family": true,
+          "candidate_priority": [
+            0,
+            0.7692307692307693
+          ],
+          "content_sha256": "7f68b076e19769e1b528b189d35ceb99669c7f0d7465d4fd944c6da935cb59fd"
+        },
+        {
+          "chunk_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+          "rank": 2,
+          "same_family": true,
+          "candidate_priority": [
+            0,
+            0.8461538461538461
+          ],
+          "content_sha256": "34fbd84d80883b5ade555bda6a1df2189ecd7e31eb40a2b9f20e7e51abe7b72a"
+        }
+      ],
+      "same_family_supporting_ids": [
+        "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+        "d27b1a1b-69cd-4318-a459-f3c86eb757ba"
+      ],
+      "structural_retrieval_precondition": true
+    }
+  ],
+  "receipts": [
+    {
+      "qid": "hp011",
+      "question_sha256": "2a2fafd5191e9ea55f59600c283669e4ffdf14f0ba817407731574c9fe33c990",
+      "frozen_prefix_ids": [
+        "daa7a7c4-c4a8-4c54-b2dd-c5e889cccfe8",
+        "98b1ad32-22eb-4ec6-9bde-47a2c8d98358",
+        "bd2d7703-98c6-45da-b044-afb75a54a2f5",
+        "731ace03-99d6-47ff-8d1a-da5b381b5c47",
+        "e0f49eb5-7e1d-437e-a9d0-9887ecd79a1b",
+        "9cfe1892-39eb-467d-a94d-bfd120284e9c",
+        "27aef5f9-d66f-4a3b-a9e0-eb15dcf60acb",
+        "3ec4a329-9e1a-478c-9e42-44828b87b64c",
+        "c8924d59-a9ce-4379-a3b7-57058ff86a82",
+        "688c07f0-4617-4c47-9778-d6f6cb230d0c"
+      ],
+      "protected_prefix_equal": true,
+      "appended": [
+        {
+          "id": "2d45a70a-5202-442e-af84-c3a176c2178d",
+          "source_file": "HLSI-MN-103_RP1r-Supra_lr",
+          "product_model": "RP1r-Supra",
+          "page_number": 56,
+          "retrieval_lane": "same_blob_structural_neighbor_coverage_v1",
+          "content_sha256": "58f4b136b75ceb20ab5dbd62a0a7c4141e6b769fae32663124ec566b5e2000f2",
+          "coverage_card_facets": [
+            "structured_numeric:time",
+            "timing_state"
+          ],
+          "coverage_quotes": [
+            "| Valor variable de<br/>05 a 295 seg. | Tiempo de activación del circuito de extinción, o periodo de inundación. Variable en intervalos de 5 seg. |",
+            "| Valor variable de<br/>05 a 295 seg. | Tiempo de activación del circuito de extinción, o periodo de inundación. Variable en intervalos de 5 seg. |\n| ----------------------------------- | --------------------------------------------------------------------------------------------------------- |\n| - -                                 | Circuito activado hasta"
+          ],
+          "generator_admitted": true
+        },
+        {
+          "id": "e8c03d86-539f-42b2-b919-50f96949f016",
+          "source_file": "MIEMN570",
+          "product_model": "VSN-RP1r",
+          "page_number": 30,
+          "retrieval_lane": "same_blob_structural_neighbor_coverage_v1",
+          "content_sha256": "67bc784a22f6a7a1f45271e73b15ab2b6680f679823df2a2dee29394389170ca",
+          "coverage_card_facets": [
+            "timing_state"
+          ],
+          "coverage_quotes": [
+            "| r1<br/><br/>\\[Two digital display segments showing \"r\" and \"I\"] | Rearme Inhibido. Según la normativa EN12094:1/2003 Punto 4.12.2, debe haber un periodo de tiempo programable entre 0 y 30 minutos desde que la central señaliza el estado de ACTIVADO hasta que se permita REARMAR la central. Por defecto, la central de extinción tiene esta función anulada"
+          ],
+          "generator_admitted": true
+        }
+      ],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "same_blob_structural_neighbor_coverage_v1",
+            "status": "selected",
+            "selected_ids": [
+              "2d45a70a-5202-442e-af84-c3a176c2178d",
+              "e8c03d86-539f-42b2-b919-50f96949f016"
+            ],
+            "http_requests": 7,
+            "selector_reason": "selected"
+          },
+          {
+            "lane": "canonical_document_hyq_coverage_v1",
+            "scope_rows": 16,
+            "selected_parent_ids": [],
+            "served_hyq_prose": false,
+            "status": "no_validated_source_span",
+            "hyq_rows": 1167
+          }
+        ],
+        "appended_ids": [
+          "2d45a70a-5202-442e-af84-c3a176c2178d",
+          "e8c03d86-539f-42b2-b919-50f96949f016"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "appended",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "hp012",
+      "question_sha256": "5177fd59e65417191a1ed063fa1ac19a2d2b4395c57207549661af51ee33dcef",
+      "frozen_prefix_ids": [
+        "5730afb3-6aaf-4968-a022-37db21dde42f",
+        "1776fb30-b6b1-46f4-91fe-92b5c3f4f809",
+        "d8892f08-aae2-4ecb-b9d4-808dea7ec7d2",
+        "0f4e1541-fa46-4a0b-8f1c-461d20aca99e",
+        "e2dbf21d-1467-4c55-b6f0-0ef5db2f7349",
+        "a1f92ddb-f755-49e0-88a9-32b7acd1998e",
+        "a80700e5-fbf6-4a11-a2bd-dd03b158f0b2",
+        "c6340793-0fef-43ca-9f34-9f57cbea5a3e",
+        "d582e7ba-c137-4fe7-b80f-089c667f4ca4",
+        "fcd87828-4dec-4c72-9f4e-c0194e00adf6"
+      ],
+      "protected_prefix_equal": true,
+      "appended": [
+        {
+          "id": "0c689993-1954-459b-af05-dc6a0851a39c",
+          "source_file": "15088SP",
+          "product_model": "AM-2020",
+          "page_number": 166,
+          "retrieval_lane": "same_blob_structural_neighbor_coverage_v1",
+          "content_sha256": "d9017c1114d0071b92100c41ef379f98195ff699fef5756db9e71fec6c96edba",
+          "coverage_card_facets": [
+            "per_unit_capacity"
+          ],
+          "coverage_quotes": [
+            "La capacidad del panel de control para proporcionar la función de sensibilidad de día/ noche puede ser habilitada/inhabilitada en la Programación Total o Parcial del Sistema. Sin embargo, la opción de sensibilidad de día/noche (para los detectores direccionables) tiene que ser habilitada/inhabilitada individualmente para cada dispositivo en el Lazo SLC."
+          ],
+          "generator_admitted": true
+        },
+        {
+          "id": "096fb0bb-eda2-4aa3-80a0-6001f2a348bc",
+          "source_file": "15088SP",
+          "product_model": "AM-2020",
+          "page_number": 167,
+          "retrieval_lane": "same_blob_structural_neighbor_coverage_v1",
+          "content_sha256": "1773b30b647212e8a906d7859e15f4c6204153a31e21e28027dae1bac5ee7401",
+          "coverage_card_facets": [
+            "per_unit_capacity",
+            "system_total",
+            "system_total"
+          ],
+          "coverage_quotes": [
+            "todos programados bajo esta opción, tanto como el número de las AVPS, APS-6R, LIBs, ISIB y Módulos Anunciadores en el sistema, y los estilos del Lazo SLC. La siguiente pantalla del CRT muestra los mandos de la pantalla durante la",
+            "La opción 2 del Menú de la Programación guía al programador a través de la programación inicial completa de las funciones totales del sistema. Verificación de Alarma, Inhabilitación del Silenciado de Señal, Corte de la Señal, y la supervisión de los Periféricos están todos programados bajo esta opción, tanto como el número de las AVPS, APS-6R, LIBs, ISIB y",
+            "Tabla de Contenidos                                                                                                                                  Programación Total del Sistema"
+          ],
+          "generator_admitted": true
+        },
+        {
+          "id": "a2451f0d-4382-4820-b058-eb0d7d8af45c",
+          "source_file": "15088SP",
+          "product_model": "AM-2020",
+          "page_number": 108,
+          "retrieval_lane": "canonical_document_hyq_coverage_v1",
+          "content_sha256": "a646f6096b27e12acd621c4402a5d4e6139c88833d704fe42f3faad7db749c8f",
+          "coverage_card_facets": [
+            "per_unit_capacity"
+          ],
+          "coverage_quotes": [
+            "ientos de operación en Estilo 4 (Clase B) o Estilo 6 o 7 (Clase AA) de la NFPA. El sistema del AM2020 puede ser configurado con hasta 10 Lazos SLC del LIB y el sistema AFP1010 con hasta 4 Lazos, cada uno es capaz de soportar hasta 99 detectores inteligentes y hasta 99 módulos de monitoreo o de control direccionables."
+          ],
+          "generator_admitted": true
+        },
+        {
+          "id": "b162a7eb-50bd-4b0f-88f7-40ad855c6c94",
+          "source_file": "15088SP",
+          "product_model": "AM-2020",
+          "page_number": 151,
+          "retrieval_lane": "canonical_document_hyq_coverage_v1",
+          "content_sha256": "f61af580879b0050d6dc0a2df6cca4397cffe244e8826b23ca4e8a3241a0aa78",
+          "coverage_card_facets": [
+            "system_total",
+            "system_total"
+          ],
+          "coverage_quotes": [
+            "El AM2020 es capaz de un máximo de diez LIBs (1980 dispositivos totales en el sistema)",
+            "El AFP1010 es capaz de un máximo de cuatro LIBs (792 dispositivos en total en el sistema)"
+          ],
+          "generator_admitted": true
+        }
+      ],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "same_blob_structural_neighbor_coverage_v1",
+            "status": "selected",
+            "selected_ids": [
+              "0c689993-1954-459b-af05-dc6a0851a39c",
+              "096fb0bb-eda2-4aa3-80a0-6001f2a348bc"
+            ],
+            "http_requests": 8,
+            "selector_reason": "selected"
+          },
+          {
+            "lane": "canonical_document_hyq_coverage_v1",
+            "scope_rows": 17,
+            "selected_parent_ids": [
+              "a2451f0d-4382-4820-b058-eb0d7d8af45c",
+              "b162a7eb-50bd-4b0f-88f7-40ad855c6c94"
+            ],
+            "served_hyq_prose": false,
+            "status": "selected",
+            "hyq_rows": 2618
+          }
+        ],
+        "appended_ids": [
+          "0c689993-1954-459b-af05-dc6a0851a39c",
+          "096fb0bb-eda2-4aa3-80a0-6001f2a348bc",
+          "a2451f0d-4382-4820-b058-eb0d7d8af45c",
+          "b162a7eb-50bd-4b0f-88f7-40ad855c6c94"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "appended",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "hp013",
+      "question_sha256": "4381cd653bd6b486af1e6f8f3bce9c522db1070b30256c029c1149714f260f47",
+      "frozen_prefix_ids": [
+        "b7953b20-dc5c-4ac5-bc5a-07cf18df4029",
+        "d6a698c3-2813-48ba-9b21-aba426be1cbe",
+        "3f794ca0-bef7-42cc-a94e-2dfb93797b04",
+        "d51349a4-0038-43f3-be15-47a8c7f1a917",
+        "cfaecf00-911d-4c9f-b902-edb626814094",
+        "018cecbc-f9cd-417d-9167-363e880d62c4",
+        "295b747a-3d35-4807-97fc-d00642985d93",
+        "95492b48-8ecb-4348-9a70-b28b53d344d9",
+        "83b87bb1-107a-4574-895c-58fc69a0b93d",
+        "c65cadd7-f116-4133-84c9-fdbe33c87f7c"
+      ],
+      "protected_prefix_equal": true,
+      "appended": [
+        {
+          "id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+          "source_file": "ADW535_TD_T140358es_e",
+          "product_model": "ADW535",
+          "page_number": 12,
+          "retrieval_lane": "same_blob_structural_neighbor_coverage_v1",
+          "content_sha256": "f8e39c048c9aee39597d2e8c966ae381e1557329567c6ec982d01c71cf962828",
+          "coverage_card_facets": [
+            "redundant_power",
+            "persistence"
+          ],
+          "coverage_quotes": [
+            "|\n| PWR           | = Entrada de alimentación / indicador de alimentación (Power)                                                         |\n| PWR-R         | = Entrada de alimentación redundante                                                                                  |\n| RAM           | =",
+            "|\n| Fault / Flt   | = Fallo                                                                                                               |\n| Flash-PROM    | = Módulo de memoria para el firmware"
+          ],
+          "generator_admitted": true
+        },
+        {
+          "id": "af577289-5d7f-4dfc-9187-8a3aca92d40d",
+          "source_file": "ADW535_TD_T140358es_e",
+          "product_model": "ADW535",
+          "page_number": 29,
+          "retrieval_lane": "same_blob_structural_neighbor_coverage_v1",
+          "content_sha256": "31cef0921dd2cc7bf94bf12bcd8c2eae12848a10c53ddac420c3a03f166443d9",
+          "coverage_card_facets": [
+            "component_identity"
+          ],
+          "coverage_quotes": [
+            "el tubo sensor I\n* 2 relés con contactos de conmutación libres de potencial para fallo I y alarma I\n* Microprocesador con puertos, RAM, Flash-PROM, EEPROM, etc.\n* Circuito para grabación en SD memory card\n* Soporte de tarjetas para SD memory card\n* Batería de litio\n* Módulo de reloj RTC\n* 2 pulsadores (UP / OK), 1 indicación alfanumérica y 2 visualizadores"
+          ],
+          "generator_admitted": true
+        }
+      ],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "same_blob_structural_neighbor_coverage_v1",
+            "status": "selected",
+            "selected_ids": [
+              "2365dfaa-45e5-4c65-9328-194441e375c9",
+              "af577289-5d7f-4dfc-9187-8a3aca92d40d"
+            ],
+            "http_requests": 4,
+            "selector_reason": "selected"
+          },
+          {
+            "lane": "canonical_document_hyq_coverage_v1",
+            "scope_rows": 1,
+            "selected_parent_ids": [],
+            "served_hyq_prose": false,
+            "status": "not_applicable"
+          }
+        ],
+        "appended_ids": [
+          "2365dfaa-45e5-4c65-9328-194441e375c9",
+          "af577289-5d7f-4dfc-9187-8a3aca92d40d"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "appended",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "hp014",
+      "question_sha256": "5087719ae700aeac9b6b7501e7f1b95959b35157828f50ee3995ad64f803652e",
+      "frozen_prefix_ids": [
+        "3f8a816d-a733-4108-bad5-710478096c7b",
+        "823ccbfd-d9d8-4d9a-9a89-049ff3b96dc6",
+        "6d5eb18f-4b4b-45fa-bee3-dec0f6026610",
+        "330d7551-7bb0-4c0e-a27d-ec47c0065128",
+        "04197991-304d-4097-a31d-abedf245039b",
+        "5f2d4e26-ce45-48fe-b9f8-6601dc88d136",
+        "4a024b60-4d28-48ee-a167-c15a3950364a",
+        "458afc80-1df5-4936-a313-59452bfad4cd",
+        "0f5c8f8f-a285-48fd-8c98-234ddc8a43ce",
+        "5baaf75a-5d03-4dff-a485-83fc6f018c70"
+      ],
+      "protected_prefix_equal": true,
+      "appended": [
+        {
+          "id": "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+          "source_file": "MIDT180",
+          "product_model": "ID2000",
+          "page_number": 17,
+          "retrieval_lane": "same_blob_structural_neighbor_coverage_v1",
+          "content_sha256": "3aa4dc41b19721a797b9070d96daa0d09e48b407baa952b84d395f1486bda7e8",
+          "coverage_card_facets": [
+            "structured_numeric:loop_resistance",
+            "continuity"
+          ],
+          "coverage_quotes": [
+            "La resistencia máxima del lazo no debe superar los 35 ohmios",
+            "e. La resistencia máxima del lazo no debe superar los 35 ohmios. Puede comprobarlo uniendo los extremos B+ y B- y midiendo a través de los extremos A+ y A-. Igualmente, la capacidad del cable debe ser inferior a 0,5µF. Normalmente, esto permite disponer de una longitud máxima de lazo de 2000 metros de cable apantallado de 1,5mm². Se recomienda utilizar"
+          ],
+          "generator_admitted": true
+        },
+        {
+          "id": "c3541bb2-a33c-4213-8cf1-0ffcf98604ea",
+          "source_file": "MIDT180",
+          "product_model": "ID2000",
+          "page_number": 65,
+          "retrieval_lane": "same_blob_structural_neighbor_coverage_v1",
+          "content_sha256": "403bf462d5161a1b2c571d80197ce3cbb5dea22ede04469c7efae46ab7dfbda1",
+          "coverage_card_facets": [
+            "connection"
+          ],
+          "coverage_quotes": [
+            "Terminales: Todas las conexiones externas se realizan a través de terminales. Cada uno de ellos acepta cables con tamaño entre 0,5 mm<sup>2</sup> y 2,5 mm<sup>2</sup>."
+          ],
+          "generator_admitted": true
+        }
+      ],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "same_blob_structural_neighbor_coverage_v1",
+            "status": "selected",
+            "selected_ids": [
+              "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+              "c3541bb2-a33c-4213-8cf1-0ffcf98604ea"
+            ],
+            "http_requests": 5,
+            "selector_reason": "selected"
+          },
+          {
+            "lane": "canonical_document_hyq_coverage_v1",
+            "scope_rows": 3,
+            "selected_parent_ids": [],
+            "served_hyq_prose": false,
+            "status": "no_validated_source_span",
+            "hyq_rows": 826
+          }
+        ],
+        "appended_ids": [
+          "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+          "c3541bb2-a33c-4213-8cf1-0ffcf98604ea"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "appended",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "hp017",
+      "question_sha256": "4302ecbcff93497db23d47db5b54ad93afc300580db8063812523bcebc76b7fc",
+      "frozen_prefix_ids": [
+        "570d9951-e3a6-4c64-a927-e26b5e6db842",
+        "7e34cb72-0183-488a-9aa3-fcc81b40f3ef",
+        "ac308dbf-357e-4356-9049-1ccfcc6ff749",
+        "3ef1b823-b62e-40d4-8a9a-ebac320f6414",
+        "13bee205-9f2b-44ba-9891-37d77b5fa110",
+        "f68b0586-ae54-4089-b286-ee8792834c3d",
+        "e522c315-ef36-4830-ae62-cf6de8d2d0db",
+        "51df7a51-4970-4cfc-8ef1-3771f480dd78",
+        "bc1de145-c91e-4c98-8cf6-4d5d7946ec94",
+        "9587cd83-e271-42b9-ba8f-dfd05ae94935"
+      ],
+      "protected_prefix_equal": true,
+      "appended": [
+        {
+          "id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+          "source_file": "997-671-005-3_Configuration_ES",
+          "product_model": "Pearl",
+          "page_number": 45,
+          "retrieval_lane": "same_blob_structural_neighbor_coverage_v1",
+          "content_sha256": "7f68b076e19769e1b528b189d35ceb99669c7f0d7465d4fd944c6da935cb59fd",
+          "coverage_card_facets": [
+            "navigation",
+            "logic_structure"
+          ],
+          "coverage_quotes": [
+            "En el menú «Editar Configuración», seleccione «7: Causa y Efecto» para abrir la función de edición. Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto. **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.**",
+            "Para el ejemplo aquí ilustrado, se ha detectado un alarma en la zona 3 (planta 2). La matriz de causa-efecto se examina de inmediato y se procesan todas las reglas configuradas para la activación de las salidas. En este ejemplo nos interesa cualquier regla relacionada con una condición de alarma que se detecte en la zona 3."
+          ],
+          "generator_admitted": true
+        },
+        {
+          "id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+          "source_file": "997-671-005-3_Configuration_ES",
+          "product_model": "Pearl",
+          "page_number": 41,
+          "retrieval_lane": "same_blob_structural_neighbor_coverage_v1",
+          "content_sha256": "34fbd84d80883b5ade555bda6a1df2189ecd7e31eb40a2b9f20e7e51abe7b72a",
+          "coverage_card_facets": [
+            "navigation",
+            "logic_structure",
+            "output_timing"
+          ],
+          "coverage_quotes": [
+            "**Se recomienda utilizar el programa de configuración por ordenador como principal método de programación. El menú de la central debería emplearse solo para realizar modificaciones menores en las reglas, tal vez para responder a cambios posteriores de configuración; aun así, como se ha dicho, el uso del programa de configuración siempre será el método más",
+            "Esencialmente, el objetivo de la programación causa-efecto es ofrecer un claro conjunto de reglas, o instrucciones lógicas, para determinar el comportamiento de los equipos de salida al responder a un cambio de estado en una o más condiciones de entrada.",
+            "* Instrucción de salida: esta parte de la regla solo puede procesarse cuando se cumplen todas las condiciones de entrada programadas. La salida se refiere al accionamiento de uno o más equipos asignados, como sirenas o relés, o el cambio de estado de una condición de salida, mediante un flag lógico, para realizar una acción de fase secundaria, que exige el"
+          ],
+          "generator_admitted": true
+        }
+      ],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "same_blob_structural_neighbor_coverage_v1",
+            "status": "selected",
+            "selected_ids": [
+              "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+              "d27b1a1b-69cd-4318-a459-f3c86eb757ba"
+            ],
+            "http_requests": 5,
+            "selector_reason": "selected"
+          },
+          {
+            "lane": "canonical_document_hyq_coverage_v1",
+            "scope_rows": 5,
+            "selected_parent_ids": [],
+            "served_hyq_prose": false,
+            "status": "no_validated_source_span",
+            "hyq_rows": 889
+          }
+        ],
+        "appended_ids": [
+          "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+          "d27b1a1b-69cd-4318-a459-f3c86eb757ba"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "appended",
+        "protected_prefix_equal": true
+      }
+    }
+  ],
+  "limitations": [
+    "This reuses a known evaluation cohort and cannot prove held-out generalisation.",
+    "It proves evidence reaches the generator boundary, not that synthesis conveys every fact.",
+    "CAT007 is excluded because S108 established it was a measurement defect, not a runtime retrieval miss.",
+    "Official OK remains unchanged until downstream synthesis and regression gates pass."
+  ]
+}
