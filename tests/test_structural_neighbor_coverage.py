@@ -1,6 +1,10 @@
 from copy import deepcopy
 
 from src.rag.structural_neighbor_coverage import (
+    CASCADED_LANE,
+    CASCADED_EVIDENCE_CONFIG,
+    CASCADED_QUERY_FACETS,
+    CASCADED_VALIDATION,
     LANE,
     select_structural_neighbors,
 )
@@ -172,3 +176,42 @@ def test_rejects_table_of_contents_even_when_it_contains_all_facet_terms():
 
     assert selected == []
     assert trace["toc_rejected_ids"] == ["toc"]
+
+
+def test_cascaded_profile_follows_pool_seed_to_exact_loop_return_record():
+    query = "¿Cuál es la resistencia final de línea para los lazos?"
+    seed = _row(
+        "pool-seed",
+        25,
+        "Circuito de sirena con resistencia final de linea.",
+        document="doc-loop",
+    )
+    neighbor = _row(
+        "loop-return",
+        24,
+        "Retorne el final del lazo al otro extremo del conector (+/-) del panel.\n\n"
+        "- Inicio Lazo (+) OUT / Inicio Lazo (-) OUT\n"
+        "- (+) Retorno / (-) Retorno\n\n"
+        "El lazo debe realizarse en bucle cerrado.",
+        document="doc-loop",
+    )
+
+    selected, trace = select_structural_neighbors(
+        query,
+        [seed],
+        [neighbor],
+        query_facets_path=CASCADED_QUERY_FACETS,
+        evidence_match_config_path=CASCADED_EVIDENCE_CONFIG,
+        evidence_card_config_path=CASCADED_EVIDENCE_CONFIG,
+        query_aligned_cards=True,
+        lane=CASCADED_LANE,
+        validation=CASCADED_VALIDATION,
+    )
+
+    assert [row["id"] for row in selected] == ["loop-return"]
+    assert len(selected) == 1
+    assert selected[0]["retrieval_lane"] == CASCADED_LANE
+    assert "(-) Retorno" in "\n".join(
+        card["quote"] for card in selected[0]["coverage_cards"]
+    )
+    assert trace["validation"] == CASCADED_VALIDATION

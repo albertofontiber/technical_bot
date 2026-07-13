@@ -1,0 +1,85 @@
+{
+  "instrument": "s111_target_synthesis_probe_v2",
+  "execution_requested": true,
+  "frozen_contexts_sha256": "00e1b58a357521b49dd5d087a5682c9306f0aa055dce6d8553227844ca2b966b",
+  "generator_model": "claude-sonnet-4-6",
+  "system_prompt_sha256": "4c164fee5ad6e2e158a1150709b477c384c6e937839b9c60eef4dbf7178e59a1",
+  "answer_coverage_obligations": true,
+  "gate": {
+    "target_questions": 2,
+    "paid_generator_calls": 2,
+    "paid_reranker_calls": 0,
+    "llm_judge_calls": 0,
+    "input_tokens": 30828,
+    "output_tokens": 1873,
+    "target_claims_present": 0,
+    "target_claims_cited_by_support": 0,
+    "max_tokens_stops": 0,
+    "interpretation": "TARGET_SYNTHESIS_MEASURED"
+  },
+  "rows": [
+    {
+      "qid": "hp009",
+      "executed": true,
+      "context_sha256": "9402ce16bda71e22b111e379ec3b94ad2ea27ad9e7772c4f7351aaf87923f737",
+      "serving_context_sha256": "5f1636fa4c9221e91f310b8b43f742184b0ad0e3bc6877f4eac83e6e082d8f82",
+      "prompt_context_chars": 24476,
+      "target_claims": [
+        {
+          "claim_id": "hp009.loop.return_terminals",
+          "support_citations": [
+            "[f11]",
+            "[f12]"
+          ],
+          "present": false,
+          "cited_by_support": false
+        }
+      ],
+      "model": "claude-sonnet-4-6",
+      "max_output_tokens": 3500,
+      "stop_reason": "end_turn",
+      "input_tokens": 15831,
+      "output_tokens": 721,
+      "answer": "## Resistencia de Fin de Línea (RFL) en la Morley ZXe\n\nLa pregunta menciona \"ZXe\" como raíz de familia. Los fragmentos disponibles cubren modelos relacionados: **ZXAE/ZXEE** y **ZX2e/ZX5e**. A continuación te doy los valores por tipo de circuito, que son consistentes entre ambos modelos:\n\n---\n\n### 🔔 Salidas de Sirenas (circuito de sirenas convencionales)\n\n- **Valor RFL: 6.800 Ω (6K8) — 0,5 W mínimo** [F1][F2][F11]\n- Se instala entre **+** y **−** al final del último dispositivo de la línea [F1][F2]\n- Si no hay sirenas conectadas, la RFL se coloca directamente en los terminales de salida de la central [F1]\n- **No se deben realizar ramales** en la línea de sirenas, ya que la supervisión solo cubre la línea directa hasta la RFL [F2]\n- Para campanas sin polaridad, instalar un **diodo** entre + y uno de los terminales de alimentación [F1]\n\n---\n\n### 📡 Lazo Periférico (RS-485)\n\n- **Valor RFL: 150 Ω — 0,5 W mínimo**, en cada extremo [F3]\n- Aplicable cuando el lazo se configura en **lazo abierto** [F3]\n- Cable apantallado obligatorio [F3]\n\n---\n\n### 🔁 Lazo Analógico\n\n- El lazo analógico **no utiliza resistencia de fin de línea**. La supervisión se realiza mediante medición de continuidad y resistencia del lazo (máximo **36 Ω** con un extremo puenteado) [F7]\n- Se trabaja en **lazo cerrado** (bucle) [F7]\n\n---\n\n**Resumen rápido:**\n\n- Sirenas → **6.800 Ω / 0,5 W** [F1][F2][F11]\n- Lazo periférico RS-485 → **150 Ω / 0,5 W** en cada extremo [F3]\n- Lazo analógico → **sin RFL** (lazo cerrado) [F7]\n\n---\n\nFuente: Manual de Instalación ZXAE/ZXEE (DOC.MIE-MI-310, sin revisión registrada); Manual de Instalación ZX2e/ZX5e (MIE-MI-530rv001, sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **longitudes máximas de lazo analógico**, **conexionado de sirenas con campanas sin polaridad** o **instalación de aisladores en el lazo analógico**.",
+      "answer_coverage_obligations": true
+    },
+    {
+      "qid": "hp011",
+      "executed": true,
+      "context_sha256": "a3e29dd556ab82710c917b7b28247b1e4168eadb03ae21b20a200e1aea93b454",
+      "serving_context_sha256": "1b806d3bd9a3805d5b25654cddaa7c5ece683ce0f6cc5e80b41bbd7c1b6dc7e3",
+      "prompt_context_chars": 27062,
+      "target_claims": [
+        {
+          "claim_id": "hp011.reset_inhibit.dash_until_extinction_or_tA",
+          "support_citations": [
+            "[f13]"
+          ],
+          "present": false,
+          "cited_by_support": false
+        },
+        {
+          "claim_id": "hp011.reset_inhibit.default_00_anytime",
+          "support_citations": [
+            "[f13]"
+          ],
+          "present": false,
+          "cited_by_support": false
+        }
+      ],
+      "model": "claude-sonnet-4-6",
+      "max_output_tokens": 3500,
+      "stop_reason": "end_turn",
+      "input_tokens": 14997,
+      "output_tokens": 1152,
+      "answer": "# RP1r — Sistema no vuelve a estado normal tras resetear después de extinción\n\nHay varios puntos a verificar. Revísalos en este orden:\n\n---\n\n## 1. Rearme inhibido (parámetro rI)\n\nLa central puede tener programado un tiempo de inhibición del rearme. Según la normativa **EN12094:1/2003 Punto 4.12.2** [F3], debe existir un periodo programable entre **0 y 30 minutos** desde que la central señaliza el estado de ACTIVADO hasta que permite rearmar.\n\n- Comprueba el parámetro **rI** en programación [F3].\n- Si SW1-6 está en **ON**, la función está habilitada y el rearme no será posible hasta que transcurra el tiempo configurado.\n- Por defecto este parámetro está en **00 minutos** (función anulada, SW1-6 en OFF) [F3].\n- **Excepción:** si la central está en modo **paro/espera**, sí se puede rearmar aunque rI esté activo [F3].\n\n---\n\n## 2. Circuito de extinción activado hasta rearme (parámetro dr / duración de extinción)\n\nVerifica el parámetro de duración de extinción. Si está configurado como **\"- -\"** (guiones), el circuito de extinción permanece activado **hasta que se realice un rearme manual** de la central [F11]. Esto puede dar la impresión de que el sistema no vuelve a estado normal.\n\n- Comprueba que el rearme se ha realizado correctamente con **nivel de acceso 2** y pulsando la tecla **Rearme** [F6].\n\n---\n\n## 3. Fallo de Sistema (FALLO DE SISTEMA)\n\nSi en el panel aparece el led **Fallo Sistema** encendido [F8], la causa puede ser que el microprocesador principal tardó en inicializar o detectó tensiones fuera de rango [F7].\n\n- En este caso, **es obligatorio rearmar la central** para que desaparezca la avería [F7].\n- Si no se rearma, la central **no realizará el proceso de extinción** al considerar que no funciona correctamente [F7].\n- Esta avería puede ocurrir en el momento del arranque, una vez conectadas las baterías [F7].\n\n---\n\n## 4. Averías en circuitos de supervisión con rearme manual obligatorio\n\nComprueba si hay algún led intermitente en el panel. La mayoría de averías de circuitos de supervisión tienen **rearme automático**, pero hay una excepción crítica [F10]:\n\n- **Circuito F — ABORT SWITCH (Paro):** avería que **requiere rearme manual** y además detiene la extinción [F10]. Si este circuito está en avería, el sistema no volverá a estado normal solo.\n- Todos los demás circuitos (CCT EXT 1/2, SND 1/2, LOW PRESS, FLOW PRESS, DOOR OPEN, HOLD SWITCH, ZONE 1/2/3) tienen rearme automático [F10].\n\nLa RFL requerida en todos los circuitos supervisados es de **6K8 Ω** [F10]. Verifica que esté correctamente instalada en el circuito de paro si hay avería en él.\n\n---\n\n## 5. Entradas enclavadas no restablecidas\n\nRecuerda que **todas las entradas enclavadas requieren rearme manual** para su restablecimiento [F9]. El simple reset sin acceso nivel 2 puede no ser suficiente. Asegúrate de:\n\n1. Habilitar **nivel de acceso 2** (llave o teclado habilitado) [F6].\n2. Pulsar la tecla **Rearme** [F6].\n\n---\n\n**Fuentes:**\n- MNDT102 — Manual de usuario. Central de extinción RP1r (sin revisión registrada)\n- HLSI-BT-001 — Boletín técnico Honeywell Life Safety Iberia, 04/11/2011\n- HLSI-MN-103\\_RP1r-Supra\\_lr — Manual de usuario RP1r-Supra (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **verificación del cableado de los circuitos de supervisión**, **procedimiento de programación del parámetro rI** o **interpretación de leds de avería en el panel RP1r**.",
+      "answer_coverage_obligations": true
+    }
+  ],
+  "limitations": [
+    "Only the two affected production-generator prompts are called.",
+    "No reranker or judge model is called.",
+    "Regex checks are diagnostic and require local answer review.",
+    "Protected regression and release remain pending even if targets pass."
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "instrument": "s111_target_synthesis_probe_v1",
+  "execution_requested": true,
+  "frozen_contexts_sha256": "3187f7cce71e7e5c5876ed32effd5f88dcb7ed7256a0d3ebf718a718676017ab",
+  "generator_model": "claude-sonnet-4-6",
+  "system_prompt_sha256": "4c164fee5ad6e2e158a1150709b477c384c6e937839b9c60eef4dbf7178e59a1",
+  "gate": {
+    "target_questions": 2,
+    "paid_generator_calls": 2,
+    "paid_reranker_calls": 0,
+    "llm_judge_calls": 0,
+    "input_tokens": 31236,
+    "output_tokens": 1907,
+    "target_claims_present": 0,
+    "target_claims_cited_by_support": 0,
+    "max_tokens_stops": 0,
+    "interpretation": "TARGET_SYNTHESIS_MEASURED"
+  },
+  "rows": [
+    {
+      "qid": "hp009",
+      "executed": true,
+      "context_sha256": "9345c73fd016b2e3705c1ae7354a06e272ca94f102eac06b5d8d3e57be8d4557",
+      "serving_context_sha256": "e40e2b12a79351eb13276f8b204d63e054f1cbf8076c051f0ef781f90db01d23",
+      "prompt_context_chars": 25376,
+      "target_claims": [
+        {
+          "claim_id": "hp009.loop.return_terminals",
+          "support_citations": [
+            "[f11]",
+            "[f13]"
+          ],
+          "present": false,
+          "cited_by_support": false
+        }
+      ],
+      "model": "claude-sonnet-4-6",
+      "max_output_tokens": 3500,
+      "stop_reason": "end_turn",
+      "input_tokens": 16021,
+      "output_tokens": 798,
+      "answer": "## Resistencia de fin de línea en la Morley ZXe\n\nLa pregunta menciona \"ZXe\" como raíz de familia. Los fragmentos recuperados contienen información de varios modelos relacionados. Para darte la respuesta más precisa, distingo lo que aplica a cada uno:\n\n---\n\n### Salidas de sirenas convencionales (ZXAE/ZXEE y ZX2e/ZX5e)\n\nLa resistencia final de línea (RFL) para la supervisión de los circuitos de sirenas es:\n\n- **Valor: 6.800 Ω (6K8) — 0,5 W mínimo** [F1][F2]\n- Se instala entre el **+** y el **−** de la última sirena del circuito [F1]\n- Si no hay sirenas conectadas, la RFL se conecta directamente en los terminales de salida de la central [F1]\n- **No se deben realizar ramales** en la línea de sirenas, ya que la supervisión solo cubre la línea directa hasta la RFL [F2]\n- Este mismo valor (**6,8 KΩ, 0,5 W mínimo**) se confirma también para los paneles ZX2e/ZX5e [F11]\n\n---\n\n### Lazo periférico RS-485 (ZXAE/ZXEE)\n\nPara el lazo periférico (comunicaciones RS-485), la RFL es diferente:\n\n- **Valor: 150 Ω — 0,5 W mínimo**, en cada extremo del lazo [F3]\n- Aplica cuando el lazo periférico se configura en **lazo abierto** [F3]\n\n---\n\n### Lazo analógico (ZXAE/ZXEE)\n\nEl manual de instalación de la ZXAE/ZXEE **no especifica una resistencia de fin de línea para el lazo analógico** en los fragmentos disponibles. El lazo analógico trabaja con transmisión digital a dos hilos y se verifica mediante medición de resistencia (máximo **36 Ω** con un extremo puenteado) [F7], pero no se menciona RFL para este circuito.\n\n---\n\n**Resumen rápido:**\n- Sirenas convencionales → **RFL 6.800 Ω / 0,5 W mínimo** [F1][F2][F11]\n- Lazo periférico RS-485 → **RFL 150 Ω / 0,5 W mínimo** en cada extremo [F3]\n- Lazo analógico → no se especifica RFL en los fragmentos disponibles\n\n---\n\nFuente: Manual de Instalación ZXAE/ZXEE (DOC.MIE-MI-310, sin revisión registrada); Manual de Instalación ZX2e/ZX5e (MIE-MI-530rv001, sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **longitudes máximas de cableado del lazo analógico**, **conexionado de sirenas con y sin polaridad** o **verificación del lazo analógico antes de la puesta en marcha**."
+    },
+    {
+      "qid": "hp011",
+      "executed": true,
+      "context_sha256": "47a61b882a359c7fcce22292c23a3294dfa2b8269567eb77899bc792c8d34ff7",
+      "serving_context_sha256": "4fda9e041b616176dc69259694a964466aac75e567a8658a7a565ebbd98ce4c3",
+      "prompt_context_chars": 28332,
+      "target_claims": [
+        {
+          "claim_id": "hp011.reset_inhibit.dash_until_extinction_or_tA",
+          "support_citations": [
+            "[f13]"
+          ],
+          "present": false,
+          "cited_by_support": false
+        },
+        {
+          "claim_id": "hp011.reset_inhibit.default_00_anytime",
+          "support_citations": [
+            "[f13]"
+          ],
+          "present": false,
+          "cited_by_support": false
+        }
+      ],
+      "model": "claude-sonnet-4-6",
+      "max_output_tokens": 3500,
+      "stop_reason": "end_turn",
+      "input_tokens": 15215,
+      "output_tokens": 1109,
+      "answer": "# RP1r: Sistema no vuelve a estado normal tras resetear después de extinción\n\nHay varios puntos a verificar. Revísalos en este orden:\n\n---\n\n## 1. Comprobar si hay \"Fallo de Sistema\" activo\n\nEl LED **Fallo Sistema** puede estar encendido tras la descarga [F7]. Esto ocurre cuando el microprocesador principal tarda en inicializar o detecta tensiones fuera de rango [F7].\n\n**Acción:** Rearmar la central. Según el boletín técnico, si existe esta avería y **no se rearma**, la central **no volverá a estado normal** [F7].\n\n---\n\n## 2. Verificar si el Rearme Inhibido (rI) está activo\n\nEl parámetro **rI** puede estar programado con un tiempo de inhibición de entre **0 y 30 minutos** desde el estado ACTIVADO hasta que se permite rearmar [F3]. Si el tiempo no ha transcurrido, el rearme no será efectivo.\n\n**Acción:** Comprobar el valor programado en el campo **rI**. Si SW1-6 está en ON, esta función está habilitada [F3]. Esperar a que transcurra el tiempo configurado antes de intentar el rearme.\n\n> **Nota:** Si la central está en modo **paro/espera**, sí se puede realizar el rearme aunque el tiempo no haya transcurrido [F3].\n\n---\n\n## 3. Comprobar averías enclavadas en circuitos de supervisión\n\nTodas las entradas y salidas supervisadas requieren una **RFL de 6K8** [F10]. Si hay cortocircuito o circuito abierto, la central indicará avería con el LED del circuito en **intermitente** y no volverá a estado normal.\n\nCircuitos que requieren **rearme manual** (no son auto-rearmables) [F10]:\n\n- **Circuito F (ABORT SWITCH):** Avería Paro — esta avería **detiene la extinción y requiere rearme manual** [F10].\n\nCircuitos con rearme automático (pero que pueden bloquear el retorno si persiste la condición) [F10]:\n- CCT EXT 1 y CCT EXT 2 (circuitos de extinción)\n- SND 1 y SND 2 (sirenas)\n- LOW PRESS, FLOW PRESS, DOOR OPEN, HOLD SWITCH, ZONE 1, ZONE 2, ZONE 3\n\n**Acción:** Revisar qué LEDs están en intermitente en el panel. Identificar el circuito en avería, corregir la causa (RFL ausente, cortocircuito, circuito abierto) y rearmar.\n\n---\n\n## 4. Verificar el parámetro de duración de extinción (dr)\n\nSi el parámetro **dr** (Duración de la Extinción) está configurado como **\"--\"** (guiones), el circuito de extinción permanece **activado hasta que se rearme la central** [F11]. Esto puede dar la impresión de que el sistema no vuelve a estado normal.\n\n**Acción:** Comprobar el valor del parámetro **dr** en programación. Si está en \"--\", los solenoides permanecerán activos hasta rearme manual [F11].\n\n---\n\n## Procedimiento de rearme correcto\n\n1. Habilitar **acceso nivel 2** (girar llave o habilitar teclado) [F6]\n2. Pulsar la tecla **Rearme** [F6]\n3. Las entradas enclavadas se reiniciarán [F6]\n\n---\n\n**Fuentes:**\n- MNDT102 — Manual de usuario RP1r (sin revisión registrada)\n- HLSI-BT-001 — Boletín técnico Honeywell Life Safety Iberia, 04/11/2011 (sin revisión registrada)\n- HLSI-MN-103_RP1r-Supra_lr — Manual de usuario RP1r-Supra (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **verificación del circuito ABORT y su configuración**, **comprobación de RFL en circuitos de supervisión** o **programación del parámetro dr (duración de extinción)** en la RP1r."
+    }
+  ],
+  "limitations": [
+    "Only the two affected production-generator prompts are called.",
+    "No reranker or judge model is called.",
+    "Regex checks are diagnostic and require local answer review.",
+    "Protected regression and release remain pending even if targets pass."
+  ]
+}

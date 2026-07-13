@@ -109,6 +109,16 @@ CANONICAL_HYQ_COVERAGE = _strict_on_off("CANONICAL_HYQ_COVERAGE")
 # immutable prefix and at most two query-aligned exact-source rows may append.
 RERANK_POOL_COVERAGE = _strict_on_off("RERANK_POOL_COVERAGE")
 
+# S111 bounded second hop: a query-aligned pool complement may expose that its
+# decisive explanation lives in an adjacent chunk of the exact same extraction
+# blob.  The cascade is separately reversible and remains GET-only/fail-open.
+STRUCTURAL_CASCADE_COVERAGE = _strict_on_off("STRUCTURAL_CASCADE_COVERAGE")
+
+# S111 serving-boundary repair for evidence cards clipped inside a Markdown
+# table row.  It is independent from every retrieval lane so deploying the
+# code cannot alter an already-enabled lane unless this flag is also enabled.
+LOGICAL_RECORD_COVERAGE = _strict_on_off("LOGICAL_RECORD_COVERAGE")
+
 # S107 upstream candidate, default inert. Follows explicit numeric section
 # references inside governed documents to recover information hidden by unsafe
 # historical semantic-dedup marks; candidates still compete in the reranker.

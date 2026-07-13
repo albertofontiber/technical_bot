@@ -1,0 +1,88 @@
+{
+  "instrument": "s111_target_synthesis_probe_v3",
+  "execution_requested": true,
+  "frozen_contexts_sha256": "00e1b58a357521b49dd5d087a5682c9306f0aa055dce6d8553227844ca2b966b",
+  "generator_model": "claude-sonnet-4-6",
+  "system_prompt_sha256": "4c164fee5ad6e2e158a1150709b477c384c6e937839b9c60eef4dbf7178e59a1",
+  "answer_coverage_obligations": true,
+  "answer_coverage_contract_version": "facet_acceptance_v2",
+  "gate": {
+    "target_questions": 2,
+    "paid_generator_calls": 2,
+    "paid_reranker_calls": 0,
+    "llm_judge_calls": 0,
+    "input_tokens": 30843,
+    "output_tokens": 1789,
+    "target_claims_present": 0,
+    "target_claims_cited_by_support": 0,
+    "max_tokens_stops": 0,
+    "interpretation": "TARGET_SYNTHESIS_MEASURED"
+  },
+  "rows": [
+    {
+      "qid": "hp009",
+      "executed": true,
+      "context_sha256": "9402ce16bda71e22b111e379ec3b94ad2ea27ad9e7772c4f7351aaf87923f737",
+      "serving_context_sha256": "5f1636fa4c9221e91f310b8b43f742184b0ad0e3bc6877f4eac83e6e082d8f82",
+      "prompt_context_chars": 24476,
+      "target_claims": [
+        {
+          "claim_id": "hp009.loop.return_terminals",
+          "support_citations": [
+            "[f11]",
+            "[f12]"
+          ],
+          "present": false,
+          "cited_by_support": false
+        }
+      ],
+      "model": "claude-sonnet-4-6",
+      "max_output_tokens": 3500,
+      "stop_reason": "end_turn",
+      "input_tokens": 15843,
+      "output_tokens": 539,
+      "answer": "La pregunta menciona \"lazos de la central ZXe\" — necesito precisar a qué tipo de lazo te refieres, ya que los fragmentos distinguen varios circuitos con resistencias de fin de línea distintas:\n\n---\n\n**Lazo analógico (detectores y módulos):**\nLos lazos analógicos de la ZXAE/ZXEE **no utilizan resistencia de fin de línea** en el lazo de detección. El lazo trabaja en bucle cerrado con comunicación digital a dos hilos [F7]. La comprobación de instalación correcta se realiza midiendo resistencia con un extremo puenteado, que no debe superar **36 Ohmios** [F7].\n\n---\n\n**Salidas de sirenas convencionales (de placa):**\nLa resistencia final de línea (RFL) es de **6.800 Ohmios (6K8), 0,5 W mínimo** [F1][F2].\n- Se instala entre + y − al final de la última sirena [F1].\n- Si no hay sirenas conectadas, la RFL se conecta directamente en los terminales de la central [F1].\n- No se deben realizar ramales en la línea de sirenas, ya que la supervisión solo cubre la línea directa hasta la RFL [F2].\n- Este mismo valor (**6,8 KΩ, 0,5 W mínimo**) aplica también a las salidas de sirenas de los paneles **ZX2e/ZX5e** [F11].\n\n---\n\n**Lazo periférico (RS-485):**\nLa RFL es de **150 Ohmios, 0,5 W mínimo**, en cada extremo del lazo cuando se instala en configuración de lazo abierto [F3].\n\n---\n\n¿Cuál de estos circuitos es el que necesitas verificar?\n\nFuente: Manual de Instalación ZXAE/ZXEE — DOC.MIE-MI-310 (sin revisión registrada); Manual de Instalación ZX2e/ZX5e — MIE-MI-530rv001 (sin revisión registrada)",
+      "answer_coverage_obligations": true,
+      "answer_coverage_contract_version": "facet_acceptance_v2"
+    },
+    {
+      "qid": "hp011",
+      "executed": true,
+      "context_sha256": "a3e29dd556ab82710c917b7b28247b1e4168eadb03ae21b20a200e1aea93b454",
+      "serving_context_sha256": "1b806d3bd9a3805d5b25654cddaa7c5ece683ce0f6cc5e80b41bbd7c1b6dc7e3",
+      "prompt_context_chars": 27062,
+      "target_claims": [
+        {
+          "claim_id": "hp011.reset_inhibit.dash_until_extinction_or_tA",
+          "support_citations": [
+            "[f13]"
+          ],
+          "present": false,
+          "cited_by_support": false
+        },
+        {
+          "claim_id": "hp011.reset_inhibit.default_00_anytime",
+          "support_citations": [
+            "[f13]"
+          ],
+          "present": false,
+          "cited_by_support": false
+        }
+      ],
+      "model": "claude-sonnet-4-6",
+      "max_output_tokens": 3500,
+      "stop_reason": "end_turn",
+      "input_tokens": 15000,
+      "output_tokens": 1250,
+      "answer": "# RP1r — Sistema no vuelve a estado normal tras resetear después de extinción\n\nAquí tienes los puntos a verificar, ordenados por probabilidad:\n\n---\n\n## 1. Rearme inhibido (parámetro rI / r.i)\n\nLa central puede tener programado un tiempo de inhibición del rearme tras la activación [F3][F13].\n\n**Comprueba:**\n- El parámetro **rI** (en la RP1r) puede estar configurado entre **0 y 30 minutos** [F3]. Hasta que no transcurra ese tiempo, no es posible rearmar la central.\n- Por defecto este valor es **00 minutos** (función anulada, con SW1-6 en OFF) [F3]. Si alguien lo habilitó (SW1-6 en ON), el rearme quedará bloqueado durante el tiempo programado.\n- **Acción:** Accede a programación y verifica el campo **rI**. Si es distinto de 00, espera a que transcurra el tiempo o corrígelo.\n\n> **Nota:** Si la central está en modo **paro/espera**, sí se puede realizar el rearme aunque rI esté activo [F3].\n\n---\n\n## 2. Circuito de extinción configurado como \"activo hasta rearme\"\n\nEl parámetro de duración de extinción puede estar configurado en modo **\"--\"** (guiones), lo que significa que el circuito permanece activado **hasta que se rearme manualmente la central** [F11].\n\n**Comprueba:**\n- Si el parámetro de tiempo de extinción muestra **\"--\"**, el sistema no finalizará el ciclo automáticamente. Requiere rearme manual explícito.\n- Si está configurado entre **05 y 295 segundos** (en intervalos de 5 s), el circuito se desactivará al agotar ese tiempo [F11].\n\n---\n\n## 3. Entradas enclavadas sin restablecer (averías de supervisión)\n\nTodas las entradas y salidas supervisadas son **enclavadas por defecto** y requieren rearme manual para su restablecimiento [F9][F10].\n\n**Comprueba los circuitos supervisados con RFL de 6K8** [F10]:\n\n- **CCT EXT 1 / CCT EXT 2** (circuitos de extinción): led \"Avería Circuito de Extinción\" intermitente → rearme automático [F10]\n- **ABORT SWITCH (Paro)**: led \"Avería Paro\" intermitente + \"Paro\" fijo → **requiere rearme manual** y detiene la extinción [F10]\n- **SND 1 / SND 2** (sirenas): led \"Sirenas Fallo/Anuladas\" intermitente → rearme automático [F10]\n- **LOW PRESS / FLOW PRESS / DOOR OPEN**: rearme automático cuando desaparece la condición [F10]\n- **ZONE 1, 2, 3**: rearme automático [F10]\n\n> ⚠️ **El circuito ABORT SWITCH (Paro) es el único que requiere rearme manual y bloquea la extinción.** Si hay avería en ese circuito, la central no volverá a estado normal sin intervención [F10].\n\n---\n\n## 4. Fallo de sistema (FALLO DE SISTEMA)\n\nSi aparece el led **\"Fallo Sistema\"**, la central **no realizará el proceso de extinción** al considerar que no está funcionando correctamente [F7].\n\n**Comprueba:**\n- Este fallo puede aparecer en el arranque si el microprocesador principal tarda en inicializar o hay lecturas de tensión fuera de rango [F7].\n- **Acción:** Rearmar la central. Si el fallo desaparece tras el rearme, era una condición transitoria de arranque [F7].\n\n---\n\n## Procedimiento de rearme (recordatorio)\n\n1. Habilitar **acceso nivel 2** (girar llave o habilitar teclado) [F6]\n2. Pulsar tecla **Rearme** [F6]\n3. Las entradas enclavadas se reiniciarán [F6]\n\n---\n\n**Fuentes:**\n- MNDT102 — Manual de usuario RP1r (sin revisión registrada)\n- HLSI-BT-001 — Boletín técnico Honeywell Life Safety Iberia, 04/11/2011\n- HLSI-MN-103\\_RP1r-Supra\\_lr — Manual de usuario RP1r-Supra (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **verificación del cableado de circuitos de supervisión y RFL**, **acceso a programación para revisar parámetros rI y duración de extinción**, o **interpretación de LEDs de avería en el panel**.",
+      "answer_coverage_obligations": true,
+      "answer_coverage_contract_version": "facet_acceptance_v2"
+    }
+  ],
+  "limitations": [
+    "Only the two affected production-generator prompts are called.",
+    "No reranker or judge model is called.",
+    "Regex checks are diagnostic and require local answer review.",
+    "Protected regression and release remain pending even if targets pass."
+  ]
+}

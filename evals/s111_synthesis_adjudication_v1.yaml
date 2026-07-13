@@ -1,0 +1,60 @@
+instrument: s111_synthesis_adjudication_v1
+status: evaluation_only_prompt_code_removed_from_runtime
+
+variants:
+  - artifact: s111_target_synthesis_probe_v1.json
+    contract: none
+
+  - artifact: s111_target_synthesis_probe_v2.json
+    contract: generic_answer_coverage_v1
+    exact_template: |-
+      CONTRATO DE COBERTURA DE RESPUESTA (instrucción; NO es una fuente):
+      Los fragmentos {refs} forman un paquete de evidencia complementaria validada y no son contexto opcional.
+      Antes de cerrar, cubre todas sus correspondencias explícitas que respondan o corrijan la premisa de la pregunta: pares terminal/ruta, opción/significado, valores alternativos, valor por defecto, negaciones y condiciones.
+      Una explicación general no sustituye esos elementos explícitos. Cita cada uno con su [F<n>], omite lo no relacionado y no completes ninguna relación que el texto no establezca.
+    rendered_refs:
+      hp009: "[F11], [F12]"
+      hp011: "[F13]"
+
+  - artifact: s111_target_synthesis_probe_v3.json
+    contract: facet_acceptance_v2
+    exact_common_template: |-
+      CONTRATO DE COBERTURA DE RESPUESTA (instrucción; NO es una fuente):
+      Los fragmentos {refs} contienen evidencia complementaria validada y no son contexto opcional.
+      Criterios de aceptación antes de cerrar la respuesta:
+      {criteria}
+      Una explicación general no sustituye estos elementos. Cita cada afirmación con el fragmento indicado, omite lo no relacionado y no completes relaciones que el texto no establezca.
+    rendered:
+      hp009:
+        refs: "[F12]"
+        criteria: "- [F12] (topología/terminación): si corrigen una premisa de terminación, no basta con negar un terminador; describe la ruta física alternativa y nombra todos los pares explícitos de INICIO/SALIDA y RETORNO, incluidas ambas polaridades."
+      hp011:
+        refs: "[F13]"
+        criteria: "- [F13] (opciones de estado/tiempo): enumera cada código, símbolo o rango explícito y asócialo con su significado; conserva el valor por defecto y cualquier condición entre parámetros."
+
+leakage_audit:
+  runtime_qids: false
+  runtime_gold_values: false
+  runtime_product_or_manufacturer_rules: false
+  source_values_copied_into_contract: false
+
+manual_adjudication:
+  - claim_id: hp009.loop.return_terminals
+    strict_atomic_result: fail
+    semantic_result: absent
+    reason: "The answer says closed loop but omits the explicit OUT-to-return terminal pairs from F12."
+  - claim_id: hp011.reset_inhibit.dash_until_extinction_or_tA
+    strict_atomic_result: fail
+    semantic_result: absent
+    reason: "The answer discusses dash mode for a different extinction-duration parameter, not the r.i dash condition from F13."
+  - claim_id: hp011.reset_inhibit.default_00_anytime
+    strict_atomic_result: fail
+    semantic_result: partial
+    reason: "The answer conveys default 00 and function disabled from F3, but does not explicitly state rearme permitido en cualquier momento or ground it in F13."
+
+conclusion:
+  strict_atomic_claims_present_and_cited: 0
+  semantic_claims_complete: 0
+  semantic_claims_partial: 1
+  decision: inconclusive_prompt_only_not_shipped
+  note: "These probes reject the two tested contracts on their recorded frozen contexts; they predate the final isolation of cascade evidence from the shared pool profile and do not prove that every possible answer-planning architecture will fail."

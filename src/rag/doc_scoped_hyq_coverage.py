@@ -151,7 +151,7 @@ def fetch_document_scoped_rows(
     *,
     client: httpx.Client | None = None,
     timeout_seconds: float = TIMEOUT_SECONDS,
-) -> tuple[list[dict[str, Any]], int]:
+) -> tuple[list[dict[str, Any]], int, int]:
     """GET-only bounded navigation followed by real-parent hydration."""
     if not SUPABASE_URL or not SUPABASE_SERVICE_KEY:
         raise RuntimeError("Supabase credentials unavailable for HYQ coverage read")
@@ -211,7 +211,7 @@ def fetch_document_scoped_rows(
 
         parent_ids = select_document_diverse_parents(needs, rows)
         if not parent_ids:
-            return [], len(rows)
+            return [], len(rows), requests
         hydrated = get_rows(
             request_client,
             "chunks_v2",
@@ -224,7 +224,7 @@ def fetch_document_scoped_rows(
         by_id = {str(row.get("id") or ""): row for row in hydrated}
         if any(parent_id not in by_id for parent_id in parent_ids):
             raise RuntimeError("HYQ parent hydration incomplete")
-        return [by_id[parent_id] for parent_id in parent_ids], len(rows)
+        return [by_id[parent_id] for parent_id in parent_ids], len(rows), requests
 
 
 def collect_document_scoped_hyq(
@@ -246,7 +246,15 @@ def collect_document_scoped_hyq(
         trace["status"] = "not_applicable"
         return [], trace
 
-    parents, hyq_row_count = fetcher(scope, plan["needs"])
+    fetched = fetcher(scope, plan["needs"])
+    if len(fetched) == 3:
+        parents, hyq_row_count, http_requests = fetched
+    elif len(fetched) == 2:
+        # Backwards-compatible test/custom fetchers predate request telemetry.
+        parents, hyq_row_count = fetched
+        http_requests = 0
+    else:
+        raise RuntimeError("invalid HYQ fetcher result")
     eligible = []
     for parent in parents:
         # Reassert canonical document scope after parent hydration.  The HYQ
@@ -306,6 +314,7 @@ def collect_document_scoped_hyq(
         {
             "status": "selected" if selected else "no_validated_source_span",
             "hyq_rows": hyq_row_count,
+            "http_requests": http_requests,
             "selected_parent_ids": [str(row["id"]) for row in selected],
         }
     )

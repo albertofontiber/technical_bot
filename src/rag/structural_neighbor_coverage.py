@@ -20,6 +20,8 @@ import yaml
 
 from .evidence_coverage import (
     MULTIFACET_CONFIG,
+    POOL_COMPLEMENT_CONFIG,
+    STRICT_ALIGNED_CONFIG,
     match_evidence_facets,
     select_evidence_coverage_cards,
 )
@@ -29,9 +31,18 @@ from .toc_detection import is_toc_page
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_CONFIG = ROOT / "config/structural_neighbor_coverage_v1.yaml"
+CASCADED_CONFIG = ROOT / "config/structural_cascade_coverage_v1.yaml"
 QUERY_FACETS = ROOT / "config/retrieval_facets_v3.yaml"
+CASCADED_QUERY_FACETS = ROOT / "config/retrieval_facets_v4.yaml"
+CASCADED_EVIDENCE_CONFIG = (
+    ROOT / "config/evidence_coverage_facets_cascade_v1.yaml"
+)
 LANE = "same_blob_structural_neighbor_coverage_v1"
 VALIDATION = "same_document_same_blob_bounded_index_query_facets_v1"
+CASCADED_LANE = "cascaded_structural_neighbor_coverage_v1"
+CASCADED_VALIDATION = (
+    "pool_seed_same_document_same_blob_bounded_index_query_facets_v1"
+)
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
 _STOP = {
     "de", "del", "la", "las", "el", "los", "un", "una", "y", "o", "en",
@@ -174,6 +185,12 @@ def select_structural_neighbors(
     candidates: list[dict[str, Any]],
     *,
     config_path: Path = DEFAULT_CONFIG,
+    query_facets_path: Path = QUERY_FACETS,
+    evidence_match_config_path: Path = STRICT_ALIGNED_CONFIG,
+    evidence_card_config_path: Path = MULTIFACET_CONFIG,
+    query_aligned_cards: bool = False,
+    lane: str = LANE,
+    validation: str = VALIDATION,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Return bounded shadow anchors plus a fail-closed diagnostic trace."""
     payload = _load(str(config_path.resolve()))
@@ -190,8 +207,8 @@ def select_structural_neighbors(
         seed_indexes.setdefault(identity, []).append(index)
 
     trace: dict[str, Any] = {
-        "lane": LANE,
-        "validation": VALIDATION,
+        "lane": lane,
+        "validation": validation,
         "seed_rows": len(bounded_seeds),
         "valid_seed_rows": len(bounded_seeds) - invalid_seeds,
         "invalid_seed_rows": invalid_seeds,
@@ -234,7 +251,7 @@ def select_structural_neighbors(
         trace.update({"overflow": True, "reason": "candidate_cap_exceeded"})
         return [], trace
 
-    plan = expand_query_facets(query, QUERY_FACETS)
+    plan = expand_query_facets(query, query_facets_path)
     scores = {str(row["id"]): 0.0 for row in eligible}
     for need in plan["needs"]:
         for score, row in _rank_bm25(need, eligible):
@@ -258,7 +275,9 @@ def select_structural_neighbors(
             trace["toc_rejected_ids"].append(str(row["id"]))
             continue
         facet_matches = match_evidence_facets(
-            content, archetype=plan.get("archetype")
+            content,
+            archetype=plan.get("archetype"),
+            config_path=evidence_match_config_path,
         )
         if not facet_matches:
             continue
@@ -287,7 +306,8 @@ def select_structural_neighbors(
         facet_cards = select_evidence_coverage_cards(
             [row],
             archetype=plan.get("archetype"),
-            config_path=MULTIFACET_CONFIG,
+            config_path=evidence_card_config_path,
+            query=query if query_aligned_cards else None,
         )
         coverage_cards = []
         seen_spans = set()
@@ -302,9 +322,9 @@ def select_structural_neighbors(
         enriched = dict(row)
         enriched.update(
             {
-                "retrieval_lane": LANE,
+                "retrieval_lane": lane,
                 "structural_neighbor_validated": True,
-                "structural_neighbor_validation": VALIDATION,
+                "structural_neighbor_validation": validation,
                 "structural_neighbor_query_archetype": plan.get("archetype"),
                 "structural_neighbor_query_score": round(
                     scores[str(row["id"])], 6
