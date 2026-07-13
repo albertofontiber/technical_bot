@@ -1,0 +1,46 @@
+schema: retrieval_facets_v1
+max_needs: 3
+policy: first_match
+archetypes:
+  - id: replace_without_loss
+    patterns:
+      - '\b(cambiar|reemplazar|sustituir|renovar)\b'
+    needs:
+      - '{query} verificar existencia y tipo del componente'
+      - '{query} alimentación principal respaldo redundancia'
+      - '{query} memoria persistente configuración reloj mantenimiento'
+
+  - id: connect_install_wire
+    patterns:
+      - '\b(conectar|conecta|conectan|cablear|cablea|instalar|instala|montar|montarlo)\b'
+    needs:
+      - '{query} terminales polaridad conexión cableado'
+      - '{query} pantalla tierra continuidad resistencia circuito'
+      - '{query} límites seguridad comprobación instalación'
+
+  - id: capacity_quantity
+    patterns:
+      - '\b(cuantos|cuantas|capacidad|admite|soporta)\b'
+    needs:
+      - '{query} capacidad por unidad lazo canal'
+      - '{query} capacidad total del sistema'
+      - '{query} variantes revisión mercado documentación conflicto'
+
+  - id: fault_reset_recovery
+    patterns:
+      - '\b(fallo|averia|diagnosticar|diagnostico|rearmar|rearme|resetear)\b'
+      - '\bno vuelve\b'
+    needs:
+      - '{query} condición activa enclavada inhibición'
+      - '{query} temporizador duración estado posterior al evento rearme'
+      - '{query} diagnóstico comprobaciones recuperación'
+
+  - id: program_delay_cause_effect
+    patterns:
+      - '\b(programar|programa|configurar|configura|retardo|maniobra)\b'
+      - '\bcausa efecto\b'
+      - '\bdar de alta\b'
+    needs:
+      - '{query} ruta menú programación edición'
+      - '{query} condición entrada regla causa efecto'
+      - '{query} acción salida temporizador anulación'

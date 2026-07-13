@@ -1,0 +1,29 @@
+schema: evidence_coverage_facets_v1
+max_cards: 3
+window_chars: 360
+min_window_chars: 50
+min_distinct_terms: 2
+archetypes:
+  fault_reset_recovery:
+    - id: state_blockers
+      terms: [condicion, activa, enclavada, inhibicion, bloqueo]
+    - id: timing_state
+      terms: [temporizador, duracion, tiempo, periodo, intervalo, posterior, evento, rearme]
+    - id: verification_recovery
+      terms: [diagnostico, comprobacion, recuperacion, normal, reposo, averia]
+
+  connect_install_wire:
+    - id: connection
+      terms: [terminal, borne, polaridad, conexion, cableado]
+    - id: continuity
+      terms: [pantalla, tierra, continuidad, resistencia, circuito, lazo]
+    - id: limits_safety
+      terms: [limite, maxim, seguridad, comprobar, medicion, instalacion]
+
+  program_delay_cause_effect:
+    - id: navigation
+      terms: [ruta, menu, programacion, edicion]
+    - id: logic_structure
+      terms: [condicion, entrada, regla, causa, efecto, matriz]
+    - id: output_timing
+      terms: [accion, salida, temporizador, retardo, anulacion]

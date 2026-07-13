@@ -150,7 +150,9 @@ def test_observer_module_has_no_generator_dependency_or_answer_return_path():
     assert "return served_chunks" not in source
 
 
-def test_http_fetcher_uses_get_only_and_respects_same_blob_filter():
+def test_http_fetcher_uses_get_only_and_respects_same_blob_filter(monkeypatch):
+    monkeypatch.setattr(shadow, "SUPABASE_URL", "https://example.supabase.co")
+    monkeypatch.setattr(shadow, "SUPABASE_SERVICE_KEY", "test-service-key")
     served = [_row("seed", 10, "Conexión del lazo")]
     neighbor = _row("neighbor", 11, "Continuidad y resistencia del lazo")
 
