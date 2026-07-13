@@ -11,6 +11,7 @@ import re
 import anthropic
 
 from ..config import ANTHROPIC_API_KEY, LLM_MODEL, LLM_MAX_TOKENS
+from .post_rerank_coverage import is_validated_coverage_chunk
 
 logger = logging.getLogger(__name__)
 
@@ -455,7 +456,11 @@ def generate_answer(
     # retriever.py for future observability/feature use.
 
     # Filter out low-relevance chunks
-    relevant_chunks = [c for c in chunks if c.get("similarity", 0) >= RELEVANCE_THRESHOLD]
+    relevant_chunks = [
+        c for c in chunks
+        if c.get("similarity", 0) >= RELEVANCE_THRESHOLD
+        or is_validated_coverage_chunk(c)
+    ]
 
     if not relevant_chunks:
         # If we know available models, offer them
@@ -467,6 +472,7 @@ def generate_answer(
                           f"¿Puedes indicarme el modelo concreto que estás usando?",
                 "diagrams": [],
                 "stop_reason": None,  # sin llamada LLM (gate s58: distingue de end_turn/max_tokens)
+                "input_tokens": None,
                 "output_tokens": None,
             }
         return {
@@ -474,6 +480,7 @@ def generate_answer(
                       "a tu pregunta. ¿Puedes reformularla o especificar el modelo de equipo?",
             "diagrams": [],
             "stop_reason": None,
+            "input_tokens": None,
             "output_tokens": None,
         }
 
@@ -606,5 +613,9 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
         "diagrams": diagrams[:3],
         # Gate s58 (DEC-036b): stop_reason confirma/descarta truncamiento por max_tokens.
         "stop_reason": response.stop_reason,
+        "input_tokens": (
+            getattr(response.usage, "input_tokens", None)
+            if response.usage else None
+        ),
         "output_tokens": response.usage.output_tokens if response.usage else None,
     }

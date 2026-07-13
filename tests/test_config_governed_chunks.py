@@ -68,3 +68,44 @@ def test_structural_neighbor_shadow_requires_key_and_version_when_enabled():
         check=False,
     )
     assert accepted.returncode == 0, accepted.stderr
+
+
+def test_post_rerank_release_flags_are_strict_and_default_off():
+    env = os.environ.copy()
+    env["CHUNKS_TABLE"] = "chunks_v2"
+    for name in (
+        "POST_RERANK_COVERAGE",
+        "STRUCTURAL_NEIGHBOR_COVERAGE",
+        "CANONICAL_HYQ_COVERAGE",
+    ):
+        env.pop(name, None)
+    default = subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            "import src.config as c; "
+            "assert not c.POST_RERANK_COVERAGE; "
+            "assert not c.STRUCTURAL_NEIGHBOR_COVERAGE; "
+            "assert not c.CANONICAL_HYQ_COVERAGE",
+        ],
+        cwd=ROOT,
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=20,
+        check=False,
+    )
+    assert default.returncode == 0, default.stderr
+
+    env["STRUCTURAL_NEIGHBOR_COVERAGE"] = "enabled"
+    invalid = subprocess.run(
+        [sys.executable, "-c", "import src.config"],
+        cwd=ROOT,
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=20,
+        check=False,
+    )
+    assert invalid.returncode != 0
+    assert "on|off" in invalid.stderr
