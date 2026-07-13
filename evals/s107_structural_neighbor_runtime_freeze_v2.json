@@ -1,0 +1,276 @@
+{
+  "schema": "s107_structural_neighbor_runtime_freeze_v2",
+  "created_at": "2026-07-13T15:52:31.986154+00:00",
+  "git_head": "804bb154993482babdd0d9fdd16f1113499fe81f",
+  "worktree_policy": "deployment dependency closure listed explicitly; validate again from a clean checkout before release",
+  "status": "frozen_ready_for_preregistered_shadow",
+  "official_ok_baseline": "93/127 unchanged",
+  "stage": "R2_observer_safety_and_precision_precondition",
+  "candidate": {
+    "feature_flag": "STRUCTURAL_NEIGHBOR_SHADOW",
+    "default": "off",
+    "serving_effect": "none",
+    "sample_basis_points": 1000,
+    "hmac_key_version": "v1",
+    "hmac_secret_in_manifest": false,
+    "retention_days_max": 14,
+    "access": "operations_and_named_evaluators_only"
+  },
+  "corpus_fingerprint": {
+    "count": 25090,
+    "table": "chunks_v2",
+    "schema": "corpus_fingerprint_v1",
+    "components": {
+      "chunks_v2": 25090,
+      "documents": 1171,
+      "chunks_v2_hyq": 70134,
+      "chunks_v2_enunciados": 22842,
+      "retrieval_contract_items": 142,
+      "retrieval_physical_items": 31
+    },
+    "content_sha256": "1a56bba05bc06e3258a47d8ea3eb1613854c2ecdf72ee18ac053ef74b695da63",
+    "max_created_at": "2026-06-09T19:15:25.848279+00:00",
+    "embedding_sha256": "c6606c37f76ad014a9ca79b1bce1fdb875c0e695097e4bb0e88104f763d82d5b",
+    "required_objects": {
+      "match_hyq": true,
+      "chunks_v2_hnsw": true,
+      "match_chunks_v2": true,
+      "spanish_unaccent": true,
+      "chunks_v2_hyq_hnsw": true,
+      "search_chunks_text_v2": true,
+      "chunks_v2_enunciados_hnsw": true,
+      "match_chunks_v2_enunciados": true
+    },
+    "row_identity_sha256": "4cdbb18b64aae9da9371f36346c242f2147e8f5cb8e579fd5e48199a41fb2a48",
+    "retrieval_contract_sha256": "8b85762135e54d039529262c50d35b998d6fa06e48506585f940f5c07a30adb5",
+    "retrieval_physical_sha256": "cac56fe8f3c8d07edf385216cb7a9f427f7d4dc0cf928b44096db1d08a699628"
+  },
+  "selector": {
+    "code_sha256": "d602d598979efe419dea8b11aff7f638afeb7376dc842f81386485fc4a495fdf",
+    "config_sha256": "e698f510788a3dfc6a2d571fcb66469b6c982b9e7dd2f17426bf55f4a1bf8c96",
+    "query_facet_sha256": "1e263796ecd61d33968b61ed942e5da12da31e1ccb49b429d142b77a6e84355b",
+    "structured_claim_config_sha256": "a429b7a1d13c5974e3f84fc6f47656d10b6534dcb2e033c7d8c695b5fa19a88a"
+  },
+  "reranker_receipt": {
+    "model_alias": "claude-sonnet-4-6",
+    "backend": "llm",
+    "rerank_top_k": 10,
+    "preview_chars": 800,
+    "temperature": 0,
+    "prompt_ast_sha256": "d3120871940865f2ee0bc244063adafb0aa21dc331335a767d6db3553aef27ed",
+    "cached_served_artifact": "evals/s107_bounded_synthesis_pilot_v1.json",
+    "cached_served_artifact_sha256": "ba4e15a3144f2472fde2a51aeeaa1b69bc377532b68e98e67e958371d3bc7338",
+    "cached_context_ids_sha256": "61836826ac053b60d26bf00990f21786d1cc5ae8086e533c9fd097d7b20cfe11",
+    "cached_queries": 3
+  },
+  "adjudication_rubric_sha256": "04b4decbc63eed808f61b1b354c2b0eea8f2424e0dfca1e10edc0b1e9dba7053",
+  "adjudication_join": {
+    "pure_join_sha256": "058a39aac9ae38cc3900bc6876efc76649e576430dff13202c5fb7bf3d2807b5",
+    "local_panel_sha256": "c670c7426c08214bd70ff93fe94428cea9eda2b6be65d6f9556fa62ac6c088df",
+    "raw_query_or_content_in_durable_receipt": false,
+    "synthetic_http_smoke": "GET_200_POST_303_completion_200"
+  },
+  "personal_data_boundary": {
+    "receipt": "evals/s107_personal_data_hardening_apply_v1.json",
+    "receipt_sha256": "33b93f935f295195903ffdc8a6f50aaebcf3c546b7e0bd7e01f44ed1522d5ffe",
+    "status": "applied_and_postgrest_verified"
+  },
+  "preregistration_sha256": "db2f5594e571c06d26734e87b19a8e9c689baea8871dc5f80c2640e37f6be4f3",
+  "focused_regression": "106 passed from the explicit deployable closure",
+  "post_migration_local_probe": "3/3 target facts; 14/39 activations; 28 anchors; 0 overflow",
+  "external_activation_checks": {
+    "current_environment_rerank_top_k": 10,
+    "hmac_secret_configured": true,
+    "hmac_key_version": "v1",
+    "retention_verified": true,
+    "access_verified": true
+  },
+  "activation_blockers": [],
+  "files": [
+    {
+      "path": ".env.example",
+      "bytes": 1080,
+      "sha256": "630f9892945f5d35201384b5b66cc0a709fa67f0d874a54559918560502dd0fe"
+    },
+    {
+      "path": "config/evidence_coverage_facets_v2.yaml",
+      "bytes": 1917,
+      "sha256": "d9a8e9422d60bd94aac5e4e185cc7e81a8c9b5cbfb4be76509f62d86c7a0f838"
+    },
+    {
+      "path": "config/evidence_coverage_facets_v4.yaml",
+      "bytes": 2077,
+      "sha256": "49a4aa87ed872972ed2c700db4f25393088ab697c99b5618d80957e42d8aaf95"
+    },
+    {
+      "path": "config/structural_neighbor_coverage_v1.yaml",
+      "bytes": 1325,
+      "sha256": "e698f510788a3dfc6a2d571fcb66469b6c982b9e7dd2f17426bf55f4a1bf8c96"
+    },
+    {
+      "path": "config/retrieval_facets_v3.yaml",
+      "bytes": 3089,
+      "sha256": "1e263796ecd61d33968b61ed942e5da12da31e1ccb49b429d142b77a6e84355b"
+    },
+    {
+      "path": "config/structured_numeric_claims_v2.yaml",
+      "bytes": 3059,
+      "sha256": "a429b7a1d13c5974e3f84fc6f47656d10b6534dcb2e033c7d8c695b5fa19a88a"
+    },
+    {
+      "path": "src/config.py",
+      "bytes": 8873,
+      "sha256": "66a64e64616c626b1dac0ba0534781394c31456f3b38ad33cef9bdaa9efcf0da"
+    },
+    {
+      "path": "src/bot/telegram_bot.py",
+      "bytes": 29237,
+      "sha256": "9d441f326eb0aa7b8740552e59c778788fb24c4c8a38ca8d01672e4bb58bdac7"
+    },
+    {
+      "path": "src/rag/evidence_coverage.py",
+      "bytes": 11115,
+      "sha256": "bbf5b098750ef391735b6c99f746205f952c2decd99cca8a5c586993d93ee027"
+    },
+    {
+      "path": "src/rag/evidence_window.py",
+      "bytes": 4758,
+      "sha256": "1cccc9844cb607036d29fd54004b3d4d1b44ae14c96d9d630994bb67a64d33cd"
+    },
+    {
+      "path": "src/rag/structural_neighbor_coverage.py",
+      "bytes": 12999,
+      "sha256": "d602d598979efe419dea8b11aff7f638afeb7376dc842f81386485fc4a495fdf"
+    },
+    {
+      "path": "src/rag/structural_neighbor_shadow.py",
+      "bytes": 13141,
+      "sha256": "a424572f75e4d89e631bc58a7637f89cfb5faf561017cd04025e321fdfdb8321"
+    },
+    {
+      "path": "src/rag/query_facets.py",
+      "bytes": 4007,
+      "sha256": "6945c174c5cf59a199f7d1d94e1c5901d9bb77b0377e625242ce853347201d23"
+    },
+    {
+      "path": "src/rag/structured_claims.py",
+      "bytes": 20288,
+      "sha256": "2160f95079d0992b1d34323ec0921a42866cd9c3e50b5676ba23d8aa373951ed"
+    },
+    {
+      "path": "src/rag/toc_detection.py",
+      "bytes": 1541,
+      "sha256": "120ba6e6ef9873577aebc0b089d5e57f5c4c16bd305f227fe571313890ea1f3e"
+    },
+    {
+      "path": "scripts/s107_freeze_structural_neighbor_runtime.py",
+      "bytes": 10422,
+      "sha256": "745ef1c402ccb176611c379afb28b643669bdecb389e260e9ba6d8264d143c37"
+    },
+    {
+      "path": "scripts/s107_structural_neighbor_coverage_probe.py",
+      "bytes": 18292,
+      "sha256": "92c3274ff99b7993b58a3d2b68c1c6a634c423b40be76dbec789bc87c7707873"
+    },
+    {
+      "path": "scripts/s107_shadow_adjudication_join.py",
+      "bytes": 12018,
+      "sha256": "058a39aac9ae38cc3900bc6876efc76649e576430dff13202c5fb7bf3d2807b5"
+    },
+    {
+      "path": "scripts/s107_shadow_adjudication_panel.py",
+      "bytes": 13380,
+      "sha256": "c670c7426c08214bd70ff93fe94428cea9eda2b6be65d6f9556fa62ac6c088df"
+    },
+    {
+      "path": "tests/test_structural_neighbor_coverage.py",
+      "bytes": 6148,
+      "sha256": "704e2aa675faa07d8451f24c7acfaa8ac4636d531ee1dc5c6db700a767cbc160"
+    },
+    {
+      "path": "tests/test_structural_neighbor_shadow.py",
+      "bytes": 5891,
+      "sha256": "add1a62d9f4137723614dc8ba0f1fcae804e8236587b202ce954ab1c725cda62"
+    },
+    {
+      "path": "tests/test_structural_neighbor_handler_hook.py",
+      "bytes": 1569,
+      "sha256": "fcdb10da18c21bfeebfe61ec3702d237a28213ee6a35dae76a27190312c48176"
+    },
+    {
+      "path": "tests/test_structural_neighbor_adjudication.py",
+      "bytes": 5203,
+      "sha256": "3424bd088ae4ed695c3e3c4d6c270064cfef57205f67781986e7cea99c52cf1a"
+    },
+    {
+      "path": "tests/test_query_facets.py",
+      "bytes": 3726,
+      "sha256": "d7ac9012694564213b5c86667a73ee62d92da3b90efd487123e92af2bb6e8661"
+    },
+    {
+      "path": "tests/test_structured_claims.py",
+      "bytes": 4608,
+      "sha256": "39ca2e6c091eb53ee23f213cc8f139ac120ddb0e858ed78454a91c8195ae78f2"
+    },
+    {
+      "path": "tests/test_evidence_coverage.py",
+      "bytes": 5101,
+      "sha256": "74fcc3241a62d953c4031ffa2cc2aec3e66ab89f4e8b6e92513c010d241f51b8"
+    },
+    {
+      "path": "tests/test_evidence_window.py",
+      "bytes": 1938,
+      "sha256": "4f3fcaaa66528a08a0b6ad30767ea3d1ba6ba15b4afc987f20d66020b1c66222"
+    },
+    {
+      "path": "tests/test_generator_coverage_obligations.py",
+      "bytes": 3418,
+      "sha256": "e8adf91b553967d621868623c4ac932848c6389328b136d898b9df792e75d637"
+    },
+    {
+      "path": "tests/test_config_governed_chunks.py",
+      "bytes": 1918,
+      "sha256": "e11c6eaa0ee37c7071936fdda6656a47372c94dc8bd67b91f33bd6816b800039"
+    },
+    {
+      "path": "evals/s107_structural_neighbor_shadow_prereg_v1.yaml",
+      "bytes": 6408,
+      "sha256": "db2f5594e571c06d26734e87b19a8e9c689baea8871dc5f80c2640e37f6be4f3"
+    },
+    {
+      "path": "evals/s107_structural_neighbor_coverage_probe_v1.json",
+      "bytes": 264116,
+      "sha256": "b70439fa10e26c627f6073c99be422315605ac7f1d50677995fde7e84ae89c4f"
+    },
+    {
+      "path": "evals/s107_document_revision_reconciliation_apply_v1.json",
+      "bytes": 7375,
+      "sha256": "d4a7536bf8b584f310165ba2a0ac542f3fea30a7edb9b949925be99ba2db8b02"
+    },
+    {
+      "path": "evals/s107_m014_corpus_fingerprint_apply_v1.json",
+      "bytes": 2906,
+      "sha256": "522c0fcde0e33d69ef626681027aef0a89718602e2a81f11a1f5e24a76af0d63"
+    },
+    {
+      "path": "evals/s107_personal_data_hardening_apply_v1.json",
+      "bytes": 5300,
+      "sha256": "33b93f935f295195903ffdc8a6f50aaebcf3c546b7e0bd7e01f44ed1522d5ffe"
+    },
+    {
+      "path": "evals/s107_bounded_synthesis_pilot_v1.json",
+      "bytes": 23947,
+      "sha256": "ba4e15a3144f2472fde2a51aeeaa1b69bc377532b68e98e67e958371d3bc7338"
+    },
+    {
+      "path": "supabase/migrations/20260713141223_reconcile_validated_document_revisions_v1.sql",
+      "bytes": 9093,
+      "sha256": "821f160ccac37a4b9884069d46300b993e9553fa7adb5fc5378a8e9fb01afada"
+    },
+    {
+      "path": "supabase/migrations/20260713164800_harden_personal_data_tables_v1.sql",
+      "bytes": 4712,
+      "sha256": "3560e0c6d57e32d9499d01de1153f59d18e2feb8aacb93a7366fcd65883e21b6"
+    }
+  ]
+}

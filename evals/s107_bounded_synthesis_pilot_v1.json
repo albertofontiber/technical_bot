@@ -1,0 +1,230 @@
+{
+  "instrument": "s107_bounded_synthesis_pilot_v1",
+  "read_only_corpus": true,
+  "production_writes": 0,
+  "execution_requested": true,
+  "treatment": "frozen served prefix plus bounded post-rerank coverage",
+  "frozen_inputs": {
+    "baseline_sha256": "df975d212ad8e2c27ff8ca587a37bdf70223b3a0d2436f69a70c60b3a210a9dc",
+    "pools_sha256": "b9e8b6853581e248f58493f63ead84be52aa4ca69129df8885d0212a3a3affd0",
+    "coverage_contract_sha256": "d08238d98284f7c3dfac9ca3d193865e9c6fdef17e62eb258d7d66fbe1333b11",
+    "coverage_contract_input_hashes": {
+      "baseline_sha256": "df975d212ad8e2c27ff8ca587a37bdf70223b3a0d2436f69a70c60b3a210a9dc",
+      "reference_probe_sha256": "d7dd2a423026efb4b771325aa56aa5cd6690ad4ccaae38e70567962d8a2548a5",
+      "reference_votes_sha256": "34032912927d6049afa7570b00ffa31718ed34b56dcf2296fb7049f313ae4f56",
+      "repair_probe_sha256": "f68549ff1291c0be583d14c023bb4f70a954b0cb478be4b05bc79761e65633b0",
+      "repair_votes_sha256": "3fd3cf475a06ae3f1dee039b1c987fa65c7897232ef63997cbb28e6582b319c2",
+      "append_limit": 4,
+      "scan_limit": 16,
+      "repair_min_independent_need_votes": 2
+    },
+    "model": "claude-sonnet-4-6",
+    "max_output_tokens": 3500,
+    "flags": {
+      "CHUNKS_TABLE": "chunks_v2",
+      "ENUNCIADOS_MULTIVECTOR": "on",
+      "IDENTITY_RESOLVE": "on",
+      "IDENTITY_RESOLVE_POLICY": "ADD",
+      "LLM_MAX_TOKENS": "3500",
+      "RERANK_TOP_K": "10",
+      "RERANKER_BACKEND": "llm",
+      "MERGE_STRATEGY": "stamps",
+      "RERANK_PREVIEW_CHARS": "800",
+      "HYDE_ENABLED": "false",
+      "DIVERSIFY_TIEBREAK": "off",
+      "HYQ_PILOT_FILE": "",
+      "GENERATOR_PROMPT_VARIANT": "fidelity",
+      "HYQ_TABLE": "on",
+      "GENERATOR_SELECTION_BLOCK": "on"
+    }
+  },
+  "gate": {
+    "queries": 3,
+    "paid_generator_calls": 3,
+    "checkpoint_reuses": 3,
+    "synthesis_successes": 1,
+    "all_stop_reasons_end_turn": true,
+    "total_input_tokens": 50101,
+    "total_output_tokens": 4047,
+    "interpretation": "PARTIAL_GO_SYNTHESIS_REMEDIATION_REQUIRED"
+  },
+  "rows": [
+    {
+      "qid": "hp011",
+      "question": "En la Morley RP1r, después de descargar la extinción el sistema no vuelve a estado normal tras resetear. ¿Qué comprobar?",
+      "fact": "05 a 295 seg",
+      "candidate_id": "4581dc4b-db9e-437f-8f96-3db8b57a045a",
+      "target_fragment": "F14",
+      "baseline_fact_present": false,
+      "context_ids": [
+        "daa7a7c4-c4a8-4c54-b2dd-c5e889cccfe8",
+        "98b1ad32-22eb-4ec6-9bde-47a2c8d98358",
+        "bd2d7703-98c6-45da-b044-afb75a54a2f5",
+        "731ace03-99d6-47ff-8d1a-da5b381b5c47",
+        "e0f49eb5-7e1d-437e-a9d0-9887ecd79a1b",
+        "9cfe1892-39eb-467d-a94d-bfd120284e9c",
+        "27aef5f9-d66f-4a3b-a9e0-eb15dcf60acb",
+        "3ec4a329-9e1a-478c-9e42-44828b87b64c",
+        "c8924d59-a9ce-4379-a3b7-57058ff86a82",
+        "688c07f0-4617-4c47-9778-d6f6cb230d0c",
+        "b19cc5cd-1483-4b05-8504-8348a6364f5a",
+        "b3c5c2e4-99ba-471e-ad57-8ac8f6a7cee2",
+        "868baea7-0c0a-4ede-9393-e3e35e6b54d3",
+        "4581dc4b-db9e-437f-8f96-3db8b57a045a"
+      ],
+      "fallback_similarity_ids": [
+        "9cfe1892-39eb-467d-a94d-bfd120284e9c",
+        "688c07f0-4617-4c47-9778-d6f6cb230d0c"
+      ],
+      "content_chars": 30161,
+      "system_chars": 22923,
+      "target_excerpt": "| Valor variable de 05 a 295 seg. | Tiempo de activación del circuito de extinción, o periodo de inundación. Variable en intervalos de 5 seg. |\n| ------------------------------- | --------------------------------------------------------------------------------------------------------- |\n| - -                             | Circuito activado hasta rearme de la central (por defecto)                                                |\n\n</td>\n</tr>\n<tr>\n<td>[LED Display showing: P.d]</td>\n<td>Retardo en caso de disparo manual</td>\n<td>En caso que el disparo de la extinción se produzca mediante la acti",
+      "trace": {
+        "served_prefix_n": 10,
+        "scanned": 4,
+        "append_limit": 4,
+        "scan_limit": 16,
+        "appended_ids": [
+          "b19cc5cd-1483-4b05-8504-8348a6364f5a",
+          "b3c5c2e4-99ba-471e-ad57-8ac8f6a7cee2",
+          "868baea7-0c0a-4ede-9393-e3e35e6b54d3",
+          "4581dc4b-db9e-437f-8f96-3db8b57a045a"
+        ],
+        "duplicate_ids": [],
+        "rejected": {},
+        "appended_by_lane": {
+          "same_source_reference_bm25_v1": 4
+        }
+      },
+      "contract_sha256": "d08238d98284f7c3dfac9ca3d193865e9c6fdef17e62eb258d7d66fbe1333b11",
+      "executed": true,
+      "model": "claude-sonnet-4-6",
+      "max_output_tokens": 3500,
+      "stop_reason": "end_turn",
+      "input_tokens": 16418,
+      "output_tokens": 1401,
+      "fact_present": false,
+      "fact_cited_by_target_fragment": false,
+      "synthesis_success": false,
+      "answer": "# RP1r — Sistema no vuelve a estado normal tras resetear después de extinción\n\nAquí tienes los puntos clave a comprobar, en orden de probabilidad:\n\n---\n\n## 1. Verificar si hay \"Fallo de Sistema\" activo\n\nEl boletín técnico HLSI-BT-001 [F7] indica específicamente que si el microprocesador principal tarda en inicializar o detecta tensiones fuera de rango, la central señaliza **Fallo de Sistema** y en ese estado **NO realizará el proceso de extinción ni volverá a estado normal**.\n\n**Acción:** Comprueba si el led **Fallo Sistema** está encendido [F8]. Si es así:\n- Realiza un **Rearme** de la central (nivel de acceso 2 → tecla **Rearme**) [F6]\n- Si el fallo desaparece tras el rearme, el sistema debería volver a estado normal\n\n---\n\n## 2. Verificar el parámetro \"Rearme Inhibido\" (rI)\n\nSegún la programación de la RP1r [F3], existe un parámetro **rI** que, si está habilitado (microinterruptor **SW1-6 en ON**), impide rearmar la central durante un tiempo programable de **0 a 30 minutos** desde que se inició el estado de ACTIVADO (según **EN12094:1/2003 Punto 4.12.2**).\n\n**Acción:**\n- Comprueba si en el display de 7 segmentos aparece **rI** con un valor distinto de **00**\n- Si SW1-6 está en ON y el tiempo programado no ha transcurrido, la central no permitirá el rearme hasta que expire ese tiempo\n- Por defecto este parámetro está en **00 minutos** (función anulada, SW1-6 en OFF) [F3]\n\n---\n\n## 3. Comprobar averías enclavadas en circuitos de supervisión\n\nTodas las entradas supervisadas requieren una **Resistencia Final de Línea (RFL) de 6K8** [F10]. Si algún circuito tiene avería enclavada, el sistema no volverá a estado normal aunque se resetee.\n\nComprueba los leds intermitentes en los siguientes circuitos [F10]:\n\n- **CCT EXT 1 / CCT EXT 2** (circuitos de solenoide, terminales 10 y 11) → Led \"Avería Circuito de Extinción\" intermitente\n- **SND 1 / SND 2** (sirenas, terminales 18 y 19) → Led \"Sirenas Fallo/Anuladas\" intermitente\n- **ABORT SWITCH (F)** → Esta avería **requiere rearme manual** y detiene la extinción. Es la única que NO tiene rearme automático entre los circuitos de supervisión\n- **LOW PRESS (C), FLOW PRESS (D), DOOR OPEN (E), HOLD SWITCH (G)** → Rearme automático cuando desaparece la condición\n\n> ⚠️ **Importante:** La avería en el circuito **ABORT SWITCH** es la única que requiere rearme manual obligatorio [F10]. Si ese circuito tiene avería activa, el sistema no se restablecerá hasta resolverla y rearmar manualmente.\n\n---\n\n## 4. Procedimiento de rearme correcto\n\nPara rearmar correctamente [F6]:\n1. Habilitar **nivel de acceso 2** (girar llave o habilitar teclado)\n2. Pulsar tecla **Rearme**\n3. Las entradas enclavadas se reiniciarán\n\n---\n\n## Resumen de comprobación rápida\n\n- **Led Fallo Sistema encendido** → Rearmar (puede ser arranque con perturbación de tensión) [F7]\n- **Display muestra rI > 00** → Esperar a que expire el tiempo de inhibición [F3]\n- **Led intermitente en algún circuito** → Identificar el circuito, resolver la causa (verificar RFL 6K8, continuidad del cableado) y rearmar [F10]\n- **Led Extinción Realizada fijo** → Es indicación normal post-extinción; desaparece con el rearme [F1]\n\n---\n\n> ⚠️ **Nota de provenance:** Los fragmentos F1, F3, F4, F7, F8 y F10 provienen del manual MNDT102 y del boletín HLSI-BT-001 con estado `legacy_unverified_parent`. Los fragmentos F6 provienen de MIEMN570 con estado `admission_status_unavailable`. Ninguno tiene `reviewed_parent`, por lo que la identidad documental y revisión no están verificadas formalmente. Contrasta con el manual físico de tu equipo.\n\n**Fuentes:**\n- MNDT102 — Manual de usuario RP1r (sin revisión registrada)\n- HLSI-BT-001 — Boletín técnico Honeywell Life Safety Iberia (04/11/2011)\n- MIEMN570 — Manual VSN-RP1r (Rev. 008)\n\n---\n\nTambién puedo ayudarte con: **verificación del cableado de los circuitos de solenoide (CCT EXT)**, **configuración del parámetro rI de inhibición de rearme** o **interpretación de leds de avería específicos** de la RP1r.\n\n⚠️ Provenance pendiente (F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12, F13, F14): la identidad documental de estos fragmentos aún no cuenta con una admisión revisada. El texto se conserva, pero su revisión, fabricante y linaje no deben darse por confirmados.",
+      "checker_version": "exact_fact_and_target_citation_v2_unit_normalized",
+      "reused_checkpoint": true
+    },
+    {
+      "qid": "hp014",
+      "question": "¿Cómo se conecta un módulo de aislamiento de línea en un lazo ID2000?",
+      "fact": "35 ohmios",
+      "candidate_id": "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+      "target_fragment": "F11",
+      "baseline_fact_present": false,
+      "context_ids": [
+        "3f8a816d-a733-4108-bad5-710478096c7b",
+        "823ccbfd-d9d8-4d9a-9a89-049ff3b96dc6",
+        "6d5eb18f-4b4b-45fa-bee3-dec0f6026610",
+        "330d7551-7bb0-4c0e-a27d-ec47c0065128",
+        "04197991-304d-4097-a31d-abedf245039b",
+        "5f2d4e26-ce45-48fe-b9f8-6601dc88d136",
+        "4a024b60-4d28-48ee-a167-c15a3950364a",
+        "458afc80-1df5-4936-a313-59452bfad4cd",
+        "0f5c8f8f-a285-48fd-8c98-234ddc8a43ce",
+        "5baaf75a-5d03-4dff-a485-83fc6f018c70",
+        "d4018c9b-8eff-4b19-b826-5bb4df55d29e"
+      ],
+      "fallback_similarity_ids": [],
+      "content_chars": 27012,
+      "system_chars": 22923,
+      "target_excerpt": "### 3.2 Notas sobre la instalación del cable\n\n#### 3.2.1 Introducción\n\nLas notas siguientes pretenden ser una ayuda para los instaladores de sistemas de control direccionables analógicos. Se han creado a partir de información ofrecida por el suministrador e información relativa a sistemas ya existentes.\n\n#### 3.2.2 Calidad e instalación del cable\n\nEs de vital importancia que el cable utilizado sea de buena calidad y que se instale de forma correcta. En general, se deben cumplir los siguientes requisitos:\n\na. Todas las secciones de cable deben ser circulares para que la sujeción del cable sea e",
+      "trace": {
+        "served_prefix_n": 10,
+        "scanned": 1,
+        "append_limit": 4,
+        "scan_limit": 16,
+        "appended_ids": [
+          "d4018c9b-8eff-4b19-b826-5bb4df55d29e"
+        ],
+        "duplicate_ids": [],
+        "rejected": {},
+        "appended_by_lane": {
+          "r2_parent_rescue_multineed_consensus_v1": 1
+        }
+      },
+      "contract_sha256": "d08238d98284f7c3dfac9ca3d193865e9c6fdef17e62eb258d7d66fbe1333b11",
+      "executed": true,
+      "model": "claude-sonnet-4-6",
+      "max_output_tokens": 3500,
+      "stop_reason": "end_turn",
+      "input_tokens": 17014,
+      "output_tokens": 1470,
+      "fact_present": true,
+      "fact_cited_by_target_fragment": true,
+      "synthesis_success": true,
+      "answer": "# Conexión del módulo de aislamiento de línea en lazo ID2000\n\n## Requisitos de instalación (norma EN54)\n\nAntes de conectar el módulo, ten en cuenta los límites obligatorios [F4]:\n\n- **Máximo 32 equipos de lazo entre aisladores** (requisito EN54-2: 12.5.2) [F4]\n- **En la ID2000: no más de 25 equipos entre aisladores** (o **20 si son aisladores tipo FET**) [F4]\n- Este requisito aplica a **todos los lazos analógicos**, incluyendo los que tienen detectores de zona convencional y/o pulsadores [F4]\n\n---\n\n## Procedimiento de conexión\n\n### Paso 1 — Comprobaciones previas al cableado\n\nRealiza las comprobaciones de continuidad del lazo **antes de conectar los aisladores** [F4].\n\n> ⚠️ **NO utilices nunca un multímetro de alta tensión (tipo \"Megger\") en el lazo** [F4]\n\n### Paso 2 — Desconexión temporal de los aisladores para pruebas\n\nDurante las comprobaciones del lazo, **cortocircuita temporalmente los terminales 2 y 4 de cada aislador** para desconectarlos [F3].\n\n> ⚠️ **El cableado del lazo DEBE desconectarse del panel mientras realizas este procedimiento** [F3]\n\n### Paso 3 — Comprobaciones de resistencia de lazo\n\nCon los aisladores cortocircuitados, mide la resistencia final de línea y verifica que es inferior a [F3]:\n\n**En placa base y LIB:**\n- **14,5 Ω** para detección de dirección duplicada\n- **28,5 Ω** si no es necesaria la detección de dirección duplicada\n\n**En placa base y LIB (segundo caso):**\n- **18,5 Ω** para garantizar detección de dirección duplicada\n- **35,5 Ω** si no es necesaria la detección de dirección duplicada\n\nAdicionalmente, la **resistencia máxima total del lazo no debe superar los 35 Ω** y la **capacidad del cable debe ser inferior a 0,5 µF** [F11].\n\n### Paso 4 — Comprobación de polaridad\n\n- Conecta el multímetro en **polaridad invertida** (+ al lazo − y − al lazo +): debe indicar presencia de diodos polarizados en paralelo [F3]\n- Conecta el multímetro en **polaridad normal** (+ al lazo + y − al lazo −): debe indicar resistencia baja que aumenta progresivamente al cargarse los condensadores de los equipos [F2]\n- Si indica un único diodo polarizado, algún equipo puede estar **conectado con polaridad invertida** [F2]\n\n### Paso 5 — Comprobación del apantallamiento\n\nVerifica que **no hay conexión entre el cable de pantalla y el positivo (+) ni el negativo (−)** del cable [F2].\n\n> **Nota:** La pantalla solo debe conectarse a tierra en el panel [F2] [F11]\n\n### Paso 6 — Retirada de las conexiones temporales y conexión al panel\n\n1. **Retira las conexiones temporales** (cortocircuitos) en los aisladores [F1]\n2. **Conecta el cableado del lazo al panel**, verificando que la polaridad es correcta: los extremos marcados como **A y B deben conectarse en los terminales adecuados** [F1]\n\n### Paso 7 — Puesta en marcha tras la conexión\n\n1. Reconecta la **alimentación principal** [F1]\n2. > ⚠️ **NUNCA conectes las baterías antes que la alimentación principal** [F1]\n3. Comprueba si la pantalla LCD indica alguna avería (consulta el Apéndice 1 del manual) [F1]\n\n---\n\n## Referencia de terminales del aislador\n\nEl aislador dispone de **4 terminales**: los terminales **2 y 4** son los que se cortocircuitan temporalmente durante las pruebas [F3].\n\n---\n\n## Cableado del lazo — Requisitos generales\n\n- Cable **apantallado**, con pantalla conectada a tierra **solo en el panel** [F11]\n- **Longitud máxima del lazo: 2000 metros** con cable de **1,5 mm² de sección o superior** [F3] [F11]\n- La pantalla debe continuar a lo largo de **todo el lazo** [F11]\n\n---\n\n> ⚠️ **Aviso sobre cortocircuito:** Si ocurre un cortocircuito entre dos aisladores, el sistema lo señalizará como 'Posible corte'. Los equipos instalados entre los puntos de aislamiento aparecerán como NO RESPONDE/PERDIDO o PÉRDIDA PARCIAL DEL LAZO si faltan más de tres equipos [F5].\n\n---\n\n**Fuente:** Panel ID2000 - Manual de instalación y puesta en marcha, ref. MI-DT-180 (sin revisión registrada); Panel ID2000 - Manual de programación, ref. MP-DT-180 (sin revisión registrada). Provenance: legacy_unverified_parent / admission_status_unavailable — la identidad documental y revisión no están verificadas; contrasta con el manual físico de tu instalación.\n\n---\n\nTambién puedo ayudarte con: **comprobación de los circuitos de sirena**, **configuración de zonas en el lazo** o **interpretación de mensajes de avería del Apéndice 1** de la ID2000.\n\n⚠️ Provenance pendiente (F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11): la identidad documental de estos fragmentos aún no cuenta con una admisión revisada. El texto se conserva, pero su revisión, fabricante y linaje no deben darse por confirmados.",
+      "checker_version": "exact_fact_and_target_citation_v2_unit_normalized",
+      "reused_checkpoint": true
+    },
+    {
+      "qid": "hp017",
+      "question": "¿Cómo se programa el retardo de salida de alarma principal en la Notifier PEARL?",
+      "fact": "instruccion de entrada y salida",
+      "candidate_id": "342d782a-db3c-489e-bac4-c49426bd18cc",
+      "target_fragment": "F13",
+      "baseline_fact_present": false,
+      "context_ids": [
+        "570d9951-e3a6-4c64-a927-e26b5e6db842",
+        "7e34cb72-0183-488a-9aa3-fcc81b40f3ef",
+        "ac308dbf-357e-4356-9049-1ccfcc6ff749",
+        "3ef1b823-b62e-40d4-8a9a-ebac320f6414",
+        "13bee205-9f2b-44ba-9891-37d77b5fa110",
+        "f68b0586-ae54-4089-b286-ee8792834c3d",
+        "e522c315-ef36-4830-ae62-cf6de8d2d0db",
+        "51df7a51-4970-4cfc-8ef1-3771f480dd78",
+        "bc1de145-c91e-4c98-8cf6-4d5d7946ec94",
+        "9587cd83-e271-42b9-ba8f-dfd05ae94935",
+        "b239fbc9-0732-47c9-a205-0f132d75b5a1",
+        "437ab8ef-47ed-41ee-869f-ea3d95c70263",
+        "342d782a-db3c-489e-bac4-c49426bd18cc",
+        "4a6b8baf-1243-4919-bdaf-3823675b1562"
+      ],
+      "fallback_similarity_ids": [],
+      "content_chars": 26778,
+      "system_chars": 22923,
+      "target_excerpt": "- Una alarma en CUALQUIER zona activa las sirenas de TODAS las zonas, en modo intermitente.\n\nPuesto que una salida fija anula una salida intermitente, cree una regla independiente para cada zona, del siguiente modo:\n\n- Una alarma en la zona «n» activa las sirenas de la zona «n» en modo fijo.\n\nSin embargo, posiblemente sea necesario que las sirenas de la planta donde se active la alarma y las de la inmediatamente superior funcionen en modo fijo. Para la planta de arriba se utiliza un breve retardo para permitir que la zona en alarma primero se evacue con seguridad. Así pues, hay que crear una r",
+      "trace": {
+        "served_prefix_n": 10,
+        "scanned": 4,
+        "append_limit": 4,
+        "scan_limit": 16,
+        "appended_ids": [
+          "b239fbc9-0732-47c9-a205-0f132d75b5a1",
+          "437ab8ef-47ed-41ee-869f-ea3d95c70263",
+          "342d782a-db3c-489e-bac4-c49426bd18cc",
+          "4a6b8baf-1243-4919-bdaf-3823675b1562"
+        ],
+        "duplicate_ids": [],
+        "rejected": {},
+        "appended_by_lane": {
+          "same_source_reference_bm25_v1": 4
+        }
+      },
+      "contract_sha256": "d08238d98284f7c3dfac9ca3d193865e9c6fdef17e62eb258d7d66fbe1333b11",
+      "executed": true,
+      "model": "claude-sonnet-4-6",
+      "max_output_tokens": 3500,
+      "stop_reason": "end_turn",
+      "input_tokens": 16669,
+      "output_tokens": 1176,
+      "fact_present": false,
+      "fact_cited_by_target_fragment": false,
+      "synthesis_success": false,
+      "answer": "# Programación del retardo de salida de alarma en la Notifier PEARL\n\nLa programación del retardo de salida de alarma en la PEARL se realiza a través de las **reglas de causa-efecto** (Apéndice 5), accesibles desde el menú de configuración de nivel 3.\n\n---\n\n## 1. Acceso a la programación (Nivel de acceso 3)\n\nDesde el **Menú «Editar Configuración»** → opción **«8: Causa y Efecto»** [F8], que remite al **Apéndice 5. Programación de causa-efecto** [F1].\n\nLa ruta de menús es [F7]:\n- Menú de Configuración de Central → **L3: Editar configuración** → **Reglas de causa-efecto**\n\n---\n\n## 2. Tipos de retardo disponibles\n\nCada regla de causa-efecto puede tener asignado **uno de seis tipos de retardo de salida** [F1]. Los tipos disponibles son [F2]:\n\n- **Fijo**\n- **Estándar**\n- **No Silenc.**\n- **Est. Ext.**\n- **RetExtStd**\n- **No Sil. Ext**\n- **SinRetExt**\n\nEl comportamiento de cada tipo ante las acciones del usuario es el siguiente [F2]:\n\n- **Detener salida al pulsar SILENCIAR SIRENAS durante el retardo:**\n  Solo activo en: Estándar, Est. Ext., RetExtStd\n\n- **Anular retardo desde nivel de acceso 2 con «Anular retardos»:**\n  Activo en todos excepto: Fijo\n\n- **Mostrar tiempo restante en pestaña ALARMA:**\n  Activo en todos excepto: Fijo\n\n- **Detener retardo activo desde nivel de acceso 2 pulsando FIN RETARDO:**\n  Activo en todos excepto: Fijo\n\n- **Detener salida al pulsar AMPLIAR RETARDO:**\n  Solo activo en: Est. Ext., No Sil. Ext\n\n- **Iniciar temporizador en RETARDO AMPLIADO:**\n  Solo activo en: RetExtStd, SinRetExt\n\n---\n\n## 3. Opción de habilitar/deshabilitar el pulsador AMPLIAR RETARDO\n\nDesde **Apéndice 1, parámetro 10: «Extend Delay Button»** [F10], se puede habilitar o deshabilitar el pulsador **EXTENDER RETARDO**, ya que esta función no se requiere en algunos mercados. El valor por defecto mostrado en el fragmento es **Enabled** [F10].\n\n---\n\n## 4. Anular/habilitar retardos en operación (Nivel de acceso 2)\n\nUna vez programado, el retardo puede gestionarse en operación desde [F3]:\n\n1. Acceder al **Menú Anular/Habilitar**\n2. Seleccionar **«5: Retardo Activación Salidas»**\n3. Pulsar **✓** para cambiar el estado entre HABILITADO y ANULADO\n4. Pulsar **✕** para salir\n\n> ⚠️ **Nota:** Esta opción solo está disponible si se han configurado retardos en alguna regla de causa-efecto. Si hay retardo activo, el **LED de RETARDO ACTIVO** estará encendido [F3].\n\n---\n\n## 5. Comportamiento en campo durante un retardo activo\n\nDurante un retardo activo, el operador puede [F4]:\n- Pulsar **AMPLIAR RETARDO** (nivel de acceso 2) para extender el tiempo y realizar una búsqueda\n- Pulsar **FIN RETARDO** (nivel de acceso 1) para terminar el retardo e ir directamente a condición de alarma completa\n\n---\n\n> ⚠️ **Aviso de provenance:** Los fragmentos recuperados tienen estado `legacy_unverified_parent`. El contenido es el extraído del manual, pero la identidad documental, revisión y condición OEM no están verificadas de forma independiente.\n\n**Fuente:** Manual de configuración de la central Pearl, ref. 997-671-005-3 (sin revisión registrada); Manual de funcionamiento Pearl, ref. 997-670-005-3 (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **programación de una regla de causa-efecto paso a paso**, **configuración del temporizador de coincidencia (Confirmar tiempo máximo)** o **gestión del nivel de acceso 2 para operación de retardos**.\n\n⚠️ Provenance pendiente (F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12, F13, F14): la identidad documental de estos fragmentos aún no cuenta con una admisión revisada. El texto se conserva, pero su revisión, fabricante y linaje no deben darse por confirmados.",
+      "checker_version": "exact_fact_and_target_citation_v2_unit_normalized",
+      "reused_checkpoint": true
+    }
+  ],
+  "limitations": [
+    "Known diagnostic targets establish causal conformance, not blind efficacy.",
+    "Exact fact-and-citation checks replace an LLM judge for this bounded pilot.",
+    "Two hp011 served chunks absent from the older s103 pool receive the frozen lexical-channel score 0.8; coverage candidates do not receive fabricated similarity scores.",
+    "No result changes the official OK denominator until versioned integration and a later blind/full gate."
+  ]
+}

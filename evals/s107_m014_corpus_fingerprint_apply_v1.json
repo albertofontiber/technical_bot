@@ -1,0 +1,75 @@
+{
+  "schema": "s107_m014_corpus_fingerprint_apply_v1",
+  "status": "applied_and_verified",
+  "database_host": "aws-1-eu-north-1.pooler.supabase.com",
+  "migration_path": "migrations/014_corpus_fingerprint_v1.sql",
+  "migration_sha256": "285dd74a1463bb71a21ab9bfb5ea4053789d606ede9b90b640c14008c676dbda",
+  "function_existed_before": false,
+  "function_persisted_after": true,
+  "corpus_state_before": {
+    "documents": 1170,
+    "chunks_v2": 25090,
+    "chunks_v2_enunciados": 22842,
+    "chunks_v2_hyq": 70134,
+    "chunks_v2_max_created_at": "2026-06-09T19:15:25.848279+00:00"
+  },
+  "corpus_state_after_inside_transaction": {
+    "documents": 1170,
+    "chunks_v2": 25090,
+    "chunks_v2_enunciados": 22842,
+    "chunks_v2_hyq": 70134,
+    "chunks_v2_max_created_at": "2026-06-09T19:15:25.848279+00:00"
+  },
+  "corpus_state_after_persisted_action": {
+    "documents": 1170,
+    "chunks_v2": 25090,
+    "chunks_v2_enunciados": 22842,
+    "chunks_v2_hyq": 70134,
+    "chunks_v2_max_created_at": "2026-06-09T19:15:25.848279+00:00"
+  },
+  "function_contract_inside_transaction": {
+    "volatility": "s",
+    "security_definer": true,
+    "service_role_execute": true,
+    "anon_execute": false,
+    "authenticated_execute": false,
+    "function_definition_sha256": "1f280e0852158b63501aad2843a7e946ab9fac5a4c64a17851d6d63ed0e8ebca"
+  },
+  "function_contract_after_persisted_action": {
+    "volatility": "s",
+    "security_definer": true,
+    "service_role_execute": true,
+    "anon_execute": false,
+    "authenticated_execute": false,
+    "function_definition_sha256": "1f280e0852158b63501aad2843a7e946ab9fac5a4c64a17851d6d63ed0e8ebca"
+  },
+  "fingerprint_inside_transaction": {
+    "count": 25090,
+    "table": "chunks_v2",
+    "schema": "corpus_fingerprint_v1",
+    "components": {
+      "chunks_v2": 25090,
+      "documents": 1170,
+      "chunks_v2_hyq": 70134,
+      "chunks_v2_enunciados": 22842,
+      "retrieval_contract_items": 142,
+      "retrieval_physical_items": 31
+    },
+    "content_sha256": "d3a89fce62315d038e7501b8a6b041127683dd1ebeaac661d94931783c4661e2",
+    "max_created_at": "2026-06-09T19:15:25.848279+00:00",
+    "embedding_sha256": "c6606c37f76ad014a9ca79b1bce1fdb875c0e695097e4bb0e88104f763d82d5b",
+    "required_objects": {
+      "match_hyq": true,
+      "chunks_v2_hnsw": true,
+      "match_chunks_v2": true,
+      "spanish_unaccent": true,
+      "chunks_v2_hyq_hnsw": true,
+      "search_chunks_text_v2": true,
+      "chunks_v2_enunciados_hnsw": true,
+      "match_chunks_v2_enunciados": true
+    },
+    "row_identity_sha256": "98b15b3c86a31605c0de58ad0eea035178d606253383c080baf6948024f244ec",
+    "retrieval_contract_sha256": "8b85762135e54d039529262c50d35b998d6fa06e48506585f940f5c07a30adb5",
+    "retrieval_physical_sha256": "cac56fe8f3c8d07edf385216cb7a9f427f7d4dc0cf928b44096db1d08a699628"
+  }
+}

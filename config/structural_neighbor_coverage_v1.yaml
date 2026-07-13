@@ -1,0 +1,43 @@
+schema: structural_neighbor_coverage_v1
+status: local_shadow_only
+
+# Expand only around evidence that already survived the main reranker.  The
+# bounds are corpus-independent and contain no manufacturer, model, QID or gold
+# value.
+max_seeds: 10
+max_gap: 8
+max_candidates: 192
+max_anchors: 2
+allowed_languages: [es, en]
+
+require_same_document: true
+require_same_extraction_sha256: true
+require_positive_query_score: true
+require_evidence_facet: true
+
+# A structured numerical claim is a ranking signal only for archetypes where a
+# measured limit or duration is a normal part of the requested field task.
+# Values are always read from the source; this list can never inject a value.
+numeric_priority_attributes:
+  fault_reset_recovery: [time]
+  connect_install_wire:
+    [loop_resistance, cable_capacitance, voltage, current, length]
+
+serving:
+  enabled: false
+  coverage_validated_field_allowed: false
+  reason: source_blob_receipts_and_release_review_pending
+
+shadow_runtime:
+  default_enabled: false
+  timeout_ms: 750
+  sample_basis_points: 1000
+  max_http_requests: 12
+  telemetry_sink: redacted_application_log
+  hmac_key_version_required: true
+  retention_days_max: 14
+  access: operations_and_named_evaluators_only
+  raw_query_allowed: false
+  raw_content_allowed: false
+  selected_ids_allowed: true
+  fail_open: true

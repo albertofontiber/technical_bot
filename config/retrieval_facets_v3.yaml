@@ -1,0 +1,76 @@
+schema: retrieval_facets_v3
+max_needs: 3
+policy: first_match
+archetypes:
+  - id: compatibility
+    patterns:
+      - '\b(compatible|compatibilidad|intercambiable)\b'
+      - '\b(puedo|se puede)\s+(montar|usar|conectar)\b'
+    stem_prefixes: [compat, intercambi]
+    needs:
+      - '{query} compatibilidad protocolo fabricante familia'
+      - '{query} requisitos eléctricos mecánicos de instalación'
+
+  - id: replace_without_loss
+    patterns:
+      - '\b(cambiar|reemplazar|sustituir|renovar)\b'
+    stem_prefixes: [cambi, reemplaz, sustitu, renov]
+    needs:
+      - '{query} verificar existencia y tipo del componente'
+      - '{query} alimentación principal respaldo redundancia'
+      - '{query} memoria persistente configuración reloj mantenimiento'
+
+  - id: connect_install_wire
+    patterns:
+      - '\b(conectar|conecta|conecte|conectan|cablear|cablea|cablee|cablean|montar|monta|monte|montan)\b'
+      - '\bcomo\s+(?:se\s+)?(?:instala|instalar|instale)\b'
+    # ``instal`` is intentionally absent: nouns/passives such as
+    # "para una instalacion" and "central instalada" express context, not an
+    # installation task.
+    stem_prefixes: [conect, cable]
+    needs:
+      - '{query} terminales polaridad conexión cableado'
+      - '{query} pantalla tierra continuidad resistencia circuito'
+      - '{query} límites seguridad comprobación instalación'
+
+  - id: battery_sizing
+    patterns:
+      - '(?=.*\b(capacidad|autonomia|ah)\b)(?=.*\b(bateria|baterias)\b)'
+    stem_prefixes: []
+    needs:
+      - '{query} consumo reposo alarma autonomia bateria'
+      - '{query} coeficiente envejecimiento margen reglamentario'
+
+  - id: capacity_quantity
+    patterns:
+      - '\b(cuantos|cuantas|capacidad|admite|soporta)\b'
+    stem_prefixes: [cuant, capac, admit, soport]
+    needs:
+      - '{query} capacidad por unidad lazo canal'
+      - '{query} capacidad total del sistema'
+      - '{query} variantes revisión mercado documentación conflicto'
+
+  - id: fault_reset_recovery
+    patterns:
+      - '\b(diagnosticar|diagnostico|rearmar|rearme|resetear)\b'
+      - '\bno vuelve\b'
+      - '(?=.*\b(dando|presenta|muestra|indica|aparece)\b)(?=.*\b(alarma|fallo|averia|error)\b)'
+      - '(?=.*\b(fallo|averia|error)\b)(?=.*\bque comprobar\b)'
+    # A noun-only mention can describe a relay specification rather than a
+    # live fault.  Route on diagnostic/recovery intent instead.
+    stem_prefixes: [diagnostic, rearm, reset]
+    needs:
+      - '{query} condición activa enclavada inhibición'
+      - '{query} temporizador duración estado posterior al evento rearme'
+      - '{query} diagnóstico comprobaciones recuperación'
+
+  - id: program_delay_cause_effect
+    patterns:
+      - '\b(retardo|maniobra)\b'
+      - '\bcausa[ -]efecto\b'
+      - '(?=.*\b(program\w*|configur\w*|dar de alta)\b)(?=.*\b(salida|evento|regla|matriz|zona|sirena|accion)\b)'
+    stem_prefixes: [retard, maniobr]
+    needs:
+      - '{query} ruta menú programación edición'
+      - '{query} condición entrada regla causa efecto'
+      - '{query} acción salida temporizador anulación'

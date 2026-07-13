@@ -1,0 +1,112 @@
+schema: structured_numeric_claims_v2
+status: local_fail_closed_prototype
+supported_languages: [es, en]
+
+operators:
+  maximum:
+    - no debe superar
+    - no superara
+    - maximo
+    - maxima
+    - como maximo
+    - inferior a
+    - menor que
+    - must not exceed
+    - shall not exceed
+    - maximum
+    - max
+    - less than
+  minimum:
+    - no debe ser inferior
+    - minimo
+    - minima
+    - como minimo
+    - superior a
+    - mayor que
+    - must not be below
+    - shall not be below
+    - minimum
+    - min
+    - greater than
+  exact:
+    - es de
+    - es
+    - tiene
+    - is
+    - equals
+  range:
+    - variable de
+    - entre
+    - comprendido entre
+    - comprendida entre
+    - from
+    - between
+    - adjustable from
+
+range_connectors: [a, al, y, hasta, to, and, "-", "–", "—"]
+
+units:
+  ohm: [ohm, ohms, ohmio, ohmios, omega, "Ω"]
+  volt: [v, vdc, vac, volt, volts, voltio, voltios]
+  ampere: [a, amp, amps, ampere, amperes, amperio, amperios]
+  milliampere: [ma, milliamp, milliamps, miliamperio, miliamperios]
+  microfarad: [uf, microfarad, microfarads, microfaradio, microfaradios, "µf", "μf"]
+  nanofarad: [nf, nanofarad, nanofarads, nanofaradio, nanofaradios]
+  metre: [m, metre, metres, meter, meters, metro, metros]
+  kilometre: [km, kilometre, kilometres, kilometer, kilometers, kilometro, kilometros]
+  second: [s, sec, secs, second, seconds, seg, segundo, segundos]
+  minute: [min, mins, minute, minutes, minuto, minutos]
+  hour: [h, hr, hrs, hour, hours, hora, horas]
+  celsius: [c, "°c", celsius, grado, grados]
+
+attributes:
+  loop_resistance:
+    term_groups:
+      - [resist]
+      - [lazo, bucle, loop]
+    units: [ohm]
+  voltage:
+    term_groups:
+      - [tension, voltaje, voltage]
+    units: [volt]
+  current:
+    term_groups:
+      - [corriente, consumo, current, consumption]
+    units: [ampere, milliampere]
+  cable_capacitance:
+    term_groups:
+      - [capacidad, capacitancia, capacitance]
+      - [cable, linea, lazo, line, loop]
+    units: [microfarad, nanofarad]
+  length:
+    term_groups:
+      - [longitud, distancia, length, distance]
+    units: [metre, kilometre]
+  time:
+    term_groups:
+      - [tiempo, duracion, retardo, intervalo, periodo, time, duration, delay, interval, period]
+    units: [second, minute, hour]
+  temperature:
+    term_groups:
+      - [temperatura, temperature]
+    units: [celsius]
+
+qualifiers:
+  per_loop: [por lazo, por cada lazo, per loop]
+  per_output: [por salida, por cada salida, per output]
+  per_device: [por equipo, por dispositivo, por cada equipo, por cada dispositivo, per device]
+
+table:
+  entity_headers: [modelo, model, equipo, device, producto, product]
+  max_columns: 12
+  max_rows: 100
+
+fail_closed:
+  reject_html_tables: true
+  reject_ocr_replacement_character: true
+  reject_ragged_markdown_tables: true
+  reject_multiple_values_for_same_attribute_without_range_parser: true
+  require_explicit_operator: true
+  require_unit_compatible_with_attribute: true
+  reject_conflicting_model_mentions: true
+  require_entity_match_when_table_has_entity_column: true

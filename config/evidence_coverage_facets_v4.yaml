@@ -1,0 +1,58 @@
+schema: evidence_coverage_facets_v4
+max_cards: 4
+window_chars: 360
+min_window_chars: 50
+min_distinct_terms: 2
+query_alignment_min_terms:
+  replace_without_loss: 0
+  connect_install_wire: 2
+  capacity_quantity: 1
+  fault_reset_recovery: 2
+  program_delay_cause_effect: 3
+archetypes:
+  replace_without_loss:
+    - id: component_identity
+      terms: [bateria, litio, componente, rtc, reloj]
+    - id: main_power
+      terms: [alimentacion, principal, suministro, borne, tension, voltaje]
+      required_any: [principal]
+    - id: redundant_power
+      terms: [alimentacion, respaldo, redundan, pwr, borne, tension, suministro]
+      required_any: [respaldo, redundan]
+    - id: persistence
+      terms: [memoria, eeprom, flash, configuracion, conservar, persist]
+
+  capacity_quantity:
+    - id: per_unit_capacity
+      terms: [lazo, capacidad, detector, modulo, dispositivo, canal]
+      required_any: [lazo, canal]
+    - id: system_total
+      terms: [total, sistema, lib, lazo, dispositivo, capacidad]
+      max_cards: 2
+      required_any: [total]
+    - id: variant_reconciliation
+      terms: [variante, revision, mercado, documento, conflicto, maximo]
+
+  fault_reset_recovery:
+    - id: state_blockers
+      terms: [condicion, activa, enclavada, inhibicion, bloqueo]
+    - id: timing_state
+      terms: [temporizador, duracion, tiempo, periodo, intervalo, posterior, evento, rearme]
+    - id: verification_recovery
+      terms: [diagnostico, comprobacion, recuperacion, normal, reposo, averia]
+
+  connect_install_wire:
+    - id: connection
+      terms: [terminal, borne, polaridad, conexion, cableado]
+    - id: continuity
+      terms: [pantalla, tierra, continuidad, resistencia, circuito, lazo]
+    - id: limits_safety
+      terms: [limite, maxim, seguridad, comprobar, medicion, instalacion]
+
+  program_delay_cause_effect:
+    - id: navigation
+      terms: [ruta, menu, programacion, edicion]
+    - id: logic_structure
+      terms: [condicion, entrada, regla, causa, efecto, matriz]
+    - id: output_timing
+      terms: [accion, salida, temporizador, retardo, anulacion]
