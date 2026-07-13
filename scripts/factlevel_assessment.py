@@ -112,7 +112,13 @@ from scripts.synthesis_miss_judge import (
 from scripts.audit_retrieval_funnel import (
     target_servable, fetch_manual_chunks, source_matches_target, doc_tokens, present_fact,
 )
-from scripts.audit_locator import measurable, fact_match_score, SCORE_FLOOR
+from scripts.audit_locator import (
+    SCORE_FLOOR,
+    fact_match_score,
+    measurable,
+    support_candidate_priority,
+    support_l1_guard_allows,
+)
 from scripts.retrieval_miss_famtie import gold_family, fam_norm, _pm_by_ids, _is_meta_ref
 from scripts.toc_heuristic import is_toc_page
 
@@ -512,7 +518,12 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
             keep = set()
             for cid in sup:
                 _content = (by_id_pool.get(cid) or {}).get("content") or ""
-                if (fact_match_score(valor, texto, _content) or 0) < SCORE_FLOOR - 0.15:
+                if not support_l1_guard_allows(
+                    valor,
+                    texto,
+                    _content,
+                    same_family=bool(family_resolved and same_family(cid)),
+                ):
                     continue
                 # H4 cerrado (s102): un ÍNDICE acreditado no es soporte por defecto — sus títulos
                 # matchean el anchor sin portar el contenido (inflaba synthesis-miss). Va al MISMO
@@ -548,10 +559,18 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
             # DUAL-SOPORTE targeted (s101): SIN soporte same-family + candidato léxico en pool → Opus
             # adjudica (FN demostrado 6/7). Trigger sobre sup_fam (crít cross-model: sobre sup raw perdía
             # el caso "GPT acredita solo cross-family"). Candidatos ORDENADOS por score, cap declarado.
-            lex_scored = sorted(
-                ((fact_match_score(valor, texto, c.get("content") or "") or 0, c) for c in pipe["pool"]),
-                key=lambda t: -t[0])
-            lex = [c for s, c in lex_scored if s >= SCORE_FLOOR]
+            candidate_scored = []
+            for candidate in pipe["pool"]:
+                priority = support_candidate_priority(
+                    valor,
+                    texto,
+                    candidate.get("content") or "",
+                    bool(family_resolved and same_family(candidate.get("id"))),
+                )
+                if priority is not None:
+                    candidate_scored.append((priority, candidate))
+            candidate_scored.sort(key=lambda item: item[0], reverse=True)
+            lex = [candidate for _, candidate in candidate_scored]
             if lex:
                 d2 = judge_support_dual(valor, texto, lex, workers=workers)
                 truncated = len(lex) > SUPPORT_BATCH_CAP

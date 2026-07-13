@@ -1,0 +1,161 @@
+{
+  "instrument": "s108_cat007_measurement_probe_v1",
+  "read_only": true,
+  "frozen_inputs": {
+    "baseline": "evals/s100_factlevel_full.yaml",
+    "baseline_sha256": "49e8cbaab5f86f89b67e0457267ceeca7a1078ac503fbe5a7249b798aeabe503",
+    "audit_locator_sha256": "e413ed296cd0e7f3412eb2b6238e0fbe17d64f4fa2e6d317b28948cf1430442e",
+    "probe_sha256": "7d2a4435f11b0dacc5b76a46882c541c330f07bbd5cfb8eddd811a6bfbdfaa39",
+    "target_keys": [
+      "cat007#3:2 A / 0,5 A",
+      "cat007#4:10^5"
+    ]
+  },
+  "source_rows": [
+    {
+      "id": "0438dbce-ae0f-4b74-8209-b86c42da87ef",
+      "product_model": "ASD11",
+      "source_file": "I56-3947-202_FAAST LT_MULTI",
+      "page_number": 5,
+      "content_sha256": "4e9c453904ff81f076410e40db72bf49a9f0af5e45d2b9a1997bf4576f9c7d0e"
+    },
+    {
+      "id": "5ba44464-842b-46f7-ac43-259be83ad416",
+      "product_model": "FAAST LT-200",
+      "source_file": "I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG",
+      "page_number": 5,
+      "content_sha256": "6f2b9e473d00e85c1521b769502698cbc231fa79178f5e740b4edc93fe7596ce"
+    },
+    {
+      "id": "80f7a04f-3b43-4a6f-a0dd-13a57721f442",
+      "product_model": "FAAST LT-200",
+      "source_file": "I56-6577-006_EN Notifier FAAST LT-200 QIG",
+      "page_number": 5,
+      "content_sha256": "31612916a97a1a3e7b9d4ff23bcc0b8cef4bf1cc63748909e7464a7ab6151a25"
+    }
+  ],
+  "gate": {
+    "facts": 2,
+    "model_calls": 0,
+    "database_writes": 0,
+    "same_family_recovered_facts": 2,
+    "recovered_reaches_generator_facts": 2,
+    "answer_value_present_facts": 2,
+    "cross_family_admitted_chunks": 0,
+    "official_ok_uplift": 0,
+    "interpretation": "GO_MEASUREMENT_REPLAY_ONLY"
+  },
+  "facts": [
+    {
+      "key": "cat007#3:2 A / 0,5 A",
+      "baseline_class": "retrieval-miss",
+      "baseline_support_l1_killed": [
+        "0438dbce-ae0f-4b74-8209-b86c42da87ef",
+        "5ba44464-842b-46f7-ac43-259be83ad416",
+        "80f7a04f-3b43-4a6f-a0dd-13a57721f442"
+      ],
+      "recovered_same_family_ids": [
+        "5ba44464-842b-46f7-ac43-259be83ad416",
+        "80f7a04f-3b43-4a6f-a0dd-13a57721f442"
+      ],
+      "recovered_served_ids": [
+        "5ba44464-842b-46f7-ac43-259be83ad416",
+        "80f7a04f-3b43-4a6f-a0dd-13a57721f442"
+      ],
+      "cross_family_admitted_ids": [],
+      "answer_fact_score": 0.9285714285714286,
+      "answer_value_present": true,
+      "candidates": [
+        {
+          "chunk_id": "0438dbce-ae0f-4b74-8209-b86c42da87ef",
+          "product_model": "ASD11",
+          "source_file": "I56-3947-202_FAAST LT_MULTI",
+          "page_number": 5,
+          "same_family": false,
+          "served_in_frozen_baseline": false,
+          "guard_allows": false,
+          "representation_bridge": false
+        },
+        {
+          "chunk_id": "5ba44464-842b-46f7-ac43-259be83ad416",
+          "product_model": "FAAST LT-200",
+          "source_file": "I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG",
+          "page_number": 5,
+          "same_family": true,
+          "served_in_frozen_baseline": true,
+          "guard_allows": true,
+          "representation_bridge": true
+        },
+        {
+          "chunk_id": "80f7a04f-3b43-4a6f-a0dd-13a57721f442",
+          "product_model": "FAAST LT-200",
+          "source_file": "I56-6577-006_EN Notifier FAAST LT-200 QIG",
+          "page_number": 5,
+          "same_family": true,
+          "served_in_frozen_baseline": true,
+          "guard_allows": true,
+          "representation_bridge": true
+        }
+      ],
+      "candidate_interpretation": "support_and_conveyed_precondition_pending_frozen_judge_replay"
+    },
+    {
+      "key": "cat007#4:10^5",
+      "baseline_class": "retrieval-miss",
+      "baseline_support_l1_killed": [
+        "0438dbce-ae0f-4b74-8209-b86c42da87ef",
+        "5ba44464-842b-46f7-ac43-259be83ad416",
+        "80f7a04f-3b43-4a6f-a0dd-13a57721f442"
+      ],
+      "recovered_same_family_ids": [
+        "5ba44464-842b-46f7-ac43-259be83ad416",
+        "80f7a04f-3b43-4a6f-a0dd-13a57721f442"
+      ],
+      "recovered_served_ids": [
+        "5ba44464-842b-46f7-ac43-259be83ad416",
+        "80f7a04f-3b43-4a6f-a0dd-13a57721f442"
+      ],
+      "cross_family_admitted_ids": [],
+      "answer_fact_score": 0.7307692307692308,
+      "answer_value_present": true,
+      "candidates": [
+        {
+          "chunk_id": "0438dbce-ae0f-4b74-8209-b86c42da87ef",
+          "product_model": "ASD11",
+          "source_file": "I56-3947-202_FAAST LT_MULTI",
+          "page_number": 5,
+          "same_family": false,
+          "served_in_frozen_baseline": false,
+          "guard_allows": false,
+          "representation_bridge": false
+        },
+        {
+          "chunk_id": "5ba44464-842b-46f7-ac43-259be83ad416",
+          "product_model": "FAAST LT-200",
+          "source_file": "I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG",
+          "page_number": 5,
+          "same_family": true,
+          "served_in_frozen_baseline": true,
+          "guard_allows": true,
+          "representation_bridge": true
+        },
+        {
+          "chunk_id": "80f7a04f-3b43-4a6f-a0dd-13a57721f442",
+          "product_model": "FAAST LT-200",
+          "source_file": "I56-6577-006_EN Notifier FAAST LT-200 QIG",
+          "page_number": 5,
+          "same_family": true,
+          "served_in_frozen_baseline": true,
+          "guard_allows": true,
+          "representation_bridge": true
+        }
+      ],
+      "candidate_interpretation": "support_and_conveyed_precondition_pending_frozen_judge_replay"
+    }
+  ],
+  "limitations": [
+    "The bridge preserves prior semantic support; it never grants support alone.",
+    "This probe does not rerun the frozen dual judge and cannot change official OK.",
+    "Only the two preregistered cat007 representation failures are measured here."
+  ]
+}

@@ -196,6 +196,112 @@ def fact_match_score(valor: str, texto: str, content: str) -> "float | None":
     return None
 
 
+_UNIT_QUANTITY_RE = re.compile(
+    r"(?<!\d)([+\-]?\d+(?:[.,]\d+)?)\s*(?:\|\s*)?"
+    r"(kohm|ohm|ma|vac|vdc|kw|hz|seg|sec|min|a|v|w|s)\b",
+    re.I,
+)
+_SCIENTIFIC_NOTATION_RE = re.compile(r"(?<!\d)(\d+)\s*\^\s*(\d+)(?!\d)")
+
+
+def _unit_quantities(value: str) -> set[str]:
+    """Return canonical numeric-unit pairs, including one-digit values."""
+    return {
+        number.replace(",", ".") + unit.lower()
+        for number, unit in _UNIT_QUANTITY_RE.findall(norm_ocr(value or ""))
+    }
+
+
+def decimal_notation_bridge(value: str, content: str) -> bool:
+    """Detect the same decimal written with the opposite separator."""
+    normal_content = norm_ocr(content or "")
+    for number in re.findall(r"[+\-]?\d+[.,]\d+", norm_ocr(value or "")):
+        alternate = number.translate(str.maketrans({",": ".", ".": ","}))
+        original_hit = re.search(rf"(?<!\d){re.escape(number)}(?!\d)", normal_content)
+        alternate_hit = re.search(rf"(?<!\d){re.escape(alternate)}(?!\d)", normal_content)
+        if alternate_hit and not original_hit:
+            return True
+    return False
+
+
+def collapsed_superscript_bridge(value: str, content: str) -> bool:
+    """Detect extraction loss such as rendered ``10^5`` becoming ``105``.
+
+    This never grants support by itself.  It only makes a same-family source
+    candidate visible to the semantic support judge, which must still bind the
+    value to the correct attribute and context.
+    """
+    normal_content = norm_ocr(content or "")
+    for base, exponent in _SCIENTIFIC_NOTATION_RE.findall(value or ""):
+        collapsed = base + exponent
+        if re.search(rf"(?<!\d){re.escape(collapsed)}(?!\d)", normal_content):
+            return True
+    return False
+
+
+def _representation_context_overlap(text: str, content: str) -> bool:
+    """Require an attribute/context tie in addition to a reformatted value.
+
+    Four-character stems deliberately bridge close ES/EN technical cognates
+    (``contacto/contact`` and ``operaciones/operations``) while rejecting an
+    unrelated occurrence of a short collapsed number such as catalogue 105.
+    """
+    expected = {token[:4] for token in _content_tokens(text) if len(token) >= 4}
+    observed = {token[:4] for token in _content_tokens(content) if len(token) >= 4}
+    return bool(expected & observed)
+
+
+def support_candidate_priority(
+    valor: str,
+    texto: str,
+    content: str,
+    same_family: bool,
+) -> "tuple[int, float] | None":
+    """Select bounded candidates for semantic re-adjudication.
+
+    The normal calibrated fact score remains the primary lane.  A narrow
+    same-family bridge admits candidates only for known representation changes:
+    decimal comma/point or a lost superscript.  The bridge is candidate recall,
+    never an automatic support verdict.
+    """
+    score = fact_match_score(valor, texto, content)
+    required_quantities = _unit_quantities(valor)
+    quantities_complete = required_quantities <= _unit_quantities(content)
+    decimal_bridge = decimal_notation_bridge(valor, content)
+    superscript_bridge = collapsed_superscript_bridge(valor, content)
+    bridge = bool(
+        same_family
+        and quantities_complete
+        and _representation_context_overlap(texto, content)
+        and (decimal_bridge or superscript_bridge)
+    )
+    if not bridge and (score is None or score < SCORE_FLOOR):
+        return None
+    return (int(bridge), float(score or 0.0))
+
+
+def support_l1_guard_allows(
+    valor: str,
+    texto: str,
+    content: str,
+    same_family: bool,
+) -> bool:
+    """Preserve already-adjudicated support across representation changes.
+
+    The caller has already obtained semantic support votes.  This secondary
+    lexical guard rejects collisions, but must not erase a same-family support
+    solely because Markdown cells split a quantity or extraction flattened a
+    superscript.  A representation bridge never creates support on its own.
+    """
+    score = fact_match_score(valor, texto, content)
+    if score is not None and score >= SCORE_FLOOR - 0.15:
+        return True
+    priority = support_candidate_priority(
+        valor, texto, content, same_family=same_family
+    )
+    return bool(priority is not None and priority[0] == 1)
+
+
 def fact_present(valor: str, texto: str, content: str) -> "bool | None":
     """¿`content` contiene el hecho? True/False, o None si el valor es no-medible léxicamente."""
     s = fact_match_score(valor, texto, content)
