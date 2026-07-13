@@ -104,6 +104,11 @@ STRUCTURAL_NEIGHBOR_COVERAGE = _strict_on_off(
 # enable canonical-document HYQ independently of the other coverage lanes.
 CANONICAL_HYQ_COVERAGE = _strict_on_off("CANONICAL_HYQ_COVERAGE")
 
+# S110 deterministic complement over the already-retrieved pool.  It never
+# re-runs retrieval or calls a model; the frozen reranker top-k remains an
+# immutable prefix and at most two query-aligned exact-source rows may append.
+RERANK_POOL_COVERAGE = _strict_on_off("RERANK_POOL_COVERAGE")
+
 # S107 upstream candidate, default inert. Follows explicit numeric section
 # references inside governed documents to recover information hidden by unsafe
 # historical semantic-dedup marks; candidates still compete in the reranker.

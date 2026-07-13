@@ -460,6 +460,7 @@ async def _process_query(
 
         # Step 1d: Retrieve candidate chunks
         chunks = retrieve_chunks(query_for_retrieval, top_k=RETRIEVAL_TOP_K)
+        retrieval_pool = list(chunks)
 
         # Step 2: Rerank (using original query for semantic evaluation). Dispatcher
         # RERANKER_BACKEND (s61): con target_models SIEMPRE LLM (dispatch condicional Y1
@@ -480,7 +481,9 @@ async def _process_query(
         # Default-off serving seam.  The main reranker's output is preserved as
         # an immutable prefix; only independently validated real source chunks
         # can be appended.  Each lane contains its own fail-open boundary.
-        chunks = apply_post_rerank_coverage(query, chunks)
+        chunks = apply_post_rerank_coverage(
+            query, chunks, retrieval_pool=retrieval_pool
+        )
 
         # Step 2b: Get available models in detected category (for dynamic conversation)
         available_models = None

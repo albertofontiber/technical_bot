@@ -1,0 +1,93 @@
+schema: retrieval_facets_v4
+max_needs: 3
+policy: first_match
+archetypes:
+  - id: intrinsic_safety
+    patterns:
+      - '\b(intrinsecamente segur\w*|intrinsically safe|atex|iecex)\b'
+    stem_prefixes: [intrinsec]
+    needs:
+      - '{query} alimentacion barrera aislador galvanico zona peligrosa zona segura power supply barrier galvanic isolator hazardous safe area'
+      - '{query} parametros entrada entidad tension corriente potencia capacitancia inductancia input entity parameters voltage current power capacitance inductance'
+      - '{query} terminales etapas control conexion terminals stages control connection'
+
+  - id: loop_eol_topology
+    patterns:
+      - '\b(fin de linea|final de linea|eol|rfl)\b'
+      - '(?=.*\bresistencia\b)(?=.*\b(lazo|loop)\b)'
+    stem_prefixes: []
+    needs:
+      - '{query} topologia lazo cerrado inicio retorno salida loop closed topology start return out'
+      - '{query} resistencia fin linea terminacion eol rfl end line resistor termination'
+      - '{query} bornes cableado continuidad terminals wiring continuity'
+
+  # Capacity precedes connection because compound technical questions often
+  # ask both "how many" and "how to wire".  The quantity intent is the more
+  # discriminating primary archetype; its needs still include per-loop scope.
+  - id: capacity_quantity
+    patterns:
+      - '\b(cuantos|cuantas|capacidad|admite|soporta)\b'
+    stem_prefixes: [cuant, capac, admit, soport]
+    needs:
+      - '{query} capacidad por unidad lazo canal per unit loop channel capacity'
+      - '{query} capacidad total sistema total system capacity'
+      - '{query} variante revision mercado documento conflicto maximo variant revision market document conflict maximum'
+
+  - id: compatibility
+    patterns:
+      - '\b(compatible|compatibilidad|intercambiable)\b'
+      - '\b(puedo|se puede)\s+(montar|usar|conectar)\b'
+    stem_prefixes: [compat, intercambi]
+    needs:
+      - '{query} compatibilidad protocolo fabricante familia compatibility protocol manufacturer family'
+      - '{query} requisitos electricos mecanicos instalacion electrical mechanical installation requirements'
+
+  - id: replace_without_loss
+    patterns:
+      - '\b(cambiar|reemplazar|sustituir|renovar)\b'
+    stem_prefixes: [cambi, reemplaz, sustitu, renov]
+    needs:
+      - '{query} componente bateria reloj component battery rtc clock'
+      - '{query} alimentacion principal respaldo redundancia main backup redundant power'
+      - '{query} memoria persistente eeprom configuracion conservar persistent memory configuration retain'
+
+  - id: connect_install_wire
+    patterns:
+      - '\b(conectar|conecta|conecte|conectan|cablear|cablea|cablee|cablean|montar|monta|monte|montan)\b'
+      - '\bcomo\s+(?:se\s+)?(?:instala|instalar|instale)\b'
+    stem_prefixes: [conect, cable]
+    needs:
+      - '{query} terminales polaridad conexion cableado terminals polarity connection wiring'
+      - '{query} pantalla tierra continuidad resistencia circuito shield earth continuity resistance circuit'
+      - '{query} limites seguridad comprobacion instalacion limits safety check installation'
+
+  - id: battery_sizing
+    patterns:
+      - '(?=.*\b(capacidad|autonomia|ah)\b)(?=.*\b(bateria|baterias)\b)'
+    stem_prefixes: []
+    needs:
+      - '{query} consumo reposo alarma autonomia bateria standby alarm consumption autonomy battery'
+      - '{query} coeficiente envejecimiento margen reglamentario ageing coefficient regulatory margin'
+
+  - id: fault_reset_recovery
+    patterns:
+      - '\b(diagnosticar|diagnostico|rearmar|rearme|resetear)\b'
+      - '\bno vuelve\b'
+      - '(?=.*\b(dando|presenta|muestra|indica|aparece)\b)(?=.*\b(alarma|fallo|averia|error)\b)'
+      - '(?=.*\b(fallo|averia|error)\b)(?=.*\bque comprobar\b)'
+    stem_prefixes: [diagnostic, rearm, reset]
+    needs:
+      - '{query} condicion activa enclavada inhibicion bloqueo abort condition active latched inhibit blocked manual reset'
+      - '{query} temporizador duracion tiempo intervalo evento rearme timer duration time interval event reset'
+      - '{query} diagnostico comprobacion recuperacion normal reposo averia diagnostic check recovery normal standby fault'
+
+  - id: program_delay_cause_effect
+    patterns:
+      - '\b(retardo|maniobra)\b'
+      - '\bcausa[ -]efecto\b'
+      - '(?=.*\b(program\w*|configur\w*|dar de alta)\b)(?=.*\b(salida|evento|regla|matriz|zona|sirena|accion)\b)'
+    stem_prefixes: [retard, maniobr]
+    needs:
+      - '{query} ruta menu programacion edicion route menu programming edit'
+      - '{query} condicion entrada regla causa efecto matriz coincidencia condition input rule cause effect matrix coincidence'
+      - '{query} accion salida seleccionar aplicar transferir circuito equipo funcion sirena temporizador retardo anulacion action output select apply transfer circuit equipment function sounder siren timer delay override activation'

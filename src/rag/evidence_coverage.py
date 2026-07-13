@@ -18,6 +18,7 @@ DEFAULT_CONFIG = ROOT / "config/evidence_coverage_facets_v1.yaml"
 MULTIFACET_CONFIG = ROOT / "config/evidence_coverage_facets_v2.yaml"
 ALIGNED_CONFIG = ROOT / "config/evidence_coverage_facets_v3.yaml"
 STRICT_ALIGNED_CONFIG = ROOT / "config/evidence_coverage_facets_v4.yaml"
+POOL_COMPLEMENT_CONFIG = ROOT / "config/evidence_coverage_facets_v5.yaml"
 _STOP = {
     "de", "del", "la", "las", "el", "los", "un", "una", "y", "o", "en", "por",
     "para", "como", "con", "que", "se", "al", "es", "su", "the", "and", "for", "of",
@@ -46,6 +47,7 @@ def _load_config(path_string: str) -> dict[str, Any]:
         "evidence_coverage_facets_v2",
         "evidence_coverage_facets_v3",
         "evidence_coverage_facets_v4",
+        "evidence_coverage_facets_v5",
     }:
         raise RuntimeError("unsupported evidence coverage schema")
     for key, low, high in (

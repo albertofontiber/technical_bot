@@ -30,6 +30,7 @@ def _load(path_string: str) -> dict:
         "retrieval_facets_v1",
         "retrieval_facets_v2",
         "retrieval_facets_v3",
+        "retrieval_facets_v4",
     }:
         raise RuntimeError("unsupported retrieval facet schema")
     if payload.get("policy") != "first_match":

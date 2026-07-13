@@ -1,0 +1,73 @@
+instrument: s110_atomic_rerank_cohort_v1
+status: retrospective_development_screen
+source_adjudication: s106_p0_selection_adjudication_v1
+selection_blinding:
+  qids_available_to_selector: false
+  claim_ids_available_to_selector: false
+  support_chunk_ids_available_to_selector: false
+  note: >-
+    The replay runs the production selector over every frozen pool before this
+    file is loaded. Claim bundles are joined only to evaluate stage movement.
+known_data_warning: >-
+  The mechanism and its conservative six-term alignment threshold were tuned
+  while inspecting this known cohort. This result is diagnostic, not held-out
+  proof and cannot authorize deployment without protected regression.
+residual_rerank_claims:
+  - claim_id: cat001.isolator.pearl_max_25
+    qid: cat001
+    support_any:
+      - [a92b566d-4a7e-4e04-91ef-a8d3b66d7723]
+  - claim_id: cat010.supply.nominal_24vdc
+    qid: cat010
+    support_any:
+      - [aad31581-bef4-4991-80cf-b014e889b1c3]
+      - [048f407c-eda7-416e-a63e-6d07a583dd78]
+  - claim_id: hp005.output.select_specific_siren_circuit
+    qid: hp005
+    support_any:
+      - [6dcccb36-f67b-4057-959b-494d9279e5d4]
+  - claim_id: hp009.loop.closed_topology
+    qid: hp009
+    support_any:
+      - [90d51dac-bd0b-4051-b414-ced0fe6e33bb]
+  - claim_id: hp009.loop.return_terminals
+    qid: hp009
+    support_any:
+      - [90d51dac-bd0b-4051-b414-ced0fe6e33bb]
+  - claim_id: hp009.loop.no_eol_resistor
+    qid: hp009
+    support_any:
+      - [90d51dac-bd0b-4051-b414-ced0fe6e33bb]
+  - claim_id: hp011.reset_inhibit.dash_until_extinction_or_tA
+    qid: hp011
+    support_any:
+      - [475a8f18-7c69-4c7a-8111-45bd67334c96]
+      - [77d07600-c619-4ea0-b1ab-0683ddb79697]
+  - claim_id: hp011.reset_inhibit.default_00_anytime
+    qid: hp011
+    support_any:
+      - [475a8f18-7c69-4c7a-8111-45bd67334c96]
+      - [77d07600-c619-4ea0-b1ab-0683ddb79697]
+separate_provenance_probe:
+  - claim_id: hp011.abort.same_family_provenance
+    qid: hp011
+    support_any:
+      - [f5ea54c2-9eaf-46a1-84d6-7df666d3a58d]
+post_s109_funnel_reconciliation:
+  generator_after_s109:
+    - hp003.battery.two_12v_in_series
+    - hp017.cause_effect.remove_default_rule_1
+  retrieval_after_s109:
+    - hp013.config.stored_in_eeprom
+  rerank_before_s110:
+    - cat001.isolator.pearl_max_25
+    - cat010.supply.nominal_24vdc
+    - hp005.output.select_specific_siren_circuit
+    - hp009.loop.closed_topology
+    - hp009.loop.return_terminals
+    - hp009.loop.no_eol_resistor
+    - hp011.reset_inhibit.dash_until_extinction_or_tA
+    - hp011.reset_inhibit.default_00_anytime
+  provenance_closed_by_s109:
+    - hp018.eol_6k8.same_family_provenance
+    - hp018.max_1A.same_family_provenance
