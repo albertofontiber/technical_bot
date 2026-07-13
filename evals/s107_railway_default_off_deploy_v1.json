@@ -1,0 +1,58 @@
+{
+  "schema": "s107_railway_default_off_deploy_v1",
+  "created_at": "2026-07-13T15:52:41.2437057Z",
+  "status": "deployed_and_smoke_verified",
+  "serving_effect": "none_observer_disabled",
+  "railway": {
+    "project_id": "129867c5-d1f3-44d8-b1e8-b33a06d83bb6",
+    "project_name": "sublime-ambition",
+    "environment": "production",
+    "service": "worker",
+    "deployment_id": "f9956299-f1cd-4fbd-be28-a1482f391784",
+    "deployment_status": "SUCCESS",
+    "image_digest": "sha256:c715f1a255765f3579514843b27578eef4d6f0c98909ec61091636d8329c144c",
+    "previous_deployment_id": "1b898b82-82eb-4beb-b88c-009b28fc62b5",
+    "previous_deployment_status_after_cutover": "REMOVED"
+  },
+  "source": {
+    "branch": "codex/s107-structural-shadow-default-off",
+    "commit": "804bb154993482babdd0d9fdd16f1113499fe81f",
+    "deployment_checkout_dirty_files": 0,
+    "clean_import": true,
+    "focused_regression": "106 passed"
+  },
+  "runtime_configuration": {
+    "STRUCTURAL_NEIGHBOR_SHADOW": "off",
+    "STRUCTURAL_NEIGHBOR_SHADOW_HMAC_KEY_VERSION": "v1",
+    "STRUCTURAL_NEIGHBOR_SHADOW_HMAC_KEY_present": true,
+    "STRUCTURAL_NEIGHBOR_SHADOW_HMAC_KEY_length": 64,
+    "hmac_secret_recorded": false,
+    "RERANK_TOP_K": 10,
+    "railway_log_retention_days": 7,
+    "project_private": true,
+    "additional_project_members": 0
+  },
+  "smoke": {
+    "build": "success",
+    "worker_started": true,
+    "telegram_application_started": true,
+    "cutover_conflict_events": 1,
+    "cutover_conflict_interpretation": "transient_overlap_with_previous_polling_container",
+    "conflict_events_after_previous_container_removed": 0,
+    "tracebacks_after_cutover": 0,
+    "structural_neighbor_shadow_events": 0,
+    "rollback_required": false
+  },
+  "freeze": {
+    "path": "evals/s107_structural_neighbor_runtime_freeze_v2.json",
+    "sha256": "aac6999e98b8f0be45e9876d328c26ee8a163365c5a53e59d5757b0711f8e5cb",
+    "status": "frozen_ready_for_preregistered_shadow",
+    "activation_blockers": []
+  },
+  "claims": {
+    "production_ok_uplift": false,
+    "official_ok_baseline": "93/127 unchanged",
+    "live_shadow_activated": false,
+    "next_gate": "explicit activation of preregistered 10-percent shadow"
+  }
+}
