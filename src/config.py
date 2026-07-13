@@ -1,11 +1,15 @@
 import os
+import re
 from pathlib import Path
 from dotenv import load_dotenv
 
 # Base paths
 PROJECT_DIR = Path(__file__).parent.parent
 
-load_dotenv(PROJECT_DIR / ".env", override=True)
+# Process/deployment/launcher environment is authoritative; .env fills only missing values.
+# This is required for the isolated evaluation launcher to target a sealed branch without
+# editing or replacing the production .env file.
+load_dotenv(PROJECT_DIR / ".env", override=False)
 MANUALS_DIR = Path(os.getenv("MANUALS_DIR", PROJECT_DIR / "Manuales_ES"))
 IMAGES_DIR = Path(os.getenv("IMAGES_DIR", PROJECT_DIR / "extracted_images"))
 
@@ -24,9 +28,14 @@ SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_KEY", "")
 #   chunks    → corpus viejo (OpenAI text-embedding-3-small, 1536 dims)
 #   chunks_v2 → corpus re-ingestado (Voyage voyage-4-large, 1024 dims)
 # El sufijo de RPC y el proveedor de embedding de la query se derivan de aquí.
-CHUNKS_TABLE = os.getenv("CHUNKS_TABLE", "chunks")
-CHUNKS_IS_V2 = CHUNKS_TABLE.endswith("_v2")
-RPC_SUFFIX = "_v2" if CHUNKS_IS_V2 else ""
+CHUNKS_TABLE = os.getenv("CHUNKS_TABLE", "chunks_v2").strip()
+if CHUNKS_TABLE != "chunks_v2":
+    raise RuntimeError(
+        "production retrieval requires CHUNKS_TABLE=chunks_v2; "
+        "use dedicated offline diagnostics for legacy corpora"
+    )
+CHUNKS_IS_V2 = True
+RPC_SUFFIX = "_v2"
 
 # Embedding config
 EMBEDDING_MODEL = "text-embedding-3-small"
@@ -67,6 +76,57 @@ RERANK_PREVIEW_CHARS = int(os.getenv("RERANK_PREVIEW_CHARS", "800"))
 #            el harness de eval nunca pasa target_models).
 # voyage requiere VOYAGE_API_KEY (ya requerida por chunks_v2 / embed_query).
 RERANKER_BACKEND = os.getenv("RERANKER_BACKEND", "llm")
+
+
+def _strict_on_off(name: str, default: str = "off") -> bool:
+    raw = os.getenv(name, default).strip().lower()
+    if raw == "on":
+        return True
+    if raw == "off":
+        return False
+    raise RuntimeError(f"{name}={raw!r} no reconocido (on|off) — fail-fast")
+
+
+# S107 candidate, default inert.  When enabled, independently validated coverage
+# candidates bypass the mono-intent reranker only after its top-k is frozen.
+POST_RERANK_COVERAGE = _strict_on_off("POST_RERANK_COVERAGE")
+
+# S107 v4 candidate, default inert. One flag enables the complete governed
+# canonical-document HYQ lane; it does not require the older coverage lanes.
+CANONICAL_HYQ_COVERAGE = _strict_on_off("CANONICAL_HYQ_COVERAGE")
+
+# S107 upstream candidate, default inert. Follows explicit numeric section
+# references inside governed documents to recover information hidden by unsafe
+# historical semantic-dedup marks; candidates still compete in the reranker.
+DEDUP_REFERENCE_NAVIGATION = _strict_on_off("DEDUP_REFERENCE_NAVIGATION")
+
+# S107 R2 repair candidate, default inert. Reads only a versioned rescue batch
+# and uses generated statements as navigation hints; evidence remains an exact
+# substring of the hydrated source parent.
+R2_REPAIR_NAVIGATION = _strict_on_off("R2_REPAIR_NAVIGATION")
+
+# S107 same-blob neighbor observer. This hook is post-rerank and has no return
+# path into the generator. Enabling it requires a keyed telemetry HMAC secret;
+# defaults remain fully inert.
+STRUCTURAL_NEIGHBOR_SHADOW = _strict_on_off("STRUCTURAL_NEIGHBOR_SHADOW")
+STRUCTURAL_NEIGHBOR_SHADOW_HMAC_KEY = os.getenv(
+    "STRUCTURAL_NEIGHBOR_SHADOW_HMAC_KEY", ""
+)
+STRUCTURAL_NEIGHBOR_SHADOW_HMAC_KEY_VERSION = os.getenv(
+    "STRUCTURAL_NEIGHBOR_SHADOW_HMAC_KEY_VERSION", ""
+).strip()
+if STRUCTURAL_NEIGHBOR_SHADOW and len(STRUCTURAL_NEIGHBOR_SHADOW_HMAC_KEY) < 32:
+    raise RuntimeError(
+        "STRUCTURAL_NEIGHBOR_SHADOW requires a >=32-character "
+        "STRUCTURAL_NEIGHBOR_SHADOW_HMAC_KEY"
+    )
+if STRUCTURAL_NEIGHBOR_SHADOW and not re.fullmatch(
+    r"v[1-9][0-9]{0,5}", STRUCTURAL_NEIGHBOR_SHADOW_HMAC_KEY_VERSION
+):
+    raise RuntimeError(
+        "STRUCTURAL_NEIGHBOR_SHADOW requires a non-secret key version such as "
+        "STRUCTURAL_NEIGHBOR_SHADOW_HMAC_KEY_VERSION=v1"
+    )
 
 # Estrategia del MERGE de canales del retriever (s68, diseño _s68_merge_design.md v6.1).
 # SWAP reversible por entorno, mismo patrón que RERANKER_BACKEND/CHUNKS_TABLE:

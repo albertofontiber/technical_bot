@@ -1,0 +1,204 @@
+{
+  "schema": "s107_document_revision_reconciliation_apply_v1",
+  "status": "applied_and_verified",
+  "database_host": "aws-1-eu-north-1.pooler.supabase.com",
+  "migration_path": "supabase/migrations/20260713141223_reconcile_validated_document_revisions_v1.sql",
+  "migration_sha256": "821f160ccac37a4b9884069d46300b993e9553fa7adb5fc5378a8e9fb01afada",
+  "source_blob_receipts": [
+    {
+      "path": "Manuales_Morley/HLSI-MN-103_RP1r-Supra_lr.pdf",
+      "bytes": 1701455,
+      "sha256": "ccabe3df906990c9b95d0d180d811e0444278089d4ce30678d86948cb197e93e",
+      "identity_evidence": "cover: HLSI-MN-103 v.04, November 2013",
+      "page": 1,
+      "visually_verified": true
+    },
+    {
+      "path": "Manuales_Notifier/ES/HLSI-MN-103_RP1r-Supra_lr.pdf",
+      "bytes": 3846636,
+      "sha256": "914ceacf8395729f73876cb9e397a8cb3154d70ba67903b6e055f2b4398be573",
+      "identity_evidence": "cover: HLSI-MN-103 v.07, May 2018",
+      "page": 1,
+      "visually_verified": true
+    },
+    {
+      "path": "Manuales_Notifier_Privado/MIDT180.pdf",
+      "bytes": 2919918,
+      "sha256": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6",
+      "identity_evidence": "cover: MI-DT-180 (Doc. 997-214), 31 March 2003",
+      "page": 1,
+      "visually_verified": true
+    },
+    {
+      "path": "Manuales_Notifier/ES/997-671-005-3_Configuration_ES.pdf",
+      "bytes": 2617586,
+      "sha256": "bcde98794ae968ac43ed5367be231cd5d70f15bc06135c50673360ebc271296b",
+      "identity_evidence": "cover: document 997-671-005-3; no revision date asserted",
+      "page": 1,
+      "visually_verified": true
+    }
+  ],
+  "lifecycle_changes": 0,
+  "retrieval_rpc_changes": 0,
+  "corpus_state_before": {
+    "documents": 1170,
+    "chunks_v2": 25090,
+    "enunciados": 22842,
+    "hyq": 70134
+  },
+  "corpus_state_after_inside_transaction": {
+    "documents": 1171,
+    "chunks_v2": 25090,
+    "enunciados": 22842,
+    "hyq": 70134
+  },
+  "corpus_state_after_persisted_action": {
+    "documents": 1171,
+    "chunks_v2": 25090,
+    "enunciados": 22842,
+    "hyq": 70134
+  },
+  "fingerprint_before": {
+    "count": 25090,
+    "table": "chunks_v2",
+    "schema": "corpus_fingerprint_v1",
+    "components": {
+      "chunks_v2": 25090,
+      "documents": 1170,
+      "chunks_v2_hyq": 70134,
+      "chunks_v2_enunciados": 22842,
+      "retrieval_contract_items": 142,
+      "retrieval_physical_items": 31
+    },
+    "content_sha256": "d3a89fce62315d038e7501b8a6b041127683dd1ebeaac661d94931783c4661e2",
+    "max_created_at": "2026-06-09T19:15:25.848279+00:00",
+    "embedding_sha256": "c6606c37f76ad014a9ca79b1bce1fdb875c0e695097e4bb0e88104f763d82d5b",
+    "required_objects": {
+      "match_hyq": true,
+      "chunks_v2_hnsw": true,
+      "match_chunks_v2": true,
+      "spanish_unaccent": true,
+      "chunks_v2_hyq_hnsw": true,
+      "search_chunks_text_v2": true,
+      "chunks_v2_enunciados_hnsw": true,
+      "match_chunks_v2_enunciados": true
+    },
+    "row_identity_sha256": "98b15b3c86a31605c0de58ad0eea035178d606253383c080baf6948024f244ec",
+    "retrieval_contract_sha256": "8b85762135e54d039529262c50d35b998d6fa06e48506585f940f5c07a30adb5",
+    "retrieval_physical_sha256": "cac56fe8f3c8d07edf385216cb7a9f427f7d4dc0cf928b44096db1d08a699628"
+  },
+  "fingerprint_after_inside_transaction": {
+    "count": 25090,
+    "table": "chunks_v2",
+    "schema": "corpus_fingerprint_v1",
+    "components": {
+      "chunks_v2": 25090,
+      "documents": 1171,
+      "chunks_v2_hyq": 70134,
+      "chunks_v2_enunciados": 22842,
+      "retrieval_contract_items": 142,
+      "retrieval_physical_items": 31
+    },
+    "content_sha256": "1a56bba05bc06e3258a47d8ea3eb1613854c2ecdf72ee18ac053ef74b695da63",
+    "max_created_at": "2026-06-09T19:15:25.848279+00:00",
+    "embedding_sha256": "c6606c37f76ad014a9ca79b1bce1fdb875c0e695097e4bb0e88104f763d82d5b",
+    "required_objects": {
+      "match_hyq": true,
+      "chunks_v2_hnsw": true,
+      "match_chunks_v2": true,
+      "spanish_unaccent": true,
+      "chunks_v2_hyq_hnsw": true,
+      "search_chunks_text_v2": true,
+      "chunks_v2_enunciados_hnsw": true,
+      "match_chunks_v2_enunciados": true
+    },
+    "row_identity_sha256": "4cdbb18b64aae9da9371f36346c242f2147e8f5cb8e579fd5e48199a41fb2a48",
+    "retrieval_contract_sha256": "8b85762135e54d039529262c50d35b998d6fa06e48506585f940f5c07a30adb5",
+    "retrieval_physical_sha256": "cac56fe8f3c8d07edf385216cb7a9f427f7d4dc0cf928b44096db1d08a699628"
+  },
+  "target_state_inside_transaction": [
+    {
+      "id": "17bd36ac-412b-4607-aa52-f9dbf37e26b7",
+      "revision": "MI-DT-180",
+      "revision_date": "2003-03-31",
+      "language": "es",
+      "doc_type": "instalacion",
+      "source_pdf_sha256": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6",
+      "status": "active",
+      "chunks": 88
+    },
+    {
+      "id": "17d4b914-fa21-4b41-a928-bafe1846528a",
+      "revision": "997-671-005-3",
+      "revision_date": null,
+      "language": "es",
+      "doc_type": "programacion",
+      "source_pdf_sha256": "bcde98794ae968ac43ed5367be231cd5d70f15bc06135c50673360ebc271296b",
+      "status": "active",
+      "chunks": 124
+    },
+    {
+      "id": "494e71be-873b-48c1-adb3-a21a122da111",
+      "revision": "v.07",
+      "revision_date": "2018-05-01",
+      "language": "es",
+      "doc_type": "usuario",
+      "source_pdf_sha256": "914ceacf8395729f73876cb9e397a8cb3154d70ba67903b6e055f2b4398be573",
+      "status": "active",
+      "chunks": 96
+    },
+    {
+      "id": "e98e05ff-ee1d-5341-869a-65768855dae9",
+      "revision": "v.04",
+      "revision_date": "2013-11-01",
+      "language": "es",
+      "doc_type": "usuario",
+      "source_pdf_sha256": "ccabe3df906990c9b95d0d180d811e0444278089d4ce30678d86948cb197e93e",
+      "status": "active",
+      "chunks": 94
+    }
+  ],
+  "target_state_after_persisted_action": [
+    {
+      "id": "17bd36ac-412b-4607-aa52-f9dbf37e26b7",
+      "revision": "MI-DT-180",
+      "revision_date": "2003-03-31",
+      "language": "es",
+      "doc_type": "instalacion",
+      "source_pdf_sha256": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6",
+      "status": "active",
+      "chunks": 88
+    },
+    {
+      "id": "17d4b914-fa21-4b41-a928-bafe1846528a",
+      "revision": "997-671-005-3",
+      "revision_date": null,
+      "language": "es",
+      "doc_type": "programacion",
+      "source_pdf_sha256": "bcde98794ae968ac43ed5367be231cd5d70f15bc06135c50673360ebc271296b",
+      "status": "active",
+      "chunks": 124
+    },
+    {
+      "id": "494e71be-873b-48c1-adb3-a21a122da111",
+      "revision": "v.07",
+      "revision_date": "2018-05-01",
+      "language": "es",
+      "doc_type": "usuario",
+      "source_pdf_sha256": "914ceacf8395729f73876cb9e397a8cb3154d70ba67903b6e055f2b4398be573",
+      "status": "active",
+      "chunks": 96
+    },
+    {
+      "id": "e98e05ff-ee1d-5341-869a-65768855dae9",
+      "revision": "v.04",
+      "revision_date": "2013-11-01",
+      "language": "es",
+      "doc_type": "usuario",
+      "source_pdf_sha256": "ccabe3df906990c9b95d0d180d811e0444278089d4ce30678d86948cb197e93e",
+      "status": "active",
+      "chunks": 94
+    }
+  ],
+  "v04_document_persisted": true
+}

@@ -1,0 +1,234 @@
+{
+  "schema": "s107_personal_data_hardening_apply_v1",
+  "status": "applied_and_postgrest_verified",
+  "database_host": "aws-1-eu-north-1.pooler.supabase.com",
+  "migration_path": "supabase/migrations/20260713164800_harden_personal_data_tables_v1.sql",
+  "migration_sha256": "3560e0c6d57e32d9499d01de1153f59d18e2feb8aacb93a7366fcd65883e21b6",
+  "tables": [
+    "query_logs",
+    "feedback",
+    "user_consent"
+  ],
+  "state_before": {
+    "query_logs": {
+      "rows": 47,
+      "rls": false,
+      "force_rls": false,
+      "policy_count": 0,
+      "grants": {
+        "anon": [
+          "SELECT",
+          "INSERT",
+          "UPDATE",
+          "DELETE",
+          "TRUNCATE",
+          "REFERENCES",
+          "TRIGGER"
+        ],
+        "authenticated": [
+          "SELECT",
+          "INSERT",
+          "UPDATE",
+          "DELETE",
+          "TRUNCATE",
+          "REFERENCES",
+          "TRIGGER"
+        ],
+        "service_role": [
+          "SELECT",
+          "INSERT",
+          "UPDATE",
+          "DELETE",
+          "TRUNCATE",
+          "REFERENCES",
+          "TRIGGER"
+        ]
+      }
+    },
+    "feedback": {
+      "rows": 0,
+      "rls": false,
+      "force_rls": false,
+      "policy_count": 0,
+      "grants": {
+        "anon": [
+          "SELECT",
+          "INSERT",
+          "UPDATE",
+          "DELETE",
+          "TRUNCATE",
+          "REFERENCES",
+          "TRIGGER"
+        ],
+        "authenticated": [
+          "SELECT",
+          "INSERT",
+          "UPDATE",
+          "DELETE",
+          "TRUNCATE",
+          "REFERENCES",
+          "TRIGGER"
+        ],
+        "service_role": [
+          "SELECT",
+          "INSERT",
+          "UPDATE",
+          "DELETE",
+          "TRUNCATE",
+          "REFERENCES",
+          "TRIGGER"
+        ]
+      }
+    },
+    "user_consent": {
+      "rows": 1,
+      "rls": true,
+      "force_rls": false,
+      "policy_count": 0,
+      "grants": {
+        "anon": [
+          "SELECT",
+          "INSERT",
+          "UPDATE",
+          "DELETE",
+          "TRUNCATE",
+          "REFERENCES",
+          "TRIGGER"
+        ],
+        "authenticated": [
+          "SELECT",
+          "INSERT",
+          "UPDATE",
+          "DELETE",
+          "TRUNCATE",
+          "REFERENCES",
+          "TRIGGER"
+        ],
+        "service_role": [
+          "SELECT",
+          "INSERT",
+          "UPDATE",
+          "DELETE",
+          "TRUNCATE",
+          "REFERENCES",
+          "TRIGGER"
+        ]
+      }
+    }
+  },
+  "state_inside_transaction": {
+    "query_logs": {
+      "rows": 47,
+      "rls": true,
+      "force_rls": true,
+      "policy_count": 0,
+      "grants": {
+        "anon": [],
+        "authenticated": [],
+        "service_role": [
+          "SELECT",
+          "INSERT"
+        ]
+      }
+    },
+    "feedback": {
+      "rows": 0,
+      "rls": true,
+      "force_rls": true,
+      "policy_count": 0,
+      "grants": {
+        "anon": [],
+        "authenticated": [],
+        "service_role": [
+          "SELECT",
+          "INSERT"
+        ]
+      }
+    },
+    "user_consent": {
+      "rows": 1,
+      "rls": true,
+      "force_rls": true,
+      "policy_count": 0,
+      "grants": {
+        "anon": [],
+        "authenticated": [],
+        "service_role": [
+          "SELECT",
+          "INSERT",
+          "UPDATE"
+        ]
+      }
+    }
+  },
+  "database_role_smoke": {
+    "service_role_insert_select": true,
+    "anon_denied": true,
+    "authenticated_denied": true,
+    "service_role_query_logs_update_denied": true,
+    "service_role_feedback_delete_denied": true,
+    "owner_cleanup": true
+  },
+  "postgrest_smoke": {
+    "statuses": {
+      "anon_get_query_logs": 401,
+      "anon_get_feedback": 401,
+      "anon_get_user_consent": 401,
+      "service_insert_query_logs": 201,
+      "service_insert_feedback": 201,
+      "service_upsert_user_consent": 201,
+      "service_select_query_logs": 200,
+      "service_update_query_logs_denied": 403,
+      "service_delete_feedback_denied": 403,
+      "service_update_user_consent": 204
+    },
+    "synthetic_rows_cleaned": true
+  },
+  "state_after_persisted_action": {
+    "query_logs": {
+      "rows": 47,
+      "rls": true,
+      "force_rls": true,
+      "policy_count": 0,
+      "grants": {
+        "anon": [],
+        "authenticated": [],
+        "service_role": [
+          "SELECT",
+          "INSERT"
+        ]
+      }
+    },
+    "feedback": {
+      "rows": 0,
+      "rls": true,
+      "force_rls": true,
+      "policy_count": 0,
+      "grants": {
+        "anon": [],
+        "authenticated": [],
+        "service_role": [
+          "SELECT",
+          "INSERT"
+        ]
+      }
+    },
+    "user_consent": {
+      "rows": 1,
+      "rls": true,
+      "force_rls": true,
+      "policy_count": 0,
+      "grants": {
+        "anon": [],
+        "authenticated": [],
+        "service_role": [
+          "SELECT",
+          "INSERT",
+          "UPDATE"
+        ]
+      }
+    }
+  },
+  "rgpd_delete_path": "owner_or_postgres_only; documented manual operation",
+  "shadow_activation_effect": "none; feature remains default-off"
+}

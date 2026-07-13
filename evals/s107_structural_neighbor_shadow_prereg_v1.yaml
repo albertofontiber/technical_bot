@@ -1,0 +1,168 @@
+schema: s107_structural_neighbor_shadow_prereg_v1
+status: preregistered_not_activated
+created_at: "2026-07-13"
+
+objective:
+  primary: >-
+    Estimate the precision and operational safety of same-blob post-rerank
+    structural-neighbor anchors without changing any served context or answer.
+  forbidden_claims: [official_ok_uplift, production_go, synthesis_gain]
+
+unit_of_evaluation: query_anchor_pair
+promotion_denominator:
+  source: first_100_unique_sampled_runtime_queries_with_at_least_one_anchor
+  exclusions:
+    - operational_error_before_selection
+    - duplicate_event_id
+  non_exclusions:
+    - irrelevant_anchor
+    - unsupported_language_reaching_selector
+    - toc_or_index_anchor
+    - wrong_document_or_revision
+  known_targets_excluded_from_promotion_denominator: [hp011, hp014, hp017]
+  labels_available_to_selector: false
+
+adjudication:
+  method: manual_source_visible_review_before_any_paid_synthesis
+  join_contract:
+    digest: hmac_sha256_of_exact_utf8_query_bytes_without_normalization
+    key_version: v1_pinned_until_cohort_closes
+    duplicate_policy: identical_query_text_collapses_to_one_unique_query_digest
+    database_projection: [query, created_at]
+    database_projection_executed_by: operations_only
+    database_credential_visible_to_evaluator: false
+    join_execution: in_memory_only
+    source_projection: >-
+      Selected public-manual chunk UUIDs are hydrated in memory after the query
+      joins; the evaluator sees source content but no technician identity,
+      transcription, response or feedback.
+    durable_output: event_and_anchor_ids_with_closed_set_labels_only
+    raw_query_or_source_in_durable_output: false
+    unjoinable_event_policy: blocks_promotion_and_is_never_silently_excluded
+    implementation: scripts/s107_shadow_adjudication_join.py
+    implementation_sha256: 058a39aac9ae38cc3900bc6876efc76649e576430dff13202c5fb7bf3d2807b5
+    operator_view:
+      implementation: scripts/s107_shadow_adjudication_panel.py
+      implementation_sha256: c670c7426c08214bd70ff93fe94428cea9eda2b6be65d6f9556fa62ac6c088df
+      bind: localhost_only
+      browser_cache: disabled
+      database_connection_closed_before_review: true
+      synthetic_http_smoke: GET_200_POST_303_completion_200_redacted_receipt
+  positive: >-
+    The exact selected source span materially supports the field question in
+    the correct product, document revision, attribute, operator, unit and
+    qualifiers; an answer could cite it without adding an unsupported relation.
+  critical_false_positive:
+    - cross_document_or_cross_blob
+    - wrong_oem_or_model
+    - wrong_numeric_attribute_operator_unit_or_qualifier
+    - toc_or_index_only
+    - regional_or_revision_conflict
+
+metrics:
+  anchor_precision: relevant_anchors / all_emitted_anchors
+  query_yield: queries_with_at_least_one_relevant_anchor / denominator_queries
+  operational_error_rate: error_events / sampled_events
+  telemetry_error_rate: sink_errors / sampled_events
+  served_identity_rate: identity_equal_events / sampled_events
+  latency_p95_ms: sampled_observer_elapsed_ms_p95
+  adjudication_join_rate: joinable_anchor_events / all_anchor_events
+
+hard_stops:
+  - any_served_identity_mismatch
+  - any_generator_call
+  - any_database_write_from_observer
+  - any_runtime_coverage_attestation
+  - any_cross_document_or_cross_blob_anchor
+  - any_raw_query_or_raw_content_in_telemetry
+  - any_unjoinable_anchor_event
+  - any_database_projection_field_other_than_query_or_created_at
+  - any_raw_query_or_source_content_in_durable_adjudication_output
+  - operational_error_rate_gt_0_01
+  - latency_p95_ms_gt_750
+
+gate_before_one_paid_synthesis:
+  minimum_unique_queries: 100
+  anchor_precision_point_estimate_min: 0.95
+  anchor_precision_wilson_lower_bound_min: 0.90
+  critical_false_positives_max: 0
+  source_blob_requirement: exact_blob_registered_or_target_excluded
+  human_anchor_review_required: true
+  adjudication_join_rate_required: 1.0
+  protected_ok_regression_design_frozen: true
+
+freeze_contract:
+  required:
+    - corpus_snapshot_or_repeatable_read_id
+    - selector_code_sha256
+    - selector_config_sha256
+    - query_facet_sha256
+    - structured_claim_config_sha256
+    - reranker_model_alias
+    - reranker_prompt_sha256
+    - rerank_top_k
+    - sampling_hmac_key_version_not_secret
+    - adjudication_rubric_sha256
+    - adjudication_join_code_sha256
+
+telemetry:
+  sink: redacted_application_log
+  persistence_write_by_observer: false
+  dedupe_key: event_id
+  sampling: deterministic_hmac_bucket
+  sample_basis_points: 1000
+  retention_days_max: 14
+  access: operations_and_named_evaluators_only
+  backpressure: drop_telemetry_and_fail_open
+  allowed_fields:
+    - schema
+    - event_id
+    - query_hmac_sha256
+    - served_ids_sha256
+    - config_sha256
+    - sampling_hmac_key_version
+    - sample_bucket
+    - served_rows
+    - selected_ids
+    - selected_rows
+    - candidate_rows
+    - toc_rejected_rows
+    - http_requests
+    - rows_read
+    - elapsed_ms
+    - status
+    - error_type
+    - sink_status
+    - sink_error_type
+    - served_identity_equal
+    - generator_calls
+    - database_writes
+    - coverage_attestations
+    - overflow
+    - emitted
+  forbidden_fields: [raw_query, raw_content, answer, user_id, api_key, hmac_key]
+
+retention_boundaries:
+  redacted_shadow_log_days_max: 14
+  ephemeral_source_visible_review_days_max: 14
+  durable_adjudication_receipt_contains_raw_query_or_content: false
+  query_logs: >-
+    Existing consent-gated operational records are a separate RGPD store and are
+    not claimed to be deleted by the 14-day shadow retention rule; revocation and
+    deletion use the documented postgres/owner workflow.
+
+satisfied_prerequisites:
+  - migration_014_corpus_fingerprint_applied_and_verified
+  - hp011_revisions_split_by_exact_source_blob
+  - hp014_and_hp017_bound_to_exact_source_blob
+  - personal_data_tables_rls_forced_and_public_roles_revoked
+  - in_memory_hmac_join_and_redacted_receipt_synthetic_tests_pass
+
+production_requirements_not_satisfied:
+  - replace_revoked_016_with_small_semantic_identity_migrations_for_remaining_corpus
+  - immutable_reviewed_source_admission
+  - broad_es_en_oem_relabel_multidoc_scan_diagram_regional_conflict_cohort
+  - full_protected_ok_regression
+  - deployment_14_day_log_retention_and_named_evaluator_access_verified
+  - deployment_hmac_secret_and_key_version_v1_verified
+  - deployment_rerank_top_k_10_verified

@@ -26,6 +26,7 @@ from ..rag.retriever import (
 )
 from ..rag.reranker import rerank
 from ..rag.generator import generate_answer
+from ..rag.structural_neighbor_shadow import observe_structural_neighbor_shadow
 from ..logging_db import log_query, log_feedback, has_consent, set_consent
 from .whisper_vocabulary import get_whisper_prompt
 
@@ -463,6 +464,17 @@ async def _process_query(
         # RERANKER_BACKEND (s61): con target_models SIEMPRE LLM (dispatch condicional Y1
         # — solo se enruta a voyage el path que el A/B midió).
         chunks = rerank(query, chunks, top_k=RERANK_TOP_K, target_models=target_models)
+
+        # Default-off observer: it has no return path into ``chunks`` or the
+        # generator. Errors and telemetry failures are contained internally.
+        try:
+            observe_structural_neighbor_shadow(query, chunks)
+        except Exception as exc:
+            # Defense in depth: even a bug outside the observer's own fail-open
+            # boundary cannot interrupt the answer path.
+            logger.warning(
+                "structural-neighbor shadow failed open (%s)", type(exc).__name__
+            )
 
         # Step 2b: Get available models in detected category (for dynamic conversation)
         available_models = None
