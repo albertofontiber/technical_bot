@@ -1,0 +1,32 @@
+instrument: s111_served_support_cohort_v1
+status: evaluation_only_loaded_after_selection
+claims:
+  - claim_id: hp009.loop.return_terminals
+    qid: hp009
+    support_any:
+      - ids: [a8d7b1a4-41a2-4ee7-9733-fa541bf6552a]
+        needles:
+          - Inicio Lazo (+) OUT
+          - Inicio Lazo (-) OUT
+          - (+) Retorno
+          - (-) Retorno
+
+  - claim_id: hp011.reset_inhibit.dash_until_extinction_or_tA
+    qid: hp011
+    support_any:
+      - ids: [475a8f18-7c69-4c7a-8111-45bd67334c96]
+        needles:
+          - Rearme inhibido hasta finalizar extinción
+          - t.A
+
+  - claim_id: hp011.reset_inhibit.default_00_anytime
+    qid: hp011
+    support_any:
+      - ids: [475a8f18-7c69-4c7a-8111-45bd67334c96]
+        needles:
+          - Rearme permitido en cualquier momento (por defecto)
+
+limitations:
+  - This packet measures literal support at the final prompt boundary; it is never available to selection.
+  - Needles are evaluation assertions derived from already adjudicated source truth, not runtime ranking inputs.
+  - Reaching the prompt does not claim that the generator conveys the fact.

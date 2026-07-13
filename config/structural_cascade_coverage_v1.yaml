@@ -1,0 +1,42 @@
+schema: structural_neighbor_coverage_v1
+status: evaluation_candidate_default_off
+
+# A cascade starts from evidence already selected out of the same query's
+# retrieval pool.  It may repair a split logical record, but it is not a second
+# broad retrieval pass.  Immediate document locality is therefore stricter
+# than the general structural-neighbor lane.
+max_seeds: 2
+max_gap: 1
+max_page_gap: 1
+max_candidates: 64
+max_anchors: 1
+allowed_languages: [es, en]
+
+require_same_document: true
+require_same_extraction_sha256: true
+require_positive_query_score: true
+require_evidence_facet: true
+
+numeric_priority_attributes:
+  fault_reset_recovery: [time]
+  connect_install_wire:
+    [loop_resistance, cable_capacitance, voltage, current, length]
+
+serving:
+  enabled: false
+  coverage_validated_field_allowed: false
+  reason: selector_never_attests_serving_post_rerank_boundary_and_release_flags_do
+
+shadow_runtime:
+  default_enabled: false
+  timeout_ms: 750
+  sample_basis_points: 1000
+  max_http_requests: 4
+  telemetry_sink: redacted_application_log
+  hmac_key_version_required: true
+  retention_days_max: 14
+  access: operations_and_named_evaluators_only
+  raw_query_allowed: false
+  raw_content_allowed: false
+  selected_ids_allowed: true
+  fail_open: true

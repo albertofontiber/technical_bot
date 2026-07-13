@@ -1,0 +1,82 @@
+{
+  "instrument": "s111_stage_decision_v1",
+  "base_commit": "2686667",
+  "scope": "boundary-aware source serving, one-hop structural cascade, and bounded synthesis probes",
+  "upstream": {
+    "decision": "CONDITIONAL_GO_CAUSAL_ONLY_DEFAULT_OFF",
+    "claims_reconciled": 3,
+    "literal_support_reaches_prompt": 3,
+    "support_recovery_rate": 1.0,
+    "questions_replayed": 39,
+    "questions_with_cascade_append": 5,
+    "cascade_rows_appended": 5,
+    "max_total_appended_per_question": 3,
+    "all_protected_prefixes_equal": true,
+    "all_selected_have_exact_receipts": true,
+    "all_served_excerpts_have_exact_receipts": true,
+    "model_calls": 0,
+    "database_get_requests": 26,
+    "database_writes": 0,
+    "official_ok_delta": 0,
+    "manual_development_precision_audit": "5_of_5_substantive_and_question_related",
+    "held_out_precision_validation_pending": true
+  },
+  "combined_context_freeze": {
+    "frozen_contexts_sha256": "b6724f53b2d76681d4f4e0b67aef25bf318975615a9b5f5eaab61ae990441eca",
+    "affected_questions": 11,
+    "protected_ok_facts_requiring_answer_regression": 23,
+    "protected_ok_facts_bit_inert": 70,
+    "all_appended_have_exact_served_receipts": true,
+    "logical_record_expansion_explicitly_enabled": true,
+    "database_get_requests": 98,
+    "release_decision": "HOLD_PENDING_PROTECTED_ANSWER_REGRESSION_COST_AND_PRECISION"
+  },
+  "synthesis": {
+    "decision": "INCONCLUSIVE_PROMPT_ONLY_NOT_SHIPPED",
+    "manual_adjudication_artifact": "s111_synthesis_adjudication_v1.yaml",
+    "target_questions": 2,
+    "target_claims": 3,
+    "probes": [
+      {
+        "artifact": "s111_target_synthesis_probe_v1.json",
+        "variant": "no_answer_coverage_contract",
+        "generator_calls": 2,
+        "input_tokens": 31236,
+        "output_tokens": 1907,
+        "strict_atomic_claims_present_and_cited": 0
+      },
+      {
+        "artifact": "s111_target_synthesis_probe_v2.json",
+        "variant": "generic_answer_coverage_contract",
+        "generator_calls": 2,
+        "input_tokens": 30828,
+        "output_tokens": 1873,
+        "strict_atomic_claims_present_and_cited": 0
+      },
+      {
+        "artifact": "s111_target_synthesis_probe_v3.json",
+        "variant": "facet_acceptance_v2",
+        "generator_calls": 2,
+        "input_tokens": 30843,
+        "output_tokens": 1789,
+        "strict_atomic_claims_present_and_cited": 0
+      }
+    ],
+    "total_paid_generator_calls": 6,
+    "total_input_tokens": 92907,
+    "total_output_tokens": 5569,
+    "reranker_calls": 0,
+    "judge_calls": 0,
+    "max_token_stops": 0,
+    "strict_atomic_claims_complete": 0,
+    "semantic_claims_partial": 1,
+    "finding": "The tested generator contracts do not reliably convert complementary evidence into the required complete answer plan. They are not shipped, but the probes do not rule out a different answer-planning architecture."
+  },
+  "release": {
+    "production_change": false,
+    "railway_change": false,
+    "flags_default_off": true,
+    "official_ok_before": 93,
+    "official_ok_after": 93
+  }
+}

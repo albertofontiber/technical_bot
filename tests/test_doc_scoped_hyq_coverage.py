@@ -74,6 +74,27 @@ def test_collection_serves_parent_source_not_generated_hyq(monkeypatch):
     assert selected[0]["hyq_navigation_validated"] is True
     assert trace["served_hyq_prose"] is False
     assert trace["hyq_rows"] == 23
+    assert trace["http_requests"] == 0
+
+
+def test_collection_propagates_hyq_http_request_count(monkeypatch):
+    monkeypatch.setattr(
+        lane,
+        "resolve_query",
+        lambda _query: {"allowed_sources": frozenset({"manual"})},
+    )
+    monkeypatch.setattr(
+        lane,
+        "expand_query_facets",
+        lambda _query: {"archetype": "capacity_quantity", "needs": ["capacity"]},
+    )
+
+    selected, trace = lane.collect_document_scoped_hyq(
+        "capacidad", fetcher=lambda _scope, _needs: ([], 1200, 3)
+    )
+
+    assert selected == []
+    assert trace["http_requests"] == 3
 
 
 def test_collection_prefers_complementary_facets_over_duplicate_early_parents(monkeypatch):

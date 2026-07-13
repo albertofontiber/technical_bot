@@ -1,0 +1,2004 @@
+{
+  "instrument": "s111_upstream_cascade_replay_v1",
+  "read_only": true,
+  "selection_completed_before_claim_packet_load": true,
+  "inputs": {
+    "baseline_sha256": "49e8cbaab5f86f89b67e0457267ceeca7a1078ac503fbe5a7249b798aeabe503",
+    "pool_sha256": "6784c37880c098a33bc762d357d310c80ebde16788bc10fc7c86a5872ef3fac3",
+    "cohort_sha256": "07164da1087d3876fb6e7935ffaa4ddb0fc01a14d5e03499d781340f0a1d4334",
+    "implementation_inputs": [
+      {
+        "path": "src\\rag\\post_rerank_coverage.py",
+        "sha256": "9ee025edefc23c7480fd83cc1a5290a6bace58ef1c009d871ebbccf3704b694e"
+      },
+      {
+        "path": "src\\config.py",
+        "sha256": "a10d0d7839faffb6412987978fa66046184b4413d1593279a6cde48a0f066fd9"
+      },
+      {
+        "path": "src\\rag\\rerank_pool_coverage.py",
+        "sha256": "52c3f4bc0772f86e1ea5d79e06e8e814446f949db2a8f65e0223da36f7efe66c"
+      },
+      {
+        "path": "src\\rag\\structural_neighbor_coverage.py",
+        "sha256": "05b582f400a47d609506184cb3bd768716a3981cd40f9d9ae6ddf38c8e7efe31"
+      },
+      {
+        "path": "config\\structural_cascade_coverage_v1.yaml",
+        "sha256": "ec58bcc0f58633d15b8d15a775b190f458431d14ccc8edad571c481da4f46d41"
+      },
+      {
+        "path": "config\\retrieval_facets_v4.yaml",
+        "sha256": "fcc5aa7ade886a864cdd654757a79709136968c3d010ffde8a94dc0eae0401bb"
+      },
+      {
+        "path": "config\\evidence_coverage_facets_cascade_v1.yaml",
+        "sha256": "aad39ea6562a3faf05ae84c19ae0a0354a978721a61712b2112b8dc38dd5a06d"
+      },
+      {
+        "path": "config\\evidence_coverage_facets_v5.yaml",
+        "sha256": "4cc64183da44e8faf12e0521845175929efa8acf1e05c2994bf0bacfeb8c3ad0"
+      }
+    ],
+    "git_head": "2686667a6e028d054413f3f4823c616bc74111a8"
+  },
+  "gate": {
+    "claims_reconciled": 3,
+    "literal_support_reaches_prompt": 3,
+    "support_recovery_rate": 1.0,
+    "questions_replayed": 39,
+    "questions_with_cascade_append": 5,
+    "cascade_rows_appended": 5,
+    "max_total_appended_per_question": 3,
+    "all_protected_prefixes_equal": true,
+    "all_selected_have_exact_receipts": true,
+    "all_served_excerpts_have_exact_receipts": true,
+    "all_selected_admitted_by_generator_boundary": true,
+    "model_calls": 0,
+    "database_get_requests": 26,
+    "database_writes": 0,
+    "official_ok_delta": 0,
+    "interpretation": "GO_UPSTREAM_3_OF_3_PROMPT_SUPPORT_HOLD_SYNTHESIS"
+  },
+  "claim_results": [
+    {
+      "claim_id": "hp009.loop.return_terminals",
+      "qid": "hp009",
+      "literal_support_reaches_prompt": true,
+      "matched_ids": [
+        "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a"
+      ]
+    },
+    {
+      "claim_id": "hp011.reset_inhibit.dash_until_extinction_or_tA",
+      "qid": "hp011",
+      "literal_support_reaches_prompt": true,
+      "matched_ids": [
+        "475a8f18-7c69-4c7a-8111-45bd67334c96"
+      ]
+    },
+    {
+      "claim_id": "hp011.reset_inhibit.default_00_anytime",
+      "qid": "hp011",
+      "literal_support_reaches_prompt": true,
+      "matched_ids": [
+        "475a8f18-7c69-4c7a-8111-45bd67334c96"
+      ]
+    }
+  ],
+  "receipts": [
+    {
+      "qid": "cat001",
+      "protected_prefix_equal": true,
+      "selected": [
+        {
+          "id": "a92b566d-4a7e-4e04-91ef-a8d3b66d7723",
+          "lane": "retrieval_pool_coverage_v1",
+          "source_file": "997-669-005-3_Instal-Comm_ES",
+          "page_number": 38,
+          "exact_receipt": true,
+          "served_exact_receipt": true,
+          "generator_admitted": true,
+          "served_excerpt": "res deben colocarse entre un máximo de 32 equipos de lazo. Para las centrales Pearl, no coloque más de 25 equipos de lazo entre aisladores (20 si utiliza aisladores FET)\n3. Consulte las instrucciones de cada uno de los dispositivos si desea más información sobre las terminaciones de cableado.\n\n```\n                                    Ver nota 3\n              \n\n[... otro extracto fuente ...]\n\n│  ┌───┐   │                 │        ┌───┐\n             Lazo, entrada    │                 │        │╱─╲│\n                      │  ╱╲   │                 │        │╲─╱│\n                      │ ╱  ╲  │                 │        └───┘\n                      │╱    ╲ │  Módulo de salida        ┌─────────────┐\n                      │      ││"
+        },
+        {
+          "id": "b8b6aa5c-1a81-4c6c-997c-f53df112c155",
+          "lane": "cascaded_structural_neighbor_coverage_v1",
+          "source_file": "997-669-005-3_Instal-Comm_ES",
+          "page_number": 37,
+          "exact_receipt": true,
+          "served_exact_receipt": true,
+          "generator_admitted": true,
+          "served_excerpt": "**Nota:** La longitud total del par de lazo de comunicaciones no puede superar los 2000 metros."
+        }
+      ],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 36,
+            "bounded_pool_rows": 36,
+            "canonical_scope_rows": 27,
+            "eligible_rows": 1,
+            "selected_ids": [
+              "a92b566d-4a7e-4e04-91ef-a8d3b66d7723"
+            ],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "selected",
+            "archetype": "capacity_quantity",
+            "needs": [
+              "capacidad unidad canal per unit loop channel capacity",
+              "capacidad total system capacity",
+              "variante revision mercado documento conflicto maximo variant market document conflict maximum"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "selected",
+            "selected_ids": [
+              "b8b6aa5c-1a81-4c6c-997c-f53df112c155"
+            ],
+            "http_requests": 2,
+            "page_local_candidates": 3,
+            "non_substantive_selected_rejected": 0,
+            "selector_reason": "selected"
+          }
+        ],
+        "appended_ids": [
+          "a92b566d-4a7e-4e04-91ef-a8d3b66d7723",
+          "b8b6aa5c-1a81-4c6c-997c-f53df112c155"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "appended",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "cat005",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 50,
+            "bounded_pool_rows": 50,
+            "canonical_scope_rows": 39,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_query_aligned_candidate",
+            "archetype": null,
+            "needs": [
+              "¿Cuáles son las características técnicas de la central de detección de gas Fidegas CS4, y en qué se diferencian las versiones digital y analógica?"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "cat007",
+      "protected_prefix_equal": true,
+      "selected": [
+        {
+          "id": "1b3a2b55-ea39-4a6c-b676-c70673708fa0",
+          "lane": "retrieval_pool_coverage_v1",
+          "source_file": "I56-3947-202_FAAST LT_MULTI",
+          "page_number": 25,
+          "exact_receipt": true,
+          "served_exact_receipt": true,
+          "generator_admitted": true,
+          "served_excerpt": "| 15  | Relé de avería C (AUX.)      | C 2                                    |                                                                |\n| 16  | Relé de avería NA (AUX.)     | C 2                                    |                                                                |\n| 17  | Salida sirena 1 -            | Resistencia de fin de línea de 47 kohm |                                                                |\n| 18  | Salida sirena 1 +            |                                        |                                                                |\n\n[... otro extracto fuente ...]\n\n| 24  | Salida lazo -                |                                        |                                                                |\n| 25  | Salida lazo + (con aislador) | Para usar aislador                     |                                                                |\n| 26  | Entrada lazo -               |                                        |                                                                |\n| 27  | Entrada lazo +               |                                        |                                                                |"
+        }
+      ],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 50,
+            "bounded_pool_rows": 50,
+            "canonical_scope_rows": 37,
+            "eligible_rows": 1,
+            "selected_ids": [
+              "1b3a2b55-ea39-4a6c-b676-c70673708fa0"
+            ],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "selected",
+            "archetype": "loop_eol_topology",
+            "needs": [
+              "topologia lazo cerrado inicio retorno salida loop closed topology start return out",
+              "terminacion eol rfl end line resistor termination",
+              "bornes cableado continuidad terminals wiring continuity"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "no_validated_source_span",
+            "selected_ids": [],
+            "http_requests": 2,
+            "page_local_candidates": 3,
+            "non_substantive_selected_rejected": 1,
+            "selector_reason": "selected"
+          }
+        ],
+        "appended_ids": [
+          "1b3a2b55-ea39-4a6c-b676-c70673708fa0"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "appended",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "cat008",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 50,
+            "bounded_pool_rows": 50,
+            "canonical_scope_rows": 6,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_query_aligned_candidate",
+            "archetype": "loop_eol_topology",
+            "needs": [
+              "topologia cerrado inicio retorno salida loop closed topology start return out",
+              "resistencia terminacion eol rfl end line resistor termination",
+              "bornes cableado continuidad terminals wiring continuity"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "cat009",
+      "protected_prefix_equal": true,
+      "selected": [
+        {
+          "id": "c2eafe7a-71ee-49bc-9af5-1c7b091a721c",
+          "lane": "retrieval_pool_coverage_v1",
+          "source_file": "HLSI-MN-025-I_NFS Supra Series",
+          "page_number": 28,
+          "exact_receipt": true,
+          "served_exact_receipt": true,
+          "generator_admitted": true,
+          "served_excerpt": "[Wiring diagram showing: A 47 µF Capacitor connected at the top, with a Zener 5V diode and two normally open (NO) contacts labeled \"C NO\" representing the MCP Contact (NO). A resistor of 470 Ω <sub>min</sub> to 1K <sub>max</sub> is shown in series with another NO contact. The zone line connects to three terminal blocks labeled Z1, Z2, and Z3 (shown in\n\n[... otro extracto fuente ...]\n\n zener between positive and negative as shown in the drawing.\n\nThe detector fault relay must be connected in normally closed (NC) mode in series with the end of line (EOL or RFL), between positive and negative, as shown in the drawing.\n\n[Wiring diagram showing: A Fault Contact (NC) at the top with a 47 µF Capacitor, connected to a normally closed contact lab"
+        },
+        {
+          "id": "f1192f4c-1250-4e64-af82-ce4dc42ff6a7",
+          "lane": "cascaded_structural_neighbor_coverage_v1",
+          "source_file": "HLSI-MN-025-I_NFS Supra Series",
+          "page_number": 27,
+          "exact_receipt": true,
+          "served_exact_receipt": true,
+          "generator_admitted": true,
+          "served_excerpt": "Zones lines must be terminated with the supplied, **47µF capacitor** or 4K7Ω, resistor. The EOL resistor make zone stable to 24 V(normal/quiescent status)."
+        }
+      ],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 22,
+            "bounded_pool_rows": 22,
+            "canonical_scope_rows": 14,
+            "eligible_rows": 1,
+            "selected_ids": [
+              "c2eafe7a-71ee-49bc-9af5-1c7b091a721c"
+            ],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "selected",
+            "archetype": "loop_eol_topology",
+            "needs": [
+              "topologia lazo cerrado inicio retorno salida loop closed topology start return out",
+              "terminacion rfl end line resistor termination",
+              "bornes cableado continuidad terminals wiring continuity"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "selected",
+            "selected_ids": [
+              "f1192f4c-1250-4e64-af82-ce4dc42ff6a7"
+            ],
+            "http_requests": 2,
+            "page_local_candidates": 3,
+            "non_substantive_selected_rejected": 0,
+            "selector_reason": "selected"
+          }
+        ],
+        "appended_ids": [
+          "c2eafe7a-71ee-49bc-9af5-1c7b091a721c",
+          "f1192f4c-1250-4e64-af82-ce4dc42ff6a7"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "appended",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "cat010",
+      "protected_prefix_equal": true,
+      "selected": [
+        {
+          "id": "048f407c-eda7-416e-a63e-6d07a583dd78",
+          "lane": "retrieval_pool_coverage_v1",
+          "source_file": "manual IS MA1",
+          "page_number": 1,
+          "exact_receipt": true,
+          "served_exact_receipt": true,
+          "generator_admitted": true,
+          "served_excerpt": "be installed. The output tone is defined by the positions of the six internal switches and this tone can be changed to a second or third stage alarm tone by connecting terminals S2 or S3 to 0V. The tone generator is crystal controlled to ensure that when two sounders connected to the same power supply are started at the same time the output tones remain\n\n[... otro extracto fuente ...]\n\n## 3) Supply Voltage\n\nThe IS-mA1 minialarm sounder has been designed to operate in a hazardous area from a 24V dc supply via 28V 93mA resistive ATEX and IECEx certified Zener Barriers or Galvanic Isolators. The sounders may be tested or used in safe areas without a Zener Barrier or Galvanic Isolator, but at supply voltages above 16V the internal current limit will function and therefore it is recommended that they are not operated continuously with a direct supply greater than 16V."
+        },
+        {
+          "id": "77a0cce8-b238-4507-a4ab-17491badfe0c",
+          "lane": "retrieval_pool_coverage_v1",
+          "source_file": "manual IS MA1",
+          "page_number": 2,
+          "exact_receipt": true,
+          "served_exact_receipt": true,
+          "generator_admitted": true,
+          "served_excerpt": "The total capacitance connected to terminals + wrt - (i.e. the capacitance of the cable plus any other capacitance) shall not exceed 83nF.\n\n[... otro extracto fuente ...]\n\nThe equipment shall only be supplied via Terminals + w.r.t. Terminals - from a barrier having a maximum open circuit voltage Uo that is ≤ 28V and a maximum short circuit current Io that is ≤ 93mA, where Io is resistively limited. The barrier shall be ATEX certified by a notified body.\n\n[... otro extracto fuente ...]\n\nr via the + and – terminals which have the following input safety parameters:\n\nUi = 28V\nIi = 93mA\nPi = 660mW\n\nCi = 0 Li = 0\n\nThe IS-mA1 sounder may be powered from an ATEX certified Zener barrier or galvanic isolator which have output parameters equal to or less than 28V, 93mA and 660mW, where Io is resistively limited. The cable parameters stated on the sel\n\n[... otro extracto fuente ...]\n\nUp to three IS-mA1 sounders can be connected in parallel and powered from a common barrier or isolator. Connecting two sounders in parallel will reduce the output from each by about 3dB. Three sounders should only be powered from a common supply when the maximum supply voltage is available."
+        }
+      ],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 28,
+            "bounded_pool_rows": 28,
+            "canonical_scope_rows": 18,
+            "eligible_rows": 5,
+            "selected_ids": [
+              "048f407c-eda7-416e-a63e-6d07a583dd78",
+              "77a0cce8-b238-4507-a4ab-17491badfe0c"
+            ],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "selected",
+            "archetype": "intrinsic_safety",
+            "needs": [
+              "alimentacion barrera aislador galvanico segura power supply barrier galvanic isolator hazardous safe area",
+              "entidad tension corriente potencia capacitancia inductancia input entity parameters voltage current power capacitance inductance",
+              "terminales etapas control conexion terminals stages connection"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "selected",
+            "selected_ids": [
+              "68c40b6f-c4a4-478e-adff-bf32febc2cd7"
+            ],
+            "http_requests": 2,
+            "page_local_candidates": 4,
+            "non_substantive_selected_rejected": 0,
+            "selector_reason": "selected"
+          }
+        ],
+        "appended_ids": [
+          "048f407c-eda7-416e-a63e-6d07a583dd78",
+          "77a0cce8-b238-4507-a4ab-17491badfe0c"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "appended",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "cat011",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 50,
+            "bounded_pool_rows": 50,
+            "canonical_scope_rows": 41,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_query_aligned_candidate",
+            "archetype": null,
+            "needs": [
+              "Necesito un detector de humos analógico direccionable «751» para una instalación Notifier; ¿cuál es el modelo correcto?"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "cat012",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 10,
+            "bounded_pool_rows": 10,
+            "canonical_scope_rows": 2,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_query_aligned_candidate",
+            "archetype": "capacity_quantity",
+            "needs": [
+              "unidad lazo canal per unit loop channel capacity",
+              "total system capacity",
+              "variante revision mercado documento conflicto maximo variant market document conflict maximum"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "cat013",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 10,
+            "bounded_pool_rows": 10,
+            "canonical_scope_rows": 0,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_canonical_candidates"
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "cat014",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 4,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 4,
+            "bounded_pool_rows": 4,
+            "canonical_scope_rows": 0,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_canonical_candidates"
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "cat015",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 9,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 8,
+            "bounded_pool_rows": 8,
+            "canonical_scope_rows": 0,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_canonical_candidates"
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "cat016",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 15,
+            "bounded_pool_rows": 15,
+            "canonical_scope_rows": 7,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_query_aligned_candidate",
+            "archetype": null,
+            "needs": [
+              "En la Detnov CAD-150, ¿como se da de alta un detector nuevo en el lazo y como se prueba que funciona?"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "cat017",
+      "protected_prefix_equal": true,
+      "selected": [
+        {
+          "id": "f702a4ac-9f60-4c93-b3c4-3d991a120751",
+          "lane": "retrieval_pool_coverage_v1",
+          "source_file": "HOP-138-9ES issue 5_11-2025_In",
+          "page_number": 73,
+          "exact_receipt": true,
+          "served_exact_receipt": true,
+          "generator_admitted": true,
+          "served_excerpt": "# CABLEADO AL EQUIPO 'DE' - 2 FAT\n\n[Diagram showing wiring configuration with the following components and labels:]\n\n**Longitud máxima del cable de lazo 800 m**\n\n**Tipo**\nJ-Y (St) Y n x 2 x ⊘ 0,8 mm\n\n**Central Unit (bottom left):**\n\n- Notifier INSPIRE Central\n- FAT / FBF (Comunicación Dual)\n- Terminal connections labeled:\n  - Terminals 1-5: UB1+, UB1-, SIO1+\n\n[... otro extracto fuente ...]\n\nLa conexión de ZPA4000 y GMT 4000 sigue el mismo esquema de cableado."
+        },
+        {
+          "id": "a141be4a-48ee-4311-9820-fc765b323ebd",
+          "lane": "retrieval_pool_coverage_v1",
+          "source_file": "HOP-338-9ES issue 4_01-2026_Op",
+          "page_number": 53,
+          "exact_receipt": true,
+          "served_exact_receipt": true,
+          "generator_admitted": true,
+          "served_excerpt": "\n\nEstado del lazo\n\nRev. modulo H/W: 1\nResistencia de lazo (OV): 2\n\nResistencia de lazo (+ve): 3\nLazo IN (Vol.): 27.79\n\nLazo OUT (Vol.): 27.57\nVOpto: Active\n\nVer metricas lazo →\n\nLazo 2\n4 Dispositivo [Dropdown]\n\nAnulaciones en el sector seleccionado\nEq. de Alarma AR1\n\nEq. de Alarma\nNormal\n\nNotifier INSPIRE E10/E15 Central de alarmas de detección de incendios "
+        }
+      ],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 40,
+            "bounded_pool_rows": 40,
+            "canonical_scope_rows": 30,
+            "eligible_rows": 4,
+            "selected_ids": [
+              "f702a4ac-9f60-4c93-b3c4-3d991a120751",
+              "a141be4a-48ee-4311-9820-fc765b323ebd"
+            ],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "selected",
+            "archetype": "connect_install_wire",
+            "needs": [
+              "terminales polaridad conexion cableado terminals polarity connection wiring",
+              "pantalla tierra continuidad resistencia circuito shield earth continuity resistance circuit",
+              "limites seguridad comprobacion instalacion limits safety check installation"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "no_validated_source_span",
+            "selected_ids": [],
+            "http_requests": 3,
+            "page_local_candidates": 5,
+            "non_substantive_selected_rejected": 1,
+            "selector_reason": "selected"
+          }
+        ],
+        "appended_ids": [
+          "f702a4ac-9f60-4c93-b3c4-3d991a120751",
+          "a141be4a-48ee-4311-9820-fc765b323ebd"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "appended",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "cat018",
+      "protected_prefix_equal": true,
+      "selected": [
+        {
+          "id": "018b1d28-f1e1-4589-b918-99de0e691f3e",
+          "lane": "retrieval_pool_coverage_v1",
+          "source_file": "AM-8200-manu-prog-spa",
+          "page_number": 67,
+          "exact_receipt": true,
+          "served_exact_receipt": true,
+          "generator_admitted": true,
+          "served_excerpt": "Ejemplo: la ecuación de un módulo de salida es: **(TAC (SYS))**\nCuando en la central se realiza el comando de silencio sirena, el módulo de salida se activa\n\n[... otro extracto fuente ...]\n\nEl dispositivo que tiene en su ecuación CBE el operador «DEL», cuando se verifica su ecuación, espera el tiempo programado para después activarse.\nSi durante este tiempo de retardo la ecuación no se verifica, el temporizador se reinicia y está listo para pasar al siguiente evento detonante (por tanto, no se activa el dispositivo de salida)."
+        }
+      ],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 19,
+            "bounded_pool_rows": 19,
+            "canonical_scope_rows": 10,
+            "eligible_rows": 1,
+            "selected_ids": [
+              "018b1d28-f1e1-4589-b918-99de0e691f3e"
+            ],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "selected",
+            "archetype": "program_delay_cause_effect",
+            "needs": [
+              "ruta menu programacion edicion route programming edit",
+              "condicion entrada regla matriz coincidencia condition input rule cause effect matrix coincidence",
+              "accion seleccionar aplicar transferir circuito equipo funcion sirena temporizador retardo anulacion action output select apply transfer circuit equipment function sounder siren timer delay override activation"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "no_validated_source_span",
+            "selected_ids": [],
+            "http_requests": 2,
+            "page_local_candidates": 3,
+            "non_substantive_selected_rejected": 1,
+            "selector_reason": "selected"
+          }
+        ],
+        "appended_ids": [
+          "018b1d28-f1e1-4589-b918-99de0e691f3e"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "appended",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "cat019",
+      "protected_prefix_equal": true,
+      "selected": [
+        {
+          "id": "a47cb7d8-c480-48e8-bab8-f1fc6c5c841c",
+          "lane": "retrieval_pool_coverage_v1",
+          "source_file": "CAD-250_Manual-software-configuracion-MS-416-es-2026-b",
+          "page_number": 49,
+          "exact_receipt": true,
+          "served_exact_receipt": true,
+          "generator_admitted": true,
+          "served_excerpt": "A los cambios de estado los llamamos eventos y a cada evento relacionaremos una acción tales como la activación de sirena/s, relé/s, etc.\n\n[... otro extracto fuente ...]\n\nterminará el estado del módulo virtual y este puede a su vez actuar como entrada de otra regla.\n\n| **Entradas**<br/><br/>• Evento 1<br/>• Evento 2<br/>• ...<br/>• Evento n | → | **Lógica**<br/><br/>• Coincidencia<br/>• Negación<br/>• Estado<br/>• Retardos<br/>• ... | → | **Salidas**<br/><br/>• Acción 1<br/>• Acción 2<br/>• ...<br/>• Acción n |\n| ------------------------------------------------------------------------ | - | --------------------------------------------------------------------------------------- | - | ----------------------------------------------------------------------- |"
+        },
+        {
+          "id": "4a0c23d0-ef25-400e-989e-48ce4bbabd12",
+          "lane": "retrieval_pool_coverage_v1",
+          "source_file": "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+          "page_number": 36,
+          "exact_receipt": true,
+          "served_exact_receipt": true,
+          "generator_admitted": true,
+          "served_excerpt": "# 6.7. Maniobras\n\nPodemos definir la maniobra como un conjunto de acciones que se programan en un central en función de los estados que toma el sistema, áreas, zonas o dispositivos.\n\nA los cambios de estado los llamamos eventos y a cada evento relacionaremos una acción tales como la activación de sirena/s, relé/s, etc.\n\nEl proceso de programación de una mani"
+        },
+        {
+          "id": "5111f249-1415-487a-b2a2-3f0ec4d86114",
+          "lane": "cascaded_structural_neighbor_coverage_v1",
+          "source_file": "CAD-250_Manual-software-configuracion-MS-416-es-2026-b",
+          "page_number": 49,
+          "exact_receipt": true,
+          "served_exact_receipt": true,
+          "generator_admitted": true,
+          "served_excerpt": "| Nivel 1 | Nivel 2     | Descripción                                                                      |\n| ------- | ----------- | -------------------------------------------------------------------------------- |\n| Nuevo   | Dispositivo | Crea un nuevo elemento, detector, pulsador, sirena, entrada, salida, panel o gas |\n|         | Panel       | Crea un nuevo panel o nodo                                                       |"
+        }
+      ],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 46,
+            "bounded_pool_rows": 46,
+            "canonical_scope_rows": 36,
+            "eligible_rows": 3,
+            "selected_ids": [
+              "a47cb7d8-c480-48e8-bab8-f1fc6c5c841c",
+              "4a0c23d0-ef25-400e-989e-48ce4bbabd12"
+            ],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "selected",
+            "archetype": "program_delay_cause_effect",
+            "needs": [
+              "ruta menu programacion edicion route programming edit",
+              "condicion entrada regla matriz coincidencia condition input rule cause effect matrix coincidence",
+              "accion salida seleccionar aplicar transferir circuito equipo funcion sirena temporizador retardo anulacion action output select apply transfer circuit equipment function sounder siren timer delay override activation"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "selected",
+            "selected_ids": [
+              "5111f249-1415-487a-b2a2-3f0ec4d86114"
+            ],
+            "http_requests": 3,
+            "page_local_candidates": 4,
+            "non_substantive_selected_rejected": 0,
+            "selector_reason": "selected"
+          }
+        ],
+        "appended_ids": [
+          "a47cb7d8-c480-48e8-bab8-f1fc6c5c841c",
+          "4a0c23d0-ef25-400e-989e-48ce4bbabd12",
+          "5111f249-1415-487a-b2a2-3f0ec4d86114"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "appended",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "cat020",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 28,
+            "bounded_pool_rows": 28,
+            "canonical_scope_rows": 7,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_query_aligned_candidate",
+            "archetype": null,
+            "needs": [
+              "En una central Morley DXc instalada en Espana, ¿cual es el nivel de alarma y de prealarma por defecto de los detectores, y el maximo configurable?"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "cat021",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 50,
+            "bounded_pool_rows": 50,
+            "canonical_scope_rows": 34,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_query_aligned_candidate",
+            "archetype": null,
+            "needs": [
+              "Necesito un detector de llama SharpEye «40/40» (Spectrex / Notifier) para una instalación; ¿qué modelo pido?"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "cat022",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 50,
+            "bounded_pool_rows": 50,
+            "canonical_scope_rows": 34,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_query_aligned_candidate",
+            "archetype": null,
+            "needs": [
+              "En los detectores de llama Spectrex SharpEye 40/40, ¿qué diferencia hay entre el modelo 40/40L y el 40/40L4, y qué significa el sufijo «B» (p. ej. 40/40LB)?"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "cat023",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 30,
+            "bounded_pool_rows": 30,
+            "canonical_scope_rows": 22,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_query_aligned_candidate",
+            "archetype": null,
+            "needs": [
+              "En el detector de humos por aspiración Securiton ASD532, ¿qué clases de sensibilidad según EN 54-20 ofrece y cómo se configura la monitorización del flujo de aire?"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "cat024",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 47,
+            "bounded_pool_rows": 47,
+            "canonical_scope_rows": 37,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_query_aligned_candidate",
+            "archetype": null,
+            "needs": [
+              "¿Cuál es el consumo en alarma de la sirena analógica de zócalo Detnov MAD-472?"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "hp001",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 34,
+            "bounded_pool_rows": 34,
+            "canonical_scope_rows": 23,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_query_aligned_candidate",
+            "archetype": null,
+            "needs": [
+              "En la Detnov CAD-250, ¿cómo se entra al menú de programación avanzada?"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "hp002",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 23,
+            "bounded_pool_rows": 23,
+            "canonical_scope_rows": 16,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_query_aligned_candidate",
+            "archetype": "fault_reset_recovery",
+            "needs": [
+              "condicion activa enclavada inhibicion bloqueo abort condition active latched inhibit blocked manual reset",
+              "temporizador duracion tiempo intervalo evento rearme timer duration time interval event reset",
+              "diagnostico comprobacion recuperacion normal reposo averia diagnostic check recovery standby fault"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "hp003",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 13,
+            "bounded_pool_rows": 13,
+            "canonical_scope_rows": 5,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_query_aligned_candidate",
+            "archetype": "connect_install_wire",
+            "needs": [
+              "terminales polaridad conexion cableado terminals polarity connection wiring",
+              "pantalla tierra continuidad resistencia circuito shield earth continuity resistance circuit",
+              "limites seguridad comprobacion instalacion limits safety check installation"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "hp004",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 4,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 4,
+            "bounded_pool_rows": 4,
+            "canonical_scope_rows": 0,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_canonical_candidates"
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "hp005",
+      "protected_prefix_equal": true,
+      "selected": [
+        {
+          "id": "5d89b512-318c-43f3-b34d-4cebd57bc494",
+          "lane": "retrieval_pool_coverage_v1",
+          "source_file": "MPDT190",
+          "page_number": 68,
+          "exact_receipt": true,
+          "served_exact_receipt": true,
+          "generator_admitted": true,
+          "served_excerpt": "Por lo tanto, la salida se activará de forma intermitente durante el tiempo de retardo y luego cambiará a modo fijo.\n\n[... otro extracto fuente ...]\n\n```\nConfiguración de matriz de control\n▲ENTRADA:\n  ZONA 3 (Coincidencia)\n  SALIDA: (Retardo sirena #1 48s)\n▼ZONA 4 , SIRENA (pulsado)\n√=editar/borrar *=crear nuevo X=cancelar\n```"
+        },
+        {
+          "id": "6dcccb36-f67b-4057-959b-494d9279e5d4",
+          "lane": "retrieval_pool_coverage_v1",
+          "source_file": "MADT190_07",
+          "page_number": 6,
+          "exact_receipt": true,
+          "served_exact_receipt": true,
+          "generator_admitted": true,
+          "served_excerpt": "## Editar el Evento de Salida\n\n**Matriz E/S:** 5        **Extincion basico**\n\n**Acción:**\n\n○ Anular\n● Activar ☐ Pulsante\n○ Ajustar Modo Sólo Térmico\n\n**Aplicar el Evento de Salida / Matriz sobre:**\n\nTipo de Equipo: ☐ Todos los Equipos\n\nFunción Especial: ☐ Circuito Sirena 1\n\n**Transferir a:**\n\nRetardo: 0        seg.\n\nSin Ecuación Logica\n\n○ Todas las Zonas\n○ M"
+        },
+        {
+          "id": "db6b08c7-13e0-4425-960d-8460e5ce0231",
+          "lane": "cascaded_structural_neighbor_coverage_v1",
+          "source_file": "MPDT190",
+          "page_number": 69,
+          "exact_receipt": true,
+          "served_exact_receipt": true,
+          "generator_admitted": true,
+          "served_excerpt": "Esta opción permite examinar las entrada (instrucciones) de matriz de control y modificar o borrar entradas individuales.\n\n[... otro extracto fuente ...]\n\nSi hay varias acciones retardadas compartiendo el mismo retardo, se muestran como entradas separadas. En este ejemplo, dos instrucciones con diferentes entradas y la misma salida utilizan el mismo retardo con periodos de tiempo diferentes."
+        }
+      ],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 43,
+            "bounded_pool_rows": 43,
+            "canonical_scope_rows": 36,
+            "eligible_rows": 8,
+            "selected_ids": [
+              "5d89b512-318c-43f3-b34d-4cebd57bc494",
+              "6dcccb36-f67b-4057-959b-494d9279e5d4"
+            ],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "selected",
+            "archetype": "program_delay_cause_effect",
+            "needs": [
+              "ruta menu programacion edicion route programming edit",
+              "condicion entrada regla causa efecto matriz condition input rule cause effect matrix coincidence",
+              "accion seleccionar aplicar transferir circuito equipo funcion temporizador retardo anulacion action output select apply transfer circuit equipment function sounder siren timer delay override activation"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "selected",
+            "selected_ids": [
+              "db6b08c7-13e0-4425-960d-8460e5ce0231"
+            ],
+            "http_requests": 3,
+            "page_local_candidates": 6,
+            "non_substantive_selected_rejected": 0,
+            "selector_reason": "selected"
+          }
+        ],
+        "appended_ids": [
+          "5d89b512-318c-43f3-b34d-4cebd57bc494",
+          "6dcccb36-f67b-4057-959b-494d9279e5d4",
+          "db6b08c7-13e0-4425-960d-8460e5ce0231"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "appended",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "hp006",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 33,
+            "bounded_pool_rows": 33,
+            "canonical_scope_rows": 26,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_query_aligned_candidate",
+            "archetype": null,
+            "needs": [
+              "La Notifier AFP-400 muestra el aviso 'Tierra' (Earth Fault). ¿Qué significa y cómo se localiza?"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "hp007",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 35,
+            "bounded_pool_rows": 35,
+            "canonical_scope_rows": 28,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_query_aligned_candidate",
+            "archetype": null,
+            "needs": [
+              "¿Cómo se realiza el test anual de un detector VESDA-E VEP según el manual del fabricante?"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "hp008",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 39,
+            "bounded_pool_rows": 39,
+            "canonical_scope_rows": 30,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_query_aligned_candidate",
+            "archetype": "compatibility",
+            "needs": [
+              "compatibilidad protocolo fabricante familia compatibility protocol manufacturer family",
+              "requisitos electricos mecanicos instalacion electrical mechanical installation requirements"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "hp009",
+      "protected_prefix_equal": true,
+      "selected": [
+        {
+          "id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+          "lane": "retrieval_pool_coverage_v1",
+          "source_file": "MIE-MI-530rv001",
+          "page_number": 20,
+          "exact_receipt": true,
+          "served_exact_receipt": true,
+          "generator_admitted": true,
+          "served_excerpt": "## Conexionado lazo analógico con aisladores\n\n[Diagram showing loop wiring with isolators:\n\n- Four horizontal lines labeled from top to bottom:\n  - Datos/Alimentación (+) INICIO (red line)\n  - Datos/Alimentación (-) INICIO (black line)\n  - Datos/Alimentación (+) Retorno (red line)\n  - Datos/Alimentación (+) Retorno (black line)\n- Four circular devices shown on each line with internal wiring connections\n- Some devices are highlighted with blue\n\n[... otro extracto fuente ...]\n\nCada circuito de sirena se supervisa ante cortocircuito y circuito abierto. Debe instalarse una resistencia (6.8KΩ, 0.5W mínimo) final de línea (RFL) en el final del circuito, para la supervisión del mismo."
+        },
+        {
+          "id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+          "lane": "cascaded_structural_neighbor_coverage_v1",
+          "source_file": "MIE-MI-530rv001",
+          "page_number": 19,
+          "exact_receipt": true,
+          "served_exact_receipt": true,
+          "generator_admitted": true,
+          "served_excerpt": "- Inicio Lazo (+) OUT / Inicio Lazo (-) OUT on left panel\n- (+) Retorno / (-) Retorno on right panel\n\n[... otro extracto fuente ...]\n\n- Datos/Alimentación (+) INICIO (red line with 4 circular devices)\n- Datos/Alimentación (-) INICIO (black line with 4 circular devices)\n- Datos/Alimentación (+) Retorno (red return line with 4 circular devices)\n- Datos/Alimentación (+) Retorno (black return line with 4 circular devices)"
+        }
+      ],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 45,
+            "bounded_pool_rows": 45,
+            "canonical_scope_rows": 19,
+            "eligible_rows": 1,
+            "selected_ids": [
+              "90d51dac-bd0b-4051-b414-ced0fe6e33bb"
+            ],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "selected",
+            "archetype": "loop_eol_topology",
+            "needs": [
+              "topologia lazo cerrado inicio retorno salida loop closed topology start return out",
+              "terminacion eol rfl end line resistor termination",
+              "bornes cableado continuidad terminals wiring continuity"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "selected",
+            "selected_ids": [
+              "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a"
+            ],
+            "http_requests": 2,
+            "page_local_candidates": 3,
+            "non_substantive_selected_rejected": 0,
+            "selector_reason": "selected"
+          }
+        ],
+        "appended_ids": [
+          "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+          "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "appended",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "hp010",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 27,
+            "bounded_pool_rows": 27,
+            "canonical_scope_rows": 9,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_query_aligned_candidate",
+            "archetype": null,
+            "needs": [
+              "En la Morley DXc, ¿cómo se añade un nuevo detector al lazo tras la puesta en marcha inicial?"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "hp011",
+      "protected_prefix_equal": true,
+      "selected": [
+        {
+          "id": "475a8f18-7c69-4c7a-8111-45bd67334c96",
+          "lane": "retrieval_pool_coverage_v1",
+          "source_file": "HLSI-MN-103_RP1r-Supra_lr",
+          "page_number": 63,
+          "exact_receipt": true,
+          "served_exact_receipt": true,
+          "generator_admitted": true,
+          "served_excerpt": "| ---------------------------- | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| \\[LCD display showing \"r.i\"] | Rearme inhibido tras extinción | De acuerdo con la norma UNE-EN 12094-1:2004, apartado 4.12.2, debe existir un intervalo de tiempo programable, entre 0 y 30 minutos, desde que la central notifica el estado de ACTIVADO hasta que permite su rearme.~~- -~~\tRearme inhibido hasta finalizar extinción o cuando agotado tiempo configurado en parámetro ~~t.Fi~~ (~~t.A~~ → 0 seg.)&#xA;00\tRearme permitido en cualquier momento (por defecto)&#xA;De 01 a 30\tRearme inhibido durante intervalo definido (expresado en minutos) |"
+        }
+      ],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 50,
+            "bounded_pool_rows": 50,
+            "canonical_scope_rows": 19,
+            "eligible_rows": 1,
+            "selected_ids": [
+              "475a8f18-7c69-4c7a-8111-45bd67334c96"
+            ],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 1,
+            "status": "selected",
+            "archetype": "fault_reset_recovery",
+            "needs": [
+              "condicion activa enclavada inhibicion bloqueo abort condition active latched inhibit blocked manual reset",
+              "temporizador duracion tiempo intervalo evento rearme timer duration time interval event reset",
+              "diagnostico comprobacion recuperacion reposo averia diagnostic check recovery standby fault"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "no_validated_source_span",
+            "selected_ids": [],
+            "http_requests": 2,
+            "page_local_candidates": 3,
+            "non_substantive_selected_rejected": 1,
+            "selector_reason": "selected"
+          }
+        ],
+        "appended_ids": [
+          "475a8f18-7c69-4c7a-8111-45bd67334c96"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "appended",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "hp012",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 50,
+            "bounded_pool_rows": 50,
+            "canonical_scope_rows": 40,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_query_aligned_candidate",
+            "archetype": "capacity_quantity",
+            "needs": [
+              "capacidad unidad canal per unit loop channel capacity",
+              "capacidad total system capacity",
+              "variante revision mercado documento conflicto maximo variant market document conflict maximum"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "hp013",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 23,
+            "bounded_pool_rows": 23,
+            "canonical_scope_rows": 17,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_query_aligned_candidate",
+            "archetype": "replace_without_loss",
+            "needs": [
+              "componente reloj component battery rtc clock",
+              "alimentacion principal respaldo redundancia main backup redundant power",
+              "memoria persistente eeprom conservar persistent memory configuration retain"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "hp014",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 31,
+            "bounded_pool_rows": 31,
+            "canonical_scope_rows": 23,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_query_aligned_candidate",
+            "archetype": "connect_install_wire",
+            "needs": [
+              "terminales polaridad conexion cableado terminals polarity connection wiring",
+              "pantalla tierra continuidad resistencia circuito shield earth continuity resistance circuit",
+              "limites seguridad comprobacion instalacion limits safety check installation"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "hp015",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 17,
+            "bounded_pool_rows": 17,
+            "canonical_scope_rows": 10,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_query_aligned_candidate",
+            "archetype": null,
+            "needs": [
+              "En la Detnov CCD-103, ¿cómo se desactiva un detector individualmente sin afectar al resto del lazo?"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "hp017",
+      "protected_prefix_equal": true,
+      "selected": [
+        {
+          "id": "ac652044-a4ff-40bd-9011-95521bb79e0f",
+          "lane": "retrieval_pool_coverage_v1",
+          "source_file": "997-671-005-3_Configuration_ES",
+          "page_number": 20,
+          "exact_receipt": true,
+          "served_exact_receipt": true,
+          "generator_admitted": true,
+          "served_excerpt": "equipos Opal\n- Asignar si es necesario para alimentación de potenciador de lazo (solo para alarma)\n- Seleccionar función de acción de subdirecciones de módulo de entrada o salida\n- Ajuste de acción de fallo no AUX:* entrada de alarma o avería\n- Ajuste de supervisión de avería de cortocircuito o circuito abierto\n- Periodo de retardo de confirmación de"
+        },
+        {
+          "id": "39e581ab-3536-4fe5-8faa-4537ca38213f",
+          "lane": "retrieval_pool_coverage_v1",
+          "source_file": "997-671-005-3_Configuration_ES",
+          "page_number": 20,
+          "exact_receipt": true,
+          "served_exact_receipt": true,
+          "generator_admitted": true,
+          "served_excerpt": "Es posible realizar una edición individual de los sensores o los módulos. Pueden editarse las siguientes funciones.\n\n[... otro extracto fuente ...]\n\non todos los sensores CLIP salvo HEAT)\n- Retardo de alarma\n- Ajuste no silenciable para la función de LED remoto (solo equipos Opal); respuesta a la orden SILENCIAR SIRENAS.\n- Operación solo modo térmico (L6) (solo SMART y Optiplex)\n- Número de aplicación (solo equipos SMART 4)\n- Ajuste de la función LED remota (solo equipos Opal): las opciones son: Seguir el equipo (predeterminada) o Controlada por las reglas de causa-efecto.\n- Retardo de confirmación de coincidencia de detector; puede ajustarse hasta 240 s (4 min). Puede usarse con dependencia tipo B."
+        }
+      ],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 31,
+            "bounded_pool_rows": 31,
+            "canonical_scope_rows": 22,
+            "eligible_rows": 2,
+            "selected_ids": [
+              "ac652044-a4ff-40bd-9011-95521bb79e0f",
+              "39e581ab-3536-4fe5-8faa-4537ca38213f"
+            ],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "selected",
+            "archetype": "program_delay_cause_effect",
+            "needs": [
+              "ruta menu programacion edicion route programming edit",
+              "condicion entrada regla causa efecto matriz coincidencia condition input rule cause effect matrix coincidence",
+              "accion seleccionar aplicar transferir circuito equipo funcion sirena temporizador anulacion action output select apply transfer circuit equipment function sounder siren timer delay override activation"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "no_validated_source_span",
+            "selected_ids": [],
+            "http_requests": 3,
+            "page_local_candidates": 5,
+            "non_substantive_selected_rejected": 1,
+            "selector_reason": "selected"
+          }
+        ],
+        "appended_ids": [
+          "ac652044-a4ff-40bd-9011-95521bb79e0f",
+          "39e581ab-3536-4fe5-8faa-4537ca38213f"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "appended",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "hp018",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 50,
+            "bounded_pool_rows": 50,
+            "canonical_scope_rows": 22,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_query_aligned_candidate",
+            "archetype": "connect_install_wire",
+            "needs": [
+              "terminales polaridad conexion cableado terminals polarity connection wiring",
+              "pantalla tierra continuidad resistencia circuito shield earth continuity resistance circuit",
+              "limites seguridad comprobacion instalacion limits safety check installation"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "hp019",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 36,
+            "bounded_pool_rows": 36,
+            "canonical_scope_rows": 26,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_query_aligned_candidate",
+            "archetype": null,
+            "needs": [
+              "¿Cuál es el rango de temperatura de funcionamiento del detector de aspiración ASD535 (Securiton, distribuido por Detnov)?"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    },
+    {
+      "qid": "hp020",
+      "protected_prefix_equal": true,
+      "selected": [],
+      "trace": {
+        "enabled": true,
+        "protected_prefix_rows": 10,
+        "lanes": [
+          {
+            "lane": "retrieval_pool_coverage_v1",
+            "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+            "input_pool_rows": 21,
+            "bounded_pool_rows": 21,
+            "canonical_scope_rows": 12,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "duplicate_location_rows_rejected": 0,
+            "status": "no_query_aligned_candidate",
+            "archetype": null,
+            "needs": [
+              "En la Notifier INSPIRE, ¿cómo se configuran las contraseñas de nivel 2 y nivel 3?"
+            ]
+          },
+          {
+            "lane": "cascaded_structural_neighbor_coverage_v1",
+            "status": "skipped_no_served_pool_seed",
+            "selected_ids": [],
+            "http_requests": 0
+          }
+        ],
+        "appended_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "status": "no_append",
+        "protected_prefix_equal": true
+      }
+    }
+  ],
+  "limitations": [
+    "This packet measures literal support at the final prompt boundary; it is never available to selection.",
+    "Needles are evaluation assertions derived from already adjudicated source truth, not runtime ranking inputs.",
+    "Reaching the prompt does not claim that the generator conveys the fact."
+  ]
+}
