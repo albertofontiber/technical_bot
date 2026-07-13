@@ -1,0 +1,2385 @@
+{
+  "instrument": "s108_structural_retrieval_replay_v1",
+  "read_only": true,
+  "selection_contract": {
+    "target_facts_available_during_selection": false,
+    "generated_prose_used": false,
+    "same_document_required": true,
+    "same_extraction_sha256_required": true,
+    "max_seeds": 10,
+    "max_gap": 8,
+    "max_anchors": 2
+  },
+  "frozen_inputs": {
+    "baseline": "evals/s100_factlevel_full.yaml",
+    "baseline_sha256": "49e8cbaab5f86f89b67e0457267ceeca7a1078ac503fbe5a7249b798aeabe503",
+    "probe_sha256": "608af4840a6d331127cfc11ef2a620cc84693407780ad0d7301f6991ca69f7b6",
+    "audit_locator_sha256": "e413ed296cd0e7f3412eb2b6238e0fbe17d64f4fa2e6d317b28948cf1430442e",
+    "selector_sha256": "2aced0b017dbbd4fa3ea872010a93f8f25d4fdbd3eeae5db1b8419d861b53481",
+    "config_sha256": "aa01ce4505a76e0181088b52a6a162ca870d58d72594320f83589c1bb48875bc"
+  },
+  "database_snapshot": {
+    "snapshot": "101885:101885:",
+    "chunks": 25090,
+    "documents": 1171
+  },
+  "elapsed_seconds": 13.27635,
+  "gate": {
+    "queries": 39,
+    "retrieval_facts": 7,
+    "model_calls": 0,
+    "database_writes": 0,
+    "candidate_overflows": 0,
+    "structural_retrieval_preconditions": 4,
+    "confirmatory_expected_keys": [
+      "hp011#2:05 a 295 seg",
+      "hp014#3:35",
+      "hp017#1:instruccion de entrada"
+    ],
+    "confirmatory_supported_keys": [
+      "hp011#2:05 a 295 seg",
+      "hp014#3:35",
+      "hp017#1:instruccion de entrada"
+    ],
+    "exploratory_supported_keys": [
+      "hp013#1:PWR-R"
+    ],
+    "structural_retrieval_keys": [
+      "hp011#2:05 a 295 seg",
+      "hp013#1:PWR-R",
+      "hp014#3:35",
+      "hp017#1:instruccion de entrada"
+    ],
+    "serving_integration": false,
+    "official_ok_uplift": 0,
+    "interpretation": "GO_CONFIRMATORY_STRUCTURAL_RETRIEVAL_3_OF_3_PLUS_DISCOVERY_NOT_RELEASED"
+  },
+  "retrieval_facts_after_selection": [
+    {
+      "key": "cat007#3:2 A / 0,5 A",
+      "qid": "cat007",
+      "baseline_class": "retrieval-miss",
+      "selected_ids": [],
+      "matching_candidates": [],
+      "same_family_supporting_ids": [],
+      "structural_retrieval_precondition": false
+    },
+    {
+      "key": "cat007#4:10^5",
+      "qid": "cat007",
+      "baseline_class": "retrieval-miss",
+      "selected_ids": [],
+      "matching_candidates": [],
+      "same_family_supporting_ids": [],
+      "structural_retrieval_precondition": false
+    },
+    {
+      "key": "hp011#2:05 a 295 seg",
+      "qid": "hp011",
+      "baseline_class": "retrieval-miss",
+      "selected_ids": [
+        "2d45a70a-5202-442e-af84-c3a176c2178d",
+        "e8c03d86-539f-42b2-b919-50f96949f016"
+      ],
+      "matching_candidates": [
+        {
+          "chunk_id": "2d45a70a-5202-442e-af84-c3a176c2178d",
+          "rank": 1,
+          "same_family": true,
+          "candidate_priority": [
+            0,
+            0.75
+          ],
+          "content_sha256": "58f4b136b75ceb20ab5dbd62a0a7c4141e6b769fae32663124ec566b5e2000f2"
+        }
+      ],
+      "same_family_supporting_ids": [
+        "2d45a70a-5202-442e-af84-c3a176c2178d"
+      ],
+      "structural_retrieval_precondition": true
+    },
+    {
+      "key": "hp012#3:4 lazos / 792",
+      "qid": "hp012",
+      "baseline_class": "retrieval-miss",
+      "selected_ids": [
+        "0c689993-1954-459b-af05-dc6a0851a39c",
+        "096fb0bb-eda2-4aa3-80a0-6001f2a348bc"
+      ],
+      "matching_candidates": [],
+      "same_family_supporting_ids": [],
+      "structural_retrieval_precondition": false
+    },
+    {
+      "key": "hp013#1:PWR-R",
+      "qid": "hp013",
+      "baseline_class": "retrieval-miss",
+      "selected_ids": [
+        "2365dfaa-45e5-4c65-9328-194441e375c9",
+        "af577289-5d7f-4dfc-9187-8a3aca92d40d"
+      ],
+      "matching_candidates": [
+        {
+          "chunk_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+          "rank": 1,
+          "same_family": true,
+          "candidate_priority": [
+            0,
+            0.6428571428571428
+          ],
+          "content_sha256": "f8e39c048c9aee39597d2e8c966ae381e1557329567c6ec982d01c71cf962828"
+        }
+      ],
+      "same_family_supporting_ids": [
+        "2365dfaa-45e5-4c65-9328-194441e375c9"
+      ],
+      "structural_retrieval_precondition": true
+    },
+    {
+      "key": "hp014#3:35",
+      "qid": "hp014",
+      "baseline_class": "retrieval-miss",
+      "selected_ids": [
+        "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+        "c3541bb2-a33c-4213-8cf1-0ffcf98604ea"
+      ],
+      "matching_candidates": [
+        {
+          "chunk_id": "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+          "rank": 1,
+          "same_family": true,
+          "candidate_priority": [
+            0,
+            0.8928571428571428
+          ],
+          "content_sha256": "3aa4dc41b19721a797b9070d96daa0d09e48b407baa952b84d395f1486bda7e8"
+        }
+      ],
+      "same_family_supporting_ids": [
+        "d4018c9b-8eff-4b19-b826-5bb4df55d29e"
+      ],
+      "structural_retrieval_precondition": true
+    },
+    {
+      "key": "hp017#1:instruccion de entrada",
+      "qid": "hp017",
+      "baseline_class": "retrieval-miss",
+      "selected_ids": [
+        "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+        "d27b1a1b-69cd-4318-a459-f3c86eb757ba"
+      ],
+      "matching_candidates": [
+        {
+          "chunk_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+          "rank": 1,
+          "same_family": true,
+          "candidate_priority": [
+            0,
+            0.7692307692307693
+          ],
+          "content_sha256": "7f68b076e19769e1b528b189d35ceb99669c7f0d7465d4fd944c6da935cb59fd"
+        },
+        {
+          "chunk_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+          "rank": 2,
+          "same_family": true,
+          "candidate_priority": [
+            0,
+            0.8461538461538461
+          ],
+          "content_sha256": "34fbd84d80883b5ade555bda6a1df2189ecd7e31eb40a2b9f20e7e51abe7b72a"
+        }
+      ],
+      "same_family_supporting_ids": [
+        "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+        "d27b1a1b-69cd-4318-a459-f3c86eb757ba"
+      ],
+      "structural_retrieval_precondition": true
+    }
+  ],
+  "selections": [
+    {
+      "qid": "cat001",
+      "selected_ids": [
+        "78565d3f-0baa-45e2-abb7-2290ec92baaf",
+        "048da7d8-1618-431f-aa59-29a0f19eb520"
+      ],
+      "selected": [
+        {
+          "id": "78565d3f-0baa-45e2-abb7-2290ec92baaf",
+          "document_id": "7351b4b8-b32f-45bd-966e-9e4e3613e219",
+          "extraction_sha256": "a1a2a74133509b4990ca1de9f11c825eec0ae94e2e2a56fd0892257a23007521",
+          "document_source_pdf_sha256": "backfill:e7bac4344663bf42f6beefc50a74b93ee0184c317f2ace27149b167ee0e7ddf9",
+          "source_file": "997-669-005-3_Instal-Comm_ES",
+          "product_model": "Pearl",
+          "chunk_index": 22,
+          "page_number": 17,
+          "gap": 4,
+          "rank": 1,
+          "query_score": 16.035959,
+          "facets": [
+            {
+              "facet": "connection",
+              "term_hits": [
+                "cableado",
+                "conexion"
+              ]
+            },
+            {
+              "facet": "continuity",
+              "term_hits": [
+                "lazo",
+                "pantalla",
+                "resistencia",
+                "tierra"
+              ]
+            },
+            {
+              "facet": "limits_safety",
+              "term_hits": [
+                "comprobar",
+                "instalacion",
+                "limite",
+                "maxim"
+              ]
+            }
+          ],
+          "content_sha256": "6e5eee6bcc27f3665d6bee36a52e6be3eb8a67c8be962813738221fa911436bc",
+          "content": "# 3.2 Notas sobre la instalación del cable\n\n## 3.2.1 Introducción\n\nEstas notas tienen como objetivo ayudar a los instaladores de sistemas de control direccionables analógicos. Se han creado a partir de información ofrecida por el proveedor e información relativa a sistemas ya existentes.\n\n## 3.2.2 Calidad del cable y la instalación\n\nEs de vital importancia que el cable utilizado sea de buena calidad y que se instale de forma correcta. En general, deben cumplirse los siguientes requisitos:\n\na. Todas las secciones de cable deben ser circulares para que la sujeción del cable utilizando los prensaestopas sea eficaz.\n\nb. El cable debe estar apantallado (enfundado) para protegerlo de las interferencias de radiofrecuencia y la pantalla debe conectarse a tierra en la central (se suministran seis puntos de toma de tierra en la parte inferior del soporte de montaje).\n\nc. Hay que evitar una conexión múltiple de la pantalla a tierra. Los productos de campo de Notifier utilizan bases y cajas aisladas para este fin. Recomendamos seguir esta práctica si se realizan otras conexiones. Para conseguir lo mismo con cable MICC, puede que sea necesario utilizar prensaestopas aislados en uno de los extremos del cable.\n\nd. La pantalla debe ser continua a lo largo de todo el lazo.\n\ne. La resistencia máxima del lazo no debe superar los límites definidos en **«6.4.2 Comprobaciones del lazo antes de conectar el cableado»**, paso 2. Para comprobarlo, mida entre IN- y OUT-, multiplique el resultado por 2 y añada la resistencia de cada aislador (entre 0,1 y 0,13 ohms cada uno). La capacitancia del cable debe ser inferior a 0,5 µF. Así normalmente se dispone de una longitud de lazo de hasta 2000 metros de cable apantallado de 1,5 mm². Se recomienda el uso de cables MICC, recubiertos de LSF PVC y resistentes al fuego según BS7629 o PVC/SWA/PVC según BS6387.\n\n**Cables recomendados:**\n\n| Fabricante | Nombre del producto | Referencia               | Tipo 1         |\n| ---------- | ------------------- | ------------------------ | -------------- |\n| AEI        | MICC                | 2L1.5                    | Mejorado       |\n| AEI        | Firetech            | 298-052                  | Estándar       |\n| Draka      | FiretufPlus         | FTPLUS2E1.5RD            | Mejorado       |\n| Draka      | Firetuf             | FTZ2E1.5                 | Estándar       |\n| Draka      | ELQYB               | 4110024803, 2 x 0,98 mm² | Estándar       |\n| Prysmian   | FP Plus             | FP Plus 2x1.5 Red        | Mejorado       |\n| Prysmian   | FP200 Gold          | FP200 Gold 2x1.5 Red     | Estándar       |\n| Arrow      | -                   | 7-2-4S                   | Sin clasificar |\n| LAPP KABEL | J-Y(ST)Y            | 1708001, 2 x 0,8 mm²     | Estándar       |\n| LAPP KABEL | J-Y(ST)Y            | 1708002, 2 x 2 x 0,8 mm² | Estándar       |"
+        },
+        {
+          "id": "048da7d8-1618-431f-aa59-29a0f19eb520",
+          "document_id": "7351b4b8-b32f-45bd-966e-9e4e3613e219",
+          "extraction_sha256": "a1a2a74133509b4990ca1de9f11c825eec0ae94e2e2a56fd0892257a23007521",
+          "document_source_pdf_sha256": "backfill:e7bac4344663bf42f6beefc50a74b93ee0184c317f2ace27149b167ee0e7ddf9",
+          "source_file": "997-669-005-3_Instal-Comm_ES",
+          "product_model": "Pearl",
+          "chunk_index": 31,
+          "page_number": 27,
+          "gap": 5,
+          "rank": 2,
+          "query_score": 11.717473,
+          "facets": [
+            {
+              "facet": "connection",
+              "term_hits": [
+                "cableado",
+                "conexion",
+                "polaridad",
+                "terminal"
+              ]
+            },
+            {
+              "facet": "continuity",
+              "term_hits": [
+                "circuito",
+                "pantalla",
+                "resistencia",
+                "tierra"
+              ]
+            },
+            {
+              "facet": "limits_safety",
+              "term_hits": [
+                "instalacion",
+                "maxim"
+              ]
+            }
+          ],
+          "content_sha256": "e6dbf009cb5e1454da875fc8cf6485eda88b92ab4dc9539eaef73c842d76601e",
+          "content": "## 5.3.1.3 Comunicaciones de datos en serie RS485\n\nEn la placa base hay un puerto de comunicaciones de datos en serie RS485 para comunicarse con un máximo de 15 repetidores conectados en serie. Las terminaciones de cables de campo se realizan con un conector en dos partes de tres vías situado en el borde superior de la placa base, tal como se ilustra. El conector en dos partes de tres vías se conecta como se indica en la primera ilustración.\n\nSe suministra una conexión COM (0 V). Debe utilizarse para terminar (conectar a tierra) la pantalla de las conexiones largas con repetidores para aislar interferencias en el par de datos.\n\nEl puerto RS485 está diseñado para los repetidores PRL-IDR6A de Notifier.\n\nLa resistencia de terminación debe desconectarse de todos los nodos salvo los dos finales (un *nodo final* puede ser la central o un repetidor).\n\nSi la central es un nodo final, coloque el puente en el conector JP3.\n\nConsulte la documentación de usuario adjunta al repetidor (ref.: 997-677-000-X) para más información sobre la configuración del puente.\n\nA\nB\nCOM\n\nA B 0V\n\nResistencia\nde terminación\n\nCentral (nodo final)\n\nRepetidor (nodo final)\n\nPuerto de comunicaciones de datos en serie RS485\n\nRS485\nA B COM\n\nPlaca base\n\nPuente en el conector JP3 si\nla central es un nodo final\n\n997-669-005-3\nwww.notifier.es\n\nManual de instalación y puesta en marcha\nSección 5 - 5\n\nMódulos electrónicos\n\n### 5.3.1.4 Circuitos de entrada digital\n\nHay dos circuitos de entrada digital, y los conectores en dos partes de dos vías están en la placa base, tal como se ilustra a continuación. Estos dos circuitos de entrada tienen funciones programables (configurables en el nivel de acceso de usuario 3) y se pueden configurar como acciones de entrada en las reglas de causa y efecto.\n\n[Diagram showing two connector blocks with terminals labeled \"Entrada 1\" and \"Entrada 2\", each with + and - terminals, mounted on a green circuit board base]\n\nCircuitos de entrada digital 1 y 2\n\n[Diagram showing a detailed circuit board layout with multiple yellow connector blocks and mounting holes (shown as orange circles) on a green PCB. The board shows various connection points including RS485 and other labeled terminals]\n\n997-669-005-3\nwww.notifier.es\n\nManual de instalación y puesta en marcha\nSección 5 - 6\n\nMódulos electrónicos\n\n### 5.3.1.5 Circuitos de salida auxiliar de 24 VDC\n\nLa placa base suministra una alimentación nominal supervisada de 24 VDC. Puede usarse para hacer funcionar los indicadores de equipamiento auxiliar.\n\nAntes de conectar un circuito externo al conector de dos vías situado en el borde superior de la placa base, compruebe lo siguiente:\n\n- El cableado externo no está en cortocircuito.\n\n- No hay diodos polarizados (como los usados, por ejemplo, con los relés de supervisión de alimentación de final de línea) conectados con el cableado externo.\n\nCuando realice la conexión con los conectores de salida, compruebe que la polaridad sea correcta.\n\nCircuito de salida auxiliar de 24 VDC\n↓"
+        }
+      ],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 87,
+        "same_blob_candidates": 77,
+        "positive_query_candidates": 74,
+        "facet_candidates": 37,
+        "toc_rejected_ids": [
+          "dee7b1fe-cf62-455f-85e2-498abc37c39d",
+          "f87cd4f4-690a-4fb6-a898-72f55586284f"
+        ],
+        "overflow": false,
+        "selected_ids": [
+          "78565d3f-0baa-45e2-abb7-2290ec92baaf",
+          "048da7d8-1618-431f-aa59-29a0f19eb520"
+        ],
+        "shadow_only": true,
+        "archetype": "connect_install_wire",
+        "needs": [
+          "En la Notifier PEARL, ¿cuántos equipos admite un lazo SLC y qué límites de cableado hay (aisladores), y cómo se dan de alta y editan esos equipos desde la central terminales polaridad conexión cableado",
+          "En la Notifier PEARL, ¿cuántos equipos admite un lazo SLC y qué límites de cableado hay (aisladores), y cómo se dan de alta y editan esos equipos desde la central pantalla tierra continuidad resistencia circuito",
+          "En la Notifier PEARL, ¿cuántos equipos admite un lazo SLC y qué límites de cableado hay (aisladores), y cómo se dan de alta y editan esos equipos desde la central límites seguridad comprobación instalación"
+        ],
+        "reason": "selected"
+      }
+    },
+    {
+      "qid": "cat005",
+      "selected_ids": [],
+      "selected": [],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 46,
+        "same_blob_candidates": 36,
+        "positive_query_candidates": 31,
+        "facet_candidates": 0,
+        "toc_rejected_ids": [
+          "46064145-348d-4173-946b-6b0bfdabfcf7"
+        ],
+        "overflow": false,
+        "selected_ids": [],
+        "shadow_only": true,
+        "archetype": null,
+        "needs": [
+          "Cuáles son las características técnicas de la central de detección de gas Fidegas CS4, y en qué se diferencian las versiones digital y analógica"
+        ],
+        "reason": "no_query_aligned_facet_candidate"
+      }
+    },
+    {
+      "qid": "cat007",
+      "selected_ids": [],
+      "selected": [],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 122,
+        "same_blob_candidates": 111,
+        "positive_query_candidates": 90,
+        "facet_candidates": 0,
+        "toc_rejected_ids": [],
+        "overflow": false,
+        "selected_ids": [],
+        "shadow_only": true,
+        "archetype": null,
+        "needs": [
+          "En el detector por aspiración FAAST LT-200, ¿qué salidas de relé y de sirena tiene y con qué contactos, cómo se comporta el relé de avería ante un fallo o un corte de alimentación, qué resistencia de fin de línea llevan las salidas de sirena y cuál es la especificación eléctrica de los contactos de relé"
+        ],
+        "reason": "no_query_aligned_facet_candidate"
+      }
+    },
+    {
+      "qid": "cat008",
+      "selected_ids": [
+        "8fc1ba0c-9149-40d6-81cc-4a5465c2477b",
+        "e5574ef9-16d1-4d31-b7a7-27351634e18a"
+      ],
+      "selected": [
+        {
+          "id": "8fc1ba0c-9149-40d6-81cc-4a5465c2477b",
+          "document_id": "58f3dad4-8828-41ce-ac78-3e6bc638a3db",
+          "extraction_sha256": "1bc2eb196c75258a4f88e83bffaf98deb56d54aea8c333d17dc9ac76f9a70843",
+          "document_source_pdf_sha256": "backfill:8c58d2a1cdb9425d7dded2bbcbb7585ffe8f6807cc72b4ef669aab27c65fbbd3",
+          "source_file": "I56-2006-004 MI-DMMI_DMM2I_D2ICMO",
+          "product_model": "unknown",
+          "chunk_index": 9,
+          "page_number": 1,
+          "gap": 1,
+          "rank": 1,
+          "query_score": 15.258233,
+          "facets": [
+            {
+              "facet": "connection",
+              "term_hits": [
+                "conexion",
+                "terminal"
+              ]
+            },
+            {
+              "facet": "continuity",
+              "term_hits": [
+                "lazo",
+                "resistencia"
+              ]
+            }
+          ],
+          "content_sha256": "d12341ec19ef3a8595ec154026fefe9515f1129c482b63e70b600d9a8540c207",
+          "content": "## FIGURA 4. CONEXIONES DEL MÓDULO DE ENTRADA DOBLE Y SALIDA ÚNICA MI-D2ICMO\n\n[Wiring diagram showing connections for MI-D2ICMO module with relay output and dual inputs]\n\n**Notas:**\n\n1. En no se necesita el aislamiento de cortocircuitos, se debe conectar la salida + del lazo al terminal 5 en vez de al terminal 2. El terminal 5 está conectado internamente con el terminal 2.\n\n2. Si el panel de control lo permite, se podrá indicar un cortocircuito como puede el lugar de alarma. Para ello hay que conectar una resistencia de 18 kΩ en serie con cada conmutador de alarma. Para ello hay que conectar una resistencia de 18 kΩ en serie con cada conmutador de alarma.\n\nM200-91-00    Morley IAS Fire Systems, Hahn-Strasse, Idstein 16, 65721 Hilden, Germany    05-2006-004\nM200-91-00    Morley IAS Fire Systems, Charles Avenue, Burgess Hill, West Sussex, RH15 9UF, UK    05-2006-004"
+        },
+        {
+          "id": "e5574ef9-16d1-4d31-b7a7-27351634e18a",
+          "document_id": "adec348f-46a8-473e-ad28-995b4cb5d91a",
+          "extraction_sha256": "ece71519a3b975c02583c99490ac76b0cb32e50fd90abc82a763f993665140e1",
+          "document_source_pdf_sha256": "backfill:0ab19fe7beb929b580402431455169ed854200f925f6e752def4aec54b4c8fb7",
+          "source_file": "I56-4404-001 M710E M720E M721E",
+          "product_model": "MIN-16",
+          "chunk_index": 13,
+          "page_number": 3,
+          "gap": 1,
+          "rank": 2,
+          "query_score": 14.225122,
+          "facets": [
+            {
+              "facet": "connection",
+              "term_hits": [
+                "conexion",
+                "terminal"
+              ]
+            },
+            {
+              "facet": "continuity",
+              "term_hits": [
+                "lazo",
+                "resistencia"
+              ]
+            }
+          ],
+          "content_sha256": "7107321f1b960b0ebf01da366845014b75794ef10b39b93b192d12c79d92c700",
+          "content": "### Conexiones M721E (consulte la Figura 3)\n\n**a:** T1 Salida del lazo -. **b:** T2 Salida del lazo +.\n\n**c:** T3 Entrada del lazo -. **d:** T4 Entrada del lazo +\n\n**e:** T5 Salida del lazo +. Si no se necesita el aislamiento de cortocircuitos, se debe conectar la salida + del lazo al terminal 5 en vez de al terminal 2. El terminal 5 está conectado internamente con el terminal 4.\n\n**f:** Si el panel de control lo permite, se podrá indicar un cortocircuito como avería en lugar de alarma. Para ello hay que conectar una resistencia de 18 kΩ en serie con cada conmutador de dispositivo que se desee controlar.\n\n**g:** Contactos de relé: 30 Vdc 2 A (Carga resistiva)."
+        }
+      ],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 57,
+        "same_blob_candidates": 47,
+        "positive_query_candidates": 32,
+        "facet_candidates": 7,
+        "toc_rejected_ids": [],
+        "overflow": false,
+        "selected_ids": [
+          "8fc1ba0c-9149-40d6-81cc-4a5465c2477b",
+          "e5574ef9-16d1-4d31-b7a7-27351634e18a"
+        ],
+        "shadow_only": true,
+        "archetype": "connect_install_wire",
+        "needs": [
+          "Cómo se cablea el módulo de entrada M710 / MI-DMMI en el lazo, y qué resistencias necesita (fin de línea y modo 3 estados) terminales polaridad conexión cableado",
+          "Cómo se cablea el módulo de entrada M710 / MI-DMMI en el lazo, y qué resistencias necesita (fin de línea y modo 3 estados) pantalla tierra continuidad resistencia circuito",
+          "Cómo se cablea el módulo de entrada M710 / MI-DMMI en el lazo, y qué resistencias necesita (fin de línea y modo 3 estados) límites seguridad comprobación instalación"
+        ],
+        "reason": "selected"
+      }
+    },
+    {
+      "qid": "cat009",
+      "selected_ids": [],
+      "selected": [],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 101,
+        "same_blob_candidates": 91,
+        "positive_query_candidates": 77,
+        "facet_candidates": 0,
+        "toc_rejected_ids": [],
+        "overflow": false,
+        "selected_ids": [],
+        "shadow_only": true,
+        "archetype": null,
+        "needs": [
+          "Qué resistencia de fin de línea (EOL) hay que instalar en las líneas de zona de la central convencional NFS Supra"
+        ],
+        "reason": "no_query_aligned_facet_candidate"
+      }
+    },
+    {
+      "qid": "cat010",
+      "selected_ids": [],
+      "selected": [],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 33,
+        "same_blob_candidates": 23,
+        "positive_query_candidates": 22,
+        "facet_candidates": 0,
+        "toc_rejected_ids": [],
+        "overflow": false,
+        "selected_ids": [],
+        "shadow_only": true,
+        "archetype": null,
+        "needs": [
+          "Cómo se alimenta la sirena/avisador intrínsecamente seguro IS-mA1 en una zona peligrosa (ATEX) y cuáles son sus parámetros de seguridad intrínseca de entrada"
+        ],
+        "reason": "no_query_aligned_facet_candidate"
+      }
+    },
+    {
+      "qid": "cat011",
+      "selected_ids": [],
+      "selected": [],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 146,
+        "same_blob_candidates": 136,
+        "positive_query_candidates": 105,
+        "facet_candidates": 0,
+        "toc_rejected_ids": [],
+        "overflow": false,
+        "selected_ids": [],
+        "shadow_only": true,
+        "archetype": null,
+        "needs": [
+          "Necesito un detector de humos analógico direccionable «751» para una instalación Notifier; ¿cuál es el modelo correcto"
+        ],
+        "reason": "no_query_aligned_facet_candidate"
+      }
+    },
+    {
+      "qid": "cat012",
+      "selected_ids": [],
+      "selected": [],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 75,
+        "same_blob_candidates": 65,
+        "positive_query_candidates": 58,
+        "facet_candidates": 0,
+        "toc_rejected_ids": [],
+        "overflow": false,
+        "selected_ids": [],
+        "shadow_only": true,
+        "archetype": "battery_sizing",
+        "needs": [
+          "Cómo se calcula la capacidad de batería (en Ah) necesaria para la central AM-8200 consumo reposo alarma autonomia bateria",
+          "Cómo se calcula la capacidad de batería (en Ah) necesaria para la central AM-8200 coeficiente envejecimiento margen reglamentario"
+        ],
+        "reason": "no_query_aligned_facet_candidate"
+      }
+    },
+    {
+      "qid": "cat013",
+      "selected_ids": [],
+      "selected": [],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 85,
+        "same_blob_candidates": 75,
+        "positive_query_candidates": 61,
+        "facet_candidates": 0,
+        "toc_rejected_ids": [
+          "5a989c2e-fff7-4096-a5dc-0c850abc6f04"
+        ],
+        "overflow": false,
+        "selected_ids": [],
+        "shadow_only": true,
+        "archetype": "compatibility",
+        "needs": [
+          "Tengo una central Detnov CAD-150 y me ha sobrado de otra instalacion un detector optico Notifier SDX-751; ¿es compatible / puedo montarlo en su lazo compatibilidad protocolo fabricante familia",
+          "Tengo una central Detnov CAD-150 y me ha sobrado de otra instalacion un detector optico Notifier SDX-751; ¿es compatible / puedo montarlo en su lazo requisitos eléctricos mecánicos de instalación"
+        ],
+        "reason": "no_query_aligned_facet_candidate"
+      }
+    },
+    {
+      "qid": "cat014",
+      "selected_ids": [],
+      "selected": [],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 4,
+        "valid_seed_rows": 4,
+        "invalid_seed_rows": 0,
+        "input_candidates": 4,
+        "same_blob_candidates": 0,
+        "positive_query_candidates": 0,
+        "facet_candidates": 0,
+        "toc_rejected_ids": [],
+        "overflow": false,
+        "selected_ids": [],
+        "shadow_only": true,
+        "archetype": null,
+        "needs": [
+          "Cual es el MTBF / vida util esperada del detector de gas DGD-600 de Detnov"
+        ],
+        "reason": "no_query_aligned_facet_candidate"
+      }
+    },
+    {
+      "qid": "cat015",
+      "selected_ids": [],
+      "selected": [],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 9,
+        "valid_seed_rows": 9,
+        "invalid_seed_rows": 0,
+        "input_candidates": 59,
+        "same_blob_candidates": 50,
+        "positive_query_candidates": 18,
+        "facet_candidates": 0,
+        "toc_rejected_ids": [
+          "5eae7159-d8c4-4d1f-b36b-de3bcd1e4934"
+        ],
+        "overflow": false,
+        "selected_ids": [],
+        "shadow_only": true,
+        "archetype": null,
+        "needs": [
+          "Como se actualiza el firmware de la central Detnov CAD-150"
+        ],
+        "reason": "no_query_aligned_facet_candidate"
+      }
+    },
+    {
+      "qid": "cat016",
+      "selected_ids": [],
+      "selected": [],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 73,
+        "same_blob_candidates": 63,
+        "positive_query_candidates": 17,
+        "facet_candidates": 0,
+        "toc_rejected_ids": [],
+        "overflow": false,
+        "selected_ids": [],
+        "shadow_only": true,
+        "archetype": null,
+        "needs": [
+          "En la Detnov CAD-150, ¿como se da de alta un detector nuevo en el lazo y como se prueba que funciona"
+        ],
+        "reason": "no_query_aligned_facet_candidate"
+      }
+    },
+    {
+      "qid": "cat017",
+      "selected_ids": [
+        "5880b3b6-65dd-421d-8368-0b8e15ecd0b6",
+        "470a499b-d5b0-454c-85bc-db00d48ab4a1"
+      ],
+      "selected": [
+        {
+          "id": "5880b3b6-65dd-421d-8368-0b8e15ecd0b6",
+          "document_id": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+          "extraction_sha256": "98018e3eec3efd1d9b8370232128b17e4026ac53cfbe5e52db686d67cc0dd7bc",
+          "document_source_pdf_sha256": "backfill:47cfb97119e7e4da67845577042ecd895391929a30dcd5755a10dcfb3049f56b",
+          "source_file": "HOP-138-8ES  issue 6_01-2026_Co",
+          "product_model": "INSPIRE E10/E15",
+          "chunk_index": 16,
+          "page_number": 17,
+          "gap": 1,
+          "rank": 1,
+          "query_score": 12.065122,
+          "facets": [
+            {
+              "facet": "continuity",
+              "term_hits": [
+                "circuito",
+                "lazo",
+                "pantalla"
+              ]
+            }
+          ],
+          "content_sha256": "b607754bc7d8d04b849af913225907dcbd93cbeca522996573d3e7e590255095",
+          "content": "| Avería                                                                                                            | Solución                                                                                                                                                                                                                                                                |\n| ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| Se reviso la avería de circuito abierto en lazo pero la central sigue mostrando una avería.                       | Si pulsa el botón REARMAR, podrá limpiarse la avería de tipo enclavado.                                                                                                                                                                                                 |\n| Dos dispositivos del lazo tienen la misma dirección, pero en la central no se ha indicado ningún problema.        | Localice los dispositivos con LED amarillos intermitentes. Estos son los dispositivos que tienen la misma dirección. Revise el dispositivo y corrija los conflictos de dirección. Consulte con los planos tal como se instalaron para determinar la dirección correcta. |\n| Dispositivo configurado con la dirección 00                                                                       | Vea la pantalla NO ASIGNADO para determinar si hay una avería en el lazo. Después, compruebe todos los dispositivos de lazo afectados, encuentre y corrija el dispositivo que tiene la dirección 00.                                                                    |\n| La búsqueda de un dispositivo de alta potencia # se identificarán como dispositivos antiguos de no alta potencia. | Eliminar manualmente y agregar el dispositivo Opal de alta alimentación con la configuración de CLSS Programa.                                                                                                                                                          |"
+        },
+        {
+          "id": "470a499b-d5b0-454c-85bc-db00d48ab4a1",
+          "document_id": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+          "extraction_sha256": "98018e3eec3efd1d9b8370232128b17e4026ac53cfbe5e52db686d67cc0dd7bc",
+          "document_source_pdf_sha256": "backfill:47cfb97119e7e4da67845577042ecd895391929a30dcd5755a10dcfb3049f56b",
+          "source_file": "HOP-138-8ES  issue 6_01-2026_Co",
+          "product_model": "INSPIRE E10/E15",
+          "chunk_index": 2,
+          "page_number": 3,
+          "gap": 5,
+          "rank": 2,
+          "query_score": 10.920585,
+          "facets": [
+            {
+              "facet": "continuity",
+              "term_hits": [
+                "circuito",
+                "pantalla",
+                "tierra"
+              ]
+            }
+          ],
+          "content_sha256": "17de9a2f7a3b79e528587b5be6e04ecd6558b5a69fe751ae36e8c16f86a6162f",
+          "content": "| ASD                                   | Detector de Humo por Aspiración                   |\n| ------------------------------------- | ------------------------------------------------- |\n| CIE                                   | Central de alarmas de detección de incendios      |\n| C\\&E                                  | Matriz de Control                                 |\n| CLSS                                  | Servicios de seguridad vital conectados           |\n| CPU                                   | Unidad central de procesamiento                   |\n| E10                                   | Central de 10U                                    |\n| E15                                   | Central de 15U                                    |\n| FARE                                  | Equipo de enrutamiento de alarmas contra incendio |\n| FAT                                   | Panel indicador para Bomberos #                   |\n| FBF                                   | Panel indicador para Bomberos #                   |\n| FE                                    | Toma de Tierra                                    |\n| FRE                                   | Equipo de direccionamiento de averías             |\n| FPE                                   | Equipo de protección contra incendios             |\n| HMI                                   | Pantalla / Teclado                                |\n| E/S o E/S                             | Entrada o salida                                  |\n| LAN                                   | Red de área local                                 |\n| LED                                   | Diodo emisor de luz (luz)                         |\n| MCP                                   | Pulsador                                          |\n| CA o C/A                              | Circuito abierto                                  |\n| RFI                                   | Interferencias de radiofrecuencia                 |\n| CC o C/C                              | Cortocircuito                                     |\n| SELV                                  | Tensión demasiado Baja                            |\n| PE                                    | Toma de Tierra                                    |\n| PELV                                  | Tensión demasiado Baja                            |\n| PSU                                   | Fuente de Alimentación                            |\n| TPP                                   | Protocolo de Terceros                             |\n| # Para uso solo en Alemania y Benelux |                                                   |\n\n3\n\nIntroducción"
+        }
+      ],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 58,
+        "same_blob_candidates": 48,
+        "positive_query_candidates": 48,
+        "facet_candidates": 14,
+        "toc_rejected_ids": [
+          "7a09deff-43dc-407a-8e82-d861eba56c6f"
+        ],
+        "overflow": false,
+        "selected_ids": [
+          "5880b3b6-65dd-421d-8368-0b8e15ecd0b6",
+          "470a499b-d5b0-454c-85bc-db00d48ab4a1"
+        ],
+        "shadow_only": true,
+        "archetype": "connect_install_wire",
+        "needs": [
+          "Como se cablea y se da de alta (configura) un lazo en la central Notifier INSPIRE (E10/E15) terminales polaridad conexión cableado",
+          "Como se cablea y se da de alta (configura) un lazo en la central Notifier INSPIRE (E10/E15) pantalla tierra continuidad resistencia circuito",
+          "Como se cablea y se da de alta (configura) un lazo en la central Notifier INSPIRE (E10/E15) límites seguridad comprobación instalación"
+        ],
+        "reason": "selected"
+      }
+    },
+    {
+      "qid": "cat018",
+      "selected_ids": [
+        "d85a9a89-e469-473a-b345-ee7c77783127",
+        "28567d07-6db2-4034-992f-5bbe8ebfd928"
+      ],
+      "selected": [
+        {
+          "id": "d85a9a89-e469-473a-b345-ee7c77783127",
+          "document_id": "a89a7c31-4fed-45f6-88cc-f997d59c1ccb",
+          "extraction_sha256": "f090c0b42b5266724e79a1a18a892cddc8c2530b333abd38eb83af94bf7611ee",
+          "document_source_pdf_sha256": "backfill:3f6bc8fbf5d34b854e99cad8e71c433372c1cbb6a3497e35bf4a15b69f2e6d65",
+          "source_file": "AM-8200-manu-prog-spa",
+          "product_model": "AM-8200",
+          "chunk_index": 95,
+          "page_number": 61,
+          "gap": 3,
+          "rank": 1,
+          "query_score": 6.538858,
+          "facets": [
+            {
+              "facet": "navigation",
+              "term_hits": [
+                "edicion",
+                "menu",
+                "programacion"
+              ]
+            },
+            {
+              "facet": "output_timing",
+              "term_hits": [
+                "anulacion",
+                "retardo",
+                "salida"
+              ]
+            }
+          ],
+          "content_sha256": "70b51012db89acebd111f7a5a3cf79888888f5b39fd9cc07195b55dfebd587ca",
+          "content": "# Sistema\n\nEste procedimiento está compuesto por 4 pestañas de programación donde para la introducción de datos se debe usar la función de edición anteriormente explicada.\n\n* Sirena\n\nEsta función permite la anulación de la salida sirena y todos los módulos de salida programados con tipo-SW «SND» (abrazaderas CNU-17 y CNU18 de la tarjeta principal).\n\nPara modificar este parámetro, pulsar la tecla de confirmación ☑ seleccionar con las teclas flecha ▲ ▼ SÍ o NO y pulsar la tecla de confirmación ☑ para confirmar el dato.\n\n| MENU ESCLUSIONI\\Modifica\\Sistema |          |             |    | ▲ |\n| -------------------------------- | -------- | ----------- | -- | - |\n| Sirena                           | Att.Imm. | Spegnimento |    |   |\n| Escludi                          |          |             | NO | ◄ |\n|                                  |          |             |    | ☑ |\n|                                  |          |             |    | ► |\n|                                  |          |             |    | ▼ |\n|                                  |          |             |    | ✖ |\n\n| EVACUAZIONE | AZZERA<br/>RITARDI | TACITAZIONE<br/>CICALINO | TACIT./RIPR.<br/>SIRENE | RESET |\n| ----------- | ------------------ | ------------------------ | ----------------------- | ----- |\n\n* Activación inmediata Salida sirena\n\nCuando se activa la anulación relativa a la activación inmediata de la salida sirena, los LED de Anulación y Retardos activos se encienden. En caso de alarma, la central retarda las salidas citadas durante los tiempos programados en el menú de programación (Prog\\Sist\\Tiempos\\ Salidas).\n\nDurante el tiempo de retardo, el LED Retardos activos parpadea y será posible reiniciar el retardo en curso con la tecla «Fín retardos».\n\nPara modificar este parámetro, pulsar la tecla de confirmación ☑ seleccionar con las teclas flecha ▲ ▼ SÍ o NO y pulsar la tecla de confirmación ☑ para confirmar el dato.\n\n| MENU ESCLUSIONI\\Modifica\\Sistema |          |             |    | ▲ |\n| -------------------------------- | -------- | ----------- | -- | - |\n| Sirena                           | Att.Imm. | Spegnimento |    |   |\n| Escludi                          |          |             | NO | ◄ |\n|                                  |          |             |    | ☑ |\n|                                  |          |             |    | ► |\n|                                  |          |             |    | ▼ |\n|                                  |          |             |    | ✖ |\n\n| EVACUAZIONE | AZZERA<br/>RITARDI | TACITAZIONE<br/>CICALINO | TACIT./RIPR.<br/>SIRENE | RESET |\n| ----------- | ------------------ | ------------------------ | ----------------------- | ----- |\n\n* Apagado\n\nEsta función permite la anulación de todos los módulos de salida programados con tipo SW «UDS 1» (paneles de apagado UDS2-N y UDS-3N).\n\nPara modificar este parámetro, pulsar la tecla de confirmación ☑ seleccionar con las teclas fecha ▲ ▼ SÍ o NO y pulsar la tecla de confirmación ☑para confirmar el dato."
+        },
+        {
+          "id": "28567d07-6db2-4034-992f-5bbe8ebfd928",
+          "document_id": "a89a7c31-4fed-45f6-88cc-f997d59c1ccb",
+          "extraction_sha256": "f090c0b42b5266724e79a1a18a892cddc8c2530b333abd38eb83af94bf7611ee",
+          "document_source_pdf_sha256": "backfill:3f6bc8fbf5d34b854e99cad8e71c433372c1cbb6a3497e35bf4a15b69f2e6d65",
+          "source_file": "AM-8200-manu-prog-spa",
+          "product_model": "AM-8200",
+          "chunk_index": 61,
+          "page_number": 43,
+          "gap": 2,
+          "rank": 2,
+          "query_score": 13.953812,
+          "facets": [
+            {
+              "facet": "navigation",
+              "term_hits": [
+                "edicion",
+                "menu",
+                "programacion"
+              ]
+            },
+            {
+              "facet": "output_timing",
+              "term_hits": [
+                "accion",
+                "salida"
+              ]
+            }
+          ],
+          "content_sha256": "510066c22017e1ec8141e8aec59ae739a015136a3375dde3cc2cbf66f7e5a4dd",
+          "content": "# Menú grupos\n\nUn grupo es un conjunto de software de dispositivos que permite crear asociaciones.\nCuando un sensor o módulo (que forme parte del grupo) está en alarma, el grupo se activa.\nSi un módulo de salida es miembro del mismo grupo, se activará.\nEste procedimiento está formado por 3 pestañas de programación, donde para la inserción de datos se usa la función de edición anteriormente descrita en el párrafo de funcionamiento del teclado para la inserción de datos.\n\nLa central AM-8200 dispone de 400 grupos, que pueden programarse como:\n\n**D** = grupo con **Activación directa**. Activa lo que se contiene en su ecuación CBE.\nSe activa desde Entradas / Grupos directos (que tienen el grupo en su ecuación CBE).\n\n**I** = grupo con **Activación inversa**. Se activa desde su ecuación CBE.\nActiva Salidas / Grupos inversor (que tienen el grupo en su ecuación CBE).\n**NOTA**: El grupo de activación inversa puede ser la suma de más grupos de activación directa para permitir comandos constituidos por muchos grupos.\n\n## Pestaña Principal (Programación del límite máximo del número de grupos con acción directa)\n\n| Insertar el número máximo para grupo con activación directa. | MENU PROGRAMMAZIONE\\Gruppi&#xA;Principale\tProgrammazione\tSpeciali&#xA;Max Diretto\t300\t▲&#xA;◀\t✓\t▶&#xA;▼\t✖ |\n| ------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |\n\n</td>\n</tr>\n<tr>\n<td colspan=\"3\" rowspan=\"2\"></td>\n</tr>\n<tr></tr>\n<tr>\n<td>EVACUAZIONE</td>\n<td>AZZERA RITARDI</td>\n<td>TACITAZIONE CICALINO</td>\n<td>TACIT./RIPR. SIRENE</td>\n<td>RESET</td>\n</tr>\n</table>\n\n</td>\n</tr>\n</table>\n\n## Pestaña Programa (Programación CBE asociada al grupo)\n\n### Ecuación CBE\n\n| Para modificar el campo «CBE», seleccionar el parámetro con las teclas flecha ▲▼ (los caracteres del campo seleccionado están en Orden Inverso), pulsar la tecla de confirmación ✓ y usar el teclado alfanumérico para introducir los datos. Al terminar, pulsar la tecla de confirmación ✓ | MENU PROGRAMMAZIONE\\Gruppi&#xA;Principale\tProgrammazione\tSpeciali&#xA;Tipo\tDiretto\t▲&#xA;◀\t✓\t▶&#xA;▼\t✖ |\n| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |\n\n</td>\n</tr>\n<tr>\n<td>CBE</td>\n<td colspan=\"2\"></td>\n</tr>\n<tr>\n<td>Doppio Consenso</td>\n<td colspan=\"2\">SI</td>\n</tr>\n<tr>\n<td colspan=\"3\" rowspan=\"1\"></td>\n</tr>\n<tr>\n<td colspan=\"2\">\n\n| GRUPPO |     |   |\n| ------ | --- | - |\n| -      | 001 | + |"
+        }
+      ],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 74,
+        "same_blob_candidates": 64,
+        "positive_query_candidates": 63,
+        "facet_candidates": 34,
+        "toc_rejected_ids": [],
+        "overflow": false,
+        "selected_ids": [
+          "d85a9a89-e469-473a-b345-ee7c77783127",
+          "28567d07-6db2-4034-992f-5bbe8ebfd928"
+        ],
+        "shadow_only": true,
+        "archetype": "program_delay_cause_effect",
+        "needs": [
+          "Como se programa una ecuacion causa-efecto (CBE) en la Notifier AM-8200 para que un evento active una salida ruta menú programación edición",
+          "Como se programa una ecuacion causa-efecto (CBE) en la Notifier AM-8200 para que un evento active una salida condición entrada regla causa efecto",
+          "Como se programa una ecuacion causa-efecto (CBE) en la Notifier AM-8200 para que un evento active una salida acción salida temporizador anulación"
+        ],
+        "reason": "selected"
+      }
+    },
+    {
+      "qid": "cat019",
+      "selected_ids": [
+        "a47cb7d8-c480-48e8-bab8-f1fc6c5c841c",
+        "32e17768-0b00-4823-b938-ea59349eb94a"
+      ],
+      "selected": [
+        {
+          "id": "a47cb7d8-c480-48e8-bab8-f1fc6c5c841c",
+          "document_id": "23f0e4d2-5fd6-4f7c-992c-82584f311745",
+          "extraction_sha256": "e1985c3d8cfb74b30c45a9524b9afd1547a3d1df72c068998a227e37f3d673c8",
+          "document_source_pdf_sha256": "e1985c3d8cfb74b30c45a9524b9afd1547a3d1df72c068998a227e37f3d673c8",
+          "source_file": "CAD-250_Manual-software-configuracion-MS-416-es-2026-b",
+          "product_model": "CAD-250",
+          "chunk_index": 56,
+          "page_number": 49,
+          "gap": 5,
+          "rank": 1,
+          "query_score": 12.958424,
+          "facets": [
+            {
+              "facet": "navigation",
+              "term_hits": [
+                "menu",
+                "programacion"
+              ]
+            },
+            {
+              "facet": "logic_structure",
+              "term_hits": [
+                "entrada",
+                "regla"
+              ]
+            },
+            {
+              "facet": "output_timing",
+              "term_hits": [
+                "accion",
+                "retardo",
+                "salida"
+              ]
+            }
+          ],
+          "content_sha256": "8cf333929b195a4630714bc5627f760ab47bac109414289147fa87159a9bba54",
+          "content": "5. A detailed configuration table showing multiple devices (1.1.1 through 1.1.10) with columns for Entidad, Tipo, Descripción, Zona, Descripción de Área, Configuración de Modo de trabajo, and Modo, all entries showing \"Habilitado\" status]\n\nESP\n\n# 7. CONFIGURACIÓN DE MANIOBRAS\n\n## 7.20. INTRODUCCION\n\nPodemos definir la maniobra como un conjunto de acciones que se programan en un central en función de los estados que toma el sistema, áreas, zonas o dispositivos.\n\nA los cambios de estado los llamamos eventos y a cada evento relacionaremos una acción tales como la activación de sirena/s, relé/s, etc.\n\nEl proceso de programación de una maniobra implica definir primero el evento o eventos que deben provocar la acción y posteriormente asociar la acción o acciones. El módulo de configuración de maniobras de las centrales Vesta es extremadamente potente y flexible. Cada maniobra puede incorporar innumerables entradas a modo de eventos e innumerables acciones.\n\nPara la configuración de maniobras empleará los menús de las siguientes herramientas de tres pestañas diferentes.\n\n• **Maniobras:** desde donde generamos las relaciones de entrada y salida que el plan de protección requiera.\n\n• **Grupos:** determinamos asociaciones de elementos, áreas, zonas o dispositivos que nos facilitarán creación de reglas de actuación.\n\n• **Módulos virtuales:** Permite la creación de funciones de dependencia con salidas. Un conjunto de entradas determinará el estado del módulo virtual y este puede a su vez actuar como entrada de otra regla.\n\n| **Entradas**<br/><br/>• Evento 1<br/>• Evento 2<br/>• ...<br/>• Evento n | → | **Lógica**<br/><br/>• Coincidencia<br/>• Negación<br/>• Estado<br/>• Retardos<br/>• ... | → | **Salidas**<br/><br/>• Acción 1<br/>• Acción 2<br/>• ...<br/>• Acción n |\n| ------------------------------------------------------------------------ | - | --------------------------------------------------------------------------------------- | - | ----------------------------------------------------------------------- |\n\n```mermaid\ngraph LR\n    E1[Evento 1] --> OR1{OR}\n    E2[Evento 2] --> OR1\n    OR1 --> MV[Módulo Virtual]\n    E3[Evento 3] --> AND1{AND}\n    AND1 --> A[Acción]\n```\n\n**Ventana de configuración de maniobras:**\n\nLa ventana de configuración de maniobras tiene 3 áreas diferenciadas:\n\n• Área de eventos.\n\n• Área de acciones.\n\n• Área de maniobras.\n\nEn las ventanas de eventos y acciones dipone de un área de botones de visualización y un área de filtros\n\n[Software interface screenshot showing three main sections:\n\n- **Área de eventos** (top section in green): Contains event listings and configurations\n- **Área de acciones** (middle section in blue): Contains action listings and configurations  \n- **Área de maniobras** (right section): Contains maneuver configurations with a \"Nuevo\" (New) button]\n\n50\n\n51\n\n## Área de botones. Dispone de 3 o 4 botones según la entidad seleccionada."
+        },
+        {
+          "id": "32e17768-0b00-4823-b938-ea59349eb94a",
+          "document_id": "348c4ec1-210a-441a-9ce7-02014a51f26d",
+          "extraction_sha256": "3797d14d071d618d2a6b0343dfb3d0e4bc4a8cebe75016fce5206cd9687ab68e",
+          "document_source_pdf_sha256": "3797d14d071d618d2a6b0343dfb3d0e4bc4a8cebe75016fce5206cd9687ab68e",
+          "source_file": "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+          "product_model": "CAD-250",
+          "chunk_index": 84,
+          "page_number": 54,
+          "gap": 1,
+          "rank": 2,
+          "query_score": 10.433877,
+          "facets": [
+            {
+              "facet": "navigation",
+              "term_hits": [
+                "menu",
+                "programacion"
+              ]
+            },
+            {
+              "facet": "logic_structure",
+              "term_hits": [
+                "condicion",
+                "entrada"
+              ]
+            },
+            {
+              "facet": "output_timing",
+              "term_hits": [
+                "accion",
+                "retardo",
+                "salida"
+              ]
+            }
+          ],
+          "content_sha256": "97fc2aa742797424932cb78dddc55f83f7f2997f1e4d2ef4bea48d955b25448a",
+          "content": "> ⚠ La programación de maniobras es una de las funciones más críticas de la configuración del sistema de detección y alarma de incendio. La configuración requiere un conocimiento específico del sistema instalado, del plan de protección y del producto.\n\n54\n\n55\n\nLos **EVENTOS**, entradas, los podemos discriminar según sea:\n\n**Su origen:**\n\n* Local o red\n* Instalación, panel, lazo, área, zona, dispositivo, grupo o modo virtual.\n\n**Condición:** Alarma, avería, técnico.\n\n**Tipo:** Todos, pulsador, detector o entradas.\n\n**Estado lógico:** Normal o Negado (si seleccionamos alarma, la condición será válida si no hay alarma).\n\n**Coincidencias:** Número de entradas que deben ser verdaderas para que la condición sea válida.\n\n**Repeticiones:** Valor entero, hasta 9999, el evento debe repetirse en la entidad para que la entrada sea válida.\n\nPara las **ACCIONES**, salidas, debemos determinar:\n\n**Retardos:** Si la acción debe ocurrir transcurrido un tiempo. El retardo se inicia a partir del momento en que la condición de entrada es verdadera. El tiempo de retardo es configurable entre 0 y 600 segundos\n\n**Su destino:**\n\n* Panel, lazo, área, zona, dispositivo, grupo o modo virtual.\n\n**Acción:** Activar, desactivar, habilita, deshabilitar, test, reiniciar o pulso.\n\n**Tipo:** Todos, sirenas, relés, sirena discontina.\n\nSólo si las condiciones de entrada se cumplen, las acciones previstas se ejecutarán.\n\n## 8.1. MENU PRINCIPAL DE MANIOBRAS\n\nAl entrar por primera vez al menú de maniobras este puede estar vacío o, según el mercado de destino, incluir algunas maniobras preestablecidas de fábrica.\n\nLa **BARRA DE NAVEGACION** permite saltar de página si la relación de maniobras no cabe en la página visualizada en pantalla.\n\nLa pantalla principal nos ofrece información como el índice de maniobra, el número de coincidencia, resumen del evento y de la acción.\n\n```mermaid\nflowchart TD\n    E1[Evento 1] --> O1{Origen?}\n    O1 --> Ent1[EntidadInstalaciónPanelLazoÁreaZonaDispositivoGrupoModo virtual]\n    O1 --> C1{Criterio?}\n    C1 --> Cont1[ContadorTipoEstadoNegado?]\n    Cont1 --> R1{Retardo?}\n    R1 --> Acc1[Accion 1ActivarDesactivarReiniciarHabilitarDeshabilitarpulso]\n    Acc1 --> S1[Salida 1]\n    S1 --> EntS1[EntidadInstalacionPanelLazoAreaZonaDispositivoGrupoModo virtual]\n    R1 --> Coin[Coincidencias= 1 => Or]\n    \n    E2[Evento 2] --> O2{Origen?}\n    O2 --> Ent2[EntidadInstalaciónPanelLazoÁreaZonaDispositivoGrupoModo virtual]\n    O2 --> C2{Criterio?}\n    C2 --> Cont2[ContadorTipoEstadoNegado?]\n    Cont2 --> R2{Retardo?}\n    R2 --> Acc2[Accion 1ActivarDesactivarReiniciarHabilitarDeshabilitarpulso]\n    Acc2 --> S2[Salida 2]\n    \n    EN[Evento N] --> SN[Salida N]\n```\n\n**Barra de navegación y contador de maniobras**\n\n**Pulsar para añadir una nueva maniobra**"
+        }
+      ],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 53,
+        "same_blob_candidates": 43,
+        "positive_query_candidates": 42,
+        "facet_candidates": 28,
+        "toc_rejected_ids": [],
+        "overflow": false,
+        "selected_ids": [
+          "a47cb7d8-c480-48e8-bab8-f1fc6c5c841c",
+          "32e17768-0b00-4823-b938-ea59349eb94a"
+        ],
+        "shadow_only": true,
+        "archetype": "program_delay_cause_effect",
+        "needs": [
+          "Como se configura una maniobra (causa-efecto) completa en la Detnov CAD-250: como se crea, como se definen las entradas/eventos que la disparan y como se asignan las salidas ruta menú programación edición",
+          "Como se configura una maniobra (causa-efecto) completa en la Detnov CAD-250: como se crea, como se definen las entradas/eventos que la disparan y como se asignan las salidas condición entrada regla causa efecto",
+          "Como se configura una maniobra (causa-efecto) completa en la Detnov CAD-250: como se crea, como se definen las entradas/eventos que la disparan y como se asignan las salidas acción salida temporizador anulación"
+        ],
+        "reason": "selected"
+      }
+    },
+    {
+      "qid": "cat020",
+      "selected_ids": [],
+      "selected": [],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 85,
+        "same_blob_candidates": 75,
+        "positive_query_candidates": 65,
+        "facet_candidates": 0,
+        "toc_rejected_ids": [],
+        "overflow": false,
+        "selected_ids": [],
+        "shadow_only": true,
+        "archetype": null,
+        "needs": [
+          "En una central Morley DXc instalada en Espana, ¿cual es el nivel de alarma y de prealarma por defecto de los detectores, y el maximo configurable"
+        ],
+        "reason": "no_query_aligned_facet_candidate"
+      }
+    },
+    {
+      "qid": "cat021",
+      "selected_ids": [],
+      "selected": [],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 99,
+        "same_blob_candidates": 89,
+        "positive_query_candidates": 80,
+        "facet_candidates": 0,
+        "toc_rejected_ids": [
+          "0017d16f-dbde-49d7-8f34-aef5e9f9772d",
+          "015414ee-b9d8-4260-a891-1d44122f6a94",
+          "14c61067-edc5-482d-9e0f-02083b28e2cf",
+          "16c11383-3bae-41b9-8215-84b2813b997e",
+          "313810d9-b4e8-48f9-afc7-b336df8cd1e5",
+          "31968553-cdfb-4762-98ca-895250269ece",
+          "32511f5c-bb8a-4072-8858-959a0b6a0362",
+          "3fb6c1d7-792f-4205-b091-607b3c80aaf3",
+          "5931fdae-86d8-483e-b361-9505f61cfcdb",
+          "7ea86592-01b1-448b-b185-8afaed72d703",
+          "956e628a-a1f1-463d-9435-b1a6fd0e2307",
+          "993ab78f-7e4f-4ad7-89a3-a001a6b9cf51",
+          "a80552e6-d38e-410d-9051-38e1dc1a6c71",
+          "a918efc7-21f1-4f94-ba96-7e77103261d9",
+          "ade07bf9-c60a-491f-bf89-acf5b0355849",
+          "b1d538d4-ee23-4561-949f-34ab324f4615",
+          "b216fa41-6b01-4983-8644-3414ffed2e5b",
+          "bd7f4813-f066-4647-9558-a129e7605965",
+          "c81d6637-3a70-475c-9ece-38c8a1c4a66d",
+          "ca1f2b4a-e3bf-40b1-b064-58c35960e8a4",
+          "cbe7ea0b-588e-4c7b-a86f-1f5bd938104a",
+          "d066f031-a187-48bd-88b2-3e6e791cdd8c",
+          "f134b497-30eb-41f6-bc72-3b236caff899",
+          "f36b35c9-e6bb-49cd-adfb-2c32d2727029",
+          "f50a7f9f-fc6c-4496-abb4-c6ab06034f55",
+          "fd51ab6c-20e1-4dcb-a383-5726996572dc"
+        ],
+        "overflow": false,
+        "selected_ids": [],
+        "shadow_only": true,
+        "archetype": null,
+        "needs": [
+          "Necesito un detector de llama SharpEye «40/40» (Spectrex / Notifier) para una instalación; ¿qué modelo pido"
+        ],
+        "reason": "no_query_aligned_facet_candidate"
+      }
+    },
+    {
+      "qid": "cat022",
+      "selected_ids": [],
+      "selected": [],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 94,
+        "same_blob_candidates": 84,
+        "positive_query_candidates": 68,
+        "facet_candidates": 0,
+        "toc_rejected_ids": [
+          "18531cb2-2a49-40aa-b88d-8a13e4eb930f",
+          "7ea86592-01b1-448b-b185-8afaed72d703",
+          "fd51ab6c-20e1-4dcb-a383-5726996572dc"
+        ],
+        "overflow": false,
+        "selected_ids": [],
+        "shadow_only": true,
+        "archetype": null,
+        "needs": [
+          "En los detectores de llama Spectrex SharpEye 40/40, ¿qué diferencia hay entre el modelo 40/40L y el 40/40L4, y qué significa el sufijo «B» (p. ej. 40/40LB)"
+        ],
+        "reason": "no_query_aligned_facet_candidate"
+      }
+    },
+    {
+      "qid": "cat023",
+      "selected_ids": [],
+      "selected": [],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 95,
+        "same_blob_candidates": 85,
+        "positive_query_candidates": 76,
+        "facet_candidates": 0,
+        "toc_rejected_ids": [
+          "ddd46ea1-e9de-410e-8926-4314652bb147"
+        ],
+        "overflow": false,
+        "selected_ids": [],
+        "shadow_only": true,
+        "archetype": null,
+        "needs": [
+          "En el detector de humos por aspiración Securiton ASD532, ¿qué clases de sensibilidad según EN 54-20 ofrece y cómo se configura la monitorización del flujo de aire"
+        ],
+        "reason": "no_query_aligned_facet_candidate"
+      }
+    },
+    {
+      "qid": "cat024",
+      "selected_ids": [],
+      "selected": [],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 42,
+        "same_blob_candidates": 32,
+        "positive_query_candidates": 22,
+        "facet_candidates": 0,
+        "toc_rejected_ids": [],
+        "overflow": false,
+        "selected_ids": [],
+        "shadow_only": true,
+        "archetype": null,
+        "needs": [
+          "Cuál es el consumo en alarma de la sirena analógica de zócalo Detnov MAD-472"
+        ],
+        "reason": "no_query_aligned_facet_candidate"
+      }
+    },
+    {
+      "qid": "hp001",
+      "selected_ids": [],
+      "selected": [],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 121,
+        "same_blob_candidates": 111,
+        "positive_query_candidates": 64,
+        "facet_candidates": 0,
+        "toc_rejected_ids": [],
+        "overflow": false,
+        "selected_ids": [],
+        "shadow_only": true,
+        "archetype": null,
+        "needs": [
+          "En la Detnov CAD-250, ¿cómo se entra al menú de programación avanzada"
+        ],
+        "reason": "no_query_aligned_facet_candidate"
+      }
+    },
+    {
+      "qid": "hp002",
+      "selected_ids": [
+        "1d1ca159-1155-4f8b-9fc7-bde755133e02",
+        "41bcd390-1e14-4853-b03f-03612f07bf70"
+      ],
+      "selected": [
+        {
+          "id": "1d1ca159-1155-4f8b-9fc7-bde755133e02",
+          "document_id": "ab258c38-30f7-4047-a421-ebb7a701a84a",
+          "extraction_sha256": "143d462c2cdfc4f95078cdc880e7c56f98638ac3d7c9c113c43acc2ec544c54e",
+          "document_source_pdf_sha256": "backfill:641280a31309f9ae12df9e6e52be124dbbf19a295ba841fabf9741b6c6c998a2",
+          "source_file": "ASD535_TD_T131192es_h",
+          "product_model": "ASD535",
+          "chunk_index": 169,
+          "page_number": 100,
+          "gap": 4,
+          "rank": 1,
+          "query_score": 3.771452,
+          "facets": [
+            {
+              "facet": "timing_state",
+              "term_hits": [
+                "duracion",
+                "tiempo"
+              ]
+            }
+          ],
+          "content_sha256": "58b9921d9fc2a4ecd8ec725153007248ed5ba27df3c2b5bc293470ce03c431a9",
+          "content": "# Puesta en funcionamiento\n\nContinuación:\n\n| Acciones                                                                                                                                                                                                                              | Indicación                                                                                                                                                                                      | Procedimiento / Observación                                                                                                                                                     |\n| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| (5)<br/>• Buscar la carpeta en la que se encuentra el nuevo FW mediante «Browse»;<br/>• Seleccionar el archivo del nuevo FW y confirmar con «Abrir»;<br/>• Dejar marcada la opción «Verify» (defecto);<br/>• Pulsar el botón «Start». | Flasher Tool 1.0.0.0<br/>Info<br/>Serial<br/>File: Document-ASD-Cntry-E-FW-V08E2\\_V7-hex-4<br/>COM-Port<br/>COM3<br/>Baudrate: 38400<br/>Advanced Settings<br/>Flash Verify<br/>Erase<br/>Start | • Selección del nuevo FW.                                                                                                                                                       |\n| (6)<br/>Se iniciará la transferencia al ASD 535. Al finalizar, aparecerá el mensaje «Finish»; confirmar con «OK».                                                                                                                     | Perform Flash Actions<br/>Programming<br/>0xOCC300 Info<br/>Cancel Finish<br/>OK                                                                                                                | • Duración aprox. de la transferencia 150 s<br/>• Durante la transferencia, los LED 5 y 6 parpadearán en el AMB 35                                                              |\n| (7)<br/>En el AMB 35, colocar el interruptor S4 en la posición «R».                                                                                                                                                                   |                                                                                                                                                                                                 | • El ASD se encuentra de nuevo en Run-Mode                                                                                                                                      |\n| (8)<br/>Pulsar brevemente el botón «HW-Reset» del AMB 35.                                                                                                                                                                             | El LED 2 del AMB 35 se apaga; el indicador de segmentos mostrará con aprox. 4 parpadeos la posición de conmutador configurada anteriormente (p. ej. b22), según el cap. 7.3.5                   | • El ventilador se activará<br/>• Se restablecerá el fallo<br/>• El ASD sigue funcionando con los ajustes previos específicos del sistema.<br/>• Actualización de FW completada |\n| (9)<br/>Al cabo de un tiempo de espera mín. de 5 min desde el punto (7), realizar un nuevo reset inicial. Atención: solo será necesario cuando así se indique expresamente en la especificación del firmware correspondiente.         |                                                                                                                                                                                                 | • Prestar atención a la especificación del firmware que se va a instalar<br/>• según el cap. 7.3.5                                                                              |"
+        },
+        {
+          "id": "41bcd390-1e14-4853-b03f-03612f07bf70",
+          "document_id": "ab258c38-30f7-4047-a421-ebb7a701a84a",
+          "extraction_sha256": "143d462c2cdfc4f95078cdc880e7c56f98638ac3d7c9c113c43acc2ec544c54e",
+          "document_source_pdf_sha256": "backfill:641280a31309f9ae12df9e6e52be124dbbf19a295ba841fabf9741b6c6c998a2",
+          "source_file": "ASD535_TD_T131192es_h",
+          "product_model": "ASD535",
+          "chunk_index": 38,
+          "page_number": 27,
+          "gap": 2,
+          "rank": 2,
+          "query_score": 12.062142,
+          "facets": [
+            {
+              "facet": "timing_state",
+              "term_hits": [
+                "evento",
+                "tiempo"
+              ]
+            }
+          ],
+          "content_sha256": "bc726c5d39e04e595cdaa66def5ae7847ad801dc999c0243a53daaa5cbaf8168",
+          "content": "## 2.2.8 Entradas\n\nEl ASD 535 cuenta con una entrada «Reset externo», la cual permite restablecer el dispositivo a su estado normal tras un evento. La entrada está libre de potencial (optoacoplador) y puede controlarse tanto desde el lado positivo como del negativo. La entrada opera en el rango de 5 a 30 V-CC y con un ancho de banda de impulso de 0,5 a 10 s. Al aplicar una señal permanente durante más de 20 s, el ASD 535 se desconecta (estado de fallo); véase para ello también el cap. 6.6.2. La desactivación a través de la entrada «Reset externo» funciona únicamente cuando no hay ningún XLM 35 o SLM 35 montado en el ASD 535.\n\nLas entradas «OEM1» y «OEM2» sirven para controlar la alarma y los fallos desde detectores externos. La entrada «OEM1 / St» puede utilizarse también para la activación del control día/noche. No obstante, esta función tiene entonces prioridad sobre un disparo de aviso de fallo procedente de detectores externos. Las entradas están libres de potencial (optoacoplador) y pueden controlarse tanto desde el lado positivo como del negativo en el rango de 5 a 30 V-CC. Las entradas no vienen activadas por defecto y deben parametrizarse con el software de configuración «ASD Config» (modo de funcionamiento del sensor de humo). Las entradas controlan los estados de alarma y fallo (relés + LED) en el ASD. Para ello se aplican los mismos tiempos de retardo y estados de autorretención que para el disparo desde el SSD 535.\n\n> **Advertencia**\n>\n> * En determinadas circunstancias, el control a través de las entradas OEM1 y OEM2 ~~no~~ cumplirá los requisitos ~~de EN 54-20~~, por lo que únicamente deberá utilizarse previa consulta con el fabricante.\n> * Las entradas ~~no~~ tienen supervisión de línea."
+        }
+      ],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 90,
+        "same_blob_candidates": 80,
+        "positive_query_candidates": 65,
+        "facet_candidates": 4,
+        "toc_rejected_ids": [],
+        "overflow": false,
+        "selected_ids": [
+          "1d1ca159-1155-4f8b-9fc7-bde755133e02",
+          "41bcd390-1e14-4853-b03f-03612f07bf70"
+        ],
+        "shadow_only": true,
+        "archetype": "fault_reset_recovery",
+        "needs": [
+          "El detector ASD535 de Detnov está dando una alarma intermitente de flujo bajo. ¿Cuál es la causa más probable y cómo se diagnostica condición activa enclavada inhibición",
+          "El detector ASD535 de Detnov está dando una alarma intermitente de flujo bajo. ¿Cuál es la causa más probable y cómo se diagnostica temporizador duración estado posterior al evento rearme",
+          "El detector ASD535 de Detnov está dando una alarma intermitente de flujo bajo. ¿Cuál es la causa más probable y cómo se diagnostica diagnóstico comprobaciones recuperación"
+        ],
+        "reason": "selected"
+      }
+    },
+    {
+      "qid": "hp003",
+      "selected_ids": [
+        "b33b4816-f245-4e1d-98b5-f9bc3f7d3ac0",
+        "eaa39792-fb91-411d-a666-d85fb7f7b591"
+      ],
+      "selected": [
+        {
+          "id": "b33b4816-f245-4e1d-98b5-f9bc3f7d3ac0",
+          "document_id": "8530f3fa-1e58-4318-bd76-3e1bb9565413",
+          "extraction_sha256": "79489f1e0c4791e4b274bddd51617691ed05d487dba44531a32fed9d0636e16f",
+          "document_source_pdf_sha256": "backfill:4c489ca1212af9b9069370949df5b4d6ba5c8eecb8a8bfa6c153217638e3ae01",
+          "source_file": "55315501 CAD150R Instalacion ES GB 191018",
+          "product_model": "CAD-150R",
+          "chunk_index": 2,
+          "page_number": 4,
+          "gap": 3,
+          "rank": 1,
+          "query_score": 10.8423,
+          "facets": [
+            {
+              "facet": "connection",
+              "term_hits": [
+                "borne",
+                "cableado",
+                "conexion",
+                "terminal"
+              ]
+            },
+            {
+              "facet": "continuity",
+              "term_hits": [
+                "pantalla",
+                "tierra"
+              ]
+            },
+            {
+              "facet": "limits_safety",
+              "term_hits": [
+                "instalacion",
+                "seguridad"
+              ]
+            }
+          ],
+          "content_sha256": "864b0c420476627033f7b655107c143520164a48448f7324db50d78508388f08",
+          "content": "# 2 - Guía de Instalación\n\n## 2.1 - Selección de Idioma\n\nLos repetidores se han diseñado para que personalizar el idioma resulte una tarea sencilla. En la hoja de idiomas adjunta a este manual se encuentras los insertables correspondientes a varios idiomas. Seleccione el idioma que precise y coloque el insertable en la ranura correspondiente de la parte inferior del panel de control. Las ubicaciones están señalizadas con las letras A, B y C.\n\n## 2.2 - Conexionado eléctrico y cableado\n\nEs recomendable que el equipo se alimente y se pruebe antes de conectar ningún dispositivo. El repetidor debe conectarse a través de un magneto térmico bipolar exterior, utilizando cable de 1.5 mm² de sección. La tensión de red debe ser de 230VAC.\n\nPara evitar cruces el cable de conexión a la red eléctrica debe ir separado del resto de líneas.\n\nSi en el lugar de instalación hubiese perturbaciones eléctricas que pudieran alterar el funcionamiento del equipo se recomienda el uso de ferritas. Colóquelas lo más cerca posible de los conectores de la placa principal.\n\nEs imprescindible que utilice los orificios marcados en la caja para pasar los cables, tanto de alimentación como de comunicaciones y sirenas al regletero. Utilice una broca de corona para perforar la caja e inserte el prensastopa (tipo PG13). Para la entrada del cable de conexión a la red eléctrica es recomendable utilizar la entrada posterior a la altura de la regleta de conexión.\n\nUtilice cable apantallado, conectando la pantalla del cable a los bornes correspondientes, y protéjala para no provocar cruces indeseados. Asegúrese de que la instalación tiene una conexión a tierra correcta.\n\n## 2.3 - Alimentación de el repetidor\n\nNo realice la instalación del repetidor con la alimentación conectada. Desconecte siempre el magneto-térmico bipolar exterior antes de manipular el repetidor.\n\nEl orden de conexión, para su seguridad, siempre tiene que ser primero la red eléctrica y posteriormente las baterías. No conecte el repetidor a la red hasta haber completado la puesta en marcha.\n\n## 2.4 - Conexión a la red eléctrica\n\nPara asegurar una optima fijación del cable de alimentación inserte el cable en la guía de plástico utilizando las pestañas de la carcasa de plástico y deje el cable de tierra más largo que el resto. Con estas dos medidas evitaremos que el cable se suelte, en caso de extracción brusca.\n\nNo use nunca el fusible de la regleta de red para conectar y desconectar el repetidor de la red eléctrica utilice el magneto-térmico.\n\nES\n\n## 2.5 - Conexión de las baterías\n\nLos repetidores requieren dos baterías de 12V, bien de 2A/h o bien de 7A/h conectadas en serie. El puente de cable suministrado debe conectarse del polo + de una batería al polo - de la otra. Las baterías se colocan en el espacio reservado para ellas en la parte inferior de la caja. Conecte el cable de alimentación al conector de la placa principal y los terminales del cable al (rojo al + y negro al -) de las baterías\n\n## 2.6 - Conexión de la red de comunicaciones"
+        },
+        {
+          "id": "eaa39792-fb91-411d-a666-d85fb7f7b591",
+          "document_id": "131e6fcb-4d52-4c21-bac9-f6430559f47b",
+          "extraction_sha256": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6",
+          "document_source_pdf_sha256": "backfill:cd3004c81f9345b487dc65afdb590949d040c920df60b7b02acf48013ba76d71",
+          "source_file": "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT",
+          "product_model": "CAD-150-8",
+          "chunk_index": 4,
+          "page_number": 8,
+          "gap": 1,
+          "rank": 2,
+          "query_score": 8.374259,
+          "facets": [
+            {
+              "facet": "connection",
+              "term_hits": [
+                "borne",
+                "cableado",
+                "conexion"
+              ]
+            },
+            {
+              "facet": "continuity",
+              "term_hits": [
+                "pantalla",
+                "tierra"
+              ]
+            },
+            {
+              "facet": "limits_safety",
+              "term_hits": [
+                "instalacion",
+                "seguridad"
+              ]
+            }
+          ],
+          "content_sha256": "2c0eae77adbc34d5c98351c56e2432b021b38b5aa39dd86c831baf989704be82",
+          "content": "# 2- Guía de Instalación\n\n## 2.1- Selección de Idioma\n\nLas centrales analógicas se han diseñado para que resulte fácil personalizar el idioma. En la hoja de idiomas adjunta a este manual, podrá encontrar los textos correspondientes a los idiomas castellano, ingles, italiano y portugués. Seleccione el idioma que precise e inserte la lámina en la ranura correspondiente ubicada en la parte inferior del teclado. Las ubicaciones están señalizadas con las letras A, B y C.\n\n> **ES**\n\n## 2.2- Conexionado eléctrico y cableado\n\nEs recomendable que el equipo se alimente y se pruebe antes de conectar dispositivos como detectores, pulsadores etc. La central debe conectarse a través de un magneto térmico bipolar exterior, utilizando cable de 1.5 mm² de sección. La tensión de red debe ser de 230VAC.\n\nPara evitar cruces el cable de red debe ir separado de los cables del bus de comunicación.\n\nSi el sistema puede ser alterado por una perturbación eléctrica, se recomienda el uso de ferrita, situándola lo más cerca posible de la conexión.\n\nEs imprescindible que se usen los orificios marcados en la caja para conexionar los cables tanto de alimentación como de zonas al regletero. Utilice una broca de corona para perforar la caja e inserte el prensastopa tipo PG13. Se recomienda usar la entrada posterior situada a la altura de la regleta de red, para la entrada del cable de red.\n\nEs recomendable el uso de cable apantallado. Conectar la pantalla del cable a los bornes correspondientes (protegiendo la misma pantalla para no provocar cruces indeseados) y asegurar que la instalación tiene una conexión a tierra correcta.\n\n## 2.3- Alimentación de la central\n\nNo realizar la instalación de la central con la alimentación conectada. Desconecte siempre la magneto térmico bipolar exterior antes de manipular la central.\n\nEl orden de conexión para su seguridad, siempre tiene que ser primero la red y posteriormente las baterías. No conectar la central a la red hasta no haber completado la puesta en marcha.\n\n## 2.4- Conexión a la red\n\nDejar el cable de toma de tierra más largo para que en caso de extracción brusca sea el último en desconectarse. Para asegurar una optima fijación del cable de red, inserte el cable en la guía de plástico utilizando las pestañas de la carcasa de plástico, de esta forma evitaremos que el cable se suelte, en caso de extracción brusca.\n\nNo usar nunca el fusible de la regleta de Red para conectar y desconectar la central de la red, usad el magneto térmico.\n\n6\n\nES\n\n## 2.5- Conexión de las baterías\n\nLas centrales analógicas requieren dos baterías de 12V 7A/h. Las baterías deben conectarse en serie para el correcto funcionamiento de las centrales.\n\nEl cable que se suministra con la central debe conectarse de forma que una el polo positivo de una batería con el polo negativo de la otra. Las baterías se colocan en la parte inferior de la caja, en el espacio reservado para ello de forma vertical."
+        }
+      ],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 52,
+        "same_blob_candidates": 42,
+        "positive_query_candidates": 22,
+        "facet_candidates": 7,
+        "toc_rejected_ids": [
+          "5eae7159-d8c4-4d1f-b36b-de3bcd1e4934"
+        ],
+        "overflow": false,
+        "selected_ids": [
+          "b33b4816-f245-4e1d-98b5-f9bc3f7d3ac0",
+          "eaa39792-fb91-411d-a666-d85fb7f7b591"
+        ],
+        "shadow_only": true,
+        "archetype": "connect_install_wire",
+        "needs": [
+          "Cómo se conectan las baterías de 24V en la Detnov CAD-150 terminales polaridad conexión cableado",
+          "Cómo se conectan las baterías de 24V en la Detnov CAD-150 pantalla tierra continuidad resistencia circuito",
+          "Cómo se conectan las baterías de 24V en la Detnov CAD-150 límites seguridad comprobación instalación"
+        ],
+        "reason": "selected"
+      }
+    },
+    {
+      "qid": "hp004",
+      "selected_ids": [],
+      "selected": [],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 4,
+        "valid_seed_rows": 4,
+        "invalid_seed_rows": 0,
+        "input_candidates": 4,
+        "same_blob_candidates": 0,
+        "positive_query_candidates": 0,
+        "facet_candidates": 0,
+        "toc_rejected_ids": [],
+        "overflow": false,
+        "selected_ids": [],
+        "shadow_only": true,
+        "archetype": null,
+        "needs": [
+          "Cuál es la tensión de funcionamiento y el consumo en reposo del detector DGD-600 de Detnov"
+        ],
+        "reason": "no_query_aligned_facet_candidate"
+      }
+    },
+    {
+      "qid": "hp005",
+      "selected_ids": [
+        "42baf5eb-dc84-4ae1-ab6d-8b18e3c68afd",
+        "66946fcc-9887-41bc-b189-5fdcdc3c61f3"
+      ],
+      "selected": [
+        {
+          "id": "42baf5eb-dc84-4ae1-ab6d-8b18e3c68afd",
+          "document_id": "53004592-9a57-4c00-ba0b-f5166a6a5418",
+          "extraction_sha256": "931695e0f0a0210d741fd94bb7afa9ee4c10450968d928176926fd0f4fdb13eb",
+          "document_source_pdf_sha256": "backfill:905692b3dc09305265816b748faac1d8ad7c221ae088d326c15ff71c0cbd977a",
+          "source_file": "MCDT191",
+          "product_model": "ID3000",
+          "chunk_index": 84,
+          "page_number": 77,
+          "gap": 2,
+          "rank": 1,
+          "query_score": 11.395355,
+          "facets": [
+            {
+              "facet": "navigation",
+              "term_hits": [
+                "edicion",
+                "menu",
+                "programacion"
+              ]
+            },
+            {
+              "facet": "logic_structure",
+              "term_hits": [
+                "entrada",
+                "matriz"
+              ]
+            },
+            {
+              "facet": "output_timing",
+              "term_hits": [
+                "retardo",
+                "salida",
+                "temporizador"
+              ]
+            }
+          ],
+          "content_sha256": "106aa6d38e74185bdb3dd9e762c4eee8a66848f6ecef62ca5d0bd862d15d8fff",
+          "content": "## 4.2 Ver/editar la matriz de control\n\nSI NO MODIFICA O BORRA LAS ENTRADAS QUE DISPONE EL PANEL POR DEFECTO (SECCIÓN 4.1.1), SE ANULARÁ CUALQUIER ENTRADA CREADA.\n\n[Screenshot showing software interface with menu options:\n\n- Editar\n  - Añadir/Editar Entrada\n  - Reemplazar Salida\n  - Borrar Línea de Matriz\n  - Copiar Línea de Matríz\n  - Cortar Línea de Matriz\n  - Pegar Línea de Matriz\n  - Progr. Horaria y Retardos\n    - Añadir Programación Horaria\n    - Retardo Sirenas\n    - Retardo Controles\n    - Retardo Sirenas Ampliado\n- Imprimir\n  - Enviar a Impresora\n  - Enviar al archivo XLS\n\nBelow the menu is a table showing control matrix entries with columns for various parameters]\n\nEL MENÚ EDITAR SOLO SE APLICA A LA FILA SELECCIONADA. LAS OPCIONES DE EDICIÓN TAMBIÉN ESTÁN DISPONIBLES CON EL BOTÓN DERECHO DEL RATÓN.\n\nSeleccione la opción Matriz de control desde el menú Parámetros Sistema. Se abrirá la ventana Editar Matriz de Control. Las entradas que aparecen en el ejemplo de la izquierda son las que vienen por defecto de fábrica. Consulte la Sección 4.1.1.\n\n### 4.2.1 Ver entradas\n\nPara ver las instrucciones (entradas) ya existentes, utilice las barras de desplazamiento o coloque el cursor en la columna de las entradas y utilice las flechas hacia arriba y abajo del teclado.\n\n### 4.2.2 Modificar/crear/borrar entradas\n\nSeleccione una instrucción (para modificar o borrar) o una línea en blanco (para crear una nueva instrucción). Seleccione la opción adecuada del menú Editar:\n\na. **Añadir/Editar Entrada**, para cambiar la instrucción o crear una nueva. Véase la Sección 4.3.1.\n\nb. **Reemplazar Salida**, para cambiar la salida de la instrucción. Véase la Sección 4.3.2, que también describe las opciones de temporizador y periodo horario.\n\nc. **Borrar línea de matriz**, para borrar la entrada o salida.\n\nd. **Copiar línea de Matriz** - se utiliza cuando una entrada o salida se va a repetir en otra instrucción.\n\nPulse 'Aceptar' para aceptar la edición de las instrucciones o 'Cancelar' para rechazar los cambios. Las opciones de 'Cortar' y 'Pegar' instrucciones permiten que las instrucciones se puedan trasladar (para facilitar la lectura. No afecta al funcionamiento de la matriz de control.\n\n### 4.2.3 Menú Imprimir\n\nEl menú Imprimir tiene dos opciones: imprimir todas las líneas ('Enviar a impresora'), mediante una ventana de impresión estándar, o bien crear un archivo '.xls' de la matriz de control ('Enviar al archivo XLS').\n\nMC-DT-191_F v. 2.17e\n\nID3000 - Manual del programa de configuración PK-ID3000\n\n### 4.2.4 Tiempo de verificación de alarma"
+        },
+        {
+          "id": "66946fcc-9887-41bc-b189-5fdcdc3c61f3",
+          "document_id": "d57e015a-db8f-4d7d-a065-067aeb47b023",
+          "extraction_sha256": "0ae1cdba25ead4f70b009d5c7e97ef8ef78ec6f1e3f249cbe11c6eaf56cfd05b",
+          "document_source_pdf_sha256": "backfill:c4090f27f7b5ad06818f19dbc54ab4985276d0823e440923707fcd8be1ac2569",
+          "source_file": "MCDT190",
+          "product_model": "ID3000",
+          "chunk_index": 55,
+          "page_number": 50,
+          "gap": 7,
+          "rank": 2,
+          "query_score": 11.324377,
+          "facets": [
+            {
+              "facet": "navigation",
+              "term_hits": [
+                "edicion",
+                "menu",
+                "programacion"
+              ]
+            },
+            {
+              "facet": "logic_structure",
+              "term_hits": [
+                "condicion",
+                "entrada",
+                "matriz"
+              ]
+            },
+            {
+              "facet": "output_timing",
+              "term_hits": [
+                "accion",
+                "salida"
+              ]
+            }
+          ],
+          "content_sha256": "2e4a0c120134b9fe207f7bc5bc11ea4460f8191f5a1e05415300728f0f92c3e8",
+          "content": "# 6 Matriz de Control\n\nDurante la edición de los sensores, módulos o especificaciones de la red, puede acceder a la programación de la Matriz de Control a pulsando la tecla de función <F6>.\n\nLa Matriz de Control consiste en una serie de instrucciones almacenadas en el software interno de la central que definen cuáles son las salidas de control que funcionarán ante un evento específico de alarma y cómo funcionan. El sistema ID3000 permite definir relaciones complejas para satisfacer la mayoría de requisitos.\n\nLa Matriz de Control está dividida en dos secciones en las cuales se definen los equipos de ENTRADA y SALIDA o combinaciones de equipos. En caso de un alarma, el sistema examina la matriz de control línea por línea. Si las condiciones de 'ENTRADA' de cualquier línea coinciden con la condición de alarma, se iniciarán las acciones de las columnas de 'SALIDA'.\n\nGeneralmente, es necesario finalizar la programación de las especificaciones de los sensores/módulos antes de iniciar la programación de la Matriz de Control, de lo contrario, es posible que no se haga referencia a equipos individuales en la matriz.\n\nPara editar la matriz de control, se utilizan las siguientes teclas de función:\n\n<F1> Muestra una pantalla detallada de ayuda.\n\n<F3> Finaliza la sesión 'EDITAR' y vuelve al menú principal. Si ha realizado cambios podrá guardarlos o eliminarlos. Esta tecla debe usarse también para guardar datos en un archivo y seguir editando desde el mismo punto.\n\n<F5> Entra en el modo de programación de la red. Esta función se utiliza para configurar sistemas de red y debe usarse junto con los paneles ID3000 apropiados.\n\n<F6> Cambia de la pantalla de Sensores/Módulos a la de Matriz de Control.\n\n<F10> Elimina de la tabla la línea seleccionada.\n\nA continuación, se definen las opciones de la Matriz de Control.\n\n## Requisitos EN54\n\nPara asegurar que cada central, tal y como la suministra NOTIFIER, cumpla con los requisitos de EN54 referente a la activación de los circuitos de alarma en caso de alarma de INCENDIO, la siguiente Matriz de Control por defecto se introduce antes de enviar la central:\n\n**<CUALQUIER ENTRADA> activa <TODAS LAS SIRENAS>**\n\nEsta instrucción global determina que cualquier entrada de alarma en cualquier parte del sistema provoca que todos los circuitos de SIRENA y los cuatro circuitos internos de sirena se activen inmediatamente en modo 'continuo'. También se introduce la siguiente instrucción\n\n**<TECLA EVACUACIÓN> activa <TODOS LAS SIRENAS>**\n\npara que la función 'EVACUAR accione todos los circuitos de 'SIRENA'. Las sirenas 3 y 4 se activarán sólo si están configuradas como salidas de sirena y no como relés.\n\nMC-DT-190                                             NOTIFIER ESPAÑA                                45\n\nPuede eliminar una o ambas instrucciones si no son apropiadas para su instalación. En este caso es necesario asegurarse de que la instalación cumpla con los requisitos de EN54-2.\n\n## 6.1 Tipos de Entrada en la Matriz de Control"
+        }
+      ],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 126,
+        "same_blob_candidates": 116,
+        "positive_query_candidates": 115,
+        "facet_candidates": 87,
+        "toc_rejected_ids": [],
+        "overflow": false,
+        "selected_ids": [
+          "42baf5eb-dc84-4ae1-ab6d-8b18e3c68afd",
+          "66946fcc-9887-41bc-b189-5fdcdc3c61f3"
+        ],
+        "shadow_only": true,
+        "archetype": "program_delay_cause_effect",
+        "needs": [
+          "En la Notifier ID3000, ¿cómo se programa una zona para que active una salida de sirena solo cuando haya coincidencia de dos detectores ruta menú programación edición",
+          "En la Notifier ID3000, ¿cómo se programa una zona para que active una salida de sirena solo cuando haya coincidencia de dos detectores condición entrada regla causa efecto",
+          "En la Notifier ID3000, ¿cómo se programa una zona para que active una salida de sirena solo cuando haya coincidencia de dos detectores acción salida temporizador anulación"
+        ],
+        "reason": "selected"
+      }
+    },
+    {
+      "qid": "hp006",
+      "selected_ids": [],
+      "selected": [],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 101,
+        "same_blob_candidates": 91,
+        "positive_query_candidates": 77,
+        "facet_candidates": 0,
+        "toc_rejected_ids": [
+          "0ff7c261-4af3-43d9-a609-fc23dee18d21"
+        ],
+        "overflow": false,
+        "selected_ids": [],
+        "shadow_only": true,
+        "archetype": null,
+        "needs": [
+          "La Notifier AFP-400 muestra el aviso 'Tierra' (Earth Fault). ¿Qué significa y cómo se localiza"
+        ],
+        "reason": "no_query_aligned_facet_candidate"
+      }
+    },
+    {
+      "qid": "hp007",
+      "selected_ids": [],
+      "selected": [],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 80,
+        "same_blob_candidates": 70,
+        "positive_query_candidates": 69,
+        "facet_candidates": 0,
+        "toc_rejected_ids": [],
+        "overflow": false,
+        "selected_ids": [],
+        "shadow_only": true,
+        "archetype": null,
+        "needs": [
+          "Cómo se realiza el test anual de un detector VESDA-E VEP según el manual del fabricante"
+        ],
+        "reason": "no_query_aligned_facet_candidate"
+      }
+    },
+    {
+      "qid": "hp008",
+      "selected_ids": [],
+      "selected": [],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 128,
+        "same_blob_candidates": 118,
+        "positive_query_candidates": 95,
+        "facet_candidates": 0,
+        "toc_rejected_ids": [
+          "48b0a5ee-10fd-4e0d-bf47-4f1aff015ee8",
+          "5373a550-d913-407f-81ec-f1a0c3f9a5d9"
+        ],
+        "overflow": false,
+        "selected_ids": [],
+        "shadow_only": true,
+        "archetype": "compatibility",
+        "needs": [
+          "Qué detectores de humo analógicos son compatibles con la Notifier ID3000 compatibilidad protocolo fabricante familia",
+          "Qué detectores de humo analógicos son compatibles con la Notifier ID3000 requisitos eléctricos mecánicos de instalación"
+        ],
+        "reason": "no_query_aligned_facet_candidate"
+      }
+    },
+    {
+      "qid": "hp009",
+      "selected_ids": [],
+      "selected": [],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 86,
+        "same_blob_candidates": 76,
+        "positive_query_candidates": 55,
+        "facet_candidates": 0,
+        "toc_rejected_ids": [],
+        "overflow": false,
+        "selected_ids": [],
+        "shadow_only": true,
+        "archetype": null,
+        "needs": [
+          "Cuál es la resistencia de fin de línea recomendada para los lazos de la central Morley ZXe"
+        ],
+        "reason": "no_query_aligned_facet_candidate"
+      }
+    },
+    {
+      "qid": "hp010",
+      "selected_ids": [],
+      "selected": [],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 70,
+        "same_blob_candidates": 60,
+        "positive_query_candidates": 27,
+        "facet_candidates": 0,
+        "toc_rejected_ids": [],
+        "overflow": false,
+        "selected_ids": [],
+        "shadow_only": true,
+        "archetype": null,
+        "needs": [
+          "En la Morley DXc, ¿cómo se añade un nuevo detector al lazo tras la puesta en marcha inicial"
+        ],
+        "reason": "no_query_aligned_facet_candidate"
+      }
+    },
+    {
+      "qid": "hp011",
+      "selected_ids": [
+        "2d45a70a-5202-442e-af84-c3a176c2178d",
+        "e8c03d86-539f-42b2-b919-50f96949f016"
+      ],
+      "selected": [
+        {
+          "id": "2d45a70a-5202-442e-af84-c3a176c2178d",
+          "document_id": "494e71be-873b-48c1-adb3-a21a122da111",
+          "extraction_sha256": "914ceacf8395729f73876cb9e397a8cb3154d70ba67903b6e055f2b4398be573",
+          "document_source_pdf_sha256": "914ceacf8395729f73876cb9e397a8cb3154d70ba67903b6e055f2b4398be573",
+          "source_file": "HLSI-MN-103_RP1r-Supra_lr",
+          "product_model": "RP1r-Supra",
+          "chunk_index": 76,
+          "page_number": 56,
+          "gap": 7,
+          "rank": 1,
+          "query_score": 13.335798,
+          "facets": [
+            {
+              "facet": "timing_state",
+              "term_hits": [
+                "intervalo",
+                "periodo",
+                "rearme",
+                "tiempo"
+              ]
+            }
+          ],
+          "content_sha256": "58f4b136b75ceb20ab5dbd62a0a7c4141e6b769fae32663124ec566b5e2000f2",
+          "content": "| Valor variable de<br/>05 a 295 seg. | Tiempo de activación del circuito de extinción, o periodo de inundación. Variable en intervalos de 5 seg. |\n| ----------------------------------- | --------------------------------------------------------------------------------------------------------- |\n| - -                                 | Circuito activado hasta rearme de la central (por defecto)                                                |\n\n</td>\n</tr>\n<tr>\n<td>[LED Display showing: P.d]</td>\n<td>Retardo en caso de disparo manual</td>\n<td>En caso que el disparo de la extinción se produzca mediante la activación del pulsador manual, en lugar de por la detección, es posible definir el intervalo de retardo previo a la extinción.<br><br>\n\n| 00 | Disparo para extinción inmediato (por defecto)              |\n| -- | ----------------------------------------------------------- |\n| 01 | Mismo retardo que activación por detector, definido por E.t |\n\n</td>\n</tr>\n</table>\n\nHLSI-1vN-1O3v.O7                                                                                                                                                Manual de usuario\nhttp://www.honeywelllifesafety.es                                                                                                                                               56\n\nRP1r-Supra | Configuración\n\n|     |                              |                                                                                                       |\n| --- | ---------------------------- | ----------------------------------------------------------------------------------------------------- |\n| E.2 | Disparo circuito extinción 2 | Habilitar/inhabilitar disparo para circuito de extinción 2.00\tAnulado (por defecto)&#xA;01\tHabilitado |\n\n</td>\n</tr>\n<tr>\n<td>F.E</td>\n<td>Repetición de extinción</td>\n<td>Habilitar/inhabilitar la monitorización de la entrada señal de flujo (FLOW PRESS) para determinar si el disparo de la extinción debe ser repetido.\nDe activar esta opción, y en caso de no detectar la activación de la señal de flujo tras la activación del circuito de extinción, el disparo se repetirá hasta en 3 ocasiones mientras dicha situación persista. Si pese a ello, la señal de flujo sigue sin activarse, la central indicará una avería en el circuito de extinción.\n\n| 00 | Desactivada (por defecto) |\n| -- | ------------------------- |\n| 01 | Activada                  |\n\n</td>\n</tr>\n<tr>\n<td>h.L</td>\n<td>Prioridad pulsador espera (HOLD)</td>\n<td>Determina si el pulsador de espera (HOLD) tiene prioridad sobre el pulsador de disparo.\n\n| 00 | Pulsador disparo (RELEASE) prioritario (por defecto) |\n| -- | ---------------------------------------------------- |\n| 01 | Pulsador espera (HOLD) prioritario                   |\n\n</td>\n</tr>\n<tr>\n<td>E.F</td>\n<td>Indicación extinción realizada</td>\n<td>Determina cuándo debe notificarse el estado de extinción realizada mediante el led indicador del panel frontal.\n\n| 00 | Indicación tras retardo ~~EE~~ (por defecto)                    |\n| -- | ------------------------------------------------------------------- |\n| 01 | Indicación sólo cuando entrada de baja presión (LOW PRESS) activada |\n\n</td>\n</tr>\n</tbody>\n</table>\n\nHLSI-1vN-1O3v.O7 | Manual de usuario\n\nhttp://www.honeywelllifesafety.es | 57\n\nRP1r-Supra | Configuración"
+        },
+        {
+          "id": "e8c03d86-539f-42b2-b919-50f96949f016",
+          "document_id": "ee21123e-d0c0-4b83-a6e2-3077cb5a616c",
+          "extraction_sha256": "b208f53a30096a1f70a140f7123be399b542f488681aa55da72695033ee20b90",
+          "document_source_pdf_sha256": "b208f53a30096a1f70a140f7123be399b542f488681aa55da72695033ee20b90",
+          "source_file": "MIEMN570",
+          "product_model": "VSN-RP1r",
+          "chunk_index": 52,
+          "page_number": 30,
+          "gap": 7,
+          "rank": 2,
+          "query_score": 8.280361,
+          "facets": [
+            {
+              "facet": "state_blockers",
+              "term_hits": [
+                "activa",
+                "inhibicion"
+              ]
+            },
+            {
+              "facet": "timing_state",
+              "term_hits": [
+                "periodo",
+                "rearme",
+                "tiempo"
+              ]
+            }
+          ],
+          "content_sha256": "67bc784a22f6a7a1f45271e73b15ab2b6680f679823df2a2dee29394389170ca",
+          "content": "| r1<br/><br/>\\[Two digital display segments showing \"r\" and \"I\"] | Rearme Inhibido. Según la normativa EN12094:1/2003 Punto 4.12.2, debe haber un periodo de tiempo programable entre 0 y 30 minutos desde que la central señaliza el estado de ACTIVADO hasta que se permita REARMAR la central. Por defecto, la central de extinción tiene esta función anulada (SW1-6 en OFF). Para habilitar esta función, deberá situar primero el micro interruptor SW1-6 en la posición ON y aceptar la configuración de SW1. A continuación, dentro de programación, en el campo rI, pulse la tecla *Retardo Sí/No* o *Silenciar Zumbador* para aumentar o disminuir el tiempo de inhibición de la tecla rearme (entre 0 y 30 minutos). Hasta que no transcurra el tiempo que programe en este campo, no será posible realizar un rearme en la central.<br/>*Por defecto 00 minutos* 1<br/>**NOTA:** Si la central está en modo *paro/espera*, se podrá realizar un Rearme. |\n| --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |\n| A0<br/><br/>\\[Two digital display segments showing \"A\" and \"0\"] | Indicación de Sirenas Retardas. Según EN54-2: 9.4.2c El retardo de Sirenas debe indicarse como una desconexión, es decir si la activación de las sirenas están retardadas, los valores de Retardo serán diferentes de 00, y por lo tanto se activa el led general de anulado y parpadeará el led de Sirenas Fallo/Anuladas.<br/>El parámetro A0 permite anular esta indicación<br/>Si A0=0 (*valor por defecto* 1) Se indicará con el led general de anulado y Sirenas anuladas cualquier retardo en la activación de Sirenas. Es decir rS es diferente a 0.<br/>Si A0=01 y existe un retardo en la activación de sirenas no se indicará con los led de anulado general y sirenas retardadas.                                                                                                                                                                                                    |"
+        }
+      ],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 103,
+        "same_blob_candidates": 93,
+        "positive_query_candidates": 66,
+        "facet_candidates": 27,
+        "toc_rejected_ids": [],
+        "overflow": false,
+        "selected_ids": [
+          "2d45a70a-5202-442e-af84-c3a176c2178d",
+          "e8c03d86-539f-42b2-b919-50f96949f016"
+        ],
+        "shadow_only": true,
+        "archetype": "fault_reset_recovery",
+        "needs": [
+          "En la Morley RP1r, después de descargar la extinción el sistema no vuelve a estado normal tras resetear. ¿Qué comprobar condición activa enclavada inhibición",
+          "En la Morley RP1r, después de descargar la extinción el sistema no vuelve a estado normal tras resetear. ¿Qué comprobar temporizador duración estado posterior al evento rearme",
+          "En la Morley RP1r, después de descargar la extinción el sistema no vuelve a estado normal tras resetear. ¿Qué comprobar diagnóstico comprobaciones recuperación"
+        ],
+        "reason": "selected"
+      }
+    },
+    {
+      "qid": "hp012",
+      "selected_ids": [
+        "0c689993-1954-459b-af05-dc6a0851a39c",
+        "096fb0bb-eda2-4aa3-80a0-6001f2a348bc"
+      ],
+      "selected": [
+        {
+          "id": "0c689993-1954-459b-af05-dc6a0851a39c",
+          "document_id": "2aa35292-4377-4160-aea3-2d5c67e9fca2",
+          "extraction_sha256": "8f7d50811fb97bd69ecef30ac4aa8706e90ee1ebf49f276a8794ded8421edee8",
+          "document_source_pdf_sha256": "backfill:ba0939822dc113410e7243dd28e1ed4a94c63481cfdcc6da6ab5bfcbff2dc03a",
+          "source_file": "15088SP",
+          "product_model": "AM-2020",
+          "chunk_index": 212,
+          "page_number": 166,
+          "gap": 4,
+          "rank": 1,
+          "query_score": 10.46088,
+          "facets": [
+            {
+              "facet": "per_unit_capacity",
+              "term_hits": [
+                "capacidad",
+                "detector",
+                "dispositivo",
+                "lazo",
+                "modulo"
+              ]
+            },
+            {
+              "facet": "system_total",
+              "term_hits": [
+                "capacidad",
+                "dispositivo",
+                "lazo",
+                "sistema",
+                "total"
+              ]
+            }
+          ],
+          "content_sha256": "d9017c1114d0071b92100c41ef379f98195ff699fef5756db9e71fec6c96edba",
+          "content": "```\nDESEA HABILITAR UNA ZONA DE BAJA SENSIBILIDAD DE DIA/NOCHE?(S=SI, N=NO)  :S\nPULSE ZONA BAJA SENSIBILIDAD DIA/NOCHE (ZXXX)                            :21\nDESEA CAMBIAR EL INFORME DE ESTADO DE MODULO SACM/SEQM? (S=SI, N=NO)    :S\nDESEA INFORME CAMBIOS DE ESTADO MODULO SACM/SEQM? (S=SI, N=NO)          :S\nDESEA CAMBIAR LA OPERACION COMPENSACION DE SUCIEDAD? (S=SI, N=NO)       :S\nDESEA HABILITAR LA COMPENSACION DE SUCIEDAD? (S=SI, N=NO)               :S\nDESEA CAMBIAR LA PROGRAMACION DEL RECEPTOR DE MENSAJES? (S=SI, N=NO)    :S\nDESEA HABILITAR EL RECEPTOR DE MENSAJES? (S=SI, N=NO)                   :S\nDESEA CAMBIAR LA PROGRAMACION DEL MODEM? (S=SI, N=NO)                   :S\nDESEA HABILITAR EL MODEM? (S=SI, N=NO)                                  :S\nDESEA CAMBIAR LA PROGRAMACION DEL NAM? (S=SI, N=NO)                     :S\nDESEA HABILITAR EL INTERFACE NAM? (S=SI, N=NO)                          :N\nDESEA CAMBIAR LA LECTURA DEL LAZO PRIORITARIO? (S=SI, N=NO)             :S\nDESEA HABILITAR LA LECTURA PRIORITARIA? (S=SI, N=NO)                    :S\n```\n\n**Sensibilidad de Día/Noche**\n\nLa función de la sensibilidad de Día/Noche es forzar a los detectores inteligentes a una sensibilidad alta o baja cuando las zonas apropiadas están activas, sin importar los ajustes normales de la sensibilidad de los detectores. Si ambas zonas alta y baja están activas, el sistema será forzado a una sensibilidad alta. Las zonas alta y baja de Día/ Noche pueden se activadas individualmente por las ecuaciones de control-por-evento (CBE) escritas para este propósito o a través del uso de las ecuaciones de control-por-evento.\n\nLa capacidad del panel de control para proporcionar la función de sensibilidad de día/ noche puede ser habilitada/inhabilitada en la Programación Total o Parcial del Sistema. Sin embargo, la opción de sensibilidad de día/noche (para los detectores direccionables) tiene que ser habilitada/inhabilitada individualmente para cada dispositivo en el Lazo SLC.\n\nLo siguiente tiene que ser ejecutado cuando este programando la Sensibilidad de Día/ Noche:\n\n* Habilite la Sensibilidad de Día/Noche y ajuste el número de zonas. Esto es un ajuste global.\n\n* Seleccione la Sensibilidad de Día/Noche para cada detector individual. Por ejemplo:\n\nDetector 1 = Si\n\nDetector 2 = No\n\nDetector 3 = Si\n\nDetector 4 = Si\n\n**Verificación de Problema del Detector**\n\nSi es ajustado, el panel de control generara un problema para cada detector inteligente que exceda el limite del contador de problema. Esta característica puede ser utilizada para aislar esos dispositivos que entran excesivamente dentro de la verificación de detector antes de causar una condición de alarma falsa en el panel. Para borrar esta condición restablezca el contador de verificación del detector como es descrito en la Sección 2.\n\n**Informe del Módulo SACM/SEQM**"
+        },
+        {
+          "id": "096fb0bb-eda2-4aa3-80a0-6001f2a348bc",
+          "document_id": "2aa35292-4377-4160-aea3-2d5c67e9fca2",
+          "extraction_sha256": "8f7d50811fb97bd69ecef30ac4aa8706e90ee1ebf49f276a8794ded8421edee8",
+          "document_source_pdf_sha256": "backfill:ba0939822dc113410e7243dd28e1ed4a94c63481cfdcc6da6ab5bfcbff2dc03a",
+          "source_file": "15088SP",
+          "product_model": "AM-2020",
+          "chunk_index": 215,
+          "page_number": 167,
+          "gap": 1,
+          "rank": 2,
+          "query_score": 13.024729,
+          "facets": [
+            {
+              "facet": "per_unit_capacity",
+              "term_hits": [
+                "lazo",
+                "modulo"
+              ]
+            },
+            {
+              "facet": "system_total",
+              "term_hits": [
+                "lazo",
+                "lib",
+                "sistema",
+                "total"
+              ]
+            }
+          ],
+          "content_sha256": "1773b30b647212e8a906d7859e15f4c6204153a31e21e28027dae1bac5ee7401",
+          "content": "## **Programación Total del Sistema**\n\n[Prog] ¿¿¿??? Clave de Nivel 2 [←] [↑↓] [←]\n\n**2=TSIS**\n\nLa opción 2 del Menú de la Programación guía al programador a través de la programación inicial completa de las funciones totales del sistema. Verificación de Alarma, Inhabilitación del Silenciado de Señal, Corte de la Señal, y la supervisión de los Periféricos están todos programados bajo esta opción, tanto como el número de las AVPS, APS-6R, LIBs, ISIB y Módulos Anunciadores en el sistema, y los estilos del Lazo SLC. La siguiente pantalla del CRT muestra los mandos de la pantalla durante la\n\nAM2020/AFP1010 PN 15088SP:H 10/21/98                                                                                                                167\n\nTabla de Contenidos                                                                                                                                  Programación Total del Sistema\n\ninstalación de tres lazos SLC, cuatro Módulos Anunciadores y la habilitación de todas las funciones opcionales. Refiérase al Capítulo Uno de este manual para más información acerca del LIB-400 y su dirección correcta de apertura.\n\nPara más información de los parámetros programados aquí, refiérase a la Programación Parcial del Sistema."
+        }
+      ],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 103,
+        "same_blob_candidates": 93,
+        "positive_query_candidates": 82,
+        "facet_candidates": 23,
+        "toc_rejected_ids": [
+          "7d0a5161-0877-4f4b-96d8-d3c879ce6131",
+          "828ebb97-2498-4f79-ab48-c73eb0cf27b3",
+          "c16b160d-b83c-450d-a092-6d068d3476c9"
+        ],
+        "overflow": false,
+        "selected_ids": [
+          "0c689993-1954-459b-af05-dc6a0851a39c",
+          "096fb0bb-eda2-4aa3-80a0-6001f2a348bc"
+        ],
+        "shadow_only": true,
+        "archetype": "capacity_quantity",
+        "needs": [
+          "Cuántos lazos direccionables soporta la Notifier AM2020/AFP1010 y cuántos dispositivos por lazo capacidad por unidad lazo canal",
+          "Cuántos lazos direccionables soporta la Notifier AM2020/AFP1010 y cuántos dispositivos por lazo capacidad total del sistema",
+          "Cuántos lazos direccionables soporta la Notifier AM2020/AFP1010 y cuántos dispositivos por lazo variantes revisión mercado documentación conflicto"
+        ],
+        "reason": "selected"
+      }
+    },
+    {
+      "qid": "hp013",
+      "selected_ids": [
+        "2365dfaa-45e5-4c65-9328-194441e375c9",
+        "af577289-5d7f-4dfc-9187-8a3aca92d40d"
+      ],
+      "selected": [
+        {
+          "id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+          "document_id": "dff3152a-8f8d-4be8-becc-8c9cda3cb6a6",
+          "extraction_sha256": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+          "document_source_pdf_sha256": "backfill:0dee68c0327de4c0aecf196a3b6f7b1b1066f98e1c2fe65c0ddc24bceec56d9d",
+          "source_file": "ADW535_TD_T140358es_e",
+          "product_model": "ADW535",
+          "chunk_index": 12,
+          "page_number": 12,
+          "gap": 2,
+          "rank": 1,
+          "query_score": 7.810012,
+          "facets": [
+            {
+              "facet": "main_power",
+              "term_hits": [
+                "alimentacion",
+                "borne",
+                "principal"
+              ]
+            },
+            {
+              "facet": "redundant_power",
+              "term_hits": [
+                "alimentacion",
+                "borne",
+                "pwr",
+                "redundan"
+              ]
+            },
+            {
+              "facet": "persistence",
+              "term_hits": [
+                "configuracion",
+                "eeprom",
+                "flash",
+                "memoria"
+              ]
+            }
+          ],
+          "content_sha256": "f8e39c048c9aee39597d2e8c966ae381e1557329567c6ec982d01c71cf962828",
+          "content": "# Aspectos generales\n\n## 1.4 Abreviaturas y términos\n\nEn este documento se emplean los siguientes términos y abreviaturas. El cap. 8.5.3.2 incluye otras abreviaturas (abreviaturas de estado en la SD memory card). Las abreviaturas del material de la tubería y de los accesorios están detalladas en un documento aparte: T 140 362 (véase también el cap. 5.3).\n\n| µC            | = Microcontroller / microprocesador                                                                                   |\n| ------------- | --------------------------------------------------------------------------------------------------------------------- |\n| ABS           | = Acrilonitrilo butadieno estireno (plástico)                                                                         |\n| ADW           | = Detector térmico lineal (line type heat detector)                                                                   |\n| ADW Config    | = Software de configuración del ADW 535                                                                               |\n| ADW HeatCalc  | = Software de cálculo para el tubo sensor, «ADW HeatCalc»                                                             |\n| AF            | = Alta frecuencia                                                                                                     |\n| Al            | = Alarma                                                                                                              |\n| ART 535       | = Sensor de temperatura externo de referencia (reference temperature-sensor del ADW)                                  |\n| ATEX          | = \\*\\*ATmosphères EXplosibles\\*\\* = atmósferas explosivas                                                             |\n| Borne         | = Borne de conexión                                                                                                   |\n| CDI           | = Central de detección de incendios                                                                                   |\n| CE            | = Communauté Européenne (Comunidad Europea)                                                                           |\n| CEM           | = Compatibilidad electromagnética                                                                                     |\n| Cu            | = Cobre                                                                                                               |\n| Defecto       | = Valores o ajustes predefinidos                                                                                      |\n| DIN           | = Normativa industrial alemana                                                                                        |\n| EasyConfig    | = Procedimiento de puesta en funcionamiento sin el software de configuración «ADW Config»                             |\n| EDV           | = Tratamiento electrónico de datos                                                                                    |\n| EEPROM        | = Módulo de memoria para los datos del sistema y la configuración del ADW                                             |\n| EN 54-22      | = Norma de producto europea sobre detectores térmicos lineales                                                        |\n| Fabricante    | = Securiton                                                                                                           |\n| Fault / Flt   | = Fallo                                                                                                               |\n| Flash-PROM    | = Módulo de memoria para el firmware                                                                                  |\n| FW            | = Firmware                                                                                                            |\n| GND           | = Conexión a tierra (polo negativo)                                                                                   |\n| H-Al          | = Alarma principal                                                                                                    |\n| HW            | = Hardware                                                                                                            |\n| IEC           | = Comisión Electrotécnica Internacional                                                                               |\n| KFI           | = Korea Fire Institute (oficina de control coreana)                                                                   |\n| LEB 35        | = Módulo de ampliación para un segundo tubo sensor (LTHD Extension Board)                                             |\n| LED           | = Diodo emisor de luz (visualización)                                                                                 |\n| LMB 35        | = ADW Main Board (LTHD Main Board)                                                                                    |\n| LSU 35        | = Dispositivo de medición de la presión y control (LTHD Supervising Unit)                                             |\n| mbar          | = Unidad de presión                                                                                                   |\n| NFPA 72       | = National Fire Protection Association – National Fire Alarm-Code (directiva de EE. UU. para detectores de incendios) |\n| NO / COM / NC | = Contactos de relé; NO (normally open), COM (common), NC (normally closed)                                           |\n| OC            | = Salida Open Collector                                                                                               |\n| OEM           | = Original Equipment Manufacturer (fabricante o distribuidor del equipo original)                                     |\n| PA            | = Poliamida (plástico)                                                                                                |\n| PC            | = Ordenador personal                                                                                                  |\n| PC            | = Policarbonato (plástico)                                                                                            |\n| PMR 81        | = Relé semiconductor                                                                                                  |\n| PSB 35        | = Unidad de sensor de presión en el dispositivo de medición de la presión y control (Pressure Sensor Board)           |\n| PTFE          | Teflón (plástico)                                                                                                     |\n| PWR           | = Entrada de alimentación / indicador de alimentación (Power)                                                         |\n| PWR-R         | = Entrada de alimentación redundante                                                                                  |\n| RAM           | = Módulo de memoria                                                                                                   |\n| Reset inicial | = Registro de los datos básicos del tubo sensor durante la puesta en funcionamiento del ADW 535                       |"
+        },
+        {
+          "id": "af577289-5d7f-4dfc-9187-8a3aca92d40d",
+          "document_id": "dff3152a-8f8d-4be8-becc-8c9cda3cb6a6",
+          "extraction_sha256": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+          "document_source_pdf_sha256": "backfill:0dee68c0327de4c0aecf196a3b6f7b1b1066f98e1c2fe65c0ddc24bceec56d9d",
+          "source_file": "ADW535_TD_T140358es_e",
+          "product_model": "ADW535",
+          "chunk_index": 46,
+          "page_number": 29,
+          "gap": 4,
+          "rank": 2,
+          "query_score": 7.402883,
+          "facets": [
+            {
+              "facet": "component_identity",
+              "term_hits": [
+                "bateria",
+                "componente",
+                "litio",
+                "reloj",
+                "rtc"
+              ]
+            },
+            {
+              "facet": "persistence",
+              "term_hits": [
+                "configuracion",
+                "eeprom",
+                "flash"
+              ]
+            }
+          ],
+          "content_sha256": "31cef0921dd2cc7bf94bf12bcd8c2eae12848a10c53ddac420c3a03f166443d9",
+          "content": "* Fuente de alimentación con regulador de conmutación\n* Fase de salida para activación motor paso a paso I\n* Fase de entrada / salida sensor de presión I\n* Fase de entrada sensor de temperatura externo I\n* Fase de salida válvula I (no se utiliza)\n* Evaluación de las señales del sensor de presión I y II\n* Evaluación de los sensores de temperatura externos I y II\n* 2 entradas de optoacoplador (InPrg1 y InPrg2)\n* Entrada de optoacoplador para el reset externo\n* Módulos de controlador para la activación de los relés y las salidas OC del tubo sensor I\n* 2 relés con contactos de conmutación libres de potencial para fallo I y alarma I\n* Microprocesador con puertos, RAM, Flash-PROM, EEPROM, etc.\n* Circuito para grabación en SD memory card\n* Soporte de tarjetas para SD memory card\n* Batería de litio\n* Módulo de reloj RTC\n* 2 pulsadores (UP / OK), 1 indicación alfanumérica y 2 visualizadores de 7 segmentos para el ajuste de la configuración\n* Bloques de bornes roscados enchufables para conectar el dispositivo\n* Interfaz Ethernet y conector\n* 4 LED para fallo I, alarma I y fallo II, alarma II\n* Diversos LED de control\n* Conector de 26 polos para la conexión a la Extension Board LEB 35\n* 2 enchufes de cable plano de 16 polos (Option1 y Option2) para la conexión al XLM 35 y al SIM 35\n* 1 enchufe de cable plano de 8 polos (Option3) para la conexión a los 2 RIM 36 (en cascada)\n* 1 enchufe de cable plano de 4 polos para la conexión al motor paso a paso I\n* 1 enchufe de cable plano de 6 polos para la conexión al sensor de presión I\n* 1 enchufe de cable plano de 3 polos para la conexión a la válvula I (no se utiliza)\n* Botón reset (reset de HW).\n\nLa Extension Board **LEB 35** incluye los siguientes elementos y componentes de circuito:\n\n* Fase de salida para activación del motor paso a paso II\n* Fase de entrada / salida sensor de presión II\n* Fase de entrada sensor de temperatura externo II\n* Fase de salida válvula II (no se utiliza)\n* Módulos de controlador para la activación de los relés y las salidas OC del tubo sensor II\n* 2 relés con contactos de conmutación libres de potencial para fallo II y alarma II\n* Bloques de bornes con bornes roscados enchufables OC-Out II / relé II / TempSens II\n* Conector de 26 polos para la conexión al Main Board LMB 35\n* 1 enchufe de cable plano de 4 polos para la conexión al motor paso a paso II\n* 1 enchufe de cable plano de 6 polos para la conexión al sensor de presión II\n* 1 enchufe de cable plano de 3 polos para la conexión a la válvula II (no se utiliza)\n\nADW 535, Descripción técnica, T 140 358 e es    29 / 119"
+        }
+      ],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 93,
+        "same_blob_candidates": 83,
+        "positive_query_candidates": 61,
+        "facet_candidates": 7,
+        "toc_rejected_ids": [
+          "3e6aad80-1b22-4405-bf83-18a57abe581f",
+          "dbfa1900-d86f-4495-934f-700c47ee062d",
+          "e44f2372-a9c9-4497-8083-e43e46274a09",
+          "e5534d57-bef6-4d8b-ab58-2d699998b2e6"
+        ],
+        "overflow": false,
+        "selected_ids": [
+          "2365dfaa-45e5-4c65-9328-194441e375c9",
+          "af577289-5d7f-4dfc-9187-8a3aca92d40d"
+        ],
+        "shadow_only": true,
+        "archetype": "replace_without_loss",
+        "needs": [
+          "Cómo se cambia la batería tampón de la Detnov ADW535 sin perder configuración verificar existencia y tipo del componente",
+          "Cómo se cambia la batería tampón de la Detnov ADW535 sin perder configuración alimentación principal respaldo redundancia",
+          "Cómo se cambia la batería tampón de la Detnov ADW535 sin perder configuración memoria persistente configuración reloj mantenimiento"
+        ],
+        "reason": "selected"
+      }
+    },
+    {
+      "qid": "hp014",
+      "selected_ids": [
+        "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+        "c3541bb2-a33c-4213-8cf1-0ffcf98604ea"
+      ],
+      "selected": [
+        {
+          "id": "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+          "document_id": "17bd36ac-412b-4607-aa52-f9dbf37e26b7",
+          "extraction_sha256": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6",
+          "document_source_pdf_sha256": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6",
+          "source_file": "MIDT180",
+          "product_model": "ID2000",
+          "chunk_index": 17,
+          "page_number": 17,
+          "gap": 6,
+          "rank": 1,
+          "query_score": 8.02334,
+          "facets": [
+            {
+              "facet": "connection",
+              "term_hits": [
+                "conexion",
+                "terminal"
+              ]
+            },
+            {
+              "facet": "continuity",
+              "term_hits": [
+                "lazo",
+                "pantalla",
+                "resistencia",
+                "tierra"
+              ]
+            },
+            {
+              "facet": "limits_safety",
+              "term_hits": [
+                "comprobar",
+                "instalacion",
+                "maxim"
+              ]
+            }
+          ],
+          "content_sha256": "3aa4dc41b19721a797b9070d96daa0d09e48b407baa952b84d395f1486bda7e8",
+          "content": "### 3.2 Notas sobre la instalación del cable\n\n#### 3.2.1 Introducción\n\nLas notas siguientes pretenden ser una ayuda para los instaladores de sistemas de control direccionables analógicos. Se han creado a partir de información ofrecida por el suministrador e información relativa a sistemas ya existentes.\n\n#### 3.2.2 Calidad e instalación del cable\n\nEs de vital importancia que el cable utilizado sea de buena calidad y que se instale de forma correcta. En general, se deben cumplir los siguientes requisitos:\n\na. Todas las secciones de cable deben ser circulares para que la sujeción del cable sea eficaz, utilizando los prensaestopas.\n\nb. El cable debe ser apantallado para protegerlo de las interferencias de radio frecuencia y la pantalla se debe conectar a tierra en el panel de control.\n\n[Diagram showing radio waves emanating from a tower, with a shielded cable connected to ground]\n\nMI-DT-180                    NOTIFIER ESPAÑA                    13\n\nPanel ID2000 - Manual de instalación y puesta en marcha\n\nc. Se debe evitar una conexión múltiple de la pantalla a tierra. Los productos de campo de NOTIFIER utilizan bases y cajas aisladas para este fin. Recomendamos llevar a cabo esta práctica si se realizan otras conexiones. Para conseguir lo mismo con cable MICC, puede que sea necesario utilizar prensaestopas aislados en uno de los extremos del cable.\n\nd. La pantalla debe continuar a lo largo de todo el lazo.\n\ne. La resistencia máxima del lazo no debe superar los 35 ohmios. Puede comprobarlo uniendo los extremos B+ y B- y midiendo a través de los extremos A+ y A-. Igualmente, la capacidad del cable debe ser inferior a 0,5µF. Normalmente, esto permite disponer de una longitud máxima de lazo de 2000 metros de cable apantallado de 1,5mm². Se recomienda utilizar cable MICC con un revestimiento de LSF PVC , un cable resistente al fuego según BS7629 o PVC/SWA/PVC según BS6387.\n\n[Diagram showing two connection configurations:\n\n- Top diagram: Two rectangular boxes with terminals labeled A+ A- and B+ B-, with an arrow pointing downward\n- Bottom diagram: Same configuration with a 35 Ohms resistance meter (Ohm symbol shown) connected between the B+ B- terminals]\n\n**Cables recomendados:**"
+        },
+        {
+          "id": "c3541bb2-a33c-4213-8cf1-0ffcf98604ea",
+          "document_id": "17bd36ac-412b-4607-aa52-f9dbf37e26b7",
+          "extraction_sha256": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6",
+          "document_source_pdf_sha256": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6",
+          "source_file": "MIDT180",
+          "product_model": "ID2000",
+          "chunk_index": 76,
+          "page_number": 65,
+          "gap": 8,
+          "rank": 2,
+          "query_score": 7.848059,
+          "facets": [
+            {
+              "facet": "connection",
+              "term_hits": [
+                "conexion",
+                "terminal"
+              ]
+            },
+            {
+              "facet": "continuity",
+              "term_hits": [
+                "circuito",
+                "lazo",
+                "tierra"
+              ]
+            },
+            {
+              "facet": "limits_safety",
+              "term_hits": [
+                "comprobar",
+                "instalacion",
+                "maxim"
+              ]
+            }
+          ],
+          "content_sha256": "403bf462d5161a1b2c571d80197ce3cbb5dea22ede04469c7efae46ab7dfbda1",
+          "content": "Terminales: Todas las conexiones externas se realizan a través de terminales. Cada uno de ellos acepta cables con tamaño entre 0,5 mm<sup>2</sup> y 2,5 mm<sup>2</sup>.\n\n## Especificaciones eléctricas:\n\nClasificación: Instalación Clase I, (el panel debe estar conectado a tierra).\n\n## Alimentación:\n\nLa fuente de alimentación del panel se suministra a través de una unidad externa de aislamiento bipolar:\n\n230V~(ac), 5A, 50Hz\n\n## Unidad de fuente de alimentación\n\nValores de entrada:\n\nTensión: 230VAC ± 15%, 50Hz ±4%, 1,6A\nFusible: 1,6A (T) HRC Cerámico. (véase Apéndice 1, 1.2)\n\nMI-DT-180                    NOTIFIER ESPAÑA                    A2-2\n\nPanel ID2000 - Manual de instalación y puesta en marcha\n\nValores de salida - fuente de alimentación principal:\n\nTensión de salida: 26-28V\nCorriente de salida\nen reposo: 0,6A\nCorriente de salida\nen alarma: 2,5A\nTensión de rizado: 600mV\n\nValores de salida - Cargador:\n\nTensión de batería\ncuando está cargada: 27,6V a 20° C (temperatura compensada a\n-3mV/ °C/ célula)\nTensión de rizado: ±75mV\nCorriente: 1,9A máx. (corriente limitada por F.A.)\nTensión final de batería: 21V\nCapacidad máxima\ncargada al 80% en 24h: 38Ah\nValor fusible de batería: 6,3A, 250V HRC (T)\n(véase el Apéndice 1, 1.2)\n\n**Baterías:**\n\nBaterías internas: Se DEBEN utilizar dos baterías de plomo\nácido selladas de 12V, 12-38Ah. Su vida útil\ndepende de la temperatura ambiente; consulte\nlas especificaciones del fabricante de las\nbaterías (Véase las especificaciones de la F.A.\npara las limitaciones del cargador).\n\nValores máximos de las baterías dependiendo de la cabina:\n\n|                                                                    | Yuasa | Fiamm |\n| ------------------------------------------------------------------ | ----- | ----- |\n| Cabina estándar:                                                   | 12Ah  | 12Ah  |\n| Cabina ampliada o de doble ampliación:                             | 17Ah  | 18Ah  |\n| Cabina con fondo ampliado o doble<br/>ampliación y fondo ampliado: | 38Ah  | 27Ah  |\n\n**Salidas:**\n\ni) Dos salidas de sirena\n\nii) Dos salidas seleccionables - Sirena o contacto libre de tensión (VFC)\n\niii) Dos salidas de contacto libre de tensión dedicadas a Alarma común y\nfallo común.\n\niv) Dos salidas de lazo estándar, o bien, opcionalmente, hasta 4 salidas\nde lazo.\n\nv) Dos salidas auxiliares de 24Vdc.\n\n> **\\* La carga total del sistema está limitada por la salida de la F.A. Debe utilizar el programa de cálculo de baterías y lazo de Notifier para comprobar que el sistema NO tiene sobrecarga o consultar el Apéndice 3.**\n\nVéase el Apéndice 1, Sección 1.2, para información sobre el fusible.\n\n**Valores de salida de sirena**\n\nTipo: Tensión invertida\nTensión de salida: de 26 a 28V cuando está activa;\nde -6,8V a -9V cuando está inactiva\nCarga máxima: 1A *\nValor fusible 1A (T)\nSupervisión: Circuito abierto y cortocircuito\n\n**Valores de salida de contacto libre de tensión (VFC)**\n\nTipo: Conmutador unipolar\nCarga máxima: Contactos de 30V 1A\nValor fusible: No aplicable (sin fusible)"
+        }
+      ],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 90,
+        "same_blob_candidates": 80,
+        "positive_query_candidates": 77,
+        "facet_candidates": 46,
+        "toc_rejected_ids": [],
+        "overflow": false,
+        "selected_ids": [
+          "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+          "c3541bb2-a33c-4213-8cf1-0ffcf98604ea"
+        ],
+        "shadow_only": true,
+        "archetype": "connect_install_wire",
+        "needs": [
+          "Cómo se conecta un módulo de aislamiento de línea en un lazo ID2000 terminales polaridad conexión cableado",
+          "Cómo se conecta un módulo de aislamiento de línea en un lazo ID2000 pantalla tierra continuidad resistencia circuito",
+          "Cómo se conecta un módulo de aislamiento de línea en un lazo ID2000 límites seguridad comprobación instalación"
+        ],
+        "reason": "selected"
+      }
+    },
+    {
+      "qid": "hp015",
+      "selected_ids": [],
+      "selected": [],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 92,
+        "same_blob_candidates": 82,
+        "positive_query_candidates": 4,
+        "facet_candidates": 0,
+        "toc_rejected_ids": [],
+        "overflow": false,
+        "selected_ids": [],
+        "shadow_only": true,
+        "archetype": null,
+        "needs": [
+          "En la Detnov CCD-103, ¿cómo se desactiva un detector individualmente sin afectar al resto del lazo"
+        ],
+        "reason": "no_query_aligned_facet_candidate"
+      }
+    },
+    {
+      "qid": "hp017",
+      "selected_ids": [
+        "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+        "d27b1a1b-69cd-4318-a459-f3c86eb757ba"
+      ],
+      "selected": [
+        {
+          "id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+          "document_id": "17d4b914-fa21-4b41-a928-bafe1846528a",
+          "extraction_sha256": "bcde98794ae968ac43ed5367be231cd5d70f15bc06135c50673360ebc271296b",
+          "document_source_pdf_sha256": "bcde98794ae968ac43ed5367be231cd5d70f15bc06135c50673360ebc271296b",
+          "source_file": "997-671-005-3_Configuration_ES",
+          "product_model": "Pearl",
+          "chunk_index": 78,
+          "page_number": 45,
+          "gap": 1,
+          "rank": 1,
+          "query_score": 20.012824,
+          "facets": [
+            {
+              "facet": "navigation",
+              "term_hits": [
+                "edicion",
+                "menu",
+                "programacion"
+              ]
+            },
+            {
+              "facet": "logic_structure",
+              "term_hits": [
+                "causa",
+                "condicion",
+                "efecto",
+                "entrada",
+                "matriz",
+                "regla"
+              ]
+            },
+            {
+              "facet": "output_timing",
+              "term_hits": [
+                "accion",
+                "salida"
+              ]
+            }
+          ],
+          "content_sha256": "7f68b076e19769e1b528b189d35ceb99669c7f0d7465d4fd944c6da935cb59fd",
+          "content": "# A5.4 Ejemplos de reglas de causa-efecto\n\nEn esta sección se ilustra la programación de causa-efecto mediante varios ejemplos típicos.\n\n**Ejemplo 1** – ¿Cómo crear una regla para permitir una evacuación por etapas en caso de alarma en una zona específica?\n\nCrear una regla de este tipo es muy sencillo. Para explicar cómo hacerlo, utilizaremos un edificio de varios pisos.\n\nHay varias maneras de hacerlo, pero primero veremos el método más fácil. Para ello, necesitaremos crear varias reglas, cada una con instrucciones de entrada y salida.\n\nSolo abordaremos la configuración de un conjunto de reglas de causa-efecto (matriz) de una sola central Pearl.\n\n## *Ejemplo 1. Programación simple de causa-efecto*\n\nEn relación con el edificio de varios pisos de la derecha, cree las siguientes reglas de causa-efecto:\n\n* Regla 1: una regla que diga que para cualquier entrada de alarma todas las sirenas de cada zona deben activarse en modo intermitente* (patrón de alerta).\n\n* Regla 2: puesto que una salida de sirena fija anula una salida intermitente, debe crearse una regla para cada zona con el fin de que una alarma de la zona active las sirenas de esa zona en modo fijo.*\n\n  * Estos modos de salida se consiguen seleccionando el tono deseado para cada una de estas reglas (solo sirenas Opal). En dichos casos, los tonos con un número más alto anulan los que tienen un número más bajo. Para más detalles, véase el «Apéndice 3. Programa de patrones de sirena».\n\n**Bloque de oficinas de varios pisos con sótano**\n\n| Planta 4    | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | Zona 5 |        |\n| ----------- | - | - | - | - | - | - | ------ | ------ |\n| Planta 3    | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | Zona 4 |        |\n| Planta 2    | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | Zona 3 |        |\n| Planta 1    | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | Zona 2 |        |\n| Planta baja | ⬜ | ⬜ | ⬛ | ⬜ | ⬛ | ⬜ | ⬜      | Zona 1 |\n| Sótano      |   |   |   |   |   |   | Zona 6 |        |\n\n997-671-005-3\nwww.notifier.es\n\nManual de configuración de la central\nApéndice 5 - 4\n\nProgramación de causa-efecto\n\nEn el menú «Editar Configuración», seleccione «7: Causa y Efecto» para abrir la función de edición. Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto. **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.**\n\nPara el ejemplo aquí ilustrado, se ha detectado un alarma en la zona 3 (planta 2). La matriz de causa-efecto se examina de inmediato y se procesan todas las reglas configuradas para la activación de las salidas. En este ejemplo nos interesa cualquier regla relacionada con una condición de alarma que se detecte en la zona 3.\n\nSe han configurado varias reglas para procesar alarmas procedentes de cualquiera de las seis zonas de alarma de este edificio, que consta de cinco plantas y un sótano.\n\nLa primera regla de causa-efecto es una instrucción general para accionar las sirenas de todas las zonas, en modo de alerta, cuando se detecta una alarma en cualquier zona, del siguiente modo:"
+        },
+        {
+          "id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+          "document_id": "17d4b914-fa21-4b41-a928-bafe1846528a",
+          "extraction_sha256": "bcde98794ae968ac43ed5367be231cd5d70f15bc06135c50673360ebc271296b",
+          "document_source_pdf_sha256": "bcde98794ae968ac43ed5367be231cd5d70f15bc06135c50673360ebc271296b",
+          "source_file": "997-671-005-3_Configuration_ES",
+          "product_model": "Pearl",
+          "chunk_index": 73,
+          "page_number": 41,
+          "gap": 3,
+          "rank": 2,
+          "query_score": 25.08666,
+          "facets": [
+            {
+              "facet": "navigation",
+              "term_hits": [
+                "menu",
+                "programacion"
+              ]
+            },
+            {
+              "facet": "logic_structure",
+              "term_hits": [
+                "causa",
+                "condicion",
+                "efecto",
+                "entrada",
+                "regla"
+              ]
+            },
+            {
+              "facet": "output_timing",
+              "term_hits": [
+                "accion",
+                "retardo",
+                "salida"
+              ]
+            }
+          ],
+          "content_sha256": "34fbd84d80883b5ade555bda6a1df2189ecd7e31eb40a2b9f20e7e51abe7b72a",
+          "content": "997-671-005-3\n\nProgramación de causa-efecto\n\n# Apéndice 5. Programación de causa-efecto\n\nLa central contra incendios Pearl ofrece una potente prestación integrada que permite programar su funcionamiento para satisfacer una amplia gama de requisitos del cliente sin dejar de cumplir con la normativa local contra incendios. Se trata de la programación de causa-efecto.\n\n## A5.1 ¿Qué es la programación de causa-efecto?\n\nEsencialmente, el objetivo de la programación causa-efecto es ofrecer un claro conjunto de reglas, o instrucciones lógicas, para determinar el comportamiento de los equipos de salida al responder a un cambio de estado en una o más condiciones de entrada.\n\n**Se recomienda utilizar el programa de configuración por ordenador como principal método de programación. El menú de la central debería emplearse solo para realizar modificaciones menores en las reglas, tal vez para responder a cambios posteriores de configuración; aun así, como se ha dicho, el uso del programa de configuración siempre será el método más adecuado para realizar las actualizaciones pertinentes.**\n\nUna regla solo puede configurarse para realizar una tarea, si bien una serie de reglas pueden combinarse para dar soluciones a una programación de causa-efecto más compleja (mediante enlaces de instrucciones lógicas llamados flags de transferencia).\n\nUna regla consta de dos instrucciones de acción, como se explica a continuación:\n\n* Instrucción de entrada: esta parte de la regla es una condición de entrada, como una alarma, una avería o la detección de un cambio de estado en una determinada categoría de entrada (condiciones de regla de coincidencia de zona, entrada de un equipo externo, etc.).\n\n* Instrucción de salida: esta parte de la regla solo puede procesarse cuando se cumplen todas las condiciones de entrada programadas. La salida se refiere al accionamiento de uno o más equipos asignados, como sirenas o relés, o el cambio de estado de una condición de salida, mediante un flag lógico, para realizar una acción de fase secundaria, que exige el cumplimiento de una serie de instrucciones de entrada.\n\n```mermaid\ngraph LR\n    Start((Start)) --> A[Evento de entrada]\n    A --> B{¿Cumplecriterioentrada?}\n    B -->|Sí| C{¿Cumplecriteriocoincidencia?}\n    B -->|No| D((Stop))\n    C -->|Sí| E((A))\n    C -->|No| D\n    \n    E --> F{¿Retardo?}\n    F -->|No| G[Aplicarsalida]\n    F -->|Sí| H[Iniciar retardo]\n    H --> I{¿Retardofinalizado?}\n    I -->|No| I\n    I -->|Sí| G\n```\n\n> **Al programar reglas de causa-efecto evite las lógicas contradictorias.**\n>\n> **Es de vital importancia probar rigurosamente todas las reglas durante la puesta en marcha del sistema para verificar que no haya conflictos lógicos entre ellas.**\n\n997-671-005-3\nwww.notifier.es\n\nManual de configuración de la central\nApéndice 5 - 1\n\nProgramación de causa-efecto\n\n## A5.2 Crear una regla"
+        }
+      ],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 110,
+        "same_blob_candidates": 100,
+        "positive_query_candidates": 100,
+        "facet_candidates": 53,
+        "toc_rejected_ids": [],
+        "overflow": false,
+        "selected_ids": [
+          "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+          "d27b1a1b-69cd-4318-a459-f3c86eb757ba"
+        ],
+        "shadow_only": true,
+        "archetype": "program_delay_cause_effect",
+        "needs": [
+          "Cómo se programa el retardo de salida de alarma principal en la Notifier PEARL ruta menú programación edición",
+          "Cómo se programa el retardo de salida de alarma principal en la Notifier PEARL condición entrada regla causa efecto",
+          "Cómo se programa el retardo de salida de alarma principal en la Notifier PEARL acción salida temporizador anulación"
+        ],
+        "reason": "selected"
+      }
+    },
+    {
+      "qid": "hp018",
+      "selected_ids": [
+        "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+        "d79a07b8-745f-4c62-8355-d0cee6fde1db"
+      ],
+      "selected": [
+        {
+          "id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+          "document_id": "0e9330c8-2c53-4941-bf4f-17fe40adbe84",
+          "extraction_sha256": "18518a293c1fdf6c18882cdaff5f3541de44a9a5c72ead0fc94daf82ea4eb97d",
+          "document_source_pdf_sha256": "backfill:10186be18a21bbf58347babc4e6bd2bf90e153c07b5665f756792f7757411c88",
+          "source_file": "MIE-MI-530rv001",
+          "product_model": "ZX2e/ZX5e",
+          "chunk_index": 25,
+          "page_number": 20,
+          "gap": 1,
+          "rank": 1,
+          "query_score": 9.464416,
+          "facets": [
+            {
+              "facet": "connection",
+              "term_hits": [
+                "conexion",
+                "terminal"
+              ]
+            },
+            {
+              "facet": "continuity",
+              "term_hits": [
+                "circuito",
+                "lazo",
+                "pantalla",
+                "resistencia"
+              ]
+            },
+            {
+              "facet": "limits_safety",
+              "term_hits": [
+                "instalacion",
+                "limite",
+                "maxim"
+              ]
+            }
+          ],
+          "content_sha256": "50555410cdb0fd2a437a69d217e4bcf5a620468cafbf2fd3d2a7b66049f02a95",
+          "content": "## Conexionado lazo analógico con aisladores\n\n[Diagram showing loop wiring with isolators:\n\n- Four horizontal lines labeled from top to bottom:\n  - Datos/Alimentación (+) INICIO (red line)\n  - Datos/Alimentación (-) INICIO (black line)\n  - Datos/Alimentación (+) Retorno (red line)\n  - Datos/Alimentación (+) Retorno (black line)\n- Four circular devices shown on each line with internal wiring connections\n- Some devices are highlighted with blue circles\n- An arrow pointing to \"AISLADORES\" (isolators) on the right side\n- The isolators are shown as circular devices with internal connections]\n\n**Figura 11 – Lazo con aisladores. Opción recomendada.**\n\n### *3.4.3.2 Cumplimiento CE compatibilidad electromagnética*\n\n✓\n\n**Para cumplimiento de compatibilidad electromagnética instale las ferritas suministradas para los lazos.**\n\n**En el dibujo se muestra la instalación típica del lazo.**\n\n[Circular diagram showing ferrite filter installation with labels:\n\n- \"Ferrita grande\" (large ferrite) at top\n- \"Conecte un extremo de la pantalla al conector correspondiente\" (Connect one end of the shield to the corresponding connector) on left\n- Terminal block labeled \"LOOP 1\" with connections \"+ - E + -\" in center\n- \"Coloque una brida por debajo de la ferrita\" (Place a tie below the ferrite) on right]\n\n**Figura 12 – Lazo – Filtro de ferrita.**\n\n### *3.4.3.3 Carga del lazo analógico*\n\nDebe tenerse especial precaución en no exceder la carga máxima permitida de cada lazo. Cada lazo dispone de de una corriente limitada y no se debe superar el límite de alimentación del lazo analógico.\n\n1. Revise el manual de la placa de lazo para conocer el límite de corriente. Para mantener el funcionamiento del lazo analógico, solo será posible disponer de la mitad de la corriente máxima de lazo, para el consumo de equipos conectados a este.\n\n2. Revise la sección 6 para conocer la carga completa y especificaciones del sistema.\n\n3. Realice los cálculos de consumo de lazo para la situación más desfavorable, según el manual del fabricante de los equipos y asegúrese de no superar la mitad de la corriente máxima suministrada por el lazo, ni la corriente total entregada por la Fuente de Alimentación. El programa de configuración FIRE 6 dispone de una herramienta de cálculo de lazo.\n\nPágina 20 de 50     Documento No.MIE-MI-530, Revisión: 001,     Manual de Instalación\n\nPaneles de Incendio ZX2e / ZX5e                                                    MORLEY-IAS\n\n### 3.4.4 Circuitos de Sirenas\n\nEl panel de detección y control de incendio ZX2e tiene 2 circuitos de sirenas supervisados y limitados en corriente (Sirenas A y B).\n\nEl panel de detección y control de incendio ZX5e tiene 4 circuitos de sirenas supervisados y limitados en corriente (Sirenas A, B, C y D).\n\nCada circuito admite un consumo máximo de 1 Amp.\n\nCada circuito de sirena se supervisa ante cortocircuito y circuito abierto. Debe instalarse una resistencia (6.8KΩ, 0.5W mínimo) final de línea (RFL) en el final del circuito, para la supervisión del mismo."
+        },
+        {
+          "id": "d79a07b8-745f-4c62-8355-d0cee6fde1db",
+          "document_id": "e59480a1-7ea7-40b3-9c38-18acf96d4f4c",
+          "extraction_sha256": "7abfcb6952b5d3c05849656d766981a75c8f9ba875a91b35d99b74c3d0140f2b",
+          "document_source_pdf_sha256": "7abfcb6952b5d3c05849656d766981a75c8f9ba875a91b35d99b74c3d0140f2b",
+          "source_file": "MIE-MI-310",
+          "product_model": "ZXAE/ZXEE",
+          "chunk_index": 15,
+          "page_number": 15,
+          "gap": 4,
+          "rank": 2,
+          "query_score": 13.068908,
+          "facets": [
+            {
+              "facet": "connection",
+              "term_hits": [
+                "cableado",
+                "conexion",
+                "terminal"
+              ]
+            },
+            {
+              "facet": "continuity",
+              "term_hits": [
+                "circuito",
+                "continuidad",
+                "lazo",
+                "resistencia",
+                "tierra"
+              ]
+            },
+            {
+              "facet": "limits_safety",
+              "term_hits": [
+                "comprobar",
+                "instalacion",
+                "maxim",
+                "medicion"
+              ]
+            }
+          ],
+          "content_sha256": "35cb6686d8b10d004eb3b822c394aa774d240b7dbd314613e9711ff29851624e",
+          "content": "## 3.3.4 LAZOS ANALÓGICOS\n\nLas Centrales de Control de Incendios ZXAE y ZXEE, controlan los dispositivos, mediante placas de lazo con transmisión digital a dos hilos por los que se mantiene la comunicación y la alimentación de los equipos. Algunos equipos requieren alimentación exterior para no sobrecargar el lazo. A cada lazo se pueden conectar 99 Detectores + 99 Módulos, con direcciones independientes entre Detectores o Módulos.\n\nEl cableado de comunicaciones del lazo analógico se realizará con cable apantallado, conectado a una tierra adecuada. Es importante revisar que las tierras sean lo más independientes posible, para evitar la comunicación de otras fugas sobre el cableado de tierra usado.\n\nLa sección del cable, la longitud de la instalación y el conexionado de los terminales, puede ocasionar caídas de tensión que produzcan fallos de comunicación y operatividad de los sistemas.\n\n> ⚠️\n>\n> Los circuitos de detección deben separarse de otras conducciones eléctricas para minimizar el riesgo de interferencias externas.\n>\n> En condiciones extremas de ruido electromagnético, es altamente recomendable el uso de cableado de pares trenzados.\n>\n> Siempre debe comprobarse que la sección del cable usado mantiene la tensión de funcionamiento de los equipos especificada por el fabricante.\n\n**Tabla 2 LONGITUD MÁXIMA DE LAZO EN CONDICIONES NORMALES SIN INTERFERENCIAS PARA CABLE TRENZADO APANTALLADO**\n\n| Sección del conductor    | 1mm2 | 1,5mm2  | 2,5mm2  |\n| ------------------------ | ---- | ------- | ------- |\n| Longitud máxima del lazo | 1Km  | 1,800Km | 2,400Km |\n\n> ⚠️\n>\n> No se recomienda realizar instalaciones con longitud de lazo superior a 2Km, ya que la capacitancia del cable y la impedancia, pueden causar interferencias en la comunicación entre equipos y central.\n\nPara comprobar si un lazo analógico se ha instalado adecuadamente, una vez instalados los equipos, siga los siguientes pasos:\n\nPuentear todos los módulos aisladores, (positivo con positivo y negativo con negativo) y realizar la siguiente medición:\n\n-Con un TESTER en posición de continuidad (⊣⊢), se debe medir 500mV entre + y -, y circuito abierto en el otro sentido, en caso contrario hay una conexión cruzada del lazo. Deberá aislarse por tramos y realizar esta medición hasta localizarlo.\n\n-Con el tester en posición de resistencia, comprobar que el lazo, con un extremo puenteado (Unir + y - en un extremo y medir en el otro) no supera los 36 Ohmios. En caso contrario el sistema puede perder comunicación. En este caso el cableado usado, longitudes o conexiones no son la adecuadas y deberán sustituirse.\n\n-Con el tester en posición de resistencia y sin conectar los conductores ni la malla, se comprobará que no hay continuidad entre tierra y malla, positivo y malla y negativo y malla del cableado del lazo y se comprobará por separado la continuidad de positivo, negativo y malla. En caso contrario se revisarán las conexiones de los equipos hasta encontrar la avería y solucionarla antes de conectar el lazo al sistema.\n\nDOC.MIE-MI-310                                                            Pag.14\n\nMORLEYMIAS\nFIRE SYSTEMS"
+        }
+      ],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 115,
+        "same_blob_candidates": 105,
+        "positive_query_candidates": 97,
+        "facet_candidates": 49,
+        "toc_rejected_ids": [],
+        "overflow": false,
+        "selected_ids": [
+          "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+          "d79a07b8-745f-4c62-8355-d0cee6fde1db"
+        ],
+        "shadow_only": true,
+        "archetype": "connect_install_wire",
+        "needs": [
+          "Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe terminales polaridad conexión cableado",
+          "Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe pantalla tierra continuidad resistencia circuito",
+          "Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe límites seguridad comprobación instalación"
+        ],
+        "reason": "selected"
+      }
+    },
+    {
+      "qid": "hp019",
+      "selected_ids": [],
+      "selected": [],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 88,
+        "same_blob_candidates": 78,
+        "positive_query_candidates": 72,
+        "facet_candidates": 0,
+        "toc_rejected_ids": [
+          "11b87637-a513-407e-8bb5-78049753752a",
+          "2064cc96-48c3-451c-b96c-880da185e4ad",
+          "6da3a4a4-d532-48b0-a7bb-e1f9a3e16481",
+          "781af882-177d-4143-9591-4ffd9020c0b5",
+          "9d13362f-4993-429a-818a-d37d57b45585",
+          "a858452b-2510-40fa-8bd9-f9c3bbf6c41f",
+          "b786a561-2df9-4038-aedf-2facecef71f6",
+          "cf1612df-d5a9-4b9f-bea7-a76d1a18bde9"
+        ],
+        "overflow": false,
+        "selected_ids": [],
+        "shadow_only": true,
+        "archetype": null,
+        "needs": [
+          "Cuál es el rango de temperatura de funcionamiento del detector de aspiración ASD535 (Securiton, distribuido por Detnov)"
+        ],
+        "reason": "no_query_aligned_facet_candidate"
+      }
+    },
+    {
+      "qid": "hp020",
+      "selected_ids": [],
+      "selected": [],
+      "trace": {
+        "lane": "same_blob_structural_neighbor_coverage_v1",
+        "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+        "seed_rows": 10,
+        "valid_seed_rows": 10,
+        "invalid_seed_rows": 0,
+        "input_candidates": 93,
+        "same_blob_candidates": 83,
+        "positive_query_candidates": 58,
+        "facet_candidates": 0,
+        "toc_rejected_ids": [],
+        "overflow": false,
+        "selected_ids": [],
+        "shadow_only": true,
+        "archetype": null,
+        "needs": [
+          "En la Notifier INSPIRE, ¿cómo se configuran las contraseñas de nivel 2 y nivel 3"
+        ],
+        "reason": "no_query_aligned_facet_candidate"
+      }
+    }
+  ],
+  "limitations": [
+    "The known dev cohort measures stage movement, not held-out generalization.",
+    "The selector remains absent from serving and cannot change official OK.",
+    "Fact matching is evaluation-only and never influences selection.",
+    "Only the three historical S107 targets are confirmatory; any other support is exploratory until independently frozen.",
+    "Synthesis and protected-OK regression remain separate downstream gates."
+  ]
+}

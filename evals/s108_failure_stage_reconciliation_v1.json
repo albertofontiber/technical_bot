@@ -1,0 +1,485 @@
+{
+  "instrument": "s108_failure_stage_reconciliation_v1",
+  "read_only": true,
+  "frozen_inputs": {
+    "evals/s100_factlevel_full.yaml": "49e8cbaab5f86f89b67e0457267ceeca7a1078ac503fbe5a7249b798aeabe503",
+    "evals/s108_cat007_measurement_probe_v1.json": "d7e6d2ee7917c5a7ecdc0c964202741b1c56d1ec4a0c623e556ebd58198429f0",
+    "evals/s108_structural_retrieval_replay_v1.json": "d4ead6a2a51ddd0034847ab2449408051c1bb90c930c5779e26ab176cbe128fd",
+    "evals/s108_doc_scoped_hyq_replay_v1.json": "cc2d205c6c0ba1f7423f3708d9eae15b26677f0b2f6d8181c8c5b01bef297300",
+    "evals/s107_bounded_synthesis_pilot_v1.json": "ba4e15a3144f2472fde2a51aeeaa1b69bc377532b68e98e67e958371d3bc7338"
+  },
+  "gate": {
+    "frozen_non_ok_rows": 36,
+    "baseline_counts": {
+      "corpus-gap": 2,
+      "meta-ref": 2,
+      "rerank-miss": 14,
+      "retrieval-miss": 7,
+      "synthesis-miss": 11
+    },
+    "candidate_status_counts": {
+      "cached_synthesis_success_pending_protected_regression": 1,
+      "doc_scoped_hyq_retrieval_precondition": 1,
+      "exploratory_structural_retrieval_precondition": 1,
+      "measurement_replay_ready": 2,
+      "r2_precondition_ready_cached_synthesis_miss": 2,
+      "unchanged": 29
+    },
+    "retrieval_facts": 7,
+    "retrieval_measurement_replay_ready": 2,
+    "retrieval_structural_r2_precondition_ready": 3,
+    "retrieval_structural_exploratory_discoveries": 1,
+    "retrieval_doc_scoped_hyq_unique_resolutions": 1,
+    "retrieval_doc_scoped_hyq_supported_facts": 3,
+    "retrieval_still_unresolved": 0,
+    "cached_synthesis_successes": 1,
+    "model_calls": 0,
+    "database_writes": 0,
+    "official_ok_baseline": "93/127 unchanged",
+    "official_ok_uplift": 0,
+    "retrieval_stage_accounted_facts": 7,
+    "interpretation": "GO_RETRIEVAL_7_OF_7_PRECONDITIONS_TO_DOWNSTREAM_GATES"
+  },
+  "retrieval_queue": {
+    "measurement_replay_ready": [
+      "cat007#3:2 A / 0,5 A",
+      "cat007#4:10^5"
+    ],
+    "structural_r2_precondition_ready": [
+      "hp011#2:05 a 295 seg",
+      "hp014#3:35",
+      "hp017#1:instruccion de entrada"
+    ],
+    "structural_exploratory_discovery": [
+      "hp013#1:PWR-R"
+    ],
+    "doc_scoped_hyq_unique_resolution": [
+      "hp012#3:4 lazos / 792"
+    ],
+    "doc_scoped_hyq_all_support": [
+      "hp011#2:05 a 295 seg",
+      "hp012#3:4 lazos / 792",
+      "hp013#1:PWR-R"
+    ],
+    "still_unresolved_in_merged_evidence": []
+  },
+  "rows": [
+    {
+      "key": "cat001#3:32 / 25 / 20",
+      "qid": "cat001",
+      "baseline_class": "rerank-miss",
+      "candidate_status": "unchanged",
+      "next_lane": "evidence_selection",
+      "evidence": []
+    },
+    {
+      "key": "cat007#3:2 A / 0,5 A",
+      "qid": "cat007",
+      "baseline_class": "retrieval-miss",
+      "candidate_status": "measurement_replay_ready",
+      "next_lane": "bounded_frozen_judge_replay",
+      "evidence": [
+        {
+          "kind": "measurement_representation_bridge",
+          "same_family_recovered_ids": [
+            "5ba44464-842b-46f7-ac43-259be83ad416",
+            "80f7a04f-3b43-4a6f-a0dd-13a57721f442"
+          ],
+          "recovered_served_ids": [
+            "5ba44464-842b-46f7-ac43-259be83ad416",
+            "80f7a04f-3b43-4a6f-a0dd-13a57721f442"
+          ],
+          "answer_value_present": true,
+          "cross_family_admitted_ids": []
+        }
+      ]
+    },
+    {
+      "key": "cat007#4:10^5",
+      "qid": "cat007",
+      "baseline_class": "retrieval-miss",
+      "candidate_status": "measurement_replay_ready",
+      "next_lane": "bounded_frozen_judge_replay",
+      "evidence": [
+        {
+          "kind": "measurement_representation_bridge",
+          "same_family_recovered_ids": [
+            "5ba44464-842b-46f7-ac43-259be83ad416",
+            "80f7a04f-3b43-4a6f-a0dd-13a57721f442"
+          ],
+          "recovered_served_ids": [
+            "5ba44464-842b-46f7-ac43-259be83ad416",
+            "80f7a04f-3b43-4a6f-a0dd-13a57721f442"
+          ],
+          "answer_value_present": true,
+          "cross_family_admitted_ids": []
+        }
+      ]
+    },
+    {
+      "key": "cat008#3:1/2/3/4 lazo; 6-7 entrada A",
+      "qid": "cat008",
+      "baseline_class": "synthesis-miss",
+      "candidate_status": "unchanged",
+      "next_lane": "answer_coverage",
+      "evidence": []
+    },
+    {
+      "key": "cat010#0:24V dc",
+      "qid": "cat010",
+      "baseline_class": "rerank-miss",
+      "candidate_status": "unchanged",
+      "next_lane": "evidence_selection",
+      "evidence": []
+    },
+    {
+      "key": "cat013#0:bucle cerrado",
+      "qid": "cat013",
+      "baseline_class": "corpus-gap",
+      "candidate_status": "unchanged",
+      "next_lane": "document_extraction",
+      "evidence": []
+    },
+    {
+      "key": "cat013#1:CLIP",
+      "qid": "cat013",
+      "baseline_class": "corpus-gap",
+      "candidate_status": "unchanged",
+      "next_lane": "document_extraction",
+      "evidence": []
+    },
+    {
+      "key": "cat016#1:menu ZONA + ELEMENTO",
+      "qid": "cat016",
+      "baseline_class": "synthesis-miss",
+      "candidate_status": "unchanged",
+      "next_lane": "answer_coverage",
+      "evidence": []
+    },
+    {
+      "key": "cat017#2:licencia CLIP por lazo",
+      "qid": "cat017",
+      "baseline_class": "synthesis-miss",
+      "candidate_status": "unchanged",
+      "next_lane": "answer_coverage",
+      "evidence": []
+    },
+    {
+      "key": "cat017#4:CLSS",
+      "qid": "cat017",
+      "baseline_class": "rerank-miss",
+      "candidate_status": "unchanged",
+      "next_lane": "evidence_selection",
+      "evidence": []
+    },
+    {
+      "key": "cat018#1:pestana Programacion: Zona + CBE",
+      "qid": "cat018",
+      "baseline_class": "synthesis-miss",
+      "candidate_status": "unchanged",
+      "next_lane": "answer_coverage",
+      "evidence": []
+    },
+    {
+      "key": "cat018#2:Tipo SW / asociacion CBE",
+      "qid": "cat018",
+      "baseline_class": "synthesis-miss",
+      "candidate_status": "unchanged",
+      "next_lane": "answer_coverage",
+      "evidence": []
+    },
+    {
+      "key": "cat018#3:Apendice A",
+      "qid": "cat018",
+      "baseline_class": "meta-ref",
+      "candidate_status": "unchanged",
+      "next_lane": "excluded",
+      "evidence": []
+    },
+    {
+      "key": "cat020#2:manual de variaciones Espana",
+      "qid": "cat020",
+      "baseline_class": "meta-ref",
+      "candidate_status": "unchanged",
+      "next_lane": "excluded",
+      "evidence": []
+    },
+    {
+      "key": "hp001#2:1111",
+      "qid": "hp001",
+      "baseline_class": "synthesis-miss",
+      "candidate_status": "unchanged",
+      "next_lane": "answer_coverage",
+      "evidence": []
+    },
+    {
+      "key": "hp002#3:7.6.1",
+      "qid": "hp002",
+      "baseline_class": "synthesis-miss",
+      "candidate_status": "unchanged",
+      "next_lane": "answer_coverage",
+      "evidence": []
+    },
+    {
+      "key": "hp003#0:12V",
+      "qid": "hp003",
+      "baseline_class": "rerank-miss",
+      "candidate_status": "unchanged",
+      "next_lane": "evidence_selection",
+      "evidence": []
+    },
+    {
+      "key": "hp003#1:cable puente",
+      "qid": "hp003",
+      "baseline_class": "synthesis-miss",
+      "candidate_status": "unchanged",
+      "next_lane": "answer_coverage",
+      "evidence": []
+    },
+    {
+      "key": "hp005#3:CIRCUITO SIRENA",
+      "qid": "hp005",
+      "baseline_class": "rerank-miss",
+      "candidate_status": "unchanged",
+      "next_lane": "evidence_selection",
+      "evidence": []
+    },
+    {
+      "key": "hp006#1:Tierra",
+      "qid": "hp006",
+      "baseline_class": "rerank-miss",
+      "candidate_status": "unchanged",
+      "next_lane": "evidence_selection",
+      "evidence": []
+    },
+    {
+      "key": "hp006#2:ISO-X",
+      "qid": "hp006",
+      "baseline_class": "rerank-miss",
+      "candidate_status": "unchanged",
+      "next_lane": "evidence_selection",
+      "evidence": []
+    },
+    {
+      "key": "hp009#0:Retorno",
+      "qid": "hp009",
+      "baseline_class": "rerank-miss",
+      "candidate_status": "unchanged",
+      "next_lane": "evidence_selection",
+      "evidence": []
+    },
+    {
+      "key": "hp010#1:Nivel 3",
+      "qid": "hp010",
+      "baseline_class": "synthesis-miss",
+      "candidate_status": "unchanged",
+      "next_lane": "answer_coverage",
+      "evidence": []
+    },
+    {
+      "key": "hp011#0:ABORT",
+      "qid": "hp011",
+      "baseline_class": "rerank-miss",
+      "candidate_status": "unchanged",
+      "next_lane": "evidence_selection",
+      "evidence": []
+    },
+    {
+      "key": "hp011#1:r.I",
+      "qid": "hp011",
+      "baseline_class": "rerank-miss",
+      "candidate_status": "unchanged",
+      "next_lane": "evidence_selection",
+      "evidence": []
+    },
+    {
+      "key": "hp011#2:05 a 295 seg",
+      "qid": "hp011",
+      "baseline_class": "retrieval-miss",
+      "candidate_status": "r2_precondition_ready_cached_synthesis_miss",
+      "next_lane": "synthesis_repair_with_cached_context",
+      "evidence": [
+        {
+          "kind": "reproducible_same_blob_structural_neighbor",
+          "confirmatory": true,
+          "same_family_supporting_ids": [
+            "2d45a70a-5202-442e-af84-c3a176c2178d"
+          ],
+          "selected_before_fact_evaluation": true,
+          "serving_integration": false
+        },
+        {
+          "kind": "cached_paid_synthesis",
+          "model": "claude-sonnet-4-6",
+          "stop_reason": "end_turn",
+          "fact_present": false,
+          "fact_cited_by_target_fragment": false,
+          "synthesis_success": false
+        },
+        {
+          "kind": "document_scoped_hyq_source_retrieval",
+          "same_family_supporting_ids": [
+            "7e657b4b-990b-4de4-83a7-89a057b23f83"
+          ],
+          "generated_hyq_prose_served": false,
+          "selected_before_fact_evaluation": true,
+          "serving_integration": false
+        }
+      ]
+    },
+    {
+      "key": "hp011#3:enclavadas",
+      "qid": "hp011",
+      "baseline_class": "synthesis-miss",
+      "candidate_status": "unchanged",
+      "next_lane": "answer_coverage",
+      "evidence": []
+    },
+    {
+      "key": "hp012#3:4 lazos / 792",
+      "qid": "hp012",
+      "baseline_class": "retrieval-miss",
+      "candidate_status": "doc_scoped_hyq_retrieval_precondition",
+      "next_lane": "rerank_and_provenance_gate",
+      "evidence": [
+        {
+          "kind": "document_scoped_hyq_source_retrieval",
+          "same_family_supporting_ids": [
+            "b162a7eb-50bd-4b0f-88f7-40ad855c6c94"
+          ],
+          "generated_hyq_prose_served": false,
+          "selected_before_fact_evaluation": true,
+          "serving_integration": false
+        }
+      ]
+    },
+    {
+      "key": "hp013#0:EEPROM",
+      "qid": "hp013",
+      "baseline_class": "rerank-miss",
+      "candidate_status": "unchanged",
+      "next_lane": "evidence_selection",
+      "evidence": []
+    },
+    {
+      "key": "hp013#1:PWR-R",
+      "qid": "hp013",
+      "baseline_class": "retrieval-miss",
+      "candidate_status": "exploratory_structural_retrieval_precondition",
+      "next_lane": "freeze_discovery_then_bounded_synthesis",
+      "evidence": [
+        {
+          "kind": "reproducible_same_blob_structural_neighbor",
+          "confirmatory": false,
+          "same_family_supporting_ids": [
+            "2365dfaa-45e5-4c65-9328-194441e375c9"
+          ],
+          "selected_before_fact_evaluation": true,
+          "serving_integration": false
+        },
+        {
+          "kind": "document_scoped_hyq_source_retrieval",
+          "same_family_supporting_ids": [
+            "a19e8735-0e84-471a-9224-4be148cc65b9"
+          ],
+          "generated_hyq_prose_served": false,
+          "selected_before_fact_evaluation": true,
+          "serving_integration": false
+        }
+      ]
+    },
+    {
+      "key": "hp014#3:35",
+      "qid": "hp014",
+      "baseline_class": "retrieval-miss",
+      "candidate_status": "cached_synthesis_success_pending_protected_regression",
+      "next_lane": "protected_regression_and_atomic_judge",
+      "evidence": [
+        {
+          "kind": "reproducible_same_blob_structural_neighbor",
+          "confirmatory": true,
+          "same_family_supporting_ids": [
+            "d4018c9b-8eff-4b19-b826-5bb4df55d29e"
+          ],
+          "selected_before_fact_evaluation": true,
+          "serving_integration": false
+        },
+        {
+          "kind": "cached_paid_synthesis",
+          "model": "claude-sonnet-4-6",
+          "stop_reason": "end_turn",
+          "fact_present": true,
+          "fact_cited_by_target_fragment": true,
+          "synthesis_success": true
+        }
+      ]
+    },
+    {
+      "key": "hp015#2:32",
+      "qid": "hp015",
+      "baseline_class": "synthesis-miss",
+      "candidate_status": "unchanged",
+      "next_lane": "answer_coverage",
+      "evidence": []
+    },
+    {
+      "key": "hp017#1:instruccion de entrada",
+      "qid": "hp017",
+      "baseline_class": "retrieval-miss",
+      "candidate_status": "r2_precondition_ready_cached_synthesis_miss",
+      "next_lane": "synthesis_repair_with_cached_context",
+      "evidence": [
+        {
+          "kind": "reproducible_same_blob_structural_neighbor",
+          "confirmatory": true,
+          "same_family_supporting_ids": [
+            "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+            "d27b1a1b-69cd-4318-a459-f3c86eb757ba"
+          ],
+          "selected_before_fact_evaluation": true,
+          "serving_integration": false
+        },
+        {
+          "kind": "cached_paid_synthesis",
+          "model": "claude-sonnet-4-6",
+          "stop_reason": "end_turn",
+          "fact_present": false,
+          "fact_cited_by_target_fragment": false,
+          "synthesis_success": false
+        }
+      ]
+    },
+    {
+      "key": "hp017#2:Editar Configuracion",
+      "qid": "hp017",
+      "baseline_class": "rerank-miss",
+      "candidate_status": "unchanged",
+      "next_lane": "evidence_selection",
+      "evidence": []
+    },
+    {
+      "key": "hp018#1:6K8",
+      "qid": "hp018",
+      "baseline_class": "rerank-miss",
+      "candidate_status": "unchanged",
+      "next_lane": "evidence_selection",
+      "evidence": []
+    },
+    {
+      "key": "hp018#4:1 A",
+      "qid": "hp018",
+      "baseline_class": "rerank-miss",
+      "candidate_status": "unchanged",
+      "next_lane": "evidence_selection",
+      "evidence": []
+    }
+  ],
+  "limitations": [
+    "Candidate statuses are stage evidence, not official reclassification.",
+    "The structural observer is not a serving integration.",
+    "The cached synthesis success has not passed the 93-OK protected regression.",
+    "The hp013 structural match is exploratory and must be frozen independently before promotion.",
+    "The HYQ lane navigates with precomputed questions but serves only exact source chunks.",
+    "Only tracked inputs plus deterministic, read-only S108 probes are used."
+  ]
+}
