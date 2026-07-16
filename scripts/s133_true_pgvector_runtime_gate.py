@@ -158,14 +158,21 @@ def main() -> int:
     }
     failure: BaseException | None = None
     try:
-        report["positive"] = {
-            "load": positive.load_baseline(),
-            "verification": positive.verify_runtime(
-                expected_server_version_prefix=os.getenv("S133_EXPECTED_POSTGRES", "17.6"),
-                expected_vector_extension_version=os.getenv(
-                    "S133_EXPECTED_PGVECTOR", "0.8.0"
-                ),
+        baseline_load = positive.load_baseline()
+        verification = positive.verify_runtime(
+            expected_server_version_prefix=os.getenv("S133_EXPECTED_POSTGRES", "17.6"),
+            expected_vector_extension_version=os.getenv(
+                "S133_EXPECTED_PGVECTOR", "0.8.0"
             ),
+        )
+        historical_vector_note = verification.pop("pgvector_semantics")
+        verification["pgvector_semantics"] = {
+            "status": "DELEGATED_TO_S133_REAL_PROBE",
+            "historical_s131_default": historical_vector_note,
+        }
+        report["positive"] = {
+            "load": baseline_load,
+            "verification": verification,
         }
         report["negative"] = _negative_gate(negative, positive)
         report["true_pgvector"] = _real_pgvector_probe(positive)
