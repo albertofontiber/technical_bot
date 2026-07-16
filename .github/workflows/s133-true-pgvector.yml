@@ -1,0 +1,76 @@
+name: S133 true pgvector disposable gate
+
+on:
+  push:
+    branches: [codex/s133-unmeasured-baseline]
+    paths:
+      - ".github/workflows/s133-true-pgvector.yml"
+      - "scripts/s133_true_pgvector_runtime_gate.py"
+      - "scripts/s131_m0b_*.py"
+      - "scripts/s131_m0b_*.sql"
+      - "supabase/migrations/20260714102428_chunks_v3_provenance_shadow.sql"
+      - "supabase/migrations/20260716120000_chunks_v3_shadow_binding_v2.sql"
+      - "evals/s131_shadow_binding_manifest_*_seed*_v1.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  true-pgvector:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: pgvector/pgvector:0.8.0-pg17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: s131_m0b
+        ports:
+          - 55432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d s131_m0b"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+
+    env:
+      PGPASSWORD: postgres
+      PGCLIENTENCODING: UTF8
+      S133_PGHOST: 127.0.0.1
+      S133_PGPORT: "55432"
+      S133_PGDATABASE: s131_m0b
+      S133_PGUSER: postgres
+      S133_EXPECTED_PGVECTOR: 0.8.0
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
+      - name: Apply disposable Supabase-shaped fixture and shadow migrations
+        run: |
+          psql -X -h "$S133_PGHOST" -p "$S133_PGPORT" -U "$S133_PGUSER" -d "$S133_PGDATABASE" -v ON_ERROR_STOP=1 -f scripts/s131_m0b_base_fixture.sql
+          psql -X -h "$S133_PGHOST" -p "$S133_PGPORT" -U "$S133_PGUSER" -d "$S133_PGDATABASE" -v ON_ERROR_STOP=1 -f supabase/migrations/20260714102428_chunks_v3_provenance_shadow.sql
+          psql -X -h "$S133_PGHOST" -p "$S133_PGPORT" -U "$S133_PGUSER" -d "$S133_PGDATABASE" -v ON_ERROR_STOP=1 -f supabase/migrations/20260716120000_chunks_v3_shadow_binding_v2.sql
+
+      - name: Run frozen S131 gates plus real pgvector semantics
+        run: python scripts/s133_true_pgvector_runtime_gate.py
+
+      - name: Upload gate evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: s133-true-pgvector-runtime-gate
+          path: evals/s133_true_pgvector_runtime_gate_v1.json
+          if-no-files-found: error
+          retention-days: 30

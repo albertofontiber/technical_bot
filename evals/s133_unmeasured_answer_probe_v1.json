@@ -1,0 +1,191 @@
+{
+  "instrument": "s133_unmeasured_answer_probe_v1",
+  "source_reconciliation_sha256": "d3e385bb56f1dd3692cf2307ff628d7a2c869b1c4fe0338a43a7003784cbe935",
+  "frozen_contexts_sha256": "eb251db980e34f5e0527cec97d217b7c0bfcf6c76ded49741c9708c71facacbd",
+  "planner_mode": "guided",
+  "gate": {
+    "questions": 7,
+    "claims": 27,
+    "answers_available": 7,
+    "claims_with_answer_available": 27,
+    "fresh_paid_generator_calls_this_run": 7,
+    "fresh_qids_this_run": [
+      "cat012",
+      "cat017",
+      "cat019",
+      "hp002",
+      "hp011",
+      "hp013",
+      "hp018"
+    ],
+    "total_exact_checkpoints": 7,
+    "remaining_generator_calls": 0,
+    "total_input_tokens": 106953,
+    "total_output_tokens": 10509,
+    "max_token_stops": 0,
+    "retriever_calls": 0,
+    "reranker_calls": 0,
+    "judge_calls": 0,
+    "database_reads": 0,
+    "database_writes": 0,
+    "interpretation": "EXACT_ANSWERS_COMPLETE_PENDING_FACT_ADJUDICATION"
+  },
+  "rows": [
+    {
+      "qid": "cat012",
+      "claim_ids": [
+        "m1.cat012.859bf84ece1e1301.battery_formula",
+        "m1.cat012.8f913ebef3a60ac1.alarm_term",
+        "m1.cat012.8f913ebef3a60ac1.standby_term"
+      ],
+      "executed": true,
+      "answer_source": "s133_exact_checkpoint",
+      "guided_prompt_sha256": "f2eb618a6fa6b1b19276d434f049450faa6423138513111e924cd925fc4f7f1e",
+      "serving_context_sha256": "1a9cd257f0b44fc9fbe71a80bd661d1b5cd3e56d453dcd34a8368190f05d682e",
+      "model": "claude-sonnet-4-6",
+      "max_output_tokens": 3500,
+      "obligation_kinds": [],
+      "stop_reason": "end_turn",
+      "input_tokens": 14548,
+      "output_tokens": 1386,
+      "answer_sha256": "a645deade7d569ae41f7d694b6686ba457ddb30ccf684b363fe8a44bc9c373f3",
+      "answer": "# Cálculo de capacidad de batería — AM-8200\n\nEl manual proporciona un método de cálculo estructurado en tablas. Te explico el procedimiento completo:\n\n---\n\n## Procedimiento general\n\nEl cálculo se realiza mediante las **Tabla 1** (para AM-8200 con CPU AM8200-KLCD) o **Tabla 2** (para AM-8200BB) [F3][F4][F5], siguiendo estos pasos:\n\n---\n\n### PASO 1 — Calcular la corriente total en reposo (A)\n\nSuma los consumos de todos los componentes en condiciones de **NO ALARMA** [F4][F5]:\n\n**Para AM-8200 (CPU AM8200-KLCD):**\n- AM-8200 CPU (AM8200-KLCD): **179 mA** [F4]\n- LIB-8200 (por unidad): **50 mA** [F4]\n- AM82-2S2C: **28 mA** [F4]\n- AM82-BST-C: **39 mA** [F4]\n- Dispositivos en salida de sirena: según instalación\n- Corriente de lazos: según fichas de datos de los dispositivos instalados (ver Tabla 3) [F6]\n- Salida usuario (máx. 2 A): según dispositivos conectados [F4]\n- LCD-8200, campanas, sirenas, flashes, otros: según instalación\n\n> **Nota:** La corriente total de todos los lazos debe ser inferior a **750 mA** [F6]. La corriente total de la salida de 24 Vcc debe ser inferior a **2 A** [F6].\n\n**Total reposo = suma de todos los consumos anteriores**\n\nMultiplica por el tiempo de autonomía requerido:\n- **(Total reposo) × 24 h** → para autonomía de 24 horas\n- **(Total reposo) × 72 h** → para autonomía de 72 horas\n\nResultado = **Espera (A) en Ah** [F4][F5]\n\n---\n\n### PASO 2 — Calcular la corriente adicional en alarma (B)\n\nSuma los consumos de todos los componentes en condiciones de **ALARMA** [F4][F5]:\n\n**Para AM-8200 (CPU AM8200-KLCD):**\n- AM-8200 CPU (AM8200-KLCD): **345 mA** [F4]\n- LIB-8200 (por unidad): **92 mA** [F4]\n- AM82-2S2C: **28 mA** [F4]\n- AM82-BST-C: **39 mA** [F4]\n- Dispositivos en salida de sirena, lazos, salida usuario: según instalación\n\n> **Nota:** En alarma, la central enciende **solo los primeros 6 LED** de los detectores y módulos de entrada en alarma [F6].\n\n**Total alarma = suma de todos los consumos en alarma**\n\nMultiplica por **0,5 h** (tiempo de alarma):\n- **(Total alarma) × 0,5 h**\n\nResultado = **Alarma (B) en Ah** [F4][F5]\n\n---\n\n### PASO 3 — Aplicar el factor de corrección\n\n**Ah Batería = (A + B) × 1,2** [F4][F5][F6]\n\nEl factor **1,2** se aplica para tener en cuenta las tolerancias de fabricación de las baterías [F6].\n\n---\n\n### PASO 4 — Verificar límites del sistema\n\n- Capacidad mínima admitida: **7 Ah** [F7]\n- Capacidad máxima admitida: **18 Ah** [F7]\n- Configuración: **2 × 12 V** en serie [F7]\n\nSi el valor calculado supera **3,5 A** de absorción total, la corriente en exceso durante alarma se extrae de las baterías [F6].\n\n---\n\n## Baterías recomendadas por el fabricante\n\n**17-18 Ah (capacidad máxima estándar)** [F7]:\n- Yuasa NP18-12B o NP7-12BFR (UL94) — 12 V / 17,2 Ah — 181 × 77 × 167 mm\n- Fiamm FG21803 o FGV21803 (UL94) — 12 V / 18 Ah — 181 × 77 × 167 mm\n\n---\n\n## Diferencias AM-8200BB (Tabla 2)\n\nSi tu central es la **AM-8200BB**, usa la **Tabla 2** con estos consumos [F5]:\n- AM-8200BB: **135 mA** (reposo) / **177 mA** (alarma)\n- LIB-8200, AM82-2S2C, AM82-BST-C: mismos valores que arriba\n\nLa fórmula final **(A + B) × 1,2** es idéntica [F5].\n\n---\n\nFuente: AM-8200 Manual de Instalación (Doc. AM-8200-ESP Rev. A.3)\n\nTambién puedo ayudarte con: **consumos detallados de dispositivos de lazo (Tabla 3)**, **conexionado de baterías** o **umbrales de señalización del cargador** de la AM-8200."
+    },
+    {
+      "qid": "cat017",
+      "claim_ids": [
+        "m0.cat017.clss_workflow.1"
+      ],
+      "executed": true,
+      "answer_source": "s133_exact_checkpoint",
+      "guided_prompt_sha256": "c7c68a087d0320bd99e30476fc1c8471c82a02193d2cdf425df6ba8c29144bcb",
+      "serving_context_sha256": "333e46bb68d7b81c2b2cb1d5667ce336a55cf98e708b7d8b33544a705440496e",
+      "model": "claude-sonnet-4-6",
+      "max_output_tokens": 3500,
+      "obligation_kinds": [],
+      "stop_reason": "end_turn",
+      "input_tokens": 15271,
+      "output_tokens": 2204,
+      "answer_sha256": "11e6dc5410f2e3fcf0433e01dbbf6eb9bf2944dd5faa81111ab388b02c2ba7a1",
+      "answer": "# Cableado y configuración de lazo — Notifier INSPIRE E10/E15\n\n---\n\n## PARTE 1: CABLEADO DEL LAZO\n\n### Módulo de lazo OPAL X2 (HOP-433-100)\n\nEl módulo de lazo es de **color morado** [F2] y dispone de **10 terminales** distribuidos en dos filas de 5 [F2][F3]:\n\n**Lazo 1:**\n- Terminal **1** → Lazo 1 Salida +VE (OUT +VE)\n- Terminal **2** → Lazo 1 Salida -VE (OUT -VE)\n- Terminal **3** → ⊕ (**NO conectar pantalla de cable aquí**)\n- Terminal **4** → Lazo 1 Entrada +VE (IN +VE)\n- Terminal **5** → Lazo 1 Entrada -VE (IN -VE)\n\n**Lazo 2:**\n- Terminal **6** → Lazo 2 Salida +VE (OUT +VE)\n- Terminal **7** → Lazo 2 Salida -VE (OUT -VE)\n- Terminal **8** → ⊕ (**NO conectar pantalla de cable aquí**)\n- Terminal **9** → Lazo 2 Entrada +VE (IN +VE)\n- Terminal **10** → Lazo 2 Entrada -VE (IN -VE)\n\n> ⚠️ **La pantalla del cable de lazo debe conectarse a la barra de tierra de la central, NO a los terminales 3 u 8** [F2][F3].\n> Se recomienda poner a tierra **un solo extremo** de la pantalla [F5].\n\n> ⚠️ **No se permite mezclar dispositivos OPAL y CLIP en el mismo lazo** [F2].\n\n---\n\n### Capacidad del lazo [F2][F4]\n\n**Protocolo OPAL:**\n- Hasta **159 detectores** OPAL por lazo\n- Hasta **159 módulos** OPAL por lazo (sirenas, pulsadores, módulos E/S)\n- Máximo **318 dispositivos** OPAL por lazo\n\n**Protocolo CLIP** (requiere licencia):\n- Hasta **99 detectores** CLIP por lazo\n- Hasta **99 módulos** CLIP por lazo\n\n> ⚠️ **Restricción EN54-2 (13.7):** máximo **512 detectores y/o pulsadores** por módulo de lazo (que comprende los 2 circuitos de lazo) [F2].\n\n**Corriente máxima por lazo:** **750 mA** [F2].\n\n---\n\n### Longitud máxima del lazo\n\nLa longitud se calcula con el **programa de cálculo de lazo y batería de CLSS** y puede ser de hasta **3,5 km**, dependiendo del tipo de carga y de cable [F2].\n\n---\n\n## PARTE 2: COMPROBACIONES PREVIAS A LA CONEXIÓN\n\nAntes de conectar el lazo a la central, realiza las siguientes verificaciones con multímetro [F6][F7][F8]:\n\n> ⚠️ **NUNCA uses un comprobador de alta tensión (megóhmetro) en el circuito de lazo** [F6].\n\n1. Comprueba la **continuidad de cada tramo del lazo** y mide la resistencia de extremo a extremo [F6][F8].\n\n2. Comprueba la **continuidad de la pantalla** del cable (debe dar resistencia muy baja) [F6].\n\n3. Verifica que **no hay continuidad entre la pantalla y los cables +VE y -VE** [F6].\n\n4. Con el multímetro en **función de prueba de diodo**, conecta en **polaridad invertida** (+VE del multímetro al negativo del lazo, -VE al positivo). Debe indicar **símbolo de diodo en polarización directa** [F7].\n\n5. Conecta el multímetro en **polaridad normal** (+VE al positivo del lazo). Al inicio debe leer resistencia baja, que irá **aumentando** a medida que se cargan los condensadores de los dispositivos [F7].\n   - Si indica diodo en polarización directa en este paso → hay dispositivos conectados en **polaridad inversa** o **cortocircuito** [F7].\n\n6. Verifica que la **resistencia del lazo** sea inferior a [F8]:\n   - **Protocolo OPAL:** < **40 Ω** para comunicación correcta\n   - **Protocolo CLIP:** < **40 Ω** para detección de dos dispositivos; < **71 Ω** si no se necesita detección de dirección duplicada\n\n   > La capacidad del cable debe ser inferior a **0,5 µF** [F8].\n\n> ℹ️ Se recomienda usar la herramienta **POL-200-TS** para diagnóstico del lazo antes de conectar a la central (funciona con protocolos OPAL y CLIP) [F5].\n\n---\n\n## PARTE 3: CONFIGURACIÓN DEL LAZO (CLSS + Auto Configuración)\n\n### Paso previo — Configuración con CLSS\n\nAntes de realizar la Auto Configuración, la central debe configurarse con el **programa de configuración de CLSS** [F9]:\n\n1. Conecta la herramienta de configuración a la central [F10].\n\n2. En **\"Ajustes\" → \"Ajustes HMI\"**, en **Tipo de marca** selecciona **Notifier EN** [F9].\n\n3. En **\"Ajustes de lazo\"** [F9]:\n   - Si el lazo **no se utiliza**: marca ☑ **Sin Uso**\n   - Si el lazo se utiliza: selecciona **\"Limitar a VdS 2540\"** (Sí o No) — el valor de resistencia cambia según la selección\n   - Selecciona el **tipo de cable**\n\n   > ⚠️ De forma predeterminada, la central tiene licencia solo para **protocolo OPAL avanzado**. Para usar CLIP o TC800, se requiere **licencia adicional** antes de realizar la Auto Configuración [F9].\n\n4. Envía la configuración a la central siguiendo los pasos del apartado **\"Enviar configuración a la central\"** [F9].\n\n---\n\n### Auto Configuración (búsqueda de dispositivos) desde la central [F10]\n\n1. Selecciona **Auto Configuración** en el menú de la central para iniciar la búsqueda de dispositivos en el lazo. Confirma en la ventana emergente seleccionando **Auto Configuración** / **Learn Devices**.\n\n2. Una vez completada, selecciona la **flecha derecha (>)** junto al botón Auto Búsqueda para ver el estado de averías del lazo.\n\n3. Lee los **mensajes de avería** y corrige los problemas detectados. Las causas típicas de avería son [F10]:\n   - Discordancia entre diseño e instalación\n   - Averías en el cableado\n   - Presencia de fuente de RFI\n   - Error de módulo o fuente de alimentación\n   - Conexionado incorrecto en dispositivos\n\n4. Selecciona **Hecho** al completar. Si no hay averías, vuelve a la página **Información del sistema**.\n\n5. **Repite los pasos 1 a 4** para cada lazo hasta descubrir todos los lazos del sistema [F10].\n\n---\n\n### Numeración de los circuitos de lazo [F2]\n\nLos lazos se numeran **secuencialmente de izquierda a derecha** del portamódulos. El primer módulo de lazo instalado en la ranura izquierda tiene el **Lazo 1**, y los siguientes se numeran correlativamente. En la central **E15** (con dos filas de portamódulos), la segunda fila continúa la numeración desde la primera [F2].\n\n---\n\n**Fuentes:**\n- HOP-138-8ES issue 6, 01-2026 (Instrucciones de puesta en marcha INSPIRE E10/E15)\n- HOP-138-9ES issue 5, 11-2025 (Manual de instalación INSPIRE E10)\n\n---\n\nTambién puedo ayudarte con: **averías típicas en Auto Configuración y cómo resolverlas**, **comprobación de dispositivos con dirección duplicada o dirección 00**, o **configuración de lazos CLIP con licencia**."
+    },
+    {
+      "qid": "cat019",
+      "claim_ids": [
+        "m1.cat019.650574c29860ac58.add_event_or_action",
+        "m1.cat019.650574c29860ac58.event_change_and_condition",
+        "m1.cat019.6c2692e4d3fd39ac.coincidence_semantics",
+        "m1.cat019.6c2692e4d3fd39ac.create_maneuver",
+        "m1.cat019.77fff66f289222e7.entity_scope",
+        "m1.cat019.77fff66f289222e7.event_type_choice",
+        "m1.cat019.77fff66f289222e7.temporal_condition"
+      ],
+      "executed": true,
+      "answer_source": "s133_exact_checkpoint",
+      "guided_prompt_sha256": "430bb3ed5ad29fcab665fad096dca8dcbaa3dc75671f04ff75ce0e9e22e3fe65",
+      "serving_context_sha256": "5cdb58353efff3a498149c734fae6b0e51665d96ac7005bbea3fedcfcfa98030",
+      "model": "claude-sonnet-4-6",
+      "max_output_tokens": 3500,
+      "obligation_kinds": [],
+      "stop_reason": "end_turn",
+      "input_tokens": 15685,
+      "output_tokens": 2168,
+      "answer_sha256": "0e3e732f82c5bdab68b2f2e0da8aeda69566dc7d9d19fb6215b5904f39dd4f30",
+      "answer": "# Configuración completa de una maniobra en la CAD-250\n\n## Concepto general\n\nUna maniobra es un conjunto de acciones programadas en función de los estados del sistema, áreas, zonas o dispositivos [F1]. La estructura es siempre: **Entradas (Eventos) → Lógica (Coincidencias) → Salidas (Acciones)** [F1][F11].\n\n> ⚠️ La maniobra gestiona **eventos** (cambios de estado), no estados estáticos. El evento es el cambio de estado que, si coincide con la condición establecida, provoca la activación de las salidas [F3].\n\nEl sistema soporta hasta **100.000 entradas y salidas** configuradas en distintas maniobras [F3][F7].\n\n---\n\n## PASO 1 — Acceder al menú y crear la maniobra\n\n1. Desde el panel, navega a: **MENÚ > MANIOBRAS** [F1]\n2. Pulsa el botón **+AÑADIR** en la barra de navegación inferior [F1]\n3. Se abre la pantalla de edición de la maniobra (**Maniobra 0001**, 0002, etc.) [F2]\n\n---\n\n## PASO 2 — Definir la lógica de coincidencias\n\nEn el campo **Coincidencias** indica cuántos eventos deben cumplirse simultáneamente para que la maniobra sea verdadera [F5]:\n\n- **Coincidencias = 1** → Cualquier evento dispara la salida (comportamiento **OR**): si hay 2 eventos y se cumple cualquiera, la acción se ejecuta [F2][F5]\n- **Coincidencias = 2** → Todos los eventos deben cumplirse (comportamiento **AND**): si hay 2 eventos, ambos deben ser verdaderos [F2][F5]\n- **Coincidencias = N de M** → Se pueden configurar lógicas intermedias, p.ej. 3 de 4 eventos deben cumplirse para que la salida sea verdadera [F2]\n\n---\n\n## PASO 3 — Añadir entradas (Eventos)\n\n1. Pulsa **AÑADIR** en el margen inferior de la pantalla principal [F3]\n2. En la pantalla emergente, selecciona **EVENTO** [F3]\n3. Se muestra una nueva pantalla flotante con dos opciones [F3]:\n\n### Opción A: ENTIDAD\nCualquier elemento de la jerarquía del sistema: **instalación, panel, lazo, área, zona, dispositivo, grupo o módulo virtual** — tanto del sistema local como de la red (cualquier central en red) [F3].\n\nAl seleccionar **ENTIDAD**, accedes a la pantalla **EVENTO DE LA ENTIDAD** donde configuras [F3]:\n- **REPETICIONES**: condición numérica que indica el número de elementos de la entidad que deben cumplirse para que la entrada sea verdadera [F3]\n- Puedes seleccionar entidad **Local** o de la **Red** [F3]\n\nDesde la versión **1.1.1** es posible seleccionar un elemento de **salida** como condición de entrada — en ese caso, será el cambio a condición de avería el que hará verdadera la condición entrante. Para ello, desmarca la casilla **\"Sólo dispositivos de entrada\"** [F6].\n\n### Opción B: CONDICIÓN TEMPORAL\nPermite establecer un periodo de tiempo para el que la ecuación de entrada sea verdadera [F3]. Por ejemplo, que las sirenas no se activen en un área concreta un determinado día de la semana a una hora determinada [F14].\n\n> Puedes añadir **tantos eventos como necesites** en cada maniobra [F6].\n\nPara editar un evento ya añadido: haz **doble clic** sobre él en el menú de **CREACIÓN DE MANIOBRA**, o selecciónalo y pulsa **EDITAR** [F6].\n\n---\n\n## PASO 4 — Añadir salidas (Acciones)\n\n1. Pulsa **AÑADIR** en el margen inferior de la pantalla principal [F4]\n2. En la pantalla emergente, selecciona **ACCIÓN** [F4]\n3. Se muestran dos campos [F4]:\n\n- **Retraso**: tiempo de hasta **600 segundos** antes de iniciar la acción. El retardo se inicia a partir del momento en que la condición de entrada es verdadera [F4][F14]\n- **Entidad**: elemento de la jerarquía del sistema local — **panel, lazo, área, zona, dispositivo, grupo o módulo virtual** [F4]\n\n> ⚠️ El programa **no permite mezclar acciones sobre entidades de paneles diferentes** [F7].\n\n4. En la pantalla **ACCIÓN DE LA ENTIDAD** configuras el **Tipo de acción** [F8]:\n\n- **Activar** las salidas\n- **Desactivar** las salidas\n- **Habilitar** la entidad\n- **Deshabilitar** la entidad\n- **Test**: pone en modo test la entidad\n- **Reiniciar** la entidad\n- **Pulso**: activa las salidas con anchura de pulso configurable entre **0 y 600 segundos** (10 s por defecto)\n- **Configuración**: permite la cancelación de retardos\n\nY el **Tipo de elemento** sobre el que actúa [F8]:\n\n- **Todos**: todas las salidas de la entidad\n- **Sirenas**: únicamente las sirenas de la entidad\n- **Relés**: únicamente los relés de la entidad\n- **Sirena discontinua**: activa en forma discontinua las sirenas\n- **Sirena PCB1**: activa la sirena 1 de la central\n- **Sirena PCB2**: activa la sirena 2 de la central\n\n5. Pulsa **GUARDAR** para actualizar la base de datos, o **CANCELAR** para deshacer [F8]\n\n---\n\n## PASO 5 — Verificar la maniobra completa\n\nTras configurar eventos y acciones, la ventana de maniobra muestra [F7]:\n- **Cuadro de eventos** (izquierda): todas las entradas configuradas\n- **Cuadro de acciones** (derecha): todas las acciones que se desencadenarán\n\nDesde el icono **MANIOBRAS** en el **MENÚ PRINCIPAL** puedes ver el listado completo de maniobras con sus columnas: Panel, Coincidencias, Eventos, Acciones [F8][F10].\n\n---\n\n## Ejemplo de maniobras configuradas [F10]\n\n- ID 1 — Coincid. 1 → Evento: Alarma any en zona Planta 2 → Acción: Activar en zona Planta 2 con retardo de **60 segundos**\n- ID 7 — Coincid. 2 → Eventos: Alarma en dispositivo Barrera 1 **Y** Alarma en dispositivo Barrera 2 → Acción: Activar en Panel 1\n\n---\n\n## Nota sobre Módulos Virtuales y maniobras complejas\n\nPara escenarios complejos (bucles de dependencia, lógicas encadenadas), el sistema dispone de **Módulos Virtuales**: un conjunto de entradas determina el estado del módulo virtual, que a su vez puede actuar como entrada de otra maniobra [F1][F11]. El ejemplo del manual ilustra una maniobra con zona 1 (mínimo 2 detectores activos), zona 2, condición temporal, pulsador de parada y puerta cerrada, todo encadenado mediante un módulo virtual [F9].\n\n> 📋 Planifica bien los escenarios antes de crear maniobras complejas, evita crear bucles y verifica todos los escenarios y maniobras completas [F9].\n\n---\n\n**Fuentes:**\n- CAD-250 Manual de Configuración MC-380-es-2026-c (rev. c, 2026-04-23)\n- CAD-250 Manual de Software de Configuración MS-416-es-2026-b (rev. b)\n- Manual de Instalación CAD-250 MI-372-es-2024-e\n\n---\n\nTambién puedo ayudarte con: **configuración de Grupos**, **creación y uso de Módulos Virtuales** o **configuración de Condiciones Temporales** en la CAD-250."
+    },
+    {
+      "qid": "hp002",
+      "claim_ids": [
+        "m1.hp002.06f759b5da9ed40b.maintenance_safety",
+        "m1.hp002.06f759b5da9ed40b.read_and_compare_flow",
+        "m1.hp002.4de86fac80358a14.nominal_after_reset",
+        "m1.hp002.4de86fac80358a14.standard_fault_window",
+        "m1.hp002.c2c99fa936e98f67.flow_direction_diagnosis",
+        "m1.hp002.c2c99fa936e98f67.obstruction_checks"
+      ],
+      "executed": true,
+      "answer_source": "s133_exact_checkpoint",
+      "guided_prompt_sha256": "59595709d2f94fb8e5fb881929f397d1452f61ca96d0b9716645dfedb0bcb837",
+      "serving_context_sha256": "e59f0dbee91026d5a91b5ced7b35b30a21f41c73c00547cca616c537355dee2d",
+      "model": "claude-sonnet-4-6",
+      "max_output_tokens": 3500,
+      "obligation_kinds": [
+        "diagnostic_threshold_direction"
+      ],
+      "stop_reason": "end_turn",
+      "input_tokens": 14575,
+      "output_tokens": 1320,
+      "answer_sha256": "5625d3601351bf6e91f0a4aa4fa91f2519b5b6a5b0ee18861c2b73ed189cec3a",
+      "answer": "# ASD535 — Diagnóstico de fallo de flujo bajo\n\n## Causa más probable\n\nUn valor de flujo **por debajo del 100 %** apunta directamente a una **obstrucción en el conducto de aspiración** [F1][F2]. El ASD535 dispara el aviso «fallo flujo de aire» cuando la variación supera el **±20 %** (es decir, flujo por debajo del **80 %**), una vez transcurrido el tiempo de retardo de **300 s** de la LS-Ü [F2].\n\nEl código de fallo asociado es el **código 001: Obstrucción, conducto de aspiración** [F10].\n\n---\n\n## Procedimiento de diagnóstico paso a paso\n\n**1. Leer el valor de flujo actual**\n\nColoca el conmutador en **posición V** para leer el valor de flujo del conducto de aspiración [F9]. Compara el valor leído con el registrado en el protocolo de puesta en funcionamiento [F9]:\n\n- Valor **< 100 %** → obstrucción [F1][F9]\n- Valor **> 100 %** → rotura de tubo [F1][F9]\n\n> ⚠️ Si la sensibilidad LS-Ü configurada es **±20 %** (estándar), realiza inspección del conducto cuando el valor caiga por debajo del **90 %** (la mitad de la sensibilidad = ±10 %) [F9].\n\n---\n\n**2. Inspeccionar el conducto de aspiración**\n\nComprueba los siguientes puntos [F10]:\n\n- Orificios de aspiración obstruidos (suciedad, polvo, objetos)\n- Salida de aire del ASD obstruida [F9]\n- Caja de filtro / unidad de filtrado: inspeccionar y limpiar [F10]\n- Sensor de flujo de aire: inspeccionar y limpiar [F10]\n\n---\n\n**3. Verificar el código de evento en el AMB 35**\n\nColoca el conmutador en **posición E** para leer el código de evento y delimitar el patrón de error [F3]. Los códigos relevantes para fallo de flujo son [F10]:\n\n- **001** — Obstrucción, conducto de aspiración → comprobar orificios, filtro y sensor de flujo\n- **002** — Rotura de tubo → comprobar uniones, racores y orificio de inspección\n- **004** — Parámetros LS-Ü no válidos → fuera de rango o sensor de flujo defectuoso\n- **008** — Sensor de flujo defectuoso/inexistente → comprobar cable de conexión o sustituir sensor\n\n---\n\n**4. Limpiar el conducto de aspiración**\n\nSi se confirma obstrucción [F9]:\n\n- Limpiar orificios de aspiración según los puntos **9 o 10** del manual de mantenimiento [F9]\n- Limpiar la salida de aire [F9]\n- Sustituir el elemento de filtro si procede [F7]\n\n> ⚠️ **Advertencia crítica**: Si tras los trabajos de limpieza es necesario ejecutar un reset inicial, este **solo** podrá realizarse cuando se tenga la seguridad de que el conducto de aspiración está completamente limpio (incluyendo instalación de nuevo elemento de filtro si aplica). Realizar un reset inicial con orificios obstruidos puede impedir que el ASD535 dispare la alarma [F7].\n\n---\n\n**5. Verificar la tensión de servicio**\n\nDurante el mantenimiento, mide la tensión en los bornes **1 (+) y 2 (-)** [F9]:\n\n- Funcionamiento a **12 V-CC**: valor nominal **12,3 a 13,8 V-CC** [F9]\n- Funcionamiento a **24 V-CC**: valor nominal **21,6 a 27,6 V-CC** [F9]\n\nUn fallo de baja tensión (**< 10,4 V-CC, +0/–0,3 V**) también puede disparar un aviso de fallo [F3].\n\n---\n\n> 🔔 **Nota sobre la norma**: Conforme a **EN 54-20**, toda variación del flujo superior al **±20 %** debe notificarse como fallo [F2]. Si la ventana de monitorización está configurada por debajo de ±20 % con un tiempo de retardo ≤ 300 s, existe mayor riesgo de avisos de fallo erróneos [F6]. Cualquier modificación de estos parámetros por encima de ±20 % o del tiempo de retardo de 300 s implica incumplimiento de EN 54-20 y requiere consulta previa con el fabricante [F6].\n\n---\n\n**Fuente:** ASD 535, Descripción técnica, T 131 192 h es (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **procedimiento completo de reset inicial**, **sustitución del sensor de flujo de aire** o **configuración de la ventana de monitorización LS-Ü** del ASD535."
+    },
+    {
+      "qid": "hp011",
+      "claim_ids": [
+        "m0.hp011.abort.1",
+        "m0.hp011.abort.2",
+        "m0.hp011.reset_inhibit.1",
+        "m0.hp011.reset_inhibit.2",
+        "m0.hp011.reset_inhibit.3"
+      ],
+      "executed": true,
+      "answer_source": "s133_exact_checkpoint",
+      "guided_prompt_sha256": "405970a095d35f1e80cdb78826a306c6989067bc1a10b74f36be266c3c096daa",
+      "serving_context_sha256": "1b806d3bd9a3805d5b25654cddaa7c5ece683ce0f6cc5e80b41bbd7c1b6dc7e3",
+      "model": "claude-sonnet-4-6",
+      "max_output_tokens": 3500,
+      "obligation_kinds": [],
+      "stop_reason": "end_turn",
+      "input_tokens": 14835,
+      "output_tokens": 1129,
+      "answer_sha256": "d1a9a7eb3cbf14c43f700b9f86ae69da24fd2cb2b29578f380904974f0e02fb0",
+      "answer": "## RP1r — Sistema no vuelve a estado normal tras resetear después de descarga\n\nHay varias causas posibles. Comprueba en este orden:\n\n---\n\n### 1. Rearme inhibido (parámetro rI / r.i)\n\nLa central puede tener programado un tiempo de inhibición del rearme tras la activación [F3][F12]. Según la norma **EN12094:1/2003 Punto 4.12.2**, puede haber un periodo de **0 a 30 minutos** desde el estado ACTIVADO hasta que se permite rearmar [F3].\n\n- Comprueba el parámetro **rI** en programación.\n- Si está configurado con un valor entre 01 y 30, la central no permitirá el rearme hasta que transcurra ese tiempo.\n- Por defecto es **00 minutos** (función anulada, SW1-6 en OFF) [F3].\n- **Excepción:** si la central está en modo **paro/espera**, sí se puede rearmar aunque rI esté activo [F3].\n\n---\n\n### 2. Fallo de Sistema (FALLO DE SISTEMA)\n\nSi el led **Fallo Sistema** está encendido, la central no volverá a estado normal aunque pulses Rearme [F7].\n\n- Esto ocurre cuando el microprocesador principal tarda en inicializar o detecta tensiones fuera de rango [F7].\n- **Acción:** Rearmar la central. Si la avería desaparece tras el rearme, el sistema es funcional [F7].\n- Si persiste, puede indicar un problema de alimentación o perturbación externa.\n\n---\n\n### 3. Entradas enclavadas sin restablecer\n\nTodas las entradas supervisadas son **enclavadas por defecto** y requieren rearme manual para su restablecimiento [F9]. Si alguna condición de avería sigue activa en campo (detector, circuito de paro, supervisión...), el sistema no volverá a estado normal aunque se pulse Rearme.\n\nComprueba los leds intermitentes del panel para identificar qué circuito sigue en avería [F10]:\n\n- **Cto. F (ABORT SWITCH / Paro):** avería que requiere **rearme manual** y detiene la extinción. No tiene rearme automático [F10].\n- **Ctos. 10, 11 (CCT EXT 1 y 2), 18, 19 (SND 1 y 2), C, D, E, G, H, I, J:** tienen rearme automático cuando desaparece la condición [F10].\n- Verifica que la **RFL de 6K8** esté correctamente instalada en todos los circuitos supervisados [F10].\n\n---\n\n### 4. Parámetro de duración de extinción (dr) — circuito activo hasta rearme\n\nSi el parámetro de duración de extinción está configurado como **\"- -\"** (guiones), el circuito de extinción permanece activado **hasta que se rearme la central** [F11]. Verifica que este parámetro esté configurado con un tiempo en segundos (05 a 295 seg.) si no es el comportamiento deseado.\n\n---\n\n### 5. Procedimiento correcto de rearme\n\nPara rearmar correctamente [F6]:\n1. Habilitar **acceso nivel 2** (llave o teclado).\n2. Pulsar la tecla **Rearme**.\n\nSi el rearme está inhibido por SW1-6 en ON, necesitarás además colocar un puente en la posición **PROG** de la placa base y pulsar Rearme [F4].\n\n---\n\n**Fuentes:**\n- MNDT102 — Manual de usuario RP1r (sin revisión registrada)\n- HLSI-BT-001 — Boletín técnico Honeywell Life Safety Iberia, 04/11/2011\n- HLSI-MN-103\\_RP1r-Supra\\_lr — Manual de usuario RP1r-Supra (sin revisión registrada)\n- MIEMN570 — Manual VSN-RP1r (Rev. 008)\n\n---\n\nTambién puedo ayudarte con: **verificación de la RFL de 6K8 en circuitos supervisados**, **configuración del parámetro rI de inhibición de rearme** o **diagnóstico del led Fallo Sistema**."
+    },
+    {
+      "qid": "hp013",
+      "claim_ids": [
+        "m0.hp013.eeprom_retention.1",
+        "s118.hp013.power_and_rtc.1"
+      ],
+      "executed": true,
+      "answer_source": "s133_exact_checkpoint",
+      "guided_prompt_sha256": "54792698ee244a26c0f54e3ccaf30045ef33e7851e59e80ba6f19b4a4a5bd835",
+      "serving_context_sha256": "fdd4ae73fb399442f7bafac72f61ba99a3c41a6a023e68cd085a2e3e2e89bc64",
+      "model": "claude-sonnet-4-6",
+      "max_output_tokens": 3500,
+      "obligation_kinds": [
+        "redundant_power_input",
+        "rtc_lithium_battery"
+      ],
+      "stop_reason": "end_turn",
+      "input_tokens": 16437,
+      "output_tokens": 753,
+      "answer_sha256": "be63ddb4b972942ab2d9a1da8192d669cfbd6f6df87fc933c7155540fb9c3e04",
+      "answer": "## Cambio de batería de litio en el ADW535 — Conservación de configuración\n\n### Lo que dicen los fragmentos\n\nEl ADW535 incorpora una **batería de litio** y un **módulo de reloj RTC** en el Main Board LMB 35 [F12]. El fallo de reloj (código **G80 / 008**) indica como causas posibles: que la cinta aislante de la batería de litio no se haya retirado, que el reloj no esté ajustado, o que la batería de litio esté defectuosa y deba sustituirse [F8].\n\n---\n\n### ⚠️ Lo que el manual NO especifica en los fragmentos disponibles\n\nEl manual **no describe un procedimiento paso a paso para sustituir únicamente la batería de litio** del LMB 35 de forma aislada. Los fragmentos recuperados no incluyen:\n\n- Referencia de la batería de litio (tipo, voltaje, capacidad).\n- Procedimiento de extracción/inserción de la batería.\n- Tiempo máximo sin batería antes de pérdida del RTC.\n- Confirmación explícita de que la **configuración del sistema** (parámetros, clase de respuesta, configuración EasyConfig) se conserva o no durante el cambio de batería.\n\n---\n\n### Lo que sí se puede afirmar sobre la configuración\n\n- Los **parámetros específicos del sistema** (clase de respuesta, configuraciones) se almacenan en **EEPROM y Flash-PROM** [F12], no en la batería de litio. La batería de litio alimenta únicamente el **módulo de reloj RTC** [F12].\n- Un **reset de hardware** (interrupción momentánea de tensión) **mantiene los parámetros programados** [F5].\n- La configuración **sí se pierde** si se sustituye el LMB 35 completo — en ese caso es obligatorio realizar un nuevo reset inicial y reconfigurar desde ADW Config o EasyConfig [F1].\n\n---\n\n### Recomendación práctica\n\nDado que el manual no detalla el procedimiento de sustitución de la batería de litio de forma aislada, **consulta directamente el soporte técnico de Securiton/Detnov** o el manual completo físico del ADW535 para obtener el procedimiento oficial y la referencia de recambio.\n\nSi el fallo que motiva el cambio es el código **G80/008**, verifica primero si la **cinta aislante de la batería** simplemente no ha sido retirada — esa es la primera causa indicada en el manual [F8].\n\n---\n\n**Fuente:** ADW535, Descripción técnica, T 140 358 e es (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **interpretación de otros códigos de fallo G80**, **procedimiento de reset inicial tras sustitución del LMB 35**, o **comprobaciones de mantenimiento periódico del ADW535**."
+    },
+    {
+      "qid": "hp018",
+      "claim_ids": [
+        "m0.hp018.eol.1",
+        "m0.hp018.eol.2",
+        "m0.hp018.max_current.1"
+      ],
+      "executed": true,
+      "answer_source": "s133_exact_checkpoint",
+      "guided_prompt_sha256": "9c1189814478e863cbf610b03377879288b78a0f0dce17f353617308828390ff",
+      "serving_context_sha256": "49217973d299436ad51560c169f647886dc50d7f8e4f15eb9e6dc18b5046db0f",
+      "model": "claude-sonnet-4-6",
+      "max_output_tokens": 3500,
+      "obligation_kinds": [],
+      "stop_reason": "end_turn",
+      "input_tokens": 15602,
+      "output_tokens": 1549,
+      "answer_sha256": "9769f57950bbe6708160165a74e45654d4143ddc71a3cb15379e854f2775195e",
+      "answer": "# Conexionado de sirenas convencionales en salidas de sirena — Morley ZXe\n\n> **Nota previa:** La familia \"ZXe\" incluye varios modelos (ZX2e, ZX5e, ZXAE, ZXEE). Los principios de conexionado son comunes, pero el número de salidas y los terminales físicos varían. A continuación se detalla lo que aplica a cada modelo según los fragmentos disponibles.\n\n---\n\n## Principios generales de conexionado\n\n### 1. Número de salidas disponibles\n\n- **ZX2e / ZXAE:** **2 salidas** supervisadas para sirenas convencionales (Salida A y B) [F1][F13]\n- **ZX5e / ZXEE:** **4 salidas** supervisadas para sirenas convencionales (Salida A, B, C y D) [F1][F14]\n\n### 2. Corriente máxima por salida\n\n- **1 A máximo por circuito** [F1][F11][F13][F14]\n- Ten en cuenta el consumo total de la central para no exceder el límite con todas las sirenas activadas [F1]\n\n### 3. Resistencia Final de Línea (RFL)\n\n- **Obligatoria** en el extremo de cada circuito [F1][F11]\n- Valor: **6.800 Ω (6K8), 0,5 W mínimo** [F1][F11]\n- Se instala entre el **+** y el **−** de la **última sirena** del circuito [F1]\n- Si **no hay sirenas** conectadas en esa salida, conectar la RFL directamente en los terminales de la central [F1]\n\n### 4. Topología del cableado\n\n- **Sin ramales:** el cableado debe ser en línea directa hasta la RFL [F2]\n- Los ramales paralelos **no pueden ser supervisados** y no están permitidos [F2]\n- Longitud máxima recomendada: **no superior a 1 km** (por encima, la capacitancia e inductancia pueden afectar al funcionamiento) [F3]\n- Sección mínima de cable: **1,5 mm²** [F1]\n\n### 5. Polaridad y diodos\n\n- El circuito se **polariza en inverso en reposo** para supervisar la línea; al dispararse, cambia a polarización normal [F4]\n- **Sirenas con polaridad:** conectar respetando + y − de cada sirena. Se recomienda que cada sirena lleve un **diodo integrado** para impedir consumo en polarización inversa [F4]\n- **Campanas/sirenas sin polaridad:** instalar un **diodo** entre el + de la salida y uno de los terminales de alimentación de la campana, para evitar consumos durante la supervisión [F1][F4]\n- Dispositivos no polarizados adicionales en la línea: usar **diodos de polarización y protección en cada uno** [F4]\n\n---\n\n## Procedimiento de conexionado paso a paso\n\n1. **Identifica los terminales de sirena** en la placa:\n   - ZX2e: bloque etiquetado **`AUX RELAY A+ A- B+ B-`** / **`SOUNDERS B+ B- A+ A-`** [F4]\n   - ZX5e: bloque **TB7** con terminales **`A- A+ B- B+ C- C+ D- D+`** [F4]\n   - ZXAE: terminales **`SOUNDERS`** / **`SALIDA SIRENAS A, B`** [F1]\n   - ZXEE: bloque **TB7** con terminales **`S,A+ S,A- S,B+ S,C+ S,D+ S,D-`** [F1]\n\n2. **Cablea en serie** todas las sirenas del circuito, respetando la polaridad (+ a +, − a −) [F2]\n\n3. **Instala un diodo** en cada sirena sin polaridad (campanas convencionales de bobina) entre el + de la línea y el terminal de alimentación [F1]\n\n4. **Coloca la RFL de 6K8 Ω / 0,5 W mínimo** entre + y − en la última sirena del circuito [F1][F11]\n\n5. **No enrolles el cable en los terminales.** Corta y empalma adecuadamente para mantener la supervisión de la línea [F3]\n\n6. **Verifica la sección de cable** para garantizar la alimentación de las sirenas a la tensión recomendada por el fabricante, tanto en alimentación principal como en condiciones de mínima tensión de baterías [F3]\n\n---\n\n## Supervisión del circuito\n\n- Las salidas están supervisadas para **circuito abierto y cortocircuito** [F13][F14]\n- Cualquier fallo en la línea se mostrará en pantalla y quedará registrado en el registro del sistema [F5]\n- Ejemplo de mensaje de fallo: `!ATENCION! CIRCUITO ABIERTO SIRENA B` [F5]\n\n---\n\n⚠️ **Advertencia:** No realizar cableados de sección inferior a **1,5 mm²** ni longitudes excesivas que provoquen caídas de tensión en la línea [F1].\n\n---\n\n**Fuentes:**\n- Manual de Instalación ZXAE/ZXEE — DOC.MIE-MI-310 (sin revisión registrada)\n- Manual de Instalación ZX2e/ZX5e — DOC.MIE-MI-530, Revisión 001\n- Manual de Configuración ZX2e/ZX5e — DOC.MIE-MP-530, Revisión 001\n\n---\n\nTambién puedo ayudarte con: **programación del patrón de disparo de sirenas**, **prueba funcional de la línea de sirenas** o **conexionado de sirenas analógicas en lazo**."
+    }
+  ],
+  "limitations": [
+    "This artifact measures exact bot answers, not fact outcomes.",
+    "A separate fact-level adjudication is required before any KPI changes.",
+    "Retrieval and rerank are frozen S113 inputs and are not re-executed here."
+  ]
+}
