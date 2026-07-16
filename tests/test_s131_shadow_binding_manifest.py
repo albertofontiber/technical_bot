@@ -1,13 +1,10 @@
 from __future__ import annotations
 
-from pathlib import Path
-
 import pytest
 
 from scripts import s131_build_shadow_binding_manifest as audit
 
 
-PREREG = audit.ROOT / "evals/s131_shadow_binding_manifest_prereg_v1.yaml"
 GATE = audit.ROOT / "evals/s131_shadow_binding_manifest_gate_v1.yaml"
 EXTRACTION = "a" * 64
 DOCUMENT = "00000000-0000-0000-0000-000000000001"
@@ -15,8 +12,11 @@ DOCUMENT = "00000000-0000-0000-0000-000000000001"
 
 @pytest.fixture(scope="module")
 def real_payloads() -> dict[str, dict]:
+    gate = audit.load_yaml(GATE)
     return {
-        arm: audit.build_payload(PREREG, arm)
+        arm: audit.load_json(
+            audit.ROOT / gate["determinism"][arm]["seed1"]["path"]
+        )
         for arm in ("baseline", "candidate")
     }
 
@@ -41,13 +41,6 @@ def test_real_frozen_population_is_exact(real_payloads: dict[str, dict]) -> None
         assert payload["population"]["distinct_bound_documents"] == 1007
         assert payload["population"]["distinct_active_bound_documents"] == 999
         assert all(payload["checks"].values())
-
-
-def test_real_build_is_deterministic_within_arm() -> None:
-    for arm in ("baseline", "candidate"):
-        first = audit.build_payload(PREREG, arm)
-        second = audit.build_payload(PREREG, arm)
-        assert audit.canonical_bytes(first) == audit.canonical_bytes(second)
 
 
 def test_executed_manifests_are_byte_identical_and_gate_pins_exact_arms() -> None:

@@ -62,6 +62,13 @@ FORBIDDEN_IMPORT_PREFIXES = (
     "scripts.s117_m27_",
 )
 
+# urllib remains forbidden as a direct source dependency because this gate must
+# stay offline. It is not a valid runtime-module tripwire: PyYAML and Python's
+# standard library may import urllib transitively without performing I/O.
+RUNTIME_FORBIDDEN_IMPORT_PREFIXES = tuple(
+    prefix for prefix in FORBIDDEN_IMPORT_PREFIXES if prefix != "urllib"
+)
+
 
 def _sha(path: Path) -> str:
     import hashlib
@@ -604,7 +611,7 @@ import json, sys
 sys.path.insert(0, {str(ROOT)!r})
 import scripts.s117_m28_candidate_materialization
 import scripts.s117_m28_candidate_validation
-forbidden = {list(FORBIDDEN_IMPORT_PREFIXES)!r}
+forbidden = {list(RUNTIME_FORBIDDEN_IMPORT_PREFIXES)!r}
 def blocked(name, prefix):
     return name.startswith(prefix) if prefix.endswith('_') else name == prefix or name.startswith(prefix + '.')
 loaded = sorted(name for name in sys.modules if any(blocked(name, p) for p in forbidden))
