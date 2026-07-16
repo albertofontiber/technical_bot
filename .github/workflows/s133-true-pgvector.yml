@@ -42,6 +42,7 @@ jobs:
       S133_PGPORT: "55432"
       S133_PGDATABASE: s131_m0b
       S133_PGUSER: postgres
+      S133_EXPECTED_POSTGRES: "17.6"
       S133_EXPECTED_PGVECTOR: 0.8.0
 
     steps:
