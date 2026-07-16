@@ -1,0 +1,175 @@
+instrument: s131_m0b_disposable_runtime_gate_v1
+status: PARTIAL_GO_POSTGRESQL_RELATIONAL_LEXICAL_RUNTIME_ONLY
+overall_m0b: HOLD_TRUE_PGVECTOR_NOT_MEASURED
+authority: local_disposable_only_no_railway_no_serving_no_fact_reclassification
+
+runtime:
+  database: postgresql_17_10_windows_portable
+  bind: 127.0.0.1:55431
+  database_name: s131_m0b
+  production_data: false
+  vector_extension:
+    version: 0.0.0
+    implementation: signature_only_test_shim
+    behavior: NOT_MEASURED
+    prohibited_claims:
+      - pgvector_distance_semantics
+      - vector_index_behavior
+      - semantic_retrieval_quality
+
+frozen_population:
+  baseline_materialization_id: eb426a33-91cb-543e-a0c9-fd615dbc36cb
+  baseline_bindings: 1068
+  baseline_chunks: 31212
+  candidate_materialization_id: 1852e61c-ac7f-5232-be1c-627ea54f29b5
+  candidate_bindings: 1068
+  candidate_chunks: 31226
+  five_binding_statuses_observed:
+    bound_active_physical_sha_verified: 405
+    bound_active_legacy_snapshot_only: 597
+    bound_nonactive_legacy_snapshot: 8
+    unbound_snapshot_empty_document: 8
+    unbound_absent_from_snapshot: 50
+
+fresh_apply:
+  s117: PASS
+  s131: PASS
+  atomic_transaction: PASS
+
+positive_runtime:
+  exact_baseline_validation: PASS
+  narrow_lexical_rpc_as_runner: PASS
+  runner_rows_requested_and_returned: 10
+  validated_rows_immutable: PASS
+  validated_bindings_immutable: PASS
+  validated_discard_rejected: PASS
+  antecedent_s117_serving_routes_absent: PASS
+
+catalog_and_access:
+  rls_on_three_base_tables: PASS
+  security_invoker_view: PASS
+  function_owners: PASS
+  security_definer_search_path_empty: PASS
+  nologin_nonprivileged_internal_roles: PASS
+  runner_direct_base_reads_denied: PASS
+  runner_direct_view_read_denied: PASS
+  loader_direct_read_denied: PASS
+  anon_read_insert_rpc_denied: PASS
+  authenticated_read_insert_rpc_denied: PASS
+  service_role_read_insert_rpc_denied: PASS
+  exact_binding_fk_trigger_policy_index_catalog: PASS
+
+negative_runtime:
+  wrong_registry_tuple: PASS
+  crossed_binding_truth_table: PASS
+  chunk_without_binding: PASS
+  binding_without_chunks: PASS
+  asserted_manifest_mismatch: PASS
+  raw_hash_or_document_denormalization_mismatch: PASS
+  document_status_drift: PASS
+  ineligible_binding_marked_retrievable: PASS
+  loading_generation_discard_and_counts: PASS
+  validate_discard_race:
+    status: PASS
+    winner_observed: validate
+    terminal_state: validated
+    invariant: exactly_one_transition_succeeds
+
+rollback:
+  first_attempt:
+    status: SAFE_TRANSACTIONAL_ABORT
+    finding: truncate_documents_blocked_by_preserved_chunks_v2_fk
+    persisted_partial_changes: false
+  corrected_attempt:
+    status: PASS
+    cascade_used: false
+    residual_s117_s131_relations: 0
+    residual_s117_s131_functions: 0
+    residual_s117_s131_roles: 0
+    residual_s117_s131_policies: 0
+    preserved_chunks_v2: true
+    preserved_documents_table: true
+    synthetic_document_rows_after_rollback: 0
+
+runtime_findings_and_amendments:
+  - id: S117_PG17_TS_CONFIG_DISCOVERY
+    finding: to_regconfig_is_not_a_postgresql_17_function
+    amendment: catalog_lookup_via_pg_ts_config_and_pg_namespace
+  - id: S117_EXTENSION_SCHEMA_BINDING
+    finding: empty_search_path_did_not_resolve_unqualified_vector_distance_operator
+    amendment: extensions_vector_signature_and_operator_qualification
+  - id: S117_LEXICAL_ORDER_NAME_COLLISION
+    finding: output_column_rank_cannot_be_used_as_unqualified_order_expression
+    amendment: repeat_fully_qualified_ts_rank_expression
+  - id: S131_PUBLISHER_RLS_VISIBILITY
+    finding: transition_owner_had_table_grants_but_no_binding_or_document_rls_visibility
+    amendment: explicit_publisher_select_delete_policies_and_bound_document_policy
+
+regression:
+  focused_s117_s131:
+    passed: 46
+    failed: 0
+    skipped: 0
+  extended_local_upstream:
+    passed: 384
+    failed: 0
+    skipped: 1
+  model_calls: 0
+  embedding_calls: 0
+  network_calls: 0
+  railway_calls: 0
+
+artifacts:
+  s117_migration:
+    path: supabase/migrations/20260714102428_chunks_v3_provenance_shadow.sql
+    historical_frozen_sha256: cc328b3d11fadd2f094c491cfe4d8713044f89d2de05b7e405bd92b09c2ede90
+    amended_sha256: 37824e363835d5f531de9a24566d657583b886feeacc16d174ecd621c095b0e2
+  s131_migration:
+    path: supabase/migrations/20260716120000_chunks_v3_shadow_binding_v2.sql
+    historical_static_sha256: cde25ca419b00814ae2c569d7349ca0b3b66183c7e3ccea1ead52ca30f30877b
+    amended_sha256: 25912e0c00b0fd7e7a1ad37fefee243d32e6abf64d37ec26c947a791587b8c83
+  s117_tests:
+    path: tests/test_s117_chunks_v3_sql_contract.py
+    sha256: 07510a17708ed9f3373b90c9eb5a738663eab25778eee6963c2b7bf7fcfdb9c3
+  s131_tests:
+    path: tests/test_s131_chunks_v3_shadow_binding_sql.py
+    sha256: 7a5e09664b9910708c0747d583cbfa2d57913e39b342e45479f9e21b8611edec
+  fixture:
+    path: scripts/s131_m0b_base_fixture.sql
+    sha256: 8b26e376bb0c9f824c1ed70639498e9189601c1bfe4ca7aab94b5923dcc59bd7
+  vector_signature_shim_control:
+    path: scripts/s131_m0b_vector_shim.control
+    sha256: acea878f1bf377ec2a30e8b89ca4c02e4dd187bbd94cc4635809fd657a5ff0cd
+  vector_signature_shim_sql:
+    path: scripts/s131_m0b_vector_shim--0.0.0.sql
+    sha256: 5a70797f779951a4d07ea65d5243324231088f2d6d0f9108f38268fe3c7c2c00
+  positive_gate:
+    path: scripts/s131_m0b_disposable_gate.py
+    sha256: e3268be360dc670fec7492306450b8c2fe35e9af6e510d5af97982d97076a210
+  negative_gate:
+    path: scripts/s131_m0b_negative_gate.py
+    sha256: c91be57b0a73c4f07f4f00219fd9201bd90894eb64ee678be54a89e242ef3483
+  rollback:
+    path: scripts/s131_m0b_rollback.sql
+    sha256: c9f00610a641862a1fc4d865fb30c8d9dc3d87362af5380e9090b177bcc1a04a
+  baseline_binding_manifest:
+    path: evals/s131_shadow_binding_manifest_baseline_seed1_v1.json
+    sha256: 951c6a7615045d770574404cf664385b741bd0097abeebed6a0b6bc1f410f2c1
+  candidate_binding_manifest:
+    path: evals/s131_shadow_binding_manifest_candidate_seed1_v1.json
+    sha256: aa870ab8a484700656252d0315808ee69076a57edfa5d4c0c128e2dd54a13746
+
+authorization_and_claims:
+  production_migration: false
+  railway: false
+  serving: false
+  lexical_ab: false
+  heldout_opened: false
+  vector_retrieval: false
+  facts_moved_to_ok: 0
+
+decision:
+  relational_lexical_contract: GO_FOR_NEXT_LOCAL_LEXICAL_PREREG_ONLY
+  true_pgvector_m0b: HOLD
+  chunks_v3_production_migration: HOLD
+  fact_funnel_reclassification: HOLD_UNTIL_REAL_MEASURED_RETRIEVAL

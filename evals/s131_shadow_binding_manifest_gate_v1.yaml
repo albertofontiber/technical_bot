@@ -1,0 +1,59 @@
+instrument: s131_shadow_binding_manifest_gate_v1
+status: GO_FOR_STATIC_SQL_EXACT_ARM_FREEZE_ONLY
+
+authority:
+  prereg_sha256: 9c88c3f82532bbd9ba2f3a06b6ab62f7d8fb99f6410f1fc69d0518f0425b0ae5
+  execution_permit_sha256: 6d904b1f4d19ed37fbc4c0143bb1d8de5f7bf9e84d02a6ab3787647eaa3bfc04
+  generator_sha256: 497ac41519857cdada51e89c1f63c610c045b23fd281721c35b87a83170167c6
+
+determinism:
+  baseline:
+    seed1: {path: evals/s131_shadow_binding_manifest_baseline_seed1_v1.json, sha256: 951c6a7615045d770574404cf664385b741bd0097abeebed6a0b6bc1f410f2c1}
+    seed2: {path: evals/s131_shadow_binding_manifest_baseline_seed2_v1.json, sha256: 951c6a7615045d770574404cf664385b741bd0097abeebed6a0b6bc1f410f2c1}
+    byte_identical: true
+  candidate:
+    seed1: {path: evals/s131_shadow_binding_manifest_candidate_seed1_v1.json, sha256: aa870ab8a484700656252d0315808ee69076a57edfa5d4c0c128e2dd54a13746}
+    seed2: {path: evals/s131_shadow_binding_manifest_candidate_seed2_v1.json, sha256: aa870ab8a484700656252d0315808ee69076a57edfa5d4c0c128e2dd54a13746}
+    byte_identical: true
+
+exact_registry_arms:
+  baseline:
+    materialization_id: eb426a33-91cb-543e-a0c9-fd615dbc36cb
+    generation_manifest_sha256: 3040da3ace4e033f6bc52e3cf092e2427262d91729ecb67fe7a104a71cbd73a1
+    rows_manifest_sha256: 68e87fd43702fcf53f14ff7fbdbe65e4faa346977a199ff7427333b8cab950f3
+    bindings_manifest_sha256: 951c6a7615045d770574404cf664385b741bd0097abeebed6a0b6bc1f410f2c1
+    expected_chunks: 31212
+    expected_bindings: 1068
+  candidate:
+    materialization_id: 1852e61c-ac7f-5232-be1c-627ea54f29b5
+    generation_manifest_sha256: f702ddcf3d51a479fff90c95f1ccd6206680da4a262462f80a74b10c1b3c1089
+    rows_manifest_sha256: cdfcbae0cf476bf74cad9712b5a3f32433a9ea73662116e468ec27522c5cbb63
+    bindings_manifest_sha256: aa870ab8a484700656252d0315808ee69076a57edfa5d4c0c128e2dd54a13746
+    expected_chunks: 31226
+    expected_bindings: 1068
+
+population:
+  per_arm:
+    bindings: 1068
+    binding_statuses:
+      bound_active_physical_sha_verified: 405
+      bound_active_legacy_snapshot_only: 597
+      bound_nonactive_legacy_snapshot: 8
+      unbound_snapshot_empty_document: 8
+      unbound_absent_from_snapshot: 50
+    development: {extractions_total: 998, bound_active_extractions: 932}
+    heldout_s130: {extractions_total: 70, bound_active_extractions: 70}
+
+authorization:
+  static_sql_freeze: true
+  database: false
+  migration_apply: false
+  retrieval: false
+  network: false
+  models: false
+  embeddings: false
+  serving: false
+  deploy: false
+  facts_moved_to_ok: 0
+
+cost: {model_calls: 0, network_calls: 0, database_reads: 0, database_writes: 0, embeddings: 0}

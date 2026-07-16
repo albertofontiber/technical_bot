@@ -1,0 +1,96 @@
+instrument: s131_shadow_binding_manifest_prereg_v1
+status: frozen_before_implementation
+
+design:
+  v1: {path: evals/s131_chunks_v3_shadow_binding_design_v1.md, sha256: 85d1127771d7d958d3971e3a26d694bb72a6a1107dd95cf762c254e4fa665aad}
+  v2: {path: evals/s131_chunks_v3_shadow_binding_design_v2.md, sha256: acdd1f560fe8dc0ad92c9f31aad3c33d34b86a5698a10907ed09df077afc099f}
+  v3: {path: evals/s131_chunks_v3_shadow_binding_design_v3.md, sha256: 8fae477b5303a83731ec9f905d7f29acbcf3f41e0f34eeb2daaf2af93eb92ac1}
+
+frozen_inputs:
+  snapshot:
+    path: tmp/s117_m2/remote_snapshot_v1.jsonl.gz
+    sha256: 3013c553da20c72fbfe0dc801dad4ea4b063ecff3138dcf55b5cd7831cf79067
+    canonical_jsonl_sha256: c5c4e1027d85b5023e8834e221bb99799fedbea1a9826f5a42f88ff3ad8da8d5
+    documents: 1171
+    chunks: 25090
+    binding_pairs: 1018
+    binding_ledger_sha256: 1eec4001dfee4eb2228e92bb8f71018e02dc84e738b1973bce2aaabf5b97eaeb
+  m25:
+    path: evals/s117_m25_primary_binding_baseline_v1.json
+    sha256: bd7b24e93f730f5bbecd688cacc8fb233abdac07b68096ec934327670df4e626
+  raw_descriptors:
+    path: evals/s117_m29_reconciled_loss_ledger_seed1_v1.json
+    sha256: 06c82f2a276b0be28926205dc3910b0c7f3468b97a623c5114d6892bd146daf1
+    source_manifest_sha256: 752c044be1531d5bc2e2879f79acf1dbeffabcbeb9bb9d16f5e14a5676aa5810
+  heldout:
+    path: evals/s130_chunks_v3_heldout_exclusion_manifest_v2.json
+    sha256: 654ee7c211b2d908912e5600513fbc293ba9cda9bb6a9482e1266e378fd099b8
+
+arms:
+  baseline:
+    materialization_receipt:
+      path: evals/s117_chunks_v3_development_materialization_v1.json
+      sha256: d9f69e8d1428e11afa56723817f64226aa53db786c8034453dfde4adbbedca3a
+    materialization_id: eb426a33-91cb-543e-a0c9-fd615dbc36cb
+    generation_manifest_sha256: 3040da3ace4e033f6bc52e3cf092e2427262d91729ecb67fe7a104a71cbd73a1
+    expected_chunks_global: 31212
+    expected_rows:
+      development: 26588
+      heldout_s130: 3372
+      comparable_total: 29960
+  candidate:
+    materialization_receipt:
+      path: evals/s117_m28_candidate_materialization_seed1_v1.json
+      sha256: b18df39ad1677d0f20da4b78f32a8823162d826ff2387a82032adbac1d292b9e
+    materialization_id: 1852e61c-ac7f-5232-be1c-627ea54f29b5
+    generation_manifest_sha256: f702ddcf3d51a479fff90c95f1ccd6206680da4a262462f80a74b10c1b3c1089
+    expected_chunks_global: 31226
+    expected_rows:
+      development: 26601
+      heldout_s130: 3373
+      comparable_total: 29974
+
+expected_population:
+  extractions: 1068
+  bindings_per_arm: 1068
+  distinct_bound_documents: 1007
+  distinct_active_bound_documents: 999
+  binding_statuses:
+    bound_active_physical_sha_verified: 405
+    bound_active_legacy_snapshot_only: 597
+    bound_nonactive_legacy_snapshot: 8
+    unbound_snapshot_empty_document: 8
+    unbound_absent_from_snapshot: 50
+  partitions:
+    development:
+      extractions_total: 998
+      bound_active_extractions: 932
+    heldout_s130:
+      extractions_total: 70
+      bound_active_extractions: 70
+
+execution:
+  processes_per_arm: 2
+  output_order: [baseline_seed1, baseline_seed2, candidate_seed1, candidate_seed2]
+  outputs:
+    baseline_seed1: evals/s131_shadow_binding_manifest_baseline_seed1_v1.json
+    baseline_seed2: evals/s131_shadow_binding_manifest_baseline_seed2_v1.json
+    candidate_seed1: evals/s131_shadow_binding_manifest_candidate_seed1_v1.json
+    candidate_seed2: evals/s131_shadow_binding_manifest_candidate_seed2_v1.json
+  canonical_byte_identity_required_within_arm: true
+  exclusive_outputs: true
+
+authorization:
+  local_metadata_reads: true
+  raw_store_reads: false
+  raw_content_reads: false
+  database: false
+  network: false
+  models: false
+  embeddings: false
+  migration_apply: false
+  serving: false
+  deploy: false
+  facts_moved_to_ok: 0
+
+cost: {model_calls: 0, network_calls: 0, database_reads: 0, database_writes: 0, embeddings: 0}
