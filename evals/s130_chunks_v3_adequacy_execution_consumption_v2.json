@@ -1,0 +1,18 @@
+{
+  "instrument": "s130_chunks_v3_adequacy_execution_consumption_v2",
+  "status": "PERMIT_CONSUMED_BEFORE_CORPUS_READ",
+  "execution_freeze": {
+    "design_sha256": "381cdc185ccfa75b3d23c18ec0bd07b5d663c5db5fc00ce06dbfe6df564ed2ad",
+    "prereg_sha256": "3a74a62c0451ea94dd9293090db27def9fb73a5cbea5533656e524bc5296fa74",
+    "runner_sha256": "f00106292a5f40da72b18025479f9b425d1920713bd9b3e936e6874d22a658e6",
+    "tests_sha256": "6b3c933df02eea4308adbdc763f9d1fc69ebfe1c7b504afa24f29a962a31e55f",
+    "permit_sha256": "966c735441a9d853b349fe717d40523fd83103b301fe7b6db15de9ce31b5e1d4",
+    "consumption_receipt_output": "evals/s130_chunks_v3_adequacy_execution_consumption_v2.json",
+    "embargo_output": "evals/s130_chunks_v3_heldout_exclusion_manifest_v2.json",
+    "audit_output": "evals/s130_chunks_v3_adequacy_audit_v2.json"
+  },
+  "outputs": {
+    "embargo": "evals/s130_chunks_v3_heldout_exclusion_manifest_v2.json",
+    "audit": "evals/s130_chunks_v3_adequacy_audit_v2.json"
+  }
+}

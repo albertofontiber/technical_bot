@@ -1,0 +1,290 @@
+schema_version: s129_current_state_reconciliation_v1
+frozen_at_local_date: '2026-07-15'
+status: CURRENT_STATE_RECONCILED_NO_CURRENT_OFFICIAL_ATOMIC_KPI
+authority: local_read_only_artifact_and_git_reconciliation
+
+headline:
+  current_official_atomic_ok_count: null
+  reason: >-
+    No complete fact-level assessment exists after the S108-S128 code and
+    evaluation changes, and the atomic-requiredness migration still has
+    unmeasured claims. The values 79, 93 and 111 use different instruments or
+    denominators and must not be presented as one continuous KPI series.
+  next_critical_path: >-
+    First build an exact claim-to-gained-block impact map and close the real
+    measurement gaps. Keep chunks_v3 M0b as a parallel infrastructure track;
+    authorize shadow context/embeddings only if the cheap impact gate finds
+    material evidence for the frozen cohort.
+
+measurement_layers:
+  last_complete_standardized_assessment:
+    source: evals/s100_factlevel_full.yaml
+    source_commit: '9790673'
+    corpus_table: chunks_v2
+    questions: 39
+    classified_content_facts: 127
+    meta_refs_excluded: 2
+    histogram_from_artifact:
+      OK: 93
+      synthesis-miss: 11
+      rerank-miss: 14
+      retrieval-miss: 7
+      corpus-gap: 2
+    raw_ok_rate: 0.7322834645669292
+    recency: STALE_RELATIVE_TO_CURRENT_BRANCH_AND_WORKTREE
+    corpus_gap_note: >-
+      Both raw corpus-gap rows were later verified as false negatives, but the
+      source assessment was not rerun to assign their receiving stages.
+    documentation_correction_applied: >-
+      The 2026-07-10 scoreboard row now matches the artifact and classifier:
+      retrieval-miss=7 and rerank-miss=14. The row had those two cells
+      transposed before this reconciliation.
+
+  s113_partial_checkpoint:
+    source: evals/s113_fact_ledger_v1.json
+    status: NO_GO_PARTIAL_REGRESSION_NOT_OFFICIAL
+    fact_rows: 129
+    answers_available: 27
+    answers_pending: 12
+    stage_compatible_partial_histogram:
+      OK: 106
+      synthesis-miss: 13
+      rerank-miss: 1
+      retrieval-miss: 1
+      rest: 8
+    use: diagnostic_only
+
+  meaning_of_79:
+    source: evals/s124_residual_synthesis_reconciliation_v1.yaml
+    status: provisional_hybrid_diagnostic
+    content_denominator: 132
+    histogram:
+      OK: 79
+      known-m1-contract-hold: 33
+      synthesis-not-measured: 11
+      synthesis-miss: 2
+      retrieval-miss: 2
+      rest: 5
+    interpretation: >-
+      79 was not a fall from 93. It was the measured portion of a hybrid bridge
+      that deliberately parked 33 legacy parent facts and left 11 claims
+      without a measured answer.
+
+  meaning_of_111:
+    source: evals/s125_m1_reconciled_bridge_v1.json
+    status: provisional_hybrid_diagnostic_after_atomic_migration
+    content_denominator: 157
+    histogram_before_s126_reconciliation:
+      OK: 111
+      synthesis-miss: 12
+      retrieval-miss: 2
+      rest: 5
+      synthesis-not-measured: 27
+    interpretation: >-
+      The 33 parked legacy parents were decomposed into 58 core claims. Existing
+      frozen answers exposed 32 additional OK claims. This is measurement and
+      denominator reconciliation, not 32 new bot improvements.
+
+  latest_provisional_without_s126_candidate:
+    source: evals/s126_upstream_residual_audit_v1.json
+    status: PROVISIONAL_RECONCILIATION_NOT_FRESH_FULL_RUN
+    content_denominator: 157
+    histogram:
+      OK: 111
+      synthesis-not-measured: 27
+      synthesis-miss: 14
+      retrieval-miss: 4
+      source-contract-hold: 1
+      rest: 0
+    retrieval_miss:
+      - 'cat013#0:bucle cerrado'
+      - 'cat013#1:CLIP'
+      - 'cat017#2:licencia CLIP por lazo'
+      - 'hp010#1:Nivel 3'
+    source_contract_hold:
+      - 'cat008#3:1/2/3/4 lazo; 6-7 entrada A'
+    limitations:
+      - no fresh official full assessment
+      - 27 claims have no measured answer
+      - no globally comparable rerank bucket in this bridge
+
+  conditional_s126_projection:
+    source: evals/s126_compatibility_bundle_gate_v2.yaml
+    status: COUNTERFACTUAL_DEFAULT_OFF_NOT_FRESH_FULL_RUN
+    content_denominator: 157
+    histogram:
+      OK: 111
+      synthesis-not-measured: 29
+      synthesis-miss: 14
+      retrieval-miss: 2
+      source-contract-hold: 1
+      rest: 0
+    transition_if_enabled:
+      retrieval-miss_to_synthesis-not-measured: 2
+      facts_to_OK: 0
+    remaining_retrieval_miss:
+      - 'cat017#2:licencia CLIP por lazo'
+      - 'hp010#1:Nivel 3'
+    limitation: >-
+      The two additional unmeasured claims are conditional. S126 remains local,
+      default-off and carries zero official fact credit.
+
+largest_buckets_and_decision:
+  current_true_ranking: UNKNOWN_UNTIL_FRESH_COMPARABLE_RUN
+  last_complete_standardized_ranking:
+    - 'rerank-miss: 14'
+    - 'synthesis-miss: 11'
+    - 'retrieval-miss: 7'
+  latest_provisional_bridge_ranking_without_s126_candidate:
+    - 'synthesis-not-measured: 27'
+    - 'synthesis-miss: 14'
+    - 'retrieval-miss: 4'
+    - 'source-contract-hold: 1'
+  conditional_ranking_if_s126_candidate_enabled:
+    - 'synthesis-not-measured: 29'
+    - 'synthesis-miss: 14'
+    - 'retrieval-miss: 2'
+    - 'source-contract-hold: 1'
+  immediate_measurement_priority: >-
+    Resolve the 27 actually unmeasured claims with frozen contexts and generate
+    only genuinely missing answers. Treat the two S126 transitions separately;
+    do not optimize a bucket inferred by mixing actual and counterfactual ledgers.
+
+chunks_v3:
+  sources:
+    - evals/s117_m28_candidate_materialization_gate_v1.yaml
+    - evals/s117_m29_reconciled_loss_ledger_gate_v1.yaml
+  local_candidate:
+    documents: 1068
+    rows: 31226
+    raw_blocks: 333161
+    changed_documents: 27
+    unchanged_documents: 1041
+    blocks_recovered_vs_baseline: 100
+    coverage_regressions: 0
+    missing_blocks: 0
+    deterministic: true
+    loadable: false
+  current_code_receipts:
+    chunker_sha256: d851abf6761d8e5ff6dee4d2727b85c86fda21059dce8875a028cf8298e87764
+    materializer_sha256: bb218a509ca56f2ddf4e44d73c4235cefacfb4296a4b98c9d49a627a2536e65c
+    matches_frozen_candidate: true
+  proven:
+    - full local rematerialization over the frozen raw store
+    - parsed raw token-surface preservation
+    - exact provenance and deterministic identities
+    - 100 previously dropped raw blocks recovered with zero detected loss
+  not_proven:
+    - source PDF visual fidelity for the full corpus
+    - semantic quality improvement
+    - retrieval, rerank or synthesis improvement
+    - production load readiness
+    - any fact transition to OK
+  not_done:
+    - disposable PostgreSQL plus pgvector schema/apply/rollback validation
+    - context generation and embeddings for the candidate generation
+    - shadow database load
+    - chunks_v2 versus chunks_v3 retrieval comparison
+    - downstream rerank and synthesis cascade measurement
+    - production read-path switch
+  impact_caveat: >-
+    Only 27 of 1068 documents change content. Exact mapping of old S100
+    top-k/served chunk IDs to changed extractions finds nine affected qids:
+    cat007, cat011, cat013, cat017, cat024, hp001, hp006, hp007 and hp020.
+    This proves document exposure, not fact support. The added cat017 block is
+    unrelated to its remaining 'licencia CLIP por lazo' fact. A claim-to-
+    extraction-to-gained-span map is required before any impact claim or paid
+    shadow embeddings. Therefore chunks_v3 is foundational but not yet a
+    demonstrated direct fix for the largest miss bucket.
+
+experimental_workstreams:
+  S127:
+    status: NO_GO_REVOKED
+    action: preserve compact negative evidence; do not integrate
+  S128:
+    status: POSITIVE_LOWER_BOUND_DESIGN_NOT_BUILD_AUTHORIZED
+    evidence: 7 explicit relations from 6 source assertions across 4 classes
+    action: pause extractor build until chunks_v3 and funnel priority are settled
+  S126:
+    status: LOCAL_DEFAULT_OFF_CANDIDATE
+    action: preserve for later shadow replay; no official credit
+  S112_to_S125:
+    status: MIXED_LOCAL_MEASUREMENT_LINEAGE
+    action: consolidate receipts; do not treat every intermediate artifact as active
+
+workspace_hygiene:
+  local_origin_main_ref: f2c14fd
+  current_branch: codex/s108-failure-stage-reconciliation
+  head: ca0f736
+  commits_ahead_of_local_origin_main: 4
+  commits_behind_local_origin_main: 0
+  tracked_modified_paths: 17
+  untracked_paths: 446
+  total_dirty_paths: 463
+  untracked_bytes_approx: 2404629220
+  dominant_issue: >-
+    Large duplicate seeded evaluation outputs are stored as untracked files.
+    They should be reduced to compact hash receipts or moved to governed
+    artifact storage before any clean PR; no files were deleted in S129.
+  canonical_docs:
+    plan_last_current_state: S104
+    architecture_banner_last_stable_state: S71
+    assessment_scoreboard_issue: retrieval_rerank_transposition_corrected_in_s129
+
+recommended_upstream_to_downstream_sequence:
+  - >-
+    Freeze this reconciliation as the sole navigation snapshot and classify
+    S112-S128 artifacts as retain, archive, revoked or superseded.
+  - >-
+    Build the exact claim-to-extraction-to-gained-span map for the 27 changed
+    documents and 100 recovered blocks. Stop the KPI branch if it finds no
+    material opportunity in non-OK or unmeasured claims.
+  - >-
+    In parallel, close chunks_v3 M0b locally in disposable PostgreSQL plus
+    pgvector and verify apply, permissions, activation and rollback without
+    production data. This is infrastructure readiness, not OK credit.
+  - >-
+    Only if the impact map finds at least one materially relevant new span,
+    build a loadable shadow generation and generate context/embeddings for the
+    minimal preregistered population. Expand only after the cheap gate passes.
+  - >-
+    Compare chunks_v2 versus chunks_v3 at retrieval first, then rerank only
+    changed cases, then synthesis only cases whose served evidence changes.
+  - >-
+    Resolve the 27 actual synthesis-not-measured claims using frozen evidence;
+    add the two S126 claims only in an isolated candidate arm. This can publish
+    a complete hybrid funnel, not an official atomic KPI.
+  - >-
+    To publish an official atomic KPI, either migrate/adjudicate the 77 remaining
+    legacy carries or publish legacy-parent and atomic denominators in parallel
+    with a frozen crosswalk. Do not call the hybrid bridge fully atomic.
+  - >-
+    Resume relational extraction, voice/model resolution, visual evidence and
+    response-format work as independent tracks only after each has a bounded
+    target cohort and isolated credit.
+
+cost:
+  model_calls: 0
+  network_calls: 0
+  database_reads: 0
+  database_writes: 0
+
+verification:
+  reconciliation_source_assertions: PASS
+  focused_chunks_v3_and_funnel_lineage_suite:
+    passed: 320
+    skipped: 1
+    failed: 0
+  full_local_suite:
+    passed: 1285
+    skipped: 5
+    failed: 0
+  scoreboard_retrieval_rerank_transposition_corrected: true
+
+authorization:
+  documentation_and_local_audit_only: true
+  delete_or_archive_artifacts: false
+  database_or_railway: false
+  embeddings_or_context_generation: false
+  production_or_deploy: false
+  facts_moved_to_ok: 0

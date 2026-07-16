@@ -3,12 +3,8 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 15 jun 2026 (s76, DEC-058 — **revisión estructural de los 29 NO-PASS en ultracode**: la fase de
-> levers de RETRIEVAL está AGOTADA; la clase NO-tocada por esa fase es de DATOS = contrato de
-> REVISIÓN/precedencia [#4, spec escrito]. **PROD-REACH medido:** el gate del handler corta 7/9 mal
-> antes del RAG [catálogo desincronizado + regex] → deploy-prep #49 SUBE. **Sonda dual-judge:** el ruler
-> tiene un sesgo sistemático MEDIDO [30.8% cross-model; cat019/cat020 = falsos NO-PASS], no solo ±2.
-> NADA shippeado [3 builds gated]. 1 workflow + 2 cortes cross-model, 0 FP).
+> 15 jul 2026 (s129 — reconciliación upstream→downstream de S100/S112-S128;
+> `evals/s129_current_state_reconciliation_v1.yaml`).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -27,7 +23,42 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s104 — 10 jul 2026)
+## Estado actual (s129 — 15 jul 2026)
+
+**No existe todavía un KPI atómico oficial vigente.** La última evaluación completa y
+comparable (`s100_factlevel_full.yaml`, commit `9790673`, ya anterior al branch/worktree actual)
+dio **93/127 OK (73%) · synthesis 11 · retrieval 7 · rerank 14 · corpus-gap 2→0 tras revisión
+manual**. La fila del scoreboard tenía retrieval/rerank transpuestos y se corrigió en s129.
+
+El **79** era un puente híbrido que aparcaba 33 parents y dejaba 11 claims sin respuesta; el
+**111** aparece al sustituir esos 33 parents por 58 core claims y reutilizar respuestas congeladas.
+No son tres puntos del mismo KPI ni 32 mejoras del bot. La foto provisional sin activar S126 es:
+**157 claims · OK 111 · synthesis-not-measured 27 · synthesis-miss 14 · retrieval-miss 4 ·
+source-contract-hold 1**. S126, local y default-off, movería 2 retrieval→not-measured y **0→OK**.
+Además quedan **77 legacy carries** por migrar/adjudicar antes de poder publicar un KPI plenamente
+atómico; hasta entonces, cualquier funnel completo será híbrido y debe conservar crosswalk.
+
+**`chunks_v3`: GO estructural local, no GO de calidad/producción.** Se rematerializaron
+determinísticamente 1.068 documentos / 31.226 filas; recupera 100 bloques antes perdidos, con 0
+pérdidas detectadas, y cambia contenido en 27 documentos. Aún no hay DB apply/rollback real,
+contexto, embeddings, shadow load ni A/B retrieval. Nueve qids antiguos estuvieron expuestos a
+documentos cambiados, pero eso no prueba que el span nuevo soporte el fact. S127 queda
+**NO-GO/revocado** y S128 (extractor relacional) **pausado antes de build**.
+
+**Estado de ingeniería:** branch local S108-S111 = 4 commits sobre el `origin/main` local;
+S112-S128 siguen mayoritariamente en worktree (**463 paths dirty, ~2,4 GB untracked**). La suite
+actual pasa **1.285 tests, 5 skipped, 0 failed**. Nada de este bloque implica deploy o cambio de
+producción verificado.
+
+**Qué sigue, por orden:** (1) mapping exacto `claim→extraction→bloque ganado` sobre los 27 docs/100
+bloques; si no encuentra oportunidad material, parar la rama KPI de v3; (2) en paralelo, M0b de
+PostgreSQL+pgvector desechable (apply, permisos, activación y rollback); (3) solo con señal, generar
+contexto/embeddings para el shadow mínimo y medir **retrieval→rerank→synthesis** en cascada contra
+`chunks_v2`; (4) resolver los 27 not-measured reales con evidencia congelada y los 2 de S126 en
+brazo separado; (5) cerrar los 77 legacy o publicar ambos denominadores con crosswalk. Solo entonces
+elegir el mayor bucket fresco y reabrir mecanismos como el extractor relacional.
+
+## Estado anterior (s104 — 10 jul 2026)
 
 **s104 (DEC-102) — R2 corpus-wide ejecutado hasta su gate; DEC-101 MEDIDO en scoreboard (fila
 v3: OK 93/73%, retrieval 12→7, lista diana completa convertida +9/−7).** R2: pipeline seguro

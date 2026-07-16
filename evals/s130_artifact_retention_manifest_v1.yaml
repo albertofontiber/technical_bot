@@ -1,0 +1,94 @@
+instrument: s130_artifact_retention_manifest_v1
+status: LOCAL_CLASSIFICATION_ONLY_NO_FILES_MOVED_OR_DELETED
+authority: navigation_and_retention_not_functional_quality
+
+canonical_navigation:
+  current:
+    - evals/s129_current_state_reconciliation_v1.yaml
+    - docs/PLAN_RAG_2026.md
+  rule: >-
+    S129 is the sole current navigation snapshot. Earlier artifacts remain
+    evidence or lineage and must not be read as concurrent current plans.
+
+workstreams:
+  s112_s116_synthesis_and_contract_lineage:
+    disposition: RETAIN_LINEAGE
+    navigation_status: SUPERSEDED_BY_S129
+    reason: >-
+      Required to explain answer-planner, atomicity and source-contract
+      decisions, but not an independent current funnel.
+
+  s117_chunks_v3:
+    disposition: RETAIN_ACTIVE_UPSTREAM_EVIDENCE
+    navigation_status: ACTIVE_GATED_BY_S130
+    canonical_compact_receipts:
+      - evals/s117_m28_candidate_materialization_gate_v1.yaml
+      - evals/s117_m29_reconciled_loss_ledger_gate_v1.yaml
+      - evals/s117_m27_loss_rows_compact_v1.json
+    large_payload_policy:
+      - paths:
+          - evals/s117_m27_loss_accounted_alignment_seed1_v1.json
+          - evals/s117_m27_loss_accounted_alignment_seed2_v1.json
+        bytes_each: 1031097712
+        gate_attested_sha256: 3c947f25f3996be7af0ec5a9dfa86cacbc4f125a84381fd1153d1c7fb2019dc3
+        gate_attested_byte_identical: true
+        proposed_action_after_explicit_cleanup_gate: >-
+          Preserve one full payload in governed artifact storage, retain the
+          compact receipt and gate in the repo, and remove both worktree copies.
+        action_executed: false
+      - class: other_seeded_duplicate_outputs
+        proposed_action_after_hash_verification: >-
+          Retain compact gates plus at most one full seed outside the repo;
+          remove duplicate worktree copies only after a reversible manifest is
+          frozen.
+        action_executed: false
+
+  s118_s126_atomic_bridge_and_funnel:
+    disposition: RETAIN_MEASUREMENT_LINEAGE
+    navigation_status: PROVISIONAL_SUPERSEDED_BY_S129
+    reason: >-
+      These artifacts explain 79, 111, the 27 unmeasured claims and S126's
+      default-off projection. They are not separate official KPIs.
+
+  s127_compatibility_generalization:
+    disposition: RETAIN_REVOKED_EVIDENCE
+    navigation_status: REVOKED
+    final_authority: evals/s127_final_adversarial_gate_v1.yaml
+    final_status: NO_GO_REVOKED
+    serving_credit: 0
+    rule: >-
+      Keep designs, reviews and replay to prevent re-litigation; do not treat
+      the implementation or development cohort as an active candidate.
+
+  s128_relational_extractor:
+    disposition: RETAIN_PAUSED_RESEARCH
+    navigation_status: PAUSED_BEFORE_BUILD
+    retained_scope:
+      - source-first census
+      - census adjudication
+      - extractor design
+    rule: >-
+      Reopen only after a fresh funnel shows a material relation-bound bucket;
+      no extractor build or OK credit is active.
+
+  s129_reconciliation:
+    disposition: RETAIN_CANONICAL_CURRENT
+    navigation_status: CURRENT
+
+  s130_v3_adequacy_and_measurement_cleanup:
+    disposition: RETAIN_ACTIVE_LOCAL_WORK
+    navigation_status: ACTIVE
+    design: evals/s130_chunks_v3_adequacy_and_impact_design_v1.md
+
+cleanup_gate:
+  before_any_move_or_delete:
+    - recompute file size and sha256 for every selected payload
+    - verify the compact gate remains sufficient to reproduce the decision
+    - write a reversible source_to_destination_or_delete manifest
+    - keep at least one governed full payload when compact evidence is not reproducible
+    - obtain explicit authorization for destructive deletion
+  files_moved: 0
+  files_deleted: 0
+  database_changes: 0
+  production_changes: 0
+  model_calls: 0

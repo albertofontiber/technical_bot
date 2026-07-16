@@ -1,0 +1,30 @@
+instrument: s130_chunks_v3_adequacy_execution_permit_v1
+status: GO_TO_EXECUTE_LOCAL_CENSUS_ONCE
+
+design:
+  path: evals/s130_chunks_v3_adequacy_and_impact_design_v7.md
+  sha256: afd32696a91a6b324373002afdf988ae9df89d0e18ea266b7d77784ddb5e9a57
+
+implementation:
+  prereg_path: evals/s130_chunks_v3_adequacy_prereg_v1.yaml
+  prereg_sha256: e53930df856beb7dfa7752b6919f03b90c712dbc42e468c810090c15ccf6036a
+  runner_path: scripts/s130_chunks_v3_adequacy_audit.py
+  runner_sha256: 194e4bbc806a528c2d869d2d05c7e2dd199b2e36fb68813c2f4be85b9d2a5e93
+  tests_path: tests/test_s130_chunks_v3_adequacy_audit.py
+  tests_sha256: 9d47916ffa4bb175ed2f92823aaadd787da22e16854e8fc84e3a3c71a33edcd3
+
+outputs:
+  consumption_receipt: evals/s130_chunks_v3_adequacy_execution_consumption_v1.json
+  embargo: evals/s130_chunks_v3_heldout_exclusion_manifest_v1.json
+  audit: evals/s130_chunks_v3_adequacy_audit_v1.json
+
+authorization:
+  executions: 1
+  scope: local_read_only_corpus_census
+  network_calls: 0
+  model_calls: 0
+  database_reads: 0
+  database_writes: 0
+  migrations: 0
+  v4_builds: 0
+  production_changes: 0

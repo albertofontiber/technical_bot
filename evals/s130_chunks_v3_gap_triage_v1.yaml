@@ -1,0 +1,100 @@
+instrument: s130_chunks_v3_gap_triage_v1
+status: GO_TO_ATTRIBUTABLE_V2_V3_SHADOW_NO_V4_BUILD
+authority: practical_gap_triage_not_formal_s_or_p_adjudication
+
+dependencies:
+  embargo:
+    path: evals/s130_chunks_v3_heldout_exclusion_manifest_v2.json
+    sha256: 654ee7c211b2d908912e5600513fbc293ba9cda9bb6a9482e1266e378fd099b8
+  audit:
+    path: evals/s130_chunks_v3_adequacy_audit_v2.json
+    sha256: 8d53ae28a5b78f4f3392a8cdaf1008fef6e4f302a448af09bbbf9f0076163e7c
+  chunker:
+    path: src/reingest/chunk.py
+    sha256: d851abf6761d8e5ff6dee4d2727b85c86fda21059dce8875a028cf8298e87764
+
+heldout:
+  status: GO
+  excluded_extractions: 70
+  failures: 0
+
+structural_comparison:
+  v2_rows: 31212
+  v3_rows: 31226
+  changed_documents: 27
+  gained_blocks: 100
+  regressed_blocks: 0
+  eligible_gained_blocks: 97
+  zero_raw_blocks_not_stored: true
+  zero_invalid_source_spans: true
+  zero_chunk_span_token_mismatches: true
+  eligible_streams_exact: true
+
+eligible_gained_block_review:
+  inspection: exact_raw_text_for_all_97_eligible_blocks
+  reviewed: 97
+  categories:
+    unequivocal_surface_boilerplate:
+      count: 81
+      composition:
+        underscore_separators: 62
+        isolated_numeric_page_markers: 16
+        markdown_rules: 2
+        empty_table: 1
+    contextual_labels_or_running_marks:
+      count: 10
+    headings:
+      count: 6
+  linked_frozen_claims: 0
+  interpretation:
+    - v3_recovers_real_raw_coverage
+    - no_kpi_shadow_signal_observed_in_the_resolved_current_map
+    - impact_remains_inconclusive_due_to_39_binding_unresolved_and_no_retrieval_measurement
+    - storage_preservation_and_retrieval_eligibility_must_remain_separate
+
+gap_ownership_triage:
+  hard_chunker_correctness_failure:
+    demonstrated: false
+    reason: exact_raw_coverage_and_span_binding_hold_with_zero_regression
+  systemic_v4_gate:
+    demonstrated: false
+    reason: no_class_has_proven_both_chunker_ownership_and_projection_insufficiency
+  provisional_extraction_or_metadata_owned_candidates:
+    - repeated_page_header
+    - repeated_page_footer
+    - repeated_heading_across_pages
+    - row_without_lineage
+    - visual_metadata_screenshot_only
+    - surface_short_numeric_only
+    - surface_symbol_only
+    - surface_very_short_token
+  reversible_projection_candidates:
+    - caption_table_boundary
+    - intro_list_boundary
+    - same_lineage_adjacent_boundary
+    - mixed_descendant_branches
+    - stored_content_over_16000
+    - structural_oversize_7000_16000
+  projection_principle: preserve_content_and_provenance_then_derive_retrieval_eligibility_or_retrieval_text
+
+decision:
+  formal_s130_axis_s: inconclusive_pending_full_metric_adjudication
+  formal_s130_axis_p: inconclusive_pending_metric_and_impact_adjudication
+  build_chunks_v4_now: false
+  migrate_chunks_v3_now: false
+  next_experiment: attributable_v2_without_projection_vs_v3_without_projection
+  after_chunker_arm: test_reversible_projection_on_frozen_winner_if_signal_remains
+  facts_moved_to_ok: 0
+
+anti_overfit:
+  manufacturer_model_qid_or_gold_specific_rules: 0
+  heldout_content_used: false
+  semantic_or_retrieval_effect_claimed: false
+  automatic_v4_or_migration_authority: false
+
+cost:
+  model_calls: 0
+  network_calls: 0
+  database_reads: 0
+  database_writes: 0
+  embeddings: 0

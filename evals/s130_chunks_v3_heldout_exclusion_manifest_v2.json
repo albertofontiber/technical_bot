@@ -1,0 +1,2342 @@
+{
+  "instrument": "s130_chunks_v3_heldout_exclusion_manifest_v2",
+  "status": "GO",
+  "dependencies": {
+    "prereg_sha256": "3a74a62c0451ea94dd9293090db27def9fb73a5cbea5533656e524bc5296fa74",
+    "design_sha256": "381cdc185ccfa75b3d23c18ec0bd07b5d663c5db5fc00ce06dbfe6df564ed2ad",
+    "raw_store_slug": "agent_anthropic-sonnet-45",
+    "raw_store_manifest_sha256": "752c044be1531d5bc2e2879f79acf1dbeffabcbeb9bb9d16f5e14a5676aa5810",
+    "m25_snapshot_sha256": "3013c553da20c72fbfe0dc801dad4ea4b063ecff3138dcf55b5cd7831cf79067",
+    "doc_map_sha256": "992c62c21b5772caebf09f422adca20ffe4035143861ca931e5198e820572c82",
+    "products_sha256": "c192a407e9ebd780c8864936a4a5a90d7ba3190982c5c9a52b998efaf9b97229",
+    "relations_sha256": "09bb24af2ac5f0277cd6f80fc36e61ef710da4d2cd8704b1392e67e5df1f699d",
+    "docrel_sha256": "0a08b33ee75f6f7fdccdca7746d8f6af8b7a696fba37b13d8e82fd4a0f959a6d"
+  },
+  "identity_ledgers": {
+    "s114": {
+      "metadata_rows": 1859,
+      "entries": 36,
+      "ledger_sha256": "50e52bbb52288da94b31f57721223634f10afbf81b2f5d1198c9a556fc2b8e3f",
+      "forward_conflicts": 0,
+      "reciprocal_conflicts": 0
+    },
+    "snapshot_chunks": {
+      "pairs": 1018,
+      "documents_including_empty_identity": 1008,
+      "extractions": 1018,
+      "ledger_sha256": "1eec4001dfee4eb2228e92bb8f71018e02dc84e738b1973bce2aaabf5b97eaeb",
+      "nonempty_document_conflicts": 3,
+      "empty_document_extractions": 8
+    }
+  },
+  "counts": {
+    "source_seed_occurrences": {
+      "s114": 24,
+      "s115": 12,
+      "s63": 28
+    },
+    "selected_rows_s114_s115": 36,
+    "selected_unique_pairs_s114_s115": 24,
+    "s63_reference_occurrences": 29,
+    "s63_unique_identities": 23,
+    "direct_seed_occurrences": 64,
+    "direct_documents": 43,
+    "direct_extractions": 43,
+    "closure_catalog_ids": 92,
+    "excluded_documents": 70,
+    "excluded_extractions": 70,
+    "failures": 0
+  },
+  "s63_resolution": {
+    "occurrence_routes": {
+      "catalog": 25,
+      "logical_support_outside_raw_pdf_population": 1,
+      "s114_metadata": 3
+    },
+    "unique_identities": 23,
+    "logical_support_outside_raw_pdf_population": [
+      {
+        "qid": "ho009",
+        "identity": "model_catalog.json",
+        "route": "logical_support_outside_raw_pdf_population"
+      }
+    ]
+  },
+  "seeds": [
+    {
+      "source": "s114",
+      "seed_id": "066c4080-1507-4485-ad24-d45fab075347",
+      "document_id": "4bf442fb-9f63-4205-a2f7-535a5055eac6",
+      "extraction_sha256": "47462097a5681c6953d66c481de91310026c4b42acadb30d28c365e0365eaf37",
+      "source_pdf_identity": "backfill:a197654ba3e974d4dadc718cb2c7afe6625dcd8e2557106cb0ac90274b548a50",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "i56-2081-001es 6500r(s) manual",
+      "product_ids": [
+        "systemsensor:6500r",
+        "systemsensor:6500rs"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 22,
+      "revision_identity": "i56-2081-001es 6500r(s) manual"
+    },
+    {
+      "source": "s114",
+      "seed_id": "0edba984-d9ca-4d96-8bcc-3b723b787ed3",
+      "document_id": "84863939-f9f5-4688-9e43-f8114968fe6d",
+      "extraction_sha256": "acabc6ace90b8fc5d0574a15097b1a7a397e47ad1adff6287f0d9b00e71a9d28",
+      "source_pdf_identity": "backfill:9769aeaf9fe808424a5f544dd7cc110e6ab80576a329b9d3f030c0e01c928c90",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "manual-de-usuario-s3-ir-y-s-2-ir",
+      "product_ids": [],
+      "product_expansion_available": false,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 24,
+      "revision_identity": "manual-de-usuario-s3-ir-y-s-2-ir"
+    },
+    {
+      "source": "s114",
+      "seed_id": "207d1733-dd1a-447b-82cc-41da853ce62f",
+      "document_id": "4ba70bd0-34a1-4977-ad31-0a8e788c4ebb",
+      "extraction_sha256": "05f2a31a9415193e1a9a6ec6fc32bae39f3aad0ca4df707df762c66c7e3c7640",
+      "source_pdf_identity": "backfill:b2f8bd2392e2e12a2023ee2497e997f6f3b724afd87978ca82fa6c8706edb4b0",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "mndt722_40-40l",
+      "product_ids": [],
+      "product_expansion_available": false,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 77,
+      "revision_identity": "mndt722_40-40l"
+    },
+    {
+      "source": "s114",
+      "seed_id": "24962ed1-9ccd-48b4-ba00-3b8a462886d5",
+      "document_id": "e4340aa7-2574-4d24-bbdd-da58f55dbf53",
+      "extraction_sha256": "b3aa13af3416b894337b9b541ed100ec366af31611d27eac91f753dd7a19577a",
+      "source_pdf_identity": "b3aa13af3416b894337b9b541ed100ec366af31611d27eac91f753dd7a19577a",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "3102984-ml_r003_excellence_series_intelligent_addressable_dual_optical_detector_installation_sheet",
+      "product_ids": [
+        "kidde:ke-dp3020w",
+        "kidde:ke-dp3120w"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": 22,
+      "revision_identity": "3102984-ml_r003_excellence_series_intelligent_addressable_dual_optical_detector_installation_sheet"
+    },
+    {
+      "source": "s114",
+      "seed_id": "29b49e99-07fe-4b83-8afd-2d770d8fc09d",
+      "document_id": "0d4e7b1a-4a59-40d0-9ebc-d7a70a06a3e8",
+      "extraction_sha256": "178362d829ae786f3d9888f93ad1f82cda31ab4c28aad98ed3c3aaf5157e0aef",
+      "source_pdf_identity": "178362d829ae786f3d9888f93ad1f82cda31ab4c28aad98ed3c3aaf5157e0aef",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "smart 2_mt251_ita-eng",
+      "product_ids": [],
+      "product_expansion_available": false,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": 13,
+      "revision_identity": "smart 2_mt251_ita-eng"
+    },
+    {
+      "source": "s114",
+      "seed_id": "2b9a9f41-f468-42db-895b-920fb5050472",
+      "document_id": "2b694083-5b21-4f1a-a29b-565072860fb8",
+      "extraction_sha256": "44d6f7126ffe2d4bb86c64abd3d8502b011a278086c4f9083a0c4d76fe4b6d07",
+      "source_pdf_identity": "backfill:4fa5d9673e27616ce1a11250cc8364a89332b163a60acea1e55322efc5958c8a",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "is5001-f_is-ma1_en",
+      "product_ids": [
+        "e2s:is-ma1"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 15,
+      "revision_identity": "is5001-f_is-ma1_en"
+    },
+    {
+      "source": "s114",
+      "seed_id": "3fbc1de1-8570-4d9e-808c-ae4eb94e6447",
+      "document_id": "d1b5d5be-d4f3-45d6-abc1-7448c224d2d1",
+      "extraction_sha256": "dfe2396c52a19e41dc5fb8fda17e5b07b39caae1b9272886b1f19addff6377a0",
+      "source_pdf_identity": "dfe2396c52a19e41dc5fb8fda17e5b07b39caae1b9272886b1f19addff6377a0",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+      "product_ids": [
+        "kidde:2x-ae1",
+        "kidde:2x-ae2",
+        "kidde:2x-ae2-p",
+        "kidde:2x-af1",
+        "kidde:2x-af1-fb",
+        "kidde:2x-af1-fb-s",
+        "kidde:2x-af1-s",
+        "kidde:2x-af1-scfb",
+        "kidde:2x-af1-scfb-s",
+        "kidde:2x-af2",
+        "kidde:2x-af2-fb",
+        "kidde:2x-af2-fb-p",
+        "kidde:2x-af2-fb-prt",
+        "kidde:2x-af2-fb-prt-p",
+        "kidde:2x-af2-fb-s",
+        "kidde:2x-af2-p",
+        "kidde:2x-af2-prt",
+        "kidde:2x-af2-prt-p",
+        "kidde:2x-af2-s",
+        "kidde:2x-af2-scfb",
+        "kidde:2x-af2-scfb-p",
+        "kidde:2x-af2-scfb-s",
+        "kidde:2x-afr",
+        "kidde:2x-afr-fb",
+        "kidde:2x-afr-fb-s",
+        "kidde:2x-afr-s"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": 202,
+      "revision_identity": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0"
+    },
+    {
+      "source": "s114",
+      "seed_id": "477b868f-546c-4401-a934-fdfd576eb54a",
+      "document_id": "38fa6760-cb28-413e-8a4d-b7d7ee2ccc1d",
+      "extraction_sha256": "32f577bb5dbde6670db8fb487cc8c08a3c2a212c95ffc1f49f189954d4aef774",
+      "source_pdf_identity": "32f577bb5dbde6670db8fb487cc8c08a3c2a212c95ffc1f49f189954d4aef774",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "pl4_mt574e_eng",
+      "product_ids": [],
+      "product_expansion_available": false,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": 24,
+      "revision_identity": "pl4_mt574e_eng"
+    },
+    {
+      "source": "s114",
+      "seed_id": "4c92486b-bbd6-420c-b47f-66dc1cb8711c",
+      "document_id": "408a3a7b-aab9-40f5-af5b-a45e267d67c6",
+      "extraction_sha256": "885a6113d172d7e6166a336c014236598076d4cde7b8fedbb167000a68277d46",
+      "source_pdf_identity": "backfill:6f3c9b39edce580663041d579e8c6c72328c3fc51738878fe074a467d3b9e462",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "instruction manual sgmcb200",
+      "product_ids": [
+        "argus:sgmcb200"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 15,
+      "revision_identity": "instruction manual sgmcb200"
+    },
+    {
+      "source": "s114",
+      "seed_id": "540b4ccd-1ae0-4252-a6bb-069db622e22c",
+      "document_id": "aac0d826-9830-4f6e-a9a8-dc0159bffee7",
+      "extraction_sha256": "047b3733efb097a3bb513b53f7937d1f9fcd8d9384b0cc89f110aa671dd3c1f0",
+      "source_pdf_identity": "047b3733efb097a3bb513b53f7937d1f9fcd8d9384b0cc89f110aa671dd3c1f0",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "10-5106-501-55nc-05_r005_iu2055nc_installation_sheet_ml",
+      "product_ids": [
+        "aritech:iu2055nc"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": 51,
+      "revision_identity": "10-5106-501-55nc-05_r005_iu2055nc_installation_sheet_ml"
+    },
+    {
+      "source": "s114",
+      "seed_id": "59928572-1cd0-4ec7-a09c-b586034e488c",
+      "document_id": "f1dc59b2-796b-49d8-9fcc-d07bb5708f55",
+      "extraction_sha256": "7f4f614315017bcf6de9703f630c2a98c6f2be0a38d3b15d2f82f3c339fbd170",
+      "source_pdf_identity": "backfill:cc5041c98a8aa3b660da0d54225d51279482c817c81848669d11bd0469adcb94",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "neo8060s02-mu - manual de usuario serie neo rev1_1_4",
+      "product_ids": [
+        "lda:etx-1",
+        "lda:ldaneotfl",
+        "lda:neo4250e",
+        "lda:neo4500e",
+        "lda:neo4500le",
+        "lda:neo8060",
+        "lda:neo8250e"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 81,
+      "revision_identity": "neo8060s02-mu - manual de usuario serie neo rev1_1_4"
+    },
+    {
+      "source": "s114",
+      "seed_id": "5aee54fa-2612-4801-b4bf-ae27a19e359d",
+      "document_id": "62d99550-6dd0-408b-9233-9ef11ae7776d",
+      "extraction_sha256": "b95e6cb485d9ad36b1328ba3626d0e569215bf9d4d6d9259432bb1c87de45c2f",
+      "source_pdf_identity": "b95e6cb485d9ad36b1328ba3626d0e569215bf9d4d6d9259432bb1c87de45c2f",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "datasheet-cad-171-ds-737-en",
+      "product_ids": [
+        "detnov:cad-171"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": 4,
+      "revision_identity": "datasheet-cad-171-ds-737-en"
+    },
+    {
+      "source": "s114",
+      "seed_id": "72612b0b-0658-480d-84ce-d56e084495e9",
+      "document_id": "b788bbda-6045-46f5-b645-b54a23bdae5c",
+      "extraction_sha256": "0f278ffec42fc152832c7112ec3bd82e2fceb2942bd7cc107a630ca7ddcd66c1",
+      "source_pdf_identity": "backfill:4d312628b9af7cf6299d287e1dee390fd6d3ee844443b8ee95d8281002337572",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "instruction manual sg100-is eng",
+      "product_ids": [
+        "argus:sg100-is"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 15,
+      "revision_identity": "instruction manual sg100-is eng"
+    },
+    {
+      "source": "s114",
+      "seed_id": "7c010925-85c7-41db-96b9-90ebfe564917",
+      "document_id": "3fbd5950-24fb-4ccc-9511-07c2a0df0786",
+      "extraction_sha256": "3a41d329f0e1ec47ceb50f23d0982f30569cfd65c95fbdf42a9278040dd98c06",
+      "source_pdf_identity": "3a41d329f0e1ec47ceb50f23d0982f30569cfd65c95fbdf42a9278040dd98c06",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0",
+      "product_ids": [
+        "kidde:9-30780-kid-en",
+        "kidde:9-30781-kid-en",
+        "kidde:9-30782-kid-en",
+        "kidde:9-30783-kid-en"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": 151,
+      "revision_identity": "3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0"
+    },
+    {
+      "source": "s114",
+      "seed_id": "7e50a922-84df-4109-9160-1a501c32b629",
+      "document_id": "6e9bbb8e-cac7-4aaa-9d29-747499b45636",
+      "extraction_sha256": "fe9c55fb3aefeee5c98648f61967d76f6d01fbdb121a6ae039505a9371653615",
+      "source_pdf_identity": "backfill:60d8632db0e7193674fac7a3f13ee7a432876f678f17f0c234c756916b7ba730",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "manual-de-usuario-ms3rs485_v1",
+      "product_ids": [
+        "fidegas:ms3-rs485"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 3,
+      "revision_identity": "manual-de-usuario-ms3rs485_v1"
+    },
+    {
+      "source": "s114",
+      "seed_id": "935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033",
+      "document_id": "7aa2b161-a7b7-4c5b-8877-1bf04daf4e88",
+      "extraction_sha256": "798ae7634ca2136e311a71fc074297db0742fa5a7d4775902007845c890afe58",
+      "source_pdf_identity": "backfill:796649f84b36e78645a65ea5f29e1ea8061d6ca45e1a53d7624ab1ef860b21a3",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "35007_03_vesda-e_ves-a00-p_product_guide_a4_spanish_lores",
+      "product_ids": [
+        "xtralis:ves-a00-p"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 123,
+      "revision_identity": "35007_03_vesda-e_ves-a00-p_product_guide_a4_spanish_lores"
+    },
+    {
+      "source": "s114",
+      "seed_id": "a3188eb9-70fa-4d35-8b1e-37065c21aec1",
+      "document_id": "e3c8df3a-0452-48d9-9432-afb4ef9765d3",
+      "extraction_sha256": "ec2d5396055cebf7c30051e15513a4932c5675cdfc223fc6c6bf7d6f737d7baa",
+      "source_pdf_identity": "ec2d5396055cebf7c30051e15513a4932c5675cdfc223fc6c6bf7d6f737d7baa",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0",
+      "product_ids": [],
+      "product_expansion_available": false,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": 140,
+      "revision_identity": "04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0"
+    },
+    {
+      "source": "s114",
+      "seed_id": "be1945fb-f874-4a11-b6fc-76ce6f7468d1",
+      "document_id": "0951df3f-2d52-46d2-9669-627ab7251776",
+      "extraction_sha256": "4e0562d523a995ccc2c35c004876ef5dc6186de4ae9bde3ade83ef23d5bd91d1",
+      "source_pdf_identity": "backfill:696177e00617587f23df79eb14797e47c35cb1ad5d39e0de0ef015ce3313e815",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "33036_05_vesda-e_vea-040-a00_product_guide_a4_spanish_lores",
+      "product_ids": [
+        "xtralis:vea-040-a00",
+        "xtralis:ver-a40-40-stx"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 128,
+      "revision_identity": "33036_05_vesda-e_vea-040-a00_product_guide_a4_spanish_lores"
+    },
+    {
+      "source": "s114",
+      "seed_id": "c07ed164-df92-4e07-9e8a-d1a4d730d3f0",
+      "document_id": "2b694083-5b21-4f1a-a29b-565072860fb8",
+      "extraction_sha256": "44d6f7126ffe2d4bb86c64abd3d8502b011a278086c4f9083a0c4d76fe4b6d07",
+      "source_pdf_identity": "backfill:4fa5d9673e27616ce1a11250cc8364a89332b163a60acea1e55322efc5958c8a",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "is5001-f_is-ma1_en",
+      "product_ids": [
+        "e2s:is-ma1"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 15,
+      "revision_identity": "is5001-f_is-ma1_en"
+    },
+    {
+      "source": "s114",
+      "seed_id": "d05a9c31-2d29-461a-94b1-7d12edb7f1a4",
+      "document_id": "9a74d88b-7c87-4a23-b1ad-dbbda3b4fbb2",
+      "extraction_sha256": "8e09ca880c53adf9a0b65d586150d1dfd407ce965c8eb4dbf8f7928379fc32b7",
+      "source_pdf_identity": "backfill:2c750c694abc3024630355bd48b150f05d447ed64322eb1b0f50e2acf71da833",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "guide-40-40r-single-ir-flame-detector-spectrex-en-us-1459812",
+      "product_ids": [
+        "spectrex:777163",
+        "spectrex:777650",
+        "spectrex:777670",
+        "spectrex:fs-1300"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 75,
+      "revision_identity": "guide-40-40r-single-ir-flame-detector-spectrex-en-us-1459812"
+    },
+    {
+      "source": "s114",
+      "seed_id": "d3e6d574-9d67-40f6-aed6-109c6f9d2be0",
+      "document_id": "9a5791a3-df8f-4311-90fd-1e4468716eca",
+      "extraction_sha256": "9b3364f5fe26616c316c0afc3c0d1788f837dfe7388240ca97e0bc742a733ed5",
+      "source_pdf_identity": "backfill:531d6c75d86b566f662e533024373e3c38a30970ae6fadcd2202bd7a104bb5e7",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "i56-3836-006_faast_xm_8100e_ml",
+      "product_ids": [
+        "systemsensor:8100e-faast"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 181,
+      "revision_identity": "i56-3836-006_faast_xm_8100e_ml"
+    },
+    {
+      "source": "s114",
+      "seed_id": "e27a94ef-f5aa-4218-921d-92a9bdb0b69f",
+      "document_id": "757dc354-4ade-4099-91e8-bd28f5385245",
+      "extraction_sha256": "e68665ba79edce275efe2b1e5bef84b2ded4db414510aab547e6da8aac038a94",
+      "source_pdf_identity": "backfill:6ff18123424f215359f9a7d60d9afa7060d5a1c38cd160e0f8535bf8560da4d2",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "one500s01-mu - manual de usuario serie one v2.1",
+      "product_ids": [
+        "lda:one-500",
+        "lda:one-bc",
+        "lda:one-loop"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 69,
+      "revision_identity": "one500s01-mu - manual de usuario serie one v2.1"
+    },
+    {
+      "source": "s114",
+      "seed_id": "eed07d60-3fad-46f2-98a5-1542f3d099e6",
+      "document_id": "e3c8df3a-0452-48d9-9432-afb4ef9765d3",
+      "extraction_sha256": "ec2d5396055cebf7c30051e15513a4932c5675cdfc223fc6c6bf7d6f737d7baa",
+      "source_pdf_identity": "ec2d5396055cebf7c30051e15513a4932c5675cdfc223fc6c6bf7d6f737d7baa",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0",
+      "product_ids": [],
+      "product_expansion_available": false,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": 140,
+      "revision_identity": "04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0"
+    },
+    {
+      "source": "s114",
+      "seed_id": "ef70e7f0-a68f-4797-bc7c-1edaff937261",
+      "document_id": "ded06552-d28a-45c3-b54a-27c3e4a0505f",
+      "extraction_sha256": "8cc98bcbb18b158bab21402e55ca7b9eee966a06ba5b5eeb149e3b2982f0a526",
+      "source_pdf_identity": "backfill:89beba93ea8e1390fdea7f5a464f32f6e33947c65c3797a635edffd99e5c2823",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "085501987j_py x-m-05_10_installation_manual_d-gb-f-ru-it",
+      "product_ids": [
+        "pyra:py-x-m-05",
+        "pyra:py-x-m-05-ssm",
+        "pyra:py-x-m-10",
+        "pyra:py-x-m-10-ssm",
+        "pyra:py-x-ma-05",
+        "pyra:py-x-ma-05-ssm",
+        "pyra:py-x-ma-10",
+        "pyra:py-x-ma-10-ssm"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 25,
+      "revision_identity": "085501987j_py x-m-05_10_installation_manual_d-gb-f-ru-it"
+    },
+    {
+      "source": "s115",
+      "seed_id": "3388007c-5397-4375-a44b-8a91cefb0b78",
+      "document_id": "0951df3f-2d52-46d2-9669-627ab7251776",
+      "extraction_sha256": "4e0562d523a995ccc2c35c004876ef5dc6186de4ae9bde3ade83ef23d5bd91d1",
+      "source_pdf_identity": "backfill:696177e00617587f23df79eb14797e47c35cb1ad5d39e0de0ef015ce3313e815",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "33036_05_vesda-e_vea-040-a00_product_guide_a4_spanish_lores",
+      "product_ids": [
+        "xtralis:vea-040-a00",
+        "xtralis:ver-a40-40-stx"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 128,
+      "revision_identity": "33036_05_vesda-e_vea-040-a00_product_guide_a4_spanish_lores"
+    },
+    {
+      "source": "s115",
+      "seed_id": "3a3f6c9f-efbb-4bc8-97f9-c03e7f4b9b92",
+      "document_id": "0951df3f-2d52-46d2-9669-627ab7251776",
+      "extraction_sha256": "4e0562d523a995ccc2c35c004876ef5dc6186de4ae9bde3ade83ef23d5bd91d1",
+      "source_pdf_identity": "backfill:696177e00617587f23df79eb14797e47c35cb1ad5d39e0de0ef015ce3313e815",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "33036_05_vesda-e_vea-040-a00_product_guide_a4_spanish_lores",
+      "product_ids": [
+        "xtralis:vea-040-a00",
+        "xtralis:ver-a40-40-stx"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 128,
+      "revision_identity": "33036_05_vesda-e_vea-040-a00_product_guide_a4_spanish_lores"
+    },
+    {
+      "source": "s115",
+      "seed_id": "47567d48-eddf-463c-8be1-2596abf32881",
+      "document_id": "f1dc59b2-796b-49d8-9fcc-d07bb5708f55",
+      "extraction_sha256": "7f4f614315017bcf6de9703f630c2a98c6f2be0a38d3b15d2f82f3c339fbd170",
+      "source_pdf_identity": "backfill:cc5041c98a8aa3b660da0d54225d51279482c817c81848669d11bd0469adcb94",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "neo8060s02-mu - manual de usuario serie neo rev1_1_4",
+      "product_ids": [
+        "lda:etx-1",
+        "lda:ldaneotfl",
+        "lda:neo4250e",
+        "lda:neo4500e",
+        "lda:neo4500le",
+        "lda:neo8060",
+        "lda:neo8250e"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 81,
+      "revision_identity": "neo8060s02-mu - manual de usuario serie neo rev1_1_4"
+    },
+    {
+      "source": "s115",
+      "seed_id": "5b5292af-4dbd-4efd-b964-6e6e5070be40",
+      "document_id": "0951df3f-2d52-46d2-9669-627ab7251776",
+      "extraction_sha256": "4e0562d523a995ccc2c35c004876ef5dc6186de4ae9bde3ade83ef23d5bd91d1",
+      "source_pdf_identity": "backfill:696177e00617587f23df79eb14797e47c35cb1ad5d39e0de0ef015ce3313e815",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "33036_05_vesda-e_vea-040-a00_product_guide_a4_spanish_lores",
+      "product_ids": [
+        "xtralis:vea-040-a00",
+        "xtralis:ver-a40-40-stx"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 128,
+      "revision_identity": "33036_05_vesda-e_vea-040-a00_product_guide_a4_spanish_lores"
+    },
+    {
+      "source": "s115",
+      "seed_id": "652edde7-1700-415f-a14e-ebd81f5090f8",
+      "document_id": "0951df3f-2d52-46d2-9669-627ab7251776",
+      "extraction_sha256": "4e0562d523a995ccc2c35c004876ef5dc6186de4ae9bde3ade83ef23d5bd91d1",
+      "source_pdf_identity": "backfill:696177e00617587f23df79eb14797e47c35cb1ad5d39e0de0ef015ce3313e815",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "33036_05_vesda-e_vea-040-a00_product_guide_a4_spanish_lores",
+      "product_ids": [
+        "xtralis:vea-040-a00",
+        "xtralis:ver-a40-40-stx"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 128,
+      "revision_identity": "33036_05_vesda-e_vea-040-a00_product_guide_a4_spanish_lores"
+    },
+    {
+      "source": "s115",
+      "seed_id": "67c8f136-6bdd-4a00-95b0-6c6b757b5ff7",
+      "document_id": "f1dc59b2-796b-49d8-9fcc-d07bb5708f55",
+      "extraction_sha256": "7f4f614315017bcf6de9703f630c2a98c6f2be0a38d3b15d2f82f3c339fbd170",
+      "source_pdf_identity": "backfill:cc5041c98a8aa3b660da0d54225d51279482c817c81848669d11bd0469adcb94",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "neo8060s02-mu - manual de usuario serie neo rev1_1_4",
+      "product_ids": [
+        "lda:etx-1",
+        "lda:ldaneotfl",
+        "lda:neo4250e",
+        "lda:neo4500e",
+        "lda:neo4500le",
+        "lda:neo8060",
+        "lda:neo8250e"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 81,
+      "revision_identity": "neo8060s02-mu - manual de usuario serie neo rev1_1_4"
+    },
+    {
+      "source": "s115",
+      "seed_id": "c19b7678-8074-41c3-9c53-05f62cc46445",
+      "document_id": "7aa2b161-a7b7-4c5b-8877-1bf04daf4e88",
+      "extraction_sha256": "798ae7634ca2136e311a71fc074297db0742fa5a7d4775902007845c890afe58",
+      "source_pdf_identity": "backfill:796649f84b36e78645a65ea5f29e1ea8061d6ca45e1a53d7624ab1ef860b21a3",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "35007_03_vesda-e_ves-a00-p_product_guide_a4_spanish_lores",
+      "product_ids": [
+        "xtralis:ves-a00-p"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 123,
+      "revision_identity": "35007_03_vesda-e_ves-a00-p_product_guide_a4_spanish_lores"
+    },
+    {
+      "source": "s115",
+      "seed_id": "d4357e63-49a8-4698-92bf-1488c62b276c",
+      "document_id": "b37b71e7-dd47-4956-ab17-6d0b45b01e3d",
+      "extraction_sha256": "241afebd548a85b412ba3e8af45a22f0b6aa76da697ca48b97dfa463d3bd6213",
+      "source_pdf_identity": "backfill:2a36ce6f0bc69638f7f71c4f1683dd75c4478c0180b889e6bee318f7ed86a77a",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "35006_03_vesda-e_ves-a10-p_product_guide_a4_spanish_lores",
+      "product_ids": [
+        "xtralis:ves-a10-p"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 133,
+      "revision_identity": "35006_03_vesda-e_ves-a10-p_product_guide_a4_spanish_lores"
+    },
+    {
+      "source": "s115",
+      "seed_id": "d5c7a3e7-15cc-4e06-a8af-03d33c67ed50",
+      "document_id": "b37b71e7-dd47-4956-ab17-6d0b45b01e3d",
+      "extraction_sha256": "241afebd548a85b412ba3e8af45a22f0b6aa76da697ca48b97dfa463d3bd6213",
+      "source_pdf_identity": "backfill:2a36ce6f0bc69638f7f71c4f1683dd75c4478c0180b889e6bee318f7ed86a77a",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "35006_03_vesda-e_ves-a10-p_product_guide_a4_spanish_lores",
+      "product_ids": [
+        "xtralis:ves-a10-p"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 133,
+      "revision_identity": "35006_03_vesda-e_ves-a10-p_product_guide_a4_spanish_lores"
+    },
+    {
+      "source": "s115",
+      "seed_id": "d9dbd667-949c-45a4-8a20-b394dc02b95c",
+      "document_id": "0951df3f-2d52-46d2-9669-627ab7251776",
+      "extraction_sha256": "4e0562d523a995ccc2c35c004876ef5dc6186de4ae9bde3ade83ef23d5bd91d1",
+      "source_pdf_identity": "backfill:696177e00617587f23df79eb14797e47c35cb1ad5d39e0de0ef015ce3313e815",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "33036_05_vesda-e_vea-040-a00_product_guide_a4_spanish_lores",
+      "product_ids": [
+        "xtralis:vea-040-a00",
+        "xtralis:ver-a40-40-stx"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 128,
+      "revision_identity": "33036_05_vesda-e_vea-040-a00_product_guide_a4_spanish_lores"
+    },
+    {
+      "source": "s115",
+      "seed_id": "ea504c3e-34d4-4ca6-99dd-01221f8377ed",
+      "document_id": "b37b71e7-dd47-4956-ab17-6d0b45b01e3d",
+      "extraction_sha256": "241afebd548a85b412ba3e8af45a22f0b6aa76da697ca48b97dfa463d3bd6213",
+      "source_pdf_identity": "backfill:2a36ce6f0bc69638f7f71c4f1683dd75c4478c0180b889e6bee318f7ed86a77a",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "35006_03_vesda-e_ves-a10-p_product_guide_a4_spanish_lores",
+      "product_ids": [
+        "xtralis:ves-a10-p"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 133,
+      "revision_identity": "35006_03_vesda-e_ves-a10-p_product_guide_a4_spanish_lores"
+    },
+    {
+      "source": "s115",
+      "seed_id": "f421b867-b29a-4744-90c1-b7649649a565",
+      "document_id": "d886bc8d-6eb3-40a9-833b-53ee36a5b993",
+      "extraction_sha256": "00a31f267bd8eb7886c7b0c0c1560c070aba9f68757a957298f2e98ed151d93c",
+      "source_pdf_identity": "backfill:c19aac97c2d26be30e51db2130577750a9e7d70e5da51defdfb0484e0f530fc2",
+      "source_pdf_identity_status": "synthetic_backfill",
+      "source_basename": "33037_05_vesda-e_vea-040-a10_product_guide_a4_spanish_lores",
+      "product_ids": [
+        "xtralis:vea-040-a10",
+        "xtralis:ver-a40-40-stx"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_absent_pdf_sha",
+      "metadata_occurrences": 138,
+      "revision_identity": "33037_05_vesda-e_vea-040-a10_product_guide_a4_spanish_lores"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho001:00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "resolution_route": "catalog",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "extraction_sha256": "3fda944ecbca316b0fa9f53cf947be63bd685205e8b824a645bfa1ea3dd2fefe",
+      "source_pdf_identity": "3fda944ecbca316b0fa9f53cf947be63bd685205e8b824a645bfa1ea3dd2fefe",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "product_ids": [
+        "kidde:2x-ae1",
+        "kidde:2x-ae2",
+        "kidde:2x-ae2-p",
+        "kidde:2x-af1",
+        "kidde:2x-af1-fb",
+        "kidde:2x-af1-fb-s",
+        "kidde:2x-af1-s",
+        "kidde:2x-af1-scfb",
+        "kidde:2x-af1-scfb-s",
+        "kidde:2x-af2",
+        "kidde:2x-af2-fb",
+        "kidde:2x-af2-fb-p",
+        "kidde:2x-af2-fb-prt",
+        "kidde:2x-af2-fb-prt-p",
+        "kidde:2x-af2-fb-s",
+        "kidde:2x-af2-p",
+        "kidde:2x-af2-prt",
+        "kidde:2x-af2-prt-p",
+        "kidde:2x-af2-s",
+        "kidde:2x-af2-scfb",
+        "kidde:2x-af2-scfb-p",
+        "kidde:2x-af2-scfb-s",
+        "kidde:2x-afr",
+        "kidde:2x-afr-fb",
+        "kidde:2x-afr-fb-s",
+        "kidde:2x-afr-s"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": null,
+      "revision_identity": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho001:2x-af2-09-161721-es",
+      "resolution_route": "catalog",
+      "document_id": "9ba468c5-6129-4721-bb7b-bbef1013d1d6",
+      "extraction_sha256": "ce583291f2011f6c8a8bfb9f23dcffc71710d55245d58a6ae8593a6ceedae91e",
+      "source_pdf_identity": "ce583291f2011f6c8a8bfb9f23dcffc71710d55245d58a6ae8593a6ceedae91e",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "2x-af2-09-161721-es",
+      "product_ids": [
+        "kidde:2x-af2-09"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": null,
+      "revision_identity": "2x-af2-09-161721-es"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho002:04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0",
+      "resolution_route": "s114_metadata",
+      "document_id": "e3c8df3a-0452-48d9-9432-afb4ef9765d3",
+      "extraction_sha256": "ec2d5396055cebf7c30051e15513a4932c5675cdfc223fc6c6bf7d6f737d7baa",
+      "source_pdf_identity": "ec2d5396055cebf7c30051e15513a4932c5675cdfc223fc6c6bf7d6f737d7baa",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0",
+      "product_ids": [],
+      "product_expansion_available": false,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": 140,
+      "revision_identity": "04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho002:3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0",
+      "resolution_route": "catalog",
+      "document_id": "3fbd5950-24fb-4ccc-9511-07c2a0df0786",
+      "extraction_sha256": "3a41d329f0e1ec47ceb50f23d0982f30569cfd65c95fbdf42a9278040dd98c06",
+      "source_pdf_identity": "3a41d329f0e1ec47ceb50f23d0982f30569cfd65c95fbdf42a9278040dd98c06",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0",
+      "product_ids": [
+        "kidde:9-30780-kid-en",
+        "kidde:9-30781-kid-en",
+        "kidde:9-30782-kid-en",
+        "kidde:9-30783-kid-en"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": 151,
+      "revision_identity": "3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho002:fhsd8310-63296-es",
+      "resolution_route": "catalog",
+      "document_id": "f962e78d-1cfc-4a7b-a517-b28089745cb0",
+      "extraction_sha256": "76e2d0ae947331997329916a6029f701a73924ecee389ad07272cca3a22f4dbc",
+      "source_pdf_identity": "76e2d0ae947331997329916a6029f701a73924ecee389ad07272cca3a22f4dbc",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "fhsd8310-63296-es",
+      "product_ids": [
+        "edwards:fhsd8310"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": 8,
+      "revision_identity": "fhsd8310-63296-es"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho003:3102984-ml_r003_excellence_series_intelligent_addressable_dual_optical_detector_installation_sheet",
+      "resolution_route": "catalog",
+      "document_id": "e4340aa7-2574-4d24-bbdd-da58f55dbf53",
+      "extraction_sha256": "b3aa13af3416b894337b9b541ed100ec366af31611d27eac91f753dd7a19577a",
+      "source_pdf_identity": "b3aa13af3416b894337b9b541ed100ec366af31611d27eac91f753dd7a19577a",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "3102984-ml_r003_excellence_series_intelligent_addressable_dual_optical_detector_installation_sheet",
+      "product_ids": [
+        "kidde:ke-dp3020w",
+        "kidde:ke-dp3120w"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": 22,
+      "revision_identity": "3102984-ml_r003_excellence_series_intelligent_addressable_dual_optical_detector_installation_sheet"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho003:bcn-3100035-en_r006_2x-a_series_addressable_control_panel_compatibility_list_0",
+      "resolution_route": "s114_metadata",
+      "document_id": "06d1d1d4-f128-42fb-b7b0-7ab6d89fa310",
+      "extraction_sha256": "6ad22328e34d3e7e397da198b2f0c92cdbceb3c761d93296585b2398cba602df",
+      "source_pdf_identity": "6ad22328e34d3e7e397da198b2f0c92cdbceb3c761d93296585b2398cba602df",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "bcn-3100035-en_r006_2x-a_series_addressable_control_panel_compatibility_list_0",
+      "product_ids": [],
+      "product_expansion_available": false,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": 11,
+      "revision_identity": "bcn-3100035-en_r006_2x-a_series_addressable_control_panel_compatibility_list_0"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho003:ke-dp3020w-161721-es",
+      "resolution_route": "catalog",
+      "document_id": "fae8b72f-4112-4a64-8302-8b3250be262d",
+      "extraction_sha256": "17714e34b341863812bb0d91bfb79863c59e61df5128ba8e132e154d26135ee9",
+      "source_pdf_identity": "17714e34b341863812bb0d91bfb79863c59e61df5128ba8e132e154d26135ee9",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "ke-dp3020w-161721-es",
+      "product_ids": [
+        "kidde:ke-dp3020w"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": 4,
+      "revision_identity": "ke-dp3020w-161721-es"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho004:0044-055-02_-_aritech_ra_-_fd2705-10r_addendum_-_en_de",
+      "resolution_route": "catalog",
+      "document_id": "97cef65c-605a-4731-9113-6e1fdbfb3cba",
+      "extraction_sha256": "2f265d9d974ae0a0aaf413778f67e2f0a059ce49ca1128a74ca2d5ee93077688",
+      "source_pdf_identity": "2f265d9d974ae0a0aaf413778f67e2f0a059ce49ca1128a74ca2d5ee93077688",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "0044-055-02_-_aritech_ra_-_fd2705-10r_addendum_-_en_de",
+      "product_ids": [
+        "aritech:fd2705r",
+        "aritech:fd2710r"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": null,
+      "revision_identity": "0044-055-02_-_aritech_ra_-_fd2705-10r_addendum_-_en_de"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho004:22318.18.08_-_aritech_ra_-_fd2705-10r_english_std_reflective_user_guide_-_en",
+      "resolution_route": "catalog",
+      "document_id": "b8e3d761-0f6d-46fa-8e02-e2f0a328f235",
+      "extraction_sha256": "85da643e1044b861c6d725c6f66c61287f230510ab2422c2dd71fb9592aaea98",
+      "source_pdf_identity": "85da643e1044b861c6d725c6f66c61287f230510ab2422c2dd71fb9592aaea98",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "22318.18.08_-_aritech_ra_-_fd2705-10r_english_std_reflective_user_guide_-_en",
+      "product_ids": [
+        "aritech:fd2705-10r"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": null,
+      "revision_identity": "22318.18.08_-_aritech_ra_-_fd2705-10r_english_std_reflective_user_guide_-_en"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho004:fd2705r-62536-es",
+      "resolution_route": "catalog",
+      "document_id": "b7aee9d3-6a3c-43b7-9abc-b3184f47f8ea",
+      "extraction_sha256": "809ecf79049ba44af7258c89c96b8b237c5f8ceb0fc53d8bc145e50f5c795433",
+      "source_pdf_identity": "809ecf79049ba44af7258c89c96b8b237c5f8ceb0fc53d8bc145e50f5c795433",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "fd2705r-62536-es",
+      "product_ids": [
+        "aritech:fd2705r"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": null,
+      "revision_identity": "fd2705r-62536-es"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho005:00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "resolution_route": "catalog",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "extraction_sha256": "3fda944ecbca316b0fa9f53cf947be63bd685205e8b824a645bfa1ea3dd2fefe",
+      "source_pdf_identity": "3fda944ecbca316b0fa9f53cf947be63bd685205e8b824a645bfa1ea3dd2fefe",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "product_ids": [
+        "kidde:2x-ae1",
+        "kidde:2x-ae2",
+        "kidde:2x-ae2-p",
+        "kidde:2x-af1",
+        "kidde:2x-af1-fb",
+        "kidde:2x-af1-fb-s",
+        "kidde:2x-af1-s",
+        "kidde:2x-af1-scfb",
+        "kidde:2x-af1-scfb-s",
+        "kidde:2x-af2",
+        "kidde:2x-af2-fb",
+        "kidde:2x-af2-fb-p",
+        "kidde:2x-af2-fb-prt",
+        "kidde:2x-af2-fb-prt-p",
+        "kidde:2x-af2-fb-s",
+        "kidde:2x-af2-p",
+        "kidde:2x-af2-prt",
+        "kidde:2x-af2-prt-p",
+        "kidde:2x-af2-s",
+        "kidde:2x-af2-scfb",
+        "kidde:2x-af2-scfb-p",
+        "kidde:2x-af2-scfb-s",
+        "kidde:2x-afr",
+        "kidde:2x-afr-fb",
+        "kidde:2x-afr-fb-s",
+        "kidde:2x-afr-s"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": null,
+      "revision_identity": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho005:00-3301-501-4000-04_r004_2x-a-lb_loop_board_installation_sheet_ml",
+      "resolution_route": "catalog",
+      "document_id": "d36bc35d-d68e-4f2d-a1a5-d02e87ccf8ae",
+      "extraction_sha256": "51e851f213987c18d079f16d5d990c5f14f5a227b3f77dfbbd01c6d7b855c44a",
+      "source_pdf_identity": "51e851f213987c18d079f16d5d990c5f14f5a227b3f77dfbbd01c6d7b855c44a",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "00-3301-501-4000-04_r004_2x-a-lb_loop_board_installation_sheet_ml",
+      "product_ids": [
+        "kidde:2x-a-lb"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": null,
+      "revision_identity": "00-3301-501-4000-04_r004_2x-a-lb_loop_board_installation_sheet_ml"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho006:bcn-3100018-es_r002_nc_series_fire_alarm_control_panel_operation_manual",
+      "resolution_route": "catalog",
+      "document_id": "6586b837-6544-468e-936a-26cbd2e37f37",
+      "extraction_sha256": "865877f5a7972524fe45a07fade36a014f8f0a6b42fcfdacd5efd2c2529a5332",
+      "source_pdf_identity": "865877f5a7972524fe45a07fade36a014f8f0a6b42fcfdacd5efd2c2529a5332",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "bcn-3100018-es_r002_nc_series_fire_alarm_control_panel_operation_manual",
+      "product_ids": [
+        "kidde:nc-pf2",
+        "kidde:nc-pf2-sc",
+        "kidde:nc-pf4",
+        "kidde:nc-pf4-sc",
+        "kidde:nc-pf8",
+        "kidde:nc-pf8-sc"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": null,
+      "revision_identity": "bcn-3100018-es_r002_nc_series_fire_alarm_control_panel_operation_manual"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho007:00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "resolution_route": "catalog",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "extraction_sha256": "3fda944ecbca316b0fa9f53cf947be63bd685205e8b824a645bfa1ea3dd2fefe",
+      "source_pdf_identity": "3fda944ecbca316b0fa9f53cf947be63bd685205e8b824a645bfa1ea3dd2fefe",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "product_ids": [
+        "kidde:2x-ae1",
+        "kidde:2x-ae2",
+        "kidde:2x-ae2-p",
+        "kidde:2x-af1",
+        "kidde:2x-af1-fb",
+        "kidde:2x-af1-fb-s",
+        "kidde:2x-af1-s",
+        "kidde:2x-af1-scfb",
+        "kidde:2x-af1-scfb-s",
+        "kidde:2x-af2",
+        "kidde:2x-af2-fb",
+        "kidde:2x-af2-fb-p",
+        "kidde:2x-af2-fb-prt",
+        "kidde:2x-af2-fb-prt-p",
+        "kidde:2x-af2-fb-s",
+        "kidde:2x-af2-p",
+        "kidde:2x-af2-prt",
+        "kidde:2x-af2-prt-p",
+        "kidde:2x-af2-s",
+        "kidde:2x-af2-scfb",
+        "kidde:2x-af2-scfb-p",
+        "kidde:2x-af2-scfb-s",
+        "kidde:2x-afr",
+        "kidde:2x-afr-fb",
+        "kidde:2x-afr-fb-s",
+        "kidde:2x-afr-s"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": null,
+      "revision_identity": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho008:datasheet_cad-171-ds-736-es",
+      "resolution_route": "catalog",
+      "document_id": "6c923380-fc7f-4125-8b98-7b38585215f6",
+      "extraction_sha256": "6289904c16360c37c49685610ab0529ce32cc7e089a092deac470a056949c079",
+      "source_pdf_identity": "6289904c16360c37c49685610ab0529ce32cc7e089a092deac470a056949c079",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "datasheet_cad-171-ds-736-es",
+      "product_ids": [
+        "detnov:cad-171"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": null,
+      "revision_identity": "datasheet_cad-171-ds-736-es"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho008:manual_cad-171-mi-716-es",
+      "resolution_route": "catalog",
+      "document_id": "6220e267-c513-4683-b199-8f22fe4a7dea",
+      "extraction_sha256": "d879ac72c2d8b294087be8a24af1d07831e025791364598617cbe8e45015284f",
+      "source_pdf_identity": "d879ac72c2d8b294087be8a24af1d07831e025791364598617cbe8e45015284f",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "manual_cad-171-mi-716-es",
+      "product_ids": [
+        "detnov:cad-171",
+        "detnov:cad-171-r"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": null,
+      "revision_identity": "manual_cad-171-mi-716-es"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho009:2x-at-f2-161721-es",
+      "resolution_route": "catalog",
+      "document_id": "385df2f7-7a1c-4ce9-b8cd-b25b047d5834",
+      "extraction_sha256": "1b1ffdf7a9c6d7a2b2a52688643d614b58d3ba7cc65d190c7c08660abf3ed68c",
+      "source_pdf_identity": "1b1ffdf7a9c6d7a2b2a52688643d614b58d3ba7cc65d190c7c08660abf3ed68c",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "2x-at-f2-161721-es",
+      "product_ids": [
+        "kidde:2x-at-f2"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": null,
+      "revision_identity": "2x-at-f2-161721-es"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho009:2x-at-f2-fb-161721-es",
+      "resolution_route": "catalog",
+      "document_id": "70e8335f-3ed1-4911-97d3-a379b2e8503d",
+      "extraction_sha256": "e30ff98036837f3652ecca697bb74dc3352a762a9b764081ca7a148edf42bd84",
+      "source_pdf_identity": "e30ff98036837f3652ecca697bb74dc3352a762a9b764081ca7a148edf42bd84",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "2x-at-f2-fb-161721-es",
+      "product_ids": [
+        "kidde:2x-at-f2-fb"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": null,
+      "revision_identity": "2x-at-f2-fb-161721-es"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho009:2x-at-f2-fb-p-161721-es",
+      "resolution_route": "catalog",
+      "document_id": "637cc4d7-9e96-4545-9202-d6cb3463e701",
+      "extraction_sha256": "e3721c61ad9156da3d9ed382299a7f0075e8e000dd7f3a03e24c87eb98f30b7d",
+      "source_pdf_identity": "e3721c61ad9156da3d9ed382299a7f0075e8e000dd7f3a03e24c87eb98f30b7d",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "2x-at-f2-fb-p-161721-es",
+      "product_ids": [
+        "kidde:2x-at-f2-fb-p"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": null,
+      "revision_identity": "2x-at-f2-fb-p-161721-es"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho009:2x-at-f2-fb-s-161721-es",
+      "resolution_route": "catalog",
+      "document_id": "6bc61e55-14f8-4bdc-9c47-512ff5a0ade9",
+      "extraction_sha256": "76a3d70a2ce6d7942209b72c7ff7544259b8d3753cafc5e0d9bbcb144c87d04d",
+      "source_pdf_identity": "76a3d70a2ce6d7942209b72c7ff7544259b8d3753cafc5e0d9bbcb144c87d04d",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "2x-at-f2-fb-s-161721-es",
+      "product_ids": [
+        "kidde:2x-at-f2-fb-s"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": null,
+      "revision_identity": "2x-at-f2-fb-s-161721-es"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho009:2x-at-f2-p-161721-es",
+      "resolution_route": "catalog",
+      "document_id": "1060f725-062a-4d84-986e-21c70ae24274",
+      "extraction_sha256": "f430fba84fa07f97349643cdce100f6e541726411a806fb445ae228454a506d9",
+      "source_pdf_identity": "f430fba84fa07f97349643cdce100f6e541726411a806fb445ae228454a506d9",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "2x-at-f2-p-161721-es",
+      "product_ids": [
+        "kidde:2x-at-f2-p"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": null,
+      "revision_identity": "2x-at-f2-p-161721-es"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho009:2x-at-f2-s-161721-es",
+      "resolution_route": "catalog",
+      "document_id": "62a48e97-595c-466e-bed8-e11eb519e724",
+      "extraction_sha256": "a47e1d46b29eede4e9b907a50ecc8b544699a1d7db00bcc97be6c5e61d58c941",
+      "source_pdf_identity": "a47e1d46b29eede4e9b907a50ecc8b544699a1d7db00bcc97be6c5e61d58c941",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "2x-at-f2-s-161721-es",
+      "product_ids": [
+        "kidde:2x-at-f2-s"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": null,
+      "revision_identity": "2x-at-f2-s-161721-es"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho010:bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual",
+      "resolution_route": "catalog",
+      "document_id": "6817a785-225d-42c0-abfa-a0f821526458",
+      "extraction_sha256": "609d5ef1533d65666f2c183d69a8ba5542a90c29c3fba7663eaa34d64b35d821",
+      "source_pdf_identity": "609d5ef1533d65666f2c183d69a8ba5542a90c29c3fba7663eaa34d64b35d821",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual",
+      "product_ids": [
+        "kidde:2010-1-nb",
+        "kidde:2010-1-sb",
+        "kidde:nc-pf2",
+        "kidde:nc-pf2-sc",
+        "kidde:nc-pf4",
+        "kidde:nc-pf4-sc",
+        "kidde:nc-pf8",
+        "kidde:nc-pf8-sc"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": null,
+      "revision_identity": "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho011:22318.18.08_-_aritech_ra_-_fd2705-10r_english_std_reflective_user_guide_-_en",
+      "resolution_route": "catalog",
+      "document_id": "b8e3d761-0f6d-46fa-8e02-e2f0a328f235",
+      "extraction_sha256": "85da643e1044b861c6d725c6f66c61287f230510ab2422c2dd71fb9592aaea98",
+      "source_pdf_identity": "85da643e1044b861c6d725c6f66c61287f230510ab2422c2dd71fb9592aaea98",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "22318.18.08_-_aritech_ra_-_fd2705-10r_english_std_reflective_user_guide_-_en",
+      "product_ids": [
+        "aritech:fd2705-10r"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": null,
+      "revision_identity": "22318.18.08_-_aritech_ra_-_fd2705-10r_english_std_reflective_user_guide_-_en"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho011:fd2705r-62536-es",
+      "resolution_route": "catalog",
+      "document_id": "b7aee9d3-6a3c-43b7-9abc-b3184f47f8ea",
+      "extraction_sha256": "809ecf79049ba44af7258c89c96b8b237c5f8ceb0fc53d8bc145e50f5c795433",
+      "source_pdf_identity": "809ecf79049ba44af7258c89c96b8b237c5f8ceb0fc53d8bc145e50f5c795433",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "fd2705r-62536-es",
+      "product_ids": [
+        "aritech:fd2705r"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": null,
+      "revision_identity": "fd2705r-62536-es"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho014:04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0",
+      "resolution_route": "s114_metadata",
+      "document_id": "e3c8df3a-0452-48d9-9432-afb4ef9765d3",
+      "extraction_sha256": "ec2d5396055cebf7c30051e15513a4932c5675cdfc223fc6c6bf7d6f737d7baa",
+      "source_pdf_identity": "ec2d5396055cebf7c30051e15513a4932c5675cdfc223fc6c6bf7d6f737d7baa",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0",
+      "product_ids": [],
+      "product_expansion_available": false,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": 140,
+      "revision_identity": "04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0"
+    },
+    {
+      "source": "s63",
+      "seed_id": "ho014:3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0",
+      "resolution_route": "catalog",
+      "document_id": "3fbd5950-24fb-4ccc-9511-07c2a0df0786",
+      "extraction_sha256": "3a41d329f0e1ec47ceb50f23d0982f30569cfd65c95fbdf42a9278040dd98c06",
+      "source_pdf_identity": "3a41d329f0e1ec47ceb50f23d0982f30569cfd65c95fbdf42a9278040dd98c06",
+      "source_pdf_identity_status": "known_physical",
+      "source_basename": "3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0",
+      "product_ids": [
+        "kidde:9-30780-kid-en",
+        "kidde:9-30781-kid-en",
+        "kidde:9-30782-kid-en",
+        "kidde:9-30783-kid-en"
+      ],
+      "product_expansion_available": true,
+      "binding_terminal": "primary_unique_active_pdf_sha",
+      "metadata_occurrences": 151,
+      "revision_identity": "3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0"
+    }
+  ],
+  "closure": {
+    "catalog_ids": [
+      "argus:sg100-is",
+      "argus:sgmcb200",
+      "aritech:fd2705-10r",
+      "aritech:fd2705r",
+      "aritech:fd2710r",
+      "aritech:iu2055nc",
+      "detnov:cad-171",
+      "detnov:cad-171-r",
+      "e2s:is-ma1",
+      "edwards:fhsd8310",
+      "fidegas:ms3-rs485",
+      "kidde:2010-1-nb",
+      "kidde:2010-1-sb",
+      "kidde:2x-a-lb",
+      "kidde:2x-ae1",
+      "kidde:2x-ae2",
+      "kidde:2x-ae2-p",
+      "kidde:2x-af1",
+      "kidde:2x-af1-fb",
+      "kidde:2x-af1-fb-s",
+      "kidde:2x-af1-s",
+      "kidde:2x-af1-scfb",
+      "kidde:2x-af1-scfb-s",
+      "kidde:2x-af2",
+      "kidde:2x-af2-09",
+      "kidde:2x-af2-fb",
+      "kidde:2x-af2-fb-p",
+      "kidde:2x-af2-fb-prt",
+      "kidde:2x-af2-fb-prt-p",
+      "kidde:2x-af2-fb-s",
+      "kidde:2x-af2-p",
+      "kidde:2x-af2-prt",
+      "kidde:2x-af2-prt-p",
+      "kidde:2x-af2-s",
+      "kidde:2x-af2-scfb",
+      "kidde:2x-af2-scfb-p",
+      "kidde:2x-af2-scfb-s",
+      "kidde:2x-afr",
+      "kidde:2x-afr-fb",
+      "kidde:2x-afr-fb-s",
+      "kidde:2x-afr-s",
+      "kidde:2x-at-f2",
+      "kidde:2x-at-f2-fb",
+      "kidde:2x-at-f2-fb-p",
+      "kidde:2x-at-f2-fb-s",
+      "kidde:2x-at-f2-p",
+      "kidde:2x-at-f2-s",
+      "kidde:9-30780-kid-en",
+      "kidde:9-30781-kid-en",
+      "kidde:9-30782-kid-en",
+      "kidde:9-30783-kid-en",
+      "kidde:ke-dp3020w",
+      "kidde:ke-dp3120w",
+      "kidde:nc-pf2",
+      "kidde:nc-pf2-sc",
+      "kidde:nc-pf4",
+      "kidde:nc-pf4-sc",
+      "kidde:nc-pf8",
+      "kidde:nc-pf8-sc",
+      "lda:etx-1",
+      "lda:ldaneotfl",
+      "lda:neo4250e",
+      "lda:neo4500e",
+      "lda:neo4500le",
+      "lda:neo8060",
+      "lda:neo8250e",
+      "lda:one-500",
+      "lda:one-bc",
+      "lda:one-loop",
+      "notifier:6500r",
+      "notifier:6500rs",
+      "notifier:777163",
+      "pyra:py-x-m-05",
+      "pyra:py-x-m-05-ssm",
+      "pyra:py-x-m-10",
+      "pyra:py-x-m-10-ssm",
+      "pyra:py-x-ma-05",
+      "pyra:py-x-ma-05-ssm",
+      "pyra:py-x-ma-10",
+      "pyra:py-x-ma-10-ssm",
+      "spectrex:777163",
+      "spectrex:777650",
+      "spectrex:777670",
+      "spectrex:fs-1300",
+      "systemsensor:6500r",
+      "systemsensor:6500rs",
+      "systemsensor:8100e-faast",
+      "xtralis:vea-040-a00",
+      "xtralis:vea-040-a10",
+      "xtralis:ver-a40-40-stx",
+      "xtralis:ves-a00-p",
+      "xtralis:ves-a10-p"
+    ],
+    "document_ids": [
+      "020d7a69-1e8e-481c-9eff-0bee90c87616",
+      "06d1d1d4-f128-42fb-b7b0-7ab6d89fa310",
+      "08654a90-746a-4448-a5bd-3b490557bc06",
+      "0951df3f-2d52-46d2-9669-627ab7251776",
+      "0b2c3bbe-932c-474c-b0cc-0cab3083aa4b",
+      "0d4e7b1a-4a59-40d0-9ebc-d7a70a06a3e8",
+      "1060f725-062a-4d84-986e-21c70ae24274",
+      "1a00372e-3115-4cd6-adae-d950946259fe",
+      "1e86c112-02a7-4c91-b64a-4d340601cd6a",
+      "23f0e4d2-5fd6-4f7c-992c-82584f311745",
+      "2b694083-5b21-4f1a-a29b-565072860fb8",
+      "2f8e3c23-3d32-452f-a7ef-f1f3c6eca543",
+      "348c4ec1-210a-441a-9ce7-02014a51f26d",
+      "385df2f7-7a1c-4ce9-b8cd-b25b047d5834",
+      "38fa6760-cb28-413e-8a4d-b7d7ee2ccc1d",
+      "3fbd5950-24fb-4ccc-9511-07c2a0df0786",
+      "408a3a7b-aab9-40f5-af5b-a45e267d67c6",
+      "4ba70bd0-34a1-4977-ad31-0a8e788c4ebb",
+      "4bf442fb-9f63-4205-a2f7-535a5055eac6",
+      "513561bb-0c67-44c3-993c-6904a91ab12b",
+      "6220e267-c513-4683-b199-8f22fe4a7dea",
+      "62a48e97-595c-466e-bed8-e11eb519e724",
+      "62d99550-6dd0-408b-9233-9ef11ae7776d",
+      "637cc4d7-9e96-4545-9202-d6cb3463e701",
+      "6586b837-6544-468e-936a-26cbd2e37f37",
+      "6817a785-225d-42c0-abfa-a0f821526458",
+      "695e1a54-637f-4f5f-bd33-b6c3684ea7aa",
+      "6bc61e55-14f8-4bdc-9c47-512ff5a0ade9",
+      "6c923380-fc7f-4125-8b98-7b38585215f6",
+      "6e9bbb8e-cac7-4aaa-9d29-747499b45636",
+      "70e8335f-3ed1-4911-97d3-a379b2e8503d",
+      "757dc354-4ade-4099-91e8-bd28f5385245",
+      "7aa2b161-a7b7-4c5b-8877-1bf04daf4e88",
+      "84863939-f9f5-4688-9e43-f8114968fe6d",
+      "84e1d5dd-245e-44f7-8f25-64ae70186904",
+      "9119ea47-c6ba-4a89-909a-5f09e1a7657d",
+      "97cef65c-605a-4731-9113-6e1fdbfb3cba",
+      "9a5791a3-df8f-4311-90fd-1e4468716eca",
+      "9a74d88b-7c87-4a23-b1ad-dbbda3b4fbb2",
+      "9ba468c5-6129-4721-bb7b-bbef1013d1d6",
+      "a6b9dc84-af6d-4957-a403-4b4c2136557b",
+      "a7fd8fd5-2180-47ce-a5f6-868f853920de",
+      "aac0d826-9830-4f6e-a9a8-dc0159bffee7",
+      "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "afd8fef7-f39c-43ab-885f-c6ceeeb3e395",
+      "b37b71e7-dd47-4956-ab17-6d0b45b01e3d",
+      "b5db1f17-d817-4a99-9b6d-ef2441d7294a",
+      "b788bbda-6045-46f5-b645-b54a23bdae5c",
+      "b7aee9d3-6a3c-43b7-9abc-b3184f47f8ea",
+      "b8e3d761-0f6d-46fa-8e02-e2f0a328f235",
+      "b9c694a3-163f-400f-9785-6e34790fb880",
+      "ba4b8c7c-b6e5-4364-b257-ee5d2dab09d8",
+      "c00d87ea-e81a-4386-897f-62a999c48145",
+      "c037e7f9-879c-4761-8b18-0278a267fa42",
+      "c59d714e-a200-4529-b3b4-e78ebb527269",
+      "d1b5d5be-d4f3-45d6-abc1-7448c224d2d1",
+      "d36bc35d-d68e-4f2d-a1a5-d02e87ccf8ae",
+      "d886bc8d-6eb3-40a9-833b-53ee36a5b993",
+      "db542f24-6cc3-466e-92ab-78256ed7b6c5",
+      "dcd2e1ff-ff45-4c01-a37a-8d6b17107d18",
+      "ded06552-d28a-45c3-b54a-27c3e4a0505f",
+      "e3c8df3a-0452-48d9-9432-afb4ef9765d3",
+      "e4340aa7-2574-4d24-bbdd-da58f55dbf53",
+      "e9d0d989-7d21-4681-b7f1-1ee88fb45001",
+      "ea014fc5-d50e-462c-a716-08a32f297916",
+      "ead9d801-b0d9-4dfc-8b00-6419f6aefdf5",
+      "f1dc59b2-796b-49d8-9fcc-d07bb5708f55",
+      "f962e78d-1cfc-4a7b-a517-b28089745cb0",
+      "fae8b72f-4112-4a64-8302-8b3250be262d",
+      "fd5cb420-c7e6-4695-b792-27c65a841ade"
+    ],
+    "extraction_sha256s": [
+      "00a31f267bd8eb7886c7b0c0c1560c070aba9f68757a957298f2e98ed151d93c",
+      "02d5cc901084b8f54b332ad7cce7fc8f18a52b4a65fd30b6e391977fbe891423",
+      "047b3733efb097a3bb513b53f7937d1f9fcd8d9384b0cc89f110aa671dd3c1f0",
+      "05554a0cf613dbc4ca6c5999e8a7155dcaba6a65a0f61b7fb13078f1e6979dda",
+      "05f2a31a9415193e1a9a6ec6fc32bae39f3aad0ca4df707df762c66c7e3c7640",
+      "0bf86a4bb834d56f611995a881d4af67cb3154ec4d736a7f3cedad293cef8b43",
+      "0f278ffec42fc152832c7112ec3bd82e2fceb2942bd7cc107a630ca7ddcd66c1",
+      "17714e34b341863812bb0d91bfb79863c59e61df5128ba8e132e154d26135ee9",
+      "178362d829ae786f3d9888f93ad1f82cda31ab4c28aad98ed3c3aaf5157e0aef",
+      "1b1ffdf7a9c6d7a2b2a52688643d614b58d3ba7cc65d190c7c08660abf3ed68c",
+      "20452ae4f60a9b844514ab2078abd6ccbd6c3801fcb8e8a6b76cf9a3441783c9",
+      "241afebd548a85b412ba3e8af45a22f0b6aa76da697ca48b97dfa463d3bd6213",
+      "25140777a8545e27ff9678c6a10d509396cd67f98c746a18c54b9be1bc7d16ef",
+      "2f265d9d974ae0a0aaf413778f67e2f0a059ce49ca1128a74ca2d5ee93077688",
+      "32f577bb5dbde6670db8fb487cc8c08a3c2a212c95ffc1f49f189954d4aef774",
+      "3797d14d071d618d2a6b0343dfb3d0e4bc4a8cebe75016fce5206cd9687ab68e",
+      "3a41d329f0e1ec47ceb50f23d0982f30569cfd65c95fbdf42a9278040dd98c06",
+      "3fda944ecbca316b0fa9f53cf947be63bd685205e8b824a645bfa1ea3dd2fefe",
+      "401b78905b581d53b2138ffa7b7134e296ff5d54e4036a8b87d767be8e0bd9bd",
+      "44d6f7126ffe2d4bb86c64abd3d8502b011a278086c4f9083a0c4d76fe4b6d07",
+      "47462097a5681c6953d66c481de91310026c4b42acadb30d28c365e0365eaf37",
+      "4e0562d523a995ccc2c35c004876ef5dc6186de4ae9bde3ade83ef23d5bd91d1",
+      "51e851f213987c18d079f16d5d990c5f14f5a227b3f77dfbbd01c6d7b855c44a",
+      "520b945faadeb733e832730b01e770f969e6680d96f522a53a438cb91eaa98d1",
+      "5341cbee479122cccf2ad5902b828e4846fdc4de89ef9afbd819bbf888ac0c2f",
+      "5ec6183b080ef3801e15250040200dc8b96b9eb464ccbda9c0b9e265b01ddcbe",
+      "609d5ef1533d65666f2c183d69a8ba5542a90c29c3fba7663eaa34d64b35d821",
+      "6289904c16360c37c49685610ab0529ce32cc7e089a092deac470a056949c079",
+      "6ad22328e34d3e7e397da198b2f0c92cdbceb3c761d93296585b2398cba602df",
+      "6b35c1ca2e873b4eb01e94edb1385b31f503d222a777c5525bc3057b0327f926",
+      "76a3d70a2ce6d7942209b72c7ff7544259b8d3753cafc5e0d9bbcb144c87d04d",
+      "76e2d0ae947331997329916a6029f701a73924ecee389ad07272cca3a22f4dbc",
+      "798ae7634ca2136e311a71fc074297db0742fa5a7d4775902007845c890afe58",
+      "7f4f614315017bcf6de9703f630c2a98c6f2be0a38d3b15d2f82f3c339fbd170",
+      "809ecf79049ba44af7258c89c96b8b237c5f8ceb0fc53d8bc145e50f5c795433",
+      "85da643e1044b861c6d725c6f66c61287f230510ab2422c2dd71fb9592aaea98",
+      "865877f5a7972524fe45a07fade36a014f8f0a6b42fcfdacd5efd2c2529a5332",
+      "885a6113d172d7e6166a336c014236598076d4cde7b8fedbb167000a68277d46",
+      "8cc98bcbb18b158bab21402e55ca7b9eee966a06ba5b5eeb149e3b2982f0a526",
+      "8e09ca880c53adf9a0b65d586150d1dfd407ce965c8eb4dbf8f7928379fc32b7",
+      "9383f47d648b1391feab19dfb637a9acd601ea3501a17ed292b70cc088d26784",
+      "9b3364f5fe26616c316c0afc3c0d1788f837dfe7388240ca97e0bc742a733ed5",
+      "a22b3c94ea1c2314ebc665ffd62f096f4fe9e4b74362af7d24ea9510ff0c1ee4",
+      "a47e1d46b29eede4e9b907a50ecc8b544699a1d7db00bcc97be6c5e61d58c941",
+      "a5797dffa59f3ed1ede3f59cd7d6a1f5eb921aa13ee18a5b981c65feeec2e6c2",
+      "abeea9cc130518635af60095625a1fd5444150fbb88121f63f45d366a91c8c20",
+      "acabc6ace90b8fc5d0574a15097b1a7a397e47ad1adff6287f0d9b00e71a9d28",
+      "b3aa13af3416b894337b9b541ed100ec366af31611d27eac91f753dd7a19577a",
+      "b95e6cb485d9ad36b1328ba3626d0e569215bf9d4d6d9259432bb1c87de45c2f",
+      "bffd682fa2a657060e2cd40f62fe4c1c08fa395d19beaccb6ffae6bc92b7728c",
+      "cb4fdfbb12b2a6b25fb780d0077c41c4fb040a96f04c0ff7560fc63743dd793f",
+      "cd87f8b1aed8b509f69518e03632e790baf4a8b0525e89a47283618ec97b069b",
+      "ce583291f2011f6c8a8bfb9f23dcffc71710d55245d58a6ae8593a6ceedae91e",
+      "d2abf8778cfcccdc5f3f4d5d2c5084339c9e0e2971cca095069e7f3179740244",
+      "d38943a3ee55e0888c7ba45a498dc7d2d2739853dd4e9938eb30e112bef5af1f",
+      "d879ac72c2d8b294087be8a24af1d07831e025791364598617cbe8e45015284f",
+      "dbab7e17c19261a0ca75427644989271a2168a0fde29e35231191092ecd4bb57",
+      "ddbfb33736f52cc6a11295b987fe6846e0a3147d619ae00eeec8dbfa236086e8",
+      "dfe2396c52a19e41dc5fb8fda17e5b07b39caae1b9272886b1f19addff6377a0",
+      "e1985c3d8cfb74b30c45a9524b9afd1547a3d1df72c068998a227e37f3d673c8",
+      "e30ff98036837f3652ecca697bb74dc3352a762a9b764081ca7a148edf42bd84",
+      "e3721c61ad9156da3d9ed382299a7f0075e8e000dd7f3a03e24c87eb98f30b7d",
+      "e372eb64d1494dc0bbac837341c739b508a79e8507cae3711e35f67c21b5c0bf",
+      "e68665ba79edce275efe2b1e5bef84b2ded4db414510aab547e6da8aac038a94",
+      "ec2d5396055cebf7c30051e15513a4932c5675cdfc223fc6c6bf7d6f737d7baa",
+      "edab38bdf6ea13d6d5798d6b75a2bb9141b4a70282ef4a7b3fc2fb2a25a892f2",
+      "f430fba84fa07f97349643cdce100f6e541726411a806fb445ae228454a506d9",
+      "f67ddc2c9edce53991e893894e5800beef65c3e6753dff86c4a367c7744d1383",
+      "fc589a85c97332c462ad3cdfb0630d47840c4d23f3543785500031e36afefa61",
+      "fe9c55fb3aefeee5c98648f61967d76f6d01fbdb121a6ae039505a9371653615"
+    ],
+    "projection_receipts": [
+      {
+        "document_id": "020d7a69-1e8e-481c-9eff-0bee90c87616",
+        "extraction_sha256": "abeea9cc130518635af60095625a1fd5444150fbb88121f63f45d366a91c8c20",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "06d1d1d4-f128-42fb-b7b0-7ab6d89fa310",
+        "extraction_sha256": "6ad22328e34d3e7e397da198b2f0c92cdbceb3c761d93296585b2398cba602df",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "08654a90-746a-4448-a5bd-3b490557bc06",
+        "extraction_sha256": "ddbfb33736f52cc6a11295b987fe6846e0a3147d619ae00eeec8dbfa236086e8",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "0951df3f-2d52-46d2-9669-627ab7251776",
+        "extraction_sha256": "4e0562d523a995ccc2c35c004876ef5dc6186de4ae9bde3ade83ef23d5bd91d1",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "0b2c3bbe-932c-474c-b0cc-0cab3083aa4b",
+        "extraction_sha256": "cd87f8b1aed8b509f69518e03632e790baf4a8b0525e89a47283618ec97b069b",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "0d4e7b1a-4a59-40d0-9ebc-d7a70a06a3e8",
+        "extraction_sha256": "178362d829ae786f3d9888f93ad1f82cda31ab4c28aad98ed3c3aaf5157e0aef",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "1060f725-062a-4d84-986e-21c70ae24274",
+        "extraction_sha256": "f430fba84fa07f97349643cdce100f6e541726411a806fb445ae228454a506d9",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "1a00372e-3115-4cd6-adae-d950946259fe",
+        "extraction_sha256": "dbab7e17c19261a0ca75427644989271a2168a0fde29e35231191092ecd4bb57",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "1e86c112-02a7-4c91-b64a-4d340601cd6a",
+        "extraction_sha256": "401b78905b581d53b2138ffa7b7134e296ff5d54e4036a8b87d767be8e0bd9bd",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "23f0e4d2-5fd6-4f7c-992c-82584f311745",
+        "extraction_sha256": "e1985c3d8cfb74b30c45a9524b9afd1547a3d1df72c068998a227e37f3d673c8",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "2b694083-5b21-4f1a-a29b-565072860fb8",
+        "extraction_sha256": "44d6f7126ffe2d4bb86c64abd3d8502b011a278086c4f9083a0c4d76fe4b6d07",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "2f8e3c23-3d32-452f-a7ef-f1f3c6eca543",
+        "extraction_sha256": "edab38bdf6ea13d6d5798d6b75a2bb9141b4a70282ef4a7b3fc2fb2a25a892f2",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "348c4ec1-210a-441a-9ce7-02014a51f26d",
+        "extraction_sha256": "3797d14d071d618d2a6b0343dfb3d0e4bc4a8cebe75016fce5206cd9687ab68e",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "385df2f7-7a1c-4ce9-b8cd-b25b047d5834",
+        "extraction_sha256": "1b1ffdf7a9c6d7a2b2a52688643d614b58d3ba7cc65d190c7c08660abf3ed68c",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "38fa6760-cb28-413e-8a4d-b7d7ee2ccc1d",
+        "extraction_sha256": "32f577bb5dbde6670db8fb487cc8c08a3c2a212c95ffc1f49f189954d4aef774",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "3fbd5950-24fb-4ccc-9511-07c2a0df0786",
+        "extraction_sha256": "3a41d329f0e1ec47ceb50f23d0982f30569cfd65c95fbdf42a9278040dd98c06",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "408a3a7b-aab9-40f5-af5b-a45e267d67c6",
+        "extraction_sha256": "885a6113d172d7e6166a336c014236598076d4cde7b8fedbb167000a68277d46",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "4ba70bd0-34a1-4977-ad31-0a8e788c4ebb",
+        "extraction_sha256": "05f2a31a9415193e1a9a6ec6fc32bae39f3aad0ca4df707df762c66c7e3c7640",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "4bf442fb-9f63-4205-a2f7-535a5055eac6",
+        "extraction_sha256": "47462097a5681c6953d66c481de91310026c4b42acadb30d28c365e0365eaf37",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "513561bb-0c67-44c3-993c-6904a91ab12b",
+        "extraction_sha256": "f67ddc2c9edce53991e893894e5800beef65c3e6753dff86c4a367c7744d1383",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "6220e267-c513-4683-b199-8f22fe4a7dea",
+        "extraction_sha256": "d879ac72c2d8b294087be8a24af1d07831e025791364598617cbe8e45015284f",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "62a48e97-595c-466e-bed8-e11eb519e724",
+        "extraction_sha256": "a47e1d46b29eede4e9b907a50ecc8b544699a1d7db00bcc97be6c5e61d58c941",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "62d99550-6dd0-408b-9233-9ef11ae7776d",
+        "extraction_sha256": "b95e6cb485d9ad36b1328ba3626d0e569215bf9d4d6d9259432bb1c87de45c2f",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "637cc4d7-9e96-4545-9202-d6cb3463e701",
+        "extraction_sha256": "e3721c61ad9156da3d9ed382299a7f0075e8e000dd7f3a03e24c87eb98f30b7d",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "6586b837-6544-468e-936a-26cbd2e37f37",
+        "extraction_sha256": "865877f5a7972524fe45a07fade36a014f8f0a6b42fcfdacd5efd2c2529a5332",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "6817a785-225d-42c0-abfa-a0f821526458",
+        "extraction_sha256": "609d5ef1533d65666f2c183d69a8ba5542a90c29c3fba7663eaa34d64b35d821",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "695e1a54-637f-4f5f-bd33-b6c3684ea7aa",
+        "extraction_sha256": "cb4fdfbb12b2a6b25fb780d0077c41c4fb040a96f04c0ff7560fc63743dd793f",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "6bc61e55-14f8-4bdc-9c47-512ff5a0ade9",
+        "extraction_sha256": "76a3d70a2ce6d7942209b72c7ff7544259b8d3753cafc5e0d9bbcb144c87d04d",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "6c923380-fc7f-4125-8b98-7b38585215f6",
+        "extraction_sha256": "6289904c16360c37c49685610ab0529ce32cc7e089a092deac470a056949c079",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "6e9bbb8e-cac7-4aaa-9d29-747499b45636",
+        "extraction_sha256": "fe9c55fb3aefeee5c98648f61967d76f6d01fbdb121a6ae039505a9371653615",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "70e8335f-3ed1-4911-97d3-a379b2e8503d",
+        "extraction_sha256": "e30ff98036837f3652ecca697bb74dc3352a762a9b764081ca7a148edf42bd84",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "757dc354-4ade-4099-91e8-bd28f5385245",
+        "extraction_sha256": "e68665ba79edce275efe2b1e5bef84b2ded4db414510aab547e6da8aac038a94",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "7aa2b161-a7b7-4c5b-8877-1bf04daf4e88",
+        "extraction_sha256": "798ae7634ca2136e311a71fc074297db0742fa5a7d4775902007845c890afe58",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "84863939-f9f5-4688-9e43-f8114968fe6d",
+        "extraction_sha256": "acabc6ace90b8fc5d0574a15097b1a7a397e47ad1adff6287f0d9b00e71a9d28",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "84e1d5dd-245e-44f7-8f25-64ae70186904",
+        "extraction_sha256": "fc589a85c97332c462ad3cdfb0630d47840c4d23f3543785500031e36afefa61",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "9119ea47-c6ba-4a89-909a-5f09e1a7657d",
+        "extraction_sha256": "05554a0cf613dbc4ca6c5999e8a7155dcaba6a65a0f61b7fb13078f1e6979dda",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "97cef65c-605a-4731-9113-6e1fdbfb3cba",
+        "extraction_sha256": "2f265d9d974ae0a0aaf413778f67e2f0a059ce49ca1128a74ca2d5ee93077688",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "9a5791a3-df8f-4311-90fd-1e4468716eca",
+        "extraction_sha256": "9b3364f5fe26616c316c0afc3c0d1788f837dfe7388240ca97e0bc742a733ed5",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "9a74d88b-7c87-4a23-b1ad-dbbda3b4fbb2",
+        "extraction_sha256": "8e09ca880c53adf9a0b65d586150d1dfd407ce965c8eb4dbf8f7928379fc32b7",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "9ba468c5-6129-4721-bb7b-bbef1013d1d6",
+        "extraction_sha256": "ce583291f2011f6c8a8bfb9f23dcffc71710d55245d58a6ae8593a6ceedae91e",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "a6b9dc84-af6d-4957-a403-4b4c2136557b",
+        "extraction_sha256": "d2abf8778cfcccdc5f3f4d5d2c5084339c9e0e2971cca095069e7f3179740244",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "a7fd8fd5-2180-47ce-a5f6-868f853920de",
+        "extraction_sha256": "bffd682fa2a657060e2cd40f62fe4c1c08fa395d19beaccb6ffae6bc92b7728c",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "aac0d826-9830-4f6e-a9a8-dc0159bffee7",
+        "extraction_sha256": "047b3733efb097a3bb513b53f7937d1f9fcd8d9384b0cc89f110aa671dd3c1f0",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+        "extraction_sha256": "3fda944ecbca316b0fa9f53cf947be63bd685205e8b824a645bfa1ea3dd2fefe",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "afd8fef7-f39c-43ab-885f-c6ceeeb3e395",
+        "extraction_sha256": "25140777a8545e27ff9678c6a10d509396cd67f98c746a18c54b9be1bc7d16ef",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "b37b71e7-dd47-4956-ab17-6d0b45b01e3d",
+        "extraction_sha256": "241afebd548a85b412ba3e8af45a22f0b6aa76da697ca48b97dfa463d3bd6213",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "b5db1f17-d817-4a99-9b6d-ef2441d7294a",
+        "extraction_sha256": "5ec6183b080ef3801e15250040200dc8b96b9eb464ccbda9c0b9e265b01ddcbe",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "b788bbda-6045-46f5-b645-b54a23bdae5c",
+        "extraction_sha256": "0f278ffec42fc152832c7112ec3bd82e2fceb2942bd7cc107a630ca7ddcd66c1",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "b7aee9d3-6a3c-43b7-9abc-b3184f47f8ea",
+        "extraction_sha256": "809ecf79049ba44af7258c89c96b8b237c5f8ceb0fc53d8bc145e50f5c795433",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "b8e3d761-0f6d-46fa-8e02-e2f0a328f235",
+        "extraction_sha256": "85da643e1044b861c6d725c6f66c61287f230510ab2422c2dd71fb9592aaea98",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "b9c694a3-163f-400f-9785-6e34790fb880",
+        "extraction_sha256": "e372eb64d1494dc0bbac837341c739b508a79e8507cae3711e35f67c21b5c0bf",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "ba4b8c7c-b6e5-4364-b257-ee5d2dab09d8",
+        "extraction_sha256": "6b35c1ca2e873b4eb01e94edb1385b31f503d222a777c5525bc3057b0327f926",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "c00d87ea-e81a-4386-897f-62a999c48145",
+        "extraction_sha256": "0bf86a4bb834d56f611995a881d4af67cb3154ec4d736a7f3cedad293cef8b43",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "c037e7f9-879c-4761-8b18-0278a267fa42",
+        "extraction_sha256": "a5797dffa59f3ed1ede3f59cd7d6a1f5eb921aa13ee18a5b981c65feeec2e6c2",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "c59d714e-a200-4529-b3b4-e78ebb527269",
+        "extraction_sha256": "d38943a3ee55e0888c7ba45a498dc7d2d2739853dd4e9938eb30e112bef5af1f",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "d1b5d5be-d4f3-45d6-abc1-7448c224d2d1",
+        "extraction_sha256": "dfe2396c52a19e41dc5fb8fda17e5b07b39caae1b9272886b1f19addff6377a0",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "d36bc35d-d68e-4f2d-a1a5-d02e87ccf8ae",
+        "extraction_sha256": "51e851f213987c18d079f16d5d990c5f14f5a227b3f77dfbbd01c6d7b855c44a",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "d886bc8d-6eb3-40a9-833b-53ee36a5b993",
+        "extraction_sha256": "00a31f267bd8eb7886c7b0c0c1560c070aba9f68757a957298f2e98ed151d93c",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "db542f24-6cc3-466e-92ab-78256ed7b6c5",
+        "extraction_sha256": "9383f47d648b1391feab19dfb637a9acd601ea3501a17ed292b70cc088d26784",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "dcd2e1ff-ff45-4c01-a37a-8d6b17107d18",
+        "extraction_sha256": "02d5cc901084b8f54b332ad7cce7fc8f18a52b4a65fd30b6e391977fbe891423",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "ded06552-d28a-45c3-b54a-27c3e4a0505f",
+        "extraction_sha256": "8cc98bcbb18b158bab21402e55ca7b9eee966a06ba5b5eeb149e3b2982f0a526",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "e3c8df3a-0452-48d9-9432-afb4ef9765d3",
+        "extraction_sha256": "ec2d5396055cebf7c30051e15513a4932c5675cdfc223fc6c6bf7d6f737d7baa",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "e4340aa7-2574-4d24-bbdd-da58f55dbf53",
+        "extraction_sha256": "b3aa13af3416b894337b9b541ed100ec366af31611d27eac91f753dd7a19577a",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "e9d0d989-7d21-4681-b7f1-1ee88fb45001",
+        "extraction_sha256": "a22b3c94ea1c2314ebc665ffd62f096f4fe9e4b74362af7d24ea9510ff0c1ee4",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "ea014fc5-d50e-462c-a716-08a32f297916",
+        "extraction_sha256": "5341cbee479122cccf2ad5902b828e4846fdc4de89ef9afbd819bbf888ac0c2f",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "ead9d801-b0d9-4dfc-8b00-6419f6aefdf5",
+        "extraction_sha256": "520b945faadeb733e832730b01e770f969e6680d96f522a53a438cb91eaa98d1",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "f1dc59b2-796b-49d8-9fcc-d07bb5708f55",
+        "extraction_sha256": "7f4f614315017bcf6de9703f630c2a98c6f2be0a38d3b15d2f82f3c339fbd170",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "f962e78d-1cfc-4a7b-a517-b28089745cb0",
+        "extraction_sha256": "76e2d0ae947331997329916a6029f701a73924ecee389ad07272cca3a22f4dbc",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "fae8b72f-4112-4a64-8302-8b3250be262d",
+        "extraction_sha256": "17714e34b341863812bb0d91bfb79863c59e61df5128ba8e132e154d26135ee9",
+        "routes": [
+          "s114_metadata_ledger",
+          "snapshot_chunk_ledger"
+        ]
+      },
+      {
+        "document_id": "fd5cb420-c7e6-4695-b792-27c65a841ade",
+        "extraction_sha256": "20452ae4f60a9b844514ab2078abd6ccbd6c3801fcb8e8a6b76cf9a3441783c9",
+        "routes": [
+          "snapshot_chunk_ledger"
+        ]
+      }
+    ],
+    "source_pdf_identities": {
+      "020d7a69-1e8e-481c-9eff-0bee90c87616": {
+        "identity": "abeea9cc130518635af60095625a1fd5444150fbb88121f63f45d366a91c8c20",
+        "status": "known_physical"
+      },
+      "06d1d1d4-f128-42fb-b7b0-7ab6d89fa310": {
+        "identity": "6ad22328e34d3e7e397da198b2f0c92cdbceb3c761d93296585b2398cba602df",
+        "status": "known_physical"
+      },
+      "08654a90-746a-4448-a5bd-3b490557bc06": {
+        "identity": "ddbfb33736f52cc6a11295b987fe6846e0a3147d619ae00eeec8dbfa236086e8",
+        "status": "known_physical"
+      },
+      "0951df3f-2d52-46d2-9669-627ab7251776": {
+        "identity": "backfill:696177e00617587f23df79eb14797e47c35cb1ad5d39e0de0ef015ce3313e815",
+        "status": "synthetic_backfill"
+      },
+      "0b2c3bbe-932c-474c-b0cc-0cab3083aa4b": {
+        "identity": "cd87f8b1aed8b509f69518e03632e790baf4a8b0525e89a47283618ec97b069b",
+        "status": "known_physical"
+      },
+      "0d4e7b1a-4a59-40d0-9ebc-d7a70a06a3e8": {
+        "identity": "178362d829ae786f3d9888f93ad1f82cda31ab4c28aad98ed3c3aaf5157e0aef",
+        "status": "known_physical"
+      },
+      "1060f725-062a-4d84-986e-21c70ae24274": {
+        "identity": "f430fba84fa07f97349643cdce100f6e541726411a806fb445ae228454a506d9",
+        "status": "known_physical"
+      },
+      "1a00372e-3115-4cd6-adae-d950946259fe": {
+        "identity": "dbab7e17c19261a0ca75427644989271a2168a0fde29e35231191092ecd4bb57",
+        "status": "known_physical"
+      },
+      "1e86c112-02a7-4c91-b64a-4d340601cd6a": {
+        "identity": "backfill:d9016d1a3da8bd4ad99ff18486c22d11d8992e2140406ee4beb6e80f4579520f",
+        "status": "synthetic_backfill"
+      },
+      "23f0e4d2-5fd6-4f7c-992c-82584f311745": {
+        "identity": "e1985c3d8cfb74b30c45a9524b9afd1547a3d1df72c068998a227e37f3d673c8",
+        "status": "known_physical"
+      },
+      "2b694083-5b21-4f1a-a29b-565072860fb8": {
+        "identity": "backfill:4fa5d9673e27616ce1a11250cc8364a89332b163a60acea1e55322efc5958c8a",
+        "status": "synthetic_backfill"
+      },
+      "2f8e3c23-3d32-452f-a7ef-f1f3c6eca543": {
+        "identity": "edab38bdf6ea13d6d5798d6b75a2bb9141b4a70282ef4a7b3fc2fb2a25a892f2",
+        "status": "known_physical"
+      },
+      "348c4ec1-210a-441a-9ce7-02014a51f26d": {
+        "identity": "3797d14d071d618d2a6b0343dfb3d0e4bc4a8cebe75016fce5206cd9687ab68e",
+        "status": "known_physical"
+      },
+      "385df2f7-7a1c-4ce9-b8cd-b25b047d5834": {
+        "identity": "1b1ffdf7a9c6d7a2b2a52688643d614b58d3ba7cc65d190c7c08660abf3ed68c",
+        "status": "known_physical"
+      },
+      "38fa6760-cb28-413e-8a4d-b7d7ee2ccc1d": {
+        "identity": "32f577bb5dbde6670db8fb487cc8c08a3c2a212c95ffc1f49f189954d4aef774",
+        "status": "known_physical"
+      },
+      "3fbd5950-24fb-4ccc-9511-07c2a0df0786": {
+        "identity": "3a41d329f0e1ec47ceb50f23d0982f30569cfd65c95fbdf42a9278040dd98c06",
+        "status": "known_physical"
+      },
+      "408a3a7b-aab9-40f5-af5b-a45e267d67c6": {
+        "identity": "backfill:6f3c9b39edce580663041d579e8c6c72328c3fc51738878fe074a467d3b9e462",
+        "status": "synthetic_backfill"
+      },
+      "4ba70bd0-34a1-4977-ad31-0a8e788c4ebb": {
+        "identity": "backfill:b2f8bd2392e2e12a2023ee2497e997f6f3b724afd87978ca82fa6c8706edb4b0",
+        "status": "synthetic_backfill"
+      },
+      "4bf442fb-9f63-4205-a2f7-535a5055eac6": {
+        "identity": "backfill:a197654ba3e974d4dadc718cb2c7afe6625dcd8e2557106cb0ac90274b548a50",
+        "status": "synthetic_backfill"
+      },
+      "513561bb-0c67-44c3-993c-6904a91ab12b": {
+        "identity": "f67ddc2c9edce53991e893894e5800beef65c3e6753dff86c4a367c7744d1383",
+        "status": "known_physical"
+      },
+      "6220e267-c513-4683-b199-8f22fe4a7dea": {
+        "identity": "d879ac72c2d8b294087be8a24af1d07831e025791364598617cbe8e45015284f",
+        "status": "known_physical"
+      },
+      "62a48e97-595c-466e-bed8-e11eb519e724": {
+        "identity": "a47e1d46b29eede4e9b907a50ecc8b544699a1d7db00bcc97be6c5e61d58c941",
+        "status": "known_physical"
+      },
+      "62d99550-6dd0-408b-9233-9ef11ae7776d": {
+        "identity": "b95e6cb485d9ad36b1328ba3626d0e569215bf9d4d6d9259432bb1c87de45c2f",
+        "status": "known_physical"
+      },
+      "637cc4d7-9e96-4545-9202-d6cb3463e701": {
+        "identity": "e3721c61ad9156da3d9ed382299a7f0075e8e000dd7f3a03e24c87eb98f30b7d",
+        "status": "known_physical"
+      },
+      "6586b837-6544-468e-936a-26cbd2e37f37": {
+        "identity": "865877f5a7972524fe45a07fade36a014f8f0a6b42fcfdacd5efd2c2529a5332",
+        "status": "known_physical"
+      },
+      "6817a785-225d-42c0-abfa-a0f821526458": {
+        "identity": "609d5ef1533d65666f2c183d69a8ba5542a90c29c3fba7663eaa34d64b35d821",
+        "status": "known_physical"
+      },
+      "695e1a54-637f-4f5f-bd33-b6c3684ea7aa": {
+        "identity": "backfill:7f24f9e8ac229ceac7c54f4d7ffb939973e5e951d1a2986fd7e715ae3b739218",
+        "status": "synthetic_backfill"
+      },
+      "6bc61e55-14f8-4bdc-9c47-512ff5a0ade9": {
+        "identity": "76a3d70a2ce6d7942209b72c7ff7544259b8d3753cafc5e0d9bbcb144c87d04d",
+        "status": "known_physical"
+      },
+      "6c923380-fc7f-4125-8b98-7b38585215f6": {
+        "identity": "6289904c16360c37c49685610ab0529ce32cc7e089a092deac470a056949c079",
+        "status": "known_physical"
+      },
+      "6e9bbb8e-cac7-4aaa-9d29-747499b45636": {
+        "identity": "backfill:60d8632db0e7193674fac7a3f13ee7a432876f678f17f0c234c756916b7ba730",
+        "status": "synthetic_backfill"
+      },
+      "70e8335f-3ed1-4911-97d3-a379b2e8503d": {
+        "identity": "e30ff98036837f3652ecca697bb74dc3352a762a9b764081ca7a148edf42bd84",
+        "status": "known_physical"
+      },
+      "757dc354-4ade-4099-91e8-bd28f5385245": {
+        "identity": "backfill:6ff18123424f215359f9a7d60d9afa7060d5a1c38cd160e0f8535bf8560da4d2",
+        "status": "synthetic_backfill"
+      },
+      "7aa2b161-a7b7-4c5b-8877-1bf04daf4e88": {
+        "identity": "backfill:796649f84b36e78645a65ea5f29e1ea8061d6ca45e1a53d7624ab1ef860b21a3",
+        "status": "synthetic_backfill"
+      },
+      "84863939-f9f5-4688-9e43-f8114968fe6d": {
+        "identity": "backfill:9769aeaf9fe808424a5f544dd7cc110e6ab80576a329b9d3f030c0e01c928c90",
+        "status": "synthetic_backfill"
+      },
+      "84e1d5dd-245e-44f7-8f25-64ae70186904": {
+        "identity": "fc589a85c97332c462ad3cdfb0630d47840c4d23f3543785500031e36afefa61",
+        "status": "known_physical"
+      },
+      "9119ea47-c6ba-4a89-909a-5f09e1a7657d": {
+        "identity": "backfill:4f7d0ebac71b4f7e6f8a034c70fd3b2d008f73726dc6820a0fb968d449447abc",
+        "status": "synthetic_backfill"
+      },
+      "97cef65c-605a-4731-9113-6e1fdbfb3cba": {
+        "identity": "2f265d9d974ae0a0aaf413778f67e2f0a059ce49ca1128a74ca2d5ee93077688",
+        "status": "known_physical"
+      },
+      "9a5791a3-df8f-4311-90fd-1e4468716eca": {
+        "identity": "backfill:531d6c75d86b566f662e533024373e3c38a30970ae6fadcd2202bd7a104bb5e7",
+        "status": "synthetic_backfill"
+      },
+      "9a74d88b-7c87-4a23-b1ad-dbbda3b4fbb2": {
+        "identity": "backfill:2c750c694abc3024630355bd48b150f05d447ed64322eb1b0f50e2acf71da833",
+        "status": "synthetic_backfill"
+      },
+      "9ba468c5-6129-4721-bb7b-bbef1013d1d6": {
+        "identity": "ce583291f2011f6c8a8bfb9f23dcffc71710d55245d58a6ae8593a6ceedae91e",
+        "status": "known_physical"
+      },
+      "a6b9dc84-af6d-4957-a403-4b4c2136557b": {
+        "identity": "backfill:a67360850519fde9ef4aafc576ebaf3d64ab297b5ed4b0f8cb8846c02e9d1560",
+        "status": "synthetic_backfill"
+      },
+      "a7fd8fd5-2180-47ce-a5f6-868f853920de": {
+        "identity": "bffd682fa2a657060e2cd40f62fe4c1c08fa395d19beaccb6ffae6bc92b7728c",
+        "status": "known_physical"
+      },
+      "aac0d826-9830-4f6e-a9a8-dc0159bffee7": {
+        "identity": "047b3733efb097a3bb513b53f7937d1f9fcd8d9384b0cc89f110aa671dd3c1f0",
+        "status": "known_physical"
+      },
+      "af5d5d01-d5a9-48df-9acb-ae4994d19251": {
+        "identity": "3fda944ecbca316b0fa9f53cf947be63bd685205e8b824a645bfa1ea3dd2fefe",
+        "status": "known_physical"
+      },
+      "afd8fef7-f39c-43ab-885f-c6ceeeb3e395": {
+        "identity": "25140777a8545e27ff9678c6a10d509396cd67f98c746a18c54b9be1bc7d16ef",
+        "status": "known_physical"
+      },
+      "b37b71e7-dd47-4956-ab17-6d0b45b01e3d": {
+        "identity": "backfill:2a36ce6f0bc69638f7f71c4f1683dd75c4478c0180b889e6bee318f7ed86a77a",
+        "status": "synthetic_backfill"
+      },
+      "b5db1f17-d817-4a99-9b6d-ef2441d7294a": {
+        "identity": "5ec6183b080ef3801e15250040200dc8b96b9eb464ccbda9c0b9e265b01ddcbe",
+        "status": "known_physical"
+      },
+      "b788bbda-6045-46f5-b645-b54a23bdae5c": {
+        "identity": "backfill:4d312628b9af7cf6299d287e1dee390fd6d3ee844443b8ee95d8281002337572",
+        "status": "synthetic_backfill"
+      },
+      "b7aee9d3-6a3c-43b7-9abc-b3184f47f8ea": {
+        "identity": "809ecf79049ba44af7258c89c96b8b237c5f8ceb0fc53d8bc145e50f5c795433",
+        "status": "known_physical"
+      },
+      "b8e3d761-0f6d-46fa-8e02-e2f0a328f235": {
+        "identity": "85da643e1044b861c6d725c6f66c61287f230510ab2422c2dd71fb9592aaea98",
+        "status": "known_physical"
+      },
+      "b9c694a3-163f-400f-9785-6e34790fb880": {
+        "identity": "e372eb64d1494dc0bbac837341c739b508a79e8507cae3711e35f67c21b5c0bf",
+        "status": "known_physical"
+      },
+      "ba4b8c7c-b6e5-4364-b257-ee5d2dab09d8": {
+        "identity": "6b35c1ca2e873b4eb01e94edb1385b31f503d222a777c5525bc3057b0327f926",
+        "status": "known_physical"
+      },
+      "c00d87ea-e81a-4386-897f-62a999c48145": {
+        "identity": "0bf86a4bb834d56f611995a881d4af67cb3154ec4d736a7f3cedad293cef8b43",
+        "status": "known_physical"
+      },
+      "c037e7f9-879c-4761-8b18-0278a267fa42": {
+        "identity": "a5797dffa59f3ed1ede3f59cd7d6a1f5eb921aa13ee18a5b981c65feeec2e6c2",
+        "status": "known_physical"
+      },
+      "c59d714e-a200-4529-b3b4-e78ebb527269": {
+        "identity": "backfill:9253936fbafc9ca3ef3ee0082ab604cc72f486131f8fdc785f7d3c9888a8f874",
+        "status": "synthetic_backfill"
+      },
+      "d1b5d5be-d4f3-45d6-abc1-7448c224d2d1": {
+        "identity": "dfe2396c52a19e41dc5fb8fda17e5b07b39caae1b9272886b1f19addff6377a0",
+        "status": "known_physical"
+      },
+      "d36bc35d-d68e-4f2d-a1a5-d02e87ccf8ae": {
+        "identity": "51e851f213987c18d079f16d5d990c5f14f5a227b3f77dfbbd01c6d7b855c44a",
+        "status": "known_physical"
+      },
+      "d886bc8d-6eb3-40a9-833b-53ee36a5b993": {
+        "identity": "backfill:c19aac97c2d26be30e51db2130577750a9e7d70e5da51defdfb0484e0f530fc2",
+        "status": "synthetic_backfill"
+      },
+      "db542f24-6cc3-466e-92ab-78256ed7b6c5": {
+        "identity": "9383f47d648b1391feab19dfb637a9acd601ea3501a17ed292b70cc088d26784",
+        "status": "known_physical"
+      },
+      "dcd2e1ff-ff45-4c01-a37a-8d6b17107d18": {
+        "identity": "02d5cc901084b8f54b332ad7cce7fc8f18a52b4a65fd30b6e391977fbe891423",
+        "status": "known_physical"
+      },
+      "ded06552-d28a-45c3-b54a-27c3e4a0505f": {
+        "identity": "backfill:89beba93ea8e1390fdea7f5a464f32f6e33947c65c3797a635edffd99e5c2823",
+        "status": "synthetic_backfill"
+      },
+      "e3c8df3a-0452-48d9-9432-afb4ef9765d3": {
+        "identity": "ec2d5396055cebf7c30051e15513a4932c5675cdfc223fc6c6bf7d6f737d7baa",
+        "status": "known_physical"
+      },
+      "e4340aa7-2574-4d24-bbdd-da58f55dbf53": {
+        "identity": "b3aa13af3416b894337b9b541ed100ec366af31611d27eac91f753dd7a19577a",
+        "status": "known_physical"
+      },
+      "e9d0d989-7d21-4681-b7f1-1ee88fb45001": {
+        "identity": "a22b3c94ea1c2314ebc665ffd62f096f4fe9e4b74362af7d24ea9510ff0c1ee4",
+        "status": "known_physical"
+      },
+      "ea014fc5-d50e-462c-a716-08a32f297916": {
+        "identity": "5341cbee479122cccf2ad5902b828e4846fdc4de89ef9afbd819bbf888ac0c2f",
+        "status": "known_physical"
+      },
+      "ead9d801-b0d9-4dfc-8b00-6419f6aefdf5": {
+        "identity": "520b945faadeb733e832730b01e770f969e6680d96f522a53a438cb91eaa98d1",
+        "status": "known_physical"
+      },
+      "f1dc59b2-796b-49d8-9fcc-d07bb5708f55": {
+        "identity": "backfill:cc5041c98a8aa3b660da0d54225d51279482c817c81848669d11bd0469adcb94",
+        "status": "synthetic_backfill"
+      },
+      "f962e78d-1cfc-4a7b-a517-b28089745cb0": {
+        "identity": "76e2d0ae947331997329916a6029f701a73924ecee389ad07272cca3a22f4dbc",
+        "status": "known_physical"
+      },
+      "fae8b72f-4112-4a64-8302-8b3250be262d": {
+        "identity": "17714e34b341863812bb0d91bfb79863c59e61df5128ba8e132e154d26135ee9",
+        "status": "known_physical"
+      },
+      "fd5cb420-c7e6-4695-b792-27c65a841ade": {
+        "identity": "20452ae4f60a9b844514ab2078abd6ccbd6c3801fcb8e8a6b76cf9a3441783c9",
+        "status": "known_physical"
+      }
+    },
+    "closure_sha256": "5aa3ed033e5b77c03f4c2d7b1f5ccda850fef422af250dad6b339f316e39fc1b"
+  },
+  "s116": {
+    "authority": "excluded_exploratory_only",
+    "artifacts_read": 0
+  },
+  "failures": [],
+  "authorization": {
+    "content_audit": true,
+    "heldout_outcome_inspection": false,
+    "migration": false,
+    "production": false
+  },
+  "cost": {
+    "model_calls": 0,
+    "network_calls": 0,
+    "database_reads": 0,
+    "database_writes": 0,
+    "embeddings": 0
+  },
+  "execution_freeze": {
+    "design_sha256": "381cdc185ccfa75b3d23c18ec0bd07b5d663c5db5fc00ce06dbfe6df564ed2ad",
+    "prereg_sha256": "3a74a62c0451ea94dd9293090db27def9fb73a5cbea5533656e524bc5296fa74",
+    "runner_sha256": "f00106292a5f40da72b18025479f9b425d1920713bd9b3e936e6874d22a658e6",
+    "tests_sha256": "6b3c933df02eea4308adbdc763f9d1fc69ebfe1c7b504afa24f29a962a31e55f",
+    "permit_sha256": "966c735441a9d853b349fe717d40523fd83103b301fe7b6db15de9ce31b5e1d4",
+    "consumption_receipt_output": "evals/s130_chunks_v3_adequacy_execution_consumption_v2.json",
+    "embargo_output": "evals/s130_chunks_v3_heldout_exclusion_manifest_v2.json",
+    "audit_output": "evals/s130_chunks_v3_adequacy_audit_v2.json"
+  },
+  "determinism": {
+    "logical_payload_sha256": "365f9ffdf32c38bea261a9db89b87608c54b0858445f35d81061830629201e9a"
+  }
+}
