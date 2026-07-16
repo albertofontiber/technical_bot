@@ -1,0 +1,603 @@
+{
+  "instrument": "s121_s120_three_answer_probe_v1",
+  "frozen_contexts_sha256": "eb251db980e34f5e0527cec97d217b7c0bfcf6c76ded49741c9708c71facacbd",
+  "planner_contract": "answer_planner_s120_v1",
+  "source_receipts": {
+    "src/rag/answer_planner.py": "a19f8426a1d0d9966ba9a66a310d9ad781688c5493e5ce24ff6661a347bac6a6",
+    "src/rag/answer_obligation_contract.py": "14255c2592532cfafc923f116ad6e97927dceece2236b398b6f14976890269a7",
+    "src/rag/generator.py": "b8b78749b04ac89edba132f678e69b3427b765f81cb60582c3ab99a7ba1195ba",
+    "scripts/s121_s120_three_answer_probe.py": "71d868be532a802240574a7083ac9796fa17cb4dd9e5fd4fc7dd01887fd46583",
+    "evals/s121_s120_three_answer_probe_prereg_v1.yaml": "32c9a10450e1c17a354d34c0bb673a8dcd294c8b7dce0aa93e17b43a4c3e4e00"
+  },
+  "gate": {
+    "authorized_qids": [
+      "hp005",
+      "hp009",
+      "hp017"
+    ],
+    "requested_this_run": [
+      "hp005",
+      "hp009",
+      "hp017"
+    ],
+    "fresh_calls_this_run": [
+      "hp005",
+      "hp009",
+      "hp017"
+    ],
+    "successful_answer_checkpoints": 3,
+    "remaining_answers": 0,
+    "input_tokens": 45139,
+    "output_tokens": 3055,
+    "max_token_stops": 0,
+    "locally_covered_qids": [],
+    "all_citations_present_qids": [
+      "hp005",
+      "hp017"
+    ],
+    "deterministic_claim_surfaces_present": 0,
+    "diagnostic_claims": 4,
+    "retrieval_calls": 0,
+    "reranker_calls": 0,
+    "judge_calls": 0,
+    "database_reads": 0,
+    "database_writes": 0,
+    "facts_moved_to_ok": 0,
+    "status": "MEASURED_THREE_ANSWER_PROBE_PENDING_MANUAL_ADJUDICATION"
+  },
+  "rows": [
+    {
+      "qid": "hp005",
+      "context_rows": 14,
+      "obligation_kinds": [
+        "cause_effect_output_selector"
+      ],
+      "obligation_citations": [
+        "[F14]"
+      ],
+      "generation_contract_sha256": "935ea39bafb7c2a5b53fe416a15cc60329741ce85662c53b423fe3a3a9472455",
+      "checkpoint_reusable": false,
+      "executed": true,
+      "model": "claude-sonnet-4-6",
+      "max_output_tokens": 3500,
+      "stop_reason": "end_turn",
+      "input_tokens": 14153,
+      "output_tokens": 1488,
+      "answer_sha256": "08b54140aac99f1bf38c5f7807859c28def6413d5f6b4a87668bbbbc50af7254",
+      "obligation_citations_present": true,
+      "local_validation": {
+        "total": 1,
+        "covered": 0,
+        "missing": [
+          {
+            "obligation_id": "obl_24bdd910c60c",
+            "fragment_number": 14,
+            "candidate_id": "6dcccb36-f67b-4057-959b-494d9279e5d4",
+            "facet": "served_relation:cause_effect_output_selector",
+            "kind": "cause_effect_output_selector",
+            "statement": "Acción:**\n○ Anular\n● Activar ☐ Pulsante\n○ Ajustar Modo Sólo Térmico\n**Aplicar el Evento de Salida / Matriz sobre:**\nTipo de Equipo: ☐ Todos los Equipos\nFunción Especial: ☐ Circuito Sirena 1\n**Transferir a:**\nRetardo: 0 seg.\nSin Ecuación Logica\n○ Todas las Zonas\n○ Misma Zona de Entrada\n○ Selec. Zona(s)\n○ Selec. Subzona(s)\n● Seleccionar Equipos del Lazo: 1",
+            "required_anchors": [
+              "Activar",
+              "Circuito Sirena 1",
+              "Seleccionar Equipos del Lazo"
+            ],
+            "source_start": 80,
+            "source_end": 451,
+            "covered": false
+          }
+        ],
+        "rows": [
+          {
+            "obligation_id": "obl_24bdd910c60c",
+            "fragment_number": 14,
+            "candidate_id": "6dcccb36-f67b-4057-959b-494d9279e5d4",
+            "facet": "served_relation:cause_effect_output_selector",
+            "kind": "cause_effect_output_selector",
+            "statement": "Acción:**\n○ Anular\n● Activar ☐ Pulsante\n○ Ajustar Modo Sólo Térmico\n**Aplicar el Evento de Salida / Matriz sobre:**\nTipo de Equipo: ☐ Todos los Equipos\nFunción Especial: ☐ Circuito Sirena 1\n**Transferir a:**\nRetardo: 0 seg.\nSin Ecuación Logica\n○ Todas las Zonas\n○ Misma Zona de Entrada\n○ Selec. Zona(s)\n○ Selec. Subzona(s)\n● Seleccionar Equipos del Lazo: 1",
+            "required_anchors": [
+              "Activar",
+              "Circuito Sirena 1",
+              "Seleccionar Equipos del Lazo"
+            ],
+            "source_start": 80,
+            "source_end": 451,
+            "covered": false
+          }
+        ]
+      },
+      "diagnostic_claims": [
+        {
+          "claim_id": "m0.hp005.output_selection.1",
+          "deterministic_surface_present": false
+        }
+      ],
+      "answer_planner": {
+        "mode": "guided",
+        "plan": [
+          {
+            "obligation_id": "obl_24bdd910c60c",
+            "fragment_number": 14,
+            "candidate_id": "6dcccb36-f67b-4057-959b-494d9279e5d4",
+            "facet": "served_relation:cause_effect_output_selector",
+            "kind": "cause_effect_output_selector",
+            "statement": "Acción:**\n○ Anular\n● Activar ☐ Pulsante\n○ Ajustar Modo Sólo Térmico\n**Aplicar el Evento de Salida / Matriz sobre:**\nTipo de Equipo: ☐ Todos los Equipos\nFunción Especial: ☐ Circuito Sirena 1\n**Transferir a:**\nRetardo: 0 seg.\nSin Ecuación Logica\n○ Todas las Zonas\n○ Misma Zona de Entrada\n○ Selec. Zona(s)\n○ Selec. Subzona(s)\n● Seleccionar Equipos del Lazo: 1",
+            "required_anchors": [
+              "Activar",
+              "Circuito Sirena 1",
+              "Seleccionar Equipos del Lazo"
+            ],
+            "source_start": 80,
+            "source_end": 451
+          }
+        ],
+        "validation": {
+          "total": 1,
+          "covered": 0,
+          "missing": [
+            {
+              "obligation_id": "obl_24bdd910c60c",
+              "fragment_number": 14,
+              "candidate_id": "6dcccb36-f67b-4057-959b-494d9279e5d4",
+              "facet": "served_relation:cause_effect_output_selector",
+              "kind": "cause_effect_output_selector",
+              "statement": "Acción:**\n○ Anular\n● Activar ☐ Pulsante\n○ Ajustar Modo Sólo Térmico\n**Aplicar el Evento de Salida / Matriz sobre:**\nTipo de Equipo: ☐ Todos los Equipos\nFunción Especial: ☐ Circuito Sirena 1\n**Transferir a:**\nRetardo: 0 seg.\nSin Ecuación Logica\n○ Todas las Zonas\n○ Misma Zona de Entrada\n○ Selec. Zona(s)\n○ Selec. Subzona(s)\n● Seleccionar Equipos del Lazo: 1",
+              "required_anchors": [
+                "Activar",
+                "Circuito Sirena 1",
+                "Seleccionar Equipos del Lazo"
+              ],
+              "source_start": 80,
+              "source_end": 451,
+              "covered": false
+            }
+          ],
+          "rows": [
+            {
+              "obligation_id": "obl_24bdd910c60c",
+              "fragment_number": 14,
+              "candidate_id": "6dcccb36-f67b-4057-959b-494d9279e5d4",
+              "facet": "served_relation:cause_effect_output_selector",
+              "kind": "cause_effect_output_selector",
+              "statement": "Acción:**\n○ Anular\n● Activar ☐ Pulsante\n○ Ajustar Modo Sólo Térmico\n**Aplicar el Evento de Salida / Matriz sobre:**\nTipo de Equipo: ☐ Todos los Equipos\nFunción Especial: ☐ Circuito Sirena 1\n**Transferir a:**\nRetardo: 0 seg.\nSin Ecuación Logica\n○ Todas las Zonas\n○ Misma Zona de Entrada\n○ Selec. Zona(s)\n○ Selec. Subzona(s)\n● Seleccionar Equipos del Lazo: 1",
+              "required_anchors": [
+                "Activar",
+                "Circuito Sirena 1",
+                "Seleccionar Equipos del Lazo"
+              ],
+              "source_start": 80,
+              "source_end": 451,
+              "covered": false
+            }
+          ]
+        }
+      },
+      "answer": "# Programación de coincidencia de dos detectores → salida de sirena en ID3000\n\nPara que una zona active la sirena únicamente cuando dos detectores entren en alarma, debes crear una instrucción en la **Matriz de Control** con coincidencia de equipos. El proceso requiere **dos instrucciones separadas** si la zona tiene pulsadores manuales (MCP/PUL).\n\n---\n\n## Paso 1 — Acceder a la Matriz de Control\n\nDesde el menú **Parámetros Sistema**, selecciona **Matriz de Control** [F11]. También puedes acceder pulsando **\\<F6\\>** durante la edición de sensores o módulos [F12].\n\n---\n\n## Paso 2 — Crear la instrucción de entrada (Evento de Entrada)\n\nEn la ventana de edición del evento de entrada [F8]:\n\n**1. Seleccionar central:**\n- Si es instalación local (no red): selecciona **Central Determinada** o deja la opción correspondiente a la central local [F8].\n\n**2. Seleccionar el ámbito de zona:**\n- Elige **Zona(s) Determinada** e introduce el número de zona que quieres supervisar [F8].\n- ⚠️ La función de coincidencia **solo se aplica si la entrada está especificada como ZONA, SUBZONA o CUALQUIERA** — no funciona si seleccionas un equipo individual [F1].\n\n**3. Configurar la coincidencia de equipos:**\n- En el campo **\"Coincidencia de [ ] Equipos\"**, selecciona **2** [F4] [F8].\n- Esto exige que dos equipos de esa zona estén en alarma antes de activar la salida [F1].\n- ⚠️ Para que tenga lugar la coincidencia, los equipos en alarma **deben estar en la misma zona o subzona** [F4].\n\n**4. Tipo de equipo:**\n- Si quieres que solo actúen detectores automáticos (no pulsadores), selecciona el tipo **ANALÓGICO** (incluye térmicos, iónicos, ópticos, VIEW y multisensor) [F1].\n\n---\n\n## Paso 3 — Gestión obligatoria de pulsadores manuales (MCP/PUL)\n\n⚠️ **EN54-2: 7.1.4 — No incluyas pulsadores manuales en un grupo de coincidencia** [F1] [F4].\n\nSi la zona tiene pulsadores, debes programar **dos instrucciones de Matriz de Control** [F1] [F4]:\n\n- **Instrucción 1:** Entrada tipo **Pulsador Manual (MCP)** → coincidencia **Simple** (un único equipo, sin coincidencia). Esto garantiza que un pulsador active la sirena de inmediato.\n- **Instrucción 2:** Entrada tipo **ANALÓGICO** (detectores automáticos) → coincidencia de **2 equipos**. Esta es la instrucción que requiere doble confirmación.\n\n---\n\n## Paso 4 — Configurar la salida de sirena (Evento de Salida)\n\nEn la ventana **Editar el Evento de Salida** [F14]:\n\n- **Acción:** ● **Activar**\n- **Función Especial:** **Circuito Sirena 1** (marca la casilla correspondiente)\n- **Retardo:** configura los segundos deseados (el fragmento muestra **0 seg.** como ejemplo, pero puede ajustarse; en [F13] se muestra un ejemplo con retardo de sirena de **48 s**)\n- **Transferir a:** selecciona el ámbito de zonas o equipos de lazo según tu instalación\n\n---\n\n## Paso 5 — Verificar niveles de coincidencia en ajustes de central\n\nSi necesitas niveles de coincidencia adicionales (más de 2 zonas o más de 2 equipos en niveles 3, 4 o 5), configúralos previamente en:\n\n**Parámetros Sistema → Modificar Opciones de la Central → pestaña \"Coincidencia de Alarma\"** [F5]\n\n- **Nivel de Coincidencia de Equipos en Alarma:** introduce el número de equipos para cada nivel (nivel 3, 4...).\n- Los valores configurados aquí pasan a estar disponibles en el menú de edición de la Matriz de Control [F5].\n- ⚠️ El número de zonas o equipos disponible en el desplegable es **'2' más los configurados en esta pestaña** [F8].\n\n> **Nota adicional:** No se permite usar simultáneamente las funciones de **coincidencia de zonas** y **limitación por tipo** en la misma entrada de Matriz de Control [F4].\n\n---\n\n## Resumen del flujo\n\n```\nZona X → 2 detectores en alarma\n         ↓ (Instrucción 2 de la Matriz)\n    Coincidencia de 2 Equipos (tipo ANALÓGICO)\n         ↓\n    Activar Circuito Sirena 1\n\nZona X → 1 pulsador manual en alarma\n         ↓ (Instrucción 1 de la Matriz)\n    Simple (sin coincidencia)\n         ↓\n    Activar Circuito Sirena 1\n```\n\n---\n\n**Fuentes:** MCDT190 (sin revisión registrada); MCDT191 v. 2.17e; MPDT190 (sin revisión registrada); MADT190\\_07 (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **configuración del retardo de sirena**, **programación de subzonas con coincidencia** o **ajuste de la pestaña Coincidencia de Alarma en los ajustes de central** de la ID3000.",
+      "manual_review_required": true
+    },
+    {
+      "qid": "hp009",
+      "context_rows": 12,
+      "obligation_kinds": [
+        "terminal_bundle",
+        "closed_loop_return_path"
+      ],
+      "obligation_citations": [
+        "[F12]"
+      ],
+      "generation_contract_sha256": "7a6e8724c341e66f0e17bfc3449e421815b05f45c5bcb5cf443f5f03a6ac4cb2",
+      "checkpoint_reusable": false,
+      "executed": true,
+      "model": "claude-sonnet-4-6",
+      "max_output_tokens": 3500,
+      "stop_reason": "end_turn",
+      "input_tokens": 15868,
+      "output_tokens": 200,
+      "answer_sha256": "351a9ff1dd9f15f0e7f0140230f49e1b72e73de41872ed3f292b8164979eec0f",
+      "obligation_citations_present": false,
+      "local_validation": {
+        "total": 2,
+        "covered": 0,
+        "missing": [
+          {
+            "obligation_id": "obl_0dd92f09e970",
+            "fragment_number": 12,
+            "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+            "facet": "loop_topology",
+            "kind": "terminal_bundle",
+            "statement": "Inicio Lazo (+) OUT / Inicio Lazo (-) OUT on left panel; (+) Retorno / (-) Retorno on right panel",
+            "required_anchors": [
+              "inicio",
+              "retorno",
+              "out"
+            ],
+            "source_start": 569,
+            "source_end": 669,
+            "covered": false
+          },
+          {
+            "obligation_id": "obl_f5f518a75f3f",
+            "fragment_number": 12,
+            "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+            "facet": "served_relation:closed_loop_return_path",
+            "kind": "closed_loop_return_path",
+            "statement": "Retorne el final del lazo al otro extremo del conector de lazo; Inicio Lazo (+) OUT / Inicio Lazo (-) OUT; (+) Retorno / (-) Retorno on right panel; complete loop circuit",
+            "required_anchors": [
+              "Inicio Lazo",
+              "OUT",
+              "Retorno"
+            ],
+            "source_start": 260,
+            "source_end": 1139,
+            "covered": false
+          }
+        ],
+        "rows": [
+          {
+            "obligation_id": "obl_0dd92f09e970",
+            "fragment_number": 12,
+            "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+            "facet": "loop_topology",
+            "kind": "terminal_bundle",
+            "statement": "Inicio Lazo (+) OUT / Inicio Lazo (-) OUT on left panel; (+) Retorno / (-) Retorno on right panel",
+            "required_anchors": [
+              "inicio",
+              "retorno",
+              "out"
+            ],
+            "source_start": 569,
+            "source_end": 669,
+            "covered": false
+          },
+          {
+            "obligation_id": "obl_f5f518a75f3f",
+            "fragment_number": 12,
+            "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+            "facet": "served_relation:closed_loop_return_path",
+            "kind": "closed_loop_return_path",
+            "statement": "Retorne el final del lazo al otro extremo del conector de lazo; Inicio Lazo (+) OUT / Inicio Lazo (-) OUT; (+) Retorno / (-) Retorno on right panel; complete loop circuit",
+            "required_anchors": [
+              "Inicio Lazo",
+              "OUT",
+              "Retorno"
+            ],
+            "source_start": 260,
+            "source_end": 1139,
+            "covered": false
+          }
+        ]
+      },
+      "diagnostic_claims": [
+        {
+          "claim_id": "m0.hp009.closed_loop_return.1",
+          "deterministic_surface_present": false
+        },
+        {
+          "claim_id": "m0.hp009.closed_loop_return.2",
+          "deterministic_surface_present": false
+        }
+      ],
+      "answer_planner": {
+        "mode": "guided",
+        "plan": [
+          {
+            "obligation_id": "obl_0dd92f09e970",
+            "fragment_number": 12,
+            "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+            "facet": "loop_topology",
+            "kind": "terminal_bundle",
+            "statement": "Inicio Lazo (+) OUT / Inicio Lazo (-) OUT on left panel; (+) Retorno / (-) Retorno on right panel",
+            "required_anchors": [
+              "inicio",
+              "retorno",
+              "out"
+            ],
+            "source_start": 569,
+            "source_end": 669
+          },
+          {
+            "obligation_id": "obl_f5f518a75f3f",
+            "fragment_number": 12,
+            "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+            "facet": "served_relation:closed_loop_return_path",
+            "kind": "closed_loop_return_path",
+            "statement": "Retorne el final del lazo al otro extremo del conector de lazo; Inicio Lazo (+) OUT / Inicio Lazo (-) OUT; (+) Retorno / (-) Retorno on right panel; complete loop circuit",
+            "required_anchors": [
+              "Inicio Lazo",
+              "OUT",
+              "Retorno"
+            ],
+            "source_start": 260,
+            "source_end": 1139
+          }
+        ],
+        "validation": {
+          "total": 2,
+          "covered": 0,
+          "missing": [
+            {
+              "obligation_id": "obl_0dd92f09e970",
+              "fragment_number": 12,
+              "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+              "facet": "loop_topology",
+              "kind": "terminal_bundle",
+              "statement": "Inicio Lazo (+) OUT / Inicio Lazo (-) OUT on left panel; (+) Retorno / (-) Retorno on right panel",
+              "required_anchors": [
+                "inicio",
+                "retorno",
+                "out"
+              ],
+              "source_start": 569,
+              "source_end": 669,
+              "covered": false
+            },
+            {
+              "obligation_id": "obl_f5f518a75f3f",
+              "fragment_number": 12,
+              "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+              "facet": "served_relation:closed_loop_return_path",
+              "kind": "closed_loop_return_path",
+              "statement": "Retorne el final del lazo al otro extremo del conector de lazo; Inicio Lazo (+) OUT / Inicio Lazo (-) OUT; (+) Retorno / (-) Retorno on right panel; complete loop circuit",
+              "required_anchors": [
+                "Inicio Lazo",
+                "OUT",
+                "Retorno"
+              ],
+              "source_start": 260,
+              "source_end": 1139,
+              "covered": false
+            }
+          ],
+          "rows": [
+            {
+              "obligation_id": "obl_0dd92f09e970",
+              "fragment_number": 12,
+              "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+              "facet": "loop_topology",
+              "kind": "terminal_bundle",
+              "statement": "Inicio Lazo (+) OUT / Inicio Lazo (-) OUT on left panel; (+) Retorno / (-) Retorno on right panel",
+              "required_anchors": [
+                "inicio",
+                "retorno",
+                "out"
+              ],
+              "source_start": 569,
+              "source_end": 669,
+              "covered": false
+            },
+            {
+              "obligation_id": "obl_f5f518a75f3f",
+              "fragment_number": 12,
+              "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+              "facet": "served_relation:closed_loop_return_path",
+              "kind": "closed_loop_return_path",
+              "statement": "Retorne el final del lazo al otro extremo del conector de lazo; Inicio Lazo (+) OUT / Inicio Lazo (-) OUT; (+) Retorno / (-) Retorno on right panel; complete loop circuit",
+              "required_anchors": [
+                "Inicio Lazo",
+                "OUT",
+                "Retorno"
+              ],
+              "source_start": 260,
+              "source_end": 1139,
+              "covered": false
+            }
+          ]
+        }
+      },
+      "answer": "La pregunta menciona la \"central Morley ZXe\" sin especificar el modelo exacto. Los fragmentos disponibles cubren dos familias distintas:\n\n- **ZXAE/ZXEE** (manual MIE-MI-310)\n- **ZX2e/ZX5e** (manual MIE-MI-530rv001)\n\n¿Qué modelo concreto estás usando? ¿Es el ZXAE, ZXEE, ZX2e o ZX5e?\n\n> Nota: la pregunta también puede referirse a distintos tipos de lazo (analógico, periférico o circuito de sirenas), ya que cada uno tiene su propia resistencia de fin de línea. Si me confirmas el modelo y el tipo de circuito, te doy el valor exacto.",
+      "manual_review_required": true
+    },
+    {
+      "qid": "hp017",
+      "context_rows": 14,
+      "obligation_kinds": [
+        "cause_effect_rule_behavior",
+        "cause_effect_default_rules_precondition"
+      ],
+      "obligation_citations": [
+        "[F11]"
+      ],
+      "generation_contract_sha256": "31e70ede1d2ad3288b282bdc8e04b0e2794c03a788a4a473de82a0e52efc69b3",
+      "checkpoint_reusable": false,
+      "executed": true,
+      "model": "claude-sonnet-4-6",
+      "max_output_tokens": 3500,
+      "stop_reason": "end_turn",
+      "input_tokens": 15118,
+      "output_tokens": 1367,
+      "answer_sha256": "065f1cac7a563553377ed20d22889f870fc53792dd37d8ff37c6b8cf34e6cfd1",
+      "obligation_citations_present": true,
+      "local_validation": {
+        "total": 2,
+        "covered": 0,
+        "missing": [
+          {
+            "obligation_id": "obl_e8491bc1c321",
+            "fragment_number": 11,
+            "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+            "facet": "served_relation:cause_effect_rule_behavior",
+            "kind": "cause_effect_rule_behavior",
+            "statement": "Regla 1: una regla que diga que para cualquier entrada de alarma todas las sirenas de cada zona deben activarse en modo intermitente* (patrón de alerta).",
+            "required_anchors": [
+              "Regla 1",
+              "cualquier entrada de alarma",
+              "todas las sirenas"
+            ],
+            "source_start": 812,
+            "source_end": 967,
+            "covered": false
+          },
+          {
+            "obligation_id": "obl_e265a4c97a31",
+            "fragment_number": 11,
+            "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+            "facet": "served_relation:cause_effect_default_rules_precondition",
+            "kind": "cause_effect_default_rules_precondition",
+            "statement": "Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto.; **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.",
+            "required_anchors": [
+              "dos reglas",
+              "por defecto",
+              "eliminar"
+            ],
+            "source_start": 2133,
+            "source_end": 2345,
+            "covered": false
+          }
+        ],
+        "rows": [
+          {
+            "obligation_id": "obl_e8491bc1c321",
+            "fragment_number": 11,
+            "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+            "facet": "served_relation:cause_effect_rule_behavior",
+            "kind": "cause_effect_rule_behavior",
+            "statement": "Regla 1: una regla que diga que para cualquier entrada de alarma todas las sirenas de cada zona deben activarse en modo intermitente* (patrón de alerta).",
+            "required_anchors": [
+              "Regla 1",
+              "cualquier entrada de alarma",
+              "todas las sirenas"
+            ],
+            "source_start": 812,
+            "source_end": 967,
+            "covered": false
+          },
+          {
+            "obligation_id": "obl_e265a4c97a31",
+            "fragment_number": 11,
+            "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+            "facet": "served_relation:cause_effect_default_rules_precondition",
+            "kind": "cause_effect_default_rules_precondition",
+            "statement": "Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto.; **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.",
+            "required_anchors": [
+              "dos reglas",
+              "por defecto",
+              "eliminar"
+            ],
+            "source_start": 2133,
+            "source_end": 2345,
+            "covered": false
+          }
+        ]
+      },
+      "diagnostic_claims": [
+        {
+          "claim_id": "m0.hp017.rule1.2",
+          "deterministic_surface_present": false
+        }
+      ],
+      "answer_planner": {
+        "mode": "guided",
+        "plan": [
+          {
+            "obligation_id": "obl_e8491bc1c321",
+            "fragment_number": 11,
+            "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+            "facet": "served_relation:cause_effect_rule_behavior",
+            "kind": "cause_effect_rule_behavior",
+            "statement": "Regla 1: una regla que diga que para cualquier entrada de alarma todas las sirenas de cada zona deben activarse en modo intermitente* (patrón de alerta).",
+            "required_anchors": [
+              "Regla 1",
+              "cualquier entrada de alarma",
+              "todas las sirenas"
+            ],
+            "source_start": 812,
+            "source_end": 967
+          },
+          {
+            "obligation_id": "obl_e265a4c97a31",
+            "fragment_number": 11,
+            "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+            "facet": "served_relation:cause_effect_default_rules_precondition",
+            "kind": "cause_effect_default_rules_precondition",
+            "statement": "Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto.; **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.",
+            "required_anchors": [
+              "dos reglas",
+              "por defecto",
+              "eliminar"
+            ],
+            "source_start": 2133,
+            "source_end": 2345
+          }
+        ],
+        "validation": {
+          "total": 2,
+          "covered": 0,
+          "missing": [
+            {
+              "obligation_id": "obl_e8491bc1c321",
+              "fragment_number": 11,
+              "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+              "facet": "served_relation:cause_effect_rule_behavior",
+              "kind": "cause_effect_rule_behavior",
+              "statement": "Regla 1: una regla que diga que para cualquier entrada de alarma todas las sirenas de cada zona deben activarse en modo intermitente* (patrón de alerta).",
+              "required_anchors": [
+                "Regla 1",
+                "cualquier entrada de alarma",
+                "todas las sirenas"
+              ],
+              "source_start": 812,
+              "source_end": 967,
+              "covered": false
+            },
+            {
+              "obligation_id": "obl_e265a4c97a31",
+              "fragment_number": 11,
+              "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+              "facet": "served_relation:cause_effect_default_rules_precondition",
+              "kind": "cause_effect_default_rules_precondition",
+              "statement": "Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto.; **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.",
+              "required_anchors": [
+                "dos reglas",
+                "por defecto",
+                "eliminar"
+              ],
+              "source_start": 2133,
+              "source_end": 2345,
+              "covered": false
+            }
+          ],
+          "rows": [
+            {
+              "obligation_id": "obl_e8491bc1c321",
+              "fragment_number": 11,
+              "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+              "facet": "served_relation:cause_effect_rule_behavior",
+              "kind": "cause_effect_rule_behavior",
+              "statement": "Regla 1: una regla que diga que para cualquier entrada de alarma todas las sirenas de cada zona deben activarse en modo intermitente* (patrón de alerta).",
+              "required_anchors": [
+                "Regla 1",
+                "cualquier entrada de alarma",
+                "todas las sirenas"
+              ],
+              "source_start": 812,
+              "source_end": 967,
+              "covered": false
+            },
+            {
+              "obligation_id": "obl_e265a4c97a31",
+              "fragment_number": 11,
+              "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+              "facet": "served_relation:cause_effect_default_rules_precondition",
+              "kind": "cause_effect_default_rules_precondition",
+              "statement": "Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto.; **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.",
+              "required_anchors": [
+                "dos reglas",
+                "por defecto",
+                "eliminar"
+              ],
+              "source_start": 2133,
+              "source_end": 2345,
+              "covered": false
+            }
+          ]
+        }
+      },
+      "answer": "# Programación del retardo de salida de alarma en la Notifier PEARL\n\nEl retardo de salida de alarma en la PEARL se configura a través de las **reglas de causa-efecto**, no como un parámetro único global. A continuación te explico el proceso completo.\n\n---\n\n## 1. Acceso al menú de Causa-Efecto\n\nLa programación se realiza desde el nivel de acceso 3 [F7]:\n\n1. Accede al **Menú de Configuración de Central** (nivel L3) [F7]\n2. Selecciona **«Editar Configuración»** [F8]\n3. Selecciona **«8: Causa y Efecto»** [F8]\n\n> ⚠️ **Importante:** Se recomienda usar el **programa de configuración por ordenador** como método principal de programación. El menú de la central debe usarse solo para modificaciones menores [F12].\n\n---\n\n## 2. Reglas por defecto — aviso crítico\n\nSi no se ha transferido un archivo de configuración a la central, encontrarás **dos reglas de causa-efecto por defecto**. **Deben eliminarse si vas a crear reglas personalizadas** [F11].\n\n---\n\n## 3. Configuración del retardo en la regla de causa-efecto\n\nCada regla de causa-efecto puede incluir un retardo de salida. Al editar o crear una regla, debes asignar uno de los **seis tipos de retardo** disponibles [F1]:\n\n- **Estándar**\n- **Fijo**\n- **Est. Ext.** (Estándar Extendido)\n- **No Silenc.** (No Silenciable)\n- **No Sil. Ext** (No Silenciable Extendido)\n- **Estándar 0** [F1]\n\n---\n\n## 4. Comportamiento de cada tipo de retardo\n\nLas diferencias clave entre tipos son [F2]:\n\n- **La salida se detiene al pulsar SILENCIAR SIRENAS durante el retardo:**\n  Solo en tipos **Estándar**, **Est. Ext.** y **RetExtStd** ✓ — No en Fijo, No Silenc., No Sil. Ext., SinRetExt ✗\n\n- **El retardo puede anularse (nivel acceso 2, opción «Anular retardos»):**\n  Todos los tipos **excepto Fijo** ✓\n\n- **El tiempo restante se muestra en la pestaña ALARMA:**\n  Todos los tipos **excepto Fijo** ✓\n\n- **El retardo puede detenerse con FIN RETARDO (nivel acceso 2):**\n  Todos los tipos **excepto Fijo** ✓\n\n- **La salida se detiene al pulsar AMPLIAR RETARDO:**\n  Solo en tipos **Est. Ext.** y **No Sil. Ext.** ✓\n\n- **El temporizador comienza en RETARDO AMPLIADO:**\n  Solo en tipos **RetExtStd** y **SinRetExt** ✓\n\n---\n\n## 5. Retardo de confirmación a nivel de detector (parámetro adicional)\n\nIndependientemente del retardo de salida en la regla, cada sensor puede tener configurado un **retardo de confirmación de coincidencia de detector** de hasta **240 s (4 min)** [F14]. Este parámetro se edita individualmente en cada equipo desde **«4.2 Editar equipos»** [F14].\n\n---\n\n## 6. Anular/Habilitar retardos en operación\n\nSi necesitas activar o desactivar los retardos configurados sin reprogramar:\n\n1. Accede al **Menú Anular/Habilitar** (nivel acceso 2)\n2. Selecciona **«5: Retardo Activación Salidas»** [F3]\n3. Pulsa **✓** para cambiar el estado entre HABILITADO / ANULADO [F3]\n4. Pulsa **✕** para salir [F3]\n\n> ℹ️ Esta opción solo aparece si hay retardos configurados en alguna regla de causa-efecto. Si hay retardos activos, el **LED de RETARDO ACTIVO** estará encendido [F3].\n\n---\n\n## 7. Tecla AMPLIAR RETARDO\n\nLa tecla **AMPLIAR RETARDO** (nivel acceso 2) permite extender el tiempo de retardo activo para que el personal autorizado pueda realizar una búsqueda [F4]. La tecla **FIN RETARDO** (nivel acceso 1) termina cualquier retardo activo e introduce la condición de alarma completa [F4].\n\nLa tecla AMPLIAR RETARDO puede desactivarse desde **«A1.10 Ampliar Puls.Retardo»** en los parámetros de la central, si no se requiere en el mercado de instalación [F10].\n\n---\n\n**Fuente:** Manual de configuración de la central PEARL — 997-671-005-3 (sin revisión registrada); Manual de funcionamiento PEARL — 997-670-005-3 (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **creación de reglas de causa-efecto paso a paso**, **configuración del retardo de confirmación por detector** o **programación horaria de retardos** en la PEARL.",
+      "manual_review_required": true
+    }
+  ],
+  "limitations": [
+    "Local validation checks answer obligations, not final atomic correctness.",
+    "No fact moves to OK before manual and adversarial adjudication.",
+    "The probe changes synthesis only and makes no retrieval or rerank claim."
+  ]
+}

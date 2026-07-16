@@ -1,0 +1,96 @@
+instrument: s112_synthesis_root_cause_audit_v1
+scope:
+  freeze: evals/s112_synthesis_context_freeze_v1.json
+  questions: 12
+  projected_synthesis_facts: 15
+  method: exact_served_evidence_and_latest_answer_relational_review
+decision_policy:
+  synthesis_candidate: >-
+    The complete relation is explicitly present in product-aligned served
+    evidence and a manufacturer-independent obligation schema can express it.
+  hold_upstream_or_gold: >-
+    Do not count as synthesis repair when evidence is conflicting, belongs to
+    a sibling product, omits a required relation, or supports only an absence
+    inference.
+rows:
+  - fact_key: "cat008#3:1/2/3/4 lazo; 6-7 entrada A"
+    classification: hold_document_conflict
+    reason: >-
+      Served sources reverse T1/T2 versus T3/T4 input/output assignments and
+      also contain terminal OCR ambiguity. Resolve model and revision visually.
+  - fact_key: "cat016#1:menu ZONA + ELEMENTO"
+    classification: synthesis_candidate
+    obligation_family: commissioning_menu_bundle
+    reason: BUCLE, ZONA and ELEMENTOS actions are explicit in one aligned source.
+  - fact_key: "cat017#2:licencia CLIP por lazo"
+    classification: hold_evidence_partial
+    reason: >-
+      The sources require a CLIP loop licence but do not explicitly establish
+      the evaluated one-licence-per-each-loop quantifier.
+  - fact_key: "cat018#1:pestana Programacion: Zona + CBE"
+    classification: synthesis_candidate
+    obligation_family: point_programming_fields
+    reason: The Program tab, Zone field and CBE field are explicit in one source.
+  - fact_key: "cat018#2:Tipo SW / asociacion CBE"
+    classification: synthesis_candidate
+    obligation_family: typed_output_and_cbe_relation
+    reason: >-
+      Served aligned sources explicitly define point CBE activation and output
+      modules programmed with software type SND; guided synthesis must join them.
+  - fact_key: "hp001#2:1111"
+    classification: synthesis_candidate
+    obligation_family: credential_scope
+    reason: Administrator 2222 and user 1111 defaults are both explicit.
+  - fact_key: "hp002#3:7.6.1"
+    classification: hold_evidence_partial
+    obligation_family: diagnostic_threshold_direction
+    reason: >-
+      Section 7.6.1 and the below/above 100 percent interpretation are served,
+      but V01 and V02 are absent from the served evidence.
+  - fact_key: "hp003#0:12V"
+    classification: synthesis_candidate
+    obligation_family: battery_series_spec
+    reason: Two 12 V 7 Ah batteries in series are explicit in one aligned source.
+  - fact_key: "hp003#1:cable puente"
+    classification: synthesis_candidate
+    obligation_family: battery_bridge
+    reason: Positive of one to negative of the other is explicit in one source.
+  - fact_key: "hp010#1:Nivel 3"
+    classification: hold_evidence_partial
+    reason: >-
+      The autobusqueda steps are served but Nivel 3 and memory unlock are not;
+      the current answer incorrectly says Nivel 2.
+  - fact_key: "hp011#2:05 a 295 seg"
+    classification: hold_product_and_parameter_identity
+    reason: >-
+      The question is RP1r while the range is served from RP1r-Supra, and the
+      extracted row has lost the t.A parameter identity.
+  - fact_key: "hp011#3:enclavadas"
+    classification: hold_product_identity
+    reason: The general latched-fault rule is served from sibling RP1r-Supra.
+  - fact_key: "hp013#1:PWR-R"
+    classification: hold_evidence_partial
+    obligation_family: redundant_power_and_rtc_battery
+    reason: >-
+      PWR-R redundancy and lithium RTC battery are explicit, but input voltage
+      and the evaluated no-onboard-buffer conclusion are not explicit.
+  - fact_key: "hp015#2:32"
+    classification: hold_evidence_partial
+    obligation_family: zone_scope_and_capacity
+    reason: >-
+      Zone-level disconnection and the 32-device maximum are explicit; absolute
+      impossibility of individual isolation cannot be inferred from menu absence.
+  - fact_key: "hp017#2:Editar Configuracion"
+    classification: hold_document_conflict
+    obligation_family: cause_effect_menu_path
+    reason: >-
+      One served source says 7:Causa y Efecto while another says 8:Causa y
+      Efecto. The canary followed 8, so revision/model resolution is required.
+summary:
+  synthesis_candidates: 6
+  hold_document_conflict: 2
+  hold_product_or_parameter_identity: 2
+  hold_evidence_partial: 5
+  model_calls: 0
+  database_calls: 0
+release_decision: NO_GO_PENDING_GUIDED_PROBE_AND_MANUAL_FACT_REVIEW

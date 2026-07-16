@@ -1,0 +1,239 @@
+{
+  "instrument": "s117_m210_candidate_live_alignment_prereg_v1",
+  "schema_version": 1,
+  "status": "frozen_before_execution",
+  "scope": {
+    "purpose": "derive_candidate_live_alignment_from_frozen_evidence",
+    "authority": "frozen_candidate_projection_and_delta_raw_parsed_block_surface_only",
+    "allowed": [
+      "local_frozen_evidence_read",
+      "local_eval_write"
+    ],
+    "forbidden": [
+      "raw_store_read",
+      "chunk_execution",
+      "candidate_execution",
+      "database",
+      "network",
+      "models"
+    ]
+  },
+  "frozen_inputs": {
+    "m27a_seed1": {
+      "path": "evals/s117_m27_live_evidence_seed1_v1.json",
+      "sha256": "47e591d472b501bce3439fa081d9b7478296f0035fbb4a84ef7ef7c1c4a7bb13",
+      "format": "JSON",
+      "use": "parsed"
+    },
+    "m27a_seed2": {
+      "path": "evals/s117_m27_live_evidence_seed2_v1.json",
+      "sha256": "47e591d472b501bce3439fa081d9b7478296f0035fbb4a84ef7ef7c1c4a7bb13",
+      "format": "blob",
+      "use": "hash-only"
+    },
+    "m27a_gate": {
+      "path": "evals/s117_m27_live_evidence_gate_v1.yaml",
+      "sha256": "26f009b232fcebbdfa544410581f82e33ec87de253cebd8d542caed61c838692",
+      "format": "blob",
+      "use": "hash-only"
+    },
+    "m27c_seed1": {
+      "path": "evals/s117_m27_loss_safe_chunking_probe_seed1_v2.json",
+      "sha256": "24c99a59a448284fca342c36941973b092dec1bc5c5f6c6586e09e730ec858f7",
+      "format": "JSON",
+      "use": "parsed"
+    },
+    "m27c_seed2": {
+      "path": "evals/s117_m27_loss_safe_chunking_probe_seed2_v2.json",
+      "sha256": "24c99a59a448284fca342c36941973b092dec1bc5c5f6c6586e09e730ec858f7",
+      "format": "blob",
+      "use": "hash-only"
+    },
+    "m27c_gate": {
+      "path": "evals/s117_m27_loss_safe_chunking_probe_gate_v2.yaml",
+      "sha256": "62f7b0ac1b220924f25c8c2073d8e5c301e56443d8de875cc3ab980ffdeebbbf",
+      "format": "blob",
+      "use": "hash-only"
+    },
+    "m28_seed1": {
+      "path": "evals/s117_m28_candidate_materialization_seed1_v1.json",
+      "sha256": "b18df39ad1677d0f20da4b78f32a8823162d826ff2387a82032adbac1d292b9e",
+      "format": "JSON",
+      "use": "parsed"
+    },
+    "m28_seed2": {
+      "path": "evals/s117_m28_candidate_materialization_seed2_v1.json",
+      "sha256": "b18df39ad1677d0f20da4b78f32a8823162d826ff2387a82032adbac1d292b9e",
+      "format": "blob",
+      "use": "hash-only"
+    },
+    "m28_gate": {
+      "path": "evals/s117_m28_candidate_materialization_gate_v1.yaml",
+      "sha256": "bbac69b7d2cc7e9323a3083083890feb0619a16c328e4cc7d216e5111cb24a83",
+      "format": "blob",
+      "use": "hash-only"
+    },
+    "m29_seed1": {
+      "path": "evals/s117_m29_reconciled_loss_ledger_seed1_v1.json",
+      "sha256": "06c82f2a276b0be28926205dc3910b0c7f3468b97a623c5114d6892bd146daf1",
+      "format": "JSON",
+      "use": "parsed"
+    },
+    "m29_seed2": {
+      "path": "evals/s117_m29_reconciled_loss_ledger_seed2_v1.json",
+      "sha256": "06c82f2a276b0be28926205dc3910b0c7f3468b97a623c5114d6892bd146daf1",
+      "format": "blob",
+      "use": "hash-only"
+    },
+    "m29_gate": {
+      "path": "evals/s117_m29_reconciled_loss_ledger_gate_v1.yaml",
+      "sha256": "ed243b6b6922f14464b0d300ba203cf580548550e3e2b22e2e14b52ea23eaa17",
+      "format": "blob",
+      "use": "hash-only"
+    },
+    "design": {
+      "path": "evals/s117_m210_candidate_live_alignment_design_v1.md",
+      "sha256": "350a866ba30c7001fcb8b7841d3f6a7b03428d06ce5c4fa5a5d70b3b28d47641",
+      "format": "blob",
+      "use": "hash-only"
+    },
+    "runner": {
+      "path": "scripts/s117_m210_candidate_live_alignment.py",
+      "sha256": "b4efe85bc763c2b16afa6c5022da1de4ccfec34521e279c3670430020726aa29",
+      "format": "blob",
+      "use": "hash-only"
+    },
+    "runner_tests": {
+      "path": "tests/test_s117_m210_candidate_live_alignment.py",
+      "sha256": "74f306eeec9cb9bdbcaaa639dbcba55889ee7bd740c3028c35803c4ec9157b60",
+      "format": "blob",
+      "use": "hash-only"
+    }
+  },
+  "expected": {
+    "counts": {
+      "documents": 18,
+      "tasks": 21,
+      "baseline_aligned_documents": 17,
+      "baseline_unresolved_documents": 1,
+      "candidate_aligned_documents": 18,
+      "candidate_unresolved_documents": 0,
+      "baseline_aligned_tasks": 20,
+      "baseline_unresolved_tasks": 1,
+      "candidate_aligned_tasks": 21,
+      "candidate_unresolved_tasks": 0,
+      "changed_affected_documents": 1,
+      "unchanged_affected_documents": 17,
+      "unique_target_memberships": 21,
+      "unique_overlap_memberships": 21
+    },
+    "projection": {
+      "bytes": 640933,
+      "sha256": "4cd69ba2912a8b7e1899512f99e7a1e3abd4ec970c96e9c4286b28443a0f8881"
+    },
+    "changed_extraction_sha256": "8d128ca2ca13754bb74e0dcf16014e74141e352ae819aa25e35784c2f60245f6",
+    "changed_task_id": "acd5058d-06cf-5626-aabd-a93eb75b2f44",
+    "changed_mapping": {
+      "target_baseline_ordinal": 61,
+      "target_candidate_ordinal": 61,
+      "modified_baseline_ordinal": 39,
+      "modified_candidate_ordinal": 39,
+      "coverage_gain_block_indexes": [
+        630,
+        631
+      ]
+    },
+    "check_keys": [
+      "contract_integrity",
+      "m27a_seed_equivalence",
+      "m27c_seed_equivalence",
+      "m28_seed_equivalence",
+      "m29_seed_equivalence",
+      "m27a_m27c_baseline_bridge_exact",
+      "candidate_projection_bridge_exact",
+      "affected_population_exact",
+      "changed_intersection_exact",
+      "document_alignment_exact",
+      "target_fingerprints_unique",
+      "overlap_fingerprints_unique",
+      "changed_target_mapping_exact",
+      "task_membership_exact",
+      "manifest_integrity_exact",
+      "output_schema_exact",
+      "zero_external_cost"
+    ],
+    "failure_codes": [
+      "contract_integrity_failure",
+      "m27a_seed_drift",
+      "m27c_seed_drift",
+      "m28_seed_drift",
+      "m29_seed_drift",
+      "m27a_receipt_failure",
+      "m27c_receipt_failure",
+      "m27a_m27c_baseline_bridge_failure",
+      "candidate_projection_bridge_failure",
+      "affected_population_drift",
+      "changed_intersection_drift",
+      "document_alignment_failure",
+      "target_membership_failure",
+      "overlap_membership_failure",
+      "changed_target_mapping_failure",
+      "manifest_integrity_failure",
+      "output_schema_failure",
+      "external_call_attempt",
+      "internal_failure"
+    ],
+    "dependency_roles": [
+      "design",
+      "execution_permit",
+      "m27a_gate",
+      "m27a_seed1",
+      "m27a_seed2",
+      "m27c_gate",
+      "m27c_seed1",
+      "m27c_seed2",
+      "m28_gate",
+      "m28_seed1",
+      "m28_seed2",
+      "m29_gate",
+      "m29_seed1",
+      "m29_seed2",
+      "preregistration",
+      "runner",
+      "runner_tests"
+    ],
+    "document_identities_sha256": "e96ad542c470f858616248429fd82aada4c1e2bd2b1ae02b1a75f6843128195a",
+    "task_identities_sha256": "fc92a3d2dc194716ff6d0b4263b3abc31d2cdc744db707cb5e0d996c905a2fcc"
+  },
+  "execution": {
+    "seeds": [
+      1,
+      2
+    ],
+    "outputs": {
+      "1": "evals/s117_m210_candidate_live_alignment_seed1_v1.json",
+      "2": "evals/s117_m210_candidate_live_alignment_seed2_v1.json"
+    },
+    "perturbation": "shuffle_documents_and_tasks_then_restore_canonical_order",
+    "required": [
+      "focused_tests_green",
+      "adversarial_go",
+      "permit_valid"
+    ]
+  },
+  "authorization": {
+    "preregistration_frozen": true,
+    "alignment_execution": false,
+    "raw_store_read": false,
+    "chunk_execution": false,
+    "additional_candidate_execution": false,
+    "database": false,
+    "network": false,
+    "models": false,
+    "load": false,
+    "serving": false,
+    "deploy": false,
+    "facts_moved_to_ok": 0,
+    "M3": "BLOCKED"
+  }
+}

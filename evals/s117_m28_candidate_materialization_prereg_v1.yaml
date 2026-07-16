@@ -1,0 +1,321 @@
+instrument: s117_m28_candidate_materialization_prereg_v1
+status: frozen_before_candidate_execution
+selected_store_relative_path: data/extraction/agent_anthropic-sonnet-45
+
+scope:
+  purpose: materialize_nonloadable_local_receipt_from_patched_production_chunker
+  authority: raw_store_parsed_block_whitespace_token_surface_only
+  allowed_before_separate_permit:
+    - selected_artifact_hash_validation
+    - preregistration_structure_validation
+    - synthetic_tests
+    - static_import_closure_validation
+  forbidden_before_separate_permit:
+    - real_store_record_read
+    - candidate_materialization_execution
+    - environment_discovery
+    - network
+    - model_calls
+    - database_access
+    - database_write
+    - retrieval_policy_change
+    - register_only_change
+    - context_generation
+    - embedding_generation
+    - schema_apply
+    - load
+    - serving
+    - deploy
+    - fact_relabeling
+    - M3_authorization
+
+design:
+  base:
+    path: evals/s117_m28_candidate_materialization_design_v2.md
+    sha256: 963f864378335c3a3b871dc6fa266d0d1f55545e5bd814b8af8ac213d85351af
+  pure_validation_addendum:
+    path: evals/s117_m28_candidate_materialization_design_v3.md
+    sha256: dfc6c5c04dba82466e3bb369600fe74e8cc1482b674b122f903f1a12c4aaec8d
+
+frozen_inputs:
+  baseline_receipt:
+    path: evals/s117_chunks_v3_development_materialization_v1.json
+    sha256: d9f69e8d1428e11afa56723817f64226aa53db786c8034453dfde4adbbedca3a
+  m27c_prereg:
+    path: evals/s117_m27_loss_safe_chunking_probe_prereg_v2.yaml
+    sha256: 7e40c5aaea6a41c2971fba4dff1952a6909fda86e4e1cfd4b1a97cb6bef1ab22
+  m27c_gate:
+    path: evals/s117_m27_loss_safe_chunking_probe_gate_v2.yaml
+    sha256: 62f7b0ac1b220924f25c8c2073d8e5c301e56443d8de875cc3ab980ffdeebbbf
+  m27c_seed1:
+    path: evals/s117_m27_loss_safe_chunking_probe_seed1_v2.json
+    sha256: 24c99a59a448284fca342c36941973b092dec1bc5c5f6c6586e09e730ec858f7
+  m27c_seed2:
+    path: evals/s117_m27_loss_safe_chunking_probe_seed2_v2.json
+    sha256: 24c99a59a448284fca342c36941973b092dec1bc5c5f6c6586e09e730ec858f7
+  m27c_probe_base:
+    path: scripts/s117_m27_loss_safe_chunking_probe.py
+    sha256: c89802216ef9fd4c61764987f441384c7f9e6f82b5cb39e65e39eaf2d1fd0bb0
+  m27c_token_validator:
+    path: scripts/s117_m27_loss_safe_chunking_probe_v2.py
+    sha256: 84ea712f193afa8866e07a02671ca65a32cbe0153665ee72aa1280588dd00a4d
+  m27c_surface_helper:
+    path: scripts/s117_m27_live_evidence.py
+    sha256: cf2cb3f54163b68745f95075b84602a0133ca69843958516b0dc14f4ab20234a
+  compact100:
+    path: evals/s117_m27_loss_rows_compact_v1.json
+    sha256: 9424d343b21c4894044bfad5cc6fbfd39f2f45b9e2c3da26d8901d381820a894
+  m28_freeze:
+    path: evals/s117_m28_content_preservation_implementation_freeze_v1.yaml
+    sha256: 4f14d5341cae0a9ef7cd9e1b4a37c7ac2c76947f33d6890822ac0bc91b11584e
+  m28_gate:
+    path: evals/s117_m28_content_preservation_implementation_gate_v1.yaml
+    sha256: 7d0bb1690a94b9475c9537f0fbae5bac71a5d8c18346e314aed0c85371334511
+  chunker:
+    path: src/reingest/chunk.py
+    sha256: d851abf6761d8e5ff6dee4d2727b85c86fda21059dce8875a028cf8298e87764
+  materializer:
+    path: src/reingest/chunk_provenance.py
+    sha256: bb218a509ca56f2ddf4e44d73c4235cefacfb4296a4b98c9d49a627a2536e65c
+  row_validator:
+    path: scripts/s117_materialize_chunks_v3_local.py
+    sha256: 36037383c1c33c630e9df6add9f3c188dc10e2dfd79ff33f53ee04f44aa4c342
+  candidate_validator:
+    path: scripts/s117_m28_candidate_validation.py
+    sha256: 65cf7892bae85698f6c0308e702dd2d95c356dfbb01726e39baafd0c4dca77ef
+  src_init:
+    path: src/__init__.py
+    sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  reingest_init:
+    path: src/reingest/__init__.py
+    sha256: cb20d16521331abfe92134658a105f927be1b58cb93ccddc120772d0118a0900
+  runner:
+    path: scripts/s117_m28_candidate_materialization.py
+    sha256: ec80f31b998a74175e36c20a83d0ee13a6099982a7262c32f0c0946bb324404e
+  runner_tests:
+    path: tests/test_s117_m28_candidate_materialization.py
+    sha256: 92269b845661ea66249c84b663bd92ac3cc0fd05b462c8680a0bc0e82a5d7cec
+  design_v2:
+    path: evals/s117_m28_candidate_materialization_design_v2.md
+    sha256: 963f864378335c3a3b871dc6fa266d0d1f55545e5bd814b8af8ac213d85351af
+  design_v3:
+    path: evals/s117_m28_candidate_materialization_design_v3.md
+    sha256: dfc6c5c04dba82466e3bb369600fe74e8cc1482b674b122f903f1a12c4aaec8d
+
+runtime_import_closure:
+  local_modules_exact:
+    - src
+    - src.reingest
+    - src.reingest.chunk
+    - src.reingest.chunk_provenance
+    - scripts.s117_materialize_chunks_v3_local
+    - scripts.s117_m28_candidate_validation
+    - scripts.s117_m28_candidate_materialization
+  external_packages_exact:
+    - Python_standard_library
+    - yaml
+  forbidden_runtime_imports:
+    - scripts.s117_m2_*
+    - scripts.s117_m26_*
+    - scripts.s117_m27_*
+    - dotenv
+    - config
+    - contextualize
+    - embed
+    - model_SDKs
+    - network_clients
+    - database_clients
+  m27_python_files_are_evidence_only: true
+
+baseline_identity:
+  chunker_sha256: 4b76ab219854c625f4ce5e55665e2c89d14739e4eee0ab01607aae7ecda4fd43
+  generation_manifest_sha256: 3040da3ace4e033f6bc52e3cf092e2427262d91729ecb67fe7a104a71cbd73a1
+  materialization_id: eb426a33-91cb-543e-a0c9-fd615dbc36cb
+  rows_manifest_sha256: 68e87fd43702fcf53f14ff7fbdbe65e4faa346977a199ff7427333b8cab950f3
+  complete_row_id_set_available: false
+  row_level_authority: frozen_M27C_receipts_only
+
+expected:
+  source:
+    json_files: 1069
+    records: 1068
+    non_record_artifacts:
+      - _failures.json
+    manifest_sha256: 752c044be1531d5bc2e2879f79acf1dbeffabcbeb9bb9d16f5e14a5676aa5810
+  generation:
+    manifest_sha256: f702ddcf3d51a479fff90c95f1ccd6206680da4a262462f80a74b10c1b3c1089
+    materialization_id: 1852e61c-ac7f-5232-be1c-627ea54f29b5
+  projection:
+    schema: s117_m28_candidate_treatment_projection_v1
+    documents: 1068
+    bytes: 640933
+    sha256: 4cd69ba2912a8b7e1899512f99e7a1e3abd4ec970c96e9c4286b28443a0f8881
+    seed1_seed2_byte_equal: true
+  population:
+    documents: 1068
+    raw_blocks: 333161
+    rows: 31226
+    titled_rows: 29413
+    untitled_rows: 1813
+    covered_blocks: 333161
+    missing_blocks: 0
+    coverage_gain_blocks: 100
+    coverage_regression_blocks: 0
+    changed_documents: 27
+    unchanged_documents: 1041
+    delta_unchanged_rows: 2529
+    delta_removed_rows: 15
+    delta_added_rows: 29
+    delta_overlap_modified_rows: 15
+    delta_pure_added_rows: 14
+    validation_failures: 0
+  baseline_rows_manifest_sha256: 68e87fd43702fcf53f14ff7fbdbe65e4faa346977a199ff7427333b8cab950f3
+
+identity_contract:
+  production_and_independent_generation_identity_equal: required
+  candidate_chunker_differs_from_baseline: required
+  candidate_generation_differs_from_baseline: required
+  candidate_materialization_id_differs_from_baseline: required
+  candidate_rows_manifest_differs_from_baseline: required
+  candidate_rows_manifest_sha256: observation_not_oracle
+  candidate_row_ids:
+    exact_UUIDv5_reconstruction: required
+    global_uniqueness: required
+    ordinal_uniqueness: required
+    baseline_or_diagnostic_identity_used_as_input: forbidden
+    enumerated_disjointness_from_unavailable_baseline_set: not_claimed
+
+validation_edges:
+  production_rows_to_independent_mapping_and_identity:
+    required: true
+    chunking_independent: false
+  direct_current_chunks_to_raw_token_intervals:
+    required: true
+    ordered_token_equality: true
+    exact_intersected_spans: true
+    page_diagram_confidence_lineage_raw_bound: true
+  candidate_to_frozen_treatment_projection:
+    required: true
+    documents_exact: 1068
+    byte_equality: true
+  delta_treatment_bindings:
+    both_seeds_equal: true
+    unchanged_treatment_ordinal_fingerprint_required: true
+    added_treatment_ordinal_fingerprint_required: true
+    modified_treatment_ordinal_fingerprint_required: true
+    removed_is_baseline_evidence_only: true
+
+output_contract:
+  instrument: s117_m28_candidate_materialization_v1
+  schema_version: 1
+  canonical_json_utf8_sorted_keys_compact_one_final_lf: true
+  loadable: false
+  seeds_excluded_from_payload: true
+  paths_time_runtime_exceptions_tracebacks_env_secrets_excluded: true
+  content_raw_text_preimages_rows_descriptors_excluded: true
+  top_level_keys_exact:
+    - instrument
+    - schema_version
+    - status
+    - loadable
+    - authority
+    - dependencies
+    - source
+    - generation
+    - population
+    - manifests
+    - checks
+    - failures
+    - cost
+    - authorization
+  check_keys_exact:
+    - contract_integrity
+    - source_exact
+    - generation_identity_exact
+    - candidate_identity_new
+    - row_mapping_and_identity_exact
+    - global_invariants_exact
+    - raw_token_intervals_exact
+    - treatment_projection_exact
+    - population_exact
+    - output_schema_exact
+    - external_calls_blocked
+  failure_codes_exact:
+    - contract_integrity
+    - source_drift
+    - generation_identity_drift
+    - row_validation_failure
+    - global_invariant_failure
+    - raw_token_interval_failure
+    - treatment_projection_drift
+    - population_drift
+    - output_schema_failure
+    - external_call_attempted
+    - internal_failure
+
+determinism:
+  processes: 2
+  seeds: [1, 2]
+  perturbation:
+    - shuffle_document_processing_order
+    - shuffle_rows_before_canonical_restore
+  canonical_restore:
+    rows: [extraction_sha256, chunk_index]
+    projections: [extraction_sha256]
+  required_after_execution:
+    - seed1_seed2_byte_identical
+    - logical_payload_sha256_identical
+    - generation_identity_identical
+    - rows_manifest_sha256_identical
+    - candidate_projection_sha256_identical
+    - population_identical
+
+execution_interlock:
+  prereg_selected_path_exact: evals/s117_m28_candidate_materialization_prereg_v1.yaml
+  permit_selected_path_exact: evals/s117_m28_candidate_materialization_execution_permit_v1.yaml
+  permit_exists: false
+  required_permit_status: EXECUTION_GO_LOCAL_ONLY
+  permit_must_hash_bind:
+    - this_preregistration
+    - runner
+    - runner_tests
+    - design_v2
+    - design_v3
+    - selected_store_relative_path
+  real_store_read_without_permit: fail_before_record_content
+
+verification_before_freeze:
+  candidate_tests:
+    passed: 27
+    failed: 0
+  focused_M28:
+    passed: 61
+    failed: 0
+  full_regression:
+    passed: 1021
+    skipped: 2
+    failed: 0
+  independent_adversarial_review: GO_FOR_PREREG_ONLY
+
+authorization:
+  preregistration_frozen: true
+  execution_permit: false
+  candidate_materialization_execution: false
+  real_store_record_read: false
+  database: false
+  network: false
+  models: false
+  retrieval: false
+  context_generation: false
+  embeddings: false
+  load: false
+  serving: false
+  deploy: false
+  facts_moved_to_ok: 0
+  M3: BLOCKED
+
+cost:
+  model_calls_during_execution: 0
+  network_calls: 0
+  database_reads: 0
+  database_writes: 0

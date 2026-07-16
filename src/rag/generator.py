@@ -10,7 +10,31 @@ import re
 
 import anthropic
 
-from ..config import ANTHROPIC_API_KEY, LLM_MODEL, LLM_MAX_TOKENS
+from ..config import (
+    ANTHROPIC_API_KEY,
+    COMPATIBILITY_BUNDLE_COVERAGE,
+    LLM_MODEL,
+    LLM_MAX_TOKENS,
+)
+from .answer_obligation_contract import build_enforced_answer_cache_identity
+from .answer_planner import (
+    ANSWER_PLANNER_CONTRACT_S122,
+    answer_planner_mode,
+    apply_answer_planner,
+    build_answer_conflicts,
+    build_answer_plan,
+    enforceable_answer_plan,
+    render_enforced_answer_contract_data,
+    render_enforced_system_policy,
+    render_answer_plan_guidance,
+)
+from .compatibility_bundle_coverage import (
+    LANE as COMPATIBILITY_LANE,
+    complete_compatibility_bundle,
+    is_cross_manufacturer_compatibility_query,
+    render_cross_manufacturer_compatibility_refusal,
+    render_incomplete_cross_manufacturer_compatibility_guard,
+)
 from .post_rerank_coverage import (
     coverage_context_content,
     is_validated_coverage_chunk,
@@ -418,7 +442,9 @@ def _is_selection_query(query: str) -> bool:
     return bool(_SELECTION_INTENT.search(query or ""))
 
 
-def _assemble_system(query: str | None = None) -> str:
+def _assemble_system(
+    query: str | None = None, *, enforced_policy: bool = False
+) -> str:
     """A/B s69: GENERATOR_PROMPT_VARIANT=base|fidelity (env, leído en RUNTIME para togglear
     el A/B en un mismo proceso; default base). base == SYSTEM_PROMPT BYTE-IDÉNTICO (el test
     de paridad `tests/test_s69_prompt_variant.py` lo asserta sin llamar al LLM — el
@@ -431,6 +457,8 @@ def _assemble_system(query: str | None = None) -> str:
         base = SYSTEM_PROMPT + _FIDELITY_BLOCK
     if _selection_block_on() and query is not None and _is_selection_query(query):
         base = base + _SELECTION_BLOCK
+    if enforced_policy:
+        base = base + render_enforced_system_policy()
     return base
 
 
@@ -458,12 +486,57 @@ def generate_answer(
     # `is_cross_brand_query` / `classify_model_manufacturer` remain in
     # retriever.py for future observability/feature use.
 
+    # Batch-revalidate relational bundles before per-row relevance checks. An
+    # incomplete or post-append-tampered bundle must not degrade into ordinary
+    # partial evidence for the LLM.
+    complete_bundle = complete_compatibility_bundle(chunks)
+    complete_bundle_id = (
+        str(complete_bundle[0].get("compatibility_bundle_id") or "")
+        if complete_bundle
+        and all(is_validated_coverage_chunk(row) for row in complete_bundle)
+        else ""
+    )
+
     # Filter out low-relevance chunks
     relevant_chunks = [
         c for c in chunks
-        if c.get("similarity", 0) >= RELEVANCE_THRESHOLD
-        or is_validated_coverage_chunk(c)
+        if (
+            c.get("retrieval_lane") != COMPATIBILITY_LANE
+            or (
+                complete_bundle_id
+                and str(c.get("compatibility_bundle_id") or "") == complete_bundle_id
+            )
+        )
+        and (
+            c.get("similarity", 0) >= RELEVANCE_THRESHOLD
+            or is_validated_coverage_chunk(c)
+        )
     ]
+
+    compatibility_guard_active = (
+        COMPATIBILITY_BUNDLE_COVERAGE
+        or any(row.get("retrieval_lane") == COMPATIBILITY_LANE for row in chunks)
+    )
+    if compatibility_guard_active:
+        compatibility_answer = render_cross_manufacturer_compatibility_refusal(
+            relevant_chunks
+        )
+        if compatibility_answer is not None:
+            policy = "source_bound_cross_manufacturer_refusal_v1"
+        elif is_cross_manufacturer_compatibility_query(query):
+            compatibility_answer = (
+                render_incomplete_cross_manufacturer_compatibility_guard()
+            )
+            policy = "incomplete_bundle_cross_manufacturer_guard_v1"
+        if compatibility_answer is not None:
+            return {
+                "answer": compatibility_answer,
+                "diagrams": [],
+                "stop_reason": None,
+                "input_tokens": None,
+                "output_tokens": None,
+                "answer_policy": policy,
+            }
 
     if not relevant_chunks:
         # If we know available models, offer them
@@ -557,8 +630,42 @@ los modelos disponibles para que el técnico pueda preguntar por uno en particul
     # #23 v2 — debe ser via tool use o prompt routing, no via injection en USER_MESSAGE.
     diversity_hint = ""
 
+    planner_mode = answer_planner_mode()
+    guided_plan = (
+        build_answer_plan(query, relevant_chunks)
+        if planner_mode == "guided"
+        else None
+    )
+    enforced_plan = (
+        build_answer_plan(
+            query,
+            relevant_chunks,
+            planner_contract_version=ANSWER_PLANNER_CONTRACT_S122,
+        )
+        if planner_mode == "enforced"
+        else None
+    )
+    enforced_conflicts = (
+        build_answer_conflicts(
+            query,
+            relevant_chunks,
+            planner_contract_version=ANSWER_PLANNER_CONTRACT_S122,
+        )
+        if planner_mode == "enforced"
+        else None
+    )
+    enforced_contract_plan = (
+        enforceable_answer_plan(enforced_plan or [])
+        if planner_mode == "enforced"
+        else []
+    )
+    planner_guidance = render_answer_plan_guidance(guided_plan or [])
+    enforced_contract_data = render_enforced_answer_contract_data(
+        enforced_contract_plan, enforced_conflicts or []
+    ) if planner_mode == "enforced" else ""
+
     user_message = f"""Pregunta del técnico: {query}
-{models_context}{diversity_hint}
+{models_context}{diversity_hint}{planner_guidance}{enforced_contract_data}
 
 Fragmentos relevantes de los manuales técnicos:
 
@@ -575,13 +682,30 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
     # eval-only ~10% savings (~$0.78/eval) didn't justify the complexity. If
     # we want caching in the future, evaluate Anthropic's 1h TTL cache option
     # which fits sporadic production traffic better. See TECH_DEBT.
-    response = client.messages.create(
-        model=LLM_MODEL,
-        max_tokens=LLM_MAX_TOKENS,
-        temperature=0,  # eval reproducibility — same query + chunks → same answer
-        system=_assemble_system(query),  # s69 base|fidelity (+s103b selection code-gated)
-        messages=[{"role": "user", "content": user_message}],
+    # Keep the provider request as one exact serializable envelope. Any future
+    # answer-cache lookup must hash this same mapping (plus the versioned
+    # obligation packet), rather than reconstructing a partial list of fields.
+    generation_request_envelope = {
+        "model": LLM_MODEL,
+        "max_tokens": LLM_MAX_TOKENS,
+        "temperature": 0,  # eval reproducibility — same query + chunks → same answer
+        "system": _assemble_system(
+            query,
+            enforced_policy=planner_mode == "enforced",
+        ),  # s69 base|fidelity (+s103b selection code-gated) + optional code policy
+        "messages": [{"role": "user", "content": user_message}],
+    }
+    enforced_cache_identity = (
+        build_enforced_answer_cache_identity(
+            generation_request_envelope=generation_request_envelope,
+            plan=enforced_contract_plan,
+            conflicts=enforced_conflicts or [],
+            planner_contract_version=ANSWER_PLANNER_CONTRACT_S122,
+        )
+        if planner_mode == "enforced"
+        else None
     )
+    response = client.messages.create(**generation_request_envelope)
 
     raw_answer = response.content[0].text
 
@@ -612,7 +736,15 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
     if re.search(r'^\|.+\|$', answer, re.MULTILINE) and "---" in answer:
         logger.warning("Claude generated markdown table in response (will be converted by Telegram formatter)")
 
-    return {
+    answer, answer_planner = apply_answer_planner(
+        query,
+        relevant_chunks,
+        answer,
+        mode=planner_mode,
+        plan=enforced_plan if planner_mode == "enforced" else guided_plan,
+        conflicts=enforced_conflicts,
+    )
+    result = {
         "answer": answer,
         "diagrams": diagrams[:3],
         # Gate s58 (DEC-036b): stop_reason confirma/descarta truncamiento por max_tokens.
@@ -623,3 +755,8 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
         ),
         "output_tokens": response.usage.output_tokens if response.usage else None,
     }
+    if answer_planner is not None:
+        if enforced_cache_identity is not None:
+            answer_planner["cache_identity"] = enforced_cache_identity
+        result["answer_planner"] = answer_planner
+    return result

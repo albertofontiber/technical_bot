@@ -1,0 +1,37 @@
+instrument: s115_reference_edge_nested_holdout_prereg_v1
+status: frozen_before_s115_design_or_implementation
+purpose: reserve untouched section-reference cases for a new selector version
+
+frozen_inputs:
+  historical_hyq_sha256: 5fb56f1739f8713c263d331b5393ef1904d9a5311ba3f1ac15bd81828b86f8e7
+  corpus_scope_freeze_sha256: 227e808a2ba2308acce89f90722fd46a63bad30aae0cde630191154b4ff07d94
+  initial_heldout_replay_sha256: f8c40033faf61582729ecd7970f95c45bdcc23bdf40459ea08b163289cc22300
+  diagnostic_challenge_sha256: a47e31ab3eeceec2676a28adf6f47e40724654fab30f7e1e858eb16a887da73e
+  diagnostic_adjudication_sha256: 7d38e98e6c75b796e93616a594a2d6b961f9d10874bdd1de5ef482342e058a01
+
+cohort_construction:
+  source_universe: rows in the already-frozen 22 exact product scopes
+  eligibility:
+    - source row contains an explicit numbered section or chapter reference
+    - source chunk has a procedural synthetic S99 HYQ
+    - source chunk was not used in the 28-case S114 diagnostic challenge
+    - exact question was not used in the initial 24-case held-out
+  per_chunk_question: lowest SHA256 ranked eligible question
+  per_manufacturer_cap: 10
+  ordering: manufacturer name then ascending SHA256
+  selector_trace_or_label_used_for_sampling: false
+  database_get_requests: 0
+  model_calls: 0
+
+sealing:
+  - Write the sample to an immutable JSON artifact before S115 implementation.
+  - Report only counts and hashes during freezing; do not inspect question text or candidates.
+  - Do not run any S115 selector until its source hash and design verdict are frozen.
+  - S114 diagnostic labels may be used for design and unit tests but never as S115 release evidence.
+
+gates_after_unsealing:
+  - report potential, selected, relevant, irrelevant and ambiguous denominators
+  - require zero high or medium contamination
+  - require strict selected precision at least 0.9 when five or more rows are selected
+  - require at least one true positive and no visible high-confidence false negative
+  - otherwise classify the result as inconclusive or NO-GO, never silently tune on this cohort

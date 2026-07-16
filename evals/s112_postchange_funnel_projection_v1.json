@@ -1,0 +1,65 @@
+{
+  "instrument": "s112_postchange_funnel_projection_v1",
+  "status": "candidate_projection_not_official_full_regression",
+  "baseline_histogram": {
+    "OK": 93,
+    "synthesis-miss": 11,
+    "rerank-miss": 14,
+    "retrieval-miss": 7,
+    "corpus-gap": 2,
+    "meta-ref": 2
+  },
+  "candidate_headline_histogram": {
+    "OK": 106,
+    "synthesis-miss": 15,
+    "rerank-miss": 1,
+    "retrieval-miss": 1,
+    "rest": 6
+  },
+  "candidate_detailed_histogram": {
+    "OK": 106,
+    "corpus-gap": 2,
+    "invalid-relation-adjudicated": 1,
+    "meta-ref": 2,
+    "noncore-adjudicated": 1,
+    "rerank-miss": 1,
+    "retrieval-miss": 1,
+    "synthesis-miss": 15
+  },
+  "delta_ok": 13,
+  "total_fact_rows": 129,
+  "conservative_scored_denominator": 127,
+  "conservative_ok_rate_percent": 83.46,
+  "core_denominator_excluding_meta_and_adjudicated_noncore": 125,
+  "core_ok_rate_percent": 84.8,
+  "transitions_applied": 21,
+  "transition_evidence": {
+    "cat007#3:2 A / 0,5 A": "s108_cat007_measurement_probe_v1",
+    "cat007#4:10^5": "s108_cat007_measurement_probe_v1",
+    "hp011#2:05 a 295 seg": "s109_bounded_synthesis_runtime_pilot_v1",
+    "hp012#3:4 lazos / 792": "s109_bounded_synthesis_runtime_pilot_v1",
+    "hp013#1:PWR-R": "s109_bounded_synthesis_runtime_pilot_v1",
+    "hp014#3:35": "s109_bounded_synthesis_runtime_pilot_v1",
+    "hp017#1:instruccion de entrada": "s109_bounded_synthesis_runtime_pilot_v1",
+    "cat001#3:32 / 25 / 20": "s112_answer_planner_local_replay_v1",
+    "cat010#0:24V dc": "s112_incremental_answer_replay_v1",
+    "cat017#4:CLSS": "s106_p0_selection_adjudication_v1",
+    "hp003#0:12V": "s110_atomic_rerank_cohort_v1",
+    "hp005#3:CIRCUITO SIRENA": "s112_incremental_answer_replay_v1",
+    "hp006#1:Tierra": "s106_atomic_migration_spec_v1",
+    "hp006#2:ISO-X": "s106_atomic_migration_spec_v1",
+    "hp009#0:Retorno": "s112_answer_planner_local_replay_v1",
+    "hp011#0:ABORT": "s110_atomic_rerank_cohort_v1",
+    "hp011#1:r.I": "s112_answer_planner_local_replay_v1",
+    "hp013#0:EEPROM": "s110_atomic_rerank_cohort_v1",
+    "hp017#2:Editar Configuracion": "s110_atomic_rerank_cohort_v1",
+    "hp018#1:6K8": "s110_atomic_rerank_cohort_v1",
+    "hp018#4:1 A": "s110_atomic_rerank_cohort_v1"
+  },
+  "release_gate": {
+    "local_answer_planner": "GO_LOCAL_DETERMINISTIC_KNOWN_COHORT_PENDING_ADVERSARIAL_REVIEW",
+    "adversarial_review": "pending",
+    "full_frozen_regression": "pending",
+    "official_histogram": false
+  }
+}

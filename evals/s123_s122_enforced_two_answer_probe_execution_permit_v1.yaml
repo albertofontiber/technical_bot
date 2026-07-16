@@ -1,0 +1,64 @@
+instrument: s123_s122_enforced_two_answer_probe_execution_permit_v1
+status: APPROVED_AFTER_ADVERSARIAL_REVIEW
+
+authorization:
+  user_authorized: true
+  exact_qids: [hp009, hp017]
+  maximum_fresh_generator_calls: 2
+
+pinned_files:
+  runner:
+    path: scripts/s123_s122_enforced_two_answer_probe.py
+    sha256: 7c41ab63bd336eaebef0c3a5e46fe79f089a8c609023a51dc291caeb08d23363
+  preregistration:
+    path: evals/s123_s122_enforced_two_answer_probe_prereg_v1.yaml
+    sha256: ed813dcbafef7dba4c81df0bea1218134111f45c390eb79c7b3da8af7e7efe1b
+  local_gate:
+    path: evals/s122_enforced_answer_contract_gate_v2.yaml
+    sha256: c48aaf25076c3fb796414a371269c27870437f05d24a2bf11c54ce519a2f38cc
+  frozen_contexts:
+    path: evals/s113_full_contexts_freeze_v1.json
+    sha256: 22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d
+  answer_planner:
+    path: src/rag/answer_planner.py
+    sha256: b795a074ca627c5f26ebc477957ccbcae53495e44d5981baa2bf73c119019086
+  answer_obligation_contract:
+    path: src/rag/answer_obligation_contract.py
+    sha256: 7dda351cd1a09eeb014a94d5e473bd3998380b28884c5842c29ae1922fda85b3
+  generator:
+    path: src/rag/generator.py
+    sha256: 253477f1cfd3225dee6c8ca9d1ccd604813386dfa378e331f9ecad9a57202f19
+
+generation_contract_sha256:
+  hp009: d5126817a7cbc20cdd3559e1d5c97a0e1ec156ae63e5d16f7e6169971c4fc0d2
+  hp017: 81f8e435a8533a4589627d70512367201305dc73751e3caf155be7910e64a201
+
+controls:
+  maximum_calls_per_qid: 1
+  maximum_calls_total: 2
+  one_qid_per_process_invocation: true
+  execution_order: [hp009, hp017]
+  prior_ambiguity_or_automatic_no_go_blocks_remaining_spend: true
+  provider_sdk_max_retries: 0
+  automatic_retry_after_ambiguous_or_failed_attempt: false
+  retrieval_calls: 0
+  reranker_calls: 0
+  judge_calls_during_generation: 0
+  database_reads: 0
+  database_writes: 0
+  serving_or_deployment: false
+
+acceptance:
+  all_stop_reasons: end_turn
+  hp009_action: [pass, source_bound_reconstruction]
+  hp009_query_core_covered: true
+  hp009_positive_eol_assertions: 0
+  hp017_action: fail_closed
+  hp017_query_core_covered: false
+  hp017_unilateral_conflict_selection: 0
+  deterministic_claim_surfaces_present: 3
+  automatic_fact_relabeling: false
+
+approval_boundary:
+  reviewer_must_return: GO_WITH_ZERO_P0_P1
+  provider_spend_before_approval: forbidden

@@ -73,6 +73,11 @@ attributes:
     term_groups:
       - [corriente, consumo, current, consumption]
     units: [ampere, milliampere]
+  delivered_current_capacity:
+    term_groups:
+      - [proporciona, proporcionar, suministra, suministrar, entrega, entregar, provides, supplies, delivers]
+      - [lazo, bucle, salida, loop, output]
+    units: [ampere, milliampere]
   cable_capacitance:
     term_groups:
       - [capacidad, capacitancia, capacitance]

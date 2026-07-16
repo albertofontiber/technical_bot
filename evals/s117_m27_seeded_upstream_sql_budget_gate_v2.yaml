@@ -1,0 +1,154 @@
+instrument: s117_m27_seeded_upstream_sql_budget_gate_v2
+status: CONTRACT_INTEGRITY_GO_LOCAL_READINESS_NO_GO
+decision:
+  contract_integrity: GO
+  local_fidelity_readiness: NO_GO
+  common_sql_contract: STATIC_GO_NO_GO_FOR_DB
+  workload_contract: GO_PLANNING_ONLY
+  M3: BLOCKED
+
+frozen_execution:
+  prereg:
+    path: evals/s117_m27_upstream_sql_budget_prereg_v2.yaml
+    sha256: d88ff8610a0e4e7d1c47508b37a517988974acadf9dd36d2ef257604b59bbd72
+  seed1:
+    path: evals/s117_m27_upstream_sql_budget_seed1_v2.json
+    sha256: 65a47376e7ba90b3423b207ca85eb014f3c13ed16348d8de5cf2b91b511a6afd
+    bytes: 18759839
+  seed2:
+    path: evals/s117_m27_upstream_sql_budget_seed2_v2.json
+    sha256: 65a47376e7ba90b3423b207ca85eb014f3c13ed16348d8de5cf2b91b511a6afd
+    bytes: 18759839
+  cross_process_byte_identical: true
+  logical_payload_sha256: a1a5ed45da0fa965bc1245a3f0c110a89c44e601876c0b6b8537f530c037c2e0
+
+population:
+  local_rows: 31212
+  live_targets: 590
+  projected_targets_diagnostic_only: 1240
+  fresh_context_and_embedding_rows: 8493
+  distinct_context_documents: 405
+  subsequent_context_calls_within_document: 8088
+
+fidelity:
+  live:
+    exact_resegmentation_evidence: 440
+    structure_only_delta: 129
+    adjudicated_benign_delta: 0
+    material_fidelity_risk: 0
+    unresolved_requires_adjudication: 21
+    task_reasons:
+      ambiguous_surface_safe_occurrence: 12
+      near_or_unresolved_content_delta: 9
+    evidence_complete_tasks: 14
+    evidence_incomplete_tasks: 7
+  projected_diagnostic_only:
+    exact_resegmentation_evidence: 952
+    structure_only_delta: 238
+    adjudicated_benign_delta: 0
+    material_fidelity_risk: 0
+    unresolved_requires_adjudication: 50
+    task_reasons:
+      ambiguous_surface_safe_occurrence: 36
+      near_or_unresolved_content_delta: 14
+    evidence_complete_tasks: 41
+    evidence_incomplete_tasks: 9
+  manifests:
+    audit_rows_sha256: c578b62d2c358ed8b2b808b041ba76dd7db7dc865c9eb09d90f777aea7de2843
+    comparison_receipts_sha256: c26cf05a70726817e7119da27b50635bb454c933bb1703ac8c12dd046c4c07f7
+    raw_evidence_receipts_sha256: 7f3ddb037a79a3d9b49b5edcaa6d8bfbb7b339e8dd62461af09b876c9ef1165a
+    task_manifest_sha256: e42bbfbb971e26281ed38a6427b455499284ff3c215fe10f78b7cd5af8270243
+  receipt_counts:
+    comparison: 1830
+    raw_evidence: 71
+    tasks: 71
+  interpretation:
+    exact_and_structure_rows_explained: true
+    structure_only_is_semantic_improvement: false
+    unresolved_live_blocks_local_readiness: true
+    projected_can_unlock_live: false
+
+common_retrieval_sql:
+  path: evals/s117_m27_common_retrieval_policy_contract_v2.sql
+  sha256: 77e385906345ceedcd1c6eaa2c653851e6219020768e02e8f7ece78da784d6ae
+  verified_static_contracts:
+    - shared_security_invoker_eligibility_view
+    - active_materialization_and_active_document_binding
+    - policy_and_canonicality_fail_closed
+    - policy_receipt_backfill_guard_validate_and_nonnull_final_state
+    - same_internal_filters_and_limit_cap_for_vector_and_fts
+    - exact_generated_context_model_prompt_implementation_and_limits
+    - generated_v3_only_context_for_vector_and_fts
+    - generated_v3_voyage_4_large_only_for_vector
+    - no_target_materialization_override
+    - explicit_service_role_grants_and_bypassrls_guard
+    - static_partial_fts_gin
+    - no_approximate_vector_index
+  not_verified:
+    - postgres_parse_or_execution
+    - supabase_runtime_execution
+    - explain_plan
+    - vector_recall
+    - loader_returning_behavior_after_columnar_select_revoke
+  database_authorization: false
+
+workload:
+  logical_context_calls: 8493
+  http_retries: unknown_until_usage_receipts
+  output_tokens_requested_ceiling: 1698600
+  context_usd_planning_proxies:
+    no_cache_conservative: '286.363916'
+    ideal_cache_proxy: '45.944328'
+    minimum_cacheable_char4_proxy: '46.775688'
+  embedding:
+    input_chars_floor_from_empty_context: 16754513
+    input_chars_truncation_ceiling: 135888000
+    tokens_char4_planning_proxy_low: 4191794
+    tokens_char4_planning_proxy_high: 33972000
+    greedy_batch_http_requests_planning_low: 67
+    greedy_batch_http_requests_planning_high: 425
+    usd_planning_proxy_low: '0.503015'
+    usd_planning_proxy_high: '4.076640'
+  exact_tokens_or_billing_claimed: false
+  free_tier_assumed: false
+
+verification:
+  focused_tests:
+    passed: 20
+    failed: 0
+  full_regression:
+    passed: 913
+    skipped: 2
+    failed: 0
+  checks:
+    all_seed_internal_checks_true: true
+    comparison_receipts_exact_1830: true
+    raw_receipts_equal_tasks_71: true
+    evidence_receipts_recomputable_and_crosslinked: true
+    unicode_technical_symbols_verified: true
+    zero_material_fidelity_risk: true
+    zero_external_cost: true
+
+authorization:
+  adjudication_import: false
+  model_calls: false
+  context_generation: false
+  embedding_generation: false
+  database: false
+  schema_apply: false
+  migration: false
+  load: false
+  serving: false
+  deploy: false
+  M3: BLOCKED
+
+next_gate:
+  name: M2.7_fidelity_adjudication
+  live_priority: true
+  requirements:
+    - freeze_receipts_for_the_21_live_tasks
+    - materialize_complete_evidence_for_7_incomplete_live_tasks_before_benign_is_possible
+    - adjudicate_all_live_tasks_with_versioned_rubric
+    - zero_material_fidelity_risk
+    - zero_unresolved_live
+  projected_50_tasks: diagnostic_and_nonblocking

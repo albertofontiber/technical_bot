@@ -1,0 +1,29 @@
+instrument: s115_reference_edge_implementation_freeze_v1
+status: frozen_after_adversarial_go_before_single_unseal
+adversarial_verdict:
+  freeze_manifest: GO
+  single_unseal_after_hash_validation: GO
+  reviewer: adversarial_agent_s111
+
+frozen_files:
+  src/rag/reference_edge_coverage.py: 14ee530c5c85c03675e68ac7e716545f75cfd86e4fdc4f663abd7c807deeace9
+  config/reference_edge_contract_v4.yaml: 2dab22ba5b324e5ad42709aa0d6a8638a3b80b25d03eae7667fa3b3ad229823c
+  tests/test_reference_edge_coverage.py: ace9455cd2f44e80eb9bed5b8fc87901c51dc296a7d50a1bb230e31a7e896f7f
+  scripts/s115_reference_edge_nested_replay.py: ca6badf3e9efe4b1a5441aa62f930bd6690220cabfd9505397a86098f5b68dd8
+  tests/test_s115_reference_edge_nested_replay.py: 0e682c3cffc929fb18752394b19214212734a5bf180248843b9461f2a2050532
+  evals/s115_reference_edge_design_v8.md: 45acc255c6a185b96b1794e01bf1159ffc9ea3bf2f6a2697d9dd07137061d63e
+  evals/s115_reference_edge_nested_holdout_prereg_v8.yaml: e717adc207e55ab147fa2c8ed7475f20e53b1e734928d48ff84cbc98bac3c9d7
+  evals/s114_procedure_bundle_heldout_freeze_v1.json: 227e808a2ba2308acce89f90722fd46a63bad30aae0cde630191154b4ff07d94
+
+verification_receipt:
+  focused_tests: 21 passed
+  full_suite: 713 passed, 2 skipped
+  database_get_requests: 0
+  database_writes: 0
+  model_calls: 0
+  nested_holdout_opened: false
+
+interpretation_contract:
+  - The runner must validate every frozen hash before parsing the nested file.
+  - Fewer than five selections or zero potentials is INCONCLUSIVE, not permission to tune.
+  - Any post-unseal selector or config change invalidates the smoke result.

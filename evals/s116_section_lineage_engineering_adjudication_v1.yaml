@@ -1,0 +1,54 @@
+instrument: s116_section_lineage_engineering_adjudication_v1
+status: engineering_go
+
+frozen_inputs:
+  implementation_freeze: evals/s116_section_lineage_implementation_freeze_v1.yaml
+  baseline:
+    path: evals/s116_raw_store_baseline_v21.json
+    sha256: 4eac6ece9ea25263f117cd05763653878accd639d1e90581d5ab0663cab62b60
+  treatment:
+    path: evals/s116_raw_store_treatment_v1.json
+    sha256: bb79ef78bccbf35a607287121a9d4b7f0c2a3c6a85ee35519a2fcf48ed734cca
+    independent_repeat_sha256: bb79ef78bccbf35a607287121a9d4b7f0c2a3c6a85ee35519a2fcf48ed734cca
+  treatment_chunker_sha256: 4b76ab219854c625f4ce5e55665e2c89d14739e4eee0ab01607aae7ecda4fd43
+
+comparison:
+  source_manifest_equal: true
+  runtime_equal: true
+  exact_errors_equal: true
+  only_dependency_difference: src/reingest/chunk.py
+  successful_documents: 1068
+  document_output_stream_mismatches: 0
+  extra_or_missing_document_streams: 0
+  baseline_chunks: 30315
+  treatment_chunks: 31212
+  chunk_increase: 897
+  chunk_increase_percent: 2.9589
+  treatment_titled_chunks: 29399
+  internally_verified_anchors: 29399
+  resolved_full_lineages: 29399
+  chunk_lineage_state_failures: 0
+  orphan_or_stale_anchors: 0
+
+verification:
+  targeted_tests: 29 passed
+  full_suite: 742 passed, 2 skipped
+  model_calls: 0
+  database_get_requests: 0
+  database_writes: 0
+  network_calls: 0
+
+adversarial_review:
+  verdict: ENGINEERING_GO
+  material_invariant_violations: 0
+  content_char_delta_explanation: 897 extra boundaries move two separator characters each from inside chunks to the reconstructed stream
+
+authorization:
+  local_shadow_candidate: true
+  fresh_sealed_validation: true
+  migration: false
+  database_or_reingestion: false
+  index_or_serving: false
+  deployment_or_production: false
+  fact_relabeling: false
+  persisted_raw_artifact_provenance_claim: false

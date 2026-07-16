@@ -1,0 +1,58 @@
+instrument: s116_independent_extraction_interruption_v1
+status: paused_pending_explicit_retry_authorization
+
+contract:
+  prereg: evals/s116_independent_document_holdout_prereg_v2.yaml
+  prereg_sha256: 1e6085ce479e8b0943bbe010a58ce23f78becdd72f81182ae92df0df34a5cf40
+  original_plan:
+    documents: 12
+    pages: 644
+    planned_credits: 28980
+
+execution:
+  first_attempts_submitted: 7
+  successful_records: 6
+  completed_pages: 386
+  attempted_pages_including_failure: 447
+  planned_credits_including_failure: 20115
+  untouched_documents: 5
+  untouched_pages: 197
+  untouched_planned_credits: 8865
+  automatic_retries: 0
+  final_receipt_created: false
+
+failure:
+  candidate_id: hochiki_hca_panel
+  filename: hochiki_hca_series_installation_operation.pdf
+  sha256: b4926f047f518239e11777adb7eb204160e91a4923c59ba99014a5069aba2634
+  pages: 61
+  job_id: b3ee1749-1411-479b-88d6-728fea9617eb
+  status: ERROR
+  error_code: MARKDOWN_EXTRACTION_FAILED
+  error_message: "Too many errors in Markdown reconstruction. Failed to reconstruct 5 out of 61 pages. Pages with errors: 40, 41, 42, 43, 50"
+  result_endpoint_http_status: 400
+  partial_result_available: false
+
+local_pdf_diagnosis:
+  pdf_opens: true
+  pages_rendered: [40, 41, 42, 43, 50]
+  human_readable: true
+  observations:
+    - pages 40, 42, 43 and 50 are predominantly selectable technical text
+    - page 41 contains a configuration diagram and releasing truth table
+    - Poppler reports missing display fonts for Symbol and ArialUnicode
+  interpretation: provider Markdown reconstruction failure, not corrupt-PDF or chunker failure
+
+retry_boundary:
+  same_configuration_retry_pages: 61
+  additional_planned_credits: 2745
+  additional_historical_usd_estimate: 3.43
+  revised_full_run_planned_credits_if_retry_succeeds: 31725
+  revised_full_run_historical_usd_estimate: 39.66
+  rule: one same-configuration retry requires explicit user authorization; a second retry is not authorized
+
+alternatives_not_authorized:
+  - switch extraction mode, model or API version inside the frozen holdout
+  - accept missing pages or a partial raw record
+  - replace the document without a new versioned preregistration
+  - continue to production, migration or replay with only six records

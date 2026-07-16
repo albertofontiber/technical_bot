@@ -1,0 +1,58 @@
+instrument: s116_raw_store_ab_prereg_v1
+status: frozen_before_baseline_aggregate
+
+source:
+  store_slug: agent_anthropic-sonnet-45
+  expected_json_files: 1069
+  inventory_observed_before_freeze: true
+  absolute_store_path_must_not_be_persisted: true
+  reuse_paid_extraction_artifacts_only: true
+
+comparison:
+  unit: extraction_record
+  baseline: current src/reingest/chunk.py before section-lineage changes
+  treatment: same records after the section-lineage shadow implementation
+  order: baseline_before_design_and_implementation
+  deterministic_order: filename_ascending
+  exclusions: none_after_valid_json_inventory
+
+primary_metrics:
+  - records_processed
+  - record_errors
+  - chunks_total
+  - chunks_with_section_path
+  - chunks_with_section_title
+  - section_chunks_with_own_leaf_heading
+  - section_continuations_without_own_leaf_heading
+  - section_chunks_with_verified_anchor_receipt
+  - numeric_section_continuations_without_own_leaf_heading
+  - short_chunks_below_min_chars
+  - multi_heading_chunks_without_section_path
+  - content_chars_total
+
+design_gate:
+  authorize_contract_design_only_if:
+    - baseline has at least one section continuation without its own leaf heading
+  never_authorized_by_baseline:
+    - database migration
+    - reingestion
+    - serving change
+    - fact relabeling
+
+treatment_gate:
+  required:
+    - record_errors equals baseline
+    - every treatment chunk with section_title has a cryptographically verified anchor receipt
+    - no heading text is injected into chunk content solely to manufacture self anchoring
+    - unit tests prove cleanup never merges different section identities
+    - content_chars_total is not lower than baseline
+    - chunks_total does not exceed baseline by more than 15 percent
+  interpretation:
+    - engineering GO authorizes a fresh held-out validation only
+    - engineering GO does not authorize schema, index, retrieval, serving, or production changes
+
+cost_contract:
+  database_get_requests: 0
+  database_writes: 0
+  model_calls: 0
+  network_calls: 0

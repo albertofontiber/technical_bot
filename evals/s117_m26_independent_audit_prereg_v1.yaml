@@ -1,0 +1,108 @@
+instrument: s117_m26_independent_audit_prereg_v1
+status: frozen_before_seeded_independent_audit
+scope:
+  purpose: independent_metadata_free_reuse_evidence_and_retrieval_policy_audit
+  allowed:
+    - local_raw_store_read
+    - local_sidecar_read
+    - frozen_source_snapshot_read
+    - frozen_receipt_read
+    - local_eval_write
+  forbidden:
+    - database_access
+    - env_file_read
+    - network
+    - model_calls
+    - vector_payload_fetch
+    - derived_snapshot_read
+    - legacy_metadata_selector
+    - reuse_authorization
+    - schema
+    - load
+    - serving
+    - deploy
+
+frozen_inputs:
+  runner: {path: scripts/s117_m26_independent_reuse_audit.py, sha256: 1357af3c92e9a021e18fa8d5d3aa2593f203ff5da045f9ef8044798efd35fd62}
+  runner_tests: {path: tests/test_s117_m26_independent_reuse_audit.py, sha256: 7cb6588e88a2f279dae85eb6ac4183e2f1f8310ef8f4049a6f6f0ff91d6f2b0e}
+  policy: {path: src/reingest/retrieval_policy.py, sha256: cafba354609f41038d5c1d7fe5c7e7f10056d98c1cde8a43feab9e2c6dbcedaf}
+  policy_tests: {path: tests/test_retrieval_policy.py, sha256: cf0de7c9b24d5ac78b40d62113207afc6b6cbb52bc6fc40be276da27c729b5b4}
+  design_v1: {path: evals/s117_m26_retrieval_eligibility_and_reuse_design_v1.md, sha256: 5b598f2ad68414bdb4ebcd0f1d2f0d0c92c440e810a88745e1415f2ad9c66f20}
+  design_v2: {path: evals/s117_m26_retrieval_eligibility_and_reuse_design_v2.md, sha256: ea8c831573b341c1ec27d3698171b43e4b2661ea6c4b4b208ca6e99d2be696ac}
+  design_v3: {path: evals/s117_m26_retrieval_eligibility_and_reuse_design_v3.md, sha256: 6a46160dd1cdd6cdcf7f9c439ba1ad154df7d4f55eac6152193b8bab78fb4d66}
+  design_v4: {path: evals/s117_m26_retrieval_eligibility_and_reuse_design_v4.md, sha256: 71271d0dbcf09266559b7fbf7e374d37e6f892014db63a50c9d5cb5f2508b925}
+  cohort_freezer: {path: scripts/s117_m26_freeze_legacy_cohorts.py, sha256: 26c9f3003f8e25ec6f3707e521f9213e6201be4b0e24d8c2ea3d283fe49438c9}
+  cohort_freezer_tests: {path: tests/test_s117_m26_freeze_legacy_cohorts.py, sha256: 3655a9256a20c4ff77d4a04a2ab3f32fbbd9eae16a76e01aa60d29835b4bef80}
+  cohort_freezer_prereg: {path: evals/s117_m26_cohort_freezer_prereg_v1.yaml, sha256: ca2f3a836aef324f7a026afce581e67a9c8a0423417f0f95adbc967723cded3a}
+  cohort_freeze: {path: evals/s117_m26_legacy_cohort_freeze_v1.json, sha256: 24b4a12caf0eb219cf1f66427e264e8bf2acab5cd069ce123a5226c53b57ccc5}
+  m2_prereg: {path: evals/s117_m2_legacy_reuse_prereg_v26.yaml, sha256: 2990ece8c14ebc4a84f666cd27ccc515f20d144cecb655b88c771d2ddca8211c}
+  m2_analyzer: {path: scripts/s117_m2_legacy_reuse_analysis.py, sha256: b53632cb50009c5d41236af1c79c5c2c6d4631cf7f551729f442b8c962dc25ba}
+  primary_baseline: {path: evals/s117_m25_primary_binding_baseline_v1.json, sha256: bd7b24e93f730f5bbecd688cacc8fb233abdac07b68096ec934327670df4e626}
+  m25_result: {path: evals/s117_m25_document_binding_projection_seed1_v2.json, sha256: 394dc0193197e78dc8cdcca5f25bca85e4e5d2ce32d70bb85e9d8eda6c42255b}
+  m25_gate: {path: evals/s117_m25_seeded_projection_gate_v2.yaml, sha256: a13b9f811c7d63fcd30febad475d6486b698a01269ff32caa270191e7484d767}
+  contextualizer: {path: src/reingest/contextualize.py, sha256: 3537b608028aab38fa118b977c6ad50c20c2916508c7538d2cad3a5d449d534a}
+  embedder: {path: src/reingest/embed.py, sha256: 61fc24128b03b2ccae8ccd44321b882a38e6e6c275ef8f6fcdf04e8b7560c40b}
+  source_snapshot:
+    path: tmp/s117_m2/remote_snapshot_v1.jsonl.gz
+    sha256: 3013c553da20c72fbfe0dc801dad4ea4b063ecff3138dcf55b5cd7831cf79067
+    canonical_jsonl_sha256: c5c4e1027d85b5023e8834e221bb99799fedbea1a9826f5a42f88ff3ad8da8d5
+
+selected_paths:
+  m2_prereg: evals/s117_m2_legacy_reuse_prereg_v26.yaml
+  primary_baseline: evals/s117_m25_primary_binding_baseline_v1.json
+  m25_result: evals/s117_m25_document_binding_projection_seed1_v2.json
+  cohort_freeze: evals/s117_m26_legacy_cohort_freeze_v1.json
+  source_snapshot: tmp/s117_m2/remote_snapshot_v1.jsonl.gz
+
+policy_contract:
+  design_sha256: 71271d0dbcf09266559b7fbf7e374d37e6f892014db63a50c9d5cb5f2508b925
+  implementation_sha256: cafba354609f41038d5c1d7fe5c7e7f10056d98c1cde8a43feab9e2c6dbcedaf
+  sha256: ed1d12f2f0989a8d6902c7dc2a85b81c0a495152d69b41b068c96de41cef556e
+
+expected_context_contract:
+  contextualizer_sha256: 3537b608028aab38fa118b977c6ad50c20c2916508c7538d2cad3a5d449d534a
+  context_prompt_sha256: b1ac9174f02cdab320714d080ea7fe35697ecfaf34968a7ac950148b4a2d5795
+  context_model: claude-haiku-4-5-20251001
+  context_limits: {max_doc_chars: 200000, max_chunk_chars: 6000, max_output_tokens: 200}
+
+expected_embedding_contract:
+  embedding_provider: voyage
+  embedding_model: voyage-4-large
+  embedding_input_type: document
+  embedding_dimensions: 1024
+  embedding_max_chars: 16000
+
+expected_evidence:
+  local_targets: 31212
+  legacy_base_donors: 25090
+  load_binding_status:
+    live_exact_active: 10219
+    live_exact_nonactive: 519
+    projected_backfill_candidate: 19572
+    projected_backfill_nonactive: 4
+    binding_unresolved: 898
+  source_binding_receipts_sha256: 0cd48a513185d1ba644a1928f654967fe6fbb033208d3c2e043a1fed4f425562
+  policy_counts:
+    eligible: 25831
+    register_only: 602
+    unsupported_language: 4779
+    duplicate: 0
+  cohorts:
+    baseline_strict: 2623
+    projected_strict: 8061
+    new_m25_strict: 5438
+  authorized_context_rows: 0
+  authorized_embedding_rows: 0
+
+execution:
+  seeds: [1, 2]
+  seeded_perturbation: shuffle_local_and_source_row_order_only
+  required: [cross_process_byte_identical, logical_payload_identical]
+
+claim_contract:
+  contract_integrity_only: true
+  reuse_admitted: false
+  projected_bindings_are_live: false
+  M3: BLOCKED
+
+cost_contract: {database_reads: 0, database_writes: 0, model_calls: 0, vector_payloads: 0}

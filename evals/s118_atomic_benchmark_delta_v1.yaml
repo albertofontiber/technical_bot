@@ -1,0 +1,172 @@
+instrument: s118_atomic_benchmark_delta_v1
+status: frozen_before_hybrid_bridge_execution
+purpose: >-
+  Close the three affected parent contracts discovered after M0 without mutating
+  gold_answers_v1 or claiming completion of the full 312-decision M1 ruler.
+  The bridge is diagnostic and hybrid: it does not establish a final atomic
+  denominator or an official 95 percent target.
+
+frozen_inputs:
+  gold_v1:
+    path: evals/gold_answers_v1.yaml
+    sha256: e1b6b3a8da26b99201108b1765d18d396e8628e0fff022dee58dd7e75049470d
+  historical_assessment:
+    path: evals/s100_factlevel_full.yaml
+    sha256: 49e8cbaab5f86f89b67e0457267ceeca7a1078ac503fbe5a7249b798aeabe503
+  current_partial_ledger:
+    path: evals/s114_fact_ledger_v1.json
+    sha256: 1850bd49762993b0566805b9e8d5001e85ad9adbade42f7ce0c9de5f9a9d0a53
+  atomicity_adjudication:
+    path: evals/s114_partial_evidence_adjudication_v1.yaml
+    sha256: ffba32d0f026a7bc866c7e08908d3c324a0d0de1d61cac9f77435f98470dc822
+  evidence_search:
+    path: evals/s114_partial_evidence_search_v1.json
+    sha256: afed5f392e937b7f4f5e2b8ba953001c9ad7b6b6866a523e9fafe737f76e14f3
+  child_adjudication:
+    path: evals/s118_child_claim_adjudication_v1.yaml
+    sha256: 7bd1ebe6fafa6da612232d1f0e782a8b6966a874c3a3873d1600cf47d8ccd0a3
+  external_contract_projection:
+    path: evals/s118_external_contract_projection_v1.json
+    sha256: d608e7126a9da02f257ce7dfea1bfdf7bde231964dc5c071e41c1b3bac81a2df
+  upstream_m210_gate:
+    path: evals/s117_m210_candidate_live_alignment_gate_v1.yaml
+    sha256: 276ed4c6cbf6ecafc368cb316bf69fa02baa3e20fadaecc7fbc3f8c11d1639b5
+    authority: structural_upstream_only_zero_fact_relabels
+
+external_sources:
+  m0_full_manifest:
+    logical_path: evals/gold_answers_v2_atomic.manifest.json
+    sha256: 156bf94358af400a866e1ec6dc9b75a3e5086f1ab5de3741156efc857d353613
+  m1_pending_blockers:
+    logical_path: evals/s106_m1_pending_blockers_v1.json
+    sha256: 0e2ba4cfa23e892a8f340d0c587db6956774f0760ff708552396777a4013d531
+
+benchmark_policy:
+  source_population: exact_129_rows_from_s100
+  historical_scored_parents: 127
+  historical_meta_reference_exclusions: 2
+  unchanged_parent_policy: provisional_legacy_carry_not_atomicity_verified
+  transformed_parent_policy: explicit_core_content_children_only
+  transformed_stage_policy: pending_replay_never_inherit_parent_stage
+  known_m1_blocker_policy: separate_contract_hold_never_inherit_ok
+  supplementary_policy: retained_for_answer_design_but_excluded_from_content_denominator
+  unresolved_or_withdrawn_policy: excluded_without_runtime_credit
+  eligibility_independent_of_bot_outcome: true
+  full_m1_completion_claimed: false
+  gold_file_mutation_authorized: false
+  fact_relabeling_authorized: false
+  final_atomic_denominator_claimed: false
+
+transformations:
+  - migration_id: s118.hp013.power_and_rtc
+    qid: hp013
+    fact_key: hp013#1:PWR-R
+    parent_fact_sha: d3cc66365ae4fd83cf0e80983877c5d9974727ab195ad73822d44ac54bc1b1b5
+    required_adjudicated_class: atomicity-and-absence-inference-hold
+    operation: split_and_withdraw_unsupported_absence
+    after:
+      - migration_id: s118.hp013.power_and_rtc.1
+        texto: La placa incluye una bateria de litio asociada al modulo de reloj RTC.
+        tipo: core
+        estado: presente
+        valor: bateria de litio / RTC
+        cita: ADW535_TD_T140358es_e p29
+        source_pages: [29]
+        basis: explicit
+        requiredness_reason: >-
+          Corrige la premisa de bateria tampon e identifica la funcion de la
+          bateria que si documenta la placa.
+      - migration_id: s118.hp013.power_and_rtc.2
+        texto: >-
+          PWR-R es la entrada de alimentacion redundante externa de 9 a 30 V CC.
+        tipo: supplementary
+        estado: presente
+        valor: PWR-R / 9 a 30 V CC
+        cita: ADW535_TD_T140358es_e p56
+        source_pages: [56]
+        basis: explicit
+        requiredness_reason: >-
+          Aclara el mecanismo de alimentacion redundante, pero no es necesario
+          para responder si la configuracion depende de la bateria del RTC.
+    withdrawals:
+      - component: ausencia absoluta de bateria tampon a bordo
+        reason: >-
+          La ausencia no esta declarada literalmente y no puede inferirse de la
+          presencia de PWR-R ni de la bateria de litio del RTC.
+
+  - migration_id: s118.hp015.capacity_and_isolation
+    qid: hp015
+    fact_key: hp015#2:32
+    parent_fact_sha: 73c3cf9b2b204fd80d85de1d04dc6f7ee4b31c14fdeed8da603680348d4e6a2d
+    required_adjudicated_class: atomicity-and-absence-inference-hold
+    operation: demote_and_withdraw_unsupported_impossibility
+    after:
+      - migration_id: s118.hp015.capacity_and_isolation.1
+        texto: Cada zona admite como maximo 32 detectores o pulsadores.
+        tipo: supplementary
+        estado: presente
+        valor: 32 por zona
+        cita: CCD-103_Manual_ES_FR_GB_IT p15 fisica / p13 impresa
+        source_pages: [15]
+        basis: explicit
+        requiredness_reason: >-
+          Es un limite verdadero, pero no es necesario para explicar la maniobra
+          de desconexion por zona solicitada.
+    withdrawals:
+      - component: imposibilidad absoluta de aislar un detector desde la central
+        reason: >-
+          La ausencia de una opcion individual no demuestra por si sola una
+          imposibilidad absoluta.
+      - component: toda desconexion de zona desactiva necesariamente todos sus detectores
+        reason: >-
+          La maniobra por zona esta documentada en otro fact; esta formulacion
+          causal no recibe credito adicional desde el parent compuesto.
+
+  - migration_id: s118.hp015.conventional_architecture
+    qid: hp015
+    fact_key: hp015#0:convencional
+    parent_fact_sha: 83a337d1948afb2fdcf98e51dfb72533cf7ce4dea250d35dd0bc70893b84a753
+    required_adjudicated_class: atomicity-and-absence-inference-hold
+    operation: split_and_withdraw_unsupported_absence
+    after:
+      - migration_id: s118.hp015.conventional_architecture.1
+        texto: >-
+          La CCD-103 es una central de tres zonas convencionales y un riesgo de extincion.
+        tipo: supplementary
+        estado: presente
+        valor: 3 zonas convencionales / 1 riesgo
+        cita: CCD-103_Manual_ES_FR_GB_IT p5 fisica
+        source_pages: [5]
+        basis: explicit
+        requiredness_reason: >-
+          La arquitectura convencional es contexto verdadero, pero no demuestra
+          por si sola la imposibilidad absoluta de actuar sobre un detector.
+    withdrawals:
+      - component: >-
+          inferencia causal de que ser convencional demuestra que no existe
+          desactivar un detector concreto
+        reason: >-
+          El manual identifica la arquitectura convencional, pero esa premisa no
+          prueba por si sola la imposibilidad absoluta formulada en el parent.
+
+expected_bridge:
+  historical_rows: 129
+  historical_scored_parents: 127
+  meta_reference_exclusions: 2
+  m0_transformed_parents_in_population: 14
+  s118_transformed_parents_in_population: 3
+  unchanged_scored_parents: 110
+  known_m1_contract_holds: 33
+  legacy_carries_without_known_m1_blocker: 77
+  transformed_content_claims_pending_replay: 22
+  provisional_hybrid_content_denominator: 132
+  provisional_hybrid_target_ok_for_95_percent: 126
+  official_atomic_content_denominator: null
+  official_atomic_target_ok_for_95_percent: null
+  facts_moved_to_ok: 0
+
+cost_contract:
+  model_calls: 0
+  network_calls: 0
+  database_reads: 0
+  database_writes: 0

@@ -1,0 +1,162 @@
+instrument: s116_independent_document_holdout_prereg_v4
+status: frozen_after_explicit_replacement_extraction_authorization
+supersedes: evals/s116_independent_document_holdout_prereg_v3.yaml
+
+source:
+  acquisition_prereg:
+    path: evals/s116_independent_holdout_acquisition_prereg_v2.yaml
+    sha256: adf47686775e8f7622297763715088915ca3ccaa22411518310d631c04c5a567
+  acquisition_receipt:
+    path: evals/s116_independent_holdout_acquisition_v2.json
+    sha256: d0ab94546cb899b73e69d5cd6ae3ea5b660bbab74c835834a24cda35ce5e5544
+  near_duplicate_screen:
+    prereg: evals/s116_independent_near_duplicate_screen_prereg_v2.yaml
+    prereg_sha256: 7eb89caae2d9336715a5faf71933b45505a25b1265f7de3f0e04b8995996f8da
+    receipt: evals/s116_independent_near_duplicate_screen_v2.json
+    receipt_sha256: 89ac9ab7b64ba0330cea0d7b6b0acb10f5740eff595e53a4ea13f4783cff2fb0
+    gate: GO
+    exact_content_duplicates: 0
+    near_duplicate_flags: 0
+    replacement_maximum_observed_containment: 0.0014459224985540775
+    threshold_containment: 0.80
+    replacement_maximum_observed_jaccard: 0.0002730913945867217
+    threshold_jaccard: 0.65
+  interrupted_execution:
+    path: evals/s116_independent_extraction_interruption_v1.yaml
+    sha256: 1a242b820939148625387387c5c132b799383eae64cb811cc7359838bdd1a919
+  deterministic_extraction_failure:
+    path: evals/s116_hca_deterministic_extraction_failure_v1.yaml
+    sha256: f0ef4e1510109e44671fa27b908705e8dd6580a621bbae6f5901e21ff2c0f5ff
+  documents: 12
+  manufacturers: 4
+  pages: 691
+  bytes: 25224262
+  independence_claim: no exact PDF, normalized-content or threshold near-duplicate overlap with the frozen 1068-document development store
+
+documents:
+  - {id: bosch_fpc500_install, manufacturer: Bosch, filename: bosch_fpc500_installation_en.pdf, pages: 80, sha256: 720fe4dcb0023d76c7fa981b556dc66c3d02a10b1abe9b728fd4563b9d3d50ec}
+  - {id: bosch_fpp5000_power, manufacturer: Bosch, filename: bosch_fpp5000_installation_all.pdf, pages: 80, sha256: 295540683fa0542fbe1d014c8fdc691747754166c9c8a0f0421a6a14997ab056}
+  - {id: bosch_flm430_interface, manufacturer: Bosch, filename: bosch_flm430_i2m1_installation_all.pdf, pages: 176, sha256: 653719e29ee747a481961360444f355c6cb2931e61511df757ad94ebf72aca58}
+  - {id: siemens_fc922_panel, manufacturer: Siemens, filename: siemens_fc922_fc924_installation_en.pdf, pages: 28, sha256: 907f47cca7c1eed18273c5c0921356591f532d228935cca8085929ce6db538c2}
+  - {id: siemens_oohc941_detector, manufacturer: Siemens, filename: siemens_oohc941_installation_en.pdf, pages: 8, sha256: 3792d5699046c25eb92d331e4f2fb09c6eda9032eaeee0cc53af29fb867552e3}
+  - {id: siemens_fci2020_city_tie, manufacturer: Siemens, filename: siemens_fci2020_city_tie_installation_en.pdf, pages: 14, sha256: 234ba09b1a58a0df1f00691e0bd1af21469fefaaf5289e988fa077f1cf7c5c32}
+  - {id: hochiki_hcvx_panel, manufacturer: Hochiki, filename: hochiki_hcvx_installation_operation.pdf, pages: 108, sha256: 0d175dd3f7b07ec8cfaf6b8cb15249bb27d60482da8de65e1cc260ec240a797f}
+  - {id: hochiki_smoke_heat_guide, manufacturer: Hochiki, filename: hochiki_smoke_heat_application_guide.pdf, pages: 22, sha256: 7870dc4b1c0f0adeae5aa3b076bca57e1d6574d544ddef0099530929df946f73}
+  - {id: hochiki_vr3_releasing, manufacturer: Hochiki, filename: hochiki_vr3_installation_operation.pdf, pages: 158, sha256: a576ab3d7702d1bf8e81dadfc0a4836469a5e328ef293d3353d97b123c91176e}
+  - {id: apollo_series65_base, manufacturer: Apollo, filename: apollo_series65_base_installation.pdf, pages: 1, sha256: 523eb8b20f23016f34d747ddd79f91d8ac8d11b28961332e80e693749aae971e}
+  - {id: apollo_xp95a_detectors, manufacturer: Apollo, filename: apollo_xp95a_detector_installation.pdf, pages: 2, sha256: 0b7a278f309a642d98f51d07fc83f2511f8fb444a0176d3abe5d21dc010660d3}
+  - {id: apollo_xpander_commissioning, manufacturer: Apollo, filename: apollo_xpander_commissioning.pdf, pages: 14, sha256: b06377c0ed86431b011a000c1508de3f43bcb4bd9c4c9533187b37b705a23abe}
+
+extraction:
+  api: https://api.cloud.llamaindex.ai/api/v1/parsing
+  parse_mode: parse_page_with_agent
+  vendor_multimodal_model_name: anthropic-sonnet-4.5
+  pdf_store: tmp/s116_independent_holdout/pdfs
+  output_store: tmp/s116_independent_holdout/extraction/agent_anthropic-sonnet-45
+  attempt_ledger: tmp/s116_independent_holdout/extraction_attempts_v1.json
+  exclusive_lock: tmp/s116_independent_holdout/extraction_attempts_v1.lock
+  raw_artifact_receipt: tmp/s116_independent_holdout/extraction_receipt_v1.json
+  requirements:
+    - canonical paths are derived from this prereg and cannot be overridden by CLI
+    - exclusive process lock is held for the complete execution
+    - ledger identity migration must match the complete v3 identity and both exact failed HCA jobs
+    - HCA remains a terminal extraction_miss and is retained in the cumulative extraction denominator
+    - HCVX is the sole authorized replacement and must match its frozen PDF SHA-256
+    - no further retry or replacement is authorized for any document
+    - exact acquisition PDF SHA-256 and page count before upload
+    - at most 14 submissions, 813 attempted pages, 13 distinct documents and 36585 planned credits cumulatively
+    - no fallback mode, model or API version
+    - complete raw JSON response stored atomically by PDF SHA-256
+    - final receipt seals exactly 12 unique successful job IDs, raw JSON hashes and final ledger hash
+
+replacement_authorization:
+  authorized_by_user: true
+  user_message: "GO. te doy techo de créditos de llama de 50,000"
+  user_credit_ceiling: 50000
+  maximum_replacements: 1
+  failed_sha256: b4926f047f518239e11777adb7eb204160e91a4923c59ba99014a5069aba2634
+  original_failed_job_id: b3ee1749-1411-479b-88d6-728fea9617eb
+  retry_failed_job_id: 710c28e2-8130-4433-b3f6-5d422e5f3d74
+  replacement_sha256: 0d175dd3f7b07ec8cfaf6b8cb15249bb27d60482da8de65e1cc260ec240a797f
+  error_code: MARKDOWN_EXTRACTION_FAILED
+  error_message: "Too many errors in Markdown reconstruction. Failed to reconstruct 5 out of 61 pages. Pages with errors: 40, 41, 42, 43, 50"
+  selection_rule: same manufacturer and panel installation/operation stratum; selected before download or extraction output inspection
+  failed_document_classification: extraction_miss
+  prior_identity:
+    prereg_sha256: cee55088cda9b186ed243680540b5558f2bc68b65776bb2c3cd0bfdb9164ff6a
+    acquisition_receipt_sha256: 0ecb09b302b2922443479b9579c8553e9826701cc0cf6879c3d97def58a7839f
+    pdf_manifest_sha256: 4ea3a8e884c22209e95702af7af83710c04d6de7c75f05be63580144407a0ff9
+    planned_documents: 12
+    planned_pages: 644
+    maximum_attempt_pages: 705
+    maximum_submissions: 13
+    maximum_credits: 31725
+
+denominators:
+  extraction_end_to_end:
+    documents_considered: 13
+    successful_documents_required: 12
+    terminal_extraction_misses: 1
+    terminal_extraction_miss_sha256: b4926f047f518239e11777adb7eb204160e91a4923c59ba99014a5069aba2634
+  chunker_conditional_on_successful_extraction:
+    documents_required: 12
+    replacement_is_unique: true
+    failed_hca_excluded_only_because_chunker_was_never_reached: true
+
+budget:
+  credits_per_page: 45
+  pages: 691
+  first_attempt_credits: 31095
+  maximum_attempt_pages: 813
+  maximum_submissions: 14
+  maximum_distinct_documents: 13
+  maximum_credits: 36585
+  user_credit_ceiling: 50000
+  historical_usd_per_1000_credits: 1.25
+  estimated_usd_if_fully_billable: 45.73125
+  displayed_estimate_usd: 45.73
+  hard_enforced_boundary: 13 distinct document first attempts plus one exact HCA retry; 813 attempted pages, 14 submissions and 36585 planned credits cumulatively
+  caveat: USD is a historical-rate estimate and planned credits are not a provider billing receipt
+
+implementations:
+  baseline:
+    git_commit: ca0f736f46e16674119bdb66ceb069caf48d8c11
+    path: src/reingest/chunk.py
+    sha256: 58be85e8cdf2cfac475e7f7cd23639b04f7b22a1c60938ffec86e76cb2c60985
+  treatment:
+    path: src/reingest/chunk.py
+    sha256: 4b76ab219854c625f4ce5e55665e2c89d14739e4eee0ab01607aae7ecda4fd43
+  frozen_evaluator:
+    python: 3.14.3
+    scripts/s116_extract_independent_holdout.py: de995755866e7da93e4467c6aba2c62c53332f75131383dc8662c2e3754b9dc7
+    scripts/s116_independent_holdout_replay.py: bb12e7454c7b47518db044e9a17afc73a5f4cf1be9493e890fe7cd20bb6a101e
+    scripts/s116_cross_extractor_challenge.py: 86687dea25d1096fabb86406c5d33aba7d80455ff22b8444b760f9ad5f1f70da
+    scripts/s116_raw_store_ab_v21.py: a5d29926d42536090e5a6a0a48ba5d814dfe1f1f02b74d1cc69c36639fdc51b6
+    scripts/s116_raw_store_ab_v2.py: adb20d6349d1cc2e8fb346659dc15dc8223107b4f5220e8e259c99e8275feb71
+    tests/test_s116_extract_independent_holdout.py: f90eb2392eaebdb759eeb720353a08560afa47b832f2931800a18c1b30ebd1dc
+    tests/test_s116_independent_holdout_replay.py: da49669b66d523a9144e5b608abab8c8e144d0e68a02783b79930296c8f271b7
+    tests/test_s116_screen_independent_holdout.py: b1d84557f34f0f85bf4bca1b5bf62f0a2303011b36c1a99815b6e1d245a6a9cf
+
+replay_gate:
+  required:
+    - exactly 12 successful raw records and zero errors in both arms
+    - exact PDF SHA-256, page count, parse mode and model for every successful record
+    - valid sealed raw-artifact receipt with unique successful jobs and exact raw JSON and ledger hashes
+    - HCA remains a terminal extraction_miss in the cumulative ledger and denominator
+    - zero per-document content-stream mismatches
+    - zero treatment chunk_lineage_state_failures and orphan anchors
+    - every titled treatment chunk has an internally resolved anchor and atomic full lineage
+    - at least 5 documents and at least 30 chunks carry section titles
+    - treatment chunk growth at most 15 percent
+  decision_if_go: authorize design of a versioned persistence migration and provenance envelope
+  never_authorizes:
+    - database writes, reindexing, serving or production deployment
+    - fact OK relabeling without a downstream funnel replay
+
+authorization:
+  paid_extraction: true
+  exact_scope: one first attempt for HCVX plus five remaining untouched first attempts; no retries or further replacements
+  planned_credit_ceiling: 36585
+  user_credit_ceiling: 50000
+  additional_retry: false
+  additional_replacement: false

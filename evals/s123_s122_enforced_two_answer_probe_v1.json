@@ -1,0 +1,1008 @@
+{
+  "instrument": "s123_s122_enforced_two_answer_probe_v1",
+  "planner_contract": "answer_planner_s122_v1",
+  "enforcement_policy": "answer_enforcement_s122_v2",
+  "source_receipts": {
+    "src/rag/answer_planner.py": "b795a074ca627c5f26ebc477957ccbcae53495e44d5981baa2bf73c119019086",
+    "src/rag/answer_obligation_contract.py": "7dda351cd1a09eeb014a94d5e473bd3998380b28884c5842c29ae1922fda85b3",
+    "src/rag/generator.py": "253477f1cfd3225dee6c8ca9d1ccd604813386dfa378e331f9ecad9a57202f19",
+    "scripts/s123_s122_enforced_two_answer_probe.py": "7c41ab63bd336eaebef0c3a5e46fe79f089a8c609023a51dc291caeb08d23363",
+    "evals/s123_s122_enforced_two_answer_probe_prereg_v1.yaml": "ed813dcbafef7dba4c81df0bea1218134111f45c390eb79c7b3da8af7e7efe1b",
+    "evals/s122_enforced_answer_contract_gate_v2.yaml": "c48aaf25076c3fb796414a371269c27870437f05d24a2bf11c54ce519a2f38cc"
+  },
+  "gate": {
+    "authorized_qids": [
+      "hp009",
+      "hp017"
+    ],
+    "requested_this_run": [
+      "hp017"
+    ],
+    "fresh_attempts_this_run": [
+      "hp017"
+    ],
+    "attempted_qids": [
+      "hp009",
+      "hp017"
+    ],
+    "completed_qids": [
+      "hp009",
+      "hp017"
+    ],
+    "ambiguous_or_failed_qids": [],
+    "remaining_unattempted_qids": [],
+    "input_tokens": 32027,
+    "output_tokens": 1674,
+    "max_token_stops": 0,
+    "actions": {
+      "hp009": "source_bound_reconstruction",
+      "hp017": "fail_closed"
+    },
+    "deterministic_claim_surfaces_present": 3,
+    "diagnostic_claims": 3,
+    "execution_permit": "valid",
+    "automated_checks": {
+      "hp009.stop_reason_end_turn": true,
+      "hp009.obligations_complete": true,
+      "hp009.conflict_safe": true,
+      "hp009.citations_present": true,
+      "hp009.diagnostic_surfaces_present": true,
+      "hp009.action_allowed": true,
+      "hp009.query_core_covered": true,
+      "hp009.no_positive_eol_claim": true,
+      "hp017.stop_reason_end_turn": true,
+      "hp017.obligations_complete": true,
+      "hp017.conflict_safe": true,
+      "hp017.citations_present": true,
+      "hp017.diagnostic_surfaces_present": true,
+      "hp017.action_fail_closed": true,
+      "hp017.query_core_not_covered": true
+    },
+    "failed_automated_checks": [],
+    "retrieval_calls": 0,
+    "reranker_calls": 0,
+    "judge_calls": 0,
+    "database_reads": 0,
+    "database_writes": 0,
+    "facts_moved_to_ok": 0,
+    "status": "MEASURED_TWO_ANSWER_PROBE_PENDING_MANUAL_ADJUDICATION"
+  },
+  "rows": [
+    {
+      "qid": "hp009",
+      "context_rows": 12,
+      "obligation_kinds": [
+        "terminal_bundle",
+        "closed_loop_return_path"
+      ],
+      "conflict_values": [],
+      "obligation_citations": [
+        "[F12]"
+      ],
+      "generation_contract_sha256": "d5126817a7cbc20cdd3559e1d5c97a0e1ec156ae63e5d16f7e6169971c4fc0d2",
+      "attempted": true,
+      "completed": true,
+      "ambiguous_or_failed": false,
+      "event": "answer_completed",
+      "model": "claude-sonnet-4-6",
+      "max_output_tokens": 3500,
+      "stop_reason": "end_turn",
+      "input_tokens": 16220,
+      "output_tokens": 78,
+      "answer_sha256": "8d8b2b13a2393bc7bdf9067388674183bf3e8efb6a99ea3a2d93eb4452f3a428",
+      "obligation_citations_present": true,
+      "final_validation": {
+        "total": 2,
+        "covered": 2,
+        "missing": [],
+        "rows": [
+          {
+            "obligation_id": "obl_0dd92f09e970",
+            "fragment_number": 12,
+            "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+            "facet": "loop_topology",
+            "kind": "terminal_bundle",
+            "statement": "Inicio Lazo (+) OUT / Inicio Lazo (-) OUT on left panel; (+) Retorno / (-) Retorno on right panel",
+            "required_anchors": [
+              "inicio",
+              "retorno",
+              "out"
+            ],
+            "source_start": 569,
+            "source_end": 669,
+            "covered": true
+          },
+          {
+            "obligation_id": "obl_f5f518a75f3f",
+            "fragment_number": 12,
+            "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+            "facet": "served_relation:closed_loop_return_path",
+            "kind": "closed_loop_return_path",
+            "statement": "ZX2e/ZX5e: Retorne el final del lazo al otro extremo del conector de lazo; Inicio Lazo (+) OUT / Inicio Lazo (-) OUT; (+) Retorno / (-) Retorno on right panel; complete loop circuit",
+            "required_anchors": [
+              "Inicio Lazo",
+              "OUT",
+              "Retorno"
+            ],
+            "source_start": 260,
+            "source_end": 1139,
+            "covered": true
+          }
+        ]
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "unsafe_positive_eol_claim": false,
+      "diagnostic_claims": [
+        {
+          "claim_id": "m0.hp009.closed_loop_return.1",
+          "deterministic_surface_present": true
+        },
+        {
+          "claim_id": "m0.hp009.closed_loop_return.2",
+          "deterministic_surface_present": true
+        }
+      ],
+      "answer_planner": {
+        "mode": "enforced",
+        "planner_contract": "answer_planner_s122_v1",
+        "enforcement_policy": "answer_enforcement_s122_v2",
+        "validator_contract": "answer_contract_validator_s122_v1",
+        "renderer_contract": "source_bound_renderer_s122_v1",
+        "conflict_schema": "answer_conflict_s122_v1",
+        "plan": [
+          {
+            "obligation_id": "obl_0dd92f09e970",
+            "fragment_number": 12,
+            "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+            "facet": "loop_topology",
+            "kind": "terminal_bundle",
+            "statement": "Inicio Lazo (+) OUT / Inicio Lazo (-) OUT on left panel; (+) Retorno / (-) Retorno on right panel",
+            "required_anchors": [
+              "inicio",
+              "retorno",
+              "out"
+            ],
+            "source_start": 569,
+            "source_end": 669
+          },
+          {
+            "obligation_id": "obl_f5f518a75f3f",
+            "fragment_number": 12,
+            "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+            "facet": "served_relation:closed_loop_return_path",
+            "kind": "closed_loop_return_path",
+            "statement": "ZX2e/ZX5e: Retorne el final del lazo al otro extremo del conector de lazo; Inicio Lazo (+) OUT / Inicio Lazo (-) OUT; (+) Retorno / (-) Retorno on right panel; complete loop circuit",
+            "required_anchors": [
+              "Inicio Lazo",
+              "OUT",
+              "Retorno"
+            ],
+            "source_start": 260,
+            "source_end": 1139
+          }
+        ],
+        "enforced_plan": [
+          {
+            "obligation_id": "obl_0dd92f09e970",
+            "fragment_number": 12,
+            "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+            "facet": "loop_topology",
+            "kind": "terminal_bundle",
+            "statement": "Inicio Lazo (+) OUT / Inicio Lazo (-) OUT on left panel; (+) Retorno / (-) Retorno on right panel",
+            "required_anchors": [
+              "inicio",
+              "retorno",
+              "out"
+            ],
+            "source_start": 569,
+            "source_end": 669
+          },
+          {
+            "obligation_id": "obl_f5f518a75f3f",
+            "fragment_number": 12,
+            "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+            "facet": "served_relation:closed_loop_return_path",
+            "kind": "closed_loop_return_path",
+            "statement": "ZX2e/ZX5e: Retorne el final del lazo al otro extremo del conector de lazo; Inicio Lazo (+) OUT / Inicio Lazo (-) OUT; (+) Retorno / (-) Retorno on right panel; complete loop circuit",
+            "required_anchors": [
+              "Inicio Lazo",
+              "OUT",
+              "Retorno"
+            ],
+            "source_start": 260,
+            "source_end": 1139
+          }
+        ],
+        "deferred_obligations": [],
+        "observed_validation": {
+          "total": 2,
+          "covered": 0,
+          "missing": [
+            {
+              "obligation_id": "obl_0dd92f09e970",
+              "fragment_number": 12,
+              "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+              "facet": "loop_topology",
+              "kind": "terminal_bundle",
+              "statement": "Inicio Lazo (+) OUT / Inicio Lazo (-) OUT on left panel; (+) Retorno / (-) Retorno on right panel",
+              "required_anchors": [
+                "inicio",
+                "retorno",
+                "out"
+              ],
+              "source_start": 569,
+              "source_end": 669,
+              "covered": false
+            },
+            {
+              "obligation_id": "obl_f5f518a75f3f",
+              "fragment_number": 12,
+              "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+              "facet": "served_relation:closed_loop_return_path",
+              "kind": "closed_loop_return_path",
+              "statement": "ZX2e/ZX5e: Retorne el final del lazo al otro extremo del conector de lazo; Inicio Lazo (+) OUT / Inicio Lazo (-) OUT; (+) Retorno / (-) Retorno on right panel; complete loop circuit",
+              "required_anchors": [
+                "Inicio Lazo",
+                "OUT",
+                "Retorno"
+              ],
+              "source_start": 260,
+              "source_end": 1139,
+              "covered": false
+            }
+          ],
+          "rows": [
+            {
+              "obligation_id": "obl_0dd92f09e970",
+              "fragment_number": 12,
+              "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+              "facet": "loop_topology",
+              "kind": "terminal_bundle",
+              "statement": "Inicio Lazo (+) OUT / Inicio Lazo (-) OUT on left panel; (+) Retorno / (-) Retorno on right panel",
+              "required_anchors": [
+                "inicio",
+                "retorno",
+                "out"
+              ],
+              "source_start": 569,
+              "source_end": 669,
+              "covered": false
+            },
+            {
+              "obligation_id": "obl_f5f518a75f3f",
+              "fragment_number": 12,
+              "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+              "facet": "served_relation:closed_loop_return_path",
+              "kind": "closed_loop_return_path",
+              "statement": "ZX2e/ZX5e: Retorne el final del lazo al otro extremo del conector de lazo; Inicio Lazo (+) OUT / Inicio Lazo (-) OUT; (+) Retorno / (-) Retorno on right panel; complete loop circuit",
+              "required_anchors": [
+                "Inicio Lazo",
+                "OUT",
+                "Retorno"
+              ],
+              "source_start": 260,
+              "source_end": 1139,
+              "covered": false
+            }
+          ]
+        },
+        "conflicts": [],
+        "initial_validation": {
+          "total": 2,
+          "covered": 0,
+          "missing": [
+            {
+              "obligation_id": "obl_0dd92f09e970",
+              "fragment_number": 12,
+              "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+              "facet": "loop_topology",
+              "kind": "terminal_bundle",
+              "statement": "Inicio Lazo (+) OUT / Inicio Lazo (-) OUT on left panel; (+) Retorno / (-) Retorno on right panel",
+              "required_anchors": [
+                "inicio",
+                "retorno",
+                "out"
+              ],
+              "source_start": 569,
+              "source_end": 669,
+              "covered": false
+            },
+            {
+              "obligation_id": "obl_f5f518a75f3f",
+              "fragment_number": 12,
+              "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+              "facet": "served_relation:closed_loop_return_path",
+              "kind": "closed_loop_return_path",
+              "statement": "ZX2e/ZX5e: Retorne el final del lazo al otro extremo del conector de lazo; Inicio Lazo (+) OUT / Inicio Lazo (-) OUT; (+) Retorno / (-) Retorno on right panel; complete loop circuit",
+              "required_anchors": [
+                "Inicio Lazo",
+                "OUT",
+                "Retorno"
+              ],
+              "source_start": 260,
+              "source_end": 1139,
+              "covered": false
+            }
+          ],
+          "rows": [
+            {
+              "obligation_id": "obl_0dd92f09e970",
+              "fragment_number": 12,
+              "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+              "facet": "loop_topology",
+              "kind": "terminal_bundle",
+              "statement": "Inicio Lazo (+) OUT / Inicio Lazo (-) OUT on left panel; (+) Retorno / (-) Retorno on right panel",
+              "required_anchors": [
+                "inicio",
+                "retorno",
+                "out"
+              ],
+              "source_start": 569,
+              "source_end": 669,
+              "covered": false
+            },
+            {
+              "obligation_id": "obl_f5f518a75f3f",
+              "fragment_number": 12,
+              "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+              "facet": "served_relation:closed_loop_return_path",
+              "kind": "closed_loop_return_path",
+              "statement": "ZX2e/ZX5e: Retorne el final del lazo al otro extremo del conector de lazo; Inicio Lazo (+) OUT / Inicio Lazo (-) OUT; (+) Retorno / (-) Retorno on right panel; complete loop circuit",
+              "required_anchors": [
+                "Inicio Lazo",
+                "OUT",
+                "Retorno"
+              ],
+              "source_start": 260,
+              "source_end": 1139,
+              "covered": false
+            }
+          ]
+        },
+        "initial_conflict_validation": {
+          "total": 0,
+          "safe": 0,
+          "unsafe": [],
+          "rows": []
+        },
+        "action": "source_bound_reconstruction",
+        "query_core_coverage": true,
+        "validation": {
+          "total": 2,
+          "covered": 2,
+          "missing": [],
+          "rows": [
+            {
+              "obligation_id": "obl_0dd92f09e970",
+              "fragment_number": 12,
+              "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+              "facet": "loop_topology",
+              "kind": "terminal_bundle",
+              "statement": "Inicio Lazo (+) OUT / Inicio Lazo (-) OUT on left panel; (+) Retorno / (-) Retorno on right panel",
+              "required_anchors": [
+                "inicio",
+                "retorno",
+                "out"
+              ],
+              "source_start": 569,
+              "source_end": 669,
+              "covered": true
+            },
+            {
+              "obligation_id": "obl_f5f518a75f3f",
+              "fragment_number": 12,
+              "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+              "facet": "served_relation:closed_loop_return_path",
+              "kind": "closed_loop_return_path",
+              "statement": "ZX2e/ZX5e: Retorne el final del lazo al otro extremo del conector de lazo; Inicio Lazo (+) OUT / Inicio Lazo (-) OUT; (+) Retorno / (-) Retorno on right panel; complete loop circuit",
+              "required_anchors": [
+                "Inicio Lazo",
+                "OUT",
+                "Retorno"
+              ],
+              "source_start": 260,
+              "source_end": 1139,
+              "covered": true
+            }
+          ]
+        },
+        "conflict_validation": {
+          "total": 0,
+          "safe": 0,
+          "unsafe": [],
+          "rows": []
+        },
+        "reconstruction_valid": true,
+        "cache_identity": {
+          "identity_contract": "enforced_answer_generation_cache_identity_v2",
+          "canonical_enforced_answer_contract_sha256": "cea998983ff1a0c391a17450c09bc10a07249f4ff7a4decba3f71ca9999c8e2b",
+          "exact_generation_request_envelope_sha256": "e0ca8a3236946f2290e874e6cb2254862992fcc68bde10f62cb4f1115e9f49b0",
+          "cache_key_sha256": "288fcdaba907cb3d4e29cb64e6dde481a64ce737eb0b376db9e511fecadce649"
+        }
+      },
+      "answer": "**Respuesta parcial protegida**\n\nLa respuesta generada no superó la validación factual. Con los fragmentos validados puedo confirmar:\n\n- El fragmento no define una RFL para terminar este lazo; lo describe como circuito cerrado: ZX2e/ZX5e: Retorne el final del lazo al otro extremo del conector de lazo; Inicio Lazo (+) OUT / Inicio Lazo (-) OUT; (+) Retorno / (-) Retorno on right panel; complete loop circuit [F12]\n\n- Inicio Lazo (+) OUT / Inicio Lazo (-) OUT on left panel; (+) Retorno / (-) Retorno on right panel [F12]",
+      "manual_review_required": true
+    },
+    {
+      "qid": "hp017",
+      "context_rows": 14,
+      "obligation_kinds": [
+        "cause_effect_rule_behavior",
+        "cause_effect_default_rules_precondition"
+      ],
+      "conflict_values": [
+        "7",
+        "8"
+      ],
+      "obligation_citations": [
+        "[F11]"
+      ],
+      "generation_contract_sha256": "81f8e435a8533a4589627d70512367201305dc73751e3caf155be7910e64a201",
+      "attempted": true,
+      "completed": true,
+      "ambiguous_or_failed": false,
+      "event": "answer_completed",
+      "model": "claude-sonnet-4-6",
+      "max_output_tokens": 3500,
+      "stop_reason": "end_turn",
+      "input_tokens": 15807,
+      "output_tokens": 1596,
+      "answer_sha256": "307e62b70bf11a47b00b4f95bd589cc87b3456577d36817f6634ec7a099dde30",
+      "obligation_citations_present": true,
+      "final_validation": {
+        "total": 2,
+        "covered": 2,
+        "missing": [],
+        "rows": [
+          {
+            "obligation_id": "obl_e8491bc1c321",
+            "fragment_number": 11,
+            "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+            "facet": "served_relation:cause_effect_rule_behavior",
+            "kind": "cause_effect_rule_behavior",
+            "statement": "Regla 1: una regla que diga que para cualquier entrada de alarma todas las sirenas de cada zona deben activarse en modo intermitente* (patrón de alerta).",
+            "required_anchors": [
+              "Regla 1",
+              "cualquier entrada de alarma",
+              "todas las sirenas"
+            ],
+            "source_start": 812,
+            "source_end": 967,
+            "covered": true
+          },
+          {
+            "obligation_id": "obl_e265a4c97a31",
+            "fragment_number": 11,
+            "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+            "facet": "served_relation:cause_effect_default_rules_precondition",
+            "kind": "cause_effect_default_rules_precondition",
+            "statement": "Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto.; **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.",
+            "required_anchors": [
+              "dos reglas",
+              "por defecto",
+              "eliminar"
+            ],
+            "source_start": 2133,
+            "source_end": 2345,
+            "covered": true
+          }
+        ]
+      },
+      "final_conflict_validation": {
+        "total": 1,
+        "safe": 1,
+        "unsafe": [],
+        "rows": [
+          {
+            "conflict_id": "conf_26f63590494f",
+            "kind": "document_value_conflict",
+            "product_scope": "pearl",
+            "operation": "cause_effect_menu_path",
+            "values": [
+              "7",
+              "8"
+            ],
+            "evidence": [
+              {
+                "fragment_number": 11,
+                "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+                "product_scope": "Pearl",
+                "source_file": "997-671-005-3_Configuration_ES",
+                "document_revision": "",
+                "value": "7",
+                "statement": "En el menú «Editar Configuración», seleccione «7: Causa y Efecto» para abrir la función de edición. Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto. **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.**",
+                "source_start": 2033,
+                "source_end": 2347
+              },
+              {
+                "fragment_number": 8,
+                "candidate_id": "51df7a51-4970-4cfc-8ef1-3771f480dd78",
+                "product_scope": "Pearl",
+                "source_file": "997-671-005-3_Configuration_ES",
+                "document_revision": "",
+                "value": "8",
+                "statement": "8:Causa y Efecto",
+                "source_start": 1313,
+                "source_end": 1330
+              }
+            ],
+            "asserted_values": [
+              "7",
+              "8"
+            ],
+            "directive_values": [],
+            "directive_present": false,
+            "disclosed": true,
+            "safe": true
+          }
+        ]
+      },
+      "unsafe_positive_eol_claim": false,
+      "diagnostic_claims": [
+        {
+          "claim_id": "m0.hp017.rule1.2",
+          "deterministic_surface_present": true
+        }
+      ],
+      "answer_planner": {
+        "mode": "enforced",
+        "planner_contract": "answer_planner_s122_v1",
+        "enforcement_policy": "answer_enforcement_s122_v2",
+        "validator_contract": "answer_contract_validator_s122_v1",
+        "renderer_contract": "source_bound_renderer_s122_v1",
+        "conflict_schema": "answer_conflict_s122_v1",
+        "plan": [
+          {
+            "obligation_id": "obl_e8491bc1c321",
+            "fragment_number": 11,
+            "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+            "facet": "served_relation:cause_effect_rule_behavior",
+            "kind": "cause_effect_rule_behavior",
+            "statement": "Regla 1: una regla que diga que para cualquier entrada de alarma todas las sirenas de cada zona deben activarse en modo intermitente* (patrón de alerta).",
+            "required_anchors": [
+              "Regla 1",
+              "cualquier entrada de alarma",
+              "todas las sirenas"
+            ],
+            "source_start": 812,
+            "source_end": 967
+          },
+          {
+            "obligation_id": "obl_e265a4c97a31",
+            "fragment_number": 11,
+            "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+            "facet": "served_relation:cause_effect_default_rules_precondition",
+            "kind": "cause_effect_default_rules_precondition",
+            "statement": "Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto.; **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.",
+            "required_anchors": [
+              "dos reglas",
+              "por defecto",
+              "eliminar"
+            ],
+            "source_start": 2133,
+            "source_end": 2345
+          }
+        ],
+        "enforced_plan": [
+          {
+            "obligation_id": "obl_e8491bc1c321",
+            "fragment_number": 11,
+            "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+            "facet": "served_relation:cause_effect_rule_behavior",
+            "kind": "cause_effect_rule_behavior",
+            "statement": "Regla 1: una regla que diga que para cualquier entrada de alarma todas las sirenas de cada zona deben activarse en modo intermitente* (patrón de alerta).",
+            "required_anchors": [
+              "Regla 1",
+              "cualquier entrada de alarma",
+              "todas las sirenas"
+            ],
+            "source_start": 812,
+            "source_end": 967
+          },
+          {
+            "obligation_id": "obl_e265a4c97a31",
+            "fragment_number": 11,
+            "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+            "facet": "served_relation:cause_effect_default_rules_precondition",
+            "kind": "cause_effect_default_rules_precondition",
+            "statement": "Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto.; **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.",
+            "required_anchors": [
+              "dos reglas",
+              "por defecto",
+              "eliminar"
+            ],
+            "source_start": 2133,
+            "source_end": 2345
+          }
+        ],
+        "deferred_obligations": [],
+        "observed_validation": {
+          "total": 2,
+          "covered": 0,
+          "missing": [
+            {
+              "obligation_id": "obl_e8491bc1c321",
+              "fragment_number": 11,
+              "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+              "facet": "served_relation:cause_effect_rule_behavior",
+              "kind": "cause_effect_rule_behavior",
+              "statement": "Regla 1: una regla que diga que para cualquier entrada de alarma todas las sirenas de cada zona deben activarse en modo intermitente* (patrón de alerta).",
+              "required_anchors": [
+                "Regla 1",
+                "cualquier entrada de alarma",
+                "todas las sirenas"
+              ],
+              "source_start": 812,
+              "source_end": 967,
+              "covered": false
+            },
+            {
+              "obligation_id": "obl_e265a4c97a31",
+              "fragment_number": 11,
+              "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+              "facet": "served_relation:cause_effect_default_rules_precondition",
+              "kind": "cause_effect_default_rules_precondition",
+              "statement": "Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto.; **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.",
+              "required_anchors": [
+                "dos reglas",
+                "por defecto",
+                "eliminar"
+              ],
+              "source_start": 2133,
+              "source_end": 2345,
+              "covered": false
+            }
+          ],
+          "rows": [
+            {
+              "obligation_id": "obl_e8491bc1c321",
+              "fragment_number": 11,
+              "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+              "facet": "served_relation:cause_effect_rule_behavior",
+              "kind": "cause_effect_rule_behavior",
+              "statement": "Regla 1: una regla que diga que para cualquier entrada de alarma todas las sirenas de cada zona deben activarse en modo intermitente* (patrón de alerta).",
+              "required_anchors": [
+                "Regla 1",
+                "cualquier entrada de alarma",
+                "todas las sirenas"
+              ],
+              "source_start": 812,
+              "source_end": 967,
+              "covered": false
+            },
+            {
+              "obligation_id": "obl_e265a4c97a31",
+              "fragment_number": 11,
+              "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+              "facet": "served_relation:cause_effect_default_rules_precondition",
+              "kind": "cause_effect_default_rules_precondition",
+              "statement": "Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto.; **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.",
+              "required_anchors": [
+                "dos reglas",
+                "por defecto",
+                "eliminar"
+              ],
+              "source_start": 2133,
+              "source_end": 2345,
+              "covered": false
+            }
+          ]
+        },
+        "conflicts": [
+          {
+            "conflict_id": "conf_26f63590494f",
+            "kind": "document_value_conflict",
+            "product_scope": "pearl",
+            "operation": "cause_effect_menu_path",
+            "values": [
+              "7",
+              "8"
+            ],
+            "evidence": [
+              {
+                "fragment_number": 11,
+                "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+                "product_scope": "Pearl",
+                "source_file": "997-671-005-3_Configuration_ES",
+                "document_revision": "",
+                "value": "7",
+                "statement": "En el menú «Editar Configuración», seleccione «7: Causa y Efecto» para abrir la función de edición. Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto. **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.**",
+                "source_start": 2033,
+                "source_end": 2347
+              },
+              {
+                "fragment_number": 8,
+                "candidate_id": "51df7a51-4970-4cfc-8ef1-3771f480dd78",
+                "product_scope": "Pearl",
+                "source_file": "997-671-005-3_Configuration_ES",
+                "document_revision": "",
+                "value": "8",
+                "statement": "8:Causa y Efecto",
+                "source_start": 1313,
+                "source_end": 1330
+              }
+            ]
+          }
+        ],
+        "initial_validation": {
+          "total": 2,
+          "covered": 0,
+          "missing": [
+            {
+              "obligation_id": "obl_e8491bc1c321",
+              "fragment_number": 11,
+              "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+              "facet": "served_relation:cause_effect_rule_behavior",
+              "kind": "cause_effect_rule_behavior",
+              "statement": "Regla 1: una regla que diga que para cualquier entrada de alarma todas las sirenas de cada zona deben activarse en modo intermitente* (patrón de alerta).",
+              "required_anchors": [
+                "Regla 1",
+                "cualquier entrada de alarma",
+                "todas las sirenas"
+              ],
+              "source_start": 812,
+              "source_end": 967,
+              "covered": false
+            },
+            {
+              "obligation_id": "obl_e265a4c97a31",
+              "fragment_number": 11,
+              "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+              "facet": "served_relation:cause_effect_default_rules_precondition",
+              "kind": "cause_effect_default_rules_precondition",
+              "statement": "Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto.; **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.",
+              "required_anchors": [
+                "dos reglas",
+                "por defecto",
+                "eliminar"
+              ],
+              "source_start": 2133,
+              "source_end": 2345,
+              "covered": false
+            }
+          ],
+          "rows": [
+            {
+              "obligation_id": "obl_e8491bc1c321",
+              "fragment_number": 11,
+              "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+              "facet": "served_relation:cause_effect_rule_behavior",
+              "kind": "cause_effect_rule_behavior",
+              "statement": "Regla 1: una regla que diga que para cualquier entrada de alarma todas las sirenas de cada zona deben activarse en modo intermitente* (patrón de alerta).",
+              "required_anchors": [
+                "Regla 1",
+                "cualquier entrada de alarma",
+                "todas las sirenas"
+              ],
+              "source_start": 812,
+              "source_end": 967,
+              "covered": false
+            },
+            {
+              "obligation_id": "obl_e265a4c97a31",
+              "fragment_number": 11,
+              "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+              "facet": "served_relation:cause_effect_default_rules_precondition",
+              "kind": "cause_effect_default_rules_precondition",
+              "statement": "Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto.; **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.",
+              "required_anchors": [
+                "dos reglas",
+                "por defecto",
+                "eliminar"
+              ],
+              "source_start": 2133,
+              "source_end": 2345,
+              "covered": false
+            }
+          ]
+        },
+        "initial_conflict_validation": {
+          "total": 1,
+          "safe": 0,
+          "unsafe": [
+            {
+              "conflict_id": "conf_26f63590494f",
+              "kind": "document_value_conflict",
+              "product_scope": "pearl",
+              "operation": "cause_effect_menu_path",
+              "values": [
+                "7",
+                "8"
+              ],
+              "evidence": [
+                {
+                  "fragment_number": 11,
+                  "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+                  "product_scope": "Pearl",
+                  "source_file": "997-671-005-3_Configuration_ES",
+                  "document_revision": "",
+                  "value": "7",
+                  "statement": "En el menú «Editar Configuración», seleccione «7: Causa y Efecto» para abrir la función de edición. Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto. **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.**",
+                  "source_start": 2033,
+                  "source_end": 2347
+                },
+                {
+                  "fragment_number": 8,
+                  "candidate_id": "51df7a51-4970-4cfc-8ef1-3771f480dd78",
+                  "product_scope": "Pearl",
+                  "source_file": "997-671-005-3_Configuration_ES",
+                  "document_revision": "",
+                  "value": "8",
+                  "statement": "8:Causa y Efecto",
+                  "source_start": 1313,
+                  "source_end": 1330
+                }
+              ],
+              "asserted_values": [
+                "7",
+                "8"
+              ],
+              "directive_values": [
+                "8"
+              ],
+              "directive_present": true,
+              "disclosed": false,
+              "safe": false
+            }
+          ],
+          "rows": [
+            {
+              "conflict_id": "conf_26f63590494f",
+              "kind": "document_value_conflict",
+              "product_scope": "pearl",
+              "operation": "cause_effect_menu_path",
+              "values": [
+                "7",
+                "8"
+              ],
+              "evidence": [
+                {
+                  "fragment_number": 11,
+                  "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+                  "product_scope": "Pearl",
+                  "source_file": "997-671-005-3_Configuration_ES",
+                  "document_revision": "",
+                  "value": "7",
+                  "statement": "En el menú «Editar Configuración», seleccione «7: Causa y Efecto» para abrir la función de edición. Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto. **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.**",
+                  "source_start": 2033,
+                  "source_end": 2347
+                },
+                {
+                  "fragment_number": 8,
+                  "candidate_id": "51df7a51-4970-4cfc-8ef1-3771f480dd78",
+                  "product_scope": "Pearl",
+                  "source_file": "997-671-005-3_Configuration_ES",
+                  "document_revision": "",
+                  "value": "8",
+                  "statement": "8:Causa y Efecto",
+                  "source_start": 1313,
+                  "source_end": 1330
+                }
+              ],
+              "asserted_values": [
+                "7",
+                "8"
+              ],
+              "directive_values": [
+                "8"
+              ],
+              "directive_present": true,
+              "disclosed": false,
+              "safe": false
+            }
+          ]
+        },
+        "action": "fail_closed",
+        "query_core_coverage": false,
+        "validation": {
+          "total": 2,
+          "covered": 2,
+          "missing": [],
+          "rows": [
+            {
+              "obligation_id": "obl_e8491bc1c321",
+              "fragment_number": 11,
+              "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+              "facet": "served_relation:cause_effect_rule_behavior",
+              "kind": "cause_effect_rule_behavior",
+              "statement": "Regla 1: una regla que diga que para cualquier entrada de alarma todas las sirenas de cada zona deben activarse en modo intermitente* (patrón de alerta).",
+              "required_anchors": [
+                "Regla 1",
+                "cualquier entrada de alarma",
+                "todas las sirenas"
+              ],
+              "source_start": 812,
+              "source_end": 967,
+              "covered": true
+            },
+            {
+              "obligation_id": "obl_e265a4c97a31",
+              "fragment_number": 11,
+              "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+              "facet": "served_relation:cause_effect_default_rules_precondition",
+              "kind": "cause_effect_default_rules_precondition",
+              "statement": "Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto.; **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.",
+              "required_anchors": [
+                "dos reglas",
+                "por defecto",
+                "eliminar"
+              ],
+              "source_start": 2133,
+              "source_end": 2345,
+              "covered": true
+            }
+          ]
+        },
+        "conflict_validation": {
+          "total": 1,
+          "safe": 1,
+          "unsafe": [],
+          "rows": [
+            {
+              "conflict_id": "conf_26f63590494f",
+              "kind": "document_value_conflict",
+              "product_scope": "pearl",
+              "operation": "cause_effect_menu_path",
+              "values": [
+                "7",
+                "8"
+              ],
+              "evidence": [
+                {
+                  "fragment_number": 11,
+                  "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+                  "product_scope": "Pearl",
+                  "source_file": "997-671-005-3_Configuration_ES",
+                  "document_revision": "",
+                  "value": "7",
+                  "statement": "En el menú «Editar Configuración», seleccione «7: Causa y Efecto» para abrir la función de edición. Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto. **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.**",
+                  "source_start": 2033,
+                  "source_end": 2347
+                },
+                {
+                  "fragment_number": 8,
+                  "candidate_id": "51df7a51-4970-4cfc-8ef1-3771f480dd78",
+                  "product_scope": "Pearl",
+                  "source_file": "997-671-005-3_Configuration_ES",
+                  "document_revision": "",
+                  "value": "8",
+                  "statement": "8:Causa y Efecto",
+                  "source_start": 1313,
+                  "source_end": 1330
+                }
+              ],
+              "asserted_values": [
+                "7",
+                "8"
+              ],
+              "directive_values": [],
+              "directive_present": false,
+              "disclosed": true,
+              "safe": true
+            }
+          ]
+        },
+        "reconstruction_valid": true,
+        "cache_identity": {
+          "identity_contract": "enforced_answer_generation_cache_identity_v2",
+          "canonical_enforced_answer_contract_sha256": "b1a6bd4646b8a8f585a088c71306218c7a97691a59c982e3029974126d4d2122",
+          "exact_generation_request_envelope_sha256": "c4dcf74e60eddc5f1087785c0aa2547cf214620072a78703748bb386976d72a7",
+          "cache_key_sha256": "cdd333fbf3ad91385f3a8397b9a3ea36e5d25be266f201fe6a8e309b38d206e9"
+        }
+      },
+      "answer": "**Información parcial protegida — procedimiento no completado**\n\nNo puedo reconstruir de forma segura el procedimiento completo solicitado. Consulta el manual y la revisión exactos antes de actuar. Sí puedo confirmar estos prerrequisitos:\n\n- Regla 1: cualquier entrada de alarma activa todas las sirenas [F11]\n\n- Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto.; **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas. [F11]\n\n- Los fragmentos discrepan para cause_effect_menu_path: [F11] indica 7: Causa y Efecto; [F8] indica 8: Causa y Efecto. No selecciones un numero de menu hasta confirmar el manual y la revision exactos.",
+      "manual_review_required": true
+    }
+  ],
+  "limitations": [
+    "No fact moves to OK before local atomic and adversarial adjudication.",
+    "The provider model is held constant with S121 to isolate enforcement.",
+    "A persisted ambiguous attempt is never retried automatically.",
+    "The probe performs no retrieval, rerank, judge or database work."
+  ]
+}

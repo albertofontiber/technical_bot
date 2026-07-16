@@ -1,0 +1,43 @@
+instrument: s117_m25_projection_prereg_v1
+status: frozen_before_seeded_projection
+scope:
+  purpose: local_fail_closed_document_binding_projection_only
+  allowed: [local_snapshot_read, local_raw_store_read, local_sidecar_read, local_derived_snapshot_write, local_eval_write]
+  forbidden: [database_access, env_file, model_calls, vector_payloads, database_writes, load, serving, deploy]
+frozen_inputs:
+  primary_freeze: {path: evals/s117_m25_primary_binding_freeze_v1.yaml, sha256: 9d8046ce612107f838921184599820601bc5010ed47f70bbcc778429999c1e83}
+  primary_runner: {path: scripts/s117_m25_freeze_primary_binding.py, sha256: ffd945f37d2573f4204f72868dfb40b5f85b6172218ad00053a7ff68c503c0f4}
+  primary_baseline: {path: evals/s117_m25_primary_binding_baseline_v1.json, sha256: bd7b24e93f730f5bbecd688cacc8fb233abdac07b68096ec934327670df4e626}
+  design_v2: {path: evals/s117_m25_document_binding_fallback_design_v2.md, sha256: 0bc223d5140d4e62827564aaa476d613f99dbfd97fb2a85576960a07b6699fca}
+  projection_runner: {path: scripts/s117_m25_project_document_binding.py, sha256: 5218e1465c85b3b301477db13d7aaa1804ed506f8d9e53c5e2553fb03f578692}
+  projection_tests: {path: tests/test_s117_m25_project_document_binding.py, sha256: 77a0ce79130e9405c94515c21f4e1b62be49be0ae25cf6c5ed7629c58121b31e}
+  m2_prereg: {path: evals/s117_m2_legacy_reuse_prereg_v26.yaml, sha256: 2990ece8c14ebc4a84f666cd27ccc515f20d144cecb655b88c771d2ddca8211c}
+  m2_analyzer: {path: scripts/s117_m2_legacy_reuse_analysis.py, sha256: b53632cb50009c5d41236af1c79c5c2c6d4631cf7f551729f442b8c962dc25ba}
+  m2_seed_baseline: {path: evals/s117_m2_legacy_reuse_replay_seed1_v1.json, sha256: d62ed7647366b22e9642974b5646f669ac80b8c0af4b4353a7e5cef742b5d334}
+  snapshot:
+    path: tmp/s117_m2/remote_snapshot_v1.jsonl.gz
+    sha256: 3013c553da20c72fbfe0dc801dad4ea4b063ecff3138dcf55b5cd7831cf79067
+    canonical_jsonl_sha256: c5c4e1027d85b5023e8834e221bb99799fedbea1a9826f5a42f88ff3ad8da8d5
+selected_paths:
+  snapshot: tmp/s117_m2/remote_snapshot_v1.jsonl.gz
+  primary_baseline: evals/s117_m25_primary_binding_baseline_v1.json
+  derived_snapshot: tmp/s117_m25/derived_snapshot_v1.jsonl.gz
+  m2_prereg: evals/s117_m2_legacy_reuse_prereg_v26.yaml
+  m2_seed_baseline: evals/s117_m2_legacy_reuse_replay_seed1_v1.json
+seeded_gate:
+  seeds: [1, 2]
+  require_byte_identical_outputs: true
+  require_primary_receipts: 1068
+  require_primary_manifest_sha256: d1c98e4a35695513c2377fb5e47636aec37234ae9c16bb27123f8921aaf52302
+  require_original_m2_baseline_exact: true
+  require_in_process_projection_determinism: true
+  require_all_projection_checks: true
+cost_contract:
+  actual_projection_database_reads: 0
+  actual_projection_database_writes: 0
+  model_calls: 0
+  vector_payloads_read: 0
+  note: any_nested_m2_database_read_count_describes_the_historical_frozen_snapshot_capture_only
+claim_contract:
+  authority: candidate_only_non_authorizing
+  prohibited_claims: [production_ready, migration_GO, load_GO, serving_GO, causal_OK_improvement]

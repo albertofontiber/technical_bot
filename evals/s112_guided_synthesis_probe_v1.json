@@ -1,0 +1,732 @@
+{
+  "instrument": "s112_guided_synthesis_probe_v1",
+  "production_writes": 0,
+  "railway_changed": false,
+  "planner_mode": "guided",
+  "gate": {
+    "queries": 5,
+    "requested_this_run": [
+      "cat016",
+      "cat018",
+      "hp001"
+    ],
+    "paid_generator_calls_available": 4,
+    "historical_paid_calls_superseded_by_conflict": 1,
+    "paid_reranker_calls": 0,
+    "llm_judge_calls": 0,
+    "input_tokens": 55722,
+    "output_tokens": 3756,
+    "deterministic_candidate_facts_present": 5,
+    "deterministic_candidate_facts_total": 6,
+    "all_obligations_covered_qids": [
+      "cat016",
+      "hp001",
+      "hp003"
+    ],
+    "manual_review_required_qids": [
+      "cat016",
+      "cat018",
+      "hp001",
+      "hp003"
+    ],
+    "interpretation": "MEASURED_GUIDED_PROBE_PENDING_MANUAL_REVIEW"
+  },
+  "rows": [
+    {
+      "qid": "cat016",
+      "prompt_sha256": "5087647885e29c4f4323470d6209901e132ec2ca907a10005b9ef47b5baa4c72",
+      "context_rows": 10,
+      "content_chars": 18679,
+      "obligation_kinds": [
+        "commissioning_menu_bundle"
+      ],
+      "obligation_citations": [
+        "[F1]"
+      ],
+      "checkpoint_reusable": false,
+      "checkpoint_superseded_by_conflict_gate": false,
+      "executed": true,
+      "historical_probe": null,
+      "model": "claude-sonnet-4-6",
+      "max_output_tokens": 3500,
+      "stop_reason": "end_turn",
+      "input_tokens": 13598,
+      "output_tokens": 944,
+      "facts": [
+        {
+          "fact_key": "cat016#1:menu ZONA + ELEMENTO",
+          "present": true
+        }
+      ],
+      "all_facts_present": true,
+      "all_obligations_covered": true,
+      "obligation_citations_present": true,
+      "answer_planner": {
+        "mode": "guided",
+        "plan": [
+          {
+            "obligation_id": "obl_ae759e820316",
+            "fragment_number": 1,
+            "candidate_id": "294a778c-1dca-40de-8a1b-a9f0c471ea36",
+            "facet": "served_relation:commissioning_menu_bundle",
+            "kind": "commissioning_menu_bundle",
+            "statement": "Para realizar la autobusqueda acceda al *menú BUCLE*.; Para crear y asignarlas zonas a los elementos acceda al menú ZONA.; Para nombrarlos y asignarles zona acceda *al menú ELEMENTOS*.",
+            "required_anchors": [
+              "menu BUCLE",
+              "menu ZONA",
+              "menu ELEMENTOS"
+            ],
+            "source_start": 290,
+            "source_end": 784
+          }
+        ],
+        "validation": {
+          "total": 1,
+          "covered": 1,
+          "missing": [],
+          "rows": [
+            {
+              "obligation_id": "obl_ae759e820316",
+              "fragment_number": 1,
+              "candidate_id": "294a778c-1dca-40de-8a1b-a9f0c471ea36",
+              "facet": "served_relation:commissioning_menu_bundle",
+              "kind": "commissioning_menu_bundle",
+              "statement": "Para realizar la autobusqueda acceda al *menú BUCLE*.; Para crear y asignarlas zonas a los elementos acceda al menú ZONA.; Para nombrarlos y asignarles zona acceda *al menú ELEMENTOS*.",
+              "required_anchors": [
+                "menu BUCLE",
+                "menu ZONA",
+                "menu ELEMENTOS"
+              ],
+              "source_start": 290,
+              "source_end": 784,
+              "covered": true
+            }
+          ]
+        }
+      },
+      "answer": "# CAD-150-8: Alta de detector nuevo en lazo y prueba funcional\n\n## PASO 1 — Verificación previa al alta (antes de encender)\n\nAntes de dar de alta el detector, verifica lo siguiente [F8]:\n- Que no existen cortocircuitos ni circuitos abiertos en el lazo (comprueba con voltímetro/tester)\n- Que el cableado del lazo está correctamente instalado\n\n---\n\n## PASO 2 — Autobúsqueda del lazo (dar de alta el detector)\n\nUna vez conectado físicamente el detector al lazo [F1]:\n\n1. Accede al **menú BUCLE** desde el teclado de la central\n2. Ejecuta la **autobúsqueda** del lazo correspondiente\n3. El sistema realizará un escaneo y mostrará todos los elementos que detecta\n4. **Comprueba que el resultado coincide con los planos de la instalación** — el nuevo detector debe aparecer en el listado [F1]\n\n---\n\n## PASO 3 — Configurar zonas\n\n1. Accede al **menú ZONA** [F1]\n2. Crea la zona si es nueva, o asigna el detector a una zona existente\n\n---\n\n## PASO 4 — Configurar el elemento (nombre y zona)\n\n1. Accede al **menú ELEMENTOS** [F1]\n2. Selecciona el bucle y la dirección del nuevo detector\n3. Asigna:\n   - **Nombre/texto** identificativo\n   - **Zona** de ubicación\n4. Puedes verificar el estado del detector desde el submenú **VER** del menú ELEMENTO, donde se muestran los campos [F2]:\n   - **TIPO**: tipo de detector (óptico, térmico, etc.)\n   - **MODO**: conectado / desconectado / en prueba\n   - **VA**: valor analógico del detector\n   - **TEXTO**: denominación asignada\n\n---\n\n## PASO 5 — Prueba funcional del detector\n\n1. Accede al **menú ZONA** → submenú **PRUEBA** [F3]\n2. Introduce el **rango de zonas** a poner en prueba (incluye la zona del nuevo detector)\n3. El sistema preguntará: **¿ACTIVAR SIRENAS? [SI/NO]** [F3]\n   - **SI**: las sirenas se activarán unos segundos tras la alarma del detector y se silenciarán automáticamente\n   - **NO**: la prueba se realiza sin activar sirenas\n4. Activa el detector (aerosol, calor, etc.) y verifica que la central registra la alarma\n5. **Importante**: si en **20 minutos** no se produce ningún disparo de alarma, el sistema cancela automáticamente el modo prueba y vuelve al estado normal [F3]\n6. Para **salir del modo prueba**, conecta la zona desde el menú ZONA → **CONECTAR** [F3]\n\n> ⚠️ **Ventaja del modo prueba**: permite probar los detectores **sin necesidad de rearmar la central** tras cada disparo, y anula cualquier retardo de sirenas configurado para agilizar la prueba [F3]\n\n---\n\n**Fuentes:**\n- `55315013 Manual Centrales Analógicas CAD-150-8 Instalación ES FR GB IT` (sin revisión registrada)\n- `55315008 Manual Centrales Analógicas CAD-150-8 Usuario ES FR GB IT` (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **desconexión temporal de un detector**, **configuración de maniobras** o **mantenimiento periódico** de la CAD-150-8.",
+      "manual_review_required": true,
+      "local_validation": {
+        "total": 1,
+        "covered": 1,
+        "missing": [],
+        "rows": [
+          {
+            "obligation_id": "obl_ae759e820316",
+            "fragment_number": 1,
+            "candidate_id": "294a778c-1dca-40de-8a1b-a9f0c471ea36",
+            "facet": "served_relation:commissioning_menu_bundle",
+            "kind": "commissioning_menu_bundle",
+            "statement": "Para realizar la autobusqueda acceda al *menú BUCLE*.; Para crear y asignarlas zonas a los elementos acceda al menú ZONA.; Para nombrarlos y asignarles zona acceda *al menú ELEMENTOS*.",
+            "required_anchors": [
+              "menu BUCLE",
+              "menu ZONA",
+              "menu ELEMENTOS"
+            ],
+            "source_start": 290,
+            "source_end": 784,
+            "covered": true
+          }
+        ]
+      }
+    },
+    {
+      "qid": "cat018",
+      "prompt_sha256": "967070c5b6e9ddb2f1efa2fa0031717d86e90cc6432aced1261a5a95d47e985c",
+      "context_rows": 13,
+      "content_chars": 18451,
+      "obligation_kinds": [
+        "output_software_type",
+        "point_programming_fields"
+      ],
+      "obligation_citations": [
+        "[F11]",
+        "[F3]"
+      ],
+      "checkpoint_reusable": false,
+      "checkpoint_superseded_by_conflict_gate": false,
+      "executed": true,
+      "historical_probe": null,
+      "model": "claude-sonnet-4-6",
+      "max_output_tokens": 3500,
+      "stop_reason": "end_turn",
+      "input_tokens": 14352,
+      "output_tokens": 1507,
+      "facts": [
+        {
+          "fact_key": "cat018#1:pestana Programacion: Zona + CBE",
+          "present": false
+        },
+        {
+          "fact_key": "cat018#2:Tipo SW / asociacion CBE",
+          "present": true
+        }
+      ],
+      "all_facts_present": false,
+      "all_obligations_covered": false,
+      "obligation_citations_present": true,
+      "answer_planner": {
+        "mode": "guided",
+        "plan": [
+          {
+            "obligation_id": "obl_7bba8d03d496",
+            "fragment_number": 3,
+            "candidate_id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+            "facet": "served_relation:point_programming_fields",
+            "kind": "point_programming_fields",
+            "statement": "## Pestaña Programa (Programación ecuaciones CBE, asociación zona); **Zona** - número de zona asignada; **CBE** - ecuación CBE del punto.; **CBE** (Control By Events), son las ecuaciones que sirven para activar un comando en función de un evento.",
+            "required_anchors": [
+              "Pestana Programa",
+              "Zona",
+              "CBE"
+            ],
+            "source_start": 0,
+            "source_end": 1526
+          },
+          {
+            "obligation_id": "obl_5784f16b1a11",
+            "fragment_number": 11,
+            "candidate_id": "d85a9a89-e469-473a-b345-ee7c77783127",
+            "facet": "served_relation:output_software_type",
+            "kind": "output_software_type",
+            "statement": "Esta función permite la anulación de la salida sirena y todos los módulos de salida programados con tipo-SW «SND» (abrazaderas CNU-17 y CNU18 de la tarjeta principal).",
+            "required_anchors": [
+              "modulos de salida",
+              "tipo-SW",
+              "snd"
+            ],
+            "source_start": 183,
+            "source_end": 350
+          }
+        ],
+        "validation": {
+          "total": 2,
+          "covered": 1,
+          "missing": [
+            {
+              "obligation_id": "obl_7bba8d03d496",
+              "fragment_number": 3,
+              "candidate_id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+              "facet": "served_relation:point_programming_fields",
+              "kind": "point_programming_fields",
+              "statement": "## Pestaña Programa (Programación ecuaciones CBE, asociación zona); **Zona** - número de zona asignada; **CBE** - ecuación CBE del punto.; **CBE** (Control By Events), son las ecuaciones que sirven para activar un comando en función de un evento.",
+              "required_anchors": [
+                "Pestana Programa",
+                "Zona",
+                "CBE"
+              ],
+              "source_start": 0,
+              "source_end": 1526,
+              "covered": false
+            }
+          ],
+          "rows": [
+            {
+              "obligation_id": "obl_7bba8d03d496",
+              "fragment_number": 3,
+              "candidate_id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+              "facet": "served_relation:point_programming_fields",
+              "kind": "point_programming_fields",
+              "statement": "## Pestaña Programa (Programación ecuaciones CBE, asociación zona); **Zona** - número de zona asignada; **CBE** - ecuación CBE del punto.; **CBE** (Control By Events), son las ecuaciones que sirven para activar un comando en función de un evento.",
+              "required_anchors": [
+                "Pestana Programa",
+                "Zona",
+                "CBE"
+              ],
+              "source_start": 0,
+              "source_end": 1526,
+              "covered": false
+            },
+            {
+              "obligation_id": "obl_5784f16b1a11",
+              "fragment_number": 11,
+              "candidate_id": "d85a9a89-e469-473a-b345-ee7c77783127",
+              "facet": "served_relation:output_software_type",
+              "kind": "output_software_type",
+              "statement": "Esta función permite la anulación de la salida sirena y todos los módulos de salida programados con tipo-SW «SND» (abrazaderas CNU-17 y CNU18 de la tarjeta principal).",
+              "required_anchors": [
+                "modulos de salida",
+                "tipo-SW",
+                "snd"
+              ],
+              "source_start": 183,
+              "source_end": 350,
+              "covered": true
+            }
+          ]
+        }
+      },
+      "answer": "# Programación de ecuación CBE en la AM-8200 para activar una salida\n\n## Concepto básico\n\nLas ecuaciones **CBE (Control By Events)** permiten programar condiciones lógicas que la central evalúa cuando un punto, zona o grupo está **ACTIVO**, ejecutando las actuaciones programadas [F1]. Para un módulo de salida, la CBE contiene las direcciones de los objetos (sensores, módulos de entrada o grupos) que lo activarán [F1].\n\n---\n\n## Procedimiento paso a paso\n\n### 1. Acceder al punto de salida\n\nNavega en el menú a la programación del módulo de salida:\n`MENU PROGRAMMAZIONE \\ Punti \\ Sensori` [F3]\n\n### 2. Seleccionar el campo CBE\n\n- Usa las teclas **▲▼** para seleccionar el parámetro **CBE** [F3]\n- Pulsa la tecla de confirmación **☑** para entrar en edición [F3]\n- Si ya existe una ecuación, se mostrará; si no, el campo estará vacío [F3]\n- **Longitud máxima de la CBE: 64 caracteres** [F3]\n\n### 3. Escribir la ecuación\n\nUsa el teclado alfanumérico del panel. Los operadores disponibles son: **NOT, AND, OR, DEL, SDEL, XGRP, TIM, DIS, PRE, FLT** [F3].\n\n> ⚠️ **Regla crítica de sintaxis:** escribe la ecuación **sin espacios** entre caracteres. Si usas más de un operador, el primer carácter debe ser `(` y el último `)` [F1].\n\n### 4. Confirmar\n\nPulsa **Enter** para confirmar la ecuación introducida [F3].\n\n---\n\n## Opciones de programación para activar una salida\n\nEl manual describe **tres opciones equivalentes** para activar el módulo de salida `C1L1M1` desde el detector `C1L1S1` [F8]:\n\n- **Opción A** — Vía grupo software:\n  - Ecuación del detector: `(G1)`\n  - Ecuación del módulo de salida: `(G1)`\n\n- **Opción B** — El módulo referencia directamente al sensor:\n  - Ecuación del detector: *(sin especificar en el fragmento)*\n  - Ecuación del módulo de salida: `(C1L1S1)`\n\n- **Opción C** — El detector referencia directamente al módulo:\n  - Ecuación del detector: `(C1L1M1)`\n  - Ecuación del módulo de salida: *(sin especificar en el fragmento)*\n\n---\n\n## Operadores más habituales para activar salidas\n\n**OR** — Al menos UN operando activo activa la salida [F4]:\n```\nOR(G9 G15 G23)\n```\n→ Si cualquiera de los grupos G9, G15 o G23 entra en alarma, el módulo se activa. También se puede omitir el operador OR: `(G9 G15 G23)` [F4]\n\n**AND** — TODOS los operandos deben estar activos [F4]:\n```\nAND(G9 G15 G23)\n```\n→ Solo si los tres grupos están simultáneamente en alarma se activa la salida.\n\n**NOT** — La salida permanece activa mientras el operando NO esté en alarma [F4]:\n```\nNOT(G23)\n```\n→ El módulo se desactiva cuando G23 entra en alarma.\n\n**XGRP** — Al menos DOS elementos del grupo indicado deben estar activos (doble coincidencia) [F5]:\n```\nXGRP(G23)\n```\n> ⚠️ No se permite usar más de un grupo con XGRP: `XGRP(G23 G24)` es **CBE no válida** [F5].\n\n**PRE** — Activa la salida cuando un sensor está en **pre-alarma** [F7]:\n```\nOR(PRE(C1L1S2)PRE(C2L1S10))\n```\n\n**FLT** — Activa la salida cuando un dispositivo o zona está en **avería** [F6]:\n```\nOR(FLT(Z1)FLT(Z2))\n```\n\n---\n\n## Reglas de sintaxis importantes\n\n- **Para módulos de salida:** la CBE contiene direcciones de sensores, módulos de entrada o grupos [F1].\n- **Para sensores/módulos de entrada:** la CBE contiene direcciones de módulos de salida o grupos, escritos en secuencia sin operadores [F1].\n- **La central rechaza ecuaciones con errores de sintaxis** [F1].\n- **No se puede programar una CBE para un módulo de salida si tiene tipo ID para señalizaciones generales** [F4].\n- Para grupos directos: los operandos deben tener índice **mayor** que el grupo al que se asocia la CBE. Para grupos inversos: los operandos deben tener índice **menor** [F4].\n\n---\n\n## Nota sobre anulación de salidas\n\nCuando se activa la anulación de salida sirena, la central retarda las salidas durante los tiempos programados en `Prog\\Sist\\Tiempos\\Salidas` [F11]. Esto afecta a todos los módulos de salida programados con tipo-SW **SND** [F11].\n\n---\n\n**Fuente:** AM-8200 Manual de programación — Doc. M-162.1-AM8200-ESP Rev A.3 (Honeywell Life Safety Iberia)\n\n---\n\nTambién puedo ayudarte con: **operadores DEL/SDEL para retardos en CBE**, **programación de grupos software (directos e inversos)** o **asignación de tipo-SW a módulos de salida** en la AM-8200.",
+      "manual_review_required": true,
+      "local_validation": {
+        "total": 2,
+        "covered": 1,
+        "missing": [
+          {
+            "obligation_id": "obl_7bba8d03d496",
+            "fragment_number": 3,
+            "candidate_id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+            "facet": "served_relation:point_programming_fields",
+            "kind": "point_programming_fields",
+            "statement": "## Pestaña Programa (Programación ecuaciones CBE, asociación zona); **Zona** - número de zona asignada; **CBE** - ecuación CBE del punto.; **CBE** (Control By Events), son las ecuaciones que sirven para activar un comando en función de un evento.",
+            "required_anchors": [
+              "Pestana Programa",
+              "Zona",
+              "CBE"
+            ],
+            "source_start": 0,
+            "source_end": 1526,
+            "covered": false
+          }
+        ],
+        "rows": [
+          {
+            "obligation_id": "obl_7bba8d03d496",
+            "fragment_number": 3,
+            "candidate_id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+            "facet": "served_relation:point_programming_fields",
+            "kind": "point_programming_fields",
+            "statement": "## Pestaña Programa (Programación ecuaciones CBE, asociación zona); **Zona** - número de zona asignada; **CBE** - ecuación CBE del punto.; **CBE** (Control By Events), son las ecuaciones que sirven para activar un comando en función de un evento.",
+            "required_anchors": [
+              "Pestana Programa",
+              "Zona",
+              "CBE"
+            ],
+            "source_start": 0,
+            "source_end": 1526,
+            "covered": false
+          },
+          {
+            "obligation_id": "obl_5784f16b1a11",
+            "fragment_number": 11,
+            "candidate_id": "d85a9a89-e469-473a-b345-ee7c77783127",
+            "facet": "served_relation:output_software_type",
+            "kind": "output_software_type",
+            "statement": "Esta función permite la anulación de la salida sirena y todos los módulos de salida programados con tipo-SW «SND» (abrazaderas CNU-17 y CNU18 de la tarjeta principal).",
+            "required_anchors": [
+              "modulos de salida",
+              "tipo-SW",
+              "snd"
+            ],
+            "source_start": 183,
+            "source_end": 350,
+            "covered": true
+          }
+        ]
+      }
+    },
+    {
+      "qid": "hp001",
+      "prompt_sha256": "673ecb9b12f7a69540d7e6ae3a8df6a85125ff67b6fbc9e9f44448235968380f",
+      "context_rows": 10,
+      "content_chars": 19955,
+      "obligation_kinds": [
+        "credential_administrator",
+        "credential_user"
+      ],
+      "obligation_citations": [
+        "[F2]",
+        "[F4]"
+      ],
+      "checkpoint_reusable": false,
+      "checkpoint_superseded_by_conflict_gate": false,
+      "executed": true,
+      "historical_probe": null,
+      "model": "claude-sonnet-4-6",
+      "max_output_tokens": 3500,
+      "stop_reason": "end_turn",
+      "input_tokens": 13861,
+      "output_tokens": 744,
+      "facts": [
+        {
+          "fact_key": "hp001#2:1111",
+          "present": true
+        }
+      ],
+      "all_facts_present": true,
+      "all_obligations_covered": true,
+      "obligation_citations_present": true,
+      "answer_planner": {
+        "mode": "guided",
+        "plan": [
+          {
+            "obligation_id": "obl_614f09afb469",
+            "fragment_number": 2,
+            "candidate_id": "9bd17466-1a22-4ade-bb16-a44624c9f166",
+            "facet": "served_relation:credential_administrator",
+            "kind": "credential_administrator",
+            "statement": "Introduzca la clave de administrador por defecto, 2222.",
+            "required_anchors": [
+              "administrador",
+              "2222",
+              "por defecto"
+            ],
+            "source_start": 2083,
+            "source_end": 2138
+          },
+          {
+            "obligation_id": "obl_d7a62cc3ae36",
+            "fragment_number": 4,
+            "candidate_id": "edeb58a7-58c6-4865-8819-c70b57fe1135",
+            "facet": "served_relation:credential_user",
+            "kind": "credential_user",
+            "statement": "La clave de usuario por defecto es 1111.",
+            "required_anchors": [
+              "usuario",
+              "1111",
+              "por defecto"
+            ],
+            "source_start": 2122,
+            "source_end": 2162
+          }
+        ],
+        "validation": {
+          "total": 2,
+          "covered": 2,
+          "missing": [],
+          "rows": [
+            {
+              "obligation_id": "obl_614f09afb469",
+              "fragment_number": 2,
+              "candidate_id": "9bd17466-1a22-4ade-bb16-a44624c9f166",
+              "facet": "served_relation:credential_administrator",
+              "kind": "credential_administrator",
+              "statement": "Introduzca la clave de administrador por defecto, 2222.",
+              "required_anchors": [
+                "administrador",
+                "2222",
+                "por defecto"
+              ],
+              "source_start": 2083,
+              "source_end": 2138,
+              "covered": true
+            },
+            {
+              "obligation_id": "obl_d7a62cc3ae36",
+              "fragment_number": 4,
+              "candidate_id": "edeb58a7-58c6-4865-8819-c70b57fe1135",
+              "facet": "served_relation:credential_user",
+              "kind": "credential_user",
+              "statement": "La clave de usuario por defecto es 1111.",
+              "required_anchors": [
+                "usuario",
+                "1111",
+                "por defecto"
+              ],
+              "source_start": 2122,
+              "source_end": 2162,
+              "covered": true
+            }
+          ]
+        }
+      },
+      "answer": "# Acceso al menú de programación avanzada — CAD-250\n\n## Pasos para acceder\n\n1. **Espera a que la central arranque** y muestre la **PANTALLA DE REPOSO** (fecha, hora, nombre de central y candado) [F2].\n\n2. **Toca el icono del candado (🔒)** en la pantalla táctil [F1][F2]. Accederás a la **PANTALLA DE ACCESO**, que solicita el código de acceso.\n\n3. **Introduce la clave de administrador por defecto: `2222`** [F1][F2]. Esto te da acceso al **nivel de configuración (Nivel 2)**, desde el que están disponibles todos los parámetros de la central.\n\n4. Una vez dentro, navega al menú que necesites. Para la **configuración avanzada** específicamente, la ruta es:\n   **AJUSTES** (Menú principal) **→ AVANZADO** (Submenú) [F5]\n\n   Desde **AVANZADO** encontrarás tres pestañas [F5][F8]:\n   - **SISTEMA**: número de cabinas, lazos, LEDs de zona.\n   - **OTROS**: parámetros de puesta en marcha (tiempo de inactividad, salto a scroll, timeout, etc.).\n   - **REINICIAR**: restauración de valores de configuración de panel.\n\n---\n\n> ⚠️ **AVISO:** El uso indebido del nivel de administrador puede provocar un mal funcionamiento de la instalación. Asegúrate de tener la autorización necesaria antes de operar en este nivel [F1][F2].\n\n---\n\n### Nota sobre niveles de acceso\n\nEl sistema dispone de **dos niveles de acceso diferenciados** según la clave introducida [F1][F4]:\n- **Clave de usuario por defecto: `1111`** → acceso limitado [F4].\n- **Clave de administrador por defecto: `2222`** → acceso completo a configuración [F1][F2].\n\nSi la instalación tiene claves personalizadas, las anteriores pueden no ser válidas. Consulta con el responsable de la instalación.\n\n---\n\n**Fuentes:**\n- CAD-250 Manual de Configuración `CAD-250_Manual-Configuracion-MC-380-es-2026-c` (sin revisión registrada)\n- Manual de Instalación CAD-250 `MI_372_es_2024 e` (sin revisión registrada)\n- Manual de Usuario CAD-250 `MU_376_es_2024 f` (sin revisión registrada)\n- Manual de Software de Configuración `MS-416-es-2026-b` (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **estructura completa del menú de administrador**, **configuración de lazos desde AVANZADO** o **gestión de usuarios y claves de acceso** en la CAD-250.",
+      "manual_review_required": true,
+      "local_validation": {
+        "total": 2,
+        "covered": 2,
+        "missing": [],
+        "rows": [
+          {
+            "obligation_id": "obl_614f09afb469",
+            "fragment_number": 2,
+            "candidate_id": "9bd17466-1a22-4ade-bb16-a44624c9f166",
+            "facet": "served_relation:credential_administrator",
+            "kind": "credential_administrator",
+            "statement": "Introduzca la clave de administrador por defecto, 2222.",
+            "required_anchors": [
+              "administrador",
+              "2222",
+              "por defecto"
+            ],
+            "source_start": 2083,
+            "source_end": 2138,
+            "covered": true
+          },
+          {
+            "obligation_id": "obl_d7a62cc3ae36",
+            "fragment_number": 4,
+            "candidate_id": "edeb58a7-58c6-4865-8819-c70b57fe1135",
+            "facet": "served_relation:credential_user",
+            "kind": "credential_user",
+            "statement": "La clave de usuario por defecto es 1111.",
+            "required_anchors": [
+              "usuario",
+              "1111",
+              "por defecto"
+            ],
+            "source_start": 2122,
+            "source_end": 2162,
+            "covered": true
+          }
+        ]
+      }
+    },
+    {
+      "qid": "hp003",
+      "prompt_sha256": "f9bec44c42f0bd9745e04ee04f7403a0f08a69cf398c5025083d52a6a9a989ef",
+      "context_rows": 12,
+      "content_chars": 20633,
+      "obligation_kinds": [
+        "battery_bridge",
+        "battery_series_spec"
+      ],
+      "obligation_citations": [
+        "[F11]"
+      ],
+      "checkpoint_reusable": true,
+      "checkpoint_superseded_by_conflict_gate": false,
+      "executed": true,
+      "historical_probe": null,
+      "model": "claude-sonnet-4-6",
+      "max_output_tokens": 3500,
+      "stop_reason": "end_turn",
+      "input_tokens": 13911,
+      "output_tokens": 561,
+      "facts": [
+        {
+          "fact_key": "hp003#0:12V",
+          "present": true
+        },
+        {
+          "fact_key": "hp003#1:cable puente",
+          "present": true
+        }
+      ],
+      "all_facts_present": true,
+      "all_obligations_covered": true,
+      "obligation_citations_present": true,
+      "answer_planner": {
+        "mode": "guided",
+        "plan": [
+          {
+            "obligation_id": "obl_56bd9feadd75",
+            "fragment_number": 11,
+            "candidate_id": "7849231c-aff9-49db-bf80-188af33bd7f0",
+            "facet": "served_relation:battery_series_spec",
+            "kind": "battery_series_spec",
+            "statement": "The panel requires two 12V 7Ah batteries.; The batteries must be connected in series for the proper functioning of the panel.",
+            "required_anchors": [
+              "12v",
+              "series",
+              "7ah"
+            ],
+            "source_start": 1759,
+            "source_end": 1883
+          },
+          {
+            "obligation_id": "obl_721b18db2d54",
+            "fragment_number": 11,
+            "candidate_id": "7849231c-aff9-49db-bf80-188af33bd7f0",
+            "facet": "served_relation:battery_bridge",
+            "kind": "battery_bridge",
+            "statement": "The cable supplied with the unit must be connected so that the positive terminal of one battery is connected with the negative terminal of the other.",
+            "required_anchors": [
+              "positive",
+              "negative"
+            ],
+            "source_start": 1888,
+            "source_end": 2037
+          }
+        ],
+        "validation": {
+          "total": 2,
+          "covered": 1,
+          "missing": [
+            {
+              "obligation_id": "obl_56bd9feadd75",
+              "fragment_number": 11,
+              "candidate_id": "7849231c-aff9-49db-bf80-188af33bd7f0",
+              "facet": "served_relation:battery_series_spec",
+              "kind": "battery_series_spec",
+              "statement": "The panel requires two 12V 7Ah batteries.; The batteries must be connected in series for the proper functioning of the panel.",
+              "required_anchors": [
+                "12v",
+                "series",
+                "7ah"
+              ],
+              "source_start": 1759,
+              "source_end": 1883,
+              "covered": false
+            }
+          ],
+          "rows": [
+            {
+              "obligation_id": "obl_56bd9feadd75",
+              "fragment_number": 11,
+              "candidate_id": "7849231c-aff9-49db-bf80-188af33bd7f0",
+              "facet": "served_relation:battery_series_spec",
+              "kind": "battery_series_spec",
+              "statement": "The panel requires two 12V 7Ah batteries.; The batteries must be connected in series for the proper functioning of the panel.",
+              "required_anchors": [
+                "12v",
+                "series",
+                "7ah"
+              ],
+              "source_start": 1759,
+              "source_end": 1883,
+              "covered": false
+            },
+            {
+              "obligation_id": "obl_721b18db2d54",
+              "fragment_number": 11,
+              "candidate_id": "7849231c-aff9-49db-bf80-188af33bd7f0",
+              "facet": "served_relation:battery_bridge",
+              "kind": "battery_bridge",
+              "statement": "The cable supplied with the unit must be connected so that the positive terminal of one battery is connected with the negative terminal of the other.",
+              "required_anchors": [
+                "positive",
+                "negative"
+              ],
+              "source_start": 1888,
+              "source_end": 2037,
+              "covered": true
+            }
+          ]
+        }
+      },
+      "answer": "## Conexión de baterías en la CAD-150-8\n\n### Baterías requeridas\n\nLa central requiere **dos baterías de 12V 7Ah** [F11], que deben conectarse **en serie** para el correcto funcionamiento del equipo [F11].\n\n### Procedimiento de conexión\n\n1. **Conectar las baterías entre sí en serie:** utiliza el cable puente suministrado con la unidad, conectando el terminal positivo de una batería con el terminal negativo de la otra [F11] [F1].\n\n2. **Ubicar las baterías:** colócalas en la parte inferior del armario, en posición vertical, en el espacio habilitado para ello [F11].\n\n3. **Conectar al circuito de la central:** conecta los cables que salen del circuito (rojo → positivo, negro → negativo) a los terminales libres de las dos baterías [F11] [F1]. El conector de batería en la PCB Base está identificado como **Conector Batería** (posición 11 en la placa) [F2].\n\n### ⚠️ Orden de conexión obligatorio\n\n**Primero conectar la red (230 VAC) y después las baterías.** Si no se respeta este orden, el equipo podría sufrir daños [F8].\n\n> En caso de necesidad, se puede encender el equipo solo con baterías, pero es imprescindible pulsar el pulsador **BAT** (posición 9 en la PCB Base) para arrancar el equipo [F6].\n\n### Verificación previa\n\nAntes de conectar, comprueba que las baterías tienen una tensión superior a **24V** [F6].\n\n---\n\n**Fuente:** 55315013 Manual Centrales Analógicas CAD-150-8 Instalación ES FR GB IT (sin revisión registrada); 55315008 Manual Centrales Analógicas CAD-150-8 Usuario ES FR GB IT (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **conexión del bucle analógico**, **puesta en marcha y verificación del sistema** o **fusibles y protecciones de la PCB Base** de la CAD-150-8.",
+      "manual_review_required": true,
+      "local_validation": {
+        "total": 2,
+        "covered": 2,
+        "missing": [],
+        "rows": [
+          {
+            "obligation_id": "obl_56bd9feadd75",
+            "fragment_number": 11,
+            "candidate_id": "7849231c-aff9-49db-bf80-188af33bd7f0",
+            "facet": "served_relation:battery_series_spec",
+            "kind": "battery_series_spec",
+            "statement": "The panel requires two 12V 7Ah batteries.; The batteries must be connected in series for the proper functioning of the panel.",
+            "required_anchors": [
+              "12v",
+              "series",
+              "7ah"
+            ],
+            "source_start": 1759,
+            "source_end": 1883,
+            "covered": true
+          },
+          {
+            "obligation_id": "obl_721b18db2d54",
+            "fragment_number": 11,
+            "candidate_id": "7849231c-aff9-49db-bf80-188af33bd7f0",
+            "facet": "served_relation:battery_bridge",
+            "kind": "battery_bridge",
+            "statement": "The cable supplied with the unit must be connected so that the positive terminal of one battery is connected with the negative terminal of the other.",
+            "required_anchors": [
+              "positive",
+              "negative"
+            ],
+            "source_start": 1888,
+            "source_end": 2037,
+            "covered": true
+          }
+        ]
+      }
+    },
+    {
+      "qid": "hp017",
+      "prompt_sha256": "894151ccb55d9e0e87600736819568aed65111bea9cdacc59d29e6cf4ff74483",
+      "context_rows": 14,
+      "content_chars": 23160,
+      "obligation_kinds": [],
+      "obligation_citations": [],
+      "checkpoint_reusable": false,
+      "checkpoint_superseded_by_conflict_gate": true,
+      "executed": false,
+      "historical_probe": {
+        "qid": "hp017",
+        "prompt_sha256": "a96bf3c9f2fc7b91fabe247ebb021c134fc39b4ef655ac22c052c8bf8bfe5966",
+        "model": "claude-sonnet-4-6",
+        "max_output_tokens": 3500,
+        "stop_reason": "end_turn",
+        "input_tokens": 15101,
+        "output_tokens": 1145,
+        "facts": [
+          {
+            "fact_key": "hp017#2:Editar Configuracion",
+            "present": false
+          }
+        ],
+        "all_facts_present": false,
+        "all_obligations_covered": false,
+        "obligation_citations_present": true,
+        "answer_planner": {
+          "mode": "guided",
+          "plan": [
+            {
+              "obligation_id": "obl_201400c44d69",
+              "fragment_number": 11,
+              "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+              "facet": "served_relation:cause_effect_menu_path",
+              "kind": "cause_effect_menu_path",
+              "statement": "En el menú «Editar Configuración», seleccione «7: Causa y Efecto» para abrir la función de edición.; Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto.; **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.",
+              "required_anchors": [
+                "Editar Configuracion",
+                "Causa y Efecto",
+                "por defecto",
+                "eliminar"
+              ],
+              "source_start": 2033,
+              "source_end": 2345
+            }
+          ],
+          "validation": {
+            "total": 1,
+            "covered": 0,
+            "missing": [
+              {
+                "obligation_id": "obl_201400c44d69",
+                "fragment_number": 11,
+                "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+                "facet": "served_relation:cause_effect_menu_path",
+                "kind": "cause_effect_menu_path",
+                "statement": "En el menú «Editar Configuración», seleccione «7: Causa y Efecto» para abrir la función de edición.; Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto.; **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.",
+                "required_anchors": [
+                  "Editar Configuracion",
+                  "Causa y Efecto",
+                  "por defecto",
+                  "eliminar"
+                ],
+                "source_start": 2033,
+                "source_end": 2345,
+                "covered": false
+              }
+            ],
+            "rows": [
+              {
+                "obligation_id": "obl_201400c44d69",
+                "fragment_number": 11,
+                "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+                "facet": "served_relation:cause_effect_menu_path",
+                "kind": "cause_effect_menu_path",
+                "statement": "En el menú «Editar Configuración», seleccione «7: Causa y Efecto» para abrir la función de edición.; Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto.; **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.",
+                "required_anchors": [
+                  "Editar Configuracion",
+                  "Causa y Efecto",
+                  "por defecto",
+                  "eliminar"
+                ],
+                "source_start": 2033,
+                "source_end": 2345,
+                "covered": false
+              }
+            ]
+          }
+        },
+        "answer": "# Programación del retardo de salida de alarma en la Notifier PEARL\n\nEl retardo de salida de alarma en la PEARL se configura a través de las **reglas de causa-efecto**. A continuación te explico el proceso completo.\n\n---\n\n## 1. Acceso al menú de Causa y Efecto\n\nDesde el menú **«Editar Configuración»**, selecciona la opción **«8: Causa y Efecto»** [F8] para abrir la función de edición.\n\n> ⚠️ **Importante:** Si no se ha transferido previamente un archivo de configuración a la central, encontrarás dos reglas de causa-efecto por defecto. **Deben eliminarse antes de crear reglas personalizadas** [F11].\n\n---\n\n## 2. Método de programación recomendado\n\nSe recomienda utilizar el **programa de configuración por ordenador** como método principal de programación. El menú de la central debe emplearse solo para modificaciones menores [F12].\n\n---\n\n## 3. Tipos de retardo disponibles\n\nUna vez dentro de la edición de reglas de causa-efecto, puedes asignar **uno de seis tipos de retardo de salida** a cada regla [F1]. Los tipos disponibles son [F2]:\n\n- **Fijo** — No permite silenciar, no muestra cuenta atrás, no puede anularse ni detenerse.\n- **Estándar** — Permite silenciar con SILENCIAR SIRENAS, anular en nivel 2, mostrar tiempo restante y detener con FIN RETARDO.\n- **No Silenc.** — No se detiene con SILENCIAR SIRENAS, pero sí puede anularse, muestra tiempo restante y puede detenerse con FIN RETARDO.\n- **Est. Ext.** — Como Estándar, y además se detiene si se pulsa AMPLIAR RETARDO.\n- **RetExtStd** — Como Estándar, y además inicia el temporizador en RETARDO AMPLIADO.\n- **No Sil. Ext** — No silenciable, pero se detiene con AMPLIAR RETARDO, puede anularse y muestra tiempo restante.\n- **SinRetExt** — Inicia el temporizador en RETARDO AMPLIADO, puede anularse y muestra tiempo restante.\n\n---\n\n## 4. Comportamiento operativo durante el retardo\n\n- El LED **RETARDO ACTIVO** se enciende cuando hay un retardo activo configurado [F3].\n- La tecla **AMPLIAR RETARDO** (nivel de acceso 2) permite extender el retardo activo [F4].\n- La tecla **FIN RETARDO** (nivel de acceso 1) pone fin al retardo e introduce la condición de alarma completa [F4].\n- El retardo puede anularse/habilitarse globalmente desde **Menú Anular/Habilitar → «5: Retardo Activación Salidas»** [F3].\n\n---\n\n## 5. Nota sobre el pulsador AMPLIAR RETARDO\n\nLa opción **«10: Extend Delay Button»** en «Editar Parámetros de la Central» permite habilitar o deshabilitar el pulsador AMPLIAR RETARDO, ya que esta función no se requiere en algunos mercados [F10].\n\n---\n\n## 6. Retardo a nivel de equipo individual\n\nAdicionalmente, en la edición individual de sensores o módulos de lazo, existe un parámetro de **«Retardo de alarma»** por equipo [F14], y un **«Retardo de confirmación de coincidencia de detector»** ajustable hasta **240 s (4 min)** [F14].\n\n---\n\n> 📋 **Nota:** Los fragmentos disponibles describen los tipos de retardo y el acceso al menú, pero **no detallan el procedimiento paso a paso para introducir el valor numérico del tiempo de retardo dentro de una regla de causa-efecto**. Para ese nivel de detalle, consulta el **Apéndice 5** del manual de configuración en su versión física completa.\n\n---\n\n**Fuente:** Manual de configuración de la central PEARL — 997-671-005-3 (sin revisión registrada); Manual de funcionamiento PEARL — 997-670-005-3 (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **ejemplos de reglas de causa-efecto**, **anulación/habilitación de retardos desde el panel** o **configuración del pulsador AMPLIAR RETARDO**.",
+        "manual_review_required": true
+      }
+    }
+  ],
+  "superseded_qids": {
+    "hp017": "served sources conflict on menu item 7 versus 8"
+  },
+  "limitations": [
+    "Known development cohort; no held-out precision claim.",
+    "Deterministic fact checks are screening only; every executed answer requires review.",
+    "No retrieval, rerank, or LLM judge call is made by this probe."
+  ]
+}

@@ -1,0 +1,34 @@
+instrument: s112_protected_semantic_review_v1
+method: exact_answer_sha_side_by_side_against_frozen_protected_fact
+scope: lexical_false_negatives_only
+adjudications:
+  - qid: cat007
+    fact_key: cat007#0:NC-C-NA
+    answer_sha256: 209cb2ac10b5605a7f13d792f412fc6712e1b1b2510335c6fa4bb7b9eb3259a2
+    verdict: pass
+    evidence: >-
+      The answer states that every relay has NC, C (common) and NO contacts and
+      enumerates NC/C/NO terminals for the alarm and fault relays. NO (normally
+      open) is the English-label equivalent of Spanish NA (normalmente abierto).
+    matcher_limitation: multilingual_terminal_alias_NO_equals_NA
+  - qid: cat017
+    fact_key: cat017#1:159 + 159
+    answer_sha256: 36be0706c02478e3528299db7950a57a028a9c53aaf67eeadebd08749d02f85c
+    verdict: pass
+    evidence: >-
+      The answer explicitly states up to 159 OPAL detectors plus up to 159
+      OPAL modules per loop with citation F2 and corroborates the resulting
+      318-device total with citation F4.
+    matcher_limitation: compound_fact_value_anchor_does_not_score_all_subclaims
+  - qid: cat018
+    fact_key: cat018#0:Control By Events
+    answer_sha256: fef342f9108b199c1041f86ccb89acc7ee44b15fd368a804076b0a652629324a
+    verdict: pass
+    evidence: >-
+      The answer defines CBE as Control By Event and explains that its
+      conditions activate the output module. Singular Event and plural Events
+      are nomenclature variants with the same cause-effect behavior here.
+    matcher_limitation: singular_plural_nomenclature_variant
+release_use: >-
+  These adjudications are valid only for the exact answer hashes above. Any
+  answer change invalidates the overlay and requires a new semantic review.

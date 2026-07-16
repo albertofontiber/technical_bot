@@ -1,0 +1,159 @@
+{
+  "instrument": "s119_source_contract_projection_v1",
+  "payload_sha256": "796bb624a53ac3e4cf85bec7775307bcdb3209d51cb069b48d779a98a3865115",
+  "row_keys": [
+    "cat001#3:32 / 25 / 20",
+    "cat010#0:24V dc",
+    "cat017#4:CLSS",
+    "hp003#0:12V",
+    "hp005#3:CIRCUITO SIRENA",
+    "hp009#0:Retorno",
+    "hp011#0:ABORT",
+    "hp011#1:r.I",
+    "hp013#0:EEPROM",
+    "hp017#2:Editar Configuracion",
+    "hp018#1:6K8",
+    "hp018#4:1 A"
+  ],
+  "rows": [
+    {
+      "row_key": "cat001#3:32 / 25 / 20",
+      "row_sha256": "c881fd0e2b71be0e2910990dad613a12c87c673d980dbebbe3ea80e72cf2d9af",
+      "source_row": {
+        "atomicity": "split_required",
+        "key": "cat001#3:32 / 25 / 20",
+        "question_requiredness": "required_but_composite",
+        "source_trace": "997-669 physical p38 and p21; historical C4 render provenance dated 2026-06-02",
+        "source_truth": "confirmed_pixel_existing_provenance"
+      }
+    },
+    {
+      "row_key": "cat010#0:24V dc",
+      "row_sha256": "13476cbdb7e6332a92fed5c7a7d0422cc58eb3c4f390f24fab7e1361b9410650",
+      "source_row": {
+        "atomicity": "split_required",
+        "key": "cat010#0:24V dc",
+        "question_requiredness": "hazardous_area_supply_required_safe_area_caveat_supplementary",
+        "source_trace": "IS5001-F physical p1-p2; historical render plus independent cross-model read",
+        "source_truth": "confirmed_pixel_and_cross_model"
+      }
+    },
+    {
+      "row_key": "cat017#4:CLSS",
+      "row_sha256": "fc9c255f770e0a29e251bf295a3434005fcc71a34446f0a89afabc4dc59dcd9a",
+      "source_row": {
+        "atomicity": "split_required",
+        "key": "cat017#4:CLSS",
+        "question_requiredness": "CLSS_management_required_site_and_bin_details_secondary",
+        "source_trace": "HOP-138-8 physical p5 and indexed p18; historical render/pdf-text provenance",
+        "source_truth": "confirmed_render_and_pdf_text"
+      }
+    },
+    {
+      "row_key": "hp003#0:12V",
+      "row_sha256": "160df2fe1bc9ae18b061789c6db1fa54b3da9046a2be66e9cd778ddbf29b9a85",
+      "source_row": {
+        "atomicity": "split_required",
+        "key": "hp003#0:12V",
+        "question_requiredness": "series_connection_required_7Ah_true_but_secondary_to_how_to_connect",
+        "source_trace": "logs/s106_p0/CAD150_physical_p7.png",
+        "source_truth": "two_12V_7Ah_in_series_confirmed_fresh_pixel"
+      }
+    },
+    {
+      "row_key": "hp005#3:CIRCUITO SIRENA",
+      "row_sha256": "0810cd9ff71d11dd33e7e330d1d0705b8637076c10f0e52bb1fbc57a35573fee",
+      "source_row": {
+        "atomicity": "split_required",
+        "key": "hp005#3:CIRCUITO SIRENA",
+        "question_requiredness": "selecting_the_specific_output_is_required_all_outputs_is_alternative",
+        "source_trace": "MPDT190 physical p70 plus historical render/cross-model provenance",
+        "source_truth": "confirmed_pixel"
+      }
+    },
+    {
+      "row_key": "hp009#0:Retorno",
+      "row_sha256": "be1a206a5c93150b70c2f03e86d876babccb111d1bbdcf404870231c01400f00",
+      "source_row": {
+        "atomicity": "split_required",
+        "key": "hp009#0:Retorno",
+        "question_requiredness": "required_to_correct_false_RFL_premise",
+        "source_trace": "MIE-MI-530 physical p19 figures 9-10; historical render provenance",
+        "source_truth": "confirmed_pixel"
+      }
+    },
+    {
+      "row_key": "hp011#0:ABORT",
+      "row_sha256": "24d2123e289d4ff08cfa883de7a1fc9283e2978326e930397f4b1656f2b42383",
+      "source_row": {
+        "atomicity": "split_recommended",
+        "key": "hp011#0:ABORT",
+        "question_requiredness": "relevant_conditional_troubleshooting_check",
+        "source_trace": "HLSI-MN-103I_RP1r-Supra_lr physical p44; fresh PDF-text verification against frozen SHA 057368493cce5e8617c3e27a44845ca04d00b69a5a2c87cb826f9ea37c712d1e",
+        "source_truth": "PDF text against the hash-linked canonical PDF confirms the normally-open ABORT input, latching and manual reset, but does not state an explicit clear-input-before-reset sequence"
+      }
+    },
+    {
+      "row_key": "hp011#1:r.I",
+      "row_sha256": "0f3f357fb26201565099b4c0c6790e2ff3ccdd6c1b3b7f864306ea5be011caf2",
+      "source_row": {
+        "atomicity": "split_required",
+        "key": "hp011#1:r.I",
+        "question_requiredness": "required_primary_check",
+        "source_trace": "logs/s106_p0/RP1r_physical_p63.png",
+        "source_truth": "fresh pixel labels the row 'Rearme inhibido tras extinción' and shows the seven-segment glyph r.I; the historical citation text still says r.1 and must be corrected in the versioned migration"
+      }
+    },
+    {
+      "row_key": "hp013#0:EEPROM",
+      "row_sha256": "0c89d08ff5d63c8f342c170e45296346d4959ec2e4cf108c60399b0bf1c1b648",
+      "source_row": {
+        "atomicity": "split_required",
+        "key": "hp013#0:EEPROM",
+        "question_requiredness": "explicit_EEPROM_fact_required_inference_not_a_retrieval_target",
+        "source_trace": "ADW535 physical p14 for the literal EEPROM core; p29/p68/p103-p104 belong only to the battery/RTC premises of the derived retention claim",
+        "source_truth": "EEPROM_nonvolatile_storage_confirmed_retention_is_a_reasoned_implication"
+      }
+    },
+    {
+      "row_key": "hp017#2:Editar Configuracion",
+      "row_sha256": "31a82b2b696d9af122b35bfc23a9a37f331f67a0fc3e0463639ff35702b00542",
+      "source_row": {
+        "atomicity": "split_required",
+        "key": "hp017#2:Editar Configuracion",
+        "question_requiredness": "navigation_and_default_rule_conflict_both_required",
+        "source_trace": "997-671 physical p43; historical render/pdf-text provenance",
+        "source_truth": "confirmed_pixel"
+      }
+    },
+    {
+      "row_key": "hp018#1:6K8",
+      "row_sha256": "87fc2ebe48d35884330ff4c91b6bfef2b73e73a858035fc1b515b557a41f6792",
+      "source_row": {
+        "atomicity": "split_recommended",
+        "key": "hp018#1:6K8",
+        "question_requiredness": "required_connection_and_supervision_detail",
+        "source_trace": "MIE-MI-530 physical p21 and p44; historical render/cross-model provenance",
+        "source_truth": "confirmed_pixel_for_ZX2e_ZX5e"
+      }
+    },
+    {
+      "row_key": "hp018#4:1 A",
+      "row_sha256": "50655d269d28909fb5828e10098a4dfd9b4e5701f9764f02af7f711749ba851f",
+      "source_row": {
+        "atomicity": "atomic",
+        "key": "hp018#4:1 A",
+        "question_requiredness": "required_safety_limit",
+        "source_trace": "MIE-MI-530 physical p21 and p44; historical render/cross-model provenance",
+        "source_truth": "confirmed_pixel_for_ZX2e_ZX5e"
+      }
+    }
+  ],
+  "schema_version": 1,
+  "source": {
+    "instrument": "s106_p0_selection_adjudication_v1",
+    "logical_path": "evals/s106_p0_selection_adjudication.yaml",
+    "sha256": "f36b9a8189ca0b1f4289f4d8fb342b8def7eed026976ee301554187fcf2aa29b"
+  },
+  "status": "MECHANICAL_SOURCE_TRUTH_PROJECTION_NO_RUNTIME_OUTCOMES"
+}

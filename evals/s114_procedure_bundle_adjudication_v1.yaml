@@ -1,0 +1,97 @@
+instrument: s114_procedure_bundle_adjudication_v1
+status: go_known_cohort_shadow_only
+scope:
+  serving_integration: false
+  production_default_off_candidate: false
+  database_reads: 0
+  database_writes: 0
+  model_calls: 0
+
+causal_targets:
+  retrieval_misses:
+    - qid: cat017
+      recovered_receipt: 5bb83899-9d94-4fdd-8d42-24a670a036c5
+      facet: quantified_licensed_loop_prerequisite
+    - qid: hp002
+      recovered_receipt: a64c168c-c927-4f8b-a179-e465e6df3976
+      facet: explicit_intra_document_reference
+    - qid: hp010
+      recovered_receipt: 155a90fe-8c3f-484e-a617-7637fe29b547
+      facet: procedural_access_prerequisite
+  evaluation_contract_holds:
+    - qid: hp013
+      unchanged: true
+    - qid: hp015
+      unchanged: true
+
+first_adversarial_review:
+  verdict: no_go_integration_go_shadow_diagnostic
+  accepted:
+    - The three retrieval-miss reclassifications are causally supported.
+    - The two atomicity and absence-inference holds remain protected.
+  rejected_risks:
+    - weak shared-token product identity
+    - named-protocol hard-coding
+    - over-broad access and reference triggers
+    - semantic-validation labels unsupported by deterministic rules
+    - source cards not strictly capped or independently verifiable
+    - tests reading only a precomputed replay
+
+hardening_applied:
+  - fail-closed manufacturer equality plus exact canonical model aliases
+  - compact slash-model expansion without shared-token family inference
+  - capability anchors discovered from evidence instead of protocol names
+  - licence, loop and capability must be established in one served row
+  - capability anchors must be grammatically attached to loop or lazo
+  - access prerequisite must precede a query-specific task term in the source
+  - referenced section must repeat a task term from the reference window
+  - immutable source-span receipt with document, extraction and content hashes
+  - strict 720-character source-span bound
+  - up to two atomic table-row spans when one bounded card cannot carry the relation
+  - rule_match and shadow_only labels replace semantic-validation claims
+  - replay test recomputes the selector before comparing the frozen artifact
+  - hard negatives cover cross-model, cross-manufacturer, shared standards,
+    scattered triggers, unrelated access clauses and unaligned section references
+
+second_adversarial_review:
+  verdict_before_corrections: go_shadow_with_limitations_no_go_heldout_or_integration
+  findings:
+    - hp002 row selected but its first bounded card omitted V01 and V02
+    - a shared standard acronym could bind different loop capabilities
+    - immutable verifier accepted missing strong provenance
+    - replay compared only gate and selected IDs
+    - only five of thirty-six non-targets were product-scoped controls
+  corrections_applied:
+    - hp002 now serves two exact 294-character table rows carrying V01 and V02
+    - loop capability is extracted by grammatical attachment, closing EN54 contamination
+    - verifier requires nonempty candidate and document IDs plus a 64-hex extraction hash
+    - replay test compares the complete canonical payload including quotes and hashes
+    - gate reports product-scoped and per-facet eligible controls separately
+
+local_gate:
+  frozen_questions: 39
+  target_recovered: 3
+  target_decisive_terms_in_bounded_spans: 3
+  product_scoped_non_target_controls: 5
+  selected_product_scoped_non_target_controls: 0
+  potential_non_target_controls_by_facet:
+    explicit_intra_document_reference: 0
+    procedural_access_prerequisite: 0
+    quantified_licensed_loop_prerequisite: 0
+  protected_holds_changed: 0
+  max_selected_per_question: 1
+  all_source_span_receipts_verified: true
+  full_test_suite: 690_passed_2_skipped
+  interpretation: GO_LOCAL_KNOWN_COHORT_SHADOW
+
+release_boundary:
+  decision: no_go_serving_integration
+  reasons:
+    - The five-product candidate universe and 39-question replay are known cohort.
+    - Retrieval-stage recovery is not answer correctness or an OK claim.
+    - No held-out cross-manufacturer replay, latency gate or answer regression exists yet.
+  next_required_evidence:
+    - held-out questions and manuals not used to design the rules
+    - same-product and cross-model precision negatives
+    - end-to-end answer regression on the protected fact set
+    - bounded runtime and candidate-universe measurements

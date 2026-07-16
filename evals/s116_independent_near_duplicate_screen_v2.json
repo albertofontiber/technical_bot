@@ -1,0 +1,640 @@
+{
+  "instrument": "s116_independent_near_duplicate_screen_v1",
+  "status": "screen_go",
+  "checks": {
+    "development_store_frozen": true,
+    "all_candidate_hashes_valid": true,
+    "zero_exact_content_duplicates": true,
+    "zero_near_duplicates": true
+  },
+  "source": {
+    "candidate_documents": 12,
+    "development_json_files": 1069,
+    "development_records_processed": 1068,
+    "development_manifest_sha256": "752c044be1531d5bc2e2879f79acf1dbeffabcbeb9bb9d16f5e14a5676aa5810",
+    "development_errors": [
+      {
+        "file": "_failures.json",
+        "error_type": "AttributeError"
+      }
+    ]
+  },
+  "exact_content_duplicates": [],
+  "near_duplicate_flags": [],
+  "candidates": [
+    {
+      "id": "bosch_fpc500_install",
+      "manufacturer": "Bosch",
+      "sha256": "720fe4dcb0023d76c7fa981b556dc66c3d02a10b1abe9b728fd4563b9d3d50ec",
+      "tokens": 11624,
+      "unique_shingles": 10057,
+      "top_matches": [
+        {
+          "development_file": "0e5edee61c396e769d7d4a8bd6e98e8a7ccd0d76606eeed83bb4196751b97cf3.json",
+          "source_path": "Manuales_Morley\\MIE-MU-535rv001.pdf",
+          "jaccard": 0.00019093078758949882,
+          "containment": 0.004761904761904762,
+          "shared_shingles": 2,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "26882b07282c9bad8e19b4404040852a3c3c28191f15adf170ed96e417b9cb08.json",
+          "source_path": "Manuales_Notifier_Privado\\TIDT070.pdf",
+          "jaccard": 0.0001905306277984186,
+          "containment": 0.004524886877828055,
+          "shared_shingles": 2,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "58520f8be0798e32b0ec6b8be9e4a0584405922e0fcbbb6666d6781227e3029d.json",
+          "source_path": "Manuales_Morley_Privado\\MIE-MU-315.pdf",
+          "jaccard": 0.000190095998479232,
+          "containment": 0.004291845493562232,
+          "shared_shingles": 2,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "521111464148c09ffd2089df3bff2756072b6e796a0a03bd85906d49ef992b58.json",
+          "source_path": "Manuales_Notifier_Privado\\TIDT110.pdf",
+          "jaccard": 0.00018837713101629462,
+          "containment": 0.0035587188612099642,
+          "shared_shingles": 2,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "00474693def4d200d407125f195943f4423de778abad564e2108ff14bdb50173.json",
+          "source_path": "Manuales_Notifier_Privado\\MN-DT-1150.pdf",
+          "jaccard": 9.514747859181732e-05,
+          "containment": 0.0022026431718061676,
+          "shared_shingles": 1,
+          "shared_identifiers": []
+        }
+      ]
+    },
+    {
+      "id": "bosch_fpp5000_power",
+      "manufacturer": "Bosch",
+      "sha256": "295540683fa0542fbe1d014c8fdc691747754166c9c8a0f0421a6a14997ab056",
+      "tokens": 18108,
+      "unique_shingles": 16754,
+      "top_matches": [
+        {
+          "development_file": "0e5edee61c396e769d7d4a8bd6e98e8a7ccd0d76606eeed83bb4196751b97cf3.json",
+          "source_path": "Manuales_Morley\\MIE-MU-535rv001.pdf",
+          "jaccard": 0.00011646866992778943,
+          "containment": 0.004761904761904762,
+          "shared_shingles": 2,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "26882b07282c9bad8e19b4404040852a3c3c28191f15adf170ed96e417b9cb08.json",
+          "source_path": "Manuales_Notifier_Privado\\TIDT070.pdf",
+          "jaccard": 0.00011631964638827499,
+          "containment": 0.004524886877828055,
+          "shared_shingles": 2,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "58520f8be0798e32b0ec6b8be9e4a0584405922e0fcbbb6666d6781227e3029d.json",
+          "source_path": "Manuales_Morley_Privado\\MIE-MU-315.pdf",
+          "jaccard": 0.00011615750958299454,
+          "containment": 0.004291845493562232,
+          "shared_shingles": 2,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "521111464148c09ffd2089df3bff2756072b6e796a0a03bd85906d49ef992b58.json",
+          "source_path": "Manuales_Notifier_Privado\\TIDT110.pdf",
+          "jaccard": 0.00011551345731777752,
+          "containment": 0.0035587188612099642,
+          "shared_shingles": 2,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "00474693def4d200d407125f195943f4423de778abad564e2108ff14bdb50173.json",
+          "source_path": "Manuales_Notifier_Privado\\MN-DT-1150.pdf",
+          "jaccard": 5.8115883070843265e-05,
+          "containment": 0.0022026431718061676,
+          "shared_shingles": 1,
+          "shared_identifiers": []
+        }
+      ]
+    },
+    {
+      "id": "bosch_flm430_interface",
+      "manufacturer": "Bosch",
+      "sha256": "653719e29ee747a481961360444f355c6cb2931e61511df757ad94ebf72aca58",
+      "tokens": 18578,
+      "unique_shingles": 16310,
+      "top_matches": [
+        {
+          "development_file": "e763947062dac47dcad7527a3e3645d47a11af792ab9e79cbe42ff2b5037a3b2.json",
+          "source_path": "Manuales_Morley_Privado\\IRK-E-SI.pdf",
+          "jaccard": 0.0002255554302469832,
+          "containment": 0.0028011204481792717,
+          "shared_shingles": 4,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "400829e673df36b5a2e2318f3e55cef493cc1140e714939e33ce3c81bbb8a04f.json",
+          "source_path": "Manuales_Notifier\\ES\\IRK-2E.pdf",
+          "jaccard": 0.0002254918541067704,
+          "containment": 0.0027913468248429866,
+          "shared_shingles": 4,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "04a2dc39e7d403104b84131d79399455d00b31ced160703bcfce26183ce8f010.json",
+          "source_path": "Manuales_Morley\\IRK-2E.pdf",
+          "jaccard": 0.0002248201438848921,
+          "containment": 0.0026917900403768506,
+          "shared_shingles": 4,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "0e5edee61c396e769d7d4a8bd6e98e8a7ccd0d76606eeed83bb4196751b97cf3.json",
+          "source_path": "Manuales_Morley\\MIE-MU-535rv001.pdf",
+          "jaccard": 5.9776436128878e-05,
+          "containment": 0.002380952380952381,
+          "shared_shingles": 1,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "26882b07282c9bad8e19b4404040852a3c3c28191f15adf170ed96e417b9cb08.json",
+          "source_path": "Manuales_Notifier_Privado\\TIDT070.pdf",
+          "jaccard": 5.969792848188168e-05,
+          "containment": 0.0022624434389140274,
+          "shared_shingles": 1,
+          "shared_identifiers": []
+        }
+      ]
+    },
+    {
+      "id": "siemens_fc922_panel",
+      "manufacturer": "Siemens",
+      "sha256": "907f47cca7c1eed18273c5c0921356591f532d228935cca8085929ce6db538c2",
+      "tokens": 8408,
+      "unique_shingles": 7252,
+      "top_matches": [
+        {
+          "development_file": "0e5edee61c396e769d7d4a8bd6e98e8a7ccd0d76606eeed83bb4196751b97cf3.json",
+          "source_path": "Manuales_Morley\\MIE-MU-535rv001.pdf",
+          "jaccard": 0.0005216484089723526,
+          "containment": 0.009523809523809525,
+          "shared_shingles": 4,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "521111464148c09ffd2089df3bff2756072b6e796a0a03bd85906d49ef992b58.json",
+          "source_path": "Manuales_Notifier_Privado\\TIDT110.pdf",
+          "jaccard": 0.0006402868485081316,
+          "containment": 0.008896797153024912,
+          "shared_shingles": 5,
+          "shared_identifiers": [
+            "rs485"
+          ]
+        },
+        {
+          "development_file": "58520f8be0798e32b0ec6b8be9e4a0584405922e0fcbbb6666d6781227e3029d.json",
+          "source_path": "Manuales_Morley_Privado\\MIE-MU-315.pdf",
+          "jaccard": 0.0005185377236193933,
+          "containment": 0.008583690987124463,
+          "shared_shingles": 4,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "26882b07282c9bad8e19b4404040852a3c3c28191f15adf170ed96e417b9cb08.json",
+          "source_path": "Manuales_Notifier_Privado\\TIDT070.pdf",
+          "jaccard": 0.00026001040041601667,
+          "containment": 0.004524886877828055,
+          "shared_shingles": 2,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "69755c94fb5f0410a69a92703d084b29585808717fbb6d363801d2a58fc471ae.json",
+          "source_path": "Manuales_Notifier\\ES\\MADT015_03.pdf",
+          "jaccard": 0.0004895361644841513,
+          "containment": 0.004333694474539545,
+          "shared_shingles": 4,
+          "shared_identifiers": [
+            "120s"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "siemens_oohc941_detector",
+      "manufacturer": "Siemens",
+      "sha256": "3792d5699046c25eb92d331e4f2fb09c6eda9032eaeee0cc53af29fb867552e3",
+      "tokens": 3989,
+      "unique_shingles": 3755,
+      "top_matches": [
+        {
+          "development_file": "42feabe2cff3a7c39d73880b38c983eb2d854b28b954b333a62c7e301235b161.json",
+          "source_path": "Manuales_Notifier_Privado\\I56-2961-000R.pdf",
+          "jaccard": 0.004456738896572922,
+          "containment": 0.010427903631787127,
+          "shared_shingles": 29,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "867dd5416208fae81ce23f79153140ce6c4628fd8c2fb71aeed8e1a75d9acdad.json",
+          "source_path": "Manuales_Notifier\\EN_unico\\18500_A4_VESDA_VLI_Product_Guide_A4_IE_lores.pdf",
+          "jaccard": 0.0009360507169297536,
+          "containment": 0.005858854860186418,
+          "shared_shingles": 22,
+          "shared_identifiers": [
+            "ul268"
+          ]
+        },
+        {
+          "development_file": "c05473d53c0c53c2922a24f984e79b553aa1cbf7a31499e5b754740a50f922e0.json",
+          "source_path": "Manuales_Otros\\04-4001-501-1700-06_r006_aritech_apic_installation_sheet_ml_0.pdf",
+          "jaccard": 0.00018335166850018335,
+          "containment": 0.000588235294117647,
+          "shared_shingles": 1,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "d24567a320ba9ea6b75d13ac3c8b011024d92056b6dfae0dbf1e62c16f7c618a.json",
+          "source_path": "Manuales_ES\\Detectores especiales\\Uso Industrial\\085501996d_PYX-L-15-CPR_Installation_manual_D-GB-F-RU-I.pdf",
+          "jaccard": 0.00021197668256491787,
+          "containment": 0.0005326231691078562,
+          "shared_shingles": 2,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "8cc98bcbb18b158bab21402e55ca7b9eee966a06ba5b5eeb149e3b2982f0a526.json",
+          "source_path": "Manuales_ES\\Detectores especiales\\Uso Industrial\\085501987j_PY X-M-05_10_Installation_manual_D-GB-F-RU-IT.pdf",
+          "jaccard": 0.00016274717226788185,
+          "containment": 0.0005326231691078562,
+          "shared_shingles": 2,
+          "shared_identifiers": []
+        }
+      ]
+    },
+    {
+      "id": "siemens_fci2020_city_tie",
+      "manufacturer": "Siemens",
+      "sha256": "234ba09b1a58a0df1f00691e0bd1af21469fefaaf5289e988fa077f1cf7c5c32",
+      "tokens": 1473,
+      "unique_shingles": 1307,
+      "top_matches": [
+        {
+          "development_file": "42feabe2cff3a7c39d73880b38c983eb2d854b28b954b333a62c7e301235b161.json",
+          "source_path": "Manuales_Notifier_Privado\\I56-2961-000R.pdf",
+          "jaccard": 0.007144616900714462,
+          "containment": 0.02218821729150727,
+          "shared_shingles": 29,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "867dd5416208fae81ce23f79153140ce6c4628fd8c2fb71aeed8e1a75d9acdad.json",
+          "source_path": "Manuales_Notifier\\EN_unico\\18500_A4_VESDA_VLI_Product_Guide_A4_IE_lores.pdf",
+          "jaccard": 0.0010448824507242936,
+          "containment": 0.016832440703902066,
+          "shared_shingles": 22,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "d24567a320ba9ea6b75d13ac3c8b011024d92056b6dfae0dbf1e62c16f7c618a.json",
+          "source_path": "Manuales_ES\\Detectores especiales\\Uso Industrial\\085501996d_PYX-L-15-CPR_Installation_manual_D-GB-F-RU-I.pdf",
+          "jaccard": 0.0002862458852154,
+          "containment": 0.001530221882172915,
+          "shared_shingles": 2,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "8cc98bcbb18b158bab21402e55ca7b9eee966a06ba5b5eeb149e3b2982f0a526.json",
+          "source_path": "Manuales_ES\\Detectores especiales\\Uso Industrial\\085501987j_PY X-M-05_10_Installation_manual_D-GB-F-RU-IT.pdf",
+          "jaccard": 0.000203231378924906,
+          "containment": 0.001530221882172915,
+          "shared_shingles": 2,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "fee411b63357326c42529a886979629eb5382a8b5daacc36c7cc9c41191a7d17.json",
+          "source_path": "Manuales_ES\\Detectores especiales\\Uso Industrial\\085501949p_PY X-S-05_Installation_manual_D-GB-F-RU-IT.pdf",
+          "jaccard": 0.00016792611251049538,
+          "containment": 0.0007651109410864575,
+          "shared_shingles": 1,
+          "shared_identifiers": []
+        }
+      ]
+    },
+    {
+      "id": "hochiki_hcvx_panel",
+      "manufacturer": "Hochiki",
+      "sha256": "0d175dd3f7b07ec8cfaf6b8cb15249bb27d60482da8de65e1cc260ec240a797f",
+      "tokens": 23865,
+      "unique_shingles": 18823,
+      "top_matches": [
+        {
+          "development_file": "72b8473ed5f79921c4cf8254f63becd66bd5ee781af51cbd918519ee52a3a5b2.json",
+          "source_path": "Manuales_ES\\Detectores especiales\\Detección térmica lineal no rearmable Signaline\\LocatorPlus-Installation-Manual-1.3.pdf",
+          "jaccard": 0.0002244568145088885,
+          "containment": 0.0014459224985540775,
+          "shared_shingles": 5,
+          "shared_identifiers": [
+            "10th",
+            "20mm",
+            "rs485"
+          ]
+        },
+        {
+          "development_file": "d6d7d5d3876eb1388b1e4cb5604d15a1145b09c67536600993497d5a615b0384.json",
+          "source_path": "Manuales_ES\\Detección de gas\\Manual-de-Usuario-CS4.pdf",
+          "jaccard": 9.355412105903265e-05,
+          "containment": 0.0007821666014861165,
+          "shared_shingles": 2,
+          "shared_identifiers": [
+            "60hz"
+          ]
+        },
+        {
+          "development_file": "c9aca1c8686987bf032f3bbc1766c01f3cbac5d774b8df58e2f09e29e1719a7c.json",
+          "source_path": "Manuales_Morley\\HLSI-MN-025-I_NFS Supra Series.pdf",
+          "jaccard": 0.0002730913945867217,
+          "containment": 0.0006364022061943148,
+          "shared_shingles": 9,
+          "shared_identifiers": [
+            "20mm",
+            "230v",
+            "60hz"
+          ]
+        },
+        {
+          "development_file": "1cd98c7e653724c3c0809f30b885cf9825581ab0fce8aeee33d483f5ef4e4416.json",
+          "source_path": "Manuales_Morley\\I56-2954-000_prelim.pdf",
+          "jaccard": 8.553588230262595e-05,
+          "containment": 0.0004385003288752467,
+          "shared_shingles": 2,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "b206346bcb6cfc9cf9d5d9a18f36de14329a9a7e061bab55070a1ec9daaa0b0b.json",
+          "source_path": "Manuales_Morley_Privado\\I56-3956-201_PT Morley Loop FAAST LT QIG.pdf",
+          "jaccard": 8.464891861006476e-05,
+          "containment": 0.0004161464835622139,
+          "shared_shingles": 2,
+          "shared_identifiers": []
+        }
+      ]
+    },
+    {
+      "id": "hochiki_smoke_heat_guide",
+      "manufacturer": "Hochiki",
+      "sha256": "7870dc4b1c0f0adeae5aa3b076bca57e1d6574d544ddef0099530929df946f73",
+      "tokens": 3384,
+      "unique_shingles": 3163,
+      "top_matches": [
+        {
+          "development_file": "b43ddec8230f251f6642bd90ed3cad74af0f7f9c78f8e1319c5858d5e5c02113.json",
+          "source_path": "Manuales_Notifier\\DESCARTADO\\HLSI-TI-001I.pdf",
+          "jaccard": 0.0011458034947006588,
+          "containment": 0.012048192771084338,
+          "shared_shingles": 4,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "3c12056e803c7968f99f729cd9551405502037fcc6fc3dfb7482af14de40fe02.json",
+          "source_path": "Manuales_Morley\\HLSI_MN1007.pdf",
+          "jaccard": 0.00078064012490242,
+          "containment": 0.002035623409669211,
+          "shared_shingles": 4,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "2165f08c6026caa2ce2b54799c8ce0d7f04cd81b9c262a4c1ca3c48c50204b1c.json",
+          "source_path": "Manuales_Notifier_Privado\\MNDT624.pdf",
+          "jaccard": 0.0006703536115300822,
+          "containment": 0.0014245014245014246,
+          "shared_shingles": 4,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "d06f5c37b6935ff26de0b5e7c72928c76aec4f6a9a58d1542202b5a9dbd92ef4.json",
+          "source_path": "Manuales_Notifier_Privado\\MNDT1300I_E.pdf",
+          "jaccard": 0.0006296237997796317,
+          "containment": 0.001264622194119507,
+          "shared_shingles": 4,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "c3b26ce4983ba75416a8ff68b1a79d56f7ebc6c64616f46c3645c57733307e90.json",
+          "source_path": "Manuales_Morley_Privado\\MIEMI550I.pdf",
+          "jaccard": 0.0004856136943061794,
+          "containment": 0.001264622194119507,
+          "shared_shingles": 4,
+          "shared_identifiers": []
+        }
+      ]
+    },
+    {
+      "id": "hochiki_vr3_releasing",
+      "manufacturer": "Hochiki",
+      "sha256": "a576ab3d7702d1bf8e81dadfc0a4836469a5e328ef293d3353d97b123c91176e",
+      "tokens": 37662,
+      "unique_shingles": 28553,
+      "top_matches": [
+        {
+          "development_file": "53cfa37478e2a1725f22901e7e3e35c2c7879d95ed450a8a2f0510c17da83490.json",
+          "source_path": "Manuales_Notifier_Privado\\MNDT1004.pdf",
+          "jaccard": 0.00010231574639336993,
+          "containment": 0.0038910505836575876,
+          "shared_shingles": 3,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "de59b21f59b15dca2ea12c155fece8a7e08393b4a66d946f261d63e8909f89d9.json",
+          "source_path": "Manuales_Notifier_Privado\\MNDT1005.pdf",
+          "jaccard": 0.00010171215460247499,
+          "containment": 0.0031746031746031746,
+          "shared_shingles": 3,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "9601d81ae86674e3597dd6229abe9f24a0c32eb3d4638591ab295f399915968c.json",
+          "source_path": "Manuales_Morley_Privado\\MIE-MI-480.pdf",
+          "jaccard": 0.00010163290195812725,
+          "containment": 0.0030991735537190084,
+          "shared_shingles": 3,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "75c85e4954dce7e9ba98775d0c6e025c2e9f065e4fa95131dca6dc6cd5efc7d8.json",
+          "source_path": "Manuales_ES\\Detección convencional\\55310007 Manual Tarjeta Expansion TRD-100 TSD-100 ES FR GB IT.pdf",
+          "jaccard": 9.89152296481915e-05,
+          "containment": 0.0016863406408094434,
+          "shared_shingles": 3,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "72b8473ed5f79921c4cf8254f63becd66bd5ee781af51cbd918519ee52a3a5b2.json",
+          "source_path": "Manuales_ES\\Detectores especiales\\Detección térmica lineal no rearmable Signaline\\LocatorPlus-Installation-Manual-1.3.pdf",
+          "jaccard": 0.00015622070861713428,
+          "containment": 0.0014459224985540775,
+          "shared_shingles": 5,
+          "shared_identifiers": [
+            "10th",
+            "20mm",
+            "rs485"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apollo_series65_base",
+      "manufacturer": "Apollo",
+      "sha256": "523eb8b20f23016f34d747ddd79f91d8ac8d11b28961332e80e693749aae971e",
+      "tokens": 150,
+      "unique_shingles": 127,
+      "top_matches": [
+        {
+          "development_file": "000c492d6101ac03579f5740c8d9ddc585ff7481d9634c5fed7bcfc082f994a4.json",
+          "source_path": "Manuales_Otros\\dm715-63296-es.pdf",
+          "jaccard": 0.0,
+          "containment": 0.0,
+          "shared_shingles": 0,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "00410412d835e9239822add99db18a7c60e976ab7dd0229750b44d1407b5897f.json",
+          "source_path": "Manuales_Notifier_Privado\\ExitPoint- WP ENG.pdf",
+          "jaccard": 0.0,
+          "containment": 0.0,
+          "shared_shingles": 0,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "00474693def4d200d407125f195943f4423de778abad564e2108ff14bdb50173.json",
+          "source_path": "Manuales_Notifier_Privado\\MN-DT-1150.pdf",
+          "jaccard": 0.0,
+          "containment": 0.0,
+          "shared_shingles": 0,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "00a31f267bd8eb7886c7b0c0c1560c070aba9f68757a957298f2e98ed151d93c.json",
+          "source_path": "Manuales_Notifier\\ES\\33037_05_VESDA-E_VEA-040-A10_Product_Guide_A4_Spanish_lores.pdf",
+          "jaccard": 0.0,
+          "containment": 0.0,
+          "shared_shingles": 0,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "00d9950195134ebe1b655e90d5d47e02a2d0881015057dde7270c3ae2f756345.json",
+          "source_path": "Manuales_Morley_Guias\\UCIP-Tabla-de-compatibilidad-con-receptoras-y-centrales.pdf",
+          "jaccard": 0.0,
+          "containment": 0.0,
+          "shared_shingles": 0,
+          "shared_identifiers": []
+        }
+      ]
+    },
+    {
+      "id": "apollo_xp95a_detectors",
+      "manufacturer": "Apollo",
+      "sha256": "0b7a278f309a642d98f51d07fc83f2511f8fb444a0176d3abe5d21dc010660d3",
+      "tokens": 1977,
+      "unique_shingles": 1767,
+      "top_matches": [
+        {
+          "development_file": "840189eca9d83fb75f750e20344cbdabbd43783f9500457130b87618a8651ca8.json",
+          "source_path": "Manuales_Kidde\\3103062-ml_r003_excellence_series_addressable_single_output_module_installation_sheet.pdf",
+          "jaccard": 0.0001359896647854763,
+          "containment": 0.0011318619128466328,
+          "shared_shingles": 2,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "8f7e0d1fa451dcf9c6d5fb690bca72a23355273968faba2460063ef0b79152e6.json",
+          "source_path": "Manuales_Kidde\\3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet.pdf",
+          "jaccard": 9.737572423194897e-05,
+          "containment": 0.0011318619128466328,
+          "shared_shingles": 2,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "c3eb5ec2671491feb2671329b321912d35e1537ede0af2344b67286809fabc46.json",
+          "source_path": "Manuales_Kidde\\3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet.pdf",
+          "jaccard": 9.484966328369534e-05,
+          "containment": 0.0011318619128466328,
+          "shared_shingles": 2,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "9625e2a91dd2779aca73da34dd56d0246ab9dd5c4c845f23637e333d2bb2ac3c.json",
+          "source_path": "Manuales_Kidde\\3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet.pdf",
+          "jaccard": 9.168423947923352e-05,
+          "containment": 0.0011318619128466328,
+          "shared_shingles": 2,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "c3a4f88a8eed64b74a69f58817d7380446123ecf202aa4d2252308585dc11bdf.json",
+          "source_path": "Manuales_Kidde\\ke-io3101-161721-es.pdf",
+          "jaccard": 0.0003654970760233918,
+          "containment": 0.0010309278350515464,
+          "shared_shingles": 1,
+          "shared_identifiers": []
+        }
+      ]
+    },
+    {
+      "id": "apollo_xpander_commissioning",
+      "manufacturer": "Apollo",
+      "sha256": "b06377c0ed86431b011a000c1508de3f43bcb4bd9c4c9533187b37b705a23abe",
+      "tokens": 4536,
+      "unique_shingles": 4355,
+      "top_matches": [
+        {
+          "development_file": "26882b07282c9bad8e19b4404040852a3c3c28191f15adf170ed96e417b9cb08.json",
+          "source_path": "Manuales_Notifier_Privado\\TIDT070.pdf",
+          "jaccard": 0.0006257822277847309,
+          "containment": 0.006787330316742082,
+          "shared_shingles": 3,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "0e5edee61c396e769d7d4a8bd6e98e8a7ccd0d76606eeed83bb4196751b97cf3.json",
+          "source_path": "Manuales_Morley\\MIE-MU-535rv001.pdf",
+          "jaccard": 0.0004190236748376283,
+          "containment": 0.004761904761904762,
+          "shared_shingles": 2,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "58520f8be0798e32b0ec6b8be9e4a0584405922e0fcbbb6666d6781227e3029d.json",
+          "source_path": "Manuales_Morley_Privado\\MIE-MU-315.pdf",
+          "jaccard": 0.0004150238638721727,
+          "containment": 0.004291845493562232,
+          "shared_shingles": 2,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "521111464148c09ffd2089df3bff2756072b6e796a0a03bd85906d49ef992b58.json",
+          "source_path": "Manuales_Notifier_Privado\\TIDT110.pdf",
+          "jaccard": 0.0004069175991861648,
+          "containment": 0.0035587188612099642,
+          "shared_shingles": 2,
+          "shared_identifiers": []
+        },
+        {
+          "development_file": "5c2503875bbf0a95c7c69fba3839e4ee459d1da3fdeb26e387a9cd5e451cdef8.json",
+          "source_path": "Manuales_Notifier_Privado\\MNDT701.pdf",
+          "jaccard": 0.0005605381165919282,
+          "containment": 0.003,
+          "shared_shingles": 3,
+          "shared_identifiers": []
+        }
+      ]
+    }
+  ],
+  "cost": {
+    "model_calls": 0,
+    "network_calls": 0,
+    "database_reads": 0,
+    "database_writes": 0
+  }
+}

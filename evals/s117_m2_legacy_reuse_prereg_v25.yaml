@@ -1,0 +1,29 @@
+instrument: s117_m2_legacy_reuse_prereg_v25
+status: frozen_before_seeded_local_replays
+supersedes: evals/s117_m2_legacy_reuse_prereg_v24.yaml
+inherits:
+  path: evals/s117_m2_legacy_reuse_prereg_v24.yaml
+  sha256: 70888e2a48e889676bb99c172fe66c2bb9333ecd1a410d1863687eb76290b7f7
+design:
+  language_determinism_base: evals/s117_m2_language_determinism_design_v1.md
+  language_determinism_base_sha256: af02ced8d9013aefbec98685635b670cb27f4880bb56a4a24321b46c84e90f12
+  language_determinism_contract: evals/s117_m2_language_determinism_design_v2.md
+  language_determinism_contract_sha256: 4c5e009cd4d8e44e3888457bdbf43048277016fbcf9594c9b4648763fb5a484f
+frozen_inputs:
+  language: {path: src/reingest/language.py, sha256: cab8c686143bbfe239a7086283193086305688e72c4cb9b0b4f43b835b9e9413}
+  language_determinism_runner: {path: scripts/s117_language_determinism_gate.py, sha256: bb01328223ea76f540ef895ee10f7b32ebb7fa2988f05dec1faaad6241e408ff}
+  language_profile_baseline: {path: evals/s117_language_profile_baseline_v1.json, sha256: c9e5a86e4e0ed39f2e1a13b807aec46f508e35c7f4a822c6b0a43e5f4b679385}
+  language_determinism_gate_result: {path: evals/s117_language_determinism_gate_v1.json, sha256: 8e49b9114cfa3363ef6ecb5fdb0cb5be51bceb0ee6c770091c76349df26e2ac7}
+  language_determinism_tests: {path: tests/test_reingest_language_determinism.py, sha256: f0b458bb43910aa5a24e10d47aad7edb30a1f424200add0c3da1bfd4f936a11f}
+  m2_analyzer: {path: scripts/s117_m2_legacy_reuse_analysis.py, sha256: 40f476eae05b6c36af833c35db5cb4d0d7fd9b2a761c74a02d4b3a37812236e4}
+  remote_snapshot:
+    path: tmp/s117_m2/remote_snapshot_v1.jsonl.gz
+    sha256: 3013c553da20c72fbfe0dc801dad4ea4b063ecff3138dcf55b5cd7831cf79067
+    canonical_jsonl_sha256: c5c4e1027d85b5023e8834e221bb99799fedbea1a9826f5a42f88ff3ad8da8d5
+seeded_replay_gate:
+  database_access: forbidden
+  snapshot_recapture: forbidden
+  seeds: [1, 2]
+  require_byte_identical_outputs: true
+  require_identical_local_manifest: true
+  require_identical_logical_payload: true

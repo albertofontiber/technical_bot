@@ -125,6 +125,20 @@ def test_apic_clarify_no_expande():
     rec = next(r for r in res["records"] if r["token"] == "apic")
     assert rec["expand"] is False
     assert res["add_models"] == [] and res["allowed_sources"] == frozenset()
+    assert res["source_groups"] == []
+
+
+def test_cross_product_resolution_keeps_document_scopes_separate():
+    res = R.resolve_query(
+        "central Detnov CAD-150 con detector Notifier SDX-751"
+    )
+    groups = {
+        row["token"].casefold(): set(row["sources"])
+        for row in res["source_groups"]
+    }
+    assert len(groups) == 2
+    assert "MIDT190" in groups["sdx-751"]
+    assert any("CAD-150-8" in source for source in groups["cad-150"])
 
 
 def test_zxse_expande_y_permite_mie_mi_600():

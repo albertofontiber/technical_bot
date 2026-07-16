@@ -1,0 +1,425 @@
+instrument: s119_cached_atomic_replay_contract_v1
+schema_version: 1
+status: frozen_retrospective_cache_only_contract
+authority: diagnostic_hybrid_replay_only_no_official_atomic_credit
+frozen_inputs:
+  s118_bridge:
+    path: evals/s118_atomic_benchmark_bridge_v1.json
+    sha256: f9a7a143a18b8d3046e404bd8dd1501baa62f1d0f4e6255d472956311d50eccb
+  s118_gate:
+    path: evals/s118_atomic_benchmark_bridge_gate_v1.yaml
+    sha256: 4e4f16bef8f82a5c262e294c09540267428fe7f52865891d26fa0891d09d8cbc
+  s113_contexts:
+    path: evals/s113_full_contexts_freeze_v1.json
+    sha256: 22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d
+  s113_answers:
+    path: evals/s113_full_answer_regression_v1.json
+    sha256: 8fbfe4801f6c35c2447af9440c459b080e4405b76e2899f3a00e66b230497f69
+  source_projection:
+    path: evals/s119_source_contract_projection_v1.json
+    sha256: 0332d8573bfc781c113436b89bfa1a429da61de429e4e006a65ab865d82c8f40
+  claim_evidence_adjudication:
+    path: evals/s119_claim_evidence_adjudication_v1.yaml
+    sha256: 9e3cbd2a609f4379875b36bf39a00961801a03ef712474660a98de39a7668e1f
+  cached_answer_adjudication:
+    path: evals/s119_cached_answer_adjudication_v1.yaml
+    sha256: 6276a22764ce281a40ae3773150c59a701540dde7755e51195bd7e46ca00d468
+external_source:
+  logical_path: evals/s106_p0_selection_adjudication.yaml
+  sha256: f36b9a8189ca0b1f4289f4d8fb342b8def7eed026976ee301554187fcf2aa29b
+  required_row_keys:
+    - "cat001#3:32 / 25 / 20"
+    - "cat010#0:24V dc"
+    - "cat017#4:CLSS"
+    - "hp003#0:12V"
+    - "hp005#3:CIRCUITO SIRENA"
+    - "hp009#0:Retorno"
+    - "hp011#0:ABORT"
+    - "hp011#1:r.I"
+    - "hp013#0:EEPROM"
+    - "hp017#2:Editar Configuracion"
+    - "hp018#1:6K8"
+    - "hp018#4:1 A"
+parent_fact_key_overrides:
+  s118.hp013.power_and_rtc.1: "hp013#1:PWR-R"
+policy:
+  population: exact_s118_pending_replay_claims_only
+  evidence: all_required_groups_must_bind_to_exact_s113_context_chunks
+  missing_evidence: evidence-binding-unresolved
+  missing_answer: synthesis-not-measured
+  answer_coverage: all_bounded_semantic_patterns_must_match
+  ok_credit: hybrid_diagnostic_only
+  official_atomic_denominator: null
+  official_atomic_target_ok: null
+authorization:
+  network: false
+  database: false
+  models: false
+  retrieval: false
+  rerank: false
+  synthesis_calls: false
+  serving: false
+  deploy: false
+  gold_mutation: false
+expected_population:
+  pending_claims: 22
+  qids: 10
+claims:
+  - claim_id: m0.cat001.isolator_limits.1
+    qid: cat001
+    source_row_key: "cat001#3:32 / 25 / 20"
+    evidence_groups:
+      - group_id: en54_32
+        alternatives:
+          - candidate_id: 503bc41c-4b85-4223-b8c1-103a54a96a26
+            source_file: 997-669-005-3_Instal-Comm_ES
+            page_number: 21
+            content_sha256: 09179265a318793547a1d50b2628f4fb81b6a692d18503d62456501baf80cbe0
+            match_patterns:
+              - "maximo 32 sensores y o pulsadores entre aisladores"
+    synthesis:
+      coverage_patterns:
+        - "32 equipos entre aisladores"
+  - claim_id: m0.cat001.isolator_limits.2
+    qid: cat001
+    source_row_key: "cat001#3:32 / 25 / 20"
+    evidence_groups:
+      - group_id: pearl_25
+        alternatives:
+          - candidate_id: a92b566d-4a7e-4e04-91ef-a8d3b66d7723
+            source_file: 997-669-005-3_Instal-Comm_ES
+            page_number: 38
+            content_sha256: f9628d031c3e01ffb982c09eb2db9a954a13b80d7d9f6a4b8e785d281868bb43
+            match_patterns:
+              - "centrales pearl no coloque mas de 25 equipos de lazo entre aisladores"
+    synthesis:
+      coverage_patterns:
+        - "25 equipos entre aisladores"
+  - claim_id: m0.cat001.isolator_limits.3
+    qid: cat001
+    source_row_key: "cat001#3:32 / 25 / 20"
+    evidence_groups:
+      - group_id: no_internal_isolator_20
+        alternatives:
+          - candidate_id: 503bc41c-4b85-4223-b8c1-103a54a96a26
+            source_file: 997-669-005-3_Instal-Comm_ES
+            page_number: 21
+            content_sha256: 09179265a318793547a1d50b2628f4fb81b6a692d18503d62456501baf80cbe0
+            match_patterns:
+              - "equipos sin aisladores internos incluidos equipos de protocolo clip y algunos opal no coloque mas de 20 equipos entre aisladores"
+      - group_id: fet_20
+        alternatives:
+          - candidate_id: a92b566d-4a7e-4e04-91ef-a8d3b66d7723
+            source_file: 997-669-005-3_Instal-Comm_ES
+            page_number: 38
+            content_sha256: f9628d031c3e01ffb982c09eb2db9a954a13b80d7d9f6a4b8e785d281868bb43
+            match_patterns:
+              - "20 si utiliza aisladores fet"
+    synthesis:
+      coverage_patterns:
+        - "equipos sin aisladores internos.{0,120}20 equipos entre aisladores"
+        - "aisladores fet.{0,250}20 equipos entre aisladores"
+  - claim_id: m0.cat010.supply.1
+    qid: cat010
+    source_row_key: "cat010#0:24V dc"
+    evidence_groups:
+      - group_id: nominal_24v
+        alternatives:
+          - candidate_id: 048f407c-eda7-416e-a63e-6d07a583dd78
+            source_file: manual IS MA1
+            page_number: 1
+            content_sha256: c5b5722f3f6ae4abc59cb8d820904efcfb6abe434d38bf9389fd427848f6e122
+            match_patterns:
+              - "designed to operate in a hazardous area from a 24v dc supply"
+    synthesis:
+      coverage_patterns:
+        - "is ma1.{0,180}24 v dc.{0,180}(barrera|aislador)"
+  - claim_id: m0.cat010.supply.2
+    qid: cat010
+    source_row_key: "cat010#0:24V dc"
+    evidence_groups:
+      - group_id: barrier_28v_93ma
+        alternatives:
+          - candidate_id: 048f407c-eda7-416e-a63e-6d07a583dd78
+            source_file: manual IS MA1
+            page_number: 1
+            content_sha256: c5b5722f3f6ae4abc59cb8d820904efcfb6abe434d38bf9389fd427848f6e122
+            match_patterns:
+              - "via 28v 93ma resistive atex and iecex certified zener barriers or galvanic isolators"
+    synthesis:
+      coverage_patterns:
+        - "28 v.{0,40}93 ma.{0,100}resistiv"
+  - claim_id: m0.cat017.clss_workflow.1
+    qid: cat017
+    source_row_key: "cat017#4:CLSS"
+    evidence_groups:
+      - group_id: clss_configuration
+        alternatives:
+          - candidate_id: e472044e-ce86-4569-ac6f-2bd297bb1c93
+            source_file: HOP-138-8ES  issue 6_01-2026_Co
+            page_number: 15
+            content_sha256: 11f24d9c07d019f9bdd9c5ff1107c4b896bdef19f5847f95e2858839321be453
+            match_patterns:
+              - "central debera configurarse previamente con el programa de configuracion de clss"
+      - group_id: send_to_panel
+        alternatives:
+          - candidate_id: 6596dfec-a47e-46ec-9aba-8807575b6983
+            source_file: HOP-138-8ES  issue 6_01-2026_Co
+            page_number: 16
+            content_sha256: 6651325a2aab28fe662fafaf71b4da914d8b059ec7374486bc9564b9c1781a42
+            match_patterns:
+              - "configure an empty loop with the protocol of choice send the configuration to the panel"
+    synthesis:
+      coverage_patterns:
+        - "clss.{0,240}(configur|program)"
+        - "(enviar|cargar|transferir).{0,120}(central|panel)"
+  - claim_id: m0.hp003.battery_voltage_capacity.1
+    qid: hp003
+    source_row_key: "hp003#0:12V"
+    evidence_groups:
+      - group_id: two_12v_series
+        alternatives:
+          - candidate_id: eaa39792-fb91-411d-a666-d85fb7f7b591
+            source_file: 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+            page_number: 8
+            content_sha256: 2c0eae77adbc34d5c98351c56e2432b021b38b5aa39dd86c831baf989704be82
+            match_patterns:
+              - "requieren dos baterias de 12v 7a h"
+              - "baterias deben conectarse en serie"
+    synthesis:
+      coverage_patterns:
+        - "dos baterias de 12 ?v.{0,100}serie.{0,100}24 ?v"
+  - claim_id: m0.hp005.output_selection.1
+    qid: hp005
+    source_row_key: "hp005#3:CIRCUITO SIRENA"
+    evidence_groups:
+      - group_id: select_siren_output
+        alternatives:
+          - candidate_id: 6dcccb36-f67b-4057-959b-494d9279e5d4
+            source_file: MADT190_07
+            page_number: 6
+            content_sha256: 55024e07527c4e4d90e960dba720f7445a40b675dd189c936d17602ea4b87fca
+            match_patterns:
+              - "aplicar el evento de salida matriz sobre"
+              - "funcion especial circuito sirena 1"
+              - "seleccionar equipos del lazo"
+    synthesis:
+      coverage_patterns:
+        - "(selecciona|seleccionar|elige|elegir).{0,160}circuito.{0,80}sirena"
+  - claim_id: m0.hp009.closed_loop_return.1
+    qid: hp009
+    source_row_key: "hp009#0:Retorno"
+    evidence_groups:
+      - group_id: closed_return_topology
+        alternatives:
+          - candidate_id: a8d7b1a4-41a2-4ee7-9733-fa541bf6552a
+            source_file: MIE-MI-530rv001
+            page_number: 19
+            content_sha256: fade159d212410c39d58e423bc7c5e65304a45ee9972c7bebb53a07c4b429bb1
+            match_patterns:
+              - "inicio lazo out"
+              - "retorno"
+              - "conexionado lazo analogico"
+    synthesis:
+      coverage_patterns:
+        - "(lazo analogico.{0,180}(bucle|lazo) cerrado|(bucle|lazo) cerrado.{0,180}lazo analogico)"
+  - claim_id: m0.hp009.closed_loop_return.2
+    qid: hp009
+    source_row_key: "hp009#0:Retorno"
+    evidence_groups:
+      - group_id: out_and_return_terminals
+        alternatives:
+          - candidate_id: a8d7b1a4-41a2-4ee7-9733-fa541bf6552a
+            source_file: MIE-MI-530rv001
+            page_number: 19
+            content_sha256: fade159d212410c39d58e423bc7c5e65304a45ee9972c7bebb53a07c4b429bb1
+            match_patterns:
+              - "inicio lazo out"
+              - "retorno"
+    synthesis:
+      coverage_patterns:
+        - "inicio lazo.{0,180}retorno"
+  - claim_id: m0.hp011.abort.1
+    qid: hp011
+    source_row_key: "hp011#0:ABORT"
+    evidence_groups:
+      - group_id: abort_latched
+        alternatives:
+          - candidate_id: c8924d59-a9ce-4379-a3b7-57058ff86a82
+            source_file: HLSI-MN-103_RP1r-Supra_lr
+            page_number: 53
+            content_sha256: b9c836ec1c3f2d5c5ca5c3001351d243dbdd72ab4aea68e4727d86c6ea2de880
+            match_patterns:
+              - "todas las averias son por defecto enclavadas"
+              - "excepcion de la averia en el circuito de paro"
+    synthesis:
+      coverage_patterns:
+        - "(abort|paro).{0,160}(enclavad|retenid)"
+  - claim_id: m0.hp011.abort.2
+    qid: hp011
+    source_row_key: "hp011#0:ABORT"
+    evidence_groups:
+      - group_id: abort_manual_reset
+        alternatives:
+          - candidate_id: c8924d59-a9ce-4379-a3b7-57058ff86a82
+            source_file: HLSI-MN-103_RP1r-Supra_lr
+            page_number: 53
+            content_sha256: b9c836ec1c3f2d5c5ca5c3001351d243dbdd72ab4aea68e4727d86c6ea2de880
+            match_patterns:
+              - "requieren de un rearme manual de la central"
+              - "excepcion de la averia en el circuito de paro"
+    synthesis:
+      coverage_patterns:
+        - "(abort|paro).{0,180}rearme manual"
+  - claim_id: m0.hp011.reset_inhibit.1
+    qid: hp011
+    source_row_key: "hp011#1:r.I"
+    evidence_groups:
+      - group_id: reset_inhibit_identity
+        alternatives:
+          - candidate_id: 475a8f18-7c69-4c7a-8111-45bd67334c96
+            source_file: HLSI-MN-103_RP1r-Supra_lr
+            page_number: 63
+            content_sha256: 81bbb49e22c41421c0d9d289c2c38314c76734459aeefd31a5d6868cc2dda1cd
+            match_patterns:
+              - "rearme inhibido tras extincion"
+    synthesis:
+      coverage_patterns:
+        - "r i.{0,100}rearme inhibido tras extincion"
+  - claim_id: m0.hp011.reset_inhibit.2
+    qid: hp011
+    source_row_key: "hp011#1:r.I"
+    evidence_groups:
+      - group_id: reset_inhibit_dash
+        alternatives:
+          - candidate_id: 475a8f18-7c69-4c7a-8111-45bd67334c96
+            source_file: HLSI-MN-103_RP1r-Supra_lr
+            page_number: 63
+            content_sha256: 81bbb49e22c41421c0d9d289c2c38314c76734459aeefd31a5d6868cc2dda1cd
+            match_patterns:
+              - "rearme inhibido hasta finalizar extincion o cuando agotado tiempo configurado"
+    synthesis:
+      coverage_patterns:
+        - "rearme inhibido.{0,180}(finalizar extincion|agotado.{0,40}t a)"
+  - claim_id: m0.hp011.reset_inhibit.3
+    qid: hp011
+    source_row_key: "hp011#1:r.I"
+    evidence_groups:
+      - group_id: reset_inhibit_default_00
+        alternatives:
+          - candidate_id: 475a8f18-7c69-4c7a-8111-45bd67334c96
+            source_file: HLSI-MN-103_RP1r-Supra_lr
+            page_number: 63
+            content_sha256: 81bbb49e22c41421c0d9d289c2c38314c76734459aeefd31a5d6868cc2dda1cd
+            match_patterns:
+              - "00 rearme permitido en cualquier momento por defecto"
+    synthesis:
+      coverage_patterns:
+        - "00.{0,100}rearme permitido en cualquier momento.{0,80}por defecto"
+  - claim_id: m0.hp013.eeprom_retention.1
+    qid: hp013
+    source_row_key: "hp013#0:EEPROM"
+    evidence_groups:
+      - group_id: eeprom_configuration
+        alternatives:
+          - candidate_id: 2365dfaa-45e5-4c65-9328-194441e375c9
+            source_file: ADW535_TD_T140358es_e
+            page_number: 12
+            content_sha256: f8e39c048c9aee39597d2e8c966ae381e1557329567c6ec982d01c71cf962828
+            match_patterns:
+              - "eeprom modulo de memoria para los datos del sistema y la configuracion del adw"
+    synthesis:
+      coverage_patterns:
+        - "configuracion.{0,160}eeprom"
+  - claim_id: m0.hp017.rule1.1
+    qid: hp017
+    source_row_key: "hp017#2:Editar Configuracion"
+    evidence_groups:
+      - group_id: edit_configuration_navigation
+        alternatives:
+          - candidate_id: a95f8659-2277-4b32-a413-edd0e6cd2f10
+            source_file: 997-671-005-3_Configuration_ES
+            page_number: 45
+            content_sha256: 7f68b076e19769e1b528b189d35ceb99669c7f0d7465d4fd944c6da935cb59fd
+            match_patterns:
+              - "menu editar configuracion seleccione 7 causa y efecto"
+    synthesis:
+      coverage_patterns:
+        - "menu editar configuracion.{0,120}causa y efecto|causa y efecto.{0,120}menu editar configuracion"
+  - claim_id: m0.hp017.rule1.2
+    qid: hp017
+    source_row_key: "hp017#2:Editar Configuracion"
+    evidence_groups:
+      - group_id: default_rule_one_conflict
+        alternatives:
+          - candidate_id: a95f8659-2277-4b32-a413-edd0e6cd2f10
+            source_file: 997-671-005-3_Configuration_ES
+            page_number: 45
+            content_sha256: 7f68b076e19769e1b528b189d35ceb99669c7f0d7465d4fd944c6da935cb59fd
+            match_patterns:
+              - "regla 1 una regla que diga que para cualquier entrada de alarma todas las sirenas"
+              - "reglas de causa efecto por defecto deben eliminarse si se van a crear reglas de causa efecto personalizadas"
+    synthesis:
+      coverage_patterns:
+        - "regla 1.{0,220}(cualquier entrada de alarma|cualquier alarma).{0,160}(todas las sirenas|todas las salidas)"
+        - "(eliminar|borrar|sustituir).{0,220}regla 1|regla 1.{0,220}(eliminar|borrar|sustituir)"
+  - claim_id: m0.hp018.eol.1
+    qid: hp018
+    source_row_key: "hp018#1:6K8"
+    evidence_groups:
+      - group_id: eol_value_rating
+        alternatives:
+          - candidate_id: 90d51dac-bd0b-4051-b414-ced0fe6e33bb
+            source_file: MIE-MI-530rv001
+            page_number: 20
+            content_sha256: 50555410cdb0fd2a437a69d217e4bcf5a620468cafbf2fd3d2a7b66049f02a95
+            match_patterns:
+              - "resistencia 6 8k.{0,8}0 5w minimo.{0,30}final de linea"
+    synthesis:
+      coverage_patterns:
+        - "(6k8|6 8 k).{0,80}0 5 w"
+  - claim_id: m0.hp018.eol.2
+    qid: hp018
+    source_row_key: "hp018#1:6K8"
+    evidence_groups:
+      - group_id: eol_last_position
+        alternatives:
+          - candidate_id: 90d51dac-bd0b-4051-b414-ced0fe6e33bb
+            source_file: MIE-MI-530rv001
+            page_number: 20
+            content_sha256: 50555410cdb0fd2a437a69d217e4bcf5a620468cafbf2fd3d2a7b66049f02a95
+            match_patterns:
+              - "final de linea rfl en el final del circuito"
+    synthesis:
+      coverage_patterns:
+        - "(ultima sirena|final del circuito).{0,120}(6k8|6 8 k)|(6k8|6 8 k).{0,120}(ultima sirena|final del circuito)"
+  - claim_id: m0.hp018.max_current.1
+    qid: hp018
+    source_row_key: "hp018#4:1 A"
+    evidence_groups:
+      - group_id: max_one_amp
+        alternatives:
+          - candidate_id: 90d51dac-bd0b-4051-b414-ced0fe6e33bb
+            source_file: MIE-MI-530rv001
+            page_number: 20
+            content_sha256: 50555410cdb0fd2a437a69d217e4bcf5a620468cafbf2fd3d2a7b66049f02a95
+            match_patterns:
+              - "cada circuito admite un consumo maximo de 1 amp"
+    synthesis:
+      coverage_patterns:
+        - "(1 a|1 amp).{0,120}(circuito|salida)|(circuito|salida).{0,120}(1 a|1 amp)"
+  - claim_id: s118.hp013.power_and_rtc.1
+    qid: hp013
+    source_row_key: "hp013#0:EEPROM"
+    evidence_groups:
+      - group_id: lithium_rtc_components
+        alternatives:
+          - candidate_id: af577289-5d7f-4dfc-9187-8a3aca92d40d
+            source_file: ADW535_TD_T140358es_e
+            page_number: 29
+            content_sha256: 31cef0921dd2cc7bf94bf12bcd8c2eae12848a10c53ddac420c3a03f166443d9
+            match_patterns:
+              - "bateria de litio modulo de reloj rtc"
+    synthesis:
+      coverage_patterns:
+        - "bateria de litio.{0,100}(reloj|rtc)"

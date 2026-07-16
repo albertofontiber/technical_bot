@@ -1,0 +1,78 @@
+schema_version: s126_structural_upstream_prereg_v1
+status: FROZEN_BEFORE_CANDIDATE_REPLAY
+
+frozen_inputs:
+  prior_query_contract:
+    path: config/retrieval_facets_v4.yaml
+    sha256: fcc5aa7ade886a864cdd654757a79709136968c3d010ffde8a94dc0eae0401bb
+  prior_evidence_contract:
+    path: config/evidence_coverage_facets_v5.yaml
+    sha256: 4cc64183da44e8faf12e0521845175929efa8acf1e05c2994bf0bacfeb8c3ad0
+  query_engine:
+    path: src/rag/query_facets.py
+    sha256: 8e85bbc17fb5b1a5119a4c5a8f86457120a33c5f08a67b546768c6b5c1219c98
+  evidence_engine:
+    path: src/rag/evidence_coverage.py
+    sha256: 2ef34784b35915a2cbb873c16cd773a5943e306dca35e24df5391864170118cf
+  frozen_contexts:
+    path: evals/s113_full_contexts_freeze_v1.json
+    sha256: 22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d
+  corpus_snapshot:
+    path: tmp/s117_m25/derived_snapshot_v2.jsonl.gz
+    sha256: a825e4dd02b918ddafebab4419cb416b6edc5f1b823a7a9d423f96718d7b6217
+  benchmark:
+    path: evals/s100_factlevel_full.yaml
+    sha256: 49e8cbaab5f86f89b67e0457267ceeca7a1078ac503fbe5a7249b798aeabe503
+  procedure_selector:
+    path: src/rag/procedure_bundle_coverage.py
+    sha256: cbd3902b823fa7d7d4fb4c9c3f6ba3781a5492c0b2e7be6364291d1cd9461a76
+  compatibility_query_candidate:
+    path: config/retrieval_facets_compatibility_candidate_v1.yaml
+    sha256: 455ef29cf36647dcb7bda7a1a4a8f16b175a6081decec2efbcfb62facb465461
+  compatibility_evidence_candidate:
+    path: config/evidence_coverage_compatibility_candidate_v1.yaml
+    sha256: f6c73113746608d8fff567f6fa23a2415433c429c77f5e3121429b77f453d937
+
+accepted_data_reconciliation:
+  source_commit: 5f06ab5
+  source_commit_subject: 's97: adjudicaciones de Alberto aplicadas por la puerta (validate 0 errores)'
+  document_id: 38266cec-8563-4dbb-9e55-37534d8ab7a8
+  source_file: MIDT190
+  product_id: notifier:sdx-751
+  role: secondary
+  scope: doc
+  provenance: "adjudicación Alberto s97 (5 jul 2026) — Apéndice 3 'Equipos de lazo compatibles' p.71: SDX-751 (OPT)"
+
+exact_retrieval_population:
+  - 'cat017#2:licencia CLIP por lazo'
+  - 'hp010#1:Nivel 3'
+  - 'cat013#0:bucle cerrado'
+  - 'cat013#1:CLIP'
+
+candidate_contract:
+  compatibility_max_needs: 3
+  compatibility_max_appends: 3
+  exact_source_receipts_required: true
+  canonical_document_scope_required: true
+  generated_hyq_prose_may_be_served: false
+  qid_fact_gold_visible_during_selection: false
+  source_contract_hold_excluded: true
+
+gates:
+  local:
+    catalog_validation_errors: 0
+    compatibility_query_needs: 3
+    compatibility_required_facets: [protocol_scope, supported_device_roster, loop_topology]
+    exact_target_receipts_required: 3
+    model_calls: 0
+    network_calls: 0
+    database_writes: 0
+  live_read_only:
+    scope_overflow: false
+    decisive_claims_recovered_minimum: 2
+    model_calls: 0
+    database_writes: 0
+  release:
+    protected_regression_required: true
+    independent_prerequisite_applicability_required: true
+    default_off_until_release_gate: true

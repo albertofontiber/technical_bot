@@ -26,6 +26,7 @@ Uso:
 """
 from __future__ import annotations
 
+import hashlib
 import re
 from dataclasses import dataclass, field
 from uuid import uuid4
@@ -36,9 +37,9 @@ from uuid import uuid4
 # una vez añadido el blurb de contexto (B7, ~300-600 chars).
 TARGET_CHARS = 3000
 MAX_CHARS = 7000
-# Por debajo de MIN un chunk aporta poco contexto: ni fuerza corte ni sobrevive
-# suelto (se fusiona con el vecino). Por debajo de NOISE es ruido (bordes de
-# tabla sueltos, números de página) y se descarta.
+# Por debajo de MIN un chunk aporta poco contexto y se fusiona con el vecino
+# cuando los invariantes estructurales lo permiten. NOISE_CHARS se conserva
+# solo por compatibilidad de import; no gobierna decisiones del chunker.
 MIN_CHARS = 450
 NOISE_CHARS = 15
 
@@ -48,6 +49,66 @@ _LIST_ITEM = re.compile(r"(\d+[.)]|[-*+])\s")
 _TABLE_SEP = re.compile(r"^\s*\|?[\s:|-]*-[\s:|-]*\|[\s:|-]*$")
 _SENTENCE_END = re.compile(r"(?<=[.;:])\s+")
 _NON_MEANINGFUL = re.compile(r"[\s#|>*_`\-]+")
+
+
+@dataclass(frozen=True)
+class SectionAnchor:
+    """Immutable identity for one concrete Markdown heading occurrence.
+
+    The hash checks internal consistency only. Strong persisted provenance also
+    needs the hash of the complete raw extraction artifact.
+    """
+
+    heading_text: str
+    title: str
+    level: int
+    source_page: int | None
+    source_block_index: int
+    heading_sha256: str
+
+    @classmethod
+    def from_heading(cls, block: "_Block", source_block_index: int) -> "SectionAnchor":
+        return cls(
+            heading_text=block.text,
+            title=block.title,
+            level=block.level,
+            source_page=block.page,
+            source_block_index=source_block_index,
+            heading_sha256=hashlib.sha256(block.text.encode("utf-8")).hexdigest(),
+        )
+
+    @property
+    def identity(self) -> tuple[int | None, int, str]:
+        """Occurrence identity; repeated byte-identical headings stay distinct."""
+        return (self.source_page, self.source_block_index, self.heading_sha256)
+
+    def is_internally_valid(self) -> bool:
+        """Validate self-consistency without claiming raw-artifact provenance."""
+        if (
+            not isinstance(self.source_block_index, int)
+            or isinstance(self.source_block_index, bool)
+            or self.source_block_index < 0
+        ):
+            return False
+        if self.source_page is not None and (
+            not isinstance(self.source_page, int) or isinstance(self.source_page, bool)
+        ):
+            return False
+        if (
+            not isinstance(self.level, int)
+            or isinstance(self.level, bool)
+            or not 1 <= self.level <= 6
+        ):
+            return False
+        match = _HEADING.fullmatch(self.heading_text.strip())
+        if match is None:
+            return False
+        return (
+            len(match.group(1)) == self.level
+            and match.group(2).strip() == self.title
+            and hashlib.sha256(self.heading_text.encode("utf-8")).hexdigest()
+            == self.heading_sha256
+        )
 
 
 @dataclass
@@ -80,6 +141,12 @@ class Chunk:
     context: str | None = None           # B7
     embedding: list[float] | None = None # B8
     duplicate_of: str | None = None      # B6
+    # S116 shadow-only lineage. The current index mapper intentionally ignores
+    # these fields until persisted provenance receives a separate gate.
+    section_anchor: SectionAnchor | None = None
+    section_lineage: tuple[SectionAnchor, ...] = ()
+    source_block_start: int | None = None
+    source_block_end: int | None = None
 
 
 @dataclass
@@ -90,7 +157,9 @@ class _Block:
     page: int | None
     level: int = 0          # solo headings
     title: str = ""         # solo headings
-    path: tuple = ()        # pila de headers (nivel, título) vigente
+    path: tuple = ()        # vista derivada: pila de (nivel, título) vigente
+    lineage: tuple[SectionAnchor, ...] = ()
+    source_block_index: int = -1
 
     @property
     def atomic(self) -> bool:
@@ -195,7 +264,7 @@ def _flatten(pages: list[dict]) -> list[_Block]:
     La pila de headers persiste entre páginas: una sección que cruza un salto
     de página conserva su `section_path`.
     """
-    stack: list[tuple[int, str]] = []
+    stack: list[SectionAnchor] = []
     out: list[_Block] = []
     for p in pages:
         md = p.get("md") or p.get("text") or ""
@@ -203,13 +272,15 @@ def _flatten(pages: list[dict]) -> list[_Block]:
             continue
         page = p.get("page")
         for b in parse_blocks(md, page):
+            b.source_block_index = len(out)
             if b.kind == "heading":
-                while stack and stack[-1][0] >= b.level:
+                while stack and stack[-1].level >= b.level:
                     stack.pop()
-                # Evita re-apilar un running-header repetido idéntico.
-                if not (stack and stack[-1][1] == b.title):
-                    stack.append((b.level, b.title))
-            b.path = tuple(stack)
+                # Cada ocurrencia obtiene identidad propia. No deduplicamos por
+                # texto: un sibling real y un running header pueden ser iguales.
+                stack.append(SectionAnchor.from_heading(b, b.source_block_index))
+            b.lineage = tuple(stack)
+            b.path = tuple((anchor.level, anchor.title) for anchor in b.lineage)
             out.append(b)
     return out
 
@@ -236,18 +307,22 @@ def _split_oversized(block: _Block, ceiling: int) -> list[str]:
     return pieces
 
 
-def _common_path(blocks: list[_Block]) -> tuple:
-    """Ancestro común de los `path` de los bloques — el section_path del chunk."""
-    paths = [b.path for b in blocks if b.path]
-    if not paths:
+def _common_lineage(blocks: list[_Block]) -> tuple[SectionAnchor, ...]:
+    """Common anchor prefix across every block, including empty lineages."""
+    if not blocks:
         return ()
-    common: list[tuple[int, str]] = []
-    for tier in zip(*paths):
-        if len(set(tier)) == 1:
+    common: list[SectionAnchor] = []
+    for tier in zip(*(block.lineage for block in blocks)):
+        if len({anchor.identity for anchor in tier}) == 1:
             common.append(tier[0])
         else:
             break
     return tuple(common)
+
+
+def _common_path(blocks: list[_Block]) -> tuple[tuple[int, str], ...]:
+    """Compatibility view derived from the authoritative common lineage."""
+    return tuple((anchor.level, anchor.title) for anchor in _common_lineage(blocks))
 
 
 def _make_chunk(buf: list[_Block], index: int) -> Chunk | None:
@@ -255,8 +330,10 @@ def _make_chunk(buf: list[_Block], index: int) -> Chunk | None:
     text = "\n\n".join(b.text for b in buf).strip()
     if not text:
         return None
-    path = _common_path(buf)
+    lineage = _common_lineage(buf)
+    path = tuple((anchor.level, anchor.title) for anchor in lineage)
     first_page = next((b.page for b in buf if b.page is not None), None)
+    source_indexes = [b.source_block_index for b in buf]
     return Chunk(
         content=text,
         section_title=path[-1][1] if path else None,
@@ -264,6 +341,10 @@ def _make_chunk(buf: list[_Block], index: int) -> Chunk | None:
         page_number=first_page,
         chunk_index=index,
         is_flow_diagram=any(b.kind == "mermaid" for b in buf),
+        section_anchor=lineage[-1] if lineage else None,
+        section_lineage=lineage,
+        source_block_start=min(source_indexes),
+        source_block_end=max(source_indexes),
     )
 
 
@@ -326,7 +407,14 @@ def chunk_document(extraction_record: dict) -> list[Chunk]:
         if not b.atomic and len(b.text) > MAX_CHARS:
             flush()
             for piece in _split_oversized(b, MAX_CHARS):
-                buf = [_Block(b.kind, piece, b.page, path=b.path)]
+                buf = [_Block(
+                    b.kind,
+                    piece,
+                    b.page,
+                    path=b.path,
+                    lineage=b.lineage,
+                    source_block_index=b.source_block_index,
+                )]
                 flush()
             continue
 
@@ -359,22 +447,37 @@ def _meaningful_len(content: str) -> int:
 
 
 def _cleanup(chunks: list[Chunk]) -> list[Chunk]:
-    """Descarta chunks-ruido y fusiona los sub-MIN sobrantes con el vecino previo.
+    """Fusiona los sub-MIN sobrantes con el vecino previo cuando es seguro.
 
     Tras el packing acumulativo apenas quedan chunks pequeños, pero un tramo
     final corto o el resto de un bloque atómico grande pueden dejar alguno. Un
     chunk de diagrama de flujo nunca se fusiona — debe quedar aislado (doble vía).
+    Ningún chunk no vacío se descarta por longitud.
     """
     out: list[Chunk] = []
     for ch in chunks:
-        if _meaningful_len(ch.content) < NOISE_CHARS:
-            continue
+        same_lineage = bool(out) and tuple(
+            anchor.identity for anchor in out[-1].section_lineage
+        ) == tuple(anchor.identity for anchor in ch.section_lineage)
+        spans_touch = bool(out) and (
+            out[-1].source_block_end is not None
+            and ch.source_block_start is not None
+            and ch.source_block_start <= out[-1].source_block_end + 1
+        )
         if (out and len(ch.content) < MIN_CHARS
                 and not ch.is_flow_diagram and not out[-1].is_flow_diagram
+                and same_lineage and spans_touch
                 and len(out[-1].content) + len(ch.content) <= MAX_CHARS):
             prev = out[-1]
             prev.content = f"{prev.content}\n\n{ch.content}"
             prev.has_diagram = prev.has_diagram or ch.has_diagram
+            if ch.source_block_end is not None:
+                prev.source_block_end = max(
+                    prev.source_block_end
+                    if prev.source_block_end is not None
+                    else ch.source_block_end,
+                    ch.source_block_end,
+                )
         else:
             out.append(ch)
     return out

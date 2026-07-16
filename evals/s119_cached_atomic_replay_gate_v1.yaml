@@ -1,0 +1,140 @@
+instrument: s119_cached_atomic_replay_gate_v1
+frozen_at_utc: '2026-07-14T23:47:17Z'
+status: CACHED_ATOMIC_REPLAY_GO_HYBRID_DIAGNOSTIC_ONLY
+authority: diagnostic_hybrid_replay_only_no_official_atomic_credit
+
+decision:
+  cached_replay: GO_RESTRICTED
+  source_bound_generator_support: GO_22_OF_22
+  cached_answer_measurement: GO_11_OF_22
+  missing_answer_classification: SYNTHESIS_NOT_MEASURED_11_OF_22
+  official_atomic_denominator: NO_GO
+  official_ok_count: NO_GO
+  official_95_percent_claim: NO_GO
+  serving_or_deploy: NO_GO
+
+causality:
+  cached_claims_observed_ok: 7
+  cached_claims_observed_synthesis_miss: 4
+  cached_claims_without_answer: 11
+  facts_moved_to_ok_by_runtime_change: 0
+  causal_bot_improvement_claimed: false
+  interpretation: >-
+    S119 retrospectively classifies pre-existing cached answers. It does not
+    demonstrate that a runtime change improved the bot.
+
+artifact_receipts:
+  design:
+    path: evals/s119_cached_atomic_replay_design_v1.md
+    bytes: 3583
+    sha256: f3dfc52c1d2797918a825def3f0a030340a5633a6c3b8f073ad8144983be8d73
+  contract:
+    path: evals/s119_cached_atomic_replay_contract_v1.yaml
+    bytes: 17437
+    sha256: 26a5f4f9e5d44477b9bd6100108c0852a3291b9e40d9bb5e6acc7dfbb3fef741
+  source_projection:
+    path: evals/s119_source_contract_projection_v1.json
+    bytes: 6927
+    sha256: 0332d8573bfc781c113436b89bfa1a429da61de429e4e006a65ab865d82c8f40
+  claim_evidence_adjudication:
+    path: evals/s119_claim_evidence_adjudication_v1.yaml
+    bytes: 17378
+    sha256: 9e3cbd2a609f4379875b36bf39a00961801a03ef712474660a98de39a7668e1f
+  cached_answer_adjudication:
+    path: evals/s119_cached_answer_adjudication_v1.yaml
+    bytes: 2928
+    sha256: 6276a22764ce281a40ae3773150c59a701540dde7755e51195bd7e46ca00d468
+  runner:
+    path: scripts/s119_cached_atomic_replay.py
+    bytes: 39672
+    sha256: ce50bd17d67425b569edd8c6d52e42d9a4f3ea786ff992fcd070843f2fefe319
+  tests:
+    path: tests/test_s119_cached_atomic_replay.py
+    bytes: 11154
+    sha256: 9bd68c7b7fe0ff6aa291168fcd589f81c2a2e77aad697517c3916444cba4206b
+  replay:
+    path: evals/s119_cached_atomic_replay_v1.json
+    bytes: 48825
+    sha256: 0aa09c10624c4e74f380aff4665f3725fc617063384173e961aac2a7acf385f4
+
+reconciled_summary:
+  cohort_claims: 22
+  cohort_qids: 10
+  generator_support_present: 22
+  evidence_binding_unresolved: 0
+  cached_answers_available: 11
+  cached_answers_missing: 11
+  cohort_stage_histogram:
+    OK: 7
+    synthesis-miss: 4
+    synthesis-not-measured: 11
+  provisional_hybrid_content_denominator: 132
+  provisional_hybrid_stage_histogram_after_cached_replay:
+    OK: 75
+    known-m1-contract-hold: 33
+    rest: 5
+    retrieval-miss: 2
+    synthesis-miss: 6
+    synthesis-not-measured: 11
+  official_atomic_content_denominator: null
+  official_atomic_target_ok_for_95_percent: null
+  official_ok_after_replay: null
+
+verification:
+  py_compile: PASS
+  s119_tests:
+    result: PASS
+    passed: 21
+    skipped: 0
+  relevant_regression:
+    result: PASS
+    passed: 114
+    skipped: 2
+    skip_reason: Windows did not permit symlink creation in inherited output-safety tests.
+  source_projection_regeneration:
+    result: PASS
+    before_sha256: 0332d8573bfc781c113436b89bfa1a429da61de429e4e006a65ab865d82c8f40
+    after_sha256: 0332d8573bfc781c113436b89bfa1a429da61de429e4e006a65ab865d82c8f40
+  replay_byte_determinism:
+    result: PASS
+    seed_1_sha256: 0aa09c10624c4e74f380aff4665f3725fc617063384173e961aac2a7acf385f4
+    seed_2_sha256: 0aa09c10624c4e74f380aff4665f3725fc617063384173e961aac2a7acf385f4
+  diff_check: PASS
+  model_calls: 0
+  network_calls: 0
+  database_reads: 0
+  database_writes: 0
+
+adversarial_review:
+  reviewer: Hubble
+  model_identity_attested: false
+  verdict: GO_RESTRICTED
+  p0_open: 0
+  p1_open: 0
+  original_p2_open: 0
+  notes:
+    - claim/source/page/chunk/span binding is frozen and fail-closed
+    - per-qid answer/context identity and answer-SHA verdict binding are frozen
+    - authority, policy and authorization are exact and official metrics stay null
+    - regex quantifiers and evidence relation/page-basis values are closed schemas
+    - >-
+      hp005 cross-manual equivalence is accepted only for this exact diagnostic
+      replay and must not become a generic family rule
+
+authorization:
+  network: false
+  database: false
+  models: false
+  retrieval: false
+  rerank: false
+  synthesis_calls: false
+  serving: false
+  deploy: false
+  gold_mutation: false
+
+next_allowed:
+  - >-
+    local design of a versioned atomic-claim obligation packet and answer-cache
+    identity for the exact three measured synthesis-miss qids hp005, hp009 and hp017
+  - local deterministic tests against the four measured synthesis-miss claims
+  - no new answer generation until a separate bounded execution permit is frozen

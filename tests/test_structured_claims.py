@@ -55,6 +55,28 @@ def test_decimal_comma_and_microfarad_are_canonicalized():
     assert (claims[0].value, claims[0].unit) == ("0.5", "microfarad")
 
 
+def test_delivered_current_capacity_binds_per_loop_without_current_noun():
+    claims = extract_numeric_claims(
+        "El modulo de lazo proporciona un maximo de 750 mA por lazo.",
+        entity_id="INSPIRE E10",
+    )
+    assert len(claims) == 1
+    claim = claims[0]
+    assert (
+        claim.attribute,
+        claim.operator,
+        claim.value,
+        claim.unit,
+        claim.qualifiers,
+    ) == (
+        "delivered_current_capacity",
+        "maximum",
+        "750",
+        "milliampere",
+        ("per_loop",),
+    )
+
+
 def test_conflicting_model_mention_fails_closed():
     statement = "La resistencia maxima del lazo ID3000 es 35 ohmios."
     source = "La resistencia maxima del lazo ID2000 es 35 ohmios."

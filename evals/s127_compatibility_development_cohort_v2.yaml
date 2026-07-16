@@ -1,0 +1,203 @@
+schema_version: s127_compatibility_development_cohort_v2
+status: EXPOSED_DEVELOPMENT_NOT_HELDOUT
+supersedes: evals/s127_compatibility_development_cohort_v1.yaml
+purpose: diagnose typed relational candidate selection and freeze real attacks
+
+freeze:
+  work_date: '2026-07-15'
+  snapshot:
+    path: tmp/s117_m25/derived_snapshot_v2.jsonl.gz
+    sha256: a825e4dd02b918ddafebab4419cb416b6edc5f1b823a7a9d423f96718d7b6217
+  catalog:
+    path: data/catalog/doc_map.jsonl
+    sha256: 992c62c21b5772caebf09f422adca20ffe4035143861ca931e5198e820572c82
+  relations:
+    path: data/catalog/relations.jsonl
+    sha256: 09bb24af2ac5f0277cd6f80fc36e61ef710da4d2cd8704b1392e67e5df1f699d
+  mechanism_before:
+    path: src/rag/compatibility_bundle_coverage.py
+    sha256: 2e03b4af1448fce57f219e4ef128a393687ae32f5a3bbf4eb6b8726d4fc5ab0c
+
+contamination:
+  selection_exposed_before_freeze: true
+  mechanism_diagnosis_exposed_before_freeze: true
+  eligible_for_external_generalization_claim: false
+  eligible_for_official_ok_credit: false
+
+independent_exclusion_contract:
+  relation_graph_types:
+    - rebrand-of
+    - variant-of
+    - shared-doc
+  relation_graph_direction: undirected_fixed_point
+  manufacturer_diversity_unit: relation_closed_oem_rebrand_class
+  near_duplicate_exclusion:
+    - same canonical product relation class
+    - same document_id
+    - same source_pdf_sha256
+    - same extraction_sha256
+    - translation or revision sharing a configured product-family prefix
+  product_family_prefixes:
+    - 'notifier:sdx-751'
+    - 'detnov:cad-150'
+    - 'systemsensor:im-10'
+    - 'systemsensor:cr-6'
+    - 'morley:dxc'
+    - 'notifier:nfxi-mm10'
+    - 'kidde:nc-pf'
+    - 'argus:sgmcb'
+    - 'morley:zx'
+    - 'morley:mi-flx'
+    - 'kidde:2x-a'
+    - 'kac:m700kac'
+    - 'notifier:m700kac'
+    - 'notifier:afp-400'
+  s126_seed_products:
+    - notifier:sdx-751
+    - detnov:cad-150-1
+    - detnov:cad-150-2
+    - detnov:cad-150-2-mb
+    - detnov:cad-150-4
+    - detnov:cad-150-8
+    - detnov:cad-150-8-plus
+  s126_seed_sources:
+    - MIDT190
+    - MNDT120
+    - MNDT150
+    - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+    - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  s127_development_seed_products:
+    - systemsensor:im-10ea
+    - kidde:2x-af1
+    - systemsensor:cr-6ea
+    - morley:dxc1
+    - notifier:nfxi-mm10
+    - kidde:nc-pf4
+    - argus:sgmcb200
+    - morley:zx2se
+    - morley:mi-flx-010
+    - kidde:2x-af2
+    - kac:m700kac
+    - notifier:m700kac
+    - notifier:afp-400
+  s127_development_seed_sources:
+    - I56-3918-001 IM-10EA_multi
+    - I56-3920-001 CR-6EA_multi
+    - I56-3976-001 NFXI-MM10
+    - Instruction Manual SGMCB200
+    - A05-7030-100_B_ES_Morley FAAST FLEX Addressable
+    - D716 issue 1 - M700KAC-KACI_Eng
+    - 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+    - DXc_Guia de instalacion_multiling
+    - bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual
+    - MIE-MI-600
+    - MIDT170
+  known_rebrand_warning:
+    ids: [kac:m700kac, notifier:m700kac]
+    relation: rebrand-of
+    diversity_credit: one_oem_rebrand_class
+
+queries:
+  - id: dev001
+    question: ¿Puedo conectar un módulo IM-10EA a una central Kidde 2X-AF1?
+    resolved_products: [systemsensor:im-10ea, kidde:2x-af1]
+    observed_prechange: incomplete_bundle
+    diagnosis: required candidates were not selected as one typed relation
+
+  - id: dev002
+    question: ¿Puedo instalar un módulo CR-6EA en una central Morley DXc1?
+    resolved_products: [systemsensor:cr-6ea, morley:dxc1]
+    observed_prechange: incomplete_bundle
+    diagnosis: six hydrated candidates contained the required facets but greedy trim discarded two
+
+  - id: dev003
+    question: ¿Puedo usar un NFXI-MM10 con una central Kidde NC-PF4?
+    resolved_products: [notifier:nfxi-mm10, kidde:nc-pf4]
+    observed_prechange: incomplete_bundle
+    diagnosis: required candidates were not selected as one typed relation
+
+  - id: dev004
+    question: ¿Puedo montar un SGMCB200 en una central Morley ZX2Se?
+    resolved_products: [argus:sgmcb200, morley:zx2se]
+    observed_prechange: fail_closed
+    diagnosis: roster content span does not contain the governed device token
+    postchange_expectation: remain_fail_closed_as_upstream_chunk_lineage_gap
+
+  - id: dev005
+    question: ¿Puedo conectar un MI-FLX-010 a una central Kidde 2X-AF2?
+    resolved_products: [morley:mi-flx-010, kidde:2x-af2]
+    observed_prechange: incomplete_bundle
+    diagnosis: only two qualifying navigation candidates survived
+
+  - id: dev006
+    question: ¿Puedo instalar un pulsador M700KAC en una central Notifier AFP-400?
+    resolved_products: [kac:m700kac, notifier:afp-400]
+    observed_prechange: incomplete_bundle
+    diagnosis: multi-facet parent and many governed AFP-400 sources make the relation ambiguous
+    postchange_expectation: reject_if_more_than_one_orientation_or_document_pair_survives
+
+typed_topology_controls:
+  positive:
+    - id: topo_pos_001
+      chunk_id: 17495ebe-e878-40e4-9972-d6a85b89a242
+      source_file: MIE-MI-600
+      document_id: 4ca173e2-c1b2-40ea-8778-4148e08b8533
+      extraction_sha256: 62564f3a88db2cd9a8ae9b1133b6d2bc2061f3157ee2952f5cb8c7a0ff2b6f00
+      chunk_index: 28
+      content_sha256: 00cdd7ae547d3549eab92f77eae0ababad6c239f83763a61d78c2d77db776c90
+      reason: exact local analog detection loop with output, return and detectors
+  hard_negatives:
+    minimum_n: 3
+    cases:
+      - id: topo_neg_network_ring_2xa
+        chunk_id: 2cf0568a-6ecb-425e-84f1-c48a03905cb9
+        source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+        document_id: af5d5d01-d5a9-48df-9acb-ae4994d19251
+        extraction_sha256: 3fda944ecbca316b0fa9f53cf947be63bd685205e8b824a645bfa1ea3dd2fefe
+        chunk_index: 49
+        content_sha256: dbb7c4cadf126be92c9c0072c6b18135688f296125cda9185bdbefe81a0bbef2
+        reason: panel network ring and English closed-loop diagram, not a field-device detection loop
+      - id: topo_neg_emc_rs485
+        chunk_id: fd964e59-841b-41ae-9f65-a9f2533bf22b
+        source_file: MIE-MI-600
+        document_id: 4ca173e2-c1b2-40ea-8778-4148e08b8533
+        extraction_sha256: 62564f3a88db2cd9a8ae9b1133b6d2bc2061f3157ee2952f5cb8c7a0ff2b6f00
+        chunk_index: 45
+        content_sha256: 3a1aeac1aa7bf7d191cf778642413e861b716133adbc1971d3a1e94fe5111de9
+        reason: electromagnetic compatibility for an RS485 peripheral loop
+      - id: topo_neg_peripheral_loop
+        chunk_id: 17e4a281-2796-48c8-bab6-59d95c2d2267
+        source_file: DXc_Guia de instalacion_multiling
+        document_id: febc1a32-ce96-456c-85dc-6651a76f80f8
+        extraction_sha256: b9339a8f206823d2cac9d0fc9f615304f20d969632d622c618000fc6e6554a3d
+        chunk_index: 17
+        content_sha256: f118c6e8e1a59e47915ef2bf574a30e000d4f611f03c6cdb3a2202ab5edf8f62
+        reason: RS485 daisy-chain peripheral loop with interface devices, not detection topology
+  required_guard:
+    all_of:
+      - loop_anchor
+      - closed_or_return_anchor
+      - detection_or_detector_or_sensor_or_analog_addressable_anchor
+    insufficient_alone:
+      - device
+      - equipment
+      - panel
+      - ring
+      - network
+      - peripheral
+
+development_acceptance:
+  required:
+    - zero partial append
+    - zero hard-negative topology acceptance
+    - positive topology control accepted
+    - exact receipts and catalog authorization for every appended span
+    - unique orientation and unique governed document-pair signature
+    - deterministic identical pool, projection, rejection and bundle receipts
+    - dev004 remains fail-closed
+  navigation_curve:
+    candidate_pool_prefixes: [3, 4, 5, 6]
+    selection_rule: smallest_k_reaching_maximum_valid_recovery_with_zero_negative_acceptance
+  informative_only:
+    - complete diagnostic bundles recovered
+    - rejection reason for every non-recovered question

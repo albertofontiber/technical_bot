@@ -1,0 +1,83 @@
+instrument: s117_chunks_v3_local_migration_prereg_v21
+status: frozen_before_implementation
+supersedes: evals/s117_chunks_v3_local_migration_prereg_v2.yaml
+
+design:
+  base: evals/s117_chunks_v3_persistence_design_v2.md
+  base_sha256: 8789f6a885e359f9790db371693cf1200ca06a4cb3a700ae55517bf9b2ea176f
+  addendum: evals/s117_chunks_v3_persistence_design_v21.md
+  addendum_sha256: dfff8ed57fb838ef8fb039a6908469626627d4ee06df8d1a3d4754a7da452bdc
+
+identity:
+  materialization_namespace_uuid: 3a4c744b-e79c-57db-98cd-9cb8ef55d4cf
+  row_namespace_uuid: 2c1f6003-f8ce-5472-96c4-7c43899234b1
+  separator: one literal NUL byte 0x00 between UTF-8 components
+  generation_inputs:
+    - provenance contract and version
+    - chunker SHA-256
+    - materializer SHA-256
+    - ordered extraction/raw-artifact SHA-256 pairs
+  validation_receipt_only:
+    - validator SHA-256
+    - tests SHA-256
+    - Python runtime
+
+row_manifest:
+  format: canonical JSONL UTF-8, sorted keys, comma-colon separators, ensure_ascii false, one final LF
+  order: [extraction_sha256, chunk_index]
+  fields:
+    - id
+    - materialization_id
+    - extraction_sha256
+    - chunk_index
+    - content_sha256
+    - provenance_version
+    - provenance_contract
+    - raw_artifact_sha256
+    - chunker_sha256
+    - provenance_payload_sha256
+    - source_block_start
+    - source_block_end
+    - section_anchor
+    - section_lineage
+    - section_title
+    - section_path
+    - page_number
+    - is_flow_diagram
+    - has_diagram
+    - confidence
+    - duplicate_of
+  exclusions: [content, physical paths, locators, timestamps, product metadata, context, embedding]
+  independent_validation: reexecute frozen chunker and reconstruct expected fields without calling the row mapper
+
+frozen_inputs:
+  chunker: {path: src/reingest/chunk.py, sha256: 4b76ab219854c625f4ce5e55665e2c89d14739e4eee0ab01607aae7ecda4fd43}
+  development_store:
+    json_files: 1069
+    extraction_records: 1068
+    manifest_sha256: 752c044be1531d5bc2e2879f79acf1dbeffabcbeb9bb9d16f5e14a5676aa5810
+    expected_non_record_artifact: _failures.json
+    expected_chunks: 31212
+    expected_titled_chunks: 29399
+    expected_content_stream_manifest_sha256: 9a42c06d64b1ccb965987c4dd7a8ffa48d72c7461136b4b84f01bbf37d4d08ca
+  independent_store:
+    extraction_records: 12
+    manifest_sha256: c5e7f9fe8c36b92948bedc178a0be5e3f9b6426cc0085a2b44dc8c02edee864b
+    expected_chunks: 836
+    expected_titled_chunks: 784
+
+M0a_M1_gate:
+  required:
+    - exact frozen source manifests and record counts
+    - exact expected chunk and titled-chunk counts
+    - exact frozen development content-stream manifest
+    - zero independent validator mismatches against reexecuted raw records
+    - zero identity, lineage, raw-resolution, duplicate or manifest failures
+    - deterministic payload and rows manifest are byte-identical on repeat
+    - property tests have no branches by frozen SHA, filename or manufacturer
+    - SQL revokes direct state mutation and encapsulates publication/cleanup in least-privilege SECURITY DEFINER RPCs
+    - SQL remains NO_GO_FOR_DB until M0b on disposable PostgreSQL plus pgvector
+  decision_if_go: authorize read-only chunks_v2 reuse analysis only
+  never_authorizes: [database access, paid models, embedding, schema apply, load, HNSW, funnel, serving, deploy, fact relabeling]
+
+cost_contract: {model_calls: 0, network_calls: 0, database_reads: 0, database_writes: 0}

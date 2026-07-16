@@ -1,0 +1,83 @@
+instrument: s117_chunks_v3_local_migration_prereg_v2
+status: frozen_before_implementation
+supersedes: evals/s117_chunks_v3_local_migration_prereg_v1.yaml
+
+decision:
+  design: evals/s117_chunks_v3_persistence_design_v2.md
+  design_sha256: 8789f6a885e359f9790db371693cf1200ca06a4cb3a700ae55517bf9b2ea176f
+  strategy: immutable_generation_rematerialized_from_sealed_raws
+  forbidden:
+    - copy provenance from chunks_v2
+    - delete then batch-insert over a published generation
+    - approximate or unlabelled context or embedding reuse
+
+identity_contract:
+  canonical_json: UTF-8, sorted keys, separators comma-colon, ensure_ascii false
+  materialization_namespace_uuid: 3a4c744b-e79c-57db-98cd-9cb8ef55d4cf
+  row_namespace_uuid: 2c1f6003-f8ce-5472-96c4-7c43899234b1
+  materialization_name: "v1\\0{manifest_sha256}"
+  row_name: "v1\\0{materialization_id}\\0{extraction_sha256}\\0{chunk_index}\\0{provenance_payload_sha256}"
+  required_generation_inputs:
+    - provenance contract and version
+    - chunker SHA-256
+    - ordered extraction/raw-artifact SHA-256 pairs
+    - materializer and validator SHA-256
+  required_row_inputs:
+    - materialization id
+    - extraction SHA-256
+    - chunk ordinal
+    - hash of content, raw, chunker, structural span, anchor and full lineage
+
+validated_predecessor:
+  prereg: evals/s116_independent_document_holdout_prereg_v4.yaml
+  prereg_sha256: b1508987014826dcc580e4897798f8a6194dd6649e7e2fa8a1baf90a5942c0a6
+  replay: evals/s116_independent_document_holdout_replay_v1.json
+  replay_sha256: 241a1812de979743b10f369be5f0795579c17ca74642b286c6bc96a2a3e372fa
+  gate: GO
+  limitation: 12 successful raw records are now an observed regression set; HCA remains extraction_miss
+
+frozen_inputs:
+  chunker: {path: src/reingest/chunk.py, sha256: 4b76ab219854c625f4ce5e55665e2c89d14739e4eee0ab01607aae7ecda4fd43}
+  chunks_v2_schema: {path: migrations/006_chunks_v2.sql, sha256: 1e6ccba985683004ccf6326cdca39567f7957beab72bb7a7bd136e3f5301ba1c}
+  current_index_mapper: {path: src/reingest/index.py, sha256: 4806889cf524ca0e9dbfe845d55d6cb734b00f527259f3b7a736a5527047eea8}
+  development_store:
+    json_files: 1069
+    extraction_records: 1068
+    manifest_sha256: 752c044be1531d5bc2e2879f79acf1dbeffabcbeb9bb9d16f5e14a5676aa5810
+    expected_non_record_artifact: _failures.json
+    expected_chunks: 31212
+    expected_titled_chunks: 29399
+    expected_content_stream_manifest_sha256: 9a42c06d64b1ccb965987c4dd7a8ffa48d72c7461136b4b84f01bbf37d4d08ca
+  independent_store:
+    extraction_records: 12
+    manifest_sha256: c5e7f9fe8c36b92948bedc178a0be5e3f9b6426cc0085a2b44dc8c02edee864b
+    expected_chunks: 836
+    expected_titled_chunks: 784
+
+M0a_M1_gate:
+  required:
+    - exact frozen source manifests and counts
+    - exact frozen development content-stream manifest
+    - exact expected chunk and titled-chunk counts in both stores
+    - zero row, raw-resolution, duplicate, identity or generation validation failures
+    - byte-logically identical second execution
+    - property tests cover arbitrary headings, repeated headings, empty lineage, oversized splits and malformed envelopes
+    - no code branch depends on a frozen document SHA, filename or manufacturer
+    - SQL contract models immutable generations, same-generation duplicate FK, atomic publication, RLS and least privileges
+    - SQL file passes static checks but remains NO-GO for DB until M0b executes on disposable PostgreSQL plus pgvector
+  decision_if_go: authorize read-only chunks_v2 reuse analysis only
+  never_authorizes:
+    - Supabase schema/data reads or writes other than a separately authorized M2 read-only analysis
+    - paid context or embedding generation
+    - DB load, HNSW, funnel, serving, deploy or fact relabeling
+
+future_gates:
+  M0b: real PostgreSQL plus pgvector apply/catalog/grants/RLS/RPC/rollback execution
+  M2: exact read-only donor analysis with legacy provenance labels
+  M2_5: cost-capped enriched snapshot and receipt
+  M3: separately authorized shadow schema and load
+  M4a: separately authorized HNSW build and ANALYZE
+  M4b: frozen retrieval-rerank-synthesis-fact regression
+  M5: explicit human GO, default-off canary and rehearsed rollback
+
+cost_contract: {model_calls: 0, network_calls: 0, database_reads: 0, database_writes: 0}

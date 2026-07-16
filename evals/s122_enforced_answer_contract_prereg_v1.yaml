@@ -1,0 +1,130 @@
+instrument: s122_enforced_answer_contract_prereg_v1
+status: FROZEN_BEFORE_IMPLEMENTATION
+authority: local_deterministic_replay_only
+
+objective: >-
+  Test a versioned generate-validate-reconstruct-or-fail boundary without model,
+  network, retrieval, rerank, database, serving or deployment calls.
+
+frozen_inputs:
+  contexts:
+    path: evals/s113_full_contexts_freeze_v1.json
+    rows: 39
+    sha256: 22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d
+  baseline_answers:
+    path: evals/s113_full_answer_regression_v1.json
+    rows: 39
+    sha256: 8fbfe4801f6c35c2447af9440c459b080e4405b76e2899f3a00e66b230497f69
+  s121_overlay:
+    path: evals/s121_s120_three_answer_probe_v1.json
+    qids: [hp005, hp009, hp017]
+    sha256: dc0dc1e078fef615008f29f66bd2c2ca126485a18a5924dece481a9fe18a64c4
+  s121_adjudication:
+    path: evals/s121_s120_three_answer_manual_adjudication_v1.yaml
+    sha256: 22b44be79b94b96ae8aae3728ddd948c5c7f0bcfb1581c5fc72a5a31d5800469
+  design:
+    path: evals/s122_enforced_answer_contract_design_v1.md
+    sha256: 52d1431cf0ee344fa7a3c2bf4a30cbd454423695231889ce74bf04b5cd154999
+
+baseline_code_receipts:
+  planner: a19f8426a1d0d9966ba9a66a310d9ad781688c5493e5ce24ff6661a347bac6a6
+  generator: b8b78749b04ac89edba132f678e69b3427b765f81cb60582c3ab99a7ba1195ba
+  obligation_contract: 14255c2592532cfafc923f116ad6e97927dceece2236b398b6f14976890269a7
+
+version_contract:
+  planner: answer_planner_s122_v1
+  enforcement_policy: answer_enforcement_s122_v1
+  validator: answer_contract_validator_s122_v1
+  renderer: source_bound_renderer_s122_v1
+  conflict_schema: answer_conflict_s122_v1
+  cache_identity: enforced_answer_generation_cache_identity_v2
+
+replay_policy:
+  answer_precedence:
+    - use exact S121 answer for hp005, hp009 and hp017
+    - use exact S113 answer for every other qid
+  measured_answers: 27
+  not_measured_qids:
+    - cat008
+    - cat012
+    - cat017
+    - cat019
+    - hp001
+    - hp002
+    - hp011
+    - hp012
+    - hp013
+    - hp014
+    - hp015
+    - hp018
+  not_measured_policy: >-
+    Exclude these exact rows from enforcement, action and answer-byte-delta
+    denominators. They must remain not_measured and may never be classified as
+    pass, source_bound_reconstruction or fail_closed.
+  provider_calls: 0
+  retries: 0
+  input_mutation: forbidden
+  production_code_qid_allowlist: forbidden
+
+expected_target_actions:
+  hp005:
+    action: pass
+    answer_byte_identical: true
+    reason: exact output-selection claim is already covered
+  hp009:
+    action: source_bound_reconstruction
+    answer_byte_identical: false
+    query_core_coverage: true
+    requirements:
+      - cover closed loop in one positive bounded relation
+      - cover Inicio Lazo OUT to Retorno path
+      - do not retain the universal end-of-line-resistor assertion
+  hp017:
+    action: fail_closed
+    answer_byte_identical: false
+    query_core_coverage: false
+    requirements:
+      - label output as incomplete protected information
+      - preserve the validated Rule 1 and default-rule prerequisites
+      - require exact manual or revision for the complete delay procedure
+      - do not select menu 7 or menu 8
+
+full_39_acceptance:
+  total_rows: 39
+  measured_answer_rows: 27
+  not_measured_rows: 12
+  exact_action_allowlist:
+    source_bound_reconstruction: [hp009]
+    fail_closed: [hp017]
+  unexpected_source_bound_reconstruction: 0
+  unexpected_fail_closed: 0
+  byte_identical_pass_answers: true
+  outside_allowlist_s120_to_s122_obligation_packet_deltas: 0
+  outside_allowlist_answer_deltas: 0
+  not_measured_action_leakage: 0
+
+semantic_acceptance:
+  - positive relations must occur within kind-specific bounded windows
+  - negated or contradicted relations must fail
+  - output selection must not require unrelated downstream navigation labels
+  - conflict slots must bind product family and operation
+  - s122 v1 must never auto-resolve conflicting revisions
+  - slash-declared family alignment must reject relations that diverge by variant
+  - partial protected output must not claim to answer an uncovered query core
+
+cost_acceptance:
+  maximum_provider_calls_per_answer: 1
+  model_calls_during_local_phase: 0
+  network_calls: 0
+  retrieval_calls: 0
+  rerank_calls: 0
+  database_reads: 0
+  database_writes: 0
+  llm_judge_calls: 0
+
+never_authorizes:
+  - fresh answer generation
+  - fact relabeling
+  - serving or deploy
+  - production release
+  - database or corpus mutation

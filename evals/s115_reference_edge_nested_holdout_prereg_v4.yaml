@@ -1,0 +1,30 @@
+instrument: s115_reference_edge_nested_holdout_prereg_v4
+status: frozen_before_contract_v3_implementation
+
+frozen_design:
+  path: evals/s115_reference_edge_design_v4.md
+  sha256: 5e65a19b4a67cb5cb6d85adbc990f141059140cbfd775a51aca0cd72f6b81e01
+  config_path: config/reference_edge_contract_v3.yaml
+  config_sha256: e9c9a06d05fca6d0d5e4e82fd9bb00b58cbd3a855b73328c70b8c46f0e38d69c
+
+nested_holdout:
+  path: evals/s115_reference_edge_nested_holdout_freeze_v1.json
+  sha256: 107e5f0f0ec27117a4f9cec180169dbb43aad2ee385e31fbc8f0eeb3282c297e
+  sample_count: 12
+  manufacturer_count: 2
+  limitation: smoke_only
+
+single_unseal_rules:
+  - Freeze implementation and test hashes first.
+  - Do not inspect nested question text, candidates or results before that freeze.
+  - Ambiguous counts as non-relevant.
+  - Strict precision is relevant selected divided by all selected.
+  - Require zero high/medium contamination and no visible high-confidence false negative.
+  - Fewer than five selections or zero potentials is inconclusive.
+  - Any post-unseal code/config change invalidates the smoke result and requires a fresh cohort.
+
+authorization_boundary:
+  local_shadow_implementation: allowed
+  nested_unseal: not_yet_allowed
+  answer_regression: not_allowed
+  serving_integration: not_allowed

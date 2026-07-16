@@ -15,11 +15,18 @@ import yaml
 
 from ..config import (
     CANONICAL_HYQ_COVERAGE,
+    COMPATIBILITY_BUNDLE_COVERAGE,
     LOGICAL_RECORD_COVERAGE,
     POST_RERANK_COVERAGE,
     RERANK_POOL_COVERAGE,
     STRUCTURAL_CASCADE_COVERAGE,
     STRUCTURAL_NEIGHBOR_COVERAGE,
+)
+from .compatibility_bundle_coverage import (
+    LANE as COMPATIBILITY_LANE,
+    collect_compatibility_bundle,
+    is_compatibility_bundle_query,
+    validate_compatibility_bundle,
 )
 from .doc_scoped_hyq_coverage import (
     LANE as HYQ_LANE,
@@ -43,10 +50,17 @@ from .rerank_pool_coverage import (
 
 logger = logging.getLogger(__name__)
 ALLOWED_LANES = frozenset(
-    {STRUCTURAL_LANE, STRUCTURAL_CASCADE_LANE, HYQ_LANE, POOL_LANE}
+    {
+        STRUCTURAL_LANE,
+        STRUCTURAL_CASCADE_LANE,
+        HYQ_LANE,
+        POOL_LANE,
+        COMPATIBILITY_LANE,
+    }
 )
 MAX_APPENDED = 4
 MAX_APPENDED_PER_LANE = 2
+MAX_APPENDED_BY_LANE = {COMPATIBILITY_LANE: 3}
 STRUCTURAL_SERVING_TIMEOUT_SECONDS = 2.0
 MAX_LOGICAL_TABLE_ROW_CHARS = 1400
 MAX_EXPANDED_EXCERPT_CHARS = 1800
@@ -118,6 +132,9 @@ def is_validated_coverage_chunk(chunk: dict[str, Any]) -> bool:
     ) or (
         lane == POOL_LANE
         and chunk.get("rerank_pool_coverage_validated") is True
+    ) or (
+        lane == COMPATIBILITY_LANE
+        and chunk.get("compatibility_bundle_validated") is True
     )
     return (
         bool(str(chunk.get("source_file") or "").strip())
@@ -263,6 +280,8 @@ def _attest(candidate: dict[str, Any]) -> dict[str, Any] | None:
         return None
     if lane == POOL_LANE and candidate.get("rerank_pool_coverage_validated") is not True:
         return None
+    if lane == COMPATIBILITY_LANE and candidate.get("compatibility_bundle_validated") is not True:
+        return None
     attested = dict(candidate)
     attested["served_coverage_cards"] = _build_served_coverage_cards(candidate)
     if not has_exact_served_coverage_receipt(attested):
@@ -285,6 +304,40 @@ def append_validated_coverage(
     """Append at most four unique attestations; never touch the reranked prefix."""
     if not candidates:
         return reranked
+    compatibility_groups: dict[str, list[dict[str, Any]]] = {}
+    for candidate in candidates:
+        if candidate.get("retrieval_lane") == COMPATIBILITY_LANE:
+            bundle_id = str(candidate.get("compatibility_bundle_id") or "")
+            compatibility_groups.setdefault(bundle_id, []).append(candidate)
+    valid_compatibility_ids = {
+        bundle_id
+        for bundle_id, rows in compatibility_groups.items()
+        if bundle_id and validate_compatibility_bundle(rows)
+    }
+    # A relational bundle is atomic. Reject ambiguity, a parent already in the
+    # protected prefix, or any state in which fewer than all three rows could
+    # reach the generator. Put the one valid bundle first so other optional
+    # lanes cannot consume its three-row reservation.
+    if len(valid_compatibility_ids) == 1:
+        valid_bundle_id = next(iter(valid_compatibility_ids))
+        valid_bundle = compatibility_groups[valid_bundle_id]
+        protected_ids = {str(base.get("id") or "") for base in reranked}
+        if any(
+            str(row.get("id") or "") in protected_ids for row in valid_bundle
+        ):
+            valid_compatibility_ids = set()
+            valid_bundle = []
+    else:
+        valid_bundle = []
+        valid_compatibility_ids = set()
+    other_candidates = [
+        candidate
+        for candidate in candidates
+        if candidate.get("retrieval_lane") != COMPATIBILITY_LANE
+    ]
+    candidates = [*valid_bundle, *other_candidates]
+    if not candidates:
+        return reranked
     output = list(reranked)
     seen = {str(row.get("id") or "") for row in reranked}
     appended_by_lane: dict[str, int] = {}
@@ -295,7 +348,8 @@ def append_validated_coverage(
         if (
             not attested
             or candidate_id in seen
-            or appended_by_lane.get(lane, 0) >= MAX_APPENDED_PER_LANE
+            or appended_by_lane.get(lane, 0)
+            >= MAX_APPENDED_BY_LANE.get(lane, MAX_APPENDED_PER_LANE)
         ):
             continue
         attested["post_rerank_coverage_rank"] = len(output) - len(reranked) + 1
@@ -451,10 +505,12 @@ def apply_post_rerank_coverage_with_trace(
     hyq_enabled: bool | None = None,
     pool_enabled: bool | None = None,
     cascade_enabled: bool | None = None,
+    compatibility_enabled: bool | None = None,
     structural_collector: Callable[..., tuple[list[dict], dict]] = collect_structural_coverage,
     hyq_collector: Callable[..., tuple[list[dict], dict]] = collect_document_scoped_hyq,
     pool_collector: Callable[..., tuple[list[dict], dict]] = select_rerank_pool_coverage,
     cascade_collector: Callable[..., tuple[list[dict], dict]] = collect_cascaded_structural_coverage,
+    compatibility_collector: Callable[..., tuple[list[dict], dict]] = collect_compatibility_bundle,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Apply enabled lanes independently; every failure is contained."""
     active = POST_RERANK_COVERAGE if enabled is None else enabled
@@ -464,11 +520,21 @@ def apply_post_rerank_coverage_with_trace(
     )
     hyq = CANONICAL_HYQ_COVERAGE if hyq_enabled is None else hyq_enabled
     pool = RERANK_POOL_COVERAGE if pool_enabled is None else pool_enabled
+    compatibility = (
+        COMPATIBILITY_BUNDLE_COVERAGE
+        if compatibility_enabled is None else compatibility_enabled
+    )
+    compatibility_applicable = compatibility and is_compatibility_bundle_query(query)
     cascade_requested = (
         STRUCTURAL_CASCADE_COVERAGE
         if cascade_enabled is None else cascade_enabled
     )
-    cascade = cascade_requested and pool and bool(retrieval_pool)
+    cascade = (
+        cascade_requested
+        and pool
+        and bool(retrieval_pool)
+        and not compatibility_applicable
+    )
     trace: dict[str, Any] = {
         "enabled": active,
         "protected_prefix_rows": len(reranked),
@@ -477,7 +543,9 @@ def apply_post_rerank_coverage_with_trace(
         "model_calls": 0,
         "database_writes": 0,
     }
-    if not active or not reranked or not (structural or hyq or pool):
+    if not active or not reranked or not (
+        structural or hyq or pool or compatibility_applicable
+    ):
         trace["status"] = "disabled_or_not_applicable"
         return reranked, trace
 
@@ -515,14 +583,18 @@ def apply_post_rerank_coverage_with_trace(
             pool_seeds,
         )
 
-    if structural:
+    if structural and not compatibility_applicable:
         lane_calls.append((STRUCTURAL_LANE, lambda: structural_collector(query, reranked)))
-    if hyq:
+    if compatibility_applicable:
+        lane_calls.append(
+            (COMPATIBILITY_LANE, lambda: compatibility_collector(query))
+        )
+    if hyq and not compatibility_applicable:
         lane_calls.append((HYQ_LANE, lambda: hyq_collector(query)))
     # Pool coverage is deliberately last. Existing S109 candidates keep their
     # places inside the global four-row append budget; this lane only fills
     # unused capacity and cannot displace a previously validated recovery.
-    if pool and retrieval_pool:
+    if pool and retrieval_pool and not compatibility_applicable:
         lane_calls.append(
             # The pool lane sees earlier validated candidates as coverage
             # context, so its two-row budget complements rather than repeats

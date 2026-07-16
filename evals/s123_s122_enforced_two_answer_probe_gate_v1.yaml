@@ -1,0 +1,164 @@
+instrument: s123_s122_enforced_two_answer_probe_gate_v1
+frozen_at_utc: '2026-07-15T09:25:40Z'
+status: PROBE_GO_CLAIM_LEVEL_PRESENTATION_HARDENING_REQUIRED
+authority: bounded_two_answer_enforcement_probe_hybrid_diagnostic_only
+
+decision:
+  probe_execution: COMPLETE
+  atomic_manual_adjudication: COMPLETE
+  adversarial_adjudication: GO_0_P0_0_P1
+  answer_enforcement_s122_v2: CAUSALLY_VALIDATED_FOR_THREE_TARGET_CLAIMS
+  production_release: NOT_AUTHORIZED
+  automatic_database_relabeling: NOT_EXECUTED
+  another_paid_probe: NOT_AUTHORIZED
+  causal_bot_improvement_claimed: true
+  causal_claim_scope:
+    - m0.hp009.closed_loop_return.1
+    - m0.hp009.closed_loop_return.2
+    - m0.hp017.rule1.2
+
+lineage:
+  s122_local_gate:
+    path: evals/s122_enforced_answer_contract_gate_v2.yaml
+    sha256: c48aaf25076c3fb796414a371269c27870437f05d24a2bf11c54ce519a2f38cc
+  preregistration:
+    path: evals/s123_s122_enforced_two_answer_probe_prereg_v1.yaml
+    sha256: ed813dcbafef7dba4c81df0bea1218134111f45c390eb79c7b3da8af7e7efe1b
+  execution_permit:
+    path: evals/s123_s122_enforced_two_answer_probe_execution_permit_v1.yaml
+    sha256: eb578dae64923cf373cfd4f1a75f33b18069ef487b7d3f6d82ed1346dd630238
+  checkpoint:
+    path: evals/s123_s122_enforced_two_answer_probe_v1.partial.jsonl
+    sha256: 832adb701bf509653eb3ee25d07344bc84d4d5395dd71a0b3b9192fe41290d0e
+  probe:
+    path: evals/s123_s122_enforced_two_answer_probe_v1.json
+    sha256: ce3f30f1f5710e032e24841baa4db5beac016ff583011e5a6cc6cde73aa7d748
+  manual_adjudication:
+    path: evals/s123_s122_enforced_two_answer_manual_adjudication_v1.yaml
+    sha256: 4574a6a6ee19902ac5e0422b1c8ea1f8801db44778d94b427fc0425d880390df
+  runner:
+    path: scripts/s123_s122_enforced_two_answer_probe.py
+    sha256: 7c41ab63bd336eaebef0c3a5e46fe79f089a8c609023a51dc291caeb08d23363
+
+execution:
+  model: claude-sonnet-4-6
+  qids: [hp009, hp017]
+  successful_calls: 2
+  attempted_calls: 2
+  automatic_retries: 0
+  stop_reasons:
+    end_turn: 2
+    max_tokens: 0
+  input_tokens: 32027
+  output_tokens: 1674
+  retrieval_calls: 0
+  reranker_calls: 0
+  judge_calls_during_generation: 0
+  database_reads: 0
+  database_writes: 0
+
+automatic_gate:
+  result: PASS
+  checks_passed: 15
+  checks_failed: 0
+  diagnostic_claim_surfaces_present: 3
+  diagnostic_claim_surfaces_expected: 3
+  actions:
+    hp009: source_bound_reconstruction
+    hp017: fail_closed
+
+atomic_results:
+  diagnostic_claims: 3
+  OK: 3
+  synthesis-miss: 0
+  facts_moved_to_ok: 3
+  rows:
+    - claim_id: m0.hp009.closed_loop_return.1
+      qid: hp009
+      verdict: OK
+      answer_sha256: 8d8b2b13a2393bc7bdf9067388674183bf3e8efb6a99ea3a2d93eb4452f3a428
+    - claim_id: m0.hp009.closed_loop_return.2
+      qid: hp009
+      verdict: OK
+      answer_sha256: 8d8b2b13a2393bc7bdf9067388674183bf3e8efb6a99ea3a2d93eb4452f3a428
+    - claim_id: m0.hp017.rule1.2
+      qid: hp017
+      verdict: OK
+      answer_sha256: 307e62b70bf11a47b00b4f95bd589cc87b3456577d36817f6634ec7a099dde30
+
+answer_level_results:
+  hp009:
+    action: source_bound_reconstruction
+    query_core_coverage: true
+    verdict: SAFE_FACTUAL_ANSWER
+  hp017:
+    action: fail_closed
+    query_core_coverage: false
+    verdict: SAFE_FALLBACK_NOT_SUCCESSFUL_QUERY_ANSWER
+
+reconciled_hybrid_diagnostic:
+  content_denominator: 132
+  stage_histogram:
+    OK: 79
+    known-m1-contract-hold: 33
+    rest: 5
+    retrieval-miss: 2
+    synthesis-miss: 2
+    synthesis-not-measured: 11
+  delta_from_s121:
+    OK: 3
+    synthesis-miss: -3
+  official_atomic_content_denominator: null
+  official_ok_count: null
+  official_95_percent_claim: null
+  note: >-
+    Three previously measured synthesis misses receive causal diagnostic credit.
+    This provisional hybrid histogram must not be presented as an official
+    production KPI or as evidence that hp017 is an answer-level success.
+
+adversarial_review:
+  reviewer: Hubble
+  model_identity_attested: false
+  verdict: GO_CLAIM_LEVEL
+  p0_open: 0
+  p1_open: 0
+  p2_open: 2
+  safety_findings:
+    - no positive false EOL claim in hp009
+    - no unilateral selection of the conflicting menu values 7 and 8
+    - default-rule deletion obligation is present
+    - all obligation citations are source-supported
+
+presentation_debt:
+  hp009: raw bilingual source wording and internal reconstruction framing
+  hp017: safe fail-closed response exposes internal conflict naming and malformed source punctuation
+
+verification:
+  yaml_parse: PASS
+  focused_s123_tests:
+    result: PASS
+    passed: 10
+    failed: 0
+  targeted_s119_to_s123_chain:
+    result: PASS
+    collected: 40
+    failed: 0
+  latest_unchanged_production_suite:
+    result: PASS
+    passed: 1221
+    skipped: 5
+    note: >-
+      This suite was executed after the S122 v2 production-code changes. S123
+      added only an isolated probe runner, tests and evaluation artifacts.
+
+next_allowed_without_paid_generation:
+  - improve deterministic renderer presentation without weakening safety or facts
+  - replay all frozen protected answers locally
+  - reconcile the two residual provisional synthesis-miss entries to exact atomic claims
+  - design the next chunk_v3 rollout gate from the already completed held-out evidence
+
+next_forbidden_without_new_authorization:
+  - additional model calls
+  - database mutation or automatic fact relabeling
+  - corpus or chunks_v3 production migration
+  - serving, deploy or production release

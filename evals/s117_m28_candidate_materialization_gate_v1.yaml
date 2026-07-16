@@ -1,0 +1,186 @@
+instrument: s117_m28_candidate_materialization_gate_v1
+status: CANDIDATE_MATERIALIZATION_GO_STRUCTURAL_ONLY
+authority: raw_store_parsed_block_whitespace_token_surface_only
+
+decision:
+  contract_integrity: GO
+  source_population: GO
+  new_generation_identity: GO
+  row_mapping_and_identity: GO
+  global_invariants: GO
+  raw_token_intervals: GO
+  frozen_treatment_projection: GO
+  frozen_delta_bindings: GO
+  deterministic_seeded_execution: GO
+  closed_nonloadable_output: GO
+  pdf_fidelity: NOT_TESTED
+  semantic_quality: NOT_TESTED
+  retrieval_improvement: NOT_TESTED
+  facts_moved_to_ok: 0
+  M3: BLOCKED
+
+frozen_contract:
+  preregistration:
+    path: evals/s117_m28_candidate_materialization_prereg_v1.yaml
+    bytes: 10805
+    sha256: 93a065b40220aa29eea9f69022a5cd582c2515a889971ca264085dcb43a11bcb
+  execution_permit:
+    path: evals/s117_m28_candidate_materialization_execution_permit_v1.yaml
+    bytes: 583
+    sha256: 5ba7dea032cadce514fd8ff4f749774d5169c5cca7816daf2af4ea260bb378cc
+  runner:
+    path: scripts/s117_m28_candidate_materialization.py
+    bytes: 24630
+    sha256: ec80f31b998a74175e36c20a83d0ee13a6099982a7262c32f0c0946bb324404e
+  candidate_validator:
+    path: scripts/s117_m28_candidate_validation.py
+    bytes: 25090
+    sha256: 65cf7892bae85698f6c0308e702dd2d95c356dfbb01726e39baafd0c4dca77ef
+  row_validator:
+    path: scripts/s117_materialize_chunks_v3_local.py
+    bytes: 18641
+    sha256: 36037383c1c33c630e9df6add9f3c188dc10e2dfd79ff33f53ee04f44aa4c342
+  tests:
+    path: tests/test_s117_m28_candidate_materialization.py
+    bytes: 25788
+    sha256: 92269b845661ea66249c84b663bd92ac3cc0fd05b462c8680a0bc0e82a5d7cec
+  design_v2:
+    path: evals/s117_m28_candidate_materialization_design_v2.md
+    sha256: 963f864378335c3a3b871dc6fa266d0d1f55545e5bd814b8af8ac213d85351af
+  design_v3:
+    path: evals/s117_m28_candidate_materialization_design_v3.md
+    sha256: dfc6c5c04dba82466e3bb369600fe74e8cc1482b674b122f903f1a12c4aaec8d
+
+launcher_preflight:
+  command_mode: direct_script_path
+  result: import_failure_before_runner_main
+  store_resolved: false
+  store_records_read: 0
+  receipt_created: false
+  candidate_execution_consumed: false
+  code_or_contract_change_after_failure: false
+  corrected_command_mode: python_module
+
+seeded_execution:
+  execution_order: [seed1, seed2]
+  separate_processes: true
+  sequential: true
+  code_prereg_permit_oracle_change_between_processes: false
+  executions_consumed: 2
+  additional_candidate_execution: false
+  seed1:
+    seed: 1
+    path: evals/s117_m28_candidate_materialization_seed1_v1.json
+    process_exit_code: 0
+    bytes: 4264
+    file_sha256: b18df39ad1677d0f20da4b78f32a8823162d826ff2387a82032adbac1d292b9e
+    logical_payload_sha256: 6fad185d4fb2fa2f85e26228d9012497fdbe1753bf2dfa2e22cc457a69ec6c80
+    status: GO
+  seed2:
+    seed: 2
+    path: evals/s117_m28_candidate_materialization_seed2_v1.json
+    process_exit_code: 0
+    bytes: 4264
+    file_sha256: b18df39ad1677d0f20da4b78f32a8823162d826ff2387a82032adbac1d292b9e
+    logical_payload_sha256: 6fad185d4fb2fa2f85e26228d9012497fdbe1753bf2dfa2e22cc457a69ec6c80
+    status: GO
+  byte_identical: true
+  canonical_json: true
+  exactly_one_final_lf: true
+  loadable: false
+  checks_passed: 11
+  checks_failed: 0
+  failures: 0
+
+source:
+  store_slug: agent_anthropic-sonnet-45
+  json_files: 1069
+  extraction_records: 1068
+  non_record_artifacts: [_failures.json]
+  manifest_sha256: 752c044be1531d5bc2e2879f79acf1dbeffabcbeb9bb9d16f5e14a5676aa5810
+  physical_root_serialized: false
+
+candidate_identity:
+  chunker_sha256: d851abf6761d8e5ff6dee4d2727b85c86fda21059dce8875a028cf8298e87764
+  generation_manifest_sha256: f702ddcf3d51a479fff90c95f1ccd6206680da4a262462f80a74b10c1b3c1089
+  materialization_id: 1852e61c-ac7f-5232-be1c-627ea54f29b5
+  rows_manifest_sha256: cdfcbae0cf476bf74cad9712b5a3f32433a9ea73662116e468ec27522c5cbb63
+  rows_manifest_bytes: 47682285
+  candidate_document_receipts_sha256: 57e4624d812188f97ea0bd9c81ccb76e6693fde40db41701ad60f3dd9edb293a
+  candidate_projection_sha256: 4cd69ba2912a8b7e1899512f99e7a1e3abd4ec970c96e9c4286b28443a0f8881
+  candidate_row_ids_sha256: b6a4a2fe8e973ca05eb7d0e2e1558d591bbf70dc6f5fad8b172ba4b422523c3a
+  coverage_gain_identities_sha256: 6b0410a662c5523b04e3c19049199d8f27649653f34a6f3d87fee3a84147a675
+  differs_from_baseline_chunker: true
+  differs_from_baseline_generation: true
+  differs_from_baseline_materialization: true
+  differs_from_baseline_rows_manifest: true
+
+population:
+  documents: 1068
+  raw_blocks: 333161
+  rows: 31226
+  titled_rows: 29413
+  untitled_rows: 1813
+  covered_blocks: 333161
+  missing_blocks: 0
+  coverage_gain_blocks: 100
+  coverage_regression_blocks: 0
+  changed_documents: 27
+  unchanged_documents: 1041
+  delta_unchanged_rows: 2529
+  delta_removed_rows: 15
+  delta_added_rows: 29
+  delta_overlap_modified_rows: 15
+  delta_pure_added_rows: 14
+  validation_failures: 0
+
+interpretation:
+  proven:
+    - patched_production_chunker_materializes_directly_without_override
+    - all_parsed_raw_whitespace_tokens_are_preserved_in_order
+    - every_candidate_span_is_token_interval_bound
+    - provenance_and_UUIDv5_identities_are_valid
+    - exact_frozen_100_block_gain_with_zero_regression
+    - exact_frozen_treatment_projection_and_delta
+    - deterministic_nonloadable_receipt
+  not_proven:
+    - source_PDF_visual_fidelity
+    - extraction_semantic_correctness
+    - retrieval_rerank_or_synthesis_improvement
+    - fact_OK_transition
+    - production_load_readiness
+  added_rows_are_not_facts: true
+  facts_moved_to_ok: 0
+
+verification:
+  independent_adversarial_receipt_review: GO
+  closed_schema: GO
+  dependency_hashes: GO
+  oracle_equality: GO
+  no_path_content_exception_env_or_secret_leakage: GO
+  cost_and_authorization: GO
+
+authorization:
+  candidate_execution_complete: true
+  additional_candidate_execution: false
+  fresh_loss_ledger: false
+  M27A_repeat: false
+  database: false
+  network: false
+  models: false
+  retrieval: false
+  context_generation: false
+  embeddings: false
+  load: false
+  load_to_db: false
+  serving: false
+  deploy: false
+  fact_relabeling: false
+  facts_moved_to_ok: 0
+  M3: BLOCKED
+
+cost:
+  model_calls_during_execution: 0
+  network_calls: 0
+  database_reads: 0
+  database_writes: 0

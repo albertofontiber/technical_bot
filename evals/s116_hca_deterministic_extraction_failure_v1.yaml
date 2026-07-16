@@ -1,0 +1,52 @@
+instrument: s116_hca_deterministic_extraction_failure_v1
+status: confirmed_extraction_miss_after_single_authorized_retry
+
+document:
+  id: hochiki_hca_panel
+  filename: hochiki_hca_series_installation_operation.pdf
+  sha256: b4926f047f518239e11777adb7eb204160e91a4923c59ba99014a5069aba2634
+  pages: 61
+
+configuration:
+  parse_mode: parse_page_with_agent
+  vendor_multimodal_model_name: anthropic-sonnet-4.5
+  same_as_development_records: true
+
+attempts:
+  - ordinal: 1
+    job_id: b3ee1749-1411-479b-88d6-728fea9617eb
+    status: ERROR
+    error_code: MARKDOWN_EXTRACTION_FAILED
+    failed_pages: [40, 41, 42, 43, 50]
+  - ordinal: 2
+    job_id: 710c28e2-8130-4433-b3f6-5d422e5f3d74
+    status: ERROR
+    error_code: MARKDOWN_EXTRACTION_FAILED
+    failed_pages: [40, 41, 42, 43, 50]
+
+adjudication:
+  deterministic_reproduction: true
+  partial_result_available: false
+  corrupt_pdf: false
+  chunker_reached: false
+  failure_stage: document_extraction
+  retry_again: false
+  retain_as_future_extraction_robustness_challenge: true
+
+cost_accounting:
+  attempted_pages: 122
+  planned_credits: 5490
+  historical_usd_estimate: 6.86
+  provider_actual_billing: unknown
+
+replacement_candidate:
+  acquisition_prereg: evals/s116_independent_holdout_acquisition_prereg_v2.yaml
+  acquisition_receipt: evals/s116_independent_holdout_acquisition_v2.json
+  id: hochiki_hcvx_panel
+  sha256: 0d175dd3f7b07ec8cfaf6b8cb15249bb27d60482da8de65e1cc260ec240a797f
+  pages: 108
+  same_manufacturer_and_stratum: true
+  near_duplicate_screen: evals/s116_independent_near_duplicate_screen_v2.json
+  near_duplicate_screen_sha256: 89ac9ab7b64ba0330cea0d7b6b0acb10f5740eff595e53a4ea13f4783cff2fb0
+  screen_gate: GO
+  extraction_authorized: false

@@ -1,0 +1,76 @@
+instrument: s112_guided_synthesis_manual_review_v1
+source_probe: evals/s112_guided_synthesis_probe_v1.json
+method: exact_answer_sha_relational_review_against_served_evidence
+policy: >-
+  A fact passes only when the generated answer states the complete evaluated
+  relation and its cited served evidence supports that same relation for the
+  requested product. Lexical presence alone is insufficient.
+rows:
+  - fact_key: "cat016#1:menu ZONA + ELEMENTO"
+    qid: cat016
+    answer_sha256: d4c7ec04ec438366d5244c9f718c4cd09fda69ccac6b0709fed9a13a0d427020
+    verdict: pass
+    reason: >-
+      The answer explicitly connects loop autodiscovery in BUCLE with zone
+      creation or assignment in ZONA and naming plus zone assignment in
+      ELEMENTOS, supported by F1.
+    caution: The aerosol or heat example is not supported by the served fragments.
+  - fact_key: "cat018#1:pestana Programacion: Zona + CBE"
+    qid: cat018
+    answer_sha256: 23d502d71770ff84af0449924d23c41e05ecc0693501a97fc204e41dccf6c280
+    verdict: fail
+    reason: >-
+      The answer explains CBE editing but omits the Program tab and the Zone
+      assignment that are jointly required by the evaluated fact.
+  - fact_key: "cat018#2:Tipo SW / asociacion CBE"
+    qid: cat018
+    answer_sha256: 23d502d71770ff84af0449924d23c41e05ecc0693501a97fc204e41dccf6c280
+    verdict: hold_relation_not_explicit
+    reason: >-
+      CBE activation and output modules of software type SND are described in
+      separate passages, but the answer never explicitly binds the SND output
+      to activation by its CBE.
+  - fact_key: "hp001#2:1111"
+    qid: hp001
+    answer_sha256: e4c8d7cbf1800d2c9b7a52d8a6466abba936825d0d522d20fb52d46446e217b1
+    verdict: pass
+    reason: >-
+      The answer distinguishes user password 1111 with limited access from
+      administrator password 2222 with full configuration access.
+    caution: The citation attached to the Level 2 wording is imprecise but does not change the fact.
+  - fact_key: "hp003#0:12V"
+    qid: hp003
+    answer_sha256: c71a6af8332f3fb27f10fe9e7707291bc10d872bdf097825b76b1827afec9d8c
+    verdict: pass
+    reason: The answer states two 12 V 7 Ah batteries connected in series, supported by F11.
+  - fact_key: "hp003#1:cable puente"
+    qid: hp003
+    answer_sha256: c71a6af8332f3fb27f10fe9e7707291bc10d872bdf097825b76b1827afec9d8c
+    verdict: pass
+    reason: >-
+      The answer states that the supplied bridge connects the positive terminal
+      of one battery to the negative terminal of the other, supported by F11 and F1.
+    caution: Critical wiring directions should ultimately be verified against the diagram.
+excluded_historical_probe:
+  fact_key: "hp017#2:Editar Configuracion"
+  qid: hp017
+  answer_sha256: f475a4fed9aca31ad77c6cbbb421704dce29f0f27ef5fc116f449b96e1e6acc1
+  verdict: hold_document_conflict
+  reason: >-
+    Two served pages from the same manual identify Causa y Efecto as menu item
+    7 and item 8. Do not retry or count this as a synthesis repair.
+summary:
+  reviewed_current_candidate_facts: 6
+  pass: 4
+  fail: 1
+  hold: 1
+  excluded_historical_conflicts: 1
+cost:
+  paid_generator_calls_total: 5
+  input_tokens_total: 70823
+  output_tokens_total: 4901
+  paid_reranker_calls: 0
+  llm_judge_calls: 0
+release_use: >-
+  Pass verdicts apply only to the exact answer hashes above. This is a bounded
+  known-cohort result, not an official full-regression or held-out result.

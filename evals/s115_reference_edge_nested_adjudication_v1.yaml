@@ -1,0 +1,96 @@
+instrument: s115_reference_edge_nested_adjudication_v1
+status: closed_no_go_no_tuning
+source_replay: evals/s115_reference_edge_nested_replay_v1.json
+source_replay_sha256: 444d0cc7fa359c07d0338e6d893785e62ddf6a6df81c4e58147cec52687e0df8
+reviewer: adversarial_agent_s111
+review_mode: post_unseal_evidence_only_no_selector_edits
+
+cohort:
+  questions: 12
+  manufacturers: 2
+  parsed_reference_questions: 12
+  potential_reference_edges: 10
+  eligible_cluster_questions: 7
+  selected_questions: 1
+
+selected:
+  - nested_id: s115n006
+    edge_index: 0
+    label: irrelevant
+    contamination: medium
+    reason: >-
+      The question asks for minimum airflow per installed pipe and the served source
+      already states 15 l/min per pipe. The selected section 3.4 card instead gives
+      exhaust-pipe diameters, an adapter and a warning not to glue the pipe. Its
+      numbers can materially substitute the requested quantity.
+
+potential_not_selected:
+  - nested_id: s115n002
+    edge_index: 0
+    class: true_negative
+    reason: section 3.5.1 discusses messages or zone volume, not FlexNet networking
+  - nested_id: s115n003
+    edge_index: 0
+    class: true_negative
+    reason: section 4.3.10 wires relays to an addressable module, not supervised GPI/PSU
+  - nested_id: s115n004
+    edge_index: 0
+    class: upstream_unresolvable
+    reason: >-
+      Section 5.1.2 bytes contain useful connection-profile steps but the extracted
+      chunk has no byte-backed heading and no unique sibling anchor; fail-closed is correct.
+  - nested_id: s115n007
+    edge_index: 0
+    class: true_negative
+    reason: the walk-test list persistence is already explicit in served evidence
+  - nested_id: s115n008
+    edge_index: 1
+    class: true_negative
+    reason: mounting-template procedure does not add the already-served clearance dimensions
+  - nested_id: s115n009
+    edge_index: 0
+    class: true_negative
+    reason: StaX relay software and physical actions repeat the served evidence
+  - nested_id: s115n010
+    edge_index: 0
+    class: true_negative
+    reason: a GPI/PSU wiring detail is not needed for the already-served commissioning checklist
+  - nested_id: s115n011
+    edge_index: 0
+    class: true_negative
+    reason: door-opening content adds nothing to the served mounting-bracket action
+  - nested_id: s115n012
+    edge_index: 0
+    class: true_negative
+    reason: general relay configuration adds no delta to the served exact state table
+
+receipts:
+  anchor_receipts_verified: 1
+  card_receipts_verified: 1
+  failures: 0
+  note: byte provenance verifies carriage, not semantic relevance
+
+metrics:
+  selected_relevant: 0
+  selected_total: 1
+  strict_precision: 0.0
+  contamination_medium: 1
+  selector_false_negatives: 0
+  upstream_unresolvable: 1
+  true_negatives: 8
+  statistical_interpretation: INCONCLUSIVE
+  inconclusive_reason: fewer than five selections
+  database_get_requests: 0
+  database_writes: 0
+  model_calls: 0
+
+decision:
+  safety: NO_GO
+  answer_regression: DO_NOT_RUN
+  serving_integration: DO_NOT_RUN
+  tune_on_this_nested: FORBIDDEN
+  selector_code_after_unseal: UNCHANGED
+  next_step: >-
+    Revoke the generic exact-reference lane as a release candidate. Preserve the
+    strong provenance work, then address byte-backed heading continuity upstream
+    on a fresh preregistered extraction cohort; do not reuse this nested cohort to tune.

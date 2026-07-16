@@ -1,0 +1,361 @@
+{
+  "instrument": "s116_raw_store_ab_v1",
+  "label": "baseline",
+  "status": "local_inventory_complete",
+  "source": {
+    "store_slug": "agent_anthropic-sonnet-45",
+    "json_files": 1069,
+    "manifest_sha256": "752c044be1531d5bc2e2879f79acf1dbeffabcbeb9bb9d16f5e14a5676aa5810"
+  },
+  "implementation": {
+    "chunker_sha256": "58be85e8cdf2cfac475e7f7cd23639b04f7b22a1c60938ffec86e76cb2c60985"
+  },
+  "summary": {
+    "chunks_total": 30315,
+    "chunks_with_section_path": 28907,
+    "chunks_with_section_title": 28907,
+    "content_chars_total": 62828879,
+    "multi_heading_chunks_without_section_path": 1245,
+    "numeric_section_continuations_without_own_leaf_heading": 2485,
+    "pages_total": 22251,
+    "record_errors": 1,
+    "records_processed": 1068,
+    "section_chunks_with_own_leaf_heading": 18459,
+    "section_continuations_without_own_leaf_heading": 10448,
+    "short_chunks_below_min_chars": 107
+  },
+  "by_manufacturer": {
+    "Argus Security": {
+      "chunks_total": 151,
+      "chunks_with_section_path": 139,
+      "chunks_with_section_title": 139,
+      "content_chars_total": 219310,
+      "multi_heading_chunks_without_section_path": 12,
+      "pages_total": 36,
+      "records_processed": 12,
+      "section_chunks_with_own_leaf_heading": 92,
+      "section_continuations_without_own_leaf_heading": 47
+    },
+    "Detnov": {
+      "chunks_total": 1621,
+      "chunks_with_section_path": 1571,
+      "chunks_with_section_title": 1571,
+      "content_chars_total": 3082293,
+      "multi_heading_chunks_without_section_path": 43,
+      "numeric_section_continuations_without_own_leaf_heading": 54,
+      "pages_total": 1364,
+      "records_processed": 45,
+      "section_chunks_with_own_leaf_heading": 948,
+      "section_continuations_without_own_leaf_heading": 623
+    },
+    "Morley": {
+      "chunks_total": 434,
+      "chunks_with_section_path": 421,
+      "chunks_with_section_title": 421,
+      "content_chars_total": 892686,
+      "multi_heading_chunks_without_section_path": 13,
+      "numeric_section_continuations_without_own_leaf_heading": 70,
+      "pages_total": 306,
+      "records_processed": 41,
+      "section_chunks_with_own_leaf_heading": 265,
+      "section_continuations_without_own_leaf_heading": 156,
+      "short_chunks_below_min_chars": 3
+    },
+    "Notifier": {
+      "chunks_total": 9483,
+      "chunks_with_section_path": 8965,
+      "chunks_with_section_title": 8965,
+      "content_chars_total": 19613599,
+      "multi_heading_chunks_without_section_path": 438,
+      "numeric_section_continuations_without_own_leaf_heading": 623,
+      "pages_total": 7422,
+      "records_processed": 288,
+      "section_chunks_with_own_leaf_heading": 5791,
+      "section_continuations_without_own_leaf_heading": 3174,
+      "short_chunks_below_min_chars": 35
+    },
+    "Pepperl-Fuchs": {
+      "chunks_total": 10,
+      "chunks_with_section_path": 9,
+      "chunks_with_section_title": 9,
+      "content_chars_total": 24061,
+      "multi_heading_chunks_without_section_path": 1,
+      "pages_total": 3,
+      "records_processed": 2,
+      "section_chunks_with_own_leaf_heading": 4,
+      "section_continuations_without_own_leaf_heading": 5,
+      "short_chunks_below_min_chars": 1
+    },
+    "Pfannenberg": {
+      "chunks_total": 364,
+      "chunks_with_section_path": 359,
+      "chunks_with_section_title": 359,
+      "content_chars_total": 1192210,
+      "multi_heading_chunks_without_section_path": 5,
+      "numeric_section_continuations_without_own_leaf_heading": 4,
+      "pages_total": 167,
+      "records_processed": 13,
+      "section_chunks_with_own_leaf_heading": 198,
+      "section_continuations_without_own_leaf_heading": 161,
+      "short_chunks_below_min_chars": 24
+    },
+    "Securiton": {
+      "chunks_total": 1195,
+      "chunks_with_section_path": 1184,
+      "chunks_with_section_title": 1184,
+      "content_chars_total": 3120165,
+      "multi_heading_chunks_without_section_path": 8,
+      "numeric_section_continuations_without_own_leaf_heading": 306,
+      "pages_total": 673,
+      "records_processed": 9,
+      "section_chunks_with_own_leaf_heading": 683,
+      "section_continuations_without_own_leaf_heading": 501,
+      "short_chunks_below_min_chars": 13
+    },
+    "SenseWare": {
+      "chunks_total": 37,
+      "chunks_with_section_path": 35,
+      "chunks_with_section_title": 35,
+      "content_chars_total": 70466,
+      "multi_heading_chunks_without_section_path": 1,
+      "numeric_section_continuations_without_own_leaf_heading": 1,
+      "pages_total": 17,
+      "records_processed": 1,
+      "section_chunks_with_own_leaf_heading": 23,
+      "section_continuations_without_own_leaf_heading": 12
+    },
+    "Spectrex": {
+      "chunks_total": 752,
+      "chunks_with_section_path": 724,
+      "chunks_with_section_title": 724,
+      "content_chars_total": 1348639,
+      "multi_heading_chunks_without_section_path": 24,
+      "numeric_section_continuations_without_own_leaf_heading": 97,
+      "pages_total": 794,
+      "records_processed": 16,
+      "section_chunks_with_own_leaf_heading": 473,
+      "section_continuations_without_own_leaf_heading": 251
+    },
+    "Xtralis": {
+      "chunks_total": 1304,
+      "chunks_with_section_path": 1275,
+      "chunks_with_section_title": 1275,
+      "content_chars_total": 3246979,
+      "multi_heading_chunks_without_section_path": 27,
+      "numeric_section_continuations_without_own_leaf_heading": 314,
+      "pages_total": 1211,
+      "records_processed": 15,
+      "section_chunks_with_own_leaf_heading": 735,
+      "section_continuations_without_own_leaf_heading": 540,
+      "short_chunks_below_min_chars": 3
+    },
+    "unknown": {
+      "chunks_total": 14964,
+      "chunks_with_section_path": 14225,
+      "chunks_with_section_title": 14225,
+      "content_chars_total": 30018471,
+      "multi_heading_chunks_without_section_path": 673,
+      "numeric_section_continuations_without_own_leaf_heading": 1016,
+      "pages_total": 10258,
+      "records_processed": 626,
+      "section_chunks_with_own_leaf_heading": 9247,
+      "section_continuations_without_own_leaf_heading": 4978,
+      "short_chunks_below_min_chars": 28
+    }
+  },
+  "deterministic_samples": [
+    {
+      "file": "37c9b5a9cfae635d0c4d4a3235a32b36c422f081e72046a71df306df6757f6cb.json",
+      "chunk_index": 40,
+      "section_title": "7.4.2 Prueba con simulador de fuego",
+      "page_number": 36,
+      "content_preview": "Esta prueba se realiza para simular una exposición del detector a un fuego real. El detector se expone a una radiación en el nivel de detección especificado. Como resultado, el detector debe generar una señal de alarma de incendio.\n\nNota im"
+    },
+    {
+      "file": "42feabe2cff3a7c39d73880b38c983eb2d854b28b954b333a62c7e301235b161.json",
+      "chunk_index": 12,
+      "section_title": "EXITPOINT",
+      "page_number": 4,
+      "content_preview": "## Mounting\n\nSee **Figure 6**. The sounder can be flush mounted on a 4˝ × 4˝ × 2<sup>1</sup>/<sub>4</sub>˝ back box, as follows:\n\nA. Use the two 8-32 × 1<sup>3</sup>/<sub>4</sub>˝ screws (provided) to attach the Sounder to the back box.\n\nB."
+    },
+    {
+      "file": "a0acaf3fdd34111fe3bc88bc155e375ff6f8435ac915986db5c83d23475cb6e9.json",
+      "chunk_index": 6,
+      "section_title": "DE Installation instructions",
+      "page_number": 3,
+      "content_preview": "## Wartung und Prüfung\n\nDie grundlegende Wartung ist auf eine jährliche Inspektion beschränkt. Die Innenverdrahtung oder Stromkreise dürfen nicht modifiziert werden. Alle Geräte nach dem Einbau prüfen!\n\n## Fehlerbehebung\n\nBevor die einzelne"
+    },
+    {
+      "file": "8f7e0d1fa451dcf9c6d5fb690bca72a23355273968faba2460063ef0b79152e6.json",
+      "chunk_index": 82,
+      "section_title": "PL: Instrukcja instalacji",
+      "page_number": 28,
+      "content_preview": "## Konfiguracja wejść\n\nTryb wejścia modułu konfiguruje się w panelu sterowania (Field setup > Loop device configuration (Urządzenia/strefy > Urządzenia pętlowe)).\n\nDostępne tryby to:\n\n* Normalny\n* Dwupoziomowy\n* Normalnie otwarty (NO)\n* Nor"
+    },
+    {
+      "file": "0c39ed5a44fa2e1d6283d98e5b2cac4037bf08aa00309eb816db3277eba25515.json",
+      "chunk_index": 101,
+      "section_title": "2 Procedimiento",
+      "page_number": 92,
+      "content_preview": "Para introducir el número de la central (entre 1 y 99), utilice el teclado numérico o las teclas ▲ / ▼. La primera vez que se pulsa una de las dos teclas aparece el '0' (sin red). Los números aumentan o disminuyen al pulsar las teclas ▲ / ▼"
+    },
+    {
+      "file": "0c39ed5a44fa2e1d6283d98e5b2cac4037bf08aa00309eb816db3277eba25515.json",
+      "chunk_index": 11,
+      "section_title": "3.4.1 Introducción",
+      "page_number": 12,
+      "content_preview": "ANTES DE INICIAR LA INSTALACIÓN: Revise la etiqueta con valores de alimentación situada encima de la fuente de alimentación.\n\n* Excepto la entrada de alimentación principal, todas las conexiones externas se realizan mediante conectores extr"
+    },
+    {
+      "file": "8e860e3a5095e9a4c6cbcd51e07dce542bbcaeb2d2662e350f7e6fdfca68fbbb.json",
+      "chunk_index": 51,
+      "section_title": "4.4.4.3 Tabla de límites del sistema para proyectar sistemas sin cálculo con «ASD PipeFlow»",
+      "page_number": 39,
+      "content_preview": "| Forma | Límites del sistema | Posición de conmutador según EN 54-20 | Posición de conmutador no normativa | ⚠ | Umbral de alarma (%/m) | Distancia desde el ASD hasta la última pieza en T/en cruz | Distancia máx. desde el ASD hasta el orif"
+    },
+    {
+      "file": "031273725f7f323b002ef395add8319700762f56bff89aed28d89fe2c9d03e5b.json",
+      "chunk_index": 38,
+      "section_title": "3 Aplicación",
+      "page_number": 23,
+      "content_preview": "## 3.2 Integración de señal\n\nEl controlador Li-ion Tamer tiene dos salidas primarias, incluidas las salidas de relé opcionales, y comunicaciones en serie Modbus, que se detallan en las dos secciones siguientes.\n\n## 3.2.1 Integración de la s"
+    },
+    {
+      "file": "aa0f5e977fbac59d6b7d22021a9ccdb88e8687ce1862f8f58d7d0c3c81681c71.json",
+      "chunk_index": 29,
+      "section_title": "GARANTÍA LIMITADA",
+      "page_number": 30,
+      "content_preview": "Este documento constituye el acuerdo completo entre el Comprador y Vendedor. El Vendedor no garantiza sus productos contra los daños causados por el fuego, ni que éstos vayan a proporcionar, en todos los casos, la protección para la cual se"
+    },
+    {
+      "file": "9aebb5439a1fda27b7c438b9dd0fa4927ef792ecab6b36c70ef4b8b35cf26b76.json",
+      "chunk_index": 56,
+      "section_title": "Ejemplo: Detección con 2 o más detectores y activación por zona cruzada.",
+      "page_number": 41,
+      "content_preview": "| Temp. B sensibilidad | Por Defecto sensibilidad | descripción texto   | descripción texto | equipo | equipo tipo | zona tipo | zona nº | rearne estado | auto estado | cambio estado | Temp. A sensibilidad |\n| -------------------- | -------"
+    },
+    {
+      "file": "6c6f5945803b19627e4ec20ee5cd58ecfca756918b9913d92908f8c2bfaa6b49.json",
+      "chunk_index": 22,
+      "section_title": "ES: Manual de instalación",
+      "page_number": 13,
+      "content_preview": "## Kablolama\n\n| Kablo           | Terminal işareti |\n| --------------- | ---------------- |\n| Kablo (pozitif) | (3) L +          |\n| Kablo (negatif) | (2) L -          |\n\nDerin tabanda ekran bağlama veya fonksiyonel topraklama amacıyla kull"
+    },
+    {
+      "file": "62caea403da2bd62e40216709c20d97a99bbb83457bbb338597361d3160b27c6.json",
+      "chunk_index": 19,
+      "section_title": "WARNING",
+      "page_number": 4,
+      "content_preview": "### ~~G. BEAM ALIGNMENT AND CENTERING ONTO REFLECTOR~~\n\nAccurate adjustment of the beam may be made in both the vertical and horizontal planes by use of the two adjustment screws indicated (use hex Allen key/wrench no.8). Ensure the focus o"
+    },
+    {
+      "file": "c546221feaebb69a81f49399768f875c81220fad3aba94806fe149ecaa7c9882.json",
+      "chunk_index": 58,
+      "section_title": "4.1. Ver",
+      "page_number": 75,
+      "content_preview": "- *Protocolo:*                 Indica el protocolo de comunicación. Dependiendo de\n                               los equipos instalados deberá utilizarse uno u otro.\n\nMANUAL DE CONFIGURACIÓN                                                 "
+    },
+    {
+      "file": "d162536f46d02e69f39d551144969cf1d0b8ab6a29812fbf348b270d93872577.json",
+      "chunk_index": 17,
+      "section_title": "Tabla 3. Microinterruptor de Funciones SW1",
+      "page_number": 15,
+      "content_preview": "| Microinterruptor nº | Posición ON                                                                                                                                                            | Posición OFF                                   "
+    },
+    {
+      "file": "8e09ca880c53adf9a0b65d586150d1dfd407ce965c8eb4dbf8f7928379fc32b7.json",
+      "chunk_index": 31,
+      "section_title": "3 Installing the Detector",
+      "page_number": 34,
+      "content_preview": "Check that your product has the configuration/options that you ordered. Check the detailed part number on the label and compare this information with the descriptions contained in *Model and Types* on page 16.\n\n## 3.3 Required Tools\n\nThe de"
+    },
+    {
+      "file": "b632494b6451d776e964975206d0e9e4e20be6b89f2b21803cdca1017a69b82a.json",
+      "chunk_index": 35,
+      "section_title": "APÉNDICE A: Carga y descarga de programación con UPDL-1020",
+      "page_number": 24,
+      "content_preview": "**Paso 5:** Una vez completada la carga/descarga, desconecte el cable interface tanto del ordenador como del conector P5 del panel, y deshabilite el interface externo de carga/descarga entrando en la Programación Parcial del Sistema, opción"
+    },
+    {
+      "file": "f38a8b33b3ceb5ef75c1fe87e339bebcc4eb3f85ad23109a2360f690e50ad956.json",
+      "chunk_index": 58,
+      "section_title": "9. MATRIZ DE CONTROL",
+      "page_number": 30,
+      "content_preview": "## 9.13 Condiciones de Salida\n\nEl resto de columnas de la matriz de control se utilizan para definir las acciones de salida que deberán cumplirse en caso de ser ciertas las condiciones de entrada.\n\n## 9.14 Lazo de Salida\n\nIndica el número d"
+    },
+    {
+      "file": "43e88f3ecc3975d39123e6b2d66eead238385a58dcc0444fbf726b376d6204d9.json",
+      "chunk_index": 19,
+      "section_title": "INSTALLATIONS- UND WARTUNGSANLEITUNG ZU DEN WÄRMEMELDERN TYP FD-851RE (THERMODIFFERENTIAL) UND FD-851HTE (HOHE ANSPRECHTEMPERATUR)",
+      "page_number": 4,
+      "content_preview": "### ~~ACHTUNG~~\n\n**Das Laser-Testgerät ist ein Produkt der Laser Klasse II. Verletzungsgefahr - Richten Sie den Laserstrahl niemals direkt auf Gesichter oder Augen**\n\nMelder die nicht ausgelöst werden können, müssen gemäß der Wartungsanweis"
+    },
+    {
+      "file": "aae16a09846d248e9ed6116d8bb052753fa332fbb728267b4a18a2a5273b7b64.json",
+      "chunk_index": 28,
+      "section_title": "Collegamento sensori",
+      "page_number": 21,
+      "content_preview": "- At the top: An end-of-line (EOL) resistor of 4K7 value\n- Two circular NOTIFIER detectors connected in series with terminals marked with + and - symbols\n- Between the detectors: An external signaler (Segnalatore esterno) shown as a red rec"
+    },
+    {
+      "file": "e4bc97e16d6a7fd39deecabeacffc880eba1967f80e31412492f8172ac7ea4ac.json",
+      "chunk_index": 72,
+      "section_title": "Conexión de la Fuente de Alimentación Secundaria",
+      "page_number": 43,
+      "content_preview": "```\nFase  Neútro\n  |     |\n  |     |\n┌─┴─┬─┴─┬───┬───┐\n│ 1 │ 2 │ 3 │ 4 │                              corte JP2    ┌─────────────────────────────┐\n└───┴───┴─┬─┴─┬─┘                                 │         │ ═══ ═══ ═══    ══ ══ ═══   │\n  "
+    },
+    {
+      "file": "1f096343f79d73520e4e677ee2588137fc797c90d5ca70fcc0e8d247d7a5ab80.json",
+      "chunk_index": 40,
+      "section_title": "NO: Registreringsveiledning",
+      "page_number": 14,
+      "content_preview": "## PL: Przewodnik rejestracji\n\n## Opis\n\nKlucz aktywacyjny centrali 2010-2A-PAK-HPL (PAK) zwiększa maksymalne wyjście pętli z 500 mA do 800 mA (pętla dużej mocy) w zgodnych adresowalnych centralach 2X-A.\n\nUwaga: Dla każdej centrali, która wy"
+    },
+    {
+      "file": "235a7f502fc89683b682a24f9f9fec52fbcf0affa7817cf8afc57ce107122d1d.json",
+      "chunk_index": 5,
+      "section_title": "ENScape SOUNDER",
+      "page_number": 2,
+      "content_preview": "|           | 1  |                            | Hz           | Typical consumption (mA)<br/>24V High<br/>dB | Typical consumption (mA)<br/>24V High<br/>LPCB/dB | Typical consumption (mA)<br/>29V High<br/>mA | Typical consumption (mA)<br/>29"
+    },
+    {
+      "file": "081ffce15f1331d9dd94994836fb044a47fdb73128a688b23ca6e313d58e512b.json",
+      "chunk_index": 96,
+      "section_title": "7.8 Ajuste del reloj (RTC)",
+      "page_number": 75,
+      "content_preview": "El ASD 531 cuenta con un reloj en tiempo real (RTC) alimentado por una batería de litio. La fecha y la hora se utilizan para la grabación de eventos y de datos de registro. No es obligatorio ajustar el reloj a la hora actual, pero sí es rec"
+    },
+    {
+      "file": "143d462c2cdfc4f95078cdc880e7c56f98638ac3d7c9c113c43acc2ec544c54e.json",
+      "chunk_index": 66,
+      "section_title": "4.4.4.2 Límites no normativos del sistema para la vigilancia de recintos sin cálculo con «ASD PipeFlow»",
+      "page_number": 46,
+      "content_preview": "Las posiciones de conmutador **W01** a **W48** incluyen límites del sistema que ~~únicamente~~ cumplen la sensibilidad de respuesta de la alarma según EN 54-20, clases A a C, ~~pero no~~ los límites normativos en relación con la monitorizac"
+    },
+    {
+      "file": "691ac4b41cce610f8573f9145b81b3d993fb7743b19602bf0cb5df94256fc0e0.json",
+      "chunk_index": 127,
+      "section_title": "5. La Ventana de Presentación Gráfica",
+      "page_number": 80,
+      "content_preview": "**Figura80 Accesando el Menú Pop-Up**\n\n80                                                                                                    Terminal de Informe de la Red 15090SP:H 03/05/99\n\nEl Menú Pop-Up                                   "
+    }
+  ],
+  "errors": [
+    {
+      "file": "_failures.json",
+      "error_type": "AttributeError"
+    }
+  ],
+  "cost": {
+    "database_get_requests": 0,
+    "database_writes": 0,
+    "model_calls": 0,
+    "network_calls": 0
+  },
+  "limitations": [
+    "This inventory measures chunk structure, not retrieval or answer quality.",
+    "A metadata-backed continuation is not necessarily wrong; it lacks a self-contained byte anchor.",
+    "The manufacturer registry may classify some records as unknown.",
+    "No result from this inventory authorizes reingestion, schema, serving, or production changes."
+  ]
+}

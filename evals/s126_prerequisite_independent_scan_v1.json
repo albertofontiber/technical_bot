@@ -1,0 +1,144 @@
+{
+  "instrument": "s126_scan_independent_prerequisites_v1",
+  "status": "VALID_SCAN_REQUIRES_BLINDED_ADJUDICATION",
+  "checks": {
+    "exact_documents": true,
+    "manufacturers_at_least_four": true,
+    "all_exact_source_receipts": true
+  },
+  "documents": [
+    {
+      "id": "bosch_fpp5000_power",
+      "manufacturer": "Bosch",
+      "chunks": 98
+    },
+    {
+      "id": "bosch_flm430_interface",
+      "manufacturer": "Bosch",
+      "chunks": 191
+    },
+    {
+      "id": "siemens_oohc941_detector",
+      "manufacturer": "Siemens",
+      "chunks": 23
+    },
+    {
+      "id": "siemens_fci2020_city_tie",
+      "manufacturer": "Siemens",
+      "chunks": 10
+    },
+    {
+      "id": "hochiki_hcvx_panel",
+      "manufacturer": "Hochiki",
+      "chunks": 131
+    },
+    {
+      "id": "hochiki_smoke_heat_guide",
+      "manufacturer": "Hochiki",
+      "chunks": 21
+    },
+    {
+      "id": "apollo_series65_base",
+      "manufacturer": "Apollo",
+      "chunks": 1
+    },
+    {
+      "id": "apollo_xp95a_detectors",
+      "manufacturer": "Apollo",
+      "chunks": 3
+    }
+  ],
+  "opportunity_count": 6,
+  "opportunities": [
+    {
+      "document_id": "hochiki_hcvx_panel",
+      "manufacturer": "Hochiki",
+      "filename": "hochiki_hcvx_installation_operation.pdf",
+      "chunk_index": 14,
+      "page_number": 9,
+      "section_title": "Related Documentation",
+      "facet": "access_prerequisite",
+      "start": 1580,
+      "end": 2300,
+      "quote": " issue should contact Technical Support and include the:\n\n* Product part number\n\n* Purchase order number\n\n* Product serial number\n\n* Current function of the product\n\n* Expected function of the product\n\n* Installation of the product\n\nHochiki HCVX Fire Control Panel\nInstallation and Operation Manual\nMan-1194HA, Revision E01.05\n\n8\n\n## RMA Returns Required\n\nA Return Material Authorization (RMA) must be assigned to all products returning to Hochiki America. Technical Support will assign an RMA to a returning product after recording information collected from the on-site technician. Hochiki America cannot not accept product-returns that do not include an accompanying RMA number.\n\nAn RMA number is assigned when:\n\n* A ",
+      "quote_sha256": "aae79b1bda3e082d33887fd51d84d9003fef36a01f71b22aa31643807723babb",
+      "exact_source_receipt": true
+    },
+    {
+      "document_id": "hochiki_hcvx_panel",
+      "manufacturer": "Hochiki",
+      "filename": "hochiki_hcvx_installation_operation.pdf",
+      "chunk_index": 59,
+      "page_number": 49,
+      "section_title": "Default Operation",
+      "facet": "access_prerequisite",
+      "start": 293,
+      "end": 1013,
+      "quote": "f the fire control panel.\n\n## CAUTION!\n\n> ⚠️ Unintended settings can lead to unintended operation of the fire control panel. Clear the configuration memory of the fire control panel and program default settings before programming the new fire control configuration.\n\n## Programming Default Settings\n\nProgram codes 00 and 10 to complete default setting requirements of the HCVX Fire Control Panel.\n\nTo program default settings of the fire control panel:\n\n**1** Turn the Enable Access key to the right to enter Access Level 2.\n\n**2** Move the Write Enable slide-switch to the left to enter Access Level 3.\n\nThe Write Enable slide-switch is located on the lower-right portion of the fascia adjacent to the Processor Reset b",
+      "quote_sha256": "47791be587b53988c3ef5394870bad7ded4d08194307a50a7d4f14f6e154f81e",
+      "exact_source_receipt": true
+    },
+    {
+      "document_id": "hochiki_hcvx_panel",
+      "manufacturer": "Hochiki",
+      "filename": "hochiki_hcvx_installation_operation.pdf",
+      "chunk_index": 61,
+      "page_number": 51,
+      "section_title": "Clearing Remaining Configuration Options",
+      "facet": "access_prerequisite",
+      "start": 0,
+      "end": 666,
+      "quote": "## Clearing Remaining Configuration Options\n\nClear all other codes in memory before programming the new fire control configuration. Clearing previous settings provides a clean default condition for accepting the new fire control configuration.\n\nTo clear all codes in memory and maintain default settings:\n\n**1** Press Mode (+10) and then Select (+1) to inspect the range of codes 21-E8 for programming.\n\n**2** Press Enter to clear all programmed codes in the 21-E8 range.\n\n**3** Move the Write Enable slide-switch to the right to exit Access Level 3.\n\n**4** Turn the Enable Access key to the left to exit Access Level 2 and return the fire control panel to the Norma",
+      "quote_sha256": "ca2167480c83fa026fdbff65d9bc2429528909c3db99678a0abb151b80ac50f7",
+      "exact_source_receipt": true
+    },
+    {
+      "document_id": "hochiki_hcvx_panel",
+      "manufacturer": "Hochiki",
+      "filename": "hochiki_hcvx_installation_operation.pdf",
+      "chunk_index": 71,
+      "page_number": 58,
+      "section_title": "Default Operation",
+      "facet": "access_prerequisite",
+      "start": 2048,
+      "end": 2768,
+      "quote": "ion to the fire control panel.<br/><br/>The fire control panel will resume normal operation within seconds of pressing the processor reset button. This task is not a typical function of the fire control panel and is only necessary when controls and indicators are unresponsive. Press the Processor Reset after a firmware upgrade to re-initialize processors in the fire control panel. |\n| Write Enable    | To operate the Write Enable switch:<br/><br/>**1** Turn the Enable Access key to the right to open Access Level 2.<br/><br/>**2** Move the slide-switch to the left (Write Enable position) when programming in Access Level 3.<br/><br/>**3** Return the slide-switch to the right (non-Write Enable position) after comp",
+      "quote_sha256": "8f53804c00a3b5a7b81a158f22c4621d86b57687efbe7eda402dd33ed0c79e79",
+      "exact_source_receipt": true
+    },
+    {
+      "document_id": "hochiki_hcvx_panel",
+      "manufacturer": "Hochiki",
+      "filename": "hochiki_hcvx_installation_operation.pdf",
+      "chunk_index": 72,
+      "page_number": 59,
+      "section_title": "Single Zone Fire Condition",
+      "facet": "access_prerequisite",
+      "start": 128,
+      "end": 848,
+      "quote": "ation of zone detectors or pull stations. Fire relays operate and trigger connected systems and circuits during single zone fire conditions.\n\nHochiki HCVX Fire Control Panel\nInstallation and Operation Manual\nMan-1194HA, Revision E01.05\n\n56 of 105\n\n**Programming and Operating 4\n\nSilence/Resound Fire Drill** The Silence/Resound Fire Drill button can only be operated in Access Level 2 by turning the Enable Access key to the right. To silence the NACs, insert the Enable Access key, turn to the right and press the Silence/Sound alarm button. When the NACs have been silenced, the Alarm In Zo ne LEDs will change from flashing to a steady state. Pressing the Silence/Sound alarm while the fire cont rol panel is in this ",
+      "quote_sha256": "b4d130456fa2162bf1484dc3aca619f9c91ef4be732b7a4583b1bb79ccbf2f88",
+      "exact_source_receipt": true
+    },
+    {
+      "document_id": "hochiki_hcvx_panel",
+      "manufacturer": "Hochiki",
+      "filename": "hochiki_hcvx_installation_operation.pdf",
+      "chunk_index": 76,
+      "page_number": 63,
+      "section_title": "Alarm Delays",
+      "facet": "access_prerequisite",
+      "start": 1063,
+      "end": 1593,
+      "quote": "\n**6** Choose the zone code on the menu and press Enter to program the zone.\n\nA flashing dot is displayed in the lower-right-corner of the Mode LED to identify the set code.\n\n**7** Move the Write Enable slide-switch to the right to exit Access Level 3.\n\n**8** Select \"Ad\" in Access Level 2 to add delay to the alarm.\n\n**9** Turn the Enable Access key to the left to exit Access Level 2 and return the fire control panel to the Normal Standby condition.\n\n*Reference Default Operation before programming these alarm delay settings.*",
+      "quote_sha256": "3fc4f00ed4063d1c757dc58cec7bf42fc1460579ff6defe24ed26c2577b46d5a",
+      "exact_source_receipt": true
+    }
+  ],
+  "cost": {
+    "model_calls": 0,
+    "network_calls": 0,
+    "database_writes": 0
+  },
+  "release_authorization": false
+}

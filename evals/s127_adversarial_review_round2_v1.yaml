@@ -1,0 +1,24 @@
+schema_version: s127_adversarial_review_round2_v1
+reviewed_artifacts:
+  - evals/s127_compatibility_generalization_design_v2.md
+  - evals/s127_compatibility_development_cohort_v2.yaml
+reviewer: fresh_Fable_5_s127_round2
+verdict: NO_GO_TO_BUILD
+p0: 0
+p1_confirmed: 2
+findings:
+  - detection_context_guard_regresses_exact_s126_and_s127_positive_cards
+  - ambiguity_signature_conflates_document_key_with_bundle_receipt_and_controls_lack_exact_spans
+round1_closure:
+  neutral_roles: closed
+  non_circular_metric: closed
+  exclusion_and_rebrand_contract: closed
+  typed_projection: direction_sound
+p2:
+  - materialize_and_freeze_exclusion_closure_output
+  - add_non_ring_non_detection_exact_card_near_negative_before_external_generalization_claim
+disposition:
+  build_started: false
+  superseding_design: evals/s127_compatibility_generalization_design_v3.md
+  superseding_cohort: evals/s127_compatibility_development_cohort_v3.yaml
+next_gate: fresh_adversarial_review_of_v3_before_build

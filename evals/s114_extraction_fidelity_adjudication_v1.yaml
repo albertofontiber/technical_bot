@@ -1,0 +1,63 @@
+instrument: s114_extraction_fidelity_adjudication_v1
+status: audited_candidate_risks_not_source_pixel_verdicts
+source: evals/s114_extraction_fidelity_audit_v1.json
+corpus_snapshot:
+  rows: 25090
+  documents: 1007
+  source_files: 1014
+  manufacturers: 31
+findings:
+  collapsed_scientific_notation:
+    candidate_rows: 8
+    source_files: 7
+    manufacturers: 1
+    observed_scope: Notifier FAAST LT/ASD11 relay-life specifications
+    interpretation: >-
+      The same Life Time / contact-life value appears as 105 operations across
+      language and manual variants. These are likely repeated manifestations
+      of one source-table notation issue, not eight independent product facts.
+    source_pixel_check_required: true
+    automatic_rewrite_allowed: false
+  explicit_scientific_notation_preserved:
+    rows: 393
+    source_files: 171
+    manufacturers: 15
+    interpretation: >-
+      Superscript/caret/HTML notation is preserved in many documents, so the
+      evidence does not justify replacing the extraction stack globally.
+  split_numeric_unit_cells:
+    rows: 148
+    source_files: 103
+    manufacturers: 15
+    interpretation: >-
+      Numeric values and units can be separated by Markdown table cells. This
+      is a downstream matching/structured-record risk even when source text is
+      semantically intact.
+  numeric_page_image_without_render_receipt:
+    rows: 18583
+    source_files: 921
+    manufacturers: 30
+    interpretation: >-
+      has_diagram currently means that the extraction page contains an image,
+      while indexing stores diagram_url as null. This is a missing visual
+      verification receipt, not proof that 18,583 chunks are extracted badly.
+  encoding_damage_candidates:
+    mojibake_rows: 9
+    replacement_character_rows: 3
+    interpretation: low-volume but deterministic ingestion-quality defects
+decision:
+  full_extractor_rebuild: NO_GO_INSUFFICIENT_LEVERAGE
+  targeted_fidelity_gate: GO_FOR_DESIGN_AND_SHADOW
+  rationale: >-
+    The confirmed scoring blocker belongs to a narrow repeated notation pattern,
+    while broader risks can be detected deterministically. Rebuilding extraction
+    before a bounded verifier would be disproportionate and hard to validate.
+recommended_contract:
+  - Detect high-risk exponents, split quantities, replacement characters and ambiguous table records during ingestion.
+  - For flagged pages only, retain or obtain a rendered source-page receipt before the value can support an answer.
+  - Store source notation and normalized notation as separate fields with provenance; never rewrite an ambiguous value automatically.
+  - Keep ordinary pages on the current cheap path and escalate only flagged evidence.
+cost_receipt:
+  database_get_requests_per_final_audit: 26
+  database_writes: 0
+  model_calls: 0

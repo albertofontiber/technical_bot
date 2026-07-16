@@ -1,0 +1,2129 @@
+{
+  "instrument": "s124_renderer_presentation_replay_v1",
+  "status": "LOCAL_RENDERER_PRESENTATION_GO",
+  "authority": "local_deterministic_presentation_replay_only",
+  "input_receipts": {
+    "evals/s113_full_contexts_freeze_v1.json": "22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d",
+    "evals/s113_full_answer_regression_v1.json": "8fbfe4801f6c35c2447af9440c459b080e4405b76e2899f3a00e66b230497f69",
+    "evals/s121_s120_three_answer_probe_v1.json": "dc0dc1e078fef615008f29f66bd2c2ca126485a18a5924dece481a9fe18a64c4"
+  },
+  "versions": {
+    "planner": "answer_planner_s122_v1",
+    "enforcement_policy": "answer_enforcement_s122_v2",
+    "validator": "answer_contract_validator_s122_v1",
+    "renderer": "source_bound_renderer_s124_v1",
+    "conflict_schema": "answer_conflict_s122_v1"
+  },
+  "counts": {
+    "total_rows": 39,
+    "measured_answers": 27,
+    "not_measured": 12,
+    "actions": {
+      "pass": 25,
+      "source_bound_reconstruction": 1,
+      "fail_closed": 1
+    },
+    "plan_delta_qids": [
+      "hp005",
+      "hp009"
+    ],
+    "unexpected_reconstruction": [],
+    "unexpected_fail_closed": [],
+    "not_measured_action_leakage": []
+  },
+  "checks": {
+    "frozen_input_receipts": true,
+    "total_rows_39": true,
+    "measured_answers_27": true,
+    "not_measured_rows_12": true,
+    "not_measured_qids_exact": true,
+    "not_measured_action_leakage_zero": true,
+    "target_actions_exact": true,
+    "unexpected_reconstruction_zero": true,
+    "unexpected_fail_closed_zero": true,
+    "byte_identical_pass_answers": true,
+    "plan_delta_qids_allowlisted": true
+  },
+  "target_action_mismatches": {},
+  "cost": {
+    "model_calls": 0,
+    "network_calls": 0,
+    "retrieval_calls": 0,
+    "rerank_calls": 0,
+    "database_reads": 0,
+    "database_writes": 0,
+    "llm_judge_calls": 0
+  },
+  "rows": [
+    {
+      "qid": "cat001",
+      "measurement": "measured",
+      "answer_source": "s113_baseline",
+      "action": "pass",
+      "answer_byte_identical": true,
+      "answer_sha256_before": "2c2c7ad7d56db69b46ebe50cbafd07140eec7f888b2a674fb627e221e355e0f3",
+      "answer_sha256_after": "2c2c7ad7d56db69b46ebe50cbafd07140eec7f888b2a674fb627e221e355e0f3",
+      "query_core_coverage": true,
+      "s120_plan": [
+        {
+          "obligation_id": "obl_3cee5df62a84",
+          "fragment_number": 13,
+          "candidate_id": "a92b566d-4a7e-4e04-91ef-a8d3b66d7723",
+          "facet": "query_alignment",
+          "kind": "source_statement",
+          "statement": "Para las centrales Pearl, no coloque más de 25 equipos de lazo entre aisladores (20 si utiliza aisladores FET)",
+          "required_anchors": [
+            "25",
+            "20",
+            "aisladores",
+            "equipos",
+            "lazo"
+          ],
+          "source_start": 1620,
+          "source_end": 1980
+        }
+      ],
+      "s122_plan": [
+        {
+          "obligation_id": "obl_3cee5df62a84",
+          "fragment_number": 13,
+          "candidate_id": "a92b566d-4a7e-4e04-91ef-a8d3b66d7723",
+          "facet": "query_alignment",
+          "kind": "source_statement",
+          "statement": "Para las centrales Pearl, no coloque más de 25 equipos de lazo entre aisladores (20 si utiliza aisladores FET)",
+          "required_anchors": [
+            "25",
+            "20",
+            "aisladores",
+            "equipos",
+            "lazo"
+          ],
+          "source_start": 1620,
+          "source_end": 1980
+        }
+      ],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": null
+    },
+    {
+      "qid": "cat005",
+      "measurement": "measured",
+      "answer_source": "s113_baseline",
+      "action": "pass",
+      "answer_byte_identical": true,
+      "answer_sha256_before": "757125181ded1712bdf192bcf50f45c654cb663cfd9c2327c88a33928812bdc6",
+      "answer_sha256_after": "757125181ded1712bdf192bcf50f45c654cb663cfd9c2327c88a33928812bdc6",
+      "query_core_coverage": true,
+      "s120_plan": [],
+      "s122_plan": [],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": null
+    },
+    {
+      "qid": "cat007",
+      "measurement": "measured",
+      "answer_source": "s113_baseline",
+      "action": "pass",
+      "answer_byte_identical": true,
+      "answer_sha256_before": "91d226dc01258953d3a33193167e20fe401dde814aa15fb76d22bec56c93b7a6",
+      "answer_sha256_after": "91d226dc01258953d3a33193167e20fe401dde814aa15fb76d22bec56c93b7a6",
+      "query_core_coverage": true,
+      "s120_plan": [],
+      "s122_plan": [],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": null
+    },
+    {
+      "qid": "cat008",
+      "measurement": "not_measured",
+      "action": "not_measured",
+      "s120_plan": [],
+      "s122_plan": []
+    },
+    {
+      "qid": "cat009",
+      "measurement": "measured",
+      "answer_source": "s113_baseline",
+      "action": "pass",
+      "answer_byte_identical": true,
+      "answer_sha256_before": "92072411ec2e890f19b74de88e167cb2188d708b245b09cf540872a134037c21",
+      "answer_sha256_after": "92072411ec2e890f19b74de88e167cb2188d708b245b09cf540872a134037c21",
+      "query_core_coverage": true,
+      "s120_plan": [],
+      "s122_plan": [],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": null
+    },
+    {
+      "qid": "cat010",
+      "measurement": "measured",
+      "answer_source": "s113_baseline",
+      "action": "pass",
+      "answer_byte_identical": true,
+      "answer_sha256_before": "1fe51fc989d8100a98f399fd1357945ca4ee81ec33df81f1f7d85543b3556634",
+      "answer_sha256_after": "1fe51fc989d8100a98f399fd1357945ca4ee81ec33df81f1f7d85543b3556634",
+      "query_core_coverage": true,
+      "s120_plan": [],
+      "s122_plan": [],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": null
+    },
+    {
+      "qid": "cat011",
+      "measurement": "measured",
+      "answer_source": "s113_baseline",
+      "action": "pass",
+      "answer_byte_identical": true,
+      "answer_sha256_before": "a412cf6b92e995f82e5d04fddb6a52025c3b1e3fb918a3c6545862daf59a0f0d",
+      "answer_sha256_after": "a412cf6b92e995f82e5d04fddb6a52025c3b1e3fb918a3c6545862daf59a0f0d",
+      "query_core_coverage": true,
+      "s120_plan": [],
+      "s122_plan": [],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": null
+    },
+    {
+      "qid": "cat012",
+      "measurement": "not_measured",
+      "action": "not_measured",
+      "s120_plan": [],
+      "s122_plan": []
+    },
+    {
+      "qid": "cat013",
+      "measurement": "measured",
+      "answer_source": "s113_baseline",
+      "action": "pass",
+      "answer_byte_identical": true,
+      "answer_sha256_before": "d562c1bb0e307905da86cd6f58fadc6d3e76571b6df705df45aba46699ee830f",
+      "answer_sha256_after": "d562c1bb0e307905da86cd6f58fadc6d3e76571b6df705df45aba46699ee830f",
+      "query_core_coverage": true,
+      "s120_plan": [],
+      "s122_plan": [],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": null
+    },
+    {
+      "qid": "cat014",
+      "measurement": "measured",
+      "answer_source": "s113_baseline",
+      "action": "pass",
+      "answer_byte_identical": true,
+      "answer_sha256_before": "fd58880b00009b45ee5f229d7a53935721070e9d57400c1c9c0f63876d117319",
+      "answer_sha256_after": "fd58880b00009b45ee5f229d7a53935721070e9d57400c1c9c0f63876d117319",
+      "query_core_coverage": true,
+      "s120_plan": [],
+      "s122_plan": [],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": null
+    },
+    {
+      "qid": "cat015",
+      "measurement": "measured",
+      "answer_source": "s113_baseline",
+      "action": "pass",
+      "answer_byte_identical": true,
+      "answer_sha256_before": "6f64c547d480402b7104c6db682e68fa86007e492595013f8875188a13a187e9",
+      "answer_sha256_after": "6f64c547d480402b7104c6db682e68fa86007e492595013f8875188a13a187e9",
+      "query_core_coverage": true,
+      "s120_plan": [],
+      "s122_plan": [],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": null
+    },
+    {
+      "qid": "cat016",
+      "measurement": "measured",
+      "answer_source": "s113_baseline",
+      "action": "pass",
+      "answer_byte_identical": true,
+      "answer_sha256_before": "d4c7ec04ec438366d5244c9f718c4cd09fda69ccac6b0709fed9a13a0d427020",
+      "answer_sha256_after": "d4c7ec04ec438366d5244c9f718c4cd09fda69ccac6b0709fed9a13a0d427020",
+      "query_core_coverage": true,
+      "s120_plan": [
+        {
+          "obligation_id": "obl_ae759e820316",
+          "fragment_number": 1,
+          "candidate_id": "294a778c-1dca-40de-8a1b-a9f0c471ea36",
+          "facet": "served_relation:commissioning_menu_bundle",
+          "kind": "commissioning_menu_bundle",
+          "statement": "Para realizar la autobusqueda acceda al *menú BUCLE*.; Para crear y asignarlas zonas a los elementos acceda al menú ZONA.; Para nombrarlos y asignarles zona acceda *al menú ELEMENTOS*.",
+          "required_anchors": [
+            "menu BUCLE",
+            "menu ZONA",
+            "menu ELEMENTOS"
+          ],
+          "source_start": 290,
+          "source_end": 784
+        }
+      ],
+      "s122_plan": [
+        {
+          "obligation_id": "obl_ae759e820316",
+          "fragment_number": 1,
+          "candidate_id": "294a778c-1dca-40de-8a1b-a9f0c471ea36",
+          "facet": "served_relation:commissioning_menu_bundle",
+          "kind": "commissioning_menu_bundle",
+          "statement": "Para realizar la autobusqueda acceda al *menú BUCLE*.; Para crear y asignarlas zonas a los elementos acceda al menú ZONA.; Para nombrarlos y asignarles zona acceda *al menú ELEMENTOS*.",
+          "required_anchors": [
+            "menu BUCLE",
+            "menu ZONA",
+            "menu ELEMENTOS"
+          ],
+          "source_start": 290,
+          "source_end": 784
+        }
+      ],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": null
+    },
+    {
+      "qid": "cat017",
+      "measurement": "not_measured",
+      "action": "not_measured",
+      "s120_plan": [],
+      "s122_plan": []
+    },
+    {
+      "qid": "cat018",
+      "measurement": "measured",
+      "answer_source": "s113_baseline",
+      "action": "pass",
+      "answer_byte_identical": true,
+      "answer_sha256_before": "23d502d71770ff84af0449924d23c41e05ecc0693501a97fc204e41dccf6c280",
+      "answer_sha256_after": "23d502d71770ff84af0449924d23c41e05ecc0693501a97fc204e41dccf6c280",
+      "query_core_coverage": true,
+      "s120_plan": [
+        {
+          "obligation_id": "obl_7bba8d03d496",
+          "fragment_number": 3,
+          "candidate_id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+          "facet": "served_relation:point_programming_fields",
+          "kind": "point_programming_fields",
+          "statement": "## Pestaña Programa (Programación ecuaciones CBE, asociación zona); **Zona** - número de zona asignada; **CBE** - ecuación CBE del punto.; **CBE** (Control By Events), son las ecuaciones que sirven para activar un comando en función de un evento.",
+          "required_anchors": [
+            "Pestana Programa",
+            "Zona",
+            "CBE"
+          ],
+          "source_start": 0,
+          "source_end": 1526
+        },
+        {
+          "obligation_id": "obl_5784f16b1a11",
+          "fragment_number": 11,
+          "candidate_id": "d85a9a89-e469-473a-b345-ee7c77783127",
+          "facet": "served_relation:output_software_type",
+          "kind": "output_software_type",
+          "statement": "Esta función permite la anulación de la salida sirena y todos los módulos de salida programados con tipo-SW «SND» (abrazaderas CNU-17 y CNU18 de la tarjeta principal).",
+          "required_anchors": [
+            "modulos de salida",
+            "tipo-SW",
+            "snd"
+          ],
+          "source_start": 183,
+          "source_end": 350
+        }
+      ],
+      "s122_plan": [
+        {
+          "obligation_id": "obl_7bba8d03d496",
+          "fragment_number": 3,
+          "candidate_id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+          "facet": "served_relation:point_programming_fields",
+          "kind": "point_programming_fields",
+          "statement": "## Pestaña Programa (Programación ecuaciones CBE, asociación zona); **Zona** - número de zona asignada; **CBE** - ecuación CBE del punto.; **CBE** (Control By Events), son las ecuaciones que sirven para activar un comando en función de un evento.",
+          "required_anchors": [
+            "Pestana Programa",
+            "Zona",
+            "CBE"
+          ],
+          "source_start": 0,
+          "source_end": 1526
+        },
+        {
+          "obligation_id": "obl_5784f16b1a11",
+          "fragment_number": 11,
+          "candidate_id": "d85a9a89-e469-473a-b345-ee7c77783127",
+          "facet": "served_relation:output_software_type",
+          "kind": "output_software_type",
+          "statement": "Esta función permite la anulación de la salida sirena y todos los módulos de salida programados con tipo-SW «SND» (abrazaderas CNU-17 y CNU18 de la tarjeta principal).",
+          "required_anchors": [
+            "modulos de salida",
+            "tipo-SW",
+            "snd"
+          ],
+          "source_start": 183,
+          "source_end": 350
+        }
+      ],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": null
+    },
+    {
+      "qid": "cat019",
+      "measurement": "not_measured",
+      "action": "not_measured",
+      "s120_plan": [],
+      "s122_plan": []
+    },
+    {
+      "qid": "cat020",
+      "measurement": "measured",
+      "answer_source": "s113_baseline",
+      "action": "pass",
+      "answer_byte_identical": true,
+      "answer_sha256_before": "3390d9b092d7d9d4b6b6ef100c5462ae5f4e9b2c3091583b4a4d37331ec2222b",
+      "answer_sha256_after": "3390d9b092d7d9d4b6b6ef100c5462ae5f4e9b2c3091583b4a4d37331ec2222b",
+      "query_core_coverage": true,
+      "s120_plan": [],
+      "s122_plan": [],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": null
+    },
+    {
+      "qid": "cat021",
+      "measurement": "measured",
+      "answer_source": "s113_baseline",
+      "action": "pass",
+      "answer_byte_identical": true,
+      "answer_sha256_before": "0767cbfc1e57df652b6b38ee4ff6811e9fb05d4925344017a3bfa70f8f4aed7f",
+      "answer_sha256_after": "0767cbfc1e57df652b6b38ee4ff6811e9fb05d4925344017a3bfa70f8f4aed7f",
+      "query_core_coverage": true,
+      "s120_plan": [],
+      "s122_plan": [],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": null
+    },
+    {
+      "qid": "cat022",
+      "measurement": "measured",
+      "answer_source": "s113_baseline",
+      "action": "pass",
+      "answer_byte_identical": true,
+      "answer_sha256_before": "7c5f202df0de73d3b24867f5f2a59dd4e2f441b20a6a0625cb198c44b83513ba",
+      "answer_sha256_after": "7c5f202df0de73d3b24867f5f2a59dd4e2f441b20a6a0625cb198c44b83513ba",
+      "query_core_coverage": true,
+      "s120_plan": [],
+      "s122_plan": [],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": null
+    },
+    {
+      "qid": "cat023",
+      "measurement": "measured",
+      "answer_source": "s113_baseline",
+      "action": "pass",
+      "answer_byte_identical": true,
+      "answer_sha256_before": "854b3ec190cb2095306b5b6b7f3f64ec6d4838bae6a49763a5dba389f3009600",
+      "answer_sha256_after": "854b3ec190cb2095306b5b6b7f3f64ec6d4838bae6a49763a5dba389f3009600",
+      "query_core_coverage": true,
+      "s120_plan": [],
+      "s122_plan": [],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": null
+    },
+    {
+      "qid": "cat024",
+      "measurement": "measured",
+      "answer_source": "s113_baseline",
+      "action": "pass",
+      "answer_byte_identical": true,
+      "answer_sha256_before": "a857171758b51aba0c1c611110756ec442f9ca897f2edbcf288f71c6ce4d17e5",
+      "answer_sha256_after": "a857171758b51aba0c1c611110756ec442f9ca897f2edbcf288f71c6ce4d17e5",
+      "query_core_coverage": true,
+      "s120_plan": [],
+      "s122_plan": [],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": null
+    },
+    {
+      "qid": "hp001",
+      "measurement": "not_measured",
+      "action": "not_measured",
+      "s120_plan": [
+        {
+          "obligation_id": "obl_614f09afb469",
+          "fragment_number": 2,
+          "candidate_id": "9bd17466-1a22-4ade-bb16-a44624c9f166",
+          "facet": "served_relation:credential_administrator",
+          "kind": "credential_administrator",
+          "statement": "Introduzca la clave de administrador por defecto, 2222.",
+          "required_anchors": [
+            "administrador",
+            "2222",
+            "por defecto"
+          ],
+          "source_start": 2083,
+          "source_end": 2138
+        },
+        {
+          "obligation_id": "obl_d7a62cc3ae36",
+          "fragment_number": 4,
+          "candidate_id": "edeb58a7-58c6-4865-8819-c70b57fe1135",
+          "facet": "served_relation:credential_user",
+          "kind": "credential_user",
+          "statement": "La clave de usuario por defecto es 1111.",
+          "required_anchors": [
+            "usuario",
+            "1111",
+            "por defecto"
+          ],
+          "source_start": 2122,
+          "source_end": 2162
+        }
+      ],
+      "s122_plan": [
+        {
+          "obligation_id": "obl_614f09afb469",
+          "fragment_number": 2,
+          "candidate_id": "9bd17466-1a22-4ade-bb16-a44624c9f166",
+          "facet": "served_relation:credential_administrator",
+          "kind": "credential_administrator",
+          "statement": "Introduzca la clave de administrador por defecto, 2222.",
+          "required_anchors": [
+            "administrador",
+            "2222",
+            "por defecto"
+          ],
+          "source_start": 2083,
+          "source_end": 2138
+        },
+        {
+          "obligation_id": "obl_d7a62cc3ae36",
+          "fragment_number": 4,
+          "candidate_id": "edeb58a7-58c6-4865-8819-c70b57fe1135",
+          "facet": "served_relation:credential_user",
+          "kind": "credential_user",
+          "statement": "La clave de usuario por defecto es 1111.",
+          "required_anchors": [
+            "usuario",
+            "1111",
+            "por defecto"
+          ],
+          "source_start": 2122,
+          "source_end": 2162
+        }
+      ]
+    },
+    {
+      "qid": "hp002",
+      "measurement": "not_measured",
+      "action": "not_measured",
+      "s120_plan": [
+        {
+          "obligation_id": "obl_0db2b9f2842a",
+          "fragment_number": 1,
+          "candidate_id": "b5804921-836c-49ca-8316-cecae6da409b",
+          "facet": "served_relation:diagnostic_threshold_direction",
+          "kind": "diagnostic_threshold_direction",
+          "statement": "**Significado**: Valor < 100 % = apunta a obstrucción / > 100 % = apunta a rotura de tubo",
+          "required_anchors": [
+            "< 100 %",
+            "obstruccion",
+            "> 100 %",
+            "rotura"
+          ],
+          "source_start": 0,
+          "source_end": 89
+        }
+      ],
+      "s122_plan": [
+        {
+          "obligation_id": "obl_0db2b9f2842a",
+          "fragment_number": 1,
+          "candidate_id": "b5804921-836c-49ca-8316-cecae6da409b",
+          "facet": "served_relation:diagnostic_threshold_direction",
+          "kind": "diagnostic_threshold_direction",
+          "statement": "**Significado**: Valor < 100 % = apunta a obstrucción / > 100 % = apunta a rotura de tubo",
+          "required_anchors": [
+            "< 100 %",
+            "obstruccion",
+            "> 100 %",
+            "rotura"
+          ],
+          "source_start": 0,
+          "source_end": 89
+        }
+      ]
+    },
+    {
+      "qid": "hp003",
+      "measurement": "measured",
+      "answer_source": "s113_baseline",
+      "action": "pass",
+      "answer_byte_identical": true,
+      "answer_sha256_before": "f582a581f95cce3e745bccc99b8263308d87b4092c4bedf6a0a7d14df6de22d8",
+      "answer_sha256_after": "f582a581f95cce3e745bccc99b8263308d87b4092c4bedf6a0a7d14df6de22d8",
+      "query_core_coverage": true,
+      "s120_plan": [
+        {
+          "obligation_id": "obl_d6691d017657",
+          "fragment_number": 12,
+          "candidate_id": "eaa39792-fb91-411d-a666-d85fb7f7b591",
+          "facet": "served_relation:battery_series_spec",
+          "kind": "battery_series_spec",
+          "statement": "Las centrales analógicas requieren dos baterías de 12V 7A/h.; Las baterías deben conectarse en serie para el correcto funcionamiento de las centrales.",
+          "required_anchors": [
+            "12v",
+            "serie",
+            "7a/h"
+          ],
+          "source_start": 2531,
+          "source_end": 2680
+        },
+        {
+          "obligation_id": "obl_a716be3e1a65",
+          "fragment_number": 12,
+          "candidate_id": "eaa39792-fb91-411d-a666-d85fb7f7b591",
+          "facet": "served_relation:battery_bridge",
+          "kind": "battery_bridge",
+          "statement": "El cable que se suministra con la central debe conectarse de forma que una el polo positivo de una batería con el polo negativo de la otra.",
+          "required_anchors": [
+            "positivo",
+            "negativo"
+          ],
+          "source_start": 2682,
+          "source_end": 2821
+        }
+      ],
+      "s122_plan": [
+        {
+          "obligation_id": "obl_d6691d017657",
+          "fragment_number": 12,
+          "candidate_id": "eaa39792-fb91-411d-a666-d85fb7f7b591",
+          "facet": "served_relation:battery_series_spec",
+          "kind": "battery_series_spec",
+          "statement": "Las centrales analógicas requieren dos baterías de 12V 7A/h.; Las baterías deben conectarse en serie para el correcto funcionamiento de las centrales.",
+          "required_anchors": [
+            "12v",
+            "serie",
+            "7a/h"
+          ],
+          "source_start": 2531,
+          "source_end": 2680
+        },
+        {
+          "obligation_id": "obl_a716be3e1a65",
+          "fragment_number": 12,
+          "candidate_id": "eaa39792-fb91-411d-a666-d85fb7f7b591",
+          "facet": "served_relation:battery_bridge",
+          "kind": "battery_bridge",
+          "statement": "El cable que se suministra con la central debe conectarse de forma que una el polo positivo de una batería con el polo negativo de la otra.",
+          "required_anchors": [
+            "positivo",
+            "negativo"
+          ],
+          "source_start": 2682,
+          "source_end": 2821
+        }
+      ],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": null
+    },
+    {
+      "qid": "hp004",
+      "measurement": "measured",
+      "answer_source": "s113_baseline",
+      "action": "pass",
+      "answer_byte_identical": true,
+      "answer_sha256_before": "d539baee5b001c3ac14dd1f08566361c5530857c1bbeca9db811162d469f2871",
+      "answer_sha256_after": "d539baee5b001c3ac14dd1f08566361c5530857c1bbeca9db811162d469f2871",
+      "query_core_coverage": true,
+      "s120_plan": [],
+      "s122_plan": [],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": null
+    },
+    {
+      "qid": "hp005",
+      "measurement": "measured",
+      "answer_source": "s121_overlay",
+      "action": "pass",
+      "answer_byte_identical": true,
+      "answer_sha256_before": "08b54140aac99f1bf38c5f7807859c28def6413d5f6b4a87668bbbbc50af7254",
+      "answer_sha256_after": "08b54140aac99f1bf38c5f7807859c28def6413d5f6b4a87668bbbbc50af7254",
+      "query_core_coverage": true,
+      "s120_plan": [
+        {
+          "obligation_id": "obl_24bdd910c60c",
+          "fragment_number": 14,
+          "candidate_id": "6dcccb36-f67b-4057-959b-494d9279e5d4",
+          "facet": "served_relation:cause_effect_output_selector",
+          "kind": "cause_effect_output_selector",
+          "statement": "Acción:**\n○ Anular\n● Activar ☐ Pulsante\n○ Ajustar Modo Sólo Térmico\n**Aplicar el Evento de Salida / Matriz sobre:**\nTipo de Equipo: ☐ Todos los Equipos\nFunción Especial: ☐ Circuito Sirena 1\n**Transferir a:**\nRetardo: 0 seg.\nSin Ecuación Logica\n○ Todas las Zonas\n○ Misma Zona de Entrada\n○ Selec. Zona(s)\n○ Selec. Subzona(s)\n● Seleccionar Equipos del Lazo: 1",
+          "required_anchors": [
+            "Activar",
+            "Circuito Sirena 1",
+            "Seleccionar Equipos del Lazo"
+          ],
+          "source_start": 80,
+          "source_end": 451
+        }
+      ],
+      "s122_plan": [
+        {
+          "obligation_id": "obl_24bdd910c60c",
+          "fragment_number": 14,
+          "candidate_id": "6dcccb36-f67b-4057-959b-494d9279e5d4",
+          "facet": "served_relation:cause_effect_output_selector",
+          "kind": "cause_effect_output_selector",
+          "statement": "Acción:**\n○ Anular\n● Activar ☐ Pulsante\n○ Ajustar Modo Sólo Térmico\n**Aplicar el Evento de Salida / Matriz sobre:**\nTipo de Equipo: ☐ Todos los Equipos\nFunción Especial: ☐ Circuito Sirena 1\n**Transferir a:**\nRetardo: 0 seg.\nSin Ecuación Logica\n○ Todas las Zonas\n○ Misma Zona de Entrada\n○ Selec. Zona(s)\n○ Selec. Subzona(s)\n● Seleccionar Equipos del Lazo: 1",
+          "required_anchors": [
+            "Activar",
+            "Circuito Sirena 1"
+          ],
+          "source_start": 80,
+          "source_end": 451
+        }
+      ],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 1,
+        "covered": 1,
+        "missing": [],
+        "rows": [
+          {
+            "obligation_id": "obl_24bdd910c60c",
+            "fragment_number": 14,
+            "candidate_id": "6dcccb36-f67b-4057-959b-494d9279e5d4",
+            "facet": "served_relation:cause_effect_output_selector",
+            "kind": "cause_effect_output_selector",
+            "statement": "Acción:**\n○ Anular\n● Activar ☐ Pulsante\n○ Ajustar Modo Sólo Térmico\n**Aplicar el Evento de Salida / Matriz sobre:**\nTipo de Equipo: ☐ Todos los Equipos\nFunción Especial: ☐ Circuito Sirena 1\n**Transferir a:**\nRetardo: 0 seg.\nSin Ecuación Logica\n○ Todas las Zonas\n○ Misma Zona de Entrada\n○ Selec. Zona(s)\n○ Selec. Subzona(s)\n● Seleccionar Equipos del Lazo: 1",
+            "required_anchors": [
+              "Activar",
+              "Circuito Sirena 1"
+            ],
+            "source_start": 80,
+            "source_end": 451,
+            "covered": true
+          }
+        ]
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 1,
+        "covered": 1,
+        "missing": [],
+        "rows": [
+          {
+            "obligation_id": "obl_24bdd910c60c",
+            "fragment_number": 14,
+            "candidate_id": "6dcccb36-f67b-4057-959b-494d9279e5d4",
+            "facet": "served_relation:cause_effect_output_selector",
+            "kind": "cause_effect_output_selector",
+            "statement": "Acción:**\n○ Anular\n● Activar ☐ Pulsante\n○ Ajustar Modo Sólo Térmico\n**Aplicar el Evento de Salida / Matriz sobre:**\nTipo de Equipo: ☐ Todos los Equipos\nFunción Especial: ☐ Circuito Sirena 1\n**Transferir a:**\nRetardo: 0 seg.\nSin Ecuación Logica\n○ Todas las Zonas\n○ Misma Zona de Entrada\n○ Selec. Zona(s)\n○ Selec. Subzona(s)\n● Seleccionar Equipos del Lazo: 1",
+            "required_anchors": [
+              "Activar",
+              "Circuito Sirena 1"
+            ],
+            "source_start": 80,
+            "source_end": 451,
+            "covered": true
+          }
+        ]
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": "# Programación de coincidencia de dos detectores → salida de sirena en ID3000\n\nPara que una zona active la sirena únicamente cuando dos detectores entren en alarma, debes crear una instrucción en la **Matriz de Control** con coincidencia de equipos. El proceso requiere **dos instrucciones separadas** si la zona tiene pulsadores manuales (MCP/PUL).\n\n---\n\n## Paso 1 — Acceder a la Matriz de Control\n\nDesde el menú **Parámetros Sistema**, selecciona **Matriz de Control** [F11]. También puedes acceder pulsando **\\<F6\\>** durante la edición de sensores o módulos [F12].\n\n---\n\n## Paso 2 — Crear la instrucción de entrada (Evento de Entrada)\n\nEn la ventana de edición del evento de entrada [F8]:\n\n**1. Seleccionar central:**\n- Si es instalación local (no red): selecciona **Central Determinada** o deja la opción correspondiente a la central local [F8].\n\n**2. Seleccionar el ámbito de zona:**\n- Elige **Zona(s) Determinada** e introduce el número de zona que quieres supervisar [F8].\n- ⚠️ La función de coincidencia **solo se aplica si la entrada está especificada como ZONA, SUBZONA o CUALQUIERA** — no funciona si seleccionas un equipo individual [F1].\n\n**3. Configurar la coincidencia de equipos:**\n- En el campo **\"Coincidencia de [ ] Equipos\"**, selecciona **2** [F4] [F8].\n- Esto exige que dos equipos de esa zona estén en alarma antes de activar la salida [F1].\n- ⚠️ Para que tenga lugar la coincidencia, los equipos en alarma **deben estar en la misma zona o subzona** [F4].\n\n**4. Tipo de equipo:**\n- Si quieres que solo actúen detectores automáticos (no pulsadores), selecciona el tipo **ANALÓGICO** (incluye térmicos, iónicos, ópticos, VIEW y multisensor) [F1].\n\n---\n\n## Paso 3 — Gestión obligatoria de pulsadores manuales (MCP/PUL)\n\n⚠️ **EN54-2: 7.1.4 — No incluyas pulsadores manuales en un grupo de coincidencia** [F1] [F4].\n\nSi la zona tiene pulsadores, debes programar **dos instrucciones de Matriz de Control** [F1] [F4]:\n\n- **Instrucción 1:** Entrada tipo **Pulsador Manual (MCP)** → coincidencia **Simple** (un único equipo, sin coincidencia). Esto garantiza que un pulsador active la sirena de inmediato.\n- **Instrucción 2:** Entrada tipo **ANALÓGICO** (detectores automáticos) → coincidencia de **2 equipos**. Esta es la instrucción que requiere doble confirmación.\n\n---\n\n## Paso 4 — Configurar la salida de sirena (Evento de Salida)\n\nEn la ventana **Editar el Evento de Salida** [F14]:\n\n- **Acción:** ● **Activar**\n- **Función Especial:** **Circuito Sirena 1** (marca la casilla correspondiente)\n- **Retardo:** configura los segundos deseados (el fragmento muestra **0 seg.** como ejemplo, pero puede ajustarse; en [F13] se muestra un ejemplo con retardo de sirena de **48 s**)\n- **Transferir a:** selecciona el ámbito de zonas o equipos de lazo según tu instalación\n\n---\n\n## Paso 5 — Verificar niveles de coincidencia en ajustes de central\n\nSi necesitas niveles de coincidencia adicionales (más de 2 zonas o más de 2 equipos en niveles 3, 4 o 5), configúralos previamente en:\n\n**Parámetros Sistema → Modificar Opciones de la Central → pestaña \"Coincidencia de Alarma\"** [F5]\n\n- **Nivel de Coincidencia de Equipos en Alarma:** introduce el número de equipos para cada nivel (nivel 3, 4...).\n- Los valores configurados aquí pasan a estar disponibles en el menú de edición de la Matriz de Control [F5].\n- ⚠️ El número de zonas o equipos disponible en el desplegable es **'2' más los configurados en esta pestaña** [F8].\n\n> **Nota adicional:** No se permite usar simultáneamente las funciones de **coincidencia de zonas** y **limitación por tipo** en la misma entrada de Matriz de Control [F4].\n\n---\n\n## Resumen del flujo\n\n```\nZona X → 2 detectores en alarma\n         ↓ (Instrucción 2 de la Matriz)\n    Coincidencia de 2 Equipos (tipo ANALÓGICO)\n         ↓\n    Activar Circuito Sirena 1\n\nZona X → 1 pulsador manual en alarma\n         ↓ (Instrucción 1 de la Matriz)\n    Simple (sin coincidencia)\n         ↓\n    Activar Circuito Sirena 1\n```\n\n---\n\n**Fuentes:** MCDT190 (sin revisión registrada); MCDT191 v. 2.17e; MPDT190 (sin revisión registrada); MADT190\\_07 (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **configuración del retardo de sirena**, **programación de subzonas con coincidencia** o **ajuste de la pestaña Coincidencia de Alarma en los ajustes de central** de la ID3000."
+    },
+    {
+      "qid": "hp006",
+      "measurement": "measured",
+      "answer_source": "s113_baseline",
+      "action": "pass",
+      "answer_byte_identical": true,
+      "answer_sha256_before": "fa2255104e183543730eafeb2d5c6d81ae5fa13b05093881173e1d0590064a8e",
+      "answer_sha256_after": "fa2255104e183543730eafeb2d5c6d81ae5fa13b05093881173e1d0590064a8e",
+      "query_core_coverage": true,
+      "s120_plan": [],
+      "s122_plan": [],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": null
+    },
+    {
+      "qid": "hp007",
+      "measurement": "measured",
+      "answer_source": "s113_baseline",
+      "action": "pass",
+      "answer_byte_identical": true,
+      "answer_sha256_before": "b40073ca1a18e4ef7a87cb82c8d2c4791ad8b5ed0bb663fc6b9a3137ac4bc307",
+      "answer_sha256_after": "b40073ca1a18e4ef7a87cb82c8d2c4791ad8b5ed0bb663fc6b9a3137ac4bc307",
+      "query_core_coverage": true,
+      "s120_plan": [],
+      "s122_plan": [],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": null
+    },
+    {
+      "qid": "hp008",
+      "measurement": "measured",
+      "answer_source": "s113_baseline",
+      "action": "pass",
+      "answer_byte_identical": true,
+      "answer_sha256_before": "70a24418558f7f4553566f23a26556b868bd5d0985fd5984aa286fefb7e06ccb",
+      "answer_sha256_after": "70a24418558f7f4553566f23a26556b868bd5d0985fd5984aa286fefb7e06ccb",
+      "query_core_coverage": true,
+      "s120_plan": [],
+      "s122_plan": [],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": null
+    },
+    {
+      "qid": "hp009",
+      "measurement": "measured",
+      "answer_source": "s121_overlay",
+      "action": "source_bound_reconstruction",
+      "answer_byte_identical": false,
+      "answer_sha256_before": "351a9ff1dd9f15f0e7f0140230f49e1b72e73de41872ed3f292b8164979eec0f",
+      "answer_sha256_after": "152f0a9d2f07a4d4b7bf4d7f12265e17f2d74b1625e32be825ce8f3acbde40d9",
+      "query_core_coverage": true,
+      "s120_plan": [
+        {
+          "obligation_id": "obl_0dd92f09e970",
+          "fragment_number": 12,
+          "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+          "facet": "loop_topology",
+          "kind": "terminal_bundle",
+          "statement": "Inicio Lazo (+) OUT / Inicio Lazo (-) OUT on left panel; (+) Retorno / (-) Retorno on right panel",
+          "required_anchors": [
+            "inicio",
+            "retorno",
+            "out"
+          ],
+          "source_start": 569,
+          "source_end": 669
+        },
+        {
+          "obligation_id": "obl_f5f518a75f3f",
+          "fragment_number": 12,
+          "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+          "facet": "served_relation:closed_loop_return_path",
+          "kind": "closed_loop_return_path",
+          "statement": "Retorne el final del lazo al otro extremo del conector de lazo; Inicio Lazo (+) OUT / Inicio Lazo (-) OUT; (+) Retorno / (-) Retorno on right panel; complete loop circuit",
+          "required_anchors": [
+            "Inicio Lazo",
+            "OUT",
+            "Retorno"
+          ],
+          "source_start": 260,
+          "source_end": 1139
+        }
+      ],
+      "s122_plan": [
+        {
+          "obligation_id": "obl_0dd92f09e970",
+          "fragment_number": 12,
+          "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+          "facet": "loop_topology",
+          "kind": "terminal_bundle",
+          "statement": "Inicio Lazo (+) OUT / Inicio Lazo (-) OUT on left panel; (+) Retorno / (-) Retorno on right panel",
+          "required_anchors": [
+            "inicio",
+            "retorno",
+            "out"
+          ],
+          "source_start": 569,
+          "source_end": 669
+        },
+        {
+          "obligation_id": "obl_f5f518a75f3f",
+          "fragment_number": 12,
+          "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+          "facet": "served_relation:closed_loop_return_path",
+          "kind": "closed_loop_return_path",
+          "statement": "ZX2e/ZX5e: Retorne el final del lazo al otro extremo del conector de lazo; Inicio Lazo (+) OUT / Inicio Lazo (-) OUT; (+) Retorno / (-) Retorno on right panel; complete loop circuit",
+          "required_anchors": [
+            "Inicio Lazo",
+            "OUT",
+            "Retorno"
+          ],
+          "source_start": 260,
+          "source_end": 1139
+        }
+      ],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 2,
+        "covered": 0,
+        "missing": [
+          {
+            "obligation_id": "obl_0dd92f09e970",
+            "fragment_number": 12,
+            "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+            "facet": "loop_topology",
+            "kind": "terminal_bundle",
+            "statement": "Inicio Lazo (+) OUT / Inicio Lazo (-) OUT on left panel; (+) Retorno / (-) Retorno on right panel",
+            "required_anchors": [
+              "inicio",
+              "retorno",
+              "out"
+            ],
+            "source_start": 569,
+            "source_end": 669,
+            "covered": false
+          },
+          {
+            "obligation_id": "obl_f5f518a75f3f",
+            "fragment_number": 12,
+            "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+            "facet": "served_relation:closed_loop_return_path",
+            "kind": "closed_loop_return_path",
+            "statement": "ZX2e/ZX5e: Retorne el final del lazo al otro extremo del conector de lazo; Inicio Lazo (+) OUT / Inicio Lazo (-) OUT; (+) Retorno / (-) Retorno on right panel; complete loop circuit",
+            "required_anchors": [
+              "Inicio Lazo",
+              "OUT",
+              "Retorno"
+            ],
+            "source_start": 260,
+            "source_end": 1139,
+            "covered": false
+          }
+        ],
+        "rows": [
+          {
+            "obligation_id": "obl_0dd92f09e970",
+            "fragment_number": 12,
+            "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+            "facet": "loop_topology",
+            "kind": "terminal_bundle",
+            "statement": "Inicio Lazo (+) OUT / Inicio Lazo (-) OUT on left panel; (+) Retorno / (-) Retorno on right panel",
+            "required_anchors": [
+              "inicio",
+              "retorno",
+              "out"
+            ],
+            "source_start": 569,
+            "source_end": 669,
+            "covered": false
+          },
+          {
+            "obligation_id": "obl_f5f518a75f3f",
+            "fragment_number": 12,
+            "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+            "facet": "served_relation:closed_loop_return_path",
+            "kind": "closed_loop_return_path",
+            "statement": "ZX2e/ZX5e: Retorne el final del lazo al otro extremo del conector de lazo; Inicio Lazo (+) OUT / Inicio Lazo (-) OUT; (+) Retorno / (-) Retorno on right panel; complete loop circuit",
+            "required_anchors": [
+              "Inicio Lazo",
+              "OUT",
+              "Retorno"
+            ],
+            "source_start": 260,
+            "source_end": 1139,
+            "covered": false
+          }
+        ]
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 2,
+        "covered": 2,
+        "missing": [],
+        "rows": [
+          {
+            "obligation_id": "obl_0dd92f09e970",
+            "fragment_number": 12,
+            "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+            "facet": "loop_topology",
+            "kind": "terminal_bundle",
+            "statement": "Inicio Lazo (+) OUT / Inicio Lazo (-) OUT on left panel; (+) Retorno / (-) Retorno on right panel",
+            "required_anchors": [
+              "inicio",
+              "retorno",
+              "out"
+            ],
+            "source_start": 569,
+            "source_end": 669,
+            "covered": true
+          },
+          {
+            "obligation_id": "obl_f5f518a75f3f",
+            "fragment_number": 12,
+            "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+            "facet": "served_relation:closed_loop_return_path",
+            "kind": "closed_loop_return_path",
+            "statement": "ZX2e/ZX5e: Retorne el final del lazo al otro extremo del conector de lazo; Inicio Lazo (+) OUT / Inicio Lazo (-) OUT; (+) Retorno / (-) Retorno on right panel; complete loop circuit",
+            "required_anchors": [
+              "Inicio Lazo",
+              "OUT",
+              "Retorno"
+            ],
+            "source_start": 260,
+            "source_end": 1139,
+            "covered": true
+          }
+        ]
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": "**Respuesta verificada con la evidencia disponible**\n\nLa documentación disponible permite confirmar:\n\n- La documentación para ZX2e/ZX5e no especifica una resistencia de fin de línea (RFL) para este lazo. Lo muestra como un circuito cerrado: el recorrido sale por Inicio Lazo OUT y vuelve a Retorno [F12]\n\n- Inicio Lazo (+) OUT / Inicio Lazo (-) OUT; (+) Retorno / (-) Retorno [F12]"
+    },
+    {
+      "qid": "hp010",
+      "measurement": "measured",
+      "answer_source": "s113_baseline",
+      "action": "pass",
+      "answer_byte_identical": true,
+      "answer_sha256_before": "b766d1ee65757ec29289f55108071802040bd68c8fb762731c2627597fb8886d",
+      "answer_sha256_after": "b766d1ee65757ec29289f55108071802040bd68c8fb762731c2627597fb8886d",
+      "query_core_coverage": true,
+      "s120_plan": [],
+      "s122_plan": [],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": null
+    },
+    {
+      "qid": "hp011",
+      "measurement": "not_measured",
+      "action": "not_measured",
+      "s120_plan": [],
+      "s122_plan": []
+    },
+    {
+      "qid": "hp012",
+      "measurement": "not_measured",
+      "action": "not_measured",
+      "s120_plan": [],
+      "s122_plan": []
+    },
+    {
+      "qid": "hp013",
+      "measurement": "not_measured",
+      "action": "not_measured",
+      "s120_plan": [
+        {
+          "obligation_id": "obl_bcc6e0777acb",
+          "fragment_number": 11,
+          "candidate_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+          "facet": "served_relation:redundant_power_input",
+          "kind": "redundant_power_input",
+          "statement": "PWR-R | = Entrada de alimentación redundante",
+          "required_anchors": [
+            "PWR-R",
+            "alimentacion redundante"
+          ],
+          "source_start": 6706,
+          "source_end": 6843
+        },
+        {
+          "obligation_id": "obl_d26e7882aa0a",
+          "fragment_number": 12,
+          "candidate_id": "af577289-5d7f-4dfc-9187-8a3aca92d40d",
+          "facet": "served_relation:rtc_lithium_battery",
+          "kind": "rtc_lithium_battery",
+          "statement": "Batería de litio\nMódulo de reloj RTC",
+          "required_anchors": [
+            "bateria de litio",
+            "reloj RTC"
+          ],
+          "source_start": 783,
+          "source_end": 823
+        }
+      ],
+      "s122_plan": [
+        {
+          "obligation_id": "obl_bcc6e0777acb",
+          "fragment_number": 11,
+          "candidate_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+          "facet": "served_relation:redundant_power_input",
+          "kind": "redundant_power_input",
+          "statement": "PWR-R | = Entrada de alimentación redundante",
+          "required_anchors": [
+            "PWR-R",
+            "alimentacion redundante"
+          ],
+          "source_start": 6706,
+          "source_end": 6843
+        },
+        {
+          "obligation_id": "obl_d26e7882aa0a",
+          "fragment_number": 12,
+          "candidate_id": "af577289-5d7f-4dfc-9187-8a3aca92d40d",
+          "facet": "served_relation:rtc_lithium_battery",
+          "kind": "rtc_lithium_battery",
+          "statement": "Batería de litio\nMódulo de reloj RTC",
+          "required_anchors": [
+            "bateria de litio",
+            "reloj RTC"
+          ],
+          "source_start": 783,
+          "source_end": 823
+        }
+      ]
+    },
+    {
+      "qid": "hp014",
+      "measurement": "not_measured",
+      "action": "not_measured",
+      "s120_plan": [],
+      "s122_plan": []
+    },
+    {
+      "qid": "hp015",
+      "measurement": "not_measured",
+      "action": "not_measured",
+      "s120_plan": [
+        {
+          "obligation_id": "obl_b1a476286791",
+          "fragment_number": 1,
+          "candidate_id": "8954b9b2-18a0-464e-9e17-cc756d944b7c",
+          "facet": "served_relation:zone_disable_scope",
+          "kind": "zone_disable_scope",
+          "statement": "La central de extinción permite la desconexión de zonas y sirenas, cuando se desconecta una zona, la central no refleja ninguna incidencia o evento en la zona desconectada, por lo tanto es importante limitar el uso de esta maniobra.",
+          "required_anchors": [
+            "zona",
+            "desconectada"
+          ],
+          "source_start": 28,
+          "source_end": 260
+        },
+        {
+          "obligation_id": "obl_245dcff130c1",
+          "fragment_number": 5,
+          "candidate_id": "fdb14497-4a5a-43db-a5f3-90f36448663e",
+          "facet": "served_relation:zone_device_capacity",
+          "kind": "zone_device_capacity",
+          "statement": "Recuerde que el número máximo de detectores o pulsadores por zona son 32.",
+          "required_anchors": [
+            "32",
+            "zona",
+            "detectores"
+          ],
+          "source_start": 2056,
+          "source_end": 2129
+        }
+      ],
+      "s122_plan": [
+        {
+          "obligation_id": "obl_b1a476286791",
+          "fragment_number": 1,
+          "candidate_id": "8954b9b2-18a0-464e-9e17-cc756d944b7c",
+          "facet": "served_relation:zone_disable_scope",
+          "kind": "zone_disable_scope",
+          "statement": "La central de extinción permite la desconexión de zonas y sirenas, cuando se desconecta una zona, la central no refleja ninguna incidencia o evento en la zona desconectada, por lo tanto es importante limitar el uso de esta maniobra.",
+          "required_anchors": [
+            "zona",
+            "desconectada"
+          ],
+          "source_start": 28,
+          "source_end": 260
+        },
+        {
+          "obligation_id": "obl_245dcff130c1",
+          "fragment_number": 5,
+          "candidate_id": "fdb14497-4a5a-43db-a5f3-90f36448663e",
+          "facet": "served_relation:zone_device_capacity",
+          "kind": "zone_device_capacity",
+          "statement": "Recuerde que el número máximo de detectores o pulsadores por zona son 32.",
+          "required_anchors": [
+            "32",
+            "zona",
+            "detectores"
+          ],
+          "source_start": 2056,
+          "source_end": 2129
+        }
+      ]
+    },
+    {
+      "qid": "hp017",
+      "measurement": "measured",
+      "answer_source": "s121_overlay",
+      "action": "fail_closed",
+      "answer_byte_identical": false,
+      "answer_sha256_before": "065f1cac7a563553377ed20d22889f870fc53792dd37d8ff37c6b8cf34e6cfd1",
+      "answer_sha256_after": "337c32c6710bca4848a11272bcd4bbb34e3b2cac580efeddb8c3b565fdc18b4c",
+      "query_core_coverage": false,
+      "s120_plan": [
+        {
+          "obligation_id": "obl_e8491bc1c321",
+          "fragment_number": 11,
+          "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+          "facet": "served_relation:cause_effect_rule_behavior",
+          "kind": "cause_effect_rule_behavior",
+          "statement": "Regla 1: una regla que diga que para cualquier entrada de alarma todas las sirenas de cada zona deben activarse en modo intermitente* (patrón de alerta).",
+          "required_anchors": [
+            "Regla 1",
+            "cualquier entrada de alarma",
+            "todas las sirenas"
+          ],
+          "source_start": 812,
+          "source_end": 967
+        },
+        {
+          "obligation_id": "obl_e265a4c97a31",
+          "fragment_number": 11,
+          "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+          "facet": "served_relation:cause_effect_default_rules_precondition",
+          "kind": "cause_effect_default_rules_precondition",
+          "statement": "Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto.; **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.",
+          "required_anchors": [
+            "dos reglas",
+            "por defecto",
+            "eliminar"
+          ],
+          "source_start": 2133,
+          "source_end": 2345
+        }
+      ],
+      "s122_plan": [
+        {
+          "obligation_id": "obl_e8491bc1c321",
+          "fragment_number": 11,
+          "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+          "facet": "served_relation:cause_effect_rule_behavior",
+          "kind": "cause_effect_rule_behavior",
+          "statement": "Regla 1: una regla que diga que para cualquier entrada de alarma todas las sirenas de cada zona deben activarse en modo intermitente* (patrón de alerta).",
+          "required_anchors": [
+            "Regla 1",
+            "cualquier entrada de alarma",
+            "todas las sirenas"
+          ],
+          "source_start": 812,
+          "source_end": 967
+        },
+        {
+          "obligation_id": "obl_e265a4c97a31",
+          "fragment_number": 11,
+          "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+          "facet": "served_relation:cause_effect_default_rules_precondition",
+          "kind": "cause_effect_default_rules_precondition",
+          "statement": "Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto.; **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.",
+          "required_anchors": [
+            "dos reglas",
+            "por defecto",
+            "eliminar"
+          ],
+          "source_start": 2133,
+          "source_end": 2345
+        }
+      ],
+      "conflicts": [
+        {
+          "conflict_id": "conf_26f63590494f",
+          "kind": "document_value_conflict",
+          "product_scope": "pearl",
+          "operation": "cause_effect_menu_path",
+          "values": [
+            "7",
+            "8"
+          ],
+          "evidence": [
+            {
+              "fragment_number": 11,
+              "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+              "product_scope": "Pearl",
+              "source_file": "997-671-005-3_Configuration_ES",
+              "document_revision": "",
+              "value": "7",
+              "statement": "En el menú «Editar Configuración», seleccione «7: Causa y Efecto» para abrir la función de edición. Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto. **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.**",
+              "source_start": 2033,
+              "source_end": 2347
+            },
+            {
+              "fragment_number": 8,
+              "candidate_id": "51df7a51-4970-4cfc-8ef1-3771f480dd78",
+              "product_scope": "Pearl",
+              "source_file": "997-671-005-3_Configuration_ES",
+              "document_revision": "",
+              "value": "8",
+              "statement": "8:Causa y Efecto",
+              "source_start": 1313,
+              "source_end": 1330
+            }
+          ]
+        }
+      ],
+      "initial_validation": {
+        "total": 2,
+        "covered": 1,
+        "missing": [
+          {
+            "obligation_id": "obl_e8491bc1c321",
+            "fragment_number": 11,
+            "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+            "facet": "served_relation:cause_effect_rule_behavior",
+            "kind": "cause_effect_rule_behavior",
+            "statement": "Regla 1: una regla que diga que para cualquier entrada de alarma todas las sirenas de cada zona deben activarse en modo intermitente* (patrón de alerta).",
+            "required_anchors": [
+              "Regla 1",
+              "cualquier entrada de alarma",
+              "todas las sirenas"
+            ],
+            "source_start": 812,
+            "source_end": 967,
+            "covered": false
+          }
+        ],
+        "rows": [
+          {
+            "obligation_id": "obl_e8491bc1c321",
+            "fragment_number": 11,
+            "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+            "facet": "served_relation:cause_effect_rule_behavior",
+            "kind": "cause_effect_rule_behavior",
+            "statement": "Regla 1: una regla que diga que para cualquier entrada de alarma todas las sirenas de cada zona deben activarse en modo intermitente* (patrón de alerta).",
+            "required_anchors": [
+              "Regla 1",
+              "cualquier entrada de alarma",
+              "todas las sirenas"
+            ],
+            "source_start": 812,
+            "source_end": 967,
+            "covered": false
+          },
+          {
+            "obligation_id": "obl_e265a4c97a31",
+            "fragment_number": 11,
+            "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+            "facet": "served_relation:cause_effect_default_rules_precondition",
+            "kind": "cause_effect_default_rules_precondition",
+            "statement": "Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto.; **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.",
+            "required_anchors": [
+              "dos reglas",
+              "por defecto",
+              "eliminar"
+            ],
+            "source_start": 2133,
+            "source_end": 2345,
+            "covered": true
+          }
+        ]
+      },
+      "initial_conflict_validation": {
+        "total": 1,
+        "safe": 0,
+        "unsafe": [
+          {
+            "conflict_id": "conf_26f63590494f",
+            "kind": "document_value_conflict",
+            "product_scope": "pearl",
+            "operation": "cause_effect_menu_path",
+            "values": [
+              "7",
+              "8"
+            ],
+            "evidence": [
+              {
+                "fragment_number": 11,
+                "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+                "product_scope": "Pearl",
+                "source_file": "997-671-005-3_Configuration_ES",
+                "document_revision": "",
+                "value": "7",
+                "statement": "En el menú «Editar Configuración», seleccione «7: Causa y Efecto» para abrir la función de edición. Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto. **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.**",
+                "source_start": 2033,
+                "source_end": 2347
+              },
+              {
+                "fragment_number": 8,
+                "candidate_id": "51df7a51-4970-4cfc-8ef1-3771f480dd78",
+                "product_scope": "Pearl",
+                "source_file": "997-671-005-3_Configuration_ES",
+                "document_revision": "",
+                "value": "8",
+                "statement": "8:Causa y Efecto",
+                "source_start": 1313,
+                "source_end": 1330
+              }
+            ],
+            "asserted_values": [
+              "8"
+            ],
+            "directive_values": [
+              "8"
+            ],
+            "directive_present": true,
+            "disclosed": false,
+            "safe": false
+          }
+        ],
+        "rows": [
+          {
+            "conflict_id": "conf_26f63590494f",
+            "kind": "document_value_conflict",
+            "product_scope": "pearl",
+            "operation": "cause_effect_menu_path",
+            "values": [
+              "7",
+              "8"
+            ],
+            "evidence": [
+              {
+                "fragment_number": 11,
+                "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+                "product_scope": "Pearl",
+                "source_file": "997-671-005-3_Configuration_ES",
+                "document_revision": "",
+                "value": "7",
+                "statement": "En el menú «Editar Configuración», seleccione «7: Causa y Efecto» para abrir la función de edición. Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto. **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.**",
+                "source_start": 2033,
+                "source_end": 2347
+              },
+              {
+                "fragment_number": 8,
+                "candidate_id": "51df7a51-4970-4cfc-8ef1-3771f480dd78",
+                "product_scope": "Pearl",
+                "source_file": "997-671-005-3_Configuration_ES",
+                "document_revision": "",
+                "value": "8",
+                "statement": "8:Causa y Efecto",
+                "source_start": 1313,
+                "source_end": 1330
+              }
+            ],
+            "asserted_values": [
+              "8"
+            ],
+            "directive_values": [
+              "8"
+            ],
+            "directive_present": true,
+            "disclosed": false,
+            "safe": false
+          }
+        ]
+      },
+      "final_validation": {
+        "total": 2,
+        "covered": 2,
+        "missing": [],
+        "rows": [
+          {
+            "obligation_id": "obl_e8491bc1c321",
+            "fragment_number": 11,
+            "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+            "facet": "served_relation:cause_effect_rule_behavior",
+            "kind": "cause_effect_rule_behavior",
+            "statement": "Regla 1: una regla que diga que para cualquier entrada de alarma todas las sirenas de cada zona deben activarse en modo intermitente* (patrón de alerta).",
+            "required_anchors": [
+              "Regla 1",
+              "cualquier entrada de alarma",
+              "todas las sirenas"
+            ],
+            "source_start": 812,
+            "source_end": 967,
+            "covered": true
+          },
+          {
+            "obligation_id": "obl_e265a4c97a31",
+            "fragment_number": 11,
+            "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+            "facet": "served_relation:cause_effect_default_rules_precondition",
+            "kind": "cause_effect_default_rules_precondition",
+            "statement": "Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto.; **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.",
+            "required_anchors": [
+              "dos reglas",
+              "por defecto",
+              "eliminar"
+            ],
+            "source_start": 2133,
+            "source_end": 2345,
+            "covered": true
+          }
+        ]
+      },
+      "final_conflict_validation": {
+        "total": 1,
+        "safe": 1,
+        "unsafe": [],
+        "rows": [
+          {
+            "conflict_id": "conf_26f63590494f",
+            "kind": "document_value_conflict",
+            "product_scope": "pearl",
+            "operation": "cause_effect_menu_path",
+            "values": [
+              "7",
+              "8"
+            ],
+            "evidence": [
+              {
+                "fragment_number": 11,
+                "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+                "product_scope": "Pearl",
+                "source_file": "997-671-005-3_Configuration_ES",
+                "document_revision": "",
+                "value": "7",
+                "statement": "En el menú «Editar Configuración», seleccione «7: Causa y Efecto» para abrir la función de edición. Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto. **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.**",
+                "source_start": 2033,
+                "source_end": 2347
+              },
+              {
+                "fragment_number": 8,
+                "candidate_id": "51df7a51-4970-4cfc-8ef1-3771f480dd78",
+                "product_scope": "Pearl",
+                "source_file": "997-671-005-3_Configuration_ES",
+                "document_revision": "",
+                "value": "8",
+                "statement": "8:Causa y Efecto",
+                "source_start": 1313,
+                "source_end": 1330
+              }
+            ],
+            "asserted_values": [
+              "7",
+              "8"
+            ],
+            "directive_values": [],
+            "directive_present": false,
+            "disclosed": true,
+            "safe": true
+          }
+        ]
+      },
+      "answer_after": "**No es posible confirmar el procedimiento completo**\n\nLa evidencia disponible no permite dar una secuencia completa y segura. Consulta el manual y la revisión exactos antes de actuar. Sí permite confirmar lo siguiente:\n\n- Regla 1: cualquier entrada de alarma activa todas las sirenas [F11]\n\n- Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto. Deben eliminarse si se van a crear reglas de causa-efecto personalizadas. [F11]\n\n- Los fragmentos discrepan para el número de menú de Causa y Efecto: [F11] indica 7: Causa y Efecto; [F8] indica 8: Causa y Efecto. No selecciones ningún número de menú hasta confirmar el manual y la revisión exactos."
+    },
+    {
+      "qid": "hp018",
+      "measurement": "not_measured",
+      "action": "not_measured",
+      "s120_plan": [],
+      "s122_plan": []
+    },
+    {
+      "qid": "hp019",
+      "measurement": "measured",
+      "answer_source": "s113_baseline",
+      "action": "pass",
+      "answer_byte_identical": true,
+      "answer_sha256_before": "245ecbae0a613e65bf3a13da8ca13691401fc3bd83ce5aa834b53fa0b6afd8cf",
+      "answer_sha256_after": "245ecbae0a613e65bf3a13da8ca13691401fc3bd83ce5aa834b53fa0b6afd8cf",
+      "query_core_coverage": true,
+      "s120_plan": [],
+      "s122_plan": [],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": null
+    },
+    {
+      "qid": "hp020",
+      "measurement": "measured",
+      "answer_source": "s113_baseline",
+      "action": "pass",
+      "answer_byte_identical": true,
+      "answer_sha256_before": "d247fa2aa57bd17a19c9f80961b39d22f18065636b88c39e0c2e724e9a2e3011",
+      "answer_sha256_after": "d247fa2aa57bd17a19c9f80961b39d22f18065636b88c39e0c2e724e9a2e3011",
+      "query_core_coverage": true,
+      "s120_plan": [],
+      "s122_plan": [],
+      "conflicts": [],
+      "initial_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "initial_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "final_validation": {
+        "total": 0,
+        "covered": 0,
+        "missing": [],
+        "rows": []
+      },
+      "final_conflict_validation": {
+        "total": 0,
+        "safe": 0,
+        "unsafe": [],
+        "rows": []
+      },
+      "answer_after": null
+    }
+  ],
+  "limitations": [
+    "Cached-answer replay validates deterministic presentation only.",
+    "No model, network, retrieval, rerank, judge or database call is made.",
+    "The replay does not authorize deployment or corpus migration."
+  ],
+  "presentation_checks": {
+    "renderer_contract_versioned": true,
+    "hp009_internal_validation_language_removed": true,
+    "hp009_raw_english_removed": true,
+    "hp009_product_scope_retained": true,
+    "hp009_eol_safety_retained": true,
+    "hp009_obligations_2_of_2": true,
+    "hp017_internal_operation_removed": true,
+    "hp017_malformed_source_markup_removed": true,
+    "hp017_prerequisite_mislabel_removed": true,
+    "hp017_conflict_humanized": true,
+    "hp017_fail_closed_retained": true,
+    "hp017_obligations_2_of_2": true,
+    "hp017_conflict_safe": true,
+    "all_s122_safety_and_population_checks_retained": true
+  }
+}

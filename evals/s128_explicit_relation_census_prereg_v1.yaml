@@ -1,0 +1,136 @@
+schema_version: s128_explicit_relation_census_prereg_v1
+status: CATALOG_IDS_CORRECTED_BEFORE_SOURCE_ADJUDICATION
+correction_note: >-
+  The document set was frozen before content scanning. After the candidate scan
+  but before any eligibility decision, governed_ids was expanded to the complete
+  pre-existing catalog entry list for four documents. No document, class,
+  predicate, threshold or content-based selection changed.
+purpose: test whether explicit directional technical relations exist often enough to justify an upstream extractor
+
+inputs:
+  snapshot:
+    path: tmp/s117_m25/derived_snapshot_v2.jsonl.gz
+    sha256: a825e4dd02b918ddafebab4419cb416b6edc5f1b823a7a9d423f96718d7b6217
+  catalog:
+    path: data/catalog/doc_map.jsonl
+    sha256: 992c62c21b5772caebf09f422adca20ffe4035143861ca931e5198e820572c82
+  relation_graph:
+    path: data/catalog/relations.jsonl
+    sha256: 09bb24af2ac5f0277cd6f80fc36e61ef710da4d2cd8704b1392e67e5df1f699d
+
+selection:
+  method: >-
+    Catalog and relation-graph metadata only. Select both available governed
+    documents for M710, MI-DCZM and M700KAC. For B501AP, select six installation
+    or application sources spanning System Sensor, Morley and Notifier, based
+    only on catalog IDs and source filenames. No document content, relation
+    vocabulary hit or expected answer participated in selection.
+  document_count: 12
+  relation_closed_class_count: 4
+  documents:
+    - class_id: rebrand_class_b501ap
+      document_id: dd0c2a23-d975-4f63-9b9d-cf6d1db338f4
+      source_file: I56-2668-002 B501AP_B524HTR_multi
+      governed_ids: [systemsensor:b501ap, systemsensor:b524htr]
+    - class_id: rebrand_class_b501ap
+      document_id: 43cabec0-500c-4b2b-95a9-0cc2cda98101
+      source_file: I56-5002-000-Morley-Strobe
+      governed_ids: [morley:b501ap]
+    - class_id: rebrand_class_b501ap
+      document_id: 7672171a-b28e-48e3-a5be-a642e8f3d782
+      source_file: I56-5003-000-Morley-Sounder-Strobe
+      governed_ids: [morley:b501ap]
+    - class_id: rebrand_class_b501ap
+      document_id: 1b970ed1-b98f-46a0-acfb-41d7df036699
+      source_file: I56-5004-000-Notifier-Strobe
+      governed_ids: [notifier:b501ap]
+    - class_id: rebrand_class_b501ap
+      document_id: ee4231ab-e74a-411f-b2da-b71315a93eda
+      source_file: I56-5005-002_D Notifier Sounder Strobe
+      governed_ids: [notifier:wa-c-i02, notifier:b501ap]
+    - class_id: rebrand_class_b501ap
+      document_id: 06480ab0-ba4d-45a6-8ba9-f0842f278421
+      source_file: DXC-Como-conectar-una-sirena-de-lazo
+      governed_ids: [notifier:b501ap]
+    - class_id: rebrand_class_m710
+      document_id: ab0195cb-cd0b-42c2-bcf7-0a3e259cb49e
+      source_file: I56-2005-002 M710 M720 M721 M701
+      governed_ids: [notifier:m701, notifier:m710, notifier:m720, notifier:m721]
+    - class_id: rebrand_class_m710
+      document_id: 7e2805f4-e43f-4369-9151-2e8b3cf2bf4f
+      source_file: Conexionado-del-modulo-M710-MI-DMMI
+      governed_ids: [morley:m710, morley:mi-dmmi]
+    - class_id: rebrand_class_mi_dczm
+      document_id: a2bb8ee1-b20b-4f20-9a72-a59f6f560a0a
+      source_file: Conexionado-del-modulo-M710-CZ-MI-DCZM
+      governed_ids: [notifier:m710-cz, notifier:mi-dczm]
+    - class_id: rebrand_class_mi_dczm
+      document_id: 9b3e221e-a76e-42b3-802c-c177132feaf9
+      source_file: I56-2128-003 MI-DCZM
+      governed_ids: [morley:mi-dczm]
+    - class_id: rebrand_class_m700kac
+      document_id: 9e72f03d-7ae5-4613-a987-d7e98cdd857d
+      source_file: D 1036-1_M700KAC_SP
+      governed_ids: [notifier:m700kac, notifier:m700kaci]
+    - class_id: rebrand_class_m700kac
+      document_id: 9c89483a-1392-4686-806e-a09e68f846be
+      source_file: D716 issue 1 - M700KAC-KACI_Eng
+      governed_ids: [kac:m700kac, kac:m700kaci]
+
+eligible_relation_contract:
+  required:
+    - exact source span from one governed extraction
+    - normalized subject and object, with at least one exact object mention
+    - explicit directional predicate in the source
+    - polarity preserved
+    - qualifiers preserved when stated
+    - document_id, extraction_sha256, chunk_id, offsets and quote hash
+  allowed_predicate_families:
+    - supports
+    - compatible_with
+    - listed_for
+    - requires
+    - uses_protocol
+    - connects_to
+    - excludes
+  forbidden_inference:
+    - shared protocol implies compatibility
+    - matching voltage or topology implies compatibility
+    - relation reciprocity
+    - transitive compatibility
+    - combining independent statements into a new direct relation
+  fail_closed_when:
+    - subject or object is unresolved
+    - direction is unclear
+    - statement is recommendation-free descriptive proximity only
+    - exact evidence crosses unrelated chunks
+
+census_method:
+  stage_1: deterministic local candidate scan of headings, tables, lists and sentences
+  stage_2: source-first adjudication against the frozen eligibility contract
+  outputs:
+    - every candidate with exact receipts and disposition
+    - deduplicated eligible relations
+    - counts by relation-closed class and predicate
+  no_tuning_after_results: true
+
+gate:
+  go_requires:
+    minimum_eligible_relations: 5
+    minimum_relation_closed_classes: 3
+    exact_provenance_rate: 1.0
+    hard_negative_acceptances: 0
+  no_go_otherwise: true
+  authorizes_on_go: deterministic offline extractor design only
+  never_authorizes:
+    - production integration
+    - network probe
+    - database writes
+    - model extraction
+    - facts moved to OK
+
+budget:
+  model_calls: 0
+  network_calls: 0
+  database_reads: 0
+  database_writes: 0

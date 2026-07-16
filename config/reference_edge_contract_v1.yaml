@@ -1,0 +1,79 @@
+schema: reference_edge_contract_v1
+limits:
+  reference_clause_radius_chars: 240
+  heading_search_chars: 240
+  section_cluster_max_chunk_distance: 2
+  subsection_search_rows: 4
+  max_cards: 2
+  max_card_chars: 720
+  min_query_object_hits: 1
+  min_purpose_or_attribute_hits: 1
+
+normalization:
+  min_token_chars: 3
+  generic_tokens:
+    - como
+    - cual
+    - donde
+    - cuando
+    - hacer
+    - manual
+    - panel
+    - central
+    - sistema
+    - equipo
+    - equipos
+    - detector
+    - producto
+    - nuevo
+    - inicial
+    - what
+    - which
+    - where
+    - when
+    - with
+    - from
+    - this
+    - that
+    - manual
+    - system
+    - device
+  action_prefixes:
+    - configur
+    - program
+    - seleccion
+    - puls
+    - press
+    - conect
+    - install
+    - instal
+    - cambi
+    - chang
+    - verific
+    - comprob
+    - diagnostic
+    - read
+    - leer
+
+reference:
+  pattern: '(?i)\b(?:cap(?:[ií]tulo)?\.?|secci[oó]n|section|chapter)\s*(\d+(?:\.\d+)+)(?:\s*\(([a-z0-9]+)\))?\b'
+  heading_pattern_template: '(?im)^\s*#{1,6}\s*{section}(?:\s|$)'
+  subsection_pattern_template: '(?im)^\s*(?:#{1,6}\s*)?(?:\*\*)?\({marker}\)(?:\*\*)?(?:\s|$)'
+
+toc_rejection:
+  dot_leader_pattern: '\.{4,}\s*\d+\s*$'
+  numbered_entry_pattern: '(?im)^\s*(?:\*\*)?\d+(?:\.\d+)+[^\n]{0,160}\.{4,}\s*\d+\s*(?:\*\*)?$'
+  reject_when_numbered_entries_at_least: 3
+
+intents:
+  quantitative: '(?i)\b(?:cu[aá]nt\w*|how\s+many|tensi[oó]n|voltage|corriente|current|l[ií]mit\w*|maximum|minimum|m[aá]xim\w*|m[ií]nim\w*)\b'
+  identity: '(?i)\b(?:modelo|model|referencia|reference|etiqueta|label|pedido|order(?:ed|ing)?|opci[oó]n|option)\w*\b'
+  diagnostic: '(?i)\b(?:diagn[oó]st\w*|aver[ií]a|fallo|fault|alarma|alarm|c[oó]digo|code|medici[oó]n|measurement|flujo|flow)\w*\b'
+  procedure: '(?i)\b(?:c[oó]mo|how|configur\w*|program\w*|instal\w*|install\w*|conect\w*|connect\w*|cambi\w*|chang\w*|seleccion\w*|select\w*)\b'
+
+signals:
+  numeric_value_unit: '(?i)(?<!\w)[<>≤≥]?\s*\d+(?:[.,]\d+)?(?:\s*(?:a|to|–|-)\s*\d+(?:[.,]\d+)?)?\s*(?:%|v|vcc|vdc|a|ma|ohm(?:ios?)?|°c|c|m|mm|s|min|hz)\b'
+  structured_code: '(?<![A-Za-z0-9])[A-Z]{1,6}[-/]?[A-Z0-9]{1,8}(?![A-Za-z0-9])'
+  mapping_separator: '(?:\||:|=|→|->|significa|means|selecciona|selects|corresponde|corresponds)'
+  action: '(?i)\b(?:pulse|pulsar|presione|press|seleccione|select|introduzca|enter|conecte|connect|configure|configurar|ajuste|adjust|cambie|change|retire|remove|reinstale|reinstall|utilice|use)\w*\b'
+  diagnostic_relation: '(?i)\b(?:indica|means|apunta|causa|cause|soluci[oó]n|solution|compruebe|check|mida|measure|fault|fallo)\w*\b'

@@ -160,8 +160,15 @@ def profile_document(extraction_record: dict) -> DocLanguageProfile:
         prof.verdict = "index"
         return prof
 
+    # Preserve source order for deterministic ties. Iterating languages_present
+    # directly would make equal page counts depend on Python's hash seed.
+    first_known_order = []
+    for page_num in sorted(raw):
+        lang = raw[page_num]
+        if lang != "unknown" and lang not in first_known_order:
+            first_known_order.append(lang)
     prof.dominant = max(
-        prof.languages_present,
+        first_known_order,
         key=lambda l: sum(1 for v in prof.page_language.values() if v == l),
     )
     prof.verdict = (

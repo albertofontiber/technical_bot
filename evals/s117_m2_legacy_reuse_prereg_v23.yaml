@@ -1,0 +1,25 @@
+instrument: s117_m2_legacy_reuse_prereg_v23
+status: frozen_before_database_read
+supersedes: evals/s117_m2_legacy_reuse_prereg_v22.yaml
+inherits:
+  path: evals/s117_m2_legacy_reuse_prereg_v22.yaml
+  sha256: b9f35e9027b5788f1cf881f02bd59298bffb3f0de6ccdadb7bbf54c99f66467f
+design:
+  sidecar_clarification: evals/s117_m2_legacy_reuse_design_v23.md
+  sidecar_clarification_sha256: 75a81029c48fe8e02fc2997ace9dd835fa864be1006e3acfb626431edc54c62d
+frozen_inputs:
+  raw_store:
+    expected_portal_source_paths: 95
+  portal_sidecars:
+    files:
+      - {path: Manuales_Aritech/_metadata.json, bytes: 7115, entries: 33, sha256: 0381955694ef1dd06d1aac376c6deca56cabe2dc151d36911b08fbe75c8a2d7b}
+      - {path: Manuales_Edwards/_metadata.json, bytes: 618, entries: 3, sha256: 30ccb5e1b8aab62aafc3d6546541916e0910d967835b813eb5bc1586278a5df0}
+      - {path: Manuales_Kidde/_metadata.json, bytes: 14534, entries: 55, sha256: eb36a9f0ce74d4495c060706469102718f950bc220fc73034a78cc88cd0ebad2}
+      - {path: Manuales_Otros/_metadata.json, bytes: 3118, entries: 16, sha256: e4c12c69cede79ab490233ccc885ddc02d972c64b4ff9f6d56364683299cef9b}
+    manifest_sha256: 7a595069ffd530b8675137dbca8da3367d324a7cbb7b16fbb29dabc563561b24
+    expected_resolved_portal_paths: 95
+    expected_missing_portal_paths: 0
+sidecar_binding:
+  cli_argument: --sidecar-root
+  mode: read_only
+  restore_module_state_after_population: true

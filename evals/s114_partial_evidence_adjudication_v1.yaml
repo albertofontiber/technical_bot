@@ -1,0 +1,105 @@
+instrument: s114_partial_evidence_adjudication_v1
+status: audited_root_cause_update_not_official_histogram
+source_search: evals/s114_partial_evidence_search_v1.json
+source_membership: evals/s114_partial_evidence_membership_v1.json
+policy:
+  retrieval_miss: >-
+    Same-product extracted content contains an explicit required relation, but
+    at least one indispensable receipt is outside the frozen retrieval pool and
+    final serving context.
+  evaluation_contract_hold: >-
+    The evaluated relation contains an absolute absence or impossibility that
+    is not explicit in the extracted source. Positive neighboring claims must
+    be split before any RAG mechanism receives credit or blame.
+rows:
+  - fact_key: cat017#2:licencia CLIP por lazo
+    prior_diagnostic_class: evidence-partial-hold
+    adjudicated_class: retrieval-miss
+    confidence: high
+    decisive_receipts:
+      - id: 5bb83899-9d94-4fdd-8d42-24a670a036c5
+        source_file: HOP-138-9ES issue 5_11-2025_In
+        page_number: 5
+        relation: >-
+          The source explicitly says that one licence is required for each CLIP
+          loop circuit.
+        pool_position: null
+        final_context_position: null
+    reason: >-
+      The quantifier is explicit in same-product content. The earlier partial
+      diagnosis came from the served subset, not from a corpus gap.
+
+  - fact_key: hp002#3:7.6.1
+    prior_diagnostic_class: evidence-partial-hold
+    adjudicated_class: retrieval-miss
+    confidence: high
+    decisive_receipts:
+      - id: a64c168c-c927-4f8b-a179-e465e6df3976
+        source_file: ASD535_TD_T131192es_h
+        page_number: 101
+        relation: V01 selects pipe I and V02 selects pipe II.
+        pool_position: null
+        final_context_position: null
+      - id: 5b6a3a19-a924-4cf4-9513-bd50786ee3d9
+        source_file: ASD535_TD_T131192es_h
+        page_number: 121
+        relation: Above 100 percent means pipe break; below means obstruction.
+        pool_position: 20
+        final_context_position: 9
+    reason: >-
+      Directional interpretation is served, but the indispensable V01/V02 row
+      is not retrieved. This is a multi-span retrieval coverage miss.
+
+  - fact_key: hp010#1:Nivel 3
+    prior_diagnostic_class: evidence-partial-hold
+    adjudicated_class: retrieval-miss
+    confidence: high
+    decisive_receipts:
+      - id: 64cecd3f-204f-456e-91cc-e563280b1b99
+        source_file: DXc_Manual de configuracion
+        page_number: 48
+        relation: Autobusqueda procedure.
+        final_context_position: 1
+      - id: 155a90fe-8c3f-484e-a617-7637fe29b547
+        source_file: DXc_Manual de configuracion
+        page_number: 37
+        relation: Level 3 access and explicit memory unlock.
+        pool_position: null
+        final_context_position: null
+    reason: >-
+      The procedure is split inside the same manual. Retrieval serves the
+      autobusqueda span but misses the access/unlock prerequisite.
+
+  - fact_key: hp013#1:PWR-R
+    prior_diagnostic_class: evidence-partial-hold
+    adjudicated_class: atomicity-and-absence-inference-hold
+    confidence: high
+    supported_subclaims:
+      - PWR-R is the redundant external 9 to 30 VDC supply input.
+      - The board has a lithium battery associated with the RTC.
+    unsupported_subclaim: >-
+      There is no onboard buffer battery, stated as an absolute conclusion.
+    required_action: >-
+      Split explicit power and RTC facts from the absence conclusion. Keep the
+      latter outside retrieval scoring unless source pixels state it explicitly.
+
+  - fact_key: hp015#2:32
+    prior_diagnostic_class: evidence-partial-hold
+    adjudicated_class: atomicity-and-absence-inference-hold
+    confidence: high
+    supported_subclaims:
+      - Each zone supports at most 32 detectors or call points.
+      - The panel documents zone-level disconnection.
+    unsupported_subclaim: >-
+      It is impossible to isolate a single detector from the panel.
+    required_action: >-
+      Split capacity and zone-level operation. Do not infer absolute
+      impossibility merely because an individual-isolation menu is absent.
+
+summary:
+  reviewed: 5
+  moved_to_retrieval_miss: 3
+  moved_to_evaluation_contract_hold: 2
+  remaining_evidence_partial: 0
+  model_calls: 0
+  database_writes: 0

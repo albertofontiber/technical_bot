@@ -1,0 +1,92 @@
+{
+  "instrument": "s126_compatibility_hyq_probe_v1",
+  "status": "GO_READ_ONLY_NAVIGATION",
+  "selection_contract": {
+    "query_count": 1,
+    "qid_visible_to_selector": false,
+    "fact_keys_visible_to_selector": false,
+    "target_chunk_ids_visible_to_selector": false,
+    "canonical_document_scope": true,
+    "entity_stratified_navigation": true,
+    "max_appends": 3
+  },
+  "config_receipts": {
+    "query_config_sha256": "455ef29cf36647dcb7bda7a1a4a8f16b175a6081decec2efbcfb62facb465461",
+    "evidence_config_sha256": "f6c73113746608d8fff567f6fa23a2415433c429c77f5e3121429b77f453d937"
+  },
+  "implementation_receipts": {
+    "catalog_resolver_sha256": "6fe20f6d858a6223d2e14c3085693725b35e6f7a9c56d94def046e15b6b83576",
+    "doc_scoped_hyq_coverage_sha256": "65e46c31fed524f401037e5941af57f7dfee160beef4fe54c5cef58c99d460e7",
+    "catalog_doc_map_sha256": "992c62c21b5772caebf09f422adca20ffe4035143861ca931e5198e820572c82"
+  },
+  "checks": {
+    "canonical_scope_bounded": true,
+    "three_or_fewer_appends": true,
+    "no_hyq_prose_served": true,
+    "all_receipts_exact": true,
+    "both_decisive_claims_recovered": true
+  },
+  "recovered_claims": {
+    "cat013#0:bucle cerrado": true,
+    "cat013#1:CLIP": true
+  },
+  "trace": {
+    "lane": "canonical_document_hyq_coverage_v1",
+    "scope_rows": 5,
+    "source_groups": 2,
+    "entity_stratified": true,
+    "selected_parent_ids": [
+      "cfcdc8f7-bdaf-412f-a85e-0ffb76878d99",
+      "11d96526-d627-4305-8cae-e6852af1b20b",
+      "b6602d5a-dbb5-4e2e-8814-1ac3ce066896"
+    ],
+    "served_hyq_prose": false,
+    "status": "selected",
+    "hyq_rows": 1387,
+    "http_requests": 3
+  },
+  "selected_receipts": [
+    {
+      "chunk_id": "cfcdc8f7-bdaf-412f-a85e-0ffb76878d99",
+      "document_id": "38266cec-8563-4dbb-9e55-37534d8ab7a8",
+      "source_file": "MIDT190",
+      "page_number": 69,
+      "facets": [
+        "protocol_scope"
+      ],
+      "exact_source_receipts": true,
+      "content_sha256": "e9d9bf96fdc67f87fc93835a5ffc248dc836089b93ec4f8b64573c0f585e4bef"
+    },
+    {
+      "chunk_id": "11d96526-d627-4305-8cae-e6852af1b20b",
+      "document_id": "38266cec-8563-4dbb-9e55-37534d8ab7a8",
+      "source_file": "MIDT190",
+      "page_number": 71,
+      "facets": [
+        "supported_device_roster"
+      ],
+      "exact_source_receipts": true,
+      "content_sha256": "f96045d5867fdc474ab8bbfd2ce7e84d017cfd3fe1e253b274f9287247975e9b"
+    },
+    {
+      "chunk_id": "b6602d5a-dbb5-4e2e-8814-1ac3ce066896",
+      "document_id": "131e6fcb-4d52-4c21-bac9-f6430559f47b",
+      "source_file": "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT",
+      "page_number": 9,
+      "facets": [
+        "loop_topology"
+      ],
+      "exact_source_receipts": true,
+      "content_sha256": "a26809c3ea83075ded7ca534973d7e6f1b1b04d55d3f6e1f26cda5a0b982fc9f"
+    }
+  ],
+  "cost": {
+    "model_calls": 0,
+    "http_get_requests": 3,
+    "database_writes": 0
+  },
+  "credit": {
+    "retrieval_stage_recoveries": 2,
+    "facts_moved_to_ok": 0
+  }
+}

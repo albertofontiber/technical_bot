@@ -1,0 +1,98 @@
+schema_version: s127_final_adversarial_gate_v1
+status: NO_GO_REVOKED
+scope: relational compatibility selector candidate-v2
+
+decision:
+  integrate_runtime: false
+  retain_runtime_candidate_code: false
+  live_probe_authorized: false
+  official_funnel_change: false
+  facts_moved_to_ok: 0
+  rationale: >-
+    Every governed source scope contained candidates for protocol, roster and
+    topology, but no exact governed relation could bind them. Increasing the
+    navigation budget or changing triplet ranking therefore cannot recover the
+    development cohort under the stated evidence contract.
+
+local_evidence:
+  development_questions: 6
+  recovery_by_candidate_limit:
+    3: 0
+    4: 0
+    5: 0
+    6: 0
+  chosen_candidate_limit: null
+  full_source_scope_assignments_examined: 57646
+  full_source_scope_valid_assignments: 0
+  hard_negative_acceptances: 0
+  deterministic_runs_identical: true
+  s126_protected_bundle_valid_before_revert: true
+  model_calls: 0
+  network_calls: 0
+  database_reads: 0
+  database_writes: 0
+  replay:
+    path: evals/s127_compatibility_generalization_replay_v1.json
+    sha256_after_zero_signal_correction: b100b71b3d0932565b99fc136b9fb012f3f77b0a5325db5f8ce85d6a2789cf17
+
+adversarial_review:
+  verdict: NO_GO_FINAL
+  p0: 0
+  p1:
+    - restore the exact S126 runtime baseline
+    - inspect only explicit directional relations upstream
+    - do not infer compatibility from shared protocol or independent facets
+  p2:
+    - zero maximum recovery must select no candidate limit
+    - archive synthetic controls as experiment evidence, not active runtime contract
+
+reversion:
+  compatibility_runtime:
+    path: src/rag/compatibility_bundle_coverage.py
+    restored_sha256: 2e03b4af1448fce57f219e4ef128a393687ae32f5a3bbf4eb6b8726d4fc5ab0c
+    expected_s126_sha256: 2e03b4af1448fce57f219e4ef128a393687ae32f5a3bbf4eb6b8726d4fc5ab0c
+    byte_exact: true
+  navigation_runtime:
+    path: src/rag/doc_scoped_hyq_coverage.py
+    restored_sha256: d938d4ce43757627e9db4c99dab948ef6b6dcb28cf82c7ee102edf359c65c43b
+    expected_s126_sha256: d938d4ce43757627e9db4c99dab948ef6b6dcb28cf82c7ee102edf359c65c43b
+    byte_exact: true
+  removed_runtime_config: config/compatibility_bundle_contract_candidate_v2.yaml
+
+post_revert_validation:
+  integration_relevant_tests:
+    passed: 50
+    failed: 0
+  s126_tests:
+    passed: 12
+    failed: 0
+
+evidence_retained:
+  - evals/s127_compatibility_generalization_design_v3.md
+  - evals/s127_compatibility_development_cohort_v2.yaml
+  - evals/s127_compatibility_development_cohort_v3.yaml
+  - evals/s127_adversarial_review_round1_v1.yaml
+  - evals/s127_adversarial_review_round2_v1.yaml
+  - evals/s127_adversarial_review_round3_v1.yaml
+  - evals/s127_compatibility_generalization_replay_v1.json
+  - scripts/s127_compatibility_generalization_replay.py
+
+next_gate:
+  status: AUTHORIZED_LOCAL_CENSUS_ONLY
+  objective: census explicit directional technical relations before building an extractor
+  corpus_size_documents: 12
+  minimum_relation_closed_oem_rebrand_classes: 3
+  go_threshold:
+    minimum_eligible_explicit_relations: 5
+    classes_represented: 3
+    exact_span_provenance: 1.0
+  no_go_if:
+    - fewer than 5 eligible explicit relations
+    - relation requires transitive or shared-protocol compatibility inference
+    - subject, object, predicate, direction or qualifier cannot be bound to exact source evidence
+  forbidden_in_this_gate:
+    - model calls
+    - network calls
+    - database writes
+    - production changes
+    - official fact credit

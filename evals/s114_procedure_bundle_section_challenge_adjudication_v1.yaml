@@ -1,0 +1,86 @@
+instrument: s114_procedure_bundle_section_challenge_adjudication_v1
+status: no_go_explicit_reference_facet
+review_mode: blinded_before_rule_inspection_or_tuning
+reviewer: adversarial_agent_s111
+
+cohort:
+  source_reference_questions: 28
+  manufacturers: 5
+  potential_explicit_reference_questions: 11
+  selected_explicit_reference_questions: 10
+  database_get_requests: 0
+  model_calls: 0
+
+labels:
+  - challenge_id: sec005
+    label: relevant
+    contamination: none
+    reason: section 2.2.7 directly explains zone selection required by the source reference
+  - challenge_id: sec008
+    label: irrelevant
+    contamination: high
+    reason: selected card discusses message playback and duration, not zone-volume adjustment
+  - challenge_id: sec009
+    label: ambiguous
+    contamination: medium
+    reason: section contains subsection e but the bounded card stops before it
+  - challenge_id: sec011
+    label: irrelevant
+    contamination: medium_high
+    reason: selected content is a table-of-contents fragment rather than section 4.4 evidence
+  - challenge_id: sec015
+    label: relevant
+    contamination: none
+    reason: section 2.8 directly explains detector reconfiguration and heated optics
+  - challenge_id: sec019
+    label: relevant
+    contamination: none_material
+    reason: filter replacement is a real dependency of the smoke-chamber procedure
+  - challenge_id: sec020
+    label: relevant
+    contamination: none
+    reason: section 5.5.4 directly supplies the referenced WiFi configuration evidence
+  - challenge_id: sec021
+    label: irrelevant
+    contamination: low_medium
+    reason: relay and standby-beep details do not support the requested restart action
+  - challenge_id: sec023
+    label: ambiguous
+    contamination: low
+    reason: section is about GPI but the bounded card omits the requested 5-to-30-V threshold
+  - challenge_id: sec027
+    label: irrelevant
+    contamination: medium
+    reason: WiFi configuration does not support raising user level after connection
+
+false_negative:
+  challenge_id: sec017
+  label: relevant_not_selected
+  confidence: high
+  candidate_id: cffb89f9-d714-4c3c-9377-3edf3e340a71
+  reason: section 1.2 maps the 40/40X order code needed to verify the delivered model
+
+metrics:
+  relevant: 4
+  irrelevant: 4
+  ambiguous: 2
+  strict_precision: 0.4
+  optimistic_precision: 0.6
+  visible_false_negatives: 1
+
+root_causes:
+  - subsection or decisive datum falls outside the served bounded span
+  - duplicate section metadata can resolve to a contents page or wrong body fragment
+  - a technically valid reference may be tangential to the user question
+  - source context may already answer the requested slot, making the appendix unnecessary
+  - query-to-target lexical overlap rejects a valid model-code mapping
+
+decision:
+  explicit_reference_facet: NO_GO
+  answer_level_regression: DO_NOT_RUN
+  default_off_integration: DO_NOT_RUN
+  rule_tuning_on_same_challenge: FORBIDDEN
+  next_step: >-
+    Design a new version with exact reference-edge parsing, body-section resolution,
+    decisive bounded evidence carriage and uncovered-slot gating. Validate it on a
+    new or nested frozen cohort; do not relabel this challenge as release evidence.

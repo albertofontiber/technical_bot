@@ -1,0 +1,133 @@
+schema_version: s125_m1_known_hold_migration_prereg_v1
+instrument: s125_local_source_first_atomic_contract
+status: PREREGISTERED_BEFORE_MIGRATION_AND_ANSWER_REPLAY
+
+objective:
+  population: 33 exact known-m1-contract-hold parents in the S118 bridge
+  purpose: replace each opaque hold with source-bound atomic children or an explicit unresolved disposition
+  metric_policy: contract changes are measurement_delta_only and never bot_delta
+
+frozen_inputs:
+  external_contract_projection:
+    path: evals/s118_external_contract_projection_v1.json
+    sha256: d608e7126a9da02f257ce7dfea1bfdf7bde231964dc5c071e41c1b3bac81a2df
+  atomic_bridge:
+    path: evals/s118_atomic_benchmark_bridge_v1.json
+    sha256: f9a7a143a18b8d3046e404bd8dd1501baa62f1d0f4e6255d472956311d50eccb
+  served_contexts:
+    path: evals/s113_full_contexts_freeze_v1.json
+    sha256: 22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d
+  frozen_answers:
+    path: evals/s113_full_answer_regression_v1.json
+    sha256: 8fbfe4801f6c35c2447af9440c459b080e4405b76e2899f3a00e66b230497f69
+  current_residual_reconciliation:
+    path: evals/s124_residual_synthesis_reconciliation_v1.yaml
+    sha256: 7d43af2d86317e6c1c69d1e4b93307f7a75826fd17599907e35e4f9dc0c0af1a
+  frozen_v1_gold:
+    path: evals/gold_answers_v1.yaml
+    sha256: e1b6b3a8da26b99201108b1765d18d396e8628e0fff022dee58dd7e75049470d
+  upstream_m1_blocker_receipt:
+    logical_path: evals/s106_m1_pending_blockers_v1.json
+    sha256: 0e2ba4cfa23e892a8f340d0c587db6956774f0760ff708552396777a4013d531
+    availability: receipt_and_exact_projection_are_sufficient_for_this_local_run
+
+population_contract:
+  expected_parent_count: 33
+  expected_qid_count: 13
+  exact_identity: qid_plus_parent_fact_sha256
+  expected_legacy_stage_histogram:
+    OK: 29
+    synthesis-miss: 2
+    retrieval-miss: 1
+    rest: 1
+  selection_must_not_use_runtime_outcomes: true
+
+decision_order:
+  - bind the exact parent and blocker
+  - inspect only the frozen question and frozen served source rows
+  - decide atomicity, explicit support, scope qualifiers, and question-conditioned requiredness
+  - freeze child claims and source bindings
+  - only then replay the frozen answer against the frozen child contract
+
+allowed_parent_dispositions:
+  rewrite: one source-bound atomic child replaces contaminated wording
+  split: two or more independently testable source-bound children replace a compound parent
+  merge_duplicate: supported content is represented once by an identified sibling child and is not double-counted
+  withdraw_unsupported: unsupported content is removed without replacement or bot credit
+  unresolved: evidence is insufficient; the row remains outside numerator and denominator
+
+child_contract:
+  required_fields:
+    - migration_id
+    - qid
+    - parent_fact_key
+    - parent_fact_sha256
+    - texto
+    - valor
+    - tipo
+    - basis
+    - requiredness_reason
+    - source_bindings
+  allowed_tipo: [core, supplementary]
+  allowed_basis: [explicit, derived]
+  explicit_requires:
+    - at_least_one_exact_frozen_context_id
+    - source_file
+    - positive_page_number
+    - one_or_more_exact_literal_support_spans_per_bound_context
+    - deterministic_start_and_end_offsets
+    - literal_sha256
+  derived_requires:
+    - nonempty_premises
+    - supplementary_type
+    - no_retrieval_credit
+  core_rule: needed to answer the frozen question, not merely useful or mentioned
+  supplementary_rule: useful detail that is not required to answer the frozen question
+
+anti_overfit_invariants:
+  - legacy OK or miss never determines migration disposition, child count, or child type
+  - no child may be invented from the frozen answer alone
+  - no negative or exhaustive claim may be inferred from an open list
+  - unsupported clauses are withdrawn rather than softened until they happen to match an answer
+  - every split preserves semantic lineage to one exact parent
+  - every explicit child freezes exact source-only literal spans before any answer replay
+  - a parent can create multiple children, so denominator change is reported separately from bot change
+  - answer replay cannot modify the already frozen child contract
+
+local_stage_replay:
+  retrieval_pass: at least one bound source row exists in the frozen served context
+  rerank_pass: at least one bound source row is among the exact frozen rows shown to synthesis
+  synthesis_pass: the frozen answer explicitly conveys the atomic child with all material qualifiers
+  unresolved_stage: never classified as OK or as a bot-stage miss
+  parent_rollup: diagnostic_only; all required core children must pass for parent success
+
+gates:
+  structural:
+    - exactly_33_unique_parents_accounted_for
+    - exactly_13_qids_accounted_for
+    - zero_duplicate_migration_ids
+    - zero_unbound_explicit_children
+    - zero_core_children_without_requiredness_reason
+    - every_withdrawal_or_unresolved_has_a_reason
+  reproducibility:
+    - two_seed_runs_byte_identical
+    - all_frozen_input_hashes_match
+  cost:
+    model_calls: 0
+    database_reads: 0
+    database_writes: 0
+  adversarial:
+    reviewer: existing_s111_adversarial_reviewer
+    threshold: GO_with_zero_P0_and_zero_P1
+
+stop_conditions:
+  - any frozen input hash changes
+  - any parent identity is missing or duplicated
+  - a proposed explicit child lacks exact frozen evidence
+  - the migration requires new external evidence or a model call
+
+non_goals:
+  - changing production golds or database state
+  - promoting chunks_v3
+  - claiming an official whole-benchmark atomic KPI before all remaining provisional carries are reconciled
+  - optimizing the contract to maximize the frozen answer score

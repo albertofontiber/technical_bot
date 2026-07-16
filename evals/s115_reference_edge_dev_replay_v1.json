@@ -1,0 +1,1803 @@
+{
+  "instrument": "s115_reference_edge_dev_replay_v1",
+  "status": "labelled_development_set_not_release_evidence",
+  "gate": {
+    "questions": 28,
+    "manufacturers": 5,
+    "questions_with_reference_edges": 28,
+    "questions_with_eligible_clusters": 10,
+    "questions_with_selections": 1,
+    "selected_challenge_ids": [
+      "sec005"
+    ],
+    "receipt_count": 1,
+    "all_receipts_verified": true,
+    "potential_reference_edges": 18,
+    "potential_not_selected_edges": 17,
+    "max_selector_runtime_ms": 14.762,
+    "database_get_requests": 0,
+    "database_writes": 0,
+    "model_calls": 0,
+    "interpretation": "PENDING_BLINDED_S115_CARD_REVIEW"
+  },
+  "rows": [
+    {
+      "challenge_id": "sec001",
+      "manufacturer": "European Safety Systems",
+      "product_model": "IS-mA1",
+      "question": "¿Cómo se activan el segundo y tercer tono del IS-mA1 cuando está instalado en zona peligrosa con aisladores galvánicos?",
+      "served_id": "f214a7fc-cff4-4a8b-b6f8-74af62c936b8",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 15,
+        "reference_edges": 2,
+        "eligible_clusters": 0,
+        "potential_reference_edges": 0,
+        "terminal_reasons": {
+          "no_exact_section_candidate": 2
+        },
+        "candidate_rejection_counts": {},
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "f214a7fc-cff4-4a8b-b6f8-74af62c936b8",
+            "section": "4.3",
+            "subsection": null,
+            "source_start": 486,
+            "source_end": 497,
+            "alignment_tier": "query_aligned",
+            "potential_candidate_ids": [],
+            "candidate_traces": [],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_exact_section_candidate"
+          },
+          {
+            "edge_index": 1,
+            "source_id": "f214a7fc-cff4-4a8b-b6f8-74af62c936b8",
+            "section": "4.4",
+            "subsection": null,
+            "source_start": 1170,
+            "source_end": 1181,
+            "alignment_tier": "query_aligned",
+            "potential_candidate_ids": [],
+            "candidate_traces": [],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_exact_section_candidate"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 9.972
+    },
+    {
+      "challenge_id": "sec002",
+      "manufacturer": "LDA audioTech",
+      "product_model": "ONE",
+      "question": "¿Por qué el equipo ONE me aparece el fallo \"date-time invalid\" nada más instalarlo, es normal?",
+      "served_id": "0e71fa10-d3be-4d97-9931-75bc196879fb",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 69,
+        "reference_edges": 1,
+        "eligible_clusters": 1,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "no_selectable_candidate": 1
+        },
+        "candidate_rejection_counts": {
+          "no_unique_body_anchor": 6,
+          "no_bound_contract_atom": 1
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "0e71fa10-d3be-4d97-9931-75bc196879fb",
+            "section": "3.3",
+            "subsection": null,
+            "source_start": 904,
+            "source_end": 916,
+            "alignment_tier": "query_aligned",
+            "potential_candidate_ids": [
+              "565986fe-8240-4748-8521-e4c697fed33c",
+              "ad13a9c2-0c04-4195-aa9e-d073cf577f57",
+              "b1279acf-d254-41f8-911e-f7ce07b09cb5",
+              "b4abdf79-330f-40b8-915b-baf32c5b5063",
+              "c0bed05d-b731-4af3-96ee-8e581f9e0cd2",
+              "d53f18bd-5854-49c6-b660-738287a31003",
+              "f5ae0667-6a51-43cc-812b-36cd3dae9ca9"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "565986fe-8240-4748-8521-e4c697fed33c",
+                "reason": "no_unique_body_anchor"
+              },
+              {
+                "candidate_id": "ad13a9c2-0c04-4195-aa9e-d073cf577f57",
+                "reason": "no_unique_body_anchor"
+              },
+              {
+                "candidate_id": "b1279acf-d254-41f8-911e-f7ce07b09cb5",
+                "reason": "no_unique_body_anchor"
+              },
+              {
+                "candidate_id": "b4abdf79-330f-40b8-915b-baf32c5b5063",
+                "reason": "no_bound_contract_atom"
+              },
+              {
+                "candidate_id": "c0bed05d-b731-4af3-96ee-8e581f9e0cd2",
+                "reason": "no_unique_body_anchor"
+              },
+              {
+                "candidate_id": "d53f18bd-5854-49c6-b660-738287a31003",
+                "reason": "no_unique_body_anchor"
+              },
+              {
+                "candidate_id": "f5ae0667-6a51-43cc-812b-36cd3dae9ca9",
+                "reason": "no_unique_body_anchor"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_selectable_candidate"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [
+          0
+        ],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 5.58
+    },
+    {
+      "challenge_id": "sec003",
+      "manufacturer": "LDA audioTech",
+      "product_model": "ONE",
+      "question": "¿Qué significa el LED ámbar FLT en la ONE y cómo silencio el pitido de fallo?",
+      "served_id": "1133b445-659f-4591-afc2-fba26d3ca013",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 69,
+        "reference_edges": 1,
+        "eligible_clusters": 0,
+        "potential_reference_edges": 0,
+        "terminal_reasons": {
+          "no_exact_section_candidate": 1
+        },
+        "candidate_rejection_counts": {},
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "1133b445-659f-4591-afc2-fba26d3ca013",
+            "section": "5.1.7",
+            "subsection": null,
+            "source_start": 638,
+            "source_end": 652,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [],
+            "candidate_traces": [],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_exact_section_candidate"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 1.147
+    },
+    {
+      "challenge_id": "sec004",
+      "manufacturer": "LDA audioTech",
+      "product_model": "NEO",
+      "question": "¿Cómo se conecta la salida de grabación del NEO, qué tipo de conector lleva y qué sección de cable admite?",
+      "served_id": "58687100-0f34-4d8e-af80-5d8afbd20987",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 81,
+        "reference_edges": 1,
+        "eligible_clusters": 0,
+        "potential_reference_edges": 0,
+        "terminal_reasons": {
+          "no_exact_section_candidate": 1
+        },
+        "candidate_rejection_counts": {},
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "58687100-0f34-4d8e-af80-5d8afbd20987",
+            "section": "4.2",
+            "subsection": null,
+            "source_start": 2215,
+            "source_end": 2227,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [],
+            "candidate_traces": [],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_exact_section_candidate"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 2.167
+    },
+    {
+      "challenge_id": "sec005",
+      "manufacturer": "LDA audioTech",
+      "product_model": "NEO",
+      "question": "¿Cómo se lanza un mensaje de evacuación pregrabado por zonas concretas en el sistema NEO y qué pasa si pulso OK sin seleccionar zonas?",
+      "served_id": "9c90c60b-3513-42e3-bfb6-58c1bf167c1d",
+      "selected_ids": [
+        "44630f51-1947-4417-a2d3-1d018d38a13b"
+      ],
+      "selected_receipts": [
+        {
+          "candidate_id": "44630f51-1947-4417-a2d3-1d018d38a13b",
+          "section_title": "2.2.7 VENTANA SELECCIÓN DE ZONAS",
+          "reference_edge": {
+            "section": "2.2.7",
+            "subsection": null,
+            "source_start": 171,
+            "source_end": 185,
+            "source_clause": "Para activar la reproducción de mensajes pulse sobre la opción deseada, a continuación seleccione la zona o zonas por las que se emitirá el aviso, tal y como se indica en capítulo 2.2.7."
+          },
+          "section_anchor_receipt": {
+            "candidate_id": "44630f51-1947-4417-a2d3-1d018d38a13b",
+            "document_id": "f1dc59b2-796b-49d8-9fcc-d07bb5708f55",
+            "extraction_sha256": "7f4f614315017bcf6de9703f630c2a98c6f2be0a38d3b15d2f82f3c339fbd170",
+            "content_sha256": "fc5041bd403351506d9659f8e12b1e05a429241fcc8a139e544a2b3f0f34d013",
+            "quote_sha256": "b0bb20cb9d223b3faa8f9770f36f5ce102978424f8a7f970811b314777dd3e7f",
+            "start": 0,
+            "end": 9,
+            "quote": "## 2.2.7 ",
+            "facet": "section_anchor",
+            "receipt_type": "immutable_section_anchor_span"
+          },
+          "coverage_cards": [
+            {
+              "candidate_id": "44630f51-1947-4417-a2d3-1d018d38a13b",
+              "document_id": "f1dc59b2-796b-49d8-9fcc-d07bb5708f55",
+              "extraction_sha256": "7f4f614315017bcf6de9703f630c2a98c6f2be0a38d3b15d2f82f3c339fbd170",
+              "content_sha256": "fc5041bd403351506d9659f8e12b1e05a429241fcc8a139e544a2b3f0f34d013",
+              "quote_sha256": "7c48de67980516aa2d7cf6ffad5fc4d4a4a44cc81a08ad41f3f65086467334ea",
+              "start": 37,
+              "end": 566,
+              "quote": "En la ventana de selección de zonas, pulse sobre las mismas para seleccionarlas. Si pulsa sobre una zona seleccionada, ésta se deseleccionará. Cuando la zona esta seleccionada, sobre el botón aparecerá una banda de selección. Puede que existan zonas no visualizadas en pantalla, para desplazarse por la ventana de selección de zonas, utilice el control de desplazamiento, situado a la derecha de la pantalla. En la parte derecha de la ventana, podrá ver en qué posición se encuentra mediante el indicador de avance (véase 2.2.6).",
+              "facet": "exact_reference_edge",
+              "receipt_type": "immutable_reference_evidence_span"
+            }
+          ],
+          "receipts_verified": true
+        }
+      ],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 81,
+        "reference_edges": 2,
+        "eligible_clusters": 1,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "selected": 1,
+          "no_exact_section_candidate": 1
+        },
+        "candidate_rejection_counts": {
+          "eligible_novel_evidence": 1
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "9c90c60b-3513-42e3-bfb6-58c1bf167c1d",
+            "section": "2.2.7",
+            "subsection": null,
+            "source_start": 171,
+            "source_end": 185,
+            "alignment_tier": "query_aligned",
+            "potential_candidate_ids": [
+              "44630f51-1947-4417-a2d3-1d018d38a13b"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "44630f51-1947-4417-a2d3-1d018d38a13b",
+                "reason": "eligible_novel_evidence"
+              }
+            ],
+            "edge_winner_id": "44630f51-1947-4417-a2d3-1d018d38a13b",
+            "edge_score": [
+              1,
+              1,
+              4,
+              1
+            ],
+            "terminal_reason": "selected"
+          },
+          {
+            "edge_index": 1,
+            "source_id": "9c90c60b-3513-42e3-bfb6-58c1bf167c1d",
+            "section": "3.2.1",
+            "subsection": null,
+            "source_start": 1841,
+            "source_end": 1855,
+            "alignment_tier": "query_aligned",
+            "potential_candidate_ids": [],
+            "candidate_traces": [],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_exact_section_candidate"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [],
+        "selected_ids": [
+          "44630f51-1947-4417-a2d3-1d018d38a13b"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "selected"
+      },
+      "selector_runtime_ms": 5.838
+    },
+    {
+      "challenge_id": "sec006",
+      "manufacturer": "LDA audioTech",
+      "product_model": "NEO",
+      "question": "¿Cómo se activa el estado de emergencia en el NEO?",
+      "served_id": "87426efc-d7c2-46b1-bf71-f53001613b98",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 81,
+        "reference_edges": 1,
+        "eligible_clusters": 0,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "no_unique_body_anchor": 1
+        },
+        "candidate_rejection_counts": {
+          "no_unique_body_anchor": 2
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "87426efc-d7c2-46b1-bf71-f53001613b98",
+            "section": "2.4.5",
+            "subsection": null,
+            "source_start": 296,
+            "source_end": 310,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [
+              "468efe9a-c7ee-4477-820d-5538f8128a68",
+              "47567d48-eddf-463c-8be1-2596abf32881"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "468efe9a-c7ee-4477-820d-5538f8128a68",
+                "reason": "no_unique_body_anchor"
+              },
+              {
+                "candidate_id": "47567d48-eddf-463c-8be1-2596abf32881",
+                "reason": "no_unique_body_anchor"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_unique_body_anchor"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [
+          0
+        ],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 2.957
+    },
+    {
+      "challenge_id": "sec007",
+      "manufacturer": "LDA audioTech",
+      "product_model": "NEO",
+      "question": "¿El ajuste de volumen de zona en el NEO afecta también al volumen del mensaje de voz de emergencia o son ajustes separados?",
+      "served_id": "d1fedc40-c8f7-432b-9c15-e9380907359c",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 81,
+        "reference_edges": 1,
+        "eligible_clusters": 0,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "no_unique_body_anchor": 1
+        },
+        "candidate_rejection_counts": {
+          "no_unique_body_anchor": 3
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "d1fedc40-c8f7-432b-9c15-e9380907359c",
+            "section": "3.5.5",
+            "subsection": null,
+            "source_start": 405,
+            "source_end": 419,
+            "alignment_tier": "query_aligned",
+            "potential_candidate_ids": [
+              "0db3042e-9c1c-4bfc-abcb-3a9ef4d1b494",
+              "45d6af6d-506d-40b5-bed3-c484f9904f87",
+              "4b23835d-6ced-4215-b22f-72dfcddc70c5"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "0db3042e-9c1c-4bfc-abcb-3a9ef4d1b494",
+                "reason": "no_unique_body_anchor"
+              },
+              {
+                "candidate_id": "45d6af6d-506d-40b5-bed3-c484f9904f87",
+                "reason": "no_unique_body_anchor"
+              },
+              {
+                "candidate_id": "4b23835d-6ced-4215-b22f-72dfcddc70c5",
+                "reason": "no_unique_body_anchor"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_unique_body_anchor"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [
+          0
+        ],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 2.608
+    },
+    {
+      "challenge_id": "sec008",
+      "manufacturer": "LDA audioTech",
+      "product_model": "NEO",
+      "question": "¿Cómo se configura el volumen independiente para la zona de evacuación por voz en el NEO, y qué pasa si no lo configuro?",
+      "served_id": "64c93899-04cd-4122-839b-5cc557ec3b3c",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 81,
+        "reference_edges": 1,
+        "eligible_clusters": 2,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "no_selectable_candidate": 1
+        },
+        "candidate_rejection_counts": {
+          "generic_section_not_query_bound": 1,
+          "no_novel_atom": 1
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "64c93899-04cd-4122-839b-5cc557ec3b3c",
+            "section": "3.5.1",
+            "subsection": null,
+            "source_start": 387,
+            "source_end": 401,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [
+              "3420f9c2-42dc-44d3-aa9a-c4f02a3199cf",
+              "d1fedc40-c8f7-432b-9c15-e9380907359c"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "3420f9c2-42dc-44d3-aa9a-c4f02a3199cf",
+                "reason": "generic_section_not_query_bound"
+              },
+              {
+                "candidate_id": "d1fedc40-c8f7-432b-9c15-e9380907359c",
+                "reason": "no_novel_atom"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_selectable_candidate"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [
+          0
+        ],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 3.192
+    },
+    {
+      "challenge_id": "sec009",
+      "manufacturer": "LDA audioTech",
+      "product_model": "NEO",
+      "question": "¿Cómo se desactiva una zona de voz en el LDA NEO que no se va a usar?",
+      "served_id": "0fb9fa2a-7582-4067-8276-e6cf57925965",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 81,
+        "reference_edges": 1,
+        "eligible_clusters": 1,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "generic_section_not_query_bound": 1
+        },
+        "candidate_rejection_counts": {
+          "generic_section_not_query_bound": 1
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "0fb9fa2a-7582-4067-8276-e6cf57925965",
+            "section": "2.2.7",
+            "subsection": "e",
+            "source_start": 213,
+            "source_end": 231,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [
+              "44630f51-1947-4417-a2d3-1d018d38a13b"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "44630f51-1947-4417-a2d3-1d018d38a13b",
+                "reason": "generic_section_not_query_bound"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "generic_section_not_query_bound"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [
+          0
+        ],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 1.482
+    },
+    {
+      "challenge_id": "sec010",
+      "manufacturer": "LDA audioTech",
+      "product_model": "NEO",
+      "question": "¿Cómo se configura el interruptor CFG del LDA NEO para que el Puerto A lleve datos de control y el Puerto B audio, o al revés con Flexnet?",
+      "served_id": "98a797fe-ed36-49f6-b1cb-c8bc9f58a1f9",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 81,
+        "reference_edges": 1,
+        "eligible_clusters": 0,
+        "potential_reference_edges": 0,
+        "terminal_reasons": {
+          "no_exact_section_candidate": 1
+        },
+        "candidate_rejection_counts": {},
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "98a797fe-ed36-49f6-b1cb-c8bc9f58a1f9",
+            "section": "4.3",
+            "subsection": null,
+            "source_start": 2804,
+            "source_end": 2816,
+            "alignment_tier": "query_aligned",
+            "potential_candidate_ids": [],
+            "candidate_traces": [],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_exact_section_candidate"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 2.342
+    },
+    {
+      "challenge_id": "sec011",
+      "manufacturer": "LDA audioTech",
+      "product_model": "NEO",
+      "question": "¿Cuántas salidas de línea de altavoces tiene cada canal de amplificación del NEO y cómo se reparte la potencia entre ellas?",
+      "served_id": "7bbbbefd-421e-4a8d-a751-f526f413b87e",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 81,
+        "reference_edges": 2,
+        "eligible_clusters": 0,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "no_exact_section_candidate": 1,
+          "no_unique_body_anchor": 1
+        },
+        "candidate_rejection_counts": {
+          "no_unique_body_anchor": 1
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "7bbbbefd-421e-4a8d-a751-f526f413b87e",
+            "section": "4.5",
+            "subsection": null,
+            "source_start": 402,
+            "source_end": 414,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [],
+            "candidate_traces": [],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_exact_section_candidate"
+          },
+          {
+            "edge_index": 1,
+            "source_id": "7bbbbefd-421e-4a8d-a751-f526f413b87e",
+            "section": "4.4",
+            "subsection": null,
+            "source_start": 1566,
+            "source_end": 1578,
+            "alignment_tier": "query_aligned",
+            "potential_candidate_ids": [
+              "23d8d6ed-29ef-4e0b-92d5-16418bb0737c"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "23d8d6ed-29ef-4e0b-92d5-16418bb0737c",
+                "reason": "no_unique_body_anchor"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_unique_body_anchor"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [
+          1
+        ],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 5.021
+    },
+    {
+      "challenge_id": "sec012",
+      "manufacturer": "Sensitron",
+      "product_model": "PL4",
+      "question": "¿Cómo se desmonta la puerta de la central PL4 para instalarla en pared?",
+      "served_id": "f418e702-97da-4086-8b17-c5a0dd45449f",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 24,
+        "reference_edges": 1,
+        "eligible_clusters": 0,
+        "potential_reference_edges": 0,
+        "terminal_reasons": {
+          "no_exact_section_candidate": 1
+        },
+        "candidate_rejection_counts": {},
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "f418e702-97da-4086-8b17-c5a0dd45449f",
+            "section": "3.3",
+            "subsection": null,
+            "source_start": 1302,
+            "source_end": 1313,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [],
+            "candidate_traces": [],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_exact_section_candidate"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 0.62
+    },
+    {
+      "challenge_id": "sec013",
+      "manufacturer": "Spectrex",
+      "product_model": "40-40R-SINGLE",
+      "question": "¿Cómo implemento la función SIL-2 en el 40/40R, qué señal de alerta tengo que usar?",
+      "served_id": "a2ff243c-3f26-4474-8c57-cc7a36c52295",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 75,
+        "reference_edges": 1,
+        "eligible_clusters": 0,
+        "potential_reference_edges": 0,
+        "terminal_reasons": {
+          "no_exact_section_candidate": 1
+        },
+        "candidate_rejection_counts": {},
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "a2ff243c-3f26-4474-8c57-cc7a36c52295",
+            "section": "3.5.12",
+            "subsection": null,
+            "source_start": 1821,
+            "source_end": 1835,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [],
+            "candidate_traces": [],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_exact_section_candidate"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 2.109
+    },
+    {
+      "challenge_id": "sec014",
+      "manufacturer": "Spectrex",
+      "product_model": "40-40L",
+      "question": "¿Qué condiciones hay que cumplir para que el SharpEye S40/40LB, L4B funcione de forma segura en una instalación SIL-2, qué hay que tener activado y qué requisitos debe cumplir la alimentación?",
+      "served_id": "3f75609f-1bb0-468a-84b8-53c8a969ee7a",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 77,
+        "reference_edges": 1,
+        "eligible_clusters": 0,
+        "potential_reference_edges": 0,
+        "terminal_reasons": {
+          "no_exact_section_candidate": 1
+        },
+        "candidate_rejection_counts": {},
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "3f75609f-1bb0-468a-84b8-53c8a969ee7a",
+            "section": "3.5.12",
+            "subsection": null,
+            "source_start": 401,
+            "source_end": 416,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [],
+            "candidate_traces": [],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_exact_section_candidate"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 2.126
+    },
+    {
+      "challenge_id": "sec015",
+      "manufacturer": "Spectrex",
+      "product_model": "40-40L",
+      "question": "¿Cómo funciona la óptica calefactada del detector de llama S40/40L y cómo se configura?",
+      "served_id": "86c0463d-6187-48f8-9daf-2b1b3dcbbdc6",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 77,
+        "reference_edges": 1,
+        "eligible_clusters": 1,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "no_selectable_candidate": 1
+        },
+        "candidate_rejection_counts": {
+          "no_unique_body_anchor": 2,
+          "generic_section_not_query_bound": 1
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "86c0463d-6187-48f8-9daf-2b1b3dcbbdc6",
+            "section": "2.8",
+            "subsection": null,
+            "source_start": 951,
+            "source_end": 962,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [
+              "1b40f879-7e75-4432-bc4d-ca8a58e5f7b6",
+              "470d1a13-07e0-4d61-9851-38b828f06bdf",
+              "a806256c-8a06-4349-addd-ad25111f4be1"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "1b40f879-7e75-4432-bc4d-ca8a58e5f7b6",
+                "reason": "no_unique_body_anchor"
+              },
+              {
+                "candidate_id": "470d1a13-07e0-4d61-9851-38b828f06bdf",
+                "reason": "generic_section_not_query_bound"
+              },
+              {
+                "candidate_id": "a806256c-8a06-4349-addd-ad25111f4be1",
+                "reason": "no_unique_body_anchor"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_selectable_candidate"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [
+          0
+        ],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 2.753
+    },
+    {
+      "challenge_id": "sec016",
+      "manufacturer": "Spectrex",
+      "product_model": "40-40R-SINGLE",
+      "question": "¿Qué condiciones mínimas tiene que cumplir la instalación del 40/40R para que sea válida a nivel SIL-2: alimentación, autotest, hardware...?",
+      "served_id": "f9493c08-e61b-4a63-bece-c2062dab8edc",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 75,
+        "reference_edges": 1,
+        "eligible_clusters": 0,
+        "potential_reference_edges": 0,
+        "terminal_reasons": {
+          "no_exact_section_candidate": 1
+        },
+        "candidate_rejection_counts": {},
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "f9493c08-e61b-4a63-bece-c2062dab8edc",
+            "section": "3.5.12",
+            "subsection": null,
+            "source_start": 259,
+            "source_end": 273,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [],
+            "candidate_traces": [],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_exact_section_candidate"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 2.008
+    },
+    {
+      "challenge_id": "sec017",
+      "manufacturer": "Spectrex",
+      "product_model": "40-40L",
+      "question": "¿Cómo verifico que el detector S40/40L que me ha llegado es el modelo correcto con las opciones que pedí?",
+      "served_id": "215914fa-7921-4d7a-8319-b57243f58a4a",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 77,
+        "reference_edges": 1,
+        "eligible_clusters": 0,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "no_unique_body_anchor": 1
+        },
+        "candidate_rejection_counts": {
+          "no_unique_body_anchor": 1
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "215914fa-7921-4d7a-8319-b57243f58a4a",
+            "section": "1.2",
+            "subsection": null,
+            "source_start": 643,
+            "source_end": 654,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [
+              "cffb89f9-d714-4c3c-9377-3edf3e340a71"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "cffb89f9-d714-4c3c-9377-3edf3e340a71",
+                "reason": "no_unique_body_anchor"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_unique_body_anchor"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [
+          0
+        ],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 1.435
+    },
+    {
+      "challenge_id": "sec018",
+      "manufacturer": "Spectrex",
+      "product_model": "40-40L",
+      "question": "¿Cómo se implementa la condición de alerta SIL-2 en el detector S40/40LB o L4B?",
+      "served_id": "28d15f93-41a0-44da-bfac-9eff263e2356",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 77,
+        "reference_edges": 1,
+        "eligible_clusters": 0,
+        "potential_reference_edges": 0,
+        "terminal_reasons": {
+          "no_exact_section_candidate": 1
+        },
+        "candidate_rejection_counts": {},
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "28d15f93-41a0-44da-bfac-9eff263e2356",
+            "section": "3.5.12",
+            "subsection": null,
+            "source_start": 1736,
+            "source_end": 1751,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [],
+            "candidate_traces": [],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_exact_section_candidate"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 1.957
+    },
+    {
+      "challenge_id": "sec019",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VES",
+      "question": "¿Cómo se cambia la cámara de detección de humo en el VESDA-E VES-A10-P y qué hay que tener en cuenta con las cintas de cables para que no queden pilladas al montarla?",
+      "served_id": "b3ead77c-a702-45bf-bdde-70ce888e37ec",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 256,
+        "reference_edges": 1,
+        "eligible_clusters": 1,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "generic_section_not_query_bound": 1
+        },
+        "candidate_rejection_counts": {
+          "strong_identity_mismatch": 1,
+          "generic_section_not_query_bound": 1
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "b3ead77c-a702-45bf-bdde-70ce888e37ec",
+            "section": "7.3",
+            "subsection": null,
+            "source_start": 2008,
+            "source_end": 2019,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [
+              "e2b9c900-0560-4163-b361-d51e84bbad00"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "6aea5061-8b54-4754-a0ab-cfe8d71cf70f",
+                "reason": "strong_identity_mismatch"
+              },
+              {
+                "candidate_id": "e2b9c900-0560-4163-b361-d51e84bbad00",
+                "reason": "generic_section_not_query_bound"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "generic_section_not_query_bound"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [
+          0
+        ],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 3.187
+    },
+    {
+      "challenge_id": "sec020",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VEA",
+      "question": "¿Cómo se configura la conexión WiFi en el VESDA-E VEA-040-A00 para conectarlo al software Xtralis VSC?",
+      "served_id": "7b0f0930-a1a1-499c-95f7-69e41b91e779",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 281,
+        "reference_edges": 3,
+        "eligible_clusters": 1,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "no_exact_section_candidate": 2,
+          "no_novel_atom": 1
+        },
+        "candidate_rejection_counts": {
+          "no_novel_atom": 1,
+          "strong_identity_mismatch": 1
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "7b0f0930-a1a1-499c-95f7-69e41b91e779",
+            "section": "5.2.1",
+            "subsection": null,
+            "source_start": 1051,
+            "source_end": 1064,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [],
+            "candidate_traces": [],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_exact_section_candidate"
+          },
+          {
+            "edge_index": 1,
+            "source_id": "7b0f0930-a1a1-499c-95f7-69e41b91e779",
+            "section": "5.5.4",
+            "subsection": null,
+            "source_start": 1965,
+            "source_end": 1978,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [
+              "5fac6ec4-427f-4a02-a593-9f6993848385"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "5fac6ec4-427f-4a02-a593-9f6993848385",
+                "reason": "no_novel_atom"
+              },
+              {
+                "candidate_id": "72a39725-58a8-4cb4-a586-d7a7de915aeb",
+                "reason": "strong_identity_mismatch"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_novel_atom"
+          },
+          {
+            "edge_index": 2,
+            "source_id": "7b0f0930-a1a1-499c-95f7-69e41b91e779",
+            "section": "5.3.1",
+            "subsection": null,
+            "source_start": 2163,
+            "source_end": 2176,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [],
+            "candidate_traces": [],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_exact_section_candidate"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [
+          1
+        ],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 8.353
+    },
+    {
+      "challenge_id": "sec021",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VES",
+      "question": "¿Cómo se vuelve a arrancar el VESDA-E VES-A10-P después de haberlo puesto en modo en espera desde el VSC?",
+      "served_id": "35a252b5-b733-40c2-8589-6dcb0bbbef3e",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 256,
+        "reference_edges": 1,
+        "eligible_clusters": 0,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "no_unique_body_anchor": 1
+        },
+        "candidate_rejection_counts": {
+          "strong_identity_mismatch": 3,
+          "no_unique_body_anchor": 3
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "35a252b5-b733-40c2-8589-6dcb0bbbef3e",
+            "section": "5.5.12",
+            "subsection": null,
+            "source_start": 965,
+            "source_end": 979,
+            "alignment_tier": "query_aligned",
+            "potential_candidate_ids": [
+              "60f210e4-a468-4ae2-be1f-c991d7dde5a6",
+              "a6ed1357-c034-4da5-b50a-5f18ad195579",
+              "fd8849ea-76a0-4107-bd4a-c27c67875228"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "08bd613b-1b69-4312-a33b-677dcc5a58ea",
+                "reason": "strong_identity_mismatch"
+              },
+              {
+                "candidate_id": "45d3c3e8-55b4-4fc3-857c-52cfe2c9a893",
+                "reason": "strong_identity_mismatch"
+              },
+              {
+                "candidate_id": "60f210e4-a468-4ae2-be1f-c991d7dde5a6",
+                "reason": "no_unique_body_anchor"
+              },
+              {
+                "candidate_id": "a6ed1357-c034-4da5-b50a-5f18ad195579",
+                "reason": "no_unique_body_anchor"
+              },
+              {
+                "candidate_id": "cf420506-23f4-47e7-bdd3-aa401d049b12",
+                "reason": "strong_identity_mismatch"
+              },
+              {
+                "candidate_id": "fd8849ea-76a0-4107-bd4a-c27c67875228",
+                "reason": "no_unique_body_anchor"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_unique_body_anchor"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [
+          0
+        ],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 4.568
+    },
+    {
+      "challenge_id": "sec022",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VES",
+      "question": "¿Qué necesito tener configurado en el detector VES-A10-P para poder conectarme a él por Ethernet con el Xtralis VSC?",
+      "served_id": "b35e02bd-bd84-48b2-aa30-426eacd4f953",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 256,
+        "reference_edges": 2,
+        "eligible_clusters": 0,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "no_unique_body_anchor": 1,
+          "no_exact_section_candidate": 1
+        },
+        "candidate_rejection_counts": {
+          "strong_identity_mismatch": 1,
+          "no_unique_body_anchor": 2
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "b35e02bd-bd84-48b2-aa30-426eacd4f953",
+            "section": "5.1.2",
+            "subsection": null,
+            "source_start": 664,
+            "source_end": 677,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [
+              "d0acef02-1fab-420e-acb8-4d99b67c68c1",
+              "d20bae02-1ca5-4a9d-b08f-1655917f31e8"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "8ae92b04-30c5-462d-a57e-6b3215accceb",
+                "reason": "strong_identity_mismatch"
+              },
+              {
+                "candidate_id": "d0acef02-1fab-420e-acb8-4d99b67c68c1",
+                "reason": "no_unique_body_anchor"
+              },
+              {
+                "candidate_id": "d20bae02-1ca5-4a9d-b08f-1655917f31e8",
+                "reason": "no_unique_body_anchor"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_unique_body_anchor"
+          },
+          {
+            "edge_index": 1,
+            "source_id": "b35e02bd-bd84-48b2-aa30-426eacd4f953",
+            "section": "5.2.1",
+            "subsection": null,
+            "source_start": 2398,
+            "source_end": 2411,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [],
+            "candidate_traces": [],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_exact_section_candidate"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [
+          0
+        ],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 6.05
+    },
+    {
+      "challenge_id": "sec023",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VEA",
+      "question": "¿Qué tensión necesito aplicar en la entrada GPI del VESDA-E VEA para que la detecte como activa?",
+      "served_id": "65f2f86d-71c3-4df3-9304-812a08a1925e",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 281,
+        "reference_edges": 1,
+        "eligible_clusters": 1,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "generic_section_not_query_bound": 1
+        },
+        "candidate_rejection_counts": {
+          "generic_section_not_query_bound": 1,
+          "strong_identity_mismatch": 3
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "65f2f86d-71c3-4df3-9304-812a08a1925e",
+            "section": "5.5.9",
+            "subsection": null,
+            "source_start": 268,
+            "source_end": 281,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [
+              "54b6779f-bcfe-4a65-ac9c-d6df0e6fbeb5"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "54b6779f-bcfe-4a65-ac9c-d6df0e6fbeb5",
+                "reason": "generic_section_not_query_bound"
+              },
+              {
+                "candidate_id": "8cf26ffd-767d-482e-aff5-aab551770f28",
+                "reason": "strong_identity_mismatch"
+              },
+              {
+                "candidate_id": "edba8dd6-508b-475c-8a64-6ae9bae19afd",
+                "reason": "strong_identity_mismatch"
+              },
+              {
+                "candidate_id": "f910157f-47a4-4926-bd3e-933fe70a99fc",
+                "reason": "strong_identity_mismatch"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "generic_section_not_query_bound"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [
+          0
+        ],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 2.479
+    },
+    {
+      "challenge_id": "sec024",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VES",
+      "question": "¿Puedo dejar el USB como conexión permanente en el VES-A00-P o tengo que usar Ethernet/WiFi?",
+      "served_id": "c6043b17-1ea2-45d1-9029-2b2d3458bd5d",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 256,
+        "reference_edges": 1,
+        "eligible_clusters": 0,
+        "potential_reference_edges": 0,
+        "terminal_reasons": {
+          "no_exact_section_candidate": 1
+        },
+        "candidate_rejection_counts": {},
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "c6043b17-1ea2-45d1-9029-2b2d3458bd5d",
+            "section": "5.1.1",
+            "subsection": null,
+            "source_start": 751,
+            "source_end": 764,
+            "alignment_tier": "query_aligned",
+            "potential_candidate_ids": [],
+            "candidate_traces": [],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_exact_section_candidate"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 2.47
+    },
+    {
+      "challenge_id": "sec025",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VEA",
+      "question": "¿Cómo configuro una IP estática en el VESDA-E VEA, qué datos necesito meter?",
+      "served_id": "a1e03edf-d0b9-491d-8937-fc1778f0bedb",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 281,
+        "reference_edges": 2,
+        "eligible_clusters": 0,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "no_exact_section_candidate": 1,
+          "no_unique_body_anchor": 1
+        },
+        "candidate_rejection_counts": {
+          "strong_identity_mismatch": 2,
+          "no_unique_body_anchor": 1
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "a1e03edf-d0b9-491d-8937-fc1778f0bedb",
+            "section": "5.3.1",
+            "subsection": null,
+            "source_start": 707,
+            "source_end": 720,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [],
+            "candidate_traces": [],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_exact_section_candidate"
+          },
+          {
+            "edge_index": 1,
+            "source_id": "a1e03edf-d0b9-491d-8937-fc1778f0bedb",
+            "section": "5.1.2",
+            "subsection": null,
+            "source_start": 1010,
+            "source_end": 1023,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [
+              "dfbe33da-1ffe-42fa-98a5-96bd500a7b7c"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "4cad80c7-75fd-4c9f-9ef4-ba50b95efabb",
+                "reason": "strong_identity_mismatch"
+              },
+              {
+                "candidate_id": "dfbe33da-1ffe-42fa-98a5-96bd500a7b7c",
+                "reason": "no_unique_body_anchor"
+              },
+              {
+                "candidate_id": "e3f55931-564f-4769-84d9-46243a6493a2",
+                "reason": "strong_identity_mismatch"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_unique_body_anchor"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [
+          1
+        ],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 3.126
+    },
+    {
+      "challenge_id": "sec026",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VES",
+      "question": "¿Hay que cortar la alimentación del VESDA-E VES-A10-P para cambiar el filtro o se puede hacer con el equipo encendido?",
+      "served_id": "e2b9c900-0560-4163-b361-d51e84bbad00",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 256,
+        "reference_edges": 1,
+        "eligible_clusters": 1,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "generic_section_not_query_bound": 1
+        },
+        "candidate_rejection_counts": {
+          "strong_identity_mismatch": 1,
+          "generic_section_not_query_bound": 1
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "e2b9c900-0560-4163-b361-d51e84bbad00",
+            "section": "7.2",
+            "subsection": null,
+            "source_start": 746,
+            "source_end": 757,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [
+              "894e37d1-0df9-422f-8b4c-cb02fd87411a"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "3056e808-bae8-450a-a115-f96108cab40a",
+                "reason": "strong_identity_mismatch"
+              },
+              {
+                "candidate_id": "894e37d1-0df9-422f-8b4c-cb02fd87411a",
+                "reason": "generic_section_not_query_bound"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "generic_section_not_query_bound"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [
+          0
+        ],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 3.065
+    },
+    {
+      "challenge_id": "sec027",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VES",
+      "question": "¿Cómo se accede a un nivel de usuario superior en el VES-A10-P una vez conectado con el Xtralis VSC?",
+      "served_id": "6d956b1a-4611-448f-b807-7b036e4797eb",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 256,
+        "reference_edges": 3,
+        "eligible_clusters": 1,
+        "potential_reference_edges": 2,
+        "terminal_reasons": {
+          "no_strong_identity_match": 1,
+          "generic_section_not_query_bound": 1,
+          "no_unique_body_anchor": 1
+        },
+        "candidate_rejection_counts": {
+          "strong_identity_mismatch": 3,
+          "generic_section_not_query_bound": 1,
+          "no_unique_body_anchor": 2
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "6d956b1a-4611-448f-b807-7b036e4797eb",
+            "section": "5.5.3",
+            "subsection": null,
+            "source_start": 626,
+            "source_end": 639,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [],
+            "candidate_traces": [
+              {
+                "candidate_id": "9e9c35bd-5612-4c50-8091-052b3d8c4965",
+                "reason": "strong_identity_mismatch"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_strong_identity_match"
+          },
+          {
+            "edge_index": 1,
+            "source_id": "6d956b1a-4611-448f-b807-7b036e4797eb",
+            "section": "5.5.4",
+            "subsection": null,
+            "source_start": 661,
+            "source_end": 674,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [
+              "45658895-c964-4856-8975-e0e414da80c8"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "45658895-c964-4856-8975-e0e414da80c8",
+                "reason": "generic_section_not_query_bound"
+              },
+              {
+                "candidate_id": "cffdd59c-dbbf-444b-9b74-7308063e6f18",
+                "reason": "strong_identity_mismatch"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "generic_section_not_query_bound"
+          },
+          {
+            "edge_index": 2,
+            "source_id": "6d956b1a-4611-448f-b807-7b036e4797eb",
+            "section": "5.1.2",
+            "subsection": null,
+            "source_start": 813,
+            "source_end": 826,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [
+              "d0acef02-1fab-420e-acb8-4d99b67c68c1",
+              "d20bae02-1ca5-4a9d-b08f-1655917f31e8"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "8ae92b04-30c5-462d-a57e-6b3215accceb",
+                "reason": "strong_identity_mismatch"
+              },
+              {
+                "candidate_id": "d0acef02-1fab-420e-acb8-4d99b67c68c1",
+                "reason": "no_unique_body_anchor"
+              },
+              {
+                "candidate_id": "d20bae02-1ca5-4a9d-b08f-1655917f31e8",
+                "reason": "no_unique_body_anchor"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_unique_body_anchor"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [
+          1,
+          2
+        ],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 14.762
+    },
+    {
+      "challenge_id": "sec028",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VES",
+      "question": "¿Cómo se hace la puesta en marcha del VESDA-E VES-A10-P, cuáles son los pasos y en qué orden?",
+      "served_id": "2ddc5531-1912-40f4-9c9e-86395a170eba",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 256,
+        "reference_edges": 2,
+        "eligible_clusters": 0,
+        "potential_reference_edges": 0,
+        "terminal_reasons": {
+          "no_exact_section_candidate": 2
+        },
+        "candidate_rejection_counts": {},
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "2ddc5531-1912-40f4-9c9e-86395a170eba",
+            "section": "3.1",
+            "subsection": null,
+            "source_start": 1219,
+            "source_end": 1230,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [],
+            "candidate_traces": [],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_exact_section_candidate"
+          },
+          {
+            "edge_index": 1,
+            "source_id": "2ddc5531-1912-40f4-9c9e-86395a170eba",
+            "section": "3.1",
+            "subsection": null,
+            "source_start": 1859,
+            "source_end": 1870,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [],
+            "candidate_traces": [],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_exact_section_candidate"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 4.282
+    }
+  ],
+  "limitations": [
+    "S114 labels influenced S115 design, so this replay cannot prove generalization.",
+    "A newly selected row/card must be adjudicated on its own evidence, not inherit the old selector label.",
+    "The sealed nested holdout remains unopened."
+  ]
+}

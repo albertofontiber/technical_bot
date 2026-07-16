@@ -1,0 +1,132 @@
+schema_version: s127_compatibility_development_cohort_v1
+status: EXPOSED_DEVELOPMENT_NOT_HELDOUT
+purpose: diagnose relational candidate selection before independent evaluation
+
+freeze:
+  frozen_at_utc: '2026-07-15T00:00:00Z'
+  note: timestamp records the S127 work date; exact file hashes are the binding
+  snapshot:
+    path: tmp/s117_m25/derived_snapshot_v2.jsonl.gz
+    sha256: a825e4dd02b918ddafebab4419cb416b6edc5f1b823a7a9d423f96718d7b6217
+  catalog:
+    path: data/catalog/doc_map.jsonl
+    sha256: 992c62c21b5772caebf09f422adca20ffe4035143861ca931e5198e820572c82
+  mechanism_before:
+    path: src/rag/compatibility_bundle_coverage.py
+    sha256: 2e03b4af1448fce57f219e4ef128a393687ae32f5a3bbf4eb6b8726d4fc5ab0c
+
+contamination:
+  selection_exposed_before_freeze: true
+  mechanism_diagnosis_exposed_before_freeze: true
+  eligible_for_external_generalization_claim: false
+  eligible_for_official_ok_credit: false
+  excluded_from_future_independent_cohort:
+    products:
+      - notifier:sdx-751
+      - detnov:cad-250
+      - systemsensor:im-10ea
+      - kidde:2x-af1
+      - systemsensor:cr-6ea
+      - morley:dxc1
+      - notifier:nfxi-mm10
+      - kidde:nc-pf4
+      - argus:sgmcb200
+      - morley:zx2se
+      - morley:mi-flx-010
+      - kidde:2x-af2
+      - kac:m700kac
+      - notifier:afp-400
+    sources:
+      - I56-3918-001 IM-10EA_multi
+      - I56-3920-001 CR-6EA_multi
+      - I56-3976-001 NFXI-MM10
+      - Instruction Manual SGMCB200
+      - A05-7030-100_B_ES_Morley FAAST FLEX Addressable
+      - D716 issue 1 - M700KAC-KACI_Eng
+      - 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+      - DXc_Guia de instalacion_multiling
+      - bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual
+      - MIE-MI-600
+      - MIDT170
+
+queries:
+  - id: dev001
+    question: ¿Puedo conectar un módulo IM-10EA a una central Kidde 2X-AF1?
+    resolved_products:
+      device: systemsensor:im-10ea
+      host: kidde:2x-af1
+    expected_device_source: I56-3918-001 IM-10EA_multi
+    expected_host_source: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+    observed_prechange: incomplete_bundle
+    diagnosis: exact required candidates were not selected as one relational triplet
+
+  - id: dev002
+    question: ¿Puedo instalar un módulo CR-6EA en una central Morley DXc1?
+    resolved_products:
+      device: systemsensor:cr-6ea
+      host: morley:dxc1
+    expected_device_source: I56-3920-001 CR-6EA_multi
+    expected_host_source: DXc_Guia de instalacion_multiling
+    observed_prechange: incomplete_bundle
+    diagnosis: >-
+      the six hydrated candidates contained the decisive protocol, roster and
+      topology spans, but greedy three-row selection discarded protocol and roster
+
+  - id: dev003
+    question: ¿Puedo usar un NFXI-MM10 con una central Kidde NC-PF4?
+    resolved_products:
+      device: notifier:nfxi-mm10
+      host: kidde:nc-pf4
+    expected_device_source: I56-3976-001 NFXI-MM10
+    expected_host_source: bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual
+    observed_prechange: incomplete_bundle
+    diagnosis: exact required candidates were not selected as one relational triplet
+
+  - id: dev004
+    question: ¿Puedo montar un SGMCB200 en una central Morley ZX2Se?
+    resolved_products:
+      device: argus:sgmcb200
+      host: morley:zx2se
+    expected_device_source: Instruction Manual SGMCB200
+    expected_host_source: MIE-MI-600
+    observed_prechange: fail_closed
+    diagnosis: roster evidence does not contain the governed device token in the exact content span
+    postchange_expectation: remain_fail_closed_as_upstream_chunk_lineage_gap
+
+  - id: dev005
+    question: ¿Puedo conectar un MI-FLX-010 a una central Kidde 2X-AF2?
+    resolved_products:
+      device: morley:mi-flx-010
+      host: kidde:2x-af2
+    expected_device_source: A05-7030-100_B_ES_Morley FAAST FLEX Addressable
+    expected_host_source: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+    observed_prechange: incomplete_bundle
+    diagnosis: only two qualifying candidates survived navigation and selection
+
+  - id: dev006
+    question: ¿Puedo instalar un pulsador M700KAC en una central Notifier AFP-400?
+    resolved_products:
+      device: kac:m700kac
+      host: notifier:afp-400
+    expected_device_source: D716 issue 1 - M700KAC-KACI_Eng
+    expected_host_source: MIDT170
+    observed_prechange: incomplete_bundle
+    diagnosis: one parent span was classified as multiple required facets and no exact triplet survived
+
+hard_negative_contract:
+  examples:
+    - panel network ring with return path but no detection-device loop context
+    - electromagnetic compatibility passage with compatibility vocabulary but no device roster
+    - installation passage with return/output wording but no closed detection loop
+  expected: no compatibility bundle
+
+development_acceptance:
+  required:
+    - no partial append for any query
+    - no hard negative accepted as loop_topology
+    - exact receipts and catalog authorization for every appended span
+    - deterministic identical results across two local runs
+    - dev004 remains fail-closed unless an independently reviewed upstream lineage design exists
+  informative_not_release_gate:
+    - number of complete valid bundles recovered
+    - failure stage for every non-recovered query

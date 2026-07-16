@@ -1,0 +1,149 @@
+instrument: s117_m27_live_evidence_prereg_v1
+status: frozen_before_seeded_evidence
+
+scope:
+  purpose: complete_and_crosslink_evidence_for_21_live_m27_tasks
+  allowed:
+    - local_raw_store_read
+    - local_sidecar_read
+    - frozen_snapshot_read
+    - frozen_eval_read
+    - local_eval_write
+    - deterministic_hashing_and_alignment
+  forbidden:
+    - env_file_read
+    - network
+    - model_calls
+    - adjudication
+    - database_access
+    - database_write
+    - policy_change
+    - chunk_change
+    - context_generation
+    - embedding_generation
+    - schema_apply
+    - migration
+    - load
+    - serving
+    - deploy
+    - M3_authorization
+
+frozen_inputs:
+  runner:
+    path: scripts/s117_m27_live_evidence.py
+    sha256: cf2cb3f54163b68745f95075b84602a0133ca69843958516b0dc14f4ab20234a
+  runner_tests:
+    path: tests/test_s117_m27_live_evidence.py
+    sha256: f304335f39f14530dbd84cfce312bd7176f0ad4c48ffcd050d4fdef6e5473eb4
+  design_v1:
+    path: evals/s117_m27_live_fidelity_adjudication_design_v1.md
+    sha256: 59348b1b6cd009002c3e401444a31607c2b244c185f7c9f0a0fc182b17b4d2db
+  design_v2:
+    path: evals/s117_m27_live_fidelity_adjudication_design_v2.md
+    sha256: 7f6c0648e54d72d33c55b03c4c5a6ebe571b7a8f1258848c3508c6e9b7ef006f
+  design_v3:
+    path: evals/s117_m27_live_fidelity_adjudication_design_v3.md
+    sha256: 71f6ee34057522d3f34cd6cdaff5336b1dde70935f7778fddfe4a1f0fe97a742
+  m27_seed1:
+    path: evals/s117_m27_upstream_sql_budget_seed1_v2.json
+    sha256: 65a47376e7ba90b3423b207ca85eb014f3c13ed16348d8de5cf2b91b511a6afd
+  m27_seed2:
+    path: evals/s117_m27_upstream_sql_budget_seed2_v2.json
+    sha256: 65a47376e7ba90b3423b207ca85eb014f3c13ed16348d8de5cf2b91b511a6afd
+  m27_prereg:
+    path: evals/s117_m27_upstream_sql_budget_prereg_v2.yaml
+    sha256: d88ff8610a0e4e7d1c47508b37a517988974acadf9dd36d2ef257604b59bbd72
+  development_result:
+    path: evals/s117_chunks_v3_development_materialization_v1.json
+    sha256: d9f69e8d1428e11afa56723817f64226aa53db786c8034453dfde4adbbedca3a
+  m26_result:
+    path: evals/s117_m26_independent_audit_seed1_v1.json
+    sha256: 34874f81c3a18cd7b1fd05862c6ef6219a2ab5fb67cec3bf3479824d04e1f83a
+  m26_prereg:
+    path: evals/s117_m26_independent_audit_prereg_v1.yaml
+    sha256: 6203bc0441a60b0a77779902c0f0c9536dbd89c8aae2cb8dca61b27e0d57322c
+  source_snapshot:
+    path: tmp/s117_m2/remote_snapshot_v1.jsonl.gz
+    sha256: 3013c553da20c72fbfe0dc801dad4ea4b063ecff3138dcf55b5cd7831cf79067
+  chunker:
+    path: src/reingest/chunk.py
+    sha256: 4b76ab219854c625f4ce5e55665e2c89d14739e4eee0ab01607aae7ecda4fd43
+  materializer:
+    path: src/reingest/chunk_provenance.py
+    sha256: bb218a509ca56f2ddf4e44d73c4235cefacfb4296a4b98c9d49a627a2536e65c
+  independent_validator:
+    path: scripts/s117_materialize_chunks_v3_local.py
+    sha256: 36037383c1c33c630e9df6add9f3c188dc10e2dfd79ff33f53ee04f44aa4c342
+  retrieval_policy:
+    path: src/reingest/retrieval_policy.py
+    sha256: cafba354609f41038d5c1d7fe5c7e7f10056d98c1cde8a43feab9e2c6dbcedaf
+
+selected_paths:
+  m27_seed1: evals/s117_m27_upstream_sql_budget_seed1_v2.json
+  m27_seed2: evals/s117_m27_upstream_sql_budget_seed2_v2.json
+  m27_prereg: evals/s117_m27_upstream_sql_budget_prereg_v2.yaml
+  development_result: evals/s117_chunks_v3_development_materialization_v1.json
+  m26_result: evals/s117_m26_independent_audit_seed1_v1.json
+  m26_prereg: evals/s117_m26_independent_audit_prereg_v1.yaml
+
+selected_path_bindings:
+  m27_seed1: m27_seed1
+  m27_seed2: m27_seed2
+  m27_prereg: m27_prereg
+  development_result: development_result
+  m26_result: m26_result
+  m26_prereg: m26_prereg
+
+expected:
+  live_tasks: 21
+  original_complete_tasks: 14
+  incomplete_tasks: 7
+  affected_documents: 18
+
+alignment_contract:
+  authority: raw_store_only_not_pdf_or_visual_fidelity
+  normalization: unicode_whitespace_only
+  unit: complete_document_stream
+  target_membership:
+    - exact_target_once_in_regenerated_document
+    - all_v3_chunks_overlapping_target_block_interval
+    - one_raw_boundary_block_before_and_after_when_present
+  exact_alignment_required_for_mechanical_go: true
+  similarity_rescue: forbidden
+
+evidence_contract:
+  raw_artifact_bytes_embedded_base64: true
+  raw_blocks_full: true
+  local_v3_document_rows_full: true
+  incomplete_legacy_document_donors_full: true
+  caps_for_completion: forbidden
+  receipts_and_manifests_recomputed: true
+  policy_receipt_reproduced_from_frozen_inputs: true
+  adjudication: none
+
+execution:
+  seeds: [1, 2]
+  perturbation: shuffle_live_tasks_local_rows_and_legacy_rows_then_sort_contractual_outputs
+  required:
+    - focused_tests_green
+    - full_regression_green
+    - cross_process_byte_identical
+    - logical_payload_identical
+    - exactly_21_task_receipts
+    - exactly_21_review_fiches
+    - exactly_7_incomplete_tasks_supplemented
+    - every_reference_resolves_and_recomputes
+    - zero_adjudication
+    - zero_external_cost
+
+authorization:
+  adjudication: false
+  model_calls: false
+  database: false
+  policy_change: false
+  chunk_change: false
+  context_generation: false
+  embedding_generation: false
+  load: false
+  serving: false
+  M3: BLOCKED

@@ -1,0 +1,57 @@
+instrument: s115_reference_edge_nested_holdout_prereg_v2
+status: frozen_before_s115_selector_implementation
+
+frozen_design:
+  path: evals/s115_reference_edge_design_v2.md
+  sha256: fa042add13a0bfdf85f96e91bc48076c83fa07a83f1fb7f8cbbcb6734178e30d
+  status: immutable
+  config_path: config/reference_edge_contract_v1.yaml
+  config_sha256: 81738aa6d9871653f7cdb33684268a50a933ddc2713bad6434926f0d1c4c0dd0
+
+nested_holdout:
+  path: evals/s115_reference_edge_nested_holdout_freeze_v1.json
+  sha256: 107e5f0f0ec27117a4f9cec180169dbb43aad2ee385e31fbc8f0eeb3282c297e
+  sample_count: 12
+  manufacturer_count: 2
+  limitation: smoke_only_not_cross_manufacturer_release_evidence
+  database_get_requests: 0
+  model_calls: 0
+
+sealing:
+  - Do not inspect nested question text, candidates or selector results before implementation hash freeze.
+  - S114 diagnostic IDs and labels may appear only in tests/evaluation, never selector or config.
+  - Freeze hashes for source, config and tests before the single unseal.
+  - Any code or config tuning after unseal invalidates the nested result.
+
+adjudication:
+  labels:
+    relevant: bounded evidence resolves the reference and adds a question-required atom
+    irrelevant: evidence does not resolve the requested atom or materially redirects it
+    ambiguous: utility cannot be established from the bounded cards alone
+  strict_precision_formula: relevant_selected / all_selected
+  ambiguous_treatment: counts_as_non_relevant
+  contamination_severity:
+    high: contradicts or misdirects the requested technical action
+    medium: materially substitutes or omits the requested evidence
+    low: tangential but non-conflicting
+  false_negative_audit: >-
+    Review every potential-but-not-selected edge using only exact source reference,
+    candidate body cluster and bounded candidate atoms. Record each visible
+    high-confidence relevant candidate before computing the verdict.
+
+smoke_gates:
+  execution:
+    - all source and anchor receipts verify with strong provenance
+    - maximum two evidence cards and 720 characters per card
+    - zero database writes and model calls
+  quality:
+    - zero high or medium contamination
+    - strict precision at least 0.9 when at least five rows are selected
+    - at least one true positive
+    - no visible high-confidence false negative
+  inconclusive:
+    - fewer than five selected rows cannot establish the precision threshold
+    - zero potential edges cannot establish applicability
+  advancement: >-
+    A clean smoke permits only construction of a fresh broader held-out. It does
+    not authorize answer regression, serving integration or an OK claim.

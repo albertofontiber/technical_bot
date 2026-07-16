@@ -1,0 +1,42 @@
+instrument: s116_section_lineage_implementation_freeze_v1
+status: frozen_before_chunker_implementation
+
+contracts:
+  prereg_v21:
+    path: evals/s116_raw_store_ab_prereg_v21.yaml
+    sha256: 1f6f92208a7bba7d4b1f7792f491f9683d4575467cb3d80ed6d24e0ac81b3e1f
+  design_v2:
+    path: evals/s116_section_lineage_design_v2.md
+    sha256: 9aaf019914befa40ce8942b032b66db1537af3260c4e6a1034db688e526484bd
+  design_v21_addendum:
+    path: evals/s116_section_lineage_design_v21.md
+    sha256: 012accecda39d90a22820a22b9b6676da0e5d987931c3661815c32297d3b1443
+
+baseline:
+  path: evals/s116_raw_store_baseline_v21.json
+  sha256: 4eac6ece9ea25263f117cd05763653878accd639d1e90581d5ab0663cab62b60
+  independent_repeat_sha256: 4eac6ece9ea25263f117cd05763653878accd639d1e90581d5ab0663cab62b60
+  source_manifest_sha256: 752c044be1531d5bc2e2879f79acf1dbeffabcbeb9bb9d16f5e14a5676aa5810
+  records_processed: 1068
+  expected_error:
+    file: _failures.json
+    error_type: AttributeError
+
+locked_dependencies:
+  python: 3.14.3
+  scripts/s116_raw_store_ab_v21.py: a5d29926d42536090e5a6a0a48ba5d814dfe1f1f02b74d1cc69c36639fdc51b6
+  scripts/s116_raw_store_ab_v2.py: adb20d6349d1cc2e8fb346659dc15dc8223107b4f5220e8e259c99e8275feb71
+  src/reingest/metadata.py: ccfca63f30883b63f6c7ccbbd6b945db65a8d1b9cd968ab6115307ad501049b8
+  src/reingest/manufacturer_registry.py: 16a13ff7e42ddc3d38bbf8cc6c5238df93fa25a00b523995bbedbb5033a1bfd9
+  config/manufacturers/*.yaml: 4920a6a2327405198d40ee14a4cf606742bff68cdc7f5982ecc58f635d2ffdb3
+
+only_allowed_dependency_change:
+  src/reingest/chunk.py:
+    baseline_sha256: 58be85e8cdf2cfac475e7f7cd23639b04f7b22a1c60938ffec86e76cb2c60985
+
+authorization:
+  implement_local_shadow: pending_final_adversarial_confirmation
+  migration: false
+  reingestion: false
+  serving: false
+  production: false

@@ -1,0 +1,54 @@
+instrument: s122_enforced_answer_contract_adversarial_review_v2
+review_mode: independent_read_only_pre_spend
+final_verdict: GO_LOCAL_CONTRACT_ONLY
+severity: {p0_open: 0, p1_open: 0}
+
+lineage:
+  prior_review:
+    path: evals/s122_enforced_answer_contract_adversarial_review_v1.yaml
+    sha256: a25c0ebd00ce665853ca16aa8a4a91713a5a85d02333502cb44a150e5d3d1760
+
+policy_delta:
+  from: answer_enforcement_s122_v1
+  to: answer_enforcement_s122_v2
+  reasons:
+    - guarded query cores cannot pass with an empty or deferred-only contract
+    - EOL guard applies only to loop EOL, not zone-line EOL or output specifications
+    - closed-loop evidence cannot be combined with an asserted RFL or EOL resistor
+    - absence language must bind a negative predicate directly to RFL or EOL
+
+verified_cases:
+  empty_delay_contract: fail_closed
+  empty_loop_eol_contract: fail_closed
+  deferred_only_delay_configuration: fail_closed
+  zone_line_eol_without_contract: pass_outside_s122_scope
+  output_specification_without_contract: pass_outside_s122_scope
+  hp005: pass_core_covered
+  hp009: source_bound_reconstruction_core_covered
+  hp017: fail_closed_core_not_covered
+  positive_eol_value_with_closed_loop: rejected
+  adversative_or_double_negative_eol_instruction: rejected
+  explicit_no_rfl_or_without_eol: accepted
+
+verification:
+  frozen_replay:
+    status: LOCAL_ENFORCED_ANSWER_CONTRACT_GO
+    rows: 39
+    measured: 27
+    not_measured: 12
+    actions: {pass: 25, source_bound_reconstruction: 1, fail_closed: 1}
+    unexpected_actions: 0
+    leakage: 0
+  focused_tests: {passed: 66, failed: 0}
+  full_suite: {passed: 1221, skipped: 5, failed: 0}
+  git_diff_check: clean
+  bot_provider_calls: 0
+  fresh_answer_generations: 0
+  network_calls: 0
+  database_calls: 0
+
+restrictions:
+  - no fact relabeling
+  - no fresh generation under this artifact
+  - no serving or deployment
+  - no corpus or database mutation

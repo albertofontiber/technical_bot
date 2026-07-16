@@ -1,0 +1,85 @@
+instrument: s123_s122_enforced_two_answer_probe_prereg_v1
+status: FROZEN_BEFORE_MODEL_CALLS
+
+authorization:
+  user_authorized: true
+  user_message: sigo sin conexion estable, pero autorizo a que sigas
+  authorized_interpretation: fresh enforced probe proposed for hp009 and hp017
+  authorized_qids: [hp009, hp017]
+
+lineage:
+  local_gate:
+    path: evals/s122_enforced_answer_contract_gate_v2.yaml
+    sha256: c48aaf25076c3fb796414a371269c27870437f05d24a2bf11c54ce519a2f38cc
+  frozen_contexts:
+    path: evals/s113_full_contexts_freeze_v1.json
+    sha256: 22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d
+
+scope:
+  planner_contract: answer_planner_s122_v1
+  enforcement_policy: answer_enforcement_s122_v2
+  validator_contract: answer_contract_validator_s122_v1
+  renderer_contract: source_bound_renderer_s122_v1
+  conflict_schema: answer_conflict_s122_v1
+  generator_model: claude-sonnet-4-6
+  model_choice_reason: hold the S121 generator constant so the enforcement boundary is the isolated change
+  max_output_tokens_per_answer: 3500
+  maximum_fresh_generator_calls: 2
+  maximum_calls_per_qid: 1
+  automatic_retries: 0
+  retrieval_calls: 0
+  reranker_calls: 0
+  judge_calls_during_generation: 0
+  database_reads: 0
+  database_writes: 0
+
+expected_contract:
+  hp009:
+    obligations: [terminal_bundle, closed_loop_return_path]
+    conflicts: []
+    acceptable_actions: [pass, source_bound_reconstruction]
+    required_query_core_coverage: true
+    forbidden_claims:
+      - positive RFL or EOL resistor assertion for the closed loop
+  hp017:
+    obligations: [cause_effect_rule_behavior, cause_effect_default_rules_precondition]
+    conflict_values: ['7', '8']
+    required_action: fail_closed
+    required_query_core_coverage: false
+    forbidden_claims:
+      - unilateral selection of menu 7 or menu 8
+      - claim that the complete delay procedure is covered
+
+diagnostic_claims:
+  hp009: [m0.hp009.closed_loop_return.1, m0.hp009.closed_loop_return.2]
+  hp017: [m0.hp017.rule1.2]
+
+execution_controls:
+  - exact frozen contexts only
+  - preflight and complete generation-contract SHA before any call
+  - execute one qid per process invocation
+  - append-only checkpoint immediately after each successful response
+  - exact checkpoint reuse or fail closed on source drift
+  - no automatic retry after timeout, provider error or connection loss
+  - no second provider repair call
+  - max_tokens stop is an automatic probe NO-GO
+  - no automatic fact relabeling
+
+acceptance_before_manual_review:
+  exact_successful_calls: 2
+  all_stop_reasons: end_turn
+  hp009_final_obligations_covered: 2
+  hp009_positive_eol_assertions: 0
+  hp017_action: fail_closed
+  hp017_unilateral_conflict_selection: 0
+  deterministic_claim_surfaces_present: 3
+
+next_gate:
+  action: local_atomic_manual_and_bounded_adversarial_adjudication
+  causal_ok_claim_before_next_gate: false
+
+never_authorizes:
+  - extra model calls
+  - live retrieval or rerank
+  - database or corpus mutation
+  - serving, deploy or production release

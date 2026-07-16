@@ -1,0 +1,122 @@
+instrument: s121_s120_three_answer_manual_adjudication_v1
+status: MANUAL_AND_ADVERSARIAL_ADJUDICATION_COMPLETE
+authority: exact_s121_answers_and_frozen_atomic_claims_only
+
+review_scope:
+  probe: evals/s121_s120_three_answer_probe_v1.json
+  atomic_contract: evals/s118_external_contract_projection_v1.json
+  qids: [hp005, hp009, hp017]
+  diagnostic_claims: 4
+  reviewer: Hubble
+  model_identity_attested: false
+
+summary:
+  verdict: NO_GO
+  claims_ok: 1
+  claims_synthesis_miss: 3
+  p0_open: 0
+  p1_open: 3
+  causal_facts_moved_to_ok: 1
+  production_release: false
+  another_paid_probe: false
+
+claim_adjudications:
+  - claim_id: m0.hp005.output_selection.1
+    qid: hp005
+    answer_sha256: 08b54140aac99f1bf38c5f7807859c28def6413d5f6b4a87668bbbbc50af7254
+    verdict: OK
+    evidence_quotes:
+      - 'Acción: Activar'
+      - 'Función Especial: Circuito Sirena 1 (marca la casilla correspondiente) [F14]'
+    rationale: >-
+      The answer explicitly selects a concrete siren output and therefore covers
+      the exact atomic claim without needing the extra literal phrase required by
+      the local obligation validator.
+    local_validator_verdict: false_negative
+    local_validator_note: >-
+      The validator over-constrains this claim by requiring the literal anchor
+      Seleccionar Equipos del Lazo even though that phrase is not required by the
+      exact diagnostic claim.
+
+  - claim_id: m0.hp009.closed_loop_return.1
+    qid: hp009
+    answer_sha256: 351a9ff1dd9f15f0e7f0140230f49e1b72e73de41872ed3f292b8164979eec0f
+    verdict: synthesis-miss
+    evidence_quote: '¿Qué modelo concreto estás usando? ¿Es el ZXAE, ZXEE, ZX2e o ZX5e?'
+    rationale: >-
+      The answer asks for clarification but never states that the ZX2e/ZX5e
+      analogue loop is wired as a closed loop.
+    local_validator_verdict: true_negative
+
+  - claim_id: m0.hp009.closed_loop_return.2
+    qid: hp009
+    answer_sha256: 351a9ff1dd9f15f0e7f0140230f49e1b72e73de41872ed3f292b8164979eec0f
+    verdict: synthesis-miss
+    evidence_quote: '¿Qué modelo concreto estás usando? ¿Es el ZXAE, ZXEE, ZX2e o ZX5e?'
+    rationale: >-
+      The answer does not describe the path from Inicio Lazo OUT back to the
+      Retorno terminals on the same loop connector.
+    local_validator_verdict: true_negative
+
+  - claim_id: m0.hp017.rule1.2
+    qid: hp017
+    answer_sha256: 065f1cac7a563553377ed20d22889f870fc53792dd37d8ff37c6b8cf34e6cfd1
+    verdict: synthesis-miss
+    evidence_quote: >-
+      Si no se ha transferido un archivo de configuración a la central,
+      encontrarás dos reglas de causa-efecto por defecto. Deben eliminarse si
+      vas a crear reglas personalizadas [F11].
+    rationale: >-
+      The answer covers deletion of the default rules but omits the required
+      identity and behaviour of Rule 1: any alarm input activates all sirens or
+      outputs.
+    local_validator_verdict: partial_false_negative
+    local_validator_note: >-
+      The deletion sub-obligation is present, but the matcher does not recognise
+      eliminarse as a form of eliminar. The Rule 1 behaviour omission is a true
+      negative.
+
+material_findings:
+  - severity: P1
+    qid: hp009
+    finding: analogue_loop_end_of_line_resistor_error
+    detail: >-
+      The answer says that each circuit, including the analogue circuit, has its
+      own end-of-line resistor. The frozen evidence establishes a closed analogue
+      loop without an end-of-line resistor, so this could cause incorrect wiring.
+  - severity: P1
+    qid: hp017
+    finding: unresolved_revision_conflict_exposed_as_instruction
+    detail: >-
+      The answer instructs the technician to select menu 8 using F8 while F11
+      states menu 7. The planner detected the conflict and omitted that
+      obligation, but the generator selected one revision without disclosing the
+      conflict.
+  - severity: P1
+    qids: [hp009, hp017]
+    finding: guided_contract_is_observe_only
+    detail: >-
+      Guided mode records missing obligations after generation but neither
+      blocks, repairs nor supplements a non-compliant answer. All three probe
+      answers failed local plan coverage and were still returned unchanged.
+
+root_cause:
+  hp009: >-
+    A higher-priority family-clarification instruction overrode the planner's
+    bounded ZXE to ZX2e/ZX5e alignment.
+  hp017: >-
+    The prompt asks the model to integrate each pertinent point and labels the
+    plan as data, leaving the model discretion to omit Rule 1 behaviour.
+  architectural: >-
+    S120 supplies reusable answer obligations but does not enforce them in a
+    closed generation-validation-repair contract.
+
+decision:
+  hp005_claim_credit: CAUSAL_DIAGNOSTIC_OK
+  hp009_claim_credit: NO
+  hp017_claim_credit: NO
+  s120_rollout: NO_GO
+  next_safe_step: >-
+    Design and verify locally a bounded generate-validate-repair-or-fail answer
+    contract with explicit conflict and product-family precedence before seeking
+    authorization for any further paid generation.

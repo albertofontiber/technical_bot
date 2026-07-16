@@ -1,0 +1,19 @@
+instrument: s114_measurement_contract_v1
+status: provisional_baseline_contract_pending_versioned_atomic_split
+historical_view:
+  fact_rows: 129
+  scored_denominator: 127
+  exclusion: two meta-reference rows
+  purpose: Preserve comparability with S100/S113 until a versioned gold migration.
+optimization_view:
+  denominator: pending
+  reason: >-
+    hp013#1 and hp015#2 contain supported positive claims mixed with unsupported
+    absence/impossibility claims. Their cardinality and requiredness must be
+    migrated before an optimization denominator can be computed honestly.
+reporting_rules:
+  - Do not call the partial S113 histogram official.
+  - Stage transitions count as causal progress even when they do not reach OK.
+  - Evaluation-contract corrections do not count as runtime RAG gains.
+  - Recompute the 95 percent target only after atomic migration and full frozen replay.
+provenance_receipt: evals/s114_s106_provenance_receipt_v1.yaml

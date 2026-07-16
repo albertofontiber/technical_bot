@@ -1,0 +1,30 @@
+instrument: s120_adversarial_review_v1
+review_mode: independent_read_only_adversarial
+final_verdict: GO_RESTRICTED_LOCAL_DESIGN_ONLY
+severity:
+  p0_open: 0
+  p1_open: 0
+initial_findings_closed:
+  - id: P1-1
+    finding: cache identity omitted context headers and sampling parameters
+    closure: identity now hashes the single exact provider request envelope plus the versioned obligation packet
+  - id: P1-2
+    finding: preservation compared only obligation kinds and counts
+    closure: versioned S119 and S120 contracts are replayed on identical contexts and their complete ordered obligation payloads are compared
+  - id: P1-3
+    finding: hp017 gate required only rule behavior
+    closure: hp017 now requires both rule behavior and default-rule precondition obligations
+verified_properties:
+  diagnostic_claims_source_bound: 4
+  changed_obligation_packet_qids: [hp005, hp009, hp017]
+  legacy_no_plan_invalidations: [hp005, hp009, hp017]
+  unexpected_packet_changes: 0
+  historical_legacy_kind_mismatches: 0
+  model_calls: 0
+  network_calls: 0
+  database_calls: 0
+restrictions:
+  - no fresh answer was generated
+  - no fact moves to OK under this review
+  - no production release or serving change is authorised
+  - a separately authorised three-question probe and atomic manual adjudication are required

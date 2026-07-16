@@ -1,0 +1,711 @@
+schema_version: s125_m1_known_hold_migration_spec_v1
+instrument: s125_source_first_atomic_migration
+status: FROZEN_BEFORE_ANSWER_REPLAY
+preregistration: evals/s125_m1_known_hold_migration_prereg_v1.yaml
+
+parents:
+  - qid: cat005
+    parent_fact_key: 'cat005#2:4'
+    parent_fact_sha256: c30477c37c3d5942f7c0cd3e5f7500f5a4fffa20479cc2e371f9355d79654176
+    disposition: split
+    decision_reason: Separar la capacidad de conexiones de la comparación entre señales analógica y digital.
+    withdrawn_clauses: []
+    children:
+      - suffix: max_remote_sensors
+        texto: 'La central Fidegas CS4 admite hasta cuatro sensores remotos simultáneos.'
+        valor: '4 sensores'
+        tipo: core
+        requiredness_reason: La capacidad de sensores es una característica técnica pedida.
+        source_context_ids: [934b00a8-739f-4d7b-8853-32caad5232a4]
+      - suffix: analog_digital_inputs
+        texto: 'En la CS4, las entradas digitales son de 0-10/15 V y las analógicas de 4-20 mA.'
+        valor: 'digital 0-10/15 V; analógica 4-20 mA'
+        tipo: core
+        requiredness_reason: La pregunta pide la diferencia funcional entre las dos versiones.
+        source_context_ids: [934b00a8-739f-4d7b-8853-32caad5232a4]
+
+  - qid: cat005
+    parent_fact_key: 'cat005#5:3244 / 3270'
+    parent_fact_sha256: fb0031fbe096519b0e0e99d5f9f59e5c01c6324ed0e0f937e830208200ef3342
+    disposition: split
+    decision_reason: Los dos códigos son asociaciones independientes; la diferencia funcional se acredita en el parent anterior.
+    withdrawn_clauses:
+      - 'La tabla de códigos no demuestra por sí sola la diferencia de conexión entre versiones.'
+    children:
+      - suffix: digital_product_code
+        texto: 'El código de producto de la versión digital de la CS4 es 3244.'
+        valor: '3244'
+        tipo: supplementary
+        requiredness_reason: Identifica la versión digital, pero no es necesario para explicar sus características o diferencia funcional.
+        source_context_ids: [8c9b9f0b-8a51-417f-b05e-63d4dd61ed48]
+      - suffix: analog_product_code
+        texto: 'El código de producto de la versión analógica de la CS4 es 3270.'
+        valor: '3270'
+        tipo: supplementary
+        requiredness_reason: Identifica la versión analógica, pero no es necesario para explicar sus características o diferencia funcional.
+        source_context_ids: [8c9b9f0b-8a51-417f-b05e-63d4dd61ed48]
+
+  - qid: cat007
+    parent_fact_key: 'cat007#0:NC-C-NA'
+    parent_fact_sha256: 7947613c1a4de8b154f34aa61546dcfc776b1f165222da5ffa0c714254e6fc2b
+    disposition: split
+    decision_reason: Separar contactos de alarma y avería preservando el calificador AUX del canal 2.
+    withdrawn_clauses: []
+    children:
+      - suffix: alarm_relay_contacts
+        texto: 'El relé de alarma del canal 1 del FAAST LT-200 dispone de contactos NC, C y NO; la variante de dos canales dispone además de esos contactos para el canal 2.'
+        valor: 'CH1 NC-C-NO; CH2 NC-C-NO solo en variante de dos canales'
+        tipo: core
+        requiredness_reason: La pregunta pide las salidas de relé y sus contactos.
+        source_context_ids: [e49a4944-4157-42e3-a1c5-15ec4a6e8926]
+      - suffix: fault_relay_contacts
+        texto: 'El relé de avería del canal 1 tiene contactos NC, C y NO; la variante de dos canales dispone además de contactos de avería AUX NC, C y NO para el canal 2.'
+        valor: 'CH1 NC-C-NO; CH2 AUX NC-C-NO solo en variante de dos canales'
+        tipo: core
+        requiredness_reason: La pregunta pide las salidas de avería y sus contactos exactos.
+        source_context_ids: [e49a4944-4157-42e3-a1c5-15ec4a6e8926]
+
+  - qid: cat007
+    parent_fact_key: 'cat007#1:no enclavado'
+    parent_fact_sha256: 224f21eed48712efe430932a2aca9421b786fe5288a8775037ed0460ca525ab1
+    disposition: split
+    decision_reason: Conservar solo los comportamientos expresos de la tabla y retirar la inferencia de desenergización.
+    withdrawn_clauses:
+      - 'La fuente servida no expresa que el relé se desenergice ni lo denomina fail-safe.'
+    children:
+      - suffix: fault_conditions
+        texto: 'El FAAST LT-200 indica avería ante una condición de fallo en el canal 1, también en el canal 2 cuando se trata de la variante de dos canales, o ante una avería común.'
+        valor: 'fallo CH1; CH2 solo en variante de dos canales; o común'
+        tipo: core
+        requiredness_reason: Responde cuándo actúa la indicación de avería.
+        source_context_ids: [8221ec70-6882-41b5-8dd6-705a1a7e739a]
+      - suffix: service_or_unpowered
+        texto: 'El FAAST LT-200 también indica avería en modo de servicio y cuando la unidad queda sin alimentación.'
+        valor: 'modo servicio o sin alimentación'
+        tipo: core
+        requiredness_reason: La pregunta menciona de forma explícita el corte de alimentación.
+        source_context_ids: [8221ec70-6882-41b5-8dd6-705a1a7e739a]
+      - suffix: fault_not_latched
+        texto: 'El estado de avería del FAAST LT-200 no está enclavado.'
+        valor: 'no enclavado'
+        tipo: core
+        requiredness_reason: Define el comportamiento operativo del relé de avería.
+        source_context_ids: [8221ec70-6882-41b5-8dd6-705a1a7e739a]
+
+  - qid: cat007
+    parent_fact_key: 'cat007#2:47 kohm'
+    parent_fact_sha256: 1034ff01c53cc99a4dd5fb36bd73633ce5f7a7c8d18689c9778d8e326895b374
+    disposition: split
+    decision_reason: Separar la asignación de salidas y su resistencia EOL, sin inferir que no sean relés.
+    withdrawn_clauses:
+      - 'La tabla de bornes no formula la negación categórica «no son contactos de relé».'
+    children:
+      - suffix: sounder_outputs
+        texto: 'La salida de sirena 1 del FAAST LT-200 corresponde al canal 1 y tiene bornes negativo y positivo; la variante de dos canales dispone además de la salida de sirena 2, correspondiente al canal 2, con bornes negativo y positivo.'
+        valor: 'sirena 1 CH1 -/+; sirena 2 CH2 -/+ solo en variante de dos canales'
+        tipo: core
+        requiredness_reason: La pregunta pide qué salidas de sirena existen.
+        source_context_ids: [e49a4944-4157-42e3-a1c5-15ec4a6e8926, 8221ec70-6882-41b5-8dd6-705a1a7e739a]
+      - suffix: sounder_eol
+        texto: 'La salida de sirena 1 del FAAST LT-200 y, en la variante de dos canales, también la salida de sirena 2 utilizan una resistencia de fin de línea de 47 kΩ.'
+        valor: '47 kΩ por salida; salida 2 solo en variante de dos canales'
+        tipo: core
+        requiredness_reason: La pregunta pide expresamente el valor de la resistencia de fin de línea.
+        source_context_ids: [e49a4944-4157-42e3-a1c5-15ec4a6e8926]
+
+  - qid: cat007
+    parent_fact_key: 'cat007#4:10^5'
+    parent_fact_sha256: 57b09969a2ce13fd4c80f959dd9aee026a287bac0e0d4e6855bace08c54bfaa7
+    disposition: unresolved
+    decision_reason: El contexto textual congelado expresa «105» y no permite demostrar el superíndice de «10^5» sin una evidencia visual congelada.
+    withdrawn_clauses:
+      - 'El comentario sobre la pérdida del superíndice pertenece a la auditoría, no al hecho evaluable.'
+      - 'El valor «10^5 operaciones» queda fuera del contrato puntuable hasta disponer de un receipt visual exacto.'
+    children: []
+
+  - qid: cat010
+    parent_fact_key: 'cat010#1:660mW'
+    parent_fact_sha256: 5bec12668a94fa37c2aead006b2d401e08fde63187c335fefd63dccb42b50e61
+    disposition: split
+    decision_reason: Cada parámetro de entidad intrínsecamente segura es una obligación independiente.
+    withdrawn_clauses: []
+    children:
+      - suffix: ui
+        texto: 'Para los terminales + y − del IS-mA1, la tensión máxima de entrada Ui es 28 V.'
+        valor: 'Ui = 28 V'
+        tipo: core
+        requiredness_reason: La pregunta pide los parámetros de seguridad intrínseca de entrada.
+        source_context_ids: [d4ae732f-2838-4134-a558-680b1ac36bb8]
+      - suffix: ii
+        texto: 'Para los terminales + y − del IS-mA1, la corriente máxima de entrada Ii es 93 mA.'
+        valor: 'Ii = 93 mA'
+        tipo: core
+        requiredness_reason: La pregunta pide los parámetros de seguridad intrínseca de entrada.
+        source_context_ids: [d4ae732f-2838-4134-a558-680b1ac36bb8]
+      - suffix: pi
+        texto: 'Para los terminales + y − del IS-mA1, la potencia máxima de entrada Pi es 660 mW.'
+        valor: 'Pi = 660 mW'
+        tipo: core
+        requiredness_reason: La pregunta pide los parámetros de seguridad intrínseca de entrada.
+        source_context_ids: [d4ae732f-2838-4134-a558-680b1ac36bb8]
+      - suffix: ci
+        texto: 'Para los terminales + y − del IS-mA1, la capacitancia interna Ci es 0.'
+        valor: 'Ci = 0'
+        tipo: core
+        requiredness_reason: La pregunta pide los parámetros de seguridad intrínseca de entrada.
+        source_context_ids: [d4ae732f-2838-4134-a558-680b1ac36bb8]
+      - suffix: li
+        texto: 'Para los terminales + y − del IS-mA1, la inductancia interna Li es 0.'
+        valor: 'Li = 0'
+        tipo: core
+        requiredness_reason: La pregunta pide los parámetros de seguridad intrínseca de entrada.
+        source_context_ids: [d4ae732f-2838-4134-a558-680b1ac36bb8]
+
+  - qid: cat012
+    parent_fact_key: 'cat012#0:1,2'
+    parent_fact_sha256: 859bf84ece1e13012eaef07fdb15ce07b1fdcce892bfc0ef2822dbe1bcec74c6
+    disposition: split
+    decision_reason: Separar la fórmula del significado documentado del multiplicador y retirar la referencia de apéndice incorrecta.
+    withdrawn_clauses:
+      - 'La fuente servida sitúa el cálculo en la tabla 2 y no respalda «apéndice §11».'
+    children:
+      - suffix: battery_formula
+        texto: 'La capacidad de batería de la AM-8200 se calcula como Ah = (A + B) × 1,2.'
+        valor: '(A + B) × 1,2'
+        tipo: core
+        requiredness_reason: Es la fórmula solicitada de cálculo de capacidad.
+        source_context_ids: [248eb7da-80d0-470f-bddb-b024c21de8a4]
+      - suffix: tolerance_factor
+        texto: 'El factor 1,2 de la fórmula contempla las tolerancias de fabricación de las baterías.'
+        valor: '1,2'
+        tipo: supplementary
+        requiredness_reason: Explica el multiplicador, pero la fórmula completa ya responde por sí sola cómo calcular la capacidad solicitada.
+        source_context_ids: [3393ccc0-01ff-474b-8b6f-9030ba0253ff]
+
+  - qid: cat012
+    parent_fact_key: 'cat012#1:24 h'
+    parent_fact_sha256: 8f913ebef3a60ac15f58f14132b1f01b2f021e33d709e26a18391fbb2397de36
+    disposition: split
+    decision_reason: Las columnas de espera y alarma son dos términos independientes de la fórmula.
+    withdrawn_clauses: []
+    children:
+      - suffix: standby_term
+        texto: 'A es el consumo total en condiciones de no alarma multiplicado por 24 h o por 72 h.'
+        valor: 'A = reposo × 24 h o 72 h'
+        tipo: core
+        requiredness_reason: Define el término A necesario para aplicar la fórmula.
+        source_context_ids: [248eb7da-80d0-470f-bddb-b024c21de8a4]
+      - suffix: alarm_term
+        texto: 'B es el consumo total en condiciones de alarma multiplicado por 0,5 h.'
+        valor: 'B = alarma × 0,5 h'
+        tipo: core
+        requiredness_reason: Define el término B necesario para aplicar la fórmula.
+        source_context_ids: [248eb7da-80d0-470f-bddb-b024c21de8a4]
+
+  - qid: cat012
+    parent_fact_key: 'cat012#3:18 Ah'
+    parent_fact_sha256: 67cd609181abed521cf9b279b0f564bab0b10b51d6a7782e1b048ec0d65516e6
+    disposition: split
+    decision_reason: Separar configuración admisible y referencias de batería; son detalles de selección, no el cálculo pedido.
+    withdrawn_clauses:
+      - 'La afirmación «alimentación interna de 24 Vcc con un total de 4 A» no queda ligada por este parent a un span servido exacto.'
+    children:
+      - suffix: installed_capacity_range
+        texto: 'La AM-8200 conecta dos baterías de 12 V, con 7 Ah mínimos y 18 Ah máximos.'
+        valor: '2 × 12 V; 7-18 Ah'
+        tipo: supplementary
+        requiredness_reason: Es un límite de selección útil después del cálculo, pero no define cómo calcular Ah.
+        source_context_ids: [241c7c0c-0330-4d9b-b240-448cadfe5642]
+      - suffix: yuasa_capacity
+        texto: 'La batería recomendada Yuasa NP18-12B tiene 17,2 Ah de capacidad a 20 h.'
+        valor: '17,2 Ah a 20 h'
+        tipo: supplementary
+        requiredness_reason: Es una referencia comercial secundaria al método de cálculo.
+        source_context_ids: [241c7c0c-0330-4d9b-b240-448cadfe5642]
+      - suffix: fiamm_capacity
+        texto: 'La batería recomendada Fiamm FG21803 tiene 18 Ah de capacidad a 20 h.'
+        valor: '18 Ah a 20 h'
+        tipo: supplementary
+        requiredness_reason: Es una referencia comercial secundaria al método de cálculo.
+        source_context_ids: [241c7c0c-0330-4d9b-b240-448cadfe5642]
+
+  - qid: cat014
+    parent_fact_key: 'cat014#0:10 anos'
+    parent_fact_sha256: 72ed1610f96bff0e728bb1b4b5fb7ac53708dcb468de15a5a07e27cb676349d7
+    disposition: split
+    decision_reason: Separar la obligación de sustitución del detalle de localización de la fecha.
+    withdrawn_clauses: []
+    children:
+      - suffix: replacement_life
+        texto: 'El detector DGD-600 debe sustituirse diez años después de su fecha de fabricación.'
+        valor: '10 años'
+        tipo: core
+        requiredness_reason: Responde directamente a la vida útil esperada.
+        source_context_ids: [9786969a-8168-457b-aed8-3337235d874f]
+      - suffix: manufacture_date_label
+        texto: 'La fecha de fabricación del DGD-600 está impresa en la pegatina lateral del dispositivo.'
+        valor: 'pegatina lateral'
+        tipo: supplementary
+        requiredness_reason: Ayuda a calcular la fecha de sustitución, pero no cambia la vida útil pedida.
+        source_context_ids: [9786969a-8168-457b-aed8-3337235d874f]
+
+  - qid: cat019
+    parent_fact_key: 'cat019#0:coincidencias'
+    parent_fact_sha256: 6c2692e4d3fd39ac226f17725fb105a8bbb84e39df2dff6d027a404fdfbcc6b0
+    disposition: split
+    decision_reason: Separar creación, lógica de coincidencias y ejemplos ilustrativos.
+    withdrawn_clauses:
+      - 'La generalización «4 = cuatro...» se sustituye por ejemplos que aparecen literalmente en la evidencia servida.'
+    children:
+      - suffix: create_maneuver
+        texto: 'En la CAD-250, una maniobra se crea desde MENÚ > MANIOBRAS pulsando AÑADIR, lo que abre su pantalla de edición.'
+        valor: 'MENÚ > MANIOBRAS > AÑADIR'
+        tipo: core
+        requiredness_reason: La pregunta pide cómo se crea la maniobra.
+        source_context_ids: [d27aaa9e-a6e1-4245-a3f3-2cdef3f5be4c]
+      - suffix: coincidence_semantics
+        texto: 'El campo Coincidencias fija cuántos eventos de entrada deben concurrir para que la salida sea verdadera.'
+        valor: 'número de eventos concurrentes'
+        tipo: core
+        requiredness_reason: Define la lógica de disparo de la maniobra.
+        source_context_ids: [66596504-7f3b-4294-8459-72c7bd5c7983]
+      - suffix: coincidence_examples
+        texto: 'Con dos eventos, Coincidencias = 1 funciona como OR y Coincidencias = 2 exige ambos; con cuatro eventos, el valor 3 exige tres cualesquiera.'
+        valor: '1 de 2; 2 de 2; 3 de 4'
+        tipo: supplementary
+        requiredness_reason: Son ejemplos explicativos; la semántica general ya responde la obligación central.
+        source_context_ids: [66596504-7f3b-4294-8459-72c7bd5c7983]
+
+  - qid: cat019
+    parent_fact_key: 'cat019#1:EVENTO / ACCION'
+    parent_fact_sha256: 650574c29860ac58d998e23f17a29474b7bb960051fbf13ec61d2001d3367a40
+    disposition: split
+    decision_reason: Separar selección de componente, condición semántica y límite de capacidad.
+    withdrawn_clauses: []
+    children:
+      - suffix: add_event_or_action
+        texto: 'Al pulsar AÑADIR en una maniobra, EVENTO define una entrada y ACCIÓN define una salida que debe activarse.'
+        valor: 'EVENTO / ACCIÓN'
+        tipo: core
+        requiredness_reason: La pregunta pide cómo se definen entradas y se asignan salidas.
+        source_context_ids: [3d0273cf-dd42-4e48-89c3-a37e588396ca]
+      - suffix: event_change_and_condition
+        texto: 'La CAD-250 gestiona eventos como cambios de estado; la salida se activa cuando el evento coincide con la condición establecida.'
+        valor: 'cambio de estado + condición'
+        tipo: core
+        requiredness_reason: Es una condición material para interpretar correctamente qué dispara la salida.
+        source_context_ids: [3d0273cf-dd42-4e48-89c3-a37e588396ca]
+      - suffix: capacity_limit
+        texto: 'El sistema soporta hasta 100.000 entradas y salidas configuradas en distintas maniobras.'
+        valor: '100.000 entradas y salidas'
+        tipo: supplementary
+        requiredness_reason: Es un límite de escala, no un paso necesario para configurar una maniobra.
+        source_context_ids: [2720d4cf-7be8-4482-be1a-fba10cc59d5b]
+
+  - qid: cat019
+    parent_fact_key: 'cat019#2:ENTIDAD / CONDICION TEMPORAL'
+    parent_fact_sha256: 77fff66f289222e7ec4af6efec46f0cf6787a60309c73cb984cc00af915ac91f
+    disposition: split
+    decision_reason: Separar los dos tipos de evento y su alcance.
+    withdrawn_clauses: []
+    children:
+      - suffix: event_type_choice
+        texto: 'Al definir un EVENTO, la CAD-250 permite escoger entre ENTIDAD y CONDICIÓN TEMPORAL.'
+        valor: 'ENTIDAD / CONDICIÓN TEMPORAL'
+        tipo: core
+        requiredness_reason: Identifica las dos vías para definir las entradas pedidas.
+        source_context_ids: [3d0273cf-dd42-4e48-89c3-a37e588396ca]
+      - suffix: entity_scope
+        texto: 'Una entidad puede ser instalación, panel, lazo, área, zona, dispositivo, grupo o modo virtual del sistema local o de la red.'
+        valor: 'jerarquía local o de red'
+        tipo: core
+        requiredness_reason: Define sobre qué elementos puede construirse el evento de entrada.
+        source_context_ids: [3d0273cf-dd42-4e48-89c3-a37e588396ca]
+      - suffix: temporal_condition
+        texto: 'Una condición temporal establece el periodo durante el cual la ecuación de entrada es verdadera y puede realizarse la acción de salida.'
+        valor: 'periodo de validez de la entrada'
+        tipo: core
+        requiredness_reason: Define la alternativa temporal para disparar una maniobra.
+        source_context_ids: [3d0273cf-dd42-4e48-89c3-a37e588396ca]
+
+  - qid: cat023
+    parent_fact_key: 'cat023#0:A/B/C EN 54-20'
+    parent_fact_sha256: 7ed9d4ed696ccfe3dd6e04bdb3ab6ac9652d4bd52e268c0b1820f13c97af7e74
+    disposition: rewrite
+    decision_reason: Hacer la enumeración autosuficiente conservando el sujeto y el estándar.
+    withdrawn_clauses: []
+    children:
+      - suffix: en54_classes
+        texto: 'El detector de aspiración Securiton ASD 532 cumple EN 54-20 en clase A (sensibilidad muy alta), B (alta) y C (normal).'
+        valor: 'A / B / C'
+        tipo: core
+        requiredness_reason: La pregunta pide exactamente las clases de sensibilidad disponibles.
+        source_context_ids: [30088b95-62fd-436c-af4a-8cdae8008996]
+
+  - qid: cat023
+    parent_fact_key: "cat023#1:W01-W44 / 10-60 min / \u00b120-50 %"
+    parent_fact_sha256: bf0ef37152274a9cd5908a0ec587c93b5fb857857b6b49502992a19123d26890
+    disposition: rewrite
+    decision_reason: Conservar el mecanismo W01-W44 con sus restricciones normativas y retirar una generalización no exhaustiva de valores.
+    withdrawn_clauses:
+      - 'No se atribuye a todas las posiciones W01-W44 el mismo conjunto cerrado de retardos y desviaciones.'
+    children:
+      - suffix: nonnormative_airflow_positions
+        texto: 'En el ASD 532, las posiciones W01-W44 configuran límites no normativos de monitorización del flujo de aire; solo deben usarse tras consultar al fabricante y sus valores no están homologados según EN 54-20.'
+        valor: 'W01-W44; no homologado EN 54-20'
+        tipo: core
+        requiredness_reason: Responde cómo se configura esa modalidad y preserva las restricciones de seguridad y conformidad.
+        source_context_ids: [0de5172f-c3cb-4572-92ec-dde4ecdedb3c]
+
+  - qid: hp002
+    parent_fact_key: 'hp002#0:fallo flujo de aire'
+    parent_fact_sha256: 4de86fac80358a1477d2c76264d60f015065e192740c06fe601390d2b6091a74
+    disposition: split
+    decision_reason: Retirar la negativa no sustentada y separar referencia nominal, umbral normativo y excepción W.
+    withdrawn_clauses:
+      - 'La fuente no sustenta que el equipo no dé una «alarma de flujo bajo» como tal.'
+    children:
+      - suffix: nominal_after_reset
+        texto: 'Tras un reset inicial con el conducto de aspiración limpio, el ASD 535 guarda el flujo nominal como 100 %.'
+        valor: '100 %'
+        tipo: core
+        requiredness_reason: Establece la referencia necesaria para diagnosticar un flujo bajo.
+        source_context_ids: [414ce99c-0dec-478c-b504-009f14631804]
+      - suffix: standard_fault_window
+        texto: 'En posiciones A11-C32, una desviación superior a ±20 % —menos de 80 % o más de 120 %— genera «fallo flujo de aire» tras 300 s de retardo LS-Ü.'
+        valor: 'A11-C32; <80 % o >120 %; 300 s'
+        tipo: core
+        requiredness_reason: Define cuándo se confirma el fallo y evita generalizar el umbral a otras configuraciones.
+        source_context_ids: [414ce99c-0dec-478c-b504-009f14631804]
+      - suffix: w_positions_caveat
+        texto: 'Los valores de monitorización en posiciones W01-W48 no están homologados según EN 54-20 y requieren consulta previa con el fabricante.'
+        valor: 'W01-W48; no homologado EN 54-20'
+        tipo: supplementary
+        requiredness_reason: Es una excepción normativa útil, pero la pregunta de diagnóstico se resuelve con la configuración estándar.
+        source_context_ids: [414ce99c-0dec-478c-b504-009f14631804]
+
+  - qid: hp002
+    parent_fact_key: 'hp002#1:80 %'
+    parent_fact_sha256: c2c99fa936e98f67f6874b81aa507f27b5e36e4267e89838b7cfb1298abada02
+    disposition: split
+    decision_reason: Separar dirección diagnóstica del flujo y lista de comprobaciones, sin declarar una causa estadísticamente «más probable».
+    withdrawn_clauses:
+      - 'La fuente no ordena las causas por probabilidad.'
+    children:
+      - suffix: flow_direction_diagnosis
+        texto: 'Un valor de flujo inferior al 100 % apunta a obstrucción; un valor superior al 100 % apunta a rotura de tubo.'
+        valor: '<100 % obstrucción; >100 % rotura'
+        tipo: core
+        requiredness_reason: Responde la interpretación diagnóstica del flujo bajo.
+        source_context_ids: [b5804921-836c-49ca-8316-cecae6da409b]
+      - suffix: obstruction_checks
+        texto: 'Para una obstrucción, el manual indica comprobar orificios y salida de aire, e inspeccionar y limpiar la caja o unidad de filtrado y el sensor de flujo.'
+        valor: 'conducto, filtro y sensor de flujo'
+        tipo: core
+        requiredness_reason: Proporciona las comprobaciones concretas para diagnosticar y corregir el flujo bajo.
+        source_context_ids: [9410f72f-fff5-494b-bdf5-a0a177e7f02e]
+
+  - qid: hp002
+    parent_fact_key: 'hp002#2:300 s'
+    parent_fact_sha256: af5d8e5e2370271210bea63989d231fab2b2b0dafa4582c6356849082f9fded3
+    disposition: merge_duplicate
+    decision_reason: El contenido soportado del parent queda representado una sola vez por el child standard_fault_window; se retira la generalización sin condición.
+    withdrawn_clauses:
+      - 'No se presenta 300 s como retardo universal fuera de A11-C32 y de la desviación superior a ±20 %.'
+    replaced_by:
+      - m1.hp002.4de86fac80358a14.standard_fault_window
+    merge_overlap_anchor: '300 s'
+    children: []
+
+  - qid: hp002
+    parent_fact_key: 'hp002#3:7.6.1'
+    parent_fact_sha256: 06f759b5da9ed40ba3e718ffcbfb92dd8d4ec41a5b4dc001c1df9ee38f2ba91b
+    disposition: split
+    decision_reason: Separar la precondición de seguridad del paso de lectura y comparación, y retirar V01/V02, cuyo alcance por modelo no está en el contexto congelado.
+    withdrawn_clauses:
+      - 'No se acreditan V01/V02 ni su asignación por conducto desde los fragmentos congelados.'
+    children:
+      - suffix: maintenance_safety
+        texto: 'Antes del diagnóstico de mantenimiento deben bloquearse o desconectarse los controles de incendio, las alertas remotas y las zonas de extinción para evitar su disparo.'
+        valor: 'bloquear o desconectar controles, alertas y extinción'
+        tipo: core
+        requiredness_reason: Es una precondición imperativa de seguridad del procedimiento de diagnóstico solicitado.
+        source_context_ids: [5b6a3a19-a924-4cf4-9513-bd50786ee3d9]
+      - suffix: read_and_compare_flow
+        texto: 'Para diagnosticar, lea el valor de flujo en la posición de conmutador V y compárelo con el protocolo de puesta en funcionamiento.'
+        valor: 'posición V + protocolo'
+        tipo: core
+        requiredness_reason: Es el paso operativo para comprobar si la desviación es real e interpretar su dirección.
+        source_context_ids: [5b6a3a19-a924-4cf4-9513-bd50786ee3d9]
+
+  - qid: hp004
+    parent_fact_key: 'hp004#0:24V y 220V'
+    parent_fact_sha256: ae02a395c8359cf997c2e9bf6f2c2341d410e80fc51d441edb159074c6a98630
+    disposition: rewrite
+    decision_reason: Conservar el hecho de variantes por modelo sin convertirlo en una instrucción de conversación.
+    withdrawn_clauses:
+      - '«Ofrecer ambas y pedir aclaración» es conducta de respuesta, no hecho documental.'
+    children:
+      - suffix: supply_variants
+        texto: 'El DGD-600 se fabrica en versiones de alimentación de 24 V y 220 V, según el modelo.'
+        valor: '24 V / 220 V'
+        tipo: core
+        requiredness_reason: Determina que deben darse dos pares de tensión y consumo para responder sin ambigüedad.
+        source_context_ids: [bf78e1db-f87b-4b60-b77f-2afae628c736]
+
+  - qid: hp004
+    parent_fact_key: 'hp004#1:22V a 38V'
+    parent_fact_sha256: 5fbc4f5bce66dde5b4475ed9385131e13119ba654438d015327292b5bd992b7f
+    disposition: split
+    decision_reason: Separar tensión, consumo en reposo y consumo en alarma; este último no es requerido por la pregunta.
+    withdrawn_clauses: []
+    children:
+      - suffix: model24_voltage
+        texto: 'La versión de 24 V del DGD-600 funciona entre 22 y 38 V.'
+        valor: '22-38 V'
+        tipo: core
+        requiredness_reason: La pregunta pide la tensión de funcionamiento.
+        source_context_ids: [9786969a-8168-457b-aed8-3337235d874f]
+      - suffix: model24_standby
+        texto: 'La versión de 24 V del DGD-600 consume 45 mA en reposo.'
+        valor: '45 mA'
+        tipo: core
+        requiredness_reason: La pregunta pide el consumo en reposo.
+        source_context_ids: [9786969a-8168-457b-aed8-3337235d874f]
+      - suffix: model24_alarm
+        texto: 'La versión de 24 V del DGD-600 consume 65 mA en alarma.'
+        valor: '65 mA'
+        tipo: supplementary
+        requiredness_reason: Es una especificación útil, pero la pregunta no pide el consumo en alarma.
+        source_context_ids: [9786969a-8168-457b-aed8-3337235d874f]
+
+  - qid: hp004
+    parent_fact_key: 'hp004#2:180V a 240V'
+    parent_fact_sha256: cf0e1e8fdc95c0051c04a5d54e657b2aef00011acf42882cd7186226bc658794
+    disposition: split
+    decision_reason: Reanclar la tabla y separar tensión, reposo y alarma.
+    withdrawn_clauses: []
+    children:
+      - suffix: model220_voltage
+        texto: 'La versión de 220 V del DGD-600 funciona entre 180 y 240 V.'
+        valor: '180-240 V'
+        tipo: core
+        requiredness_reason: La pregunta pide la tensión de funcionamiento.
+        source_context_ids: [9786969a-8168-457b-aed8-3337235d874f]
+      - suffix: model220_standby
+        texto: 'La versión de 220 V del DGD-600 consume 70 mA en reposo.'
+        valor: '70 mA'
+        tipo: core
+        requiredness_reason: La pregunta pide el consumo en reposo.
+        source_context_ids: [9786969a-8168-457b-aed8-3337235d874f]
+      - suffix: model220_alarm
+        texto: 'La versión de 220 V del DGD-600 consume 70 mA en alarma.'
+        valor: '70 mA'
+        tipo: supplementary
+        requiredness_reason: Es una especificación útil, pero la pregunta no pide el consumo en alarma.
+        source_context_ids: [9786969a-8168-457b-aed8-3337235d874f]
+
+  - qid: hp008
+    parent_fact_key: 'hp008#0:CPX-551E'
+    parent_fact_sha256: 582541b1412a96ced8bbf660f1edea842ebcdc05d6c029b9ec63b2a67333eb8e
+    disposition: split
+    decision_reason: Acreditar cada modelo individual sin cerrar el conjunto de sensores iónicos.
+    withdrawn_clauses:
+      - 'No se afirma que estos sean los únicos sensores iónicos compatibles.'
+    children:
+      - suffix: cpx551e
+        texto: 'El detector iónico CPX-551E figura como sensor compatible con la Notifier ID3000.'
+        valor: 'CPX-551E'
+        tipo: core
+        requiredness_reason: Es un detector de humo analógico compatible pedido por la pregunta.
+        source_context_ids: [11d96526-d627-4305-8cae-e6852af1b20b]
+      - suffix: cpx751e
+        texto: 'El detector iónico de bajo perfil CPX-751E figura como sensor compatible con la Notifier ID3000.'
+        valor: 'CPX-751E'
+        tipo: core
+        requiredness_reason: Es un detector de humo analógico compatible pedido por la pregunta.
+        source_context_ids: [11d96526-d627-4305-8cae-e6852af1b20b]
+
+  - qid: hp008
+    parent_fact_key: 'hp008#1:SDX-751'
+    parent_fact_sha256: 6898c1c2de2ec424a2ded207eb27db533c34507e097380942f8dda09420ba0be
+    disposition: split
+    decision_reason: Acreditar por separado los tres modelos y ligar la clasificación de SDX-751EM a la lista que sí la expresa.
+    withdrawn_clauses: []
+    children:
+      - suffix: sdx551e
+        texto: 'El detector óptico SDX551E figura como sensor compatible con la Notifier ID3000.'
+        valor: 'SDX551E'
+        tipo: core
+        requiredness_reason: Es un detector de humo analógico compatible pedido por la pregunta.
+        source_context_ids: [11d96526-d627-4305-8cae-e6852af1b20b]
+      - suffix: sdx751
+        texto: 'El detector óptico SDX-751 figura como sensor compatible con la Notifier ID3000.'
+        valor: 'SDX-751'
+        tipo: core
+        requiredness_reason: Es un detector de humo analógico compatible pedido por la pregunta.
+        source_context_ids: [11d96526-d627-4305-8cae-e6852af1b20b]
+      - suffix: sdx751em
+        texto: 'El detector óptico SDX-751EM figura como sensor analógico compatible con la Notifier ID3000.'
+        valor: 'SDX-751EM'
+        tipo: core
+        requiredness_reason: Es un detector de humo analógico compatible pedido por la pregunta.
+        source_context_ids: [f15e1eca-7985-4abf-83ee-130d66e1849d]
+
+  - qid: hp008
+    parent_fact_key: 'hp008#2:IRX-751CTEM'
+    parent_fact_sha256: d7fc6ebefe5f9c9233aba97349619247e034d72722845b0f4103861b6f218c07
+    disposition: split
+    decision_reason: Acreditar cada modelo multicriterio sin presentar un conjunto exhaustivo.
+    withdrawn_clauses:
+      - 'No se afirma que sean los únicos sensores multicriterio compatibles.'
+    children:
+      - suffix: irx751ctem
+        texto: 'El sensor multicriterio IRX-751CTEM (SMART 4) figura como compatible con la Notifier ID3000.'
+        valor: 'IRX-751CTEM'
+        tipo: core
+        requiredness_reason: Es un detector de humo analógico compatible pedido por la pregunta.
+        source_context_ids: [11d96526-d627-4305-8cae-e6852af1b20b]
+      - suffix: irx751tem
+        texto: 'El sensor multicriterio IRX-751TEM (SMART 3) figura como compatible con la Notifier ID3000.'
+        valor: 'IRX-751TEM'
+        tipo: core
+        requiredness_reason: Es un detector de humo analógico compatible pedido por la pregunta.
+        source_context_ids: [11d96526-d627-4305-8cae-e6852af1b20b]
+
+  - qid: hp008
+    parent_fact_key: 'hp008#3:SDX-751-TEM'
+    parent_fact_sha256: 9f88aa8a1292a479b1d483be2bdecb6172c4955d35c40f606e51cc45e75b8323
+    disposition: rewrite
+    decision_reason: Normalizar la identidad y ligar la clasificación combinada térmico/humo a la fuente primaria.
+    withdrawn_clauses: []
+    children:
+      - suffix: sdx751tem
+        texto: 'El SDX-751TEM (Optiplex), sensor combinado térmico/humo, figura como compatible con la Notifier ID3000.'
+        valor: 'SDX-751TEM'
+        tipo: core
+        requiredness_reason: Es un detector de humo analógico compatible pedido por la pregunta.
+        source_context_ids: [f15e1eca-7985-4abf-83ee-130d66e1849d]
+
+  - qid: hp017
+    parent_fact_key: 'hp017#0:causa-efecto'
+    parent_fact_sha256: f4849c19a9af72452c802a7f49b98fffbf163fa9354283e62b54dec370229618
+    disposition: rewrite
+    decision_reason: Sustituir la negación no demostrada por el mecanismo positivo explícito.
+    withdrawn_clauses:
+      - 'La fuente no demuestra la inexistencia absoluta de un parámetro único de retardo.'
+    children:
+      - suffix: cause_effect_rules
+        texto: 'En la Notifier PEARL, los retardos de salida pueden especificarse dentro de reglas de causa-efecto.'
+        valor: 'reglas de causa-efecto'
+        tipo: core
+        requiredness_reason: Identifica el mecanismo de programación solicitado.
+        source_context_ids: [570d9951-e3a6-4c64-a927-e26b5e6db842]
+
+  - qid: hp017
+    parent_fact_key: 'hp017#1:instruccion de entrada'
+    parent_fact_sha256: 7258aec395b0f78dcce808ef121a9c7a708791686ed8d66c7a3d55911b288892
+    disposition: split
+    decision_reason: Separar método principal, anatomía de entrada/salida y advertencias de validación, retirando el ejemplo «lazo» no ligado.
+    withdrawn_clauses:
+      - 'El ejemplo «alarma en lazo» no aparece en el span congelado usado para este parent.'
+    children:
+      - suffix: programming_method
+        texto: 'El método principal recomendado para programar las reglas de causa-efecto de la PEARL es el programa de configuración por ordenador; el menú de la central debe reservarse para modificaciones menores.'
+        valor: 'programa de PC principal; panel solo cambios menores'
+        tipo: core
+        requiredness_reason: La pregunta pide cómo programar el retardo y la fuente prescribe el método principal y el alcance limitado del panel.
+        source_context_ids: [d27b1a1b-69cd-4318-a459-f3c86eb757ba]
+      - suffix: input_instruction
+        texto: 'La instrucción de entrada de una regla PEARL define una condición como alarma, avería o cambio de estado en una categoría de entrada.'
+        valor: 'condición de entrada'
+        tipo: core
+        requiredness_reason: La regla necesita una causa o condición que inicie el retardo.
+        source_context_ids: [d27b1a1b-69cd-4318-a459-f3c86eb757ba]
+      - suffix: output_instruction
+        texto: 'La instrucción de salida solo se procesa cuando se cumplen todas las condiciones de entrada y puede accionar sirenas, relés u otros equipos asignados.'
+        valor: 'salida tras cumplir condiciones'
+        tipo: core
+        requiredness_reason: Define qué salida retardada se acciona y bajo qué precondición.
+        source_context_ids: [d27b1a1b-69cd-4318-a459-f3c86eb757ba]
+      - suffix: avoid_contradictory_logic
+        texto: 'Al programar las reglas de causa-efecto de la PEARL deben evitarse las lógicas contradictorias.'
+        valor: 'evitar lógicas contradictorias'
+        tipo: core
+        requiredness_reason: Es una advertencia operativa expresa para programar reglas sin crear conflictos.
+        source_context_ids: [d27b1a1b-69cd-4318-a459-f3c86eb757ba]
+      - suffix: commissioning_test
+        texto: 'Durante la puesta en marcha deben probarse rigurosamente todas las reglas de causa-efecto para verificar que no existan conflictos lógicos.'
+        valor: 'prueba rigurosa en puesta en marcha'
+        tipo: core
+        requiredness_reason: Es la validación obligatoria que cierra de forma segura el procedimiento de programación solicitado.
+        source_context_ids: [d27b1a1b-69cd-4318-a459-f3c86eb757ba]
+
+  - qid: hp017
+    parent_fact_key: 'hp017#3:seis tipos de retardo'
+    parent_fact_sha256: ee150da7e6a7607d6415f092e104304e82a1e73e8eac42daf4f4fde31b188556
+    disposition: rewrite
+    decision_reason: Conservar el contenido explícito y tiparlo como obligación de respuesta a la programación del retardo.
+    withdrawn_clauses: []
+    children:
+      - suffix: delay_types
+        texto: 'A una regla de causa-efecto PEARL se le puede asignar uno de seis tipos de retardo de salida; el tipo determina las acciones disponibles mientras el retardo está activo.'
+        valor: 'seis tipos de retardo'
+        tipo: core
+        requiredness_reason: Elegir el tipo forma parte de programar el comportamiento del retardo solicitado.
+        source_context_ids: [570d9951-e3a6-4c64-a927-e26b5e6db842]
+
+  - qid: hp019
+    parent_fact_key: 'hp019#0:-30 a +60'
+    parent_fact_sha256: 9e06c35fb7c4d8ef9362a0d7fb357f29058b97e6dd527b45a8988469fecea3f1
+    disposition: rewrite
+    decision_reason: Conservar el rango con las excepciones materiales ligadas a caja y conducto.
+    withdrawn_clauses: []
+    children:
+      - suffix: operating_temperature
+        texto: 'El rango estándar de funcionamiento del ASD 535 es de −30 a +60 °C para la caja y el conducto de aspiración; para UL la caja tiene un máximo de +40 °C, y para el conducto pueden acordarse otros rangos con el fabricante.'
+        valor: '−30 a +60 °C; UL caja máx. +40 °C'
+        tipo: core
+        requiredness_reason: Responde el rango pedido preservando las excepciones que modifican su aplicabilidad.
+        source_context_ids: [99908a8c-aa47-4d92-aba4-17d0188e9f6c, 79bc7788-b128-4abc-beea-6317e4d06993]
+
+  - qid: hp020
+    parent_fact_key: 'hp020#0:nivel 2 o 3'
+    parent_fact_sha256: 253dbf5abe806d5cf1c3d66effbdbe9df1e5c3aec8819dc17d722fb6c660e65a
+    disposition: split
+    decision_reason: Separar las capacidades por nivel y eliminar una exclusividad no formulada por la fuente.
+    withdrawn_clauses:
+      - 'No se añade «solo» a la capacidad del nivel 2.'
+    children:
+      - suffix: level2_change
+        texto: 'Con una sesión de nivel de acceso 2 se puede cambiar el código de acceso de nivel 2.'
+        valor: 'sesión NA2 → código NA2'
+        tipo: core
+        requiredness_reason: La pregunta pide cómo gestionar la contraseña de nivel 2.
+        source_context_ids: [1e38f728-ce6a-4753-b24f-46c9106d8c6a]
+      - suffix: level3_change
+        texto: 'Con una sesión de nivel de acceso 3 se puede cambiar el código de acceso de nivel 2 o de nivel 3.'
+        valor: 'sesión NA3 → código NA2 o NA3'
+        tipo: core
+        requiredness_reason: La pregunta pide cómo gestionar la contraseña de nivel 3 y su alcance.
+        source_context_ids: [1e38f728-ce6a-4753-b24f-46c9106d8c6a]
+
+  - qid: hp020
+    parent_fact_key: 'hp020#3:satisfactorio'
+    parent_fact_sha256: 8086e1ff3028ad109548799caa290fe3b7faf6c4963d0cdbd51ba443005c6e77
+    disposition: split
+    decision_reason: Separar confirmación del código y confirmación de éxito en interfaz.
+    withdrawn_clauses: []
+    children:
+      - suffix: reenter_to_confirm
+        texto: 'Después de introducir el nuevo código, se repiten los pasos 03 a 06 para confirmarlo.'
+        valor: 'reintroducir código'
+        tipo: core
+        requiredness_reason: Es un paso necesario del procedimiento de cambio de contraseña.
+        source_context_ids: [1e38f728-ce6a-4753-b24f-46c9106d8c6a]
+      - suffix: success_message
+        texto: 'Tras confirmar el código, la central muestra «Cambio de código de acceso satisfactorio» y se debe seleccionar Aceptar.'
+        valor: 'mensaje satisfactorio + Aceptar'
+        tipo: core
+        requiredness_reason: Confirma que el procedimiento terminó correctamente.
+        source_context_ids: [1e38f728-ce6a-4753-b24f-46c9106d8c6a]

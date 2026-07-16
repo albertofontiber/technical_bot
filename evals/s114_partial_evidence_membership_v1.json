@@ -1,0 +1,153 @@
+{
+  "instrument": "s114_partial_evidence_membership_v1",
+  "status": "frozen_pool_and_context_membership_receipt",
+  "retrieval_pool": "evals/s102_toc_pools.json",
+  "serving_context": "evals/s113_full_contexts_freeze_v1.json",
+  "rows": [
+    {
+      "qid": "cat017",
+      "fact_key": "cat017#2:licencia CLIP por lazo",
+      "receipts": [
+        {
+          "id": "5bb83899-9d94-4fdd-8d42-24a670a036c5",
+          "role": "exact_one_licence_per_clip_loop",
+          "source_file": "HOP-138-9ES issue 5_11-2025_In",
+          "page_number": 5,
+          "content_signals": [
+            "clip",
+            "licence",
+            "loop",
+            "per_loop_quantifier"
+          ],
+          "pool_position": null,
+          "final_context_position": null
+        }
+      ]
+    },
+    {
+      "qid": "hp002",
+      "fact_key": "hp002#3:7.6.1",
+      "receipts": [
+        {
+          "id": "a64c168c-c927-4f8b-a179-e465e6df3976",
+          "role": "v01_v02_switch_positions",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 101,
+          "content_signals": [
+            "v01",
+            "v02"
+          ],
+          "pool_position": null,
+          "final_context_position": null
+        },
+        {
+          "id": "5b6a3a19-a924-4cf4-9513-bd50786ee3d9",
+          "role": "above_below_100_direction",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 121,
+          "content_signals": [
+            "airflow",
+            "threshold_direction"
+          ],
+          "pool_position": 20,
+          "final_context_position": 9
+        }
+      ]
+    },
+    {
+      "qid": "hp010",
+      "fact_key": "hp010#1:Nivel 3",
+      "receipts": [
+        {
+          "id": "64cecd3f-204f-456e-91cc-e563280b1b99",
+          "role": "autosearch_procedure",
+          "source_file": "DXc_Manual de configuracion",
+          "page_number": 48,
+          "content_signals": [
+            "autosearch"
+          ],
+          "pool_position": 20,
+          "final_context_position": 1
+        },
+        {
+          "id": "155a90fe-8c3f-484e-a617-7637fe29b547",
+          "role": "level3_and_memory_unlock",
+          "source_file": "DXc_Manual de configuracion",
+          "page_number": 37,
+          "content_signals": [
+            "level3",
+            "memory_unlock"
+          ],
+          "pool_position": null,
+          "final_context_position": null
+        }
+      ]
+    },
+    {
+      "qid": "hp013",
+      "fact_key": "hp013#1:PWR-R",
+      "receipts": [
+        {
+          "id": "a19e8735-0e84-471a-9224-4be148cc65b9",
+          "role": "pwr_r_input_voltage",
+          "source_file": "ADW535_TD_T140358es_e",
+          "page_number": 56,
+          "content_signals": [
+            "input_voltage",
+            "pwr_r"
+          ],
+          "pool_position": null,
+          "final_context_position": null
+        },
+        {
+          "id": "af577289-5d7f-4dfc-9187-8a3aca92d40d",
+          "role": "lithium_rtc_battery",
+          "source_file": "ADW535_TD_T140358es_e",
+          "page_number": 29,
+          "content_signals": [
+            "eeprom",
+            "rtc_lithium"
+          ],
+          "pool_position": 12,
+          "final_context_position": 12
+        }
+      ]
+    },
+    {
+      "qid": "hp015",
+      "fact_key": "hp015#2:32",
+      "receipts": [
+        {
+          "id": "8954b9b2-18a0-464e-9e17-cc756d944b7c",
+          "role": "zone_disconnect_procedure",
+          "source_file": "CCD-103_Manual_ES_FR_GB_IT",
+          "page_number": 30,
+          "content_signals": [
+            "disable",
+            "zone"
+          ],
+          "pool_position": null,
+          "final_context_position": 1
+        },
+        {
+          "id": "fdb14497-4a5a-43db-a5f3-90f36448663e",
+          "role": "capacity_32_per_zone",
+          "source_file": "CCD-103_Manual_ES_FR_GB_IT",
+          "page_number": 15,
+          "content_signals": [
+            "capacity32",
+            "individual",
+            "zone"
+          ],
+          "pool_position": 12,
+          "final_context_position": 5
+        }
+      ]
+    }
+  ],
+  "cost_receipt": {
+    "database_get_requests": 0,
+    "database_writes": 0,
+    "model_calls": 0
+  }
+}

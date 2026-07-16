@@ -1,0 +1,35 @@
+instrument: s116_cross_extractor_challenge_prereg_v1
+status: frozen_before_challenge_replay
+
+source:
+  store_slug: llm
+  json_files: 28
+  manifest_sha256: 1157f7a03c672a02002235fff703a204915a4b0e3b6a107c4386906eb13ea38a
+  extraction_artifacts_used_in_development: 0
+  pdf_identity_overlap_with_development: 28
+  independence_claim: extraction_mode_only
+  explicit_limitation: not an independent-document held-out
+
+implementations:
+  baseline_chunker_sha256: 58be85e8cdf2cfac475e7f7cd23639b04f7b22a1c60938ffec86e76cb2c60985
+  treatment_chunker_sha256: 4b76ab219854c625f4ce5e55665e2c89d14739e4eee0ab01607aae7ecda4fd43
+
+gate:
+  required:
+    - exact same successfully processed filenames and error tuples in both arms
+    - zero per-document output stream mismatches
+    - zero treatment chunk_lineage_state_failures
+    - zero treatment orphan_or_stale_anchor_chunks
+    - every treatment titled chunk has an internally resolved anchor and atomic full lineage
+    - treatment chunk count increase is at most 15 percent
+  authorizes_only: supporting extractor-shift evidence
+  never_authorizes:
+    - independent-document generalization claim
+    - migration, database, reingestion, index, serving, deployment or production
+    - fact relabeling
+
+cost_contract:
+  database_get_requests: 0
+  database_writes: 0
+  model_calls: 0
+  network_calls: 0

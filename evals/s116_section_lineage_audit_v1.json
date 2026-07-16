@@ -1,0 +1,160 @@
+{
+  "instrument": "s116_section_lineage_audit_v1",
+  "status": "fresh_local_audit_complete",
+  "source_sha256": "227e808a2ba2308acce89f90722fd46a63bad30aae0cde630191154b4ff07d94",
+  "excluded_manufacturers": [
+    "European Safety Systems",
+    "LDA audioTech",
+    "Sensitron",
+    "Spectrex",
+    "Xtralis"
+  ],
+  "eligible_manufacturers": [
+    "Fidegas"
+  ],
+  "summary": {
+    "unique_scope_rows": 968,
+    "eligible_numeric_section_rows": 8,
+    "manufacturers": 1,
+    "documents": 2,
+    "classifications": {
+      "missing_byte_anchor": 3,
+      "self_byte_anchor": 5
+    },
+    "design_section_lineage": "GO",
+    "database_get_requests": 0,
+    "database_writes": 0,
+    "model_calls": 0
+  },
+  "by_manufacturer": {
+    "Fidegas": {
+      "missing_byte_anchor": 3,
+      "self_byte_anchor": 5
+    }
+  },
+  "samples": {
+    "missing_byte_anchor": [
+      {
+        "id": "8e881a07-febb-4f1e-ba9e-144fba1efd10",
+        "manufacturer": "Fidegas",
+        "product_model": "EL-11",
+        "document_id": "84863939-f9f5-4688-9e43-f8114968fe6d",
+        "extraction_sha256": "acabc6ace90b8fc5d0574a15097b1a7a397e47ad1adff6287f0d9b00e71a9d28",
+        "chunk_index": 18,
+        "section_title": "8.3 Sustitución del SRG",
+        "section": "8.3",
+        "classification": "missing_byte_anchor",
+        "compatible_anchor_ids": [],
+        "content_preview": "* Aflojar el tornillo Allen de seguridad y desenroscar la tapa (S/3-IR) o desatornillar los 4 tornillos y quitar la tapa (S/2-IR).\n* Desconectar la regleta de conexiones (1-2-3) y el conector del sensor de la placa electrónica.\n* Desatornil"
+      },
+      {
+        "id": "c45b3bf1-7c54-48e0-9e73-26bf8acefb2a",
+        "manufacturer": "Fidegas",
+        "product_model": "EL-11",
+        "document_id": "4adc55fe-6922-4e0e-b62c-1c79919cec01",
+        "extraction_sha256": "4817baf40c417aee905fb88d054c8650c7abe4eb05b205091eec6500ecd3f335",
+        "chunk_index": 15,
+        "section_title": "5.2.1 Conexión del SRG a 3 hilos",
+        "section": "5.2.1",
+        "classification": "missing_byte_anchor",
+        "compatible_anchor_ids": [],
+        "content_preview": "- **1** (numbered indicator)\n- **PRENSAESTOPAS ATEX** (pointing to the cable gland device with Fidegas logo)\n- **JUNTA** (pointing to the gasket/seal on the cable)\n- Illustration shows a cable gland assembly with cable and gasket\n\n> ⚠️ Una "
+      },
+      {
+        "id": "d9f6caa4-5f13-414a-863d-d1802eecfa6e",
+        "manufacturer": "Fidegas",
+        "product_model": "EL-11",
+        "document_id": "84863939-f9f5-4688-9e43-f8114968fe6d",
+        "extraction_sha256": "acabc6ace90b8fc5d0574a15097b1a7a397e47ad1adff6287f0d9b00e71a9d28",
+        "chunk_index": 13,
+        "section_title": "7.1 Conexión del sensor remoto a 3 hilos",
+        "section": "7.1",
+        "classification": "missing_byte_anchor",
+        "compatible_anchor_ids": [],
+        "content_preview": "Number \"2\" appears in top left corner.]\n\nC) Introducir el cable por el interior del prensaestopas ATEX hasta que asome la cinta, apretar la rosca con ayuda de una llave de forma que el cable y la malla queden bien amarrados.\n\nD) Por último "
+      }
+    ],
+    "self_byte_anchor": [
+      {
+        "id": "6e4159ac-df5e-4674-b7ee-a5701ebf462e",
+        "manufacturer": "Fidegas",
+        "product_model": "EL-11",
+        "document_id": "4adc55fe-6922-4e0e-b62c-1c79919cec01",
+        "extraction_sha256": "4817baf40c417aee905fb88d054c8650c7abe4eb05b205091eec6500ecd3f335",
+        "chunk_index": 16,
+        "section_title": "5.2.2 Conexión del SRG a la Central FIDEGAS®",
+        "section": "5.2.2",
+        "classification": "self_byte_anchor",
+        "compatible_anchor_ids": [
+          "6e4159ac-df5e-4674-b7ee-a5701ebf462e"
+        ],
+        "content_preview": "## 5.2.2 Conexión del SRG a la Central FIDEGAS®\n\nRealizar la conexión del cableado de tal forma que coincidan los colores y la numeración 1-2-3 de la regleta tanto en el SRG como en la Central.\n\nejemplo\n\nCENTRAL ⬅️\n\nGRUPO\nRESISTIVO ⬅️\n\n[Dia"
+      },
+      {
+        "id": "1d1aaa3e-243c-4e5f-92ca-d748fcf41543",
+        "manufacturer": "Fidegas",
+        "product_model": "EL-11",
+        "document_id": "84863939-f9f5-4688-9e43-f8114968fe6d",
+        "extraction_sha256": "acabc6ace90b8fc5d0574a15097b1a7a397e47ad1adff6287f0d9b00e71a9d28",
+        "chunk_index": 19,
+        "section_title": "8.4 Repuestos",
+        "section": "8.4",
+        "classification": "self_byte_anchor",
+        "compatible_anchor_ids": [
+          "1d1aaa3e-243c-4e5f-92ca-d748fcf41543"
+        ],
+        "content_preview": "## 8.4 Repuestos\n\nListado de repuestos disponibles:\n\n| Ref. S/3-IR | Ref. S/2-IR | Gas                 | Rango                     | Ref. Repuesto |\n| ----------- | ----------- | ------------------- | ------------------------- | -----------"
+      },
+      {
+        "id": "1afc7d4a-02ba-4944-a294-039aa9f06403",
+        "manufacturer": "Fidegas",
+        "product_model": "EL-11",
+        "document_id": "4adc55fe-6922-4e0e-b62c-1c79919cec01",
+        "extraction_sha256": "4817baf40c417aee905fb88d054c8650c7abe4eb05b205091eec6500ecd3f335",
+        "chunk_index": 17,
+        "section_title": "5.2.3 Conexión del SRG a otros dispositivos",
+        "section": "5.2.3",
+        "classification": "self_byte_anchor",
+        "compatible_anchor_ids": [
+          "1afc7d4a-02ba-4944-a294-039aa9f06403"
+        ],
+        "content_preview": "## 5.2.3 Conexión del SRG a otros dispositivos\n\nEn caso de conectar el SRG a otro dispositivo tipo PLC se debe comprobar que éste disponga de entrada/s estándar 4-20 mA o en su defecto entradas analógicas en tensión.\n\nPara transformar la se"
+      },
+      {
+        "id": "910c38f3-0bf1-4734-b99b-d27937648e1c",
+        "manufacturer": "Fidegas",
+        "product_model": "EL-11",
+        "document_id": "84863939-f9f5-4688-9e43-f8114968fe6d",
+        "extraction_sha256": "acabc6ace90b8fc5d0574a15097b1a7a397e47ad1adff6287f0d9b00e71a9d28",
+        "chunk_index": 14,
+        "section_title": "7.2 Conexión del sensor remoto a la Central FIDEGAS®",
+        "section": "7.2",
+        "classification": "self_byte_anchor",
+        "compatible_anchor_ids": [
+          "910c38f3-0bf1-4734-b99b-d27937648e1c"
+        ],
+        "content_preview": "## 7.2 Conexión del sensor remoto a la Central FIDEGAS®\n\nRealizar la conexión del cableado de tal forma que coincidan los colores y la numeración 1-2-3 de la regleta tanto en el sensor remoto como en la Central.\n\n[Figure 8: Two technical di"
+      },
+      {
+        "id": "effc991f-98cc-49e2-8843-83ec99719873",
+        "manufacturer": "Fidegas",
+        "product_model": "EL-11",
+        "document_id": "84863939-f9f5-4688-9e43-f8114968fe6d",
+        "extraction_sha256": "acabc6ace90b8fc5d0574a15097b1a7a397e47ad1adff6287f0d9b00e71a9d28",
+        "chunk_index": 16,
+        "section_title": "7.5 Conexión del sensor remoto a otros dispositivos",
+        "section": "7.5",
+        "classification": "self_byte_anchor",
+        "compatible_anchor_ids": [
+          "effc991f-98cc-49e2-8843-83ec99719873"
+        ],
+        "content_preview": "## 7.5 Conexión del sensor remoto a otros dispositivos\n\nEn caso de conectar el Sensor Remoto a otro dispositivo tipo PLC se debe comprobar que éste disponga de entrada/s estándar 4-20 mA, entradas analógicas en tensión o algún tipo de comun"
+      }
+    ]
+  },
+  "limitations": [
+    "This is a seven-manufacturer local slice, not a full 31-manufacturer corpus estimate.",
+    "Metadata/byte disagreement proves lineage loss, not semantic answer relevance.",
+    "The audit authorizes design only; no migration, re-ingestion or serving change."
+  ]
+}

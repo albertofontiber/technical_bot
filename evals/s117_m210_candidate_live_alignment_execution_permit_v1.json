@@ -1,0 +1,30 @@
+{
+  "instrument": "s117_m210_candidate_live_alignment_execution_permit_v1",
+  "schema_version": 1,
+  "status": "authorized_two_seeded_local_alignment_derivations",
+  "bindings": {
+    "preregistration_sha256": "f7c18ba5b82cb101e420a88e389d5fd0674718fc19b8966ec4ea125f9e8738ba",
+    "design_sha256": "350a866ba30c7001fcb8b7841d3f6a7b03428d06ce5c4fa5a5d70b3b28d47641",
+    "runner_sha256": "b4efe85bc763c2b16afa6c5022da1de4ccfec34521e279c3670430020726aa29",
+    "runner_tests_sha256": "74f306eeec9cb9bdbcaaa639dbcba55889ee7bd740c3028c35803c4ec9157b60"
+  },
+  "allowed_seeds": [
+    1,
+    2
+  ],
+  "additional_candidate_execution": false,
+  "authorization": {
+    "alignment_execution": true,
+    "raw_store_read": false,
+    "chunk_execution": false,
+    "additional_candidate_execution": false,
+    "database": false,
+    "network": false,
+    "models": false,
+    "load": false,
+    "serving": false,
+    "deploy": false,
+    "facts_moved_to_ok": 0,
+    "M3": "BLOCKED"
+  }
+}

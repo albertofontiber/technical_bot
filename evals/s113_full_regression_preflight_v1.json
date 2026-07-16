@@ -1,0 +1,809 @@
+{
+  "instrument": "s113_full_regression_preflight_v1",
+  "scope": {
+    "questions": 39,
+    "fact_rows": 129,
+    "baseline": "evals\\s100_factlevel_full.yaml",
+    "final_contexts": "evals\\s113_full_contexts_freeze_v1.json"
+  },
+  "implementation_receipts": [
+    {
+      "path": "src\\rag\\post_rerank_coverage.py",
+      "sha256": "9ee025edefc23c7480fd83cc1a5290a6bace58ef1c009d871ebbccf3704b694e",
+      "actual_sha256": "9ee025edefc23c7480fd83cc1a5290a6bace58ef1c009d871ebbccf3704b694e",
+      "equal": true
+    },
+    {
+      "path": "src\\rag\\structural_neighbor_coverage.py",
+      "sha256": "05b582f400a47d609506184cb3bd768716a3981cd40f9d9ae6ddf38c8e7efe31",
+      "actual_sha256": "05b582f400a47d609506184cb3bd768716a3981cd40f9d9ae6ddf38c8e7efe31",
+      "equal": true
+    },
+    {
+      "path": "src\\rag\\doc_scoped_hyq_coverage.py",
+      "sha256": "5da66df253fda4a7034a709d6997fe2b52006ca30b940b6091c5be3567ec792e",
+      "actual_sha256": "5da66df253fda4a7034a709d6997fe2b52006ca30b940b6091c5be3567ec792e",
+      "equal": true
+    },
+    {
+      "path": "src\\rag\\rerank_pool_coverage.py",
+      "sha256": "52c3f4bc0772f86e1ea5d79e06e8e814446f949db2a8f65e0223da36f7efe66c",
+      "actual_sha256": "52c3f4bc0772f86e1ea5d79e06e8e814446f949db2a8f65e0223da36f7efe66c",
+      "equal": true
+    },
+    {
+      "path": "config\\structural_cascade_coverage_v1.yaml",
+      "sha256": "ec58bcc0f58633d15b8d15a775b190f458431d14ccc8edad571c481da4f46d41",
+      "actual_sha256": "ec58bcc0f58633d15b8d15a775b190f458431d14ccc8edad571c481da4f46d41",
+      "equal": true
+    },
+    {
+      "path": "config\\evidence_coverage_facets_cascade_v1.yaml",
+      "sha256": "aad39ea6562a3faf05ae84c19ae0a0354a978721a61712b2112b8dc38dd5a06d",
+      "actual_sha256": "aad39ea6562a3faf05ae84c19ae0a0354a978721a61712b2112b8dc38dd5a06d",
+      "equal": true
+    }
+  ],
+  "gate": {
+    "questions_with_changed_context": 19,
+    "questions_with_nonempty_answer_plan": 8,
+    "exact_paid_answer_reuses": 24,
+    "new_generator_calls_required": 15,
+    "baseline_hydration_get_batches": 0,
+    "reranker_calls_required": 0,
+    "judge_calls_required_for_preflight": 0,
+    "database_writes": 0,
+    "interpretation": "ZERO_GENERATION_FULL_COHORT_MANIFEST"
+  },
+  "rows": [
+    {
+      "qid": "cat001",
+      "question": "En la Notifier PEARL, ¿cuántos equipos admite un lazo SLC y qué límites de cableado hay (aisladores), y cómo se dan de alta y editan esos equipos desde la central?",
+      "context_source": "s113_integrated_context_with_appends",
+      "appended_ids": [
+        "78565d3f-0baa-45e2-abb7-2290ec92baaf",
+        "048da7d8-1618-431f-aa59-29a0f19eb520",
+        "a92b566d-4a7e-4e04-91ef-a8d3b66d7723",
+        "b8b6aa5c-1a81-4c6c-997c-f53df112c155"
+      ],
+      "appended_lanes": [
+        "same_blob_structural_neighbor_coverage_v1",
+        "same_blob_structural_neighbor_coverage_v1",
+        "retrieval_pool_coverage_v1",
+        "cascaded_structural_neighbor_coverage_v1"
+      ],
+      "context_rows": 14,
+      "serving_context_sha256": "fa7799f93c4ec90cde264058889e044ac19f8348eca8a4d9ada39a63039412c2",
+      "guided_prompt_sha256": "01236e74d5bb814579f7e00b172348726db621dc13d505c134c512cfb3422183",
+      "obligation_kinds": [
+        "source_statement"
+      ],
+      "obligation_count": 1,
+      "reuse_source": null,
+      "requires_new_generator_call": true,
+      "answer_sha256": null
+    },
+    {
+      "qid": "cat005",
+      "question": "¿Cuáles son las características técnicas de la central de detección de gas Fidegas CS4, y en qué se diferencian las versiones digital y analógica?",
+      "context_source": "s113_integrated_bit_inert_prefix",
+      "appended_ids": [],
+      "appended_lanes": [],
+      "context_rows": 10,
+      "serving_context_sha256": "e61f236107ac5d122ec8e966361a2238a1ad962a78248aedd35cb3655b632c98",
+      "guided_prompt_sha256": "db735b45405b413f3360dbdd2f6e1d290903ab2bc9bc9fa9e32588014a9cd03a",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": "s100_bit_inert_no_plan",
+      "requires_new_generator_call": false,
+      "answer_sha256": "757125181ded1712bdf192bcf50f45c654cb663cfd9c2327c88a33928812bdc6"
+    },
+    {
+      "qid": "cat007",
+      "question": "En el detector por aspiración FAAST LT-200, ¿qué salidas de relé y de sirena tiene y con qué contactos, cómo se comporta el relé de avería ante un fallo o un corte de alimentación, qué resistencia de fin de línea llevan las salidas de sirena y cuál es la especificación eléctrica de los contactos de relé?",
+      "context_source": "s113_integrated_context_with_appends",
+      "appended_ids": [
+        "1b3a2b55-ea39-4a6c-b676-c70673708fa0"
+      ],
+      "appended_lanes": [
+        "retrieval_pool_coverage_v1"
+      ],
+      "context_rows": 11,
+      "serving_context_sha256": "9faa74ef260255c450d26a2e5f6decc806441496ea95e3a8d74fe55752513b66",
+      "guided_prompt_sha256": "99ccb73cead7056bb7f74d429ae9b06f2d21b1fffd41b5afbfb3cd90b370bb86",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": null,
+      "requires_new_generator_call": true,
+      "answer_sha256": null
+    },
+    {
+      "qid": "cat008",
+      "question": "¿Cómo se cablea el módulo de entrada M710 / MI-DMMI en el lazo, y qué resistencias necesita (fin de línea y modo 3 estados)?",
+      "context_source": "s113_integrated_context_with_appends",
+      "appended_ids": [
+        "f3793f7a-c0ab-4a5a-847b-534dbccd58a9"
+      ],
+      "appended_lanes": [
+        "canonical_document_hyq_coverage_v1"
+      ],
+      "context_rows": 11,
+      "serving_context_sha256": "0bb4848acd45480557501ab09eb0f76a1cbc4b8900608c6f7075e3ac54afd5eb",
+      "guided_prompt_sha256": "a1f4a3afc7213a1cdd1a221a5fe7e577cce5c84fa56be45fc2bfa2bc44d63bd3",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": null,
+      "requires_new_generator_call": true,
+      "answer_sha256": null
+    },
+    {
+      "qid": "cat009",
+      "question": "¿Qué resistencia de fin de línea (EOL) hay que instalar en las líneas de zona de la central convencional NFS Supra?",
+      "context_source": "s113_integrated_context_with_appends",
+      "appended_ids": [
+        "c2eafe7a-71ee-49bc-9af5-1c7b091a721c",
+        "f1192f4c-1250-4e64-af82-ce4dc42ff6a7"
+      ],
+      "appended_lanes": [
+        "retrieval_pool_coverage_v1",
+        "cascaded_structural_neighbor_coverage_v1"
+      ],
+      "context_rows": 12,
+      "serving_context_sha256": "06b168077139187fc63718252b26a44867712cef7d0f6852a10c0bde732900da",
+      "guided_prompt_sha256": "69dbd30cad31c28038748b729a3653870ca54c4e07329edbe7a723b3c483569f",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": "s112_incremental_exact_context_no_plan",
+      "requires_new_generator_call": false,
+      "answer_sha256": "92072411ec2e890f19b74de88e167cb2188d708b245b09cf540872a134037c21"
+    },
+    {
+      "qid": "cat010",
+      "question": "¿Cómo se alimenta la sirena/avisador intrínsecamente seguro IS-mA1 en una zona peligrosa (ATEX) y cuáles son sus parámetros de seguridad intrínseca de entrada?",
+      "context_source": "s113_integrated_context_with_appends",
+      "appended_ids": [
+        "048f407c-eda7-416e-a63e-6d07a583dd78",
+        "77a0cce8-b238-4507-a4ab-17491badfe0c"
+      ],
+      "appended_lanes": [
+        "retrieval_pool_coverage_v1",
+        "retrieval_pool_coverage_v1"
+      ],
+      "context_rows": 12,
+      "serving_context_sha256": "aa17845e5db16db32e8ef00dcd7d1582b36a2886829c4e55d77163018fb683b8",
+      "guided_prompt_sha256": "91d7879256962c4789b9bb639efe6b302fdbff48f8727e7f077c828f7590c87b",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": "s112_incremental_exact_context_no_plan",
+      "requires_new_generator_call": false,
+      "answer_sha256": "1fe51fc989d8100a98f399fd1357945ca4ee81ec33df81f1f7d85543b3556634"
+    },
+    {
+      "qid": "cat011",
+      "question": "Necesito un detector de humos analógico direccionable «751» para una instalación Notifier; ¿cuál es el modelo correcto?",
+      "context_source": "s113_integrated_bit_inert_prefix",
+      "appended_ids": [],
+      "appended_lanes": [],
+      "context_rows": 10,
+      "serving_context_sha256": "3f88ab331bf5c79ea53fe359851534a41bf86f3ece71c35f2d3036489933ebfb",
+      "guided_prompt_sha256": "eff0d3ba024520b072d983128076382d8e3e1a838d2642b457e52339909fd392",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": "s100_bit_inert_no_plan",
+      "requires_new_generator_call": false,
+      "answer_sha256": "a412cf6b92e995f82e5d04fddb6a52025c3b1e3fb918a3c6545862daf59a0f0d"
+    },
+    {
+      "qid": "cat012",
+      "question": "¿Cómo se calcula la capacidad de batería (en Ah) necesaria para la central AM-8200?",
+      "context_source": "s113_integrated_context_with_appends",
+      "appended_ids": [
+        "c6548c39-28c7-4e96-bf0b-fcdbec2edd69"
+      ],
+      "appended_lanes": [
+        "canonical_document_hyq_coverage_v1"
+      ],
+      "context_rows": 11,
+      "serving_context_sha256": "1a9cd257f0b44fc9fbe71a80bd661d1b5cd3e56d453dcd34a8368190f05d682e",
+      "guided_prompt_sha256": "f2eb618a6fa6b1b19276d434f049450faa6423138513111e924cd925fc4f7f1e",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": null,
+      "requires_new_generator_call": true,
+      "answer_sha256": null
+    },
+    {
+      "qid": "cat013",
+      "question": "Tengo una central Detnov CAD-150 y me ha sobrado de otra instalacion un detector optico Notifier SDX-751; ¿es compatible / puedo montarlo en su lazo?",
+      "context_source": "s113_integrated_bit_inert_prefix",
+      "appended_ids": [],
+      "appended_lanes": [],
+      "context_rows": 10,
+      "serving_context_sha256": "689a9f7c0f0e7971f2756455947b63e3b7cbaaad565f7c41fca06fc34af35693",
+      "guided_prompt_sha256": "bba6f3a825e69613880a903c01cbe12862abbb9443c9d86a7f3f619e3949126f",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": "s100_bit_inert_no_plan",
+      "requires_new_generator_call": false,
+      "answer_sha256": "d562c1bb0e307905da86cd6f58fadc6d3e76571b6df705df45aba46699ee830f"
+    },
+    {
+      "qid": "cat014",
+      "question": "¿Cual es el MTBF / vida util esperada del detector de gas DGD-600 de Detnov?",
+      "context_source": "s113_integrated_bit_inert_prefix",
+      "appended_ids": [],
+      "appended_lanes": [],
+      "context_rows": 4,
+      "serving_context_sha256": "a7a3ba9c5250adc0bb2b7bc924a3ac7a99f142ed9fd4ea7ca856faa2a4afc335",
+      "guided_prompt_sha256": "4cb518b9c94ef22560f14348135317752d9333bcf7340bcb797f5a2dd698b012",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": "s100_bit_inert_no_plan",
+      "requires_new_generator_call": false,
+      "answer_sha256": "fd58880b00009b45ee5f229d7a53935721070e9d57400c1c9c0f63876d117319"
+    },
+    {
+      "qid": "cat015",
+      "question": "¿Como se actualiza el firmware de la central Detnov CAD-150?",
+      "context_source": "s113_integrated_bit_inert_prefix",
+      "appended_ids": [],
+      "appended_lanes": [],
+      "context_rows": 9,
+      "serving_context_sha256": "18babdef82acda80aec5cb7306e7abc2ff1369a53b0beb739c8746174cefe1d3",
+      "guided_prompt_sha256": "ce62c634f98cd48cfe7bf251eb40ab3e24a99aa0df89fc43affb8d99ef82f6b0",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": "s100_bit_inert_no_plan",
+      "requires_new_generator_call": false,
+      "answer_sha256": "6f64c547d480402b7104c6db682e68fa86007e492595013f8875188a13a187e9"
+    },
+    {
+      "qid": "cat016",
+      "question": "En la Detnov CAD-150, ¿como se da de alta un detector nuevo en el lazo y como se prueba que funciona?",
+      "context_source": "s113_integrated_bit_inert_prefix",
+      "appended_ids": [],
+      "appended_lanes": [],
+      "context_rows": 10,
+      "serving_context_sha256": "428bb40c52653ee7397b4af7d02c824d5431aca5cc13edb76eed36191af94219",
+      "guided_prompt_sha256": "5087647885e29c4f4323470d6209901e132ec2ca907a10005b9ef47b5baa4c72",
+      "obligation_kinds": [
+        "commissioning_menu_bundle"
+      ],
+      "obligation_count": 1,
+      "reuse_source": "s112_guided_exact_prompt",
+      "requires_new_generator_call": false,
+      "answer_sha256": "d4c7ec04ec438366d5244c9f718c4cd09fda69ccac6b0709fed9a13a0d427020"
+    },
+    {
+      "qid": "cat017",
+      "question": "¿Como se cablea y se da de alta (configura) un lazo en la central Notifier INSPIRE (E10/E15)?",
+      "context_source": "s113_integrated_context_with_appends",
+      "appended_ids": [
+        "5880b3b6-65dd-421d-8368-0b8e15ecd0b6",
+        "470a499b-d5b0-454c-85bc-db00d48ab4a1",
+        "f702a4ac-9f60-4c93-b3c4-3d991a120751",
+        "a141be4a-48ee-4311-9820-fc765b323ebd"
+      ],
+      "appended_lanes": [
+        "same_blob_structural_neighbor_coverage_v1",
+        "same_blob_structural_neighbor_coverage_v1",
+        "retrieval_pool_coverage_v1",
+        "retrieval_pool_coverage_v1"
+      ],
+      "context_rows": 14,
+      "serving_context_sha256": "333e46bb68d7b81c2b2cb1d5667ce336a55cf98e708b7d8b33544a705440496e",
+      "guided_prompt_sha256": "c7c68a087d0320bd99e30476fc1c8471c82a02193d2cdf425df6ba8c29144bcb",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": null,
+      "requires_new_generator_call": true,
+      "answer_sha256": null
+    },
+    {
+      "qid": "cat018",
+      "question": "¿Como se programa una ecuacion causa-efecto (CBE) en la Notifier AM-8200 para que un evento active una salida?",
+      "context_source": "s113_integrated_context_with_appends",
+      "appended_ids": [
+        "d85a9a89-e469-473a-b345-ee7c77783127",
+        "28567d07-6db2-4034-992f-5bbe8ebfd928",
+        "018b1d28-f1e1-4589-b918-99de0e691f3e"
+      ],
+      "appended_lanes": [
+        "same_blob_structural_neighbor_coverage_v1",
+        "same_blob_structural_neighbor_coverage_v1",
+        "retrieval_pool_coverage_v1"
+      ],
+      "context_rows": 13,
+      "serving_context_sha256": "dfb4d1ba517d7a4d5b44516c777431405a609013fdfae50f75f79d584e01bc9e",
+      "guided_prompt_sha256": "967070c5b6e9ddb2f1efa2fa0031717d86e90cc6432aced1261a5a95d47e985c",
+      "obligation_kinds": [
+        "point_programming_fields",
+        "output_software_type"
+      ],
+      "obligation_count": 2,
+      "reuse_source": "s112_guided_exact_prompt",
+      "requires_new_generator_call": false,
+      "answer_sha256": "23d502d71770ff84af0449924d23c41e05ecc0693501a97fc204e41dccf6c280"
+    },
+    {
+      "qid": "cat019",
+      "question": "¿Como se configura una maniobra (causa-efecto) completa en la Detnov CAD-250: como se crea, como se definen las entradas/eventos que la disparan y como se asignan las salidas?",
+      "context_source": "s113_integrated_context_with_appends",
+      "appended_ids": [
+        "a47cb7d8-c480-48e8-bab8-f1fc6c5c841c",
+        "32e17768-0b00-4823-b938-ea59349eb94a",
+        "4a0c23d0-ef25-400e-989e-48ce4bbabd12",
+        "70819dee-cba1-4311-a434-4208eeac8dfc"
+      ],
+      "appended_lanes": [
+        "same_blob_structural_neighbor_coverage_v1",
+        "same_blob_structural_neighbor_coverage_v1",
+        "retrieval_pool_coverage_v1",
+        "retrieval_pool_coverage_v1"
+      ],
+      "context_rows": 14,
+      "serving_context_sha256": "5cdb58353efff3a498149c734fae6b0e51665d96ac7005bbea3fedcfcfa98030",
+      "guided_prompt_sha256": "430bb3ed5ad29fcab665fad096dca8dcbaa3dc75671f04ff75ce0e9e22e3fe65",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": null,
+      "requires_new_generator_call": true,
+      "answer_sha256": null
+    },
+    {
+      "qid": "cat020",
+      "question": "En una central Morley DXc instalada en Espana, ¿cual es el nivel de alarma y de prealarma por defecto de los detectores, y el maximo configurable?",
+      "context_source": "s113_integrated_bit_inert_prefix",
+      "appended_ids": [],
+      "appended_lanes": [],
+      "context_rows": 10,
+      "serving_context_sha256": "8e9bb404ecf713c89cc4bc914d67987de6f8a1a5800e0a86ce3321206c5165ca",
+      "guided_prompt_sha256": "8e06cb02d67406bc91fd96270031348bbbae1d968e17813ee9e6c3810794b467",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": "s100_bit_inert_no_plan",
+      "requires_new_generator_call": false,
+      "answer_sha256": "3390d9b092d7d9d4b6b6ef100c5462ae5f4e9b2c3091583b4a4d37331ec2222b"
+    },
+    {
+      "qid": "cat021",
+      "question": "Necesito un detector de llama SharpEye «40/40» (Spectrex / Notifier) para una instalación; ¿qué modelo pido?",
+      "context_source": "s113_integrated_bit_inert_prefix",
+      "appended_ids": [],
+      "appended_lanes": [],
+      "context_rows": 10,
+      "serving_context_sha256": "b3cf06d8ddb15b97631849a08578427c5d18f477ef1d5a834878b2cd5d27aafa",
+      "guided_prompt_sha256": "180cedf6c2bc0528f7a973c1e3c716cc9963c89c4e178f5d98abcdecbb2dbe9a",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": "s100_bit_inert_no_plan",
+      "requires_new_generator_call": false,
+      "answer_sha256": "0767cbfc1e57df652b6b38ee4ff6811e9fb05d4925344017a3bfa70f8f4aed7f"
+    },
+    {
+      "qid": "cat022",
+      "question": "En los detectores de llama Spectrex SharpEye 40/40, ¿qué diferencia hay entre el modelo 40/40L y el 40/40L4, y qué significa el sufijo «B» (p. ej. 40/40LB)?",
+      "context_source": "s113_integrated_bit_inert_prefix",
+      "appended_ids": [],
+      "appended_lanes": [],
+      "context_rows": 10,
+      "serving_context_sha256": "6db683b0e58c8285623d5fcf09c9fe7f812064b3fce70d638b7ec72bd018a50b",
+      "guided_prompt_sha256": "5eac749d8e805a9319f30719da555bf8cbb5f4abfe76b86225a9c77557669c87",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": "s100_bit_inert_no_plan",
+      "requires_new_generator_call": false,
+      "answer_sha256": "7c5f202df0de73d3b24867f5f2a59dd4e2f441b20a6a0625cb198c44b83513ba"
+    },
+    {
+      "qid": "cat023",
+      "question": "En el detector de humos por aspiración Securiton ASD532, ¿qué clases de sensibilidad según EN 54-20 ofrece y cómo se configura la monitorización del flujo de aire?",
+      "context_source": "s113_integrated_bit_inert_prefix",
+      "appended_ids": [],
+      "appended_lanes": [],
+      "context_rows": 10,
+      "serving_context_sha256": "931e597c8a88731589429b9488e10cf86197d6b02a4350b1b199c09615b9a870",
+      "guided_prompt_sha256": "d98aa5cb928625affd6304a2d9651bf1572eee3b48390c53aeb1fb2f6acd660b",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": "s100_bit_inert_no_plan",
+      "requires_new_generator_call": false,
+      "answer_sha256": "854b3ec190cb2095306b5b6b7f3f64ec6d4838bae6a49763a5dba389f3009600"
+    },
+    {
+      "qid": "cat024",
+      "question": "¿Cuál es el consumo en alarma de la sirena analógica de zócalo Detnov MAD-472?",
+      "context_source": "s113_integrated_bit_inert_prefix",
+      "appended_ids": [],
+      "appended_lanes": [],
+      "context_rows": 10,
+      "serving_context_sha256": "4ac6e5c8b2b81e718dc894738fe313cb1222bb862a2e315363c0e59fe989e385",
+      "guided_prompt_sha256": "41bd12ef4f8e5de65131b5eb338acd508b7dbcdbbfd075fc2050f73eab43c52f",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": "s100_bit_inert_no_plan",
+      "requires_new_generator_call": false,
+      "answer_sha256": "a857171758b51aba0c1c611110756ec442f9ca897f2edbcf288f71c6ce4d17e5"
+    },
+    {
+      "qid": "hp001",
+      "question": "En la Detnov CAD-250, ¿cómo se entra al menú de programación avanzada?",
+      "context_source": "s113_integrated_bit_inert_prefix",
+      "appended_ids": [],
+      "appended_lanes": [],
+      "context_rows": 10,
+      "serving_context_sha256": "50d1f15b68844207428722a14cee969b6733a05739eb4cb5c9ef2af8a6492684",
+      "guided_prompt_sha256": "09c1e1920832fe4e1f7e169418cd5f72cd3a56a9e70363c5cc3255f67c855ded",
+      "obligation_kinds": [
+        "credential_administrator",
+        "credential_user"
+      ],
+      "obligation_count": 2,
+      "reuse_source": null,
+      "requires_new_generator_call": true,
+      "answer_sha256": null
+    },
+    {
+      "qid": "hp002",
+      "question": "El detector ASD535 de Detnov está dando una alarma intermitente de flujo bajo. ¿Cuál es la causa más probable y cómo se diagnostica?",
+      "context_source": "s113_integrated_context_with_appends",
+      "appended_ids": [
+        "1d1ca159-1155-4f8b-9fc7-bde755133e02"
+      ],
+      "appended_lanes": [
+        "same_blob_structural_neighbor_coverage_v1"
+      ],
+      "context_rows": 11,
+      "serving_context_sha256": "e59f0dbee91026d5a91b5ced7b35b30a21f41c73c00547cca616c537355dee2d",
+      "guided_prompt_sha256": "59595709d2f94fb8e5fb881929f397d1452f61ca96d0b9716645dfedb0bcb837",
+      "obligation_kinds": [
+        "diagnostic_threshold_direction"
+      ],
+      "obligation_count": 1,
+      "reuse_source": null,
+      "requires_new_generator_call": true,
+      "answer_sha256": null
+    },
+    {
+      "qid": "hp003",
+      "question": "¿Cómo se conectan las baterías de 24V en la Detnov CAD-150?",
+      "context_source": "s113_integrated_context_with_appends",
+      "appended_ids": [
+        "b33b4816-f245-4e1d-98b5-f9bc3f7d3ac0",
+        "eaa39792-fb91-411d-a666-d85fb7f7b591"
+      ],
+      "appended_lanes": [
+        "same_blob_structural_neighbor_coverage_v1",
+        "same_blob_structural_neighbor_coverage_v1"
+      ],
+      "context_rows": 12,
+      "serving_context_sha256": "47c255821045bf6222352c315b81236939462a492a957f1ff1920578fda24027",
+      "guided_prompt_sha256": "2878ce60ca4865e7b27551e86d2b4a5ca8603ef15bdf67c17b31a28717c02da4",
+      "obligation_kinds": [
+        "battery_series_spec",
+        "battery_bridge"
+      ],
+      "obligation_count": 2,
+      "reuse_source": null,
+      "requires_new_generator_call": true,
+      "answer_sha256": null
+    },
+    {
+      "qid": "hp004",
+      "question": "¿Cuál es la tensión de funcionamiento y el consumo en reposo del detector DGD-600 de Detnov?",
+      "context_source": "s113_integrated_bit_inert_prefix",
+      "appended_ids": [],
+      "appended_lanes": [],
+      "context_rows": 4,
+      "serving_context_sha256": "a7a3ba9c5250adc0bb2b7bc924a3ac7a99f142ed9fd4ea7ca856faa2a4afc335",
+      "guided_prompt_sha256": "2990373585ce988b1895688747baab7cbd14721bbd64be1aedeaccf0e46eb102",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": "s100_bit_inert_no_plan",
+      "requires_new_generator_call": false,
+      "answer_sha256": "d539baee5b001c3ac14dd1f08566361c5530857c1bbeca9db811162d469f2871"
+    },
+    {
+      "qid": "hp005",
+      "question": "En la Notifier ID3000, ¿cómo se programa una zona para que active una salida de sirena solo cuando haya coincidencia de dos detectores?",
+      "context_source": "s113_integrated_context_with_appends",
+      "appended_ids": [
+        "42baf5eb-dc84-4ae1-ab6d-8b18e3c68afd",
+        "66946fcc-9887-41bc-b189-5fdcdc3c61f3",
+        "5d89b512-318c-43f3-b34d-4cebd57bc494",
+        "6dcccb36-f67b-4057-959b-494d9279e5d4"
+      ],
+      "appended_lanes": [
+        "same_blob_structural_neighbor_coverage_v1",
+        "same_blob_structural_neighbor_coverage_v1",
+        "retrieval_pool_coverage_v1",
+        "retrieval_pool_coverage_v1"
+      ],
+      "context_rows": 14,
+      "serving_context_sha256": "1d765833e9d5abf81791c95a5a875f1c10103381fe9fd7829f41726f658605b4",
+      "guided_prompt_sha256": "ea6f0ced8ddc15f4ba6cbbd6b6eaf763b27770077e8f98104c49c6fa40cb89c1",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": "s112_incremental_exact_context_no_plan",
+      "requires_new_generator_call": false,
+      "answer_sha256": "37dbc93f6e0d9b1e70340f1db774590f01ce682a3f40ec093f645e4d3d4db087"
+    },
+    {
+      "qid": "hp006",
+      "question": "La Notifier AFP-400 muestra el aviso 'Tierra' (Earth Fault). ¿Qué significa y cómo se localiza?",
+      "context_source": "s113_integrated_bit_inert_prefix",
+      "appended_ids": [],
+      "appended_lanes": [],
+      "context_rows": 10,
+      "serving_context_sha256": "6a991fb97e6e0c5ae3b08a1eb94d5ee4609e2a9b3d5438e3e9b9a45a7092493c",
+      "guided_prompt_sha256": "adfff2cf3a73e0c03f33401bd5880cf750569c53832f36b7bac0a48179bc4852",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": "s100_bit_inert_no_plan",
+      "requires_new_generator_call": false,
+      "answer_sha256": "fa2255104e183543730eafeb2d5c6d81ae5fa13b05093881173e1d0590064a8e"
+    },
+    {
+      "qid": "hp007",
+      "question": "¿Cómo se realiza el test anual de un detector VESDA-E VEP según el manual del fabricante?",
+      "context_source": "s113_integrated_bit_inert_prefix",
+      "appended_ids": [],
+      "appended_lanes": [],
+      "context_rows": 10,
+      "serving_context_sha256": "2f70c7209e7934202377ef97728bb1018638ddf681d7a86da4f89db9433ecf1e",
+      "guided_prompt_sha256": "048b92a07a8017bdd3787508dad3c10775943a279f6e5a49f4080efd77754951",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": "s100_bit_inert_no_plan",
+      "requires_new_generator_call": false,
+      "answer_sha256": "b40073ca1a18e4ef7a87cb82c8d2c4791ad8b5ed0bb663fc6b9a3137ac4bc307"
+    },
+    {
+      "qid": "hp008",
+      "question": "¿Qué detectores de humo analógicos son compatibles con la Notifier ID3000?",
+      "context_source": "s113_integrated_bit_inert_prefix",
+      "appended_ids": [],
+      "appended_lanes": [],
+      "context_rows": 10,
+      "serving_context_sha256": "ac6487630d656c48628ce10c00fa5c2d9da6e939058235c546256251d2b083d6",
+      "guided_prompt_sha256": "1b876f2bc72243c912eea9dba198a0dc11b6ba1fbea4ab97511d4ad16bc51411",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": "s100_bit_inert_no_plan",
+      "requires_new_generator_call": false,
+      "answer_sha256": "70a24418558f7f4553566f23a26556b868bd5d0985fd5984aa286fefb7e06ccb"
+    },
+    {
+      "qid": "hp009",
+      "question": "¿Cuál es la resistencia de fin de línea recomendada para los lazos de la central Morley ZXe?",
+      "context_source": "s113_integrated_context_with_appends",
+      "appended_ids": [
+        "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+        "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a"
+      ],
+      "appended_lanes": [
+        "retrieval_pool_coverage_v1",
+        "cascaded_structural_neighbor_coverage_v1"
+      ],
+      "context_rows": 12,
+      "serving_context_sha256": "5f1636fa4c9221e91f310b8b43f742184b0ad0e3bc6877f4eac83e6e082d8f82",
+      "guided_prompt_sha256": "29b9b7dd91f0f58a1c45d2e3bf3efed1410be9f7dcb6a05e4388dd00bfb45a51",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": "s112_incremental_exact_context_no_plan",
+      "requires_new_generator_call": false,
+      "answer_sha256": "524be1fe3fddbf8103a752776fe458740a71319575caca36c12d30fb66a331c6"
+    },
+    {
+      "qid": "hp010",
+      "question": "En la Morley DXc, ¿cómo se añade un nuevo detector al lazo tras la puesta en marcha inicial?",
+      "context_source": "s113_integrated_bit_inert_prefix",
+      "appended_ids": [],
+      "appended_lanes": [],
+      "context_rows": 10,
+      "serving_context_sha256": "b386a14c9cbb0d9febbc995a1c8d92a63d369dfd8a6dc2a85942a6a746cea8fb",
+      "guided_prompt_sha256": "a097132ff75a095170f4aff00c73a6fcae51fb2c82357302ade410c2e45ad178",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": "s100_bit_inert_no_plan",
+      "requires_new_generator_call": false,
+      "answer_sha256": "b766d1ee65757ec29289f55108071802040bd68c8fb762731c2627597fb8886d"
+    },
+    {
+      "qid": "hp011",
+      "question": "En la Morley RP1r, después de descargar la extinción el sistema no vuelve a estado normal tras resetear. ¿Qué comprobar?",
+      "context_source": "s113_integrated_context_with_appends",
+      "appended_ids": [
+        "2d45a70a-5202-442e-af84-c3a176c2178d",
+        "e8c03d86-539f-42b2-b919-50f96949f016",
+        "475a8f18-7c69-4c7a-8111-45bd67334c96"
+      ],
+      "appended_lanes": [
+        "same_blob_structural_neighbor_coverage_v1",
+        "same_blob_structural_neighbor_coverage_v1",
+        "retrieval_pool_coverage_v1"
+      ],
+      "context_rows": 13,
+      "serving_context_sha256": "1b806d3bd9a3805d5b25654cddaa7c5ece683ce0f6cc5e80b41bbd7c1b6dc7e3",
+      "guided_prompt_sha256": "405970a095d35f1e80cdb78826a306c6989067bc1a10b74f36be266c3c096daa",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": null,
+      "requires_new_generator_call": true,
+      "answer_sha256": null
+    },
+    {
+      "qid": "hp012",
+      "question": "¿Cuántos lazos direccionables soporta la Notifier AM2020/AFP1010 y cuántos dispositivos por lazo?",
+      "context_source": "s113_integrated_context_with_appends",
+      "appended_ids": [
+        "0c689993-1954-459b-af05-dc6a0851a39c",
+        "096fb0bb-eda2-4aa3-80a0-6001f2a348bc",
+        "a2451f0d-4382-4820-b058-eb0d7d8af45c",
+        "b162a7eb-50bd-4b0f-88f7-40ad855c6c94"
+      ],
+      "appended_lanes": [
+        "same_blob_structural_neighbor_coverage_v1",
+        "same_blob_structural_neighbor_coverage_v1",
+        "canonical_document_hyq_coverage_v1",
+        "canonical_document_hyq_coverage_v1"
+      ],
+      "context_rows": 14,
+      "serving_context_sha256": "e744b305cc8e37a9273a2162159c06caf2d3c518f136ae825fd92bbfb62a6a55",
+      "guided_prompt_sha256": "959e90fc9ca1b3097bf5d68b001ea5fe1c48f1ccb359b67869f2217e7aa3b047",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": null,
+      "requires_new_generator_call": true,
+      "answer_sha256": null
+    },
+    {
+      "qid": "hp013",
+      "question": "¿Cómo se cambia la batería tampón de la Detnov ADW535 sin perder configuración?",
+      "context_source": "s113_integrated_context_with_appends",
+      "appended_ids": [
+        "2365dfaa-45e5-4c65-9328-194441e375c9",
+        "af577289-5d7f-4dfc-9187-8a3aca92d40d"
+      ],
+      "appended_lanes": [
+        "same_blob_structural_neighbor_coverage_v1",
+        "same_blob_structural_neighbor_coverage_v1"
+      ],
+      "context_rows": 12,
+      "serving_context_sha256": "fdd4ae73fb399442f7bafac72f61ba99a3c41a6a023e68cd085a2e3e2e89bc64",
+      "guided_prompt_sha256": "54792698ee244a26c0f54e3ccaf30045ef33e7851e59e80ba6f19b4a4a5bd835",
+      "obligation_kinds": [
+        "redundant_power_input",
+        "rtc_lithium_battery"
+      ],
+      "obligation_count": 2,
+      "reuse_source": null,
+      "requires_new_generator_call": true,
+      "answer_sha256": null
+    },
+    {
+      "qid": "hp014",
+      "question": "¿Cómo se conecta un módulo de aislamiento de línea en un lazo ID2000?",
+      "context_source": "s113_integrated_context_with_appends",
+      "appended_ids": [
+        "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+        "c3541bb2-a33c-4213-8cf1-0ffcf98604ea"
+      ],
+      "appended_lanes": [
+        "same_blob_structural_neighbor_coverage_v1",
+        "same_blob_structural_neighbor_coverage_v1"
+      ],
+      "context_rows": 12,
+      "serving_context_sha256": "b0cf4ff3c53ec2d53a8c468018069dde4fed2979c50db759442deb81bdbb7edb",
+      "guided_prompt_sha256": "6530dcb0e5ec521de52518b05a3a8df947b07567d69b378fa041ec97dbf29f07",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": null,
+      "requires_new_generator_call": true,
+      "answer_sha256": null
+    },
+    {
+      "qid": "hp015",
+      "question": "En la Detnov CCD-103, ¿cómo se desactiva un detector individualmente sin afectar al resto del lazo?",
+      "context_source": "s113_integrated_bit_inert_prefix",
+      "appended_ids": [],
+      "appended_lanes": [],
+      "context_rows": 10,
+      "serving_context_sha256": "b08aabc8b59c2cae3116166bd50aa5abd4979106fbcfc833d5e00429d53f27c2",
+      "guided_prompt_sha256": "cfddbfd3564e0c8b0f714e1317d5aba808dbaf91834329c8c74e37c7053ad878",
+      "obligation_kinds": [
+        "zone_disable_scope",
+        "zone_device_capacity"
+      ],
+      "obligation_count": 2,
+      "reuse_source": null,
+      "requires_new_generator_call": true,
+      "answer_sha256": null
+    },
+    {
+      "qid": "hp017",
+      "question": "¿Cómo se programa el retardo de salida de alarma principal en la Notifier PEARL?",
+      "context_source": "s113_integrated_context_with_appends",
+      "appended_ids": [
+        "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+        "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+        "ac652044-a4ff-40bd-9011-95521bb79e0f",
+        "39e581ab-3536-4fe5-8faa-4537ca38213f"
+      ],
+      "appended_lanes": [
+        "same_blob_structural_neighbor_coverage_v1",
+        "same_blob_structural_neighbor_coverage_v1",
+        "retrieval_pool_coverage_v1",
+        "retrieval_pool_coverage_v1"
+      ],
+      "context_rows": 14,
+      "serving_context_sha256": "d1b0c6da2c687377fb058acf61069cd3f1d62850f2cbf8fdf7b8ab61bf03cad8",
+      "guided_prompt_sha256": "894151ccb55d9e0e87600736819568aed65111bea9cdacc59d29e6cf4ff74483",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": "s112_incremental_exact_context_no_plan",
+      "requires_new_generator_call": false,
+      "answer_sha256": "de38cdf5358d57c912ce0c7d50e507204fd3ea4cb8c350e8910a50a3b4925b5e"
+    },
+    {
+      "qid": "hp018",
+      "question": "¿Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe?",
+      "context_source": "s113_integrated_context_with_appends",
+      "appended_ids": [
+        "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+        "d79a07b8-745f-4c62-8355-d0cee6fde1db",
+        "53e12a08-1cc2-45e3-8882-3e0854e3ed8c",
+        "f2150c75-b312-4c1b-bac5-e3c6358032db"
+      ],
+      "appended_lanes": [
+        "same_blob_structural_neighbor_coverage_v1",
+        "same_blob_structural_neighbor_coverage_v1",
+        "canonical_document_hyq_coverage_v1",
+        "canonical_document_hyq_coverage_v1"
+      ],
+      "context_rows": 14,
+      "serving_context_sha256": "49217973d299436ad51560c169f647886dc50d7f8e4f15eb9e6dc18b5046db0f",
+      "guided_prompt_sha256": "9c1189814478e863cbf610b03377879288b78a0f0dce17f353617308828390ff",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": null,
+      "requires_new_generator_call": true,
+      "answer_sha256": null
+    },
+    {
+      "qid": "hp019",
+      "question": "¿Cuál es el rango de temperatura de funcionamiento del detector de aspiración ASD535 (Securiton, distribuido por Detnov)?",
+      "context_source": "s113_integrated_bit_inert_prefix",
+      "appended_ids": [],
+      "appended_lanes": [],
+      "context_rows": 10,
+      "serving_context_sha256": "3ff1bd5d57ac7bd09d8953d2d6ca906fd3a4a20f33a0f709785d08f2031e6251",
+      "guided_prompt_sha256": "4d28621bc97e9903b05b6c2abdcc3662b746f5c537d2e59e2c5dfa962a0513b4",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": "s100_bit_inert_no_plan",
+      "requires_new_generator_call": false,
+      "answer_sha256": "245ecbae0a613e65bf3a13da8ca13691401fc3bd83ce5aa834b53fa0b6afd8cf"
+    },
+    {
+      "qid": "hp020",
+      "question": "En la Notifier INSPIRE, ¿cómo se configuran las contraseñas de nivel 2 y nivel 3?",
+      "context_source": "s113_integrated_bit_inert_prefix",
+      "appended_ids": [],
+      "appended_lanes": [],
+      "context_rows": 10,
+      "serving_context_sha256": "c750c14ae98a88eb0a581a32548ec5fd742906ce704852b7625e6ea91397ebca",
+      "guided_prompt_sha256": "bce446019b9fbde9a4ea584d00e3a26c8786134cdb2db4ece7b9926fa3e454ad",
+      "obligation_kinds": [],
+      "obligation_count": 0,
+      "reuse_source": "s100_bit_inert_no_plan",
+      "requires_new_generator_call": false,
+      "answer_sha256": "d247fa2aa57bd17a19c9f80961b39d22f18065636b88c39e0c2e724e9a2e3011"
+    }
+  ],
+  "limitations": [
+    "S100 reuse is allowed only for a context selected as bit-inert by S111 and an empty guided plan.",
+    "This preflight does not classify facts or authorize a release.",
+    "Manual and judge review is still required for changed answers."
+  ]
+}

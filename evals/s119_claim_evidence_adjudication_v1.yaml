@@ -1,0 +1,322 @@
+instrument: s119_claim_evidence_adjudication_v1
+schema_version: 1
+status: frozen_retrospective_source_binding_review
+independent_of_cached_answer_outcome: true
+review_basis: source_truth_and_frozen_generator_context_only
+rows:
+  - claim_id: m0.cat001.isolator_limits.1
+    qid: cat001
+    source_row_key: "cat001#3:32 / 25 / 20"
+    claim_text_sha256: 41cb491163e18ecf1d5c2d6f11d18210189eb14caf8bd2c1bb0d62b64ef8a17c
+    claim_value_sha256: e29c9c180c6279b0b02abd6a1801c7c04082cf486ec027aa13515e4f3884bb6b
+    claim_cita_sha256: d7ac91ab79ae7c7cfa66f578c7f4ce79e582c16bc750c1d8c516c565d666aedb
+    claim_source_pages: ["38"]
+    page_basis: direct_same_manual_explicit_normative_limit
+    evidence_groups:
+      - group_id: en54_32
+        accepted_candidate_id: 503bc41c-4b85-4223-b8c1-103a54a96a26
+        relation: direct_explicit
+        support_spans: ["maximo 32 sensores y o pulsadores entre aisladores"]
+    adjudicator_status: accepted
+  - claim_id: m0.cat001.isolator_limits.2
+    qid: cat001
+    source_row_key: "cat001#3:32 / 25 / 20"
+    claim_text_sha256: 2215518a8c352fc2e4ebb7292723df1da56d6eb2e408ca6cbb061cf22561389a
+    claim_value_sha256: b7a56873cd771f2c446d369b649430b65a756ba278ff97ec81bb6f55b2e73569
+    claim_cita_sha256: d7ac91ab79ae7c7cfa66f578c7f4ce79e582c16bc750c1d8c516c565d666aedb
+    claim_source_pages: ["38"]
+    page_basis: direct_same_manual_explicit_pearl_limit
+    evidence_groups:
+      - group_id: pearl_25
+        accepted_candidate_id: a92b566d-4a7e-4e04-91ef-a8d3b66d7723
+        relation: direct_explicit
+        support_spans: ["centrales pearl no coloque mas de 25 equipos de lazo entre aisladores"]
+    adjudicator_status: accepted
+  - claim_id: m0.cat001.isolator_limits.3
+    qid: cat001
+    source_row_key: "cat001#3:32 / 25 / 20"
+    claim_text_sha256: 6133f409206327bb6072be2a1189a3bef99a0bf0f287cd94f8722f565831366c
+    claim_value_sha256: f5ca38f748a1d6eaf726b8a42fb575c3c71f1864a8143301782de13da2d9202b
+    claim_cita_sha256: df9ee925f2a434756584578751283972908ad4b8bbb034a45be0a8058bfab08a
+    claim_source_pages: ["21", "38"]
+    page_basis: two_same_manual_spans_required_for_no_internal_isolator_and_fet_scope
+    evidence_groups:
+      - group_id: no_internal_isolator_20
+        accepted_candidate_id: 503bc41c-4b85-4223-b8c1-103a54a96a26
+        relation: direct_explicit
+        support_spans: ["equipos sin aisladores internos incluidos equipos de protocolo clip y algunos opal no coloque mas de 20 equipos entre aisladores"]
+      - group_id: fet_20
+        accepted_candidate_id: a92b566d-4a7e-4e04-91ef-a8d3b66d7723
+        relation: direct_explicit
+        support_spans: ["20 si utiliza aisladores fet"]
+    adjudicator_status: accepted
+  - claim_id: m0.cat010.supply.1
+    qid: cat010
+    source_row_key: "cat010#0:24V dc"
+    claim_text_sha256: aa8338007173dcef1bb5dbc828d87f07ac54236696e21fa132d2ebd0d99387af
+    claim_value_sha256: efbf153f248005b3c239a6347db5e71bb02a7a493c7eb4022615bf0eb59b6fc5
+    claim_cita_sha256: 1c085e08913dce612a97d842312ad4602bcb390379f72fbe9da52597d83cf68d
+    claim_source_pages: ["1"]
+    page_basis: direct_same_manual_supply_section
+    evidence_groups:
+      - group_id: nominal_24v
+        accepted_candidate_id: 048f407c-eda7-416e-a63e-6d07a583dd78
+        relation: direct_explicit
+        support_spans: ["designed to operate in a hazardous area from a 24v dc supply"]
+    adjudicator_status: accepted
+  - claim_id: m0.cat010.supply.2
+    qid: cat010
+    source_row_key: "cat010#0:24V dc"
+    claim_text_sha256: 7dee53daa4e9d89496c83aad8a2206742c00648a08c283d83c93a5cdd5abd2c1
+    claim_value_sha256: e0c863cc99538acff80213abff71e92b4a0b020265077d8039a0944c7771182f
+    claim_cita_sha256: 1c085e08913dce612a97d842312ad4602bcb390379f72fbe9da52597d83cf68d
+    claim_source_pages: ["1"]
+    page_basis: direct_same_manual_supply_section
+    evidence_groups:
+      - group_id: barrier_28v_93ma
+        accepted_candidate_id: 048f407c-eda7-416e-a63e-6d07a583dd78
+        relation: direct_explicit
+        support_spans: ["via 28v 93ma resistive atex and iecex certified zener barriers or galvanic isolators"]
+    adjudicator_status: accepted
+  - claim_id: m0.cat017.clss_workflow.1
+    qid: cat017
+    source_row_key: "cat017#4:CLSS"
+    claim_text_sha256: 9a636cdf34b19a0ee29479a47c271fee95db474b318ab1c3feb0a6e186022da2
+    claim_value_sha256: adc58b97e32a9800b8b6cb7318e0a95f1752b1759c21b966f750e4318473adb0
+    claim_cita_sha256: 1be6fb1cea7d20a8dc21c477efeb5bafeccc5fbf0e01662917b3e796936c60fe
+    claim_source_pages: ["5", "18"]
+    page_basis: same_family_current_revision_workflow_pages_replace_older_indexed_citation
+    evidence_groups:
+      - group_id: clss_configuration
+        accepted_candidate_id: e472044e-ce86-4569-ac6f-2bd297bb1c93
+        relation: direct_explicit_current_revision
+        support_spans: ["central debera configurarse previamente con el programa de configuracion de clss"]
+      - group_id: send_to_panel
+        accepted_candidate_id: 6596dfec-a47e-46ec-9aba-8807575b6983
+        relation: direct_explicit_current_revision
+        support_spans: ["configure an empty loop with the protocol of choice", "send the configuration to the panel"]
+    adjudicator_status: accepted
+  - claim_id: m0.hp003.battery_voltage_capacity.1
+    qid: hp003
+    source_row_key: "hp003#0:12V"
+    claim_text_sha256: ccc17b50b12eeb872f5819d4231eb04cfcf990751cb2abd62636d88894ae8bf0
+    claim_value_sha256: 9f3bfae4f45737920521c751c4cdaee9adeb8fb2a24ef40cc8388cb1927f21ca
+    claim_cita_sha256: c2a826a3a1cf37e6c74cfeb277c750777da5deb6171e8e9a49d2dbd6e2975bf3
+    claim_source_pages: ["7"]
+    page_basis: physical_page_7_maps_to_extracted_printed_page_8
+    evidence_groups:
+      - group_id: two_12v_series
+        accepted_candidate_id: eaa39792-fb91-411d-a666-d85fb7f7b591
+        relation: direct_explicit
+        support_spans: ["requieren dos baterias de 12v 7a h", "baterias deben conectarse en serie"]
+    adjudicator_status: accepted
+  - claim_id: m0.hp005.output_selection.1
+    qid: hp005
+    source_row_key: "hp005#3:CIRCUITO SIRENA"
+    claim_text_sha256: c835c250aa35b1d552f53107e87817deb50bc8374711d8815e93a29dbce31bc8
+    claim_value_sha256: cb8386fe08b078e6ca53daaf826a4ea77e0f991c3431dd65cf07a4bd3ba05090
+    claim_cita_sha256: 8eb05f3b26ca0d216ff58db925995fe78fea7fb626794601f21d4079a0f0d7fa
+    claim_source_pages: ["70"]
+    page_basis: cross_manual_same_id3000_programming_workflow_previously_generator_admitted_by_s110
+    evidence_groups:
+      - group_id: select_siren_output
+        accepted_candidate_id: 6dcccb36-f67b-4057-959b-494d9279e5d4
+        relation: explicit_gui_operation_equivalent
+        support_spans: ["aplicar el evento de salida matriz sobre", "funcion especial circuito sirena 1", "seleccionar equipos del lazo"]
+    adjudicator_status: accepted
+  - claim_id: m0.hp009.closed_loop_return.1
+    qid: hp009
+    source_row_key: "hp009#0:Retorno"
+    claim_text_sha256: 5263b9d256b8c78243ee22d1c3e1957f684e8a4c2ad33a1e9c7870e99b3ae383
+    claim_value_sha256: 579ed16857d41f5b2c20536bb3ee16e7fb3c26b06aa1a9cf3f00d04c0b040ea4
+    claim_cita_sha256: b31db4a118e359a9bac6d21115a6626b66b6c5f97b1d39aa60649528c0a8b955
+    claim_source_pages: ["19"]
+    page_basis: direct_same_manual_diagram_page
+    evidence_groups:
+      - group_id: closed_return_topology
+        accepted_candidate_id: a8d7b1a4-41a2-4ee7-9733-fa541bf6552a
+        relation: diagram_entails_closed_out_and_return_path
+        support_spans: ["conexionado lazo analogico", "inicio lazo out", "retorno"]
+    adjudicator_status: accepted
+  - claim_id: m0.hp009.closed_loop_return.2
+    qid: hp009
+    source_row_key: "hp009#0:Retorno"
+    claim_text_sha256: 275f1bb8b5154df72436bf34c19d601b40e7d9d14b5cf341be9185b5f6fe6df5
+    claim_value_sha256: 5bb2a4c04291b7e87227abb2ce4d279310b94b80be5c18c9c9241d9fdfa74070
+    claim_cita_sha256: b31db4a118e359a9bac6d21115a6626b66b6c5f97b1d39aa60649528c0a8b955
+    claim_source_pages: ["19"]
+    page_basis: direct_same_manual_diagram_page
+    evidence_groups:
+      - group_id: out_and_return_terminals
+        accepted_candidate_id: a8d7b1a4-41a2-4ee7-9733-fa541bf6552a
+        relation: diagram_direct_terminal_labels
+        support_spans: ["inicio lazo out", "retorno"]
+    adjudicator_status: accepted
+  - claim_id: m0.hp011.abort.1
+    qid: hp011
+    source_row_key: "hp011#0:ABORT"
+    claim_text_sha256: 121046cdcb55dc64f498aac569ed4cc6043bc3b5a659bd2f1e655c964983538e
+    claim_value_sha256: 05c68a388c2b1ed324db2250d484291e503687ec2dfda75ef34e54808e937883
+    claim_cita_sha256: 5f5b13f2bf0d493d72880b957dedb6778b006515c8f264e60fb24b8f34f49ffc
+    claim_source_pages: ["44"]
+    page_basis: same_manual_operational_restatement_on_page_53_of_page_44_input_behavior
+    evidence_groups:
+      - group_id: abort_latched
+        accepted_candidate_id: c8924d59-a9ce-4379-a3b7-57058ff86a82
+        relation: explicit_general_rule_plus_abort_exception
+        support_spans: ["todas las averias son por defecto enclavadas", "excepcion de la averia en el circuito de paro"]
+    adjudicator_status: accepted
+  - claim_id: m0.hp011.abort.2
+    qid: hp011
+    source_row_key: "hp011#0:ABORT"
+    claim_text_sha256: bf6a711635ed24d78fc0f829a203883b76f8f61d8b6f44324e607a7f860bd4d6
+    claim_value_sha256: f21f61c4a251ee1dfaaaaf207df79b46ec0f6256d8ae0695ada7f9725aaf5e1c
+    claim_cita_sha256: 5f5b13f2bf0d493d72880b957dedb6778b006515c8f264e60fb24b8f34f49ffc
+    claim_source_pages: ["44"]
+    page_basis: same_manual_operational_restatement_on_page_53_of_page_44_input_behavior
+    evidence_groups:
+      - group_id: abort_manual_reset
+        accepted_candidate_id: c8924d59-a9ce-4379-a3b7-57058ff86a82
+        relation: explicit_general_rule_plus_abort_exception
+        support_spans: ["requieren de un rearme manual de la central", "excepcion de la averia en el circuito de paro"]
+    adjudicator_status: accepted
+  - claim_id: m0.hp011.reset_inhibit.1
+    qid: hp011
+    source_row_key: "hp011#1:r.I"
+    claim_text_sha256: 445e6491bb70c01a9b103b36fff2317f4fede5212dd765cd60d0488e272528e4
+    claim_value_sha256: a9059cc45b7730afa981d098122a8dbe99022a2079329de8fea3ca129f13e722
+    claim_cita_sha256: 3fc439933d52d716715c4f386e33ed79c1eb086863e7e32c9a218c5df65428eb
+    claim_source_pages: ["63"]
+    page_basis: direct_same_manual_page
+    evidence_groups:
+      - group_id: reset_inhibit_identity
+        accepted_candidate_id: 475a8f18-7c69-4c7a-8111-45bd67334c96
+        relation: direct_explicit
+        support_spans: ["rearme inhibido tras extincion"]
+    adjudicator_status: accepted
+  - claim_id: m0.hp011.reset_inhibit.2
+    qid: hp011
+    source_row_key: "hp011#1:r.I"
+    claim_text_sha256: 6882f3bfd178dd8229b98003193b5176ac0d5c596d15d535d7379106e10afb47
+    claim_value_sha256: d8156bae0c4243d3742fc4e9774d8aceabe0410249d720c855f98afc88ff846c
+    claim_cita_sha256: e16bcf0e6c43bf754ef0e87d84c21a1f773b29d4a43ef72bc6f737c59365f3d9
+    claim_source_pages: ["63"]
+    page_basis: direct_same_manual_page
+    evidence_groups:
+      - group_id: reset_inhibit_dash
+        accepted_candidate_id: 475a8f18-7c69-4c7a-8111-45bd67334c96
+        relation: direct_explicit
+        support_spans: ["rearme inhibido hasta finalizar extincion o cuando agotado tiempo configurado"]
+    adjudicator_status: accepted
+  - claim_id: m0.hp011.reset_inhibit.3
+    qid: hp011
+    source_row_key: "hp011#1:r.I"
+    claim_text_sha256: bdfdd9c17cc6fa0caef2e417425ba3ca1d2af9afe3fa1da8f5fe280a6d721846
+    claim_value_sha256: f1534392279bddbf9d43dde8701cb5be14b82f76ec6607bf8d6ad557f60f304e
+    claim_cita_sha256: e16bcf0e6c43bf754ef0e87d84c21a1f773b29d4a43ef72bc6f737c59365f3d9
+    claim_source_pages: ["63"]
+    page_basis: direct_same_manual_page
+    evidence_groups:
+      - group_id: reset_inhibit_default_00
+        accepted_candidate_id: 475a8f18-7c69-4c7a-8111-45bd67334c96
+        relation: direct_explicit
+        support_spans: ["00 rearme permitido en cualquier momento por defecto"]
+    adjudicator_status: accepted
+  - claim_id: m0.hp013.eeprom_retention.1
+    qid: hp013
+    source_row_key: "hp013#0:EEPROM"
+    claim_text_sha256: 683891d476274a0f3db331dc1468d71efd0ffd41f048a3ba57ec3a05e9b414af
+    claim_value_sha256: 5ed7f3b66703a9d5b6179ea270537475d5e5276e053692cbf448c400c3be6231
+    claim_cita_sha256: 80cbafe0d523cff6c9a285e122a1624d9690879274d2e273c41e14003edb14cd
+    claim_source_pages: ["14"]
+    page_basis: glossary_page_12_is_explicit_equivalent_of_physical_page_14_core
+    evidence_groups:
+      - group_id: eeprom_configuration
+        accepted_candidate_id: 2365dfaa-45e5-4c65-9328-194441e375c9
+        relation: direct_explicit_definition
+        support_spans: ["eeprom modulo de memoria para los datos del sistema y la configuracion del adw"]
+    adjudicator_status: accepted
+  - claim_id: m0.hp017.rule1.1
+    qid: hp017
+    source_row_key: "hp017#2:Editar Configuracion"
+    claim_text_sha256: 9afcff09a88a94f1cc63de4e46ea8ffff968f5105967de39ebe3bf6ad437b3e2
+    claim_value_sha256: cba60c6365b818aaee84ad1ce53d9ba700a2cd347cf2e7b5acde936e74712820
+    claim_cita_sha256: 7014ff5d6d9eed12de2f0d95a9400c741fa822ebe29571f4a83b9c266de16d21
+    claim_source_pages: ["43"]
+    page_basis: physical_page_43_maps_to_extracted_printed_page_45
+    evidence_groups:
+      - group_id: edit_configuration_navigation
+        accepted_candidate_id: a95f8659-2277-4b32-a413-edd0e6cd2f10
+        relation: direct_explicit
+        support_spans: ["menu editar configuracion seleccione 7 causa y efecto"]
+    adjudicator_status: accepted
+  - claim_id: m0.hp017.rule1.2
+    qid: hp017
+    source_row_key: "hp017#2:Editar Configuracion"
+    claim_text_sha256: d75ea038ce6d2623ab7a2cb8986d1c9db185fb0a4c8ffad28f636e9d82fc6ece
+    claim_value_sha256: c03db5f7aea8c43e9184db3d9d9b71e6d8b2496afcca2edf6ee426c110f925a3
+    claim_cita_sha256: 7014ff5d6d9eed12de2f0d95a9400c741fa822ebe29571f4a83b9c266de16d21
+    claim_source_pages: ["43"]
+    page_basis: physical_page_43_maps_to_extracted_printed_page_45
+    evidence_groups:
+      - group_id: default_rule_one_conflict
+        accepted_candidate_id: a95f8659-2277-4b32-a413-edd0e6cd2f10
+        relation: two_direct_spans_form_required_rule_and_deletion_obligation
+        support_spans: ["regla 1 una regla que diga que para cualquier entrada de alarma todas las sirenas", "las dos reglas de causa efecto por defecto deben eliminarse si se van a crear reglas de causa efecto personalizadas"]
+    adjudicator_status: accepted
+  - claim_id: m0.hp018.eol.1
+    qid: hp018
+    source_row_key: "hp018#1:6K8"
+    claim_text_sha256: 27f0fed727c657ad285e484604db7b82affb13bcbef258a1f7a62c140144231c
+    claim_value_sha256: b1cb4f1748a892519f11ccdc510418bd668728800c805b2cd9d1943610d8e31a
+    claim_cita_sha256: ebfa30da7425a390c75c9be6395c2f5efab9533bc1a1384cd4f8abc8c98d5c55
+    claim_source_pages: ["21", "44"]
+    page_basis: printed_page_20_corresponds_to_physical_page_21_in_same_manual
+    evidence_groups:
+      - group_id: eol_value_rating
+        accepted_candidate_id: 90d51dac-bd0b-4051-b414-ced0fe6e33bb
+        relation: direct_explicit
+        support_spans: ["resistencia 6 8k", "0 5w minimo", "final de linea"]
+    adjudicator_status: accepted
+  - claim_id: m0.hp018.eol.2
+    qid: hp018
+    source_row_key: "hp018#1:6K8"
+    claim_text_sha256: b6fc74cb99c38c212d663145321438c60ca95127b4f4d3cd40190fe576a46a83
+    claim_value_sha256: 37dfeb76d983c99e0e8386e8f2bcf3d122cb4d43b3af4d09504da2aceff6b989
+    claim_cita_sha256: ebfa30da7425a390c75c9be6395c2f5efab9533bc1a1384cd4f8abc8c98d5c55
+    claim_source_pages: ["21", "44"]
+    page_basis: printed_page_20_corresponds_to_physical_page_21_in_same_manual
+    evidence_groups:
+      - group_id: eol_last_position
+        accepted_candidate_id: 90d51dac-bd0b-4051-b414-ced0fe6e33bb
+        relation: final_of_circuit_is_last_device_placement
+        support_spans: ["final de linea rfl en el final del circuito"]
+    adjudicator_status: accepted
+  - claim_id: m0.hp018.max_current.1
+    qid: hp018
+    source_row_key: "hp018#4:1 A"
+    claim_text_sha256: e266bdb57e781ee96dbf7d0c60aa117b71b402664c64e235b28ced249fb4f2e8
+    claim_value_sha256: 621c7f1e443b7ee7ae3fe6b6f497f8883a9b60d2274a37aca36e9e7e97f703df
+    claim_cita_sha256: ebfa30da7425a390c75c9be6395c2f5efab9533bc1a1384cd4f8abc8c98d5c55
+    claim_source_pages: ["21", "44"]
+    page_basis: printed_page_20_corresponds_to_physical_page_21_in_same_manual
+    evidence_groups:
+      - group_id: max_one_amp
+        accepted_candidate_id: 90d51dac-bd0b-4051-b414-ced0fe6e33bb
+        relation: direct_explicit
+        support_spans: ["cada circuito admite un consumo maximo de 1 amp"]
+    adjudicator_status: accepted
+  - claim_id: s118.hp013.power_and_rtc.1
+    qid: hp013
+    source_row_key: "hp013#0:EEPROM"
+    claim_text_sha256: 9d75db03b7a3c813e0ee69a664fc82df2ac6d7c6816765ea6092d8dd5b1d15d2
+    claim_value_sha256: 20fc21b57601d3082d10486bcfea2454b0087731a00ad3f2ed12fe663f593337
+    claim_cita_sha256: 4958e7deedaca3b93e25f878889033574ed4ad431b6ca4516733febd547299a7
+    claim_source_pages: [29]
+    page_basis: direct_same_manual_page_29_s118_child_binding
+    evidence_groups:
+      - group_id: lithium_rtc_components
+        accepted_candidate_id: af577289-5d7f-4dfc-9187-8a3aca92d40d
+        relation: direct_explicit_component_pair
+        support_spans: ["bateria de litio", "modulo de reloj rtc"]
+    adjudicator_status: accepted

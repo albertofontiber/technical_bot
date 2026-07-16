@@ -1,0 +1,29 @@
+{
+  "additional_candidate_execution": false,
+  "allowed_seeds": [
+    1,
+    2
+  ],
+  "authorization": {
+    "M3": "BLOCKED",
+    "chunk_execution": false,
+    "database": false,
+    "deploy": false,
+    "facts_moved_to_ok": 0,
+    "ledger_execution": true,
+    "load": false,
+    "models": false,
+    "network": false,
+    "raw_store_read": false,
+    "serving": false
+  },
+  "bindings": {
+    "design_v2_sha256": "ca137eed64bebaf02fcf43080696209afb30e20638fdd2a9168c38c6ab139a16",
+    "preregistration_sha256": "61e24a20994e4d878ffc99f2368226da90eff0d02e5cf37af70f78e90c40a4d3",
+    "runner_sha256": "87292afc87feb93cf6f6e1ea92ac11a3cf343154039feac0cb2d5924facb0b84",
+    "runner_tests_sha256": "1f65bbead3bd58bd450bcd6a725b9e8047f207ece8770dcf07bd4687431f8c87"
+  },
+  "instrument": "s117_m29_reconciled_loss_ledger_execution_permit_v1",
+  "schema_version": 1,
+  "status": "authorized_two_seeded_local_ledger_executions"
+}

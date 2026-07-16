@@ -1,0 +1,90 @@
+instrument: s117_m25_projection_prereg_v2
+status: frozen_before_seeded_projection
+supersedes: {path: evals/s117_m25_projection_prereg_v1.yaml, sha256: 7858aba21e2f025ad4a7b2f90ea0fc3535a91c44f5c3eeea18f5bff9555bd1ee, verdict: adversarial_NO_GO_not_executed}
+scope:
+  purpose: local_fail_closed_document_binding_projection_only
+  allowed: [local_snapshot_read, local_raw_store_read, local_sidecar_read, local_derived_snapshot_write, local_eval_write]
+  forbidden: [database_access, env_file, model_calls, vector_payloads, database_writes, load, serving, deploy]
+frozen_inputs:
+  primary_freeze: {path: evals/s117_m25_primary_binding_freeze_v1.yaml, sha256: 9d8046ce612107f838921184599820601bc5010ed47f70bbcc778429999c1e83}
+  primary_runner: {path: scripts/s117_m25_freeze_primary_binding.py, sha256: ffd945f37d2573f4204f72868dfb40b5f85b6172218ad00053a7ff68c503c0f4}
+  primary_baseline: {path: evals/s117_m25_primary_binding_baseline_v1.json, sha256: bd7b24e93f730f5bbecd688cacc8fb233abdac07b68096ec934327670df4e626}
+  design_v2: {path: evals/s117_m25_document_binding_fallback_design_v2.md, sha256: 0bc223d5140d4e62827564aaa476d613f99dbfd97fb2a85576960a07b6699fca}
+  design_v3: {path: evals/s117_m25_document_binding_fallback_design_v3.md, sha256: 044381adf9b70aac59db78cb999d70a0e37e9c2ddc561382e265391b20c2d0b6}
+  projection_runner: {path: scripts/s117_m25_project_document_binding.py, sha256: 4285c93382b7256613b40ed8d9e8f30a6e1d0f28edd35193ed14ba459431fa1d}
+  projection_tests: {path: tests/test_s117_m25_project_document_binding.py, sha256: 08086f8b92789b67727caeb20c01fb4a960a24451513225884d43af19ff692fd}
+  m2_prereg: {path: evals/s117_m2_legacy_reuse_prereg_v26.yaml, sha256: 2990ece8c14ebc4a84f666cd27ccc515f20d144cecb655b88c771d2ddca8211c}
+  m2_analyzer: {path: scripts/s117_m2_legacy_reuse_analysis.py, sha256: b53632cb50009c5d41236af1c79c5c2c6d4631cf7f551729f442b8c962dc25ba}
+  m2_seed_baseline: {path: evals/s117_m2_legacy_reuse_replay_seed1_v1.json, sha256: d62ed7647366b22e9642974b5646f669ac80b8c0af4b4353a7e5cef742b5d334}
+  snapshot:
+    path: tmp/s117_m2/remote_snapshot_v1.jsonl.gz
+    sha256: 3013c553da20c72fbfe0dc801dad4ea4b063ecff3138dcf55b5cd7831cf79067
+    canonical_jsonl_sha256: c5c4e1027d85b5023e8834e221bb99799fedbea1a9826f5a42f88ff3ad8da8d5
+selected_paths:
+  snapshot: tmp/s117_m2/remote_snapshot_v1.jsonl.gz
+  primary_baseline: evals/s117_m25_primary_binding_baseline_v1.json
+  derived_snapshot: tmp/s117_m25/derived_snapshot_v2.jsonl.gz
+  m2_prereg: evals/s117_m2_legacy_reuse_prereg_v26.yaml
+  m2_seed_baseline: evals/s117_m2_legacy_reuse_replay_seed1_v1.json
+expected_evidence:
+  source_snapshot: {documents: 1171, chunks: 25090}
+  derived_snapshot: {documents: 1761, chunks: 25090}
+  primary_terminals:
+    primary_unique_active_pdf_sha: 406
+    primary_non_active_pdf_sha: 16
+    primary_ambiguous_pdf_sha: 0
+    primary_absent_pdf_sha: 646
+  binding_documents:
+    primary_unique_active_pdf_sha: 406
+    primary_non_active_pdf_sha: 16
+    primary_ambiguous_pdf_sha: 0
+    fallback_no_base_chunks: 40
+    fallback_null_document_id: 8
+    fallback_ambiguous_document_id: 0
+    fallback_missing_document: 0
+    fallback_ambiguous_document_row: 0
+    fallback_non_active_document: 1
+    fallback_conflicting_valid_pdf_sha: 1
+    fallback_shared_document_id_across_extractions: 6
+    fallback_unique_active_backfill_binding: 590
+    fallback_null_pdf_sha: 0
+    fallback_empty_pdf_sha: 0
+    fallback_malformed_pdf_sha: 0
+  binding_legacy_base_rows:
+    primary_unique_active_pdf_sha: 8262
+    primary_non_active_pdf_sha: 260
+    primary_ambiguous_pdf_sha: 0
+    fallback_no_base_chunks: 0
+    fallback_null_document_id: 25
+    fallback_ambiguous_document_id: 0
+    fallback_missing_document: 0
+    fallback_ambiguous_document_row: 0
+    fallback_non_active_document: 2
+    fallback_conflicting_valid_pdf_sha: 1
+    fallback_shared_document_id_across_extractions: 144
+    fallback_unique_active_backfill_binding: 16396
+    fallback_null_pdf_sha: 0
+    fallback_empty_pdf_sha: 0
+    fallback_malformed_pdf_sha: 0
+  safe_cohort:
+    raws: 590
+    local_rows: 19572
+    policy_eligible_local_rows: 16894
+    preterminals: {__eligible__: 16894, policy_excluded_language: 2678}
+seeded_gate:
+  seeds: [1, 2]
+  require_byte_identical_outputs: true
+  require_primary_receipts: 1068
+  require_primary_manifest_sha256: d1c98e4a35695513c2377fb5e47636aec37234ae9c16bb27123f8921aaf52302
+  require_original_m2_baseline_exact: true
+  require_in_process_projection_determinism: true
+  require_all_projection_checks: true
+cost_contract:
+  actual_projection_database_reads: 0
+  actual_projection_database_writes: 0
+  model_calls: 0
+  vector_payloads_read: 0
+  note: any_nested_m2_database_read_count_describes_the_historical_frozen_snapshot_capture_only
+claim_contract:
+  authority: candidate_only_non_authorizing
+  prohibited_claims: [production_ready, migration_GO, load_GO, serving_GO, causal_OK_improvement]

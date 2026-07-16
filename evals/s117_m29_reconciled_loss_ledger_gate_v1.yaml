@@ -1,0 +1,183 @@
+instrument: s117_m29_reconciled_loss_ledger_gate_v1
+status: RECONCILED_LOSS_LEDGER_GO_STRUCTURAL_ONLY
+authority: reconciled_frozen_evidence_raw_parsed_block_surface_only
+
+decision:
+  contract_integrity: GO
+  seeded_determinism: GO
+  document_reconciliation: GO
+  compact100_integrity: GO
+  candidate_projection_bridge: GO
+  baseline_missing_identity_anchor: GO
+  zero_candidate_missing: GO
+  zero_coverage_regression: GO
+  closed_nonloadable_output: GO
+  leakage_audit: GO
+  pdf_fidelity: NOT_TESTED
+  semantic_quality: NOT_TESTED
+  retrieval_improvement: NOT_TESTED
+  rerank_improvement: NOT_TESTED
+  synthesis_improvement: NOT_TESTED
+  facts_moved_to_ok: 0
+  M3: BLOCKED
+
+frozen_contract:
+  design_v1:
+    path: evals/s117_m29_reconciled_loss_ledger_design_v1.md
+    sha256: 6ff33b249266bb4ad5aeb519bdd7f5cda61af7c2bc20a07e9653a88c1818732c
+  design_v2:
+    path: evals/s117_m29_reconciled_loss_ledger_design_v2.md
+    sha256: ca137eed64bebaf02fcf43080696209afb30e20638fdd2a9168c38c6ab139a16
+  runner:
+    path: scripts/s117_m29_reconciled_loss_ledger.py
+    bytes: 57212
+    sha256: 87292afc87feb93cf6f6e1ea92ac11a3cf343154039feac0cb2d5924facb0b84
+  runner_tests:
+    path: tests/test_s117_m29_reconciled_loss_ledger.py
+    bytes: 26495
+    sha256: 1f65bbead3bd58bd450bcd6a725b9e8047f207ece8770dcf07bd4687431f8c87
+  preregistration:
+    path: evals/s117_m29_reconciled_loss_ledger_prereg_v1.json
+    bytes: 6959
+    sha256: 61e24a20994e4d878ffc99f2368226da90eff0d02e5cf37af70f78e90c40a4d3
+  execution_permit:
+    path: evals/s117_m29_reconciled_loss_ledger_execution_permit_v1.json
+    bytes: 925
+    sha256: 1c6193ce35389b488e5dac9e48aded47f081d3e1cde98abb543a1d26504b7934
+
+verification_before_execution:
+  focused_tests:
+    passed: 53
+    skipped: 1
+    skipped_reason: read_symlink_creation_unavailable_on_windows
+  output_write_symlink_hardlink_junction_tests: GO
+  full_regression:
+    passed: 1074
+    skipped: 3
+  py_compile: GO
+  adversarial_design_review: GO
+  adversarial_implementation_review: GO
+  adversarial_preregistration_review: GO
+  adversarial_permit_review: GO
+
+seeded_execution:
+  order: [seed1, seed2]
+  separate_processes: true
+  sequential: true
+  code_prereg_permit_or_evidence_change_between_processes: false
+  executions_consumed: 2
+  additional_execution: false
+  seed1:
+    seed: 1
+    path: evals/s117_m29_reconciled_loss_ledger_seed1_v1.json
+    process_exit_code: 0
+    bytes: 704522
+    file_sha256: 06c82f2a276b0be28926205dc3910b0c7f3468b97a623c5114d6892bd146daf1
+    logical_payload_sha256: 10124c27030b4a22313eda6f66a7ef964bdc6a8ae76a4826d09de896ec2c4f29
+    status: RECONCILED_LOSS_LEDGER_GO_STRUCTURAL_ONLY
+  seed2:
+    seed: 2
+    path: evals/s117_m29_reconciled_loss_ledger_seed2_v1.json
+    process_exit_code: 0
+    bytes: 704522
+    file_sha256: 06c82f2a276b0be28926205dc3910b0c7f3468b97a623c5114d6892bd146daf1
+    logical_payload_sha256: 10124c27030b4a22313eda6f66a7ef964bdc6a8ae76a4826d09de896ec2c4f29
+    status: RECONCILED_LOSS_LEDGER_GO_STRUCTURAL_ONLY
+  byte_identical: true
+  canonical_json: true
+  exactly_one_final_lf: true
+  loadable: false
+  failures: 0
+
+evidence_mode:
+  candidate_evidence_mode: substituted_from_frozen_treatment_via_exact_projection_hash
+  candidate_per_document_receipts_persisted: false
+  candidate_projection_sha256: 4cd69ba2912a8b7e1899512f99e7a1e3abd4ec970c96e9c4286b28443a0f8881
+  candidate_projection_bytes: 640933
+  frozen_candidate_gain_anchor_sha256: 6b0410a662c5523b04e3c19049199d8f27649653f34a6f3d87fee3a84147a675
+
+population:
+  documents: 1068
+  raw_blocks: 333161
+  baseline_covered_blocks: 333061
+  baseline_missing_blocks: 100
+  candidate_covered_blocks: 333161
+  candidate_missing_blocks: 0
+  coverage_gain_blocks: 100
+  coverage_regression_blocks: 0
+  changed_fingerprint_multiset_documents: 27
+  unchanged_fingerprint_multiset_documents: 1041
+  baseline_authorized_exclusion_identities: 13
+  baseline_unruled_loss_identities: 87
+  reconciled_baseline_missing_identities: 100
+  unresolved_baseline_missing_identities: 0
+
+manifests:
+  documents_sha256: cd46ab22a3288fadc04e4c540ce595175e4d709cd08aebd4e98e04c91d8456dd
+  document_receipts_sha256: f97211522b241251938b145cf3b84b2a75df62f2eabb706d93e63a21bb0c82cd
+  resolved_baseline_missing_sha256: a629340ae4e0144fbaf6ca7ae1f4fa13b00f6cda4075b7f9978b322f0444ffb1
+  resolution_receipts_sha256: 0853022be9de7bd16695729ea002b318de9d4982202059f84dd407af64d43075
+  baseline_missing_identities_sha256: 627dea7dca437ea546c9110d9f844e76a7de0a5f2e3a3f2af6c4d43c3b7ee80e
+  candidate_missing_identities_sha256: 4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945
+
+independent_adversarial_audit:
+  document_receipts_recomputed: 1068
+  document_receipt_mismatches: 0
+  resolution_receipts_recomputed: 100
+  resolution_receipt_mismatches: 0
+  manifests_recomputed: 6
+  manifest_mismatches: 0
+  dependencies_verified: 15
+  dependency_mismatches: 0
+  source_text_leakage: false
+  physical_path_leakage: false
+  exception_leakage: false
+  environment_or_secret_leakage: false
+  result: GO
+
+interpretation:
+  proven:
+    - exact_100_baseline_missing_identities_reconciled_as_candidate_covered
+    - exact_zero_candidate_missing_identities
+    - exact_zero_coverage_regression_identities
+    - per_document_equations_and_receipts_valid
+    - candidate_projection_hash_bridge_valid
+    - deterministic_closed_nonloadable_evidence
+  not_proven:
+    - source_PDF_visual_fidelity
+    - extraction_semantic_correctness
+    - retrieval_rerank_or_synthesis_improvement
+    - fact_OK_transition
+    - production_load_readiness
+  reconciled_identities_are_not_facts: true
+  facts_moved_to_ok: 0
+
+authorization:
+  ledger_execution_complete: true
+  additional_ledger_execution: false
+  M27A_repeat: false
+  raw_store_read: false
+  chunk_execution: false
+  manual_adjudication: false
+  additional_candidate_execution: false
+  database: false
+  network: false
+  models: false
+  embeddings: false
+  retrieval: false
+  context_generation: false
+  load: false
+  serving: false
+  deploy: false
+  facts_moved_to_ok: 0
+  M3: BLOCKED
+
+cost:
+  database_reads: 0
+  database_writes: 0
+  model_calls: 0
+  network_calls: 0
+  raw_store_reads: 0
+  chunk_executions: 0
+  manual_adjudications: 0
+  additional_candidate_executions: 0

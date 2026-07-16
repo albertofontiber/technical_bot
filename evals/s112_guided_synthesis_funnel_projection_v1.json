@@ -1,0 +1,53 @@
+{
+  "instrument": "s112_guided_synthesis_funnel_projection_v1",
+  "status": "candidate_projection_not_official_full_regression",
+  "baseline_headline_histogram": {
+    "OK": 93,
+    "synthesis-miss": 11,
+    "rerank-miss": 14,
+    "retrieval-miss": 7,
+    "rest": 4
+  },
+  "stage_compatible_headline_histogram": {
+    "OK": 110,
+    "synthesis-miss": 11,
+    "rerank-miss": 1,
+    "retrieval-miss": 1,
+    "rest": 6
+  },
+  "root_cause_corrected_work_queue": {
+    "OK": 110,
+    "synthesis-miss": 2,
+    "rerank-miss": 1,
+    "retrieval-miss": 1,
+    "rest": 15
+  },
+  "validated_synthesis_delta_ok": 4,
+  "validated_synthesis_pass_facts": [
+    "cat016#1:menu ZONA + ELEMENTO",
+    "hp001#2:1111",
+    "hp003#0:12V",
+    "hp003#1:cable puente"
+  ],
+  "total_fact_rows": 129,
+  "scored_denominator_excluding_meta_ref": 127,
+  "candidate_ok_rate_percent": 86.61,
+  "target_95_percent_ok_count": 121,
+  "additional_ok_needed_for_95_percent": 11,
+  "bounded_experiment_cost": {
+    "paid_generator_or_editor_calls": 6,
+    "input_tokens": 72754,
+    "output_tokens": 6473,
+    "paid_reranker_calls": 0,
+    "llm_judge_calls": 0
+  },
+  "diagnostic_note": "The corrected work queue reclassifies nine residual synthesis rows as upstream evidence, identity, or document-conflict holds. Reclassification is diagnostic and is not counted as an OK improvement.",
+  "release_gate": {
+    "local_deterministic_regression": "GO_23_OF_23_PROTECTED_FACTS",
+    "exact_hash_adversarial_review": "COMPLETE_4_PASS_1_FAIL_1_HOLD",
+    "cheap_draft_obligation_repair": "NO_GO_ZERO_SEMANTIC_FACT_GAIN",
+    "full_frozen_model_regression": "pending",
+    "held_out_precision_regression": "pending",
+    "official_histogram": false
+  }
+}

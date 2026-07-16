@@ -1,0 +1,48 @@
+instrument: s116_independent_document_holdout_status_v1
+status: blocked_pending_new_extraction_artifacts
+
+local_inventory:
+  development_extraction_artifacts: 1068
+  alternate_extractor_artifacts: 28
+  alternate_pdf_identity_overlap_with_development: 28
+  independent_extracted_documents_available: 0
+  independent_pdfs_without_successful_extraction:
+    - sha256: d46c164bdd68c85b139b78f9e4cffe0c256f44e7013aac5f2d887fc5e9f57324
+      path: Manuales_Notifier_Privado/MADT731_03_A.pdf
+      pages: 2
+      extraction_status: job_ERROR
+    - sha256: 0407a0a76fd8838461741123323a36ae8a60e20fe29d824a70509f3248ac732f
+      path: Manuales_Notifier_Privado/MNDT710.pdf
+      pages: 50
+      extraction_status: job_ERROR
+  limitation: both unavailable documents are one manufacturer and cannot form a generalization cohort alone
+
+next_holdout_contract_to_freeze_before_acquisition:
+  minimum_documents: 12
+  minimum_manufacturers: 4
+  no_pdf_sha256_overlap_with_development: true
+  source_strata:
+    - long manuals over 30 pages
+    - short installation or data sheets up to 5 pages
+    - multilingual or table-heavy manuals
+    - at least one document with repeated page headings if observable from source layout
+  extraction:
+    - use the production-intended extraction configuration
+    - store complete raw artifacts and their SHA-256 before either chunker runs
+    - do not inspect treatment output before cohort and gates are frozen
+  gates:
+    - same successful filenames and exact errors in baseline and treatment
+    - zero per-document content-stream mismatches
+    - zero chunk_lineage_state_failures and orphan anchors
+    - every titled chunk has internally resolved anchor and atomic full lineage
+    - at least 5 documents and 30 chunks carry section titles so the anchor gate is non-vacuous
+    - treatment chunk growth at most 15 percent
+  authorization_if_passed:
+    - design a versioned persistence migration and raw-artifact provenance envelope
+  never_authorized_directly:
+    - production deployment or serving enablement
+    - fact OK relabeling without downstream funnel replay
+
+cost_boundary:
+  new_download_or_extraction_calls_made: 0
+  reason: acquiring a genuinely new cohort expands external scope and cost and needs explicit budget authorization

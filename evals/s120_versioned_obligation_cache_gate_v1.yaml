@@ -1,0 +1,65 @@
+instrument: s120_versioned_obligation_cache_gate_v1
+status: LOCAL_OBLIGATION_CACHE_GO_PROBE_NOT_AUTHORIZED
+authority: local_deterministic_design_only
+lineage:
+  design:
+    path: evals/s120_versioned_obligation_cache_design_v1.md
+    sha256: 1d55b5606f6287b4c6d4aba17d900922a74f12229a6cb6867fa38863c020d571
+  preregistration:
+    path: evals/s120_versioned_obligation_cache_prereg_v1.yaml
+    sha256: 35a394fa9ecfa2cb4ba6dfcb7678dbe8c54584c2c44374300c86d74d80aec971
+  replay:
+    path: evals/s120_versioned_obligation_cache_replay_v1.json
+    sha256: 0e72fdd387f4d9d8ef4c1860b9f4392ea9f55fc3c98bca1af851af8db835f995
+  adversarial_review:
+    path: evals/s120_adversarial_review_v1.yaml
+    sha256: 1f2a24cd583a54ccf1ba291e8aa0572ca1424433c22611243e7d8c5aebb3c0f8
+implementation:
+  answer_planner:
+    path: src/rag/answer_planner.py
+    sha256: a19f8426a1d0d9966ba9a66a310d9ad781688c5493e5ce24ff6661a347bac6a6
+  obligation_contract:
+    path: src/rag/answer_obligation_contract.py
+    sha256: 14255c2592532cfafc923f116ad6e97927dceece2236b398b6f14976890269a7
+  generator:
+    path: src/rag/generator.py
+    sha256: b8b78749b04ac89edba132f678e69b3427b765f81cb60582c3ab99a7ba1195ba
+  replay_script:
+    path: scripts/s120_versioned_obligation_cache_replay.py
+    sha256: fea3fd93a0f065b33fa42f004a333f676666d3d188db8010a08027a029de2b58
+contracts:
+  legacy_planner: answer_planner_s119_v1
+  candidate_planner: answer_planner_s120_v1
+  cache_identity: answer_generation_cache_identity_v1
+  cache_request_binding: exact_provider_request_envelope
+results:
+  frozen_questions: 39
+  source_bound_missing_claims_mapped: 4
+  exact_changed_obligation_packet_qids: [hp005, hp009, hp017]
+  exact_legacy_no_plan_invalidations: [hp005, hp009, hp017]
+  unexpected_obligation_packet_changes: 0
+  historical_legacy_kind_mismatches: 0
+  p0_open: 0
+  p1_open: 0
+  facts_moved_to_ok: 0
+verification:
+  focused_tests:
+    passed: 47
+    failed: 0
+  full_suite:
+    passed: 1197
+    skipped: 5
+    failed: 0
+  git_diff_check: clean
+  model_calls: 0
+  network_calls: 0
+  database_calls: 0
+decision:
+  local_design: GO
+  fresh_answer_probe: NOT_AUTHORIZED
+  production_release: NOT_AUTHORIZED
+  causal_bot_improvement_claimed: false
+  next_permissible_step:
+    action: fresh_guided_answer_probe_then_atomic_manual_adjudication
+    distinct_questions: [hp005, hp009, hp017]
+    maximum_new_answers: 3

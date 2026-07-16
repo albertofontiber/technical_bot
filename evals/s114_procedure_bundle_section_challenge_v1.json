@@ -1,0 +1,1144 @@
+{
+  "instrument": "s114_procedure_bundle_section_challenge_v1",
+  "status": "preregistered_facet_challenge_not_release_evidence",
+  "observed_hashes": {
+    "src\\rag\\procedure_bundle_coverage.py": "cbd3902b823fa7d7d4fb4c9c3f6ba3781a5492c0b2e7be6364291d1cd9461a76",
+    "evals\\s99_hyq_generated.jsonl": "5fb56f1739f8713c263d331b5393ef1904d9a5311ba3f1ac15bd81828b86f8e7",
+    "evals\\s114_procedure_bundle_heldout_freeze_v1.json": "227e808a2ba2308acce89f90722fd46a63bad30aae0cde630191154b4ff07d94",
+    "evals\\s114_procedure_bundle_heldout_replay_v1.json": "f8c40033faf61582729ecd7970f95c45bdcc23bdf40459ea08b163289cc22300"
+  },
+  "gate": {
+    "source_reference_questions": 28,
+    "manufacturers": 5,
+    "manufacturer_names": [
+      "European Safety Systems",
+      "LDA audioTech",
+      "Sensitron",
+      "Spectrex",
+      "Xtralis"
+    ],
+    "potential_explicit_reference_questions": 11,
+    "selected_explicit_reference_questions": 10,
+    "all_source_span_receipts_verified": true,
+    "max_selector_runtime_ms": 172.447,
+    "database_get_requests": 0,
+    "database_writes": 0,
+    "model_calls": 0,
+    "execution_interpretation": "GO_VALID_SECTION_CHALLENGE_EXECUTION",
+    "applicability_interpretation": "PENDING_BLINDED_SELECTION_REVIEW"
+  },
+  "rows": [
+    {
+      "challenge_id": "sec001",
+      "manufacturer": "European Safety Systems",
+      "product_model": "IS-mA1",
+      "chunk_id": "f214a7fc-cff4-4a8b-b6f8-74af62c936b8",
+      "question": "¿Cómo se activan el segundo y tercer tono del IS-mA1 cuando está instalado en zona peligrosa con aisladores galvánicos?",
+      "rank_sha256": "66df24cafa7dc0ee38433dab93ea61d671e1266e1ceb7d276183e8b93e62b4be",
+      "scope_key": "European Safety Systems␟IS-mA1",
+      "candidate_scope_rows": 15,
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 15,
+        "product_scoped_candidates": 14,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      },
+      "selector_runtime_ms": 7.232
+    },
+    {
+      "challenge_id": "sec002",
+      "manufacturer": "LDA audioTech",
+      "product_model": "ONE",
+      "chunk_id": "0e71fa10-d3be-4d97-9931-75bc196879fb",
+      "question": "¿Por qué el equipo ONE me aparece el fallo \"date-time invalid\" nada más instalarlo, es normal?",
+      "rank_sha256": "01afd72487cf1975671a33907914099003c160443239fc7bead7506830067601",
+      "scope_key": "LDA audioTech␟ONE",
+      "candidate_scope_rows": 69,
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 69,
+        "product_scoped_candidates": 68,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      },
+      "selector_runtime_ms": 25.405
+    },
+    {
+      "challenge_id": "sec003",
+      "manufacturer": "LDA audioTech",
+      "product_model": "ONE",
+      "chunk_id": "1133b445-659f-4591-afc2-fba26d3ca013",
+      "question": "¿Qué significa el LED ámbar FLT en la ONE y cómo silencio el pitido de fallo?",
+      "rank_sha256": "243d3459db952bcc92c7cb03cebc86503a8159a78b4025ef82a7ca60a59602b9",
+      "scope_key": "LDA audioTech␟ONE",
+      "candidate_scope_rows": 69,
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 69,
+        "product_scoped_candidates": 68,
+        "section_references": [
+          "5.1.7"
+        ],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      },
+      "selector_runtime_ms": 26.326
+    },
+    {
+      "challenge_id": "sec004",
+      "manufacturer": "LDA audioTech",
+      "product_model": "NEO",
+      "chunk_id": "58687100-0f34-4d8e-af80-5d8afbd20987",
+      "question": "¿Cómo se conecta la salida de grabación del NEO, qué tipo de conector lleva y qué sección de cable admite?",
+      "rank_sha256": "54b5ea49bd692621105db544b440133ec3b7e49eb5a5cd63e28ff79ac768896e",
+      "scope_key": "LDA audioTech␟NEO",
+      "candidate_scope_rows": 81,
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 81,
+        "product_scoped_candidates": 80,
+        "section_references": [
+          "4.2"
+        ],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      },
+      "selector_runtime_ms": 37.502
+    },
+    {
+      "challenge_id": "sec005",
+      "manufacturer": "LDA audioTech",
+      "product_model": "NEO",
+      "chunk_id": "9c90c60b-3513-42e3-bfb6-58c1bf167c1d",
+      "question": "¿Cómo se lanza un mensaje de evacuación pregrabado por zonas concretas en el sistema NEO y qué pasa si pulso OK sin seleccionar zonas?",
+      "rank_sha256": "5d2669263e9d96b48b76aef37392d4d40d012332903579a5d19dcea188596b22",
+      "scope_key": "LDA audioTech␟NEO",
+      "candidate_scope_rows": 81,
+      "selected_ids": [
+        "44630f51-1947-4417-a2d3-1d018d38a13b"
+      ],
+      "selected_facets": [
+        "explicit_intra_document_reference"
+      ],
+      "selected_receipts": [
+        {
+          "candidate_id": "44630f51-1947-4417-a2d3-1d018d38a13b",
+          "document_id": "f1dc59b2-796b-49d8-9fcc-d07bb5708f55",
+          "section_title": "2.2.7 VENTANA SELECCIÓN DE ZONAS",
+          "source_spans": [
+            {
+              "candidate_id": "44630f51-1947-4417-a2d3-1d018d38a13b",
+              "document_id": "f1dc59b2-796b-49d8-9fcc-d07bb5708f55",
+              "extraction_sha256": "7f4f614315017bcf6de9703f630c2a98c6f2be0a38d3b15d2f82f3c339fbd170",
+              "content_sha256": "fc5041bd403351506d9659f8e12b1e05a429241fcc8a139e544a2b3f0f34d013",
+              "quote_sha256": "e2ae032584a937864f25f8720b1a6b5921ceb6f6b0a8acb2876ec6d9d7528410",
+              "start": 0,
+              "end": 720,
+              "quote": "## 2.2.7 VENTANA SELECCIÓN DE ZONAS\n\nEn la ventana de selección de zonas, pulse sobre las mismas para seleccionarlas. Si pulsa sobre una zona seleccionada, ésta se deseleccionará. Cuando la zona esta seleccionada, sobre el botón aparecerá una banda de selección. Puede que existan zonas no visualizadas en pantalla, para desplazarse por la ventana de selección de zonas, utilice el control de desplazamiento, situado a la derecha de la pantalla. En la parte derecha de la ventana, podrá ver en qué posición se encuentra mediante el indicador de avance (véase 2.2.6).\n\n| (a)                   | **EMERGENCY** |       |       | 2 | (b) |\n| --------------------- | ------------- | ----- | ----- | - | --- |\n|               ",
+              "facet": "explicit_intra_document_reference",
+              "receipt_type": "immutable_exact_source_span"
+            }
+          ],
+          "receipt_verified": true
+        }
+      ],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 81,
+        "product_scoped_candidates": 80,
+        "section_references": [
+          "2.2.7",
+          "3.2.1"
+        ],
+        "potential_facets": [
+          "explicit_intra_document_reference"
+        ],
+        "selected_ids": [
+          "44630f51-1947-4417-a2d3-1d018d38a13b"
+        ],
+        "selected_facets": [
+          "explicit_intra_document_reference"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "selected"
+      },
+      "selector_runtime_ms": 37.984
+    },
+    {
+      "challenge_id": "sec006",
+      "manufacturer": "LDA audioTech",
+      "product_model": "NEO",
+      "chunk_id": "87426efc-d7c2-46b1-bf71-f53001613b98",
+      "question": "¿Cómo se activa el estado de emergencia en el NEO?",
+      "rank_sha256": "73e172c6fa2029d6b419ee492a246e541d4dcec37d07621eb40f1907c57b8436",
+      "scope_key": "LDA audioTech␟NEO",
+      "candidate_scope_rows": 81,
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 81,
+        "product_scoped_candidates": 80,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      },
+      "selector_runtime_ms": 36.627
+    },
+    {
+      "challenge_id": "sec007",
+      "manufacturer": "LDA audioTech",
+      "product_model": "NEO",
+      "chunk_id": "d1fedc40-c8f7-432b-9c15-e9380907359c",
+      "question": "¿El ajuste de volumen de zona en el NEO afecta también al volumen del mensaje de voz de emergencia o son ajustes separados?",
+      "rank_sha256": "9453871993a6fcbb58df5cdc73d1555835115e8d9ad466f58de8d0da78d55e1c",
+      "scope_key": "LDA audioTech␟NEO",
+      "candidate_scope_rows": 81,
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 81,
+        "product_scoped_candidates": 80,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      },
+      "selector_runtime_ms": 35.306
+    },
+    {
+      "challenge_id": "sec008",
+      "manufacturer": "LDA audioTech",
+      "product_model": "NEO",
+      "chunk_id": "64c93899-04cd-4122-839b-5cc557ec3b3c",
+      "question": "¿Cómo se configura el volumen independiente para la zona de evacuación por voz en el NEO, y qué pasa si no lo configuro?",
+      "rank_sha256": "9937948e48784eacb3aa4c72fba80912078aa16dd21286f219b100155de347b5",
+      "scope_key": "LDA audioTech␟NEO",
+      "candidate_scope_rows": 81,
+      "selected_ids": [
+        "3420f9c2-42dc-44d3-aa9a-c4f02a3199cf"
+      ],
+      "selected_facets": [
+        "explicit_intra_document_reference"
+      ],
+      "selected_receipts": [
+        {
+          "candidate_id": "3420f9c2-42dc-44d3-aa9a-c4f02a3199cf",
+          "document_id": "f1dc59b2-796b-49d8-9fcc-d07bb5708f55",
+          "section_title": "3.5.1 OPCIONES AVANZADAS. MENSAJES",
+          "source_spans": [
+            {
+              "candidate_id": "3420f9c2-42dc-44d3-aa9a-c4f02a3199cf",
+              "document_id": "f1dc59b2-796b-49d8-9fcc-d07bb5708f55",
+              "extraction_sha256": "7f4f614315017bcf6de9703f630c2a98c6f2be0a38d3b15d2f82f3c339fbd170",
+              "content_sha256": "f5d43c01c0ff47491cfee0bfa297c0435965eb6a6264e97225055b39939e441a",
+              "quote_sha256": "473b2dd30eb805376bcbc0825c4d233e7c98b959d35729782b5a379ed2c71e31",
+              "start": 700,
+              "end": 1420,
+              "quote": "ZE / REC MESSAGE** |   |   |             |    |     |     |\n\n*Ilustración 38: Ventana Mensajes*\n\n**(a) BOTONES SELECCIÓN DE MENSAJE**\n\nEn la columna izquierda de la pantalla, se encuentran los mensajes pregrabados. Si aparece el indicador de avance (véase 2.2.6) utilice el control de desplazamiento para visualizar el resto de mensajes disponibles. Para seleccionar uno de ellos, pulse sobre el que desee actuar.\n\n**(b) INDICADOR DURACIÓN**\n\nMuestra la duración del mensaje en minutos y segundos, cuando el mensaje es seleccionado. Cuando el mensaje está reproduciéndose, se mostrará una cuenta atrás de duración igual a la duración el mensaje.\n\n**(c) BOTÓN PARAR**\n\nEl botón parar permite detener la reproducción compl",
+              "facet": "explicit_intra_document_reference",
+              "receipt_type": "immutable_exact_source_span"
+            }
+          ],
+          "receipt_verified": true
+        }
+      ],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 81,
+        "product_scoped_candidates": 80,
+        "section_references": [
+          "3.5.1"
+        ],
+        "potential_facets": [
+          "explicit_intra_document_reference"
+        ],
+        "selected_ids": [
+          "3420f9c2-42dc-44d3-aa9a-c4f02a3199cf"
+        ],
+        "selected_facets": [
+          "explicit_intra_document_reference"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "selected"
+      },
+      "selector_runtime_ms": 39.185
+    },
+    {
+      "challenge_id": "sec009",
+      "manufacturer": "LDA audioTech",
+      "product_model": "NEO",
+      "chunk_id": "0fb9fa2a-7582-4067-8276-e6cf57925965",
+      "question": "¿Cómo se desactiva una zona de voz en el LDA NEO que no se va a usar?",
+      "rank_sha256": "ae6a68a337d5dc7ae026b9c0ac27555c163b7fbcda589708b116cc99a6df72cf",
+      "scope_key": "LDA audioTech␟NEO",
+      "candidate_scope_rows": 81,
+      "selected_ids": [
+        "44630f51-1947-4417-a2d3-1d018d38a13b"
+      ],
+      "selected_facets": [
+        "explicit_intra_document_reference"
+      ],
+      "selected_receipts": [
+        {
+          "candidate_id": "44630f51-1947-4417-a2d3-1d018d38a13b",
+          "document_id": "f1dc59b2-796b-49d8-9fcc-d07bb5708f55",
+          "section_title": "2.2.7 VENTANA SELECCIÓN DE ZONAS",
+          "source_spans": [
+            {
+              "candidate_id": "44630f51-1947-4417-a2d3-1d018d38a13b",
+              "document_id": "f1dc59b2-796b-49d8-9fcc-d07bb5708f55",
+              "extraction_sha256": "7f4f614315017bcf6de9703f630c2a98c6f2be0a38d3b15d2f82f3c339fbd170",
+              "content_sha256": "fc5041bd403351506d9659f8e12b1e05a429241fcc8a139e544a2b3f0f34d013",
+              "quote_sha256": "e2ae032584a937864f25f8720b1a6b5921ceb6f6b0a8acb2876ec6d9d7528410",
+              "start": 0,
+              "end": 720,
+              "quote": "## 2.2.7 VENTANA SELECCIÓN DE ZONAS\n\nEn la ventana de selección de zonas, pulse sobre las mismas para seleccionarlas. Si pulsa sobre una zona seleccionada, ésta se deseleccionará. Cuando la zona esta seleccionada, sobre el botón aparecerá una banda de selección. Puede que existan zonas no visualizadas en pantalla, para desplazarse por la ventana de selección de zonas, utilice el control de desplazamiento, situado a la derecha de la pantalla. En la parte derecha de la ventana, podrá ver en qué posición se encuentra mediante el indicador de avance (véase 2.2.6).\n\n| (a)                   | **EMERGENCY** |       |       | 2 | (b) |\n| --------------------- | ------------- | ----- | ----- | - | --- |\n|               ",
+              "facet": "explicit_intra_document_reference",
+              "receipt_type": "immutable_exact_source_span"
+            }
+          ],
+          "receipt_verified": true
+        }
+      ],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 81,
+        "product_scoped_candidates": 80,
+        "section_references": [
+          "2.2.7"
+        ],
+        "potential_facets": [
+          "explicit_intra_document_reference"
+        ],
+        "selected_ids": [
+          "44630f51-1947-4417-a2d3-1d018d38a13b"
+        ],
+        "selected_facets": [
+          "explicit_intra_document_reference"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "selected"
+      },
+      "selector_runtime_ms": 38.448
+    },
+    {
+      "challenge_id": "sec010",
+      "manufacturer": "LDA audioTech",
+      "product_model": "NEO",
+      "chunk_id": "98a797fe-ed36-49f6-b1cb-c8bc9f58a1f9",
+      "question": "¿Cómo se configura el interruptor CFG del LDA NEO para que el Puerto A lleve datos de control y el Puerto B audio, o al revés con Flexnet?",
+      "rank_sha256": "bea661288a296153262a4eba5a72e5b37bff4d0ad81ef554b9122bf0f117d210",
+      "scope_key": "LDA audioTech␟NEO",
+      "candidate_scope_rows": 81,
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 81,
+        "product_scoped_candidates": 80,
+        "section_references": [
+          "4.3"
+        ],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      },
+      "selector_runtime_ms": 36.932
+    },
+    {
+      "challenge_id": "sec011",
+      "manufacturer": "LDA audioTech",
+      "product_model": "NEO",
+      "chunk_id": "7bbbbefd-421e-4a8d-a751-f526f413b87e",
+      "question": "¿Cuántas salidas de línea de altavoces tiene cada canal de amplificación del NEO y cómo se reparte la potencia entre ellas?",
+      "rank_sha256": "bf9445e93d5e094181e40297b4c184353d5e77d36d955c78d058b5ca93e1bdd0",
+      "scope_key": "LDA audioTech␟NEO",
+      "candidate_scope_rows": 81,
+      "selected_ids": [
+        "23d8d6ed-29ef-4e0b-92d5-16418bb0737c"
+      ],
+      "selected_facets": [
+        "explicit_intra_document_reference"
+      ],
+      "selected_receipts": [
+        {
+          "candidate_id": "23d8d6ed-29ef-4e0b-92d5-16418bb0737c",
+          "document_id": "f1dc59b2-796b-49d8-9fcc-d07bb5708f55",
+          "section_title": "4.4 ZONAS DE EVACUACIÓN POR VOZ........................................................................................36",
+          "source_spans": [
+            {
+              "candidate_id": "23d8d6ed-29ef-4e0b-92d5-16418bb0737c",
+              "document_id": "f1dc59b2-796b-49d8-9fcc-d07bb5708f55",
+              "extraction_sha256": "7f4f614315017bcf6de9703f630c2a98c6f2be0a38d3b15d2f82f3c339fbd170",
+              "content_sha256": "84c626d40e64e752d29300c969a72183f1feed1513796c958eb4969fff9f87e5",
+              "quote_sha256": "84c626d40e64e752d29300c969a72183f1feed1513796c958eb4969fff9f87e5",
+              "start": 0,
+              "end": 557,
+              "quote": "**9.1 REGISTROS ESTADO EMERGENCIA.......................................................................................50**\n\n**9.2 REGISTROS ESTADO FALLO...................................................................................................50**\n\n**9.3 REGISTROS ESTADO DESACTIVACIÓN.................................................................................50**\n\n**10 Anexo C: Sección de cable para líneas de altavoces..........................................................51**\n\nManual de usuario: Sistema de evacuación por voz LDA NEO",
+              "facet": "explicit_intra_document_reference",
+              "receipt_type": "immutable_exact_source_span"
+            }
+          ],
+          "receipt_verified": true
+        }
+      ],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 81,
+        "product_scoped_candidates": 80,
+        "section_references": [
+          "4.4",
+          "4.5"
+        ],
+        "potential_facets": [
+          "explicit_intra_document_reference"
+        ],
+        "selected_ids": [
+          "23d8d6ed-29ef-4e0b-92d5-16418bb0737c"
+        ],
+        "selected_facets": [
+          "explicit_intra_document_reference"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "selected"
+      },
+      "selector_runtime_ms": 36.663
+    },
+    {
+      "challenge_id": "sec012",
+      "manufacturer": "Sensitron",
+      "product_model": "PL4",
+      "chunk_id": "f418e702-97da-4086-8b17-c5a0dd45449f",
+      "question": "¿Cómo se desmonta la puerta de la central PL4 para instalarla en pared?",
+      "rank_sha256": "780d1725253b883a3bc17d39344ca8a7ecf524a9e06d61a51ed9576c97ca2d64",
+      "scope_key": "Sensitron␟PL4",
+      "candidate_scope_rows": 24,
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 24,
+        "product_scoped_candidates": 23,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      },
+      "selector_runtime_ms": 10.048
+    },
+    {
+      "challenge_id": "sec013",
+      "manufacturer": "Spectrex",
+      "product_model": "40-40R-SINGLE",
+      "chunk_id": "a2ff243c-3f26-4474-8c57-cc7a36c52295",
+      "question": "¿Cómo implemento la función SIL-2 en el 40/40R, qué señal de alerta tengo que usar?",
+      "rank_sha256": "0376e387017728165085e7c3580bac18c0a31a0bdcf9314317d5ade50a618dd0",
+      "scope_key": "Spectrex␟40-40R-SINGLE",
+      "candidate_scope_rows": 75,
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 75,
+        "product_scoped_candidates": 74,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      },
+      "selector_runtime_ms": 31.813
+    },
+    {
+      "challenge_id": "sec014",
+      "manufacturer": "Spectrex",
+      "product_model": "40-40L",
+      "chunk_id": "3f75609f-1bb0-468a-84b8-53c8a969ee7a",
+      "question": "¿Qué condiciones hay que cumplir para que el SharpEye S40/40LB, L4B funcione de forma segura en una instalación SIL-2, qué hay que tener activado y qué requisitos debe cumplir la alimentación?",
+      "rank_sha256": "27c1cd0dff5de2ba2c944819fcfa0410175a916574d1132fb95492fec201e0f5",
+      "scope_key": "Spectrex␟40-40L",
+      "candidate_scope_rows": 77,
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 77,
+        "product_scoped_candidates": 76,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      },
+      "selector_runtime_ms": 31.496
+    },
+    {
+      "challenge_id": "sec015",
+      "manufacturer": "Spectrex",
+      "product_model": "40-40L",
+      "chunk_id": "86c0463d-6187-48f8-9daf-2b1b3dcbbdc6",
+      "question": "¿Cómo funciona la óptica calefactada del detector de llama S40/40L y cómo se configura?",
+      "rank_sha256": "471264df13712a6ac31b8eca52fb13f226cba62f3a9d18a92ed21ed518e43176",
+      "scope_key": "Spectrex␟40-40L",
+      "candidate_scope_rows": 77,
+      "selected_ids": [
+        "470d1a13-07e0-4d61-9851-38b828f06bdf"
+      ],
+      "selected_facets": [
+        "explicit_intra_document_reference"
+      ],
+      "selected_receipts": [
+        {
+          "candidate_id": "470d1a13-07e0-4d61-9851-38b828f06bdf",
+          "document_id": "4ba70bd0-34a1-4977-ad31-0a8e788c4ebb",
+          "section_title": "2.8 Configuración del detector",
+          "source_spans": [
+            {
+              "candidate_id": "470d1a13-07e0-4d61-9851-38b828f06bdf",
+              "document_id": "4ba70bd0-34a1-4977-ad31-0a8e788c4ebb",
+              "extraction_sha256": "05f2a31a9415193e1a9a6ec6fc32bae39f3aad0ca4df707df762c66c7e3c7640",
+              "content_sha256": "b6675bc6a4226ad06c0753cb233a4e225d4ad8d2414d4964d05344b565118bb6",
+              "quote_sha256": "8e2f50b4f3b1d94868af1620b2ea5fbab862751cacb07a1f708b794582f08a85",
+              "start": 0,
+              "end": 720,
+              "quote": "## 2.8 Configuración del detector\n\nPara reprogramar las funciones, utilice la conexión RS-485 o bien el protocolo HART como se indica a continuación:\n\n* **Programa de configuración de Spectrex (Spectrex Host Software)**: Programa que permite cambiar las funciones del detector mediante un ordenador de mesa o portátil.\n* **Equipo portátil**: La conexión de este equipo es rápida e intrínsecamente segura. Permite modificar las funciones in situ sin necesidad de extraer el detector.\n\n  **Nota**: Spectrex dispone de un cable (ref. 794079-5) con convertidor RS485/USB integrado para realizar la conexión entre detector y ordenador.\n\n* **Protocolo Hart**\n\nLas diferentes funciones del detector permiten configurar:\n\n* El r",
+              "facet": "explicit_intra_document_reference",
+              "receipt_type": "immutable_exact_source_span"
+            }
+          ],
+          "receipt_verified": true
+        }
+      ],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 77,
+        "product_scoped_candidates": 76,
+        "section_references": [
+          "2.8"
+        ],
+        "potential_facets": [
+          "explicit_intra_document_reference"
+        ],
+        "selected_ids": [
+          "470d1a13-07e0-4d61-9851-38b828f06bdf"
+        ],
+        "selected_facets": [
+          "explicit_intra_document_reference"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "selected"
+      },
+      "selector_runtime_ms": 33.788
+    },
+    {
+      "challenge_id": "sec016",
+      "manufacturer": "Spectrex",
+      "product_model": "40-40R-SINGLE",
+      "chunk_id": "f9493c08-e61b-4a63-bece-c2062dab8edc",
+      "question": "¿Qué condiciones mínimas tiene que cumplir la instalación del 40/40R para que sea válida a nivel SIL-2: alimentación, autotest, hardware...?",
+      "rank_sha256": "6b4a762caaad04120ab9fdf8a9c25fd17e86c3a4b592974671b0e09527e64f0f",
+      "scope_key": "Spectrex␟40-40R-SINGLE",
+      "candidate_scope_rows": 75,
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 75,
+        "product_scoped_candidates": 74,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      },
+      "selector_runtime_ms": 31.506
+    },
+    {
+      "challenge_id": "sec017",
+      "manufacturer": "Spectrex",
+      "product_model": "40-40L",
+      "chunk_id": "215914fa-7921-4d7a-8319-b57243f58a4a",
+      "question": "¿Cómo verifico que el detector S40/40L que me ha llegado es el modelo correcto con las opciones que pedí?",
+      "rank_sha256": "901c8de06d2dfcabc0a0ec32038f8bd0f79eac81d15031a925cdac83bce9e1bc",
+      "scope_key": "Spectrex␟40-40L",
+      "candidate_scope_rows": 77,
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 77,
+        "product_scoped_candidates": 76,
+        "section_references": [
+          "1.2"
+        ],
+        "potential_facets": [
+          "explicit_intra_document_reference"
+        ],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      },
+      "selector_runtime_ms": 33.454
+    },
+    {
+      "challenge_id": "sec018",
+      "manufacturer": "Spectrex",
+      "product_model": "40-40L",
+      "chunk_id": "28d15f93-41a0-44da-bfac-9eff263e2356",
+      "question": "¿Cómo se implementa la condición de alerta SIL-2 en el detector S40/40LB o L4B?",
+      "rank_sha256": "bfdbb0c0c5dce3e56c1ae771fa1becb1c0f0d6c4f776a2788b162423477c82b9",
+      "scope_key": "Spectrex␟40-40L",
+      "candidate_scope_rows": 77,
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 77,
+        "product_scoped_candidates": 76,
+        "section_references": [
+          "3.5.12"
+        ],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      },
+      "selector_runtime_ms": 33.192
+    },
+    {
+      "challenge_id": "sec019",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VES",
+      "chunk_id": "b3ead77c-a702-45bf-bdde-70ce888e37ec",
+      "question": "¿Cómo se cambia la cámara de detección de humo en el VESDA-E VES-A10-P y qué hay que tener en cuenta con las cintas de cables para que no queden pilladas al montarla?",
+      "rank_sha256": "00c28866d2a24534dcfda11539a1603b4402e092f928755a76d121a7c0c16818",
+      "scope_key": "Xtralis␟VESDA-E-VES",
+      "candidate_scope_rows": 256,
+      "selected_ids": [
+        "e2b9c900-0560-4163-b361-d51e84bbad00"
+      ],
+      "selected_facets": [
+        "explicit_intra_document_reference"
+      ],
+      "selected_receipts": [
+        {
+          "candidate_id": "e2b9c900-0560-4163-b361-d51e84bbad00",
+          "document_id": "b37b71e7-dd47-4956-ab17-6d0b45b01e3d",
+          "section_title": "7.3 Sustitución del filtro",
+          "source_spans": [
+            {
+              "candidate_id": "e2b9c900-0560-4163-b361-d51e84bbad00",
+              "document_id": "b37b71e7-dd47-4956-ab17-6d0b45b01e3d",
+              "extraction_sha256": "241afebd548a85b412ba3e8af45a22f0b6aa76da697ca48b97dfa463d3bd6213",
+              "content_sha256": "5fc00ba67f02ae41df6039112371f319aa86995f32e62ffa08a935dfae0b84a6",
+              "quote_sha256": "092d6c57091c64cf86a7318220854da3f6604ff1dd4a571a4b28c48afb87aeb0",
+              "start": 0,
+              "end": 720,
+              "quote": "## 7.3 Sustitución del filtro\n\nPara mantener la integridad del funcionamiento del detector, se recomienda que el filtro se cambie cada dos años o cuando se produzca un fallo en el mismo. Puede que sea necesario sustituir el filtro con más frecuencia si el detector se instala en entornos con niveles altos de contaminación.\n\n**Extracción del filtro**\n\nTenga en cuenta que no es necesario desconectar la alimentación de 24 V CC del detector para extraer y sustituir el filtro. El detector apagará el aspirador cuando detecte que se ha quitado el filtro y se notificará un fallo.\n\n1. Abra la compuerta delantera. Asegúrese de que el área que rodea el filtro no contiene pelusas ni polvo antes de quitarlo. Para obtener más",
+              "facet": "explicit_intra_document_reference",
+              "receipt_type": "immutable_exact_source_span"
+            }
+          ],
+          "receipt_verified": true
+        }
+      ],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 256,
+        "product_scoped_candidates": 255,
+        "section_references": [
+          "7.3"
+        ],
+        "potential_facets": [
+          "explicit_intra_document_reference"
+        ],
+        "selected_ids": [
+          "e2b9c900-0560-4163-b361-d51e84bbad00"
+        ],
+        "selected_facets": [
+          "explicit_intra_document_reference"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "selected"
+      },
+      "selector_runtime_ms": 164.167
+    },
+    {
+      "challenge_id": "sec020",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VEA",
+      "chunk_id": "7b0f0930-a1a1-499c-95f7-69e41b91e779",
+      "question": "¿Cómo se configura la conexión WiFi en el VESDA-E VEA-040-A00 para conectarlo al software Xtralis VSC?",
+      "rank_sha256": "00c6396f9f55846343a18ee5289934c77afa1c1335917a236c27da1a0a450803",
+      "scope_key": "Xtralis␟VESDA-E-VEA",
+      "candidate_scope_rows": 281,
+      "selected_ids": [
+        "5fac6ec4-427f-4a02-a593-9f6993848385"
+      ],
+      "selected_facets": [
+        "explicit_intra_document_reference"
+      ],
+      "selected_receipts": [
+        {
+          "candidate_id": "5fac6ec4-427f-4a02-a593-9f6993848385",
+          "document_id": "0951df3f-2d52-46d2-9669-627ab7251776",
+          "section_title": "5.5.4 Opciones de WiFi",
+          "source_spans": [
+            {
+              "candidate_id": "5fac6ec4-427f-4a02-a593-9f6993848385",
+              "document_id": "0951df3f-2d52-46d2-9669-627ab7251776",
+              "extraction_sha256": "4e0562d523a995ccc2c35c004876ef5dc6186de4ae9bde3ade83ef23d5bd91d1",
+              "content_sha256": "ee9b5fed3ff6ac1895be93bb4200fc36815bcaff5f9cf59be0d2bf7491e64ca4",
+              "quote_sha256": "cc9da47ef01ed6242352b77e64f7fd254b290aa4d9276e47b00a11e55edff587",
+              "start": 0,
+              "end": 720,
+              "quote": "## 5.5.4 Opciones de WiFi\n\nLas opciones de WiFi permiten configurar el detector para conectarse a una red WiFi existente mediante el proceso normal de conexión a la red del edificio.\n\nUna vez que se hayan introducido los parámetros de WiFi y el usuario haya seleccionado Aplicar (\"Apply\") o Aceptar (\"OK\"), el detector se conectará al punto de acceso y permanecerá conectado mientras esté disponible. El LED WiFi del detector se ilumina de forma continua mientras el detector está conectado al punto de acceso y se apaga si el detector no está conectado a él.\n\n[Screenshot of VESDA VEA 2 configuration window showing WiFi settings tab with the following elements:\n\n- Tab menu: General, VESDAnet, Ethernet, WiFi, Module, ",
+              "facet": "explicit_intra_document_reference",
+              "receipt_type": "immutable_exact_source_span"
+            }
+          ],
+          "receipt_verified": true
+        }
+      ],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 281,
+        "product_scoped_candidates": 280,
+        "section_references": [
+          "5.2.1",
+          "5.3.1",
+          "5.5.4"
+        ],
+        "potential_facets": [
+          "explicit_intra_document_reference"
+        ],
+        "selected_ids": [
+          "5fac6ec4-427f-4a02-a593-9f6993848385"
+        ],
+        "selected_facets": [
+          "explicit_intra_document_reference"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "selected"
+      },
+      "selector_runtime_ms": 128.776
+    },
+    {
+      "challenge_id": "sec021",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VES",
+      "chunk_id": "35a252b5-b733-40c2-8589-6dcb0bbbef3e",
+      "question": "¿Cómo se vuelve a arrancar el VESDA-E VES-A10-P después de haberlo puesto en modo en espera desde el VSC?",
+      "rank_sha256": "014d0a9451d94eb3a01254e813b3ab6866ed3e246fd1ce61be15829429e68b23",
+      "scope_key": "Xtralis␟VESDA-E-VES",
+      "candidate_scope_rows": 256,
+      "selected_ids": [
+        "fd8849ea-76a0-4107-bd4a-c27c67875228"
+      ],
+      "selected_facets": [
+        "explicit_intra_document_reference"
+      ],
+      "selected_receipts": [
+        {
+          "candidate_id": "fd8849ea-76a0-4107-bd4a-c27c67875228",
+          "document_id": "b37b71e7-dd47-4956-ab17-6d0b45b01e3d",
+          "section_title": "5.5.12 Opciones de relé",
+          "source_spans": [
+            {
+              "candidate_id": "fd8849ea-76a0-4107-bd4a-c27c67875228",
+              "document_id": "b37b71e7-dd47-4956-ab17-6d0b45b01e3d",
+              "extraction_sha256": "241afebd548a85b412ba3e8af45a22f0b6aa76da697ca48b97dfa463d3bd6213",
+              "content_sha256": "32885db6c6b2243d96b4260a3451acaa8eaa1ea6cbac14763faf6423df69452c",
+              "quote_sha256": "f8fdab6073cd118228fc400eb46206cbfc039635d58a835dc52ee8f8f895a981",
+              "start": 0,
+              "end": 720,
+              "quote": "Figura 5-23: Opciones de relé\n\n**Asignaciones de relés (\"Relay Assignments\"):** seleccione las condiciones que desea asignar a cada relé marcando las casillas de verificación del relé. Las siguientes casillas de verificación no se pueden cambiar:\n\n* Relay 6 always reports Fire 1 (El relé 6 siempre informa de Fuego 1)\n* Relay 3 always reports Urgent Fault and is always Normally Energised (El relé 3 siempre informa de Fallo urgente y siempre está normalmente activado).\n\nSe pueden asignar más de una condición a un relé.\n\n76\n\nVESDA-E VES-A10-P Guía del producto\n\n**Activado normalmente (\"Normally Energized\"):** la opción Activado normalmente (\"Normally Energized\") o Desactivado normalmente (\"Normally De-Energized\") ",
+              "facet": "explicit_intra_document_reference",
+              "receipt_type": "immutable_exact_source_span"
+            }
+          ],
+          "receipt_verified": true
+        }
+      ],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 256,
+        "product_scoped_candidates": 255,
+        "section_references": [
+          "5.5.12"
+        ],
+        "potential_facets": [
+          "explicit_intra_document_reference"
+        ],
+        "selected_ids": [
+          "fd8849ea-76a0-4107-bd4a-c27c67875228"
+        ],
+        "selected_facets": [
+          "explicit_intra_document_reference"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "selected"
+      },
+      "selector_runtime_ms": 172.447
+    },
+    {
+      "challenge_id": "sec022",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VES",
+      "chunk_id": "b35e02bd-bd84-48b2-aa30-426eacd4f953",
+      "question": "¿Qué necesito tener configurado en el detector VES-A10-P para poder conectarme a él por Ethernet con el Xtralis VSC?",
+      "rank_sha256": "02ea50e985b3eda04ba13c903e63277866ac694ca02b0813333c543476da559c",
+      "scope_key": "Xtralis␟VESDA-E-VES",
+      "candidate_scope_rows": 256,
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 256,
+        "product_scoped_candidates": 255,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      },
+      "selector_runtime_ms": 152.923
+    },
+    {
+      "challenge_id": "sec023",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VEA",
+      "chunk_id": "65f2f86d-71c3-4df3-9304-812a08a1925e",
+      "question": "¿Qué tensión necesito aplicar en la entrada GPI del VESDA-E VEA para que la detecte como activa?",
+      "rank_sha256": "03be94a4fdc062421043b1fbad110dfab7e6ca15d193590e49fb0145022dea74",
+      "scope_key": "Xtralis␟VESDA-E-VEA",
+      "candidate_scope_rows": 281,
+      "selected_ids": [
+        "54b6779f-bcfe-4a65-ac9c-d6df0e6fbeb5"
+      ],
+      "selected_facets": [
+        "explicit_intra_document_reference"
+      ],
+      "selected_receipts": [
+        {
+          "candidate_id": "54b6779f-bcfe-4a65-ac9c-d6df0e6fbeb5",
+          "document_id": "0951df3f-2d52-46d2-9669-627ab7251776",
+          "section_title": "5.5.9 Opciones de entradas de aplicación general",
+          "source_spans": [
+            {
+              "candidate_id": "54b6779f-bcfe-4a65-ac9c-d6df0e6fbeb5",
+              "document_id": "0951df3f-2d52-46d2-9669-627ab7251776",
+              "extraction_sha256": "4e0562d523a995ccc2c35c004876ef5dc6186de4ae9bde3ade83ef23d5bd91d1",
+              "content_sha256": "0c2ed7805dbbdb93a3bdb545a8f266fa22d4526fefa4304f3f53f1d8037a5cb8",
+              "quote_sha256": "80700523bd0bcfe9e65b7d94738b3e35bf03c834dc7f9942a535d1349b923087",
+              "start": 0,
+              "end": 720,
+              "quote": "## 5.5.9 Opciones de entradas de aplicación general\n\nLa página de opciones de Entradas de aplicación general (\"General Purpose Inputs\") permite controlar el comportamiento de las entradas de aplicación general (GPI, por sus siglas en inglés) supervisadas y no supervisadas.\n\nLas entradas de aplicación general se pueden configurar para iniciar diferentes acciones.\n\n[Screenshot of VESDA VEA 2 software interface showing a dialog window with tabs for General, VESDAnet, Ethernet, WiFi, Module, Smoke Thresholds, Air Flow, Filter, Tubes, General Purpose Inputs, and Relays. The active tab shows \"General Purpose Inputs\" section with two dropdown fields: \"Detector GPI Function (Unmonitored)\" set to \"Reset\" and \"GPI Functi",
+              "facet": "explicit_intra_document_reference",
+              "receipt_type": "immutable_exact_source_span"
+            }
+          ],
+          "receipt_verified": true
+        }
+      ],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 281,
+        "product_scoped_candidates": 280,
+        "section_references": [
+          "5.5.9"
+        ],
+        "potential_facets": [
+          "explicit_intra_document_reference"
+        ],
+        "selected_ids": [
+          "54b6779f-bcfe-4a65-ac9c-d6df0e6fbeb5"
+        ],
+        "selected_facets": [
+          "explicit_intra_document_reference"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "selected"
+      },
+      "selector_runtime_ms": 128.913
+    },
+    {
+      "challenge_id": "sec024",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VES",
+      "chunk_id": "c6043b17-1ea2-45d1-9029-2b2d3458bd5d",
+      "question": "¿Puedo dejar el USB como conexión permanente en el VES-A00-P o tengo que usar Ethernet/WiFi?",
+      "rank_sha256": "0444fc011a253bd5d0b5f1ceb032b200a49b9ca5f94f0f0714dee2abe3e34d76",
+      "scope_key": "Xtralis␟VESDA-E-VES",
+      "candidate_scope_rows": 256,
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 256,
+        "product_scoped_candidates": 255,
+        "section_references": [
+          "5.1.1"
+        ],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      },
+      "selector_runtime_ms": 149.318
+    },
+    {
+      "challenge_id": "sec025",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VEA",
+      "chunk_id": "a1e03edf-d0b9-491d-8937-fc1778f0bedb",
+      "question": "¿Cómo configuro una IP estática en el VESDA-E VEA, qué datos necesito meter?",
+      "rank_sha256": "044f6624969bcd09f1638179d22e42a2b6e454c0c91237dab06481db47724ea1",
+      "scope_key": "Xtralis␟VESDA-E-VEA",
+      "candidate_scope_rows": 281,
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 281,
+        "product_scoped_candidates": 280,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      },
+      "selector_runtime_ms": 127.058
+    },
+    {
+      "challenge_id": "sec026",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VES",
+      "chunk_id": "e2b9c900-0560-4163-b361-d51e84bbad00",
+      "question": "¿Hay que cortar la alimentación del VESDA-E VES-A10-P para cambiar el filtro o se puede hacer con el equipo encendido?",
+      "rank_sha256": "05406ec5c9a59b9561037bea77e10beccd6f3d01c92b4701cd8cfb4741fadbc7",
+      "scope_key": "Xtralis␟VESDA-E-VES",
+      "candidate_scope_rows": 256,
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 256,
+        "product_scoped_candidates": 255,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      },
+      "selector_runtime_ms": 155.315
+    },
+    {
+      "challenge_id": "sec027",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VES",
+      "chunk_id": "6d956b1a-4611-448f-b807-7b036e4797eb",
+      "question": "¿Cómo se accede a un nivel de usuario superior en el VES-A10-P una vez conectado con el Xtralis VSC?",
+      "rank_sha256": "068f72c37bba3b0f52cb8e2f737b07213c0072e4eda0db3fe9e02b726693b96d",
+      "scope_key": "Xtralis␟VESDA-E-VES",
+      "candidate_scope_rows": 256,
+      "selected_ids": [
+        "45658895-c964-4856-8975-e0e414da80c8"
+      ],
+      "selected_facets": [
+        "explicit_intra_document_reference"
+      ],
+      "selected_receipts": [
+        {
+          "candidate_id": "45658895-c964-4856-8975-e0e414da80c8",
+          "document_id": "b37b71e7-dd47-4956-ab17-6d0b45b01e3d",
+          "section_title": "5.5.4 Opciones de WiFi",
+          "source_spans": [
+            {
+              "candidate_id": "45658895-c964-4856-8975-e0e414da80c8",
+              "document_id": "b37b71e7-dd47-4956-ab17-6d0b45b01e3d",
+              "extraction_sha256": "241afebd548a85b412ba3e8af45a22f0b6aa76da697ca48b97dfa463d3bd6213",
+              "content_sha256": "387ddb572e8fd7f0865d5b20388dde06f71dd86fea712469c4b9961bc4da63df",
+              "quote_sha256": "23059fa6d90c557d8673c998729b7e952051c7aa4f4470fc4434ce635dfff723",
+              "start": 0,
+              "end": 720,
+              "quote": "## 5.5.4 Opciones de WiFi\n\nLas opciones de WiFi permiten configurar el detector para conectarse a una red WiFi existente mediante el proceso normal de conexión a la red del edificio. Una vez que se hayan introducido los parámetros de WiFi y el usuario haya seleccionado Aplicar (\"Apply\") o Aceptar (\"OK\"), el detector se conectará al punto de acceso y permanecerá conectado mientras esté disponible. El LED WiFi del detector se ilumina de forma continua mientras el detector está conectado al punto de acceso y se apaga si el detector no está conectado a él.\n\n[WiFi configuration dialog window showing:\n\n- Title bar: \"VESDA VES 3\"\n- Tabs: General | VESDAnet | Ethernet | WiFi | Security | Smoke Thresholds | Air Flow | F",
+              "facet": "explicit_intra_document_reference",
+              "receipt_type": "immutable_exact_source_span"
+            }
+          ],
+          "receipt_verified": true
+        }
+      ],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 256,
+        "product_scoped_candidates": 255,
+        "section_references": [
+          "5.1.2",
+          "5.5.3",
+          "5.5.4"
+        ],
+        "potential_facets": [
+          "explicit_intra_document_reference"
+        ],
+        "selected_ids": [
+          "45658895-c964-4856-8975-e0e414da80c8"
+        ],
+        "selected_facets": [
+          "explicit_intra_document_reference"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "selected"
+      },
+      "selector_runtime_ms": 151.242
+    },
+    {
+      "challenge_id": "sec028",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VES",
+      "chunk_id": "2ddc5531-1912-40f4-9c9e-86395a170eba",
+      "question": "¿Cómo se hace la puesta en marcha del VESDA-E VES-A10-P, cuáles son los pasos y en qué orden?",
+      "rank_sha256": "071dffddcdc273bca9e9b4a424e6bcf0c01e77a388e8fdaa75f21f8333768efd",
+      "scope_key": "Xtralis␟VESDA-E-VES",
+      "candidate_scope_rows": 256,
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 256,
+        "product_scoped_candidates": 255,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      },
+      "selector_runtime_ms": 154.362
+    }
+  ],
+  "limitations": [
+    "The cohort is structurally enriched for section references and is not an incidence estimate.",
+    "Historical HYQs are synthetic and the source chunk is injected as served context.",
+    "Access/unlock and licensed-loop facets are not exercised by this challenge.",
+    "Selections require blinded evidence adjudication before any advancement claim."
+  ]
+}

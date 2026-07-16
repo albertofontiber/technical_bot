@@ -197,11 +197,12 @@ def resolve_query(query: str) -> dict:
     allowed_sources — el contrato `expand` del resolve() se respeta literal (anti-hp011)."""
     _ensure()
     detected = detect(query)
-    records, add_models, drop_tokens = [], [], []
+    records, add_models, drop_tokens, source_groups = [], [], [], []
     allowed: set[str] = set()
     if _cat is None:
         return {"detected": detected, "records": [], "add_models": [],
-                "drop_tokens": [], "allowed_sources": frozenset()}
+                "drop_tokens": [], "allowed_sources": frozenset(),
+                "source_groups": []}
     for tok in detected:
         r = _cat.resolve(tok)
         if r is None:
@@ -211,17 +212,27 @@ def resolve_query(query: str) -> dict:
                "expand": bool(r.get("expand")), "ids": r.get("ids", [])}
         records.append(rec)
         if rec["expand"]:
+            record_sources: set[str] = set()
             for pid in rec["ids"]:
                 p = _cat.products.get(pid)
                 if p and p.get("canonical_model"):
                     add_models.append(p["canonical_model"])
-                allowed |= _docs_by_id.get(pid, frozenset())
+                product_sources = _docs_by_id.get(pid, frozenset())
+                allowed |= product_sources
+                record_sources |= product_sources
+            if record_sources:
+                source_groups.append({
+                    "token": tok,
+                    "ids": list(rec["ids"]),
+                    "sources": sorted(record_sources),
+                })
             # solo paraguas/alias/homónimo-prefer REEMPLAZAN el token original en el brazo
             # replace (exact ya ES el canonical — reemplazarlo sería un no-op)
             if rec["via"] in ("paraguas", "alias", "homonimo"):
                 drop_tokens.append(tok)
     return {"detected": detected, "records": records, "add_models": add_models,
-            "drop_tokens": drop_tokens, "allowed_sources": frozenset(allowed)}
+            "drop_tokens": drop_tokens, "allowed_sources": frozenset(allowed),
+            "source_groups": source_groups}
 
 
 def apply_to_models(models: list[str], res: dict) -> list[str]:

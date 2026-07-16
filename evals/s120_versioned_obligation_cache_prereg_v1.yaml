@@ -1,0 +1,48 @@
+instrument: s120_versioned_obligation_cache_prereg_v1
+status: PREREGISTERED_LOCAL_ONLY
+source_gate:
+  s119_gate: evals/s119_cached_atomic_replay_gate_v1.yaml
+  s119_status: CACHED_ATOMIC_REPLAY_GO_HYBRID_DIAGNOSTIC_ONLY
+scope:
+  frozen_questions: 39
+  diagnostic_qids: [hp005, hp009, hp017]
+  diagnostic_missing_claims: 4
+  execution: local_deterministic_only
+  forbidden_calls: [network, model, database, serving]
+implementation_constraints:
+  forbidden_inputs: [qid, fact_id, gold_answer, expected_answer]
+  product_binding: required
+  exact_generator_context: required
+  obligation_atomicity: required
+  cache_key_inputs:
+    - obligation_contract_version
+    - canonical_obligation_packet_sha256
+    - exact_generation_request_envelope_sha256
+acceptance:
+  diagnostic_obligation_families:
+    hp005: [cause_effect_output_selector]
+    hp009: [closed_loop_return_path]
+    hp017: [cause_effect_rule_behavior, cause_effect_default_rules_precondition]
+  diagnostic_claim_mapping:
+    m0.hp005.output_selection.1:
+      qid: hp005
+      obligation_kinds: [cause_effect_output_selector]
+    m0.hp009.closed_loop_return.1:
+      qid: hp009
+      obligation_kinds: [closed_loop_return_path]
+    m0.hp009.closed_loop_return.2:
+      qid: hp009
+      obligation_kinds: [terminal_bundle]
+    m0.hp017.rule1.2:
+      qid: hp017
+      obligation_kinds: [cause_effect_rule_behavior, cause_effect_default_rules_precondition]
+  expected_legacy_no_plan_invalidations: [hp005, hp009, hp017]
+  exact_obligation_packet_preserved_outside_expected_invalidations: true
+  output_reports_all_new_obligations: true
+  deterministic_replay_required: true
+  negative_tests_required: true
+  causal_ok_claim_allowed: false
+next_step_if_go:
+  action: separately_authorised_minimal_fresh_answer_probe
+  maximum_distinct_questions: 3
+  atomic_manual_adjudication_required: true

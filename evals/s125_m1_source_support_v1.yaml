@@ -1,0 +1,271 @@
+schema_version: s125_m1_source_support_v1
+instrument: s125_exact_literal_support_receipts
+status: SOURCE_ONLY_FROZEN_BEFORE_ANSWER_REPLAY
+
+claims:
+  m1.cat005.c30477c37c3d5942.max_remote_sensors:
+    934b00a8-739f-4d7b-8853-32caad5232a4:
+      - 'Permite la conexión de hasta 4 sensores remotos simultaneos'
+  m1.cat005.c30477c37c3d5942.analog_digital_inputs:
+    934b00a8-739f-4d7b-8853-32caad5232a4:
+      - '4 entradas digitales (0-10/15 v) o analógicas (4-20 mA)'
+  m1.cat005.fb0031fbe096519b.digital_product_code:
+    8c9b9f0b-8a51-417f-b05e-63d4dd61ed48:
+      - 'Versión digital: 3244<br/>Versión analógica: 3270'
+  m1.cat005.fb0031fbe096519b.analog_product_code:
+    8c9b9f0b-8a51-417f-b05e-63d4dd61ed48:
+      - 'Versión digital: 3244<br/>Versión analógica: 3270'
+
+  m1.cat007.7947613c1a4de8b1.alarm_relay_contacts:
+    e49a4944-4157-42e3-a1c5-15ec4a6e8926:
+      - '| 5   | NC Alarm Relay          | CH1'
+      - '| 6   | C Alarm Relay           | CH1'
+      - '| 7   | NO Alarm Relay          | CH1'
+      - '| 8   | NC Alarm Relay          | CH2'
+      - '| 9   | C Alarm Relay           | CH2'
+      - '| 10  | NO Alarm Relay          | CH2'
+  m1.cat007.7947613c1a4de8b1.fault_relay_contacts:
+    e49a4944-4157-42e3-a1c5-15ec4a6e8926:
+      - '| 11  | NC Fault Relay          | CH1'
+      - '| 12  | C Fault Relay           | CH1'
+      - '| 13  | NO Fault Relay          | CH1'
+      - '| 14  | NC Fault Relay (AUX)    | CH2'
+      - '| 15  | C Fault Relay (AUX)     | CH2'
+      - '| 16  | NO Fault Relay (AUX)    | CH2'
+  m1.cat007.224f21eed48712ef.fault_conditions:
+    8221ec70-6882-41b5-8dd6-705a1a7e739a:
+      - 'Cuando se produce una CONDICIÓN DE AVERÍA en el canal 1 o 2 o una AVERÍA común.'
+  m1.cat007.224f21eed48712ef.service_or_unpowered:
+    8221ec70-6882-41b5-8dd6-705a1a7e739a:
+      - 'La avería también se indica en el modo de servicio y cuando se desconecta la alimentación de la unidad.'
+  m1.cat007.224f21eed48712ef.fault_not_latched:
+    8221ec70-6882-41b5-8dd6-705a1a7e739a:
+      - 'El estado de avería no está enclavado.'
+  m1.cat007.1034ff01c53cc99a.sounder_outputs:
+    e49a4944-4157-42e3-a1c5-15ec4a6e8926:
+      - '| 17  | Sounder Output 1 -'
+      - '| 18  | Sounder Output 1 +'
+      - '| 19  | Sounder Output 2 -'
+      - '| 20  | Sounder Output 2 +'
+    8221ec70-6882-41b5-8dd6-705a1a7e739a:
+      - 'La sirena 1 se corresponde con el canal 1 y la sirena 2 con el canal 2.'
+  m1.cat007.1034ff01c53cc99a.sounder_eol:
+    e49a4944-4157-42e3-a1c5-15ec4a6e8926:
+      - '| 17  | Sounder Output 1 -      | 47 k-ohm EOL Resistor'
+      - '| 19  | Sounder Output 2 -      | 47 k-ohm EOL Resistor'
+
+  m1.cat010.5bec12668a94fa37.ui:
+    d4ae732f-2838-4134-a558-680b1ac36bb8:
+      - 'Ui = 28V  Ii = 93mA    Pi = 660mW Ci = 0  Li = 0'
+      - 'Terminal + w.r.t. Terminal -'
+  m1.cat010.5bec12668a94fa37.ii:
+    d4ae732f-2838-4134-a558-680b1ac36bb8:
+      - 'Ui = 28V  Ii = 93mA    Pi = 660mW Ci = 0  Li = 0'
+      - 'Terminal + w.r.t. Terminal -'
+  m1.cat010.5bec12668a94fa37.pi:
+    d4ae732f-2838-4134-a558-680b1ac36bb8:
+      - 'Ui = 28V  Ii = 93mA    Pi = 660mW Ci = 0  Li = 0'
+      - 'Terminal + w.r.t. Terminal -'
+  m1.cat010.5bec12668a94fa37.ci:
+    d4ae732f-2838-4134-a558-680b1ac36bb8:
+      - 'Ui = 28V  Ii = 93mA    Pi = 660mW Ci = 0  Li = 0'
+      - 'Terminal + w.r.t. Terminal -'
+  m1.cat010.5bec12668a94fa37.li:
+    d4ae732f-2838-4134-a558-680b1ac36bb8:
+      - 'Ui = 28V  Ii = 93mA    Pi = 660mW Ci = 0  Li = 0'
+      - 'Terminal + w.r.t. Terminal -'
+
+  m1.cat012.859bf84ece1e1301.battery_formula:
+    248eb7da-80d0-470f-bddb-b024c21de8a4:
+      - '**Ah Batería = (A + B) x 1,2 5 =**'
+  m1.cat012.859bf84ece1e1301.tolerance_factor:
+    3393ccc0-01ff-474b-8b6f-9030ba0253ff:
+      - 'multiplicarse por un factor de 1,2 para tener en cuenta las tolerancias de fabricación de las baterías.'
+  m1.cat012.8f913ebef3a60ac1.standby_term:
+    248eb7da-80d0-470f-bddb-b024c21de8a4:
+      - '(x 24 h) o (x<br/>72 h) ='
+      - '**Espera (A)**'
+  m1.cat012.8f913ebef3a60ac1.alarm_term:
+    248eb7da-80d0-470f-bddb-b024c21de8a4:
+      - 'x 0,5 h ='
+      - '**Alarma (B)**'
+  m1.cat012.67cd609181abed52.installed_capacity_range:
+    241c7c0c-0330-4d9b-b240-448cadfe5642:
+      - 'Número de baterías a conectar = 2 x 12 V mín. 7 Ah o 18 Ah máx.'
+  m1.cat012.67cd609181abed52.yuasa_capacity:
+    241c7c0c-0330-4d9b-b240-448cadfe5642:
+      - 'Yuasa tipo NP18-12B o NP7-12BFR (UL94) Perno-Capacidad (20h)=12V 17,2 Ah'
+  m1.cat012.67cd609181abed52.fiamm_capacity:
+    241c7c0c-0330-4d9b-b240-448cadfe5642:
+      - 'Fiamm tipo FG21803 o FGV21803 (UL94) Perno-Capacidad (20 h) = 12V 18 Ah'
+
+  m1.cat014.72ed1610f96bff0e.replacement_life:
+    9786969a-8168-457b-aed8-3337235d874f:
+      - 'El detector debe ser sustituido 10 años después de su fecha de fabricación.'
+  m1.cat014.72ed1610f96bff0e.manufacture_date_label:
+    9786969a-8168-457b-aed8-3337235d874f:
+      - 'La fecha de fabricación está impresa en la pegatina adjunta en el lateral del dispositivo.'
+
+  m1.cat019.6c2692e4d3fd39ac.create_maneuver:
+    d27aaa9e-a6e1-4245-a3f3-2cdef3f5be4c:
+      - '**MENU** (Menú principal) **> MANIOBRAS**(Submenú)'
+      - '**+AÑADIR** (Barra de Navegacion Inferior)'
+  m1.cat019.6c2692e4d3fd39ac.coincidence_semantics:
+    66596504-7f3b-4294-8459-72c7bd5c7983:
+      - 'En el campo coincidencias indicaremos el número de eventos que deben concurrir para que la función sea verdadera.'
+  m1.cat019.6c2692e4d3fd39ac.coincidence_examples:
+    66596504-7f3b-4294-8459-72c7bd5c7983:
+      - 'campo coincidencias hemos indicado el valor 1'
+      - 'campo coincidencias hemos indicado el valor 2'
+      - 'campo coincidencias hemos indicado el valor 3'
+  m1.cat019.650574c29860ac58.add_event_or_action:
+    3d0273cf-dd42-4e48-89c3-a37e588396ca:
+      - '* un **EVENTO**'
+      - '* una **ACCION**'
+  m1.cat019.650574c29860ac58.event_change_and_condition:
+    3d0273cf-dd42-4e48-89c3-a37e588396ca:
+      - 'El evento es el cambio de estado. Este, si coincide con la condición establecida provocará la activación de las salidas.'
+  m1.cat019.650574c29860ac58.capacity_limit:
+    2720d4cf-7be8-4482-be1a-fba10cc59d5b:
+      - 'El sistema soporta 100.000 entradas y salidas configuradas en distintas maniobras.'
+  m1.cat019.77fff66f289222e7.event_type_choice:
+    3d0273cf-dd42-4e48-89c3-a37e588396ca:
+      - '* un **ENTIDAD**'
+      - '* una **CONDICION TEMPORAL**'
+  m1.cat019.77fff66f289222e7.entity_scope:
+    3d0273cf-dd42-4e48-89c3-a37e588396ca:
+      - 'La **ENTIDAD** es cualquier elemento de la jerarquía del sistema perteneciente al sistema local (central actual) o la red (cualquiera de las centrales del sistema en red).'
+  m1.cat019.77fff66f289222e7.temporal_condition:
+    3d0273cf-dd42-4e48-89c3-a37e588396ca:
+      - 'La **CONDICION TEMPORAL** permite establecer un periodo de tiempo para el que la ecuación de entrada sea verdadera y se pueda realizar la acción de salida'
+
+  m1.cat023.7ed9d4ed696ccfe3.en54_classes:
+    30088b95-62fd-436c-af4a-8cdae8008996:
+      - 'EN 54-20, clase A sensibilidad muy alta'
+      - 'EN 54-20, clase B sensibilidad alta'
+      - 'EN 54-20, clase C sensibilidad normal'
+  m1.cat023.bf0ef37152274a9c.nonnormative_airflow_positions:
+    0de5172f-c3cb-4572-92ec-dde4ecdedb3c:
+      - 'Las posiciones de conmutador *W01* a *W44* únicamente deben utilizarse previa consulta con el fabricante.'
+      - 'no** están homologados según EN 54-20.'
+
+  m1.hp002.4de86fac80358a14.nominal_after_reset:
+    414ce99c-0dec-478c-b504-009f14631804:
+      - 'el flujo de aire se mostrará al 100 % si, después del reset inicial, el conducto de aspiración está limpio y en perfecto estado.'
+  m1.hp002.4de86fac80358a14.standard_fault_window:
+    414ce99c-0dec-478c-b504-009f14631804:
+      - 'En las posiciones de conmutador A11 a C32, cualquier variación de este valor que supere el ±20 %'
+      - 'por debajo del 80 % (suciedad/obstrucción) o por encima del 120 % (rotura de tubo)'
+      - 'tiempo de retardo de 300 s de la LS-Ü.'
+  m1.hp002.4de86fac80358a14.w_positions_caveat:
+    414ce99c-0dec-478c-b504-009f14631804:
+      - 'En las posiciones de conmutador W01 a W48'
+      - 'no están homologados según EN 54-20'
+      - 'únicamente se deben utilizar previa consulta con el fabricante.'
+  m1.hp002.c2c99fa936e98f67.flow_direction_diagnosis:
+    b5804921-836c-49ca-8316-cecae6da409b:
+      - '**Significado**: Valor < 100 % = apunta a obstrucción / > 100 % = apunta a rotura de tubo'
+  m1.hp002.c2c99fa936e98f67.obstruction_checks:
+    9410f72f-fff5-494b-bdf5-a0a177e7f02e:
+      - 'Comprobar si el conducto de aspiración está obstruido'
+      - 'Inspeccionar y limpiar caja de filtro/unidad de filtrado'
+      - 'caja de filtro/unidad de filtrado<br/>• Inspeccionar y limpiar sensor flujo de aire'
+  m1.hp002.06f759b5da9ed40b.maintenance_safety:
+    5b6a3a19-a924-4cf4-9513-bd50786ee3d9:
+      - 'Para evitar que los controles de incendios, las alertas remotas y las zonas de extinción se disparen'
+      - 'es **imprescindible** bloquearlos o desconectarlos previamente.'
+  m1.hp002.06f759b5da9ed40b.read_and_compare_flow:
+    5b6a3a19-a924-4cf4-9513-bd50786ee3d9:
+      - 'Leer el valor de flujo de aire del conducto de aspiración en la posición de conmutador V'
+      - 'comparar con el protocolo de puesta en funcionamiento.'
+
+  m1.hp004.ae02a395c8359cf9.supply_variants:
+    bf78e1db-f87b-4b60-b77f-2afae628c736:
+      - 'El DGD-600 debe conectarse a 24v o 220v (según modelo)'
+  m1.hp004.5fbc4f5bce66dde5.model24_voltage:
+    9786969a-8168-457b-aed8-3337235d874f:
+      - '| Tensión de funcionamiento              | De 22V a 38V                  | de 180V a 240V |'
+  m1.hp004.5fbc4f5bce66dde5.model24_standby:
+    9786969a-8168-457b-aed8-3337235d874f:
+      - '| Consumo en reposo                      | 45 mA                         | 70 mA          |'
+  m1.hp004.5fbc4f5bce66dde5.model24_alarm:
+    9786969a-8168-457b-aed8-3337235d874f:
+      - '| Consumo en alarma                      | 65 mA                         | 70 mA          |'
+  m1.hp004.cf0e1e8fdc95c005.model220_voltage:
+    9786969a-8168-457b-aed8-3337235d874f:
+      - '| Tensión de funcionamiento              | De 22V a 38V                  | de 180V a 240V |'
+  m1.hp004.cf0e1e8fdc95c005.model220_standby:
+    9786969a-8168-457b-aed8-3337235d874f:
+      - '| Consumo en reposo                      | 45 mA                         | 70 mA          |'
+  m1.hp004.cf0e1e8fdc95c005.model220_alarm:
+    9786969a-8168-457b-aed8-3337235d874f:
+      - '| Consumo en alarma                      | 65 mA                         | 70 mA          |'
+
+  m1.hp008.582541b1412a96ce.cpx551e:
+    11d96526-d627-4305-8cae-e6852af1b20b:
+      - 'a. CPX-551E (ION)'
+  m1.hp008.582541b1412a96ce.cpx751e:
+    11d96526-d627-4305-8cae-e6852af1b20b:
+      - 'b. CPX-751E (ION - bajo perfil)'
+  m1.hp008.6898c1c2de2ec424.sdx551e:
+    11d96526-d627-4305-8cae-e6852af1b20b:
+      - 'c. SDX551E (OPT)'
+  m1.hp008.6898c1c2de2ec424.sdx751:
+    11d96526-d627-4305-8cae-e6852af1b20b:
+      - 'd. SDX-751 (OPT)'
+  m1.hp008.6898c1c2de2ec424.sdx751em:
+    f15e1eca-7985-4abf-83ee-130d66e1849d:
+      - 'd. Óptico SDX-751EM'
+  m1.hp008.d7fc6ebefe5f9c92.irx751ctem:
+    11d96526-d627-4305-8cae-e6852af1b20b:
+      - 'IRX-751CTEM (SMART 4)'
+  m1.hp008.d7fc6ebefe5f9c92.irx751tem:
+    11d96526-d627-4305-8cae-e6852af1b20b:
+      - 'IRX-751TEM (SMART 3)'
+  m1.hp008.9f88aa8a1292a479.sdx751tem:
+    f15e1eca-7985-4abf-83ee-130d66e1849d:
+      - 'b. Optiplex (Comb. térmico/humo) SDX-751TEM'
+
+  m1.hp017.f4849c19a9af7245.cause_effect_rules:
+    570d9951-e3a6-4c64-a927-e26b5e6db842:
+      - 'Las reglas de causa-efecto pueden especificar diferentes condiciones para retardos de salida y cómo se controlan.'
+  m1.hp017.7258aec395b0f78d.programming_method:
+    d27b1a1b-69cd-4318-a459-f3c86eb757ba:
+      - 'Se recomienda utilizar el programa de configuración por ordenador como principal método de programación.'
+      - 'El menú de la central debería emplearse solo para realizar modificaciones menores en las reglas'
+  m1.hp017.7258aec395b0f78d.input_instruction:
+    d27b1a1b-69cd-4318-a459-f3c86eb757ba:
+      - 'Instrucción de entrada: esta parte de la regla es una condición de entrada, como una alarma, una avería o la detección de un cambio de estado'
+  m1.hp017.7258aec395b0f78d.output_instruction:
+    d27b1a1b-69cd-4318-a459-f3c86eb757ba:
+      - 'Instrucción de salida: esta parte de la regla solo puede procesarse cuando se cumplen todas las condiciones de entrada programadas.'
+      - 'La salida se refiere al accionamiento de uno o más equipos asignados, como sirenas o relés'
+  m1.hp017.7258aec395b0f78d.avoid_contradictory_logic:
+    d27b1a1b-69cd-4318-a459-f3c86eb757ba:
+      - 'Al programar reglas de causa-efecto evite las lógicas contradictorias.'
+  m1.hp017.7258aec395b0f78d.commissioning_test:
+    d27b1a1b-69cd-4318-a459-f3c86eb757ba:
+      - 'Es de vital importancia probar rigurosamente todas las reglas durante la puesta en marcha del sistema para verificar que no haya conflictos lógicos entre ellas.'
+  m1.hp017.ee150da7e6a7607d.delay_types:
+    570d9951-e3a6-4c64-a927-e26b5e6db842:
+      - 'Se puede asignar uno de seis tipos de retardo de salida a una regla'
+
+  m1.hp019.9e06c35fb7c4d8ef.operating_temperature:
+    99908a8c-aa47-4d92-aba4-17d0188e9f6c:
+      - '–30 – +60 (UL máx. +40)'
+      - '–30 – +60 ➂'
+    79bc7788-b128-4abc-beea-6317e4d06993:
+      - 'Es posible acordar con el fabricante rangos de temperatura inferiores o superiores.'
+
+  m1.hp020.253dbf5abe806d5c.level2_change:
+    1e38f728-ce6a-4753-b24f-46c9106d8c6a:
+      - 'Si estás en el nivel de acceso 2, puedes cambiar el código de acceso del nivel 2'
+  m1.hp020.253dbf5abe806d5c.level3_change:
+    1e38f728-ce6a-4753-b24f-46c9106d8c6a:
+      - 'si estás en el nivel de acceso 3, puedes cambiar el código de acceso del nivel 2 o 3.'
+  m1.hp020.8086e1ff3028ad10.reenter_to_confirm:
+    1e38f728-ce6a-4753-b24f-46c9106d8c6a:
+      - 'Confirme la entrada del código de acceso realizada, siga los pasos 03 a 06.'
+  m1.hp020.8086e1ff3028ad10.success_message:
+    1e38f728-ce6a-4753-b24f-46c9106d8c6a:
+      - 'Observe el mensaje "Cambio de código de acceso satisfactorio". Seleccione Aceptar para reconocer.'

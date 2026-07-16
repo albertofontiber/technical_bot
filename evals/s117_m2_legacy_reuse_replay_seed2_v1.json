@@ -1,0 +1,421 @@
+{
+  "instrument": "s117_m2_legacy_reuse_analysis_v1",
+  "status": "GO",
+  "snapshot": {
+    "canonical_jsonl_sha256": "c5c4e1027d85b5023e8834e221bb99799fedbea1a9826f5a42f88ff3ad8da8d5",
+    "gzip_sha256": "3013c553da20c72fbfe0dc801dad4ea4b063ecff3138dcf55b5cd7831cf79067",
+    "gzip_bytes": 22097566,
+    "documents": 1171,
+    "chunks": 25090,
+    "transaction_read_only": "on",
+    "transaction_isolation": "repeatable read",
+    "server_version_num": "170006",
+    "remote_semantic_manifest_sha256": "db0f9fafb5272c72ea6d2c0a4e11c60be529ff4e086d5fbe9e78bb36b72278de",
+    "base_chunks": 25090,
+    "surrogate_chunks": 0
+  },
+  "local": {
+    "rows": 31212,
+    "documents": 1068,
+    "portal_source_paths": 95,
+    "resolved_portal_source_paths": 95,
+    "missing_portal_source_paths": 0,
+    "manifest_sha256": "db601263df5eb5e1784136b7fc69e1e76d112c25047f60c953cafa80534be599",
+    "per_document_count_manifest_sha256": "6aa41536bdf3e7895cd5417c113456498dd79784e360f4d6004513d08992e695"
+  },
+  "funnel": {
+    "total_local": 31212,
+    "policy_eligible": 25831,
+    "target_document_resolved": 8757,
+    "target_document_active": 8493,
+    "extraction_hit": 8493,
+    "content_hit": 8032,
+    "structure_hit": 7903,
+    "metadata_hit": 2623,
+    "unique_donor": 2623,
+    "context_reuse_candidate": 2623,
+    "embedding_reuse_candidate": 2623
+  },
+  "terminals": {
+    "policy_excluded_register_only": 602,
+    "policy_excluded_language": 4779,
+    "target_document_unresolved": 17074,
+    "document_status_excluded": 264,
+    "no_extraction_donor": 0,
+    "content_miss": 461,
+    "structure_miss": 129,
+    "metadata_miss": 5280,
+    "ambiguous_donor": 0,
+    "unique_donor_context_missing": 0,
+    "unique_donor_embedding_missing_or_wrong_dim": 0,
+    "legacy_context_and_embedding_candidate": 2623
+  },
+  "document_status_rows": {
+    "active": 8493,
+    "needs_review": 44,
+    "retired": 2,
+    "superseded": 218
+  },
+  "diagnostics": {
+    "donor_document_binding_drift": 0,
+    "unique_donors_marked_duplicate": 270,
+    "by_manufacturer": {
+      "Argus Security": {
+        "target_document_unresolved": 142
+      },
+      "Aritech": {
+        "content_miss": 72,
+        "legacy_context_and_embedding_candidate": 819,
+        "metadata_miss": 3,
+        "structure_miss": 36
+      },
+      "Detnov": {
+        "content_miss": 4,
+        "document_status_excluded": 218,
+        "legacy_context_and_embedding_candidate": 385,
+        "structure_miss": 1,
+        "target_document_unresolved": 668
+      },
+      "Edwards": {
+        "content_miss": 2,
+        "legacy_context_and_embedding_candidate": 152,
+        "structure_miss": 3
+      },
+      "Kidde": {
+        "content_miss": 34,
+        "legacy_context_and_embedding_candidate": 634,
+        "structure_miss": 25
+      },
+      "Morley": {
+        "content_miss": 14,
+        "legacy_context_and_embedding_candidate": 27,
+        "metadata_miss": 120,
+        "target_document_unresolved": 234
+      },
+      "Notifier": {
+        "content_miss": 169,
+        "document_status_excluded": 2,
+        "legacy_context_and_embedding_candidate": 271,
+        "metadata_miss": 2431,
+        "structure_miss": 22,
+        "target_document_unresolved": 6170
+      },
+      "Pepperl-Fuchs": {
+        "target_document_unresolved": 10
+      },
+      "Pfannenberg": {
+        "content_miss": 8,
+        "legacy_context_and_embedding_candidate": 13,
+        "structure_miss": 3,
+        "target_document_unresolved": 180
+      },
+      "Securiton": {
+        "target_document_unresolved": 1153
+      },
+      "SenseWare": {
+        "target_document_unresolved": 38
+      },
+      "Spectrex": {
+        "content_miss": 16,
+        "legacy_context_and_embedding_candidate": 191,
+        "structure_miss": 3,
+        "target_document_unresolved": 572
+      },
+      "Xtralis": {
+        "content_miss": 2,
+        "legacy_context_and_embedding_candidate": 131,
+        "target_document_unresolved": 1193
+      },
+      "__unresolved__": {
+        "content_miss": 140,
+        "document_status_excluded": 44,
+        "metadata_miss": 2726,
+        "policy_excluded_language": 4779,
+        "policy_excluded_register_only": 602,
+        "structure_miss": 36,
+        "target_document_unresolved": 6714
+      }
+    },
+    "top_documents": [
+      {
+        "extraction_sha256": "9b3364f5fe26616c316c0afc3c0d1788f837dfe7388240ca97e0bc742a733ed5",
+        "terminals": {
+          "policy_excluded_language": 275,
+          "target_document_unresolved": 191
+        }
+      },
+      {
+        "extraction_sha256": "8f7d50811fb97bd69ecef30ac4aa8706e90ee1ebf49f276a8794ded8421edee8",
+        "terminals": {
+          "target_document_unresolved": 348
+        }
+      },
+      {
+        "extraction_sha256": "38fd186565de4efab32645f4408a61e7c72ee2505e6b16922fc650ab24f98db5",
+        "terminals": {
+          "target_document_unresolved": 299
+        }
+      },
+      {
+        "extraction_sha256": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+        "terminals": {
+          "policy_excluded_language": 1,
+          "target_document_unresolved": 254
+        }
+      },
+      {
+        "extraction_sha256": "143d462c2cdfc4f95078cdc880e7c56f98638ac3d7c9c113c43acc2ec544c54e",
+        "terminals": {
+          "target_document_unresolved": 248
+        }
+      },
+      {
+        "extraction_sha256": "3fda944ecbca316b0fa9f53cf947be63bd685205e8b824a645bfa1ea3dd2fefe",
+        "terminals": {
+          "content_miss": 24,
+          "legacy_context_and_embedding_candidate": 210,
+          "structure_miss": 3
+        }
+      },
+      {
+        "extraction_sha256": "8a71ac73fd62b8913598545caa168b033aa953a337f04ed06e2d963145f3ab77",
+        "terminals": {
+          "target_document_unresolved": 216
+        }
+      },
+      {
+        "extraction_sha256": "b934d3f623bb294111b3f1596974b1a05bc8dfd974157edaf54f979dfa274884",
+        "terminals": {
+          "policy_excluded_language": 104,
+          "target_document_unresolved": 112
+        }
+      },
+      {
+        "extraction_sha256": "dfe2396c52a19e41dc5fb8fda17e5b07b39caae1b9272886b1f19addff6377a0",
+        "terminals": {
+          "content_miss": 14,
+          "legacy_context_and_embedding_candidate": 190,
+          "policy_excluded_language": 1,
+          "structure_miss": 4
+        }
+      },
+      {
+        "extraction_sha256": "8e860e3a5095e9a4c6cbcd51e07dce542bbcaeb2d2662e350f7e6fdfca68fbbb",
+        "terminals": {
+          "target_document_unresolved": 208
+        }
+      },
+      {
+        "extraction_sha256": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+        "terminals": {
+          "target_document_unresolved": 205
+        }
+      },
+      {
+        "extraction_sha256": "6ae6c7e4f4b787c1b2b9d72cefbe454d3502a087ec4312c99d19a73a33fa7f17",
+        "terminals": {
+          "target_document_unresolved": 199
+        }
+      },
+      {
+        "extraction_sha256": "c228d8df52d1630b4fa26eb3f9731bc9e81a696b017eb31127d90ec0b4a6834a",
+        "terminals": {
+          "target_document_unresolved": 196
+        }
+      },
+      {
+        "extraction_sha256": "e4bc97e16d6a7fd39deecabeacffc880eba1967f80e31412492f8172ac7ea4ac",
+        "terminals": {
+          "target_document_unresolved": 182
+        }
+      },
+      {
+        "extraction_sha256": "e356ab08fe3bc815c7c249bb82df38f991279b01e30f0f28f3a4aa6a549b829e",
+        "terminals": {
+          "target_document_unresolved": 159
+        }
+      },
+      {
+        "extraction_sha256": "3a41d329f0e1ec47ceb50f23d0982f30569cfd65c95fbdf42a9278040dd98c06",
+        "terminals": {
+          "content_miss": 8,
+          "legacy_context_and_embedding_candidate": 146,
+          "structure_miss": 1
+        }
+      },
+      {
+        "extraction_sha256": "c3eb5ec2671491feb2671329b321912d35e1537ede0af2344b67286809fabc46",
+        "terminals": {
+          "content_miss": 2,
+          "legacy_context_and_embedding_candidate": 48,
+          "policy_excluded_language": 101
+        }
+      },
+      {
+        "extraction_sha256": "931695e0f0a0210d741fd94bb7afa9ee4c10450968d928176926fd0f4fdb13eb",
+        "terminals": {
+          "target_document_unresolved": 149
+        }
+      },
+      {
+        "extraction_sha256": "9625e2a91dd2779aca73da34dd56d0246ab9dd5c4c845f23637e333d2bb2ac3c",
+        "terminals": {
+          "content_miss": 2,
+          "legacy_context_and_embedding_candidate": 45,
+          "policy_excluded_language": 98
+        }
+      },
+      {
+        "extraction_sha256": "00a31f267bd8eb7886c7b0c0c1560c070aba9f68757a957298f2e98ed151d93c",
+        "terminals": {
+          "target_document_unresolved": 144
+        }
+      },
+      {
+        "extraction_sha256": "91e001a20eede15fb792cb173e812d45211113131f3ebb88bcfab862fc1aff3a",
+        "terminals": {
+          "policy_excluded_language": 70,
+          "target_document_unresolved": 72
+        }
+      },
+      {
+        "extraction_sha256": "ec2d5396055cebf7c30051e15513a4932c5675cdfc223fc6c6bf7d6f737d7baa",
+        "terminals": {
+          "content_miss": 2,
+          "legacy_context_and_embedding_candidate": 138,
+          "policy_excluded_language": 1,
+          "structure_miss": 1
+        }
+      },
+      {
+        "extraction_sha256": "a8db1f7fbd3114697756140949a750e3e99d9c64bc1d72d89b5ff9e152dba0a9",
+        "terminals": {
+          "policy_excluded_language": 76,
+          "target_document_unresolved": 64
+        }
+      },
+      {
+        "extraction_sha256": "888b17b4a73f6fd260766cef5bb9fb218d05ee7a40c15e8942b7df6fe2e71459",
+        "terminals": {
+          "target_document_unresolved": 139
+        }
+      },
+      {
+        "extraction_sha256": "691ac4b41cce610f8573f9145b81b3d993fb7743b19602bf0cb5df94256fc0e0",
+        "terminals": {
+          "target_document_unresolved": 137
+        }
+      },
+      {
+        "extraction_sha256": "a87f198fdacdfd2648e46312f1e9feb3d972d3a09af39c941ccf42614bcf062a",
+        "terminals": {
+          "content_miss": 6,
+          "metadata_miss": 131
+        }
+      },
+      {
+        "extraction_sha256": "081ffce15f1331d9dd94994836fb044a47fdb73128a688b23ca6e313d58e512b",
+        "terminals": {
+          "target_document_unresolved": 136
+        }
+      },
+      {
+        "extraction_sha256": "3797d14d071d618d2a6b0343dfb3d0e4bc4a8cebe75016fce5206cd9687ab68e",
+        "terminals": {
+          "legacy_context_and_embedding_candidate": 135,
+          "structure_miss": 1
+        }
+      },
+      {
+        "extraction_sha256": "241afebd548a85b412ba3e8af45a22f0b6aa76da697ca48b97dfa463d3bd6213",
+        "terminals": {
+          "target_document_unresolved": 135
+        }
+      },
+      {
+        "extraction_sha256": "4e0562d523a995ccc2c35c004876ef5dc6186de4ae9bde3ade83ef23d5bd91d1",
+        "terminals": {
+          "target_document_unresolved": 133
+        }
+      }
+    ]
+  },
+  "reuse_receipts": {
+    "strict_context_candidates": 2623,
+    "strict_context_manifest_sha256": "deaa6e3a9f23193046a9f9f332225c41077bddc05891c5bffdafedd55852f86f",
+    "strict_embedding_candidates": 2623,
+    "strict_embedding_input_manifest_sha256": "b18474362004f5d439e996d45fa3e9c031a90d251d443dfb35c90d07fa4fda8e",
+    "vector_sha256": null,
+    "historical_model_receipt": null,
+    "claim": "candidate_only_legacy_v2_reuse"
+  },
+  "workloads": {
+    "strict": {
+      "productive_rows": 8493,
+      "context_calls": 5870,
+      "context_input_chars": 714206062,
+      "context_input_tokens_char4_proxy": 178553749,
+      "context_output_tokens_ceiling": 1174000,
+      "context_documents": 349,
+      "prompt_cache_write_document_chars": 17456076,
+      "prompt_cache_read_document_chars": 683268634,
+      "uncached_instruction_chars": 13481352,
+      "embedding_calls": 5870,
+      "embedding_input_chars_exact_when_context_reused": 0,
+      "embedding_rows_with_generated_context": 5870,
+      "embedding_input_chars_lower_bound_when_context_generated": 11655232,
+      "embedding_input_chars_upper_bound_when_context_generated": 93920000,
+      "embedding_input_tokens_char4_proxy_lower_bound": 2913808,
+      "embedding_input_tokens_char4_proxy_upper_bound": 23480000,
+      "currency_estimate": null
+    },
+    "structural_ceiling_non_authorizing": {
+      "productive_rows": 8493,
+      "context_calls": 590,
+      "context_input_chars": 63861545,
+      "context_input_tokens_char4_proxy": 15965620,
+      "context_output_tokens_ceiling": 118000,
+      "context_documents": 205,
+      "prompt_cache_write_document_chars": 14054909,
+      "prompt_cache_read_document_chars": 48670086,
+      "uncached_instruction_chars": 1136550,
+      "embedding_calls": 590,
+      "embedding_input_chars_exact_when_context_reused": 0,
+      "embedding_rows_with_generated_context": 590,
+      "embedding_input_chars_lower_bound_when_context_generated": 932364,
+      "embedding_input_chars_upper_bound_when_context_generated": 9440000,
+      "embedding_input_tokens_char4_proxy_lower_bound": 233091,
+      "embedding_input_tokens_char4_proxy_upper_bound": 2360000,
+      "currency_estimate": null
+    }
+  },
+  "checks": {
+    "transaction_read_only": true,
+    "transaction_repeatable_read": true,
+    "zero_vector_payloads": true,
+    "portal_sidecars_complete": true,
+    "terminal_taxonomy_closed": true,
+    "funnel_monotonic": true,
+    "currency_estimates_absent": true
+  },
+  "cost": {
+    "model_calls": 0,
+    "database_reads": 1,
+    "database_writes": 0,
+    "vector_payloads": 0
+  },
+  "determinism": {
+    "byte_logically_identical": true,
+    "payload_sha256": "0023f0b86edb0c9d5c6f5ea8dd1b6548364423b1eccef2696a476e714cccbcde"
+  },
+  "dependencies": {
+    "prereg_sha256": "2990ece8c14ebc4a84f666cd27ccc515f20d144cecb655b88c771d2ddca8211c",
+    "analyzer_sha256": "b53632cb50009c5d41236af1c79c5c2c6d4631cf7f551729f442b8c962dc25ba",
+    "runtime": {
+      "python": "3.14.3",
+      "lingua-language-detector": "2.2.0",
+      "psycopg2-binary": "2.9.11",
+      "PyYAML": "6.0.3"
+    }
+  }
+}

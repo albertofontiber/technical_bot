@@ -1,0 +1,133 @@
+instrument: s116_independent_document_holdout_prereg_v3
+status: frozen_after_explicit_single_retry_authorization
+supersedes: evals/s116_independent_document_holdout_prereg_v2.yaml
+
+source:
+  acquisition_prereg:
+    path: evals/s116_independent_holdout_acquisition_prereg_v1.yaml
+    sha256: 23da955fc8de6fc33a9e895248eba1fd73943beb2a6e3813c29e1a9924a42e5a
+  acquisition_receipt:
+    path: evals/s116_independent_holdout_acquisition_v1.json
+    sha256: 0ecb09b302b2922443479b9579c8553e9826701cc0cf6879c3d97def58a7839f
+  near_duplicate_screen:
+    prereg: evals/s116_independent_near_duplicate_screen_prereg_v1.yaml
+    receipt: evals/s116_independent_near_duplicate_screen_v1.json
+    receipt_sha256: d0544957a394b9d9baf809c52fe5af9af540010caa3b8052d8d33ef256aca7b3
+    gate: GO
+    exact_content_duplicates: 0
+    near_duplicate_flags: 0
+    maximum_observed_containment: 0.0221882172915073
+    threshold_containment: 0.80
+    maximum_observed_jaccard: 0.00714461690071446
+    threshold_jaccard: 0.65
+  interrupted_execution:
+    path: evals/s116_independent_extraction_interruption_v1.yaml
+    sha256: 1a242b820939148625387387c5c132b799383eae64cb811cc7359838bdd1a919
+  documents: 12
+  manufacturers: 4
+  pages: 644
+  bytes: 24341498
+  independence_claim: no exact PDF, normalized-content or threshold near-duplicate overlap with the frozen development store
+
+documents:
+  - {id: bosch_fpc500_install, filename: bosch_fpc500_installation_en.pdf, pages: 80, sha256: 720fe4dcb0023d76c7fa981b556dc66c3d02a10b1abe9b728fd4563b9d3d50ec}
+  - {id: bosch_fpp5000_power, filename: bosch_fpp5000_installation_all.pdf, pages: 80, sha256: 295540683fa0542fbe1d014c8fdc691747754166c9c8a0f0421a6a14997ab056}
+  - {id: bosch_flm430_interface, filename: bosch_flm430_i2m1_installation_all.pdf, pages: 176, sha256: 653719e29ee747a481961360444f355c6cb2931e61511df757ad94ebf72aca58}
+  - {id: siemens_fc922_panel, filename: siemens_fc922_fc924_installation_en.pdf, pages: 28, sha256: 907f47cca7c1eed18273c5c0921356591f532d228935cca8085929ce6db538c2}
+  - {id: siemens_oohc941_detector, filename: siemens_oohc941_installation_en.pdf, pages: 8, sha256: 3792d5699046c25eb92d331e4f2fb09c6eda9032eaeee0cc53af29fb867552e3}
+  - {id: siemens_fci2020_city_tie, filename: siemens_fci2020_city_tie_installation_en.pdf, pages: 14, sha256: 234ba09b1a58a0df1f00691e0bd1af21469fefaaf5289e988fa077f1cf7c5c32}
+  - {id: hochiki_hca_panel, filename: hochiki_hca_series_installation_operation.pdf, pages: 61, sha256: b4926f047f518239e11777adb7eb204160e91a4923c59ba99014a5069aba2634}
+  - {id: hochiki_smoke_heat_guide, filename: hochiki_smoke_heat_application_guide.pdf, pages: 22, sha256: 7870dc4b1c0f0adeae5aa3b076bca57e1d6574d544ddef0099530929df946f73}
+  - {id: hochiki_vr3_releasing, filename: hochiki_vr3_installation_operation.pdf, pages: 158, sha256: a576ab3d7702d1bf8e81dadfc0a4836469a5e328ef293d3353d97b123c91176e}
+  - {id: apollo_series65_base, filename: apollo_series65_base_installation.pdf, pages: 1, sha256: 523eb8b20f23016f34d747ddd79f91d8ac8d11b28961332e80e693749aae971e}
+  - {id: apollo_xp95a_detectors, filename: apollo_xp95a_detector_installation.pdf, pages: 2, sha256: 0b7a278f309a642d98f51d07fc83f2511f8fb444a0176d3abe5d21dc010660d3}
+  - {id: apollo_xpander_commissioning, filename: apollo_xpander_commissioning.pdf, pages: 14, sha256: b06377c0ed86431b011a000c1508de3f43bcb4bd9c4c9533187b37b705a23abe}
+
+extraction:
+  api: https://api.cloud.llamaindex.ai/api/v1/parsing
+  parse_mode: parse_page_with_agent
+  vendor_multimodal_model_name: anthropic-sonnet-4.5
+  pdf_store: tmp/s116_independent_holdout/pdfs
+  output_store: tmp/s116_independent_holdout/extraction/agent_anthropic-sonnet-45
+  attempt_ledger: tmp/s116_independent_holdout/extraction_attempts_v1.json
+  exclusive_lock: tmp/s116_independent_holdout/extraction_attempts_v1.lock
+  raw_artifact_receipt: tmp/s116_independent_holdout/extraction_receipt_v1.json
+  requirements:
+    - canonical paths are derived from this prereg and cannot be overridden by CLI
+    - exclusive process lock is held for the complete execution
+    - ledger identity migration must match the complete v2 identity and exact failed job
+    - one retry only for the frozen HCA SHA and failed job; no retry for any other document
+    - exact acquisition PDF SHA-256 and page count before upload
+    - at most 13 submissions, 705 attempted pages and 31725 planned credits
+    - no fallback mode, model or API version
+    - complete raw JSON response stored atomically by PDF SHA-256
+    - final receipt seals unique successful job IDs, raw JSON hashes and final ledger hash
+
+retry_authorization:
+  authorized_by_user: true
+  user_message: "OK, autorizo"
+  maximum_retries: 1
+  sha256: b4926f047f518239e11777adb7eb204160e91a4923c59ba99014a5069aba2634
+  failed_job_id: b3ee1749-1411-479b-88d6-728fea9617eb
+  error_code: MARKDOWN_EXTRACTION_FAILED
+  error_message: "Too many errors in Markdown reconstruction. Failed to reconstruct 5 out of 61 pages. Pages with errors: 40, 41, 42, 43, 50"
+  prior_identity:
+    prereg_sha256: 1e6085ce479e8b0943bbe010a58ce23f78becdd72f81182ae92df0df34a5cf40
+    acquisition_receipt_sha256: 0ecb09b302b2922443479b9579c8553e9826701cc0cf6879c3d97def58a7839f
+    pdf_manifest_sha256: 4ea3a8e884c22209e95702af7af83710c04d6de7c75f05be63580144407a0ff9
+    planned_documents: 12
+    planned_pages: 644
+    maximum_credits: 28980
+
+budget:
+  credits_per_page: 45
+  pages: 644
+  first_attempt_credits: 28980
+  maximum_attempt_pages: 705
+  maximum_submissions: 13
+  maximum_credits: 31725
+  historical_usd_per_1000_credits: 1.25
+  estimated_usd_if_fully_billable: 39.65625
+  displayed_estimate_usd: 39.66
+  hard_enforced_boundary: 12 first attempts plus one exact HCA retry; 705 attempted pages and 31725 planned credits
+  caveat: USD is a historical-rate estimate, not a provider-side monetary limit
+
+implementations:
+  baseline:
+    git_commit: ca0f736f46e16674119bdb66ceb069caf48d8c11
+    path: src/reingest/chunk.py
+    sha256: 58be85e8cdf2cfac475e7f7cd23639b04f7b22a1c60938ffec86e76cb2c60985
+  treatment:
+    path: src/reingest/chunk.py
+    sha256: 4b76ab219854c625f4ce5e55665e2c89d14739e4eee0ab01607aae7ecda4fd43
+  frozen_evaluator:
+    python: 3.14.3
+    scripts/s116_extract_independent_holdout.py: a667f18712e4726f7789e25572c67f413e4a1eca9b8395474cb086e7d4b2d636
+    scripts/s116_independent_holdout_replay.py: ead43a5b46da12bd21177b373be2fc1d980eed0abdc1b0babd912f60a3c35f5d
+    scripts/s116_cross_extractor_challenge.py: 86687dea25d1096fabb86406c5d33aba7d80455ff22b8444b760f9ad5f1f70da
+    scripts/s116_raw_store_ab_v21.py: a5d29926d42536090e5a6a0a48ba5d814dfe1f1f02b74d1cc69c36639fdc51b6
+    scripts/s116_raw_store_ab_v2.py: adb20d6349d1cc2e8fb346659dc15dc8223107b4f5220e8e259c99e8275feb71
+    tests/test_s116_extract_independent_holdout.py: 2338c69a4643d536e5a5c6cbe92941f065c6d1d725e8a2a0e15f75b32a86c667
+    tests/test_s116_independent_holdout_replay.py: da49669b66d523a9144e5b608abab8c8e144d0e68a02783b79930296c8f271b7
+    tests/test_s116_screen_independent_holdout.py: b1d84557f34f0f85bf4bca1b5bf62f0a2303011b36c1a99815b6e1d245a6a9cf
+
+replay_gate:
+  required:
+    - exactly 12 successful raw records and zero errors in both arms
+    - exact PDF SHA-256, page count, parse mode and model for every record
+    - valid sealed raw-artifact receipt with unique successful jobs and exact raw JSON and ledger hashes
+    - zero per-document content-stream mismatches
+    - zero treatment chunk_lineage_state_failures and orphan anchors
+    - every titled treatment chunk has an internally resolved anchor and atomic full lineage
+    - at least 5 documents and at least 30 chunks carry section titles
+    - treatment chunk growth at most 15 percent
+  decision_if_go: authorize design of a versioned persistence migration and provenance envelope
+  never_authorizes:
+    - database writes, reindexing, serving or production deployment
+    - fact OK relabeling without a downstream funnel replay
+
+authorization:
+  paid_extraction: true
+  exact_scope: one HCA same-configuration retry plus remaining untouched first attempts
+  planned_credit_ceiling: 31725
+  second_retry: false

@@ -1,0 +1,92 @@
+{
+  "instrument": "s112_guided_repair_probe_v1",
+  "production_writes": 0,
+  "railway_changed": false,
+  "source_qid": "cat018",
+  "source_answer_sha256": "23d502d71770ff84af0449924d23c41e05ecc0693501a97fc204e41dccf6c280",
+  "prompt_sha256": "69a22e6a6df9699bc9f31760ef1e3952e65cbe2634a2cd133a44c1ef4e360976",
+  "executor_model": "claude-haiku-4-5-20251001",
+  "full_retrieval_context_sent": false,
+  "executed": true,
+  "paid_generator_calls": 1,
+  "paid_reranker_calls": 0,
+  "llm_judge_calls": 0,
+  "input_tokens": 1931,
+  "output_tokens": 1572,
+  "stop_reason": "end_turn",
+  "facts": [
+    {
+      "fact_key": "cat018#1:pestana Programacion: Zona + CBE",
+      "present": false
+    },
+    {
+      "fact_key": "cat018#2:Tipo SW / asociacion CBE",
+      "present": true
+    }
+  ],
+  "all_facts_present": false,
+  "validation": {
+    "total": 2,
+    "covered": 1,
+    "missing": [
+      {
+        "obligation_id": "obl_7bba8d03d496",
+        "fragment_number": 3,
+        "candidate_id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+        "facet": "served_relation:point_programming_fields",
+        "kind": "point_programming_fields",
+        "statement": "## Pestaña Programa (Programación ecuaciones CBE, asociación zona); **Zona** - número de zona asignada; **CBE** - ecuación CBE del punto.; **CBE** (Control By Events), son las ecuaciones que sirven para activar un comando en función de un evento.",
+        "required_anchors": [
+          "Pestana Programa",
+          "Zona",
+          "CBE"
+        ],
+        "source_start": 0,
+        "source_end": 1526,
+        "covered": false
+      }
+    ],
+    "rows": [
+      {
+        "obligation_id": "obl_7bba8d03d496",
+        "fragment_number": 3,
+        "candidate_id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+        "facet": "served_relation:point_programming_fields",
+        "kind": "point_programming_fields",
+        "statement": "## Pestaña Programa (Programación ecuaciones CBE, asociación zona); **Zona** - número de zona asignada; **CBE** - ecuación CBE del punto.; **CBE** (Control By Events), son las ecuaciones que sirven para activar un comando en función de un evento.",
+        "required_anchors": [
+          "Pestana Programa",
+          "Zona",
+          "CBE"
+        ],
+        "source_start": 0,
+        "source_end": 1526,
+        "covered": false
+      },
+      {
+        "obligation_id": "obl_5784f16b1a11",
+        "fragment_number": 11,
+        "candidate_id": "d85a9a89-e469-473a-b345-ee7c77783127",
+        "facet": "served_relation:output_software_type",
+        "kind": "output_software_type",
+        "statement": "Esta función permite la anulación de la salida sirena y todos los módulos de salida programados con tipo-SW «SND» (abrazaderas CNU-17 y CNU18 de la tarjeta principal).",
+        "required_anchors": [
+          "modulos de salida",
+          "tipo-SW",
+          "snd"
+        ],
+        "source_start": 183,
+        "source_end": 350,
+        "covered": true
+      }
+    ]
+  },
+  "answer_sha256": "e416e8053c5ebe08ddcf90ebc10bc716f483c6ed9aa95756a19151262a6d8aa7",
+  "answer": "# Programación de ecuación CBE en la AM-8200 para activar una salida\n\n## Concepto básico\n\nLas ecuaciones **CBE (Control By Events)** son ecuaciones que sirven para activar un comando en función de un evento [F3]. La central evalúa estas ecuaciones cuando un punto, zona o grupo está **ACTIVO**, ejecutando las actuaciones programadas [F1]. Para un módulo de salida, la CBE contiene las direcciones de los objetos (sensores, módulos de entrada o grupos) que lo activarán [F1].\n\n---\n\n## Procedimiento paso a paso\n\n### 1. Acceder al punto de salida\n\nNavega en el menú a la programación del módulo de salida:\n`MENU PROGRAMMAZIONE \\ Punti \\ Sensori` [F3]\n\n### 2. Seleccionar el campo CBE\n\n- Usa las teclas **▲▼** para seleccionar el parámetro **CBE** [F3]\n- Pulsa la tecla de confirmación **☑** para entrar en edición [F3]\n- Si ya existe una ecuación, se mostrará; si no, el campo estará vacío [F3]\n- **Longitud máxima de la CBE: 64 caracteres** [F3]\n\n### 3. Escribir la ecuación\n\nUsa el teclado alfanumérico del panel. Los operadores disponibles son: **NOT, AND, OR, DEL, SDEL, XGRP, TIM, DIS, PRE, FLT** [F3].\n\n> ⚠️ **Regla crítica de sintaxis:** escribe la ecuación **sin espacios** entre caracteres. Si usas más de un operador, el primer carácter debe ser `(` y el último `)` [F1].\n\n### 4. Confirmar\n\nPulsa **Enter** para confirmar la ecuación introducida [F3].\n\n---\n\n## Opciones de programación para activar una salida\n\nEl manual describe **tres opciones equivalentes** para activar el módulo de salida `C1L1M1` desde el detector `C1L1S1` [F8]:\n\n- **Opción A** — Vía grupo software:\n  - Ecuación del detector: `(G1)`\n  - Ecuación del módulo de salida: `(G1)`\n\n- **Opción B** — El módulo referencia directamente al sensor:\n  - Ecuación del detector: *(sin especificar en el fragmento)*\n  - Ecuación del módulo de salida: `(C1L1S1)`\n\n- **Opción C** — El detector referencia directamente al módulo:\n  - Ecuación del detector: `(C1L1M1)`\n  - Ecuación del módulo de salida: *(sin especificar en el fragmento)*\n\n---\n\n## Operadores más habituales para activar salidas\n\n**OR** — Al menos UN operando activo activa la salida [F4]:\n```\nOR(G9 G15 G23)\n```\n→ Si cualquiera de los grupos G9, G15 o G23 entra en alarma, el módulo se activa. También se puede omitir el operador OR: `(G9 G15 G23)` [F4]\n\n**AND** — TODOS los operandos deben estar activos [F4]:\n```\nAND(G9 G15 G23)\n```\n→ Solo si los tres grupos están simultáneamente en alarma se activa la salida.\n\n**NOT** — La salida permanece activa mientras el operando NO esté en alarma [F4]:\n```\nNOT(G23)\n```\n→ El módulo se desactiva cuando G23 entra en alarma.\n\n**XGRP** — Al menos DOS elementos del grupo indicado deben estar activos (doble coincidencia) [F5]:\n```\nXGRP(G23)\n```\n> ⚠️ No se permite usar más de un grupo con XGRP: `XGRP(G23 G24)` es **CBE no válida** [F5].\n\n**PRE** — Activa la salida cuando un sensor está en **pre-alarma** [F7]:\n```\nOR(PRE(C1L1S2)PRE(C2L1S10))\n```\n\n**FLT** — Activa la salida cuando un dispositivo o zona está en **avería** [F6]:\n```\nOR(FLT(Z1)FLT(Z2))\n```\n\n---\n\n## Reglas de sintaxis importantes\n\n- **Para módulos de salida:** la CBE contiene direcciones de sensores, módulos de entrada o grupos [F1].\n- **Para sensores/módulos de entrada:** la CBE contiene direcciones de módulos de salida o grupos, escritos en secuencia sin operadores [F1].\n- **La central rechaza ecuaciones con errores de sintaxis** [F1].\n- **No se puede programar una CBE para un módulo de salida si tiene tipo ID para señalizaciones generales** [F4].\n- Para grupos directos: los operandos deben tener índice **mayor** que el grupo al que se asocia la CBE. Para grupos inversos: los operandos deben tener índice **menor** [F4].\n\n---\n\n## Nota sobre anulación de salidas\n\nCuando se activa la anulación de salida sirena, esta función permite la anulación de la salida sirena y todos los módulos de salida programados con tipo-SW **SND** (abrazaderas CNU-17 y CNU-18 de la tarjeta principal), retardando estas salidas durante los tiempos programados en `Prog\\Sist\\Tiempos\\Salidas` [F11]. Esto afecta específicamente a los módulos de salida con tipo-SW **SND** [F11].\n\n---\n\n**Fuente:** AM-8200 Manual de programación — Doc. M-162.1-AM8200-ESP Rev A.3 (Honeywell Life Safety Iberia)\n\n---\n\nTambién puedo ayudarte con: **operadores DEL/SDEL para retardos en CBE**, **programación de grupos software (directos e inversos)** o **asignación de tipo-SW a módulos de salida** en la AM-8200.",
+  "manual_review_required": true,
+  "limitations": [
+    "Known-cohort repair probe; not held-out evidence.",
+    "Deterministic coverage is a screen, not the semantic release verdict.",
+    "The repair call receives only the existing answer and source-bound obligations."
+  ]
+}

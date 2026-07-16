@@ -1,0 +1,29 @@
+schema_version: s126_prerequisite_independent_adjudication_v1
+status: COMPLETE_AFTER_FROZEN_SCAN
+scan:
+  path: evals/s126_prerequisite_independent_scan_v1.json
+  sha256: 7d831a8ef3b85ed3597866411f90a6892b9158203728ec1929015264f1b39089
+decisions:
+  - quote_sha256: aae79b1bda3e082d33887fd51d84d9003fef36a01f71b22aa31643807723babb
+    semantic_opportunity: false
+    reason: RMA administrative authorization is not an operational access prerequisite
+  - quote_sha256: 47791be587b53988c3ef5394870bad7ded4d08194307a50a7d4f14f6e154f81e
+    semantic_opportunity: true
+    reason: Access Levels 2 and 3 are explicit prerequisites for programming default settings
+  - quote_sha256: ca2167480c83fa026fdbff65d9bc2429528909c3db99678a0abb151b80ac50f7
+    semantic_opportunity: true
+    reason: exit steps explicitly bind the configuration procedure to Access Levels 3 and 2
+  - quote_sha256: 8f53804c00a3b5a7b81a158f22c4621d86b57687efbe7eda402dd33ed0c79e79
+    semantic_opportunity: true
+    reason: Write Enable operation explicitly requires Access Levels 2 and 3
+  - quote_sha256: b4d130456fa2162bf1484dc3aca619f9c91ef4be732b7a4583b1bb79ccbf2f88
+    semantic_opportunity: true
+    reason: Silence and resound operation is explicitly restricted to Access Level 2
+  - quote_sha256: 3fc4f00ed4063d1c757dc58cec7bf42fc1460579ff6defe24ed26c2577b46d5a
+    semantic_opportunity: true
+    reason: alarm-delay programming procedure explicitly transitions through Access Levels 3 and 2
+
+adjudication_limits:
+  - only one manufacturer contains positive access-prerequisite opportunities
+  - no quantified-entitlement opportunity was discovered
+  - the scanner false positive shows authorization must be restricted to operational access context

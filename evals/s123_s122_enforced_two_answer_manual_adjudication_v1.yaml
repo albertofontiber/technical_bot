@@ -1,0 +1,104 @@
+instrument: s123_s122_enforced_two_answer_manual_adjudication_v1
+status: MANUAL_AND_ADVERSARIAL_ADJUDICATION_COMPLETE
+authority: exact_s123_answers_and_frozen_atomic_claims_only
+
+review_scope:
+  probe: evals/s123_s122_enforced_two_answer_probe_v1.json
+  atomic_contract: evals/s119_cached_atomic_replay_contract_v1.yaml
+  evidence_adjudication: evals/s119_claim_evidence_adjudication_v1.yaml
+  qids: [hp009, hp017]
+  diagnostic_claims: 3
+  reviewer: Hubble
+  model_identity_attested: false
+
+summary:
+  verdict: GO_CLAIM_LEVEL
+  claims_ok: 3
+  claims_synthesis_miss: 0
+  p0_open: 0
+  p1_open: 0
+  p2_open: 2
+  causal_facts_moved_to_ok: 3
+  answer_level_successes: 1
+  answer_level_safe_fail_closed: 1
+  production_release: false
+  another_paid_probe: false
+
+claim_adjudications:
+  - claim_id: m0.hp009.closed_loop_return.1
+    qid: hp009
+    answer_sha256: 8d8b2b13a2393bc7bdf9067388674183bf3e8efb6a99ea3a2d93eb4452f3a428
+    verdict: OK
+    evidence_quote: 'este lazo; lo describe como circuito cerrado'
+    rationale: >-
+      The answer explicitly states closed-loop topology and the return path. The
+      legacy S119 regex would prefer the literal surface lazo analogico or lazo
+      cerrado, but the observed wording is semantically equivalent and is
+      source-bound to F12.
+    local_validator_verdict: true_positive
+
+  - claim_id: m0.hp009.closed_loop_return.2
+    qid: hp009
+    answer_sha256: 8d8b2b13a2393bc7bdf9067388674183bf3e8efb6a99ea3a2d93eb4452f3a428
+    verdict: OK
+    evidence_quote: 'Inicio Lazo (+) OUT / Inicio Lazo (-) OUT; (+) Retorno / (-) Retorno'
+    rationale: >-
+      The OUT-to-Retorno terminal path is explicit and cited to F12.
+    local_validator_verdict: true_positive
+
+  - claim_id: m0.hp017.rule1.2
+    qid: hp017
+    answer_sha256: 307e62b70bf11a47b00b4f95bd589cc87b3456577d36817f6634ec7a099dde30
+    verdict: OK
+    evidence_quotes:
+      - 'Regla 1: cualquier entrada de alarma activa todas las sirenas [F11]'
+      - 'Deben eliminarse si se van a crear reglas de causa-efecto personalizadas. [F11]'
+    rationale: >-
+      The answer includes both the identity and behaviour of Rule 1 and the
+      obligation to remove the two default rules before creating custom rules.
+      Both parts are supported by F11.
+    local_validator_verdict: true_positive
+
+safety_findings:
+  false_positive_eol_assertions: 0
+  unilateral_menu_conflict_selections: 0
+  unsupported_citations: 0
+  omitted_default_rule_deletion_obligations: 0
+  disclosed_conflicts: 1
+  conflict_values: ['7', '8']
+
+answer_level_separation:
+  hp009:
+    action: source_bound_reconstruction
+    query_core_coverage: true
+    verdict: SAFE_FACTUAL_ANSWER
+  hp017:
+    action: fail_closed
+    query_core_coverage: false
+    verdict: SAFE_FALLBACK_NOT_SUCCESSFUL_QUERY_ANSWER
+    note: >-
+      Atomic credit for m0.hp017.rule1.2 does not turn the incomplete delay
+      procedure into an answer-level success.
+
+non_blocking_findings:
+  - severity: P2
+    qid: hp009
+    finding: raw_bilingual_reconstruction_wording
+    detail: >-
+      The answer is factual but contains raw English source wording and internal
+      reconstruction language, so it is not production-ready prose.
+  - severity: P2
+    qid: hp017
+    finding: safe_fallback_presentation_artifacts
+    detail: >-
+      The fallback is safe but exposes cause_effect_menu_path, malformed source
+      punctuation and imprecise prerequisite wording. It must not be presented
+      as a successful answer to the delay question.
+
+causal_boundary:
+  isolated_change: answer_enforcement_s122_v2
+  upstream_context: frozen
+  generator_model_held_constant_with_s121: claude-sonnet-4-6
+  claim_level_credit_authorized: true
+  answer_level_credit_for_hp017: false
+  general_rollout_authorized: false

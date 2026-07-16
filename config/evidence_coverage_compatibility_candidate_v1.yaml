@@ -1,0 +1,21 @@
+schema: evidence_coverage_facets_v5
+max_cards: 4
+window_chars: 360
+min_window_chars: 20
+min_distinct_terms: 2
+query_alignment_min_terms:
+  compatibility: 0
+archetypes:
+  compatibility:
+    - id: protocol_scope
+      terms: [compatible, compatibilidad, protocolo, fabricante, familia, protocol, manufacturer, family]
+      required_any: [protocolo, protocol]
+    - id: supported_device_roster
+      terms: [compatible, equipo, dispositivo, detector, sensor, modelo, equipment, device, detector, sensor, model]
+      required_any: [compatible]
+    - id: loop_topology
+      terms: [lazo, bucle, cerrado, retorno, salida, loop, closed, return, out]
+      required_any: [cerrado, retorno, closed, return]
+    - id: installation_requirements
+      terms: [electrico, mecanico, instalacion, requisito, electrical, mechanical, installation, requirement]
+

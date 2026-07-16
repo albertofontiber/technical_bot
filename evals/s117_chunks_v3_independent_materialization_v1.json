@@ -1,0 +1,112 @@
+{
+  "instrument": "s117_chunks_v3_local_materialization_v1",
+  "label": "independent",
+  "status": "GO",
+  "runtime": {
+    "python": "3.14.3"
+  },
+  "dependencies": {
+    "prereg_sha256": "93f8f357d3b32345669d672e201ba03d46c4e2c644f4df582ab23e38e995d100",
+    "chunker_sha256": "4b76ab219854c625f4ce5e55665e2c89d14739e4eee0ab01607aae7ecda4fd43",
+    "materializer_sha256": "bb218a509ca56f2ddf4e44d73c4235cefacfb4296a4b98c9d49a627a2536e65c",
+    "validator_sha256": "36037383c1c33c630e9df6add9f3c188dc10e2dfd79ff33f53ee04f44aa4c342"
+  },
+  "source": {
+    "store_slug": "agent_anthropic-sonnet-45",
+    "json_files": 12,
+    "manifest_sha256": "c5e7f9fe8c36b92948bedc178a0be5e3f9b6426cc0085a2b44dc8c02edee864b",
+    "non_record_artifacts": []
+  },
+  "generation": {
+    "manifest": {
+      "schema": "chunk_materialization_manifest_v1",
+      "version": 1,
+      "provenance_contract": "s116_section_lineage_v1",
+      "provenance_version": 1,
+      "chunker_sha256": "4b76ab219854c625f4ce5e55665e2c89d14739e4eee0ab01607aae7ecda4fd43",
+      "materializer_sha256": "bb218a509ca56f2ddf4e44d73c4235cefacfb4296a4b98c9d49a627a2536e65c",
+      "records": [
+        {
+          "extraction_sha256": "0b7a278f309a642d98f51d07fc83f2511f8fb444a0176d3abe5d21dc010660d3",
+          "raw_artifact_sha256": "30a23646ab7f6492a55d10ebdf32687c586d122ea225475b6747efda57c7eaff"
+        },
+        {
+          "extraction_sha256": "0d175dd3f7b07ec8cfaf6b8cb15249bb27d60482da8de65e1cc260ec240a797f",
+          "raw_artifact_sha256": "f0e4950b5db90c483d35391e56330211809a5f3a77c9c55f2cd932d5fc011005"
+        },
+        {
+          "extraction_sha256": "234ba09b1a58a0df1f00691e0bd1af21469fefaaf5289e988fa077f1cf7c5c32",
+          "raw_artifact_sha256": "b2a9f782474d2af30ef9d9e44e8564cc1f622ff2fb25c47184084ad4f7f584f5"
+        },
+        {
+          "extraction_sha256": "295540683fa0542fbe1d014c8fdc691747754166c9c8a0f0421a6a14997ab056",
+          "raw_artifact_sha256": "1e6b4a23e4e7b9e062649be20f66447f3fb27b17e34084eab1129095e2b5799e"
+        },
+        {
+          "extraction_sha256": "3792d5699046c25eb92d331e4f2fb09c6eda9032eaeee0cc53af29fb867552e3",
+          "raw_artifact_sha256": "92f121f7866c3312526d9349d5769839a0428b89a91a817a8632f38506e3988c"
+        },
+        {
+          "extraction_sha256": "523eb8b20f23016f34d747ddd79f91d8ac8d11b28961332e80e693749aae971e",
+          "raw_artifact_sha256": "fd1c7e8df46208fc82c8d0ffcd25afcfd4191e098c3b7faf43f95b07a41f62a0"
+        },
+        {
+          "extraction_sha256": "653719e29ee747a481961360444f355c6cb2931e61511df757ad94ebf72aca58",
+          "raw_artifact_sha256": "aca30b4496c5c8ac30696e489e6a54216b8260a85279e7bbcef21d0adca8a73a"
+        },
+        {
+          "extraction_sha256": "720fe4dcb0023d76c7fa981b556dc66c3d02a10b1abe9b728fd4563b9d3d50ec",
+          "raw_artifact_sha256": "db98a531c8747820b90f4853962f63bc63d2bc39bb871807967bdba7977a67e1"
+        },
+        {
+          "extraction_sha256": "7870dc4b1c0f0adeae5aa3b076bca57e1d6574d544ddef0099530929df946f73",
+          "raw_artifact_sha256": "9f303c973abcc4e4d84b1ce2a6acfe63b1997338edf0cecfac6ed3bc604d8ee8"
+        },
+        {
+          "extraction_sha256": "907f47cca7c1eed18273c5c0921356591f532d228935cca8085929ce6db538c2",
+          "raw_artifact_sha256": "4b169e3e6445f21f53b5f4c0a9713bcc877e80d525cbc80a7571f055e163d157"
+        },
+        {
+          "extraction_sha256": "a576ab3d7702d1bf8e81dadfc0a4836469a5e328ef293d3353d97b123c91176e",
+          "raw_artifact_sha256": "dfe8b027089f8e170b514ff6280f7550f25ca621ece5c3ff205fcdd6a34d0dbf"
+        },
+        {
+          "extraction_sha256": "b06377c0ed86431b011a000c1508de3f43bcb4bd9c4c9533187b37b705a23abe",
+          "raw_artifact_sha256": "f94f1ddea7344f4a8514babdcc4babe5cba83772038ddc5b59e63b598a03b106"
+        }
+      ]
+    },
+    "manifest_sha256": "d233f00c22b1cdf97487de27b097b4640a6e769c57a117dc3848db2c36449a01",
+    "materialization_id": "e4287aa3-7c62-5db3-a805-2b36983e3173",
+    "rows_manifest_sha256": "9eebbc18bc986cd6079946d7c34fa76c32c6e3aa88ee25e86cb1139eea00046a",
+    "rows_manifest_bytes": 1206097,
+    "content_stream_manifest_sha256": "533ec70e88a412cbe64eaae2c0f4568744cced679516ed432e2d97b8d2f6f95e"
+  },
+  "summary": {
+    "records_processed": 12,
+    "non_record_artifacts": 0,
+    "chunks_total": 836,
+    "titled_chunks": 784,
+    "untitled_chunks": 52,
+    "validation_failures": 0
+  },
+  "checks": {
+    "source_manifest": true,
+    "record_count": true,
+    "chunk_count": true,
+    "titled_chunk_count": true,
+    "zero_validation_failures": true,
+    "non_record_contract": true
+  },
+  "failures": [],
+  "cost": {
+    "model_calls": 0,
+    "network_calls": 0,
+    "database_reads": 0,
+    "database_writes": 0
+  },
+  "determinism": {
+    "byte_logically_identical": true,
+    "payload_sha256": "9bcc009e1c7055b913b79973769892764270f12ad890d80649a3f806c35ac5d4"
+  }
+}

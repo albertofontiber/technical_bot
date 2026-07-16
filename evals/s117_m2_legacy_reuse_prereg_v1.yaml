@@ -1,0 +1,141 @@
+instrument: s117_m2_legacy_reuse_prereg_v1
+status: frozen_before_implementation_and_database_read
+design:
+  path: evals/s117_m2_legacy_reuse_design_v1.md
+  sha256: a6e6a80bd326b91a607d6946f42cdd0877321b124e6f140c93d5425ba9f03a84
+
+scope:
+  local_store: development
+  remote_tables: [public.documents, public.chunks_v2]
+  transaction: read_only
+  model_calls: 0
+  database_writes: 0
+  vector_payloads: forbidden
+
+frozen_inputs:
+  s117_freeze:
+    path: evals/s117_chunks_v3_implementation_freeze_v1.yaml
+    sha256: d7062a49468c074aed8acb98b626f5f4ff11d434542095e03ce06bf172a5e1a9
+  s117_development_result:
+    path: evals/s117_chunks_v3_development_materialization_v1.json
+    sha256: d9f69e8d1428e11afa56723817f64226aa53db786c8034453dfde4adbbedca3a
+  raw_store:
+    extraction_records: 1068
+    json_files: 1069
+    manifest_sha256: 752c044be1531d5bc2e2879f79acf1dbeffabcbeb9bb9d16f5e14a5676aa5810
+    expected_non_record_artifact: _failures.json
+  chunker:
+    path: src/reingest/chunk.py
+    sha256: 4b76ab219854c625f4ce5e55665e2c89d14739e4eee0ab01607aae7ecda4fd43
+  materializer:
+    path: src/reingest/chunk_provenance.py
+    sha256: bb218a509ca56f2ddf4e44d73c4235cefacfb4296a4b98c9d49a627a2536e65c
+  language:
+    path: src/reingest/language.py
+    sha256: f24b479e49617771190db184268490f1e9ee476a6e9d7a5f1fa7dd3d85fb2f53
+  metadata:
+    path: src/reingest/metadata.py
+    sha256: ccfca63f30883b63f6c7ccbbd6b945db65a8d1b9cd968ab6115307ad501049b8
+  manufacturer_registry:
+    path: src/reingest/manufacturer_registry.py
+    sha256: 16a13ff7e42ddc3d38bbf8cc6c5238df93fa25a00b523995bbedbb5033a1bfd9
+  sidecar:
+    path: src/reingest/sidecar.py
+    sha256: f0621f733b299487ebb2c7bb14e1e37374fa21e4f04d86e4271746ef9e467adc
+  contextualizer:
+    path: src/reingest/contextualize.py
+    sha256: 3537b608028aab38fa118b977c6ad50c20c2916508c7538d2cad3a5d449d534a
+  embedder:
+    path: src/reingest/embed.py
+    sha256: 61fc24128b03b2ccae8ccd44321b882a38e6e6c275ef8f6fcdf04e8b7560c40b
+  manufacturer_config_manifest:
+    yaml_files: 11
+    sha256: bd2a5592021849b44399d0e8c5ae0f1291d7a5baddf6e4fe62de4e52522ffa1c
+  portal_config:
+    path: config/portal.yaml
+    sha256: a6f3612cb4dc1283d17aee1e2d63c8d88ca3c1ea8816b8e7ae7f4fa58c552e49
+
+remote_contract:
+  connection_source: DATABASE_URL_from_user_env
+  required_session_proof: transaction_read_only_on
+  statement_timeout_ms: 120000
+  lock_timeout_ms: 2000
+  cursor_batch_rows: 500
+  allowed_sql_prefixes: [SELECT, SET TRANSACTION READ ONLY, SET LOCAL]
+  always_rollback: true
+  chunks_columns:
+    - id
+    - document_id
+    - extraction_sha256
+    - chunk_index
+    - content
+    - context
+    - language
+    - section_title
+    - section_path
+    - content_type
+    - is_flow_diagram
+    - confidence
+    - product_model
+    - manufacturer
+    - distributor
+    - protocol
+    - doc_type
+    - category
+    - has_diagram
+    - source_file
+    - page_number
+    - duplicate_of
+    - parent_id
+    - ingest_batch
+    - embedding_present
+    - embedding_dimensions
+  forbidden_columns: [embedding, search_vector]
+
+matching:
+  ordinal_is_diagnostic_only: true
+  surrogate_rows_are_donors: false
+  confidence_canonicalization: IEEE_754_float32_big_endian_hex
+  metadata_fields:
+    - language
+    - source_file
+    - product_model
+    - manufacturer
+    - distributor
+    - protocol
+    - doc_type
+    - category
+    - content_type
+  exact_document_binding: source_pdf_sha256_equals_extraction_sha256_and_is_unique
+  ambiguity_policy: fail_closed_no_tiebreak
+
+reuse_claim:
+  context_origin: legacy_v2_reuse
+  embedding_origin: legacy_v2_reuse
+  historical_model_receipt: absent
+  vector_sha256_in_M2: absent
+  candidate_not_admitted_reuse: true
+
+gate:
+  required:
+    - frozen inputs match
+    - transaction read-only proven
+    - local and remote manifests sealed
+    - every local row has exactly one terminal classification
+    - funnel counts are monotonic
+    - zero model calls
+    - zero database writes
+    - zero vector payloads
+    - deterministic replay from sealed snapshot
+    - adversarial review
+  decision_if_go: authorize M2_5_design_only
+  never_authorizes:
+    - database schema changes
+    - database writes
+    - model calls
+    - embedding calls
+    - chunks_v3 load
+    - HNSW
+    - serving
+    - deploy
+    - fact relabeling
