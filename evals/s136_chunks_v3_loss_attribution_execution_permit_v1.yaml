@@ -1,0 +1,9 @@
+instrument: s136_chunks_v3_loss_attribution_execution_permit_v1
+status: EXECUTION_GO_LOCAL_ZERO_EXTERNAL_COST
+preregistration: {path: evals/s136_chunks_v3_loss_attribution_prereg_v1.yaml, sha256: 3a9a912feb8b5875d7fa556a4f247967ae8a43fed82a01943d97e62c7ac03d00}
+runner: {path: scripts/s136_chunks_v3_loss_attribution.py, sha256: 13d38235ff14bfcef955ab16d2346843b2b78c54c80e450db0d6bd91160dab50}
+tests: {path: tests/test_s136_chunks_v3_loss_attribution.py, sha256: dc82a6baea973adcb09886e2ec9125d01a34cab883fcbd269fe2e0ca03230852}
+pre_execution_tests: 4_passed
+allowed: {local_frozen_reads: true, local_raw_reads: true, disposable_postgres: true, seed1_and_seed2: true}
+forbidden: {network: true, remote_database: true, models: true, embeddings: true, context_generation: true, production: true, deploy: true}
+external_usd_ceiling: 0

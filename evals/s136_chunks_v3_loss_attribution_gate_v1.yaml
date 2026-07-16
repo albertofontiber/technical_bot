@@ -1,0 +1,72 @@
+instrument: s136_chunks_v3_loss_attribution_gate_v1
+status: NO_GO
+
+contract:
+  preregistration: {path: evals/s136_chunks_v3_loss_attribution_prereg_v1.yaml, sha256: 3a9a912feb8b5875d7fa556a4f247967ae8a43fed82a01943d97e62c7ac03d00}
+  execution_permit: {path: evals/s136_chunks_v3_loss_attribution_execution_permit_v1.yaml}
+
+evidence:
+  seed1: {path: evals/s136_chunks_v3_loss_attribution_seed1_v1.json, sha256: 878c9182c70159b40132693041d87d05b4f430974b3ed308ca9773fe25d8f133}
+  seed2: {path: evals/s136_chunks_v3_loss_attribution_seed2_v1.json, sha256: 878c9182c70159b40132693041d87d05b4f430974b3ed308ca9773fe25d8f133}
+  canonical_byte_identity: true
+
+classification_counts:
+  candidate_population_competition: 1
+  mixed: 1
+  unresolved: 1
+
+attributions:
+  - question_id: 540b4ccd-1ae0-4252-a6bb-069db622e22c
+    manufacturer: Aritech
+    product_model: IU2055NC
+    result: candidate_population_competition
+    baseline_rank: 8
+    candidate_rank: 13
+    strict_donor_only_rank: 7
+    gold_surface_and_context_exact: true
+    competitors_above: {total: 12, strict_context_donors: 6, new_or_resegmented: 6, same_document: 11}
+  - question_id: 935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033
+    manufacturer: Xtralis
+    product_model: VESDA-E-VES
+    result: mixed
+    mechanisms: [evaluation_bundle_overstrict, gold_context_absent_after_resegmentation]
+    baseline_rank: 3
+    candidate_bundle_rank: null
+    candidate_member_ranks: [3, null]
+    gold_surface_exact: true
+  - question_id: 29b49e99-07fe-4b83-8afd-2d770d8fc09d
+    manufacturer: Sensitron
+    product_model: SMART 2
+    result: unresolved
+    baseline_rank: 10
+    candidate_rank: 18
+    strict_donor_only_rank: 13
+    gold_surface_and_context_exact: true
+    competitors_above: {total: 17, strict_context_donors: 12, new_or_resegmented: 5, same_document: 17}
+    unresolved_reason: >-
+      El gold empata en score con varias filas y cinco filas nuevas lo preceden.
+      La mecánica local no puede decidir si esas filas son evidencia mejor o ruido.
+
+checks:
+  loss_set_exact: true
+  s135_ranks_reproduced: true
+  surface_tokens_exact: true
+  all_losses_classified: false
+  thresholds_unchanged: true
+
+tests: {command: python -m pytest tests/test_s136_chunks_v3_loss_attribution.py -q, result: 4_passed}
+cost: {external_usd: 0, model_calls: 0, network_calls: 0, embeddings: 0, remote_database_reads: 0, remote_database_writes: 0}
+authorization: {production: false, migration_apply: false, deploy: false, serving: false, facts_moved_to_ok: 0}
+
+decision:
+  result: NO_GO_PENDING_BLINDED_RELEVANCE_ADJUDICATION
+  minimum_scope:
+    questions: 3
+    arms_blinded: true
+    candidate_competitors_max_per_question: 15
+    evaluate: [answer_bearing_evidence, duplicate_or_noise, minimal_required_bundle]
+  rationale: >-
+    La decisión correcta ya no es mecánica. Una adjudicación ciega y pequeña
+    debe distinguir si la población adicional mejora recall o introduce ruido,
+    y qué miembro del bundle Xtralis contiene la evidencia mínima. No se justifica
+    regenerar contextos del corpus completo antes de resolver estos tres casos.

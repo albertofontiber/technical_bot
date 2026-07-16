@@ -1,0 +1,861 @@
+{
+  "instrument": "s135_representative_chunks_shadow_v2",
+  "status": "NO_GO",
+  "claim": "representative_lexical_chunking_shadow_only",
+  "dependencies": {
+    "design_base_sha256": "7c06389218dce1d3f73016e7b712dc0e02cd4e08344f87fe8f89bd2b7b284623",
+    "design_amendment_sha256": "d4f330776a9a59d3482e55c1f71ccaf2941310fd08179b3ba610517a61b5f085",
+    "negative_control_sha256": "abe01408c74374c3ed1aa5a3dce7be4fbdd4d4c7c9eab363a136f77daf028422",
+    "heldout_sha256": "227e808a2ba2308acce89f90722fd46a63bad30aae0cde630191154b4ff07d94",
+    "snapshot_sha256": "3013c553da20c72fbfe0dc801dad4ea4b063ecff3138dcf55b5cd7831cf79067",
+    "document_metadata_sha256": "b338e76875197bfafa35fd9b92e8bd68311d5494f207205982b99990a8ef5746",
+    "chunker_sha256": "d851abf6761d8e5ff6dee4d2727b85c86fda21059dce8875a028cf8298e87764",
+    "materializer_sha256": "bb218a509ca56f2ddf4e44d73c4235cefacfb4296a4b98c9d49a627a2536e65c",
+    "retrieval_keyword_planner_sha256": "dcc23e5f16a86c6f180e9b8b18ca875082bcd86c75d9caad438023719fb9d73c",
+    "base_shadow_runner_sha256": "0820c5a88ed8e2dc9302809c6f19a75b7e4ef865b3e070388b71eee51897d081",
+    "raw_store_manifest_sha256": "752c044be1531d5bc2e2879f79acf1dbeffabcbeb9bb9d16f5e14a5676aa5810"
+  },
+  "population": {
+    "metadata_documents": 36,
+    "pairs": 22,
+    "baseline": {
+      "documents": 36,
+      "extractions": 36,
+      "chunks": 1859
+    },
+    "candidate": {
+      "documents": 36,
+      "extractions": 36,
+      "chunks": 2353,
+      "contexts_reused": 1777,
+      "contexts_absent": 576
+    }
+  },
+  "summary": {
+    "questions": 24,
+    "candidate_gold_mapped": 24,
+    "baseline": {
+      "hits_at_5": 14,
+      "recall_at_5": 0.58333333,
+      "hits_at_10": 16,
+      "recall_at_10": 0.66666667,
+      "mrr_at_10": 0.359375
+    },
+    "candidate": {
+      "hits_at_5": 12,
+      "recall_at_5": 0.5,
+      "hits_at_10": 13,
+      "recall_at_10": 0.54166667,
+      "mrr_at_10": 0.32430556
+    },
+    "lost_baseline_hits_at_10": [
+      "29b49e99-07fe-4b83-8afd-2d770d8fc09d",
+      "540b4ccd-1ae0-4252-a6bb-069db622e22c",
+      "935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033"
+    ],
+    "manufacturers": {
+      "Argus Security": {
+        "baseline_hits_at_10": 1,
+        "candidate_hits_at_10": 1
+      },
+      "Aritech": {
+        "baseline_hits_at_10": 1,
+        "candidate_hits_at_10": 0
+      },
+      "Edwards": {
+        "baseline_hits_at_10": 2,
+        "candidate_hits_at_10": 2
+      },
+      "European Safety Systems": {
+        "baseline_hits_at_10": 2,
+        "candidate_hits_at_10": 2
+      },
+      "Fidegas": {
+        "baseline_hits_at_10": 2,
+        "candidate_hits_at_10": 2
+      },
+      "Kidde": {
+        "baseline_hits_at_10": 0,
+        "candidate_hits_at_10": 0
+      },
+      "LDA audioTech": {
+        "baseline_hits_at_10": 0,
+        "candidate_hits_at_10": 0
+      },
+      "Pfannenberg": {
+        "baseline_hits_at_10": 2,
+        "candidate_hits_at_10": 2
+      },
+      "Sensitron": {
+        "baseline_hits_at_10": 2,
+        "candidate_hits_at_10": 1
+      },
+      "Spectrex": {
+        "baseline_hits_at_10": 2,
+        "candidate_hits_at_10": 2
+      },
+      "System Sensor": {
+        "baseline_hits_at_10": 1,
+        "candidate_hits_at_10": 1
+      },
+      "Xtralis": {
+        "baseline_hits_at_10": 1,
+        "candidate_hits_at_10": 0
+      }
+    },
+    "manufacturers_with_net_hit_loss_at_10": [
+      "Aritech",
+      "Sensitron",
+      "Xtralis"
+    ],
+    "candidate_gold_bundles": {
+      "066c4080-1507-4485-ad24-d45fab075347": 1,
+      "0edba984-d9ca-4d96-8bcc-3b723b787ed3": 1,
+      "207d1733-dd1a-447b-82cc-41da853ce62f": 1,
+      "24962ed1-9ccd-48b4-ba00-3b8a462886d5": 1,
+      "29b49e99-07fe-4b83-8afd-2d770d8fc09d": 1,
+      "2b9a9f41-f468-42db-895b-920fb5050472": 1,
+      "3fbc1de1-8570-4d9e-808c-ae4eb94e6447": 1,
+      "477b868f-546c-4401-a934-fdfd576eb54a": 1,
+      "4c92486b-bbd6-420c-b47f-66dc1cb8711c": 1,
+      "540b4ccd-1ae0-4252-a6bb-069db622e22c": 1,
+      "59928572-1cd0-4ec7-a09c-b586034e488c": 1,
+      "5aee54fa-2612-4801-b4bf-ae27a19e359d": 1,
+      "72612b0b-0658-480d-84ce-d56e084495e9": 1,
+      "7c010925-85c7-41db-96b9-90ebfe564917": 1,
+      "7e50a922-84df-4109-9160-1a501c32b629": 1,
+      "935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033": 2,
+      "a3188eb9-70fa-4d35-8b1e-37065c21aec1": 1,
+      "be1945fb-f874-4a11-b6fc-76ce6f7468d1": 1,
+      "c07ed164-df92-4e07-9e8a-d1a4d730d3f0": 1,
+      "d05a9c31-2d29-461a-94b1-7d12edb7f1a4": 1,
+      "d3e6d574-9d67-40f6-aed6-109c6f9d2be0": 2,
+      "e27a94ef-f5aa-4218-921d-92a9bdb0b69f": 1,
+      "eed07d60-3fad-46f2-98a5-1542f3d099e6": 1,
+      "ef70e7f0-a68f-4797-bc7c-1edaff937261": 1
+    }
+  },
+  "checks": {
+    "candidate_gold_mapped": true,
+    "lost_baseline_hits_at_10": false,
+    "candidate_recall_at_10_gte_baseline": false,
+    "candidate_mrr_at_10_gte_baseline": false,
+    "manufacturers_with_net_hit_loss_at_10": false,
+    "cohort_cardinality": true,
+    "runtime_results_complete": true,
+    "all_selected_extractions_materialized": true,
+    "query_plans_nonempty": true,
+    "provenance_bundles_exact": true
+  },
+  "question_results": [
+    {
+      "question_id": "066c4080-1507-4485-ad24-d45fab075347",
+      "manufacturer": "System Sensor",
+      "baseline_rank": 1,
+      "product_model": "6500R",
+      "candidate_rank": 1
+    },
+    {
+      "question_id": "0edba984-d9ca-4d96-8bcc-3b723b787ed3",
+      "manufacturer": "Fidegas",
+      "baseline_rank": 3,
+      "product_model": "EL-11",
+      "candidate_rank": 4
+    },
+    {
+      "question_id": "207d1733-dd1a-447b-82cc-41da853ce62f",
+      "manufacturer": "Spectrex",
+      "baseline_rank": 5,
+      "product_model": "40-40L",
+      "candidate_rank": 5
+    },
+    {
+      "question_id": "24962ed1-9ccd-48b4-ba00-3b8a462886d5",
+      "manufacturer": "Kidde",
+      "baseline_rank": null,
+      "product_model": "KE-DP3020W",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "29b49e99-07fe-4b83-8afd-2d770d8fc09d",
+      "manufacturer": "Sensitron",
+      "baseline_rank": 10,
+      "product_model": "SMART 2",
+      "candidate_rank": 18
+    },
+    {
+      "question_id": "2b9a9f41-f468-42db-895b-920fb5050472",
+      "manufacturer": "European Safety Systems",
+      "baseline_rank": 2,
+      "product_model": "IS-mA1",
+      "candidate_rank": 2
+    },
+    {
+      "question_id": "3fbc1de1-8570-4d9e-808c-ae4eb94e6447",
+      "manufacturer": "Aritech",
+      "baseline_rank": null,
+      "product_model": "2X-A Táctil",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "477b868f-546c-4401-a934-fdfd576eb54a",
+      "manufacturer": "Sensitron",
+      "baseline_rank": 1,
+      "product_model": "PL4",
+      "candidate_rank": 1
+    },
+    {
+      "question_id": "4c92486b-bbd6-420c-b47f-66dc1cb8711c",
+      "manufacturer": "Argus Security",
+      "baseline_rank": null,
+      "product_model": "SGMCB200",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "540b4ccd-1ae0-4252-a6bb-069db622e22c",
+      "manufacturer": "Aritech",
+      "baseline_rank": 8,
+      "product_model": "IU2055NC",
+      "candidate_rank": 13
+    },
+    {
+      "question_id": "59928572-1cd0-4ec7-a09c-b586034e488c",
+      "manufacturer": "LDA audioTech",
+      "baseline_rank": 24,
+      "product_model": "NEO",
+      "candidate_rank": 25
+    },
+    {
+      "question_id": "5aee54fa-2612-4801-b4bf-ae27a19e359d",
+      "manufacturer": "Pfannenberg",
+      "baseline_rank": 1,
+      "product_model": "DS-737",
+      "candidate_rank": 1
+    },
+    {
+      "question_id": "72612b0b-0658-480d-84ce-d56e084495e9",
+      "manufacturer": "Argus Security",
+      "baseline_rank": 2,
+      "product_model": "SG100-IS",
+      "candidate_rank": 2
+    },
+    {
+      "question_id": "7c010925-85c7-41db-96b9-90ebfe564917",
+      "manufacturer": "Kidde",
+      "baseline_rank": 16,
+      "product_model": "9-30781-KID-EN",
+      "candidate_rank": 15
+    },
+    {
+      "question_id": "7e50a922-84df-4109-9160-1a501c32b629",
+      "manufacturer": "Fidegas",
+      "baseline_rank": 2,
+      "product_model": "RS-485",
+      "candidate_rank": 2
+    },
+    {
+      "question_id": "935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033",
+      "manufacturer": "Xtralis",
+      "baseline_rank": 3,
+      "product_model": "VESDA-E-VES",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "a3188eb9-70fa-4d35-8b1e-37065c21aec1",
+      "manufacturer": "Edwards",
+      "baseline_rank": 1,
+      "product_model": "FHSD8310",
+      "candidate_rank": 1
+    },
+    {
+      "question_id": "be1945fb-f874-4a11-b6fc-76ce6f7468d1",
+      "manufacturer": "Xtralis",
+      "baseline_rank": 20,
+      "product_model": "VESDA-E-VEA",
+      "candidate_rank": 19
+    },
+    {
+      "question_id": "c07ed164-df92-4e07-9e8a-d1a4d730d3f0",
+      "manufacturer": "European Safety Systems",
+      "baseline_rank": 1,
+      "product_model": "IS-mA1",
+      "candidate_rank": 1
+    },
+    {
+      "question_id": "d05a9c31-2d29-461a-94b1-7d12edb7f1a4",
+      "manufacturer": "Spectrex",
+      "baseline_rank": 5,
+      "product_model": "40-40R-SINGLE",
+      "candidate_rank": 6
+    },
+    {
+      "question_id": "d3e6d574-9d67-40f6-aed6-109c6f9d2be0",
+      "manufacturer": "System Sensor",
+      "baseline_rank": 22,
+      "product_model": "XM-8100E",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "e27a94ef-f5aa-4218-921d-92a9bdb0b69f",
+      "manufacturer": "LDA audioTech",
+      "baseline_rank": 23,
+      "product_model": "ONE",
+      "candidate_rank": 22
+    },
+    {
+      "question_id": "eed07d60-3fad-46f2-98a5-1542f3d099e6",
+      "manufacturer": "Edwards",
+      "baseline_rank": 3,
+      "product_model": "FHSD8310",
+      "candidate_rank": 3
+    },
+    {
+      "question_id": "ef70e7f0-a68f-4797-bc7c-1edaff937261",
+      "manufacturer": "Pfannenberg",
+      "baseline_rank": 2,
+      "product_model": "PY-X-M-05",
+      "candidate_rank": 3
+    }
+  ],
+  "query_plans": [
+    {
+      "question_id": "066c4080-1507-4485-ad24-d45fab075347",
+      "search_keywords": [
+        "cablea",
+        "zona",
+        "iniciación"
+      ],
+      "search_query": "cablea OR zona OR iniciación"
+    },
+    {
+      "question_id": "0edba984-d9ca-4d96-8bcc-3b723b787ed3",
+      "search_keywords": [
+        "quién",
+        "calibración",
+        "hacerla"
+      ],
+      "search_query": "quién OR calibración OR hacerla"
+    },
+    {
+      "question_id": "207d1733-dd1a-447b-82cc-41da853ce62f",
+      "search_keywords": [
+        "salidas",
+        "detector",
+        "lleva"
+      ],
+      "search_query": "salidas OR detector OR lleva"
+    },
+    {
+      "question_id": "24962ed1-9ccd-48b4-ba00-3b8a462886d5",
+      "search_keywords": [
+        "después",
+        "comunica",
+        "fallando"
+      ],
+      "search_query": "después OR comunica OR fallando"
+    },
+    {
+      "question_id": "29b49e99-07fe-4b83-8afd-2d770d8fc09d",
+      "search_keywords": [
+        "smart",
+        "salida",
+        "fallo"
+      ],
+      "search_query": "smart OR salida OR fallo"
+    },
+    {
+      "question_id": "2b9a9f41-f468-42db-895b-920fb5050472",
+      "search_keywords": [
+        "seleccionan",
+        "tonos",
+        "mediante"
+      ],
+      "search_query": "seleccionan OR tonos OR mediante"
+    },
+    {
+      "question_id": "3fbc1de1-8570-4d9e-808c-ae4eb94e6447",
+      "search_keywords": [
+        "corta",
+        "restaura",
+        "alimentación"
+      ],
+      "search_query": "corta OR restaura OR alimentación"
+    },
+    {
+      "question_id": "477b868f-546c-4401-a934-fdfd576eb54a",
+      "search_keywords": [
+        "programa",
+        "retardo",
+        "activación"
+      ],
+      "search_query": "programa OR retardo OR activación"
+    },
+    {
+      "question_id": "4c92486b-bbd6-420c-b47f-66dc1cb8711c",
+      "search_keywords": [
+        "comunica",
+        "sgmcb",
+        "necesita"
+      ],
+      "search_query": "comunica OR sgmcb OR necesita"
+    },
+    {
+      "question_id": "540b4ccd-1ae0-4252-a6bb-069db622e22c",
+      "search_keywords": [
+        "resistencia",
+        "línea",
+        "correcta"
+      ],
+      "search_query": "resistencia OR línea OR correcta"
+    },
+    {
+      "question_id": "59928572-1cd0-4ec7-a09c-b586034e488c",
+      "search_keywords": [
+        "tengo",
+        "entrada",
+        "configurada"
+      ],
+      "search_query": "tengo OR entrada OR configurada"
+    },
+    {
+      "question_id": "5aee54fa-2612-4801-b4bf-ae27a19e359d",
+      "search_keywords": [
+        "transmitir",
+        "alarmas",
+        "detnov"
+      ],
+      "search_query": "transmitir OR alarmas OR detnov"
+    },
+    {
+      "question_id": "72612b0b-0658-480d-84ce-d56e084495e9",
+      "search_keywords": [
+        "prueba",
+        "detector",
+        "óptico"
+      ],
+      "search_query": "prueba OR detector OR óptico"
+    },
+    {
+      "question_id": "7c010925-85c7-41db-96b9-90ebfe564917",
+      "search_keywords": [
+        "modulaser",
+        "visualización",
+        "mínima"
+      ],
+      "search_query": "modulaser OR visualización OR mínima"
+    },
+    {
+      "question_id": "7e50a922-84df-4109-9160-1a501c32b629",
+      "search_keywords": [
+        "conectan",
+        "sensores",
+        "remotos"
+      ],
+      "search_query": "conectan OR sensores OR remotos"
+    },
+    {
+      "question_id": "935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033",
+      "search_keywords": [
+        "parpadea",
+        "fuego",
+        "salta"
+      ],
+      "search_query": "parpadea OR fuego OR salta"
+    },
+    {
+      "question_id": "a3188eb9-70fa-4d35-8b1e-37065c21aec1",
+      "search_keywords": [
+        "configuro",
+        "comandos",
+        "secundario"
+      ],
+      "search_query": "configuro OR comandos OR secundario"
+    },
+    {
+      "question_id": "be1945fb-f874-4a11-b6fc-76ce6f7468d1",
+      "search_keywords": [
+        "retardo",
+        "active",
+        "fallo"
+      ],
+      "search_query": "retardo OR active OR fallo"
+    },
+    {
+      "question_id": "c07ed164-df92-4e07-9e8a-d1a4d730d3f0",
+      "search_keywords": [
+        "ajuste",
+        "volumen",
+        "regula"
+      ],
+      "search_query": "ajuste OR volumen OR regula"
+    },
+    {
+      "question_id": "d05a9c31-2d29-461a-94b1-7d12edb7f1a4",
+      "search_keywords": [
+        "calculo",
+        "cable",
+        "tirar"
+      ],
+      "search_query": "calculo OR cable OR tirar"
+    },
+    {
+      "question_id": "d3e6d574-9d67-40f6-aed6-109c6f9d2be0",
+      "search_keywords": [
+        "conectan",
+        "cables",
+        "directamente"
+      ],
+      "search_query": "conectan OR cables OR directamente"
+    },
+    {
+      "question_id": "e27a94ef-f5aa-4218-921d-92a9bdb0b69f",
+      "search_keywords": [
+        "pueden",
+        "ajustar",
+        "umbrales"
+      ],
+      "search_query": "pueden OR ajustar OR umbrales"
+    },
+    {
+      "question_id": "eed07d60-3fad-46f2-98a5-1542f3d099e6",
+      "search_keywords": [
+        "guardo",
+        "aplico",
+        "cambios"
+      ],
+      "search_query": "guardo OR aplico OR cambios"
+    },
+    {
+      "question_id": "ef70e7f0-a68f-4797-bc7c-1edaff937261",
+      "search_keywords": [
+        "tonos",
+        "señales",
+        "acústicas"
+      ],
+      "search_query": "tonos OR señales OR acústicas"
+    }
+  ],
+  "provenance_mappings": {
+    "066c4080-1507-4485-ad24-d45fab075347": {
+      "raw_token_occurrences": 1,
+      "raw_token_start": 1869,
+      "raw_token_end": 2222,
+      "source_block_start": 72,
+      "source_block_end": 72,
+      "candidate_bundle_size": 1,
+      "candidate_chunk_indexes": [
+        8
+      ],
+      "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+    },
+    "0edba984-d9ca-4d96-8bcc-3b723b787ed3": {
+      "raw_token_occurrences": 1,
+      "raw_token_start": 453,
+      "raw_token_end": 835,
+      "source_block_start": 26,
+      "source_block_end": 37,
+      "candidate_bundle_size": 1,
+      "candidate_chunk_indexes": [
+        2
+      ],
+      "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+    },
+    "207d1733-dd1a-447b-82cc-41da853ce62f": {
+      "raw_token_occurrences": 1,
+      "raw_token_start": 5038,
+      "raw_token_end": 5324,
+      "source_block_start": 301,
+      "source_block_end": 311,
+      "candidate_bundle_size": 1,
+      "candidate_chunk_indexes": [
+        24
+      ],
+      "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+    },
+    "24962ed1-9ccd-48b4-ba00-3b8a462886d5": {
+      "raw_token_occurrences": 1,
+      "raw_token_start": 785,
+      "raw_token_end": 899,
+      "source_block_start": 50,
+      "source_block_end": 57,
+      "candidate_bundle_size": 1,
+      "candidate_chunk_indexes": [
+        4
+      ],
+      "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+    },
+    "29b49e99-07fe-4b83-8afd-2d770d8fc09d": {
+      "raw_token_occurrences": 1,
+      "raw_token_start": 1317,
+      "raw_token_end": 1592,
+      "source_block_start": 89,
+      "source_block_end": 93,
+      "candidate_bundle_size": 1,
+      "candidate_chunk_indexes": [
+        5
+      ],
+      "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+    },
+    "2b9a9f41-f468-42db-895b-920fb5050472": {
+      "raw_token_occurrences": 1,
+      "raw_token_start": 1561,
+      "raw_token_end": 2706,
+      "source_block_start": 60,
+      "source_block_end": 60,
+      "candidate_bundle_size": 1,
+      "candidate_chunk_indexes": [
+        4
+      ],
+      "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+    },
+    "3fbc1de1-8570-4d9e-808c-ae4eb94e6447": {
+      "raw_token_occurrences": 1,
+      "raw_token_start": 26207,
+      "raw_token_end": 26591,
+      "source_block_start": 1496,
+      "source_block_end": 1527,
+      "candidate_bundle_size": 1,
+      "candidate_chunk_indexes": [
+        123
+      ],
+      "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+    },
+    "477b868f-546c-4401-a934-fdfd576eb54a": {
+      "raw_token_occurrences": 1,
+      "raw_token_start": 5258,
+      "raw_token_end": 5622,
+      "source_block_start": 224,
+      "source_block_end": 237,
+      "candidate_bundle_size": 1,
+      "candidate_chunk_indexes": [
+        20
+      ],
+      "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+    },
+    "4c92486b-bbd6-420c-b47f-66dc1cb8711c": {
+      "raw_token_occurrences": 1,
+      "raw_token_start": 0,
+      "raw_token_end": 158,
+      "source_block_start": 0,
+      "source_block_end": 11,
+      "candidate_bundle_size": 1,
+      "candidate_chunk_indexes": [
+        0
+      ],
+      "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+    },
+    "540b4ccd-1ae0-4252-a6bb-069db622e22c": {
+      "raw_token_occurrences": 1,
+      "raw_token_start": 16009,
+      "raw_token_end": 16104,
+      "source_block_start": 950,
+      "source_block_end": 956,
+      "candidate_bundle_size": 1,
+      "candidate_chunk_indexes": [
+        93
+      ],
+      "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+    },
+    "59928572-1cd0-4ec7-a09c-b586034e488c": {
+      "raw_token_occurrences": 1,
+      "raw_token_start": 13814,
+      "raw_token_end": 13898,
+      "source_block_start": 632,
+      "source_block_end": 633,
+      "candidate_bundle_size": 1,
+      "candidate_chunk_indexes": [
+        52
+      ],
+      "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+    },
+    "5aee54fa-2612-4801-b4bf-ae27a19e359d": {
+      "raw_token_occurrences": 1,
+      "raw_token_start": 508,
+      "raw_token_end": 716,
+      "source_block_start": 21,
+      "source_block_end": 35,
+      "candidate_bundle_size": 1,
+      "candidate_chunk_indexes": [
+        2
+      ],
+      "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+    },
+    "72612b0b-0658-480d-84ce-d56e084495e9": {
+      "raw_token_occurrences": 1,
+      "raw_token_start": 1590,
+      "raw_token_end": 1804,
+      "source_block_start": 54,
+      "source_block_end": 71,
+      "candidate_bundle_size": 1,
+      "candidate_chunk_indexes": [
+        9
+      ],
+      "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+    },
+    "7c010925-85c7-41db-96b9-90ebfe564917": {
+      "raw_token_occurrences": 1,
+      "raw_token_start": 29902,
+      "raw_token_end": 30033,
+      "source_block_start": 1373,
+      "source_block_end": 1379,
+      "candidate_bundle_size": 1,
+      "candidate_chunk_indexes": [
+        134
+      ],
+      "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+    },
+    "7e50a922-84df-4109-9160-1a501c32b629": {
+      "raw_token_occurrences": 1,
+      "raw_token_start": 629,
+      "raw_token_end": 760,
+      "source_block_start": 19,
+      "source_block_end": 23,
+      "candidate_bundle_size": 1,
+      "candidate_chunk_indexes": [
+        2
+      ],
+      "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+    },
+    "935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033": {
+      "raw_token_occurrences": 1,
+      "raw_token_start": 3214,
+      "raw_token_end": 3562,
+      "source_block_start": 127,
+      "source_block_end": 137,
+      "candidate_bundle_size": 2,
+      "candidate_chunk_indexes": [
+        13,
+        14
+      ],
+      "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+    },
+    "a3188eb9-70fa-4d35-8b1e-37065c21aec1": {
+      "raw_token_occurrences": 1,
+      "raw_token_start": 24277,
+      "raw_token_end": 24372,
+      "source_block_start": 1079,
+      "source_block_end": 1082,
+      "candidate_bundle_size": 1,
+      "candidate_chunk_indexes": [
+        103
+      ],
+      "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+    },
+    "be1945fb-f874-4a11-b6fc-76ce6f7468d1": {
+      "raw_token_occurrences": 1,
+      "raw_token_start": 23177,
+      "raw_token_end": 23681,
+      "source_block_start": 878,
+      "source_block_end": 896,
+      "candidate_bundle_size": 1,
+      "candidate_chunk_indexes": [
+        90
+      ],
+      "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+    },
+    "c07ed164-df92-4e07-9e8a-d1a4d730d3f0": {
+      "raw_token_occurrences": 1,
+      "raw_token_start": 3857,
+      "raw_token_end": 3935,
+      "source_block_start": 114,
+      "source_block_end": 117,
+      "candidate_bundle_size": 1,
+      "candidate_chunk_indexes": [
+        10
+      ],
+      "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+    },
+    "d05a9c31-2d29-461a-94b1-7d12edb7f1a4": {
+      "raw_token_occurrences": 1,
+      "raw_token_start": 12771,
+      "raw_token_end": 12952,
+      "source_block_start": 809,
+      "source_block_end": 817,
+      "candidate_bundle_size": 1,
+      "candidate_chunk_indexes": [
+        60
+      ],
+      "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+    },
+    "d3e6d574-9d67-40f6-aed6-109c6f9d2be0": {
+      "raw_token_occurrences": 1,
+      "raw_token_start": 60459,
+      "raw_token_end": 60631,
+      "source_block_start": 1819,
+      "source_block_end": 1831,
+      "candidate_bundle_size": 2,
+      "candidate_chunk_indexes": [
+        271,
+        272
+      ],
+      "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+    },
+    "e27a94ef-f5aa-4218-921d-92a9bdb0b69f": {
+      "raw_token_occurrences": 1,
+      "raw_token_start": 12048,
+      "raw_token_end": 12097,
+      "source_block_start": 459,
+      "source_block_end": 460,
+      "candidate_bundle_size": 1,
+      "candidate_chunk_indexes": [
+        51
+      ],
+      "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+    },
+    "eed07d60-3fad-46f2-98a5-1542f3d099e6": {
+      "raw_token_occurrences": 1,
+      "raw_token_start": 12046,
+      "raw_token_end": 12183,
+      "source_block_start": 508,
+      "source_block_end": 511,
+      "candidate_bundle_size": 1,
+      "candidate_chunk_indexes": [
+        46
+      ],
+      "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+    },
+    "ef70e7f0-a68f-4797-bc7c-1edaff937261": {
+      "raw_token_occurrences": 1,
+      "raw_token_start": 9830,
+      "raw_token_end": 10071,
+      "source_block_start": 294,
+      "source_block_end": 295,
+      "candidate_bundle_size": 1,
+      "candidate_chunk_indexes": [
+        38
+      ],
+      "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+    }
+  },
+  "manifests": {
+    "cohort_sha256": "282bcbb3bf8a4ed84cd2a63f9cd476641d81b31f192e398f3449e2c8eac4b7c2",
+    "baseline_rows_sha256": "7bc288b533a97867da8b767b669c33a37088ca79bfb117d58691b94c850be08b",
+    "candidate_rows_sha256": "3012e53804b820d1bc8ce18d05e898ede4423d637091fb31616c32809eb65006",
+    "gold_sha256": "c89a820b69e121c784a56f8962ba727025f221122f66653eec5d3c4a7032daf9",
+    "results_sha256": "c7e1a19a24cf088971a9c9bcf4542b7dbc1ab34194041177ade699ca7986b39a",
+    "provenance_mappings_sha256": "6a54fcc99074c7eaabb0231f28bd898907532a10d9d4043a8ce432f55b85229c"
+  },
+  "authorization": {
+    "local_snapshot_reads": true,
+    "local_raw_store_reads": true,
+    "local_disposable_postgres_writes": true,
+    "remote_database": false,
+    "network": false,
+    "models": false,
+    "embeddings": false,
+    "context_generation": false,
+    "migration_apply": false,
+    "serving": false,
+    "deploy": false,
+    "facts_moved_to_ok": 0
+  },
+  "cost": {
+    "external_usd_ceiling": 0,
+    "model_calls": 0,
+    "network_calls": 0,
+    "remote_database_reads": 0,
+    "remote_database_writes": 0,
+    "embeddings": 0
+  },
+  "decision": "NO_GO_INVESTIGATE_FAILED_FROZEN_GATE"
+}

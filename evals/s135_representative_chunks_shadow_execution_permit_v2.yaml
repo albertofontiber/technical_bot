@@ -1,0 +1,9 @@
+instrument: s135_representative_chunks_shadow_execution_permit_v2
+status: EXECUTION_GO_LOCAL_ZERO_EXTERNAL_COST
+preregistration: {path: evals/s135_representative_chunks_shadow_prereg_v2.yaml, sha256: 97fb7a9d6d49c00cc01c7e0682a04aa2776843039c3e1a9fb1cc502343be4c2d}
+runner: {path: scripts/s135_representative_chunks_shadow_v2.py, sha256: 9295fd94f51dd901620253beefa98452638d76542940b5413a7b82e199f5d491}
+tests: {path: tests/test_s135_representative_chunks_shadow_v2.py, sha256: 35e668b60a596c71c1e25deb14daefbb2e61cdc3335ba66a38eb9b9ca9b1a9e3}
+pre_execution_tests: 5_passed
+allowed: {local_frozen_reads: true, local_raw_reads: true, disposable_postgres: true, seed1_and_seed2: true}
+forbidden: {network: true, remote_database: true, models: true, embeddings: true, context_generation: true, production: true, deploy: true}
+external_usd_ceiling: 0

@@ -1,0 +1,53 @@
+instrument: s134_document_metadata_manifest_gate_v1
+status: GO
+
+contract:
+  design: {path: evals/s134_document_metadata_contract_design_v1.md, sha256: f8e2b889c28c9006698558fd4be5929e875007c94c1c9447ef55d58e60ce02cb}
+  preregistration: {path: evals/s134_document_metadata_manifest_prereg_v1.yaml}
+
+evidence:
+  seed1:
+    path: evals/s134_document_metadata_manifest_seed1_v1.json
+    sha256: b338e76875197bfafa35fd9b92e8bd68311d5494f207205982b99990a8ef5746
+  seed2:
+    path: evals/s134_document_metadata_manifest_seed2_v1.json
+    sha256: b338e76875197bfafa35fd9b92e8bd68311d5494f207205982b99990a8ef5746
+  entries_sha256: ee24e2d4a3ffd136dc043eeddb75ee723f62f331e91092e2adab7309ef1230c5
+  canonical_byte_identity: true
+
+population:
+  active_extraction_bindings: 1002
+  distinct_active_documents: 999
+  active_documents_by_extraction_count: {'1': 996, '2': 3}
+  source_base_chunks: 24803
+  field_conflicts: 0
+  missing_required_values: 0
+
+tests:
+  command: python -m pytest tests/test_s134_document_metadata_manifest.py -q
+  result: 5_passed
+  negative_contracts:
+    conflicting_metadata_fails_closed: true
+    missing_required_metadata_fails_closed: true
+    metadata_only_no_content_or_context: true
+    row_receipts_recomputed: true
+
+authorization:
+  database: false
+  network: false
+  models: false
+  embeddings: false
+  migration_apply: false
+  serving: false
+  deploy: false
+  facts_moved_to_ok: 0
+
+cost: {model_calls: 0, network_calls: 0, database_reads: 0, database_writes: 0, embeddings: 0}
+
+decision:
+  result: GO_TO_VERSIONED_METADATA_SCHEMA_AND_REPRESENTATIVE_SHADOW
+  production_authority: false
+  rationale: >-
+    El corpus v2 activo ofrece autoridad documental unánime y reproducible para
+    evaluar chunks_v3 en shadow. La promoción productiva sigue prohibida hasta
+    validar esquema, retrieval representativo y no regresión.
