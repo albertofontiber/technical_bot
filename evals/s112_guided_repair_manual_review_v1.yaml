@@ -1,0 +1,28 @@
+instrument: s112_guided_repair_manual_review_v1
+source_probe: evals/s112_guided_repair_probe_v1.json
+method: exact_answer_sha_relational_review_against_served_F1_F3_F11
+answer_sha256: e416e8053c5ebe08ddcf90ebc10bc716f483c6ed9aa95756a19151262a6d8aa7
+rows:
+  - fact_key: "cat018#1:pestana Programacion: Zona + CBE"
+    verdict: fail
+    reason: >-
+      The repaired answer still omits that this is the Program tab and never
+      states that the Zone field is assigned there alongside CBE.
+  - fact_key: "cat018#2:Tipo SW / asociacion CBE"
+    verdict: hold_relation_not_explicit
+    reason: >-
+      The answer describes output-module CBE activation and SND-typed output
+      modules separately, but never binds the SND output to activation through
+      its associated CBE.
+mechanism_verdict: NO_GO_ZERO_SEMANTIC_FACT_GAIN
+reason: >-
+  The single cheap draft-plus-obligations repair fixed neither relational fact.
+  Do not scale or promote this repair path without a multi-evidence relation
+  contract and a new bounded gate.
+cost:
+  model: claude-haiku-4-5-20251001
+  paid_calls: 1
+  input_tokens: 1931
+  output_tokens: 1572
+  paid_reranker_calls: 0
+  llm_judge_calls: 0

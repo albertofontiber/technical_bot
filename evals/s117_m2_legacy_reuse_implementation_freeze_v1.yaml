@@ -1,0 +1,39 @@
+instrument: s117_m2_legacy_reuse_implementation_freeze_v1
+status: frozen_before_database_read
+frozen_at_utc: "2026-07-14T11:59:17Z"
+scope:
+  allowed: one_read_only_repeatable_read_snapshot_of_documents_and_chunks_v2
+  forbidden:
+    - database_writes
+    - schema_changes
+    - model_calls
+    - vector_payload_download
+    - chunks_v3_load
+artifacts:
+  design_v22:
+    path: evals/s117_m2_legacy_reuse_design_v22.md
+    sha256: 8c8288218eff187eb5960ae6f715777f25a5878569b8a70d141f7ebac003d8dc
+  prereg_v22:
+    path: evals/s117_m2_legacy_reuse_prereg_v22.yaml
+    sha256: b9f35e9027b5788f1cf881f02bd59298bffb3f0de6ccdadb7bbf54c99f66467f
+  inherited_prereg_v21:
+    path: evals/s117_m2_legacy_reuse_prereg_v21.yaml
+    sha256: b2eb7a078fcb7f584090f5c284a87414e31b12d06f11597daa93934430d36d5b
+  implementation:
+    path: scripts/s117_m2_legacy_reuse_analysis.py
+    sha256: c332d514227e016b82c2c0d747ae197fae46c685b390de3e1cf746ee887dcf31
+  directed_tests:
+    path: tests/test_s117_m2_legacy_reuse_analysis.py
+    sha256: c28cbc00612ea5adcfff50737ef005ef5e9fc2e794b7d2536d1fc5792a386126
+verification:
+  directed:
+    command: python -m pytest tests/test_s117_m2_legacy_reuse_analysis.py tests/test_chunk_provenance.py tests/test_reingest_chunk_lineage.py tests/test_s117_chunks_v3_sql_contract.py -q
+    result: 64_passed
+  full:
+    command: python -m pytest -q
+    result: 811_passed_2_skipped
+  adversarial:
+    reviewer: Hubble
+    verdict: GO
+    blockers: 0
+database_access_before_freeze: false

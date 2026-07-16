@@ -1,0 +1,13 @@
+schema: retrieval_facets_v4
+max_needs: 3
+policy: first_match
+archetypes:
+  - id: compatibility
+    patterns:
+      - '\b(compatible|compatibilidad|intercambiable)\b'
+      - '\b(puedo|se puede)\s+(montar|usar|conectar|instalar)(?:lo|la|los|las)?\b'
+    stem_prefixes: [compat, intercambi]
+    needs:
+      - '{query} compatibilidad protocolo fabricante familia compatibility protocol manufacturer family'
+      - '{query} equipos dispositivos detectores compatibles supported compatible equipment devices detectors'
+      - '{query} topologia lazo bucle cerrado retorno requisitos instalacion loop closed return installation requirements'

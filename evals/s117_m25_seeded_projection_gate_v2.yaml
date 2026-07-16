@@ -1,0 +1,86 @@
+instrument: s117_m25_seeded_projection_gate_v2
+status: GO
+scope: candidate_only_document_binding_projection
+verdict:
+  adversarial: GO
+  material_reservations_within_scope: 0
+  interpretation: closes_local_analytical_document_binding_gate_only
+frozen_contract:
+  prereg: {path: evals/s117_m25_projection_prereg_v2.yaml, sha256: 1f6e962f7453e77bb97fc559c6db7d4801ed5de0f3dd775c13d592ecccd47c96}
+  design_v3: {path: evals/s117_m25_document_binding_fallback_design_v3.md, sha256: 044381adf9b70aac59db78cb999d70a0e37e9c2ddc561382e265391b20c2d0b6}
+  runner: {path: scripts/s117_m25_project_document_binding.py, sha256: 4285c93382b7256613b40ed8d9e8f30a6e1d0f28edd35193ed14ba459431fa1d}
+  tests: {path: tests/test_s117_m25_project_document_binding.py, sha256: 08086f8b92789b67727caeb20c01fb4a960a24451513225884d43af19ff692fd}
+  primary_freeze: {path: evals/s117_m25_primary_binding_freeze_v1.yaml, sha256: 9d8046ce612107f838921184599820601bc5010ed47f70bbcc778429999c1e83}
+  primary_runner: {path: scripts/s117_m25_freeze_primary_binding.py, sha256: ffd945f37d2573f4204f72868dfb40b5f85b6172218ad00053a7ff68c503c0f4}
+  primary_baseline: {path: evals/s117_m25_primary_binding_baseline_v1.json, sha256: bd7b24e93f730f5bbecd688cacc8fb233abdac07b68096ec934327670df4e626}
+seeded_outputs:
+  seed_1: {path: evals/s117_m25_document_binding_projection_seed1_v2.json, sha256: 394dc0193197e78dc8cdcca5f25bca85e4e5d2ce32d70bb85e9d8eda6c42255b, status: GO}
+  seed_2: {path: evals/s117_m25_document_binding_projection_seed2_v2.json, sha256: 394dc0193197e78dc8cdcca5f25bca85e4e5d2ce32d70bb85e9d8eda6c42255b, status: GO}
+  byte_identical: true
+  logical_payload_sha256: a89855730fc8ce1ab91700f03d4321e5bb6f19d6e38302b0202fc9bdc40353bb
+derived_snapshot:
+  path: tmp/s117_m25/derived_snapshot_v2.jsonl.gz
+  gzip_sha256: a825e4dd02b918ddafebab4419cb416b6edc5f1b823a7a9d423f96718d7b6217
+  canonical_jsonl_sha256: 0487e0d463a145c027c31a1d770a205cce945c43095f5d2e11b805f7a8a61fa0
+  original_documents_and_chunks_preserved: true
+binding:
+  primary_receipts_invariant: 1068
+  forward_backfill_candidates: 596
+  shared_document_id_fail_closed_raws: 6
+  shared_document_id_fail_closed_legacy_rows: 144
+  safe_inverse_unique_raws: 590
+  safe_legacy_rows: 16396
+  safe_local_rows: 19572
+  safe_policy_eligible_local_rows: 16894
+funnel:
+  before:
+    target_document_unresolved: 17074
+    target_document_resolved: 8757
+    target_document_active: 8493
+    extraction_hit: 8493
+    content_hit: 8032
+    structure_hit: 7903
+    metadata_hit: 2623
+    unique_donor: 2623
+    legacy_context_and_embedding_candidate: 2623
+  after:
+    target_document_unresolved: 180
+    target_document_resolved: 25651
+    target_document_active: 25387
+    extraction_hit: 25387
+    content_hit: 23942
+    structure_hit: 23575
+    metadata_hit: 8079
+    unique_donor: 8061
+    legacy_context_and_embedding_candidate: 8061
+  exact_cascade_of_16894:
+    content_miss: 984
+    structure_miss: 238
+    metadata_miss: 10216
+    ambiguous_donor: 18
+    legacy_context_and_embedding_candidate: 5438
+  cascade_sum: 16894
+checks:
+  projection_checks: 35_of_35_true
+  nested_m2_checks: 7_of_7_true
+  full_local_suite: {passed: 845, skipped: 2, failed: 0}
+  cross_process_deterministic: true
+cost:
+  actual_database_reads: 0
+  actual_database_writes: 0
+  model_calls: 0
+  vector_payloads_read: 0
+  external_cost: 0
+  historical_snapshot_capture_reads: 1
+authorization:
+  allowed_next:
+    - design_and_preregister_independent_metadata_independent_vector_validation
+    - define_retrieval_eligible_contract_for_vector_and_fts
+  forbidden:
+    - admit_reuse
+    - schema_or_load_GO
+    - database_writes
+    - context_or_embedding_generation
+    - HNSW_load
+    - serving_or_deploy
+    - claim_causal_fact_OK_improvement

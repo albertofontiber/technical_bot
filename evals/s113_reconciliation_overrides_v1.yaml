@@ -1,0 +1,32 @@
+instrument: s113_reconciliation_overrides_v1
+source: evals/s113_canary_adversarial_review_v1.yaml
+overrides:
+  "cat001#3:32 / 25 / 20":
+    candidate: document-conflict-hold
+    evidence: s113_canary_adversarial_review_v1
+    attribution: revoked_unsafe_candidate_gain
+  "cat007#1:no enclavado":
+    candidate: synthesis-miss
+    evidence: s113_canary_adversarial_review_v1
+    attribution: strict_baseline_ok_correction
+  "cat007#2:47 kohm":
+    candidate: synthesis-miss
+    evidence: s113_canary_adversarial_review_v1
+    attribution: strict_baseline_ok_correction
+  "cat007#3:2 A / 0,5 A":
+    candidate: OK
+    evidence: s113_canary_adversarial_review_v1
+    attribution: measurement_correction_not_runtime_gain
+  "cat007#4:10^5":
+    candidate: document-extraction-hold
+    evidence: s113_canary_adversarial_review_v1
+    attribution: revoked_without_exact_served_support
+  "hp003#0:12V":
+    candidate: OK
+    evidence: s113_canary_adversarial_review_v1
+    attribution: verified_runtime_gain
+  "hp003#1:cable puente":
+    candidate: OK
+    evidence: s113_canary_adversarial_review_v1
+    attribution: verified_runtime_gain
+status: partial_canary_reconciliation_remaining_12_answers_not_executed

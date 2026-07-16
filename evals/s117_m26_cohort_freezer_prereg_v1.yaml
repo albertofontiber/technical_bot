@@ -1,0 +1,41 @@
+instrument: s117_m26_cohort_freezer_prereg_v1
+status: frozen_before_cohort_capture
+scope:
+  purpose: replay_and_freeze_exact_legacy_membership_only
+  forbidden: [database_access, env_file, network, model_calls, vector_payloads, reuse_authorization, schema, load, serving, deploy]
+frozen_inputs:
+  freezer: {path: scripts/s117_m26_freeze_legacy_cohorts.py, sha256: 26c9f3003f8e25ec6f3707e521f9213e6201be4b0e24d8c2ea3d283fe49438c9}
+  tests: {path: tests/test_s117_m26_freeze_legacy_cohorts.py, sha256: 3655a9256a20c4ff77d4a04a2ab3f32fbbd9eae16a76e01aa60d29835b4bef80}
+  design_v1: {path: evals/s117_m26_retrieval_eligibility_and_reuse_design_v1.md, sha256: 5b598f2ad68414bdb4ebcd0f1d2f0d0c92c440e810a88745e1415f2ad9c66f20}
+  design_v2: {path: evals/s117_m26_retrieval_eligibility_and_reuse_design_v2.md, sha256: ea8c831573b341c1ec27d3698171b43e4b2661ea6c4b4b208ca6e99d2be696ac}
+  design_v3: {path: evals/s117_m26_retrieval_eligibility_and_reuse_design_v3.md, sha256: 6a46160dd1cdd6cdcf7f9c439ba1ad154df7d4f55eac6152193b8bab78fb4d66}
+  design_v4: {path: evals/s117_m26_retrieval_eligibility_and_reuse_design_v4.md, sha256: 71271d0dbcf09266559b7fbf7e374d37e6f892014db63a50c9d5cb5f2508b925}
+  m2_prereg: {path: evals/s117_m2_legacy_reuse_prereg_v26.yaml, sha256: 2990ece8c14ebc4a84f666cd27ccc515f20d144cecb655b88c771d2ddca8211c}
+  m2_analyzer: {path: scripts/s117_m2_legacy_reuse_analysis.py, sha256: b53632cb50009c5d41236af1c79c5c2c6d4631cf7f551729f442b8c962dc25ba}
+  m2_result: {path: evals/s117_m2_legacy_reuse_replay_seed1_v1.json, sha256: d62ed7647366b22e9642974b5646f669ac80b8c0af4b4353a7e5cef742b5d334}
+  m25_gate: {path: evals/s117_m25_seeded_projection_gate_v2.yaml, sha256: a13b9f811c7d63fcd30febad475d6486b698a01269ff32caa270191e7484d767}
+  m25_result: {path: evals/s117_m25_document_binding_projection_seed1_v2.json, sha256: 394dc0193197e78dc8cdcca5f25bca85e4e5d2ce32d70bb85e9d8eda6c42255b}
+  source_snapshot:
+    path: tmp/s117_m2/remote_snapshot_v1.jsonl.gz
+    sha256: 3013c553da20c72fbfe0dc801dad4ea4b063ecff3138dcf55b5cd7831cf79067
+    canonical_jsonl_sha256: c5c4e1027d85b5023e8834e221bb99799fedbea1a9826f5a42f88ff3ad8da8d5
+  projected_snapshot:
+    path: tmp/s117_m25/derived_snapshot_v2.jsonl.gz
+    sha256: a825e4dd02b918ddafebab4419cb416b6edc5f1b823a7a9d423f96718d7b6217
+    canonical_jsonl_sha256: 0487e0d463a145c027c31a1d770a205cce945c43095f5d2e11b805f7a8a61fa0
+selected_paths:
+  m2_prereg: evals/s117_m2_legacy_reuse_prereg_v26.yaml
+  m2_result: evals/s117_m2_legacy_reuse_replay_seed1_v1.json
+  m25_result: evals/s117_m25_document_binding_projection_seed1_v2.json
+  source_snapshot: tmp/s117_m2/remote_snapshot_v1.jsonl.gz
+  projected_snapshot: tmp/s117_m25/derived_snapshot_v2.jsonl.gz
+expected_cohorts:
+  baseline_strict: 2623
+  projected_strict: 8061
+  new_m25_strict: 5438
+claim_contract:
+  membership_only: true
+  authorized_context_rows: 0
+  authorized_embedding_rows: 0
+  M3: BLOCKED
+cost_contract: {database_reads: 0, database_writes: 0, model_calls: 0, vector_payloads: 0}

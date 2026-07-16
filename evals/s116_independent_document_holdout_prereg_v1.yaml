@@ -1,0 +1,80 @@
+instrument: s116_independent_document_holdout_prereg_v1
+status: frozen_after_acquisition_before_paid_extraction
+
+source:
+  acquisition_prereg:
+    path: evals/s116_independent_holdout_acquisition_prereg_v1.yaml
+    sha256: 23da955fc8de6fc33a9e895248eba1fd73943beb2a6e3813c29e1a9924a42e5a
+  acquisition_receipt:
+    path: evals/s116_independent_holdout_acquisition_v1.json
+    sha256: 0ecb09b302b2922443479b9579c8553e9826701cc0cf6879c3d97def58a7839f
+  documents: 12
+  manufacturers: 4
+  pages: 644
+  bytes: 24341498
+  zero_pdf_identity_overlap_with_development: true
+
+documents:
+  - {id: bosch_fpc500_install, pages: 80, sha256: 720fe4dcb0023d76c7fa981b556dc66c3d02a10b1abe9b728fd4563b9d3d50ec}
+  - {id: bosch_fpp5000_power, pages: 80, sha256: 295540683fa0542fbe1d014c8fdc691747754166c9c8a0f0421a6a14997ab056}
+  - {id: bosch_flm430_interface, pages: 176, sha256: 653719e29ee747a481961360444f355c6cb2931e61511df757ad94ebf72aca58}
+  - {id: siemens_fc922_panel, pages: 28, sha256: 907f47cca7c1eed18273c5c0921356591f532d228935cca8085929ce6db538c2}
+  - {id: siemens_oohc941_detector, pages: 8, sha256: 3792d5699046c25eb92d331e4f2fb09c6eda9032eaeee0cc53af29fb867552e3}
+  - {id: siemens_fci2020_city_tie, pages: 14, sha256: 234ba09b1a58a0df1f00691e0bd1af21469fefaaf5289e988fa077f1cf7c5c32}
+  - {id: hochiki_hca_panel, pages: 61, sha256: b4926f047f518239e11777adb7eb204160e91a4923c59ba99014a5069aba2634}
+  - {id: hochiki_smoke_heat_guide, pages: 22, sha256: 7870dc4b1c0f0adeae5aa3b076bca57e1d6574d544ddef0099530929df946f73}
+  - {id: hochiki_vr3_releasing, pages: 158, sha256: a576ab3d7702d1bf8e81dadfc0a4836469a5e328ef293d3353d97b123c91176e}
+  - {id: apollo_series65_base, pages: 1, sha256: 523eb8b20f23016f34d747ddd79f91d8ac8d11b28961332e80e693749aae971e}
+  - {id: apollo_xp95a_detectors, pages: 2, sha256: 0b7a278f309a642d98f51d07fc83f2511f8fb444a0176d3abe5d21dc010660d3}
+  - {id: apollo_xpander_commissioning, pages: 14, sha256: b06377c0ed86431b011a000c1508de3f43bcb4bd9c4c9533187b37b705a23abe}
+
+extraction:
+  api: https://api.cloud.llamaindex.ai/api/v1/parsing
+  parse_mode: parse_page_with_agent
+  vendor_multimodal_model_name: anthropic-sonnet-4.5
+  output_store: tmp/s116_independent_holdout/extraction/agent_anthropic-sonnet-45
+  requirements:
+    - exact acquisition PDF SHA-256 and page count before upload
+    - complete raw JSON response stored atomically by PDF SHA-256
+    - no fallback extraction mode or model
+    - no automatic retry after a submitted upload; a retry requires separate explicit authorization
+
+budget:
+  credits_per_page: 45
+  pages: 644
+  maximum_credits: 28980
+  historical_usd_per_1000_credits: 1.25
+  maximum_usd_if_fully_billable: 36.225
+  displayed_cap_usd: 36.23
+  basis: rate measured in the LlamaParse dashboard on 2026-05-22 and encoded in src/reingest/extract.py
+  caveat: actual billing or included-credit balance is provider-account state and must not enlarge this cap
+
+implementations:
+  baseline:
+    git_commit: ca0f736f46e16674119bdb66ceb069caf48d8c11
+    path: src/reingest/chunk.py
+    sha256: 58be85e8cdf2cfac475e7f7cd23639b04f7b22a1c60938ffec86e76cb2c60985
+  treatment:
+    path: src/reingest/chunk.py
+    sha256: 4b76ab219854c625f4ce5e55665e2c89d14739e4eee0ab01607aae7ecda4fd43
+
+replay_gate:
+  required:
+    - 12 successful raw records and zero extraction-record errors
+    - exact PDF SHA-256, page count, parse mode and model for every record
+    - same successful filenames and exact errors between A and B
+    - zero per-document content-stream mismatches
+    - zero treatment chunk_lineage_state_failures
+    - zero treatment orphan_or_stale_anchor_chunks
+    - every titled treatment chunk has an internally resolved anchor and atomic full lineage
+    - at least 5 documents and at least 30 chunks carry section titles
+    - treatment chunk growth at most 15 percent
+  decision_if_go: authorize design of a versioned persistence migration and provenance envelope
+  never_authorizes:
+    - database writes, reindexing, serving or production deployment
+    - fact OK relabeling without a downstream funnel replay
+
+authorization:
+  free_local_validation: true
+  paid_extraction: false
+  reason: show the capped budget to the user before incurring extraction cost

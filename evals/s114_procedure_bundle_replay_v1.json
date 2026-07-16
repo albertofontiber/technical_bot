@@ -1,0 +1,941 @@
+{
+  "instrument": "s114_procedure_bundle_replay_v1",
+  "status": "known_cohort_shadow_not_release_evidence",
+  "selector_inputs_exclude": [
+    "qid",
+    "facts",
+    "expected_values",
+    "gold_receipt_ids"
+  ],
+  "gate": {
+    "questions": 39,
+    "target_row_selected": {
+      "cat017": true,
+      "hp002": true,
+      "hp010": true
+    },
+    "target_terms_in_served_spans": {
+      "cat017": true,
+      "hp002": true,
+      "hp010": true
+    },
+    "target_recovered": {
+      "cat017": true,
+      "hp002": true,
+      "hp010": true
+    },
+    "target_recovered_count": 3,
+    "protected_evaluation_holds_unchanged": {
+      "hp013": true,
+      "hp015": true
+    },
+    "questions_with_shadow_appends": 3,
+    "non_target_questions": 36,
+    "product_scoped_non_target_controls": 5,
+    "selected_product_scoped_non_target_controls": 0,
+    "potential_non_target_controls_by_facet": {
+      "explicit_intra_document_reference": 0,
+      "procedural_access_prerequisite": 0,
+      "quantified_licensed_loop_prerequisite": 0
+    },
+    "max_selected_per_question": 1,
+    "all_source_span_receipts_verified": true,
+    "database_get_requests": 0,
+    "database_writes": 0,
+    "model_calls": 0,
+    "interpretation": "GO_LOCAL_KNOWN_COHORT_SHADOW"
+  },
+  "rows": [
+    {
+      "qid": "cat001",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "cat005",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "cat007",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "cat008",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "cat009",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "cat010",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "cat011",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "cat012",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "cat013",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "cat014",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "cat015",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "cat016",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "cat017",
+      "selected_ids": [
+        "5bb83899-9d94-4fdd-8d42-24a670a036c5"
+      ],
+      "selected_facets": [
+        "quantified_licensed_loop_prerequisite"
+      ],
+      "selected_receipts": [
+        {
+          "candidate_id": "5bb83899-9d94-4fdd-8d42-24a670a036c5",
+          "manufacturer": "Notifier",
+          "product_model": "INSPIRE E10",
+          "rule_match": true,
+          "shadow_only": true,
+          "source_spans": [
+            {
+              "candidate_id": "5bb83899-9d94-4fdd-8d42-24a670a036c5",
+              "document_id": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+              "extraction_sha256": "2964cab735832cb228163bd33708dd51caa70af7caf1e1e82a658bb6e09f035a",
+              "content_sha256": "95562c4390008f6ea29ee2e3b55f04a986bbb05f4362b4cb215d82714f93a7d7",
+              "quote_sha256": "2078f3da328438c3241ec4b64380a26ef22c58a4ca5332a0a857e1c7deec9c11",
+              "start": 0,
+              "end": 720,
+              "quote": "# EQUIPO DEL SISTEMA\n\nLa central Notifier INSPIRE E10/E15 está diseñada para usarse con la gama Notifier by Honeywell de detectores direccionables, sirenas, módulos de control y supervisión y pulsadores direccionables.\n\nAdmite protocolos de Lazo OPAL y CLIP. Los dispositivos CLIP son compatibles con una licencia y se requiere una licencia para cada circuito de lazo CLIP .\n\nEl diseño de cada central Notifier INSPIRE E10/E15 se basa en un concepto de creación modular que ofrece al usuario soluciones de sistema completamente flexibles. Cada central consta de conjuntos de construcción independientes para simplificar el proceso de instalación. Los componentes electrónicos se incluyen en la caja de los módulos diseña",
+              "facet": "quantified_licensed_loop_prerequisite",
+              "receipt_type": "immutable_exact_source_span"
+            }
+          ],
+          "receipt_verified": true
+        }
+      ],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 252,
+        "section_references": [],
+        "potential_facets": [
+          "quantified_licensed_loop_prerequisite"
+        ],
+        "selected_ids": [
+          "5bb83899-9d94-4fdd-8d42-24a670a036c5"
+        ],
+        "selected_facets": [
+          "quantified_licensed_loop_prerequisite"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "selected"
+      }
+    },
+    {
+      "qid": "cat018",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "cat019",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "cat020",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 202,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "cat021",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "cat022",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "cat023",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [
+          "2.2.18",
+          "4.12",
+          "4.4.4",
+          "4.4.4.3",
+          "4.4.4.4",
+          "7.2.1",
+          "7.3.5"
+        ],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "cat024",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "hp001",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "hp002",
+      "selected_ids": [
+        "a64c168c-c927-4f8b-a179-e465e6df3976"
+      ],
+      "selected_facets": [
+        "explicit_intra_document_reference"
+      ],
+      "selected_receipts": [
+        {
+          "candidate_id": "a64c168c-c927-4f8b-a179-e465e6df3976",
+          "manufacturer": "Securiton",
+          "product_model": "ASD535",
+          "rule_match": true,
+          "shadow_only": true,
+          "source_spans": [
+            {
+              "candidate_id": "a64c168c-c927-4f8b-a179-e465e6df3976",
+              "document_id": "ab258c38-30f7-4047-a421-ebb7a701a84a",
+              "extraction_sha256": "143d462c2cdfc4f95078cdc880e7c56f98638ac3d7c9c113c43acc2ec544c54e",
+              "content_sha256": "e3f11d7814071bbf45ea21f77df14c6805adb6502be7f94002120bf3e1ac734e",
+              "quote_sha256": "2cb8424a8b3163666cd0905ce60dadd7484c862d0c08eff0543f512ea08c51b0",
+              "start": 1180,
+              "end": 1474,
+              "quote": "| (3) OK Pulsar                                                                 | ***V01***                                                     | • Selección del valor de flujo volumétrico para el conducto de aspiración I                                                                        |",
+              "facet": "explicit_intra_document_reference",
+              "receipt_type": "immutable_exact_source_span"
+            },
+            {
+              "candidate_id": "a64c168c-c927-4f8b-a179-e465e6df3976",
+              "document_id": "ab258c38-30f7-4047-a421-ebb7a701a84a",
+              "extraction_sha256": "143d462c2cdfc4f95078cdc880e7c56f98638ac3d7c9c113c43acc2ec544c54e",
+              "content_sha256": "e3f11d7814071bbf45ea21f77df14c6805adb6502be7f94002120bf3e1ac734e",
+              "quote_sha256": "84eb31b21d25ab1225b80b57d69c6908e003c4e8619c19e49f8995a3a0b94001",
+              "start": 2360,
+              "end": 2654,
+              "quote": "| (7) UP Pulsar                                                                 | ***V02***                                                     | • Selección del valor de flujo volumétrico para el conducto de aspiración II                                                                       |",
+              "facet": "explicit_intra_document_reference",
+              "receipt_type": "immutable_exact_source_span"
+            }
+          ],
+          "receipt_verified": true
+        }
+      ],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 231,
+        "section_references": [
+          "2.2.17",
+          "7.1",
+          "7.6.1",
+          "7.7.1",
+          "7.8",
+          "7.9",
+          "8.5.3.3"
+        ],
+        "potential_facets": [
+          "explicit_intra_document_reference"
+        ],
+        "selected_ids": [
+          "a64c168c-c927-4f8b-a179-e465e6df3976"
+        ],
+        "selected_facets": [
+          "explicit_intra_document_reference"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "selected"
+      }
+    },
+    {
+      "qid": "hp003",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "hp004",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "hp005",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [
+          "11.21",
+          "2.1",
+          "2.12",
+          "4.1.1",
+          "4.3.1",
+          "4.3.2",
+          "6.1.3"
+        ],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "hp006",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "hp007",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "hp008",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "hp009",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "hp010",
+      "selected_ids": [
+        "155a90fe-8c3f-484e-a617-7637fe29b547"
+      ],
+      "selected_facets": [
+        "procedural_access_prerequisite"
+      ],
+      "selected_receipts": [
+        {
+          "candidate_id": "155a90fe-8c3f-484e-a617-7637fe29b547",
+          "manufacturer": "Morley",
+          "product_model": "DXc",
+          "rule_match": true,
+          "shadow_only": true,
+          "source_spans": [
+            {
+              "candidate_id": "155a90fe-8c3f-484e-a617-7637fe29b547",
+              "document_id": "d1299a40-5128-464d-b8d7-1c8c2b86562c",
+              "extraction_sha256": "0c39ed5a44fa2e1d6283d98e5b2cac4037bf08aa00309eb816db3277eba25515",
+              "content_sha256": "06c512d8af1e6bbbdaa6c79f6593d62bf407e2b39eb22c5b59eebb6da78625d9",
+              "quote_sha256": "b715d6bf22bd5fa2d96bf5aa195934656a9ab86803d1dd994cea4f7c85c0c905",
+              "start": 1386,
+              "end": 2106,
+              "quote": "introduzca la clave de acceso de Nivel 3:\n\n```\n[Nivel Acceso]    Mar 12/04/2011 18:45:55\nIntrod. Clave Niv.3    :\n```\n\nNota: Si la clave de acceso de Nivel 3 se utiliza para confirmar la entrada a las opciones de menú de Nivel 2, la central se encuentra entonces en el Nivel 3 por lo que no solicitará la clave de Nivel 3 al seleccionar la opción de programación.\n\n• Introduzca la clave de acceso de Nivel 3 y pulse ⊙ para confirmar. En la pantalla aparecerá un mensaje solicitando que se desbloquee la memoria.\n\n– PÁGINA 38 –\n\n```\n[Nivel Acceso]  Mar 12/04/2011 18:46:26\n            Memoria Bloqueada\n      Presione OK para desbloquear\n```\n\n• Pulse ⊙ de nuevo para desbloquear la memoria (el puente J5 sobre el conector",
+              "facet": "procedural_access_prerequisite",
+              "receipt_type": "immutable_exact_source_span"
+            }
+          ],
+          "receipt_verified": true
+        }
+      ],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 202,
+        "section_references": [],
+        "potential_facets": [
+          "procedural_access_prerequisite"
+        ],
+        "selected_ids": [
+          "155a90fe-8c3f-484e-a617-7637fe29b547"
+        ],
+        "selected_facets": [
+          "procedural_access_prerequisite"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "selected"
+      }
+    },
+    {
+      "qid": "hp011",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "hp012",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "hp013",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 189,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "hp014",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [
+          "1.2",
+          "5.7"
+        ],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "hp015",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 99,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "hp017",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "hp018",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 0,
+        "section_references": [
+          "13.2.3",
+          "3.4.13",
+          "5.4",
+          "5.7"
+        ],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "hp019",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 232,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    },
+    {
+      "qid": "hp020",
+      "selected_ids": [],
+      "selected_facets": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "procedure_bundle_coverage_v2_shadow",
+        "input_candidates": 1067,
+        "product_scoped_candidates": 269,
+        "section_references": [],
+        "potential_facets": [],
+        "selected_ids": [],
+        "selected_facets": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "shadow_only": true,
+        "reason": "no_conservative_procedure_bundle_candidate"
+      }
+    }
+  ],
+  "limitations": [
+    "The candidate slice is scoped to five known products and is not held out.",
+    "Recovery requires the decisive terms inside exact bounded source spans.",
+    "Only product-scoped and per-facet eligible controls are meaningful precision controls.",
+    "A bounded evidence recovery is retrieval-stage progress, not an OK claim.",
+    "The lane is not integrated into production serving."
+  ]
+}

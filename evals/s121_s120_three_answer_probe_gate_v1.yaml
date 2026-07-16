@@ -1,0 +1,136 @@
+instrument: s121_s120_three_answer_probe_gate_v1
+frozen_at_utc: '2026-07-15T04:37:43Z'
+status: PROBE_NO_GO_ENFORCEMENT_GAP
+authority: bounded_three_answer_synthesis_probe_hybrid_diagnostic_only
+
+decision:
+  probe_execution: COMPLETE
+  atomic_manual_adjudication: COMPLETE
+  s120_obligation_packet: LOCALLY_VALID_BUT_NOT_ENFORCED
+  s120_rollout: NO_GO
+  production_release: NO_GO
+  automatic_fact_relabeling: NO_GO
+  another_paid_probe: NOT_AUTHORIZED
+  causal_bot_improvement_claimed: true
+  causal_claim_scope: m0.hp005.output_selection.1_only
+
+lineage:
+  s120_gate:
+    path: evals/s120_versioned_obligation_cache_gate_v1.yaml
+    sha256: 2885895c71730bcbf4f0694e9ce32a9189e2895aa6bef11dbf4fdc06f7f5e770
+  preregistration:
+    path: evals/s121_s120_three_answer_probe_prereg_v1.yaml
+    sha256: 32c9a10450e1c17a354d34c0bb673a8dcd294c8b7dce0aa93e17b43a4c3e4e00
+  checkpoint:
+    path: evals/s121_s120_three_answer_probe_v1.partial.jsonl
+    sha256: 46b89e28906cc70d348fbe9c20310b6f1c2fb314bdc59cc9010ab786112c635a
+  probe:
+    path: evals/s121_s120_three_answer_probe_v1.json
+    sha256: dc0dc1e078fef615008f29f66bd2c2ca126485a18a5924dece481a9fe18a64c4
+  manual_adjudication:
+    path: evals/s121_s120_three_answer_manual_adjudication_v1.yaml
+    sha256: 22b44be79b94b96ae8aae3728ddd948c5c7f0bcfb1581c5fc72a5a31d5800469
+  runner:
+    path: scripts/s121_s120_three_answer_probe.py
+    sha256: 71d868be532a802240574a7083ac9796fa17cb4dd9e5fd4fc7dd01887fd46583
+
+execution:
+  model: claude-sonnet-4-6
+  qids: [hp005, hp009, hp017]
+  successful_calls: 3
+  stop_reasons:
+    end_turn: 3
+    max_tokens: 0
+  input_tokens: 45139
+  output_tokens: 3055
+  retrieval_calls: 0
+  reranker_calls: 0
+  judge_calls_during_generation: 0
+  database_reads: 0
+  database_writes: 0
+  automatic_retries: 0
+
+atomic_results:
+  diagnostic_claims: 4
+  OK: 1
+  synthesis-miss: 3
+  facts_moved_to_ok: 1
+  rows:
+    - claim_id: m0.hp005.output_selection.1
+      qid: hp005
+      verdict: OK
+      answer_sha256: 08b54140aac99f1bf38c5f7807859c28def6413d5f6b4a87668bbbbc50af7254
+    - claim_id: m0.hp009.closed_loop_return.1
+      qid: hp009
+      verdict: synthesis-miss
+      answer_sha256: 351a9ff1dd9f15f0e7f0140230f49e1b72e73de41872ed3f292b8164979eec0f
+    - claim_id: m0.hp009.closed_loop_return.2
+      qid: hp009
+      verdict: synthesis-miss
+      answer_sha256: 351a9ff1dd9f15f0e7f0140230f49e1b72e73de41872ed3f292b8164979eec0f
+    - claim_id: m0.hp017.rule1.2
+      qid: hp017
+      verdict: synthesis-miss
+      answer_sha256: 065f1cac7a563553377ed20d22889f870fc53792dd37d8ff37c6b8cf34e6cfd1
+
+reconciled_hybrid_diagnostic:
+  content_denominator: 132
+  stage_histogram:
+    OK: 76
+    known-m1-contract-hold: 33
+    rest: 5
+    retrieval-miss: 2
+    synthesis-miss: 5
+    synthesis-not-measured: 11
+  official_atomic_content_denominator: null
+  official_ok_count: null
+  official_95_percent_claim: null
+  note: >-
+    Exactly one previously measured synthesis miss moves to diagnostic OK. The
+    remaining three target claims stay in synthesis-miss; no upstream bucket is
+    changed by this synthesis-only probe.
+
+adversarial_review:
+  reviewer: Hubble
+  model_identity_attested: false
+  verdict: NO_GO
+  p0_open: 0
+  p1_open: 3
+  validator_false_negatives:
+    hp005: complete
+    hp017: partial
+  material_findings:
+    - hp009 incorrectly assigns an end-of-line resistor to the analogue loop
+    - hp017 selects one side of a menu-number revision conflict without disclosure
+    - guided mode observes missing obligations but does not enforce or repair them
+
+verification:
+  yaml_parse: PASS
+  focused_probe_tests:
+    result: PASS
+    passed: 3
+    skipped: 0
+  full_suite:
+    result: PASS
+    passed: 1200
+    skipped: 5
+    failed: 0
+  git_diff_check: PASS
+
+next_allowed:
+  - >-
+    local design and deterministic verification of an atomic
+    generate-validate-repair-or-fail contract
+  - >-
+    local correction of validator semantics so exact claim coverage is not
+    over-constrained by incidental source wording
+  - >-
+    explicit precedence rules for bounded product-family resolution and
+    conflicting document revisions
+
+next_forbidden_without_new_authorization:
+  - model calls
+  - network calls
+  - retrieval or rerank calls
+  - database reads or writes
+  - serving, deploy or production release

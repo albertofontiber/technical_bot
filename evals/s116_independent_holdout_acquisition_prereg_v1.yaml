@@ -1,0 +1,86 @@
+instrument: s116_independent_holdout_acquisition_prereg_v1
+status: frozen_before_download
+
+selection:
+  documents: 12
+  manufacturers: 4
+  criteria:
+    - official manufacturer domain or official manufacturer-linked document host
+    - technical installation, operation, commissioning or application documentation
+    - no selection from treatment output or answer-level facts
+    - exact PDF SHA-256 must not occur in the 1068-document development store
+  failure_policy: any non-PDF, corrupt, duplicate or overlapping candidate is rejected; replacement requires a new prereg version
+
+cohort:
+  - id: bosch_fpc500_install
+    manufacturer: Bosch
+    stratum: panel_installation_manual
+    filename: bosch_fpc500_installation_en.pdf
+    url: https://cdn.commerce.boschsecurity.com/public/documents/FPC_500_Installation_Manual_enUS_7629941771.pdf
+  - id: bosch_fpp5000_power
+    manufacturer: Bosch
+    stratum: multilingual_power_supply_installation
+    filename: bosch_fpp5000_installation_all.pdf
+    url: https://cdn.commerce.boschsecurity.com/public/documents/FPP_5000_Installation_Manual_all_1254090507.pdf
+  - id: bosch_flm430_interface
+    manufacturer: Bosch
+    stratum: multilingual_interface_module_installation
+    filename: bosch_flm430_i2m1_installation_all.pdf
+    url: https://cdn.commerce.boschsecurity.com/public/documents/FLM_430_I2M1_Installation_Manual_all_129205896203.pdf
+  - id: siemens_fc922_panel
+    manufacturer: Siemens
+    stratum: panel_installation_manual
+    filename: siemens_fc922_fc924_installation_en.pdf
+    url: https://sid.siemens.com/api/khub/documents/yhkbr5vUYxCO0~zS8htYgQ/content
+  - id: siemens_oohc941_detector
+    manufacturer: Siemens
+    stratum: detector_installation_sheet
+    filename: siemens_oohc941_installation_en.pdf
+    url: https://sid.siemens.com/api/khub/documents/anfa36cFxwvXlRnbwmsy7g/content
+  - id: siemens_fci2020_city_tie
+    manufacturer: Siemens
+    stratum: module_installation_instructions
+    filename: siemens_fci2020_city_tie_installation_en.pdf
+    url: https://sid.siemens.com/api/khub/documents/kBOUqaH2c1ISMkBQ_JBQZg/content
+  - id: hochiki_hca_panel
+    manufacturer: Hochiki
+    stratum: panel_installation_operation_manual
+    filename: hochiki_hca_series_installation_operation.pdf
+    url: https://www.hochikiamerica.com/img/product/description/HCA-D%20Series%20Conventional%20Panel%20Manual%20V2.17.pdf
+  - id: hochiki_smoke_heat_guide
+    manufacturer: Hochiki
+    stratum: detector_application_guide
+    filename: hochiki_smoke_heat_application_guide.pdf
+    url: https://www.hochikiamerica.com/img/category/description/Hochiki%20Smoke%20and%20Heat%20Detector%20Application%20Guide%20V1.00.pdf
+  - id: hochiki_vr3_releasing
+    manufacturer: Hochiki
+    stratum: releasing_panel_installation_operation
+    filename: hochiki_vr3_installation_operation.pdf
+    url: https://www.hochikiamerica.com/img/product/description/HA-06-294.pdf
+  - id: apollo_series65_base
+    manufacturer: Apollo
+    stratum: one_page_installation_sheet
+    filename: apollo_series65_base_installation.pdf
+    url: https://apollo-fire.co.uk/wp-content/uploads/2025/10/F0002000_0001.pdf
+  - id: apollo_xp95a_detectors
+    manufacturer: Apollo
+    stratum: two_page_detector_installation
+    filename: apollo_xp95a_detector_installation.pdf
+    url: https://apollo-fire.co.uk/wp-content/uploads/2025/10/F0001890_0001.pdf
+  - id: apollo_xpander_commissioning
+    manufacturer: Apollo
+    stratum: commissioning_guide
+    filename: apollo_xpander_commissioning.pdf
+    url: https://apollo-fire.co.uk/wp-content/uploads/2025/10/F0000292_0001.pdf
+
+download_gate:
+  required:
+    - HTTP success and application/pdf or PDF magic bytes
+    - PyMuPDF opens every document and reports at least one page
+    - 12 unique PDF SHA-256 values
+    - zero SHA-256 overlap with development extraction filenames
+    - at least one document over 30 pages and at least two documents up to 5 pages
+
+cost_boundary:
+  download_calls: authorized_free_acquisition
+  extraction_or_model_calls: not_authorized_by_this_prereg

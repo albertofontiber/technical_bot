@@ -1,0 +1,1263 @@
+{
+  "authority": "diagnostic_hybrid_replay_only_no_official_atomic_credit",
+  "authorization": {
+    "database": false,
+    "deploy": false,
+    "gold_mutation": false,
+    "models": false,
+    "network": false,
+    "rerank": false,
+    "retrieval": false,
+    "serving": false,
+    "synthesis_calls": false
+  },
+  "claim_results": [
+    {
+      "answer_available": true,
+      "answer_sha256": "2c2c7ad7d56db69b46ebe50cbafd07140eec7f888b2a674fb627e221e355e0f3",
+      "claim_id": "m0.cat001.isolator_limits.1",
+      "coverage_passed": true,
+      "coverage_receipts": [
+        {
+          "matched": true,
+          "matched_line_count": 2,
+          "matched_line_start": 27,
+          "pattern": "32 equipos entre aisladores"
+        }
+      ],
+      "evidence_groups": [
+        {
+          "adjudicated_binding": {
+            "accepted_candidate_id": "503bc41c-4b85-4223-b8c1-103a54a96a26",
+            "page_basis": "direct_same_manual_explicit_normative_limit",
+            "relation": "direct_explicit",
+            "support_span_sha256s": [
+              "3022ef68e460cf0cff25275cbf4a2594e2be8fc1dd698b20434d382e076f8657"
+            ]
+          },
+          "alternatives": [
+            {
+              "candidate_id": "503bc41c-4b85-4223-b8c1-103a54a96a26",
+              "content_sha256": "09179265a318793547a1d50b2628f4fb81b6a692d18503d62456501baf80cbe0",
+              "identity_match": true,
+              "matched": true,
+              "pattern_receipts": [
+                {
+                  "matched": true,
+                  "pattern": "maximo 32 sensores y o pulsadores entre aisladores"
+                }
+              ]
+            }
+          ],
+          "group_id": "en54_32",
+          "matched": true,
+          "matched_candidate_id": "503bc41c-4b85-4223-b8c1-103a54a96a26"
+        }
+      ],
+      "generator_support": true,
+      "parent_fact_key": "cat001#3:32 / 25 / 20",
+      "qid": "cat001",
+      "source_projection_row_sha256": "c881fd0e2b71be0e2910990dad613a12c87c673d980dbebbe3ea80e72cf2d9af",
+      "source_row_key": "cat001#3:32 / 25 / 20",
+      "stage_bucket": "OK",
+      "stage_status": "generator_support_and_cached_answer_coverage_pass"
+    },
+    {
+      "answer_available": true,
+      "answer_sha256": "2c2c7ad7d56db69b46ebe50cbafd07140eec7f888b2a674fb627e221e355e0f3",
+      "claim_id": "m0.cat001.isolator_limits.2",
+      "coverage_passed": true,
+      "coverage_receipts": [
+        {
+          "matched": true,
+          "matched_line_count": 2,
+          "matched_line_start": 23,
+          "pattern": "25 equipos entre aisladores"
+        }
+      ],
+      "evidence_groups": [
+        {
+          "adjudicated_binding": {
+            "accepted_candidate_id": "a92b566d-4a7e-4e04-91ef-a8d3b66d7723",
+            "page_basis": "direct_same_manual_explicit_pearl_limit",
+            "relation": "direct_explicit",
+            "support_span_sha256s": [
+              "3a8a4b1d9ef235f547d23f36023b2de78f00b3420a7fa7ee37bbc9b6f3610848"
+            ]
+          },
+          "alternatives": [
+            {
+              "candidate_id": "a92b566d-4a7e-4e04-91ef-a8d3b66d7723",
+              "content_sha256": "f9628d031c3e01ffb982c09eb2db9a954a13b80d7d9f6a4b8e785d281868bb43",
+              "identity_match": true,
+              "matched": true,
+              "pattern_receipts": [
+                {
+                  "matched": true,
+                  "pattern": "centrales pearl no coloque mas de 25 equipos de lazo entre aisladores"
+                }
+              ]
+            }
+          ],
+          "group_id": "pearl_25",
+          "matched": true,
+          "matched_candidate_id": "a92b566d-4a7e-4e04-91ef-a8d3b66d7723"
+        }
+      ],
+      "generator_support": true,
+      "parent_fact_key": "cat001#3:32 / 25 / 20",
+      "qid": "cat001",
+      "source_projection_row_sha256": "c881fd0e2b71be0e2910990dad613a12c87c673d980dbebbe3ea80e72cf2d9af",
+      "source_row_key": "cat001#3:32 / 25 / 20",
+      "stage_bucket": "OK",
+      "stage_status": "generator_support_and_cached_answer_coverage_pass"
+    },
+    {
+      "answer_available": true,
+      "answer_sha256": "2c2c7ad7d56db69b46ebe50cbafd07140eec7f888b2a674fb627e221e355e0f3",
+      "claim_id": "m0.cat001.isolator_limits.3",
+      "coverage_passed": true,
+      "coverage_receipts": [
+        {
+          "matched": true,
+          "matched_line_count": 2,
+          "matched_line_start": 20,
+          "pattern": "equipos sin aisladores internos.{0,120}20 equipos entre aisladores"
+        },
+        {
+          "matched": true,
+          "matched_line_count": 2,
+          "matched_line_start": 24,
+          "pattern": "aisladores fet.{0,250}20 equipos entre aisladores"
+        }
+      ],
+      "evidence_groups": [
+        {
+          "adjudicated_binding": {
+            "accepted_candidate_id": "503bc41c-4b85-4223-b8c1-103a54a96a26",
+            "page_basis": "two_same_manual_spans_required_for_no_internal_isolator_and_fet_scope",
+            "relation": "direct_explicit",
+            "support_span_sha256s": [
+              "9c710f1c76093ccc9303b41e6ecb986655b1bf92b44f94280a9b1d4db7153db3"
+            ]
+          },
+          "alternatives": [
+            {
+              "candidate_id": "503bc41c-4b85-4223-b8c1-103a54a96a26",
+              "content_sha256": "09179265a318793547a1d50b2628f4fb81b6a692d18503d62456501baf80cbe0",
+              "identity_match": true,
+              "matched": true,
+              "pattern_receipts": [
+                {
+                  "matched": true,
+                  "pattern": "equipos sin aisladores internos incluidos equipos de protocolo clip y algunos opal no coloque mas de 20 equipos entre aisladores"
+                }
+              ]
+            }
+          ],
+          "group_id": "no_internal_isolator_20",
+          "matched": true,
+          "matched_candidate_id": "503bc41c-4b85-4223-b8c1-103a54a96a26"
+        },
+        {
+          "adjudicated_binding": {
+            "accepted_candidate_id": "a92b566d-4a7e-4e04-91ef-a8d3b66d7723",
+            "page_basis": "two_same_manual_spans_required_for_no_internal_isolator_and_fet_scope",
+            "relation": "direct_explicit",
+            "support_span_sha256s": [
+              "ccce6182cd6a8eeab9adb94995584d8164c8720560bc1041640765e166af6b27"
+            ]
+          },
+          "alternatives": [
+            {
+              "candidate_id": "a92b566d-4a7e-4e04-91ef-a8d3b66d7723",
+              "content_sha256": "f9628d031c3e01ffb982c09eb2db9a954a13b80d7d9f6a4b8e785d281868bb43",
+              "identity_match": true,
+              "matched": true,
+              "pattern_receipts": [
+                {
+                  "matched": true,
+                  "pattern": "20 si utiliza aisladores fet"
+                }
+              ]
+            }
+          ],
+          "group_id": "fet_20",
+          "matched": true,
+          "matched_candidate_id": "a92b566d-4a7e-4e04-91ef-a8d3b66d7723"
+        }
+      ],
+      "generator_support": true,
+      "parent_fact_key": "cat001#3:32 / 25 / 20",
+      "qid": "cat001",
+      "source_projection_row_sha256": "c881fd0e2b71be0e2910990dad613a12c87c673d980dbebbe3ea80e72cf2d9af",
+      "source_row_key": "cat001#3:32 / 25 / 20",
+      "stage_bucket": "OK",
+      "stage_status": "generator_support_and_cached_answer_coverage_pass"
+    },
+    {
+      "answer_available": true,
+      "answer_sha256": "1fe51fc989d8100a98f399fd1357945ca4ee81ec33df81f1f7d85543b3556634",
+      "claim_id": "m0.cat010.supply.1",
+      "coverage_passed": true,
+      "coverage_receipts": [
+        {
+          "matched": true,
+          "matched_line_count": 1,
+          "matched_line_start": 33,
+          "pattern": "is ma1.{0,180}24 v dc.{0,180}(barrera|aislador)"
+        }
+      ],
+      "evidence_groups": [
+        {
+          "adjudicated_binding": {
+            "accepted_candidate_id": "048f407c-eda7-416e-a63e-6d07a583dd78",
+            "page_basis": "direct_same_manual_supply_section",
+            "relation": "direct_explicit",
+            "support_span_sha256s": [
+              "d6dde36f97de840fa31f1100d6450c6f361ab151ca998c9cecd936421cb0f947"
+            ]
+          },
+          "alternatives": [
+            {
+              "candidate_id": "048f407c-eda7-416e-a63e-6d07a583dd78",
+              "content_sha256": "c5b5722f3f6ae4abc59cb8d820904efcfb6abe434d38bf9389fd427848f6e122",
+              "identity_match": true,
+              "matched": true,
+              "pattern_receipts": [
+                {
+                  "matched": true,
+                  "pattern": "designed to operate in a hazardous area from a 24v dc supply"
+                }
+              ]
+            }
+          ],
+          "group_id": "nominal_24v",
+          "matched": true,
+          "matched_candidate_id": "048f407c-eda7-416e-a63e-6d07a583dd78"
+        }
+      ],
+      "generator_support": true,
+      "parent_fact_key": "cat010#0:24V dc",
+      "qid": "cat010",
+      "source_projection_row_sha256": "13476cbdb7e6332a92fed5c7a7d0422cc58eb3c4f390f24fab7e1361b9410650",
+      "source_row_key": "cat010#0:24V dc",
+      "stage_bucket": "OK",
+      "stage_status": "generator_support_and_cached_answer_coverage_pass"
+    },
+    {
+      "answer_available": true,
+      "answer_sha256": "1fe51fc989d8100a98f399fd1357945ca4ee81ec33df81f1f7d85543b3556634",
+      "claim_id": "m0.cat010.supply.2",
+      "coverage_passed": true,
+      "coverage_receipts": [
+        {
+          "matched": true,
+          "matched_line_count": 1,
+          "matched_line_start": 33,
+          "pattern": "28 v.{0,40}93 ma.{0,100}resistiv"
+        }
+      ],
+      "evidence_groups": [
+        {
+          "adjudicated_binding": {
+            "accepted_candidate_id": "048f407c-eda7-416e-a63e-6d07a583dd78",
+            "page_basis": "direct_same_manual_supply_section",
+            "relation": "direct_explicit",
+            "support_span_sha256s": [
+              "be1bdc95bc109828da184cc3f188380439f178a611276d8cbdc76272933f6172"
+            ]
+          },
+          "alternatives": [
+            {
+              "candidate_id": "048f407c-eda7-416e-a63e-6d07a583dd78",
+              "content_sha256": "c5b5722f3f6ae4abc59cb8d820904efcfb6abe434d38bf9389fd427848f6e122",
+              "identity_match": true,
+              "matched": true,
+              "pattern_receipts": [
+                {
+                  "matched": true,
+                  "pattern": "via 28v 93ma resistive atex and iecex certified zener barriers or galvanic isolators"
+                }
+              ]
+            }
+          ],
+          "group_id": "barrier_28v_93ma",
+          "matched": true,
+          "matched_candidate_id": "048f407c-eda7-416e-a63e-6d07a583dd78"
+        }
+      ],
+      "generator_support": true,
+      "parent_fact_key": "cat010#0:24V dc",
+      "qid": "cat010",
+      "source_projection_row_sha256": "13476cbdb7e6332a92fed5c7a7d0422cc58eb3c4f390f24fab7e1361b9410650",
+      "source_row_key": "cat010#0:24V dc",
+      "stage_bucket": "OK",
+      "stage_status": "generator_support_and_cached_answer_coverage_pass"
+    },
+    {
+      "answer_available": false,
+      "answer_sha256": null,
+      "claim_id": "m0.cat017.clss_workflow.1",
+      "coverage_passed": null,
+      "coverage_receipts": [],
+      "evidence_groups": [
+        {
+          "adjudicated_binding": {
+            "accepted_candidate_id": "e472044e-ce86-4569-ac6f-2bd297bb1c93",
+            "page_basis": "same_family_current_revision_workflow_pages_replace_older_indexed_citation",
+            "relation": "direct_explicit_current_revision",
+            "support_span_sha256s": [
+              "14b0c7df877cd64c6b85708e68ea7c1eceef37c5615f7268bccecc282e10849b"
+            ]
+          },
+          "alternatives": [
+            {
+              "candidate_id": "e472044e-ce86-4569-ac6f-2bd297bb1c93",
+              "content_sha256": "11f24d9c07d019f9bdd9c5ff1107c4b896bdef19f5847f95e2858839321be453",
+              "identity_match": true,
+              "matched": true,
+              "pattern_receipts": [
+                {
+                  "matched": true,
+                  "pattern": "central debera configurarse previamente con el programa de configuracion de clss"
+                }
+              ]
+            }
+          ],
+          "group_id": "clss_configuration",
+          "matched": true,
+          "matched_candidate_id": "e472044e-ce86-4569-ac6f-2bd297bb1c93"
+        },
+        {
+          "adjudicated_binding": {
+            "accepted_candidate_id": "6596dfec-a47e-46ec-9aba-8807575b6983",
+            "page_basis": "same_family_current_revision_workflow_pages_replace_older_indexed_citation",
+            "relation": "direct_explicit_current_revision",
+            "support_span_sha256s": [
+              "6ea5e5ade4d89f8bc00d665b6da2b14b536ab7ce7bf9f99c97d69d9c16739fc9",
+              "0b74b55da8fc72a5676e7ddf2bca7def0ade4dd7523bdb2894a1dfe17f125785"
+            ]
+          },
+          "alternatives": [
+            {
+              "candidate_id": "6596dfec-a47e-46ec-9aba-8807575b6983",
+              "content_sha256": "6651325a2aab28fe662fafaf71b4da914d8b059ec7374486bc9564b9c1781a42",
+              "identity_match": true,
+              "matched": true,
+              "pattern_receipts": [
+                {
+                  "matched": true,
+                  "pattern": "configure an empty loop with the protocol of choice send the configuration to the panel"
+                }
+              ]
+            }
+          ],
+          "group_id": "send_to_panel",
+          "matched": true,
+          "matched_candidate_id": "6596dfec-a47e-46ec-9aba-8807575b6983"
+        }
+      ],
+      "generator_support": true,
+      "parent_fact_key": "cat017#4:CLSS",
+      "qid": "cat017",
+      "source_projection_row_sha256": "fc9c255f770e0a29e251bf295a3434005fcc71a34446f0a89afabc4dc59dcd9a",
+      "source_row_key": "cat017#4:CLSS",
+      "stage_bucket": "synthesis-not-measured",
+      "stage_status": "generator_support_present_but_no_exact_frozen_answer"
+    },
+    {
+      "answer_available": true,
+      "answer_sha256": "f582a581f95cce3e745bccc99b8263308d87b4092c4bedf6a0a7d14df6de22d8",
+      "claim_id": "m0.hp003.battery_voltage_capacity.1",
+      "coverage_passed": true,
+      "coverage_receipts": [
+        {
+          "matched": true,
+          "matched_line_count": 1,
+          "matched_line_start": 5,
+          "pattern": "dos baterias de 12 ?v.{0,100}serie.{0,100}24 ?v"
+        }
+      ],
+      "evidence_groups": [
+        {
+          "adjudicated_binding": {
+            "accepted_candidate_id": "eaa39792-fb91-411d-a666-d85fb7f7b591",
+            "page_basis": "physical_page_7_maps_to_extracted_printed_page_8",
+            "relation": "direct_explicit",
+            "support_span_sha256s": [
+              "17c1759a1c78ab208e69e120d0b8ceba968e3a2bcdd65449537c38d929e72e5c",
+              "a210b0581e2c9d9e9f44f3244600676e709f9a356835ed33a14b60beef72b021"
+            ]
+          },
+          "alternatives": [
+            {
+              "candidate_id": "eaa39792-fb91-411d-a666-d85fb7f7b591",
+              "content_sha256": "2c0eae77adbc34d5c98351c56e2432b021b38b5aa39dd86c831baf989704be82",
+              "identity_match": true,
+              "matched": true,
+              "pattern_receipts": [
+                {
+                  "matched": true,
+                  "pattern": "requieren dos baterias de 12v 7a h"
+                },
+                {
+                  "matched": true,
+                  "pattern": "baterias deben conectarse en serie"
+                }
+              ]
+            }
+          ],
+          "group_id": "two_12v_series",
+          "matched": true,
+          "matched_candidate_id": "eaa39792-fb91-411d-a666-d85fb7f7b591"
+        }
+      ],
+      "generator_support": true,
+      "parent_fact_key": "hp003#0:12V",
+      "qid": "hp003",
+      "source_projection_row_sha256": "160df2fe1bc9ae18b061789c6db1fa54b3da9046a2be66e9cd778ddbf29b9a85",
+      "source_row_key": "hp003#0:12V",
+      "stage_bucket": "OK",
+      "stage_status": "generator_support_and_cached_answer_coverage_pass"
+    },
+    {
+      "answer_available": true,
+      "answer_sha256": "37dbc93f6e0d9b1e70340f1db774590f01ce682a3f40ec093f645e4d3d4db087",
+      "claim_id": "m0.hp005.output_selection.1",
+      "coverage_passed": false,
+      "coverage_receipts": [
+        {
+          "matched": false,
+          "matched_line_count": null,
+          "matched_line_start": null,
+          "pattern": "(selecciona|seleccionar|elige|elegir).{0,160}circuito.{0,80}sirena"
+        }
+      ],
+      "evidence_groups": [
+        {
+          "adjudicated_binding": {
+            "accepted_candidate_id": "6dcccb36-f67b-4057-959b-494d9279e5d4",
+            "page_basis": "cross_manual_same_id3000_programming_workflow_previously_generator_admitted_by_s110",
+            "relation": "explicit_gui_operation_equivalent",
+            "support_span_sha256s": [
+              "3c8ab01ac025aaed0ae658448bea78ae771c3c8e7219bb51160ff683bc8426ad",
+              "0326bac38db54da50848b8c7b57d78a12bfaa714e4d0f1623eda1ad6c6134f4d",
+              "57e4d5844d288484deb5355fe69208990c6c3104ab2288d659570ad77fed37fa"
+            ]
+          },
+          "alternatives": [
+            {
+              "candidate_id": "6dcccb36-f67b-4057-959b-494d9279e5d4",
+              "content_sha256": "55024e07527c4e4d90e960dba720f7445a40b675dd189c936d17602ea4b87fca",
+              "identity_match": true,
+              "matched": true,
+              "pattern_receipts": [
+                {
+                  "matched": true,
+                  "pattern": "aplicar el evento de salida matriz sobre"
+                },
+                {
+                  "matched": true,
+                  "pattern": "funcion especial circuito sirena 1"
+                },
+                {
+                  "matched": true,
+                  "pattern": "seleccionar equipos del lazo"
+                }
+              ]
+            }
+          ],
+          "group_id": "select_siren_output",
+          "matched": true,
+          "matched_candidate_id": "6dcccb36-f67b-4057-959b-494d9279e5d4"
+        }
+      ],
+      "generator_support": true,
+      "parent_fact_key": "hp005#3:CIRCUITO SIRENA",
+      "qid": "hp005",
+      "source_projection_row_sha256": "0810cd9ff71d11dd33e7e330d1d0705b8637076c10f0e52bb1fbc57a35573fee",
+      "source_row_key": "hp005#3:CIRCUITO SIRENA",
+      "stage_bucket": "synthesis-miss",
+      "stage_status": "generator_support_present_cached_answer_lacks_claim_coverage"
+    },
+    {
+      "answer_available": true,
+      "answer_sha256": "524be1fe3fddbf8103a752776fe458740a71319575caca36c12d30fb66a331c6",
+      "claim_id": "m0.hp009.closed_loop_return.1",
+      "coverage_passed": false,
+      "coverage_receipts": [
+        {
+          "matched": false,
+          "matched_line_count": null,
+          "matched_line_start": null,
+          "pattern": "(lazo analogico.{0,180}(bucle|lazo) cerrado|(bucle|lazo) cerrado.{0,180}lazo analogico)"
+        }
+      ],
+      "evidence_groups": [
+        {
+          "adjudicated_binding": {
+            "accepted_candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+            "page_basis": "direct_same_manual_diagram_page",
+            "relation": "diagram_entails_closed_out_and_return_path",
+            "support_span_sha256s": [
+              "533bdeca7f43f38fbc709263f1adc1b0815046e939605907788f8108eef49639",
+              "c8fd435d1cf7291dea96fbb1f3f06e58ea64f85a921eb41fea06796aafd1d620",
+              "a4f5a297e71c3e1737367f1a9237f46b99729d3990acbfb345cf1aab12cb1a37"
+            ]
+          },
+          "alternatives": [
+            {
+              "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+              "content_sha256": "fade159d212410c39d58e423bc7c5e65304a45ee9972c7bebb53a07c4b429bb1",
+              "identity_match": true,
+              "matched": true,
+              "pattern_receipts": [
+                {
+                  "matched": true,
+                  "pattern": "inicio lazo out"
+                },
+                {
+                  "matched": true,
+                  "pattern": "retorno"
+                },
+                {
+                  "matched": true,
+                  "pattern": "conexionado lazo analogico"
+                }
+              ]
+            }
+          ],
+          "group_id": "closed_return_topology",
+          "matched": true,
+          "matched_candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a"
+        }
+      ],
+      "generator_support": true,
+      "parent_fact_key": "hp009#0:Retorno",
+      "qid": "hp009",
+      "source_projection_row_sha256": "be1a206a5c93150b70c2f03e86d876babccb111d1bbdcf404870231c01400f00",
+      "source_row_key": "hp009#0:Retorno",
+      "stage_bucket": "synthesis-miss",
+      "stage_status": "generator_support_present_cached_answer_lacks_claim_coverage"
+    },
+    {
+      "answer_available": true,
+      "answer_sha256": "524be1fe3fddbf8103a752776fe458740a71319575caca36c12d30fb66a331c6",
+      "claim_id": "m0.hp009.closed_loop_return.2",
+      "coverage_passed": false,
+      "coverage_receipts": [
+        {
+          "matched": false,
+          "matched_line_count": null,
+          "matched_line_start": null,
+          "pattern": "inicio lazo.{0,180}retorno"
+        }
+      ],
+      "evidence_groups": [
+        {
+          "adjudicated_binding": {
+            "accepted_candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+            "page_basis": "direct_same_manual_diagram_page",
+            "relation": "diagram_direct_terminal_labels",
+            "support_span_sha256s": [
+              "c8fd435d1cf7291dea96fbb1f3f06e58ea64f85a921eb41fea06796aafd1d620",
+              "a4f5a297e71c3e1737367f1a9237f46b99729d3990acbfb345cf1aab12cb1a37"
+            ]
+          },
+          "alternatives": [
+            {
+              "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+              "content_sha256": "fade159d212410c39d58e423bc7c5e65304a45ee9972c7bebb53a07c4b429bb1",
+              "identity_match": true,
+              "matched": true,
+              "pattern_receipts": [
+                {
+                  "matched": true,
+                  "pattern": "inicio lazo out"
+                },
+                {
+                  "matched": true,
+                  "pattern": "retorno"
+                }
+              ]
+            }
+          ],
+          "group_id": "out_and_return_terminals",
+          "matched": true,
+          "matched_candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a"
+        }
+      ],
+      "generator_support": true,
+      "parent_fact_key": "hp009#0:Retorno",
+      "qid": "hp009",
+      "source_projection_row_sha256": "be1a206a5c93150b70c2f03e86d876babccb111d1bbdcf404870231c01400f00",
+      "source_row_key": "hp009#0:Retorno",
+      "stage_bucket": "synthesis-miss",
+      "stage_status": "generator_support_present_cached_answer_lacks_claim_coverage"
+    },
+    {
+      "answer_available": false,
+      "answer_sha256": null,
+      "claim_id": "m0.hp011.abort.1",
+      "coverage_passed": null,
+      "coverage_receipts": [],
+      "evidence_groups": [
+        {
+          "adjudicated_binding": {
+            "accepted_candidate_id": "c8924d59-a9ce-4379-a3b7-57058ff86a82",
+            "page_basis": "same_manual_operational_restatement_on_page_53_of_page_44_input_behavior",
+            "relation": "explicit_general_rule_plus_abort_exception",
+            "support_span_sha256s": [
+              "7668c94bae781c2a1c942633c054b1b1d4de4e84a758beab0fd6e2dfb84a777c",
+              "7f2bee386a8e54d94a08d47bd64df17f88970f4fb95be081b073b5b4a4d3262c"
+            ]
+          },
+          "alternatives": [
+            {
+              "candidate_id": "c8924d59-a9ce-4379-a3b7-57058ff86a82",
+              "content_sha256": "b9c836ec1c3f2d5c5ca5c3001351d243dbdd72ab4aea68e4727d86c6ea2de880",
+              "identity_match": true,
+              "matched": true,
+              "pattern_receipts": [
+                {
+                  "matched": true,
+                  "pattern": "todas las averias son por defecto enclavadas"
+                },
+                {
+                  "matched": true,
+                  "pattern": "excepcion de la averia en el circuito de paro"
+                }
+              ]
+            }
+          ],
+          "group_id": "abort_latched",
+          "matched": true,
+          "matched_candidate_id": "c8924d59-a9ce-4379-a3b7-57058ff86a82"
+        }
+      ],
+      "generator_support": true,
+      "parent_fact_key": "hp011#0:ABORT",
+      "qid": "hp011",
+      "source_projection_row_sha256": "24d2123e289d4ff08cfa883de7a1fc9283e2978326e930397f4b1656f2b42383",
+      "source_row_key": "hp011#0:ABORT",
+      "stage_bucket": "synthesis-not-measured",
+      "stage_status": "generator_support_present_but_no_exact_frozen_answer"
+    },
+    {
+      "answer_available": false,
+      "answer_sha256": null,
+      "claim_id": "m0.hp011.abort.2",
+      "coverage_passed": null,
+      "coverage_receipts": [],
+      "evidence_groups": [
+        {
+          "adjudicated_binding": {
+            "accepted_candidate_id": "c8924d59-a9ce-4379-a3b7-57058ff86a82",
+            "page_basis": "same_manual_operational_restatement_on_page_53_of_page_44_input_behavior",
+            "relation": "explicit_general_rule_plus_abort_exception",
+            "support_span_sha256s": [
+              "c55fc66736b53bc02b32cbe82675698042901445a3f43d6a3906a383bdba5c44",
+              "7f2bee386a8e54d94a08d47bd64df17f88970f4fb95be081b073b5b4a4d3262c"
+            ]
+          },
+          "alternatives": [
+            {
+              "candidate_id": "c8924d59-a9ce-4379-a3b7-57058ff86a82",
+              "content_sha256": "b9c836ec1c3f2d5c5ca5c3001351d243dbdd72ab4aea68e4727d86c6ea2de880",
+              "identity_match": true,
+              "matched": true,
+              "pattern_receipts": [
+                {
+                  "matched": true,
+                  "pattern": "requieren de un rearme manual de la central"
+                },
+                {
+                  "matched": true,
+                  "pattern": "excepcion de la averia en el circuito de paro"
+                }
+              ]
+            }
+          ],
+          "group_id": "abort_manual_reset",
+          "matched": true,
+          "matched_candidate_id": "c8924d59-a9ce-4379-a3b7-57058ff86a82"
+        }
+      ],
+      "generator_support": true,
+      "parent_fact_key": "hp011#0:ABORT",
+      "qid": "hp011",
+      "source_projection_row_sha256": "24d2123e289d4ff08cfa883de7a1fc9283e2978326e930397f4b1656f2b42383",
+      "source_row_key": "hp011#0:ABORT",
+      "stage_bucket": "synthesis-not-measured",
+      "stage_status": "generator_support_present_but_no_exact_frozen_answer"
+    },
+    {
+      "answer_available": false,
+      "answer_sha256": null,
+      "claim_id": "m0.hp011.reset_inhibit.1",
+      "coverage_passed": null,
+      "coverage_receipts": [],
+      "evidence_groups": [
+        {
+          "adjudicated_binding": {
+            "accepted_candidate_id": "475a8f18-7c69-4c7a-8111-45bd67334c96",
+            "page_basis": "direct_same_manual_page",
+            "relation": "direct_explicit",
+            "support_span_sha256s": [
+              "a517e06445792361e8bc792661ea2f4af9b7577cf0a9e7e54641c912983d5df7"
+            ]
+          },
+          "alternatives": [
+            {
+              "candidate_id": "475a8f18-7c69-4c7a-8111-45bd67334c96",
+              "content_sha256": "81bbb49e22c41421c0d9d289c2c38314c76734459aeefd31a5d6868cc2dda1cd",
+              "identity_match": true,
+              "matched": true,
+              "pattern_receipts": [
+                {
+                  "matched": true,
+                  "pattern": "rearme inhibido tras extincion"
+                }
+              ]
+            }
+          ],
+          "group_id": "reset_inhibit_identity",
+          "matched": true,
+          "matched_candidate_id": "475a8f18-7c69-4c7a-8111-45bd67334c96"
+        }
+      ],
+      "generator_support": true,
+      "parent_fact_key": "hp011#1:r.I",
+      "qid": "hp011",
+      "source_projection_row_sha256": "0f3f357fb26201565099b4c0c6790e2ff3ccdd6c1b3b7f864306ea5be011caf2",
+      "source_row_key": "hp011#1:r.I",
+      "stage_bucket": "synthesis-not-measured",
+      "stage_status": "generator_support_present_but_no_exact_frozen_answer"
+    },
+    {
+      "answer_available": false,
+      "answer_sha256": null,
+      "claim_id": "m0.hp011.reset_inhibit.2",
+      "coverage_passed": null,
+      "coverage_receipts": [],
+      "evidence_groups": [
+        {
+          "adjudicated_binding": {
+            "accepted_candidate_id": "475a8f18-7c69-4c7a-8111-45bd67334c96",
+            "page_basis": "direct_same_manual_page",
+            "relation": "direct_explicit",
+            "support_span_sha256s": [
+              "6ec8b60163bc45cdc52ef84dd07a8ddb715fe57546d35538546e16ecfa9ca819"
+            ]
+          },
+          "alternatives": [
+            {
+              "candidate_id": "475a8f18-7c69-4c7a-8111-45bd67334c96",
+              "content_sha256": "81bbb49e22c41421c0d9d289c2c38314c76734459aeefd31a5d6868cc2dda1cd",
+              "identity_match": true,
+              "matched": true,
+              "pattern_receipts": [
+                {
+                  "matched": true,
+                  "pattern": "rearme inhibido hasta finalizar extincion o cuando agotado tiempo configurado"
+                }
+              ]
+            }
+          ],
+          "group_id": "reset_inhibit_dash",
+          "matched": true,
+          "matched_candidate_id": "475a8f18-7c69-4c7a-8111-45bd67334c96"
+        }
+      ],
+      "generator_support": true,
+      "parent_fact_key": "hp011#1:r.I",
+      "qid": "hp011",
+      "source_projection_row_sha256": "0f3f357fb26201565099b4c0c6790e2ff3ccdd6c1b3b7f864306ea5be011caf2",
+      "source_row_key": "hp011#1:r.I",
+      "stage_bucket": "synthesis-not-measured",
+      "stage_status": "generator_support_present_but_no_exact_frozen_answer"
+    },
+    {
+      "answer_available": false,
+      "answer_sha256": null,
+      "claim_id": "m0.hp011.reset_inhibit.3",
+      "coverage_passed": null,
+      "coverage_receipts": [],
+      "evidence_groups": [
+        {
+          "adjudicated_binding": {
+            "accepted_candidate_id": "475a8f18-7c69-4c7a-8111-45bd67334c96",
+            "page_basis": "direct_same_manual_page",
+            "relation": "direct_explicit",
+            "support_span_sha256s": [
+              "39555da4aaac9f3de3993aab95eed928b489ac33e4a0cbf52c7ff86fc500cd75"
+            ]
+          },
+          "alternatives": [
+            {
+              "candidate_id": "475a8f18-7c69-4c7a-8111-45bd67334c96",
+              "content_sha256": "81bbb49e22c41421c0d9d289c2c38314c76734459aeefd31a5d6868cc2dda1cd",
+              "identity_match": true,
+              "matched": true,
+              "pattern_receipts": [
+                {
+                  "matched": true,
+                  "pattern": "00 rearme permitido en cualquier momento por defecto"
+                }
+              ]
+            }
+          ],
+          "group_id": "reset_inhibit_default_00",
+          "matched": true,
+          "matched_candidate_id": "475a8f18-7c69-4c7a-8111-45bd67334c96"
+        }
+      ],
+      "generator_support": true,
+      "parent_fact_key": "hp011#1:r.I",
+      "qid": "hp011",
+      "source_projection_row_sha256": "0f3f357fb26201565099b4c0c6790e2ff3ccdd6c1b3b7f864306ea5be011caf2",
+      "source_row_key": "hp011#1:r.I",
+      "stage_bucket": "synthesis-not-measured",
+      "stage_status": "generator_support_present_but_no_exact_frozen_answer"
+    },
+    {
+      "answer_available": false,
+      "answer_sha256": null,
+      "claim_id": "m0.hp013.eeprom_retention.1",
+      "coverage_passed": null,
+      "coverage_receipts": [],
+      "evidence_groups": [
+        {
+          "adjudicated_binding": {
+            "accepted_candidate_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+            "page_basis": "glossary_page_12_is_explicit_equivalent_of_physical_page_14_core",
+            "relation": "direct_explicit_definition",
+            "support_span_sha256s": [
+              "e21da8d82e55cac304ad2c9f2501c3ae4b780fcd31b9962f6b0d24560622adea"
+            ]
+          },
+          "alternatives": [
+            {
+              "candidate_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+              "content_sha256": "f8e39c048c9aee39597d2e8c966ae381e1557329567c6ec982d01c71cf962828",
+              "identity_match": true,
+              "matched": true,
+              "pattern_receipts": [
+                {
+                  "matched": true,
+                  "pattern": "eeprom modulo de memoria para los datos del sistema y la configuracion del adw"
+                }
+              ]
+            }
+          ],
+          "group_id": "eeprom_configuration",
+          "matched": true,
+          "matched_candidate_id": "2365dfaa-45e5-4c65-9328-194441e375c9"
+        }
+      ],
+      "generator_support": true,
+      "parent_fact_key": "hp013#0:EEPROM",
+      "qid": "hp013",
+      "source_projection_row_sha256": "0c89d08ff5d63c8f342c170e45296346d4959ec2e4cf108c60399b0bf1c1b648",
+      "source_row_key": "hp013#0:EEPROM",
+      "stage_bucket": "synthesis-not-measured",
+      "stage_status": "generator_support_present_but_no_exact_frozen_answer"
+    },
+    {
+      "answer_available": true,
+      "answer_sha256": "de38cdf5358d57c912ce0c7d50e507204fd3ea4cb8c350e8910a50a3b4925b5e",
+      "claim_id": "m0.hp017.rule1.1",
+      "coverage_passed": true,
+      "coverage_receipts": [
+        {
+          "matched": true,
+          "matched_line_count": 1,
+          "matched_line_start": 11,
+          "pattern": "menu editar configuracion.{0,120}causa y efecto|causa y efecto.{0,120}menu editar configuracion"
+        }
+      ],
+      "evidence_groups": [
+        {
+          "adjudicated_binding": {
+            "accepted_candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+            "page_basis": "physical_page_43_maps_to_extracted_printed_page_45",
+            "relation": "direct_explicit",
+            "support_span_sha256s": [
+              "284427d38fb507dc625df1c6bd3b1ef75cd593845b16efd130d4b83361e21ae8"
+            ]
+          },
+          "alternatives": [
+            {
+              "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+              "content_sha256": "7f68b076e19769e1b528b189d35ceb99669c7f0d7465d4fd944c6da935cb59fd",
+              "identity_match": true,
+              "matched": true,
+              "pattern_receipts": [
+                {
+                  "matched": true,
+                  "pattern": "menu editar configuracion seleccione 7 causa y efecto"
+                }
+              ]
+            }
+          ],
+          "group_id": "edit_configuration_navigation",
+          "matched": true,
+          "matched_candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10"
+        }
+      ],
+      "generator_support": true,
+      "parent_fact_key": "hp017#2:Editar Configuracion",
+      "qid": "hp017",
+      "source_projection_row_sha256": "31a82b2b696d9af122b35bfc23a9a37f331f67a0fc3e0463639ff35702b00542",
+      "source_row_key": "hp017#2:Editar Configuracion",
+      "stage_bucket": "OK",
+      "stage_status": "generator_support_and_cached_answer_coverage_pass"
+    },
+    {
+      "answer_available": true,
+      "answer_sha256": "de38cdf5358d57c912ce0c7d50e507204fd3ea4cb8c350e8910a50a3b4925b5e",
+      "claim_id": "m0.hp017.rule1.2",
+      "coverage_passed": false,
+      "coverage_receipts": [
+        {
+          "matched": false,
+          "matched_line_count": null,
+          "matched_line_start": null,
+          "pattern": "regla 1.{0,220}(cualquier entrada de alarma|cualquier alarma).{0,160}(todas las sirenas|todas las salidas)"
+        },
+        {
+          "matched": false,
+          "matched_line_count": null,
+          "matched_line_start": null,
+          "pattern": "(eliminar|borrar|sustituir).{0,220}regla 1|regla 1.{0,220}(eliminar|borrar|sustituir)"
+        }
+      ],
+      "evidence_groups": [
+        {
+          "adjudicated_binding": {
+            "accepted_candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+            "page_basis": "physical_page_43_maps_to_extracted_printed_page_45",
+            "relation": "two_direct_spans_form_required_rule_and_deletion_obligation",
+            "support_span_sha256s": [
+              "10b9a93063f6ff6befe0ab1c2dcf1fff351c1a8e619ec3198dda13b71ed9ecb5",
+              "c9437cd4d4c8adb2a6bc158eb3ce40aba7e58dafebfdd8c26b8a6090582157a4"
+            ]
+          },
+          "alternatives": [
+            {
+              "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+              "content_sha256": "7f68b076e19769e1b528b189d35ceb99669c7f0d7465d4fd944c6da935cb59fd",
+              "identity_match": true,
+              "matched": true,
+              "pattern_receipts": [
+                {
+                  "matched": true,
+                  "pattern": "regla 1 una regla que diga que para cualquier entrada de alarma todas las sirenas"
+                },
+                {
+                  "matched": true,
+                  "pattern": "reglas de causa efecto por defecto deben eliminarse si se van a crear reglas de causa efecto personalizadas"
+                }
+              ]
+            }
+          ],
+          "group_id": "default_rule_one_conflict",
+          "matched": true,
+          "matched_candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10"
+        }
+      ],
+      "generator_support": true,
+      "parent_fact_key": "hp017#2:Editar Configuracion",
+      "qid": "hp017",
+      "source_projection_row_sha256": "31a82b2b696d9af122b35bfc23a9a37f331f67a0fc3e0463639ff35702b00542",
+      "source_row_key": "hp017#2:Editar Configuracion",
+      "stage_bucket": "synthesis-miss",
+      "stage_status": "generator_support_present_cached_answer_lacks_claim_coverage"
+    },
+    {
+      "answer_available": false,
+      "answer_sha256": null,
+      "claim_id": "m0.hp018.eol.1",
+      "coverage_passed": null,
+      "coverage_receipts": [],
+      "evidence_groups": [
+        {
+          "adjudicated_binding": {
+            "accepted_candidate_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+            "page_basis": "printed_page_20_corresponds_to_physical_page_21_in_same_manual",
+            "relation": "direct_explicit",
+            "support_span_sha256s": [
+              "2c45ea13d170e2ccc28bbdb7b905ff23da32cdff7328f2e6553e604f8872d005",
+              "1e4f7cc5927c2bec66229d15adc4d4591f928575d05fa29c29b35dc508fbedc5",
+              "472b67a45443cd2de06584ab7a8ade3d68feffc04bbb6901d5a7b7500996fe25"
+            ]
+          },
+          "alternatives": [
+            {
+              "candidate_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+              "content_sha256": "50555410cdb0fd2a437a69d217e4bcf5a620468cafbf2fd3d2a7b66049f02a95",
+              "identity_match": true,
+              "matched": true,
+              "pattern_receipts": [
+                {
+                  "matched": true,
+                  "pattern": "resistencia 6 8k.{0,8}0 5w minimo.{0,30}final de linea"
+                }
+              ]
+            }
+          ],
+          "group_id": "eol_value_rating",
+          "matched": true,
+          "matched_candidate_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb"
+        }
+      ],
+      "generator_support": true,
+      "parent_fact_key": "hp018#1:6K8",
+      "qid": "hp018",
+      "source_projection_row_sha256": "87fc2ebe48d35884330ff4c91b6bfef2b73e73a858035fc1b515b557a41f6792",
+      "source_row_key": "hp018#1:6K8",
+      "stage_bucket": "synthesis-not-measured",
+      "stage_status": "generator_support_present_but_no_exact_frozen_answer"
+    },
+    {
+      "answer_available": false,
+      "answer_sha256": null,
+      "claim_id": "m0.hp018.eol.2",
+      "coverage_passed": null,
+      "coverage_receipts": [],
+      "evidence_groups": [
+        {
+          "adjudicated_binding": {
+            "accepted_candidate_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+            "page_basis": "printed_page_20_corresponds_to_physical_page_21_in_same_manual",
+            "relation": "final_of_circuit_is_last_device_placement",
+            "support_span_sha256s": [
+              "cfdb119ca6a990b8b941c394c642d0c16ef3302afdc8469d5b695c8fa581c96d"
+            ]
+          },
+          "alternatives": [
+            {
+              "candidate_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+              "content_sha256": "50555410cdb0fd2a437a69d217e4bcf5a620468cafbf2fd3d2a7b66049f02a95",
+              "identity_match": true,
+              "matched": true,
+              "pattern_receipts": [
+                {
+                  "matched": true,
+                  "pattern": "final de linea rfl en el final del circuito"
+                }
+              ]
+            }
+          ],
+          "group_id": "eol_last_position",
+          "matched": true,
+          "matched_candidate_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb"
+        }
+      ],
+      "generator_support": true,
+      "parent_fact_key": "hp018#1:6K8",
+      "qid": "hp018",
+      "source_projection_row_sha256": "87fc2ebe48d35884330ff4c91b6bfef2b73e73a858035fc1b515b557a41f6792",
+      "source_row_key": "hp018#1:6K8",
+      "stage_bucket": "synthesis-not-measured",
+      "stage_status": "generator_support_present_but_no_exact_frozen_answer"
+    },
+    {
+      "answer_available": false,
+      "answer_sha256": null,
+      "claim_id": "m0.hp018.max_current.1",
+      "coverage_passed": null,
+      "coverage_receipts": [],
+      "evidence_groups": [
+        {
+          "adjudicated_binding": {
+            "accepted_candidate_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+            "page_basis": "printed_page_20_corresponds_to_physical_page_21_in_same_manual",
+            "relation": "direct_explicit",
+            "support_span_sha256s": [
+              "7d2f443d81d3da0903b93acfdd6c087bc684d3e7402be95dd5b5fbb017994a0f"
+            ]
+          },
+          "alternatives": [
+            {
+              "candidate_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+              "content_sha256": "50555410cdb0fd2a437a69d217e4bcf5a620468cafbf2fd3d2a7b66049f02a95",
+              "identity_match": true,
+              "matched": true,
+              "pattern_receipts": [
+                {
+                  "matched": true,
+                  "pattern": "cada circuito admite un consumo maximo de 1 amp"
+                }
+              ]
+            }
+          ],
+          "group_id": "max_one_amp",
+          "matched": true,
+          "matched_candidate_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb"
+        }
+      ],
+      "generator_support": true,
+      "parent_fact_key": "hp018#4:1 A",
+      "qid": "hp018",
+      "source_projection_row_sha256": "50655d269d28909fb5828e10098a4dfd9b4e5701f9764f02af7f711749ba851f",
+      "source_row_key": "hp018#4:1 A",
+      "stage_bucket": "synthesis-not-measured",
+      "stage_status": "generator_support_present_but_no_exact_frozen_answer"
+    },
+    {
+      "answer_available": false,
+      "answer_sha256": null,
+      "claim_id": "s118.hp013.power_and_rtc.1",
+      "coverage_passed": null,
+      "coverage_receipts": [],
+      "evidence_groups": [
+        {
+          "adjudicated_binding": {
+            "accepted_candidate_id": "af577289-5d7f-4dfc-9187-8a3aca92d40d",
+            "page_basis": "direct_same_manual_page_29_s118_child_binding",
+            "relation": "direct_explicit_component_pair",
+            "support_span_sha256s": [
+              "0e8552eea8f8e9e7910264a72bf25f13ce93c8a43308f417d6e4948aec970c37",
+              "65b8c9cd4cef0bcc912e066a5e1d2bb14b9453523dc658bfbd49a8b23fa7595f"
+            ]
+          },
+          "alternatives": [
+            {
+              "candidate_id": "af577289-5d7f-4dfc-9187-8a3aca92d40d",
+              "content_sha256": "31cef0921dd2cc7bf94bf12bcd8c2eae12848a10c53ddac420c3a03f166443d9",
+              "identity_match": true,
+              "matched": true,
+              "pattern_receipts": [
+                {
+                  "matched": true,
+                  "pattern": "bateria de litio modulo de reloj rtc"
+                }
+              ]
+            }
+          ],
+          "group_id": "lithium_rtc_components",
+          "matched": true,
+          "matched_candidate_id": "af577289-5d7f-4dfc-9187-8a3aca92d40d"
+        }
+      ],
+      "generator_support": true,
+      "parent_fact_key": "hp013#1:PWR-R",
+      "qid": "hp013",
+      "source_projection_row_sha256": "0c89d08ff5d63c8f342c170e45296346d4959ec2e4cf108c60399b0bf1c1b648",
+      "source_row_key": "hp013#0:EEPROM",
+      "stage_bucket": "synthesis-not-measured",
+      "stage_status": "generator_support_present_but_no_exact_frozen_answer"
+    }
+  ],
+  "cost": {
+    "database_reads": 0,
+    "database_writes": 0,
+    "model_calls": 0,
+    "network_calls": 0
+  },
+  "input_receipts": {
+    "cached_answer_adjudication": {
+      "path": "evals/s119_cached_answer_adjudication_v1.yaml",
+      "sha256": "6276a22764ce281a40ae3773150c59a701540dde7755e51195bd7e46ca00d468"
+    },
+    "claim_evidence_adjudication": {
+      "path": "evals/s119_claim_evidence_adjudication_v1.yaml",
+      "sha256": "9e3cbd2a609f4379875b36bf39a00961801a03ef712474660a98de39a7668e1f"
+    },
+    "contract": {
+      "path": "evals/s119_cached_atomic_replay_contract_v1.yaml",
+      "sha256": "26a5f4f9e5d44477b9bd6100108c0852a3291b9e40d9bb5e6acc7dfbb3fef741"
+    },
+    "external_source": {
+      "logical_path": "evals/s106_p0_selection_adjudication.yaml",
+      "required_row_keys": [
+        "cat001#3:32 / 25 / 20",
+        "cat010#0:24V dc",
+        "cat017#4:CLSS",
+        "hp003#0:12V",
+        "hp005#3:CIRCUITO SIRENA",
+        "hp009#0:Retorno",
+        "hp011#0:ABORT",
+        "hp011#1:r.I",
+        "hp013#0:EEPROM",
+        "hp017#2:Editar Configuracion",
+        "hp018#1:6K8",
+        "hp018#4:1 A"
+      ],
+      "sha256": "f36b9a8189ca0b1f4289f4d8fb342b8def7eed026976ee301554187fcf2aa29b"
+    },
+    "s113_answers": {
+      "path": "evals/s113_full_answer_regression_v1.json",
+      "sha256": "8fbfe4801f6c35c2447af9440c459b080e4405b76e2899f3a00e66b230497f69"
+    },
+    "s113_contexts": {
+      "path": "evals/s113_full_contexts_freeze_v1.json",
+      "sha256": "22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d"
+    },
+    "s118_bridge": {
+      "path": "evals/s118_atomic_benchmark_bridge_v1.json",
+      "sha256": "f9a7a143a18b8d3046e404bd8dd1501baa62f1d0f4e6255d472956311d50eccb"
+    },
+    "s118_gate": {
+      "path": "evals/s118_atomic_benchmark_bridge_gate_v1.yaml",
+      "sha256": "4e4f16bef8f82a5c262e294c09540267428fe7f52865891d26fa0891d09d8cbc"
+    },
+    "source_projection": {
+      "path": "evals/s119_source_contract_projection_v1.json",
+      "sha256": "0332d8573bfc781c113436b89bfa1a429da61de429e4e006a65ab865d82c8f40"
+    }
+  },
+  "instrument": "s119_cached_atomic_replay_v1",
+  "limitations": [
+    "retrospective cached replay; not a prospective holdout",
+    "observed OK classifications are retrospective and not caused by a runtime change",
+    "hybrid histogram is diagnostic only and not an official benchmark score",
+    "missing answers are not synthesis failures",
+    "official atomic denominator and 95 percent target remain blocked"
+  ],
+  "payload_sha256": "da4713232ec73b1a6486ee7197cd969d47f981e4836807dac97f0d37bc8d54a5",
+  "policy": {
+    "answer_coverage": "all_bounded_semantic_patterns_must_match",
+    "evidence": "all_required_groups_must_bind_to_exact_s113_context_chunks",
+    "missing_answer": "synthesis-not-measured",
+    "missing_evidence": "evidence-binding-unresolved",
+    "official_atomic_denominator": null,
+    "official_atomic_target_ok": null,
+    "ok_credit": "hybrid_diagnostic_only",
+    "population": "exact_s118_pending_replay_claims_only"
+  },
+  "schema_version": 1,
+  "status": "CACHED_REPLAY_DIAGNOSTIC_NO_OFFICIAL_ATOMIC_CREDIT",
+  "summary": {
+    "cached_answers_available": 11,
+    "cached_answers_missing": 11,
+    "cached_claims_observed_ok": 7,
+    "cached_replay_synthesis_miss": 4,
+    "causal_bot_improvement_claimed": false,
+    "cohort_claims": 22,
+    "cohort_qids": 10,
+    "cohort_stage_histogram": {
+      "OK": 7,
+      "synthesis-miss": 4,
+      "synthesis-not-measured": 11
+    },
+    "evidence_binding_unresolved": 0,
+    "facts_moved_to_ok_by_runtime_change": 0,
+    "generator_support_present": 22,
+    "official_atomic_content_denominator": null,
+    "official_atomic_target_ok_for_95_percent": null,
+    "official_ok_after_replay": null,
+    "provisional_hybrid_content_denominator": 132,
+    "provisional_hybrid_stage_histogram_after_cached_replay": {
+      "OK": 75,
+      "known-m1-contract-hold": 33,
+      "rest": 5,
+      "retrieval-miss": 2,
+      "synthesis-miss": 6,
+      "synthesis-not-measured": 11
+    },
+    "synthesis_not_measured": 11
+  }
+}

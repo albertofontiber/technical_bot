@@ -1,0 +1,94 @@
+instrument: s124_renderer_presentation_and_residual_reconciliation_prereg_v1
+frozen_at_utc: '2026-07-15T09:31:44Z'
+status: FROZEN_BEFORE_IMPLEMENTATION
+
+authorization:
+  user_authorized: true
+  scope:
+    - deterministic renderer presentation hardening
+    - protected local regression
+    - exact reconciliation of two residual provisional synthesis-miss entries
+
+lineage:
+  s123_gate:
+    path: evals/s123_s122_enforced_two_answer_probe_gate_v1.yaml
+    sha256: f0696aa9b4f50eaa0842a29f773601fce2a8ec053c47affe697fe01f692f2280
+  frozen_contexts:
+    path: evals/s113_full_contexts_freeze_v1.json
+    sha256: 22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d
+  frozen_answers:
+    path: evals/s113_full_answer_regression_v1.json
+    sha256: 8fbfe4801f6c35c2447af9440c459b080e4405b76e2899f3a00e66b230497f69
+  s121_probe:
+    path: evals/s121_s120_three_answer_probe_v1.json
+    sha256: dc0dc1e078fef615008f29f66bd2c2ca126485a18a5924dece481a9fe18a64c4
+
+implementation_before:
+  answer_planner:
+    path: src/rag/answer_planner.py
+    sha256: b795a074ca627c5f26ebc477957ccbcae53495e44d5981baa2bf73c119019086
+  answer_obligation_contract:
+    path: src/rag/answer_obligation_contract.py
+    sha256: 7dda351cd1a09eeb014a94d5e473bd3998380b28884c5842c29ae1922fda85b3
+  generator:
+    path: src/rag/generator.py
+    sha256: 253477f1cfd3225dee6c8ca9d1ccd604813386dfa378e331f9ecad9a57202f19
+
+design:
+  renderer_contract_after: source_bound_renderer_s124_v1
+  policy_semantics_unchanged: answer_enforcement_s122_v2
+  principles:
+    - render from semantic obligation kinds rather than qid or product allowlists
+    - retain exact evidence citations and safety actions
+    - do not expose internal operation identifiers
+    - normalize extraction punctuation before user-visible rendering
+    - preserve fail-closed behavior when query core is unsupported
+
+protected_invariants:
+  population_rows: 39
+  measured_answers: 27
+  not_measured_rows: 12
+  pass_answers_byte_identical: 25
+  expected_actions:
+    hp009: source_bound_reconstruction
+    hp017: fail_closed
+  unexpected_reconstructions: 0
+  unexpected_fail_closed: 0
+  hp009:
+    obligations_covered: 2
+    positive_eol_assertions: 0
+    query_core_coverage: true
+  hp017:
+    obligations_covered: 2
+    unilateral_menu_selection: 0
+    conflict_disclosed: true
+    query_core_coverage: false
+
+presentation_acceptance:
+  hp009_forbidden:
+    - on left panel
+    - on right panel
+    - complete loop circuit
+    - respuesta generada no supero la validacion factual
+  hp017_forbidden:
+    - cause_effect_menu_path
+    - '.; **'
+    - 'estos prerrequisitos'
+  required:
+    - technician-facing Spanish wording
+    - human-readable conflict label
+    - evidence citations retained
+
+cost_controls:
+  model_calls: 0
+  network_calls: 0
+  retrieval_calls: 0
+  reranker_calls: 0
+  judge_calls: 0
+  database_reads: 0
+  database_writes: 0
+
+never_authorizes:
+  - new answer generation
+  - corpus or chunks migration
+  - deploy or production release

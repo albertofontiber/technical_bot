@@ -1,0 +1,1031 @@
+{
+  "instrument": "s127_compatibility_generalization_replay_v1",
+  "status": "NO_GO_LOCAL_BUILD",
+  "checks": {
+    "two_runs_byte_deterministic": true,
+    "topology_controls_pass": true,
+    "s126_protected_bundle_valid": true,
+    "dev004_remains_fail_closed": true,
+    "candidate_limit_selected": false,
+    "development_signal_present": false
+  },
+  "development": {
+    "rows": [
+      {
+        "id": "dev001",
+        "question_sha256": "edae804dcdfebebfde9e901209fa970c6bd5be9739df36f139d1065502e315ef",
+        "resolved_group_count": 2,
+        "candidate_pool_parent_ids": [
+          "aeace8a2-cee5-44ea-a8a2-5666794e57ea",
+          "bad0e108-65dc-44fc-b101-0de94df0b2f9"
+        ],
+        "candidate_pool_sha256": "605fbade10b9be56687a31381de62c47ac8e11077055593b211113d8ba76f641",
+        "navigation_fetch_receipts": {
+          "hyq_rows_sha256": "b49cd7442749aa7c77d9a07d77bd6b0dff4c0c75266fbdb7e1b719913f33f39e",
+          "selected_parent_ids_sha256": "f55ae30a341024e60e85c6b650ebd1920f8d6c57c9f8b7748119aa00b2102660",
+          "hydrated_parents_sha256": "728d07cfa42ed2dacb691a0b8745add8483a9f4b11f708d807d1ce04b228f515"
+        },
+        "raw_navigation_parent_manifest": [
+          {
+            "id": "aeace8a2-cee5-44ea-a8a2-5666794e57ea",
+            "source_file": "I56-3918-001 IM-10EA_multi",
+            "document_id": "d08c1c49-0849-41ec-9abd-a01b1921210a",
+            "extraction_sha256": "bcf97af20cc6add00e4cac702072167475a88c7e6f77a2814df0ad405f165768",
+            "chunk_index": 7,
+            "section_title": "DIRECCIONES",
+            "facets": [
+              "protocol_scope"
+            ]
+          },
+          {
+            "id": "9ea60c81-6afe-4f18-80be-d41a09446e28",
+            "source_file": "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es",
+            "document_id": "b9c694a3-163f-400f-9785-6e34790fb880",
+            "extraction_sha256": "e372eb64d1494dc0bbac837341c739b508a79e8507cae3711e35f67c21b5c0bf",
+            "chunk_index": 44,
+            "section_title": "Normativas europeas para productos de construcción",
+            "facets": []
+          },
+          {
+            "id": "f045190c-e4fb-43df-94ea-4dd64540a516",
+            "source_file": "I56-3918-001 IM-10EA_multi",
+            "document_id": "d08c1c49-0849-41ec-9abd-a01b1921210a",
+            "extraction_sha256": "bcf97af20cc6add00e4cac702072167475a88c7e6f77a2814df0ad405f165768",
+            "chunk_index": 10,
+            "section_title": "FIGURA 1: CONFIGURACIÓN HABITUAL DEL CIRCUITO DEL DISPOSITIVO DE INICIACIÓN",
+            "facets": []
+          },
+          {
+            "id": "ba646649-2940-4ce0-bec2-9745a68ed14b",
+            "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+            "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+            "extraction_sha256": "3fda944ecbca316b0fa9f53cf947be63bd685205e8b824a645bfa1ea3dd2fefe",
+            "chunk_index": 69,
+            "section_title": "El menú Desconect/Conectar",
+            "facets": []
+          },
+          {
+            "id": "bad0e108-65dc-44fc-b101-0de94df0b2f9",
+            "source_file": "I56-3918-001 IM-10EA_multi",
+            "document_id": "d08c1c49-0849-41ec-9abd-a01b1921210a",
+            "extraction_sha256": "bcf97af20cc6add00e4cac702072167475a88c7e6f77a2814df0ad405f165768",
+            "chunk_index": 2,
+            "section_title": "COMPATIBILITY REQUIREMENTS",
+            "facets": [
+              "installation_requirements"
+            ]
+          },
+          {
+            "id": "c4c79a6f-57c5-4b8f-84c6-9fdcf1b6aafb",
+            "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+            "document_id": "d1b5d5be-d4f3-45d6-abc1-7448c224d2d1",
+            "extraction_sha256": "dfe2396c52a19e41dc5fb8fda17e5b07b39caae1b9272886b1f19addff6377a0",
+            "chunk_index": 161,
+            "section_title": "To activate a diagnostics test:",
+            "facets": []
+          }
+        ],
+        "raw_navigation_parent_manifest_sha256": "4e9862dab825c2798c01c3140dd8a575007198b160a270a5b5b8656b69131dab",
+        "source_scope_facet_audit": {
+          "allowed_source_count": 5,
+          "facet_counts": {
+            "installation_requirements": 13,
+            "loop_topology": 3,
+            "protocol_scope": 9,
+            "supported_device_roster": 4
+          },
+          "facet_parent_ids_sha256": {
+            "installation_requirements": "f7f5459e0ae8ae8b741d61b3591001600fc78281cdbf5d80544ff70cc0c4211f",
+            "loop_topology": "c907808fdf0d3997f55bb985fa31e7e1ace673052a401cdb52be899071ec11db",
+            "protocol_scope": "614f3c0e0e5ce1dc5626600cf1a9739a6a6ef11985f57a363012d329ba1152ee",
+            "supported_device_roster": "024aa8ee82092a5b832893a9d454cfc261a102521040987772f77fd4ccd4b7e4"
+          }
+        },
+        "source_scope_relational_audit": {
+          "facet_candidate_counts": {
+            "loop_topology": 3,
+            "protocol_scope": 9,
+            "supported_device_roster": 4
+          },
+          "attempted_assignment_count": 108,
+          "valid_assignment_count": 0,
+          "ambiguity_key_count": 0,
+          "status": "no_complete_relational_bundle",
+          "valid_assignment_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "first_valid_assignment": null,
+          "rejection_reason_counts": {
+            "device roster does not name the queried governed entity": 108
+          }
+        },
+        "curve": {
+          "3": {
+            "status": "no_complete_relational_bundle",
+            "selected_parent_ids": [],
+            "bundle_valid": false,
+            "ambiguity_key_sha256s": [],
+            "projection_manifest_sha256": "497fbe789fdff86a76a2e0b7a030beac88a5c4096666031d822e1bc2a8495912",
+            "attempt_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "valid_assignment_count": 0,
+            "rejection_reason_counts": {}
+          },
+          "4": {
+            "status": "no_complete_relational_bundle",
+            "selected_parent_ids": [],
+            "bundle_valid": false,
+            "ambiguity_key_sha256s": [],
+            "projection_manifest_sha256": "497fbe789fdff86a76a2e0b7a030beac88a5c4096666031d822e1bc2a8495912",
+            "attempt_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "valid_assignment_count": 0,
+            "rejection_reason_counts": {}
+          },
+          "5": {
+            "status": "no_complete_relational_bundle",
+            "selected_parent_ids": [],
+            "bundle_valid": false,
+            "ambiguity_key_sha256s": [],
+            "projection_manifest_sha256": "497fbe789fdff86a76a2e0b7a030beac88a5c4096666031d822e1bc2a8495912",
+            "attempt_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "valid_assignment_count": 0,
+            "rejection_reason_counts": {}
+          },
+          "6": {
+            "status": "no_complete_relational_bundle",
+            "selected_parent_ids": [],
+            "bundle_valid": false,
+            "ambiguity_key_sha256s": [],
+            "projection_manifest_sha256": "497fbe789fdff86a76a2e0b7a030beac88a5c4096666031d822e1bc2a8495912",
+            "attempt_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "valid_assignment_count": 0,
+            "rejection_reason_counts": {}
+          }
+        }
+      },
+      {
+        "id": "dev002",
+        "question_sha256": "5b7a4fe1231435413faa63ad968543bda895aa945d1e45c31f3d85b704cd8aca",
+        "resolved_group_count": 2,
+        "candidate_pool_parent_ids": [
+          "f37252ef-1552-4898-8f07-7d1bf4a65252",
+          "923fcf4f-5582-4009-afbc-43d711f6dc82",
+          "0b544170-848c-4cf4-af24-54d702a6e736"
+        ],
+        "candidate_pool_sha256": "08be83b9aa17ed372c50001506bb5ee1760064cc30e5c535ca46c22f74229967",
+        "navigation_fetch_receipts": {
+          "hyq_rows_sha256": "85d5d15fad571fc94167ca9cd8352d349c65e56e3d2263987b2478a0e12f73a3",
+          "selected_parent_ids_sha256": "13e016e2932bb07c60cc85063e92d3375a831ebe6924bcd9fafbdf06c43ed374",
+          "hydrated_parents_sha256": "fcda36af6795414ee4140d80c1ac7d1b6d7a820f87d44c35116941f74b0145b2"
+        },
+        "raw_navigation_parent_manifest": [
+          {
+            "id": "6f1e7e20-8066-458a-80f6-d0cc535308df",
+            "source_file": "I56-3920-001 CR-6EA_multi",
+            "document_id": "f34f4dab-3f79-4b18-b902-5a68597d47f0",
+            "extraction_sha256": "810c8c5a32204729131da3a6a770c2d8c2904f46f36c0821291b6579bae943c6",
+            "chunk_index": 1,
+            "section_title": "ADDRESSES",
+            "facets": []
+          },
+          {
+            "id": "d563a513-6087-4dd7-aa1e-236188edd632",
+            "source_file": "DXc_Manual de configuracion",
+            "document_id": "d1299a40-5128-464d-b8d7-1c8c2b86562c",
+            "extraction_sha256": "0c39ed5a44fa2e1d6283d98e5b2cac4037bf08aa00309eb816db3277eba25515",
+            "chunk_index": 4,
+            "section_title": "1.3 Advertencias y precauciones",
+            "facets": []
+          },
+          {
+            "id": "fab1e201-141a-4a75-88d1-3e4491100b26",
+            "source_file": "I56-3920-001 CR-6EA_multi",
+            "document_id": "f34f4dab-3f79-4b18-b902-5a68597d47f0",
+            "extraction_sha256": "810c8c5a32204729131da3a6a770c2d8c2904f46f36c0821291b6579bae943c6",
+            "chunk_index": 9,
+            "section_title": "Módulo de control de seis relés",
+            "facets": []
+          },
+          {
+            "id": "f37252ef-1552-4898-8f07-7d1bf4a65252",
+            "source_file": "DXc_Manual variaciones de mercado",
+            "document_id": "ce44f1a5-7cfa-4ba7-a5ce-0a0fc18dcc36",
+            "extraction_sha256": "0f888de33af0f2a3344fbdf5cf5495415b7aea85ccf87717b0a76b814411d887",
+            "chunk_index": 3,
+            "section_title": "Sección 5.3.4 Opciones generales",
+            "facets": [
+              "supported_device_roster"
+            ]
+          },
+          {
+            "id": "923fcf4f-5582-4009-afbc-43d711f6dc82",
+            "source_file": "I56-3920-001 CR-6EA_multi",
+            "document_id": "f34f4dab-3f79-4b18-b902-5a68597d47f0",
+            "extraction_sha256": "810c8c5a32204729131da3a6a770c2d8c2904f46f36c0821291b6579bae943c6",
+            "chunk_index": 0,
+            "section_title": "",
+            "facets": [
+              "installation_requirements"
+            ]
+          },
+          {
+            "id": "0b544170-848c-4cf4-af24-54d702a6e736",
+            "source_file": "DXc_Manual de configuracion",
+            "document_id": "d1299a40-5128-464d-b8d7-1c8c2b86562c",
+            "extraction_sha256": "0c39ed5a44fa2e1d6283d98e5b2cac4037bf08aa00309eb816db3277eba25515",
+            "chunk_index": 20,
+            "section_title": "3.4.5.3 Instalación del cableado del lazo analógico",
+            "facets": [
+              "loop_topology"
+            ]
+          }
+        ],
+        "raw_navigation_parent_manifest_sha256": "1efcf3a81f4b85beed94c986e4130963ad0fe31068be0e8e2a7ea8084d0fd0aa",
+        "source_scope_facet_audit": {
+          "allowed_source_count": 5,
+          "facet_counts": {
+            "installation_requirements": 8,
+            "loop_topology": 6,
+            "protocol_scope": 20,
+            "supported_device_roster": 7
+          },
+          "facet_parent_ids_sha256": {
+            "installation_requirements": "a3185c8dfa579d12d9d71c57f49c66c079580b5db3348ccccaf9ed6cfb44d264",
+            "loop_topology": "0ffbdd5c1c2cd3061e1fdf5122d309bdc383240a325b662e59fb8f4ebce5473f",
+            "protocol_scope": "80e9aca302e88eb4cce56ed0731d3be2e8dc7643191146e5fc0899f819a1cd65",
+            "supported_device_roster": "91f74393a3d648fc381ec4c89dacf3d0c2626ff62a8fd97267a6f6b4d81125f0"
+          }
+        },
+        "source_scope_relational_audit": {
+          "facet_candidate_counts": {
+            "loop_topology": 6,
+            "protocol_scope": 20,
+            "supported_device_roster": 7
+          },
+          "attempted_assignment_count": 840,
+          "valid_assignment_count": 0,
+          "ambiguity_key_count": 0,
+          "status": "no_complete_relational_bundle",
+          "valid_assignment_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "first_valid_assignment": null,
+          "rejection_reason_counts": {
+            "counterpart topology is not isolated from the identity evidence group": 150,
+            "device roster does not name the queried governed entity": 480,
+            "duplicate_parent": 6,
+            "protocol and roster are not bound to one governed document": 204
+          }
+        },
+        "curve": {
+          "3": {
+            "status": "no_complete_relational_bundle",
+            "selected_parent_ids": [],
+            "bundle_valid": false,
+            "ambiguity_key_sha256s": [],
+            "projection_manifest_sha256": "5efc3f832c9425df113047cb468f654099522d6b461ba8c85663364edf982fc9",
+            "attempt_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "valid_assignment_count": 0,
+            "rejection_reason_counts": {}
+          },
+          "4": {
+            "status": "no_complete_relational_bundle",
+            "selected_parent_ids": [],
+            "bundle_valid": false,
+            "ambiguity_key_sha256s": [],
+            "projection_manifest_sha256": "5efc3f832c9425df113047cb468f654099522d6b461ba8c85663364edf982fc9",
+            "attempt_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "valid_assignment_count": 0,
+            "rejection_reason_counts": {}
+          },
+          "5": {
+            "status": "no_complete_relational_bundle",
+            "selected_parent_ids": [],
+            "bundle_valid": false,
+            "ambiguity_key_sha256s": [],
+            "projection_manifest_sha256": "5efc3f832c9425df113047cb468f654099522d6b461ba8c85663364edf982fc9",
+            "attempt_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "valid_assignment_count": 0,
+            "rejection_reason_counts": {}
+          },
+          "6": {
+            "status": "no_complete_relational_bundle",
+            "selected_parent_ids": [],
+            "bundle_valid": false,
+            "ambiguity_key_sha256s": [],
+            "projection_manifest_sha256": "5efc3f832c9425df113047cb468f654099522d6b461ba8c85663364edf982fc9",
+            "attempt_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "valid_assignment_count": 0,
+            "rejection_reason_counts": {}
+          }
+        }
+      },
+      {
+        "id": "dev003",
+        "question_sha256": "461acab7435eeee42ecaf7ac54b3173d2100b90c58398c32468926c7febbf03a",
+        "resolved_group_count": 2,
+        "candidate_pool_parent_ids": [
+          "00b5c152-86b3-4abb-8836-8f137b024689",
+          "a978e8d8-d458-4c39-9061-1c7cc4df18cf"
+        ],
+        "candidate_pool_sha256": "d9df0c73b1c8cafa12dde99026812067c8515bb7fb9754c7e77a6e4296d35175",
+        "navigation_fetch_receipts": {
+          "hyq_rows_sha256": "5e28ff3ae825efcf083a48cea9349c2f969388eab1a7616ca6113ebc3cbfbe1c",
+          "selected_parent_ids_sha256": "2d77397b8091030c09e7e99eeb03a2e23353ac4a799c025f9651ce9de4f89217",
+          "hydrated_parents_sha256": "b5583b7e2a0e0340aa2fb925ebe47448ced57490cd59642604d35a7fcfd54eff"
+        },
+        "raw_navigation_parent_manifest": [
+          {
+            "id": "38d69a85-5c91-4475-832d-e922e0b2cd08",
+            "source_file": "I56-3976-001 NFXI-MM10",
+            "document_id": "44388f6f-ab24-4c94-b69c-e20e847ebfa5",
+            "extraction_sha256": "405392c6e855c8bedf64867194f84eeb58747b9e91bb1166a8db9c12e277f112",
+            "chunk_index": 1,
+            "section_title": "ADDRESSES",
+            "facets": []
+          },
+          {
+            "id": "2131025f-89c9-4809-b1b6-53618c7432c3",
+            "source_file": "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual",
+            "document_id": "6817a785-225d-42c0-abfa-a0f821526458",
+            "extraction_sha256": "609d5ef1533d65666f2c183d69a8ba5542a90c29c3fba7663eaa34d64b35d821",
+            "chunk_index": 123,
+            "section_title": "Conformidad del producto",
+            "facets": []
+          },
+          {
+            "id": "b1bc311b-c88f-48c8-8c2e-72fa57e3ab6f",
+            "source_file": "I56-3976-001 NFXI-MM10",
+            "document_id": "44388f6f-ab24-4c94-b69c-e20e847ebfa5",
+            "extraction_sha256": "405392c6e855c8bedf64867194f84eeb58747b9e91bb1166a8db9c12e277f112",
+            "chunk_index": 4,
+            "section_title": "FIGURE 1: TYPICAL INITIATING DEVICE CIRCUIT CONFIGURATION",
+            "facets": []
+          },
+          {
+            "id": "00b5c152-86b3-4abb-8836-8f137b024689",
+            "source_file": "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual",
+            "document_id": "6817a785-225d-42c0-abfa-a0f821526458",
+            "extraction_sha256": "609d5ef1533d65666f2c183d69a8ba5542a90c29c3fba7663eaa34d64b35d821",
+            "chunk_index": 122,
+            "section_title": "",
+            "facets": [
+              "supported_device_roster"
+            ]
+          },
+          {
+            "id": "a978e8d8-d458-4c39-9061-1c7cc4df18cf",
+            "source_file": "I56-3976-001 NFXI-MM10",
+            "document_id": "44388f6f-ab24-4c94-b69c-e20e847ebfa5",
+            "extraction_sha256": "405392c6e855c8bedf64867194f84eeb58747b9e91bb1166a8db9c12e277f112",
+            "chunk_index": 2,
+            "section_title": "Ten Input Monitor Module",
+            "facets": [
+              "installation_requirements"
+            ]
+          },
+          {
+            "id": "87a98473-0c83-4ce0-979c-5d196d69df01",
+            "source_file": "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual",
+            "document_id": "6817a785-225d-42c0-abfa-a0f821526458",
+            "extraction_sha256": "609d5ef1533d65666f2c183d69a8ba5542a90c29c3fba7663eaa34d64b35d821",
+            "chunk_index": 83,
+            "section_title": "Selección de la clase de lazo",
+            "facets": []
+          }
+        ],
+        "raw_navigation_parent_manifest_sha256": "8c2f844e8e5f7613582aca8c052a2d5e50e35180ec5dff2469c287a0ccd287f8",
+        "source_scope_facet_audit": {
+          "allowed_source_count": 4,
+          "facet_counts": {
+            "installation_requirements": 4,
+            "loop_topology": 1,
+            "protocol_scope": 2,
+            "supported_device_roster": 8
+          },
+          "facet_parent_ids_sha256": {
+            "installation_requirements": "7d95da6bd41e9abf2e1e263de1dcb8913c0a2ca7a55759a9c501e816b69f019a",
+            "loop_topology": "a2365ea7925c1dcdf7e59906ea3ac54ef58729d5391c4f11c55b252a2f27f088",
+            "protocol_scope": "c462c0a207ae7e2ea860af572c8ff3c1149c5b0f24102e2811ec9b4c8475a847",
+            "supported_device_roster": "fb35839f35f22ab3ba75417e8e45a3195b4aa45bbb638200796032ff10de3903"
+          }
+        },
+        "source_scope_relational_audit": {
+          "facet_candidate_counts": {
+            "loop_topology": 1,
+            "protocol_scope": 2,
+            "supported_device_roster": 8
+          },
+          "attempted_assignment_count": 16,
+          "valid_assignment_count": 0,
+          "ambiguity_key_count": 0,
+          "status": "no_complete_relational_bundle",
+          "valid_assignment_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "first_valid_assignment": null,
+          "rejection_reason_counts": {
+            "device roster does not name the queried governed entity": 16
+          }
+        },
+        "curve": {
+          "3": {
+            "status": "no_complete_relational_bundle",
+            "selected_parent_ids": [],
+            "bundle_valid": false,
+            "ambiguity_key_sha256s": [],
+            "projection_manifest_sha256": "1e586a55a5673707e707dfd8e55e33802109c7813cf3b8e463dd67584b611db3",
+            "attempt_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "valid_assignment_count": 0,
+            "rejection_reason_counts": {}
+          },
+          "4": {
+            "status": "no_complete_relational_bundle",
+            "selected_parent_ids": [],
+            "bundle_valid": false,
+            "ambiguity_key_sha256s": [],
+            "projection_manifest_sha256": "1e586a55a5673707e707dfd8e55e33802109c7813cf3b8e463dd67584b611db3",
+            "attempt_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "valid_assignment_count": 0,
+            "rejection_reason_counts": {}
+          },
+          "5": {
+            "status": "no_complete_relational_bundle",
+            "selected_parent_ids": [],
+            "bundle_valid": false,
+            "ambiguity_key_sha256s": [],
+            "projection_manifest_sha256": "1e586a55a5673707e707dfd8e55e33802109c7813cf3b8e463dd67584b611db3",
+            "attempt_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "valid_assignment_count": 0,
+            "rejection_reason_counts": {}
+          },
+          "6": {
+            "status": "no_complete_relational_bundle",
+            "selected_parent_ids": [],
+            "bundle_valid": false,
+            "ambiguity_key_sha256s": [],
+            "projection_manifest_sha256": "1e586a55a5673707e707dfd8e55e33802109c7813cf3b8e463dd67584b611db3",
+            "attempt_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "valid_assignment_count": 0,
+            "rejection_reason_counts": {}
+          }
+        }
+      },
+      {
+        "id": "dev004",
+        "question_sha256": "1c1017829307d4c430a8cbfb21554333402fb3bd8216fc4384eee5837bb6f5ca",
+        "resolved_group_count": 2,
+        "candidate_pool_parent_ids": [
+          "800599de-ca57-4b74-83ba-ff57c0bf5e98",
+          "597b9bbd-a7ce-4300-8c7b-e65773f42a75",
+          "17495ebe-e878-40e4-9972-d6a85b89a242",
+          "73915d89-a82b-4f16-a320-541c53059156",
+          "d760dd1f-3b4a-4c6d-9d98-4166df14e2a3"
+        ],
+        "candidate_pool_sha256": "6aa91b72c9bee74c985a02e23e70cec94fbb6c8824559efa104d2c6475290c8f",
+        "navigation_fetch_receipts": {
+          "hyq_rows_sha256": "3ef719315faa5537f0a6b62cd0426d1a8410b9216842beb420ba86ad06845b75",
+          "selected_parent_ids_sha256": "23d4544a6c02d04a43f0468c6e07d8426be1acf57084b53a8ab7e061ae1c3e04",
+          "hydrated_parents_sha256": "93e71ad72483a8cdeafeef23c780a2053d6e27ba0fd770822b9c2e22f11e052c"
+        },
+        "raw_navigation_parent_manifest": [
+          {
+            "id": "4c92486b-bbd6-420c-b47f-66dc1cb8711c",
+            "source_file": "Instruction Manual SGMCB200",
+            "document_id": "408a3a7b-aab9-40f5-af5b-a45e267d67c6",
+            "extraction_sha256": "885a6113d172d7e6166a336c014236598076d4cde7b8fedbb167000a68277d46",
+            "chunk_index": 0,
+            "section_title": "",
+            "facets": []
+          },
+          {
+            "id": "800599de-ca57-4b74-83ba-ff57c0bf5e98",
+            "source_file": "MIE-MI-600",
+            "document_id": "4ca173e2-c1b2-40ea-8778-4148e08b8533",
+            "extraction_sha256": "62564f3a88db2cd9a8ae9b1133b6d2bc2061f3157ee2952f5cb8c7a0ff2b6f00",
+            "chunk_index": 25,
+            "section_title": "3.4.2 Instalación de la batería",
+            "facets": [
+              "protocol_scope"
+            ]
+          },
+          {
+            "id": "597b9bbd-a7ce-4300-8c7b-e65773f42a75",
+            "source_file": "Instruction Manual SGMCB200",
+            "document_id": "408a3a7b-aab9-40f5-af5b-a45e267d67c6",
+            "extraction_sha256": "885a6113d172d7e6166a336c014236598076d4cde7b8fedbb167000a68277d46",
+            "chunk_index": 8,
+            "section_title": "WARNINGS AND LIMITATIONS",
+            "facets": [
+              "supported_device_roster"
+            ]
+          },
+          {
+            "id": "17495ebe-e878-40e4-9972-d6a85b89a242",
+            "source_file": "MIE-MI-600",
+            "document_id": "4ca173e2-c1b2-40ea-8778-4148e08b8533",
+            "extraction_sha256": "62564f3a88db2cd9a8ae9b1133b6d2bc2061f3157ee2952f5cb8c7a0ff2b6f00",
+            "chunk_index": 28,
+            "section_title": "3.4.3.1 *Conexionado del lazo analógico*",
+            "facets": [
+              "loop_topology"
+            ]
+          },
+          {
+            "id": "73915d89-a82b-4f16-a320-541c53059156",
+            "source_file": "Instruction Manual SGMCB200",
+            "document_id": "408a3a7b-aab9-40f5-af5b-a45e267d67c6",
+            "extraction_sha256": "885a6113d172d7e6166a336c014236598076d4cde7b8fedbb167000a68277d46",
+            "chunk_index": 11,
+            "section_title": "DEVICE'S PLACEMENT",
+            "facets": [
+              "loop_topology"
+            ]
+          },
+          {
+            "id": "d760dd1f-3b4a-4c6d-9d98-4166df14e2a3",
+            "source_file": "MIE-MI-600",
+            "document_id": "4ca173e2-c1b2-40ea-8778-4148e08b8533",
+            "extraction_sha256": "62564f3a88db2cd9a8ae9b1133b6d2bc2061f3157ee2952f5cb8c7a0ff2b6f00",
+            "chunk_index": 44,
+            "section_title": "3.4.9 Conexión RS485",
+            "facets": [
+              "loop_topology"
+            ]
+          }
+        ],
+        "raw_navigation_parent_manifest_sha256": "47c91fa74215e92f899fb9858d88acfc7ef1a803094dda7970dbd775ef48e3f7",
+        "source_scope_facet_audit": {
+          "allowed_source_count": 3,
+          "facet_counts": {
+            "installation_requirements": 2,
+            "loop_topology": 9,
+            "protocol_scope": 3,
+            "supported_device_roster": 8
+          },
+          "facet_parent_ids_sha256": {
+            "installation_requirements": "9064c48207de84ad18e6dd3619b0dbb6cb185eb27fe4d26e575379fcc0510ca1",
+            "loop_topology": "1c06bd45e19d5912fe644b2e294913d1fe211643cc55d98d38266bd099f90092",
+            "protocol_scope": "ca5f078e860d82361adda458fe764ef977da853457f23715989e0c43a5881e79",
+            "supported_device_roster": "90d4339b06670055bc288c7b5166a7e836845030406bedb450a0749328b36f3f"
+          }
+        },
+        "source_scope_relational_audit": {
+          "facet_candidate_counts": {
+            "loop_topology": 9,
+            "protocol_scope": 3,
+            "supported_device_roster": 8
+          },
+          "attempted_assignment_count": 216,
+          "valid_assignment_count": 0,
+          "ambiguity_key_count": 0,
+          "status": "no_complete_relational_bundle",
+          "valid_assignment_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "first_valid_assignment": null,
+          "rejection_reason_counts": {
+            "counterpart topology is not isolated from the identity evidence group": 92,
+            "device roster does not name the queried governed entity": 104,
+            "duplicate_parent": 8,
+            "topology card lacks exact loop and closed-path anchors": 12
+          }
+        },
+        "curve": {
+          "3": {
+            "status": "no_complete_relational_bundle",
+            "selected_parent_ids": [],
+            "bundle_valid": false,
+            "ambiguity_key_sha256s": [],
+            "projection_manifest_sha256": "885ce63a121843578a17df980cd436f28f69b55f2f040fe502bee3abd26c62bd",
+            "attempt_manifest_sha256": "8e810ea00b5720663e2954ed3ce053eb08da296ebc83c420e9b7b80590ca6b46",
+            "valid_assignment_count": 0,
+            "rejection_reason_counts": {
+              "device roster does not name the queried governed entity": 1
+            }
+          },
+          "4": {
+            "status": "no_complete_relational_bundle",
+            "selected_parent_ids": [],
+            "bundle_valid": false,
+            "ambiguity_key_sha256s": [],
+            "projection_manifest_sha256": "eb62b4bd44a69840a7e6df2a85ca149697d4806536c12f235a19d7ba413b81fb",
+            "attempt_manifest_sha256": "ef56d40f5fb683c5e4ac0867e6bd532b4318820e5e82171997e3ef9a847d10b4",
+            "valid_assignment_count": 0,
+            "rejection_reason_counts": {
+              "device roster does not name the queried governed entity": 2
+            }
+          },
+          "5": {
+            "status": "no_complete_relational_bundle",
+            "selected_parent_ids": [],
+            "bundle_valid": false,
+            "ambiguity_key_sha256s": [],
+            "projection_manifest_sha256": "0c2269eacb2c6484d6858529eea18727e694c776096a9cfe29f08b4eb0adc662",
+            "attempt_manifest_sha256": "6e3784d09be0e043f3bd09057415c70a6dea1431fcb809a835c572ba11f97fb1",
+            "valid_assignment_count": 0,
+            "rejection_reason_counts": {
+              "device roster does not name the queried governed entity": 3
+            }
+          },
+          "6": {
+            "status": "no_complete_relational_bundle",
+            "selected_parent_ids": [],
+            "bundle_valid": false,
+            "ambiguity_key_sha256s": [],
+            "projection_manifest_sha256": "0c2269eacb2c6484d6858529eea18727e694c776096a9cfe29f08b4eb0adc662",
+            "attempt_manifest_sha256": "6e3784d09be0e043f3bd09057415c70a6dea1431fcb809a835c572ba11f97fb1",
+            "valid_assignment_count": 0,
+            "rejection_reason_counts": {
+              "device roster does not name the queried governed entity": 3
+            }
+          }
+        }
+      },
+      {
+        "id": "dev005",
+        "question_sha256": "4c744494a0a987e8fa13e0541ae22745e854866c71baded013777e6b612d4d29",
+        "resolved_group_count": 2,
+        "candidate_pool_parent_ids": [
+          "bfa274de-7bf2-4989-a38f-8b398eb87d27"
+        ],
+        "candidate_pool_sha256": "c9ef911f4657eba23840ac0f2042c9f9f7290f5283ec59710c8af6f37d487e89",
+        "navigation_fetch_receipts": {
+          "hyq_rows_sha256": "ff9fbbe8ed8fc0533cbdf2d2066fb7c7bcdd84c15b75473ef2b8265388e90e07",
+          "selected_parent_ids_sha256": "69612444817558f2dbf6980a546c119167a51983062d414d92c5f5fd250a424b",
+          "hydrated_parents_sha256": "397a44c61bec0b41f0d04f371526f891085432b37d2ef96f78cce383dc8e0537"
+        },
+        "raw_navigation_parent_manifest": [
+          {
+            "id": "bfa274de-7bf2-4989-a38f-8b398eb87d27",
+            "source_file": "A05-7030-100_B_ES_Morley FAAST FLEX Addressable",
+            "document_id": "51917694-3b44-4e0b-a3aa-e1a91b5830d0",
+            "extraction_sha256": "717198de7a3977f8e133810232b255c06967600b36d1fe93b5e49034168d2e57",
+            "chunk_index": 76,
+            "section_title": "7 Comunicación en circuito en serie",
+            "facets": [
+              "protocol_scope"
+            ]
+          },
+          {
+            "id": "9ea60c81-6afe-4f18-80be-d41a09446e28",
+            "source_file": "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es",
+            "document_id": "b9c694a3-163f-400f-9785-6e34790fb880",
+            "extraction_sha256": "e372eb64d1494dc0bbac837341c739b508a79e8507cae3711e35f67c21b5c0bf",
+            "chunk_index": 44,
+            "section_title": "Normativas europeas para productos de construcción",
+            "facets": []
+          },
+          {
+            "id": "5684c44e-bb03-4492-a217-8e04970532ba",
+            "source_file": "A05-7030-100_B_ES_Morley FAAST FLEX Addressable",
+            "document_id": "51917694-3b44-4e0b-a3aa-e1a91b5830d0",
+            "extraction_sha256": "717198de7a3977f8e133810232b255c06967600b36d1fe93b5e49034168d2e57",
+            "chunk_index": 12,
+            "section_title": "1.2 Almacenamiento y envío",
+            "facets": []
+          },
+          {
+            "id": "ba646649-2940-4ce0-bec2-9745a68ed14b",
+            "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+            "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+            "extraction_sha256": "3fda944ecbca316b0fa9f53cf947be63bd685205e8b824a645bfa1ea3dd2fefe",
+            "chunk_index": 69,
+            "section_title": "El menú Desconect/Conectar",
+            "facets": []
+          },
+          {
+            "id": "4746c884-4ad1-4e6c-8111-06385935d9e6",
+            "source_file": "A05-7030-100_B_ES_Morley FAAST FLEX Addressable",
+            "document_id": "51917694-3b44-4e0b-a3aa-e1a91b5830d0",
+            "extraction_sha256": "717198de7a3977f8e133810232b255c06967600b36d1fe93b5e49034168d2e57",
+            "chunk_index": 15,
+            "section_title": "2.3 Indicadores del panel frontal",
+            "facets": []
+          },
+          {
+            "id": "c4c79a6f-57c5-4b8f-84c6-9fdcf1b6aafb",
+            "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+            "document_id": "d1b5d5be-d4f3-45d6-abc1-7448c224d2d1",
+            "extraction_sha256": "dfe2396c52a19e41dc5fb8fda17e5b07b39caae1b9272886b1f19addff6377a0",
+            "chunk_index": 161,
+            "section_title": "To activate a diagnostics test:",
+            "facets": []
+          }
+        ],
+        "raw_navigation_parent_manifest_sha256": "db9dba2c07dcd57b2eb739c18e4f62dc78cc929cfc73881ae30477d74487988e",
+        "source_scope_facet_audit": {
+          "allowed_source_count": 5,
+          "facet_counts": {
+            "installation_requirements": 11,
+            "loop_topology": 3,
+            "protocol_scope": 10,
+            "supported_device_roster": 5
+          },
+          "facet_parent_ids_sha256": {
+            "installation_requirements": "1d93a136d7c32a99e90340b515229ddb8fd8f1f09cba6656e6440c1d69101057",
+            "loop_topology": "c907808fdf0d3997f55bb985fa31e7e1ace673052a401cdb52be899071ec11db",
+            "protocol_scope": "980103a4907d57ad8e706e2d3779fb5e0777edcca84ca04561d24eab0d27bfae",
+            "supported_device_roster": "de2b8320f227a2e3305f6bc785c4ea9660c6b5f37419c3340f6acd30de12769d"
+          }
+        },
+        "source_scope_relational_audit": {
+          "facet_candidate_counts": {
+            "loop_topology": 3,
+            "protocol_scope": 10,
+            "supported_device_roster": 5
+          },
+          "attempted_assignment_count": 150,
+          "valid_assignment_count": 0,
+          "ambiguity_key_count": 0,
+          "status": "no_complete_relational_bundle",
+          "valid_assignment_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "first_valid_assignment": null,
+          "rejection_reason_counts": {
+            "device roster does not name the queried governed entity": 150
+          }
+        },
+        "curve": {
+          "3": {
+            "status": "no_complete_relational_bundle",
+            "selected_parent_ids": [],
+            "bundle_valid": false,
+            "ambiguity_key_sha256s": [],
+            "projection_manifest_sha256": "d491a4ed219d3d99d1f310c1db2ae6a2178a7862a2374be9c8806a4d03553922",
+            "attempt_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "valid_assignment_count": 0,
+            "rejection_reason_counts": {}
+          },
+          "4": {
+            "status": "no_complete_relational_bundle",
+            "selected_parent_ids": [],
+            "bundle_valid": false,
+            "ambiguity_key_sha256s": [],
+            "projection_manifest_sha256": "d491a4ed219d3d99d1f310c1db2ae6a2178a7862a2374be9c8806a4d03553922",
+            "attempt_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "valid_assignment_count": 0,
+            "rejection_reason_counts": {}
+          },
+          "5": {
+            "status": "no_complete_relational_bundle",
+            "selected_parent_ids": [],
+            "bundle_valid": false,
+            "ambiguity_key_sha256s": [],
+            "projection_manifest_sha256": "d491a4ed219d3d99d1f310c1db2ae6a2178a7862a2374be9c8806a4d03553922",
+            "attempt_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "valid_assignment_count": 0,
+            "rejection_reason_counts": {}
+          },
+          "6": {
+            "status": "no_complete_relational_bundle",
+            "selected_parent_ids": [],
+            "bundle_valid": false,
+            "ambiguity_key_sha256s": [],
+            "projection_manifest_sha256": "d491a4ed219d3d99d1f310c1db2ae6a2178a7862a2374be9c8806a4d03553922",
+            "attempt_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "valid_assignment_count": 0,
+            "rejection_reason_counts": {}
+          }
+        }
+      },
+      {
+        "id": "dev006",
+        "question_sha256": "21c97031b766b4ea7ddfebba273073914ee723b12b3b0ab573963f30d87792b7",
+        "resolved_group_count": 2,
+        "candidate_pool_parent_ids": [
+          "a944bd30-0afa-466d-a195-e0c12531ebb5",
+          "236e11db-b1e5-439f-aaca-55dcb1eaadad",
+          "45c8c3bf-4d0a-4c70-a747-3bd9de8d1284",
+          "4c9ff19a-f4cf-46e8-a381-4673de125940",
+          "f005a5cb-ebaf-48df-b228-5874e8e1d03f"
+        ],
+        "candidate_pool_sha256": "0f3ce360e0d63016db4a15641aefcf336bbdcc8728ba8bf9dd0807f37b8efa65",
+        "navigation_fetch_receipts": {
+          "hyq_rows_sha256": "4ef92b13bdfb112d25c3f51683c02009b0e17b68f69e4f22ac195b4ef2955e9b",
+          "selected_parent_ids_sha256": "f5438e93f5a4dc8a009c361f486ea8526bd43b0aa88d7e01c2c757f325461214",
+          "hydrated_parents_sha256": "4de2a9b5ce2d6e3e0218070c14c92e06ebdaa2c53cd53ef6607cc5dd704359a3"
+        },
+        "raw_navigation_parent_manifest": [
+          {
+            "id": "a944bd30-0afa-466d-a195-e0c12531ebb5",
+            "source_file": "D716 issue 1 - M700KAC-KACI_Eng",
+            "document_id": "9c89483a-1392-4686-806e-a09e68f846be",
+            "extraction_sha256": "9deaf6b951d85f960836515191554b117f4cfc6f653f9e950a2648d6dd38990f",
+            "chunk_index": 0,
+            "section_title": "KAC INSTALLATION INSTRUCTIONS FOR THE M700KAC + M700KACI ADDRESSABLE CALL POINT",
+            "facets": [
+              "supported_device_roster"
+            ]
+          },
+          {
+            "id": "236e11db-b1e5-439f-aaca-55dcb1eaadad",
+            "source_file": "MADT951_01",
+            "document_id": "8249039b-a883-46d6-b81c-c5fb8a6eacfd",
+            "extraction_sha256": "115e446a1f4180e55416e7590244fddc268c978fe6ce8d6ffb45ca07de34ebba",
+            "chunk_index": 5,
+            "section_title": "CENTRAL ID3000",
+            "facets": [
+              "protocol_scope"
+            ]
+          },
+          {
+            "id": "45c8c3bf-4d0a-4c70-a747-3bd9de8d1284",
+            "source_file": "D 1036-1_M700KAC_SP",
+            "document_id": "9e72f03d-7ae5-4613-a987-d7e98cdd857d",
+            "extraction_sha256": "fff2db2226e7fc40b9445b59aa3336fcccb702398eb54c07fde299e51461bdd6",
+            "chunk_index": 1,
+            "section_title": "GENERAL",
+            "facets": [
+              "protocol_scope",
+              "supported_device_roster"
+            ]
+          },
+          {
+            "id": "4c9ff19a-f4cf-46e8-a381-4673de125940",
+            "source_file": "MIDT170",
+            "document_id": "a00b0102-bdfa-4c02-959a-928e146fb8b7",
+            "extraction_sha256": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+            "chunk_index": 112,
+            "section_title": "Cableado del Lazo con Módulos Monitores MMX",
+            "facets": [
+              "supported_device_roster"
+            ]
+          },
+          {
+            "id": "c29a3e61-3e83-4dd6-991a-bd7d96b0a93f",
+            "source_file": "D 1036-1_M700KAC_SP",
+            "document_id": "9e72f03d-7ae5-4613-a987-d7e98cdd857d",
+            "extraction_sha256": "fff2db2226e7fc40b9445b59aa3336fcccb702398eb54c07fde299e51461bdd6",
+            "chunk_index": 2,
+            "section_title": "DETALLES SOBRE LA INSTALACIÓN: Lea atentamente la siguiente información.",
+            "facets": []
+          },
+          {
+            "id": "f005a5cb-ebaf-48df-b228-5874e8e1d03f",
+            "source_file": "MIDT170",
+            "document_id": "a00b0102-bdfa-4c02-959a-928e146fb8b7",
+            "extraction_sha256": "78455e85763d053894af91ea70da1451850c57105cab01ace1712c507cb90152",
+            "chunk_index": 101,
+            "section_title": "Requisitos de Cableado para un Circuito SLC de Cuatro Hilos (Bucle cerrado)",
+            "facets": [
+              "loop_topology"
+            ]
+          }
+        ],
+        "raw_navigation_parent_manifest_sha256": "12f524a98322b4a37c9e53bf85b853a2ffd062a711b1a5930538878ca8fd7fc2",
+        "source_scope_facet_audit": {
+          "allowed_source_count": 14,
+          "facet_counts": {
+            "installation_requirements": 14,
+            "loop_topology": 38,
+            "protocol_scope": 38,
+            "supported_device_roster": 39
+          },
+          "facet_parent_ids_sha256": {
+            "installation_requirements": "8b6b9344082778836d8d249f6e6db35545fe79ce07e97208767499ddba2c8cf6",
+            "loop_topology": "95cea6933dd2440ffb077dbfc4c7c0692929d4dab260d61c2dc4fcb252409433",
+            "protocol_scope": "cf235a5faff7d8e2a34d9f0bfec86d79598293b25d86aa7536efca6be55fd5fa",
+            "supported_device_roster": "600b486786538bc0c957b518fbb7e18ec9e8940b6787199704e577142051f44f"
+          }
+        },
+        "source_scope_relational_audit": {
+          "facet_candidate_counts": {
+            "loop_topology": 38,
+            "protocol_scope": 38,
+            "supported_device_roster": 39
+          },
+          "attempted_assignment_count": 56316,
+          "valid_assignment_count": 0,
+          "ambiguity_key_count": 0,
+          "status": "no_complete_relational_bundle",
+          "valid_assignment_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "first_valid_assignment": null,
+          "rejection_reason_counts": {
+            "counterpart topology is not isolated from the identity evidence group": 7542,
+            "device roster does not name the queried governed entity": 24510,
+            "duplicate_parent": 228,
+            "protocol and roster are not bound to one governed document": 24036
+          }
+        },
+        "curve": {
+          "3": {
+            "status": "no_complete_relational_bundle",
+            "selected_parent_ids": [],
+            "bundle_valid": false,
+            "ambiguity_key_sha256s": [],
+            "projection_manifest_sha256": "fd8c71f65b8b85bf656572dc85f00a5edeee3cc7a56f18388622776ba578c5a9",
+            "attempt_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "valid_assignment_count": 0,
+            "rejection_reason_counts": {}
+          },
+          "4": {
+            "status": "no_complete_relational_bundle",
+            "selected_parent_ids": [],
+            "bundle_valid": false,
+            "ambiguity_key_sha256s": [],
+            "projection_manifest_sha256": "a827a072445ec0d60a424f04d0b0bdf6949e7b3d231814d8bf0b5ef97c618d97",
+            "attempt_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "valid_assignment_count": 0,
+            "rejection_reason_counts": {}
+          },
+          "5": {
+            "status": "no_complete_relational_bundle",
+            "selected_parent_ids": [],
+            "bundle_valid": false,
+            "ambiguity_key_sha256s": [],
+            "projection_manifest_sha256": "bef1b605e35d7473a99656417fd04443e44d409729a516b6b8dddcf08d39a1d9",
+            "attempt_manifest_sha256": "934bfe78f8e308442cd9cd4f0312a35e4b7148f3605221c81d37c93cb7eeaaf3",
+            "valid_assignment_count": 0,
+            "rejection_reason_counts": {
+              "device roster does not name the queried governed entity": 2,
+              "duplicate_parent": 1,
+              "protocol and roster are not bound to one governed document": 3
+            }
+          },
+          "6": {
+            "status": "no_complete_relational_bundle",
+            "selected_parent_ids": [],
+            "bundle_valid": false,
+            "ambiguity_key_sha256s": [],
+            "projection_manifest_sha256": "bef1b605e35d7473a99656417fd04443e44d409729a516b6b8dddcf08d39a1d9",
+            "attempt_manifest_sha256": "934bfe78f8e308442cd9cd4f0312a35e4b7148f3605221c81d37c93cb7eeaaf3",
+            "valid_assignment_count": 0,
+            "rejection_reason_counts": {
+              "device roster does not name the queried governed entity": 2,
+              "duplicate_parent": 1,
+              "protocol and roster are not bound to one governed document": 3
+            }
+          }
+        }
+      }
+    ],
+    "recovery_by_k": {
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0
+    },
+    "chosen_k": null,
+    "maximum_development_recovery": 0
+  },
+  "second_run_sha256": "8f7886d901e8e5d52f804a4ca9ba06e777e7b082ed3f4806fb357e917e367aca",
+  "first_run_sha256": "8f7886d901e8e5d52f804a4ca9ba06e777e7b082ed3f4806fb357e917e367aca",
+  "topology_controls": {
+    "positives": [
+      {
+        "id": "topo_pos_s126_cad150",
+        "content_receipt_exact": true,
+        "exact_card_found": true,
+        "guard_accepts": true,
+        "rejection": null
+      },
+      {
+        "id": "topo_pos_s127_morley_analog_loop",
+        "content_receipt_exact": true,
+        "exact_card_found": true,
+        "guard_accepts": true,
+        "rejection": null
+      }
+    ],
+    "exact_card_hard_negatives": [
+      {
+        "id": "topo_neg_2xa_network_ring",
+        "content_receipt_exact": true,
+        "exact_card_found": true,
+        "guard_accepts": false,
+        "rejection": "topology card expresses a network or peripheral loop"
+      }
+    ],
+    "pipeline_hard_negatives": [
+      {
+        "id": "topo_neg_emc_rs485",
+        "content_receipt_exact": true,
+        "loop_topology_card_count": 0
+      },
+      {
+        "id": "topo_neg_peripheral_loop",
+        "content_receipt_exact": true,
+        "loop_topology_card_count": 0
+      }
+    ],
+    "passed": true
+  },
+  "s126_protected_gate": {
+    "valid": true,
+    "selected_parent_ids": [
+      "cfcdc8f7-bdaf-412f-a85e-0ffb76878d99",
+      "11d96526-d627-4305-8cae-e6852af1b20b",
+      "b6602d5a-dbb5-4e2e-8814-1ac3ce066896"
+    ],
+    "bundle_receipt_sha256": "c36748b82ff32a15c49f762bb04a48f10a0438cbc96fd150d3bb5ce504403bae"
+  },
+  "receipts": {
+    "snapshot_sha256": "a825e4dd02b918ddafebab4419cb416b6edc5f1b823a7a9d423f96718d7b6217",
+    "query_config_sha256": "b2b600eb78b0817a746a0fd1249c243a8046f8cdf4e5c11435088b6096bae6ad",
+    "evidence_config_sha256": "f6c73113746608d8fff567f6fa23a2415433c429c77f5e3121429b77f453d937",
+    "bundle_contract_config_sha256": "e8eee1c853be46c1b82d7d8d7b5ead350846ead4be8abfb2c20ac038768e4958",
+    "implementation_sha256": "5074a3120f9f767e3a08e70c6db0e9d7e74aabed6e3365844ab3722966557aa8",
+    "navigation_sha256": "60ab3bf5994a496aadb208add72d5253504c9ad893ef2bf18b9e8d9fc9d77f33"
+  },
+  "cost": {
+    "model_calls": 0,
+    "network_calls": 0,
+    "database_reads": 0,
+    "database_writes": 0
+  },
+  "credit": {
+    "facts_moved_to_ok": 0,
+    "official_funnel_change": false
+  }
+}

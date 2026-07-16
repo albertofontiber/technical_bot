@@ -1,0 +1,53 @@
+instrument: s117_m27_span_binding_diagnostic_v1
+status: ROOT_CAUSE_IDENTIFIED
+authority: local_raw_store_and_frozen_chunker_only
+
+failed_contract:
+  prereg: evals/s117_m27_loss_safe_chunking_probe_prereg_v1.yaml
+  prereg_sha256: 2ac21a9d911e5a0f944be901bb72f4237a26dbdbe63dc4adba48e0cef522e0db
+  rule: exact_span_groups_form_non_overlapping_partition
+  result: invalid_for_legitimate_oversized_split_plus_tail_merge
+
+population:
+  documents_scanned: 1068
+  documents_with_mismatch: 3
+  mismatched_rows: 6
+
+findings:
+  - extraction_sha256: 081ffce15f1331d9dd94994836fb044a47fdb73128a688b23ca6e313d58e512b
+    rows:
+      - {ordinal: 134, source_block_start: 1354, source_block_end: 1354}
+      - {ordinal: 135, source_block_start: 1354, source_block_end: 1355}
+  - extraction_sha256: 143d462c2cdfc4f95078cdc880e7c56f98638ac3d7c9c113c43acc2ec544c54e
+    rows:
+      - {ordinal: 246, source_block_start: 1657, source_block_end: 1657}
+      - {ordinal: 247, source_block_start: 1657, source_block_end: 1658}
+  - extraction_sha256: 8a71ac73fd62b8913598545caa168b033aa953a337f04ed06e2d963145f3ab77
+    rows:
+      - {ordinal: 214, source_block_start: 1501, source_block_end: 1501}
+      - {ordinal: 215, source_block_start: 1501, source_block_end: 1502}
+
+root_cause:
+  oversized_block_split: true
+  final_split_piece_can_share_original_block_span: true
+  cleanup_can_merge_a_short_following_chunk_into_that_final_piece: true
+  legitimate_partial_overlap: previous_row_covers_split_block_then_next_row_covers_remainder_plus_next_block
+  content_loss_observed: false
+  provenance_span_corruption_observed: false
+
+replacement_contract:
+  normalization: whitespace_token_surface_only
+  raw_blocks_define_contiguous_token_intervals: true
+  treatment_rows_define_contiguous_token_intervals: true
+  global_token_sequence_exact: true
+  expected_row_span: first_and_last_raw_block_intersected_by_row_token_interval
+  shared_and_partially_overlapping_spans_allowed_only_when_token_intervals_prove_them: true
+
+authorization:
+  diagnostic_only: true
+  runner_v1_change: false
+  prereg_v1_change: false
+  implementation: false
+  database: false
+  models: false
+  M3: BLOCKED

@@ -1,0 +1,75 @@
+schema_version: s128_explicit_relation_census_adjudication_v1
+status: SOURCE_FIRST_MANUAL_ADJUDICATION
+candidate_artifact: evals/s128_explicit_relation_census_candidates_v1.json
+policy: >-
+  Exact candidate IDs are evaluation receipts, not runtime rules. A candidate is
+  eligible only when this file binds a normalized subject, directional
+  predicate and normalized object to its exact source quote. Every unlisted
+  candidate is rejected conservatively.
+
+eligible_candidates:
+  relcand-0021:
+    - relation_id: s128-rel-001
+      subject_id: notifier:m700kac
+      predicate: uses_protocol
+      object_id: protocol:notifier-advanced
+      polarity: positive
+      qualifiers: [non-isolation, surface-mounting, glass-element]
+  relcand-0036:
+    - relation_id: s128-rel-002
+      subject_id: kac:m700kac
+      predicate: uses_protocol
+      object_id: protocol:system-sensor
+      polarity: positive
+      qualifiers: [non-isolation, surface-mounting, glass-element]
+  relcand-0056:
+    - relation_id: s128-rel-003
+      subject_id: notifier:m720
+      predicate: connects_to
+      object_id: terminal-set:m700-series:8-9
+      polarity: positive
+      qualifiers: [dashed-line-circuit]
+    - relation_id: s128-rel-004
+      subject_id: notifier:m710
+      predicate: excludes
+      object_id: terminal-set:m700-series:8-9
+      polarity: negative
+      qualifiers: [no-connections]
+  relcand-0093:
+    - relation_id: s128-rel-005
+      subject_id: morley:mi-dczm
+      predicate: connects_to
+      object_id: device-class:morley-ias-conventional-fire-detection
+      polarity: positive
+      qualifiers: [intelligent-signalling-loop-interface]
+  relcand-0116:
+    - relation_id: s128-rel-006
+      subject_id: morley:mi-dczm
+      predicate: compatible_with
+      object_id: device-class:morley-ias-conventional-detectors
+      polarity: positive
+      qualifiers: [majority-only, standard-base-or-470-ohm-base]
+  relcand-0130:
+    - relation_id: s128-rel-007
+      subject_id: systemsensor:b524htr
+      predicate: requires
+      object_id: component-class:external-power-supply
+      polarity: positive
+      qualifiers: [heater-resistors]
+
+hard_negative_candidates:
+  - relcand-0148
+  - relcand-0150
+  - relcand-0162
+  - relcand-0165
+hard_negative_reason: >-
+  WEEE legal wording can trigger lexical stems but does not express a governed
+  technical product relation.
+
+default_rejection_reason: no_complete_normalized_subject_predicate_object_tuple
+
+gate:
+  minimum_eligible_relations: 5
+  minimum_relation_closed_classes: 3
+  exact_provenance_rate: 1.0
+  hard_negative_acceptances: 0

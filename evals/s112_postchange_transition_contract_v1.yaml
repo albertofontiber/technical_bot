@@ -1,0 +1,30 @@
+instrument: s112_postchange_transition_contract_v1
+baseline: evals/s100_factlevel_full.yaml
+scope: frozen upstream non-OK rows only
+transitions:
+  # Original retrieval rows
+  cat007#3:2 A / 0,5 A: {candidate: OK, evidence: s108_cat007_measurement_probe_v1}
+  cat007#4:10^5: {candidate: OK, evidence: s108_cat007_measurement_probe_v1}
+  hp011#2:05 a 295 seg: {candidate: synthesis-miss, evidence: s109_bounded_synthesis_runtime_pilot_v1}
+  hp012#3:4 lazos / 792: {candidate: OK, evidence: s109_bounded_synthesis_runtime_pilot_v1}
+  hp013#1:PWR-R: {candidate: synthesis-miss, evidence: s109_bounded_synthesis_runtime_pilot_v1}
+  hp014#3:35: {candidate: OK, evidence: s109_bounded_synthesis_runtime_pilot_v1}
+  hp017#1:instruccion de entrada: {candidate: OK, evidence: s109_bounded_synthesis_runtime_pilot_v1}
+  # Original rerank rows, reconciled against the atomic migration
+  cat001#3:32 / 25 / 20: {candidate: OK, evidence: s112_answer_planner_local_replay_v1}
+  cat010#0:24V dc: {candidate: OK, evidence: s112_incremental_answer_replay_v1}
+  cat017#4:CLSS: {candidate: OK, evidence: s106_p0_selection_adjudication_v1}
+  hp003#0:12V: {candidate: synthesis-miss, evidence: s110_atomic_rerank_cohort_v1}
+  hp005#3:CIRCUITO SIRENA: {candidate: OK, evidence: s112_incremental_answer_replay_v1}
+  hp006#1:Tierra: {candidate: noncore-adjudicated, evidence: s114_s106_provenance_receipt_v1}
+  hp006#2:ISO-X: {candidate: invalid-relation-adjudicated, evidence: s114_s106_provenance_receipt_v1}
+  hp009#0:Retorno: {candidate: OK, evidence: s112_answer_planner_local_replay_v1}
+  hp011#0:ABORT: {candidate: rerank-miss, evidence: s110_atomic_rerank_cohort_v1}
+  hp011#1:r.I: {candidate: OK, evidence: s112_answer_planner_local_replay_v1}
+  hp013#0:EEPROM: {candidate: retrieval-miss, evidence: s110_atomic_rerank_cohort_v1}
+  hp017#2:Editar Configuracion: {candidate: synthesis-miss, evidence: s110_atomic_rerank_cohort_v1}
+  hp018#1:6K8: {candidate: OK, evidence: s110_atomic_rerank_cohort_v1}
+  hp018#4:1 A: {candidate: OK, evidence: s110_atomic_rerank_cohort_v1}
+category_projection:
+  noncore-adjudicated: rest
+  invalid-relation-adjudicated: rest

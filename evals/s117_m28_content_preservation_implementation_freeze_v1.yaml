@@ -1,0 +1,212 @@
+instrument: s117_m28_content_preservation_implementation_freeze_v1
+status: frozen_before_local_patch
+
+scope:
+  purpose: remove_only_generic_length_deletion_from_core_cleanup
+  authority: frozen_M27C_causal_equivalence_and_raw_parsed_token_surface
+  allowed:
+    - local_code_edit_on_whitelist
+    - local_test_edit_on_whitelist
+    - local_test_creation_on_whitelist
+    - local_static_analysis
+    - local_tests
+    - local_eval_write_after_patch
+  forbidden:
+    - env_file_read
+    - network
+    - model_calls_during_execution
+    - database_access
+    - database_write
+    - retrieval_policy_change
+    - schema_change
+    - register_only_change
+    - context_generation
+    - embedding_generation
+    - candidate_materialization_execution
+    - old_runner_replay_under_candidate
+    - load
+    - serving
+    - deploy
+    - M3_authorization
+
+frozen_inputs:
+  design_v1:
+    path: evals/s117_m28_content_preservation_implementation_design_v1.md
+    sha256: d7e17f0c0b981558ca91b3b1c77174edd9677a8f3865f94230f254060388da36
+  design_v2:
+    path: evals/s117_m28_content_preservation_implementation_design_v2.md
+    sha256: 28560ba6bf03ac2168a7048c4be2caa2baaccb563be53ecee3418c8c060a448d
+  causal_probe_gate:
+    path: evals/s117_m27_loss_safe_chunking_probe_gate_v2.yaml
+    sha256: 62f7b0ac1b220924f25c8c2073d8e5c301e56443d8de875cc3ab980ffdeebbbf
+  causal_probe_prereg:
+    path: evals/s117_m27_loss_safe_chunking_probe_prereg_v2.yaml
+    sha256: 7e40c5aaea6a41c2971fba4dff1952a6909fda86e4e1cfd4b1a97cb6bef1ab22
+  causal_probe_seed1:
+    path: evals/s117_m27_loss_safe_chunking_probe_seed1_v2.json
+    sha256: 24c99a59a448284fca342c36941973b092dec1bc5c5f6c6586e09e730ec858f7
+  causal_probe_seed2:
+    path: evals/s117_m27_loss_safe_chunking_probe_seed2_v2.json
+    sha256: 24c99a59a448284fca342c36941973b092dec1bc5c5f6c6586e09e730ec858f7
+  baseline_chunker:
+    path: src/reingest/chunk.py
+    sha256: 4b76ab219854c625f4ce5e55665e2c89d14739e4eee0ab01607aae7ecda4fd43
+  baseline_cleanup_tests:
+    path: tests/test_reingest_chunk_lineage.py
+    sha256: c5c8b26808c7819ae386fc29613c574b23677bb3619fac148d4cf75ed6a5deac
+  materializer:
+    path: src/reingest/chunk_provenance.py
+    sha256: bb218a509ca56f2ddf4e44d73c4235cefacfb4296a4b98c9d49a627a2536e65c
+  independent_validator:
+    path: scripts/s117_materialize_chunks_v3_local.py
+    sha256: 36037383c1c33c630e9df6add9f3c188dc10e2dfd79ff33f53ee04f44aa4c342
+  baseline_materialization:
+    path: evals/s117_chunks_v3_development_materialization_v1.json
+    sha256: d9f69e8d1428e11afa56723817f64226aa53db786c8034453dfde4adbbedca3a
+  compact_100:
+    path: evals/s117_m27_loss_rows_compact_v1.json
+    sha256: 9424d343b21c4894044bfad5cc6fbfd39f2f45b9e2c3da26d8901d381820a894
+  m27_live_gate:
+    path: evals/s117_m27_live_evidence_gate_v1.yaml
+    sha256: 26f009b232fcebbdfa544410581f82e33ec87de253cebd8d542caed61c838692
+  m27_live_seed1:
+    path: evals/s117_m27_live_evidence_seed1_v1.json
+    sha256: 47e591d472b501bce3439fa081d9b7478296f0035fbb4a84ef7ef7c1c4a7bb13
+  m27_live_seed2:
+    path: evals/s117_m27_live_evidence_seed2_v1.json
+    sha256: 47e591d472b501bce3439fa081d9b7478296f0035fbb4a84ef7ef7c1c4a7bb13
+  source_snapshot:
+    path: tmp/s117_m2/remote_snapshot_v1.jsonl.gz
+    sha256: 3013c553da20c72fbfe0dc801dad4ea4b063ecff3138dcf55b5cd7831cf79067
+
+baseline_identity:
+  chunker_sha256: 4b76ab219854c625f4ce5e55665e2c89d14739e4eee0ab01607aae7ecda4fd43
+  generation_manifest_sha256: 3040da3ace4e033f6bc52e3cf092e2427262d91729ecb67fe7a104a71cbd73a1
+  materialization_id: eb426a33-91cb-543e-a0c9-fd615dbc36cb
+  rows: 31212
+  rows_manifest_sha256: 68e87fd43702fcf53f14ff7fbdbe65e4faa346977a199ff7427333b8cab950f3
+  comparison_mode: frozen_data_only_no_replay_under_candidate
+
+allowed_files:
+  modify:
+    - src/reingest/chunk.py
+    - tests/test_reingest_chunk_lineage.py
+  create:
+    - tests/test_s117_m28_content_preservation.py
+  any_other_file_change: NO_GO
+
+authorized_core_diff:
+  function: src.reingest.chunk._cleanup
+  remove_only:
+    - meaningful_length_discard_branch
+    - merge_barrier_state
+    - merge_barrier_condition
+    - obsolete_deletion_comments_and_docstrings
+  retain:
+    - NOISE_CHARS_import_compatibility_constant_inert
+    - _meaningful_len_diagnostic_helper_inert
+    - same_full_lineage_merge_requirement
+    - spans_touch_allows_adjacency_or_legitimate_overlap
+    - no_gap_merge
+    - is_flow_diagram_barrier
+    - has_diagram_or_propagation
+    - MAX_CHARS_ceiling
+    - span_envelope_update
+  forbidden:
+    - substitute_threshold
+    - parse_change
+    - packing_change
+    - split_change
+    - target_min_max_change
+    - atomicity_change
+    - lineage_change
+    - page_or_diagram_change
+    - retrieval_change
+
+required_tests:
+  static:
+    - cleanup_and_chunk_document_do_not_read_NOISE_CHARS
+    - cleanup_and_chunk_document_do_not_read_meaningful_len
+    - no_substitute_discard_threshold_or_branch
+  dynamic:
+    - outputs_identical_with_NOISE_CHARS_0_15_and_huge
+    - meaningful_len_monkeypatched_to_raise_is_never_called
+    - input_token_surface_captured_before_cleanup_mutation
+    - output_tokens_equal_input_tokens_in_order
+    - first_short_preserved
+    - short_alphanumeric_preserved
+    - short_heading_preserved
+    - short_numeric_preserved
+    - sentinel_preserved
+    - symbol_only_preserved
+    - same_full_lineage_touching_merge
+    - different_lineage_no_merge
+    - gap_no_merge
+    - is_flow_diagram_no_merge
+    - MAX_CHARS_no_merge
+    - has_diagram_or_propagated_on_valid_merge
+    - oversized_shared_span_accepted
+    - oversized_tail_partial_overlap_accepted
+    - omission_rejected
+    - reorder_rejected
+    - duplication_rejected
+    - shifted_or_overclaimed_span_rejected
+    - anchors_paths_lineage_and_ordinals_coherent
+  regression:
+    before_patch_passed: 980
+    before_patch_skipped: 2
+    after_patch_failures_allowed: 0
+
+candidate_oracle_for_later_gate:
+  rows: 31226
+  documents: 1068
+  raw_blocks: 333161
+  covered_blocks: 333161
+  missing_blocks: 0
+  coverage_gain_exact_frozen_100: true
+  coverage_regression: 0
+  changed_documents: 27
+  stable_documents: 1041
+  delta:
+    unchanged: 2529
+    removed: 15
+    added: 29
+    overlap_modified: 15
+    pure_added: 14
+  oracle_adjustment_after_execution: forbidden
+
+candidate_identity_for_later_gate:
+  chunker_sha_must_differ_from_baseline: true
+  generation_manifest_must_differ_from_baseline: true
+  materialization_id_must_differ_from_baseline: true
+  baseline_or_diagnostic_row_id_reuse: forbidden
+  direct_production_chunker_no_override: true
+  outputs_nonloadable: true
+
+m27_live_for_later_gate:
+  affected_documents: 18
+  tasks: 21
+  required_document_alignment: 18
+  required_task_alignment: 21
+  exact_resolution_required:
+    extraction_sha256: 8d128ca2ca13754bb74e0dcf16014e74141e352ae819aa25e35784c2f60245f6
+  similarity_rescue: forbidden
+  task_manifest_and_receipts_exact: true
+  facts_moved_to_ok: 0
+
+phase_c:
+  included_in_implementation: false
+  retrieval_policy_change: forbidden
+  register_only_change: forbidden
+  layout_classification: forbidden
+  default: preserve_and_apply_only_existing_independent_policy
+  separate_prereg_required: true
+  blocks_load_and_serving: true
+
+post_patch_decision:
+  requires_adversarial_diff_review: true
+  requires_all_focused_tests_green: true
+  requires_full_regression_green: true
+  candidate_materialization_execution: false
+  facts_moved_to_ok: 0
+  M3: BLOCKED

@@ -1,0 +1,100 @@
+instrument: s114_procedure_bundle_heldout_prereg_v1
+created_utc: 2026-07-14T06:47:07Z
+status: frozen_before_selector_replay
+
+frozen_inputs:
+  selector:
+    path: src/rag/procedure_bundle_coverage.py
+    sha256: cbd3902b823fa7d7d4fb4c9c3f6ba3781a5492c0b2e7be6364291d1cd9461a76
+  historical_hyq_source:
+    path: evals/s99_hyq_generated.jsonl
+    sha256: 5fb56f1739f8713c263d331b5393ef1904d9a5311ba3f1ac15bd81828b86f8e7
+  known_cohort_replay:
+    path: evals/s114_procedure_bundle_replay_v1.json
+    sha256: 49e07452d125e659794c1634e1b4d4a5251b3077e4b98b4af5c93173a4a62162
+
+purpose:
+  primary: measure held-out contamination and rule applicability outside the design cohort
+  not_claimed:
+    - final answer correctness
+    - synthesis improvement
+    - recall over all procedural retrieval misses
+    - production or default-off readiness
+
+cohort:
+  excluded_design_manufacturers:
+    - Notifier
+    - Morley
+    - Securiton
+    - Detnov
+  manufacturer_selection: >-
+    Select the 12 remaining manufacturers with the highest number of eligible
+    historical HYQ questions; ties sort by manufacturer name.
+  expected_manufacturers:
+    - Xtralis
+    - Aritech
+    - Kidde
+    - Spectrex
+    - System Sensor
+    - LDA audioTech
+    - Edwards
+    - Argus Security
+    - Pfannenberg
+    - Fidegas
+    - European Safety Systems
+    - Sensitron
+  questions_per_manufacturer: 2
+  target_questions: 24
+  eligibility:
+    - nonempty manufacturer, product_model, chunk_id and question
+    - question matches a procedural-intent expression
+    - origin is synthetic and predates S114
+  procedural_intent_regex_after_accent_fold: >-
+    \b(?:como|how|configur\w*|program\w*|anad\w*|add\w*|comprob\w*|check\w*|
+    diagn\w*|leer|read\w*|instal\w*|install\w*|ajust\w*|set|cambi\w*|chang\w*)\b
+  deterministic_ranking: >-
+    Ascending SHA256 of manufacturer|product_model|chunk_id|question. Prefer a
+    different product_model for the second question; otherwise take the next
+    distinct chunk. Freeze five ranked backups per manufacturer before database access.
+  stale_row_replacement: >-
+    Use the next preregistered backup only when an exact chunk_id is absent from
+    the current corpus or its manufacturer/product identity no longer matches.
+
+replay_contract:
+  served_context: the current exact source row associated with the historical HYQ
+  candidate_universe: current exact manufacturer plus exact product_model rows
+  selector_inputs_exclude:
+    - qid
+    - facts
+    - expected_values
+    - gold_receipt_ids
+    - manual_labels
+  maximum_selected_rows_per_question: 1
+  maximum_cards_per_selected_row: 2
+  maximum_characters_per_card: 720
+  database_get_request_cap: 25
+  database_writes: 0
+  model_calls: 0
+
+gates:
+  execution_validity:
+    - at least 20 questions and 10 manufacturers survive current-corpus identity checks
+    - no database write or model call
+    - every selected span passes strong provenance and exact-bound verification
+    - selector SHA256 remains frozen
+  contamination:
+    - zero clearly irrelevant selected rows after blinded manual adjudication
+    - report denominator as product-scoped and per-facet eligible, not all questions
+  applicability:
+    - report potential and selected counts separately for every facet
+    - zero potential facets makes that facet inconclusive, never a pass
+  advancement: >-
+    GO only to an answer-level protected regression when execution validity and
+    contamination pass and at least one held-out facet is genuinely exercised.
+    This preregistration cannot authorize serving integration.
+
+anti_overfit:
+  - Do not change selector rules after revealing held-out selections.
+  - Any discovered failure becomes diagnostic evidence for a new version.
+  - A new selector version requires a new held-out cohort or explicit nested split.
+  - Report zero-selection and zero-eligibility results as inconclusive for recall.

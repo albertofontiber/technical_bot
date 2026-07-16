@@ -1,0 +1,1552 @@
+{
+  "schema_version": "s125_m1_known_hold_answer_replay_v1",
+  "instrument": "s125_replay_m1_known_hold_answers",
+  "status": "LOCAL_FROZEN_REPLAY_COMPLETE_NO_EXTERNAL_CALLS",
+  "authority": {
+    "adjudication": "evals/s125_m1_answer_replay_adjudication_v1.yaml",
+    "adjudication_sha256": "697cea746e3618c17f92e315e87e81629ce71902f467cd54f8323344f51f4047",
+    "migration_contract_sha256": "a89c2c68a7469b0715f9515687dbc0b752c051c3182f209aed2af64bb43c30b5",
+    "migration_contract_payload_sha256": "4309dbda680ed3ee4a2b2703276f3f7e7b80d06d4417d1b95e2f557cf8b1d15e",
+    "frozen_answers_sha256": "8fbfe4801f6c35c2447af9440c459b080e4405b76e2899f3a00e66b230497f69"
+  },
+  "summary": {
+    "content_claim_count": 58,
+    "supplementary_claim_count": 12,
+    "content_stage_histogram": {
+      "OK": 32,
+      "synthesis-miss": 10,
+      "synthesis-not-measured": 16
+    },
+    "supplementary_stage_histogram": {
+      "supplementary-covered": 3,
+      "supplementary-not-covered": 2,
+      "supplementary-not-measured": 7
+    },
+    "retrieval_pass": 58,
+    "rerank_pass": 58,
+    "answer_executed_qids": 10,
+    "answer_unexecuted_qids": 3,
+    "model_calls": 0,
+    "database_reads": 0,
+    "database_writes": 0
+  },
+  "parent_outcomes": [
+    {
+      "parent_fact_key": "cat005#2:4",
+      "qid": "cat005",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "OK",
+      "core_child_ids": [
+        "m1.cat005.c30477c37c3d5942.max_remote_sensors",
+        "m1.cat005.c30477c37c3d5942.analog_digital_inputs"
+      ]
+    },
+    {
+      "parent_fact_key": "cat005#5:3244 / 3270",
+      "qid": "cat005",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "not-content-scored",
+      "core_child_ids": []
+    },
+    {
+      "parent_fact_key": "cat007#0:NC-C-NA",
+      "qid": "cat007",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "synthesis-miss",
+      "core_child_ids": [
+        "m1.cat007.7947613c1a4de8b1.alarm_relay_contacts",
+        "m1.cat007.7947613c1a4de8b1.fault_relay_contacts"
+      ]
+    },
+    {
+      "parent_fact_key": "cat007#1:no enclavado",
+      "qid": "cat007",
+      "legacy_stage_bucket": "synthesis-miss",
+      "migrated_parent_rollup": "synthesis-miss",
+      "core_child_ids": [
+        "m1.cat007.224f21eed48712ef.fault_conditions",
+        "m1.cat007.224f21eed48712ef.service_or_unpowered",
+        "m1.cat007.224f21eed48712ef.fault_not_latched"
+      ]
+    },
+    {
+      "parent_fact_key": "cat007#2:47 kohm",
+      "qid": "cat007",
+      "legacy_stage_bucket": "synthesis-miss",
+      "migrated_parent_rollup": "synthesis-miss",
+      "core_child_ids": [
+        "m1.cat007.1034ff01c53cc99a.sounder_outputs",
+        "m1.cat007.1034ff01c53cc99a.sounder_eol"
+      ]
+    },
+    {
+      "parent_fact_key": "cat007#4:10^5",
+      "qid": "cat007",
+      "legacy_stage_bucket": "rest",
+      "migrated_parent_rollup": "not-content-scored",
+      "core_child_ids": []
+    },
+    {
+      "parent_fact_key": "cat010#1:660mW",
+      "qid": "cat010",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "OK",
+      "core_child_ids": [
+        "m1.cat010.5bec12668a94fa37.ui",
+        "m1.cat010.5bec12668a94fa37.ii",
+        "m1.cat010.5bec12668a94fa37.pi",
+        "m1.cat010.5bec12668a94fa37.ci",
+        "m1.cat010.5bec12668a94fa37.li"
+      ]
+    },
+    {
+      "parent_fact_key": "cat012#0:1,2",
+      "qid": "cat012",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "synthesis-not-measured",
+      "core_child_ids": [
+        "m1.cat012.859bf84ece1e1301.battery_formula"
+      ]
+    },
+    {
+      "parent_fact_key": "cat012#1:24 h",
+      "qid": "cat012",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "synthesis-not-measured",
+      "core_child_ids": [
+        "m1.cat012.8f913ebef3a60ac1.standby_term",
+        "m1.cat012.8f913ebef3a60ac1.alarm_term"
+      ]
+    },
+    {
+      "parent_fact_key": "cat012#3:18 Ah",
+      "qid": "cat012",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "not-content-scored",
+      "core_child_ids": []
+    },
+    {
+      "parent_fact_key": "cat014#0:10 anos",
+      "qid": "cat014",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "OK",
+      "core_child_ids": [
+        "m1.cat014.72ed1610f96bff0e.replacement_life"
+      ]
+    },
+    {
+      "parent_fact_key": "cat019#0:coincidencias",
+      "qid": "cat019",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "synthesis-not-measured",
+      "core_child_ids": [
+        "m1.cat019.6c2692e4d3fd39ac.create_maneuver",
+        "m1.cat019.6c2692e4d3fd39ac.coincidence_semantics"
+      ]
+    },
+    {
+      "parent_fact_key": "cat019#1:EVENTO / ACCION",
+      "qid": "cat019",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "synthesis-not-measured",
+      "core_child_ids": [
+        "m1.cat019.650574c29860ac58.add_event_or_action",
+        "m1.cat019.650574c29860ac58.event_change_and_condition"
+      ]
+    },
+    {
+      "parent_fact_key": "cat019#2:ENTIDAD / CONDICION TEMPORAL",
+      "qid": "cat019",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "synthesis-not-measured",
+      "core_child_ids": [
+        "m1.cat019.77fff66f289222e7.event_type_choice",
+        "m1.cat019.77fff66f289222e7.entity_scope",
+        "m1.cat019.77fff66f289222e7.temporal_condition"
+      ]
+    },
+    {
+      "parent_fact_key": "cat023#0:A/B/C EN 54-20",
+      "qid": "cat023",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "OK",
+      "core_child_ids": [
+        "m1.cat023.7ed9d4ed696ccfe3.en54_classes"
+      ]
+    },
+    {
+      "parent_fact_key": "cat023#1:W01-W44 / 10-60 min / ±20-50 %",
+      "qid": "cat023",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "OK",
+      "core_child_ids": [
+        "m1.cat023.bf0ef37152274a9c.nonnormative_airflow_positions"
+      ]
+    },
+    {
+      "parent_fact_key": "hp002#0:fallo flujo de aire",
+      "qid": "hp002",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "synthesis-not-measured",
+      "core_child_ids": [
+        "m1.hp002.4de86fac80358a14.nominal_after_reset",
+        "m1.hp002.4de86fac80358a14.standard_fault_window"
+      ]
+    },
+    {
+      "parent_fact_key": "hp002#1:80 %",
+      "qid": "hp002",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "synthesis-not-measured",
+      "core_child_ids": [
+        "m1.hp002.c2c99fa936e98f67.flow_direction_diagnosis",
+        "m1.hp002.c2c99fa936e98f67.obstruction_checks"
+      ]
+    },
+    {
+      "parent_fact_key": "hp002#2:300 s",
+      "qid": "hp002",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "synthesis-not-measured",
+      "core_child_ids": []
+    },
+    {
+      "parent_fact_key": "hp002#3:7.6.1",
+      "qid": "hp002",
+      "legacy_stage_bucket": "retrieval-miss",
+      "migrated_parent_rollup": "synthesis-not-measured",
+      "core_child_ids": [
+        "m1.hp002.06f759b5da9ed40b.maintenance_safety",
+        "m1.hp002.06f759b5da9ed40b.read_and_compare_flow"
+      ]
+    },
+    {
+      "parent_fact_key": "hp004#0:24V y 220V",
+      "qid": "hp004",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "OK",
+      "core_child_ids": [
+        "m1.hp004.ae02a395c8359cf9.supply_variants"
+      ]
+    },
+    {
+      "parent_fact_key": "hp004#1:22V a 38V",
+      "qid": "hp004",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "OK",
+      "core_child_ids": [
+        "m1.hp004.5fbc4f5bce66dde5.model24_voltage",
+        "m1.hp004.5fbc4f5bce66dde5.model24_standby"
+      ]
+    },
+    {
+      "parent_fact_key": "hp004#2:180V a 240V",
+      "qid": "hp004",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "OK",
+      "core_child_ids": [
+        "m1.hp004.cf0e1e8fdc95c005.model220_voltage",
+        "m1.hp004.cf0e1e8fdc95c005.model220_standby"
+      ]
+    },
+    {
+      "parent_fact_key": "hp008#0:CPX-551E",
+      "qid": "hp008",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "OK",
+      "core_child_ids": [
+        "m1.hp008.582541b1412a96ce.cpx551e",
+        "m1.hp008.582541b1412a96ce.cpx751e"
+      ]
+    },
+    {
+      "parent_fact_key": "hp008#1:SDX-751",
+      "qid": "hp008",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "OK",
+      "core_child_ids": [
+        "m1.hp008.6898c1c2de2ec424.sdx551e",
+        "m1.hp008.6898c1c2de2ec424.sdx751",
+        "m1.hp008.6898c1c2de2ec424.sdx751em"
+      ]
+    },
+    {
+      "parent_fact_key": "hp008#2:IRX-751CTEM",
+      "qid": "hp008",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "OK",
+      "core_child_ids": [
+        "m1.hp008.d7fc6ebefe5f9c92.irx751ctem",
+        "m1.hp008.d7fc6ebefe5f9c92.irx751tem"
+      ]
+    },
+    {
+      "parent_fact_key": "hp008#3:SDX-751-TEM",
+      "qid": "hp008",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "OK",
+      "core_child_ids": [
+        "m1.hp008.9f88aa8a1292a479.sdx751tem"
+      ]
+    },
+    {
+      "parent_fact_key": "hp017#0:causa-efecto",
+      "qid": "hp017",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "OK",
+      "core_child_ids": [
+        "m1.hp017.f4849c19a9af7245.cause_effect_rules"
+      ]
+    },
+    {
+      "parent_fact_key": "hp017#1:instruccion de entrada",
+      "qid": "hp017",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "synthesis-miss",
+      "core_child_ids": [
+        "m1.hp017.7258aec395b0f78d.programming_method",
+        "m1.hp017.7258aec395b0f78d.input_instruction",
+        "m1.hp017.7258aec395b0f78d.output_instruction",
+        "m1.hp017.7258aec395b0f78d.avoid_contradictory_logic",
+        "m1.hp017.7258aec395b0f78d.commissioning_test"
+      ]
+    },
+    {
+      "parent_fact_key": "hp017#3:seis tipos de retardo",
+      "qid": "hp017",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "synthesis-miss",
+      "core_child_ids": [
+        "m1.hp017.ee150da7e6a7607d.delay_types"
+      ]
+    },
+    {
+      "parent_fact_key": "hp019#0:-30 a +60",
+      "qid": "hp019",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "OK",
+      "core_child_ids": [
+        "m1.hp019.9e06c35fb7c4d8ef.operating_temperature"
+      ]
+    },
+    {
+      "parent_fact_key": "hp020#0:nivel 2 o 3",
+      "qid": "hp020",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "OK",
+      "core_child_ids": [
+        "m1.hp020.253dbf5abe806d5c.level2_change",
+        "m1.hp020.253dbf5abe806d5c.level3_change"
+      ]
+    },
+    {
+      "parent_fact_key": "hp020#3:satisfactorio",
+      "qid": "hp020",
+      "legacy_stage_bucket": "OK",
+      "migrated_parent_rollup": "OK",
+      "core_child_ids": [
+        "m1.hp020.8086e1ff3028ad10.reenter_to_confirm",
+        "m1.hp020.8086e1ff3028ad10.success_message"
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "migration_id": "m1.cat005.c30477c37c3d5942.max_remote_sensors",
+      "qid": "cat005",
+      "parent_fact_key": "cat005#2:4",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta expresa capacidad, señales y ambos códigos de producto.",
+      "answer_executed": true,
+      "answer_sha256": "757125181ded1712bdf192bcf50f45c654cb663cfd9c2327c88a33928812bdc6",
+      "source_context_ids": [
+        "934b00a8-739f-4d7b-8853-32caad5232a4"
+      ]
+    },
+    {
+      "migration_id": "m1.cat005.c30477c37c3d5942.analog_digital_inputs",
+      "qid": "cat005",
+      "parent_fact_key": "cat005#2:4",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta expresa capacidad, señales y ambos códigos de producto.",
+      "answer_executed": true,
+      "answer_sha256": "757125181ded1712bdf192bcf50f45c654cb663cfd9c2327c88a33928812bdc6",
+      "source_context_ids": [
+        "934b00a8-739f-4d7b-8853-32caad5232a4"
+      ]
+    },
+    {
+      "migration_id": "m1.cat005.fb0031fbe096519b.digital_product_code",
+      "qid": "cat005",
+      "parent_fact_key": "cat005#5:3244 / 3270",
+      "tipo": "supplementary",
+      "content_eligible": false,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "supplementary-covered",
+      "rationale": "La respuesta identifica explícitamente la versión digital con el código 3244.",
+      "answer_executed": true,
+      "answer_sha256": "757125181ded1712bdf192bcf50f45c654cb663cfd9c2327c88a33928812bdc6",
+      "source_context_ids": [
+        "8c9b9f0b-8a51-417f-b05e-63d4dd61ed48"
+      ]
+    },
+    {
+      "migration_id": "m1.cat005.fb0031fbe096519b.analog_product_code",
+      "qid": "cat005",
+      "parent_fact_key": "cat005#5:3244 / 3270",
+      "tipo": "supplementary",
+      "content_eligible": false,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "supplementary-covered",
+      "rationale": "La respuesta identifica explícitamente la versión analógica con el código 3270.",
+      "answer_executed": true,
+      "answer_sha256": "757125181ded1712bdf192bcf50f45c654cb663cfd9c2327c88a33928812bdc6",
+      "source_context_ids": [
+        "8c9b9f0b-8a51-417f-b05e-63d4dd61ed48"
+      ]
+    },
+    {
+      "migration_id": "m1.cat007.7947613c1a4de8b1.alarm_relay_contacts",
+      "qid": "cat007",
+      "parent_fact_key": "cat007#0:NC-C-NA",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_covered",
+      "stage_bucket": "synthesis-miss",
+      "rationale": "La respuesta enumera CH1 y CH2, pero no conserva que CH2 solo aplica cuando existe la variante de dos canales.",
+      "answer_executed": true,
+      "answer_sha256": "91d226dc01258953d3a33193167e20fe401dde814aa15fb76d22bec56c93b7a6",
+      "source_context_ids": [
+        "e49a4944-4157-42e3-a1c5-15ec4a6e8926"
+      ]
+    },
+    {
+      "migration_id": "m1.cat007.7947613c1a4de8b1.fault_relay_contacts",
+      "qid": "cat007",
+      "parent_fact_key": "cat007#0:NC-C-NA",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_covered",
+      "stage_bucket": "synthesis-miss",
+      "rationale": "Conserva AUX para CH2, pero no el calificador de disponibilidad exclusiva de la variante de dos canales.",
+      "answer_executed": true,
+      "answer_sha256": "91d226dc01258953d3a33193167e20fe401dde814aa15fb76d22bec56c93b7a6",
+      "source_context_ids": [
+        "e49a4944-4157-42e3-a1c5-15ec4a6e8926"
+      ]
+    },
+    {
+      "migration_id": "m1.cat007.224f21eed48712ef.fault_conditions",
+      "qid": "cat007",
+      "parent_fact_key": "cat007#1:no enclavado",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_covered",
+      "stage_bucket": "synthesis-miss",
+      "rationale": "Enumera avería en canal 1 o 2 y común sin condicionar el canal 2 a la variante que lo incorpora.",
+      "answer_executed": true,
+      "answer_sha256": "91d226dc01258953d3a33193167e20fe401dde814aa15fb76d22bec56c93b7a6",
+      "source_context_ids": [
+        "8221ec70-6882-41b5-8dd6-705a1a7e739a"
+      ]
+    },
+    {
+      "migration_id": "m1.cat007.224f21eed48712ef.service_or_unpowered",
+      "qid": "cat007",
+      "parent_fact_key": "cat007#1:no enclavado",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta enumera contactos, condiciones de avería, estado no enclavado, salidas, EOL y vida de contactos.",
+      "answer_executed": true,
+      "answer_sha256": "91d226dc01258953d3a33193167e20fe401dde814aa15fb76d22bec56c93b7a6",
+      "source_context_ids": [
+        "8221ec70-6882-41b5-8dd6-705a1a7e739a"
+      ]
+    },
+    {
+      "migration_id": "m1.cat007.224f21eed48712ef.fault_not_latched",
+      "qid": "cat007",
+      "parent_fact_key": "cat007#1:no enclavado",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta enumera contactos, condiciones de avería, estado no enclavado, salidas, EOL y vida de contactos.",
+      "answer_executed": true,
+      "answer_sha256": "91d226dc01258953d3a33193167e20fe401dde814aa15fb76d22bec56c93b7a6",
+      "source_context_ids": [
+        "8221ec70-6882-41b5-8dd6-705a1a7e739a"
+      ]
+    },
+    {
+      "migration_id": "m1.cat007.1034ff01c53cc99a.sounder_outputs",
+      "qid": "cat007",
+      "parent_fact_key": "cat007#2:47 kohm",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_covered",
+      "stage_bucket": "synthesis-miss",
+      "rationale": "Describe ambas salidas y su correspondencia, pero presenta la salida 2 como universal en vez de condicionada a la variante de dos canales.",
+      "answer_executed": true,
+      "answer_sha256": "91d226dc01258953d3a33193167e20fe401dde814aa15fb76d22bec56c93b7a6",
+      "source_context_ids": [
+        "e49a4944-4157-42e3-a1c5-15ec4a6e8926",
+        "8221ec70-6882-41b5-8dd6-705a1a7e739a"
+      ]
+    },
+    {
+      "migration_id": "m1.cat007.1034ff01c53cc99a.sounder_eol",
+      "qid": "cat007",
+      "parent_fact_key": "cat007#2:47 kohm",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_covered",
+      "stage_bucket": "synthesis-miss",
+      "rationale": "Da 47 kΩ para ambas salidas sin preservar que la salida 2 solo existe en la variante de dos canales.",
+      "answer_executed": true,
+      "answer_sha256": "91d226dc01258953d3a33193167e20fe401dde814aa15fb76d22bec56c93b7a6",
+      "source_context_ids": [
+        "e49a4944-4157-42e3-a1c5-15ec4a6e8926"
+      ]
+    },
+    {
+      "migration_id": "m1.cat010.5bec12668a94fa37.ui",
+      "qid": "cat010",
+      "parent_fact_key": "cat010#1:660mW",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta presenta por separado Ui, Ii, Pi, Ci y Li para los terminales + respecto a −.",
+      "answer_executed": true,
+      "answer_sha256": "1fe51fc989d8100a98f399fd1357945ca4ee81ec33df81f1f7d85543b3556634",
+      "source_context_ids": [
+        "d4ae732f-2838-4134-a558-680b1ac36bb8"
+      ]
+    },
+    {
+      "migration_id": "m1.cat010.5bec12668a94fa37.ii",
+      "qid": "cat010",
+      "parent_fact_key": "cat010#1:660mW",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta presenta por separado Ui, Ii, Pi, Ci y Li para los terminales + respecto a −.",
+      "answer_executed": true,
+      "answer_sha256": "1fe51fc989d8100a98f399fd1357945ca4ee81ec33df81f1f7d85543b3556634",
+      "source_context_ids": [
+        "d4ae732f-2838-4134-a558-680b1ac36bb8"
+      ]
+    },
+    {
+      "migration_id": "m1.cat010.5bec12668a94fa37.pi",
+      "qid": "cat010",
+      "parent_fact_key": "cat010#1:660mW",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta presenta por separado Ui, Ii, Pi, Ci y Li para los terminales + respecto a −.",
+      "answer_executed": true,
+      "answer_sha256": "1fe51fc989d8100a98f399fd1357945ca4ee81ec33df81f1f7d85543b3556634",
+      "source_context_ids": [
+        "d4ae732f-2838-4134-a558-680b1ac36bb8"
+      ]
+    },
+    {
+      "migration_id": "m1.cat010.5bec12668a94fa37.ci",
+      "qid": "cat010",
+      "parent_fact_key": "cat010#1:660mW",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta presenta por separado Ui, Ii, Pi, Ci y Li para los terminales + respecto a −.",
+      "answer_executed": true,
+      "answer_sha256": "1fe51fc989d8100a98f399fd1357945ca4ee81ec33df81f1f7d85543b3556634",
+      "source_context_ids": [
+        "d4ae732f-2838-4134-a558-680b1ac36bb8"
+      ]
+    },
+    {
+      "migration_id": "m1.cat010.5bec12668a94fa37.li",
+      "qid": "cat010",
+      "parent_fact_key": "cat010#1:660mW",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta presenta por separado Ui, Ii, Pi, Ci y Li para los terminales + respecto a −.",
+      "answer_executed": true,
+      "answer_sha256": "1fe51fc989d8100a98f399fd1357945ca4ee81ec33df81f1f7d85543b3556634",
+      "source_context_ids": [
+        "d4ae732f-2838-4134-a558-680b1ac36bb8"
+      ]
+    },
+    {
+      "migration_id": "m1.cat012.859bf84ece1e1301.battery_formula",
+      "qid": "cat012",
+      "parent_fact_key": "cat012#0:1,2",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_measured",
+      "stage_bucket": "synthesis-not-measured",
+      "rationale": "El registro S113 existe pero executed=false y answer=null; no se imputa un fallo al bot.",
+      "answer_executed": false,
+      "answer_sha256": null,
+      "source_context_ids": [
+        "248eb7da-80d0-470f-bddb-b024c21de8a4"
+      ]
+    },
+    {
+      "migration_id": "m1.cat012.859bf84ece1e1301.tolerance_factor",
+      "qid": "cat012",
+      "parent_fact_key": "cat012#0:1,2",
+      "tipo": "supplementary",
+      "content_eligible": false,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_measured",
+      "stage_bucket": "supplementary-not-measured",
+      "rationale": "No hay respuesta ejecutada para cat012.",
+      "answer_executed": false,
+      "answer_sha256": null,
+      "source_context_ids": [
+        "3393ccc0-01ff-474b-8b6f-9030ba0253ff"
+      ]
+    },
+    {
+      "migration_id": "m1.cat012.8f913ebef3a60ac1.standby_term",
+      "qid": "cat012",
+      "parent_fact_key": "cat012#1:24 h",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_measured",
+      "stage_bucket": "synthesis-not-measured",
+      "rationale": "El registro S113 existe pero executed=false y answer=null; no se imputa un fallo al bot.",
+      "answer_executed": false,
+      "answer_sha256": null,
+      "source_context_ids": [
+        "248eb7da-80d0-470f-bddb-b024c21de8a4"
+      ]
+    },
+    {
+      "migration_id": "m1.cat012.8f913ebef3a60ac1.alarm_term",
+      "qid": "cat012",
+      "parent_fact_key": "cat012#1:24 h",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_measured",
+      "stage_bucket": "synthesis-not-measured",
+      "rationale": "El registro S113 existe pero executed=false y answer=null; no se imputa un fallo al bot.",
+      "answer_executed": false,
+      "answer_sha256": null,
+      "source_context_ids": [
+        "248eb7da-80d0-470f-bddb-b024c21de8a4"
+      ]
+    },
+    {
+      "migration_id": "m1.cat012.67cd609181abed52.installed_capacity_range",
+      "qid": "cat012",
+      "parent_fact_key": "cat012#3:18 Ah",
+      "tipo": "supplementary",
+      "content_eligible": false,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_measured",
+      "stage_bucket": "supplementary-not-measured",
+      "rationale": "No hay respuesta ejecutada para cat012.",
+      "answer_executed": false,
+      "answer_sha256": null,
+      "source_context_ids": [
+        "241c7c0c-0330-4d9b-b240-448cadfe5642"
+      ]
+    },
+    {
+      "migration_id": "m1.cat012.67cd609181abed52.yuasa_capacity",
+      "qid": "cat012",
+      "parent_fact_key": "cat012#3:18 Ah",
+      "tipo": "supplementary",
+      "content_eligible": false,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_measured",
+      "stage_bucket": "supplementary-not-measured",
+      "rationale": "No hay respuesta ejecutada para cat012.",
+      "answer_executed": false,
+      "answer_sha256": null,
+      "source_context_ids": [
+        "241c7c0c-0330-4d9b-b240-448cadfe5642"
+      ]
+    },
+    {
+      "migration_id": "m1.cat012.67cd609181abed52.fiamm_capacity",
+      "qid": "cat012",
+      "parent_fact_key": "cat012#3:18 Ah",
+      "tipo": "supplementary",
+      "content_eligible": false,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_measured",
+      "stage_bucket": "supplementary-not-measured",
+      "rationale": "No hay respuesta ejecutada para cat012.",
+      "answer_executed": false,
+      "answer_sha256": null,
+      "source_context_ids": [
+        "241c7c0c-0330-4d9b-b240-448cadfe5642"
+      ]
+    },
+    {
+      "migration_id": "m1.cat014.72ed1610f96bff0e.replacement_life",
+      "qid": "cat014",
+      "parent_fact_key": "cat014#0:10 anos",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta indica sustitución a diez años desde fabricación.",
+      "answer_executed": true,
+      "answer_sha256": "fd58880b00009b45ee5f229d7a53935721070e9d57400c1c9c0f63876d117319",
+      "source_context_ids": [
+        "9786969a-8168-457b-aed8-3337235d874f"
+      ]
+    },
+    {
+      "migration_id": "m1.cat014.72ed1610f96bff0e.manufacture_date_label",
+      "qid": "cat014",
+      "parent_fact_key": "cat014#0:10 anos",
+      "tipo": "supplementary",
+      "content_eligible": false,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "supplementary-covered",
+      "rationale": "La respuesta indica que la fecha está en la pegatina lateral.",
+      "answer_executed": true,
+      "answer_sha256": "fd58880b00009b45ee5f229d7a53935721070e9d57400c1c9c0f63876d117319",
+      "source_context_ids": [
+        "9786969a-8168-457b-aed8-3337235d874f"
+      ]
+    },
+    {
+      "migration_id": "m1.cat019.6c2692e4d3fd39ac.create_maneuver",
+      "qid": "cat019",
+      "parent_fact_key": "cat019#0:coincidencias",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_measured",
+      "stage_bucket": "synthesis-not-measured",
+      "rationale": "El registro S113 existe pero executed=false y answer=null; no se imputa un fallo al bot.",
+      "answer_executed": false,
+      "answer_sha256": null,
+      "source_context_ids": [
+        "d27aaa9e-a6e1-4245-a3f3-2cdef3f5be4c"
+      ]
+    },
+    {
+      "migration_id": "m1.cat019.6c2692e4d3fd39ac.coincidence_semantics",
+      "qid": "cat019",
+      "parent_fact_key": "cat019#0:coincidencias",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_measured",
+      "stage_bucket": "synthesis-not-measured",
+      "rationale": "El registro S113 existe pero executed=false y answer=null; no se imputa un fallo al bot.",
+      "answer_executed": false,
+      "answer_sha256": null,
+      "source_context_ids": [
+        "66596504-7f3b-4294-8459-72c7bd5c7983"
+      ]
+    },
+    {
+      "migration_id": "m1.cat019.6c2692e4d3fd39ac.coincidence_examples",
+      "qid": "cat019",
+      "parent_fact_key": "cat019#0:coincidencias",
+      "tipo": "supplementary",
+      "content_eligible": false,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_measured",
+      "stage_bucket": "supplementary-not-measured",
+      "rationale": "No hay respuesta ejecutada para cat019.",
+      "answer_executed": false,
+      "answer_sha256": null,
+      "source_context_ids": [
+        "66596504-7f3b-4294-8459-72c7bd5c7983"
+      ]
+    },
+    {
+      "migration_id": "m1.cat019.650574c29860ac58.add_event_or_action",
+      "qid": "cat019",
+      "parent_fact_key": "cat019#1:EVENTO / ACCION",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_measured",
+      "stage_bucket": "synthesis-not-measured",
+      "rationale": "El registro S113 existe pero executed=false y answer=null; no se imputa un fallo al bot.",
+      "answer_executed": false,
+      "answer_sha256": null,
+      "source_context_ids": [
+        "3d0273cf-dd42-4e48-89c3-a37e588396ca"
+      ]
+    },
+    {
+      "migration_id": "m1.cat019.650574c29860ac58.event_change_and_condition",
+      "qid": "cat019",
+      "parent_fact_key": "cat019#1:EVENTO / ACCION",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_measured",
+      "stage_bucket": "synthesis-not-measured",
+      "rationale": "El registro S113 existe pero executed=false y answer=null; no se imputa un fallo al bot.",
+      "answer_executed": false,
+      "answer_sha256": null,
+      "source_context_ids": [
+        "3d0273cf-dd42-4e48-89c3-a37e588396ca"
+      ]
+    },
+    {
+      "migration_id": "m1.cat019.650574c29860ac58.capacity_limit",
+      "qid": "cat019",
+      "parent_fact_key": "cat019#1:EVENTO / ACCION",
+      "tipo": "supplementary",
+      "content_eligible": false,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_measured",
+      "stage_bucket": "supplementary-not-measured",
+      "rationale": "No hay respuesta ejecutada para cat019.",
+      "answer_executed": false,
+      "answer_sha256": null,
+      "source_context_ids": [
+        "2720d4cf-7be8-4482-be1a-fba10cc59d5b"
+      ]
+    },
+    {
+      "migration_id": "m1.cat019.77fff66f289222e7.event_type_choice",
+      "qid": "cat019",
+      "parent_fact_key": "cat019#2:ENTIDAD / CONDICION TEMPORAL",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_measured",
+      "stage_bucket": "synthesis-not-measured",
+      "rationale": "El registro S113 existe pero executed=false y answer=null; no se imputa un fallo al bot.",
+      "answer_executed": false,
+      "answer_sha256": null,
+      "source_context_ids": [
+        "3d0273cf-dd42-4e48-89c3-a37e588396ca"
+      ]
+    },
+    {
+      "migration_id": "m1.cat019.77fff66f289222e7.entity_scope",
+      "qid": "cat019",
+      "parent_fact_key": "cat019#2:ENTIDAD / CONDICION TEMPORAL",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_measured",
+      "stage_bucket": "synthesis-not-measured",
+      "rationale": "El registro S113 existe pero executed=false y answer=null; no se imputa un fallo al bot.",
+      "answer_executed": false,
+      "answer_sha256": null,
+      "source_context_ids": [
+        "3d0273cf-dd42-4e48-89c3-a37e588396ca"
+      ]
+    },
+    {
+      "migration_id": "m1.cat019.77fff66f289222e7.temporal_condition",
+      "qid": "cat019",
+      "parent_fact_key": "cat019#2:ENTIDAD / CONDICION TEMPORAL",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_measured",
+      "stage_bucket": "synthesis-not-measured",
+      "rationale": "El registro S113 existe pero executed=false y answer=null; no se imputa un fallo al bot.",
+      "answer_executed": false,
+      "answer_sha256": null,
+      "source_context_ids": [
+        "3d0273cf-dd42-4e48-89c3-a37e588396ca"
+      ]
+    },
+    {
+      "migration_id": "m1.cat023.7ed9d4ed696ccfe3.en54_classes",
+      "qid": "cat023",
+      "parent_fact_key": "cat023#0:A/B/C EN 54-20",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta conserva sujeto, clases A/B/C y las dos restricciones materiales de W01-W44.",
+      "answer_executed": true,
+      "answer_sha256": "854b3ec190cb2095306b5b6b7f3f64ec6d4838bae6a49763a5dba389f3009600",
+      "source_context_ids": [
+        "30088b95-62fd-436c-af4a-8cdae8008996"
+      ]
+    },
+    {
+      "migration_id": "m1.cat023.bf0ef37152274a9c.nonnormative_airflow_positions",
+      "qid": "cat023",
+      "parent_fact_key": "cat023#1:W01-W44 / 10-60 min / ±20-50 %",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta conserva sujeto, clases A/B/C y las dos restricciones materiales de W01-W44.",
+      "answer_executed": true,
+      "answer_sha256": "854b3ec190cb2095306b5b6b7f3f64ec6d4838bae6a49763a5dba389f3009600",
+      "source_context_ids": [
+        "0de5172f-c3cb-4572-92ec-dde4ecdedb3c"
+      ]
+    },
+    {
+      "migration_id": "m1.hp002.4de86fac80358a14.nominal_after_reset",
+      "qid": "hp002",
+      "parent_fact_key": "hp002#0:fallo flujo de aire",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_measured",
+      "stage_bucket": "synthesis-not-measured",
+      "rationale": "El registro S113 existe pero executed=false y answer=null; no se reutiliza baseline_answer como si fuera el mismo run.",
+      "answer_executed": false,
+      "answer_sha256": null,
+      "source_context_ids": [
+        "414ce99c-0dec-478c-b504-009f14631804"
+      ]
+    },
+    {
+      "migration_id": "m1.hp002.4de86fac80358a14.standard_fault_window",
+      "qid": "hp002",
+      "parent_fact_key": "hp002#0:fallo flujo de aire",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_measured",
+      "stage_bucket": "synthesis-not-measured",
+      "rationale": "El registro S113 existe pero executed=false y answer=null; no se reutiliza baseline_answer como si fuera el mismo run.",
+      "answer_executed": false,
+      "answer_sha256": null,
+      "source_context_ids": [
+        "414ce99c-0dec-478c-b504-009f14631804"
+      ]
+    },
+    {
+      "migration_id": "m1.hp002.4de86fac80358a14.w_positions_caveat",
+      "qid": "hp002",
+      "parent_fact_key": "hp002#0:fallo flujo de aire",
+      "tipo": "supplementary",
+      "content_eligible": false,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_measured",
+      "stage_bucket": "supplementary-not-measured",
+      "rationale": "No hay respuesta ejecutada para hp002.",
+      "answer_executed": false,
+      "answer_sha256": null,
+      "source_context_ids": [
+        "414ce99c-0dec-478c-b504-009f14631804"
+      ]
+    },
+    {
+      "migration_id": "m1.hp002.c2c99fa936e98f67.flow_direction_diagnosis",
+      "qid": "hp002",
+      "parent_fact_key": "hp002#1:80 %",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_measured",
+      "stage_bucket": "synthesis-not-measured",
+      "rationale": "El registro S113 existe pero executed=false y answer=null; no se reutiliza baseline_answer como si fuera el mismo run.",
+      "answer_executed": false,
+      "answer_sha256": null,
+      "source_context_ids": [
+        "b5804921-836c-49ca-8316-cecae6da409b"
+      ]
+    },
+    {
+      "migration_id": "m1.hp002.c2c99fa936e98f67.obstruction_checks",
+      "qid": "hp002",
+      "parent_fact_key": "hp002#1:80 %",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_measured",
+      "stage_bucket": "synthesis-not-measured",
+      "rationale": "El registro S113 existe pero executed=false y answer=null; no se reutiliza baseline_answer como si fuera el mismo run.",
+      "answer_executed": false,
+      "answer_sha256": null,
+      "source_context_ids": [
+        "9410f72f-fff5-494b-bdf5-a0a177e7f02e"
+      ]
+    },
+    {
+      "migration_id": "m1.hp002.06f759b5da9ed40b.maintenance_safety",
+      "qid": "hp002",
+      "parent_fact_key": "hp002#3:7.6.1",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_measured",
+      "stage_bucket": "synthesis-not-measured",
+      "rationale": "El registro S113 existe pero executed=false y answer=null; no se reutiliza baseline_answer como si fuera el mismo run.",
+      "answer_executed": false,
+      "answer_sha256": null,
+      "source_context_ids": [
+        "5b6a3a19-a924-4cf4-9513-bd50786ee3d9"
+      ]
+    },
+    {
+      "migration_id": "m1.hp002.06f759b5da9ed40b.read_and_compare_flow",
+      "qid": "hp002",
+      "parent_fact_key": "hp002#3:7.6.1",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_measured",
+      "stage_bucket": "synthesis-not-measured",
+      "rationale": "El registro S113 existe pero executed=false y answer=null; no se reutiliza baseline_answer como si fuera el mismo run.",
+      "answer_executed": false,
+      "answer_sha256": null,
+      "source_context_ids": [
+        "5b6a3a19-a924-4cf4-9513-bd50786ee3d9"
+      ]
+    },
+    {
+      "migration_id": "m1.hp004.ae02a395c8359cf9.supply_variants",
+      "qid": "hp004",
+      "parent_fact_key": "hp004#0:24V y 220V",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta diferencia las dos variantes y da tensión y consumo en reposo para ambas.",
+      "answer_executed": true,
+      "answer_sha256": "d539baee5b001c3ac14dd1f08566361c5530857c1bbeca9db811162d469f2871",
+      "source_context_ids": [
+        "bf78e1db-f87b-4b60-b77f-2afae628c736"
+      ]
+    },
+    {
+      "migration_id": "m1.hp004.5fbc4f5bce66dde5.model24_voltage",
+      "qid": "hp004",
+      "parent_fact_key": "hp004#1:22V a 38V",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta diferencia las dos variantes y da tensión y consumo en reposo para ambas.",
+      "answer_executed": true,
+      "answer_sha256": "d539baee5b001c3ac14dd1f08566361c5530857c1bbeca9db811162d469f2871",
+      "source_context_ids": [
+        "9786969a-8168-457b-aed8-3337235d874f"
+      ]
+    },
+    {
+      "migration_id": "m1.hp004.5fbc4f5bce66dde5.model24_standby",
+      "qid": "hp004",
+      "parent_fact_key": "hp004#1:22V a 38V",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta diferencia las dos variantes y da tensión y consumo en reposo para ambas.",
+      "answer_executed": true,
+      "answer_sha256": "d539baee5b001c3ac14dd1f08566361c5530857c1bbeca9db811162d469f2871",
+      "source_context_ids": [
+        "9786969a-8168-457b-aed8-3337235d874f"
+      ]
+    },
+    {
+      "migration_id": "m1.hp004.5fbc4f5bce66dde5.model24_alarm",
+      "qid": "hp004",
+      "parent_fact_key": "hp004#1:22V a 38V",
+      "tipo": "supplementary",
+      "content_eligible": false,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_covered",
+      "stage_bucket": "supplementary-not-covered",
+      "rationale": "La respuesta se limita al consumo en reposo solicitado.",
+      "answer_executed": true,
+      "answer_sha256": "d539baee5b001c3ac14dd1f08566361c5530857c1bbeca9db811162d469f2871",
+      "source_context_ids": [
+        "9786969a-8168-457b-aed8-3337235d874f"
+      ]
+    },
+    {
+      "migration_id": "m1.hp004.cf0e1e8fdc95c005.model220_voltage",
+      "qid": "hp004",
+      "parent_fact_key": "hp004#2:180V a 240V",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta diferencia las dos variantes y da tensión y consumo en reposo para ambas.",
+      "answer_executed": true,
+      "answer_sha256": "d539baee5b001c3ac14dd1f08566361c5530857c1bbeca9db811162d469f2871",
+      "source_context_ids": [
+        "9786969a-8168-457b-aed8-3337235d874f"
+      ]
+    },
+    {
+      "migration_id": "m1.hp004.cf0e1e8fdc95c005.model220_standby",
+      "qid": "hp004",
+      "parent_fact_key": "hp004#2:180V a 240V",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta diferencia las dos variantes y da tensión y consumo en reposo para ambas.",
+      "answer_executed": true,
+      "answer_sha256": "d539baee5b001c3ac14dd1f08566361c5530857c1bbeca9db811162d469f2871",
+      "source_context_ids": [
+        "9786969a-8168-457b-aed8-3337235d874f"
+      ]
+    },
+    {
+      "migration_id": "m1.hp004.cf0e1e8fdc95c005.model220_alarm",
+      "qid": "hp004",
+      "parent_fact_key": "hp004#2:180V a 240V",
+      "tipo": "supplementary",
+      "content_eligible": false,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_covered",
+      "stage_bucket": "supplementary-not-covered",
+      "rationale": "La respuesta se limita al consumo en reposo solicitado.",
+      "answer_executed": true,
+      "answer_sha256": "d539baee5b001c3ac14dd1f08566361c5530857c1bbeca9db811162d469f2871",
+      "source_context_ids": [
+        "9786969a-8168-457b-aed8-3337235d874f"
+      ]
+    },
+    {
+      "migration_id": "m1.hp008.582541b1412a96ce.cpx551e",
+      "qid": "hp008",
+      "parent_fact_key": "hp008#0:CPX-551E",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta enumera individualmente los ocho modelos migrados con sus tipos.",
+      "answer_executed": true,
+      "answer_sha256": "70a24418558f7f4553566f23a26556b868bd5d0985fd5984aa286fefb7e06ccb",
+      "source_context_ids": [
+        "11d96526-d627-4305-8cae-e6852af1b20b"
+      ]
+    },
+    {
+      "migration_id": "m1.hp008.582541b1412a96ce.cpx751e",
+      "qid": "hp008",
+      "parent_fact_key": "hp008#0:CPX-551E",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta enumera individualmente los ocho modelos migrados con sus tipos.",
+      "answer_executed": true,
+      "answer_sha256": "70a24418558f7f4553566f23a26556b868bd5d0985fd5984aa286fefb7e06ccb",
+      "source_context_ids": [
+        "11d96526-d627-4305-8cae-e6852af1b20b"
+      ]
+    },
+    {
+      "migration_id": "m1.hp008.6898c1c2de2ec424.sdx551e",
+      "qid": "hp008",
+      "parent_fact_key": "hp008#1:SDX-751",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta enumera individualmente los ocho modelos migrados con sus tipos.",
+      "answer_executed": true,
+      "answer_sha256": "70a24418558f7f4553566f23a26556b868bd5d0985fd5984aa286fefb7e06ccb",
+      "source_context_ids": [
+        "11d96526-d627-4305-8cae-e6852af1b20b"
+      ]
+    },
+    {
+      "migration_id": "m1.hp008.6898c1c2de2ec424.sdx751",
+      "qid": "hp008",
+      "parent_fact_key": "hp008#1:SDX-751",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta enumera individualmente los ocho modelos migrados con sus tipos.",
+      "answer_executed": true,
+      "answer_sha256": "70a24418558f7f4553566f23a26556b868bd5d0985fd5984aa286fefb7e06ccb",
+      "source_context_ids": [
+        "11d96526-d627-4305-8cae-e6852af1b20b"
+      ]
+    },
+    {
+      "migration_id": "m1.hp008.6898c1c2de2ec424.sdx751em",
+      "qid": "hp008",
+      "parent_fact_key": "hp008#1:SDX-751",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta enumera individualmente los ocho modelos migrados con sus tipos.",
+      "answer_executed": true,
+      "answer_sha256": "70a24418558f7f4553566f23a26556b868bd5d0985fd5984aa286fefb7e06ccb",
+      "source_context_ids": [
+        "f15e1eca-7985-4abf-83ee-130d66e1849d"
+      ]
+    },
+    {
+      "migration_id": "m1.hp008.d7fc6ebefe5f9c92.irx751ctem",
+      "qid": "hp008",
+      "parent_fact_key": "hp008#2:IRX-751CTEM",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta enumera individualmente los ocho modelos migrados con sus tipos.",
+      "answer_executed": true,
+      "answer_sha256": "70a24418558f7f4553566f23a26556b868bd5d0985fd5984aa286fefb7e06ccb",
+      "source_context_ids": [
+        "11d96526-d627-4305-8cae-e6852af1b20b"
+      ]
+    },
+    {
+      "migration_id": "m1.hp008.d7fc6ebefe5f9c92.irx751tem",
+      "qid": "hp008",
+      "parent_fact_key": "hp008#2:IRX-751CTEM",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta enumera individualmente los ocho modelos migrados con sus tipos.",
+      "answer_executed": true,
+      "answer_sha256": "70a24418558f7f4553566f23a26556b868bd5d0985fd5984aa286fefb7e06ccb",
+      "source_context_ids": [
+        "11d96526-d627-4305-8cae-e6852af1b20b"
+      ]
+    },
+    {
+      "migration_id": "m1.hp008.9f88aa8a1292a479.sdx751tem",
+      "qid": "hp008",
+      "parent_fact_key": "hp008#3:SDX-751-TEM",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta enumera individualmente los ocho modelos migrados con sus tipos.",
+      "answer_executed": true,
+      "answer_sha256": "70a24418558f7f4553566f23a26556b868bd5d0985fd5984aa286fefb7e06ccb",
+      "source_context_ids": [
+        "f15e1eca-7985-4abf-83ee-130d66e1849d"
+      ]
+    },
+    {
+      "migration_id": "m1.hp017.f4849c19a9af7245.cause_effect_rules",
+      "qid": "hp017",
+      "parent_fact_key": "hp017#0:causa-efecto",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La primera frase afirma que el retardo se configura mediante reglas de causa-efecto.",
+      "answer_executed": true,
+      "answer_sha256": "de38cdf5358d57c912ce0c7d50e507204fd3ea4cb8c350e8910a50a3b4925b5e",
+      "source_context_ids": [
+        "570d9951-e3a6-4c64-a927-e26b5e6db842"
+      ]
+    },
+    {
+      "migration_id": "m1.hp017.7258aec395b0f78d.programming_method",
+      "qid": "hp017",
+      "parent_fact_key": "hp017#1:instruccion de entrada",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La advertencia inicial recomienda el programa de ordenador como método principal y limita el panel a cambios menores.",
+      "answer_executed": true,
+      "answer_sha256": "de38cdf5358d57c912ce0c7d50e507204fd3ea4cb8c350e8910a50a3b4925b5e",
+      "source_context_ids": [
+        "d27b1a1b-69cd-4318-a459-f3c86eb757ba"
+      ]
+    },
+    {
+      "migration_id": "m1.hp017.7258aec395b0f78d.input_instruction",
+      "qid": "hp017",
+      "parent_fact_key": "hp017#1:instruccion de entrada",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_covered",
+      "stage_bucket": "synthesis-miss",
+      "rationale": "La respuesta no explica qué condición constituye la instrucción de entrada.",
+      "answer_executed": true,
+      "answer_sha256": "de38cdf5358d57c912ce0c7d50e507204fd3ea4cb8c350e8910a50a3b4925b5e",
+      "source_context_ids": [
+        "d27b1a1b-69cd-4318-a459-f3c86eb757ba"
+      ]
+    },
+    {
+      "migration_id": "m1.hp017.7258aec395b0f78d.output_instruction",
+      "qid": "hp017",
+      "parent_fact_key": "hp017#1:instruccion de entrada",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_covered",
+      "stage_bucket": "synthesis-miss",
+      "rationale": "La respuesta no explica la precondición de procesamiento ni los equipos asignados por la instrucción de salida.",
+      "answer_executed": true,
+      "answer_sha256": "de38cdf5358d57c912ce0c7d50e507204fd3ea4cb8c350e8910a50a3b4925b5e",
+      "source_context_ids": [
+        "d27b1a1b-69cd-4318-a459-f3c86eb757ba"
+      ]
+    },
+    {
+      "migration_id": "m1.hp017.7258aec395b0f78d.avoid_contradictory_logic",
+      "qid": "hp017",
+      "parent_fact_key": "hp017#1:instruccion de entrada",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_covered",
+      "stage_bucket": "synthesis-miss",
+      "rationale": "La respuesta no advierte que deban evitarse lógicas contradictorias.",
+      "answer_executed": true,
+      "answer_sha256": "de38cdf5358d57c912ce0c7d50e507204fd3ea4cb8c350e8910a50a3b4925b5e",
+      "source_context_ids": [
+        "d27b1a1b-69cd-4318-a459-f3c86eb757ba"
+      ]
+    },
+    {
+      "migration_id": "m1.hp017.7258aec395b0f78d.commissioning_test",
+      "qid": "hp017",
+      "parent_fact_key": "hp017#1:instruccion de entrada",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_covered",
+      "stage_bucket": "synthesis-miss",
+      "rationale": "La respuesta no exige probar rigurosamente todas las reglas durante la puesta en marcha.",
+      "answer_executed": true,
+      "answer_sha256": "de38cdf5358d57c912ce0c7d50e507204fd3ea4cb8c350e8910a50a3b4925b5e",
+      "source_context_ids": [
+        "d27b1a1b-69cd-4318-a459-f3c86eb757ba"
+      ]
+    },
+    {
+      "migration_id": "m1.hp017.ee150da7e6a7607d.delay_types",
+      "qid": "hp017",
+      "parent_fact_key": "hp017#3:seis tipos de retardo",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_not_covered",
+      "stage_bucket": "synthesis-miss",
+      "rationale": "Declara seis tipos pero enumera siete nombres; la cardinalidad queda internamente contradicha.",
+      "answer_executed": true,
+      "answer_sha256": "de38cdf5358d57c912ce0c7d50e507204fd3ea4cb8c350e8910a50a3b4925b5e",
+      "source_context_ids": [
+        "570d9951-e3a6-4c64-a927-e26b5e6db842"
+      ]
+    },
+    {
+      "migration_id": "m1.hp019.9e06c35fb7c4d8ef.operating_temperature",
+      "qid": "hp019",
+      "parent_fact_key": "hp019#0:-30 a +60",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta incluye rango estándar de caja y conducto, máximo UL y posibilidad de acordar otros rangos.",
+      "answer_executed": true,
+      "answer_sha256": "245ecbae0a613e65bf3a13da8ca13691401fc3bd83ce5aa834b53fa0b6afd8cf",
+      "source_context_ids": [
+        "99908a8c-aa47-4d92-aba4-17d0188e9f6c",
+        "79bc7788-b128-4abc-beea-6317e4d06993"
+      ]
+    },
+    {
+      "migration_id": "m1.hp020.253dbf5abe806d5c.level2_change",
+      "qid": "hp020",
+      "parent_fact_key": "hp020#0:nivel 2 o 3",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta cubre alcance por nivel, reentrada del código y confirmación de éxito.",
+      "answer_executed": true,
+      "answer_sha256": "d247fa2aa57bd17a19c9f80961b39d22f18065636b88c39e0c2e724e9a2e3011",
+      "source_context_ids": [
+        "1e38f728-ce6a-4753-b24f-46c9106d8c6a"
+      ]
+    },
+    {
+      "migration_id": "m1.hp020.253dbf5abe806d5c.level3_change",
+      "qid": "hp020",
+      "parent_fact_key": "hp020#0:nivel 2 o 3",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta cubre alcance por nivel, reentrada del código y confirmación de éxito.",
+      "answer_executed": true,
+      "answer_sha256": "d247fa2aa57bd17a19c9f80961b39d22f18065636b88c39e0c2e724e9a2e3011",
+      "source_context_ids": [
+        "1e38f728-ce6a-4753-b24f-46c9106d8c6a"
+      ]
+    },
+    {
+      "migration_id": "m1.hp020.8086e1ff3028ad10.reenter_to_confirm",
+      "qid": "hp020",
+      "parent_fact_key": "hp020#3:satisfactorio",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta cubre alcance por nivel, reentrada del código y confirmación de éxito.",
+      "answer_executed": true,
+      "answer_sha256": "d247fa2aa57bd17a19c9f80961b39d22f18065636b88c39e0c2e724e9a2e3011",
+      "source_context_ids": [
+        "1e38f728-ce6a-4753-b24f-46c9106d8c6a"
+      ]
+    },
+    {
+      "migration_id": "m1.hp020.8086e1ff3028ad10.success_message",
+      "qid": "hp020",
+      "parent_fact_key": "hp020#3:satisfactorio",
+      "tipo": "core",
+      "content_eligible": true,
+      "retrieval_status": "pass",
+      "rerank_status": "pass",
+      "synthesis_coverage": "synthesis_covered",
+      "stage_bucket": "OK",
+      "rationale": "La respuesta cubre alcance por nivel, reentrada del código y confirmación de éxito.",
+      "answer_executed": true,
+      "answer_sha256": "d247fa2aa57bd17a19c9f80961b39d22f18065636b88c39e0c2e724e9a2e3011",
+      "source_context_ids": [
+        "1e38f728-ce6a-4753-b24f-46c9106d8c6a"
+      ]
+    }
+  ],
+  "limitations": [
+    "The 16 unmeasured core claims require a fresh bounded answer probe before synthesis classification.",
+    "This is a migrated-cohort diagnostic and not an official whole-benchmark atomic KPI."
+  ],
+  "payload_sha256": "131240a34d1ad6b8654a068bccf7d1b45ec6cd4b3928a8e351b94dc48d602dd5"
+}

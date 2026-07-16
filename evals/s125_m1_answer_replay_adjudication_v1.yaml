@@ -1,0 +1,167 @@
+schema_version: s125_m1_answer_replay_adjudication_v1
+instrument: s125_frozen_answer_manual_replay
+status: ADJUDICATED_AFTER_CONTRACT_FREEZE
+
+frozen_inputs:
+  migration_contract:
+    path: evals/s125_m1_known_hold_contract_v1.json
+    sha256: a89c2c68a7469b0715f9515687dbc0b752c051c3182f209aed2af64bb43c30b5
+    payload_sha256: 4309dbda680ed3ee4a2b2703276f3f7e7b80d06d4417d1b95e2f557cf8b1d15e
+  frozen_answers:
+    path: evals/s113_full_answer_regression_v1.json
+    sha256: 8fbfe4801f6c35c2447af9440c459b080e4405b76e2899f3a00e66b230497f69
+
+policy:
+  retrieval_and_rerank: pass only because every explicit claim is bound to a row in its exact frozen served context
+  synthesis_covered: the exact frozen answer conveys the complete claim and all material qualifiers
+  synthesis_not_covered: an exact answer exists but omits or contradicts a material part of the claim
+  synthesis_not_measured: no exact answer was executed in the frozen answer artifact
+  supplementary: reported separately and excluded from the content funnel
+
+qid_receipts:
+  cat005:
+    executed: true
+    answer_sha256: 757125181ded1712bdf192bcf50f45c654cb663cfd9c2327c88a33928812bdc6
+    core_default: synthesis_covered
+    rationale: La respuesta expresa capacidad, señales y ambos códigos de producto.
+  cat007:
+    executed: true
+    answer_sha256: 91d226dc01258953d3a33193167e20fe401dde814aa15fb76d22bec56c93b7a6
+    core_default: synthesis_covered
+    rationale: La respuesta enumera contactos, condiciones de avería, estado no enclavado, salidas, EOL y vida de contactos.
+  cat010:
+    executed: true
+    answer_sha256: 1fe51fc989d8100a98f399fd1357945ca4ee81ec33df81f1f7d85543b3556634
+    core_default: synthesis_covered
+    rationale: La respuesta presenta por separado Ui, Ii, Pi, Ci y Li para los terminales + respecto a −.
+  cat012:
+    executed: false
+    answer_sha256: null
+    core_default: synthesis_not_measured
+    rationale: El registro S113 existe pero executed=false y answer=null; no se imputa un fallo al bot.
+  cat014:
+    executed: true
+    answer_sha256: fd58880b00009b45ee5f229d7a53935721070e9d57400c1c9c0f63876d117319
+    core_default: synthesis_covered
+    rationale: La respuesta indica sustitución a diez años desde fabricación.
+  cat019:
+    executed: false
+    answer_sha256: null
+    core_default: synthesis_not_measured
+    rationale: El registro S113 existe pero executed=false y answer=null; no se imputa un fallo al bot.
+  cat023:
+    executed: true
+    answer_sha256: 854b3ec190cb2095306b5b6b7f3f64ec6d4838bae6a49763a5dba389f3009600
+    core_default: synthesis_covered
+    rationale: La respuesta conserva sujeto, clases A/B/C y las dos restricciones materiales de W01-W44.
+  hp002:
+    executed: false
+    answer_sha256: null
+    core_default: synthesis_not_measured
+    rationale: El registro S113 existe pero executed=false y answer=null; no se reutiliza baseline_answer como si fuera el mismo run.
+  hp004:
+    executed: true
+    answer_sha256: d539baee5b001c3ac14dd1f08566361c5530857c1bbeca9db811162d469f2871
+    core_default: synthesis_covered
+    rationale: La respuesta diferencia las dos variantes y da tensión y consumo en reposo para ambas.
+  hp008:
+    executed: true
+    answer_sha256: 70a24418558f7f4553566f23a26556b868bd5d0985fd5984aa286fefb7e06ccb
+    core_default: synthesis_covered
+    rationale: La respuesta enumera individualmente los ocho modelos migrados con sus tipos.
+  hp017:
+    executed: true
+    answer_sha256: de38cdf5358d57c912ce0c7d50e507204fd3ea4cb8c350e8910a50a3b4925b5e
+    core_default: null
+    rationale: Requiere adjudicación claim a claim porque la respuesta omite la anatomía de regla y contradice su cardinalidad.
+  hp019:
+    executed: true
+    answer_sha256: 245ecbae0a613e65bf3a13da8ca13691401fc3bd83ce5aa834b53fa0b6afd8cf
+    core_default: synthesis_covered
+    rationale: La respuesta incluye rango estándar de caja y conducto, máximo UL y posibilidad de acordar otros rangos.
+  hp020:
+    executed: true
+    answer_sha256: d247fa2aa57bd17a19c9f80961b39d22f18065636b88c39e0c2e724e9a2e3011
+    core_default: synthesis_covered
+    rationale: La respuesta cubre alcance por nivel, reentrada del código y confirmación de éxito.
+
+core_overrides:
+  m1.cat007.7947613c1a4de8b1.alarm_relay_contacts:
+    coverage: synthesis_not_covered
+    rationale: La respuesta enumera CH1 y CH2, pero no conserva que CH2 solo aplica cuando existe la variante de dos canales.
+  m1.cat007.7947613c1a4de8b1.fault_relay_contacts:
+    coverage: synthesis_not_covered
+    rationale: Conserva AUX para CH2, pero no el calificador de disponibilidad exclusiva de la variante de dos canales.
+  m1.cat007.224f21eed48712ef.fault_conditions:
+    coverage: synthesis_not_covered
+    rationale: Enumera avería en canal 1 o 2 y común sin condicionar el canal 2 a la variante que lo incorpora.
+  m1.cat007.1034ff01c53cc99a.sounder_outputs:
+    coverage: synthesis_not_covered
+    rationale: Describe ambas salidas y su correspondencia, pero presenta la salida 2 como universal en vez de condicionada a la variante de dos canales.
+  m1.cat007.1034ff01c53cc99a.sounder_eol:
+    coverage: synthesis_not_covered
+    rationale: Da 47 kΩ para ambas salidas sin preservar que la salida 2 solo existe en la variante de dos canales.
+  m1.hp017.f4849c19a9af7245.cause_effect_rules:
+    coverage: synthesis_covered
+    rationale: La primera frase afirma que el retardo se configura mediante reglas de causa-efecto.
+  m1.hp017.7258aec395b0f78d.programming_method:
+    coverage: synthesis_covered
+    rationale: La advertencia inicial recomienda el programa de ordenador como método principal y limita el panel a cambios menores.
+  m1.hp017.7258aec395b0f78d.input_instruction:
+    coverage: synthesis_not_covered
+    rationale: La respuesta no explica qué condición constituye la instrucción de entrada.
+  m1.hp017.7258aec395b0f78d.output_instruction:
+    coverage: synthesis_not_covered
+    rationale: La respuesta no explica la precondición de procesamiento ni los equipos asignados por la instrucción de salida.
+  m1.hp017.7258aec395b0f78d.avoid_contradictory_logic:
+    coverage: synthesis_not_covered
+    rationale: La respuesta no advierte que deban evitarse lógicas contradictorias.
+  m1.hp017.7258aec395b0f78d.commissioning_test:
+    coverage: synthesis_not_covered
+    rationale: La respuesta no exige probar rigurosamente todas las reglas durante la puesta en marcha.
+  m1.hp017.ee150da7e6a7607d.delay_types:
+    coverage: synthesis_not_covered
+    rationale: Declara seis tipos pero enumera siete nombres; la cardinalidad queda internamente contradicha.
+
+supplementary_claims:
+  m1.cat005.fb0031fbe096519b.digital_product_code:
+    coverage: synthesis_covered
+    rationale: La respuesta identifica explícitamente la versión digital con el código 3244.
+  m1.cat005.fb0031fbe096519b.analog_product_code:
+    coverage: synthesis_covered
+    rationale: La respuesta identifica explícitamente la versión analógica con el código 3270.
+  m1.cat012.859bf84ece1e1301.tolerance_factor:
+    coverage: synthesis_not_measured
+    rationale: No hay respuesta ejecutada para cat012.
+  m1.cat012.67cd609181abed52.installed_capacity_range:
+    coverage: synthesis_not_measured
+    rationale: No hay respuesta ejecutada para cat012.
+  m1.cat012.67cd609181abed52.yuasa_capacity:
+    coverage: synthesis_not_measured
+    rationale: No hay respuesta ejecutada para cat012.
+  m1.cat012.67cd609181abed52.fiamm_capacity:
+    coverage: synthesis_not_measured
+    rationale: No hay respuesta ejecutada para cat012.
+  m1.cat014.72ed1610f96bff0e.manufacture_date_label:
+    coverage: synthesis_covered
+    rationale: La respuesta indica que la fecha está en la pegatina lateral.
+  m1.cat019.6c2692e4d3fd39ac.coincidence_examples:
+    coverage: synthesis_not_measured
+    rationale: No hay respuesta ejecutada para cat019.
+  m1.cat019.650574c29860ac58.capacity_limit:
+    coverage: synthesis_not_measured
+    rationale: No hay respuesta ejecutada para cat019.
+  m1.hp002.4de86fac80358a14.w_positions_caveat:
+    coverage: synthesis_not_measured
+    rationale: No hay respuesta ejecutada para hp002.
+  m1.hp004.5fbc4f5bce66dde5.model24_alarm:
+    coverage: synthesis_not_covered
+    rationale: La respuesta se limita al consumo en reposo solicitado.
+  m1.hp004.cf0e1e8fdc95c005.model220_alarm:
+    coverage: synthesis_not_covered
+    rationale: La respuesta se limita al consumo en reposo solicitado.
+
+cost:
+  model_calls: 0
+  database_reads: 0
+  database_writes: 0

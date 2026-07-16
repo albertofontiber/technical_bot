@@ -1,0 +1,33 @@
+instrument: s116_section_lineage_audit_prereg_v1
+status: frozen_before_fresh_audit
+source:
+  path: evals/s114_procedure_bundle_heldout_freeze_v1.json
+  sha256: 227e808a2ba2308acce89f90722fd46a63bad30aae0cde630191154b4ff07d94
+
+independence:
+  excluded_manufacturers:
+    - European Safety Systems
+    - LDA audioTech
+    - Sensitron
+    - Spectrex
+    - Xtralis
+  reason: exclude every manufacturer used by the S114 labelled challenge or S115 nested smoke
+  eligible_manufacturers_expected: 7
+
+classification_contract:
+  eligible_row: valid document_id, 64-hex extraction_sha256, integer chunk_index and numeric section_title
+  self_byte_anchor: exact numbered Markdown heading in the row and row is not a TOC
+  unique_sibling_anchor: exactly one non-TOC exact heading within two chunk indexes and identical normalized section metadata
+  missing_byte_anchor: neither self nor unique sibling anchor exists
+  ambiguous_anchor: more than one compatible non-TOC heading exists
+  toc_only: compatible headings exist only in rows with at least three numbered dot-leader entries
+
+gate:
+  design_section_lineage: GO only if at least one missing_byte_anchor is observed outside prior manufacturers
+  corpus_migration: never_authorized_by_this_audit
+  serving_change: never_authorized_by_this_audit
+
+cost_contract:
+  database_get_requests: 0
+  database_writes: 0
+  model_calls: 0

@@ -1,0 +1,213 @@
+instrument: s117_m210_candidate_live_alignment_gate_v1
+status: CANDIDATE_LIVE_ALIGNMENT_GO_UPSTREAM_ONLY
+authority: frozen_candidate_projection_and_delta_raw_parsed_block_surface_only
+
+decision:
+  contract_integrity: GO
+  seeded_determinism: GO
+  m27a_m27c_baseline_bridge: GO
+  candidate_projection_bridge: GO
+  document_alignment: GO
+  task_membership: GO
+  changed_target_mapping: GO
+  closed_nonloadable_output: GO
+  leakage_audit: GO
+  pdf_fidelity: NOT_TESTED
+  candidate_row_persistence: NOT_TESTED
+  semantic_quality: NOT_TESTED
+  retrieval_improvement: NOT_TESTED
+  rerank_improvement: NOT_TESTED
+  synthesis_improvement: NOT_TESTED
+  response_quality: NOT_TESTED
+  facts_moved_to_ok: 0
+  M3: BLOCKED
+
+frozen_contract:
+  design:
+    path: evals/s117_m210_candidate_live_alignment_design_v1.md
+    bytes: 33692
+    sha256: 350a866ba30c7001fcb8b7841d3f6a7b03428d06ce5c4fa5a5d70b3b28d47641
+  runner:
+    path: scripts/s117_m210_candidate_live_alignment.py
+    bytes: 85781
+    sha256: b4efe85bc763c2b16afa6c5022da1de4ccfec34521e279c3670430020726aa29
+  runner_tests:
+    path: tests/test_s117_m210_candidate_live_alignment.py
+    bytes: 28937
+    sha256: 74f306eeec9cb9bdbcaaa639dbcba55889ee7bd740c3028c35803c4ec9157b60
+  preregistration:
+    path: evals/s117_m210_candidate_live_alignment_prereg_v1.json
+    bytes: 7662
+    sha256: f7c18ba5b82cb101e420a88e389d5fd0674718fc19b8966ec4ea125f9e8738ba
+  execution_permit:
+    path: evals/s117_m210_candidate_live_alignment_execution_permit_v1.json
+    bytes: 977
+    sha256: 53caa686adc7115b68de9cee6ac6482745c9a5a889285e5097e3e4b565ca883e
+
+verification_before_execution:
+  py_compile: GO
+  focused_tests:
+    passed: 69
+    skipped: 1
+    skipped_reason: directory_symlink_or_junction_creation_unavailable_on_windows
+  output_write_symlink_hardlink_junction_tests: GO_WITH_ONE_ENVIRONMENTAL_SKIP
+  chained_regression:
+    passed: 184
+    skipped: 2
+  full_regression:
+    passed: 1143
+    skipped: 4
+  adversarial_design_review: GO
+  adversarial_implementation_review: GO
+  adversarial_preregistration_review: GO
+  adversarial_permit_review: GO
+  adversarial_output_review: GO
+
+seeded_execution:
+  order: [seed1, seed2]
+  separate_processes: true
+  sequential: true
+  code_prereg_permit_or_evidence_change_between_processes: false
+  executions_consumed: 2
+  additional_execution: false
+  seed1:
+    seed: 1
+    path: evals/s117_m210_candidate_live_alignment_seed1_v1.json
+    process_exit_code: 0
+    bytes: 43216
+    file_sha256: 6955aead40d6c5af1d90f7c120ed4856cd3b406b05fa3c110ad4e955250042df
+    logical_payload_sha256: 61511d085104b4824081f8cbc2642fee3efed053ce01730e4e7c5aabddeb66b8
+    status: CANDIDATE_LIVE_ALIGNMENT_GO_UPSTREAM_ONLY
+  seed2:
+    seed: 2
+    path: evals/s117_m210_candidate_live_alignment_seed2_v1.json
+    process_exit_code: 0
+    bytes: 43216
+    file_sha256: 6955aead40d6c5af1d90f7c120ed4856cd3b406b05fa3c110ad4e955250042df
+    logical_payload_sha256: 61511d085104b4824081f8cbc2642fee3efed053ce01730e4e7c5aabddeb66b8
+    status: CANDIDATE_LIVE_ALIGNMENT_GO_UPSTREAM_ONLY
+  byte_identical: true
+  canonical_json: true
+  exactly_one_final_lf: true
+  loadable: false
+  failures: 0
+
+evidence_mode:
+  candidate_evidence_mode: substituted_from_m27c_treatment_via_m28_exact_projection_hash
+  candidate_rows_persisted: false
+  candidate_row_ids_claimed: false
+  candidate_projection_sha256: 4cd69ba2912a8b7e1899512f99e7a1e3abd4ec970c96e9c4286b28443a0f8881
+  candidate_projection_bytes: 640933
+  frozen_candidate_gain_anchor_sha256: 6b0410a662c5523b04e3c19049199d8f27649653f34a6f3d87fee3a84147a675
+
+population:
+  documents: 18
+  tasks: 21
+  baseline_aligned_documents: 17
+  baseline_unresolved_documents: 1
+  candidate_aligned_documents: 18
+  candidate_unresolved_documents: 0
+  baseline_aligned_tasks: 20
+  baseline_unresolved_tasks: 1
+  candidate_aligned_tasks: 21
+  candidate_unresolved_tasks: 0
+  changed_affected_documents: 1
+  unchanged_affected_documents: 17
+  unique_target_memberships: 21
+  unique_overlap_memberships: 21
+
+changed_live_case:
+  extraction_sha256: 8d128ca2ca13754bb74e0dcf16014e74141e352ae819aa25e35784c2f60245f6
+  baseline_alignment_status: unresolved
+  candidate_alignment_status: exact_whitespace_equivalent
+  coverage_gain_block_indexes: [630, 631]
+  candidate_missing_block_indexes: []
+  coverage_regression_block_indexes: []
+  local_row_id: acd5058d-06cf-5626-aabd-a93eb75b2f44
+  target_mapping: 61_to_61
+  target_source_span: 796_to_796
+  modified_row_mapping: 39_to_39
+  modified_source_span: 629_to_631
+  changed_delta_disjoint_from_target: true
+
+manifests:
+  documents_sha256: bf10c29a4a9e5d2f18d0551593ea0d0fa3b6cc255255f42f96e8ad64fcb726f6
+  document_receipts_sha256: 30c44ca1acfff987d0a19dc70aac97fd3a1025bfbe480e78c958ce6b5deb0f16
+  tasks_sha256: 9ff3b7a87005e83676bdc47f290b58904033de23839ddaf09886cefb15a6322a
+  task_receipts_sha256: deb09a07347caa54ca488dda335066ae1d71581087715f210ff4114cfb5347b1
+  affected_document_identities_sha256: e96ad542c470f858616248429fd82aada4c1e2bd2b1ae02b1a75f6843128195a
+  task_identities_sha256: fc92a3d2dc194716ff6d0b4263b3abc31d2cdc744db707cb5e0d996c905a2fcc
+
+independent_adversarial_audit:
+  output_schema_validated: 2
+  document_receipts_recomputed: 18
+  document_receipt_mismatches: 0
+  task_receipts_recomputed: 21
+  task_receipt_mismatches: 0
+  manifests_recomputed: 6
+  manifest_mismatches: 0
+  dependencies_verified: 17
+  dependency_mismatches: 0
+  source_content_leakage: false
+  physical_path_leakage: false
+  exception_leakage: false
+  environment_or_secret_leakage: false
+  result: GO_UPSTREAM_ONLY
+
+interpretation:
+  proven:
+    - exact_18_live_documents_aligned_against_frozen_candidate_projection
+    - exact_21_live_task_targets_have_unique_candidate_membership
+    - single_live_changed_document_recovers_blocks_630_631_without_regression
+    - changed_task_mapping_61_to_61_is_disjoint_from_modified_row_39
+    - every_candidate_document_surface_equals_frozen_raw_parsed_block_surface
+    - exact_zero_candidate_missing_blocks_in_affected_documents
+    - deterministic_closed_nonloadable_evidence
+  not_proven:
+    - direct_source_PDF_visual_fidelity
+    - persisted_candidate_rows_or_candidate_row_ids
+    - extraction_semantic_correctness_or_human_adjudication
+    - retrieval_improvement
+    - rerank_improvement
+    - synthesis_improvement
+    - response_quality_improvement
+    - fact_OK_transition_or_95_percent_target
+    - generalization_to_other_manufacturers
+    - production_load_serving_or_deploy_readiness
+  aligned_tasks_are_not_OK_facts: true
+  facts_moved_to_ok: 0
+
+authorization:
+  preregistration_frozen: true
+  execution_permit_valid: true
+  M27A_repeat_gate: false
+  adjudication: false
+  raw_store_read: false
+  chunk_execution: false
+  additional_candidate_execution: false
+  database: false
+  network: false
+  models: false
+  embeddings: false
+  retrieval: false
+  rerank: false
+  synthesis: false
+  context_generation: false
+  load: false
+  serving: false
+  deploy: false
+  facts_moved_to_ok: 0
+  M3: BLOCKED
+
+cost:
+  model_calls: 0
+  network_calls: 0
+  database_reads: 0
+  database_writes: 0
+  raw_store_reads: 0
+  chunk_executions: 0
+  candidate_executions: 0
+  embedding_generations: 0
+  context_generations: 0
+  manual_adjudications: 0
+  external_calls_blocked: true

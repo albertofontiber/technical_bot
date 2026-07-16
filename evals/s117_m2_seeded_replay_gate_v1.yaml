@@ -1,0 +1,41 @@
+instrument: s117_m2_seeded_replay_gate_v1
+status: GO
+prereg: evals/s117_m2_legacy_reuse_prereg_v26.yaml
+database_reads_during_seeded_gate: 0
+reporting_clarification: replay_json_cost_database_reads_1_describes_the_historical_snapshot_capture_not_each_replay
+database_writes: 0
+model_calls: 0
+snapshot_recapture: false
+seeds:
+  - seed: 1
+    path: evals/s117_m2_legacy_reuse_replay_seed1_v1.json
+    sha256: d62ed7647366b22e9642974b5646f669ac80b8c0af4b4353a7e5cef742b5d334
+  - seed: 2
+    path: evals/s117_m2_legacy_reuse_replay_seed2_v1.json
+    sha256: d62ed7647366b22e9642974b5646f669ac80b8c0af4b4353a7e5cef742b5d334
+cross_process:
+  byte_identical: true
+  local_manifest_sha256: db601263df5eb5e1784136b7fc69e1e76d112c25047f60c953cafa80534be599
+  logical_payload_sha256: 0023f0b86edb0c9d5c6f5ea8dd1b6548364423b1eccef2696a476e714cccbcde
+upstream_language_cascade_vs_provisional_capture:
+  metadata_miss: 3
+  legacy_context_and_embedding_candidate: -3
+  all_other_terminals: 0
+final_metrics:
+  productive_active_rows: 8493
+  strict_reuse_candidates: 2623
+  strict_reuse_rate: 0.3088425762392559
+  structural_ceiling_candidates_non_authorizing: 7903
+  structural_ceiling_rate_non_authorizing: 0.9305310255504533
+  strict_residual_context_and_embedding_calls: 5870
+  structural_ceiling_residual_calls_non_authorizing: 590
+  target_document_unresolved_rows: 17074
+  policy_excluded_rows: 5381
+claim:
+  admitted_reuse: false
+  exact_label: candidate_only_legacy_v2_reuse
+  structural_ceiling_is_forecast: false
+decision:
+  M2: GO
+  authorize: M2_5_design_only
+  never_authorizes: [database_writes, vector_payload_download, model_calls, chunks_v3_load, serving, deploy]

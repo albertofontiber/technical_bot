@@ -1,0 +1,78 @@
+instrument: s116_raw_store_ab_prereg_v2
+status: frozen_before_v2_baseline
+supersedes: evals/s116_raw_store_ab_prereg_v1.yaml
+
+source:
+  store_slug: agent_anthropic-sonnet-45
+  expected_json_files: 1069
+  expected_records_processed: 1068
+  expected_errors:
+    - file: _failures.json
+      error_type: AttributeError
+      interpretation: store manifest, not an extraction record
+  absolute_store_path_must_not_be_persisted: true
+  reuse_paid_extraction_artifacts_only: true
+
+comparison:
+  unit: extraction_record
+  baseline: current src/reingest/chunk.py before section-lineage changes
+  treatment: same manifest after the section-lineage shadow implementation
+  deterministic_order: filename_ascending
+  exclusions: none
+  required_same_inputs:
+    - source manifest SHA-256
+    - records_processed
+    - exact ordered error tuples of filename and error_type
+
+primary_metrics:
+  - records_processed
+  - record_errors
+  - chunks_total
+  - chunks_with_section_title
+  - section_chunks_with_own_leaf_heading
+  - section_continuations_without_own_leaf_heading
+  - section_chunks_with_internally_verified_anchor
+  - section_chunks_with_resolved_full_lineage
+  - orphan_or_stale_anchor_chunks
+  - short_chunks_below_min_meaningful_chars
+  - content_chars_total
+
+conservation_contract:
+  representation: SHA-256 of each document's ordered chunk-content stream joined by two newlines
+  required_treatment_result:
+    - exact equality for every successfully processed filename
+    - zero missing document streams
+    - zero additional document streams
+  rationale: detects per-document omission, duplication, mutation and reordering independent of chunk boundaries
+
+implementation_dependencies_to_hash:
+  - scripts/s116_raw_store_ab_v2.py
+  - src/reingest/chunk.py
+  - src/reingest/metadata.py
+  - src/reingest/manufacturer_registry.py
+  - config/manufacturers/*.yaml
+  - Python runtime version
+
+treatment_gate:
+  required:
+    - source manifest SHA-256 equals baseline
+    - records_processed and exact error tuples equal baseline
+    - every treatment chunk with section_title has an internally verified anchor resolved against the real flattened heading block
+    - every treatment chunk with section_title has a full lineage equal to the common lineage of all source blocks in its source span, including empty lineages
+    - zero orphan_or_stale_anchor_chunks
+    - every document output stream SHA-256 equals baseline
+    - no synthetic heading is inserted into chunk content
+    - cleanup never merges different full-lineage identities
+    - anchored and unanchored chunks never merge
+    - flow-diagram merge protection remains unchanged
+    - repeated identical headings create distinct identities by occurrence
+    - chunks_total does not exceed baseline by more than 15 percent
+  interpretation:
+    - passing authorizes only a fresh sealed held-out validation
+    - passing does not authorize schema, reingestion, index, serving, production, or fact relabeling
+
+cost_contract:
+  database_get_requests: 0
+  database_writes: 0
+  model_calls: 0
+  network_calls: 0

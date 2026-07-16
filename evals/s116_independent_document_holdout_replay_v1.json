@@ -1,0 +1,74 @@
+{
+  "instrument": "s116_independent_document_holdout_replay_v1",
+  "status": "independent_holdout_go",
+  "source": {
+    "store_slug": "agent_anthropic-sonnet-45",
+    "raw_records": 12,
+    "manifest_sha256": "c5e7f9fe8c36b92948bedc178a0be5e3f9b6426cc0085a2b44dc8c02edee864b",
+    "pdf_identity_overlap_with_development": 0
+  },
+  "records": {
+    "valid": true,
+    "expected_records": 12,
+    "files": 12,
+    "failures": [],
+    "missing_sha256": []
+  },
+  "raw_artifact_receipt": {
+    "valid": true,
+    "path": "tmp/s116_independent_holdout/extraction_receipt_v1.json",
+    "sha256": "a651e2858d043718e78cbc3a18610a42ba04b584dd98b15e6d15fc33b8043ff4",
+    "failures": []
+  },
+  "implementations": {
+    "baseline_sha256": "58be85e8cdf2cfac475e7f7cd23639b04f7b22a1c60938ffec86e76cb2c60985",
+    "treatment_sha256": "4b76ab219854c625f4ce5e55665e2c89d14739e4eee0ab01607aae7ecda4fd43",
+    "replay_sha256": "bb12e7454c7b47518db044e9a17afc73a5f4cf1be9493e890fe7cd20bb6a101e"
+  },
+  "baseline": {
+    "processed_files": 12,
+    "errors": [],
+    "chunks_total": 819,
+    "titled_chunks": 769,
+    "internally_verified_anchors": 0,
+    "resolved_full_lineages": 0,
+    "chunk_lineage_state_failures": 0,
+    "orphan_or_stale_anchor_chunks": 0
+  },
+  "treatment": {
+    "processed_files": 12,
+    "errors": [],
+    "chunks_total": 836,
+    "titled_chunks": 784,
+    "internally_verified_anchors": 784,
+    "resolved_full_lineages": 784,
+    "chunk_lineage_state_failures": 0,
+    "orphan_or_stale_anchor_chunks": 0
+  },
+  "comparison": {
+    "gate": "GO",
+    "checks": {
+      "record_contract": true,
+      "all_records_processed": true,
+      "zero_arm_errors": true,
+      "zero_content_stream_mismatches": true,
+      "zero_lineage_state_failures": true,
+      "zero_orphan_anchors": true,
+      "all_titled_anchors_verified": true,
+      "all_titled_lineages_resolved": true,
+      "non_vacuous_documents": true,
+      "non_vacuous_chunks": true,
+      "chunk_growth_within_cap": true
+    },
+    "document_stream_mismatches": [],
+    "documents_with_section_titles": 11,
+    "chunk_increase": 17,
+    "chunk_increase_percent": 2.0757
+  },
+  "authorization_if_go": "design_versioned_persistence_and_provenance_only",
+  "cost": {
+    "model_calls": 0,
+    "network_calls": 0,
+    "database_writes": 0
+  }
+}

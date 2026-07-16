@@ -1,0 +1,45 @@
+instrument: s114_procedure_bundle_section_challenge_prereg_v1
+status: frozen_before_challenge_replay
+purpose: exercise the explicit-section-reference facet on independent historical HYQs
+
+frozen_inputs:
+  selector_sha256: cbd3902b823fa7d7d4fb4c9c3f6ba3781a5492c0b2e7be6364291d1cd9461a76
+  historical_hyq_sha256: 5fb56f1739f8713c263d331b5393ef1904d9a5311ba3f1ac15bd81828b86f8e7
+  heldout_freeze_sha256: 227e808a2ba2308acce89f90722fd46a63bad30aae0cde630191154b4ff07d94
+  heldout_replay_sha256: f8c40033faf61582729ecd7970f95c45bdcc23bdf40459ea08b163289cc22300
+
+cohort_construction:
+  candidate_universe: the 22 exact product scopes already frozen before initial held-out replay
+  source_eligibility:
+    - current source row contains an explicit numbered section or chapter reference
+    - source chunk_id has a synthetic historical S99 HYQ
+    - HYQ matches the frozen procedural-intent regex
+    - question was not used in the initial 24-question held-out
+  per_chunk_question: lowest SHA256 ranked eligible question
+  per_manufacturer_cap: 10
+  manufacturer_sampling: ascending SHA256 within each manufacturer, then manufacturer name
+  no_selector_trace_used_for_sampling: true
+
+replay_contract:
+  served_context: one exact source row
+  candidates: its already-frozen exact product scope
+  expected_facet: explicit_intra_document_reference
+  database_get_requests: 0
+  database_writes: 0
+  model_calls: 0
+  selector_changes_after_freeze: forbidden
+
+gates:
+  execution_validity:
+    - at least 10 questions across at least 3 manufacturers
+    - every selected card has strong provenance and exact bounded verification
+    - full selector and input hashes remain unchanged
+  applicability:
+    - report source-reference, potential-facet and selected denominators separately
+    - at least one potential explicit-reference question is required for a conclusive facet test
+  contamination:
+    - every selected row requires blinded evidence review
+    - zero clearly irrelevant selections
+  advancement: >-
+    A pass can validate only the explicit-reference facet for further answer-level
+    regression. Access/unlock and licensed-loop remain inconclusive unless separately exercised.

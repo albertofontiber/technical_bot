@@ -1,0 +1,154 @@
+instrument: s124_renderer_and_residual_reconciliation_gate_v1
+frozen_at_utc: '2026-07-15T09:51:26Z'
+status: LOCAL_RENDERER_AND_RESIDUAL_RECONCILIATION_GO
+authority: deterministic_local_replay_and_exact_frozen_residual_adjudication
+
+decision:
+  renderer_contract: source_bound_renderer_s124_v1
+  renderer_presentation: GO
+  historical_s122_reproducibility: PASS
+  protected_regression: PASS
+  residual_synthesis_reconciliation: COMPLETE
+  adversarial_review: GO_0_P0_0_P1
+  facts_moved_to_ok: 0
+  production_release: NOT_AUTHORIZED
+  chunks_v3_migration: NOT_AUTHORIZED
+
+lineage:
+  preregistration:
+    path: evals/s124_renderer_presentation_and_residual_reconciliation_prereg_v1.yaml
+    sha256: ee7dcd29b718dfb2812206117c0f67500e5a1040327084c32b7c111e7ea12eb4
+  answer_planner:
+    path: src/rag/answer_planner.py
+    sha256: 5301b9b85512619c5f16c85320766bdf48040240d0e10105cbdbc646a42d26d5
+  answer_obligation_contract:
+    path: src/rag/answer_obligation_contract.py
+    sha256: d1e1bdc57676a282b4369fd9cf02755d240b9eeae4a205aef1855fdac2073290
+  generator:
+    path: src/rag/generator.py
+    sha256: 253477f1cfd3225dee6c8ca9d1ccd604813386dfa378e331f9ecad9a57202f19
+  historical_replay_runner:
+    path: scripts/s122_enforced_answer_contract_replay.py
+    sha256: 49e4eda4ee0f4cb15b78e2c038374799c6edbdc6df57949666abc15741a8845f
+  s124_replay_runner:
+    path: scripts/s124_renderer_presentation_replay.py
+    sha256: f4ccf1fdfa97215fc57f8f1515d4507eda15e47fc5a7e51c48442d300076580f
+  s124_tests:
+    path: tests/test_s124_renderer_presentation_replay.py
+    sha256: 385e8566acaea7a520e40bff5de80ae054d654a9d06e31f7862c3fc8c13a1687
+  presentation_replay:
+    path: evals/s124_renderer_presentation_replay_v1.json
+    sha256: 7fb6406a925a5c17df725a1b0a93606c52f527598c96e5e6524543eb016d7ebe
+  residual_reconciliation:
+    path: evals/s124_residual_synthesis_reconciliation_v1.yaml
+    sha256: 7d43af2d86317e6c1c69d1e4b93307f7a75826fd17599907e35e4f9dc0c0af1a
+
+renderer_results:
+  population_rows: 39
+  measured_answers: 27
+  not_measured_rows: 12
+  actions:
+    pass: 25
+    source_bound_reconstruction: 1
+    fail_closed: 1
+  pass_answers_byte_identical: 25
+  presentation_checks_passed: 14
+  presentation_checks_failed: 0
+  hp009:
+    obligations: 2/2
+    query_core_coverage: true
+    positive_eol_assertions: 0
+    raw_english_or_internal_artifacts: 0
+  hp017:
+    obligations: 2/2
+    query_core_coverage: false
+    action: fail_closed
+    conflicts_safe: 1/1
+    unilateral_menu_selections: 0
+    raw_internal_or_markup_artifacts: 0
+
+versioning_and_cache:
+  historical_renderer: source_bound_renderer_s122_v1
+  active_renderer: source_bound_renderer_s124_v1
+  historical_artifact_byte_reproducible: true
+  canonical_contract_hash_changes_with_renderer: true
+  enforced_cache_key_changes_with_renderer: true
+  cache_identity_schema: enforced_answer_generation_cache_identity_v2
+
+residual_synthesis_results:
+  exact_count: 2
+  accounting_ghosts: 0
+  rows:
+    - fact_key: 'cat018#1:pestana Programacion: Zona + CBE'
+      verdict: synthesis-miss
+      reason: missing joint Programacion-tab Zona-and-CBE relation
+    - fact_key: 'cat018#2:Tipo SW / asociacion CBE'
+      verdict: synthesis-miss
+      reason: SND type and CBE activation are mentioned but not relationally bound
+  recommended_mechanism: multi_evidence_relational_obligation
+
+bucket_definitions:
+  known-m1-contract-hold:
+    count: 33
+    meaning: >-
+      Legacy facts deliberately held outside the funnel until their old M1
+      atomicity and requiredness semantics are migrated and validated. They are
+      neither failures nor OK.
+  synthesis-not-measured:
+    count: 11
+    meaning: >-
+      Source-bound claims for which no exact frozen answer exists. Synthesis
+      cannot be classified as pass or miss without a measured answer.
+
+reconciled_hybrid_diagnostic:
+  content_denominator: 132
+  stage_histogram:
+    OK: 79
+    known-m1-contract-hold: 33
+    rest: 5
+    retrieval-miss: 2
+    synthesis-miss: 2
+    synthesis-not-measured: 11
+  official_atomic_content_denominator: null
+  official_ok_count: null
+  official_95_percent_claim: null
+
+adversarial_review:
+  reviewer: Hubble
+  model_identity_attested: false
+  verdict: GO
+  p0_open: 0
+  p1_open: 0
+  p2_open: 0
+
+verification:
+  focused_final:
+    result: PASS
+    passed: 62
+    failed: 0
+  full_suite_exact_final_state:
+    result: PASS
+    passed: 1236
+    skipped: 5
+    failed: 0
+
+cost:
+  model_calls: 0
+  network_calls: 0
+  retrieval_calls: 0
+  reranker_calls: 0
+  judge_calls: 0
+  database_reads: 0
+  database_writes: 0
+
+recommended_next_sequence:
+  - freeze a staged chunks_v3 rollout and rollback contract from the completed held-out evidence
+  - materialize and compare chunks_v3 without switching production reads
+  - rerun the frozen funnel and reclassify every downstream transition
+  - only then switch the production read path if the staged gate passes
+
+requires_new_explicit_authorization:
+  - chunks_v3 database materialization or migration
+  - production read-path switch
+  - fresh model generation for the 11 synthesis-not-measured facts
+  - deploy or serving changes

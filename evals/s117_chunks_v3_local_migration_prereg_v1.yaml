@@ -1,0 +1,103 @@
+instrument: s117_chunks_v3_local_migration_prereg_v1
+status: frozen_before_implementation
+
+decision:
+  design: evals/s117_chunks_v3_persistence_design_v1.md
+  design_sha256: 1658910603e5f282ddad41ad300a351208b1ee9ac9be2ba16e3ea9a9dccb02c9
+  strategy: rematerialize_from_raw_into_new_shadow_table
+  forbidden_strategy: copy_rows_from_chunks_v2_and_infer_missing_provenance
+
+validated_predecessor:
+  prereg: evals/s116_independent_document_holdout_prereg_v4.yaml
+  prereg_sha256: b1508987014826dcc580e4897798f8a6194dd6649e7e2fa8a1baf90a5942c0a6
+  replay: evals/s116_independent_document_holdout_replay_v1.json
+  replay_sha256: 241a1812de979743b10f369be5f0795579c17ca74642b286c6bc96a2a3e372fa
+  gate: GO
+  limitation: HCA remains a terminal extraction_miss outside the 12-record conditional chunker denominator
+
+frozen_inputs:
+  chunker:
+    path: src/reingest/chunk.py
+    sha256: 4b76ab219854c625f4ce5e55665e2c89d14739e4eee0ab01607aae7ecda4fd43
+  chunks_v2_schema:
+    path: migrations/006_chunks_v2.sql
+    sha256: 1e6ccba985683004ccf6326cdca39567f7957beab72bb7a7bd136e3f5301ba1c
+  current_index_mapper:
+    path: src/reingest/index.py
+    sha256: 4806889cf524ca0e9dbfe845d55d6cb734b00f527259f3b7a736a5527047eea8
+  development_store:
+    store_slug: agent_anthropic-sonnet-45
+    json_files: 1069
+    extraction_records: 1068
+    manifest_sha256: 752c044be1531d5bc2e2879f79acf1dbeffabcbeb9bb9d16f5e14a5676aa5810
+    prior_treatment_receipt: evals/s116_raw_store_treatment_v1.json
+    prior_treatment_receipt_sha256: bb79ef78bccbf35a607287121a9d4b7f0c2a3c6a85ee35519a2fcf48ed734cca
+    expected_chunks: 31212
+    expected_titled_chunks: 29399
+    expected_content_stream_manifest_sha256: 9a42c06d64b1ccb965987c4dd7a8ffa48d72c7461136b4b84f01bbf37d4d08ca
+    expected_non_record_artifact: _failures.json
+  independent_store:
+    extraction_records: 12
+    manifest_sha256: c5e7f9fe8c36b92948bedc178a0be5e3f9b6426cc0085a2b44dc8c02edee864b
+    expected_chunks: 836
+    expected_titled_chunks: 784
+    expected_errors: 0
+
+provenance_contract:
+  version: 1
+  name: s116_section_lineage_v1
+  deterministic_id_inputs:
+    - extraction_sha256
+    - chunk_index
+    - content_sha256
+    - provenance_version
+  required_fields:
+    - raw_artifact_sha256
+    - chunker_sha256
+    - content_sha256
+    - source_block_start
+    - source_block_end
+    - section_anchor
+    - section_lineage
+  validation:
+    - exact content hash
+    - exact deterministic UUIDv5
+    - exact empty versus anchored state
+    - exact anchor internal consistency
+    - exact anchor resolution against raw flattened blocks
+    - exact common lineage over every block in the inclusive source span
+    - unique chunk IDs and unique document ordinals
+
+sql_static_gate:
+  required:
+    - creates public.chunks_v3 without altering or renaming public.chunks_v2
+    - no data copy from chunks_v2
+    - RLS enabled and privileges revoked from PUBLIC anon and authenticated
+    - service_role receives only required shadow access
+    - RPCs are security invoker with empty search_path
+    - document_id and duplicate_of foreign keys are indexed
+    - HNSW is deferred until after validated bulk load
+    - rollback drops only v3 objects
+
+local_replay_gate:
+  required:
+    - development and independent source manifests match frozen inputs
+    - 1068 development and 12 independent records materialize
+    - development produces exactly 31212 chunks and 29399 titled chunks
+    - development content stream manifest remains exactly frozen
+    - independent produces exactly 836 chunks and 784 titled chunks
+    - zero provenance validation failures
+    - zero duplicate deterministic IDs or document ordinals
+    - second independent execution is byte-logically identical
+  decision_if_go: authorize read-only chunks_v2 reuse analysis and explicit-cost planning
+  never_authorizes:
+    - Supabase schema or data writes
+    - paid contextualization or embedding
+    - HNSW construction, reindexing, serving or deployment
+    - fact relabeling or an OK-rate claim
+
+cost_contract:
+  model_calls: 0
+  network_calls: 0
+  database_reads: 0
+  database_writes: 0

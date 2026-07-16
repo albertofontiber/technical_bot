@@ -1,0 +1,95 @@
+schema_version: s126_compatibility_bundle_gate_v2
+status: GO_INTEGRATION_DEFAULT_OFF
+decision_scope: compatibility retrieval and safe downstream boundary
+
+recommendation:
+  integrate_code: true
+  production_flag_state: off
+  official_ok_credit: 0
+  external_generalization_claim: false
+  next_gate: independent real multi-manufacturer compatibility cohort
+
+mechanism:
+  lane: canonical_compatibility_bundle_coverage_v1
+  contract: governed_two_entity_three_facet_bundle_v1
+  required_facets:
+    - protocol_scope
+    - supported_device_roster
+    - loop_topology
+  atomic_append_count: 3
+  partial_bundle_policy: serve_none
+  other_coverage_lanes_when_applicable: suppressed
+  cross_manufacturer_policy:
+    complete_bundle: source_bound_deterministic_refusal
+    absent_partial_or_tampered_bundle: deterministic_safe_refusal
+    provider_calls: 0
+
+live_read_only_probe:
+  artifact: evals/s126_compatibility_bundle_probe_v2.json
+  status: GO_READ_ONLY_RELATIONAL_BUNDLE
+  checks_passed: 11
+  checks_total: 11
+  http_get_requests: 3
+  model_calls: 0
+  database_writes: 0
+  recovered_retrieval_facts:
+    - 'cat013#0:bucle cerrado'
+    - 'cat013#1:CLIP'
+  facts_moved_to_ok: 0
+
+local_verification:
+  expanded_targeted_tests:
+    passed: 103
+    failed: 0
+  final_core_tests_after_adversarial_fixes:
+    passed: 50
+    failed: 0
+  catalog_validation_errors: 0
+  python_compile_errors: 0
+  diff_check_errors: 0
+
+adversarial_review:
+  reviewer: Hubble
+  verdict: GO_INTEGRATION
+  p0: 0
+  p1: 0
+  p2:
+    - A real independent multi-manufacturer compatibility cohort is required before claiming external generalization.
+  attacks_reproduced_closed:
+    - mutable cross_manufacturer marker after append
+    - ordinary protected prefix plus absent or partial bundle reaching provider
+  official_funnel_credit_allowed: false
+
+working_funnel_projection_if_flag_enabled:
+  basis: reconciled S126 working ledger; not a fresh official full assessment
+  before:
+    OK: 111
+    retrieval-miss: 4
+    source-contract-hold: 1
+    synthesis-miss: 14
+    synthesis-not-measured: 27
+    rest: 0
+  after_upstream_transition_only:
+    OK: 111
+    retrieval-miss: 2
+    source-contract-hold: 1
+    synthesis-miss: 14
+    synthesis-not-measured: 29
+    rest: 0
+  transition:
+    retrieval-miss_to_synthesis-not-measured: 2
+    facts_to_OK: 0
+
+remaining_upstream_population:
+  retrieval_miss:
+    - 'cat017#2:licencia CLIP por lazo'
+    - 'hp010#1:Nivel 3'
+  source_contract_hold:
+    - 'cat008#3:1/2/3/4 lazo; 6-7 entrada A'
+  note: prerequisite retrieval keeps known-cohort local credit but its independent gate is inconclusive, so it is not released.
+
+release_boundary:
+  code_is_ready_for_clean_integration: true
+  deployed: false
+  flag_enabled: false
+  official_factlevel_assessment_rerun: false

@@ -1,0 +1,54 @@
+{
+  "instrument": "s116_cross_extractor_challenge_v1",
+  "status": "supporting_go",
+  "source": {
+    "store_slug": "llm",
+    "json_files": 28,
+    "manifest_sha256": "1157f7a03c672a02002235fff703a204915a4b0e3b6a107c4386906eb13ea38a",
+    "pdf_identity_overlap_with_development": 28,
+    "independence_claim": "extraction_mode_only"
+  },
+  "implementations": {
+    "baseline_chunker_sha256": "58be85e8cdf2cfac475e7f7cd23639b04f7b22a1c60938ffec86e76cb2c60985",
+    "treatment_chunker_sha256": "4b76ab219854c625f4ce5e55665e2c89d14739e4eee0ab01607aae7ecda4fd43",
+    "audit_script_sha256": "86687dea25d1096fabb86406c5d33aba7d80455ff22b8444b760f9ad5f1f70da"
+  },
+  "baseline": {
+    "processed_files": 28,
+    "errors": [],
+    "chunks_total": 306,
+    "titled_chunks": 134,
+    "internally_verified_anchors": 0,
+    "resolved_full_lineages": 0,
+    "chunk_lineage_state_failures": 0,
+    "orphan_or_stale_anchor_chunks": 0
+  },
+  "treatment": {
+    "processed_files": 28,
+    "errors": [],
+    "chunks_total": 315,
+    "titled_chunks": 140,
+    "internally_verified_anchors": 140,
+    "resolved_full_lineages": 140,
+    "chunk_lineage_state_failures": 0,
+    "orphan_or_stale_anchor_chunks": 0
+  },
+  "comparison": {
+    "exact_errors_equal": true,
+    "document_stream_mismatches": 0,
+    "chunk_increase": 9,
+    "chunk_increase_percent": 2.9412
+  },
+  "gate": "GO",
+  "limitations": [
+    "The extraction artifacts are unused, but their PDF identities overlap development.",
+    "This is extractor-shift evidence, not an independent-document held-out.",
+    "No migration, reingestion, index, serving, production or fact relabeling is authorized."
+  ],
+  "cost": {
+    "database_get_requests": 0,
+    "database_writes": 0,
+    "model_calls": 0,
+    "network_calls": 0
+  }
+}

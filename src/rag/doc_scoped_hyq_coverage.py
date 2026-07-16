@@ -7,6 +7,8 @@ source-diverse set of parent IDs, and the returned rows are hydrated from
 """
 from __future__ import annotations
 
+import hashlib
+import json
 import math
 import re
 import time
@@ -97,9 +99,41 @@ def _rank_bm25(
 
 
 def select_document_diverse_parents(
-    needs: list[str], rows: list[dict[str, Any]]
+    needs: list[str],
+    rows: list[dict[str, Any]],
+    *,
+    source_groups: list[dict[str, Any]] | None = None,
+    focus_query: str = "",
 ) -> list[str]:
     """Select a bounded parent set without letting one manual monopolise it."""
+    # Preserve the established single-entity lane exactly. Stratification is
+    # only needed when a compound query resolves two or more governed entities.
+    if source_groups and len(source_groups) >= 2:
+        selected: list[str] = []
+        for need in needs:
+            query_terms = set(_tokens(focus_query))
+            focus_terms = [token for token in _tokens(need) if token not in query_terms]
+            focused_need = " ".join(focus_terms) or need
+            ranked = _rank_bm25(focused_need, rows)
+            for group in source_groups:
+                group_sources = set(group.get("sources") or [])
+                candidate = next(
+                    (
+                        str(row.get("chunk_id") or "")
+                        for score, row in ranked
+                        if score > 0
+                        and str(row.get("source_file") or "") in group_sources
+                        and str(row.get("chunk_id") or "") not in selected
+                    ),
+                    "",
+                )
+                if candidate:
+                    selected.append(candidate)
+                    if len(selected) == PARENT_LIMIT:
+                        return selected
+        if selected:
+            return selected
+
     per_need = []
     source_need_best: dict[str, dict[int, float]] = defaultdict(dict)
     for need_index, need in enumerate(needs):
@@ -145,13 +179,28 @@ def _postgrest_in(values: list[str]) -> str:
     return "in.(" + ",".join(escaped) + ")"
 
 
+def _canonical_sha256(value: Any) -> str:
+    payload = json.dumps(
+        value,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
 def fetch_document_scoped_rows(
     scope: list[str],
     needs: list[str],
     *,
+    source_groups: list[dict[str, Any]] | None = None,
+    focus_query: str = "",
     client: httpx.Client | None = None,
     timeout_seconds: float = TIMEOUT_SECONDS,
-) -> tuple[list[dict[str, Any]], int, int]:
+    include_receipts: bool = False,
+) -> tuple[list[dict[str, Any]], int, int] | tuple[
+    list[dict[str, Any]], int, int, dict[str, str]
+]:
     """GET-only bounded navigation followed by real-parent hydration."""
     if not SUPABASE_URL or not SUPABASE_SERVICE_KEY:
         raise RuntimeError("Supabase credentials unavailable for HYQ coverage read")
@@ -209,9 +258,21 @@ def fetch_document_scoped_rows(
             # distinguish it from truncation, and fail-closed is safer.
             raise RuntimeError("HYQ scope reached row cap")
 
-        parent_ids = select_document_diverse_parents(needs, rows)
+        parent_ids = select_document_diverse_parents(
+            needs,
+            rows,
+            source_groups=source_groups,
+            focus_query=focus_query,
+        )
         if not parent_ids:
-            return [], len(rows), requests
+            result = ([], len(rows), requests)
+            if include_receipts:
+                return (*result, {
+                    "hyq_rows_sha256": _canonical_sha256(rows),
+                    "selected_parent_ids_sha256": _canonical_sha256([]),
+                    "hydrated_parents_sha256": _canonical_sha256([]),
+                })
+            return result
         hydrated = get_rows(
             request_client,
             "chunks_v2",
@@ -224,21 +285,59 @@ def fetch_document_scoped_rows(
         by_id = {str(row.get("id") or ""): row for row in hydrated}
         if any(parent_id not in by_id for parent_id in parent_ids):
             raise RuntimeError("HYQ parent hydration incomplete")
-        return [by_id[parent_id] for parent_id in parent_ids], len(rows), requests
+        ordered_parents = [by_id[parent_id] for parent_id in parent_ids]
+        result = (ordered_parents, len(rows), requests)
+        if include_receipts:
+            parent_manifest = [
+                {
+                    "id": str(row.get("id") or ""),
+                    "source_file": str(row.get("source_file") or ""),
+                    "document_id": str(row.get("document_id") or ""),
+                    "extraction_sha256": str(row.get("extraction_sha256") or ""),
+                    "chunk_index": row.get("chunk_index"),
+                    "content_sha256": hashlib.sha256(
+                        str(row.get("content") or "").encode("utf-8")
+                    ).hexdigest(),
+                }
+                for row in ordered_parents
+            ]
+            return (*result, {
+                "hyq_rows_sha256": _canonical_sha256(rows),
+                "selected_parent_ids_sha256": _canonical_sha256(parent_ids),
+                "hydrated_parents_sha256": _canonical_sha256(parent_manifest),
+            })
+        return result
 
 
 def collect_document_scoped_hyq(
     query: str,
     *,
     fetcher=fetch_document_scoped_rows,
+    query_facets_path=None,
+    evidence_config_path=STRICT_ALIGNED_CONFIG,
+    append_limit: int = APPEND_LIMIT,
+    entity_stratified: bool = False,
+    include_fetch_receipts: bool = False,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Return exact-source candidates; never expose generated HYQ prose."""
+    if not isinstance(append_limit, int) or isinstance(append_limit, bool) or not 1 <= append_limit <= 3:
+        raise ValueError("HYQ append limit must be 1..3")
+    if not isinstance(entity_stratified, bool):
+        raise ValueError("HYQ entity_stratified must be boolean")
     resolution = resolve_query(query)
     scope = sorted(resolution.get("allowed_sources") or [])
-    plan = expand_query_facets(query)
+    source_groups = resolution.get("source_groups") or []
+    active_source_groups = source_groups if entity_stratified else []
+    plan = (
+        expand_query_facets(query, query_facets_path)
+        if query_facets_path is not None
+        else expand_query_facets(query)
+    )
     trace = {
         "lane": LANE,
         "scope_rows": len(scope),
+        "source_groups": len(source_groups),
+        "entity_stratified": entity_stratified,
         "selected_parent_ids": [],
         "served_hyq_prose": False,
     }
@@ -246,8 +345,23 @@ def collect_document_scoped_hyq(
         trace["status"] = "not_applicable"
         return [], trace
 
-    fetched = fetcher(scope, plan["needs"])
-    if len(fetched) == 3:
+    fetched = (
+        fetcher(
+            scope,
+            plan["needs"],
+            source_groups=active_source_groups,
+            focus_query=query,
+            include_receipts=include_fetch_receipts,
+        )
+        if fetcher is fetch_document_scoped_rows
+        else fetcher(scope, plan["needs"])
+    )
+    fetch_receipts: dict[str, str] = {}
+    if len(fetched) == 4:
+        parents, hyq_row_count, http_requests, fetch_receipts = fetched
+        if not isinstance(fetch_receipts, dict):
+            raise RuntimeError("invalid HYQ fetch receipts")
+    elif len(fetched) == 3:
         parents, hyq_row_count, http_requests = fetched
     elif len(fetched) == 2:
         # Backwards-compatible test/custom fetchers predate request telemetry.
@@ -265,7 +379,7 @@ def collect_document_scoped_hyq(
             [parent],
             archetype=plan["archetype"],
             query=query,
-            config_path=STRICT_ALIGNED_CONFIG,
+            config_path=evidence_config_path,
         )
         if not cards:
             continue
@@ -288,7 +402,7 @@ def collect_document_scoped_hyq(
     selected: list[dict[str, Any]] = []
     remaining = list(enumerate(eligible))
     covered_facets: set[str] = set()
-    while remaining and len(selected) < APPEND_LIMIT:
+    while remaining and len(selected) < append_limit:
         def coverage_key(item):
             original_rank, row = item
             cards = row.get("coverage_cards") or []
@@ -316,6 +430,7 @@ def collect_document_scoped_hyq(
             "hyq_rows": hyq_row_count,
             "http_requests": http_requests,
             "selected_parent_ids": [str(row["id"]) for row in selected],
+            "fetch_receipts": fetch_receipts,
         }
     )
     return selected, trace

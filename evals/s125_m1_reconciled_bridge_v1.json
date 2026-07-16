@@ -1,0 +1,52 @@
+{
+  "schema_version": "s125_m1_reconciled_bridge_v1",
+  "instrument": "s125_project_m1_reconciled_bridge",
+  "status": "LOCAL_MEASUREMENT_RECONCILIATION_COMPLETE",
+  "authority": {
+    "preregistration": "evals/s125_m1_reconciled_bridge_prereg_v1.yaml",
+    "preregistration_sha256": "341160f3e29e1fb094c48a79d5d838a2f9ad18a601722a294803cb99b7e4ea13",
+    "prior_hybrid_gate_sha256": "9a9e66aa5db003f734b4ee1ff2ec8240ae0282f1c304ced8090b9e7571888deb",
+    "migrated_cohort_replay_sha256": "e478fb332dd0747eed73f0b20c535f158465b737ec8d5b18ab0436e6e98309b2",
+    "atomic_bridge_sha256": "f9a7a143a18b8d3046e404bd8dd1501baa62f1d0f4e6255d472956311d50eccb"
+  },
+  "bridge_arithmetic": {
+    "prior_content_denominator": 132,
+    "removed_known_hold_parents": 33,
+    "added_migrated_core_claims": 58,
+    "excluded_migrated_supplementary_claims": 12,
+    "projected_content_denominator": 157,
+    "formula": "132 - 33 + 58 = 157"
+  },
+  "provisional_hybrid_diagnostic": {
+    "content_denominator": 157,
+    "stage_histogram": {
+      "OK": 111,
+      "rest": 5,
+      "retrieval-miss": 2,
+      "synthesis-miss": 12,
+      "synthesis-not-measured": 27
+    },
+    "ok_count": 111,
+    "measured_content_denominator": 130,
+    "measured_ok_rate": 0.8538461538461538,
+    "all_provisional_content_ok_rate": 0.7070063694267515,
+    "provisional_target_ok_for_95_percent": 150,
+    "provisional_gap_to_95_percent": 39
+  },
+  "credit_and_limitations": {
+    "facts_moved_to_ok_due_to_bot_change": 0,
+    "confirmed_ok_claims_exposed_by_measurement_reconciliation": 32,
+    "remaining_provisional_legacy_carries": 77,
+    "official_atomic_content_denominator": null,
+    "official_ok_count": null,
+    "official_95_percent_claim": null,
+    "reason_official_kpi_is_null": "77 other legacy carries still lack completed atomic requiredness adjudication."
+  },
+  "cost": {
+    "model_calls": 0,
+    "network_calls": 0,
+    "database_reads": 0,
+    "database_writes": 0
+  },
+  "payload_sha256": "95302e7736fca245f0e32cf9796058a5ed40db4631c168f6e62e4377abfb4fc4"
+}

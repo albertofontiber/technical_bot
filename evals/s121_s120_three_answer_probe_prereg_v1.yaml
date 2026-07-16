@@ -1,0 +1,42 @@
+instrument: s121_s120_three_answer_probe_prereg_v1
+status: FROZEN_BEFORE_MODEL_CALLS
+authorization:
+  user_authorized: true
+  user_message: GO al probe de las 3 respuestas nuevas
+  authorized_qids: [hp005, hp009, hp017]
+scope:
+  frozen_contexts: evals/s113_full_contexts_freeze_v1.json
+  planner_contract: answer_planner_s120_v1
+  generator_model: claude-sonnet-4-6
+  max_output_tokens_per_answer: 3500
+  maximum_fresh_generator_calls: 3
+  retrieval_calls: 0
+  reranker_calls: 0
+  judge_calls_during_generation: 0
+  database_reads: 0
+  database_writes: 0
+expected_obligations:
+  hp005: [cause_effect_output_selector]
+  hp009: [terminal_bundle, closed_loop_return_path]
+  hp017: [cause_effect_rule_behavior, cause_effect_default_rules_precondition]
+diagnostic_claims:
+  hp005: [m0.hp005.output_selection.1]
+  hp009: [m0.hp009.closed_loop_return.1, m0.hp009.closed_loop_return.2]
+  hp017: [m0.hp017.rule1.2]
+execution_controls:
+  - exact frozen context only
+  - complete source and generation contract SHA before each call
+  - append-only checkpoint immediately after each successful call
+  - exact checkpoint reuse or fail closed on drift
+  - no automatic retry after provider error
+  - max_tokens stop requires manual no-go adjudication
+  - no automatic fact relabeling
+acceptance_before_manual_review:
+  exact_successful_calls: 3
+  all_stop_reasons: end_turn
+  all_obligations_covered_locally: true
+  all_obligation_citations_present: true
+next_gate:
+  action: atomic_manual_and_adversarial_adjudication
+  causal_ok_claim_before_next_gate: false
+never_authorizes: [retrieval, rerank, database, serving, deploy, production_release]

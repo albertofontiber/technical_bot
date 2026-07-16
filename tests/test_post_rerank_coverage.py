@@ -1,5 +1,9 @@
 from copy import deepcopy
 
+from src.rag.compatibility_bundle_coverage import (
+    LANE as COMPATIBILITY_LANE,
+    build_compatibility_bundle,
+)
 from src.rag.doc_scoped_hyq_coverage import LANE as HYQ_LANE
 from src.rag.post_rerank_coverage import (
     _has_substantive_coverage_card,
@@ -13,6 +17,55 @@ from src.rag.post_rerank_coverage import (
 from src.rag.rerank_pool_coverage import LANE as POOL_LANE
 from src.rag.structural_neighbor_coverage import LANE as STRUCTURAL_LANE
 from src.rag.structural_neighbor_coverage import CASCADED_LANE as CASCADE_LANE
+
+
+_COMPATIBILITY_QUERY = (
+    "Tengo una central Detnov CAD-150 y un detector Notifier SDX-751; "
+    "¿es compatible / puedo montarlo en su lazo?"
+)
+
+
+def _compatibility_bundle():
+    groups = [
+        {
+            "token": "CAD-150",
+            "ids": ["detnov:cad-150-8"],
+            "sources": ["cad-install"],
+        },
+        {
+            "token": "SDX-751",
+            "ids": ["notifier:sdx-751"],
+            "sources": ["notifier-manual"],
+        },
+    ]
+    specs = [
+        ("protocol", "protocol_scope", "notifier-manual", "Protocolo CLIP.", "notifier-doc", "a" * 64, 5),
+        ("roster", "supported_device_roster", "notifier-manual", "Compatible: SDX-751.", "notifier-doc", "a" * 64, 6),
+        ("topology", "loop_topology", "cad-install", "Lazo cerrado con retorno.", "cad-doc", "b" * 64, 2),
+    ]
+    rows = []
+    for row_id, facet, source, content, document, extraction, index in specs:
+        rows.append(
+            {
+                "id": row_id,
+                "content": content,
+                "source_file": source,
+                "document_id": document,
+                "extraction_sha256": extraction,
+                "chunk_index": index,
+                "coverage_cards": [
+                    {
+                        "candidate_id": row_id,
+                        "start": 0,
+                        "end": len(content),
+                        "quote": content,
+                        "facet": facet,
+                        "exact_source_span_validated": True,
+                    }
+                ],
+            }
+        )
+    return build_compatibility_bundle(_COMPATIBILITY_QUERY, rows, groups)
 
 
 def _candidate(row_id="coverage", *, lane=STRUCTURAL_LANE):
@@ -58,6 +111,7 @@ def test_master_off_is_bit_inert_and_does_not_call_lanes():
         structural_enabled=True,
         hyq_enabled=True,
         pool_enabled=True,
+        compatibility_enabled=True,
         structural_collector=forbidden,
         hyq_collector=forbidden,
         pool_collector=forbidden,
@@ -65,6 +119,104 @@ def test_master_off_is_bit_inert_and_does_not_call_lanes():
 
     assert output is reranked
     assert trace["status"] == "disabled_or_not_applicable"
+
+
+def test_compatibility_flag_off_is_inert_and_does_not_call_bundle_lane():
+    reranked = [{"id": "base", "content": "base"}]
+
+    def forbidden(*_args, **_kwargs):
+        raise AssertionError("default-off compatibility lane was called")
+
+    output, trace = apply_post_rerank_coverage_with_trace(
+        _COMPATIBILITY_QUERY,
+        reranked,
+        enabled=True,
+        structural_enabled=False,
+        hyq_enabled=False,
+        pool_enabled=False,
+        compatibility_enabled=False,
+        compatibility_collector=forbidden,
+    )
+
+    assert output is reranked
+    assert trace["status"] == "disabled_or_not_applicable"
+
+
+def test_complete_compatibility_bundle_appends_three_and_protects_prefix():
+    reranked = [{"id": "base", "content": "base", "similarity": 0.9}]
+    snapshot = deepcopy(reranked)
+    calls = []
+
+    def collector(query):
+        calls.append(query)
+        return _compatibility_bundle(), {
+            "lane": COMPATIBILITY_LANE,
+            "status": "selected_complete_relational_bundle",
+        }
+
+    def forbidden_hyq(*_args, **_kwargs):
+        raise AssertionError("another lane must not bypass an applicable bundle gate")
+
+    output, trace = apply_post_rerank_coverage_with_trace(
+        _COMPATIBILITY_QUERY,
+        reranked,
+        retrieval_pool=[{"id": "pool-source"}],
+        enabled=True,
+        structural_enabled=True,
+        hyq_enabled=True,
+        pool_enabled=True,
+        cascade_enabled=True,
+        compatibility_enabled=True,
+        compatibility_collector=collector,
+        structural_collector=forbidden_hyq,
+        hyq_collector=forbidden_hyq,
+        pool_collector=forbidden_hyq,
+        cascade_collector=forbidden_hyq,
+    )
+
+    assert calls == [_COMPATIBILITY_QUERY]
+    assert reranked == snapshot
+    assert output[:1] == snapshot
+    assert len(output) == 4
+    assert {row["retrieval_lane"] for row in output[1:]} == {COMPATIBILITY_LANE}
+    assert all(is_validated_coverage_chunk(row) for row in output[1:])
+    assert trace["protected_prefix_equal"] is True
+
+
+def test_partial_compatibility_bundle_appends_nothing():
+    reranked = [{"id": "base", "content": "base"}]
+    partial = _compatibility_bundle()[:2]
+
+    output, trace = apply_post_rerank_coverage_with_trace(
+        _COMPATIBILITY_QUERY,
+        reranked,
+        enabled=True,
+        structural_enabled=False,
+        hyq_enabled=False,
+        pool_enabled=False,
+        compatibility_enabled=True,
+        compatibility_collector=lambda _query: (
+            partial,
+            {"lane": COMPATIBILITY_LANE, "status": "partial"},
+        ),
+    )
+
+    assert output is reranked
+    assert trace["status"] == "no_append"
+
+
+def test_compatibility_bundle_is_atomic_against_prefix_duplicates_and_other_lanes():
+    bundle = _compatibility_bundle()
+    duplicate_prefix = [{"id": bundle[0]["id"], "content": "already reranked"}]
+    assert append_validated_coverage(duplicate_prefix, bundle) is duplicate_prefix
+
+    other_lane = [_candidate("structural-1"), _candidate("structural-2")]
+    output = append_validated_coverage([], [*other_lane, *bundle])
+    compatibility_rows = [
+        row for row in output if row.get("retrieval_lane") == COMPATIBILITY_LANE
+    ]
+    assert len(compatibility_rows) == 3
+    assert [row["id"] for row in output[:3]] == [row["id"] for row in bundle]
 
 
 def test_append_preserves_prefix_and_attests_exact_real_source_span():

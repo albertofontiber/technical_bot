@@ -1,0 +1,222 @@
+{
+  "authorization": {
+    "M3": "BLOCKED",
+    "chunk_execution": false,
+    "database": false,
+    "deploy": false,
+    "facts_moved_to_ok": 0,
+    "ledger_execution": false,
+    "load": false,
+    "models": false,
+    "network": false,
+    "preregistration_frozen": true,
+    "raw_store_read": false,
+    "serving": false
+  },
+  "execution": {
+    "outputs": {
+      "1": "evals/s117_m29_reconciled_loss_ledger_seed1_v1.json",
+      "2": "evals/s117_m29_reconciled_loss_ledger_seed2_v1.json"
+    },
+    "perturbation": "shuffle_documents_and_resolutions_then_restore_canonical_order",
+    "required": [
+      "focused_tests_green",
+      "full_regression_green",
+      "adversarial_implementation_go",
+      "cross_process_byte_identical",
+      "logical_payload_identical",
+      "zero_external_cost",
+      "closed_nonloadable_output"
+    ],
+    "seeds": [
+      1,
+      2
+    ]
+  },
+  "expected": {
+    "check_keys": [
+      "contract_integrity",
+      "m27c_seed_equivalence",
+      "candidate_seed_equivalence",
+      "candidate_projection_bridge_exact",
+      "document_population_exact",
+      "document_partitions_exact",
+      "compact_integrity_exact",
+      "baseline_missing_identity_set_exact",
+      "candidate_missing_empty",
+      "coverage_gain_exact",
+      "coverage_regression_empty",
+      "resolved_identity_bindings_exact",
+      "manifest_integrity_exact",
+      "output_schema_exact",
+      "zero_external_cost"
+    ],
+    "dependency_roles": [
+      "compact100",
+      "design_v1",
+      "design_v2",
+      "execution_permit",
+      "m27c_gate",
+      "m27c_seed1",
+      "m27c_seed2",
+      "m28_gate",
+      "m28_permit",
+      "m28_prereg",
+      "m28_seed1",
+      "m28_seed2",
+      "preregistration",
+      "runner",
+      "runner_tests"
+    ],
+    "failure_codes": [
+      "contract_integrity_failure",
+      "m27c_seed_drift",
+      "candidate_seed_drift",
+      "candidate_projection_bridge_failure",
+      "document_population_drift",
+      "document_partition_failure",
+      "compact_integrity_failure",
+      "baseline_missing_identity_drift",
+      "candidate_missing_nonempty",
+      "coverage_gain_drift",
+      "coverage_regression_nonempty",
+      "resolved_identity_binding_failure",
+      "manifest_integrity_failure",
+      "output_schema_failure",
+      "external_call_attempt",
+      "internal_failure"
+    ],
+    "population": {
+      "baseline_authorized_exclusion_identities": 13,
+      "baseline_covered_blocks": 333061,
+      "baseline_missing_blocks": 100,
+      "baseline_unruled_loss_identities": 87,
+      "candidate_covered_blocks": 333161,
+      "candidate_missing_blocks": 0,
+      "changed_fingerprint_multiset_documents": 27,
+      "coverage_gain_blocks": 100,
+      "coverage_regression_blocks": 0,
+      "documents": 1068,
+      "raw_blocks": 333161,
+      "reconciled_baseline_missing_identities": 100,
+      "unchanged_fingerprint_multiset_documents": 1041,
+      "unresolved_baseline_missing_identities": 0
+    },
+    "projection": {
+      "bytes": 640933,
+      "sha256": "4cd69ba2912a8b7e1899512f99e7a1e3abd4ec970c96e9c4286b28443a0f8881"
+    }
+  },
+  "frozen_inputs": {
+    "compact100": {
+      "format": "JSON",
+      "path": "evals/s117_m27_loss_rows_compact_v1.json",
+      "sha256": "9424d343b21c4894044bfad5cc6fbfd39f2f45b9e2c3da26d8901d381820a894",
+      "use": "parsed"
+    },
+    "design_v1": {
+      "format": "blob",
+      "path": "evals/s117_m29_reconciled_loss_ledger_design_v1.md",
+      "sha256": "6ff33b249266bb4ad5aeb519bdd7f5cda61af7c2bc20a07e9653a88c1818732c",
+      "use": "hash-only"
+    },
+    "design_v2": {
+      "format": "blob",
+      "path": "evals/s117_m29_reconciled_loss_ledger_design_v2.md",
+      "sha256": "ca137eed64bebaf02fcf43080696209afb30e20638fdd2a9168c38c6ab139a16",
+      "use": "hash-only"
+    },
+    "m27c_gate": {
+      "format": "blob",
+      "path": "evals/s117_m27_loss_safe_chunking_probe_gate_v2.yaml",
+      "sha256": "62f7b0ac1b220924f25c8c2073d8e5c301e56443d8de875cc3ab980ffdeebbbf",
+      "use": "hash-only"
+    },
+    "m27c_seed1": {
+      "format": "JSON",
+      "path": "evals/s117_m27_loss_safe_chunking_probe_seed1_v2.json",
+      "sha256": "24c99a59a448284fca342c36941973b092dec1bc5c5f6c6586e09e730ec858f7",
+      "use": "parsed"
+    },
+    "m27c_seed2": {
+      "format": "JSON",
+      "path": "evals/s117_m27_loss_safe_chunking_probe_seed2_v2.json",
+      "sha256": "24c99a59a448284fca342c36941973b092dec1bc5c5f6c6586e09e730ec858f7",
+      "use": "parsed"
+    },
+    "m28_gate": {
+      "format": "blob",
+      "path": "evals/s117_m28_candidate_materialization_gate_v1.yaml",
+      "sha256": "bbac69b7d2cc7e9323a3083083890feb0619a16c328e4cc7d216e5111cb24a83",
+      "use": "hash-only"
+    },
+    "m28_permit": {
+      "format": "blob",
+      "path": "evals/s117_m28_candidate_materialization_execution_permit_v1.yaml",
+      "sha256": "5ba7dea032cadce514fd8ff4f749774d5169c5cca7816daf2af4ea260bb378cc",
+      "use": "hash-only"
+    },
+    "m28_prereg": {
+      "format": "blob",
+      "path": "evals/s117_m28_candidate_materialization_prereg_v1.yaml",
+      "sha256": "93a065b40220aa29eea9f69022a5cd582c2515a889971ca264085dcb43a11bcb",
+      "use": "hash-only"
+    },
+    "m28_seed1": {
+      "format": "JSON",
+      "path": "evals/s117_m28_candidate_materialization_seed1_v1.json",
+      "sha256": "b18df39ad1677d0f20da4b78f32a8823162d826ff2387a82032adbac1d292b9e",
+      "use": "parsed"
+    },
+    "m28_seed2": {
+      "format": "JSON",
+      "path": "evals/s117_m28_candidate_materialization_seed2_v1.json",
+      "sha256": "b18df39ad1677d0f20da4b78f32a8823162d826ff2387a82032adbac1d292b9e",
+      "use": "parsed"
+    },
+    "runner": {
+      "format": "blob",
+      "path": "scripts/s117_m29_reconciled_loss_ledger.py",
+      "sha256": "87292afc87feb93cf6f6e1ea92ac11a3cf343154039feac0cb2d5924facb0b84",
+      "use": "hash-only"
+    },
+    "runner_tests": {
+      "format": "blob",
+      "path": "tests/test_s117_m29_reconciled_loss_ledger.py",
+      "sha256": "1f65bbead3bd58bd450bcd6a725b9e8047f207ece8770dcf07bd4687431f8c87",
+      "use": "hash-only"
+    }
+  },
+  "instrument": "s117_m29_reconciled_loss_ledger_prereg_v1",
+  "schema_version": 1,
+  "scope": {
+    "allowed": [
+      "local_frozen_evidence_read",
+      "local_eval_write",
+      "deterministic_evidence_derivation"
+    ],
+    "authority": "reconciled_frozen_evidence_raw_parsed_block_surface_only",
+    "forbidden": [
+      "raw_store_read",
+      "chunk_execution",
+      "env_file_read",
+      "network",
+      "model_calls",
+      "database_access",
+      "database_write",
+      "context_generation",
+      "embedding_generation",
+      "schema_apply",
+      "migration",
+      "load",
+      "serving",
+      "deploy",
+      "manual_adjudication",
+      "additional_candidate_execution",
+      "M27A",
+      "M3_authorization"
+    ],
+    "purpose": "derive_reconciled_loss_ledger_from_frozen_evidence"
+  },
+  "status": "frozen_before_execution"
+}

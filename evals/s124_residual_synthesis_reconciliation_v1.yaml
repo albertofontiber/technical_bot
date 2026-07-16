@@ -1,0 +1,114 @@
+instrument: s124_residual_synthesis_reconciliation_v1
+status: LOCAL_AND_ADVERSARIAL_RECONCILIATION_COMPLETE
+authority: exact_legacy_carries_and_frozen_cat018_answer_only
+
+lineage:
+  s118_bridge:
+    path: evals/s118_atomic_benchmark_bridge_v1.json
+    sha256: f9a7a143a18b8d3046e404bd8dd1501baa62f1d0f4e6255d472956311d50eccb
+  s112_guided_manual_review:
+    path: evals/s112_guided_synthesis_manual_review_v1.yaml
+    sha256: 85fa0ef8d3c4c0a778d34bf34a28f42fd1cfe6aff05777ad3bbf35bcc48c5a95
+  s112_repair_manual_review:
+    path: evals/s112_guided_repair_manual_review_v1.yaml
+    sha256: 3580c7aadaa471dc8c5f62903915b02bfde10fa4382eca1bf0d5e14331306f76
+  frozen_answers:
+    path: evals/s113_full_answer_regression_v1.json
+    sha256: 8fbfe4801f6c35c2447af9440c459b080e4405b76e2899f3a00e66b230497f69
+  frozen_contexts:
+    path: evals/s113_full_contexts_freeze_v1.json
+    sha256: 22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d
+
+population:
+  provisional_hybrid_residual_synthesis_miss_count: 2
+  exact_qids: [cat018]
+  exact_claim_ids:
+    - benchmark_carry.cat018.aa435980738a78614657a0b3
+    - benchmark_carry.cat018.fa5dd0727d558e52d2a9d521
+  frozen_answer_sha256: 23d502d71770ff84af0449924d23c41e05ecc0693501a97fc204e41dccf6c280
+
+adjudications:
+  - claim_id: benchmark_carry.cat018.aa435980738a78614657a0b3
+    fact_key: 'cat018#1:pestana Programacion: Zona + CBE'
+    qid: cat018
+    stage_bucket: synthesis-miss
+    verdict: RETAIN_SYNTHESIS_MISS
+    required_relation: >-
+      In the Programacion tab for the point, both Zona is assigned and its CBE
+      is configured.
+    evidence:
+      candidate_id: 8514e83a-e8ca-4204-bd21-af945633ff06
+      source_file: AM-8200-manu-prog-spa
+      page_number: 21
+      support: >-
+        Pestaña Programa; Zona is the assigned zone number; CBE is the point CBE.
+    answer_observation: >-
+      The frozen answer explains how to select and edit CBE, but it does not say
+      that the Programacion tab jointly assigns Zona and configures CBE.
+    historical_manual_reviews: [fail, fail]
+
+  - claim_id: benchmark_carry.cat018.fa5dd0727d558e52d2a9d521
+    fact_key: 'cat018#2:Tipo SW / asociacion CBE'
+    qid: cat018
+    stage_bucket: synthesis-miss
+    verdict: RETAIN_SYNTHESIS_MISS
+    required_relation: >-
+      An output module has a software type such as SND and is activated through
+      the CBE associated with that output.
+    evidence:
+      relation_candidates:
+        - candidate_id: 15a48b9d-fa1e-4c01-8702-b07b0fc5b80b
+          source_file: AM-8200-manu-prog-spa
+          page_number: 64
+          support: output-module CBE contains the object addresses that activate it
+        - candidate_id: d85a9a89-e469-473a-b345-ee7c77783127
+          source_file: AM-8200-manu-prog-spa
+          page_number: 61
+          support: output modules can be programmed with software type SND
+    answer_observation: >-
+      The frozen answer mentions CBE activation and SND-typed output modules in
+      separate passages, but never binds the typed output to activation through
+      its associated CBE.
+    historical_manual_reviews: [hold_relation_not_explicit, hold_relation_not_explicit]
+
+reconciled_hybrid_diagnostic:
+  content_denominator: 132
+  stage_histogram:
+    OK: 79
+    known-m1-contract-hold: 33
+    rest: 5
+    retrieval-miss: 2
+    synthesis-miss: 2
+    synthesis-not-measured: 11
+  residual_synthesis_miss_exactly_identified: true
+  accounting_ghosts: 0
+  official_atomic_content_denominator: null
+  official_ok_count: null
+  official_95_percent_claim: null
+
+next_structural_mechanism:
+  family: multi_evidence_relational_obligation
+  requirements:
+    - bind multiple fields that must be expressed jointly
+    - bind cross-span evidence into one output-module relation
+    - validate the relation, not independent keyword presence
+    - use semantic obligation kinds without qid or product allowlists
+  fresh_generation_authorized: false
+
+cost:
+  model_calls: 0
+  network_calls: 0
+  retrieval_calls: 0
+  reranker_calls: 0
+  judge_calls: 0
+  database_reads: 0
+  database_writes: 0
+
+adversarial_review:
+  reviewer: Hubble
+  model_identity_attested: false
+  verdict: GO
+  p0_open: 0
+  p1_open: 0
+  exact_residual_population_confirmed: true
+  both_residuals_remain_real_synthesis_misses: true

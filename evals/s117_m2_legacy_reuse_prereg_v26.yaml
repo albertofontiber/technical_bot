@@ -1,0 +1,12 @@
+instrument: s117_m2_legacy_reuse_prereg_v26
+status: frozen_before_seeded_local_replays
+supersedes: evals/s117_m2_legacy_reuse_prereg_v25.yaml
+inherits:
+  path: evals/s117_m2_legacy_reuse_prereg_v25.yaml
+  sha256: c61748fcd5c69b86a9b6275abf8aec70083491c6750dd39b47752778dbfdb6b1
+design:
+  replay_only_guard: evals/s117_m2_language_determinism_design_v3.md
+  replay_only_guard_sha256: 97c366db931e07820d7e84bb34ff9246032eeb936327e053d7b2a1f6eb9bd36b
+frozen_inputs:
+  m2_analyzer: {path: scripts/s117_m2_legacy_reuse_analysis.py, sha256: b53632cb50009c5d41236af1c79c5c2c6d4631cf7f551729f442b8c962dc25ba}
+  m2_analyzer_tests: {path: tests/test_s117_m2_legacy_reuse_analysis.py, sha256: 980ab5a667fb86259475e6ff96c4f8890673466584ab9a9e3c8a1fad6fa5a22e}

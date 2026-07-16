@@ -1,0 +1,150 @@
+instrument: s125_m1_migration_replay_and_bridge_gate_v1
+frozen_at_utc: '2026-07-15T10:53:50Z'
+status: LOCAL_M1_MIGRATION_RECONCILIATION_GO
+authority: source_first_contract_frozen_answer_replay_and_deterministic_bridge
+
+decision:
+  source_first_contract: GO
+  frozen_answer_replay: GO
+  provisional_hybrid_bridge: GO
+  adversarial_review: GO_0_P0_0_P1
+  facts_moved_to_ok_due_to_bot_change: 0
+  production_release: NOT_AUTHORIZED
+  chunks_v3_migration: NOT_AUTHORIZED
+  fresh_model_probe: NOT_AUTHORIZED
+
+lineage:
+  migration_preregistration:
+    path: evals/s125_m1_known_hold_migration_prereg_v1.yaml
+    sha256: 4f1129ce7ee0b5e76190f8cfe70d42f39e30f5b42b9e0f46b4f4e266293f0d8b
+  migration_spec:
+    path: evals/s125_m1_known_hold_migration_spec_v1.yaml
+    sha256: 0244ffe7443efca2a8f1980756095f9eb6278517ca9dad9b489a9c8f46ba879b
+  literal_source_support:
+    path: evals/s125_m1_source_support_v1.yaml
+    sha256: d6ec5a0076f453999a5542f880de05121b90b4aa197293d257db266fd0effd24
+  contract_builder:
+    path: scripts/s125_build_m1_known_hold_contract.py
+    sha256: df6eec0a44dcfe9f18d37fe390485c46aaef7258aa7fbc7a69551140cf47a0dc
+  contract_tests:
+    path: tests/test_s125_build_m1_known_hold_contract.py
+    sha256: 9e42edd311f91ec477441f1019b85872a48520cc7885e2af7b4a1b9612475666
+  migration_contract:
+    path: evals/s125_m1_known_hold_contract_v1.json
+    sha256: a89c2c68a7469b0715f9515687dbc0b752c051c3182f209aed2af64bb43c30b5
+    payload_sha256: 4309dbda680ed3ee4a2b2703276f3f7e7b80d06d4417d1b95e2f557cf8b1d15e
+  replay_adjudication:
+    path: evals/s125_m1_answer_replay_adjudication_v1.yaml
+    sha256: 697cea746e3618c17f92e315e87e81629ce71902f467cd54f8323344f51f4047
+  replay_runner:
+    path: scripts/s125_replay_m1_known_hold_answers.py
+    sha256: e90021e8bcb9fb1daefc8c6e905616699e5abae71cdc43cef10d8575745781d1
+  replay_tests:
+    path: tests/test_s125_replay_m1_known_hold_answers.py
+    sha256: 1426c909b5c4138bd0a08b27fe029948aa6b72a2307d49eb03bbdd54c63fc325
+  migrated_answer_replay:
+    path: evals/s125_m1_known_hold_answer_replay_v1.json
+    sha256: e478fb332dd0747eed73f0b20c535f158465b737ec8d5b18ab0436e6e98309b2
+    payload_sha256: 131240a34d1ad6b8654a068bccf7d1b45ec6cd4b3928a8e351b94dc48d602dd5
+  bridge_preregistration:
+    path: evals/s125_m1_reconciled_bridge_prereg_v1.yaml
+    sha256: 341160f3e29e1fb094c48a79d5d838a2f9ad18a601722a294803cb99b7e4ea13
+  bridge_runner:
+    path: scripts/s125_project_m1_reconciled_bridge.py
+    sha256: 3b1a725bfbf293c13b9ea34f69b85c32381d90f78de5ba8fe96e9667e4e3b701
+  bridge_tests:
+    path: tests/test_s125_project_m1_reconciled_bridge.py
+    sha256: 35adf71f3f43eb02dc65133c290e775e1293a2af075ab858155f96cc24125742
+  reconciled_bridge:
+    path: evals/s125_m1_reconciled_bridge_v1.json
+    sha256: 240ad21f324b0f92228d2c7d23544b0a699c6cdaccaecafb67f0c1fababc791b
+    payload_sha256: 95302e7736fca245f0e32cf9796058a5ed40db4631c168f6e62e4377abfb4fc4
+
+migration_contract_results:
+  parent_count: 33
+  qid_count: 13
+  explicit_child_count: 70
+  core_claims: 58
+  supplementary_claims: 12
+  unresolved_parents: 1
+  unresolved_identity: 'cat007#4:10^5'
+  unresolved_reason: textual source says 105 and no exact visual receipt proves the superscript
+  every_explicit_binding_has_literal_spans_offsets_and_hash: true
+  bot_delta: 0
+
+migrated_cohort_replay:
+  retrieval_pass: 58
+  rerank_pass: 58
+  core_stage_histogram:
+    OK: 32
+    synthesis-miss: 10
+    synthesis-not-measured: 16
+  supplementary_stage_histogram:
+    supplementary-covered: 3
+    supplementary-not-covered: 2
+    supplementary-not-measured: 7
+  executed_qids: 10
+  unexecuted_qids: 3
+  unexecuted_qid_list: [cat012, cat019, hp002]
+
+reconciled_provisional_hybrid_diagnostic:
+  content_denominator: 157
+  stage_histogram:
+    OK: 111
+    rest: 5
+    retrieval-miss: 2
+    synthesis-miss: 12
+    synthesis-not-measured: 27
+  measured_content_denominator: 130
+  measured_ok_rate: 0.8538461538461538
+  all_provisional_content_ok_rate: 0.7070063694267515
+  provisional_target_ok_for_95_percent: 150
+  provisional_gap_to_95_percent: 39
+  official_atomic_content_denominator: null
+  official_ok_count: null
+  official_95_percent_claim: null
+  remaining_provisional_legacy_carries: 77
+
+adversarial_review:
+  reviewer: Hubble
+  model_identity_attested: false
+  source_contract_verdict: GO
+  replay_and_bridge_verdict: GO
+  p0_open: 0
+  p1_open: 0
+  p2_reported: 2
+  p2_closed_by_local_fail_closed_hardening: 2
+  p2_closure_independently_rereviewed: false
+
+verification:
+  focused_final:
+    result: PASS
+    passed: 17
+    failed: 0
+  full_suite_exact_final_state:
+    result: PASS
+    passed: 1253
+    skipped: 5
+    failed: 0
+
+cost:
+  model_calls: 0
+  network_calls: 0
+  retrieval_calls: 0
+  reranker_calls: 0
+  judge_calls: 0
+  database_reads: 0
+  database_writes: 0
+
+recommended_next_sequence:
+  - audit and attack the 2 retrieval-miss claims first, preserving upstream-to-downstream ordering
+  - decompose the 5 rest claims into exact actionable stages without changing golds
+  - preregister a bounded fresh synthesis probe for all exact synthesis-not-measured claims, beginning with the 3 S125 unexecuted qids and 16 core claims
+  - group the 12 measured synthesis misses into reusable mechanisms: 5 channel-qualifier misses, 5 PEARL obligation misses, and 2 relational-table misses
+  - separately migrate the 77 remaining provisional legacy carries before claiming an official whole-benchmark atomic KPI
+
+requires_new_explicit_authorization:
+  - fresh model generation or judge calls
+  - Railway or database access
+  - chunks_v3 materialization or production read-path switch
+  - deploy or serving changes

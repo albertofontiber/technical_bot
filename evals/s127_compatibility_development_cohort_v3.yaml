@@ -1,0 +1,100 @@
+schema_version: s127_compatibility_development_cohort_v3
+status: EXPOSED_DEVELOPMENT_NOT_HELDOUT
+supersedes: evals/s127_compatibility_development_cohort_v2.yaml
+inherits:
+  development_queries: evals/s127_compatibility_development_cohort_v2.yaml#queries
+  independent_exclusion_contract: evals/s127_compatibility_development_cohort_v2.yaml#independent_exclusion_contract
+  frozen_inputs: evals/s127_compatibility_development_cohort_v2.yaml#freeze
+
+exact_topology_controls:
+  positives:
+    - id: topo_pos_s126_cad150
+      chunk_id: b6602d5a-dbb5-4e2e-8814-1ac3ce066896
+      source_file: 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+      document_id: 131e6fcb-4d52-4c21-bac9-f6430559f47b
+      extraction_sha256: 0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6
+      chunk_index: 5
+      content_sha256: a26809c3ea83075ded7ca534973d7e6f1b1b04d55d3f6e1f26cda5a0b982fc9f
+      exact_card:
+        start: 713
+        end: 948
+        quote_sha256: 4d050087dd5a56862d56c84b08ee698de5b7df95c0fdef328c0fdaae5211b66d
+      required_result: accept_loop_topology
+    - id: topo_pos_s127_morley_analog_loop
+      chunk_id: 17495ebe-e878-40e4-9972-d6a85b89a242
+      source_file: MIE-MI-600
+      document_id: 4ca173e2-c1b2-40ea-8778-4148e08b8533
+      extraction_sha256: 62564f3a88db2cd9a8ae9b1133b6d2bc2061f3157ee2952f5cb8c7a0ff2b6f00
+      chunk_index: 28
+      content_sha256: 00cdd7ae547d3549eab92f77eae0ababad6c239f83763a61d78c2d77db776c90
+      exact_card:
+        start: 649
+        end: 979
+        quote_sha256: aef1497ec28fd532bf97a34ad6260a8a3ad51f00770c173728f5a30df8b0a46d
+      required_result: accept_loop_topology
+  exact_card_hard_negatives:
+    minimum_n: 1
+    cases:
+      - id: topo_neg_2xa_network_ring
+        chunk_id: 2cf0568a-6ecb-425e-84f1-c48a03905cb9
+        source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+        document_id: af5d5d01-d5a9-48df-9acb-ae4994d19251
+        extraction_sha256: 3fda944ecbca316b0fa9f53cf947be63bd685205e8b824a645bfa1ea3dd2fefe
+        chunk_index: 49
+        content_sha256: dbb7c4cadf126be92c9c0072c6b18135688f296125cda9185bdbefe81a0bbef2
+        exact_card:
+          start: 554
+          end: 709
+          quote_sha256: 1ccc5383f439b03f4008365e484acf1d44df7f8c32a469c4036336e14d086ece
+        reason: panel network ring described as a closed loop
+        required_result: reject_loop_topology
+  pipeline_hard_negatives:
+    note: these parents currently produce no loop_topology card and test earlier semantic rejection
+    cases:
+      - id: topo_neg_emc_rs485
+        chunk_id: fd964e59-841b-41ae-9f65-a9f2533bf22b
+        source_file: MIE-MI-600
+        document_id: 4ca173e2-c1b2-40ea-8778-4148e08b8533
+        extraction_sha256: 62564f3a88db2cd9a8ae9b1133b6d2bc2061f3157ee2952f5cb8c7a0ff2b6f00
+        chunk_index: 45
+        content_sha256: 3a1aeac1aa7bf7d191cf778642413e861b716133adbc1971d3a1e94fe5111de9
+        required_result: no_loop_topology_card
+      - id: topo_neg_peripheral_loop
+        chunk_id: 17e4a281-2796-48c8-bab6-59d95c2d2267
+        source_file: DXc_Guia de instalacion_multiling
+        document_id: febc1a32-ce96-456c-85dc-6651a76f80f8
+        extraction_sha256: b9339a8f206823d2cac9d0fc9f615304f20d969632d622c618000fc6e6554a3d
+        chunk_index: 17
+        content_sha256: f118c6e8e1a59e47915ef2bf574a30e000d4f611f03c6cdb3a2202ab5edf8f62
+        required_result: no_loop_topology_card
+
+ambiguity_contract:
+  ambiguity_key_fields:
+    - canonical_orientation
+    - protocol_roster_document_id
+    - protocol_roster_extraction_sha256
+    - topology_document_id
+    - topology_extraction_sha256
+  bundle_receipt_additional_fields:
+    - parent_id
+    - chunk_index
+    - card_start
+    - card_end
+    - quote_sha256
+  multiple_ambiguity_keys: reject_all
+  same_key_tie_break:
+    - navigation_rank
+    - exact_span_coordinates
+    - parent_id
+
+development_gate:
+  navigation_curve: [3, 4, 5, 6]
+  choose_k: smallest_k_reaching_maximum_valid_recovery_with_zero_negative_acceptance
+  required:
+    - both exact positive topology cards accepted
+    - exact-card hard negative rejected
+    - pipeline hard negatives produce no topology card
+    - s126 protected bundle remains valid
+    - dev004 remains fail_closed
+    - no partial append
+    - identical pool_projection_rejection_ambiguity_and_bundle_receipts_across_two_runs

@@ -1,0 +1,73 @@
+schema_version: s126_upstream_residual_audit_prereg_v1
+instrument: s126_audit_upstream_residuals
+status: FROZEN_BEFORE_AUDIT
+
+frozen_inputs:
+  reconciled_bridge:
+    path: evals/s125_m1_reconciled_bridge_v1.json
+    sha256: 240ad21f324b0f92228d2c7d23544b0a699c6cdaccaecafb67f0c1fababc791b
+  atomic_bridge:
+    path: evals/s118_atomic_benchmark_bridge_v1.json
+    sha256: f9a7a143a18b8d3046e404bd8dd1501baa62f1d0f4e6255d472956311d50eccb
+  frozen_contexts:
+    path: evals/s113_full_contexts_freeze_v1.json
+    sha256: 22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d
+  corpus_snapshot:
+    path: tmp/s117_m25/derived_snapshot_v2.jsonl.gz
+    sha256: a825e4dd02b918ddafebab4419cb416b6edc5f1b823a7a9d423f96718d7b6217
+  catalog_doc_map:
+    path: data/catalog/doc_map.jsonl
+  catalog_products:
+    path: data/catalog/products.jsonl
+  catalog_homonyms:
+    path: data/catalog/homonyms.jsonl
+
+population:
+  exact_count: 7
+  prior_buckets:
+    retrieval-miss: 2
+    rest: 5
+  claims:
+    - claim_id: benchmark_carry.cat017.caed61ef9840cb67e8012577
+      fact_key: 'cat017#2:licencia CLIP por lazo'
+      parent_fact_sha256: caed61ef9840cb67e8012577cf8f4ed4ed2286e0c0a4f72fa6b5d439cd671a35
+      prior_bucket: retrieval-miss
+    - claim_id: benchmark_carry.hp010.3b4d6e04130f4e6616d87725
+      fact_key: 'hp010#1:Nivel 3'
+      parent_fact_sha256: 3b4d6e04130f4e6616d877252132889b035a8751a3e36486c642d34447cad0bf
+      prior_bucket: retrieval-miss
+    - claim_id: benchmark_carry.cat008.9f55e8db783fbef54f9e2e8a
+      fact_key: 'cat008#3:1/2/3/4 lazo; 6-7 entrada A'
+      parent_fact_sha256: 9f55e8db783fbef54f9e2e8a1181b72f398e3490e06eb95f72fdf92a557b2e78
+      prior_bucket: rest
+    - claim_id: benchmark_carry.cat013.214f47423334393a39f2140e
+      fact_key: 'cat013#1:CLIP'
+      parent_fact_sha256: 214f47423334393a39f2140e6b2dd3a263872dd4954d5e922c15cce0f82f1041
+      prior_bucket: rest
+    - claim_id: benchmark_carry.cat013.3e589f9330fddbce987334e8
+      fact_key: 'cat013#0:bucle cerrado'
+      parent_fact_sha256: 3e589f9330fddbce987334e86946a6df50a47c3b20d8cc761b59f6507feb2a4d
+      prior_bucket: rest
+    - claim_id: benchmark_carry.hp011.3689458c865193d89966004a
+      fact_key: 'hp011#2:05 a 295 seg'
+      parent_fact_sha256: 3689458c865193d89966004acfb1c61b6c3289f35a8639e8eecf97df083bd9d6
+      prior_bucket: rest
+    - claim_id: benchmark_carry.hp011.a2fe1cdc2a168c60977a7842
+      fact_key: 'hp011#3:enclavadas'
+      parent_fact_sha256: a2fe1cdc2a168c60977a7842d0b52f8fd26bd0c3502ad0e71d7f5242a70e09b5
+      prior_bucket: rest
+
+audit_contract:
+  - verify every claim identity against the atomic bridge
+  - locate decisive evidence in the read-only frozen corpus snapshot
+  - compare decisive chunk membership with the frozen served context
+  - inspect current governed identity and document bindings without network access
+  - reclassify only by the first failed stage; never infer answer correctness
+  - keep source or benchmark conflicts outside bot-improvement credit
+
+anti_overfit:
+  - no qid or fact-key condition may enter serving code
+  - no gold, source, answer or frozen-context mutation
+  - no database, network, model, reranker or judge call
+  - an upstream recovery is not an OK claim
+  - a reconciliation-only stage movement is not bot-improvement credit

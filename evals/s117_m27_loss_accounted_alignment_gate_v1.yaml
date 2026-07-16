@@ -1,0 +1,69 @@
+instrument: s117_m27_loss_accounted_alignment_gate_v1
+status: CONTRACT_GO_COVERAGE_GO_LOSS_POLICY_NO_GO_ALIGNMENT_NO_GO
+
+authority: raw_store_only_not_pdf_or_visual_fidelity
+decision:
+  contract_integrity: GO
+  coverage_ledger: GO
+  loss_policy: NO_GO
+  loss_accounted_alignment: NO_GO
+  reason: 87_unruled_losses_across_22_documents
+  facts_moved_to_ok: 0
+  M3: BLOCKED
+
+population:
+  documents: 1068
+  v3_rows: 31212
+  raw_blocks: 333161
+  documents_go: 1046
+  documents_no_go: 22
+
+counts:
+  dispositions:
+    covered_by_v3: 333061
+    authorized_exclusion: 13
+    unruled_loss: 87
+  rule_matched_but_retained: 1648
+  documents_nonempty_failure: 0
+  documents_alignment_failure: 22
+
+seeded_execution:
+  seed1:
+    path: evals/s117_m27_loss_accounted_alignment_seed1_v1.json
+    bytes: 1031097712
+    sha256: 3c947f25f3996be7af0ec5a9dfa86cacbc4f125a84381fd1153d1c7fb2019dc3
+    logical_payload_sha256: b6d857fd322ddd9120675fba2ad3a842c1e5a9f712a5b94850242ba4710b66d1
+  seed2:
+    path: evals/s117_m27_loss_accounted_alignment_seed2_v1.json
+    bytes: 1031097712
+    sha256: 3c947f25f3996be7af0ec5a9dfa86cacbc4f125a84381fd1153d1c7fb2019dc3
+    logical_payload_sha256: b6d857fd322ddd9120675fba2ad3a842c1e5a9f712a5b94850242ba4710b66d1
+  byte_identical: true
+  logical_payload_identical: true
+
+frozen_contract:
+  prereg:
+    path: evals/s117_m27_loss_accounted_alignment_prereg_v1.yaml
+    sha256: cb2127da4db7c257edc860ddee395778be39d4ec2dfa0a6c65dc18fbe741c199
+  policy:
+    path: config/chunk_loss_policy_v1.yaml
+    sha256: 14f94ee898aa47ef7ad14c99e6a8e60baa33d1b65d1b3da6ba20354c451d4fc0
+
+authorization:
+  audit_complete: true
+  policy_change: false
+  chunk_change: false
+  adjudication: false
+  model_calls: false
+  database: false
+  context_generation: false
+  embedding_generation: false
+  load: false
+  serving: false
+  deploy: false
+
+cost:
+  model_calls: 0
+  network_calls: 0
+  database_reads: 0
+  database_writes: 0

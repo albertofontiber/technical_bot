@@ -1,0 +1,55 @@
+instrument: s113_canary_adversarial_review_v1
+scope: exact_hash_review_of_three_fresh_integrated_answers
+expansion_gate: NO_GO_STOP_REMAINING_12_PAID_CALLS
+cost:
+  fresh_generator_calls: 3
+  input_tokens: 43011
+  output_tokens: 4040
+  reranker_calls: 0
+  judge_calls: 0
+rows:
+  - qid: cat001
+    answer_sha256: 2c2c7ad7d56db69b46ebe50cbafd07140eec7f888b2a674fb627e221e355e0f3
+    facts:
+      - {fact_key: "cat001#0:159+159 / 99+99", verdict: pass}
+      - {fact_key: "cat001#1:0,75 A", verdict: pass}
+      - {fact_key: "cat001#2:40", verdict: pass}
+      - fact_key: "cat001#3:32 / 25 / 20"
+        verdict: hold_document_conflict
+        reason: >-
+          F1 and appended F13 assign the 20 and 25 limits differently around
+          internal or FET isolators. The answer emits contradictory operational
+          instructions instead of surfacing the conflict.
+      - {fact_key: "cat001#4:autoconfiguracion", verdict: pass}
+      - {fact_key: "cat001#5:255 / 8192", verdict: pass}
+  - qid: cat007
+    answer_sha256: 91d226dc01258953d3a33193167e20fe401dde814aa15fb76d22bec56c93b7a6
+    facts:
+      - {fact_key: "cat007#0:NC-C-NA", verdict: pass}
+      - fact_key: "cat007#1:no enclavado"
+        verdict: synthesis_miss
+        reason: >-
+          Non-latched behavior is present, but the complete fail-safe relation
+          that the relay de-energizes to signal is omitted or electrically ambiguous.
+      - fact_key: "cat007#2:47 kohm"
+        verdict: synthesis_miss
+        reason: >-
+          The answer calls the two supervised sounder outputs relays, contradicting
+          the required output-versus-relay distinction.
+      - fact_key: "cat007#3:2 A / 0,5 A"
+        verdict: pass_measurement_correction_not_s113_gain
+        reason: Exact same-product support was already in the immutable prefix; the append is irrelevant.
+      - fact_key: "cat007#4:10^5"
+        verdict: hold_document_extraction
+        reason: The served text contains OCR `105`, not exact rendered evidence for 10^5.
+  - qid: hp003
+    answer_sha256: f582a581f95cce3e745bccc99b8263308d87b4092c4bedf6a0a7d14df6de22d8
+    facts:
+      - {fact_key: "hp003#0:12V", verdict: pass}
+      - {fact_key: "hp003#1:cable puente", verdict: pass}
+      - {fact_key: "hp003#2:rojo y negro", verdict: pass}
+      - {fact_key: "hp003#3:primero la red", verdict: pass}
+finding: >-
+  Context selection is structurally GO, but fresh answer expansion is semantic
+  NO-GO. Conflict handling, attribution, and extraction evidence must be fixed
+  before any additional paid full-cohort generation.

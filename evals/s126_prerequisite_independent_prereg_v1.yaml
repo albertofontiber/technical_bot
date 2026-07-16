@@ -1,0 +1,51 @@
+schema_version: s126_prerequisite_independent_prereg_v1
+status: FROZEN_BEFORE_CONTENT_SCAN
+cohort:
+  rationale: eight independent S116 manuals whose substantive content was not used in S126 design
+  excluded_as_previously_exposed:
+    - bosch_fpc500_install
+    - hochiki_vr3_releasing
+    - apollo_xpander_commissioning
+    - siemens_fc922_panel
+  documents:
+    - {id: bosch_fpp5000_power, manufacturer: Bosch, filename: bosch_fpp5000_installation_all.pdf, pdf_sha256: 295540683fa0542fbe1d014c8fdc691747754166c9c8a0f0421a6a14997ab056, pages: 80, raw_record_sha256: 1e6b4a23e4e7b9e062649be20f66447f3fb27b17e34084eab1129095e2b5799e}
+    - {id: bosch_flm430_interface, manufacturer: Bosch, filename: bosch_flm430_i2m1_installation_all.pdf, pdf_sha256: 653719e29ee747a481961360444f355c6cb2931e61511df757ad94ebf72aca58, pages: 176, raw_record_sha256: aca30b4496c5c8ac30696e489e6a54216b8260a85279e7bbcef21d0adca8a73a}
+    - {id: siemens_oohc941_detector, manufacturer: Siemens, filename: siemens_oohc941_installation_en.pdf, pdf_sha256: 3792d5699046c25eb92d331e4f2fb09c6eda9032eaeee0cc53af29fb867552e3, pages: 8, raw_record_sha256: 92f121f7866c3312526d9349d5769839a0428b89a91a817a8632f38506e3988c}
+    - {id: siemens_fci2020_city_tie, manufacturer: Siemens, filename: siemens_fci2020_city_tie_installation_en.pdf, pdf_sha256: 234ba09b1a58a0df1f00691e0bd1af21469fefaaf5289e988fa077f1cf7c5c32, pages: 14, raw_record_sha256: b2a9f782474d2af30ef9d9e44e8564cc1f622ff2fb25c47184084ad4f7f584f5}
+    - {id: hochiki_hcvx_panel, manufacturer: Hochiki, filename: hochiki_hcvx_installation_operation.pdf, pdf_sha256: 0d175dd3f7b07ec8cfaf6b8cb15249bb27d60482da8de65e1cc260ec240a797f, pages: 108, raw_record_sha256: f0e4950b5db90c483d35391e56330211809a5f3a77c9c55f2cd932d5fc011005}
+    - {id: hochiki_smoke_heat_guide, manufacturer: Hochiki, filename: hochiki_smoke_heat_application_guide.pdf, pdf_sha256: 7870dc4b1c0f0adeae5aa3b076bca57e1d6574d544ddef0099530929df946f73, pages: 22, raw_record_sha256: 9f303c973abcc4e4d84b1ce2a6acfe63b1997338edf0cecfac6ed3bc604d8ee8}
+    - {id: apollo_series65_base, manufacturer: Apollo, filename: apollo_series65_base_installation.pdf, pdf_sha256: 523eb8b20f23016f34d747ddd79f91d8ac8d11b28961332e80e693749aae971e, pages: 1, raw_record_sha256: fd1c7e8df46208fc82c8d0ffcd25afcfd4191e098c3b7faf43f95b07a41f62a0}
+    - {id: apollo_xp95a_detectors, manufacturer: Apollo, filename: apollo_xp95a_detector_installation.pdf, pdf_sha256: 0b7a278f309a642d98f51d07fc83f2511f8fb444a0176d3abe5d21dc010660d3, pages: 2, raw_record_sha256: 30a23646ab7f6492a55d10ebdf32687c586d122ea225475b6747efda57c7eaff}
+
+frozen_implementation:
+  chunker_path: src/reingest/chunk.py
+  chunker_sha256: d851abf6761d8e5ff6dee4d2727b85c86fda21059dce8875a028cf8298e87764
+
+discovery_grammar:
+  access_anchor: '\b(access\s+level|user\s+level|installer\s+level|authorization|authorisation|password|login|nivel\s+de\s+acceso|nivel\s+de\s+usuario|clave)\b'
+  prerequisite_relation: '\b(must|required|requires|need(?:ed)?|before|prior|only|shall|debe|debera|necesit|antes|previo|solo)\w*\b'
+  entitlement_anchor: '\blicen[cs]\w*\b'
+  distributive_unit: '\b(each|every|per|cada|por)\b[\s\S]{0,80}\b(loop|circuit|channel|panel|device|site|lazo|circuito|canal|central|dispositivo|sitio)\w*\b'
+  maximum_anchor_distance_chars: 500
+  exclude_index_or_toc_only_rows: true
+
+gate:
+  execution_valid_if:
+    exact_documents: 8
+    manufacturers_at_least: 4
+    raw_hashes_valid: true
+    model_calls: 0
+    network_calls: 0
+  applicability:
+    positive_opportunities_at_least: 2
+    manufacturers_with_positive_opportunity_at_least: 2
+    otherwise: INCONCLUSIVE_NOT_GO
+  precision:
+    false_positive_selections: 0
+    exact_source_receipts_required: true
+
+anti_overfit:
+  - no QID, benchmark fact, expected value or target receipt is an input
+  - discovery vocabulary contains no product or manufacturer name
+  - candidate discovery is not release authorization
+  - no applicability means inconclusive, never GO

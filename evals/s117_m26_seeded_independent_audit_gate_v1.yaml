@@ -1,0 +1,106 @@
+instrument: s117_m26_seeded_independent_audit_gate_v1
+status: CONTRACT_INTEGRITY_GO
+scope: independent_metadata_free_reuse_evidence_and_retrieval_policy_audit
+
+verdict:
+  adversarial: GO
+  material_findings: 0
+  interpretation: closes_M2_6_contract_integrity_only
+
+frozen_contract:
+  prereg: {path: evals/s117_m26_independent_audit_prereg_v1.yaml, sha256: 6203bc0441a60b0a77779902c0f0c9536dbd89c8aae2cb8dca61b27e0d57322c}
+  runner: {path: scripts/s117_m26_independent_reuse_audit.py, sha256: 1357af3c92e9a021e18fa8d5d3aa2593f203ff5da045f9ef8044798efd35fd62}
+  runner_tests: {path: tests/test_s117_m26_independent_reuse_audit.py, sha256: 7cb6588e88a2f279dae85eb6ac4183e2f1f8310ef8f4049a6f6f0ff91d6f2b0e}
+  policy: {path: src/reingest/retrieval_policy.py, sha256: cafba354609f41038d5c1d7fe5c7e7f10056d98c1cde8a43feab9e2c6dbcedaf}
+  policy_tests: {path: tests/test_retrieval_policy.py, sha256: cf0de7c9b24d5ac78b40d62113207afc6b6cbb52bc6fc40be276da27c729b5b4}
+
+seeded_outputs:
+  seed_1: {path: evals/s117_m26_independent_audit_seed1_v1.json, sha256: 34874f81c3a18cd7b1fd05862c6ef6219a2ab5fb67cec3bf3479824d04e1f83a, status: CONTRACT_INTEGRITY_GO}
+  seed_2: {path: evals/s117_m26_independent_audit_seed2_v1.json, sha256: 34874f81c3a18cd7b1fd05862c6ef6219a2ab5fb67cec3bf3479824d04e1f83a, status: CONTRACT_INTEGRITY_GO}
+  bytes_each: 31212782
+  byte_identical: true
+  logical_payload_sha256: 0cf3f4938cc265a6b3d6f4a9890583d28ec6dd1e4c8d277146f860b0de2f3449
+  audit_rows_manifest_sha256: 2ff3332d71a3f46f7ecc0da175c66797d0e5ebde9243021e63a783fd3650df6b
+  source_binding_receipts_sha256: 0cd48a513185d1ba644a1928f654967fe6fbb033208d3c2e043a1fed4f425562
+  checks: 20_of_20_true
+
+observed:
+  local_rows: 31212
+  retrieval_policy:
+    eligible: 25831
+    register_only: 602
+    unsupported_language: 4779
+    duplicate: 0
+  structural_identity:
+    independent_unique_structural_donor: 21298
+    unique_donor_marked_duplicate: 2667
+    no_content_donor: 6848
+    no_structural_donor: 381
+    multiple_structural_donors: 18
+  binding_evidence:
+    live_exact_document_match: 8158
+    projected_observed_document_match: 15654
+    expected_document_binding_unavailable: 153
+    donor_document_binding_mismatch: 0
+    structural_donor_not_unique: 7247
+  projected_strict_cohort:
+    rows: 8061
+    independent_unique_structural_donor: 6957
+    unique_donor_marked_duplicate: 1104
+    baseline_split: {independent: 2353, duplicate_donor: 270}
+    new_m25_split: {independent: 4604, duplicate_donor: 834}
+  provenance:
+    context_generation_receipt_unavailable: 21298
+    embedding_model_receipt_unavailable: 21298
+    context_evidence_compatible: 0
+    embedding_evidence_compatible: 0
+  authorization:
+    authorized_context_rows: 0
+    authorized_embedding_rows: 0
+    safe_fresh_regeneration_workload_live_rows: 8493
+    M3: BLOCKED
+
+verification:
+  focused_suite: {passed: 33, failed: 0}
+  full_local_suite: {passed: 878, skipped: 2, failed: 0}
+  adversarial_recalculation:
+    row_receipts_valid: 31212_of_31212
+    row_ids_unique_and_sorted: true
+    taxonomies_exact: true
+    cohort_slices_exact: true
+    authorization_dependency_exact: true
+
+claim_contract:
+  proven:
+    - policy_and_evidence_contract_integrity
+    - order_independent_determinism
+    - legacy_reuse_provenance_insufficient
+    - safe_fresh_regeneration_workload_is_8493_current_live_rows
+  not_proven:
+    - reuse_safety
+    - projected_bindings_are_live
+    - schema_or_migration_safety
+    - load_or_HNSW_safety
+    - serving_or_deploy_safety
+    - fact_OK_improvement
+
+authorization:
+  allowed_next:
+    - design_and_preregister_document_remediation_gate
+    - design_and_preregister_common_vector_FTS_policy_SQL_gate
+    - design_and_preregister_budgeted_fresh_context_and_embedding_generation_gate
+  forbidden:
+    - model_calls
+    - legacy_reuse
+    - schema_or_migration_apply
+    - database_writes
+    - vector_load_or_HNSW
+    - serving_or_deploy
+    - fact_relabeling
+
+cost:
+  database_reads: 0
+  database_writes: 0
+  model_calls: 0
+  vector_payloads: 0
+  external_cost: 0

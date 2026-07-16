@@ -1,0 +1,210 @@
+instrument: s117_m27_loss_safe_chunking_probe_prereg_v2
+status: frozen_before_seeded_probe
+
+scope:
+  purpose: measure_removal_of_length_only_chunk_deletion_with_token_interval_binding
+  authority: raw_store_parsed_block_whitespace_token_surface_only
+  allowed:
+    - local_raw_store_read
+    - local_sidecar_read
+    - frozen_snapshot_read
+    - frozen_eval_read
+    - local_eval_write
+    - deterministic_baseline_replay
+    - diagnostic_treatment_override
+    - scoped_wrapper_composition
+  forbidden:
+    - env_file_read
+    - network
+    - model_calls
+    - semantic_adjudication
+    - database_access
+    - database_write
+    - chunker_file_change
+    - base_runner_change
+    - policy_change
+    - context_generation
+    - embedding_generation
+    - schema_apply
+    - migration
+    - load
+    - serving
+    - deploy
+    - M3_authorization
+
+frozen_inputs:
+  runner:
+    path: scripts/s117_m27_loss_safe_chunking_probe_v2.py
+    sha256: 84ea712f193afa8866e07a02671ca65a32cbe0153665ee72aa1280588dd00a4d
+  runner_tests:
+    path: tests/test_s117_m27_loss_safe_chunking_probe_v2.py
+    sha256: 8124c2494326eab020b544c84bab3f2d7a3977aa8df970c831f271bafdb9d3c4
+  base_runner:
+    path: scripts/s117_m27_loss_safe_chunking_probe.py
+    sha256: c89802216ef9fd4c61764987f441384c7f9e6f82b5cb39e65e39eaf2d1fd0bb0
+  base_runner_tests:
+    path: tests/test_s117_m27_loss_safe_chunking_probe.py
+    sha256: 99aaf529fac81c22443be54d7c1cdd41918413606435e6e717930db3fb8e800d
+  design_v1:
+    path: evals/s117_m27_loss_safe_chunking_design_v1.md
+    sha256: 37eb3884a7a92fdee8050a69f95920cc0b983e7fa4539bfbc275a54df3589d1f
+  design_v2:
+    path: evals/s117_m27_loss_safe_chunking_design_v2.md
+    sha256: 3f61941901b4933a34378ab26b048dc8649a4464af5f98241c55e242da1497f5
+  design_v3:
+    path: evals/s117_m27_loss_safe_chunking_design_v3.md
+    sha256: f52818cd44e751bb1cf8688abdbb5df1e43ccc797fc0db5e5d874d43bc96d6f2
+  previous_prereg:
+    path: evals/s117_m27_loss_safe_chunking_probe_prereg_v1.yaml
+    sha256: 2ac21a9d911e5a0f944be901bb72f4237a26dbdbe63dc4adba48e0cef522e0db
+  failed_probe_gate:
+    path: evals/s117_m27_loss_safe_chunking_probe_failed_gate_v1.yaml
+    sha256: 0e81b283ba11137f74401445350d0d463437c478b5e60be28cff43a8c4346304
+  span_binding_diagnostic:
+    path: evals/s117_m27_span_binding_diagnostic_v1.yaml
+    sha256: c9825c6237ccc9aaf675a7fe21f675922ce3ba077c38c7608053ee9943163937
+  compact_report_runner:
+    path: scripts/s117_m27_compact_loss_report.py
+    sha256: 8b2d6dca2f5aec70905e937b2e6b3822d12e01ecb4b8d4cc2e76c6cfd507b5e9
+  loss_rows_compact:
+    path: evals/s117_m27_loss_rows_compact_v1.json
+    sha256: 9424d343b21c4894044bfad5cc6fbfd39f2f45b9e2c3da26d8901d381820a894
+  m27b_gate:
+    path: evals/s117_m27_loss_accounted_alignment_gate_v1.yaml
+    sha256: 77c4b0145e851efa0d441bba290dd8f071c2b7001b1a0d8cc456a38aef413455
+  m27b_prereg:
+    path: evals/s117_m27_loss_accounted_alignment_prereg_v1.yaml
+    sha256: cb2127da4db7c257edc860ddee395778be39d4ec2dfa0a6c65dc18fbe741c199
+  m27b_policy:
+    path: config/chunk_loss_policy_v1.yaml
+    sha256: 14f94ee898aa47ef7ad14c99e6a8e60baa33d1b65d1b3da6ba20354c451d4fc0
+  m27b_seed1:
+    path: evals/s117_m27_loss_accounted_alignment_seed1_v1.json
+    sha256: 3c947f25f3996be7af0ec5a9dfa86cacbc4f125a84381fd1153d1c7fb2019dc3
+  m27b_seed2:
+    path: evals/s117_m27_loss_accounted_alignment_seed2_v1.json
+    sha256: 3c947f25f3996be7af0ec5a9dfa86cacbc4f125a84381fd1153d1c7fb2019dc3
+  m27_prereg:
+    path: evals/s117_m27_upstream_sql_budget_prereg_v2.yaml
+    sha256: d88ff8610a0e4e7d1c47508b37a517988974acadf9dd36d2ef257604b59bbd72
+  development_result:
+    path: evals/s117_chunks_v3_development_materialization_v1.json
+    sha256: d9f69e8d1428e11afa56723817f64226aa53db786c8034453dfde4adbbedca3a
+  source_snapshot:
+    path: tmp/s117_m2/remote_snapshot_v1.jsonl.gz
+    sha256: 3013c553da20c72fbfe0dc801dad4ea4b063ecff3138dcf55b5cd7831cf79067
+  chunker:
+    path: src/reingest/chunk.py
+    sha256: 4b76ab219854c625f4ce5e55665e2c89d14739e4eee0ab01607aae7ecda4fd43
+  materializer:
+    path: src/reingest/chunk_provenance.py
+    sha256: bb218a509ca56f2ddf4e44d73c4235cefacfb4296a4b98c9d49a627a2536e65c
+  independent_validator:
+    path: scripts/s117_materialize_chunks_v3_local.py
+    sha256: 36037383c1c33c630e9df6add9f3c188dc10e2dfd79ff33f53ee04f44aa4c342
+
+selected_paths:
+  m27_prereg: evals/s117_m27_upstream_sql_budget_prereg_v2.yaml
+  development_result: evals/s117_chunks_v3_development_materialization_v1.json
+  loss_rows_compact: evals/s117_m27_loss_rows_compact_v1.json
+
+selected_path_bindings:
+  m27_prereg: m27_prereg
+  development_result: development_result
+  loss_rows_compact: loss_rows_compact
+
+wrapper_composition_contract:
+  base_module: scripts.s117_m27_loss_safe_chunking_probe
+  substitutions:
+    - _load_contract
+    - _validate_treatment_against_raw
+    - __file__
+  any_other_substitution: forbidden
+  restore_on_success: required
+  restore_on_exception: required
+  treatment_contract_runner_identity: wrapper_runner_sha256
+  base_runner_hash_bound: true
+
+override_contract:
+  symbol: src.reingest.chunk.NOISE_CHARS
+  baseline: 15
+  treatment: 0
+  scope: single_call_with_finally_restore
+  only_behavioral_override: true
+
+expected:
+  documents: 1068
+  baseline_rows: 31212
+  raw_blocks: 333161
+  baseline_covered_blocks: 333061
+  baseline_missing_blocks: 100
+  baseline_authorized_exclusions: 13
+  baseline_unruled_losses: 87
+  loss_documents: 27
+  unchanged_documents: 1041
+  treatment_covered_blocks: 333161
+  treatment_missing_blocks: 0
+
+baseline_contract:
+  generation_manifest_set_exact: true
+  materialization_identity_frozen: true
+  rows_manifest_exact: true
+  missing_identity_set_exactly_compact_100: true
+  disposition_counts_exact: true
+
+treatment_contract:
+  diagnostic_identity_separate_from_baseline: true
+  baseline_materialization_identity_reuse: forbidden
+  row_count: observation_not_gate
+  raw_and_treatment_global_token_streams_exact: true
+  raw_blocks_define_nonempty_contiguous_token_intervals: true
+  treatment_rows_define_nonempty_contiguous_token_intervals: true
+  expected_row_span_is_first_last_intersected_raw_block: true
+  declared_row_span_equals_expected_token_interval_span: true
+  legitimate_shared_or_partial_block_spans_require_token_proof: true
+  lineage_page_diagram_confidence_raw_bound: true
+  all_raw_blocks_covered: true
+  exclusions: 0
+  unruled_losses: 0
+  loadable: false
+
+delta_contract:
+  taxonomy: [unchanged, added, removed, modified]
+  multiset_semantics: true
+  partitions_exact: true
+  baseline_covered_subset_treatment: true
+  observed_coverage_gain_exactly_frozen_100: true
+  unaffected_1041_full_fingerprint_multiset_equal: true
+  changed_document_set_exactly_frozen_27: true
+  delta_go_requires_baseline_and_treatment_go: true
+
+execution:
+  seeds: [1, 2]
+  perturbation: shuffle_documents_rows_and_chunks_then_restore_canonical_order
+  required:
+    - focused_tests_green
+    - full_regression_green
+    - cross_process_byte_identical
+    - logical_payload_identical
+    - contract_integrity_go
+    - baseline_replay_go
+    - treatment_lossless_go
+    - delta_accounted_go
+    - zero_external_cost
+    - zero_adjudication
+
+authorization:
+  prereg_frozen: true
+  probe_execution: false
+  implementation: false
+  policy_change: false
+  database: false
+  network: false
+  models: false
+  context_generation: false
+  embeddings: false
+  load: false
+  serving: false
+  deploy: false
+  facts_moved_to_ok: 0
+  M3: BLOCKED

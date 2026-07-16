@@ -1,0 +1,133 @@
+instrument: s113_rest_decomposition_v1
+status: audited_partial_work_queue_not_official_histogram
+total: 17
+histogram:
+  corpus-gap: 2
+  document-conflict-hold: 3
+  document-extraction-hold: 1
+  evidence-partial-hold: 5
+  invalid-relation-adjudicated: 1
+  meta-ref: 2
+  noncore-adjudicated: 1
+  product-or-parameter-identity-hold: 2
+actionability:
+  document-extraction-hold:
+    stage: document_extraction
+    actionable: true
+  corpus-gap:
+    stage: corpus_acquisition_or_ingestion
+    actionable: true
+  document-conflict-hold:
+    stage: document_revision_and_source_arbitration
+    actionable: true
+  product-or-parameter-identity-hold:
+    stage: metadata_and_identity
+    actionable: true
+  evidence-partial-hold:
+    stage: extraction_retrieval_or_gold_adjudication
+    actionable: true
+  meta-ref:
+    stage: evaluation_contract
+    actionable: false
+  noncore-adjudicated:
+    stage: evaluation_contract
+    actionable: false
+  invalid-relation-adjudicated:
+    stage: evaluation_contract
+    actionable: false
+rows:
+- fact_key: cat001#3:32 / 25 / 20
+  qid: cat001
+  category: document-conflict-hold
+  evidence: s113_canary_adversarial_review_v1
+  reason: F1 and appended F13 assign the 20 and 25 limits differently around internal
+    or FET isolators. The answer emits contradictory operational instructions instead
+    of surfacing the conflict.
+- fact_key: cat007#4:10^5
+  qid: cat007
+  category: document-extraction-hold
+  evidence: s113_canary_adversarial_review_v1
+  reason: The served text contains OCR `105`, not exact rendered evidence for 10^5.
+- fact_key: cat008#3:1/2/3/4 lazo; 6-7 entrada A
+  qid: cat008
+  category: document-conflict-hold
+  evidence: s112_synthesis_root_cause_audit_v1
+  reason: Served sources reverse T1/T2 versus T3/T4 input/output assignments and also
+    contain terminal OCR ambiguity. Resolve model and revision visually.
+- fact_key: cat013#0:bucle cerrado
+  qid: cat013
+  category: corpus-gap
+  evidence: s100_factlevel_full
+  reason: No servable same-product evidence was found in the frozen corpus.
+- fact_key: cat013#1:CLIP
+  qid: cat013
+  category: corpus-gap
+  evidence: s100_factlevel_full
+  reason: No servable same-product evidence was found in the frozen corpus.
+- fact_key: cat017#2:licencia CLIP por lazo
+  qid: cat017
+  category: evidence-partial-hold
+  evidence: s112_synthesis_root_cause_audit_v1
+  reason: The sources require a CLIP loop licence but do not explicitly establish
+    the evaluated one-licence-per-each-loop quantifier.
+- fact_key: cat018#3:Apendice A
+  qid: cat018
+  category: meta-ref
+  evidence: s100_factlevel_full
+  reason: Evaluation pointer or document reference, not an atomic technical fact.
+- fact_key: cat020#2:manual de variaciones Espana
+  qid: cat020
+  category: meta-ref
+  evidence: s100_factlevel_full
+  reason: Evaluation pointer or document reference, not an atomic technical fact.
+- fact_key: hp002#3:7.6.1
+  qid: hp002
+  category: evidence-partial-hold
+  evidence: s112_synthesis_root_cause_audit_v1
+  reason: Section 7.6.1 and the below/above 100 percent interpretation are served,
+    but V01 and V02 are absent from the served evidence.
+- fact_key: hp006#1:Tierra
+  qid: hp006
+  category: noncore-adjudicated
+  evidence: s114_s106_provenance_receipt_v1
+  reason: Removed from the scored core by the atomicity adjudication.
+- fact_key: hp006#2:ISO-X
+  qid: hp006
+  category: invalid-relation-adjudicated
+  evidence: s114_s106_provenance_receipt_v1
+  reason: The evaluated relation was rejected by the atomicity adjudication.
+- fact_key: hp010#1:Nivel 3
+  qid: hp010
+  category: evidence-partial-hold
+  evidence: s112_synthesis_root_cause_audit_v1
+  reason: The autobusqueda steps are served but Nivel 3 and memory unlock are not;
+    the current answer incorrectly says Nivel 2.
+- fact_key: hp011#2:05 a 295 seg
+  qid: hp011
+  category: product-or-parameter-identity-hold
+  evidence: s112_synthesis_root_cause_audit_v1
+  reason: The question is RP1r while the range is served from RP1r-Supra, and the
+    extracted row has lost the t.A parameter identity.
+- fact_key: hp011#3:enclavadas
+  qid: hp011
+  category: product-or-parameter-identity-hold
+  evidence: s112_synthesis_root_cause_audit_v1
+  reason: The general latched-fault rule is served from sibling RP1r-Supra.
+- fact_key: hp013#1:PWR-R
+  qid: hp013
+  category: evidence-partial-hold
+  evidence: s112_synthesis_root_cause_audit_v1
+  reason: PWR-R redundancy and lithium RTC battery are explicit, but input voltage
+    and the evaluated no-onboard-buffer conclusion are not explicit.
+- fact_key: hp015#2:32
+  qid: hp015
+  category: evidence-partial-hold
+  evidence: s112_synthesis_root_cause_audit_v1
+  reason: Zone-level disconnection and the 32-device maximum are explicit; absolute
+    impossibility of individual isolation cannot be inferred from menu absence.
+- fact_key: hp017#2:Editar Configuracion
+  qid: hp017
+  category: document-conflict-hold
+  evidence: s112_synthesis_root_cause_audit_v1
+  reason: One served source says 7:Causa y Efecto while another says 8:Causa y Efecto.
+    The canary followed 8, so revision/model resolution is required.

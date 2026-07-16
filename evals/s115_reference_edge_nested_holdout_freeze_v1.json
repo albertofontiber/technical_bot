@@ -1,0 +1,111 @@
+{
+  "instrument": "s115_reference_edge_nested_holdout_freeze_v1",
+  "status": "sealed_not_replayed",
+  "base_scope_freeze_sha256": "227e808a2ba2308acce89f90722fd46a63bad30aae0cde630191154b4ff07d94",
+  "diagnostic_challenge_sha256": "a47e31ab3eeceec2676a28adf6f47e40724654fab30f7e1e858eb16a887da73e",
+  "sample_count": 12,
+  "manufacturer_count": 2,
+  "sample": [
+    {
+      "manufacturer": "LDA audioTech",
+      "product_model": "NEO",
+      "chunk_id": "47567d48-eddf-463c-8be1-2596abf32881",
+      "question": "¿El selector de tensión de los equipos NEO viene de fábrica en 230V o hay que configurarlo antes de conectar?",
+      "rank_sha256": "dac609dff9dda45bb3b7a84b8e9d12f5e807ef4d09347b972af10700b220ca12",
+      "scope_key": "LDA audioTech␟NEO"
+    },
+    {
+      "manufacturer": "LDA audioTech",
+      "product_model": "NEO",
+      "chunk_id": "67c8f136-6bdd-4a00-95b0-6c6b757b5ff7",
+      "question": "¿Qué es FlexNet en el sistema LDA NEO y cómo se conectan los equipos entre sí?",
+      "rank_sha256": "e49f340770cf154edb20322d7ce18573e77a77151e8a8b3cb3824aa59093334b",
+      "scope_key": "LDA audioTech␟NEO"
+    },
+    {
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VEA",
+      "chunk_id": "5b5292af-4dbd-4efd-b964-6e6e5070be40",
+      "question": "¿Cómo se cablea la GPI supervisada para monitorizar la PSU en la VESDA-E VEA-040-A00?",
+      "rank_sha256": "0984f9e7ad34e94707cb595b2a96f2b0ba94f6551cf872dc684831bb5a505dc9",
+      "scope_key": "Xtralis␟VESDA-E-VEA"
+    },
+    {
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VEA",
+      "chunk_id": "d9dbd667-949c-45a4-8a20-b394dc02b95c",
+      "question": "¿Cómo me conecto con el software Xtralis VSC al detector VESDA-E VEA-040-A00 por USB?",
+      "rank_sha256": "0ade02a12060b367ba311cbf351919f74ba8d44c8e60dad6ea067d43634c4d0e",
+      "scope_key": "Xtralis␟VESDA-E-VEA"
+    },
+    {
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VES",
+      "chunk_id": "d4357e63-49a8-4698-92bf-1488c62b276c",
+      "question": "¿Cómo se configura por primera vez el detector VESDA-E VES-A10-P, qué software necesito y cómo me conecto a él?",
+      "rank_sha256": "0aec084a5bbbedcb3da26a74d4b59f9ac3467ece0213e1e6172ee61f70b80323",
+      "scope_key": "Xtralis␟VESDA-E-VES"
+    },
+    {
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VES",
+      "chunk_id": "ea504c3e-34d4-4ca6-99dd-01221f8377ed",
+      "question": "¿Cuál es el caudal mínimo de aire que necesita el detector VESDA-E VES-A10-P por tubería cuando hay varias tuberías instaladas?",
+      "rank_sha256": "0bf0a2779b31d24bf7953cb031669340a9c381001f55b131f74f0a180857ead4",
+      "scope_key": "Xtralis␟VESDA-E-VES"
+    },
+    {
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VEA",
+      "chunk_id": "3a3f6c9f-efbb-4bc8-97f9-c03e7f4b9b92",
+      "question": "¿Se puede guardar la configuración de la walk test en el VESDA-E VEA para no tener que volver a configurarla cada vez?",
+      "rank_sha256": "0bf46454fc9cce4e8055355431eb20ddc3dca43ecd214b97c6480a9677236343",
+      "scope_key": "Xtralis␟VESDA-E-VEA"
+    },
+    {
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VEA",
+      "chunk_id": "3388007c-5397-4375-a44b-8a91cefb0b78",
+      "question": "¿Cuánto espacio libre necesito dejar alrededor del VESDA-E VEA para montarlo bien, tanto arriba como a los lados?",
+      "rank_sha256": "0c718c8df62df66b0e7edbbc055ad6555e8f460ab4d0f233ca0300e5038ea771",
+      "scope_key": "Xtralis␟VESDA-E-VEA"
+    },
+    {
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VEA",
+      "chunk_id": "652edde7-1700-415f-a14e-ebd81f5090f8",
+      "question": "¿Cómo se configura el módulo de relé StaX en el VESDA-E VEA-040-A00, tanto en la placa física como en el software?",
+      "rank_sha256": "0d1358f8f0decfd939af34e467d1ee3b0b65f02a2d1c3b242363f1c907c65f26",
+      "scope_key": "Xtralis␟VESDA-E-VEA"
+    },
+    {
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VES",
+      "chunk_id": "c19b7678-8074-41c3-9c53-05f62cc46445",
+      "question": "¿Qué comprobaciones hay que hacer en la instalación del VESDA-E VES antes de llamar al ingeniero de puesta en marcha?",
+      "rank_sha256": "0d416fd51100d0673c7898b34027b2761d97f5d98cf3c5793b6998f3adfd3e27",
+      "scope_key": "Xtralis␟VESDA-E-VES"
+    },
+    {
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VEA",
+      "chunk_id": "f421b867-b29a-4744-90c1-b7649649a565",
+      "question": "¿Cómo se fija el VESDA-E VEA-040-A10 al soporte de montaje una vez colocado?",
+      "rank_sha256": "0e268dcffcdb13e10a89e21d579d3df78bac6aa25827d1ebf8c73d2780988c48",
+      "scope_key": "Xtralis␟VESDA-E-VEA"
+    },
+    {
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VES",
+      "chunk_id": "d5c7a3e7-15cc-4e06-a8af-03d33c67ed50",
+      "question": "¿Cómo se comporta el relé de Fallo urgente del VESDA-E VES en condiciones normales, cuando hay fallo y cuando se va la alimentación?",
+      "rank_sha256": "0e604f8880311b72736d4c01a088b520b0d34e5a3954ef95607208433694551c",
+      "scope_key": "Xtralis␟VESDA-E-VES"
+    }
+  ],
+  "cost_receipt": {
+    "database_get_requests": 0,
+    "database_writes": 0,
+    "model_calls": 0
+  }
+}

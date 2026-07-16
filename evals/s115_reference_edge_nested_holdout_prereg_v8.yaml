@@ -1,0 +1,42 @@
+instrument: s115_reference_edge_nested_holdout_prereg_v8
+status: frozen_before_procedure_novelty_implementation
+
+frozen_design:
+  path: evals/s115_reference_edge_design_v8.md
+  sha256: 45acc255c6a185b96b1794e01bf1159ffc9ea3bf2f6a2697d9dd07137061d63e
+  inherited_design_paths:
+    - evals/s115_reference_edge_design_v5.md
+    - evals/s115_reference_edge_design_v6.md
+    - evals/s115_reference_edge_design_v7.md
+  config_path: config/reference_edge_contract_v4.yaml
+  config_sha256: 2dab22ba5b324e5ad42709aa0d6a8638a3b80b25d03eae7667fa3b3ad229823c
+
+nested_holdout:
+  path: evals/s115_reference_edge_nested_holdout_freeze_v1.json
+  sha256: 107e5f0f0ec27117a4f9cec180169dbb43aad2ee385e31fbc8f0eeb3282c297e
+  sample_count: 12
+  manufacturer_count: 2
+  limitation: smoke_only
+
+potential_definition: >-
+  A parsed explicit reference edge with at least one exact-section candidate that
+  shares the served row's valid document_id and extraction_sha256.
+false_negative_classes:
+  selector_false_negative: valid unique byte anchor and decisive contract-bearing evidence exists
+  upstream_unresolvable: relevant content exists but no valid byte-backed section anchor/provenance exists
+
+single_unseal_rules:
+  - Freeze implementation, config, tests, runner and runner-test hashes first.
+  - Do not inspect nested question text, candidates or results before that freeze.
+  - Audit every selected card and every potential-not-selected edge.
+  - Ambiguous counts as non-relevant.
+  - Require zero high/medium contamination and zero visible selector_false_negative.
+  - Report upstream_unresolvable separately; never relax provenance to convert it.
+  - Fewer than five selections or zero potentials is inconclusive and must not trigger tuning.
+  - Any post-unseal selector or config change invalidates the smoke result.
+
+authorization_boundary:
+  local_shadow_implementation: allowed
+  nested_unseal: not_yet_allowed
+  answer_regression: not_allowed
+  serving_integration: not_allowed

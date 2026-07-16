@@ -1,0 +1,110 @@
+{
+  "instrument": "s126_replay_structural_upstream_v1",
+  "status": "GO_LOCAL_CANDIDATE",
+  "checks": {
+    "accepted_mapping_exact": true,
+    "procedure_claims_recovered": true,
+    "compatibility_plan_has_three_needs": true,
+    "compatibility_receipts_recovered": true,
+    "baseline_missing_new_compatibility_relations": true
+  },
+  "accepted_mapping": {
+    "valid": true,
+    "document_id": "38266cec-8563-4dbb-9e55-37534d8ab7a8",
+    "source_file": "MIDT190",
+    "product_id": "notifier:sdx-751",
+    "match_count": 1
+  },
+  "procedure_prerequisite_coverage": [
+    {
+      "fact_key": "cat017#2:licencia CLIP por lazo",
+      "selected_ids": [
+        "5bb83899-9d94-4fdd-8d42-24a670a036c5"
+      ],
+      "selected_facets": [
+        "quantified_licensed_loop_prerequisite"
+      ],
+      "expected_recovered": true,
+      "receipts_valid": true,
+      "product_scoped_candidates": 252
+    },
+    {
+      "fact_key": "hp010#1:Nivel 3",
+      "selected_ids": [
+        "155a90fe-8c3f-484e-a617-7637fe29b547"
+      ],
+      "selected_facets": [
+        "procedural_access_prerequisite"
+      ],
+      "expected_recovered": true,
+      "receipts_valid": true,
+      "product_scoped_candidates": 202
+    }
+  ],
+  "compatibility_contract": {
+    "prior_plan": {
+      "archetype": "compatibility",
+      "needs": [
+        "Tengo una central Detnov CAD-150 y me ha sobrado de otra instalacion un detector optico Notifier SDX-751; ¿es compatible / puedo montarlo en su lazo compatibilidad protocolo fabricante familia compatibility protocol manufacturer family",
+        "Tengo una central Detnov CAD-150 y me ha sobrado de otra instalacion un detector optico Notifier SDX-751; ¿es compatible / puedo montarlo en su lazo requisitos electricos mecanicos instalacion electrical mechanical installation requirements"
+      ]
+    },
+    "candidate_plan": {
+      "archetype": "compatibility",
+      "needs": [
+        "Tengo una central Detnov CAD-150 y me ha sobrado de otra instalacion un detector optico Notifier SDX-751; ¿es compatible / puedo montarlo en su lazo compatibilidad protocolo fabricante familia compatibility protocol manufacturer family",
+        "Tengo una central Detnov CAD-150 y me ha sobrado de otra instalacion un detector optico Notifier SDX-751; ¿es compatible / puedo montarlo en su lazo equipos dispositivos detectores compatibles supported compatible equipment devices detectors",
+        "Tengo una central Detnov CAD-150 y me ha sobrado de otra instalacion un detector optico Notifier SDX-751; ¿es compatible / puedo montarlo en su lazo topologia lazo bucle cerrado retorno requisitos instalacion loop closed return installation requirements"
+      ]
+    },
+    "rows": [
+      {
+        "fact_key": "cat013#0:bucle cerrado",
+        "chunk_id": "b6602d5a-dbb5-4e2e-8814-1ac3ce066896",
+        "source_file": "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT",
+        "prior_facets": [],
+        "candidate_facets": [
+          "loop_topology"
+        ],
+        "expected_facet_recovered": true,
+        "candidate_receipts_exact": true
+      },
+      {
+        "fact_key": "cat013#1:CLIP",
+        "chunk_id": "cfcdc8f7-bdaf-412f-a85e-0ffb76878d99",
+        "source_file": "MIDT190",
+        "prior_facets": [
+          "compatibility_scope"
+        ],
+        "candidate_facets": [
+          "protocol_scope"
+        ],
+        "expected_facet_recovered": true,
+        "candidate_receipts_exact": true
+      },
+      {
+        "fact_key": "cat013#1:SDX-751 roster",
+        "chunk_id": "11d96526-d627-4305-8cae-e6852af1b20b",
+        "source_file": "MIDT190",
+        "prior_facets": [],
+        "candidate_facets": [
+          "supported_device_roster"
+        ],
+        "expected_facet_recovered": true,
+        "candidate_receipts_exact": true
+      }
+    ]
+  },
+  "stage_credit": {
+    "retrieval_preconditions_recovered": 2,
+    "compatibility_validation_preconditions_recovered": 2,
+    "facts_moved_to_ok": 0,
+    "reason": "local development replay; live navigation and downstream gates remain"
+  },
+  "cost": {
+    "model_calls": 0,
+    "network_calls": 0,
+    "database_reads": 0,
+    "database_writes": 0
+  }
+}

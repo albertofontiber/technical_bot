@@ -1,0 +1,14 @@
+instrument: s117_m2_legacy_reuse_prereg_v24
+status: frozen_before_database_read
+supersedes: evals/s117_m2_legacy_reuse_prereg_v23.yaml
+inherits:
+  path: evals/s117_m2_legacy_reuse_prereg_v23.yaml
+  sha256: ca3b33a0a59fc5ca71da5b27ca2812e8434d6fe90662e7946c79258442ace13c
+design:
+  authoritative_binding: evals/s117_m2_legacy_reuse_design_v24.md
+  authoritative_binding_sha256: ebe4dfa99c32f4454e81e038061143e27680aa453b02294eac16b3338995d09b
+sidecar_binding:
+  accepted_source_path: exactly_two_relative_posix_components
+  absolute_paths: fail_closed_before_database_credentials
+  nested_or_traversal_paths: fail_closed_before_database_credentials
+  lookup_and_B5_input: canonical_relative_source_path

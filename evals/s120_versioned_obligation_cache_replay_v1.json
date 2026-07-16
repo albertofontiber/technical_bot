@@ -1,0 +1,1535 @@
+{
+  "instrument": "s120_versioned_obligation_cache_replay_v1",
+  "authority": "local_deterministic_design_only",
+  "input_receipts": [
+    {
+      "path": "evals\\s100_factlevel_full.yaml",
+      "sha256": "49e8cbaab5f86f89b67e0457267ceeca7a1078ac503fbe5a7249b798aeabe503"
+    },
+    {
+      "path": "evals\\s113_full_contexts_freeze_v1.json",
+      "sha256": "22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d"
+    },
+    {
+      "path": "evals\\s113_full_regression_preflight_v1.json",
+      "sha256": "3672e23d9c33f23f6fa8dc02f5065358bb21c42b40d961da0f54b0072fead647"
+    },
+    {
+      "path": "evals\\s120_versioned_obligation_cache_prereg_v1.yaml",
+      "sha256": "35a394fa9ecfa2cb4ba6dfcb7678dbe8c54584c2c44374300c86d74d80aec971"
+    }
+  ],
+  "implementation_receipts": [
+    {
+      "path": "src/rag/answer_planner.py",
+      "sha256": "a19f8426a1d0d9966ba9a66a310d9ad781688c5493e5ce24ff6661a347bac6a6"
+    },
+    {
+      "path": "src/rag/answer_obligation_contract.py",
+      "sha256": "14255c2592532cfafc923f116ad6e97927dceece2236b398b6f14976890269a7"
+    },
+    {
+      "path": "scripts/s120_versioned_obligation_cache_replay.py",
+      "sha256": "fea3fd93a0f065b33fa42f004a333f676666d3d188db8010a08027a029de2b58"
+    }
+  ],
+  "contract": {
+    "obligation_contract_version": "answer_obligation_contract_v1",
+    "legacy_planner_contract_version": "answer_planner_s119_v1",
+    "candidate_planner_contract_version": "answer_planner_s120_v1",
+    "cache_identity_requires_exact_provider_request_envelope": true,
+    "causal_answer_improvement_claimed": false,
+    "facts_moved_to_ok": 0,
+    "fresh_answer_calls_authorized": 0
+  },
+  "gate": {
+    "status": "LOCAL_OBLIGATION_CACHE_GO_PROBE_NOT_AUTHORIZED",
+    "questions": 39,
+    "diagnostic_checks": {
+      "hp005": true,
+      "hp009": true,
+      "hp017": true
+    },
+    "diagnostic_claim_checks": {
+      "m0.hp005.output_selection.1": true,
+      "m0.hp009.closed_loop_return.1": true,
+      "m0.hp009.closed_loop_return.2": true,
+      "m0.hp017.rule1.2": true
+    },
+    "legacy_obligation_kinds_removed": [],
+    "legacy_no_plan_answers_invalidated": [
+      "hp005",
+      "hp009",
+      "hp017"
+    ],
+    "historical_legacy_kind_mismatches": [],
+    "expected_legacy_no_plan_invalidations": [
+      "hp005",
+      "hp009",
+      "hp017"
+    ],
+    "changed_obligation_packet_qids": [
+      "hp005",
+      "hp009",
+      "hp017"
+    ],
+    "unexpected_obligation_packet_changes": [],
+    "missing_expected_obligation_packet_changes": [],
+    "all_new_obligations": [
+      {
+        "qid": "hp005",
+        "kinds": [
+          "cause_effect_output_selector"
+        ]
+      },
+      {
+        "qid": "hp009",
+        "kinds": [
+          "terminal_bundle",
+          "closed_loop_return_path"
+        ]
+      },
+      {
+        "qid": "hp017",
+        "kinds": [
+          "cause_effect_rule_behavior",
+          "cause_effect_default_rules_precondition"
+        ]
+      }
+    ],
+    "distinct_probe_candidates": [
+      "hp005",
+      "hp009",
+      "hp017"
+    ],
+    "model_calls": 0,
+    "network_calls": 0,
+    "database_calls": 0
+  },
+  "rows": [
+    {
+      "qid": "cat001",
+      "s113_historical_obligation_kinds": [
+        "source_statement"
+      ],
+      "legacy_obligation_kinds": [
+        "source_statement"
+      ],
+      "candidate_obligation_kinds": [
+        "source_statement"
+      ],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 1,
+      "candidate_obligation_count": 1,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": [
+          {
+            "obligation_id": "obl_3cee5df62a84",
+            "fragment_number": 13,
+            "candidate_id": "a92b566d-4a7e-4e04-91ef-a8d3b66d7723",
+            "facet": "query_alignment",
+            "kind": "source_statement",
+            "statement": "Para las centrales Pearl, no coloque más de 25 equipos de lazo entre aisladores (20 si utiliza aisladores FET)",
+            "required_anchors": [
+              "25",
+              "20",
+              "aisladores",
+              "equipos",
+              "lazo"
+            ],
+            "source_start": 1620,
+            "source_end": 1980
+          }
+        ]
+      },
+      "legacy_obligation_packet_sha256": "7ec198d3ab2c683253e2e3a861cc1666e40c22c335eea7b89fd282d25d2dd650",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": [
+          {
+            "obligation_id": "obl_3cee5df62a84",
+            "fragment_number": 13,
+            "candidate_id": "a92b566d-4a7e-4e04-91ef-a8d3b66d7723",
+            "facet": "query_alignment",
+            "kind": "source_statement",
+            "statement": "Para las centrales Pearl, no coloque más de 25 equipos de lazo entre aisladores (20 si utiliza aisladores FET)",
+            "required_anchors": [
+              "25",
+              "20",
+              "aisladores",
+              "equipos",
+              "lazo"
+            ],
+            "source_start": 1620,
+            "source_end": 1980
+          }
+        ]
+      },
+      "canonical_obligation_packet_sha256": "f489b3972ac40c89d0323b5252759f4e47623a1757b3ab095f8c0cd15c7b16ee",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "require_exact_versioned_packet_identity"
+    },
+    {
+      "qid": "cat005",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "cat007",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "cat008",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "cat009",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "cat010",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "cat011",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "cat012",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "cat013",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "cat014",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "cat015",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "cat016",
+      "s113_historical_obligation_kinds": [
+        "commissioning_menu_bundle"
+      ],
+      "legacy_obligation_kinds": [
+        "commissioning_menu_bundle"
+      ],
+      "candidate_obligation_kinds": [
+        "commissioning_menu_bundle"
+      ],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 1,
+      "candidate_obligation_count": 1,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": [
+          {
+            "obligation_id": "obl_ae759e820316",
+            "fragment_number": 1,
+            "candidate_id": "294a778c-1dca-40de-8a1b-a9f0c471ea36",
+            "facet": "served_relation:commissioning_menu_bundle",
+            "kind": "commissioning_menu_bundle",
+            "statement": "Para realizar la autobusqueda acceda al *menú BUCLE*.; Para crear y asignarlas zonas a los elementos acceda al menú ZONA.; Para nombrarlos y asignarles zona acceda *al menú ELEMENTOS*.",
+            "required_anchors": [
+              "menu BUCLE",
+              "menu ZONA",
+              "menu ELEMENTOS"
+            ],
+            "source_start": 290,
+            "source_end": 784
+          }
+        ]
+      },
+      "legacy_obligation_packet_sha256": "a111adcc01bfd249da624abe196d2d84746dcd0c6a59f6a8e5ddf7d4e0d5e671",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": [
+          {
+            "obligation_id": "obl_ae759e820316",
+            "fragment_number": 1,
+            "candidate_id": "294a778c-1dca-40de-8a1b-a9f0c471ea36",
+            "facet": "served_relation:commissioning_menu_bundle",
+            "kind": "commissioning_menu_bundle",
+            "statement": "Para realizar la autobusqueda acceda al *menú BUCLE*.; Para crear y asignarlas zonas a los elementos acceda al menú ZONA.; Para nombrarlos y asignarles zona acceda *al menú ELEMENTOS*.",
+            "required_anchors": [
+              "menu BUCLE",
+              "menu ZONA",
+              "menu ELEMENTOS"
+            ],
+            "source_start": 290,
+            "source_end": 784
+          }
+        ]
+      },
+      "canonical_obligation_packet_sha256": "02d7f884cfb48d162070558576f9c65ad8237bbc84b137a30177d5c2cf987224",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "require_exact_versioned_packet_identity"
+    },
+    {
+      "qid": "cat017",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "cat018",
+      "s113_historical_obligation_kinds": [
+        "point_programming_fields",
+        "output_software_type"
+      ],
+      "legacy_obligation_kinds": [
+        "point_programming_fields",
+        "output_software_type"
+      ],
+      "candidate_obligation_kinds": [
+        "point_programming_fields",
+        "output_software_type"
+      ],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 2,
+      "candidate_obligation_count": 2,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": [
+          {
+            "obligation_id": "obl_7bba8d03d496",
+            "fragment_number": 3,
+            "candidate_id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+            "facet": "served_relation:point_programming_fields",
+            "kind": "point_programming_fields",
+            "statement": "## Pestaña Programa (Programación ecuaciones CBE, asociación zona); **Zona** - número de zona asignada; **CBE** - ecuación CBE del punto.; **CBE** (Control By Events), son las ecuaciones que sirven para activar un comando en función de un evento.",
+            "required_anchors": [
+              "Pestana Programa",
+              "Zona",
+              "CBE"
+            ],
+            "source_start": 0,
+            "source_end": 1526
+          },
+          {
+            "obligation_id": "obl_5784f16b1a11",
+            "fragment_number": 11,
+            "candidate_id": "d85a9a89-e469-473a-b345-ee7c77783127",
+            "facet": "served_relation:output_software_type",
+            "kind": "output_software_type",
+            "statement": "Esta función permite la anulación de la salida sirena y todos los módulos de salida programados con tipo-SW «SND» (abrazaderas CNU-17 y CNU18 de la tarjeta principal).",
+            "required_anchors": [
+              "modulos de salida",
+              "tipo-SW",
+              "snd"
+            ],
+            "source_start": 183,
+            "source_end": 350
+          }
+        ]
+      },
+      "legacy_obligation_packet_sha256": "340210691fb11045a0bb33c1800d77e00194d0d58c0b833aacd30a48b4999317",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": [
+          {
+            "obligation_id": "obl_7bba8d03d496",
+            "fragment_number": 3,
+            "candidate_id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+            "facet": "served_relation:point_programming_fields",
+            "kind": "point_programming_fields",
+            "statement": "## Pestaña Programa (Programación ecuaciones CBE, asociación zona); **Zona** - número de zona asignada; **CBE** - ecuación CBE del punto.; **CBE** (Control By Events), son las ecuaciones que sirven para activar un comando en función de un evento.",
+            "required_anchors": [
+              "Pestana Programa",
+              "Zona",
+              "CBE"
+            ],
+            "source_start": 0,
+            "source_end": 1526
+          },
+          {
+            "obligation_id": "obl_5784f16b1a11",
+            "fragment_number": 11,
+            "candidate_id": "d85a9a89-e469-473a-b345-ee7c77783127",
+            "facet": "served_relation:output_software_type",
+            "kind": "output_software_type",
+            "statement": "Esta función permite la anulación de la salida sirena y todos los módulos de salida programados con tipo-SW «SND» (abrazaderas CNU-17 y CNU18 de la tarjeta principal).",
+            "required_anchors": [
+              "modulos de salida",
+              "tipo-SW",
+              "snd"
+            ],
+            "source_start": 183,
+            "source_end": 350
+          }
+        ]
+      },
+      "canonical_obligation_packet_sha256": "f5817153b8648a54959a7b05fa18270ce50a594dc07900aee932c4e396801b65",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "require_exact_versioned_packet_identity"
+    },
+    {
+      "qid": "cat019",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "cat020",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "cat021",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "cat022",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "cat023",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "cat024",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "hp001",
+      "s113_historical_obligation_kinds": [
+        "credential_administrator",
+        "credential_user"
+      ],
+      "legacy_obligation_kinds": [
+        "credential_administrator",
+        "credential_user"
+      ],
+      "candidate_obligation_kinds": [
+        "credential_administrator",
+        "credential_user"
+      ],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 2,
+      "candidate_obligation_count": 2,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": [
+          {
+            "obligation_id": "obl_614f09afb469",
+            "fragment_number": 2,
+            "candidate_id": "9bd17466-1a22-4ade-bb16-a44624c9f166",
+            "facet": "served_relation:credential_administrator",
+            "kind": "credential_administrator",
+            "statement": "Introduzca la clave de administrador por defecto, 2222.",
+            "required_anchors": [
+              "administrador",
+              "2222",
+              "por defecto"
+            ],
+            "source_start": 2083,
+            "source_end": 2138
+          },
+          {
+            "obligation_id": "obl_d7a62cc3ae36",
+            "fragment_number": 4,
+            "candidate_id": "edeb58a7-58c6-4865-8819-c70b57fe1135",
+            "facet": "served_relation:credential_user",
+            "kind": "credential_user",
+            "statement": "La clave de usuario por defecto es 1111.",
+            "required_anchors": [
+              "usuario",
+              "1111",
+              "por defecto"
+            ],
+            "source_start": 2122,
+            "source_end": 2162
+          }
+        ]
+      },
+      "legacy_obligation_packet_sha256": "532846651d111989819cd7c06a6813c8a05c1cc85df2048eacddfd775a5b3fd4",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": [
+          {
+            "obligation_id": "obl_614f09afb469",
+            "fragment_number": 2,
+            "candidate_id": "9bd17466-1a22-4ade-bb16-a44624c9f166",
+            "facet": "served_relation:credential_administrator",
+            "kind": "credential_administrator",
+            "statement": "Introduzca la clave de administrador por defecto, 2222.",
+            "required_anchors": [
+              "administrador",
+              "2222",
+              "por defecto"
+            ],
+            "source_start": 2083,
+            "source_end": 2138
+          },
+          {
+            "obligation_id": "obl_d7a62cc3ae36",
+            "fragment_number": 4,
+            "candidate_id": "edeb58a7-58c6-4865-8819-c70b57fe1135",
+            "facet": "served_relation:credential_user",
+            "kind": "credential_user",
+            "statement": "La clave de usuario por defecto es 1111.",
+            "required_anchors": [
+              "usuario",
+              "1111",
+              "por defecto"
+            ],
+            "source_start": 2122,
+            "source_end": 2162
+          }
+        ]
+      },
+      "canonical_obligation_packet_sha256": "13a45552c23d8fb4f2367c5a1e3b76a4ebc8c0976eadd09cd27c412abbdb29c6",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "require_exact_versioned_packet_identity"
+    },
+    {
+      "qid": "hp002",
+      "s113_historical_obligation_kinds": [
+        "diagnostic_threshold_direction"
+      ],
+      "legacy_obligation_kinds": [
+        "diagnostic_threshold_direction"
+      ],
+      "candidate_obligation_kinds": [
+        "diagnostic_threshold_direction"
+      ],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 1,
+      "candidate_obligation_count": 1,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": [
+          {
+            "obligation_id": "obl_0db2b9f2842a",
+            "fragment_number": 1,
+            "candidate_id": "b5804921-836c-49ca-8316-cecae6da409b",
+            "facet": "served_relation:diagnostic_threshold_direction",
+            "kind": "diagnostic_threshold_direction",
+            "statement": "**Significado**: Valor < 100 % = apunta a obstrucción / > 100 % = apunta a rotura de tubo",
+            "required_anchors": [
+              "< 100 %",
+              "obstruccion",
+              "> 100 %",
+              "rotura"
+            ],
+            "source_start": 0,
+            "source_end": 89
+          }
+        ]
+      },
+      "legacy_obligation_packet_sha256": "1b3df4ce49f65c906ffe72f6516dc371b0725d0e43d341f45f4976ba29c19db8",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": [
+          {
+            "obligation_id": "obl_0db2b9f2842a",
+            "fragment_number": 1,
+            "candidate_id": "b5804921-836c-49ca-8316-cecae6da409b",
+            "facet": "served_relation:diagnostic_threshold_direction",
+            "kind": "diagnostic_threshold_direction",
+            "statement": "**Significado**: Valor < 100 % = apunta a obstrucción / > 100 % = apunta a rotura de tubo",
+            "required_anchors": [
+              "< 100 %",
+              "obstruccion",
+              "> 100 %",
+              "rotura"
+            ],
+            "source_start": 0,
+            "source_end": 89
+          }
+        ]
+      },
+      "canonical_obligation_packet_sha256": "14a25b5b92854c13a5ba3cc094018593f4836f648e242ed4a31fa26d71cd85ed",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "require_exact_versioned_packet_identity"
+    },
+    {
+      "qid": "hp003",
+      "s113_historical_obligation_kinds": [
+        "battery_series_spec",
+        "battery_bridge"
+      ],
+      "legacy_obligation_kinds": [
+        "battery_series_spec",
+        "battery_bridge"
+      ],
+      "candidate_obligation_kinds": [
+        "battery_series_spec",
+        "battery_bridge"
+      ],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 2,
+      "candidate_obligation_count": 2,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": [
+          {
+            "obligation_id": "obl_d6691d017657",
+            "fragment_number": 12,
+            "candidate_id": "eaa39792-fb91-411d-a666-d85fb7f7b591",
+            "facet": "served_relation:battery_series_spec",
+            "kind": "battery_series_spec",
+            "statement": "Las centrales analógicas requieren dos baterías de 12V 7A/h.; Las baterías deben conectarse en serie para el correcto funcionamiento de las centrales.",
+            "required_anchors": [
+              "12v",
+              "serie",
+              "7a/h"
+            ],
+            "source_start": 2531,
+            "source_end": 2680
+          },
+          {
+            "obligation_id": "obl_a716be3e1a65",
+            "fragment_number": 12,
+            "candidate_id": "eaa39792-fb91-411d-a666-d85fb7f7b591",
+            "facet": "served_relation:battery_bridge",
+            "kind": "battery_bridge",
+            "statement": "El cable que se suministra con la central debe conectarse de forma que una el polo positivo de una batería con el polo negativo de la otra.",
+            "required_anchors": [
+              "positivo",
+              "negativo"
+            ],
+            "source_start": 2682,
+            "source_end": 2821
+          }
+        ]
+      },
+      "legacy_obligation_packet_sha256": "4e214bbfc7969c8bdd11ef9a177f36f157e95a4e867055237ccd0aa89e715897",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": [
+          {
+            "obligation_id": "obl_d6691d017657",
+            "fragment_number": 12,
+            "candidate_id": "eaa39792-fb91-411d-a666-d85fb7f7b591",
+            "facet": "served_relation:battery_series_spec",
+            "kind": "battery_series_spec",
+            "statement": "Las centrales analógicas requieren dos baterías de 12V 7A/h.; Las baterías deben conectarse en serie para el correcto funcionamiento de las centrales.",
+            "required_anchors": [
+              "12v",
+              "serie",
+              "7a/h"
+            ],
+            "source_start": 2531,
+            "source_end": 2680
+          },
+          {
+            "obligation_id": "obl_a716be3e1a65",
+            "fragment_number": 12,
+            "candidate_id": "eaa39792-fb91-411d-a666-d85fb7f7b591",
+            "facet": "served_relation:battery_bridge",
+            "kind": "battery_bridge",
+            "statement": "El cable que se suministra con la central debe conectarse de forma que una el polo positivo de una batería con el polo negativo de la otra.",
+            "required_anchors": [
+              "positivo",
+              "negativo"
+            ],
+            "source_start": 2682,
+            "source_end": 2821
+          }
+        ]
+      },
+      "canonical_obligation_packet_sha256": "3722e74b29420d9794a10c1be7f303b6b19611c82d5fc11aa5dfd7a778bfb37f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "require_exact_versioned_packet_identity"
+    },
+    {
+      "qid": "hp004",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "hp005",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [
+        "cause_effect_output_selector"
+      ],
+      "added_obligation_kinds": [
+        "cause_effect_output_selector"
+      ],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 1,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": [
+          {
+            "obligation_id": "obl_24bdd910c60c",
+            "fragment_number": 14,
+            "candidate_id": "6dcccb36-f67b-4057-959b-494d9279e5d4",
+            "facet": "served_relation:cause_effect_output_selector",
+            "kind": "cause_effect_output_selector",
+            "statement": "Acción:**\n○ Anular\n● Activar ☐ Pulsante\n○ Ajustar Modo Sólo Térmico\n**Aplicar el Evento de Salida / Matriz sobre:**\nTipo de Equipo: ☐ Todos los Equipos\nFunción Especial: ☐ Circuito Sirena 1\n**Transferir a:**\nRetardo: 0 seg.\nSin Ecuación Logica\n○ Todas las Zonas\n○ Misma Zona de Entrada\n○ Selec. Zona(s)\n○ Selec. Subzona(s)\n● Seleccionar Equipos del Lazo: 1",
+            "required_anchors": [
+              "Activar",
+              "Circuito Sirena 1",
+              "Seleccionar Equipos del Lazo"
+            ],
+            "source_start": 80,
+            "source_end": 451
+          }
+        ]
+      },
+      "canonical_obligation_packet_sha256": "14da191a8c3304c6a0936c3accd21d3fe2df9d91e4bdbaa6757b89bfbea8970f",
+      "exact_obligation_payload_equal": false,
+      "legacy_reuse_decision": "invalidate_legacy_no_plan_answer"
+    },
+    {
+      "qid": "hp006",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "hp007",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "hp008",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "hp009",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [
+        "terminal_bundle",
+        "closed_loop_return_path"
+      ],
+      "added_obligation_kinds": [
+        "terminal_bundle",
+        "closed_loop_return_path"
+      ],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 2,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": [
+          {
+            "obligation_id": "obl_0dd92f09e970",
+            "fragment_number": 12,
+            "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+            "facet": "loop_topology",
+            "kind": "terminal_bundle",
+            "statement": "Inicio Lazo (+) OUT / Inicio Lazo (-) OUT on left panel; (+) Retorno / (-) Retorno on right panel",
+            "required_anchors": [
+              "inicio",
+              "retorno",
+              "out"
+            ],
+            "source_start": 569,
+            "source_end": 669
+          },
+          {
+            "obligation_id": "obl_f5f518a75f3f",
+            "fragment_number": 12,
+            "candidate_id": "a8d7b1a4-41a2-4ee7-9733-fa541bf6552a",
+            "facet": "served_relation:closed_loop_return_path",
+            "kind": "closed_loop_return_path",
+            "statement": "Retorne el final del lazo al otro extremo del conector de lazo; Inicio Lazo (+) OUT / Inicio Lazo (-) OUT; (+) Retorno / (-) Retorno on right panel; complete loop circuit",
+            "required_anchors": [
+              "Inicio Lazo",
+              "OUT",
+              "Retorno"
+            ],
+            "source_start": 260,
+            "source_end": 1139
+          }
+        ]
+      },
+      "canonical_obligation_packet_sha256": "d36503bbac78d615be324fa01062d1886a24bcf7df1a42ed44f2b3c60b78a09f",
+      "exact_obligation_payload_equal": false,
+      "legacy_reuse_decision": "invalidate_legacy_no_plan_answer"
+    },
+    {
+      "qid": "hp010",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "hp011",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "hp012",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "hp013",
+      "s113_historical_obligation_kinds": [
+        "redundant_power_input",
+        "rtc_lithium_battery"
+      ],
+      "legacy_obligation_kinds": [
+        "redundant_power_input",
+        "rtc_lithium_battery"
+      ],
+      "candidate_obligation_kinds": [
+        "redundant_power_input",
+        "rtc_lithium_battery"
+      ],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 2,
+      "candidate_obligation_count": 2,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": [
+          {
+            "obligation_id": "obl_bcc6e0777acb",
+            "fragment_number": 11,
+            "candidate_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+            "facet": "served_relation:redundant_power_input",
+            "kind": "redundant_power_input",
+            "statement": "PWR-R | = Entrada de alimentación redundante",
+            "required_anchors": [
+              "PWR-R",
+              "alimentacion redundante"
+            ],
+            "source_start": 6706,
+            "source_end": 6843
+          },
+          {
+            "obligation_id": "obl_d26e7882aa0a",
+            "fragment_number": 12,
+            "candidate_id": "af577289-5d7f-4dfc-9187-8a3aca92d40d",
+            "facet": "served_relation:rtc_lithium_battery",
+            "kind": "rtc_lithium_battery",
+            "statement": "Batería de litio\nMódulo de reloj RTC",
+            "required_anchors": [
+              "bateria de litio",
+              "reloj RTC"
+            ],
+            "source_start": 783,
+            "source_end": 823
+          }
+        ]
+      },
+      "legacy_obligation_packet_sha256": "0bf33d45679ff148bd431d4ca2a6c74b32cd7d6a9ddeca6d3475dbbe77e02aaf",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": [
+          {
+            "obligation_id": "obl_bcc6e0777acb",
+            "fragment_number": 11,
+            "candidate_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+            "facet": "served_relation:redundant_power_input",
+            "kind": "redundant_power_input",
+            "statement": "PWR-R | = Entrada de alimentación redundante",
+            "required_anchors": [
+              "PWR-R",
+              "alimentacion redundante"
+            ],
+            "source_start": 6706,
+            "source_end": 6843
+          },
+          {
+            "obligation_id": "obl_d26e7882aa0a",
+            "fragment_number": 12,
+            "candidate_id": "af577289-5d7f-4dfc-9187-8a3aca92d40d",
+            "facet": "served_relation:rtc_lithium_battery",
+            "kind": "rtc_lithium_battery",
+            "statement": "Batería de litio\nMódulo de reloj RTC",
+            "required_anchors": [
+              "bateria de litio",
+              "reloj RTC"
+            ],
+            "source_start": 783,
+            "source_end": 823
+          }
+        ]
+      },
+      "canonical_obligation_packet_sha256": "a307b4bd5841d0465bf3076d47105e656e36c983c2e38c923427779d6c8312bc",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "require_exact_versioned_packet_identity"
+    },
+    {
+      "qid": "hp014",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "hp015",
+      "s113_historical_obligation_kinds": [
+        "zone_disable_scope",
+        "zone_device_capacity"
+      ],
+      "legacy_obligation_kinds": [
+        "zone_disable_scope",
+        "zone_device_capacity"
+      ],
+      "candidate_obligation_kinds": [
+        "zone_disable_scope",
+        "zone_device_capacity"
+      ],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 2,
+      "candidate_obligation_count": 2,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": [
+          {
+            "obligation_id": "obl_b1a476286791",
+            "fragment_number": 1,
+            "candidate_id": "8954b9b2-18a0-464e-9e17-cc756d944b7c",
+            "facet": "served_relation:zone_disable_scope",
+            "kind": "zone_disable_scope",
+            "statement": "La central de extinción permite la desconexión de zonas y sirenas, cuando se desconecta una zona, la central no refleja ninguna incidencia o evento en la zona desconectada, por lo tanto es importante limitar el uso de esta maniobra.",
+            "required_anchors": [
+              "zona",
+              "desconectada"
+            ],
+            "source_start": 28,
+            "source_end": 260
+          },
+          {
+            "obligation_id": "obl_245dcff130c1",
+            "fragment_number": 5,
+            "candidate_id": "fdb14497-4a5a-43db-a5f3-90f36448663e",
+            "facet": "served_relation:zone_device_capacity",
+            "kind": "zone_device_capacity",
+            "statement": "Recuerde que el número máximo de detectores o pulsadores por zona son 32.",
+            "required_anchors": [
+              "32",
+              "zona",
+              "detectores"
+            ],
+            "source_start": 2056,
+            "source_end": 2129
+          }
+        ]
+      },
+      "legacy_obligation_packet_sha256": "3f5be1bab9cf1b77d0d06aaef7a6a1b2d8a44af7799bd7f654a2e01c3a6dab9b",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": [
+          {
+            "obligation_id": "obl_b1a476286791",
+            "fragment_number": 1,
+            "candidate_id": "8954b9b2-18a0-464e-9e17-cc756d944b7c",
+            "facet": "served_relation:zone_disable_scope",
+            "kind": "zone_disable_scope",
+            "statement": "La central de extinción permite la desconexión de zonas y sirenas, cuando se desconecta una zona, la central no refleja ninguna incidencia o evento en la zona desconectada, por lo tanto es importante limitar el uso de esta maniobra.",
+            "required_anchors": [
+              "zona",
+              "desconectada"
+            ],
+            "source_start": 28,
+            "source_end": 260
+          },
+          {
+            "obligation_id": "obl_245dcff130c1",
+            "fragment_number": 5,
+            "candidate_id": "fdb14497-4a5a-43db-a5f3-90f36448663e",
+            "facet": "served_relation:zone_device_capacity",
+            "kind": "zone_device_capacity",
+            "statement": "Recuerde que el número máximo de detectores o pulsadores por zona son 32.",
+            "required_anchors": [
+              "32",
+              "zona",
+              "detectores"
+            ],
+            "source_start": 2056,
+            "source_end": 2129
+          }
+        ]
+      },
+      "canonical_obligation_packet_sha256": "9420ed772dc8935bb71df4de96032cbb906283acb97d6f012e98c783723e4e7b",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "require_exact_versioned_packet_identity"
+    },
+    {
+      "qid": "hp017",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [
+        "cause_effect_rule_behavior",
+        "cause_effect_default_rules_precondition"
+      ],
+      "added_obligation_kinds": [
+        "cause_effect_rule_behavior",
+        "cause_effect_default_rules_precondition"
+      ],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 2,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": [
+          {
+            "obligation_id": "obl_e8491bc1c321",
+            "fragment_number": 11,
+            "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+            "facet": "served_relation:cause_effect_rule_behavior",
+            "kind": "cause_effect_rule_behavior",
+            "statement": "Regla 1: una regla que diga que para cualquier entrada de alarma todas las sirenas de cada zona deben activarse en modo intermitente* (patrón de alerta).",
+            "required_anchors": [
+              "Regla 1",
+              "cualquier entrada de alarma",
+              "todas las sirenas"
+            ],
+            "source_start": 812,
+            "source_end": 967
+          },
+          {
+            "obligation_id": "obl_e265a4c97a31",
+            "fragment_number": 11,
+            "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+            "facet": "served_relation:cause_effect_default_rules_precondition",
+            "kind": "cause_effect_default_rules_precondition",
+            "statement": "Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto.; **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.",
+            "required_anchors": [
+              "dos reglas",
+              "por defecto",
+              "eliminar"
+            ],
+            "source_start": 2133,
+            "source_end": 2345
+          }
+        ]
+      },
+      "canonical_obligation_packet_sha256": "2cec4500c571f3a3db4e8032b51215e66f484bc1c297865cdac266759d3063b5",
+      "exact_obligation_payload_equal": false,
+      "legacy_reuse_decision": "invalidate_legacy_no_plan_answer"
+    },
+    {
+      "qid": "hp018",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "hp019",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    },
+    {
+      "qid": "hp020",
+      "s113_historical_obligation_kinds": [],
+      "legacy_obligation_kinds": [],
+      "candidate_obligation_kinds": [],
+      "added_obligation_kinds": [],
+      "removed_obligation_kinds": [],
+      "legacy_obligation_count": 0,
+      "candidate_obligation_count": 0,
+      "legacy_obligation_packet": {
+        "contract_version": "answer_planner_s119_v1",
+        "obligations": []
+      },
+      "legacy_obligation_packet_sha256": "807b780fb6b31dfa9f419ac8251cdb780e29846bc9ec61674cd687d033940ead",
+      "canonical_obligation_packet": {
+        "contract_version": "answer_planner_s120_v1",
+        "obligations": []
+      },
+      "canonical_obligation_packet_sha256": "b01132d0c5fe9ee9f38ee5b54a6e0ed20fbb4eb63e810b005a42e20a62c98f3f",
+      "exact_obligation_payload_equal": true,
+      "legacy_reuse_decision": "legacy_empty_plan_still_empty"
+    }
+  ],
+  "limitations": [
+    "New obligations are a local synthesis-control improvement, not evidence that any answer is now correct.",
+    "Exact ordered obligation payload comparison, not kind equality, is the preservation authority for the frozen cohort.",
+    "A real cache key must receive the exact provider request envelope; S120 does not fabricate a substitute envelope."
+  ]
+}

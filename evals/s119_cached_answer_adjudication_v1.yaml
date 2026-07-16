@@ -1,0 +1,61 @@
+instrument: s119_cached_answer_adjudication_v1
+schema_version: 1
+status: frozen_retrospective_manual_semantic_review
+reviewed_without_model_calls: true
+scope: exact_s113_cached_answers_only
+rows:
+  - claim_id: m0.cat001.isolator_limits.1
+    qid: cat001
+    answer_sha256: 2c2c7ad7d56db69b46ebe50cbafd07140eec7f888b2a674fb627e221e355e0f3
+    verdict: OK
+    rationale: explicitly states the EN54 maximum of 32 devices between isolators
+  - claim_id: m0.cat001.isolator_limits.2
+    qid: cat001
+    answer_sha256: 2c2c7ad7d56db69b46ebe50cbafd07140eec7f888b2a674fb627e221e355e0f3
+    verdict: OK
+    rationale: explicitly states the Pearl maximum of 25 devices between isolators
+  - claim_id: m0.cat001.isolator_limits.3
+    qid: cat001
+    answer_sha256: 2c2c7ad7d56db69b46ebe50cbafd07140eec7f888b2a674fb627e221e355e0f3
+    verdict: OK
+    rationale: explicitly states both the no-internal-isolator 20 limit and the FET 20 limit
+  - claim_id: m0.cat010.supply.1
+    qid: cat010
+    answer_sha256: 1fe51fc989d8100a98f399fd1357945ca4ee81ec33df81f1f7d85543b3556634
+    verdict: OK
+    rationale: explicitly states 24 V dc operation in the hazardous-area supply sentence
+  - claim_id: m0.cat010.supply.2
+    qid: cat010
+    answer_sha256: 1fe51fc989d8100a98f399fd1357945ca4ee81ec33df81f1f7d85543b3556634
+    verdict: OK
+    rationale: explicitly states certified barriers or isolators and 28 V 93 mA resistive limits
+  - claim_id: m0.hp003.battery_voltage_capacity.1
+    qid: hp003
+    answer_sha256: f582a581f95cce3e745bccc99b8263308d87b4092c4bedf6a0a7d14df6de22d8
+    verdict: OK
+    rationale: explicitly states two 12 V batteries in series to obtain 24 V
+  - claim_id: m0.hp005.output_selection.1
+    qid: hp005
+    answer_sha256: 37dbc93f6e0d9b1e70340f1db774590f01ce682a3f40ec093f645e4d3d4db087
+    verdict: synthesis-miss
+    rationale: names Circuito Sirena but does not instruct selection of the concrete siren circuit
+  - claim_id: m0.hp009.closed_loop_return.1
+    qid: hp009
+    answer_sha256: 524be1fe3fddbf8103a752776fe458740a71319575caca36c12d30fb66a331c6
+    verdict: synthesis-miss
+    rationale: discusses no EOL resistor but never states the analog loop is a closed loop
+  - claim_id: m0.hp009.closed_loop_return.2
+    qid: hp009
+    answer_sha256: 524be1fe3fddbf8103a752776fe458740a71319575caca36c12d30fb66a331c6
+    verdict: synthesis-miss
+    rationale: omits the Inicio Lazo OUT to Retorno terminal path
+  - claim_id: m0.hp017.rule1.1
+    qid: hp017
+    answer_sha256: de38cdf5358d57c912ce0c7d50e507204fd3ea4cb8c350e8910a50a3b4925b5e
+    verdict: OK
+    rationale: explicitly gives the Editar Configuracion to Causa y Efecto navigation
+  - claim_id: m0.hp017.rule1.2
+    qid: hp017
+    answer_sha256: de38cdf5358d57c912ce0c7d50e507204fd3ea4cb8c350e8910a50a3b4925b5e
+    verdict: synthesis-miss
+    rationale: tells the user to remove two defaults but omits Rule 1 identity and its any-alarm all-sirens behavior

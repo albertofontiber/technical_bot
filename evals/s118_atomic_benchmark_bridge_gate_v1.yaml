@@ -1,0 +1,134 @@
+instrument: s118_atomic_benchmark_bridge_gate_v1
+frozen_at_utc: '2026-07-14T23:06:20Z'
+status: HYBRID_DIAGNOSTIC_BRIDGE_GO_REPLAY_DESIGN_ONLY
+authority: diagnostic_measurement_only_no_official_atomic_credit
+
+decision:
+  bridge: GO_RESTRICTED
+  local_replay_design_for_22_transformed_claims: GO
+  official_atomic_denominator: NO_GO
+  official_ok_count: NO_GO
+  official_95_percent_claim: NO_GO
+  facts_moved_to_ok: 0
+  M3: BLOCKED
+
+artifact_receipts:
+  design:
+    path: evals/s118_atomic_benchmark_bridge_design_v1.md
+    bytes: 6231
+    sha256: e278c79308722c7e0df67d5ee016c811caeb10879c544bc0b3be215e3fb79ed2
+  delta_contract:
+    path: evals/s118_atomic_benchmark_delta_v1.yaml
+    bytes: 7483
+    sha256: bb4f08259b894f6a719e91459386551206d14bafcf85e243ca5334cfa33b3783
+  child_adjudication:
+    path: evals/s118_child_claim_adjudication_v1.yaml
+    bytes: 8456
+    sha256: 7bd1ebe6fafa6da612232d1f0e782a8b6966a874c3a3873d1600cf47d8ccd0a3
+  external_contract_projection:
+    path: evals/s118_external_contract_projection_v1.json
+    bytes: 62633
+    sha256: d608e7126a9da02f257ce7dfea1bfdf7bde231964dc5c071e41c1b3bac81a2df
+  runner:
+    path: scripts/s118_build_atomic_benchmark.py
+    bytes: 49476
+    sha256: 0621b2d4f577a3f260884761f9f09994f9b9c78d365c485657d0112255a6af4e
+  tests:
+    path: tests/test_s118_build_atomic_benchmark.py
+    bytes: 22301
+    sha256: 2986fe9bf75c2d7a16da85b28d3ecb813b7edcfacff441f01b51b720ee7f2f69
+  bridge:
+    path: evals/s118_atomic_benchmark_bridge_v1.json
+    bytes: 196002
+    sha256: f9a7a143a18b8d3046e404bd8dd1501baa62f1d0f4e6255d472956311d50eccb
+
+reconciled_summary:
+  historical_rows: 129
+  historical_scored_parents: 127
+  meta_reference_exclusions: 2
+  m0_transformed_parents_in_population: 14
+  s118_transformed_parents_in_population: 3
+  unchanged_scored_parents: 110
+  known_m1_contract_holds: 33
+  known_m1_holds_with_legacy_ok: 29
+  legacy_carries_without_known_m1_blocker: 77
+  transformed_content_claims_pending_replay: 22
+  provisional_hybrid_content_denominator: 132
+  provisional_hybrid_target_ok_for_95_percent: 126
+  official_atomic_content_denominator: null
+  official_atomic_target_ok_for_95_percent: null
+  official_ok_after_bridge: null
+  provisional_hybrid_stage_histogram:
+    OK: 68
+    known-m1-contract-hold: 33
+    pending-replay: 22
+    rest: 5
+    retrieval-miss: 2
+    synthesis-miss: 2
+
+verification:
+  py_compile: PASS
+  s118_tests:
+    result: PASS
+    passed: 20
+    skipped: 1
+    skip_reason: Windows did not permit symlink creation; runtime rejection remains implemented.
+  relevant_regression:
+    result: PASS
+    passed: 93
+    skipped: 2
+  deterministic_projection:
+    result: PASS
+    seed1_sha256: d608e7126a9da02f257ce7dfea1bfdf7bde231964dc5c071e41c1b3bac81a2df
+    seed2_sha256: d608e7126a9da02f257ce7dfea1bfdf7bde231964dc5c071e41c1b3bac81a2df
+  deterministic_bridge:
+    result: PASS
+    seed1_sha256: f9a7a143a18b8d3046e404bd8dd1501baa62f1d0f4e6255d472956311d50eccb
+    seed2_sha256: f9a7a143a18b8d3046e404bd8dd1501baa62f1d0f4e6255d472956311d50eccb
+  real_artifact_smoke:
+    result: PASS
+    freezes_33_holds: true
+    freezes_29_legacy_ok_without_credit: true
+    invalid_hp015_formulations_present_in_claims: 0
+
+adversarial_review:
+  reviewer: Hubble
+  model_identity_attested: false
+  verdict: GO_RESTRICTED
+  blocking_findings_open: 0
+  p2_findings_closed_after_review:
+    - canonical outputs reject symlink and junction ancestry
+    - JSON artifacts use temporary file plus atomic replace
+    - real artifact smoke freezes hold counts and invalid-claim absence
+  final_confirmation: GO_RESTRICTED_MAINTAINED
+
+next_allowed_action:
+  scope: local_cached_replay_design_for_exact_22_transformed_claims
+  required_properties:
+    - exact claim ids and input receipts frozen before classification
+    - no parent stage inheritance
+    - first failed stage reported independently for retrieval, rerank and synthesis
+    - cache reuse only on exact question/runtime/corpus/pool/topk/context/answer receipts
+    - no official atomic or 95 percent credit
+
+authorization:
+  network: false
+  database_reads: false
+  database_writes: false
+  models: false
+  new_extraction: false
+  chunk_load: false
+  retrieval_live: false
+  rerank_live: false
+  synthesis_live: false
+  serving: false
+  deploy: false
+  gold_mutation: false
+  fact_relabeling: false
+  full_replay: false
+
+cost_receipt:
+  model_calls: 0
+  network_calls: 0
+  database_reads: 0
+  database_writes: 0

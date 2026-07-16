@@ -1,0 +1,1472 @@
+{
+  "instrument": "s118_external_contract_projection_v1",
+  "m0_changes": [
+    {
+      "after": [
+        {
+          "basis": "explicit",
+          "cita": "997-669 p38",
+          "estado": "presente",
+          "migration_id": "m0.cat001.isolator_limits.1",
+          "parent_fact_sha": "01384ac17cbe59265678e46bcb920269d7623c14b64dc0c2f4cb4486cd1e8701",
+          "requiredness_reason": "límite normativo necesario para responder cuántos equipos pueden quedar entre aisladores",
+          "source_pages": [
+            "38"
+          ],
+          "texto": "EN54-2 exige como máximo 32 equipos de lazo entre aisladores",
+          "tipo": "core",
+          "valor": "32"
+        },
+        {
+          "basis": "explicit",
+          "cita": "997-669 p38",
+          "estado": "presente",
+          "migration_id": "m0.cat001.isolator_limits.2",
+          "parent_fact_sha": "01384ac17cbe59265678e46bcb920269d7623c14b64dc0c2f4cb4486cd1e8701",
+          "requiredness_reason": "límite específico de Pearl requerido por la pregunta sobre la central Pearl",
+          "source_pages": [
+            "38"
+          ],
+          "texto": "En una central Pearl no deben colocarse más de 25 equipos de lazo entre aisladores",
+          "tipo": "core",
+          "valor": "25"
+        },
+        {
+          "basis": "explicit",
+          "cita": "997-669 p21 y p38",
+          "estado": "presente",
+          "migration_id": "m0.cat001.isolator_limits.3",
+          "parent_fact_sha": "01384ac17cbe59265678e46bcb920269d7623c14b64dc0c2f4cb4486cd1e8701",
+          "requiredness_reason": "excepción operativa que modifica el límite aplicable según el tipo de equipo o aislador",
+          "source_pages": [
+            "21",
+            "38"
+          ],
+          "texto": "Con equipos sin aislador interno, incluidos CLIP y algunos Opal, no deben colocarse más de 20 equipos entre aisladores; el mismo límite aplica al uso de aisladores FET",
+          "tipo": "core",
+          "valor": "20"
+        },
+        {
+          "basis": "explicit",
+          "cita": "997-669 p21",
+          "estado": "presente",
+          "migration_id": "m0.cat001.isolator_limits.4",
+          "parent_fact_sha": "01384ac17cbe59265678e46bcb920269d7623c14b64dc0c2f4cb4486cd1e8701",
+          "requiredness_reason": "detalle de compatibilidad útil pero no requerido para responder los límites y el alta preguntados",
+          "source_pages": [
+            "21"
+          ],
+          "texto": "Los equipos con aislador interno requieren una base compatible tipo B501 AP",
+          "tipo": "supplementary",
+          "valor": "B501 AP"
+        }
+      ],
+      "before": {
+        "cita": "997-669 p38/p21",
+        "estado": "presente",
+        "texto": "Aisladores: EN54-2 exige como maximo 32 equipos entre aisladores; en Pearl no mas de 25 (20 con equipos sin aislador interno / aisladores FET); los equipos con aislador interno requieren base tipo B501 AP",
+        "tipo": "core",
+        "valor": "32 / 25 / 20"
+      },
+      "migration_id": "m0.cat001.isolator_limits",
+      "operation": "split",
+      "parent_fact_sha": "01384ac17cbe59265678e46bcb920269d7623c14b64dc0c2f4cb4486cd1e8701",
+      "qid": "cat001"
+    },
+    {
+      "after": [
+        {
+          "basis": "explicit",
+          "cita": "IS5001-F p1 §3 Supply Voltage",
+          "estado": "presente",
+          "migration_id": "m0.cat010.supply.1",
+          "parent_fact_sha": "d8bcd1c70d420741a7ed122ee37552f516eb45f5e390c54825c33b50e88296e6",
+          "requiredness_reason": "tensión nominal solicitada explícitamente por la pregunta de alimentación",
+          "source_pages": [
+            "1"
+          ],
+          "texto": "El IS-mA1 se alimenta nominalmente a 24 V dc en la zona peligrosa",
+          "tipo": "core",
+          "valor": "24 V dc"
+        },
+        {
+          "basis": "explicit",
+          "cita": "IS5001-F p1 §3 Supply Voltage",
+          "estado": "presente",
+          "migration_id": "m0.cat010.supply.2",
+          "parent_fact_sha": "d8bcd1c70d420741a7ed122ee37552f516eb45f5e390c54825c33b50e88296e6",
+          "requiredness_reason": "barrera certificada necesaria para explicar la alimentación segura en ATEX",
+          "source_pages": [
+            "1"
+          ],
+          "texto": "En zona peligrosa la alimentación debe pasar por una barrera Zener o aislador galvánico certificado ATEX/IECEx, resistivo, de 28 V y 93 mA",
+          "tipo": "core",
+          "valor": "28 V / 93 mA"
+        },
+        {
+          "basis": "explicit",
+          "cita": "IS5001-F p1 §3 Supply Voltage",
+          "estado": "presente",
+          "migration_id": "m0.cat010.supply.3",
+          "parent_fact_sha": "d8bcd1c70d420741a7ed122ee37552f516eb45f5e390c54825c33b50e88296e6",
+          "requiredness_reason": "caveat de prueba en zona segura, secundario a la instalación ATEX preguntada",
+          "source_pages": [
+            "1"
+          ],
+          "texto": "En zona segura puede usarse sin barrera, pero por encima de 16 V actúa el limitador interno y no se recomienda operación continua directa",
+          "tipo": "supplementary",
+          "valor": "16 V"
+        }
+      ],
+      "before": {
+        "cita": "IS5001-F p1 (§3 Supply Voltage)",
+        "estado": "presente",
+        "texto": "El IS-mA1 se alimenta a 24V dc en zona peligrosa a través de una barrera Zener / aislador galvánico certificado ATEX/IECEx de 28V / 93mA resistivo (en zona segura sin barrera, no operar de forma continua por encima de 16V por el límite de corriente interno)",
+        "tipo": "core",
+        "valor": "24V dc"
+      },
+      "migration_id": "m0.cat010.supply",
+      "operation": "split",
+      "parent_fact_sha": "d8bcd1c70d420741a7ed122ee37552f516eb45f5e390c54825c33b50e88296e6",
+      "qid": "cat010"
+    },
+    {
+      "after": [
+        {
+          "basis": "explicit",
+          "cita": "HOP-138-8 p5 y p18",
+          "estado": "presente",
+          "migration_id": "m0.cat017.clss_workflow.1",
+          "parent_fact_sha": "ae1fc11376f1120a64128122a0a186529c3078127d02b4fc990bb3ba3bbf0fc9",
+          "requiredness_reason": "herramienta y acción principales para dar de alta y configurar el lazo",
+          "source_pages": [
+            "5",
+            "18"
+          ],
+          "texto": "La configuración del lazo y de la central se gestiona con el Programa de Configuración de CLSS y se carga en la central",
+          "tipo": "core",
+          "valor": "CLSS"
+        },
+        {
+          "basis": "explicit",
+          "cita": "HOP-138-8 p5",
+          "estado": "presente",
+          "migration_id": "m0.cat017.clss_workflow.2",
+          "parent_fact_sha": "ae1fc11376f1120a64128122a0a186529c3078127d02b4fc990bb3ba3bbf0fc9",
+          "requiredness_reason": "detalle administrativo secundario respecto de cómo configurar el lazo",
+          "source_pages": [
+            "5"
+          ],
+          "texto": "El flujo de CLSS incluye crear el sitio o edificio en el portal y generar el archivo .bin de licencia de la central",
+          "tipo": "supplementary",
+          "valor": "sitio / .bin"
+        }
+      ],
+      "before": {
+        "cita": "HOP-138-8 p5 + p18",
+        "estado": "presente",
+        "texto": "La configuracion de la central se gestiona con el Programa de Configuracion de CLSS (portal en la nube Honeywell): se crea el sitio, se carga la configuracion y se genera el archivo .bin de licencia de la central",
+        "tipo": "core",
+        "valor": "CLSS"
+      },
+      "migration_id": "m0.cat017.clss_workflow",
+      "operation": "split",
+      "parent_fact_sha": "ae1fc11376f1120a64128122a0a186529c3078127d02b4fc990bb3ba3bbf0fc9",
+      "qid": "cat017"
+    },
+    {
+      "after": [
+        {
+          "basis": "explicit",
+          "cita": "CAD-150 instalación p7 §2.5",
+          "estado": "presente",
+          "migration_id": "m0.hp003.battery_voltage_capacity.1",
+          "parent_fact_sha": "3742107e78e2e189bde0e6bba2a4d82ce485ad6c1f13ecf70683333dc6450c9d",
+          "requiredness_reason": "topología y tensión necesarias para responder cómo se conectan las baterías",
+          "source_pages": [
+            "7"
+          ],
+          "texto": "La CAD-150 utiliza dos baterías de 12 V conectadas en serie para obtener 24 V",
+          "tipo": "core",
+          "valor": "dos baterías de 12 V en serie"
+        },
+        {
+          "basis": "explicit",
+          "cita": "CAD-150 instalación p7 §2.5",
+          "estado": "presente",
+          "migration_id": "m0.hp003.battery_voltage_capacity.2",
+          "parent_fact_sha": "3742107e78e2e189bde0e6bba2a4d82ce485ad6c1f13ecf70683333dc6450c9d",
+          "requiredness_reason": "capacidad verdadera pero secundaria a la pregunta procedural y potencialmente dependiente de variante",
+          "source_pages": [
+            "7"
+          ],
+          "texto": "Para la variante documentada, cada batería es de 7 Ah",
+          "tipo": "supplementary",
+          "valor": "7 Ah"
+        }
+      ],
+      "before": {
+        "cita": "p7/f9 (§2.5)",
+        "estado": "presente",
+        "texto": "Dos baterias de 12V conectadas en SERIE (suman los 24V del sistema), capacidad 7A/h",
+        "tipo": "core",
+        "valor": "12V"
+      },
+      "migration_id": "m0.hp003.battery_voltage_capacity",
+      "operation": "split",
+      "parent_fact_sha": "3742107e78e2e189bde0e6bba2a4d82ce485ad6c1f13ecf70683333dc6450c9d",
+      "qid": "hp003"
+    },
+    {
+      "after": [
+        {
+          "basis": "explicit",
+          "cita": "MPDT190 p70",
+          "estado": "presente",
+          "migration_id": "m0.hp005.output_selection.1",
+          "parent_fact_sha": "0ef194443f05099ee23f88ca9d3e9f4b0da2bcc4674190b2a8a0489f0df924fe",
+          "requiredness_reason": "la pregunta exige activar una salida concreta y por tanto seleccionar esa salida",
+          "source_pages": [
+            "70"
+          ],
+          "texto": "En Salidas activadas se debe seleccionar CIRCUITO SIRENA/RELÉ y elegir el circuito de sirena concreto que debe activarse",
+          "tipo": "core",
+          "valor": "CIRCUITO SIRENA/RELÉ"
+        },
+        {
+          "basis": "explicit",
+          "cita": "MPDT190 p70",
+          "estado": "presente",
+          "migration_id": "m0.hp005.output_selection.2",
+          "parent_fact_sha": "0ef194443f05099ee23f88ca9d3e9f4b0da2bcc4674190b2a8a0489f0df924fe",
+          "requiredness_reason": "alternativa válida pero no requerida cuando se pregunta por una salida específica",
+          "source_pages": [
+            "70"
+          ],
+          "texto": "Como alternativa para una activación amplia puede elegirse TODAS SALIDAS de subzona, zona o central y limitar por tipo a módulos de sirena",
+          "tipo": "supplementary",
+          "valor": "TODAS SALIDAS"
+        }
+      ],
+      "before": {
+        "cita": "MPDT190 p70 (f77)",
+        "estado": "presente",
+        "texto": "Definir la SALIDA: \"Salidas activadas\" -> \"CIRCUITO SIRENA/RELE\" (un circuito de sirena concreto) o \"TODAS SALIDAS: Subzona/Zona/Central\" limitando por tipo a los modulos de sirena",
+        "tipo": "core",
+        "valor": "CIRCUITO SIRENA"
+      },
+      "migration_id": "m0.hp005.output_selection",
+      "operation": "split",
+      "parent_fact_sha": "0ef194443f05099ee23f88ca9d3e9f4b0da2bcc4674190b2a8a0489f0df924fe",
+      "qid": "hp005"
+    },
+    {
+      "after": [
+        {
+          "basis": "explicit",
+          "cita": "MIDT170 p63",
+          "estado": "presente",
+          "migration_id": "m0.hp006.earth_condition.1",
+          "parent_fact_sha": "4a6e4f27a05d099f644e402304488e864f8197bfde81be97952bc1c0811d8dfc",
+          "requiredness_reason": "confirma la etiqueta mostrada pero no explica su significado ni aporta un paso de localización",
+          "source_pages": [
+            "63"
+          ],
+          "texto": "En la tabla de funcionamiento del lazo SLC, Tierra figura como una condición de avería reconocida para los estilos 4, 6 y 7",
+          "tipo": "supplementary",
+          "valor": "Tierra"
+        }
+      ],
+      "before": {
+        "cita": "MIDT170 p63 (f71)",
+        "estado": "presente",
+        "texto": "En el lazo de comunicaciones (SLC) 'Tierra' es una de las condiciones de averia que la central reconoce y senaliza (tabla 'Funcionamiento del Lazo', Estilos 4/6/7)",
+        "tipo": "core",
+        "valor": "Tierra"
+      },
+      "migration_id": "m0.hp006.earth_condition",
+      "operation": "demote",
+      "parent_fact_sha": "4a6e4f27a05d099f644e402304488e864f8197bfde81be97952bc1c0811d8dfc",
+      "qid": "hp006"
+    },
+    {
+      "after": [
+        {
+          "basis": "explicit",
+          "cita": "MIDT170 p63",
+          "estado": "presente",
+          "migration_id": "m0.hp006.isox_relation.1",
+          "parent_fact_sha": "4729de00466ce312dd1878d2bebfd11d545c184e6ef20fb749715127d16f0fc6",
+          "requiredness_reason": "conserva solo la función positiva literal; la relación no soportada con localización de earth fault queda fuera del scoring",
+          "source_pages": [
+            "63"
+          ],
+          "texto": "Un módulo ISO-X aísla una zona del lazo cuando falla un circuito y se requiere para cableado Estilo 7",
+          "tipo": "supplementary",
+          "valor": "ISO-X"
+        }
+      ],
+      "before": {
+        "cita": "MIDT170 p63 (f71)",
+        "estado": "presente",
+        "texto": "Para acotar un fallo en el lazo se usan los modulos aisladores ISO-X, que aislan la rama en averia del resto del lazo (requeridos para Estilo 7 segun NFPA)",
+        "tipo": "core",
+        "valor": "ISO-X"
+      },
+      "migration_id": "m0.hp006.isox_relation",
+      "operation": "reword_relation",
+      "parent_fact_sha": "4729de00466ce312dd1878d2bebfd11d545c184e6ef20fb749715127d16f0fc6",
+      "qid": "hp006"
+    },
+    {
+      "after": [
+        {
+          "basis": "explicit",
+          "cita": "MIE-MI-530 p19 figuras 9-10",
+          "estado": "presente",
+          "migration_id": "m0.hp009.closed_loop_return.1",
+          "parent_fact_sha": "e50279f9621fe6c3112922c11fc1405f01121faf1c8620906361c43ad1156ba0",
+          "requiredness_reason": "corrige la premisa falsa de tratar el lazo como un circuito radial con RFL",
+          "source_pages": [
+            "19"
+          ],
+          "texto": "El lazo analógico direccionable de la ZX2e/ZX5e se cablea como un bucle cerrado",
+          "tipo": "core",
+          "valor": "bucle cerrado"
+        },
+        {
+          "basis": "explicit",
+          "cita": "MIE-MI-530 p19 figuras 9-10",
+          "estado": "presente",
+          "migration_id": "m0.hp009.closed_loop_return.2",
+          "parent_fact_sha": "e50279f9621fe6c3112922c11fc1405f01121faf1c8620906361c43ad1156ba0",
+          "requiredness_reason": "terminales necesarios para describir correctamente la conexión física solicitada",
+          "source_pages": [
+            "19"
+          ],
+          "texto": "El bucle sale por Inicio Lazo +/− OUT y vuelve a los terminales Retorno +/− del mismo conector de lazo",
+          "tipo": "core",
+          "valor": "Retorno"
+        }
+      ],
+      "before": {
+        "cita": "MIE-MI-530 p19 (3.4.3.1, Fig 9/10)",
+        "estado": "presente",
+        "texto": "El lazo analogico direccionable de la ZXe (ZX2e/ZX5e) se cablea como BUCLE CERRADO: salida del panel (Inicio Lazo +/- OUT) y vuelta por los terminales de Retorno (+/-) del mismo conector de lazo; NO se cierra con una resistencia de fin de linea",
+        "tipo": "core",
+        "valor": "Retorno"
+      },
+      "migration_id": "m0.hp009.closed_loop_return",
+      "operation": "split",
+      "parent_fact_sha": "e50279f9621fe6c3112922c11fc1405f01121faf1c8620906361c43ad1156ba0",
+      "qid": "hp009"
+    },
+    {
+      "after": [
+        {
+          "basis": "explicit",
+          "cita": "HLSI-MN-103 p44",
+          "estado": "presente",
+          "migration_id": "m0.hp011.abort.1",
+          "parent_fact_sha": "872a5492eb3de777018b9d047ec5ddd9f8a8261f6d7f1a597e32f8e432de849e",
+          "requiredness_reason": "condición que explica por qué el proceso de extinción puede seguir inhibido",
+          "source_pages": [
+            "44"
+          ],
+          "texto": "La entrada ABORT o paro de emergencia está enclavada por defecto",
+          "tipo": "core",
+          "valor": "ABORT enclavada"
+        },
+        {
+          "basis": "explicit",
+          "cita": "HLSI-MN-103 p44",
+          "estado": "presente",
+          "migration_id": "m0.hp011.abort.2",
+          "parent_fact_sha": "872a5492eb3de777018b9d047ec5ddd9f8a8261f6d7f1a597e32f8e432de849e",
+          "requiredness_reason": "acción de recuperación requerida por la pregunta de troubleshooting",
+          "source_pages": [
+            "44"
+          ],
+          "texto": "Tras activarse ABORT, se requiere un rearme manual de la central para rehabilitar el proceso de extinción",
+          "tipo": "core",
+          "valor": "rearme manual"
+        },
+        {
+          "basis": "explicit",
+          "cita": "HLSI-MN-103 p44",
+          "estado": "presente",
+          "migration_id": "m0.hp011.abort.3",
+          "parent_fact_sha": "872a5492eb3de777018b9d047ec5ddd9f8a8261f6d7f1a597e32f8e432de849e",
+          "provenance_track_id": "hp011.abort.same_family_provenance",
+          "requiredness_reason": "shadow probe de procedencia; el contenido se puntúa en el fact core gemelo",
+          "score_track": "provenance_repair",
+          "source_pages": [
+            "44"
+          ],
+          "texto": "La entrada ABORT o paro de emergencia está enclavada por defecto",
+          "tipo": "supplementary",
+          "valor": "ABORT enclavada"
+        },
+        {
+          "basis": "explicit",
+          "cita": "HLSI-MN-103 p44",
+          "estado": "presente",
+          "migration_id": "m0.hp011.abort.4",
+          "parent_fact_sha": "872a5492eb3de777018b9d047ec5ddd9f8a8261f6d7f1a597e32f8e432de849e",
+          "provenance_track_id": "hp011.abort.same_family_provenance",
+          "requiredness_reason": "shadow probe de procedencia; el contenido se puntúa en el fact core gemelo",
+          "score_track": "provenance_repair",
+          "source_pages": [
+            "44"
+          ],
+          "texto": "Tras activarse ABORT, se requiere un rearme manual de la central para rehabilitar el proceso de extinción",
+          "tipo": "supplementary",
+          "valor": "rearme manual"
+        },
+        {
+          "basis": "unresolved",
+          "cita": "HLSI-MN-103 p17/p44 (confirma entrada NO y enclavamiento con rearme manual, pero no explicita la secuencia de despeje)",
+          "estado": "presente",
+          "migration_id": "m0.hp011.abort.5",
+          "parent_fact_sha": "872a5492eb3de777018b9d047ec5ddd9f8a8261f6d7f1a597e32f8e432de849e",
+          "requiredness_reason": "condición de recuperación explícitamente adjudicada como requerida; se conserva fail-closed y sin crédito hasta que M1 aporte soporte literal o adjudicación de dominio suficiente",
+          "source_pages": [
+            "17",
+            "44"
+          ],
+          "texto": "Pendiente de M1 verificar con evidencia explícita si la entrada ABORT debe despejarse o desactivarse antes de ejecutar el rearme manual de la central",
+          "tipo": "supplementary",
+          "valor": "despejar entrada ABORT antes del rearme"
+        }
+      ],
+      "before": {
+        "cita": "p44",
+        "estado": "presente",
+        "texto": "Entrada ABORT (paro de emergencia): por defecto enclavada (latched); una vez activada requiere rearme manual de la central para rehabilitar el proceso de extincion",
+        "tipo": "core",
+        "valor": "ABORT"
+      },
+      "migration_id": "m0.hp011.abort",
+      "operation": "split",
+      "parent_fact_sha": "872a5492eb3de777018b9d047ec5ddd9f8a8261f6d7f1a597e32f8e432de849e",
+      "qid": "hp011"
+    },
+    {
+      "after": [
+        {
+          "basis": "explicit",
+          "cita": "RP1r p63; glifo reconciliado por la etiqueta semántica",
+          "estado": "presente",
+          "migration_id": "m0.hp011.reset_inhibit.1",
+          "nota_edit": "s101: adjudicacion CORREGIDA por Alberto (rI = Rearme Inhibido, esquema mnemonico rS/rI; revierte s30 r.1). El corpus r.i era correcto; el error era del gold.",
+          "parent_fact_sha": "1c4db90ba413d08a8278eb4356bb577ea215df7bf8d13fb9a36cf2fd73861d2b",
+          "requiredness_reason": "identifica el parámetro primario que debe revisarse para diagnosticar la inhibición",
+          "source_pages": [
+            "63"
+          ],
+          "texto": "El parámetro r.I corresponde a Rearme inhibido tras extinción",
+          "tipo": "core",
+          "valor": "r.I"
+        },
+        {
+          "basis": "explicit",
+          "cita": "RP1r p63",
+          "estado": "presente",
+          "migration_id": "m0.hp011.reset_inhibit.2",
+          "nota_edit": "s101: adjudicacion CORREGIDA por Alberto (rI = Rearme Inhibido, esquema mnemonico rS/rI; revierte s30 r.1). El corpus r.i era correcto; el error era del gold.",
+          "parent_fact_sha": "1c4db90ba413d08a8278eb4356bb577ea215df7bf8d13fb9a36cf2fd73861d2b",
+          "requiredness_reason": "semántica requerida del ajuste que puede mantener el rearme inhibido",
+          "source_pages": [
+            "63"
+          ],
+          "texto": "En r.I, el valor -- inhibe el rearme hasta finalizar la extinción o agotarse t.A",
+          "tipo": "core",
+          "valor": "--"
+        },
+        {
+          "basis": "explicit",
+          "cita": "RP1r p63",
+          "estado": "presente",
+          "migration_id": "m0.hp011.reset_inhibit.3",
+          "nota_edit": "s101: adjudicacion CORREGIDA por Alberto (rI = Rearme Inhibido, esquema mnemonico rS/rI; revierte s30 r.1). El corpus r.i era correcto; el error era del gold.",
+          "parent_fact_sha": "1c4db90ba413d08a8278eb4356bb577ea215df7bf8d13fb9a36cf2fd73861d2b",
+          "requiredness_reason": "valor por defecto requerido para distinguir configuración normal de una inhibición temporizada",
+          "source_pages": [
+            "63"
+          ],
+          "texto": "En r.I, el valor 00 permite el rearme en cualquier momento y es el valor por defecto",
+          "tipo": "core",
+          "valor": "00"
+        },
+        {
+          "basis": "explicit",
+          "cita": "RP1r p63",
+          "estado": "presente",
+          "migration_id": "m0.hp011.reset_inhibit.4",
+          "nota_edit": "s101: adjudicacion CORREGIDA por Alberto (rI = Rearme Inhibido, esquema mnemonico rS/rI; revierte s30 r.1). El corpus r.i era correcto; el error era del gold.",
+          "parent_fact_sha": "1c4db90ba413d08a8278eb4356bb577ea215df7bf8d13fb9a36cf2fd73861d2b",
+          "requiredness_reason": "rango completo útil pero secundario a comprobar el estado y el valor por defecto",
+          "source_pages": [
+            "63"
+          ],
+          "texto": "En r.I, los valores 01 a 30 inhiben el rearme durante ese número de minutos",
+          "tipo": "supplementary",
+          "valor": "01 a 30 minutos"
+        }
+      ],
+      "before": {
+        "cita": "p63",
+        "estado": "presente",
+        "nota_edit": "s101: adjudicacion CORREGIDA por Alberto (rI = Rearme Inhibido, esquema mnemonico rS/rI; revierte s30 r.1). El corpus r.i era correcto; el error era del gold.",
+        "texto": "Parametro r.I \"Rearme inhibido tras extincion\": \"--\"=inhibido hasta finalizar la extincion o agotar t.A; \"00\"=rearme permitido en cualquier momento (POR DEFECTO); \"01\" a \"30\"=inhibido durante ese intervalo en minutos",
+        "tipo": "core",
+        "valor": "r.I"
+      },
+      "migration_id": "m0.hp011.reset_inhibit",
+      "operation": "split",
+      "parent_fact_sha": "1c4db90ba413d08a8278eb4356bb577ea215df7bf8d13fb9a36cf2fd73861d2b",
+      "qid": "hp011"
+    },
+    {
+      "after": [
+        {
+          "basis": "explicit",
+          "cita": "ADW535 p14",
+          "estado": "presente",
+          "migration_id": "m0.hp013.eeprom_retention.1",
+          "parent_fact_sha": "c650e8093c2ba70b353f095d009a26af2019a601de1ab0b63baef6b5ca30ef6f",
+          "requiredness_reason": "hecho literal requerido para explicar dónde reside la configuración",
+          "source_pages": [
+            "14"
+          ],
+          "texto": "La configuración específica del sistema se almacena en una EEPROM no volátil",
+          "tipo": "core",
+          "valor": "EEPROM"
+        },
+        {
+          "basis": "explicit",
+          "cita": "ADW535 p14",
+          "estado": "presente",
+          "migration_id": "m0.hp013.eeprom_retention.2",
+          "parent_fact_sha": "c650e8093c2ba70b353f095d009a26af2019a601de1ab0b63baef6b5ca30ef6f",
+          "requiredness_reason": "arquitectura de firmware explícita pero secundaria a la pregunta sobre conservación de configuración",
+          "source_pages": [
+            "14"
+          ],
+          "texto": "El firmware del sistema se almacena en Flash PROM",
+          "tipo": "supplementary",
+          "valor": "Flash PROM"
+        },
+        {
+          "basis": "derived",
+          "cita": "inferencia desde EEPROM no volátil y batería de RTC",
+          "entailment_track_id": "hp013.config.retention_after_battery_change",
+          "estado": "presente",
+          "migration_id": "m0.hp013.eeprom_retention.3",
+          "parent_fact_sha": "c650e8093c2ba70b353f095d009a26af2019a601de1ab0b63baef6b5ca30ef6f",
+          "premises": [
+            "La configuración específica se almacena en EEPROM no volátil",
+            "La batería de litio alimenta el reloj RTC, no la EEPROM"
+          ],
+          "requiredness_reason": "conclusión requerida para responder el efecto del cambio de batería; no existe como span literal y no puede acreditar retrieval",
+          "score_track": "derived_entailment",
+          "source_pages": [
+            "14",
+            "29",
+            "68",
+            "103",
+            "104"
+          ],
+          "texto": "Por ser no volátil la EEPROM, se razona que la configuración no depende de la batería del reloj y se conserva al cambiarla",
+          "tipo": "supplementary",
+          "valor": "conservación de configuración"
+        }
+      ],
+      "before": {
+        "cita": "p14 (1.7/2.2.2)",
+        "estado": "presente",
+        "texto": "La configuracion especifica del sistema se almacena en una EEPROM (memoria NO volatil); el firmware en Flash PROM -> la configuracion se CONSERVA aunque se cambie la bateria",
+        "tipo": "core",
+        "valor": "EEPROM"
+      },
+      "migration_id": "m0.hp013.eeprom_retention",
+      "operation": "split",
+      "parent_fact_sha": "c650e8093c2ba70b353f095d009a26af2019a601de1ab0b63baef6b5ca30ef6f",
+      "qid": "hp013"
+    },
+    {
+      "after": [
+        {
+          "basis": "explicit",
+          "cita": "997-671 p43",
+          "estado": "presente",
+          "migration_id": "m0.hp017.rule1.1",
+          "parent_fact_sha": "bdec079cdf931c925b277224d2aaf7fc53b3999f0ec09fa022e30c72b852c0d8",
+          "requiredness_reason": "ruta de navegación necesaria para programar la regla solicitada",
+          "source_pages": [
+            "43"
+          ],
+          "texto": "Se accede a Causa y Efecto desde el menú Editar Configuración",
+          "tipo": "core",
+          "valor": "Editar Configuración"
+        },
+        {
+          "basis": "explicit",
+          "cita": "997-671 p43",
+          "estado": "presente",
+          "migration_id": "m0.hp017.rule1.2",
+          "parent_fact_sha": "bdec079cdf931c925b277224d2aaf7fc53b3999f0ec09fa022e30c72b852c0d8",
+          "requiredness_reason": "evita que la regla por defecto contradiga o puentee la programación específica solicitada",
+          "source_pages": [
+            "43"
+          ],
+          "texto": "Antes de crear una programación específica se debe borrar o sustituir la Regla 1 por defecto, donde cualquier entrada de alarma activa todos los equipos de salida",
+          "tipo": "core",
+          "valor": "Regla 1"
+        }
+      ],
+      "before": {
+        "cita": "p43",
+        "estado": "presente",
+        "texto": "Acceder a la pantalla \"Causa y Efecto\" desde el menu \"Editar Configuracion\"; borrar la Regla 1 por defecto (CUALQUIER entrada de alarma activa TODOS los equipos de salida) si se va a hacer una programacion especifica",
+        "tipo": "core",
+        "valor": "Editar Configuracion"
+      },
+      "migration_id": "m0.hp017.rule1",
+      "operation": "split",
+      "parent_fact_sha": "bdec079cdf931c925b277224d2aaf7fc53b3999f0ec09fa022e30c72b852c0d8",
+      "qid": "hp017"
+    },
+    {
+      "after": [
+        {
+          "basis": "explicit",
+          "cita": "MIE-MI-530 p21 y p44",
+          "estado": "presente",
+          "migration_id": "m0.hp018.eol.1",
+          "parent_fact_sha": "0a1f9516cd2a1c0158281fc7f5db2c8b47df1c7e12a85e39787271a2074e4806",
+          "requiredness_reason": "valor y potencia requeridos para cablear correctamente la supervisión del circuito",
+          "source_pages": [
+            "21",
+            "44"
+          ],
+          "texto": "Cada circuito de sirena de ZX2e/ZX5e se supervisa con una resistencia de fin de línea de 6,8 kΩ (6K8), de 0,5 W como mínimo",
+          "tipo": "core",
+          "valor": "6K8 / 0,5 W"
+        },
+        {
+          "basis": "explicit",
+          "cita": "MIE-MI-530 p21 y p44",
+          "estado": "presente",
+          "migration_id": "m0.hp018.eol.2",
+          "parent_fact_sha": "0a1f9516cd2a1c0158281fc7f5db2c8b47df1c7e12a85e39787271a2074e4806",
+          "requiredness_reason": "ubicación física requerida para que la supervisión de fin de línea funcione",
+          "source_pages": [
+            "21",
+            "44"
+          ],
+          "texto": "La resistencia 6K8 debe colocarse al final de cada circuito, en la última sirena",
+          "tipo": "core",
+          "valor": "última sirena"
+        },
+        {
+          "basis": "explicit",
+          "cita": "MIE-MI-530 p21 y p44",
+          "estado": "presente",
+          "migration_id": "m0.hp018.eol.3",
+          "parent_fact_sha": "0a1f9516cd2a1c0158281fc7f5db2c8b47df1c7e12a85e39787271a2074e4806",
+          "provenance_track_id": "hp018.eol_6k8.same_family_provenance",
+          "requiredness_reason": "shadow probe de procedencia; el contenido se puntúa en el fact core gemelo",
+          "score_track": "provenance_repair",
+          "source_pages": [
+            "21",
+            "44"
+          ],
+          "texto": "Cada circuito de sirena de ZX2e/ZX5e se supervisa con una resistencia de fin de línea de 6,8 kΩ (6K8), de 0,5 W como mínimo",
+          "tipo": "supplementary",
+          "valor": "6K8 / 0,5 W"
+        },
+        {
+          "basis": "explicit",
+          "cita": "MIE-MI-530 p21 y p44",
+          "estado": "presente",
+          "migration_id": "m0.hp018.eol.4",
+          "parent_fact_sha": "0a1f9516cd2a1c0158281fc7f5db2c8b47df1c7e12a85e39787271a2074e4806",
+          "provenance_track_id": "hp018.eol_6k8.same_family_provenance",
+          "requiredness_reason": "shadow probe de procedencia; el contenido se puntúa en el fact core gemelo",
+          "score_track": "provenance_repair",
+          "source_pages": [
+            "21",
+            "44"
+          ],
+          "texto": "La resistencia 6K8 debe colocarse al final de cada circuito, en la última sirena",
+          "tipo": "supplementary",
+          "valor": "última sirena"
+        }
+      ],
+      "before": {
+        "cita": "MI-530 p21 / p44",
+        "estado": "presente",
+        "texto": "Resistencia de fin de linea (RFL) = 6,8 kOhm (6K8), 0,5 W minimo, en el final de cada circuito de sirena (en la ultima sirena) para la supervision",
+        "tipo": "core",
+        "valor": "6K8"
+      },
+      "migration_id": "m0.hp018.eol",
+      "operation": "split",
+      "parent_fact_sha": "0a1f9516cd2a1c0158281fc7f5db2c8b47df1c7e12a85e39787271a2074e4806",
+      "qid": "hp018"
+    },
+    {
+      "after": [
+        {
+          "basis": "explicit",
+          "cita": "MIE-MI-530 p21 y p44",
+          "estado": "presente",
+          "migration_id": "m0.hp018.max_current.1",
+          "parent_fact_sha": "42d0edfd773355d2145972e1ab82ad07a3e761ea045a171c75916d2a41bc6a7a",
+          "requiredness_reason": "límite de seguridad requerido para dimensionar cada salida de sirena",
+          "source_pages": [
+            "21",
+            "44"
+          ],
+          "texto": "Carga maxima 1 A por circuito/salida de sirena",
+          "tipo": "core",
+          "valor": "1 A"
+        },
+        {
+          "basis": "explicit",
+          "cita": "MIE-MI-530 p21 y p44",
+          "estado": "presente",
+          "migration_id": "m0.hp018.max_current.2",
+          "parent_fact_sha": "42d0edfd773355d2145972e1ab82ad07a3e761ea045a171c75916d2a41bc6a7a",
+          "provenance_track_id": "hp018.max_1A.same_family_provenance",
+          "requiredness_reason": "shadow probe de procedencia; el contenido se puntúa en el fact core gemelo",
+          "score_track": "provenance_repair",
+          "source_pages": [
+            "21",
+            "44"
+          ],
+          "texto": "Carga maxima 1 A por circuito/salida de sirena",
+          "tipo": "supplementary",
+          "valor": "1 A"
+        }
+      ],
+      "before": {
+        "cita": "MI-530 p21 / p44",
+        "estado": "presente",
+        "texto": "Carga maxima 1 A por circuito/salida de sirena",
+        "tipo": "core",
+        "valor": "1 A"
+      },
+      "migration_id": "m0.hp018.max_current",
+      "operation": "split",
+      "parent_fact_sha": "42d0edfd773355d2145972e1ab82ad07a3e761ea045a171c75916d2a41bc6a7a",
+      "qid": "hp018"
+    }
+  ],
+  "m1_known_holds": [
+    {
+      "parent_identity": {
+        "fact_key": "cat005#2:4",
+        "parent_fact_sha256": "c30477c37c3d5942f7c0cd3e5f7500f5a4fffa20479cc2e371f9355d79654176",
+        "qid": "cat005"
+      },
+      "source_decision": {
+        "blocking_issue": "La formulación omite el rango digital 0-10/15 V y declaraba una página sin span; requiere recheck/rewrite.",
+        "decision_stage": "adversarial_batch_rejection",
+        "labels": [
+          "adversarial_cleanup",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.cat005.c30477c37c3d5942",
+        "primary_lane": "scope_qualifier_or_normative",
+        "qid": "cat005",
+        "recommended_mechanism": "qualifier_complete_rewrite_with_source_checklist"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "cat005#5:3244 / 3270",
+        "parent_fact_sha256": "fb0031fbe096519b0e0e99d5f9f59e5c01c6324ed0e0f937e830208200ef3342",
+        "qid": "cat005"
+      },
+      "source_decision": {
+        "blocking_issue": "Sí aparecen \"Versión digital: 3244\" y \"Versión analógica: 3270\", pero no se afirma explícitamente la diferencia funcional indicada en el fact.",
+        "decision_stage": "cheap_proposer_or_deterministic_downgrade",
+        "labels": [
+          "proposer_evidence_binding"
+        ],
+        "migration_id": "carry.cat005.fb0031fbe096519b",
+        "primary_lane": "proposer_evidence_binding",
+        "qid": "cat005",
+        "recommended_mechanism": "targeted_primary_page_rebinding"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "cat007#0:NC-C-NA",
+        "parent_fact_sha256": "7947613c1a4de8b154f34aa61546dcfc776b1f165222da5ffa0c714254e6fc2b",
+        "qid": "cat007"
+      },
+      "source_decision": {
+        "blocking_issue": "Non-atomic compound fact and dropped '(AUX.)' qualifier on channel-2 fault relay terminals.",
+        "decision_stage": "fable_crossfamily_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "primary_entailment_or_inference",
+          "requiredness_or_type",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.cat007.7947613c1a4de8b1",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "cat007",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "cat007#1:no enclavado",
+        "parent_fact_sha256": "224f21eed48712efe430932a2aca9421b786fe5288a8775037ed0460ca525ab1",
+        "qid": "cat007"
+      },
+      "source_decision": {
+        "blocking_issue": "La desenergización del relé es una inferencia no expresada por la fuente.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "primary_entailment_or_inference",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.cat007.224f21eed48712ef",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "cat007",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "cat007#2:47 kohm",
+        "parent_fact_sha256": "1034ff01c53cc99a4dd5fb36bd73633ce5f7a7c8d18689c9778d8e326895b374",
+        "qid": "cat007"
+      },
+      "source_decision": {
+        "blocking_issue": "Incluye dos inferencias no explícitas y omite la restricción del canal 2.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "primary_entailment_or_inference",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.cat007.1034ff01c53cc99a",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "cat007",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "cat007#4:10^5",
+        "parent_fact_sha256": "57b09969a2ce13fd4c80f959dd9aee026a287bac0e0d4e6855bace08c54bfaa7",
+        "qid": "cat007"
+      },
+      "source_decision": {
+        "blocking_issue": "El gold mezcla el hecho 10^5 operaciones con metacomentario de extracción/OCR; requiere rewrite con linaje.",
+        "decision_stage": "adversarial_batch_rejection",
+        "labels": [
+          "adversarial_cleanup",
+          "atomicity_or_structure",
+          "layout_or_table_association",
+          "primary_entailment_or_inference",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.cat007.57b09969a2ce13fd",
+        "primary_lane": "layout_or_table_association",
+        "qid": "cat007",
+        "recommended_mechanism": "render_bound_multimodal_recheck_then_lineage_if_needed"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "cat010#1:660mW",
+        "parent_fact_sha256": "5bec12668a94fa37c2aead006b2d401e08fde63187c335fefd63dccb42b50e61",
+        "qid": "cat010"
+      },
+      "source_decision": {
+        "blocking_issue": "Non-atomic fact: it aggregates five separate input safety parameters (Ui, Ii, Pi, Ci, Li) into one compound statement rather than a single atomic fact.",
+        "decision_stage": "fable_crossfamily_rejection",
+        "labels": [
+          "atomicity_or_structure"
+        ],
+        "migration_id": "carry.cat010.5bec12668a94fa37",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "cat010",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "cat012#0:1,2",
+        "parent_fact_sha256": "859bf84ece1e13012eaef07fdb15ce07b1fdcce892bfc0ef2822dbe1bcec74c6",
+        "qid": "cat012"
+      },
+      "source_decision": {
+        "blocking_issue": "Interpretación no sustentada del 1,2 como factor de seguridad y referencia no sustentada a un apéndice.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "primary_entailment_or_inference",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.cat012.859bf84ece1e1301",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "cat012",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "cat012#1:24 h",
+        "parent_fact_sha256": "8f913ebef3a60ac15f58f14132b1f01b2f021e33d709e26a18391fbb2397de36",
+        "qid": "cat012"
+      },
+      "source_decision": {
+        "blocking_issue": "Se necesita revisión multimodal para confirmar las asociaciones A–24/72 h y B–0,5 h.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "layout_or_table_association",
+          "primary_entailment_or_inference",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.cat012.8f913ebef3a60ac1",
+        "primary_lane": "layout_or_table_association",
+        "qid": "cat012",
+        "recommended_mechanism": "render_bound_multimodal_recheck_then_lineage_if_needed"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "cat012#3:18 Ah",
+        "parent_fact_sha256": "67cd609181abed521cf9b279b0f564bab0b10b51d6a7782e1b048ec0d65516e6",
+        "qid": "cat012"
+      },
+      "source_decision": {
+        "blocking_issue": "Hecho no atómico, con omisión del carácter recomendado y de la condición de capacidad a 20 h; el tipo «core» tampoco corresponde.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "primary_entailment_or_inference",
+          "requiredness_or_type",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.cat012.67cd609181abed52",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "cat012",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "cat014#0:10 anos",
+        "parent_fact_sha256": "72ed1610f96bff0e728bb1b4b5fb7ac53708dcb468de15a5a07e27cb676349d7",
+        "qid": "cat014"
+      },
+      "source_decision": {
+        "blocking_issue": "Hecho no atómico y tipado íntegramente como core pese a incluir un detalle suplementario.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "requiredness_or_type"
+        ],
+        "migration_id": "carry.cat014.72ed1610f96bff0e",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "cat014",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "cat019#0:coincidencias",
+        "parent_fact_sha256": "6c2692e4d3fd39ac226f17725fb105a8bbb84e39df2dff6d027a404fdfbcc6b0",
+        "qid": "cat019"
+      },
+      "source_decision": {
+        "blocking_issue": "El texto sí explica AÑADIR, la pantalla de edición y el significado de coincidencias, pero no sostiene de forma completa la formulación solicitada ni los valores '2, 4...'.",
+        "decision_stage": "cheap_proposer_or_deterministic_downgrade",
+        "labels": [
+          "proposer_evidence_binding"
+        ],
+        "migration_id": "carry.cat019.6c2692e4d3fd39ac",
+        "primary_lane": "proposer_evidence_binding",
+        "qid": "cat019",
+        "recommended_mechanism": "targeted_primary_page_rebinding"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "cat019#1:EVENTO / ACCION",
+        "parent_fact_sha256": "650574c29860ac58d998e23f17a29474b7bb960051fbf13ec61d2001d3367a40",
+        "qid": "cat019"
+      },
+      "source_decision": {
+        "blocking_issue": "Falta de atomicidad, tipo core incorrecto para el límite y omisión de condiciones materiales de activación.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "requiredness_or_type",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.cat019.650574c29860ac58",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "cat019",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "cat019#2:ENTIDAD / CONDICION TEMPORAL",
+        "parent_fact_sha256": "77fff66f289222e7ec4af6efec46f0cf6787a60309c73cb984cc00af915ac91f",
+        "qid": "cat019"
+      },
+      "source_decision": {
+        "blocking_issue": "Enumeración incompleta, alteración causal de la condición temporal y omisión de la distinción entre evento y estado.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "primary_entailment_or_inference",
+          "requiredness_or_type",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.cat019.77fff66f289222e7",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "cat019",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "cat023#0:A/B/C EN 54-20",
+        "parent_fact_sha256": "7ed9d4ed696ccfe3dd6e04bdb3ab6ac9652d4bd52e268c0b1820f13c97af7e74",
+        "qid": "cat023"
+      },
+      "source_decision": {
+        "blocking_issue": "El rewrite aprobado pierde el sujeto ASD532 y depende del contexto del qid; requiere un nuevo rewrite autosuficiente antes de escalar a múltiples fabricantes.",
+        "decision_stage": "adversarial_batch_rejection",
+        "labels": [
+          "adversarial_cleanup",
+          "identity_or_model_precision",
+          "layout_or_table_association",
+          "primary_entailment_or_inference",
+          "requiredness_or_type",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.cat023.7ed9d4ed696ccfe3",
+        "primary_lane": "layout_or_table_association",
+        "qid": "cat023",
+        "recommended_mechanism": "render_bound_multimodal_recheck_then_lineage_if_needed"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "cat023#1:W01-W44 / 10-60 min / ±20-50 %",
+        "parent_fact_sha256": "bf0ef37152274a9cd5908a0ec587c93b5fb857857b6b49502992a19123d26890",
+        "qid": "cat023"
+      },
+      "source_decision": {
+        "blocking_issue": "Generalización no exhaustivamente sustentada y omisión de la consulta obligatoria al fabricante y del carácter no homologado según EN.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "closed_set_or_negative",
+          "primary_entailment_or_inference",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.cat023.bf0ef37152274a9c",
+        "primary_lane": "scope_qualifier_or_normative",
+        "qid": "cat023",
+        "recommended_mechanism": "qualifier_complete_rewrite_with_source_checklist"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "hp002#0:fallo flujo de aire",
+        "parent_fact_sha256": "4de86fac80358a1477d2c76264d60f015065e192740c06fe601390d2b6091a74",
+        "qid": "hp002"
+      },
+      "source_decision": {
+        "blocking_issue": "Negativa no sustentada, generalización del ±20 % y omisión de restricciones normativas.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "closed_set_or_negative",
+          "primary_entailment_or_inference",
+          "requiredness_or_type",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.hp002.4de86fac80358a14",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "hp002",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "hp002#1:80 %",
+        "parent_fact_sha256": "c2c99fa936e98f67f6874b81aa507f27b5e36e4267e89838b7cfb1298abada02",
+        "qid": "hp002"
+      },
+      "source_decision": {
+        "blocking_issue": "La parte sobre obstrucción y rotura de tubo sí aparece, pero la causa más probable añadida (orificios sucios, filtro sucio, trampa de polvo/separador) no está soportada explícitamente en las páginas aportadas.",
+        "decision_stage": "cheap_proposer_or_deterministic_downgrade",
+        "labels": [
+          "proposer_evidence_binding"
+        ],
+        "migration_id": "carry.hp002.c2c99fa936e98f67",
+        "primary_lane": "proposer_evidence_binding",
+        "qid": "hp002",
+        "recommended_mechanism": "targeted_primary_page_rebinding"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "hp002#2:300 s",
+        "parent_fact_sha256": "af5d8e5e2370271210bea63989d231fab2b2b0dafa4582c6356849082f9fded3",
+        "qid": "hp002"
+      },
+      "source_decision": {
+        "blocking_issue": "Generaliza el retardo de 300 s sin preservar su configuración y condición de disparo.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "primary_entailment_or_inference",
+          "requiredness_or_type",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.hp002.af5d8e5e23702712",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "hp002",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "hp002#3:7.6.1",
+        "parent_fact_sha256": "06f759b5da9ed40ba3e718ffcbfb92dd8d4ec41a5b4dc001c1df9ee38f2ba91b",
+        "qid": "hp002"
+      },
+      "source_decision": {
+        "blocking_issue": "Omite la restricción de modelo para V02 y el conducto de aspiración II.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "identity_or_model_precision",
+          "primary_entailment_or_inference",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.hp002.06f759b5da9ed40b",
+        "primary_lane": "scope_qualifier_or_normative",
+        "qid": "hp002",
+        "recommended_mechanism": "qualifier_complete_rewrite_with_source_checklist"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "hp004#0:24V y 220V",
+        "parent_fact_sha256": "ae02a395c8359cf997c2e9bf6f2c2341d410e80fc51d441edb159074c6a98630",
+        "qid": "hp004"
+      },
+      "source_decision": {
+        "blocking_issue": "El texto solo afirma que el DGD-600 se conecta a 24V o 220V según modelo y presenta la tabla con ambas versiones, pero no la conducta de respuesta solicitada.",
+        "decision_stage": "cheap_proposer_or_deterministic_downgrade",
+        "labels": [
+          "identity_or_model_precision",
+          "layout_or_table_association",
+          "proposer_evidence_binding"
+        ],
+        "migration_id": "carry.hp004.ae02a395c8359cf9",
+        "primary_lane": "layout_or_table_association",
+        "qid": "hp004",
+        "recommended_mechanism": "render_bound_multimodal_recheck_then_lineage_if_needed"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "hp004#1:22V a 38V",
+        "parent_fact_sha256": "5fbc4f5bce66dde5b4475ed9385131e13119ba654438d015327292b5bd992b7f",
+        "qid": "hp004"
+      },
+      "source_decision": {
+        "blocking_issue": "No es atómico y su tipo «core» no es correcto para todo el contenido: debe separarse o eliminarse el consumo en alarma.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "requiredness_or_type"
+        ],
+        "migration_id": "carry.hp004.5fbc4f5bce66dde5",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "hp004",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "hp004#2:180V a 240V",
+        "parent_fact_sha256": "cf0e1e8fdc95c0051c04a5d54e657b2aef00011acf42882cd7186226bc658794",
+        "qid": "hp004"
+      },
+      "source_decision": {
+        "blocking_issue": "Downgrade determinista: non_literal_or_unbound_evidence. La sección de características técnicas especifica para 220V una tensión de 180V a 240V, consumo en reposo de 70 mA y en alarma de 70 mA.",
+        "decision_stage": "cheap_proposer_or_deterministic_downgrade",
+        "labels": [
+          "proposer_evidence_binding"
+        ],
+        "migration_id": "carry.hp004.cf0e1e8fdc95c005",
+        "primary_lane": "proposer_evidence_binding",
+        "qid": "hp004",
+        "recommended_mechanism": "targeted_primary_page_rebinding"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "hp008#0:CPX-551E",
+        "parent_fact_sha256": "582541b1412a96ced8bbf660f1edea842ebcdc05d6c029b9ec63b2a67333eb8e",
+        "qid": "hp008"
+      },
+      "source_decision": {
+        "blocking_issue": "Closed-set claim of exactly two compatible ionic smoke sensors is not explicitly established by the source; the list heading 'Otros sensores' does not close the ionic-sensor category.",
+        "decision_stage": "fable_crossfamily_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "closed_set_or_negative",
+          "primary_entailment_or_inference",
+          "requiredness_or_type",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.hp008.582541b1412a96ce",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "hp008",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "hp008#1:SDX-751",
+        "parent_fact_sha256": "6898c1c2de2ec424a2ded207eb27db533c34507e097380942f8dda09420ba0be",
+        "qid": "hp008"
+      },
+      "source_decision": {
+        "blocking_issue": "Se extiende indebidamente la clasificación OPT al SDX-751EM.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "primary_entailment_or_inference",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.hp008.6898c1c2de2ec424",
+        "primary_lane": "scope_qualifier_or_normative",
+        "qid": "hp008",
+        "recommended_mechanism": "qualifier_complete_rewrite_with_source_checklist"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "hp008#2:IRX-751CTEM",
+        "parent_fact_sha256": "d7fc6ebefe5f9c9233aba97349619247e034d72722845b0f4103861b6f218c07",
+        "qid": "hp008"
+      },
+      "source_decision": {
+        "blocking_issue": "Non-atomic two-model conjunction presented as an exhaustive closed set that the source enumeration does not explicitly close.",
+        "decision_stage": "fable_crossfamily_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "closed_set_or_negative",
+          "primary_entailment_or_inference",
+          "requiredness_or_type",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.hp008.d7fc6ebefe5f9c92",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "hp008",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "hp008#3:SDX-751-TEM",
+        "parent_fact_sha256": "9f88aa8a1292a479b1d483be2bdecb6172c4955d35c40f606e51cc45e75b8323",
+        "qid": "hp008"
+      },
+      "source_decision": {
+        "blocking_issue": "La clasificación «multicriterio óptico-térmico» no está expresada en el texto primario.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "identity_or_model_precision",
+          "primary_entailment_or_inference",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.hp008.9f88aa8a1292a479",
+        "primary_lane": "scope_qualifier_or_normative",
+        "qid": "hp008",
+        "recommended_mechanism": "qualifier_complete_rewrite_with_source_checklist"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "hp017#0:causa-efecto",
+        "parent_fact_sha256": "f4849c19a9af72452c802a7f49b98fffbf163fa9354283e62b54dec370229618",
+        "qid": "hp017"
+      },
+      "source_decision": {
+        "blocking_issue": "Se menciona la programación por reglas y los tipos de retardo de salida, pero la negación pedida no queda directamente establecida.",
+        "decision_stage": "cheap_proposer_or_deterministic_downgrade",
+        "labels": [
+          "closed_set_or_negative",
+          "proposer_evidence_binding"
+        ],
+        "migration_id": "carry.hp017.f4849c19a9af7245",
+        "primary_lane": "closed_set_or_negative",
+        "qid": "hp017",
+        "recommended_mechanism": "closed_world_or_absence_protocol_else_withdraw"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "hp017#1:instruccion de entrada",
+        "parent_fact_sha256": "7258aec395b0f78dcce808ef121a9c7a708791686ed8d66c7a3d55911b288892",
+        "qid": "hp017"
+      },
+      "source_decision": {
+        "blocking_issue": "Incluye «lazo» sin respaldo y elimina una precondición de procesamiento y advertencias materiales.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "primary_entailment_or_inference",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.hp017.7258aec395b0f78d",
+        "primary_lane": "scope_qualifier_or_normative",
+        "qid": "hp017",
+        "recommended_mechanism": "qualifier_complete_rewrite_with_source_checklist"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "hp017#3:seis tipos de retardo",
+        "parent_fact_sha256": "ee150da7e6a7607d6415f092e104304e82a1e73e8eac42daf4f4fde31b188556",
+        "qid": "hp017"
+      },
+      "source_decision": {
+        "blocking_issue": "Downgrade determinista: type_change_requested. La sección A5.3 vincula el tipo de retardo con acciones de control durante el retardo, incluyendo SILENCIAR SIRENAS y SONIDO ALARMAS.",
+        "decision_stage": "cheap_proposer_or_deterministic_downgrade",
+        "labels": [
+          "proposer_evidence_binding",
+          "requiredness_or_type"
+        ],
+        "migration_id": "carry.hp017.ee150da7e6a7607d",
+        "primary_lane": "requiredness_or_type",
+        "qid": "hp017",
+        "recommended_mechanism": "question_conditioned_requiredness_retype"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "hp019#0:-30 a +60",
+        "parent_fact_sha256": "9e06c35fb7c4d8ef9362a0d7fb357f29058b97e6dd527b45a8988469fecea3f1",
+        "qid": "hp019"
+      },
+      "source_decision": {
+        "blocking_issue": "Omite la excepción UL de la caja y las condiciones de la nota ③ aplicables al conducto.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "primary_entailment_or_inference",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.hp019.9e06c35fb7c4d8ef",
+        "primary_lane": "scope_qualifier_or_normative",
+        "qid": "hp019",
+        "recommended_mechanism": "qualifier_complete_rewrite_with_source_checklist"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "hp020#0:nivel 2 o 3",
+        "parent_fact_sha256": "253dbf5abe806d5cf1c3d66effbdbe9df1e5c3aec8819dc17d722fb6c660e65a",
+        "qid": "hp020"
+      },
+      "source_decision": {
+        "blocking_issue": "La exclusividad introducida por «solo» no está explícita en la fuente.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "closed_set_or_negative",
+          "primary_entailment_or_inference",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.hp020.253dbf5abe806d5c",
+        "primary_lane": "scope_qualifier_or_normative",
+        "qid": "hp020",
+        "recommended_mechanism": "qualifier_complete_rewrite_with_source_checklist"
+      }
+    },
+    {
+      "parent_identity": {
+        "fact_key": "hp020#3:satisfactorio",
+        "parent_fact_sha256": "8086e1ff3028ad109548799caa290fe3b7faf6c4963d0cdbd51ba443005c6e77",
+        "qid": "hp020"
+      },
+      "source_decision": {
+        "blocking_issue": "Falta de atomicidad: deben separarse la confirmación y el mensaje de éxito.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "requiredness_or_type"
+        ],
+        "migration_id": "carry.hp020.8086e1ff3028ad10",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "hp020",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      }
+    }
+  ],
+  "payload_sha256": "cea6a6bdf1aea8186c68adfe9c86a534144d06c1bb46d4bd67e67e48d8aa95c5",
+  "population_receipts": {
+    "current_partial_ledger": {
+      "logical_path": "evals/s114_fact_ledger_v1.json",
+      "sha256": "1850bd49762993b0566805b9e8d5001e85ad9adbade42f7ce0c9de5f9a9d0a53"
+    },
+    "gold_v1": {
+      "logical_path": "evals/gold_answers_v1.yaml",
+      "sha256": "e1b6b3a8da26b99201108b1765d18d396e8628e0fff022dee58dd7e75049470d"
+    },
+    "historical_assessment": {
+      "logical_path": "evals/s100_factlevel_full.yaml",
+      "sha256": "49e8cbaab5f86f89b67e0457267ceeca7a1078ac503fbe5a7249b798aeabe503"
+    }
+  },
+  "projected_counts": {
+    "m0_changes": 14,
+    "m1_known_holds": 33
+  },
+  "schema_version": 1,
+  "selection_policy": {
+    "m0": "all qid_plus_full_parent_sha matches in non_meta S100 population",
+    "m1": "all exact carry.qid.parent_sha_prefix16 matches after M0 and S118 transforms",
+    "promotions_authorized": false,
+    "runtime_outcome_fields_used": false
+  },
+  "source_counts": {
+    "m0_changes": 15,
+    "m1_pending_decisions": 51
+  },
+  "source_receipts": {
+    "m0_full_manifest": {
+      "logical_path": "evals/gold_answers_v2_atomic.manifest.json",
+      "sha256": "156bf94358af400a866e1ec6dc9b75a3e5086f1ab5de3741156efc857d353613"
+    },
+    "m1_pending_blockers": {
+      "logical_path": "evals/s106_m1_pending_blockers_v1.json",
+      "sha256": "0e2ba4cfa23e892a8f340d0c587db6956774f0760ff708552396777a4013d531",
+      "upstream_receipts": {
+        "closure_sha256": "9af9b7c9865dcd702dbfac3afc2e05eabb6309dece1d930296aa30a9506086fe",
+        "crossfamily_reviews_sha256": "28221d7a2c210eace3cb25490bedda6393348412ef3e8eb201a27158aa5013ab",
+        "proposals_sha256": "efa72db99f912e19e9b08c4ae6ed87571f1eeb213ed542fee27d503bd5a1c9ac",
+        "semantic_reviews_sha256": "1fe599a17c6ed7180c5f97f63fafe2a8eafd24f1e8575108aeee50e6080caf4d"
+      }
+    }
+  },
+  "status": "FROZEN_DIAGNOSTIC_PROJECTION_NO_PROMOTIONS"
+}

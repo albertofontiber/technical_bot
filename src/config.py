@@ -104,6 +104,13 @@ STRUCTURAL_NEIGHBOR_COVERAGE = _strict_on_off(
 # enable canonical-document HYQ independently of the other coverage lanes.
 CANONICAL_HYQ_COVERAGE = _strict_on_off("CANONICAL_HYQ_COVERAGE")
 
+# S126 relational three-facet compatibility bundle.  This is deliberately
+# separate from the generic HYQ lane: when on for an applicable two-entity
+# compatibility query, an incomplete bundle serves nothing.
+COMPATIBILITY_BUNDLE_COVERAGE = _strict_on_off(
+    "COMPATIBILITY_BUNDLE_COVERAGE"
+)
+
 # S110 deterministic complement over the already-retrieved pool.  It never
 # re-runs retrieval or calls a model; the frozen reranker top-k remains an
 # immutable prefix and at most two query-aligned exact-source rows may append.

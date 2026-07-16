@@ -1,0 +1,87 @@
+instrument: s122_enforced_answer_contract_adversarial_review_v1
+review_mode: independent_read_only_bounded_adversarial
+final_verdict: GO_LOCAL_CONTRACT_ONLY
+severity:
+  p0_open: 0
+  p1_open: 0
+  p2_open: 1
+
+review_threshold: >-
+  Convergence on material P0 and P1 defects, not an absolute lexical GO.
+  Conservative false negatives that reconstruct or fail closed remain P2.
+
+material_findings_closed:
+  - id: P1_RELATION_IDENTITY
+    finding: token coexistence could satisfy an output, rule or closed-loop relation
+    closure: exact typed identities and bounded positive predicates are required
+  - id: P1_CONFLICT_POLARITY
+    finding: negated or hypothetical conflict disclosures could be treated as safe
+    closure: only a canonical root disclosure is accepted and global contradictions are aggregated
+  - id: P1_POSITIVE_DENYLIST
+    finding: lexical deny lists missed disabled, revoked and false states
+    closure: output and rule coverage now require closed positive typed records
+  - id: P1_EXISTENTIAL_COVERAGE
+    finding: one positive record could hide a later correction or competitor
+    closure: all relation-bearing records are classified and any ambiguous, corrective or competing record fails closed
+  - id: P1_ELLIPTIC_CONTRADICTION
+    finding: short coreferential contradictions required an explicit discourse marker
+    closure: short relation-bearing clauses are aggregated before or after the positive record, across bullets and paragraphs, in Spanish and English
+
+verified_properties:
+  default_mode: off
+  enforced_mode_versioned: true
+  maximum_bot_provider_calls_per_answer: 1
+  second_provider_repair_call: forbidden
+  unsafe_draft_discarded_before_delivery: true
+  source_bound_renderer: true
+  query_core_fail_closed: true
+  source_text_in_system_message: false
+  exact_cache_request_binding: true
+  production_qid_allowlist: false
+  slash_family_divergence_rejected: true
+  unresolved_revision_conflict_never_auto_selected: true
+
+frozen_replay:
+  status: LOCAL_ENFORCED_ANSWER_CONTRACT_GO
+  total_rows: 39
+  measured_answers: 27
+  not_measured: 12
+  actions:
+    pass: 25
+    source_bound_reconstruction: 1
+    fail_closed: 1
+  target_results:
+    hp005: pass_byte_identical
+    hp009: source_bound_reconstruction
+    hp017: fail_closed
+  unexpected_reconstruction: 0
+  unexpected_fail_closed: 0
+  not_measured_action_leakage: 0
+
+verification:
+  focused_tests:
+    passed: 63
+    failed: 0
+  full_suite:
+    passed: 1218
+    skipped: 5
+    failed: 0
+  git_diff_check: clean
+  bot_provider_calls: 0
+  fresh_answer_generations: 0
+  network_calls: 0
+  retrieval_calls: 0
+  rerank_calls: 0
+  database_reads: 0
+  database_writes: 0
+
+non_blocking_follow_up:
+  severity: P2
+  finding: short relation-bearing clauses deliberately prefer conservative reconstruction over permissive acceptance
+  disposition: measure false-positive reconstruction rate only in a separately authorised fresh probe
+
+restrictions:
+  - no fact is relabelled by this local replay
+  - no causal production improvement is claimed
+  - no fresh answer probe is authorised
+  - no serving, deployment, corpus or database mutation is authorised

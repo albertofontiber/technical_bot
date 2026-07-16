@@ -1,0 +1,170 @@
+{
+  "instrument": "s116_independent_holdout_acquisition_v1",
+  "status": "acquisition_go",
+  "prereg_sha256": "adf47686775e8f7622297763715088915ca3ccaa22411518310d631c04c5a567",
+  "source": {
+    "documents": 12,
+    "store_slug": "pdfs"
+  },
+  "summary": {
+    "gate": "GO",
+    "checks": {
+      "all_documents_valid": true,
+      "unique_sha256": true,
+      "zero_development_overlap": true,
+      "minimum_manufacturers": true,
+      "long_document_present": true,
+      "two_short_documents_present": true
+    },
+    "successful_documents": 12,
+    "manufacturers": 4,
+    "total_pages": 691,
+    "total_size_bytes": 25224262,
+    "development_overlap": [],
+    "failures": []
+  },
+  "documents": [
+    {
+      "id": "bosch_fpc500_install",
+      "manufacturer": "Bosch",
+      "stratum": "panel_installation_manual",
+      "filename": "bosch_fpc500_installation_en.pdf",
+      "source_host": "cdn.commerce.boschsecurity.com",
+      "sha256": "720fe4dcb0023d76c7fa981b556dc66c3d02a10b1abe9b728fd4563b9d3d50ec",
+      "pages": 80,
+      "size_bytes": 1962401,
+      "status": "ok"
+    },
+    {
+      "id": "bosch_fpp5000_power",
+      "manufacturer": "Bosch",
+      "stratum": "multilingual_power_supply_installation",
+      "filename": "bosch_fpp5000_installation_all.pdf",
+      "source_host": "cdn.commerce.boschsecurity.com",
+      "sha256": "295540683fa0542fbe1d014c8fdc691747754166c9c8a0f0421a6a14997ab056",
+      "pages": 80,
+      "size_bytes": 1849297,
+      "status": "ok"
+    },
+    {
+      "id": "bosch_flm430_interface",
+      "manufacturer": "Bosch",
+      "stratum": "multilingual_interface_module_installation",
+      "filename": "bosch_flm430_i2m1_installation_all.pdf",
+      "source_host": "cdn.commerce.boschsecurity.com",
+      "sha256": "653719e29ee747a481961360444f355c6cb2931e61511df757ad94ebf72aca58",
+      "pages": 176,
+      "size_bytes": 3833471,
+      "status": "ok"
+    },
+    {
+      "id": "siemens_fc922_panel",
+      "manufacturer": "Siemens",
+      "stratum": "panel_installation_manual",
+      "filename": "siemens_fc922_fc924_installation_en.pdf",
+      "source_host": "sid.siemens.com",
+      "sha256": "907f47cca7c1eed18273c5c0921356591f532d228935cca8085929ce6db538c2",
+      "pages": 28,
+      "size_bytes": 2310161,
+      "status": "ok"
+    },
+    {
+      "id": "siemens_oohc941_detector",
+      "manufacturer": "Siemens",
+      "stratum": "detector_installation_sheet",
+      "filename": "siemens_oohc941_installation_en.pdf",
+      "source_host": "sid.siemens.com",
+      "sha256": "3792d5699046c25eb92d331e4f2fb09c6eda9032eaeee0cc53af29fb867552e3",
+      "pages": 8,
+      "size_bytes": 304619,
+      "status": "ok"
+    },
+    {
+      "id": "siemens_fci2020_city_tie",
+      "manufacturer": "Siemens",
+      "stratum": "module_installation_instructions",
+      "filename": "siemens_fci2020_city_tie_installation_en.pdf",
+      "source_host": "sid.siemens.com",
+      "sha256": "234ba09b1a58a0df1f00691e0bd1af21469fefaaf5289e988fa077f1cf7c5c32",
+      "pages": 14,
+      "size_bytes": 424004,
+      "status": "ok"
+    },
+    {
+      "id": "hochiki_hcvx_panel",
+      "manufacturer": "Hochiki",
+      "stratum": "panel_installation_operation_manual",
+      "filename": "hochiki_hcvx_installation_operation.pdf",
+      "source_host": "www.hochikiamerica.com",
+      "sha256": "0d175dd3f7b07ec8cfaf6b8cb15249bb27d60482da8de65e1cc260ec240a797f",
+      "pages": 108,
+      "size_bytes": 3733059,
+      "status": "ok"
+    },
+    {
+      "id": "hochiki_smoke_heat_guide",
+      "manufacturer": "Hochiki",
+      "stratum": "detector_application_guide",
+      "filename": "hochiki_smoke_heat_application_guide.pdf",
+      "source_host": "www.hochikiamerica.com",
+      "sha256": "7870dc4b1c0f0adeae5aa3b076bca57e1d6574d544ddef0099530929df946f73",
+      "pages": 22,
+      "size_bytes": 1639142,
+      "status": "ok"
+    },
+    {
+      "id": "hochiki_vr3_releasing",
+      "manufacturer": "Hochiki",
+      "stratum": "releasing_panel_installation_operation",
+      "filename": "hochiki_vr3_installation_operation.pdf",
+      "source_host": "www.hochikiamerica.com",
+      "sha256": "a576ab3d7702d1bf8e81dadfc0a4836469a5e328ef293d3353d97b123c91176e",
+      "pages": 158,
+      "size_bytes": 7287832,
+      "status": "ok"
+    },
+    {
+      "id": "apollo_series65_base",
+      "manufacturer": "Apollo",
+      "stratum": "one_page_installation_sheet",
+      "filename": "apollo_series65_base_installation.pdf",
+      "source_host": "apollo-fire.co.uk",
+      "sha256": "523eb8b20f23016f34d747ddd79f91d8ac8d11b28961332e80e693749aae971e",
+      "pages": 1,
+      "size_bytes": 106734,
+      "status": "ok"
+    },
+    {
+      "id": "apollo_xp95a_detectors",
+      "manufacturer": "Apollo",
+      "stratum": "two_page_detector_installation",
+      "filename": "apollo_xp95a_detector_installation.pdf",
+      "source_host": "apollo-fire.co.uk",
+      "sha256": "0b7a278f309a642d98f51d07fc83f2511f8fb444a0176d3abe5d21dc010660d3",
+      "pages": 2,
+      "size_bytes": 227048,
+      "status": "ok"
+    },
+    {
+      "id": "apollo_xpander_commissioning",
+      "manufacturer": "Apollo",
+      "stratum": "commissioning_guide",
+      "filename": "apollo_xpander_commissioning.pdf",
+      "source_host": "apollo-fire.co.uk",
+      "sha256": "b06377c0ed86431b011a000c1508de3f43bcb4bd9c4c9533187b37b705a23abe",
+      "pages": 14,
+      "size_bytes": 1546494,
+      "status": "ok"
+    }
+  ],
+  "cost": {
+    "download_calls": 12,
+    "model_calls": 0,
+    "database_get_requests": 0,
+    "database_writes": 0
+  },
+  "authorization": {
+    "estimate_extraction_cost": true,
+    "run_paid_extraction": false
+  }
+}

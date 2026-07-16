@@ -1,0 +1,30 @@
+instrument: s117_m25_primary_binding_freeze_v1
+status: frozen_before_projection_implementation
+frozen_at_utc: "2026-07-14T13:01:52Z"
+scope:
+  allowed_next: implement_and_run_local_m25_projection_after_adversarial_GO
+  forbidden: [database_access, env_file, model_calls, vector_payloads, database_writes, load, serving, deploy]
+design:
+  v1: {path: evals/s117_m25_document_binding_fallback_design_v1.md, sha256: fdef3589f5190efd49927dc98acb018ad42c4c1bce7bf2e333c3458462a0ef1c}
+  v2: {path: evals/s117_m25_document_binding_fallback_design_v2.md, sha256: 0bc223d5140d4e62827564aaa476d613f99dbfd97fb2a85576960a07b6699fca}
+primary_baseline:
+  runner: {path: scripts/s117_m25_freeze_primary_binding.py, sha256: ffd945f37d2573f4204f72868dfb40b5f85b6172218ad00053a7ff68c503c0f4}
+  tests: {path: tests/test_s117_m25_freeze_primary_binding.py, sha256: 5b9e0177084a44879fe8c179152e27531dc31afdba426de1991d6de329e33266}
+  artifact: {path: evals/s117_m25_primary_binding_baseline_v1.json, sha256: bd7b24e93f730f5bbecd688cacc8fb233abdac07b68096ec934327670df4e626}
+  primary_manifest_sha256: d1c98e4a35695513c2377fb5e47636aec37234ae9c16bb27123f8921aaf52302
+  documents: 1068
+  terminals: {primary_unique_active_pdf_sha: 406, primary_non_active_pdf_sha: 16, primary_absent_pdf_sha: 646, primary_ambiguous_pdf_sha: 0}
+frozen_dependencies:
+  m2_prereg: {path: evals/s117_m2_legacy_reuse_prereg_v26.yaml, sha256: 2990ece8c14ebc4a84f666cd27ccc515f20d144cecb655b88c771d2ddca8211c}
+  m2_analyzer: {path: scripts/s117_m2_legacy_reuse_analysis.py, sha256: b53632cb50009c5d41236af1c79c5c2c6d4631cf7f551729f442b8c962dc25ba}
+  m2_seed_1: {path: evals/s117_m2_legacy_reuse_replay_seed1_v1.json, sha256: d62ed7647366b22e9642974b5646f669ac80b8c0af4b4353a7e5cef742b5d334}
+  m2_seed_2: {path: evals/s117_m2_legacy_reuse_replay_seed2_v1.json, sha256: d62ed7647366b22e9642974b5646f669ac80b8c0af4b4353a7e5cef742b5d334}
+  snapshot:
+    path: tmp/s117_m2/remote_snapshot_v1.jsonl.gz
+    sha256: 3013c553da20c72fbfe0dc801dad4ea4b063ecff3138dcf55b5cd7831cf79067
+    canonical_jsonl_sha256: c5c4e1027d85b5023e8834e221bb99799fedbea1a9826f5a42f88ff3ad8da8d5
+verification:
+  unit_tests: 2_passed
+  same_process_baseline_deterministic: true
+  database_reads: 0
+  model_calls: 0

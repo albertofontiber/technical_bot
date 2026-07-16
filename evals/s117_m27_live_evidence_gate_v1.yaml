@@ -1,0 +1,116 @@
+instrument: s117_m27_live_evidence_gate_v1
+status: CONTRACT_GO_EVIDENCE_GO_ALIGNMENT_NO_GO
+decision:
+  contract_integrity: GO
+  evidence_completeness: GO
+  raw_store_document_alignment: NO_GO
+  adjudication: BLOCKED_FOR_ONE_TASK
+  M3: BLOCKED
+
+frozen_execution:
+  prereg:
+    path: evals/s117_m27_live_evidence_prereg_v1.yaml
+    sha256: 6c0509c66aeac13cd686339382890fd71af874541f88379f09bad2e71013fd42
+  runner:
+    path: scripts/s117_m27_live_evidence.py
+    sha256: cf2cb3f54163b68745f95075b84602a0133ca69843958516b0dc14f4ab20234a
+  tests:
+    path: tests/test_s117_m27_live_evidence.py
+    sha256: f304335f39f14530dbd84cfce312bd7176f0ad4c48ffcd050d4fdef6e5473eb4
+  seed1:
+    path: evals/s117_m27_live_evidence_seed1_v1.json
+    sha256: 47e591d472b501bce3439fa081d9b7478296f0035fbb4a84ef7ef7c1c4a7bb13
+    bytes: 55785643
+  seed2:
+    path: evals/s117_m27_live_evidence_seed2_v1.json
+    sha256: 47e591d472b501bce3439fa081d9b7478296f0035fbb4a84ef7ef7c1c4a7bb13
+    bytes: 55785643
+  cross_process_byte_identical: true
+  logical_payload_sha256: 4a531a0816bbd0bbfeae35a27fa29fd9ac6cb37aac1b2a1c99e0bbe68fe152b3
+
+population:
+  live_tasks: 21
+  review_fiches: 21
+  affected_documents: 18
+  originally_complete_tasks: 14
+  supplemented_tasks: 7
+  full_legacy_document_receipts: 6
+  aligned_documents: 17
+  unresolved_alignment_documents: 1
+  aligned_tasks: 20
+  unresolved_alignment_tasks: 1
+
+manifests:
+  raw_document_receipts_sha256: 4914eb1b1b2793d9d2cde463497ce7e73e7b130f74513d567b13475d8d367c99
+  legacy_document_receipts_sha256: da1e30da5603ff30caf4d4bbf5c9635c131cdff3b14c1f4005dff771827b0bf5
+  task_evidence_sha256: 83d077e9ce83de9a67e8cdbbf1e3ea7be79d38b3ff9c8c4bccfc60bdedfeef1b
+  review_fiches_sha256: 016662ad2a96a9d8a88973946c99382e6393297c22e5d0c9fbf1bd99968c78cc
+
+unresolved_alignment:
+  extraction_sha256: 8d128ca2ca13754bb74e0dcf16014e74141e352ae819aa25e35784c2f60245f6
+  local_row_id: acd5058d-06cf-5626-aabd-a93eb75b2f44
+  task_chunk_index: 61
+  task_content: Regras de causa e efeito
+  first_mismatch_token_index: 11142
+  raw_token_count: 29539
+  v3_token_count: 29537
+  omitted_raw_tokens: ['39', '40']
+  raw_blocks:
+    - {source_block_index: 630, kind: paragraph, page: 39, text: '39'}
+    - {source_block_index: 631, kind: paragraph, page: 40, text: '40'}
+  following_block: {source_block_index: 632, kind: heading, page: 40}
+  cause: frozen_cleanup_meaningful_length_below_noise_chars
+  technical_content_loss_demonstrated: false
+  intentional_noise_exclusion_receipt_present: false
+  interpretation: document_stream_contract_blocks_task_even_though_mismatch_is_distant
+
+verification:
+  focused:
+    passed: 51
+    failed: 0
+  full_regression:
+    passed: 931
+    skipped: 2
+    failed: 0
+  adversarial:
+    contract: GO
+    evidence: GO
+    alignment: NO_GO
+    task_adjudication_under_v3: NO_GO
+  checks:
+    seeds_byte_identical: true
+    logical_hash_recomputed: true
+    four_manifests_recomputed: true
+    document_receipts_valid_18_of_18: true
+    legacy_receipts_valid_6_of_6: true
+    task_graph_crosslinked_21_of_21: true
+    review_fiches_unique_21_of_21: true
+    zero_external_cost: true
+    zero_adjudication: true
+    facts_moved_to_ok: 0
+
+authorization:
+  adjudication_of_aligned_20: not_yet_frozen
+  adjudication_of_acd5058d: false
+  model_calls: false
+  database: false
+  policy_change: false
+  chunk_change: false
+  context_generation: false
+  embedding_generation: false
+  load: false
+  serving: false
+  M3: BLOCKED
+
+next_gate:
+  name: M2.7B_loss_accounted_alignment
+  scope: corpus_wide
+  requirements:
+    - enumerate_every_cleanup_drop_in_the_local_corpus
+    - explicit_high_precision_rule_receipt_for_each_authorized_exclusion
+    - standalone_numeric_paragraph_equals_raw_page_and_is_page_boundary
+    - no_manufacturer_document_uuid_or_observed_literal_selectors
+    - every_unruled_drop_remains_unresolved
+    - raw_stream_minus_authorized_exclusions_equals_v3_stream
+    - mandatory_loss_ledger_for_future_manufacturers
+    - repeat_two_seed_M2_7A_after_GO

@@ -1,0 +1,21 @@
+instrument: s117_m2_legacy_reuse_implementation_freeze_v2
+status: frozen_before_database_read
+frozen_at_utc: "2026-07-14T12:13:19Z"
+scope:
+  allowed: one_read_only_repeatable_read_snapshot_of_documents_and_chunks_v2
+  forbidden: [database_writes, schema_changes, model_calls, vector_payload_download, chunks_v3_load]
+artifacts:
+  design_v24: {path: evals/s117_m2_legacy_reuse_design_v24.md, sha256: ebe4dfa99c32f4454e81e038061143e27680aa453b02294eac16b3338995d09b}
+  prereg_v24: {path: evals/s117_m2_legacy_reuse_prereg_v24.yaml, sha256: 70888e2a48e889676bb99c172fe66c2bb9333ecd1a410d1863687eb76290b7f7}
+  inherited_prereg_v23: {path: evals/s117_m2_legacy_reuse_prereg_v23.yaml, sha256: ca3b33a0a59fc5ca71da5b27ca2812e8434d6fe90662e7946c79258442ace13c}
+  implementation: {path: scripts/s117_m2_legacy_reuse_analysis.py, sha256: 3e51946630e518569e1314be51da3eb51782e374ebacb18a689135e5dbd8928b}
+  directed_tests: {path: tests/test_s117_m2_legacy_reuse_analysis.py, sha256: fdd29a1039d4748e4aea1be7967f154d76a5f95deca06532ce40b4d3e73d154e}
+verification:
+  directed: {result: 72_passed}
+  full: {result: 819_passed_2_skipped}
+  adversarial: {reviewer: Hubble, verdict: GO, blockers: 0}
+pre_database_fail_closed_receipts:
+  - {version: v22, outcome: unexpected_unsnapshotted_portal_sidecar_dependency, database_access: false}
+  - {version: v23, outcome: adversarial_absolute_path_sidecar_bypass, database_access: false}
+  - {version: v24_pre_fix, outcome: adversarial_pre_pathlib_normalization_gap, database_access: false}
+database_access_before_freeze: false

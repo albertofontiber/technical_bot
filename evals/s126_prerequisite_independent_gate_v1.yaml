@@ -1,0 +1,26 @@
+schema_version: s126_prerequisite_independent_gate_v1
+gate: INCONCLUSIVE_NOT_GO
+checks:
+  positive_opportunities_at_least_two: true
+  positive_manufacturers_at_least_two: false
+  both_facets_exercised: false
+  zero_scanner_false_positives: false
+applicability:
+  positive_opportunities: 5
+  positive_manufacturers:
+  - Hochiki
+  access_positive_opportunities: 5
+  quantified_entitlement_positive_opportunities: 0
+  scanner_false_positives: 1
+authorization:
+  procedure_prerequisite_serving_integration: false
+  known_cohort_retrieval_credit: 2
+  facts_moved_to_ok: 0
+required_next_evidence:
+- independent access-prerequisite opportunity from another manufacturer
+- independent quantified-entitlement opportunity
+- operational-access guard rejecting administrative RMA authorization
+cost:
+  model_calls: 0
+  network_calls: 0
+  database_writes: 0

@@ -1,0 +1,29 @@
+schema: s117_chunk_loss_policy_v1
+version: 1
+authority: raw_store_shape_only_not_semantic_noise_proof
+rules:
+  - rule_id: standalone_numeric_page_boundary_exact_v1
+    block_kind: paragraph
+    page_type: integer_not_boolean
+    page_min_inclusive: 1
+    page_max_inclusive: 9999
+    text_contract: strip_text_equals_ascii_decimal_str_of_page
+    page_identity: source_page_ordinal
+    page_position: first_or_last_block
+    coverage: zero_covering_v3_chunks
+    selectors_forbidden:
+      - manufacturer
+      - model
+      - document
+      - extraction_sha256
+      - uuid
+      - filename
+      - observed_literal
+residual_risk:
+  shape_match_is_semantic_noise_proof: false
+  standalone_24_on_integer_page_24_boundary_matches: true
+fail_closed:
+  unknown_rule: true
+  unruled_loss: true
+  empty_document_after_exclusions: true
+  approximate_matching_allowed: false

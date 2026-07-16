@@ -1,0 +1,39 @@
+instrument: s116_independent_near_duplicate_screen_prereg_v1
+status: frozen_before_screen
+
+candidates:
+  acquisition_receipt: evals/s116_independent_holdout_acquisition_v1.json
+  acquisition_receipt_sha256: 0ecb09b302b2922443479b9579c8553e9826701cc0cf6879c3d97def58a7839f
+  pdf_store: tmp/s116_independent_holdout/pdfs
+  documents: 12
+
+development:
+  store_slug: agent_anthropic-sonnet-45
+  expected_json_files: 1069
+  expected_manifest_sha256: 752c044be1531d5bc2e2879f79acf1dbeffabcbeb9bb9d16f5e14a5676aa5810
+
+algorithm:
+  normalization: unicode NFKD, casefold, alphanumeric word tokens
+  fingerprint: unique seven-word BLAKE2b-64 shingles
+  exact_content_hash: normalized token stream SHA-256
+  near_duplicate_if:
+    - shingle containment against the smaller document is at least 0.80
+    - shingle Jaccard similarity is at least 0.65
+  diagnostic_only:
+    - top five development matches per candidate
+    - shared model-like identifier tokens
+
+gate:
+  required:
+    - exact development store manifest and record count
+    - all 12 candidate PDF hashes match the acquisition receipt
+    - zero exact normalized-content duplicates
+    - zero threshold near-duplicates
+  interpretation: source-level document independence, stronger than exact PDF byte identity
+  never_authorizes: paid extraction
+
+cost:
+  model_calls: 0
+  network_calls: 0
+  database_reads: 0
+  database_writes: 0

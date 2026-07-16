@@ -1,0 +1,13 @@
+instrument: s117_m2_legacy_reuse_prereg_v22
+status: frozen_before_database_read
+supersedes: evals/s117_m2_legacy_reuse_prereg_v21.yaml
+inherits:
+  path: evals/s117_m2_legacy_reuse_prereg_v21.yaml
+  sha256: b2eb7a078fcb7f584090f5c284a87414e31b12d06f11597daa93934430d36d5b
+design:
+  clarification: evals/s117_m2_legacy_reuse_design_v22.md
+  clarification_sha256: 8c8288218eff187eb5960ae6f715777f25a5878569b8a70d141f7ebac003d8dc
+policy_pipeline:
+  structural_layer: rematerialize_all_s117_rows_once
+  productive_projection_register_only: classify_existing_structural_rows_without_second_chunk_or_B1_or_B5
+  productive_projection_indexable: profile_then_chunk_alignment_then_language_and_B5

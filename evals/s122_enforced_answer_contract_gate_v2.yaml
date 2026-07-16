@@ -1,0 +1,81 @@
+instrument: s122_enforced_answer_contract_gate_v2
+status: LOCAL_ENFORCED_ANSWER_CONTRACT_GO_FRESH_PROBE_AUTHORIZED
+authority: local_deterministic_pre_spend
+
+supersedes:
+  path: evals/s122_enforced_answer_contract_gate_v1.yaml
+  sha256: b657daff5f2678f9cd077c4662919b1ea9be6a9ebd724d77da0e0ad2d18f3909
+
+lineage:
+  design:
+    path: evals/s122_enforced_answer_contract_design_v1.md
+    sha256: 52d1431cf0ee344fa7a3c2bf4a30cbd454423695231889ce74bf04b5cd154999
+  preregistration:
+    path: evals/s122_enforced_answer_contract_prereg_v1.yaml
+    sha256: 2496f29b9794888eabb6fbdd3529480022da9c07094d7de936463fc0818de972
+  replay:
+    path: evals/s122_enforced_answer_contract_replay_v1.json
+    sha256: 8de8ce7c193abde20bd2cd83fcdbc2be69a6d8ecf00eed300af72931f742d8e3
+  adversarial_review:
+    path: evals/s122_enforced_answer_contract_adversarial_review_v2.yaml
+    sha256: b790f3eeae8fb58adeabdb8b92644127e528b08153edc1e3f40b579df6f6f9a5
+
+implementation:
+  answer_planner:
+    path: src/rag/answer_planner.py
+    sha256: b795a074ca627c5f26ebc477957ccbcae53495e44d5981baa2bf73c119019086
+  obligation_contract:
+    path: src/rag/answer_obligation_contract.py
+    sha256: 7dda351cd1a09eeb014a94d5e473bd3998380b28884c5842c29ae1922fda85b3
+  generator:
+    path: src/rag/generator.py
+    sha256: 253477f1cfd3225dee6c8ca9d1ccd604813386dfa378e331f9ecad9a57202f19
+  replay_script:
+    path: scripts/s122_enforced_answer_contract_replay.py
+    sha256: 8a493f7e9e9f84ad9aa5147cf231433d118c9b7c81339fc630ffe25d1308465f
+
+contracts:
+  planner: answer_planner_s122_v1
+  enforcement_policy: answer_enforcement_s122_v2
+  validator: answer_contract_validator_s122_v1
+  renderer: source_bound_renderer_s122_v1
+  conflict_schema: answer_conflict_s122_v1
+  cache_identity: enforced_answer_generation_cache_identity_v2
+  runtime_mode: default_off
+  repair_policy: single_provider_call_then_deterministic_reconstruct_or_fail
+
+results:
+  frozen_rows: 39
+  measured_answers: 27
+  not_measured_answers: 12
+  actions: {pass: 25, source_bound_reconstruction: 1, fail_closed: 1}
+  exact_reconstruction_qids: [hp009]
+  exact_fail_closed_qids: [hp017]
+  unexpected_actions: 0
+  not_measured_action_leakage: 0
+  p0_open: 0
+  p1_open: 0
+  facts_moved_to_ok: 0
+
+verification:
+  focused_tests: {passed: 66, failed: 0}
+  full_suite: {passed: 1221, skipped: 5, failed: 0}
+  git_diff_check: clean
+  bot_provider_calls: 0
+  network_calls: 0
+  retrieval_calls: 0
+  rerank_calls: 0
+  database_reads: 0
+  database_writes: 0
+
+decision:
+  local_contract: GO
+  adversarial_review: GO_0_P0_0_P1
+  fresh_answer_probe:
+    authorized: true
+    qids: [hp009, hp017]
+    maximum_calls: 2
+    checkpoint_required: true
+    automatic_retry: forbidden
+  production_release: NOT_AUTHORIZED
+  automatic_fact_relabeling: NOT_AUTHORIZED

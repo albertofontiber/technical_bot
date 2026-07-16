@@ -1,0 +1,26 @@
+instrument: s114_s106_provenance_receipt_v1
+status: recovered_read_only_receipt_for_clean_worktree
+source_files:
+  - logical_path: evals/s106_atomic_migration_spec.yaml
+    sha256: 39750b1232dd42775547a22c86873915eee5ec6714f55f3bd9dc5c36682b629d
+  - logical_path: evals/s106_p0_selection_adjudication.yaml
+    sha256: f36b9a8189ca0b1f4289f4d8fb342b8def7eed026976ee301554187fcf2aa29b
+rows:
+  - fact_key: hp006#1:Tierra
+    decision: noncore-adjudicated
+    source_truth: >-
+      MIDT170 physical page 63 confirms Tierra as an SLC fault condition.
+    requiredness: >-
+      The table label is true but tautological for a question asking what the
+      fault means and how to locate it, so it is supplementary rather than core.
+  - fact_key: hp006#2:ISO-X
+    decision: invalid-relation-adjudicated
+    source_truth: >-
+      MIDT170 physical page 63 describes ISO-X as preserving the rest of a loop
+      when a circuit fails.
+    requiredness: >-
+      The cited source does not document ISO-X as an earth-fault localisation
+      procedure; that causal relation was gold overreach, not a bot defect.
+limitations:
+  - The original pixel file is not copied into this clean worktree.
+  - Source hashes and the independently reviewable decision rationale are preserved here.

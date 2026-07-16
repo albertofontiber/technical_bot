@@ -1,0 +1,248 @@
+{
+  "schema_version": "s126_upstream_residual_audit_v1",
+  "instrument": "s126_audit_upstream_residuals",
+  "status": "LOCAL_ROOT_CAUSE_AUDIT_COMPLETE",
+  "population": {
+    "exact_count": 7,
+    "prior_buckets": {
+      "retrieval-miss": 2,
+      "rest": 5
+    },
+    "reconciled_stage_histogram": {
+      "retrieval-miss": 4,
+      "source-contract-hold": 1,
+      "synthesis-miss": 2
+    },
+    "rows": [
+      {
+        "claim_id": "benchmark_carry.cat017.caed61ef9840cb67e8012577",
+        "fact_key": "cat017#2:licencia CLIP por lazo",
+        "parent_fact_sha256": "caed61ef9840cb67e8012577cf8f4ed4ed2286e0c0a4f72fa6b5d439cd671a35",
+        "prior_bucket": "retrieval-miss",
+        "reconciled_stage": "retrieval-miss",
+        "reason": "Decisive quantified licence evidence exists in the corpus but is absent from the frozen served context.",
+        "decisive_evidence": [
+          {
+            "chunk_id": "5bb83899-9d94-4fdd-8d42-24a670a036c5",
+            "document_id": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+            "source_file": "HOP-138-9ES issue 5_11-2025_In",
+            "page_number": 5,
+            "product_model": "INSPIRE E10",
+            "content_sha256": "95562c4390008f6ea29ee2e3b55f04a986bbb05f4362b4cb215d82714f93a7d7",
+            "served_in_frozen_context": false
+          }
+        ],
+        "decisive_served_ids": [],
+        "bot_improvement_credit": 0
+      },
+      {
+        "claim_id": "benchmark_carry.hp010.3b4d6e04130f4e6616d87725",
+        "fact_key": "hp010#1:Nivel 3",
+        "parent_fact_sha256": "3b4d6e04130f4e6616d877252132889b035a8751a3e36486c642d34447cad0bf",
+        "prior_bucket": "retrieval-miss",
+        "reconciled_stage": "retrieval-miss",
+        "reason": "Decisive access-prerequisite evidence exists in the corpus but is absent from the frozen served context.",
+        "decisive_evidence": [
+          {
+            "chunk_id": "155a90fe-8c3f-484e-a617-7637fe29b547",
+            "document_id": "d1299a40-5128-464d-b8d7-1c8c2b86562c",
+            "source_file": "DXc_Manual de configuracion",
+            "page_number": 37,
+            "product_model": "DXc",
+            "content_sha256": "06c512d8af1e6bbbdaa6c79f6593d62bf407e2b39eb22c5b59eebb6da78625d9",
+            "served_in_frozen_context": false
+          }
+        ],
+        "decisive_served_ids": [],
+        "bot_improvement_credit": 0
+      },
+      {
+        "claim_id": "benchmark_carry.cat008.9f55e8db783fbef54f9e2e8a",
+        "fact_key": "cat008#3:1/2/3/4 lazo; 6-7 entrada A",
+        "parent_fact_sha256": "9f55e8db783fbef54f9e2e8a1181b72f398e3490e06eb95f72fdf92a557b2e78",
+        "prior_bucket": "rest",
+        "reconciled_stage": "source-contract-hold",
+        "reason": "The frozen context contains conflicting terminal direction assignments; this is not safe bot-improvement credit.",
+        "decisive_evidence": [
+          {
+            "chunk_id": "33f0ef2f-8e6d-4720-b28b-0a5b7612cd6c",
+            "document_id": "adec348f-46a8-473e-ad28-995b4cb5d91a",
+            "source_file": "I56-4404-001 M710E M720E M721E",
+            "page_number": 3,
+            "product_model": "MIN-16",
+            "content_sha256": "1f8f9cab92509dd558d1357fb614f236b6fc71e0f77c340072fa6bc11d7bb2af",
+            "served_in_frozen_context": true
+          },
+          {
+            "chunk_id": "9cfb5d22-1082-4903-896b-efe36d5f4567",
+            "document_id": "7e2805f4-e43f-4369-9151-2e8b3cf2bf4f",
+            "source_file": "Conexionado-del-modulo-M710-MI-DMMI",
+            "page_number": 1,
+            "product_model": "ID-3000",
+            "content_sha256": "47ba7022b7fe050655083b5afa41e6728d2f0ed1ed215bf6031c187056c6bdb5",
+            "served_in_frozen_context": true
+          }
+        ],
+        "decisive_served_ids": [
+          "33f0ef2f-8e6d-4720-b28b-0a5b7612cd6c",
+          "9cfb5d22-1082-4903-896b-efe36d5f4567"
+        ],
+        "bot_improvement_credit": 0
+      },
+      {
+        "claim_id": "benchmark_carry.cat013.214f47423334393a39f2140e",
+        "fact_key": "cat013#1:CLIP",
+        "parent_fact_sha256": "214f47423334393a39f2140e6b2dd3a263872dd4954d5e922c15cce0f82f1041",
+        "prior_bucket": "rest",
+        "reconciled_stage": "retrieval-miss",
+        "reason": "CLIP and SDX-751 evidence exists in MIDT190; the accepted S97 secondary binding is now ported, but the frozen served context predates it and lacks that evidence.",
+        "decisive_evidence": [
+          {
+            "chunk_id": "11d96526-d627-4305-8cae-e6852af1b20b",
+            "document_id": "38266cec-8563-4dbb-9e55-37534d8ab7a8",
+            "source_file": "MIDT190",
+            "page_number": 71,
+            "product_model": "ID3000",
+            "content_sha256": "f96045d5867fdc474ab8bbfd2ce7e84d017cfd3fe1e253b274f9287247975e9b",
+            "served_in_frozen_context": false
+          },
+          {
+            "chunk_id": "cfcdc8f7-bdaf-412f-a85e-0ffb76878d99",
+            "document_id": "38266cec-8563-4dbb-9e55-37534d8ab7a8",
+            "source_file": "MIDT190",
+            "page_number": 69,
+            "product_model": "ID3000",
+            "content_sha256": "e9d9bf96fdc67f87fc93835a5ffc248dc836089b93ec4f8b64573c0f585e4bef",
+            "served_in_frozen_context": false
+          }
+        ],
+        "decisive_served_ids": [],
+        "bot_improvement_credit": 0
+      },
+      {
+        "claim_id": "benchmark_carry.cat013.3e589f9330fddbce987334e8",
+        "fact_key": "cat013#0:bucle cerrado",
+        "parent_fact_sha256": "3e589f9330fddbce987334e86946a6df50a47c3b20d8cc761b59f6507feb2a4d",
+        "prior_bucket": "rest",
+        "reconciled_stage": "retrieval-miss",
+        "reason": "Exact CAD-150 closed-loop evidence exists in the corpus but is absent from the frozen served context.",
+        "decisive_evidence": [
+          {
+            "chunk_id": "b6602d5a-dbb5-4e2e-8814-1ac3ce066896",
+            "document_id": "131e6fcb-4d52-4c21-bac9-f6430559f47b",
+            "source_file": "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT",
+            "page_number": 9,
+            "product_model": "CAD-150-8",
+            "content_sha256": "a26809c3ea83075ded7ca534973d7e6f1b1b04d55d3f6e1f26cda5a0b982fc9f",
+            "served_in_frozen_context": false
+          }
+        ],
+        "decisive_served_ids": [],
+        "bot_improvement_credit": 0
+      },
+      {
+        "claim_id": "benchmark_carry.hp011.3689458c865193d89966004a",
+        "fact_key": "hp011#2:05 a 295 seg",
+        "parent_fact_sha256": "3689458c865193d89966004acfb1c61b6c3289f35a8639e8eecf97df083bd9d6",
+        "prior_bucket": "rest",
+        "reconciled_stage": "synthesis-miss",
+        "reason": "The frozen context already serves the structural 05-295 timing row under RP1r-Supra; the answer omitted the range.",
+        "decisive_evidence": [
+          {
+            "chunk_id": "2d45a70a-5202-442e-af84-c3a176c2178d",
+            "document_id": "494e71be-873b-48c1-adb3-a21a122da111",
+            "source_file": "HLSI-MN-103_RP1r-Supra_lr",
+            "page_number": 56,
+            "product_model": "RP1r-Supra",
+            "content_sha256": "58f4b136b75ceb20ab5dbd62a0a7c4141e6b769fae32663124ec566b5e2000f2",
+            "served_in_frozen_context": true
+          },
+          {
+            "chunk_id": "2ed6b240-f5c3-4dcf-a426-9ca8376e6363",
+            "document_id": "9982bb96-8ee8-44f0-9f1c-304d6d90167b",
+            "source_file": "HLSI-MN-103I_RP1r-Supra_lr",
+            "page_number": 56,
+            "product_model": "RP1r-Supra",
+            "content_sha256": "d94c2be6dd365edffa25d025e6f07a01cb1b40de5eb17df49ed48a237c2f4b08",
+            "served_in_frozen_context": false
+          }
+        ],
+        "decisive_served_ids": [
+          "2d45a70a-5202-442e-af84-c3a176c2178d"
+        ],
+        "bot_improvement_credit": 0
+      },
+      {
+        "claim_id": "benchmark_carry.hp011.a2fe1cdc2a168c60977a7842",
+        "fact_key": "hp011#3:enclavadas",
+        "parent_fact_sha256": "a2fe1cdc2a168c60977a7842d0b52f8fd26bd0c3502ad0e71d7f5242a70e09b5",
+        "prior_bucket": "rest",
+        "reconciled_stage": "synthesis-miss",
+        "reason": "The decisive latched-fault rule is already in the frozen served context and current identity policy resolves RP1r to RP1r-Supra.",
+        "decisive_evidence": [
+          {
+            "chunk_id": "c8924d59-a9ce-4379-a3b7-57058ff86a82",
+            "document_id": "494e71be-873b-48c1-adb3-a21a122da111",
+            "source_file": "HLSI-MN-103_RP1r-Supra_lr",
+            "page_number": 53,
+            "product_model": "RP1r-Supra",
+            "content_sha256": "b9c836ec1c3f2d5c5ca5c3001351d243dbdd72ab4aea68e4727d86c6ea2de880",
+            "served_in_frozen_context": true
+          }
+        ],
+        "decisive_served_ids": [
+          "c8924d59-a9ce-4379-a3b7-57058ff86a82"
+        ],
+        "bot_improvement_credit": 0
+      }
+    ]
+  },
+  "identity_and_metadata_findings": {
+    "rp1r_governed_resolution": {
+      "valid": true,
+      "policy": "prefer:notifier:rp1r-supra",
+      "resolved_ids": [
+        "notifier:rp1r-supra"
+      ],
+      "allowed_sources_count": 16
+    },
+    "midt190_has_sdx751_secondary_binding": true,
+    "midt190_binding_consequence": "accepted_s97_binding_ported_after_frozen_context"
+  },
+  "provisional_reconciled_diagnostic": {
+    "content_denominator": 157,
+    "stage_histogram": {
+      "OK": 111,
+      "retrieval-miss": 4,
+      "source-contract-hold": 1,
+      "synthesis-miss": 14,
+      "synthesis-not-measured": 27
+    },
+    "rest_count": 0,
+    "facts_moved_to_ok_due_to_bot_change": 0,
+    "official_atomic_kpi": null
+  },
+  "mechanism_routing": {
+    "procedure_prerequisite_coverage": [
+      "cat017#2:licencia CLIP por lazo",
+      "hp010#1:Nivel 3"
+    ],
+    "governed_identity_or_secondary_binding": [
+      "cat013#0:bucle cerrado",
+      "cat013#1:CLIP"
+    ],
+    "synthesis_after_upstream_reconciliation": [
+      "hp011#2:05 a 295 seg",
+      "hp011#3:enclavadas"
+    ],
+    "source_contract_review_not_bot_tuning": [
+      "cat008#3:1/2/3/4 lazo; 6-7 entrada A"
+    ]
+  },
+  "cost": {
+    "model_calls": 0,
+    "network_calls": 0,
+    "database_reads": 0,
+    "database_writes": 0
+  }
+}

@@ -1,0 +1,150 @@
+instrument: s117_m28_content_preservation_implementation_gate_v1
+status: IMPLEMENTATION_GO_CANDIDATE_DESIGN_ONLY
+authority: frozen_M27C_causal_equivalence_and_raw_parsed_whitespace_token_surface
+
+decision:
+  local_core_patch: GO
+  focused_tests: GO
+  full_regression: GO
+  adversarial_postimage_review: GO
+  candidate_design_and_preregistration: GO
+  candidate_materialization_execution: NO_GO
+  semantic_or_pdf_fidelity: NOT_TESTED
+  retrieval_or_fact_improvement: NOT_TESTED
+  facts_moved_to_ok: 0
+  M3: BLOCKED
+
+frozen_contract:
+  implementation_freeze:
+    path: evals/s117_m28_content_preservation_implementation_freeze_v1.yaml
+    sha256: 4f14d5341cae0a9ef7cd9e1b4a37c7ac2c76947f33d6890822ac0bc91b11584e
+  design_v1:
+    path: evals/s117_m28_content_preservation_implementation_design_v1.md
+    sha256: d7e17f0c0b981558ca91b3b1c77174edd9677a8f3865f94230f254060388da36
+  design_v2:
+    path: evals/s117_m28_content_preservation_implementation_design_v2.md
+    sha256: 28560ba6bf03ac2168a7048c4be2caa2baaccb563be53ecee3418c8c060a448d
+  causal_probe_gate:
+    path: evals/s117_m27_loss_safe_chunking_probe_gate_v2.yaml
+    sha256: 62f7b0ac1b220924f25c8c2073d8e5c301e56443d8de875cc3ab980ffdeebbbf
+
+postimage:
+  core:
+    path: src/reingest/chunk.py
+    baseline_sha256: 4b76ab219854c625f4ce5e55665e2c89d14739e4eee0ab01607aae7ecda4fd43
+    candidate_sha256: d851abf6761d8e5ff6dee4d2727b85c86fda21059dce8875a028cf8298e87764
+    candidate_bytes: 18338
+  existing_tests:
+    path: tests/test_reingest_chunk_lineage.py
+    baseline_sha256: c5c8b26808c7819ae386fc29613c574b23677bb3619fac148d4cf75ed6a5deac
+    candidate_sha256: 19067ae164c7eb18e0cedead086cea3ddbae182940fd1cae48c04de154a8e89f
+    candidate_bytes: 7495
+  new_tests:
+    path: tests/test_s117_m28_content_preservation.py
+    candidate_sha256: 4fe874bd8f0a5e7843180d7fdf021edac5f14ce83753e3275083960d8386fe9c
+    candidate_bytes: 7335
+
+implemented_core_delta:
+  removed_only:
+    - generic_meaningful_length_discard_branch
+    - merge_barrier_state_and_condition_created_by_that_discard
+  retained:
+    - same_full_lineage_merge_requirement
+    - touching_or_legitimately_overlapping_span_requirement
+    - gap_barrier
+    - is_flow_diagram_barrier
+    - has_diagram_or_propagation
+    - MAX_CHARS_ceiling
+    - span_envelope_update
+    - all_parse_packing_split_target_and_lineage_behavior
+  inert_compatibility_symbols:
+    - NOISE_CHARS
+    - _meaningful_len
+  substitute_discard_path: absent
+
+negative_oracles:
+  helper_chain:
+    - probe_base._row_core_from_treatment
+    - probe_base._fingerprinted
+    - probe_v2._validate_treatment_against_raw
+  exception: RuntimeError
+  message_match: global token surface
+  omission:
+    raw_tokens: [alpha, beta]
+    declared_span: [0, 1]
+    row_tokens: [alpha]
+    rejected: true
+  duplication:
+    raw_tokens: [alpha, beta]
+    declared_span: [0, 1]
+    row_tokens: [alpha, alpha, beta]
+    rejected: true
+
+verification:
+  focused:
+    command: python -m pytest tests/test_reingest_chunk_lineage.py tests/test_s117_m28_content_preservation.py tests/test_s117_m27_loss_safe_chunking_probe_v2.py -q
+    passed: 34
+    failed: 0
+  full:
+    command: python -m pytest -q
+    passed: 994
+    skipped: 2
+    failed: 0
+  independent_adversarial_reexecution:
+    current_postimage_hashes_confirmed: true
+    focused_passed: 34
+    full_passed: 994
+    full_skipped: 2
+    scope_expansion_detected: false
+
+causal_result_carried_forward:
+  documents: 1068
+  raw_blocks: 333161
+  baseline_rows: 31212
+  candidate_oracle_rows: 31226
+  baseline_missing_blocks: 100
+  candidate_oracle_missing_blocks: 0
+  coverage_gain_blocks: 100
+  coverage_regression_blocks: 0
+  changed_documents: 27
+  stable_documents: 1041
+  interpretation: structural_preservation_only_not_29_facts_and_not_semantic_fidelity
+
+scope:
+  executed:
+    - local_code_patch
+    - local_static_and_dynamic_tests
+    - local_full_regression
+    - independent_adversarial_review
+  not_executed:
+    - candidate_materialization
+    - database_access
+    - network
+    - model_calls_during_execution
+    - retrieval_policy_change
+    - register_only_change
+    - context_generation
+    - embeddings
+    - load
+    - serving
+    - deploy
+
+authorization:
+  next_allowed:
+    - candidate_materialization_design
+    - candidate_materialization_preregistration
+    - local_tests_for_future_candidate_runner
+  next_forbidden_until_separate_gate:
+    - candidate_materialization_execution
+    - database
+    - models
+    - retrieval
+    - load
+    - serving
+    - M3
+
+cost:
+  model_calls_during_execution: 0
+  network_calls: 0
+  database_reads: 0
+  database_writes: 0

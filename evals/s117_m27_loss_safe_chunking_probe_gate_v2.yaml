@@ -1,0 +1,100 @@
+instrument: s117_m27_loss_safe_chunking_probe_gate_v2
+status: CONTRACT_GO_BASELINE_GO_TREATMENT_GO_DELTA_GO
+authority: raw_store_parsed_block_whitespace_token_surface_only
+
+decision:
+  contract_integrity: GO
+  baseline_replay: GO
+  treatment_lossless: GO
+  delta_accounted: GO
+  local_implementation_readiness: GO_FOR_DESIGN_ONLY
+  production_or_load: NO_GO
+  facts_moved_to_ok: 0
+  M3: BLOCKED
+
+population:
+  documents: 1068
+  raw_blocks: 333161
+  baseline_rows: 31212
+  treatment_rows: 31226
+  row_delta: 14
+  baseline_covered_blocks: 333061
+  treatment_covered_blocks: 333161
+  baseline_missing_blocks: 100
+  treatment_missing_blocks: 0
+  coverage_gain_blocks: 100
+  coverage_regression_blocks: 0
+  changed_documents: 27
+  unchanged_documents: 1041
+
+changed_document_row_delta:
+  unchanged: 2529
+  removed: 15
+  added: 29
+  modified_edges: 15
+  pure_added_rows: 14
+  net_rows: 14
+
+treatment_contract:
+  sha256: 2bf622a934c4e4d3ce6812e20078fb32775710cf280cc76fd28abf1a0c71ce1d
+  only_override: NOISE_CHARS_15_to_0_single_call_finally_restore
+  loadable: false
+  token_interval_content_span_binding: true
+
+seeded_execution:
+  seed1:
+    path: evals/s117_m27_loss_safe_chunking_probe_seed1_v2.json
+    bytes: 2471378
+    sha256: 24c99a59a448284fca342c36941973b092dec1bc5c5f6c6586e09e730ec858f7
+    logical_payload_sha256: b1f6ef841d38fdf0d3920d30fdb75dabfba9c0fcfc1c5ae5fc22364cc7306989
+  seed2:
+    path: evals/s117_m27_loss_safe_chunking_probe_seed2_v2.json
+    bytes: 2471378
+    sha256: 24c99a59a448284fca342c36941973b092dec1bc5c5f6c6586e09e730ec858f7
+    logical_payload_sha256: b1f6ef841d38fdf0d3920d30fdb75dabfba9c0fcfc1c5ae5fc22364cc7306989
+  byte_identical: true
+  logical_payload_identical: true
+  all_checks_true: true
+
+frozen_contract:
+  prereg:
+    path: evals/s117_m27_loss_safe_chunking_probe_prereg_v2.yaml
+    sha256: 7e40c5aaea6a41c2971fba4dff1952a6909fda86e4e1cfd4b1a97cb6bef1ab22
+  base_runner:
+    path: scripts/s117_m27_loss_safe_chunking_probe.py
+    sha256: c89802216ef9fd4c61764987f441384c7f9e6f82b5cb39e65e39eaf2d1fd0bb0
+  wrapper_runner:
+    path: scripts/s117_m27_loss_safe_chunking_probe_v2.py
+    sha256: 84ea712f193afa8866e07a02671ca65a32cbe0153665ee72aa1280588dd00a4d
+  base_tests:
+    path: tests/test_s117_m27_loss_safe_chunking_probe.py
+    sha256: 99aaf529fac81c22443be54d7c1cdd41918413606435e6e717930db3fb8e800d
+  wrapper_tests:
+    path: tests/test_s117_m27_loss_safe_chunking_probe_v2.py
+    sha256: 8124c2494326eab020b544c84bab3f2d7a3977aa8df970c831f271bafdb9d3c4
+
+regression:
+  passed: 980
+  skipped: 2
+  failed: 0
+
+authorization:
+  probe_complete: true
+  implementation: false
+  policy_change: false
+  database: false
+  network: false
+  models: false
+  context_generation: false
+  embeddings: false
+  load: false
+  serving: false
+  deploy: false
+  facts_moved_to_ok: 0
+  M3: BLOCKED
+
+cost:
+  model_calls_during_execution: 0
+  network_calls: 0
+  database_reads: 0
+  database_writes: 0

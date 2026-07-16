@@ -1,0 +1,31 @@
+schema_version: s125_m1_reconciled_bridge_prereg_v1
+instrument: s125_project_m1_reconciled_bridge
+status: FROZEN_BEFORE_PROJECTION
+
+frozen_inputs:
+  prior_hybrid_gate:
+    path: evals/s124_renderer_and_residual_reconciliation_gate_v1.yaml
+    sha256: 9a9e66aa5db003f734b4ee1ff2ec8240ae0282f1c304ced8090b9e7571888deb
+  migrated_cohort_replay:
+    path: evals/s125_m1_known_hold_answer_replay_v1.json
+    sha256: e478fb332dd0747eed73f0b20c535f158465b737ec8d5b18ab0436e6e98309b2
+    payload_sha256: 131240a34d1ad6b8654a068bccf7d1b45ec6cd4b3928a8e351b94dc48d602dd5
+  atomic_bridge:
+    path: evals/s118_atomic_benchmark_bridge_v1.json
+    sha256: f9a7a143a18b8d3046e404bd8dd1501baa62f1d0f4e6255d472956311d50eccb
+
+projection_contract:
+  remove_bucket:
+    known-m1-contract-hold: 33
+  add_only_content_eligible_migrated_claims: true
+  exclude_supplementary_claims: true
+  expected_migrated_content_claims: 58
+  expected_remaining_provisional_legacy_carries: 77
+  facts_moved_to_ok_due_to_bot_change: 0
+  official_whole_benchmark_kpi: null
+
+anti_overfit:
+  - no source, answer, stage, or gold mutation
+  - no model, retrieval, rerank, database, network, or serving call
+  - migration credit is measurement reconciliation, never bot improvement credit
+  - the 77 other provisional legacy carries keep the official atomic KPI null

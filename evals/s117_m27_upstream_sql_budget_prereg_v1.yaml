@@ -1,0 +1,102 @@
+instrument: s117_m27_upstream_sql_budget_prereg_v1
+status: frozen_before_seeded_local_audit
+scope:
+  purpose: causal_fidelity_audit_common_retrieval_sql_and_fresh_enrichment_budget
+  allowed:
+    - local_raw_store_read
+    - local_sidecar_read
+    - frozen_source_snapshot_read
+    - frozen_eval_read
+    - local_eval_write
+    - static_sql_parse_and_test
+  forbidden:
+    - env_file_read
+    - database_access
+    - database_write
+    - network
+    - model_calls
+    - embedding_calls
+    - vector_payload_fetch
+    - schema_apply
+    - migration
+    - load
+    - serving
+    - deploy
+    - reuse_authorization
+
+frozen_inputs:
+  runner: {path: scripts/s117_m27_upstream_sql_budget.py, sha256: bb4c12c39a287d75c69c85441679cae194e03bef27256af27ed7bd4404ece165}
+  runner_tests: {path: tests/test_s117_m27_upstream_sql_budget.py, sha256: 6f6d15793fed79ce4c946de678dc4ea5a56a232dcee28bb4b17dbb6caebbbca2}
+  sql_spec: {path: evals/s117_m27_common_retrieval_policy_contract_v1.sql, sha256: b6211395fa3ed54bb3641c1ac7f1d087d6a9093c4a7029aa9a3ed95056a926ec}
+  sql_tests: {path: tests/test_s117_m27_common_retrieval_sql.py, sha256: f023c8cf5c9531a717d90665906ebc6995dde742c8a5d0b44e336cb1c6efdd99}
+  design_v1: {path: evals/s117_m27_upstream_sql_budget_design_v1.md, sha256: 22655c67dc2207e5639998b82e0a07c84a54c52b3e8c1ba2036db07d6a1e8a74}
+  design_v2: {path: evals/s117_m27_upstream_sql_budget_design_v2.md, sha256: 6d3ab7c336a91511642135e945af142c53a8b3c245aa661f2e0e6e946ba51b7a}
+  design_v3: {path: evals/s117_m27_upstream_sql_budget_design_v3.md, sha256: 5ae570a4678b9adc45406a1aa02f8f02433fe5f92490f922cb629a35b6e4f04b}
+  m26_prereg: {path: evals/s117_m26_independent_audit_prereg_v1.yaml, sha256: 6203bc0441a60b0a77779902c0f0c9536dbd89c8aae2cb8dca61b27e0d57322c}
+  m26_result: {path: evals/s117_m26_independent_audit_seed1_v1.json, sha256: 34874f81c3a18cd7b1fd05862c6ef6219a2ab5fb67cec3bf3479824d04e1f83a}
+  m26_gate: {path: evals/s117_m26_seeded_independent_audit_gate_v1.yaml, sha256: 0396d5293c856a2d7fcecb767cf503434b3501219304349b8d718c5363b55e82}
+
+selected_paths:
+  m26_prereg: evals/s117_m26_independent_audit_prereg_v1.yaml
+  m26_result: evals/s117_m26_independent_audit_seed1_v1.json
+  sql_spec: evals/s117_m27_common_retrieval_policy_contract_v1.sql
+
+expected_population:
+  local_rows: 31212
+  live_targets: 590
+  projected_targets: 1240
+  fresh_context_rows: 8493
+  fresh_context_documents: 405
+  subsequent_calls_within_document: 8088
+
+fidelity_contract:
+  automatic_normalization: unicode_whitespace_only
+  candidate_discovery_only: nfkc_casefold_5_shingle
+  near_threshold: 0.98
+  adjudication_import: none_in_v1
+  local_readiness:
+    unresolved_requires_adjudication: 0
+    material_fidelity_risk: 0
+
+sql_contract:
+  status: static_no_go_for_db
+  limit_cap_inclusive: 200
+  similarity_threshold_domain_inclusive: [-1.0, 1.0]
+  similarity_admission_operator: greater_than
+  invalid_input_sqlstate: '22023'
+  service_role_rls_precondition: bypassrls_true
+  approximate_vector_index: forbidden_in_m27
+
+pricing_planning_contract:
+  observed_on: '2026-07-14'
+  context_model: claude-haiku-4-5
+  context_usd_per_million:
+    base_input: '1.00'
+    cache_write_5m: '1.25'
+    cache_read: '0.10'
+    output: '5.00'
+  minimum_cacheable_prompt_tokens: 4096
+  embedding_provider: voyage
+  embedding_model: voyage-4-large
+  embedding_usd_per_million: '0.12'
+  free_tier_assumed: false
+  char4_values_are_planning_proxies: true
+  billing_exact_only_from_usage_receipts: true
+
+execution:
+  seeds: [1, 2]
+  perturbation: shuffle_local_and_source_input_order_then_sort_contractual_outputs
+  required:
+    - cross_process_byte_identical
+    - logical_payload_identical
+    - targeted_tests_green
+    - full_regression_green
+
+authorization:
+  context_generation: false
+  embedding_generation: false
+  database: false
+  schema_apply: false
+  load: false
+  serving: false
+  M3: BLOCKED

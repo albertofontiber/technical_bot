@@ -1,0 +1,862 @@
+{
+  "instrument": "s115_reference_edge_nested_replay_v1",
+  "status": "single_unseal_pending_blinded_adjudication",
+  "frozen_receipts": {
+    "prereg_sha256": "e717adc207e55ab147fa2c8ed7475f20e53b1e734928d48ff84cbc98bac3c9d7",
+    "implementation_freeze_sha256": "657dabe245e65e9f9cb2ede9d7a40ecedabd1ac8092cc9e14c4a3318b4506d06",
+    "nested_holdout_sha256": "107e5f0f0ec27117a4f9cec180169dbb43aad2ee385e31fbc8f0eeb3282c297e",
+    "base_scope_sha256": "227e808a2ba2308acce89f90722fd46a63bad30aae0cde630191154b4ff07d94"
+  },
+  "gate": {
+    "questions": 12,
+    "manufacturers": 2,
+    "questions_with_reference_edges": 12,
+    "questions_with_eligible_clusters": 7,
+    "questions_with_selections": 1,
+    "receipt_count": 1,
+    "all_receipts_verified": true,
+    "potential_reference_edges": 10,
+    "potential_not_selected_edges": 9,
+    "max_selector_runtime_ms": 9.335,
+    "database_get_requests": 0,
+    "database_writes": 0,
+    "model_calls": 0,
+    "adjudication_status": "PENDING_BLINDED_RELEVANCE_AND_FALSE_NEGATIVE_AUDIT"
+  },
+  "rows": [
+    {
+      "nested_id": "s115n001",
+      "manufacturer": "LDA audioTech",
+      "product_model": "NEO",
+      "question": "¿El selector de tensión de los equipos NEO viene de fábrica en 230V o hay que configurarlo antes de conectar?",
+      "served_id": "47567d48-eddf-463c-8be1-2596abf32881",
+      "served_content": "Los equipos de la serie NEO disponen de doble fuente de alimentación redundante.\n\n**(a) CONMUTADOR ALIMENTACIÓN ALTERNA:**\n\nEl equipo dispone de un selector de rango de alimentación de la red principal 230V / 115V, por defecto configurado en la posición 230V. Consulte la tensión de la red eléctrica local para configurar el conmutador.\n\n[Illustration showing a power selector switch labeled \"50 - 60Hz\"]\n\n*Ilustración 19: Conmutador Alimentación Principal*\n\n| Marca | Descripción                                | Tipo   | Señales | Activación                                                            |\n| ----- | ------------------------------------------ | ------ | ------- | --------------------------------------------------------------------- |\n|       | Selector tensión de alimentación principal | Config | NA      | 230 para rango 220-240V\\~50-60Hz<br/>115 para rango 110-120V\\~50-60Hz |\n\n*Tabla 10: Alimentación Principal*\n\n**(b) ENTRADA ALIMENTACIÓN**\n\nEl equipo dispone de un conector IEC 60320/C14 de entrada para conexión al suministro de energía principal.\n\nLa conexión se realiza mediante cable de alimentación IEC 60320/C13 a clavija macho Tipo E+F suministrado con el equipo.\n\n[Illustration showing an IEC power inlet connector]\n\n*Ilustración 20: Entrada Alimentación Principal*\n\n| Marca | Descripción                          | Tipo    | Señales | Activación                                         |\n| ----- | ------------------------------------ | ------- | ------- | -------------------------------------------------- |\n|       | Conexión para alimentación principal | Entrada | L N G   | 220-240V /110-120V \\~ 50/60Hz<br/>(según selector) |\n\n*Tabla 11: Entrada Alimentación Principal*\n\n**(c) FUSIBLE DE ALIMENTACIÓN DE EMERGENCIA:**\n\nEl equipo dispone de alojamiento para un fusible de protección contra sobrecarga de la entrada de alimentación de emergencia. El fusible será cilíndrico de 6x32mm de cristal, y de la intensidad máxima especificada en las características técnicas del equipo (ver capítulo 7 ). Para acceder al fusible, gire el portafusibles un cuarto de vuelta en sentido antihorario utilizando para ello un destornillador de punta plana.\n\n[Illustration showing a cylindrical fuse labeled \"T20A 250V\"]\n\n*Ilustración 21: Fusible Alimentación Emergencia*\n\n**(d) ENTRADA DE ALIMENTACIÓN DE EMERGENCIA:**\n\nEl equipo dispone de una entrada para suministro de alimentación de emergencia. La tensión de emergencia es continua y de un valor nominal de 24V, que se suministrarán de forma externa al equipo mediante un sistema de fuente de baterías y cargador según EN 54-4. Consiste en un conector de dos polos + y – que se conectarán a los polos positivo y negativo del sistema de baterías. Para más detalles sobre el modo de conexión del sistema de alimentación de emergencia consulte el capítulo 4.1 .",
+      "scope_key": "LDA audioTech␟NEO",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 81,
+        "reference_edges": 1,
+        "eligible_clusters": 0,
+        "potential_reference_edges": 0,
+        "terminal_reasons": {
+          "no_exact_section_candidate": 1
+        },
+        "candidate_rejection_counts": {},
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "47567d48-eddf-463c-8be1-2596abf32881",
+            "section": "4.1",
+            "subsection": null,
+            "source_start": 2820,
+            "source_end": 2832,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [],
+            "candidate_traces": [],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_exact_section_candidate"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 9.335
+    },
+    {
+      "nested_id": "s115n002",
+      "manufacturer": "LDA audioTech",
+      "product_model": "NEO",
+      "question": "¿Qué es FlexNet en el sistema LDA NEO y cómo se conectan los equipos entre sí?",
+      "served_id": "67c8f136-6bdd-4a00-95b0-6c6b757b5ff7",
+      "served_content": "NOTA: Cuando el bus ACSI está en uso, la entrada 5 de fuente de audio estará deshabilitada en la asignación de fuentes de sonido (véase 3.5.2)\n\n## 4.3 CONEXIÓN FLEXNET\n\nFlexNet es un protocolo de comunicación desarrollado por LDA Audio Tech, que permite la transmisión tanto de audio digital como de datos de control, empleando como soporte redes Ethernet estándar. El sistema asegura la mayor calidad y fiabilidad, ya que está basado en la transmisión de audio mediante protocolo CobraNet<sup>tm</sup> y protocolo de control diseñado para sistemas de seguridad.\n\nCon FlexNet, todos los equipos compatibles, pueden ser interconectados sin necesidad de una arquitectura de red externa. Para aportar mayor robustez y simplicidad, en caso de fallo en el enlace, la conexión entre equipos seguirá manteniendo su integridad mediante gestión automática de los enlaces principal y redundante de cada equipo.\n\nMediante FlexNet, desde el controlador de sistema, tendremos acceso a la configuración, control y monitorización básicas de los equipos conectados. Para una configuración avanzada de FlexNet y de elementos interconectados mediante este sistema, es necesario emplear la aplicación de configuración.\n\nPara realizar una conexión FlexNet entre equipos compatibles, conecte los puertos, tal y como aparece en la ilustración 44, compruebe que todos los equipos pertenecen a la misma red (véase capítulo3.5.1)\n\n34                                                                                                                                    www.lda-audiotech.com\n\nManual de usuario: **Sistema de evacuación por voz LDA NEO**\n\n[Three technical diagrams showing LDA NEO device panels with FlexNet connections indicated by lines connecting the devices. The word \"FlexNet\" appears prominently in the center with a colon and dots.]\n\n*Ilustración 44: FlexNet*\n\nEl ancho de banda máximo que ocupa FlexNet en una red Ethernet estándar es de 25Mb/s, conservando una latencia inferior a 750 microsegundos. Puede trabajar sobre redes Ethernet de 100Mb/s, y admite enrutamiento a nivel 2 de red.\n\nFuncionamiento de la conexión entre equipos NEO:\n\nLa conexión de retorno al puerto B estará normalmente en stand-by. Cuando se detecte la pérdida de conexión con un equipo se activará automáticamente. Si no consigue recuperar el/los dispositivo/s perdido/s volverá al estado inicial y marcará el fallo de LINK hasta un reinicio manual. En caso de que el sistema funcione correctamente pero con el enlace redundante marcará el fallo general con el texto \"network backup link active\".",
+      "scope_key": "LDA audioTech␟NEO",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 81,
+        "reference_edges": 1,
+        "eligible_clusters": 2,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "no_bound_contract_atom": 1
+        },
+        "candidate_rejection_counts": {
+          "no_bound_contract_atom": 2
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "67c8f136-6bdd-4a00-95b0-6c6b757b5ff7",
+            "section": "3.5.1",
+            "subsection": null,
+            "source_start": 1390,
+            "source_end": 1403,
+            "alignment_tier": "query_aligned",
+            "potential_candidate_ids": [
+              "3420f9c2-42dc-44d3-aa9a-c4f02a3199cf",
+              "d1fedc40-c8f7-432b-9c15-e9380907359c"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "3420f9c2-42dc-44d3-aa9a-c4f02a3199cf",
+                "reason": "no_bound_contract_atom"
+              },
+              {
+                "candidate_id": "d1fedc40-c8f7-432b-9c15-e9380907359c",
+                "reason": "no_bound_contract_atom"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_bound_contract_atom"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [
+          0
+        ],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 4.355
+    },
+    {
+      "nested_id": "s115n003",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VEA",
+      "question": "¿Cómo se cablea la GPI supervisada para monitorizar la PSU en la VESDA-E VEA-040-A00?",
+      "served_id": "5b5292af-4dbd-4efd-b964-6e6e5070be40",
+      "served_content": "## 4.3.11 Cableado típico de la GPI supervisada para la monitorización de PSU\n\nEn el siguiente diagrama, se muestra la forma correcta de configurar la supervisión de la fuente de alimentación. También muestra dónde se instala de manera correcta una resistencia de fin de línea (FDL). Consulte la sección 4.3.10 en la página 36 para obtener más información.\n\n36www.xtralis.com\n\nVESDA-E VEA-040-A00 Guía del producto\n\n[Diagram showing connection schematic with components C, D, A (in dashed box), and B]\n\n| Leyenda | Leyenda                                                              |\n| ------- | -------------------------------------------------------------------- |\n| A       | Dispositivo externo (1 a N)                                          |\n| B       | Resistencia de fin de línea en el final del cableado del dispositivo |\n| C       | Clavija 1 de la GPI                                                  |\n| D       | Clavija 2 de la GPI                                                  |\n\nFigura 4-21: Diagrama de conexión de la fuente de alimentación",
+      "scope_key": "Xtralis␟VESDA-E-VEA",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 281,
+        "reference_edges": 1,
+        "eligible_clusters": 1,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "generic_section_not_query_bound": 1
+        },
+        "candidate_rejection_counts": {
+          "strong_identity_mismatch": 1,
+          "generic_section_not_query_bound": 1
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "5b5292af-4dbd-4efd-b964-6e6e5070be40",
+            "section": "4.3.10",
+            "subsection": null,
+            "source_start": 296,
+            "source_end": 310,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [
+              "86b5f7c2-9b42-418f-ac79-ac9b9a592411"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "854477f8-f094-4ea5-ad97-b7261be43330",
+                "reason": "strong_identity_mismatch"
+              },
+              {
+                "candidate_id": "86b5f7c2-9b42-418f-ac79-ac9b9a592411",
+                "reason": "generic_section_not_query_bound"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "generic_section_not_query_bound"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [
+          0
+        ],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 2.52
+    },
+    {
+      "nested_id": "s115n004",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VEA",
+      "question": "¿Cómo me conecto con el software Xtralis VSC al detector VESDA-E VEA-040-A00 por USB?",
+      "served_id": "d9dbd667-949c-45a4-8a20-b394dc02b95c",
+      "served_content": "## 5.2 Conexión al detector\n\nUna vez que se haya definido un perfil de conexión, se puede establecer conexión con el detector VEA-040-A00 mediante los siguientes métodos:\n\n### 5.2.1 Conexión de un detector a través de USB\n\nLa conexión directa entre el detector y el PC con Xtralis VSC instalado se puede establecer mediante un cable de interfaz USB de tipo A a B.\n\n[Diagram showing a laptop computer on the left connected via bidirectional arrow to a detector unit on the right]\n\nFigura 5-8: Conexión de un detector a través de USB\n\n**Conexión a un detector mediante Xtralis VSC**\n\n1. Si es necesario, defina una conexión, como se describe en la sección 5.1.2 en la página 41.\n2. Seleccione **Conexión > Conectar y ver** (Connection > Connect and View).\n3. Si el perfil de conexión definido anteriormente se ha configurado como conexión predeterminada, seleccione Aceptar (\"OK\"); de lo contrario, seleccione Detalles (\"Details\") y, a continuación, seleccione la conexión USB necesaria en la lista de perfiles de conexión disponibles, y seleccione Aceptar (\"OK\").\n\n### 5.2.2 Conexión de un detector a través de Ethernet\n\nLa conexión mediante cableado Ethernet entre el detector y el PC con Xtralis VSC instalado se puede establecer mediante un enrutador o un conmutador (Figura 5-9), o directamente entre los dos dispositivos. Las redes complejas se encuentran fuera del ámbito de este documento.\n\nPara establecer conexión correctamente, la conectividad Ethernet debe estar activada en el detector, este debe tener una dirección IP y se debe configurar una contraseña de autenticación. A continuación se describen los procedimientos de configuración para estos requisitos.\n\n[Diagram showing a laptop computer on the left connected via bidirectional arrow to a router/switch in the middle, which is connected via bidirectional arrow to a detector unit on the right]\n\nFigura 5-9: Conexión a un detector a través de Ethernet mediante un enrutador o un conmutador\n\n**Activación de la conexión Ethernet**\n\nEl método de conexión Ethernet solo se debe configurar una vez y modificarse posteriormente si se ha producido un cambio en cualquiera de los parámetros de conexión de red del edificio pertinentes.\n\n1. Conecte físicamente el detector a la red del edificio.\n2. Configure el detector para que utilice Ethernet.\n\nwww.xtralis.com    45\n\nVESDA-E VEA-040-A00 Guía del producto\n\n* Conéctese al detector mediante USB siguiendo el procedimiento descrito en la sección 5.2.1.\n* En la pestaña Ethernet del detector:",
+      "scope_key": "Xtralis␟VESDA-E-VEA",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 281,
+        "reference_edges": 2,
+        "eligible_clusters": 0,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "no_unique_body_anchor": 1,
+          "no_exact_section_candidate": 1
+        },
+        "candidate_rejection_counts": {
+          "strong_identity_mismatch": 2,
+          "no_unique_body_anchor": 1
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "d9dbd667-949c-45a4-8a20-b394dc02b95c",
+            "section": "5.1.2",
+            "subsection": null,
+            "source_start": 646,
+            "source_end": 659,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [
+              "dfbe33da-1ffe-42fa-98a5-96bd500a7b7c"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "4cad80c7-75fd-4c9f-9ef4-ba50b95efabb",
+                "reason": "strong_identity_mismatch"
+              },
+              {
+                "candidate_id": "dfbe33da-1ffe-42fa-98a5-96bd500a7b7c",
+                "reason": "no_unique_body_anchor"
+              },
+              {
+                "candidate_id": "e3f55931-564f-4769-84d9-46243a6493a2",
+                "reason": "strong_identity_mismatch"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_unique_body_anchor"
+          },
+          {
+            "edge_index": 1,
+            "source_id": "d9dbd667-949c-45a4-8a20-b394dc02b95c",
+            "section": "5.2.1",
+            "subsection": null,
+            "source_start": 2451,
+            "source_end": 2464,
+            "alignment_tier": "query_aligned",
+            "potential_candidate_ids": [],
+            "candidate_traces": [],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_exact_section_candidate"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [
+          0
+        ],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 4.815
+    },
+    {
+      "nested_id": "s115n005",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VES",
+      "question": "¿Cómo se configura por primera vez el detector VESDA-E VES-A10-P, qué software necesito y cómo me conecto a él?",
+      "served_id": "d4357e63-49a8-4698-92bf-1488c62b276c",
+      "served_content": "# 5 Configuración\n\nEn este capítulo se describen diversas opciones de configuración, funciones de usuario y características de seguridad del detector VES-A10-P con las que deben estar familiarizados el instalador y los usuarios. Entre ellas, se incluyen:\n\n* La definición de conexiones y la conexión al servidor\n* La seguridad\n* Los comandos del detector\n* Las opciones de configuración\n* Las opciones de relés\n* Las funciones GPI\n* La configuración predeterminada\n\nEl detector VES-A10-P se configura inicialmente mediante el software Xtralis VSC instalado en un PC conectado directamente al puerto USB. Es necesario conectarse al detector para configurarlo. El procedimiento para realizar la conexión con el detector se describe a continuación en la sección 5.1.1.\n\nEl detector VES-A10-P se debe configurar de acuerdo con las recomendaciones de seguridad del producto para garantizar la integridad del sistema de detección de humo. Consulte la sección 9.\n\n## 5.1 Comunicación entre Xtralis VSC y el detector\n\nPara permitir la comunicación entre Xtralis VSC y el detector, deben realizarse los siguientes pasos:\n\n1. Defina un perfil de conexión USB y, a continuación, conéctese al detector mediante USB (Consulte las secciones 5.1.1, 5.1.2 y \"Adición de una conexión USB\" mostradas a continuación).\n2. Si utiliza Ethernet o WiFi como método de conexión permanente:\n\n   * Configure los parámetros respectivos en el detector, incluida la contraseña de autenticación.\n   * Cree un perfil de conexión para Ethernet o WiFi según sea necesario.\n   * Conéctese al detector.\n\nLa conexión USB se utiliza para la configuración inicial, aunque no debe utilizarse como conexión permanente. La conexión permanente para la supervisión secundaria debe realizarse únicamente con Ethernet o WiFi.\n\nPor ejemplo, el instalador se conectará directamente a un detector VES-A10-P mediante el puerto USB de un equipo portátil que ejecute Xtralis VSC a fin de configurar el detector para que active Ethernet o WiFi; estos parámetros pueden ser exclusivos de cada instalación. Debe definirse un perfil de conexión para la conexión USB temporal y, a continuación, para la conexión permanente mediante VESDAnet, Ethernet o WiFi.\n\n**Nota:** Consulte la Guía de comunicaciones de VESDA para obtener más información.\n\n### 5.1.1 Definición de perfiles de conexión en Xtralis VSC\n\nHay varias formas de conectarse a un detector VES-A10-P. Cada método de conexión requiere diversa información. Esta información se guarda en un perfil de conexión del Administrador de conexión de Xtralis VSC, lo que permite al usuario conectarse rápidamente al conector más adelante.\n\n### 5.1.2 Perfil de conexión de un detector\n\nPara definir una conexión a un detector VES-A10-P conectado a un PC o un equipo portátil mediante USB, Ethernet o WiFi, siga este procedimiento:\n\n1. En Xtralis VSC, seleccione **Conexión | Administrador** (\"Connection | Manager\") en el sistema de menús.\n   Aparece el cuadro de diálogo Administrador de conexión (\"Connection Manager\") (Figura 5-1).",
+      "scope_key": "Xtralis␟VESDA-E-VES",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 256,
+        "reference_edges": 1,
+        "eligible_clusters": 0,
+        "potential_reference_edges": 0,
+        "terminal_reasons": {
+          "no_exact_section_candidate": 1
+        },
+        "candidate_rejection_counts": {},
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "d4357e63-49a8-4698-92bf-1488c62b276c",
+            "section": "5.1.1",
+            "subsection": null,
+            "source_start": 751,
+            "source_end": 764,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [],
+            "candidate_traces": [],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_exact_section_candidate"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 2.092
+    },
+    {
+      "nested_id": "s115n006",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VES",
+      "question": "¿Cuál es el caudal mínimo de aire que necesita el detector VESDA-E VES-A10-P por tubería cuando hay varias tuberías instaladas?",
+      "served_id": "ea504c3e-34d4-4ca6-99dd-01221f8377ed",
+      "served_content": "# 3 Diseño e instalación de redes de tubería\n\nEl diseño de la red de tuberías debe ser responsabilidad de personal preparado y se debe verificar mediante el software ASPIRE.\n\n## 3.1 Consideraciones de diseño\n\nTenga en cuenta los puntos siguientes durante el diseño de la red de tuberías para el detector VES-A10-P:\n\n* En todo momento, el detector requiere una circulación del aire de 20 litros por minuto, que será de 15 litros por minuto por tubería en el caso de sistemas con varias tuberías. Se recomienda encarecidamente establecer la circulación en las tuberías al menos un 20 % por encima del nivel mínimo necesario.\n* Para instalaciones con más de una tubería, se recomienda que el caudal total del detector sea de al menos 50 l/min. Compruebe el diseño mediante el software ASPIRE. Si es necesario, utilice un ajuste más alto para la velocidad del aspirador a fin de cumplir este límite.\n* Para instalaciones con una tubería, el caudal en la tubería debe ser de al menos 40 litros por minuto. Compruebe el diseño mediante el software ASPIRE. Si es necesario, utilice un ajuste más alto para la velocidad del aspirador a fin de cumplir este límite.\n* Evite el uso de tuberías de escape a menos que haya un diferencial de presión sustancial entre el detector y el área muestreada por la red de tuberías. En este caso, la tubería de escape debe regresar al área muestreada. Consulte la sección 3.4. para obtener más información.\n\nPara conocer las mejores prácticas de diseño, consulte la guía de diseño de redes de tuberías de VESDA (VESDA Pipe Network Design Guide).\n\n## 3.2 Consideraciones sobre la instalación\n\nLos puntos siguientes deben considerarse al instalar la tubería de muestreo:\n\n* Minimice los descuelgues en los conductos de muestreo sujetando el conducto cada 1,5 m o menos, o a una distancia descrita en los códigos y estándares locales.\n* Uniformemente coloque la red de conducción de muestreo nivelada sobre las rejillas de aire de retorno.\n* El conducto de muestreo encaja firmemente en el puerto del detector con forma de cuña, **NO** utilice pegamento en esta conexión.\n* Permita el movimiento suficiente como para que el detector permita la retirada del conducto para tareas de mantenimiento.\n* La tubería de escape debe tener la menor longitud posible para minimizar la resistencia de la circulación del aire en el interior.\n* Los extremos del conducto deben suavizarse para la conexión.\n* Los orificios de muestreo deben perforarse en línea y perpendiculares al conducto.\n* Los orificios de muestreo no deben contener bordes ásperos ni residuos.\n* Los conductos deben estar libres de residuos.\n* Todas las juntas se deben conectar excepto las tapas finales y los conductores que entran en el detector.\n\nNotas:",
+      "scope_key": "Xtralis␟VESDA-E-VES",
+      "selected_ids": [
+        "8473113d-8146-4399-a73a-f121e25aeed0"
+      ],
+      "selected_receipts": [
+        {
+          "candidate_id": "8473113d-8146-4399-a73a-f121e25aeed0",
+          "section_title": "3.4 Administración del aire de escape",
+          "reference_edge": {
+            "section": "3.4",
+            "subsection": null,
+            "source_start": 1391,
+            "source_end": 1402,
+            "source_clause": "Consulte la sección 3.4."
+          },
+          "section_anchor_receipt": {
+            "candidate_id": "8473113d-8146-4399-a73a-f121e25aeed0",
+            "document_id": "b37b71e7-dd47-4956-ab17-6d0b45b01e3d",
+            "extraction_sha256": "241afebd548a85b412ba3e8af45a22f0b6aa76da697ca48b97dfa463d3bd6213",
+            "content_sha256": "431c7dcbeeeb473aa5614e84243d7b01dbccee7e36e6e7db8c84abb5fad466ea",
+            "quote_sha256": "c9a568abc7a419d41eaf88efe2740628ee2d0b234bc88b3a1dd057cd845ca17c",
+            "start": 0,
+            "end": 7,
+            "quote": "## 3.4 ",
+            "facet": "section_anchor",
+            "receipt_type": "immutable_section_anchor_span"
+          },
+          "coverage_cards": [
+            {
+              "candidate_id": "8473113d-8146-4399-a73a-f121e25aeed0",
+              "document_id": "b37b71e7-dd47-4956-ab17-6d0b45b01e3d",
+              "extraction_sha256": "241afebd548a85b412ba3e8af45a22f0b6aa76da697ca48b97dfa463d3bd6213",
+              "content_sha256": "431c7dcbeeeb473aa5614e84243d7b01dbccee7e36e6e7db8c84abb5fad466ea",
+              "quote_sha256": "36e571e39c55a6e562b36376ed6abf57d53f3a47730666ec9a55df11b2c4f099",
+              "start": 153,
+              "end": 604,
+              "quote": "El orificio de escape del aire tiene una forma cónica para adaptarse a las tuberías estándar de 25 mm de diámetro externo (diámetro interno de 21 mm) y ofrecer un cierre hermético. Las tuberías IPS de ¾ de pulgada (diámetro externo de 2,6 cm) requieren un adaptador (VSP-961), como se muestra en la Figure 1-1. Si es necesario, conecte una pipe de salida al colector de escape. NO pegue la tubería al colector de escape, ya que invalidará la garantía.",
+              "facet": "exact_reference_edge",
+              "receipt_type": "immutable_reference_evidence_span"
+            }
+          ],
+          "receipts_verified": true
+        }
+      ],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 256,
+        "reference_edges": 1,
+        "eligible_clusters": 1,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "selected": 1
+        },
+        "candidate_rejection_counts": {
+          "eligible_novel_evidence": 1,
+          "strong_identity_mismatch": 1
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "ea504c3e-34d4-4ca6-99dd-01221f8377ed",
+            "section": "3.4",
+            "subsection": null,
+            "source_start": 1391,
+            "source_end": 1402,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [
+              "8473113d-8146-4399-a73a-f121e25aeed0"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "8473113d-8146-4399-a73a-f121e25aeed0",
+                "reason": "eligible_novel_evidence"
+              },
+              {
+                "candidate_id": "e8e7e996-1184-4c16-bc19-a51a15c5de3d",
+                "reason": "strong_identity_mismatch"
+              }
+            ],
+            "edge_winner_id": "8473113d-8146-4399-a73a-f121e25aeed0",
+            "edge_score": [
+              1,
+              3,
+              2,
+              4
+            ],
+            "terminal_reason": "selected"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [],
+        "selected_ids": [
+          "8473113d-8146-4399-a73a-f121e25aeed0"
+        ],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "selected"
+      },
+      "selector_runtime_ms": 4.414
+    },
+    {
+      "nested_id": "s115n007",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VEA",
+      "question": "¿Se puede guardar la configuración de la walk test en el VESDA-E VEA para no tener que volver a configurarla cada vez?",
+      "served_id": "3a3f6c9f-efbb-4bc8-97f9-c03e7f4b9b92",
+      "served_content": "## 5.5.12 Opciones de prueba de paseo\n\nLa página de opciones de Prueba de paseo (\"Walk Test\") permite configurar la función de prueba de paseo. Para ejecutar una prueba de paseo, consulte la sección 5.4.2 en la página 61.\n\nAntes de realizar la prueba de paseo, el usuario debe configurar primero los tubos que se van a probar y el orden de las pruebas. A continuación, esta configuración se guarda en la memoria del detector y la prueba de paseo se puede volver a ejecutar más adelante con el mismo conjunto y orden de tubos.\n\nUtilice los botones -- >> y <<-- para mover todos los tubos entre la lista de tubos disponibles y la de tubos seleccionados. Utilice los botones -> y <- para mover tubos individuales entre la lista de tubos disponibles y la de tubos seleccionados.\n\nCambie el orden de las pruebas de los tubos con los botones Arriba (\"Up\") y Abajo (\"Down\") ubicados a la derecha de la lista de tubos seleccionados.\n\nEn este ejemplo, se prueban los tubos 2, 4, 6 y 8 en ese orden:\n\n[Screenshot of VESDA VEA 2 software interface showing:\n\n- Window title: \"VESDA VEA 2\"\n- Tab bar with: General, VESDAnet, Ethernet, WiFi, Module, Smoke Thresholds, Air Flow, Filter, Tubes, General Purpose Inputs, Relays\n- Sub-tabs: Logging, Walk Test, Button Lockout\n- Two main panels:\n  - Left panel \"Available Tubes\" listing tubes 1-31 (TUBE 001 through TUBE 031)\n  - Right panel \"Selected Tubes\" showing tubes 2, 4, 6, 8 (TUBE 002, 004, 006, 008)\n- Control buttons between panels: -->>, -->, <--, <<--\n- Right side controls showing:\n  - Alarm Delay (s): 10\n  - Relay Activation Delay (s): 2\n  - Default Timeout (hh:mm): 0:15\n  - Up and Down buttons\n  - Print button\n- Bottom buttons: OK, Cancel, Apply, Help]\n\nOtros parámetros:\n\n**Retraso de alarma (\"Alarm Delay\"):** el retraso de alarma es el periodo durante el que el nivel de humo debe estar por encima del umbral de Fuego 1 antes de que el detector reconozca que se ha producido una alarma de prueba de paseo para ese tubo.\n\n**Duración de la activación del relé (\"Relay Activation Duration\"):** la duración de activación del relé es el periodo en segundos durante el cual el relé configurado para la prueba de paseo se activará cuando se produzca la alarma de prueba de paseo.\n\n**Tiempo de espera predeterminado (\"Default Timeout\"):** el tiempo de espera predeterminado es el periodo en horas y minutos después del cual termina la prueba de paseo si no se produce ninguna alarma de prueba de paseo para el tubo actual que se está probando.\n\n**Imprimir orden de prueba (\"Print test order\"):** el usuario puede generar una lista especificando el orden de los que se van a probar. Para ello, haga clic en el botón **Imprimir** (\"Print\"). Por ejemplo:\n\n```\nOrden de la prueba de paseo\n\n===============\n\n2 - TUBO 002\n\n4 - TUBO 004\n\n6 - TUBO 006\n\n8 - TUBO 008\n```\n\nwww.xtralis.com                                                                                                                                           79\n\nVESDA-E VEA-040-A00 Guía del producto\n\n### 5.5.13 Opciones de bloqueo del botón",
+      "scope_key": "Xtralis␟VESDA-E-VEA",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 281,
+        "reference_edges": 1,
+        "eligible_clusters": 1,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "generic_section_not_query_bound": 1
+        },
+        "candidate_rejection_counts": {
+          "generic_section_not_query_bound": 1,
+          "strong_identity_mismatch": 1
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "3a3f6c9f-efbb-4bc8-97f9-c03e7f4b9b92",
+            "section": "5.4.2",
+            "subsection": null,
+            "source_start": 191,
+            "source_end": 204,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [
+              "2600b18f-1172-4516-8d01-94144c85f378"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "2600b18f-1172-4516-8d01-94144c85f378",
+                "reason": "generic_section_not_query_bound"
+              },
+              {
+                "candidate_id": "d2230c97-1292-49c1-9993-e068e4e1bd06",
+                "reason": "strong_identity_mismatch"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "generic_section_not_query_bound"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [
+          0
+        ],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 3.415
+    },
+    {
+      "nested_id": "s115n008",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VEA",
+      "question": "¿Cuánto espacio libre necesito dejar alrededor del VESDA-E VEA para montarlo bien, tanto arriba como a los lados?",
+      "served_id": "3388007c-5397-4375-a44b-8a91cefb0b78",
+      "served_content": "Asegúrese de que hay suficiente espacio libre para montar el detector (Figura 4-4), anotando la ubicación de los tubos de muestreo de aire y los puntos de entrada de cables. La instalación debe proporcionar suficiente movimiento en todos los tubos de calibre estrecho y los conductos eléctricos para permitir un montaje y un desmontaje sencillos.\n\n[Diagram showing clearance requirements with hatched walls on left and right, detector unit in center marked as C, with spacing indicators A (top), B (right), and C (left)]\n\n| Leyenda | Leyenda                                                                                                                                                                                                                                                                                                           |\n| ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| A       | Mín. 50 mm (2 pulg.) entre el nivel del techo y la parte superior del detector (si está instalado).                                                                                                                                                                                                               |\n| B       | Se requiere un espacio mínimo de 500 mm (20 pulg.) entre el lado derecho del detector y una pared u obstrucción.<br/><br/>**Soporte de montaje:**<br/><br/>Consulte la sección 4.2.2 para obtener más información.<br/><br/>**Montaje directo:**<br/><br/>Consulte la sección 4.2.3 para obtener más información. |\n| C       | Se necesita un espacio mínimo de<br/>150 mm entre el lado izquierdo del detector y una pared u obstrucción.                                                                                                                                                                                                       |\n\nFigura 4-4: Ubicación de montaje\n\nwww.xtralis.com                                                                                                                                                      23\n\nVESDA-E VEA-040-A00 Guía del producto\n\n### 4.2.1 Extracción de los tornillos de transporte\n\nExtraiga los dos tornillos de transporte (A).\n\n![Figura 4-5: Extracción de los tornillos de transporte - Technical diagram showing equipment unit with labels \"A A\" and \"TRANSIT SCREWS MUST BE REMOVED BEFORE INSTALLATION\"]\n\nFigura 4-5: Extracción de los tornillos de transporte\n\n**Nota:** Estos tornillos se utilizan para sujetar la bomba de aire durante el transporte. Si no se quitan los tornillos, se generará un ruido excesivo.",
+      "scope_key": "Xtralis␟VESDA-E-VEA",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 281,
+        "reference_edges": 2,
+        "eligible_clusters": 1,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "no_strong_identity_match": 1,
+          "generic_section_not_query_bound": 1
+        },
+        "candidate_rejection_counts": {
+          "strong_identity_mismatch": 3,
+          "generic_section_not_query_bound": 1
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "3388007c-5397-4375-a44b-8a91cefb0b78",
+            "section": "4.2.2",
+            "subsection": null,
+            "source_start": 1661,
+            "source_end": 1674,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [],
+            "candidate_traces": [
+              {
+                "candidate_id": "f2a8eb21-e0a5-4285-91c1-e3f692794336",
+                "reason": "strong_identity_mismatch"
+              },
+              {
+                "candidate_id": "f421b867-b29a-4744-90c1-b7649649a565",
+                "reason": "strong_identity_mismatch"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_strong_identity_match"
+          },
+          {
+            "edge_index": 1,
+            "source_id": "3388007c-5397-4375-a44b-8a91cefb0b78",
+            "section": "4.2.3",
+            "subsection": null,
+            "source_start": 1756,
+            "source_end": 1769,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [
+              "f4be040c-e95b-4fc3-b773-344bf57ff73d"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "a0d3c73e-8bbb-43a8-9a42-cff2aa568324",
+                "reason": "strong_identity_mismatch"
+              },
+              {
+                "candidate_id": "f4be040c-e95b-4fc3-b773-344bf57ff73d",
+                "reason": "generic_section_not_query_bound"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "generic_section_not_query_bound"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [
+          1
+        ],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 5.363
+    },
+    {
+      "nested_id": "s115n009",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VEA",
+      "question": "¿Cómo se configura el módulo de relé StaX en el VESDA-E VEA-040-A00, tanto en la placa física como en el software?",
+      "served_id": "652edde7-1700-415f-a14e-ebd81f5090f8",
+      "served_content": "## A.1.12 Configuración\n\n### Módulo de relé local StaX\n\nLa placa de relés debe ser configurada para indicar las localizaciones de humo del VEA-040-A00.\n\nHay dos puentes. Consulte la Figura A-21 mostrada a continuación.\n\nAmbos puentes se retiran para usar el módulo de relé StaX con el detector.\n\n[Diagram showing relay PCB configuration with the following elements:\n\n- Top section with numbered terminals: 40.39.38.37 36.35.34.33 (labeled 10, 9) and 32.31.30.29 28.27.26.25 (labeled 8, 7)\n- Bottom section with numbered terminals: 1.2.3.4 5.6.7.8 (labeled 1, 2), 9.10.11.12 13.14.15.16 (labeled 3, 4), and 17.18.19.20 21.22.23.24 (labeled 5, 6)\n- A connection line leading to a \"Detector\" box on the right with two connection points\n- Two bridge/jumper positions marked with circles in the center of the board]\n\nFigura A-21: Puentes de configuración del PCA de relé\n\n### Detector\n\nEl detector VESDA-E VEA-040-A00 debe configurarse para que espere un módulo de relé conectado.\n\nPara ello, marque una casilla de verificación en la columna Relé (\"Relay\") de la pestaña Módulo (\"Module\") de Xtralis VSC. Consulte la sección 5.5.5 para obtener más información.\n\nEn el ejemplo siguiente, se indica al sistema que espere la presencia de un módulo de relé en el detector.\n\n**Nota:** Si el módulo de relé se ha configurado, pero no se ha conectado, se generará un fallo.\n\n[Screenshot of VESDA VEA 2 software interface showing:\n\nWindow title: VESDA VEA 2\n\nTabs: General | VESDAnet | Ethernet | WiFi | Module | Smoke Thresholds | Walk Test | Air Flow | Filter | Tubes | Button Lockout | General Purpose Inputs | Relays\n\nConfiguration table:]\n\n| Module           | Type          | Number of Tubes | Tube Length (m) | Relay | Sampling Point |\n| ---------------- | ------------- | --------------- | --------------- | ----- | -------------- |\n| Detector         | 40 Tubes      | 40              | 50 m            | ☑     | ☑              |\n| Expansion StaX 1 | Not Installed | 40              | 50 m            |       |                |\n| Expansion StaX 2 | Not Installed | 40              | 50 m            |       | ☑              |\n\n[Buttons at bottom: OK | Cancel | Apply | Help]\n\nFigura A-22: Módulo de relé activado en Xtralis VSC\n\n120                                                                                                                                                www.xtralis.com\n\nVESDA-E VEA-040-A00 Guía del producto",
+      "scope_key": "Xtralis␟VESDA-E-VEA",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 281,
+        "reference_edges": 1,
+        "eligible_clusters": 2,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "no_selectable_candidate": 1
+        },
+        "candidate_rejection_counts": {
+          "strong_identity_mismatch": 2,
+          "no_bound_contract_atom": 1,
+          "no_novel_atom": 1
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "652edde7-1700-415f-a14e-ebd81f5090f8",
+            "section": "5.5.5",
+            "subsection": null,
+            "source_start": 1112,
+            "source_end": 1125,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [
+              "39916f5e-d937-4c4d-a85f-3a148cad74e7",
+              "dc0c1285-1d69-4efb-9de2-aa44e190a1a0"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "23301793-2f4c-4057-82a6-f57b6b0a0a60",
+                "reason": "strong_identity_mismatch"
+              },
+              {
+                "candidate_id": "39916f5e-d937-4c4d-a85f-3a148cad74e7",
+                "reason": "no_bound_contract_atom"
+              },
+              {
+                "candidate_id": "90adc9d6-0e63-46df-b3b2-2400af4907e5",
+                "reason": "strong_identity_mismatch"
+              },
+              {
+                "candidate_id": "dc0c1285-1d69-4efb-9de2-aa44e190a1a0",
+                "reason": "no_novel_atom"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_selectable_candidate"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [
+          0
+        ],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 5.752
+    },
+    {
+      "nested_id": "s115n010",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VES",
+      "question": "¿Qué comprobaciones hay que hacer en la instalación del VESDA-E VES antes de llamar al ingeniero de puesta en marcha?",
+      "served_id": "c19b7678-8074-41c3-9c53-05f62cc46445",
+      "served_content": "## 4.5 Lista de verificación de la instalación\n\n| Nombre del emplazamiento                               |   |\n| ------------------------------------------------------ | - |\n| Dirección                                              |   |\n| Número(s) de serie del detector y fecha de fabricación |   |\n| Nombre del instalador                                  |   |\n| Firma                                                  |   |\n| Fecha                                                  |   |\n\nRealice las siguientes comprobaciones de la lista para asegurarse de que todos los elementos necesarios se han completado antes de entregársela a un ingeniero de puesta en marcha.\n\n| Comprobaciones de la instalación                                                                                                                                  | Completada (S/N) |\n| ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |\n| El detector está sujeto firmemente con la abrazadera de montaje (si se utiliza). Consulte la Figura 4-22 en la página 29 para obtener más información.            |                  |\n| Las tuberías de aire de muestreo están bien conectadas a los orificios de entrada de aire. Asegúrese de que las tuberías NO se peguen con pegamento.              |                  |\n| El cable de alimentación eléctrica se ha conectado al detector.                                                                                                   |                  |\n| Si es necesario, se ha conectado la resistencia de fin de línea para la GPI supervisada. Consulte la sección 4.3.11 en la página 42 para obtener más información. |                  |\n| Los terminales de salida de relé de fallo y alarma del detector se han conectado al panel de incendio.                                                            |                  |\n| La cinta adhesiva se ha retirado del orificio de escape. Asegúrese de que NO se pegue con pegamento la tubería de escape (si está instalada).                     |                  |\n| La película protectora se ha retirado de la pantalla.                                                                                                             |                  |\n| El sistema de tuberías de muestreo de aire se ha instalado y comprobado según los planos del sitio.                                                               |                  |",
+      "scope_key": "Xtralis␟VESDA-E-VES",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 256,
+        "reference_edges": 1,
+        "eligible_clusters": 1,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "generic_section_not_query_bound": 1
+        },
+        "candidate_rejection_counts": {
+          "generic_section_not_query_bound": 1,
+          "strong_identity_mismatch": 1
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "c19b7678-8074-41c3-9c53-05f62cc46445",
+            "section": "4.3.11",
+            "subsection": null,
+            "source_start": 1699,
+            "source_end": 1713,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [
+              "714fa8b6-22bf-4167-89c3-41700f1ac6aa"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "714fa8b6-22bf-4167-89c3-41700f1ac6aa",
+                "reason": "generic_section_not_query_bound"
+              },
+              {
+                "candidate_id": "96c42055-2da9-4314-8606-043db9d80f1f",
+                "reason": "strong_identity_mismatch"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "generic_section_not_query_bound"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [
+          0
+        ],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 2.839
+    },
+    {
+      "nested_id": "s115n011",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VEA",
+      "question": "¿Cómo se fija el VESDA-E VEA-040-A10 al soporte de montaje una vez colocado?",
+      "served_id": "f421b867-b29a-4744-90c1-b7649649a565",
+      "served_content": "| Leyenda | Leyenda           |\n| ------- | ----------------- |\n| E       | Pernos de montaje |\n\nFigura 4-8: Montaje del detector\n\n5. Abra la puerta frontal del detector (Figura 4-9). Consulte la sección 7.2 en la página 84 para obtener más información sobre cómo abrir la puerta.\n6. Quite la cinta amarilla que cubre el tornillo de bloqueo insertado parcialmente (F).\n7. Apriete el tornillo de bloqueo (F). Esto fija el detector al soporte de montaje.\n\n[Technical diagram showing the front door of the detector with an \"F\" label pointing to a locking screw, with a screwdriver illustration showing how to tighten it]\n\n| Leyenda | Leyenda             |\n| ------- | ------------------- |\n| F       | Tornillo de bloqueo |\n\nFigura 4-9: Tornillo de bloqueo\n\n26    www.xtralis.com\n\nVESDA-E VEA-040-A10 Guía del producto\n\n### 4.2.3 Montaje del detector con la plantilla de montaje\n\n1. Coloque la plantilla de montaje para permitir que el conducto eléctrico (A) se alinee con las marcas de alineación (B) (Figura 4-10):\n2. Fije la plantilla de montaje a la pared.\n\n[Diagram showing mounting template placement with the following elements:\n\n- Two cylindrical conduits labeled \"A\" at the top\n- A rectangular mounting template (shown with dashed lines) with alignment marks labeled \"B\" at top and bottom\n- Text label \"Contorno del detector\" (detector outline) pointing to the template\n- Two cylindrical conduits labeled \"A\" at the bottom]\n\nFigura 4-10: Colocación de la plantilla de montaje\n\n3. Inserte dos tornillos de cabeza redondeada M4 en las posiciones C y D de manera que la cabeza del tornillo sobresalga 7 mm de la pared (Figura 4-11). Perfore un orificio guía en la posición E para insertar posteriormente un tornillo en el paso 9.\n\n[Diagram showing screw insertion with the following elements:\n\n- Two cylindrical conduits at the top\n- A rectangular mounting template (shown with dashed lines) with positions marked \"C\", \"D\", and \"E\"\n- Text label \"Contorno del detector\" (detector outline) pointing to the template\n- A side view showing a screw protruding 7mm from the wall\n- Two cylindrical conduits at the bottom]\n\nFigura 4-11: Inserción de los tornillos de montaje\n\n4. Coloque los conductos eléctricos (A) en las líneas centrales marcadas (Figura 4-12).\n5. Corte los conductos según sea necesario a una profundidad adecuada.\n\nwww.xtralis.com                                                                        27\n\nVESDA-E VEA-040-A10 Guía del producto\n\nA\n\nContorno del detector\n\nA\n\nFigura 4-12: Corte el conducto eléctrico.\n\n6. Retire la plantilla de montaje.\n7. Para permitir la colocación del detector, retraiga los conductos eléctricos.\n8. Monte el detector en los dos tornillos (Figura 4-13).\n\nFigura 4-13: Montaje del detector\n\n9. Inserte un tornillo M4 en el extremo pequeño del orificio de alineación inferior izquierdo del detector y apriete los otros dos tornillos (Figura 4-14).",
+      "scope_key": "Xtralis␟VESDA-E-VEA",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 281,
+        "reference_edges": 1,
+        "eligible_clusters": 0,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "no_unique_body_anchor": 1
+        },
+        "candidate_rejection_counts": {
+          "no_unique_body_anchor": 1,
+          "strong_identity_mismatch": 1
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "f421b867-b29a-4744-90c1-b7649649a565",
+            "section": "7.2",
+            "subsection": null,
+            "source_start": 196,
+            "source_end": 207,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [
+              "aab02087-0ea0-4c7d-9a54-3a473aaf9f17"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "aab02087-0ea0-4c7d-9a54-3a473aaf9f17",
+                "reason": "no_unique_body_anchor"
+              },
+              {
+                "candidate_id": "e3448e23-a43c-4530-b888-26f5b77e5962",
+                "reason": "strong_identity_mismatch"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_unique_body_anchor"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [
+          0
+        ],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 3.01
+    },
+    {
+      "nested_id": "s115n012",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VES",
+      "question": "¿Cómo se comporta el relé de Fallo urgente del VESDA-E VES en condiciones normales, cuando hay fallo y cuando se va la alimentación?",
+      "served_id": "d5c7a3e7-15cc-4e06-a8af-03d33c67ed50",
+      "served_content": "## Detección de fallos de conexión a tierra\n\nPara que la detección de fallos de conexión a tierra de VESDAnet esté activa, conecte el terminal de conexión a tierra del chasis (Q en la Figura 4-33) a la conexión a tierra del edificio e inserte un puente en los terminales puente para supervisión de fallo de conexión a tierra (V en la Figura 4-33).\n\n## 4.3.6 Relés\n\nLos relés, ubicados en la tarjeta del procesador principal, se conectan al panel de control de alarma de incendio (FACP, por sus siglas en ingles) para comunicar fallos, alarmas y estados de desactivación. Los relés se pueden programar mediante Xtralis VSC. Los relés 3 y 6 se configuran permanentemente para Fallo urgente y Fuego 1 respectivamente. En la Tabla 4-2 mostrada a continuación, se indican las asignaciones predeterminadas de funciones (condiciones) de los relés y se resume el comportamiento de cada relé. En la sección 5.5.12 se describe cómo configurar la activación de los relés mediante Xtralis VSC. Se pueden asignar más de una condición a un relé.\n\n### Relé de Fuego 1\n\nSi se va a usar el relé del detector para enviar la alarma de incendio al Panel de control de alarma contra incendios (FACP), entonces se debe usar el relé de Fuego 1.\n\n### Terminales de relé de Fallo urgente y Fuego 1\n\nEl relé de Fallo urgente esta activado durante el funcionamiento normal, mientras que el relé de Fuego 1 solo se activa cuando se detecta una condición de Fuego 1. El funcionamiento de estos dos relés se resume en la tabla siguiente.\n\nTabla 4-1: Funcionamiento del relé de Fallo urgente y Fuego\n\n| Relé de FALLO URGENTE    | Relé de FALLO URGENTE                   | Relé de Fuego 1             | Relé de Fuego 1      |\n| ------------------------ | --------------------------------------- | --------------------------- | -------------------- |\n| Sin fallo<br/>(activado) | Fallo<br/>o estado sin<br/>alimentación | Sin fuego<br/>(desactivado) | Fuego                |\n| NC<br/>FAULT C<br/>NO    | NC<br/>FAULT C<br/>NO                   | NC<br/>FIRE C<br/>NO        | NC<br/>FIRE C<br/>NO |\n\n### Asignación y comportamiento de los relés\n\n* Los relés 1, 2, 4, 5, 7, 8, 9, 10, 11 y 12 se pueden configurar completamente.\n* Los relés 3 y 6 se establecen permanentemente en Fallo urgente y Fuego 1 respectivamente. A estos relés se les pueden asignar condiciones adicionales.\n* Los relés 3 y 6 son relés de conmutación. (SPDT (1 tipo C)) Los demás relés son unipolares de una dirección (SPST-NO (1 tipo A)).\n\nTabla 4-2: Asignaciones de relés predeterminadas",
+      "scope_key": "Xtralis␟VESDA-E-VES",
+      "selected_ids": [],
+      "selected_receipts": [],
+      "trace": {
+        "lane": "reference_edge_coverage_s115_shadow",
+        "shadow_only": true,
+        "input_candidates": 256,
+        "reference_edges": 1,
+        "eligible_clusters": 0,
+        "potential_reference_edges": 1,
+        "terminal_reasons": {
+          "no_unique_body_anchor": 1
+        },
+        "candidate_rejection_counts": {
+          "strong_identity_mismatch": 3,
+          "no_unique_body_anchor": 3
+        },
+        "edge_traces": [
+          {
+            "edge_index": 0,
+            "source_id": "d5c7a3e7-15cc-4e06-a8af-03d33c67ed50",
+            "section": "5.5.12",
+            "subsection": null,
+            "source_start": 890,
+            "source_end": 904,
+            "alignment_tier": "generic",
+            "potential_candidate_ids": [
+              "60f210e4-a468-4ae2-be1f-c991d7dde5a6",
+              "a6ed1357-c034-4da5-b50a-5f18ad195579",
+              "fd8849ea-76a0-4107-bd4a-c27c67875228"
+            ],
+            "candidate_traces": [
+              {
+                "candidate_id": "08bd613b-1b69-4312-a33b-677dcc5a58ea",
+                "reason": "strong_identity_mismatch"
+              },
+              {
+                "candidate_id": "45d3c3e8-55b4-4fc3-857c-52cfe2c9a893",
+                "reason": "strong_identity_mismatch"
+              },
+              {
+                "candidate_id": "60f210e4-a468-4ae2-be1f-c991d7dde5a6",
+                "reason": "no_unique_body_anchor"
+              },
+              {
+                "candidate_id": "a6ed1357-c034-4da5-b50a-5f18ad195579",
+                "reason": "no_unique_body_anchor"
+              },
+              {
+                "candidate_id": "cf420506-23f4-47e7-bdd3-aa401d049b12",
+                "reason": "strong_identity_mismatch"
+              },
+              {
+                "candidate_id": "fd8849ea-76a0-4107-bd4a-c27c67875228",
+                "reason": "no_unique_body_anchor"
+              }
+            ],
+            "edge_winner_id": null,
+            "edge_score": null,
+            "terminal_reason": "no_unique_body_anchor"
+          }
+        ],
+        "potential_not_selected_edge_indexes": [
+          0
+        ],
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_writes": 0,
+        "served_provenance_hydrated": 0,
+        "reason": "no_bound_novel_reference_evidence"
+      },
+      "selector_runtime_ms": 5.63
+    }
+  ],
+  "limitations": [
+    "This 12-question, two-manufacturer cohort is a smoke test, not +30-manufacturer release evidence.",
+    "Selector output is not a correctness label; selected cards and visible false negatives require blinded adjudication.",
+    "Any post-unseal selector or config change invalidates this result."
+  ]
+}

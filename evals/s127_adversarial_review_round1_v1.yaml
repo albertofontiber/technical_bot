@@ -1,0 +1,29 @@
+schema_version: s127_adversarial_review_round1_v1
+reviewed_artifacts:
+  - evals/s127_compatibility_generalization_design_v1.md
+  - evals/s127_compatibility_development_cohort_v1.yaml
+reviewer: Hubble_Fable_5
+verdict: NO_GO_TO_BUILD
+p0: 0
+p1_confirmed: 4
+findings:
+  - unbound_device_host_roles_and_ambiguous_orientation
+  - incomplete_and_incorrect_s126_holdout_exclusions
+  - circular_compatibility_positive_metric
+  - underspecified_triplet_ambiguity_receipts_and_hard_negatives
+p2:
+  - evaluate_navigation_budget_curve_3_to_6_on_development_only
+  - three_independent_examples_are_only_a_pilot
+  - preregister_natural_query_variation
+disposition:
+  build_started: false
+  superseding_design: evals/s127_compatibility_generalization_design_v2.md
+  superseding_cohort: evals/s127_compatibility_development_cohort_v2.yaml
+  primary_agent_decisions:
+    - use neutral evidence_group and counterpart_group roles
+    - reject competing orientations and governed document pairs
+    - do not treat catalog primary_secondary coverage as technical query roles
+    - rename target to three_facet_diagnostic_bundle_opportunity
+    - freeze real positive and negative topology receipts
+    - relation_close OEM_rebrand classes for diversity measurement
+next_gate: fresh_adversarial_review_of_v2_before_build

@@ -1,0 +1,84 @@
+instrument: s117_chunks_v3_implementation_freeze_v1
+frozen_on: 2026-07-14
+
+decision_scope:
+  M0a_local_contract: GO
+  M1_local_rematerialization: GO
+  SQL_static_contract: GO
+  M0b_disposable_postgres_pgvector: NOT_EXECUTED
+  database_apply: NO_GO_FOR_DB
+  next_if_adversarial_go: M2_read_only_chunks_v2_reuse_analysis
+
+contract:
+  base_design:
+    path: evals/s117_chunks_v3_persistence_design_v2.md
+    sha256: 8789f6a885e359f9790db371693cf1200ca06a4cb3a700ae55517bf9b2ea176f
+  accepted_addendum:
+    path: evals/s117_chunks_v3_persistence_design_v21.md
+    sha256: dfff8ed57fb838ef8fb039a6908469626627d4ee06df8d1a3d4754a7da452bdc
+  preregistration:
+    path: evals/s117_chunks_v3_local_migration_prereg_v21.yaml
+    sha256: 93f8f357d3b32345669d672e201ba03d46c4e2c644f4df582ab23e38e995d100
+
+implementation:
+  chunker:
+    path: src/reingest/chunk.py
+    sha256: 4b76ab219854c625f4ce5e55665e2c89d14739e4eee0ab01607aae7ecda4fd43
+  materializer:
+    path: src/reingest/chunk_provenance.py
+    sha256: bb218a509ca56f2ddf4e44d73c4235cefacfb4296a4b98c9d49a627a2536e65c
+  independent_validator:
+    path: scripts/s117_materialize_chunks_v3_local.py
+    sha256: 36037383c1c33c630e9df6add9f3c188dc10e2dfd79ff33f53ee04f44aa4c342
+  sql_shadow_migration:
+    path: supabase/migrations/20260714102428_chunks_v3_provenance_shadow.sql
+    sha256: cc328b3d11fadd2f094c491cfe4d8713044f89d2de05b7e405bd92b09c2ede90
+    gate: NO_GO_FOR_DB_until_M0b
+    hnsw: deferred
+
+tests:
+  provenance:
+    path: tests/test_chunk_provenance.py
+    sha256: 2a0a46ed0a7561b81b5d869653f04c9fac5d59545693ea91bc8d011f68790933
+  lineage:
+    path: tests/test_reingest_chunk_lineage.py
+    sha256: c5c8b26808c7819ae386fc29613c574b23677bb3619fac148d4cf75ed6a5deac
+  sql_static:
+    path: tests/test_s117_chunks_v3_sql_contract.py
+    sha256: 873ea0b3d64d6f0f8885d4f083256ffc4eeb2825e554c9df5726cad399b2dd57
+  directed_result: 44_passed
+  full_suite_result: 791_passed_2_skipped
+
+results:
+  independent:
+    path: evals/s117_chunks_v3_independent_materialization_v1.json
+    artifact_sha256: 4333e0e1e68d4bb5c042dd99c270ee9a7f2c75d16dd7df4f0b12e7fd33b30bf2
+    status: GO
+    records: 12
+    chunks: 836
+    titled_chunks: 784
+    untitled_chunks: 52
+    validation_failures: 0
+    deterministic_payload_sha256: 9bcc009e1c7055b913b79973769892764270f12ad890d80649a3f806c35ac5d4
+  development:
+    path: evals/s117_chunks_v3_development_materialization_v1.json
+    artifact_sha256: d9f69e8d1428e11afa56723817f64226aa53db786c8034453dfde4adbbedca3a
+    status: GO
+    records: 1068
+    chunks: 31212
+    titled_chunks: 29399
+    untitled_chunks: 1813
+    validation_failures: 0
+    deterministic_payload_sha256: c918c108ac1e4e9c3727e73f6d9a4cf3284f57be05bc8c06f900c6a626beeb05
+
+runtime:
+  python: 3.14.3
+  docker_available: false
+  psql_available: false
+  disposable_postgres_pgvector_executed: false
+
+cost:
+  model_calls: 0
+  network_calls: 0
+  database_reads: 0
+  database_writes: 0

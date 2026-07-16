@@ -1,0 +1,33 @@
+instrument: s117_m27_loss_safe_chunking_probe_failed_gate_v1
+status: FAIL_CLOSED_NO_OUTPUT
+
+frozen_attempt:
+  prereg: evals/s117_m27_loss_safe_chunking_probe_prereg_v1.yaml
+  prereg_sha256: 2ac21a9d911e5a0f944be901bb72f4237a26dbdbe63dc4adba48e0cef522e0db
+  runner_sha256: c89802216ef9fd4c61764987f441384c7f9e6f82b5cb39e65e39eaf2d1fd0bb0
+  tests_sha256: 99aaf529fac81c22443be54d7c1cdd41918413606435e6e717930db3fb8e800d
+  seeds_attempted: [1, 2]
+  processes_separate: true
+
+failure:
+  class: treatment_content_span_binding_contract_too_narrow
+  exception: treatment_content_is_not_bound_to_its_raw_span
+  seed1_failed: true
+  seed2_failed: true
+  seed1_output_written: false
+  seed2_output_written: false
+  core_or_database_changed: false
+
+decision:
+  fail_closed_worked: true
+  prereg_v1_mutation: forbidden
+  repeat_same_commands: forbidden
+  replacement_requires_new_design_runner_tests_prereg: true
+  facts_moved_to_ok: 0
+  M3: BLOCKED
+
+cost:
+  model_calls_during_execution: 0
+  network_calls: 0
+  database_reads: 0
+  database_writes: 0

@@ -1,0 +1,178 @@
+instrument: s118_child_claim_adjudication_v1
+status: frozen_before_hybrid_bridge_execution
+normalization: NFKC_then_unicode_whitespace_collapse_then_utf8_sha256
+independent_of_runtime_outcome: true
+
+source_receipts:
+  gold_v1:
+    path: evals/gold_answers_v1.yaml
+    sha256: e1b6b3a8da26b99201108b1765d18d396e8628e0fff022dee58dd7e75049470d
+  s114_atomicity_adjudication:
+    path: evals/s114_partial_evidence_adjudication_v1.yaml
+    sha256: ffba32d0f026a7bc866c7e08908d3c324a0d0de1d61cac9f77435f98470dc822
+  s114_evidence_search:
+    path: evals/s114_partial_evidence_search_v1.json
+    sha256: afed5f392e937b7f4f5e2b8ba953001c9ad7b6b6866a523e9fafe737f76e14f3
+
+rows:
+  - row_type: accepted_child
+    parent_identity:
+      qid: hp013
+      fact_key: hp013#1:PWR-R
+      parent_fact_sha256: d3cc66365ae4fd83cf0e80983877c5d9974727ab195ad73822d44ac54bc1b1b5
+      hold_class: atomicity-and-absence-inference-hold
+    child_id: s118.hp013.power_and_rtc.1
+    supported_subclaim_id: s118.hp013.rtc_lithium.explicit
+    supported_subclaim: La placa incluye una batería de litio y un módulo de reloj RTC.
+    supported_subclaim_sha256: da1a4acdb34c000b6a8012f0082d5b969919bc30529eb2a6f18e35f8a2725364
+    texto_sha256: 9d75db03b7a3c813e0ee69a664fc82df2ac6d7c6816765ea6092d8dd5b1d15d2
+    valor_sha256: 20fc21b57601d3082d10486bcfea2454b0087731a00ad3f2ed12fe663f593337
+    cita_sha256: 4958e7deedaca3b93e25f878889033574ed4ad431b6ca4516733febd547299a7
+    citation_binding:
+      search_fact_key: hp013#1:PWR-R
+      candidate_id: af577289-5d7f-4dfc-9187-8a3aca92d40d
+      manual_id: ADW535_TD_T140358es_e
+      page_numbers: [29]
+      excerpt_sha256: e1010b548141690f2305e1eaac5d9b49e4a13250a2c3ffaa1be916d4c177017f
+    basis: explicit
+    score_track: content
+    requiredness: core
+    requiredness_rationale: >-
+      Corrige la premisa de batería tampón e identifica la función positiva
+      de la batería que sí documenta la placa.
+    adjudicator_status: accepted
+    independent_of_runtime_outcome: true
+
+  - row_type: accepted_child
+    parent_identity:
+      qid: hp013
+      fact_key: hp013#1:PWR-R
+      parent_fact_sha256: d3cc66365ae4fd83cf0e80983877c5d9974727ab195ad73822d44ac54bc1b1b5
+      hold_class: atomicity-and-absence-inference-hold
+    child_id: s118.hp013.power_and_rtc.2
+    supported_subclaim_id: s118.hp013.pwrr.explicit
+    supported_subclaim: PWR-R es una entrada redundante de 9 a 30 V CC.
+    supported_subclaim_sha256: 7a73f982e9ddbdc071ed13fbd047c7a0a3234d147337bc73b13988b4a2a8cdfa
+    texto_sha256: aebeaa53a8ccd7753ab405a1b693b03e77a4739496513e80a777dce1c4454d9d
+    valor_sha256: fd3906235c6df9a50af369870825fef34fb186012bf0e3a2499dd70226e89b63
+    cita_sha256: 635f1448eb9b97667ff1d480a7331e31821a6968f1aee3c60e2895cdea4e1c7e
+    citation_binding:
+      search_fact_key: hp013#1:PWR-R
+      candidate_id: a19e8735-0e84-471a-9224-4be148cc65b9
+      manual_id: ADW535_TD_T140358es_e
+      page_numbers: [56]
+      excerpt_sha256: 4eb664956d7fab6a87a7e37e791ab0d955a8e3caebfca9eafa6e4b8679a5c81e
+    basis: explicit
+    score_track: supplementary
+    requiredness: supplementary
+    requiredness_rationale: >-
+      La alimentación redundante es verdadera y útil, pero no es necesaria
+      para responder dónde reside la configuración ni qué alimenta la batería.
+    adjudicator_status: accepted
+    independent_of_runtime_outcome: true
+
+  - row_type: accepted_child
+    parent_identity:
+      qid: hp015
+      fact_key: hp015#2:32
+      parent_fact_sha256: 73c3cf9b2b204fd80d85de1d04dc6f7ee4b31c14fdeed8da603680348d4e6a2d
+      hold_class: atomicity-and-absence-inference-hold
+    child_id: s118.hp015.capacity_and_isolation.1
+    supported_subclaim_id: s118.hp015.capacity32.explicit
+    supported_subclaim: Cada zona admite un máximo de 32 detectores o pulsadores.
+    supported_subclaim_sha256: 27e6293c77959e4d438e19eec6e4edfb8e9a7c57c3363a4bdd424dc11b9f9372
+    texto_sha256: 012dcf5fbef2121128a1188066d1cb365241fc6e2bfc77559e86ebd4e69f1a40
+    valor_sha256: 3c7be26242a9737ae1fca5fa533ebf7159b9f67bce4cec49c6ab48361fa91c54
+    cita_sha256: 944584df87fcf282ec64814a79a8dcfb77bc0c03ef46b30dd22a8cb2f1cd3506
+    citation_binding:
+      search_fact_key: hp015#2:32
+      candidate_id: fdb14497-4a5a-43db-a5f3-90f36448663e
+      manual_id: CCD-103_Manual_ES_FR_GB_IT
+      page_numbers: [15]
+      excerpt_sha256: 9f49ab1449d7cab6a842f5596cf1456af7fbc1787ba2c21adf41f1c70e390598
+    basis: explicit
+    score_track: supplementary
+    requiredness: supplementary
+    requiredness_rationale: >-
+      Es un límite verdadero, pero no es necesario para explicar la maniobra
+      de desconexión por zona solicitada.
+    adjudicator_status: accepted
+    independent_of_runtime_outcome: true
+
+  - row_type: accepted_child
+    parent_identity:
+      qid: hp015
+      fact_key: hp015#0:convencional
+      parent_fact_sha256: 83a337d1948afb2fdcf98e51dfb72533cf7ce4dea250d35dd0bc70893b84a753
+      hold_class: atomicity-and-absence-inference-hold
+    child_id: s118.hp015.conventional_architecture.1
+    supported_subclaim_id: s118.hp015.conventional_architecture.explicit
+    supported_subclaim: La CCD-103 es una central de 3 zonas convencionales y 1 riesgo.
+    supported_subclaim_sha256: 905c414b5910525f2ddb2e0ab910fa6d548e5b007c1053a92c596a7dfae9836c
+    texto_sha256: 751b22479c38479f360ede8a59579abe451894c82763b8c98e5def500862a025
+    valor_sha256: d392ba6c4a5c70a63d5c20fbb207ecc16b9daf7e4e24a2452df57f75d5fff1df
+    cita_sha256: 2c59c36772e02e3eba32b6a4e64dca31bc2ae06f32bfce953e3ceae9f229d3c6
+    citation_binding:
+      search_fact_key: hp015#2:32
+      candidate_id: da5d4101-1f51-4b29-9edc-6404aa3b8628
+      manual_id: CCD-103_Manual_ES_FR_GB_IT
+      page_numbers: [5]
+      excerpt_sha256: f61d2d848a87c44fa30d500581f9610d256e375f4ed2d85adb39da0ac984c7f5
+    basis: explicit
+    score_track: supplementary
+    requiredness: supplementary
+    requiredness_rationale: >-
+      La arquitectura convencional es contexto verdadero, pero no demuestra
+      por sí sola la imposibilidad absoluta de actuar sobre un detector.
+    adjudicator_status: accepted
+    independent_of_runtime_outcome: true
+
+  - row_type: withdrawal
+    parent_identity:
+      qid: hp013
+      fact_key: hp013#1:PWR-R
+      parent_fact_sha256: d3cc66365ae4fd83cf0e80983877c5d9974727ab195ad73822d44ac54bc1b1b5
+      hold_class: atomicity-and-absence-inference-hold
+    withdrawal_id: s118.hp013.power_and_rtc.withdrawal.1
+    unsupported_subclaim: ausencia absoluta de bateria tampon a bordo
+    unsupported_subclaim_sha256: 9671d2f29ae4cac58c5d6c81e13fddac2c01ca5d9d7d2a27a5022c85f44e2b1f
+    adjudicator_status: withdrawn
+    independent_of_runtime_outcome: true
+
+  - row_type: withdrawal
+    parent_identity:
+      qid: hp015
+      fact_key: hp015#2:32
+      parent_fact_sha256: 73c3cf9b2b204fd80d85de1d04dc6f7ee4b31c14fdeed8da603680348d4e6a2d
+      hold_class: atomicity-and-absence-inference-hold
+    withdrawal_id: s118.hp015.capacity_and_isolation.withdrawal.1
+    unsupported_subclaim: imposibilidad absoluta de aislar un detector desde la central
+    unsupported_subclaim_sha256: a1482a3c3fe1d01fff537984c3fefdebfa1fb997285baf7c76365175dcccdee7
+    adjudicator_status: withdrawn
+    independent_of_runtime_outcome: true
+
+  - row_type: withdrawal
+    parent_identity:
+      qid: hp015
+      fact_key: hp015#2:32
+      parent_fact_sha256: 73c3cf9b2b204fd80d85de1d04dc6f7ee4b31c14fdeed8da603680348d4e6a2d
+      hold_class: atomicity-and-absence-inference-hold
+    withdrawal_id: s118.hp015.capacity_and_isolation.withdrawal.2
+    unsupported_subclaim: toda desconexion de zona desactiva necesariamente todos sus detectores
+    unsupported_subclaim_sha256: 0f674668f675d980b28bbdad9e42e1b0c32695ee00cdc4022d37234bcc0a839a
+    adjudicator_status: withdrawn
+    independent_of_runtime_outcome: true
+
+  - row_type: withdrawal
+    parent_identity:
+      qid: hp015
+      fact_key: hp015#0:convencional
+      parent_fact_sha256: 83a337d1948afb2fdcf98e51dfb72533cf7ce4dea250d35dd0bc70893b84a753
+      hold_class: atomicity-and-absence-inference-hold
+    withdrawal_id: s118.hp015.conventional_architecture.withdrawal.1
+    unsupported_subclaim: >-
+      inferencia causal de que ser convencional demuestra que no existe
+      desactivar un detector concreto
+    unsupported_subclaim_sha256: 929d719525837f67e752b9961863d6a3dc83c5fc39f0e6e7929caed52366f586
+    adjudicator_status: withdrawn
+    independent_of_runtime_outcome: true

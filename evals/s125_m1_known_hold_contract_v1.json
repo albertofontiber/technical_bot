@@ -1,0 +1,3664 @@
+{
+  "schema_version": "s125_m1_known_hold_contract_v1",
+  "instrument": "s125_build_m1_known_hold_contract",
+  "status": "MIGRATION_CONTRACT_FROZEN_NO_BOT_CREDIT",
+  "authority": {
+    "preregistration": "evals/s125_m1_known_hold_migration_prereg_v1.yaml",
+    "preregistration_sha256": "4f1129ce7ee0b5e76190f8cfe70d42f39e30f5b42b9e0f46b4f4e266293f0d8b",
+    "migration_spec": "evals/s125_m1_known_hold_migration_spec_v1.yaml",
+    "migration_spec_sha256": "0244ffe7443efca2a8f1980756095f9eb6278517ca9dad9b489a9c8f46ba879b",
+    "literal_support": "evals/s125_m1_source_support_v1.yaml",
+    "literal_support_sha256": "d6ec5a0076f453999a5542f880de05121b90b4aa197293d257db266fd0effd24"
+  },
+  "summary": {
+    "parent_count": 33,
+    "qid_count": 13,
+    "child_count": 70,
+    "child_type_histogram": {
+      "core": 58,
+      "supplementary": 12
+    },
+    "disposition_histogram": {
+      "merge_duplicate": 1,
+      "rewrite": 7,
+      "split": 24,
+      "unresolved": 1
+    },
+    "legacy_stage_histogram": {
+      "OK": 29,
+      "rest": 1,
+      "retrieval-miss": 1,
+      "synthesis-miss": 2
+    },
+    "withdrawn_clause_count": 19,
+    "unresolved_parent_count": 1,
+    "model_calls": 0,
+    "database_reads": 0,
+    "database_writes": 0,
+    "bot_delta": 0,
+    "measurement_delta_only": true
+  },
+  "parents": [
+    {
+      "qid": "cat005",
+      "question": "¿Cuáles son las características técnicas de la central de detección de gas Fidegas CS4, y en qué se diferencian las versiones digital y analógica?",
+      "parent_fact_key": "cat005#2:4",
+      "parent_fact_sha256": "c30477c37c3d5942f7c0cd3e5f7500f5a4fffa20479cc2e371f9355d79654176",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "La formulación omite el rango digital 0-10/15 V y declaraba una página sin span; requiere recheck/rewrite.",
+        "decision_stage": "adversarial_batch_rejection",
+        "labels": [
+          "adversarial_cleanup",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.cat005.c30477c37c3d5942",
+        "primary_lane": "scope_qualifier_or_normative",
+        "qid": "cat005",
+        "recommended_mechanism": "qualifier_complete_rewrite_with_source_checklist"
+      },
+      "disposition": "split",
+      "decision_reason": "Separar la capacidad de conexiones de la comparación entre señales analógica y digital.",
+      "withdrawn_clauses": [],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.cat005.c30477c37c3d5942.max_remote_sensors",
+        "m1.cat005.c30477c37c3d5942.analog_digital_inputs"
+      ]
+    },
+    {
+      "qid": "cat005",
+      "question": "¿Cuáles son las características técnicas de la central de detección de gas Fidegas CS4, y en qué se diferencian las versiones digital y analógica?",
+      "parent_fact_key": "cat005#5:3244 / 3270",
+      "parent_fact_sha256": "fb0031fbe096519b0e0e99d5f9f59e5c01c6324ed0e0f937e830208200ef3342",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "Sí aparecen \"Versión digital: 3244\" y \"Versión analógica: 3270\", pero no se afirma explícitamente la diferencia funcional indicada en el fact.",
+        "decision_stage": "cheap_proposer_or_deterministic_downgrade",
+        "labels": [
+          "proposer_evidence_binding"
+        ],
+        "migration_id": "carry.cat005.fb0031fbe096519b",
+        "primary_lane": "proposer_evidence_binding",
+        "qid": "cat005",
+        "recommended_mechanism": "targeted_primary_page_rebinding"
+      },
+      "disposition": "split",
+      "decision_reason": "Los dos códigos son asociaciones independientes; la diferencia funcional se acredita en el parent anterior.",
+      "withdrawn_clauses": [
+        "La tabla de códigos no demuestra por sí sola la diferencia de conexión entre versiones."
+      ],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.cat005.fb0031fbe096519b.digital_product_code",
+        "m1.cat005.fb0031fbe096519b.analog_product_code"
+      ]
+    },
+    {
+      "qid": "cat007",
+      "question": "En el detector por aspiración FAAST LT-200, ¿qué salidas de relé y de sirena tiene y con qué contactos, cómo se comporta el relé de avería ante un fallo o un corte de alimentación, qué resistencia de fin de línea llevan las salidas de sirena y cuál es la especificación eléctrica de los contactos de relé?",
+      "parent_fact_key": "cat007#0:NC-C-NA",
+      "parent_fact_sha256": "7947613c1a4de8b154f34aa61546dcfc776b1f165222da5ffa0c714254e6fc2b",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "Non-atomic compound fact and dropped '(AUX.)' qualifier on channel-2 fault relay terminals.",
+        "decision_stage": "fable_crossfamily_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "primary_entailment_or_inference",
+          "requiredness_or_type",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.cat007.7947613c1a4de8b1",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "cat007",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      },
+      "disposition": "split",
+      "decision_reason": "Separar contactos de alarma y avería preservando el calificador AUX del canal 2.",
+      "withdrawn_clauses": [],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.cat007.7947613c1a4de8b1.alarm_relay_contacts",
+        "m1.cat007.7947613c1a4de8b1.fault_relay_contacts"
+      ]
+    },
+    {
+      "qid": "cat007",
+      "question": "En el detector por aspiración FAAST LT-200, ¿qué salidas de relé y de sirena tiene y con qué contactos, cómo se comporta el relé de avería ante un fallo o un corte de alimentación, qué resistencia de fin de línea llevan las salidas de sirena y cuál es la especificación eléctrica de los contactos de relé?",
+      "parent_fact_key": "cat007#1:no enclavado",
+      "parent_fact_sha256": "224f21eed48712efe430932a2aca9421b786fe5288a8775037ed0460ca525ab1",
+      "legacy_stage_bucket": "synthesis-miss",
+      "blocker": {
+        "blocking_issue": "La desenergización del relé es una inferencia no expresada por la fuente.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "primary_entailment_or_inference",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.cat007.224f21eed48712ef",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "cat007",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      },
+      "disposition": "split",
+      "decision_reason": "Conservar solo los comportamientos expresos de la tabla y retirar la inferencia de desenergización.",
+      "withdrawn_clauses": [
+        "La fuente servida no expresa que el relé se desenergice ni lo denomina fail-safe."
+      ],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.cat007.224f21eed48712ef.fault_conditions",
+        "m1.cat007.224f21eed48712ef.service_or_unpowered",
+        "m1.cat007.224f21eed48712ef.fault_not_latched"
+      ]
+    },
+    {
+      "qid": "cat007",
+      "question": "En el detector por aspiración FAAST LT-200, ¿qué salidas de relé y de sirena tiene y con qué contactos, cómo se comporta el relé de avería ante un fallo o un corte de alimentación, qué resistencia de fin de línea llevan las salidas de sirena y cuál es la especificación eléctrica de los contactos de relé?",
+      "parent_fact_key": "cat007#2:47 kohm",
+      "parent_fact_sha256": "1034ff01c53cc99a4dd5fb36bd73633ce5f7a7c8d18689c9778d8e326895b374",
+      "legacy_stage_bucket": "synthesis-miss",
+      "blocker": {
+        "blocking_issue": "Incluye dos inferencias no explícitas y omite la restricción del canal 2.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "primary_entailment_or_inference",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.cat007.1034ff01c53cc99a",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "cat007",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      },
+      "disposition": "split",
+      "decision_reason": "Separar la asignación de salidas y su resistencia EOL, sin inferir que no sean relés.",
+      "withdrawn_clauses": [
+        "La tabla de bornes no formula la negación categórica «no son contactos de relé»."
+      ],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.cat007.1034ff01c53cc99a.sounder_outputs",
+        "m1.cat007.1034ff01c53cc99a.sounder_eol"
+      ]
+    },
+    {
+      "qid": "cat007",
+      "question": "En el detector por aspiración FAAST LT-200, ¿qué salidas de relé y de sirena tiene y con qué contactos, cómo se comporta el relé de avería ante un fallo o un corte de alimentación, qué resistencia de fin de línea llevan las salidas de sirena y cuál es la especificación eléctrica de los contactos de relé?",
+      "parent_fact_key": "cat007#4:10^5",
+      "parent_fact_sha256": "57b09969a2ce13fd4c80f959dd9aee026a287bac0e0d4e6855bace08c54bfaa7",
+      "legacy_stage_bucket": "rest",
+      "blocker": {
+        "blocking_issue": "El gold mezcla el hecho 10^5 operaciones con metacomentario de extracción/OCR; requiere rewrite con linaje.",
+        "decision_stage": "adversarial_batch_rejection",
+        "labels": [
+          "adversarial_cleanup",
+          "atomicity_or_structure",
+          "layout_or_table_association",
+          "primary_entailment_or_inference",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.cat007.57b09969a2ce13fd",
+        "primary_lane": "layout_or_table_association",
+        "qid": "cat007",
+        "recommended_mechanism": "render_bound_multimodal_recheck_then_lineage_if_needed"
+      },
+      "disposition": "unresolved",
+      "decision_reason": "El contexto textual congelado expresa «105» y no permite demostrar el superíndice de «10^5» sin una evidencia visual congelada.",
+      "withdrawn_clauses": [
+        "El comentario sobre la pérdida del superíndice pertenece a la auditoría, no al hecho evaluable.",
+        "El valor «10^5 operaciones» queda fuera del contrato puntuable hasta disponer de un receipt visual exacto."
+      ],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": []
+    },
+    {
+      "qid": "cat010",
+      "question": "¿Cómo se alimenta la sirena/avisador intrínsecamente seguro IS-mA1 en una zona peligrosa (ATEX) y cuáles son sus parámetros de seguridad intrínseca de entrada?",
+      "parent_fact_key": "cat010#1:660mW",
+      "parent_fact_sha256": "5bec12668a94fa37c2aead006b2d401e08fde63187c335fefd63dccb42b50e61",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "Non-atomic fact: it aggregates five separate input safety parameters (Ui, Ii, Pi, Ci, Li) into one compound statement rather than a single atomic fact.",
+        "decision_stage": "fable_crossfamily_rejection",
+        "labels": [
+          "atomicity_or_structure"
+        ],
+        "migration_id": "carry.cat010.5bec12668a94fa37",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "cat010",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      },
+      "disposition": "split",
+      "decision_reason": "Cada parámetro de entidad intrínsecamente segura es una obligación independiente.",
+      "withdrawn_clauses": [],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.cat010.5bec12668a94fa37.ui",
+        "m1.cat010.5bec12668a94fa37.ii",
+        "m1.cat010.5bec12668a94fa37.pi",
+        "m1.cat010.5bec12668a94fa37.ci",
+        "m1.cat010.5bec12668a94fa37.li"
+      ]
+    },
+    {
+      "qid": "cat012",
+      "question": "¿Cómo se calcula la capacidad de batería (en Ah) necesaria para la central AM-8200?",
+      "parent_fact_key": "cat012#0:1,2",
+      "parent_fact_sha256": "859bf84ece1e13012eaef07fdb15ce07b1fdcce892bfc0ef2822dbe1bcec74c6",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "Interpretación no sustentada del 1,2 como factor de seguridad y referencia no sustentada a un apéndice.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "primary_entailment_or_inference",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.cat012.859bf84ece1e1301",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "cat012",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      },
+      "disposition": "split",
+      "decision_reason": "Separar la fórmula del significado documentado del multiplicador y retirar la referencia de apéndice incorrecta.",
+      "withdrawn_clauses": [
+        "La fuente servida sitúa el cálculo en la tabla 2 y no respalda «apéndice §11»."
+      ],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.cat012.859bf84ece1e1301.battery_formula",
+        "m1.cat012.859bf84ece1e1301.tolerance_factor"
+      ]
+    },
+    {
+      "qid": "cat012",
+      "question": "¿Cómo se calcula la capacidad de batería (en Ah) necesaria para la central AM-8200?",
+      "parent_fact_key": "cat012#1:24 h",
+      "parent_fact_sha256": "8f913ebef3a60ac15f58f14132b1f01b2f021e33d709e26a18391fbb2397de36",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "Se necesita revisión multimodal para confirmar las asociaciones A–24/72 h y B–0,5 h.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "layout_or_table_association",
+          "primary_entailment_or_inference",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.cat012.8f913ebef3a60ac1",
+        "primary_lane": "layout_or_table_association",
+        "qid": "cat012",
+        "recommended_mechanism": "render_bound_multimodal_recheck_then_lineage_if_needed"
+      },
+      "disposition": "split",
+      "decision_reason": "Las columnas de espera y alarma son dos términos independientes de la fórmula.",
+      "withdrawn_clauses": [],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.cat012.8f913ebef3a60ac1.standby_term",
+        "m1.cat012.8f913ebef3a60ac1.alarm_term"
+      ]
+    },
+    {
+      "qid": "cat012",
+      "question": "¿Cómo se calcula la capacidad de batería (en Ah) necesaria para la central AM-8200?",
+      "parent_fact_key": "cat012#3:18 Ah",
+      "parent_fact_sha256": "67cd609181abed521cf9b279b0f564bab0b10b51d6a7782e1b048ec0d65516e6",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "Hecho no atómico, con omisión del carácter recomendado y de la condición de capacidad a 20 h; el tipo «core» tampoco corresponde.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "primary_entailment_or_inference",
+          "requiredness_or_type",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.cat012.67cd609181abed52",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "cat012",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      },
+      "disposition": "split",
+      "decision_reason": "Separar configuración admisible y referencias de batería; son detalles de selección, no el cálculo pedido.",
+      "withdrawn_clauses": [
+        "La afirmación «alimentación interna de 24 Vcc con un total de 4 A» no queda ligada por este parent a un span servido exacto."
+      ],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.cat012.67cd609181abed52.installed_capacity_range",
+        "m1.cat012.67cd609181abed52.yuasa_capacity",
+        "m1.cat012.67cd609181abed52.fiamm_capacity"
+      ]
+    },
+    {
+      "qid": "cat014",
+      "question": "¿Cual es el MTBF / vida util esperada del detector de gas DGD-600 de Detnov?",
+      "parent_fact_key": "cat014#0:10 anos",
+      "parent_fact_sha256": "72ed1610f96bff0e728bb1b4b5fb7ac53708dcb468de15a5a07e27cb676349d7",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "Hecho no atómico y tipado íntegramente como core pese a incluir un detalle suplementario.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "requiredness_or_type"
+        ],
+        "migration_id": "carry.cat014.72ed1610f96bff0e",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "cat014",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      },
+      "disposition": "split",
+      "decision_reason": "Separar la obligación de sustitución del detalle de localización de la fecha.",
+      "withdrawn_clauses": [],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.cat014.72ed1610f96bff0e.replacement_life",
+        "m1.cat014.72ed1610f96bff0e.manufacture_date_label"
+      ]
+    },
+    {
+      "qid": "cat019",
+      "question": "¿Como se configura una maniobra (causa-efecto) completa en la Detnov CAD-250: como se crea, como se definen las entradas/eventos que la disparan y como se asignan las salidas?",
+      "parent_fact_key": "cat019#0:coincidencias",
+      "parent_fact_sha256": "6c2692e4d3fd39ac226f17725fb105a8bbb84e39df2dff6d027a404fdfbcc6b0",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "El texto sí explica AÑADIR, la pantalla de edición y el significado de coincidencias, pero no sostiene de forma completa la formulación solicitada ni los valores '2, 4...'.",
+        "decision_stage": "cheap_proposer_or_deterministic_downgrade",
+        "labels": [
+          "proposer_evidence_binding"
+        ],
+        "migration_id": "carry.cat019.6c2692e4d3fd39ac",
+        "primary_lane": "proposer_evidence_binding",
+        "qid": "cat019",
+        "recommended_mechanism": "targeted_primary_page_rebinding"
+      },
+      "disposition": "split",
+      "decision_reason": "Separar creación, lógica de coincidencias y ejemplos ilustrativos.",
+      "withdrawn_clauses": [
+        "La generalización «4 = cuatro...» se sustituye por ejemplos que aparecen literalmente en la evidencia servida."
+      ],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.cat019.6c2692e4d3fd39ac.create_maneuver",
+        "m1.cat019.6c2692e4d3fd39ac.coincidence_semantics",
+        "m1.cat019.6c2692e4d3fd39ac.coincidence_examples"
+      ]
+    },
+    {
+      "qid": "cat019",
+      "question": "¿Como se configura una maniobra (causa-efecto) completa en la Detnov CAD-250: como se crea, como se definen las entradas/eventos que la disparan y como se asignan las salidas?",
+      "parent_fact_key": "cat019#1:EVENTO / ACCION",
+      "parent_fact_sha256": "650574c29860ac58d998e23f17a29474b7bb960051fbf13ec61d2001d3367a40",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "Falta de atomicidad, tipo core incorrecto para el límite y omisión de condiciones materiales de activación.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "requiredness_or_type",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.cat019.650574c29860ac58",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "cat019",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      },
+      "disposition": "split",
+      "decision_reason": "Separar selección de componente, condición semántica y límite de capacidad.",
+      "withdrawn_clauses": [],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.cat019.650574c29860ac58.add_event_or_action",
+        "m1.cat019.650574c29860ac58.event_change_and_condition",
+        "m1.cat019.650574c29860ac58.capacity_limit"
+      ]
+    },
+    {
+      "qid": "cat019",
+      "question": "¿Como se configura una maniobra (causa-efecto) completa en la Detnov CAD-250: como se crea, como se definen las entradas/eventos que la disparan y como se asignan las salidas?",
+      "parent_fact_key": "cat019#2:ENTIDAD / CONDICION TEMPORAL",
+      "parent_fact_sha256": "77fff66f289222e7ec4af6efec46f0cf6787a60309c73cb984cc00af915ac91f",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "Enumeración incompleta, alteración causal de la condición temporal y omisión de la distinción entre evento y estado.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "primary_entailment_or_inference",
+          "requiredness_or_type",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.cat019.77fff66f289222e7",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "cat019",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      },
+      "disposition": "split",
+      "decision_reason": "Separar los dos tipos de evento y su alcance.",
+      "withdrawn_clauses": [],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.cat019.77fff66f289222e7.event_type_choice",
+        "m1.cat019.77fff66f289222e7.entity_scope",
+        "m1.cat019.77fff66f289222e7.temporal_condition"
+      ]
+    },
+    {
+      "qid": "cat023",
+      "question": "En el detector de humos por aspiración Securiton ASD532, ¿qué clases de sensibilidad según EN 54-20 ofrece y cómo se configura la monitorización del flujo de aire?",
+      "parent_fact_key": "cat023#0:A/B/C EN 54-20",
+      "parent_fact_sha256": "7ed9d4ed696ccfe3dd6e04bdb3ab6ac9652d4bd52e268c0b1820f13c97af7e74",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "El rewrite aprobado pierde el sujeto ASD532 y depende del contexto del qid; requiere un nuevo rewrite autosuficiente antes de escalar a múltiples fabricantes.",
+        "decision_stage": "adversarial_batch_rejection",
+        "labels": [
+          "adversarial_cleanup",
+          "identity_or_model_precision",
+          "layout_or_table_association",
+          "primary_entailment_or_inference",
+          "requiredness_or_type",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.cat023.7ed9d4ed696ccfe3",
+        "primary_lane": "layout_or_table_association",
+        "qid": "cat023",
+        "recommended_mechanism": "render_bound_multimodal_recheck_then_lineage_if_needed"
+      },
+      "disposition": "rewrite",
+      "decision_reason": "Hacer la enumeración autosuficiente conservando el sujeto y el estándar.",
+      "withdrawn_clauses": [],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.cat023.7ed9d4ed696ccfe3.en54_classes"
+      ]
+    },
+    {
+      "qid": "cat023",
+      "question": "En el detector de humos por aspiración Securiton ASD532, ¿qué clases de sensibilidad según EN 54-20 ofrece y cómo se configura la monitorización del flujo de aire?",
+      "parent_fact_key": "cat023#1:W01-W44 / 10-60 min / ±20-50 %",
+      "parent_fact_sha256": "bf0ef37152274a9cd5908a0ec587c93b5fb857857b6b49502992a19123d26890",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "Generalización no exhaustivamente sustentada y omisión de la consulta obligatoria al fabricante y del carácter no homologado según EN.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "closed_set_or_negative",
+          "primary_entailment_or_inference",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.cat023.bf0ef37152274a9c",
+        "primary_lane": "scope_qualifier_or_normative",
+        "qid": "cat023",
+        "recommended_mechanism": "qualifier_complete_rewrite_with_source_checklist"
+      },
+      "disposition": "rewrite",
+      "decision_reason": "Conservar el mecanismo W01-W44 con sus restricciones normativas y retirar una generalización no exhaustiva de valores.",
+      "withdrawn_clauses": [
+        "No se atribuye a todas las posiciones W01-W44 el mismo conjunto cerrado de retardos y desviaciones."
+      ],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.cat023.bf0ef37152274a9c.nonnormative_airflow_positions"
+      ]
+    },
+    {
+      "qid": "hp002",
+      "question": "El detector ASD535 de Detnov está dando una alarma intermitente de flujo bajo. ¿Cuál es la causa más probable y cómo se diagnostica?",
+      "parent_fact_key": "hp002#0:fallo flujo de aire",
+      "parent_fact_sha256": "4de86fac80358a1477d2c76264d60f015065e192740c06fe601390d2b6091a74",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "Negativa no sustentada, generalización del ±20 % y omisión de restricciones normativas.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "closed_set_or_negative",
+          "primary_entailment_or_inference",
+          "requiredness_or_type",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.hp002.4de86fac80358a14",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "hp002",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      },
+      "disposition": "split",
+      "decision_reason": "Retirar la negativa no sustentada y separar referencia nominal, umbral normativo y excepción W.",
+      "withdrawn_clauses": [
+        "La fuente no sustenta que el equipo no dé una «alarma de flujo bajo» como tal."
+      ],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.hp002.4de86fac80358a14.nominal_after_reset",
+        "m1.hp002.4de86fac80358a14.standard_fault_window",
+        "m1.hp002.4de86fac80358a14.w_positions_caveat"
+      ]
+    },
+    {
+      "qid": "hp002",
+      "question": "El detector ASD535 de Detnov está dando una alarma intermitente de flujo bajo. ¿Cuál es la causa más probable y cómo se diagnostica?",
+      "parent_fact_key": "hp002#1:80 %",
+      "parent_fact_sha256": "c2c99fa936e98f67f6874b81aa507f27b5e36e4267e89838b7cfb1298abada02",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "La parte sobre obstrucción y rotura de tubo sí aparece, pero la causa más probable añadida (orificios sucios, filtro sucio, trampa de polvo/separador) no está soportada explícitamente en las páginas aportadas.",
+        "decision_stage": "cheap_proposer_or_deterministic_downgrade",
+        "labels": [
+          "proposer_evidence_binding"
+        ],
+        "migration_id": "carry.hp002.c2c99fa936e98f67",
+        "primary_lane": "proposer_evidence_binding",
+        "qid": "hp002",
+        "recommended_mechanism": "targeted_primary_page_rebinding"
+      },
+      "disposition": "split",
+      "decision_reason": "Separar dirección diagnóstica del flujo y lista de comprobaciones, sin declarar una causa estadísticamente «más probable».",
+      "withdrawn_clauses": [
+        "La fuente no ordena las causas por probabilidad."
+      ],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.hp002.c2c99fa936e98f67.flow_direction_diagnosis",
+        "m1.hp002.c2c99fa936e98f67.obstruction_checks"
+      ]
+    },
+    {
+      "qid": "hp002",
+      "question": "El detector ASD535 de Detnov está dando una alarma intermitente de flujo bajo. ¿Cuál es la causa más probable y cómo se diagnostica?",
+      "parent_fact_key": "hp002#2:300 s",
+      "parent_fact_sha256": "af5d8e5e2370271210bea63989d231fab2b2b0dafa4582c6356849082f9fded3",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "Generaliza el retardo de 300 s sin preservar su configuración y condición de disparo.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "primary_entailment_or_inference",
+          "requiredness_or_type",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.hp002.af5d8e5e23702712",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "hp002",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      },
+      "disposition": "merge_duplicate",
+      "decision_reason": "El contenido soportado del parent queda representado una sola vez por el child standard_fault_window; se retira la generalización sin condición.",
+      "withdrawn_clauses": [
+        "No se presenta 300 s como retardo universal fuera de A11-C32 y de la desviación superior a ±20 %."
+      ],
+      "replaced_by": [
+        "m1.hp002.4de86fac80358a14.standard_fault_window"
+      ],
+      "merge_overlap_anchor": "300 s",
+      "child_migration_ids": []
+    },
+    {
+      "qid": "hp002",
+      "question": "El detector ASD535 de Detnov está dando una alarma intermitente de flujo bajo. ¿Cuál es la causa más probable y cómo se diagnostica?",
+      "parent_fact_key": "hp002#3:7.6.1",
+      "parent_fact_sha256": "06f759b5da9ed40ba3e718ffcbfb92dd8d4ec41a5b4dc001c1df9ee38f2ba91b",
+      "legacy_stage_bucket": "retrieval-miss",
+      "blocker": {
+        "blocking_issue": "Omite la restricción de modelo para V02 y el conducto de aspiración II.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "identity_or_model_precision",
+          "primary_entailment_or_inference",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.hp002.06f759b5da9ed40b",
+        "primary_lane": "scope_qualifier_or_normative",
+        "qid": "hp002",
+        "recommended_mechanism": "qualifier_complete_rewrite_with_source_checklist"
+      },
+      "disposition": "split",
+      "decision_reason": "Separar la precondición de seguridad del paso de lectura y comparación, y retirar V01/V02, cuyo alcance por modelo no está en el contexto congelado.",
+      "withdrawn_clauses": [
+        "No se acreditan V01/V02 ni su asignación por conducto desde los fragmentos congelados."
+      ],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.hp002.06f759b5da9ed40b.maintenance_safety",
+        "m1.hp002.06f759b5da9ed40b.read_and_compare_flow"
+      ]
+    },
+    {
+      "qid": "hp004",
+      "question": "¿Cuál es la tensión de funcionamiento y el consumo en reposo del detector DGD-600 de Detnov?",
+      "parent_fact_key": "hp004#0:24V y 220V",
+      "parent_fact_sha256": "ae02a395c8359cf997c2e9bf6f2c2341d410e80fc51d441edb159074c6a98630",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "El texto solo afirma que el DGD-600 se conecta a 24V o 220V según modelo y presenta la tabla con ambas versiones, pero no la conducta de respuesta solicitada.",
+        "decision_stage": "cheap_proposer_or_deterministic_downgrade",
+        "labels": [
+          "identity_or_model_precision",
+          "layout_or_table_association",
+          "proposer_evidence_binding"
+        ],
+        "migration_id": "carry.hp004.ae02a395c8359cf9",
+        "primary_lane": "layout_or_table_association",
+        "qid": "hp004",
+        "recommended_mechanism": "render_bound_multimodal_recheck_then_lineage_if_needed"
+      },
+      "disposition": "rewrite",
+      "decision_reason": "Conservar el hecho de variantes por modelo sin convertirlo en una instrucción de conversación.",
+      "withdrawn_clauses": [
+        "«Ofrecer ambas y pedir aclaración» es conducta de respuesta, no hecho documental."
+      ],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.hp004.ae02a395c8359cf9.supply_variants"
+      ]
+    },
+    {
+      "qid": "hp004",
+      "question": "¿Cuál es la tensión de funcionamiento y el consumo en reposo del detector DGD-600 de Detnov?",
+      "parent_fact_key": "hp004#1:22V a 38V",
+      "parent_fact_sha256": "5fbc4f5bce66dde5b4475ed9385131e13119ba654438d015327292b5bd992b7f",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "No es atómico y su tipo «core» no es correcto para todo el contenido: debe separarse o eliminarse el consumo en alarma.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "requiredness_or_type"
+        ],
+        "migration_id": "carry.hp004.5fbc4f5bce66dde5",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "hp004",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      },
+      "disposition": "split",
+      "decision_reason": "Separar tensión, consumo en reposo y consumo en alarma; este último no es requerido por la pregunta.",
+      "withdrawn_clauses": [],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.hp004.5fbc4f5bce66dde5.model24_voltage",
+        "m1.hp004.5fbc4f5bce66dde5.model24_standby",
+        "m1.hp004.5fbc4f5bce66dde5.model24_alarm"
+      ]
+    },
+    {
+      "qid": "hp004",
+      "question": "¿Cuál es la tensión de funcionamiento y el consumo en reposo del detector DGD-600 de Detnov?",
+      "parent_fact_key": "hp004#2:180V a 240V",
+      "parent_fact_sha256": "cf0e1e8fdc95c0051c04a5d54e657b2aef00011acf42882cd7186226bc658794",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "Downgrade determinista: non_literal_or_unbound_evidence. La sección de características técnicas especifica para 220V una tensión de 180V a 240V, consumo en reposo de 70 mA y en alarma de 70 mA.",
+        "decision_stage": "cheap_proposer_or_deterministic_downgrade",
+        "labels": [
+          "proposer_evidence_binding"
+        ],
+        "migration_id": "carry.hp004.cf0e1e8fdc95c005",
+        "primary_lane": "proposer_evidence_binding",
+        "qid": "hp004",
+        "recommended_mechanism": "targeted_primary_page_rebinding"
+      },
+      "disposition": "split",
+      "decision_reason": "Reanclar la tabla y separar tensión, reposo y alarma.",
+      "withdrawn_clauses": [],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.hp004.cf0e1e8fdc95c005.model220_voltage",
+        "m1.hp004.cf0e1e8fdc95c005.model220_standby",
+        "m1.hp004.cf0e1e8fdc95c005.model220_alarm"
+      ]
+    },
+    {
+      "qid": "hp008",
+      "question": "¿Qué detectores de humo analógicos son compatibles con la Notifier ID3000?",
+      "parent_fact_key": "hp008#0:CPX-551E",
+      "parent_fact_sha256": "582541b1412a96ced8bbf660f1edea842ebcdc05d6c029b9ec63b2a67333eb8e",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "Closed-set claim of exactly two compatible ionic smoke sensors is not explicitly established by the source; the list heading 'Otros sensores' does not close the ionic-sensor category.",
+        "decision_stage": "fable_crossfamily_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "closed_set_or_negative",
+          "primary_entailment_or_inference",
+          "requiredness_or_type",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.hp008.582541b1412a96ce",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "hp008",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      },
+      "disposition": "split",
+      "decision_reason": "Acreditar cada modelo individual sin cerrar el conjunto de sensores iónicos.",
+      "withdrawn_clauses": [
+        "No se afirma que estos sean los únicos sensores iónicos compatibles."
+      ],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.hp008.582541b1412a96ce.cpx551e",
+        "m1.hp008.582541b1412a96ce.cpx751e"
+      ]
+    },
+    {
+      "qid": "hp008",
+      "question": "¿Qué detectores de humo analógicos son compatibles con la Notifier ID3000?",
+      "parent_fact_key": "hp008#1:SDX-751",
+      "parent_fact_sha256": "6898c1c2de2ec424a2ded207eb27db533c34507e097380942f8dda09420ba0be",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "Se extiende indebidamente la clasificación OPT al SDX-751EM.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "primary_entailment_or_inference",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.hp008.6898c1c2de2ec424",
+        "primary_lane": "scope_qualifier_or_normative",
+        "qid": "hp008",
+        "recommended_mechanism": "qualifier_complete_rewrite_with_source_checklist"
+      },
+      "disposition": "split",
+      "decision_reason": "Acreditar por separado los tres modelos y ligar la clasificación de SDX-751EM a la lista que sí la expresa.",
+      "withdrawn_clauses": [],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.hp008.6898c1c2de2ec424.sdx551e",
+        "m1.hp008.6898c1c2de2ec424.sdx751",
+        "m1.hp008.6898c1c2de2ec424.sdx751em"
+      ]
+    },
+    {
+      "qid": "hp008",
+      "question": "¿Qué detectores de humo analógicos son compatibles con la Notifier ID3000?",
+      "parent_fact_key": "hp008#2:IRX-751CTEM",
+      "parent_fact_sha256": "d7fc6ebefe5f9c9233aba97349619247e034d72722845b0f4103861b6f218c07",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "Non-atomic two-model conjunction presented as an exhaustive closed set that the source enumeration does not explicitly close.",
+        "decision_stage": "fable_crossfamily_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "closed_set_or_negative",
+          "primary_entailment_or_inference",
+          "requiredness_or_type",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.hp008.d7fc6ebefe5f9c92",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "hp008",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      },
+      "disposition": "split",
+      "decision_reason": "Acreditar cada modelo multicriterio sin presentar un conjunto exhaustivo.",
+      "withdrawn_clauses": [
+        "No se afirma que sean los únicos sensores multicriterio compatibles."
+      ],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.hp008.d7fc6ebefe5f9c92.irx751ctem",
+        "m1.hp008.d7fc6ebefe5f9c92.irx751tem"
+      ]
+    },
+    {
+      "qid": "hp008",
+      "question": "¿Qué detectores de humo analógicos son compatibles con la Notifier ID3000?",
+      "parent_fact_key": "hp008#3:SDX-751-TEM",
+      "parent_fact_sha256": "9f88aa8a1292a479b1d483be2bdecb6172c4955d35c40f606e51cc45e75b8323",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "La clasificación «multicriterio óptico-térmico» no está expresada en el texto primario.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "identity_or_model_precision",
+          "primary_entailment_or_inference",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.hp008.9f88aa8a1292a479",
+        "primary_lane": "scope_qualifier_or_normative",
+        "qid": "hp008",
+        "recommended_mechanism": "qualifier_complete_rewrite_with_source_checklist"
+      },
+      "disposition": "rewrite",
+      "decision_reason": "Normalizar la identidad y ligar la clasificación combinada térmico/humo a la fuente primaria.",
+      "withdrawn_clauses": [],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.hp008.9f88aa8a1292a479.sdx751tem"
+      ]
+    },
+    {
+      "qid": "hp017",
+      "question": "¿Cómo se programa el retardo de salida de alarma principal en la Notifier PEARL?",
+      "parent_fact_key": "hp017#0:causa-efecto",
+      "parent_fact_sha256": "f4849c19a9af72452c802a7f49b98fffbf163fa9354283e62b54dec370229618",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "Se menciona la programación por reglas y los tipos de retardo de salida, pero la negación pedida no queda directamente establecida.",
+        "decision_stage": "cheap_proposer_or_deterministic_downgrade",
+        "labels": [
+          "closed_set_or_negative",
+          "proposer_evidence_binding"
+        ],
+        "migration_id": "carry.hp017.f4849c19a9af7245",
+        "primary_lane": "closed_set_or_negative",
+        "qid": "hp017",
+        "recommended_mechanism": "closed_world_or_absence_protocol_else_withdraw"
+      },
+      "disposition": "rewrite",
+      "decision_reason": "Sustituir la negación no demostrada por el mecanismo positivo explícito.",
+      "withdrawn_clauses": [
+        "La fuente no demuestra la inexistencia absoluta de un parámetro único de retardo."
+      ],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.hp017.f4849c19a9af7245.cause_effect_rules"
+      ]
+    },
+    {
+      "qid": "hp017",
+      "question": "¿Cómo se programa el retardo de salida de alarma principal en la Notifier PEARL?",
+      "parent_fact_key": "hp017#1:instruccion de entrada",
+      "parent_fact_sha256": "7258aec395b0f78dcce808ef121a9c7a708791686ed8d66c7a3d55911b288892",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "Incluye «lazo» sin respaldo y elimina una precondición de procesamiento y advertencias materiales.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "primary_entailment_or_inference",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.hp017.7258aec395b0f78d",
+        "primary_lane": "scope_qualifier_or_normative",
+        "qid": "hp017",
+        "recommended_mechanism": "qualifier_complete_rewrite_with_source_checklist"
+      },
+      "disposition": "split",
+      "decision_reason": "Separar método principal, anatomía de entrada/salida y advertencias de validación, retirando el ejemplo «lazo» no ligado.",
+      "withdrawn_clauses": [
+        "El ejemplo «alarma en lazo» no aparece en el span congelado usado para este parent."
+      ],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.hp017.7258aec395b0f78d.programming_method",
+        "m1.hp017.7258aec395b0f78d.input_instruction",
+        "m1.hp017.7258aec395b0f78d.output_instruction",
+        "m1.hp017.7258aec395b0f78d.avoid_contradictory_logic",
+        "m1.hp017.7258aec395b0f78d.commissioning_test"
+      ]
+    },
+    {
+      "qid": "hp017",
+      "question": "¿Cómo se programa el retardo de salida de alarma principal en la Notifier PEARL?",
+      "parent_fact_key": "hp017#3:seis tipos de retardo",
+      "parent_fact_sha256": "ee150da7e6a7607d6415f092e104304e82a1e73e8eac42daf4f4fde31b188556",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "Downgrade determinista: type_change_requested. La sección A5.3 vincula el tipo de retardo con acciones de control durante el retardo, incluyendo SILENCIAR SIRENAS y SONIDO ALARMAS.",
+        "decision_stage": "cheap_proposer_or_deterministic_downgrade",
+        "labels": [
+          "proposer_evidence_binding",
+          "requiredness_or_type"
+        ],
+        "migration_id": "carry.hp017.ee150da7e6a7607d",
+        "primary_lane": "requiredness_or_type",
+        "qid": "hp017",
+        "recommended_mechanism": "question_conditioned_requiredness_retype"
+      },
+      "disposition": "rewrite",
+      "decision_reason": "Conservar el contenido explícito y tiparlo como obligación de respuesta a la programación del retardo.",
+      "withdrawn_clauses": [],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.hp017.ee150da7e6a7607d.delay_types"
+      ]
+    },
+    {
+      "qid": "hp019",
+      "question": "¿Cuál es el rango de temperatura de funcionamiento del detector de aspiración ASD535 (Securiton, distribuido por Detnov)?",
+      "parent_fact_key": "hp019#0:-30 a +60",
+      "parent_fact_sha256": "9e06c35fb7c4d8ef9362a0d7fb357f29058b97e6dd527b45a8988469fecea3f1",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "Omite la excepción UL de la caja y las condiciones de la nota ③ aplicables al conducto.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "primary_entailment_or_inference",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.hp019.9e06c35fb7c4d8ef",
+        "primary_lane": "scope_qualifier_or_normative",
+        "qid": "hp019",
+        "recommended_mechanism": "qualifier_complete_rewrite_with_source_checklist"
+      },
+      "disposition": "rewrite",
+      "decision_reason": "Conservar el rango con las excepciones materiales ligadas a caja y conducto.",
+      "withdrawn_clauses": [],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.hp019.9e06c35fb7c4d8ef.operating_temperature"
+      ]
+    },
+    {
+      "qid": "hp020",
+      "question": "En la Notifier INSPIRE, ¿cómo se configuran las contraseñas de nivel 2 y nivel 3?",
+      "parent_fact_key": "hp020#0:nivel 2 o 3",
+      "parent_fact_sha256": "253dbf5abe806d5cf1c3d66effbdbe9df1e5c3aec8819dc17d722fb6c660e65a",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "La exclusividad introducida por «solo» no está explícita en la fuente.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "closed_set_or_negative",
+          "primary_entailment_or_inference",
+          "scope_qualifier_or_normative"
+        ],
+        "migration_id": "carry.hp020.253dbf5abe806d5c",
+        "primary_lane": "scope_qualifier_or_normative",
+        "qid": "hp020",
+        "recommended_mechanism": "qualifier_complete_rewrite_with_source_checklist"
+      },
+      "disposition": "split",
+      "decision_reason": "Separar las capacidades por nivel y eliminar una exclusividad no formulada por la fuente.",
+      "withdrawn_clauses": [
+        "No se añade «solo» a la capacidad del nivel 2."
+      ],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.hp020.253dbf5abe806d5c.level2_change",
+        "m1.hp020.253dbf5abe806d5c.level3_change"
+      ]
+    },
+    {
+      "qid": "hp020",
+      "question": "En la Notifier INSPIRE, ¿cómo se configuran las contraseñas de nivel 2 y nivel 3?",
+      "parent_fact_key": "hp020#3:satisfactorio",
+      "parent_fact_sha256": "8086e1ff3028ad109548799caa290fe3b7faf6c4963d0cdbd51ba443005c6e77",
+      "legacy_stage_bucket": "OK",
+      "blocker": {
+        "blocking_issue": "Falta de atomicidad: deben separarse la confirmación y el mensaje de éxito.",
+        "decision_stage": "gpt_semantic_rejection",
+        "labels": [
+          "atomicity_or_structure",
+          "requiredness_or_type"
+        ],
+        "migration_id": "carry.hp020.8086e1ff3028ad10",
+        "primary_lane": "atomicity_or_structure",
+        "qid": "hp020",
+        "recommended_mechanism": "lineage_split_or_qualifier_preserving_rewrite"
+      },
+      "disposition": "split",
+      "decision_reason": "Separar confirmación del código y confirmación de éxito en interfaz.",
+      "withdrawn_clauses": [],
+      "replaced_by": [],
+      "merge_overlap_anchor": null,
+      "child_migration_ids": [
+        "m1.hp020.8086e1ff3028ad10.reenter_to_confirm",
+        "m1.hp020.8086e1ff3028ad10.success_message"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "migration_id": "m1.cat005.c30477c37c3d5942.max_remote_sensors",
+      "qid": "cat005",
+      "parent_fact_key": "cat005#2:4",
+      "parent_fact_sha256": "c30477c37c3d5942f7c0cd3e5f7500f5a4fffa20479cc2e371f9355d79654176",
+      "texto": "La central Fidegas CS4 admite hasta cuatro sensores remotos simultáneos.",
+      "valor": "4 sensores",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "La capacidad de sensores es una característica técnica pedida.",
+      "source_bindings": [
+        {
+          "context_id": "934b00a8-739f-4d7b-8853-32caad5232a4",
+          "source_file": "Manual-de-Usuario-CS4",
+          "page_number": 4,
+          "document_id": "5f80d7e6-25e8-4705-979e-4a921ab00086",
+          "product_model": "EL-10",
+          "content_sha256": "07acd88ef7d85fc2ca1db2910be099563305f34ef8ac7755e54a1387ad052c73",
+          "support_spans": [
+            {
+              "start_char": 19,
+              "end_char": 689,
+              "literal": "Se trata de una central de alarmas **Ref. CS4** apta para su instalación en carril DIN o en armario de superficie. Permite la conexión de hasta 4 sensores remotos simultaneos a través de sus 4 entradas digitales (0-10/15 v) o analógicas (4-20 mA). Está provista de dos salidas conmutadas LP sobre las que actúan los sensores remotos tanto en alarma (20% del fondo de escala) como en avería. Además dispone de indicaciones mediante leds luminosos y zumbador acústico de diferentes estados. Las alarmas son enclavadas y a través de un pulsador es posible rearmar la central. El enclavamiento del corte de red es configurable mediante rearme manual (de serie) o automático.",
+              "anchors": [
+                "Permite la conexión de hasta 4 sensores remotos simultaneos"
+              ],
+              "literal_sha256": "6144e5b8cd23b955125bb3456eed93dfb82a10e7596dd25c15dbc5d7115ece6b"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat005.c30477c37c3d5942.analog_digital_inputs",
+      "qid": "cat005",
+      "parent_fact_key": "cat005#2:4",
+      "parent_fact_sha256": "c30477c37c3d5942f7c0cd3e5f7500f5a4fffa20479cc2e371f9355d79654176",
+      "texto": "En la CS4, las entradas digitales son de 0-10/15 V y las analógicas de 4-20 mA.",
+      "valor": "digital 0-10/15 V; analógica 4-20 mA",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "La pregunta pide la diferencia funcional entre las dos versiones.",
+      "source_bindings": [
+        {
+          "context_id": "934b00a8-739f-4d7b-8853-32caad5232a4",
+          "source_file": "Manual-de-Usuario-CS4",
+          "page_number": 4,
+          "document_id": "5f80d7e6-25e8-4705-979e-4a921ab00086",
+          "product_model": "EL-10",
+          "content_sha256": "07acd88ef7d85fc2ca1db2910be099563305f34ef8ac7755e54a1387ad052c73",
+          "support_spans": [
+            {
+              "start_char": 19,
+              "end_char": 689,
+              "literal": "Se trata de una central de alarmas **Ref. CS4** apta para su instalación en carril DIN o en armario de superficie. Permite la conexión de hasta 4 sensores remotos simultaneos a través de sus 4 entradas digitales (0-10/15 v) o analógicas (4-20 mA). Está provista de dos salidas conmutadas LP sobre las que actúan los sensores remotos tanto en alarma (20% del fondo de escala) como en avería. Además dispone de indicaciones mediante leds luminosos y zumbador acústico de diferentes estados. Las alarmas son enclavadas y a través de un pulsador es posible rearmar la central. El enclavamiento del corte de red es configurable mediante rearme manual (de serie) o automático.",
+              "anchors": [
+                "4 entradas digitales (0-10/15 v) o analógicas (4-20 mA)"
+              ],
+              "literal_sha256": "6144e5b8cd23b955125bb3456eed93dfb82a10e7596dd25c15dbc5d7115ece6b"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat005.fb0031fbe096519b.digital_product_code",
+      "qid": "cat005",
+      "parent_fact_key": "cat005#5:3244 / 3270",
+      "parent_fact_sha256": "fb0031fbe096519b0e0e99d5f9f59e5c01c6324ed0e0f937e830208200ef3342",
+      "texto": "El código de producto de la versión digital de la CS4 es 3244.",
+      "valor": "3244",
+      "tipo": "supplementary",
+      "basis": "explicit",
+      "requiredness_reason": "Identifica la versión digital, pero no es necesario para explicar sus características o diferencia funcional.",
+      "source_bindings": [
+        {
+          "context_id": "8c9b9f0b-8a51-417f-b05e-63d4dd61ed48",
+          "source_file": "Manual-de-Usuario-CS4",
+          "page_number": 7,
+          "document_id": "5f80d7e6-25e8-4705-979e-4a921ab00086",
+          "product_model": "EL-10",
+          "content_sha256": "b5c56d455d4f0c4154f63897fc9bb647432f5de0083182ba7fe7bf9318e246a6",
+          "support_spans": [
+            {
+              "start_char": 528,
+              "end_char": 659,
+              "literal": "| Código de producto:     | Versión digital: 3244<br/>Versión analógica: 3270                                                     |",
+              "anchors": [
+                "Versión digital: 3244<br/>Versión analógica: 3270"
+              ],
+              "literal_sha256": "697193b4689dc55b2636b78f665629ebf80bb4eec82cca4cedcbec5e41b7365d"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat005.fb0031fbe096519b.analog_product_code",
+      "qid": "cat005",
+      "parent_fact_key": "cat005#5:3244 / 3270",
+      "parent_fact_sha256": "fb0031fbe096519b0e0e99d5f9f59e5c01c6324ed0e0f937e830208200ef3342",
+      "texto": "El código de producto de la versión analógica de la CS4 es 3270.",
+      "valor": "3270",
+      "tipo": "supplementary",
+      "basis": "explicit",
+      "requiredness_reason": "Identifica la versión analógica, pero no es necesario para explicar sus características o diferencia funcional.",
+      "source_bindings": [
+        {
+          "context_id": "8c9b9f0b-8a51-417f-b05e-63d4dd61ed48",
+          "source_file": "Manual-de-Usuario-CS4",
+          "page_number": 7,
+          "document_id": "5f80d7e6-25e8-4705-979e-4a921ab00086",
+          "product_model": "EL-10",
+          "content_sha256": "b5c56d455d4f0c4154f63897fc9bb647432f5de0083182ba7fe7bf9318e246a6",
+          "support_spans": [
+            {
+              "start_char": 528,
+              "end_char": 659,
+              "literal": "| Código de producto:     | Versión digital: 3244<br/>Versión analógica: 3270                                                     |",
+              "anchors": [
+                "Versión digital: 3244<br/>Versión analógica: 3270"
+              ],
+              "literal_sha256": "697193b4689dc55b2636b78f665629ebf80bb4eec82cca4cedcbec5e41b7365d"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat007.7947613c1a4de8b1.alarm_relay_contacts",
+      "qid": "cat007",
+      "parent_fact_key": "cat007#0:NC-C-NA",
+      "parent_fact_sha256": "7947613c1a4de8b154f34aa61546dcfc776b1f165222da5ffa0c714254e6fc2b",
+      "texto": "El relé de alarma del canal 1 del FAAST LT-200 dispone de contactos NC, C y NO; la variante de dos canales dispone además de esos contactos para el canal 2.",
+      "valor": "CH1 NC-C-NO; CH2 NC-C-NO solo en variante de dos canales",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "La pregunta pide las salidas de relé y sus contactos.",
+      "source_bindings": [
+        {
+          "context_id": "e49a4944-4157-42e3-a1c5-15ec4a6e8926",
+          "source_file": "I56-6577-006_EN Notifier FAAST LT-200 QIG",
+          "page_number": 5,
+          "document_id": "eef91711-fcb7-4b46-ab86-21657490df40",
+          "product_model": "FAAST LT-200",
+          "content_sha256": "96ab5efcf4301a8eaface0f006499ba60bcc268bccbf0ba3791d152296e75eab",
+          "support_spans": [
+            {
+              "start_char": 504,
+              "end_char": 587,
+              "literal": "| 5   | NC Alarm Relay          | CH1                                       | T2  |",
+              "anchors": [
+                "| 5   | NC Alarm Relay          | CH1"
+              ],
+              "literal_sha256": "4e278f37b436e3dae02bd8dbfac5dff0d12521ae758263854c541e6b03eec639"
+            },
+            {
+              "start_char": 588,
+              "end_char": 671,
+              "literal": "| 6   | C Alarm Relay           | CH1                                       |     |",
+              "anchors": [
+                "| 6   | C Alarm Relay           | CH1"
+              ],
+              "literal_sha256": "6ff2419527e20cc0728c767632ac831b25fe2dbf7ef9c37ff9e5dc2aa1ef21fe"
+            },
+            {
+              "start_char": 672,
+              "end_char": 755,
+              "literal": "| 7   | NO Alarm Relay          | CH1                                       |     |",
+              "anchors": [
+                "| 7   | NO Alarm Relay          | CH1"
+              ],
+              "literal_sha256": "e77cfd2b59ee7a527f19a383bab2a94adef6ec7c96a2f9f849c7a88b6234cc4f"
+            },
+            {
+              "start_char": 756,
+              "end_char": 839,
+              "literal": "| 8   | NC Alarm Relay          | CH2                                       | T3  |",
+              "anchors": [
+                "| 8   | NC Alarm Relay          | CH2"
+              ],
+              "literal_sha256": "7379b4636107e3ed719e5f18a35d75f3da61e98ff8ae16b16bfc8afaea4160bf"
+            },
+            {
+              "start_char": 840,
+              "end_char": 923,
+              "literal": "| 9   | C Alarm Relay           | CH2                                       |     |",
+              "anchors": [
+                "| 9   | C Alarm Relay           | CH2"
+              ],
+              "literal_sha256": "7c17e222c596f4959841934c88f41bfa7f342778d2c13e207e44c3c623d5366d"
+            },
+            {
+              "start_char": 924,
+              "end_char": 1007,
+              "literal": "| 10  | NO Alarm Relay          | CH2                                       |     |",
+              "anchors": [
+                "| 10  | NO Alarm Relay          | CH2"
+              ],
+              "literal_sha256": "155d1a2652296e8c900b6fc86f7b1784ccf21a6dfa96a2a48a0a22fef4129737"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat007.7947613c1a4de8b1.fault_relay_contacts",
+      "qid": "cat007",
+      "parent_fact_key": "cat007#0:NC-C-NA",
+      "parent_fact_sha256": "7947613c1a4de8b154f34aa61546dcfc776b1f165222da5ffa0c714254e6fc2b",
+      "texto": "El relé de avería del canal 1 tiene contactos NC, C y NO; la variante de dos canales dispone además de contactos de avería AUX NC, C y NO para el canal 2.",
+      "valor": "CH1 NC-C-NO; CH2 AUX NC-C-NO solo en variante de dos canales",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "La pregunta pide las salidas de avería y sus contactos exactos.",
+      "source_bindings": [
+        {
+          "context_id": "e49a4944-4157-42e3-a1c5-15ec4a6e8926",
+          "source_file": "I56-6577-006_EN Notifier FAAST LT-200 QIG",
+          "page_number": 5,
+          "document_id": "eef91711-fcb7-4b46-ab86-21657490df40",
+          "product_model": "FAAST LT-200",
+          "content_sha256": "96ab5efcf4301a8eaface0f006499ba60bcc268bccbf0ba3791d152296e75eab",
+          "support_spans": [
+            {
+              "start_char": 1008,
+              "end_char": 1091,
+              "literal": "| 11  | NC Fault Relay          | CH1                                       | T4  |",
+              "anchors": [
+                "| 11  | NC Fault Relay          | CH1"
+              ],
+              "literal_sha256": "91e44e25bebc593dd5bc29ec6a54b084d608f43e42d8800df025e8be2a750df7"
+            },
+            {
+              "start_char": 1092,
+              "end_char": 1175,
+              "literal": "| 12  | C Fault Relay           | CH1                                       |     |",
+              "anchors": [
+                "| 12  | C Fault Relay           | CH1"
+              ],
+              "literal_sha256": "676a45bc04dd735054be8888be8e937672093221ad3e06fd7c6d72a681ea823c"
+            },
+            {
+              "start_char": 1176,
+              "end_char": 1259,
+              "literal": "| 13  | NO Fault Relay          | CH1                                       |     |",
+              "anchors": [
+                "| 13  | NO Fault Relay          | CH1"
+              ],
+              "literal_sha256": "873d5507b030ccebe0f84f87c96b04e375d80d50b8effcd832c36c83ddd17924"
+            },
+            {
+              "start_char": 1260,
+              "end_char": 1343,
+              "literal": "| 14  | NC Fault Relay (AUX)    | CH2                                       | T5  |",
+              "anchors": [
+                "| 14  | NC Fault Relay (AUX)    | CH2"
+              ],
+              "literal_sha256": "955c4f69d4c874c0f5099e896ac8a0c51d3be7ded6c78d03857692b2f9acaa24"
+            },
+            {
+              "start_char": 1344,
+              "end_char": 1427,
+              "literal": "| 15  | C Fault Relay (AUX)     | CH2                                       |     |",
+              "anchors": [
+                "| 15  | C Fault Relay (AUX)     | CH2"
+              ],
+              "literal_sha256": "c4cd9f7b9f94100d23bb15d38830c0069b6e383c8a224352234da729d35af7ed"
+            },
+            {
+              "start_char": 1428,
+              "end_char": 1511,
+              "literal": "| 16  | NO Fault Relay (AUX)    | CH2                                       |     |",
+              "anchors": [
+                "| 16  | NO Fault Relay (AUX)    | CH2"
+              ],
+              "literal_sha256": "f214328bfd8c369c81823c91a20f714afea7faa653931c517113d6a12231aab6"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat007.224f21eed48712ef.fault_conditions",
+      "qid": "cat007",
+      "parent_fact_key": "cat007#1:no enclavado",
+      "parent_fact_sha256": "224f21eed48712efe430932a2aca9421b786fe5288a8775037ed0460ca525ab1",
+      "texto": "El FAAST LT-200 indica avería ante una condición de fallo en el canal 1, también en el canal 2 cuando se trata de la variante de dos canales, o ante una avería común.",
+      "valor": "fallo CH1; CH2 solo en variante de dos canales; o común",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Responde cuándo actúa la indicación de avería.",
+      "source_bindings": [
+        {
+          "context_id": "8221ec70-6882-41b5-8dd6-705a1a7e739a",
+          "source_file": "I56-6577-006_ES FAAST Notifier LT-200 QIG",
+          "page_number": 5,
+          "document_id": "6bcf5666-e1e0-437e-8759-3870165bcd1e",
+          "product_model": "FAAST LT-200",
+          "content_sha256": "48814faeb52bfed078817d7de688aaba61fd12d5180b4544f50b4e4593d4bdd8",
+          "support_spans": [
+            {
+              "start_char": 776,
+              "end_char": 1027,
+              "literal": "| AVERÍA 1 o 2 | Cuando se produce una CONDICIÓN DE AVERÍA en el canal 1 o 2 o una AVERÍA común. La avería también se indica en el modo de servicio y cuando se desconecta la alimentación de la unidad. | El estado de avería no está enclavado.         |",
+              "anchors": [
+                "Cuando se produce una CONDICIÓN DE AVERÍA en el canal 1 o 2 o una AVERÍA común."
+              ],
+              "literal_sha256": "d6666d5175b7eacf9c05e88a3ad9808fb218be328b27b75462381fcedb893638"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat007.224f21eed48712ef.service_or_unpowered",
+      "qid": "cat007",
+      "parent_fact_key": "cat007#1:no enclavado",
+      "parent_fact_sha256": "224f21eed48712efe430932a2aca9421b786fe5288a8775037ed0460ca525ab1",
+      "texto": "El FAAST LT-200 también indica avería en modo de servicio y cuando la unidad queda sin alimentación.",
+      "valor": "modo servicio o sin alimentación",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "La pregunta menciona de forma explícita el corte de alimentación.",
+      "source_bindings": [
+        {
+          "context_id": "8221ec70-6882-41b5-8dd6-705a1a7e739a",
+          "source_file": "I56-6577-006_ES FAAST Notifier LT-200 QIG",
+          "page_number": 5,
+          "document_id": "6bcf5666-e1e0-437e-8759-3870165bcd1e",
+          "product_model": "FAAST LT-200",
+          "content_sha256": "48814faeb52bfed078817d7de688aaba61fd12d5180b4544f50b4e4593d4bdd8",
+          "support_spans": [
+            {
+              "start_char": 776,
+              "end_char": 1027,
+              "literal": "| AVERÍA 1 o 2 | Cuando se produce una CONDICIÓN DE AVERÍA en el canal 1 o 2 o una AVERÍA común. La avería también se indica en el modo de servicio y cuando se desconecta la alimentación de la unidad. | El estado de avería no está enclavado.         |",
+              "anchors": [
+                "La avería también se indica en el modo de servicio y cuando se desconecta la alimentación de la unidad."
+              ],
+              "literal_sha256": "d6666d5175b7eacf9c05e88a3ad9808fb218be328b27b75462381fcedb893638"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat007.224f21eed48712ef.fault_not_latched",
+      "qid": "cat007",
+      "parent_fact_key": "cat007#1:no enclavado",
+      "parent_fact_sha256": "224f21eed48712efe430932a2aca9421b786fe5288a8775037ed0460ca525ab1",
+      "texto": "El estado de avería del FAAST LT-200 no está enclavado.",
+      "valor": "no enclavado",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Define el comportamiento operativo del relé de avería.",
+      "source_bindings": [
+        {
+          "context_id": "8221ec70-6882-41b5-8dd6-705a1a7e739a",
+          "source_file": "I56-6577-006_ES FAAST Notifier LT-200 QIG",
+          "page_number": 5,
+          "document_id": "6bcf5666-e1e0-437e-8759-3870165bcd1e",
+          "product_model": "FAAST LT-200",
+          "content_sha256": "48814faeb52bfed078817d7de688aaba61fd12d5180b4544f50b4e4593d4bdd8",
+          "support_spans": [
+            {
+              "start_char": 776,
+              "end_char": 1027,
+              "literal": "| AVERÍA 1 o 2 | Cuando se produce una CONDICIÓN DE AVERÍA en el canal 1 o 2 o una AVERÍA común. La avería también se indica en el modo de servicio y cuando se desconecta la alimentación de la unidad. | El estado de avería no está enclavado.         |",
+              "anchors": [
+                "El estado de avería no está enclavado."
+              ],
+              "literal_sha256": "d6666d5175b7eacf9c05e88a3ad9808fb218be328b27b75462381fcedb893638"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat007.1034ff01c53cc99a.sounder_outputs",
+      "qid": "cat007",
+      "parent_fact_key": "cat007#2:47 kohm",
+      "parent_fact_sha256": "1034ff01c53cc99a4dd5fb36bd73633ce5f7a7c8d18689c9778d8e326895b374",
+      "texto": "La salida de sirena 1 del FAAST LT-200 corresponde al canal 1 y tiene bornes negativo y positivo; la variante de dos canales dispone además de la salida de sirena 2, correspondiente al canal 2, con bornes negativo y positivo.",
+      "valor": "sirena 1 CH1 -/+; sirena 2 CH2 -/+ solo en variante de dos canales",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "La pregunta pide qué salidas de sirena existen.",
+      "source_bindings": [
+        {
+          "context_id": "e49a4944-4157-42e3-a1c5-15ec4a6e8926",
+          "source_file": "I56-6577-006_EN Notifier FAAST LT-200 QIG",
+          "page_number": 5,
+          "document_id": "eef91711-fcb7-4b46-ab86-21657490df40",
+          "product_model": "FAAST LT-200",
+          "content_sha256": "96ab5efcf4301a8eaface0f006499ba60bcc268bccbf0ba3791d152296e75eab",
+          "support_spans": [
+            {
+              "start_char": 1512,
+              "end_char": 1595,
+              "literal": "| 17  | Sounder Output 1 -      | 47 k-ohm EOL Resistor                     | T6  |",
+              "anchors": [
+                "| 17  | Sounder Output 1 -"
+              ],
+              "literal_sha256": "37fb4745630b181790ba8c8fc399d164f353e1ac658cc4a84c01ee87d28f70dc"
+            },
+            {
+              "start_char": 1596,
+              "end_char": 1679,
+              "literal": "| 18  | Sounder Output 1 +      |                                           |     |",
+              "anchors": [
+                "| 18  | Sounder Output 1 +"
+              ],
+              "literal_sha256": "480c24bfa9d081b30037a22c4b7b085dc2269317ed641ec8e59356f611c386af"
+            },
+            {
+              "start_char": 1680,
+              "end_char": 1763,
+              "literal": "| 19  | Sounder Output 2 -      | 47 k-ohm EOL Resistor                     | T7  |",
+              "anchors": [
+                "| 19  | Sounder Output 2 -"
+              ],
+              "literal_sha256": "280ac4f0d0888da272183fd95c890e2d7a34cda05388e94ac0015eff2856518e"
+            },
+            {
+              "start_char": 1764,
+              "end_char": 1847,
+              "literal": "| 20  | Sounder Output 2 +      |                                           |     |",
+              "anchors": [
+                "| 20  | Sounder Output 2 +"
+              ],
+              "literal_sha256": "f345d6b5406a63051dee3f6de330b330388949b3c0ceb6abc16cb546a273262d"
+            }
+          ]
+        },
+        {
+          "context_id": "8221ec70-6882-41b5-8dd6-705a1a7e739a",
+          "source_file": "I56-6577-006_ES FAAST Notifier LT-200 QIG",
+          "page_number": 5,
+          "document_id": "6bcf5666-e1e0-437e-8759-3870165bcd1e",
+          "product_model": "FAAST LT-200",
+          "content_sha256": "48814faeb52bfed078817d7de688aaba61fd12d5180b4544f50b4e4593d4bdd8",
+          "support_spans": [
+            {
+              "start_char": 1028,
+              "end_char": 1279,
+              "literal": "| SIRENA 1 o 2 | Se activa cuando el canal está en ALARMA. La sirena 1 se corresponde con el canal 1 y la sirena 2 con el canal 2.                                                                       | Estado predet.= establecido en ALARMA.         |",
+              "anchors": [
+                "La sirena 1 se corresponde con el canal 1 y la sirena 2 con el canal 2."
+              ],
+              "literal_sha256": "f152aea099296d02f7fa64f9d6a6c1085f5ba9584a4a552625da3a8ca4cd583c"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat007.1034ff01c53cc99a.sounder_eol",
+      "qid": "cat007",
+      "parent_fact_key": "cat007#2:47 kohm",
+      "parent_fact_sha256": "1034ff01c53cc99a4dd5fb36bd73633ce5f7a7c8d18689c9778d8e326895b374",
+      "texto": "La salida de sirena 1 del FAAST LT-200 y, en la variante de dos canales, también la salida de sirena 2 utilizan una resistencia de fin de línea de 47 kΩ.",
+      "valor": "47 kΩ por salida; salida 2 solo en variante de dos canales",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "La pregunta pide expresamente el valor de la resistencia de fin de línea.",
+      "source_bindings": [
+        {
+          "context_id": "e49a4944-4157-42e3-a1c5-15ec4a6e8926",
+          "source_file": "I56-6577-006_EN Notifier FAAST LT-200 QIG",
+          "page_number": 5,
+          "document_id": "eef91711-fcb7-4b46-ab86-21657490df40",
+          "product_model": "FAAST LT-200",
+          "content_sha256": "96ab5efcf4301a8eaface0f006499ba60bcc268bccbf0ba3791d152296e75eab",
+          "support_spans": [
+            {
+              "start_char": 1512,
+              "end_char": 1595,
+              "literal": "| 17  | Sounder Output 1 -      | 47 k-ohm EOL Resistor                     | T6  |",
+              "anchors": [
+                "| 17  | Sounder Output 1 -      | 47 k-ohm EOL Resistor"
+              ],
+              "literal_sha256": "37fb4745630b181790ba8c8fc399d164f353e1ac658cc4a84c01ee87d28f70dc"
+            },
+            {
+              "start_char": 1680,
+              "end_char": 1763,
+              "literal": "| 19  | Sounder Output 2 -      | 47 k-ohm EOL Resistor                     | T7  |",
+              "anchors": [
+                "| 19  | Sounder Output 2 -      | 47 k-ohm EOL Resistor"
+              ],
+              "literal_sha256": "280ac4f0d0888da272183fd95c890e2d7a34cda05388e94ac0015eff2856518e"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat010.5bec12668a94fa37.ui",
+      "qid": "cat010",
+      "parent_fact_key": "cat010#1:660mW",
+      "parent_fact_sha256": "5bec12668a94fa37c2aead006b2d401e08fde63187c335fefd63dccb42b50e61",
+      "texto": "Para los terminales + y − del IS-mA1, la tensión máxima de entrada Ui es 28 V.",
+      "valor": "Ui = 28 V",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "La pregunta pide los parámetros de seguridad intrínseca de entrada.",
+      "source_bindings": [
+        {
+          "context_id": "d4ae732f-2838-4134-a558-680b1ac36bb8",
+          "source_file": "IS5001-F_IS-mA1_EN",
+          "page_number": 1,
+          "document_id": "2b694083-5b21-4f1a-a29b-565072860fb8",
+          "product_model": "IS-mA1",
+          "content_sha256": "661ad4687b70f782df3cd70a1404aac05593b584353b5f5b8c9dec34cd3a6536",
+          "support_spans": [
+            {
+              "start_char": 109,
+              "end_char": 181,
+              "literal": "        Ui = 28V  Ii = 93mA    Pi = 660mW Ci = 0  Li = 0      VdS EN54-3",
+              "anchors": [
+                "Ui = 28V  Ii = 93mA    Pi = 660mW Ci = 0  Li = 0"
+              ],
+              "literal_sha256": "95050426398d41c51db7addaaebc50b33864158c1de221fd95d8e82ebedc47d1"
+            },
+            {
+              "start_char": 182,
+              "end_char": 250,
+              "literal": "        Terminal + w.r.t. Terminal -                          Type B",
+              "anchors": [
+                "Terminal + w.r.t. Terminal -"
+              ],
+              "literal_sha256": "d808c1b8f942b2fefc5da05e011f278ace030e9034d03259e6e319f5b0d0995a"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat010.5bec12668a94fa37.ii",
+      "qid": "cat010",
+      "parent_fact_key": "cat010#1:660mW",
+      "parent_fact_sha256": "5bec12668a94fa37c2aead006b2d401e08fde63187c335fefd63dccb42b50e61",
+      "texto": "Para los terminales + y − del IS-mA1, la corriente máxima de entrada Ii es 93 mA.",
+      "valor": "Ii = 93 mA",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "La pregunta pide los parámetros de seguridad intrínseca de entrada.",
+      "source_bindings": [
+        {
+          "context_id": "d4ae732f-2838-4134-a558-680b1ac36bb8",
+          "source_file": "IS5001-F_IS-mA1_EN",
+          "page_number": 1,
+          "document_id": "2b694083-5b21-4f1a-a29b-565072860fb8",
+          "product_model": "IS-mA1",
+          "content_sha256": "661ad4687b70f782df3cd70a1404aac05593b584353b5f5b8c9dec34cd3a6536",
+          "support_spans": [
+            {
+              "start_char": 109,
+              "end_char": 181,
+              "literal": "        Ui = 28V  Ii = 93mA    Pi = 660mW Ci = 0  Li = 0      VdS EN54-3",
+              "anchors": [
+                "Ui = 28V  Ii = 93mA    Pi = 660mW Ci = 0  Li = 0"
+              ],
+              "literal_sha256": "95050426398d41c51db7addaaebc50b33864158c1de221fd95d8e82ebedc47d1"
+            },
+            {
+              "start_char": 182,
+              "end_char": 250,
+              "literal": "        Terminal + w.r.t. Terminal -                          Type B",
+              "anchors": [
+                "Terminal + w.r.t. Terminal -"
+              ],
+              "literal_sha256": "d808c1b8f942b2fefc5da05e011f278ace030e9034d03259e6e319f5b0d0995a"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat010.5bec12668a94fa37.pi",
+      "qid": "cat010",
+      "parent_fact_key": "cat010#1:660mW",
+      "parent_fact_sha256": "5bec12668a94fa37c2aead006b2d401e08fde63187c335fefd63dccb42b50e61",
+      "texto": "Para los terminales + y − del IS-mA1, la potencia máxima de entrada Pi es 660 mW.",
+      "valor": "Pi = 660 mW",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "La pregunta pide los parámetros de seguridad intrínseca de entrada.",
+      "source_bindings": [
+        {
+          "context_id": "d4ae732f-2838-4134-a558-680b1ac36bb8",
+          "source_file": "IS5001-F_IS-mA1_EN",
+          "page_number": 1,
+          "document_id": "2b694083-5b21-4f1a-a29b-565072860fb8",
+          "product_model": "IS-mA1",
+          "content_sha256": "661ad4687b70f782df3cd70a1404aac05593b584353b5f5b8c9dec34cd3a6536",
+          "support_spans": [
+            {
+              "start_char": 109,
+              "end_char": 181,
+              "literal": "        Ui = 28V  Ii = 93mA    Pi = 660mW Ci = 0  Li = 0      VdS EN54-3",
+              "anchors": [
+                "Ui = 28V  Ii = 93mA    Pi = 660mW Ci = 0  Li = 0"
+              ],
+              "literal_sha256": "95050426398d41c51db7addaaebc50b33864158c1de221fd95d8e82ebedc47d1"
+            },
+            {
+              "start_char": 182,
+              "end_char": 250,
+              "literal": "        Terminal + w.r.t. Terminal -                          Type B",
+              "anchors": [
+                "Terminal + w.r.t. Terminal -"
+              ],
+              "literal_sha256": "d808c1b8f942b2fefc5da05e011f278ace030e9034d03259e6e319f5b0d0995a"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat010.5bec12668a94fa37.ci",
+      "qid": "cat010",
+      "parent_fact_key": "cat010#1:660mW",
+      "parent_fact_sha256": "5bec12668a94fa37c2aead006b2d401e08fde63187c335fefd63dccb42b50e61",
+      "texto": "Para los terminales + y − del IS-mA1, la capacitancia interna Ci es 0.",
+      "valor": "Ci = 0",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "La pregunta pide los parámetros de seguridad intrínseca de entrada.",
+      "source_bindings": [
+        {
+          "context_id": "d4ae732f-2838-4134-a558-680b1ac36bb8",
+          "source_file": "IS5001-F_IS-mA1_EN",
+          "page_number": 1,
+          "document_id": "2b694083-5b21-4f1a-a29b-565072860fb8",
+          "product_model": "IS-mA1",
+          "content_sha256": "661ad4687b70f782df3cd70a1404aac05593b584353b5f5b8c9dec34cd3a6536",
+          "support_spans": [
+            {
+              "start_char": 109,
+              "end_char": 181,
+              "literal": "        Ui = 28V  Ii = 93mA    Pi = 660mW Ci = 0  Li = 0      VdS EN54-3",
+              "anchors": [
+                "Ui = 28V  Ii = 93mA    Pi = 660mW Ci = 0  Li = 0"
+              ],
+              "literal_sha256": "95050426398d41c51db7addaaebc50b33864158c1de221fd95d8e82ebedc47d1"
+            },
+            {
+              "start_char": 182,
+              "end_char": 250,
+              "literal": "        Terminal + w.r.t. Terminal -                          Type B",
+              "anchors": [
+                "Terminal + w.r.t. Terminal -"
+              ],
+              "literal_sha256": "d808c1b8f942b2fefc5da05e011f278ace030e9034d03259e6e319f5b0d0995a"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat010.5bec12668a94fa37.li",
+      "qid": "cat010",
+      "parent_fact_key": "cat010#1:660mW",
+      "parent_fact_sha256": "5bec12668a94fa37c2aead006b2d401e08fde63187c335fefd63dccb42b50e61",
+      "texto": "Para los terminales + y − del IS-mA1, la inductancia interna Li es 0.",
+      "valor": "Li = 0",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "La pregunta pide los parámetros de seguridad intrínseca de entrada.",
+      "source_bindings": [
+        {
+          "context_id": "d4ae732f-2838-4134-a558-680b1ac36bb8",
+          "source_file": "IS5001-F_IS-mA1_EN",
+          "page_number": 1,
+          "document_id": "2b694083-5b21-4f1a-a29b-565072860fb8",
+          "product_model": "IS-mA1",
+          "content_sha256": "661ad4687b70f782df3cd70a1404aac05593b584353b5f5b8c9dec34cd3a6536",
+          "support_spans": [
+            {
+              "start_char": 109,
+              "end_char": 181,
+              "literal": "        Ui = 28V  Ii = 93mA    Pi = 660mW Ci = 0  Li = 0      VdS EN54-3",
+              "anchors": [
+                "Ui = 28V  Ii = 93mA    Pi = 660mW Ci = 0  Li = 0"
+              ],
+              "literal_sha256": "95050426398d41c51db7addaaebc50b33864158c1de221fd95d8e82ebedc47d1"
+            },
+            {
+              "start_char": 182,
+              "end_char": 250,
+              "literal": "        Terminal + w.r.t. Terminal -                          Type B",
+              "anchors": [
+                "Terminal + w.r.t. Terminal -"
+              ],
+              "literal_sha256": "d808c1b8f942b2fefc5da05e011f278ace030e9034d03259e6e319f5b0d0995a"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat012.859bf84ece1e1301.battery_formula",
+      "qid": "cat012",
+      "parent_fact_key": "cat012#0:1,2",
+      "parent_fact_sha256": "859bf84ece1e13012eaef07fdb15ce07b1fdcce892bfc0ef2822dbe1bcec74c6",
+      "texto": "La capacidad de batería de la AM-8200 se calcula como Ah = (A + B) × 1,2.",
+      "valor": "(A + B) × 1,2",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Es la fórmula solicitada de cálculo de capacidad.",
+      "source_bindings": [
+        {
+          "context_id": "248eb7da-80d0-470f-bddb-b024c21de8a4",
+          "source_file": "AM-8200 Manual Instalacion",
+          "page_number": 53,
+          "document_id": "c1834315-a779-4074-ba5f-baa590907a59",
+          "product_model": "AM-8200",
+          "content_sha256": "7199889bf52f97b9ec88a6797647b0248c84112210298d87a77c344f205daefa",
+          "support_spans": [
+            {
+              "start_char": 6886,
+              "end_char": 7160,
+              "literal": "| **Ah Batería = (A + B) x 1,2 5 =**                  |   |                                               |                                                             | Ah                                         |                                                           |",
+              "anchors": [
+                "**Ah Batería = (A + B) x 1,2 5 =**"
+              ],
+              "literal_sha256": "38d2ba05fe9f53e929bb99c0c9eec3e21d60101d776c181c615dd85c670bd475"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat012.859bf84ece1e1301.tolerance_factor",
+      "qid": "cat012",
+      "parent_fact_key": "cat012#0:1,2",
+      "parent_fact_sha256": "859bf84ece1e13012eaef07fdb15ce07b1fdcce892bfc0ef2822dbe1bcec74c6",
+      "texto": "El factor 1,2 de la fórmula contempla las tolerancias de fabricación de las baterías.",
+      "valor": "1,2",
+      "tipo": "supplementary",
+      "basis": "explicit",
+      "requiredness_reason": "Explica el multiplicador, pero la fórmula completa ya responde por sí sola cómo calcular la capacidad solicitada.",
+      "source_bindings": [
+        {
+          "context_id": "3393ccc0-01ff-474b-8b6f-9030ba0253ff",
+          "source_file": "AM-8200 Manual Instalacion",
+          "page_number": 53,
+          "document_id": "c1834315-a779-4074-ba5f-baa590907a59",
+          "product_model": "AM-8200",
+          "content_sha256": "3bcb1da416e926de7d8fb5c9ff01b507cbfad6da19e64dc95148698de882ea4c",
+          "support_spans": [
+            {
+              "start_char": 1436,
+              "end_char": 1582,
+              "literal": "5 La suma de las corrientes obtenidas debe multiplicarse por un factor de 1,2 para tener en cuenta las tolerancias de fabricación de las baterías.",
+              "anchors": [
+                "multiplicarse por un factor de 1,2 para tener en cuenta las tolerancias de fabricación de las baterías."
+              ],
+              "literal_sha256": "7823fb3ab1966cb5b393589d72f4b135f90ad10b87d04935b51a3c4790fd5b9a"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat012.8f913ebef3a60ac1.standby_term",
+      "qid": "cat012",
+      "parent_fact_key": "cat012#1:24 h",
+      "parent_fact_sha256": "8f913ebef3a60ac15f58f14132b1f01b2f021e33d709e26a18391fbb2397de36",
+      "texto": "A es el consumo total en condiciones de no alarma multiplicado por 24 h o por 72 h.",
+      "valor": "A = reposo × 24 h o 72 h",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Define el término A necesario para aplicar la fórmula.",
+      "source_bindings": [
+        {
+          "context_id": "248eb7da-80d0-470f-bddb-b024c21de8a4",
+          "source_file": "AM-8200 Manual Instalacion",
+          "page_number": 53,
+          "document_id": "c1834315-a779-4074-ba5f-baa590907a59",
+          "product_model": "AM-8200",
+          "content_sha256": "7199889bf52f97b9ec88a6797647b0248c84112210298d87a77c344f205daefa",
+          "support_spans": [
+            {
+              "start_char": 6336,
+              "end_char": 6610,
+              "literal": "|                                                     |   | (x 24 h) o (x<br/>72 h) =                     |                                                             | x 0,5 h =                                  |                                                           |",
+              "anchors": [
+                "(x 24 h) o (x<br/>72 h) ="
+              ],
+              "literal_sha256": "916dcf5fd8366ba7fca3d2fe0c5098da69af0f52ecefdb07104ea1e73ee8cc3f"
+            },
+            {
+              "start_char": 6611,
+              "end_char": 6885,
+              "literal": "|                                                     |   | **Espera (A)**                                | Ah                                                          | **Alarma (B)**                             | Ah                                                        |",
+              "anchors": [
+                "**Espera (A)**"
+              ],
+              "literal_sha256": "1c15079e3d9aef0d926e3fabd1d66fd521e28620000eb4fe5b7616b667a9952a"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat012.8f913ebef3a60ac1.alarm_term",
+      "qid": "cat012",
+      "parent_fact_key": "cat012#1:24 h",
+      "parent_fact_sha256": "8f913ebef3a60ac15f58f14132b1f01b2f021e33d709e26a18391fbb2397de36",
+      "texto": "B es el consumo total en condiciones de alarma multiplicado por 0,5 h.",
+      "valor": "B = alarma × 0,5 h",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Define el término B necesario para aplicar la fórmula.",
+      "source_bindings": [
+        {
+          "context_id": "248eb7da-80d0-470f-bddb-b024c21de8a4",
+          "source_file": "AM-8200 Manual Instalacion",
+          "page_number": 53,
+          "document_id": "c1834315-a779-4074-ba5f-baa590907a59",
+          "product_model": "AM-8200",
+          "content_sha256": "7199889bf52f97b9ec88a6797647b0248c84112210298d87a77c344f205daefa",
+          "support_spans": [
+            {
+              "start_char": 6336,
+              "end_char": 6610,
+              "literal": "|                                                     |   | (x 24 h) o (x<br/>72 h) =                     |                                                             | x 0,5 h =                                  |                                                           |",
+              "anchors": [
+                "x 0,5 h ="
+              ],
+              "literal_sha256": "916dcf5fd8366ba7fca3d2fe0c5098da69af0f52ecefdb07104ea1e73ee8cc3f"
+            },
+            {
+              "start_char": 6611,
+              "end_char": 6885,
+              "literal": "|                                                     |   | **Espera (A)**                                | Ah                                                          | **Alarma (B)**                             | Ah                                                        |",
+              "anchors": [
+                "**Alarma (B)**"
+              ],
+              "literal_sha256": "1c15079e3d9aef0d926e3fabd1d66fd521e28620000eb4fe5b7616b667a9952a"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat012.67cd609181abed52.installed_capacity_range",
+      "qid": "cat012",
+      "parent_fact_key": "cat012#3:18 Ah",
+      "parent_fact_sha256": "67cd609181abed521cf9b279b0f564bab0b10b51d6a7782e1b048ec0d65516e6",
+      "texto": "La AM-8200 conecta dos baterías de 12 V, con 7 Ah mínimos y 18 Ah máximos.",
+      "valor": "2 × 12 V; 7-18 Ah",
+      "tipo": "supplementary",
+      "basis": "explicit",
+      "requiredness_reason": "Es un límite de selección útil después del cálculo, pero no define cómo calcular Ah.",
+      "source_bindings": [
+        {
+          "context_id": "241c7c0c-0330-4d9b-b240-448cadfe5642",
+          "source_file": "AM-8200 Manual Instalacion",
+          "page_number": 12,
+          "document_id": "c1834315-a779-4074-ba5f-baa590907a59",
+          "product_model": "AM-8200",
+          "content_sha256": "5aee325dbe31c1c89f04bdafb999942863c7ca92060ebe5a7862bb95db24c41c",
+          "support_spans": [
+            {
+              "start_char": 1659,
+              "end_char": 1724,
+              "literal": "* Número de baterías a conectar = 2 x 12 V mín. 7 Ah o 18 Ah máx.",
+              "anchors": [
+                "Número de baterías a conectar = 2 x 12 V mín. 7 Ah o 18 Ah máx."
+              ],
+              "literal_sha256": "0350a5605e647e3ea53ffe5a6d8f888c899f856c815962e84d9712492c04f36b"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat012.67cd609181abed52.yuasa_capacity",
+      "qid": "cat012",
+      "parent_fact_key": "cat012#3:18 Ah",
+      "parent_fact_sha256": "67cd609181abed521cf9b279b0f564bab0b10b51d6a7782e1b048ec0d65516e6",
+      "texto": "La batería recomendada Yuasa NP18-12B tiene 17,2 Ah de capacidad a 20 h.",
+      "valor": "17,2 Ah a 20 h",
+      "tipo": "supplementary",
+      "basis": "explicit",
+      "requiredness_reason": "Es una referencia comercial secundaria al método de cálculo.",
+      "source_bindings": [
+        {
+          "context_id": "241c7c0c-0330-4d9b-b240-448cadfe5642",
+          "source_file": "AM-8200 Manual Instalacion",
+          "page_number": 12,
+          "document_id": "c1834315-a779-4074-ba5f-baa590907a59",
+          "product_model": "AM-8200",
+          "content_sha256": "5aee325dbe31c1c89f04bdafb999942863c7ca92060ebe5a7862bb95db24c41c",
+          "support_spans": [
+            {
+              "start_char": 2390,
+              "end_char": 2493,
+              "literal": "Yuasa tipo NP18-12B o NP7-12BFR (UL94) Perno-Capacidad (20h)=12V 17,2 Ah–Dimensiones:181 x 77 x 167 mm.",
+              "anchors": [
+                "Yuasa tipo NP18-12B o NP7-12BFR (UL94) Perno-Capacidad (20h)=12V 17,2 Ah"
+              ],
+              "literal_sha256": "52fa38136105ebfee892e6e8a131730e1686696e247e22bf581a470ac861bfe0"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat012.67cd609181abed52.fiamm_capacity",
+      "qid": "cat012",
+      "parent_fact_key": "cat012#3:18 Ah",
+      "parent_fact_sha256": "67cd609181abed521cf9b279b0f564bab0b10b51d6a7782e1b048ec0d65516e6",
+      "texto": "La batería recomendada Fiamm FG21803 tiene 18 Ah de capacidad a 20 h.",
+      "valor": "18 Ah a 20 h",
+      "tipo": "supplementary",
+      "basis": "explicit",
+      "requiredness_reason": "Es una referencia comercial secundaria al método de cálculo.",
+      "source_bindings": [
+        {
+          "context_id": "241c7c0c-0330-4d9b-b240-448cadfe5642",
+          "source_file": "AM-8200 Manual Instalacion",
+          "page_number": 12,
+          "document_id": "c1834315-a779-4074-ba5f-baa590907a59",
+          "product_model": "AM-8200",
+          "content_sha256": "5aee325dbe31c1c89f04bdafb999942863c7ca92060ebe5a7862bb95db24c41c",
+          "support_spans": [
+            {
+              "start_char": 2494,
+              "end_char": 2599,
+              "literal": "Fiamm tipo FG21803 o FGV21803 (UL94) Perno-Capacidad (20 h) = 12V 18 Ah – Dimensiones: 181 x 77 x 167 mm.",
+              "anchors": [
+                "Fiamm tipo FG21803 o FGV21803 (UL94) Perno-Capacidad (20 h) = 12V 18 Ah"
+              ],
+              "literal_sha256": "e292380d3460ffa686f6741d0165452f5dab6630e4ddc8458fa340b30e2b20a1"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat014.72ed1610f96bff0e.replacement_life",
+      "qid": "cat014",
+      "parent_fact_key": "cat014#0:10 anos",
+      "parent_fact_sha256": "72ed1610f96bff0e728bb1b4b5fb7ac53708dcb468de15a5a07e27cb676349d7",
+      "texto": "El detector DGD-600 debe sustituirse diez años después de su fecha de fabricación.",
+      "valor": "10 años",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Responde directamente a la vida útil esperada.",
+      "source_bindings": [
+        {
+          "context_id": "9786969a-8168-457b-aed8-3337235d874f",
+          "source_file": "55360004 Manual Detector Gas DGD-600 ES EN IT FR",
+          "page_number": 1,
+          "document_id": "4fa6d176-48a2-4283-a52a-b681c792d394",
+          "product_model": "DGD-600",
+          "content_sha256": "c1e20777a79c3cfb14456db81887f132068f388a4e079a51b815fdafe3452743",
+          "support_spans": [
+            {
+              "start_char": 0,
+              "end_char": 324,
+              "literal": "Los detectores estarán operativos unos segundos después de encenderse. El botón de test permite comprobar el correcto funcionamiento de los LEDS y los relés. El detector debe ser sustituido 10 años después de su fecha de fabricación. La fecha de fabricación está impresa en la pegatina adjunta en el lateral del dispositivo.",
+              "anchors": [
+                "El detector debe ser sustituido 10 años después de su fecha de fabricación."
+              ],
+              "literal_sha256": "69de7910ed679b8f67c24abbee43f17ebefe62d10358fdd2911d6d4b750e5658"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat014.72ed1610f96bff0e.manufacture_date_label",
+      "qid": "cat014",
+      "parent_fact_key": "cat014#0:10 anos",
+      "parent_fact_sha256": "72ed1610f96bff0e728bb1b4b5fb7ac53708dcb468de15a5a07e27cb676349d7",
+      "texto": "La fecha de fabricación del DGD-600 está impresa en la pegatina lateral del dispositivo.",
+      "valor": "pegatina lateral",
+      "tipo": "supplementary",
+      "basis": "explicit",
+      "requiredness_reason": "Ayuda a calcular la fecha de sustitución, pero no cambia la vida útil pedida.",
+      "source_bindings": [
+        {
+          "context_id": "9786969a-8168-457b-aed8-3337235d874f",
+          "source_file": "55360004 Manual Detector Gas DGD-600 ES EN IT FR",
+          "page_number": 1,
+          "document_id": "4fa6d176-48a2-4283-a52a-b681c792d394",
+          "product_model": "DGD-600",
+          "content_sha256": "c1e20777a79c3cfb14456db81887f132068f388a4e079a51b815fdafe3452743",
+          "support_spans": [
+            {
+              "start_char": 0,
+              "end_char": 324,
+              "literal": "Los detectores estarán operativos unos segundos después de encenderse. El botón de test permite comprobar el correcto funcionamiento de los LEDS y los relés. El detector debe ser sustituido 10 años después de su fecha de fabricación. La fecha de fabricación está impresa en la pegatina adjunta en el lateral del dispositivo.",
+              "anchors": [
+                "La fecha de fabricación está impresa en la pegatina adjunta en el lateral del dispositivo."
+              ],
+              "literal_sha256": "69de7910ed679b8f67c24abbee43f17ebefe62d10358fdd2911d6d4b750e5658"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat019.6c2692e4d3fd39ac.create_maneuver",
+      "qid": "cat019",
+      "parent_fact_key": "cat019#0:coincidencias",
+      "parent_fact_sha256": "6c2692e4d3fd39ac226f17725fb105a8bbb84e39df2dff6d027a404fdfbcc6b0",
+      "texto": "En la CAD-250, una maniobra se crea desde MENÚ > MANIOBRAS pulsando AÑADIR, lo que abre su pantalla de edición.",
+      "valor": "MENÚ > MANIOBRAS > AÑADIR",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "La pregunta pide cómo se crea la maniobra.",
+      "source_bindings": [
+        {
+          "context_id": "d27aaa9e-a6e1-4245-a3f3-2cdef3f5be4c",
+          "source_file": "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+          "page_number": 54,
+          "document_id": "348c4ec1-210a-441a-9ce7-02014a51f26d",
+          "product_model": "CAD-250",
+          "content_sha256": "3bd57594809cae37c489dffbd1aa248cc9e21e618bd96d2bb6ce45ff95a53a2b",
+          "support_spans": [
+            {
+              "start_char": 542,
+              "end_char": 592,
+              "literal": "**MENU** (Menú principal) **> MANIOBRAS**(Submenú)",
+              "anchors": [
+                "**MENU** (Menú principal) **> MANIOBRAS**(Submenú)"
+              ],
+              "literal_sha256": "4571dd9510ba0c830b6b8abbe1a3ea5d3b93fc15342a596bb4d96bdaf5caba76"
+            },
+            {
+              "start_char": 594,
+              "end_char": 636,
+              "literal": "**+AÑADIR** (Barra de Navegacion Inferior)",
+              "anchors": [
+                "**+AÑADIR** (Barra de Navegacion Inferior)"
+              ],
+              "literal_sha256": "e62957331abda85bd1864828786281b8125ec0649c93376fe18d7f11b7db7d59"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat019.6c2692e4d3fd39ac.coincidence_semantics",
+      "qid": "cat019",
+      "parent_fact_key": "cat019#0:coincidencias",
+      "parent_fact_sha256": "6c2692e4d3fd39ac226f17725fb105a8bbb84e39df2dff6d027a404fdfbcc6b0",
+      "texto": "El campo Coincidencias fija cuántos eventos de entrada deben concurrir para que la salida sea verdadera.",
+      "valor": "número de eventos concurrentes",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Define la lógica de disparo de la maniobra.",
+      "source_bindings": [
+        {
+          "context_id": "66596504-7f3b-4294-8459-72c7bd5c7983",
+          "source_file": "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+          "page_number": 56,
+          "document_id": "348c4ec1-210a-441a-9ce7-02014a51f26d",
+          "product_model": "CAD-250",
+          "content_sha256": "6c3cfe82ff7e0fa26ff1728a4de7590126cf3ad11ff3354dbde373e25f4bc101",
+          "support_spans": [
+            {
+              "start_char": 305,
+              "end_char": 418,
+              "literal": "En el campo coincidencias indicaremos el número de eventos que deben concurrir para que la función sea verdadera.",
+              "anchors": [
+                "En el campo coincidencias indicaremos el número de eventos que deben concurrir para que la función sea verdadera."
+              ],
+              "literal_sha256": "24493a39eeff0c08e962a27e5e911a025b777265e2fe76d1eda6dd2a2c1c71e5"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat019.6c2692e4d3fd39ac.coincidence_examples",
+      "qid": "cat019",
+      "parent_fact_key": "cat019#0:coincidencias",
+      "parent_fact_sha256": "6c2692e4d3fd39ac226f17725fb105a8bbb84e39df2dff6d027a404fdfbcc6b0",
+      "texto": "Con dos eventos, Coincidencias = 1 funciona como OR y Coincidencias = 2 exige ambos; con cuatro eventos, el valor 3 exige tres cualesquiera.",
+      "valor": "1 de 2; 2 de 2; 3 de 4",
+      "tipo": "supplementary",
+      "basis": "explicit",
+      "requiredness_reason": "Son ejemplos explicativos; la semántica general ya responde la obligación central.",
+      "source_bindings": [
+        {
+          "context_id": "66596504-7f3b-4294-8459-72c7bd5c7983",
+          "source_file": "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+          "page_number": 56,
+          "document_id": "348c4ec1-210a-441a-9ce7-02014a51f26d",
+          "product_model": "CAD-250",
+          "content_sha256": "6c3cfe82ff7e0fa26ff1728a4de7590126cf3ad11ff3354dbde373e25f4bc101",
+          "support_spans": [
+            {
+              "start_char": 420,
+              "end_char": 644,
+              "literal": "Si concurrren dos eventos de entrada en la maniobra y en el campo coincidencias hemos indicado el valor 1, si cualquiera de los eventos se cumple, la salida será verdadera y se ejecutará la/s maniobra/s de salida programadas",
+              "anchors": [
+                "campo coincidencias hemos indicado el valor 1"
+              ],
+              "literal_sha256": "53269705563542e12a97a917698c09bb47a55c1dc57b57057d1c8f0580907b66"
+            },
+            {
+              "start_char": 946,
+              "end_char": 1171,
+              "literal": "Si concurrren dos eventos de entrada en la maniobra y en el campo coincidencias hemos indicado el valor 2, los dos eventos se deberán cumplir para que la salida sea verdadera y se ejecute la/s maniobra/s de salida programadas",
+              "anchors": [
+                "campo coincidencias hemos indicado el valor 2"
+              ],
+              "literal_sha256": "2954f836e0124e4e646ed577e5a0960e2fb087c599e66337285294992889a5a4"
+            },
+            {
+              "start_char": 1477,
+              "end_char": 1739,
+              "literal": "Si concurrren cuatro eventos de entrada en la maniobra y en el campo coincidencias hemos indicado el valor 3, será preciso que 3 de los eventos, cualesquiera de ellos, se cumplan para que la salida sea verdadera y se ejecute la/s maniobra/s de salida programadas",
+              "anchors": [
+                "campo coincidencias hemos indicado el valor 3"
+              ],
+              "literal_sha256": "c391fed189d4cb963fbc286260426f060fde971514c4f257de230f54fbf14738"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat019.650574c29860ac58.add_event_or_action",
+      "qid": "cat019",
+      "parent_fact_key": "cat019#1:EVENTO / ACCION",
+      "parent_fact_sha256": "650574c29860ac58d998e23f17a29474b7bb960051fbf13ec61d2001d3367a40",
+      "texto": "Al pulsar AÑADIR en una maniobra, EVENTO define una entrada y ACCIÓN define una salida que debe activarse.",
+      "valor": "EVENTO / ACCIÓN",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "La pregunta pide cómo se definen entradas y se asignan salidas.",
+      "source_bindings": [
+        {
+          "context_id": "3d0273cf-dd42-4e48-89c3-a37e588396ca",
+          "source_file": "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+          "page_number": 57,
+          "document_id": "348c4ec1-210a-441a-9ce7-02014a51f26d",
+          "product_model": "CAD-250",
+          "content_sha256": "1c50b91e93416882e342a8373810ee956fc25095c205b776cf711496a817bc5c",
+          "support_spans": [
+            {
+              "start_char": 261,
+              "end_char": 276,
+              "literal": "* un **EVENTO**",
+              "anchors": [
+                "* un **EVENTO**"
+              ],
+              "literal_sha256": "2c8d71343d19e1fba6344e6f3eb8ff896f2bfe6f0191a4fbdfc129ac4eb2e2fa"
+            },
+            {
+              "start_char": 277,
+              "end_char": 293,
+              "literal": "* una **ACCION**",
+              "anchors": [
+                "* una **ACCION**"
+              ],
+              "literal_sha256": "eede0ebf113680ee4fce2a93b9b7ccfd6e65e0371e4e97a7275a63819c13ea93"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat019.650574c29860ac58.event_change_and_condition",
+      "qid": "cat019",
+      "parent_fact_key": "cat019#1:EVENTO / ACCION",
+      "parent_fact_sha256": "650574c29860ac58d998e23f17a29474b7bb960051fbf13ec61d2001d3367a40",
+      "texto": "La CAD-250 gestiona eventos como cambios de estado; la salida se activa cuando el evento coincide con la condición establecida.",
+      "valor": "cambio de estado + condición",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Es una condición material para interpretar correctamente qué dispara la salida.",
+      "source_bindings": [
+        {
+          "context_id": "3d0273cf-dd42-4e48-89c3-a37e588396ca",
+          "source_file": "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+          "page_number": 57,
+          "document_id": "348c4ec1-210a-441a-9ce7-02014a51f26d",
+          "product_model": "CAD-250",
+          "content_sha256": "1c50b91e93416882e342a8373810ee956fc25095c205b776cf711496a817bc5c",
+          "support_spans": [
+            {
+              "start_char": 600,
+              "end_char": 803,
+              "literal": "> Tenga en cuenta que la configuración de maniobras gestiona eventos y no estados. El evento es el cambio de estado. Este, si coincide con la condición establecida provocará la activación de las salidas.",
+              "anchors": [
+                "El evento es el cambio de estado. Este, si coincide con la condición establecida provocará la activación de las salidas."
+              ],
+              "literal_sha256": "89ba61e4725d413af206e210ee258a6bbd94f2cb7ac66d8f8a070e57f78b5962"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat019.650574c29860ac58.capacity_limit",
+      "qid": "cat019",
+      "parent_fact_key": "cat019#1:EVENTO / ACCION",
+      "parent_fact_sha256": "650574c29860ac58d998e23f17a29474b7bb960051fbf13ec61d2001d3367a40",
+      "texto": "El sistema soporta hasta 100.000 entradas y salidas configuradas en distintas maniobras.",
+      "valor": "100.000 entradas y salidas",
+      "tipo": "supplementary",
+      "basis": "explicit",
+      "requiredness_reason": "Es un límite de escala, no un paso necesario para configurar una maniobra.",
+      "source_bindings": [
+        {
+          "context_id": "2720d4cf-7be8-4482-be1a-fba10cc59d5b",
+          "source_file": "CAD-250_Manual-software-configuracion-MS-416-es-2026-b",
+          "page_number": 56,
+          "document_id": "23f0e4d2-5fd6-4f7c-992c-82584f311745",
+          "product_model": "CAD-250",
+          "content_sha256": "e1a2586f8712ebf1036eae3ed0d2fa239677e76e2aaebd4b03da952976aec085",
+          "support_spans": [
+            {
+              "start_char": 784,
+              "end_char": 866,
+              "literal": "El sistema soporta 100.000 entradas y salidas configuradas en distintas maniobras.",
+              "anchors": [
+                "El sistema soporta 100.000 entradas y salidas configuradas en distintas maniobras."
+              ],
+              "literal_sha256": "0d8a55f94ac844ae967906f410aeac57eb9f80b105742ab12d2e52d035233e3e"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat019.77fff66f289222e7.event_type_choice",
+      "qid": "cat019",
+      "parent_fact_key": "cat019#2:ENTIDAD / CONDICION TEMPORAL",
+      "parent_fact_sha256": "77fff66f289222e7ec4af6efec46f0cf6787a60309c73cb984cc00af915ac91f",
+      "texto": "Al definir un EVENTO, la CAD-250 permite escoger entre ENTIDAD y CONDICIÓN TEMPORAL.",
+      "valor": "ENTIDAD / CONDICIÓN TEMPORAL",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Identifica las dos vías para definir las entradas pedidas.",
+      "source_bindings": [
+        {
+          "context_id": "3d0273cf-dd42-4e48-89c3-a37e588396ca",
+          "source_file": "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+          "page_number": 57,
+          "document_id": "348c4ec1-210a-441a-9ce7-02014a51f26d",
+          "product_model": "CAD-250",
+          "content_sha256": "1c50b91e93416882e342a8373810ee956fc25095c205b776cf711496a817bc5c",
+          "support_spans": [
+            {
+              "start_char": 985,
+              "end_char": 1001,
+              "literal": "* un **ENTIDAD**",
+              "anchors": [
+                "* un **ENTIDAD**"
+              ],
+              "literal_sha256": "450ba353cc17e54875b8ca553ee0f68e5205b49c605be7977d1bd0e74fb32891"
+            },
+            {
+              "start_char": 1002,
+              "end_char": 1030,
+              "literal": "* una **CONDICION TEMPORAL**",
+              "anchors": [
+                "* una **CONDICION TEMPORAL**"
+              ],
+              "literal_sha256": "75cadd661f90414f9ed672bddf4c697e5d01310c4e82b98b88a3c5f39dbedde6"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat019.77fff66f289222e7.entity_scope",
+      "qid": "cat019",
+      "parent_fact_key": "cat019#2:ENTIDAD / CONDICION TEMPORAL",
+      "parent_fact_sha256": "77fff66f289222e7ec4af6efec46f0cf6787a60309c73cb984cc00af915ac91f",
+      "texto": "Una entidad puede ser instalación, panel, lazo, área, zona, dispositivo, grupo o modo virtual del sistema local o de la red.",
+      "valor": "jerarquía local o de red",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Define sobre qué elementos puede construirse el evento de entrada.",
+      "source_bindings": [
+        {
+          "context_id": "3d0273cf-dd42-4e48-89c3-a37e588396ca",
+          "source_file": "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+          "page_number": 57,
+          "document_id": "348c4ec1-210a-441a-9ce7-02014a51f26d",
+          "product_model": "CAD-250",
+          "content_sha256": "1c50b91e93416882e342a8373810ee956fc25095c205b776cf711496a817bc5c",
+          "support_spans": [
+            {
+              "start_char": 1032,
+              "end_char": 1301,
+              "literal": "La **ENTIDAD** es cualquier elemento de la jerarquía del sistema perteneciente al sistema local (central actual) o la red (cualquiera de las centrales del sistema en red). Las entidades pueden ser, instalación, panel, lazo, área, zona, dispositivo, grupo o modo virtual",
+              "anchors": [
+                "La **ENTIDAD** es cualquier elemento de la jerarquía del sistema perteneciente al sistema local (central actual) o la red (cualquiera de las centrales del sistema en red)."
+              ],
+              "literal_sha256": "2246d3722c3a76f5a0e8a107a19507f011d319056843d37105b2f04109514cd2"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat019.77fff66f289222e7.temporal_condition",
+      "qid": "cat019",
+      "parent_fact_key": "cat019#2:ENTIDAD / CONDICION TEMPORAL",
+      "parent_fact_sha256": "77fff66f289222e7ec4af6efec46f0cf6787a60309c73cb984cc00af915ac91f",
+      "texto": "Una condición temporal establece el periodo durante el cual la ecuación de entrada es verdadera y puede realizarse la acción de salida.",
+      "valor": "periodo de validez de la entrada",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Define la alternativa temporal para disparar una maniobra.",
+      "source_bindings": [
+        {
+          "context_id": "3d0273cf-dd42-4e48-89c3-a37e588396ca",
+          "source_file": "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+          "page_number": 57,
+          "document_id": "348c4ec1-210a-441a-9ce7-02014a51f26d",
+          "product_model": "CAD-250",
+          "content_sha256": "1c50b91e93416882e342a8373810ee956fc25095c205b776cf711496a817bc5c",
+          "support_spans": [
+            {
+              "start_char": 1433,
+              "end_char": 1587,
+              "literal": "La **CONDICION TEMPORAL** permite establecer un periodo de tiempo para el que la ecuación de entrada sea verdadera y se pueda realizar la acción de salida",
+              "anchors": [
+                "La **CONDICION TEMPORAL** permite establecer un periodo de tiempo para el que la ecuación de entrada sea verdadera y se pueda realizar la acción de salida"
+              ],
+              "literal_sha256": "a402a440d56d812c15440849f76ec88178878045fc32e0acff619fe2fa794697"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat023.7ed9d4ed696ccfe3.en54_classes",
+      "qid": "cat023",
+      "parent_fact_key": "cat023#0:A/B/C EN 54-20",
+      "parent_fact_sha256": "7ed9d4ed696ccfe3dd6e04bdb3ab6ac9652d4bd52e268c0b1820f13c97af7e74",
+      "texto": "El detector de aspiración Securiton ASD 532 cumple EN 54-20 en clase A (sensibilidad muy alta), B (alta) y C (normal).",
+      "valor": "A / B / C",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "La pregunta pide exactamente las clases de sensibilidad disponibles.",
+      "source_bindings": [
+        {
+          "context_id": "30088b95-62fd-436c-af4a-8cdae8008996",
+          "source_file": "ASD532_TD_T140421es_a",
+          "page_number": 37,
+          "document_id": "3a9251e0-7502-445e-ab27-b3ef0212ba7f",
+          "product_model": "ASD532",
+          "content_sha256": "0dbefdb0866e7dbfa7a9e1d576327e9ed11e812017984d947546e8680f049365",
+          "support_spans": [
+            {
+              "start_char": 1581,
+              "end_char": 1622,
+              "literal": "* EN 54-20, clase A sensibilidad muy alta",
+              "anchors": [
+                "EN 54-20, clase A sensibilidad muy alta"
+              ],
+              "literal_sha256": "eb0cb73104e3d282785b045abb5b2380c1475bb2057a2141c8a2b5d0c1f2962b"
+            },
+            {
+              "start_char": 1623,
+              "end_char": 1660,
+              "literal": "* EN 54-20, clase B sensibilidad alta",
+              "anchors": [
+                "EN 54-20, clase B sensibilidad alta"
+              ],
+              "literal_sha256": "ccc06396e3e1b816173478f83c4f4ff2630ad3a5c9c0e07124bb48fa55704bb2"
+            },
+            {
+              "start_char": 1661,
+              "end_char": 1700,
+              "literal": "* EN 54-20, clase C sensibilidad normal",
+              "anchors": [
+                "EN 54-20, clase C sensibilidad normal"
+              ],
+              "literal_sha256": "a494bc2a852b5f31b0a18875b0da12aea8ea8ace560c7dafff0d4dcc5ade840f"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.cat023.bf0ef37152274a9c.nonnormative_airflow_positions",
+      "qid": "cat023",
+      "parent_fact_key": "cat023#1:W01-W44 / 10-60 min / ±20-50 %",
+      "parent_fact_sha256": "bf0ef37152274a9cd5908a0ec587c93b5fb857857b6b49502992a19123d26890",
+      "texto": "En el ASD 532, las posiciones W01-W44 configuran límites no normativos de monitorización del flujo de aire; solo deben usarse tras consultar al fabricante y sus valores no están homologados según EN 54-20.",
+      "valor": "W01-W44; no homologado EN 54-20",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Responde cómo se configura esa modalidad y preserva las restricciones de seguridad y conformidad.",
+      "source_bindings": [
+        {
+          "context_id": "0de5172f-c3cb-4572-92ec-dde4ecdedb3c",
+          "source_file": "ASD532_TD_T140421es_a",
+          "page_number": 21,
+          "document_id": "3a9251e0-7502-445e-ab27-b3ef0212ba7f",
+          "product_model": "ASD532",
+          "content_sha256": "16bfcf24eac588c495a6ce9e8f658edeaaacdece17d6d3aab95de27ebc22c99b",
+          "support_spans": [
+            {
+              "start_char": 781,
+              "end_char": 1012,
+              "literal": "> Las posiciones de conmutador *W01* a *W44* únicamente deben utilizarse previa consulta con el fabricante. Los valores definidos en ellas en relación con la monitorización del flujo de aire **no** están homologados según EN 54-20.",
+              "anchors": [
+                "Las posiciones de conmutador *W01* a *W44* únicamente deben utilizarse previa consulta con el fabricante.",
+                "no** están homologados según EN 54-20."
+              ],
+              "literal_sha256": "f5d4869755f097ae18990368a05b5e544ccb494fbfa49e8f9c2cc5ae99967ead"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp002.4de86fac80358a14.nominal_after_reset",
+      "qid": "hp002",
+      "parent_fact_key": "hp002#0:fallo flujo de aire",
+      "parent_fact_sha256": "4de86fac80358a1477d2c76264d60f015065e192740c06fe601390d2b6091a74",
+      "texto": "Tras un reset inicial con el conducto de aspiración limpio, el ASD 535 guarda el flujo nominal como 100 %.",
+      "valor": "100 %",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Establece la referencia necesaria para diagnosticar un flujo bajo.",
+      "source_bindings": [
+        {
+          "context_id": "414ce99c-0dec-478c-b504-009f14631804",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 28,
+          "document_id": "ab258c38-30f7-4047-a421-ebb7a701a84a",
+          "product_model": "ASD535",
+          "content_sha256": "2261dffb82200a45699237dc9149f3c4ad83519641c889a73c4474d6ffafab1f",
+          "support_spans": [
+            {
+              "start_char": 1623,
+              "end_char": 2193,
+              "literal": "Según EN 54-20, debe notificarse como fallo toda variación del flujo de aire superior al ±20 %. En el detector de humos por aspiración ASD 535, el flujo de aire se mostrará al 100 % si, después del reset inicial, el conducto de aspiración está limpio y en perfecto estado. En las posiciones de conmutador A11 a C32, cualquier variación de este valor que supere el ±20 % – es decir, por debajo del 80 % (suciedad/obstrucción) o por encima del 120 % (rotura de tubo) – disparará un aviso «fallo flujo de aire» una vez transcurrido el tiempo de retardo de 300 s de la LS-Ü.",
+              "anchors": [
+                "el flujo de aire se mostrará al 100 % si, después del reset inicial, el conducto de aspiración está limpio y en perfecto estado."
+              ],
+              "literal_sha256": "46903df55fac395c9e84ed771221a4c6126faba9658fdfa79a64f1893971ad96"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp002.4de86fac80358a14.standard_fault_window",
+      "qid": "hp002",
+      "parent_fact_key": "hp002#0:fallo flujo de aire",
+      "parent_fact_sha256": "4de86fac80358a1477d2c76264d60f015065e192740c06fe601390d2b6091a74",
+      "texto": "En posiciones A11-C32, una desviación superior a ±20 % —menos de 80 % o más de 120 %— genera «fallo flujo de aire» tras 300 s de retardo LS-Ü.",
+      "valor": "A11-C32; <80 % o >120 %; 300 s",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Define cuándo se confirma el fallo y evita generalizar el umbral a otras configuraciones.",
+      "source_bindings": [
+        {
+          "context_id": "414ce99c-0dec-478c-b504-009f14631804",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 28,
+          "document_id": "ab258c38-30f7-4047-a421-ebb7a701a84a",
+          "product_model": "ASD535",
+          "content_sha256": "2261dffb82200a45699237dc9149f3c4ad83519641c889a73c4474d6ffafab1f",
+          "support_spans": [
+            {
+              "start_char": 1623,
+              "end_char": 2193,
+              "literal": "Según EN 54-20, debe notificarse como fallo toda variación del flujo de aire superior al ±20 %. En el detector de humos por aspiración ASD 535, el flujo de aire se mostrará al 100 % si, después del reset inicial, el conducto de aspiración está limpio y en perfecto estado. En las posiciones de conmutador A11 a C32, cualquier variación de este valor que supere el ±20 % – es decir, por debajo del 80 % (suciedad/obstrucción) o por encima del 120 % (rotura de tubo) – disparará un aviso «fallo flujo de aire» una vez transcurrido el tiempo de retardo de 300 s de la LS-Ü.",
+              "anchors": [
+                "En las posiciones de conmutador A11 a C32, cualquier variación de este valor que supere el ±20 %",
+                "por debajo del 80 % (suciedad/obstrucción) o por encima del 120 % (rotura de tubo)",
+                "tiempo de retardo de 300 s de la LS-Ü."
+              ],
+              "literal_sha256": "46903df55fac395c9e84ed771221a4c6126faba9658fdfa79a64f1893971ad96"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp002.4de86fac80358a14.w_positions_caveat",
+      "qid": "hp002",
+      "parent_fact_key": "hp002#0:fallo flujo de aire",
+      "parent_fact_sha256": "4de86fac80358a1477d2c76264d60f015065e192740c06fe601390d2b6091a74",
+      "texto": "Los valores de monitorización en posiciones W01-W48 no están homologados según EN 54-20 y requieren consulta previa con el fabricante.",
+      "valor": "W01-W48; no homologado EN 54-20",
+      "tipo": "supplementary",
+      "basis": "explicit",
+      "requiredness_reason": "Es una excepción normativa útil, pero la pregunta de diagnóstico se resuelve con la configuración estándar.",
+      "source_bindings": [
+        {
+          "context_id": "414ce99c-0dec-478c-b504-009f14631804",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 28,
+          "document_id": "ab258c38-30f7-4047-a421-ebb7a701a84a",
+          "product_model": "ASD535",
+          "content_sha256": "2261dffb82200a45699237dc9149f3c4ad83519641c889a73c4474d6ffafab1f",
+          "support_spans": [
+            {
+              "start_char": 2215,
+              "end_char": 2448,
+              "literal": "> En las posiciones de conmutador W01 a W48, los valores establecidos para la monitorización del flujo de aire <ins>no están homologados según EN 54-20</ins>, por lo que únicamente se deben utilizar previa consulta con el fabricante.",
+              "anchors": [
+                "En las posiciones de conmutador W01 a W48",
+                "no están homologados según EN 54-20",
+                "únicamente se deben utilizar previa consulta con el fabricante."
+              ],
+              "literal_sha256": "aa5b5b379db648220b3e1d38f67d680137eb1270aa8c9d1450025f4519bcc4b6"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp002.c2c99fa936e98f67.flow_direction_diagnosis",
+      "qid": "hp002",
+      "parent_fact_key": "hp002#1:80 %",
+      "parent_fact_sha256": "c2c99fa936e98f67f6874b81aa507f27b5e36e4267e89838b7cfb1298abada02",
+      "texto": "Un valor de flujo inferior al 100 % apunta a obstrucción; un valor superior al 100 % apunta a rotura de tubo.",
+      "valor": "<100 % obstrucción; >100 % rotura",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Responde la interpretación diagnóstica del flujo bajo.",
+      "source_bindings": [
+        {
+          "context_id": "b5804921-836c-49ca-8316-cecae6da409b",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 101,
+          "document_id": "ab258c38-30f7-4047-a421-ebb7a701a84a",
+          "product_model": "ASD535",
+          "content_sha256": "815ba8c0ed44bd756a33069ce9375c1d84b9cd49d8e744dbe43c6e19adf6f569",
+          "support_spans": [
+            {
+              "start_char": 0,
+              "end_char": 89,
+              "literal": "**Significado**: Valor < 100 % = apunta a obstrucción / > 100 % = apunta a rotura de tubo",
+              "anchors": [
+                "**Significado**: Valor < 100 % = apunta a obstrucción / > 100 % = apunta a rotura de tubo"
+              ],
+              "literal_sha256": "cc390873eeba8a5c044aeb6a3e9681abe1b762356771cae4a0bfb3de19dc2558"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp002.c2c99fa936e98f67.obstruction_checks",
+      "qid": "hp002",
+      "parent_fact_key": "hp002#1:80 %",
+      "parent_fact_sha256": "c2c99fa936e98f67f6874b81aa507f27b5e36e4267e89838b7cfb1298abada02",
+      "texto": "Para una obstrucción, el manual indica comprobar orificios y salida de aire, e inspeccionar y limpiar la caja o unidad de filtrado y el sensor de flujo.",
+      "valor": "conducto, filtro y sensor de flujo",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Proporciona las comprobaciones concretas para diagnosticar y corregir el flujo bajo.",
+      "source_bindings": [
+        {
+          "context_id": "9410f72f-fff5-494b-bdf5-a0a177e7f02e",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 128,
+          "document_id": "ab258c38-30f7-4047-a421-ebb7a701a84a",
+          "product_model": "ASD535",
+          "content_sha256": "74c4ff0100f5071595a57e34271edf94e0e7e793026b0cd46f48e3865df6ea7a",
+          "support_spans": [
+            {
+              "start_char": 835,
+              "end_char": 1239,
+              "literal": "| *001*  | Obstrucción, conducto de aspiración                | Conducto de aspiración, salida de aire en el ASD,<br/>Sensor flujo de aire | • Comprobar si el conducto de aspiración está obstruido (orificios de aspiración y salida de aire)<br/>• Inspeccionar y limpiar caja de filtro/unidad de filtrado<br/>• Inspeccionar y limpiar sensor flujo de aire                                                   |",
+              "anchors": [
+                "Comprobar si el conducto de aspiración está obstruido",
+                "Inspeccionar y limpiar caja de filtro/unidad de filtrado",
+                "caja de filtro/unidad de filtrado<br/>• Inspeccionar y limpiar sensor flujo de aire"
+              ],
+              "literal_sha256": "1c57d5ebfd00ffcdc64375e56bceebbe0cf408db022e5d7f2d7d8fd48ae8d27c"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp002.06f759b5da9ed40b.maintenance_safety",
+      "qid": "hp002",
+      "parent_fact_key": "hp002#3:7.6.1",
+      "parent_fact_sha256": "06f759b5da9ed40ba3e718ffcbfb92dd8d4ec41a5b4dc001c1df9ee38f2ba91b",
+      "texto": "Antes del diagnóstico de mantenimiento deben bloquearse o desconectarse los controles de incendio, las alertas remotas y las zonas de extinción para evitar su disparo.",
+      "valor": "bloquear o desconectar controles, alertas y extinción",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Es una precondición imperativa de seguridad del procedimiento de diagnóstico solicitado.",
+      "source_bindings": [
+        {
+          "context_id": "5b6a3a19-a924-4cf4-9513-bd50786ee3d9",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 121,
+          "document_id": "ab258c38-30f7-4047-a421-ebb7a701a84a",
+          "product_model": "ASD535",
+          "content_sha256": "3400c81c1f54a336e54648efeaf73eed73189997fbf346136e5a0216f872bd42",
+          "support_spans": [
+            {
+              "start_char": 76,
+              "end_char": 290,
+              "literal": "> Para evitar que los controles de incendios, las alertas remotas y las zonas de extinción se disparen al llevar a cabo los trabajos de mantenimiento, es **imprescindible** bloquearlos o desconectarlos previamente.",
+              "anchors": [
+                "Para evitar que los controles de incendios, las alertas remotas y las zonas de extinción se disparen",
+                "es **imprescindible** bloquearlos o desconectarlos previamente."
+              ],
+              "literal_sha256": "8e870672a8e813362487a3285a11a850826f64470bf3fdaf5fcbd1b7f826cdb3"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp002.06f759b5da9ed40b.read_and_compare_flow",
+      "qid": "hp002",
+      "parent_fact_key": "hp002#3:7.6.1",
+      "parent_fact_sha256": "06f759b5da9ed40ba3e718ffcbfb92dd8d4ec41a5b4dc001c1df9ee38f2ba91b",
+      "texto": "Para diagnosticar, lea el valor de flujo en la posición de conmutador V y compárelo con el protocolo de puesta en funcionamiento.",
+      "valor": "posición V + protocolo",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Es el paso operativo para comprobar si la desviación es real e interpretar su dirección.",
+      "source_bindings": [
+        {
+          "context_id": "5b6a3a19-a924-4cf4-9513-bd50786ee3d9",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 121,
+          "document_id": "ab258c38-30f7-4047-a421-ebb7a701a84a",
+          "product_model": "ASD535",
+          "content_sha256": "3400c81c1f54a336e54648efeaf73eed73189997fbf346136e5a0216f872bd42",
+          "support_spans": [
+            {
+              "start_char": 1557,
+              "end_char": 1924,
+              "literal": "   * Leer el valor de flujo de aire del conducto de aspiración en la posición de conmutador V (véase para ello el cap. 7.6.1) y comparar con el protocolo de puesta en funcionamiento. Si existe una desviación superior a la mitad de la sensibilidad establecida (véanse ejemplos ➀ y ➁), deberá realizarse una inspección del conducto de aspiración de la siguiente manera:",
+              "anchors": [
+                "Leer el valor de flujo de aire del conducto de aspiración en la posición de conmutador V",
+                "comparar con el protocolo de puesta en funcionamiento."
+              ],
+              "literal_sha256": "63cf0b97e5b19faa8e276193dc9ada4c6151082aec7e8cf0932c802ec33da798"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp004.ae02a395c8359cf9.supply_variants",
+      "qid": "hp004",
+      "parent_fact_key": "hp004#0:24V y 220V",
+      "parent_fact_sha256": "ae02a395c8359cf997c2e9bf6f2c2341d410e80fc51d441edb159074c6a98630",
+      "texto": "El DGD-600 se fabrica en versiones de alimentación de 24 V y 220 V, según el modelo.",
+      "valor": "24 V / 220 V",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Determina que deben darse dos pares de tensión y consumo para responder sin ambigüedad.",
+      "source_bindings": [
+        {
+          "context_id": "bf78e1db-f87b-4b60-b77f-2afae628c736",
+          "source_file": "55360004 Manual Detector Gas DGD-600 ES EN IT FR",
+          "page_number": 1,
+          "document_id": "4fa6d176-48a2-4283-a52a-b681c792d394",
+          "product_model": "DGD-600",
+          "content_sha256": "80b3f3a61bf22ee0d6d9735d4f2433b1cf2c5569505bf9aff9fd82007ccac59c",
+          "support_spans": [
+            {
+              "start_char": 1908,
+              "end_char": 2056,
+              "literal": "El DGD-600 debe conectarse a 24v o 220v (según modelo) a través de los conectores destinados para ello, tal y como muestran las siguientes imágenes:",
+              "anchors": [
+                "El DGD-600 debe conectarse a 24v o 220v (según modelo)"
+              ],
+              "literal_sha256": "5e8300544aadc3cac1ee11eebdc80f0fd333d7c158c304f1a862da8257eca590"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp004.5fbc4f5bce66dde5.model24_voltage",
+      "qid": "hp004",
+      "parent_fact_key": "hp004#1:22V a 38V",
+      "parent_fact_sha256": "5fbc4f5bce66dde5b4475ed9385131e13119ba654438d015327292b5bd992b7f",
+      "texto": "La versión de 24 V del DGD-600 funciona entre 22 y 38 V.",
+      "valor": "22-38 V",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "La pregunta pide la tensión de funcionamiento.",
+      "source_bindings": [
+        {
+          "context_id": "9786969a-8168-457b-aed8-3337235d874f",
+          "source_file": "55360004 Manual Detector Gas DGD-600 ES EN IT FR",
+          "page_number": 1,
+          "document_id": "4fa6d176-48a2-4283-a52a-b681c792d394",
+          "product_model": "DGD-600",
+          "content_sha256": "c1e20777a79c3cfb14456db81887f132068f388a4e079a51b815fdafe3452743",
+          "support_spans": [
+            {
+              "start_char": 897,
+              "end_char": 988,
+              "literal": "| Tensión de funcionamiento              | De 22V a 38V                  | de 180V a 240V |",
+              "anchors": [
+                "| Tensión de funcionamiento              | De 22V a 38V                  | de 180V a 240V |"
+              ],
+              "literal_sha256": "ce0c32147a2718293385de09a71595d9681eca0d19b96fccd32e583ec3e1167d"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp004.5fbc4f5bce66dde5.model24_standby",
+      "qid": "hp004",
+      "parent_fact_key": "hp004#1:22V a 38V",
+      "parent_fact_sha256": "5fbc4f5bce66dde5b4475ed9385131e13119ba654438d015327292b5bd992b7f",
+      "texto": "La versión de 24 V del DGD-600 consume 45 mA en reposo.",
+      "valor": "45 mA",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "La pregunta pide el consumo en reposo.",
+      "source_bindings": [
+        {
+          "context_id": "9786969a-8168-457b-aed8-3337235d874f",
+          "source_file": "55360004 Manual Detector Gas DGD-600 ES EN IT FR",
+          "page_number": 1,
+          "document_id": "4fa6d176-48a2-4283-a52a-b681c792d394",
+          "product_model": "DGD-600",
+          "content_sha256": "c1e20777a79c3cfb14456db81887f132068f388a4e079a51b815fdafe3452743",
+          "support_spans": [
+            {
+              "start_char": 989,
+              "end_char": 1080,
+              "literal": "| Consumo en reposo                      | 45 mA                         | 70 mA          |",
+              "anchors": [
+                "| Consumo en reposo                      | 45 mA                         | 70 mA          |"
+              ],
+              "literal_sha256": "d5e89d980b454e7f4d191701230ea661ac992be0a5e373e62ec1661b3e65821c"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp004.5fbc4f5bce66dde5.model24_alarm",
+      "qid": "hp004",
+      "parent_fact_key": "hp004#1:22V a 38V",
+      "parent_fact_sha256": "5fbc4f5bce66dde5b4475ed9385131e13119ba654438d015327292b5bd992b7f",
+      "texto": "La versión de 24 V del DGD-600 consume 65 mA en alarma.",
+      "valor": "65 mA",
+      "tipo": "supplementary",
+      "basis": "explicit",
+      "requiredness_reason": "Es una especificación útil, pero la pregunta no pide el consumo en alarma.",
+      "source_bindings": [
+        {
+          "context_id": "9786969a-8168-457b-aed8-3337235d874f",
+          "source_file": "55360004 Manual Detector Gas DGD-600 ES EN IT FR",
+          "page_number": 1,
+          "document_id": "4fa6d176-48a2-4283-a52a-b681c792d394",
+          "product_model": "DGD-600",
+          "content_sha256": "c1e20777a79c3cfb14456db81887f132068f388a4e079a51b815fdafe3452743",
+          "support_spans": [
+            {
+              "start_char": 1081,
+              "end_char": 1172,
+              "literal": "| Consumo en alarma                      | 65 mA                         | 70 mA          |",
+              "anchors": [
+                "| Consumo en alarma                      | 65 mA                         | 70 mA          |"
+              ],
+              "literal_sha256": "b2ba654e8fc16e0970e453289796a950c083e948df94b3db4ca587e2819efe6a"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp004.cf0e1e8fdc95c005.model220_voltage",
+      "qid": "hp004",
+      "parent_fact_key": "hp004#2:180V a 240V",
+      "parent_fact_sha256": "cf0e1e8fdc95c0051c04a5d54e657b2aef00011acf42882cd7186226bc658794",
+      "texto": "La versión de 220 V del DGD-600 funciona entre 180 y 240 V.",
+      "valor": "180-240 V",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "La pregunta pide la tensión de funcionamiento.",
+      "source_bindings": [
+        {
+          "context_id": "9786969a-8168-457b-aed8-3337235d874f",
+          "source_file": "55360004 Manual Detector Gas DGD-600 ES EN IT FR",
+          "page_number": 1,
+          "document_id": "4fa6d176-48a2-4283-a52a-b681c792d394",
+          "product_model": "DGD-600",
+          "content_sha256": "c1e20777a79c3cfb14456db81887f132068f388a4e079a51b815fdafe3452743",
+          "support_spans": [
+            {
+              "start_char": 897,
+              "end_char": 988,
+              "literal": "| Tensión de funcionamiento              | De 22V a 38V                  | de 180V a 240V |",
+              "anchors": [
+                "| Tensión de funcionamiento              | De 22V a 38V                  | de 180V a 240V |"
+              ],
+              "literal_sha256": "ce0c32147a2718293385de09a71595d9681eca0d19b96fccd32e583ec3e1167d"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp004.cf0e1e8fdc95c005.model220_standby",
+      "qid": "hp004",
+      "parent_fact_key": "hp004#2:180V a 240V",
+      "parent_fact_sha256": "cf0e1e8fdc95c0051c04a5d54e657b2aef00011acf42882cd7186226bc658794",
+      "texto": "La versión de 220 V del DGD-600 consume 70 mA en reposo.",
+      "valor": "70 mA",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "La pregunta pide el consumo en reposo.",
+      "source_bindings": [
+        {
+          "context_id": "9786969a-8168-457b-aed8-3337235d874f",
+          "source_file": "55360004 Manual Detector Gas DGD-600 ES EN IT FR",
+          "page_number": 1,
+          "document_id": "4fa6d176-48a2-4283-a52a-b681c792d394",
+          "product_model": "DGD-600",
+          "content_sha256": "c1e20777a79c3cfb14456db81887f132068f388a4e079a51b815fdafe3452743",
+          "support_spans": [
+            {
+              "start_char": 989,
+              "end_char": 1080,
+              "literal": "| Consumo en reposo                      | 45 mA                         | 70 mA          |",
+              "anchors": [
+                "| Consumo en reposo                      | 45 mA                         | 70 mA          |"
+              ],
+              "literal_sha256": "d5e89d980b454e7f4d191701230ea661ac992be0a5e373e62ec1661b3e65821c"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp004.cf0e1e8fdc95c005.model220_alarm",
+      "qid": "hp004",
+      "parent_fact_key": "hp004#2:180V a 240V",
+      "parent_fact_sha256": "cf0e1e8fdc95c0051c04a5d54e657b2aef00011acf42882cd7186226bc658794",
+      "texto": "La versión de 220 V del DGD-600 consume 70 mA en alarma.",
+      "valor": "70 mA",
+      "tipo": "supplementary",
+      "basis": "explicit",
+      "requiredness_reason": "Es una especificación útil, pero la pregunta no pide el consumo en alarma.",
+      "source_bindings": [
+        {
+          "context_id": "9786969a-8168-457b-aed8-3337235d874f",
+          "source_file": "55360004 Manual Detector Gas DGD-600 ES EN IT FR",
+          "page_number": 1,
+          "document_id": "4fa6d176-48a2-4283-a52a-b681c792d394",
+          "product_model": "DGD-600",
+          "content_sha256": "c1e20777a79c3cfb14456db81887f132068f388a4e079a51b815fdafe3452743",
+          "support_spans": [
+            {
+              "start_char": 1081,
+              "end_char": 1172,
+              "literal": "| Consumo en alarma                      | 65 mA                         | 70 mA          |",
+              "anchors": [
+                "| Consumo en alarma                      | 65 mA                         | 70 mA          |"
+              ],
+              "literal_sha256": "b2ba654e8fc16e0970e453289796a950c083e948df94b3db4ca587e2819efe6a"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp008.582541b1412a96ce.cpx551e",
+      "qid": "hp008",
+      "parent_fact_key": "hp008#0:CPX-551E",
+      "parent_fact_sha256": "582541b1412a96ced8bbf660f1edea842ebcdc05d6c029b9ec63b2a67333eb8e",
+      "texto": "El detector iónico CPX-551E figura como sensor compatible con la Notifier ID3000.",
+      "valor": "CPX-551E",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Es un detector de humo analógico compatible pedido por la pregunta.",
+      "source_bindings": [
+        {
+          "context_id": "11d96526-d627-4305-8cae-e6852af1b20b",
+          "source_file": "MIDT190",
+          "page_number": 71,
+          "document_id": "38266cec-8563-4dbb-9e55-37534d8ab7a8",
+          "product_model": "ID3000",
+          "content_sha256": "f96045d5867fdc474ab8bbfd2ce7e84d017cfd3fe1e253b274f9287247975e9b",
+          "support_spans": [
+            {
+              "start_char": 1047,
+              "end_char": 1064,
+              "literal": "a. CPX-551E (ION)",
+              "anchors": [
+                "a. CPX-551E (ION)"
+              ],
+              "literal_sha256": "5b84cb6d601f968482672e462e45de664b666fcc26268d05dae8131d5f25c0c8"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp008.582541b1412a96ce.cpx751e",
+      "qid": "hp008",
+      "parent_fact_key": "hp008#0:CPX-551E",
+      "parent_fact_sha256": "582541b1412a96ced8bbf660f1edea842ebcdc05d6c029b9ec63b2a67333eb8e",
+      "texto": "El detector iónico de bajo perfil CPX-751E figura como sensor compatible con la Notifier ID3000.",
+      "valor": "CPX-751E",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Es un detector de humo analógico compatible pedido por la pregunta.",
+      "source_bindings": [
+        {
+          "context_id": "11d96526-d627-4305-8cae-e6852af1b20b",
+          "source_file": "MIDT190",
+          "page_number": 71,
+          "document_id": "38266cec-8563-4dbb-9e55-37534d8ab7a8",
+          "product_model": "ID3000",
+          "content_sha256": "f96045d5867fdc474ab8bbfd2ce7e84d017cfd3fe1e253b274f9287247975e9b",
+          "support_spans": [
+            {
+              "start_char": 1066,
+              "end_char": 1097,
+              "literal": "b. CPX-751E (ION - bajo perfil)",
+              "anchors": [
+                "b. CPX-751E (ION - bajo perfil)"
+              ],
+              "literal_sha256": "428496c06ac5d3374d988515a616e12d8bafdd0a4cef9bb39d09ad43682855bc"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp008.6898c1c2de2ec424.sdx551e",
+      "qid": "hp008",
+      "parent_fact_key": "hp008#1:SDX-751",
+      "parent_fact_sha256": "6898c1c2de2ec424a2ded207eb27db533c34507e097380942f8dda09420ba0be",
+      "texto": "El detector óptico SDX551E figura como sensor compatible con la Notifier ID3000.",
+      "valor": "SDX551E",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Es un detector de humo analógico compatible pedido por la pregunta.",
+      "source_bindings": [
+        {
+          "context_id": "11d96526-d627-4305-8cae-e6852af1b20b",
+          "source_file": "MIDT190",
+          "page_number": 71,
+          "document_id": "38266cec-8563-4dbb-9e55-37534d8ab7a8",
+          "product_model": "ID3000",
+          "content_sha256": "f96045d5867fdc474ab8bbfd2ce7e84d017cfd3fe1e253b274f9287247975e9b",
+          "support_spans": [
+            {
+              "start_char": 1099,
+              "end_char": 1115,
+              "literal": "c. SDX551E (OPT)",
+              "anchors": [
+                "c. SDX551E (OPT)"
+              ],
+              "literal_sha256": "3a507c124674b0c2ec2d90ca6ffa9f193c92c1b5058ce8030e660818e0280cd0"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp008.6898c1c2de2ec424.sdx751",
+      "qid": "hp008",
+      "parent_fact_key": "hp008#1:SDX-751",
+      "parent_fact_sha256": "6898c1c2de2ec424a2ded207eb27db533c34507e097380942f8dda09420ba0be",
+      "texto": "El detector óptico SDX-751 figura como sensor compatible con la Notifier ID3000.",
+      "valor": "SDX-751",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Es un detector de humo analógico compatible pedido por la pregunta.",
+      "source_bindings": [
+        {
+          "context_id": "11d96526-d627-4305-8cae-e6852af1b20b",
+          "source_file": "MIDT190",
+          "page_number": 71,
+          "document_id": "38266cec-8563-4dbb-9e55-37534d8ab7a8",
+          "product_model": "ID3000",
+          "content_sha256": "f96045d5867fdc474ab8bbfd2ce7e84d017cfd3fe1e253b274f9287247975e9b",
+          "support_spans": [
+            {
+              "start_char": 1117,
+              "end_char": 1133,
+              "literal": "d. SDX-751 (OPT)",
+              "anchors": [
+                "d. SDX-751 (OPT)"
+              ],
+              "literal_sha256": "f6393fb1f777eedab1e2cabaa2a0d54cba16d815d1ee5a4f065b49f2bebd42ae"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp008.6898c1c2de2ec424.sdx751em",
+      "qid": "hp008",
+      "parent_fact_key": "hp008#1:SDX-751",
+      "parent_fact_sha256": "6898c1c2de2ec424a2ded207eb27db533c34507e097380942f8dda09420ba0be",
+      "texto": "El detector óptico SDX-751EM figura como sensor analógico compatible con la Notifier ID3000.",
+      "valor": "SDX-751EM",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Es un detector de humo analógico compatible pedido por la pregunta.",
+      "source_bindings": [
+        {
+          "context_id": "f15e1eca-7985-4abf-83ee-130d66e1849d",
+          "source_file": "MPDT190",
+          "page_number": 135,
+          "document_id": "1fbe2926-1af1-4d2c-af45-ae8abe53e100",
+          "product_model": "ID3000",
+          "content_sha256": "be1c9a77b6e83cbe65fe30f713ebf7c8b9ff67ad8697798aca0be38067d89074",
+          "support_spans": [
+            {
+              "start_char": 412,
+              "end_char": 431,
+              "literal": "d. Óptico SDX-751EM",
+              "anchors": [
+                "d. Óptico SDX-751EM"
+              ],
+              "literal_sha256": "6aac94bfb8772e48b33d6f91b0a140bdf6da2fc4292e67be343dcb1bb31aa8c8"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp008.d7fc6ebefe5f9c92.irx751ctem",
+      "qid": "hp008",
+      "parent_fact_key": "hp008#2:IRX-751CTEM",
+      "parent_fact_sha256": "d7fc6ebefe5f9c9233aba97349619247e034d72722845b0f4103861b6f218c07",
+      "texto": "El sensor multicriterio IRX-751CTEM (SMART 4) figura como compatible con la Notifier ID3000.",
+      "valor": "IRX-751CTEM",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Es un detector de humo analógico compatible pedido por la pregunta.",
+      "source_bindings": [
+        {
+          "context_id": "11d96526-d627-4305-8cae-e6852af1b20b",
+          "source_file": "MIDT190",
+          "page_number": 71,
+          "document_id": "38266cec-8563-4dbb-9e55-37534d8ab7a8",
+          "product_model": "ID3000",
+          "content_sha256": "f96045d5867fdc474ab8bbfd2ce7e84d017cfd3fe1e253b274f9287247975e9b",
+          "support_spans": [
+            {
+              "start_char": 56,
+              "end_char": 77,
+              "literal": "IRX-751CTEM (SMART 4)",
+              "anchors": [
+                "IRX-751CTEM (SMART 4)"
+              ],
+              "literal_sha256": "1811181c1b329d75a22d16795f5cc9dea0757830bcfb4c2d8fd0efa4188ba72c"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp008.d7fc6ebefe5f9c92.irx751tem",
+      "qid": "hp008",
+      "parent_fact_key": "hp008#2:IRX-751CTEM",
+      "parent_fact_sha256": "d7fc6ebefe5f9c9233aba97349619247e034d72722845b0f4103861b6f218c07",
+      "texto": "El sensor multicriterio IRX-751TEM (SMART 3) figura como compatible con la Notifier ID3000.",
+      "valor": "IRX-751TEM",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Es un detector de humo analógico compatible pedido por la pregunta.",
+      "source_bindings": [
+        {
+          "context_id": "11d96526-d627-4305-8cae-e6852af1b20b",
+          "source_file": "MIDT190",
+          "page_number": 71,
+          "document_id": "38266cec-8563-4dbb-9e55-37534d8ab7a8",
+          "product_model": "ID3000",
+          "content_sha256": "f96045d5867fdc474ab8bbfd2ce7e84d017cfd3fe1e253b274f9287247975e9b",
+          "support_spans": [
+            {
+              "start_char": 79,
+              "end_char": 99,
+              "literal": "IRX-751TEM (SMART 3)",
+              "anchors": [
+                "IRX-751TEM (SMART 3)"
+              ],
+              "literal_sha256": "9427cb5b92b6447fb4701d954ce8858d4562540e1e64acd18e0fdf97332a99c4"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp008.9f88aa8a1292a479.sdx751tem",
+      "qid": "hp008",
+      "parent_fact_key": "hp008#3:SDX-751-TEM",
+      "parent_fact_sha256": "9f88aa8a1292a479b1d483be2bdecb6172c4955d35c40f606e51cc45e75b8323",
+      "texto": "El SDX-751TEM (Optiplex), sensor combinado térmico/humo, figura como compatible con la Notifier ID3000.",
+      "valor": "SDX-751TEM",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Es un detector de humo analógico compatible pedido por la pregunta.",
+      "source_bindings": [
+        {
+          "context_id": "f15e1eca-7985-4abf-83ee-130d66e1849d",
+          "source_file": "MPDT190",
+          "page_number": 135,
+          "document_id": "1fbe2926-1af1-4d2c-af45-ae8abe53e100",
+          "product_model": "ID3000",
+          "content_sha256": "be1c9a77b6e83cbe65fe30f713ebf7c8b9ff67ad8697798aca0be38067d89074",
+          "support_spans": [
+            {
+              "start_char": 347,
+              "end_char": 390,
+              "literal": "b. Optiplex (Comb. térmico/humo) SDX-751TEM",
+              "anchors": [
+                "b. Optiplex (Comb. térmico/humo) SDX-751TEM"
+              ],
+              "literal_sha256": "32dc371fd2ae2732726466c025ff25bdd85d9b2597842006d4b834e0d466418a"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp017.f4849c19a9af7245.cause_effect_rules",
+      "qid": "hp017",
+      "parent_fact_key": "hp017#0:causa-efecto",
+      "parent_fact_sha256": "f4849c19a9af72452c802a7f49b98fffbf163fa9354283e62b54dec370229618",
+      "texto": "En la Notifier PEARL, los retardos de salida pueden especificarse dentro de reglas de causa-efecto.",
+      "valor": "reglas de causa-efecto",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Identifica el mecanismo de programación solicitado.",
+      "source_bindings": [
+        {
+          "context_id": "570d9951-e3a6-4c64-a927-e26b5e6db842",
+          "source_file": "997-671-005-3_Configuration_ES",
+          "page_number": 44,
+          "document_id": "17d4b914-fa21-4b41-a928-bafe1846528a",
+          "product_model": "Pearl",
+          "content_sha256": "b685551111404d24bfd29fc5f680eb29c294bfe742c2503c9a1c3d7aced2b45c",
+          "support_spans": [
+            {
+              "start_char": 238,
+              "end_char": 452,
+              "literal": "Las reglas de causa-efecto pueden especificar diferentes condiciones para retardos de salida y cómo se controlan. Se puede asignar uno de seis tipos de retardo de salida a una regla, como se explica a continuación.",
+              "anchors": [
+                "Las reglas de causa-efecto pueden especificar diferentes condiciones para retardos de salida y cómo se controlan."
+              ],
+              "literal_sha256": "44023204f30512b277857e72c32179185e544f0f8b0681c98101e6b712f112a9"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp017.7258aec395b0f78d.programming_method",
+      "qid": "hp017",
+      "parent_fact_key": "hp017#1:instruccion de entrada",
+      "parent_fact_sha256": "7258aec395b0f78dcce808ef121a9c7a708791686ed8d66c7a3d55911b288892",
+      "texto": "El método principal recomendado para programar las reglas de causa-efecto de la PEARL es el programa de configuración por ordenador; el menú de la central debe reservarse para modificaciones menores.",
+      "valor": "programa de PC principal; panel solo cambios menores",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "La pregunta pide cómo programar el retardo y la fuente prescribe el método principal y el alcance limitado del panel.",
+      "source_bindings": [
+        {
+          "context_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+          "source_file": "997-671-005-3_Configuration_ES",
+          "page_number": 41,
+          "document_id": "17d4b914-fa21-4b41-a928-bafe1846528a",
+          "product_model": "Pearl",
+          "content_sha256": "34fbd84d80883b5ade555bda6a1df2189ecd7e31eb40a2b9f20e7e51abe7b72a",
+          "support_spans": [
+            {
+              "start_char": 675,
+              "end_char": 1090,
+              "literal": "**Se recomienda utilizar el programa de configuración por ordenador como principal método de programación. El menú de la central debería emplearse solo para realizar modificaciones menores en las reglas, tal vez para responder a cambios posteriores de configuración; aun así, como se ha dicho, el uso del programa de configuración siempre será el método más adecuado para realizar las actualizaciones pertinentes.**",
+              "anchors": [
+                "El menú de la central debería emplearse solo para realizar modificaciones menores en las reglas",
+                "Se recomienda utilizar el programa de configuración por ordenador como principal método de programación."
+              ],
+              "literal_sha256": "28f7b418855db94de37608fc74abe1f32b37c13735ad941377f4507a39faf5ce"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp017.7258aec395b0f78d.input_instruction",
+      "qid": "hp017",
+      "parent_fact_key": "hp017#1:instruccion de entrada",
+      "parent_fact_sha256": "7258aec395b0f78dcce808ef121a9c7a708791686ed8d66c7a3d55911b288892",
+      "texto": "La instrucción de entrada de una regla PEARL define una condición como alarma, avería o cambio de estado en una categoría de entrada.",
+      "valor": "condición de entrada",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "La regla necesita una causa o condición que inicie el retardo.",
+      "source_bindings": [
+        {
+          "context_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+          "source_file": "997-671-005-3_Configuration_ES",
+          "page_number": 41,
+          "document_id": "17d4b914-fa21-4b41-a928-bafe1846528a",
+          "product_model": "Pearl",
+          "content_sha256": "34fbd84d80883b5ade555bda6a1df2189ecd7e31eb40a2b9f20e7e51abe7b72a",
+          "support_spans": [
+            {
+              "start_char": 1425,
+              "end_char": 1692,
+              "literal": "* Instrucción de entrada: esta parte de la regla es una condición de entrada, como una alarma, una avería o la detección de un cambio de estado en una determinada categoría de entrada (condiciones de regla de coincidencia de zona, entrada de un equipo externo, etc.).",
+              "anchors": [
+                "Instrucción de entrada: esta parte de la regla es una condición de entrada, como una alarma, una avería o la detección de un cambio de estado"
+              ],
+              "literal_sha256": "9267151fbad48b202fd1145e8dc03718f8ddd3fc78423933c696171cc98c19c9"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp017.7258aec395b0f78d.output_instruction",
+      "qid": "hp017",
+      "parent_fact_key": "hp017#1:instruccion de entrada",
+      "parent_fact_sha256": "7258aec395b0f78dcce808ef121a9c7a708791686ed8d66c7a3d55911b288892",
+      "texto": "La instrucción de salida solo se procesa cuando se cumplen todas las condiciones de entrada y puede accionar sirenas, relés u otros equipos asignados.",
+      "valor": "salida tras cumplir condiciones",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Define qué salida retardada se acciona y bajo qué precondición.",
+      "source_bindings": [
+        {
+          "context_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+          "source_file": "997-671-005-3_Configuration_ES",
+          "page_number": 41,
+          "document_id": "17d4b914-fa21-4b41-a928-bafe1846528a",
+          "product_model": "Pearl",
+          "content_sha256": "34fbd84d80883b5ade555bda6a1df2189ecd7e31eb40a2b9f20e7e51abe7b72a",
+          "support_spans": [
+            {
+              "start_char": 1694,
+              "end_char": 2107,
+              "literal": "* Instrucción de salida: esta parte de la regla solo puede procesarse cuando se cumplen todas las condiciones de entrada programadas. La salida se refiere al accionamiento de uno o más equipos asignados, como sirenas o relés, o el cambio de estado de una condición de salida, mediante un flag lógico, para realizar una acción de fase secundaria, que exige el cumplimiento de una serie de instrucciones de entrada.",
+              "anchors": [
+                "Instrucción de salida: esta parte de la regla solo puede procesarse cuando se cumplen todas las condiciones de entrada programadas.",
+                "La salida se refiere al accionamiento de uno o más equipos asignados, como sirenas o relés"
+              ],
+              "literal_sha256": "011ad9a7336da92bca25bcca36e6d11783d2d659a76e9756d86f0f4af8cf8682"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp017.7258aec395b0f78d.avoid_contradictory_logic",
+      "qid": "hp017",
+      "parent_fact_key": "hp017#1:instruccion de entrada",
+      "parent_fact_sha256": "7258aec395b0f78dcce808ef121a9c7a708791686ed8d66c7a3d55911b288892",
+      "texto": "Al programar las reglas de causa-efecto de la PEARL deben evitarse las lógicas contradictorias.",
+      "valor": "evitar lógicas contradictorias",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Es una advertencia operativa expresa para programar reglas sin crear conflictos.",
+      "source_bindings": [
+        {
+          "context_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+          "source_file": "997-671-005-3_Configuration_ES",
+          "page_number": 41,
+          "document_id": "17d4b914-fa21-4b41-a928-bafe1846528a",
+          "product_model": "Pearl",
+          "content_sha256": "34fbd84d80883b5ade555bda6a1df2189ecd7e31eb40a2b9f20e7e51abe7b72a",
+          "support_spans": [
+            {
+              "start_char": 2479,
+              "end_char": 2555,
+              "literal": "> **Al programar reglas de causa-efecto evite las lógicas contradictorias.**",
+              "anchors": [
+                "Al programar reglas de causa-efecto evite las lógicas contradictorias."
+              ],
+              "literal_sha256": "84759f9608dc8b7c74900f0f8bda29ce4bdce5ff3dbf0b465167a564e2de18dd"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp017.7258aec395b0f78d.commissioning_test",
+      "qid": "hp017",
+      "parent_fact_key": "hp017#1:instruccion de entrada",
+      "parent_fact_sha256": "7258aec395b0f78dcce808ef121a9c7a708791686ed8d66c7a3d55911b288892",
+      "texto": "Durante la puesta en marcha deben probarse rigurosamente todas las reglas de causa-efecto para verificar que no existan conflictos lógicos.",
+      "valor": "prueba rigurosa en puesta en marcha",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Es la validación obligatoria que cierra de forma segura el procedimiento de programación solicitado.",
+      "source_bindings": [
+        {
+          "context_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+          "source_file": "997-671-005-3_Configuration_ES",
+          "page_number": 41,
+          "document_id": "17d4b914-fa21-4b41-a928-bafe1846528a",
+          "product_model": "Pearl",
+          "content_sha256": "34fbd84d80883b5ade555bda6a1df2189ecd7e31eb40a2b9f20e7e51abe7b72a",
+          "support_spans": [
+            {
+              "start_char": 2558,
+              "end_char": 2724,
+              "literal": "> **Es de vital importancia probar rigurosamente todas las reglas durante la puesta en marcha del sistema para verificar que no haya conflictos lógicos entre ellas.**",
+              "anchors": [
+                "Es de vital importancia probar rigurosamente todas las reglas durante la puesta en marcha del sistema para verificar que no haya conflictos lógicos entre ellas."
+              ],
+              "literal_sha256": "cea4c7bdd43ac4484361488c97d6f62551f0a5ce5f62afb12103182183d5321f"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp017.ee150da7e6a7607d.delay_types",
+      "qid": "hp017",
+      "parent_fact_key": "hp017#3:seis tipos de retardo",
+      "parent_fact_sha256": "ee150da7e6a7607d6415f092e104304e82a1e73e8eac42daf4f4fde31b188556",
+      "texto": "A una regla de causa-efecto PEARL se le puede asignar uno de seis tipos de retardo de salida; el tipo determina las acciones disponibles mientras el retardo está activo.",
+      "valor": "seis tipos de retardo",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Elegir el tipo forma parte de programar el comportamiento del retardo solicitado.",
+      "source_bindings": [
+        {
+          "context_id": "570d9951-e3a6-4c64-a927-e26b5e6db842",
+          "source_file": "997-671-005-3_Configuration_ES",
+          "page_number": 44,
+          "document_id": "17d4b914-fa21-4b41-a928-bafe1846528a",
+          "product_model": "Pearl",
+          "content_sha256": "b685551111404d24bfd29fc5f680eb29c294bfe742c2503c9a1c3d7aced2b45c",
+          "support_spans": [
+            {
+              "start_char": 238,
+              "end_char": 452,
+              "literal": "Las reglas de causa-efecto pueden especificar diferentes condiciones para retardos de salida y cómo se controlan. Se puede asignar uno de seis tipos de retardo de salida a una regla, como se explica a continuación.",
+              "anchors": [
+                "Se puede asignar uno de seis tipos de retardo de salida a una regla"
+              ],
+              "literal_sha256": "44023204f30512b277857e72c32179185e544f0f8b0681c98101e6b712f112a9"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp019.9e06c35fb7c4d8ef.operating_temperature",
+      "qid": "hp019",
+      "parent_fact_key": "hp019#0:-30 a +60",
+      "parent_fact_sha256": "9e06c35fb7c4d8ef9362a0d7fb357f29058b97e6dd527b45a8988469fecea3f1",
+      "texto": "El rango estándar de funcionamiento del ASD 535 es de −30 a +60 °C para la caja y el conducto de aspiración; para UL la caja tiene un máximo de +40 °C, y para el conducto pueden acordarse otros rangos con el fabricante.",
+      "valor": "−30 a +60 °C; UL caja máx. +40 °C",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Responde el rango pedido preservando las excepciones que modifican su aplicabilidad.",
+      "source_bindings": [
+        {
+          "context_id": "99908a8c-aa47-4d92-aba4-17d0188e9f6c",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 133,
+          "document_id": "ab258c38-30f7-4047-a421-ebb7a701a84a",
+          "product_model": "ASD535",
+          "content_sha256": "a6725709c801243eb931dccb6c44d0c29f3e99fbadda6bf51e4409336a6f8697",
+          "support_spans": [
+            {
+              "start_char": 7502,
+              "end_char": 7759,
+              "literal": "| • Rango de temperatura caja del detector                                                                                  |                               | –30 – +60 (UL máx. +40)                                          |            | °C          |     |",
+              "anchors": [
+                "–30 – +60 (UL máx. +40)"
+              ],
+              "literal_sha256": "9e5e6586a824e7230a3683565eef1fce4b6b79bb52bd473d6599632f54a953bb"
+            },
+            {
+              "start_char": 8018,
+              "end_char": 8275,
+              "literal": "| • Rango de temperatura conducto de aspiración                                                                             |                               | –30 – +60 ➂                                                      |            | °C          |     |",
+              "anchors": [
+                "–30 – +60 ➂"
+              ],
+              "literal_sha256": "2ab89a7cafcec6b0bc1217edffd47a63873cdd64964b14001c3f82c8568e661b"
+            }
+          ]
+        },
+        {
+          "context_id": "79bc7788-b128-4abc-beea-6317e4d06993",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 133,
+          "document_id": "ab258c38-30f7-4047-a421-ebb7a701a84a",
+          "product_model": "ASD535",
+          "content_sha256": "d297a8506976b4c326a90cbea3e85487ee3747a94e582fa8b8494fd9129b15ce",
+          "support_spans": [
+            {
+              "start_char": 444,
+              "end_char": 634,
+              "literal": "➂ Es posible acordar con el fabricante rangos de temperatura inferiores o superiores. La instalación en el rango de condensación solo podrá llevarse a cabo previa consulta con el fabricante.",
+              "anchors": [
+                "Es posible acordar con el fabricante rangos de temperatura inferiores o superiores."
+              ],
+              "literal_sha256": "ac7b3ea3353b9e15227a914698b783783235e76290c6a12d798b353a0b278026"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp020.253dbf5abe806d5c.level2_change",
+      "qid": "hp020",
+      "parent_fact_key": "hp020#0:nivel 2 o 3",
+      "parent_fact_sha256": "253dbf5abe806d5cf1c3d66effbdbe9df1e5c3aec8819dc17d722fb6c660e65a",
+      "texto": "Con una sesión de nivel de acceso 2 se puede cambiar el código de acceso de nivel 2.",
+      "valor": "sesión NA2 → código NA2",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "La pregunta pide cómo gestionar la contraseña de nivel 2.",
+      "source_bindings": [
+        {
+          "context_id": "1e38f728-ce6a-4753-b24f-46c9106d8c6a",
+          "source_file": "HOP-138-8ES  issue 6_01-2026_Co",
+          "page_number": 49,
+          "document_id": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+          "product_model": "INSPIRE E10/E15",
+          "content_sha256": "9f386e5aa35cbf880f98963e09b65f1f91df3dd473b700d54dd561d96bae9b6a",
+          "support_spans": [
+            {
+              "start_char": 771,
+              "end_char": 939,
+              "literal": "Si estás en el nivel de acceso 2, puedes cambiar el código de acceso del nivel 2 y si estás en el nivel de acceso 3, puedes cambiar el código de acceso del nivel 2 o 3.",
+              "anchors": [
+                "Si estás en el nivel de acceso 2, puedes cambiar el código de acceso del nivel 2"
+              ],
+              "literal_sha256": "891614f1ac6ba82a1bf40bc1d502ac1e99bfcd2c7a5a36b271356e2d0e9f6525"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp020.253dbf5abe806d5c.level3_change",
+      "qid": "hp020",
+      "parent_fact_key": "hp020#0:nivel 2 o 3",
+      "parent_fact_sha256": "253dbf5abe806d5cf1c3d66effbdbe9df1e5c3aec8819dc17d722fb6c660e65a",
+      "texto": "Con una sesión de nivel de acceso 3 se puede cambiar el código de acceso de nivel 2 o de nivel 3.",
+      "valor": "sesión NA3 → código NA2 o NA3",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "La pregunta pide cómo gestionar la contraseña de nivel 3 y su alcance.",
+      "source_bindings": [
+        {
+          "context_id": "1e38f728-ce6a-4753-b24f-46c9106d8c6a",
+          "source_file": "HOP-138-8ES  issue 6_01-2026_Co",
+          "page_number": 49,
+          "document_id": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+          "product_model": "INSPIRE E10/E15",
+          "content_sha256": "9f386e5aa35cbf880f98963e09b65f1f91df3dd473b700d54dd561d96bae9b6a",
+          "support_spans": [
+            {
+              "start_char": 771,
+              "end_char": 939,
+              "literal": "Si estás en el nivel de acceso 2, puedes cambiar el código de acceso del nivel 2 y si estás en el nivel de acceso 3, puedes cambiar el código de acceso del nivel 2 o 3.",
+              "anchors": [
+                "si estás en el nivel de acceso 3, puedes cambiar el código de acceso del nivel 2 o 3."
+              ],
+              "literal_sha256": "891614f1ac6ba82a1bf40bc1d502ac1e99bfcd2c7a5a36b271356e2d0e9f6525"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp020.8086e1ff3028ad10.reenter_to_confirm",
+      "qid": "hp020",
+      "parent_fact_key": "hp020#3:satisfactorio",
+      "parent_fact_sha256": "8086e1ff3028ad109548799caa290fe3b7faf6c4963d0cdbd51ba443005c6e77",
+      "texto": "Después de introducir el nuevo código, se repiten los pasos 03 a 06 para confirmarlo.",
+      "valor": "reintroducir código",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Es un paso necesario del procedimiento de cambio de contraseña.",
+      "source_bindings": [
+        {
+          "context_id": "1e38f728-ce6a-4753-b24f-46c9106d8c6a",
+          "source_file": "HOP-138-8ES  issue 6_01-2026_Co",
+          "page_number": 49,
+          "document_id": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+          "product_model": "INSPIRE E10/E15",
+          "content_sha256": "9f386e5aa35cbf880f98963e09b65f1f91df3dd473b700d54dd561d96bae9b6a",
+          "support_spans": [
+            {
+              "start_char": 1473,
+              "end_char": 1551,
+              "literal": "07 Confirme la entrada del código de acceso realizada, siga los pasos 03 a 06.",
+              "anchors": [
+                "Confirme la entrada del código de acceso realizada, siga los pasos 03 a 06."
+              ],
+              "literal_sha256": "070c7f748fb2df063656da9e75181fdf2faef562e0d27e3d3d8b366c543fdde3"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    },
+    {
+      "migration_id": "m1.hp020.8086e1ff3028ad10.success_message",
+      "qid": "hp020",
+      "parent_fact_key": "hp020#3:satisfactorio",
+      "parent_fact_sha256": "8086e1ff3028ad109548799caa290fe3b7faf6c4963d0cdbd51ba443005c6e77",
+      "texto": "Tras confirmar el código, la central muestra «Cambio de código de acceso satisfactorio» y se debe seleccionar Aceptar.",
+      "valor": "mensaje satisfactorio + Aceptar",
+      "tipo": "core",
+      "basis": "explicit",
+      "requiredness_reason": "Confirma que el procedimiento terminó correctamente.",
+      "source_bindings": [
+        {
+          "context_id": "1e38f728-ce6a-4753-b24f-46c9106d8c6a",
+          "source_file": "HOP-138-8ES  issue 6_01-2026_Co",
+          "page_number": 49,
+          "document_id": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+          "product_model": "INSPIRE E10/E15",
+          "content_sha256": "9f386e5aa35cbf880f98963e09b65f1f91df3dd473b700d54dd561d96bae9b6a",
+          "support_spans": [
+            {
+              "start_char": 1553,
+              "end_char": 1653,
+              "literal": "08 Observe el mensaje \"Cambio de código de acceso satisfactorio\". Seleccione Aceptar para reconocer.",
+              "anchors": [
+                "Observe el mensaje \"Cambio de código de acceso satisfactorio\". Seleccione Aceptar para reconocer."
+              ],
+              "literal_sha256": "60b46b0ceeeab5c0d2c544e843de9d5fb9a8fcaf61be2aab564b3006b1250396"
+            }
+          ]
+        }
+      ],
+      "answer_replay": null
+    }
+  ],
+  "limitations": [
+    "This artifact freezes the evaluation contract but does not score the frozen answers.",
+    "It reconciles the 33 known blockers only; other provisional legacy carries remain outside an official whole-benchmark atomic KPI."
+  ],
+  "payload_sha256": "4309dbda680ed3ee4a2b2703276f3f7e7b80d06d4417d1b95e2f557cf8b1d15e"
+}

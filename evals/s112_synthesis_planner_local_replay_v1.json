@@ -1,0 +1,929 @@
+{
+  "instrument": "s112_synthesis_planner_local_replay_v1",
+  "mode": "supplement_development_only",
+  "inputs": {
+    "freeze": "evals\\s112_synthesis_context_freeze_v1.json",
+    "incremental_answers": "evals\\s112_incremental_answer_replay_v1.json",
+    "s109_answers": "evals\\s109_bounded_synthesis_runtime_pilot_v1.json"
+  },
+  "gate": {
+    "questions": 12,
+    "projected_synthesis_facts": 15,
+    "questions_changed": 6,
+    "obligations": 12,
+    "obligations_covered_after": 12,
+    "candidate_fact_coverage_gains": 6,
+    "model_calls": 0,
+    "database_calls": 0,
+    "release_decision": "NO_GO_DEVELOPMENT_COHORT_REQUIRES_GUIDED_GENERATION_AND_REVIEW"
+  },
+  "rows": [
+    {
+      "qid": "cat008",
+      "question": "¿Cómo se cablea el módulo de entrada M710 / MI-DMMI en el lazo, y qué resistencias necesita (fin de línea y modo 3 estados)?",
+      "context_source": "s100_served_context_unchanged",
+      "answer_source": "s100_factlevel_full_baseline_answer",
+      "raw_answer_sha256": "80d035e1e292e6cfb38978205aba9d62daffa61f076ffbfc732d2b181b5ed58b",
+      "revised_answer_sha256": "80d035e1e292e6cfb38978205aba9d62daffa61f076ffbfc732d2b181b5ed58b",
+      "answer_changed": false,
+      "planner": {
+        "mode": "supplement",
+        "plan": [],
+        "validation": {
+          "total": 0,
+          "covered": 0,
+          "missing": [],
+          "rows": []
+        }
+      },
+      "all_obligation_citations_present": true,
+      "facts": [
+        {
+          "key": "cat008#3:1/2/3/4 lazo; 6-7 entrada A",
+          "projected_class": "synthesis-miss",
+          "before": {
+            "present": false,
+            "method": "prose",
+            "detail": "overlap=67% valor='1/2/3/4 lazo; 6-7 entrada A'"
+          },
+          "after": {
+            "present": false,
+            "method": "prose",
+            "detail": "overlap=67% valor='1/2/3/4 lazo; 6-7 entrada A'"
+          },
+          "local_transition": "no_deterministic_fact_gain",
+          "manual_review_required": true
+        }
+      ],
+      "revised_answer": "# Conexionado del módulo M710 / MI-DMMI en el lazo\n\n---\n\n## Asignación de terminales (lazo)\n\nLos terminales de lazo son los mismos en ambos modelos [F1][F8]:\n\n- **Terminal 1** → Lazo entrada (–)\n- **Terminal 2** → Lazo entrada (+) — con aislador interno activo\n- **Terminal 3** → Lazo salida (–)\n- **Terminal 4** → Lazo salida (+)\n- **Terminal 5** → Lazo salida (+) alternativo — sin aislador interno\n\n---\n\n## Aislador interno de cortocircuito\n\n- **Con aislador activo**: conectar el positivo de salida del lazo al **terminal 2** [F1][F8]\n- **Sin aislador** (bypass): conectar el positivo de salida del lazo al **terminal 5** en vez del 2. El terminal 5 está conectado internamente con el terminal 4 [F8][F7]\n\n> ⚠️ En el MI-DMMI, **no hay conexiones en los terminales 8 y 9**. El circuito de aislador externo adicional (terminales 8 y 9) es exclusivo del MI-DMM2I [F7].\n\n---\n\n## Resistencia de fin de línea (EOL)\n\n- Valor: **47 kΩ** [F1][F10]\n- Referencia de componente citada en los manuales: **M200-EOL-R** [F10][F5]\n\n---\n\n## Modo 2 estados vs. 3 estados\n\n### Conexionado 2 estados\n- El **cortocircuito se señaliza como alarma** [F1]\n- No se requiere resistencia adicional en serie con el contacto\n\n### Conexionado 3 estados\n- Permite distinguir cortocircuito como **avería** en lugar de alarma (si el panel de control lo permite) [F1][F8]\n- **Requisito**: conectar una resistencia de **18 kΩ en serie** con cada contacto/conmutador que se desee supervisar [F1][F8]\n- Referencia de componente para el M710: **M200E-EOL-R18** [F8]\n\n---\n\n## Resumen rápido de resistencias\n\n- **EOL (fin de línea):** 47 kΩ — M200-EOL-R [F10]\n- **Serie para modo 3 estados:** 18 kΩ por contacto — M200E-EOL-R18 [F8]\n\n---\n\n> **Nota:** Para la programación del módulo en la central ID3000, consulta el artículo específico de programación de módulos de entrada [F1]. Para soporte técnico: `soporteHLSI@honeywell.com` [F1]\n\n---\n\n**Fuentes:**\n- Conexionado-del-modulo-M710-MI-DMMI (sin revisión registrada)\n- I56-2005-002 M710 M720 M721 M701 (sin revisión registrada)\n- I56-2006-004 MI-DMMI\\_DMM2I\\_D2ICMO (sin revisión registrada)\n- I56-4404-001 M710E M720E M721E (sin revisión registrada)"
+    },
+    {
+      "qid": "cat016",
+      "question": "En la Detnov CAD-150, ¿como se da de alta un detector nuevo en el lazo y como se prueba que funciona?",
+      "context_source": "s100_served_context_unchanged",
+      "answer_source": "s100_factlevel_full_baseline_answer",
+      "raw_answer_sha256": "a1ee4a9261fbbf20711e68a4a69bc6781a879bdabfd48b39b369e373a6954865",
+      "revised_answer_sha256": "a1ee4a9261fbbf20711e68a4a69bc6781a879bdabfd48b39b369e373a6954865",
+      "answer_changed": false,
+      "planner": {
+        "mode": "supplement",
+        "plan": [
+          {
+            "obligation_id": "obl_ae759e820316",
+            "fragment_number": 1,
+            "candidate_id": "294a778c-1dca-40de-8a1b-a9f0c471ea36",
+            "facet": "served_relation:commissioning_menu_bundle",
+            "kind": "commissioning_menu_bundle",
+            "statement": "Para realizar la autobusqueda acceda al *menú BUCLE*.; Para crear y asignarlas zonas a los elementos acceda al menú ZONA.; Para nombrarlos y asignarles zona acceda *al menú ELEMENTOS*.",
+            "required_anchors": [
+              "menu BUCLE",
+              "menu ZONA",
+              "menu ELEMENTOS"
+            ],
+            "source_start": 290,
+            "source_end": 784
+          }
+        ],
+        "validation": {
+          "total": 1,
+          "covered": 1,
+          "missing": [],
+          "rows": [
+            {
+              "obligation_id": "obl_ae759e820316",
+              "fragment_number": 1,
+              "candidate_id": "294a778c-1dca-40de-8a1b-a9f0c471ea36",
+              "facet": "served_relation:commissioning_menu_bundle",
+              "kind": "commissioning_menu_bundle",
+              "statement": "Para realizar la autobusqueda acceda al *menú BUCLE*.; Para crear y asignarlas zonas a los elementos acceda al menú ZONA.; Para nombrarlos y asignarles zona acceda *al menú ELEMENTOS*.",
+              "required_anchors": [
+                "menu BUCLE",
+                "menu ZONA",
+                "menu ELEMENTOS"
+              ],
+              "source_start": 290,
+              "source_end": 784,
+              "covered": true
+            }
+          ]
+        }
+      },
+      "all_obligation_citations_present": true,
+      "facts": [
+        {
+          "key": "cat016#1:menu ZONA + ELEMENTO",
+          "projected_class": "synthesis-miss",
+          "before": {
+            "present": true,
+            "method": "prose",
+            "detail": "overlap=100% valor='menu ZONA + ELEMENTO'"
+          },
+          "after": {
+            "present": true,
+            "method": "prose",
+            "detail": "overlap=100% valor='menu ZONA + ELEMENTO'"
+          },
+          "local_transition": "no_deterministic_fact_gain",
+          "manual_review_required": true
+        }
+      ],
+      "revised_answer": "# CAD-150-8: Alta de detector nuevo y prueba funcional\n\n## PARTE 1 — Dar de alta un detector nuevo en el lazo\n\nEl procedimiento para incorporar un nuevo elemento al lazo es mediante la **autobúsqueda** [F1]:\n\n1. Instala físicamente el detector en el lazo (con el sistema sin alimentación, según las indicaciones de seguridad) [F9].\n2. Alimenta la central.\n3. Accede al **menú BUCLE** desde el teclado de la central [F1].\n4. Ejecuta la **autobúsqueda del lazo** correspondiente. El sistema escaneará el lazo y mostrará todos los elementos detectados [F1].\n5. Verifica que los elementos encontrados coinciden con los planos de la instalación [F1].\n6. Accede al **menú ELEMENTOS** para asignar al nuevo detector:\n   - **Nombre/texto** identificativo [F1][F2]\n   - **Zona** de ubicación [F1][F2]\n\n> Puedes verificar que el detector ha quedado correctamente registrado desde el **menú ELEMENTO → VER**, donde podrás consultar los campos: BUCLE, DIR, ZONA, TIPO, MODO y VA (valor analógico) [F2].\n\n---\n\n## PARTE 2 — Probar que el detector funciona\n\nEl método recomendado es el **modo PRUEBA de zona**, que permite verificar los detectores **sin necesidad de rearmar la central** tras cada disparo [F3][F4]:\n\n1. Accede al **menú ZONA → PRUEBA** [F3].\n2. Introduce el **rango de zonas** a poner en prueba (campo RANGO) [F3].\n3. Selecciona si deseas activar las sirenas durante la prueba (campo **ACTIVAR SIRENAS: [SI/NO]**) [F3]:\n   - Si seleccionas **SÍ**: las sirenas se activarán unos segundos tras el disparo del detector y se silenciarán automáticamente. Los retardos de sirena quedan **anulados** en modo prueba para agilizar el proceso [F3][F4].\n4. Pulsa **Aceptar** [F3].\n5. Activa el detector (con aerosol de prueba u otro método).\n6. Verifica que la central registra la alarma.\n\n### Consideraciones importantes del modo prueba:\n- Si transcurren **20 minutos** desde la activación del modo prueba sin que se produzca ningún disparo, el sistema **vuelve automáticamente al estado normal** [F3][F4].\n- Para **salir manualmente** del modo prueba, conéctala zona desde el menú ZONA → CONECTAR [F3].\n\n---\n\n> ⚠️ El mantenimiento anual exige poner el equipo en estado de prueba y verificar que **todos los detectores y pulsadores** funcionan de acuerdo con las especificaciones del fabricante [F10]. Las comprobaciones deben respetar las recomendaciones de la norma **EN54 parte 14** [F10].\n\n---\n\n**Fuente:** Manual de Usuario `55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT` (sin revisión registrada); Manual de Instalación `55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT` (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **configuración de maniobras tras el alta del detector**, **desconexión temporal de un elemento para trabajos**, o **interpretación del valor analógico (VA) del detector**."
+    },
+    {
+      "qid": "cat017",
+      "question": "¿Como se cablea y se da de alta (configura) un lazo en la central Notifier INSPIRE (E10/E15)?",
+      "context_source": "s111_final_serving_context",
+      "answer_source": "s112_incremental_answer_replay_v1",
+      "raw_answer_sha256": "36be0706c02478e3528299db7950a57a028a9c53aaf67eeadebd08749d02f85c",
+      "revised_answer_sha256": "36be0706c02478e3528299db7950a57a028a9c53aaf67eeadebd08749d02f85c",
+      "answer_changed": false,
+      "planner": {
+        "mode": "supplement",
+        "plan": [],
+        "validation": {
+          "total": 0,
+          "covered": 0,
+          "missing": [],
+          "rows": []
+        }
+      },
+      "all_obligation_citations_present": true,
+      "facts": [
+        {
+          "key": "cat017#2:licencia CLIP por lazo",
+          "projected_class": "synthesis-miss",
+          "before": {
+            "present": true,
+            "method": "prose",
+            "detail": "overlap=100% valor='licencia CLIP por lazo'"
+          },
+          "after": {
+            "present": true,
+            "method": "prose",
+            "detail": "overlap=100% valor='licencia CLIP por lazo'"
+          },
+          "local_transition": "no_deterministic_fact_gain",
+          "manual_review_required": true
+        }
+      ],
+      "revised_answer": "# Cableado y configuración de lazo — Notifier INSPIRE E10/E15\n\n---\n\n## PARTE 1: CABLEADO DEL LAZO\n\n### Módulo de lazo OPAL X2 (HOP-433-100)\n\nEl módulo de lazo es de color **morado** [F2] y dispone de **10 terminales** distribuidos en dos filas de 5 [F2][F3]:\n\n**Lazo 1:**\n- Terminal **1** → Lazo 1 Salida +VE\n- Terminal **2** → Lazo 1 Salida -VE\n- Terminal **3** → ⊕ (tierra — **NO usar para pantalla de cable**)\n- Terminal **4** → Lazo 1 Entrada +VE\n- Terminal **5** → Lazo 1 Entrada -VE\n\n**Lazo 2:**\n- Terminal **6** → Lazo 2 Salida +VE\n- Terminal **7** → Lazo 2 Salida -VE\n- Terminal **8** → ⊕ (tierra — **NO usar para pantalla de cable**)\n- Terminal **9** → Lazo 2 Entrada +VE\n- Terminal **10** → Lazo 2 Entrada -VE\n\n> ⚠️ **La pantalla del cable de lazo debe conectarse a la barra de tierra de la central, NO a los terminales 3 u 8** [F2][F3].\n\n> ⚠️ **Se recomienda poner a tierra un solo extremo de la pantalla del cable de lazo** [F5].\n\n---\n\n### Restricciones de cableado\n\n- **NO mezclar dispositivos OPAL y CLIP en el mismo lazo** [F2].\n- El sistema se debe conectar con **cable de 2 hilos** [F6].\n- La longitud máxima del lazo se calcula con el **programa de cálculo de lazo y batería de CLSS**, y puede ser de **hasta 3,5 km** dependiendo del tipo de carga y de cable [F2].\n- La **capacidad del cable debe ser inferior a 0,5 µF** [F8].\n- **NUNCA usar dispositivos de alta tensión** (p. ej. comprobador de resistencia de aislamiento) en el circuito de lazo una vez conectados los dispositivos. Solo se permiten comprobadores de baja tensión como multímetro [F6].\n\n---\n\n### Capacidad por lazo\n\n**Protocolo OPAL:**\n- Hasta **159 detectores OPAL** + hasta **159 módulos OPAL** por lazo [F2]\n- El módulo de lazo dual OPAL (HOP-433-100) permite hasta **318 dispositivos OPAL por lazo** [F4]\n\n**Protocolo CLIP** (requiere licencia):\n- Hasta **99 detectores CLIP** + hasta **99 módulos CLIP** por lazo [F2]\n\n> ⚠️ **Restricción EN54-2 (13.7):** máximo **512 detectores y/o pulsadores** por módulo de lazo (que comprende 2 circuitos de lazo) [F2].\n\n---\n\n## PARTE 2: COMPROBACIONES PREVIAS A LA CONEXIÓN\n\nAntes de conectar el lazo a la central, realiza las siguientes pruebas con multímetro [F6][F7][F8]:\n\n1. Comprueba la **continuidad de cada parte del lazo** y mide la resistencia de extremo a extremo [F6].\n2. Comprueba la **continuidad de la pantalla del cable** — debe dar un valor de resistencia muy bajo [F6].\n3. Verifica que **no hay continuidad entre la pantalla y los cables +VE y -VE** [F6].\n4. Con función de **prueba de diodo en polaridad invertida** (+VE del multímetro al negativo del lazo, -VE al positivo): el multímetro debe indicar un diodo en polarización directa [F7].\n5. Con **polaridad normal**: al principio debe leer resistencia baja, que aumenta progresivamente al cargarse los condensadores de cada dispositivo [F7]. Si indica diodo en polarización directa, hay dispositivos conectados en polaridad inversa o cortocircuito [F7].\n\n### Resistencias máximas admisibles [F8]:\n\n- **Protocolo OPAL:** resistencia inferior a **40 Ω** para comunicación correcta.\n- **Protocolo CLIP:**\n  - Inferior a **40 Ω** para detección de dos dispositivos.\n  - Inferior a **71 Ω** si no se necesita detección de dirección duplicada.\n\n> ℹ️ Para medir: desconecta físicamente el lazo de los terminales de la central, mide entre Lazo X Entrada -VE y Lazo X Salida -VE, multiplica el resultado por 2 y añade la resistencia de cada aislador (**de 0,1 a 0,13 Ω**) [F8].\n\n> ℹ️ Se recomienda usar la herramienta **POL-200-TS** para comprobar y medir circuitos de lazo antes de conectar a la central. La herramienta **POL-200** funciona tanto en protocolo OPAL como CLIP [F5].\n\n---\n\n## PARTE 3: CONFIGURACIÓN DEL LAZO (CLSS)\n\n### Paso previo — Configuración inicial\n\nEl **primer encendido** debe realizarse sin cableado externo conectado, pero con la fuente de alimentación y un circuito de lazo probado conectado [F1].\n\n### Configuración desde CLSS [F9]:\n\n1. Conecta la herramienta de configuración CLSS a la central.\n2. Ve a **\"Ajustes\"** → **\"Ajustes HMI\"** y en **Tipo de marca** selecciona **Notifier EN** [F9].\n3. Ve a **\"Ajustes de lazo\"**:\n   - Si el lazo **no se utiliza**: marca ☑ **Sin Uso** [F1][F9].\n   - Si el lazo se usa: selecciona **\"Limitar a VdS 2540\"** (Sí o No) — el valor de resistencia cambia según la selección [F9].\n   - Selecciona el **tipo de cable** [F9].\n4. Envía la configuración a la central siguiendo los pasos del apartado **\"Enviar configuración a la central\"** [F9].\n\n> ⚠️ **Importante sobre licencias:** De forma predeterminada, la central tiene licencia para **protocolo OPAL avanzado únicamente**. Para usar protocolo **CLIP** o **TC800 OPAL/CLIP** es necesaria una licencia adicional antes de realizar la Auto Configuración [F9].\n\n---\n\n## PARTE 4: AUTO CONFIGURACIÓN (búsqueda de dispositivos)\n\nUna vez enviada la configuración a la central [F10]:\n\n1. Selecciona **Auto Configuración** en la central para buscar dispositivos conectados al lazo. Lee la ventana emergente y confirma seleccionando **Auto Configuración** [F10].\n2. Una vez completada, selecciona la **flecha derecha (>)** junto al botón Auto Búsqueda para ver el estado de averías del lazo [F10].\n3. Lee los mensajes de avería y rectifica los problemas detectados. Selecciona **Hecho** al completar [F10].\n4. Si se han rectificado averías, **repite los pasos 1 a 3** [F10].\n5. **Repite el proceso para cada lazo** hasta descubrir todos [F10].\n\n### Causas típicas de averías tras Auto Configuración [F10]:\n- Discordancia entre diseño de instalación y cableado.\n- Averías en el cableado.\n- Presencia de fuente de RFI fuerte.\n- Error de módulo o fuente de alimentación.\n- Conexionado incorrecto en dispositivos.\n\n---\n\n### Numeración de circuitos de lazo [F2]:\n\nLos lazos se numeran **secuencialmente de izquierda a derecha** del portamódulos. El primer módulo de lazo instalado en la ranura izquierda tiene el lazo 1, y los siguientes se numeran correlativamente. En la **E15**, la segunda fila de portamódulos continúa la numeración desde la primera fila [F2].\n\n---\n\n**Fuente:** HOP-138-8ES issue 6 (01-2026) — Instrucciones de puesta en marcha INSPIRE E10/E15; HOP-138-9ES issue 5 (11-2025) — Manual de instalación INSPIRE E10"
+    },
+    {
+      "qid": "cat018",
+      "question": "¿Como se programa una ecuacion causa-efecto (CBE) en la Notifier AM-8200 para que un evento active una salida?",
+      "context_source": "s111_final_serving_context",
+      "answer_source": "s112_incremental_answer_replay_v1",
+      "raw_answer_sha256": "fef342f9108b199c1041f86ccb89acc7ee44b15fd368a804076b0a652629324a",
+      "revised_answer_sha256": "60105f44e9693ae2fb6b60a955625a711e8cbb511320508815d269b4dfb3dbfe",
+      "answer_changed": true,
+      "planner": {
+        "mode": "supplement",
+        "plan": [
+          {
+            "obligation_id": "obl_7bba8d03d496",
+            "fragment_number": 3,
+            "candidate_id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+            "facet": "served_relation:point_programming_fields",
+            "kind": "point_programming_fields",
+            "statement": "## Pestaña Programa (Programación ecuaciones CBE, asociación zona); **Zona** - número de zona asignada; **CBE** - ecuación CBE del punto.; **CBE** (Control By Events), son las ecuaciones que sirven para activar un comando en función de un evento.",
+            "required_anchors": [
+              "Pestana Programa",
+              "Zona",
+              "CBE"
+            ],
+            "source_start": 0,
+            "source_end": 1526
+          },
+          {
+            "obligation_id": "obl_5784f16b1a11",
+            "fragment_number": 11,
+            "candidate_id": "d85a9a89-e469-473a-b345-ee7c77783127",
+            "facet": "served_relation:output_software_type",
+            "kind": "output_software_type",
+            "statement": "Esta función permite la anulación de la salida sirena y todos los módulos de salida programados con tipo-SW «SND» (abrazaderas CNU-17 y CNU18 de la tarjeta principal).",
+            "required_anchors": [
+              "modulos de salida",
+              "tipo-SW",
+              "snd"
+            ],
+            "source_start": 183,
+            "source_end": 350
+          }
+        ],
+        "validation": {
+          "total": 2,
+          "covered": 2,
+          "missing": [],
+          "rows": [
+            {
+              "obligation_id": "obl_7bba8d03d496",
+              "fragment_number": 3,
+              "candidate_id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+              "facet": "served_relation:point_programming_fields",
+              "kind": "point_programming_fields",
+              "statement": "## Pestaña Programa (Programación ecuaciones CBE, asociación zona); **Zona** - número de zona asignada; **CBE** - ecuación CBE del punto.; **CBE** (Control By Events), son las ecuaciones que sirven para activar un comando en función de un evento.",
+              "required_anchors": [
+                "Pestana Programa",
+                "Zona",
+                "CBE"
+              ],
+              "source_start": 0,
+              "source_end": 1526,
+              "covered": true
+            },
+            {
+              "obligation_id": "obl_5784f16b1a11",
+              "fragment_number": 11,
+              "candidate_id": "d85a9a89-e469-473a-b345-ee7c77783127",
+              "facet": "served_relation:output_software_type",
+              "kind": "output_software_type",
+              "statement": "Esta función permite la anulación de la salida sirena y todos los módulos de salida programados con tipo-SW «SND» (abrazaderas CNU-17 y CNU18 de la tarjeta principal).",
+              "required_anchors": [
+                "modulos de salida",
+                "tipo-SW",
+                "snd"
+              ],
+              "source_start": 183,
+              "source_end": 350,
+              "covered": true
+            }
+          ],
+          "supplemented": 2
+        }
+      },
+      "all_obligation_citations_present": true,
+      "facts": [
+        {
+          "key": "cat018#1:pestana Programacion: Zona + CBE",
+          "projected_class": "synthesis-miss",
+          "before": {
+            "present": false,
+            "method": "prose",
+            "detail": "overlap=75% valor='pestana Programacion: Zona + CBE'"
+          },
+          "after": {
+            "present": true,
+            "method": "prose",
+            "detail": "overlap=100% valor='pestana Programacion: Zona + CBE'"
+          },
+          "local_transition": "candidate_fact_coverage_gain",
+          "manual_review_required": true
+        },
+        {
+          "key": "cat018#2:Tipo SW / asociacion CBE",
+          "projected_class": "synthesis-miss",
+          "before": {
+            "present": false,
+            "method": "prose",
+            "detail": "overlap=50% valor='Tipo SW / asociacion CBE'"
+          },
+          "after": {
+            "present": true,
+            "method": "prose",
+            "detail": "overlap=100% valor='Tipo SW / asociacion CBE'"
+          },
+          "local_transition": "candidate_fact_coverage_gain",
+          "manual_review_required": true
+        }
+      ],
+      "revised_answer": "# Programación de ecuación CBE en AM-8200 para activar una salida\n\n## Concepto básico\n\nLa ecuación **CBE (Control By Event)** se asocia a cada punto, zona o grupo y define las condiciones que, cuando se cumplen, activan el módulo de salida [F1]. La condición \"ACTIVO\" para un punto de entrada (sensor o módulo de entrada) equivale a **en alarma** [F1].\n\n---\n\n## Paso a paso para programar la CBE de un módulo de salida\n\n**1. Accede al menú de programación del punto de salida**\n\nNavega a `MENU PROGRAMMAZIONE \\ Punti \\ Sensori` (o módulos de salida) [F3].\n\n**2. Selecciona el campo CBE**\n\nCon las teclas flecha **▲▼** selecciona el parámetro CBE y pulsa la tecla de confirmación **☑** para editarlo [F3].\n\n**3. Introduce la ecuación**\n\nUsa el teclado alfanumérico del panel. La longitud máxima de una CBE es de **64 caracteres** [F3].\n\n> ⚠️ **Escribe la ecuación SIN espacios entre caracteres** [F1].\n\n**4. Confirma con Enter**\n\nPulsa la tecla **Enter** para confirmar la ecuación introducida [F3].\n\n---\n\n## Operadores disponibles y ejemplos prácticos\n\n### OR — Al menos un operando activo [F4]\n```\nOR(G9 G15 G23)\n```\nSi **cualquiera** de los grupos G9, G15 o G23 está en alarma → el módulo de salida se activa.\n> El operador OR puede omitirse: `(G9 G15 G23)` es equivalente [F4].\n\n---\n\n### AND — Todos los operandos activos [F4]\n```\nAND(G9 G15 G23)\n```\nSolo si **los tres** grupos están en alarma simultáneamente → el módulo de salida se activa.\n\n---\n\n### NOT — Niega el operando [F4]\n```\nNOT(G23)\n```\nEl módulo de salida está activo **hasta que** G23 entra en alarma; cuando G23 alarma, el módulo se desactiva.\n\n---\n\n### XGRP — Al menos dos elementos del grupo activos [F5]\n```\nXGRP(G23)\n```\nSe activa cuando al menos dos dispositivos del grupo G23 están activos (doble coincidencia) [F5].\n> ⚠️ No se permite usar más de un grupo con XGRP: `XGRP(G23 G24)` es **inválido** [F5].\n\n---\n\n### PRE — Estado de pre-alarma de un sensor [F7]\n```\nOR(PRE(C1L1S2)PRE(C2L1S10))\n```\nSi cualquiera de los dos sensores está en **pre-alarma** → el módulo de salida se activa [F7].\n\n---\n\n### FLT — Estado de avería de un dispositivo o zona [F6]\n```\nOR(FLT(C1L1S2)FLT(Z1))\n```\nSi el sensor C1L1S2 o la zona Z1 están en **avería** → el módulo de salida se activa [F6].\n\n---\n\n## Tres opciones típicas de programación (detector → salida)\n\nEl manual describe tres opciones para activar un módulo de salida (L1M1) desde un detector (L1S1) [F8]:\n\n- **Opción A:** Detector CBE = `(G1)` / Módulo de salida CBE = `(G1)` — ambos asociados al mismo grupo [F8].\n- **Opción B:** Detector CBE = *(vacía o predeterminada)* / Módulo de salida CBE = `(C1L1S1)` — el módulo referencia directamente al sensor [F8].\n- **Opción C:** Detector CBE = `(C1L1M1)` / Módulo de salida CBE = *(vacía o predeterminada)* — el sensor referencia directamente al módulo de salida [F8].\n\n---\n\n## Reglas sintácticas críticas [F1]\n\n- Si se usan **varios operadores**, el primer carácter debe ser `(` y el último `)`.\n- Formato general: `(OPERADOR(OPERANDO-1 OPERANDO-2...)OPERADOR(OPERANDO-1...))`\n- Para grupos directos: **no se permite** que los operandos sean grupos con índice **menor** que el grupo al que se asocia la CBE [F4].\n- Para grupos inversos: **no se permite** que los operandos sean grupos con índice **mayor** que el grupo al que se asocia la CBE [F4].\n- Si la ecuación tiene errores de sintaxis, **será rechazada por la central** [F1].\n\n> ⚠️ **Nota importante:** Para módulos de salida con tipo ID de señalizaciones generales, la central **no permite** programar una ecuación CBE [F4].\n\n---\n\n## Ejemplo completo: alarma general con grupos\n\nPara activar el módulo de salida **C1L1M2** cuando alarme cualquiera de los detectores **C1L1S1** o **C1L1S2** [F8]:\n\n1. Asigna C1L1S1 y C1L1S2 al **Grupo G1** (CBE de cada sensor = `(G1)`)\n2. CBE del módulo de salida C1L1M2 = `(G1)`\n\n---\n\nInformación explícita adicional de los fragmentos:\n- ## Pestaña Programa (Programación ecuaciones CBE, asociación zona); **Zona** - número de zona asignada; **CBE** - ecuación CBE del punto.; **CBE** (Control By Events), son las ecuaciones que sirven para activar un comando en función de un evento. [F3]\n- Esta función permite la anulación de la salida sirena y todos los módulos de salida programados con tipo-SW «SND» (abrazaderas CNU-17 y CNU18 de la tarjeta principal). [F11]\n\n**Fuente:** AM-8200 Manual de programación, Doc. M-162.1-AM8200-ESP Rev A.3 — HONEYWELL LIFE SAFETY IBERIA; AM-8200 Manual de instalación, Doc. AM-8200-ESP Rev. A.3 — NOTIFIER\n\n---\n\nTambién puedo ayudarte con: **operadores DEL/SDEL (retardos en CBE)**, **programación de grupos lógicos** o **verificación y diagnóstico de errores de sintaxis CBE** en la AM-8200."
+    },
+    {
+      "qid": "hp001",
+      "question": "En la Detnov CAD-250, ¿cómo se entra al menú de programación avanzada?",
+      "context_source": "s100_served_context_unchanged",
+      "answer_source": "s100_factlevel_full_baseline_answer",
+      "raw_answer_sha256": "ea8673811b700b3b81778aac14452ccb955c789576c2dfa9b7b03698b5f68ebd",
+      "revised_answer_sha256": "62695b14b882b7c39c1325f6cfeb0b07d1670b63525e6bf8430f2e102b50d32c",
+      "answer_changed": true,
+      "planner": {
+        "mode": "supplement",
+        "plan": [
+          {
+            "obligation_id": "obl_614f09afb469",
+            "fragment_number": 2,
+            "candidate_id": "9bd17466-1a22-4ade-bb16-a44624c9f166",
+            "facet": "served_relation:credential_administrator",
+            "kind": "credential_administrator",
+            "statement": "Introduzca la clave de administrador por defecto, 2222.",
+            "required_anchors": [
+              "administrador",
+              "2222",
+              "por defecto"
+            ],
+            "source_start": 2083,
+            "source_end": 2138
+          },
+          {
+            "obligation_id": "obl_d7a62cc3ae36",
+            "fragment_number": 4,
+            "candidate_id": "edeb58a7-58c6-4865-8819-c70b57fe1135",
+            "facet": "served_relation:credential_user",
+            "kind": "credential_user",
+            "statement": "La clave de usuario por defecto es 1111.",
+            "required_anchors": [
+              "usuario",
+              "1111",
+              "por defecto"
+            ],
+            "source_start": 2122,
+            "source_end": 2162
+          }
+        ],
+        "validation": {
+          "total": 2,
+          "covered": 2,
+          "missing": [],
+          "rows": [
+            {
+              "obligation_id": "obl_614f09afb469",
+              "fragment_number": 2,
+              "candidate_id": "9bd17466-1a22-4ade-bb16-a44624c9f166",
+              "facet": "served_relation:credential_administrator",
+              "kind": "credential_administrator",
+              "statement": "Introduzca la clave de administrador por defecto, 2222.",
+              "required_anchors": [
+                "administrador",
+                "2222",
+                "por defecto"
+              ],
+              "source_start": 2083,
+              "source_end": 2138,
+              "covered": true
+            },
+            {
+              "obligation_id": "obl_d7a62cc3ae36",
+              "fragment_number": 4,
+              "candidate_id": "edeb58a7-58c6-4865-8819-c70b57fe1135",
+              "facet": "served_relation:credential_user",
+              "kind": "credential_user",
+              "statement": "La clave de usuario por defecto es 1111.",
+              "required_anchors": [
+                "usuario",
+                "1111",
+                "por defecto"
+              ],
+              "source_start": 2122,
+              "source_end": 2162,
+              "covered": true
+            }
+          ],
+          "supplemented": 1
+        }
+      },
+      "all_obligation_citations_present": true,
+      "facts": [
+        {
+          "key": "hp001#2:1111",
+          "projected_class": "synthesis-miss",
+          "before": {
+            "present": false,
+            "method": "anchor",
+            "detail": "anchors=['1111'] missing=['1111']"
+          },
+          "after": {
+            "present": true,
+            "method": "anchor",
+            "detail": "anchors=['1111'] missing=[]"
+          },
+          "local_transition": "candidate_fact_coverage_gain",
+          "manual_review_required": true
+        }
+      ],
+      "revised_answer": "## Acceso al menú de programación avanzada — CAD-250\n\nEl acceso se realiza en dos fases: primero entrar como administrador, luego navegar hasta el submenú **AVANZADO**.\n\n---\n\n### Paso 1 — Acceder como administrador\n\n1. Desde la **PANTALLA DE REPOSO**, toca el icono del candado (🔒) en el centro de la pantalla [F1][F2].\n2. Se abrirá la **PANTALLA DE ACCESO** solicitando el código de acceso [F1][F2].\n3. Introduce la **clave de administrador por defecto: `2222`** [F1][F2].\n\n> ⚠️ Asegúrate de tener la autorización y los conocimientos necesarios. El uso indebido del nivel de administrador puede provocar un mal funcionamiento de la instalación [F1][F2].\n\n---\n\n### Paso 2 — Navegar hasta Configuración Avanzada\n\nUna vez en la pantalla de administrador, sigue esta ruta:\n\n**AJUSTES** (Menú principal) **→ AVANZADO** (Submenú) [F5]\n\n---\n\n### Paso 3 — Pestañas disponibles en AVANZADO\n\nDentro de **AVANZADO** encontrarás 3 pestañas [F5][F8]:\n\n- **SISTEMA:** Configura número de cabinas (paneles), número de lazos y si hay cabina con LEDs de zona [F5].\n- **OTROS:** 5 interruptores para facilitar puesta en marcha y mantenimiento (tiempo de inactividad, salto a scroll, timeout, módulos virtuales, salida automática del modo test) [F8].\n- **REINICIAR:** Devuelve los valores de configuración del panel a valores por defecto (no afecta a entidades, lazos, maniobras, grupos, módulos virtuales, modos especiales, filtros de red ni registros de eventos) [F8].\n\n> ⚠️ Por razones de seguridad y cumplimiento normativo, por defecto todos los interruptores de inactividad, timeout y scroll deben estar activados (en verde) [F8].\n\n---\n\n**Nota:** El nivel de administrador (Nivel 2) también da acceso a todos los demás submenús de configuración: Lazo, Sectorización, Maniobras, Logs, Red, Instalación, etc. [F3].\n\n---\n\nInformación explícita adicional de los fragmentos:\n- La clave de usuario por defecto es 1111. [F4]\n\nFuentes: CAD-250 Manual de Configuración MC-380-es-2026-c (rev. c, 2026-04-23); Manual de Instalación CAD-250 MI_372_es_2024 e; CAD-250 Manual Software Configuración MS-416-es-2026-b (rev. b)\n\n---\n\nTambién puedo ayudarte con: **configuración del número de lazos en AVANZADO > SISTEMA**, **opciones del submenú MANIOBRAS** o **gestión de usuarios y contraseñas** en la CAD-250."
+    },
+    {
+      "qid": "hp002",
+      "question": "El detector ASD535 de Detnov está dando una alarma intermitente de flujo bajo. ¿Cuál es la causa más probable y cómo se diagnostica?",
+      "context_source": "s100_served_context_unchanged",
+      "answer_source": "s100_factlevel_full_baseline_answer",
+      "raw_answer_sha256": "04c3ddf0ac6d991908e225cd6154c631cb7849e5eb34f8bb766946b73f197650",
+      "revised_answer_sha256": "3088e537b8cb7ce1c6f513abc37951b3946ce0be2786bed850b12c51c456c251",
+      "answer_changed": true,
+      "planner": {
+        "mode": "supplement",
+        "plan": [
+          {
+            "obligation_id": "obl_0db2b9f2842a",
+            "fragment_number": 1,
+            "candidate_id": "b5804921-836c-49ca-8316-cecae6da409b",
+            "facet": "served_relation:diagnostic_threshold_direction",
+            "kind": "diagnostic_threshold_direction",
+            "statement": "**Significado**: Valor < 100 % = apunta a obstrucción / > 100 % = apunta a rotura de tubo",
+            "required_anchors": [
+              "< 100 %",
+              "obstruccion",
+              "> 100 %",
+              "rotura"
+            ],
+            "source_start": 0,
+            "source_end": 89
+          }
+        ],
+        "validation": {
+          "total": 1,
+          "covered": 1,
+          "missing": [],
+          "rows": [
+            {
+              "obligation_id": "obl_0db2b9f2842a",
+              "fragment_number": 1,
+              "candidate_id": "b5804921-836c-49ca-8316-cecae6da409b",
+              "facet": "served_relation:diagnostic_threshold_direction",
+              "kind": "diagnostic_threshold_direction",
+              "statement": "**Significado**: Valor < 100 % = apunta a obstrucción / > 100 % = apunta a rotura de tubo",
+              "required_anchors": [
+                "< 100 %",
+                "obstruccion",
+                "> 100 %",
+                "rotura"
+              ],
+              "source_start": 0,
+              "source_end": 89,
+              "covered": true
+            }
+          ],
+          "supplemented": 1
+        }
+      },
+      "all_obligation_citations_present": true,
+      "facts": [
+        {
+          "key": "hp002#3:7.6.1",
+          "projected_class": "synthesis-miss",
+          "before": {
+            "present": false,
+            "method": "anchor",
+            "detail": "anchors=['7.6.1'] missing=['7.6.1']"
+          },
+          "after": {
+            "present": false,
+            "method": "anchor",
+            "detail": "anchors=['7.6.1'] missing=['7.6.1']"
+          },
+          "local_transition": "no_deterministic_fact_gain",
+          "manual_review_required": true
+        }
+      ],
+      "revised_answer": "# ASD535 — Fallo de flujo bajo: diagnóstico\n\n## Causa más probable\n\nUn valor de flujo **por debajo del 80 %** del valor nominal indica **obstrucción en el conducto de aspiración** [F2]. El ASD535 dispara el aviso «fallo flujo de aire» una vez transcurrido el tiempo de retardo de **300 s** de la LS-Ü [F1][F2].\n\nEl código de fallo asociado es el **G30/001** (Obstrucción, conducto de aspiración) [F10].\n\n---\n\n## Diagnóstico paso a paso\n\n**1. Leer el valor de flujo actual**\n- Coloca el conmutador en posición **V** para leer el valor de flujo del conducto de aspiración [F9].\n- Compara con el protocolo de puesta en funcionamiento.\n- Si el valor está **por debajo del 90 %** (con sensibilidad estándar ±20 %), ya es señal de obstrucción inminente [F9].\n- El fallo se confirma cuando cae **por debajo del 80 %** [F1][F2].\n\n**2. Inspeccionar el conducto de aspiración**\nSegún el código G30/001, comprueba [F10]:\n- Orificios de aspiración obstruidos (suciedad, polvo, objetos)\n- Salida de aire en el ASD\n- Caja de filtro / unidad de filtrado de polvo → inspeccionar y limpiar\n- Sensor de flujo de aire → inspeccionar y limpiar\n\n**3. Verificar la tensión de servicio**\n- Mide en los bornes **1 (+) y 2 (-)** del AMB 35 [F9]:\n  - Funcionamiento a **12 V-CC**: valor nominal **12,3 a 13,8 V-CC**\n  - Funcionamiento a **24 V-CC**: valor nominal **21,6 a 27,6 V-CC**\n- Un fallo de baja tensión (**< 10,4 V-CC**) también puede generar avisos de fallo [F3].\n\n**4. Comprobar el código de evento en el AMB 35**\n- Coloca el conmutador en posición **E** para leer el código de evento y delimitar el patrón de error [F3].\n- Código **001** en el grupo G30 = obstrucción confirmada [F10].\n\n---\n\n## Acciones correctivas\n\n- **Limpiar el conducto de aspiración** (orificios, filtro, sensor de flujo) [F10].\n- Tras la limpieza, **normalmente no es necesario un nuevo reset inicial** si se vuelve al estado de puesta en funcionamiento [F7].\n- Si se realizan trabajos de mantenimiento o reparación en el conducto, puede ser necesario ejecutar un **nuevo reset inicial** — pero **solo** cuando el conducto esté completamente limpio y con el filtro nuevo instalado [F7].\n\n> ⚠️ **Advertencia**: No ejecutes el reset inicial con orificios obstruidos. Existe riesgo de que la toma de muestras sea insuficiente y el ASD535 no dispare la alarma ante un incendio real [F7].\n\n---\n\nInformación explícita adicional de los fragmentos:\n- **Significado**: Valor < 100 % = apunta a obstrucción / > 100 % = apunta a rotura de tubo [F1]\n\n**Fuente:** ASD535 Descripción técnica, T 131 192 h es (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **procedimiento completo de reset inicial**, **sustitución del sensor de flujo de aire** o **configuración de la ventana de monitorización LS-Ü** del ASD535."
+    },
+    {
+      "qid": "hp003",
+      "question": "¿Cómo se conectan las baterías de 24V en la Detnov CAD-150?",
+      "context_source": "s100_prefix_plus_validated_post_rerank_appends",
+      "answer_source": "s100_factlevel_full_baseline_answer",
+      "raw_answer_sha256": "9a4ae9aa3cbe45dac519ceabad10520b7d88f0b61816dcbbb73e5bc80c9f4527",
+      "revised_answer_sha256": "17da1d72430faac7b9770561c22553a0bbd9a08f3a62f9ddc981233c8200cca0",
+      "answer_changed": true,
+      "planner": {
+        "mode": "supplement",
+        "plan": [
+          {
+            "obligation_id": "obl_56bd9feadd75",
+            "fragment_number": 11,
+            "candidate_id": "7849231c-aff9-49db-bf80-188af33bd7f0",
+            "facet": "served_relation:battery_series_spec",
+            "kind": "battery_series_spec",
+            "statement": "The panel requires two 12V 7Ah batteries.; The batteries must be connected in series for the proper functioning of the panel.",
+            "required_anchors": [
+              "12v",
+              "series",
+              "7ah"
+            ],
+            "source_start": 1759,
+            "source_end": 1883
+          },
+          {
+            "obligation_id": "obl_721b18db2d54",
+            "fragment_number": 11,
+            "candidate_id": "7849231c-aff9-49db-bf80-188af33bd7f0",
+            "facet": "served_relation:battery_bridge",
+            "kind": "battery_bridge",
+            "statement": "The cable supplied with the unit must be connected so that the positive terminal of one battery is connected with the negative terminal of the other.",
+            "required_anchors": [
+              "positive",
+              "negative"
+            ],
+            "source_start": 1888,
+            "source_end": 2037
+          }
+        ],
+        "validation": {
+          "total": 2,
+          "covered": 2,
+          "missing": [],
+          "rows": [
+            {
+              "obligation_id": "obl_56bd9feadd75",
+              "fragment_number": 11,
+              "candidate_id": "7849231c-aff9-49db-bf80-188af33bd7f0",
+              "facet": "served_relation:battery_series_spec",
+              "kind": "battery_series_spec",
+              "statement": "The panel requires two 12V 7Ah batteries.; The batteries must be connected in series for the proper functioning of the panel.",
+              "required_anchors": [
+                "12v",
+                "series",
+                "7ah"
+              ],
+              "source_start": 1759,
+              "source_end": 1883,
+              "covered": true
+            },
+            {
+              "obligation_id": "obl_721b18db2d54",
+              "fragment_number": 11,
+              "candidate_id": "7849231c-aff9-49db-bf80-188af33bd7f0",
+              "facet": "served_relation:battery_bridge",
+              "kind": "battery_bridge",
+              "statement": "The cable supplied with the unit must be connected so that the positive terminal of one battery is connected with the negative terminal of the other.",
+              "required_anchors": [
+                "positive",
+                "negative"
+              ],
+              "source_start": 1888,
+              "source_end": 2037,
+              "covered": true
+            }
+          ],
+          "supplemented": 2
+        }
+      },
+      "all_obligation_citations_present": true,
+      "facts": [
+        {
+          "key": "hp003#0:12V",
+          "projected_class": "synthesis-miss",
+          "before": {
+            "present": false,
+            "method": "anchor",
+            "detail": "anchors=['12'] missing=['12']"
+          },
+          "after": {
+            "present": true,
+            "method": "anchor",
+            "detail": "anchors=['12'] missing=[]"
+          },
+          "local_transition": "candidate_fact_coverage_gain",
+          "manual_review_required": true
+        },
+        {
+          "key": "hp003#1:cable puente",
+          "projected_class": "synthesis-miss",
+          "before": {
+            "present": true,
+            "method": "prose",
+            "detail": "overlap=100% valor='cable puente'"
+          },
+          "after": {
+            "present": true,
+            "method": "prose",
+            "detail": "overlap=100% valor='cable puente'"
+          },
+          "local_transition": "no_deterministic_fact_gain",
+          "manual_review_required": true
+        }
+      ],
+      "revised_answer": "## Conexión de baterías en la CAD-150-8\n\n### ⚠️ Orden de conexión obligatorio\n\n**Primero red, después baterías.** Si no se respeta este orden, el equipo podría sufrir daños [F8].\n\n1. Conectar primero la alimentación de red (**230 VAC**) activando el magnetotérmico bipolar [F6].\n2. Conectar las baterías a continuación [F6].\n\n---\n\n### Procedimiento de conexión de baterías\n\n1. **Conecta las baterías entre sí** mediante el cable puente de batería antes de conectarlas al circuito [F1].\n2. **Conecta los cables del circuito** (rojo y negro) al positivo y negativo de las baterías respectivamente [F1].\n3. El conector de batería en la PCB Base está identificado como **conector 11** (etiquetado **BA1** / **BA7** en el diagrama de la placa) [F2][F3].\n4. La placa también dispone de un **fusible de baterías** (componente **10**) [F2][F3].\n\n---\n\n### Arranque solo con baterías (si fuera necesario)\n\nSi se necesita encender el equipo únicamente con baterías, es **imprescindible pulsar el pulsador BAT** (componente **9** — Tecla arranque por batería) para arrancar el equipo [F6][F2].\n\n---\n\n### Verificación previa\n\nAntes de conectar, comprueba con voltímetro que las baterías tienen una tensión **superior a 24 V** [F6].\n\n---\n\n### Capacidades de batería según modelo\n\nLa gama CAD-150-8 incluye modelos con distintas capacidades [F8]:\n- Modelos de 1, 2 y 4 lazos no ampliables → baterías de **7 A/h**\n- Modelos de 4 lazos ampliable a 8 lazos → baterías de **18 A/h** o **24 A/h**\n\n---\n\nInformación explícita adicional de los fragmentos:\n- The panel requires two 12V 7Ah batteries.; The batteries must be connected in series for the proper functioning of the panel. [F11]\n- The cable supplied with the unit must be connected so that the positive terminal of one battery is connected with the negative terminal of the other. [F11]\n\n**Fuente:** 55315013 Manual Centrales Analógicas CAD-150-8 Instalación ES FR GB IT (sin revisión registrada); 55315008 Manual Centrales Analógicas CAD-150-8 Usuario ES FR GB IT (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **conexión del bucle analógico**, **puesta en marcha completa** o **verificación de fusibles** de la CAD-150-8."
+    },
+    {
+      "qid": "hp010",
+      "question": "En la Morley DXc, ¿cómo se añade un nuevo detector al lazo tras la puesta en marcha inicial?",
+      "context_source": "s100_served_context_unchanged",
+      "answer_source": "s100_factlevel_full_baseline_answer",
+      "raw_answer_sha256": "b766d1ee65757ec29289f55108071802040bd68c8fb762731c2627597fb8886d",
+      "revised_answer_sha256": "b766d1ee65757ec29289f55108071802040bd68c8fb762731c2627597fb8886d",
+      "answer_changed": false,
+      "planner": {
+        "mode": "supplement",
+        "plan": [],
+        "validation": {
+          "total": 0,
+          "covered": 0,
+          "missing": [],
+          "rows": []
+        }
+      },
+      "all_obligation_citations_present": true,
+      "facts": [
+        {
+          "key": "hp010#1:Nivel 3",
+          "projected_class": "synthesis-miss",
+          "before": {
+            "present": true,
+            "method": "prose",
+            "detail": "overlap=100% valor='Nivel 3'"
+          },
+          "after": {
+            "present": true,
+            "method": "prose",
+            "detail": "overlap=100% valor='Nivel 3'"
+          },
+          "local_transition": "no_deterministic_fact_gain",
+          "manual_review_required": true
+        }
+      ],
+      "revised_answer": "## Añadir un nuevo detector al lazo en la DXc tras la puesta en marcha\n\nEl proceso se basa en la función **Autobúsqueda de equipos**. Cuando se conecta un nuevo detector al lazo, la central genera el evento **\"EQUIPO NUEVO\"** [F2], indicando que ha detectado un equipo no registrado. La solución es realizar una autobúsqueda para aceptarlo [F2].\n\n---\n\n### Pasos para realizar la Autobúsqueda\n\n1. **Accede al Nivel 2** introduciendo la clave (por defecto **1234**) desde el menú de estado [F10].\n\n2. **Navega al menú de Lazos** (dentro de Programación/Nivel 3 o desde el menú de configuración) y **pulsa la tecla `2`** para seleccionar la función **'Autobúsqueda'** [F1].\n\n3. **Si la central tiene más de un lazo**, introduce el número de lazo correspondiente y pulsa **⊙** para confirmar [F1]:\n   ```\n   [Autobusqueda]\n   Sel.Num.Lazo (1-2) :1\n   ```\n\n4. La central pedirá confirmación. **Pulsa ⊙** para iniciar el proceso [F1]:\n   ```\n   [Autobusqueda]\n   Lazo: 1  Autobusqueda?\n   OK:Confirm   ←:Cancel\n   ```\n\n5. **Espera** a que finalice el reconocimiento (se muestra una barra de progreso en pantalla) [F1].\n\n6. Al terminar, **verifica el resumen** mostrado en pantalla. Comprueba que el campo **\"Nuevos\"** refleja el número de detectores añadidos y que el total de equipos y tipos coincide con la instalación real [F1]:\n   ```\n   [Lazo]\n   Lazo: 1           Total: 13\n   Nuevos:0          Elimin.:0  Cambiad:0\n   ION: 0 OPT: 1 TMP: 1 MLT: 2\n   PUL: 4 MON: 0 SIR: 2 REL: 1 OTROS: 2\n   ```\n\n7. **Pulsa ⊞** para salir de la pantalla de resultados y regresar al menú de Lazo [F1].\n\n---\n\n### ⚠️ Aviso importante\n\n> Si en tu instalación el protocolo es seleccionable y has realizado un cambio de protocolo, **espera dos minutos** antes de lanzar la autobúsqueda. La central necesita ese tiempo para rearmar los equipos del lazo [F1].\n\n---\n\n### Consideraciones de cableado al añadir el detector\n\n- El lazo debe mantenerse en **bucle cerrado** tras la incorporación del nuevo equipo [F3].\n- **No puentees los terminales**: corta el cable en cada conexión para mantener la supervisión [F4].\n- Si el nuevo detector queda entre aisladores, verifica que no superas el límite de **32 sensores/pulsadores entre aisladores** exigido por **EN54-2: 12.5.2** [F3].\n- Asegúrate de que el equipo está correctamente **polarizado** (positivo y negativo) [F3].\n\n---\n\n**Fuente:** DXc Manual de configuración (sin revisión registrada); Eventos/Averías de Equipos en DXc (sin revisión registrada); DXc Manual de usuario (sin revisión registrada)"
+    },
+    {
+      "qid": "hp011",
+      "question": "En la Morley RP1r, después de descargar la extinción el sistema no vuelve a estado normal tras resetear. ¿Qué comprobar?",
+      "context_source": "s111_final_serving_context",
+      "answer_source": "s112_incremental_answer_replay_v1",
+      "raw_answer_sha256": "280ecefce3cb4925dc476f3af2f942782de3f31b10732d3a83823e2a424da58d",
+      "revised_answer_sha256": "280ecefce3cb4925dc476f3af2f942782de3f31b10732d3a83823e2a424da58d",
+      "answer_changed": false,
+      "planner": {
+        "mode": "supplement",
+        "plan": [],
+        "validation": {
+          "total": 0,
+          "covered": 0,
+          "missing": [],
+          "rows": []
+        }
+      },
+      "all_obligation_citations_present": true,
+      "facts": [
+        {
+          "key": "hp011#2:05 a 295 seg",
+          "projected_class": "synthesis-miss",
+          "before": {
+            "present": false,
+            "method": "anchor",
+            "detail": "anchors=['05', '295'] missing=['05', '295']"
+          },
+          "after": {
+            "present": false,
+            "method": "anchor",
+            "detail": "anchors=['05', '295'] missing=['05', '295']"
+          },
+          "local_transition": "no_deterministic_fact_gain",
+          "manual_review_required": true
+        },
+        {
+          "key": "hp011#3:enclavadas",
+          "projected_class": "synthesis-miss",
+          "before": {
+            "present": true,
+            "method": "prose",
+            "detail": "overlap=100% valor='enclavadas'"
+          },
+          "after": {
+            "present": true,
+            "method": "prose",
+            "detail": "overlap=100% valor='enclavadas'"
+          },
+          "local_transition": "no_deterministic_fact_gain",
+          "manual_review_required": true
+        }
+      ],
+      "revised_answer": "# RP1r — Sistema no vuelve a estado normal tras resetear después de descarga\n\nHay varias causas posibles. Comprueba en este orden:\n\n---\n\n## 1. Rearme Inhibido (parámetro rI) activo\n\nSegún la normativa **EN12094:1/2003 Punto 4.12.2**, la central puede tener programado un tiempo de inhibición del rearme de **0 a 30 minutos** desde que se señaliza el estado ACTIVADO [F3].\n\n**Comprueba:**\n- Accede a programación y verifica el valor del parámetro **rI**\n- Si está en un valor distinto de **00**, la central no permitirá rearmar hasta que transcurra ese tiempo\n- Por defecto esta función está **anulada (SW1-6 en OFF)** [F3]\n- Si SW1-6 está en **ON**, la función está habilitada y el tiempo programado en rI está activo [F3]\n\n---\n\n## 2. Fallo de Sistema (FALLO DE SISTEMA)\n\nLa RP1r dispone de **dos microprocesadores** [F7]. Si al arrancar o tras la descarga el microprocesador principal tarda en inicializar o detecta tensiones fuera de rango, la central indicará **FALLO DE SISTEMA** [F7].\n\n**Síntoma:** LED \"Fallo Sistema\" encendido en el panel [F8].\n\n**Acción:** Es necesario **rearmar la central** — si no se rearma, la central NO realizará el proceso de extinción al considerar que no está funcionando correctamente [F7]. El rearme hace desaparecer esta avería [F7].\n\n---\n\n## 3. Entradas enclavadas que impiden el restablecimiento\n\nTodas las entradas y salidas supervisadas requieren una **RFL de 6K8** [F10]. Si algún circuito tiene avería activa (cortocircuito o circuito abierto), el LED correspondiente parpadeará de forma intermitente [F10].\n\n**Circuitos que requieren rearme MANUAL** (no se restablecen solos):\n\n- **Circuito F — ABORT SWITCH (Paro):** avería que requiere rearme manual y detiene la extinción [F10]\n\n**Circuitos con rearme automático** (se restablecen cuando desaparece la condición):\n\n- CCT EXT 1 y CCT EXT 2 (circuitos de extinción) [F10]\n- SND 1 y SND 2 (sirenas) [F10]\n- LOW PRESS, FLOW PRESS, DOOR OPEN, HOLD SWITCH [F10]\n- ZONE 1, ZONE 2, ZONE 3 [F10]\n\n**Comprueba:** que todos los circuitos supervisados tienen su RFL de **6K8** correctamente instalada y que no hay cortocircuitos ni circuitos abiertos [F10].\n\n---\n\n## 4. Procedimiento de rearme correcto\n\nPara rearmar la central [F6]:\n1. Habilitar **acceso nivel 2** (girar llave o habilitar teclado)\n2. Pulsar la tecla **Rearme**\n3. Las entradas enclavadas se reiniciarán\n\n---\n\n**Fuentes:**\n- MNDT102 — Manual de usuario RP1r (sin revisión registrada)\n- HLSI-BT-001 — Boletín técnico Honeywell Life Safety Iberia, 04/11/2011\n\n---\n\nTambién puedo ayudarte con: **verificación del cableado de circuitos supervisados (RFL 6K8)**, **configuración del parámetro rI (rearme inhibido)** o **interpretación de LEDs de avería en el panel RP1r**."
+    },
+    {
+      "qid": "hp013",
+      "question": "¿Cómo se cambia la batería tampón de la Detnov ADW535 sin perder configuración?",
+      "context_source": "s100_prefix_plus_validated_post_rerank_appends",
+      "answer_source": "s109_bounded_synthesis_runtime_pilot_v1",
+      "raw_answer_sha256": "072d2ac9c364239182020184a6e5be00531b48d7319133d70eb87647e6554fed",
+      "revised_answer_sha256": "b832f48e3cf5d0114744ad1fd95343f6130ef598dfaecb2fe2292db5756f5bf6",
+      "answer_changed": true,
+      "planner": {
+        "mode": "supplement",
+        "plan": [
+          {
+            "obligation_id": "obl_bcc6e0777acb",
+            "fragment_number": 11,
+            "candidate_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+            "facet": "served_relation:redundant_power_input",
+            "kind": "redundant_power_input",
+            "statement": "PWR-R | = Entrada de alimentación redundante",
+            "required_anchors": [
+              "PWR-R",
+              "alimentacion redundante"
+            ],
+            "source_start": 6706,
+            "source_end": 6843
+          },
+          {
+            "obligation_id": "obl_d26e7882aa0a",
+            "fragment_number": 12,
+            "candidate_id": "af577289-5d7f-4dfc-9187-8a3aca92d40d",
+            "facet": "served_relation:rtc_lithium_battery",
+            "kind": "rtc_lithium_battery",
+            "statement": "Batería de litio\nMódulo de reloj RTC",
+            "required_anchors": [
+              "bateria de litio",
+              "reloj RTC"
+            ],
+            "source_start": 783,
+            "source_end": 823
+          }
+        ],
+        "validation": {
+          "total": 2,
+          "covered": 2,
+          "missing": [],
+          "rows": [
+            {
+              "obligation_id": "obl_bcc6e0777acb",
+              "fragment_number": 11,
+              "candidate_id": "2365dfaa-45e5-4c65-9328-194441e375c9",
+              "facet": "served_relation:redundant_power_input",
+              "kind": "redundant_power_input",
+              "statement": "PWR-R | = Entrada de alimentación redundante",
+              "required_anchors": [
+                "PWR-R",
+                "alimentacion redundante"
+              ],
+              "source_start": 6706,
+              "source_end": 6843,
+              "covered": true
+            },
+            {
+              "obligation_id": "obl_d26e7882aa0a",
+              "fragment_number": 12,
+              "candidate_id": "af577289-5d7f-4dfc-9187-8a3aca92d40d",
+              "facet": "served_relation:rtc_lithium_battery",
+              "kind": "rtc_lithium_battery",
+              "statement": "Batería de litio\nMódulo de reloj RTC",
+              "required_anchors": [
+                "bateria de litio",
+                "reloj RTC"
+              ],
+              "source_start": 783,
+              "source_end": 823,
+              "covered": true
+            }
+          ],
+          "supplemented": 1
+        }
+      },
+      "all_obligation_citations_present": true,
+      "facts": [
+        {
+          "key": "hp013#1:PWR-R",
+          "projected_class": "synthesis-miss",
+          "before": {
+            "present": false,
+            "method": "prose",
+            "detail": "overlap=0% valor='PWR-R'"
+          },
+          "after": {
+            "present": true,
+            "method": "prose",
+            "detail": "overlap=100% valor='PWR-R'"
+          },
+          "local_transition": "candidate_fact_coverage_gain",
+          "manual_review_required": true
+        }
+      ],
+      "revised_answer": "El manual del **ADW535** no incluye ningún procedimiento específico para la sustitución de la \"batería tampón\" (batería de respaldo de plomo-ácido) en los fragmentos disponibles.\n\nLo que sí aparece en los fragmentos es información sobre la **batería de litio** del LMB 35, que es la batería del módulo de reloj RTC [F12], y cuyo fallo se indica mediante el código **G80 - 008 \"Fallo reloj\"** [F8]. Las causas y soluciones documentadas para ese fallo son:\n\n- La cinta aislante de la batería de litio aún no se ha retirado → retirarla [F8]\n- El reloj no está ajustado [F8]\n- Batería de litio defectuosa → sustituir [F8]\n\nSin embargo, el procedimiento paso a paso para sustituir esa batería de litio **no está descrito en los fragmentos recuperados**.\n\nLo que sí está documentado es que:\n- Al sustituir el **LMB 35** completo (que contiene la batería de litio [F12]), se pierde la configuración y es necesario realizar un **nuevo reset inicial** y reajustar todas las configuraciones específicas del cliente [F1].\n- Los parámetros del ADW 535 **sí se mantienen** tras un **reset de hardware** (interrupción momentánea de tensión o pulsador reset) [F5].\n\n**El manual no especifica un procedimiento de sustitución de batería tampón de plomo-ácido ni si la configuración se conserva durante ese proceso.** Consulta el manual físico completo del ADW535 o contacta con el soporte técnico de **Securiton** (fabricante del ADW535) [F9].\n\n---\n\nInformación explícita adicional de los fragmentos:\n- PWR-R | = Entrada de alimentación redundante [F11]\n\nFuente: ADW535, Descripción técnica, T 140 358 e es (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **procedimiento de reset inicial**, **sustitución del LMB 35** o **interpretación de códigos de fallo G80**."
+    },
+    {
+      "qid": "hp015",
+      "question": "En la Detnov CCD-103, ¿cómo se desactiva un detector individualmente sin afectar al resto del lazo?",
+      "context_source": "s100_served_context_unchanged",
+      "answer_source": "s100_factlevel_full_baseline_answer",
+      "raw_answer_sha256": "2412c3a4d343eb0541e0139aeaa5bc9e3b6362e35af414c8ac3f2756932419a4",
+      "revised_answer_sha256": "6bbb463da0fcf27fa2ff099b7f3979a5cc6c2eb2ae01a7c73a9b2d5e73dbff9c",
+      "answer_changed": true,
+      "planner": {
+        "mode": "supplement",
+        "plan": [
+          {
+            "obligation_id": "obl_b1a476286791",
+            "fragment_number": 1,
+            "candidate_id": "8954b9b2-18a0-464e-9e17-cc756d944b7c",
+            "facet": "served_relation:zone_disable_scope",
+            "kind": "zone_disable_scope",
+            "statement": "La central de extinción permite la desconexión de zonas y sirenas, cuando se desconecta una zona, la central no refleja ninguna incidencia o evento en la zona desconectada, por lo tanto es importante limitar el uso de esta maniobra.",
+            "required_anchors": [
+              "zona",
+              "desconectada"
+            ],
+            "source_start": 28,
+            "source_end": 260
+          },
+          {
+            "obligation_id": "obl_245dcff130c1",
+            "fragment_number": 5,
+            "candidate_id": "fdb14497-4a5a-43db-a5f3-90f36448663e",
+            "facet": "served_relation:zone_device_capacity",
+            "kind": "zone_device_capacity",
+            "statement": "Recuerde que el número máximo de detectores o pulsadores por zona son 32.",
+            "required_anchors": [
+              "32",
+              "zona",
+              "detectores"
+            ],
+            "source_start": 2056,
+            "source_end": 2129
+          }
+        ],
+        "validation": {
+          "total": 2,
+          "covered": 2,
+          "missing": [],
+          "rows": [
+            {
+              "obligation_id": "obl_b1a476286791",
+              "fragment_number": 1,
+              "candidate_id": "8954b9b2-18a0-464e-9e17-cc756d944b7c",
+              "facet": "served_relation:zone_disable_scope",
+              "kind": "zone_disable_scope",
+              "statement": "La central de extinción permite la desconexión de zonas y sirenas, cuando se desconecta una zona, la central no refleja ninguna incidencia o evento en la zona desconectada, por lo tanto es importante limitar el uso de esta maniobra.",
+              "required_anchors": [
+                "zona",
+                "desconectada"
+              ],
+              "source_start": 28,
+              "source_end": 260,
+              "covered": true
+            },
+            {
+              "obligation_id": "obl_245dcff130c1",
+              "fragment_number": 5,
+              "candidate_id": "fdb14497-4a5a-43db-a5f3-90f36448663e",
+              "facet": "served_relation:zone_device_capacity",
+              "kind": "zone_device_capacity",
+              "statement": "Recuerde que el número máximo de detectores o pulsadores por zona son 32.",
+              "required_anchors": [
+                "32",
+                "zona",
+                "detectores"
+              ],
+              "source_start": 2056,
+              "source_end": 2129,
+              "covered": true
+            }
+          ],
+          "supplemented": 1
+        }
+      },
+      "all_obligation_citations_present": true,
+      "facts": [
+        {
+          "key": "hp015#2:32",
+          "projected_class": "synthesis-miss",
+          "before": {
+            "present": false,
+            "method": "anchor",
+            "detail": "anchors=['32'] missing=['32']"
+          },
+          "after": {
+            "present": true,
+            "method": "anchor",
+            "detail": "anchors=['32'] missing=[]"
+          },
+          "local_transition": "candidate_fact_coverage_gain",
+          "manual_review_required": true
+        }
+      ],
+      "revised_answer": "## Desactivación individual de detector en la CCD-103\n\nLa CCD-103 es una central **convencional** [F5], lo que significa que la unidad mínima de desconexión es la **zona completa**, no un detector individual.\n\nEl manual no describe ningún procedimiento para desactivar un detector de forma individual sin afectar al resto del lazo. Los fragmentos disponibles solo cubren la **desconexión por zona completa**.\n\n---\n\n### Lo que sí permite el sistema: desconexión de zona\n\nEl procedimiento para desconectar una zona completa es [F1][F3]:\n\n1. Asegúrate de que la **llave de bloqueo de teclado (G)** está en posición **abierta** (desbloqueada) [F3].\n2. Pulsa la **tecla de zona** correspondiente **dos veces** → la zona queda desconectada [F1].\n3. Para reconectar la zona: pulsa la **tecla de zona una vez** → zona conectada de nuevo [F1].\n\n**Indicaciones visuales al desconectar una zona** [F1]:\n- **Indicador de anular:** activo de forma continua.\n- **Indicador de anular en zona:** encendido fijo en la zona desconectada.\n\n> ⚠️ **Advertencia:** Cuando una zona está desconectada, la central **no refleja ninguna incidencia ni evento** en esa zona. El manual indica expresamente que es importante **limitar el uso de esta maniobra** [F1].\n\n---\n\n### Alternativa a nivel de cableado\n\nSi necesitas aislar físicamente un detector concreto sin desconectar toda la zona, el manual no describe ningún procedimiento específico para ello. Consulta directamente al soporte técnico de Detnov para verificar si existe algún accesorio o método aprobado para aislar detectores individuales en esta central.\n\n---\n\nInformación explícita adicional de los fragmentos:\n- Recuerde que el número máximo de detectores o pulsadores por zona son 32. [F5]\n\nFuente: CCD-103_Manual_ES_FR_GB_IT (sin revisión registrada)\n\nTambién puedo ayudarte con: **procedimiento de prueba de zona**, **resolución de avería en zona** o **conexionado de detectores en la CCD-103**."
+    },
+    {
+      "qid": "hp017",
+      "question": "¿Cómo se programa el retardo de salida de alarma principal en la Notifier PEARL?",
+      "context_source": "s111_final_serving_context",
+      "answer_source": "s112_incremental_answer_replay_v1",
+      "raw_answer_sha256": "de38cdf5358d57c912ce0c7d50e507204fd3ea4cb8c350e8910a50a3b4925b5e",
+      "revised_answer_sha256": "de38cdf5358d57c912ce0c7d50e507204fd3ea4cb8c350e8910a50a3b4925b5e",
+      "answer_changed": false,
+      "planner": {
+        "mode": "supplement",
+        "plan": [],
+        "validation": {
+          "total": 0,
+          "covered": 0,
+          "missing": [],
+          "rows": []
+        }
+      },
+      "all_obligation_citations_present": true,
+      "facts": [
+        {
+          "key": "hp017#2:Editar Configuracion",
+          "projected_class": "synthesis-miss",
+          "before": {
+            "present": true,
+            "method": "prose",
+            "detail": "overlap=100% valor='Editar Configuracion'"
+          },
+          "after": {
+            "present": true,
+            "method": "prose",
+            "detail": "overlap=100% valor='Editar Configuracion'"
+          },
+          "local_transition": "no_deterministic_fact_gain",
+          "manual_review_required": true
+        }
+      ],
+      "revised_answer": "# Programación del retardo de salida de alarma en la Notifier PEARL\n\nEl retardo de salida de alarma en la PEARL se configura a través de las **reglas de causa-efecto**. Te explico el proceso completo:\n\n---\n\n## 1. Acceso al menú de Causa-Efecto\n\nDesde el **Menú de Configuración** (nivel de acceso 3) [F8]:\n\n1. Selecciona **«8: Causa y Efecto»** en el menú «Editar Configuración» [F11]\n2. Si no hay reglas personalizadas, encontrarás dos reglas por defecto — **elimínalas antes de crear las tuyas** [F11]\n\n> ⚠️ **Recomendación del fabricante:** Se recomienda usar el **programa de configuración por ordenador** como método principal de programación. El menú de la central solo debe usarse para modificaciones menores [F12].\n\n---\n\n## 2. Configuración del retardo en la regla de causa-efecto\n\nDentro de cada regla de causa-efecto, debes seleccionar el **tipo de retardo de salida**. Hay **6 tipos disponibles** [F1]:\n\n- **Fijo**\n- **Estándar**\n- **No Silenc.**\n- **Est. Ext.**\n- **RetExtStd**\n- **No Sil. Ext**\n- **SinRetExt**\n\n---\n\n## 3. Comportamiento de cada tipo de retardo\n\nSegún la tabla de tipos de retardo [F2]:\n\n**Tipo Estándar:**\n- ✓ La salida se detiene si se pulsa SILENCIAR SIRENAS durante el retardo\n- ✓ El retardo puede anularse en nivel de acceso 2 con «Anular retardos»\n- ✓ El tiempo restante se muestra en la pestaña ALARMA\n- ✓ El retardo activo puede detenerse pulsando FIN RETARDO (nivel de acceso 2)\n- ✗ No se detiene al pulsar AMPLIAR RETARDO\n- ✗ No inicia temporizador de RETARDO AMPLIADO\n\n**Tipo Fijo:**\n- ✗ No se detiene con SILENCIAR SIRENAS\n- ✗ No puede anularse en nivel de acceso 2\n- ✗ No muestra tiempo restante en LCD\n- ✗ No puede detenerse con FIN RETARDO\n\n**Tipo Est. Ext. (Estándar Extendido):**\n- ✓ Se detiene con SILENCIAR SIRENAS\n- ✓ Puede anularse en nivel de acceso 2\n- ✓ Muestra tiempo restante en LCD\n- ✓ Puede detenerse con FIN RETARDO\n- ✓ **Se detiene también al pulsar AMPLIAR RETARDO**\n\n**Tipo No Silenc.:**\n- ✗ No se detiene con SILENCIAR SIRENAS\n- ✓ Puede anularse en nivel de acceso 2\n- ✓ Muestra tiempo restante en LCD\n- ✓ Puede detenerse con FIN RETARDO\n\n**Tipo RetExtStd:**\n- ✓ Se detiene con SILENCIAR SIRENAS\n- ✓ Puede anularse en nivel de acceso 2\n- ✓ Muestra tiempo restante en LCD\n- ✓ Puede detenerse con FIN RETARDO\n- ✓ **Inicia temporizador de RETARDO AMPLIADO**\n\n**Tipo No Sil. Ext:**\n- ✗ No se detiene con SILENCIAR SIRENAS\n- ✓ Puede anularse en nivel de acceso 2\n- ✓ Muestra tiempo restante en LCD\n- ✓ Puede detenerse con FIN RETARDO\n- ✓ Se detiene al pulsar AMPLIAR RETARDO\n\n**Tipo SinRetExt:**\n- ✗ No se detiene con SILENCIAR SIRENAS\n- ✓ Puede anularse en nivel de acceso 2\n- ✓ Muestra tiempo restante en LCD\n- ✓ Puede detenerse con FIN RETARDO\n- ✓ Inicia temporizador de RETARDO AMPLIADO\n\n---\n\n## 4. Retardo a nivel de equipo individual\n\nAdicionalmente, en la edición de equipos de lazo (**«2: Equipos de Lazo»**) es posible configurar un **retardo de alarma por equipo individual** [F14], así como un **retardo de confirmación de coincidencia de detector**, ajustable hasta **240 s (4 min)** [F14].\n\n---\n\n## 5. Anular/Habilitar retardos en operación\n\nUna vez configurados, los retardos pueden activarse/desactivarse desde el **Menú Anular/Habilitar → «5: Retardo Activación Salidas»** [F3]:\n- Pulsa **✓** para cambiar entre estado HABILITADO/ANULADO\n- Pulsa **✕** para salir\n\nEl **LED de RETARDO ACTIVO** se ilumina cuando hay un retardo en curso [F3].\n\n---\n\nFuente: Manual de configuración de la central PEARL — 997-671-005-3_Configuration_ES (sin revisión registrada); Manual de funcionamiento PEARL — 997-670-005-3_Operating_ES (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **borrar o editar reglas de causa-efecto existentes**, **configuración de coincidencia de zona** o **uso de la tecla AMPLIAR RETARDO en campo**."
+    }
+  ],
+  "limitations": [
+    "Known development cohort; no held-out precision claim is permitted.",
+    "Supplement mode measures extractive coverage, not response coherence.",
+    "Every fact transition remains manual-review-required until guided generation is checked."
+  ]
+}
