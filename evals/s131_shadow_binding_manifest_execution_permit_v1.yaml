@@ -1,0 +1,44 @@
+instrument: s131_shadow_binding_manifest_execution_permit_v1
+status: GO_FOR_EXACT_LOCAL_MANIFEST_BUILD_ONLY
+
+frozen_contract:
+  prereg:
+    path: evals/s131_shadow_binding_manifest_prereg_v1.yaml
+    sha256: 9c88c3f82532bbd9ba2f3a06b6ab62f7d8fb99f6410f1fc69d0518f0425b0ae5
+  generator:
+    path: scripts/s131_build_shadow_binding_manifest.py
+    sha256: 497ac41519857cdada51e89c1f63c610c045b23fd281721c35b87a83170167c6
+  tests:
+    path: tests/test_s131_shadow_binding_manifest.py
+    sha256: d7703dd6fce79cb5327e5ba54e91870cf0fbf6fca5a45509b1c73a3afd6c6d1f
+
+verified_before_execution:
+  focused_s131_tests: {passed: 26, failed: 0}
+  extended_relevant_regression: {passed: 161, failed: 0, skipped: 1}
+  output_paths_absent: required
+
+execution:
+  fixed_order:
+    - [baseline, evals/s131_shadow_binding_manifest_baseline_seed1_v1.json]
+    - [baseline, evals/s131_shadow_binding_manifest_baseline_seed2_v1.json]
+    - [candidate, evals/s131_shadow_binding_manifest_candidate_seed1_v1.json]
+    - [candidate, evals/s131_shadow_binding_manifest_candidate_seed2_v1.json]
+  processes: 4
+  canonical_byte_identity_required_within_arm: true
+  exclusive_create: true
+
+authorization:
+  local_metadata_reads: true
+  local_manifest_writes: true
+  raw_store_reads: false
+  raw_content_reads: false
+  database: false
+  network: false
+  models: false
+  embeddings: false
+  migration_apply: false
+  serving: false
+  deploy: false
+  facts_moved_to_ok: 0
+
+cost: {model_calls: 0, network_calls: 0, database_reads: 0, database_writes: 0, embeddings: 0}

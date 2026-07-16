@@ -1,0 +1,55 @@
+instrument: s131_shadow_binding_static_implementation_gate_v1
+status: GO_FOR_SEPARATE_M0B_AUTHORIZATION_REQUEST_ONLY
+
+artifacts:
+  manifest_gate: {path: evals/s131_shadow_binding_manifest_gate_v1.yaml, sha256: ceb88cab7db9caa889f3516fdffcb64d28521e056cae6a7c55c1719230f77614}
+  generator: {path: scripts/s131_build_shadow_binding_manifest.py, sha256: 497ac41519857cdada51e89c1f63c610c045b23fd281721c35b87a83170167c6}
+  generator_tests: {path: tests/test_s131_shadow_binding_manifest.py, sha256: c35ae10d889ce49dca07bd228894eb9270bdddf78b27b23eab3bddeeac7e245a}
+  static_sql: {path: supabase/migrations/20260716120000_chunks_v3_shadow_binding_v2.sql, sha256: cde25ca419b00814ae2c569d7349ca0b3b66183c7e3ccea1ead52ca30f30877b}
+  static_sql_tests: {path: tests/test_s131_chunks_v3_shadow_binding_sql.py, sha256: 9997fa49ffdb1022b062652734a37fba2cecb845957a131018e548629274fdcb}
+  baseline_binding_manifest: {path: evals/s131_shadow_binding_manifest_baseline_seed1_v1.json, sha256: 951c6a7615045d770574404cf664385b741bd0097abeebed6a0b6bc1f410f2c1}
+  candidate_binding_manifest: {path: evals/s131_shadow_binding_manifest_candidate_seed1_v1.json, sha256: aa870ab8a484700656252d0315808ee69076a57edfa5d4c0c128e2dd54a13746}
+
+evidence:
+  focused_s131: {passed: 27, failed: 0, skipped: 0}
+  extended_relevant_regression: {passed: 162, failed: 0, skipped: 1}
+  deterministic_manifest_processes: 4
+  within_arm_byte_identity: true
+  external_model_calls: 0
+  network_calls: 0
+  database_calls: 0
+
+closed_static_risks:
+  - only the exact baseline and candidate ID/manifest/rows/binding tuples are accepted
+  - the S117 antecedent must be empty and disposable
+  - registry binding fields are mandatory
+  - inactive or unbound evidence cannot validate with retrieval policy eligible
+  - PDF identity status has a closed physical/backfill/null shape
+  - the lexical order expression does not reference the PL/pgSQL output name
+  - runner has RPC execute only and normal API roles have no S131 access
+
+pending_gate:
+  name: M0b_disposable_postgresql_pgvector
+  required: true
+  reason: static tests cannot prove PostgreSQL syntax, catalog behavior, RLS, grants, races, rollback, or negative runtime cases
+  result: NOT_MEASURED
+
+adversarial_review:
+  design_v3: GO_P0_0_P1_0
+  implementation_external_attempt: INTERRUPTED_WITHOUT_VERDICT
+  treatment: no_claim_of_independent_implementation_GO
+
+authorization:
+  database: false
+  migration_apply: false
+  railway: false
+  network: false
+  models: false
+  embeddings: false
+  retrieval_ab: false
+  heldout_open: false
+  serving: false
+  deploy: false
+  facts_moved_to_ok: 0
+
+decision: HOLD_ALL_DB_AND_RETRIEVAL_CLAIMS_UNTIL_SEPARATELY_AUTHORIZED_M0B_PASSES
