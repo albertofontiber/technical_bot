@@ -580,7 +580,9 @@ def test_output_directory_symlink_is_rejected_before_write(tmp_path: Path) -> No
             runner._write_payload(tmp_path, runner.OUTPUT_RELATIVES[1], runner._failure_payload("internal_failure"))
         assert list(outside.iterdir()) == []
     finally:
-        if evals.exists() or evals.is_symlink():
+        if evals.is_symlink():
+            evals.unlink()
+        elif evals.exists():
             evals.rmdir()
         outside.rmdir()
 

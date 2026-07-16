@@ -1,5 +1,5 @@
-import hashlib
 import json
+import hashlib
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -16,21 +16,28 @@ from scripts.s130_chunks_v3_adequacy_audit import (
 )
 
 
-def _sha(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+def _canonical_text_sha(path: Path) -> str:
+    text = path.read_text(encoding="utf-8").replace("\r\n", "\n").replace("\r", "\n")
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
-def test_s130_prereg_freezes_current_design_and_chunker():
+def test_s130_prereg_has_portable_active_source_receipts():
     prereg = yaml.safe_load(
         (ROOT / "evals/s130_chunks_v3_adequacy_prereg_v2.yaml").read_text(
             encoding="utf-8"
         )
     )
-    assert _sha(ROOT / prereg["design"]["path"]) == prereg["design"]["sha256"]
-    assert (
-        _sha(ROOT / prereg["frozen_inputs"]["chunker"]["path"])
-        == prereg["frozen_inputs"]["chunker"]["sha256"]
+    ci_contract = yaml.safe_load(
+        (ROOT / "evals/s132_ci_evidence_contract_v1.yaml").read_text(
+            encoding="utf-8"
+        )
     )
+    assert _canonical_text_sha(ROOT / prereg["design"]["path"]) == ci_contract[
+        "portable_receipts"
+    ]["s130_design_utf8_lf"]
+    assert _canonical_text_sha(
+        ROOT / prereg["frozen_inputs"]["chunker"]["path"]
+    ) == ci_contract["portable_receipts"]["s130_chunker_utf8_lf"]
     assert prereg["cost_contract"] == {
         "model_calls": 0,
         "network_calls": 0,
@@ -366,16 +373,12 @@ def test_s130_truth_table_never_authorizes_build_or_migration():
 
 
 def test_s130_real_impact_map_resolves_both_legacy_and_m1_lanes():
-    prereg = yaml.safe_load(
-        (ROOT / "evals/s130_chunks_v3_adequacy_prereg_v2.yaml").read_text(
+    report = json.loads(
+        (ROOT / "evals/s130_chunks_v3_adequacy_audit_v2.json").read_text(
             encoding="utf-8"
         )
     )
-    impact = s130.build_impact_map(
-        prereg,
-        {"closure": {"extraction_sha256s": []}},
-        verified_gain_blocks=set(),
-    )
+    impact = report["impact"]
     assert impact["population"]["claims_total"] == 157
     assert {row["lane"] for row in impact["claims"]} == {"legacy", "migrated_m1"}
     assert sum(row["binding_count"] > 0 for row in impact["claims"]) > 0
@@ -388,24 +391,34 @@ def test_s130_real_impact_map_resolves_both_legacy_and_m1_lanes():
         for row in cat008
     )
 
+
+
+def test_s130_gold_pdf_bindings_are_hermetic_and_fail_closed():
+    extraction = "a" * 64
+    catalog = {"by_basename": {"manual": {("doc", extraction)}}}
     gold = {
-        str(row["qid"]): row
-        for row in yaml.safe_load(
-            (ROOT / prereg["frozen_inputs"]["gold"]["path"]).read_text(
-                encoding="utf-8"
-            )
-        )
+        "clean": {
+            "pdfs_used": ["Manual.pdf"],
+            "citations": [{"pdf": "Manual.pdf", "page": 2, "quote": "exact"}],
+        },
+        "mixed": {
+            "pdfs_used": ["Manual.pdf"],
+            "citations": ["legacy citation", {"pdf": "Manual.pdf", "page": 3}],
+        },
     }
-    bindings, failures = s130._gold_pdf_bindings(
-        "cat001", gold, s130._load_catalog(prereg)
-    )
+    bindings, failures = s130._gold_pdf_bindings("clean", gold, catalog)
     assert failures == []
-    assert sum(len(binding["pages"]) for binding in bindings) == 5
-    assert sum(len(binding["quotes"]) for binding in bindings) == 5
-    _, cat008_failures = s130._gold_pdf_bindings(
-        "cat008", gold, s130._load_catalog(prereg)
-    )
-    assert "unstructured_citations_2" in cat008_failures
+    assert bindings == [
+        {
+            "source_basename": "manual",
+            "extraction_sha256": extraction,
+            "document_id": "doc",
+            "pages": [2],
+            "quotes": ["exact"],
+        }
+    ]
+    _, failures = s130._gold_pdf_bindings("mixed", gold, catalog)
+    assert "unstructured_citations_1" in failures
 
 
 def test_s130_m1_document_multibinding_is_a_collision():
@@ -717,21 +730,3 @@ def test_s130_visual_screenshot_only_uses_all_row_pages(monkeypatch, tmp_path):
     }
     payload = s130.audit_corpus(tmp_path, embargo, prereg_path)
     assert "visual_metadata_screenshot_only" not in payload["metrics"]
-
-
-def test_s130_m25_snapshot_logical_receipt_is_verified():
-    prereg = yaml.safe_load(
-        (ROOT / "evals/s130_chunks_v3_adequacy_prereg_v2.yaml").read_text(
-            encoding="utf-8"
-        )
-    )
-    catalog = s130._load_catalog(prereg)
-    assert len(catalog["snapshot_documents"]) == 1171
-    assert len(catalog["document_relations"]) == 9
-    assert len(catalog["snapshot_pair_counts"]) == 1018
-    assert catalog["snapshot_nonempty_document_conflicts"] == 3
-    assert catalog["snapshot_empty_document_extractions"] == 8
-    assert (
-        catalog["snapshot_binding_ledger_sha256"]
-        == "1eec4001dfee4eb2228e92bb8f71018e02dc84e738b1973bce2aaabf5b97eaeb"
-    )

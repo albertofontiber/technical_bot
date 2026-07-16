@@ -1,0 +1,55 @@
+instrument: s132_ci_evidence_contract_v1
+status: ACTIVE_CI_CONTRACT_NO_LOCAL_ARTIFACT_DEPENDENCIES
+authority: test_classification_and_cross_platform_reproducibility_only
+
+active_suite:
+  missing_artifact_skips_allowed: false
+  untracked_tmp_dependencies_allowed: false
+  historical_replays_collected_by_pytest: false
+  clean_linux_checkout_required: true
+
+portable_receipts:
+  normalization: UTF8_WITH_LF_NEWLINES
+  s130_design_utf8_lf: 381cdc185ccfa75b3d23c18ec0bd07b5d663c5db5fc00ce06dbfe6df564ed2ad
+  s130_chunker_utf8_lf: 1ac4f56b28dac1c497f16dafc73e720ddbacdd4023820c9e14f3e1969d890e9c
+
+historical_replay_sources:
+  source_commit: 0ae870751bfa651539937f2c4d1a0b73ccba0ecd
+  disposition: HISTORICAL_EVIDENCE_RECOVERABLE_FROM_IMMUTABLE_GIT_COMMIT
+  active_ci_contract: false
+  paths:
+    - tests/test_s114_procedure_bundle_heldout.py
+    - tests/test_s117_m210_candidate_live_alignment.py
+    - tests/test_s119_cached_atomic_replay.py
+    - tests/test_s122_enforced_answer_contract_replay.py
+    - tests/test_s124_renderer_presentation_replay.py
+    - tests/test_s125_build_m1_known_hold_contract.py
+    - tests/test_s125_project_m1_reconciled_bridge.py
+    - tests/test_s125_replay_m1_known_hold_answers.py
+    - tests/test_s126_audit_upstream_residuals.py
+    - tests/test_s126_gate_independent_prerequisites.py
+    - tests/test_s126_replay_structural_upstream.py
+    - tests/test_s126_scan_independent_prerequisites.py
+    - tests/test_s128_explicit_relation_census.py
+
+retired_full_corpus_cases:
+  - source_commit: 2aaa8a5418129181890299b2bf9f23fb8326e796
+    path: tests/test_s130_chunks_v3_adequacy_audit.py
+    test: test_s130_m25_snapshot_logical_receipt_is_verified
+    reason: exact_snapshot_replay_requires_nonversioned_full_snapshot
+  - source_commit: dad84febbcc9153dc1fcaf4372f16c48ac0a070c
+    path: tests/test_s131_shadow_binding_manifest.py
+    test: test_real_build_is_deterministic_within_arm
+    reason: exact_builder_replay_requires_nonversioned_full_snapshot
+
+replacement_contracts:
+  s130:
+    - tracked_executed_impact_manifest
+    - hermetic_gold_binding_truth_table
+    - portable_active_source_receipts
+  s131:
+    - tracked_seed_byte_determinism
+    - hermetic_binding_truth_tables
+
+facts_moved_to_ok: 0
+production_changes: false
