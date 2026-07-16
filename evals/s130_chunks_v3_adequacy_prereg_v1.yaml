@@ -1,0 +1,67 @@
+instrument: s130_chunks_v3_adequacy_prereg_v1
+status: frozen_before_auditor_implementation
+
+design:
+  path: evals/s130_chunks_v3_adequacy_and_impact_design_v7.md
+  sha256: afd32696a91a6b324373002afdf988ae9df89d0e18ea266b7d77784ddb5e9a57
+
+raw_store:
+  slug: agent_anthropic-sonnet-45
+  json_files: 1069
+  extraction_records: 1068
+  manifest_sha256: 752c044be1531d5bc2e2879f79acf1dbeffabcbeb9bb9d16f5e14a5676aa5810
+  physical_path_must_not_be_serialized: true
+
+frozen_inputs:
+  chunker: {path: src/reingest/chunk.py, sha256: d851abf6761d8e5ff6dee4d2727b85c86fda21059dce8875a028cf8298e87764}
+  materializer: {path: src/reingest/chunk_provenance.py, sha256: bb218a509ca56f2ddf4e44d73c4235cefacfb4296a4b98c9d49a627a2536e65c}
+  gold: {path: evals/gold_answers_v1.yaml, sha256: e1b6b3a8da26b99201108b1765d18d396e8628e0fff022dee58dd7e75049470d}
+  s63_pairing: {path: evals/s63_pairing_heldout.yaml, sha256: f5158103ae4a8ab8228617c852dea05ea7de3c11524111b3571bcdbd8152abc3}
+  s63_verdict: {path: evals/s63_heldout_verdict.yaml, sha256: dc2e777bce09c8176b7e7359383817e00027b9162ba42141656d520365081fe4}
+  s114_freeze: {path: evals/s114_procedure_bundle_heldout_freeze_v1.json, sha256: 227e808a2ba2308acce89f90722fd46a63bad30aae0cde630191154b4ff07d94}
+  s115_freeze: {path: evals/s115_reference_edge_nested_holdout_freeze_v1.json, sha256: 107e5f0f0ec27117a4f9cec180169dbb43aad2ee385e31fbc8f0eeb3282c297e}
+  s116_acquisition: {path: evals/s116_independent_holdout_acquisition_v2.json, sha256: d0ab94546cb899b73e69d5cd6ae3ea5b660bbab74c835834a24cda35ce5e5544}
+  s116_replay: {path: evals/s116_independent_document_holdout_replay_v1.json, sha256: 241a1812de979743b10f369be5f0795579c17ca74642b286c6bc96a2a3e372fa}
+  s116_status: {path: evals/s116_independent_document_holdout_status_v1.yaml, sha256: fbe69648c289817486865b848d8ba193bc6cfedc573ee31fe19ac86e996bb1e2}
+  m25_binding: {path: evals/s117_m25_primary_binding_baseline_v1.json, sha256: bd7b24e93f730f5bbecd688cacc8fb233abdac07b68096ec934327670df4e626}
+  m25_snapshot:
+    path: tmp/s117_m2/remote_snapshot_v1.jsonl.gz
+    sha256: 3013c553da20c72fbfe0dc801dad4ea4b063ecff3138dcf55b5cd7831cf79067
+    documents: 1171
+    chunks: 25090
+    canonical_jsonl_sha256: c5c4e1027d85b5023e8834e221bb99799fedbea1a9826f5a42f88ff3ad8da8d5
+  doc_map: {path: data/catalog/doc_map.jsonl, sha256: 992c62c21b5772caebf09f422adca20ffe4035143861ca931e5198e820572c82}
+  products: {path: data/catalog/products.jsonl, sha256: c192a407e9ebd780c8864936a4a5a90d7ba3190982c5c9a52b998efaf9b97229}
+  relations: {path: data/catalog/relations.jsonl, sha256: 09bb24af2ac5f0277cd6f80fc36e61ef710da4d2cd8704b1392e67e5df1f699d}
+  docrel: {path: data/catalog/docrel.jsonl, sha256: 0a08b33ee75f6f7fdccdca7746d8f6af8b7a696fba37b13d8e82fd4a0f959a6d}
+  compact100: {path: evals/s117_m27_loss_rows_compact_v1.json, sha256: 9424d343b21c4894044bfad5cc6fbfd39f2f45b9e2c3da26d8901d381820a894}
+  m28_gate: {path: evals/s117_m28_candidate_materialization_gate_v1.yaml, sha256: bbac69b7d2cc7e9323a3083083890feb0619a16c328e4cc7d216e5111cb24a83}
+  m28_implementation_gate: {path: evals/s117_m28_content_preservation_implementation_gate_v1.yaml, sha256: 7d0bb1690a94b9475c9537f0fbae5bac71a5d8c18346e314aed0c85371334511}
+  m29_gate: {path: evals/s117_m29_reconciled_loss_ledger_gate_v1.yaml, sha256: ed243b6b6922f14464b0d300ba203cf580548550e3e2b22e2e14b52ea23eaa17}
+  s118_bridge: {path: evals/s118_atomic_benchmark_bridge_v1.json, sha256: f9a7a143a18b8d3046e404bd8dd1501baa62f1d0f4e6255d472956311d50eccb}
+  s125_contract: {path: evals/s125_m1_known_hold_contract_v1.json, sha256: a89c2c68a7469b0715f9515687dbc0b752c051c3182f209aed2af64bb43c30b5}
+
+phase0_embargo:
+  output: evals/s130_chunks_v3_heldout_exclusion_manifest_v1.json
+  fail_closed_on: [input_drift, unresolved_seed, collision, missing_relation_endpoint, nondeterminism]
+  content_scan_before_go: false
+
+phase1_audit:
+  output: evals/s130_chunks_v3_adequacy_audit_v1.json
+  requires_phase0_status: GO
+  expected_candidate_rows: 31226
+  expected_baseline_rows: 31212
+  expected_raw_blocks: 333161
+  expected_gain_blocks: 100
+  expected_regression_blocks: 0
+  sample_order: lexical_identity_only
+  max_examples_per_metric: 20
+
+decision_contract:
+  no_automatic_semantic_noise_claim: true
+  no_fact_reclassification: true
+  no_chunker_change: true
+  no_v4_build: true
+  no_migration_or_production: true
+
+cost_contract: {model_calls: 0, network_calls: 0, database_reads: 0, database_writes: 0, embeddings: 0}

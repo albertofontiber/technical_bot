@@ -1,0 +1,130 @@
+instrument: s130_unmeasured_answer_reconciliation_v1
+status: LOCAL_RECONCILIATION_COMPLETE_GENERATION_NOT_EXECUTED
+authority: exact_frozen_s113_s118_s124_s125_lineage
+
+inputs:
+  s113_preflight:
+    path: evals/s113_full_regression_preflight_v1.json
+    sha256: 3672e23d9c33f23f6fa8dc02f5065358bb21c42b40d961da0f54b0072fead647
+  s113_answers:
+    path: evals/s113_full_answer_regression_v1.json
+    sha256: 8fbfe4801f6c35c2447af9440c459b080e4405b76e2899f3a00e66b230497f69
+  s113_contexts:
+    path: evals/s113_full_contexts_freeze_v1.json
+    sha256: 22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d
+  s118_bridge:
+    path: evals/s118_atomic_benchmark_bridge_v1.json
+    sha256: f9a7a143a18b8d3046e404bd8dd1501baa62f1d0f4e6255d472956311d50eccb
+  s124_gate:
+    path: evals/s124_renderer_and_residual_reconciliation_gate_v1.yaml
+    sha256: 9a9e66aa5db003f734b4ee1ff2ec8240ae0282f1c304ced8090b9e7571888deb
+  s125_contract:
+    path: evals/s125_m1_known_hold_contract_v1.json
+    sha256: a89c2c68a7469b0715f9515687dbc0b752c051c3182f209aed2af64bb43c30b5
+  s125_replay:
+    path: evals/s125_m1_known_hold_answer_replay_v1.json
+    sha256: e478fb332dd0747eed73f0b20c535f158465b737ec8d5b18ab0436e6e98309b2
+
+reconciliation:
+  unmeasured_claims: 27
+  legacy_pending_replay_claims: 11
+  migrated_m1_core_claims: 16
+  distinct_qids_requiring_exact_answers: 7
+  prior_s113_remaining_generator_calls_all_questions: 12
+  calls_avoided_by_claim_and_qid_deduplication: 20
+  interpretation: >-
+    The 27 rows are not bot failures. They collapse to seven questions for
+    which S113 has executed=false and answer=null under the exact frozen
+    context/prompt contract.
+
+questions:
+  - qid: cat012
+    claim_count: 3
+    claim_ids:
+      - m1.cat012.859bf84ece1e1301.battery_formula
+      - m1.cat012.8f913ebef3a60ac1.alarm_term
+      - m1.cat012.8f913ebef3a60ac1.standby_term
+    context_rows: 11
+    serving_context_sha256: 1a9cd257f0b44fc9fbe71a80bd661d1b5cd3e56d453dcd34a8368190f05d682e
+    guided_prompt_sha256: f2eb618a6fa6b1b19276d434f049450faa6423138513111e924cd925fc4f7f1e
+  - qid: cat017
+    claim_count: 1
+    claim_ids: [m0.cat017.clss_workflow.1]
+    context_rows: 14
+    serving_context_sha256: 333e46bb68d7b81c2b2cb1d5667ce336a55cf98e708b7d8b33544a705440496e
+    guided_prompt_sha256: c7c68a087d0320bd99e30476fc1c8471c82a02193d2cdf425df6ba8c29144bcb
+  - qid: cat019
+    claim_count: 7
+    claim_ids:
+      - m1.cat019.650574c29860ac58.add_event_or_action
+      - m1.cat019.650574c29860ac58.event_change_and_condition
+      - m1.cat019.6c2692e4d3fd39ac.coincidence_semantics
+      - m1.cat019.6c2692e4d3fd39ac.create_maneuver
+      - m1.cat019.77fff66f289222e7.entity_scope
+      - m1.cat019.77fff66f289222e7.event_type_choice
+      - m1.cat019.77fff66f289222e7.temporal_condition
+    context_rows: 14
+    serving_context_sha256: 5cdb58353efff3a498149c734fae6b0e51665d96ac7005bbea3fedcfcfa98030
+    guided_prompt_sha256: 430bb3ed5ad29fcab665fad096dca8dcbaa3dc75671f04ff75ce0e9e22e3fe65
+  - qid: hp002
+    claim_count: 6
+    claim_ids:
+      - m1.hp002.06f759b5da9ed40b.maintenance_safety
+      - m1.hp002.06f759b5da9ed40b.read_and_compare_flow
+      - m1.hp002.4de86fac80358a14.nominal_after_reset
+      - m1.hp002.4de86fac80358a14.standard_fault_window
+      - m1.hp002.c2c99fa936e98f67.flow_direction_diagnosis
+      - m1.hp002.c2c99fa936e98f67.obstruction_checks
+    context_rows: 11
+    serving_context_sha256: e59f0dbee91026d5a91b5ced7b35b30a21f41c73c00547cca616c537355dee2d
+    guided_prompt_sha256: 59595709d2f94fb8e5fb881929f397d1452f61ca96d0b9716645dfedb0bcb837
+  - qid: hp011
+    claim_count: 5
+    claim_ids:
+      - m0.hp011.abort.1
+      - m0.hp011.abort.2
+      - m0.hp011.reset_inhibit.1
+      - m0.hp011.reset_inhibit.2
+      - m0.hp011.reset_inhibit.3
+    context_rows: 13
+    serving_context_sha256: 1b806d3bd9a3805d5b25654cddaa7c5ece683ce0f6cc5e80b41bbd7c1b6dc7e3
+    guided_prompt_sha256: 405970a095d35f1e80cdb78826a306c6989067bc1a10b74f36be266c3c096daa
+  - qid: hp013
+    claim_count: 2
+    claim_ids:
+      - m0.hp013.eeprom_retention.1
+      - s118.hp013.power_and_rtc.1
+    context_rows: 12
+    serving_context_sha256: fdd4ae73fb399442f7bafac72f61ba99a3c41a6a023e68cd085a2e3e2e89bc64
+    guided_prompt_sha256: 54792698ee244a26c0f54e3ccaf30045ef33e7851e59e80ba6f19b4a4a5bd835
+  - qid: hp018
+    claim_count: 3
+    claim_ids:
+      - m0.hp018.eol.1
+      - m0.hp018.eol.2
+      - m0.hp018.max_current.1
+    context_rows: 14
+    serving_context_sha256: 49217973d299436ad51560c169f647886dc50d7f8e4f15eb9e6dc18b5046db0f
+    guided_prompt_sha256: 9c1189814478e863cbf610b03377879288b78a0f0dce17f353617308828390ff
+
+execution_contract:
+  reuse_later_answer_only_if_exact_context_prompt_and_generator_receipts_match: true
+  generate_at_most_one_answer_per_qid: true
+  current_maximum_generator_calls: 7
+  classify_all_claims_against_their_single_qid_answer: true
+  retrieval_and_rerank_calls: 0
+  judge_calls_before_answer_generation: 0
+  model_substitution_for_kpi_forbidden: true
+  rationale: >-
+    A cheaper executor model cannot replace the pinned bot generator when the
+    purpose is measuring bot behavior. Cost is controlled by exact reuse,
+    qid-level deduplication and frozen contexts.
+
+authorization_and_cost:
+  answer_generation_executed: false
+  model_calls: 0
+  network_calls: 0
+  database_reads: 0
+  database_writes: 0
+  production_changes: 0
+  facts_reclassified: 0

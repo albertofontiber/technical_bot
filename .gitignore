@@ -65,6 +65,18 @@ manuales/
 *.log
 *.bak
 _dry_run_results.json
+tmp/
+
+# Evals incompletos y payloads seeded grandes: se conservan localmente, pero
+# los gates/recibos compactos son la evidencia versionada en Git. No borrar
+# estos payloads sin ejecutar el cleanup gate de S130.
+evals/*.partial.jsonl
+evals/*.partial.*.claim
+evals/s117_m27_loss_accounted_alignment_seed*_v1.json
+evals/s117_m27_live_evidence_seed*_v1.json
+evals/s117_m26_independent_audit_seed*_v1.json
+evals/s117_m27_upstream_sql_budget_seed*_v1.json
+evals/s117_m27_upstream_sql_budget_seed*_v2.json
 
 # Raw vendor drops (zips de fabricantes, se procesan a Manuales_*)
 *.zip
