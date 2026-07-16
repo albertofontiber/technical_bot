@@ -1,0 +1,282 @@
+{
+  "instrument": "s133_true_pgvector_runtime_gate_v1",
+  "status": "GO_TRUE_PGVECTOR_RUNTIME_CONTRACT",
+  "runtime": {
+    "kind": "disposable_github_actions_service",
+    "production_data": false,
+    "railway": false
+  },
+  "authority": {
+    "positive_harness_sha256": "4bef7bbe8d29be68eff477de32092eb3530d82544b82fd3df275efb2bb025114",
+    "negative_harness_sha256": "c91be57b0a73c4f07f4f00219fd9201bd90894eb64ee678be54a89e242ef3483",
+    "s117_migration_sha256": "37824e363835d5f531de9a24566d657583b886feeacc16d174ecd621c095b0e2",
+    "s131_migration_sha256": "25912e0c00b0fd7e7a1ad37fefee243d32e6abf64d37ec26c947a791587b8c83"
+  },
+  "cost": {
+    "model_calls": 0,
+    "embedding_calls": 0,
+    "production_database_writes": 0
+  },
+  "positive": {
+    "load": {
+      "state": "validated",
+      "chunks": 31212,
+      "bindings": 1068,
+      "seed1_sha256": "951c6a7615045d770574404cf664385b741bd0097abeebed6a0b6bc1f410f2c1",
+      "seed2_sha256": "951c6a7615045d770574404cf664385b741bd0097abeebed6a0b6bc1f410f2c1",
+      "loader_output": "COMMIT"
+    },
+    "verification": {
+      "runtime": {
+        "chunks": 31212,
+        "bindings": 1068,
+        "server_version": "17.6 (Debian 17.6-1.pgdg12+1)",
+        "materialization_state": "validated",
+        "vector_extension_version": "0.8.0"
+      },
+      "runner_narrow_rpc": {
+        "status": "PASS",
+        "rows": 10
+      },
+      "role_attributes": {
+        "status": "PASS",
+        "roles": [
+          "technical_bot_chunks_v3_publisher|false|false|false|false|false|false|false",
+          "technical_bot_chunks_v3_shadow_loader|false|false|false|false|false|false|false",
+          "technical_bot_chunks_v3_shadow_rpc_owner|false|false|false|false|false|false|false",
+          "technical_bot_chunks_v3_shadow_runner|false|false|false|false|false|false|false"
+        ]
+      },
+      "relation_catalog": {
+        "status": "PASS",
+        "chunks_v3": {
+          "rls": true,
+          "kind": "r",
+          "owner": "postgres"
+        },
+        "chunk_materializations_v1": {
+          "rls": true,
+          "kind": "r",
+          "owner": "postgres"
+        },
+        "chunk_document_bindings_v1": {
+          "rls": true,
+          "kind": "r",
+          "owner": "postgres"
+        },
+        "chunks_v3_shadow_retrieval_eligible_v2": {
+          "rls": false,
+          "kind": "v",
+          "owner": "technical_bot_chunks_v3_shadow_rpc_owner"
+        }
+      },
+      "function_catalog": {
+        "status": "PASS",
+        "discard_chunks_v3_shadow_v2": {
+          "owner": "technical_bot_chunks_v3_publisher",
+          "config": [
+            "search_path=\"\""
+          ],
+          "security_definer": true
+        },
+        "validate_chunks_v3_shadow_v2": {
+          "owner": "technical_bot_chunks_v3_publisher",
+          "config": [
+            "search_path=\"\""
+          ],
+          "security_definer": true
+        },
+        "search_chunks_v3_shadow_text_v2": {
+          "owner": "technical_bot_chunks_v3_shadow_rpc_owner",
+          "config": [
+            "search_path=\"\""
+          ],
+          "security_definer": true
+        }
+      },
+      "catalog_structure": {
+        "status": "PASS",
+        "triggers": 3,
+        "binding_fk": 1,
+        "binding_policies": 4,
+        "eligible_fts_index": 1
+      },
+      "runner_direct_table_denied": {
+        "status": "PASS",
+        "expected_error": "permission denied for table chunks_v3"
+      },
+      "runner_direct_chunk_materializations_v1_denied": {
+        "status": "PASS",
+        "expected_error": "permission denied for table chunk_materializations_v1"
+      },
+      "runner_direct_chunk_document_bindings_v1_denied": {
+        "status": "PASS",
+        "expected_error": "permission denied for table chunk_document_bindings_v1"
+      },
+      "runner_direct_chunks_v3_shadow_retrieval_eligible_v2_denied": {
+        "status": "PASS",
+        "expected_error": "permission denied for view chunks_v3_shadow_retrieval_eligible_v2"
+      },
+      "runner_direct_documents_denied": {
+        "status": "PASS",
+        "expected_error": "permission denied for table documents"
+      },
+      "loader_direct_table_read_denied": {
+        "status": "PASS",
+        "expected_error": "permission denied for table chunk_document_bindings_v1"
+      },
+      "anon_rpc_denied": {
+        "status": "PASS",
+        "expected_error": "permission denied for function search_chunks_v3_shadow_text_v2"
+      },
+      "anon_direct_read_denied": {
+        "status": "PASS",
+        "expected_error": "permission denied for table chunks_v3"
+      },
+      "anon_insert_denied": {
+        "status": "PASS",
+        "expected_error": "permission denied for table chunks_v3"
+      },
+      "authenticated_rpc_denied": {
+        "status": "PASS",
+        "expected_error": "permission denied for function search_chunks_v3_shadow_text_v2"
+      },
+      "authenticated_direct_read_denied": {
+        "status": "PASS",
+        "expected_error": "permission denied for table chunks_v3"
+      },
+      "authenticated_insert_denied": {
+        "status": "PASS",
+        "expected_error": "permission denied for table chunks_v3"
+      },
+      "service_role_rpc_denied": {
+        "status": "PASS",
+        "expected_error": "permission denied for function search_chunks_v3_shadow_text_v2"
+      },
+      "service_role_direct_read_denied": {
+        "status": "PASS",
+        "expected_error": "permission denied for table chunks_v3"
+      },
+      "service_role_insert_denied": {
+        "status": "PASS",
+        "expected_error": "permission denied for table chunks_v3"
+      },
+      "invalid_partition_rejected": {
+        "status": "PASS",
+        "expected_error": "S131 invalid shadow query"
+      },
+      "unvalidated_materialization_rejected": {
+        "status": "PASS",
+        "expected_error": "S131 shadow materialization is not validated"
+      },
+      "sealed_chunk_update_rejected": {
+        "status": "PASS",
+        "expected_error": "chunks_v3 rows are append-only"
+      },
+      "sealed_binding_update_rejected": {
+        "status": "PASS",
+        "expected_error": "S131 bindings are append-only"
+      },
+      "validated_discard_rejected": {
+        "status": "PASS",
+        "expected_error": "S131 discard requires loading or failed"
+      },
+      "antecedent_routes_absent": {
+        "status": "PASS",
+        "discard_v1": null,
+        "publish_v1": null,
+        "validate_v1": null,
+        "match_chunks_v3": null,
+        "search_chunks_text_v3": null
+      },
+      "semantic_retrieval_quality": {
+        "status": "NOT_MEASURED",
+        "reason": "chunk content is synthetic and only exercises the relational contract"
+      },
+      "pgvector_semantics": {
+        "status": "DELEGATED_TO_S133_REAL_PROBE",
+        "historical_s131_default": {
+          "status": "NOT_MEASURED",
+          "reason": "local vector extension is a signature-only shim, not pgvector"
+        }
+      }
+    }
+  },
+  "negative": {
+    "instrument": "s131_m0b_negative_gate_v1",
+    "static_rejections": {
+      "wrong_registry_tuple": "PASS",
+      "crossed_binding_truth_table": "PASS",
+      "chunk_without_binding": "PASS"
+    },
+    "validator_rejections": {
+      "asserted_manifest_mismatch": "PASS",
+      "document_status_drift": "PASS",
+      "valid_loading_discard": {
+        "state": "discarded",
+        "removed_chunks": 31226,
+        "removed_bindings": 1068,
+        "materialization_id": "1852e61c-ac7f-5232-be1c-627ea54f29b5"
+      },
+      "binding_without_chunks": {
+        "status": "PASS",
+        "error": "S131 binding without chunks"
+      },
+      "binding_without_chunks_discard": {
+        "state": "discarded",
+        "removed_chunks": 31226,
+        "removed_bindings": 1068,
+        "materialization_id": "1852e61c-ac7f-5232-be1c-627ea54f29b5"
+      },
+      "raw_mismatch": {
+        "status": "PASS",
+        "error": "S131 chunk/binding identity mismatch"
+      },
+      "raw_mismatch_discard": {
+        "state": "discarded",
+        "removed_chunks": 31226,
+        "removed_bindings": 1068,
+        "materialization_id": "1852e61c-ac7f-5232-be1c-627ea54f29b5"
+      },
+      "ineligible_retrieval": {
+        "status": "PASS",
+        "error": "S131 ineligible binding marked for retrieval"
+      },
+      "ineligible_retrieval_discard": {
+        "state": "discarded",
+        "removed_chunks": 31226,
+        "removed_bindings": 1068,
+        "materialization_id": "1852e61c-ac7f-5232-be1c-627ea54f29b5"
+      }
+    },
+    "transition_race": {
+      "status": "PASS",
+      "winner": "discard",
+      "terminal_state": "absent"
+    },
+    "models": 0,
+    "retrieval_quality": "NOT_MEASURED_SYNTHETIC_CONTENT"
+  },
+  "true_pgvector": {
+    "status": "PASS",
+    "extension_version": "0.8.0",
+    "cosine_distance_semantics": {
+      "status": "PASS",
+      "same": 0,
+      "opposite": 2,
+      "orthogonal": 1,
+      "extension_version": "0.8.0"
+    },
+    "hnsw_index_behavior": {
+      "status": "PASS",
+      "index_name": "s133_vectors_hnsw",
+      "node_type": "Index Scan"
+    },
+    "semantic_retrieval_quality": "NOT_MEASURED_SYNTHETIC_CONTENT"
+  },
+  "rollback": {
+    "status": "PASS",
+    "residual_shadow_objects": 0
+  }
+}
+
