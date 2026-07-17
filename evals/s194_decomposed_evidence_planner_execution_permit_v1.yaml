@@ -1,0 +1,28 @@
+instrument: s194_decomposed_evidence_planner_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_NO_RETRY
+authority: user_requested_autonomous_next_segment
+
+frozen_artifacts:
+  preregistration: {path: evals/s194_decomposed_evidence_planner_prereg_v1.yaml, sha256: 5c7ddf678f3ad5316400eb756312236f24f1a2ddfa0c2e4a0a828273c722e5a3}
+  runner: {path: scripts/s194_decomposed_evidence_planner_gate.py, sha256: 838cefa5d47e9459cad5d084f53618122ff77b9a54ed8fe118e4eef5a54d05c3}
+  gate_tests: {path: tests/test_s194_decomposed_evidence_planner_gate.py, sha256: 644f47cc6d685bf4ad148cf54e6156c2db8bfb8661189346370b86160779dd5e}
+
+limits:
+  paid_calls_max: 32
+  retries: 0
+  internal_ceiling_usd: 3
+  frontier_execution_calls: 0
+  database_calls: 0
+  database_writes: 0
+  production_changes: 0
+  chunks_v3_changes: 0
+  deployments: 0
+  pushes: 0
+
+stopping:
+  same_cohort_retry: forbidden
+  threshold_change_after_execution: forbidden
+  target_probe_before_fresh_gate_pass: forbidden
+  provider_incomplete: HOLD_EXTERNAL_DEPENDENCY_INCOMPLETE
+  fresh_gate_failure: NO_GO_WITHOUT_OPENING_TARGETS
+  target_semantic_failure: NO_GO_WITH_ZERO_FACT_CREDIT

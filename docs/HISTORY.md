@@ -1756,3 +1756,25 @@ del DEC-101 convertida, y los 2 "corpus-gap" nuevos verificados a mano como FN (
 El día deja: +2 OK en el scoreboard, un activo de 55K enunciados pagado y protegido, el modo
 de fallo de escala diagnosticado con artefactos, y la cabeza de cola nítida — la cuota del
 canal enunciados, con dúo y su gate de re-carga ya construido.
+
+## s194 (17 jul 2026) — cohorte fresca para síntesis; el gate para antes del selector (DEC-103)
+
+Retomado `main@5868c9b` (PR #120) en worktree limpio. La foto canónica comparable se mantuvo:
+157 facts = 143 OK, 12 synthesis-miss y 2 retrieval-miss; 77 legacy carries impiden aún un KPI
+atómico oficial. Se eligió el bucket dominante de síntesis upstream→downstream, sin reabrir
+S140 (`chunks_v3` wholesale NO-GO) ni ajustar S193 sobre sus 14 preguntas observadas.
+
+El primer diseño intentaba decidir con S168/S170. La revisión GPT-5.5 lo tumbó: era independiente
+de targets pero no fresco. Se construyó entonces un freeze GET-only real de las 25.090 filas de
+`chunks_v2`: 14 documentos/fabricantes nuevos, 7 tabla + 7 prosa, exclusiones versionadas y
+manifest pre-autor de unidades. Una segunda revisión crítica cazó cinco fallos más antes del
+gasto: conflictos no validados, HOLD inexistente, prereg/permit pendientes, overclaim de overlap
+semántico y IDs no sellados. Todos se corrigieron; tally conjunto = 10/10 confirmados, 0 FP.
+
+Ejecución económica sin retry: Haiku 14/14, $0,078186. Produjo 13 preguntas elegibles,
+50 puntos, 7 tabla y 6 prosa, pero `s194_src_09` excedió la cardinalidad de IDs de soporte.
+Como el gate exigía cero inválidos, resultado `NO_GO_COHORT_CONSTRUCTION`. Luna = 0 llamadas;
+targets = cerrados; facts movidos = 0; producción/DB/Railway = intactos. Root cause del
+instrumento: el JSON Schema permitía cualquier longitud de array aunque el prompt/validator
+exigían 1–3 IDs. Próxima iteración legítima: sellar esa cardinalidad y usar otra cohorte fresca,
+sin reutilizar outputs ni relajar umbrales.

@@ -1,0 +1,5079 @@
+{
+  "instrument": "s194_fresh_source_packet_v1",
+  "status": "SEALED_FRESH_LIVE_CHUNKS_V2_GET_ONLY",
+  "selection": {
+    "seed": "s194-decomposed-evidence-planner-fresh-v1",
+    "items": 14,
+    "manufacturers": 14,
+    "unique_documents": 14,
+    "table": 7,
+    "prose": 7,
+    "question_or_gold_used_for_selection": false,
+    "prior_document_overlap": 0,
+    "target_document_overlap": 0,
+    "target_chunk_overlap": 0,
+    "development_product_pair_overlap": 0,
+    "prior_documents_excluded": 96,
+    "target_documents_excluded": 45,
+    "exclusion_counts": {
+      "prior_or_target_document": 5681,
+      "development_product_pair": 693,
+      "generic_eligibility": 9205
+    },
+    "source_table": "chunks_v2",
+    "fresh_after_s193": true
+  },
+  "items": [
+    {
+      "item_id": "s194_src_01",
+      "stratum": "table",
+      "manufacturer": "Notifier",
+      "product_model": "STS1REL",
+      "document_id": "552ba322-cadf-49ad-8994-a745ac198a90",
+      "chunk_id": "c587fb27-1547-4e85-ac5f-346c010b6402",
+      "extraction_sha256": "8ede3787729bfccb255d9cdbe9a0798ee177a41785092881397b3fba43349162",
+      "source_file": "MNDT631",
+      "page_number": 1,
+      "section_title": "Esquema de la tarjeta STS1REL",
+      "section_path": "Esquema de la tarjeta STS1REL",
+      "excerpt": "# Esquema de la tarjeta STS1REL\n\nLED: ENCENDIDO CON EL RELÉ ACTIVADO\nLED: LIT WITH ENERGIZED RELAY\n\n[Diagram showing relay card with the following elements:]\n\n- Relé (Relay) section with positions 1, 2, 3 marked as Jp3\n- 10-pole connector shown at bottom\n- Jp4 position marked with red LED indicator\n- Connection lines showing circuit paths\n\n**Jp3**\n\n1. CONTACTO NORMALMENTE ABIERTO (NA) CON PUENTE ENTRE LOS TERMINALES 1 Y 2\n   NORMALLY OPEN (NO) CONTACT IF JUMPER BETWEEN 1 AND 2\n\n2. CONTACTO NORMALMENTE CERRADO (NC) CON PUENTE ENTRE LOS TERMINALES 2 Y 3 (por defecto)\n   NORMALLY CLOSED (NC) CONTACT IF JUMPER BETWEEN 2 AND 3 (DEFAULT)\n\n**Jp4**\n\n- CERRADO: RELÉ NORMALMENTE ACTIVADO (POR DEFECTO)\n  CLOSE: NORMALLY ENERGISED RELAY (DEFAULT)\n\n- ABIERTO: RELÉ NORMALMENTE DESACTIVADO\n  OPEN: NORMALLY DE-ENERGISED RELAY\n\nMN-DT-631 02/07/2009\n(Doc. MT1071, rev 3)\n\n1/2\n\nManual de la tarjeta de relé STS1REL\n\n## MONTAJE\n\n**(Versión de producto SM3, a partir de mayo de 2006)**\n\n## ASSEMBLY\n\n**(Product version SM3 from May 2006)**\n\n[Two circular PCB diagrams showing:]\n\n**Left diagram:**\n\n- TARJETA STS1REL (card at top)\n- Numbers 1-5 arranged diagonally\n- LED indicator (red dot)\n- Two small component blocks on right side\n- Connector strip on left side\n- Label: \"Circuito Smart 3 Smart 3 PCB\"\n\n**Right diagram:**\n\n- Same circular layout\n- Salida de contacto de relé (Output relay contact) - arrows pointing to top connections\n- LED indicator\n- Numbers 1-5 arranged diagonally\n- Relé (relay component shown as black rectangle)\n- Two small component blocks on right side\n- Connector strip on left side\n\n**Modo de activación del relé / Relay activation mode**\n\n| \\[Icon: switch with alarm off] | WD/Avería sin alarma / WD/Fault and no alarm | \\[Icon: switch with alarm 3] | WD/Avería y alarma 3 / WD/Fault and alarm 3 |\n| ------------------------------ | -------------------------------------------- | ---------------------------- | ------------------------------------------- |\n| \\[Icon: switch with alarm 2]   | WD/Avería y alarma 2 / WD/Fault and alarm 2  | \\[Icon: switch with alarm 3] | WD/Avería y alarma 3 / WD/Fault and alarm 3 |\n| WD= Watch Dog                  |                                              |                              |                                             |\n\nNota: Independientemente de la configuración del microinterruptor, durante los primeros 80 segundos (encendido del dispositivo), el relé de salida señalizará siempre una Avería\n\nNote: During start up condition (80 sec) the relay output is in Fault\n\n----\n\n## MONTAJE\n\n**(Versión de producto antigua, antes de mayo de 2006)**\n\n## ASSEMBLY\n\n**(Old version of the product, before May 2006)**\n\n[Two circular PCB diagrams showing:]\n\n**Left diagram:**\n\n- TARJETA STS1REL (card at top)\n- LED indicator (red dot)\n- Diagonal arrangement of components\n- MSd connector\n- J6 connector\n- J2 connector\n- J1 connector\n- Label: \"Circuito Smart 3 Smart 3 PCB\"\n\n**Right diagram:**",
+      "excerpt_sha256": "4c8ae8df0d5e24b89f358c475231ec36d9215ecbb1b317b9562322d60e7ed072",
+      "selection_quality": 237,
+      "selection_tie": "9a517f80186d9137adb87a8843c5ff9ce64a27a5f18e0ba07a2a8eb61ad849d3",
+      "evidence_unit_manifest": [
+        {
+          "unit_id": "E001_21a40dc51a",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              31
+            ]
+          ],
+          "content_sha256": "c7a95b5a9c4ee3b9197cd12268defcf408c81b57329d468d21fa8fc633aecf23"
+        },
+        {
+          "unit_id": "E002_fed42eb5d6",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              1181
+            ]
+          ],
+          "content_sha256": "1281e28cd68cd21826623bce9a977079db7382ad4198bc6f3f9f361f7a26847f"
+        },
+        {
+          "unit_id": "E003_53e7eb744d",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              33,
+              98
+            ]
+          ],
+          "content_sha256": "d4c8308d0d7f87bfbe48c3e2856e2f9e634916bbd5aa7ebc3f164e605d92faf9"
+        },
+        {
+          "unit_id": "E004_3b7a0c50a7",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              100,
+              157
+            ]
+          ],
+          "content_sha256": "3b52d3a26606d607082e708d4143b2ad90771957825b1b09f9a31c87dc405fb1"
+        },
+        {
+          "unit_id": "E005_a2c12d5a9a",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              159,
+              340
+            ]
+          ],
+          "content_sha256": "30f4e21dbf6fe258b244b3ec489de97655e397594d7e73e1662e33842aec8660"
+        },
+        {
+          "unit_id": "E006_8f0d49a92a",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              342,
+              349
+            ]
+          ],
+          "content_sha256": "be414810bd4c8aaefd60cc64f0467c978528ef6525635701af5e68f0f9a811cc"
+        },
+        {
+          "unit_id": "E007_e5bc7f5a9f",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              351,
+              481
+            ]
+          ],
+          "content_sha256": "cb3f456c9a565098f67776f598b2445a7d373b96de07f919a493b54c9734ffc9"
+        },
+        {
+          "unit_id": "E008_2e8e36afd5",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              483,
+              639
+            ]
+          ],
+          "content_sha256": "d318db06a98ce41129b7e953995c960edf2cff1382602d479d541d0f393d0b9c"
+        },
+        {
+          "unit_id": "E009_c05720c68f",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              641,
+              648
+            ]
+          ],
+          "content_sha256": "628dcc27bc1f07238f9bd6f4e418975ccc2214f88a526d1e8cda7e3c4039f011"
+        },
+        {
+          "unit_id": "E010_be8e3bd0e8",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              650,
+              744
+            ]
+          ],
+          "content_sha256": "a57a8ddffb6aaefac82aa4daa58aa44415530cb2ceb4351b9d0310312a839f9f"
+        },
+        {
+          "unit_id": "E011_252babccd1",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              746,
+              821
+            ]
+          ],
+          "content_sha256": "1126f2098df0c8afb5cd3aadad2a57f5665401e2a905895d3733f92901454126"
+        },
+        {
+          "unit_id": "E012_59bee0cc12",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              823,
+              864
+            ]
+          ],
+          "content_sha256": "78d9b462e74ae0d6783928030b00f05cd449573aa58dfcf33f6d1c4908df9575"
+        },
+        {
+          "unit_id": "E013_26980a2692",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              866,
+              869
+            ]
+          ],
+          "content_sha256": "d939926f05444b0f4495fb9629ecbfa80d99a8ec1a20d06800ca5a3d5f4fd276"
+        },
+        {
+          "unit_id": "E014_0c2041bc5f",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              871,
+              907
+            ]
+          ],
+          "content_sha256": "6271f0e342899e479b580f73ca60ec6ad0d4bb8961b20164f0fe12762aa478fe"
+        },
+        {
+          "unit_id": "E015_e15424b623",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              908,
+              1978
+            ]
+          ],
+          "content_sha256": "55cf5bf1aa3cad436872e2562032ffc1065c96334d8d6212e816e4cc49280996"
+        },
+        {
+          "unit_id": "E016_ac89ffea8b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              909,
+              919
+            ]
+          ],
+          "content_sha256": "62ecb5af1f6fbaf9fbe61ba516f7314f124a9dc9dd5bc68cd35c6c218c6cdd5c"
+        },
+        {
+          "unit_id": "E017_3b909637d7",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              921,
+              976
+            ]
+          ],
+          "content_sha256": "96664110861a3836f92d43e254b7de719d0b86f318e46cec7493b66989599c1d"
+        },
+        {
+          "unit_id": "E018_5ba92adc51",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              978,
+              989
+            ]
+          ],
+          "content_sha256": "4084c9a6c4fb617940d1e089c19d6cca3fc45c79b2a0e79e9e82efe2e62a2c2d"
+        },
+        {
+          "unit_id": "E019_6dd7502cd3",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              991,
+              1030
+            ]
+          ],
+          "content_sha256": "22967e14043348cfb85ab4bab67e33cf024023ea9605149069db615bb7b56802"
+        },
+        {
+          "unit_id": "E020_629be70ade",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1032,
+              1068
+            ]
+          ],
+          "content_sha256": "57f4bbe393b3643dfbfb7f0ac01d58e4910ca5996c7dea5e753ec73d1a39e639"
+        },
+        {
+          "unit_id": "E021_59dd314ca0",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1070,
+              1087
+            ]
+          ],
+          "content_sha256": "8b3d1a160ea0b61ae63d8b40274904b42339b36d708686b3ae7f6ca6cf3a108d"
+        },
+        {
+          "unit_id": "E022_ded3e9fe5d",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1089,
+              1294
+            ]
+          ],
+          "content_sha256": "2831f97d123db4851168f2e53f3172e8c4a4577e4d1382c99209efe8b5b3410f"
+        },
+        {
+          "unit_id": "E023_fdd7c02979",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1296,
+              1314
+            ]
+          ],
+          "content_sha256": "5237621751196bb0fb9630ab95182a079380b8dae0d01b551bf48f558597cd4e"
+        },
+        {
+          "unit_id": "E024_b1da0c2270",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1316,
+              1601
+            ]
+          ],
+          "content_sha256": "bb5eca3f8031d33ee375480a0484b49b85ab3f6c58c184353a4b7e86d498cc5a"
+        },
+        {
+          "unit_id": "E025_2374c0e28f",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1603,
+              1658
+            ]
+          ],
+          "content_sha256": "03192f049ac65e8fc563f54f9991c6cbd8811ae79c304a23bedea40be52d82cf"
+        },
+        {
+          "unit_id": "E026_bdc694b042",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1819,
+              2958
+            ]
+          ],
+          "content_sha256": "a2e42fe0f1e504befe7c417baa709752c08a9a865830283c043d61bb0f957ea1"
+        },
+        {
+          "unit_id": "E027_780c4de4c7",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2297,
+              2473
+            ]
+          ],
+          "content_sha256": "958738a3c89a536283419971ea95ca9cbea6cb4bc94ab583693a7e83a10a0a4a"
+        },
+        {
+          "unit_id": "E028_c6ab5b8134",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2475,
+              2544
+            ]
+          ],
+          "content_sha256": "7d67d3bad299b9e0df1db29d8abec3014e7490836ced0c6764e13d8863336b35"
+        },
+        {
+          "unit_id": "E029_682f0a7531",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2546,
+              2550
+            ]
+          ],
+          "content_sha256": "bd64bb8efa5b3f27e6442f23600c3b516127ea17e23724b41e50da4c22883edd"
+        },
+        {
+          "unit_id": "E030_13d969b73f",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2552,
+              2562
+            ]
+          ],
+          "content_sha256": "62ecb5af1f6fbaf9fbe61ba516f7314f124a9dc9dd5bc68cd35c6c218c6cdd5c"
+        },
+        {
+          "unit_id": "E031_e23b555b06",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2564,
+              2620
+            ]
+          ],
+          "content_sha256": "e2d13c7c35df252672e5d83031b296223c1f6caf3a256370a1614c1f3835db84"
+        },
+        {
+          "unit_id": "E032_8049e62b33",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2622,
+              2633
+            ]
+          ],
+          "content_sha256": "4084c9a6c4fb617940d1e089c19d6cca3fc45c79b2a0e79e9e82efe2e62a2c2d"
+        },
+        {
+          "unit_id": "E033_9fa26acf9a",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2635,
+              2684
+            ]
+          ],
+          "content_sha256": "e9e7e2a6d9d8cc5cbc20b913542be6be1515a8c96f81c7291a8f9b08f060de12"
+        },
+        {
+          "unit_id": "E034_6fd26fa12c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2686,
+              2722
+            ]
+          ],
+          "content_sha256": "57f4bbe393b3643dfbfb7f0ac01d58e4910ca5996c7dea5e753ec73d1a39e639"
+        },
+        {
+          "unit_id": "E035_abf4b0a6ac",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2724,
+              2741
+            ]
+          ],
+          "content_sha256": "8b3d1a160ea0b61ae63d8b40274904b42339b36d708686b3ae7f6ca6cf3a108d"
+        },
+        {
+          "unit_id": "E036_89146d9984",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2743,
+              2938
+            ]
+          ],
+          "content_sha256": "51f8222dcacd1ffef478436908bc6d158351654a1353b1d5af3056e385b5400f"
+        },
+        {
+          "unit_id": "E037_3c7bc80fb0",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2940,
+              2958
+            ]
+          ],
+          "content_sha256": "5237621751196bb0fb9630ab95182a079380b8dae0d01b551bf48f558597cd4e"
+        },
+        {
+          "unit_id": "E038_ba90bb89dc",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              1660,
+              1818
+            ],
+            [
+              1978,
+              2136
+            ]
+          ],
+          "content_sha256": "87456bfe99b769323c44c3c800e2a33e38509fcabec50e7be8084f21062ccd63"
+        },
+        {
+          "unit_id": "E039_a2f9aa2b34",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              1660,
+              1818
+            ],
+            [
+              2137,
+              2295
+            ]
+          ],
+          "content_sha256": "b5818b9bc2e9cf4b7581a5b2a4410bd176c3a5ac696359c509136d42b2f7d66c"
+        }
+      ]
+    },
+    {
+      "item_id": "s194_src_02",
+      "stratum": "table",
+      "manufacturer": "Morley",
+      "product_model": "UCIP/UCIP-GPRS",
+      "document_id": "f318d6cf-2ffb-41c3-85d0-c098b2a130d1",
+      "chunk_id": "bdb9a911-c43d-4d86-b8ec-2aa1bd8a25d9",
+      "extraction_sha256": "82baeed4beadc59bbfa48e7ed75bd4a38e6785b56a1648bdd51e120e7b7e8256",
+      "source_file": "HLSI-MN-192_UCIP",
+      "page_number": 24,
+      "section_title": "<ins>Anexo II - TABLAS DE CÓDIGOS CONTACT ID</ins>",
+      "section_path": "<ins>Anexo II - TABLAS DE CÓDIGOS CONTACT ID</ins>",
+      "excerpt": "| Evento                         | Contact - ID | Zona | Event               |\n| ------------------------------ | ------------ | ---- | ------------------- |\n| Zona 1 en avería               | (380)        | 001  | Z0 F=\"0\" ó F=\"1\"    |\n| Zona 2 en avería               | (380)        | 002  | Z1 F=\"0\" ó F=\"1\"    |\n| Zona 3 en avería               | (380)        | 003  | Z2 F=\"0\" ó F=\"1\"    |\n| Zona 4 en avería               | (380)        | 004  | Z3 F=\"0\" ó F=\"1\"    |\n| Zona 5 en avería               | (380)        | 005  | Z4 F=\"0\" ó F=\"1\"    |\n| Zona 6 en avería               | (380)        | 006  | Z5 F=\"0\" ó F=\"1\"    |\n| Zona 7 en avería               | (380)        | 007  | Z6 F=\"0\" ó F=\"1\"    |\n| Zona 8 en avería               | (380)        | 008  | Z7 F=\"0\" ó F=\"1\"    |\n| Zona 9 en avería               | (380)        | 009  | Z8 F=\"0\" ó F=\"1\"    |\n| Zona 10 en avería              | (380)        | 010  | Z9 F=\"0\" ó F=\"1\"    |\n| Zona 11 en avería              | (380)        | 011  | ZA F=\"0\" ó F=\"1\"    |\n| Zona 12 en avería              | (380)        | 012  | ZB F=\"0\" ó F=\"1\"    |\n|                                |              |      |                     |\n| Avería de la central fallo 220 | (301)        | 000  | Evento Fa1=\"2\"      |\n| Avería fallo de baterías       | (311)        | 000  | Evento Fa1=\"1\"      |\n| Avería V baja baterías sin AC  | (302)        | 000  | Evento Fa1=\"4\"      |\n| Avería cargador baterías       | (300)        | 001  | Evento Fa1=\"3\"      |\n|                                |              |      |                     |\n| Avería Salida Sirena 1         | (321)        | 001  | FsS1=\"1\" y FsS1=\"2\" |\n| Avería Salida Sirena 2         | (322)        | 002  | FsS2=\"1\" y FsS2=\"2\" |\n| Avería Tarjeta de Relés 1      | (326)        | 001  | FrR1=\"1\"            |\n| Avería Tarjeta de Relés 2      | (326)        | 002  | FrR2=\"1\"            |\n| Avería Tarjeta de Relés 3      | (326)        | 003  | FrR3=\"1\"            |\n|                                |              |      |                     |\n| Fallo del comunicador          | (350)        | 000  | Fo=\"1\"              |\n| Fallo línea telefónica         | (351)        | 000  | Fo=\"2\"              |\n| Fallo comunicación CR 1        | (354)        | 001  | Fo=\"3\"              |\n| Fallo comunicación CR 2        | (354)        | 002  | Fo=\"4\"              |\n|                                |              |      |                     |\n| Fallo Tierra                   | (310)        | 000  | Ft=\"1\"              |\n|                                |              |      |                     |\n| Fallo de la central            | (300)        | 000  | Fc=\"1\"              |\n|                                |              |      |                     |\n|                                |              |      |                     |\n|                                |              |      |                     |\n|                                |              |      |                     |\n| Cambio en la programación      | (412)        | 000  |                     |",
+      "excerpt_sha256": "aa3e3bcea0b2eb5001c4095dca3b64f0f9deb8542c40830878f6db5ad205543e",
+      "selection_quality": 230,
+      "selection_tie": "df5479433691ff2366eed6558612a19b43c99bee50bb9bcfa37b0ec2db25c528",
+      "evidence_unit_manifest": [
+        {
+          "unit_id": "E001_60a87bd4f0",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              79
+            ]
+          ],
+          "content_sha256": "18fa1a71181a006f0f10eec3c08151685fd2963424b636bd40c57e3ded9ed9a0"
+        },
+        {
+          "unit_id": "E002_94042a5f60",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              1185
+            ]
+          ],
+          "content_sha256": "61a2639b4e50c7702e705a53bde9ef118ced35e54b9c94badee70d0df7a48251"
+        },
+        {
+          "unit_id": "E003_da68328b4f",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              79,
+              158
+            ]
+          ],
+          "content_sha256": "0c31d8633093b02bf4a78c98b07dc8e64c691e57dd1c74fb3979853ed33f321f"
+        },
+        {
+          "unit_id": "E004_e3da8fb80b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              158,
+              237
+            ]
+          ],
+          "content_sha256": "da6c9e96cf1804a3ddb9c899cee69c9f52c806844ea5a7c3720d854f7421afce"
+        },
+        {
+          "unit_id": "E005_d6b038b201",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              237,
+              316
+            ]
+          ],
+          "content_sha256": "e7294c7c44e3d2e004ead1c34447c1b63d175db6a67c3af75c86823de66ba2ad"
+        },
+        {
+          "unit_id": "E006_1fd8844905",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              316,
+              395
+            ]
+          ],
+          "content_sha256": "f71366ff81ae6b06e3563d47e6cfddbd91b79049086b7e586919ddc2c916bf89"
+        },
+        {
+          "unit_id": "E007_43d892b37c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              395,
+              474
+            ]
+          ],
+          "content_sha256": "d1b627620951829d36c1ff58d1846641244936ec1b95e5743f116e0a8ade01d7"
+        },
+        {
+          "unit_id": "E008_689437576a",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              474,
+              553
+            ]
+          ],
+          "content_sha256": "6907f91172b5bc26a0ba20a9df0a7fdf35ef264ea283fcae1324c46a60a151d7"
+        },
+        {
+          "unit_id": "E009_7197def0b2",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              553,
+              632
+            ]
+          ],
+          "content_sha256": "b015d94767214e05d2c7cccc38e25f22f629a80774f8016a1dd53641155d554b"
+        },
+        {
+          "unit_id": "E010_a4e24247af",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              632,
+              711
+            ]
+          ],
+          "content_sha256": "3d33c25a744a463247ad3cf88a4f80159e995ef3247e94749029a91e3e8de107"
+        },
+        {
+          "unit_id": "E011_be6f67cfba",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              711,
+              790
+            ]
+          ],
+          "content_sha256": "1965d1b6e4738d42bdc7037978e64942b57416d9387a8b84cdd7737660371d8b"
+        },
+        {
+          "unit_id": "E012_b6b364b02d",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              790,
+              869
+            ]
+          ],
+          "content_sha256": "aae9f597144d56999743433a26ec360d6ed2c6043864ecb98c49e0b517d09116"
+        },
+        {
+          "unit_id": "E013_ca17049d5e",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              869,
+              948
+            ]
+          ],
+          "content_sha256": "5c8682dcc5c795f9e04c49865eb90dd12e45499efc91b6f68ec3f4fa9e82a5c0"
+        },
+        {
+          "unit_id": "E014_7823150f9b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              948,
+              1027
+            ]
+          ],
+          "content_sha256": "1378c426a8400cbc113e1897eba16bd2d6e652858fb77180af8af6fff5eecf35"
+        },
+        {
+          "unit_id": "E015_a685ebccb7",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              948,
+              2133
+            ]
+          ],
+          "content_sha256": "178936b6edd7595f2ab5694f0ee885f833e594dd386d265945e70226a1244d6a"
+        },
+        {
+          "unit_id": "E016_1d88554fa9",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1027,
+              1106
+            ]
+          ],
+          "content_sha256": "3930a7c048ead8699eceddf913661c2ae6d8e6c71f7b3598c22cf39f9b7d9034"
+        },
+        {
+          "unit_id": "E017_3c79eb2899",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1106,
+              1185
+            ]
+          ],
+          "content_sha256": "20bfcc0802455475292f7bbf517cc8e813a12121af0d15f4b0227fd70c2b027c"
+        },
+        {
+          "unit_id": "E018_178aa523d9",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1185,
+              1264
+            ]
+          ],
+          "content_sha256": "8e39f2dd6fc3e3a56a6dbf35600c9e780b0fd6471370d47c76b2778d64aa09b9"
+        },
+        {
+          "unit_id": "E019_b5fcbb5bfb",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1264,
+              1343
+            ]
+          ],
+          "content_sha256": "9694e30fbf87f53b8b593e2723a68302f471a7d74010f4e758a1e029f148cd29"
+        },
+        {
+          "unit_id": "E020_f62e1efdd8",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1343,
+              1422
+            ]
+          ],
+          "content_sha256": "086235ba61606d1019ecc6ef9a83e822f379e3472d285fef5aa2ef329d9f1ce3"
+        },
+        {
+          "unit_id": "E021_e0d09b400d",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1422,
+              1501
+            ]
+          ],
+          "content_sha256": "10336729048d92be22906bb73070129b3ea4ee4c4ce5da48407ad16b4d6fc75d"
+        },
+        {
+          "unit_id": "E022_c1bff7100a",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1501,
+              1580
+            ]
+          ],
+          "content_sha256": "20bfcc0802455475292f7bbf517cc8e813a12121af0d15f4b0227fd70c2b027c"
+        },
+        {
+          "unit_id": "E023_d9afc9baf7",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1580,
+              1659
+            ]
+          ],
+          "content_sha256": "0df62c2e11d6f12b7a86c8a8f37345d6934d929247f4cf45675406c117ff759c"
+        },
+        {
+          "unit_id": "E024_37de30c6be",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1659,
+              1738
+            ]
+          ],
+          "content_sha256": "2490717b6ab5c30de94872e415675238eeb3134a76bda044bf44c7c22789cd7d"
+        },
+        {
+          "unit_id": "E025_22859a30a9",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1738,
+              1817
+            ]
+          ],
+          "content_sha256": "e7492068cf4c7778211d1cd2e0f89a679942c66737d93edaa6e402092a5f366f"
+        },
+        {
+          "unit_id": "E026_c2d1a6067b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1817,
+              1896
+            ]
+          ],
+          "content_sha256": "d17c2715d4f423aa2ba9f6d20da524c04dd38a9632475ab6462f96b177bc8705"
+        },
+        {
+          "unit_id": "E027_203ff3c0c7",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1896,
+              1975
+            ]
+          ],
+          "content_sha256": "016189eb14e764e49440f56c5e3edd2655c0b6811c654418ad26b97715d49882"
+        },
+        {
+          "unit_id": "E028_448f61e197",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1896,
+              3080
+            ]
+          ],
+          "content_sha256": "24034de1525085ec7a652f937d4f6f2b4d966c82da94b2ec68a87812b6ed8693"
+        },
+        {
+          "unit_id": "E029_af611a1187",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1975,
+              2054
+            ]
+          ],
+          "content_sha256": "20bfcc0802455475292f7bbf517cc8e813a12121af0d15f4b0227fd70c2b027c"
+        },
+        {
+          "unit_id": "E030_81773c3905",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2054,
+              2133
+            ]
+          ],
+          "content_sha256": "6c8167886ba9a9a5d82ddccf88be6de442e62a588a3e7e3692db948b0a4b059d"
+        },
+        {
+          "unit_id": "E031_e3289d7ea8",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2133,
+              2212
+            ]
+          ],
+          "content_sha256": "32ac781bd4b84c4cda79bcc5686f64a7e97c6a7e17d12eb6486f1d1c3e0e3bde"
+        },
+        {
+          "unit_id": "E032_e1125445c5",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2212,
+              2291
+            ]
+          ],
+          "content_sha256": "cf535ff22af8a7f269799a3706852315689a45f71187241ae02f7fa2346374db"
+        },
+        {
+          "unit_id": "E033_e3e762045b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2291,
+              2370
+            ]
+          ],
+          "content_sha256": "4ec9848533e82614f2337d82e2d5a7dc0b0a80a7f724194b2bbe13a05f36bbac"
+        },
+        {
+          "unit_id": "E034_106c2f7fe4",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2370,
+              2449
+            ]
+          ],
+          "content_sha256": "20bfcc0802455475292f7bbf517cc8e813a12121af0d15f4b0227fd70c2b027c"
+        },
+        {
+          "unit_id": "E035_b2765c9c83",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2449,
+              2528
+            ]
+          ],
+          "content_sha256": "746d6829d51d8f56e93d2b6b24864a90c21d42c6153acf7474514c34b16cc154"
+        },
+        {
+          "unit_id": "E036_764816831a",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2528,
+              2607
+            ]
+          ],
+          "content_sha256": "20bfcc0802455475292f7bbf517cc8e813a12121af0d15f4b0227fd70c2b027c"
+        },
+        {
+          "unit_id": "E037_f41753db69",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2607,
+              2686
+            ]
+          ],
+          "content_sha256": "80b70d164b9c91b10f89396d4b57472ec06a6451bfeae19d0c141a7e6c8b2a6c"
+        },
+        {
+          "unit_id": "E038_f8bce64537",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2686,
+              2765
+            ]
+          ],
+          "content_sha256": "20bfcc0802455475292f7bbf517cc8e813a12121af0d15f4b0227fd70c2b027c"
+        },
+        {
+          "unit_id": "E039_2fca29691b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2765,
+              2844
+            ]
+          ],
+          "content_sha256": "20bfcc0802455475292f7bbf517cc8e813a12121af0d15f4b0227fd70c2b027c"
+        },
+        {
+          "unit_id": "E040_da7f3e9cbe",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2844,
+              2923
+            ]
+          ],
+          "content_sha256": "20bfcc0802455475292f7bbf517cc8e813a12121af0d15f4b0227fd70c2b027c"
+        },
+        {
+          "unit_id": "E041_af58a2fa61",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2923,
+              3002
+            ]
+          ],
+          "content_sha256": "20bfcc0802455475292f7bbf517cc8e813a12121af0d15f4b0227fd70c2b027c"
+        },
+        {
+          "unit_id": "E042_fa59e33626",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              3002,
+              3080
+            ]
+          ],
+          "content_sha256": "e7e1efdcf3a325f77ae6ea4193be76b4662f9e93d35a640ea41928d709e509eb"
+        },
+        {
+          "unit_id": "E043_38ef2103de",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              78
+            ],
+            [
+              158,
+              236
+            ]
+          ],
+          "content_sha256": "3174dd9c0a6c2322997bf8b1bec63c062c8151f8f540868e1ef28fa28af0bf05"
+        },
+        {
+          "unit_id": "E044_30f8504c62",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              78
+            ],
+            [
+              237,
+              315
+            ]
+          ],
+          "content_sha256": "3579ca03521cab0d917be33fcb2a83ff0fc822f52b89e28e28c1323088f173fa"
+        },
+        {
+          "unit_id": "E045_1ce39434ce",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              78
+            ],
+            [
+              316,
+              394
+            ]
+          ],
+          "content_sha256": "b7d1fcd8059bbd9614713cdfdb1235cd728596b68ee53a6747a69ac87b626efb"
+        },
+        {
+          "unit_id": "E046_5ec532c18c",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              78
+            ],
+            [
+              395,
+              473
+            ]
+          ],
+          "content_sha256": "c18123b69ea62454b0353635d88d3db079922a78d3ebfe5c9a2cc3d1497d4bd6"
+        },
+        {
+          "unit_id": "E047_4101a6ea94",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              78
+            ],
+            [
+              474,
+              552
+            ]
+          ],
+          "content_sha256": "6b9157c97e23626e75fd352de63e6128fc9147275f40abd3c299e385a7fd5496"
+        },
+        {
+          "unit_id": "E048_dabc6b02b9",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              78
+            ],
+            [
+              553,
+              631
+            ]
+          ],
+          "content_sha256": "9693d5339efa8eba006d5c05f3ecc76634b308aa4083d8c20e59b8799b34e7e4"
+        },
+        {
+          "unit_id": "E049_83419d5615",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              78
+            ],
+            [
+              632,
+              710
+            ]
+          ],
+          "content_sha256": "cd9ea5254793c8b73d0939ce485f6ada008dcd7f4976b8817ae9ca8a9ffb88e6"
+        },
+        {
+          "unit_id": "E050_ec5770ba42",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              78
+            ],
+            [
+              711,
+              789
+            ]
+          ],
+          "content_sha256": "246deafd18b2d5a72ba6cf780c2909b0ac1abb3f31f777e34132518f7ecf7d9c"
+        },
+        {
+          "unit_id": "E051_672938786e",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              78
+            ],
+            [
+              790,
+              868
+            ]
+          ],
+          "content_sha256": "2a1de3ff23910500ddb05440873adda45f024fde4e9e06f2607abe72434f4ecc"
+        },
+        {
+          "unit_id": "E052_b208ad7cdc",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              78
+            ],
+            [
+              869,
+              947
+            ]
+          ],
+          "content_sha256": "964db7f8b1a0b61394c3eafdcf9fcd9d7a8a310a48d331013f6f4c7bd7d9dfaa"
+        },
+        {
+          "unit_id": "E053_2f0537c80a",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              78
+            ],
+            [
+              948,
+              1026
+            ]
+          ],
+          "content_sha256": "dd4ff65c5c3d9cf1c9c6ddd1cb55ace65d7732703839cb0365bed43bc0c6aa38"
+        },
+        {
+          "unit_id": "E054_0ae2e71b72",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              78
+            ],
+            [
+              1027,
+              1105
+            ]
+          ],
+          "content_sha256": "7fecccbcef2f9ee571ec013a98769e63aaff3eb8d4228fcd9e3bcc4b03b9ad15"
+        },
+        {
+          "unit_id": "E055_5756368795",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              78
+            ],
+            [
+              1106,
+              1184
+            ]
+          ],
+          "content_sha256": "3a88639d35f2fa8aceb46a381908e9fd28b3af7f17bfe745170568f816f2595c"
+        },
+        {
+          "unit_id": "E056_ae681e3f4e",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              78
+            ],
+            [
+              1185,
+              1263
+            ]
+          ],
+          "content_sha256": "7407f96d7d112a538901ef413b82f71178245241cd402ea3a323ec54155aa575"
+        },
+        {
+          "unit_id": "E057_779c9b8389",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              78
+            ],
+            [
+              1264,
+              1342
+            ]
+          ],
+          "content_sha256": "f35e9d87cd4a38050d0b9597fdd77a810917272cf28c0fadaf2b3a46130572dc"
+        },
+        {
+          "unit_id": "E058_1a41642f49",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              78
+            ],
+            [
+              1343,
+              1421
+            ]
+          ],
+          "content_sha256": "415ad2614f1481ff2b98d0ceedd305d53b67886d5472fe54eff35a0cc37ac0d1"
+        },
+        {
+          "unit_id": "E059_822a9df8d7",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              78
+            ],
+            [
+              1422,
+              1500
+            ]
+          ],
+          "content_sha256": "85341285915d6e8b6a3b4389c1da4cefab3acd421c03b8f3a83263e02dc88d82"
+        },
+        {
+          "unit_id": "E060_8718ef4511",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              78
+            ],
+            [
+              1501,
+              1579
+            ]
+          ],
+          "content_sha256": "3a88639d35f2fa8aceb46a381908e9fd28b3af7f17bfe745170568f816f2595c"
+        },
+        {
+          "unit_id": "E061_b196f2c549",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              78
+            ],
+            [
+              1580,
+              1658
+            ]
+          ],
+          "content_sha256": "8d6d1d2acfa2b135c1d32a252f1bfea4dbc2d896011e752ac3c952ea27a28b28"
+        },
+        {
+          "unit_id": "E062_63b70ca78d",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              78
+            ],
+            [
+              1659,
+              1737
+            ]
+          ],
+          "content_sha256": "51f57a41b988ddac6731c4f94b03d9df091188ed2620670f61241e82f13d0b80"
+        },
+        {
+          "unit_id": "E063_0c521a00db",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              78
+            ],
+            [
+              1738,
+              1816
+            ]
+          ],
+          "content_sha256": "e76349960644711dd02f48fcb0a384daf77ccbbea0b7177cfe53f061d74060be"
+        },
+        {
+          "unit_id": "E064_561d5341aa",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              78
+            ],
+            [
+              1817,
+              1895
+            ]
+          ],
+          "content_sha256": "b6edd3cc90615887c2e71468b89aa421ec61c85494bb7f4d18c22f5b8cdd7daa"
+        },
+        {
+          "unit_id": "E065_72f5691b42",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              78
+            ],
+            [
+              1896,
+              1974
+            ]
+          ],
+          "content_sha256": "a006d237591b23f2e2db19e7bcc3471ff2d7e937d66cc17e1302e19cd0a067eb"
+        },
+        {
+          "unit_id": "E066_f8577a9b5e",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              78
+            ],
+            [
+              1975,
+              2053
+            ]
+          ],
+          "content_sha256": "3a88639d35f2fa8aceb46a381908e9fd28b3af7f17bfe745170568f816f2595c"
+        }
+      ]
+    },
+    {
+      "item_id": "s194_src_03",
+      "stratum": "table",
+      "manufacturer": "Spectrex",
+      "product_model": "20-20ML-USER",
+      "document_id": "27057b74-4ef1-4ec1-9d16-12ea2ffdbabf",
+      "chunk_id": "f3f04095-4146-43f7-9fb6-9fe5db1f0f7d",
+      "extraction_sha256": "fccdd56666340d564421e17244675e822c19db04e41313a01b64c69f7eef602e",
+      "source_file": "manual-spectrex-sharpeye-20-20ml-user-manual-spectrex-en-us-1459818",
+      "page_number": 23,
+      "section_title": "4 Operation",
+      "section_path": "4 Operation",
+      "excerpt": "# 4 Operation\n\n## 4.1 Visual Indications\n\nOne 3-color LED-indicator is located in the detector front window:\n\n| Detector Status  | LED Color | LED Mode     |\n| ---------------- | --------- | ------------ |\n| Fault, BIT Fault | Yellow    | 4Hz flashing |\n| Normal           | Green     | 1Hz flashing |\n| Warning          | Red       | 2Hz flashing |\n| Alarm            | Red       | Steady       |\n\n[Technical diagram showing a square detector device with mounting holes at corners, a circular central element labeled \"SharpEye\" with \"INFRARED DETECTOR\" text and flame symbols, and a \"STATUS LED\" indicator labeled at the top right of the device. The device has a conduit connection at the bottom.]\n\n**Figure 5: 20/20ML LED**\n\n## 4.2 Output Signals\n\nThe detector provides the following outputs:\n\n* Alarm relay\n* Fault relay\n* 4–20mA current output\n* RS-485 communications\n\nThe detector can be in one of the following states:\n\nTM767100 Rev. (Ad), May 2019                                                23\n\nOperation\n\n### Table 3: Detector States\n\n| Detector State                   | Description                                                                                                         |\n| -------------------------------- | ------------------------------------------------------------------------------------------------------------------- |\n| **Normal**                       | The detector is functioning normally.                                                                               |\n| **BIT**                          | The detector performs a Built-In-Test.                                                                              |\n| **Warning**                      | Fire detected – warming alarm (pre-alarm) state.                                                                    |\n| **Alarm**                        | Fire detected – fire alarm state.                                                                                   |\n| **Latched Alarm<br/>(Optional)** | The alarm outputs are latched due to the detection of a fire that has already been extinguished.                    |\n| **BIT Fault**                    | A fault is detected during a BIT sequence. The detector will continue to detect fire if the alarm conditions occur. |\n| **Fault**                        | A fault is detected when the power supply is too low or during a software fault.                                    |\n\nIn each state, the detector will activate different outputs, as specified in Table 4.\n\n### Table 4: Output Signals Versus Detector State",
+      "excerpt_sha256": "a561319ba6b076cc9b4a804799e9c433d6bbb24ace12897914e506ea4fc4af46",
+      "selection_quality": 190,
+      "selection_tie": "8af26d0f8b2fc276f077e03f6ed0a0fc846141994a4ebd27394f00ead66aa48e",
+      "evidence_unit_manifest": [
+        {
+          "unit_id": "E001_a942e8e721",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              13
+            ]
+          ],
+          "content_sha256": "58523ef6355558b932123a596a07445f47626266fc8f35a4a0303b9d3247aa0e"
+        },
+        {
+          "unit_id": "E002_1e58e2a841",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              1047
+            ]
+          ],
+          "content_sha256": "28869b29f418515d59159840619f41e654657b0b67accb85b1c196606dbf22e2"
+        },
+        {
+          "unit_id": "E003_f690e424d4",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              15,
+              40
+            ]
+          ],
+          "content_sha256": "84891aa4f34d293bf9909af4602e132f4d31e004183394d49648a1d742331e28"
+        },
+        {
+          "unit_id": "E004_7c722c129d",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              42,
+              108
+            ]
+          ],
+          "content_sha256": "e3835bbb11db423754fa8da6fe7ecada58fa92534274c77767a20313f6817806"
+        },
+        {
+          "unit_id": "E005_a3bd95578c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              110,
+              397
+            ]
+          ],
+          "content_sha256": "79a7d3c12c648e816292912e432f01b50e630ecea1c36aa761e9a777860e5eea"
+        },
+        {
+          "unit_id": "E006_37dc4cdc26",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              399,
+              698
+            ]
+          ],
+          "content_sha256": "a817872e053517ebf92092ca746dd731286dd45a597df9771e97e5fa2e2c531e"
+        },
+        {
+          "unit_id": "E007_33edff229c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              700,
+              725
+            ]
+          ],
+          "content_sha256": "33aa45649123ba2b7f9f69720f5b4f396894a50cea7608587941808545d0d482"
+        },
+        {
+          "unit_id": "E008_7daa82a91c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              727,
+              748
+            ]
+          ],
+          "content_sha256": "6a616716c2a185f1ee8f6dab1dac3f154d364a5f9edaa7c99e0cb187c539abec"
+        },
+        {
+          "unit_id": "E009_f8d58632b5",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              749,
+              1893
+            ]
+          ],
+          "content_sha256": "cb1622db91cad2023f5f4315beb3df2205431c3d68778d2ead7fabe882a82683"
+        },
+        {
+          "unit_id": "E010_c8d00d431e",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              750,
+              794
+            ]
+          ],
+          "content_sha256": "ccef18da8b633a34215f01b05bbe6a32cbd075af2f6a7e51206ddcc174a46846"
+        },
+        {
+          "unit_id": "E011_02950782d2",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              796,
+              871
+            ]
+          ],
+          "content_sha256": "48bce1378142b52adb2fafcc1cdc231005a43f8fcc982cedb1bd3727eb92410d"
+        },
+        {
+          "unit_id": "E012_65d32a7c63",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              873,
+              924
+            ]
+          ],
+          "content_sha256": "c69d9aa1c019077138642873a82d5077850e92ccb2f8bde9a8d0c6e526b8b3d3"
+        },
+        {
+          "unit_id": "E013_55a9932e93",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              926,
+              1004
+            ]
+          ],
+          "content_sha256": "8d1f136c8ed6c4c0ea91d54b6dee2eeb74c75a8a8440b8e2e5654f79bc803462"
+        },
+        {
+          "unit_id": "E014_96ce95d40b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1006,
+              1015
+            ]
+          ],
+          "content_sha256": "0f044feb6ca7d6764650e6b800425a84b5ea518d6f531ee92c3995d6c3eca11e"
+        },
+        {
+          "unit_id": "E015_4ee1eb8ae2",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1017,
+              1045
+            ]
+          ],
+          "content_sha256": "f7f7fc102f13128cd887bd570adbbb8819015bac25626c1f50bc2df6cb49ae4c"
+        },
+        {
+          "unit_id": "E016_bba944d09c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1047,
+              1202
+            ]
+          ],
+          "content_sha256": "8ed441d9e6d6b589720827ca70eb4f981205a350e788a09d1b110c87327339ad"
+        },
+        {
+          "unit_id": "E017_b21c2f315c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1202,
+              1357
+            ]
+          ],
+          "content_sha256": "a042f2bc13868c448a733d4d3487ae98e67087ad7e60f92ecf5e580fdee67c90"
+        },
+        {
+          "unit_id": "E018_b6a022ada4",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1357,
+              1512
+            ]
+          ],
+          "content_sha256": "4272647e9588552d9ec47493d5010e73302ee3f5846b61b0d75b33441d5374cf"
+        },
+        {
+          "unit_id": "E019_08b7d6d195",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1512,
+              1667
+            ]
+          ],
+          "content_sha256": "468b7cf8f4a64127a98d8110c909bdd94d01f8f99d6d642f97ce6843d9efe6ba"
+        },
+        {
+          "unit_id": "E020_36e0638df0",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1667,
+              1822
+            ]
+          ],
+          "content_sha256": "b6e66fd3db4e2560785381bfad7b5266f10ce3500c4b4ad977ce89575e495615"
+        },
+        {
+          "unit_id": "E021_69331c69b5",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1667,
+              2579
+            ]
+          ],
+          "content_sha256": "df3ccc63ab1144e32b911872b1169f600f0eed164b13b2c248b4b293ec4b29f9"
+        },
+        {
+          "unit_id": "E022_de4198a16a",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1822,
+              1977
+            ]
+          ],
+          "content_sha256": "e22312900dc38a16e06e3f16e54963c25a3ffd19937a66f64e512ca41bd81d97"
+        },
+        {
+          "unit_id": "E023_799a1a5680",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1977,
+              2132
+            ]
+          ],
+          "content_sha256": "047cb015b1159d8c012e0da6be0fb9a9cd3bd34ecfd94d2b94f4c52a0c93a855"
+        },
+        {
+          "unit_id": "E024_05d74238d5",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2132,
+              2287
+            ]
+          ],
+          "content_sha256": "4c8638bb8039f1063d543f122c248e4d5a3e26a1bb7bc3880a6f8f911cf0df5d"
+        },
+        {
+          "unit_id": "E025_bd57e004da",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2443,
+              2528
+            ]
+          ],
+          "content_sha256": "479020afe3fc537d9d4f02bdc54904b4cb62819a63aa0f05eef075a85b662b20"
+        },
+        {
+          "unit_id": "E026_073710859a",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2530,
+              2579
+            ]
+          ],
+          "content_sha256": "dc8c875687f31ca475a177caae77d4ce991ccc6d7b51559e7dd722bef4939090"
+        },
+        {
+          "unit_id": "E027_669f40df64",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              110,
+              157
+            ],
+            [
+              206,
+              253
+            ]
+          ],
+          "content_sha256": "4527e1e86a52620f6f09559fa931125213a3a4a0fa0fcc457cc33240bff4161a"
+        },
+        {
+          "unit_id": "E028_446afe2c11",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              110,
+              157
+            ],
+            [
+              254,
+              301
+            ]
+          ],
+          "content_sha256": "62b30842ecf9c146ba774ef37d1824b7c4d6845d4f6a461251bcb85d02e3cf3d"
+        },
+        {
+          "unit_id": "E029_7a556af39b",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              110,
+              157
+            ],
+            [
+              302,
+              349
+            ]
+          ],
+          "content_sha256": "386d83890b5b8bc3a957f098ae98d9a80c64c0d40c03d01e035ccd561ceb3158"
+        },
+        {
+          "unit_id": "E030_e53c3a46ae",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              110,
+              157
+            ],
+            [
+              350,
+              397
+            ]
+          ],
+          "content_sha256": "6a89b9280820c0c2b6018cdf8e165cfd0043bdf091e8c81886975eff20da6d39"
+        },
+        {
+          "unit_id": "E031_f573c36717",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              1047,
+              1201
+            ],
+            [
+              1357,
+              1511
+            ]
+          ],
+          "content_sha256": "2c2d441155cab31305dd62650281c943bae1ddf333a516bd0c1c5040a08605e0"
+        },
+        {
+          "unit_id": "E032_028abfcbea",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              1047,
+              1201
+            ],
+            [
+              1512,
+              1666
+            ]
+          ],
+          "content_sha256": "b8c3cb1b736d2cc72ea659a812f72e07169481cfa19db4b4850191d61115023d"
+        },
+        {
+          "unit_id": "E033_2092476ebc",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              1047,
+              1201
+            ],
+            [
+              1667,
+              1821
+            ]
+          ],
+          "content_sha256": "117156467f17b9e8d89a54e0dc93066c26adf382ea8c7b82e20fe19e75cf8f35"
+        },
+        {
+          "unit_id": "E034_68ea4c83a8",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              1047,
+              1201
+            ],
+            [
+              1822,
+              1976
+            ]
+          ],
+          "content_sha256": "49144c5292d4cee579934ae8b0c3a729532ff6672f7fbc4cc2a318025314f70a"
+        },
+        {
+          "unit_id": "E035_a32d9041b0",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              1047,
+              1201
+            ],
+            [
+              1977,
+              2131
+            ]
+          ],
+          "content_sha256": "1f9a448cc640ad9f98b2927b03ad1bc94e87ad0b17cc92b3a41a387f65d1446e"
+        },
+        {
+          "unit_id": "E036_a5598abb58",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              1047,
+              1201
+            ],
+            [
+              2132,
+              2286
+            ]
+          ],
+          "content_sha256": "75d3a1b9f003cb7158fa09d90888132460d01bd9c3b126d9dbbc96eea4e6fb58"
+        },
+        {
+          "unit_id": "E037_9e7f9d0367",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              1047,
+              1201
+            ],
+            [
+              2287,
+              2441
+            ]
+          ],
+          "content_sha256": "975a57b9dbacdee19072c78ba81145a99d16b979e5e38f6fb87686bf0b83a0f3"
+        }
+      ]
+    },
+    {
+      "item_id": "s194_src_04",
+      "stratum": "table",
+      "manufacturer": "Detnov",
+      "product_model": "CAD-250",
+      "document_id": "bc6bdd33-72e6-4054-9ce4-60583be4b5c4",
+      "chunk_id": "73c703a0-edd0-494e-a82c-b5239b7bd540",
+      "extraction_sha256": "eee258f696d75877bd6ee5d2a9f5b4c3a9bc3d3f750c73e818256b8a8d250715",
+      "source_file": "CAD-250-MC-380-es",
+      "page_number": 84,
+      "section_title": "11.1.MODOS ESPECIALES",
+      "section_path": "11. INSTALACIÓN > 11.1.MODOS ESPECIALES",
+      "excerpt": "| Modo 1 | Sensibilidad muy alta |\n| ------ | --------------------- |\n| Modo 2 | Sensibilidad muy baja |\n| Modo 3 | Sensibilidad muy alta |\n\n[Graph shows: Sensibilidad muy baja period, transitioning to Sensibilidad normal, then rising curve to Sensibilidad muy alta]\n\n----\n\n**Diagram 2: Confirmation Mode**\n\n[Control dials showing \"Tiempo de confirmación\" with alarm status indicators]\n\n[Timeline graph from 00:00 to 24:00 showing alarm confirmation states]\n\n| Modo 1 | t. confirmación = 60 |\n| ------ | -------------------- |\n| Modo 2 | t. Confirmación = 60 |\n\n[Graph shows alarm states: \"Alarma confirmada\" and \"Alarma no confirmada\" periods with confirmation time threshold]\n\n----\n\n**Diagram 3: Reset Confirmation Mode**\n\n[Control dials showing \"Tiempo de confirmación de reset\" with alarm status indicators]\n\n[Timeline graph from 00:00 to 24:00 showing reset confirmation process]\n\n| Modo 1 | t. reset = 60 sg. |\n| ------ | ----------------- |\n| Modo 2 | t. reset = 60 sg. |\n\n[Graph shows alarm states with reset periods: \"Alarma confirmada\" and \"Alarma no confirmada\" with reset timing]\n\n84\n\n85\n\nTipo de lapso de tiempo: Este campo nos permite asinar al modo la fración temporal en la que el modo estará activo. Admite los valores\n\n• **Siempre.** Es el valor por defecto. No hay interrupción de la asignación del lapso y siempre se mantendrá activo salvo que sea de aplicación algún criterio de precedencia. Es decir, si el modo se ha aplicado a una entidad genérica panel y existe un modo asignado a una zona o dispositivo con un criterio de valor de modo distinto, prevalecerá el más específico.\n\n• **Lapso.** Determina una fracción de tiempo en la cual es aplicable el modo. Al seleccionar esta opción, se despliega dentro del menú la relación de opciones de configuración.\n\n• **Hora.** Permite seleccionar entre el día completo o un rango horario. En caso de optar por el rango horario establezca la hora de inicio y la hora de fin.\n\nSi se produce un solapamiento de modo obtendrá un mensaje de error, COMPRUEBE SI NO SE SOLAPA CON OTRO MODO ESPECIAL.\n\n• **Día.** Permite seleccionar entre toda la semana, un día de la semana de lunes a domingo o un rango de días. En caso de optar por el rango de días establezca el día de inicio y el día de fin. CAD-25 considera el lunes como primer día de la semana.\n\nSi se produce un solapamiento de modo obtendrá un mensaje de error, COMPRUEBE SI NO SE SOLAPA CON OTRO MODO ESPECIAL.\n\n• **Mes.** Permite seleccionar entre todo el año, un mes del año de enero a diciembre o un rango de meses. En caso de optar por el rango de meses establezca el mes de inicio y el mes de fin.\n\nSi se produce un solapamiento de modo obtendrá un mensaje de error, COMPRUEBE SI NO SE SOLAPA CON OTRO MODO ESPECIAL.\n\n[Interface Screenshots - Time Range Selector for Modo 1]",
+      "excerpt_sha256": "26a4e60f6f9206a1fa56aad0cf0269b6c16bd7e153e664039a9c6aae4996b3c2",
+      "selection_quality": 157,
+      "selection_tie": "2d1de2c22ab08451323a14963dd7c55c27bc6d10c5548a17af176acfb811330e",
+      "evidence_unit_manifest": [
+        {
+          "unit_id": "E001_32d8f99ed5",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              139
+            ]
+          ],
+          "content_sha256": "875ccb53bff77163ea2f49c702403cbe89f8dfeb46d18aa5ae36c59a54101762"
+        },
+        {
+          "unit_id": "E002_d1b19a394c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              1101
+            ]
+          ],
+          "content_sha256": "cc48a2ad2681cda499519e1f2f63f723f8c1b030c0be12099d0ed9b98963b7bd"
+        },
+        {
+          "unit_id": "E003_fb3f61b1c9",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              141,
+              266
+            ]
+          ],
+          "content_sha256": "9a30f8721873af527b9ef57bc2dc2c2d724be3bd4b74784608f76d67fcf5455e"
+        },
+        {
+          "unit_id": "E004_81e8d5fd71",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              268,
+              272
+            ]
+          ],
+          "content_sha256": "bd64bb8efa5b3f27e6442f23600c3b516127ea17e23724b41e50da4c22883edd"
+        },
+        {
+          "unit_id": "E005_7c07313018",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              274,
+              306
+            ]
+          ],
+          "content_sha256": "ad64efc07087369b2d29a8416bcabbce54278868db745297467d95e7c4c98e9a"
+        },
+        {
+          "unit_id": "E006_fb3b2c63af",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              308,
+              385
+            ]
+          ],
+          "content_sha256": "3d8e195305634e8de10afeed14cc4dab18bd39dae9f79cbe83c6d31981189e73"
+        },
+        {
+          "unit_id": "E007_555cfea8eb",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              387,
+              457
+            ]
+          ],
+          "content_sha256": "42b63f79842e8b640c4e38dd53d511a878922604cb26755d4d5336fe069f9217"
+        },
+        {
+          "unit_id": "E008_c036826fe9",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              459,
+              560
+            ]
+          ],
+          "content_sha256": "7703a11db3beedb2b039d79c4a1bcb3a9f93d4d36f1ad77f8d05dd7ec7c338a5"
+        },
+        {
+          "unit_id": "E009_3db2ce10cd",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              562,
+              677
+            ]
+          ],
+          "content_sha256": "f7068e051a1fc1d1c88f29567e9e6d5e1394961ad47f89def317bdb403561943"
+        },
+        {
+          "unit_id": "E010_33a9774cef",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              679,
+              683
+            ]
+          ],
+          "content_sha256": "bd64bb8efa5b3f27e6442f23600c3b516127ea17e23724b41e50da4c22883edd"
+        },
+        {
+          "unit_id": "E011_d25e9cc2ba",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              685,
+              723
+            ]
+          ],
+          "content_sha256": "ea50e9f9a31138a5888c1872bc69e055a62f7513be609c28e38e291082a2573d"
+        },
+        {
+          "unit_id": "E012_b14f0449b6",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              725,
+              811
+            ]
+          ],
+          "content_sha256": "99efe66be62f9e7522ae0d0d40c988480d84ce56d0bd874f4423bbf851fa54c1"
+        },
+        {
+          "unit_id": "E013_cdd9bba963",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              812,
+              1943
+            ]
+          ],
+          "content_sha256": "f28c850496262c3d6a404615af1cf9d365e5b66fcd14efb6a4fc07104f3114e2"
+        },
+        {
+          "unit_id": "E014_7e40c3c255",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              813,
+              884
+            ]
+          ],
+          "content_sha256": "37b17433d7ed653f2a442ce70a6750e9b846f94c9978fbacac145c6cb4399a75"
+        },
+        {
+          "unit_id": "E015_4cb42c9563",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              886,
+              978
+            ]
+          ],
+          "content_sha256": "3eff36a553b46ecb5a11c4aa9030d61761ddbbae8b691b7ab41ec985004006d7"
+        },
+        {
+          "unit_id": "E016_e6bc9ac9bd",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              980,
+              1091
+            ]
+          ],
+          "content_sha256": "5604054eaeb9383709a8e1fddd132ca01f03d20caef8e24c88aaec1218ef4992"
+        },
+        {
+          "unit_id": "E017_ad619549cb",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1093,
+              1095
+            ]
+          ],
+          "content_sha256": "44c8031cb036a7350d8b9b8603af662a4b9cdbd2f96e8d5de5af435c9c35da69"
+        },
+        {
+          "unit_id": "E018_ab39d19977",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1097,
+              1099
+            ]
+          ],
+          "content_sha256": "b4944c6ff08dc6f43da2e9c824669b7d927dd1fa976fadc7b456881f51bf5ccc"
+        },
+        {
+          "unit_id": "E019_f860a180d7",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1101,
+              1235
+            ]
+          ],
+          "content_sha256": "b9769b7b270cb564cc1c6695ad6b43414c2fa99cfd0ff611c2e2d26214e54b03"
+        },
+        {
+          "unit_id": "E020_7bef40bec2",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1237,
+              1602
+            ]
+          ],
+          "content_sha256": "b1cf84794b1288caf6aed07ba8d8c579150ae4c84b5ef8adddc0e4f0ab23f6f2"
+        },
+        {
+          "unit_id": "E021_462036660b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1604,
+              1781
+            ]
+          ],
+          "content_sha256": "397d2bc27950775f020e7e65409f01bee9afeddf4d805b5e56ff50ac7fad3fe3"
+        },
+        {
+          "unit_id": "E022_e520f41f53",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1782,
+              2800
+            ]
+          ],
+          "content_sha256": "4e79e317ac01d5ccc4b39fb9ce1d9a24a14033ec81db174da727e5f42ccfef1a"
+        },
+        {
+          "unit_id": "E023_fb4061947b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1783,
+              1941
+            ]
+          ],
+          "content_sha256": "b9b0235aa1d650e26960802682f9e78b63a29ce1279c4ffd8cfec07a00b2710a"
+        },
+        {
+          "unit_id": "E024_e866a42eab",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1943,
+              2060
+            ]
+          ],
+          "content_sha256": "e285adc0d75d668b0d2fa2c6182413ba95ff8f2f24fd1eaef0540290145acd70"
+        },
+        {
+          "unit_id": "E025_7d63945491",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2062,
+              2312
+            ]
+          ],
+          "content_sha256": "6b262568a0f3ede2b2ee7fe9c66a5435781afd3d02ecef51b6092f518743a833"
+        },
+        {
+          "unit_id": "E026_b1ee4d5018",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2314,
+              2431
+            ]
+          ],
+          "content_sha256": "e285adc0d75d668b0d2fa2c6182413ba95ff8f2f24fd1eaef0540290145acd70"
+        },
+        {
+          "unit_id": "E027_67de41354e",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2433,
+              2623
+            ]
+          ],
+          "content_sha256": "5bbd30efdc66e83905b160b24ae2de82acb50e6f48b1a36317663fd9684969f5"
+        },
+        {
+          "unit_id": "E028_e1dbe9cfc5",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2625,
+              2742
+            ]
+          ],
+          "content_sha256": "e285adc0d75d668b0d2fa2c6182413ba95ff8f2f24fd1eaef0540290145acd70"
+        },
+        {
+          "unit_id": "E029_79d816d6fb",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2744,
+              2800
+            ]
+          ],
+          "content_sha256": "ccaa12376424b28b825842e83b84046a1f77c87a4267998ef1e0c166a597d6a1"
+        },
+        {
+          "unit_id": "E030_96ddb492e9",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              34
+            ],
+            [
+              70,
+              104
+            ]
+          ],
+          "content_sha256": "9001df2b8ca408b3d40591f8637fbff176915b2d9d7f89fe799e7223d909cefb"
+        },
+        {
+          "unit_id": "E031_cfc30b8021",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              34
+            ],
+            [
+              105,
+              139
+            ]
+          ],
+          "content_sha256": "efd855001bcd9e479e95ecc487e11b6521e885e3fd7ab3b73ea7f2124865cffd"
+        },
+        {
+          "unit_id": "E032_54ff48c199",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              459,
+              492
+            ],
+            [
+              527,
+              560
+            ]
+          ],
+          "content_sha256": "a45db3f079eb22a40caeed958adb5483fc244e9f355985922195134886d93878"
+        },
+        {
+          "unit_id": "E033_bbf317fbe3",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              886,
+              916
+            ],
+            [
+              948,
+              978
+            ]
+          ],
+          "content_sha256": "33885310f45da3d5651589ba15e3cbf49fd84f3a8013c1d520e543a85e985d99"
+        }
+      ]
+    },
+    {
+      "item_id": "s194_src_05",
+      "stratum": "table",
+      "manufacturer": "System Sensor",
+      "product_model": "EPS-10",
+      "document_id": "537a0275-920a-4e49-96ef-8d6d4570f06f",
+      "chunk_id": "e87b6c52-eff9-42b4-a24a-a6c172400532",
+      "extraction_sha256": "8d152f4257bb1bd13b67361ca54df8888fb210ba24ca31c2e61a6dfde4d8c5b4",
+      "source_file": "156-0551-005R EPS10_Eng",
+      "page_number": 3,
+      "section_title": "Adjustments To Factory Settings",
+      "section_path": "EPS10 Series Alarm Pressure Switches > Adjustments To Factory Settings",
+      "excerpt": "## Adjustments To Factory Settings\n\nBoth EPS10-1 and EPS10-2 devices are pre-adjusted at the factory to alarm at 4–8 PSI on rising pressure (see Table 2). Pressure switch settings may be adjusted in the field to obtain a different pressure alarm response from 4 PSI to 20 PSI. The switch has an override feature on the adjustment mechanism to prevent exceeding the 20 PSI max. setting of the switch. This override feature carries with it a tolerance band that may limit the upper adjustment to 16–20 PSI. Care must be used when setting the switch to ensure that the lower limit of 4 PSI is not exceeded. This will allow the switch to reset within the 3 PSI differential stated.\n\n1. Install pressure switch as stated in \"INSTALLATION\" portion of instruction manual. Attach pressure test source to system.\n2. Back off locking screw (see Figure 1) to allow main adjustment wheel to rotate freely.\n3. Test trip point by slowly introducing pressure from the pressure test source. When trip point is found, reduce pressure to zero. Rotate main adjustment wheel (counterclockwise to increase pressure) and retest until switch trip point is at the desired pressure setting (4–20 PSI range). Each number represents an approximate trip point change of 0.2 PSI. One full rotation changes the trip point setting by approximately 2.5 PSI. A reset differential of approximately 3 PSI is typical throughout the entire adjustment range of switch.\n4. Retest the set point several times to ensure accuracy of setting.\n5. Re-seat locking screw.\n\n### Table 2.\n\n| MODÈLE   | RÉGLAGE EN USINE (lb/po)<br/>Chute(Contact Bas) | RÉGLAGE EN USINE (lb/po)<br/>Rétab.approx. | RÉGLAGE EN USINE (lb/po)<br/>Montée(Cont. haut) | RÉGLAGE EN USINE (lb/po)<br/>Rétab.approx. |\n| -------- | ----------------------------------------------- | ------------------------------------------ | ----------------------------------------------- | ------------------------------------------ |\n| EPSA10-1 | —                                               | —                                          | 4– 8                                            | 3 lb/po2 diff.                             |\n| EPSA10-2 | —                                               | —                                          | 4– 8                                            | 3 lb/po2 diff.                             |\n\n**NOTE:** The sensor assembly is not field replaceable. Do not attempt to disassemble these parts. If you have any questions, consult System Sensor. System Sensor recommends careful consideration of the following factors when specifying and installing Alarm Pressure Switches. Always refer to the Installation and Maintenance Instruction for specific recommendations on individual devices before installing the unit.\n\n* Electrical ratings stated in literature and on nameplates should not be exceeded.\n\n* Overload on switch can cause failure on the first cycle. Always wire devices according to national and local electrical codes.",
+      "excerpt_sha256": "5279fabb9b39c3cde2ae57c2e72d3f78570bdc6c47314e22b89f7c6ad63f24e0",
+      "selection_quality": 149,
+      "selection_tie": "21ada68445ce73c9d9bad91e034b5c5d097ed4b980ff16e280d7d0baf9120a8c",
+      "evidence_unit_manifest": [
+        {
+          "unit_id": "E001_e5a7613b3d",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              34
+            ]
+          ],
+          "content_sha256": "ddcf59cedbc356c05c03f7ff009af0c5fab10d3636367e2c7c4163b4c05d2803"
+        },
+        {
+          "unit_id": "E002_ee980a3435",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              1183
+            ]
+          ],
+          "content_sha256": "3db4e57fa8ad725083ba6c1bdc115aa83f24bec7d9c5b41f91ce21e5ef95c96d"
+        },
+        {
+          "unit_id": "E003_f7f6a89758",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              894,
+              1947
+            ]
+          ],
+          "content_sha256": "d5b3428bd465e04b21c4880d627463abfc5608a3f53f0e38242270b22465ae4e"
+        },
+        {
+          "unit_id": "E004_2cf2b81527",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1527,
+              1539
+            ]
+          ],
+          "content_sha256": "d034de9ed8cd7771bb0344c3f60dd1a10c0cd1e2b4e0095c6e26267f5f9c15da"
+        },
+        {
+          "unit_id": "E005_9c0bfdce09",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1744,
+              2916
+            ]
+          ],
+          "content_sha256": "e6dbdf2b86ddf26a958f6ca1ca172c3447301ff42e8dc2b3a30142751bd14ecc"
+        },
+        {
+          "unit_id": "E006_c2508017db",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2354,
+              2770
+            ]
+          ],
+          "content_sha256": "88eecd64ac8943fbf5cc56a6308363ca219d19e159fd88b08704e70775a30a0b"
+        },
+        {
+          "unit_id": "E007_e278c5fd2d",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2771,
+              2985
+            ]
+          ],
+          "content_sha256": "122163a6b1559f368db52fc39b76307eade7491d0a78cca9dad0e12032ef1563"
+        },
+        {
+          "unit_id": "E008_d5583bede7",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2772,
+              2855
+            ]
+          ],
+          "content_sha256": "f90082e47b478b0fd12fa4af3337b9a40ecd0858c7f6a7c12d9046c70abbd19c"
+        },
+        {
+          "unit_id": "E009_e2ae40c2ca",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2857,
+              2985
+            ]
+          ],
+          "content_sha256": "90df8cdbea54fd393a28641c27afc9e8250e172b2765b01d2d879cc7b9440f34"
+        },
+        {
+          "unit_id": "E010_e92016ec96",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              1541,
+              1743
+            ],
+            [
+              1947,
+              2149
+            ]
+          ],
+          "content_sha256": "e1b3d74deaa653d2ab7ca33569d1e884ead5a3dc546fa34d0c94b9800a719d0b"
+        },
+        {
+          "unit_id": "E011_3afd8df9ca",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              1541,
+              1743
+            ],
+            [
+              2150,
+              2352
+            ]
+          ],
+          "content_sha256": "0f84b3f589ae71c7f9916e48c92af48d6dc79fcdcc23648f05e586e27fa54038"
+        }
+      ]
+    },
+    {
+      "item_id": "s194_src_06",
+      "stratum": "table",
+      "manufacturer": "Xtralis",
+      "product_model": "FLX-010",
+      "document_id": "956ad37c-e062-4ef8-8f53-da2fd706ffc8",
+      "chunk_id": "a4a3da30-8558-44e6-a666-c8648724b0a8",
+      "extraction_sha256": "e4c222f4589a4aea5bbf81fab69a9b46335c78fbb6e7ce473b4a81a0ee612cf5",
+      "source_file": "36864_00_FAAST_FLEX_Product_Guide_(I56-7020-000_ES)_A4_Spanish_lores",
+      "page_number": 47,
+      "section_title": "21 Registros de eventos",
+      "section_path": "21 Registros de eventos",
+      "excerpt": "# 21 Registros de eventos\n\nSiga estos pasos para descargar los archivos de registro de eventos a una unidad USB:\n\n**Nota:** La unidad USB debe estar formateada en formato FAT32, y debe estar completamente vacía, y el nombre del volumen no debe tener más de siete caracteres.\n\n1. Mientras el dispositivo está en modo ESPERA, pulse el botón ENTER e inserte la unidad USB. El dispositivo emitirá una señal sonora cuando se descargue el archivo LOGREPOR.TXT.\n2. Una vez escrito el archivo de registro, el LED de FALLO se mostrará en rojo para la retroalimentación negativa o en verde para la retroalimentación positiva. Retire la unidad USB. La unidad USB contendrá un nuevo archivo de registro, llamado LOGREPOR.TXT.\n\n## Encabezado del registro de datos\n\nLa figura 21 muestra el encabezado del archivo de registro LOGREPOR.TXT. La siguiente tabla describe la información que contiene el registro.\n\n```\nFAAST FLEX Diagnostic YY-MM-DD HH:MM\n--------------------------------------------------\n--INFO------------------------------------------\nModel type           : Stand alone\nNumber of channels   :           2\nStandard             : EN 54-20\nSerial number        : 787000000000\nFW version           :           0\nFW major version     :           0\nFW minor version     :           0\nFW build version     :           0\nHW version           :           0\n\n--Manufacturing date GMT-----------------------\nDAY                  :           0\nMONTH                :           0\nYEAR                 :           0\nHOUR                 :           0\nMINUTE               :           0\n\n--SETTINGS-----------------------------------------\nConfiguration        : Out of the box\nLast good DipSW conf : 1111111111\nDetector orientation : Upright\nAlarm level          :           1\nAction level         :           0\nReference flow 1     :    40 l/min\nMinimum flow 1       :    32 l/min\nMaximum flow 1       :    48 l/min\nReference flow 2     :    40 l/min\nMinimum flow 2       :    32 l/min\nMaximum flow 2       :    48 l/min\nGPI open             :        none\nGPI close            :       reset\nGPI EOL=47K          : ext fault\nBlower speed         :           6\nBlower correction    :  -3 YY-MM-DD\n\n--STATE--------------------------------------------\nDevice in fault      :          NO\nPower supply         :        23 V\nDisabled             :          NO\nGPI                  :        OPEN\nRelay ALARM 1        :       reset\nRelay ALARM 2        :       reset\nRelay ACTION 1       :       reset\nRelay ACTION 2       :       reset\nRelay FAULT 1        :       reset\nRelay FAULT 2        :       reset\n\nProgres | Day-Month | Hour:Minunte:Second | Event | Temperature 1 | Temperature 2 | Flow 1 | Flow 2 | Smoke Level 1 | Smoke Level 2 | RPM blower |\n      0 | 22- 4     | 23:12:00            |     1 |            25 |            24 |     39 |     42 |            50 |            50 |       3600 |\n```\n\nFigura 21-1: Encabezado del registro de datos\n\nTabla 21-1: Estructura del archivo LOGREPOR.TXT",
+      "excerpt_sha256": "a9e94e0a0efacc3709dca07a53528b0d93cd7e752fb6c69c4b141b92cf98df61",
+      "selection_quality": 149,
+      "selection_tie": "9868336b982c31cff5acf585db909d10adce551e4ecb6ef693d6ef7b31cbc048",
+      "evidence_unit_manifest": [
+        {
+          "unit_id": "E001_b5e21436b1",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              25
+            ]
+          ],
+          "content_sha256": "6f6440f7bf9e90b6fdb1955e0716ea25ae1f0c56f510bf9cad6651216ce24b48"
+        },
+        {
+          "unit_id": "E002_551a7596de",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              1174
+            ]
+          ],
+          "content_sha256": "8f59ca1f67ce27de1b7fc09fc8f52a54694660338609cee58d1148c283cfbd61"
+        },
+        {
+          "unit_id": "E003_6cd462035d",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              27,
+              112
+            ]
+          ],
+          "content_sha256": "504d2f2d05e92c54fd89d244349888812800873bbb6d29dfd2546b23e03109ab"
+        },
+        {
+          "unit_id": "E004_6b72733854",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              114,
+              274
+            ]
+          ],
+          "content_sha256": "6dfba3ff389a0e499077d193fec3a9d4b49ad3c6e655ba910a84266c974012e1"
+        },
+        {
+          "unit_id": "E005_db878a281e",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              276,
+              713
+            ]
+          ],
+          "content_sha256": "27feb025aaf3d8be292c555c53b45f281f85d372f42737198c9448b15f128480"
+        },
+        {
+          "unit_id": "E006_2f552a95ad",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              715,
+              750
+            ]
+          ],
+          "content_sha256": "098d36a2a655cd03075b3602113a5515c8fa67afa7af3b1d45d114f2445e5773"
+        },
+        {
+          "unit_id": "E007_a03b8f31f5",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              752,
+              893
+            ]
+          ],
+          "content_sha256": "b28a90a74e2b081ada4ca470f257e2d41f006e28950729efb46f960d6b691f07"
+        },
+        {
+          "unit_id": "E008_3c5fcc7981",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              894,
+              2079
+            ]
+          ],
+          "content_sha256": "1703ef84b8386bdbf6eb405ce5e577890841fa40456d42f6b4afc7083a7b2506"
+        },
+        {
+          "unit_id": "E009_cab957d53d",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              895,
+              1348
+            ]
+          ],
+          "content_sha256": "1c93dde0b98a1e207a64b4a0c19a549a9cc5d65be340922e26fb710e6266075f"
+        },
+        {
+          "unit_id": "E010_ea7311f8cf",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1799,
+              2980
+            ]
+          ],
+          "content_sha256": "1b1c26d71a984cdf5ba853d5ab070db1f74725d2eb32f8f7190598fdffff9478"
+        },
+        {
+          "unit_id": "E011_39867a2c70",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2587,
+              2884
+            ]
+          ],
+          "content_sha256": "5feed591e215ccaa627d259514b5aca96460f22ab59a0fc2d8f024bf3eff587a"
+        },
+        {
+          "unit_id": "E012_245036fa0d",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2886,
+              2931
+            ]
+          ],
+          "content_sha256": "c106106d07a76a76818730b9cbede98ae8806aeec439b83a341cb49a63c8192f"
+        },
+        {
+          "unit_id": "E013_5e85b23f97",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2933,
+              2980
+            ]
+          ],
+          "content_sha256": "fe8cea7bc92cda4da6907ff0ebadb44dc2510ad18b2364d71e0582275be825f4"
+        },
+        {
+          "unit_id": "E014_4aca380cfb",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              895,
+              1348
+            ],
+            [
+              1350,
+              1572
+            ]
+          ],
+          "content_sha256": "0618e14f9f127e5659355ff24d70e17a55a951692bdc48061802e57a922ce3ad"
+        },
+        {
+          "unit_id": "E015_fda6e57c97",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              895,
+              1348
+            ],
+            [
+              1574,
+              2182
+            ]
+          ],
+          "content_sha256": "f8edd175283a19cbd13773b75bfc3ab72f064067e3c2422452de038c4b8d82ad"
+        },
+        {
+          "unit_id": "E016_69564743e2",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              895,
+              1348
+            ],
+            [
+              2184,
+              2585
+            ]
+          ],
+          "content_sha256": "d12251a9b14749baf80e466722a808d2231d1139f5c63ef8ed68a0e0b2edcec8"
+        }
+      ]
+    },
+    {
+      "item_id": "s194_src_07",
+      "stratum": "table",
+      "manufacturer": "Kidde",
+      "product_model": "KE-DM3010R-KIT",
+      "document_id": "8c807610-7c75-48a8-acf3-1c50b90b685b",
+      "chunk_id": "83611504-1bc0-4684-bc6c-c3e0e11c0e34",
+      "extraction_sha256": "2bbe5cfd6915552bd1679407f4145fded3294478272ae40a188cdec89b8d6bac",
+      "source_file": "03-0210-501-4300-06_r006_excellence_series_addressable_mcp_installation_sheet_ml",
+      "page_number": 2,
+      "section_title": "EN: Installation Sheet",
+      "section_path": "EN: Installation Sheet",
+      "excerpt": "# EN: Installation Sheet\n\n## Figures\n\n**Figure 1: Mounting holes and dimensions**\n\n**Figure 2: Front assembly terminal block and DIP switch**\n\n**Figure 3: Unlocking the front cover**\n\n**Figure 4: Removing the front cover**\n\n**Figure 5: Removing the resettable element**\n\n**Figure 6: Replacing the front cover**\n\n## Description\n\nThe Excellence Series Intelligent Addressable Manual Call Point is designed for indoor use and supports the Kidde Excellence protocol.\n\nAll units are supplied with a resettable element – this can be replaced with a breakable element, if required (order number N-MC-FE). See \"Replacing the resettable element\" on page 3.\n\nThe series includes the following models.\n\n| Model           | Description                                                                          |\n| --------------- | ------------------------------------------------------------------------------------ |\n| KE-DM3010R \\[1] | Red intelligent addressable manual call point                                        |\n| KE-DM3110R \\[1] | Red intelligent addressable manual call point with integrated short circuit isolator |\n\n[1] Also available in blue, green, orange, white, and yellow.\n\n## Installation\n\n**Caution:** This product must be installed and maintained by qualified personnel adhering to all local or national installation requirements and any other applicable regulations.\n\n### Addressing\n\nSet the device address before installation using the DIP switch on the back of the front assembly (see Figure 2).\n\nThe address range is 001-128. See the table on the last page of this publication for DIP switch positions for each address.\n\n**Note:** If you change the device address after installation, you must disconnect the device from the loop power for at least one second and then reconnect it for the new address to be recognised.\n\n## Installation\n\nThe manual call point can be surface mounted or recess mounted.\n\nFor surface mounting, order one of the backboxes shown in the table below.\n\n| Model     | Description    |\n| --------- | -------------- |\n| N-MC-BB-R | Red backbox    |\n| N-MC-BB-U | Blue backbox   |\n| N-MC-BB-G | Green backbox  |\n| N-MC-BB-O | Orange backbox |\n| N-MC-BB-W | White backbox  |\n| N-MC-BB-Y | Yellow backbox |\n\nFor recess mounting, order one of the recess adaptors and (if required) trim skirts shown in the table below.\n\n| Model       | Description                        |\n| ----------- | ---------------------------------- |\n| N-MC-AFM-R  | Red recess adaptor                 |\n| N-MC-AFMG-R | Red recess adaptor with fork grips |\n| N-MC-S-R    | Red trim skirt                     |\n| N-MC-AFM-G  | Green recess adaptor               |\n| N-MC-S-G    | Green trim skirt                   |\n\nRemember to remove the protective dust cover after commissioning.\n\n**Note:** The dust cover may also be used to indicate when the unit is not operational (for example, before commissioning, during maintenance, when disabled, etc.)\n\n### To surface mount the manual call point:",
+      "excerpt_sha256": "c6006d730c8b771db1a477c4590ac4b9b2622b6df2db97ee99a887eb06a02376",
+      "selection_quality": 142,
+      "selection_tie": "17b64f4163b1831162e25473e1d84b3a122a7416c3a6b88ceadc9291c283703c",
+      "evidence_unit_manifest": [
+        {
+          "unit_id": "E001_cf0685bb36",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              24
+            ]
+          ],
+          "content_sha256": "1a8047598ed814df9dc9bedc772128a53905f8629f0d100a68b29ca563139d2c"
+        },
+        {
+          "unit_id": "E002_dcba1fc3ab",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              1200
+            ]
+          ],
+          "content_sha256": "eeff8d8b38dc7719cd36d2c13bd95540c1c1bef09932be4cd4c9fc81617374e6"
+        },
+        {
+          "unit_id": "E003_3ffed31c5d",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              26,
+              36
+            ]
+          ],
+          "content_sha256": "70b45482eb21d5d59892e8652c0b5daf75acb722829d0de18aa35ddb9f1ccb76"
+        },
+        {
+          "unit_id": "E004_f11d8096b1",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              38,
+              81
+            ]
+          ],
+          "content_sha256": "23f62be21044b582a47dd90b875b0e02c4f376f1648cabf23d29a77a1f5a3e3d"
+        },
+        {
+          "unit_id": "E005_39d6240239",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              83,
+              141
+            ]
+          ],
+          "content_sha256": "0932e2132971bfc0f702eb3736021c2addceaf6807e6cd438e4afff47af48e59"
+        },
+        {
+          "unit_id": "E006_503138b9cc",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              143,
+              182
+            ]
+          ],
+          "content_sha256": "54028d3c82839a99fedc88636e5001affb9312192d83cbd86e3520ae75625d4b"
+        },
+        {
+          "unit_id": "E007_fd1f5b518f",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              184,
+              222
+            ]
+          ],
+          "content_sha256": "abe9a1180b220ef36686d7a1e409e8b77fe2148dfb6de848265c2d49e7f37658"
+        },
+        {
+          "unit_id": "E008_a750d54277",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              224,
+              269
+            ]
+          ],
+          "content_sha256": "6ca771448ad70bd316eb577651eaa7509c98c20f095f7de546f8aca5bc47859b"
+        },
+        {
+          "unit_id": "E009_3a354a5e69",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              271,
+              310
+            ]
+          ],
+          "content_sha256": "46036037a7efa70a4efa05ef309ecbc65c6ba8b2c968652d7dec5fdc3a928762"
+        },
+        {
+          "unit_id": "E010_1ef295a49c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              312,
+              326
+            ]
+          ],
+          "content_sha256": "2b45dd41be9c3d1d97627e3f5ebdc62e5885ec2a3ada16d94e5527649b19d819"
+        },
+        {
+          "unit_id": "E011_89cf53b744",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              328,
+              462
+            ]
+          ],
+          "content_sha256": "43ea99fa4d4a585262e3d1130e21f3f88009ae3a2e04561377a96f57e69fdbed"
+        },
+        {
+          "unit_id": "E012_b725aebd14",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              464,
+              647
+            ]
+          ],
+          "content_sha256": "12bfcc4d8924c66f23eaaa680a82f79ac7af2de813217d478b615aa741ece825"
+        },
+        {
+          "unit_id": "E013_3d845566f5",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              649,
+              690
+            ]
+          ],
+          "content_sha256": "9dd7e968fb85cddb44f718a11353007ffd4ae054bf5ead546b3fc63cf67d1251"
+        },
+        {
+          "unit_id": "E014_f0fad98a1c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              692,
+              1119
+            ]
+          ],
+          "content_sha256": "88502d20406e9c0b174f2743c7140b6e764ef9d1d6600439b86e191487a45ae5"
+        },
+        {
+          "unit_id": "E015_75e15a235b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              906,
+              2088
+            ]
+          ],
+          "content_sha256": "962cdbba2895bd2c249271d7b234d1da972cf0cbb6851bbe1174662d39719c44"
+        },
+        {
+          "unit_id": "E016_a56ac4e961",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1121,
+              1182
+            ]
+          ],
+          "content_sha256": "f08c6e62cbdf5c5b24156bf2eb82009327ad5e4bfd73e6da44a7eeb5f8ae13e7"
+        },
+        {
+          "unit_id": "E017_5a2507c8d2",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1184,
+              1199
+            ]
+          ],
+          "content_sha256": "a15d12503bf00f654df068bd9e5af6259db1703ac04a61365b991ce52557e5ea"
+        },
+        {
+          "unit_id": "E018_9414947f0e",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1201,
+              1380
+            ]
+          ],
+          "content_sha256": "821260e0a2547bf0be82af94e9e4eac569a1aad6fe4057c8e312f14150934eae"
+        },
+        {
+          "unit_id": "E019_7d028e82a8",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1382,
+              1396
+            ]
+          ],
+          "content_sha256": "dd2c9adf15613d1c0ea506414866f0d4d744c45377ddf9f3ed2d9f2457ee10bf"
+        },
+        {
+          "unit_id": "E020_3e3668e397",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1398,
+              1511
+            ]
+          ],
+          "content_sha256": "b6db460a6865a598910e26a84c6e963ba6306c05c85a2c52e4de0f4569bbe4f7"
+        },
+        {
+          "unit_id": "E021_30e41fdf41",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1513,
+              1636
+            ]
+          ],
+          "content_sha256": "33acfa09f87087b1292dc200dccaa26b25f4aea47c478655f88a8f177865be90"
+        },
+        {
+          "unit_id": "E022_a408137ef0",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1638,
+              1835
+            ]
+          ],
+          "content_sha256": "997eb7123b882ffc94e85526f3a5a9003d3aca3597aa94a44d8f0db1f3bc3924"
+        },
+        {
+          "unit_id": "E023_aab7192f77",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1836,
+              3002
+            ]
+          ],
+          "content_sha256": "379c768f528db678c7c91dc7e157a92867b9abda68d550a5dac48f6687274e2b"
+        },
+        {
+          "unit_id": "E024_0abd997550",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1837,
+              1852
+            ]
+          ],
+          "content_sha256": "a15d12503bf00f654df068bd9e5af6259db1703ac04a61365b991ce52557e5ea"
+        },
+        {
+          "unit_id": "E025_bf4df3d043",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1854,
+              1917
+            ]
+          ],
+          "content_sha256": "9fff7bdbe1a90ccf515f022583286984cafb1da221c5151f22c014993af9fcff"
+        },
+        {
+          "unit_id": "E026_00b24bcb1a",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1919,
+              1993
+            ]
+          ],
+          "content_sha256": "7fbb969a9086e56a2308a43a7417d815883438ca94e4cdd9cf8a774a616c3f84"
+        },
+        {
+          "unit_id": "E027_8925476fda",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1995,
+              2242
+            ]
+          ],
+          "content_sha256": "c7caa3279f8af510f6ab5bf72963af6d3620d8d558f16e8972190934224ccf60"
+        },
+        {
+          "unit_id": "E028_452149becf",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2244,
+              2353
+            ]
+          ],
+          "content_sha256": "bc1b3453a1c420e8df99fefa35d826bf5775cea359162f6004bb41f90588c8c9"
+        },
+        {
+          "unit_id": "E029_bddd666f91",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2355,
+              2725
+            ]
+          ],
+          "content_sha256": "7b8e69d7ad012477ee4473718426212fbaa011d261ba2e5619dc14d6ccbd586d"
+        },
+        {
+          "unit_id": "E030_d233a21baf",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2727,
+              2792
+            ]
+          ],
+          "content_sha256": "6b024629bd73ff78f836e6ea62f58946ee9dc393fc204c255ea2f639056f4d4d"
+        },
+        {
+          "unit_id": "E031_dd7d668dae",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2794,
+              2957
+            ]
+          ],
+          "content_sha256": "89ccfdba9b9fe30b014c3625ecb08230f83f8aac9125a59f71d39d0f3c7ce1db"
+        },
+        {
+          "unit_id": "E032_d52d1664da",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2959,
+              3002
+            ]
+          ],
+          "content_sha256": "b475522510355c063bacff39d9e133409a5b507087c97745dbb1da3b60fa72a8"
+        },
+        {
+          "unit_id": "E033_3338396176",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              692,
+              798
+            ],
+            [
+              906,
+              1012
+            ]
+          ],
+          "content_sha256": "cd58bb457cd57eef20486866fd51c42bb9c3f0fa5ebb06a5eeee8749dcfe2b44"
+        },
+        {
+          "unit_id": "E034_20ee376013",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              692,
+              798
+            ],
+            [
+              1013,
+              1119
+            ]
+          ],
+          "content_sha256": "561bfbba589bb7d0d49431de368a0e2db5fb259336f0f8ab7b292f0a5574f2e0"
+        },
+        {
+          "unit_id": "E035_0f9b806661",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              1995,
+              2025
+            ],
+            [
+              2057,
+              2087
+            ]
+          ],
+          "content_sha256": "439e7363527c774110738e16be9543a52c09f501b654840db71feab39ca2c091"
+        },
+        {
+          "unit_id": "E036_d1c853b718",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              1995,
+              2025
+            ],
+            [
+              2088,
+              2118
+            ]
+          ],
+          "content_sha256": "8074336c59853ea53ab542cffa1089afbc9053709fb152d25745f7d378740068"
+        },
+        {
+          "unit_id": "E037_2d58d10f9a",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              1995,
+              2025
+            ],
+            [
+              2119,
+              2149
+            ]
+          ],
+          "content_sha256": "a0fa0d659627c6ccaf6b207e3d3ac2d10ef731f8181e74d9823ed64cd670f0cd"
+        },
+        {
+          "unit_id": "E038_3d3fb2e9c2",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              1995,
+              2025
+            ],
+            [
+              2150,
+              2180
+            ]
+          ],
+          "content_sha256": "9f7a9622d4a259f52a7763a16ee16bebbaa0ec8e36bce406b941bbedf4923728"
+        },
+        {
+          "unit_id": "E039_57a91fc7bf",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              1995,
+              2025
+            ],
+            [
+              2181,
+              2211
+            ]
+          ],
+          "content_sha256": "cce1a6b7b338ea519357b84feb2afdfa8539f5f9a135b1eb480635a3024c6d25"
+        },
+        {
+          "unit_id": "E040_8b382fb549",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              1995,
+              2025
+            ],
+            [
+              2212,
+              2242
+            ]
+          ],
+          "content_sha256": "611f881941fe7077501a8833d3f8279316f09a141fbd444f8677e42aae72ce8f"
+        },
+        {
+          "unit_id": "E041_3b20c214ea",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              2355,
+              2407
+            ],
+            [
+              2461,
+              2513
+            ]
+          ],
+          "content_sha256": "df3fc153bb7b55d1df0e6689f8a3222ef2527d51c821386f4a2984deb5cad3fe"
+        },
+        {
+          "unit_id": "E042_7e7343ca74",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              2355,
+              2407
+            ],
+            [
+              2514,
+              2566
+            ]
+          ],
+          "content_sha256": "80580dbcdf014c8113147aa43a80e658dae408eb0b2bd11eb4abd43714705049"
+        },
+        {
+          "unit_id": "E043_d91498918f",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              2355,
+              2407
+            ],
+            [
+              2567,
+              2619
+            ]
+          ],
+          "content_sha256": "7329e9f998c85dadfb7289341b20382d9c2af5de8a45386e7f28dcb63061b44b"
+        },
+        {
+          "unit_id": "E044_d74f4a65a4",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              2355,
+              2407
+            ],
+            [
+              2620,
+              2672
+            ]
+          ],
+          "content_sha256": "cef955bb4d07b408ae716c115197fe28bf86d3db557414830bcc384c3e3fa84c"
+        },
+        {
+          "unit_id": "E045_2a8ade3e06",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              2355,
+              2407
+            ],
+            [
+              2673,
+              2725
+            ]
+          ],
+          "content_sha256": "77ee6edf070620135287dc61c7eea851822ae19cbfd4d262ed0a51e61ac8fdd3"
+        }
+      ]
+    },
+    {
+      "item_id": "s194_src_08",
+      "stratum": "prose",
+      "manufacturer": "Securiton",
+      "product_model": "ASD531",
+      "document_id": "6d394c63-fd4c-4e82-9f96-82431127995b",
+      "chunk_id": "9e777a0d-7f4d-4c05-8813-58fafb5149b8",
+      "extraction_sha256": "081ffce15f1331d9dd94994836fb044a47fdb73128a688b23ca6e313d58e512b",
+      "source_file": "ASD531_OM_T811168es_b",
+      "page_number": 74,
+      "section_title": "Funciones ampliadas",
+      "section_path": "Funciones ampliadas",
+      "excerpt": "# Funciones ampliadas\n\n## 7.7 Cargar nuevo firmware en el ASD 531\n\nLa descarga de un firmware provocará el disparo de un aviso de fallo. Por ello, cuando se vaya a actualizar el FW del ASD 531, es imprescindible desconectar previamente los **controles de incendios y las alertas remotas** de los sistemas de orden superior (CDI).\n\n* Si existe una SD memory card, será necesario expulsarla y extraerla. (Véase el cap 7.4 Expulsión de los módulos adicionales XLM 35, RIM 36 y de la SD memory card)\n* La actualización de FW se lleva a cabo desde la SD memory card. Para ello, en primer lugar debe guardarse el archivo con el nuevo FW en el nivel más alto de la SD memory card (no en una subcarpeta).\n* Insertar la SD memory card en el ASD.\n\n* \n\n| Set/Res<br/>Reset<br/>Set/Res | Mantener pulsado el botón «Set/Res»<br/><br/>Pulsar brevemente el botón «HW-Reset»<br/><br/>Soltar el botón «Set/Res» | → Se enciende el LED1 (Bootloader)<br/>→ Se enciende el LED «Wdog»<br/>→ Se enciende el LED «Flt»<br/><br/>véase también 1)<br/><br/>Actualización de FW completada<br/>→ LED1 – 4 parpadean<br/>(aprox. 4 veces)<br/>→ Se enciende el LED2<br/>→ Se enciende el LED «Com»<br/><br/>Fase de arranque<br/>→ Se restablece el fallo<br/>→ Fase inicial del ASD en curso<br/>(LED «Fault» parpadea aprox. 60 s)<br/>→ El ASD está nuevamente operativo<br/>con la configuración anterior | LED 1<br/><br/>Wdog<br/>Flt<br/><br/><br/><br/>LED 1<br/>LED 2<br/>LED 3<br/>LED 4<br/><br/>Com<br/><br/>Flt |\n| ----------------------------- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |\n\n<sup>1)</sup> Si no se tiene lugar la indicación descrita (motivo: FW incompatible, ajeno o no existente en la tarjeta de memoria SD), **se deben seguir las instrucciones de la descripción del firmware correspondiente.**\n\n**Indicaciones:**\n\nA continuación, se iniciará de forma automática la grabación normal de datos en la SD memory card. Si no se desea que esto suceda, al finalizar la actualización de FW se debe expulsar y extraer la SD memory card.\n\nDebe tenerse en cuenta la especificación del FW que se va a instalar:\n\nSi se indica expresamente que es necesario un nuevo reset inicial → Transcurrido un tiempo de espera de aprox. 5 min desde el servicio normal, deberá realizarse un reset inicial.\n\nFunciones ampliadas\n\n## 7.8 Ajuste del reloj (RTC)",
+      "excerpt_sha256": "ee21548fa9ec9abb2057c21486344d3355049abda944237eb429ee774bf7e92d",
+      "selection_quality": 159,
+      "selection_tie": "7097c5bdf4c731ad0bf1dd3a97fb3029ef6694fb76812a762cd31c06dc8d70f7",
+      "evidence_unit_manifest": [
+        {
+          "unit_id": "E001_dedcb690b8",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              21
+            ]
+          ],
+          "content_sha256": "13c9a3bcc6caa64208a50a31db5eb9122086ad5313ec82de6ce6f9de00816fe8"
+        },
+        {
+          "unit_id": "E002_2330542e9c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              1097
+            ]
+          ],
+          "content_sha256": "ae1b5ba7be8a4a8f01eac80659bdc6d95a103314865d041c84e47178c7dd3223"
+        },
+        {
+          "unit_id": "E003_1ff32b5d5a",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              23,
+              65
+            ]
+          ],
+          "content_sha256": "d132112f3d25a15055d6aa68e4c943f2fb037149cb849a839ce79f48b7f3b88f"
+        },
+        {
+          "unit_id": "E004_5b69cbc90f",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              67,
+              329
+            ]
+          ],
+          "content_sha256": "edbcbeeb7ba246f23b8e26106afc8f233f68e76e0b5dc80f37f696cf7ee5fc61"
+        },
+        {
+          "unit_id": "E005_7af7835af8",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              331,
+              736
+            ]
+          ],
+          "content_sha256": "389adcb6609dc11812d3eb97ae40bb5a953bcc06fdc35af047f58d5fe90a5635"
+        },
+        {
+          "unit_id": "E006_e2e0fa06f2",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              738,
+              740
+            ]
+          ],
+          "content_sha256": "c21e63473fb7c90c032ad21a06cf13fe24b33fe04d80a4f0f6f64bdd6fe0e726"
+        },
+        {
+          "unit_id": "E007_a68ad174d5",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              797,
+              1479
+            ]
+          ],
+          "content_sha256": "550f621f553329a4f6fbf027bc249041aec5d8affa08e50ab44880f61b1b1d22"
+        },
+        {
+          "unit_id": "E008_fa131c9346",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1179,
+              2217
+            ]
+          ],
+          "content_sha256": "fc9f72dabeec4c731ccbd1e2dcdf91dd2b80575b757821cc233a8ede0424dcf0"
+        },
+        {
+          "unit_id": "E009_190fb464be",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1917,
+              2973
+            ]
+          ],
+          "content_sha256": "5ef7f5b36a6c3914a694b41ac93400127d23f987e833eba766e920b2bab49e1b"
+        },
+        {
+          "unit_id": "E010_23c57658b9",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2217,
+              2437
+            ]
+          ],
+          "content_sha256": "7c9074bfd1bf6ce3247d1c7c5eaf3c3634e4bb7fc48da60daac449929d7f7bef"
+        },
+        {
+          "unit_id": "E011_12e2927944",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2439,
+              2456
+            ]
+          ],
+          "content_sha256": "4cfd63d6f6665edfabd9bdb1d692c9bd7debc4c5bc49155d844501898b96f943"
+        },
+        {
+          "unit_id": "E012_de32ab69dc",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2458,
+              2670
+            ]
+          ],
+          "content_sha256": "9774b07ad6baed35ce6f20a3afc6f77a8c6e94b50d5085844b091783e547cf44"
+        },
+        {
+          "unit_id": "E013_b85feaf9b5",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2672,
+              2741
+            ]
+          ],
+          "content_sha256": "6dd3cecf3cb7267067173c1acd907102352aaac4e09e2ecd4bb03776e22cdbeb"
+        },
+        {
+          "unit_id": "E014_3db6c18f91",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2743,
+              2921
+            ]
+          ],
+          "content_sha256": "cfe83b6b9645b2b8d46684e0ecff8afe22493422e96ec987056ef17dc02ab25f"
+        },
+        {
+          "unit_id": "E015_18211ecd19",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2923,
+              2942
+            ]
+          ],
+          "content_sha256": "6e6063ca664cfb53197b0e7dee5bb3c3057ebfef58afd783892fc8de7c5fa631"
+        },
+        {
+          "unit_id": "E016_cc98ae32a6",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2944,
+              2973
+            ]
+          ],
+          "content_sha256": "07d1fcaa4babadb21c5fc9d2b82e7d5ee02cf1cd9a0a57347031e3c1b1ecee4b"
+        }
+      ]
+    },
+    {
+      "item_id": "s194_src_09",
+      "stratum": "prose",
+      "manufacturer": "Argus Security",
+      "product_model": "SG200",
+      "document_id": "fc285f22-cfa5-4c88-b12d-aa18a764a2a7",
+      "chunk_id": "6bcb0596-9fe6-42e6-bcfc-7311c738c399",
+      "extraction_sha256": "4f60909cf927b31d15a448914c75c27291226f73faeb073196a66e76314c789e",
+      "source_file": "Instruction Manual SG200 ENG",
+      "page_number": 3,
+      "section_title": "WIRELESS MULTI-CRITERIA DETECTOR",
+      "section_path": "WIRELESS MULTI-CRITERIA DETECTOR",
+      "excerpt": "## TAMPER DETECTION CAPABILITY\n\nThe wireless multi-criteria detector is provided with a tamper switch: in case of removal of the detector from its base, a tamper detection message is sent to the control panel.\n\n## TESTING\n\n**All detectors must be tested after installation and, successively, on a periodic basis.**\n\nAfter each test reset the fire security system from the control panel, as per your control panel instructions.\n\n### TEST 1 - MAGNET TEST\n\n**Purpose: checking the alarm capability of the detector by using the built-in test circuitry; no alarming agent (aerosol or heat) is used.**\n\n1) Hold a suitable magnet in correspondence of the indicated area (picture 6).\n\n2) Wait a few seconds.\n\n3) If it works, the detector will switch into \"*Alarm mode*\" (as indicated by the LED indicator).\n\n### TEST 2 - AEROSOL TEST\n\n**Purpose: checking the alarm capability of the detector by using aerosol.**\n\n**Use only suitable aerosol testers supplied by approved manufacturers.**\n\n1) By following its specific instructions, apply the aerosol test device to the detector.\n\n2) Wait a few seconds.\n\n3) If it works, the detector will switch into \"*Alarm mode*\" (as indicated by the LED indicator).\n\n### TEST 3 - HEAT TEST\n\n**Purpose: checking the alarm capability of the detector by using heat.**\n\n**Use suitable heat test devices from approved manufacturers.**\n\n1) By following its specific instructions, apply the heat test device to the detector.\n\n2) Wait a few seconds.\n\n3) If it works, the detector will switch into \"*Alarm mode*\" (as indicated by the LED indicator).\n\n*Picture 6*\n\n[Image shows a smoke detector from below with a circular area highlighted, indicating where to hold the magnet for testing purposes.]\n\ninfo@argussecurity.it                                                                                                    SPNK-754431-117 (v3.0)",
+      "excerpt_sha256": "f97682f06edc0fc653b2d473514efe096b9fd92b95683d10228a323f7f3edeca",
+      "selection_quality": 137,
+      "selection_tie": "9e5fa7a0ee020935affd6d01d47b9c8938211da56d2dbdffd20f69e0c86f207f",
+      "evidence_unit_manifest": [
+        {
+          "unit_id": "E001_a028cda890",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              30
+            ]
+          ],
+          "content_sha256": "e9fae6c8b88ea76fb2a8ededebf304ead8806fb2a52510c201355f1918de8e01"
+        },
+        {
+          "unit_id": "E002_643d4babf5",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              1194
+            ]
+          ],
+          "content_sha256": "89eb40dfc63e776e0adaae38da628b6cb1e8561c32f2c152a8c0f05f6b029258"
+        },
+        {
+          "unit_id": "E003_9886a9bb2c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              32,
+              209
+            ]
+          ],
+          "content_sha256": "2a38a433a66deaf2d1861097bf900817aec4847466395652e059284b88054eeb"
+        },
+        {
+          "unit_id": "E004_db13756866",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              211,
+              221
+            ]
+          ],
+          "content_sha256": "2cce34091f87fb24638f38b9576e4efb1e66ff67ce14f3048bbe151fe4d05cf9"
+        },
+        {
+          "unit_id": "E005_297cbd6d3e",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              223,
+              314
+            ]
+          ],
+          "content_sha256": "f74152d6e9919e90e2781548454ad8ef6b1bebb4c8defec1154ce504a65f13fd"
+        },
+        {
+          "unit_id": "E006_6c77f82333",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              316,
+              426
+            ]
+          ],
+          "content_sha256": "a1a05de190f8387133293e321758672ae8b4c2cea4e09caac106df27f0143c37"
+        },
+        {
+          "unit_id": "E007_12ee784290",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              428,
+              452
+            ]
+          ],
+          "content_sha256": "d6c486cee815504d3324d6e19e504e3471add0cee4dbd3502fa8ef8c4b96f689"
+        },
+        {
+          "unit_id": "E008_72151748a7",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              454,
+              595
+            ]
+          ],
+          "content_sha256": "c522c274eff4b21e44026ad8bca4c3d8b067fd6331642675aae9c93b81889fbd"
+        },
+        {
+          "unit_id": "E009_37b5a9abb2",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              597,
+              675
+            ]
+          ],
+          "content_sha256": "034585c2df2d7ba49b90e071603ba49ae7660dda58f707b6994dda0e13644243"
+        },
+        {
+          "unit_id": "E010_3298dfa78c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              677,
+              699
+            ]
+          ],
+          "content_sha256": "4034ceb3997b3d622ca72aba8b0041242deff1075b3bec71130cb40d519f73d7"
+        },
+        {
+          "unit_id": "E011_86b7c027f4",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              701,
+              798
+            ]
+          ],
+          "content_sha256": "959c4ff7746d406ed139ed423442625e922f4d99ee42894c990c8a55c631d765"
+        },
+        {
+          "unit_id": "E012_cab35f8b3c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              800,
+              825
+            ]
+          ],
+          "content_sha256": "541248a1d7797aad678a71911ecf1f44efade4d51f7ac596774a724902177684"
+        },
+        {
+          "unit_id": "E013_f47844b399",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              827,
+              903
+            ]
+          ],
+          "content_sha256": "d5dd560254bdcd504db3d1a1fffd0dc5df183e40dcf5610345e09fa30e3cb895"
+        },
+        {
+          "unit_id": "E014_c2d29d20b3",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              904,
+              1860
+            ]
+          ],
+          "content_sha256": "31c86d98f26a7670ab17a9966be125d344de23c92872c38934dd81bf88db65a4"
+        },
+        {
+          "unit_id": "E015_48761a9f10",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              905,
+              978
+            ]
+          ],
+          "content_sha256": "0e26fb97a3feeae67d18b2548ed9b24dc550cf6a45ed46d45748fe4ce6f3c6fa"
+        },
+        {
+          "unit_id": "E016_7adc8daa6f",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              980,
+              1069
+            ]
+          ],
+          "content_sha256": "113bad9e0deba7def545c328de272ca27daf85b5704f132a069dc020327e002e"
+        },
+        {
+          "unit_id": "E017_4a3fda0a2a",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1071,
+              1093
+            ]
+          ],
+          "content_sha256": "4034ceb3997b3d622ca72aba8b0041242deff1075b3bec71130cb40d519f73d7"
+        },
+        {
+          "unit_id": "E018_7dd3eb022f",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1095,
+              1192
+            ]
+          ],
+          "content_sha256": "959c4ff7746d406ed139ed423442625e922f4d99ee42894c990c8a55c631d765"
+        },
+        {
+          "unit_id": "E019_4b86436325",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1194,
+              1216
+            ]
+          ],
+          "content_sha256": "ff4e0b9719db9513d4ac5e9677da017ac71c19869bc9ac69d23cbc179665058d"
+        },
+        {
+          "unit_id": "E020_db855afb84",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1218,
+              1291
+            ]
+          ],
+          "content_sha256": "ae9f9768c01a2c1760ade76e7e06c8243a0e3c45def530f5a8a11753e6b9c145"
+        },
+        {
+          "unit_id": "E021_4466711ab5",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1293,
+              1356
+            ]
+          ],
+          "content_sha256": "c9cbdbf19d192e0adbc13e7fa6ba191acd24cf81a4fda75432852234afbab611"
+        },
+        {
+          "unit_id": "E022_268fea3e13",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1358,
+              1444
+            ]
+          ],
+          "content_sha256": "aa00e54a6d012c4e373186d49c7fa99585f92b199f6c281b923f8f69a7c45a57"
+        },
+        {
+          "unit_id": "E023_6f89d01a0b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1446,
+              1468
+            ]
+          ],
+          "content_sha256": "4034ceb3997b3d622ca72aba8b0041242deff1075b3bec71130cb40d519f73d7"
+        },
+        {
+          "unit_id": "E024_1cd1f7e2ef",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1470,
+              1567
+            ]
+          ],
+          "content_sha256": "959c4ff7746d406ed139ed423442625e922f4d99ee42894c990c8a55c631d765"
+        },
+        {
+          "unit_id": "E025_472b11351d",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1569,
+              1580
+            ]
+          ],
+          "content_sha256": "ab037c176d6bb22efb9166f545f293a3e701100876060af0cae8561bf290a63e"
+        },
+        {
+          "unit_id": "E026_99c0cf95c7",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1582,
+              1715
+            ]
+          ],
+          "content_sha256": "1883e7bb5fd1e5da30fcb54adbd8698dbd34f0c279ea153bcd1fa8f5ca817cbf"
+        },
+        {
+          "unit_id": "E027_29a792ea38",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1717,
+              1860
+            ]
+          ],
+          "content_sha256": "15a3e3bc9cf4471e95a528e52e4cb38fcf646576dec0f41474cd4913c7763765"
+        }
+      ]
+    },
+    {
+      "item_id": "s194_src_10",
+      "stratum": "prose",
+      "manufacturer": "Aritech",
+      "product_model": "2X-A-LB",
+      "document_id": "d36bc35d-d68e-4f2d-a1a5-d02e87ccf8ae",
+      "chunk_id": "2f961bab-1502-41db-a08b-fd36e287393f",
+      "extraction_sha256": "51e851f213987c18d079f16d5d990c5f14f5a227b3f77dfbbd01c6d7b855c44a",
+      "source_file": "00-3301-501-4000-04_r004_2x-a-lb_loop_board_installation_sheet_ml",
+      "page_number": 1,
+      "section_title": "2X-A-LB Loop Board Installation Sheet",
+      "section_path": "2X-A-LB Loop Board Installation Sheet",
+      "excerpt": "KIDDE\nCOMMERCIAL\n\n# 2X-A-LB Loop Board Installation Sheet\n\nEN CS DA DE EL ES FI FR HU IT LT NL NO PL PT RO RU SK SR SV TR\n\n**1**\n\n[Circuit board diagram with magnified callout showing slot 2 and terminal connections labeled LOOP3, LOOP4]\n\n**2**\n\n| A<br/>- + | ↓ | ↓ | - | B<br/>+ |   | A<br/>- + | ↓ | ↓ | - | B<br/>+ |   |\n| --------- | - | - | - | ------- | - | --------- | - | - | - | ------- | - |\n| LOOP      |   |   |   |         |   | LOOP      |   |   |   |         |   |\n| -         | + | ↓ | ↓ | -       | + | -         | + | ↓ | ↓ | -       | + |\n| OUT       |   |   |   |         |   | OUT       |   |   |   |         |   |\n\n## EN: Installation Sheet\n\n### Description\n\nThe 2X-A-LB Loop Board provides two additional loops (LOOP3 and LOOP4) and four additional supervised outputs (OUT5, OUT6, OUT7, and OUT8) to compatible 2X-A control panels.\n\n**Caution:** The 2X-A-LB Loop Board is only compatible for installation in 2X-A control panels.\n\n### Installation\n\n**WARNING:** To avoid personal injury or death from electrocution, disconnect the control panel from the mains power supply and batteries before installing this product.\n\n#### Recommended cable\n\nUse 0.13 to 3.31 mm² (26 to 12 AWG) shielded or unshielded twisted-pair cable. Use the earth studs in the control panel cabinet for termination.\n\nSee your control panel installation manual for more information on cable and wiring recommendations.\n\n### To install the expansion board:\n\n1. Install the loop board into slot 2 of the control panel chassis, as shown in Figure 1. Push firmly to ensure a good connection. Secure the board with the screws provided.\n\n2. Connect loops and configurable outputs as shown in Figure 2.\n\n   Loop earth connection: Connect one side to the earth studs in the control panel cabinet (not to the loop earth terminal on the expansion board). The other side can be left floating.\n\n   Output connection: If an output is not used, install an end-of-line resistor across the unused terminals (refer to the Specifications table, configurable outputs) to avoid an open circuit fault on the output.\n\n3. Restore power and add the device to the control panel configuration (see the control panel installation manual for further details).\n\n4. Configure loops, outputs, and all connected devices. Check loop installations using a loop load calculator.\n\nSee your control panel installation manual for detailed information on loop and configurable output wiring and configuration.\n\n© 2025 Kidde Commercial. All rights reserved.                    1 / 27              P/N 00-3301-501-4000-04 • REV 004 • ISS 23MAY25\n\n2 / 27                                                                    P/N 00-3301-501-4000-04 • REV 004 • ISS 23MAY25\n\n## Maintenance\n\nBasic maintenance consists of a yearly inspection. Do not modify internal wiring or circuitry.\n\n## Specifications\n\n### <ins>Table 1: Loop and mechanical specifications</ins>",
+      "excerpt_sha256": "aa8e274073fb32ce0b60b33ad536da034bc2c7a11fca8889a8d92a4209406529",
+      "selection_quality": 125,
+      "selection_tie": "7820d8be574090d924f5c21165ff06f56f920b3b45f5d0e20cd06ad4fd1b13e4",
+      "evidence_unit_manifest": [
+        {
+          "unit_id": "E001_7520e6adf3",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              16
+            ]
+          ],
+          "content_sha256": "a4f3a6ca48728f89bb679a2f568b1cacb5ed1dbc3d6b6172301dc596c278103f"
+        },
+        {
+          "unit_id": "E002_73e1097a70",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              1166
+            ]
+          ],
+          "content_sha256": "cf6def1565bc11e2c79c1a8b23f31c052031864593708284c5554c8f936c2f00"
+        },
+        {
+          "unit_id": "E003_3f6c18178b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              18,
+              57
+            ]
+          ],
+          "content_sha256": "360047411f76a6f494c9070763e06e7a4708e83b3d1d4581877e535e6fa2ddf9"
+        },
+        {
+          "unit_id": "E004_bf3479f7a5",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              59,
+              121
+            ]
+          ],
+          "content_sha256": "213feed5bcdc0102bfd61f4a204f089c9700ec22c232bb75f2054780d44f9c46"
+        },
+        {
+          "unit_id": "E005_ac1c2f36aa",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              123,
+              128
+            ]
+          ],
+          "content_sha256": "ef96a0ac740a06934efd121652fe47787306e6b5fadba0059fda88d6a5b1d98c"
+        },
+        {
+          "unit_id": "E006_81702622fd",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              130,
+              237
+            ]
+          ],
+          "content_sha256": "b5d70543b21a4b5f55edfceef1072d32ed7f4de41e0b757907e8292c177a8e6d"
+        },
+        {
+          "unit_id": "E007_04758d57de",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              239,
+              244
+            ]
+          ],
+          "content_sha256": "ac37d81031ca272a554b3a6a18e637a8c744bf5618e9a3faec5518872904ac3f"
+        },
+        {
+          "unit_id": "E008_e75d9fb11b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              246,
+              635
+            ]
+          ],
+          "content_sha256": "c819880c6e1c8d2e06fa75d85b0b2f6f02ee3364705b3dc098a6fba95c956efa"
+        },
+        {
+          "unit_id": "E009_6c49738fc6",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              637,
+              662
+            ]
+          ],
+          "content_sha256": "029b1ea7b3539b5c4c3b0c121e2a3dc6c5d512f4b05c25eee2b3840047416ca2"
+        },
+        {
+          "unit_id": "E010_782d63ce58",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              664,
+              679
+            ]
+          ],
+          "content_sha256": "c43ad8a8a33ac74b30fc129b6e53153ee6ab495e676a71582908a7ae4ce4ab59"
+        },
+        {
+          "unit_id": "E011_418ffd8763",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              681,
+              854
+            ]
+          ],
+          "content_sha256": "2f4dae13bb5d68c59db00f1e16d101b4112482e3c1de4c258824409084cc599f"
+        },
+        {
+          "unit_id": "E012_23f014718a",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              856,
+              951
+            ]
+          ],
+          "content_sha256": "21e71ade48763d72e78adc5515181b27b5c8776140586b6d57637f47f5b2f8b2"
+        },
+        {
+          "unit_id": "E013_6849e94cce",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              952,
+              2093
+            ]
+          ],
+          "content_sha256": "4a565789dd242a4a5c30eaa0195c9fb0766b3e26b7d60ac543f8c0d3dcdf0c5a"
+        },
+        {
+          "unit_id": "E014_535b70ebab",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              953,
+              969
+            ]
+          ],
+          "content_sha256": "26e002e2cf3684c6cd911a97d7bb3496daa3566788fc786c99696381ffa2eca8"
+        },
+        {
+          "unit_id": "E015_4284f517db",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              971,
+              1140
+            ]
+          ],
+          "content_sha256": "68142f7bceff12d83eef32d456f00a2fb353cc7882c22aecae16dc2254a2399a"
+        },
+        {
+          "unit_id": "E016_c7c88ff5e2",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1142,
+              1164
+            ]
+          ],
+          "content_sha256": "4aa769c83381e8caffeb19e7fcde12d0e6baad28190914e2ac256e5e64e9d341"
+        },
+        {
+          "unit_id": "E017_4b03061177",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1166,
+              1310
+            ]
+          ],
+          "content_sha256": "25e5dd0d08f5700cf0e54e2b5328768fcbbe541b3dac4d5b400e6a8c83c3929c"
+        },
+        {
+          "unit_id": "E018_8b590d469d",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1312,
+              1412
+            ]
+          ],
+          "content_sha256": "257bce1fbbb99850fe3cf9a4bf6f626343843ab95e3aeadd15ed2a7dc620c227"
+        },
+        {
+          "unit_id": "E019_92a4daf882",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1414,
+              1449
+            ]
+          ],
+          "content_sha256": "543a3c87421b1ceaa0040021ac50f47f45dae72edd69136c25e04dc81010c065"
+        },
+        {
+          "unit_id": "E020_ced60dcb2b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1451,
+              1624
+            ]
+          ],
+          "content_sha256": "78d279eb7894478d8c1ae44dce82d4bda27f54b765fb247452a9f193dee9f8fe"
+        },
+        {
+          "unit_id": "E021_d2343084db",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1626,
+              1689
+            ]
+          ],
+          "content_sha256": "17fa35cb24b138ec6e9a603c813c49d12496a8fd7e39c4628c119d1004de72f3"
+        },
+        {
+          "unit_id": "E022_c4cc0cc4d2",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1691,
+              1875
+            ]
+          ],
+          "content_sha256": "519dc79f7ddcdcb3abcfe5be75adcfa96ccf4c55b05e639bf3f0e6751df441e2"
+        },
+        {
+          "unit_id": "E023_b76465d9c3",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1876,
+              2912
+            ]
+          ],
+          "content_sha256": "642f9d5638e2ff83d448ea0459991d1931105adede9e51a8b1f206863dfbe7ae"
+        },
+        {
+          "unit_id": "E024_603d6e7181",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1877,
+              2088
+            ]
+          ],
+          "content_sha256": "908a98f96d097296c1d0c3f316210598cf848a4853990d4ee207d067bc0de77d"
+        },
+        {
+          "unit_id": "E025_2990219329",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2090,
+              2225
+            ]
+          ],
+          "content_sha256": "65909dec78a72185a6f5d08820187331a8c24f5870cbe09ddd604562ff3e821a"
+        },
+        {
+          "unit_id": "E026_60664adf6c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2227,
+              2337
+            ]
+          ],
+          "content_sha256": "15618a1eb5bf70d8e5b0f01a1979bffed67d447664de7699e05a3e8ee427345a"
+        },
+        {
+          "unit_id": "E027_3f3150c034",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2339,
+              2464
+            ]
+          ],
+          "content_sha256": "e6c9822798dd1644380e2a90471a8a411748fe3e34c0ffe656891b89a39c89c8"
+        },
+        {
+          "unit_id": "E028_5d56d395eb",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2466,
+              2598
+            ]
+          ],
+          "content_sha256": "5ddb787b92779334b2b92ec0748287a5f24f3a9c56ef5a2aacfb7a79b1e7e800"
+        },
+        {
+          "unit_id": "E029_55fdece616",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2600,
+              2721
+            ]
+          ],
+          "content_sha256": "e44ccdff2e1ef813ab3ad48e6b606195ce6ca061ac3ac6292d13733663549f92"
+        },
+        {
+          "unit_id": "E030_38fa326475",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2723,
+              2737
+            ]
+          ],
+          "content_sha256": "35274ac7742ea4371070b2011f92aebcaf897b35c04367cd44a16c6ab4026444"
+        },
+        {
+          "unit_id": "E031_7b441bbd1a",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2739,
+              2833
+            ]
+          ],
+          "content_sha256": "20f678081587c9bb2a8dbf7783274c217259085e55ffc9057e75ab584d8b1877"
+        },
+        {
+          "unit_id": "E032_6c3951e172",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2835,
+              2852
+            ]
+          ],
+          "content_sha256": "bdbebc5b6ce250eb8f6a1632d845ad1832adad148b551889ecea90f4b15dbc0d"
+        },
+        {
+          "unit_id": "E033_1f598ecf99",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2854,
+              2912
+            ]
+          ],
+          "content_sha256": "6c04b7246f573ec2eff38ac2c8b41f116b4e05c8b15928e59f964c3a895c6465"
+        }
+      ]
+    },
+    {
+      "item_id": "s194_src_11",
+      "stratum": "prose",
+      "manufacturer": "Fidegas",
+      "product_model": "EL-10",
+      "document_id": "5f80d7e6-25e8-4705-979e-4a921ab00086",
+      "chunk_id": "f9806511-cdc6-49d6-b472-3030b91beae1",
+      "extraction_sha256": "d6d7d5d3876eb1388b1e4cb5604d15a1145b09c67536600993497d5a615b0384",
+      "source_file": "Manual-de-Usuario-CS4",
+      "page_number": 6,
+      "section_title": "5. CONFIGURACIÓN",
+      "section_path": "5. CONFIGURACIÓN",
+      "excerpt": "# 5. CONFIGURACIÓN\n\nLa configuración predeterminada de fábrica es con rearme manual, todos los sensores remotos habilitados y todos asociados a la salida 1.\n\nPara modificar estos parámetros la central dispone de dos switches de configuración a los que se accede quitando la tapa. Para quitar la tapa introducir un destornillador plano en las flechas señaladas en la imagen.\n\n[Diagram showing CS4 control unit with terminal connections at top, four input connections (S1-S4) on the left side, PWR/OUT1/OUT2 connections on right side, CE marking, RESET button, and terminal strip at bottom. A screwdriver is shown pointing to access points indicated by arrows on the sides of the unit.]\n\nPosición de los dos switches en la placa electrónica:\n\n[Circuit board diagram labeled \"CS4 V1.1\" showing the location of Switch 2 (circled on the left side) and Switch 1 (circled on the right side) on the electronic board. The board shows various components including terminal blocks, resistors, and integrated circuits. Serial number \"SN:\" is visible in the top left corner.]\n\n## 1. Selección de tipo de rearme después de corte de red:\n\n[Switch diagram showing a two-position switch labeled \"SW2\" with positions \"AUTO\" and \"MAN\"]\n\nEl Switch 2 permite elegir si el rearme es automático (posición **AUTO**) y después de un corte de red la central empieza a funcionar automáticamente al restablecer la alimentación o manual (posición **MAN**) y después de un corte de red hay que pulsar el botón **RESET** para que la central empieze a funcionar.\n\n6\n\n[Fidegas logo in top right corner]\n\n**2. Habilitación de sensores remotos:**\n\nEl Switch 1 permite seleccionar los sensores remotos conectados. En las posiciones 8, 7, 6 y 5 corresponden a los sensores S1, S2, S3 y S4 respectivamente.\n\n**Posición +:** Sensores deshabilitados\n**Posición 0:** Senbsores habilitados\n\n**3. Asignación de salida a cada sensor remoto:**\n\nEl Switch 1 también permite seleccionar la salida asociada a cada sensor remoto conectado. Las posiciones 4, 3, 2 y 1 corresponden a los sensores S1, S2, S3 y S4 respectivamente.\n\n**Posición +:** Sensor asociado a la salida 1\n**Posición 0:** Ninguna salida asociada\n**Posición I:** Sensor asociado a la salida 2\n\n[DIP switch diagram showing 8 positions labeled from top to bottom: DS1, DS2, DS3, DS4 on the right side marked as \"DIP\", and S1, S2, S3, S4 in the middle marked as \"OUTPUT 1\" and \"OUTPUT 2\", with positions numbered 8, 7, 6, 5, 4, 3, 2, +1 on the left side, and +, 0, I markers at the bottom]\n\n## 6. CARACTERÍSTICAS TÉCNICAS",
+      "excerpt_sha256": "e1266e75d5f93987ca36dacfab47f5f0d88162ed2771b25b31f0c4d80cb31812",
+      "selection_quality": 116,
+      "selection_tie": "af24b3a1cbdef559c72329cd74c9a1a373bd7c192f2caaebe89c71fd83e73f21",
+      "evidence_unit_manifest": [
+        {
+          "unit_id": "E001_07184eeb28",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              18
+            ]
+          ],
+          "content_sha256": "c9b3e92b66c354fe8c1aa7b75212c8e215bac085c00aef22d75ca13ca992a213"
+        },
+        {
+          "unit_id": "E002_aaa9e29948",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              1124
+            ]
+          ],
+          "content_sha256": "a99575472fdaa0cf4549e8497e44be7eb2f54a3ae967fdf6cac65338d69d2959"
+        },
+        {
+          "unit_id": "E003_e58aa084e9",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              20,
+              156
+            ]
+          ],
+          "content_sha256": "7f9e5e22a2d8c7689caa361d4b6ca2dada4d571c4fca7f5919b04ee04489c9d8"
+        },
+        {
+          "unit_id": "E004_98c95d4673",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              158,
+              373
+            ]
+          ],
+          "content_sha256": "aa1c01a9db9ef3ca6117fd93aad2046250cda6d6a48567443480a73c6922defa"
+        },
+        {
+          "unit_id": "E005_a14850e8ac",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              375,
+              684
+            ]
+          ],
+          "content_sha256": "826c9d74cb629e1bf6187eb00907c453a5953f9214939c80670e2aea739e1fc9"
+        },
+        {
+          "unit_id": "E006_1194375adb",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              686,
+              739
+            ]
+          ],
+          "content_sha256": "bc32cd00d1db9eb53125dc898a4c4bc649912d49be1f39a81caddf0ea534fee5"
+        },
+        {
+          "unit_id": "E007_b8d76fde15",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              741,
+              1062
+            ]
+          ],
+          "content_sha256": "df77832cd9e52cba704eb0b5748fb4207ec88f7472b3c82f0ed25a33bb3f1c51"
+        },
+        {
+          "unit_id": "E008_4749405d52",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              824,
+              1991
+            ]
+          ],
+          "content_sha256": "2bf228fc867888f332ba4bb205159a5a4f05a11eaa262cfa03bc06fe563974a2"
+        },
+        {
+          "unit_id": "E009_3484b474cb",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1064,
+              1122
+            ]
+          ],
+          "content_sha256": "c355c4d4b8a79910503858cfe3ff1a073b3d4d299c3ebe1e50e44a45178730b2"
+        },
+        {
+          "unit_id": "E010_38e3a3db72",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1124,
+              1216
+            ]
+          ],
+          "content_sha256": "ea1cd783057f093ca6e878c266d1c99016f82891a13466dbc74b78c4d31a4eef"
+        },
+        {
+          "unit_id": "E011_520c4b16b6",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1218,
+              1530
+            ]
+          ],
+          "content_sha256": "32b2e46d06105c77af7ed520dea0921b9e1ed33c0ae3cc2d5b9be49abbf43182"
+        },
+        {
+          "unit_id": "E012_6837abd59b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1532,
+              1533
+            ]
+          ],
+          "content_sha256": "e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683"
+        },
+        {
+          "unit_id": "E013_b735ec61ff",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1535,
+              1569
+            ]
+          ],
+          "content_sha256": "dc449512bddd90da5b0b33121214bf658b73adcd0d450032f292952d446680ba"
+        },
+        {
+          "unit_id": "E014_0b96cba15e",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1571,
+              1611
+            ]
+          ],
+          "content_sha256": "73740ef95119446f6c6f8bcba888acc268e0fccb273433190a523054d4fc7a95"
+        },
+        {
+          "unit_id": "E015_ce047f0c80",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1613,
+              1768
+            ]
+          ],
+          "content_sha256": "b04f3c772879aac79cbc15bd29eefe3ce19f123e3455a8679989e89b544c2eff"
+        },
+        {
+          "unit_id": "E016_41b5bd4d7a",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1769,
+              2537
+            ]
+          ],
+          "content_sha256": "a7d7b21a59f34cf9b1e7ad6b71681c9bc46522cfc7248e3735c812e4ce5f9dbb"
+        },
+        {
+          "unit_id": "E017_876e432403",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1770,
+              1847
+            ]
+          ],
+          "content_sha256": "7184cff1771cc3a149d91008449d764e8b3eb8796db80c1c3be6e60c07e0753b"
+        },
+        {
+          "unit_id": "E018_33ee591a43",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1849,
+              1898
+            ]
+          ],
+          "content_sha256": "6c4ef8487bc8889e725a71aa1e15d8d6057414b81677d7be2e909bdbd42c9bc0"
+        },
+        {
+          "unit_id": "E019_039d7b8171",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1900,
+              2078
+            ]
+          ],
+          "content_sha256": "ac950f56e9c6b1796a78b6bcff71296b7e4655e744cde2775155dd8382f826dd"
+        },
+        {
+          "unit_id": "E020_5d85c60f1e",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2080,
+              2211
+            ]
+          ],
+          "content_sha256": "a465ef246cac1303a1bb606a37de0f4fe8834909572e77ea23a04195d26a6133"
+        },
+        {
+          "unit_id": "E021_fe0b21fdc2",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2213,
+              2505
+            ]
+          ],
+          "content_sha256": "985882d852de255ff682004021403921eba4d007af4c92e5ca67314bb5b2e6d0"
+        },
+        {
+          "unit_id": "E022_fff6eee863",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2507,
+              2537
+            ]
+          ],
+          "content_sha256": "abb2114c42ab45976200cb64ac6edd9c522d8aafefbf3d32def79f006b683128"
+        }
+      ]
+    },
+    {
+      "item_id": "s194_src_12",
+      "stratum": "prose",
+      "manufacturer": "Pfannenberg",
+      "product_model": "DS10",
+      "document_id": "d72657df-e074-4cae-bc4f-20abe98f7c4d",
+      "chunk_id": "8b803db5-d9d5-44fe-9fcb-3c589f6cb148",
+      "extraction_sha256": "3e6e48a379973c35149f6412584f98b70df787dfe6be82a3471d9a0cd90e3032",
+      "source_file": "085501821n_DS10_Installation_manual_D-GB_F_IT",
+      "page_number": 6,
+      "section_title": "5. Taking into operation",
+      "section_path": "Instructions for operating and installing the DS series of acoustic alarms > 5. Taking into operation",
+      "excerpt": "## 5. Taking into operation\n\nThe acoustic alarm may only be connected to the electricity supply by a suitably authorized person. Prior to connection, it must be ensured that no voltage is applied to the acoustic alarm.\n\nDC- versions: The device is provided with a reverse polarity protection. No function when polarity is reversed!\n\nYou can detach the front section after removing the 4 screws located on the front. During the installation the sealing has to be clean and intact. The housing screws (Torx-T20) are to be tightened with a torque of approx. 2 - 2,5 Nm in at least two passages crosswise.\n\nThe tone is set with the selector switch S1 according to the tone selection table, page 17.\n\n### Connection to the electrical supply and actuators - AC and DC\n\n[Diagram showing two device internal views side by side]\n\nConnection for operating voltage\n\n**AC**\n\nX1\n\nX2\n\nS1\n\nOption:\nVolume control for DS 5\n-20dB(A)\n\nSelector switch for setting tones see tone\nselection table, page 17..\n\nOption -TAS, -TAV:\nExternal tone selection\nStage 2, 3 and 4\n\n**DC**\n\nOption -MX: (24V DC)\nSoft Start Module and\nresistor for line monitoring\n\nX1\n\nX2\n\nS1\n\n**Wire connection**\n\n| L<br/>N<br/>PE<br/>115/230V AC X1 L<br/>N<br/>PE | \\[Wire connection component] | +<br/>- 12/24/48V DC<br/>24V AC X1<br/>+<br/>- Power Supply for max. 10 additional sounders type DS 10 or max. 15 sounders type DS 5. |\n| ------------------------------------------------ | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |\n\n085 501 821n                                                                              7                                                              30007-008-1n",
+      "excerpt_sha256": "a8b6f6cc7b7b77ebab17d3638d85844982cec7c8fe33259bc85c057c475aa3d7",
+      "selection_quality": 105,
+      "selection_tie": "f1a62f50bec2ec2186b4ab6d71674613c9c1c44014e347b94d4d9252269c28e3",
+      "evidence_unit_manifest": [
+        {
+          "unit_id": "E001_92909d6e9a",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              27
+            ]
+          ],
+          "content_sha256": "60bad654ebc26e0b1bddfbf130108e35235fdad3687e04227417103bd719ddf1"
+        },
+        {
+          "unit_id": "E002_16f0d88f53",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              1163
+            ]
+          ],
+          "content_sha256": "80ecf2920ee130a0806f27b77272a416cccb692f3e46758cfb1080a11c5d385a"
+        },
+        {
+          "unit_id": "E003_c351ba4991",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              29,
+              218
+            ]
+          ],
+          "content_sha256": "dd4b08ce9e1786b0de12ba8d9c9695831f1c3662c9015fa60d4236dabc683227"
+        },
+        {
+          "unit_id": "E004_ba5ee70030",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              220,
+              331
+            ]
+          ],
+          "content_sha256": "e9b5f071610f1f2d7816e57d8123f45b60b5a4be7d852b331e14f8e0dc89295a"
+        },
+        {
+          "unit_id": "E005_080105ff28",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              333,
+              601
+            ]
+          ],
+          "content_sha256": "7e843e569aa634bbf4704610c5c324af071a425e2e43e51f90a9a268f5f5ccf8"
+        },
+        {
+          "unit_id": "E006_9c3541480e",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              603,
+              694
+            ]
+          ],
+          "content_sha256": "7e0045f9d6c4459028f556ed37f79ff8d5d311161d8c5592bfb8636dcf8a362e"
+        },
+        {
+          "unit_id": "E007_b750d73db9",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              696,
+              761
+            ]
+          ],
+          "content_sha256": "b44ae412e3453f745c24e45a273b980e7e742a938ecd83c55bac943827246be4"
+        },
+        {
+          "unit_id": "E008_064ce533ae",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              763,
+              819
+            ]
+          ],
+          "content_sha256": "f5dcd735a35ab0700fd9a8213432e34855fad50c0429bb135bcec1b0c93948a7"
+        },
+        {
+          "unit_id": "E009_c61b38b0cd",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              821,
+              853
+            ]
+          ],
+          "content_sha256": "bccdf4ed67e7af780159e50cc62890e46f9d398cc7c9113ade193c8de0cd768c"
+        },
+        {
+          "unit_id": "E010_0849e1a309",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              855,
+              861
+            ]
+          ],
+          "content_sha256": "f54b200dba24451352e89c66cf0afd8535c4eee0d2db3fc3ee016354ca528836"
+        },
+        {
+          "unit_id": "E011_d024353732",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              863,
+              865
+            ]
+          ],
+          "content_sha256": "ad667b78ba8ed0275868fcc1c3650f7d5c73fc6143352d3f65bbc292dc36a511"
+        },
+        {
+          "unit_id": "E012_83285b9e9c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              866,
+              1769
+            ]
+          ],
+          "content_sha256": "30586d28aab73f359fca1d2737f0e4189637ffcf602c3e8a655c0e1f865f7ab5"
+        },
+        {
+          "unit_id": "E013_a429547f42",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              867,
+              869
+            ]
+          ],
+          "content_sha256": "9d1dca7a0105ab51bd0c13d3e599f249745f56d6371b22a0aaea1a5f598480fb"
+        },
+        {
+          "unit_id": "E014_9c85da562f",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              871,
+              873
+            ]
+          ],
+          "content_sha256": "3696ad59777e09d5f2daacb544022d435e7cd053d87c5781241fabd8fdf2a90d"
+        },
+        {
+          "unit_id": "E015_56d5705ee1",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              875,
+              915
+            ]
+          ],
+          "content_sha256": "c2ce94c8c6765a38f7523ab8590324a2257150ad06db496d5960949fc840d3c2"
+        },
+        {
+          "unit_id": "E016_5e5e094272",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              917,
+              986
+            ]
+          ],
+          "content_sha256": "82b48a02ee4973cd1ee67f9df05e6b4d69cdddd769644b055cb1efc8b3056eb1"
+        },
+        {
+          "unit_id": "E017_aa0df2cfa0",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              988,
+              1047
+            ]
+          ],
+          "content_sha256": "0976c960787a94153a36b006ccb2e28ba036f6ee61bc663ee1020d267d1534ff"
+        },
+        {
+          "unit_id": "E018_8593bee6ab",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1049,
+              1055
+            ]
+          ],
+          "content_sha256": "bffbdef7c6bde3b347610db93a7fb48b5912728cda5ae5fbbe3ba83969a28c35"
+        },
+        {
+          "unit_id": "E019_ab0d7ee526",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1057,
+              1128
+            ]
+          ],
+          "content_sha256": "b18271e5f2d2c1918c25ef792fd7378f7eeb97b898003cd75bc8d2a3ba94dabd"
+        },
+        {
+          "unit_id": "E020_c14a391777",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1130,
+              1132
+            ]
+          ],
+          "content_sha256": "ad667b78ba8ed0275868fcc1c3650f7d5c73fc6143352d3f65bbc292dc36a511"
+        },
+        {
+          "unit_id": "E021_ff35924322",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1134,
+              1136
+            ]
+          ],
+          "content_sha256": "9d1dca7a0105ab51bd0c13d3e599f249745f56d6371b22a0aaea1a5f598480fb"
+        },
+        {
+          "unit_id": "E022_44c856c509",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1138,
+              1140
+            ]
+          ],
+          "content_sha256": "3696ad59777e09d5f2daacb544022d435e7cd053d87c5781241fabd8fdf2a90d"
+        },
+        {
+          "unit_id": "E023_73ffddb767",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1142,
+              1161
+            ]
+          ],
+          "content_sha256": "4472cda044842f4df978809f610fef9bf91f7a7f4229965dca4a7a32d5e616cd"
+        },
+        {
+          "unit_id": "E024_67b89f79bb",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1163,
+              1602
+            ]
+          ],
+          "content_sha256": "75f4911fd32a154d8a11dcf5063f7ac7c3534b223ca01352a4551fe60a3abc1a"
+        },
+        {
+          "unit_id": "E025_eba029d379",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1604,
+              1769
+            ]
+          ],
+          "content_sha256": "580daf563ec9366b0aedeedfa709e050d310fccd74436d575a16085eb5514620"
+        }
+      ]
+    },
+    {
+      "item_id": "s194_src_13",
+      "stratum": "prose",
+      "manufacturer": "Pepperl-Fuchs",
+      "product_model": "Z728",
+      "document_id": "7a0527ea-b325-4813-a325-ca2268afd304",
+      "chunk_id": "1bc87f21-840f-4754-80ab-eb4538b9e594",
+      "extraction_sha256": "2369aedfb41ca994ecb15486b1dda4bea645b28f1e99dabc6a7ee51bfe7335d6",
+      "source_file": "manual instrucciones Z728",
+      "page_number": 1,
+      "section_title": "Requisitos para el uso como aparato asociado",
+      "section_path": "Manual de instrucciones > Requisitos para el uso como aparato asociado",
+      "excerpt": "## Requisitos para el uso como aparato asociado\n\nSi los circuitos con tipo de protección Ex i funcionan con circuitos no intrínsecamente seguros, deben dejar de usarse como circuitos con un tipo de protección Ex i.\n\nMantenga las distancias de separación entre todos los circuitos no intrínsecamente seguros y los intrínsecamente seguros conforme a IEC/EN 60079-14.\n\nRespete las distancias de separación entre dos circuitos intrínsecamente seguros cercanos, según IEC/EN 60079-14.\n\nLos respectivos valores máximos del dispositivo de campo y el aparato correspondiente en materia de protección contra explosiones deben tenerse en cuenta al conectar dispositivos de campo intrínsecamente seguros con los circuitos intrínsecamente seguros del aparato correspondiente (verificación de seguridad intrínseca). Asegúrese de respetar las normas IEC/EN 60079-14 y IEC/EN 60079-25.\n\nSi no se especifican los valores L<sub>o</sub> y C<sub>o</sub> para la aparición simultánea de inductancia y capacitancia concentradas, se aplica la siguiente regla.\n\n* El valor especificado para L<sub>o</sub> y C<sub>o</sub> se usa si se da alguna de las siguientes condiciones:\n  * El circuito sólo tiene inductancias y capacitancias distribuidas, como en el caso de cables y líneas de conexión.\n  * El valor total de L<sub>i</sub> (sin cable) del circuito es <1 % del valor L<sub>o</sub> especificado.\n  * El valor total de C<sub>i</sub> (sin cable) del circuito es < 1 % del valor C<sub>o</sub> especificado.\n* Se usa un máximo del 50 % del valor especificado para L<sub>o</sub> y C<sub>o</sub> se usa si se da la siguiente condición:\n  * El valor total de L<sub>i</sub> (sin cable) del circuito es ≥ 1 % del valor L<sub>o</sub> especificado.\n  * El valor total de C<sub>i</sub> (sin cable) del circuito es ≥ 1 % del valor C<sub>o</sub> especificado.\n* La capacitancia reducida de los grupos de gases I, IIA y IIB no debe superar el valor de 1 µF (incluido el cable). La capacitancia reducida del grupo de gases IIC no debe superar el valor de 600 nF (incluido el cable).\n\nSi hay más canales de un dispositivo conectados en paralelo, asegúrese de que la conexión paralela se realiza directamente en los terminales del dispositivo. Al comprobar la seguridad intrínseca, respete los valores máximos de la conexión paralela.\n\nTenga en cuenta los requisitos de conexión a tierra para el tipo de protección Ex i según IEC/EN 60079-14.\n\nAsegúrese de que las conexiones a tierra externas estén presentes, que estén en buen estado y que no estén dañadas ni corroídas.",
+      "excerpt_sha256": "13c968eb5ab1b95e0dfb97ce00ea7477137f6abe8a8b93ef72baa2126743aec7",
+      "selection_quality": 100,
+      "selection_tie": "5c9184c87e64d18e7dd604c3a1874c3cd22c5306c6eb9edc8b2b4af12e7e90ce",
+      "evidence_unit_manifest": [
+        {
+          "unit_id": "E001_9fe4dc285c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              47
+            ]
+          ],
+          "content_sha256": "218087b9ba34630388dd733fbca30b19562cd26b42ae5e8707eac5588fdc1067"
+        },
+        {
+          "unit_id": "E002_893ad25737",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              1152
+            ]
+          ],
+          "content_sha256": "dc1fb1fc15ab6a00621a30d8528336e2541768b0704da458dba6a361b8ea2cdb"
+        },
+        {
+          "unit_id": "E003_5386b5e436",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              49,
+              214
+            ]
+          ],
+          "content_sha256": "76ee9944ecade47a7b6fede142e5d76711130308f4d721714080f66397a30c2a"
+        },
+        {
+          "unit_id": "E004_e3de121585",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              216,
+              364
+            ]
+          ],
+          "content_sha256": "a9f7d61f5ceae6726a12b79ca818592d37a27852dae921fd577d8c1bfe5e1163"
+        },
+        {
+          "unit_id": "E005_e2475d0b8e",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              366,
+              479
+            ]
+          ],
+          "content_sha256": "c8474d3a0739ea34bb5233d73034358affe7664985e40f0f761aaccca30a7ba9"
+        },
+        {
+          "unit_id": "E006_c528892488",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              481,
+              870
+            ]
+          ],
+          "content_sha256": "08a90d364d8e90c6305d4255e7c35523672ad640b6996a3a290a837069d44aed"
+        },
+        {
+          "unit_id": "E007_f84fa475ef",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              871,
+              2049
+            ]
+          ],
+          "content_sha256": "75613f802f6fad5e799c8b87f379999bb37915db14b57f709b27c837af710bf7"
+        },
+        {
+          "unit_id": "E008_4558d1876a",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              872,
+              1037
+            ]
+          ],
+          "content_sha256": "f8153d6c54a636eb005cf3733647067ce26ccfd831a42b9a03676874f7428c26"
+        },
+        {
+          "unit_id": "E009_cf38c26281",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1827,
+              2535
+            ]
+          ],
+          "content_sha256": "b0aca5504a10ace362c7011bd3ec8bea23f53cdfc702c7827100156fb8d9f98e"
+        },
+        {
+          "unit_id": "E010_6a4ce8557f",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2049,
+              2297
+            ]
+          ],
+          "content_sha256": "aa49f642d5da828ee829fc3501933800e884addac1abee131862e393a521d04b"
+        },
+        {
+          "unit_id": "E011_1d04548494",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2299,
+              2405
+            ]
+          ],
+          "content_sha256": "90be6c64be61c7c1a06ffc14f2bff798baaff5f190caba8f1f7098581009b738"
+        },
+        {
+          "unit_id": "E012_c301b3ceb5",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2407,
+              2535
+            ]
+          ],
+          "content_sha256": "3fe9dd2ea9667c408a657c76247647ac2186859d662a94f3f4292eaa39f1aeb9"
+        }
+      ]
+    },
+    {
+      "item_id": "s194_src_14",
+      "stratum": "prose",
+      "manufacturer": "COELBO",
+      "product_model": "EFD",
+      "document_id": "ff78087d-a0ad-4ff3-b079-8f74899ed2b2",
+      "chunk_id": "c45fed5d-3bf7-4d14-9acd-dbcc534b104e",
+      "extraction_sha256": "46b628cf9a73f499b2ae18723d78f9af97a0e6a99ec6bfc81d5f6722f656e7d8",
+      "source_file": "AC1460R - CESI 03 ATEX 050",
+      "page_number": 2,
+      "section_title": "5. ISTRUZIONI DI SICUREZZA PER INSTALLAZIONE IN AREA PERICOLOSA / SAFETY INSTRUCTIONS FOR INSTALLATION IN HAZARDOUS AREA",
+      "section_path": "PULSANTIERE SERIE EFD... - Istruzioni di sicurezza / PUSH BUTTON Series EFD... - Safety Notes > 5. ISTRUZIONI DI SICUREZZA PER INSTALLAZIONE IN AREA PERICOLOSA / SAFETY INSTRUCTIONS FOR INSTALLATION IN HAZARDOUS AREA",
+      "excerpt": "## 5. ISTRUZIONI DI SICUREZZA PER INSTALLAZIONE IN AREA PERICOLOSA / SAFETY INSTRUCTIONS FOR INSTALLATION IN HAZARDOUS AREA\n\n* Le pulsantiere Serie EFD devono essere installate e mantenute nel rispetto delle norme impiantistiche e di manutenzione per ambienti classificati contro il rischio di esplosione per presenza di gas / polveri (EN 60079-14, EN 60079-17 ed EN 50281-1-2).\n* Series EFD push buttons must be installed and maintenanced in accordance with all Standards regarding electrical installations in hazardous areas classified for explosive gas and dust atmospheres (EN 60079-14, EN 60079-17 ed EN 50281-1-2).\n\n* Per garantire la protezione contro le polveri effettuare regolare pulizia per evitare accumuli.\n* To guarantee protection against combustible dust perform regular cleaning to avoid its accretion.\n\n* Per garantire il grado di protezione IP65 ripristinare lo strato di grasso ai siliconi sulla flangia dopo ogni apertura della custodia.\n* To guarantee IP65 protection degree the sylicon grease coat shall be restored on plain joint before every opening operation of enclosure.\n\n* Le parti danneggiate dovranno essere sostituite o ripristinate a cura del produttore salvo particolari autorizzazioni da parte dello stesso.\n* Damaged parts shall be substituted or restored only by manufacturer except in presence of particular authorizations of the same.\n\n* Dopo ogni manutenzione il giunto piano non deve presentare graffi o rigature tali da comportare la messa fuori servizio dell'apparecchiatura.\n* After each maintenance operation the plain joint doesn't show scratches or riflings so evident to oblige user to disconnect power immediately.\n\n### DICHIARAZIONE DI CONFORMITA' CE / EC DECLARATION OF CONFORMITY\n\nIl costruttore,\nWe\n**COELBO s.r.l**\nVia S.Margherita 83, 20047 Brugherio (MI) - Italy\n\nDichiara sotto la propria responsabilità che le\nPULSANTIERE SERIE \"EFD...\"\ndescritte in questa dichiarazione sono conformi alla\nseguente direttiva:\n\nHerewith declare on its own responsability that\n\"SERIES EFD...PUSH BUTTONS\"\ndescribed in this declaration comply following EC Directive:\n\n**94/9/EC ATEX Directive**\n\nLa conformità è dimostrata dall'osservanza delle seguenti\nnorme :\n\nThe conformity is obtained by observance of all technical\nspecification of following Standards:\n\n**EN 50014 (1997) + A1 e A2**\n**EN 50018 (2000)**\n**EN 50281-1-1 (1999) + A1**\n\nTipo di protezione:\n\nType of protection\n\n**II 2 GD EEx d IIB+H2 T6 IP65 T85°C**\n**II 2 GD EEx d IIB T6 IP65 T85°C**\n\nTemperatura ambiente:\n\nAmbiental temperature\n\n**Da –20°C a +40°C e da –20°C a +50°C**\n\nCertificato CE di tipo n°:\n\nCE Type Certificate n°:\n\n**CESI 03 ATEX 050**\n\nBrugherio, 12/03/2003\n\nFirma / Signature:\n\n**COELBO Srl**",
+      "excerpt_sha256": "d118985fdb5ce882cbff11e7dce0623e7350fd02d0934e30198ddfd163f82f35",
+      "selection_quality": 100,
+      "selection_tie": "8175b8e8df756e6313796102c425528c91487ad276925a4cc9c3d4b37bfb8df0",
+      "evidence_unit_manifest": [
+        {
+          "unit_id": "E001_d2220d806e",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              123
+            ]
+          ],
+          "content_sha256": "bb62d0f8ff2101ce394889662c368d5f6fe49f2ffa8861b0c82e74a5c1eed22b"
+        },
+        {
+          "unit_id": "E002_e1035b7975",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              1100
+            ]
+          ],
+          "content_sha256": "3a3e58bee2eb73728621d97f56b80b71ded8b850decb0a670c8f8b7a696dd9d6"
+        },
+        {
+          "unit_id": "E003_4677a80fcc",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              125,
+              620
+            ]
+          ],
+          "content_sha256": "80c9deb9f5e875c0bc6b4d222cc0b06f4a029336a936d2d723bed595493f2b99"
+        },
+        {
+          "unit_id": "E004_24bbb920e8",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              622,
+              819
+            ]
+          ],
+          "content_sha256": "08b3cc2930ca9636b03e31c91fbdd78ee878941805c0f3658648d36495289864"
+        },
+        {
+          "unit_id": "E005_79e7bc842b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              820,
+              2017
+            ]
+          ],
+          "content_sha256": "d4946cbf277094209baf96da21824024a8a3c20c96efdf32d21040e4aa4ce04c"
+        },
+        {
+          "unit_id": "E006_36d2478199",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              821,
+              1098
+            ]
+          ],
+          "content_sha256": "346a4fe6be0dd27ff7b5d53cdc3d105435f8d48c02b9f8800f168f9ffd9ecdba"
+        },
+        {
+          "unit_id": "E007_9a8fb58faa",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1100,
+              1373
+            ]
+          ],
+          "content_sha256": "67071db15550434f769bd3125f14256d2d93003fed0bb93b07c3e233f3e714fe"
+        },
+        {
+          "unit_id": "E008_af07fb6750",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1375,
+              1663
+            ]
+          ],
+          "content_sha256": "c110e4dd2cebe4da3764b5afb764958632e51e59247bbf23e3c4c5ad3815cc77"
+        },
+        {
+          "unit_id": "E009_00c6164e44",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1665,
+              1731
+            ]
+          ],
+          "content_sha256": "55797f6c2e5f982b3277ecb8d4a188d49936e43efcc1aca0ec99cbddc4963905"
+        },
+        {
+          "unit_id": "E010_b0400efc96",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1732,
+              2715
+            ]
+          ],
+          "content_sha256": "168cd311a0cbca3879242c49110d2326e67c57ff7085b872c893889941d1e74d"
+        },
+        {
+          "unit_id": "E011_3a1fe580a6",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1733,
+              1818
+            ]
+          ],
+          "content_sha256": "6fa67ac23df2e1a1968ffa2b938d8e831955d3a059edcb6b32f05b2f24d248cc"
+        },
+        {
+          "unit_id": "E012_13a94a3eb0",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1820,
+              1967
+            ]
+          ],
+          "content_sha256": "0b799730195f3a9c85403e0d0a1d241c0f3e5b1b4cde78305ccad1b4d9e0fff1"
+        },
+        {
+          "unit_id": "E013_07f735fac2",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1969,
+              2105
+            ]
+          ],
+          "content_sha256": "61b593a0a84a851e79621bf3c21d126db1e05244a33ebb20c1e529d90e52575b"
+        },
+        {
+          "unit_id": "E014_476c98c47e",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2107,
+              2133
+            ]
+          ],
+          "content_sha256": "58d79046fb98754ddfc31d094bcd64c7d147f7869a9998c4e0ba46bb6f4208df"
+        },
+        {
+          "unit_id": "E015_f1b4be07ed",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2135,
+              2200
+            ]
+          ],
+          "content_sha256": "426d307cd8fd7df5d9c64eeefae375698f4b5aedd168b67f231accd6a50d4351"
+        },
+        {
+          "unit_id": "E016_352593b562",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2202,
+              2297
+            ]
+          ],
+          "content_sha256": "d891ca92d230a94330676fc70c862182f16109501fdb34e8bf543e930ffe1b03"
+        },
+        {
+          "unit_id": "E017_6a4beaa224",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2299,
+              2377
+            ]
+          ],
+          "content_sha256": "1d756f40a6e65793999c71249bac27ec4d959250b17a8bd806560548f6d73dbb"
+        },
+        {
+          "unit_id": "E018_2f5099e91c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2379,
+              2398
+            ]
+          ],
+          "content_sha256": "8dcb54b2d54c8b8fa5d7e72cf01c2ec991416d734f65f56eeb2aac5cd6e778d0"
+        },
+        {
+          "unit_id": "E019_a97aba4ced",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2400,
+              2418
+            ]
+          ],
+          "content_sha256": "0b5663e0d5bb85113cf413bc6791476fd00ebac240e1a53944c30f56f08d7b00"
+        },
+        {
+          "unit_id": "E020_b64ff0f136",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2420,
+              2494
+            ]
+          ],
+          "content_sha256": "defa46127c2f51d665afbe941dcc36bd2da48fbd8fd9638787331b47f36d31fc"
+        },
+        {
+          "unit_id": "E021_b94d8d525c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2496,
+              2517
+            ]
+          ],
+          "content_sha256": "075bb530ab4a47fd90cf07018389c87ca138f189dc8d0c8c6328347111d97eb0"
+        },
+        {
+          "unit_id": "E022_1da346101b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2519,
+              2540
+            ]
+          ],
+          "content_sha256": "7e0a96ee0eec8a1caf8af384dab9002f3e8fe4303397c98165d5daf122fc6db8"
+        },
+        {
+          "unit_id": "E023_8e60306c24",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2542,
+              2581
+            ]
+          ],
+          "content_sha256": "1621a362836a49879c2325025f7a194efa352091c7672910a031176eec14021b"
+        },
+        {
+          "unit_id": "E024_a21a98181d",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2583,
+              2609
+            ]
+          ],
+          "content_sha256": "7ea03b2a2434513bb0fac705e177b4a54686457dbd383d6aa976077970855ef7"
+        },
+        {
+          "unit_id": "E025_045fd317a9",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2611,
+              2634
+            ]
+          ],
+          "content_sha256": "550359ae01a3d4869cbdb83a7ea766317c2382d096674d1d138324e0541eff89"
+        },
+        {
+          "unit_id": "E026_c0f7558beb",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2636,
+              2656
+            ]
+          ],
+          "content_sha256": "7d0fdba63fff65315da95f07bd0900a8fe93d6492d55e8bb635300854c6aba3e"
+        },
+        {
+          "unit_id": "E027_2c78e85189",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2658,
+              2679
+            ]
+          ],
+          "content_sha256": "3f2c85d873f9afd4710cd24a9cd312f5f98696e60661f309beb997446e05cd0a"
+        },
+        {
+          "unit_id": "E028_952a6e0dee",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2681,
+              2699
+            ]
+          ],
+          "content_sha256": "d273d24aa41b0c5ba079596109be623372a1b6ac8211af1263df50a0292da5f4"
+        },
+        {
+          "unit_id": "E029_b7e1b164ea",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2701,
+              2715
+            ]
+          ],
+          "content_sha256": "ef440600b6d5d6204f55056dc6eae759d8e6786a668cebc2ebf6b60401d25f60"
+        }
+      ]
+    }
+  ],
+  "read_receipt": {
+    "table": "chunks_v2",
+    "rows": 25090,
+    "get_requests": 28,
+    "database_writes": 0,
+    "snapshot_sha256": "0029c4fcc5c8955c0c36299bcdcf10b9dbf2f45a50f82a7c467437d850189e44"
+  },
+  "dependencies": {
+    "evals/s142_independent_source_packet_v1.json": "612b6d405ce5c8591b32f1d7ae81df628626299b55b68acceb948a4d68fcbe19",
+    "evals/s146_fresh_source_packet_v1.json": "bc442d04fbc81d0181e636b72dc819af9cbcc035b3800f1337e48044f7d5ba4a",
+    "evals/s147_fresh_source_packet_v1.json": "38911f3e9b180064e4e9f5ae5e909e32dd6285dfb9f773944fa88184139f1295",
+    "evals/s157_multichunk_source_packet_v1.json": "8927b3a99a14468316464aa0d4e4075188ecce2f64de9bee1b33185c8cf27693",
+    "evals/s167_independent_ledger_source_packet_v1.json": "b75cfc80628788c371c26e424dc7f7d837c564b885f1e902bb4dfd4be9b8e21d",
+    "evals/s168_source_unit_gold_packet_v1.json": "00b2d0d3b7237c2197425b0711ff690d7936a0ef1e96ad852f085576b8c309b4",
+    "evals/s114_procedure_bundle_heldout_freeze_v1.json": "8f68721933b653846857a8a030dbbb854f8bb5a8976d6dd396a0fb3e0d6c8f52",
+    "evals/s141_source_bound_technical_obligations_v1.json": "3bd96e427c0df15037a298fea7d6ae6089cf64b413219d60a07e58a552715606",
+    "evals/s149_target_evidence_selector_probe_v1.json": "de5d43347f8e7cb244636a651c3c7fb6490967be79fe070391ca2c4b0a00500d",
+    "evals/s150_target_coverage_verifier_probe_v1.json": "af54c08ca93542b5e244b0560084f0415df46d31fcfacc30c141eedde36f72e3",
+    "evals/s158_target_table_preamble_probe_v1.json": "8902c5ec27effa43e854942282bba297483963498a4b16424ca375310dc260eb",
+    "evals/s159_target_table_preamble_probe_v2.json": "11dc46c3a37695c03184c2dbb2a5106db68e2a42d64c88973ef327fbf9c18c18",
+    "evals/s160_target_table_preamble_probe_v3.json": "58da6d1c942737a2dc43792f480e3feae3a5eb2f51d5e1bbfccad256a5bc53f3",
+    "evals/s163_synthesis_residual_audit_v1.json": "53eda7213874e3aae6ea8b03b03a6fd2c3ee29358d1f1efb14ae79e0709fd1fb",
+    "evals/s173_single_source_omission_cohort_v1.json": "670c3c4243b1ab98195aab99638963b55b245b44ba527dfe211fe6b79ba981c0",
+    "evals/s173_single_source_omission_correction_v1.json": "88f4028d415d8efe4597b99076c3d06204cc302635fe5d76d2bfa4e8674b0893",
+    "evals/s193_terra_id_planner_deterministic_append_v1.json": "58923ea510de752add859bfa4bf5b29862b8b77f0e2205182776363779b9f650",
+    "src/rag/evidence_units_v2.py": "c80498f59452280f7630411b1740664c8ec946a5e3a6511441d6140f88727eab"
+  },
+  "packet_sha256": "5e3938de6e34cb1726d1005a46e440d7b0e49b68226a683f10c8f1e163dbf9b6"
+}

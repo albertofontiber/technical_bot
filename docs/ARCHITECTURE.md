@@ -60,6 +60,13 @@
 > Sonnet a ¼ de coste) PERO la carga a 71K filas ahogó el canal (crowding del sort-mixto sin
 > cuota: 0 ganancias, 2 anclas OK perdidas) → rollback a T1 VERIFICADO (tabla enunciados =
 > 21.995, estado s95-s96 exacto); fix pendiente = CUOTA propia del canal (patrón hyq);
+> **s194 (DEC-103): evaluación de síntesis sin cambio runtime** — se materializó solo tooling
+> offline para un planificador de subobligaciones y compilador exacto, sobre un packet fresco
+> GET-only de `chunks_v2`; el gate se cerró en la autoría (1/14 output inválido), antes de llamar
+> al selector o abrir targets. No existe seam S194 integrado, flag nuevo, escritura DB ni deploy;
+> facts movidos = 0. Los candidatos locales S172/S188 y `ANSWER_OBLIGATION_PLANNER` continúan
+> default-off; `chunks_v3` conserva `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`. Railway es demo y no es
+> gate de PR/merge;
 > HyDE off; identidad de producto data-driven
 > (`config/manufacturers/` + sidecar). El registry cierra #43-capa-A (la query del base no
 > arrastra HERMANOS; las variantes VEN los docs de serie). **s64 (DEC-045): el lifecycle es

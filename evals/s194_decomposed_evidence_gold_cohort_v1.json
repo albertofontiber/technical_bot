@@ -1,0 +1,1434 @@
+{
+  "instrument": "s194_decomposed_evidence_gold_cohort_v1",
+  "status": "SEALED_VALIDATED_AFTER_FRESH_SOURCE_FREEZE",
+  "source_packet_sha256": "00841e3b1cfd453b7e0beb4baa13319972f421017ff491e144e4ccf426f4aba4",
+  "items": [
+    {
+      "item_id": "s194_src_01",
+      "eligible": true,
+      "question": "¿Cómo debo configurar los puentes Jp3 y Jp4 en la tarjeta STS1REL para obtener un contacto normalmente abierto con relé normalmente desactivado?",
+      "answer_points": [
+        {
+          "claim": "El puente Jp3 debe estar posicionado entre los terminales 1 y 2 para activar el contacto normalmente abierto (NA).",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E007_e5bc7f5a9f"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E007_e5bc7f5a9f",
+              "source_spans": [
+                [
+                  351,
+                  481
+                ]
+              ],
+              "content_sha256": "cb3f456c9a565098f67776f598b2445a7d373b96de07f919a493b54c9734ffc9"
+            }
+          ]
+        },
+        {
+          "claim": "El puente Jp4 debe estar en posición abierta para configurar el relé normalmente desactivado.",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E011_252babccd1"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E011_252babccd1",
+              "source_spans": [
+                [
+                  746,
+                  821
+                ]
+              ],
+              "content_sha256": "1126f2098df0c8afb5cd3aadad2a57f5665401e2a905895d3733f92901454126"
+            }
+          ]
+        },
+        {
+          "claim": "La configuración por defecto coloca Jp3 entre terminales 2 y 3 (contacto NC) y Jp4 cerrado (relé normalmente activado), por lo que requiere cambios si se necesitan los estados opuestos.",
+          "facet": "option_mode_or_default",
+          "support_unit_ids": [
+            "E008_2e8e36afd5",
+            "E010_be8e3bd0e8"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E008_2e8e36afd5",
+              "source_spans": [
+                [
+                  483,
+                  639
+                ]
+              ],
+              "content_sha256": "d318db06a98ce41129b7e953995c960edf2cff1382602d479d541d0f393d0b9c"
+            },
+            {
+              "unit_id": "E010_be8e3bd0e8",
+              "source_spans": [
+                [
+                  650,
+                  744
+                ]
+              ],
+              "content_sha256": "a57a8ddffb6aaefac82aa4daa58aa44415530cb2ceb4351b9d0310312a839f9f"
+            }
+          ]
+        },
+        {
+          "claim": "Durante los primeros 80 segundos después del encendido, el relé de salida siempre señalizará una Avería independientemente de la configuración del microinterruptor.",
+          "facet": "measurement_limit_or_timing",
+          "support_unit_ids": [
+            "E027_780c4de4c7"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E027_780c4de4c7",
+              "source_spans": [
+                [
+                  2297,
+                  2473
+                ]
+              ],
+              "content_sha256": "958738a3c89a536283419971ea95ca9cbea6cb4bc94ab583693a7e83a10a0a4a"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Notifier",
+      "product_model": "STS1REL",
+      "document_id": "552ba322-cadf-49ad-8994-a745ac198a90",
+      "chunk_id": "c587fb27-1547-4e85-ac5f-346c010b6402",
+      "excerpt_sha256": "4c8ae8df0d5e24b89f358c475231ec36d9215ecbb1b317b9562322d60e7ed072",
+      "excerpt": "# Esquema de la tarjeta STS1REL\n\nLED: ENCENDIDO CON EL RELÉ ACTIVADO\nLED: LIT WITH ENERGIZED RELAY\n\n[Diagram showing relay card with the following elements:]\n\n- Relé (Relay) section with positions 1, 2, 3 marked as Jp3\n- 10-pole connector shown at bottom\n- Jp4 position marked with red LED indicator\n- Connection lines showing circuit paths\n\n**Jp3**\n\n1. CONTACTO NORMALMENTE ABIERTO (NA) CON PUENTE ENTRE LOS TERMINALES 1 Y 2\n   NORMALLY OPEN (NO) CONTACT IF JUMPER BETWEEN 1 AND 2\n\n2. CONTACTO NORMALMENTE CERRADO (NC) CON PUENTE ENTRE LOS TERMINALES 2 Y 3 (por defecto)\n   NORMALLY CLOSED (NC) CONTACT IF JUMPER BETWEEN 2 AND 3 (DEFAULT)\n\n**Jp4**\n\n- CERRADO: RELÉ NORMALMENTE ACTIVADO (POR DEFECTO)\n  CLOSE: NORMALLY ENERGISED RELAY (DEFAULT)\n\n- ABIERTO: RELÉ NORMALMENTE DESACTIVADO\n  OPEN: NORMALLY DE-ENERGISED RELAY\n\nMN-DT-631 02/07/2009\n(Doc. MT1071, rev 3)\n\n1/2\n\nManual de la tarjeta de relé STS1REL\n\n## MONTAJE\n\n**(Versión de producto SM3, a partir de mayo de 2006)**\n\n## ASSEMBLY\n\n**(Product version SM3 from May 2006)**\n\n[Two circular PCB diagrams showing:]\n\n**Left diagram:**\n\n- TARJETA STS1REL (card at top)\n- Numbers 1-5 arranged diagonally\n- LED indicator (red dot)\n- Two small component blocks on right side\n- Connector strip on left side\n- Label: \"Circuito Smart 3 Smart 3 PCB\"\n\n**Right diagram:**\n\n- Same circular layout\n- Salida de contacto de relé (Output relay contact) - arrows pointing to top connections\n- LED indicator\n- Numbers 1-5 arranged diagonally\n- Relé (relay component shown as black rectangle)\n- Two small component blocks on right side\n- Connector strip on left side\n\n**Modo de activación del relé / Relay activation mode**\n\n| \\[Icon: switch with alarm off] | WD/Avería sin alarma / WD/Fault and no alarm | \\[Icon: switch with alarm 3] | WD/Avería y alarma 3 / WD/Fault and alarm 3 |\n| ------------------------------ | -------------------------------------------- | ---------------------------- | ------------------------------------------- |\n| \\[Icon: switch with alarm 2]   | WD/Avería y alarma 2 / WD/Fault and alarm 2  | \\[Icon: switch with alarm 3] | WD/Avería y alarma 3 / WD/Fault and alarm 3 |\n| WD= Watch Dog                  |                                              |                              |                                             |\n\nNota: Independientemente de la configuración del microinterruptor, durante los primeros 80 segundos (encendido del dispositivo), el relé de salida señalizará siempre una Avería\n\nNote: During start up condition (80 sec) the relay output is in Fault\n\n----\n\n## MONTAJE\n\n**(Versión de producto antigua, antes de mayo de 2006)**\n\n## ASSEMBLY\n\n**(Old version of the product, before May 2006)**\n\n[Two circular PCB diagrams showing:]\n\n**Left diagram:**\n\n- TARJETA STS1REL (card at top)\n- LED indicator (red dot)\n- Diagonal arrangement of components\n- MSd connector\n- J6 connector\n- J2 connector\n- J1 connector\n- Label: \"Circuito Smart 3 Smart 3 PCB\"\n\n**Right diagram:**"
+    },
+    {
+      "item_id": "s194_src_02",
+      "eligible": true,
+      "question": "¿Cuál es el código de contacto y el valor de evento que se registra cuando hay una avería en una zona específica del sistema?",
+      "answer_points": [
+        {
+          "claim": "Las averías de zona se identifican con el código de contacto (380) y generan eventos con formato Z seguido de número hexadecimal (Z0 a ZB) con valor de campo F igual a 0 ó 1",
+          "facet": "input_trigger_or_observed_condition",
+          "support_unit_ids": [
+            "E002_94042a5f60",
+            "E043_38ef2103de"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E002_94042a5f60",
+              "source_spans": [
+                [
+                  0,
+                  1185
+                ]
+              ],
+              "content_sha256": "61a2639b4e50c7702e705a53bde9ef118ced35e54b9c94badee70d0df7a48251"
+            },
+            {
+              "unit_id": "E043_38ef2103de",
+              "source_spans": [
+                [
+                  0,
+                  78
+                ],
+                [
+                  158,
+                  236
+                ]
+              ],
+              "content_sha256": "3174dd9c0a6c2322997bf8b1bec63c062c8151f8f540868e1ef28fa28af0bf05"
+            }
+          ]
+        },
+        {
+          "claim": "Cada zona numerada del 1 al 12 se asigna a una zona de evento específica (001 a 012) dentro del sistema",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E002_94042a5f60",
+            "E054_0ae2e71b72"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E002_94042a5f60",
+              "source_spans": [
+                [
+                  0,
+                  1185
+                ]
+              ],
+              "content_sha256": "61a2639b4e50c7702e705a53bde9ef118ced35e54b9c94badee70d0df7a48251"
+            },
+            {
+              "unit_id": "E054_0ae2e71b72",
+              "source_spans": [
+                [
+                  0,
+                  78
+                ],
+                [
+                  1027,
+                  1105
+                ]
+              ],
+              "content_sha256": "7fecccbcef2f9ee571ec013a98769e63aaff3eb8d4228fcd9e3bcc4b03b9ad15"
+            }
+          ]
+        },
+        {
+          "claim": "El cambio en el estado del campo F entre 0 y 1 indica diferentes condiciones de la avería de zona",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E004_e3da8fb80b",
+            "E015_a685ebccb7"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E004_e3da8fb80b",
+              "source_spans": [
+                [
+                  158,
+                  237
+                ]
+              ],
+              "content_sha256": "da6c9e96cf1804a3ddb9c899cee69c9f52c806844ea5a7c3720d854f7421afce"
+            },
+            {
+              "unit_id": "E015_a685ebccb7",
+              "source_spans": [
+                [
+                  948,
+                  2133
+                ]
+              ],
+              "content_sha256": "178936b6edd7595f2ab5694f0ee885f833e594dd386d265945e70226a1244d6a"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Morley",
+      "product_model": "UCIP/UCIP-GPRS",
+      "document_id": "f318d6cf-2ffb-41c3-85d0-c098b2a130d1",
+      "chunk_id": "bdb9a911-c43d-4d86-b8ec-2aa1bd8a25d9",
+      "excerpt_sha256": "aa3e3bcea0b2eb5001c4095dca3b64f0f9deb8542c40830878f6db5ad205543e",
+      "excerpt": "| Evento                         | Contact - ID | Zona | Event               |\n| ------------------------------ | ------------ | ---- | ------------------- |\n| Zona 1 en avería               | (380)        | 001  | Z0 F=\"0\" ó F=\"1\"    |\n| Zona 2 en avería               | (380)        | 002  | Z1 F=\"0\" ó F=\"1\"    |\n| Zona 3 en avería               | (380)        | 003  | Z2 F=\"0\" ó F=\"1\"    |\n| Zona 4 en avería               | (380)        | 004  | Z3 F=\"0\" ó F=\"1\"    |\n| Zona 5 en avería               | (380)        | 005  | Z4 F=\"0\" ó F=\"1\"    |\n| Zona 6 en avería               | (380)        | 006  | Z5 F=\"0\" ó F=\"1\"    |\n| Zona 7 en avería               | (380)        | 007  | Z6 F=\"0\" ó F=\"1\"    |\n| Zona 8 en avería               | (380)        | 008  | Z7 F=\"0\" ó F=\"1\"    |\n| Zona 9 en avería               | (380)        | 009  | Z8 F=\"0\" ó F=\"1\"    |\n| Zona 10 en avería              | (380)        | 010  | Z9 F=\"0\" ó F=\"1\"    |\n| Zona 11 en avería              | (380)        | 011  | ZA F=\"0\" ó F=\"1\"    |\n| Zona 12 en avería              | (380)        | 012  | ZB F=\"0\" ó F=\"1\"    |\n|                                |              |      |                     |\n| Avería de la central fallo 220 | (301)        | 000  | Evento Fa1=\"2\"      |\n| Avería fallo de baterías       | (311)        | 000  | Evento Fa1=\"1\"      |\n| Avería V baja baterías sin AC  | (302)        | 000  | Evento Fa1=\"4\"      |\n| Avería cargador baterías       | (300)        | 001  | Evento Fa1=\"3\"      |\n|                                |              |      |                     |\n| Avería Salida Sirena 1         | (321)        | 001  | FsS1=\"1\" y FsS1=\"2\" |\n| Avería Salida Sirena 2         | (322)        | 002  | FsS2=\"1\" y FsS2=\"2\" |\n| Avería Tarjeta de Relés 1      | (326)        | 001  | FrR1=\"1\"            |\n| Avería Tarjeta de Relés 2      | (326)        | 002  | FrR2=\"1\"            |\n| Avería Tarjeta de Relés 3      | (326)        | 003  | FrR3=\"1\"            |\n|                                |              |      |                     |\n| Fallo del comunicador          | (350)        | 000  | Fo=\"1\"              |\n| Fallo línea telefónica         | (351)        | 000  | Fo=\"2\"              |\n| Fallo comunicación CR 1        | (354)        | 001  | Fo=\"3\"              |\n| Fallo comunicación CR 2        | (354)        | 002  | Fo=\"4\"              |\n|                                |              |      |                     |\n| Fallo Tierra                   | (310)        | 000  | Ft=\"1\"              |\n|                                |              |      |                     |\n| Fallo de la central            | (300)        | 000  | Fc=\"1\"              |\n|                                |              |      |                     |\n|                                |              |      |                     |\n|                                |              |      |                     |\n|                                |              |      |                     |\n| Cambio en la programación      | (412)        | 000  |                     |"
+    },
+    {
+      "item_id": "s194_src_03",
+      "eligible": true,
+      "question": "¿Qué indica el color y la frecuencia de parpadeo del LED de estado del detector, y qué acciones debo tomar si veo un LED rojo fijo?",
+      "answer_points": [
+        {
+          "claim": "El LED verde parpadeando a 1 Hz indica funcionamiento normal del detector",
+          "facet": "input_trigger_or_observed_condition",
+          "support_unit_ids": [
+            "E005_a3bd95578c"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E005_a3bd95578c",
+              "source_spans": [
+                [
+                  110,
+                  397
+                ]
+              ],
+              "content_sha256": "79a7d3c12c648e816292912e432f01b50e630ecea1c36aa761e9a777860e5eea"
+            }
+          ]
+        },
+        {
+          "claim": "Un LED rojo fijo indica estado de alarma por fuego detectado",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E005_a3bd95578c",
+            "E034_68ea4c83a8"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E005_a3bd95578c",
+              "source_spans": [
+                [
+                  110,
+                  397
+                ]
+              ],
+              "content_sha256": "79a7d3c12c648e816292912e432f01b50e630ecea1c36aa761e9a777860e5eea"
+            },
+            {
+              "unit_id": "E034_68ea4c83a8",
+              "source_spans": [
+                [
+                  1047,
+                  1201
+                ],
+                [
+                  1822,
+                  1976
+                ]
+              ],
+              "content_sha256": "49144c5292d4cee579934ae8b0c3a729532ff6672f7fbc4cc2a318025314f70a"
+            }
+          ]
+        },
+        {
+          "claim": "Un LED amarillo parpadeando a 4 Hz señala un estado de falla o falla BIT que requiere inspección",
+          "facet": "input_trigger_or_observed_condition",
+          "support_unit_ids": [
+            "E005_a3bd95578c",
+            "E036_a5598abb58"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E005_a3bd95578c",
+              "source_spans": [
+                [
+                  110,
+                  397
+                ]
+              ],
+              "content_sha256": "79a7d3c12c648e816292912e432f01b50e630ecea1c36aa761e9a777860e5eea"
+            },
+            {
+              "unit_id": "E036_a5598abb58",
+              "source_spans": [
+                [
+                  1047,
+                  1201
+                ],
+                [
+                  2132,
+                  2286
+                ]
+              ],
+              "content_sha256": "75d3a1b9f003cb7158fa09d90888132460d01bd9c3b126d9dbbc96eea4e6fb58"
+            }
+          ]
+        },
+        {
+          "claim": "El detector proporciona múltiples salidas incluyendo relé de alarma, relé de falla y comunicaciones RS-485 para integración en sistemas de detección de incendios",
+          "facet": "access_or_prerequisite",
+          "support_unit_ids": [
+            "E011_02950782d2"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E011_02950782d2",
+              "source_spans": [
+                [
+                  796,
+                  871
+                ]
+              ],
+              "content_sha256": "48bce1378142b52adb2fafcc1cdc231005a43f8fcc982cedb1bd3727eb92410d"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Spectrex",
+      "product_model": "20-20ML-USER",
+      "document_id": "27057b74-4ef1-4ec1-9d16-12ea2ffdbabf",
+      "chunk_id": "f3f04095-4146-43f7-9fb6-9fe5db1f0f7d",
+      "excerpt_sha256": "a561319ba6b076cc9b4a804799e9c433d6bbb24ace12897914e506ea4fc4af46",
+      "excerpt": "# 4 Operation\n\n## 4.1 Visual Indications\n\nOne 3-color LED-indicator is located in the detector front window:\n\n| Detector Status  | LED Color | LED Mode     |\n| ---------------- | --------- | ------------ |\n| Fault, BIT Fault | Yellow    | 4Hz flashing |\n| Normal           | Green     | 1Hz flashing |\n| Warning          | Red       | 2Hz flashing |\n| Alarm            | Red       | Steady       |\n\n[Technical diagram showing a square detector device with mounting holes at corners, a circular central element labeled \"SharpEye\" with \"INFRARED DETECTOR\" text and flame symbols, and a \"STATUS LED\" indicator labeled at the top right of the device. The device has a conduit connection at the bottom.]\n\n**Figure 5: 20/20ML LED**\n\n## 4.2 Output Signals\n\nThe detector provides the following outputs:\n\n* Alarm relay\n* Fault relay\n* 4–20mA current output\n* RS-485 communications\n\nThe detector can be in one of the following states:\n\nTM767100 Rev. (Ad), May 2019                                                23\n\nOperation\n\n### Table 3: Detector States\n\n| Detector State                   | Description                                                                                                         |\n| -------------------------------- | ------------------------------------------------------------------------------------------------------------------- |\n| **Normal**                       | The detector is functioning normally.                                                                               |\n| **BIT**                          | The detector performs a Built-In-Test.                                                                              |\n| **Warning**                      | Fire detected – warming alarm (pre-alarm) state.                                                                    |\n| **Alarm**                        | Fire detected – fire alarm state.                                                                                   |\n| **Latched Alarm<br/>(Optional)** | The alarm outputs are latched due to the detection of a fire that has already been extinguished.                    |\n| **BIT Fault**                    | A fault is detected during a BIT sequence. The detector will continue to detect fire if the alarm conditions occur. |\n| **Fault**                        | A fault is detected when the power supply is too low or during a software fault.                                    |\n\nIn each state, the detector will activate different outputs, as specified in Table 4.\n\n### Table 4: Output Signals Versus Detector State"
+    },
+    {
+      "item_id": "s194_src_04",
+      "eligible": true,
+      "question": "¿Cuáles son los tiempos de confirmación y reset que se aplican en los diferentes modos del CAD-250, y cómo se configura el período de actividad temporal de cada modo?",
+      "answer_points": [
+        {
+          "claim": "En Modo 1 y Modo 2 el tiempo de confirmación de alarma es de 60 segundos",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E008_c036826fe9",
+            "E032_54ff48c199"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E008_c036826fe9",
+              "source_spans": [
+                [
+                  459,
+                  560
+                ]
+              ],
+              "content_sha256": "7703a11db3beedb2b039d79c4a1bcb3a9f93d4d36f1ad77f8d05dd7ec7c338a5"
+            },
+            {
+              "unit_id": "E032_54ff48c199",
+              "source_spans": [
+                [
+                  459,
+                  492
+                ],
+                [
+                  527,
+                  560
+                ]
+              ],
+              "content_sha256": "a45db3f079eb22a40caeed958adb5483fc244e9f355985922195134886d93878"
+            }
+          ]
+        },
+        {
+          "claim": "En Modo 1 y Modo 2 el tiempo de reset es de 60 segundos",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E015_4cb42c9563",
+            "E033_bbf317fbe3"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E015_4cb42c9563",
+              "source_spans": [
+                [
+                  886,
+                  978
+                ]
+              ],
+              "content_sha256": "3eff36a553b46ecb5a11c4aa9030d61761ddbbae8b691b7ab41ec985004006d7"
+            },
+            {
+              "unit_id": "E033_bbf317fbe3",
+              "source_spans": [
+                [
+                  886,
+                  916
+                ],
+                [
+                  948,
+                  978
+                ]
+              ],
+              "content_sha256": "33885310f45da3d5651589ba15e3cbf49fd84f3a8013c1d520e543a85e985d99"
+            }
+          ]
+        },
+        {
+          "claim": "El tipo de lapso de tiempo admite valores como Siempre (defecto), Lapso, Hora, Día o Mes, y se debe verificar que no haya solapamientos entre modos especiales",
+          "facet": "option_mode_or_default",
+          "support_unit_ids": [
+            "E020_7bef40bec2",
+            "E021_462036660b",
+            "E022_e520f41f53"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E020_7bef40bec2",
+              "source_spans": [
+                [
+                  1237,
+                  1602
+                ]
+              ],
+              "content_sha256": "b1cf84794b1288caf6aed07ba8d8c579150ae4c84b5ef8adddc0e4f0ab23f6f2"
+            },
+            {
+              "unit_id": "E021_462036660b",
+              "source_spans": [
+                [
+                  1604,
+                  1781
+                ]
+              ],
+              "content_sha256": "397d2bc27950775f020e7e65409f01bee9afeddf4d805b5e56ff50ac7fad3fe3"
+            },
+            {
+              "unit_id": "E022_e520f41f53",
+              "source_spans": [
+                [
+                  1782,
+                  2800
+                ]
+              ],
+              "content_sha256": "4e79e317ac01d5ccc4b39fb9ce1d9a24a14033ec81db174da727e5f42ccfef1a"
+            }
+          ]
+        },
+        {
+          "claim": "Modo 1 presenta sensibilidad muy alta, mientras que Modo 2 presenta sensibilidad muy baja",
+          "facet": "option_mode_or_default",
+          "support_unit_ids": [
+            "E001_32d8f99ed5",
+            "E030_96ddb492e9"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E001_32d8f99ed5",
+              "source_spans": [
+                [
+                  0,
+                  139
+                ]
+              ],
+              "content_sha256": "875ccb53bff77163ea2f49c702403cbe89f8dfeb46d18aa5ae36c59a54101762"
+            },
+            {
+              "unit_id": "E030_96ddb492e9",
+              "source_spans": [
+                [
+                  0,
+                  34
+                ],
+                [
+                  70,
+                  104
+                ]
+              ],
+              "content_sha256": "9001df2b8ca408b3d40591f8637fbff176915b2d9d7f89fe799e7223d909cefb"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Detnov",
+      "product_model": "CAD-250",
+      "document_id": "bc6bdd33-72e6-4054-9ce4-60583be4b5c4",
+      "chunk_id": "73c703a0-edd0-494e-a82c-b5239b7bd540",
+      "excerpt_sha256": "26a4e60f6f9206a1fa56aad0cf0269b6c16bd7e153e664039a9c6aae4996b3c2",
+      "excerpt": "| Modo 1 | Sensibilidad muy alta |\n| ------ | --------------------- |\n| Modo 2 | Sensibilidad muy baja |\n| Modo 3 | Sensibilidad muy alta |\n\n[Graph shows: Sensibilidad muy baja period, transitioning to Sensibilidad normal, then rising curve to Sensibilidad muy alta]\n\n----\n\n**Diagram 2: Confirmation Mode**\n\n[Control dials showing \"Tiempo de confirmación\" with alarm status indicators]\n\n[Timeline graph from 00:00 to 24:00 showing alarm confirmation states]\n\n| Modo 1 | t. confirmación = 60 |\n| ------ | -------------------- |\n| Modo 2 | t. Confirmación = 60 |\n\n[Graph shows alarm states: \"Alarma confirmada\" and \"Alarma no confirmada\" periods with confirmation time threshold]\n\n----\n\n**Diagram 3: Reset Confirmation Mode**\n\n[Control dials showing \"Tiempo de confirmación de reset\" with alarm status indicators]\n\n[Timeline graph from 00:00 to 24:00 showing reset confirmation process]\n\n| Modo 1 | t. reset = 60 sg. |\n| ------ | ----------------- |\n| Modo 2 | t. reset = 60 sg. |\n\n[Graph shows alarm states with reset periods: \"Alarma confirmada\" and \"Alarma no confirmada\" with reset timing]\n\n84\n\n85\n\nTipo de lapso de tiempo: Este campo nos permite asinar al modo la fración temporal en la que el modo estará activo. Admite los valores\n\n• **Siempre.** Es el valor por defecto. No hay interrupción de la asignación del lapso y siempre se mantendrá activo salvo que sea de aplicación algún criterio de precedencia. Es decir, si el modo se ha aplicado a una entidad genérica panel y existe un modo asignado a una zona o dispositivo con un criterio de valor de modo distinto, prevalecerá el más específico.\n\n• **Lapso.** Determina una fracción de tiempo en la cual es aplicable el modo. Al seleccionar esta opción, se despliega dentro del menú la relación de opciones de configuración.\n\n• **Hora.** Permite seleccionar entre el día completo o un rango horario. En caso de optar por el rango horario establezca la hora de inicio y la hora de fin.\n\nSi se produce un solapamiento de modo obtendrá un mensaje de error, COMPRUEBE SI NO SE SOLAPA CON OTRO MODO ESPECIAL.\n\n• **Día.** Permite seleccionar entre toda la semana, un día de la semana de lunes a domingo o un rango de días. En caso de optar por el rango de días establezca el día de inicio y el día de fin. CAD-25 considera el lunes como primer día de la semana.\n\nSi se produce un solapamiento de modo obtendrá un mensaje de error, COMPRUEBE SI NO SE SOLAPA CON OTRO MODO ESPECIAL.\n\n• **Mes.** Permite seleccionar entre todo el año, un mes del año de enero a diciembre o un rango de meses. En caso de optar por el rango de meses establezca el mes de inicio y el mes de fin.\n\nSi se produce un solapamiento de modo obtendrá un mensaje de error, COMPRUEBE SI NO SE SOLAPA CON OTRO MODO ESPECIAL.\n\n[Interface Screenshots - Time Range Selector for Modo 1]"
+    },
+    {
+      "item_id": "s194_src_05",
+      "eligible": true,
+      "question": "¿Cómo se ajusta el punto de disparo de presión del interruptor EPS-10 en el campo y cuáles son los límites permitidos?",
+      "answer_points": [
+        {
+          "claim": "El interruptor está preajustado en fábrica para dispararse entre 4 y 8 PSI en presión creciente, pero puede ajustarse en campo dentro del rango de 4 a 20 PSI.",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E002_ee980a3435",
+            "E005_9c0bfdce09"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E002_ee980a3435",
+              "source_spans": [
+                [
+                  0,
+                  1183
+                ]
+              ],
+              "content_sha256": "3db4e57fa8ad725083ba6c1bdc115aa83f24bec7d9c5b41f91ce21e5ef95c96d"
+            },
+            {
+              "unit_id": "E005_9c0bfdce09",
+              "source_spans": [
+                [
+                  1744,
+                  2916
+                ]
+              ],
+              "content_sha256": "e6dbdf2b86ddf26a958f6ca1ca172c3447301ff42e8dc2b3a30142751bd14ecc"
+            }
+          ]
+        },
+        {
+          "claim": "Para ajustar el punto de disparo, se debe aflojar el tornillo de bloqueo, girar la rueda de ajuste principal en sentido contrario a las manecillas del reloj para aumentar la presión, y probar repetidamente hasta alcanzar el valor deseado.",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E002_ee980a3435",
+            "E003_f7f6a89758"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E002_ee980a3435",
+              "source_spans": [
+                [
+                  0,
+                  1183
+                ]
+              ],
+              "content_sha256": "3db4e57fa8ad725083ba6c1bdc115aa83f24bec7d9c5b41f91ce21e5ef95c96d"
+            },
+            {
+              "unit_id": "E003_f7f6a89758",
+              "source_spans": [
+                [
+                  894,
+                  1947
+                ]
+              ],
+              "content_sha256": "d5b3428bd465e04b21c4880d627463abfc5608a3f53f0e38242270b22465ae4e"
+            }
+          ]
+        },
+        {
+          "claim": "El diferencial de reinicio es de aproximadamente 3 PSI en todo el rango de ajuste, y cada número representa un cambio de aproximadamente 0,2 PSI, mientras que una rotación completa cambia el punto de disparo aproximadamente 2,5 PSI.",
+          "facet": "measurement_limit_or_timing",
+          "support_unit_ids": [
+            "E003_f7f6a89758"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E003_f7f6a89758",
+              "source_spans": [
+                [
+                  894,
+                  1947
+                ]
+              ],
+              "content_sha256": "d5b3428bd465e04b21c4880d627463abfc5608a3f53f0e38242270b22465ae4e"
+            }
+          ]
+        },
+        {
+          "claim": "El ensamblaje del sensor no es reemplazable en el campo y no debe intentarse desarmarlo; la sobrecarga en el interruptor puede causar falla en el primer ciclo.",
+          "facet": "safety_warning_exception_or_conflict",
+          "support_unit_ids": [
+            "E005_9c0bfdce09",
+            "E009_e2ae40c2ca"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E005_9c0bfdce09",
+              "source_spans": [
+                [
+                  1744,
+                  2916
+                ]
+              ],
+              "content_sha256": "e6dbdf2b86ddf26a958f6ca1ca172c3447301ff42e8dc2b3a30142751bd14ecc"
+            },
+            {
+              "unit_id": "E009_e2ae40c2ca",
+              "source_spans": [
+                [
+                  2857,
+                  2985
+                ]
+              ],
+              "content_sha256": "90df8cdbea54fd393a28641c27afc9e8250e172b2765b01d2d879cc7b9440f34"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "System Sensor",
+      "product_model": "EPS-10",
+      "document_id": "537a0275-920a-4e49-96ef-8d6d4570f06f",
+      "chunk_id": "e87b6c52-eff9-42b4-a24a-a6c172400532",
+      "excerpt_sha256": "5279fabb9b39c3cde2ae57c2e72d3f78570bdc6c47314e22b89f7c6ad63f24e0",
+      "excerpt": "## Adjustments To Factory Settings\n\nBoth EPS10-1 and EPS10-2 devices are pre-adjusted at the factory to alarm at 4–8 PSI on rising pressure (see Table 2). Pressure switch settings may be adjusted in the field to obtain a different pressure alarm response from 4 PSI to 20 PSI. The switch has an override feature on the adjustment mechanism to prevent exceeding the 20 PSI max. setting of the switch. This override feature carries with it a tolerance band that may limit the upper adjustment to 16–20 PSI. Care must be used when setting the switch to ensure that the lower limit of 4 PSI is not exceeded. This will allow the switch to reset within the 3 PSI differential stated.\n\n1. Install pressure switch as stated in \"INSTALLATION\" portion of instruction manual. Attach pressure test source to system.\n2. Back off locking screw (see Figure 1) to allow main adjustment wheel to rotate freely.\n3. Test trip point by slowly introducing pressure from the pressure test source. When trip point is found, reduce pressure to zero. Rotate main adjustment wheel (counterclockwise to increase pressure) and retest until switch trip point is at the desired pressure setting (4–20 PSI range). Each number represents an approximate trip point change of 0.2 PSI. One full rotation changes the trip point setting by approximately 2.5 PSI. A reset differential of approximately 3 PSI is typical throughout the entire adjustment range of switch.\n4. Retest the set point several times to ensure accuracy of setting.\n5. Re-seat locking screw.\n\n### Table 2.\n\n| MODÈLE   | RÉGLAGE EN USINE (lb/po)<br/>Chute(Contact Bas) | RÉGLAGE EN USINE (lb/po)<br/>Rétab.approx. | RÉGLAGE EN USINE (lb/po)<br/>Montée(Cont. haut) | RÉGLAGE EN USINE (lb/po)<br/>Rétab.approx. |\n| -------- | ----------------------------------------------- | ------------------------------------------ | ----------------------------------------------- | ------------------------------------------ |\n| EPSA10-1 | —                                               | —                                          | 4– 8                                            | 3 lb/po2 diff.                             |\n| EPSA10-2 | —                                               | —                                          | 4– 8                                            | 3 lb/po2 diff.                             |\n\n**NOTE:** The sensor assembly is not field replaceable. Do not attempt to disassemble these parts. If you have any questions, consult System Sensor. System Sensor recommends careful consideration of the following factors when specifying and installing Alarm Pressure Switches. Always refer to the Installation and Maintenance Instruction for specific recommendations on individual devices before installing the unit.\n\n* Electrical ratings stated in literature and on nameplates should not be exceeded.\n\n* Overload on switch can cause failure on the first cycle. Always wire devices according to national and local electrical codes."
+    },
+    {
+      "item_id": "s194_src_06",
+      "eligible": true,
+      "question": "¿Cuáles son los requisitos de formato y preparación de la unidad USB antes de descargar los registros de eventos, y cómo se verifica que la descarga se ha completado correctamente?",
+      "answer_points": [
+        {
+          "claim": "La unidad USB debe estar formateada en FAT32, completamente vacía y tener un nombre de volumen con no más de siete caracteres",
+          "facet": "access_or_prerequisite",
+          "support_unit_ids": [
+            "E004_6b72733854"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E004_6b72733854",
+              "source_spans": [
+                [
+                  114,
+                  274
+                ]
+              ],
+              "content_sha256": "6dfba3ff389a0e499077d193fec3a9d4b49ad3c6e655ba910a84266c974012e1"
+            }
+          ]
+        },
+        {
+          "claim": "El dispositivo debe estar en modo ESPERA cuando se pulse el botón ENTER e inserte la unidad USB",
+          "facet": "input_trigger_or_observed_condition",
+          "support_unit_ids": [
+            "E005_db878a281e"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E005_db878a281e",
+              "source_spans": [
+                [
+                  276,
+                  713
+                ]
+              ],
+              "content_sha256": "27feb025aaf3d8be292c555c53b45f281f85d372f42737198c9448b15f128480"
+            }
+          ]
+        },
+        {
+          "claim": "El dispositivo emite una señal sonora cuando se descarga el archivo LOGREPOR.TXT y el LED de FALLO se mostrará en rojo para retroalimentación negativa o en verde para retroalimentación positiva",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E005_db878a281e"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E005_db878a281e",
+              "source_spans": [
+                [
+                  276,
+                  713
+                ]
+              ],
+              "content_sha256": "27feb025aaf3d8be292c555c53b45f281f85d372f42737198c9448b15f128480"
+            }
+          ]
+        },
+        {
+          "claim": "El archivo descargado en la unidad USB se denomina LOGREPOR.TXT y contiene información de encabezado con datos de diagnóstico, configuración y estado del dispositivo",
+          "facet": "verification_commissioning_or_recovery",
+          "support_unit_ids": [
+            "E002_551a7596de",
+            "E007_a03b8f31f5"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E002_551a7596de",
+              "source_spans": [
+                [
+                  0,
+                  1174
+                ]
+              ],
+              "content_sha256": "8f59ca1f67ce27de1b7fc09fc8f52a54694660338609cee58d1148c283cfbd61"
+            },
+            {
+              "unit_id": "E007_a03b8f31f5",
+              "source_spans": [
+                [
+                  752,
+                  893
+                ]
+              ],
+              "content_sha256": "b28a90a74e2b081ada4ca470f257e2d41f006e28950729efb46f960d6b691f07"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Xtralis",
+      "product_model": "FLX-010",
+      "document_id": "956ad37c-e062-4ef8-8f53-da2fd706ffc8",
+      "chunk_id": "a4a3da30-8558-44e6-a666-c8648724b0a8",
+      "excerpt_sha256": "a9e94e0a0efacc3709dca07a53528b0d93cd7e752fb6c69c4b141b92cf98df61",
+      "excerpt": "# 21 Registros de eventos\n\nSiga estos pasos para descargar los archivos de registro de eventos a una unidad USB:\n\n**Nota:** La unidad USB debe estar formateada en formato FAT32, y debe estar completamente vacía, y el nombre del volumen no debe tener más de siete caracteres.\n\n1. Mientras el dispositivo está en modo ESPERA, pulse el botón ENTER e inserte la unidad USB. El dispositivo emitirá una señal sonora cuando se descargue el archivo LOGREPOR.TXT.\n2. Una vez escrito el archivo de registro, el LED de FALLO se mostrará en rojo para la retroalimentación negativa o en verde para la retroalimentación positiva. Retire la unidad USB. La unidad USB contendrá un nuevo archivo de registro, llamado LOGREPOR.TXT.\n\n## Encabezado del registro de datos\n\nLa figura 21 muestra el encabezado del archivo de registro LOGREPOR.TXT. La siguiente tabla describe la información que contiene el registro.\n\n```\nFAAST FLEX Diagnostic YY-MM-DD HH:MM\n--------------------------------------------------\n--INFO------------------------------------------\nModel type           : Stand alone\nNumber of channels   :           2\nStandard             : EN 54-20\nSerial number        : 787000000000\nFW version           :           0\nFW major version     :           0\nFW minor version     :           0\nFW build version     :           0\nHW version           :           0\n\n--Manufacturing date GMT-----------------------\nDAY                  :           0\nMONTH                :           0\nYEAR                 :           0\nHOUR                 :           0\nMINUTE               :           0\n\n--SETTINGS-----------------------------------------\nConfiguration        : Out of the box\nLast good DipSW conf : 1111111111\nDetector orientation : Upright\nAlarm level          :           1\nAction level         :           0\nReference flow 1     :    40 l/min\nMinimum flow 1       :    32 l/min\nMaximum flow 1       :    48 l/min\nReference flow 2     :    40 l/min\nMinimum flow 2       :    32 l/min\nMaximum flow 2       :    48 l/min\nGPI open             :        none\nGPI close            :       reset\nGPI EOL=47K          : ext fault\nBlower speed         :           6\nBlower correction    :  -3 YY-MM-DD\n\n--STATE--------------------------------------------\nDevice in fault      :          NO\nPower supply         :        23 V\nDisabled             :          NO\nGPI                  :        OPEN\nRelay ALARM 1        :       reset\nRelay ALARM 2        :       reset\nRelay ACTION 1       :       reset\nRelay ACTION 2       :       reset\nRelay FAULT 1        :       reset\nRelay FAULT 2        :       reset\n\nProgres | Day-Month | Hour:Minunte:Second | Event | Temperature 1 | Temperature 2 | Flow 1 | Flow 2 | Smoke Level 1 | Smoke Level 2 | RPM blower |\n      0 | 22- 4     | 23:12:00            |     1 |            25 |            24 |     39 |     42 |            50 |            50 |       3600 |\n```\n\nFigura 21-1: Encabezado del registro de datos\n\nTabla 21-1: Estructura del archivo LOGREPOR.TXT"
+    },
+    {
+      "item_id": "s194_src_07",
+      "eligible": true,
+      "question": "¿Cómo se debe configurar la dirección del dispositivo antes de instalar el pulsador de alarma KE-DM3010R-KIT y qué ocurre si se cambia después de la instalación?",
+      "answer_points": [
+        {
+          "claim": "La dirección del dispositivo se configura usando el interruptor DIP en la parte posterior del conjunto frontal, con un rango de direcciones de 001 a 128",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E020_3e3668e397",
+            "E021_30e41fdf41"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E020_3e3668e397",
+              "source_spans": [
+                [
+                  1398,
+                  1511
+                ]
+              ],
+              "content_sha256": "b6db460a6865a598910e26a84c6e963ba6306c05c85a2c52e4de0f4569bbe4f7"
+            },
+            {
+              "unit_id": "E021_30e41fdf41",
+              "source_spans": [
+                [
+                  1513,
+                  1636
+                ]
+              ],
+              "content_sha256": "33acfa09f87087b1292dc200dccaa26b25f4aea47c478655f88a8f177865be90"
+            }
+          ]
+        },
+        {
+          "claim": "Si se cambia la dirección del dispositivo después de la instalación, se debe desconectar el dispositivo de la alimentación del bucle durante al menos un segundo y luego reconectarlo para que la nueva dirección sea reconocida",
+          "facet": "verification_commissioning_or_recovery",
+          "support_unit_ids": [
+            "E022_a408137ef0"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E022_a408137ef0",
+              "source_spans": [
+                [
+                  1638,
+                  1835
+                ]
+              ],
+              "content_sha256": "997eb7123b882ffc94e85526f3a5a9003d3aca3597aa94a44d8f0db1f3bc3924"
+            }
+          ]
+        },
+        {
+          "claim": "La instalación y el mantenimiento del producto deben ser realizados por personal calificado adhiriéndose a todos los requisitos de instalación locales o nacionales y otras regulaciones aplicables",
+          "facet": "access_or_prerequisite",
+          "support_unit_ids": [
+            "E018_9414947f0e"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E018_9414947f0e",
+              "source_spans": [
+                [
+                  1201,
+                  1380
+                ]
+              ],
+              "content_sha256": "821260e0a2547bf0be82af94e9e4eac569a1aad6fe4057c8e312f14150934eae"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Kidde",
+      "product_model": "KE-DM3010R-KIT",
+      "document_id": "8c807610-7c75-48a8-acf3-1c50b90b685b",
+      "chunk_id": "83611504-1bc0-4684-bc6c-c3e0e11c0e34",
+      "excerpt_sha256": "c6006d730c8b771db1a477c4590ac4b9b2622b6df2db97ee99a887eb06a02376",
+      "excerpt": "# EN: Installation Sheet\n\n## Figures\n\n**Figure 1: Mounting holes and dimensions**\n\n**Figure 2: Front assembly terminal block and DIP switch**\n\n**Figure 3: Unlocking the front cover**\n\n**Figure 4: Removing the front cover**\n\n**Figure 5: Removing the resettable element**\n\n**Figure 6: Replacing the front cover**\n\n## Description\n\nThe Excellence Series Intelligent Addressable Manual Call Point is designed for indoor use and supports the Kidde Excellence protocol.\n\nAll units are supplied with a resettable element – this can be replaced with a breakable element, if required (order number N-MC-FE). See \"Replacing the resettable element\" on page 3.\n\nThe series includes the following models.\n\n| Model           | Description                                                                          |\n| --------------- | ------------------------------------------------------------------------------------ |\n| KE-DM3010R \\[1] | Red intelligent addressable manual call point                                        |\n| KE-DM3110R \\[1] | Red intelligent addressable manual call point with integrated short circuit isolator |\n\n[1] Also available in blue, green, orange, white, and yellow.\n\n## Installation\n\n**Caution:** This product must be installed and maintained by qualified personnel adhering to all local or national installation requirements and any other applicable regulations.\n\n### Addressing\n\nSet the device address before installation using the DIP switch on the back of the front assembly (see Figure 2).\n\nThe address range is 001-128. See the table on the last page of this publication for DIP switch positions for each address.\n\n**Note:** If you change the device address after installation, you must disconnect the device from the loop power for at least one second and then reconnect it for the new address to be recognised.\n\n## Installation\n\nThe manual call point can be surface mounted or recess mounted.\n\nFor surface mounting, order one of the backboxes shown in the table below.\n\n| Model     | Description    |\n| --------- | -------------- |\n| N-MC-BB-R | Red backbox    |\n| N-MC-BB-U | Blue backbox   |\n| N-MC-BB-G | Green backbox  |\n| N-MC-BB-O | Orange backbox |\n| N-MC-BB-W | White backbox  |\n| N-MC-BB-Y | Yellow backbox |\n\nFor recess mounting, order one of the recess adaptors and (if required) trim skirts shown in the table below.\n\n| Model       | Description                        |\n| ----------- | ---------------------------------- |\n| N-MC-AFM-R  | Red recess adaptor                 |\n| N-MC-AFMG-R | Red recess adaptor with fork grips |\n| N-MC-S-R    | Red trim skirt                     |\n| N-MC-AFM-G  | Green recess adaptor               |\n| N-MC-S-G    | Green trim skirt                   |\n\nRemember to remove the protective dust cover after commissioning.\n\n**Note:** The dust cover may also be used to indicate when the unit is not operational (for example, before commissioning, during maintenance, when disabled, etc.)\n\n### To surface mount the manual call point:"
+    },
+    {
+      "item_id": "s194_src_08",
+      "eligible": true,
+      "question": "¿Qué pasos de preparación y procedimiento debo seguir para actualizar correctamente el firmware del ASD 531?",
+      "answer_points": [
+        {
+          "claim": "Desconectar previamente los controles de incendios y las alertas remotas de los sistemas de orden superior (CDI) antes de iniciar la actualización de firmware",
+          "facet": "access_or_prerequisite",
+          "support_unit_ids": [
+            "E004_5b69cbc90f"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E004_5b69cbc90f",
+              "source_spans": [
+                [
+                  67,
+                  329
+                ]
+              ],
+              "content_sha256": "edbcbeeb7ba246f23b8e26106afc8f233f68e76e0b5dc80f37f696cf7ee5fc61"
+            }
+          ]
+        },
+        {
+          "claim": "Extraer la tarjeta SD memory card, guardar el archivo de nuevo firmware en el nivel más alto de la tarjeta (no en subcarpetas), e insertar nuevamente la tarjeta en el ASD",
+          "facet": "input_trigger_or_observed_condition",
+          "support_unit_ids": [
+            "E005_7af7835af8"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E005_7af7835af8",
+              "source_spans": [
+                [
+                  331,
+                  736
+                ]
+              ],
+              "content_sha256": "389adcb6609dc11812d3eb97ae40bb5a953bcc06fdc35af047f58d5fe90a5635"
+            }
+          ]
+        },
+        {
+          "claim": "Mantener pulsado el botón Set/Res, pulsar brevemente el botón HW-Reset, y soltar el botón Set/Res para iniciar el proceso de actualización",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E007_a68ad174d5"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E007_a68ad174d5",
+              "source_spans": [
+                [
+                  797,
+                  1479
+                ]
+              ],
+              "content_sha256": "550f621f553329a4f6fbf027bc249041aec5d8affa08e50ab44880f61b1b1d22"
+            }
+          ]
+        },
+        {
+          "claim": "Verificar que los LEDs 1-4 parpadeen aproximadamente 4 veces, se encienda LED2 y LED Com, y que la fase de arranque complete con el LED Fault parpadeando durante aproximadamente 60 segundos hasta que el ASD esté operativo nuevamente",
+          "facet": "verification_commissioning_or_recovery",
+          "support_unit_ids": [
+            "E007_a68ad174d5",
+            "E008_fa131c9346"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E007_a68ad174d5",
+              "source_spans": [
+                [
+                  797,
+                  1479
+                ]
+              ],
+              "content_sha256": "550f621f553329a4f6fbf027bc249041aec5d8affa08e50ab44880f61b1b1d22"
+            },
+            {
+              "unit_id": "E008_fa131c9346",
+              "source_spans": [
+                [
+                  1179,
+                  2217
+                ]
+              ],
+              "content_sha256": "fc9f72dabeec4c731ccbd1e2dcdf91dd2b80575b757821cc233a8ede0424dcf0"
+            }
+          ]
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Securiton",
+      "product_model": "ASD531",
+      "document_id": "6d394c63-fd4c-4e82-9f96-82431127995b",
+      "chunk_id": "9e777a0d-7f4d-4c05-8813-58fafb5149b8",
+      "excerpt_sha256": "ee21548fa9ec9abb2057c21486344d3355049abda944237eb429ee774bf7e92d",
+      "excerpt": "# Funciones ampliadas\n\n## 7.7 Cargar nuevo firmware en el ASD 531\n\nLa descarga de un firmware provocará el disparo de un aviso de fallo. Por ello, cuando se vaya a actualizar el FW del ASD 531, es imprescindible desconectar previamente los **controles de incendios y las alertas remotas** de los sistemas de orden superior (CDI).\n\n* Si existe una SD memory card, será necesario expulsarla y extraerla. (Véase el cap 7.4 Expulsión de los módulos adicionales XLM 35, RIM 36 y de la SD memory card)\n* La actualización de FW se lleva a cabo desde la SD memory card. Para ello, en primer lugar debe guardarse el archivo con el nuevo FW en el nivel más alto de la SD memory card (no en una subcarpeta).\n* Insertar la SD memory card en el ASD.\n\n* \n\n| Set/Res<br/>Reset<br/>Set/Res | Mantener pulsado el botón «Set/Res»<br/><br/>Pulsar brevemente el botón «HW-Reset»<br/><br/>Soltar el botón «Set/Res» | → Se enciende el LED1 (Bootloader)<br/>→ Se enciende el LED «Wdog»<br/>→ Se enciende el LED «Flt»<br/><br/>véase también 1)<br/><br/>Actualización de FW completada<br/>→ LED1 – 4 parpadean<br/>(aprox. 4 veces)<br/>→ Se enciende el LED2<br/>→ Se enciende el LED «Com»<br/><br/>Fase de arranque<br/>→ Se restablece el fallo<br/>→ Fase inicial del ASD en curso<br/>(LED «Fault» parpadea aprox. 60 s)<br/>→ El ASD está nuevamente operativo<br/>con la configuración anterior | LED 1<br/><br/>Wdog<br/>Flt<br/><br/><br/><br/>LED 1<br/>LED 2<br/>LED 3<br/>LED 4<br/><br/>Com<br/><br/>Flt |\n| ----------------------------- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |\n\n<sup>1)</sup> Si no se tiene lugar la indicación descrita (motivo: FW incompatible, ajeno o no existente en la tarjeta de memoria SD), **se deben seguir las instrucciones de la descripción del firmware correspondiente.**\n\n**Indicaciones:**\n\nA continuación, se iniciará de forma automática la grabación normal de datos en la SD memory card. Si no se desea que esto suceda, al finalizar la actualización de FW se debe expulsar y extraer la SD memory card.\n\nDebe tenerse en cuenta la especificación del FW que se va a instalar:\n\nSi se indica expresamente que es necesario un nuevo reset inicial → Transcurrido un tiempo de espera de aprox. 5 min desde el servicio normal, deberá realizarse un reset inicial.\n\nFunciones ampliadas\n\n## 7.8 Ajuste del reloj (RTC)"
+    },
+    {
+      "item_id": "s194_src_09",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "prose",
+      "manufacturer": "Argus Security",
+      "product_model": "SG200",
+      "document_id": "fc285f22-cfa5-4c88-b12d-aa18a764a2a7",
+      "chunk_id": "6bcb0596-9fe6-42e6-bcfc-7311c738c399",
+      "excerpt_sha256": "f97682f06edc0fc653b2d473514efe096b9fd92b95683d10228a323f7f3edeca",
+      "excerpt": "## TAMPER DETECTION CAPABILITY\n\nThe wireless multi-criteria detector is provided with a tamper switch: in case of removal of the detector from its base, a tamper detection message is sent to the control panel.\n\n## TESTING\n\n**All detectors must be tested after installation and, successively, on a periodic basis.**\n\nAfter each test reset the fire security system from the control panel, as per your control panel instructions.\n\n### TEST 1 - MAGNET TEST\n\n**Purpose: checking the alarm capability of the detector by using the built-in test circuitry; no alarming agent (aerosol or heat) is used.**\n\n1) Hold a suitable magnet in correspondence of the indicated area (picture 6).\n\n2) Wait a few seconds.\n\n3) If it works, the detector will switch into \"*Alarm mode*\" (as indicated by the LED indicator).\n\n### TEST 2 - AEROSOL TEST\n\n**Purpose: checking the alarm capability of the detector by using aerosol.**\n\n**Use only suitable aerosol testers supplied by approved manufacturers.**\n\n1) By following its specific instructions, apply the aerosol test device to the detector.\n\n2) Wait a few seconds.\n\n3) If it works, the detector will switch into \"*Alarm mode*\" (as indicated by the LED indicator).\n\n### TEST 3 - HEAT TEST\n\n**Purpose: checking the alarm capability of the detector by using heat.**\n\n**Use suitable heat test devices from approved manufacturers.**\n\n1) By following its specific instructions, apply the heat test device to the detector.\n\n2) Wait a few seconds.\n\n3) If it works, the detector will switch into \"*Alarm mode*\" (as indicated by the LED indicator).\n\n*Picture 6*\n\n[Image shows a smoke detector from below with a circular area highlighted, indicating where to hold the magnet for testing purposes.]\n\ninfo@argussecurity.it                                                                                                    SPNK-754431-117 (v3.0)"
+    },
+    {
+      "item_id": "s194_src_10",
+      "eligible": true,
+      "question": "¿Cuál es el procedimiento correcto de seguridad y las conexiones de tierra necesarias antes de instalar la tarjeta de expansión 2X-A-LB en el panel de control?",
+      "answer_points": [
+        {
+          "claim": "Desconectar la fuente de alimentación y las baterías del panel de control antes de la instalación para evitar electrocución",
+          "facet": "safety_warning_exception_or_conflict",
+          "support_unit_ids": [
+            "E015_4284f517db"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E015_4284f517db",
+              "source_spans": [
+                [
+                  971,
+                  1140
+                ]
+              ],
+              "content_sha256": "68142f7bceff12d83eef32d456f00a2fb353cc7882c22aecae16dc2254a2399a"
+            }
+          ]
+        },
+        {
+          "claim": "Conectar la tierra del bucle a los pernos de tierra del gabinete del panel de control, no al terminal de tierra de la tarjeta de expansión",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E022_c4cc0cc4d2"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E022_c4cc0cc4d2",
+              "source_spans": [
+                [
+                  1691,
+                  1875
+                ]
+              ],
+              "content_sha256": "519dc79f7ddcdcb3abcfe5be75adcfa96ccf4c55b05e639bf3f0e6751df441e2"
+            }
+          ]
+        },
+        {
+          "claim": "Instalar la tarjeta de bucle en la ranura 2 del chasis del panel de control, empujando firmemente y asegurando con los tornillos proporcionados",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E020_ced60dcb2b"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E020_ced60dcb2b",
+              "source_spans": [
+                [
+                  1451,
+                  1624
+                ]
+              ],
+              "content_sha256": "78d279eb7894478d8c1ae44dce82d4bda27f54b765fb247452a9f193dee9f8fe"
+            }
+          ]
+        },
+        {
+          "claim": "Instalar resistencias finales en los terminales de salida no utilizados para evitar fallos de circuito abierto",
+          "facet": "measurement_limit_or_timing",
+          "support_unit_ids": [
+            "E024_603d6e7181"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E024_603d6e7181",
+              "source_spans": [
+                [
+                  1877,
+                  2088
+                ]
+              ],
+              "content_sha256": "908a98f96d097296c1d0c3f316210598cf848a4853990d4ee207d067bc0de77d"
+            }
+          ]
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Aritech",
+      "product_model": "2X-A-LB",
+      "document_id": "d36bc35d-d68e-4f2d-a1a5-d02e87ccf8ae",
+      "chunk_id": "2f961bab-1502-41db-a08b-fd36e287393f",
+      "excerpt_sha256": "aa8e274073fb32ce0b60b33ad536da034bc2c7a11fca8889a8d92a4209406529",
+      "excerpt": "KIDDE\nCOMMERCIAL\n\n# 2X-A-LB Loop Board Installation Sheet\n\nEN CS DA DE EL ES FI FR HU IT LT NL NO PL PT RO RU SK SR SV TR\n\n**1**\n\n[Circuit board diagram with magnified callout showing slot 2 and terminal connections labeled LOOP3, LOOP4]\n\n**2**\n\n| A<br/>- + | ↓ | ↓ | - | B<br/>+ |   | A<br/>- + | ↓ | ↓ | - | B<br/>+ |   |\n| --------- | - | - | - | ------- | - | --------- | - | - | - | ------- | - |\n| LOOP      |   |   |   |         |   | LOOP      |   |   |   |         |   |\n| -         | + | ↓ | ↓ | -       | + | -         | + | ↓ | ↓ | -       | + |\n| OUT       |   |   |   |         |   | OUT       |   |   |   |         |   |\n\n## EN: Installation Sheet\n\n### Description\n\nThe 2X-A-LB Loop Board provides two additional loops (LOOP3 and LOOP4) and four additional supervised outputs (OUT5, OUT6, OUT7, and OUT8) to compatible 2X-A control panels.\n\n**Caution:** The 2X-A-LB Loop Board is only compatible for installation in 2X-A control panels.\n\n### Installation\n\n**WARNING:** To avoid personal injury or death from electrocution, disconnect the control panel from the mains power supply and batteries before installing this product.\n\n#### Recommended cable\n\nUse 0.13 to 3.31 mm² (26 to 12 AWG) shielded or unshielded twisted-pair cable. Use the earth studs in the control panel cabinet for termination.\n\nSee your control panel installation manual for more information on cable and wiring recommendations.\n\n### To install the expansion board:\n\n1. Install the loop board into slot 2 of the control panel chassis, as shown in Figure 1. Push firmly to ensure a good connection. Secure the board with the screws provided.\n\n2. Connect loops and configurable outputs as shown in Figure 2.\n\n   Loop earth connection: Connect one side to the earth studs in the control panel cabinet (not to the loop earth terminal on the expansion board). The other side can be left floating.\n\n   Output connection: If an output is not used, install an end-of-line resistor across the unused terminals (refer to the Specifications table, configurable outputs) to avoid an open circuit fault on the output.\n\n3. Restore power and add the device to the control panel configuration (see the control panel installation manual for further details).\n\n4. Configure loops, outputs, and all connected devices. Check loop installations using a loop load calculator.\n\nSee your control panel installation manual for detailed information on loop and configurable output wiring and configuration.\n\n© 2025 Kidde Commercial. All rights reserved.                    1 / 27              P/N 00-3301-501-4000-04 • REV 004 • ISS 23MAY25\n\n2 / 27                                                                    P/N 00-3301-501-4000-04 • REV 004 • ISS 23MAY25\n\n## Maintenance\n\nBasic maintenance consists of a yearly inspection. Do not modify internal wiring or circuitry.\n\n## Specifications\n\n### <ins>Table 1: Loop and mechanical specifications</ins>"
+    },
+    {
+      "item_id": "s194_src_11",
+      "eligible": true,
+      "question": "¿Cómo accedo a los switches de configuración del controlador EL-10 y qué parámetros puedo modificar?",
+      "answer_points": [
+        {
+          "claim": "Para acceder a los switches de configuración es necesario quitar la tapa del controlador introduciendo un destornillador plano en las flechas señaladas",
+          "facet": "access_or_prerequisite",
+          "support_unit_ids": [
+            "E004_98c95d4673",
+            "E005_a14850e8ac"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E004_98c95d4673",
+              "source_spans": [
+                [
+                  158,
+                  373
+                ]
+              ],
+              "content_sha256": "aa1c01a9db9ef3ca6117fd93aad2046250cda6d6a48567443480a73c6922defa"
+            },
+            {
+              "unit_id": "E005_a14850e8ac",
+              "source_spans": [
+                [
+                  375,
+                  684
+                ]
+              ],
+              "content_sha256": "826c9d74cb629e1bf6187eb00907c453a5953f9214939c80670e2aea739e1fc9"
+            }
+          ]
+        },
+        {
+          "claim": "El Switch 2 permite seleccionar el tipo de rearme después de un corte de red: posición AUTO para rearme automático o posición MAN para rearme manual con pulsación del botón RESET",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E011_520c4b16b6"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E011_520c4b16b6",
+              "source_spans": [
+                [
+                  1218,
+                  1530
+                ]
+              ],
+              "content_sha256": "32b2e46d06105c77af7ed520dea0921b9e1ed33c0ae3cc2d5b9be49abbf43182"
+            }
+          ]
+        },
+        {
+          "claim": "El Switch 1 controla la habilitación de sensores remotos en posiciones 8,7,6 y 5 para S1,S2,S3 y S4 respectivamente, con + para deshabilitado y 0 para habilitado",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E015_ce047f0c80",
+            "E017_876e432403"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E015_ce047f0c80",
+              "source_spans": [
+                [
+                  1613,
+                  1768
+                ]
+              ],
+              "content_sha256": "b04f3c772879aac79cbc15bd29eefe3ce19f123e3455a8679989e89b544c2eff"
+            },
+            {
+              "unit_id": "E017_876e432403",
+              "source_spans": [
+                [
+                  1770,
+                  1847
+                ]
+              ],
+              "content_sha256": "7184cff1771cc3a149d91008449d764e8b3eb8796db80c1c3be6e60c07e0753b"
+            }
+          ]
+        },
+        {
+          "claim": "El Switch 1 también asigna salidas a cada sensor mediante posiciones 4,3,2 y 1: posición + asocia a salida 1, posición 0 ninguna salida, posición I asocia a salida 2",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E019_039d7b8171",
+            "E020_5d85c60f1e"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E019_039d7b8171",
+              "source_spans": [
+                [
+                  1900,
+                  2078
+                ]
+              ],
+              "content_sha256": "ac950f56e9c6b1796a78b6bcff71296b7e4655e744cde2775155dd8382f826dd"
+            },
+            {
+              "unit_id": "E020_5d85c60f1e",
+              "source_spans": [
+                [
+                  2080,
+                  2211
+                ]
+              ],
+              "content_sha256": "a465ef246cac1303a1bb606a37de0f4fe8834909572e77ea23a04195d26a6133"
+            }
+          ]
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Fidegas",
+      "product_model": "EL-10",
+      "document_id": "5f80d7e6-25e8-4705-979e-4a921ab00086",
+      "chunk_id": "f9806511-cdc6-49d6-b472-3030b91beae1",
+      "excerpt_sha256": "e1266e75d5f93987ca36dacfab47f5f0d88162ed2771b25b31f0c4d80cb31812",
+      "excerpt": "# 5. CONFIGURACIÓN\n\nLa configuración predeterminada de fábrica es con rearme manual, todos los sensores remotos habilitados y todos asociados a la salida 1.\n\nPara modificar estos parámetros la central dispone de dos switches de configuración a los que se accede quitando la tapa. Para quitar la tapa introducir un destornillador plano en las flechas señaladas en la imagen.\n\n[Diagram showing CS4 control unit with terminal connections at top, four input connections (S1-S4) on the left side, PWR/OUT1/OUT2 connections on right side, CE marking, RESET button, and terminal strip at bottom. A screwdriver is shown pointing to access points indicated by arrows on the sides of the unit.]\n\nPosición de los dos switches en la placa electrónica:\n\n[Circuit board diagram labeled \"CS4 V1.1\" showing the location of Switch 2 (circled on the left side) and Switch 1 (circled on the right side) on the electronic board. The board shows various components including terminal blocks, resistors, and integrated circuits. Serial number \"SN:\" is visible in the top left corner.]\n\n## 1. Selección de tipo de rearme después de corte de red:\n\n[Switch diagram showing a two-position switch labeled \"SW2\" with positions \"AUTO\" and \"MAN\"]\n\nEl Switch 2 permite elegir si el rearme es automático (posición **AUTO**) y después de un corte de red la central empieza a funcionar automáticamente al restablecer la alimentación o manual (posición **MAN**) y después de un corte de red hay que pulsar el botón **RESET** para que la central empieze a funcionar.\n\n6\n\n[Fidegas logo in top right corner]\n\n**2. Habilitación de sensores remotos:**\n\nEl Switch 1 permite seleccionar los sensores remotos conectados. En las posiciones 8, 7, 6 y 5 corresponden a los sensores S1, S2, S3 y S4 respectivamente.\n\n**Posición +:** Sensores deshabilitados\n**Posición 0:** Senbsores habilitados\n\n**3. Asignación de salida a cada sensor remoto:**\n\nEl Switch 1 también permite seleccionar la salida asociada a cada sensor remoto conectado. Las posiciones 4, 3, 2 y 1 corresponden a los sensores S1, S2, S3 y S4 respectivamente.\n\n**Posición +:** Sensor asociado a la salida 1\n**Posición 0:** Ninguna salida asociada\n**Posición I:** Sensor asociado a la salida 2\n\n[DIP switch diagram showing 8 positions labeled from top to bottom: DS1, DS2, DS3, DS4 on the right side marked as \"DIP\", and S1, S2, S3, S4 in the middle marked as \"OUTPUT 1\" and \"OUTPUT 2\", with positions numbered 8, 7, 6, 5, 4, 3, 2, +1 on the left side, and +, 0, I markers at the bottom]\n\n## 6. CARACTERÍSTICAS TÉCNICAS"
+    },
+    {
+      "item_id": "s194_src_12",
+      "eligible": true,
+      "question": "¿Cuáles son los requisitos de seguridad y configuración que debo cumplir antes de conectar la alarma acústica DS10 a la alimentación eléctrica?",
+      "answer_points": [
+        {
+          "claim": "Solo una persona debidamente autorizada puede conectar la alarma a la fuente de alimentación, y debe asegurarse de que no haya voltaje aplicado antes de la conexión",
+          "facet": "access_or_prerequisite",
+          "support_unit_ids": [
+            "E003_c351ba4991"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E003_c351ba4991",
+              "source_spans": [
+                [
+                  29,
+                  218
+                ]
+              ],
+              "content_sha256": "dd4b08ce9e1786b0de12ba8d9c9695831f1c3662c9015fa60d4236dabc683227"
+            }
+          ]
+        },
+        {
+          "claim": "En versiones DC, el dispositivo tiene protección contra inversión de polaridad y no funcionará si la polaridad está invertida",
+          "facet": "safety_warning_exception_or_conflict",
+          "support_unit_ids": [
+            "E004_ba5ee70030"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E004_ba5ee70030",
+              "source_spans": [
+                [
+                  220,
+                  331
+                ]
+              ],
+              "content_sha256": "e9b5f071610f1f2d7816e57d8123f45b60b5a4be7d852b331e14f8e0dc89295a"
+            }
+          ]
+        },
+        {
+          "claim": "El sellado debe estar limpio e intacto durante la instalación, y los tornillos del alojamiento (Torx-T20) deben apretarse con un torque de aproximadamente 2-2,5 Nm en al menos dos pasadas en forma cruzada",
+          "facet": "verification_commissioning_or_recovery",
+          "support_unit_ids": [
+            "E005_080105ff28"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E005_080105ff28",
+              "source_spans": [
+                [
+                  333,
+                  601
+                ]
+              ],
+              "content_sha256": "7e843e569aa634bbf4704610c5c324af071a425e2e43e51f90a9a268f5f5ccf8"
+            }
+          ]
+        },
+        {
+          "claim": "El tono se configura mediante el selector S1 según la tabla de selección de tonos",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E006_9c3541480e"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E006_9c3541480e",
+              "source_spans": [
+                [
+                  603,
+                  694
+                ]
+              ],
+              "content_sha256": "7e0045f9d6c4459028f556ed37f79ff8d5d311161d8c5592bfb8636dcf8a362e"
+            }
+          ]
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Pfannenberg",
+      "product_model": "DS10",
+      "document_id": "d72657df-e074-4cae-bc4f-20abe98f7c4d",
+      "chunk_id": "8b803db5-d9d5-44fe-9fcb-3c589f6cb148",
+      "excerpt_sha256": "a8b6f6cc7b7b77ebab17d3638d85844982cec7c8fe33259bc85c057c475aa3d7",
+      "excerpt": "## 5. Taking into operation\n\nThe acoustic alarm may only be connected to the electricity supply by a suitably authorized person. Prior to connection, it must be ensured that no voltage is applied to the acoustic alarm.\n\nDC- versions: The device is provided with a reverse polarity protection. No function when polarity is reversed!\n\nYou can detach the front section after removing the 4 screws located on the front. During the installation the sealing has to be clean and intact. The housing screws (Torx-T20) are to be tightened with a torque of approx. 2 - 2,5 Nm in at least two passages crosswise.\n\nThe tone is set with the selector switch S1 according to the tone selection table, page 17.\n\n### Connection to the electrical supply and actuators - AC and DC\n\n[Diagram showing two device internal views side by side]\n\nConnection for operating voltage\n\n**AC**\n\nX1\n\nX2\n\nS1\n\nOption:\nVolume control for DS 5\n-20dB(A)\n\nSelector switch for setting tones see tone\nselection table, page 17..\n\nOption -TAS, -TAV:\nExternal tone selection\nStage 2, 3 and 4\n\n**DC**\n\nOption -MX: (24V DC)\nSoft Start Module and\nresistor for line monitoring\n\nX1\n\nX2\n\nS1\n\n**Wire connection**\n\n| L<br/>N<br/>PE<br/>115/230V AC X1 L<br/>N<br/>PE | \\[Wire connection component] | +<br/>- 12/24/48V DC<br/>24V AC X1<br/>+<br/>- Power Supply for max. 10 additional sounders type DS 10 or max. 15 sounders type DS 5. |\n| ------------------------------------------------ | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |\n\n085 501 821n                                                                              7                                                              30007-008-1n"
+    },
+    {
+      "item_id": "s194_src_13",
+      "eligible": true,
+      "question": "¿Cuáles son los requisitos críticos que debo verificar antes de conectar dispositivos de campo intrínsecamente seguros al aparato Z728 en un entorno de protección contra explosiones?",
+      "answer_points": [
+        {
+          "claim": "Los circuitos con tipo de protección Ex i no deben funcionar simultáneamente con circuitos no intrínsecamente seguros; si esto ocurre, pierden su clasificación Ex i",
+          "facet": "safety_warning_exception_or_conflict",
+          "support_unit_ids": [
+            "E003_5386b5e436"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E003_5386b5e436",
+              "source_spans": [
+                [
+                  49,
+                  214
+                ]
+              ],
+              "content_sha256": "76ee9944ecade47a7b6fede142e5d76711130308f4d721714080f66397a30c2a"
+            }
+          ]
+        },
+        {
+          "claim": "Se deben mantener distancias de separación entre circuitos no intrínsecamente seguros e intrínsecamente seguros, y entre circuitos intrínsecamente seguros cercanos, conforme a IEC/EN 60079-14",
+          "facet": "access_or_prerequisite",
+          "support_unit_ids": [
+            "E004_e3de121585",
+            "E005_e2475d0b8e"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E004_e3de121585",
+              "source_spans": [
+                [
+                  216,
+                  364
+                ]
+              ],
+              "content_sha256": "a9f7d61f5ceae6726a12b79ca818592d37a27852dae921fd577d8c1bfe5e1163"
+            },
+            {
+              "unit_id": "E005_e2475d0b8e",
+              "source_spans": [
+                [
+                  366,
+                  479
+                ]
+              ],
+              "content_sha256": "c8474d3a0739ea34bb5233d73034358affe7664985e40f0f761aaccca30a7ba9"
+            }
+          ]
+        },
+        {
+          "claim": "Los valores máximos de inductancia (Lo) y capacitancia (Co) del dispositivo de campo deben verificarse contra los del aparato según IEC/EN 60079-14 e IEC/EN 60079-25 para garantizar seguridad intrínseca",
+          "facet": "verification_commissioning_or_recovery",
+          "support_unit_ids": [
+            "E006_c528892488"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E006_c528892488",
+              "source_spans": [
+                [
+                  481,
+                  870
+                ]
+              ],
+              "content_sha256": "08a90d364d8e90c6305d4255e7c35523672ad640b6996a3a290a837069d44aed"
+            }
+          ]
+        },
+        {
+          "claim": "Las conexiones a tierra externas deben estar presentes, en buen estado y sin daños ni corrosión; además se deben respetar los requisitos de conexión a tierra para protección Ex i",
+          "facet": "measurement_limit_or_timing",
+          "support_unit_ids": [
+            "E011_1d04548494",
+            "E012_c301b3ceb5"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E011_1d04548494",
+              "source_spans": [
+                [
+                  2299,
+                  2405
+                ]
+              ],
+              "content_sha256": "90be6c64be61c7c1a06ffc14f2bff798baaff5f190caba8f1f7098581009b738"
+            },
+            {
+              "unit_id": "E012_c301b3ceb5",
+              "source_spans": [
+                [
+                  2407,
+                  2535
+                ]
+              ],
+              "content_sha256": "3fe9dd2ea9667c408a657c76247647ac2186859d662a94f3f4292eaa39f1aeb9"
+            }
+          ]
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Pepperl-Fuchs",
+      "product_model": "Z728",
+      "document_id": "7a0527ea-b325-4813-a325-ca2268afd304",
+      "chunk_id": "1bc87f21-840f-4754-80ab-eb4538b9e594",
+      "excerpt_sha256": "13c968eb5ab1b95e0dfb97ce00ea7477137f6abe8a8b93ef72baa2126743aec7",
+      "excerpt": "## Requisitos para el uso como aparato asociado\n\nSi los circuitos con tipo de protección Ex i funcionan con circuitos no intrínsecamente seguros, deben dejar de usarse como circuitos con un tipo de protección Ex i.\n\nMantenga las distancias de separación entre todos los circuitos no intrínsecamente seguros y los intrínsecamente seguros conforme a IEC/EN 60079-14.\n\nRespete las distancias de separación entre dos circuitos intrínsecamente seguros cercanos, según IEC/EN 60079-14.\n\nLos respectivos valores máximos del dispositivo de campo y el aparato correspondiente en materia de protección contra explosiones deben tenerse en cuenta al conectar dispositivos de campo intrínsecamente seguros con los circuitos intrínsecamente seguros del aparato correspondiente (verificación de seguridad intrínseca). Asegúrese de respetar las normas IEC/EN 60079-14 y IEC/EN 60079-25.\n\nSi no se especifican los valores L<sub>o</sub> y C<sub>o</sub> para la aparición simultánea de inductancia y capacitancia concentradas, se aplica la siguiente regla.\n\n* El valor especificado para L<sub>o</sub> y C<sub>o</sub> se usa si se da alguna de las siguientes condiciones:\n  * El circuito sólo tiene inductancias y capacitancias distribuidas, como en el caso de cables y líneas de conexión.\n  * El valor total de L<sub>i</sub> (sin cable) del circuito es <1 % del valor L<sub>o</sub> especificado.\n  * El valor total de C<sub>i</sub> (sin cable) del circuito es < 1 % del valor C<sub>o</sub> especificado.\n* Se usa un máximo del 50 % del valor especificado para L<sub>o</sub> y C<sub>o</sub> se usa si se da la siguiente condición:\n  * El valor total de L<sub>i</sub> (sin cable) del circuito es ≥ 1 % del valor L<sub>o</sub> especificado.\n  * El valor total de C<sub>i</sub> (sin cable) del circuito es ≥ 1 % del valor C<sub>o</sub> especificado.\n* La capacitancia reducida de los grupos de gases I, IIA y IIB no debe superar el valor de 1 µF (incluido el cable). La capacitancia reducida del grupo de gases IIC no debe superar el valor de 600 nF (incluido el cable).\n\nSi hay más canales de un dispositivo conectados en paralelo, asegúrese de que la conexión paralela se realiza directamente en los terminales del dispositivo. Al comprobar la seguridad intrínseca, respete los valores máximos de la conexión paralela.\n\nTenga en cuenta los requisitos de conexión a tierra para el tipo de protección Ex i según IEC/EN 60079-14.\n\nAsegúrese de que las conexiones a tierra externas estén presentes, que estén en buen estado y que no estén dañadas ni corroídas."
+    },
+    {
+      "item_id": "s194_src_14",
+      "eligible": true,
+      "question": "¿Qué mantenimiento debo realizar en las pulsanteras EFD para garantizar su correcto funcionamiento en áreas peligrosas y mantener la protección IP65?",
+      "answer_points": [
+        {
+          "claim": "Las pulsanteras Serie EFD deben instalarse y mantenerse conforme a normas de instalación eléctrica en áreas con riesgo de explosión por gas o polvo",
+          "facet": "access_or_prerequisite",
+          "support_unit_ids": [
+            "E003_4677a80fcc"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E003_4677a80fcc",
+              "source_spans": [
+                [
+                  125,
+                  620
+                ]
+              ],
+              "content_sha256": "80c9deb9f5e875c0bc6b4d222cc0b06f4a029336a936d2d723bed595493f2b99"
+            }
+          ]
+        },
+        {
+          "claim": "Se debe realizar limpieza regular para evitar acumulación de polvos combustibles",
+          "facet": "input_trigger_or_observed_condition",
+          "support_unit_ids": [
+            "E004_24bbb920e8"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E004_24bbb920e8",
+              "source_spans": [
+                [
+                  622,
+                  819
+                ]
+              ],
+              "content_sha256": "08b3cc2930ca9636b03e31c91fbdd78ee878941805c0f3658648d36495289864"
+            }
+          ]
+        },
+        {
+          "claim": "Después de cada apertura de la custodia, se debe restaurar la capa de grasa de silicona en la brida para garantizar el grado de protección IP65",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E006_36d2478199"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E006_36d2478199",
+              "source_spans": [
+                [
+                  821,
+                  1098
+                ]
+              ],
+              "content_sha256": "346a4fe6be0dd27ff7b5d53cdc3d105435f8d48c02b9f8800f168f9ffd9ecdba"
+            }
+          ]
+        },
+        {
+          "claim": "Las partes dañadas solo deben ser sustituidas o reparadas por el fabricante, y después del mantenimiento la junta plana no debe presentar rayaduras que justifiquen desconectar la alimentación",
+          "facet": "safety_warning_exception_or_conflict",
+          "support_unit_ids": [
+            "E007_9a8fb58faa",
+            "E008_af07fb6750"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E007_9a8fb58faa",
+              "source_spans": [
+                [
+                  1100,
+                  1373
+                ]
+              ],
+              "content_sha256": "67071db15550434f769bd3125f14256d2d93003fed0bb93b07c3e233f3e714fe"
+            },
+            {
+              "unit_id": "E008_af07fb6750",
+              "source_spans": [
+                [
+                  1375,
+                  1663
+                ]
+              ],
+              "content_sha256": "c110e4dd2cebe4da3764b5afb764958632e51e59247bbf23e3c4c5ad3815cc77"
+            }
+          ]
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "COELBO",
+      "product_model": "EFD",
+      "document_id": "ff78087d-a0ad-4ff3-b079-8f74899ed2b2",
+      "chunk_id": "c45fed5d-3bf7-4d14-9acd-dbcc534b104e",
+      "excerpt_sha256": "d118985fdb5ce882cbff11e7dce0623e7350fd02d0934e30198ddfd163f82f35",
+      "excerpt": "## 5. ISTRUZIONI DI SICUREZZA PER INSTALLAZIONE IN AREA PERICOLOSA / SAFETY INSTRUCTIONS FOR INSTALLATION IN HAZARDOUS AREA\n\n* Le pulsantiere Serie EFD devono essere installate e mantenute nel rispetto delle norme impiantistiche e di manutenzione per ambienti classificati contro il rischio di esplosione per presenza di gas / polveri (EN 60079-14, EN 60079-17 ed EN 50281-1-2).\n* Series EFD push buttons must be installed and maintenanced in accordance with all Standards regarding electrical installations in hazardous areas classified for explosive gas and dust atmospheres (EN 60079-14, EN 60079-17 ed EN 50281-1-2).\n\n* Per garantire la protezione contro le polveri effettuare regolare pulizia per evitare accumuli.\n* To guarantee protection against combustible dust perform regular cleaning to avoid its accretion.\n\n* Per garantire il grado di protezione IP65 ripristinare lo strato di grasso ai siliconi sulla flangia dopo ogni apertura della custodia.\n* To guarantee IP65 protection degree the sylicon grease coat shall be restored on plain joint before every opening operation of enclosure.\n\n* Le parti danneggiate dovranno essere sostituite o ripristinate a cura del produttore salvo particolari autorizzazioni da parte dello stesso.\n* Damaged parts shall be substituted or restored only by manufacturer except in presence of particular authorizations of the same.\n\n* Dopo ogni manutenzione il giunto piano non deve presentare graffi o rigature tali da comportare la messa fuori servizio dell'apparecchiatura.\n* After each maintenance operation the plain joint doesn't show scratches or riflings so evident to oblige user to disconnect power immediately.\n\n### DICHIARAZIONE DI CONFORMITA' CE / EC DECLARATION OF CONFORMITY\n\nIl costruttore,\nWe\n**COELBO s.r.l**\nVia S.Margherita 83, 20047 Brugherio (MI) - Italy\n\nDichiara sotto la propria responsabilità che le\nPULSANTIERE SERIE \"EFD...\"\ndescritte in questa dichiarazione sono conformi alla\nseguente direttiva:\n\nHerewith declare on its own responsability that\n\"SERIES EFD...PUSH BUTTONS\"\ndescribed in this declaration comply following EC Directive:\n\n**94/9/EC ATEX Directive**\n\nLa conformità è dimostrata dall'osservanza delle seguenti\nnorme :\n\nThe conformity is obtained by observance of all technical\nspecification of following Standards:\n\n**EN 50014 (1997) + A1 e A2**\n**EN 50018 (2000)**\n**EN 50281-1-1 (1999) + A1**\n\nTipo di protezione:\n\nType of protection\n\n**II 2 GD EEx d IIB+H2 T6 IP65 T85°C**\n**II 2 GD EEx d IIB T6 IP65 T85°C**\n\nTemperatura ambiente:\n\nAmbiental temperature\n\n**Da –20°C a +40°C e da –20°C a +50°C**\n\nCertificato CE di tipo n°:\n\nCE Type Certificate n°:\n\n**CESI 03 ATEX 050**\n\nBrugherio, 12/03/2003\n\nFirma / Signature:\n\n**COELBO Srl**"
+    }
+  ],
+  "cohort_sha256": "b306425d9f53debbae0d8b8463798b2d9b26fbd5b325bfec665bd99c6f87aef5"
+}
