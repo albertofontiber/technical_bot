@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 17 jul 2026 (S197 — transporte pasa, screening semántico NO-GO; facts aún 0).
+> 17 jul 2026 (S198 — schema question-only GO; cohorte point-first aún no ejecutada; facts 0).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -109,6 +109,17 @@ $0,15476, facts 0; planner, targets, DB, runtime y producción no se abrieron. L
 ya no es compilación sino cierre pregunta↔obligaciones. El siguiente mecanismo debe seleccionar
 primero 2–4 obligaciones support-bound, validar support+facet con definiciones genéricas y sólo
 después redactar una pregunta exactamente acotada a ellas, sobre otra cohorte que excluya S197.
+
+**S198 cerró el diseño point-first y el riesgo de transporte nuevo; aún no ha ejecutado la
+cohorte real.** Sol 5.6 xhigh principal y Fable 5 independiente completaron la misma revisión;
+11/11 observaciones se corrigieron en una sola adjudicación, sin bucle de convergencia. El paquete
+seleccionará primero obligaciones support-bound, aplicará una elegibilidad y precedencia de facets
+congeladas, y renderizará después la pregunta desde los claims aceptados. Antes de seleccionar
+otra fuente, el canary 100% sintético del nuevo schema `{item_id, question}` compiló en Haiku:
+1/1 salida válida, cero retry, $0,000686, estado `GO_QUESTION_SCHEMA_CANARY_COMPILED`. Esto mueve
+0 facts y sólo autoriza construir desde `main` un packet GET-only nuevo, disjunto de
+S194+S195+S197, reportando además el inventario y reserva que quedan. El planner continúa cerrado
+hasta que una ejecución única obtenga cero fallos en ambos screens upstream.
 
 **`chunks_v3` no se migra al completo.** S140 cerró el shadow representativo como
 `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`: empata recall funcional@10 (16/24 vs 16/24) pero empeora el

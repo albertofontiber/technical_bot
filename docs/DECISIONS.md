@@ -1849,3 +1849,32 @@ y sólo después redactar una pregunta española cuyo alcance sea exactamente es
 congelar antes de seleccionar una cohorte enteramente nueva que excluya S194+S195+S197; cero reglas
 por fabricante, producto o pregunta observada. Sólo cero incompletos/unsupported/facet-error abre
 el planner 90/80/75. `chunks_v3` sigue `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`; Railway no es gate.
+
+## DEC-108 — S198: paquete point-first corregido y schema question-only compilado
+
+**Decisión.** La siguiente unidad ya no hace que un mismo autor invente primero una pregunta
+potencialmente abierta y después intente comprimir su respuesta. S198 selecciona 2–4 obligaciones
+atómicas ligadas a unidades, las somete a un screen independiente de support/facet/materialidad,
+y sólo entonces permite que otro Haiku redacte una pregunta limitada al conjunto aceptado; una
+segunda pantalla comprueba el cierre bidireccional. Es calificación del paquete completo, no
+aislamiento causal de una pieza. La elegibilidad y la precedencia exhaustiva de ocho facets se
+congelan antes de observar otra fuente; S197 sólo aporta conteos agregados, nunca reglas o ejemplos
+por ítem.
+
+**Revisión frontera sin convergencia abierta.** Sol 5.6 xhigh principal produjo seis hallazgos y
+Fable 5 exacto completó independientemente con cinco; 11/11 se confirmaron y corrigieron en una
+única adjudicación. El contrato deja de llamar “prueba/falsación” a un único juicio Luna no
+calibrado, contabiliza el agotamiento de población fresca, declara el posible context starvation
+del question-writer y congela SDKs, modelos, tokens, requests y precios. No se abrió otra ronda.
+
+**Canary y resultado.** Antes de seleccionar documentos reales se ejecutó una sola llamada Haiku
+sobre dos claims 100% sintéticos con el schema estático mínimo `{item_id, question}`: cero arrays,
+refs/defs, combinators, enums o consts. Anthropic 0.97.0 lo compiló y devolvió una salida válida;
+estado `GO_QUESTION_SCHEMA_CANARY_COMPILED`, 1/1 inferencias, cero retry, coste **$0,000686** y
+hashes de resultado/receipt verificados. El canary no mide calidad semántica y mueve **0 facts**.
+
+**Siguiente trigger.** Desde `main` limpio, construir mediante doble scan GET-only un packet de
+14 documentos/fabricantes, 7 tabla + 7 prosa, excluyendo S194+S195+S197 y targets protegidos, y
+reportar también el inventario/reserva elegible restante. Ejecutar una sola vez el paquete
+point-first; sólo cero fallos upstream autoriza el planner 90/80/75. `chunks_v3` permanece
+`FINAL_NO_GO_CHUNKS_V3_WHOLESALE`; Railway es demo y no bloquea PR/merge con CI verde.

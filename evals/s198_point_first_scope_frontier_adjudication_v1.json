@@ -1,0 +1,40 @@
+{
+  "schema": "s198_point_first_scope_frontier_adjudication_v1",
+  "decision": "DESIGN_ACCEPTED_AFTER_SINGLE_ADJUDICATION_PASS",
+  "review_subject_sha256": "7354c8204b19e974a557b11171ba28c36d68da82f78ccfad7928105bbd37c6b5",
+  "sol_review_ts": "2026-07-17T19:41:42",
+  "sol_model": "gpt-5.6-sol",
+  "sol_reasoning_effort": "xhigh",
+  "sol_findings": 6,
+  "sol_confirmed": 6,
+  "sol_false_positives": 0,
+  "sol_severity_max": "medium",
+  "sol_dispositions": [
+    "Reframe S198 as qualification of a multi-component package, not causal isolation of dependency direction.",
+    "Define eligibility identically and operationally for author and judge.",
+    "Replace prove/ensure claims with screening language and retain Luna calibration as NOT_MEASURED.",
+    "Require atomic points and freeze an exhaustive facet precedence.",
+    "Run the synthetic question-schema canary before packet selection and real-cohort calls.",
+    "Freeze exact SDKs, models, output caps, request maximums and accounting prices."
+  ],
+  "fable_review_ts": "2026-07-17T19:44:07",
+  "fable_model": "claude-fable-5",
+  "fable_status": "completed",
+  "fable_findings": 5,
+  "fable_confirmed": 5,
+  "fable_false_positives": 0,
+  "fable_severity_max": "medium",
+  "fable_dispositions": [
+    "Keep zero failures as a conservative GO rule, but treat one Luna disagreement as weak evidence rather than statistical falsification.",
+    "Report the remaining eligible inventory and post-selection reserve after all historical exclusions.",
+    "Declare facet precedence as an S198 change motivated only by S197 aggregate counts and prohibit item-level reuse.",
+    "Replace proof language with screen language.",
+    "Label excerpt-withholding context starvation as an alternative explanation for question-rendering failures."
+  ],
+  "correction_target": "evals/s198_point_first_scope_design_v1.md",
+  "correction_status": "all_11_findings_applied_before_implementation",
+  "additional_frontier_round": "not_run_by_design",
+  "reason": "The user directed the work away from review convergence and back toward increasing facts OK.",
+  "fact_delta": 0,
+  "next": "Implement and verify the deterministic synthetic question-schema canary before selecting a fresh S198 cohort."
+}

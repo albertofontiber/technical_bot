@@ -1,0 +1,35 @@
+instrument: s198_question_schema_canary_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_NO_RETRY
+authority: user_requested_continue_point_first_upstream_segment
+
+frozen_artifacts:
+  preregistration: {path: evals/s198_question_schema_canary_prereg_v1.yaml, sha256: 63da334b69ecb645090d8c1fcac1c1eed1d44b3bff766a0da7de0d1577b840e3}
+  runner: {path: scripts/s198_question_schema_canary.py, sha256: c812893d3a45ccffb848d9c409cc6a569ab698713ba818223388d41e8c1c43f1}
+  gate_tests: {path: tests/test_s198_question_schema_canary.py, sha256: 189c4f3d71a3090a39dce4713f4f5fb4c8a1fe7fe24950ab3cbc532199a07557}
+
+limits:
+  paid_calls_max: 1
+  provider_requests_max: 2
+  retries: 0
+  internal_ceiling_usd: 0.01
+  frontier_execution_calls: 0
+  real_document_items: 0
+  database_calls: 0
+  database_writes: 0
+  production_changes: 0
+  chunks_v3_changes: 0
+  deployments: 0
+  exclusive_lock_before_provider_requests: true
+  lock_scope: current_workspace
+  immutable_prepaid_checkpoint: true
+  atomic_finalization: true
+
+stopping:
+  any_existing_lock_checkpoint_receipt_or_result: forbid_retry
+  preflight_400: NO_GO_QUESTION_PREFLIGHT_REJECTED
+  anchored_known_schema_compile_message: NO_GO_QUESTION_SCHEMA_COMPILE_REJECTED
+  other_inference_400: NO_GO_QUESTION_INFERENCE_REJECTED_UNATTRIBUTED
+  invalid_structured_content: NO_GO_QUESTION_SCHEMA_CANARY_VALIDATION
+  provider_dependency_interruption: HOLD_EXTERNAL_DEPENDENCY_INCOMPLETE
+  downstream_document_selection: forbidden_unless_GO_QUESTION_SCHEMA_CANARY_COMPILED
+  deployment_or_railway_gate: forbidden

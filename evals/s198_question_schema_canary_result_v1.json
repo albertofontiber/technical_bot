@@ -1,0 +1,48 @@
+{
+  "instrument": "s198_question_schema_canary_result_v1",
+  "status": "GO_QUESTION_SCHEMA_CANARY_COMPILED",
+  "provider_schema_compiles": true,
+  "deterministic_transport_validation": true,
+  "semantic_quality_measured": false,
+  "validation_error": null,
+  "normalized_synthetic_output": {
+    "item_id": "s198_question_canary_01",
+    "question": "¿Cuáles son los pasos esenciales de seguridad antes y después del mantenimiento del CANARY_MODEL_2?"
+  },
+  "transport_contract": {
+    "shape": "static_question_only_v1",
+    "required_string_fields": [
+      "item_id",
+      "question"
+    ],
+    "arrays": 0,
+    "refs_or_defs": 0,
+    "combinators": 0,
+    "dynamic_enums_or_consts": 0,
+    "additional_properties": false,
+    "deterministic_identity_check": true,
+    "deterministic_question_bounds": true
+  },
+  "receipts_sha256": "fedd8919d056538f03347c4388756cf4a4d4327979d2de88b330b423b78bc241",
+  "cost": {
+    "total_usd": 0.000686,
+    "worst_case_usd": 0.001916
+  },
+  "chunks_v3_lane": {
+    "status": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "changed_by_s198": false,
+    "migration_or_materialization": false,
+    "per_question_patching": false,
+    "historical_metrics_duplicated": false
+  },
+  "decision": {
+    "same_canary_retry": false,
+    "fresh_s198_packet_authorized": true,
+    "next_action": "BUILD_FRESH_S198_GET_ONLY_SOURCE_PACKET",
+    "official_fact_credit": 0,
+    "runtime_integration": false,
+    "production": false,
+    "railway_deploy_gate": false
+  },
+  "result_sha256": "9412a5815cadc478a3a53c983f2aaf0de12ee7f982cb2760fdaf687168ae8e55"
+}
