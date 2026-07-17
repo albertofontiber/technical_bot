@@ -2,6 +2,10 @@
 # Install locally with:  pip install -r requirements-dev.txt
 -r requirements.txt
 
+# S196 freezes the structured-output serializer used by the paid canary. CI must
+# exercise the same resolved SDK even though the product dependency keeps a lower bound.
+anthropic==0.97.0
+
 # Test runner — CI gate (.github/workflows/ci.yml) + local. Antes no estaba
 # declarado (se instalaba ad-hoc). El bot/pipeline no lo necesitan en runtime.
 pytest>=8.0.0

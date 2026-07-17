@@ -1,0 +1,89 @@
+instrument: s196_static_transport_canary_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+objective: isolate_static_anthropic_transport_compilation_before_any_fresh_document_cohort
+
+frozen_inputs:
+  design: {path: evals/s196_static_transport_canary_design_v1.md, sha256: 483b5154b44d0e045876be2719b888ce004b088aec34412fdc61c18dce3f49f2}
+  runner: {path: scripts/s196_static_transport_canary.py, sha256: fe889a97df191a44ddeb9d803bc5145635e29daadb4b1e9906fd3fe0872f65f3}
+  gate_tests: {path: tests/test_s196_static_transport_canary.py, sha256: 8993efb22f047ebd724ca1ecd053520bda67464b693bcba3842c955c048a5447}
+  sol_design_review: {path: evals/s196_sol56_xhigh_design_review_v1.md, sha256: b11a9aa1e7c8fb09951895ae9bc5744ad5aa4c3463963380a49d9f01c03c58c3}
+  runtime_requirements: {path: requirements.txt, sha256: f0332b0daa8a369c9d7d25036af73bfd3c8323b88b22b3bdd9d54639d535f378}
+
+synthetic_fixture_sha256: 0ab59af62942355e463a46a7ceaed4e4770b1fec8b886be6614230447074b276
+
+model:
+  provider: anthropic
+  id: claude-haiku-4-5-20251001
+  role: economic_static_schema_compile_canary
+  max_output_tokens: 700
+
+sdk:
+  anthropic: 0.97.0
+
+execution:
+  paid_calls_max: 1
+  provider_preflight_requests_max: 1
+  provider_requests_max: 2
+  retries: 0
+  frontier_execution_calls: 0
+  retrieval_calls: 0
+  database_calls: 0
+  database_writes: 0
+  downstream_planner_calls: 0
+  exclusive_lock_before_provider_requests: true
+  lock_scope: current_workspace
+  immutable_prepaid_checkpoint: true
+  atomic_finalization: true
+
+transport_contract:
+  shape: static_rectangular_v1
+  answer_point_slots: 4
+  support_slots_per_point: 3
+  arrays: 0
+  refs_or_defs: 0
+  combinators: 0
+  dynamic_enums_or_consts: 0
+  empty_string_sentinel: true
+  deterministic_id_membership: true
+  deterministic_uniqueness: true
+  deterministic_contiguity: true
+
+validation:
+  eligible: true
+  active_answer_points: 2
+  known_support_ids_only: true
+  unique_support_ids_per_point: true
+  inactive_slots_empty: true
+  passing_action: GO_STATIC_TRANSPORT_COMPILED
+  official_fact_credit: 0
+  production: false
+
+pricing_usd_per_million_tokens: {input: 1, output: 5}
+budget: {internal_ceiling_usd: 0.02, user_ceiling_usd: 250}
+
+outputs:
+  execution_lock: evals/s196_static_transport_canary_execution_lock_v1.json
+  prepaid_checkpoint: evals/s196_static_transport_canary_prepaid_v1.json
+  receipts: evals/s196_static_transport_canary_receipts_v1.json
+  result: evals/s196_static_transport_canary_result_v1.json
+
+adversarial_review:
+  principal: {model: gpt-5.6-sol, reasoning_effort: xhigh, status: completed_and_adjudicated}
+  second_frontier: {model: fable, display_name: Fable 5, status: omitted_unavailable}
+  frontier_execution_calls: 0
+
+chunks_v3_lane:
+  status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  changed_by_s196: false
+  historical_metrics_duplicated: false
+
+forbidden:
+  - real_document_or_target_content
+  - dynamic_source_id_enum_or_const
+  - array_or_ref_or_schema_combinator
+  - retry_same_workspace_canary_after_lock
+  - fresh_document_cohort_before_canary_go
+  - use_frontier_model_for_execution
+  - database_or_runtime_or_deployment_change
+  - chunks_v3_wholesale_reopen_or_per_question_patch
+  - production_or_official_fact_credit

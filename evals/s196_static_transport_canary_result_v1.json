@@ -1,0 +1,64 @@
+{
+  "instrument": "s196_static_transport_canary_result_v1",
+  "status": "GO_STATIC_TRANSPORT_COMPILED",
+  "provider_schema_compiles": true,
+  "deterministic_transport_validation": true,
+  "validation_error": null,
+  "normalized_synthetic_output": {
+    "item_id": "s196_canary_01",
+    "eligible": true,
+    "question": "What are the electrical safety procedures required before and after maintenance on the CANARY_MODEL_1?",
+    "answer_points": [
+      {
+        "claim": "Electrical power must be disconnected before performing maintenance",
+        "facet": "safety_warning_exception_or_conflict",
+        "support_unit_ids": [
+          "E001"
+        ]
+      },
+      {
+        "claim": "The safety cover must be reinstalled before restoring power after maintenance",
+        "facet": "output_action_or_corrective_step",
+        "support_unit_ids": [
+          "E002"
+        ]
+      }
+    ]
+  },
+  "transport_contract": {
+    "shape": "static_rectangular_v1",
+    "answer_point_slots": 4,
+    "support_slots_per_point": 3,
+    "arrays": 0,
+    "refs_or_defs": 0,
+    "combinators": 0,
+    "dynamic_enums_or_consts": 0,
+    "empty_string_sentinel": true,
+    "deterministic_id_membership": true,
+    "deterministic_uniqueness": true,
+    "deterministic_contiguity": true
+  },
+  "receipts_sha256": "97ba82b67e410a998afb02cb4380b448db741d332f2aa5277630a9e017cd5446",
+  "cost": {
+    "total_usd": 0.002583,
+    "worst_case_usd": 0.004958
+  },
+  "chunks_v3_lane": {
+    "status": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "changed_by_s196": false,
+    "migration_or_materialization": false,
+    "per_question_patching": false,
+    "canonical_reference": "docs/PLAN_RAG_2026.md#estado-actual-s195--17-jul-2026",
+    "historical_metrics_duplicated": false
+  },
+  "decision": {
+    "same_canary_retry": false,
+    "fresh_document_cohort_opened": false,
+    "next_action": "AUTHORIZE_SEPARATE_FRESH_S197_AUTHOR_LUNA_COHORT",
+    "runtime_integration": false,
+    "production": false,
+    "official_fact_credit": 0,
+    "railway_deploy_gate": false
+  },
+  "result_sha256": "34765951a3b72a7de4ddf78f4a87b395b02a6899ec673f1c3e98970e6a047d22"
+}

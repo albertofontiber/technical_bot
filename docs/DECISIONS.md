@@ -1778,3 +1778,27 @@ unicidad de IDs al validador determinista. Solo tras una compilación real satis
 otra cohorte fresca excluyendo S194+S195; luego Haiku→Luna y, si todo upstream pasa, planner
 downstream con 90/80/75 intactos. `chunks_v3` conserva
 `FINAL_NO_GO_CHUNKS_V3_WHOLESALE` sobre sus métricas de ranking; Railway no es gate de PR/merge.
+
+## DEC-105 — s196: el transporte rectangular estático compila; GO solo para una cohorte S197 nueva
+
+**Decisión.** S196 ejecuta antes de otra cohorte el canary sintético exigido por DEC-104. El schema
+Anthropic es idéntico para cualquier futura fuente: cuatro objetos de punto, tres strings de soporte
+por punto y sentinel vacío; cero arrays, `$ref`/`$defs`, combinators, enums o consts. Identidad,
+facets, cardinalidad 1–3, pertenencia, unicidad, contigüidad e inactividad se validan en código.
+
+**Control.** Fixture inventado de dos unidades, sin documentos/chunks/targets. Lock exclusivo
+workspace-local antes de cualquier request, checkpoint inmutable pre-pago, finalización atómica,
+SDK Anthropic 0.97.0 verificado, `max_retries=0`, máximo 1 preflight + 1 inferencia y $0,02. Sol 5.6
+xhigh fue revisor principal en tres rondas (12/12 hallazgos confirmados y corregidos); Fable 5 quedó
+`omitted_unavailable` sin sustituto fingido.
+
+**Resultado.** `GO_STATIC_TRANSPORT_COMPILED`: Haiku aceptó el schema, terminó `end_turn` y el
+adaptador reconstruyó dos puntos canónicos con IDs E001/E002 conocidos. 1 inferencia completada,
+coste $0,002583, cero retry, documentos reales, Luna/planner/targets, producción o crédito de facts.
+La causa de S195 queda acotada a su complejidad dinámica; los slots estáticos no son el bloqueo.
+
+**Siguiente trigger.** Abrir un S197 separado con source freeze nuevo que excluya S194+S195, reuse
+el schema S196 sin especializarlo por documento y pase Haiku→validador económico Luna para todos
+los ítems. Solo un GO upstream autoriza medir después el planner 90/80/75. `chunks_v3` sigue
+`FINAL_NO_GO_CHUNKS_V3_WHOLESALE` por referencia canónica, sin copiar sus métricas. Railway no es
+gate de PR/merge.
