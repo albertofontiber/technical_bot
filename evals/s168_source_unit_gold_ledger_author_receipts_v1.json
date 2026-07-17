@@ -1,0 +1,317 @@
+{
+  "instrument": "s168_source_unit_gold_ledger_author_receipts_v1",
+  "status": "COMPLETE",
+  "created_at": "2026-07-17T03:38:26.100772+00:00",
+  "model": "claude-sonnet-4-6",
+  "invalid_outputs": 1,
+  "receipts": [
+    {
+      "item_id": "s168_src_01",
+      "response_id": "msg_011Cd6vuBHhNR4j2uvqibAqP",
+      "counted_input_tokens": 4150,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 4150,
+        "output_tokens": 539,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.020535,
+      "validation_error": null,
+      "raw_text": "{\"item_id\":\"s168_src_01\",\"eligible\":true,\"question\":\"¿Cómo afecta el estado del interruptor PLD SW1-1 y el estado del XPP-1 al rango de direcciones asignadas a los módulos instalados en el chasis del transpondedor XP?\",\"answer_points\":[{\"claim\":\"Cuando el interruptor PLD SW1-1 está en posición ENCENDIDO (habilitado), la Dirección Base queda reservada para supervisar la fuente de energía principal y los amplificadores de audio instalados.\",\"facet\":\"input_trigger_or_observed_condition\",\"support_unit_ids\":[\"E001_baa88aa91d\",\"E013_73df2560ca\"]},{\"claim\":\"Si SW1-1 está habilitado y el XPP-1 está asignado, los relevadores ocupan las direcciones Base+1 a Base+2, y los módulos en las posiciones de chasis utilizan rangos a partir de Base+3; si SW1-1 está inhabilitado y el XPP-1 no está asignado, los módulos comienzan desde la Dirección Base.\",\"facet\":\"option_mode_or_default\",\"support_unit_ids\":[\"E013_73df2560ca\",\"E016_eca26d447b\"]},{\"claim\":\"Al utilizar estilos de cuatro hilos, solo se deben asignar 4 direcciones en el bloque correspondiente, lo que restringe la cantidad de direcciones disponibles respecto a la configuración estándar.\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_unit_ids\":[\"E006_8608cd159b\",\"E008_5aa4a5abfb\"]},{\"claim\":\"Cuando SW1-2 está ENCENDIDO, los relevadores del XPP-1 (Relé de Alarma y Relé de Problema) son asignados dentro del FACP, lo que determina que dichas direcciones queden ocupadas en el esquema general de direccionamiento.\",\"facet\":\"target_or_configuration_field\",\"support_unit_ids\":[\"E001_baa88aa91d\",\"E015_e1783fd307\"]}]}",
+      "raw_text_sha256": "7d18dc09d706da8d41919f23f1ba2fd5d358da03044eb3ea501f3ca99c86d503"
+    },
+    {
+      "item_id": "s168_src_02",
+      "response_id": "msg_011Cd6vv1qCyTirzH1h6mcXP",
+      "counted_input_tokens": 2847,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 2847,
+        "output_tokens": 531,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.016506,
+      "validation_error": null,
+      "raw_text": "{\"item_id\":\"s168_src_02\",\"eligible\":true,\"question\":\"¿Cuáles son los tipos de zona disponibles en el panel VSN PLUS y cómo se configuran?\",\"answer_points\":[{\"claim\":\"Existen cuatro modos de operación de zona: Normal (por defecto, alarma inmediata), Contacto retardado con resistencia de 470Ω (retardo de 30 segundos excepto para pulsadores de alarma), Verificación (requiere segunda confirmación en 10 minutos), y Contacto retardado con 470Ω y Zener (retardo de 30 segundos también para pulsadores).\",\"facet\":\"option_mode_or_default\",\"support_unit_ids\":[\"E002_b934dec42d\"]},{\"claim\":\"Para configurar el tipo de zona, primero se selecciona la zona deseada pulsando el botón de zona correspondiente hasta que su LED se ilumine, y luego se cambia cíclicamente el tipo pulsando el botón RESET.\",\"facet\":\"output_action_or_corrective_step\",\"support_unit_ids\":[\"E007_9f1f6da982\",\"E008_127320bb5f\"]},{\"claim\":\"El tipo de zona activo se identifica por el LED iluminado en el panel: LED 1 Verde = Normal, LED 2 Rojo = Contacto retardado 470Ω/Zener inmediato, LED 3 Amarillo = Verificación 10 min., LED 4 Amarillo = Contacto retardado 470Ω y Zener.\",\"facet\":\"verification_commissioning_or_recovery\",\"support_unit_ids\":[\"E012_1692c2072b\"]},{\"claim\":\"La operación de las salidas de sirena depende de la configuración de zona, por lo que debe consultarse el apartado correspondiente; además, todos estos tipos de zona cumplen el requisito de confirmación EN54 (A y C).\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_unit_ids\":[\"E005_5fae5d1acd\",\"E014_e5f823c0db\"]}]}",
+      "raw_text_sha256": "64fa54234a440bce08bcd8030ee481e44628fa99b711cd24c565a9e8f1b90533"
+    },
+    {
+      "item_id": "s168_src_03",
+      "response_id": "msg_011Cd6vvkcw8HacT2sbuYXSv",
+      "counted_input_tokens": 4636,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 4636,
+        "output_tokens": 407,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.020013,
+      "validation_error": null,
+      "raw_text": "{\"item_id\":\"s168_src_03\",\"eligible\":true,\"question\":\"¿Qué valores de corriente indica la salida analógica 0-20 mA del detector 40-40M para cada estado de funcionamiento y qué limitación de carga hay que respetar?\",\"answer_points\":[{\"claim\":\"La resistencia de carga máxima permitida en la salida 0-20 mA es de 600 Ω, independientemente de si la salida opera como receptor o como fuente según la opción de cableado seleccionada.\",\"facet\":\"measurement_limit_or_timing\",\"support_unit_ids\":[\"E020_50a1b18623\"]},{\"claim\":\"Los niveles de corriente asignados a cada estado son: avería 0–1 mA, fallo de prueba 2 mA ±10 %, funcionamiento normal 4 mA ±10 %, prealarma 16 mA ±5 % y alarma 20 mA ±5 %.\",\"facet\":\"output_action_or_corrective_step\",\"support_unit_ids\":[\"E021_97f6ebcc7d\"]},{\"claim\":\"La salida 0-20 mA solo está disponible en las opciones de cableado 1, 2 y 3; las opciones 4 y 5 no incluyen esta salida analógica, por lo que el técnico debe verificar la opción configurada en fábrica para su detector.\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_unit_ids\":[\"E006_11063b5d49\",\"E005_13eaada5d2\"]}]}",
+      "raw_text_sha256": "ad7e9d4935cca18296f15c2afbd3dc745af04b7f366d1e2ddc09c313a2f81b70"
+    },
+    {
+      "item_id": "s168_src_04",
+      "response_id": "msg_011Cd6vwRvKe8dsAhecBidMm",
+      "counted_input_tokens": 5811,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 5811,
+        "output_tokens": 466,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.024423,
+      "validation_error": null,
+      "raw_text": "{\"item_id\":\"s168_src_04\",\"eligible\":true,\"question\":\"¿Cuáles son las características eléctricas de las salidas de sirenas del CCD-100, incluyendo tensiones, corriente máxima y protección por fusible?\",\"answer_points\":[{\"claim\":\"En estado de reposo, la tensión en cada salida de sirena se sitúa entre -5 Vdc y -9 Vdc, mientras que cuando la salida está activada la tensión oscila entre un mínimo de 18 Vdc y un máximo de 29 Vdc.\",\"facet\":\"measurement_limit_or_timing\",\"support_unit_ids\":[\"E007_10c197177f\",\"E008_d12d6c8698\"]},{\"claim\":\"La corriente máxima que puede suministrar cada salida de sirena activada es de 450 mA, y el equipo dispone de dos salidas de sirenas supervisadas.\",\"facet\":\"measurement_limit_or_timing\",\"support_unit_ids\":[\"E006_24797712dd\",\"E009_63a4a631b8\"]},{\"claim\":\"Cada salida de sirena (SND1 y SND2) está protegida por un fusible de 500 mA tipo 5x20 de acción rápida (Fast-Acting), y la línea debe terminarse con una resistencia final de zona de 4K7 Ohmios 1/4W.\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_unit_ids\":[\"E011_9c6b30ed4b\",\"E012_23d448c3e8\"]},{\"claim\":\"El cable recomendado para el cableado de las salidas de sirenas es cable trenzado de 2 x 1,5 mm².\",\"facet\":\"access_or_prerequisite\",\"support_unit_ids\":[\"E010_d624c24cdb\"]}]}",
+      "raw_text_sha256": "aaf7bd077eed4a947950d9dda99276abd848fe28641a31231d4934274721f1c4"
+    },
+    {
+      "item_id": "s168_src_05",
+      "response_id": "msg_011Cd6vxC5QXhkT1ZmgbapvT",
+      "counted_input_tokens": 3426,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 3426,
+        "output_tokens": 399,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.016263,
+      "validation_error": null,
+      "raw_text": "{\"item_id\":\"s168_src_05\",\"eligible\":true,\"question\":\"¿Qué pasos previos de seguridad deben seguirse antes de instalar el módulo CR-6EA en un sistema existente, y cuáles son los requisitos del armario donde se alojará?\",\"answer_points\":[{\"claim\":\"Antes de iniciar la instalación en un sistema en operación, es obligatorio notificar tanto al operador como a las autoridades locales que el sistema quedará temporalmente fuera de servicio, y desconectar la alimentación del panel de control.\",\"facet\":\"access_or_prerequisite\",\"support_unit_ids\":[\"E012_53ea8258fc\"]},{\"claim\":\"El módulo contiene componentes sensibles a la electricidad estática, por lo que el técnico debe llevar una muñequera antiestática adecuada en todo momento al manipular los circuitos, para descargar del cuerpo la electricidad estática.\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_unit_ids\":[\"E012_53ea8258fc\"]},{\"claim\":\"El armario donde se instale el módulo debe ser metálico y estar debidamente puesto a masa.\",\"facet\":\"target_or_configuration_field\",\"support_unit_ids\":[\"E012_53ea8258fc\",\"E002_36cdedd858\"]},{\"claim\":\"Este manual aplica exclusivamente a instalaciones que cumplan los requisitos EN54, y el usuario o propietario del equipo debe disponer de él.\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_unit_ids\":[\"E014_17f6a0e044\"]}]}",
+      "raw_text_sha256": "9f486cd442b3e00ab3614564aace21467fb685430c3643b6450d543fcc56a233"
+    },
+    {
+      "item_id": "s168_src_06",
+      "response_id": "msg_011Cd6vxsrpFtGWQxWAo3D7f",
+      "counted_input_tokens": 4301,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 4301,
+        "output_tokens": 571,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.021468,
+      "validation_error": null,
+      "raw_text": "{\"item_id\":\"s168_src_06\",\"eligible\":true,\"question\":\"¿Cómo se determina y verifica la sección de cable necesaria para alimentar el ASD 532?\",\"answer_points\":[{\"claim\":\"Calcular una sección de cable insuficiente puede causar mal funcionamiento del detector; por ello la sección debe determinarse y documentarse siempre sin excepción.\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_unit_ids\":[\"E004_face1af9a7\"]},{\"claim\":\"Para calcular la sección se utilizan como valores determinantes el consumo máximo a 14 V-CC (tensión mínima de alimentación), el diámetro mínimo de hilo de 0,8 mm (0,5 mm²) y una caída de tensión máxima permitida de 10 V-CC; además deben sumarse los consumos de los accesorios conectados a las salidas OC y de módulos adicionales como RIM 36, XLM 35 o SIM 35.\",\"facet\":\"measurement_limit_or_timing\",\"support_unit_ids\":[\"E014_adf4aa6711\",\"E018_a1eb455bfc\",\"E011_dba14d4992\"]},{\"claim\":\"La sección se obtiene aplicando la fórmula A = (I × L × 2) / (γ × ΔU), donde γ es la conductividad del cobre (57), L es la longitud simple del cable y ΔU la caída de tensión admisible; también deben considerarse los límites de corriente y caída de tensión propios de la CDI empleada.\",\"facet\":\"output_action_or_corrective_step\",\"support_unit_ids\":[\"E019_ed358c88ec\",\"E020_21c27e3510\",\"E007_652dd4e520\"]},{\"claim\":\"Los bornes de conexión del ASD 532 admiten un máximo de 2,5 mm²; si se necesita continuar el cable de alimentación hacia un ASD adyacente puede ser necesario añadir bornes auxiliares, los cuales deben usarse exclusivamente para el cable de alimentación.\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_unit_ids\":[\"E009_b4f0fdae53\"]}]}",
+      "raw_text_sha256": "956d03cd5ddb755e17ffcf713005949ffc452bcdd3f94f09fee326450f547a77"
+    },
+    {
+      "item_id": "s168_src_07",
+      "response_id": "msg_011Cd6vyrh9CbuoqxyWsp4q4",
+      "counted_input_tokens": 3172,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 3172,
+        "output_tokens": 473,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.016611,
+      "validation_error": null,
+      "raw_text": "{\"item_id\":\"s168_src_07\",\"eligible\":true,\"question\":\"¿Qué indica el panel de control cuando la batería del sounder/VAD KE-AS3115R-WMIP está próxima a agotarse y qué acción se debe tomar?\",\"answer_points\":[{\"claim\":\"El panel de control muestra la condición 'Check battery' cuando la energía restante de la batería se estima en 12 meses, y la condición 'Low battery' cuando se estima en 30 días.\",\"facet\":\"input_trigger_or_observed_condition\",\"support_unit_ids\":[\"E024_31bf80e075\",\"E025_395f1bbdde\"]},{\"claim\":\"Cuando la batería está completamente agotada, el sounder/VAD indica un fallo mediante el LED de estado amarillo parpadeante, y el panel de control también indica un fallo con los LEDs amarillos de Fault y Sounder Fault parpadeando.\",\"facet\":\"input_trigger_or_observed_condition\",\"support_unit_ids\":[\"E026_ee3b646e8f\"]},{\"claim\":\"Al recibir la indicación de 'Low battery', las baterías deben reemplazarse inmediatamente o bien cambiar la configuración del dispositivo a alimentación por lazo desde el panel de control, ya que la notificación audible y visual se detiene cuando la energía de la batería es demasiado baja.\",\"facet\":\"output_action_or_corrective_step\",\"support_unit_ids\":[\"E023_eef0f7c5ed\"]},{\"claim\":\"Las baterías de repuesto deben ser tres unidades CR123A de 3V de litio; nunca se deben usar baterías recargables.\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_unit_ids\":[\"E012_e8813f7cf7\",\"E013_066b8ee891\"]}]}",
+      "raw_text_sha256": "cfd09a738eb5de922c2622d25ef435cc91db455c93e6a03b195e6ab204b45513"
+    },
+    {
+      "item_id": "s168_src_08",
+      "response_id": "msg_011Cd6vzb4aM5xLbEY2DLc8n",
+      "counted_input_tokens": 4281,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 4281,
+        "output_tokens": 402,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.018873,
+      "validation_error": null,
+      "raw_text": "{\"item_id\":\"s168_src_08\",\"eligible\":true,\"question\":\"¿Cuáles son las condiciones que generan una indicación de falla en el Firebeam Xtra y cómo se manifiesta dicha falla?\",\"answer_points\":[{\"claim\":\"La condición de falla se activa cuando la oscuración cae por debajo del nivel de sensibilidad de falla (menos del 4%) en menos de un segundo, o cuando hay corte de alimentación o el voltaje de suministro baja de 9 VDC, o durante modos de puesta en servicio como pre-alineación y alineación automática, o cuando el haz está apagado en modo de mantenimiento.\",\"facet\":\"input_trigger_or_observed_condition\",\"support_unit_ids\":[\"E032_e7187435db\",\"E033_1c24fab891\"]},{\"claim\":\"El tiempo hasta la condición de falla es ajustable entre 2 y 60 segundos en incrementos de 1 segundo, con un valor por defecto de 10 segundos.\",\"facet\":\"measurement_limit_or_timing\",\"support_unit_ids\":[\"E033_1c24fab891\"]},{\"claim\":\"La falla se indica mediante el estado FAULT en el controlador, LED amarillo parpadeante de 1 segundo tanto en el controlador como en la cabeza del detector, y el cambio de estado del relé de falla con contacto CO con clasificación de 2 A a 30 VDC.\",\"facet\":\"output_action_or_corrective_step\",\"support_unit_ids\":[\"E034_a657d65eab\"]}]}",
+      "raw_text_sha256": "b3fca1d61f93585de309e9fa3fdb80351fdbd328fb5288e91954230064948a11"
+    },
+    {
+      "item_id": "s168_src_09",
+      "response_id": "msg_011Cd6w1E8mdy4YjVgYuo3E2",
+      "counted_input_tokens": 3776,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 3776,
+        "output_tokens": 358,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.016698,
+      "validation_error": null,
+      "raw_text": "{\"item_id\":\"s168_src_09\",\"eligible\":true,\"question\":\"¿Cómo se configura el volumen de sonido en los dispositivos de la serie AS2300 y cuál es el ajuste predeterminado?\",\"answer_points\":[{\"claim\":\"El volumen se selecciona mediante el interruptor 6 del selector de tono DIP; en posición OFF (ajuste predeterminado) el volumen es alto.\",\"facet\":\"option_mode_or_default\",\"support_unit_ids\":[\"E028_e1d399e669\"]},{\"claim\":\"Cambiar el interruptor 6 a la posición ON reduce la salida de sonido en 8 dB respecto al volumen alto.\",\"facet\":\"output_action_or_corrective_step\",\"support_unit_ids\":[\"E028_e1d399e669\"]},{\"claim\":\"El tono del dispositivo se configura con los interruptores 1 a 5 del selector de tono DIP, lo que es independiente del control de volumen.\",\"facet\":\"target_or_configuration_field\",\"support_unit_ids\":[\"E027_8592c2e2c6\"]},{\"claim\":\"La instalación y configuración deben ser realizadas por personal cualificado conforme a la especificación TS54-14 y normativas locales aplicables.\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_unit_ids\":[\"E009_32cd394a1e\"]}]}",
+      "raw_text_sha256": "6124a4a06a8623993bf4f65ddb4341a8bfc3c0faef1c774f6bf57e143c97986b"
+    },
+    {
+      "item_id": "s168_src_10",
+      "response_id": "msg_011Cd6w1pWz54PgH4dQAywre",
+      "counted_input_tokens": 3225,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 3225,
+        "output_tokens": 408,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.015795,
+      "validation_error": null,
+      "raw_text": "{\"item_id\":\"s168_src_10\",\"eligible\":true,\"question\":\"¿Qué precauciones y pasos previos deben seguirse antes de instalar el detector de calor inalámbrico SG350-IS en una zona peligrosa?\",\"answer_points\":[{\"claim\":\"La instalación debe ser realizada únicamente por personal cualificado con experiencia en áreas peligrosas y de conformidad con los términos de la certificación del producto.\",\"facet\":\"access_or_prerequisite\",\"support_unit_ids\":[\"E011_3531174468\"]},{\"claim\":\"El detector debe vincularse al sistema de detección de incendios —específicamente a su interfaz traductora o expansora— antes de la instalación física, siguiendo el plan de diseño del sistema.\",\"facet\":\"output_action_or_corrective_step\",\"support_unit_ids\":[\"E021_c22404cd56\",\"E020_eb88c4d5d4\"]},{\"claim\":\"Como medida de seguridad, el enlace y la puesta en marcha de los dispositivos deben realizarse junto a la interfaz traductora/expansora ubicada en la zona segura, no en el área peligrosa.\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_unit_ids\":[\"E022_25cb4cbf2b\"]},{\"claim\":\"La interfaz traductora a la que se vincula el dispositivo no forma parte del sistema certificado ATEX/IECEx y debe instalarse en la zona segura, fuera de las condiciones peligrosas.\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_unit_ids\":[\"E011_3531174468\"]}]}",
+      "raw_text_sha256": "31376031fa7e8cf996fcc0d06b68d88043fc2d3d1dc0b083708bfe3bc20ef872"
+    },
+    {
+      "item_id": "s168_src_11",
+      "response_id": "msg_011Cd6w2Vn8xRYPXojdzMg9B",
+      "counted_input_tokens": 3270,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 3270,
+        "output_tokens": 490,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.01716,
+      "validation_error": null,
+      "raw_text": "{\"item_id\":\"s168_src_11\",\"eligible\":true,\"question\":\"¿Cuáles son los requisitos previos y límites operativos que debo verificar antes de instalar el detector de humo en el ducto DH500ACDC-E?\",\"answer_points\":[{\"claim\":\"El tubo de muestreo de entrada y la cabeza detectora fotoeléctrónica no se incluyen en el kit y deben pedirse por separado; el tubo debe tener la longitud correcta según el ancho del ducto.\",\"facet\":\"access_or_prerequisite\",\"support_unit_ids\":[\"E011_6fe1045c21\"]},{\"claim\":\"El detector está diseñado para sistemas de manejo de aire con velocidades de hasta 500 pies por minuto; se deben revisar las especificaciones de ingeniería y, si es necesario, usar un medidor de velocidad para confirmar que la velocidad del ducto está dentro de ese límite antes de proceder con la instalación.\",\"facet\":\"measurement_limit_or_timing\",\"support_unit_ids\":[\"E024_5bd3e8bdf2\"]},{\"claim\":\"La instalación sigue una secuencia de nueve pasos que comienza con verificar el flujo y la velocidad del aire, luego taladrar los orificios de montaje, montar la carcasa, instalar el tubo, realizar el cableado, instalar los filtros, verificar el detector, instalar la cubierta y finalizar con la prueba del sistema.\",\"facet\":\"verification_commissioning_or_recovery\",\"support_unit_ids\":[\"E013_0425d03aff\"]},{\"claim\":\"El equipo opera con 24 VAC/DC y dispone de dos contactos de relé tipo C (SPDT) para control, dos LEDs de indicación de alarma local y una salida de alarma auxiliar para indicación remota.\",\"facet\":\"option_mode_or_default\",\"support_unit_ids\":[\"E006_4fac9d0483\"]}]}",
+      "raw_text_sha256": "00ab28ee1ffea013e5a9f74ae521ffe82dcd82c98707b5e25e22973a594b13a3"
+    },
+    {
+      "item_id": "s168_src_12",
+      "response_id": "msg_011Cd6w3HJKXPLGQpsav2TLN",
+      "counted_input_tokens": 1831,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1831,
+        "output_tokens": 368,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.011013,
+      "validation_error": null,
+      "raw_text": "{\"item_id\":\"s168_src_12\",\"eligible\":true,\"question\":\"¿Cómo se conecta el Sensor Remoto Fidegas a un PLC con entrada analógica de tensión en lugar de entrada 4-20 mA?\",\"answer_points\":[{\"claim\":\"Antes de conectar, hay que verificar que el dispositivo destino disponga de entradas estándar 4-20 mA, entradas analógicas en tensión o algún tipo de comunicación serie industrial.\",\"facet\":\"access_or_prerequisite\",\"support_unit_ids\":[\"E003_7812c2fad7\"]},{\"claim\":\"Para adaptar la señal de corriente a tensión se debe conectar una resistencia entre el negativo de alimentación (terminal 3) y la salida de señal 4-20 mA (terminal 2) del sensor.\",\"facet\":\"output_action_or_corrective_step\",\"support_unit_ids\":[\"E005_ec39b2f55c\"]},{\"claim\":\"El valor de la resistencia se calcula aplicando la fórmula R = V / I según el rango de tensión requerido; por ejemplo, para obtener 1-5 Vdc a partir de 4-20 mA se necesita una resistencia de 250 Ω.\",\"facet\":\"measurement_limit_or_timing\",\"support_unit_ids\":[\"E005_ec39b2f55c\",\"E006_01c7492cd2\",\"E007_48d90e4740\"]}]}",
+      "raw_text_sha256": "1060493c84d838f038c536ad9427082ef36b2f20637ae95e4b727919ef57d3c4"
+    },
+    {
+      "item_id": "s168_src_13",
+      "response_id": "msg_011Cd6w3gHw2BQ2uoiV48X2n",
+      "counted_input_tokens": 2901,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 2901,
+        "output_tokens": 446,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.015393,
+      "validation_error": "invalid answer-point support cardinality",
+      "raw_text": "{\"item_id\":\"s168_src_13\",\"eligible\":true,\"question\":\"¿Qué precauciones de seguridad debo seguir al limpiar el VCC-64 y qué debo hacer si el equipo muestra signos de daño?\",\"answer_points\":[{\"claim\":\"Antes de limpiar el equipo se debe desenchufar del adaptador de corriente AC, y utilizar únicamente un paño seco; queda prohibido el uso de detergentes líquidos o pulverizados.\",\"facet\":\"access_or_prerequisite\",\"support_unit_ids\":[\"E005_9361ba9a8e\",\"E006_8a4055e363\",\"E007_01766529fe\"]},{\"claim\":\"El equipo no debe abrirse por el usuario; cualquier revisión interna debe ser realizada exclusivamente por personal cualificado.\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_unit_ids\":[\"E015_b72a62561f\"]},{\"claim\":\"Ante situaciones como cable de alimentación dañado, entrada de líquido, exposición a humedad, caída del equipo o daños visibles, se debe recurrir a personal cualificado para la inspección del equipo.\",\"facet\":\"output_action_or_corrective_step\",\"support_unit_ids\":[\"E017_96fc1ee26b\",\"E018_1380a462f7\",\"E019_f81f55ab6f\",\"E022_c97b339784\"]},{\"claim\":\"Verter líquido en las aberturas del equipo puede provocar incendio o descarga eléctrica, y el equipo no debe exponerse a la humedad.\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_unit_ids\":[\"E008_74c08bb084\",\"E013_92e4b26f96\"]}]}",
+      "raw_text_sha256": "79fa88c520ee86d433c13fcb3d1d35aec6216eebd7d15fec4f4245669313099c"
+    },
+    {
+      "item_id": "s168_src_14",
+      "response_id": "msg_011Cd6w4PvTtYMuJEJf2ugEr",
+      "counted_input_tokens": 3584,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 3584,
+        "output_tokens": 357,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.016107,
+      "validation_error": null,
+      "raw_text": "{\"item_id\":\"s168_src_14\",\"eligible\":true,\"question\":\"¿Qué requisitos de seguridad y puesta en servicio se deben cumplir antes de instalar y operar el controlador Unipoint?\",\"answer_points\":[{\"claim\":\"El equipo solo puede instalarse y operarse en zonas seguras interiores con atmósferas no explosivas, y la instalación debe respetar las normas vigentes de la autoridad competente del país correspondiente.\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_unit_ids\":[\"E014_87bb871807\"]},{\"claim\":\"El controlador debe instalarse dentro de una caja con cierre con llave o en una ubicación segura para impedir el acceso de personas no autorizadas.\",\"facet\":\"access_or_prerequisite\",\"support_unit_ids\":[\"E015_4c4f2e4457\"]},{\"claim\":\"Solo personal debidamente formado puede realizar los trabajos, y se deben tomar las medidas necesarias para evitar falsas alarmas antes de cualquier operación.\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_unit_ids\":[\"E017_8de6c2d46c\"]},{\"claim\":\"Se debe calibrar el cero y el span del detector junto con el Unipoint antes de la puesta en servicio.\",\"facet\":\"verification_commissioning_or_recovery\",\"support_unit_ids\":[\"E019_59e442e139\"]}]}",
+      "raw_text_sha256": "53dcfefd9587cc2155feca20daea8c03c958f0486565fd4a5f68613e563528b6"
+    }
+  ]
+}

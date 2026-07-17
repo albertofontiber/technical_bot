@@ -1,0 +1,33 @@
+instrument: s168_source_unit_gold_ledger_gate_v1
+status: NO_GO_SEMANTIC_GENERALIZATION
+
+measurement:
+  source_items: 14
+  eligible_questions: 13
+  manufacturers: 13
+  unique_documents: 13
+  answer_points: 49
+  claims_covered: 30
+  claim_recall: 0.6122449
+  selected_units: 47
+  useful_units: 37
+  unit_precision: 0.78723404
+  questions_complete: 4
+  question_complete_rate: 0.30769231
+  invalid_author_outputs: 1
+  invalid_selector_outputs: 1
+  actual_cost_usd: 0.36206
+
+decision:
+  s168: CLOSED_NO_GO
+  posthoc_credit: forbidden
+  same_cohort_retry: forbidden
+  threshold_change: forbidden
+  generic_ledger_target_probe: forbidden
+  architecture_review: required_before_new_synthesis_mechanism
+  production: false
+  facts_moved_to_ok: 0
+
+authorization:
+  deploy: false
+  push: false

@@ -1,0 +1,141 @@
+{
+  "instrument": "s168_ledger_failure_attribution_v1",
+  "status": "SEMANTIC_NO_GO_NOT_EXPLAINED_BY_TRANSPORT",
+  "official": {
+    "claim_recall": 0.6122449,
+    "unit_precision": 0.78723404,
+    "question_complete_rate": 0.30769231
+  },
+  "by_stratum": {
+    "prose": {
+      "questions": 6,
+      "claims": 22,
+      "claims_covered": 16,
+      "complete": 3,
+      "selected_units": 21,
+      "useful_units": 16,
+      "claim_recall": 0.72727273,
+      "unit_precision": 0.76190476,
+      "complete_rate": 0.5
+    },
+    "table": {
+      "questions": 7,
+      "claims": 27,
+      "claims_covered": 14,
+      "complete": 1,
+      "selected_units": 26,
+      "useful_units": 21,
+      "claim_recall": 0.51851852,
+      "unit_precision": 0.80769231,
+      "complete_rate": 0.14285714
+    }
+  },
+  "by_gold_support_cardinality": {
+    "1": {
+      "claims": 31,
+      "covered": 23,
+      "claim_recall": 0.74193548
+    },
+    "2": {
+      "claims": 15,
+      "covered": 6,
+      "claim_recall": 0.4
+    },
+    "3": {
+      "claims": 3,
+      "covered": 1,
+      "claim_recall": 0.33333333
+    }
+  },
+  "by_gold_facet": {
+    "access_or_prerequisite": {
+      "claims": 6,
+      "union_covered": 5,
+      "aligned_covered": 5,
+      "union_recall": 0.83333333,
+      "aligned_recall": 0.83333333
+    },
+    "input_trigger_or_observed_condition": {
+      "claims": 4,
+      "union_covered": 1,
+      "aligned_covered": 1,
+      "union_recall": 0.25,
+      "aligned_recall": 0.25
+    },
+    "measurement_limit_or_timing": {
+      "claims": 7,
+      "union_covered": 6,
+      "aligned_covered": 3,
+      "union_recall": 0.85714286,
+      "aligned_recall": 0.42857143
+    },
+    "option_mode_or_default": {
+      "claims": 4,
+      "union_covered": 2,
+      "aligned_covered": 2,
+      "union_recall": 0.5,
+      "aligned_recall": 0.5
+    },
+    "output_action_or_corrective_step": {
+      "claims": 8,
+      "union_covered": 7,
+      "aligned_covered": 4,
+      "union_recall": 0.875,
+      "aligned_recall": 0.5
+    },
+    "safety_warning_exception_or_conflict": {
+      "claims": 14,
+      "union_covered": 7,
+      "aligned_covered": 5,
+      "union_recall": 0.5,
+      "aligned_recall": 0.35714286
+    },
+    "target_or_configuration_field": {
+      "claims": 3,
+      "union_covered": 0,
+      "aligned_covered": 0,
+      "union_recall": 0.0,
+      "aligned_recall": 0.0
+    },
+    "verification_commissioning_or_recovery": {
+      "claims": 3,
+      "union_covered": 2,
+      "aligned_covered": 1,
+      "union_recall": 0.66666667,
+      "aligned_recall": 0.33333333
+    }
+  },
+  "evidence_unit_recall": 0.59677419,
+  "cross_facet_covered_claims": 9,
+  "invalid_selector_counterfactual": {
+    "rows": [
+      {
+        "item_id": "s168_src_06",
+        "validation_error": "ledger unique-unit cardinality exceeded",
+        "raw_unique_units": 15,
+        "gold_units": 8,
+        "claims": 4,
+        "claims_covered_if_cap_ignored": 4,
+        "complete_if_cap_ignored": true,
+        "selected_units_if_cap_ignored": 15,
+        "useful_units_if_cap_ignored": 8
+      }
+    ],
+    "claim_recall_if_only_cardinality_cap_ignored": 0.69387755,
+    "question_complete_rate_upper_bound_if_only_invalid_row_recovered": 0.38461538
+  },
+  "decision": {
+    "s168_credit": false,
+    "threshold_change": false,
+    "same_cohort_retry": false,
+    "generic_ledger_line_promoted": false,
+    "target_probe": false,
+    "production": false,
+    "facts_moved_to_ok": 0
+  },
+  "cost": {
+    "additional_model_calls": 0,
+    "additional_usd": 0
+  },
+  "result_sha256": "13ae8c596e7dd7ea607c7bb6d2442061e0d48dda625ce585696a21c99899ec5f"
+}
