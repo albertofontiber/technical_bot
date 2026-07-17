@@ -8,9 +8,9 @@ import pytest
 from src.reingest.superscript_overlay import (
     NumericSuperscriptSignal,
     _numeric_signal_from_spans,
+    _preserve_numeric_superscripts,
     _visual_row_anchor_tokens,
     anchor_tokens,
-    preserve_numeric_superscripts,
 )
 
 
@@ -118,7 +118,7 @@ def test_unique_context_bound_token_is_preserved_without_mutating_raw(tmp_path):
         "| Life Time | 105 | Operations |\n| Other | 200 | cycles |",
     )
     frozen = copy.deepcopy(raw)
-    result = preserve_numeric_superscripts(raw, pdf, signals=(_signal(),))
+    result = _preserve_numeric_superscripts(raw, pdf, signals=(_signal(),))
     assert raw == frozen
     assert result.record["result"]["pages"][0]["md"] == (
         "| Life Time | 10<sup>5</sup> | Operations |\n| Other | 200 | cycles |"
@@ -142,7 +142,7 @@ def test_ambiguous_or_already_explicit_candidates_abstain(tmp_path, markdown, re
     pdf = tmp_path / "source.pdf"
     pdf.write_bytes(pdf_bytes)
     raw = _record(pdf_bytes, markdown)
-    result = preserve_numeric_superscripts(raw, pdf, signals=(_signal(),))
+    result = _preserve_numeric_superscripts(raw, pdf, signals=(_signal(),))
     assert result.record == raw
     assert result.applied == ()
     assert result.abstained[0]["reason"] == reason
@@ -153,7 +153,7 @@ def test_competing_signals_for_one_offset_abstain(tmp_path):
     pdf = tmp_path / "source.pdf"
     pdf.write_bytes(pdf_bytes)
     raw = _record(pdf_bytes, "Life Time 105 Operations")
-    result = preserve_numeric_superscripts(
+    result = _preserve_numeric_superscripts(
         raw,
         pdf,
         signals=(_signal(), _signal()),
@@ -167,12 +167,12 @@ def test_second_pass_is_idempotent(tmp_path):
     pdf_bytes = b"synthetic-pdf-receipt"
     pdf = tmp_path / "source.pdf"
     pdf.write_bytes(pdf_bytes)
-    first = preserve_numeric_superscripts(
+    first = _preserve_numeric_superscripts(
         _record(pdf_bytes, "Life Time 105 Operations"),
         pdf,
         signals=(_signal(),),
     )
-    second = preserve_numeric_superscripts(first.record, pdf, signals=(_signal(),))
+    second = _preserve_numeric_superscripts(first.record, pdf, signals=(_signal(),))
     assert second.record == first.record
     assert second.applied == ()
     assert second.abstained[0]["reason"] == "flattened_token_not_unique"
@@ -183,4 +183,4 @@ def test_pdf_sha_mismatch_fails_closed(tmp_path):
     pdf.write_bytes(b"actual")
     raw = _record(b"expected", "Life Time 105 Operations")
     with pytest.raises(ValueError, match="SHA-256"):
-        preserve_numeric_superscripts(raw, pdf, signals=(_signal(),))
+        _preserve_numeric_superscripts(raw, pdf, signals=(_signal(),))

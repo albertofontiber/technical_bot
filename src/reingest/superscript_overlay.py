@@ -240,7 +240,7 @@ def _abstention(signal: NumericSuperscriptSignal, reason: str, **extra: Any) -> 
     }
 
 
-def preserve_numeric_superscripts(
+def _preserve_numeric_superscripts(
     extraction_record: dict[str, Any],
     pdf_path: str | Path,
     *,
@@ -248,8 +248,8 @@ def preserve_numeric_superscripts(
 ) -> SuperscriptOverlayResult:
     """Derive a Markdown-preserving copy plus exact applied/abstained receipts.
 
-    ``signals`` is injectable for deterministic unit tests. In normal operation
-    it must be omitted so geometry is read from the SHA-bound PDF.
+    Private test seam. Public callers cannot inject signals and therefore always
+    read geometry from the SHA-bound PDF.
     """
     expected_sha = str(extraction_record.get("sha256") or "").casefold()
     actual_sha = pdf_sha256(pdf_path)
@@ -364,3 +364,11 @@ def preserve_numeric_superscripts(
         applied=tuple(applied),
         abstained=tuple(abstained),
     )
+
+
+def preserve_numeric_superscripts(
+    extraction_record: dict[str, Any],
+    pdf_path: str | Path,
+) -> SuperscriptOverlayResult:
+    """Derive a typography-preserving record from the SHA-bound PDF geometry."""
+    return _preserve_numeric_superscripts(extraction_record, pdf_path)
