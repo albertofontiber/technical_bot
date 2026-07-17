@@ -1,0 +1,53 @@
+instrument: s161_table_preamble_answer_probe_prereg_v1
+status: FROZEN_BEFORE_INTEGRATION
+design: evals/s161_table_preamble_answer_probe_design_v1.md
+source_gate: evals/s160_table_preamble_closure_gate_v3.yaml
+
+runtime:
+  master_flag: POST_RERANK_COVERAGE
+  lane_flag: TABLE_PREAMBLE_CLOSURE
+  defaults: off
+  chunks_table: chunks_v2
+  generator_model: claude-sonnet-4-6
+  generator_prompt_variant: fidelity
+  answer_obligation_planner: guided
+  generator_selection_block: on
+  generator_include_context: 0
+  max_output_tokens: 3500
+  temperature: 0
+
+population:
+  qids: [cat007]
+  paid_generator_calls_max: 1
+  paid_reranker_calls: 0
+  paid_judge_calls: 0
+  frontier_calls: 0
+  retries: 0
+
+target_claims:
+  recovered_source_contract_gap: 5
+  protected_previously_served: 4
+  unresolved_document_extraction_hold_excluded: cat007#4:10^5
+
+gate:
+  recovered_claims_present_and_source_cited: 5
+  protected_claims_present_and_source_cited: 4
+  invalid_citations_max: 0
+  token_limit_stops_max: 0
+  unsupported_relay_life_claims_max: 0
+  protected_prefix_mutations_max: 0
+  full_local_regression_required_after_answer_go: true
+
+budget:
+  internal_ceiling_usd: 0.20
+  stop_before_call_if_preflight_exceeds_ceiling: true
+
+forbidden:
+  - target_specific_runtime_rule
+  - prompt_injection_of_expected_answer
+  - second_paid_call
+  - production_activation
+  - deployment
+  - push
+  - official_ok_credit_before_funnel_reconciliation
+
