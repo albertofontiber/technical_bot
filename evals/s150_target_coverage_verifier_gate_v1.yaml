@@ -1,0 +1,53 @@
+instrument: s150_target_coverage_verifier_gate_v1
+status: NO_GO_BOUNDED_VERIFIER_UNDER_COVERAGE
+
+evidence:
+  result:
+    path: evals/s150_target_coverage_verifier_probe_v1.json
+    sha256: af54c08ca93542b5e244b0560084f0415df46d31fcfacc30c141eedde36f72e3
+  receipts:
+    path: evals/s150_target_coverage_verifier_receipts_v1.json
+    sha256: 1463d6608161a79c7396643d0d2d3457f7f8be258448da086ab59d2734754968
+  preregistration:
+    path: evals/s150_target_coverage_verifier_prereg_v1.yaml
+    sha256: 71c017e783382b8c4313d6208af17da45ebfd2f8a4b20049be08672bed165624
+  runner:
+    path: scripts/s150_target_coverage_verifier_probe.py
+    sha256: f7aa9e39c39d56739d37be7f2807046830772a6f0fa1cc92b7c782b8f5e10b51
+
+result:
+  questions: 4
+  target_relations: 13
+  covered_relations: 7
+  coverage_rate: 0.53846154
+  primary_units: 15
+  additional_units: 23
+  verified_units: 38
+  verifier_passes: 1
+  invalid_ids: 0
+
+finding:
+  scope: implicit_relation_discovery
+  description: >-
+    A bounded source-level verifier recovers four additional relations but still
+    omits six. The omissions are mostly relations not explicit in the surface
+    question (safety prerequisites, configuration fields, rule structure and a
+    duration bound). More verifier loops would be costly and non-deterministic.
+
+decision:
+  repeat_verifier_loop: forbidden
+  fresh_broad_cohort_for_this_version: NO_GO
+  four_answer_probe: NO_GO
+  upstream_typed_relation_extraction_pilot: GO
+  production: NO_GO
+  facts_moved_to_ok: 0
+
+cost:
+  calls: 4
+  conservative_actual_usd: 0.581675
+  worst_case_preflight_usd: 0.687125
+
+authorization:
+  production: false
+  deploy: false
+  push: false

@@ -1,0 +1,51 @@
+instrument: s142_query_evidence_generalization_prereg_v1
+status: FROZEN_BEFORE_INDEPENDENT_EXECUTION
+design: evals/s142_query_evidence_generalization_design_v1.md
+
+frozen_implementation:
+  extractor:
+    path: src/rag/query_evidence_obligations.py
+    sha256: 28d4ccbe1b87b9e6e2590c47958fddcc44a3c6bf639bc190fa0e73832646c800
+  development_tests:
+    path: tests/test_s142_query_evidence_obligations.py
+    sha256: 5ad7cebddf0abceb94cbb3b8fe30e8bbd1c1e575e8caafe3cc9cc7deb63fa875
+  development_source:
+    path: evals/s114_procedure_bundle_heldout_freeze_v1.json
+    sha256: 227e808a2ba2308acce89f90722fd46a63bad30aae0cde630191154b4ff07d94
+
+sealed_independent:
+  cohort:
+    path: evals/s142_independent_obligation_cohort_v1.json
+    sha256: c0b8ee6f043c36a7112350d8e071c344b7ade42100de37322c3154cad82a3b4f
+    cohort_sha256: e17c7333537827ac6d036fffb60e8ae93e5055ea31a5c4eb3f9cbc747ea9cbcb
+  source_packet:
+    path: evals/s142_independent_source_packet_v1.json
+    sha256: 612b6d405ce5c8591b32f1d7ae81df628626299b55b68acceb948a4d68fcbe19
+  documents: 12
+  manufacturers: 4
+  eligible_questions: 7
+  exact_claims: 14
+  development_pdf_overlap: 0
+
+gates:
+  development_claim_recall: 1.0
+  maximum_records_per_question: 3
+  independent_claim_recall_min: 0.80
+  independent_candidate_precision_min: 0.70
+  independent_positive_questions_min: 5
+  cross_item_leakage: 0
+  deterministic_runs: 2
+
+resources:
+  independent_model_calls: 0
+  network_calls: 0
+  database_calls: 0
+  incremental_cost_usd: 0
+  cohort_authoring_known_cost_usd: 0.041104
+  cohort_authoring_prior_unknown_reserve_usd: 0.35
+
+credit:
+  facts_moved_to_ok: 0
+  production_change: false
+  deployment_authorized: false
+  push_authorized: false

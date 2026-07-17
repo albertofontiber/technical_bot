@@ -1,0 +1,35 @@
+instrument: s142_sealed_cohort_offline_recovery_prereg_v1
+status: FROZEN_BEFORE_OFFLINE_RECOVERY
+
+frozen_inputs:
+  source_packet:
+    path: evals/s142_independent_source_packet_v1.json
+    sha256: 612b6d405ce5c8591b32f1d7ae81df628626299b55b68acceb948a4d68fcbe19
+  raw_response:
+    path: evals/s142_haiku_raw_response_v3.json
+    sha256: 5ee477228968ef052c6591359dfd8d3b16f43f1c5197066ad16c53b03675ffc9
+  recovery_runner:
+    path: scripts/s142_recover_sealed_cohort.py
+    sha256: ad672aeba70f845b8db4455175d0de2678b4aed61d852999de6454204087df86
+
+contract:
+  allowed_repairs:
+    - exact_quote_already_present
+    - unique_alignment_differing_only_in_whitespace
+  unalignable_claim: drop
+  eligible_minimum_remaining_claims: 2
+  maximum_remaining_claims: 5
+  manual_or_model_content_editing: forbidden
+  inspect_extractor_output: forbidden
+
+resources:
+  new_model_calls: 0
+  network_calls: 0
+  database_calls: 0
+  incremental_cost_usd: 0
+
+authorization:
+  production: false
+  deploy: false
+  push: false
+  facts_moved_to_ok: 0

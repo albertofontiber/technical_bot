@@ -3,3 +3,40 @@
 evals/s13[4-6]_* text eol=lf
 scripts/s13[4-6]_* text eol=lf
 tests/test_s13[4-6]_* text eol=lf
+# These evaluation lines pin physical SHA-256 receipts. Keep their exact bytes
+# instead of allowing platform-specific EOL normalization on checkout.
+evals/s137_* -text
+scripts/s137_* -text
+tests/test_s137_* -text
+evals/s138_* -text
+scripts/s138_* -text
+tests/test_s138_* -text
+evals/s139_* -text
+scripts/s139_* -text
+tests/test_s139_* -text
+evals/s140_* -text
+scripts/s140_* -text
+tests/test_s140_* -text
+evals/s141_* -text
+scripts/s141_* -text
+tests/test_s141_* -text
+evals/s14[2-9]_* -text
+scripts/s14[2-9]_* -text
+tests/test_s14[2-9]_* -text
+evals/s15[0-3]_* -text
+scripts/s15[0-3]_* -text
+tests/test_s15[0-3]_* -text
+evals/orthogonal_* -text
+src/rag/source_identity_attestation.py -text
+src/rag/technical_obligations.py -text
+
+# CRLF is part of some frozen receipt bytes; do not report it as whitespace.
+evals/s13[7-9]_* whitespace=-blank-at-eof,cr-at-eol
+scripts/s13[7-9]_* whitespace=-blank-at-eof,cr-at-eol
+tests/test_s13[7-9]_* whitespace=-blank-at-eof,cr-at-eol
+evals/s14[0-9]_* whitespace=-blank-at-eof,cr-at-eol
+scripts/s14[0-9]_* whitespace=-blank-at-eof,cr-at-eol
+tests/test_s14[0-9]_* whitespace=-blank-at-eof,cr-at-eol
+evals/s15[0-3]_* whitespace=-blank-at-eof,cr-at-eol
+scripts/s15[0-3]_* whitespace=-blank-at-eof,cr-at-eol
+tests/test_s15[0-3]_* whitespace=-blank-at-eof,cr-at-eol

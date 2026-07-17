@@ -1,0 +1,26 @@
+instrument: s146_fresh_header_aware_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_FINAL
+
+frozen_artifacts:
+  preregistration:
+    path: evals/s146_fresh_header_aware_prereg_v1.yaml
+    sha256: 38dc3e4c7d4874c8e421233ce5629e0952548038cbe68ebad10cc3ed9438151b
+  runner:
+    path: scripts/s146_fresh_header_aware_gate.py
+    sha256: c113cff111590f42943c015e9393f6c4bc9c93a3281d661330023dc6d9bcd02c
+  tests:
+    path: tests/test_s146_fresh_header_aware_gate.py
+    sha256: 56cc9f0a1629874c3a7e1231c67da670a8edfb0f7c68fa36bdd03b25410e8fdf
+
+limits:
+  calls_max: 15
+  retries: 0
+  conservative_total_ceiling_usd: 0.75
+  user_budget_usd: 250
+
+authorization:
+  paid_fresh_gate: true
+  production: false
+  deploy: false
+  push: false
+  facts_moved_to_ok: 0

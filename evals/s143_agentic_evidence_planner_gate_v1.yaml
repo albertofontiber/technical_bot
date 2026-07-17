@@ -1,0 +1,35 @@
+instrument: s143_agentic_evidence_planner_gate_v1
+status: TRANSPORT_NO_GO_PARTIAL_CHECKPOINT
+
+evidence:
+  receipts:
+    path: evals/s143_agentic_evidence_planner_receipts_v1.json
+    sha256: 641cb8adb2bb1e0c4bda825eaa1da70dc60c203cc26ae23cb3018ca39c69aab0
+  runner:
+    path: scripts/s143_agentic_evidence_planner.py
+    sha256: 6f48e54e5ee78cee8d8cce193f49b5e84b35fca61ace57368b7b1ba1715569a1
+  preregistration:
+    path: evals/s143_agentic_evidence_planner_prereg_v1.yaml
+    sha256: 754b6776d2150b06630b0ff37e0952e8dbd5e7958beaa7d4d130f0f0d308e8c2
+
+result:
+  planned_questions: 7
+  provider_calls_completed: 4
+  valid_exact_packets: 3
+  whitespace_only_repairable_packets: 1
+  unresolved_packets: 0
+  uncalled_questions: 3
+  conservative_known_cost_usd: 0.01004
+
+decision:
+  semantic_hypothesis: NOT_MEASURED
+  v1_transport: NO_GO
+  same_question_retry: forbidden
+  versioned_whitespace_transport_recovery: GO
+  production: NO_GO
+  facts_moved_to_ok: 0
+
+authorization:
+  production: false
+  deploy: false
+  push: false

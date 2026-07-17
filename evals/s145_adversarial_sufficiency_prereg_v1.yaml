@@ -1,0 +1,62 @@
+instrument: s145_adversarial_sufficiency_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+purpose: >-
+  Independently determine whether S144's selected evidence actually answers each
+  question, because the cheap authored gold penalized three facts not clearly
+  required by their questions.
+
+frozen_inputs:
+  packet:
+    path: evals/s145_adversarial_sufficiency_packet_v1.json
+    sha256: deae0b6bbdb8b70237bf94394e969bc7ac1ff1d95658d5f26cfbaed371c9da5f
+    packet_sha256: 51828f44dbc85432ea539619b3159bc48a974182406319aa377a8ce813c16220
+  s144_result:
+    path: evals/s144_evidence_id_selector_v1.json
+    sha256: f5c082fd509f9a690c9237f0ed2363712b6d0e8118234487b78642a1a373ed1c
+  s144_gate:
+    path: evals/s144_evidence_id_selector_gate_v1.yaml
+    sha256: 5772e19ba6aad3b04f6d716d463477cfab299b36b6a397ccc7e4d56321949f57
+
+blind:
+  questions: 7
+  gold_claims_visible: false
+  s144_metrics_visible: false
+  judge_identity_visible_to_other_judge: false
+  repo_or_tools: false
+
+models:
+  sol:
+    provider: openai
+    model: gpt-5.6-sol
+    reasoning_effort: xhigh
+    max_output_tokens: 5000
+    max_counted_input_tokens: 60000
+  fable:
+    provider: anthropic
+    model: claude-fable-5
+    thinking: adaptive
+    effort: xhigh
+    max_output_tokens: 5000
+    max_counted_input_tokens: 60000
+
+gate:
+  converged_complete_min: 6
+  disagreements: hold
+  arbitration: none
+  reason: convergence_over_absolute_adversarial_unanimity
+
+pricing_usd_per_million_tokens:
+  openai: {input: 6.25, output: 30}
+  anthropic: {input: 10, output: 50}
+
+budget:
+  internal_ceiling_usd: 2
+  user_ceiling_usd: 250
+  calls: 2
+  retries: 0
+
+credit:
+  facts_moved_to_ok: 0
+  production_change: false
+  deployment_authorized: false
+  push_authorized: false

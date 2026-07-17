@@ -1,0 +1,52 @@
+instrument: s142_query_evidence_generalization_gate_v1
+status: NO_GO
+
+evidence:
+  result:
+    path: evals/s142_query_evidence_generalization_v1.json
+    sha256: 835f73c5e98d77dfe3c6a3fa85a95a109e01e62c290d28a688327ffb5fc0c500
+  runner:
+    path: scripts/s142_query_evidence_generalization.py
+    sha256: f8fcd92ad08b26db8cf2263dd2ce3251438338a9700b6674e0fbcab0857402e4
+  preregistration:
+    path: evals/s142_query_evidence_generalization_prereg_v1.yaml
+    sha256: 5681f4048989c6c6285c50ad9d10272997bba25b6e55a4593a56f972be0c51d8
+
+result:
+  eligible_questions: 7
+  positive_questions: 4
+  claims_total: 14
+  claims_covered: 6
+  claim_recall: 0.42857143
+  candidates_total: 21
+  useful_candidates: 6
+  candidate_precision: 0.28571429
+  cross_item_leakage: 0
+  deterministic_two_runs: true
+
+checks:
+  claim_recall_gte_0_80: false
+  candidate_precision_gte_0_70: false
+  positive_questions_gte_5: false
+  zero_cross_item_leakage: true
+  deterministic: true
+
+decision:
+  integrate_s142_deterministic_extractor: NO_GO
+  production: NO_GO
+  facts_moved_to_ok: 0
+  same_cohort_retuning: forbidden
+  next: >-
+    Evaluate a bounded cheap-model evidence planner with exact-quote validation,
+    no retry, content-addressed caching, and deterministic extractors kept as the
+    first path.
+
+cost:
+  independent_execution_usd: 0
+  cohort_authoring_known_usd: 0.041104
+  prior_uncheckpointed_upper_bound_reserve_usd: 0.35
+
+authorization:
+  production: false
+  deploy: false
+  push: false

@@ -1,0 +1,49 @@
+{
+  "instrument": "s140_endpoint_judge_response_v1",
+  "status": "VALIDATED",
+  "provider": "openai",
+  "model": "gpt-5.6-sol",
+  "response_id": "resp_0452a6ef2e3ac292016a594cf54c788190bd3a3cabc30903e8",
+  "created_at": "2026-07-16T21:28:28+00:00",
+  "packet_questions_sha256": "32378b8b95176028803a941b3395b4d62823b7e4a8f2228b9b5c7ffc07c911f0",
+  "usage": {
+    "input_tokens": 11762,
+    "input_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 11759
+    },
+    "output_tokens": 622,
+    "output_tokens_details": {
+      "reasoning_tokens": 399
+    },
+    "total_tokens": 12384
+  },
+  "conservative_cost_usd": 0.0921725,
+  "judgement": {
+    "judgements": [
+      {
+        "question_id": "29b49e99-07fe-4b83-8afd-2d770d8fc09d",
+        "set_judgements": [
+          {
+            "evidence_set_id": "S-9ACB0B614D85",
+            "answerability": "COMPLETE",
+            "minimum_sufficient_evidence_ids": [
+              "E-5D790265BC9C"
+            ],
+            "confidence": "HIGH",
+            "rationale": "Confirma una salida de fallo Open Collector de 40 mA y especifica que las salidas asociadas a alarmas y fallo están normalmente energizadas, es decir, con lógica fail-safe."
+          },
+          {
+            "evidence_set_id": "S-AFB3B5AD89BE",
+            "answerability": "COMPLETE",
+            "minimum_sufficient_evidence_ids": [
+              "E-94461ECDE221"
+            ],
+            "confidence": "HIGH",
+            "rationale": "Confirma una salida de fallo Open Collector de 40 mA y que las salidas de alarma y fallo funcionan normalmente energizadas, proporcionando la lógica fail-safe solicitada."
+          }
+        ]
+      }
+    ]
+  }
+}

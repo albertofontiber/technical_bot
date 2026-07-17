@@ -1,0 +1,14 @@
+{
+  "instrument": "s142_haiku_schema_400_receipt_v1",
+  "status": "FAILED_BEFORE_GENERATION",
+  "provider": "anthropic",
+  "model": "claude-haiku-4-5-20251001",
+  "phase": "count_tokens",
+  "http_status": 400,
+  "error_type": "invalid_request_error",
+  "error": "output_config.format array maxItems is unsupported",
+  "generation_calls": 0,
+  "known_billed_tokens": 0,
+  "known_cost_usd": 0,
+  "retry_authorized_under_same_permit": false
+}

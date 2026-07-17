@@ -1,0 +1,73 @@
+instrument: s153_application_bound_typed_relation_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+design: evals/s153_application_bound_typed_relation_design_v1.md
+
+frozen_inputs:
+  served_contexts:
+    path: evals/s113_full_contexts_freeze_v1.json
+    sha256: 22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d
+  prior_gate:
+    path: evals/s152_per_chunk_typed_relation_gate_v1.yaml
+    sha256: b038a01ee0ed316763889a27c1f8edc156ee82e69f7aeeb55856aaea3563de9b
+  design:
+    path: evals/s153_application_bound_typed_relation_design_v1.md
+    sha256: 01c71af189a189f2c84e579da2f521e14115d3849485c4baf10dcd21789a97ca
+  typed_relation_contract:
+    path: src/rag/typed_relations.py
+    sha256: 47b12f098a421630d28fb44744178008578f10009073c15d95e50a01ed23a8a9
+  application_bound_transport:
+    path: src/rag/typed_relations_v2.py
+    sha256: 60af58b8bf19ee100ad7c7567c12156ab84e748f3035e564d6ddf67a51f5af5e
+  shared_helpers:
+    path: scripts/s151_typed_relation_target_probe.py
+    sha256: de2191c1d777c89f5c0524da5fdb378a44d6873f2b0f14f4d7765d151b80cdf5
+  local_oracle:
+    path: scripts/s141_source_bound_technical_obligations.py
+    sha256: 3564d8b5a39e0e59b71364ccaaee2a269828c13b9e2a250b139f0a35bfb0e18a
+
+scope:
+  qids: [cat018, hp002, hp011, hp017]
+  unique_source_chunks: 51
+  source_first_extraction: true
+  questions_visible_during_extraction: false
+  model_authored_identity_fields: 0
+  one_chunk_per_call: true
+  provider_receipt_before_validation: true
+  retrieval_calls: 0
+  reranker_calls: 0
+  answer_calls: 0
+
+model:
+  provider: anthropic
+  id: claude-haiku-4-5-20251001
+  role: cheap_upstream_extractor_and_claim_selector
+  extraction_calls: 51
+  selection_calls: 4
+  retries: 0
+  extraction_max_output_tokens_per_call: 1500
+  extraction_max_counted_input_tokens_total: 100000
+  selection_max_output_tokens_per_call: 800
+  selection_max_counted_input_tokens_total: 150000
+
+validation:
+  target_relations: 13
+  covered_relations_required: 13
+  max_claims_per_chunk: 8
+  max_selected_claims_per_question: 16
+  unknown_claim_ids: 0
+  exact_quotes_only: true
+
+pricing_usd_per_million_tokens:
+  input: 2
+  output: 10
+
+budget:
+  internal_ceiling_usd: 2.50
+  user_ceiling_usd: 250
+
+credit:
+  passing_action: fresh_typed_relation_cohort_only
+  facts_moved_to_ok: 0
+  production_change: false
+  deployment_authorized: false
+  push_authorized: false

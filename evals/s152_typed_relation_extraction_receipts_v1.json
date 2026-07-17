@@ -1,0 +1,78 @@
+{
+  "instrument": "s152_typed_relation_extraction_receipts_v1",
+  "status": "TERMINAL_INVALID_NO_RETRY",
+  "model": "claude-haiku-4-5-20251001",
+  "receipts": [
+    {
+      "ordinal": 1,
+      "chunk_id": "3ef1b823-b62e-40d4-8a9a-ebac320f6414",
+      "response_id": "msg_011Cd6d6DgXQYu5joM1BeU57",
+      "counted_input_tokens": 1720,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1720,
+        "output_tokens": 646,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.0099,
+      "validation": "VALIDATED",
+      "raw_text": "{\"chunks\": [{\"chunk_id\": \"3ef1b823-b62e-40d4-8a9a-ebac320f6414\", \"claims\": [{\"relation_type\": \"default_state\", \"claim_text\": \"When the control panel is configured to delay siren activation, alarm detection may indicate an alarm condition without the ALARM LED illuminating.\", \"exact_quote\": \"Si se ha configurado la central para que retarde el funcionamiento de las sirenas, etc., puede que la detección de una alarma indique una condición de alarma, pero sin que se encienda el LED de ALARMA.\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"A condition where multiple alarm indications occur before outputs are activated is called coincidence.\", \"exact_quote\": \"La condición en la que hay más de una indicación de alarma antes de que se activen las salidas se llama coincidencia.\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"The control panel can be configured to delay activation of any output if fire is detected according to any configured delay strategy.\", \"exact_quote\": \"la central se haya configurado para retrasar la activación de cualquier salida en caso que se detecte un incendio en función de cualquier estrategia de retardo configurada.\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"An authorized person holding the key must use the AMPLIAR RETARDO key to extend the delay period to allow adequate search time.\", \"exact_quote\": \"debe utilizarse la tecla AMPLIAR RETARDO (solo disponible en el nivel de acceso 2)\"}, {\"relation_type\": \"state_transition\", \"claim_text\": \"Pressing the AMPLIAR RETARDO key initiates a countdown of the second timer, which is normally longer than the first and cancels the first timer.\", \"exact_quote\": \"Entonces se inicia la cuenta atrás del segundo temporizador, normalmente más larga que la del primero; el segundo temporizador anula el primero.\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"Press the FIN RETARDO key to end any delay and allow the complete alarm condition to be entered.\", \"exact_quote\": \"Pulse la tecla FIN RETARDO (disponible para el nivel de acceso de usuario 1) para poner fin a cualquier retardo\"}, {\"relation_type\": \"prerequisite\", \"claim_text\": \"An alarm detection initiates one of two configured timers to give the authorized key holder a reasonable time to react.\", \"exact_quote\": \"una condición de alarma detectada inicia uno de los dos temporizadores configurados para que la persona autorizada (poseedora de la llave) tenga un tiempo razonable para reaccionar\"}]}]}",
+      "raw_text_sha256": "8e6ee751818a82510884284609edd93c86cbeca138441e3bc5e93f00b56eb1b9",
+      "relations": 7
+    },
+    {
+      "ordinal": 2,
+      "chunk_id": "ac308dbf-357e-4356-9049-1ccfcc6ff749",
+      "response_id": "msg_011Cd6d6dHqd8MhPepbanG5o",
+      "counted_input_tokens": 1350,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1350,
+        "output_tokens": 400,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.0067,
+      "validation": "VALIDATED",
+      "raw_text": "{\"chunks\":[{\"chunk_id\":\"ac308dbf-357e-4356-9049-1ccfcc6ff749\",\"claims\":[{\"relation_type\":\"configuration_field\",\"claim_text\":\"Output activation delays are only available if delays have been configured as part of one or more cause-effect rules\",\"exact_quote\":\"Esta opción solo está disponible si se han configurado retardos como parte de una o más reglas de causa-efecto\"},{\"relation_type\":\"default_state\",\"claim_text\":\"When output delays are configured, the ACTIVE DELAY LED is illuminated\",\"exact_quote\":\"Si se ha configurado algún retardo de este tipo, el LED de RETARDO ACTIVO está encendido\"},{\"relation_type\":\"procedure_step\",\"claim_text\":\"Press ✓ to disable/enable output activation delays\",\"exact_quote\":\"pulse ✓. Cada vez que pulse ✓, cambiará el estado anulado/habilitado del retardo\"},{\"relation_type\":\"procedure_step\",\"claim_text\":\"Press ✕ to exit at any time\",\"exact_quote\":\"Para salir en cualquier momento, pulse ✕\"},{\"relation_type\":\"state_transition\",\"claim_text\":\"Each time ✓ is pressed, the delay disabled/enabled state toggles\",\"exact_quote\":\"Cada vez que pulse ✓, cambiará el estado anulado/habilitado del retardo\"},{\"relation_type\":\"rule_definition\",\"claim_text\":\"Menu option 5 is for Output Activation Delay enable/disable control\",\"exact_quote\":\"Seleccione «5: Retardo Activación Salidas» para anular/habilitar el retardo de activación de las salidas de alarma\"}]}]}",
+      "raw_text_sha256": "f86591d12ebacbfe1546cf3dace5e3e67ea0b744f95f248a170ae9a8da14619a",
+      "relations": 5
+    },
+    {
+      "ordinal": 3,
+      "chunk_id": "13bee205-9f2b-44ba-9891-37d77b5fa110",
+      "response_id": "msg_011Cd6d6vsWhFo8iaqFck3y1",
+      "counted_input_tokens": 1393,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1393,
+        "output_tokens": 611,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.008896,
+      "validation": "TERMINAL_INVALID_NO_RETRY",
+      "raw_text": "{\"chunks\": [{\"chunk_id\": \"13bee205-9f2b-44ba-9891-37d77b5fa110\", \"claims\": [{\"relation_type\": \"configuration_field\", \"claim_text\": \"Loop 1 Modules configuration includes Dir. (Direction) field\", \"exact_quote\": \"Editar Lazo 1 Módulos<br/>Dir.\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Loop 1 Modules configuration includes Cir.Abiert (Open Circuit) field\", \"exact_quote\": \"Editar Lazo 1 Módulos<br/>Cir.Abiert\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Loop 1 Modules configuration includes Ret.Alarma (Alarm Return) field\", \"exact_quote\": \"Editar Lazo 1 Módulos<br/>Ret.Alarma\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Loop 1 Modules configuration includes No.Silen. (No Silence) field\", \"exact_quote\": \"Editar Lazo 1 Módulos<br/>No.Silen.\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Loop 1 Modules configuration includes Enclav (Interlock) field\", \"exact_quote\": \"Editar Lazo 1 Módulos<br/>Enclav\"}, {\"relation_type\": \"default_state\", \"claim_text\": \"Cir.Abiert (Open Circuit) field has a default value of 0\", \"exact_quote\": \"Cir.Abiert | Editar Lazo 1 Módulos<br/>Ret.Alarma | Editar Lazo 1 Módulos<br/>No.Silen. | Editar Lazo 1 Módulos<br/>Enclav | OS<br/>len.Enclavado  | OS<br/>SuprAux |\\n| ------------------------------------ | ------------------------------------ | ------------------------------------ | ----------------------------------- | -------------------------------- | --------------------- | -------------- |\\n| 1                                    | 0\"}]}, {\"chunk_id\": \"13bee205-9f2b-44ba-9891-37d77b5fa110\", \"claims\": [{\"relation_type\": \"specification\", \"claim_text\": \"Manual pertains to central configuration for Notifier Pearl equipment\", \"exact_quote\": \"Manual de configuración de la central\"}]}]}",
+      "raw_text_sha256": "013559c5c326f741ac96c89aae664080f107dfffca12813644faaf8c69eb4d01"
+    }
+  ]
+}

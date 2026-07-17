@@ -1,0 +1,45 @@
+instrument: s148_adversarial_s147_gate_v1
+status: GO_TO_IMPLEMENTATION_PROBE
+
+evidence:
+  result:
+    path: evals/s148_adversarial_s147_sufficiency_v1.json
+    sha256: f71a7b670bca953d2d754e6046c03154596bc2eb57f09e167f6f75af8afaae93
+  sol_judgement:
+    path: evals/s148_sol56_xhigh_s147_sufficiency_v1.json
+    sha256: a6ae6a455c0f860980af64c97bfd4fe9bb69b700e14677a4a86881198ebdf852
+  fable_judgement:
+    path: evals/s148_fable5_xhigh_s147_sufficiency_v1.json
+    sha256: 116085194094824b7c3bccc27e9f9032235a9793d1b0f604e698aaa1da7491d8
+  packet:
+    path: evals/s148_adversarial_s147_packet_v1.json
+    sha256: 9706bee86a383a29cfc3bf5a530d9f941c035794ba2476499b4d6206fdee5ce7
+  preregistration:
+    path: evals/s148_adversarial_s147_prereg_v1.yaml
+    sha256: bf0e822951ba52f00d386047f66179a3ccce4926360db4072d8e942434548eac
+
+result:
+  questions: 14
+  converged_complete: 13
+  judge_disagreements: 1
+  terminal_complete_rate: 0.92857143
+  converged_incomplete: 0
+  irrelevant_selected_ids_by_both: 0
+
+decision:
+  local_implementation_probe_on_13_synthesis_targets: GO
+  integrate_into_production: NO_GO
+  same_cohort_tuning: forbidden
+  production: NO_GO
+  facts_moved_to_ok: 0
+
+cost:
+  sol_usd: 0.15497
+  fable_usd: 0.36711
+  total_usd: 0.52208
+  worst_case_preflight_usd: 0.85196
+
+authorization:
+  production: false
+  deploy: false
+  push: false

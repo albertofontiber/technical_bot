@@ -1,0 +1,322 @@
+{
+  "instrument": "s149_target_evidence_selector_probe_v1",
+  "status": "NO_GO",
+  "result": {
+    "questions": 4,
+    "target_relations": 13,
+    "covered_relations": 3,
+    "coverage_rate": 0.23076923,
+    "selected_units": 15,
+    "invalid_ids": 0
+  },
+  "cost": {
+    "calls": 4,
+    "counted_input_tokens_total": 112439,
+    "conservative_actual_usd": 0.226938,
+    "worst_case_preflight_usd": 0.248878,
+    "internal_ceiling_usd": 0.5
+  },
+  "rows": [
+    {
+      "qid": "cat018",
+      "expected_relations": 2,
+      "covered_relations": 0,
+      "relations": [
+        {
+          "kind": "software_type_cbe_activation",
+          "anchors_covered": false
+        },
+        {
+          "kind": "point_programming_fields",
+          "anchors_covered": false
+        }
+      ],
+      "selected_units": 5,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E002_f4be56e1f2",
+          "fragment_number": 1,
+          "candidate_id": "15a48b9d-fa1e-4c01-8702-b07b0fc5b80b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              1170
+            ]
+          ],
+          "content_sha256": "dff185c4e92d03d5cff562dfc17367e6c8dee1bd9f5a862e908895ac04a38cea"
+        },
+        {
+          "unit_id": "E005_738efcb900",
+          "fragment_number": 1,
+          "candidate_id": "15a48b9d-fa1e-4c01-8702-b07b0fc5b80b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              232,
+              608
+            ]
+          ],
+          "content_sha256": "ada5bb784e85acefb53ef32179b8c259680a7cca41c37a9ee9ea43f5f660f5c9"
+        },
+        {
+          "unit_id": "E006_1ac450d5a2",
+          "fragment_number": 1,
+          "candidate_id": "15a48b9d-fa1e-4c01-8702-b07b0fc5b80b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              610,
+              770
+            ]
+          ],
+          "content_sha256": "266e53bd91f9731d50cdd49e3df8bcc164710fae530191ac3d79b9cc40c1cd8f"
+        },
+        {
+          "unit_id": "E008_29329cf513",
+          "fragment_number": 1,
+          "candidate_id": "15a48b9d-fa1e-4c01-8702-b07b0fc5b80b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              842,
+              1037
+            ]
+          ],
+          "content_sha256": "1951fcc6d6fb58bf5a9225238ca98781ee30ab0c5431769f7b0d4ca69a794303"
+        },
+        {
+          "unit_id": "E009_11b7d7e6ab",
+          "fragment_number": 1,
+          "candidate_id": "15a48b9d-fa1e-4c01-8702-b07b0fc5b80b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              870,
+              2055
+            ]
+          ],
+          "content_sha256": "49096f0b032e1ffab387512145185ba9dfe9e2bdd7a613c60a3de428711090bd"
+        }
+      ]
+    },
+    {
+      "qid": "hp002",
+      "expected_relations": 3,
+      "covered_relations": 2,
+      "relations": [
+        {
+          "kind": "initial_reference_calibration",
+          "anchors_covered": true
+        },
+        {
+          "kind": "bounded_fault_window",
+          "anchors_covered": true
+        },
+        {
+          "kind": "maintenance_isolation_prerequisite",
+          "anchors_covered": false
+        }
+      ],
+      "selected_units": 3,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E002_06e7e21ee2",
+          "fragment_number": 2,
+          "candidate_id": "414ce99c-0dec-478c-b504-009f14631804",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              1136
+            ]
+          ],
+          "content_sha256": "12ce07280fd23945caf302d0ed7e15b54f723dd717657eddbec84f56d4af9275"
+        },
+        {
+          "unit_id": "E010_8bf0d12bce",
+          "fragment_number": 2,
+          "candidate_id": "414ce99c-0dec-478c-b504-009f14631804",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1623,
+              2193
+            ]
+          ],
+          "content_sha256": "46903df55fac395c9e84ed771221a4c6126faba9658fdfa79a64f1893971ad96"
+        },
+        {
+          "unit_id": "E011_0d201b2d00",
+          "fragment_number": 10,
+          "candidate_id": "9410f72f-fff5-494b-bdf5-a0a177e7f02e",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              25,
+              429
+            ],
+            [
+              835,
+              1239
+            ]
+          ],
+          "content_sha256": "7d94799fa13dadab7ed4a658d3f9113e059116246b4cb1d1af284a67212a4344"
+        }
+      ]
+    },
+    {
+      "qid": "hp011",
+      "expected_relations": 3,
+      "covered_relations": 0,
+      "relations": [
+        {
+          "kind": "extinction_duration_range",
+          "anchors_covered": false
+        },
+        {
+          "kind": "reset_inhibit_special_state",
+          "anchors_covered": false
+        },
+        {
+          "kind": "default_latched_faults",
+          "anchors_covered": false
+        }
+      ],
+      "selected_units": 4,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E003_aa05d0c8a3",
+          "fragment_number": 1,
+          "candidate_id": "daa7a7c4-c4a8-4c54-b2dd-c5e889cccfe8",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              43,
+              196
+            ]
+          ],
+          "content_sha256": "cebe4896c1b083de7b75b3bc443a66d1856f2cf7b5a23feb708074582c1d5031"
+        },
+        {
+          "unit_id": "E004_926d5bab83",
+          "fragment_number": 1,
+          "candidate_id": "daa7a7c4-c4a8-4c54-b2dd-c5e889cccfe8",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              198,
+              335
+            ]
+          ],
+          "content_sha256": "945aef66157aa7f39296d09ef40552787f4ed5ce61d840bf57a1745864c163fe"
+        },
+        {
+          "unit_id": "E005_e859630d9c",
+          "fragment_number": 4,
+          "candidate_id": "731ace03-99d6-47ff-8d1a-da5b381b5c47",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              316,
+              331
+            ]
+          ],
+          "content_sha256": "8f9e3ea9df96370184d52c048bca8869d5359e3bd36082136c546e1dc437ff4c"
+        },
+        {
+          "unit_id": "E006_b6e468db30",
+          "fragment_number": 4,
+          "candidate_id": "731ace03-99d6-47ff-8d1a-da5b381b5c47",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              333,
+              441
+            ]
+          ],
+          "content_sha256": "6b1654ab5630ad082d6b712451902e0d6c6ef93b1a7436240c7668cdfefb139b"
+        }
+      ]
+    },
+    {
+      "qid": "hp017",
+      "expected_relations": 5,
+      "covered_relations": 1,
+      "relations": [
+        {
+          "kind": "option_family_cardinality",
+          "anchors_covered": true
+        },
+        {
+          "kind": "input_condition_definition",
+          "anchors_covered": false
+        },
+        {
+          "kind": "output_condition_action",
+          "anchors_covered": false
+        },
+        {
+          "kind": "logic_contradiction_warning",
+          "anchors_covered": false
+        },
+        {
+          "kind": "commissioning_rule_verification",
+          "anchors_covered": false
+        }
+      ],
+      "selected_units": 3,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E002_ef74c7ae30",
+          "fragment_number": 1,
+          "candidate_id": "570d9951-e3a6-4c64-a927-e26b5e6db842",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              1070
+            ]
+          ],
+          "content_sha256": "325597e179bbdd72a31de1d609b94eaa9da78141b608873f9127002fdefdd9a5"
+        },
+        {
+          "unit_id": "E005_191078915e",
+          "fragment_number": 1,
+          "candidate_id": "570d9951-e3a6-4c64-a927-e26b5e6db842",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              238,
+              452
+            ]
+          ],
+          "content_sha256": "44023204f30512b277857e72c32179185e544f0f8b0681c98101e6b712f112a9"
+        },
+        {
+          "unit_id": "E015_2511acd0aa",
+          "fragment_number": 2,
+          "candidate_id": "7e34cb72-0183-488a-9aa3-fcc81b40f3ef",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              352
+            ],
+            [
+              706,
+              1058
+            ]
+          ],
+          "content_sha256": "8cde735027a414ac2f4f5c71cc2ee2afb338656b514602e5a8a2ae42e9962a36"
+        }
+      ]
+    }
+  ],
+  "decision": {
+    "four_answer_probe": "NO_GO",
+    "production": "NO_GO",
+    "facts_moved_to_ok": 0
+  },
+  "result_sha256": "e8500c84ddc1a0ca30476529d5eb41a6788594ccdb61c6e7a08c4b6ef7e500cc"
+}

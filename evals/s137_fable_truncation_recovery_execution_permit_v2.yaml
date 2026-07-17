@@ -1,0 +1,52 @@
+instrument: s137_fable_truncation_recovery_execution_permit_v2
+status: EXECUTION_GO_FABLE_RECOVERY_ONCE
+
+preregistration:
+  path: evals/s137_fable_truncation_recovery_prereg_v2.yaml
+  sha256: 1d63f4bca0aab98c0da601f378d3399690bd9d85d1a7498634dc0930731dff7a
+runner:
+  path: scripts/s137_resume_fable_v2.py
+  sha256: 458fb3353f3e98bfb5f796d20497e84e6b36bde227866d7638c4e3364f914476
+tests:
+  path: tests/test_s137_resume_fable_v2.py
+  sha256: 7b08208cc652ed82a047a3fc4fe06a96a89a9e5783eab476f1061f15c64c9c9f
+
+pre_execution_evidence:
+  combined_s137_tests: 9_passed
+  py_compile: passed
+  git_diff_check: passed
+  frozen_v1_dependencies_valid: true
+  valid_sol_response_reused: true
+  sol_semantic_decision_inspected_before_freeze: false
+  expected_fable_input_tokens: 46284
+  cumulative_worst_case_usd: 4.2059375
+
+allowed:
+  anthropic_token_count: 1
+  anthropic_fable_recovery_calls: 1
+  openai_arbitration_calls_max: 1
+  persist_valid_or_failed_receipt: true
+  write_local_aggregate: true
+
+forbidden:
+  additional_fable_retry: true
+  repeat_sol_primary: true
+  packet_changes: true
+  mapping_changes: true
+  prompt_changes: true
+  rubric_changes: true
+  terminal_rule_changes: true
+  remote_database: true
+  embeddings: true
+  context_generation: true
+  chunker_changes: true
+  retrieval_changes: true
+  threshold_changes: true
+  production: true
+  migration_apply: true
+  deploy: true
+  facts_moved_to_ok: true
+
+cumulative_external_usd_ceiling: 10
+user_authorized_ceiling_usd: 50
+stop_before_inference_if_cumulative_worst_case_exceeds_ceiling: true

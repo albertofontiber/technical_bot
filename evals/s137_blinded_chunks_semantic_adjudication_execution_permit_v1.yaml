@@ -1,0 +1,63 @@
+instrument: s137_blinded_chunks_semantic_adjudication_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED
+
+preregistration:
+  path: evals/s137_blinded_chunks_semantic_adjudication_prereg_v1.yaml
+  sha256: 36030de3d59a85a35cc6c7391e7f29743fa94adbe0ff2fe407af29ddcad6d0f3
+runner:
+  path: scripts/s137_blinded_chunks_semantic_adjudication.py
+  sha256: b72989936c8a6b5b385fa355f38488c53dc880fdac4a8821bc2e700ccb01eb51
+tests:
+  path: tests/test_s137_blinded_chunks_semantic_adjudication.py
+  sha256: c0239f40396a835fd9f7f9a68734e1be04698ba437bc09e8ef4fad7d0767f31d
+public_packet:
+  path: evals/s137_blinded_packet_seed1_v1.json
+  sha256: 5330aaf287bea09527cceaeb4d788d8d64029fa5f6ca4c72f5f57146f7dde000
+private_mapping:
+  path: evals/s137_private_mapping_seed1_v1.json
+  sha256: 5d5779f870fd4a8f8e804fa2bb57a81f3cd4555fed611a9750b7f1dcc79d4a22
+
+pre_execution_evidence:
+  tests: 6_passed
+  py_compile: passed
+  git_diff_check: passed
+  public_packet_seed_identity: true
+  private_mapping_seed_identity: true
+  question_count: 3
+  evidence_item_counts: [16, 15, 16]
+  judge_payload_characters: 142403
+  paid_model_calls_so_far: 0
+
+models:
+  primary: {model: gpt-5.6-sol, effort: xhigh, max_output_tokens: 12000}
+  independent: {model: claude-fable-5, thinking: adaptive, effort: xhigh, max_output_tokens: 8000}
+  optional_arbitration: {model: gpt-5.6-sol, effort: xhigh, max_output_tokens: 8000, trigger: terminal_disagreement_only}
+
+allowed:
+  provider_token_counts: true
+  openai_primary_calls: 1
+  anthropic_independent_calls: 1
+  openai_arbitration_calls_max: 1
+  write_frozen_response_receipts: true
+  write_local_aggregate: true
+
+forbidden:
+  judge_tools: true
+  judge_repo_access: true
+  evidence_population_changes: true
+  prompt_or_rubric_changes: true
+  retries_after_valid_response: true
+  remote_database: true
+  embeddings: true
+  context_generation: true
+  chunker_changes: true
+  retrieval_changes: true
+  threshold_changes: true
+  production: true
+  migration_apply: true
+  deploy: true
+  facts_moved_to_ok: true
+
+external_usd_ceiling: 10
+user_authorized_ceiling_usd: 50
+stop_before_inference_if_worst_case_exceeds_ceiling: true

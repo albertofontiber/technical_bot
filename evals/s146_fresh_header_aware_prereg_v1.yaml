@@ -1,0 +1,63 @@
+instrument: s146_fresh_header_aware_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+design: evals/s146_fresh_header_aware_design_v1.md
+
+frozen_inputs:
+  source_packet:
+    path: evals/s146_fresh_source_packet_v1.json
+    sha256: bc442d04fbc81d0181e636b72dc819af9cbcc035b3800f1337e48044f7d5ba4a
+    packet_sha256: 7ce497ff3a08d64bf67387682a8f749a2d4394bc8faa33740e98984054ac2366
+  design:
+    path: evals/s146_fresh_header_aware_design_v1.md
+    sha256: c290d8da71991091e6934e9eb2bc2ab22f91f78cc0317a6e7c82a57058d945de
+  evidence_unitizer:
+    path: src/rag/evidence_units_v2.py
+    sha256: c80498f59452280f7630411b1740664c8ec946a5e3a6511441d6140f88727eab
+  unitizer_tests:
+    path: tests/test_s146_header_aware_evidence_units.py
+    sha256: fcb6021bbe8b112a7da2a85b1c37b877d62dd7e358b1f444c8fb807671236d30
+
+independence:
+  questions_authored_after_implementation_freeze: true
+  prior_s135_documents_excluded: 36
+  manufacturers: 14
+  strata: {table: 7, prose: 7}
+  same_s142_questions_reused: false
+  product_specific_rules: false
+
+model:
+  provider: anthropic
+  id: claude-haiku-4-5-20251001
+  role: cheap_author_then_bounded_id_selector
+  calls_max: 15
+  retries: 0
+  author_max_output_tokens: 12000
+  author_max_counted_input_tokens: 100000
+  selector_max_output_tokens_per_call: 600
+  selector_max_counted_input_tokens_total: 120000
+
+validation:
+  eligible_questions_min: 10
+  table_questions_min: 4
+  prose_questions_min: 4
+  selected_ids_max: 6
+  claim_recall_min: 0.90
+  question_complete_rate_min: 0.85
+  unit_precision_min: 0.55
+  table_context_rate_min: 0.80
+  unknown_ids: 0
+
+pricing_usd_per_million_tokens:
+  input: 2
+  output: 10
+
+budget:
+  internal_ceiling_usd: 0.75
+  user_ceiling_usd: 250
+
+credit:
+  passing_action: implementation_probe_only
+  facts_moved_to_ok: 0
+  production_change: false
+  deployment_authorized: false
+  push_authorized: false

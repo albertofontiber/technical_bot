@@ -1,0 +1,148 @@
+{
+  "instrument": "s137_fable_atomic_response_v3",
+  "provider": "anthropic",
+  "model": "claude-fable-5",
+  "response_id": "msg_011Cd6NAMwybYo1josMss2Ns",
+  "created_at": "2026-07-16T20:27:43+00:00",
+  "question_id": "29b49e99-07fe-4b83-8afd-2d770d8fc09d",
+  "packet_questions_sha256": "14a93890e530c9290484cd8746bde35df25292ff58fa24389760868b10f22257",
+  "stop_reason": "end_turn",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 15855,
+    "output_tokens": 3763,
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "output_tokens_details": {
+      "thinking_tokens": 2043
+    }
+  },
+  "conservative_cost_usd": 0.3467,
+  "status": "VALIDATED",
+  "judgement": {
+    "judgements": [
+      {
+        "question_id": "29b49e99-07fe-4b83-8afd-2d770d8fc09d",
+        "answerability": "COMPLETE",
+        "minimum_sufficient_evidence_ids": [
+          "E-A1334F9996F8",
+          "E-026ED7172265"
+        ],
+        "evidence_assessments": [
+          {
+            "evidence_id": "E-026ED7172265",
+            "relevance": "DIRECT",
+            "supported_claim": "Confirms a fault output exists (o.c. 40 mA) and explains the logic: outputs are Normally Energised open collectors associated to alarm thresholds and fault status, i.e., they de-energise on failure.",
+            "redundant_with": [
+              "E-3615653EA383"
+            ]
+          },
+          {
+            "evidence_id": "E-146B01C3155F",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Shows mounting rules and terminal strip layout but does not establish the fault output or its failure logic.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-1DAD917B69F8",
+            "relevance": "SUPPORTING",
+            "supported_claim": "Identification code shows open-collector mode options P=positive safety (energized) and N=negative safety, contextualising the output logic variants.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-27D53964CD9A",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Cover page and index only; no technical content on fault output or logic.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-3615653EA383",
+            "relevance": "DIRECT",
+            "supported_claim": "Terminal 8 is the O.C. Fault output; states all SMART 2 outputs are open collector in positive safety (sicurezza positiva) with negative switching, max 40 mA.",
+            "redundant_with": [
+              "E-026ED7172265"
+            ]
+          },
+          {
+            "evidence_id": "E-485E42D88FC6",
+            "relevance": "DIRECT",
+            "supported_claim": "States the detector provides an Open Collector output associated with fault, plus self-diagnostic algorithm that constantly checks hardware including the sensor.",
+            "redundant_with": [
+              "E-FD524C1DE741"
+            ]
+          },
+          {
+            "evidence_id": "E-497AB353730D",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Testing and use instructions; no fault output information.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-5E35E16FE8C3",
+            "relevance": "SUPPORTING",
+            "supported_claim": "Describes LED/output behaviour for negative safety (JN) TWIN versions at power-on, adding context about output logic variants.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-7CBC98CF1DC2",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Maintenance, dismounting routines; unrelated to fault output logic.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-94AD715F3AA3",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Cable sizing and connection guidance; does not address fault output or failure logic.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-A1334F9996F8",
+            "relevance": "DIRECT",
+            "supported_claim": "Technical specs: self-diagnostic routine with O.C. 40 mA fault output; output logic is Sicurezza Positiva / fail safe (standard) or fail in alarm.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-B5944A0B3E27",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Packing instructions only.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-BF0DB87D80A0",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Index page only; no answer content.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-E2807AC44093",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Italian wiring/connection guidance; no fault output logic details.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-E5634552B38C",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Jumper configuration for alarm thresholds; unrelated to fault output.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-FD524C1DE741",
+            "relevance": "DIRECT",
+            "supported_claim": "English description: three O.C. threshold outputs plus a fourth O.C. output for Fault, with self-diagnostic procedure monitoring hardware and sensor.",
+            "redundant_with": [
+              "E-485E42D88FC6"
+            ]
+          }
+        ],
+        "confidence": "HIGH",
+        "rationale": "Yes: SMART 2 has an O.C. 40 mA fault output tied to the self-diagnostic routine (E-A1334F9996F8, E-485E42D88FC6, E-FD524C1DE741). The logic is positive safety / fail-safe: outputs are normally energised open collectors that de-energise on fault (E-026ED7172265, E-3615653EA383, E-A1334F9996F8), with an optional negative safety variant (E-1DAD917B69F8). E-A1334F9996F8 plus E-026ED7172265 form the smallest sufficient set covering both existence and failure logic."
+      }
+    ]
+  }
+}

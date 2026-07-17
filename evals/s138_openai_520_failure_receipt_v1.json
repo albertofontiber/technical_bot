@@ -1,0 +1,26 @@
+{
+  "instrument": "s138_provider_infrastructure_failure_v1",
+  "status": "NO_MODEL_RESPONSE_RETRY_FORBIDDEN_UNDER_V1",
+  "provider": "openai",
+  "model": "gpt-5.6-sol",
+  "stage": "primary_semantic_judge",
+  "occurred_at_utc": "2026-07-16T20:56:13Z",
+  "http_status": 520,
+  "error_category": "origin",
+  "error_name": "unknown_origin_error",
+  "cloudflare_error": true,
+  "provider_marked_retryable": true,
+  "provider_retry_after_seconds": 60,
+  "response_id": null,
+  "usage": null,
+  "judge_output": null,
+  "fable_calls_started": 0,
+  "unknown_cost_reserve_usd": 0.93485625,
+  "authorization": {
+    "retry_under_v1": false,
+    "production": false,
+    "deploy": false,
+    "migration_apply": false,
+    "facts_moved_to_ok": 0
+  }
+}

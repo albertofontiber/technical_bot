@@ -1,0 +1,81 @@
+{
+  "instrument": "s145_adversarial_sufficiency_v1",
+  "status": "GO_TO_S145_FRESH_INDEPENDENT",
+  "result": {
+    "questions": 7,
+    "converged_complete": 6,
+    "judge_disagreements": 1,
+    "rows": [
+      {
+        "question_id": "Q01",
+        "sol": "COMPLETE",
+        "fable": "PARTIAL",
+        "terminal": "HOLD",
+        "sol_irrelevant_ids": [],
+        "fable_irrelevant_ids": []
+      },
+      {
+        "question_id": "Q02",
+        "sol": "COMPLETE",
+        "fable": "COMPLETE",
+        "terminal": "COMPLETE",
+        "sol_irrelevant_ids": [],
+        "fable_irrelevant_ids": []
+      },
+      {
+        "question_id": "Q03",
+        "sol": "COMPLETE",
+        "fable": "COMPLETE",
+        "terminal": "COMPLETE",
+        "sol_irrelevant_ids": [],
+        "fable_irrelevant_ids": []
+      },
+      {
+        "question_id": "Q04",
+        "sol": "COMPLETE",
+        "fable": "COMPLETE",
+        "terminal": "COMPLETE",
+        "sol_irrelevant_ids": [],
+        "fable_irrelevant_ids": []
+      },
+      {
+        "question_id": "Q05",
+        "sol": "COMPLETE",
+        "fable": "COMPLETE",
+        "terminal": "COMPLETE",
+        "sol_irrelevant_ids": [],
+        "fable_irrelevant_ids": []
+      },
+      {
+        "question_id": "Q06",
+        "sol": "COMPLETE",
+        "fable": "COMPLETE",
+        "terminal": "COMPLETE",
+        "sol_irrelevant_ids": [],
+        "fable_irrelevant_ids": []
+      },
+      {
+        "question_id": "Q07",
+        "sol": "COMPLETE",
+        "fable": "COMPLETE",
+        "terminal": "COMPLETE",
+        "sol_irrelevant_ids": [],
+        "fable_irrelevant_ids": []
+      }
+    ]
+  },
+  "cost": {
+    "sol_usd": 0.0606875,
+    "fable_usd": 0.20862,
+    "total_usd": 0.2693075,
+    "worst_case_preflight_usd": 0.5324575,
+    "internal_ceiling_usd": 2
+  },
+  "decision": {
+    "fresh_independent_s145": "GO",
+    "integrate_s144": "NO_GO",
+    "production": "NO_GO",
+    "facts_moved_to_ok": 0
+  },
+  "result_sha256": "d2137d643a34c17c7cf6025b3d6ca40797b9d277565951a22f042b8a347bd429"
+}

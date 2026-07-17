@@ -1,0 +1,47 @@
+schema_version: s153_research_branch_closeout_v1
+instrument: s141_s153_research_surface_closeout
+status: CLOSED_REPRODUCIBLE_RUNTIME_ISOLATED
+
+runtime_boundary:
+  generator_contract: answer_planner_s122_v1
+  retriever_s141_identity_attachment: absent
+  answer_obligation_planner_default: "off"
+  experimental_mechanisms_executed_by_default_runtime: false
+  s141_contract_selected_by_generator: false
+  production_flags_changed: false
+  deployment_performed: false
+
+retained_for_reproducibility:
+  - src/rag/source_identity_attestation.py
+  - src/rag/technical_obligations.py
+  - src/rag/query_evidence_obligations.py
+  - src/rag/evidence_units.py
+  - src/rag/evidence_units_v2.py
+  - src/rag/evidence_selector.py
+  - src/rag/evidence_coverage_verifier.py
+  - src/rag/typed_relations.py
+  - src/rag/typed_relations_v2.py
+  - scripts/s141_source_bound_technical_obligations.py
+  - scripts/s142_query_evidence_generalization.py
+  - scripts/s149_target_evidence_selector_probe.py
+  - scripts/s150_target_coverage_verifier_probe.py
+  - scripts/s153_application_bound_typed_relation_probe.py
+
+promotion_rules:
+  current_status: evaluation_only
+  direct_production_import: forbidden
+  activation_via_existing_environment_flag: forbidden
+  future_promotion_requires:
+    - a versioned design that is not tuned on the four frozen target questions
+    - preregistered independent positive and negative cohorts
+    - measurable positive generalization
+    - complete regression against protected OK facts
+    - an explicit production GO
+
+closed_lines:
+  s141_target_specific_obligation_reconstruction: independent_positive_inconclusive
+  s149_single_pass_evidence_selector: no_go_under_coverage
+  s150_bounded_coverage_verifier: no_go_under_coverage
+  s153_typed_relation_layer: no_go_extraction_and_selection_under_coverage
+
+facts_moved_to_ok: 0

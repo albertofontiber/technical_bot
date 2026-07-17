@@ -1,0 +1,14 @@
+{
+  "instrument": "s142_uncheckpointed_attempt_receipt_v2",
+  "status": "FAILED_NO_VALIDATED_COHORT",
+  "provider": "anthropic",
+  "model": "claude-haiku-4-5-20251001",
+  "source_packet_sha256": "da9f15a45ec71a12d30f7965de1dc1e681dd47f62727bfa2e485353e3d792d7c",
+  "validated_output_exists": false,
+  "raw_response_receipt_exists": false,
+  "exact_failure_unavailable_due_to_runner_checkpoint_gap": true,
+  "known_cost_usd": null,
+  "reserved_upper_bound_usd": 0.35,
+  "retry_under_v2_permit": false,
+  "next": "ONE_CHECKPOINTED_TRANSPORT_ATTEMPT_ONLY"
+}

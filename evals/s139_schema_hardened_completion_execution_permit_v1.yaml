@@ -1,0 +1,43 @@
+instrument: s139_schema_hardened_completion_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED
+authorized_at_utc: 2026-07-16
+
+preregistration:
+  path: evals/s139_schema_hardened_completion_prereg_v1.yaml
+  sha256: 09eeaeaf8eba190b7742b5a7b286d13448cf785df45bc60fea6e704007b6a4cb
+runner:
+  path: scripts/s139_schema_hardened_completion.py
+  sha256: eeec9b8094284abfc50c2f4d74109d2912bd5c812b701390caea873c6c653a19
+tests:
+  path: tests/test_s139_schema_hardened_completion.py
+  sha256: 9bfaeb2fb8b904a56be6d2362316fcead6387e8c1f7992ba7cc33228c0532c17
+
+local_verification:
+  s139_plus_s138_tests: 11_passed
+  py_compile: passed
+  git_diff_check: passed
+  frozen_invalid_q3_rejected_by_hardened_schema: true
+  exact_question_set_and_evidence_ids_required: true
+
+cost_gate:
+  known_s138_cost_before_s139_usd: 1.78285625
+  failed_520_unknown_cost_reserve_usd: 0.93485625
+  s139_incremental_caps_worst_case_usd: 2.705
+  s138_total_reserved_caps_worst_case_usd: 5.42271250
+  combined_s137_s138_reserved_caps_worst_case_usd: 8.93658000
+  s138_internal_ceiling_usd: 10
+  broader_user_ceiling_usd: 250
+
+authorized_calls:
+  fable_q3_completion_max: 1
+  sol_disagreement_arbitration_max: 1
+  retries: 0
+
+not_authorized:
+  - production
+  - deploy
+  - migration_apply
+  - chunks_changes
+  - retrieval_changes
+  - threshold_changes
+  - facts_moved_to_ok

@@ -1,0 +1,29 @@
+instrument: s151_typed_relation_uncheckpointed_batch2_failure_v1
+status: TERMINAL_NO_RETRY
+
+failure:
+  stage: source_first_extraction
+  attempted_batch: 2
+  reason: model_output_omitted_at_least_one_required_chunk
+  validator: typed_relation_extraction_population_mismatch
+  response_receipt_available: false
+  retry_forbidden: true
+
+accounting:
+  provider_calls_attempted: 2
+  checkpointed_calls: 1
+  uncheckpointed_calls: 1
+  checkpointed_actual_usd: 0.03499
+  uncheckpointed_conservative_reserve_usd: 0.10
+  conservative_total_reserved_usd: 0.13499
+
+downstream:
+  relation_store_created: false
+  selection_calls: 0
+  answer_calls: 0
+  facts_moved_to_ok: 0
+
+authorization:
+  production: false
+  deploy: false
+  push: false

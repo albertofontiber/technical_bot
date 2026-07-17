@@ -1,0 +1,1232 @@
+{
+  "instrument": "s153_typed_relation_extraction_receipts_v1",
+  "status": "COMPLETE",
+  "created_at": "2026-07-16T23:51:31.159485+00:00",
+  "model": "claude-haiku-4-5-20251001",
+  "receipts": [
+    {
+      "ordinal": 1,
+      "chunk_id": "3ef1b823-b62e-40d4-8a9a-ebac320f6414",
+      "response_id": "msg_011Cd6dWo96WDB9nDwyMdXVf",
+      "counted_input_tokens": 1590,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1590,
+        "output_tokens": 622,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.0094,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"default_state\", \"claim_text\": \"If the control panel is configured to delay siren activation, alarm detection may indicate an alarm condition without the ALARM LED illuminating\", \"exact_quote\": \"Si se ha configurado la central para que retarde el funcionamiento de las sirenas, etc., puede que la detección de una alarma indique una condición de alarma, pero sin que se encienda el LED de ALARMA.\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"The condition where multiple alarm indications occur before outputs activate is called coincidence\", \"exact_quote\": \"La condición en la que hay más de una indicación de alarma antes de que se activen las salidas se llama coincidencia.\"}, {\"relation_type\": \"specification\", \"claim_text\": \"The control panel can be configured to delay activation of any output when fire is detected based on any configured delay strategy\", \"exact_quote\": \"También es posible que la central se haya configurado para retrasar la activación de cualquier salida en caso que se detecte un incendio en función de cualquier estrategia de retardo configurada.\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"An authorized person with a key must use the EXTEND DELAY key (only available at access level 2) to initiate the second timer countdown\", \"exact_quote\": \"Para ello debe utilizarse la tecla AMPLIAR RETARDO (solo disponible en el nivel de acceso 2). Entonces se inicia la cuenta atrás del segundo temporizador\"}, {\"relation_type\": \"state_transition\", \"claim_text\": \"The second timer is normally longer than the first timer and the second timer cancels the first\", \"exact_quote\": \"el segundo temporizador, normalmente más larga que la del primero; el segundo temporizador anula el primero.\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"Press the END DELAY key (available at access level 1) to terminate any delay and enter the full alarm condition\", \"exact_quote\": \"Pulse la tecla FIN RETARDO (disponible para el nivel de acceso de usuario 1) para poner fin a cualquier retardo y poder introducir la condición de alarma completa.\"}, {\"relation_type\": \"prerequisite\", \"claim_text\": \"An alarm condition detected initiates one of two configured timers to provide authorized personnel time to react\", \"exact_quote\": \"una condición de alarma detectada inicia uno de los dos temporizadores configurados para que la persona autorizada (poseedora de la llave) tenga un tiempo razonable para reaccionar\"}]}",
+      "raw_text_sha256": "6450eb512ca559dd6ed43145a1ae7b08d42bc58fb758860c6f07a30ef021de61",
+      "relations": 7
+    },
+    {
+      "ordinal": 2,
+      "chunk_id": "ac308dbf-357e-4356-9049-1ccfcc6ff749",
+      "response_id": "msg_011Cd6dXAgeA11Uxw5MGnwLX",
+      "counted_input_tokens": 1224,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1224,
+        "output_tokens": 444,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.006888,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"configuration_field\", \"claim_text\": \"Retardos de activación de salidas option is only available if delays have been configured as part of one or more cause-effect rules\", \"exact_quote\": \"Esta opción solo está disponible si se han configurado retardos como parte de una o más reglas de causa-efecto\"}, {\"relation_type\": \"default_state\", \"claim_text\": \"The ACTIVE DELAY LED is illuminated when some delay of this type has been configured\", \"exact_quote\": \"Si se ha configurado algún retardo de este tipo, el LED de RETARDO ACTIVO está encendido\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"Select option 5: Salida Transmisión de Averias to override/enable the activation delay of alarm outputs\", \"exact_quote\": \"Seleccione **«5: Retardo Activación Salidas»** para anular/habilitar el retardo de activación de las salidas de alarma\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"Press ✓ to toggle the delay override/enabled state\", \"exact_quote\": \"Para anular/habilitar los retardos configurados, pulse ✓. Cada vez que pulse ✓, cambiará el estado anulado/habilitado del retardo\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"Press ✕ to exit the menu at any time\", \"exact_quote\": \"Para salir en cualquier momento, pulse ✕\"}, {\"relation_type\": \"state_transition\", \"claim_text\": \"Output delays transition between ENABLED and DISABLED states when ✓ is pressed\", \"exact_quote\": \"Cada vez que pulse ✓, cambiará el estado anulado/habilitado del retardo\"}]}",
+      "raw_text_sha256": "6b650745b30e8aefd2dc1dfef2a5c5481a3a5518463efd60fc3484953f456566",
+      "relations": 6
+    },
+    {
+      "ordinal": 3,
+      "chunk_id": "13bee205-9f2b-44ba-9891-37d77b5fa110",
+      "response_id": "msg_011Cd6dXRcZx4X6geDZgPtm7",
+      "counted_input_tokens": 1266,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1266,
+        "output_tokens": 413,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.006662,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"configuration_field\", \"claim_text\": \"Loop 1 editing includes modules for direction, open circuit, alarm return, silence number, and interlocking configuration\", \"exact_quote\": \"Editar Lazo 1 Módulos<br/>Dir.       | Editar Lazo 1 Módulos<br/>Cir.Abiert | Editar Lazo 1 Módulos<br/>Ret.Alarma | Editar Lazo 1 Módulos<br/>No.Silen. | Editar Lazo 1 Módulos<br/>Enclav\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"The direction field for Loop 1 modules has a default value of 1\", \"exact_quote\": \"Dir.       | ... | 1\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Open circuit detection field for Loop 1 modules has a default value of 0\", \"exact_quote\": \"Cir.Abiert | ... | 0\"}, {\"relation_type\": \"default_state\", \"claim_text\": \"Alarm return field is unchecked by default for all loop module entries\", \"exact_quote\": \"Ret.Alarma | ☐\"}, {\"relation_type\": \"default_state\", \"claim_text\": \"Silence number field is unchecked by default for all loop module entries\", \"exact_quote\": \"No.Silen. | ☐\"}, {\"relation_type\": \"default_state\", \"claim_text\": \"Interlocking field is unchecked by default for all loop module entries\", \"exact_quote\": \"Enclav | ☐\"}]}",
+      "raw_text_sha256": "828a1ffd87dfa876bd3d798a57e1415105b3646ec129555d676b83a6bdc882f2",
+      "relations": 1
+    },
+    {
+      "ordinal": 4,
+      "chunk_id": "39e581ab-3536-4fe5-8faa-4537ca38213f",
+      "response_id": "msg_011Cd6dXf8AtmB4KMy7JS4ZF",
+      "counted_input_tokens": 1069,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1069,
+        "output_tokens": 469,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.006828,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"configuration_field\", \"claim_text\": \"Números de referencia de la zona de red can be edited for sensors\", \"exact_quote\": \"Números de referencia de la zona de red\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Tipo de equipo can be edited for sensors\", \"exact_quote\": \"Tipo de equipo\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Número de central can be set to Central LOCAL or 1-125 for other network centers\", \"exact_quote\": \"Número de central (Central LOCAL; 1-125: otras centrales de red)\"}, {\"relation_type\": \"specification\", \"claim_text\": \"Número de zonas supports up to 255 local zones or 8192 network zones\", \"exact_quote\": \"Número de zonas (hasta 255 zonas locales o 8192 zonas de red)\"}, {\"relation_type\": \"specification\", \"claim_text\": \"Número de células supports up to 255 cells\", \"exact_quote\": \"Número de células (hasta 255)\"}, {\"relation_type\": \"constraint\", \"claim_text\": \"Prioridad de interrogación operation is limited to 30 equipment for CLIP protocol only\", \"exact_quote\": \"Prioridad de interrogación (operación solo protocolo CLIP: limitada a 30 equipos)\"}, {\"relation_type\": \"threshold\", \"claim_text\": \"Retardo de confirmación de coincidencia de detector can be adjusted up to 240 seconds or 4 minutes\", \"exact_quote\": \"Retardo de confirmación de coincidencia de detector; puede ajustarse hasta 240 s (4 min)\"}, {\"relation_type\": \"default_state\", \"claim_text\": \"Ajuste de la función LED remota defaults to Seguir el equipo for Opal equipment\", \"exact_quote\": \"Seguir el equipo (predeterminada)\"}]}",
+      "raw_text_sha256": "7e3753e30e4c5a04b898799d18bda8d4a59fcaa2bad89548d591c11d3cd868e2",
+      "relations": 8
+    },
+    {
+      "ordinal": 5,
+      "chunk_id": "51df7a51-4970-4cfc-8ef1-3771f480dd78",
+      "response_id": "msg_011Cd6dXu7JBWjwfphfsWSpD",
+      "counted_input_tokens": 1762,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1762,
+        "output_tokens": 551,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.009034,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"warning\", \"claim_text\": \"Use of this function depending on the established period may contravene EN54-2 paragraphs 7.4.2, 7.4.3 (for fire conditions) and 8.6.3 (for fault conditions)\", \"exact_quote\": \"Dependiendo del período establecido, el uso de esta función puede contravenir las disposiciones de EN54-2, párrafos 7.4.2, 7.4.3 (para condiciones de incendio) y 8.6.3 (para condiciones de fallo)\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"A temporary level 3 access key can be obtained for visits when the access key has been forgotten\", \"exact_quote\": \"Puede obtenerse una clave de acceso de nivel 3 temporal para visitas cuando la clave de acceso se haya olvidado\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Central Configuration option is available in the Edit Configuration menu\", \"exact_quote\": \"«Configuración de la Central»\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Loop Equipment option is available in the Edit Configuration menu\", \"exact_quote\": \"«Equipos de Lazo»\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Zone Options are available in the Edit Configuration menu\", \"exact_quote\": \"«Opciones de Zonas»\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"When editing is finished, the control panel asks if you want to save changes before leaving startup mode\", \"exact_quote\": \"Cuando haya terminado la edición, la central le preguntará si quiere guardar los cambios antes de salir del modo de puesta en marcha\"}, {\"relation_type\": \"state_transition\", \"claim_text\": \"The control panel restarts and all changes are stored on the SD card when confirming changes\", \"exact_quote\": \"Se reinicia la central y todos los cambios se almacenan en la tarjeta SD\"}, {\"relation_type\": \"default_state\", \"claim_text\": \"The control panel returns to access level 1 after saving configuration changes\", \"exact_quote\": \"La central vuelve al nivel de acceso 1\"}]}",
+      "raw_text_sha256": "f4e7b3d8430ab969f36aabd4c7e045ac2e09cf4f91db199411c1985bec508453",
+      "relations": 8
+    },
+    {
+      "ordinal": 6,
+      "chunk_id": "570d9951-e3a6-4c64-a927-e26b5e6db842",
+      "response_id": "msg_011Cd6dYG76da11h4BDR2YGu",
+      "counted_input_tokens": 1068,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1068,
+        "output_tokens": 448,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.006616,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"procedure_step\", \"claim_text\": \"To delete a cause-effect rule, position the cursor in any column of the rule you wish to delete and press C\", \"exact_quote\": \"Con el cursor situado en cualquier columna de la regla que desee borrar, pulse C\"}, {\"relation_type\": \"constraint\", \"claim_text\": \"The last rule cannot be deleted, as indicated by an asterisk before the rule number\", \"exact_quote\": \"La última regla no puede borrarse (es la que tiene un asterisco delante del número)\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"Cause-effect rules can specify different conditions for output delays and how they are controlled\", \"exact_quote\": \"Las reglas de causa-efecto pueden especificar diferentes condiciones para retardos de salida y cómo se controlan\"}, {\"relation_type\": \"specification\", \"claim_text\": \"Six types of output delay can be assigned to a rule\", \"exact_quote\": \"Se puede asignar uno de seis tipos de retardo de salida a una regla\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"The type of delay selected determines what actions can be performed while the delay is active\", \"exact_quote\": \"el tipo de retardo seleccionado determina qué acciones podrán realizarse mientras el retardo esté activo\"}, {\"relation_type\": \"specification\", \"claim_text\": \"Multiple rules can be used throughout the cause-effect matrix to achieve specific site functions with different delays and different control actions before and/or after outputs are activated\", \"exact_quote\": \"Pueden utilizarse varias reglas en toda la matriz de causa-efecto para conseguir las funciones específicas del sitio necesarias, en las que pueden configurarse distintos retardos con diferentes acciones de control antes y/o después de que se activen las salidas\"}]}",
+      "raw_text_sha256": "e3c1e513eec4a518aa75ef400cb9acd1bba2e8c8caa1ef4f95e5182c76d02789",
+      "relations": 6
+    },
+    {
+      "ordinal": 7,
+      "chunk_id": "7e34cb72-0183-488a-9aa3-fcc81b40f3ef",
+      "response_id": "msg_011Cd6dYUw2WT58aZNHruvTV",
+      "counted_input_tokens": 1198,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1198,
+        "output_tokens": 462,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.007016,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"state_transition\", \"claim_text\": \"La salida se detiene si se pulsa SILENCIAR SIRENAS durante el retardo\", \"exact_quote\": \"La salida se detiene si se pulsa SILENCIAR SIRENAS durante el retardo\"}, {\"relation_type\": \"state_transition\", \"claim_text\": \"Si pulsa SONIDO ALARMAS, se activarán las sirenas\", \"exact_quote\": \"Si pulsa SONIDO ALARMAS, se activarán las sirenas\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"El retardo puede anularse en el nivel de acceso 2 con la opción «Anular retardos»\", \"exact_quote\": \"El retardo puede anularse en el nivel de acceso 2 con la opción «Anular retardos»\"}, {\"relation_type\": \"verification\", \"claim_text\": \"El tiempo de retardo restante se muestra en la pestaña ALARMA\", \"exact_quote\": \"El tiempo de retardo restante se muestraen la pestaña ALARLMA\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"El retardo activo puede detenerse en el nivel de acceso 2 pulsando FIN RETARDO\", \"exact_quote\": \"El retardo activo puede detenerse en el nivel de acceso 2 pulsando FIN RETARDO\"}, {\"relation_type\": \"state_transition\", \"claim_text\": \"La salida se detiene si se pulsa AMPLIAR RETARDO\", \"exact_quote\": \"La salida se detiene si se pulsa AMPLIAR RETARDO\"}, {\"relation_type\": \"state_transition\", \"claim_text\": \"El temporizador comienza en RETARDO AMPLIADO\", \"exact_quote\": \"El temporizador comienza en RETARDO AMPLIADO\"}]}",
+      "raw_text_sha256": "642d5448a41cc0a3c7896c13258008edf0d31fa9af48252f74049dd989f9780e",
+      "relations": 7
+    },
+    {
+      "ordinal": 8,
+      "chunk_id": "9587cd83-e271-42b9-ba8f-dfd05ae94935",
+      "response_id": "msg_011Cd6dYhkD3YS3dGKQpViBQ",
+      "counted_input_tokens": 889,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 889,
+        "output_tokens": 184,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.003618,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"configuration_field\", \"claim_text\": \"Extend Delay Button configuration option can be enabled or disabled\", \"exact_quote\": \"Extend Delay Button   : Enabled\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"The EXTENDER RETARDO button function can be deactivated because this function is not required in some markets\", \"exact_quote\": \"Esta opción de configuración de la central permite desactivar el pulsador EXTENDER RETARDO, puesto que esta función no se requiere en algunos mercados\"}, {\"relation_type\": \"specification\", \"claim_text\": \"Parameter 10 controls the Extend Delay Button setting\", \"exact_quote\": \"10:Extend Delay Button   : Enabled\"}]}",
+      "raw_text_sha256": "9d150b6fd405035b55a1acf53b074ad450e0040cbfec88d590d1ca5f8bcdb466",
+      "relations": 3
+    },
+    {
+      "ordinal": 9,
+      "chunk_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+      "response_id": "msg_011Cd6dYsZohJhjta8T7mUe2",
+      "counted_input_tokens": 1736,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1736,
+        "output_tokens": 631,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.009782,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"procedure_step\", \"claim_text\": \"To create cause-effect rules for staged evacuation, create multiple rules each with input and output instructions\", \"exact_quote\": \"Para ello, necesitaremos crear varias reglas, cada una con instrucciones de entrada y salida.\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"Rule 1: any alarm input must activate all zone sirens in intermittent mode (alert pattern)\", \"exact_quote\": \"Regla 1: una regla que diga que para cualquier entrada de alarma todas las sirenas de cada zona deben activarse en modo intermitente* (patrón de alerta).\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"Rule 2: create a rule for each zone so that an alarm in that zone activates that zone's sirens in fixed mode, because fixed output mode overrides intermittent output mode\", \"exact_quote\": \"Regla 2: puesto que una salida de sirena fija anula una salida intermitente, debe crearse una regla para cada zona con el fin de que una alarma de la zona active las sirenas de esa zona en modo fijo.\"}, {\"relation_type\": \"specification\", \"claim_text\": \"Output modes are achieved by selecting the desired tone for each rule, with higher tone numbers overriding lower ones for Opal sirens only\", \"exact_quote\": \"Estos modos de salida se consiguen seleccionando el tono deseado para cada una de estas reglas (solo sirenas Opal). En dichos casos, los tonos con un número más alto anulan los que tienen un número más bajo.\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"To edit cause-effect rules, select '7: Causa y Efecto' from the 'Editar Configuración' menu\", \"exact_quote\": \"En el menú «Editar Configuración», seleccione «7: Causa y Efecto» para abrir la función de edición.\"}, {\"relation_type\": \"warning\", \"claim_text\": \"Default cause-effect rules must be deleted if custom cause-effect rules are to be created\", \"exact_quote\": \"Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.\"}, {\"relation_type\": \"diagnostic_check\", \"claim_text\": \"The cause-effect matrix is examined immediately when an alarm is detected and all configured rules are processed for output activation\", \"exact_quote\": \"La matriz de causa-efecto se examina de inmediato y se procesan todas las reglas configuradas para la activación de las salidas.\"}]}",
+      "raw_text_sha256": "8d03f45bddebc229485cae77b64def2c9e2817c13b40a7052672fa51ca705146",
+      "relations": 7
+    },
+    {
+      "ordinal": 10,
+      "chunk_id": "ac652044-a4ff-40bd-9011-95521bb79e0f",
+      "response_id": "msg_011Cd6dZCkiKgzoEC1Z1DJno",
+      "counted_input_tokens": 1351,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1351,
+        "output_tokens": 478,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.007482,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"configuration_field\", \"claim_text\": \"Números de referencia de la zona de red for loop equipment modules\", \"exact_quote\": \"Números de referencia de la zona de red\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Número de central can be LOCAL or numbered 1-64 for other network centrals\", \"exact_quote\": \"Número de central (Central LOCAL; 1-64: otras centrales de red)\"}, {\"relation_type\": \"specification\", \"claim_text\": \"Up to 255 local zones or 8192 network zones supported\", \"exact_quote\": \"Número de zonas (hasta 255 zonas locales o 8192 zonas de red)\"}, {\"relation_type\": \"specification\", \"claim_text\": \"Up to 255 cells supported\", \"exact_quote\": \"Número de células (hasta 255)\"}, {\"relation_type\": \"constraint\", \"claim_text\": \"Interrogation priority limited to 30 devices for CLIP protocol operation\", \"exact_quote\": \"Prioridad de interrogación (operación solo protocolo CLIP: limitada a 30 equipos)\"}, {\"relation_type\": \"default_state\", \"claim_text\": \"Auxiliary equipment with latched/non-latched input types default to non-latched\", \"exact_quote\": \"entrada enclavada/no enclavada (predeterminada)\"}, {\"relation_type\": \"warning\", \"claim_text\": \"CLIP buttons self-configure as MON and must be changed to cPUL type\", \"exact_quote\": \"Los pulsadores CLIP se autoconfiguran como «MON» y deben cambiarse a tipo «cPUL»\"}, {\"relation_type\": \"exception\", \"claim_text\": \"These inputs can be configured with alarm delay periods that contradict EN54-2 requirements\", \"exact_quote\": \"También pueden configurarse estas entradas con periodos de retardo de alarma que contravienen los requisitos de EN54-2\"}]}",
+      "raw_text_sha256": "9b6b21a4d48cb147912734397a55ef33271d436444f33efdbad0779280947cf1",
+      "relations": 8
+    },
+    {
+      "ordinal": 11,
+      "chunk_id": "bc1de145-c91e-4c98-8cf6-4d5d7946ec94",
+      "response_id": "msg_011Cd6dZThPi5NPkmZsp7jqB",
+      "counted_input_tokens": 1142,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1142,
+        "output_tokens": 668,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.008964,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\":[{\"relation_type\":\"specification\",\"claim_text\":\"Una central se puede configurar con hasta 255 zonas de detección de incendios\",\"exact_quote\":\"Una central se puede configurar con hasta 255 zonas de detección de incendios\"},{\"relation_type\":\"specification\",\"claim_text\":\"Referencia de zona de central en el rango de 1 a 64 no editable por el usuario\",\"exact_quote\":\"Referencia de zona de central en el rango de 1 a 64 - no editable por el usuario\"},{\"relation_type\":\"configuration_field\",\"claim_text\":\"Pueden usarse valores numéricos hasta 8192 con una numeración discreta de zonas entre centrales en red editable por el usuario\",\"exact_quote\":\"Pueden usarse valores numéricos hasta 8192 con una numeración discreta de zonas entre centrales en red. Este número puede ser editado por el usuario\"},{\"relation_type\":\"rule_definition\",\"claim_text\":\"Coincidencia puede especificarse el número de equipos en alarma de una zona para que pueda producirse la activación de salidas\",\"exact_quote\":\"Coincidencia: puede especificarse el número de equipos en alarma de una zona para que pueda producirse la activación de salidas\"},{\"relation_type\":\"rule_definition\",\"claim_text\":\"Coincidencia térmica el número de dispositivos en alarma térmica en una zona puede ser especificado antes de que las salidas se activen\",\"exact_quote\":\"Coincidencia térmica - el número de dispositivos en alarma térmica en una zona puede ser especificado antes de que las salidas se activen\"},{\"relation_type\":\"state_transition\",\"claim_text\":\"Si la regla de coincidencia no se cumple en el tiempo predeterminado la primer condición de entrada se rearma automáticamente\",\"exact_quote\":\"si la regla de coincidencia no se cumple en el tiempo predeterminado, la primer condición de entrada se rearma automáticamente\"},{\"relation_type\":\"exception\",\"claim_text\":\"Excepción cuando se trata de una alarma de un equipo multicriterio si durante el periodo de confirmación se detecta una condición de alarma térmica L6 se cancela automáticamente el primer estado de alarma\",\"exact_quote\":\"hay una excepción a este caso cuando se trata de una alarma de un equipo multicriterio; si durante el periodo de confirmación fijado se detecta una condición de alarma térmica (L6), se cancela automáticamente el primer estado de alarma\"},{\"relation_type\":\"threshold\",\"claim_text\":\"Confirmar tiempo máximo por defecto son cinco minutos y el máximo tiempo configurable son 30 minutos\",\"exact_quote\":\"Por defecto son cinco minutos. El máximo tiempo configurable son 30 minutos\"}]}",
+      "raw_text_sha256": "1c6cf24844c75034f4f514ef8485511d47bf9771846c5d8f85ed609a52d70ab4",
+      "relations": 8
+    },
+    {
+      "ordinal": 12,
+      "chunk_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+      "response_id": "msg_011Cd6dZiU9BhYgZF7UNmeKq",
+      "counted_input_tokens": 1472,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1472,
+        "output_tokens": 628,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.009224,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"rule_definition\", \"claim_text\": \"Programación de causa-efecto proporciona un conjunto de reglas o instrucciones lógicas para determinar el comportamiento de los equipos de salida al responder a un cambio de estado en una o más condiciones de entrada\", \"exact_quote\": \"el objetivo de la programación causa-efecto es ofrecer un claro conjunto de reglas, o instrucciones lógicas, para determinar el comportamiento de los equipos de salida al responder a un cambio de estado en una o más condiciones de entrada\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Se debe utilizar el programa de configuración por ordenador como principal método de programación\", \"exact_quote\": \"Se recomienda utilizar el programa de configuración por ordenador como principal método de programación\"}, {\"relation_type\": \"warning\", \"claim_text\": \"El menú de la central debería emplearse solo para realizar modificaciones menores en las reglas\", \"exact_quote\": \"El menú de la central debería emplearse solo para realizar modificaciones menores en las reglas, tal vez para responder a cambios posteriores de configuración\"}, {\"relation_type\": \"constraint\", \"claim_text\": \"Una regla solo puede configurarse para realizar una tarea\", \"exact_quote\": \"Una regla solo puede configurarse para realizar una tarea\"}, {\"relation_type\": \"specification\", \"claim_text\": \"Una regla consta de una instrucción de entrada y una instrucción de salida\", \"exact_quote\": \"Una regla consta de dos instrucciones de acción\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"La instrucción de entrada es una condición de entrada como una alarma, una avería o la detección de un cambio de estado\", \"exact_quote\": \"Instrucción de entrada: esta parte de la regla es una condición de entrada, como una alarma, una avería o la detección de un cambio de estado\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"La instrucción de salida solo puede procesarse cuando se cumplen todas las condiciones de entrada programadas\", \"exact_quote\": \"Instrucción de salida: esta parte de la regla solo puede procesarse cuando se cumplen todas las condiciones de entrada programadas\"}, {\"relation_type\": \"safety_condition\", \"claim_text\": \"Al programar reglas de causa-efecto evite las lógicas contradictorias\", \"exact_quote\": \"Al programar reglas de causa-efecto evite las lógicas contradictorias\"}]}",
+      "raw_text_sha256": "6d9ca3b02f056fffe75058a7b1525fbc3e6e7771a785f81d37a8dbe265750ca4",
+      "relations": 8
+    },
+    {
+      "ordinal": 13,
+      "chunk_id": "e522c315-ef36-4830-ae62-cf6de8d2d0db",
+      "response_id": "msg_011Cd6da1aHuagcFUfmGPvbc",
+      "counted_input_tokens": 906,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 906,
+        "output_tokens": 343,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.005242,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"configuration_field\", \"claim_text\": \"Editar configuración is available in the Central Configuration Menu at third level\", \"exact_quote\": \"Editar configuración\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Opciones de la placa base is a configurable option within Central Configuration Menu\", \"exact_quote\": \"Opciones de la placa base\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Opciones de la tarjeta conectable is a configurable option within Central Configuration Menu\", \"exact_quote\": \"Opciones de la tarjeta conectable\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Opciones de teclas configurables is a configurable option within Central Configuration Menu\", \"exact_quote\": \"Opciones de teclas configurables\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Opciones de fabricación is a configurable option within Central Configuration Menu\", \"exact_quote\": \"Opciones de fabricación\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Licencias is a configurable option within Central Configuration Menu\", \"exact_quote\": \"Licencias\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"Reglas de causa-efecto is available as an option in the third level menu\", \"exact_quote\": \"Reglas de causa-efecto\"}]}",
+      "raw_text_sha256": "9b69c503a399b4875925d92db5b6973e0b9be18174a7d1dfbf4d7d3760573ad6",
+      "relations": 7
+    },
+    {
+      "ordinal": 14,
+      "chunk_id": "f68b0586-ae54-4089-b286-ee8792834c3d",
+      "response_id": "msg_011Cd6daD46tAV4UwMwSeZd5",
+      "counted_input_tokens": 1025,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1025,
+        "output_tokens": 441,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.00646,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"configuration_field\", \"claim_text\": \"Loop Equipment configuration options are available including Autoconfigure, Edit Equipment, Gas Interface Profiles, Equipment Summary, and Initialize OPAL Protocol Equipment\", \"exact_quote\": \"Equipos de lazo:\\n  - Autoconfigurar\\n  - Editar equipos\\n  - Perfiles Interface Gas\\n  - Resumen del equipo\\n  - Inicializar equipos de protocolo OPAL\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Virtual Outputs can be configured in the second level system configuration menu\", \"exact_quote\": \"Salidas Virtuales\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Zone Options configuration includes local/network zone global adjustment, network number, match counter, thermal match, auto-reset, and maximum time confirmation\", \"exact_quote\": \"Opciones de zona:\\n  - Ajuste global de zona local/de red\\n  - Número de red (si procede)\\n  - Contador de coincidencias\\n  - Coincidencia térmica\\n  - Autorrearme\\n  - Confirmación de tiempo máximo\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Network Configuration options include node identification, network existence, network presence supervision, central type, and sector settings\", \"exact_quote\": \"Configuración de red (si procede)\\n  - Identificación de nodo\\n  - Existe (en red)\\n  - Supervisar (presencia de red)\\n  - Tipo de central\\n  - Sector\"}, {\"relation_type\": \"specification\", \"claim_text\": \"Loop siren pattern configuration is available only for Opal equipment\", \"exact_quote\": \"Patrón de sirena de lazo (solo equipos Opal)\"}]}",
+      "raw_text_sha256": "b250d43961af3afac713729ddc7f406b06be9e93d665cf55d7e0769e81228c89",
+      "relations": 5
+    },
+    {
+      "ordinal": 15,
+      "chunk_id": "cfc45181-f8e5-449f-99fb-babe0f565cf8",
+      "response_id": "msg_011Cd6daVv7fVzJr6qixToTL",
+      "counted_input_tokens": 990,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 990,
+        "output_tokens": 465,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.00663,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"specification\", \"claim_text\": \"3 niveles de acceso (usuario - mantenedor - programador)\", \"exact_quote\": \"3 niveles de acceso (usuario - mantenedor - programador)\"}, {\"relation_type\": \"specification\", \"claim_text\": \"4 niveles de acceso con total conformidad con la normativa EN54\", \"exact_quote\": \"4 niveles de acceso con total conformidad con la normativa EN54\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"descripción de punto con 32 caracteres\", \"exact_quote\": \"descripción de punto con 32 caracteres\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"descripción de zonas con 32 caracteres\", \"exact_quote\": \"descripción de zonas con 32 caracteres\"}, {\"relation_type\": \"specification\", \"claim_text\": \"500 zonas físicas y 400 grupos lógicos para la central autónoma o con el sistema de 16 lazos totales\", \"exact_quote\": \"500 zonas físicas y 400 grupos lógicos para la central autónoma o con el sistema de 16 lazos totales\"}, {\"relation_type\": \"threshold\", \"claim_text\": \"Archivo histórico de eventos con los últimos 1000 eventos en memoria no volátil\", \"exact_quote\": \"Archivo histórico de eventos con los últimos 1000 eventos en memoria no volátil\"}, {\"relation_type\": \"specification\", \"claim_text\": \"Umbral de alarmas programable para los detectores\", \"exact_quote\": \"Umbral de alarmas programable para los detectores\"}, {\"relation_type\": \"diagnostic_check\", \"claim_text\": \"Señalización de necesidad de limpieza de los detectores\", \"exact_quote\": \"Señalización de necesidad de limpieza de los detectores\"}]}",
+      "raw_text_sha256": "5ea1f84dcfdd4a99c3b96189b1084f59f705d5c0bdb24340786cdc4df4481816",
+      "relations": 8
+    },
+    {
+      "ordinal": 16,
+      "chunk_id": "018b1d28-f1e1-4589-b918-99de0e691f3e",
+      "response_id": "msg_011Cd6dan9vc86PXj2dHmDJz",
+      "counted_input_tokens": 1439,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1439,
+        "output_tokens": 535,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.008228,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"rule_definition\", \"claim_text\": \"TAC(SYS) is the operator that allows recovery of the silenced state of the control panel\", \"exact_quote\": \"Es el operador el que permite la recuperación del estado de silenciado de la central\"}, {\"relation_type\": \"state_transition\", \"claim_text\": \"When the siren silence command is executed on the control panel, the output module is activated\", \"exact_quote\": \"Cuando en la central se realiza el comando de silencio sirena, el módulo de salida se activa\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"DEL is the operator that allows programming activation delays for certain conditions\", \"exact_quote\": \"Es el operador el que permite programar los retardos de activación para determinadas condiciones.\"}, {\"relation_type\": \"specification\", \"claim_text\": \"DEL format is DEL (MM.SS (retardo) MM.SS. (duración - opcional) (CONDICIÓN))\", \"exact_quote\": \"FORMATO: DEL (MM. SS (retardo) MM.SS. (duración - opcional) (CONDICIÓN)\"}, {\"relation_type\": \"constraint\", \"claim_text\": \"If a delay of 00.00 is entered, the equation activates immediately when the delay start equation activates and remains active during the duration period\", \"exact_quote\": \"Si se introduce un retardo = 00.00, entonces la ecuación se activa JUSTO CUANDO se activa la ecuación de inicio retardo, y permanece activa durante el periodo de tiempo indicado en «duración».\"}, {\"relation_type\": \"constraint\", \"claim_text\": \"There can be only one DEL operator for each equation\", \"exact_quote\": \"Puede existir solo un operador DEL para cada ecuación.\"}, {\"relation_type\": \"threshold\", \"claim_text\": \"The maximum value of duration time is 10 minutes\", \"exact_quote\": \"El valor máximo del tiempo de duración es de 10 minutos.\"}, {\"relation_type\": \"threshold\", \"claim_text\": \"The maximum value of delay time is 10 minutes\", \"exact_quote\": \"El valor máximo del tiempo de retardo es de 10 minutos.\"}]}",
+      "raw_text_sha256": "01692a4400912c7020e99b19a4e174db78030160855f1722efeebb7559f8ae9f",
+      "relations": 8
+    },
+    {
+      "ordinal": 17,
+      "chunk_id": "0c6cc5e0-0df9-428f-870f-a19fe461c3a9",
+      "response_id": "msg_011Cd6db3W9hNqEbc89WUKEF",
+      "counted_input_tokens": 1632,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1632,
+        "output_tokens": 486,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.008124,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"configuration_field\", \"claim_text\": \"Tone type is in the range 1÷33\", \"exact_quote\": \"Tono = tipo de sonido en el rango 1÷33\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Volume is in the range 1÷4\", \"exact_quote\": \"Volumen = volumen en el rango 1÷4\"}, {\"relation_type\": \"specification\", \"claim_text\": \"Zone ranges are specified in the format Zxxx:Zyy\", \"exact_quote\": \"Rangos_de_Zonas = lista de las zonas en las que activar el patrón (tono y volumen) en el formato Zxxx:\\nZyyy\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"The operator can introduce tone and volume for zone groups through the CBE of different groups\", \"exact_quote\": \"Es el operador el que permite introducir tono y volumen para grupos de zonas a través de la CBE de los diferentes grupos\"}, {\"relation_type\": \"state_transition\", \"claim_text\": \"Output module C1L1M2 will activate in case of alarm in detectors C1L1S1 and C1L1S2\", \"exact_quote\": \"El módulo de salida **C1L1M2** está asociado al grupo **G1** y se activará en caso de alarma en los detectores **C1L1S1** y **C1L1S2**\"}, {\"relation_type\": \"state_transition\", \"claim_text\": \"Output module C1L1M3 will activate in case of alarm in detectors C1L1S3 or in input module L1M1\", \"exact_quote\": \"El módulo de salida **C1L1M3** está asociado **G2** y se activará en caso de alarma en los detectores **C1L1S3** o en el módulo de entrada **L1M1**\"}]}",
+      "raw_text_sha256": "6459a7de4ded948255952593fcefe36aee7d2b1957a09a03fef828d683ef8a57",
+      "relations": 6
+    },
+    {
+      "ordinal": 18,
+      "chunk_id": "15a48b9d-fa1e-4c01-8702-b07b0fc5b80b",
+      "response_id": "msg_011Cd6dbJkgLsre7bNKACRvS",
+      "counted_input_tokens": 1542,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1542,
+        "output_tokens": 527,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.008354,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"rule_definition\", \"claim_text\": \"A typical central programming is defined as EVENT CONTROL EQUATION (CBE)\", \"exact_quote\": \"Una programación típica de la central se define como ECUACIÓN CONTROL POR EVENTO (CBE)\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"During programming phase, each point, zone or group must be associated with a CBE equation\", \"exact_quote\": \"En fase de programación, se debe asociar a cada punto, zona o grupo una ecuación CBE.\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"The CBE equation allows programming a series of conditions that the central will evaluate when the point, zone or group are ACTIVE\", \"exact_quote\": \"La ecuación CONTROL POR EVENTO permite programar una serie de condiciones que la central evaluará cuando el punto, la zona o el grupo estén ACTIVOS\"}, {\"relation_type\": \"specification\", \"claim_text\": \"ACTIVE condition is valid when an input point (sensors or input modules) is in alarm\", \"exact_quote\": \"Punto de entrada (sensores o módulos de entrada) = en alarma\"}, {\"relation_type\": \"specification\", \"claim_text\": \"ACTIVE condition is valid when an output point (output module) is ACTIVATED\", \"exact_quote\": \"Punto de salida (módulo de salida) = ACTIVADO\"}, {\"relation_type\": \"specification\", \"claim_text\": \"ACTIVE condition is valid when a group has one of its points active\", \"exact_quote\": \"Grupo = uno de los puntos del grupo está activo\"}, {\"relation_type\": \"constraint\", \"claim_text\": \"Valid control equations must follow precise syntactic rules or the equation will be rejected\", \"exact_quote\": \"Las ecuaciones de control, para ser válidas y por tanto aceptadas por la central, deben seguir unas reglas sintácticas precisas. Si se verifican errores de sintaxis, la ecuación será rechazada.\"}, {\"relation_type\": \"constraint\", \"claim_text\": \"Equations must be written without inserting spaces between characters\", \"exact_quote\": \"se debe escribir la ecuación sin insertar espacios entre los caracteres a introducir.\"}]}",
+      "raw_text_sha256": "e45ba1e600cea3f15d9acc725bda8a50b8fe86cc45fb99404269fb9aa82e440c",
+      "relations": 8
+    },
+    {
+      "ordinal": 19,
+      "chunk_id": "28567d07-6db2-4034-992f-5bbe8ebfd928",
+      "response_id": "msg_011Cd6dbZe8PN8tnm7mEktwX",
+      "counted_input_tokens": 1466,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1466,
+        "output_tokens": 503,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.007962,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"rule_definition\", \"claim_text\": \"A group is a set of device software that allows creating associations. When a sensor or module that is part of the group is in alarm, the group activates. If an output module is a member of the same group, it will activate.\", \"exact_quote\": \"Un grupo es un conjunto de software de dispositivos que permite crear asociaciones.\\nCuando un sensor o módulo (que forme parte del grupo) está en alarma, el grupo se activa.\\nSi un módulo de salida es miembro del mismo grupo, se activará.\"}, {\"relation_type\": \"specification\", \"claim_text\": \"The AM-8200 control panel has 400 groups that can be programmed.\", \"exact_quote\": \"La central AM-8200 dispone de 400 grupos\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"D = group with Direct Activation. It activates what is contained in its CBE equation. It activates from Inputs / Direct groups (which have the group in their CBE equation).\", \"exact_quote\": \"**D** = grupo con **Activación directa**. Activa lo que se contiene en su ecuación CBE.\\nSe activa desde Entradas / Grupos directos (que tienen el grupo en su ecuación CBE).\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"I = group with Inverse Activation. It activates from its CBE equation. It activates Outputs / Inverter groups (which have the group in their CBE equation).\", \"exact_quote\": \"**I** = grupo con **Activación inversa**. Se activa desde su ecuación CBE.\\nActiva Salidas / Grupos inversor (que tienen el grupo en su ecuación CBE).\"}, {\"relation_type\": \"constraint\", \"claim_text\": \"The inverse activation group can be the sum of more direct activation groups to allow commands constituted by many groups.\", \"exact_quote\": \"El grupo de activación inversa puede ser la suma de más grupos de activación directa para permitir comandos constituidos por muchos grupos.\"}]}",
+      "raw_text_sha256": "9bd048b64b534f2b16e0ada5554629dd228ec0e6ce85ede3c3aae736166cc777",
+      "relations": 5
+    },
+    {
+      "ordinal": 20,
+      "chunk_id": "66000996-017e-4e7e-88ec-ab8e46ad8c47",
+      "response_id": "msg_011Cd6dbopAQhxBSAT9f6GZo",
+      "counted_input_tokens": 869,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 869,
+        "output_tokens": 323,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.004968,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"rule_definition\", \"claim_text\": \"FLT operator allows using the fault state of a device or zone\", \"exact_quote\": \"Es el operador el que permite utilizar el estado de avería de un dispositivo o de una zona.\"}, {\"relation_type\": \"specification\", \"claim_text\": \"FLT operator syntax includes Central address, Loop number, and Sensor/module address\", \"exact_quote\": \"Dirección Central, N. º de Lazo, Dirección del sensor / módulo\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"OR operator with FLT activates output module if ANY sensor is in fault or pre-alarm state\", \"exact_quote\": \"Si CUALQUIERA de los dos sensores (L1S2 de la central 1 o L1S10 de la central 2) está en avería o pre-alarma, el módulo de salida al que está asociada la CBE se activa.\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"OR operator with FLT on zones activates output module if ANY zone is in fault state\", \"exact_quote\": \"Si CUALQUIERA de las dos ZONAS (Z1 o Z2) está en avería, el módulo de salida al que está asociada la CBE se activa.\"}]}",
+      "raw_text_sha256": "7c7ade0792fecffa4f5770a98f836a077a44a298910ed18b905456bdeee4f220",
+      "relations": 1
+    },
+    {
+      "ordinal": 21,
+      "chunk_id": "720c6e5b-c3fd-4b66-8c6d-f38ce8b1b69f",
+      "response_id": "msg_011Cd6dc1X82nF3o8XKaL3VP",
+      "counted_input_tokens": 892,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 892,
+        "output_tokens": 367,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.005454,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\":[{\"relation_type\":\"rule_definition\",\"claim_text\":\"When it is necessary to program an OR of 16 groups but memory does not allow it, two inverse groups are created that regroup the 16 direct groups and a CBE is associated with the output module that sums the two inverse groups thus constructed.\",\"exact_quote\":\"cuando se debe programar un OR de 16 grupos, pero la memoria no lo permite, entonces se realizan dos grupos inversos que reagrupan los 16 grupos directos y al módulo de salida se asocia una CBE que suma los dos grupos inversos así construidos.\"},{\"relation_type\":\"configuration_field\",\"claim_text\":\"G301 is defined as an inverse group that performs an OR operation on groups G1 through G8.\",\"exact_quote\":\"G301 = grupo inverso                      G301 = OR (G1G2 G3 G4 G5 G6 G7 G8)\"},{\"relation_type\":\"configuration_field\",\"claim_text\":\"G302 is defined as an inverse group that performs an OR operation on groups G9 through G16.\",\"exact_quote\":\"G302 = grupo inverso                      G302 = OR (G9 G10 G11 G12 G13 G14 G15 G16)\"},{\"relation_type\":\"configuration_field\",\"claim_text\":\"L01M01 is a CBE field that performs an OR operation on the inverse groups G301 and G302.\",\"exact_quote\":\"L01M01 = CBE = OR (G301 G302)\"}]}",
+      "raw_text_sha256": "ead5db0bd7eef0fc2e27d2cceec9c33fbc1994748eb26bfd3065c6c0f86a52b7",
+      "relations": 4
+    },
+    {
+      "ordinal": 22,
+      "chunk_id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+      "response_id": "msg_011Cd6dcBf4yLoAh7MgBwLy3",
+      "counted_input_tokens": 1565,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1565,
+        "output_tokens": 419,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.00732,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"configuration_field\", \"claim_text\": \"Zona is the assigned zone number\", \"exact_quote\": \"**Zona** - número de zona asignada\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"CBE is the CBE equation of the point; if an equation is already configured, CBE will be displayed\", \"exact_quote\": \"**CBE** - ecuación CBE del punto.\\nSi ya hay una ecuación configurada\\nCBE se visualizará.\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"CBE (Control By Events) are equations used to activate a command based on an event\", \"exact_quote\": \"**CBE** (Control By Events), son las ecuaciones que sirven para activar un comando en función de un evento.\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"To modify the CBE field, select the parameter using arrow keys and then press the confirmation key\", \"exact_quote\": \"Para modificar el campo «CBE» en esta pestaña se debe seleccionar el parámetro con las teclas flecha ▲▼, y después pulsar la tecla de confirmación ☑\"}, {\"relation_type\": \"specification\", \"claim_text\": \"Maximum length of a CBE is 64 characters\", \"exact_quote\": \"La longitud máxima de una CBE es de 64 caracteres.\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"Use the alphanumeric keyboard to insert data and then press the Enter key to confirm\", \"exact_quote\": \"Utilizar el teclado alfanumérico para insertar los datos, y después pulsar la tecla de envío (Enter) para confirmar.\"}]}",
+      "raw_text_sha256": "5082e1fef011963d45a7a597fa18965645b7a843d142ce7ed64eb9bb99f3c24e",
+      "relations": 6
+    },
+    {
+      "ordinal": 23,
+      "chunk_id": "88a36d45-103a-445b-afa1-1cfe9b3bfe73",
+      "response_id": "msg_011Cd6dcTS6mp2AXuWVJi5hW",
+      "counted_input_tokens": 915,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 915,
+        "output_tokens": 543,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.00726,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"rule_definition\", \"claim_text\": \"XGRP operator requires at least two active elements from the specified group\", \"exact_quote\": \"Es el operador el que solicita que **AL MENOS DOS** elementos del grupo indicado a continuación estén **ACTIVOS**.\"}, {\"relation_type\": \"specification\", \"claim_text\": \"XGRP format is XGRP (GXXX) where GXXX represents Group 1 to 400\", \"exact_quote\": \"**FORMATO: XGRP (GXXX)**        donde GXXX = Grupo 1 ÷ 400\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Doble coincidencia parameter set to SI enables activation when any combination of two or more input devices in the group are active\", \"exact_quote\": \"que se han programado (con su ecuación CBE) en este grupo software (con **el parámetro Doble coincidencia = SI.**), están ACTIVOS\"}, {\"relation_type\": \"state_transition\", \"claim_text\": \"Output module activates when any combination of two or more devices programmed in the group with Doble coincidencia = SI are active\", \"exact_quote\": \"- **ENTONCES** este módulo de salida se activará.\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Doble coincidencia parameter set to NO enables activation when thermal sensor (HW type THER) and optical sensor (HW type PHOT) are both active\", \"exact_quote\": \"un sensor térmico (tipo HW «THER») y un sensor óptico (tipo HW «PHOT\\\" ) que se han programado (con su ecuación CBE) en este grupo software (con **el parámetro Doble coincidencia = NO**), están ACTIVOS\"}, {\"relation_type\": \"constraint\", \"claim_text\": \"Output module equation cannot be written with multiple groups in a single XGRP expression\", \"exact_quote\": \"No se permite escribir una ecuación de un módulo de salida con más grupos como en el ejemplo siguiente:\\n\\n<ins>CBE no permitida</ins>\\n\\n~~XGRP (G23 G24)~~\"}]}",
+      "raw_text_sha256": "f6dc9df6b05c53a80d2d907b66048f0dd07773cd26745d9a351523242d692a24",
+      "relations": 4
+    },
+    {
+      "ordinal": 24,
+      "chunk_id": "d85a9a89-e469-473a-b345-ee7c77783127",
+      "response_id": "msg_011Cd6dcjh9RqZo1MN6nz4Ve",
+      "counted_input_tokens": 1548,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1548,
+        "output_tokens": 822,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.011316,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"procedure_step\", \"claim_text\": \"Para modificar el parámetro de Sirena, pulsar la tecla de confirmación ☑ seleccionar con las teclas flecha ▲ ▼ SÍ o NO y pulsar la tecla de confirmación ☑ para confirmar el dato\", \"exact_quote\": \"Para modificar este parámetro, pulsar la tecla de confirmación ☑ seleccionar con las teclas flecha ▲ ▼ SÍ o NO y pulsar la tecla de confirmación ☑ para confirmar el dato.\"}, {\"relation_type\": \"specification\", \"claim_text\": \"La función Sirena permite la anulación de la salida sirena y todos los módulos de salida programados con tipo-SW 'SND'\", \"exact_quote\": \"Esta función permite la anulación de la salida sirena y todos los módulos de salida programados con tipo-SW «SND»\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Las abrazaderas CNU-17 y CNU18 de la tarjeta principal son módulos de salida tipo SND controlados por la función Sirena\", \"exact_quote\": \"abrazaderas CNU-17 y CNU18 de la tarjeta principal\"}, {\"relation_type\": \"state_transition\", \"claim_text\": \"Cuando se activa la anulación de activación inmediata de salida sirena, los LED de Anulación y Retardos activos se encienden\", \"exact_quote\": \"Cuando se activa la anulación relativa a la activación inmediata de la salida sirena, los LED de Anulación y Retardos activos se encienden.\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"Durante el tiempo de retardo, es posible reiniciar el retardo en curso con la tecla 'Fín retardos'\", \"exact_quote\": \"será posible reiniciar el retardo en curso con la tecla «Fín retardos»\"}, {\"relation_type\": \"specification\", \"claim_text\": \"La función Apagado permite la anulación de todos los módulos de salida programados con tipo SW 'UDS 1'\", \"exact_quote\": \"Esta función permite la anulación de todos los módulos de salida programados con tipo SW «UDS 1»\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Los paneles de apagado UDS2-N y UDS-3N son módulos de salida tipo UDS 1\", \"exact_quote\": \"paneles de apagado UDS2-N y UDS-3N\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"Para modificar el parámetro de Apagado, pulsar la tecla de confirmación ☑ seleccionar con las teclas flecha ▲ ▼ SÍ o NO y pulsar la tecla de confirmación ☑ para confirmar el dato\", \"exact_quote\": \"Para modificar este parámetro, pulsar la tecla de confirmación ☑ seleccionar con las teclas fecha ▲ ▼ SÍ o NO y pulsar la tecla de confirmación ☑para confirmar el dato.\"}]}",
+      "raw_text_sha256": "1f1c5a98f73d6809bc6cec8d698a6829bffeda66ad8676473cf001bc0a0b5f25",
+      "relations": 8
+    },
+    {
+      "ordinal": 25,
+      "chunk_id": "deda3f61-887f-4e13-9172-1b2ba0dc908d",
+      "response_id": "msg_011Cd6dd6bVswPyQGNjXX6Bp",
+      "counted_input_tokens": 847,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 847,
+        "output_tokens": 274,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.004434,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\":[{\"relation_type\":\"rule_definition\",\"claim_text\":\"PRE operator allows using the pre-alarm state of a sensor\",\"exact_quote\":\"Es el operador el que permite utilizar el estado de pre-alarma de un sensor.\"},{\"relation_type\":\"specification\",\"claim_text\":\"PRE function syntax includes Central address, Loop number, and sensor address parameters\",\"exact_quote\":\"Dirección Central, N.º de Lazo, Dirección del sensor\"},{\"relation_type\":\"rule_definition\",\"claim_text\":\"Output module activates when ANY of the sensors in a PRE OR expression is in pre-alarm state\",\"exact_quote\":\"Si CUALQUIERA de los dos sensores (L1S2 de la central 1 o L1S10 de la central 2) está en pre-alarma, el módulo de salida al que está asociada la CBE se activa.\"},{\"relation_type\":\"specification\",\"claim_text\":\"Example PRE function expression uses OR operator with multiple PRE conditions\",\"exact_quote\":\"OR(PRE (C1L1S2)PRE(C2L1S10))\"}]}",
+      "raw_text_sha256": "37d80b842bfba8590b6709052a130c45cc56a9cc99a1ced8b3eb6414d7076623",
+      "relations": 2
+    },
+    {
+      "ordinal": 26,
+      "chunk_id": "e8fd9d03-c279-4d3d-8c25-638f6ecb2aac",
+      "response_id": "msg_011Cd6ddKNwWR8ZZZKGoZ2wQ",
+      "counted_input_tokens": 973,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 973,
+        "output_tokens": 617,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.008116,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"rule_definition\", \"claim_text\": \"The CBE function is necessary for using only one LED indicator connected to a single sensor to signal an alarm from multiple sensors for a common zone\", \"exact_quote\": \"Esta función es necesaria para utilizar solo un INDICADOR (LED repetidor conectado con un solo sensor) que señale una alarma proveniente de más sensores para una zona común.\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"Program the sensor CBE with the target sensor address to activate its LED output when the source sensor enters alarm\", \"exact_quote\": \"si en la CBE del sensor C1L1S1 se programa **(C1L1S10)** Cuando el sensor C1L1S1 está en alarma, se activa también la salida LED del sensor **C1L1S10.**\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"The DIS operator allows deactivation of zones or points through activation of an input module programmed with SW type NONA\", \"exact_quote\": \"Es el operador el que permite la desactivación de las zonas o de los puntos a través de la activación de un módulo de entrada programado con tipo SW «NONA» (no genera alarma en central).\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"When an input module with equation DIS(Z1) is active, Zone 1 becomes deactivated\", \"exact_quote\": \"Cuando el módulo de entrada está activo, la Zona 1 está desactivada.\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"When an input module with equation DIS(C1L1M1) is active, module L1M1 of central 1 becomes deactivated\", \"exact_quote\": \"Cuando el módulo de entrada está activo, el módulo L1M1 de la central 1 está desactivado.\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"The DIS operator allows recovery of deactivation status of a zone or point through activation of output modules\", \"exact_quote\": \"el operador DIS permite la recuperación del estado de desactivación de una zona o de un punto a través de la activación de los módulos de salida.\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"When Zone 1 is deactivated, an output module with equation DIS(Z1) becomes active\", \"exact_quote\": \"Cuando la Zona 1 está desactivada, el módulo de salida está activo.\"}]}",
+      "raw_text_sha256": "368caf8475e58dd3ffb0e85a4bc92f2049081b8f2e7e4f6c317a02129196598d",
+      "relations": 7
+    },
+    {
+      "ordinal": 27,
+      "chunk_id": "fe6207ae-032f-4119-bbb3-7b0fd49b0ea8",
+      "response_id": "msg_011Cd6ddbjCBshbHyCV6kPnc",
+      "counted_input_tokens": 1650,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1650,
+        "output_tokens": 758,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.01088,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"rule_definition\", \"claim_text\": \"If the device is a sensor or input module, the control panel will activate only all visual or audible general indications (Alarm LED on the front, General Alarm RELAY, BUZZER and possible output modules programmed with ID TYPE software for general signaling)\", \"exact_quote\": \"Si el dispositivo en cuestión es un sensor o un módulo de ingreso, la central activará únicamente todas las indicaciones visuales o sonoras de carácter general (LED Alarma en la parte frontal, RELÉ de Alarma General, TIMBRE y módulos eventuales de salida programados con software TIPO ID para señalizaciones generales).\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"If the device is an output module, this output will never be activated unless it is programmed with ID TYPE software for general signaling\", \"exact_quote\": \"Si, por el contrario, el dispositivo en cuestión es un módulo de salida, esta salida no se activará nunca, a no ser que se programe con software TIPO ID para señalizaciones generales.\"}, {\"relation_type\": \"constraint\", \"claim_text\": \"For output modules, the control panel does not allow programming an equation if the module has an ID TYPE for general character signaling\", \"exact_quote\": \"para los módulos de salida, la central no permite programar una ecuación si el módulo tiene un TIPO ID para señalizaciones de carácter general.\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"OR operator requires that AT LEAST ONE operand is ACTIVE\", \"exact_quote\": \"Es el operador el que solicita que AL MENOS UN operando esté ACTIVO.\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"AND operator requires that ALL operands are ACTIVE\", \"exact_quote\": \"Es el operador el que solicita que TODOS los operandos estén ACTIVOS.\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"NOT operator NEGATES the operand or series of operands in parentheses that follow it\", \"exact_quote\": \"Es el operador el que NIEGA el operando o la serie de operandos entre paréntesis, que lo siguen.\"}, {\"relation_type\": \"constraint\", \"claim_text\": \"A CBE cannot be written for a direct group if the operands inside the parenthesis are groups with index lower than the group for which the CBE is to be associated\", \"exact_quote\": \"No se permite escribir una CBE para un grupo directo si los operandos contenidos en el interior del paréntesis son grupos con índice menor que el grupo para el que se quiere asociar la CBE\"}, {\"relation_type\": \"constraint\", \"claim_text\": \"A CBE cannot be written for an inverse group if the operands inside the parenthesis are groups with index greater than the group for which the CBE is to be associated\", \"exact_quote\": \"No se permite escribir una CBE para un grupo inverso si los operandos contenidos en el interior del paréntesis son grupos con índice mayor que el grupo para el que se quiere asociar la CBE\"}]}",
+      "raw_text_sha256": "3e5a75f52116087a97278fcd7f5d95f2ee802a9d453b84c75ed130d336f11404",
+      "relations": 8
+    },
+    {
+      "ordinal": 28,
+      "chunk_id": "16695901-dbd3-4106-a316-2b5bfb8f0554",
+      "response_id": "msg_011Cd6de1m4Sd4pSH6WBFQQz",
+      "counted_input_tokens": 1143,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1143,
+        "output_tokens": 476,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.007046,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"fault_cause\", \"claim_text\": \"Code 001 indicates initial reset value I with air flow too low, caused by G30 / 004\", \"exact_quote\": \"Valor de reset inicial I, flujo de aire demasiado bajo\"}, {\"relation_type\": \"diagnostic_check\", \"claim_text\": \"For code 001, check intake duct I\", \"exact_quote\": \"Conducto de aspiración I\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"Code 002 indicates initial reset value II with air flow too low, caused by G40 / 004\", \"exact_quote\": \"Valor de reset inicial II, flujo de aire demasiado bajo\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"Code 004 indicates timeout during initial reset, caused by not respecting the waiting time prior to initial reset\", \"exact_quote\": \"No se ha respetado el tiempo de espera previo al reset inicial\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"For code 004, execute new initial reset\", \"exact_quote\": \"Ejecutar nuevo reset inicial\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"Code 008 indicates invalid initial reset parameters I, caused by not respecting intake duct I specifications or reset interrupted via ASD Off\", \"exact_quote\": \"Respetar las especificaciones del conducto de aspiración I\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"Code 064 indicates initial reset value I with air flow too high, caused by G30 / 004\", \"exact_quote\": \"Valor de reset inicial I, flujo de aire demasiado alto\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"Code 128 indicates initial reset value II with air flow too high, caused by G40 / 004\", \"exact_quote\": \"Valor de reset inicial II, flujo de aire demasiado alto\"}]}",
+      "raw_text_sha256": "b3b5d6bdee5598984b524bcac14ec54568a4173c766d806e51b539906c9a466b",
+      "relations": 8
+    },
+    {
+      "ordinal": 29,
+      "chunk_id": "1d1ca159-1155-4f8b-9fc7-bde755133e02",
+      "response_id": "msg_011Cd6deFiCfNq5mj7bvFtK8",
+      "counted_input_tokens": 1352,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1352,
+        "output_tokens": 614,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.008844,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"procedure_step\", \"claim_text\": \"Search for the folder containing the new FW using Browse, select the new FW file and confirm with Open, leave the Verify option marked (default), and press the Start button\", \"exact_quote\": \"Buscar la carpeta en la que se encuentra el nuevo FW mediante «Browse»; Seleccionar el archivo del nuevo FW y confirmar con «Abrir»; Dejar marcada la opción «Verify» (defecto); Pulsar el botón «Start»\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"The transfer to the ASD 535 will begin and when finished, the message Finish will appear and must be confirmed with OK\", \"exact_quote\": \"Se iniciará la transferencia al ASD 535. Al finalizar, aparecerá el mensaje «Finish»; confirmar con «OK»\"}, {\"relation_type\": \"threshold\", \"claim_text\": \"The approximate duration of the transfer is 150 seconds\", \"exact_quote\": \"Duración aprox. de la transferencia 150 s\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"On the AMB 35, place switch S4 in the R position\", \"exact_quote\": \"En el AMB 35, colocar el interruptor S4 en la posición «R»\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"Press briefly the HW-Reset button of the AMB 35\", \"exact_quote\": \"Pulsar brevemente el botón «HW-Reset» del AMB 35\"}, {\"relation_type\": \"prerequisite\", \"claim_text\": \"After a minimum waiting time of 5 minutes from step (7), perform a new initial reset, only when expressly indicated in the corresponding firmware specification\", \"exact_quote\": \"Al cabo de un tiempo de espera mín. de 5 min desde el punto (7), realizar un nuevo reset inicial. Atención: solo será necesario cuando así se indique expresamente en la especificación del firmware correspondiente\"}, {\"relation_type\": \"default_state\", \"claim_text\": \"The Verify option is marked by default\", \"exact_quote\": \"Dejar marcada la opción «Verify» (defecto)\"}, {\"relation_type\": \"warning\", \"claim_text\": \"LEDs 5 and 6 will blink on the AMB 35 during the transfer\", \"exact_quote\": \"Durante la transferencia, los LED 5 y 6 parpadearán en el AMB 35\"}]}",
+      "raw_text_sha256": "32eefaf4ede75cf811304bba38f6659fb7f7191ff5cac500793d56df0ba16c9e",
+      "relations": 7
+    },
+    {
+      "ordinal": 30,
+      "chunk_id": "414ce99c-0dec-478c-b504-009f14631804",
+      "response_id": "msg_011Cd6deZmu6x1jnC2vtP5mM",
+      "counted_input_tokens": 1466,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1466,
+        "output_tokens": 841,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.011342,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\":[{\"relation_type\":\"specification\",\"claim_text\":\"Air flow monitoring is based on the calorimetric measurement method (mass flow measurement technique)\",\"exact_quote\":\"La monitorización del flujo de aire se basa en el método de medición calorimétrico (técnica de medición de flujo másico).\"},{\"relation_type\":\"procedure_step\",\"claim_text\":\"During initial device reset with intact aspiration duct, air flow measurement values are recorded and saved as nominal values (100%)\",\"exact_quote\":\"Al realizar un reset inicial del dispositivo, ~~y con el conducto de aspiración intacto~~, se registrarán los valores de la medición del flujo de aire y se guardarán como valores nominales (100 %).\"},{\"relation_type\":\"threshold\",\"claim_text\":\"According to EN 54-20, any air flow variation exceeding ±20% must be reported as a fault\",\"exact_quote\":\"Según EN 54-20, debe notificarse como fallo toda variación del flujo de aire superior al ±20 %.\"},{\"relation_type\":\"state_transition\",\"claim_text\":\"When measured values fall outside the monitoring window (±xx%), the ASD 535 triggers an 'air flow fault' alarm due to obstruction or tube rupture\",\"exact_quote\":\"En caso de que los valores (valores reales) se salgan fuera de la ventana de monitorización (±xx %) debido a una obstrucción o a una rotura de tubo en el conducto de aspiración, el ASD 535 disparará el aviso «fallo flujo de aire».\"},{\"relation_type\":\"configuration_field\",\"claim_text\":\"The ASD 535 allows configuration of different monitoring window sizes\",\"exact_quote\":\"El ASD 535 permite configurar distintos tamaños para la ventana de monitorización.\"},{\"relation_type\":\"specification\",\"claim_text\":\"Air flow values below 80% (dirt/obstruction) or above 120% (tube rupture) trigger 'air flow fault' warning after 300s delay time at switch positions A11 to C32\",\"exact_quote\":\"cualquier variación de este valor que supere el ±20 % – es decir, por debajo del 80 % (suciedad/obstrucción) o por encima del 120 % (rotura de tubo) – disparará un aviso «fallo flujo de aire» una vez transcurrido el tiempo de retardo de 300 s\"},{\"relation_type\":\"warning\",\"claim_text\":\"At switch positions W01 to W48, air flow monitoring values are not certified according to EN 54-20 and should only be used after consulting the manufacturer\",\"exact_quote\":\"En las posiciones de conmutador W01 a W48, los valores establecidos para la monitorización del flujo de aire <ins>no están homologados según EN 54-20</ins>, por lo que únicamente se deben utilizar previa consulta con el fabricante.\"},{\"relation_type\":\"diagnostic_check\",\"claim_text\":\"Smoke sensors in the ASD 535 are monitored on the Main Board AMB 35 and any electronic system faults, dust, or dirt on smoke sensors are recorded as event codes and displayed as status or faults\",\"exact_quote\":\"Los sensores de humo del ASD 535 se monitorizan en el Main Board AMB 35. En caso de que se produzca una avería en el sistema electrónico del sensor, o que exista polvo o suciedad en los sensores de humo, esto se registrará como código de evento y se mostrará como estado o fallo.\"}]}",
+      "raw_text_sha256": "965ed8e5548f6bb059c1d3f95220e90884591f7ed66eaf8cd4d0dd99c916d911",
+      "relations": 8
+    },
+    {
+      "ordinal": 31,
+      "chunk_id": "51bc5368-bd68-4feb-97e8-5c7023df6530",
+      "response_id": "msg_011Cd6deykYaHHXyFLxYNyZc",
+      "counted_input_tokens": 1062,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1062,
+        "output_tokens": 674,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.008864,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"threshold\", \"claim_text\": \"LS-Ü values greater than ±20% or greater than 300 seconds violate EN 54-20 standard\", \"exact_quote\": \"El aumento de los valores de la LS-Ü (> ±20 % / > 300 s) implica el incumplimiento de la norma EN 54-20\"}, {\"relation_type\": \"warning\", \"claim_text\": \"Window size should generally not fall below ±20%\", \"exact_quote\": \"el **tamaño de la ventana no debería quedar por debajo del ±20 %**\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"Smaller window sizes may only be used when air flow monitoring delay time is simultaneously increased to minimum 10 minutes\", \"exact_quote\": \"Únicamente se podrán utilizar tamaños de ventana más pequeños cuando se aumente simultáneamente el tiempo de retardo de la monitorización del flujo de aire a **10 min** como mínimo\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"High sensitivity air flow monitoring with window sizes below ±20% and delay time of 300 seconds or less increases risk of false failure warnings\", \"exact_quote\": \"Una sensibilidad muy alta de la monitorización del flujo de aire con tamaños de ventana por debajo de ±20 %, acompañada simultáneamente de un tiempo de retardo de ≤ 300 s, aumenta el riesgo de que se produzcan avisos de fallo erróneos\"}, {\"relation_type\": \"specification\", \"claim_text\": \"In applications with large air turbulence, it may be necessary to increase delay time and window size above ±20%\", \"exact_quote\": \"En aplicaciones con grandes turbulencias de aire puede resultar necesario aumentar el tiempo de retardo así como el tamaño de la ventana por encima del ±20 %\"}, {\"relation_type\": \"safety_condition\", \"claim_text\": \"Increasing window size and delay time above ±20% violates EN 54-20 standard and requires manufacturer consultation\", \"exact_quote\": \"esto conlleva el incumplimiento de la norma EN 54-20, y solo podrá realizarse previa consulta con el fabricante\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Air flow obstruction/tube breakage On/Off configuration change is for special conditions only and requires manufacturer consultation\", \"exact_quote\": \"El cambio de la configuración «**Obstrucción del flujo de aire/rotura de tubo del flujo de aire On/Off**» se refiere al uso en condiciones especiales, y solo podrá llevarse a cabo previa consulta con el fabricante\"}]}",
+      "raw_text_sha256": "696e10d7893dbd1a56df3f8a12d1686017a7bdcf5f510e1f37dec101664c164e",
+      "relations": 7
+    },
+    {
+      "ordinal": 32,
+      "chunk_id": "5b6a3a19-a924-4cf4-9513-bd50786ee3d9",
+      "response_id": "msg_011Cd6dfHXd4M2dXg1kU2zC1",
+      "counted_input_tokens": 1685,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1685,
+        "output_tokens": 624,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.00961,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"prerequisite\", \"claim_text\": \"Fire controls, remote alerts and extinguishing zones must be blocked or disconnected before performing maintenance work\", \"exact_quote\": \"es **imprescindible** bloquearlos o desconectarlos previamente\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"Block or disconnect the fire control and remote alert in the upper CDI\", \"exact_quote\": \"Bloquear o desconectar el control de incendios y la alerta remota en la CDI de orden superior\"}, {\"relation_type\": \"specification\", \"claim_text\": \"CDI power supply voltage must be configured for the central according to maintenance regulations\", \"exact_quote\": \"La tensión de alimentación de la CDI debe estar configurada para la central conforme a la normativa de mantenimiento\"}, {\"relation_type\": \"verification\", \"claim_text\": \"Check that the aspiration duct inlet and unused detector box entrance hole plugs are in correct position\", \"exact_quote\": \"Debe comprobarse que la entrada del conducto de aspiración y los tapones de tubo del orificio de entrada de la caja del detector que no está en uso están en la posición correcta\"}, {\"relation_type\": \"threshold\", \"claim_text\": \"Air flow value increase above 100% indicates imminent tube rupture\", \"exact_quote\": \"Un **aumento** del valor (superior al 100 %) implica una **rotura de tubo** inminente\"}, {\"relation_type\": \"threshold\", \"claim_text\": \"Air flow value decrease below 100% indicates imminent obstruction\", \"exact_quote\": \"Una **disminución** del valor (inferior al 100 %) implica una **obstrucción** inminente\"}, {\"relation_type\": \"specification\", \"claim_text\": \"Standard LS-Ü sensitivity is ±20% with half value of ±10%\", \"exact_quote\": \"Sensibilidad de LS-Ü establecida = ±20 % (estándar); la mitad = ±10 %\"}, {\"relation_type\": \"specification\", \"claim_text\": \"Operating voltage nominal value is 12.3 to 13.8 V-DC for 12 V-DC operation or 21.6 to 27.6 V-DC for 24 V-DC operation\", \"exact_quote\": \"Valor nominal = 12,3 a 13,8 V-CC (funcionamiento a 12 V-CC) o 21,6 a 27,6 V-CC (funcionamiento a 24 V-CC)\"}]}",
+      "raw_text_sha256": "1628e8a80fca8ed4add8549abe4056c94ca116d550027692f8c9cb512e9446b9",
+      "relations": 7
+    },
+    {
+      "ordinal": 33,
+      "chunk_id": "6d5a807f-3a42-401b-96a4-83c51d796114",
+      "response_id": "msg_011Cd6dfdGmnQw6otCLkzuzH",
+      "counted_input_tokens": 1337,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1337,
+        "output_tokens": 667,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.009344,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"verification\", \"claim_text\": \"The correct alert (group/line) to the CDI must be verified by triggering the fault warning and alarm in the ASD 535\", \"exact_quote\": \"debe verificarse la correcta alerta (grupo/línea) a la CDI mediante el disparo del aviso de fallo y de la alarma en el ASD 535\"}, {\"relation_type\": \"prerequisite\", \"claim_text\": \"Block or disconnect the fire control and remote alert in the higher-order CDI before performing tests\", \"exact_quote\": \"Bloquear o desconectar el control de incendios y la alerta remota en la CDI de orden superior\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"Reset the ASD 535 must be performed during the various checks, preferably at the CDI since reset at the ASD will not reinitialize the CDI\", \"exact_quote\": \"deberá llevarse a cabo cada vez un restablecimiento del ASD 535 (preferentemente en la CDI, ya que el reset en el ASD no reinicializará la CDI)\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"After the test is completed, the intake duct must be returned to its original state by opening the blocked intake holes and closing the inspection hole\", \"exact_quote\": \"una vez finalizada la prueba, el conducto de aspiración deberá devolverse a su estado original (abrir los orificios de aspiración tapados y cerrar el orificio de inspección)\"}, {\"relation_type\": \"specification\", \"claim_text\": \"For ASD 535-2 and -4 models, checks must be performed on both intake ducts\", \"exact_quote\": \"En el ASD 535-2 y -4 deben realizarse las comprobaciones en ambos conductos de aspiración\"}, {\"relation_type\": \"threshold\", \"claim_text\": \"When the volumetric flow variation exceeds ±20%, the Fault LED begins to blink\", \"exact_quote\": \"En cuanto la variación del flujo volumétrico supera el ±20 %\"}, {\"relation_type\": \"specification\", \"claim_text\": \"The LS-Ü delay time is 300 seconds before the ASD triggers a fault warning to the CDI\", \"exact_quote\": \"Transcurrido el tiempo de retardo de la LS-Ü (300 s), el ASD dispara un aviso de fallo\"}, {\"relation_type\": \"diagnostic_check\", \"claim_text\": \"Apply smoke at the inspection hole or intake hole to test alarm triggering and verify correct alert dispatch by groups/ranges to the CDI\", \"exact_quote\": \"Aplicar humo en el orificio de inspección o en el orificio de aspiración\"}]}",
+      "raw_text_sha256": "d57457262185879d3084931a6fa85cae78a1bec822070720d8bece582cb19bf9",
+      "relations": 7
+    },
+    {
+      "ordinal": 34,
+      "chunk_id": "7b95d320-ba51-4729-87d2-1858625d4b79",
+      "response_id": "msg_011Cd6dfxwD5rVusbLrHzPbz",
+      "counted_input_tokens": 1531,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1531,
+        "output_tokens": 773,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.010792,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"prerequisite\", \"claim_text\": \"After cleaning intake ports, initial reset is normally not necessary as cleaning returns the system to operational state\", \"exact_quote\": \"Después de limpiar los orificios de aspiración, normalmente no es necesario un nuevo reset inicial (con la limpieza se vuelve al estado de puesta en funcionamiento)\"}, {\"relation_type\": \"safety_condition\", \"claim_text\": \"Initial reset can only be performed when all possible measures have been taken to clean the intake duct including installing a new filter element\", \"exact_quote\": \"este **sólo** podrá llevarse a cabo cuando se tenga la seguridad de que se han adoptado previamente todas las medidas posibles para limpiar el conducto de aspiración (incluyendo la instalación de un nuevo elemento de filtro)\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"If initial reset is performed with blocked intake ports, sampling may become impossible or insufficient preventing the ASD 535 from triggering an alarm\", \"exact_quote\": \"Si se realiza un reset inicial con los orificios de aspiración obstruidos, existe el riesgo de que la toma de muestras resulte imposible o sea insuficiente, lo cual puede impedir que el ASD 535 dispare la alarma\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"After maintenance or repair work on the ASD 535 including the intake duct, a new initial reset may be necessary\", \"exact_quote\": \"en algunos casos será necesario ejecutar un nuevo reset inicial\"}, {\"relation_type\": \"verification\", \"claim_text\": \"All measurements and tests performed must be recorded and signed in the commissioning protocol which shall be properly completed in the ASD\", \"exact_quote\": \"Todas las mediciones y pruebas efectuadas deben quedar anotadas y firmadas en el protocolo de puesta en funcionamiento. Estese guardará debidamente cumplimentado en el ASD\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"Once maintenance checks are completed, the detector housing must be closed again\", \"exact_quote\": \"Una vez finalizadas las comprobaciones de mantenimiento, deberá volver a cerrarse la caja del detector\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"Filter element must be replaced when filter failure alarm occurs after configured service life expires with filter monitoring active\", \"exact_quote\": \"En caso de que se produzca un disparo de «Fallo de filtro (fin de vida útil)» una vez finalizado el plazo de vida útil configurado y con la monitorización de filtro activada, el elemento de filtro debe sustituirse\"}, {\"relation_type\": \"safety_condition\", \"claim_text\": \"Component replacement such as smoke sensors, airflow sensors and fan can only be performed without power supply with terminal blocks disconnected\", \"exact_quote\": \"La sustitución de componentes defectuosos, como en el caso del 35, sensores de humo, sensores de flujo de aire y ventilador, solo podrá efectuarse sin tensión (bloque de bornes 1/2 y, en su caso, 3/4 desconectados del AMB 35)\"}]}",
+      "raw_text_sha256": "70a10aabf3e723903d1148883601a50414f999441d3a9ffb746ff4cb9f4d1248",
+      "relations": 8
+    },
+    {
+      "ordinal": 35,
+      "chunk_id": "9410f72f-fff5-494b-bdf5-a0a177e7f02e",
+      "response_id": "msg_011Cd6dgMeSqhsSqUM8rzfEh",
+      "counted_input_tokens": 1085,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1085,
+        "output_tokens": 474,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.00691,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"fault_cause\", \"claim_text\": \"Obstruction in the suction duct or air outlet in the ASD can cause fault code 001\", \"exact_quote\": \"Obstrucción, conducto de aspiración\"}, {\"relation_type\": \"diagnostic_check\", \"claim_text\": \"Check if the suction duct is obstructed at the suction openings and air outlet\", \"exact_quote\": \"Comprobar si el conducto de aspiración está obstruido (orificios de aspiración y salida de aire)\"}, {\"relation_type\": \"diagnostic_check\", \"claim_text\": \"Inspect and clean the filter box or filter unit\", \"exact_quote\": \"Inspeccionar y limpiar caja de filtro/unidad de filtrado\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"Tube break in the suction duct causes fault code 002\", \"exact_quote\": \"Rotura de tubo, conducto de aspiración\"}, {\"relation_type\": \"diagnostic_check\", \"claim_text\": \"Check for tube breaks in the suction duct and verify the inspection hole\", \"exact_quote\": \"Comprobar si hay rotura de tubo en conducto de aspiración\\n• Comprobar orificio de inspección\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"Defective air flow sensor or missing sensor causes fault code 008\", \"exact_quote\": \"Sensor de flujo de aire defectuoso / inexistente\"}, {\"relation_type\": \"verification\", \"claim_text\": \"Air flow sensor must be plugged in and have a functional connection cable\", \"exact_quote\": \"No incluido, no enchufado\\n• Cable de conexión defectuoso\"}, {\"relation_type\": \"exception\", \"claim_text\": \"Replace the air flow sensor if it is defective\", \"exact_quote\": \"Sensor flujo de aire defectuoso 🡺 Sustituir\"}]}",
+      "raw_text_sha256": "4546a5e4188fdaad765b256091a39df681961347ab46d0db0303dfb80e17d701",
+      "relations": 6
+    },
+    {
+      "ordinal": 36,
+      "chunk_id": "aa698b5e-646d-45e2-8d49-696e6015d587",
+      "response_id": "msg_011Cd6dgeH519mxo2n3tXKVp",
+      "counted_input_tokens": 1061,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1061,
+        "output_tokens": 642,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.008542,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"state_transition\", \"claim_text\": \"When a fault event occurs in the ASD 535, the 'fault' relay de-energizes and activates the 'Fault' indication\", \"exact_quote\": \"En caso de que se produzca un evento de fallo en el ASD 535, el relé «fallo» quedará sin corriente y activará la indicación «Fault»\"}, {\"relation_type\": \"diagnostic_check\", \"claim_text\": \"The event code indication in the AMB 35 (switch position E) allows delimiting the error pattern in case of fault\", \"exact_quote\": \"Gracias a la indicación del código de evento en el AMB 35 (posición de conmutador E), es posible delimitar además el patrón de error en caso de fallo\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"Air flow failure triggers a fault alarm after the LS delay time has elapsed\", \"exact_quote\": \"Fallo flujo de aire (transcurrido el tiempo de retardo del LS)\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"Fan failure below or above the fan limit values or tachometric signal triggers a fault alarm\", \"exact_quote\": \"Fallo ventilador (por debajo o por encima de los valores límite del ventilador, señal taquimétrica)\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"Smoke sensor dust or dirt failure triggers a fault alarm\", \"exact_quote\": \"Fallo polvo o suciedad en sensor de humo\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"AMB 35 communication failure with the control unit triggers a fault alarm\", \"exact_quote\": \"Fallo de comunicación del AMB 35 con la unidad de control\"}, {\"relation_type\": \"threshold\", \"claim_text\": \"Low voltage fault threshold is 10.4 V-DC with tolerance of +0 / -0.3 V\", \"exact_quote\": \"Fallo baja tensión (10,4 V-CC, +0 / –0,3 V)\"}, {\"relation_type\": \"default_state\", \"claim_text\": \"The 'Fault' relay is active in standby mode with contact between terminals 12/10 closed and 12/11 open when ASD has power and no fault event occurs\", \"exact_quote\": \"El relé «Fallo» está activado en modo en espera 🡺 Contacto bornes 12/10 cerrado, 12/11 abierto (ASD 535 con tensión; ningún evento de fallo)\"}]}",
+      "raw_text_sha256": "b467157b6edb4375130d17df407589e27bee065f35e7459175482e25110e5292",
+      "relations": 8
+    },
+    {
+      "ordinal": 37,
+      "chunk_id": "b5804921-836c-49ca-8316-cecae6da409b",
+      "response_id": "msg_011Cd6dgxYfpEoDww9xr171E",
+      "counted_input_tokens": 838,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 838,
+        "output_tokens": 367,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.005346,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"specification\", \"claim_text\": \"A value less than 100% indicates obstruction; a value greater than 100% indicates tube rupture\", \"exact_quote\": \"Valor < 100 % = apunta a obstrucción / > 100 % = apunta a rotura de tubo\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"According to EN 54-20, an air flow variation exceeding ±20% must be reported as a fault\", \"exact_quote\": \"Conforme a EN 54-20, una variación del flujo de aire superior al ±20 % debe notificarse como fallo\"}, {\"relation_type\": \"default_state\", \"claim_text\": \"In the ASD 535 smoke detector, air flow is indicated as 100% if after initial reset the intake duct is clean and in correct condition\", \"exact_quote\": \"el flujo de aire se indica como 100 %, si después del reset inicial el conducto de aspiración está limpio y en correcto estado\"}, {\"relation_type\": \"threshold\", \"claim_text\": \"Any variation exceeding ±20% (below 80% or above 120%) will trigger a fault warning after a 300 second delay\", \"exact_quote\": \"cualquier variación de este valor que supere el ±20 % (es decir, por debajo del 80 % o por encima del 120 %) disparará un aviso de fallo una vez transcurrido el tiempo de retardo de 300 s\"}]}",
+      "raw_text_sha256": "7a4d92d711dec2b26d6570013caaeb86d519a09728a40af088e4015e6da593b4",
+      "relations": 4
+    },
+    {
+      "ordinal": 38,
+      "chunk_id": "d0a14450-289c-44c3-92a0-b63f5477a76b",
+      "response_id": "msg_011Cd6dh9sJXk2xoK3ykkRka",
+      "counted_input_tokens": 1030,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1030,
+        "output_tokens": 394,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.006,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"diagnostic_check\", \"claim_text\": \"Check flat cable connection between ASD and smoke sensor\", \"exact_quote\": \"Comunicación ASD <> Sensor de humo\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"Flat cable not plugged correctly or defective\", \"exact_quote\": \"Cable plano no enchufado correctamente o defectuoso\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"Smoke sensor defective\", \"exact_quote\": \"Sensor de humo defectuoso\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"AMB defective\", \"exact_quote\": \"AMB defectuoso\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"Unknown smoke sensor type indicates manufacturing defect\", \"exact_quote\": \"Tipo de sensor de humo desconocido (defecto de fabricación)\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"Response sensitivity too low for installed smoke sensor type\", \"exact_quote\": \"Sensibilidad de respuesta demasiado baja\"}, {\"relation_type\": \"specification\", \"claim_text\": \"Correct smoke sensor types are SSD 535-1, -2, -3\", \"exact_quote\": \"Se ha instalado el tipo de sensor de humo correcto SSD 535-1, -2, -3\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"Invalid parameters on smoke sensor indicate manufacturing defect\", \"exact_quote\": \"Parámetros no válidos, sensor de humo (defecto de fabricación)\"}]}",
+      "raw_text_sha256": "95f3dc203ab91f56e587dc9758a5489453e946c1b67fdb695ad1963e74a1164b",
+      "relations": 8
+    },
+    {
+      "ordinal": 39,
+      "chunk_id": "27aef5f9-d66f-4a3b-a9e0-eb15dcf60acb",
+      "response_id": "msg_011Cd6dhMWnwdcjNRmnaa6bU",
+      "counted_input_tokens": 830,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 830,
+        "output_tokens": 420,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.00586,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"specification\", \"claim_text\": \"The RP1r fire suppression control panel has two microprocessors for increased safety\", \"exact_quote\": \"la central de extinción RP1r dispone de dos microprocesadores\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"SYSTEM FAULT is indicated when the main microprocessor takes too long to initialize the program during power-up\", \"exact_quote\": \"el \\\"microprocesador principal\\\" tarda en inicializar el programa más de lo debido\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"SYSTEM FAULT is indicated when voltage readings fall outside the normal range due to external disturbances\", \"exact_quote\": \"existe una lectura de tensiones fuera del rango por perturbaciones externas\"}, {\"relation_type\": \"safety_condition\", \"claim_text\": \"The control panel must be reset when a SYSTEM FAULT occurs, otherwise it will not perform fire suppression\", \"exact_quote\": \"es necesario REARMAR la central ya que en caso contrario la central NO realizará el proceso de extinción\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"The control panel does not perform suppression when it detects it is not functioning correctly\", \"exact_quote\": \"NO realizará el proceso de extinción al considerar que no esta funcionando correctamente\"}, {\"relation_type\": \"state_transition\", \"claim_text\": \"SYSTEM FAULT can occur at the moment of startup and disappears after battery connection and system reset\", \"exact_quote\": \"Esta avería de FALLO DE SISTEMA, puede ocurrir en el momento del arranque, una vez conectadas las baterías y realizarse un REARME del sistema la avería desaparece\"}]}",
+      "raw_text_sha256": "3d4630aefe5f062c26f21688f314febc02becc0df6bd7fda8f62b96680ee1857",
+      "relations": 6
+    },
+    {
+      "ordinal": 40,
+      "chunk_id": "3ec4a329-9e1a-478c-9e42-44828b87b64c",
+      "response_id": "msg_011Cd6dhfr79ehJBv8i9GvHx",
+      "counted_input_tokens": 1663,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1663,
+        "output_tokens": 508,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.008406,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"state_transition\", \"claim_text\": \"Gas extinction system can transition from Preactivado (Preactivated) to Activado (Activated) state\", \"exact_quote\": \"Preactivado ⚠ 1\\nActivado 2\"}, {\"relation_type\": \"state_transition\", \"claim_text\": \"Gas extinction system can transition from Disparo (Trigger) to Manual Activo (Manual Active) state\", \"exact_quote\": \"Disparo ⚠ 3\\nManual Activo 4\"}, {\"relation_type\": \"state_transition\", \"claim_text\": \"Gas system monitoring can transition from Presión (Pressure) or Flujo (Flow) detection states to Anulada (Cancelled) alarm state\", \"exact_quote\": \"Presión 5\\nFlujo 6|Anulada ⚠\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"System can detect Presión Baja (Low Pressure) fault condition\", \"exact_quote\": \"Presión ⚠ 7\\nBaja 8\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"System can experience Avería Extinción (Extinction Fault)\", \"exact_quote\": \"Avería ⚠\\nExtinción\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"System can detect Fallo Tierra (Ground Fault) condition with configurable Retardo (Delay) option\", \"exact_quote\": \"Fallo\\nTierra ⚠|Retardo\\nSI/No\"}, {\"relation_type\": \"warning\", \"claim_text\": \"System alerts for Puerta Abierta (Door Open) condition\", \"exact_quote\": \"Puerta ⚠\\nAbierta\"}, {\"relation_type\": \"diagnostic_check\", \"claim_text\": \"Service mode includes Teclado Test Leds function with 3 second execution time\", \"exact_quote\": \"Teclado\\nTest Leds (3seg)\"}]}",
+      "raw_text_sha256": "fe192e2b7dcb16f3e9d71c2caa54374803d82d353c3361439cd012a8ce8b7c8c",
+      "relations": 0
+    },
+    {
+      "ordinal": 41,
+      "chunk_id": "2d45a70a-5202-442e-af84-c3a176c2178d",
+      "response_id": "msg_011Cd6dhyv3k7Q92XRke3Xqd",
+      "counted_input_tokens": 1569,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1569,
+        "output_tokens": 518,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.008318,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"threshold\", \"claim_text\": \"Activation time of the extinction circuit ranges from 05 to 295 seconds in 5-second intervals\", \"exact_quote\": \"Valor variable de 05 a 295 seg.\"}, {\"relation_type\": \"default_state\", \"claim_text\": \"Circuit remains activated until central reset by default\", \"exact_quote\": \"Circuito activado hasta rearme de la central (por defecto)\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Manual trigger delay can be set to immediate extinction or to match detector activation delay\", \"exact_quote\": \"Retardo en caso de disparo manual\"}, {\"relation_type\": \"default_state\", \"claim_text\": \"Manual trigger delay is set to immediate extinction by default\", \"exact_quote\": \"00 | Disparo para extinción inmediato (por defecto)\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Extinction circuit 2 can be enabled or disabled\", \"exact_quote\": \"E.2 | Disparo circuito extinción 2 | Habilitar/inhabilitar disparo para circuito de extinción 2\"}, {\"relation_type\": \"default_state\", \"claim_text\": \"Extinction circuit 2 is disabled by default\", \"exact_quote\": \"00\\tAnulado (por defecto)\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"If extinction flow signal is not detected after circuit activation and flow monitoring is enabled, the firing will repeat up to 3 times while the condition persists\", \"exact_quote\": \"en caso de no detectar la activación de la señal de flujo tras la activación del circuito de extinción, el disparo se repetirá hasta en 3 ocasiones mientras dicha situación persista\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"If flow signal remains unactivated after 3 repetition attempts, the central indicates an extinction circuit fault\", \"exact_quote\": \"Si pese a ello, la señal de flujo sigue sin activarse, la central indicará una avería en el circuito de extinción\"}]}",
+      "raw_text_sha256": "6f7b0b46a3051c3389aa6a30fb0b87786ba0bc3f3f6b06452bf9b4204ea4eb41",
+      "relations": 7
+    },
+    {
+      "ordinal": 42,
+      "chunk_id": "475a8f18-7c69-4c7a-8111-45bd67334c96",
+      "response_id": "msg_011Cd6diTZTP8g7hxfhDsevZ",
+      "counted_input_tokens": 1236,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1236,
+        "output_tokens": 600,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.008472,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\":[{\"relation_type\":\"configuration_field\",\"claim_text\":\"r.S configuration controls siren activation delay time in minutes from pre-activation state to siren activation, with default value of 00 minutes and variable range from 00 to 10 minutes\",\"exact_quote\":\"Retardo t para la activación de las sirenas (valor por defecto: 00 min.) Valor variable de 00 a 10 min.\"},{\"relation_type\":\"configuration_field\",\"claim_text\":\"r.i configuration controls reset inhibition after extinction with programmable time interval between 0 and 30 minutes from ACTIVATED status notification until reset is allowed\",\"exact_quote\":\"De acuerdo con la norma UNE-EN 12094-1:2004, apartado 4.12.2, debe existir un intervalo de tiempo programable, entre 0 y 30 minutos, desde que la central notifica el estado de ACTIVADO hasta que permite su rearme.\"},{\"relation_type\":\"default_state\",\"claim_text\":\"r.i reset is permitted at any time when set to value 00, which is the default\",\"exact_quote\":\"00\\tRearme permitido en cualquier momento (por defecto)\"},{\"relation_type\":\"rule_definition\",\"claim_text\":\"r.i values from 01 to 30 inhibit reset during the defined interval expressed in minutes\",\"exact_quote\":\"De 01 a 30\\tRearme inhibido durante intervalo definido (expresado en minutos)\"},{\"relation_type\":\"configuration_field\",\"claim_text\":\"F.t configuration determines ground fault sensitivity level with three options: 00 for low sensitivity, 01 for intermediate sensitivity (default), and 02 for high sensitivity\",\"exact_quote\":\"Determina el nivel de sensibilidad para indicar fallo de tierra:\\n\\n| 00 | Poco sensible            |\\n| -- | ------------------------ |\\n| 01 | Intermedio (por defecto) |\\n| 02 | Muy sensible             |\"},{\"relation_type\":\"configuration_field\",\"claim_text\":\"E.L configuration selects the type of end-of-line element (EOL) used for output supervision: resistive EOL or diode EOL (default)\",\"exact_quote\":\"Permite seleccionar el tipo de elemento de final de línea (EOL) utilizado para la supervisión de las salidas:\\n\\n| 00 | EOL resistivo           |\\n| -- | ----------------------- |\\n| 01 | EOL diodo (por defecto) |\"}]}",
+      "raw_text_sha256": "afd3ccb86f8402832002eb437c95eb7e39d80208a136e552caaf6411c236933d",
+      "relations": 6
+    },
+    {
+      "ordinal": 43,
+      "chunk_id": "c8924d59-a9ce-4379-a3b7-57058ff86a82",
+      "response_id": "msg_011Cd6dimtmcRf1sLVz9eks4",
+      "counted_input_tokens": 1618,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1618,
+        "output_tokens": 693,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.010166,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"default_state\", \"claim_text\": \"Todas las averías son por defecto, enclavadas, y requieren de un rearme manual de la central para su restablecimiento\", \"exact_quote\": \"Todas las averías son por defecto, enclavadas, y requieren de un rearme manual de la central para su restablecimiento\"}, {\"relation_type\": \"exception\", \"claim_text\": \"Con excepción de la avería en el circuito de paro, para el resto de circuitos es posible modificar este comportamiento y hacer que el rearme sea automático cuando la condición de avería desaparezca\", \"exact_quote\": \"Con la excepción de la avería en el circuito de paro, para el resto de circuitos es posible modificar este comportamiento y hacer que el rearme sea automático cuando la condición de avería desaparezca\"}, {\"relation_type\": \"specification\", \"claim_text\": \"Si no se ha instalado un elemento de final de línea (EOL) en los circuitos de sirena, el led indicador de Sirenas en fallo/anuladas se activará de forma intermitente rápida a 2 Hz\", \"exact_quote\": \"el led indicador de \\\"Sirenas en fallo/anuladas\\\" se activará de forma **intermitente rápida (2 Hz)**\"}, {\"relation_type\": \"specification\", \"claim_text\": \"Si existe un retardo programado para la activación de las sirenas según normativa UNE-EN54, el led se activará de forma intermitente lenta a 1 Hz\", \"exact_quote\": \"de forma **intermitente lenta** (1 Hz)\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"El parámetro P5 controla el retardo programado para la activación de las sirenas\", \"exact_quote\": \"mediante el parámetro** ~~P5~~**\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"Para llevar a cabo un rearme de la central, es necesario acceder a través del nivel 2 de acceso y pulsar sobre la tecla Rearme\", \"exact_quote\": \"Para llevar a cabo un rearme de la central, es necesario acceder a la misma a través del **nivel 2** de acceso (consultar la sección **4.3. Niveles de acceso**, para más información) y pulsar sobre la tecla \\\"Rearme\\\"\"}, {\"relation_type\": \"state_transition\", \"claim_text\": \"El rearme de la central provoca que la misma se reinicie y que todas las entradas enclavadas se restablezcan\", \"exact_quote\": \"Esta acción provocará que la central se reinicie y que todas las entradas enclavadas se restablezcan\"}]}",
+      "raw_text_sha256": "7cc67cdd067ac516918478ad823a4d75ec514ad92ef5d4df03a159720d41a701",
+      "relations": 7
+    },
+    {
+      "ordinal": 44,
+      "chunk_id": "98b1ad32-22eb-4ec6-9bde-47a2c8d98358",
+      "response_id": "msg_011Cd6dj5aPxNgJeK2UHH7WA",
+      "counted_input_tokens": 1023,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1023,
+        "output_tokens": 507,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.007116,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"state_transition\", \"claim_text\": \"After the extinction activation time indicated in parameter dr (Extinction Duration) elapses, the two solenoid circuits will deactivate\", \"exact_quote\": \"Una vez transcurrido el tiempo de activación de la extinción indicado en el parámetro dr (Duración de la Extinción) se producirán los siguientes cambios: * Los dos circuitos de solenoide se desactivarán\"}, {\"relation_type\": \"state_transition\", \"claim_text\": \"After the extinction activation time elapses, the time timer resets to 00 in fixed state\", \"exact_quote\": \"Temporizador de tiempo a 00 en estado fijo\"}, {\"relation_type\": \"state_transition\", \"claim_text\": \"After the extinction activation time elapses, the extinction performed LED enters fixed state\", \"exact_quote\": \"Led de extinción realizada en estado fijo\"}, {\"relation_type\": \"prerequisite\", \"claim_text\": \"To silence sirens, level 2 access must be enabled by turning the key or enabling the keyboard\", \"exact_quote\": \"Las sirenas pueden silenciarse pulsando la tecla Silenciar Sirenas, si se ha habilitado el acceso a nivel 2. Para habilitar el acceso nivel 2, gire la llave o habilite el teclado\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"Sirens can be silenced by pressing the Silence Sirens key once level 2 access is enabled\", \"exact_quote\": \"Las sirenas pueden silenciarse pulsando la tecla Silenciar Sirenas, si se ha habilitado el acceso a nivel 2\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"Once sirens are activated, they can be deactivated or reactivated by pressing the Silence/Reactivate Sirens key\", \"exact_quote\": \"Una vez activadas las sirenas, se pueden desactivar o reactivar pulsando la tecla Silenciar/Reactivar Sirenas\"}]}",
+      "raw_text_sha256": "dd872bcf6247b4ba4f45f9677bfa98e78000e78cc070e3deaf73b51892f82a22",
+      "relations": 6
+    },
+    {
+      "ordinal": 45,
+      "chunk_id": "9cfe1892-39eb-467d-a94d-bfd120284e9c",
+      "response_id": "msg_011Cd6djKiwjZ9v1osqpJT69",
+      "counted_input_tokens": 1331,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1331,
+        "output_tokens": 554,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.008202,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"procedure_step\", \"claim_text\": \"To perform an LED test, press the Keyboard key for 3 seconds\", \"exact_quote\": \"Para realizar una prueba de leds, pulse durante 3 segundos la tecla **Teclado**\"}, {\"relation_type\": \"prerequisite\", \"claim_text\": \"The keyboard must be enabled at access level 2 to perform LED test\", \"exact_quote\": \"es necesario que el teclado esté habilitado (nivel de acceso 2)\"}, {\"relation_type\": \"specification\", \"claim_text\": \"LED test function will test all LEDs and the internal buzzer of the control panel\", \"exact_quote\": \"Con esta función, se realizará una prueba de todos los leds y del zumbador interno de la central\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"To reset the control panel, enable access level 2 and press the Reset key\", \"exact_quote\": \"Para rearmar la central, habilite el acceso nivel 2 y pulse la tecla **Rearme**\"}, {\"relation_type\": \"specification\", \"claim_text\": \"Latched inputs will be reset during panel reset\", \"exact_quote\": \"Las entradas enclavadas se reiniciarán\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Micro switch SW1-6 must be set to ON position to enable temporary reset function inhibition\", \"exact_quote\": \"debe situar el micro interruptor SW1-6 en la posición ON\"}, {\"relation_type\": \"default_state\", \"claim_text\": \"When SW1 microswitch configuration changes, S1 appears on the 7-segment display\", \"exact_quote\": \"En la pantalla de 7 segmentos de la central aparecerá S1, lo que indica que se ha realizado un cambio en la configuración del microinterruptor SW1\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"Place a jumper at PROG position on the lower left of the motherboard and press the Reset key to enable the function\", \"exact_quote\": \"debe colocar un puente en la posición PROG, situada en la parte inferior izquierda de la placa base, y pulsar la tecla **Rearme**\"}]}",
+      "raw_text_sha256": "06b687953d4809d8daae3cea24382ad316a0d5de230dd03ea66b3a107dfcadb6",
+      "relations": 8
+    },
+    {
+      "ordinal": 46,
+      "chunk_id": "e8c03d86-539f-42b2-b919-50f96949f016",
+      "response_id": "msg_011Cd6djd4UyHUdE1JLj6vqC",
+      "counted_input_tokens": 1164,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1164,
+        "output_tokens": 645,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.008778,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"threshold\", \"claim_text\": \"Programmable time period between 0 and 30 minutes from when the control panel signals ACTIVATED status until RESTART is allowed\", \"exact_quote\": \"debe haber un periodo de tiempo programable entre 0 y 30 minutos desde que la central señaliza el estado de ACTIVADO hasta que se permita REARMAR la central\"}, {\"relation_type\": \"default_state\", \"claim_text\": \"By default, the fire extinguishing control panel has the restart inhibition function disabled\", \"exact_quote\": \"Por defecto, la central de extinción tiene esta función anulada (SW1-6 en OFF)\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"To enable the restart inhibition function, first position micro switch SW1-6 to ON position and accept SW1 configuration\", \"exact_quote\": \"Para habilitar esta función, deberá situar primero el micro interruptor SW1-6 en la posición ON y aceptar la configuración de SW1\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"In the rI field within programming, press the Delay Yes/No or Silence Buzzer key to increase or decrease the restart inhibition time between 0 and 30 minutes\", \"exact_quote\": \"en el campo rI, pulse la tecla *Retardo Sí/No* o *Silenciar Zumbador* para aumentar o disminuir el tiempo de inhibición de la tecla rearme (entre 0 y 30 minutos)\"}, {\"relation_type\": \"default_state\", \"claim_text\": \"Default restart inhibition time is 00 minutes\", \"exact_quote\": \"*Por defecto 00 minutos*\"}, {\"relation_type\": \"exception\", \"claim_text\": \"If the control panel is in standby/wait mode, a restart can be performed\", \"exact_quote\": \"Si la central está en modo *paro/espera*, se podrá realizar un Rearme\"}, {\"relation_type\": \"default_state\", \"claim_text\": \"Default value for A0 parameter is 0, which indicates siren delay with disabled and siren fault/disabled LEDs\", \"exact_quote\": \"Si A0=0 (*valor por defecto* 1)\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"If A0=01 and there is a delay in siren activation, the general disabled and delayed siren LEDs will not be indicated\", \"exact_quote\": \"Si A0=01 y existe un retardo en la activación de sirenas no se indicará con los led de anulado general y sirenas retardadas\"}]}",
+      "raw_text_sha256": "3285287561acfce7b60ead3e2ea0ea5db0f3c2cf7df523326e4639623b66cc07",
+      "relations": 8
+    },
+    {
+      "ordinal": 47,
+      "chunk_id": "e0f49eb5-7e1d-437e-a9d0-9887ecd79a1b",
+      "response_id": "msg_011Cd6djwQHzTyguu1yd4e8X",
+      "counted_input_tokens": 813,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 813,
+        "output_tokens": 484,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.006466,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"procedure_step\", \"claim_text\": \"Press the Keypad Access / Lamp Test key for 3 seconds to test the leds\", \"exact_quote\": \"Press the **Keypad Access / Lamp Test** key for 3 seconds to test the leds\"}, {\"relation_type\": \"prerequisite\", \"claim_text\": \"Keypad must be enabled at access level 2 to perform lamp test\", \"exact_quote\": \"Keypad must be enabled (access level 2)\"}, {\"relation_type\": \"verification\", \"claim_text\": \"All the leds and the inner buzzer will be tested automatically during lamp test function\", \"exact_quote\": \"all the leds and the inner buzzer will be tested automatically\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"To reset the control panel, enable access level 2 and press the Reset key\", \"exact_quote\": \"To reset the control panel, enable access level 2 and press the **Reset** key\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"Latched inputs will be reset when reset function is executed\", \"exact_quote\": \"Latched inputs will be reset\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"The reset function may be inhibited after starting the Activated condition in access level 3 according to EN12094:1 Section 4.12.2\", \"exact_quote\": \"the reset function may be inhibited after starting the Activated condition in access level 3\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"Place the SW1-6 microswitch in ON position to enable the Reset function\", \"exact_quote\": \"place the SW1-6 microswitch in ON position\"}, {\"relation_type\": \"state_transition\", \"claim_text\": \"The 7 segment display will show S1 when SW1 configuration has been changed\", \"exact_quote\": \"The 7 segment display will show S1, which means that the SW1 configuration has been changed\"}]}",
+      "raw_text_sha256": "bca34cbac374b87689189cc7b3d0792b53f43b08a90c6832b6a5f237f51d4407",
+      "relations": 8
+    },
+    {
+      "ordinal": 48,
+      "chunk_id": "731ace03-99d6-47ff-8d1a-da5b381b5c47",
+      "response_id": "msg_011Cd6dk9stFZ6N1J8TSkM2w",
+      "counted_input_tokens": 998,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 998,
+        "output_tokens": 475,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.006746,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"procedure_step\", \"claim_text\": \"Press the Keypad Access / Lamp Test key for 3 seconds to test the leds\", \"exact_quote\": \"Press the **Keypad Access / Lamp Test** key for 3 seconds to test the leds\"}, {\"relation_type\": \"prerequisite\", \"claim_text\": \"Keypad must be enabled at access level 2 to perform lamp test\", \"exact_quote\": \"Keypad must be enabled (access level 2)\"}, {\"relation_type\": \"verification\", \"claim_text\": \"With lamp test function, all the leds and the inner buzzer will be tested automatically\", \"exact_quote\": \"all the leds and the inner buzzer will be tested automatically\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"To reset the control panel, enable access level 2 and press the Reset key\", \"exact_quote\": \"enable access level 2 and press the **Reset** key\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"Latched inputs will be reset when the reset function is executed\", \"exact_quote\": \"Latched inputs will be reset\"}, {\"relation_type\": \"constraint\", \"claim_text\": \"The reset function may be inhibited after starting the Activated condition in access level 3\", \"exact_quote\": \"the reset function may be inhibited after starting the Activated condition in access level 3\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Place the SW1-6 microswitch in ON position to enable the Reset function\", \"exact_quote\": \"place the SW1-6 microswitch in ON position\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"Connect a jumper in PROG switch located in the left bottom corner of the Release control panel board and press the Reset key\", \"exact_quote\": \"connect a jumper in **PROG** switch located in the left bottom corner of the Release control panel board and press the **Reset** key\"}]}",
+      "raw_text_sha256": "b5ea76915669e9b48533dadb23c8830ea3a02d88c377f0b543ecc697d156b7e4",
+      "relations": 8
+    },
+    {
+      "ordinal": 49,
+      "chunk_id": "688c07f0-4617-4c47-9778-d6f6cb230d0c",
+      "response_id": "msg_011Cd6dkNVfEgFuCLvcuXeiG",
+      "counted_input_tokens": 1389,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1389,
+        "output_tokens": 538,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.008158,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"specification\", \"claim_text\": \"All supervised inputs and outputs require a 6K8 End of Line Resistor (RFL) to verify wiring\", \"exact_quote\": \"Todas las entradas y salidas supervisadas requieren una Resistencia Final de Línea (RFL) de 6K8 para verificar el cableado\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"If a short circuit exists, the panel will indicate a fault by intermittently activating the circuit LED, activating the fault relay and the general fault LED\", \"exact_quote\": \"si existe un cortocircuito o la central no detecta la RFL, es decir circuito abierto, la central indicará la avería activando de forma intermitente el led del circuito, activará el relé de avería y el led de avería general\"}, {\"relation_type\": \"fault_cause\", \"claim_text\": \"If the panel does not detect the RFL (open circuit), the panel will indicate a fault by intermittently activating the circuit LED, activating the fault relay and the general fault LED\", \"exact_quote\": \"si existe un cortocircuito o la central no detecta la RFL, es decir circuito abierto, la central indicará la avería activando de forma intermitente el led del circuito, activará el relé de avería y the led de avería general\"}, {\"relation_type\": \"state_transition\", \"claim_text\": \"ABORT SWITCH fault requires manual reset and stops extinction\", \"exact_quote\": \"Esta avería que requiere rearme manual detiene la extinción\"}, {\"relation_type\": \"default_state\", \"claim_text\": \"ZONE 3 can be used as Manual Dispatch when SW1-5=OFF\", \"exact_quote\": \"Si SW1-5=OFF por lo tanto la Zona 3 se utiliza como Disparo Manual\"}, {\"relation_type\": \"diagnostic_check\", \"claim_text\": \"ZONE 3 in fault condition will activate both ZONE 3 fault LED and Manual Dispatch fault LED when SW1-5=OFF\", \"exact_quote\": \"en caso de avería se activará además el led de Disparo Manual en Avería\"}]}",
+      "raw_text_sha256": "af6fffb46050a0e9fc57b73cf07d06a16c67312220d58edf5e0466ab9740e696",
+      "relations": 5
+    },
+    {
+      "ordinal": 50,
+      "chunk_id": "bd2d7703-98c6-45da-b044-afb75a54a2f5",
+      "response_id": "msg_011Cd6dkg4qVVBPqGUP5ou5v",
+      "counted_input_tokens": 1164,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1164,
+        "output_tokens": 649,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.008818,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"threshold\", \"claim_text\": \"Programmable time period between 0 and 30 minutes from when the control panel signals ACTIVATED status until REARM is permitted\", \"exact_quote\": \"debe haber un periodo de tiempo programable entre 0 y 30 minutos desde que la central señaliza el estado de ACTIVADO hasta que se permita REARMAR la central\"}, {\"relation_type\": \"default_state\", \"claim_text\": \"By default, the rearm inhibition function is disabled (SW1-6 in OFF position)\", \"exact_quote\": \"Por defecto, la central de extinción tiene esta función anulada (SW1-6 en OFF)\"}, {\"relation_type\": \"configuration_field\", \"claim_text\": \"Micro switch SW1-6 must be positioned ON to enable the rearm inhibition function\", \"exact_quote\": \"deberá situar primero el micro interruptor SW1-6 en la posición ON\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"In the rI programming field, press the Retardo Sí/No or Silenciar Zumbador key to increase or decrease the rearm inhibition time between 0 and 30 minutes\", \"exact_quote\": \"en el campo rI, pulse la tecla *Retardo Sí/No* o *Silenciar Zumbador* para aumentar o disminuir el tiempo de inhibición de la tecla rearme (entre 0 y 30 minutos)\"}, {\"relation_type\": \"constraint\", \"claim_text\": \"Until the programmed inhibition time elapses, rearm cannot be performed on the control panel\", \"exact_quote\": \"Hasta que no transcurra el tiempo que programe en este campo, no será posible realizar un rearme en la central\"}, {\"relation_type\": \"default_state\", \"claim_text\": \"Default rearm inhibition time is 00 minutes\", \"exact_quote\": \"*Por defecto 00 minutos*\"}, {\"relation_type\": \"exception\", \"claim_text\": \"If the control panel is in standby/pause mode, rearm can be performed\", \"exact_quote\": \"Si la central está en modo *paro/espera*, se podrá realizar un Rearme\"}, {\"relation_type\": \"rule_definition\", \"claim_text\": \"When A0=0 (default value), any siren activation delay will be indicated with the general disabled LED and siren disabled LED blinking\", \"exact_quote\": \"Si A0=0 (*valor por defecto* 1) Se indicará con el led general de anulado y Sirenas anuladas cualquier retardo en la activación de Sirenas\"}]}",
+      "raw_text_sha256": "0cfed1b89cf4c05b7d87b746dc35bff5b08496753ea942cdde0bb4173be51823",
+      "relations": 8
+    },
+    {
+      "ordinal": 51,
+      "chunk_id": "daa7a7c4-c4a8-4c54-b2dd-c5e889cccfe8",
+      "response_id": "msg_011Cd6dm127TqhNKQr9xZbQh",
+      "counted_input_tokens": 1265,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1265,
+        "output_tokens": 474,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.00727,
+      "validation": "VALIDATED",
+      "raw_text": "{\"claims\": [{\"relation_type\": \"state_transition\", \"claim_text\": \"When the extinction activation time indicated in the dr parameter (Extinction Duration) elapses, the two solenoid circuits will be deactivated\", \"exact_quote\": \"Una vez transcurrido el tiempo de activación de la extinción indicado en el parámetro dr (Duración de la Extinción) se producirán los siguientes cambios: * Los dos circuitos de solenoide se desactivarán\"}, {\"relation_type\": \"state_transition\", \"claim_text\": \"When extinction activation time elapses, the time timer is set to 00 in fixed state\", \"exact_quote\": \"Temporizador de tiempo a 00 en estado fijo\"}, {\"relation_type\": \"state_transition\", \"claim_text\": \"When extinction activation time elapses, the extinction performed LED is in fixed state\", \"exact_quote\": \"Led de extinción realizada en estado fijo\"}, {\"relation_type\": \"prerequisite\", \"claim_text\": \"Sirens can be silenced by pressing the Silence Sirens key if level 2 access has been enabled\", \"exact_quote\": \"Las sirenas pueden silenciarse pulsando la tecla **Silenciar Sirenas**, si se ha habilitado el acceso a nivel 2\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"To enable level 2 access, turn the key or enable the keyboard\", \"exact_quote\": \"Para habilitar el acceso nivel 2, gire la llave o habilite el teclado\"}, {\"relation_type\": \"procedure_step\", \"claim_text\": \"Once sirens are activated, they can be deactivated or reactivated by pressing the Silence/Reactivate Sirens key\", \"exact_quote\": \"Una vez activadas las sirenas, se pueden desactivar o reactivar pulsando la tecla **Silenciar/Reactivar Sirenas**\"}]}",
+      "raw_text_sha256": "921ebad90d41b7ca15ed691661d970e5d28e3204852f6fe7c8f17bd072e6a970",
+      "relations": 6
+    }
+  ]
+}

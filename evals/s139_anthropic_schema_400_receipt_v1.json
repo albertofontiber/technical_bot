@@ -1,0 +1,19 @@
+{
+  "instrument": "s139_schema_preflight_failure_v1",
+  "status": "NO_INFERENCE_SCHEMA_UNSUPPORTED",
+  "stage": "anthropic_count_tokens",
+  "occurred_at_utc": "2026-07-16T21:22:00Z",
+  "http_status": 400,
+  "request_id": "req_011Cd6S6phuyfPBQvo5Mciay",
+  "unsupported_keyword": "maxItems",
+  "model_response_id": null,
+  "model_output": null,
+  "token_usage": null,
+  "conservative_cost_usd": 0,
+  "authorization": {
+    "inference_started": false,
+    "retry_same_schema": false,
+    "production": false,
+    "facts_moved_to_ok": 0
+  }
+}

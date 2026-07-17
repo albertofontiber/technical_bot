@@ -1,0 +1,50 @@
+instrument: s137_arbitration_resume_execution_permit_v31
+status: EXECUTION_GO_SOL_ARBITRATION_ONCE
+
+preregistration:
+  path: evals/s137_arbitration_resume_prereg_v31.yaml
+  sha256: 8022a984103b6876b16e730158e8de19c999cb3f32a45bad99a102d28c3e25f8
+runner:
+  path: scripts/s137_finalize_v31.py
+  sha256: beb92d5dfa8fe125fe45b66fe86b6e444c704f99a9e2aaaeb7b777296ec90b75
+tests:
+  path: tests/test_s137_finalize_v31.py
+  sha256: 5e1be1d80659c203fe600cc24d15aa56d11ce46f8eab526f959b494a8b994f71
+
+pre_execution_evidence:
+  combined_s137_tests: 14_passed
+  py_compile: passed
+  git_diff_check: passed
+  frozen_dependencies_valid: true
+  validated_primary_and_atomic_judgements: true
+  terminal_disagreement_trigger_nonempty: true
+  arbitration_calls_so_far: 0
+  worst_case_at_max_input_cap_usd: 4.7420475
+
+allowed:
+  openai_token_count: 1
+  openai_sol_arbitration_calls_max: 1
+  persist_valid_or_failed_receipt: true
+  write_final_aggregate: true
+
+forbidden:
+  arbitration_retry: true
+  repeat_sol_primary: true
+  repeat_fable: true
+  evidence_or_mapping_changes: true
+  prompt_schema_rubric_changes: true
+  terminal_rule_changes: true
+  remote_database: true
+  embeddings: true
+  context_generation: true
+  chunker_changes: true
+  retrieval_changes: true
+  threshold_changes: true
+  production: true
+  migration_apply: true
+  deploy: true
+  facts_moved_to_ok: true
+
+cumulative_external_usd_ceiling: 10
+user_authorized_ceiling_usd: 50
+stop_before_inference_if_cumulative_worst_case_exceeds_ceiling: true

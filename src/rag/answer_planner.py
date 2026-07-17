@@ -20,7 +20,9 @@ from typing import Any
 from .catalog import normkey as model_normkey
 from .post_rerank_coverage import has_exact_served_coverage_receipt
 from .retriever import extract_product_models
+from .source_identity_attestation import validated_query_source_identity_sha256
 from .structured_claims import NumericClaim, extract_numeric_claims
+from .technical_obligations import extract_technical_obligations
 
 _STOPWORDS = {
     "a", "al", "and", "cual", "cuanto", "cuantos", "de", "del", "desde",
@@ -108,8 +110,11 @@ _OUTPUT_IDENTITY = re.compile(
 ANSWER_PLANNER_CONTRACT_S119 = "answer_planner_s119_v1"
 ANSWER_PLANNER_CONTRACT_S120 = "answer_planner_s120_v1"
 ANSWER_PLANNER_CONTRACT_S122 = "answer_planner_s122_v1"
+ANSWER_PLANNER_CONTRACT_S141 = "answer_planner_s141_v1"
 ANSWER_ENFORCEMENT_POLICY_S122 = "answer_enforcement_s122_v2"
+ANSWER_ENFORCEMENT_POLICY_S141 = "answer_enforcement_s141_v1"
 ANSWER_CONTRACT_VALIDATOR_S122 = "answer_contract_validator_s122_v1"
+ANSWER_CONTRACT_VALIDATOR_S141 = "answer_contract_validator_s141_v1"
 SOURCE_BOUND_RENDERER_S122_V1 = "source_bound_renderer_s122_v1"
 SOURCE_BOUND_RENDERER_S124_V1 = "source_bound_renderer_s124_v1"
 SOURCE_BOUND_RENDERER_CURRENT = SOURCE_BOUND_RENDERER_S124_V1
@@ -125,10 +130,28 @@ S122_ENFORCEABLE_KINDS = frozenset(
         "terminal_bundle",
     }
 )
+S141_ENFORCEABLE_KINDS = S122_ENFORCEABLE_KINDS | frozenset(
+    {
+        "point_programming_fields",
+        "software_type_cbe_activation",
+        "input_condition_definition",
+        "output_condition_action",
+        "logic_contradiction_warning",
+        "commissioning_rule_verification",
+        "option_family_cardinality",
+        "maintenance_isolation_prerequisite",
+        "initial_reference_calibration",
+        "bounded_fault_window",
+        "default_latched_faults",
+        "extinction_duration_range",
+        "reset_inhibit_special_state",
+    }
+)
 _ANSWER_PLANNER_CONTRACTS = {
     ANSWER_PLANNER_CONTRACT_S119,
     ANSWER_PLANNER_CONTRACT_S120,
     ANSWER_PLANNER_CONTRACT_S122,
+    ANSWER_PLANNER_CONTRACT_S141,
 }
 
 
@@ -143,9 +166,13 @@ class AnswerObligation:
     required_anchors: tuple[str, ...]
     source_start: int
     source_end: int
+    identity_receipt_sha256: str = ""
 
     def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+        row = asdict(self)
+        if not self.identity_receipt_sha256:
+            row.pop("identity_receipt_sha256")
+        return row
 
 
 @dataclass(frozen=True)
@@ -195,7 +222,12 @@ def _uses_s120_relations(planner_contract_version: str) -> bool:
     return planner_contract_version in {
         ANSWER_PLANNER_CONTRACT_S120,
         ANSWER_PLANNER_CONTRACT_S122,
+        ANSWER_PLANNER_CONTRACT_S141,
     }
+
+
+def _uses_s141_obligations(planner_contract_version: str) -> bool:
+    return planner_contract_version == ANSWER_PLANNER_CONTRACT_S141
 
 
 def _output_identity(value: str) -> tuple[str, str] | None:
@@ -443,7 +475,17 @@ def _product_aligned_chunks(
                 for target in target_cores
             )
         )
-        if exact or unambiguous_declared or numeric_suffix_variant or declared_family_variant:
+        attested_named_identity = bool(
+            _uses_s141_obligations(planner_contract_version)
+            and validated_query_source_identity_sha256(query, chunk)
+        )
+        if (
+            exact
+            or unambiguous_declared
+            or numeric_suffix_variant
+            or declared_family_variant
+            or attested_named_identity
+        ):
             aligned.append((fragment_number, chunk))
     return aligned
 
@@ -1245,6 +1287,11 @@ def _base_relation_obligations(
                 required_anchors=anchors,
                 source_start=start,
                 source_end=end,
+                identity_receipt_sha256=(
+                    validated_query_source_identity_sha256(query, chunk) or ""
+                    if _uses_s141_obligations(planner_contract_version)
+                    else ""
+                ),
             )
         )
     return obligations
@@ -1428,6 +1475,44 @@ def build_answer_plan(
         obligations.append(obligation)
         if len(obligations) == max_obligations:
             break
+    if (
+        len(obligations) < max_obligations
+        and _uses_s141_obligations(planner_contract_version)
+    ):
+        aligned_chunks = _product_aligned_chunks(
+            query,
+            chunks,
+            planner_contract_version=planner_contract_version,
+        )
+        for candidate in extract_technical_obligations(query, aligned_chunks):
+            statement_key = _fold(candidate.statement)
+            if statement_key in seen_statements:
+                continue
+            seen_statements.add(statement_key)
+            digest = hashlib.sha256(
+                (
+                    f"{candidate.candidate_id}:{candidate.source_start}:"
+                    f"{candidate.source_end}:{candidate.kind}:"
+                    f"{candidate.semantic_identity}:"
+                    f"{candidate.identity_receipt_sha256}"
+                ).encode()
+            ).hexdigest()[:12]
+            obligations.append(
+                AnswerObligation(
+                    obligation_id=f"obl_{digest}",
+                    fragment_number=candidate.fragment_number,
+                    candidate_id=candidate.candidate_id,
+                    facet=f"served_technical:{candidate.kind}",
+                    kind=candidate.kind,
+                    statement=candidate.statement,
+                    required_anchors=candidate.required_anchors,
+                    source_start=candidate.source_start,
+                    source_end=candidate.source_end,
+                    identity_receipt_sha256=candidate.identity_receipt_sha256,
+                )
+            )
+            if len(obligations) == max_obligations:
+                break
     if len(obligations) < max_obligations:
         for obligation in _base_relation_obligations(
             query,
@@ -1930,9 +2015,145 @@ def _window_is_nonassertive(value: str) -> bool:
     )
 
 
+_S141_RELATIONAL_KINDS = frozenset(
+    {
+        "point_programming_fields",
+        "software_type_cbe_activation",
+        "input_condition_definition",
+        "output_condition_action",
+        "logic_contradiction_warning",
+        "commissioning_rule_verification",
+        "option_family_cardinality",
+        "maintenance_isolation_prerequisite",
+        "initial_reference_calibration",
+        "bounded_fault_window",
+        "default_latched_faults",
+        "extinction_duration_range",
+        "reset_inhibit_special_state",
+    }
+)
+
+
+def _declared_cardinality_consistent(answer: str, expected: int) -> bool:
+    folded = _fold(answer)
+    number_words = {6: ("seis", "six", "6"), 7: ("siete", "seven", "7")}
+    if expected == 6 and re.search(
+        r"\b(?:siete|seven|7)\s+(?:tipos?\s+de\s+retardo|delay\s+types?)\b",
+        folded,
+    ):
+        return False
+    expected_pattern = "|".join(map(re.escape, number_words.get(expected, (str(expected),))))
+    declaration = re.search(
+        rf"\b(?:{expected_pattern})\s+(?:tipos?\s+de\s+retardo|delay\s+types?)\b",
+        folded,
+    )
+    if not declaration:
+        return False
+    raw_tail = answer[declaration.end() : declaration.end() + 1200]
+    raw_tail = re.split(r"(?m)^\s*(?:---+|#{1,6}\s+)", raw_tail, maxsplit=1)[0]
+    bullets = [
+        line
+        for line in raw_tail.splitlines()
+        if re.match(r"^\s*[-*]\s+\S", line)
+    ]
+    return not bullets or len(bullets) == expected
+
+
+def _s141_relational_obligation_covered(
+    answer: str, obligation: AnswerObligation
+) -> bool | None:
+    kind = obligation.kind
+    if kind not in _S141_RELATIONAL_KINDS:
+        return None
+    patterns_by_kind = {
+        "point_programming_fields": (
+            r"\b(?:pestana|tab)\s+(?:programa|programacion|programming)\b",
+            r"\bzona\b",
+            r"\bcbe\b",
+        ),
+        "software_type_cbe_activation": (
+            r"\bcbe\b",
+            r"\bactiv\w*\b",
+            r"\b(?:tipo\s+(?:de\s+)?software|software\s+type)\s+snd\b",
+            r"\b(?:sirena\w*|sounder\w*)\b",
+        ),
+        "input_condition_definition": (
+            r"\binstruccion\s+de\s+entrada\b|\binput\s+instruction\b",
+            r"\bcondicion\s+de\s+entrada\b|\binput\s+condition\b",
+        ),
+        "output_condition_action": (
+            r"\binstruccion\s+de\s+salida\b|\boutput\s+instruction\b",
+            r"\btodas\s+las\s+condiciones\s+de\s+entrada\b|\ball\s+input\s+conditions\b",
+            r"\bequipos?\s+asignados?\b|\bassigned\s+devices?\b",
+        ),
+        "logic_contradiction_warning": (
+            r"\b(?:evit\w*|avoid\w*)\b",
+            r"\b(?:logic\w*\s+contradict\w*|contradictory\s+logic)\b",
+        ),
+        "commissioning_rule_verification": (
+            r"\b(?:probar|test)\w*\b",
+            r"\b(?:riguros\w*|thorough\w*)\b",
+            r"\b(?:todas\s+las\s+reglas|all\s+rules)\b",
+            r"\b(?:puesta\s+en\s+marcha|commission\w*)\b",
+        ),
+        "option_family_cardinality": (
+            r"\b(?:seis|six|6)\b",
+            r"\b(?:tipos?\s+de\s+retardo|delay\s+types?)\b",
+            r"\b(?:regla|rule)\b",
+        ),
+        "maintenance_isolation_prerequisite": (
+            r"\b(?:controles?\s+de\s+incendios?|fire\s+controls?)\b",
+            r"\b(?:alertas?\s+remotas?|remote\s+alerts?)\b",
+            r"\b(?:zonas?\s+de\s+extincion|extinguishing\s+zones?)\b",
+            r"\b(?:bloqu\w*|desconect\w*|isolat\w*|disconnect\w*)\b",
+        ),
+        "initial_reference_calibration": (
+            r"\breset\s+inicial\b|\binitial\s+reset\b",
+            r"\b(?:guard\w*|memor\w*|registr\w*|stor\w*)\b",
+            r"\b(?:valor\w*\s+nominal\w*|nominal\s+value\w*)\b",
+            r"(?<!\d)100\s*%(?!\d)",
+        ),
+        "bounded_fault_window": (
+            r"\ba11\s+a\s+c32\b|\ba11\s+(?:to|through)\s+c32\b",
+            r"(?<!\d)20\s*%(?!\d)",
+            r"(?<!\d)80\s*%(?!\d)",
+            r"(?<!\d)120\s*%(?!\d)",
+            r"(?<!\d)300\s*(?:s|seg\w*|second\w*)(?!\w)",
+        ),
+        "default_latched_faults": (
+            r"\baveria\w*\b|\bfault\w*\b",
+            r"\b(?:por\s+defecto|default)\b",
+            r"\b(?:enclavad\w*|latched)\b",
+            r"\b(?:rearme\s+manual|manual\s+reset)\b",
+        ),
+        "extinction_duration_range": (
+            r"(?<!\d)0?5\s*(?:a|-|to)\s*295\s*(?:s|seg\w*|second\w*)",
+            r"\b(?:intervalos?\s+de\s+5|5[- ]second\s+increments?)\b",
+            r"\b(?:extincion|extinguish\w*|flooding)\b",
+        ),
+        "reset_inhibit_special_state": (
+            r"(?<!-)--(?!-)|-\s+-",
+            r"\brearme\s+inhibido\b|\breset\s+inhibit\w*\b",
+            r"\b(?:finaliz\w*|fin)\s+(?:de\s+la\s+)?extincion\b|\bend\s+of\s+extinguish\w*\b",
+            r"(?<![a-z0-9])t\.?\s*a(?![a-z0-9])",
+            r"(?<!\d)0\s*(?:s|seg\w*|second\w*)(?!\w)",
+        ),
+    }
+    patterns = patterns_by_kind[kind]
+    for window in _bounded_relation_windows(answer, max_chars=900):
+        if all(re.search(pattern, window) for pattern in patterns):
+            if kind == "option_family_cardinality":
+                return _declared_cardinality_consistent(answer, 6)
+            return True
+    return False
+
+
 def _relational_obligation_covered(
     answer: str, obligation: AnswerObligation
 ) -> bool | None:
+    s141 = _s141_relational_obligation_covered(answer, obligation)
+    if s141 is not None:
+        return s141
     kind = obligation.kind
     if kind not in {
         "cause_effect_output_selector",
@@ -2362,9 +2583,20 @@ def _query_core_guard_applies(query: str) -> bool:
 
 def enforceable_answer_plan(
     plan: list[AnswerObligation],
+    *,
+    planner_contract_version: str = ANSWER_PLANNER_CONTRACT_S122,
 ) -> list[AnswerObligation]:
-    """Return only kinds with an S122 bounded, polarity-safe validator."""
-    return [row for row in plan if row.kind in S122_ENFORCEABLE_KINDS]
+    """Return only kinds with a bounded validator in the selected contract."""
+    if planner_contract_version not in _ANSWER_PLANNER_CONTRACTS:
+        raise ValueError(
+            f"unknown planner_contract_version: {planner_contract_version!r}"
+        )
+    kinds = (
+        S141_ENFORCEABLE_KINDS
+        if planner_contract_version == ANSWER_PLANNER_CONTRACT_S141
+        else S122_ENFORCEABLE_KINDS
+    )
+    return [row for row in plan if row.kind in kinds]
 
 
 def render_enforced_system_policy() -> str:
@@ -2383,11 +2615,23 @@ def render_enforced_system_policy() -> str:
 
 
 def render_enforced_answer_contract_data(
-    plan: list[AnswerObligation], conflicts: list[AnswerConflict]
+    plan: list[AnswerObligation],
+    conflicts: list[AnswerConflict],
+    *,
+    planner_contract_version: str = ANSWER_PLANNER_CONTRACT_S122,
 ) -> str:
+    if planner_contract_version not in {
+        ANSWER_PLANNER_CONTRACT_S122,
+        ANSWER_PLANNER_CONTRACT_S141,
+    }:
+        raise ValueError("enforced contract data requires S122 or S141")
     payload = {
-        "schema": "enforced_answer_contract_payload_s122_v1",
-        "planner_contract": ANSWER_PLANNER_CONTRACT_S122,
+        "schema": (
+            "enforced_answer_contract_payload_s141_v1"
+            if planner_contract_version == ANSWER_PLANNER_CONTRACT_S141
+            else "enforced_answer_contract_payload_s122_v1"
+        ),
+        "planner_contract": planner_contract_version,
         "obligations": [row.to_dict() for row in plan],
         "conflicts": [row.to_dict() for row in conflicts],
     }
@@ -2643,9 +2887,14 @@ def enforce_answer_contract(
     conflicts: list[AnswerConflict],
     *,
     renderer_contract_version: str = SOURCE_BOUND_RENDERER_CURRENT,
+    planner_contract_version: str = ANSWER_PLANNER_CONTRACT_S122,
 ) -> tuple[str, dict[str, Any]]:
-    enforced_plan = enforceable_answer_plan(plan)
-    deferred_plan = [row for row in plan if row.kind not in S122_ENFORCEABLE_KINDS]
+    enforced_plan = enforceable_answer_plan(
+        plan,
+        planner_contract_version=planner_contract_version,
+    )
+    enforced_ids = {row.obligation_id for row in enforced_plan}
+    deferred_plan = [row for row in plan if row.obligation_id not in enforced_ids]
     observed_plan = validate_answer_plan(answer, plan)
     initial_plan = validate_answer_plan(answer, enforced_plan)
     initial_conflicts = validate_answer_conflicts(answer, conflicts)
@@ -2661,9 +2910,17 @@ def enforce_answer_contract(
     )
     base = {
         "mode": "enforced",
-        "planner_contract": ANSWER_PLANNER_CONTRACT_S122,
-        "enforcement_policy": ANSWER_ENFORCEMENT_POLICY_S122,
-        "validator_contract": ANSWER_CONTRACT_VALIDATOR_S122,
+        "planner_contract": planner_contract_version,
+        "enforcement_policy": (
+            ANSWER_ENFORCEMENT_POLICY_S141
+            if planner_contract_version == ANSWER_PLANNER_CONTRACT_S141
+            else ANSWER_ENFORCEMENT_POLICY_S122
+        ),
+        "validator_contract": (
+            ANSWER_CONTRACT_VALIDATOR_S141
+            if planner_contract_version == ANSWER_PLANNER_CONTRACT_S141
+            else ANSWER_CONTRACT_VALIDATOR_S122
+        ),
         "renderer_contract": renderer_contract_version,
         "conflict_schema": ANSWER_CONFLICT_SCHEMA_S122,
         "plan": [row.to_dict() for row in plan],
@@ -2764,13 +3021,14 @@ def apply_answer_planner(
     plan: list[AnswerObligation] | None = None,
     conflicts: list[AnswerConflict] | None = None,
     renderer_contract_version: str = SOURCE_BOUND_RENDERER_CURRENT,
+    planner_contract_version: str | None = None,
 ) -> tuple[str, dict[str, Any] | None]:
     selected_mode = mode or answer_planner_mode()
     if selected_mode == "off":
         return answer, None
     if selected_mode not in {"observe", "supplement", "guided", "enforced"}:
         raise RuntimeError(f"unsupported answer planner mode: {selected_mode}")
-    planner_contract_version = (
+    selected_contract_version = planner_contract_version or (
         ANSWER_PLANNER_CONTRACT_S122
         if selected_mode == "enforced"
         else ANSWER_PLANNER_CONTRACT_S120
@@ -2778,13 +3036,13 @@ def apply_answer_planner(
     selected_plan = plan if plan is not None else build_answer_plan(
         query,
         chunks,
-        planner_contract_version=planner_contract_version,
+        planner_contract_version=selected_contract_version,
     )
     selected_conflicts = conflicts if conflicts is not None else (
         build_answer_conflicts(
             query,
             chunks,
-            planner_contract_version=planner_contract_version,
+            planner_contract_version=selected_contract_version,
         )
         if selected_mode == "enforced"
         else []
@@ -2796,6 +3054,7 @@ def apply_answer_planner(
             selected_plan,
             selected_conflicts,
             renderer_contract_version=renderer_contract_version,
+            planner_contract_version=selected_contract_version,
         )
     if selected_mode in {"observe", "guided"}:
         return answer, {

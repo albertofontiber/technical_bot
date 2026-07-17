@@ -1,0 +1,304 @@
+{
+  "instrument": "s147_fresh_author_receipts_v1",
+  "status": "COMPLETE",
+  "created_at": "2026-07-16T23:14:25.107258+00:00",
+  "model": "claude-haiku-4-5-20251001",
+  "whitespace_only_repairs": 1,
+  "quote_validation_drops": 0,
+  "receipts": [
+    {
+      "item_id": "s147_src_01",
+      "response_id": "msg_011Cd6atQHw6MvPN3eg6vG15",
+      "counted_input_tokens": 1321,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1321,
+        "output_tokens": 213,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.004772,
+      "raw_text": "{\"items\": [{\"item_id\": \"s147_src_01\", \"eligible\": true, \"question\": \"¿Cuál es la configuración correcta de los interruptores SW4, SW5 y SW6 cuando se requiere que la alarma se active solo cuando ambos sensores entran en alarma simultáneamente?\", \"answer_points\": [{\"claim\": \"La configuración de coincidencia requiere SW4 en posición ON, SW5 en OFF y SW6 en OFF\", \"exact_quote\": \"SW4-ON, SW5-OFF and SW6-OFF, that is **1 - 0 - 0**\"}, {\"claim\": \"Esta configuración se representa en la tabla como fila de COINCIDENCIA con valores 1, 0, 0\", \"exact_quote\": \"1<br/>**COINCIDENCE** | 0           | 0\"}]}]}",
+      "raw_text_sha256": "f7ed5c31971c231eb222e745218b53b1394ccf9a40b8747a0a86eb6da40bb15a"
+    },
+    {
+      "item_id": "s147_src_02",
+      "response_id": "msg_011Cd6atbbLDAi6Re7sLU9DT",
+      "counted_input_tokens": 1602,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1602,
+        "output_tokens": 320,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.006404,
+      "raw_text": "{\"items\": [{\"item_id\": \"s147_src_02\", \"eligible\": true, \"question\": \"¿Qué resistencias y contactos debo conectar para configurar un módulo Monitor de 3 estados que supervise una alarma?\", \"answer_points\": [{\"claim\": \"El módulo Monitor requiere una resistencia de final de línea de 47KΩ en estado normal\", \"exact_quote\": \"En estado normal un módulo monitor tiene una resistencia de 47KW.\"}, {\"claim\": \"Se debe colocar una resistencia de 18KΩ en serie con el contacto N.A. de alarma para señalizar la alarma\", \"exact_quote\": \"Para señalizar la alarma, debe colocarse en serie con el contacto N.A. de alarma una resistencia de 18KW de forma que al cerrar el contacto quede conectada entre los terminales de supervisión del *MI-MM1E* o *MI-MM3E*.\"}, {\"claim\": \"El módulo Monitor de 3 estados indica un cortocircuito como avería\", \"exact_quote\": \"**MON**. Módulo Monitor de 3 estados (Permite retardo con fuego de zona). A diferencia del *PUL*, este módulo indica un cortocircuito como avería.\"}]}]}",
+      "raw_text_sha256": "d7cfc15fdc158ddf38e46b92aa7a35ba02ece4980198df35af40fd8e8d10fb22"
+    },
+    {
+      "item_id": "s147_src_03",
+      "response_id": "msg_011Cd6atoCaTQL8bNHUMZi49",
+      "counted_input_tokens": 1738,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1738,
+        "output_tokens": 196,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.005436,
+      "raw_text": "{\"items\": [{\"item_id\": \"s147_src_03\", \"eligible\": true, \"question\": \"¿Cuál es la corriente de salida que debe obtener cuando el detector se encuentra en estado de prealarma o aviso?\", \"answer_points\": [{\"claim\": \"En estado de prealarma (aviso) la salida de corriente 0-20mA es de 16 mA con tolerancia del ±5%\", \"exact_quote\": \"Prealarma (aviso)   | 16 mA±5%\"}, {\"claim\": \"La máxima resistencia de carga permitida para la salida 0-20mA es de 600Ω\", \"exact_quote\": \"La máxima resistencia de carga permitida es de 600Ω.\"}]}]}",
+      "raw_text_sha256": "fba4d04815c74134cc675831cc976184bd5c9b2a3ab35fbb4832986e126b1f80"
+    },
+    {
+      "item_id": "s147_src_04",
+      "response_id": "msg_011Cd6aty6tYEn7QkZKEC9Zj",
+      "counted_input_tokens": 1180,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1180,
+        "output_tokens": 245,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.00481,
+      "raw_text": "{\"items\": [{\"item_id\": \"s147_src_04\", \"eligible\": true, \"question\": \"¿Cuál es la sensibilidad de humo en %obs/pie para el Nivel 3 del detector FAAST LT-200?\", \"answer_points\": [{\"claim\": \"El Nivel 3 tiene una sensibilidad de 0.05 % obs/ft\", \"exact_quote\": \"| Level 3                 | 0.05 % obs/ft | 0.16 % obs/m   |\"}, {\"claim\": \"El detector tiene 9 niveles de sensibilidad disponibles en total\", \"exact_quote\": \"This sensor has 9 sensitivity levels allowing 9 different Alarm or Pre-Alarm settings to be available in the detector\"}, {\"claim\": \"Solo los Niveles 1 a 5 están disponibles para usar en PipeIQ\", \"exact_quote\": \"Only Levels 1 to 5 are available for use in PipeIQ.\"}]}]}",
+      "raw_text_sha256": "0ff4248cd52f7206f41988ba8214e3227be0b5d62ba8d191c8ee7a3282e195a2"
+    },
+    {
+      "item_id": "s147_src_05",
+      "response_id": "msg_011Cd6au8vVFQ7ZGCyRUrmn1",
+      "counted_input_tokens": 1189,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1189,
+        "output_tokens": 452,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.006898,
+      "raw_text": "{\"items\": [{\"item_id\": \"s147_src_05\", \"eligible\": true, \"question\": \"¿Qué información se muestra en la tabla de avisos cuando un dispositivo está en avería?\", \"answer_points\": [{\"claim\": \"La tabla de avisos contiene columnas para Fecha/Hora, Evento, Panel, Zona, Dispositivo y Detalles del aviso.\", \"exact_quote\": \"| Avisos<br/>Fecha/Hora | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Evento | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Panel | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Zona | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Dispositivo | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Detalles |\"}, {\"claim\": \"Un aviso de avería de alimentación muestra el tipo de evento, el panel afectado y detalles del fallo en la columna correspondiente.\", \"exact_quote\": \"| 2019-12-09 14:42:08   | Averia de alimentacion                                      | Panel de Pruebas                                           |                                                           |                                                                  | Fallo de alimentacion                                         |\"}, {\"claim\": \"Un aviso de dispositivo en avería registra la zona afectada y la descripción específica del estado del dispositivo.\", \"exact_quote\": \"| 2019-12-09 14:41:28   | Averia                                                      | Panel de Pruebas                                           | Zona MCP                                                  | 01:01:003 Detector 2                                             | El dispositivo esta en averia                                 |\"}]}]}",
+      "raw_text_sha256": "a0398069c759812a03340fcdcf54b17202621bd716c0d36047d543398692d698"
+    },
+    {
+      "item_id": "s147_src_06",
+      "response_id": "msg_011Cd6auP9FnUBpcrNF16R8p",
+      "counted_input_tokens": 1369,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1369,
+        "output_tokens": 210,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.004838,
+      "raw_text": "{\"items\": [{\"item_id\": \"s147_src_06\", \"eligible\": true, \"question\": \"¿Cuál es la dirección mínima que debe asignarse a un dispositivo cuando se utiliza como sounder y beacon con paneles de fuego de la serie FP1200/2000?\", \"answer_points\": [{\"claim\": \"La dirección mínima requerida es 80 cuando se usa como sounder y beacon\", \"exact_quote\": \"it must have an address of 80 or higher when it is used as a sounder and beacon\"}, {\"claim\": \"Direcciones inferiores a 80 hacen que el dispositivo funcione solo como sounder sin la baliza parpadeante\", \"exact_quote\": \"When an address lower that 80 is assigned to the device, it will function as a sounder only, without the beacon flashing\"}]}]}",
+      "raw_text_sha256": "aade37722cb2df47534c166d38610bf8bc35c461b821e6bfd525f47721d57e8b"
+    },
+    {
+      "item_id": "s147_src_07",
+      "response_id": "msg_011Cd6auZXLHQZAGqrsxGHHk",
+      "counted_input_tokens": 1726,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1726,
+        "output_tokens": 237,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.005822,
+      "raw_text": "{\"items\":[{\"item_id\":\"s147_src_07\",\"eligible\":true,\"question\":\"¿Cuál es el consumo de corriente máximo del ASD 533 en alarma a 12 V-CC y a 24 V-CC?\",\"answer_points\":[{\"claim\":\"A 12 V-CC (10,5 V-CC) el consumo máximo es 340 mA\",\"exact_quote\":\"Consumo de corriente máximo con:                                                                 | 10,5 V-CC | 18 V-CC  |\\n| - ASD 533, ASD en alarma                                                         | 340 mA    | 210 mA\"},{\"claim\":\"A 24 V-CC (18 V-CC) el consumo máximo es 210 mA\",\"exact_quote\":\"| - ASD 533, ASD en alarma                                                         | 340 mA    | 210 mA   |\"}]}]}",
+      "raw_text_sha256": "eb97cc3502dce6c0bb9f4b9137fb5583376b380e38c40cb6b4ef001e25f151bd"
+    },
+    {
+      "item_id": "s147_src_08",
+      "response_id": "msg_011Cd6aujhWwTPotmR96N837",
+      "counted_input_tokens": 1435,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1435,
+        "output_tokens": 296,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.00583,
+      "raw_text": "{\"items\": [{\"item_id\": \"s147_src_08\", \"eligible\": true, \"question\": \"¿Cuál es el procedimiento para calibrar el cable sensor de detección de calor lineal cuando está conectado a través de un cable líder?\", \"answer_points\": [{\"claim\": \"El cable líder debe estar conectado al LocatorPlus y cortocircuitado en el extremo donde se conecta al INICIO del cable LHD\", \"exact_quote\": \"The leader cable must be connected to the LocatorPlus and shorted out at the end where it connects to the START of the LHD cable.\"}, {\"claim\": \"Después de cortocircuitar, se debe presionar el botón Set y el LocatorPlus mostrará la caída de voltaje a través del cable líder\", \"exact_quote\": \"Once this is done press the Set button.\\n\\n10. The LocatorPlus will display the voltage drop across the leader cable.\"}, {\"claim\": \"Se debe quitar el cortocircuito del cable líder y conectarlo al INICIO del cable LHD normalmente\", \"exact_quote\": \"Remove the short from the leader cable and connect it to the START of the LHD cable as normal.\"}]}]}",
+      "raw_text_sha256": "3cff56da4987a19f9855d0fd47017794925c0313c4d98e31f14e5501e563aad3"
+    },
+    {
+      "item_id": "s147_src_09",
+      "response_id": "msg_011Cd6auxELB5uUSwB7CkyGF",
+      "counted_input_tokens": 1340,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1340,
+        "output_tokens": 465,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.00733,
+      "raw_text": "{\"items\": [{\"item_id\": \"s147_src_09\", \"eligible\": true, \"question\": \"¿Cuáles son las tres posibles causas de una condición de falta en el detector y cómo se identifica cada una mediante el LED amarillo?\", \"answer_points\": [{\"claim\": \"La obstrucción o desalineación del haz hace que el LED amarillo de falta se encienda de manera continua, y se resuelve eliminando la obstrucción o realineando para mantener el camino del haz despejado hacia el reflector.\", \"exact_quote\": \"**Obstruction / mis-alignment of the beam:** In this case, the yellow fault LED is turned on steady. To return to standby status remove the obstruction or re-align to ensure the path of the beam remains clear to the reflector.\"}, {\"claim\": \"El arranque incorrecto o falla del detector provoca que el LED amarillo de falta se ilumine continuamente inmediatamente después de salir del modo de instalación, requiriendo repetir el procedimiento de instalación y verificar todos los parámetros.\", \"exact_quote\": \"**Incorrect start-up or detector failure:** This fault occurs immediately after exiting the installation mode. The yellow fault LED illuminates continuously. The installation procedure should be repeated and all parameters checked for this fault to be cancelled.\"}, {\"claim\": \"La contaminación excesiva de las partes ópticas se identifica porque el LED amarillo de falta parpadea, y se resuelve limpiando cuidadosamente la ventana del haz y la superficie del reflector con un paño húmedo.\", \"exact_quote\": \"**Excessive contamination of the optical parts:** The yellow fault led flashes. The 6200R is capable of compensating the signal for contamination up to a preset limit. Carefully wipe the beam window and the reflector surface clean with a damp cloth then revert to installation mode to check signal strength and beam alignment.\"}]}]}",
+      "raw_text_sha256": "cc72110242be9aff4e370b36e7b856ea233d8161b1fd2d714aa3d5c59228ee45"
+    },
+    {
+      "item_id": "s147_src_10",
+      "response_id": "msg_011Cd6avGgqYkwqBAfT8ppqG",
+      "counted_input_tokens": 1673,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1673,
+        "output_tokens": 160,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.004946,
+      "raw_text": "{\"items\": [{\"item_id\": \"s147_src_10\", \"eligible\": true, \"question\": \"¿Cuál es el comportamiento del LED de alarma general cuando se activa una alarma de incendio mediante un detector?\", \"answer_points\": [{\"claim\": \"El LED de alarma general parpadea cuando un detector activó la alarma\", \"exact_quote\": \"LED de alarma general: parpadea (si un detector activó la alarma).\"}, {\"claim\": \"El LED de alarma general está fijo cuando la activó un pulsador\", \"exact_quote\": \"Está fijo (si la activó un pulsador).\"}]}]}",
+      "raw_text_sha256": "49e82659474832ea7cee12faefe77af3a79f158673befc74ce856f937cbc6326"
+    },
+    {
+      "item_id": "s147_src_11",
+      "response_id": "msg_011Cd6avSdP6rB8nXPGzsKFb",
+      "counted_input_tokens": 1315,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1315,
+        "output_tokens": 326,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.00589,
+      "raw_text": "{\"items\": [{\"item_id\": \"s147_src_11\", \"eligible\": true, \"question\": \"¿Qué tipo de protección IP se debe instalar en las aberturas de entrada de cable para garantizar el tipo de protección especificado del dispositivo?\", \"answer_points\": [{\"claim\": \"Se deben instalar conectores de cable con protección tipo IP 66 en las aberturas proporcionadas para este propósito.\", \"exact_quote\": \"To guarantee the specified protection type, cable grommets with a protection type of IP 66 are to be installed at the openings provided for this purpose.\"}, {\"claim\": \"El pezón de diafragma suministrado puede reemplazarse con un conector de cable o una conexión de enchufe M12 con medida de brida M20.\", \"exact_quote\": \"The supplied diaphragm nipple can be replaced with a cable gland or with an M12 plug connection with a flange measurement of M20.\"}, {\"claim\": \"La protección IP 66 solo se garantiza cuando el embudo de la membrana apunta hacia afuera, y los restos del diafragma deben retirarse después de instalar el cable.\", \"exact_quote\": \"IP 66 only when funnel of membrane is pointing outward. After installation of the cable remove the remains of the diaphragm.\"}]}]}",
+      "raw_text_sha256": "39ad5082953141407a3780ce49c4b681b2f26c8429777f106f213f91cd96c584"
+    },
+    {
+      "item_id": "s147_src_12",
+      "response_id": "msg_011Cd6aveMaZ7MQcs42qeAYq",
+      "counted_input_tokens": 1572,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1572,
+        "output_tokens": 293,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.006074,
+      "raw_text": "{\"items\": [{\"item_id\": \"s147_src_12\", \"eligible\": true, \"question\": \"¿Qué acciones debe realizar un técnico para grabar un mensaje de alerta en el panel PAN AVD2?\", \"answer_points\": [{\"claim\": \"Colocar el conector Sel6 en posición ON y cerrar el puente JP3\", \"exact_quote\": \"Para grabar mensajes nuevos, coloque el conector Sel6 en posición \\\"ON\\\" y cierre el puente JP3.\"}, {\"claim\": \"Pulsar el botón P1 de la placa base y mantenerlo pulsado durante toda la grabación del mensaje\", \"exact_quote\": \"Pulse el botón P1 de la placa base. Si el puente JP2 está colocado en los conectores 1-2, se emitirá un pitido que indica el inicio de la grabación. Pulse el botón y manténgalo pulsado durante la grabación de todo el mensaje.\"}, {\"claim\": \"El tiempo máximo de grabación permitido para cada mensaje es de 12 segundos\", \"exact_quote\": \"el tiempo máximo para cada mensaje es de 12 segundos.\"}]}]}",
+      "raw_text_sha256": "9aa514daae70524a428e88d0e2dfd67f5c55c754914f629e43788f813ae2579d"
+    },
+    {
+      "item_id": "s147_src_13",
+      "response_id": "msg_011Cd6avpbyT1XXfUw1WDBSW",
+      "counted_input_tokens": 1500,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1500,
+        "output_tokens": 256,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.00556,
+      "raw_text": "{\"items\": [{\"item_id\": \"s147_src_13\", \"eligible\": true, \"question\": \"¿Cómo puedo verificar si la línea del bus ACSI está en cortocircuito cuando hay problemas de conexión?\", \"answer_points\": [{\"claim\": \"Se debe medir con un polímetro en escala kΩ entre los terminales de los cables del bus\", \"exact_quote\": \"desconecte los dos extremos de los dos cables de bus conectados entre el sistema y el equipo, y mida entre cada uno de los terminales de los cables con un polímetro en la escala kΩ\"}, {\"claim\": \"Si la medición resulta en 0, la línea está en cortocircuito\", \"exact_quote\": \"Si el resultado de la medición es 0, la línea se encuentra en cortocircuito\"}, {\"claim\": \"Si la medición resulta en 1, la línea es correcta\", \"exact_quote\": \"Si el resultado es 1, significa que se encuentra correcta\"}]}]}",
+      "raw_text_sha256": "5ad461ab848a0ef3566d6bd350c6dc8b1693f5ccfb8491e3f1013ff54edb0a5d"
+    },
+    {
+      "item_id": "s147_src_14",
+      "response_id": "msg_011Cd6avzHdvJq9fi9wmJGL8",
+      "counted_input_tokens": 1294,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1294,
+        "output_tokens": 190,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.004488,
+      "raw_text": "{\"items\": [{\"item_id\": \"s147_src_14\", \"eligible\": true, \"question\": \"¿Cuáles son los tres criterios que debe cumplir la posición de colocación del detector?\", \"answer_points\": [{\"claim\": \"Debe cumplir con los estándares específicos aplicables\", \"exact_quote\": \"Compliances with your specific standards.\"}, {\"claim\": \"Debe recibir una señal inalámbrica fuerte del módulo traductor o expansor vinculado\", \"exact_quote\": \"Is reached by a strong wireless signal from its linked-to translator or expander module.\"}, {\"claim\": \"No debe estar interferido por factores ambientales\", \"exact_quote\": \"Is not interfered by environmental factors (as per note above).\"}]}]}",
+      "raw_text_sha256": "7dbf79e132cb3d8b99661bb18c9f43cde7cd707d79353de6df68351eb9de3ece"
+    }
+  ]
+}

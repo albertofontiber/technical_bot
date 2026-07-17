@@ -1,0 +1,57 @@
+instrument: s137_fable_atomic_recovery_execution_permit_v3
+status: EXECUTION_GO_FABLE_ATOMIC_FINAL
+
+preregistration:
+  path: evals/s137_fable_atomic_recovery_prereg_v3.yaml
+  sha256: 3ea8c7119dbe5c45ea9f9b635537e497213f77417a170819cdb7074668376d66
+runner:
+  path: scripts/s137_fable_atomic_v3.py
+  sha256: 87d6dabeb34b2dd542a4d413d433cc3dec97fdfd4360d77df5a605f41420f995
+tests:
+  path: tests/test_s137_fable_atomic_v3.py
+  sha256: d5ce9060aab50a3e8a8c173b849259a6e8cf96975bb6bc86103f7f30e803c9f4
+
+pre_execution_evidence:
+  combined_s137_tests: 12_passed
+  py_compile: passed
+  git_diff_check: passed
+  frozen_dependencies_valid: true
+  questions_atomic_and_complete: true
+  total_evidence_items: 47
+  valid_sol_response_reused: true
+  invalid_fable_v2_votes_used: false
+  worst_case_at_max_input_caps_usd: 6.7446875
+
+allowed:
+  anthropic_token_counts: 3
+  anthropic_atomic_calls_max: 3
+  anthropic_calls_per_question_max: 1
+  openai_arbitration_calls_max: 1
+  persist_each_receipt_before_next: true
+  write_combined_judgement: true
+  write_local_aggregate: true
+
+forbidden:
+  atomic_retry: true
+  further_fable_recovery_protocol: true
+  reuse_invalid_fable_v2_votes: true
+  repeat_sol_primary: true
+  packet_changes: true
+  mapping_changes: true
+  prompt_changes: true
+  rubric_changes: true
+  terminal_rule_changes: true
+  remote_database: true
+  embeddings: true
+  context_generation: true
+  chunker_changes: true
+  retrieval_changes: true
+  threshold_changes: true
+  production: true
+  migration_apply: true
+  deploy: true
+  facts_moved_to_ok: true
+
+cumulative_external_usd_ceiling: 10
+user_authorized_ceiling_usd: 50
+stop_before_first_inference_if_cumulative_worst_case_exceeds_ceiling: true

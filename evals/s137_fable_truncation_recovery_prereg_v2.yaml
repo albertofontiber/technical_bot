@@ -1,0 +1,84 @@
+instrument: s137_fable_truncation_recovery_prereg_v2
+status: frozen_before_recovery_implementation
+
+design:
+  path: evals/s137_fable_truncation_recovery_design_v2.md
+  sha256: baffba3e3b3bf2a7c2b2d910fcf4ab4176505ddbddffdff1ca29119444f68b22
+
+frozen_inputs:
+  v1_prereg: {path: evals/s137_blinded_chunks_semantic_adjudication_prereg_v1.yaml, sha256: 36030de3d59a85a35cc6c7391e7f29743fa94adbe0ff2fe407af29ddcad6d0f3}
+  v1_permit: {path: evals/s137_blinded_chunks_semantic_adjudication_execution_permit_v1.yaml, sha256: 9727e6727eee1b973c4a3079b0886f892a2175a2ba3bde80c0f1a07421022d42}
+  v1_runner: {path: scripts/s137_blinded_chunks_semantic_adjudication.py, sha256: b72989936c8a6b5b385fa355f38488c53dc880fdac4a8821bc2e700ccb01eb51}
+  public_packet: {path: evals/s137_blinded_packet_seed1_v1.json, sha256: 5330aaf287bea09527cceaeb4d788d8d64029fa5f6ca4c72f5f57146f7dde000}
+  private_mapping: {path: evals/s137_private_mapping_seed1_v1.json, sha256: 5d5779f870fd4a8f8e804fa2bb57a81f3cd4555fed611a9750b7f1dcc79d4a22}
+  v1_preflight: {path: evals/s137_paid_preflight_v1.json, sha256: cbfdb5a43a5aa8cab2686ecb1ff96b8a13476a245753306702ae675cadb9085d}
+  valid_sol_response: {path: evals/s137_sol56_xhigh_judgement_v1.json, sha256: 930c5eb77b2ab7132d76e8253b8d10f9125d806757e7a74a27324e96ceb8c7ef}
+  truncated_fable_receipt: {path: evals/s137_fable5_xhigh_truncated_attempt_v1.yaml, sha256: c82654fac4f60e88a6af53b4466e51ed31211f5c442fdaa3fadbce70fe7967e9}
+
+invariants:
+  packet_questions_sha256: 0998426b4923203c3c67aac314bc9fcb49e57fe77da4a1fe5f0d9cb2cba086a4
+  expected_question_count: 3
+  packet_changes: forbidden
+  mapping_changes: forbidden
+  system_prompt_changes: forbidden
+  json_schema_changes: forbidden
+  rubric_changes: forbidden
+  terminal_rule_changes: forbidden
+  sol_semantic_decision_inspected_before_freeze: false
+
+model:
+  provider: anthropic
+  model: claude-fable-5
+  thinking: adaptive
+  effort: xhigh
+  structured_output: true
+  max_output_tokens: 20000
+  expected_counted_input_tokens: 46284
+  max_counted_input_tokens: 120000
+  calls_max: 1
+
+optional_arbitration:
+  trigger: terminal_decision_disagreement_only
+  provider: openai
+  model: gpt-5.6-sol
+  reasoning_effort: xhigh
+  max_output_tokens: 8000
+  max_counted_input_tokens: 180000
+  calls_max: 1
+
+pricing_usd_per_million_tokens:
+  openai: {input_conservative_cache_write: 6.25, output: 30}
+  anthropic: {input: 10, output: 50}
+
+budget:
+  valid_sol_v1_conservative_actual_usd: 0.5152575
+  truncated_fable_v1_upper_bound_usd: 0.86284
+  recovery_internal_cumulative_ceiling_usd: 10
+  user_authorized_ceiling_usd: 50
+  paid_recovery_calls_max: 2
+  stop_before_inference_if_cumulative_worst_case_exceeds_ceiling: true
+
+execution:
+  paid_preflight: evals/s137_paid_preflight_v2.json
+  fable_response: evals/s137_fable5_xhigh_judgement_v2.json
+  arbitration_response: evals/s137_sol56_xhigh_arbitration_v2.json
+  aggregate: evals/s137_blinded_chunks_semantic_adjudication_v2.json
+  gate: evals/s137_blinded_chunks_semantic_adjudication_gate_v2.yaml
+
+authorization:
+  reuse_valid_sol_v1: true
+  provider_token_count: true
+  one_fable_recovery_call: true
+  one_optional_sol_arbitration_call: true
+  persist_failed_response_receipt: true
+  further_fable_retry: false
+  remote_database: false
+  embeddings: false
+  context_generation: false
+  chunker_changes: false
+  retrieval_changes: false
+  threshold_changes: false
+  migration_apply: false
+  production: false
+  deploy: false
+  facts_moved_to_ok: 0

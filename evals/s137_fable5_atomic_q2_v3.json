@@ -1,0 +1,183 @@
+{
+  "instrument": "s137_fable_atomic_response_v3",
+  "provider": "anthropic",
+  "model": "claude-fable-5",
+  "response_id": "msg_011Cd6NDsx6Wp3Nuen7D3KQW",
+  "created_at": "2026-07-16T20:28:29+00:00",
+  "question_id": "540b4ccd-1ae0-4252-a6bb-069db622e22c",
+  "packet_questions_sha256": "b2e913a62bb4f13b7b20c742930a75f0a981f3fc20e3c4e1d06a97b632fbbae8",
+  "stop_reason": "end_turn",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 14162,
+    "output_tokens": 3985,
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "output_tokens_details": {
+      "thinking_tokens": 1653
+    }
+  },
+  "conservative_cost_usd": 0.34087,
+  "status": "VALIDATED",
+  "judgement": {
+    "judgements": [
+      {
+        "question_id": "540b4ccd-1ae0-4252-a6bb-069db622e22c",
+        "answerability": "COMPLETE",
+        "minimum_sufficient_evidence_ids": [
+          "E-3775790B199A"
+        ],
+        "evidence_assessments": [
+          {
+            "evidence_id": "E-3775790B199A",
+            "relevance": "DIRECT",
+            "supported_claim": "Spanish maintenance procedure states the correct EOL is 3.9 kΩ for normal operation, and that changing it to 0 Ω or to open circuit causes the system to report a fault (330 Ω causes an alarm).",
+            "redundant_with": [
+              "E-4BB3BDEDAD12",
+              "E-7D8D947EA523",
+              "E-923974EB896B"
+            ]
+          },
+          {
+            "evidence_id": "E-4BB3BDEDAD12",
+            "relevance": "DIRECT",
+            "supported_claim": "Portuguese maintenance section duplicates the same EOL test: 0 Ω reports a fault, open reports a fault, and restoring 3.9 kΩ returns normal operation (typo lists 3,9 Ω on restore).",
+            "redundant_with": [
+              "E-3775790B199A",
+              "E-7D8D947EA523",
+              "E-923974EB896B"
+            ]
+          },
+          {
+            "evidence_id": "E-7D8D947EA523",
+            "relevance": "DIRECT",
+            "supported_claim": "Romanian maintenance section duplicates the EOL verification: 0 Ω → fault, open → fault, 3.9 kΩ → normal operation.",
+            "redundant_with": [
+              "E-3775790B199A",
+              "E-4BB3BDEDAD12",
+              "E-923974EB896B"
+            ]
+          },
+          {
+            "evidence_id": "E-923974EB896B",
+            "relevance": "DIRECT",
+            "supported_claim": "Polish maintenance section duplicates the EOL verification: 0 Ω → fault, open → fault, 3.9 kΩ → normal operation.",
+            "redundant_with": [
+              "E-3775790B199A",
+              "E-4BB3BDEDAD12",
+              "E-7D8D947EA523"
+            ]
+          },
+          {
+            "evidence_id": "E-1FBAD73B38DF",
+            "relevance": "DIRECT",
+            "supported_claim": "Spanish specifications table confirms the zone end-of-line resistor value of 3.9 kΩ, 5%, 1/4 W, establishing the correct EOL for normal operation.",
+            "redundant_with": [
+              "E-9821A9AC966D",
+              "E-CF9974818B13",
+              "E-CD1C76BDF8F3"
+            ]
+          },
+          {
+            "evidence_id": "E-9821A9AC966D",
+            "relevance": "DIRECT",
+            "supported_claim": "Italian specifications table duplicates the zone EOL resistor value of 3.9 kΩ, 5%, 1/4 W.",
+            "redundant_with": [
+              "E-1FBAD73B38DF",
+              "E-CF9974818B13",
+              "E-CD1C76BDF8F3"
+            ]
+          },
+          {
+            "evidence_id": "E-CF9974818B13",
+            "relevance": "DIRECT",
+            "supported_claim": "Portuguese specifications table duplicates the zone EOL resistor value of 3.9 kΩ, 5%, 1/4 W.",
+            "redundant_with": [
+              "E-1FBAD73B38DF",
+              "E-9821A9AC966D",
+              "E-CD1C76BDF8F3"
+            ]
+          },
+          {
+            "evidence_id": "E-CD1C76BDF8F3",
+            "relevance": "DIRECT",
+            "supported_claim": "Datasheet lists input termination of 3.9 kΩ, 1/4 W, 5%, confirming the correct EOL value; does not cover fault behavior for 0 Ω or open.",
+            "redundant_with": [
+              "E-1FBAD73B38DF",
+              "E-9821A9AC966D",
+              "E-CF9974818B13"
+            ]
+          },
+          {
+            "evidence_id": "E-F50E50CCE3E0",
+            "relevance": "DIRECT",
+            "supported_claim": "Spanish wiring section requires a 3.9 kΩ EOL and its impedance table shows normal 2.1–4.5 kΩ, short <40 Ω, and open >7.5 kΩ, corroborating the fault/normal thresholds.",
+            "redundant_with": [
+              "E-501C8448760E",
+              "E-EA2A686CB80C"
+            ]
+          },
+          {
+            "evidence_id": "E-501C8448760E",
+            "relevance": "DIRECT",
+            "supported_claim": "Portuguese wiring section duplicates the 3.9 kΩ EOL requirement and the loop impedance/state tables.",
+            "redundant_with": [
+              "E-F50E50CCE3E0",
+              "E-EA2A686CB80C"
+            ]
+          },
+          {
+            "evidence_id": "E-EA2A686CB80C",
+            "relevance": "DIRECT",
+            "supported_claim": "Italian wiring section duplicates the 3.9 kΩ EOL requirement and the loop impedance/state tables.",
+            "redundant_with": [
+              "E-F50E50CCE3E0",
+              "E-501C8448760E"
+            ]
+          },
+          {
+            "evidence_id": "E-976B2B02C5ED",
+            "relevance": "SUPPORTING",
+            "supported_claim": "Spanish installation sheet figure captions mention the 3.9 kΩ end-of-line resistor in standard and IS wiring, providing corroborating context.",
+            "redundant_with": [
+              "E-D9ED3FCA741D",
+              "E-FC7F90BC0AF1"
+            ]
+          },
+          {
+            "evidence_id": "E-D9ED3FCA741D",
+            "relevance": "SUPPORTING",
+            "supported_claim": "Italian installation sheet figure captions mention the 3.9 kΩ EOL resistor, context only.",
+            "redundant_with": [
+              "E-976B2B02C5ED",
+              "E-FC7F90BC0AF1"
+            ]
+          },
+          {
+            "evidence_id": "E-FC7F90BC0AF1",
+            "relevance": "SUPPORTING",
+            "supported_claim": "Portuguese installation sheet figure captions mention the 3.9 kΩ EOL resistor, context only.",
+            "redundant_with": [
+              "E-976B2B02C5ED",
+              "E-D9ED3FCA741D"
+            ]
+          },
+          {
+            "evidence_id": "E-49DAC6CFDDA1",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Regulatory (WEEE), contact and warranty disclaimer content; no EOL resistance or fault-behavior information.",
+            "redundant_with": []
+          }
+        ],
+        "confidence": "HIGH",
+        "rationale": "The Spanish maintenance section (E-3775790B199A) alone fully answers the question: the correct EOL is 3.9 kΩ for normal operation, and setting it to 0 Ω or open circuit makes the system report a fault. Multilingual duplicates (PT, RO, PL maintenance) repeat the same procedure. Specification tables and wiring sections independently confirm the 3.9 kΩ value and impedance thresholds. One item (regulatory info) is irrelevant. Hence COMPLETE with a one-item minimal set."
+      }
+    ]
+  }
+}

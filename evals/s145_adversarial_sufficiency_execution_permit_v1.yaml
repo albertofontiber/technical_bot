@@ -1,0 +1,23 @@
+instrument: s145_adversarial_sufficiency_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_FINAL
+
+frozen_artifacts:
+  preregistration:
+    path: evals/s145_adversarial_sufficiency_prereg_v1.yaml
+    sha256: 6e3e82903529376e917b592d61b3740a0bd7293350c9301be822e58e3d854f2f
+  runner:
+    path: scripts/s145_adversarial_sufficiency_review.py
+    sha256: a7c649410f95c935c9485d2813c73dcfb8c96eda1cd9e4719d18f7eb973578ed
+
+limits:
+  calls: 2
+  retries: 0
+  conservative_total_ceiling_usd: 2
+  user_budget_usd: 250
+
+authorization:
+  paid_adversarial_review: true
+  production: false
+  deploy: false
+  push: false
+  facts_moved_to_ok: 0

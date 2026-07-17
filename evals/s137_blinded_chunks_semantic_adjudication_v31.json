@@ -1,0 +1,66 @@
+{
+  "instrument": "s137_blinded_chunks_semantic_adjudication_v31",
+  "status": "GO",
+  "claim": "final_blinded_semantic_adjudication_after_versioned_transport_recovery",
+  "checks": {
+    "question_set_exact": true,
+    "all_terminal": true,
+    "all_three_candidate_success_at_10": true,
+    "actual_cost_below_internal_ceiling": true,
+    "facts_moved_to_ok_zero": true
+  },
+  "questions": [
+    {
+      "question_id": "29b49e99-07fe-4b83-8afd-2d770d8fc09d",
+      "sol_terminal": "CANDIDATE_SUCCESS_AT_10",
+      "fable_terminal": "REAL_CANDIDATE_RETRIEVAL_LOSS",
+      "initial_agreement": false,
+      "arbitration_terminal": "CANDIDATE_SUCCESS_AT_10",
+      "final_terminal": "CANDIDATE_SUCCESS_AT_10",
+      "frozen_baseline_rank": 10,
+      "frozen_candidate_exact_gold_rank": 18
+    },
+    {
+      "question_id": "540b4ccd-1ae0-4252-a6bb-069db622e22c",
+      "sol_terminal": "CANDIDATE_SUCCESS_AT_10",
+      "fable_terminal": "CANDIDATE_SUCCESS_AT_10",
+      "initial_agreement": true,
+      "arbitration_terminal": null,
+      "final_terminal": "CANDIDATE_SUCCESS_AT_10",
+      "frozen_baseline_rank": 8,
+      "frozen_candidate_exact_gold_rank": 13
+    },
+    {
+      "question_id": "935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033",
+      "sol_terminal": "CANDIDATE_SUCCESS_AT_10",
+      "fable_terminal": "CANDIDATE_SUCCESS_AT_10",
+      "initial_agreement": true,
+      "arbitration_terminal": null,
+      "final_terminal": "CANDIDATE_SUCCESS_AT_10",
+      "frozen_baseline_rank": 3,
+      "frozen_candidate_exact_gold_rank": null
+    }
+  ],
+  "summary": {
+    "candidate_success_at_10": 3,
+    "real_candidate_retrieval_loss": 0,
+    "hold": 0,
+    "initial_disagreements": 1
+  },
+  "cost": {
+    "paid_calls": 3,
+    "conservative_actual_usd": 1.6494375,
+    "internal_ceiling_usd": 10,
+    "user_ceiling_usd": 50,
+    "truncated_fable_v1_upper_bound_usd": 0.86284,
+    "invalid_fable_v2_actual_usd": 1.00159,
+    "cumulative_conservative_usd": 3.5138675
+  },
+  "authorization": {
+    "chunks_v3_production_migration": false,
+    "migration_apply": false,
+    "deploy": false,
+    "facts_moved_to_ok": 0
+  },
+  "decision": "GO_TO_RECONCILE_S135_PROMOTION_GATE"
+}

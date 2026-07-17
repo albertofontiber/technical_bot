@@ -1,0 +1,56 @@
+instrument: s143_agentic_evidence_planner_prereg_v2
+status: FROZEN_BEFORE_PAID_RESUME
+
+supersedes: evals/s143_agentic_evidence_planner_prereg_v1.yaml
+semantic_prompt_change: false
+model_change: false
+transport_change_only: unique_whitespace_alignment
+question_retries: 0
+
+frozen_inputs:
+  challenge_cohort:
+    path: evals/s142_independent_obligation_cohort_v1.json
+    sha256: c0b8ee6f043c36a7112350d8e071c344b7ade42100de37322c3154cad82a3b4f
+  source_packet:
+    path: evals/s142_independent_source_packet_v1.json
+    sha256: 612b6d405ce5c8591b32f1d7ae81df628626299b55b68acceb948a4d68fcbe19
+  prior_receipts:
+    path: evals/s143_agentic_evidence_planner_receipts_v1.json
+    sha256: 641cb8adb2bb1e0c4bda825eaa1da70dc60c203cc26ae23cb3018ca39c69aab0
+  prior_gate:
+    path: evals/s143_agentic_evidence_planner_gate_v1.yaml
+    sha256: 3eb334e83fd452ab2e2dd20d40ba5b2a35d4127521ad921b652b152c395ff170
+
+model:
+  provider: anthropic
+  id: claude-haiku-4-5-20251001
+  role: cheap_bounded_executor
+  prior_calls_reused: 4
+  new_calls: 3
+  max_output_tokens_per_call: 1400
+  max_new_counted_input_tokens: 15000
+
+validation:
+  quotes_per_question_min: 1
+  quotes_per_question_max: 6
+  quote_max_chars: 1200
+  allowed_alignment:
+    - exact_substring
+    - unique_whitespace_only
+  claim_recall_min: 0.80
+  quote_precision_min: 0.70
+  positive_questions_min: 6
+
+budget:
+  conservative_input_usd_per_million: 2
+  conservative_output_usd_per_million: 10
+  cumulative_internal_ceiling_usd: 0.20
+  user_ceiling_usd: 250
+
+stop_rule: NO_MORE_S143_PAID_CALLS_IF_V2_FAILS
+
+credit:
+  facts_moved_to_ok: 0
+  production_change: false
+  deployment_authorized: false
+  push_authorized: false

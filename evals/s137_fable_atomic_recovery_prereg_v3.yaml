@@ -1,0 +1,95 @@
+instrument: s137_fable_atomic_recovery_prereg_v3
+status: frozen_before_atomic_implementation
+
+design:
+  path: evals/s137_fable_atomic_recovery_design_v3.md
+  sha256: 3b3ebc337b02a198f5f52c8c1a04e3dcde3b909d9da054b0c022f18f458a216e
+
+frozen_inputs:
+  v1_prereg: {path: evals/s137_blinded_chunks_semantic_adjudication_prereg_v1.yaml, sha256: 36030de3d59a85a35cc6c7391e7f29743fa94adbe0ff2fe407af29ddcad6d0f3}
+  v1_runner: {path: scripts/s137_blinded_chunks_semantic_adjudication.py, sha256: b72989936c8a6b5b385fa355f38488c53dc880fdac4a8821bc2e700ccb01eb51}
+  v2_prereg: {path: evals/s137_fable_truncation_recovery_prereg_v2.yaml, sha256: 1d63f4bca0aab98c0da601f378d3399690bd9d85d1a7498634dc0930731dff7a}
+  v2_permit: {path: evals/s137_fable_truncation_recovery_execution_permit_v2.yaml, sha256: 5057f9ea4593063b415f0eb415070fb59df0786781caa3d94484cda24cbf2f63}
+  v2_runner: {path: scripts/s137_resume_fable_v2.py, sha256: 458fb3353f3e98bfb5f796d20497e84e6b36bde227866d7638c4e3364f914476}
+  v2_preflight: {path: evals/s137_paid_preflight_v2.json, sha256: d8b0531078f88b9fbcc01cc086bd581cf3d387fc820cae66e9a39ac8b96e1987}
+  invalid_fable_v2: {path: evals/s137_fable5_xhigh_judgement_v2.json, sha256: b0fe01d7811fbd4b3330e323dd847fc2ab19d3d1a3d7300dcc86a077947b2485}
+  public_packet: {path: evals/s137_blinded_packet_seed1_v1.json, sha256: 5330aaf287bea09527cceaeb4d788d8d64029fa5f6ca4c72f5f57146f7dde000}
+  private_mapping: {path: evals/s137_private_mapping_seed1_v1.json, sha256: 5d5779f870fd4a8f8e804fa2bb57a81f3cd4555fed611a9750b7f1dcc79d4a22}
+  valid_sol_response: {path: evals/s137_sol56_xhigh_judgement_v1.json, sha256: 930c5eb77b2ab7132d76e8253b8d10f9125d806757e7a74a27324e96ceb8c7ef}
+
+atomic_questions:
+  - {ordinal: 1, question_id: 29b49e99-07fe-4b83-8afd-2d770d8fc09d, output: evals/s137_fable5_atomic_q1_v3.json}
+  - {ordinal: 2, question_id: 540b4ccd-1ae0-4252-a6bb-069db622e22c, output: evals/s137_fable5_atomic_q2_v3.json}
+  - {ordinal: 3, question_id: 935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033, output: evals/s137_fable5_atomic_q3_v3.json}
+
+invariants:
+  packet_questions_sha256: 0998426b4923203c3c67aac314bc9fcb49e57fe77da4a1fe5f0d9cb2cba086a4
+  system_prompt_source: scripts/s137_blinded_chunks_semantic_adjudication.py
+  schema_source: scripts/s137_blinded_chunks_semantic_adjudication.py
+  all_questions_rejudged: true
+  invalid_v2_semantic_votes_used: false
+  packet_changes: forbidden
+  mapping_changes: forbidden
+  prompt_changes: forbidden
+  rubric_changes: forbidden
+  terminal_rule_changes: forbidden
+
+model:
+  provider: anthropic
+  model: claude-fable-5
+  thinking: adaptive
+  effort: xhigh
+  structured_output: true
+  max_output_tokens_per_question: 10000
+  max_counted_input_tokens_per_question: 50000
+  max_counted_input_tokens_total: 150000
+  calls_max: 3
+  calls_per_question_max: 1
+  retries: 0
+
+optional_arbitration:
+  trigger: terminal_decision_disagreement_only
+  provider: openai
+  model: gpt-5.6-sol
+  reasoning_effort: xhigh
+  max_output_tokens: 8000
+  max_counted_input_tokens: 180000
+  calls_max: 1
+
+pricing_usd_per_million_tokens:
+  openai: {input_conservative_cache_write: 6.25, output: 30}
+  anthropic: {input: 10, output: 50}
+
+budget:
+  valid_sol_v1_conservative_actual_usd: 0.5152575
+  truncated_fable_v1_upper_bound_usd: 0.86284
+  invalid_fable_v2_actual_usd: 1.00159
+  cumulative_prior_usd: 2.3796875
+  atomic_internal_cumulative_ceiling_usd: 10
+  user_authorized_ceiling_usd: 50
+  stop_before_first_inference_if_cumulative_worst_case_exceeds_ceiling: true
+
+execution:
+  paid_preflight: evals/s137_paid_preflight_v3.json
+  combined_fable_response: evals/s137_fable5_atomic_combined_v3.json
+  arbitration_response: evals/s137_sol56_xhigh_arbitration_v3.json
+  aggregate: evals/s137_blinded_chunks_semantic_adjudication_v3.json
+  gate: evals/s137_blinded_chunks_semantic_adjudication_gate_v3.yaml
+
+authorization:
+  provider_token_counts: 3
+  fable_atomic_calls_max: 3
+  optional_sol_arbitration_calls: 1
+  persist_each_receipt_before_next_call: true
+  stop_on_first_invalid_atomic_response: true
+  further_fable_retry_or_protocol: false
+  remote_database: false
+  embeddings: false
+  context_generation: false
+  chunker_changes: false
+  retrieval_changes: false
+  threshold_changes: false
+  migration_apply: false
+  production: false
+  deploy: false
+  facts_moved_to_ok: 0

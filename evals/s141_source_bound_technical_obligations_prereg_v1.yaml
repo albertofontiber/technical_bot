@@ -1,0 +1,52 @@
+instrument: s141_source_bound_technical_obligations_prereg_v1
+status: FROZEN_BEFORE_IMPLEMENTATION
+design: evals/s141_source_bound_technical_obligations_design_v1.md
+
+population:
+  total_facts: 18
+  qids: [cat007, cat018, hp002, hp011, hp017]
+  expected_source_incomplete: 5
+  expected_served_relation_targets: 13
+
+source_incomplete_claims:
+  - m1.cat007.7947613c1a4de8b1.alarm_relay_contacts
+  - m1.cat007.7947613c1a4de8b1.fault_relay_contacts
+  - m1.cat007.224f21eed48712ef.fault_conditions
+  - m1.cat007.1034ff01c53cc99a.sounder_outputs
+  - m1.cat007.1034ff01c53cc99a.sounder_eol
+
+served_relation_targets:
+  - m1.hp017.7258aec395b0f78d.input_instruction
+  - m1.hp017.7258aec395b0f78d.output_instruction
+  - m1.hp017.7258aec395b0f78d.avoid_contradictory_logic
+  - m1.hp017.7258aec395b0f78d.commissioning_test
+  - m1.hp017.ee150da7e6a7607d.delay_types
+  - cat018#1:pestana Programacion: Zona + CBE
+  - cat018#2:Tipo SW / asociacion CBE
+  - benchmark_carry.hp011.3689458c865193d89966004a
+  - benchmark_carry.hp011.a2fe1cdc2a168c60977a7842
+  - m0.hp011.reset_inhibit.2
+  - m1.hp002.06f759b5da9ed40b.maintenance_safety
+  - m1.hp002.4de86fac80358a14.nominal_after_reset
+  - m1.hp002.4de86fac80358a14.standard_fault_window
+
+runtime_forbidden_literals:
+  qids: [cat007, cat018, hp002, hp011, hp017]
+  manufacturers: [Notifier, Detnov, Morley, Honeywell]
+  products: [FAAST LT-200, PEARL, AM-8200, ASD535, RP1r]
+
+local_gate:
+  exact_source_receipt_rate: 1.0
+  source_incomplete_rejections: 5
+  hard_negative_acceptances: 0
+  deterministic_runs: 2
+  allowed_model_calls: 0
+  allowed_network_calls: 0
+  allowed_database_reads: 0
+  allowed_database_writes: 0
+
+credit:
+  facts_moved_to_ok: 0
+  production_change: false
+  deployment_authorized: false
+  push_authorized: false

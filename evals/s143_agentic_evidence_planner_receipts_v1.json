@@ -1,0 +1,95 @@
+{
+  "instrument": "s143_agentic_evidence_planner_receipts_v1",
+  "status": "IN_PROGRESS",
+  "model": "claude-haiku-4-5-20251001",
+  "receipts": [
+    {
+      "item_id": "hochiki_hcvx_panel",
+      "response_id": "msg_011Cd6YC1yABTEifLUjnPBrH",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 1087,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1087,
+        "output_tokens": 62,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.002794,
+      "raw_text": "{\"quotes\": [{\"fragment_number\": 1, \"exact_quote\": \"Set Z1-Z8, Zone Alarm Delayed     N                       Set / Clear for each     Clear all zones\\n Code: 31 - 38                                             zone\"}]}",
+      "raw_text_sha256": "6e93c64d8133cd622638a6e4bed1d32bca9b590b1945e9aed93a77ab49efb5e5"
+    },
+    {
+      "item_id": "siemens_fci2020_city_tie",
+      "response_id": "msg_011Cd6YCPQkanL1cHpk12wCC",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 891,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 891,
+        "output_tokens": 44,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.002222,
+      "raw_text": "{\"quotes\": [{\"fragment_number\": 1, \"exact_quote\": \"Leased line normal operation (standby)     27 mA @ DC 24 V\"}]}",
+      "raw_text_sha256": "b49f2749452bd29de829c85ffeb5adbb836633c955c7b42ecc6927471232ed29"
+    },
+    {
+      "item_id": "bosch_fpp5000_power",
+      "response_id": "msg_011Cd6YCU1Kz8QVQv1P8vJEY",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 1087,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1087,
+        "output_tokens": 50,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.002674,
+      "raw_text": "{\"quotes\": [{\"fragment_number\": 1, \"exact_quote\": \"Output voltage (min-max)                  20.4 VDC - 30 VDC battery-buffered\"}]}",
+      "raw_text_sha256": "509172bd040ed722b327b82058de93e33ef1f7b3928ee4a77543fd559cfee69a"
+    },
+    {
+      "item_id": "hochiki_smoke_heat_guide",
+      "response_id": "msg_011Cd6YCZqow3Mef1XbjFsYg",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 890,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 890,
+        "output_tokens": 57,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.00235,
+      "raw_text": "{\"quotes\": [{\"fragment_number\": 1, \"exact_quote\": \"In spaces served by air-handling systems, detectors shall not be located where airflow prevents operation of the detectors. (17.7.4.1)\"}]}",
+      "raw_text_sha256": "8a6cce1f5bee5a82d897bc374076f7da4e30b8d15019f48208cc6d692a87b97a"
+    }
+  ]
+}

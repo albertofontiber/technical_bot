@@ -1,0 +1,165 @@
+{
+  "instrument": "s144_evidence_id_selector_v1",
+  "status": "NO_GO",
+  "result": {
+    "eligible_questions": 7,
+    "positive_questions": 7,
+    "claims_total": 14,
+    "claims_covered": 11,
+    "claim_recall": 0.78571429,
+    "selected_units": 12,
+    "useful_units": 7,
+    "unit_precision": 0.58333333,
+    "invalid_ids": 0
+  },
+  "cost": {
+    "calls": 7,
+    "counted_input_tokens_total": 15091,
+    "conservative_actual_usd": 0.032112,
+    "worst_case_preflight_usd": 0.065182,
+    "internal_ceiling_usd": 0.2
+  },
+  "rows": [
+    {
+      "item_id": "hochiki_hcvx_panel",
+      "claims": 2,
+      "claims_covered": 2,
+      "selected_units": 1,
+      "useful_units": 1,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E005_56c66802e6",
+          "source_start": 354,
+          "source_end": 517,
+          "content_sha256": "a934b2bb47246446ec96d094c9f38f0b45d13eb5813c7ee9a43ecd7ad1dedee6"
+        }
+      ]
+    },
+    {
+      "item_id": "siemens_fci2020_city_tie",
+      "claims": 2,
+      "claims_covered": 1,
+      "selected_units": 1,
+      "useful_units": 1,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E006_764fea321e",
+          "source_start": 316,
+          "source_end": 407,
+          "content_sha256": "af4adee7bd9a081820c9274c16397cdc6a311c69e9fa2c492fa5ed5a8fe83520"
+        }
+      ]
+    },
+    {
+      "item_id": "bosch_fpp5000_power",
+      "claims": 2,
+      "claims_covered": 2,
+      "selected_units": 1,
+      "useful_units": 1,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E006_52e455639e",
+          "source_start": 944,
+          "source_end": 2140,
+          "content_sha256": "1dae83c91d4d403a730175ea883c57fbbfce58b1ab24bab33dfd00da41e1b3da"
+        }
+      ]
+    },
+    {
+      "item_id": "hochiki_smoke_heat_guide",
+      "claims": 2,
+      "claims_covered": 1,
+      "selected_units": 1,
+      "useful_units": 1,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E011_3225299da1",
+          "source_start": 1713,
+          "source_end": 1849,
+          "content_sha256": "65bd5c5bd3f0e096d4cf94c78746092740134759b27989db07500e3e6fccfffb"
+        }
+      ]
+    },
+    {
+      "item_id": "siemens_fc922_panel",
+      "claims": 2,
+      "claims_covered": 2,
+      "selected_units": 1,
+      "useful_units": 1,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E001_6f175cd479",
+          "source_start": 0,
+          "source_end": 280,
+          "content_sha256": "1ab08c346b6ec6ad92c75acbccb868e4ac9bccf7f6624ed6ea3f926253a6ecc6"
+        }
+      ]
+    },
+    {
+      "item_id": "hochiki_vr3_releasing",
+      "claims": 2,
+      "claims_covered": 1,
+      "selected_units": 6,
+      "useful_units": 1,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E016_99ebc00ddc",
+          "source_start": 2309,
+          "source_end": 2423,
+          "content_sha256": "8073b607048b024636c1aa8d3ba483dd702bdec11ce50053779aa5ac8a35df01"
+        },
+        {
+          "unit_id": "E017_d3d8f1a1aa",
+          "source_start": 2423,
+          "source_end": 2533,
+          "content_sha256": "67ae99ac076821e76711053a5323b2ede6ee32d1826f54960b92f43078ac932c"
+        },
+        {
+          "unit_id": "E018_33ad125a46",
+          "source_start": 2533,
+          "source_end": 2552,
+          "content_sha256": "e514676208fc9404528b4cb3fe26c619bb951e6c686307dee6d637adaf0433e9"
+        },
+        {
+          "unit_id": "E019_a9b3bf9f25",
+          "source_start": 2552,
+          "source_end": 2620,
+          "content_sha256": "f63d7112c4749f14619f08a7b2c02e3cb328fea0bca013cc7c32005fd6588e32"
+        },
+        {
+          "unit_id": "E020_957fa9dafc",
+          "source_start": 2620,
+          "source_end": 2688,
+          "content_sha256": "182d95fcfa4244619791b7477f3894282fbe1cbec17189cec30aec67c21d7cf4"
+        },
+        {
+          "unit_id": "E021_28de984d72",
+          "source_start": 2688,
+          "source_end": 2756,
+          "content_sha256": "2a52c340c3b008125fe702ae7f11fba0c14b4920a7a7bd6d9d90cd65bdb102b8"
+        }
+      ]
+    },
+    {
+      "item_id": "apollo_xpander_commissioning",
+      "claims": 2,
+      "claims_covered": 2,
+      "selected_units": 1,
+      "useful_units": 1,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E003_ac87d2429d",
+          "source_start": 885,
+          "source_end": 2017,
+          "content_sha256": "2957560d7fd31c18b451d2dde8ca758aed4da5ee8f2b16f960d5128c05b47497"
+        }
+      ]
+    }
+  ],
+  "decision": {
+    "fresh_independent_implementation": "NO_GO",
+    "production": "NO_GO",
+    "facts_moved_to_ok": 0
+  },
+  "result_sha256": "70ed75422cf776c98ecc10fcb2a05295b0ae73864cba0becf22058e42dd6a94a"
+}

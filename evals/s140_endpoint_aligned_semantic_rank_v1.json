@@ -1,0 +1,92 @@
+{
+  "instrument": "s140_endpoint_aligned_semantic_rank_v1",
+  "status": "NO_GO",
+  "checks": {
+    "three_final_two_arm_rank_tuples": true,
+    "candidate_hybrid_mrr_gte_baseline": false,
+    "s137_hit_reconciliation_still_go": true,
+    "known_plus_unknown_reserve_below_internal_ceiling": true,
+    "facts_moved_to_ok_zero": true
+  },
+  "questions": [
+    {
+      "question_id": "29b49e99-07fe-4b83-8afd-2d770d8fc09d",
+      "sol_ranks": {
+        "candidate_v3": 5,
+        "baseline_v2": 10
+      },
+      "fable_ranks": {
+        "candidate_v3": 2,
+        "baseline_v2": 1
+      },
+      "initial_agreement": false,
+      "arbitration_ranks": {
+        "candidate_v3": 2,
+        "baseline_v2": 1
+      },
+      "final_ranks": {
+        "candidate_v3": 2,
+        "baseline_v2": 1
+      }
+    },
+    {
+      "question_id": "540b4ccd-1ae0-4252-a6bb-069db622e22c",
+      "sol_ranks": {
+        "candidate_v3": 4,
+        "baseline_v2": 4
+      },
+      "fable_ranks": {
+        "candidate_v3": 4,
+        "baseline_v2": 4
+      },
+      "initial_agreement": true,
+      "arbitration_ranks": null,
+      "final_ranks": {
+        "candidate_v3": 4,
+        "baseline_v2": 4
+      }
+    },
+    {
+      "question_id": "935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033",
+      "sol_ranks": {
+        "candidate_v3": 3,
+        "baseline_v2": 3
+      },
+      "fable_ranks": {
+        "candidate_v3": 3,
+        "baseline_v2": 3
+      },
+      "initial_agreement": true,
+      "arbitration_ranks": null,
+      "final_ranks": {
+        "candidate_v3": 3,
+        "baseline_v2": 3
+      }
+    }
+  ],
+  "metrics": {
+    "baseline_hybrid_mrr_at_10": 0.40208333,
+    "candidate_hybrid_mrr_at_10": 0.36944444,
+    "candidate_minus_baseline": -0.03263889,
+    "cohort_size": 24,
+    "semantic_fallback_questions": 3
+  },
+  "summary": {
+    "initial_disagreements": 1,
+    "holds": 0
+  },
+  "cost": {
+    "known_paid_model_responses": 6,
+    "known_actual_usd": 2.15340875,
+    "failed_520_unknown_cost_reserve_usd": 0.93485625,
+    "known_plus_unknown_reserve_usd": 3.088265,
+    "combined_with_s137_reserved_usd": 6.6021325
+  },
+  "authorization": {
+    "production": false,
+    "deploy": false,
+    "migration_apply": false,
+    "facts_moved_to_ok": 0
+  },
+  "decision": "NO_GO_KEEP_CHUNKS_V3_OUT"
+}

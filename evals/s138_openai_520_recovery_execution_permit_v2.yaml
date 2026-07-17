@@ -1,0 +1,66 @@
+instrument: s138_openai_520_recovery_execution_permit_v2
+status: EXECUTION_GO_ONE_LOGICAL_RETRY
+authorized_at_utc: 2026-07-16
+
+design:
+  path: evals/s138_openai_520_recovery_design_v2.md
+  sha256: 5495f3029c7a2082f54219b77626fd28501212461dddffdeab2a25ff5ddeab38
+incident_receipt:
+  path: evals/s138_openai_520_failure_receipt_v1.json
+  sha256: 7580b6046507a3885900ec8549ebb046e523d937c31ab28e5d6b57011cad43af
+s138_preregistration:
+  path: evals/s138_symmetric_semantic_mrr_prereg_v1.yaml
+  sha256: 9336455f9ee1b8b4d2fe9b63a2ce084013035ab22a471fc851227b7e56fb8a1b
+s138_v1_permit:
+  path: evals/s138_symmetric_semantic_mrr_execution_permit_v1.yaml
+  sha256: aafb950837d9abc9fe6acbb522dabcabddc78c0e420daeeb250a0ff7d33039e4
+s138_v1_runner:
+  path: scripts/s138_symmetric_semantic_mrr.py
+  sha256: 3e20dac09b8aa879d86041a12b9280393e7fefb48102d8305e905352f25181c9
+recovery_runner:
+  path: scripts/s138_openai_520_recovery_v2.py
+  sha256: 8af97be616582bcb2d182410cd731ff1af28e09b88325ef0c5822f39b30348c3
+recovery_tests:
+  path: tests/test_s138_openai_520_recovery_v2.py
+  sha256: a1502229a817132e67110ef0ae135c693ced4c8ca29bfef369ae44c78c14005d
+packet:
+  path: evals/s138_symmetric_semantic_mrr_packet_seed1_v1.json
+  sha256: 7e345f2304cffe9cc4ab670a5f1b293fc3d9da3e606374b79d8db1ae84eaa1ac
+mapping:
+  path: evals/s138_symmetric_semantic_mrr_mapping_seed1_v1.json
+  sha256: 436ebb83ff3f9882a1a5256090c6ff78c3ee9a97f37e76f2bc034c9374f61058
+
+preconditions:
+  first_attempt_http_status: 520
+  first_attempt_response_id: null
+  first_attempt_usage: null
+  first_attempt_judge_output: null
+  fable_calls_started: 0
+  all_judge_and_aggregate_outputs_absent: true
+  same_frozen_packet_and_mapping: true
+
+local_verification:
+  s138_and_recovery_tests: 10_passed
+  py_compile: passed
+  git_diff_check: passed
+
+cost_gate:
+  failed_attempt_unknown_cost_reserve_usd: 0.93485625
+  recovery_v1_worst_case_usd: 4.95452625
+  s138_total_reserved_worst_case_usd: 5.88938250
+  combined_with_s137_reserved_worst_case_usd: 9.40325000
+  s138_internal_ceiling_usd: 10
+  broader_user_ceiling_usd: 250
+
+authorized:
+  new_logical_execution_attempts: 1
+  same_packet: true
+  same_models_and_caps: true
+  same_validation_and_gate: true
+
+not_authorized:
+  - second_recovery_attempt
+  - production
+  - deploy
+  - migration_apply
+  - facts_moved_to_ok

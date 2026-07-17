@@ -1,0 +1,29 @@
+instrument: s153_application_bound_typed_relation_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_FINAL
+
+frozen_artifacts:
+  preregistration:
+    path: evals/s153_application_bound_typed_relation_prereg_v1.yaml
+    sha256: 47dca0a4ce2e67179312ac7ef883bd2f19ca37b37385a84b490f13743eaf4d31
+  runner:
+    path: scripts/s153_application_bound_typed_relation_probe.py
+    sha256: 65cb5d6b09b536e1890870b44bd09bf49792e84e4c393ad0b387731825277f07
+  transport_tests:
+    path: tests/test_s153_typed_relations_v2.py
+    sha256: e01b30a8886cc00f20a4632e377266edd899298f3434c2983f950194884a7ffb
+  runner_tests:
+    path: tests/test_s153_application_bound_typed_relation_probe.py
+    sha256: 2dc8b4e141d9c705fcf436af5146d32a14867510d43bc196482329e4ee01d662
+
+limits:
+  calls: 55
+  retries: 0
+  conservative_total_ceiling_usd: 2.50
+  user_budget_usd: 250
+
+authorization:
+  paid_application_bound_pilot: true
+  production: false
+  deploy: false
+  push: false
+  facts_moved_to_ok: 0

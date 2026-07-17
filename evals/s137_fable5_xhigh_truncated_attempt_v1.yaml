@@ -1,0 +1,24 @@
+instrument: s137_fable5_xhigh_truncated_attempt_v1
+status: TRUNCATED_NO_VALID_JUDGEMENT
+provider: anthropic
+model: claude-fable-5
+thinking: adaptive
+effort: xhigh
+packet_questions_sha256: 0998426b4923203c3c67aac314bc9fcb49e57fe77da4a1fe5f0d9cb2cba086a4
+counted_input_tokens: 46284
+max_output_tokens_reached: 8000
+terminal_error: Anthropic response truncated at max_tokens
+valid_structured_judgement_persisted: false
+semantic_decision_observed: false
+paid_calls_consumed: 1
+cost_accounting:
+  method: conservative_upper_bound
+  input_usd: 0.46284
+  output_usd_upper_bound: 0.4
+  total_usd_upper_bound: 0.86284
+recovery_constraint:
+  reuse_valid_sol_response: true
+  packet_changes: forbidden
+  rubric_changes: forbidden
+  terminal_rule_changes: forbidden
+  silent_retry_under_v1_permit: forbidden

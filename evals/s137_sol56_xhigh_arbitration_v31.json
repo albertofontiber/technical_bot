@@ -1,0 +1,145 @@
+{
+  "instrument": "s137_sol_arbitration_response_v31",
+  "provider": "openai",
+  "model": "gpt-5.6-sol",
+  "response_id": "resp_00a8f93d0b2b05f8016a594003aff88195988a58782098b743",
+  "created_at": "2026-07-16T20:33:46+00:00",
+  "packet_questions_sha256": "14a93890e530c9290484cd8746bde35df25292ff58fa24389760868b10f22257",
+  "question_ids": [
+    "29b49e99-07fe-4b83-8afd-2d770d8fc09d"
+  ],
+  "response_status": "completed",
+  "usage": {
+    "input_tokens": 11648,
+    "input_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 11645
+    },
+    "output_tokens": 2134,
+    "output_tokens_details": {
+      "reasoning_tokens": 1181
+    },
+    "total_tokens": 13782
+  },
+  "conservative_cost_usd": 0.13682,
+  "status": "VALIDATED",
+  "judgement": {
+    "judgements": [
+      {
+        "question_id": "29b49e99-07fe-4b83-8afd-2d770d8fc09d",
+        "answerability": "COMPLETE",
+        "minimum_sufficient_evidence_ids": [
+          "E-026ED7172265"
+        ],
+        "evidence_assessments": [
+          {
+            "evidence_id": "E-026ED7172265",
+            "relevance": "DIRECT",
+            "supported_claim": "El SMART 2 tiene una salida de fallo de colector abierto de 40 mA; las salidas están normalmente energizadas y asociadas al estado de fallo.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-146B01C3155F",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Describe montaje y distribución del circuito, sin identificar la salida de fallo ni su lógica.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-1DAD917B69F8",
+            "relevance": "SUPPORTING",
+            "supported_claim": "Los códigos P y N designan respectivamente modos de colector abierto energizado y no energizado.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-27D53964CD9A",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Es la portada y parte del índice del manual.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-3615653EA383",
+            "relevance": "DIRECT",
+            "supported_claim": "Identifica la salida de fallo O.C. en el terminal 8 y especifica seguridad positiva, conmutación a negativo y 40 mA máximos.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-485E42D88FC6",
+            "relevance": "DIRECT",
+            "supported_claim": "Confirma una salida Open Collector dedicada al fallo y una función de autodiagnóstico.",
+            "redundant_with": [
+              "E-FD524C1DE741"
+            ]
+          },
+          {
+            "evidence_id": "E-497AB353730D",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Solo trata las pruebas y el funcionamiento autónomo del detector.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-5E35E16FE8C3",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Describe el encendido y la desactivación de la alarma 1 en una variante TWIN, no la salida de fallo.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-7CBC98CF1DC2",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Contiene instrucciones de mantenimiento y desmontaje.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-94AD715F3AA3",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Explica cableado y conexión analógica, sin abordar la salida de fallo.",
+            "redundant_with": [
+              "E-E2807AC44093"
+            ]
+          },
+          {
+            "evidence_id": "E-A1334F9996F8",
+            "relevance": "DIRECT",
+            "supported_claim": "Especifica lógica estándar de seguridad positiva/fail-safe y salida de fallo O.C. de 40 mA.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-B5944A0B3E27",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Solo contiene instrucciones de embalaje.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-BF0DB87D80A0",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Es una sección del índice sin información técnica pertinente.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-E2807AC44093",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Explica cableado y conexión analógica, sin abordar la salida de fallo.",
+            "redundant_with": [
+              "E-94AD715F3AA3"
+            ]
+          },
+          {
+            "evidence_id": "E-E5634552B38C",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Describe la configuración de umbrales mediante puentes.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-FD524C1DE741",
+            "relevance": "DIRECT",
+            "supported_claim": "Confirma una cuarta salida Open Collector dedicada al fallo y una función de autodiagnóstico.",
+            "redundant_with": [
+              "E-485E42D88FC6"
+            ]
+          }
+        ],
+        "confidence": "HIGH",
+        "rationale": "E-026 basta para confirmar una salida de fallo O.C. de 40 mA y que la lógica es normalmente energizada: al producirse el fallo, la salida asociada cambia al estado desenergizado. E-361 y E-A133 corroboran que se trata de seguridad positiva/fail-safe y añaden la conmutación a negativo."
+      }
+    ]
+  }
+}

@@ -1,0 +1,55 @@
+instrument: s141_source_bound_technical_obligations_gate_v1
+status: LOCAL_GO_INDEPENDENT_POSITIVE_INCONCLUSIVE
+
+evidence:
+  audit:
+    path: evals/s141_source_bound_technical_obligations_v1.json
+    sha256: 3bd96e427c0df15037a298fea7d6ae6089cf64b413219d60a07e58a552715606
+  runner:
+    path: scripts/s141_source_bound_technical_obligations.py
+    sha256: 3564d8b5a39e0e59b71364ccaaee2a269828c13b9e2a250b139f0a35bfb0e18a
+  heldout_preregistration:
+    path: evals/s141_independent_generalization_prereg_v1.yaml
+    sha256: be1e350698c25a958b65f90f435978fa4eb3b0bbe361ca08fa69e815da58297b
+
+result:
+  development_facts_audited: 18
+  source_incomplete_rejections: 5
+  served_relation_targets: 13
+  target_relations_emitted: 13
+  source_bound_reconstruction_covered: 13
+  frozen_negative_questions: 34
+  frozen_negative_acceptances: 0
+  independent_questions: 24
+  independent_manufacturers: 12
+  independent_positive_emissions: 0
+
+checks:
+  exact_source_receipts_complete: true
+  deterministic_two_runs: true
+  development_target_exact: true
+  negative_controls_clean: true
+  positive_generalization_demonstrated: false
+
+decision:
+  local_mechanism: GO
+  paid_answer_probe: NO_GO
+  production: NO_GO
+  facts_moved_to_ok: 0
+  rationale: >-
+    The mechanism is precise and complete on the frozen development relations,
+    but the source-first independent cohort produced no eligible positives.
+    Precision therefore remains unmeasurable outside development. Treating the
+    13 reconstructions as official OK would risk benchmark-specific overfit.
+  next: VERSIONED_GENERALIZATION_ITERATION_WITH_FRESH_HELDOUT
+
+cost:
+  usd: 0
+  model_calls: 0
+  network_calls: 0
+  database_calls: 0
+
+authorization:
+  production: false
+  deploy: false
+  push: false

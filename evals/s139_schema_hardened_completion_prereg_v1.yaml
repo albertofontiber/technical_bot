@@ -1,0 +1,95 @@
+instrument: s139_schema_hardened_completion_v1
+status: frozen_before_implementation
+
+design:
+  path: evals/s139_schema_hardened_completion_design_v1.md
+  sha256: 3944d465fcf6cc6664ad154adcc4141bb8d975361e2971b3b711a4e9ff0f2e4c
+frozen_inputs:
+  s138_prereg:
+    path: evals/s138_symmetric_semantic_mrr_prereg_v1.yaml
+    sha256: 9336455f9ee1b8b4d2fe9b63a2ce084013035ab22a471fc851227b7e56fb8a1b
+  packet:
+    path: evals/s138_symmetric_semantic_mrr_packet_seed1_v1.json
+    sha256: 7e345f2304cffe9cc4ab670a5f1b293fc3d9da3e606374b79d8db1ae84eaa1ac
+  mapping:
+    path: evals/s138_symmetric_semantic_mrr_mapping_seed1_v1.json
+    sha256: 436ebb83ff3f9882a1a5256090c6ff78c3ee9a97f37e76f2bc034c9374f61058
+  sol_valid:
+    path: evals/s138_sol56_xhigh_judgement_v1.json
+    sha256: c143ca42acd7a32144b11d3480ff53f7501fc4d5ad24c06acd5ba2ccdb683c29
+  fable_q1_valid:
+    path: evals/s138_fable5_atomic_q1_v1.json
+    sha256: 0ba1c83ba4c778d3f651cf9d2a3df8f822050629b43e16e0789c26cc3a272704
+  fable_q2_valid:
+    path: evals/s138_fable5_atomic_q2_v1.json
+    sha256: 999ac86b4b5845a7e6f46bc6311ca1baaccfea07e142bc0e09cf6d3ad55d6bcd
+  fable_q3_invalid:
+    path: evals/s138_fable5_atomic_q3_v1.json
+    sha256: d417ba59b16f99780404e5d880b19cba178b1af2866e0c617afa6cbf7dd4a0df
+  recovery_terminal_receipt:
+    path: evals/s138_openai_520_recovery_failure_v2.json
+    sha256: 489325f2a9cf83277d20449dd55736ad8eebe5907ab233fce8496a78d836f14e
+
+completion_question_id: 935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033
+valid_reused_question_ids:
+  - 29b49e99-07fe-4b83-8afd-2d770d8fc09d
+  - 540b4ccd-1ae0-4252-a6bb-069db622e22c
+
+schema_contract:
+  packet_specific: true
+  question_ids_exact_and_ordered: true
+  evidence_set_ids_exact_and_ordered: true
+  evidence_ids_exact_and_ordered: true
+  assessments_per_set: 10
+  generic_s138_local_validator_still_required: true
+  content_specific_rules: false
+
+models:
+  independent_completion:
+    provider: anthropic
+    model: claude-fable-5
+    thinking: adaptive
+    effort: xhigh
+    max_output_tokens: 12000
+    max_counted_input_tokens: 50000
+    calls_max: 1
+  arbitration:
+    trigger: any_two_arm_semantic_rank_tuple_disagreement_after_valid_completion
+    provider: openai
+    model: gpt-5.6-sol
+    reasoning_effort: xhigh
+    max_output_tokens: 16000
+    max_counted_input_tokens: 180000
+    calls_max: 1
+
+pricing_usd_per_million_tokens:
+  openai: {input_conservative_cache_write: 6.25, output: 30}
+  anthropic: {input: 10, output: 50}
+budget:
+  s138_internal_ceiling_usd: 10
+  known_s138_cost_before_s139_usd: 1.78285625
+  failed_520_unknown_cost_reserve_usd: 0.93485625
+  s139_incremental_caps_worst_case_usd: 2.705
+  s138_total_reserved_caps_worst_case_usd: 5.42271250
+  prior_s137_cumulative_conservative_usd: 3.5138675
+  combined_s137_s138_reserved_caps_worst_case_usd: 8.93658000
+  broader_user_ceiling_usd: 250
+
+execution:
+  paid_preflight: evals/s139_paid_preflight_v1.json
+  fable_q3: evals/s139_fable5_atomic_q3_v1.json
+  fable_combined: evals/s139_fable5_atomic_combined_v1.json
+  arbitration: evals/s139_sol56_xhigh_arbitration_v1.json
+  aggregate: evals/s139_schema_hardened_completion_v1.json
+  gate: evals/s139_schema_hardened_completion_gate_v1.yaml
+
+authorization:
+  provider_calls_max: 2
+  retries: 0
+  production: false
+  deploy: false
+  migration_apply: false
+  chunks_changes: false
+  retrieval_changes: false
+  threshold_changes: false
+  facts_moved_to_ok: 0

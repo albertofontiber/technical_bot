@@ -1,0 +1,447 @@
+{
+  "instrument": "s147_per_item_header_aware_v1",
+  "status": "NO_GO",
+  "result": {
+    "eligible_questions": 14,
+    "manufacturers": 14,
+    "table_questions": 7,
+    "prose_questions": 7,
+    "claims_total": 37,
+    "claims_covered": 30,
+    "claim_recall": 0.81081081,
+    "questions_complete": 8,
+    "question_complete_rate": 0.57142857,
+    "selected_units": 21,
+    "useful_units": 20,
+    "unit_precision": 0.95238095,
+    "table_context_hits": 5,
+    "table_context_rate": 0.71428571,
+    "invalid_ids": 0,
+    "whitespace_only_repairs": 1,
+    "quote_validation_drops": 0
+  },
+  "cost": {
+    "author_usd": 0.079098,
+    "selector_usd": 0.08775,
+    "total_usd": 0.166848,
+    "worst_case_preflight_usd": 0.348618,
+    "internal_ceiling_usd": 0.75
+  },
+  "rows": [
+    {
+      "item_id": "s147_src_01",
+      "stratum": "table",
+      "claims": 2,
+      "claims_covered": 2,
+      "selected_units": 2,
+      "useful_units": 2,
+      "table_context_selected": true,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E008_303092a0c7",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              893,
+              1062
+            ]
+          ],
+          "content_sha256": "365630350c527f8f61246416cbfc16095d31e888ef17e6d7641b66b7c9e85787"
+        },
+        {
+          "unit_id": "E020_f3477d7297",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              1064,
+              1269
+            ],
+            [
+              1682,
+              1887
+            ]
+          ],
+          "content_sha256": "a118c45b3d1dd1769adf6a9dda603e9d7bd2d088dcd198ecb4b647a5197c4be4"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_02",
+      "stratum": "table",
+      "claims": 3,
+      "claims_covered": 2,
+      "selected_units": 2,
+      "useful_units": 2,
+      "table_context_selected": false,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E008_70422e50fc",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              785,
+              1059
+            ]
+          ],
+          "content_sha256": "d41a7145c31531e7dbdaf33e519ebf7f7d09ffcda2488bf4c509fcf227c2a91f"
+        },
+        {
+          "unit_id": "E011_0b9a32d5a0",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1323,
+              1541
+            ]
+          ],
+          "content_sha256": "ad04ae6e0c63248a6500c13542d003bde9d67974ea2f0b8ea66e2b708498474d"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_03",
+      "stratum": "table",
+      "claims": 2,
+      "claims_covered": 1,
+      "selected_units": 1,
+      "useful_units": 1,
+      "table_context_selected": true,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E030_6af2e4af03",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              2600,
+              2634
+            ],
+            [
+              2775,
+              2809
+            ]
+          ],
+          "content_sha256": "ac2d567c56f30a0cd1cdcb3d4bb5131fb82a98c5a796bff1507a9e236b983199"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_04",
+      "stratum": "table",
+      "claims": 3,
+      "claims_covered": 1,
+      "selected_units": 1,
+      "useful_units": 1,
+      "table_context_selected": true,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E012_f3acec5711",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              317,
+              377
+            ],
+            [
+              561,
+              621
+            ]
+          ],
+          "content_sha256": "46b2129b5216dfa662887cb9e82fe1d748dee36328b93e9265f87536d51dfd6f"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_05",
+      "stratum": "table",
+      "claims": 3,
+      "claims_covered": 3,
+      "selected_units": 2,
+      "useful_units": 2,
+      "table_context_selected": true,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E014_9697fbe465",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              524,
+              863
+            ],
+            [
+              1204,
+              1543
+            ]
+          ],
+          "content_sha256": "c5ede4b70cdd59bd2d69e59debd01e23c17da7abfe5c3b6f1857478926318c04"
+        },
+        {
+          "unit_id": "E016_b65f82c868",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              524,
+              863
+            ],
+            [
+              1884,
+              2223
+            ]
+          ],
+          "content_sha256": "e5cab7094db6128795f4732a3fa7c0d384e67be029e3ba20eb888ae62e71fa28"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_06",
+      "stratum": "table",
+      "claims": 2,
+      "claims_covered": 2,
+      "selected_units": 1,
+      "useful_units": 1,
+      "table_context_selected": false,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E013_4b4adf87e6",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1466,
+              1751
+            ]
+          ],
+          "content_sha256": "07785816138762775b75609cc415adb94a93c3ba6680f7cce918e4495a299e30"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_07",
+      "stratum": "table",
+      "claims": 2,
+      "claims_covered": 1,
+      "selected_units": 1,
+      "useful_units": 1,
+      "table_context_selected": true,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E019_239fcae59b",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              1889,
+              1996
+            ],
+            [
+              2213,
+              2320
+            ]
+          ],
+          "content_sha256": "6a6bb7cdc624784d7b4b84045b78f1c5d9181df65e930185616cceb915e1cd2e"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_08",
+      "stratum": "prose",
+      "claims": 3,
+      "claims_covered": 2,
+      "selected_units": 3,
+      "useful_units": 2,
+      "table_context_selected": false,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E011_9da11c0803",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1284,
+              1464
+            ]
+          ],
+          "content_sha256": "f8888e627f5e410c11c7be3fa24db77cd0c1da11db3845e616f83bf8a821394f"
+        },
+        {
+          "unit_id": "E012_aa5c04ff76",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1466,
+              1706
+            ]
+          ],
+          "content_sha256": "a463a98c7c1e175cffb3b5f436dd9e9b84c1bf5a1640c8d7d5270ba7c7428651"
+        },
+        {
+          "unit_id": "E013_95445e9fc8",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1708,
+              1877
+            ]
+          ],
+          "content_sha256": "e824148354a7d9d3d82c46fb9e7d941314239ce160bb14eb5a99aa223b5e77f6"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_09",
+      "stratum": "prose",
+      "claims": 3,
+      "claims_covered": 3,
+      "selected_units": 1,
+      "useful_units": 1,
+      "table_context_selected": false,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E023_0010dc1b30",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1964,
+              2986
+            ]
+          ],
+          "content_sha256": "01f5fa857d0eaf2a52a61cb076bf4a0797254525eaebd3411e974a1f65c2d654"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_10",
+      "stratum": "prose",
+      "claims": 2,
+      "claims_covered": 2,
+      "selected_units": 1,
+      "useful_units": 1,
+      "table_context_selected": false,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E012_cf9fcbdac1",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              641,
+              747
+            ]
+          ],
+          "content_sha256": "a23f1f657c55a969b7ca566a1ac69ae686264c864b45565690f71da60e099550"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_11",
+      "stratum": "prose",
+      "claims": 3,
+      "claims_covered": 2,
+      "selected_units": 1,
+      "useful_units": 1,
+      "table_context_selected": false,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E013_edc29c3e6c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1769,
+              2052
+            ]
+          ],
+          "content_sha256": "90cf64d08e5e9a6787a8c80a0beb6c81a53de41eab2bcbe0e225e99892afb43b"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_12",
+      "stratum": "prose",
+      "claims": 3,
+      "claims_covered": 3,
+      "selected_units": 3,
+      "useful_units": 3,
+      "table_context_selected": false,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E017_0f6c25a3b2",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              871,
+              1071
+            ]
+          ],
+          "content_sha256": "6b5ac95730dfe2460ee72aaf070e72ee7199ffb61320722bc5818ab09fb008b7"
+        },
+        {
+          "unit_id": "E019_577e44c85c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1118,
+              1576
+            ]
+          ],
+          "content_sha256": "ebba00b1abe0b0738d490409d6a011bad599028bc258b24417bef7fee343c735"
+        },
+        {
+          "unit_id": "E025_7a63fe427b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2592,
+              2661
+            ]
+          ],
+          "content_sha256": "ac9c9e82e4bddb0542c977cfa3fd3cf0e4eaad241dcc7caf73882819a4993531"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_13",
+      "stratum": "prose",
+      "claims": 3,
+      "claims_covered": 3,
+      "selected_units": 1,
+      "useful_units": 1,
+      "table_context_selected": false,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E015_ca80cb8239",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1295,
+              1782
+            ]
+          ],
+          "content_sha256": "5744db304be6000476e3d02abb763fc4cd143c7ade0c299a05a946c0155600a2"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_14",
+      "stratum": "prose",
+      "claims": 3,
+      "claims_covered": 3,
+      "selected_units": 1,
+      "useful_units": 1,
+      "table_context_selected": false,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E001_dfb571368b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              266
+            ]
+          ],
+          "content_sha256": "1083163867f69c9334e51d6ecfb6e3ea1466ec0ec991a3db2a127f8261a3f214"
+        }
+      ]
+    }
+  ],
+  "decision": {
+    "implementation_probe": "NO_GO",
+    "production": "NO_GO",
+    "facts_moved_to_ok": 0
+  },
+  "result_sha256": "fdb601a6278dec97178adb02b51fc50e335927d35dc99dc6a9f7cea96c201c89"
+}

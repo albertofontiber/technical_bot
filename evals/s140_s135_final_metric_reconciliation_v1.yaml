@@ -1,0 +1,40 @@
+instrument: s140_s135_final_metric_reconciliation_v1
+status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+
+frozen_predecessors:
+  s135_exact_gate: {path: evals/s135_representative_chunks_shadow_gate_v2.yaml, status: NO_GO}
+  s137_hit_gate: {path: evals/s137_blinded_chunks_semantic_adjudication_gate_v31.yaml, status: GO}
+  s137_interim_reconciliation: {path: evals/s137_s135_metric_reconciliation_v1.yaml, status: HOLD_PENDING_SYMMETRIC_MRR}
+  s140_symmetric_mrr_gate: {path: evals/s140_endpoint_aligned_semantic_rank_gate_v1.yaml, status: NO_GO}
+
+bridge:
+  exact_proxy:
+    baseline: {hits_at_10: 16, recall_at_10: 0.66666667, mrr_at_10: 0.359375}
+    candidate_v3: {hits_at_10: 13, recall_at_10: 0.54166667, mrr_at_10: 0.32430556}
+  symmetric_semantic_fallback:
+    recovered_candidate_hits_at_10: 3
+    baseline_functional_hits_at_10: 16
+    candidate_v3_functional_hits_at_10: 16
+    baseline_functional_recall_at_10: 0.66666667
+    candidate_v3_functional_recall_at_10: 0.66666667
+    baseline_hybrid_mrr_at_10: 0.40208333
+    candidate_v3_hybrid_mrr_at_10: 0.36944444
+    candidate_minus_baseline_mrr: -0.03263889
+
+interpretation:
+  retrieval_hit_loss_at_10: false
+  first_answer_bearing_rank_regression: true
+  proxy_false_negatives_found: 3
+  wholesale_v3_migration_supported: false
+  facts_reclassified_or_moved_to_ok: 0
+
+decision:
+  keep_chunks_v2_as_active_baseline: true
+  reject_chunks_v3_wholesale_migration: true
+  do_not_patch_question_or_manufacturer: true
+  next: >-
+    Attribute rank regressions across the full frozen cohort to reusable
+    structural causes. Design v4 only if a local deterministic change improves
+    those causes without recall, manufacturer or held-out regressions.
+
+authorization: {production: false, deploy: false, migration_apply: false, facts_moved_to_ok: 0}

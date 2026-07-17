@@ -1,0 +1,547 @@
+{
+  "instrument": "s153_application_bound_typed_relation_probe_v1",
+  "status": "NO_GO",
+  "result": {
+    "source_chunks": 51,
+    "typed_relations": 325,
+    "questions": 4,
+    "target_relations": 13,
+    "covered_relations": 2,
+    "coverage_rate": 0.15384615,
+    "selected_claims": 51,
+    "invalid_claim_ids": 0,
+    "whitespace_only_repairs": 3,
+    "invalid_quote_drops": 27
+  },
+  "cost": {
+    "extraction_calls": 51,
+    "selection_calls": 4,
+    "extraction_usd": 0.397678,
+    "selection_usd": 0.07274,
+    "total_usd": 0.470418,
+    "worst_case_preflight_usd": 0.989558,
+    "internal_ceiling_usd": 2.5
+  },
+  "store": {
+    "path": "evals/s153_typed_relation_store_v1.json",
+    "sha256": "b5df62b639df508916ffa8178061083928a7383ecb98a5db2aed8f6bfe76d92e",
+    "store_sha256": "2e79a83bf5ff7faece21c4d82a3de35d03b3adb88b68aa535074a20dfb015abb"
+  },
+  "rows": [
+    {
+      "qid": "cat018",
+      "intent": "programming",
+      "available_claims": 75,
+      "selected_claims": 14,
+      "expected_relations": 2,
+      "covered_relations": 0,
+      "relations": [
+        {
+          "kind": "software_type_cbe_activation",
+          "anchors_covered": false
+        },
+        {
+          "kind": "point_programming_fields",
+          "anchors_covered": false
+        }
+      ],
+      "selected_claim_receipts": [
+        {
+          "claim_id": "C_eef21905f5a94613",
+          "chunk_id": "15a48b9d-fa1e-4c01-8702-b07b0fc5b80b",
+          "relation_type": "rule_definition",
+          "source_start": 57,
+          "source_end": 143,
+          "quote_sha256": "b4eccc8a2c6acb7c6fb21aa1d0d3dd90cd1e426579eb3ee9fc57468ebffef5f1"
+        },
+        {
+          "claim_id": "C_3cec9f5ceea4f771",
+          "chunk_id": "15a48b9d-fa1e-4c01-8702-b07b0fc5b80b",
+          "relation_type": "procedure_step",
+          "source_start": 145,
+          "source_end": 230,
+          "quote_sha256": "56f09b7889217c8326da0c858450efd3a069cc3a76b14b84930e7a3dfacdcdcb"
+        },
+        {
+          "claim_id": "C_5036979031088c38",
+          "chunk_id": "15a48b9d-fa1e-4c01-8702-b07b0fc5b80b",
+          "relation_type": "rule_definition",
+          "source_start": 232,
+          "source_end": 379,
+          "quote_sha256": "0d0bab70a6ec9af7bedff894b17bb26bc6f421bfadd06ddb17617eef391d0463"
+        },
+        {
+          "claim_id": "C_7556566d6573a2d4",
+          "chunk_id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+          "relation_type": "rule_definition",
+          "source_start": 1419,
+          "source_end": 1526,
+          "quote_sha256": "b32ec24fb539c50f3457602b87d0a9f0b993eb6a87e419c7a59bcec879430be9"
+        },
+        {
+          "claim_id": "C_9878dfc19d6daef1",
+          "chunk_id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+          "relation_type": "procedure_step",
+          "source_start": 1586,
+          "source_end": 1734,
+          "quote_sha256": "0fb6ba2d80474e74075fc095e175202feed5b83b72101aaaa2283ff4aaa639ef"
+        },
+        {
+          "claim_id": "C_5a1c4536d90ba471",
+          "chunk_id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+          "relation_type": "procedure_step",
+          "source_start": 2667,
+          "source_end": 2783,
+          "quote_sha256": "b9bba190a2a154a7b2f3048eb0c3921e59204ce96884774c0d35c49da67a56d4"
+        },
+        {
+          "claim_id": "C_321cf6e5331c765d",
+          "chunk_id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+          "relation_type": "specification",
+          "source_start": 2615,
+          "source_end": 2665,
+          "quote_sha256": "bd8c3149d1dffb6466caf9a1c0487490c90944b70c360a3aa27d1a1f8eb9573e"
+        },
+        {
+          "claim_id": "C_d48245484c439384",
+          "chunk_id": "15a48b9d-fa1e-4c01-8702-b07b0fc5b80b",
+          "relation_type": "constraint",
+          "source_start": 2405,
+          "source_end": 2490,
+          "quote_sha256": "1d65f08b24ac9a978b13a0414c6409272a7db3215536f24ffbee7001e470c54a"
+        },
+        {
+          "claim_id": "C_d2bc29f0310567d9",
+          "chunk_id": "15a48b9d-fa1e-4c01-8702-b07b0fc5b80b",
+          "relation_type": "constraint",
+          "source_start": 844,
+          "source_end": 1037,
+          "quote_sha256": "89459baf5ff2ff20b272721ff2dc6110eba9752bb230a5a067d0ee044cb43435"
+        },
+        {
+          "claim_id": "C_265392d347143ade",
+          "chunk_id": "15a48b9d-fa1e-4c01-8702-b07b0fc5b80b",
+          "relation_type": "specification",
+          "source_start": 612,
+          "source_end": 672,
+          "quote_sha256": "154855945c2f94f6a7a5f4c335eebf77add156b07a18d39f6d3d33753b18a5a8"
+        },
+        {
+          "claim_id": "C_a2c108b650e6ca57",
+          "chunk_id": "15a48b9d-fa1e-4c01-8702-b07b0fc5b80b",
+          "relation_type": "specification",
+          "source_start": 675,
+          "source_end": 720,
+          "quote_sha256": "94af66e1e29681f88a059956117bba77c77f9d7ed8468003da79e951c90ba3af"
+        },
+        {
+          "claim_id": "C_e4bf5bee23c2ef83",
+          "chunk_id": "fe6207ae-032f-4119-bbb3-7b0fd49b0ea8",
+          "relation_type": "rule_definition",
+          "source_start": 752,
+          "source_end": 820,
+          "quote_sha256": "c674e728c18a872d67ade3930254b955b3c464401a96be6792bc571e6a335534"
+        },
+        {
+          "claim_id": "C_1b2395db3c60cdd3",
+          "chunk_id": "fe6207ae-032f-4119-bbb3-7b0fd49b0ea8",
+          "relation_type": "rule_definition",
+          "source_start": 1309,
+          "source_end": 1378,
+          "quote_sha256": "9ffb12ce412affd6f24c8f2c71fe66c8c020fb55f2bb763592205fc6504a7d34"
+        },
+        {
+          "claim_id": "C_0eb60d1425f1eca5",
+          "chunk_id": "fe6207ae-032f-4119-bbb3-7b0fd49b0ea8",
+          "relation_type": "rule_definition",
+          "source_start": 1772,
+          "source_end": 1868,
+          "quote_sha256": "efaa55b5ac99953f49942e81b4a73bef7800ca580411fc0ef81cf33797027db6"
+        }
+      ]
+    },
+    {
+      "qid": "hp002",
+      "intent": "diagnostic",
+      "available_claims": 78,
+      "selected_claims": 9,
+      "expected_relations": 3,
+      "covered_relations": 0,
+      "relations": [
+        {
+          "kind": "initial_reference_calibration",
+          "anchors_covered": false
+        },
+        {
+          "kind": "bounded_fault_window",
+          "anchors_covered": false
+        },
+        {
+          "kind": "maintenance_isolation_prerequisite",
+          "anchors_covered": false
+        }
+      ],
+      "selected_claim_receipts": [
+        {
+          "claim_id": "C_e7f91b2bac754bb8",
+          "chunk_id": "16695901-dbd3-4106-a316-2b5bfb8f0554",
+          "relation_type": "fault_cause",
+          "source_start": 545,
+          "source_end": 599,
+          "quote_sha256": "d809671169d64dac7b12db7cf8bbe798dfdd9f93b86bba9388c3c9ba6290e9f0"
+        },
+        {
+          "claim_id": "C_5a742b2268f4bfa3",
+          "chunk_id": "16695901-dbd3-4106-a316-2b5bfb8f0554",
+          "relation_type": "diagnostic_check",
+          "source_start": 607,
+          "source_end": 631,
+          "quote_sha256": "22649c58b425e0bf11bc1415b06f49025abe5931f47b653ed7c4baa2aabd0ad2"
+        },
+        {
+          "claim_id": "C_19ca5d556c57f97a",
+          "chunk_id": "5b6a3a19-a924-4cf4-9513-bd50786ee3d9",
+          "relation_type": "threshold",
+          "source_start": 2111,
+          "source_end": 2198,
+          "quote_sha256": "e3334cc8e3b81d16e0a42fe724d219c36643c5c822b6a5d3c85952d3c858f0d6"
+        },
+        {
+          "claim_id": "C_89643bcacafd38a1",
+          "chunk_id": "9410f72f-fff5-494b-bdf5-a0a177e7f02e",
+          "relation_type": "diagnostic_check",
+          "source_start": 978,
+          "source_end": 1074,
+          "quote_sha256": "0e451b9de166b157d40ed5375e0eb57bad2c59d3a4a3487d7d042327b4c43e7b"
+        },
+        {
+          "claim_id": "C_30b4a98601394739",
+          "chunk_id": "9410f72f-fff5-494b-bdf5-a0a177e7f02e",
+          "relation_type": "diagnostic_check",
+          "source_start": 1081,
+          "source_end": 1137,
+          "quote_sha256": "cc41b04d2c5cf6282e5901657a320d3f59d90f231ecf28a02244b247c417c01b"
+        },
+        {
+          "claim_id": "C_d65eba90dc0a4609",
+          "chunk_id": "414ce99c-0dec-478c-b504-009f14631804",
+          "relation_type": "specification",
+          "source_start": 1939,
+          "source_end": 2181,
+          "quote_sha256": "33bc63e112b720bae8be05c2ad194ae84946e95ee097f87e915e9eda4c8be634"
+        },
+        {
+          "claim_id": "C_098ec580899ae2f0",
+          "chunk_id": "aa698b5e-646d-45e2-8d49-696e6015d587",
+          "relation_type": "diagnostic_check",
+          "source_start": 170,
+          "source_end": 319,
+          "quote_sha256": "3bdb5c1b33093724d8ba9f0e1eb706418765a3d0380f1bd6f430d3509464307e"
+        },
+        {
+          "claim_id": "C_f5e144ae9ed73008",
+          "chunk_id": "6d5a807f-3a42-401b-96a4-83c51d796114",
+          "relation_type": "specification",
+          "source_start": 2407,
+          "source_end": 2493,
+          "quote_sha256": "76d6dc544a2795401c3f07d43649e553834c9b5802c20e1c0e3d7af06b9f7e6f"
+        },
+        {
+          "claim_id": "C_c4f3dfc3f48b7aa5",
+          "chunk_id": "b5804921-836c-49ca-8316-cecae6da409b",
+          "relation_type": "specification",
+          "source_start": 17,
+          "source_end": 89,
+          "quote_sha256": "a117112d2d1b7ecd1b919da261b9b6f0bb43eb91ac0dc1335e5fdadddc9a679f"
+        }
+      ]
+    },
+    {
+      "qid": "hp011",
+      "intent": "reset_recovery",
+      "available_claims": 83,
+      "selected_claims": 12,
+      "expected_relations": 3,
+      "covered_relations": 0,
+      "relations": [
+        {
+          "kind": "extinction_duration_range",
+          "anchors_covered": false
+        },
+        {
+          "kind": "reset_inhibit_special_state",
+          "anchors_covered": false
+        },
+        {
+          "kind": "default_latched_faults",
+          "anchors_covered": false
+        }
+      ],
+      "selected_claim_receipts": [
+        {
+          "claim_id": "C_fa08af65a8872af9",
+          "chunk_id": "27aef5f9-d66f-4a3b-a9e0-eb15dcf60acb",
+          "relation_type": "safety_condition",
+          "source_start": 526,
+          "source_end": 630,
+          "quote_sha256": "9af36412ca72f59b48aa65dec1af97a461fcfeaaa6be154be50ebd8ac7b258b5"
+        },
+        {
+          "claim_id": "C_fde5fb1a6996842e",
+          "chunk_id": "475a8f18-7c69-4c7a-8111-45bd67334c96",
+          "relation_type": "configuration_field",
+          "source_start": 1186,
+          "source_end": 1399,
+          "quote_sha256": "f91678e19f210ded7b1315f74b98dd250d1cfdf0572fdec4e1b0d02fc1add4b6"
+        },
+        {
+          "claim_id": "C_98d93461b6391dcd",
+          "chunk_id": "475a8f18-7c69-4c7a-8111-45bd67334c96",
+          "relation_type": "default_state",
+          "source_start": 1530,
+          "source_end": 1584,
+          "quote_sha256": "b1c4a5d432f86c7610e985f96b8fb7d0d29b45d3aaa9a450da7d366cdea6c0ab"
+        },
+        {
+          "claim_id": "C_20322faea3fa7f56",
+          "chunk_id": "475a8f18-7c69-4c7a-8111-45bd67334c96",
+          "relation_type": "rule_definition",
+          "source_start": 1589,
+          "source_end": 1665,
+          "quote_sha256": "f324bfd3b15099a0ae9932d2843bf4753d6b9531d34b122e21829f24d610d2c0"
+        },
+        {
+          "claim_id": "C_d54fc70bb466986e",
+          "chunk_id": "731ace03-99d6-47ff-8d1a-da5b381b5c47",
+          "relation_type": "constraint",
+          "source_start": 482,
+          "source_end": 574,
+          "quote_sha256": "cd7b23ee3aad0d1058b59b4cb1f9816a86143fefa5aa39cfc2b80f1bb81076f6"
+        },
+        {
+          "claim_id": "C_8570987c1b4af010",
+          "chunk_id": "c8924d59-a9ce-4379-a3b7-57058ff86a82",
+          "relation_type": "state_transition",
+          "source_start": 2708,
+          "source_end": 2808,
+          "quote_sha256": "8d6d2f49197c2736fe78938da334da92549c8bce0a328c8376f5e9f18ac9bec0"
+        },
+        {
+          "claim_id": "C_3505a497e26ece44",
+          "chunk_id": "bd2d7703-98c6-45da-b044-afb75a54a2f5",
+          "relation_type": "exception",
+          "source_start": 862,
+          "source_end": 931,
+          "quote_sha256": "fac9cf5767c21b9a9a6a4c56d04c7995708097b709a364581c9f679440b004c1"
+        },
+        {
+          "claim_id": "C_b6d79d6fdd936934",
+          "chunk_id": "bd2d7703-98c6-45da-b044-afb75a54a2f5",
+          "relation_type": "constraint",
+          "source_start": 705,
+          "source_end": 815,
+          "quote_sha256": "a4fa5780f222446e02c8f2b1525f926b0952b501e838b51194dfe2e2408efb14"
+        },
+        {
+          "claim_id": "C_bc9825b1b393b0ae",
+          "chunk_id": "c8924d59-a9ce-4379-a3b7-57058ff86a82",
+          "relation_type": "procedure_step",
+          "source_start": 2477,
+          "source_end": 2692,
+          "quote_sha256": "88d8ec1655b10c51c516cc684515408f14590dfd5c8c4d2e8c7f1790e94ae474"
+        },
+        {
+          "claim_id": "C_cf7472ff91e7180e",
+          "chunk_id": "e0f49eb5-7e1d-437e-a9d0-9887ecd79a1b",
+          "relation_type": "procedure_step",
+          "source_start": 514,
+          "source_end": 556,
+          "quote_sha256": "3c6f230311a55220dfc2ecee4362eb53039e0290445b9691c29f18de70c206a0"
+        },
+        {
+          "claim_id": "C_8ce4c5175ea4201d",
+          "chunk_id": "e0f49eb5-7e1d-437e-a9d0-9887ecd79a1b",
+          "relation_type": "rule_definition",
+          "source_start": 319,
+          "source_end": 347,
+          "quote_sha256": "cdfc35af1cf934d313157f78e039ca0a74fccc4edd3383d6715840bb59aaf88b"
+        },
+        {
+          "claim_id": "C_d3d38f4029b8153a",
+          "chunk_id": "e0f49eb5-7e1d-437e-a9d0-9887ecd79a1b",
+          "relation_type": "rule_definition",
+          "source_start": 389,
+          "source_end": 481,
+          "quote_sha256": "cd7b23ee3aad0d1058b59b4cb1f9816a86143fefa5aa39cfc2b80f1bb81076f6"
+        }
+      ]
+    },
+    {
+      "qid": "hp017",
+      "intent": "programming",
+      "available_claims": 89,
+      "selected_claims": 16,
+      "expected_relations": 5,
+      "covered_relations": 2,
+      "relations": [
+        {
+          "kind": "option_family_cardinality",
+          "anchors_covered": true
+        },
+        {
+          "kind": "input_condition_definition",
+          "anchors_covered": true
+        },
+        {
+          "kind": "output_condition_action",
+          "anchors_covered": false
+        },
+        {
+          "kind": "logic_contradiction_warning",
+          "anchors_covered": false
+        },
+        {
+          "kind": "commissioning_rule_verification",
+          "anchors_covered": false
+        }
+      ],
+      "selected_claim_receipts": [
+        {
+          "claim_id": "C_90ba564de3e73de6",
+          "chunk_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+          "relation_type": "rule_definition",
+          "source_start": 434,
+          "source_end": 672,
+          "quote_sha256": "60bfa4c3dcbd641f06fbf52385aa5914596790640f60faf6dde920ae67c58dff"
+        },
+        {
+          "claim_id": "C_917f18d12c08c8cc",
+          "chunk_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+          "relation_type": "specification",
+          "source_start": 1343,
+          "source_end": 1390,
+          "quote_sha256": "a510701a55039daef3b880f77f69740122587cba9fd776f81381d16eee2f5f7f"
+        },
+        {
+          "claim_id": "C_5d864ed29293dc00",
+          "chunk_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+          "relation_type": "rule_definition",
+          "source_start": 1427,
+          "source_end": 1568,
+          "quote_sha256": "91e311a5fa3ddf69ada70fae0e92f82d396ae0ba59fb151400af819f62274f85"
+        },
+        {
+          "claim_id": "C_256e86b1bd4fd387",
+          "chunk_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+          "relation_type": "rule_definition",
+          "source_start": 1696,
+          "source_end": 1826,
+          "quote_sha256": "e642675496fc0481f5d3a12b6f0fffcef76276fcad43d41cd3217d06331cf863"
+        },
+        {
+          "claim_id": "C_de6e7261703b41c3",
+          "chunk_id": "570d9951-e3a6-4c64-a927-e26b5e6db842",
+          "relation_type": "rule_definition",
+          "source_start": 238,
+          "source_end": 350,
+          "quote_sha256": "33fb12874063da56cefc1cc525555097ad9a048640b0d3e296e7eed54455a013"
+        },
+        {
+          "claim_id": "C_9cf5e5af0c9dd8c1",
+          "chunk_id": "570d9951-e3a6-4c64-a927-e26b5e6db842",
+          "relation_type": "specification",
+          "source_start": 352,
+          "source_end": 419,
+          "quote_sha256": "1424b7595399641dfac9a847821fbc1e1817532a66aab669d73b48f607427d60"
+        },
+        {
+          "claim_id": "C_bfcf24750dbff6f1",
+          "chunk_id": "570d9951-e3a6-4c64-a927-e26b5e6db842",
+          "relation_type": "rule_definition",
+          "source_start": 582,
+          "source_end": 686,
+          "quote_sha256": "1ec112d937b1775f3c2a69d694ca49b32514f8b1abe23564c1b4f5f498d16473"
+        },
+        {
+          "claim_id": "C_022b525ad4951309",
+          "chunk_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+          "relation_type": "procedure_step",
+          "source_start": 2033,
+          "source_end": 2132,
+          "quote_sha256": "a7a281ca631f4d9fa1bad7a3c8bee392866551eb4c42a200f2d8556ea1921a8f"
+        },
+        {
+          "claim_id": "C_25f81edda66ce2ab",
+          "chunk_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+          "relation_type": "procedure_step",
+          "source_start": 448,
+          "source_end": 541,
+          "quote_sha256": "df5ec92b06b23a7c7d6438563b730cb084776b0778e2f7399714847dc8a96020"
+        },
+        {
+          "claim_id": "C_0a33d3f6e9563f0a",
+          "chunk_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+          "relation_type": "warning",
+          "source_start": 2272,
+          "source_end": 2345,
+          "quote_sha256": "cfc9bf13a95ac010c8dfda1dd08a342225770dc95a355e1e64b847b660581c82"
+        },
+        {
+          "claim_id": "C_21a22826489d3df4",
+          "chunk_id": "ac308dbf-357e-4356-9049-1ccfcc6ff749",
+          "relation_type": "configuration_field",
+          "source_start": 44,
+          "source_end": 154,
+          "quote_sha256": "5a39b3161d51e0b4158fbcb916b4006a35692490997bbfae435bd556451fc82e"
+        },
+        {
+          "claim_id": "C_1fe776dc3704f176",
+          "chunk_id": "ac308dbf-357e-4356-9049-1ccfcc6ff749",
+          "relation_type": "procedure_step",
+          "source_start": 247,
+          "source_end": 365,
+          "quote_sha256": "03e838d2f339b03b2a888bffd48aaec61938b5d7c6bbdce2684415a5de90a2df"
+        },
+        {
+          "claim_id": "C_441cd7e662f2d138",
+          "chunk_id": "ac308dbf-357e-4356-9049-1ccfcc6ff749",
+          "relation_type": "procedure_step",
+          "source_start": 368,
+          "source_end": 497,
+          "quote_sha256": "50b734818a37cbdc737fcf6fa72da6831fe406b50428553a5afd8416a372a9e8"
+        },
+        {
+          "claim_id": "C_3c57039f4b6b430c",
+          "chunk_id": "ac308dbf-357e-4356-9049-1ccfcc6ff749",
+          "relation_type": "state_transition",
+          "source_start": 426,
+          "source_end": 497,
+          "quote_sha256": "90ab5796e3b2a5f596b59f539f36703828c480ad0a0f4541727b7e2184ac8e55"
+        },
+        {
+          "claim_id": "C_ce6d8f352743ae66",
+          "chunk_id": "51df7a51-4970-4cfc-8ef1-3771f480dd78",
+          "relation_type": "procedure_step",
+          "source_start": 2269,
+          "source_end": 2401,
+          "quote_sha256": "447ac8db5946de6d8c51cc0911e3c17bc50ac5b645655a017d6f5c65981fc657"
+        },
+        {
+          "claim_id": "C_6fb706d76da2e394",
+          "chunk_id": "51df7a51-4970-4cfc-8ef1-3771f480dd78",
+          "relation_type": "state_transition",
+          "source_start": 2885,
+          "source_end": 2957,
+          "quote_sha256": "a50d0b3626128b0e99b5007c948935c94ab50e303d247b7c62237bf01a826d08"
+        }
+      ]
+    }
+  ],
+  "decision": {
+    "fresh_typed_relation_cohort": "NO_GO",
+    "four_answer_probe": "NO_GO",
+    "production": "NO_GO",
+    "facts_moved_to_ok": 0
+  },
+  "result_sha256": "03b623bb82f09789d3e3486235752430b9278da30c93eaf99a12f37047b614db"
+}
