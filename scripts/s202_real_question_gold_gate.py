@@ -109,6 +109,14 @@ def chunks_v3_lane() -> dict[str, Any]:
     }
 
 
+def benchmark_fact_claim(fact: dict[str, Any]) -> str:
+    """Normalize the two versioned S100 fact-text representations."""
+    claim = str(fact.get("texto") or fact.get("valor") or "").strip()
+    if not claim:
+        raise ValueError("benchmark fact has no texto or valor")
+    return claim
+
+
 def verified_units(item: dict[str, Any]) -> list[EvidenceUnitV2]:
     units: list[EvidenceUnitV2] = []
     for source in item["evidence_sources"]:
@@ -382,7 +390,7 @@ def execute(prereg: dict[str, Any], env_file: Path) -> dict[str, Any]:
     for item in source["items"]:
         qid = item["qid"]
         points = [
-            {"point_id": str(fact["key"]), "claim": str(fact["texto"])}
+            {"point_id": str(fact["key"]), "claim": benchmark_fact_claim(fact)}
             for fact in baseline_by_qid[qid]["facts"]
         ]
         if len(points) != item["eligible_answer_points"]:

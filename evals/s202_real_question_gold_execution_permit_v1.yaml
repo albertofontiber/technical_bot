@@ -4,9 +4,9 @@ authority: user_requested_autonomous_next_segment
 hash_contract: sha256_of_text_with_crlf_normalized_to_lf
 
 frozen_artifacts:
-  preregistration: {path: evals/s202_real_question_gold_prereg_v1.yaml, sha256: 405361e8f1ca37b35a628ef2ebf975855d70a8e5a28733d18f011118de50e8e9}
-  runner: {path: scripts/s202_real_question_gold_gate.py, sha256: 920bd0766b20ba534169e4ffca6275d21aae0bead152bf4ef23da82fc2ad17a3}
-  gate_tests: {path: tests/test_s202_real_question_gold_gate.py, sha256: 8833f5673c2c3400cd2ef343f503d66a4ac33a4c339e313bfd09eef5a274d0f9}
+  preregistration: {path: evals/s202_real_question_gold_prereg_v1.yaml, sha256: de5aec0e9d27ffdcce510ab74f6845232a8065aae28070eb5ba5c9b25f3fc272}
+  runner: {path: scripts/s202_real_question_gold_gate.py, sha256: 3c6ec119342cdd6d482dd1df5b6df8a0d643536b6ad41696bbb2933bbacd5e44}
+  gate_tests: {path: tests/test_s202_real_question_gold_gate.py, sha256: 27038f8c30fde405d7ea3b5403453af3be0c6ae71ab946d4773632b9b5d96ad8}
 
 limits:
   paid_calls_max: 24
