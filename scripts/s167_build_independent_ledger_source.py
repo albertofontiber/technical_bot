@@ -65,6 +65,11 @@ def build_from_rows(
     prior_documents: set[str],
     target_ids: set[str],
     development_pairs: set[tuple[str, str]],
+    *,
+    seed: str = SEED,
+    instrument: str = "s167_independent_ledger_source_packet_v1",
+    item_prefix: str = "s167_src",
+    per_stratum: int = PER_STRATUM,
 ) -> dict[str, Any]:
     target_documents = {
         row["document_id"] for row in rows if str(row.get("id", "")).lower() in target_ids
@@ -103,7 +108,7 @@ def build_from_rows(
                 "row": row,
                 "stratum": stratum,
                 "quality": _quality(row),
-                "tie": stable_sha({"seed": SEED, "chunk_id": row["id"]}),
+                "tie": stable_sha({"seed": seed, "chunk_id": row["id"]}),
             }
         )
 
@@ -124,12 +129,12 @@ def build_from_rows(
             best_by_manufacturer.values(),
             key=lambda item: (-item["quality"], item["tie"]),
         )
-        if len(ranked) < PER_STRATUM:
+        if len(ranked) < per_stratum:
             raise RuntimeError(
                 f"S167 insufficient document-independent {stratum} manufacturers: "
                 f"{len(ranked)}"
             )
-        chosen = ranked[:PER_STRATUM]
+        chosen = ranked[:per_stratum]
         selected.extend(chosen)
         used_manufacturers.update(item["row"]["manufacturer"] for item in chosen)
 
@@ -139,7 +144,7 @@ def build_from_rows(
         content = row["content"]
         items.append(
             {
-                "item_id": f"s167_src_{index:02d}",
+                "item_id": f"{item_prefix}_{index:02d}",
                 "stratum": candidate["stratum"],
                 "manufacturer": row["manufacturer"],
                 "product_model": row["product_model"],
@@ -157,10 +162,10 @@ def build_from_rows(
             }
         )
     body: dict[str, Any] = {
-        "instrument": "s167_independent_ledger_source_packet_v1",
+        "instrument": instrument,
         "status": "SEALED_SOURCE_FIRST_DOCUMENT_INDEPENDENT",
         "selection": {
-            "seed": SEED,
+            "seed": seed,
             "items": len(items),
             "manufacturers": len({row["manufacturer"] for row in items}),
             "unique_documents": len({row["document_id"] for row in items}),
