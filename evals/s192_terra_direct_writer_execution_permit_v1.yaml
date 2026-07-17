@@ -1,0 +1,29 @@
+instrument: s192_terra_direct_writer_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_NO_RETRY
+
+authorization_basis:
+  user_autonomous_budget_ceiling_usd: 250
+  s192_internal_stop_line_usd: 2
+  scope: synthesis_model_control
+
+frozen_artifacts:
+  preregistration: {path: evals/s192_terra_direct_writer_prereg_v1.yaml, sha256: 38afaca7f57dc43ef2bd2e73b4fa0bf9a81286aa89e4584459f2989e9abe2cb3}
+  runner: {path: scripts/s192_terra_direct_writer.py, sha256: 676462c4440f4545d412ecc710872da3909022d407ae5d0ab0578cf5c32fb5dc}
+
+allowed:
+  - fourteen_no_retry_gpt_5_6_terra_low_calls
+  - local_checkpointing_and_post_checkpoint_scoring
+
+forbidden:
+  - retries_or_same_cohort_tuning
+  - reasoning_effort_escalation
+  - sol_or_fable_review_unless_the_frozen_gate_passes
+  - database_storage_or_production_writes
+  - target_question_probe
+  - fact_reclassification
+
+stop_conditions:
+  - preflight_cost_reaches_2_usd
+  - any_frozen_hash_mismatch
+  - missing_or_invalid_generation_cohort
+

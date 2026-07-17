@@ -1,0 +1,65 @@
+instrument: s192_terra_direct_writer_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+
+frozen_inputs:
+  design: {path: evals/s192_terra_direct_writer_design_v1.md, sha256: 1a6d1772903cbd9e94bb2d58b22b9980f22ac466e7b1e57e9eb39f00b958f59c}
+  generation_cohort: {path: evals/s173_single_source_omission_cohort_v1.json, sha256: b8df8cce6bced1fdd95d3f70bb0787c2a63769fcacafde317bc8a9149c1b053f}
+  baseline_receipts: {path: evals/s173_baseline_answer_receipts_v1.json, sha256: ddaff2ed2daf867cb7196af2f22bb51444856985d9bf468fa5fc3d5594d05054}
+  post_generation_gold: {path: evals/s171_s147_source_unit_gold_v1.json, sha256: 040e538f2df23282848fc6f058c9f570635564ac51b5dfb03247b2710fb5c13a}
+  current_prompt_builder: {path: scripts/s156_frontier_synthesis_ceiling.py, sha256: aeaa65fb6e82c35a52fc91661cead8473b1044ea5cd06106440878baa8a7eaf5}
+  runner: {path: scripts/s192_terra_direct_writer.py, sha256: 676462c4440f4545d412ecc710872da3909022d407ae5d0ab0578cf5c32fb5dc}
+
+population:
+  questions: 14
+  manufacturers: 14
+  table: 7
+  prose: 7
+  answer_points: 37
+  source_fragments_per_question: 1
+  target_question_overlap: 0
+  role: independent_development_control
+
+model:
+  provider: openai
+  id: gpt-5.6-terra
+  reasoning_effort: low
+  max_output_tokens: 3000
+
+execution:
+  calls: 14
+  retries: 0
+  retrieval_calls: 0
+  reranker_calls: 0
+  database_calls: 0
+  tools: 0
+  gold_loaded_only_after_all_generation_checkpoints: true
+
+validation:
+  calls_complete: 14
+  point_gain_min: 4
+  complete_question_gain_min: 2
+  regressed_points_max: 0
+  invalid_fragment_citations_max: 0
+  passing_action: GO_TO_FRESH_MODEL_ROUTING_GATE
+  target_probe: false
+  production: false
+  facts_moved_to_ok: 0
+
+pricing_usd_per_million_tokens: {input: 2.5, output: 15}
+
+budget:
+  internal_ceiling_usd: 2
+  user_ceiling_usd: 250
+
+outputs:
+  receipts: evals/s192_terra_direct_writer_receipts_v1.json
+  result: evals/s192_terra_direct_writer_v1.json
+
+forbidden:
+  - expose_answer_points_or_exact_quotes_to_generation_model
+  - tune_prompt_or_reasoning_after_outputs
+  - retry_failed_or_incomplete_calls
+  - target_question_execution
+  - database_or_production_write
+  - model_change_or_deployment
+
