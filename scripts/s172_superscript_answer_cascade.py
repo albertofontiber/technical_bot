@@ -82,7 +82,7 @@ def main() -> None:
         raise ValueError(f"unexpected target citations: {citations}")
 
     packet = json.loads(OVERLAY.read_text(encoding="utf-8"))
-    documents = [packet["target"], *packet["independent"]]
+    documents = [*packet["target"], *packet["independent"]]
     receipt_by_source_page: dict[tuple[str, int], list[dict]] = {}
     document_meta: dict[tuple[str, int], dict] = {}
     for document in documents:
