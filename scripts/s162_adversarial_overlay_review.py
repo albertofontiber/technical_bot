@@ -259,6 +259,8 @@ def execute(
     env_file: Path,
     sol_path: Path,
     fable_path: Path,
+    *,
+    resume_after_sol_incomplete: bool = False,
 ) -> dict[str, Any]:
     from anthropic import Anthropic
     from dotenv import dotenv_values
@@ -312,7 +314,28 @@ def execute(
         raise RuntimeError("S162 adversarial worst-case cost exceeds cap")
 
     sol_receipt = _load_checkpoint(sol_path)
-    if sol_receipt is None:
+    if resume_after_sol_incomplete:
+        if sol_receipt is not None:
+            raise RuntimeError("S162 Sol checkpoint already exists")
+        sol_upper_bound = (
+            sol_count * prices["openai"]["input"]
+            + sol_cfg["max_output_tokens"] * prices["openai"]["output"]
+        ) / 1_000_000
+        sol_receipt = {
+            "instrument": "s162_adversarial_overlay_judge_v1",
+            "status": "INCOMPLETE_NO_RETRY",
+            "provider": "openai",
+            "model": sol_cfg["model"],
+            "response_id": None,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "usage": None,
+            "reason": "response_status_incomplete_at_frozen_max_output_tokens",
+            "conservative_cost_usd": round(sol_upper_bound, 8),
+            "cost_semantics": "preflight_upper_bound_because_incomplete_usage_was_not_checkpointed",
+            "review": None,
+        }
+        _write(sol_path, sol_receipt)
+    elif sol_receipt is None:
         response = openai_client.responses.create(
             model=sol_cfg["model"],
             reasoning={"effort": sol_cfg["reasoning_effort"]},
@@ -384,7 +407,7 @@ def execute(
 
     sol_review = sol_receipt["review"]
     fable_review = fable_receipt["review"]
-    converged = sol_review["verdict"] == fable_review["verdict"]
+    converged = bool(sol_review) and sol_review["verdict"] == fable_review["verdict"]
     terminal = sol_review["verdict"] if converged else "HOLD"
     total_cost = float(sol_receipt["conservative_cost_usd"]) + float(
         fable_receipt["conservative_cost_usd"]
@@ -393,11 +416,11 @@ def execute(
         "instrument": "s162_adversarial_overlay_review_v1",
         "status": f"ADVERSARIAL_{terminal}",
         "result": {
-            "sol_verdict": sol_review["verdict"],
+            "sol_verdict": sol_review["verdict"] if sol_review else "INCOMPLETE",
             "fable_verdict": fable_review["verdict"],
             "converged": converged,
             "terminal": terminal,
-            "sol_findings": sol_review["findings"],
+            "sol_findings": sol_review["findings"] if sol_review else [],
             "fable_findings": fable_review["findings"],
         },
         "cost": {
@@ -422,6 +445,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--build-packet", action="store_true")
     parser.add_argument("--execute-paid", action="store_true")
+    parser.add_argument("--resume-after-sol-incomplete", action="store_true")
     parser.add_argument("--packet", type=Path, default=DEFAULT_PACKET)
     parser.add_argument("--prereg", type=Path, default=DEFAULT_PREREG)
     parser.add_argument("--permit", type=Path, default=DEFAULT_PERMIT)
@@ -446,7 +470,13 @@ def main() -> int:
     if not args.execute_paid:
         raise RuntimeError("choose --build-packet or --execute-paid")
     prereg = validate_authorization(args.prereg, args.permit)
-    result = execute(prereg, args.env_file, args.sol, args.fable)
+    result = execute(
+        prereg,
+        args.env_file,
+        args.sol,
+        args.fable,
+        resume_after_sol_incomplete=args.resume_after_sol_incomplete,
+    )
     _write(args.out, result)
     print(json.dumps({"status": result["status"], **result["result"], **result["cost"]}))
     return 0
