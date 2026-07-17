@@ -1,0 +1,129 @@
+{
+  "instrument": "s164_legacy_heldout_selector_receipts_v1",
+  "status": "COMPLETE",
+  "created_at": "2026-07-17T02:58:45.803087+00:00",
+  "receipts": [
+    {
+      "fragment_number": 1,
+      "response_id": "msg_011Cd6t334U4qBxgsPWEL97y",
+      "counted_input_tokens": 2043,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 2043,
+        "output_tokens": 10,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.004186,
+      "raw_text": "{\"unit_ids\": []}",
+      "raw_text_sha256": "df728328ff04517b17e76435e32a7c08520ebd961fef116be774173c145dcdcb",
+      "selected_ids": [],
+      "validation_error": null
+    },
+    {
+      "fragment_number": 2,
+      "response_id": "msg_011Cd6t38C3EeTyPFejSL8YE",
+      "counted_input_tokens": 3160,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3160,
+        "output_tokens": 10,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.00642,
+      "raw_text": "{\"unit_ids\": []}",
+      "raw_text_sha256": "df728328ff04517b17e76435e32a7c08520ebd961fef116be774173c145dcdcb",
+      "selected_ids": [],
+      "validation_error": null
+    },
+    {
+      "fragment_number": 3,
+      "response_id": "msg_011Cd6t3CDP64iGta4EpB5Uy",
+      "counted_input_tokens": 3947,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3947,
+        "output_tokens": 10,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.007994,
+      "raw_text": "{\"unit_ids\": []}",
+      "raw_text_sha256": "df728328ff04517b17e76435e32a7c08520ebd961fef116be774173c145dcdcb",
+      "selected_ids": [],
+      "validation_error": null
+    },
+    {
+      "fragment_number": 4,
+      "response_id": "msg_011Cd6t3GJh2Y8URodd2eLhf",
+      "counted_input_tokens": 1752,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1752,
+        "output_tokens": 73,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.004234,
+      "raw_text": "{\"unit_ids\": [\"E006_64a80ddfa8\", \"E007_4ae099de78\", \"E008_f062c6381d\", \"E009_b7043c281f\", \"E010_85f39a3619\", \"E011_eaed652707\"]}",
+      "raw_text_sha256": "4270ec0e384d4c56d0165789fae2bce789971db3ba1fe40892fffcca8f240a45",
+      "selected_ids": [
+        "E006_64a80ddfa8",
+        "E007_4ae099de78",
+        "E008_f062c6381d",
+        "E009_b7043c281f",
+        "E010_85f39a3619",
+        "E011_eaed652707"
+      ],
+      "validation_error": null
+    },
+    {
+      "fragment_number": 5,
+      "response_id": "msg_011Cd6t3LwzcxBoEbACMX1UF",
+      "counted_input_tokens": 2515,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 2515,
+        "output_tokens": 10,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.00513,
+      "raw_text": "{\"unit_ids\": []}",
+      "raw_text_sha256": "df728328ff04517b17e76435e32a7c08520ebd961fef116be774173c145dcdcb",
+      "selected_ids": [],
+      "validation_error": null
+    }
+  ]
+}

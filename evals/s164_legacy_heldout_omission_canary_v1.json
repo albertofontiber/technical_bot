@@ -1,0 +1,93 @@
+{
+  "instrument": "s164_legacy_heldout_omission_canary_v1",
+  "status": "NO_GO",
+  "population": {
+    "qid": "ho008",
+    "fragments": 5,
+    "atomic_facts": 10,
+    "historical_drafts_used": 1,
+    "target_question_overlap": 0
+  },
+  "metrics": {
+    "baseline_points_covered": 3,
+    "candidate_points_covered": 3,
+    "point_gain": 0,
+    "regressed_fact_ids": [],
+    "selected_units": 6,
+    "invalid_selector_outputs": 0,
+    "invalid_candidate_citations": [],
+    "candidate_source": "bounded_revision"
+  },
+  "fact_rows": [
+    {
+      "fact_id": "base_loops_devices",
+      "baseline_covered": false,
+      "candidate_covered": false
+    },
+    {
+      "fact_id": "zones_areas_groups",
+      "baseline_covered": false,
+      "candidate_covered": false
+    },
+    {
+      "fact_id": "devices_per_loop",
+      "baseline_covered": true,
+      "candidate_covered": true
+    },
+    {
+      "fact_id": "absolute_zone_limit",
+      "baseline_covered": false,
+      "candidate_covered": false
+    },
+    {
+      "fact_id": "three_tbud_cards",
+      "baseline_covered": true,
+      "candidate_covered": true
+    },
+    {
+      "fact_id": "eight_loops",
+      "baseline_covered": false,
+      "candidate_covered": false
+    },
+    {
+      "fact_id": "network_64_nodes",
+      "baseline_covered": true,
+      "candidate_covered": true
+    },
+    {
+      "fact_id": "network_512k_devices",
+      "baseline_covered": false,
+      "candidate_covered": false
+    },
+    {
+      "fact_id": "zone_32_initiating_elements",
+      "baseline_covered": false,
+      "candidate_covered": false
+    },
+    {
+      "fact_id": "ethernet_and_usb",
+      "baseline_covered": false,
+      "candidate_covered": false
+    }
+  ],
+  "checks": {
+    "point_gain_gte_2": false,
+    "regressed_points_zero": true,
+    "invalid_selector_outputs_zero": true,
+    "invalid_answer_citations_zero": true,
+    "selected_units_gte_1": true,
+    "actual_cost_below_ceiling": true
+  },
+  "cost": {
+    "worst_case_preflight_usd": 0.155211,
+    "actual_usd": 0.071785
+  },
+  "decision": {
+    "larger_heldout_test": false,
+    "target_probe": false,
+    "production": false,
+    "facts_moved_to_ok": 0,
+    "same_canary_tuning": false
+  },
+  "result_sha256": "4816334495b00a96cf623688970e87f295e65667d926c0a800783967caf0fdd7"
+}

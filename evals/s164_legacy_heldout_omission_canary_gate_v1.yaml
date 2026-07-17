@@ -1,0 +1,74 @@
+instrument: s164_legacy_heldout_omission_canary_gate_v1
+status: NO_GO_GENERIC_POST_ANSWER_OMISSION_CORRECTION
+
+evidence:
+  result:
+    path: evals/s164_legacy_heldout_omission_canary_v1.json
+    sha256: 703ec7541ebbdc8e8f95dc497330c02c1e4415869aaff6b538138882c8f2a4d5
+  selector_receipts:
+    path: evals/s164_legacy_heldout_selector_receipts_v1.json
+    sha256: 98e09351dd2750d0331dae3883df09a44d57e6ca4bde2c291f3d477d9b6083ae
+  revision_receipt:
+    path: evals/s164_legacy_heldout_revision_receipt_v1.json
+    sha256: a07cc988d9b40c538efb19682a14b413adf0d8aa3d31352d6fda37f65bb0cf3a
+
+measured_result:
+  paid_calls: 6
+  selected_units: 6
+  invalid_selector_outputs: 0
+  deterministic_proxy_point_gain: 0
+  deterministic_proxy_regressions: 0
+  invalid_candidate_citations: 0
+  actual_cost_usd: 0.071785
+  worst_case_preflight_usd: 0.155211
+
+local_semantic_attribution:
+  baseline_semantically_covered_facts: 6
+  candidate_semantically_covered_facts: 6
+  semantic_point_gain: 0
+  semantic_regressions: 0
+  proxy_undercounted_both_arms_equally: true
+  proxy_undercount_reason: >-
+    Several correct baseline relations use label-value lists or reverse the
+    expected word order. This does not change the zero-delta conclusion.
+  selected_fragment_numbers: [4]
+  selected_fragment_product_model: CAD-250
+  query_product_model: CAD-171
+  selected_units_from_query_aligned_fragments: 0
+  relevant_missing_source_units_overlooked:
+    - fragment: 2
+      relation: absolute_2000_zone_limit
+    - fragment: 2
+      relation: maximum_32_initiating_elements_per_zone
+  unavailable_in_served_context_not_synthesis_credit:
+    - network_over_512000_devices
+    - native_ethernet_and_usb
+
+root_cause:
+  primary: omission_selector_materiality_and_identity_failure
+  explanation: >-
+    The generic detector ignored two explicit omissions in the CAD-171 manual
+    and selected six capacity statements from a CAD-250 family manual. The
+    revision preserved citations but added sibling-family detail rather than
+    improving the answer to the queried product.
+
+decision:
+  s164: CLOSED_NO_GO
+  larger_legacy_heldout_test: forbidden
+  target_probe: forbidden
+  same_canary_prompt_tuning: forbidden
+  production: NO_GO
+  facts_moved_to_ok: 0
+  reusable_learning:
+    - Any successor must bind source identity before omission selection.
+    - Generic materiality is insufficient for implicit safety, verification and completeness facets.
+    - A product-agnostic answer-archetype ledger is the next structurally distinct hypothesis.
+
+cost:
+  actual_usd: 0.071785
+  additional_adversarial_calls: 0
+
+authorization:
+  production: false
+  deploy: false
+  push: false
