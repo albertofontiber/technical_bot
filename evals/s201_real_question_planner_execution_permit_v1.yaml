@@ -1,0 +1,29 @@
+instrument: s201_real_question_planner_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_NO_RETRY
+authority: user_requested_autonomous_next_segment
+hash_contract: sha256_of_text_with_crlf_normalized_to_lf
+
+frozen_artifacts:
+  preregistration: {path: evals/s201_real_question_planner_prereg_v1.yaml, sha256: 01b681e5817f40116e9d1086cddc8abe53d0a916e1df88107e631967bc7f963b}
+  runner: {path: scripts/s201_real_question_planner_gate.py, sha256: 6c5fad579f5fde3160d3c1d0940cd2476a6217f60cd28f89725b6c5ba2177fc6}
+  gate_tests: {path: tests/test_s201_real_question_planner_gate.py, sha256: e72853357b9a9a84807e34c15e2cfe7e38f1b5f05d1c739c4af7a2fab05788de}
+
+limits:
+  paid_calls_max: 40
+  retries: 0
+  internal_ceiling_usd: 4
+  frontier_execution_calls: 0
+  database_calls: 0
+  database_writes: 0
+  production_changes: 0
+  chunks_v3_changes: 0
+  deployments: 0
+
+stopping:
+  invalid_incomplete_or_disagreed_dual_gold: NO_GO_WITHOUT_RUNNING_PLANNER
+  same_cohort_retry: forbidden
+  threshold_change_after_execution: forbidden
+  target_probe_before_holdout_pass: forbidden
+  provider_incomplete: HOLD_EXTERNAL_DEPENDENCY_INCOMPLETE
+  holdout_failure: NO_GO_WITHOUT_OPENING_TARGETS
+  target_semantic_failure: NO_GO_WITH_ZERO_FACT_CREDIT
