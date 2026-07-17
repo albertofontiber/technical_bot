@@ -1,0 +1,61 @@
+instrument: s170_per_chunk_relation_store_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+
+frozen_inputs:
+  design: {path: evals/s170_per_chunk_relation_store_design_v1.md, sha256: d8745741cbe59c6717fe943bedcbce8974dfd4bb0d815048f93b2fa6a1ed5cd3}
+  source_packet: {path: evals/s168_source_unit_gold_packet_v1.json, sha256: b181003192616121dcd435f387b9735b745f814094d6550f285b558f86903d66}
+  independent_gold: {path: evals/s168_source_unit_gold_ledger_cohort_v1.json, sha256: 077eeda643a2cd29309e6c4d47cd344f739873695ba5ad25a1a4787a43227350}
+  s151_transport_no_go: {path: evals/s151_typed_relation_target_gate_v1.yaml, sha256: 18b57efb1df5cac307b657014bcac4e50b90c227bce6a3bc1a21aab908c726d1}
+  s168_semantic_no_go: {path: evals/s168_ledger_failure_attribution_v1.json, sha256: 4dc02c2e94af1db361da3af47218fefaeea7d1d44bb9ef7ffedde1fc285d6227}
+  evidence_unitizer: {path: src/rag/evidence_units_v2.py, sha256: c80498f59452280f7630411b1740664c8ec946a5e3a6511441d6140f88727eab}
+
+cohort_role:
+  development_reuse: true
+  source_items: 14
+  questions: 13
+  manufacturers: 13
+  answer_points: 49
+  target_question_overlap: 0
+  fresh_promotion: false
+
+model:
+  id: claude-haiku-4-5-20251001
+  extraction_max_output_tokens: 2400
+  selector_max_output_tokens: 800
+  extraction_max_counted_input_tokens: 150000
+  selector_max_counted_input_tokens: 150000
+
+execution:
+  paid_calls_max: 27
+  per_chunk_extraction_calls: 14
+  relation_selector_calls_max: 13
+  retries: 0
+  batch_extraction_calls: 0
+  target_questions_exposed: 0
+  model_written_final_answers: 0
+  database_calls: 0
+  relation_semantic_fidelity_promotion_audit: required_after_dev_go
+
+validation:
+  extraction_invalid_outputs_max: 0
+  selector_invalid_outputs_max: 0
+  source_identity_mismatches_max: 0
+  claim_recall_min: 0.90
+  unit_precision_min: 0.80
+  question_complete_rate_min: 0.75
+  passing_action: GO_TO_FRESH_PROMOTION_AND_FIDELITY_AUDIT
+  target_probe: false
+  production: false
+  facts_moved_to_ok: 0
+
+pricing_usd_per_million_tokens: {input: 2, output: 10}
+
+budget:
+  internal_ceiling_usd: 2.0
+  user_ceiling_usd: 250
+
+outputs:
+  extraction_receipts: evals/s170_per_chunk_relation_extraction_receipts_v1.json
+  relation_store: evals/s170_per_chunk_relation_store_v1.json
+  selector_receipts: evals/s170_relation_selector_receipts_v1.json
+  result: evals/s170_per_chunk_relation_store_gate_v1.json
