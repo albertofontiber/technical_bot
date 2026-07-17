@@ -1,5 +1,13 @@
 # S134-S136 evidence pins physical SHA-256 receipts; preserve canonical LF bytes.
 .gitattributes text eol=lf
+# S133 receipts were created from these exact CRLF authority bytes. Preserve
+# them on every platform so the physical hashes remain reproducible in CI.
+evals/s125_m1_known_hold_contract_v1.json -text
+evals/s126_upstream_residual_audit_v1.json -text
+evals/s133_unmeasured_answer_probe_v1.json -text
+evals/s125_m1_known_hold_contract_v1.json whitespace=-blank-at-eof,cr-at-eol
+evals/s126_upstream_residual_audit_v1.json whitespace=-blank-at-eof,cr-at-eol
+evals/s133_unmeasured_answer_probe_v1.json whitespace=-blank-at-eof,cr-at-eol
 evals/s13[4-6]_* text eol=lf
 scripts/s13[4-6]_* text eol=lf
 tests/test_s13[4-6]_* text eol=lf

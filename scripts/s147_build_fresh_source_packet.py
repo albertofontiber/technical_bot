@@ -14,12 +14,12 @@ if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from scripts.s146_build_fresh_source_packet import (
-    PRIOR_CHUNKS,
     SNAPSHOT,
     _eligible,
     _excluded_documents,
     _quality,
     file_sha,
+    prior_chunks_sha256,
     stable_sha,
 )
 from src.rag.evidence_units_v2 import build_header_aware_evidence_units
@@ -121,7 +121,7 @@ def build_packet() -> dict[str, Any]:
         },
         "dependencies": {
             "snapshot_sha256": file_sha(SNAPSHOT),
-            "prior_chunks_sha256": file_sha(PRIOR_CHUNKS),
+            "prior_chunks_sha256": prior_chunks_sha256(),
             "s146_source_packet_sha256": file_sha(PRIOR_PACKET),
         },
         "items": items,

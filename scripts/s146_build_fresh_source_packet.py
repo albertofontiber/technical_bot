@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import csv
 import gzip
 import hashlib
 import json
@@ -20,7 +19,7 @@ from src.rag.evidence_units_v2 import build_header_aware_evidence_units
 
 ROOT = Path(__file__).resolve().parents[1]
 SNAPSHOT = ROOT / "tmp/s117_m25/derived_snapshot_v2.jsonl.gz"
-PRIOR_CHUNKS = ROOT / "tmp/s135_representative_chunks_shadow_v2/chunks.csv"
+PRIOR_EXCLUSIONS = ROOT / "evals/s135_representative_document_exclusions_v1.json"
 DEFAULT_OUT = ROOT / "evals/s146_fresh_source_packet_v1.json"
 SEED = "s146_fresh_source_packet_v1"
 RELATION = re.compile(
@@ -40,9 +39,33 @@ def stable_sha(value: object) -> str:
     ).hexdigest()
 
 
+def prior_exclusion_contract() -> tuple[set[str], str]:
+    payload = json.loads(PRIOR_EXCLUSIONS.read_text(encoding="utf-8"))
+    source = payload.get("source", {})
+    selection = payload.get("selection", {})
+    document_ids = selection.get("document_ids", [])
+    excluded = {str(document_id) for document_id in document_ids}
+    if (
+        payload.get("instrument") != "s135_representative_document_exclusions_v1"
+        or payload.get("status") != "SEALED_DERIVATION_FROM_S135_CHUNK_EXPORT"
+        or selection.get("document_count") != 36
+        or len(document_ids) != 36
+        or len(excluded) != 36
+        or source.get("rows") != 4212
+        or not re.fullmatch(r"[0-9a-f]{64}", str(source.get("sha256", "")))
+    ):
+        raise RuntimeError("S135 representative exclusion contract drift")
+    return excluded, str(source["sha256"])
+
+
 def _excluded_documents() -> set[str]:
-    with PRIOR_CHUNKS.open(encoding="utf-8", newline="") as handle:
-        return {row["document_id"] for row in csv.DictReader(handle)}
+    excluded, _ = prior_exclusion_contract()
+    return excluded
+
+
+def prior_chunks_sha256() -> str:
+    _, source_sha256 = prior_exclusion_contract()
+    return source_sha256
 
 
 def _quality(row: dict[str, Any]) -> int:
@@ -70,7 +93,7 @@ def _eligible(row: dict[str, Any], active: set[str], excluded: set[str]) -> bool
 
 
 def build_packet() -> dict[str, Any]:
-    excluded = _excluded_documents()
+    excluded, prior_chunks_sha256 = prior_exclusion_contract()
     active: set[str] = set()
     rows: list[dict[str, Any]] = []
     with gzip.open(SNAPSHOT, "rt", encoding="utf-8", errors="replace") as handle:
@@ -156,7 +179,7 @@ def build_packet() -> dict[str, Any]:
         },
         "dependencies": {
             "snapshot_sha256": file_sha(SNAPSHOT),
-            "prior_chunks_sha256": file_sha(PRIOR_CHUNKS),
+            "prior_chunks_sha256": prior_chunks_sha256,
         },
         "items": items,
     }

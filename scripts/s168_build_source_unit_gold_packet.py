@@ -11,7 +11,12 @@ from typing import Any
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from scripts.s146_build_fresh_source_packet import PRIOR_CHUNKS, SNAPSHOT, _excluded_documents, file_sha
+from scripts.s146_build_fresh_source_packet import (
+    SNAPSHOT,
+    _excluded_documents,
+    file_sha,
+    prior_chunks_sha256,
+)
 from scripts.s165_answer_archetype_ledger import stable_sha
 from scripts.s167_build_independent_ledger_source import build_from_rows
 from scripts.s167_build_independent_ledger_source_support import collect_uuid_strings
@@ -82,7 +87,7 @@ def build_packet() -> dict[str, Any]:
     result.pop("packet_sha256", None)
     result["dependencies"] = {
         "snapshot_sha256": file_sha(SNAPSHOT),
-        "prior_chunks_sha256": file_sha(PRIOR_CHUNKS),
+        "prior_chunks_sha256": prior_chunks_sha256(),
         "s114_sha256": file_sha(S114),
         "prior_packets": {str(path.relative_to(ROOT)): file_sha(path) for path in PACKETS},
         "target_files": {str(path.relative_to(ROOT)): file_sha(path) for path in TARGET_FILES},

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import csv
 import gzip
 import hashlib
 import json
@@ -16,7 +15,12 @@ from typing import Any
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from scripts.s146_build_fresh_source_packet import PRIOR_CHUNKS, RELATION, SNAPSHOT, _quality
+from scripts.s146_build_fresh_source_packet import (
+    RELATION,
+    SNAPSHOT,
+    _quality,
+    prior_exclusion_contract,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -39,8 +43,7 @@ def stable_sha(value: object) -> str:
 
 
 def excluded_documents() -> set[str]:
-    with PRIOR_CHUNKS.open(encoding="utf-8", newline="") as handle:
-        excluded = {row["document_id"] for row in csv.DictReader(handle)}
+    excluded, _ = prior_exclusion_contract()
     for path in (S146_PACKET, S147_PACKET):
         packet = json.loads(path.read_text(encoding="utf-8"))
         excluded.update(str(row["document_id"]) for row in packet["items"])
@@ -70,6 +73,7 @@ def eligible(row: dict[str, Any], active: set[str], excluded: set[str]) -> bool:
 
 def build_packet() -> dict[str, Any]:
     excluded = excluded_documents()
+    _, prior_chunks_sha256 = prior_exclusion_contract()
     active: set[str] = set()
     chunks: list[dict[str, Any]] = []
     with gzip.open(SNAPSHOT, "rt", encoding="utf-8", errors="replace") as handle:
@@ -144,7 +148,7 @@ def build_packet() -> dict[str, Any]:
             "question_or_gold_used_for_selection": False,
         },
         "dependencies": {
-            "snapshot_sha256": file_sha(SNAPSHOT), "prior_chunks_sha256": file_sha(PRIOR_CHUNKS),
+            "snapshot_sha256": file_sha(SNAPSHOT), "prior_chunks_sha256": prior_chunks_sha256,
             "s146_packet_sha256": file_sha(S146_PACKET), "s147_packet_sha256": file_sha(S147_PACKET),
             "target_freeze_sha256": file_sha(TARGET_FREEZE),
         },

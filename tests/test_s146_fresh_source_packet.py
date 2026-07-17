@@ -1,6 +1,12 @@
 from __future__ import annotations
 
-from scripts.s146_build_fresh_source_packet import build_packet
+from scripts.s146_build_fresh_source_packet import build_packet, prior_exclusion_contract
+
+
+def test_s135_exclusion_contract_is_small_sealed_and_complete() -> None:
+    document_ids, source_sha256 = prior_exclusion_contract()
+    assert len(document_ids) == 36
+    assert source_sha256 == "9bfc52bc356447209bde018d6410c1bc7cb56d5ad5ad769987e1f5c885521c55"
 
 
 def test_fresh_source_packet_is_deterministic_stratified_and_disjoint() -> None:
