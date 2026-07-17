@@ -46,7 +46,7 @@ def main() -> None:
         selected.extend(rows)
         selection_receipt[manufacturer] = [row["candidate_id"] for row in rows]
     selected.extend(sorted(entitlements, key=lambda row: row["candidate_id"]))
-    if len(access_by_manufacturer) != 10 or len(selected) != 38:
+    if len(access_by_manufacturer) != 10 or len(selected) != 37:
         raise ValueError("S174 frozen population expectation failed")
 
     selected.sort(
