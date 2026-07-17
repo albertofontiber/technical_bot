@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 17 jul 2026 (s190 — funnel reconciliado S172/S188, cierre causal S189 y contrato visual S190).
+> 17 jul 2026 (s193 — control Terra y primer planificador de síntesis con render determinista).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -22,7 +22,7 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s190 — 17 jul 2026)
+## Estado actual (s193 — 17 jul 2026)
 
 **La foto diagnóstica comparable más reciente es 157 facts: 143 OK · 12 synthesis-miss ·
 2 retrieval-miss = 91,08% OK, gap 7 facts hasta 95%.** No es todavía un KPI atómico oficial ni
@@ -33,16 +33,17 @@ retrieval→OK, dejando 143/157. Estos movimientos sí son crédito diagnóstico
 crédito productivo sigue siendo cero mientras los flags estén apagados y falte generalización
 independiente.
 
-**El orden de trabajo vuelve a síntesis porque retrieval ya es residual (2 vs 12), pero la línea
-genérica de síntesis queda cerrada hasta nueva evidencia.** Se han falsado, con gates baratos y
-sin tuning sobre los cuatro targets: selector+revisión de omisiones (S173, +1/37), tarjeta
-extractiva (S176, +1/37 y ninguna pregunta completa), almacén relacional con selector (S186),
-embeddings locales E5 (S188) y escritor con todas las relaciones (S189, +1/11). La sustitución
-directa por modelos frontera ya fue NO-GO en S156. S189 costó **$0,164661**, no llamó revisión
-adversarial y se cerró sin reintentos. No se abrirá otro prompt/agent loop sobre la misma cohorte:
-S143 ya falsó el planner agéntico de citas y S149-S150 falsaron selector/verificador iterativo.
-El próximo candidato factual exige una representación realmente distinta y una cohorte fresca,
-o se mantiene aparcado para no convertir el objetivo 95% en overfit.
+**El orden de trabajo sigue en síntesis porque retrieval es residual (2 vs 12), y S192-S193 han
+aislado el siguiente cuello sin tocar targets.** Sustituir Sonnet 4.6 directamente por Terra
+`low` es **NO-GO**: 25/37 vs 26/37 puntos, −1 neto, 2 regresiones, +1 pregunta completa;
+$0,259085. En cambio, separar planificación y redacción sí da señal causal: S193 conserva la
+respuesta base y anexa determinísticamente spans ligados a IDs, por lo que un ID elegido no puede
+omitirse. El candidato alcanza 31/37, **+5 puntos, +2 preguntas completas y 0 regresiones** por
+$0,071248. No pasa el gate completo porque el selector solo cubre 27/34 puntos disponibles en el
+store (79,4% < 90%), aunque la precisión de unidades sí pasa (78,3% ≥75%). Conclusión: el
+renderizado con postcondición es candidato estructural; el selector de obligaciones es ahora el
+cuello medido. S193 no mueve facts ni autoriza producción. No se ajustará el prompt sobre estas 14
+preguntas; el siguiente paso exige descomposición de pregunta y validación fresca.
 
 **`chunks_v3` no se migra al completo.** S140 cerró el shadow representativo como
 `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`: empata recall funcional@10 (16/24 vs 16/24) pero empeora el
@@ -56,18 +57,20 @@ modelo sin 30 notas reales estratificadas, que hoy no existen; (b) el renderer d
 preserva contenido, tablas y mensajes largos y pasa su gate local; (c) S190 demostró que el canal
 de imágenes está implementado en bot/generador pero sin datos en `chunks_v2`: 0/25.090 URLs.
 Existe un bridge exacto hacia 5.096 páginas legacy (7.685 chunks; 30/30 assets vivos), pero una
-muestra visual contiene portadas/marketing. Por ello el backfill directo es NO-GO. El diseño BP
-es un registro de activos ligado a documento+revisión+página+hash, independiente de la versión de
-chunks, con clasificación de utilidad y activación shadow de alta precisión.
+muestra visual contiene portadas/marketing. Por ello el backfill directo es NO-GO. S191 ejecutó
+Luna sobre 60/60 activos válidos por **$0,04029**, pero el trigger 10–30 positivos quedó mal
+calibrado frente a una cohorte con 48 estratos de intención técnica y produjo 44. No se cambió el
+umbral post hoc ni se llamó a Sol/Fable. La calidad del clasificador queda sin medir; el diseño BP
+sigue siendo un registro ligado a documento+revisión+página+hash, independiente del chunker.
 
-**Producción no ha cambiado en este bloque.** Los nuevos mecanismos siguen locales/default-off;
-no se ha hecho push, deploy, migración ni escritura remota. Próximos pasos autorizables, por
-orden: (1) congelar y medir S191, cohorte visual estratificada, antes de crear tabla o backfill;
-(2) diseñar una representación de síntesis nueva solo si su hipótesis no repite S143/S149/S150/
-S168/S173/S176/S186/S189 y puede probarse primero local o con un piloto barato; (3) validar los
-dos candidates factual default-off con cohortes independientes antes de producción; (4) recoger
-audio real antes de comparar ASR. El funnel se conserva por etapa y no se exige “GO adversarial
-absoluto”: se exige convergencia en seguridad, generalización y ausencia de regresiones críticas.
+**Producción no ha cambiado en este bloque.** No se ha hecho push, deploy, migración ni escritura
+remota. Próximos pasos, por orden: (1) congelar una cohorte fresca para un planificador que
+descomponga la pregunta en subobligaciones antes de seleccionar IDs; (2) si mejora recall sin
+romper precisión, construir un compilador legible que preserve IDs y validarlo end-to-end; (3)
+solo después ejecutar un probe target y la regresión completa congelada; (4) validar de forma
+independiente S172/S188 antes de producción; (5) rehacer el gate visual con controles negativos
+balanceados solo cuando vuelva a priorizarse imagen; (6) recoger audio real antes de comparar ASR.
+El funnel se conserva por etapa: S193 es avance de síntesis medido, pero no crédito de facts.
 
 ## Estado anterior (s129 — 15 jul 2026)
 

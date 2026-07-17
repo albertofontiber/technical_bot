@@ -1665,8 +1665,15 @@ visual diagnóstica contiene 2 esquemas útiles y 3 portadas/marketing: copiar U
 queda explícitamente **NO-GO**. El fix vigente es un registro `document_visual_assets` ligado a
 revisión+página+hash, independiente del chunker, con rol/utilidad y gate ciego ≥95% precision;
 véanse `evals/s190_visual_asset_contract_design_v1.md` y
-`evals/s190_visual_asset_contract_gate_v1.yaml`. Trigger siguiente: S191 cohorte estratificada;
-no DB write ni producción antes de pasarla.
+`evals/s190_visual_asset_contract_gate_v1.yaml`.
+
+**Actualización S191:** Luna clasificó 60/60 activos sin outputs inválidos por $0,04029, pero el
+trigger preregistrado exigía 10–30 positivos y produjo 44. Ese límite superior no estaba alineado
+con una cohorte que contenía 48 páginas de intención técnica; por ello el instrumento cierra como
+`CLOSED_NO_GO_TRIGGER_OUT_OF_RANGE` y la calidad del clasificador queda `NOT_MEASURED`, no como
+falso positivo demostrado. No se elevó el umbral, el razonamiento ni se llamó a revisores frontera.
+Trigger siguiente: una cohorte nueva y balanceada con controles negativos y gold independiente;
+no DB write, backfill ni producción antes de medir precisión ≥95%.
 
 **Qué pasó (medido s60, 11-jun)**: la tabla vieja `chunks` tiene **44.035 filas** con
 `has_diagram=true AND diagram_url NOT NULL`; **`chunks_v2` tiene 0 de 25.090**. La re-ingesta
