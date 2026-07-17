@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 17 jul 2026 (S198 — schema question-only GO; cohorte point-first aún no ejecutada; facts 0).
+> 17 jul 2026 (S198 — point-first STOP estructural antes de Luna; facts 0).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -121,6 +121,17 @@ otra fuente, el canary 100% sintético del nuevo schema `{item_id, question}` co
 S194+S195+S197, reportando además el inventario y reserva que quedan. El planner continúa cerrado
 hasta que una ejecución única obtenga cero fallos en ambos screens upstream.
 
+**S198 ejecutó después el tramo real y se detuvo todavía más arriba de lo previsto.** La reserva
+manufacturer-disjoint ya no podía producir 7+7: quedaban cinco fabricantes de prosa compatibles.
+Se congeló por ello un packet exhaustion-aware de 12 fabricantes/documentos nuevos, 7 tabla + 5
+prosa, con doble scan GET-only idéntico de 25.090 filas y cero overlap/escrituras. Haiku produjo
+12/12 outputs válidos y 37 puntos, pero sólo 10 fuentes fueron elegibles (6 tabla + 4 prosa).
+Como el mínimo seguía siendo 12 elegibles, el estado es `NO_GO_POINT_PLAN_STRUCTURAL_GATE` por
+$0,070886. Luna, writer, scope-screen, planner y targets recibieron 0 llamadas; no se postseleccionan
+los diez casos y la calidad semántica del mecanismo continúa `NOT_MEASURED`. El siguiente intento
+legítimo debe restaurar 14→mínimo 12 sobre documentos/source-files/pares nuevos, permitiendo sólo
+repetición histórica de fabricante y conservando 14 fabricantes distintos dentro de la cohorte.
+
 **`chunks_v3` no se migra al completo.** S140 cerró el shadow representativo como
 `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`: empata recall funcional@10 (16/24 vs 16/24) pero empeora el
 primer rango útil/MRR (0,4021→0,3694). `chunks_v2` sigue siendo el baseline activo. V3 preserva
@@ -141,16 +152,16 @@ sigue siendo un registro ligado a documento+revisión+página+hash, independient
 
 **Producción no ha cambiado en este bloque.** No se ha hecho deploy, migración ni escritura
 remota. Railway sigue siendo una demo y no es condición para merge con CI verde. Próximos pasos,
-por orden: (1) integrar el NO-GO S197 con CI verde; (2) diseñar y congelar el mecanismo genérico
-point-first→pregunta-acotada sin reutilizar ni reparar S197; (3) validarlo en otra cohorte fresca
-que excluya S194+S195+S197 y exigir cero inválidos, incompletos, unsupported y facets erróneos;
-(4) mantener 90% recall /
-80% precisión / 75% completas y abrir targets únicamente si ese upstream pasa; (5) solo después integrar el compilador en un
-seam runtime default-off y ejecutar regresión completa; (6) validar de forma independiente
-S172/S188 antes de producción; (7) rehacer imagen con controles negativos balanceados cuando se
+por orden: (1) integrar el NO-GO S198 con CI verde; (2) congelar una última población de 14
+documentos/source-files/pares nuevos y 14 fabricantes distintos dentro de la cohorte, relajando
+sólo la novedad histórica de fabricante para recuperar margen 14→12; (3) ejecutar sin cambios el
+paquete point-first y exigir cero fallos en ambos screens; (4) mantener 90% recall / 80% precisión /
+75% completas y abrir targets únicamente si ese upstream pasa; (5) solo después integrar el
+compilador en un seam runtime default-off y ejecutar regresión completa; (6) validar de forma
+independiente S172/S188 antes de producción; (7) rehacer imagen con controles negativos balanceados cuando se
 repriorice; (8) recoger 30 audios reales antes de comparar ASR. El funnel se conserva por etapa:
-S193 mantiene señal de renderer; S194, S195 y S197 son NO-GO upstream, S196 es GO instrumental y
-los cinco tramos siguen con crédito de facts cero.
+S193 mantiene señal de renderer; S194, S195, S197 y S198 son NO-GO upstream, S196 y el canary
+question-only son GO instrumentales y todos estos tramos siguen con crédito de facts cero.
 
 ## Estado anterior (s129 — 15 jul 2026)
 

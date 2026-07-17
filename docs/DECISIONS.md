@@ -1878,3 +1878,29 @@ hashes de resultado/receipt verificados. El canary no mide calidad semántica y 
 reportar también el inventario/reserva elegible restante. Ejecutar una sola vez el paquete
 point-first; sólo cero fallos upstream autoriza el planner 90/80/75. `chunks_v3` permanece
 `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`; Railway es demo y no bloquea PR/merge con CI verde.
+
+## DEC-109 — S198: población fresca agotada y STOP estructural antes de Luna
+
+**Construcción.** El primer contrato 7 tabla + 7 prosa se detuvo sin packet ni modelos porque,
+tras excluir S194+S195+S197, sólo quedaban cinco fabricantes de prosa compatibles con los siete
+fabricantes de tabla ya elegidos. Un bug mecánico posterior omitió `kind=chunk` en el filtro nuevo;
+se selló, corrigió y probó sin crear packet ni llamar modelos. El intento definitivo conservó los
+mínimos semánticos pero usó 12 fabricantes/documentos nuevos: 7 tabla + 5 prosa. Doble scan
+GET-only idéntico de 25.090 filas, cero overlap histórico/target y cero escrituras. La reserva
+versionada cuenta documentos restantes, no se presenta como otra cohorte manufacturer-disjoint.
+
+**Resultado.** Haiku point-first completó 12/12 respuestas estructuralmente válidas, 0 inválidas,
+10 ítems elegibles y 37 puntos. Dos fuentes fueron declaradas ineligibles; su corrección
+semántica no se adjudica porque el gate poblacional detuvo el screen independiente. Al ser el
+packet exactamente del mínimo 12, fallaron `eligible_items_gte_12`,
+`eligible_manufacturers_gte_12` y `prose_items_gte_5`. Estado
+`NO_GO_POINT_PLAN_STRUCTURAL_GATE`, coste **$0,070886**. Por el STOP upstream: Luna 0,
+question-writer 0, question-screen 0, planner/targets 0 y facts 0. La calidad semántica point-first
+y el cierre pregunta↔puntos siguen `NOT_MEASURED`; no se postseleccionan los diez elegibles.
+
+**Siguiente trigger legítimo.** Recuperar el margen original de 14→mínimo 12 mediante otra
+cohorte de documentos, source-files y pares fabricante/producto totalmente nuevos, manteniendo
+14 fabricantes distintos dentro de esa cohorte pero permitiendo fabricantes ya vistos en
+cohortes históricas. Es la única relajación: prompts, schemas, facets, zero-failure screens y
+umbrales no cambian; sólo se pueden usar los conteos agregados, nunca los dos ítems observados.
+`chunks_v3` permanece `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`; Railway no es gate.

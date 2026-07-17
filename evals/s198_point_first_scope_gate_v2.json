@@ -1,0 +1,213 @@
+{
+  "instrument": "s198_point_first_scope_gate_v2",
+  "status": "NO_GO_POINT_PLAN_STRUCTURAL_GATE",
+  "package_qualification_not_component_causal_isolation": true,
+  "population_checks": {
+    "eligible_items_gte_12": false,
+    "eligible_manufacturers_gte_12": false,
+    "table_items_gte_5": true,
+    "prose_items_gte_5": false,
+    "answer_points_gte_24": true,
+    "invalid_point_author_outputs_zero": true
+  },
+  "point_plan_semantic_checks": {
+    "all_items_cross_provider_screened": false,
+    "point_screen_invalid_outputs_zero": true,
+    "all_point_plans_pass_screen": false
+  },
+  "question_transport_checks": {
+    "question_writer_called_only_after_point_gate": true,
+    "all_eligible_questions_written": false,
+    "question_writer_invalid_outputs_zero": false
+  },
+  "question_scope_checks": {
+    "all_written_questions_cross_provider_screened": false,
+    "question_screen_invalid_outputs_zero": false,
+    "all_questions_pass_scope_screen": false
+  },
+  "failure_attribution": {
+    "single_luna_disagreement_is_weak_mechanism_evidence": true,
+    "question_writer_excerpt_withholding_context_starvation_possible": false
+  },
+  "eligible_inventory": {
+    "definition": "post_target_equivalence_post_prior_document_source_file_pair_and_generic_eligibility",
+    "counts": {
+      "chunk_rows": 8672,
+      "documents": 677,
+      "source_files": 677,
+      "manufacturer_product_pairs": 473,
+      "manufacturers": 14,
+      "table_documents": 488,
+      "prose_documents": 595,
+      "table_manufacturers": 14,
+      "prose_manufacturers": 11
+    },
+    "selected_identities": [
+      {
+        "item_id": "s198e_src_01",
+        "document_id": "17bd36ac-412b-4607-aa52-f9dbf37e26b7",
+        "chunk_id": "c3541bb2-a33c-4213-8cf1-0ffcf98604ea",
+        "source_file": "MIDT180",
+        "manufacturer": "Notifier",
+        "product_model": "ID2000",
+        "stratum": "table"
+      },
+      {
+        "item_id": "s198e_src_02",
+        "document_id": "99c77ba4-d772-4a5a-a243-93a255392ff3",
+        "chunk_id": "4e20bfec-eee0-4993-9713-dbba1d01bcf1",
+        "source_file": "MIE-MP-520rv04",
+        "manufacturer": "Morley",
+        "product_model": "DX",
+        "stratum": "table"
+      },
+      {
+        "item_id": "s198e_src_03",
+        "document_id": "d3b312c3-1332-4d51-bcff-a27635d6ce9c",
+        "chunk_id": "a99c7e64-2a8f-4973-940e-be2618578f60",
+        "source_file": "Manual DBD_70A (55310016 MI 471 m 2021 d)",
+        "manufacturer": "Detnov",
+        "product_model": "DBD-70A",
+        "stratum": "table"
+      },
+      {
+        "item_id": "s198e_src_04",
+        "document_id": "1f585225-414c-4de9-a69b-9054ed2356a8",
+        "chunk_id": "63cdea3c-548e-49f3-8ecd-57fb068b9f01",
+        "source_file": "I56-2961-000R",
+        "manufacturer": "System Sensor",
+        "product_model": "PF24V Directional Sounder",
+        "stratum": "table"
+      },
+      {
+        "item_id": "s198e_src_05",
+        "document_id": "a33bc56a-a19e-4034-b144-0b81fd767b23",
+        "chunk_id": "7873372b-9507-4a85-acb0-cfbb6bc76f7a",
+        "source_file": "TMP2_QRefnotiES_Rev_1_4_HLSI 2018",
+        "manufacturer": "OGGIONI",
+        "product_model": "TMP2",
+        "stratum": "table"
+      },
+      {
+        "item_id": "s198e_src_06",
+        "document_id": "f156cdb0-cc8e-4386-ba3b-254dd316bb6a",
+        "chunk_id": "93ea9920-38cb-4ca1-b134-d0e8d4921cb4",
+        "source_file": "ke-io3144-161721-es",
+        "manufacturer": "Kidde",
+        "product_model": "KE-IO3144",
+        "stratum": "table"
+      },
+      {
+        "item_id": "s198e_src_07",
+        "document_id": "e837f20c-e05e-4cb3-9504-6ab35b6c3b23",
+        "chunk_id": "0cc84a6f-16d2-4671-b736-f5e4548641a0",
+        "source_file": "085501996d_PYX-L-15-CPR_Installation_manual_D-GB-F-RU-I",
+        "manufacturer": "Pfannenberg",
+        "product_model": "PYX-L-15",
+        "stratum": "table"
+      },
+      {
+        "item_id": "s198e_src_08",
+        "document_id": "24b703a2-2e75-428f-b0e2-14a7530e1998",
+        "chunk_id": "c41270f9-c809-4261-869d-e173027763dd",
+        "source_file": "MNDT700_C",
+        "manufacturer": "Spectrex",
+        "product_model": "20/20I",
+        "stratum": "prose"
+      },
+      {
+        "item_id": "s198e_src_09",
+        "document_id": "a107427f-5534-406b-b153-98c6e08e4524",
+        "chunk_id": "791d16a1-1ed9-4aa0-a878-b8cb9e993b87",
+        "source_file": "Manual Testifire_Spanish",
+        "manufacturer": "Xtralis",
+        "product_model": "Testifire 2000",
+        "stratum": "prose"
+      },
+      {
+        "item_id": "s198e_src_10",
+        "document_id": "e2f0c96f-c1ac-4bab-9d22-95574cecb194",
+        "chunk_id": "27432669-3125-4b5e-a1f0-f856c105676e",
+        "source_file": "Instruction Manual SGFI200-S",
+        "manufacturer": "Argus Security",
+        "product_model": "SGFI200",
+        "stratum": "prose"
+      },
+      {
+        "item_id": "s198e_src_11",
+        "document_id": "1a00372e-3115-4cd6-adae-d950946259fe",
+        "chunk_id": "b1e94b89-7cd4-4bb7-a214-52b158fac511",
+        "source_file": "2x-af2-fb-161721-es",
+        "manufacturer": "Aritech",
+        "product_model": "2X-AF2-FB",
+        "stratum": "prose"
+      },
+      {
+        "item_id": "s198e_src_12",
+        "document_id": "c79207a7-0950-48a8-81f7-cb236bb3dba5",
+        "chunk_id": "5069f58e-a021-4e69-a415-d1414d612bf2",
+        "source_file": "ZES22S02-MU Manual de Usuario ZES-22 Rev 3.2",
+        "manufacturer": "LDA audioTech",
+        "product_model": "ZES-22",
+        "stratum": "prose"
+      }
+    ],
+    "post_selection_reserve_definition": "eligible candidate rows excluding selected documents; may include selected manufacturers or manufacturer-product pairs and is not a future manufacturer-disjoint cohort capacity claim",
+    "post_selection_reserve": {
+      "chunk_rows": 8448,
+      "documents": 665,
+      "source_files": 665,
+      "manufacturer_product_pairs": 463,
+      "manufacturers": 13,
+      "table_documents": 477,
+      "prose_documents": 585,
+      "table_manufacturers": 12,
+      "prose_manufacturers": 10
+    }
+  },
+  "screen_scope": {
+    "luna_calibration": "NOT_MEASURED",
+    "human_agreement": "NOT_MEASURED",
+    "document_wide_opportunity_coverage": "NOT_MEASURED",
+    "semantic_near_duplicate_overlap": "NOT_MEASURED",
+    "oem_relabel_overlap": "NOT_MEASURED",
+    "semantic_correctness_claim": "SCREEN_ONLY_NOT_GOLD_AUTHORITY",
+    "frontier_execution_calls": 0
+  },
+  "chunks_v3_lane": {
+    "status": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "changed_by_s198": false,
+    "migration_or_materialization": false,
+    "per_question_patching": false,
+    "historical_metrics_duplicated": false
+  },
+  "cost": {
+    "point_author_usd": 0.070886,
+    "point_screen_usd": 0.0,
+    "question_writer_usd": 0.0,
+    "question_screen_usd": 0.0,
+    "worst_case_preflight_usd": 0.125406,
+    "total_usd": 0.070886
+  },
+  "decision": {
+    "same_cohort_retry": false,
+    "downstream_planner_opened": false,
+    "target_probe_opened": false,
+    "next_action": "STOP_WITHOUT_DOWNSTREAM",
+    "s199_handoff_constraints": {
+      "planner_recall_min": 0.9,
+      "planner_precision_min": 0.8,
+      "complete_questions_min": 0.75,
+      "exactness_required": true,
+      "deterministic_checks_required": true,
+      "covered_obligation_regressions_max": 0,
+      "new_versioned_conflicts_max": 0
+    },
+    "runtime_integration": false,
+    "production": false,
+    "official_fact_credit": 0,
+    "diagnostic_facts_moved_to_ok": 0,
+    "railway_deploy_gate": false
+  },
+  "result_sha256": "4d4a96236d548743a3a50e5f425426769d95eea7a5f4bb732c68fe157fbee98d"
+}

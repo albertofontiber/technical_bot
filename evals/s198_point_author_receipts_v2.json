@@ -1,0 +1,312 @@
+{
+  "instrument": "s198_point_author_receipts_v2",
+  "status": "COMPLETE",
+  "model": "claude-haiku-4-5-20251001",
+  "sdk": "0.97.0",
+  "sdk_max_retries": 0,
+  "completed_calls": 12,
+  "invalid_outputs": 0,
+  "receipts": [
+    {
+      "item_id": "s198e_src_01",
+      "response_id": "msg_011Cd89iU6SqTS4YGK3X2SPW",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 5740,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 5740,
+        "output_tokens": 316,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.00732,
+      "validation_error": null,
+      "point_author_input_sha256": "77c9746911639b8d5358dcfb720496128a1cce316568b407b6e7d20fa5b4f640",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s198e_src_01\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"Terminales accept cables sized between 0.5 mm² and 2.5 mm²\",\"facet\":\"measurement_limit_or_timing\",\"support_1\":\"E001_d7bcf00ebe\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"Panel must be connected to earth as a Class I installation\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_1\":\"E004_326a718ac9\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"Two sealed 12V 12-38Ah lead-acid batteries must be used internally\",\"facet\":\"access_or_prerequisite\",\"support_1\":\"E019_f4f89bb7d4\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":true,\"claim\":\"Power supply input is 230VAC ± 15%, 50Hz ±4%, 1.6A with 1.6A (T) HRC ceramic fuse\",\"facet\":\"measurement_limit_or_timing\",\"support_1\":\"E010_ac9babe91a\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "82f72a252ef783c571c4ba14692b8aba637374dd09ce2da2b984fa6ee28e98b3"
+    },
+    {
+      "item_id": "s198e_src_02",
+      "response_id": "msg_011Cd89irExRd2fcP87517US",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 5229,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 5229,
+        "output_tokens": 336,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.006909,
+      "validation_error": null,
+      "point_author_input_sha256": "e35892a0ff3df1e2ad66b8f7dfd74b1caa262304cdeaceaa0977e189081042ec",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s198e_src_02\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"Open and remove the main power supply fuse before connecting power, and do not energize the panel until connections are completed and verified\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_1\":\"E010_daf71ae1da\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"Connect the ground/earth cable (Green/Yellow) to the earth terminal at the center position\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E005_445e82b4f6\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"Connect the neutral cable (Blue) to the upper terminal (N) and the phase cable (Brown) to the lower terminal (L)\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E006_321d99b7ec\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":true,\"claim\":\"Maintain separation between 230Vac power supply and low voltage wiring by not using the same cable path or conduit and keeping them separated within the enclosure\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_1\":\"E011_6e64e0da54\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "851959cdedc97c0aa8eaa878c4fab23fe317d7fd09d09c514b2262e3e4521824"
+    },
+    {
+      "item_id": "s198e_src_03",
+      "response_id": "msg_011Cd89jDhnqKsQSBKc1RDpv",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 5246,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 5246,
+        "output_tokens": 158,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.006036,
+      "validation_error": null,
+      "point_author_input_sha256": "bfd7b5ca2a2f82953b51754ed260369d612bb74a0a235a61ccbb1e7d49eae31c",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s198e_src_03\",\"eligible\":false,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "bb993730ddc827c8dd9ec2b53588895d9aba586cc02aa1e0932ffd7e311e6ec5"
+    },
+    {
+      "item_id": "s198e_src_04",
+      "response_id": "msg_011Cd89jPfKiqZm9qorfWbEA",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4050,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4050,
+        "output_tokens": 281,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.005455,
+      "validation_error": null,
+      "point_author_input_sha256": "8d14864c7ff7ae5668425ff65b97be576360c3f8c10e6b0769a959843cf5c3cf",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s198e_src_04\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"DIP Switch Position 5 and 6 settings select the additional tone message output\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E002_fee21a820f\",\"support_2\":\"E004_021b7f13ff\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"DIP Switch Position 4 setting configures enable/disable function based on wiring terminal state\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E006_cc73077ea4\",\"support_2\":\"E009_b10a0ab8ff\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"DIP Switch Positions 1, 2, and 3 settings select the power output level\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E010_d82266090c\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "4d0d5fc6e0d08b1a5ff69e8c1e29e62d04edd2a1f83d4a1582cbc903be30169b"
+    },
+    {
+      "item_id": "s198e_src_05",
+      "response_id": "msg_011Cd89jgwtPqpQUtmsXeupb",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4284,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4284,
+        "output_tokens": 298,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.005774,
+      "validation_error": null,
+      "point_author_input_sha256": "6e3e3f00a32131d8ec1f988b39987d738c4fecb3af1a160be5dc941ba2283691",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s198e_src_05\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"Use shielded two-conductor cable for TMP2 thermal detector interconnection\",\"facet\":\"option_mode_or_default\",\"support_1\":\"E003_559f24a93b\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"Connect cable shield to ground only at the control unit or power supply end, never at the detector\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_1\":\"E005_63adc68775\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"If using multiple cable branches, ensure shield continuity and solder conductors at joints\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E004_706ea3f498\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":true,\"claim\":\"Avoid detector power connections on the same supply as inductive loads to prevent power supply noise\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_1\":\"E007_77e2469bc2\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "6257766508b9831a6e0b34be07e4ac5b509c15256e860cdc8a97cf1c2c3f35b0"
+    },
+    {
+      "item_id": "s198e_src_06",
+      "response_id": "msg_011Cd89jzaYHrP9wcMrBQrWq",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 5512,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 5512,
+        "output_tokens": 339,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.007207,
+      "validation_error": null,
+      "point_author_input_sha256": "2a2d82c5b33d315a82017109f968440107a07b29a8f207b3e22fa334d4b96294",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s198e_src_06\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"The KE-IO3144 unit operates at a working voltage of 17 to 29 VDC\",\"facet\":\"measurement_limit_or_timing\",\"support_1\":\"E008_1e9a6e455b\",\"support_2\":\"E019_69de5ebfe6\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"The unit consumes 350 µA at 24 VDC during idle state and 2.5 mA at 24 VDC during active state\",\"facet\":\"measurement_limit_or_timing\",\"support_1\":\"E008_1e9a6e455b\",\"support_2\":\"E020_e2d63b2242\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"The unit has 4 inputs with dual-level supervised configuration and 4 relay outputs rated at 2A @ 30 VDC\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E009_d35316837e\",\"support_2\":\"E022_54f46969e1\",\"support_3\":\"E028_90ca243e6e\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "f01bd684e0a8de1e3aa205c1e9885781e13a02c3d9180b7df2c771bfc3852da0"
+    },
+    {
+      "item_id": "s198e_src_07",
+      "response_id": "msg_011Cd89kMMhJ9ZEbf7ci1LTa",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 3582,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3582,
+        "output_tokens": 282,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.004992,
+      "validation_error": null,
+      "point_author_input_sha256": "4df91b404f8a6c966a668d8e7f03e99bd8c369b3a9cab970e7186640c34b0d5e",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s198e_src_07\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"Switch off the power supply before opening the housing\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_1\":\"E002_818e5a823e\",\"support_2\":\"E016_493c22d1c5\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"Loosen the four cover screws to remove the upper section\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E008_7618124570\",\"support_2\":\"E005_0a3e519409\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"Turn the cover screws to the limit position until the housing locks into place to close the housing\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E012_42d3ed2585\",\"support_2\":\"E009_3a8ac30efc\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "86f46e0160df976cb9ccd282ca3baa2b4b4d43fedc082d68f95d30c56c96e65a"
+    },
+    {
+      "item_id": "s198e_src_08",
+      "response_id": "msg_011Cd89kdoepxkf7SbUZiewx",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4708,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4708,
+        "output_tokens": 321,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.006313,
+      "validation_error": null,
+      "point_author_input_sha256": "2f457de8f704e0defe0f9bf49102225f3d04ae1dc3c28835c5d95ee18478a96b",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s198e_src_08\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"Terminal 1 receives the current input for power supply\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E004_10d5d64ff9\",\"support_2\":\"E005_ced968ff16\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"Terminal 2 serves as the return connection for the power supply\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E004_10d5d64ff9\",\"support_2\":\"E005_ced968ff16\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"Terminal 3 activates manual BIT by momentary connection to the return line\",\"facet\":\"input_trigger_or_observed_condition\",\"support_1\":\"E006_38adaf0491\",\"support_2\":\"E007_d13bb724a8\",\"support_3\":\"\"},\"point_4\":{\"active\":true,\"claim\":\"Terminals 4 and 5 form the normally-open fault relay that remains closed during normal operation\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E008_449515a2b5\",\"support_2\":\"E009_5228400fec\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "e3cf9cd0ca4d726c214ad8d2221585213a95f6e0f4c636cd09e2f51e0326f9c6"
+    },
+    {
+      "item_id": "s198e_src_09",
+      "response_id": "msg_011Cd89kyxrQ49qo2n8EQm6H",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 5531,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 5531,
+        "output_tokens": 397,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.007516,
+      "validation_error": null,
+      "point_author_input_sha256": "aecef5ca38e187ed1159d2befde67ad7710f5356bc4533843f05aa26c604b648",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s198e_src_09\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"If the CO cell is overheating, disconnect the unit and allow it to cool for 5 minutes before restarting the test\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E044_9a296d4322\",\"support_2\":\"E045_fcb82b1d49\",\"support_3\":\"E046_1a369a1d06\"},\"point_2\":{\"active\":true,\"claim\":\"If a smoke capsule is not detected, adjust the installed capsule or install a new capsule\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E017_2b7812acc5\",\"support_2\":\"E018_c095c699dd\",\"support_3\":\"E019_ed48645ac1\"},\"point_3\":{\"active\":true,\"claim\":\"If a CO capsule is empty, install a new capsule\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E023_bcb0fdb350\",\"support_2\":\"E024_c69a932c5b\",\"support_3\":\"E025_686803aac6\"},\"point_4\":{\"active\":true,\"claim\":\"If smoke capsule data is incorrect due to damage or misalignment, readjust the capsule or replace it if the error persists\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E029_d91c80a16b\",\"support_2\":\"E030_a113b227f0\",\"support_3\":\"E033_b96c970bea\"}}}",
+      "raw_text_sha256": "eb9535ae9aa050ea5866283532d77bde475e8286ce41726432ff970538bcdbad"
+    },
+    {
+      "item_id": "s198e_src_10",
+      "response_id": "msg_011Cd89mLKxu4FYJSdbEDtXS",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 3470,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3470,
+        "output_tokens": 298,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.00496,
+      "validation_error": null,
+      "point_author_input_sha256": "5a2c639a806abdc66801861e27a1b59aaa69ae6a36adbfa9831baad6ca226942",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s198e_src_10\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"Move the link switch to position ON\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E010_6b02510ea8\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"Insert the backup battery into its housing\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E012_de3872353e\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"Insert the primary battery into its housing and ensure both battery polarities are correct\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E014_b46bdee7fc\",\"support_2\":\"E015_e8f9c787ef\",\"support_3\":\"\"},\"point_4\":{\"active\":true,\"claim\":\"Move the link switch to position 1 when the translator/expander is looking for a new device to initiate communication\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E018_6e2a6ec419\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "52a162d2767fb5fa1782198f6f878afbfbc7bbf64858358d198dc6a3c8bc46c6"
+    },
+    {
+      "item_id": "s198e_src_11",
+      "response_id": "msg_011Cd89mYUTehywtnFg7hdcQ",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 3579,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3579,
+        "output_tokens": 312,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.005139,
+      "validation_error": null,
+      "point_author_input_sha256": "c71876d5957952a6899bda40329bc0b01c4d91a3bf5cfb31ef7e64d285ef9cf2",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s198e_src_11\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"The panel supports up to 256 devices in 512 zones with 2 High Power Loops\",\"facet\":\"measurement_limit_or_timing\",\"support_1\":\"E010_cf079ebafa\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"An extra 2 High Power Loop board can be added to bring the panel to up to 512 devices\",\"facet\":\"option_mode_or_default\",\"support_1\":\"E012_77e2be7efe\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"A network board can be added to create a maximum of 64 nodes / 256 loops network\",\"facet\":\"option_mode_or_default\",\"support_1\":\"E012_77e2be7efe\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":true,\"claim\":\"High loop power PAK is available to increase the loop power from 500 mA to 800 mA\",\"facet\":\"option_mode_or_default\",\"support_1\":\"E014_f681c55da5\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "541cca1ee27604534b3f30c3ac97a4cd803f02cbeb355ae884c5e55a0772e017"
+    },
+    {
+      "item_id": "s198e_src_12",
+      "response_id": "msg_011Cd89mmMc2EBr7t13x582j",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 2475,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 2475,
+        "output_tokens": 158,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.003265,
+      "validation_error": null,
+      "point_author_input_sha256": "4302c3789c4e03319788e78dd242ab658ba8d08aecee098ba0ac3dea603853ac",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s198e_src_12\",\"eligible\":false,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "f0405ae8d6883eb7bde17c929405143230977d6e7917691c65ff3c0b2ed8f967"
+    }
+  ],
+  "created_at": "2026-07-17T19:05:41.833294+00:00"
+}

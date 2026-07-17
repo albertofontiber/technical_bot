@@ -1,0 +1,89 @@
+{
+  "schema": "s198_point_first_scope_diagnosis_v2",
+  "status": "NO_GO_POINT_PLAN_STRUCTURAL_GATE",
+  "source_population": {
+    "packet": "evals/s198_fresh_source_packet_v2.json",
+    "chunks_v2_rows": 25090,
+    "items": 12,
+    "manufacturers": 12,
+    "table": 7,
+    "prose": 5,
+    "historical_document_source_pair_overlap": 0,
+    "protected_target_exact_overlap": 0,
+    "database_writes": 0,
+    "semantic_near_duplicate_overlap": "NOT_MEASURED",
+    "oem_relabel_overlap": "NOT_MEASURED"
+  },
+  "point_author": {
+    "model": "claude-haiku-4-5-20251001",
+    "completed_calls": 12,
+    "invalid_outputs": 0,
+    "eligible_items": 10,
+    "ineligible_items": 2,
+    "eligible_table_items": 6,
+    "eligible_prose_items": 4,
+    "accepted_points_before_semantic_screen": 37,
+    "ineligible_item_ids": [
+      "s198e_src_03",
+      "s198e_src_12"
+    ],
+    "ineligible_manufacturers": [
+      "Detnov",
+      "LDA audioTech"
+    ],
+    "cost_usd": 0.070886
+  },
+  "frozen_population_gates": {
+    "eligible_items_min": 12,
+    "eligible_manufacturers_min": 12,
+    "table_items_min": 5,
+    "prose_items_min": 5,
+    "points_min": 24,
+    "invalid_outputs_max": 0
+  },
+  "failed_gates": [
+    "eligible_items_gte_12",
+    "eligible_manufacturers_gte_12",
+    "prose_items_gte_5"
+  ],
+  "passed_gates": [
+    "table_items_gte_5",
+    "answer_points_gte_24",
+    "invalid_point_author_outputs_zero"
+  ],
+  "downstream_not_measured": {
+    "point_screen_calls": 0,
+    "question_writer_calls": 0,
+    "question_screen_calls": 0,
+    "planner_calls": 0,
+    "protected_target_calls": 0,
+    "point_first_semantic_quality": "NOT_MEASURED",
+    "question_scope_closure": "NOT_MEASURED"
+  },
+  "interpretation": {
+    "transport_regression": false,
+    "semantic_package_falsified": false,
+    "measured_bottleneck": "A 12-item exhaustion-aware packet leaves no allowance for correctly ineligible sources, while the frozen GO contract requires 12 eligible items.",
+    "postselect_10_eligible_items": false,
+    "repair_or_retry_same_cohort": false
+  },
+  "next_legitimate_trigger": {
+    "action": "Preregister a wholly new document/source-file/manufacturer-product-pair cohort that restores 14 items and the original allowance of up to two ineligible sources, while relaxing only historical manufacturer novelty and keeping 14 distinct manufacturers within the new cohort.",
+    "may_use_aggregate_counts_only": true,
+    "may_use_item_level_questions_claims_facets_or_issues": false,
+    "point_author_prompt_or_schema_change": false,
+    "point_and_question_semantic_gates_change": false
+  },
+  "facts": {
+    "official_credit": 0,
+    "diagnostic_moved_to_ok": 0,
+    "current_comparable": {
+      "denominator": 157,
+      "ok": 143,
+      "synthesis_miss": 12,
+      "retrieval_miss": 2
+    }
+  },
+  "chunks_v3_lane": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+  "railway_deploy_gate": false
+}

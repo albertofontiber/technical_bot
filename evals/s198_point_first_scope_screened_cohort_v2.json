@@ -1,0 +1,1167 @@
+{
+  "instrument": "s198_point_first_scope_screened_cohort_v2",
+  "status": "SEALED_REJECTED_PACKAGE",
+  "source_packet_sha256": "f0f41949b0c73b5aa7fb7bd224906a38a30f423a434b55383348a0c7028a3487",
+  "population_checks": {
+    "eligible_items_gte_12": false,
+    "eligible_manufacturers_gte_12": false,
+    "table_items_gte_5": true,
+    "prose_items_gte_5": false,
+    "answer_points_gte_24": true,
+    "invalid_point_author_outputs_zero": true
+  },
+  "point_plan_semantic_checks": {
+    "all_items_cross_provider_screened": false,
+    "point_screen_invalid_outputs_zero": true,
+    "all_point_plans_pass_screen": false
+  },
+  "question_transport_checks": {
+    "question_writer_called_only_after_point_gate": true,
+    "all_eligible_questions_written": false,
+    "question_writer_invalid_outputs_zero": false
+  },
+  "question_scope_checks": {
+    "all_written_questions_cross_provider_screened": false,
+    "question_screen_invalid_outputs_zero": false,
+    "all_questions_pass_scope_screen": false
+  },
+  "items": [
+    {
+      "item_id": "s198e_src_01",
+      "eligible": true,
+      "question": "",
+      "answer_points": [
+        {
+          "claim": "Terminales accept cables sized between 0.5 mm² and 2.5 mm²",
+          "facet": "measurement_limit_or_timing",
+          "support_unit_ids": [
+            "E001_d7bcf00ebe"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E001_d7bcf00ebe",
+              "source_spans": [
+                [
+                  0,
+                  167
+                ]
+              ],
+              "content_sha256": "a0d8455b0673b314a438db03f1de379e31271b96ba0168d19a2bf0af0e66d2f6"
+            }
+          ]
+        },
+        {
+          "claim": "Panel must be connected to earth as a Class I installation",
+          "facet": "safety_warning_exception_or_conflict",
+          "support_unit_ids": [
+            "E004_326a718ac9"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E004_326a718ac9",
+              "source_spans": [
+                [
+                  202,
+                  279
+                ]
+              ],
+              "content_sha256": "f56a720713b7be24749bf5dfd11806412875c7511d76ec8c05be29f495fd94ec"
+            }
+          ]
+        },
+        {
+          "claim": "Two sealed 12V 12-38Ah lead-acid batteries must be used internally",
+          "facet": "access_or_prerequisite",
+          "support_unit_ids": [
+            "E019_f4f89bb7d4"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E019_f4f89bb7d4",
+              "source_spans": [
+                [
+                  1253,
+                  1529
+                ]
+              ],
+              "content_sha256": "a96c29b60806e38471810e240b776bbef1a6c0ab87261cddbc1e9c84d95d9f98"
+            }
+          ]
+        },
+        {
+          "claim": "Power supply input is 230VAC ± 15%, 50Hz ±4%, 1.6A with 1.6A (T) HRC ceramic fuse",
+          "facet": "measurement_limit_or_timing",
+          "support_unit_ids": [
+            "E010_ac9babe91a"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E010_ac9babe91a",
+              "source_spans": [
+                [
+                  484,
+                  577
+                ]
+              ],
+              "content_sha256": "2abcd1ab913c737763440b9a3b73ca035214db7582a966a268dbd300bac30af8"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Notifier",
+      "product_model": "ID2000",
+      "document_id": "17bd36ac-412b-4607-aa52-f9dbf37e26b7",
+      "chunk_id": "c3541bb2-a33c-4213-8cf1-0ffcf98604ea",
+      "excerpt_sha256": "403bf462d5161a1b2c571d80197ce3cbb5dea22ede04469c7efae46ab7dfbda1",
+      "excerpt": "Terminales: Todas las conexiones externas se realizan a través de terminales. Cada uno de ellos acepta cables con tamaño entre 0,5 mm<sup>2</sup> y 2,5 mm<sup>2</sup>.\n\n## Especificaciones eléctricas:\n\nClasificación: Instalación Clase I, (el panel debe estar conectado a tierra).\n\n## Alimentación:\n\nLa fuente de alimentación del panel se suministra a través de una unidad externa de aislamiento bipolar:\n\n230V~(ac), 5A, 50Hz\n\n## Unidad de fuente de alimentación\n\nValores de entrada:\n\nTensión: 230VAC ± 15%, 50Hz ±4%, 1,6A\nFusible: 1,6A (T) HRC Cerámico. (véase Apéndice 1, 1.2)\n\nMI-DT-180                    NOTIFIER ESPAÑA                    A2-2\n\nPanel ID2000 - Manual de instalación y puesta en marcha\n\nValores de salida - fuente de alimentación principal:\n\nTensión de salida: 26-28V\nCorriente de salida\nen reposo: 0,6A\nCorriente de salida\nen alarma: 2,5A\nTensión de rizado: 600mV\n\nValores de salida - Cargador:\n\nTensión de batería\ncuando está cargada: 27,6V a 20° C (temperatura compensada a\n-3mV/ °C/ célula)\nTensión de rizado: ±75mV\nCorriente: 1,9A máx. (corriente limitada por F.A.)\nTensión final de batería: 21V\nCapacidad máxima\ncargada al 80% en 24h: 38Ah\nValor fusible de batería: 6,3A, 250V HRC (T)\n(véase el Apéndice 1, 1.2)\n\n**Baterías:**\n\nBaterías internas: Se DEBEN utilizar dos baterías de plomo\nácido selladas de 12V, 12-38Ah. Su vida útil\ndepende de la temperatura ambiente; consulte\nlas especificaciones del fabricante de las\nbaterías (Véase las especificaciones de la F.A.\npara las limitaciones del cargador).\n\nValores máximos de las baterías dependiendo de la cabina:\n\n|                                                                    | Yuasa | Fiamm |\n| ------------------------------------------------------------------ | ----- | ----- |\n| Cabina estándar:                                                   | 12Ah  | 12Ah  |\n| Cabina ampliada o de doble ampliación:                             | 17Ah  | 18Ah  |\n| Cabina con fondo ampliado o doble<br/>ampliación y fondo ampliado: | 38Ah  | 27Ah  |\n\n**Salidas:**\n\ni) Dos salidas de sirena\n\nii) Dos salidas seleccionables - Sirena o contacto libre de tensión (VFC)\n\niii) Dos salidas de contacto libre de tensión dedicadas a Alarma común y\nfallo común.\n\niv) Dos salidas de lazo estándar, o bien, opcionalmente, hasta 4 salidas\nde lazo.\n\nv) Dos salidas auxiliares de 24Vdc.\n\n> **\\* La carga total del sistema está limitada por la salida de la F.A. Debe utilizar el programa de cálculo de baterías y lazo de Notifier para comprobar que el sistema NO tiene sobrecarga o consultar el Apéndice 3.**\n\nVéase el Apéndice 1, Sección 1.2, para información sobre el fusible.\n\n**Valores de salida de sirena**\n\nTipo: Tensión invertida\nTensión de salida: de 26 a 28V cuando está activa;\nde -6,8V a -9V cuando está inactiva\nCarga máxima: 1A *\nValor fusible 1A (T)\nSupervisión: Circuito abierto y cortocircuito\n\n**Valores de salida de contacto libre de tensión (VFC)**\n\nTipo: Conmutador unipolar\nCarga máxima: Contactos de 30V 1A\nValor fusible: No aplicable (sin fusible)"
+    },
+    {
+      "item_id": "s198e_src_02",
+      "eligible": true,
+      "question": "",
+      "answer_points": [
+        {
+          "claim": "Open and remove the main power supply fuse before connecting power, and do not energize the panel until connections are completed and verified",
+          "facet": "safety_warning_exception_or_conflict",
+          "support_unit_ids": [
+            "E010_daf71ae1da"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E010_daf71ae1da",
+              "source_spans": [
+                [
+                  944,
+                  1108
+                ]
+              ],
+              "content_sha256": "06e6fac9c5410066fa621295009422c2ddc76c01baf295738a0fc4011a80a7fb"
+            }
+          ]
+        },
+        {
+          "claim": "Connect the ground/earth cable (Green/Yellow) to the earth terminal at the center position",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E005_445e82b4f6"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E005_445e82b4f6",
+              "source_spans": [
+                [
+                  379,
+                  497
+                ]
+              ],
+              "content_sha256": "fe313e6553b33bbd6874e953c2d591fa7cde622f75c8b55debc7b8463d168977"
+            }
+          ]
+        },
+        {
+          "claim": "Connect the neutral cable (Blue) to the upper terminal (N) and the phase cable (Brown) to the lower terminal (L)",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E006_321d99b7ec"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E006_321d99b7ec",
+              "source_spans": [
+                [
+                  499,
+                  835
+                ]
+              ],
+              "content_sha256": "f6b87db493415636cab75575a742aae29f302b45f6ced94990e0f4df1e44a947"
+            }
+          ]
+        },
+        {
+          "claim": "Maintain separation between 230Vac power supply and low voltage wiring by not using the same cable path or conduit and keeping them separated within the enclosure",
+          "facet": "safety_warning_exception_or_conflict",
+          "support_unit_ids": [
+            "E011_6e64e0da54"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E011_6e64e0da54",
+              "source_spans": [
+                [
+                  1110,
+                  1276
+                ]
+              ],
+              "content_sha256": "d690b4ed04bb21d38454b5e3cfab9f93465675d0114b97ad7d74e2cbd98b33cc"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Morley",
+      "product_model": "DX",
+      "document_id": "99c77ba4-d772-4a5a-a243-93a255392ff3",
+      "chunk_id": "4e20bfec-eee0-4993-9713-dbba1d01bcf1",
+      "excerpt_sha256": "9d83e8de5903746552ef0156b9ad4b1653a39ed69c5d0bd0d49fe2e5d8211671",
+      "excerpt": "## 3.4.3 Alimentación Principal\n\nLos paneles DX reciben alimentación de una fuente de 230Vca, 50/60Hz. El transformador convierte la tensión a 18Vca. El terminal de alimentación principal y el transformador están montados sobre el interior de la cabina.\n\nNota: El varistor de óxido metálico (MOV) se conecta a través de los terminales L y N al transformador. NO DEBE EXTRAERSE.\n\nEl cable de tierra o masa de alimentación (Verde/Amarillo) deberá conectarse al terminal de tierra – terminal central.\n\nConecte el cable neutro (Azul) al terminal superior (N) y conecte el cable de fase (Marrón) al terminal inferior (L). El terminal contiene un fusible integrado. La capacidad del fusible está descrita en la etiqueta del panel así como en las especificaciones técnicas de este documento. Es caso necesario reemplácelo por uno equivalente.\n\n[Diagram showing terminal block with labels:]\n\n```\nISOLATE\nELSEWHERE\n    N\n   ⏚\n    L\nF1: T 2A H 250V\n```\n\n**Abra y retire el fusible de alimentación principal antes de conectar alimentación, no alimente el panel hasta que las conexiones estén terminadas y comprobadas.**\n\n✓ **Mantenga separación entre la alimentación de 230Vca y el cableado de baja tensión. No use el mismo paso de cable ni canalización y sepárelo dentro de la cabina.**\n\n[Technical diagram showing internal panel layout with terminal block at top, circuit boards, and wiring. Labels indicate \"Supresor de transitorios\" (Transient suppressor) and \"Fusible\" (Fuse)]\n\n**Figura 8 – Alimentación Principal – DX1e-20S**\n\n[Two technical diagrams side by side showing internal panel layouts with wiring configurations]\n\n**Figura 9 – Alimentación principal - DX1e-40M**\n\n**Figura 10 – Alimentación principal – DX2e y DX4e**\n\n**El panel deberá alimentarse mediante protección independiente y accesible del cuadro general (Interruptor 'Diferencial') para facilitar el servicio y con la tierra adecuada de protección del edificio. La sección mínima de alimentación no debe ser inferior a 0,75mm² y la alimentación debe protegerse con Fusible de 5A HRC.**\n\nPágina 18 de 88                                    Documento No.MIE-MP-520                                    Manual de Configuración\n\nSerie Dimension Series                                                                                                MorleyIAS\n\n### 3.4.3.1 Prensaestopas de Alimentación\n\n**El prensaestopa de alimentación principal para el orificio de 20mm debe tener un ratio retardante de llama de 94HB como mínimo.**\n\n• **Prensaestopas / Juntas típicas: -**\n\n| Tipo                                                        | Fabricante | Referencia       |\n| ----------------------------------------------------------- | ---------- | ---------------- |\n| Prensaestopas IP68 – Nylon 66 M20 Negro, Protección UL94V-2 | Multicomp  | Farnell 927-739  |\n| Prensaestopas IP65 – Brass M20, Eexd /Eexe                  | Lappcable  | A2F20S           |\n| Junta Nylon 66 M20 Negro, Protección UL94V-2                | Multicomp  | Farnell 303-0751 |\n\n### 3.4.4 Instalación de Baterías\n\n#### 3.4.4.1 Introducción"
+    },
+    {
+      "item_id": "s198e_src_03",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "table",
+      "manufacturer": "Detnov",
+      "product_model": "DBD-70A",
+      "document_id": "d3b312c3-1332-4d51-bcff-a27635d6ce9c",
+      "chunk_id": "a99c7e64-2a8f-4973-940e-be2618578f60",
+      "excerpt_sha256": "f844c95c1eeeb8faeb01947ee28eb04e809a73618f358a0e9e50399c6039d8b9",
+      "excerpt": "# 3. Sistema de pantallas y menús\n\n## 3.1 Pantalla de Inicio\n\n```\nCalidad del aire 100%\nEstado - NORMAL\n```\n\nEsta es la pantalla que normalmente debería aparecer cuando la barrera queda correctamente instalada.\n\n**ES**\n\nOtras pantallas que pueden aparecer:\n\n**ALARMA**\n\n```\nCalidad del aire 29%\nEstado - FUEGO\n```\n\nEl nivel de calidad del aire ha caído por debajo del valor umbral de alarma.\n\n↓\n\nSi la alarma está configurada en modo enclavado (latching) y se necesita rearmar la alarma pulsa ENTER para ver esta pantalla:\n\n```\nReset Alarma\n```\n\npulse ENTER de nuevo para reiniciar y volver a la pantalla normal.\n\nTambién puede rearmar el sistema interrumpiendo la alimentación de la barrera durante 5 segundos. Si está configurada como autoreset, la barrera se reiniciará automáticamente a modo normal.\n\n**AVERÍA**\n\n```\nCalidad del aire 0%\nEstado - AVERIA\n```\n\nLa trayectoria del haz ha sido completamente bloqueada durante 1 segundo (se utiliza cuando se encuentran fallos en la puesta en marcha).\n\n**ERROR**\n\n```\nCalidad del aire XX\nEstado - AVERIA\n```\n\nNo hay comunicación con la Unidad Sensora. Esto podría deberse a que el cable no está conectado, o que la Unidad Sensora no está conectada al controlador. Esto se puede comprobar midiendo la resistencia en de los terminales negros y grises. Si está conectado debe haber 110ohms y si no está conectado en un extremo este medirá 220ohms.\n\n**ALINEAMIENTO**\n\n```\nCalidad del aire 89%\nEstado - ALINEADO\n```\n\nEsta pantalla aparecerá cuando el haz está realizando una alineación automáticamente, normalmente a causa de un movimiento de la construcción.\n\n**SUCIEDAD COMPENSACIÓN**\n\n```\nEstado - Comp Suice\n```\n\nEsto se debe a que la compensación de suciedad ha alcanzado su máximo nivel – \"LED AVERIA\" o \"LED ALARMA\" pueden parpadear.\n\nES\n\n## 3.2 Cómo utilizar el sistema de menús\n\nPulse el botón ENTER para entrar en el sistema de menús, a continuación, pulse DOWN para pasar por las opciones del menú principal:\n\n```mermaid\ngraph TD\n    A[Español] --> B[Mantenimiento]\n    B --> C[Cambio de modo]\n    C --> D[Mantenimiento Haz]\n    D --> E[Diagnostico]\n    C --> B\n    B --> A\n    D --> C\n```\n\n| Español           | ENTER para cambiar idiomas.                                   |\n| ----------------- | ------------------------------------------------------------- |\n| Mantenimiento     | ENTER para poner en marcha la barrera.                        |\n| Cambio de modo    | ENTER para realizar todos los cambios y ajustes a la barrera. |\n| Mantenimiento Haz | ENTER rutina de mantenimiento.                                |\n| Diagnostico       | ENTER para acceder a la energía y la temperatura partidas.    |\n\n## 3.3 Elementos de menú individuales"
+    },
+    {
+      "item_id": "s198e_src_04",
+      "eligible": true,
+      "question": "",
+      "answer_points": [
+        {
+          "claim": "DIP Switch Position 5 and 6 settings select the additional tone message output",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E002_fee21a820f",
+            "E004_021b7f13ff"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E002_fee21a820f",
+              "source_spans": [
+                [
+                  0,
+                  1129
+                ]
+              ],
+              "content_sha256": "197d8312f19ea5deb367428b9d5f3db11b7767a2e2ae0ecbd8f7a2341f259d6e"
+            },
+            {
+              "unit_id": "E004_021b7f13ff",
+              "source_spans": [
+                [
+                  797,
+                  1294
+                ]
+              ],
+              "content_sha256": "e4430739d6c432cce444f72b377bfa9e8411e43b0256077b458b21b6f9c8f991"
+            }
+          ]
+        },
+        {
+          "claim": "DIP Switch Position 4 setting configures enable/disable function based on wiring terminal state",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E006_cc73077ea4",
+            "E009_b10a0ab8ff"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E006_cc73077ea4",
+              "source_spans": [
+                [
+                  1296,
+                  1810
+                ]
+              ],
+              "content_sha256": "b22d2c33a644a7559511472b0001a7326ad5b1c480f0812b4e1fa89acda8de64"
+            },
+            {
+              "unit_id": "E009_b10a0ab8ff",
+              "source_spans": [
+                [
+                  1863,
+                  2306
+                ]
+              ],
+              "content_sha256": "95fe92b57db545c949eefff640c55197a8a8307b039402e82aa22c930822fa7e"
+            }
+          ]
+        },
+        {
+          "claim": "DIP Switch Positions 1, 2, and 3 settings select the power output level",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E010_d82266090c"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E010_d82266090c",
+              "source_spans": [
+                [
+                  2308,
+                  2686
+                ]
+              ],
+              "content_sha256": "474839bf7314d4c8b158c12b74428f1278c152b993b296c64f56b8cf938c8c45"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "System Sensor",
+      "product_model": "PF24V Directional Sounder",
+      "document_id": "1f585225-414c-4de9-a69b-9054ed2356a8",
+      "chunk_id": "63cdea3c-548e-49f3-8ecd-57fb068b9f01",
+      "excerpt_sha256": "16e058b55572582ef4725f4f0b711ba16dff852085e1ac9c7a1b596af26510ed",
+      "excerpt": "## DIP Switch Settings for Alerting Messages\n\nDIP switch positions 5 and 6 are used to select additional tone pulses that can be inserted between bursts of directional sound pulses. These messages are used to give building occupants instructions. There are four messaging options to choose from. \"Stairs Up\" (Switch 5 off, Switch 6 on) will notify occupants that they are approaching a stairwell and will need to go up. \"Stairs Down\" (Switch 5 on, Switch 6 off) will notify occupants that they are approaching a stairwell and will need to go down. \"Area of Refuge\" (Switches 5 & 6 on) alerts people who need to find these areas of refuge in a building. \"Exit Here\" (Switches 5 & 6 off ) notifies occupants that they have reached the perimeter exit.\n\n### Table 2. Additional Tone Selection Guide:\n\n| DIP Switch Position 5 Setting | DIP Switch Position 6 Setting | Sound Output   |\n| ----------------------------- | ----------------------------- | -------------- |\n| on                            | on                            | Area of Refuge |\n| on                            | off                           | Stairs DOWN    |\n| off                           | on                            | Stairs UP      |\n| off                           | off                           | Exit Here      |\n\nDIP switch setting 4 enables a directional sound device to become disabled when used in conjunction with devices with dry contacts such as heat sensors or control modules. The sounder has a set of input terminals that can be configured for an \"active open\" or \"active closed\" state. When the switch is in the \"on\" position, the sounder is \"on\" when the disable connection is closed. When the switch is in the \"off\" position, the sounder is \"on\" when the disable connection is open. See Table 3 for operation modes.\n\n### Table 3. Enable/Disable Function Logic Table:\n\n| DIP Switch Position 4 Setting | Wiring Terminals 3 & 4 | Sound Output |\n| ----------------------------- | ---------------------- | ------------ |\n| on                            | open                   | disabled     |\n| on                            | closed                 | enabled      |\n| off                           | open                   | enabled      |\n| off                           | closed                 | disabled     |\n\nThere are five different power settings for the sound output pressure. Switch settings 1, 2, and 3 set the power setting for the sounder. Switch 1 selects the Med-High setting, switch 2 selects the Medium setting, switch 3 selects the Med-Low setting. If all three switches are \"off\" this selects the High setting and if all three switches are \"on\" this selects the Low setting.\n\nD690-06-00                                                      3                                                                                 I56-2961-000R\n\n### Table 4. Power Setting Guide:"
+    },
+    {
+      "item_id": "s198e_src_05",
+      "eligible": true,
+      "question": "",
+      "answer_points": [
+        {
+          "claim": "Use shielded two-conductor cable for TMP2 thermal detector interconnection",
+          "facet": "option_mode_or_default",
+          "support_unit_ids": [
+            "E003_559f24a93b"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E003_559f24a93b",
+              "source_spans": [
+                [
+                  27,
+                  149
+                ]
+              ],
+              "content_sha256": "58d93bf88b944d961657901694d8cead5916fd839ebb89eac9731a95181f0799"
+            }
+          ]
+        },
+        {
+          "claim": "Connect cable shield to ground only at the control unit or power supply end, never at the detector",
+          "facet": "safety_warning_exception_or_conflict",
+          "support_unit_ids": [
+            "E005_63adc68775"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E005_63adc68775",
+              "source_spans": [
+                [
+                  295,
+                  478
+                ]
+              ],
+              "content_sha256": "c8f881bf6fe229cef4051a2ebf43bc63e068514ae8abfb97af147685c39f5668"
+            }
+          ]
+        },
+        {
+          "claim": "If using multiple cable branches, ensure shield continuity and solder conductors at joints",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E004_706ea3f498"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E004_706ea3f498",
+              "source_spans": [
+                [
+                  151,
+                  293
+                ]
+              ],
+              "content_sha256": "21afb8992ded97c2577c0483ca3effd1d88eef403ddc0da318501c767ca72a7c"
+            }
+          ]
+        },
+        {
+          "claim": "Avoid detector power connections on the same supply as inductive loads to prevent power supply noise",
+          "facet": "safety_warning_exception_or_conflict",
+          "support_unit_ids": [
+            "E007_77e2469bc2"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E007_77e2469bc2",
+              "source_spans": [
+                [
+                  643,
+                  834
+                ]
+              ],
+              "content_sha256": "fbc765e2a41d4222f9645a2870d2123a4584b82a047ba041bf2385e85a397f02"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "OGGIONI",
+      "product_model": "TMP2",
+      "document_id": "a33bc56a-a19e-4034-b144-0b81fd767b23",
+      "chunk_id": "7873372b-9507-4a85-acb0-cfbb6bc76f7a",
+      "excerpt_sha256": "6cbf767f516ff0eed4c1f34140718bb6817c0e9062cd1854ffd2168552b14c5a",
+      "excerpt": "## Conexiones de cableado\n\nEl detector térmico TMP2 requiere un cable de interconexión de dos conductores. Se recomienda el uso de cable apantallado.\n\nSi se utiliza más de un ramal de cable, asegúrese de que la pantalla del cable es continua y que los conductores están soldados en las juntas.\n\nAdemás, recuerde que la pantalla protectora debe estar conectada a tierra solo en el extremo de la unidad de control o fuente de alimentación y nunca debe estar conectada al detector.\n\nSe recomienda el uso de terminales de conexión, de lo contrario las juntas del cable de alimentación deben cerrarse con conectores de lengüeta planos o soldadas.\n\nEs preferible evitar conexiones en la misma fuente de alimentación que utilizan los detectores, ya que las cargas inductivas podrían generar \"ruidos\" en la fuente de alimentación del sistema.\n\nEn cualquier caso, se recomienda el uso de devanado auxiliar en el transformador de la fuente de alimentación principal para los equipos de supresión de alimentación, sirenas y otros equipos.\n\n### Conexiones para un lazo con resistencia de final de línea\n\n[Wiring diagram showing connections for a loop with end-of-line resistance. The diagram displays four terminal blocks connected in series, each with 4 numbered terminals (1-4). The leftmost connection is labeled \"lazo +\" and \"lazo -\". The rightmost terminal block connects to a resistor symbol. Lines connect the terminal blocks showing the wiring path.]\n\nLa pantalla del cable debe estar conectada a la toma de tierra en el área segura\n\n| Asignación de cables sonda TMP2 | Asignación de cables sonda TMP2 |\n| ------------------------------- | ------------------------------- |\n| Cable rojo                      | Lazo +                          |\n| Cable negro                     | Lazo -                          |\n| Cable blanco                    | Entrada de configuración serie  |\n\n**N.B.:** Conexión a la central: Cortocircuite el cable blanco con el cable rojo (conectándolos en el mismo terminal de la regleta)\n\nEl sensor se calibra en fábrica de forma específica según los niveles de temperatura solicitados por el cliente. La configuración puede ser modificada en cualquier momento mediante en software \"TMP2-Config\" (referirse al manual de instrucciones para más información)\n\nLa instalación y el mantenimiento solo debe realizarlos personal cualificado.\n\n### Mantenimiento\n\nSe recomienda comprobar la respuesta del sensor cada seis meses.\n\nAntes de empezar cualquier proceso de verificación, se debe informar a todo el personal responsable de la seguridad de que todos los sistemas de alarma conectados al sistema deben desconectarse.\n\n*NOTA: Si desea más información sobre este producto, visite nuestra página web www.notifier.es*\n\n----"
+    },
+    {
+      "item_id": "s198e_src_06",
+      "eligible": true,
+      "question": "",
+      "answer_points": [
+        {
+          "claim": "The KE-IO3144 unit operates at a working voltage of 17 to 29 VDC",
+          "facet": "measurement_limit_or_timing",
+          "support_unit_ids": [
+            "E008_1e9a6e455b",
+            "E019_69de5ebfe6"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E008_1e9a6e455b",
+              "source_spans": [
+                [
+                  493,
+                  947
+                ]
+              ],
+              "content_sha256": "dfead12f7ef66a2bc2c37297f33823e06a74eded379b021add76cbdd96541f80"
+            },
+            {
+              "unit_id": "E019_69de5ebfe6",
+              "source_spans": [
+                [
+                  493,
+                  583
+                ],
+                [
+                  675,
+                  765
+                ]
+              ],
+              "content_sha256": "5442a8c225cb6b31f26cf95fe5428c6d3e67c33345acfced1657fa2f63f56cf2"
+            }
+          ]
+        },
+        {
+          "claim": "The unit consumes 350 µA at 24 VDC during idle state and 2.5 mA at 24 VDC during active state",
+          "facet": "measurement_limit_or_timing",
+          "support_unit_ids": [
+            "E008_1e9a6e455b",
+            "E020_e2d63b2242"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E008_1e9a6e455b",
+              "source_spans": [
+                [
+                  493,
+                  947
+                ]
+              ],
+              "content_sha256": "dfead12f7ef66a2bc2c37297f33823e06a74eded379b021add76cbdd96541f80"
+            },
+            {
+              "unit_id": "E020_e2d63b2242",
+              "source_spans": [
+                [
+                  493,
+                  583
+                ],
+                [
+                  766,
+                  856
+                ]
+              ],
+              "content_sha256": "43f39acf215b3acbf65d1e94ef6a3da7b8122f621844a86a0de0609f99972860"
+            }
+          ]
+        },
+        {
+          "claim": "The unit has 4 inputs with dual-level supervised configuration and 4 relay outputs rated at 2A @ 30 VDC",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E009_d35316837e",
+            "E022_54f46969e1",
+            "E028_90ca243e6e"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E009_d35316837e",
+              "source_spans": [
+                [
+                  857,
+                  2037
+                ]
+              ],
+              "content_sha256": "1b4aab41be04f6b54dc0a7cb0b35490f06b6aa130dcd1b01d04043fceef48a1d"
+            },
+            {
+              "unit_id": "E022_54f46969e1",
+              "source_spans": [
+                [
+                  962,
+                  1057
+                ],
+                [
+                  1154,
+                  1249
+                ]
+              ],
+              "content_sha256": "2c9ecf1458ccd111b2bf080bb928c586e949c4c209a8aa78194c42f5a4cfd20a"
+            },
+            {
+              "unit_id": "E028_90ca243e6e",
+              "source_spans": [
+                [
+                  1743,
+                  1840
+                ],
+                [
+                  1939,
+                  2036
+                ]
+              ],
+              "content_sha256": "e9e7a5a7c8f355b82b296f4810af715e7fd6190491127689a13048a1136e6740"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Kidde",
+      "product_model": "KE-IO3144",
+      "document_id": "f156cdb0-cc8e-4386-ba3b-254dd316bb6a",
+      "chunk_id": "93ea9920-38cb-4ca1-b134-d0e8d4921cb4",
+      "excerpt_sha256": "933a076f358f3f6fd56d78d7e3537a36a774e5861fd31842fd5911124f347a6f",
+      "excerpt": "# KE-IO3144\n\nUnidad inteligente direccionable de 4 entradas/4 salidas con aislador\n\n## Especificaciones técnicas\n\n### General\n\n| Indicación de estado       | LEDs tricolores                      |\n| -------------------------- | ------------------------------------ |\n| Compatibilidad             | Sistemas Excellence Kidde Commercial |\n| Método de direccionamiento | Interruptores DIP                    |\n| Intervalo de direcciones   | 1 a 128                              |\n\n### Eléctrico\n\n| Tipo de fuente de alimentación | Alimentado por bucle                                  |\n| ------------------------------ | ----------------------------------------------------- |\n| Voltaje de funcionamiento      | 17 a 29 VDC                                           |\n| Consumo de corriente           | 350 µA @ 24 VDC (reposo)<br/>2.5 mA @ 24 VDC (activo) |\n| Voltaje de comunicación        | 4 to 11 V (pulsados)                                  |\n\n### Entrada\n\n| Cantidad de entradas     | 4                                                                |\n| ------------------------ | ---------------------------------------------------------------- |\n| Ratio y tipo de entrada  | Nivel dual, Supervisada                                          |\n| Estados de entrada       | Activo, Fault, Normal, Abierto, Corto                            |\n| Resistencia de prealarma | 3 kΩ a 7 kΩ                                                      |\n| Resistencia de alarma    | 0.3 kΩ a 3 kΩ                                                    |\n| Terminación              | 15 kΩ, ¼ W, 1%                                                   |\n| Especificación del cable | Par trenzado blindado/no blindado de 0,5 a 4,9 mm² (10 a 20 AWG) |\n\n### Salida\n\n| Cantidad de salidas      | 4                                                                  |\n| ------------------------ | ------------------------------------------------------------------ |\n| Ratio y tipo de salida   | Relé, 2A @ 30 VDC (carga resistiva)                                |\n| Especificación del cable | Par trenzado blindado/no blindado de 0,13 a 3,31 mm² (12 a 26 AWG) |\n\n### Aislamiento\n\n| Tipo                     | Salto de línea negativo            |\n| ------------------------ | ---------------------------------- |\n| Corriente de lazo        | 2.5 mA (activo)                    |\n| Resistencia en serie     | < 0.08 Ω                           |\n| Corriente de conmutación | 1.05 A (continuos) / 1.4 A (short) |\n| Corriente de fuga        | < 1 mA                             |\n| Voltaje de aislamiento   | 14 a 15.5 VDC                      |\n| Voltaje de reconexión    | 14 a 15.5 VDC                      |\n| Requisitos de impedancia | ≤32 dispositivos entre aisladores  |\n| Cantidad por lazo        | 128                                |\n\n### Físico"
+    },
+    {
+      "item_id": "s198e_src_07",
+      "eligible": true,
+      "question": "",
+      "answer_points": [
+        {
+          "claim": "Switch off the power supply before opening the housing",
+          "facet": "safety_warning_exception_or_conflict",
+          "support_unit_ids": [
+            "E002_818e5a823e",
+            "E016_493c22d1c5"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E002_818e5a823e",
+              "source_spans": [
+                [
+                  0,
+                  1026
+                ]
+              ],
+              "content_sha256": "b133c5cafc518b6ec5cb92d9197de51323cea84638f0e8723b3810b78fe34385"
+            },
+            {
+              "unit_id": "E016_493c22d1c5",
+              "source_spans": [
+                [
+                  43,
+                  533
+                ],
+                [
+                  1026,
+                  1355
+                ]
+              ],
+              "content_sha256": "879d06902f612b03238054c59bf8c35adfa26add0179fa2d50e444386a7d4a44"
+            }
+          ]
+        },
+        {
+          "claim": "Loosen the four cover screws to remove the upper section",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E008_7618124570",
+            "E005_0a3e519409"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E008_7618124570",
+              "source_spans": [
+                [
+                  2445,
+                  2588
+                ]
+              ],
+              "content_sha256": "75622744545239f21f18cb6190480dc0d54ed0e3b04ba47556589d1457241818"
+            },
+            {
+              "unit_id": "E005_0a3e519409",
+              "source_spans": [
+                [
+                  1686,
+                  2882
+                ]
+              ],
+              "content_sha256": "cc0f783ba88c3b6d9feb6f44ab996f1897630cc0ffb7d26823152775c01da0c2"
+            }
+          ]
+        },
+        {
+          "claim": "Turn the cover screws to the limit position until the housing locks into place to close the housing",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E012_42d3ed2585",
+            "E009_3a8ac30efc"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E012_42d3ed2585",
+              "source_spans": [
+                [
+                  2658,
+                  2841
+                ]
+              ],
+              "content_sha256": "dec0c9f9edd40d99881f2ba2786fee0ecbd7d6b105d444db1860ddd3d84acea8"
+            },
+            {
+              "unit_id": "E009_3a8ac30efc",
+              "source_spans": [
+                [
+                  2589,
+                  2999
+                ]
+              ],
+              "content_sha256": "b73447c6d491d198e05bb21620795043b10e26f7126c2b4fbc551507b48be5f5"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Pfannenberg",
+      "product_model": "PYX-L-15",
+      "document_id": "e837f20c-e05e-4cb3-9504-6ab35b6c3b23",
+      "chunk_id": "0cc84a6f-16d2-4671-b736-f5e4548641a0",
+      "excerpt_sha256": "33f735749ea02e3444e3e578d29f2c3c0d64cfbafde0e13b7919729a15eaedfa",
+      "excerpt": "# Taking into Operation\n\n## Safety notes:\n\n| \\[Triangle warning icon]<br/>**DANGER** | **Life-threatening danger due to electric shock**<br/>- Before all work on the equipment, the following should be observed:<br/>Switch off the power supply before opening.<br/>- Wait 5 minutes before opening the housing<br/>- All work on the equipment is only to be carried out by authorised technical personnel in accordance<br/>with all applicable regulations.<br/>- The operating voltage may only be applied if the housing is tightly closed. |\n| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |\n\n| \\[Triangle warning icon]<br/>**CAUTION** | **Danger of injury due to sharp edges or heated components**<br/>- It is recommended to wear gloves during installation, assembly, or service / maintenance work.<br/>- In order to prevent detriment to sight, continuously looking directly in the activated light is to be<br/>avoided. |\n| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |\n\n- Before electrical connection, the supply voltage on the type plate is to be checked. The wrong operating voltage can lead to damages or to the destruction of the equipment.\n- During installation it must be ensured that the connection cables are secured against tension and distortion. Please observe: The devices are not designed for portable use.\n- CAUTION: When making installation, route field wiring away from sharp projections, corners and internal components.\n- The function of the unit is only guaranteed if the upper and lower section is joined correctly.\n- The device is provided with a reverse polarity protection. No function when polarity is reversed!\n\n## Opening the housing\n\n**1.** [Diagram showing screw with X mark and 3/8 rotation arrow]\n\n**2.** [Diagram showing screw with + mark and rotation symbols] By loosening the four cover screws, the upper section can be removed. ( ⊗ ⟹ ⊕ )\n\n## Closing the housing\n\n**1.** [Diagram showing screw with + mark]\n\n**2.** [Diagram showing screw with X mark and 3/8 rotation arrow] The housing is closed by turning the cover screws to the limit position until the housing locks into place. ( ⊕ ⟹ ⊗ )\n\nThe unit is not closed when delivered. Sealing plugs for the housing screws are available as accessories.\n\n## Electrical connection:\n\n**(PCB in base part)**"
+    },
+    {
+      "item_id": "s198e_src_08",
+      "eligible": true,
+      "question": "",
+      "answer_points": [
+        {
+          "claim": "Terminal 1 receives the current input for power supply",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E004_10d5d64ff9",
+            "E005_ced968ff16"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E004_10d5d64ff9",
+              "source_spans": [
+                [
+                  340,
+                  385
+                ]
+              ],
+              "content_sha256": "1265c45451b5cb0f7e58f8156f2a59b6505152b0753312f551c471bd2f64073d"
+            },
+            {
+              "unit_id": "E005_ced968ff16",
+              "source_spans": [
+                [
+                  387,
+                  475
+                ]
+              ],
+              "content_sha256": "ffa1f6b9e15d71069d6c1bca4777e3489156f4601335394865904eaa9b88c2e9"
+            }
+          ]
+        },
+        {
+          "claim": "Terminal 2 serves as the return connection for the power supply",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E004_10d5d64ff9",
+            "E005_ced968ff16"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E004_10d5d64ff9",
+              "source_spans": [
+                [
+                  340,
+                  385
+                ]
+              ],
+              "content_sha256": "1265c45451b5cb0f7e58f8156f2a59b6505152b0753312f551c471bd2f64073d"
+            },
+            {
+              "unit_id": "E005_ced968ff16",
+              "source_spans": [
+                [
+                  387,
+                  475
+                ]
+              ],
+              "content_sha256": "ffa1f6b9e15d71069d6c1bca4777e3489156f4601335394865904eaa9b88c2e9"
+            }
+          ]
+        },
+        {
+          "claim": "Terminal 3 activates manual BIT by momentary connection to the return line",
+          "facet": "input_trigger_or_observed_condition",
+          "support_unit_ids": [
+            "E006_38adaf0491",
+            "E007_d13bb724a8"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E006_38adaf0491",
+              "source_spans": [
+                [
+                  477,
+                  531
+                ]
+              ],
+              "content_sha256": "c945fc0c4cd4489c830e42ed0fd04d184133d6b6b062b7680c87e920d2e02294"
+            },
+            {
+              "unit_id": "E007_d13bb724a8",
+              "source_spans": [
+                [
+                  533,
+                  715
+                ]
+              ],
+              "content_sha256": "3d3d5b7505a2ea7c1476f18dca6b9c09a75e1ef9c4e76728439c99423d863204"
+            }
+          ]
+        },
+        {
+          "claim": "Terminals 4 and 5 form the normally-open fault relay that remains closed during normal operation",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E008_449515a2b5",
+            "E009_5228400fec"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E008_449515a2b5",
+              "source_spans": [
+                [
+                  717,
+                  754
+                ]
+              ],
+              "content_sha256": "4c50d2a33b339fd6ac38770ca48260713cbb60edf381a6105880227af682e5cb"
+            },
+            {
+              "unit_id": "E009_5228400fec",
+              "source_spans": [
+                [
+                  756,
+                  922
+                ]
+              ],
+              "content_sha256": "b60869dea2093855e015c6d45f9e0ac61577aef34df3c21b97a59d459bebb1ba"
+            }
+          ]
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Spectrex",
+      "product_model": "20/20I",
+      "document_id": "24b703a2-2e75-428f-b0e2-14a7530e1998",
+      "chunk_id": "c41270f9-c809-4261-869d-e173027763dd",
+      "excerpt_sha256": "91e42276ff07f4ca082bdbfce08fc919af72183b7c234f8dc33fedd2acd19ac3",
+      "excerpt": "## 7.7 <ins>INSTALACIÓN ELÉCTRICA DEL TERMINAL</ins>\n\nEl detector consta de una placa Terminal con dos bloques de terminales. El bloque del terminal izquierdo está etiquetado del 1 al 7, el bloque derecho del 8 al 14. Ver ilustración Nº 9. A continuación se especifican las funciones de cada uno de los terminales eléctricos del detector.\n\n**Fuente de Alimentación (Terminales 1, 2):**\n\nLa entrada de corriente alimenta al Terminal 1.\nEl RETORNO está conectado al Terminal 2.\n\n**Activación de la Prueba (BIT) Manual (Terminal 3):**\n\nEl Terminal 3 se utiliza para activar la Prueba Manual. La Prueba Manual se inicia mediante una conexión momentánea del Terminal 3 a la línea de Retorno de la fuente de alimentación.\n\n**Relé de Avería (Terminales 4, 5):**\n\nLa salida de Avería es el relé SPST N.A. en los Terminales 4 y 5. Los contactos permanecen cerrados cuando el detector está en su condición de funcionamiento normal .\n\n**Relé de Alarma (Terminales 6, 7, 8):**\n\nLa salida de Alarma supone un cambio sobre el relé de contacto (SPDT).\nEl Terminal Nº 6 es el contacto del relé N.A.\nEl Terminal Nº 7 es el contacto del relé COMÚN.\nEl Terminal Nº 8 es el contacto del relé N.C.\n\n**Relé Accesorio (Terminales 9, 10):**\n\nLa salida Accesorio es el relé SPST N.A. en los Terminales 9 y 10.\nEl relé Accesorio puede actuar conjuntamente con el relé de ALARMA para activar otro equipo externo o bien puede proporcionar una señal de aviso, depende de la posición del microinterruptor SW1-2.\n\n**NOTA:** Para proteger los contactos secos de sobretensiones cuando están conectados a cargas reactivas (motores eléctricos, sirenas, etc.), conecte una resistencia adecuada sobre estos contactos.\n\n**Circuitos de Salida de 4-20 mA (Terminales 11, 12):**\n\nLos Terminales 11 y 12 se utilizan para salidas de corriente analógicas de 4-20 mA tal y como se especifica en el párrafo 4.e\nEl Terminal Nº 11 se utiliza como Terminal de salida (+).\nEl Terminal Nº 12 se utiliza como Terminal de entrada (-).\nPara más detalles, consulte el apéndice B .\n**NOTA:** Para otras SALIDAS ANALÓGICAS consulte con el fabricante.\n\n**RS-485 (Terminales 13, 14):**\n\nLos Terminales 13 y 14 se utilizan para la red de comunicaciones (consulte el apéndice C).\nEl Terminal Nº 13 es el cable positivo (+) .\nEl Terminal Nº 12 es el cable (-) .\n\nMN-DT-700_C    NOTIFIER ESPAÑA    41\n\n[Technical diagram showing a connection board with two terminal blocks. The left terminal block is labeled \"P1\" at the bottom with a mounting screw symbol (circle with X). It contains 7 connection terminals numbered 1-7 from bottom to top, each represented by a circle with a diagonal line. Numbers 1-6 are labeled on the right side of the terminals, with number 7 appearing at the top left.\n\nThe right terminal block is labeled \"P2\" at the bottom with a mounting screw symbol. It contains 7 connection terminals numbered 8-14 from bottom to top, each represented by a circle with a diagonal line. Numbers 8-14 are labeled on the left side of the terminals."
+    },
+    {
+      "item_id": "s198e_src_09",
+      "eligible": true,
+      "question": "",
+      "answer_points": [
+        {
+          "claim": "If the CO cell is overheating, disconnect the unit and allow it to cool for 5 minutes before restarting the test",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E044_9a296d4322",
+            "E045_fcb82b1d49",
+            "E046_1a369a1d06"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E044_9a296d4322",
+              "source_spans": [
+                [
+                  2428,
+                  2462
+                ]
+              ],
+              "content_sha256": "5f48e5ee1af345f5ec5f0254e6b3b467eb87cf1514720e1bdc2e5e61e284506a"
+            },
+            {
+              "unit_id": "E045_fcb82b1d49",
+              "source_spans": [
+                [
+                  2464,
+                  2487
+                ]
+              ],
+              "content_sha256": "c1a1bd19b5ecf0b40ae4d41762953b422edcb5b6185fb4e8cc8403bb45eeeba3"
+            },
+            {
+              "unit_id": "E046_1a369a1d06",
+              "source_spans": [
+                [
+                  2489,
+                  2600
+                ]
+              ],
+              "content_sha256": "6e68a06833578a59ef46c6500b119508171b20cbfb824baf790813d80b854770"
+            }
+          ]
+        },
+        {
+          "claim": "If a smoke capsule is not detected, adjust the installed capsule or install a new capsule",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E017_2b7812acc5",
+            "E018_c095c699dd",
+            "E019_ed48645ac1"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E017_2b7812acc5",
+              "source_spans": [
+                [
+                  1147,
+                  1178
+                ]
+              ],
+              "content_sha256": "f3b59d11d8e67d8a09fa01298761e4316f9f2db682c0ae5f4bbd68d96d9bc774"
+            },
+            {
+              "unit_id": "E018_c095c699dd",
+              "source_spans": [
+                [
+                  1180,
+                  1205
+                ]
+              ],
+              "content_sha256": "c1d2adb38422c80bdce67a4a2a143fb57e5dd806dd6229e5b8fe51c09ae667fe"
+            },
+            {
+              "unit_id": "E019_ed48645ac1",
+              "source_spans": [
+                [
+                  1207,
+                  1272
+                ]
+              ],
+              "content_sha256": "2f74ef10431740bc705c65ff44686704e457f78e3aadb1ec7213c732f32cb9bb"
+            }
+          ]
+        },
+        {
+          "claim": "If a CO capsule is empty, install a new capsule",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E023_bcb0fdb350",
+            "E024_c69a932c5b",
+            "E025_686803aac6"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E023_bcb0fdb350",
+              "source_spans": [
+                [
+                  1478,
+                  1500
+                ]
+              ],
+              "content_sha256": "cb7b924c26020b4db627d96ce9d9158aab7753cb1d162af740c673c7507151a9"
+            },
+            {
+              "unit_id": "E024_c69a932c5b",
+              "source_spans": [
+                [
+                  1502,
+                  1515
+                ]
+              ],
+              "content_sha256": "cbb8045db743b5b340a0222c99d4e8e6eaa893ff2f326ebd8a326f1cc10977a1"
+            },
+            {
+              "unit_id": "E025_686803aac6",
+              "source_spans": [
+                [
+                  1517,
+                  1543
+                ]
+              ],
+              "content_sha256": "78219de6e4d240c2926808e6caeec403fdf2c6df742b3a99a52e8cec39888d11"
+            }
+          ]
+        },
+        {
+          "claim": "If smoke capsule data is incorrect due to damage or misalignment, readjust the capsule or replace it if the error persists",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E029_d91c80a16b",
+            "E030_a113b227f0",
+            "E033_b96c970bea"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E029_d91c80a16b",
+              "source_spans": [
+                [
+                  1743,
+                  1777
+                ]
+              ],
+              "content_sha256": "e4f3eeb2c3d67fdf76ce23ac3cd2447b4482912aa176e2a62357289a3b55d992"
+            },
+            {
+              "unit_id": "E030_a113b227f0",
+              "source_spans": [
+                [
+                  1779,
+                  1808
+                ]
+              ],
+              "content_sha256": "0ec71fd43dce3f98a1615a19e78e5f587585bda0d8c3f172ac7aa929952287b3"
+            },
+            {
+              "unit_id": "E033_b96c970bea",
+              "source_spans": [
+                [
+                  1832,
+                  1874
+                ]
+              ],
+              "content_sha256": "699b183414d04ef7d9920a0b69f30f0d394e35bed8c838cfc5a10e6c07b1a845"
+            }
+          ]
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Xtralis",
+      "product_model": "Testifire 2000",
+      "document_id": "a107427f-5534-406b-b153-98c6e08e4524",
+      "chunk_id": "791d16a1-1ed9-4aa0-a878-b8cb9e993b87",
+      "excerpt_sha256": "b7c8c954e705da9b5b77185d43357f18341b33dabff891442ce442655f323e52",
+      "excerpt": "● Después de un reinicio del sistema, aparecerá en la pantalla inicial el logotipo de Testifire y, a continuación, la opción Seleccionar idioma del sistema (véase el apartado 4.4).\n\nwww.testifire.com\npágina 23\n\n## 6.3 Mensajes de error y tabla de referencia de LED indicadores\n\n**Nota:** Si se produce algún problema en su unidad Testifire, el indicador de estado parpadeará o permanecerá encendido en color rojo y el indicador de tipo de prueba no se iluminará. Se mostrará en pantalla un mensaje de error.\n\n**Sustituya la Battería**\n\nSi parpadea el indicador de estado, deberá recargar o sustituir la Battery Baton pronto.\n\nSi se enciende el indicador de estado, deberá recargar o sustituir la Battery Baton inmediatamente.\n\n**¡FALLO! Módulo de CO**\n\nSe ha producido un problema con el módulo de CO.\n\nContacte con su centro de reparaciones regional para concertar la reparación de la avería.\n\n**¡FALLO! Ventilador de Humo**\n\nSe ha producido un problema con el ventilador de humo.\n\nSi el error continúa, contacte con su centro de reparaciones regional para concertar la reparación de la avería.\n\n**Mensajes de error de la cápsula (humo y CO):**\n\n**CO No Se Detectó la Cápsula**\n\nNo Se Detectó la Cápsula.\n\nAjuste la cápsula (si está instalada) o instale una cápsula nueva\n\n**¡FALLO! Ventilador de Calor**\n\nSe ha producido un problema con el ventilador de calor.\n\nSi el error continúa, contacte con su centro de reparaciones regional para concertar la reparación de la avería.\n\n**CO ¡Cápsula Vacía!**\n\nCápsula vacía\n\nInstale una nueva cápsula.\n\n**¡FALLO! Ventilador de CO**\n\nSe ha producido un problema con el ventilador de CO.\n\nSi el error continúa, contacte con su centro de reparaciones regional para concertar la reparación de la avería.\n\n**Humo Datos de Cápsula Erróneos**\n\nCápsula dañada o mal ajustada\n\nReajuste la cápsula.\n\nSi el error continúa, sustituya la cápsula\n\n**¡FALLO! Ventilador de Limpieza**\n\nSe ha producido un problema con el ventilador de limpieza.\n\nSi el error continúa, contacte con su centro de reparaciones regional para concertar la reparación de la avería.\n\n**Humo Error de Lectura de Cápsula**\n\nCápsula dañada o mal ajustada\n\nReajuste la cápsula.\n\nSi el error continúa, sustituya la cápsula\n\n**¡FALLO! Ventilador de Chasis**\n\nSe ha producido un problema con el ventilador del chasis.\n\nSi el error continúa, contacte con su centro de reparaciones regional para concertar la reparación de la avería.\n\n**¡FALLO! Célula CO Muy Caliente**\n\nCélula CO Muy Caliente.\n\nDesconecte la unidad y deje que se enfríe durante 5 minutos. Después, enciéndala y vuelva a intentar la prueba.\n\nSi aparece el mismo mensaje, contacte con su centro de reparaciones regional para reparar la avería.\n\nwww.testifire.com\npágina 24"
+    },
+    {
+      "item_id": "s198e_src_10",
+      "eligible": true,
+      "question": "",
+      "answer_points": [
+        {
+          "claim": "Move the link switch to position ON",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E010_6b02510ea8"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E010_6b02510ea8",
+              "source_spans": [
+                [
+                  890,
+                  931
+                ]
+              ],
+              "content_sha256": "0d5a9ecc29e972bfea3b970ec34c9947c7a141272694a6690c99baac9d40a456"
+            }
+          ]
+        },
+        {
+          "claim": "Insert the backup battery into its housing",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E012_de3872353e"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E012_de3872353e",
+              "source_spans": [
+                [
+                  1010,
+                  1068
+                ]
+              ],
+              "content_sha256": "75903c0456e158c25a7b0a59632ef8ef9cdd62c190124c36ed69c82d1cf8ac3f"
+            }
+          ]
+        },
+        {
+          "claim": "Insert the primary battery into its housing and ensure both battery polarities are correct",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E014_b46bdee7fc",
+            "E015_e8f9c787ef"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E014_b46bdee7fc",
+              "source_spans": [
+                [
+                  1139,
+                  1266
+                ]
+              ],
+              "content_sha256": "914ad13f1bed47ec49fb201a990010b727f9ac1615fbd5d2e39cfdbdb72f089f"
+            },
+            {
+              "unit_id": "E015_e8f9c787ef",
+              "source_spans": [
+                [
+                  1268,
+                  1324
+                ]
+              ],
+              "content_sha256": "afc7241e9a2414f8d8f354c9564e4830a76aed638b0842da02a0b834ecf7d378"
+            }
+          ]
+        },
+        {
+          "claim": "Move the link switch to position 1 when the translator/expander is looking for a new device to initiate communication",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E018_6e2a6ec419"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E018_6e2a6ec419",
+              "source_spans": [
+                [
+                  1728,
+                  2020
+                ]
+              ],
+              "content_sha256": "dfcf7f3ccf124490141d1d9e290890d992cbed5c29b80010fdda58b4d17869c4"
+            }
+          ]
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Argus Security",
+      "product_model": "SGFI200",
+      "document_id": "e2f0c96f-c1ac-4bab-9d22-95574cecb194",
+      "chunk_id": "27432669-3125-4b5e-a1f0-f856c105676e",
+      "excerpt_sha256": "eef3fdfb681a8683f8c9e50fd2b296fa51866432f70796188416e82092dbcc3e",
+      "excerpt": "## DEVICE'S POWER SUPPLY AND LINKING\n\nThe remote indicator device becomes part of the wireless system after only after it is linked to a parent translator or a parent expander.\n\nIt is possible to perform the linking in two ways:\n\n- From the translator module interface: it can be done if the system hasn't got any expanders; nevertheless the suggested \"Period of control signals transmission\" and \"Supervision period\" (TECHNICAL SPECIFICATIONS table) cannot be applied.\n\n- Through the \"Wirelex Fire\" software: if the system has one or more expanders; suggested \"Period of control signals transmission\" and \"Supervision period\" (TECHNICAL SPECIFICATIONS table) parameters can be applied.\n\n### EITHER WAY IS LINKED, THIS REMOTE INDICATOR MODEL MUST BE LINKED AS A BATTERY POWERED OUTPUT MODULE.\n\nThe following procedure does not change whether is made through the translator or the Wirelex.\n\n1) Move the link switch to position \"ON\".\n\n[Picture 3: Image showing the internal PCB with link switch in ON position]\n\n2) Insert the backup battery into its housing (picture 3).\n\n[Picture 4: Image showing the device with backup battery installed]\n\n3) Insert the primary battery into its housing; the visual LED indicator switches on accordingly (check \"Power up\" in table 2).\n\n**Ensure that both battery's polarities are correct!!!**\n\nARGUS SECURITY S.R.L. - Via del Canneto, 14 - 34015 - Muggia (TS) - Italy                    www.argussecurity.it                    info@argussecurity.it                    L20-SGFI2S-0001 (v2.3)\nRN\n\nARGUS SECURITY S.R.L. - Via del Canneto, 14 - 34015 - Muggia (TS) - Italy                    www.argussecurity.it                    info@argussecurity.it                    L20-SGFI2S-0001 (v2.3)\nRN\n\n4) When the translator / expander is looking for a new device for linking, move the link switch to position \"1\" in order to initiate communication with the translator / expander module; the visual LED indicator switches on accordingly (see \"Programming and linking to the system\" in table 2)."
+    },
+    {
+      "item_id": "s198e_src_11",
+      "eligible": true,
+      "question": "",
+      "answer_points": [
+        {
+          "claim": "The panel supports up to 256 devices in 512 zones with 2 High Power Loops",
+          "facet": "measurement_limit_or_timing",
+          "support_unit_ids": [
+            "E010_cf079ebafa"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E010_cf079ebafa",
+              "source_spans": [
+                [
+                  925,
+                  1417
+                ]
+              ],
+              "content_sha256": "4d0cbc19d4fd2b5b3787c24bb5cc8bf556c314eb7bc7192f10bbdd049658f3a3"
+            }
+          ]
+        },
+        {
+          "claim": "An extra 2 High Power Loop board can be added to bring the panel to up to 512 devices",
+          "facet": "option_mode_or_default",
+          "support_unit_ids": [
+            "E012_77e2be7efe"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E012_77e2be7efe",
+              "source_spans": [
+                [
+                  1431,
+                  1972
+                ]
+              ],
+              "content_sha256": "238eac1b427c6e33377af2c2baa79f7c8cdc417ce0146e877da0c4b68d0a54af"
+            }
+          ]
+        },
+        {
+          "claim": "A network board can be added to create a maximum of 64 nodes / 256 loops network",
+          "facet": "option_mode_or_default",
+          "support_unit_ids": [
+            "E012_77e2be7efe"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E012_77e2be7efe",
+              "source_spans": [
+                [
+                  1431,
+                  1972
+                ]
+              ],
+              "content_sha256": "238eac1b427c6e33377af2c2baa79f7c8cdc417ce0146e877da0c4b68d0a54af"
+            }
+          ]
+        },
+        {
+          "claim": "High loop power PAK is available to increase the loop power from 500 mA to 800 mA",
+          "facet": "option_mode_or_default",
+          "support_unit_ids": [
+            "E014_f681c55da5"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E014_f681c55da5",
+              "source_spans": [
+                [
+                  1974,
+                  2053
+                ]
+              ],
+              "content_sha256": "c7d60f10dde01503fe56e6caf77dc93ab65028802e331d34f9e5999d3fccaff7"
+            }
+          ]
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Aritech",
+      "product_model": "2X-AF2-FB",
+      "document_id": "1a00372e-3115-4cd6-adae-d950946259fe",
+      "chunk_id": "b1e94b89-7cd4-4bb7-a214-52b158fac511",
+      "excerpt_sha256": "5b8c0857e2cd799b9d3f4e3b4ecf40760dfaaf92aeb565fc83cfdd4b2aad4db8",
+      "excerpt": "KIDDE\nCOMMERCIAL\n\n# 2X-AF2-FB\n\n**Addressable fire panel with fire brigade controls, 2 loop**\n\n## Overview\n\nThe new 2X-A series life safety control systems bring the speed and functionality of high-end intelligent processing to small to mid-sized addressable applications. Based on 2X series learned experience and with complete backwards compatibility, the new 2X-A features an attractive contemporary design that fits with any decor. With improved robustness, manufactured in metal, special plastics and easy electronics removal, it allows painting in any colour. The main controls are easily located using an improved and robust jog dial.\n\nWith high power loop addressable detection, a full line of easily configured option cards and modules, as well as USB and Ethernet® connectivity, these quick-to configure systems offer versatility that benefits building owners and life safety system installers alike.\n\n## The Panel\n\nThe fire panels supplied in local language, , with user interface with fire routing controls, with 2 High Power Loops that supports up to 256 devices in 512 zones, have standard 4 supervised sounder/fire-routing outputs, which can be used as freely programmable outputs as well. In addition 2 conventional relay outputs and 2 supervised outputs, working in pair and dedicated to common fire and fault conditions, as well as 2 user configurable inputs for monitoring and control are available.\n\n## Options\n\nThe panel supports an extra 2 High Power Loop board that brings the panel to up to 512 devices with 4 additional programmable outputs. Add a network board to create a maximum of 64 nodes / 256 loops network of fire panels and fire panel repeaters (including conventional fire panels and fire repeater panels up to a maximum of 64 conventional zones). Last but not least, in case seperate zone indications are required, a 20 or a 40 zone fire/fault LED indicator board can be mounted in the panel or repeater with ample space for custom text.\n\nHigh loop power PAK available to increase the loop power from 500 mA to 800 mA.\n\nCompatible with existing loop devices and network compatible with existing panels, repeaters (existing and new) and conventional panels.\n\n## Approvals & compliance\n\n• CE / CPD / EN54-2 / EN54-4 / EN54-21\n• WEEE / RoHS compliant\n\n## Detalles"
+    },
+    {
+      "item_id": "s198e_src_12",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "prose",
+      "manufacturer": "LDA audioTech",
+      "product_model": "ZES-22",
+      "document_id": "c79207a7-0950-48a8-81f7-cb236bb3dba5",
+      "chunk_id": "5069f58e-a021-4e69-a415-d1414d612bf2",
+      "excerpt_sha256": "2bc69830c25edb8e78b5ef1b1538dbbee37d32e700416ddf072f520f17f7c9a4",
+      "excerpt": "# Índice de tablas\n\nTabla 1: Descripción del conexionado...................................................................................6\n\nNO_CONTENT_HERE\n\nMANUAL DE USUARIO – LDA ZES-22\n\n# ADVERTENCIAS\n\n1. Lea este manual de instrucciones antes de manejar el equipo.\n2. Conserve este manual para posteriores consultas.\n3. El equipo no debe ser expuesto a goteos o proyecciones de agua. Por precaución, no deben situarse recipientes que contengan líquido, junto/encima del equipo.\n4. No bloquee las entradas/salidas de ventilación del equipo, ni instale el equipo junto a fuentes de calor.\n5. Si el equipo va a ser montado en un bastidor o rack, asegúrese de que se mantiene una buena ventilación.\n6. Use sólo accesorios originales suministrados por el fabricante del equipo.\n7. Desenchufe el aparato si no va a ser usado durante largo tiempo.\n8. Límpiese con un paño húmedo, no utilice productos químicos.\n\nLDA Audio Tech - Severo Ochoa Nº 31- 29590 MÁLAGA, ESPAÑA. www.lda-audiotech.com 1\n\nNO_CONTENT_HERE\n\nMANUAL DE USUARIO – LDA ZES-22"
+    }
+  ],
+  "point_reviews": [],
+  "question_reviews": [],
+  "receipt_hashes": {
+    "evals/s198_point_author_receipts_v2.json": "2bc3c0a955b6b0c6b42b57f69de25c54e5e2cd598998c7803b164fa74d34d914"
+  },
+  "cohort_sha256": "676e7a0d526a917de725d163b09234bb4e0681a752ef9d54eea7d8ce2a757ca6"
+}

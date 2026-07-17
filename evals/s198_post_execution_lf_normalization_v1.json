@@ -1,0 +1,52 @@
+{
+  "experiment_id": "S198",
+  "artifact_kind": "post_execution_byte_normalization_receipt",
+  "status": "SEALED",
+  "reason": "The S198 artifact family is canonical LF in .gitattributes, while the executed Windows writer emitted CRLF bytes. Normalize the versioned copies before review so Git checkout cannot silently change their physical hashes.",
+  "scope": "byte_encoding_only_except_for_dependent_hash_metadata",
+  "model_semantic_payload_unchanged": true,
+  "model_calls_retried": 0,
+  "facts_moved_to_ok": 0,
+  "verdict_unchanged": "NO_GO_POINT_PLAN_STRUCTURAL_GATE",
+  "files": [
+    {
+      "path": "evals/s198_point_first_scope_execution_lock_v2.json",
+      "crlf_sha256": "cdd4d4bdc64af42c11c83f7066f4879680da44416fc0088239c64457772505de",
+      "lf_sha256": "471b9ca62923feef5a09aab187305db2138b2861d029327e222aafcf0616ac25"
+    },
+    {
+      "path": "evals/s198_point_author_prepaid_v2.json",
+      "crlf_sha256": "1bc42c0f0c18e49ce86839d544b9b33f478efab66dc5e48290927a58e7ab86dc",
+      "lf_sha256": "b2c377d6a3a2614c71c6f1b7e6fb0f015dfaa37dce4a2279efaf918614629ee9"
+    },
+    {
+      "path": "evals/s198_point_author_receipts_v2.json",
+      "crlf_sha256": "d179c9f9bd132d3b38489cd44a0dcb93fb2bee6acaf3cf2339bc97cf0b08c0b2",
+      "lf_sha256": "2bc3c0a955b6b0c6b42b57f69de25c54e5e2cd598998c7803b164fa74d34d914"
+    },
+    {
+      "path": "evals/s198_point_first_scope_screened_cohort_v2.json",
+      "crlf_sha256": "294ff710a6bf4fcbccd1cf6dcc5aa906bbaba114af20e579efdba1bfda5b0b70",
+      "lf_before_dependent_hash_updates_sha256": "88332f5d7ff61bc68f53a2cca32204d55933f93b01d5be37ad6f04eab5f168b0",
+      "sealed_lf_sha256": "c98468dc546047af8768a2497f53787629a36a71ae1e967b8a5a29c722c5ae51"
+    },
+    {
+      "path": "evals/s198_point_first_scope_gate_v2.json",
+      "crlf_sha256": "d87360928398880f288c4ba1ca6ec1ab01845db5f846c916a6d746e05615fc22",
+      "lf_sha256": "ca29d05ea6d15409303e6345523c77fce0744c3b607b43b5c219264d66e27d60"
+    }
+  ],
+  "dependent_hash_updates": {
+    "cohort_receipt_hash_before": "d179c9f9bd132d3b38489cd44a0dcb93fb2bee6acaf3cf2339bc97cf0b08c0b2",
+    "cohort_receipt_hash_after": "2bc3c0a955b6b0c6b42b57f69de25c54e5e2cd598998c7803b164fa74d34d914",
+    "cohort_sha256_before": "288eb61c51619862fbc29e8a2abf65b0a1bff26b3112426791ea67e3863e1e82",
+    "cohort_sha256_after": "676e7a0d526a917de725d163b09234bb4e0681a752ef9d54eea7d8ce2a757ca6"
+  },
+  "validation": {
+    "all_versioned_runtime_artifacts_crlf_count": 0,
+    "cohort_logical_seal_valid": true,
+    "result_logical_seal_valid": true
+  },
+  "chunks_v3_evaluation_lane": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+  "railway_deploy_gate": false
+}
