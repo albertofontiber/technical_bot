@@ -3,6 +3,7 @@ Telegram bot for PCI technicians.
 Receives questions, queries the RAG pipeline, and returns formatted answers with diagrams.
 """
 
+import asyncio
 import logging
 import re
 import tempfile
@@ -29,6 +30,12 @@ from ..rag.generator import generate_answer
 from ..rag.post_rerank_coverage import apply_post_rerank_coverage
 from ..rag.structural_neighbor_shadow import observe_structural_neighbor_shadow
 from ..logging_db import log_query, log_feedback, has_consent, set_consent
+from .response_formatter import (
+    format_telegram_messages,
+    telegram_html_to_plain,
+)
+from .audio_input import audio_file_suffix
+from .voice_query_normalization import normalize_voice_query
 from .whisper_vocabulary import get_whisper_prompt
 
 logging.basicConfig(
@@ -182,8 +189,8 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
-async def transcribe_audio(file_path: str) -> str:
-    """Transcribe audio file using OpenAI Whisper API.
+def _transcribe_audio_sync(file_path: str) -> str:
+    """Blocking OpenAI Whisper call, isolated for async dispatch and tests.
 
     Passes a PCI-domain vocabulary hint so model codes like CAD-250, AFP-2820,
     ID-3000 are transcribed correctly instead of as spelled-out numbers.
@@ -198,6 +205,11 @@ async def transcribe_audio(file_path: str) -> str:
             prompt=get_whisper_prompt(),
         )
     return transcript.text.strip()
+
+
+async def transcribe_audio(file_path: str) -> str:
+    """Transcribe without blocking Telegram's event loop for other users."""
+    return await asyncio.to_thread(_transcribe_audio_sync, file_path)
 
 
 async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -217,25 +229,46 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         # Download voice file from Telegram
         file = await context.bot.get_file(voice.file_id)
-        with tempfile.NamedTemporaryFile(suffix=".ogg", delete=False) as tmp:
+        suffix = audio_file_suffix(
+            file_name=getattr(voice, "file_name", None),
+            mime_type=getattr(voice, "mime_type", None),
+        )
+        with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as tmp:
             tmp_path = tmp.name
             await file.download_to_drive(tmp_path)
 
         # Transcribe with Whisper
         logger.info(f"Transcribing voice message ({voice.duration}s)...")
-        query = await transcribe_audio(tmp_path)
+        raw_transcription = await transcribe_audio(tmp_path)
 
-        if not query:
+        if not raw_transcription:
             await update.message.reply_text(
                 "No he podido entender el audio. ¿Puedes repetirlo o escribir tu pregunta?"
             )
             return
 
-        # Show transcription to user so they can verify
-        await update.message.reply_text(f"🎤 _{query}_", parse_mode="Markdown")
+        # Convert only exact, unambiguous spoken forms derived from the model
+        # catalog ("i de tres mil" -> "ID3000").  Raw ASR stays visible and is
+        # logged unchanged; the retrieval form is explicit when it differs.
+        normalization = normalize_voice_query(raw_transcription)
+        query = normalization.normalized
+        confirmation = f"🎤 {raw_transcription}"
+        if normalization.changed:
+            recognized = list(
+                dict.fromkeys(item.canonical for item in normalization.substitutions)
+            )
+            confirmation += f"\n🔎 Modelo interpretado: {', '.join(recognized)}"
+        # Plain text avoids Telegram Markdown parse failures on arbitrary ASR.
+        await update.message.reply_text(confirmation)
 
-        # Process as a normal text query (with voice metadata for logging)
-        await _process_query(update, context, query, source="voice", transcription=query)
+        # Process the normalized query while preserving raw ASR for audits.
+        await _process_query(
+            update,
+            context,
+            query,
+            source="voice",
+            transcription=raw_transcription,
+        )
 
     except Exception as e:
         logger.error(f"Error processing voice message: {e}")
@@ -524,21 +557,16 @@ async def _process_query(
             response_time_ms=elapsed_ms,
         )
 
-        # Step 4: Format and send answer
-        answer = format_for_telegram(answer)
-        if len(answer) <= 4096:
+        # Step 4: Render at the transport boundary.  The factual answer kept in
+        # logs/evaluation remains untouched; every part is independently valid
+        # Telegram HTML, so splitting cannot leave formatting delimiters open.
+        for answer_part in format_telegram_messages(answer):
             try:
-                await update.message.reply_text(answer, parse_mode="Markdown")
+                await update.message.reply_text(answer_part, parse_mode="HTML")
             except Exception:
-                # Fallback: send without formatting if Markdown parsing fails
-                await update.message.reply_text(answer)
-        else:
-            parts = split_message(answer, 4096)
-            for part in parts:
-                try:
-                    await update.message.reply_text(part, parse_mode="Markdown")
-                except Exception:
-                    await update.message.reply_text(part)
+                # Fail open without exposing raw HTML tags or entities.  This
+                # fallback preserves all technical text and evidence locators.
+                await update.message.reply_text(telegram_html_to_plain(answer_part))
 
         # Step 5: Send diagrams if available (with descriptive captions)
         for i, diagram in enumerate(diagrams):
@@ -579,108 +607,6 @@ async def _process_query(
         await update.message.reply_text(
             "Ha ocurrido un error procesando tu pregunta. Por favor, inténtalo de nuevo."
         )
-
-
-def format_for_telegram(text: str) -> str:
-    """Convert Claude's Markdown output to Telegram-compatible format.
-
-    Telegram's Markdown mode supports: *bold*, _italic_, `code`, [links](url)
-    but NOT: # headers, ## subheaders, ---, > blockquotes, tables, or nested formatting.
-    """
-    # Convert markdown tables to clean list format
-    text = convert_tables(text)
-
-    # Convert headers: ## Title → *Title*  (bold)
-    text = re.sub(r'^#{1,3}\s+(.+)$', r'*\1*', text, flags=re.MULTILINE)
-
-    # Convert horizontal rules to a simple line
-    text = re.sub(r'^---+$', '─' * 20, text, flags=re.MULTILINE)
-
-    # Convert blockquotes: > text → text (with indent)
-    text = re.sub(r'^>\s*(.+)$', r'  💡 \1', text, flags=re.MULTILINE)
-
-    # Convert **bold** to *bold* (Telegram Markdown uses single *)
-    text = re.sub(r'\*\*(.+?)\*\*', r'*\1*', text)
-
-    # Remove any remaining triple backticks (code blocks)
-    text = re.sub(r'```\w*\n?', '', text)
-
-    return text.strip()
-
-
-def convert_tables(text: str) -> str:
-    """Convert Markdown tables to clean bullet-point format for Telegram.
-
-    Example input:
-        | Parámetro | Valor |
-        |---|---|
-        | Consumo | 0.3 mA |
-
-    Example output:
-        • Parámetro: Valor
-        • Consumo: 0.3 mA
-    """
-    lines = text.split("\n")
-    result = []
-    i = 0
-
-    while i < len(lines):
-        line = lines[i].strip()
-
-        # Detect table row: starts and ends with |
-        if line.startswith("|") and line.endswith("|"):
-            # Collect all consecutive table lines
-            table_lines = []
-            while i < len(lines) and lines[i].strip().startswith("|") and lines[i].strip().endswith("|"):
-                table_lines.append(lines[i].strip())
-                i += 1
-
-            # Parse table
-            rows = []
-            for tl in table_lines:
-                cells = [c.strip() for c in tl.strip("|").split("|")]
-                # Skip separator rows (|---|---|)
-                if all(re.match(r'^[-:]+$', c) for c in cells):
-                    continue
-                rows.append(cells)
-
-            if len(rows) >= 2:
-                # First row is header
-                headers = rows[0]
-                for row in rows[1:]:
-                    parts = []
-                    for h, v in zip(headers, row):
-                        if v:
-                            parts.append(f"{h}: {v}")
-                    result.append("• " + " | ".join(parts))
-            elif len(rows) == 1:
-                # Single row, just format as text
-                result.append("• " + " | ".join(rows[0]))
-
-            continue
-
-        result.append(lines[i])
-        i += 1
-
-    return "\n".join(result)
-
-
-def split_message(text: str, max_length: int = 4096) -> list[str]:
-    """Split a long message into parts that fit Telegram's limit."""
-    parts = []
-    while text:
-        if len(text) <= max_length:
-            parts.append(text)
-            break
-        # Find a good split point (newline or space)
-        split_at = text.rfind("\n", 0, max_length)
-        if split_at == -1:
-            split_at = text.rfind(" ", 0, max_length)
-        if split_at == -1:
-            split_at = max_length
-        parts.append(text[:split_at])
-        text = text[split_at:].lstrip()
-    return parts
 
 
 def run_bot():
