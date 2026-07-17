@@ -74,12 +74,19 @@ def build(project: Path) -> dict[str, Any]:
                     for page in result.record["result"]["pages"]
                     if page.get("page") == receipt["page_number"]
                 )["md"]
+                prior_delta = sum(
+                    len(other["derived_token"]) - len(other["original_token"])
+                    for other in result.applied
+                    if other["page_number"] == receipt["page_number"]
+                    and other["source_start"] < receipt["source_start"]
+                )
+                derived_offset = receipt["source_start"] + prior_delta
                 rows.append(
                     {
                         **receipt,
                         "original_markdown_line": _line_at(original, receipt["source_start"]),
                         "derived_markdown_line": _line_at(
-                            derived_page, receipt["source_start"]
+                            derived_page, derived_offset
                         ),
                     }
                 )

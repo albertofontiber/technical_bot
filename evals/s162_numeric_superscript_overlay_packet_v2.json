@@ -1,0 +1,2150 @@
+{
+  "instrument": "s162_numeric_superscript_overlay_qualification_packet_v1",
+  "status": "LOCAL_PACKET_BUILT",
+  "target": [
+    {
+      "extraction_sha256": "648e8deba384c0a27f7f255a9149f754acb6cca999c586b0667829e457888c72",
+      "manufacturer": "Manuales_Notifier",
+      "source_file": "I56-6577-006_EN Notifier FAAST LT-200 QIG.PDF",
+      "target_document": true,
+      "applied": [
+        {
+          "pdf_sha256": "648e8deba384c0a27f7f255a9149f754acb6cca999c586b0667829e457888c72",
+          "page_number": 5,
+          "source_start": 5019,
+          "source_end": 5022,
+          "original_token": "105",
+          "derived_token": "10<sup>5</sup>",
+          "matched_anchors": [
+            "life",
+            "operations",
+            "time"
+          ],
+          "original_page_markdown_sha256": "1df733f3cbf28526f9953dafcc5b1b7fc0ebbaf4aee0f316faae24d71798b296",
+          "derived_page_markdown_sha256": "31df8fa56798035561be9ffccfbee8e3cee09f7edbb46a3d92aa2c95ab3f6334",
+          "geometry": {
+            "page_number": 5,
+            "base": "10",
+            "script": "5",
+            "flattened_token": "105",
+            "explicit_markup": "10<sup>5</sup>",
+            "anchor_tokens": [
+              "life",
+              "operations",
+              "time"
+            ],
+            "base_font_size": 7.98,
+            "script_font_size": 4.98,
+            "font_size_ratio": 0.62406,
+            "baseline_delta_points": 3.0,
+            "horizontal_gap_points": 0.014343,
+            "base_origin_y": 769.463989,
+            "script_origin_y": 766.463989,
+            "base_bbox": [
+              243.230316,
+              762.242065,
+              252.10965,
+              771.147766
+            ],
+            "script_bbox": [
+              252.123993,
+              761.957092,
+              254.892868,
+              767.514771
+            ]
+          },
+          "original_markdown_line": "| Life Time      | 105 |     | Operations |                       |",
+          "derived_markdown_line": "| Life Time      | 10<sup>5</sup> |     | Operations |                       |"
+        }
+      ],
+      "abstained": [],
+      "raw_record_unchanged": true
+    }
+  ],
+  "independent": [
+    {
+      "extraction_sha256": "0dd0708343f833034f920a41b63b519908adf6af0b8ec4b712cdf6f16bb289d8",
+      "manufacturer": "Manuales_Notifier",
+      "source_file": "I56-6577-006_ES FAAST Notifier LT-200 QIG.pdf",
+      "target_document": false,
+      "applied": [
+        {
+          "pdf_sha256": "0dd0708343f833034f920a41b63b519908adf6af0b8ec4b712cdf6f16bb289d8",
+          "page_number": 5,
+          "source_start": 5393,
+          "source_end": 5396,
+          "original_token": "105",
+          "derived_token": "10<sup>5</sup>",
+          "matched_anchors": [
+            "operaciones",
+            "util",
+            "vida"
+          ],
+          "original_page_markdown_sha256": "4e45b96a7b651333d0f0d662623e192fd2907146c0ccf683a595bc311adeeaae",
+          "derived_page_markdown_sha256": "12d5d03e8c261f9e43fadb15aa097ef80f3072f46a9d5fc6660db0ef7a4193f6",
+          "geometry": {
+            "page_number": 5,
+            "base": "10",
+            "script": "5",
+            "flattened_token": "105",
+            "explicit_markup": "10<sup>5</sup>",
+            "anchor_tokens": [
+              "operaciones",
+              "util",
+              "vida"
+            ],
+            "base_font_size": 7.2248,
+            "script_font_size": 4.5087,
+            "font_size_ratio": 0.624059,
+            "baseline_delta_points": 2.716064,
+            "horizontal_gap_points": 0.008911,
+            "base_origin_y": 769.362305,
+            "script_origin_y": 766.64624,
+            "base_bbox": [
+              242.93869,
+              761.848511,
+              250.97699,
+              771.710388
+            ],
+            "script_bbox": [
+              250.985901,
+              761.957214,
+              253.492737,
+              768.111572
+            ]
+          },
+          "original_markdown_line": "| Vida útil                         | 105  |      | Operaciones |                         |",
+          "derived_markdown_line": "| Vida útil                         | 10<sup>5</sup>  |      | Operaciones |                         |"
+        }
+      ],
+      "abstained": [],
+      "raw_record_unchanged": true
+    },
+    {
+      "extraction_sha256": "0ef6698c767ffbd8900179eb026913b8439a1b131589560afe5e50d5232237e9",
+      "manufacturer": "Manuales_Notifier_Privado",
+      "source_file": "MNDT420.pdf",
+      "target_document": false,
+      "applied": [],
+      "abstained": [
+        {
+          "page_number": 32,
+          "flattened_token": "21",
+          "reason": "insufficient_same_line_anchors",
+          "matched_anchors": [
+            "direccion"
+          ]
+        },
+        {
+          "page_number": 34,
+          "flattened_token": "21",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 2
+        },
+        {
+          "page_number": 36,
+          "flattened_token": "21",
+          "reason": "insufficient_same_line_anchors",
+          "matched_anchors": [
+            "direccion"
+          ]
+        },
+        {
+          "page_number": 60,
+          "flattened_token": "21",
+          "reason": "insufficient_same_line_anchors",
+          "matched_anchors": [
+            "direccion"
+          ]
+        }
+      ],
+      "raw_record_unchanged": true
+    },
+    {
+      "extraction_sha256": "444e497479770fd527dfd987cbd18a929e813abc3df6edeacc5f245a19da31b0",
+      "manufacturer": "Manuales_Morley",
+      "source_file": "I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG.pdf",
+      "target_document": false,
+      "applied": [
+        {
+          "pdf_sha256": "444e497479770fd527dfd987cbd18a929e813abc3df6edeacc5f245a19da31b0",
+          "page_number": 5,
+          "source_start": 5808,
+          "source_end": 5811,
+          "original_token": "105",
+          "derived_token": "10<sup>5</sup>",
+          "matched_anchors": [
+            "operaciones",
+            "util",
+            "vida"
+          ],
+          "original_page_markdown_sha256": "f884c4ee903d813535453419f05a5eb1b93331e51c2f30ebaf698ccf9d8c6402",
+          "derived_page_markdown_sha256": "b69d41313a647f2707715efefcb587744c4ca50baf9b3fe11bbef20740d30aae",
+          "geometry": {
+            "page_number": 5,
+            "base": "10",
+            "script": "5",
+            "flattened_token": "105",
+            "explicit_markup": "10<sup>5</sup>",
+            "anchor_tokens": [
+              "operaciones",
+              "util",
+              "vida"
+            ],
+            "base_font_size": 7.2248,
+            "script_font_size": 4.5087,
+            "font_size_ratio": 0.624059,
+            "baseline_delta_points": 2.716125,
+            "horizontal_gap_points": 0.008896,
+            "base_origin_y": 784.429443,
+            "script_origin_y": 781.713318,
+            "base_bbox": [
+              245.1409,
+              776.915649,
+              253.179199,
+              786.777527
+            ],
+            "script_bbox": [
+              253.188095,
+              777.024292,
+              255.694931,
+              783.17865
+            ]
+          },
+          "original_markdown_line": "| Vida útil        | 105  |      | Operaciones |                         |",
+          "derived_markdown_line": "| Vida útil        | 10<sup>5</sup>  |      | Operaciones |                         |"
+        }
+      ],
+      "abstained": [],
+      "raw_record_unchanged": true
+    },
+    {
+      "extraction_sha256": "5af08d48af0ed11ecb83f88b10c80779687880e4d6f6c9150dc321595e4754f5",
+      "manufacturer": "Manuales_Notifier_Privado",
+      "source_file": "MNDT390.pdf",
+      "target_document": false,
+      "applied": [
+        {
+          "pdf_sha256": "5af08d48af0ed11ecb83f88b10c80779687880e4d6f6c9150dc321595e4754f5",
+          "page_number": 27,
+          "source_start": 4029,
+          "source_end": 4032,
+          "original_token": "014",
+          "derived_token": "01<sup>4</sup>",
+          "matched_anchors": [
+            "aim",
+            "con",
+            "sistema"
+          ],
+          "original_page_markdown_sha256": "7be809d227ea0c61170769e69d3f7a608dc80bfe90208d759813daf7634a85a2",
+          "derived_page_markdown_sha256": "9247394a98efa55f0f620a718bac2fb41e7d81325411b0829e31234167618d73",
+          "geometry": {
+            "page_number": 27,
+            "base": "01",
+            "script": "4",
+            "flattened_token": "014",
+            "explicit_markup": "01<sup>4</sup>",
+            "anchor_tokens": [
+              "aim",
+              "con",
+              "sistema"
+            ],
+            "base_font_size": 8.88,
+            "script_font_size": 5.28,
+            "font_size_ratio": 0.594595,
+            "baseline_delta_points": 3.119995,
+            "horizontal_gap_points": 0.342743,
+            "base_origin_y": 580.160095,
+            "script_origin_y": 577.0401,
+            "base_bbox": [
+              238.320007,
+              571.28009,
+              248.297272,
+              582.380066
+            ],
+            "script_bbox": [
+              248.640015,
+              571.760071,
+              251.575699,
+              578.360107
+            ]
+          },
+          "original_markdown_line": "| Sistema 5000 con AIM                                                                                                                                                                                                          | 014                     | 01-04 | 044                     | 01-04 |",
+          "derived_markdown_line": "| Sistema 5000 con AIM                                                                                                                                                                                                          | 01<sup>4</sup>                     | 01-04 | 04<sup>4</sup>                     | 01-04 |"
+        },
+        {
+          "pdf_sha256": "5af08d48af0ed11ecb83f88b10c80779687880e4d6f6c9150dc321595e4754f5",
+          "page_number": 27,
+          "source_start": 4063,
+          "source_end": 4066,
+          "original_token": "044",
+          "derived_token": "04<sup>4</sup>",
+          "matched_anchors": [
+            "aim",
+            "con",
+            "sistema"
+          ],
+          "original_page_markdown_sha256": "7be809d227ea0c61170769e69d3f7a608dc80bfe90208d759813daf7634a85a2",
+          "derived_page_markdown_sha256": "9247394a98efa55f0f620a718bac2fb41e7d81325411b0829e31234167618d73",
+          "geometry": {
+            "page_number": 27,
+            "base": "04",
+            "script": "4",
+            "flattened_token": "044",
+            "explicit_markup": "04<sup>4</sup>",
+            "anchor_tokens": [
+              "aim",
+              "con",
+              "sistema"
+            ],
+            "base_font_size": 8.88,
+            "script_font_size": 5.28,
+            "font_size_ratio": 0.594595,
+            "baseline_delta_points": 3.119995,
+            "horizontal_gap_points": 0.342743,
+            "base_origin_y": 580.160095,
+            "script_origin_y": 577.0401,
+            "base_bbox": [
+              395.519989,
+              571.28009,
+              405.497253,
+              582.380066
+            ],
+            "script_bbox": [
+              405.839996,
+              571.760071,
+              408.775665,
+              578.360107
+            ]
+          },
+          "original_markdown_line": "| Sistema 5000 con AIM                                                                                                                                                                                                          | 014                     | 01-04 | 044                     | 01-04 |",
+          "derived_markdown_line": "| Sistema 5000 con AIM                                                                                                                                                                                                          | 01<sup>4</sup>                     | 01-04 | 04<sup>4</sup>                     | 01-04 |"
+        },
+        {
+          "pdf_sha256": "5af08d48af0ed11ecb83f88b10c80779687880e4d6f6c9150dc321595e4754f5",
+          "page_number": 27,
+          "source_start": 5793,
+          "source_end": 5796,
+          "original_token": "016",
+          "derived_token": "01<sup>6</sup>",
+          "matched_anchors": [
+            "afp",
+            "ina"
+          ],
+          "original_page_markdown_sha256": "7be809d227ea0c61170769e69d3f7a608dc80bfe90208d759813daf7634a85a2",
+          "derived_page_markdown_sha256": "9247394a98efa55f0f620a718bac2fb41e7d81325411b0829e31234167618d73",
+          "geometry": {
+            "page_number": 27,
+            "base": "01",
+            "script": "6",
+            "flattened_token": "016",
+            "explicit_markup": "01<sup>6</sup>",
+            "anchor_tokens": [
+              "afp",
+              "ina"
+            ],
+            "base_font_size": 8.88,
+            "script_font_size": 5.28,
+            "font_size_ratio": 0.594595,
+            "baseline_delta_points": 3.119995,
+            "horizontal_gap_points": 0.342743,
+            "base_origin_y": 703.0401,
+            "script_origin_y": 699.920105,
+            "base_bbox": [
+              238.320068,
+              694.160095,
+              248.297333,
+              705.260071
+            ],
+            "script_bbox": [
+              248.640076,
+              694.640076,
+              251.57576,
+              701.240112
+            ]
+          },
+          "original_markdown_line": "| AM2020/AFP1010/INA                                                                                                                                                                                                            | 016                     | 01-32 | 326                     | 01-32 |",
+          "derived_markdown_line": "| AM2020/AFP1010/INA                                                                                                                                                                                                            | 01<sup>6</sup>                     | 01-32 | 32<sup>6</sup>                     | 01-32 |"
+        },
+        {
+          "pdf_sha256": "5af08d48af0ed11ecb83f88b10c80779687880e4d6f6c9150dc321595e4754f5",
+          "page_number": 27,
+          "source_start": 5827,
+          "source_end": 5830,
+          "original_token": "326",
+          "derived_token": "32<sup>6</sup>",
+          "matched_anchors": [
+            "afp",
+            "ina"
+          ],
+          "original_page_markdown_sha256": "7be809d227ea0c61170769e69d3f7a608dc80bfe90208d759813daf7634a85a2",
+          "derived_page_markdown_sha256": "9247394a98efa55f0f620a718bac2fb41e7d81325411b0829e31234167618d73",
+          "geometry": {
+            "page_number": 27,
+            "base": "32",
+            "script": "6",
+            "flattened_token": "326",
+            "explicit_markup": "32<sup>6</sup>",
+            "anchor_tokens": [
+              "afp",
+              "ina"
+            ],
+            "base_font_size": 8.88,
+            "script_font_size": 5.28,
+            "font_size_ratio": 0.594595,
+            "baseline_delta_points": 3.119995,
+            "horizontal_gap_points": 0.342743,
+            "base_origin_y": 703.0401,
+            "script_origin_y": 699.920105,
+            "base_bbox": [
+              395.52005,
+              694.160095,
+              405.497314,
+              705.260071
+            ],
+            "script_bbox": [
+              405.840057,
+              694.640076,
+              408.775726,
+              701.240112
+            ]
+          },
+          "original_markdown_line": "| AM2020/AFP1010/INA                                                                                                                                                                                                            | 016                     | 01-32 | 326                     | 01-32 |",
+          "derived_markdown_line": "| AM2020/AFP1010/INA                                                                                                                                                                                                            | 01<sup>6</sup>                     | 01-32 | 32<sup>6</sup>                     | 01-32 |"
+        },
+        {
+          "pdf_sha256": "5af08d48af0ed11ecb83f88b10c80779687880e4d6f6c9150dc321595e4754f5",
+          "page_number": 35,
+          "source_start": 669,
+          "source_end": 673,
+          "original_token": "1104",
+          "derived_token": "110<sup>4</sup>",
+          "matched_anchors": [
+            "alarma",
+            "codigo",
+            "nota",
+            "principal",
+            "punto",
+            "zona"
+          ],
+          "original_page_markdown_sha256": "d004b50b2ebb90607dfa29701e719baf4613e3f7541db908fe84bf07966f20f2",
+          "derived_page_markdown_sha256": "476f6756b856a158d7206a5cc9b00bc1b1565cc466093eb3fc8df64637ba463e",
+          "geometry": {
+            "page_number": 35,
+            "base": "110",
+            "script": "4",
+            "flattened_token": "1104",
+            "explicit_markup": "110<sup>4</sup>",
+            "anchor_tokens": [
+              "alarma",
+              "codigo",
+              "nota",
+              "principal",
+              "punto",
+              "zona"
+            ],
+            "base_font_size": 8.88,
+            "script_font_size": 5.28,
+            "font_size_ratio": 0.594595,
+            "baseline_delta_points": 3.119995,
+            "horizontal_gap_points": 0.342773,
+            "base_origin_y": 216.320007,
+            "script_origin_y": 213.200012,
+            "base_bbox": [
+              382.320038,
+              207.440002,
+              397.817261,
+              218.540009
+            ],
+            "script_bbox": [
+              398.160034,
+              207.920013,
+              401.095703,
+              214.52002
+            ]
+          },
+          "original_markdown_line": "| 72 - 74   | Nº Principal. | Código de Alarma de Zona/Punto5         | 1104      | 00       | Nota 3    |",
+          "derived_markdown_line": "| 72 - 74   | Nº Principal. | Código de Alarma de Zona/Punto5         | 110<sup>4</sup>      | 00       | Nota 3    |"
+        },
+        {
+          "pdf_sha256": "5af08d48af0ed11ecb83f88b10c80779687880e4d6f6c9150dc321595e4754f5",
+          "page_number": 36,
+          "source_start": 651,
+          "source_end": 655,
+          "original_token": "1104",
+          "derived_token": "110<sup>4</sup>",
+          "matched_anchors": [
+            "alarma",
+            "codigo",
+            "nota",
+            "punto",
+            "secund",
+            "zona"
+          ],
+          "original_page_markdown_sha256": "f288aebfddc58c883dc3e3cd735cc40d6760974e8388658be897cadd89eaa101",
+          "derived_page_markdown_sha256": "463b0207bc505de7a676e9ddf2edae46b90326e2f9228fb5c66e68a098000e37",
+          "geometry": {
+            "page_number": 36,
+            "base": "110",
+            "script": "4",
+            "flattened_token": "1104",
+            "explicit_markup": "110<sup>4</sup>",
+            "anchor_tokens": [
+              "alarma",
+              "codigo",
+              "nota",
+              "punto",
+              "secund",
+              "zona"
+            ],
+            "base_font_size": 8.88,
+            "script_font_size": 5.28,
+            "font_size_ratio": 0.594595,
+            "baseline_delta_points": 3.119995,
+            "horizontal_gap_points": 0.342773,
+            "base_origin_y": 195.920044,
+            "script_origin_y": 192.800049,
+            "base_bbox": [
+              368.159973,
+              187.040039,
+              383.657196,
+              198.140045
+            ],
+            "script_bbox": [
+              383.999969,
+              187.52005,
+              386.935638,
+              194.120056
+            ]
+          },
+          "original_markdown_line": "| 142-144   | Nº Secund. Código de Alarma de Zona/Punto5         | 1104      | 00       | Nota 3    |",
+          "derived_markdown_line": "| 142-144   | Nº Secund. Código de Alarma de Zona/Punto5         | 110<sup>4</sup>      | 00       | Nota 3    |"
+        }
+      ],
+      "abstained": [
+        {
+          "page_number": 27,
+          "flattened_token": "011",
+          "reason": "insufficient_same_line_anchors",
+          "matched_anchors": [
+            "afp"
+          ]
+        },
+        {
+          "page_number": 27,
+          "flattened_token": "021",
+          "reason": "insufficient_same_line_anchors",
+          "matched_anchors": []
+        },
+        {
+          "page_number": 27,
+          "flattened_token": "111",
+          "reason": "insufficient_same_line_anchors",
+          "matched_anchors": [
+            "afp"
+          ]
+        },
+        {
+          "page_number": 27,
+          "flattened_token": "121",
+          "reason": "insufficient_same_line_anchors",
+          "matched_anchors": [
+            "afp"
+          ]
+        },
+        {
+          "page_number": 27,
+          "flattened_token": "012",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 2
+        },
+        {
+          "page_number": 27,
+          "flattened_token": "012",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 2
+        },
+        {
+          "page_number": 27,
+          "flattened_token": "013",
+          "reason": "insufficient_same_line_anchors",
+          "matched_anchors": [
+            "sistema"
+          ]
+        },
+        {
+          "page_number": 27,
+          "flattened_token": "023",
+          "reason": "insufficient_same_line_anchors",
+          "matched_anchors": []
+        },
+        {
+          "page_number": 27,
+          "flattened_token": "115",
+          "reason": "insufficient_same_line_anchors",
+          "matched_anchors": [
+            "afp"
+          ]
+        },
+        {
+          "page_number": 27,
+          "flattened_token": "195",
+          "reason": "insufficient_same_line_anchors",
+          "matched_anchors": [
+            "afp"
+          ]
+        },
+        {
+          "page_number": 35,
+          "flattened_token": "0002",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 0
+        },
+        {
+          "page_number": 35,
+          "flattened_token": "0002",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 0
+        },
+        {
+          "page_number": 36,
+          "flattened_token": "0002",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 0
+        },
+        {
+          "page_number": 36,
+          "flattened_token": "0002",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 0
+        }
+      ],
+      "raw_record_unchanged": true
+    },
+    {
+      "extraction_sha256": "6ae6c7e4f4b787c1b2b9d72cefbe454d3502a087ec4312c99d19a73a33fa7f17",
+      "manufacturer": "Manuales_Notifier_Privado",
+      "source_file": "MNDT080.pdf",
+      "target_document": false,
+      "applied": [
+        {
+          "pdf_sha256": "6ae6c7e4f4b787c1b2b9d72cefbe454d3502a087ec4312c99d19a73a33fa7f17",
+          "page_number": 48,
+          "source_start": 834,
+          "source_end": 837,
+          "original_token": "131",
+          "derived_token": "13<sup>1</sup>",
+          "matched_anchors": [
+            "alarma",
+            "codigo",
+            "principal",
+            "zona"
+          ],
+          "original_page_markdown_sha256": "a2a7bafbe43912e157720cb7b9e80aae07183915ce2102fb810e666936aded80",
+          "derived_page_markdown_sha256": "77040aaadbf1c3a279f76b577e0788ed78c53f09786a2ebb6b86a5d3f6a0d5c7",
+          "geometry": {
+            "page_number": 48,
+            "base": "13",
+            "script": "1",
+            "flattened_token": "131",
+            "explicit_markup": "13<sup>1</sup>",
+            "anchor_tokens": [
+              "alarma",
+              "codigo",
+              "principal",
+              "zona"
+            ],
+            "base_font_size": 8.5,
+            "script_font_size": 5.0,
+            "font_size_ratio": 0.588235,
+            "baseline_delta_points": 2.880127,
+            "horizontal_gap_points": 0.476562,
+            "base_origin_y": 153.450012,
+            "script_origin_y": 150.569885,
+            "base_bbox": [
+              439.373657,
+              144.499512,
+              448.373444,
+              155.838516
+            ],
+            "script_bbox": [
+              448.850006,
+              145.304886,
+              451.350006,
+              151.974884
+            ]
+          },
+          "original_markdown_line": "| 4-5       | Código de Alarma Zona 3, C.R.A. Principal                          | 131     |",
+          "derived_markdown_line": "| 4-5       | Código de Alarma Zona 3, C.R.A. Principal                          | 13<sup>1</sup>     |"
+        },
+        {
+          "pdf_sha256": "6ae6c7e4f4b787c1b2b9d72cefbe454d3502a087ec4312c99d19a73a33fa7f17",
+          "page_number": 48,
+          "source_start": 927,
+          "source_end": 930,
+          "original_token": "141",
+          "derived_token": "14<sup>1</sup>",
+          "matched_anchors": [
+            "alarma",
+            "codigo",
+            "principal",
+            "zona"
+          ],
+          "original_page_markdown_sha256": "a2a7bafbe43912e157720cb7b9e80aae07183915ce2102fb810e666936aded80",
+          "derived_page_markdown_sha256": "77040aaadbf1c3a279f76b577e0788ed78c53f09786a2ebb6b86a5d3f6a0d5c7",
+          "geometry": {
+            "page_number": 48,
+            "base": "14",
+            "script": "1",
+            "flattened_token": "141",
+            "explicit_markup": "14<sup>1</sup>",
+            "anchor_tokens": [
+              "alarma",
+              "codigo",
+              "principal",
+              "zona"
+            ],
+            "base_font_size": 8.5,
+            "script_font_size": 5.0,
+            "font_size_ratio": 0.588235,
+            "baseline_delta_points": 2.880005,
+            "horizontal_gap_points": 0.476562,
+            "base_origin_y": 163.650024,
+            "script_origin_y": 160.77002,
+            "base_bbox": [
+              439.373657,
+              154.699524,
+              448.373444,
+              166.038528
+            ],
+            "script_bbox": [
+              448.850006,
+              155.50502,
+              451.350006,
+              162.175018
+            ]
+          },
+          "original_markdown_line": "| 6-7       | Código de Alarma Zona 4, C.R.A. Principal                          | 141     |",
+          "derived_markdown_line": "| 6-7       | Código de Alarma Zona 4, C.R.A. Principal                          | 14<sup>1</sup>     |"
+        },
+        {
+          "pdf_sha256": "6ae6c7e4f4b787c1b2b9d72cefbe454d3502a087ec4312c99d19a73a33fa7f17",
+          "page_number": 48,
+          "source_start": 1020,
+          "source_end": 1023,
+          "original_token": "151",
+          "derived_token": "15<sup>1</sup>",
+          "matched_anchors": [
+            "alarma",
+            "codigo",
+            "principal",
+            "zona"
+          ],
+          "original_page_markdown_sha256": "a2a7bafbe43912e157720cb7b9e80aae07183915ce2102fb810e666936aded80",
+          "derived_page_markdown_sha256": "77040aaadbf1c3a279f76b577e0788ed78c53f09786a2ebb6b86a5d3f6a0d5c7",
+          "geometry": {
+            "page_number": 48,
+            "base": "15",
+            "script": "1",
+            "flattened_token": "151",
+            "explicit_markup": "15<sup>1</sup>",
+            "anchor_tokens": [
+              "alarma",
+              "codigo",
+              "principal",
+              "zona"
+            ],
+            "base_font_size": 8.5,
+            "script_font_size": 5.0,
+            "font_size_ratio": 0.588235,
+            "baseline_delta_points": 2.880005,
+            "horizontal_gap_points": 0.476562,
+            "base_origin_y": 173.849976,
+            "script_origin_y": 170.969971,
+            "base_bbox": [
+              439.373657,
+              164.899475,
+              448.373444,
+              176.23848
+            ],
+            "script_bbox": [
+              448.850006,
+              165.704971,
+              451.350006,
+              172.374969
+            ]
+          },
+          "original_markdown_line": "| 8-9       | Código de Alarma Zona 5, C.R.A. Principal                          | 151     |",
+          "derived_markdown_line": "| 8-9       | Código de Alarma Zona 5, C.R.A. Principal                          | 15<sup>1</sup>     |"
+        },
+        {
+          "pdf_sha256": "6ae6c7e4f4b787c1b2b9d72cefbe454d3502a087ec4312c99d19a73a33fa7f17",
+          "page_number": 48,
+          "source_start": 1113,
+          "source_end": 1116,
+          "original_token": "161",
+          "derived_token": "16<sup>1</sup>",
+          "matched_anchors": [
+            "alarma",
+            "codigo",
+            "principal",
+            "zona"
+          ],
+          "original_page_markdown_sha256": "a2a7bafbe43912e157720cb7b9e80aae07183915ce2102fb810e666936aded80",
+          "derived_page_markdown_sha256": "77040aaadbf1c3a279f76b577e0788ed78c53f09786a2ebb6b86a5d3f6a0d5c7",
+          "geometry": {
+            "page_number": 48,
+            "base": "16",
+            "script": "1",
+            "flattened_token": "161",
+            "explicit_markup": "16<sup>1</sup>",
+            "anchor_tokens": [
+              "alarma",
+              "codigo",
+              "principal",
+              "zona"
+            ],
+            "base_font_size": 8.5,
+            "script_font_size": 5.0,
+            "font_size_ratio": 0.588235,
+            "baseline_delta_points": 2.880005,
+            "horizontal_gap_points": 0.476562,
+            "base_origin_y": 184.049988,
+            "script_origin_y": 181.169983,
+            "base_bbox": [
+              439.373657,
+              175.099487,
+              448.373444,
+              186.438492
+            ],
+            "script_bbox": [
+              448.850006,
+              175.904984,
+              451.350006,
+              182.574982
+            ]
+          },
+          "original_markdown_line": "| 10-11     | Código de Alarma Zona 6, C.R.A. Principal                          | 161     |",
+          "derived_markdown_line": "| 10-11     | Código de Alarma Zona 6, C.R.A. Principal                          | 16<sup>1</sup>     |"
+        },
+        {
+          "pdf_sha256": "6ae6c7e4f4b787c1b2b9d72cefbe454d3502a087ec4312c99d19a73a33fa7f17",
+          "page_number": 48,
+          "source_start": 1206,
+          "source_end": 1209,
+          "original_token": "171",
+          "derived_token": "17<sup>1</sup>",
+          "matched_anchors": [
+            "alarma",
+            "codigo",
+            "principal",
+            "zona"
+          ],
+          "original_page_markdown_sha256": "a2a7bafbe43912e157720cb7b9e80aae07183915ce2102fb810e666936aded80",
+          "derived_page_markdown_sha256": "77040aaadbf1c3a279f76b577e0788ed78c53f09786a2ebb6b86a5d3f6a0d5c7",
+          "geometry": {
+            "page_number": 48,
+            "base": "17",
+            "script": "1",
+            "flattened_token": "171",
+            "explicit_markup": "17<sup>1</sup>",
+            "anchor_tokens": [
+              "alarma",
+              "codigo",
+              "principal",
+              "zona"
+            ],
+            "base_font_size": 8.5,
+            "script_font_size": 5.0,
+            "font_size_ratio": 0.588235,
+            "baseline_delta_points": 2.880005,
+            "horizontal_gap_points": 0.476562,
+            "base_origin_y": 194.25,
+            "script_origin_y": 191.369995,
+            "base_bbox": [
+              439.373657,
+              185.2995,
+              448.373444,
+              196.638504
+            ],
+            "script_bbox": [
+              448.850006,
+              186.104996,
+              451.350006,
+              192.774994
+            ]
+          },
+          "original_markdown_line": "| 12-13     | Código de Alarma Zona 7, C.R.A. Principal                          | 171     |",
+          "derived_markdown_line": "| 12-13     | Código de Alarma Zona 7, C.R.A. Principal                          | 17<sup>1</sup>     |"
+        },
+        {
+          "pdf_sha256": "6ae6c7e4f4b787c1b2b9d72cefbe454d3502a087ec4312c99d19a73a33fa7f17",
+          "page_number": 48,
+          "source_start": 1299,
+          "source_end": 1302,
+          "original_token": "181",
+          "derived_token": "18<sup>1</sup>",
+          "matched_anchors": [
+            "alarma",
+            "codigo",
+            "principal",
+            "zona"
+          ],
+          "original_page_markdown_sha256": "a2a7bafbe43912e157720cb7b9e80aae07183915ce2102fb810e666936aded80",
+          "derived_page_markdown_sha256": "77040aaadbf1c3a279f76b577e0788ed78c53f09786a2ebb6b86a5d3f6a0d5c7",
+          "geometry": {
+            "page_number": 48,
+            "base": "18",
+            "script": "1",
+            "flattened_token": "181",
+            "explicit_markup": "18<sup>1</sup>",
+            "anchor_tokens": [
+              "alarma",
+              "codigo",
+              "principal",
+              "zona"
+            ],
+            "base_font_size": 8.5,
+            "script_font_size": 5.0,
+            "font_size_ratio": 0.588235,
+            "baseline_delta_points": 2.880005,
+            "horizontal_gap_points": 0.476562,
+            "base_origin_y": 204.450012,
+            "script_origin_y": 201.570007,
+            "base_bbox": [
+              439.373657,
+              195.499512,
+              448.373444,
+              206.838516
+            ],
+            "script_bbox": [
+              448.850006,
+              196.305008,
+              451.350006,
+              202.975006
+            ]
+          },
+          "original_markdown_line": "| 14-15     | Código de Alarma Zona 8, C.R.A. Principal                          | 181     |",
+          "derived_markdown_line": "| 14-15     | Código de Alarma Zona 8, C.R.A. Principal                          | 18<sup>1</sup>     |"
+        },
+        {
+          "pdf_sha256": "6ae6c7e4f4b787c1b2b9d72cefbe454d3502a087ec4312c99d19a73a33fa7f17",
+          "page_number": 48,
+          "source_start": 1392,
+          "source_end": 1395,
+          "original_token": "191",
+          "derived_token": "19<sup>1</sup>",
+          "matched_anchors": [
+            "alarma",
+            "codigo",
+            "principal",
+            "zona"
+          ],
+          "original_page_markdown_sha256": "a2a7bafbe43912e157720cb7b9e80aae07183915ce2102fb810e666936aded80",
+          "derived_page_markdown_sha256": "77040aaadbf1c3a279f76b577e0788ed78c53f09786a2ebb6b86a5d3f6a0d5c7",
+          "geometry": {
+            "page_number": 48,
+            "base": "19",
+            "script": "1",
+            "flattened_token": "191",
+            "explicit_markup": "19<sup>1</sup>",
+            "anchor_tokens": [
+              "alarma",
+              "codigo",
+              "principal",
+              "zona"
+            ],
+            "base_font_size": 8.5,
+            "script_font_size": 5.0,
+            "font_size_ratio": 0.588235,
+            "baseline_delta_points": 2.880005,
+            "horizontal_gap_points": 0.476562,
+            "base_origin_y": 214.650024,
+            "script_origin_y": 211.77002,
+            "base_bbox": [
+              439.373657,
+              205.699524,
+              448.373444,
+              217.038528
+            ],
+            "script_bbox": [
+              448.850006,
+              206.50502,
+              451.350006,
+              213.175018
+            ]
+          },
+          "original_markdown_line": "| 16-17     | Código de Alarma Zona 9, C.R.A. Principal                          | 191     |",
+          "derived_markdown_line": "| 16-17     | Código de Alarma Zona 9, C.R.A. Principal                          | 19<sup>1</sup>     |"
+        },
+        {
+          "pdf_sha256": "6ae6c7e4f4b787c1b2b9d72cefbe454d3502a087ec4312c99d19a73a33fa7f17",
+          "page_number": 53,
+          "source_start": 590,
+          "source_end": 593,
+          "original_token": "111",
+          "derived_token": "11<sup>1</sup>",
+          "matched_anchors": [
+            "alarma",
+            "codigo",
+            "secundaria",
+            "zona"
+          ],
+          "original_page_markdown_sha256": "e21bb3775861c3e5cd3f3ac5a4a5680eb14d29f1f8b240e53a3f1cd19c8a4aba",
+          "derived_page_markdown_sha256": "43ab554faaa855ef2b931099d6c1a7043c96f407fd29f70f1dbdc2f08ffe8068",
+          "geometry": {
+            "page_number": 53,
+            "base": "11",
+            "script": "1",
+            "flattened_token": "111",
+            "explicit_markup": "11<sup>1</sup>",
+            "anchor_tokens": [
+              "alarma",
+              "codigo",
+              "secundaria",
+              "zona"
+            ],
+            "base_font_size": 8.5,
+            "script_font_size": 5.0,
+            "font_size_ratio": 0.588235,
+            "baseline_delta_points": 2.759949,
+            "horizontal_gap_points": 0.493408,
+            "base_origin_y": 137.969971,
+            "script_origin_y": 135.210022,
+            "base_bbox": [
+              447.87677,
+              129.01947,
+              456.876587,
+              140.358475
+            ],
+            "script_bbox": [
+              457.369995,
+              129.945023,
+              459.869995,
+              136.615021
+            ]
+          },
+          "original_markdown_line": "| 216-217   | Código de Alarma Zona 1, C.R.A. Secundaria                          | 111     |",
+          "derived_markdown_line": "| 216-217   | Código de Alarma Zona 1, C.R.A. Secundaria                          | 11<sup>1</sup>     |"
+        },
+        {
+          "pdf_sha256": "6ae6c7e4f4b787c1b2b9d72cefbe454d3502a087ec4312c99d19a73a33fa7f17",
+          "page_number": 53,
+          "source_start": 684,
+          "source_end": 687,
+          "original_token": "121",
+          "derived_token": "12<sup>1</sup>",
+          "matched_anchors": [
+            "alarma",
+            "codigo",
+            "secundaria",
+            "zona"
+          ],
+          "original_page_markdown_sha256": "e21bb3775861c3e5cd3f3ac5a4a5680eb14d29f1f8b240e53a3f1cd19c8a4aba",
+          "derived_page_markdown_sha256": "43ab554faaa855ef2b931099d6c1a7043c96f407fd29f70f1dbdc2f08ffe8068",
+          "geometry": {
+            "page_number": 53,
+            "base": "12",
+            "script": "1",
+            "flattened_token": "121",
+            "explicit_markup": "12<sup>1</sup>",
+            "anchor_tokens": [
+              "alarma",
+              "codigo",
+              "secundaria",
+              "zona"
+            ],
+            "base_font_size": 8.5,
+            "script_font_size": 5.0,
+            "font_size_ratio": 0.588235,
+            "baseline_delta_points": 2.76001,
+            "horizontal_gap_points": 0.493408,
+            "base_origin_y": 148.169983,
+            "script_origin_y": 145.409973,
+            "base_bbox": [
+              447.87677,
+              139.219482,
+              456.876587,
+              150.558487
+            ],
+            "script_bbox": [
+              457.369995,
+              140.144974,
+              459.869995,
+              146.814972
+            ]
+          },
+          "original_markdown_line": "| 218-219   | Código de Alarma Zona 2, C.R.A. Secundaria                          | 121     |",
+          "derived_markdown_line": "| 218-219   | Código de Alarma Zona 2, C.R.A. Secundaria                          | 12<sup>1</sup>     |"
+        },
+        {
+          "pdf_sha256": "6ae6c7e4f4b787c1b2b9d72cefbe454d3502a087ec4312c99d19a73a33fa7f17",
+          "page_number": 53,
+          "source_start": 778,
+          "source_end": 781,
+          "original_token": "131",
+          "derived_token": "13<sup>1</sup>",
+          "matched_anchors": [
+            "alarma",
+            "codigo",
+            "secundaria",
+            "zona"
+          ],
+          "original_page_markdown_sha256": "e21bb3775861c3e5cd3f3ac5a4a5680eb14d29f1f8b240e53a3f1cd19c8a4aba",
+          "derived_page_markdown_sha256": "43ab554faaa855ef2b931099d6c1a7043c96f407fd29f70f1dbdc2f08ffe8068",
+          "geometry": {
+            "page_number": 53,
+            "base": "13",
+            "script": "1",
+            "flattened_token": "131",
+            "explicit_markup": "13<sup>1</sup>",
+            "anchor_tokens": [
+              "alarma",
+              "codigo",
+              "secundaria",
+              "zona"
+            ],
+            "base_font_size": 8.5,
+            "script_font_size": 5.0,
+            "font_size_ratio": 0.588235,
+            "baseline_delta_points": 2.76001,
+            "horizontal_gap_points": 0.493408,
+            "base_origin_y": 158.369995,
+            "script_origin_y": 155.609985,
+            "base_bbox": [
+              447.87677,
+              149.419495,
+              456.876587,
+              160.758499
+            ],
+            "script_bbox": [
+              457.369995,
+              150.344986,
+              459.869995,
+              157.014984
+            ]
+          },
+          "original_markdown_line": "| 220-221   | Código de Alarma Zona 3, C.R.A. Secundaria                          | 131     |",
+          "derived_markdown_line": "| 220-221   | Código de Alarma Zona 3, C.R.A. Secundaria                          | 13<sup>1</sup>     |"
+        },
+        {
+          "pdf_sha256": "6ae6c7e4f4b787c1b2b9d72cefbe454d3502a087ec4312c99d19a73a33fa7f17",
+          "page_number": 53,
+          "source_start": 872,
+          "source_end": 875,
+          "original_token": "141",
+          "derived_token": "14<sup>1</sup>",
+          "matched_anchors": [
+            "alarma",
+            "codigo",
+            "secundaria",
+            "zona"
+          ],
+          "original_page_markdown_sha256": "e21bb3775861c3e5cd3f3ac5a4a5680eb14d29f1f8b240e53a3f1cd19c8a4aba",
+          "derived_page_markdown_sha256": "43ab554faaa855ef2b931099d6c1a7043c96f407fd29f70f1dbdc2f08ffe8068",
+          "geometry": {
+            "page_number": 53,
+            "base": "14",
+            "script": "1",
+            "flattened_token": "141",
+            "explicit_markup": "14<sup>1</sup>",
+            "anchor_tokens": [
+              "alarma",
+              "codigo",
+              "secundaria",
+              "zona"
+            ],
+            "base_font_size": 8.5,
+            "script_font_size": 5.0,
+            "font_size_ratio": 0.588235,
+            "baseline_delta_points": 2.76001,
+            "horizontal_gap_points": 0.493408,
+            "base_origin_y": 168.570007,
+            "script_origin_y": 165.809998,
+            "base_bbox": [
+              447.87677,
+              159.619507,
+              456.876587,
+              170.958511
+            ],
+            "script_bbox": [
+              457.369995,
+              160.544998,
+              459.869995,
+              167.214996
+            ]
+          },
+          "original_markdown_line": "| 222-223   | Código de Alarma Zona 4, C.R.A. Secundaria                          | 141     |",
+          "derived_markdown_line": "| 222-223   | Código de Alarma Zona 4, C.R.A. Secundaria                          | 14<sup>1</sup>     |"
+        },
+        {
+          "pdf_sha256": "6ae6c7e4f4b787c1b2b9d72cefbe454d3502a087ec4312c99d19a73a33fa7f17",
+          "page_number": 53,
+          "source_start": 966,
+          "source_end": 969,
+          "original_token": "151",
+          "derived_token": "15<sup>1</sup>",
+          "matched_anchors": [
+            "alarma",
+            "codigo",
+            "secundaria",
+            "zona"
+          ],
+          "original_page_markdown_sha256": "e21bb3775861c3e5cd3f3ac5a4a5680eb14d29f1f8b240e53a3f1cd19c8a4aba",
+          "derived_page_markdown_sha256": "43ab554faaa855ef2b931099d6c1a7043c96f407fd29f70f1dbdc2f08ffe8068",
+          "geometry": {
+            "page_number": 53,
+            "base": "15",
+            "script": "1",
+            "flattened_token": "151",
+            "explicit_markup": "15<sup>1</sup>",
+            "anchor_tokens": [
+              "alarma",
+              "codigo",
+              "secundaria",
+              "zona"
+            ],
+            "base_font_size": 8.5,
+            "script_font_size": 5.0,
+            "font_size_ratio": 0.588235,
+            "baseline_delta_points": 2.76001,
+            "horizontal_gap_points": 0.493408,
+            "base_origin_y": 178.77002,
+            "script_origin_y": 176.01001,
+            "base_bbox": [
+              447.87677,
+              169.819519,
+              456.876587,
+              181.158524
+            ],
+            "script_bbox": [
+              457.369995,
+              170.74501,
+              459.869995,
+              177.415009
+            ]
+          },
+          "original_markdown_line": "| 224-225   | Código de Alarma Zona 5, C.R.A. Secundaria                          | 151     |",
+          "derived_markdown_line": "| 224-225   | Código de Alarma Zona 5, C.R.A. Secundaria                          | 15<sup>1</sup>     |"
+        },
+        {
+          "pdf_sha256": "6ae6c7e4f4b787c1b2b9d72cefbe454d3502a087ec4312c99d19a73a33fa7f17",
+          "page_number": 53,
+          "source_start": 1060,
+          "source_end": 1063,
+          "original_token": "161",
+          "derived_token": "16<sup>1</sup>",
+          "matched_anchors": [
+            "alarma",
+            "codigo",
+            "secundaria",
+            "zona"
+          ],
+          "original_page_markdown_sha256": "e21bb3775861c3e5cd3f3ac5a4a5680eb14d29f1f8b240e53a3f1cd19c8a4aba",
+          "derived_page_markdown_sha256": "43ab554faaa855ef2b931099d6c1a7043c96f407fd29f70f1dbdc2f08ffe8068",
+          "geometry": {
+            "page_number": 53,
+            "base": "16",
+            "script": "1",
+            "flattened_token": "161",
+            "explicit_markup": "16<sup>1</sup>",
+            "anchor_tokens": [
+              "alarma",
+              "codigo",
+              "secundaria",
+              "zona"
+            ],
+            "base_font_size": 8.5,
+            "script_font_size": 5.0,
+            "font_size_ratio": 0.588235,
+            "baseline_delta_points": 2.759949,
+            "horizontal_gap_points": 0.493408,
+            "base_origin_y": 188.969971,
+            "script_origin_y": 186.210022,
+            "base_bbox": [
+              447.87677,
+              180.01947,
+              456.876587,
+              191.358475
+            ],
+            "script_bbox": [
+              457.369995,
+              180.945023,
+              459.869995,
+              187.615021
+            ]
+          },
+          "original_markdown_line": "| 226-227   | Código de Alarma Zona 6, C.R.A. Secundaria                          | 161     |",
+          "derived_markdown_line": "| 226-227   | Código de Alarma Zona 6, C.R.A. Secundaria                          | 16<sup>1</sup>     |"
+        },
+        {
+          "pdf_sha256": "6ae6c7e4f4b787c1b2b9d72cefbe454d3502a087ec4312c99d19a73a33fa7f17",
+          "page_number": 53,
+          "source_start": 1154,
+          "source_end": 1157,
+          "original_token": "171",
+          "derived_token": "17<sup>1</sup>",
+          "matched_anchors": [
+            "alarma",
+            "codigo",
+            "secundaria",
+            "zona"
+          ],
+          "original_page_markdown_sha256": "e21bb3775861c3e5cd3f3ac5a4a5680eb14d29f1f8b240e53a3f1cd19c8a4aba",
+          "derived_page_markdown_sha256": "43ab554faaa855ef2b931099d6c1a7043c96f407fd29f70f1dbdc2f08ffe8068",
+          "geometry": {
+            "page_number": 53,
+            "base": "17",
+            "script": "1",
+            "flattened_token": "171",
+            "explicit_markup": "17<sup>1</sup>",
+            "anchor_tokens": [
+              "alarma",
+              "codigo",
+              "secundaria",
+              "zona"
+            ],
+            "base_font_size": 8.5,
+            "script_font_size": 5.0,
+            "font_size_ratio": 0.588235,
+            "baseline_delta_points": 2.76001,
+            "horizontal_gap_points": 0.493408,
+            "base_origin_y": 199.169983,
+            "script_origin_y": 196.409973,
+            "base_bbox": [
+              447.87677,
+              190.219482,
+              456.876587,
+              201.558487
+            ],
+            "script_bbox": [
+              457.369995,
+              191.144974,
+              459.869995,
+              197.814972
+            ]
+          },
+          "original_markdown_line": "| 228-229   | Código de Alarma Zona 7, C.R.A. Secundaria                          | 171     |",
+          "derived_markdown_line": "| 228-229   | Código de Alarma Zona 7, C.R.A. Secundaria                          | 17<sup>1</sup>     |"
+        },
+        {
+          "pdf_sha256": "6ae6c7e4f4b787c1b2b9d72cefbe454d3502a087ec4312c99d19a73a33fa7f17",
+          "page_number": 53,
+          "source_start": 1248,
+          "source_end": 1251,
+          "original_token": "181",
+          "derived_token": "18<sup>1</sup>",
+          "matched_anchors": [
+            "alarma",
+            "codigo",
+            "secundaria",
+            "zona"
+          ],
+          "original_page_markdown_sha256": "e21bb3775861c3e5cd3f3ac5a4a5680eb14d29f1f8b240e53a3f1cd19c8a4aba",
+          "derived_page_markdown_sha256": "43ab554faaa855ef2b931099d6c1a7043c96f407fd29f70f1dbdc2f08ffe8068",
+          "geometry": {
+            "page_number": 53,
+            "base": "18",
+            "script": "1",
+            "flattened_token": "181",
+            "explicit_markup": "18<sup>1</sup>",
+            "anchor_tokens": [
+              "alarma",
+              "codigo",
+              "secundaria",
+              "zona"
+            ],
+            "base_font_size": 8.5,
+            "script_font_size": 5.0,
+            "font_size_ratio": 0.588235,
+            "baseline_delta_points": 2.76001,
+            "horizontal_gap_points": 0.493408,
+            "base_origin_y": 209.369995,
+            "script_origin_y": 206.609985,
+            "base_bbox": [
+              447.87677,
+              200.419495,
+              456.876587,
+              211.758499
+            ],
+            "script_bbox": [
+              457.369995,
+              201.344986,
+              459.869995,
+              208.014984
+            ]
+          },
+          "original_markdown_line": "| 230-231   | Código de Alarma Zona 8, C.R.A. Secundaria                          | 181     |",
+          "derived_markdown_line": "| 230-231   | Código de Alarma Zona 8, C.R.A. Secundaria                          | 18<sup>1</sup>     |"
+        },
+        {
+          "pdf_sha256": "6ae6c7e4f4b787c1b2b9d72cefbe454d3502a087ec4312c99d19a73a33fa7f17",
+          "page_number": 53,
+          "source_start": 1342,
+          "source_end": 1345,
+          "original_token": "191",
+          "derived_token": "19<sup>1</sup>",
+          "matched_anchors": [
+            "alarma",
+            "codigo",
+            "secundaria",
+            "zona"
+          ],
+          "original_page_markdown_sha256": "e21bb3775861c3e5cd3f3ac5a4a5680eb14d29f1f8b240e53a3f1cd19c8a4aba",
+          "derived_page_markdown_sha256": "43ab554faaa855ef2b931099d6c1a7043c96f407fd29f70f1dbdc2f08ffe8068",
+          "geometry": {
+            "page_number": 53,
+            "base": "19",
+            "script": "1",
+            "flattened_token": "191",
+            "explicit_markup": "19<sup>1</sup>",
+            "anchor_tokens": [
+              "alarma",
+              "codigo",
+              "secundaria",
+              "zona"
+            ],
+            "base_font_size": 8.5,
+            "script_font_size": 5.0,
+            "font_size_ratio": 0.588235,
+            "baseline_delta_points": 2.76001,
+            "horizontal_gap_points": 0.493408,
+            "base_origin_y": 219.570007,
+            "script_origin_y": 216.809998,
+            "base_bbox": [
+              447.87677,
+              210.619507,
+              456.876587,
+              221.958511
+            ],
+            "script_bbox": [
+              457.369995,
+              211.544998,
+              459.869995,
+              218.214996
+            ]
+          },
+          "original_markdown_line": "| 232-233   | Código de Alarma Zona 9, C.R.A. Secundaria                          | 191     |",
+          "derived_markdown_line": "| 232-233   | Código de Alarma Zona 9, C.R.A. Secundaria                          | 19<sup>1</sup>     |"
+        }
+      ],
+      "abstained": [
+        {
+          "page_number": 46,
+          "flattened_token": "11",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 11
+        },
+        {
+          "page_number": 46,
+          "flattened_token": "11",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 11
+        },
+        {
+          "page_number": 46,
+          "flattened_token": "11",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 11
+        },
+        {
+          "page_number": 46,
+          "flattened_token": "11",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 11
+        },
+        {
+          "page_number": 46,
+          "flattened_token": "11",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 11
+        },
+        {
+          "page_number": 46,
+          "flattened_token": "11",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 11
+        },
+        {
+          "page_number": 46,
+          "flattened_token": "11",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 11
+        },
+        {
+          "page_number": 46,
+          "flattened_token": "11",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 11
+        },
+        {
+          "page_number": 46,
+          "flattened_token": "11",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 11
+        },
+        {
+          "page_number": 46,
+          "flattened_token": "11",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 11
+        },
+        {
+          "page_number": 48,
+          "flattened_token": "111",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 2
+        },
+        {
+          "page_number": 48,
+          "flattened_token": "121",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 2
+        },
+        {
+          "page_number": 50,
+          "flattened_token": "1111",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 50,
+          "flattened_token": "1111",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 50,
+          "flattened_token": "1111",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 50,
+          "flattened_token": "1111",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 50,
+          "flattened_token": "1111",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 50,
+          "flattened_token": "1111",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 50,
+          "flattened_token": "1111",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 50,
+          "flattened_token": "1111",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 50,
+          "flattened_token": "1111",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 50,
+          "flattened_token": "1111",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 51,
+          "flattened_token": "11",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 51,
+          "flattened_token": "11",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 51,
+          "flattened_token": "11",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 51,
+          "flattened_token": "11",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 51,
+          "flattened_token": "11",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 51,
+          "flattened_token": "11",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 51,
+          "flattened_token": "11",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 51,
+          "flattened_token": "11",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 51,
+          "flattened_token": "11",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 51,
+          "flattened_token": "11",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 55,
+          "flattened_token": "1111",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 55,
+          "flattened_token": "1111",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 55,
+          "flattened_token": "1111",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 55,
+          "flattened_token": "1111",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 55,
+          "flattened_token": "1111",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 55,
+          "flattened_token": "1111",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 55,
+          "flattened_token": "1111",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 55,
+          "flattened_token": "1111",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 55,
+          "flattened_token": "1111",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 55,
+          "flattened_token": "1111",
+          "reason": "flattened_token_not_unique",
+          "occurrences": 10
+        },
+        {
+          "page_number": 89,
+          "flattened_token": "2454",
+          "reason": "insufficient_same_line_anchors",
+          "matched_anchors": []
+        }
+      ],
+      "raw_record_unchanged": true
+    },
+    {
+      "extraction_sha256": "7b970d67e6dbb2f30604d230b1fa30b288983aa088b32f7bd61b21a878128712",
+      "manufacturer": "Manuales_Morley",
+      "source_file": "I56-6575-005_ES FAAST LT-200 Loop QIG.pdf",
+      "target_document": false,
+      "applied": [
+        {
+          "pdf_sha256": "7b970d67e6dbb2f30604d230b1fa30b288983aa088b32f7bd61b21a878128712",
+          "page_number": 5,
+          "source_start": 5353,
+          "source_end": 5356,
+          "original_token": "105",
+          "derived_token": "10<sup>5</sup>",
+          "matched_anchors": [
+            "operaciones",
+            "util",
+            "vida"
+          ],
+          "original_page_markdown_sha256": "35a68a0f81109999afeb7e4dd5f59bbf90471a799835094201fe4f3a1fee504f",
+          "derived_page_markdown_sha256": "e337cca8ce184b3e81a815173e51d16668cb9b0d98df2925b8dd7d100f02baf0",
+          "geometry": {
+            "page_number": 5,
+            "base": "10",
+            "script": "5",
+            "flattened_token": "105",
+            "explicit_markup": "10<sup>5</sup>",
+            "anchor_tokens": [
+              "operaciones",
+              "util",
+              "vida"
+            ],
+            "base_font_size": 7.2248,
+            "script_font_size": 4.5087,
+            "font_size_ratio": 0.624059,
+            "baseline_delta_points": 2.716064,
+            "horizontal_gap_points": 0.008911,
+            "base_origin_y": 769.362305,
+            "script_origin_y": 766.64624,
+            "base_bbox": [
+              242.93869,
+              761.848511,
+              250.97699,
+              771.710388
+            ],
+            "script_bbox": [
+              250.985901,
+              761.957214,
+              253.492737,
+              768.111572
+            ]
+          },
+          "original_markdown_line": "| Vida útil                         | 105  |      | Operaciones |                         |",
+          "derived_markdown_line": "| Vida útil                         | 10<sup>5</sup>  |      | Operaciones |                         |"
+        }
+      ],
+      "abstained": [],
+      "raw_record_unchanged": true
+    },
+    {
+      "extraction_sha256": "82902ccaf5867a5f84a1b6bfd8aeccc362aa9c46896bed4338a46922e166dcbf",
+      "manufacturer": "Manuales_Morley",
+      "source_file": "I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG.pdf",
+      "target_document": false,
+      "applied": [
+        {
+          "pdf_sha256": "82902ccaf5867a5f84a1b6bfd8aeccc362aa9c46896bed4338a46922e166dcbf",
+          "page_number": 5,
+          "source_start": 6032,
+          "source_end": 6035,
+          "original_token": "105",
+          "derived_token": "10<sup>5</sup>",
+          "matched_anchors": [
+            "life",
+            "operations",
+            "time"
+          ],
+          "original_page_markdown_sha256": "3addf1025604eaa7994364d201d76132eeaa1b7f23e29a20f8e22ad61b8fd0c7",
+          "derived_page_markdown_sha256": "85c056e708bb9fb6fb0ce4de690892d3873c64c0a712f5eee15f2ec76b61e169",
+          "geometry": {
+            "page_number": 5,
+            "base": "10",
+            "script": "5",
+            "flattened_token": "105",
+            "explicit_markup": "10<sup>5</sup>",
+            "anchor_tokens": [
+              "life",
+              "operations",
+              "time"
+            ],
+            "base_font_size": 7.98,
+            "script_font_size": 4.98,
+            "font_size_ratio": 0.62406,
+            "baseline_delta_points": 3.0,
+            "horizontal_gap_points": -0.004013,
+            "base_origin_y": 774.440002,
+            "script_origin_y": 771.440002,
+            "base_bbox": [
+              243.373779,
+              766.140808,
+              252.255508,
+              777.033508
+            ],
+            "script_bbox": [
+              252.251495,
+              766.260803,
+              255.02037,
+              773.058533
+            ]
+          },
+          "original_markdown_line": "| Life Time      | 105 |     | Operations |                       |",
+          "derived_markdown_line": "| Life Time      | 10<sup>5</sup> |     | Operations |                       |"
+        }
+      ],
+      "abstained": [],
+      "raw_record_unchanged": true
+    },
+    {
+      "extraction_sha256": "a23807981b082c2c89cb27d12df9b3cd3a1f6985529c872c1872066a5238ef8d",
+      "manufacturer": "Manuales_Notifier",
+      "source_file": "WFDEN_Manual_I56-4051.pdf",
+      "target_document": false,
+      "applied": [],
+      "abstained": [
+        {
+          "page_number": 2,
+          "flattened_token": "11",
+          "reason": "insufficient_same_line_anchors",
+          "matched_anchors": []
+        }
+      ],
+      "raw_record_unchanged": true
+    },
+    {
+      "extraction_sha256": "a8db1f7fbd3114697756140949a750e3e99d9c64bc1d72d89b5ff9e152dba0a9",
+      "manufacturer": "Manuales_Notifier_Privado",
+      "source_file": "I56-3947-202_FAAST LT_MULTI.pdf",
+      "target_document": false,
+      "applied": [
+        {
+          "pdf_sha256": "a8db1f7fbd3114697756140949a750e3e99d9c64bc1d72d89b5ff9e152dba0a9",
+          "page_number": 5,
+          "source_start": 4608,
+          "source_end": 4611,
+          "original_token": "105",
+          "derived_token": "10<sup>5</sup>",
+          "matched_anchors": [
+            "life",
+            "operations",
+            "time"
+          ],
+          "original_page_markdown_sha256": "b2314e240152ab10df16ac48e0378bcc54d762d4618c36bde80c293440dfc683",
+          "derived_page_markdown_sha256": "115dab475dc1d4c80dbf2a5f0fa94af6331242e7aeebeda2f56d75037508f6af",
+          "geometry": {
+            "page_number": 5,
+            "base": "10",
+            "script": "5",
+            "flattened_token": "105",
+            "explicit_markup": "10<sup>5</sup>",
+            "anchor_tokens": [
+              "life",
+              "operations",
+              "time"
+            ],
+            "base_font_size": 7.98,
+            "script_font_size": 4.98,
+            "font_size_ratio": 0.62406,
+            "baseline_delta_points": 3.0,
+            "horizontal_gap_points": -0.004021,
+            "base_origin_y": 768.351196,
+            "script_origin_y": 765.351196,
+            "base_bbox": [
+              109.02668,
+              760.323303,
+              117.908424,
+              770.944702
+            ],
+            "script_bbox": [
+              117.904404,
+              760.341309,
+              120.673286,
+              766.969727
+            ]
+          },
+          "original_markdown_line": "| Life Time      | 105 |     | Operations |                       |",
+          "derived_markdown_line": "| Life Time      | 10<sup>5</sup> |     | Operations |                       |"
+        },
+        {
+          "pdf_sha256": "a8db1f7fbd3114697756140949a750e3e99d9c64bc1d72d89b5ff9e152dba0a9",
+          "page_number": 15,
+          "source_start": 6580,
+          "source_end": 6583,
+          "original_token": "105",
+          "derived_token": "10<sup>5</sup>",
+          "matched_anchors": [
+            "durata",
+            "operazioni"
+          ],
+          "original_page_markdown_sha256": "029d6b6c4e9f8c5d23c39ad6ecaf4c25a03e1748ed90dc82d7a466aa418244d6",
+          "derived_page_markdown_sha256": "97b39b7b45cdcaf9ed017f9f2cd100cd2e583bdcb1e87fc586e89874a9a9025a",
+          "geometry": {
+            "page_number": 15,
+            "base": "10",
+            "script": "5",
+            "flattened_token": "105",
+            "explicit_markup": "10<sup>5</sup>",
+            "anchor_tokens": [
+              "durata",
+              "operazioni"
+            ],
+            "base_font_size": 7.1194,
+            "script_font_size": 4.4429,
+            "font_size_ratio": 0.624055,
+            "baseline_delta_points": 2.676514,
+            "horizontal_gap_points": -0.008286,
+            "base_origin_y": 773.298035,
+            "script_origin_y": 770.621521,
+            "base_bbox": [
+              101.806404,
+              766.135925,
+              109.723183,
+              775.611816
+            ],
+            "script_bbox": [
+              109.714897,
+              766.151978,
+              112.18515,
+              772.065491
+            ]
+          },
+          "original_markdown_line": "| Durata           | 105  |           | Operazioni |                                                           |",
+          "derived_markdown_line": "| Durata           | 10<sup>5</sup>  |           | Operazioni |                                                           |"
+        },
+        {
+          "pdf_sha256": "a8db1f7fbd3114697756140949a750e3e99d9c64bc1d72d89b5ff9e152dba0a9",
+          "page_number": 25,
+          "source_start": 8179,
+          "source_end": 8182,
+          "original_token": "105",
+          "derived_token": "10<sup>5</sup>",
+          "matched_anchors": [
+            "operaciones",
+            "util",
+            "vida"
+          ],
+          "original_page_markdown_sha256": "3dbd8625d710c61b9e37f0ebe18981a5d227a0be0b44b6538ec9adbacda67060",
+          "derived_page_markdown_sha256": "f62877bc953ffa58f0a147c5f96f022f2abb31d2df7c2c7b592e47ed70a6513b",
+          "geometry": {
+            "page_number": 25,
+            "base": "10",
+            "script": "5",
+            "flattened_token": "105",
+            "explicit_markup": "10<sup>5</sup>",
+            "anchor_tokens": [
+              "operaciones",
+              "util",
+              "vida"
+            ],
+            "base_font_size": 7.1418,
+            "script_font_size": 4.4569,
+            "font_size_ratio": 0.624058,
+            "baseline_delta_points": 2.684875,
+            "horizontal_gap_points": 0.006035,
+            "base_origin_y": 764.250305,
+            "script_origin_y": 761.56543,
+            "base_bbox": [
+              107.129143,
+              757.065674,
+              115.077965,
+              766.571411
+            ],
+            "script_bbox": [
+              115.084,
+              757.081787,
+              117.562035,
+              763.013916
+            ]
+          },
+          "original_markdown_line": "| Vida útil        | 105  |      | Operaciones |                         |",
+          "derived_markdown_line": "| Vida útil        | 10<sup>5</sup>  |      | Operaciones |                         |"
+        },
+        {
+          "pdf_sha256": "a8db1f7fbd3114697756140949a750e3e99d9c64bc1d72d89b5ff9e152dba0a9",
+          "page_number": 35,
+          "source_start": 8143,
+          "source_end": 8146,
+          "original_token": "105",
+          "derived_token": "10<sup>5</sup>",
+          "matched_anchors": [
+            "lebensdauer",
+            "umschaltungen"
+          ],
+          "original_page_markdown_sha256": "1880f0ff960b79b24ca40c10e08363420f8f47f635becefbdb96b5c6314a611a",
+          "derived_page_markdown_sha256": "659d6802aa4e963c319612a9fd7a6c85d6a08ba403339cecda5bf266cb43d601",
+          "geometry": {
+            "page_number": 35,
+            "base": "10",
+            "script": "5",
+            "flattened_token": "105",
+            "explicit_markup": "10<sup>5</sup>",
+            "anchor_tokens": [
+              "lebensdauer",
+              "umschaltungen"
+            ],
+            "base_font_size": 7.2874,
+            "script_font_size": 4.5478,
+            "font_size_ratio": 0.624063,
+            "baseline_delta_points": 2.739563,
+            "horizontal_gap_points": 0.0616,
+            "base_origin_y": 774.510986,
+            "script_origin_y": 771.771423,
+            "base_bbox": [
+              102.026108,
+              767.179871,
+              110.1297,
+              776.879395
+            ],
+            "script_bbox": [
+              110.191299,
+              767.19635,
+              112.719879,
+              773.249451
+            ]
+          },
+          "original_markdown_line": "| Lebensdauer    | 105 |     | Umschaltungen |                     |",
+          "derived_markdown_line": "| Lebensdauer    | 10<sup>5</sup> |     | Umschaltungen |                     |"
+        },
+        {
+          "pdf_sha256": "a8db1f7fbd3114697756140949a750e3e99d9c64bc1d72d89b5ff9e152dba0a9",
+          "page_number": 45,
+          "source_start": 7078,
+          "source_end": 7081,
+          "original_token": "105",
+          "derived_token": "10<sup>5</sup>",
+          "matched_anchors": [
+            "duree",
+            "operations",
+            "service"
+          ],
+          "original_page_markdown_sha256": "0793db7fe597f1961d972fb3c0835ee74bb1d2ab0aec63b0150f822511497f95",
+          "derived_page_markdown_sha256": "f3ccc0b5b22d97790943e1d08a24cf54665733f78c244c9d1ffd9630b09dab72",
+          "geometry": {
+            "page_number": 45,
+            "base": "10",
+            "script": "5",
+            "flattened_token": "105",
+            "explicit_markup": "10<sup>5</sup>",
+            "anchor_tokens": [
+              "duree",
+              "operations",
+              "service"
+            ],
+            "base_font_size": 6.6205,
+            "script_font_size": 4.1316,
+            "font_size_ratio": 0.624062,
+            "baseline_delta_points": 2.488892,
+            "horizontal_gap_points": 0.020432,
+            "base_origin_y": 752.54834,
+            "script_origin_y": 750.059448,
+            "base_bbox": [
+              127.891846,
+              745.888123,
+              135.260468,
+              754.700012
+            ],
+            "script_bbox": [
+              135.280899,
+              745.903076,
+              137.578064,
+              751.402222
+            ]
+          },
+          "original_markdown_line": "| Durée de service           | 105 |           | Opérations |                                                     |",
+          "derived_markdown_line": "| Durée de service           | 10<sup>5</sup> |           | Opérations |                                                     |"
+        }
+      ],
+      "abstained": [],
+      "raw_record_unchanged": true
+    },
+    {
+      "extraction_sha256": "c641817eded9d4bc79625bc1f6cdbb0076f40ffe1340ec7c2dc17770a63c03ad",
+      "manufacturer": "Manuales_Morley",
+      "source_file": "I56-6575-005_EN-FAAST-LT-200-Loop-QIG.pdf",
+      "target_document": false,
+      "applied": [
+        {
+          "pdf_sha256": "c641817eded9d4bc79625bc1f6cdbb0076f40ffe1340ec7c2dc17770a63c03ad",
+          "page_number": 5,
+          "source_start": 5025,
+          "source_end": 5028,
+          "original_token": "105",
+          "derived_token": "10<sup>5</sup>",
+          "matched_anchors": [
+            "life",
+            "operations",
+            "time"
+          ],
+          "original_page_markdown_sha256": "aecf34f3093ddf39b24e70399112f0b8cad9019fc81b5ccecacfef5e44acdaa3",
+          "derived_page_markdown_sha256": "9dc383b8adadb662b014eac49022481b85cdd6fbb7689adbbb7354020cfee5f3",
+          "geometry": {
+            "page_number": 5,
+            "base": "10",
+            "script": "5",
+            "flattened_token": "105",
+            "explicit_markup": "10<sup>5</sup>",
+            "anchor_tokens": [
+              "life",
+              "operations",
+              "time"
+            ],
+            "base_font_size": 7.98,
+            "script_font_size": 4.98,
+            "font_size_ratio": 0.62406,
+            "baseline_delta_points": 3.0,
+            "horizontal_gap_points": -0.004013,
+            "base_origin_y": 769.479431,
+            "script_origin_y": 766.479431,
+            "base_bbox": [
+              243.373779,
+              761.180237,
+              252.255508,
+              772.072937
+            ],
+            "script_bbox": [
+              252.251495,
+              761.300232,
+              255.02037,
+              768.097961
+            ]
+          },
+          "original_markdown_line": "| Life Time      | 105 |           | Operations |                                                 |",
+          "derived_markdown_line": "| Life Time      | 10<sup>5</sup> |           | Operations |                                                 |"
+        }
+      ],
+      "abstained": [],
+      "raw_record_unchanged": true
+    }
+  ],
+  "summary": {
+    "documents_processed": 11,
+    "failures": 0,
+    "target_documents": 1,
+    "target_applied": 1,
+    "independent_documents": 10,
+    "independent_documents_with_applied": 8,
+    "independent_applied": 32,
+    "independent_abstained": 62,
+    "raw_records_unchanged": true
+  },
+  "failures": [],
+  "constraints": {
+    "model_calls": 0,
+    "network_calls": 0,
+    "database_reads": 0,
+    "database_writes": 0,
+    "raw_extraction_writes": 0
+  },
+  "result_sha256": "777e40e1d68319e2630b45afd7642f1fcfd98c849ca9cdcd621465bbbe999df9"
+}

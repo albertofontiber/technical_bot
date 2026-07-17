@@ -11,7 +11,7 @@ import copy
 import hashlib
 import re
 import unicodedata
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from pathlib import Path
 from typing import Any
 
@@ -24,6 +24,9 @@ MIN_HORIZONTAL_GAP_POINTS = -0.25
 MAX_HORIZONTAL_GAP_POINTS = 1.25
 MAX_HORIZONTAL_GAP_BASE_RATIO = 0.30
 MIN_MATCHED_ANCHORS = 2
+MIN_VISUAL_ROW_OVERLAP_RATIO = 0.60
+MAX_VISUAL_ROW_BASELINE_DELTA_POINTS = 1.0
+MAX_VISUAL_ROW_HORIZONTAL_FONT_WIDTHS = 25.0
 
 _BASE_DIGITS = re.compile(r"(\d+)$")
 _ALPHA_TOKEN = re.compile(r"[^\W\d_]{3,}", re.UNICODE)
@@ -42,6 +45,8 @@ class NumericSuperscriptSignal:
     font_size_ratio: float
     baseline_delta_points: float
     horizontal_gap_points: float
+    base_origin_y: float
+    script_origin_y: float
     base_bbox: tuple[float, float, float, float]
     script_bbox: tuple[float, float, float, float]
 
@@ -122,9 +127,47 @@ def _numeric_signal_from_spans(
         font_size_ratio=round(ratio, 6),
         baseline_delta_points=round(baseline_delta, 6),
         horizontal_gap_points=round(horizontal_gap, 6),
+        base_origin_y=round(float(base_origin[1]), 6),
+        script_origin_y=round(float(script_origin[1]), 6),
         base_bbox=tuple(round(value, 6) for value in base_bbox),
         script_bbox=tuple(round(value, 6) for value in script_bbox),
     )
+
+
+def _visual_row_anchor_tokens(
+    spans: list[dict[str, Any]],
+    signal: NumericSuperscriptSignal,
+) -> tuple[str, ...]:
+    """Collect alphabetic anchors from the same geometry row across PDF blocks."""
+    base_top, base_bottom = signal.base_bbox[1], signal.base_bbox[3]
+    base_height = max(base_bottom - base_top, 0.001)
+    interval_left = signal.base_bbox[0]
+    interval_right = signal.script_bbox[2]
+    max_distance = signal.base_font_size * MAX_VISUAL_ROW_HORIZONTAL_FONT_WIDTHS
+    selected: set[str] = set()
+    for span in spans:
+        bbox = tuple(float(value) for value in (span.get("bbox") or (0, 0, 0, 0)))
+        span_top, span_bottom = bbox[1], bbox[3]
+        span_height = max(span_bottom - span_top, 0.001)
+        overlap = max(0.0, min(base_bottom, span_bottom) - max(base_top, span_top))
+        overlap_ratio = overlap / min(base_height, span_height)
+        origin = span.get("origin") or (0, 0)
+        baseline_delta = abs(float(origin[1]) - signal.base_origin_y)
+        if (
+            overlap_ratio < MIN_VISUAL_ROW_OVERLAP_RATIO
+            and baseline_delta > MAX_VISUAL_ROW_BASELINE_DELTA_POINTS
+        ):
+            continue
+        if bbox[2] < interval_left:
+            horizontal_distance = interval_left - bbox[2]
+        elif bbox[0] > interval_right:
+            horizontal_distance = bbox[0] - interval_right
+        else:
+            horizontal_distance = 0.0
+        if horizontal_distance > max_distance:
+            continue
+        selected.update(anchor_tokens(str(span.get("text") or "")))
+    return tuple(sorted(selected))
 
 
 def extract_numeric_superscript_signals(
@@ -136,6 +179,13 @@ def extract_numeric_superscript_signals(
     with fitz.open(pdf_path) as pdf:
         for page_index, page in enumerate(pdf):
             blocks = page.get_text("dict", sort=True).get("blocks", [])
+            page_spans = [
+                span
+                for block in blocks
+                for line in block.get("lines", [])
+                for span in line.get("spans", [])
+            ]
+            page_signals: list[NumericSuperscriptSignal] = []
             for block in blocks:
                 for line in block.get("lines", []):
                     spans = line.get("spans", [])
@@ -150,9 +200,16 @@ def extract_numeric_superscript_signals(
                                 page_index + 1,
                             )
                             if signal is not None:
-                                signals.append(signal)
+                                page_signals.append(signal)
                         if str(span.get("text") or "").strip():
                             previous_nonblank = span
+            signals.extend(
+                replace(
+                    signal,
+                    anchor_tokens=_visual_row_anchor_tokens(page_spans, signal),
+                )
+                for signal in page_signals
+            )
     return tuple(signals)
 
 

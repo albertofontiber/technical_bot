@@ -1,0 +1,62 @@
+instrument: s162_numeric_superscript_overlay_local_gate_v2
+status: LOCAL_GO_ADVERSARIAL_REVIEW_REQUIRED
+
+frozen_contract:
+  design: evals/s162_numeric_superscript_overlay_design_v2.md
+  preregistration: evals/s162_numeric_superscript_overlay_prereg_v2.yaml
+  prior_no_go: evals/s162_numeric_superscript_overlay_gate_v1.yaml
+
+implementation:
+  module: src/reingest/superscript_overlay.py
+  tests: tests/test_superscript_overlay.py
+  qualification_runner: scripts/s162_qualify_numeric_superscript_overlay.py
+
+target:
+  packet: evals/s162_numeric_superscript_overlay_packet_v2.json
+  documents: 1
+  applied: 1
+  original: "105"
+  derived: "10<sup>5</sup>"
+  page: 5
+  other_markdown_deltas: 0
+
+independent:
+  target_excluded: true
+  candidate_documents: 10
+  documents_with_applied: 8
+  applied: 32
+  abstained: 62
+  failures: 0
+  raw_records_unchanged: true
+  visual_review: evals/s162_numeric_superscript_visual_review_v2.yaml
+  visually_reviewed_documents: 8
+  visually_correct_attachments: 8
+  false_attachments: 0
+
+validation:
+  focused_tests: 10_passed
+  full_regression: 1418_passed_4_skipped
+  pdf_hash_binding: true
+  raw_extraction_mutations: 0
+  database_reads: 0
+  database_writes: 0
+  network_calls: 0
+  model_calls: 0
+
+decision:
+  local_candidate_v2: GO
+  adversarial_review: REQUIRED_ONCE
+  offline_pipeline_integration: NOT_YET_AUTHORIZED
+  runtime: false
+  production: false
+  facts_moved_to_ok: 0
+  rationale: >-
+    V2 resolves the target using PDF-native typography and visual-row alignment,
+    while independently preserving both mathematical superscripts and note
+    markers as literal markup. It abstains on 62 ambiguous candidates and has
+    zero observed false attachments. A single bounded Sol/Fable review remains
+    before any integration design.
+
+cost:
+  usd: 0
+  model_calls: 0

@@ -8,6 +8,7 @@ import pytest
 from src.reingest.superscript_overlay import (
     NumericSuperscriptSignal,
     _numeric_signal_from_spans,
+    _visual_row_anchor_tokens,
     anchor_tokens,
     preserve_numeric_superscripts,
 )
@@ -32,6 +33,8 @@ def _signal(
         font_size_ratio=0.62406,
         baseline_delta_points=3.0,
         horizontal_gap_points=0.014,
+        base_origin_y=769.464,
+        script_origin_y=766.464,
         base_bbox=(243.23, 762.24, 252.11, 771.15),
         script_bbox=(252.124, 761.96, 254.893, 767.515),
     )
@@ -79,6 +82,31 @@ def test_geometry_requires_pdf_superscript_flag_and_elevation():
 
 def test_anchor_tokens_are_case_and_accent_insensitive():
     assert anchor_tokens("OPERACIÓN eléctrica, Operacion") == ("electrica", "operacion")
+
+
+def test_visual_row_collects_anchors_across_separate_pdf_lines():
+    spans = [
+        {
+            "text": "Life Time ",
+            "bbox": (169.14, 762.24, 204.23, 771.15),
+            "origin": (169.14, 769.464),
+        },
+        {
+            "text": "Operations",
+            "bbox": (295.87, 762.24, 337.19, 771.15),
+            "origin": (295.87, 769.464),
+        },
+        {
+            "text": "Unrelated heading",
+            "bbox": (100.0, 700.0, 180.0, 710.0),
+            "origin": (100.0, 708.0),
+        },
+    ]
+    assert _visual_row_anchor_tokens(spans, _signal()) == (
+        "life",
+        "operations",
+        "time",
+    )
 
 
 def test_unique_context_bound_token_is_preserved_without_mutating_raw(tmp_path):
