@@ -1,0 +1,56 @@
+{
+  "schema": "s203_kidde_visual_canary_diagnosis_v1",
+  "status": "CLOSED_NO_GO_VISUAL_GOLD",
+  "measurement": {
+    "provider_calls": 8,
+    "sol_generation_valid": 3,
+    "fable_generation_valid": 3,
+    "sol_reviewed_fable_pass": 2,
+    "sol_reviewed_fable_fail": 1,
+    "fable_reviewed_sol_verdict_pass": 3,
+    "strict_clean_candidate_pairs": 1,
+    "conservative_cost_usd": 14.07876
+  },
+  "causes": [
+    {
+      "canary_id": "kidde_heat_class",
+      "side": "fable_candidate_reviewed_by_sol",
+      "classification": "SEMANTIC_SOURCE_OVERREACH",
+      "detail": "The candidate recommended BR for a boiler room and equated it with tolerating more ambient heat before alarm; the pixels provide class/application/response values but no room-selection recommendation."
+    },
+    {
+      "canary_id": "kidde_single_output_test",
+      "side": "sol_candidate_reviewed_by_fable",
+      "classification": "REVIEW_SCHEMA_SEVERITY_MISMATCH",
+      "detail": "Fable returned PASS and marked all eight facts supported/page-correct/entailed, but placed two explicitly non-material observations in issues; the frozen local gate treated any non-empty issues list as blocking."
+    }
+  ],
+  "interpretation": {
+    "frontier_availability_measured": true,
+    "pixel_only_transport_measured": true,
+    "all_six_independent_candidates_structurally_valid": true,
+    "semantic_gold_process_passed": false,
+    "planner_or_bot_quality_measured": false,
+    "postselection_permitted": false,
+    "official_gold_questions_added": 0,
+    "diagnostic_facts_moved_to_ok": 0
+  },
+  "decision": {
+    "same_cohort_retry": false,
+    "same_cohort_prompt_repair": false,
+    "salvage_clean_pair": false,
+    "next_population": "fresh_kidde_source_units",
+    "generic_contract_changes_before_next_population": [
+      "Forbid application recommendations or scenario selection unless the source pixels state them explicitly.",
+      "Separate blocking_issues from nonblocking_notes and require verdict consistency; only blocking issues invalidate PASS."
+    ],
+    "reuse_runner_by_copy": false,
+    "next_implementation": "extract a reusable visual-gold contract before S204"
+  },
+  "orthogonal_lanes": {
+    "chunks_v2": "ACTIVE",
+    "chunks_v3": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "railway_merge_gate": false
+  },
+  "result_sha256": "46330fc8a8ab5e58a68dffe94da1526c8810e32f4285588ca4a35dfef5cf812a"
+}
