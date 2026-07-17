@@ -1,0 +1,45 @@
+instrument: s191_visual_utility_classifier_gate_v2
+status: CLOSED_NO_GO_TRIGGER_OUT_OF_RANGE
+
+inputs:
+  preregistration: evals/s191_visual_utility_classifier_prereg_v2.yaml
+  cohort_semantic_payload_sha256: 7863b4322b468a83e77ab5e7e7412d365c6bfd76847ecfda9f8d2ef7d29a5963
+  executor_result: evals/s191_visual_utility_executor_v2.json
+  receipts: evals/s191_visual_utility_luna_receipts_v2.json
+
+executor:
+  model: gpt-5.6-luna
+  reasoning_effort: none
+  valid_labels: 60
+  unique_items: 60
+  strict_policy_positives: 44
+  preregistered_positive_range: [10, 30]
+  trigger_passed: false
+  calls: 6
+  retries: 0
+  measured_cost_usd: 0.04029
+  prior_haiku_failure_conservative_upper_bound_usd: 0.2
+
+decision:
+  frontier_review_called: false
+  database_writes: 0
+  production_changes: false
+  facts_moved_to_ok: 0
+  classifier_quality_conclusion: NOT_MEASURED
+  explanation: >-
+    The frozen trigger failed, so S191 cannot estimate adversarial precision or authorize a
+    visual-asset backfill. The result does not prove that Luna is overinclusive: the cohort
+    intentionally contained 48 technical-intent strata and only 12 first-page controls, so
+    the preregistered upper bound of 30 was poorly aligned with the sampled population.
+
+anti_overfit:
+  - do_not_raise_the_10_to_30_threshold_after_observing_labels
+  - do_not_tune_reasoning_or_prompt_on_the_same_60_assets
+  - do_not_call_sol_or_fable_outside_the_frozen_trigger
+  - treat_s191_as_development_evidence_only
+
+next_if_resumed:
+  - freeze_an_independent_control_balanced_cohort_before_any_new_labels
+  - measure_precision_and_false_positive_rate_against_independent_gold
+  - keep_reasoning_none_unless_a_new_preregistered_disagreement_test_justifies_more
+
