@@ -66,8 +66,10 @@ Data-flow OpenAI ya **aceptado** en el proyecto (el mismo `OPENAI_API_KEY`).
 `ADVERSARIAL_REASONING_EFFORT` (default `xhigh`); ambos valores quedan registrados en el tally.
 Una ejecución con override distinto debe declararse y no satisface por sí sola el rol de revisor
 principal; el runner lo etiqueta como `override no-principal` y registra
-`primary_contract_satisfied=false`. **`--diff`** auto-incluye `git diff HEAD` para no
-depender de que yo elija bien el contexto (sesgo de selección). **Fallback**: si GPT no está
+`primary_contract_satisfied=false`. Una doble lectura idéntica de todos los ficheros visibles por Git
+alimenta subject, seeds y tools; su manifiesto de cambios contra HEAD se adjunta siempre para no
+depender de que yo elija bien el contexto (sesgo de selección). El antiguo `--diff` se rechaza
+antes de cualquier llamada porque creaba contexto imposible de emparejar con Fable. **Fallback**: si GPT no está
 disponible, el suelo es Fable 5 + mi verificación, y se **marca explícitamente
 "revisor principal Sol omitido"** (no se finge que se hizo).
 Las llamadas usan Responses API con `store=False`; propuestas, diff y lecturas no se solicitan
@@ -77,7 +79,22 @@ como respuestas almacenadas por la API.
 `store=False` completó una llamada `list_dir` y la continuación stateless con cap 1.
 Cada entrada Sol nace con `duo_status=pending_fable` y un bloque `fable_review` pendiente. La
 revisión ALTO/zona-de-dolor no está completa hasta rellenar ahí identificador, coste y adjudicación
-de la ejecución Fable 5 separada; si no puede ejecutarse, se marca `omitted_unavailable`.
+de la ejecución Fable 5 separada. `scripts/adversarial_review_fable.py` ejecuta el pin exacto
+`claude-fable-5`, persiste la salida cruda y solo la une a una entrada Sol explícita cuando ambas
+revisiones recibieron los mismos ficheros completos y ordenados, briefing y vista de repo
+tool-visible (`tracked + untracked no ignorado`), todos ligados por SHA-256. Ambas tool sandboxes
+leen exclusivamente ese snapshot y deniegan el tally y las salidas adversariales previas para
+impedir contaminación entre revisores; cualquier symlink visible por Git se rechaza. El recibo
+Fable conserva respuesta serializada del proveedor, IDs, modelo reportado, stop reasons, coste y
+salida normalizada; reconstruye texto, uso y tool trace desde la respuesta serializada. Antes de
+cerrar el dúo también relee y verifica los artefactos físicos Sol. Una credencial, SDK o
+ruta de proveedor ausente deja `pending_fable` y registra el intento fallido cuando el runner puede
+arrancar: no demuestra que el modelo sea globalmente indisponible y no completa ni dispensa el dúo.
+`--standalone` cubre el tier Fable-solo MEDIO fuera de zona de dolor; `--sol-ts` también puede
+adjuntarse a una fila byte-bound `sol_omitted` para el fallback Fable+verificación humana, cuyo
+estado conserva explícitamente que el principal no corrió. Sol persiste asimismo texto normalizado
+y trace serializado de Responses API con hashes físicos, no solo la salida efímera del terminal;
+si una respuesta falla cerrada, conserva el trace en la fila fallida sin inventar review.
 
 ## Acceso autónomo al contexto versionado — resuelto en s88 (pedido de Alberto; cierra TECH_DEBT #36)
 **Desde s88 el cross-model LEE EL REPO versionado él mismo:** `adversarial_review.py` corre un loop agéntico
@@ -89,7 +106,8 @@ de la ejecución Fable 5 separada; si no puede ejecutarse, se marca `omitted_una
 - **Deny-list:** `.env*` (secretos), `.git/` y dirs internos, y el **propio log de tally**
   (anti-contaminación). Sandbox: paths resueltos bajo la raíz (no traversal).
 - **Cap 30 tool-calls** (disciplina de coste); al agotarlo se fuerza la review con lo leído.
-  `--no-tools` restaura el modo legacy (pegado) como escape. `--diff` se mantiene.
+  `--no-tools` restaura el modo legacy (pegado) como escape; seeds y manifiesto siguen ligados
+  al mismo snapshot.
 - El tally registra `tool_calls`, `files_read` y `tool_trace` (tool, argumentos y estado;
   no persiste el contenido leído), de modo que se audita qué consultó sin duplicar código en el log.
 **Invariante preservado (el activo del cross-model):** ve el artefacto por lente no-Claude + su
@@ -108,11 +126,13 @@ fuera de `ROOT` ni se promete simetría total de contexto implícito.
 ## Modelos del dúo (actualizado post-s194)
 **Principal:** `gpt-5.6-sol` con `reasoning_effort=xhigh`, vía
 `scripts/adversarial_review.py`, con tools read-only y salida cruda.
-**Segundo revisor frontera, ejecución independiente:** pin `model: fable` (Fable 5; Alberto
-s88 — antes `opus` s73→s88), con acceso autónomo al mismo repo versionado. “Independiente” describe la
-ejecución y su salida cruda, no una familia distinta: Fable puede compartir árbol con el autor;
-la diversidad cross-family la aporta Sol. En ALTO/zona-de-dolor se requieren las dos lentes;
-Fable 5 no sustituye al principal Sol y Sol no sustituye la revisión separada de Fable 5.
+**Segundo revisor frontera, ejecución independiente:** pin de protocolo `model: fable`, ejecutado
+como `claude-fable-5` por `scripts/adversarial_review_fable.py` (Fable 5; Alberto s88 — antes
+`opus` s73→s88), con acceso autónomo al mismo repo versionado y sin depender de `.claude/` ni de
+un host Claude. “Independiente” describe la ejecución y su salida cruda, no una familia distinta:
+Fable puede compartir árbol con el autor; la diversidad cross-family la aporta Sol. En
+ALTO/zona-de-dolor se requieren las dos lentes; Fable 5 no sustituye al principal Sol y Sol no
+sustituye la revisión separada de Fable 5.
 
 **Objetivo de la migración GPT-5.5→Sol:** aplicar la decisión explícita de modelo principal sin
 afirmar todavía una mejora de eficacia. El tally histórico y las entradas nuevas estratificadas por

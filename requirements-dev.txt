@@ -6,6 +6,10 @@
 # exercise the same resolved SDK even though the product dependency keeps a lower bound.
 anthropic==0.97.0
 
+# S197 freezes the Responses API serializer used by Luna preflight and semantic
+# validation. Keep CI on the same execution SDK as the sealed evaluation.
+openai==2.30.0
+
 # Test runner — CI gate (.github/workflows/ci.yml) + local. Antes no estaba
 # declarado (se instalaba ad-hoc). El bot/pipeline no lo necesitan en runtime.
 pytest>=8.0.0

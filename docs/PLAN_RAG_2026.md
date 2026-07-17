@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 17 jul 2026 (s196 — canary estático compilado; GO para cohorte S197 separada, facts aún 0).
+> 17 jul 2026 (pre-S197 — ejecución sellada preparada; facts aún 0).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -22,7 +22,7 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s196 — 17 jul 2026)
+## Estado actual (pre-S197 — 17 jul 2026)
 
 **La foto diagnóstica comparable más reciente es 157 facts: 143 OK · 12 synthesis-miss ·
 2 retrieval-miss = 91,08% OK, gap 7 facts hasta 95%.** No es todavía un KPI atómico oficial ni
@@ -64,7 +64,8 @@ se cerró sin mover facts.** Anthropic no admite `maxItems`/`uniqueItems` en el 
 por lo que se separó el contrato canónico exacto de un transporte sin arrays: cuatro slots de
 puntos y tres slots de soporte por punto, con IDs ligados al documento, normalización determinista
 y validación semántica externa Luna prevista para los 14 ítems. Sol 5.6 xhigh revisó el diseño;
-Fable 5 quedó `omitted_unavailable` porque no existe ejecutor en este entorno. La cohorte fue
+la fila histórica llamó `omitted_unavailable` a lo que en realidad era ausencia de ejecutor
+versionado en ese worktree, no indisponibilidad global de Fable 5. La cohorte fue
 enteramente nueva y excluyó S194: 25.090 filas GET-only, 14 documentos/fabricantes, 7+7, cero
 overlap previo/target y cero equivalencia exacta de contenido/extracción. Los 14 conteos de tokens
 pasaron, pero la primera inferencia Haiku fue rechazada con 400
@@ -81,9 +82,20 @@ pertenencia/duplicados de IDs al validador determinista, evitando enums dinámic
 (4 puntos × 3 soportes) contiene cero arrays, refs/defs, combinators, enums o consts; las restricciones
 específicas viven en validación determinista. Sobre dos unidades 100% sintéticas, Haiku 4.5 compiló,
 devolvió `end_turn` y produjo dos puntos válidos en una única inferencia. SDK 0.97.0, cero retries,
-coste $0,002583. Sol 5.6 xhigh revisó tres iteraciones; Fable quedó `omitted_unavailable`. Crédito de
+coste $0,002583. Sol 5.6 xhigh revisó tres iteraciones; Fable volvió a quedar mal rotulado por la
+misma ausencia local de ejecutor versionado. Crédito de
 facts 0 y ningún documento/target/Luna/planner se abrió. El resultado autoriza solamente un S197
 separado: cohorte real nueva, disjunta de S194+S195, mismo schema genérico y validación externa Luna.
+
+**El pre-S197 deja ese siguiente tramo listo sin ejecutar la cohorte.** Se versionó el runner
+directo de `claude-fable-5` usado anteriormente desde Codex y el dúo byte-bound con Sol 5.6 xhigh,
+eliminando la dependencia de un agente `.claude` local y el estado ambiguo
+`omitted_unavailable`. También quedaron preparados el doble freeze GET-only de una cohorte nueva
+disjunta de S194+S195 y el gate Haiku→Luna con schema S196, cero retries, locks, checkpoints,
+presupuesto ≤$3 y STOP upstream. La verificación local pasa; dos intentos reales de Fable usaron
+el pin exacto y tools pero terminaron con bloque de texto vacío, por lo que constan como fallo de
+respuesta del proveedor, no como modelo ausente ni como revisión completada. Sol encontró cuatro
+defectos medios del propio protocolo; se corrigieron sin abrir otra ronda. Facts movidos: 0.
 
 **`chunks_v3` no se migra al completo.** S140 cerró el shadow representativo como
 `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`: empata recall funcional@10 (16/24 vs 16/24) pero empeora el
@@ -105,7 +117,7 @@ sigue siendo un registro ligado a documento+revisión+página+hash, independient
 
 **Producción no ha cambiado en este bloque.** No se ha hecho deploy, migración ni escritura
 remota. Railway sigue siendo una demo y no es condición para merge con CI verde. Próximos pasos,
-por orden: (1) cerrar S196 en PR; (2) congelar en S197 **otra** cohorte documental fresca
+por orden: (1) integrar el pre-S197 con CI verde; (2) congelar en S197 **otra** cohorte documental fresca
 que excluya S194+S195 y exigir el mismo transporte estático + autoría + arbitraje semántico externo;
 (3) mantener 90% recall /
 80% precisión / 75% completas y abrir targets únicamente si ese upstream pasa; (4) solo después integrar el compilador en un
