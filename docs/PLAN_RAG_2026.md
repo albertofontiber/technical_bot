@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 17 jul 2026 (pre-S202 — S201 cerrado sin inferencia; gold fresco congelado).
+> 17 jul 2026 (pre-S204 — contrato visual reusable y cohorte Kidde fresca congelados).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -22,8 +22,8 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-<a id="estado-actual-s202--17-jul-2026"></a>
-## Estado actual (pre-S202 — 17 jul 2026)
+<a id="estado-actual-s204--17-jul-2026"></a>
+## Estado actual (pre-S204 — 17 jul 2026)
 
 **La foto diagnóstica comparable más reciente es 157 facts: 143 OK · 12 synthesis-miss ·
 2 retrieval-miss = 91,08% OK, gap 7 facts hasta 95%.** No es todavía un KPI atómico oficial ni
@@ -206,6 +206,22 @@ fue limpio bajo la letra estricta; no se postseleccionó, no se añadieron golds
 facts. S204 usará páginas/predicados frescos y un contrato reusable que prohíba recomendaciones no
 literales y separe `blocking_issues` de `nonblocking_notes`; no reintenta S203.
 
+**Pre-S204 corrige el instrumento y congela una población visual no contaminada.** El contrato
+reusable `src/rag/visual_gold.py` prohíbe inferir aplicaciones desde límites numéricos, restringe
+facts a páginas focus y separa defectos bloqueantes de notas no materiales con consistencia local
+PASS/FAIL. La primera selección local detectó a tiempo que sus predicados textuales ya aparecían
+en las preguntas HyQ S99 embebidas del lado documento: no son golds, pero usarlas en evaluación
+contaminaría retrieval. Se descartaron antes de autoría. El packet final incluye en el filtro de
+duplicados las 51 preguntas gold y las 179 HyQ de los tres PDFs seleccionados, y congela cinco
+renders de tres predicados visuales no presentes como preguntas exactas: topología Clase A entre
+bases, posiciones DIP 008/112 y distinción de ranuras del KE-DBA-AUXW. La novedad semántica sigue
+siendo un gate bloqueante de los revisores, no una afirmación local. Cero solape basename/SHA con fuentes
+gold y cohorte S203 excluida. Sol 5.6 `xhigh` y Fable 5 alcanzaron sus pins en la revisión de diseño
+monolítica, pero ambos agotaron el allowance sin JSON final; constan como incompletos, no
+indisponibles, por **$3,25083**, sin retry. La auditoría determinista corrigió además el PASS vacío.
+La preejecución pasa 4/4 tests y autoriza únicamente una PR con CI; tras merge, una ejecución
+separada de máximo ocho llamadas y $40. Aún mueve 0 facts.
+
 **`chunks_v3` no se migra al completo.** S140 cerró el shadow representativo como
 `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`: empata recall funcional@10 (16/24 vs 16/24) pero empeora el
 primer rango útil/MRR (0,4021→0,3694). `chunks_v2` sigue siendo el baseline activo. V3 preserva
@@ -226,16 +242,15 @@ sigue siendo un registro ligado a documento+revisión+página+hash, independient
 
 **Producción no ha cambiado en este bloque.** No se ha hecho deploy, migración ni escritura
 remota. Railway sigue siendo una demo y no es condición para merge con CI verde. Próximos pasos,
-por orden: (1) integrar el resultado S202 con CI verde; (2) inventariar y congelar manuales Kidde
-sin preguntas; (3) canary pequeño de pregunta+gold con verificación visual página-a-página, Sol 5.6
-`xhigh` principal y Fable 5 independiente; (4) sólo si pasa, ampliar el catálogo Kidde y ejecutar
-un benchmark económico separado; (5) congelar planner Terra sobre holdout fresco y abrir los cuatro
-targets sólo si generaliza; (6) ante GO target, revisión crítica y regresión completa antes de un
-seam runtime default-off; (7) reconciliar el bridge diagnóstico/productivo sin sumar de nuevo
-S172/S188; (8) al alcanzar 98%, pasar a diagramas/formato/Wispr Flow; (9) recoger 30 audios reales
-antes de comparar ASR. El funnel conserva sus etapas: S193 mantiene señal de renderer; S194, S195,
-S197, S198, S199, S200 y S202 son NO-GO upstream, S196 y el canary question-only son GO
-instrumentales, S201 es HOLD cerrado antes de inferencia y todos siguen con crédito de facts cero.
+por orden: (1) PR y merge CI-verde de la preejecución S204; (2) ejecutar una sola vez las seis
+autorías y dos cross-reviews pixel-only; (3) sólo ante GO, congelar en otra PR el benchmark
+económico con corpus/chunks_v2, índice, configuración, juez, seeds y baseline inmutables; (4) abrir
+planner/targets únicamente si ese benchmark generaliza con cero regresiones; (5) reconciliar el
+bridge diagnóstico/productivo sin sumar de nuevo S172/S188; (6) al alcanzar 98%, pasar a
+diagramas/formato/Wispr Flow; (7) recoger 30 audios reales antes de comparar ASR. El funnel conserva
+sus etapas: S193 mantiene señal de renderer; S194, S195, S197, S198, S199, S200, S202 y S203 son
+NO-GO upstream, S196 y los canarios de transporte son GO instrumentales, S201 es HOLD cerrado y
+todos siguen con crédito de facts cero.
 
 ## Estado anterior (s129 — 15 jul 2026)
 

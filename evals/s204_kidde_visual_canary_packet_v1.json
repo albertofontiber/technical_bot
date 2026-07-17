@@ -1,0 +1,1948 @@
+{
+  "schema": "s204_kidde_visual_canary_packet_v1",
+  "status": "FROZEN_BEFORE_FRONTIER_CALLS",
+  "selection": {
+    "method": "fresh_source_unit_pre_model_stratified_canary",
+    "model_outputs_seen": 0,
+    "bot_outputs_seen": 0,
+    "selected_items": 3,
+    "selected_source_overlap_with_existing_gold": [],
+    "selected_source_sha_overlap_with_resolved_existing_gold": [],
+    "existing_gold_question_count": 51,
+    "selection_axes": [
+      "wiring_diagram_and_terminal_table",
+      "visual_switch_configuration",
+      "visual_component_identification"
+    ],
+    "excluded_closed_cohort": "s203"
+  },
+  "existing_gold_coverage": [
+    {
+      "qid": "hp001",
+      "question": "En la Detnov CAD-250, ¿cómo se entra al menú de programación avanzada?",
+      "atomic_fact_texts": [
+        "Desde la PANTALLA DE REPOSO, tocar con el dedo el icono del candado en la pantalla tactil -> accede a la PANTALLA DE ACCESO, que pide el codigo/password",
+        "Introducir la clave de ADMINISTRADOR por defecto 2222 -> da acceso al nivel de configuracion/administrador (donde se configuran todos los parametros)",
+        "La clave de USUARIO por defecto es 1111, que NO da acceso a la configuracion avanzada completa (solo el nivel de usuario)",
+        "Con la clave correcta se accede a la PANTALLA DE ADMINISTRADOR, dividida en 6 secciones: Menu Principal (izq), Submenu (der), Barra de Navegacion, Vista Principal, Barra de Estado y Barra de Mensajes",
+        "Desde el MENU PRINCIPAL se accede a: Lazos, Sectorizacion, Maniobras, Logs, Red, Ajustes e Instalacion",
+        "AVISO de seguridad: el uso indebido del nivel de administrador puede provocar mal funcionamiento; se recomienda cambiar la clave por defecto desde Ajustes > Usuarios"
+      ]
+    },
+    {
+      "qid": "hp002",
+      "question": "El detector ASD535 de Detnov está dando una alarma intermitente de flujo bajo. ¿Cuál es la causa más probable y cómo se diagnostica?",
+      "atomic_fact_texts": [
+        "El ASD 535 no da una \"alarma de flujo bajo\" como tal, sino un aviso \"fallo flujo de aire\" cuando el flujo varia respecto al nominal (reset inicial con conducto limpio = 100 %) mas alla de la ventana de monitorizacion (por defecto +-20 %, EN 54-20)",
+        "Causa mas probable de flujo BAJO (por debajo del 80 % / valor < 100 %): obstruccion del conducto de aspiracion (orificios sucios/obstruidos, filtro sucio, trampa de polvo/separador); un valor por encima del 120 % (> 100 %) apunta a rotura de tubo/fugas",
+        "El aviso «fallo flujo de aire» se dispara una vez transcurrido el tiempo de retardo de 300 s de la LS-Ü (retardo ajustable que descarta turbulencias)",
+        "Diagnostico: leer el valor actual del flujo de aire (cap 7.6.1) -> posicion de conmutador V, V01 (conducto I) y V02 (conducto II); interpretacion: valor < 100 % apunta a obstruccion, > 100 % apunta a rotura de tubo",
+        "Por defecto todos los eventos del ASD 535 entran en parada automatica y requieren un RESET DE ESTADO para reinicializar (cap 2.2.17). El RESET INICIAL (cap 7.3.5) NO es necesario tras una simple limpieza de orificios; SI procede cuando, tras las medidas de limpieza del conducto (puntos 9-10), una nueva lectura de los valores de flujo (p122 punto 13) sigue FUERA DE TOLERANCIA, y SOLO con el conducto limpio e intacto (si no, la toma de muestras puede ser insuficiente y la alarma podria no dispararse)",
+        "En entornos con grandes turbulencias de aire u oscilaciones termicas puede ser necesario aumentar el tiempo de retardo o el tamano de la ventana; pero por encima de +-20 % deja de cumplir EN 54-20 (consultar con el fabricante)"
+      ]
+    },
+    {
+      "qid": "hp003",
+      "question": "¿Cómo se conectan las baterías de 24V en la Detnov CAD-150?",
+      "atomic_fact_texts": [
+        "Dos baterias de 12V conectadas en SERIE (suman los 24V del sistema), capacidad 7A/h",
+        "Cable puente: une el polo POSITIVO de una bateria con el NEGATIVO de la otra",
+        "Los cables que salen del circuito (ROJO y NEGRO) se conectan al positivo y negativo de las baterias (conectar antes el puente entre baterias)",
+        "Orden de conexion por seguridad: PRIMERO la red (230VAC, magnetotermico bipolar), DESPUES las baterias (no respetarlo puede danar el equipo)",
+        "Antes de alimentar, comprobar con voltimetro que las baterias tienen una tension superior a 24V",
+        "Las baterias se colocan en la parte inferior de la caja, en vertical",
+        "Desconectar el magnetotermico bipolar exterior antes de manipular la central"
+      ]
+    },
+    {
+      "qid": "hp004",
+      "question": "¿Cuál es la tensión de funcionamiento y el consumo en reposo del detector DGD-600 de Detnov?",
+      "atomic_fact_texts": [
+        "El DGD-600 existe en DOS versiones de alimentacion (24V y 220V) con especificaciones electricas distintas; la pregunta no indica cual -> ofrecer ambas y pedir aclaracion",
+        "Version 24V: tension de funcionamiento de 22V a 38V; consumo en reposo 45 mA (consumo en alarma 65 mA)",
+        "Version 220V: tension de funcionamiento de 180V a 240V; consumo en reposo 70 mA (consumo en alarma 70 mA)"
+      ]
+    },
+    {
+      "qid": "hp005",
+      "question": "En la Notifier ID3000, ¿cómo se programa una zona para que active una salida de sirena solo cuando haya coincidencia de dos detectores?",
+      "atomic_fact_texts": [
+        "La coincidencia se configura creando una instruccion en la MATRIZ DE CONTROL con la definicion de ENTRADA = ALARMA, sobre la zona deseada",
+        "En el menu \"Indique tipo de coincidencia\" seleccionar la opcion 2: COINCIDENCIA 2 EQUIPOS",
+        "Para que se produzca la coincidencia, los equipos en alarma deben estar en la misma zona o subzona",
+        "Definir la SALIDA: \"Salidas activadas\" -> \"CIRCUITO SIRENA/RELE\" (un circuito de sirena concreto) o \"TODAS SALIDAS: Subzona/Zona/Central\" limitando por tipo a los modulos de sirena",
+        "Requisito EN54-2 7.1.4: NO incluir pulsadores manuales (PUL) en el grupo de coincidencia; si se quieren incluir, usar dos instrucciones separadas (PUL como UN UNICO EQUIPO sin coincidencia + sensores con coincidencia)",
+        "Niveles de coincidencia para EQUIPOS: Nivel 1 = 1 y Nivel 2 = 2 son FIJOS (no se configuran); otros niveles (3-99) se definen en Coincidencia de alarma de la Configuracion de la central",
+        "Con el programa PK-ID3000 (Windows), el equivalente se hace en la ventana 'Editar Matriz de Control' marcando la casilla de coincidencia y seleccionando 2 equipos"
+      ]
+    },
+    {
+      "qid": "hp006",
+      "question": "La Notifier AFP-400 muestra el aviso 'Tierra' (Earth Fault). ¿Qué significa y cómo se localiza?",
+      "atomic_fact_texts": [
+        "La fuente MPS-400 de la AFP-400 dispone de deteccion de fallo de tierra: LED dedicado 'Fallo de Tierra' (MIDT170) + terminal TB1-1 'Falla de Tierra' / TB1-3 toma de tierra; el puente JP2 'Corte para inhabilitar la deteccion de la Falla de Tierra' (50253SP 2-44)",
+        "En el lazo de comunicaciones (SLC) 'Tierra' es una de las condiciones de averia que la central reconoce y senaliza (tabla 'Funcionamiento del Lazo', Estilos 4/6/7)",
+        "Para acotar un fallo en el lazo se usan los modulos aisladores ISO-X, que aislan la rama en averia del resto del lazo (requeridos para Estilo 7 segun NFPA)",
+        "Es imprescindible conectar el terminal de toma de tierra (MPS-400 TB1-3) a una toma de tierra solida para mantener la inmunidad del panel",
+        "En red, la deteccion de fallo de tierra por canal A/B se habilita o inhabilita con los conmutadores SW2/SW3 del modulo NAM-232W",
+        "Los manuales de funcionamiento/configuracion consultados por el bot (MFDT170, MIDT170, MPDT170, MADT232) NO incluyen un procedimiento paso a paso de LOCALIZACION del punto exacto del fallo de tierra"
+      ]
+    },
+    {
+      "qid": "hp007",
+      "question": "¿Cómo se realiza el test anual de un detector VESDA-E VEP según el manual del fabricante?",
+      "atomic_fact_texts": [
+        "Fuente de alimentación y batería: revisión cada 3 meses (trimestral)",
+        "Comprobar la red de tubería: cada 6 meses (semestral)",
+        "Prueba de humos para integridad de tuberías: anual",
+        "Comprobar el flujo de las tuberías: anual",
+        "Limpiar los puntos de muestreo: anual",
+        "Limpiar con agua la red de tubería: anual",
+        "Sustitución del filtro: cada 2 años (bianual)",
+        "Antes del mantenimiento: detector deshabilitado/en espera NO emite avisos de fuego; informar a la autoridad supervisora; aislar los dispositivos auxiliares"
+      ]
+    },
+    {
+      "qid": "hp008",
+      "question": "¿Qué detectores de humo analógicos son compatibles con la Notifier ID3000?",
+      "atomic_fact_texts": [
+        "Sensores ionicos de humo compatibles: CPX-551E (ION) y CPX-751E (ION, bajo perfil)",
+        "Sensores opticos de humo compatibles: SDX551E, SDX-751 y SDX-751EM (OPT)",
+        "Sensores multicriterio compatibles: IRX-751CTEM (SMART 4) e IRX-751TEM (SMART 3)",
+        "Sensor multicriterio optico-termico SDX-751-TEM (OptiPlex)",
+        "Sensor de humo para ambientes hostiles HPX-751E (HARSH)",
+        "Sensor de humo para atmosferas peligrosas IDX-751 (HAZARD, seguridad intrinseca con barrera Y72221)",
+        "Sensores de humo por aspiracion/laser (VIEW): LPX-751 y FSL-751E",
+        "Detectores de humo por rayo (haz proyectado): LPB500 (maximo 4 por lazo) y LPB-700/-700T",
+        "La comunicacion con los equipos del lazo usa el protocolo CLIP de Notifier",
+        "Capacidad por lazo analogico: hasta 198 equipos = 99 sensores + 99 modulos"
+      ]
+    },
+    {
+      "qid": "hp009",
+      "question": "¿Cuál es la resistencia de fin de línea recomendada para los lazos de la central Morley ZXe?",
+      "atomic_fact_texts": [
+        "El lazo analogico direccionable de la ZXe (ZX2e/ZX5e) se cablea como BUCLE CERRADO: salida del panel (Inicio Lazo +/- OUT) y vuelta por los terminales de Retorno (+/-) del mismo conector de lazo; NO se cierra con una resistencia de fin de linea",
+        "Cada lazo dispone de aisladores de cortocircuito INTERNOS en el panel; el cableado del lazo debe realizarse en bucle cerrado con los aisladores necesarios (EN54-14 / EN54-2)",
+        "Maximo 32 sensores/pulsadores entre aisladores (EN54-2 12.5.2); se recomienda un aislador cada 32 equipos o por zona fisica (EN54-14) para acotar corto/abierto, no una RFL",
+        "Ningun manual de la ZXe especifica un valor de resistencia de fin de linea para el LAZO direccionable, porque el lazo es un bucle cerrado y no la usa (la RFL pertenece a los circuitos convencionales supervisados, p.ej. las salidas de sirena con 6K8)"
+      ]
+    },
+    {
+      "qid": "hp010",
+      "question": "En la Morley DXc, ¿cómo se añade un nuevo detector al lazo tras la puesta en marcha inicial?",
+      "atomic_fact_texts": [
+        "Para anadir un equipo nuevo al lazo tras la puesta en marcha se ejecuta una AUTOBUSQUEDA de equipos (la central detecta automaticamente los equipos del lazo; no se anaden de uno en uno manualmente)",
+        "Procedimiento: acceder al Nivel 3 (clave de acceso) y desbloquear la memoria; en el menu de Lazos pulsar la tecla '2' para 'Autobusqueda', seleccionar el numero de lazo y confirmar la autobusqueda de todos los equipos del lazo",
+        "Al finalizar, la central muestra un RESUMEN con los equipos nuevos, eliminados y modificados, y el total por tipo; comprobar que coincide con los equipos instalados",
+        "Si se ha realizado un cambio de protocolo, ESPERAR dos minutos antes de la autobusqueda (la central necesita tiempo para rearmar los equipos del lazo)",
+        "Si la central indica el evento \"EQUIPO NUEVO\" (equipo detectado en el lazo pero no aceptado), la solucion es ejecutar la autobusqueda para aceptarlo",
+        "Tras la autobusqueda se pueden editar las propiedades del nuevo equipo (texto descriptivo, zona asignada, grupo de anulacion, accion) mediante 'Editar Equipos'"
+      ]
+    },
+    {
+      "qid": "hp011",
+      "question": "En la Morley RP1r, después de descargar la extinción el sistema no vuelve a estado normal tras resetear. ¿Qué comprobar?",
+      "atomic_fact_texts": [
+        "Entrada ABORT (paro de emergencia): por defecto enclavada (latched); una vez activada requiere rearme manual de la central para rehabilitar el proceso de extincion",
+        "Parametro r.I \"Rearme inhibido tras extincion\": \"--\"=inhibido hasta finalizar la extincion o agotar t.A; \"00\"=rearme permitido en cualquier momento (POR DEFECTO); \"01\" a \"30\"=inhibido durante ese intervalo en minutos",
+        "Parametro t.A \"Duracion de la descarga\" (soak time): variable de 05 a 295 seg en pasos de 5 s; \"--\"=circuito activado hasta el rearme de la central (POR DEFECTO)",
+        "Averias enclavadas: por defecto todas las averias son enclavadas y requieren rearme manual de la central para su restablecimiento",
+        "Entrada Flow Press (senal de flujo): su activacion implica un rearme manual de la central",
+        "Procedimiento de rearme: desde nivel de acceso 2 (llave de desbloqueo), pulsar la tecla \"Rearme\""
+      ]
+    },
+    {
+      "qid": "hp012",
+      "question": "¿Cuántos lazos direccionables soporta la Notifier AM2020/AFP1010 y cuántos dispositivos por lazo?",
+      "atomic_fact_texts": [
+        "La AM2020 soporta hasta 10 lazos SLC (consistente en la doc de Espana y la de US)",
+        "Cada lazo SLC admite hasta 99 detectores analogicos + 99 modulos monitores/de control = 198 dispositivos por lazo (consistente en ambos mercados)",
+        "AFP1010 segun la doc de Notifier ESPANA (MFDT280/MPDT280): maximo 2 tarjetas LIB-200 = 2 lazos / 396 dispositivos en el sistema",
+        "AFP1010 segun la doc de Notifier US (PN 15088SP, 1998): maximo 4 LIBs (4 LIB-200 o 2 LIB-400) = 4 lazos / 792 dispositivos -> EN CONFLICTO con la doc de Espana",
+        "El AM2020 alcanza un total de 10 x 198 = 1980 dispositivos direccionables en el sistema",
+        "El cableado del lazo SLC sigue los requisitos NFPA Estilo 4 o Estilo 6 (la doc US anade Estilo 7)"
+      ]
+    },
+    {
+      "qid": "hp013",
+      "question": "¿Cómo se cambia la batería tampón de la Detnov ADW535 sin perder configuración?",
+      "atomic_fact_texts": [
+        "La configuracion especifica del sistema se almacena en una EEPROM (memoria NO volatil); el firmware en Flash PROM -> la configuracion se CONSERVA aunque se cambie la bateria",
+        "El ADW 535 se alimenta externamente (borne PWR +9 a +30 V-CC) con una entrada de alimentacion REDUNDANTE PWR-R; el respaldo es esa alimentacion redundante, NO una bateria tampon a bordo. La unica bateria es de LITIO, en la placa LMB 35, para el reloj RTC",
+        "El manual NO documenta un procedimiento de sustitucion de la bateria de litio del reloj; el cap. 9.4 solo cubre la sustitucion de PLACAS (LSU/LMB/LEB). Para una sustitucion aislada de la bateria, consultar al fabricante (Securiton)",
+        "Solo el reloj RTC (fecha/hora) depende de la bateria de litio ('Fallo bateria de litio / reloj'); tras el cambio habria que reajustar el reloj, no la configuracion",
+        "Tras sustituir el LMB 35 es obligatorio un nuevo reset inicial (cap. 7.3.5) y una verificacion de la transmision de alarmas (cap. 7.7.1)"
+      ]
+    },
+    {
+      "qid": "hp014",
+      "question": "¿Cómo se conecta un módulo de aislamiento de línea en un lazo ID2000?",
+      "atomic_fact_texts": [
+        "Los aisladores se instalan en CADA lazo analogico para separar sensores y pulsadores; maximo 32 equipos de lazo entre aisladores (EN54-2), pero en la ID2000 no mas de 25 equipos entre aisladores (20 si son aisladores tipo FET, p.ej. B524IEFT)",
+        "Las comprobaciones de continuidad del lazo deben realizarse ANTES de conectar los aisladores (usar multimetro de baja tension, nunca de alta tension tipo 'Megger')",
+        "Para las pruebas, desconectar temporalmente los aisladores cortocircuitando los terminales 2 y 4 de cada aislador; tras verificar polaridad/continuidad, RETIRAR las conexiones temporales antes de conectar el lazo al panel (extremos A y B)",
+        "La pantalla del cable debe ser continua y conectarse a tierra SOLO en el panel; la resistencia maxima del lazo no debe superar 35 ohmios (uniendo B+/B- y midiendo en A+/A-)",
+        "Para asegurar que los aisladores se cierran al alimentar, maximo 25 unidades de inicio (SU) entre aisladores estandar (20 entre aisladores FET)",
+        "Resistencia anadida al lazo por cada aislador: FET B524IEFT = 0,29 ohm (Rf = Nf x 0,29); otros aisladores B524IE / ISO-X = 0,1 ohm (Ri = Ni x 0,1)",
+        "El manual NO incluye el esquema de conexion terminal-a-terminal del modulo aislador: remite a las instrucciones que acompanan a cada equipo para las interconexiones"
+      ]
+    },
+    {
+      "qid": "hp015",
+      "question": "En la Detnov CCD-103, ¿cómo se desactiva un detector individualmente sin afectar al resto del lazo?",
+      "atomic_fact_texts": [
+        "La CCD-103 es una central CONVENCIONAL (3 zonas de deteccion + 1 de extincion); no direcciona equipos individualmente, por lo que NO existe desactivar un detector concreto desde la central",
+        "La desconexion se hace por ZONA completa: con la llave en posicion ON, pulsar 2 veces la tecla de la zona -> 'Zona desconectada' (se enciende el indicador Anular y el LED de fallo/anular/prueba de esa zona)",
+        "Cada zona admite como maximo 32 detectores/pulsadores; al desconectar la zona se desactivan TODOS sus detectores (no se puede aislar uno solo desde la central)",
+        "El manual no contempla desactivar un detector individual desde la central; cualquier actuacion sobre un detector concreto se hace en la instalacion (via instalador) y afecta a la supervision de la zona, que usa una resistencia de fin de linea de 4K7",
+        "En modo desconexion la central no refleja eventos de la zona anulada -> conviene limitar el uso de esta maniobra"
+      ]
+    },
+    {
+      "qid": "hp017",
+      "question": "¿Cómo se programa el retardo de salida de alarma principal en la Notifier PEARL?",
+      "atomic_fact_texts": [
+        "El retardo de las salidas se programa mediante PROGRAMACION CAUSA-EFECTO (reglas) en el Manual de configuracion 997-671-005-3 (Apendice 5), NO con un parametro unico de \"retardo de salida\"",
+        "Una regla consta de una INSTRUCCION DE ENTRADA (condicion, p.ej. alarma en zona/lazo) y una INSTRUCCION DE SALIDA (equipo a accionar: sirenas o reles)",
+        "Acceder a la pantalla \"Causa y Efecto\" desde el menu \"Editar Configuracion\"; borrar la Regla 1 por defecto (CUALQUIER entrada de alarma activa TODOS los equipos de salida) si se va a hacer una programacion especifica",
+        "Asignar a la regla uno de los SEIS tipos de retardo de salida (seccion A5.3 \"Tipos de retardo\"), que determina el comportamiento del retardo y su control por teclas (SILENCIAR SIRENAS / SONIDO ALARMAS)",
+        "A nivel de equipo/zona existe el parametro \"Retardo de alarma\" en la programacion del lazo; el retardo de confirmacion de coincidencia puede ajustarse hasta 240 s (4 min)",
+        "Maximo 512 reglas; en la columna \"Lazo\" un \"0\" significa TODOS"
+      ]
+    },
+    {
+      "qid": "hp018",
+      "question": "¿Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe?",
+      "atomic_fact_texts": [
+        "La ZX5e dispone de 4 circuitos/salidas de sirena de placa (la ZX2e, 2: Sirenas A y B); supervisados ante cortocircuito y circuito abierto, limitados en corriente",
+        "Resistencia de fin de linea (RFL) = 6,8 kOhm (6K8), 0,5 W minimo, en el final de cada circuito de sirena (en la ultima sirena) para la supervision",
+        "Cada sirena debe llevar un diodo integrado; el circuito se polariza en inverso en reposo (supervision) y cambia a polarizacion normal al dispararse; los dispositivos no polarizados requieren anadir un diodo en cada uno",
+        "La conexion se hace en el bloque de terminales de circuitos de sirena de la placa base (Figura 13 ZX2e / Figura 14 ZX5e), respetando la polaridad +/- de cada salida (A/B/C/D)",
+        "Carga maxima 1 A por circuito/salida de sirena",
+        "Las resistencias de fin de linea de 6k8 (1/4 W) se suministran con el panel (2 con la ZX2e, 4 con la ZX5e)",
+        "Para el calibre de cable recomendado de los circuitos de sirena, ver la seccion 3.4.13 del manual"
+      ]
+    },
+    {
+      "qid": "hp019",
+      "question": "¿Cuál es el rango de temperatura de funcionamiento del detector de aspiración ASD535 (Securiton, distribuido por Detnov)?",
+      "atomic_fact_texts": [
+        "Rango de temperatura de funcionamiento (caja del detector y conducto de aspiracion): -30 a +60 °C",
+        "Limite segun UL/FM para la caja del detector: maximo +40 °C",
+        "Limite segun estandar australiano AS 1603.8 (caja y conducto): -30 a +55 °C",
+        "Fluctuacion de temperatura maxima permitida durante el funcionamiento (caja y conducto): 20 °C",
+        "Temperatura de almacenamiento permitida (sin condensacion): -30 a +70 °C",
+        "Uso en almacenes de ultracongelacion: rango restringido a -30 a 0 °C; respetar la directriz T 131 390"
+      ]
+    },
+    {
+      "qid": "hp020",
+      "question": "En la Notifier INSPIRE, ¿cómo se configuran las contraseñas de nivel 2 y nivel 3?",
+      "atomic_fact_texts": [
+        "Regla por nivel: en nivel de acceso 2 solo se puede cambiar el codigo de NA2; en nivel de acceso 3 se puede cambiar el codigo de NA2 o de NA3",
+        "Ruta: icono de menu > \"Ajustes\", iniciar sesion como usuario de nivel de acceso 3, y seleccionar la opcion \"Cambio del codigo de acceso\"",
+        "El nuevo codigo de acceso debe tener entre 4 y 8 caracteres/digitos",
+        "Tras introducir el nuevo codigo hay que re-introducirlo para confirmar (repetir los pasos 03 a 06); aparece el mensaje \"Cambio de codigo de acceso satisfactorio\"",
+        "Tras el cambio: sincronizar el programa de configuracion CLSS con la central y hacer una copia de seguridad del cambio en la nube",
+        "El portal CLSS Cloud, la app CLSS y el programa de configuracion CLSS comparten el mismo usuario, codigo de acceso y contrasena"
+      ]
+    },
+    {
+      "qid": "cat001",
+      "question": "En la Notifier PEARL, ¿cuántos equipos admite un lazo SLC y qué límites de cableado hay (aisladores), y cómo se dan de alta y editan esos equipos desde la central?",
+      "atomic_fact_texts": [
+        "La central PEARL admite 1 o 2 lazos de deteccion analogicos",
+        "Cada lazo admite hasta 318 equipos: 159 sensores + 159 modulos (protocolo Opal) o 99 sensores + 99 modulos (protocolo CLIP), combinables",
+        "La carga maxima del lazo es 0,75 A",
+        "En un lazo MIXTO Opal/CLIP la autoconfiguracion limita los equipos CLIP a 40; si se superan continua pero senala fallos y hay que elegir 'Solo con protocolo CLIP'. Un lazo solo-CLIP admite los 99+99 completos",
+        "Aisladores: EN54-2 exige como maximo 32 equipos entre aisladores; en Pearl no mas de 25 (20 con equipos sin aislador interno / aisladores FET); los equipos con aislador interno requieren base tipo B501 AP",
+        "El alta de equipos se hace por AUTOCONFIGURACION (detecta los tipos en una pasada; opciones 'Permite Anadir/Borrar/Cambiar' vs 'Solo Anadir Nuevos Equipos')",
+        "La edicion individual de SENSORES permite ajustar el numero de zona (255 locales / 8192 de red), el tipo de equipo y los niveles de alarma/prealarma",
+        "Tope de sistema: maximo 512 sensores y/o pulsadores por sistema a traves de ambos lazos (EN54-2)",
+        "Los equipos OPAL pueden reinicializarse desde la central con la opcion de menu '4: Inicializar equipo prot.OPAL'"
+      ]
+    },
+    {
+      "qid": "cat005",
+      "question": "¿Cuáles son las características técnicas de la central de detección de gas Fidegas CS4, y en qué se diferencian las versiones digital y analógica?",
+      "atomic_fact_texts": [
+        "Alimentacion de la CS4: 110-230 Vac, 50-60 Hz",
+        "Potencia de la CS4: 30 W",
+        "La CS4 admite hasta 4 conexiones de sensores, en modo analogico (4-20 mA) o digital",
+        "La CS4 dispone de 2 salidas conmutadas LP, con rele apto para 230 Vac y contactos NA-C-NC",
+        "Corriente maxima de la CS4: 250 mA",
+        "Las dos versiones se distinguen por el codigo de producto: version DIGITAL = 3244; version ANALOGICA = 3270 (difieren en el modo de conexion de sensores)",
+        "Dimensiones de la CS4: 90 x 106 x 58 mm; peso 300 g",
+        "Rearme de la CS4: seleccionable manual o automatico",
+        "El Nº de serie codifica CCCC = codigo de producto, AAMM = ano y mes de fabricacion, XXXX = numero de fabricacion"
+      ]
+    },
+    {
+      "qid": "cat007",
+      "question": "En el detector por aspiración FAAST LT-200, ¿qué salidas de relé y de sirena tiene y con qué contactos, cómo se comporta el relé de avería ante un fallo o un corte de alimentación, qué resistencia de fin de línea llevan las salidas de sirena y cuál es la especificación eléctrica de los contactos de relé?",
+      "atomic_fact_texts": [
+        "El LT-200 tiene salida de rele de ALARMA y de AVERIA (canal 1 y, en modelos de 2 canales, canal 2), con contactos NC-C-NA",
+        "El rele de AVERIA es FAILSAFE (se desenergiza para senalar): la averia se indica ante condicion de averia en canal 1/2 o averia comun, en Modo Servicio y al quedar la unidad SIN alimentacion; el estado de averia NO esta enclavado",
+        "Las 2 salidas de sirena tienen bornes de polaridad -/+ (supervisadas) y resistencia de fin de linea de 47 kohm; no son contactos de rele",
+        "Especificacion electrica de los contactos de rele: maximo 2 A (carga resistiva 30 V CC) / maximo 0,5 A (carga resistiva 30 V CA)",
+        "Vida util minima de los contactos de rele: 10^5 operaciones (en el texto extraido aparece como '105' por perdida del superindice; leido como 10^5 en el render)",
+        "Mapa de bornes: alarma C1 en T2 (5 NC / 6 C / 7 NA), alarma C2 en T3 (8/9/10), averia C1 en T4 (11/12/13), averia AUX C2 en T5 (14/15/16); sirena 1 en T6 (17- / 18+), sirena 2 en T7 (19- / 20+)"
+      ]
+    },
+    {
+      "qid": "cat008",
+      "question": "¿Cómo se cablea el módulo de entrada M710 / MI-DMMI en el lazo, y qué resistencias necesita (fin de línea y modo 3 estados)?",
+      "atomic_fact_texts": [
+        "Hay 2 formas de conexionado: 2 estados (el corto se señaliza como alarma) y 3 estados",
+        "La resistencia de fin de línea (RFL) del lazo es 47 kΩ",
+        "El modo 3 estados requiere una resistencia de 18 kΩ en serie con el contacto (part M200E-EOL-R18)",
+        "Terminales del lazo: 1=−Lazo in, 2=+Lazo in, 3=−Lazo out, 4=+Lazo out; Entrada A = terminales 6-7",
+        "Para eliminar el aislador interno, los positivos in/out del lazo se conectan a los terminales 4 y 5",
+        "Part number de la resistencia EOL estándar: M200E-EOL-R",
+        "Existe una opción EOL polarizada alternativa (M200E-EOL-RD) para requisitos VdS 2489"
+      ]
+    },
+    {
+      "qid": "cat009",
+      "question": "¿Qué resistencia de fin de línea (EOL) hay que instalar en las líneas de zona de la central convencional NFS Supra?",
+      "atomic_fact_texts": [
+        "La resistencia de fin de línea (EOL) de las líneas de zona de la NFS Supra es 6K8 Ω (alternativamente, el condensador de 47 µF suministrado por defecto) — valor de la edición vigente v.05",
+        "La resistencia EOL mantiene la zona estable a 24 V en estado de reposo/normal (quiescent)",
+        "La resistencia EOL debe instalarse en cada zona, incluidas las zonas no utilizadas"
+      ]
+    },
+    {
+      "qid": "cat010",
+      "question": "¿Cómo se alimenta la sirena/avisador intrínsecamente seguro IS-mA1 en una zona peligrosa (ATEX) y cuáles son sus parámetros de seguridad intrínseca de entrada?",
+      "atomic_fact_texts": [
+        "El IS-mA1 se alimenta a 24V dc en zona peligrosa a través de una barrera Zener / aislador galvánico certificado ATEX/IECEx de 28V / 93mA resistivo (en zona segura sin barrera, no operar de forma continua por encima de 16V por el límite de corriente interno)",
+        "Parámetros de seguridad intrínseca de entrada de los terminales + y −: Ui = 28V, Ii = 93mA, Pi = 660mW, Ci = 0, Li = 0",
+        "Marcado de seguridad intrínseca: II 1G Ex ia IIC T4 Ga, rango de temperatura ambiente −40°C ≤ Ta ≤ +60°C"
+      ]
+    },
+    {
+      "qid": "cat011",
+      "question": "Necesito un detector de humos analógico direccionable «751» para una instalación Notifier; ¿cuál es el modelo correcto?",
+      "atomic_fact_texts": [
+        "«751» es un near-name AMBIGUO: corresponde a varios detectores analógicos direccionables distintos y NO intercambiables (al menos CPX-751E, IDX-751 y FSL-751E del catálogo); la pregunta no especifica cuál → conducta clarify, ofreciendo los candidatos acotados del catálogo y pidiendo aclaración (modelo o aplicación)",
+        "IDX-751 (AE) = detector ÓPTICO/fotoeléctrico de SEGURIDAD INTRÍNSECA para zonas peligrosas (15-24 Vdc; clases de temperatura T4/T5; requiere translator/barrera de seguridad intrínseca)",
+        "CPX-751E = detector IÓNICO estándar (analógico direccionable; zonas normales)",
+        "FSL-751E = detector de humos por aspiración/láser (gama VIEW)"
+      ]
+    },
+    {
+      "qid": "cat012",
+      "question": "¿Cómo se calcula la capacidad de batería (en Ah) necesaria para la central AM-8200?",
+      "atomic_fact_texts": [
+        "La capacidad de batería se calcula con la fórmula del apéndice §11 (Tabla 1): Ah = (A + B) × 1,2, siendo 1,2 el factor de seguridad",
+        "A = consumo total en REPOSO × 24 h (o 72 h); B = consumo total en ALARMA × 0,5 h (30 min)",
+        "Los consumos por tarjeta se toman de §3.12/§3.13 y la Tabla 1 (p. ej. CPU AM8200-KLCD = 179 mA reposo / 345 mA alarma de alimentación; 113/255 mA de baterías) + corriente de lazos (Tabla 3) + salida de usuario (máx. 2 A)",
+        "La capacidad máxima estándar instalable es 17-18 Ah (2 × 12 V; Yuasa NP18-12B 17,2 Ah / Fiamm FG21803 18 Ah); la alimentación interna es de 24 Vcc con un total de 4 A"
+      ]
+    },
+    {
+      "qid": "cat013",
+      "question": "Tengo una central Detnov CAD-150 y me ha sobrado de otra instalacion un detector optico Notifier SDX-751; ¿es compatible / puedo montarlo en su lazo?",
+      "atomic_fact_texts": [
+        "La central Detnov CAD-150 es analogica con lazo (bucle) CERRADO de 2 hilos apantallados (max 2 km, < 44 Ohm, < 500 nF); los elementos se dan de alta por autobusqueda/escaneo del lazo Detnov. El manual no nombra un protocolo abierto ni documenta compatibilidad con detectores de otras marcas",
+        "El detector optico Notifier SDX-751 es un sensor analogico direccionable de la gama Notifier que usa el protocolo CLIP de Notifier",
+        "Ningun manual (ni Detnov CAD-150 ni Notifier) documenta la compatibilidad de un detector Notifier SDX-751 con el lazo de la central Detnov CAD-150; la combinacion cross-marca no esta avalada NI descartada por la documentacion -> no se puede inferir compatibilidad (ni incompatibilidad)"
+      ]
+    },
+    {
+      "qid": "cat014",
+      "question": "¿Cual es el MTBF / vida util esperada del detector de gas DGD-600 de Detnov?",
+      "atomic_fact_texts": [
+        "La vida util del DGD-600 es de 10 anos desde su fecha de fabricacion; debe sustituirse 10 anos despues (la fecha de fabricacion esta impresa en la pegatina del lateral)",
+        "El datasheet del DGD-600 NO especifica un MTBF (tiempo medio entre fallos, en horas); el unico dato de durabilidad documentado es la vida util de 10 anos -> no se debe fabricar una cifra de MTBF"
+      ]
+    },
+    {
+      "qid": "cat015",
+      "question": "¿Como se actualiza el firmware de la central Detnov CAD-150?",
+      "atomic_fact_texts": [
+        "Ningun manual disponible del CAD-150 (instalacion 55315013, usuario 55315008, CAD150R 55315501) documenta un procedimiento de ACTUALIZACION DE FIRMWARE de la central -> el corpus no lo cubre; el bot debe admitir el gap y NO inventar pasos",
+        "El CAD-150 dispone de conector USB y software de configuracion (para configurar zonas y elementos del lazo); el manual cubre la CONFIGURACION del sistema, que es DISTINTA de la actualizacion de firmware"
+      ]
+    },
+    {
+      "qid": "cat016",
+      "question": "En la Detnov CAD-150, ¿como se da de alta un detector nuevo en el lazo y como se prueba que funciona?",
+      "atomic_fact_texts": [
+        "ALTA: se da de alta un detector nuevo ejecutando una AUTOBUSQUEDA del lazo desde el menu BUCLE -> el sistema escanea y muestra los elementos encontrados (deben coincidir con los instalados segun los planos)",
+        "Tras la autobusqueda, el detector se asigna a una ZONA (menu ZONA) y se le da nombre + zona de ubicacion en el menu ELEMENTO",
+        "PRUEBA: se pone la ZONA en MODO DE PRUEBA (menu ZONA > PRUEBA) -> permite probar los detectores SIN rearmar la central tras cada disparo",
+        "En modo prueba el retardo de sirenas queda ANULADO (agiliza la prueba); si pasan 20 minutos sin disparo el equipo vuelve solo a estado normal; para salir manualmente se CONECTA la zona",
+        "El estado de cada elemento (conectado/desconectado/en prueba) y su tipo (optico, termico, etc.) se consulta en el menu ELEMENTO > Ver"
+      ]
+    },
+    {
+      "qid": "cat017",
+      "question": "¿Como se cablea y se da de alta (configura) un lazo en la central Notifier INSPIRE (E10/E15)?",
+      "atomic_fact_texts": [
+        "El lazo se cablea en el modulo de doble lazo OPAL (HOP-433-100, conector morado): Lazo 1 OUT +VE/-VE (term. 1/2), Lazo 1 IN +VE/-VE (4/5), Lazo 2 OUT/IN (6/7, 9/10); terminales 3 y 8 NO se usan; cable trenzado y apantallado con la pantalla a tierra en la central",
+        "Capacidad por lazo: solo OPAL = hasta 159 detectores + 159 modulos (318 por lazo); solo CLIP = hasta 99 + 99 (198 por lazo); NO se permite mezclar OPAL y CLIP en el mismo lazo; maximo 750 mA por lazo; longitud hasta 3,5 km (calculada con el programa de lazo/bateria de CLSS)",
+        "Los dispositivos CLIP requieren una LICENCIA (una por cada circuito de lazo CLIP)",
+        "El ALTA de los dispositivos del lazo se hace por AUTO CONFIGURACION (la central detecta automaticamente los dispositivos conectados), tras la 'Configuracion inicial y primer encendido'",
+        "La configuracion de la central se gestiona con el Programa de Configuracion de CLSS (portal en la nube Honeywell): se crea el sitio, se carga la configuracion y se genera el archivo .bin de licencia de la central",
+        "Para comprobar el cableado del lazo se puede usar la herramienta de diagnostico POL-200-TS"
+      ]
+    },
+    {
+      "qid": "cat018",
+      "question": "¿Como se programa una ecuacion causa-efecto (CBE) en la Notifier AM-8200 para que un evento active una salida?",
+      "atomic_fact_texts": [
+        "Una CBE (Control By Events) es una ecuacion que ACTIVA UN COMANDO en funcion de un EVENTO: es el mecanismo causa-efecto de la AM-8200",
+        "Se programa desde el menu Programacion AM8200 > Puntos (Sensores/Modulos); en la pestana 'Programacion' de cada punto se asigna la ZONA y se configura su ecuacion CBE",
+        "Los modulos de SALIDA llevan un Tipo SW (p. ej. SND = sirena); un modulo de salida se dispara cuando se cumple su ecuacion CBE (se activa 'por asociacion CBE')",
+        "La sintaxis de las ecuaciones CBE (operandos y operadores) esta en el Apendice A 'Control By Event' al final del manual de programacion",
+        "Antes de programar conviene registrar en las hojas de programacion la info de TODOS los sensores, modulos, zonas software, ecuaciones CBE y grupos"
+      ]
+    },
+    {
+      "qid": "cat019",
+      "question": "¿Como se configura una maniobra (causa-efecto) completa en la Detnov CAD-250: como se crea, como se definen las entradas/eventos que la disparan y como se asignan las salidas?",
+      "atomic_fact_texts": [
+        "Una maniobra se crea desde el menu Maniobras con el boton ANADIR (abre la pantalla de edicion); el campo COINCIDENCIAS indica cuantos eventos de entrada deben concurrir (1 = cualquiera; 2 = dos; 4 = cuatro...) para que la salida sea verdadera y se ejecute la maniobra",
+        "Los componentes se anaden con ANADIR eligiendo EVENTO (las entradas que disparan) o ACCION (las salidas que se activan); maximo 100.000 maniobras entre eventos y acciones",
+        "Un EVENTO (entrada) se define sobre una ENTIDAD -elemento de la jerarquia: instalacion, panel, lazo, area, dispositivo, grupo o modo virtual (central local o de red)- o sobre una CONDICION TEMPORAL (periodo de tiempo para que la ecuacion de entrada sea verdadera)",
+        "Las ACCIONES/salidas de la maniobra actuan sobre los elementos de salida (sirenas o modulos de control); las salidas para las maniobras se configuran en §8.2.3",
+        "Paso previo: definir la SECTORIZACION fisica del edificio (seccion 7), que estructura las entidades/zonas sobre las que operan las maniobras (jerarquia y herencia de modos)"
+      ]
+    },
+    {
+      "qid": "cat020",
+      "question": "En una central Morley DXc instalada en Espana, ¿cual es el nivel de alarma y de prealarma por defecto de los detectores, y el maximo configurable?",
+      "atomic_fact_texts": [
+        "En la DXc version Espana (protocolo Morley-IAS) los niveles por defecto de los detectores son: PREALARMA 80 %, ALARMA 100 %; el ajuste MAXIMO del nivel de alarma es 108 %",
+        "El valor analogico del nivel de alarma es un numero normalizado entre 0 % y 100 % (escala comun; algunos tipos OTM/LSR se configuran en campo por Niveles 0-9 que mapean a esa escala)",
+        "Estos valores por defecto son especificos de la VERSION ESPANA: figuran en el Manual de variaciones para Espana, que COMPLEMENTA el manual de configuracion base (996-203-005-X) donde esta la configuracion general del nivel de alarma (seccion Modos Horarios)",
+        "Los niveles se editan por detector (campos Fuego y Prealarma), p.ej. en pantalla 'S001 OTM Fuego:Niv4 Prealarma:Niv3'"
+      ]
+    },
+    {
+      "qid": "cat021",
+      "question": "Necesito un detector de llama SharpEye «40/40» (Spectrex / Notifier) para una instalación; ¿qué modelo pido?",
+      "atomic_fact_texts": [
+        "«40/40» (SharpEye, Spectrex) es un near-name AMBIGUO: la serie tiene varias variantes con tecnología de detección distinta y NO intercambiables (40/40I, 40/40L, 40/40U, 40/40R, 40/40M, todas en el catálogo); la pregunta no especifica cuál → conducta clarify, ofreciendo los candidatos del catálogo y pidiendo el combustible/tipo de llama o el modelo exacto",
+        "40/40I (S40/40I) = detector de llama de TRIPLE espectro infrarrojo (IR3)",
+        "40/40M (S40/40M) = detector de llama de MÚLTIPLE infrarrojo (Multi IR), para llamas de HIDRÓGENO e hidrocarburo (la variante específica para hidrógeno)",
+        "40/40U (S40/40U) = detector de llama ULTRAVIOLETA (UV)",
+        "40/40L (S40/40L) = detector de llama combinado UV/IR",
+        "40/40R (S40/40R) = detector de llama infrarrojo IR SIMPLE (single IR)"
+      ]
+    },
+    {
+      "qid": "cat022",
+      "question": "En los detectores de llama Spectrex SharpEye 40/40, ¿qué diferencia hay entre el modelo 40/40L y el 40/40L4, y qué significa el sufijo «B» (p. ej. 40/40LB)?",
+      "atomic_fact_texts": [
+        "El modelo 40/40L (y LB) es un detector de llama UV/IR cuyo sensor IR trabaja en una longitud de onda entre 2,5 y 3,0 μm",
+        "El modelo 40/40L4 (y L4B) es UV/IR pero su sensor IR trabaja en 4,5 μm, adecuado para fuegos de hidrocarburos",
+        "El sufijo «B» (40/40LB, 40/40L4B) = modelos con función BIT (prueba incorporada); el BIT solo se incluye en los modelos LB y L4B"
+      ]
+    },
+    {
+      "qid": "cat023",
+      "question": "En el detector de humos por aspiración Securiton ASD532, ¿qué clases de sensibilidad según EN 54-20 ofrece y cómo se configura la monitorización del flujo de aire?",
+      "atomic_fact_texts": [
+        "El ASD532 ofrece 3 clases de sensibilidad de disparo de alarma según EN 54-20: A (muy alta), B (alta), C (normal)",
+        "La monitorización del flujo de aire se configura por posición de conmutador W01–W44; cada posición fija el tiempo de retardo (10 o 60 min) y la desviación admisible (±20 % o ±50 %)"
+      ]
+    },
+    {
+      "qid": "cat024",
+      "question": "¿Cuál es el consumo en alarma de la sirena analógica de zócalo Detnov MAD-472?",
+      "atomic_fact_texts": [
+        "El consumo en alarma de la sirena Detnov MAD-472 es 17 mA a 80 dB(A) — valor de la edición vigente (revisión V2)",
+        "La tensión de funcionamiento de la MAD-472 es 22-38 VDC",
+        "El consumo en reposo de la MAD-472 es inferior a 350 µA",
+        "Las tablas de calculo del sistema CAD-250 listan 7 mA en alarma para la MAD-472 — discrepancia documental REAL con el manual del dispositivo (17 mA @ 80 dB(A) V2); surfacear ambos, prevalece el manual del dispositivo vigente, verificar en campo"
+      ]
+    },
+    {
+      "qid": "ho004",
+      "question": "¿Cómo se alinea el detector de barrera FD2705R (reflector)?",
+      "atomic_fact_texts": [
+        "Prism Targeting Mode se selecciona con el Mode Switch trasero en la posición SUPERIOR (upper), sin desmontar el detector de la pared",
+        "En Prism Targeting se ajustan las ruletas (thumbwheels) horizontal y vertical hasta que el LED ámbar queda encendido CONTINUO; el parpadeo se acelera al acercarse al prisma",
+        "Verificación del blanco: cubrir el prisma con material NO reflectante y confirmar que el LED ámbar se APAGA (descarta que refleje otra superficie)",
+        "Alignment Mode se selecciona con el Mode Switch en la posición MEDIA (middle); el detector auto-ajusta la potencia del haz IR y la sensibilidad del receptor",
+        "En Alignment Mode, ROJO parpadeante = demasiada señal: esperar a que el LED se apague, hasta 20 segundos (cuanto MENOR la distancia detector-prisma, MAYOR la espera); ámbar continuo = sin señal: volver a Prism Targeting",
+        "Ajuste fino por ruleta: girar despacio; si parpadea ÁMBAR, invertir el sentido; si parpadea ROJO, parar y esperar a que pare; si ninguno parpadea, parar de girar; repetir con la otra ruleta",
+        "Alineación óptima: la deflexión del haz en los CUATRO planos debe hacer parpadear PRIMERO el LED ámbar; después bloquear las ruletas por ambos lados con las tuercas de fijación (securing nuts)",
+        "Operating Mode = Mode Switch en posición INFERIOR (lower); al salir de alineación hay una calibración interna de hasta 60 segundos (ámbar 1 parpadeo/s) durante la cual NO se debe bloquear el haz; si falla, condición de avería y repetir la alineación",
+        "Al alimentar el detector, tras 5 segundos el LED rojo parpadea 1 vez si es el modelo de 50 m (FD2705R) o 2 veces si es de 100 m (FD2710R)",
+        "Espera inicial al entrar en Alignment Mode: el ámbar se ilumina 5 segundos y hay que esperar hasta 30 segundos a que ambos LEDs dejen de parpadear",
+        "Durante el proceso el panel ve el valor analógico del detector: 2 = Prism Targeting Mode, 3 = Alignment Mode, 4 = error de alineación"
+      ]
+    },
+    {
+      "qid": "ho003",
+      "question": "¿El detector KE-DP3020W vale para la central 2X-A? La instalación exige EN 54-13",
+      "atomic_fact_texts": [
+        "El KE-DP3020W aparece en la lista oficial de compatibilidad de la central 2X-A, en la gama Excellence Series Detectors, descrito como 'Intelligent addressable dual optical detector'",
+        "En la lista, el KE-DP3020W NO lleva asterisco; el documento define que los modelos marcados con asterisco (*) no son aptos para sistemas que requieran EN 54-13 — por tanto el KE-DP3020W es apto para EN 54-13",
+        "Los detectores de la serie Excellence son compatibles con las centrales 2X-A con versión de firmware 5.0 o posterior",
+        "La lista de compatibilidad es cerrada: solo los dispositivos incluidos en la publicación están probados y confirmados compatibles; instalar un dispositivo no incluido es riesgo del instalador y puede afectar al rendimiento del sistema",
+        "Los productos compatibles pueden cambiar sin previo aviso; hay que confirmar disponibilidad y compatibilidad con el proveedor local",
+        "La lista de compatibilidad vigente es BCN-3100035-EN REV 006 (ISS 27MAY26) y solo existe en inglés"
+      ]
+    },
+    {
+      "qid": "ho001",
+      "question": "En la central Kidde 2X-AF2, ¿cómo se configuran las zonas (agrupar detectores y pulsadores) y cuántas zonas admite?",
+      "atomic_fact_texts": [
+        "El máximo número de zonas disponibles en la serie 2X-A es 512 (para todas las centrales); el intervalo del número de zona va de 01 a 9.999",
+        "Por compatibilidad con 2010-2GUI los números de zona asignados deben estar entre 1 y 4095 (las zonas con números superiores se desechan)",
+        "Las zonas se crean asignando números de zona a los dispositivos de lazo: Menú principal → Config de lazo → Config. de lazo → seleccionar lazo y dispositivo → asignar el número de zona",
+        "Una zona puede contener una combinación de dispositivos de alarma automática y manual (detectores + pulsadores) si su modo de funcionamiento es Mixta; de forma predeterminada todas las zonas son mixtas",
+        "Los modos de funcionamiento de zona son Mixta, Manual, Auto, MSP o MHA (Manual = solo pulsadores/entradas MCP; Auto = solo detectores)",
+        "La central no permitirá la configuración de dispositivos de zona o entradas que no cumplan los criterios del modo de funcionamiento configurado",
+        "Si el número de zona está fuera del intervalo válido (determinado por la zona inicial y el número de lazos), la operación no finaliza y NO se muestra un error de número de zona no válido en la pantalla LCD",
+        "Tras asignar: F4 (Enter) + F1 (Atrás); F1 (Guardar)/F3 (Aplicar)/F4 (Descartar)/F2 (Salir); repetir por dispositivo y aplicar los ajustes guardados en el Menú principal",
+        "La configuración Mod.Op de la zona inicial debe ser Mixta",
+        "Las zonas de las centrales en red son globales (dos centrales con la zona 5 se agrupan en una sola zona 5 de red); el número de zonas globales se configura (default 512)"
+      ]
+    },
+    {
+      "qid": "ho005",
+      "question": "¿Cómo amplío una central 2X-AF2 con un lazo adicional (tarjeta 2X-A-LB)?",
+      "atomic_fact_texts": [
+        "La tarjeta de lazo 2X-A-LB proporciona dos lazos adicionales (LOOP3 y LOOP4) y cuatro salidas supervisadas adicionales (OUT5-OUT8); su instalación solo es compatible en centrales 2X-A",
+        "Antes de instalar: desconectar la central de la fuente de alimentación y las baterías (peligro de electrocución)",
+        "La tarjeta se instala en la ranura 2 del chasis de la central, presionando con firmeza y fijándola con los tornillos proporcionados",
+        "Conexión a tierra del lazo: un lado a los espárragos de toma de tierra de la CAJA de la central (NO al terminal de tierra del lazo de la tarjeta); el otro lado puede dejarse suelto",
+        "En las salidas configurables que no se usen hay que instalar una resistencia final de línea para evitar un fallo de circuito abierto",
+        "El alta en la central: Menú principal → Ajustes del panel → Tarjeta expansión → seleccionar LB (Tarjeta de lazo) → SÍ → F4 (Enter) + Guardar/Aplicar en el Menú principal",
+        "Usar SOLO tarjetas de lazo 2X-A-LB: las tarjetas de lazo más antiguas no son compatibles con las centrales 2X-A",
+        "Tras añadirla hay que configurar lazos, salidas y dispositivos, y comprobar los lazos calculando su carga",
+        "Si la central no detecta un módulo de expansión instalado, se indica un fallo del sistema; si el firmware de la tarjeta no es compatible, aparece un mensaje de advertencia",
+        "Cable recomendado: par trenzado apantallado o sin apantallar de 0,13 a 3,31 mm² (26 a 12 AWG)",
+        "Resistencias de supervisión de salida: Clase A = 4,7 kΩ 1% 1/4 W; Clase B = 15 kΩ 1% 1/4 W; corriente máx de salida 750 mA a 25°C (800 mA con el kit 2010-2A-PAK-HPL)"
+      ]
+    },
+    {
+      "qid": "ho002",
+      "question": "En el detector de aspiración Edwards FHSD8310 (ModuLaser), ¿cuántos módulos admite un clúster y cómo se interconectan?",
+      "atomic_fact_texts": [
+        "Un clúster comprende un módulo de visualización mínima o estándar y de uno (mínimo) a ocho (máximo) módulos detectores",
+        "La comunicación entre los módulos de un clúster se realiza utilizando SenseNET+ (interfaz RS-485)",
+        "Clúster no distribuido: display estándar/mínima + hasta cuatro módulos de detector instalados en la misma ubicación (unos al lado de otros)",
+        "Clúster distribuido e híbrido: display estándar/mínima + hasta ocho módulos de detector",
+        "El clúster no distribuido se conecta con el cable de cinta suministrado y los conectores J3 y J5 de la PCB del panel posterior; el cable de cinta también distribuye la fuente de alimentación por el clúster; la terminación de final de línea no es necesaria en los J3/J5 sin usar",
+        "El clúster distribuido se conecta con los conectores SNET+ de la PCB del panel posterior; la longitud de cable máxima entre módulos es de 1.200 m (4.000 pies)",
+        "En el clúster distribuido cada módulo requiere una fuente de alimentación y es necesaria la terminación de final de línea en los conectores J3 y J5 que no se utilicen",
+        "El clúster híbrido usa cables de cinta para los módulos adyacentes y conectores SNET+ para los distribuidos; cada grupo de módulos adyacentes utiliza una fuente de alimentación compartida (conectada a un solo módulo) y cada módulo distribuido necesita una fuente independiente",
+        "Un módulo de visualización de comandos no puede sustituir ni reemplazar un módulo de visualización estándar o mínima en la configuración de un clúster",
+        "Cada dispositivo del clúster se identifica mediante una dirección única de 7 bits en el intervalo 1 a 127; se pueden conectar varios clústeres para crear una red SenseNET",
+        "FHSD8310 es el módulo con display estándar de ModuLaser; los displays mínimo y estándar admiten hasta 8 módulos detectores y el display de comandos hasta 127 módulos en toda la red SenseNET"
+      ]
+    },
+    {
+      "qid": "ho006",
+      "question": "Tras una alarma en la central NC, ¿cómo se rearma y cómo se anula una zona en avería?",
+      "atomic_fact_texts": [
+        "Rearmar la central y desactivar/activar zonas son operaciones del nivel de usuario operador, protegido por contraseña; la contraseña predeterminada del operador es 2222",
+        "Antes de restablecer la central hay que comprobar todas las alarmas y las averías del sistema",
+        "Para restablecer la central y eliminar todos los eventos actuales del sistema se pulsa el botón de rearme",
+        "Los eventos del sistema no resueltos siguen apareciendo resaltados cuando finaliza el proceso de rearme",
+        "Para desactivar una zona: pulsar el botón 'Desconexión' general y, a continuación, el botón de la zona correspondiente",
+        "Una zona desconectada se indica con el LED 'Desconexión' general fijo y el LED de zona fijo en amarillo",
+        "Para activar de nuevo la zona: pulsar el botón 'Desconexión' general y volver a pulsar el botón de zona",
+        "Si una zona desactivada contiene un dispositivo en modo de alarma, no se activará hasta que se rearme la central",
+        "Para la zona desactivada no se indica ninguna alarma de incendio o avería; si es la única zona en estado de alarma, se detiene cualquier salida de incendio vinculada",
+        "Si una o más zonas están en estado de alarma cuando se reactiva la zona, esta entra en estado de alarma y reactiva las salidas de incendio detenidas",
+        "Desactivar o activar una zona (y otras operaciones marcadas [1]) se puede realizar cuando la central se encuentra en estado de alarma",
+        "El nivel de usuario público (sin contraseña) no incluye rearmar ni desactivar zonas; solo reconocer eventos/silenciar zumbador, cancelar retardos activos y test de LED"
+      ]
+    },
+    {
+      "qid": "ho007",
+      "question": "¿Cómo configuro el modo día/noche y los retardos de sirena en la 2X-A?",
+      "atomic_fact_texts": [
+        "En modo día una alarma automática (de detector) activa sirenas y enrutado de fuego con el retardo establecido y los detectores pueden usar sensibilidad reducida; en modo noche la activación es inmediata, anula el retardo establecido y la sensibilidad puede ser aumentada",
+        "El modo día/noche se configura en Menú principal → Ajustes del panel → Modo Día/Noche; la opción no está disponible en los repetidores",
+        "Programa Día/Noche (semanal): seleccionar día → hora de inicio del modo día hh:mm → hora de inicio del modo noche hh:mm → F4 (Enter) → F1 (Atrás) → Guardar/Aplicar, aplicando en el Menú principal",
+        "Para evitar cambiar al modo día se establece la hora de inicio del modo día en 24:00 (ídem noche)",
+        "Calend. Festivos configura el modo día o noche por intervalo de fechas DD/MM; la configuración predeterminada del período de vacaciones es el modo noche",
+        "Día / Noche setup (Tabla 23) ofrece: Manual (procesar o anular los cambios del programa/festivos; predeterminado NO), Modo (modo por defecto si Manual=SÍ) y Deshab retardos Modo Noche (procesar o anular los retardos de protección contra incendios, enrutado de fuego y sirenas en modo noche)",
+        "Los retardos de sirena se configuran en Menú principal → Config de lazo → Config Activación → tipo de grupo (Sirenas) → Grupo_n (Todos o uno) → Activo SÍ/NO → Retardo en minutos y segundos",
+        "El retardo máximo para los grupos de salidas de sirenas, enrutado de fuego y protección contra incendios es de 10 minutos (programas: 16 minutos y 40 segundos)",
+        "Wrn_Ret (retardo de aviso) existe solo para los grupos de salidas de sirenas (segunda fase); máximo 10 minutos y solo cuenta si el Tiempo de aviso está configurado",
+        "Una vez configurado un retardo debe habilitarse; los retardos solo se activan para alarmas de detector y las alarmas de pulsador manual los omiten",
+        "De forma predeterminada la central NO procesa los retardos cuando funciona en modo noche; el modo noche puede activarse por el programa día/noche, el calendario de festivos o el equipo remoto; para tener retardo en modo noche se usa 'Opciones adicionales del modo Día/Noche'",
+        "Los retardos pueden habilitarse/deshabilitarse mediante el modo de sensibilidad (día/noche), equipo remoto con entrada programada o los botones de retardo de la interfaz de usuario"
+      ]
+    },
+    {
+      "qid": "ho008",
+      "question": "¿Cuántos puntos/zonas soporta la central compacta Detnov CAD-171 y cómo se amplía?",
+      "atomic_fact_texts": [
+        "La configuración base de la CAD-171 es de 2 lazos y hasta 500 dispositivos (250 por lazo); los LAZOS 1 y 2 están en la Power Board",
+        "La CAD-171 dispone de 2.000 zonas programables por panel, 250 áreas y 1.000 grupos",
+        "Cada lazo puede soportar hasta 250 dispositivos analógicos DETNOV (sirenas, módulos de entrada/salida, aisladores, detectores o barreras), alimentados del propio lazo",
+        "Cada lazo es subdivisible en múltiples zonas sin superar el número de zonas absoluto de 2.000",
+        "La placa principal tiene capacidad para la instalación de 3 tarjetas de 2 lazos ref. TBUD-NG",
+        "La CAD-171 soporta hasta 8 lazos",
+        "Interfaz incorporada para conexión de centrales en red (T-Network, RS485 con conectores ENTRADA RED / SALIDA RED) hasta 64 nodos",
+        "La red T-Network de centrales serie VESTA puede llegar a controlar más de 512.000 dispositivos según la composición y tipo de central en red",
+        "Según la norma de diseño UNE 23007-14, el número máximo de elementos de iniciación de alarma de incendio por zona es de 32; topología en anillo exigida (ramales tolerados pero desaconsejados)",
+        "La central dispone de puerto Ethernet nativo multipropósito (programación remota, Modbus IP) y puerto USB tipo A"
+      ]
+    },
+    {
+      "qid": "ho009",
+      "question": "Quiero pedir la central táctil 2X-AT de Kidde, ¿qué referencia exacta pido?",
+      "atomic_fact_texts": [
+        "«2X-AT» no es una entrada exacta del catálogo de modelos: la familia táctil son 6 referencias 2X-AT-F2* (2X-AT-F2, -P, -S, -FB, -FB-P, -FB-S) → conducta clarify ofreciendo los candidatos y pidiendo el criterio (caja/PSU/bomberos)",
+        "2X-AT-F2 = panel de incendios direccionable con pantalla táctil, 2 lazos, caja grande; 2 lazos de alta potencia ampliables a 4 con 500 mA por lazo",
+        "El sufijo -P = fuente de alimentación grande (2X-AT-F2-P: 'Fuente de alimentación grande, 2 lazos, caja grande')",
+        "El sufijo -S = caja pequeña (2X-AT-F2-S: '2 lazos, caja pequeña'); las fichas de caja pequeña indican 2 lazos de alta potencia con 500 mA por lazo SIN la mención 'ampliables a 4'",
+        "El sufijo -FB = controles de bomberos (2X-AT-F2-FB: 'pantalla táctil y controles de bomberos, 2 lazos, caja grande')",
+        "Las combinaciones existen: 2X-AT-F2-FB-P (bomberos + PSU grande, 10 A) y 2X-AT-F2-FB-S (bomberos + caja pequeña)",
+        "Rasgos comunes de la familia: pantalla táctil de 7\", 2 lazos de alta potencia 500 mA/lazo (PAK opcional a 800 mA), hasta 256 dispositivos, 512 zonas y 300 grupos de salida; con la placa adicional de 2 lazos (cajas grandes) el panel llega a hasta 512 dispositivos"
+      ]
+    },
+    {
+      "qid": "ho010",
+      "question": "¿Las centrales convencionales de la serie NC se pueden conectar en red entre sí?",
+      "atomic_fact_texts": [
+        "Las centrales NC pueden formar una red de incendios de centrales convencionales (zonas adicionales), conectar repetidores o integrarse en una red con centrales direccionables compatibles",
+        "La conexión de red usa la tarjeta de red 2010-1-NB: dos puertos por tarjeta, cada puerto conectado punto a punto al de la tarjeta de otra central",
+        "Dos opciones de cableado: configuración en anillo y configuración en bus",
+        "La configuración en anillo (clase A) es la recomendada porque proporciona redundancia en la ruta de transmisión; usa los dos puertos para formar el anillo",
+        "La configuración en bus (clase B) no se recomienda en general (sin redundancia) y por normativa UE solo debe usarse si las áreas de detección y las salidas EN 54-2 obligatorias (enrutado de incendio y sirena) no son remotas entre centrales",
+        "Cualquier central convencional NC puede configurarse para que actúe como repetidor",
+        "Identificador de red (número de nodo): de 00 a 32, donde 00 = independiente (sin red), valor predeterminado; número de nodos de la red: de 02 a 32 (predeterminado 02)",
+        "Ejemplo del manual: una red de incendios básica puede estar formada por una central o un repetidor, o una central virtual de 16 zonas compuesta por dos centrales de 8 zonas",
+        "Una red con centrales direccionables compatibles añade registro de eventos, activación compleja de salidas controlada por el sistema direccionable y supervisión remota",
+        "Una central convencional conectada a la red muestra el estado de una o varias centrales; manteniendo pulsada la tecla Intro 3 segundos se visualizan 30 segundos las indicaciones de estado local"
+      ]
+    },
+    {
+      "qid": "ho011",
+      "question": "¿Puedo montar el FD2705R en exterior, o a más distancia de la documentada?",
+      "atomic_fact_texts": [
+        "El entorno de uso documentado del FD2705R es Interior, con clasificación IP50",
+        "El rango operativo documentado del detector de 50 m es de 5 a 50 metros (rango lineal 5-50 m), con 1 reflector",
+        "Para rangos entre 50 y 100 m la guía documenta usar un detector de 100 m con 4 reflectores (no el de 50 m); no hay configuración documentada por encima de 100 m",
+        "La humedad relativa admitida es 93% sin condensación y la guía advierte no instalar detector/reflector donde sea probable condensación o hielo",
+        "Temperatura de funcionamiento documentada (EN): -10 a 55 °C",
+        "Altura de instalación documentada < 25 m; haz lo más alto posible con mínimo 0,5 m del detector al techo; UL268/NFPA72: detector y reflector a máximo 10% de la distancia suelo-techo",
+        "El FD2705R es una barrera reflectiva alimentada del lazo (protocolo Aritech 2000, compatible FP1200/2000 y series 2X), con cobertura < 750 m² y detección lateral 7,5 m"
+      ]
+    },
+    {
+      "qid": "ho014",
+      "question": "Tengo que cambiar el cartucho del filtro de polvo de un detector ModuLaser, ¿cuál es la referencia del repuesto que tengo que pedir?",
+      "atomic_fact_texts": [
+        "Ningún documento del ModuLaser en el corpus (manual de instalación ES Edwards 04-4001 126pp y espejo Kidde 3103092 134pp, datasheets FHSD8310/FHSD8330 ES y 9-30781/9-30783 EN, hoja APIC ML, tarjeta 9-30441) publica la referencia/SKU del cartucho del filtro de polvo de repuesto → el bot debe admitir el gap y NO inventar una referencia",
+        "El detector señala un fallo de filtro cuando el valor Filtro (pantalla de estado del detector) llega al 20%; se recomienda cambiar el filtro en ese punto (20% = bloqueo del filtro del 80%)",
+        "Los cartuchos de filtro de polvo no se han diseñado para su reutilización y se deben desechar",
+        "El detector debe estar ENCENDIDO al sustituir el filtro de polvo para garantizar que se reinicie el estado del filtro",
+        "Procedimiento de sustitución (5 pasos): retirar la tapa del detector → extraer el tornillo y sacar el conjunto del filtro → retirar la tapa de plástico y desechar el cartucho → colocar el filtro nuevo con la cara 'IN' hacia la parte superior y deslizar el conjunto → asegurar con el tornillo (Figura 26: detector / filtro de polvo / tapa de plástico)",
+        "Puede configurarse una fecha de vencimiento del filtro opcional ('Expirac. Filtro', MM/AA); el fallo de filtro se indica a las 10:00 del primer día del mes configurado",
+        "Precaución de salud: el polvo del filtro expone al personal de mantenimiento a peligros según el entorno protegido — ropa protectora y mascarilla recomendadas; mantenimiento conforme a requisitos nacionales/regionales",
+        "En áreas con altos niveles de suciedad o polvo se recomienda usar un filtro EXTERNO adecuado para proteger el módulo de detector (objeto distinto del cartucho interno, también sin referencia en el corpus)",
+        "El espejo Kidde del manual contiene el mismo procedimiento de sustitución sin referencia del cartucho (sección 'Sustitución del cartucho del filtro de polvo')"
+      ]
+    },
+    {
+      "qid": "hyq:ee28837c-8e85-424b-8fe4-005fb9511e2f:1",
+      "question": "¿Con qué detectores de la serie 3000 de Kidde es compatible la base de montaje KE-DB3010W?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:ee28837c-8e85-424b-8fe4-005fb9511e2f:2",
+      "question": "¿Qué accesorio necesito para instalar la base KE-DB3010W en una superficie irregular o en un tubo?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:ee28837c-8e85-424b-8fe4-005fb9511e2f:3",
+      "question": "¿Hay alguna versión en negro de la base estándar KE-DB3010W, o solo viene en blanco?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:ee28837c-8e85-424b-8fe4-005fb9511e2f:4",
+      "question": "¿Qué accesorio pido para hacer una instalación enrasada con la base KE-DB3010W?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:c0b424e9-b9e9-4627-a44e-20613c50bdce:1",
+      "question": "¿Cuáles son las dimensiones y el peso de la base KE-DB3010W?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:c0b424e9-b9e9-4627-a44e-20613c50bdce:2",
+      "question": "¿La base KE-DB3010W es sensible a la polaridad o da igual cómo se conecte?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:c0b424e9-b9e9-4627-a44e-20613c50bdce:3",
+      "question": "¿De qué color es exactamente la base KE-DB3010W y de qué material está hecha?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:c0b424e9-b9e9-4627-a44e-20613c50bdce:4",
+      "question": "¿Cuál es el rango de temperatura de trabajo de la base KE-DB3010W?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:96483d92-de3c-4e89-97ff-2b637d228a8d:1",
+      "question": "¿Cómo se fija la base del KE-DB3010W a la pared, con qué tornillos?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:96483d92-de3c-4e89-97ff-2b637d228a8d:2",
+      "question": "¿Cómo se conecta el indicador remoto en la base KE-DB3010W, en qué terminales va?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:96483d92-de3c-4e89-97ff-2b637d228a8d:3",
+      "question": "¿Cuál es el pinout completo de los terminales de la base KE-DB3010W?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:96483d92-de3c-4e89-97ff-2b637d228a8d:4",
+      "question": "¿Para qué sirve la etiqueta de dirección que trae la base KE-DB3010W y cómo se usa?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:4c500d60-d2ae-4811-b0c7-abc8b73b3cf8:1",
+      "question": "¿Qué detectores de la serie 3000 son compatibles con la base de montaje KE-DB3010W?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:4c500d60-d2ae-4811-b0c7-abc8b73b3cf8:2",
+      "question": "¿Qué accesorio necesito para empotrar la base KE-DB3010W en pared?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:4c500d60-d2ae-4811-b0c7-abc8b73b3cf8:3",
+      "question": "¿Hay versión en negro de la base KE-DB3010W, y si es así cuál es la referencia?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:2876b1bc-2a3c-498a-b8b2-79eb3f149279:1",
+      "question": "¿Cómo se cablea la base de montaje del KE-DB3010W, qué va en cada terminal?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:2876b1bc-2a3c-498a-b8b2-79eb3f149279:2",
+      "question": "¿Dónde conecto el indicador remoto en la base KE-DB3010W?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:2876b1bc-2a3c-498a-b8b2-79eb3f149279:3",
+      "question": "¿Cómo se le pone la dirección a la base KE-DB3010W?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:960f6225-a2cc-4060-a39a-d7bde5f65dbf:1",
+      "question": "¿El zócalo KE-DB3010W es sensible a la polaridad o puedo conectarlo sin fijarme en cómo van los cables?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:960f6225-a2cc-4060-a39a-d7bde5f65dbf:2",
+      "question": "¿Hasta qué temperatura aguanta en funcionamiento el zócalo KE-DB3010W, por ejemplo para instalarlo en un cuarto de calderas o zona caliente?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:960f6225-a2cc-4060-a39a-d7bde5f65dbf:3",
+      "question": "¿El KE-DB3010W tiene bornes para indicador remoto o tengo que buscar otro zócalo si necesito esa función?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:960f6225-a2cc-4060-a39a-d7bde5f65dbf:4",
+      "question": "¿En qué se diferencia el KE-DB3010W del KE-DB3010B, son el mismo zócalo pero en otro color?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:5540a9ca-910d-490d-b186-10cf7bd59321:1",
+      "question": "¿Cuáles son las dimensiones y el peso del KE-DB3010W?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:5540a9ca-910d-490d-b186-10cf7bd59321:2",
+      "question": "¿El KE-DB3010W viene en algún color además de blanco, y si es así cuál es el modelo en negro?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:cdc8d0d0-c8d1-46a8-a8c1-d0bef50c409b:1",
+      "question": "¿Qué detectores son compatibles con la base KE-DB3010W de la Serie 3000?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:cdc8d0d0-c8d1-46a8-a8c1-d0bef50c409b:2",
+      "question": "¿Qué accesorio necesito pedir para instalar la base KE-DB3010W en montaje empotrado o sobre superficies irregulares/tubos?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:cdc8d0d0-c8d1-46a8-a8c1-d0bef50c409b:3",
+      "question": "¿Hay versión en negro de la base KE-DB3010W, o solo viene en blanco?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:9a1254dd-fbd3-41a4-be33-d2f6bd5db5d1:1",
+      "question": "¿Cómo se cablea el zócalo del KE-DB3010W y qué terminal corresponde a cada conexión?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:9a1254dd-fbd3-41a4-be33-d2f6bd5db5d1:2",
+      "question": "¿En qué bornes del zócalo KE-DB3010W se conecta la indicación remota?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:9a1254dd-fbd3-41a4-be33-d2f6bd5db5d1:3",
+      "question": "¿Cuál es el terminal de tierra en el zócalo del KE-DB3010W?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:98665956-9e24-4c46-bcc3-9dd39a2c6658:1",
+      "question": "¿Para qué sirve el accesorio KE-DBA-AUXW de Kidde y con qué base se usa?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:98665956-9e24-4c46-bcc3-9dd39a2c6658:2",
+      "question": "¿El KE-DBA-AUXW de Kidde vale para instalar detectores en superficies irregulares o cuando el cableado entra por tubo rígido por el lateral?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:98665956-9e24-4c46-bcc3-9dd39a2c6658:3",
+      "question": "¿Qué tamaño tiene el KE-DBA-AUXW, cabe en mi instalación?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:98665956-9e24-4c46-bcc3-9dd39a2c6658:4",
+      "question": "¿Hay que hacer algo especial antes de montar el KE-DBA-AUXW cuando se instala sobre tubo corrugado o rígido?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:7b09ae4a-b088-4c78-9095-acc4a3889427:1",
+      "question": "¿Cuántos orificios para tubería tiene la caja KE-DBA-AUXW y de qué diámetro máximo admite?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:7b09ae4a-b088-4c78-9095-acc4a3889427:2",
+      "question": "¿A qué temperaturas puede trabajar y almacenarse la KE-DBA-AUXW?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:7b09ae4a-b088-4c78-9095-acc4a3889427:3",
+      "question": "¿Cuáles son las dimensiones y el peso de la KE-DBA-AUXW?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:90f7b05f-9b19-4d27-814f-fe1bc88206e1:1",
+      "question": "¿Cómo se monta la base del KE-DBA-AUXW sobre un conducto, hay que hacer algo especial antes de instalarla?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:90f7b05f-9b19-4d27-814f-fe1bc88206e1:2",
+      "question": "¿Cómo se instala la base de montaje del KE-DBA-AUXW paso a paso, cómo se fija el accesorio profundo y cómo se acopla la base?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:90f7b05f-9b19-4d27-814f-fe1bc88206e1:3",
+      "question": "¿Dónde va la etiqueta de dirección del KE-DBA-AUXW y cuándo hay que ponerla, antes o después de montar la base?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:bf07b353-3d4f-472e-95c4-b487df5c35fe:1",
+      "question": "¿Cuál es el rango de temperatura de funcionamiento del KE-DBA-AUXW?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:bf07b353-3d4f-472e-95c4-b487df5c35fe:2",
+      "question": "¿Qué dimensiones y peso tiene el KE-DBA-AUXW?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:bf07b353-3d4f-472e-95c4-b487df5c35fe:3",
+      "question": "¿Cuántos orificios ciegos tiene el conducto del KE-DBA-AUXW y de qué tamaño máximo son?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:f63df54a-2d2f-4774-a5d3-aa79c6671526:1",
+      "question": "¿Para qué sirve el accesorio KE-DBA-AUXW y cuándo lo necesito en obra?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:f63df54a-2d2f-4774-a5d3-aa79c6671526:2",
+      "question": "¿El KE-DBA-AUXW incluye la base de montaje o tengo que pedirla aparte?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:f63df54a-2d2f-4774-a5d3-aa79c6671526:3",
+      "question": "¿Qué diámetro de tubo o conduit admite la base profunda KE-DBA-AUXW para la entrada lateral de cables?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:2db0441c-554d-4c7c-819b-9a911717fa02:1",
+      "question": "¿Qué modelos incluye la gama Excellence Series de Kidde y cuál es la diferencia entre ellos?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:2db0441c-554d-4c7c-819b-9a911717fa02:2",
+      "question": "¿El KE-AS3115R-WM lleva aislador de cortocircuito integrado o hay que ponerlo aparte?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:2db0441c-554d-4c7c-819b-9a911717fa02:3",
+      "question": "¿El KE-AS3115R-WM lleva pila/batería o funciona solo con la línea del lazo?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:2db0441c-554d-4c7c-819b-9a911717fa02:4",
+      "question": "¿Dónde está el DIP switch en el KE-AS3115R-WM y para qué sirve?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:0425b987-f225-4d84-8a13-5f5dc3728466:1",
+      "question": "¿Cómo se configura la dirección en el avisador/VAD KE-AS3115R-WM, dónde está el DIP switch y cómo se calculan las posiciones?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:0425b987-f225-4d84-8a13-5f5dc3728466:2",
+      "question": "¿Qué pilas lleva el KE-AS3115R-WM y dónde se instalan?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:0425b987-f225-4d84-8a13-5f5dc3728466:3",
+      "question": "En el KE-AS3115R-WM, ¿hay que hacer algo en la central después de ponerle pilas para que funcione con ellas?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:0425b987-f225-4d84-8a13-5f5dc3728466:4",
+      "question": "En el KE-AS3115R-WM montado en pared, ¿importa la orientación de la base al instalarla?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:0bd65f4a-6b10-4bbd-8b6c-5c5cf36eda84:1",
+      "question": "¿El KE-AS3115R-WM lleva aislador de cortocircuito integrado o hay que ponerlo aparte?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:0bd65f4a-6b10-4bbd-8b6c-5c5cf36eda84:2",
+      "question": "¿Qué diferencia hay entre el KE-AS3115R-WM y el KE-AS3015R-WM, son el mismo dispositivo?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:0bd65f4a-6b10-4bbd-8b6c-5c5cf36eda84:3",
+      "question": "¿El KE-AS3115R-WM va en pared o en techo, y de qué color es el cuerpo y el flash?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:0bd65f4a-6b10-4bbd-8b6c-5c5cf36eda84:4",
+      "question": "¿Qué tipo de dispositivo es el KE-AS3115R-WM, solo sirena, solo VAD o los dos a la vez?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:8b6710b6-baf9-4cc7-b7ce-83818d62b329:1",
+      "question": "¿Qué significa cada color y parpadeo del LED de estado del KE-AS3115R-WM?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:8b6710b6-baf9-4cc7-b7ce-83818d62b329:2",
+      "question": "¿Cómo sé si el KE-AS3115R-WM está en fallo o simplemente aislado mirando el LED?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:8b6710b6-baf9-4cc7-b7ce-83818d62b329:3",
+      "question": "¿Se puede desactivar el parpadeo verde de comunicación del KE-AS3115R-WM desde la central?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:b868cb68-e333-4523-84f0-2987a60c6588:1",
+      "question": "¿Cuándo salta el aviso de \"batería baja\" en la central para el KE-AS3115R-WM y cuánto tiempo me queda para cambiarla?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:b868cb68-e333-4523-84f0-2987a60c6588:2",
+      "question": "¿Qué indica la central y qué hace el propio dispositivo KE-AS3115R-WM cuando la batería está completamente agotada?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:b868cb68-e333-4523-84f0-2987a60c6588:3",
+      "question": "¿Qué pasa si no cambio las pilas del KE-AS3115R-WM cuando la central avisa de batería baja, deja de sonar y de dar señal visual?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:9af1e2b1-dbb8-4c51-8c89-78a65499ac5c:1",
+      "question": "¿Cuál es el nivel de volumen que viene de fábrica en el KE-AS3115R-WM y qué opciones de volumen tiene disponibles?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:9af1e2b1-dbb8-4c51-8c89-78a65499ac5c:2",
+      "question": "¿Cómo se desactiva el sounder del KE-AS3115R-WM, se puede silenciar desde la configuración de tono?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:9af1e2b1-dbb8-4c51-8c89-78a65499ac5c:3",
+      "question": "¿Desde dónde se configuran las notificaciones sonoras y visuales del KE-AS3115R-WM, desde la central o hay alguna aplicación?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:f018b340-78f3-43c2-ae72-21c7efd52fe4:1",
+      "question": "¿Cómo se monta y encaja la sirena/VAD KE-AS3115R-WM en la base, y cómo se bloquea para que no la puedan quitar?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:f018b340-78f3-43c2-ae72-21c7efd52fe4:2",
+      "question": "¿Cómo se desmonta la sirena/VAD KE-AS3115R-WM si está bloqueada en la base, sin romper nada?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:35db9e3b-9227-48a9-9aff-a234b414995c:1",
+      "question": "¿Cuáles son los tonos homologados EN 54-3 que tiene disponibles el avisador KE-AS3115R-WM?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:35db9e3b-9227-48a9-9aff-a234b414995c:2",
+      "question": "¿Qué tono sale por defecto en evacuación, cuál en aviso y cuál en test en el KE-AS3115R-WM?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:35db9e3b-9227-48a9-9aff-a234b414995c:3",
+      "question": "¿Cuántos tonos tiene disponibles el KE-AS3115R-WM y cuál corresponde al tono de evacuación estándar UK (UK Fire)?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:35db9e3b-9227-48a9-9aff-a234b414995c:4",
+      "question": "¿Qué tono hay que programar en el KE-AS3115R-WM para cumplir con la norma francesa AFNOR NF S32-001?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:66ba49b2-4ea7-4d92-b34c-cdc59191ea16:1",
+      "question": "¿Cuáles son los niveles de intensidad disponibles para el VAD del KE-AS3115R-WM y cuál viene configurado de fábrica?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:66ba49b2-4ea7-4d92-b34c-cdc59191ea16:2",
+      "question": "¿Cómo se desactiva el VAD o el VID en el KE-AS3115R-WM?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:66ba49b2-4ea7-4d92-b34c-cdc59191ea16:3",
+      "question": "¿El VID del KE-AS3115R-WM tiene varios niveles de intensidad o solo se puede activar y desactivar?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:47c41a14-3990-4d79-a59a-19ca98120e53:1",
+      "question": "¿Cuántos tonos tiene disponibles la sirena KE-AS3115R-WM y cuál viene configurado por defecto para pruebas?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:47c41a14-3990-4d79-a59a-19ca98120e53:2",
+      "question": "¿Qué tono hay que seleccionar en la KE-AS3115R-WM para cumplir con la norma australiana AS 1670 de evacuación?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:47c41a14-3990-4d79-a59a-19ca98120e53:3",
+      "question": "¿Cuál es el tono correcto de la KE-AS3115R-WM para instalaciones en Suecia?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:47c41a14-3990-4d79-a59a-19ca98120e53:4",
+      "question": "¿Qué tono de la KE-AS3115R-WM corresponde a la norma australiana AS 2220?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:ee4baf5d-5e1e-4a35-a054-f937a4e0bf51:1",
+      "question": "¿Cuánto consume en reposo y en alarma el KE-AS3115R-WM en el lazo?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:ee4baf5d-5e1e-4a35-a054-f937a4e0bf51:2",
+      "question": "¿Cuál es la tensión de trabajo del KE-AS3115R-WM?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:ee4baf5d-5e1e-4a35-a054-f937a4e0bf51:3",
+      "question": "¿Cada cuánto tiempo hay que revisar el KE-AS3115R-WM y cómo se limpia?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:ee4baf5d-5e1e-4a35-a054-f937a4e0bf51:4",
+      "question": "¿Qué hago si después de instalar el KE-AS3115R-WM no comunica con la central?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:1af8db78-5008-476d-86dc-4cd9b00b40ee:1",
+      "question": "¿Con qué zócalos/bases es compatible el KE-AS3115R-WM?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:1af8db78-5008-476d-86dc-4cd9b00b40ee:2",
+      "question": "¿El KE-AS3115R-WM puede instalarse en exteriores o solo en interior?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:1af8db78-5008-476d-86dc-4cd9b00b40ee:3",
+      "question": "¿Entre qué temperaturas puede trabajar el KE-AS3115R-WM una vez instalado?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:1af8db78-5008-476d-86dc-4cd9b00b40ee:4",
+      "question": "¿Qué grado de protección IP tiene el KE-AS3115R-WM?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:b5b5f0a6-9667-40b8-80d9-d7137d47f153:1",
+      "question": "¿El detector KE-AS3115R-WM tiene marcado CE?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:b5b5f0a6-9667-40b8-80d9-d7137d47f153:2",
+      "question": "¿Quién fabrica el KE-AS3115R-WM y dónde está fabricado?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:9b207dd3-c421-4fda-b363-b451698a7571:1",
+      "question": "¿Cuánto consume el KE-AS3115R-WM en modo VAD estándar con flash blanco, montado en pared?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:9b207dd3-c421-4fda-b363-b451698a7571:2",
+      "question": "¿Qué cobertura VAD da el KE-AS3115R-WM en montaje de techo con intensidad alta?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:9b207dd3-c421-4fda-b363-b451698a7571:3",
+      "question": "¿A qué frecuencia parpadea el flash rojo y el blanco del KE-AS3115R-WM?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:9b207dd3-c421-4fda-b363-b451698a7571:4",
+      "question": "¿Cuánto consume el indicador visual VID del KE-AS3115R-WM?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:910abd78-2da3-4e25-8f34-1e5e5d3c40f5:1",
+      "question": "¿Cuántos dB da la sirena KE-AS3115R-WM a 1 metro según el tono y el nivel de salida configurado?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:910abd78-2da3-4e25-8f34-1e5e5d3c40f5:2",
+      "question": "¿Cuál es el nivel sonoro mínimo que puedo conseguir con la KE-AS3115R-WM si necesito que no moleste demasiado, por ejemplo en una zona de descanso?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:910abd78-2da3-4e25-8f34-1e5e5d3c40f5:3",
+      "question": "¿Qué tono de la KE-AS3115R-WM da más potencia sonora si necesito cubrir una zona ruidosa?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:b1296af6-183f-4a1b-9e6c-73aa427170e6:1",
+      "question": "¿Qué diferencia hay entre el KE-AS3115R-WM y el KE-AS3115R-WMW, son el mismo dispositivo?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:b1296af6-183f-4a1b-9e6c-73aa427170e6:2",
+      "question": "¿La sirena KE-AS3115R-WM lleva aislador de cortocircuitos integrado o hay que ponerlo aparte?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:b1296af6-183f-4a1b-9e6c-73aa427170e6:3",
+      "question": "¿El KE-AS3115R-WM funciona con pilas o va alimentado por el lazo?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:b1296af6-183f-4a1b-9e6c-73aa427170e6:4",
+      "question": "¿La KE-AS3115R-WM es para montaje en pared o en techo?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:eb78dd33-15b8-4264-b425-cd054ff40fa3:1",
+      "question": "¿Cuál es la diferencia entre el KE-AS3115R-WM y el KE-AS3015R-WM, y qué modelos de la gama KE-AS30xx/31xx llevan aislador de cortocircuitos integrado y cuáles no?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:eb78dd33-15b8-4264-b425-cd054ff40fa3:2",
+      "question": "¿Qué modelo de sirena/VAD direccionable de esta gama es para montaje en techo y lleva aislador integrado?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:eb78dd33-15b8-4264-b425-cd054ff40fa3:3",
+      "question": "¿El KE-AS3105W-WM lleva aislador de cortocircuitos o hay que ponerlo aparte?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:eb78dd33-15b8-4264-b425-cd054ff40fa3:4",
+      "question": "De la gama KE-AS3x1x, ¿qué modelos son solo sirena sin VAD y cuáles combinan sirena con visual?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:a14d7680-adf0-4c65-8ff1-b4bfdbc45f2a:1",
+      "question": "¿Cómo se direcciona la sirena/VAD KE-AS3115R-WM con el DIP switch, dónde está ese switch y cuál es el rango de direcciones disponible?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:a14d7680-adf0-4c65-8ff1-b4bfdbc45f2a:2",
+      "question": "¿Qué pilas lleva la KE-AS3115R-WM y para qué sirve ponerle pilas si ya va cableada al lazo?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:a14d7680-adf0-4c65-8ff1-b4bfdbc45f2a:3",
+      "question": "En la KE-AS3115R-WM montada en pared, ¿hay que poner la base en alguna posición concreta o da igual cómo la pongas?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:b9e06b45-664e-43a8-86e5-3685c8d02aed:1",
+      "question": "¿Cómo se monta la sirena/VAD KE-AS3115R-WM en la base, y cómo se bloquea para que no la puedan quitar?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:b9e06b45-664e-43a8-86e5-3685c8d02aed:2",
+      "question": "¿Cómo se saca la sirena/VAD KE-AS3115R-WM de la base si está bloqueada con la lengüeta?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:d91ecbd9-8f4c-4c46-bc2d-8acaabe255c1:1",
+      "question": "¿Cuántos niveles de volumen tiene la sirena del KE-AS3115R-WM y cuál viene de fábrica?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:d91ecbd9-8f4c-4c46-bc2d-8acaabe255c1:2",
+      "question": "¿Cómo se desactiva la sirena del KE-AS3115R-WM, se puede hacer desde la central o solo con el software?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:d91ecbd9-8f4c-4c46-bc2d-8acaabe255c1:3",
+      "question": "¿Desde dónde se configuran las notificaciones acústicas y visuales del KE-AS3115R-WM, solo desde la central o también con algún programa?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:0aab36a2-54b3-49ff-9cbb-1e5ff5c4556a:1",
+      "question": "¿Qué indica el LED del KE-AS3115R-WM cuando parpadea en amarillo?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:0aab36a2-54b3-49ff-9cbb-1e5ff5c4556a:2",
+      "question": "¿Cómo sé si el KE-AS3115R-WM está en modo aislamiento, es LED fijo o intermitente?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:0aab36a2-54b3-49ff-9cbb-1e5ff5c4556a:3",
+      "question": "¿Se puede desactivar el parpadeo verde del KE-AS3115R-WM cuando está en comunicación?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:0bcedc06-fac3-47a1-b0bc-b644b2532b03:1",
+      "question": "¿Qué tonos de la sirena KE-AS3115R-WM están aprobados por la norma EN 54-3?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:0bcedc06-fac3-47a1-b0bc-b644b2532b03:2",
+      "question": "¿Cuál es el tono que sale por defecto en evacuación, en aviso y en prueba en la KE-AS3115R-WM?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:0bcedc06-fac3-47a1-b0bc-b644b2532b03:3",
+      "question": "¿Cuántos tonos tiene disponibles la sirena KE-AS3115R-WM y cómo se configura el tono de incendio para una instalación en Francia (norma AFNOR)?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:58b67074-e495-442b-9941-e7f3c473e194:1",
+      "question": "¿Con cuánta antelación avisa la central de que hay que cambiar las pilas del KE-AS3115R-WM antes de que se agoten del todo?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:58b67074-e495-442b-9941-e7f3c473e194:2",
+      "question": "¿Qué pasa si no cambio las pilas del KE-AS3115R-WM cuando la central me avisa de nivel bajo, se sigue activando la sirena y el flash en alarma?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:58b67074-e495-442b-9941-e7f3c473e194:3",
+      "question": "¿Cómo sé si las pilas del KE-AS3115R-WM están agotadas, qué señal da el dispositivo y qué indica la central?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:e4140565-d5e3-4cab-a517-06a9d6419aeb:1",
+      "question": "¿Cuáles son los niveles de intensidad del VAD que se pueden configurar en el KE-AS3115R-WM y cuál viene de fábrica?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:e4140565-d5e3-4cab-a517-06a9d6419aeb:2",
+      "question": "¿Cómo se desactiva el VAD en el KE-AS3115R-WM?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:e4140565-d5e3-4cab-a517-06a9d6419aeb:3",
+      "question": "¿El VID del KE-AS3115R-WM viene activado o desactivado de fábrica, y cómo se desactiva?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:763b008d-cc30-45fa-803c-067f8cb83ea2:1",
+      "question": "¿Cuál es el consumo en reposo y en alarma del KE-AS3115R-WM?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:763b008d-cc30-45fa-803c-067f8cb83ea2:2",
+      "question": "¿Cuántos aisladores se pueden poner como máximo en un lazo con el KE-AS3115R-WM y cuántos dispositivos puede haber entre aisladores?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:763b008d-cc30-45fa-803c-067f8cb83ea2:3",
+      "question": "¿A qué tensión actúa y reconecta el aislador del KE-AS3115R-WM?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:763b008d-cc30-45fa-803c-067f8cb83ea2:4",
+      "question": "¿Cuál es la impedancia máxima permitida entre aisladores en el lazo del KE-AS3115R-WM?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:e7cebfec-b5c8-4c54-abf7-23a99112b3fc:1",
+      "question": "¿Qué tonos tiene disponibles la sirena KE-AS3115R-WM y cuáles son sus frecuencias y patrones de señal?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:e7cebfec-b5c8-4c54-abf7-23a99112b3fc:2",
+      "question": "¿Cuál es el tono de prueba que viene por defecto en la KE-AS3115R-WM?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:e7cebfec-b5c8-4c54-abf7-23a99112b3fc:3",
+      "question": "¿Qué tono hay que seleccionar en la KE-AS3115R-WM para cumplir con la norma australiana AS 1670 de alerta de evacuación?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:13d9b54d-8e2c-4e68-abaf-7c6b5f1b1114:1",
+      "question": "¿Cada cuánto tiempo hay que hacerle el mantenimiento al KE-AS3115R-WM?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:13d9b54d-8e2c-4e68-abaf-7c6b5f1b1114:2",
+      "question": "¿Cómo se limpia el KE-AS3115R-WM, se puede usar algún producto?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:13d9b54d-8e2c-4e68-abaf-7c6b5f1b1114:3",
+      "question": "Si después de instalar el KE-AS3115R-WM no comunica con la central, ¿qué puede estar fallando?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:eb99a581-bfa2-4f25-a524-9a1557399ffa:1",
+      "question": "¿Quién fabrica el detector KE-AS3115R-WM y dónde está la fábrica?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:eb99a581-bfa2-4f25-a524-9a1557399ffa:2",
+      "question": "¿Tiene marcado CE el KE-AS3115R-WM y qué organismo notificado lo certifica?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:eb99a581-bfa2-4f25-a524-9a1557399ffa:3",
+      "question": "¿Dónde puedo descargar la Declaración de Prestaciones del KE-AS3115R-WM?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:f99f2f14-3ab5-4137-8f47-13136b1039ae:1",
+      "question": "¿Cuántos dB da la sirena KE-AS3115R-WM según el ajuste de salida y el tono que tengo configurado?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:f99f2f14-3ab5-4137-8f47-13136b1039ae:2",
+      "question": "¿Cuál es la diferencia de nivel sonoro entre el ajuste de salida 1 y el ajuste de salida 4 en la KE-AS3115R-WM?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:f99f2f14-3ab5-4137-8f47-13136b1039ae:3",
+      "question": "¿Qué nivel máximo de sonido puede alcanzar la KE-AS3115R-WM y con qué tono se consigue?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:ddc0176b-5eac-481f-bc8b-60e1896d5e71:1",
+      "question": "¿Cuánto consume el VAD del KE-AS3115R-WM en modo destello blanco con intensidad estándar, montado en techo?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:ddc0176b-5eac-481f-bc8b-60e1896d5e71:2",
+      "question": "¿A qué frecuencia destella el KE-AS3115R-WM en modo rojo y en modo blanco?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:ddc0176b-5eac-481f-bc8b-60e1896d5e71:3",
+      "question": "¿Qué cobertura de VAD cubre el KE-AS3115R-WM montado en pared con intensidad alta?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:ddc0176b-5eac-481f-bc8b-60e1896d5e71:4",
+      "question": "¿Cuánto consume el VID del KE-AS3115R-WM?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:78077fa0-bfdd-4c5c-9f32-cfcf8dcbaa9e:1",
+      "question": "¿Con qué zócalos es compatible el KE-AS3115R-WM?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:78077fa0-bfdd-4c5c-9f32-cfcf8dcbaa9e:2",
+      "question": "¿El KE-AS3115R-WM se puede instalar en exteriores o solo en interiores, y qué IP tiene?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:78077fa0-bfdd-4c5c-9f32-cfcf8dcbaa9e:3",
+      "question": "¿Entre qué temperaturas puede trabajar el KE-AS3115R-WM, tanto en funcionamiento como almacenado?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:7f219963-086f-4c11-995d-956d567492a9:1",
+      "question": "¿Cómo se configura el volumen del avisador sonoro del KE-AS3115R-WM y cuál es el nivel que viene por defecto de fábrica?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:7f219963-086f-4c11-995d-956d567492a9:2",
+      "question": "¿Cómo se desactiva el avisador sonoro del KE-AS3115R-WM, se puede silenciar desde la configuración?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:7f219963-086f-4c11-995d-956d567492a9:3",
+      "question": "¿Desde dónde se configuran las notificaciones acústicas y visuales del KE-AS3115R-WM, desde el panel o hay que usar algún software?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:2706889c-1f20-4145-bc72-ca9f5c13f34e:1",
+      "question": "¿Cuántos tonos tiene disponibles la sirena KE-AS3115R-WM y cuáles son sus frecuencias y patrones?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:2706889c-1f20-4145-bc72-ca9f5c13f34e:2",
+      "question": "¿Cuál es el tono estándar de prueba de la KE-AS3115R-WM y en qué número está?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:2706889c-1f20-4145-bc72-ca9f5c13f34e:3",
+      "question": "¿Qué tono hay que programar en la KE-AS3115R-WM para cumplir con la norma australiana AS 1670 de evacuación?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:9c060dae-8809-4bf2-8f2d-067dbee71901:1",
+      "question": "¿Qué diferencia hay entre el KE-AS3115R-WM y el KE-AS3115R-WMW, y cuál lleva luz blanca y cuál roja?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:9c060dae-8809-4bf2-8f2d-067dbee71901:2",
+      "question": "¿El KE-AS3115R-WM lleva aislador de cortocircuito integrado o hay que ponerlo aparte?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:9c060dae-8809-4bf2-8f2d-067dbee71901:3",
+      "question": "¿El KE-AS3115R-WM es de techo o de pared, y de qué color es la carcasa?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:4e83fe39-0635-4b21-b109-56ab56f05b25:1",
+      "question": "¿Qué tono hay que seleccionar en la KE-AS3115R-WM para cumplir con la norma AS 1670 de evacuación en Australia?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:4e83fe39-0635-4b21-b109-56ab56f05b25:2",
+      "question": "¿Cuál es el tono por defecto para hacer la prueba en la sirena KE-AS3115R-WM?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:4e83fe39-0635-4b21-b109-56ab56f05b25:3",
+      "question": "¿Qué tonos tiene disponibles la KE-AS3115R-WM y cuáles son sus frecuencias y patrones de activación?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:4060833a-4318-4870-a60c-bf6a985fb382:1",
+      "question": "¿Cuál es la intensidad que viene configurada de fábrica en el VAD del KE-AS3115R-WM?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:4060833a-4318-4870-a60c-bf6a985fb382:2",
+      "question": "¿Qué opciones de intensidad tiene el VAD del KE-AS3115R-WM y cómo se desactiva?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:0fc3c41a-11e7-48cf-bc48-b363ae2593fa:1",
+      "question": "¿El KE-AS3115R-WM y el KE-AS3115R-CM son el mismo producto o son modelos distintos?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:0fc3c41a-11e7-48cf-bc48-b363ae2593fa:2",
+      "question": "¿Qué otros modelos de la gama KE-AS31 existen además del KE-AS3115R-WM?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:39b26081-0cdf-4cb6-9bbe-af5215f34e85:1",
+      "question": "¿Cómo se distribuye el sonido en horizontal y en vertical de la sirena KE-AS3115R-WM según el tono que uses, por ejemplo el tono 13 y el 21?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:39b26081-0cdf-4cb6-9bbe-af5215f34e85:2",
+      "question": "¿A cuántos dBA llega la KE-AS3115R-WM en los ángulos laterales o traseros, o solo mantiene nivel hacia el frente?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:1d8df2ba-26c9-476d-bcc8-ae44cb9c2a82:1",
+      "question": "¿Cómo se distribuye el sonido de la sirena KE-AS3115R-WM según el tono seleccionado, tanto en horizontal como en vertical?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:1d8df2ba-26c9-476d-bcc8-ae44cb9c2a82:2",
+      "question": "¿Hasta qué nivel de dBA llega la KE-AS3115R-WM y cómo cae la presión sonora según el ángulo de emisión?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:1d8df2ba-26c9-476d-bcc8-ae44cb9c2a82:3",
+      "question": "¿Los diagramas de dispersión de la KE-AS3115R-WM son iguales para todos los tonos o cambian según el tono que uses?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:95f07252-8713-4ebd-a6ac-66d54013f3ba:1",
+      "question": "¿Cuánto consume y cuántos dB da la sirena KE-AS3115R-WM según el tono y el nivel de salida configurado?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:95f07252-8713-4ebd-a6ac-66d54013f3ba:2",
+      "question": "¿Cuál es el consumo máximo de la sirena KE-AS3115R-WM para calcular la carga de la fuente, dependiendo del tono y la configuración de salida que use?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:95f07252-8713-4ebd-a6ac-66d54013f3ba:3",
+      "question": "¿Qué nivel sonoro (SPL) consigo con la KE-AS3115R-WM en output setting 4 según el tono seleccionado?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:8c047341-f0c7-41da-80d4-86368355c5ed:1",
+      "question": "¿Cómo es el patrón de dispersión sonora (horizontal y vertical) de la sirena KE-AS3115R-WM según el tono seleccionado?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:8c047341-f0c7-41da-80d4-86368355c5ed:2",
+      "question": "¿Hasta qué nivel de dBA llega la KE-AS3115R-WM y cómo varía según el ángulo de emisión?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:8c047341-f0c7-41da-80d4-86368355c5ed:3",
+      "question": "¿Cambia mucho la cobertura sonora de la KE-AS3115R-WM entre el tono 1, el 2 y el 3?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:48b626e8-0552-4233-8270-1b58da701f2b:1",
+      "question": "¿Cómo es el patrón de dispersión sonora (diagrama polar) de la sirena KE-AS3115R-WM en la configuración de salida 3, tanto en horizontal como en vertical, para cada uno de los tonos disponibles?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:48b626e8-0552-4233-8270-1b58da701f2b:2",
+      "question": "¿Hasta qué nivel de dBA llega la KE-AS3115R-WM en la configuración Output Setting 3 y cómo varía el sonido según el ángulo de instalación?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:35e96b7a-e08d-4eda-96b8-0db754560133:1",
+      "question": "¿Cómo se distribuye el sonido en horizontal y en vertical de la sirena KE-AS3115R-WM según el tono seleccionado, para saber cómo orientarla bien al instalarla?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:35e96b7a-e08d-4eda-96b8-0db754560133:2",
+      "question": "¿Hasta qué nivel de dBA llega la KE-AS3115R-WM en los tonos 6, 7, 10 y 13, y cómo varía según el ángulo de cobertura?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    }
+  ],
+  "existing_gold_question_count": 51,
+  "selected_source_hyq_question_count": 179,
+  "existing_gold_resolved_source_hash_count": 78,
+  "existing_gold_unresolved_source_refs": [],
+  "kidde_pdf_universe_count": 55,
+  "manual_inventory": {
+    "3102987-ml_r003_excellence_series_standard_mounting_base_installation_sheet.pdf": {
+      "path": "Manuales_Kidde/3102987-ml_r003_excellence_series_standard_mounting_base_installation_sheet.pdf",
+      "sha256": "c1406d1f941c529a9685f774b2307d23c96c19c5e88a526107d53e99613fe353",
+      "bytes": 674336,
+      "page_count": 13
+    },
+    "ke-db3010w-161721-es.pdf": {
+      "path": "Manuales_Kidde/ke-db3010w-161721-es.pdf",
+      "sha256": "eaf4831d9412f636640479e7f362d20c820c342a16887102698007d1fdcf2d9c",
+      "bytes": 1475427,
+      "page_count": 2
+    },
+    "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet.pdf": {
+      "path": "Manuales_Kidde/3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet.pdf",
+      "sha256": "c3eb5ec2671491feb2671329b321912d35e1537ede0af2344b67286809fabc46",
+      "bytes": 3109112,
+      "page_count": 44
+    },
+    "ke-as3115r-wm-161721-es.pdf": {
+      "path": "Manuales_Kidde/ke-as3115r-wm-161721-es.pdf",
+      "sha256": "a6b27b40f733e7bd44d568874883a57617315a22beb2216896e14c7bd931f070",
+      "bytes": 1130739,
+      "page_count": 3
+    },
+    "3103013-ml_r002_ke-dba-auxw_deep_accessory_for_standard_mounting_base_installation_sheet.pdf": {
+      "path": "Manuales_Kidde/3103013-ml_r002_ke-dba-auxw_deep_accessory_for_standard_mounting_base_installation_sheet.pdf",
+      "sha256": "533f4d50dd4f250a7c3b40a9e49863b0886eec292b2e3d6e694e656e1e6ae65f",
+      "bytes": 799101,
+      "page_count": 9
+    },
+    "ke-dba-auxw-161721-es.pdf": {
+      "path": "Manuales_Kidde/ke-dba-auxw-161721-es.pdf",
+      "sha256": "832b20b348f11b00f94f710abf2860ab367c4ca6c107ca0a7bfd491ed2dbe7dc",
+      "bytes": 553137,
+      "page_count": 2
+    }
+  },
+  "items": [
+    {
+      "canary_id": "kidde_base_class_a_terminals",
+      "product": "Kidde Excellence KE-DB3010W / KE-DB3010B standard mounting base",
+      "stratum": "wiring_diagram_and_terminal_table",
+      "topic": "topología visual de cableado Clase A entre dos bases y la central, incluida la correspondencia A/B, polaridad y terminales",
+      "source_pdf": "3102987-ml_r003_excellence_series_standard_mounting_base_installation_sheet.pdf",
+      "pages": [
+        1,
+        4
+      ],
+      "focus_pages": [
+        1,
+        4
+      ],
+      "product_manuals": [
+        "3102987-ml_r003_excellence_series_standard_mounting_base_installation_sheet.pdf",
+        "ke-db3010w-161721-es.pdf"
+      ],
+      "discovery_tokens": [
+        "3102987",
+        "ke-db3010w-"
+      ],
+      "prior_artifact_history": [
+        "s116/s134 inventory mentions only; no authored question or source unit",
+        "pages 1 and 4 and the Class A terminal-map predicate are new"
+      ],
+      "source": {
+        "path": "Manuales_Kidde/3102987-ml_r003_excellence_series_standard_mounting_base_installation_sheet.pdf",
+        "sha256": "c1406d1f941c529a9685f774b2307d23c96c19c5e88a526107d53e99613fe353",
+        "bytes": 674336,
+        "page_count": 13
+      },
+      "discovered_product_manuals": [
+        "3102987-ml_r003_excellence_series_standard_mounting_base_installation_sheet.pdf",
+        "ke-db3010w-161721-es.pdf"
+      ],
+      "rendered_pages": [
+        {
+          "page": 1,
+          "image": "evals/s204_kidde_visual_pages_v1/kidde_base_class_a_terminals_p1_200dpi.png",
+          "image_sha256": "b24b693cd5dc7fc1dc13fdba3ff6c6ce5da42a1bdaca1f70043771d540b4ede4",
+          "image_bytes": 510711,
+          "width_px": 1654,
+          "height_px": 2338,
+          "dpi": 200
+        },
+        {
+          "page": 4,
+          "image": "evals/s204_kidde_visual_pages_v1/kidde_base_class_a_terminals_p4_200dpi.png",
+          "image_sha256": "29222b6a2cd9a7a1ec7f33e38458db1586b469238ee4b5332254f86fe325ba66",
+          "image_bytes": 493209,
+          "width_px": 1654,
+          "height_px": 2338,
+          "dpi": 200
+        }
+      ]
+    },
+    {
+      "canary_id": "kidde_indoor_dip_examples",
+      "product": "Kidde Excellence intelligent addressable indoor notification devices",
+      "stratum": "visual_switch_configuration",
+      "topic": "lectura visual de las posiciones DIP exactas para las direcciones 008 y 112, valores activados y regla de suma",
+      "source_pdf": "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet.pdf",
+      "pages": [
+        12
+      ],
+      "focus_pages": [
+        12
+      ],
+      "product_manuals": [
+        "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet.pdf",
+        "ke-as3115r-wm-161721-es.pdf"
+      ],
+      "discovery_tokens": [
+        "3103072",
+        "ke-as3115r-wm-"
+      ],
+      "prior_artifact_history": [
+        "s116/s134 inventory mentions only; no authored question or source unit",
+        "the exact visual DIP patterns 008/112 on page 12 are new"
+      ],
+      "source": {
+        "path": "Manuales_Kidde/3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet.pdf",
+        "sha256": "c3eb5ec2671491feb2671329b321912d35e1537ede0af2344b67286809fabc46",
+        "bytes": 3109112,
+        "page_count": 44
+      },
+      "discovered_product_manuals": [
+        "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet.pdf",
+        "ke-as3115r-wm-161721-es.pdf"
+      ],
+      "rendered_pages": [
+        {
+          "page": 12,
+          "image": "evals/s204_kidde_visual_pages_v1/kidde_indoor_dip_examples_p12_200dpi.png",
+          "image_sha256": "85a3497a639643ca903a20457e873d6cf81e439b48981c126701ab9e37be5138",
+          "image_bytes": 470548,
+          "width_px": 1654,
+          "height_px": 2338,
+          "dpi": 200
+        }
+      ]
+    },
+    {
+      "canary_id": "kidde_deep_accessory_slots",
+      "product": "Kidde Excellence KE-DBA-AUXW deep accessory",
+      "stratum": "visual_component_identification",
+      "topic": "distinción visual de la ranura de etiqueta de dirección y la ranura de pestaña de bloqueo, más la colocación previa de la etiqueta",
+      "source_pdf": "3103013-ml_r002_ke-dba-auxw_deep_accessory_for_standard_mounting_base_installation_sheet.pdf",
+      "pages": [
+        1,
+        3
+      ],
+      "focus_pages": [
+        1,
+        3
+      ],
+      "product_manuals": [
+        "3103013-ml_r002_ke-dba-auxw_deep_accessory_for_standard_mounting_base_installation_sheet.pdf",
+        "ke-dba-auxw-161721-es.pdf"
+      ],
+      "discovery_tokens": [
+        "3103013",
+        "ke-dba-auxw-"
+      ],
+      "prior_artifact_history": [
+        "s116/s134 inventory mentions only; no authored question or source unit",
+        "the visual slot distinction across pages 1 and 3 is new"
+      ],
+      "source": {
+        "path": "Manuales_Kidde/3103013-ml_r002_ke-dba-auxw_deep_accessory_for_standard_mounting_base_installation_sheet.pdf",
+        "sha256": "533f4d50dd4f250a7c3b40a9e49863b0886eec292b2e3d6e694e656e1e6ae65f",
+        "bytes": 799101,
+        "page_count": 9
+      },
+      "discovered_product_manuals": [
+        "3103013-ml_r002_ke-dba-auxw_deep_accessory_for_standard_mounting_base_installation_sheet.pdf",
+        "ke-dba-auxw-161721-es.pdf"
+      ],
+      "rendered_pages": [
+        {
+          "page": 1,
+          "image": "evals/s204_kidde_visual_pages_v1/kidde_deep_accessory_slots_p1_200dpi.png",
+          "image_sha256": "5c6624f0e1ed91a17f48e6cdfc32063954ff2e1b3e733bdb537f656a91d750ab",
+          "image_bytes": 562001,
+          "width_px": 1654,
+          "height_px": 2338,
+          "dpi": 200
+        },
+        {
+          "page": 3,
+          "image": "evals/s204_kidde_visual_pages_v1/kidde_deep_accessory_slots_p3_200dpi.png",
+          "image_sha256": "7c3fbaf38b9985a06b63e30223c4b190aac95980df11f13a8f44f3e489002441",
+          "image_bytes": 503237,
+          "width_px": 1654,
+          "height_px": 2338,
+          "dpi": 200
+        }
+      ]
+    }
+  ],
+  "generation_contract": {
+    "principal": {
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "xhigh"
+    },
+    "independent": {
+      "model": "claude-fable-5"
+    },
+    "pixel_only_frontier_input": true,
+    "independent_generation_before_cross_review": true,
+    "final_gold_precedence": "sol_candidate_only_if_both_directions_pass_for_the_whole_cohort",
+    "merge_candidates": false,
+    "same_item_retry": false,
+    "application_inference_without_explicit_pixel_support": "forbidden",
+    "nonblocking_notes_invalidate_pass": false
+  },
+  "packet_sha256": "419f0cb1b9bf073e09c962d050094c72cdece842616970c5f389352571974f04"
+}
