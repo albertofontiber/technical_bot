@@ -1,0 +1,37 @@
+instrument: s200_point_first_replay_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_NO_RETRY_FINAL_POINT_FIRST_COHORT
+authority: user_requested_continue_toward_more_facts_ok
+
+frozen_artifacts:
+  preregistration: {path: evals/s200_point_first_replay_prereg_v1.yaml, sha256: 579b39173a68dd728fc2426dae0fb855352d3f22427535cef85e2c5ef424e690}
+  adapter: {path: scripts/s200_point_first_replay.py, sha256: c677ecd1c322ffa3c365ef5e444a21b7c7fb729442c0e48be76379f1e47b0ba3}
+  adapter_tests: {path: tests/test_s200_point_first_replay.py, sha256: 740d7e4905939a7f0507ee49957b0174219fc62c0a323353e646ade4841a3c56}
+  semantic_engine: {path: scripts/s198_point_first_scope_gate.py, sha256: 922bd11b6fcc591aeccdf4ff5f841c16b4b60cf256108529bcb01ede11a682fb}
+
+limits:
+  paid_calls_max: 96
+  provider_requests_max: 192
+  retries: 0
+  internal_ceiling_usd: 3
+  frontier_execution_calls: 0
+  database_calls: 0
+  database_writes: 0
+  production_changes: 0
+  chunks_v3_changes: 0
+  deployments: 0
+  exclusive_lock_before_provider_requests: true
+  lock_scope: current_workspace
+  immutable_prepaid_checkpoints: true
+  atomic_progress_and_finalization: true
+  further_point_first_cohorts: 0
+
+stopping:
+  any_existing_checkpoint: forbid_retry
+  point_author_structural_or_population_failure: CLOSE_POINT_FIRST_FRESH_GENERALIZATION_LANE
+  point_screen_invalid_or_false: CLOSE_POINT_FIRST_FRESH_GENERALIZATION_LANE
+  question_writer_invalid: CLOSE_POINT_FIRST_FRESH_GENERALIZATION_LANE
+  question_screen_invalid_or_false: CLOSE_POINT_FIRST_FRESH_GENERALIZATION_LANE
+  provider_interruption_before_known_content_failure: HOLD_EXTERNAL_DEPENDENCY_INCOMPLETE
+  provider_interruption_after_known_content_failure: stage_specific_no_go
+  downstream_planner: forbidden_unless_GO_POINT_FIRST_SCOPE_BOUND_COHORT_SEALED
+  deployment_or_railway_gate: forbidden
