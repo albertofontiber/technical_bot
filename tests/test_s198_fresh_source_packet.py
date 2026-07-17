@@ -7,14 +7,18 @@ import pytest
 import scripts.s198_build_fresh_source_packet as s198
 from scripts.s198_build_fresh_source_packet import (
     PRIOR_SOURCE_PACKETS,
+    PROSE_ITEMS,
     S197_PACKET,
     SEED,
+    TABLE_ITEMS,
     eligible_inventory_counts,
 )
 
 
 def test_s198_seed_and_history_exclude_s194_s195_and_s197():
     assert SEED == "s198-point-first-scope-fresh-v1"
+    assert (TABLE_ITEMS, PROSE_ITEMS) == (7, 5)
+    assert s198.DEFAULT_OUT.name == "s198_fresh_source_packet_v2.json"
     assert S197_PACKET.name == "s197_fresh_source_packet_v1.json"
     assert PRIOR_SOURCE_PACKETS[-1] == S197_PACKET
     assert [path.name for path in PRIOR_SOURCE_PACKETS[-3:]] == [

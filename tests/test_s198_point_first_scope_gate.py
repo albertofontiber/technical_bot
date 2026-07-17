@@ -24,7 +24,7 @@ def _point(active, claim="", facet="", supports=("", "", "")):
 
 def _source_item(index=1, stratum="table"):
     return {
-        "item_id": f"s198_src_{index:02d}",
+        "item_id": f"s198e_src_{index:02d}",
         "stratum": stratum,
         "manufacturer": f"Vendor {index}",
         "product_model": f"Model {index}",
@@ -179,13 +179,16 @@ def test_semantic_review_validators_reject_issue_contradictions():
 def test_population_gate_uses_the_preregistered_denominator():
     items = [
         _normalized_item(index, "table" if index <= 7 else "prose")
-        for index in range(1, 15)
+        for index in range(1, 13)
     ]
     checks = s198.population_checks(items, 0, s198.EXPECTED_VALIDATION)
     assert all(checks.values())
     items[-1]["eligible"] = False
     items[-1]["answer_points"] = []
-    assert all(s198.population_checks(items, 0, s198.EXPECTED_VALIDATION).values())
+    reduced = s198.population_checks(items, 0, s198.EXPECTED_VALIDATION)
+    assert reduced["eligible_items_gte_12"] is False
+    assert reduced["prose_items_gte_5"] is False
+    assert reduced["answer_points_gte_24"] is False
     assert not s198.population_checks(items, 1, s198.EXPECTED_VALIDATION)[
         "invalid_point_author_outputs_zero"
     ]
@@ -265,7 +268,7 @@ class _Responses:
 def _mock_source():
     items = [
         _source_item(index, "table" if index <= 7 else "prose")
-        for index in range(1, 15)
+        for index in range(1, 13)
     ]
     return {
         "items": items,
@@ -319,7 +322,7 @@ def _prereg():
     }
 
 
-def test_full_mocked_package_orders_56_calls_and_seals_go(tmp_path, monkeypatch):
+def test_full_mocked_package_orders_48_calls_and_seals_go(tmp_path, monkeypatch):
     paths, env = _isolate_execution(tmp_path, monkeypatch)
     events = []
     writer_inputs = []
@@ -342,12 +345,12 @@ def test_full_mocked_package_orders_56_calls_and_seals_go(tmp_path, monkeypatch)
     assert result["status"] == "GO_POINT_FIRST_SCOPE_BOUND_COHORT_SEALED"
     assert result["decision"]["downstream_planner_opened"] is False
     assert result["decision"]["diagnostic_facts_moved_to_ok"] == 0
-    assert events.count("point_author") == 14
-    assert events.count("point_screen") == 14
-    assert events.count("question_writer") == 14
-    assert events.count("question_screen") == 14
-    assert events.count("anthropic_preflight") == 28
-    assert events.count("openai_preflight") == 28
+    assert events.count("point_author") == 12
+    assert events.count("point_screen") == 12
+    assert events.count("question_writer") == 12
+    assert events.count("question_screen") == 12
+    assert events.count("anthropic_preflight") == 24
+    assert events.count("openai_preflight") == 24
     assert all("excerpt" not in json.dumps(payload) for payload in writer_inputs)
     assert all(
         payload["complete_evidence_units"]

@@ -48,23 +48,23 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_ENV = Path(
     r"C:\Users\Admin\OneDrive - fontiber com\Documents\Claude\Technical Bot\.env"
 )
-SOURCE = ROOT / "evals/s198_fresh_source_packet_v1.json"
+SOURCE = ROOT / "evals/s198_fresh_source_packet_v2.json"
 S194_SOURCE = ROOT / "evals/s194_fresh_source_packet_v1.json"
 S195_SOURCE = ROOT / "evals/s195_fresh_source_packet_v1.json"
 S197_SOURCE = ROOT / "evals/s197_fresh_source_packet_v1.json"
-DEFAULT_PREREG = ROOT / "evals/s198_point_first_scope_prereg_v1.yaml"
-DEFAULT_PERMIT = ROOT / "evals/s198_point_first_scope_execution_permit_v1.yaml"
-DEFAULT_LOCK = ROOT / "evals/s198_point_first_scope_execution_lock_v1.json"
-DEFAULT_POINT_AUTHOR_PREPAID = ROOT / "evals/s198_point_author_prepaid_v1.json"
-DEFAULT_POINT_AUTHOR_RECEIPTS = ROOT / "evals/s198_point_author_receipts_v1.json"
-DEFAULT_POINT_SCREEN_PREPAID = ROOT / "evals/s198_point_screen_prepaid_v1.json"
-DEFAULT_POINT_SCREEN_RECEIPTS = ROOT / "evals/s198_point_screen_receipts_v1.json"
-DEFAULT_QUESTION_WRITER_PREPAID = ROOT / "evals/s198_question_writer_prepaid_v1.json"
-DEFAULT_QUESTION_WRITER_RECEIPTS = ROOT / "evals/s198_question_writer_receipts_v1.json"
-DEFAULT_QUESTION_SCREEN_PREPAID = ROOT / "evals/s198_question_screen_prepaid_v1.json"
-DEFAULT_QUESTION_SCREEN_RECEIPTS = ROOT / "evals/s198_question_screen_receipts_v1.json"
-DEFAULT_COHORT = ROOT / "evals/s198_point_first_scope_screened_cohort_v1.json"
-DEFAULT_RESULT = ROOT / "evals/s198_point_first_scope_gate_v1.json"
+DEFAULT_PREREG = ROOT / "evals/s198_point_first_scope_prereg_v2.yaml"
+DEFAULT_PERMIT = ROOT / "evals/s198_point_first_scope_execution_permit_v2.yaml"
+DEFAULT_LOCK = ROOT / "evals/s198_point_first_scope_execution_lock_v2.json"
+DEFAULT_POINT_AUTHOR_PREPAID = ROOT / "evals/s198_point_author_prepaid_v2.json"
+DEFAULT_POINT_AUTHOR_RECEIPTS = ROOT / "evals/s198_point_author_receipts_v2.json"
+DEFAULT_POINT_SCREEN_PREPAID = ROOT / "evals/s198_point_screen_prepaid_v2.json"
+DEFAULT_POINT_SCREEN_RECEIPTS = ROOT / "evals/s198_point_screen_receipts_v2.json"
+DEFAULT_QUESTION_WRITER_PREPAID = ROOT / "evals/s198_question_writer_prepaid_v2.json"
+DEFAULT_QUESTION_WRITER_RECEIPTS = ROOT / "evals/s198_question_writer_receipts_v2.json"
+DEFAULT_QUESTION_SCREEN_PREPAID = ROOT / "evals/s198_question_screen_prepaid_v2.json"
+DEFAULT_QUESTION_SCREEN_RECEIPTS = ROOT / "evals/s198_question_screen_receipts_v2.json"
+DEFAULT_COHORT = ROOT / "evals/s198_point_first_scope_screened_cohort_v2.json"
+DEFAULT_RESULT = ROOT / "evals/s198_point_first_scope_gate_v2.json"
 
 FACET_DEFINITIONS = {
     "access_or_prerequisite": "permission, dependency or prior state required before the task",
@@ -153,13 +153,13 @@ EXPECTED_MODELS = {
 }
 EXPECTED_SDK = {"anthropic": "0.97.0", "openai": "2.30.0"}
 EXPECTED_EXECUTION = {
-    "point_author_calls_max": 14,
-    "point_screen_calls_max": 14,
-    "question_writer_calls_max": 14,
-    "question_screen_calls_max": 14,
-    "paid_calls_max": 56,
-    "provider_preflight_requests_max": 56,
-    "provider_requests_max": 112,
+    "point_author_calls_max": 12,
+    "point_screen_calls_max": 12,
+    "question_writer_calls_max": 12,
+    "question_screen_calls_max": 12,
+    "paid_calls_max": 48,
+    "provider_preflight_requests_max": 48,
+    "provider_requests_max": 96,
     "retries": 0,
     "frontier_execution_calls": 0,
     "retrieval_calls": 0,
@@ -192,17 +192,17 @@ EXPECTED_PRICING = {
 }
 EXPECTED_BUDGET = {"internal_ceiling_usd": 3, "user_ceiling_usd": 250}
 EXPECTED_OUTPUTS = {
-    "execution_lock": "evals/s198_point_first_scope_execution_lock_v1.json",
-    "point_author_prepaid": "evals/s198_point_author_prepaid_v1.json",
-    "point_author_receipts": "evals/s198_point_author_receipts_v1.json",
-    "point_screen_prepaid": "evals/s198_point_screen_prepaid_v1.json",
-    "point_screen_receipts": "evals/s198_point_screen_receipts_v1.json",
-    "question_writer_prepaid": "evals/s198_question_writer_prepaid_v1.json",
-    "question_writer_receipts": "evals/s198_question_writer_receipts_v1.json",
-    "question_screen_prepaid": "evals/s198_question_screen_prepaid_v1.json",
-    "question_screen_receipts": "evals/s198_question_screen_receipts_v1.json",
-    "screened_cohort": "evals/s198_point_first_scope_screened_cohort_v1.json",
-    "result": "evals/s198_point_first_scope_gate_v1.json",
+    "execution_lock": "evals/s198_point_first_scope_execution_lock_v2.json",
+    "point_author_prepaid": "evals/s198_point_author_prepaid_v2.json",
+    "point_author_receipts": "evals/s198_point_author_receipts_v2.json",
+    "point_screen_prepaid": "evals/s198_point_screen_prepaid_v2.json",
+    "point_screen_receipts": "evals/s198_point_screen_receipts_v2.json",
+    "question_writer_prepaid": "evals/s198_question_writer_prepaid_v2.json",
+    "question_writer_receipts": "evals/s198_question_writer_receipts_v2.json",
+    "question_screen_prepaid": "evals/s198_question_screen_prepaid_v2.json",
+    "question_screen_receipts": "evals/s198_question_screen_receipts_v2.json",
+    "screened_cohort": "evals/s198_point_first_scope_screened_cohort_v2.json",
+    "result": "evals/s198_point_first_scope_gate_v2.json",
 }
 EXPECTED_FORBIDDEN = {
     "retry_repair_or_rebuild_same_source_cohort",
@@ -804,14 +804,16 @@ def source_contract(source: dict[str, Any]) -> None:
     if (
         source.get("status") != "SEALED_FRESH_LIVE_CHUNKS_V2_GET_ONLY"
         or packet_sha != stable_sha(body)
-        or len(items) != 14
-        or len({item["item_id"] for item in items}) != 14
-        or len(documents) != 14
-        or len(manufacturers) != 14
+        or len(items) != 12
+        or len({item["item_id"] for item in items}) != 12
+        or len(documents) != 12
+        or len(manufacturers) != 12
         or sum(item["stratum"] == "table" for item in items) != 7
-        or sum(item["stratum"] == "prose" for item in items) != 7
-        or not all(item["item_id"].startswith("s198_src_") for item in items)
-        or not source["selection"].get("fresh_after_s197_question_schema_canary")
+        or sum(item["stratum"] == "prose" for item in items) != 5
+        or not all(item["item_id"].startswith("s198e_src_") for item in items)
+        or not source["selection"].get("fresh_after_s198_population_no_go")
+        or source["selection"].get("population_contract")
+        != "EXHAUSTION_AWARE_7_TABLE_5_PROSE"
         or any(source["selection"].get(f"s{stage}_document_overlap") != 0 for stage in (194, 195, 197))
         or source["selection"].get("prior_semantic_near_duplicate_overlap_status")
         != "NOT_MEASURED"
@@ -852,7 +854,7 @@ def source_contract(source: dict[str, Any]) -> None:
         or equivalence.get("all_target_uuids_resolved") is not True
         or equivalence.get("unresolved_target_uuids") != []
         or any(row["status"] == "UNRESOLVED" for row in equivalence["target_uuid_resolution"])
-        or len(selected_identities) != 14
+        or len(selected_identities) != 12
         or {row["item_id"] for row in selected_identities}
         != {item["item_id"] for item in items}
         or set(inventory.get("counts") or {}) != {
@@ -867,8 +869,8 @@ def source_contract(source: dict[str, Any]) -> None:
             "prose_manufacturers",
         }
         or set(reserve) != set(inventory["counts"])
-        or inventory["counts"]["documents"] < 14
-        or inventory["counts"]["manufacturers"] < 14
+        or inventory["counts"]["documents"] < 12
+        or inventory["counts"]["manufacturers"] < 12
     ):
         raise RuntimeError("S198 fresh source contract failed")
     for item in items:
@@ -883,8 +885,10 @@ def frozen_runtime_inputs() -> dict[str, str]:
     inputs = {
         "design": "evals/s198_point_first_scope_design_v1.md",
         "frontier_adjudication": "evals/s198_point_first_scope_frontier_adjudication_v1.json",
+        "population_addendum": "evals/s198_exhaustion_aware_population_addendum_v1.md",
+        "population_no_go": "evals/s198_fresh_population_no_go_v1.json",
         "question_canary_result": "evals/s198_question_schema_canary_result_v1.json",
-        "fresh_source_packet": "evals/s198_fresh_source_packet_v1.json",
+        "fresh_source_packet": "evals/s198_fresh_source_packet_v2.json",
         "source_builder": "scripts/s198_build_fresh_source_packet.py",
         "source_builder_tests": "tests/test_s198_fresh_source_packet.py",
         "runner": "scripts/s198_point_first_scope_gate.py",
@@ -921,7 +925,7 @@ def validate_authorization(prereg_path: Path, permit_path: Path) -> dict[str, An
     prereg = yaml.safe_load(prereg_path.read_text(encoding="utf-8"))
     permit = yaml.safe_load(permit_path.read_text(encoding="utf-8"))
     exact = {
-        "instrument": "s198_point_first_scope_prereg_v1",
+        "instrument": "s198_point_first_scope_prereg_v2",
         "status": "FROZEN_BEFORE_PAID_EXECUTION",
         "models": EXPECTED_MODELS,
         "sdk": EXPECTED_SDK,
@@ -950,12 +954,12 @@ def validate_authorization(prereg_path: Path, permit_path: Path) -> dict[str, An
         if prereg["frozen_inputs"][key]["sha256"] != file_sha(ROOT / relative):
             raise RuntimeError(f"S198 frozen input drift: {key}")
     expected_permit = {
-        "instrument": "s198_point_first_scope_execution_permit_v1",
+        "instrument": "s198_point_first_scope_execution_permit_v2",
         "status": "EXECUTION_GO_PAID_BOUNDED_NO_RETRY",
         "authority": "user_requested_continue_toward_more_facts_ok",
         "limits": {
-            "paid_calls_max": 56,
-            "provider_requests_max": 112,
+            "paid_calls_max": 48,
+            "provider_requests_max": 96,
             "retries": 0,
             "internal_ceiling_usd": 3,
             "frontier_execution_calls": 0,
@@ -974,7 +978,7 @@ def validate_authorization(prereg_path: Path, permit_path: Path) -> dict[str, An
         if permit.get(key) != value:
             raise RuntimeError(f"S198 permit {key} contract drift")
     required_permit = {
-        "preregistration": "evals/s198_point_first_scope_prereg_v1.yaml",
+        "preregistration": "evals/s198_point_first_scope_prereg_v2.yaml",
         "runner": "scripts/s198_point_first_scope_gate.py",
         "gate_tests": "tests/test_s198_point_first_scope_gate.py",
     }
@@ -1022,7 +1026,7 @@ def _checkpoint_hashes() -> dict[str, str]:
 
 def seal_failure(abort: StageAbort) -> dict[str, Any]:
     body = {
-        "instrument": "s198_point_first_scope_gate_v1",
+        "instrument": "s198_point_first_scope_gate_v2",
         "status": abort.status,
         "failure": {
             "stage": abort.stage,
@@ -1211,7 +1215,7 @@ def _finalize(
     }
     passed = status == "GO_POINT_FIRST_SCOPE_BOUND_COHORT_SEALED"
     cohort_body = {
-        "instrument": "s198_point_first_scope_screened_cohort_v1",
+        "instrument": "s198_point_first_scope_screened_cohort_v2",
         "status": "SEALED_QUALIFIED_PACKAGE" if passed else "SEALED_REJECTED_PACKAGE",
         "source_packet_sha256": file_sha(SOURCE),
         "population_checks": population,
@@ -1238,7 +1242,7 @@ def _finalize(
         replace=False,
     )
     body = {
-        "instrument": "s198_point_first_scope_gate_v1",
+        "instrument": "s198_point_first_scope_gate_v2",
         "status": status,
         "package_qualification_not_component_causal_isolation": True,
         "population_checks": population,
@@ -1334,7 +1338,7 @@ def _execute_once(
     write_json_exclusive(
         DEFAULT_LOCK,
         {
-            "instrument": "s198_point_first_scope_execution_lock_v1",
+            "instrument": "s198_point_first_scope_execution_lock_v2",
             "status": "LOCKED_BEFORE_PROVIDER_REQUEST",
             "created_at": datetime.now(timezone.utc).isoformat(),
             "execution_owner_token": owner,
@@ -1387,7 +1391,7 @@ def _execute_once(
     worst_total += point_worst
     _prepaid(
         DEFAULT_POINT_AUTHOR_PREPAID,
-        "s198_point_author_prepaid_v1",
+        "s198_point_author_prepaid_v2",
         point_model,
         resolved_sdk["anthropic"],
         point_counted_total,
@@ -1454,7 +1458,7 @@ def _execute_once(
         )
         _write_receipt_progress(
             DEFAULT_POINT_AUTHOR_RECEIPTS,
-            "s198_point_author_receipts_v1",
+            "s198_point_author_receipts_v2",
             point_model["id"],
             resolved_sdk["anthropic"],
             point_author_receipts,
@@ -1464,7 +1468,7 @@ def _execute_once(
         )
     _write_receipt_progress(
         DEFAULT_POINT_AUTHOR_RECEIPTS,
-        "s198_point_author_receipts_v1",
+        "s198_point_author_receipts_v2",
         point_model["id"],
         resolved_sdk["anthropic"],
         point_author_receipts,
@@ -1526,7 +1530,7 @@ def _execute_once(
     worst_total += point_screen_worst
     _prepaid(
         DEFAULT_POINT_SCREEN_PREPAID,
-        "s198_point_screen_prepaid_v1",
+        "s198_point_screen_prepaid_v2",
         screen_model,
         resolved_sdk["openai"],
         point_screen_counted,
@@ -1597,7 +1601,7 @@ def _execute_once(
         )
         _write_receipt_progress(
             DEFAULT_POINT_SCREEN_RECEIPTS,
-            "s198_point_screen_receipts_v1",
+            "s198_point_screen_receipts_v2",
             screen_model["id"],
             resolved_sdk["openai"],
             point_screen_receipts,
@@ -1607,7 +1611,7 @@ def _execute_once(
         )
     _write_receipt_progress(
         DEFAULT_POINT_SCREEN_RECEIPTS,
-        "s198_point_screen_receipts_v1",
+        "s198_point_screen_receipts_v2",
         screen_model["id"],
         resolved_sdk["openai"],
         point_screen_receipts,
@@ -1666,7 +1670,7 @@ def _execute_once(
     worst_total += writer_worst
     _prepaid(
         DEFAULT_QUESTION_WRITER_PREPAID,
-        "s198_question_writer_prepaid_v1",
+        "s198_question_writer_prepaid_v2",
         writer_model,
         resolved_sdk["anthropic"],
         writer_counted,
@@ -1729,7 +1733,7 @@ def _execute_once(
         )
         _write_receipt_progress(
             DEFAULT_QUESTION_WRITER_RECEIPTS,
-            "s198_question_writer_receipts_v1",
+            "s198_question_writer_receipts_v2",
             writer_model["id"],
             resolved_sdk["anthropic"],
             writer_receipts,
@@ -1739,7 +1743,7 @@ def _execute_once(
         )
     _write_receipt_progress(
         DEFAULT_QUESTION_WRITER_RECEIPTS,
-        "s198_question_writer_receipts_v1",
+        "s198_question_writer_receipts_v2",
         writer_model["id"],
         resolved_sdk["anthropic"],
         writer_receipts,
@@ -1798,7 +1802,7 @@ def _execute_once(
     worst_total += qscreen_worst
     _prepaid(
         DEFAULT_QUESTION_SCREEN_PREPAID,
-        "s198_question_screen_prepaid_v1",
+        "s198_question_screen_prepaid_v2",
         qscreen_model,
         resolved_sdk["openai"],
         qscreen_counted,
@@ -1869,7 +1873,7 @@ def _execute_once(
         )
         _write_receipt_progress(
             DEFAULT_QUESTION_SCREEN_RECEIPTS,
-            "s198_question_screen_receipts_v1",
+            "s198_question_screen_receipts_v2",
             qscreen_model["id"],
             resolved_sdk["openai"],
             question_screen_receipts,
@@ -1879,7 +1883,7 @@ def _execute_once(
         )
     _write_receipt_progress(
         DEFAULT_QUESTION_SCREEN_RECEIPTS,
-        "s198_question_screen_receipts_v1",
+        "s198_question_screen_receipts_v2",
         qscreen_model["id"],
         resolved_sdk["openai"],
         question_screen_receipts,
