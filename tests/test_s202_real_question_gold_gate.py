@@ -4,10 +4,15 @@ import copy
 import json
 
 import pytest
+import yaml
 
 from scripts.s165_answer_archetype_ledger import stable_sha
 from scripts.s202_build_real_question_gold_packet import build_packet
-from scripts.s202_real_question_gold_gate import chunks_v3_lane, verified_units
+from scripts.s202_real_question_gold_gate import (
+    benchmark_fact_claim,
+    chunks_v3_lane,
+    verified_units,
+)
 from src.rag.source_unit_gold import (
     FORBIDDEN_PROVIDER_KEYS,
     POINT_SLOTS,
@@ -101,6 +106,28 @@ def test_fresh_packet_evidence_units_reconstruct_exactly():
         units = verified_units(item)
         assert units
         assert len({unit.unit_id for unit in units}) == len(units)
+
+
+def test_all_43_frozen_facts_normalize_from_versioned_s100_shapes():
+    frozen = json.loads(
+        open("evals/s202_real_question_gold_packet_v1.json", encoding="utf-8").read()
+    )
+    baseline = yaml.safe_load(
+        open("evals/s100_factlevel_full.yaml", encoding="utf-8").read()
+    )
+    by_qid = {str(row["qid"]): row for row in baseline["per_gold"]}
+    claims = [
+        benchmark_fact_claim(fact)
+        for item in frozen["items"]
+        for fact in by_qid[item["qid"]]["facts"]
+    ]
+    assert len(claims) == 43
+    assert all(claims)
+    assert any(
+        "valor" in fact and "texto" not in fact
+        for item in frozen["items"]
+        for fact in by_qid[item["qid"]]["facts"]
+    )
 
 
 def test_anthropic_transport_is_static_rectangular_and_source_independent():

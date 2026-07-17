@@ -8,7 +8,7 @@ frozen_inputs:
   design: {path: evals/s202_real_question_gold_design_v1.md, sha256: db5bbbba16894dbd5c7c67e974d3ea9e7cb1bf486277227eff3c484fbf74ec21}
   real_question_packet: {path: evals/s202_real_question_gold_packet_v1.json, sha256: f1a235af86b2f093aa96a9bd06677a018f8224846b9ddde67ecc4ba85fab8af4}
   packet_builder: {path: scripts/s202_build_real_question_gold_packet.py, sha256: 78d49526fb9ec6be40de88c15f32dcab07103bdc310490e4dac50b5dab2260cf}
-  runner: {path: scripts/s202_real_question_gold_gate.py, sha256: 920bd0766b20ba534169e4ffca6275d21aae0bead152bf4ef23da82fc2ad17a3}
+  runner: {path: scripts/s202_real_question_gold_gate.py, sha256: 3c6ec119342cdd6d482dd1df5b6df8a0d643536b6ad41696bbb2933bbacd5e44}
   reusable_gold_contract: {path: src/rag/source_unit_gold.py, sha256: 5b9e272b8c3305f63766aa1eea6557b3d0017a73d4674753109f79b77110b571}
   evidence_unitizer: {path: src/rag/evidence_units_v2.py, sha256: c80498f59452280f7630411b1740664c8ec946a5e3a6511441d6140f88727eab}
   base_evidence_unitizer: {path: src/rag/evidence_units.py, sha256: cb4fd3a89cacb758cbbf257561caacfa12608711177d0de2d44c18c2559e9e64}
