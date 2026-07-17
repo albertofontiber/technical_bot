@@ -1,0 +1,53 @@
+instrument: s174_prerequisite_blind_adjudication_prereg_v1
+status: FROZEN_BEFORE_AUDIT_PACKET_CONTENT_INSPECTION
+
+input:
+  path: evals/s174_prerequisite_corpus_census_v1.json
+  sha256: ba9162cb05de0d125723a747830e7017e17462ce775e8ddb3e3a89e8d03e1774
+  target_sources_excluded: true
+
+selection_without_quote_inspection:
+  access_prerequisite:
+    strategy: two_lexicographically_smallest_candidate_ids_per_manufacturer
+    expected_manufacturers: 10
+    expected_candidates: 20
+  quantified_entitlement:
+    strategy: all_candidates
+    expected_manufacturers: 2
+    expected_candidates: 18
+  final_order: sha256_of_candidate_id_with_seed_s174_blind_v1
+  candidate_cap_after_selection: 38
+
+adjudication_labels:
+  access_true_positive: >-
+    The exact quote states that an access level, login, password or authorization
+    is required before or in order to perform a concrete technical operation,
+    configuration, installation, test or maintenance action. The condition and
+    governed action must be bound in the same quote.
+  quantified_entitlement_true_positive: >-
+    The exact quote states a licence requirement and explicitly binds its
+    distributive scope to each/per loop, circuit, channel, panel, device or site.
+  false_positive:
+    - password_or_access_level_description_without_governed_technical_action
+    - administrative_RMA_or_commercial_authorization
+    - licensing_copyright_or_credential_boilerplate
+    - anchors_belong_to_unrelated_sentences
+    - ambiguous_subject_action_or_distributive_scope
+
+gate_for_frontier_validation:
+  access_true_positives_min: 3
+  access_manufacturers_min: 3
+  quantified_entitlement_true_positives_min: 2
+  quantified_entitlement_manufacturers_min: 2
+  exact_source_receipts: 1.0
+  false_positive_runtime_release_max: 0
+  note: >-
+    Passing applicability only authorizes a separate validation of the runtime
+    selector against positives and hard negatives; it does not release serving.
+
+resources:
+  model_calls: 0
+  network_calls: 0
+  database_calls: 0
+  production_changes: 0
+
