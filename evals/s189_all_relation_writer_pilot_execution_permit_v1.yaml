@@ -1,0 +1,19 @@
+instrument: s189_all_relation_writer_pilot_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_NO_RETRY
+
+authority:
+  user_budget_ceiling_usd: 250
+  local_internal_ceiling_usd: 1.0
+  scope: four_call_development_screen_only
+
+frozen_artifacts:
+  preregistration: {path: evals/s189_all_relation_writer_pilot_prereg_v1.yaml, sha256: 87e09b90f9c21fcfed08f085d3828196b818f59a43fa2b59f362732b978c74be}
+  runner: {path: scripts/s189_all_relation_writer_pilot.py, sha256: da5d10213b79e2e4b557c7d9db73fea0661c6a3ad850f0a7b653824716fbda08}
+
+limits:
+  provider_calls_max: 4
+  retries: 0
+  target_questions: 0
+  database_writes: 0
+  runtime_changes: 0
+  production_changes: 0

@@ -1,0 +1,99 @@
+{
+  "instrument": "s189_all_relation_writer_pilot_receipts_v1",
+  "status": "PAID_CHECKPOINT_COMPLETE",
+  "model": "claude-sonnet-4-6",
+  "receipts": [
+    {
+      "item_id": "s147_src_01",
+      "response_id": "msg_011Cd7AFKYMzcRECpuwzhmPs",
+      "created_at": "2026-07-17T06:31:32.084193+00:00",
+      "counted_input_tokens": 11292,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 11292,
+        "output_tokens": 545,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.042051,
+      "stop_reason": "end_turn",
+      "answer": "## Configuración de SW4, SW5 y SW6 — Modo Coincidencia (ambos sensores)\n\nPara que la alarma se active **únicamente cuando AMBOS sensores entran en alarma simultáneamente** (modo coincidencia), la configuración correcta es:\n\n- **SW4: ON (1)**\n- **SW5: OFF (0)**\n- **SW6: OFF (0)**\n\nEs decir, posición **1 - 0 - 0** [F1].\n\n---\n\n### Comportamiento en modo coincidencia (1-0-0)\n\nCon esta configuración, el comportamiento del sistema es el siguiente [F1]:\n\n- **Estado Normal:** Normal\n- **Fallo solo:** Fallo\n- **Solo Sensor 1 en alarma:** **Normal** (no activa alarma)\n- **Solo Sensor 2 en alarma:** **Alarma** (activa alarma)\n- **Fallo + Sensor 1 en alarma:** Fallo\n- **Fallo + Sensor 2 en alarma:** Alarma\n\n> ⚠️ **Nota importante sobre la tabla:** El fragmento recuperado muestra la fila de coincidencia tal como aparece en el manual. La columna \"Alarm2 Sens\" indica \"Alarm\" en modo coincidencia — cito el fragmento textualmente sin interpretar la lógica interna de la tabla más allá de lo que el texto literal establece [F1].\n\n---\n\n### Referencia: modo contrario (cualquier sensor)\n\nA modo de contraste, si se requiere alarma cuando **CUALQUIERA** de los dos sensores entra en alarma, la configuración sería **SW4: OFF, SW5: ON, SW6: ON** → posición **0 - 1 - 1** [F1].\n\n---\n\n**Fuente:** 997-528-000-1 (sin revisión registrada) — ID-50, sección INDICATIONS OF ALARM AND FAULT CONDITIONS\n\n---\n\nTambién puedo ayudarte con: **conexionado de terminales J14 y J15**, **comportamiento en caso de fallo en el NAS-2** o **resistencia interna de 18 kΩ en condición de alarma**."
+    },
+    {
+      "item_id": "s147_src_04",
+      "response_id": "msg_011Cd7AGGWL3BdRwVtckyq3p",
+      "created_at": "2026-07-17T06:31:39.086956+00:00",
+      "counted_input_tokens": 10482,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 10482,
+        "output_tokens": 243,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.035091,
+      "stop_reason": "end_turn",
+      "answer": "La sensibilidad de humo para el **Nivel 3** del detector **FAAST LT-200** es [F1]:\n\n- **0,05 % obs/pie** (% obs/ft)\n- **0,16 % obs/metro** (% obs/m)\n\n> **Nota:** Esta configuración de niveles aplica únicamente a las versiones *Stand Alone* del LT-200 [F1]. Además, el Nivel 3 está disponible tanto en modo autónomo como en **PipeIQ** (solo los Niveles 1 a 5 son utilizables en PipeIQ) [F1].\n\n---\n\nFuente: I56-3888-010 FAAST LT-200 Adv Guide (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **configuración del nivel de pre-alarma**, **modo Day/Night** o **lógica OR/AND en la versión de cámara común** del LT-200."
+    },
+    {
+      "item_id": "s147_src_08",
+      "response_id": "msg_011Cd7AGnjkef5WTW3i5Snx5",
+      "created_at": "2026-07-17T06:31:54.522341+00:00",
+      "counted_input_tokens": 10845,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 10845,
+        "output_tokens": 759,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.04392,
+      "stop_reason": "end_turn",
+      "answer": "# Calibración con cable líder en LocatorPlus\n\nEl procedimiento de calibración cuando hay un **cable líder** (leader cable) conectado entre el cable de detección lineal de calor (LHD) y el LocatorPlus es el siguiente:\n\n---\n\n## Pasos previos al proceso de calibración\n\n1. **Cablear la unidad** según el diagrama de cableado y encender el dispositivo. El equipo mostrará una pantalla con el número de revisión del software [F1].\n\n2. En el menú inicial, seleccionar **New Configs** (o Load Configs si ya estaba configurado previamente) [F1].\n\n3. **Seleccionar el modo de operación** (Independent o Interlock) [F1].\n\n4. **Seleccionar el tipo de cable** conectado a la zona correspondiente: **68°C / 88°C / 105°C / 185°C** [F1].\n\n---\n\n## Pasos específicos con cable líder\n\n5. Cuando el sistema pregunte si hay cable líder conectado entre el cable LHD y el LocatorPlus para esa zona, **pulsar el botón Select y seleccionar \"Yes\"**. Pulsar el botón **Set** para continuar [F1].\n\n6. El controlador preguntará si la zona está lista para calibrar. En este punto:\n   - El cable líder debe estar **conectado al LocatorPlus**\n   - El extremo del cable líder debe estar **cortocircuitado en el punto donde conecta con el inicio (START) del cable LHD**\n   - Una vez hecho esto, pulsar el botón **Set** [F1].\n\n7. El **LocatorPlus mostrará en pantalla la caída de tensión** a través del cable líder [F1].\n\n8. **Retirar el cortocircuito** del cable líder y **conectarlo al inicio (START) del cable LHD** de forma normal [F1].\n\n---\n\n## Pasos posteriores a la calibración\n\n9. Seleccionar si las salidas de alarma de ambas zonas deben ser **latching (Yes/No)**. Si se selecciona \"Yes\", para resetear tras una alarma se requerirá interrumpir la alimentación un mínimo de **10 s** o pulsar el botón **Set** [F1].\n\n10. Seleccionar si la salida **Modbus RTU** debe estar habilitada. Si no se habilita, avanzar al paso 17 [F1].\n\n---\n\n> **Nota:** Si el cable LHD está conectado **directamente** al LocatorPlus (sin cable líder), en el paso 5 se debe seleccionar **\"No\"** y pulsar **Set** para continuar [F1].\n\n---\n\n**Fuente:** LocatorPlus Installation Manual (rev. sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **configuración del modo Interlock**, **selección del tipo de cable LHD por temperatura** o **configuración de la salida Modbus RTU** del LocatorPlus."
+    },
+    {
+      "item_id": "s147_src_11",
+      "response_id": "msg_011Cd7AHzZS42uSB9RcHRqvx",
+      "created_at": "2026-07-17T06:32:05.415449+00:00",
+      "counted_input_tokens": 12668,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 12668,
+        "output_tokens": 373,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.043599,
+      "stop_reason": "end_turn",
+      "answer": "Para garantizar el tipo de protección especificado del dispositivo **PA20**, en las aberturas de entrada de cable se deben instalar **prensaestopas (cable grommets) con protección tipo IP 66** [F1].\n\nEl manual especifica tres opciones válidas para la entrada de cable [F1]:\n\n- **Nipple de diafragma IP 66** (suministrado de serie con el equipo) [F1]\n- **Prensaestopas (cable gland) IP 66** (alternativa al nipple de diafragma) [F1]\n- **Conector M12 IP 66** con medida de brida **M20** (únicamente para versiones de baja tensión) [F1]\n\n**Condición crítica para garantizar IP 66 con el nipple de diafragma:**\nLa protección IP 66 solo queda garantizada cuando el embudo de la membrana apunta hacia el exterior (*funnel of membrane is pointing outward*) [F1]. Tras instalar el cable, se deben retirar los restos del diafragma [F1].\n\n---\n\nFuente: 085501946s\\_PA20\\_Installation-manual\\_D-GB-F-RU-IT (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **conexionado eléctrico del bloque de terminales X2**, **selección de tono mediante controles externos C1/C2** o **montaje y cierre correcto de la carcasa** del PA20."
+    }
+  ],
+  "cost": {
+    "actual_usd": 0.164661,
+    "worst_case_preflight_usd": 0.243861
+  }
+}
