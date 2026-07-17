@@ -1750,3 +1750,31 @@ validación explícita de conflictos. `chunks_v3` permanece en el resultado como
 S188 continúan como candidatos locales/default-off pendientes de generalización independiente.
 Railway es demo y no bloquea PR/merge con CI verde. Artefactos: `evals/s194_*`,
 `scripts/s194_*`, `tests/test_s194_*`.
+
+## DEC-104 — s195: cardinalidad limpia mediante slots, pero el schema dinámico excede el compilador de Haiku
+
+**Decisión.** S195 no reintenta S194. Se separa el contrato canónico (`support_unit_ids` de
+1–3 únicos) del transporte Anthropic, porque su dialecto de structured outputs solo admite
+`minItems` 0/1 y no compila `maxItems`/`uniqueItems`. El transporte usa cuatro slots de puntos y
+tres de soporte, IDs enumerados por excerpt, normalización determinista y un validador económico
+cross-provider Luna sobre los 14 ítems. Sol 5.6 xhigh fue el revisor principal; Fable 5 quedó
+`omitted_unavailable` por ausencia de ejecutor, sin recibo fingido.
+
+**Frescura y contrato.** Packet nuevo GET-only de `chunks_v2`: 25.090 filas, 14 documentos y
+fabricantes, 7 tabla + 7 prosa, cero overlap previo/S194/target/product-pair y cero equivalencia
+exacta de contenido/extracción. Se resolvieron 76 UUIDs target a 668 filas y se excluyeron 2.848
+filas equivalentes. El runner fija modelos, gates, presupuestos, artefactos y límites; usa locks
+exclusivos, `max_retries=0`, `store=False` en Luna y NO-GO con diagnóstico saneado para 400.
+
+**Resultado y STOP.** Los 14 token-count preflights Haiku pasaron. La primera inferencia fue
+rechazada antes de producir output: HTTP 400, request ID versionado, `Schema is too complex for
+compilation`. El checkpoint registra `completed_calls=0`; Luna, planner y targets no se abrieron.
+Estado `NO_GO_EXECUTION_CONTRACT_REJECTED`, facts movidos 0 y ningún crédito oficial/productivo.
+No se reutiliza el packet ni se relaja ningún gate. El planner descompuesto sigue `NOT_MEASURED`.
+
+**Siguiente trigger legítimo.** Probar primero un schema estático mínimo con un canary sintético
+separado. Debe conservar slots para máximos, retirar enums dinámicos/`$defs` y dejar pertenencia y
+unicidad de IDs al validador determinista. Solo tras una compilación real satisfactoria se congela
+otra cohorte fresca excluyendo S194+S195; luego Haiku→Luna y, si todo upstream pasa, planner
+downstream con 90/80/75 intactos. `chunks_v3` conserva
+`FINAL_NO_GO_CHUNKS_V3_WHOLESALE` sobre sus métricas de ranking; Railway no es gate de PR/merge.

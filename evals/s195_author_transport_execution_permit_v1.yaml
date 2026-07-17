@@ -1,0 +1,32 @@
+instrument: s195_author_transport_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_NO_RETRY
+authority: user_requested_autonomous_next_segment
+
+frozen_artifacts:
+  preregistration: {path: evals/s195_author_transport_prereg_v1.yaml, sha256: 6ceadafcf305e20b4a913860e2490b16f1c65467d5a6cd1df4ff6d6bf62ed9df}
+  runner: {path: scripts/s195_author_transport_gate.py, sha256: 4e1196edd3dbf12cd84fe64375492af651e53b974351ad069a051d7a4b9a99bd}
+  gate_tests: {path: tests/test_s195_author_transport_gate.py, sha256: 2448ebaf34dc2ff359ad093f1027419e2a83652ce563f03ebd073744881ced79}
+
+limits:
+  paid_calls_max: 28
+  provider_requests_max: 56
+  retries: 0
+  internal_ceiling_usd: 3
+  frontier_execution_calls: 0
+  database_calls: 0
+  database_writes: 0
+  production_changes: 0
+  chunks_v3_changes: 0
+  deployments: 0
+  pushes: 0
+
+stopping:
+  same_cohort_retry: forbidden
+  threshold_change_after_execution: forbidden
+  author_population_failure: NO_GO_WITHOUT_SEMANTIC_VALIDATOR
+  semantic_support_failure: NO_GO_WITHOUT_DOWNSTREAM_PLANNER
+  provider_incomplete_without_known_failure: HOLD_EXTERNAL_DEPENDENCY_INCOMPLETE
+  known_failure_before_provider_interruption: NO_GO_PRECEDENCE
+  provider_bad_request: NO_GO_EXECUTION_CONTRACT_REJECTED
+  downstream_planner: forbidden_in_s195
+  deployment_or_railway_gate: forbidden

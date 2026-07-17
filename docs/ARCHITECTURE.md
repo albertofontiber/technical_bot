@@ -67,6 +67,11 @@
 > facts movidos = 0. Los candidatos locales S172/S188 y `ANSWER_OBLIGATION_PLANNER` continúan
 > default-off; `chunks_v3` conserva `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`. Railway es demo y no es
 > gate de PR/merge;
+> **s195 (DEC-104): contrato de evaluación, todavía sin seam runtime** — el máximo de IDs quedó
+> estructuralmente representado mediante slots y se añadió validación semántica Luna prevista,
+> pero el schema dinámico por excerpt excedió la complejidad de compilación de Haiku antes de la
+> primera inferencia. Estado `NO_GO_EXECUTION_CONTRACT_REJECTED`, 0 outputs autor, Luna/planner/
+> targets cerrados y 0 facts. No cambia runtime, flags, DB, deploy ni el NO-GO wholesale de v3;
 > HyDE off; identidad de producto data-driven
 > (`config/manufacturers/` + sidecar). El registry cierra #43-capa-A (la query del base no
 > arrastra HERMANOS; las variantes VEN los docs de serie). **s64 (DEC-045): el lifecycle es

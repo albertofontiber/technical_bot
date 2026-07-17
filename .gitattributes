@@ -38,6 +38,12 @@ evals/orthogonal_* -text
 src/rag/source_identity_attestation.py -text
 src/rag/technical_obligations.py -text
 
+# S195 pins execution-time SHA-256 receipts and frozen authority artifacts.
+# Preserve the exact LF bytes produced by the sealed run on every platform.
+evals/s195_* -text
+scripts/s195_* -text
+tests/test_s195_* -text
+
 # CRLF is part of some frozen receipt bytes; do not report it as whitespace.
 evals/s13[7-9]_* whitespace=-blank-at-eof,cr-at-eol
 scripts/s13[7-9]_* whitespace=-blank-at-eof,cr-at-eol
@@ -48,3 +54,6 @@ tests/test_s14[0-9]_* whitespace=-blank-at-eof,cr-at-eol
 evals/s15[0-9]_* whitespace=-blank-at-eof,cr-at-eol
 scripts/s15[0-9]_* whitespace=-blank-at-eof,cr-at-eol
 tests/test_s15[0-9]_* whitespace=-blank-at-eof,cr-at-eol
+evals/s195_* whitespace=-blank-at-eof,cr-at-eol
+scripts/s195_* whitespace=-blank-at-eof,cr-at-eol
+tests/test_s195_* whitespace=-blank-at-eof,cr-at-eol

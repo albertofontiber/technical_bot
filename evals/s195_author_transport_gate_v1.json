@@ -1,0 +1,43 @@
+{
+  "instrument": "s195_author_transport_gate_v1",
+  "status": "NO_GO_EXECUTION_CONTRACT_REJECTED",
+  "failure": {
+    "exception_type": "BadRequestError",
+    "provider_message_persisted": true,
+    "provider_error": {
+      "status_code": 400,
+      "request_id": "req_011Cd7fhSviHCGkSfDeitTjp",
+      "error_type": "invalid_request_error",
+      "error_code": null,
+      "message": "Schema is too complex for compilation. Try reducing the number of tools or simplifying tool schemas."
+    },
+    "completed_checkpoint_artifacts": {
+      "evals/s195_author_transport_receipts_v1.json": "6275ac58b7f85001ccefebb84fcdafffdfdc27a70036b3ab5c5449f2c436f933"
+    }
+  },
+  "chunks_v3_lane": {
+    "status": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "baseline": {
+      "chunks_v2_recall_at_10": "16/24",
+      "chunks_v3_recall_at_10": "16/24",
+      "chunks_v2_mrr": 0.4021,
+      "chunks_v3_mrr": 0.3694
+    },
+    "changed_by_s195": false,
+    "migration_or_materialization": false,
+    "next_trigger": "structural_v4_hypothesis_improves_ranking_without_manufacturer_or_heldout_loss",
+    "per_question_patching": false
+  },
+  "decision": {
+    "same_cohort_retry": false,
+    "downstream_opened": false,
+    "runtime_integration": false,
+    "production": false,
+    "official_fact_credit": 0,
+    "railway_deploy_gate": false
+  },
+  "cost": {
+    "status": "PARTIAL_SEE_CHECKPOINT_RECEIPTS"
+  },
+  "result_sha256": "df8f0c576787bff7fb7d2a7ce9eb83ff2b71ea3ac3fdf65654368a7ebeb1a7d3"
+}

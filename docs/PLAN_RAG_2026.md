@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 17 jul 2026 (s194 — cohorte fresca del planificador descompuesto; NO-GO upstream sin abrir targets).
+> 17 jul 2026 (s195 — transporte de autor validado en fresco; NO-GO de compilación antes de inferencia).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -22,7 +22,7 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s194 — 17 jul 2026)
+## Estado actual (s195 — 17 jul 2026)
 
 **La foto diagnóstica comparable más reciente es 157 facts: 143 OK · 12 synthesis-miss ·
 2 retrieval-miss = 91,08% OK, gap 7 facts hasta 95%.** No es todavía un KPI atómico oficial ni
@@ -59,6 +59,26 @@ estructurado del autor describía `support_unit_ids` como array, pero no imponí
 si se prioriza, debe corregir ese contrato **antes** de congelar otra cohorte documental nueva;
 no reutilizar outputs ni tocar el selector S193 sobre poblaciones ya observadas.
 
+**S195 corrigió la clase de cardinalidad, pero destapó el siguiente límite upstream y también
+se cerró sin mover facts.** Anthropic no admite `maxItems`/`uniqueItems` en el dialecto compilado,
+por lo que se separó el contrato canónico exacto de un transporte sin arrays: cuatro slots de
+puntos y tres slots de soporte por punto, con IDs ligados al documento, normalización determinista
+y validación semántica externa Luna prevista para los 14 ítems. Sol 5.6 xhigh revisó el diseño;
+Fable 5 quedó `omitted_unavailable` porque no existe ejecutor en este entorno. La cohorte fue
+enteramente nueva y excluyó S194: 25.090 filas GET-only, 14 documentos/fabricantes, 7+7, cero
+overlap previo/target y cero equivalencia exacta de contenido/extracción. Los 14 conteos de tokens
+pasaron, pero la primera inferencia Haiku fue rechazada con 400
+`Schema is too complex for compilation`; `max_retries=0`, checkpoint previo, **0 inferencias
+completadas**, Luna 0 llamadas y targets/planner cerrados. Estado:
+`NO_GO_EXECUTION_CONTRACT_REJECTED`; crédito de facts 0. No se reutiliza S195.
+
+La siguiente reapertura legítima ya no es “añadir keywords” ni simplificar sobre la población
+observada. Debe probar primero, con un canary sintético separado, un schema estático mínimo que
+compile realmente; después congelar otra cohorte nueva que excluya S194+S195. La simplificación
+preferida conserva slots estructurales para los máximos y mueve pertenencia/duplicados de IDs al
+validador determinista, evitando enums dinámicos y `$defs`. Solo si autoría + validación semántica
+externa pasan se abre en otro tramo el planner con 90/80/75 intactos.
+
 **`chunks_v3` no se migra al completo.** S140 cerró el shadow representativo como
 `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`: empata recall funcional@10 (16/24 vs 16/24) pero empeora el
 primer rango útil/MRR (0,4021→0,3694). `chunks_v2` sigue siendo el baseline activo. V3 preserva
@@ -77,15 +97,16 @@ calibrado frente a una cohorte con 48 estratos de intención técnica y produjo 
 umbral post hoc ni se llamó a Sol/Fable. La calidad del clasificador queda sin medir; el diseño BP
 sigue siendo un registro ligado a documento+revisión+página+hash, independiente del chunker.
 
-**Producción no ha cambiado en este bloque.** No se ha hecho push, deploy, migración ni escritura
+**Producción no ha cambiado en este bloque.** No se ha hecho deploy, migración ni escritura
 remota. Railway sigue siendo una demo y no es condición para merge con CI verde. Próximos pasos,
-por orden: (1) si síntesis sigue priorizada, congelar **otra** cohorte documental fresca solo tras
-sellar la cardinalidad en el schema del autor; (2) exigir el mismo gate 90% recall / 80% precisión /
-75% completas y abrir targets únicamente si pasa; (3) solo después integrar el compilador en un
-seam runtime default-off y ejecutar regresión completa; (4) validar de forma independiente
-S172/S188 antes de producción; (5) rehacer imagen con controles negativos balanceados cuando se
-repriorice; (6) recoger 30 audios reales antes de comparar ASR. El funnel se conserva por etapa:
-S193 mantiene señal de renderer; S194 es NO-GO upstream y ambos tienen crédito de facts cero.
+por orden: (1) cerrar S195 en PR y, si síntesis sigue priorizada, validar con canary sintético un
+transporte estático mínimo que compile; (2) solo después congelar **otra** cohorte documental fresca
+que excluya S194+S195 y exigir autoría + arbitraje semántico externo; (3) mantener 90% recall /
+80% precisión / 75% completas y abrir targets únicamente si ese upstream pasa; (4) solo después integrar el compilador en un
+seam runtime default-off y ejecutar regresión completa; (5) validar de forma independiente
+S172/S188 antes de producción; (6) rehacer imagen con controles negativos balanceados cuando se
+repriorice; (7) recoger 30 audios reales antes de comparar ASR. El funnel se conserva por etapa:
+S193 mantiene señal de renderer; S194 y S195 son NO-GO upstream y los tres tienen crédito de facts cero.
 
 ## Estado anterior (s129 — 15 jul 2026)
 
