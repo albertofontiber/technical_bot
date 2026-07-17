@@ -1,0 +1,42 @@
+instrument: s176_deterministic_evidence_card_gate_v1
+status: NO_GO_LOW_MARGINAL_COVERAGE
+
+measurement:
+  questions: 14
+  manufacturers: 14
+  answer_points: 37
+  baseline_points_covered: 26
+  candidate_points_covered: 27
+  point_gain: 1
+  baseline_questions_complete: 6
+  candidate_questions_complete: 6
+  complete_question_gain: 0
+  regressed_points: 0
+  invalid_citations: 0
+  source_span_failures: 0
+  selected_questions: 9
+  selected_units: 18
+  mean_appended_source_chars: 864.2222222222222
+
+decision:
+  deterministic_evidence_card_v1: CLOSED_NO_GO
+  tune_or_retry_same_cohort: false
+  adversarial_review: false
+  target_probe: false
+  runtime_or_production: false
+  facts_moved_to_ok: 0
+  rationale: >-
+    Exact extractive cards were safe but recovered only one of 37 points and no
+    complete question while adding 18 visible source units. The marginal
+    coverage does not justify the answer-length and field-readability cost.
+  synthesis_mechanism_search: STOP_PENDING_NEW_INDEPENDENT_EVIDENCE_OR_REPRESENTATION
+
+cost:
+  model_calls: 0
+  network_calls: 0
+  database_calls: 0
+  usd: 0
+
+authorization:
+  deploy: false
+  push: false
