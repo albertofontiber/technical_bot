@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 17 jul 2026 (S198 — point-first STOP estructural antes de Luna; facts 0).
+> 17 jul 2026 (S199 — point-first vuelve a parar antes de Luna; facts 0).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -132,6 +132,16 @@ los diez casos y la calidad semántica del mecanismo continúa `NOT_MEASURED`. E
 legítimo debe restaurar 14→mínimo 12 sobre documentos/source-files/pares nuevos, permitiendo sólo
 repetición histórica de fabricante y conservando 14 fabricantes distintos dentro de la cohorte.
 
+**S199 restauró 14 fuentes, pero el cuello poblacional persiste.** El inventario permitió 14
+documentos/source-files/pares nuevos, 7+7, pero un máximo de 13 fabricantes; se congeló una sola
+repetición sin usar outputs. Haiku produjo 14/14 outputs válidos, 9 elegibles de 9 fabricantes,
+4 tabla + 5 prosa y 34 puntos. El gate estructural volvió a parar antes de Luna/writer/planner por
+$0,083863 y facts 0. La reserva posterior conserva 647 documentos pero sólo 10 fabricantes: ya no
+puede cumplir el mínimo anterior de 12. Para evitar análisis indefinido queda un único intento
+final, prelimitado a 24 fuentes balanceadas (12+12), máximo 10 fabricantes, motor S198 intacto y
+mínimos 12 elegibles / 8 fabricantes / 5+5 / 24 puntos / cero fallos. Si no pasa, se cierra esta
+línea y se cambia de mecanismo; no se reutilizan identidades o issues de S198/S199.
+
 **`chunks_v3` no se migra al completo.** S140 cerró el shadow representativo como
 `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`: empata recall funcional@10 (16/24 vs 16/24) pero empeora el
 primer rango útil/MRR (0,4021→0,3694). `chunks_v2` sigue siendo el baseline activo. V3 preserva
@@ -152,15 +162,16 @@ sigue siendo un registro ligado a documento+revisión+página+hash, independient
 
 **Producción no ha cambiado en este bloque.** No se ha hecho deploy, migración ni escritura
 remota. Railway sigue siendo una demo y no es condición para merge con CI verde. Próximos pasos,
-por orden: (1) integrar el NO-GO S198 con CI verde; (2) congelar una última población de 14
-documentos/source-files/pares nuevos y 14 fabricantes distintos dentro de la cohorte, relajando
-sólo la novedad histórica de fabricante para recuperar margen 14→12; (3) ejecutar sin cambios el
-paquete point-first y exigir cero fallos en ambos screens; (4) mantener 90% recall / 80% precisión /
-75% completas y abrir targets únicamente si ese upstream pasa; (5) solo después integrar el
+por orden: (1) integrar el NO-GO S199 con CI verde; (2) congelar la última población point-first:
+24 documentos/source-files/pares nuevos, 12 tabla + 12 prosa, balanceados sobre el máximo de 10
+fabricantes restantes; (3) ejecutar sin cambios el motor S198 y exigir 12 elegibles, 8 fabricantes,
+5+5, 24 puntos y cero fallos en ambos screens; (4) mantener 90% recall / 80% precisión /
+75% completas y abrir targets únicamente si ese upstream pasa; si falla, cerrar esta línea sin
+otro ajuste; (5) solo después de un GO integrar el
 compilador en un seam runtime default-off y ejecutar regresión completa; (6) validar de forma
 independiente S172/S188 antes de producción; (7) rehacer imagen con controles negativos balanceados cuando se
 repriorice; (8) recoger 30 audios reales antes de comparar ASR. El funnel se conserva por etapa:
-S193 mantiene señal de renderer; S194, S195, S197 y S198 son NO-GO upstream, S196 y el canary
+S193 mantiene señal de renderer; S194, S195, S197, S198 y S199 son NO-GO upstream, S196 y el canary
 question-only son GO instrumentales y todos estos tramos siguen con crédito de facts cero.
 
 ## Estado anterior (s129 — 15 jul 2026)

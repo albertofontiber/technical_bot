@@ -1,0 +1,362 @@
+{
+  "instrument": "s199_point_author_receipts_v1",
+  "status": "COMPLETE",
+  "model": "claude-haiku-4-5-20251001",
+  "sdk": "0.97.0",
+  "sdk_max_retries": 0,
+  "completed_calls": 14,
+  "invalid_outputs": 0,
+  "receipts": [
+    {
+      "item_id": "s199_src_01",
+      "response_id": "msg_011Cd8D7VxJtqd9s7vHhZhBn",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 5661,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 5661,
+        "output_tokens": 157,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.006446,
+      "validation_error": null,
+      "point_author_input_sha256": "55f97999c272bc006f33b9754a1b3445498300690db275b85a85e7af934be058",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s199_src_01\",\"eligible\":false,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "88d74334a3349b871479fb72f3261a8bdff4622d78c4e653797a64f8b247c8b2"
+    },
+    {
+      "item_id": "s199_src_02",
+      "response_id": "msg_011Cd8D7mGJoXeofQGrG1BbV",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 5797,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 5797,
+        "output_tokens": 157,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.006582,
+      "validation_error": null,
+      "point_author_input_sha256": "a1e573c2e02d4d7e794a2bbcbc6aabbce5ef2bed01861658a714e0531f11a2c7",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s199_src_02\",\"eligible\":false,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "1aab5cbadafdc5a0801338312b53d0fd940ea6d7f042bf5aed2e955ff03d9ce7"
+    },
+    {
+      "item_id": "s199_src_03",
+      "response_id": "msg_011Cd8D7vvj8YqDMXGUyGWsq",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4761,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4761,
+        "output_tokens": 310,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.006311,
+      "validation_error": null,
+      "point_author_input_sha256": "57520f93000f075302eb1f465d30d247b407a3a39c7eb14b2dd75d968d00adea",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s199_src_03\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"Insert the PAK into either of the USB type A slots on the control panel main board\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E014_ab1b74d40a\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"Select Panel Setup, then select Panel Activ. Key on the control panel LCD\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E016_6c3f53d5c6\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"Select Register New PAK and confirm the PAK information details are correct\",\"facet\":\"verification_commissioning_or_recovery\",\"support_1\":\"E017_79fe7af127\",\"support_2\":\"E018_0df5fc38c3\",\"support_3\":\"\"},\"point_4\":{\"active\":true,\"claim\":\"Enable High-Power Loop in the control panel via Main Menu > Field Setup > High-Power Loop\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E023_3092fe4fba\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "66da86558c30ec873de56052197b15b69c46fbb0abb0df71f0d8e86f25133e0c"
+    },
+    {
+      "item_id": "s199_src_04",
+      "response_id": "msg_011Cd8D8EPhxwfy84gkNY5GX",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 3263,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3263,
+        "output_tokens": 283,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.004678,
+      "validation_error": null,
+      "point_author_input_sha256": "a50b2c172e3b8ff72d7a1a30c3ae505489470d742e36ec28b4f537dbaebb51d2",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s199_src_04\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"Do not over tighten the fixing screws during installation\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_1\":\"E008_b410f412f5\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"Avoid using lubricants, cleaning solvents, or petroleum-based products on the device\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_1\":\"E008_b410f412f5\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"The device operates at a maximum of 30VDC and 2A with an operating temperature range of -10°C to 55°C\",\"facet\":\"measurement_limit_or_timing\",\"support_1\":\"E007_a768f41d14\",\"support_2\":\"E018_4b2faf58b6\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "c24f04baf62ac21022e2aa9acd2e0b2007cc2bf652fdd8aa31c4df0b018c6ab7"
+    },
+    {
+      "item_id": "s199_src_05",
+      "response_id": "msg_011Cd8D8Ti9k9skbS3vPtwy1",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4490,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4490,
+        "output_tokens": 386,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.00642,
+      "validation_error": null,
+      "point_author_input_sha256": "148134d0507fe922a03e7dc815b5790adebbfe3e64888edde180c11591d2ba70",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s199_src_05\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"When the link-program switch is moved to position ON during power up with the device not linked, the green LED displays 0.5 second on followed by blinking red until power up completes.\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E008_537b62c09a\",\"support_2\":\"E021_65f8702483\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"During programming and linking to the system, the green LED blinks until linking and programming is completed.\",\"facet\":\"input_trigger_or_observed_condition\",\"support_1\":\"E010_9f14af4c18\",\"support_2\":\"E020_c7ccf8244c\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"When a main battery fault occurs, the red LED displays 0.5 second on and 10 seconds off.\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E014_62008f6b27\",\"support_2\":\"E027_5180baa94a\",\"support_3\":\"\"},\"point_4\":{\"active\":true,\"claim\":\"When both batteries fault, the LED displays 0.5 second green, 5 seconds off, then 0.5 second red.\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E017_37489b8f58\",\"support_2\":\"E029_43f65af044\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "c0e07463ebd2c97eea85b8504cb14c60bd77d65a764adb5f322386fd5a5ffa5f"
+    },
+    {
+      "item_id": "s199_src_06",
+      "response_id": "msg_011Cd8D8nD8iQK3of8BzyiPc",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4208,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4208,
+        "output_tokens": 314,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.005778,
+      "validation_error": null,
+      "point_author_input_sha256": "9429800158aebffcb7e3c854fb825022c4ccafccc45d1160171ff424861906cf",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s199_src_06\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"The VTB-32E operates within a voltage range of 21 to 28 Vdc\",\"facet\":\"measurement_limit_or_timing\",\"support_1\":\"E007_576053e156\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"Volume is factory set to high and tone is set to 11111 (Cranford sweep) upon delivery\",\"facet\":\"option_mode_or_default\",\"support_1\":\"E016_641f1b552f\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"A suitable gland for cable entry and sealant for screw mounting holes must be used to maintain IP integrity\",\"facet\":\"access_or_prerequisite\",\"support_1\":\"E020_a95594d878\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":true,\"claim\":\"Deep Base variant provides IP65 rating while Shallow Base variant provides IP43 rating\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E018_c9aab372a0\",\"support_2\":\"E019_aa05f0c124\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "4390309670c31f9822344d2ba2fa41e7f2957fade58de314a2ca64db1b89ef23"
+    },
+    {
+      "item_id": "s199_src_07",
+      "response_id": "msg_011Cd8D92NRfggkNXDHJgJ4X",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 6475,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 6475,
+        "output_tokens": 157,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.00726,
+      "validation_error": null,
+      "point_author_input_sha256": "aecc04e4685b8531b91261cf0ff9f37121b06fd5a5caa285627095569e5241a0",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s199_src_07\",\"eligible\":false,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "a4aa598a095336e2f95eb5a9e429f48a8e1b7828b203505d35aba3672b820bf6"
+    },
+    {
+      "item_id": "s199_src_08",
+      "response_id": "msg_011Cd8D9BGiKpM2EnJdL4azV",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 3170,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3170,
+        "output_tokens": 278,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.00456,
+      "validation_error": null,
+      "point_author_input_sha256": "a6f52fc71adfaad07d836e85bab265ff4f6c9e9a7f92e9f5358b233a88b4cd4e",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s199_src_08\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"The module must be installed by qualified or instructed personnel only.\",\"facet\":\"access_or_prerequisite\",\"support_1\":\"E015_c41cbc396f\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"Audio inputs and outputs must be disconnected while performing wiring connections and the equipment must be disconnected from power before cabling work begins.\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_1\":\"E016_7a4993859c\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"An ESD wrist strap must be worn on the wrist with the other end attached to unpainted metal inside the equipment before beginning module installation.\",\"facet\":\"access_or_prerequisite\",\"support_1\":\"E013_8778b53c5e\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "d13a87850b4b38c5e0a847f167c9d289e8d12f599482d357cd0f58fa413c86cc"
+    },
+    {
+      "item_id": "s199_src_09",
+      "response_id": "msg_011Cd8D9R8Q18rxDPYrG4irN",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4255,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4255,
+        "output_tokens": 157,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.00504,
+      "validation_error": null,
+      "point_author_input_sha256": "ed57255ea68a375b057363e99c945e539de345fc6302331694ebbafba27fc256",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s199_src_09\",\"eligible\":false,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "91f85e0a1031024abb6310c5b167d6b536815f345ed3949860c49feb173051ad"
+    },
+    {
+      "item_id": "s199_src_10",
+      "response_id": "msg_011Cd8D9ZqXEBnSgwiEuN4E7",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 3950,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3950,
+        "output_tokens": 344,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.00567,
+      "validation_error": null,
+      "point_author_input_sha256": "dafc8b7e015525820f41b507b0fec513bbacded999a0f2acd1ce9e6e21f6bcf8",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s199_src_10\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"Use only filtered DC power supply, not FWR (full wave rectified) power\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_1\":\"E001_b299113f97\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"Verify total current of all equipment does not exceed the central power supply capacity by consulting current consumption table\",\"facet\":\"verification_commissioning_or_recovery\",\"support_1\":\"E001_b299113f97\",\"support_2\":\"E017_259e6871b2\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"Select cable gauge appropriate to circuit length to maintain sufficient voltage at last device, accounting for voltage drop from cable resistance\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E002_72d1343e49\",\"support_2\":\"E004_129fe6d566\",\"support_3\":\"E005_d1860a0171\"},\"point_4\":{\"active\":true,\"claim\":\"Calculate voltage drop using cable resistance specifications and verify acceptable voltage at end of loop per central specifications\",\"facet\":\"measurement_limit_or_timing\",\"support_1\":\"E005_d1860a0171\",\"support_2\":\"E011_24574f0cc3\",\"support_3\":\"E014_370e56fdf0\"}}}",
+      "raw_text_sha256": "7579615042fa2ad1859d3575d3cf920f8eb20038f523e826962bffc44c118d33"
+    },
+    {
+      "item_id": "s199_src_11",
+      "response_id": "msg_011Cd8DA1bpU8dAK2wo6zXmu",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 5697,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 5697,
+        "output_tokens": 157,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.006482,
+      "validation_error": null,
+      "point_author_input_sha256": "36e5af572e03fd431eb383d27e39be6c088230574ca2e0484051bb8af3848d62",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s199_src_11\",\"eligible\":false,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "bb09b10351def7ec2ad1cf8934a5aebd943547413e0a8095fcba179131311ed9"
+    },
+    {
+      "item_id": "s199_src_12",
+      "response_id": "msg_011Cd8DABshta8fht766r4J6",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4276,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4276,
+        "output_tokens": 348,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.006016,
+      "validation_error": null,
+      "point_author_input_sha256": "50a3921364557221d8409c63395c6c66a352c91b1902b2dbc36b4d41e67ec936",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s199_src_12\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"Connect 24V positive to terminal 1 and negative to terminal 2 for power supply\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E005_893549364a\",\"support_2\":\"E006_a4f439911a\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"Activate manual test by momentarily connecting terminal 3 to terminal 2\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E007_911287a13b\",\"support_2\":\"E008_9b9952b92f\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"Alarm relay output uses terminals 6, 7, and 8 as SPDT contacts for N.A., common, and N.C. respectively\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E013_537cf950cd\",\"support_2\":\"E014_b1532ffc1f\",\"support_3\":\"\"},\"point_4\":{\"active\":true,\"claim\":\"Connect RS-485 communication network using terminal 13 as positive and terminal 14 as negative\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E020_d636de65fe\",\"support_2\":\"E021_0aa5c968cb\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "187fa9a69b22aaf7d8cc55a3dac5e32aa2277d28b98352fe83e78f45026d3d9c"
+    },
+    {
+      "item_id": "s199_src_13",
+      "response_id": "msg_011Cd8DAWhnTYAYgkqAwGjiY",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4589,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4589,
+        "output_tokens": 342,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.006299,
+      "validation_error": null,
+      "point_author_input_sha256": "8ad52e127ac8d8020e3fea93619d8d23f30b4f910dbc4f3eb0bda24eb245a4aa",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s199_src_13\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"Connect the mains power supply before connecting the batteries\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E008_9f5173d245\",\"support_2\":\"E009_1e3a29b5c0\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"Verify there are no short or open circuits using a voltmeter before connecting mains supply\",\"facet\":\"verification_commissioning_or_recovery\",\"support_1\":\"E005_f78c2d9cd2\",\"support_2\":\"E004_3df53c3788\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"Verify zone module circuits have 4k7 end of line resistors and sounder circuits have correct polarity with 4K7 EOL resistors\",\"facet\":\"verification_commissioning_or_recovery\",\"support_1\":\"E005_f78c2d9cd2\",\"support_2\":\"E004_3df53c3788\",\"support_3\":\"\"},\"point_4\":{\"active\":true,\"claim\":\"Press TAB to start the panel if turning it on with only battery connected\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E010_feeb9c61f2\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "da2b76a7afae9f039b4135703661df095bf812008d1c446193151147db00a529"
+    },
+    {
+      "item_id": "s199_src_14",
+      "response_id": "msg_011Cd8DArLV6Cdgkch5zRBJq",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4556,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4556,
+        "output_tokens": 353,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.006321,
+      "validation_error": null,
+      "point_author_input_sha256": "a0eb7d2228fa582edbeb857d856019ee5863c8b6c702e0c8dd091aec0066fbca",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s199_src_14\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"Disconnect power from the detector before maintenance work\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E008_c716752b03\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"Remove dust around pipe entries and disconnect all tubing from detector entries and exits, covering them to prevent contamination\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E009_9c32fd8b5e\",\"support_2\":\"E010_7466ee9f89\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"Reconnect tubing, reassemble filter and aspirator, and restore power to the detector\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E014_b21cf381ed\",\"support_2\":\"E015_18e9f5b1e6\",\"support_3\":\"E016_2624c57b4d\"},\"point_4\":{\"active\":true,\"claim\":\"Allow detector to run for 15 minutes in isolated mode and verify background smoke levels match previous maintenance records\",\"facet\":\"verification_commissioning_or_recovery\",\"support_1\":\"E017_c5bb6572c7\",\"support_2\":\"E020_93633603c0\",\"support_3\":\"E022_4a400f9a5c\"}}}",
+      "raw_text_sha256": "151fa61c1d751dec96c7bc44f01f567af7bed692c75857ceb24a4b126d63742a"
+    }
+  ],
+  "created_at": "2026-07-17T19:50:17.787749+00:00"
+}

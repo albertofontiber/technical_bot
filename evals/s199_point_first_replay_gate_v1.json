@@ -1,0 +1,231 @@
+{
+  "instrument": "s199_point_first_scope_gate_v1",
+  "status": "NO_GO_POINT_PLAN_STRUCTURAL_GATE",
+  "package_qualification_not_component_causal_isolation": true,
+  "population_checks": {
+    "eligible_items_gte_12": false,
+    "eligible_manufacturers_gte_12": false,
+    "table_items_gte_5": false,
+    "prose_items_gte_5": true,
+    "answer_points_gte_24": true,
+    "invalid_point_author_outputs_zero": true
+  },
+  "point_plan_semantic_checks": {
+    "all_items_cross_provider_screened": false,
+    "point_screen_invalid_outputs_zero": true,
+    "all_point_plans_pass_screen": false
+  },
+  "question_transport_checks": {
+    "question_writer_called_only_after_point_gate": true,
+    "all_eligible_questions_written": false,
+    "question_writer_invalid_outputs_zero": false
+  },
+  "question_scope_checks": {
+    "all_written_questions_cross_provider_screened": false,
+    "question_screen_invalid_outputs_zero": false,
+    "all_questions_pass_scope_screen": false
+  },
+  "failure_attribution": {
+    "single_luna_disagreement_is_weak_mechanism_evidence": true,
+    "question_writer_excerpt_withholding_context_starvation_possible": false
+  },
+  "eligible_inventory": {
+    "definition": "post_target_equivalence_post_all_prior_document_source_file_pair_and_generic_eligibility",
+    "counts": {
+      "chunk_rows": 8284,
+      "documents": 661,
+      "source_files": 661,
+      "manufacturer_product_pairs": 461,
+      "manufacturers": 13,
+      "table_documents": 473,
+      "prose_documents": 582,
+      "table_manufacturers": 12,
+      "prose_manufacturers": 10
+    },
+    "selected_identities": [
+      {
+        "item_id": "s199_src_01",
+        "document_id": "2f8e3c23-3d32-452f-a7ef-f1f3c6eca543",
+        "chunk_id": "813e1722-7377-4699-9914-913f3912f9d3",
+        "source_file": "ke-dp3120w-161721-es",
+        "manufacturer": "Kidde",
+        "product_model": "KE-DP3120W",
+        "stratum": "table"
+      },
+      {
+        "item_id": "s199_src_02",
+        "document_id": "8ed64d8a-03e0-4bb4-8543-4277efac35ee",
+        "chunk_id": "f422a178-0910-4015-a9a2-ff98fe48ed9e",
+        "source_file": "HLSI-MA-103 _Korte handleiding RP1r_Supra_NL",
+        "manufacturer": "Honeywell",
+        "product_model": "RP1r Supra",
+        "stratum": "table"
+      },
+      {
+        "item_id": "s199_src_03",
+        "document_id": "5ad516ee-c475-47ad-8221-72ca5d2a0307",
+        "chunk_id": "360dfd5c-f55d-46b6-8c17-78c3b154dd5c",
+        "source_file": "00-3301-501-4100-04_r004_2010-2a-pak-hpl_registration_guide_ml",
+        "manufacturer": "Aritech",
+        "product_model": "2010-2A-PAK-HPL",
+        "stratum": "table"
+      },
+      {
+        "item_id": "s199_src_04",
+        "document_id": "b431095e-e030-4557-8d6b-de959481c39d",
+        "chunk_id": "de552334-9af5-4510-8cc2-b4c0249deecf",
+        "source_file": "D 1129-1",
+        "manufacturer": "KAC",
+        "product_model": "MCP3A",
+        "stratum": "table"
+      },
+      {
+        "item_id": "s199_src_05",
+        "document_id": "49748810-b5d2-40f6-acee-2aa8f6e8126b",
+        "chunk_id": "c663e987-8555-4389-beac-abe4e8e5554f",
+        "source_file": "Instruction Manual SGCP100-IS ENG",
+        "manufacturer": "Argus Security",
+        "product_model": "SGCP100-IS",
+        "stratum": "table"
+      },
+      {
+        "item_id": "s199_src_06",
+        "document_id": "ac08957f-6488-4304-a8ec-173a7a4f08cd",
+        "chunk_id": "dcdd8bf3-c19f-430a-9664-24999ce2147b",
+        "source_file": "SFD-220_Manual_EN",
+        "manufacturer": "Pfannenberg",
+        "product_model": "DS109F",
+        "stratum": "table"
+      },
+      {
+        "item_id": "s199_src_07",
+        "document_id": "d4d1be3f-1109-4657-ac54-300276654270",
+        "chunk_id": "eda17e80-83a2-4c60-92fe-587ac6fb57b0",
+        "source_file": "GT-HLSI-1102 ITAC 2_1  25-02-2025 v4",
+        "manufacturer": "Notifier",
+        "product_model": "ITAC 2.0",
+        "stratum": "table"
+      },
+      {
+        "item_id": "s199_src_08",
+        "document_id": "eb11141d-9b4a-41b9-885d-1c1a52c95d69",
+        "chunk_id": "08f0385c-930a-4a7c-a763-ea544d536739",
+        "source_file": "ONELOOPxxS01-MU-ES - MANUAL DE USUARIO SERIE ONELOOP R01",
+        "manufacturer": "LDA audioTech",
+        "product_model": "ONE-LOOP",
+        "stratum": "prose"
+      },
+      {
+        "item_id": "s199_src_09",
+        "document_id": "d4c59e83-c811-4356-876d-b38e48dca373",
+        "chunk_id": "bb0e8b36-1ffb-4e92-a4d6-edc04da484bb",
+        "source_file": "I56-4407-001 MI-DCMOE",
+        "manufacturer": "Morley",
+        "product_model": "MM-82",
+        "stratum": "prose"
+      },
+      {
+        "item_id": "s199_src_10",
+        "document_id": "4f43fbe7-77bd-4704-96ca-6ff616a1c0ca",
+        "chunk_id": "51444178-ff77-49b3-82b0-35185799a57f",
+        "source_file": "I56-2961-000R_Sp",
+        "manufacturer": "System Sensor",
+        "product_model": "EXITPOINT PF24V",
+        "stratum": "prose"
+      },
+      {
+        "item_id": "s199_src_11",
+        "document_id": "8ddcac3f-7884-4345-bf1b-f2bbb3a31ca3",
+        "chunk_id": "efe3fc6a-875f-4115-9069-ebcc465921c9",
+        "source_file": "MIDT250_A",
+        "manufacturer": "Notifier",
+        "product_model": "AM-6000",
+        "stratum": "prose"
+      },
+      {
+        "item_id": "s199_src_12",
+        "document_id": "b9f20f94-76cc-48b2-9387-53348fdd38bd",
+        "chunk_id": "01326dd3-bf01-4603-98c7-8ebbf94d1930",
+        "source_file": "MNDT713",
+        "manufacturer": "Spectrex",
+        "product_model": "20/20R",
+        "stratum": "prose"
+      },
+      {
+        "item_id": "s199_src_13",
+        "document_id": "131e6fcb-4d52-4c21-bac9-f6430559f47b",
+        "chunk_id": "af6ab292-dbf8-4a9d-a3f8-b048e2f781d9",
+        "source_file": "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT",
+        "manufacturer": "Detnov",
+        "product_model": "CAD-150-8",
+        "stratum": "prose"
+      },
+      {
+        "item_id": "s199_src_14",
+        "document_id": "ae46ee11-5e8e-4766-a096-3c4b5361254d",
+        "chunk_id": "2532bef6-2cef-429c-9d7f-10a4daa4518d",
+        "source_file": "19152_00_ICAM_Maintenance_Guide_A4_Spanish_lores",
+        "manufacturer": "Xtralis",
+        "product_model": "ICAM",
+        "stratum": "prose"
+      }
+    ],
+    "post_selection_reserve_definition": "eligible candidate rows excluding selected documents; no claim of another balanced cohort",
+    "post_selection_reserve": {
+      "chunk_rows": 8170,
+      "documents": 647,
+      "source_files": 647,
+      "manufacturer_product_pairs": 450,
+      "manufacturers": 10,
+      "table_documents": 460,
+      "prose_documents": 573,
+      "table_manufacturers": 10,
+      "prose_manufacturers": 9
+    }
+  },
+  "screen_scope": {
+    "luna_calibration": "NOT_MEASURED",
+    "human_agreement": "NOT_MEASURED",
+    "document_wide_opportunity_coverage": "NOT_MEASURED",
+    "semantic_near_duplicate_overlap": "NOT_MEASURED",
+    "oem_relabel_overlap": "NOT_MEASURED",
+    "semantic_correctness_claim": "SCREEN_ONLY_NOT_GOLD_AUTHORITY",
+    "frontier_execution_calls": 0
+  },
+  "chunks_v3_lane": {
+    "status": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "changed_by_s199": false,
+    "migration_or_materialization": false,
+    "per_question_patching": false,
+    "historical_metrics_duplicated": false
+  },
+  "cost": {
+    "point_author_usd": 0.083863,
+    "point_screen_usd": 0.0,
+    "question_writer_usd": 0.0,
+    "question_screen_usd": 0.0,
+    "worst_case_preflight_usd": 0.149148,
+    "total_usd": 0.083863
+  },
+  "decision": {
+    "same_cohort_retry": false,
+    "downstream_planner_opened": false,
+    "target_probe_opened": false,
+    "next_action": "STOP_WITHOUT_DOWNSTREAM",
+    "runtime_integration": false,
+    "production": false,
+    "official_fact_credit": 0,
+    "diagnostic_facts_moved_to_ok": 0,
+    "railway_deploy_gate": false,
+    "s200_handoff_constraints": {
+      "planner_recall_min": 0.9,
+      "planner_precision_min": 0.8,
+      "complete_questions_min": 0.75,
+      "exactness_required": true,
+      "deterministic_checks_required": true,
+      "covered_obligation_regressions_max": 0,
+      "new_versioned_conflicts_max": 0
+    }
+  },
+  "result_sha256": "3dc5d6c3aa2b9d22b4f5ccf2b1059d5c31f7b53767f539f9b8fb05b8596c0e0c"
+}

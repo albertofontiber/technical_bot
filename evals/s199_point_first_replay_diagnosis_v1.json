@@ -1,0 +1,88 @@
+{
+  "instrument": "s199_point_first_replay_diagnosis_v1",
+  "status": "NO_GO_POINT_PLAN_STRUCTURAL_GATE",
+  "source_population": {
+    "packet": "evals/s199_restored_margin_source_packet_v1.json",
+    "chunks_v2_rows": 25090,
+    "items": 14,
+    "manufacturers": 13,
+    "table": 7,
+    "prose": 7,
+    "unique_documents_source_files_and_pairs": 14,
+    "historical_or_target_exact_overlap": 0,
+    "database_writes": 0
+  },
+  "point_author_aggregate_only": {
+    "model": "claude-haiku-4-5-20251001",
+    "completed_calls": 14,
+    "invalid_outputs": 0,
+    "eligible_items": 9,
+    "ineligible_items": 5,
+    "eligible_manufacturers": 9,
+    "eligible_table_items": 4,
+    "eligible_prose_items": 5,
+    "accepted_points_before_semantic_screen": 34,
+    "cost_usd": 0.083863,
+    "item_level_identities_claims_facets_and_issues_used_for_next_design": false
+  },
+  "failed_gates": [
+    "eligible_items_gte_12",
+    "eligible_manufacturers_gte_12",
+    "table_items_gte_5"
+  ],
+  "passed_gates": [
+    "prose_items_gte_5",
+    "answer_points_gte_24",
+    "invalid_point_author_outputs_zero"
+  ],
+  "downstream_not_measured": {
+    "point_screen_calls": 0,
+    "question_writer_calls": 0,
+    "question_screen_calls": 0,
+    "planner_calls": 0,
+    "protected_target_calls": 0,
+    "point_plan_semantic_quality": "NOT_MEASURED",
+    "question_scope_closure": "NOT_MEASURED"
+  },
+  "fresh_reserve_after_s199_selected_documents": {
+    "documents": 647,
+    "source_files": 647,
+    "manufacturer_product_pairs": 450,
+    "manufacturers": 10,
+    "table_manufacturers": 10,
+    "prose_manufacturers": 9,
+    "can_satisfy_previous_12_manufacturer_gate": false
+  },
+  "interpretation": {
+    "transport_regression": false,
+    "semantic_package_falsified": false,
+    "measured_bottleneck": "Arbitrary fresh chunks do not yield enough multi-obligation eligible items before the independent semantic screens, and the remaining wholly fresh population cannot satisfy a 12-manufacturer gate.",
+    "same_cohort_retry_or_postselection": false,
+    "additional_frontier_convergence": false
+  },
+  "next_legitimate_trigger": {
+    "action": "Run one final large, manufacturer-balanced holdout from the remaining wholly fresh documents: 24 items, 12 table plus 12 prose, across the maximum 10 manufacturers. Keep the S198 semantic engine unchanged and use only S198/S199 aggregate eligibility counts.",
+    "frozen_population_gates": {
+      "eligible_items_min": 12,
+      "eligible_manufacturers_min": 8,
+      "table_items_min": 5,
+      "prose_items_min": 5,
+      "answer_points_min": 24,
+      "invalid_outputs_max": 0
+    },
+    "rationale": "The larger balanced sample tests the unchanged mechanism on a final unseen holdout while acknowledging the versioned maximum of ten remaining manufacturers; it does not select or repair any observed item.",
+    "if_source_or_upstream_gate_fails": "CLOSE_POINT_FIRST_FRESH_GENERALIZATION_LANE_WITHOUT_ANOTHER_POPULATION_ADJUSTMENT"
+  },
+  "facts": {
+    "official_credit": 0,
+    "diagnostic_moved_to_ok": 0,
+    "current_comparable": {
+      "denominator": 157,
+      "ok": 143,
+      "synthesis_miss": 12,
+      "retrieval_miss": 2
+    }
+  },
+  "chunks_v3_lane": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+  "railway_deploy_gate": false
+}
