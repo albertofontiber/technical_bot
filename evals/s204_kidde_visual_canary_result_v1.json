@@ -1,0 +1,27 @@
+{
+  "schema": "s204_kidde_visual_canary_result_v1",
+  "status": "NO_GO_VISUAL_GOLD",
+  "calls": 8,
+  "models": {
+    "principal": {
+      "id": "gpt-5.6-sol",
+      "reasoning_effort": "xhigh"
+    },
+    "independent": "claude-fable-5"
+  },
+  "generation": {
+    "sol_valid": 3,
+    "fable_valid": 3
+  },
+  "cross_review": {
+    "sol_of_fable_all_pass": false,
+    "fable_of_sol_all_pass": true
+  },
+  "conservative_cost_usd": 15.729345,
+  "budget_usd": 40.0,
+  "official_fact_credit": 0,
+  "bot_evaluation_opened": false,
+  "chunks_v3_status": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+  "railway_merge_gate": false,
+  "result_sha256": "66e878282a1458c1d27275234543a2abfb77e998366e6645cf0278bd917111b3"
+}
