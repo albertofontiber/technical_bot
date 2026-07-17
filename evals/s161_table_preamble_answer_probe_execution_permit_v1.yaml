@@ -43,7 +43,7 @@ frozen_artifacts:
     sha256: e2ca013e7dc3fce5cf6d43f718c0b5e7ce99eaaf20aec1f8f4b912fc893f9b21
   runtime_config:
     path: src/config.py
-    sha256: 765e72ca3270e5d7eedae79cdbf4e8f9d63be786b2c4cea73ca0a303a0ee2f2
+    sha256: 765e72ca3270e5d7eedaae79cdbf4e8f9d63be786b2c4cea73ca0a303a0ee2f2
   lane_config:
     path: config/table_preamble_closure_v3.yaml
     sha256: c96b81898f1fe075cd7751e3abd95bbc97c9f18b2efa6f75f68c93f1021ae1a6
@@ -60,4 +60,3 @@ stop_rules:
   - checkpoint_provider_answer_before_scoring
   - never_retry_after_provider_attempt
   - do_not_run_judge_or_frontier_review
-
