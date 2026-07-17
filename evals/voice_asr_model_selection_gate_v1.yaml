@@ -1,0 +1,56 @@
+instrument: voice_asr_model_selection_gate_v1
+status: EXPERIMENT_READY_DEFAULT_INERT
+
+scope:
+  production_default: whisper-1
+  economical_candidate: gpt-4o-mini-transcribe-2025-12-15
+  accuracy_candidate: gpt-4o-transcribe
+  implementation_switch: VOICE_TRANSCRIPTION_MODEL
+
+decision:
+  migrate_now: false
+  rationale: >-
+    Current OpenAI documentation reports lower word-error rate and better
+    language recognition for the GPT-4o transcription models, but this project
+    has no representative frozen technician-audio cohort. A catalog claim is
+    not accepted as product-specific quality evidence.
+  default_is_inert: true
+  production_or_deployment: false
+
+future_blind_gate:
+  minimum_audio_notes: 30
+  minimum_distinct_manufacturers: 6
+  required_strata:
+    - clean_speech
+    - field_noise
+    - spelled_or_spoken_model_codes
+    - numeric_measurements_and_fault_codes
+  primary_metric: exact_technical_entity_error_rate
+  secondary_metrics:
+    - word_error_rate
+    - model_code_recall
+    - numeric_value_recall
+    - latency_p95
+    - cost_per_audio_minute
+  go_requires:
+    - no_regression_in_exact_technical_entity_error_rate
+    - no_regression_in_numeric_value_recall
+    - statistically_or_materially_better_model_code_recall
+    - acceptable_latency_and_cost
+  anti_overfit:
+    - freeze_transcripts_before_scoring_candidates
+    - keep_raw_asr_output_immutable
+    - score_post_asr_normalization_separately
+    - do_not_tune_vocabulary_on_test_failures
+
+validation:
+  focused_tests: 37_passed
+  model_calls: 0
+  network_calls: 0
+  production_writes: 0
+  usd: 0
+
+official_references:
+  gpt_4o_transcribe: https://developers.openai.com/api/docs/models/gpt-4o-transcribe
+  gpt_4o_mini_transcribe: https://developers.openai.com/api/docs/models/gpt-4o-mini-transcribe
+  whisper_1: https://developers.openai.com/api/docs/models/whisper-1

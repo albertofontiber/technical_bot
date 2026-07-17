@@ -18,6 +18,23 @@ ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
 
+# Voice transcription stays on the measured historical provider by default.
+# The two current OpenAI candidates are exposed only as explicit, reversible
+# experiment arms; selecting one does not by itself constitute a quality GO.
+_VOICE_TRANSCRIPTION_MODELS = {
+    "whisper-1",
+    "gpt-4o-mini-transcribe-2025-12-15",
+    "gpt-4o-transcribe",
+}
+VOICE_TRANSCRIPTION_MODEL = os.getenv(
+    "VOICE_TRANSCRIPTION_MODEL", "whisper-1"
+).strip()
+if VOICE_TRANSCRIPTION_MODEL not in _VOICE_TRANSCRIPTION_MODELS:
+    raise RuntimeError(
+        "VOICE_TRANSCRIPTION_MODEL must be one of: "
+        + ", ".join(sorted(_VOICE_TRANSCRIPTION_MODELS))
+    )
+
 # Supabase
 SUPABASE_URL = os.getenv("SUPABASE_URL", "")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY", "")

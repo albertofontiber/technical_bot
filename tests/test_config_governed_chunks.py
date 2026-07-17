@@ -39,6 +39,51 @@ def test_config_accepts_governed_chunks_runtime():
     assert result.returncode == 0, result.stderr
 
 
+def test_voice_transcription_model_is_measured_default_and_strictly_governed():
+    env = os.environ.copy()
+    env["CHUNKS_TABLE"] = "chunks_v2"
+    env.pop("VOICE_TRANSCRIPTION_MODEL", None)
+    default = subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            "import src.config as c; assert c.VOICE_TRANSCRIPTION_MODEL == 'whisper-1'",
+        ],
+        cwd=ROOT,
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=20,
+        check=False,
+    )
+    assert default.returncode == 0, default.stderr
+
+    env["VOICE_TRANSCRIPTION_MODEL"] = "gpt-4o-mini-transcribe-2025-12-15"
+    candidate = subprocess.run(
+        [sys.executable, "-c", "import src.config"],
+        cwd=ROOT,
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=20,
+        check=False,
+    )
+    assert candidate.returncode == 0, candidate.stderr
+
+    env["VOICE_TRANSCRIPTION_MODEL"] = "latest-magic-asr"
+    invalid = subprocess.run(
+        [sys.executable, "-c", "import src.config"],
+        cwd=ROOT,
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=20,
+        check=False,
+    )
+    assert invalid.returncode != 0
+    assert "VOICE_TRANSCRIPTION_MODEL must be one of" in invalid.stderr
+
+
 def test_structural_neighbor_shadow_requires_key_and_version_when_enabled():
     env = os.environ.copy()
     env["CHUNKS_TABLE"] = "chunks_v2"

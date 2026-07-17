@@ -19,7 +19,14 @@ from telegram.ext import (
     ContextTypes,
 )
 
-from ..config import TELEGRAM_BOT_TOKEN, OPENAI_API_KEY, RETRIEVAL_TOP_K, RERANK_TOP_K, validate_config
+from ..config import (
+    TELEGRAM_BOT_TOKEN,
+    OPENAI_API_KEY,
+    RETRIEVAL_TOP_K,
+    RERANK_TOP_K,
+    VOICE_TRANSCRIPTION_MODEL,
+    validate_config,
+)
 from ..rag.retriever import (
     retrieve_chunks, extract_product_models, get_category_models,
     get_all_models_by_category, CATEGORY_TERMS, PCI_TERMS,
@@ -190,7 +197,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 def _transcribe_audio_sync(file_path: str) -> str:
-    """Blocking OpenAI Whisper call, isolated for async dispatch and tests.
+    """Blocking OpenAI transcription call, isolated for async dispatch/tests.
 
     Passes a PCI-domain vocabulary hint so model codes like CAD-250, AFP-2820,
     ID-3000 are transcribed correctly instead of as spelled-out numbers.
@@ -199,7 +206,7 @@ def _transcribe_audio_sync(file_path: str) -> str:
     client = OpenAI(api_key=OPENAI_API_KEY)
     with open(file_path, "rb") as audio_file:
         transcript = client.audio.transcriptions.create(
-            model="whisper-1",
+            model=VOICE_TRANSCRIPTION_MODEL,
             file=audio_file,
             language="es",
             prompt=get_whisper_prompt(),
@@ -237,8 +244,12 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
             tmp_path = tmp.name
             await file.download_to_drive(tmp_path)
 
-        # Transcribe with Whisper
-        logger.info(f"Transcribing voice message ({voice.duration}s)...")
+        # Transcribe with the explicitly governed ASR arm.
+        logger.info(
+            "Transcribing voice message (%ss) with %s...",
+            voice.duration,
+            VOICE_TRANSCRIPTION_MODEL,
+        )
         raw_transcription = await transcribe_audio(tmp_path)
 
         if not raw_transcription:
