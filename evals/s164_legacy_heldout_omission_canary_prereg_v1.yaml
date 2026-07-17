@@ -1,0 +1,60 @@
+instrument: s164_legacy_heldout_omission_canary_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+design: evals/s164_legacy_heldout_omission_canary_design_v1.md
+
+population:
+  qid: ho008
+  arm: treatment
+  generation_seed: "0"
+  fragments: 5
+  atomic_facts: 10
+  target_question_overlap: 0
+
+frozen_inputs:
+  design: {path: evals/s164_legacy_heldout_omission_canary_design_v1.md, sha256: 2f8c3bd7151b2249203b78bd733e0fc3ad7b78c188eeef630514bbaea101319c}
+  contexts: {path: evals/s63ho_treat_frozen_contexts.json, sha256: 34963e70e26f755706628e1c0b07b2480ce63d107f8ae2b090d2ca6988b6251b}
+  generations: {path: evals/s63ho_treat_generations.json, sha256: be617b92bd3ccf269a168c71857ac9a46fda59ec2b4302f09c819dd5725d5dd8}
+  gold: {path: evals/gold_answers_v1.yaml, sha256: e1b6b3a8da26b99201108b1765d18d396e8628e0fff022dee58dd7e75049470d}
+  omission_contract: {path: src/rag/omission_correction.py, sha256: d6f39838cd3ea46a31227a64f066e64c45c0e671f73ba986201c1e0571cd2c9b}
+  evidence_unitizer: {path: src/rag/evidence_units_v2.py, sha256: c80498f59452280f7630411b1740664c8ec946a5e3a6511441d6140f88727eab}
+
+models:
+  executor: claude-haiku-4-5-20251001
+  writer: claude-sonnet-4-6
+  selector_max_output_tokens: 500
+  writer_max_output_tokens: 3500
+  writer_temperature: 0
+
+execution:
+  selector_calls_max: 5
+  revision_writer_calls_max: 1
+  total_paid_calls_max: 6
+  retries: 0
+  revision_loops_max: 1
+  retrieval_calls: 0
+  reranker_calls: 0
+  database_calls: 0
+
+validation:
+  point_gain_min: 2
+  regressed_points_max: 0
+  invalid_selector_outputs_max: 0
+  invalid_fragment_citations_max: 0
+  selected_units_min: 1
+  passing_action: GO_TO_LARGER_LEGACY_HELDOUT_TEST
+  target_probe: false
+  production: false
+  facts_moved_to_ok: 0
+
+pricing_usd_per_million_tokens:
+  executor: {input: 2, output: 10}
+  writer: {input: 3, output: 15}
+
+budget:
+  internal_ceiling_usd: 1.5
+  user_ceiling_usd: 250
+
+outputs:
+  selector_receipts: evals/s164_legacy_heldout_selector_receipts_v1.json
+  revision_receipt: evals/s164_legacy_heldout_revision_receipt_v1.json
+  result: evals/s164_legacy_heldout_omission_canary_v1.json

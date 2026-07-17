@@ -1,0 +1,22 @@
+instrument: s164_legacy_heldout_omission_canary_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED
+authority: user_autonomous_execution_budget_250_usd
+
+frozen_artifacts:
+  preregistration: {path: evals/s164_legacy_heldout_omission_canary_prereg_v1.yaml, sha256: 9ce1acf476abab7fe3a80c35f8fccb4f9ce4c86d4d866c8906bf49ff41dfab66}
+  runner: {path: scripts/s164_legacy_heldout_omission_canary.py, sha256: 0a5411c6bc4a5a49406d84caec3b8ebd073de7c9e80df8df8fc129d262ef81b3}
+  canary_tests: {path: tests/test_s164_legacy_heldout_omission_canary.py, sha256: b724bb5830a8a5ef50ced902d69abf34d785d27f52375bfefe16fd6697340ba6}
+  source_contract_tests: {path: tests/test_s157_omission_correction.py, sha256: 9e934e6015f2e404dd2abc386e99ecf8a1f205008814ff263d429cc324ef8e6d}
+
+limits:
+  selector_calls_max: 5
+  revision_writer_calls_max: 1
+  total_paid_calls_max: 6
+  retries: 0
+  revision_loops_max: 1
+  internal_ceiling_usd: 1.5
+  target_questions_exposed: 0
+  production_changes: 0
+  database_calls: 0
+  deployments: 0
+  pushes: 0
