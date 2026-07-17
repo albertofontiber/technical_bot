@@ -1,0 +1,46 @@
+instrument: s185_direct_live_registry_prereg_v1
+status: FROZEN_BEFORE_DIRECT_V5_REBUILD
+purpose: >-
+  Remove the runtime dependency chain through rejected v1/v3/v4 registries.
+  Build v5 directly from immutable extraction artifacts, SHA-bound PDFs, the
+  frozen S162 discovery population, and a complete read-only chunks_v2 snapshot.
+
+inputs:
+  discovery: evals/s162_numeric_superscript_discovery_scan_v1.json
+  extraction_store: data/extraction/agent_anthropic-sonnet-45
+  source_manifest: logs/reingest_manifest.json
+  live_table: chunks_v2
+
+direct_v5_contract:
+  source_receipts_total: 33
+  exact_active_receipts: 30
+  exact_absent_receipts: 3
+  ambiguous_bindings: 0
+  active_chunk_derivations: 13
+  identity:
+    - chunk_id
+    - extraction_sha256
+    - source_file
+    - chunk_index
+    - original_chunk_content_sha256
+  fuzzy_matching: forbidden
+  duplicate_source_receipts: forbidden
+  persisted_chunk_mutation: forbidden
+
+gate:
+  direct_registry_validation: pass
+  complete_live_snapshot_no_drift: pass
+  all_active_derivations_apply_once: pass
+  second_pass_inert: pass
+  frozen_answer_source_contract: 5_of_5
+  frozen_answer_protected_claims: 4_of_4
+  exact_relay_life_supports: 2_of_2
+  full_regression: required
+
+authorization:
+  local_artifact_writes: true
+  network_reads: 11
+  database_writes: false
+  model_calls: 0
+  deploy_or_push: false
+  fact_credit: false

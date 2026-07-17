@@ -39,6 +39,7 @@ from .post_rerank_coverage import (
     coverage_context_content,
     is_validated_coverage_chunk,
 )
+from .evidence_derivation import apply_evidence_derivations_with_trace
 
 logger = logging.getLogger(__name__)
 
@@ -538,6 +539,14 @@ def generate_answer(
                 "answer_policy": policy,
             }
 
+    # Typographic fidelity is a source-bound derived view, not a retrieval
+    # signal. Apply it only after rerank/coverage validation and before any
+    # planner or model sees the evidence. The default-off path returns the
+    # exact same list object and performs no registry read.
+    relevant_chunks, evidence_derivation = apply_evidence_derivations_with_trace(
+        relevant_chunks
+    )
+
     if not relevant_chunks:
         # If we know available models, offer them
         if available_models:
@@ -754,6 +763,7 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
             if response.usage else None
         ),
         "output_tokens": response.usage.output_tokens if response.usage else None,
+        "evidence_derivation": evidence_derivation,
     }
     if answer_planner is not None:
         if enforced_cache_identity is not None:

@@ -1,0 +1,315 @@
+{
+  "schema": "runtime_evidence_derivations_v5",
+  "version": 5,
+  "contract": "active_live_chunk_bound_numeric_superscript_overlay_v5",
+  "source_derivation_contract": "numeric_pdf_superscript_overlay_v1",
+  "source_discovery_sha256": "6f6a3100768c9bc9642804f1f2d65a29f5187ed645d40fd4cf26a0968657e8bb",
+  "document_snapshots": [
+    {
+      "extraction_sha256": "0dd0708343f833034f920a41b63b519908adf6af0b8ec4b712cdf6f16bb289d8",
+      "live_rows": 42,
+      "derived_rows": 1,
+      "source_pdf_receipts": 1,
+      "live_snapshot_sha256": "38fbff447258120c2a4a68afe2ceb317d90914b34d5fd3f759fb746d2e7442b8"
+    },
+    {
+      "extraction_sha256": "0ef6698c767ffbd8900179eb026913b8439a1b131589560afe5e50d5232237e9",
+      "live_rows": 85,
+      "derived_rows": 0,
+      "source_pdf_receipts": 0,
+      "live_snapshot_sha256": "62187c50311fe368d530808f7014c525d3d5baaa3d5ef7b43dc5db0e98a68ae5"
+    },
+    {
+      "extraction_sha256": "444e497479770fd527dfd987cbd18a929e813abc3df6edeacc5f245a19da31b0",
+      "live_rows": 39,
+      "derived_rows": 1,
+      "source_pdf_receipts": 1,
+      "live_snapshot_sha256": "c4e215e0778977c276a805c42c95d9f364cd3a57e882562aad0174289ce63970"
+    },
+    {
+      "extraction_sha256": "5af08d48af0ed11ecb83f88b10c80779687880e4d6f6c9150dc321595e4754f5",
+      "live_rows": 128,
+      "derived_rows": 3,
+      "source_pdf_receipts": 6,
+      "live_snapshot_sha256": "fdfdb0ff60b7ab7ca3e27530791e62af5863d0f7caa75a8a9f7d228890de716f"
+    },
+    {
+      "extraction_sha256": "648e8deba384c0a27f7f255a9149f754acb6cca999c586b0667829e457888c72",
+      "live_rows": 31,
+      "derived_rows": 1,
+      "source_pdf_receipts": 1,
+      "live_snapshot_sha256": "1686d453e9c1e42ef98a8bc9443f04913b3d4c16536ae9c5d76b4d5c171d2184"
+    },
+    {
+      "extraction_sha256": "6ae6c7e4f4b787c1b2b9d72cefbe454d3502a087ec4312c99d19a73a33fa7f17",
+      "live_rows": 196,
+      "derived_rows": 2,
+      "source_pdf_receipts": 16,
+      "live_snapshot_sha256": "876b99c0a61ab4527a42b7ce1823c6fcda68511f469882d77a93c4a6faec1172"
+    },
+    {
+      "extraction_sha256": "7b970d67e6dbb2f30604d230b1fa30b288983aa088b32f7bd61b21a878128712",
+      "live_rows": 41,
+      "derived_rows": 1,
+      "source_pdf_receipts": 1,
+      "live_snapshot_sha256": "1b4bc7f07e19d01697e63f9813653f11c0a1288a8f3e7eeaf90407a532f7b503"
+    },
+    {
+      "extraction_sha256": "82902ccaf5867a5f84a1b6bfd8aeccc362aa9c46896bed4338a46922e166dcbf",
+      "live_rows": 34,
+      "derived_rows": 1,
+      "source_pdf_receipts": 1,
+      "live_snapshot_sha256": "8a84238716078e39591b075260866b895fe0565d4b68e5236077e0c8fc84b995"
+    },
+    {
+      "extraction_sha256": "a23807981b082c2c89cb27d12df9b3cd3a1f6985529c872c1872066a5238ef8d",
+      "live_rows": 15,
+      "derived_rows": 0,
+      "source_pdf_receipts": 0,
+      "live_snapshot_sha256": "7354a86dbddb9e14d0da65e25b515f6d9b1c82a0c2d824446b9e7ed859bf9e83"
+    },
+    {
+      "extraction_sha256": "a8db1f7fbd3114697756140949a750e3e99d9c64bc1d72d89b5ff9e152dba0a9",
+      "live_rows": 62,
+      "derived_rows": 2,
+      "source_pdf_receipts": 5,
+      "live_snapshot_sha256": "46f6d88d000b4b0490450d21c231937bc8516fdc341a8adb2a86979a5f99f8c4"
+    },
+    {
+      "extraction_sha256": "c641817eded9d4bc79625bc1f6cdbb0076f40ffe1340ec7c2dc17770a63c03ad",
+      "live_rows": 37,
+      "derived_rows": 1,
+      "source_pdf_receipts": 1,
+      "live_snapshot_sha256": "20ddcebc34b0b65824d66e008c4b54c231fead00b66c52069c5f063c36eadc58"
+    }
+  ],
+  "source_pdf_receipt_count": 33,
+  "bound_source_pdf_receipt_count": 30,
+  "absent_source_pdf_receipt_count": 3,
+  "absent_source_pdf_receipts": [
+    {
+      "extraction_sha256": "a8db1f7fbd3114697756140949a750e3e99d9c64bc1d72d89b5ff9e152dba0a9",
+      "source_pdf_receipt_sha256": "09a59b7aa5311776b851987edbd70e6db7fe2a614dcdf38babe4d0080b205a79",
+      "page_number": 15,
+      "source_line_sha256": "fd43863482b524f6cc9c7402ceb3f95b51b543fc83f8b22f131beee127ab9979",
+      "reason": "exact_source_line_absent_from_live_chunks_v2"
+    },
+    {
+      "extraction_sha256": "a8db1f7fbd3114697756140949a750e3e99d9c64bc1d72d89b5ff9e152dba0a9",
+      "source_pdf_receipt_sha256": "37aad7602b19a684e50f478a993ba4012c08fad8e3d6db0109fb27f706062403",
+      "page_number": 35,
+      "source_line_sha256": "910b8a62f484c32c76a71ac5df68aa1f31654007a950db4247ba190b5f5d5fce",
+      "reason": "exact_source_line_absent_from_live_chunks_v2"
+    },
+    {
+      "extraction_sha256": "a8db1f7fbd3114697756140949a750e3e99d9c64bc1d72d89b5ff9e152dba0a9",
+      "source_pdf_receipt_sha256": "bafabaf4e049ee7204c24ffccf5e73e6b109ec27d43d201334d3dab9761e8b57",
+      "page_number": 45,
+      "source_line_sha256": "66280c42fab612f66c690e5410d7e8d00b355262bc73372be2d80b68096dc407",
+      "reason": "exact_source_line_absent_from_live_chunks_v2"
+    }
+  ],
+  "entry_count": 13,
+  "entries": [
+    {
+      "chunk_id": "856cae09-99d5-4b03-b08a-fe6a368e1207",
+      "extraction_sha256": "0dd0708343f833034f920a41b63b519908adf6af0b8ec4b712cdf6f16bb289d8",
+      "source_file": "I56-6577-006_ES FAAST Notifier LT-200 QIG",
+      "chunk_index": 13,
+      "original_chunk_content_sha256": "7b3e11490429d541956cd358b97de1cc36d1f708b66e2632dc610524a6b0d9e5",
+      "derived_chunk_content_sha256": "966fea99f9f54ffedd740a62ed254abbdd8327e326514ce31c5c04cce3562c11",
+      "derived_content": "### Tabla 3a: Especificación eléctrica de los relés\n\n| ESPECIFICACIÓN                    | MÍN. | MÁX. | UNIDADES    | OBSERVACIONES           |\n| --------------------------------- | ---- | ---- | ----------- | ----------------------- |\n| Potencia nominal de los contactos |      | 2    | A           | Carga resistiva 30 V CC |\n|                                   |      | 0,5  | A           | Carga resistiva 30 V CA |\n| Vida útil                         | 10<sup>5</sup>  |      | Operaciones |                         |",
+      "source_pdf_receipt_sha256s": [
+        "170060e2b3724f95a3e0e64a48ee2a638621fafb018fda4fd0299b36e4256170"
+      ],
+      "derivation_manifest_sha256": "70095ab8fd80a2156565931a2f06c4f2dba575772deef74491856cddfe9974a3",
+      "chunk_derivation_sha256": "1aaa6770d83b1361467904380eeb469adeafb56556a27af602e5bcdce6e1777f"
+    },
+    {
+      "chunk_id": "d6961e6a-14ce-4356-9420-70826824e6f6",
+      "extraction_sha256": "444e497479770fd527dfd987cbd18a929e813abc3df6edeacc5f245a19da31b0",
+      "source_file": "I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG",
+      "chunk_index": 13,
+      "original_chunk_content_sha256": "90a74bfce9f15afbe652621019cbfb6dedaafdde17a45831a502135025762e26",
+      "derived_chunk_content_sha256": "a32ed24276d4acd90e09988a1298ca860963f52e5821e471a86b365b626a0546",
+      "derived_content": "## Tabla 3a: Especificación eléctrica de los relés\n\n| ESPECIFICACIÓN   | MÍN. | MÁX. | UNIDADES    | OBSERVACIONES           |\n| ---------------- | ---- | ---- | ----------- | ----------------------- |\n| Potencia nominal |      | 2    | A           | Carga resistiva 30 V CC |\n| de los contactos |      | 0,5  | A           | Carga resistiva 30 V CA |\n| Vida útil        | 10<sup>5</sup>  |      | Operaciones |                         |\n\n## ADVERTENCIA: Conmutación de cargas inductivas\n\n**FAAST LT-200**\n\n[Circuit diagram showing a resistor R with a checkmark, indicating correct configuration]\n\n**FAAST LT-200**\n\n[Circuit diagram showing an inductor L and capacitor C with an X mark, indicating incorrect configuration]\n\n**FAAST LT-200**\n\n[Circuit diagram showing an inductor L, capacitor C, and diode 1N6284CA with a checkmark, indicating correct configuration with suppression]\n\nD200-101-01                                     6                                     I56-6574-005",
+      "source_pdf_receipt_sha256s": [
+        "a7963c5dab5a418e7b718b8c39ecee3b3c65311ae7755a127a22fd8af8527ada"
+      ],
+      "derivation_manifest_sha256": "ebb2a9bc3e11399e91f94ad6dddd088c7601c7bf18990aa177e603f7f8088e70",
+      "chunk_derivation_sha256": "6830602b4c23e0d2518f4dbb1d8c89e92c650860df329fbd2ba917ceb80f6884"
+    },
+    {
+      "chunk_id": "a0c7eed6-f328-47c2-9c1f-18723fd096f9",
+      "extraction_sha256": "5af08d48af0ed11ecb83f88b10c80779687880e4d6f6c9150dc321595e4754f5",
+      "source_file": "MNDT390",
+      "chunk_index": 45,
+      "original_chunk_content_sha256": "050f66b9fb4e0cc1c0caefc6393e036f7ee42279967931d3e9ac5e43b1157b31",
+      "derived_chunk_content_sha256": "45359dd695b680405b33b0180faaafd15b6afba48aedcb82390271d920392beb",
+      "derived_content": "## Dirección de inicio de supervisión (52-53)\n\nSe programa para indicar el primer grupo de zonas o puntos que desea controlar e informar a la Central Receptora. Consulte la siguiente tabla.\n\n## Dirección de fin de supervisión, (54-55)\n\nSe programa para indicar el último grupo de zonas o puntos que se quiere controlar e informar a la Central Receptora. Consulte la siguiente tabla.\n\n|                                                                                                                                                                                                                               | (por defectode fábrica) |       | (por defectode fábrica) |       |\n| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- | ----- | ----------------------- | ----- |\n| AFP-100                                                                                                                                                                                                                       |                         |       |                         |       |\n| AFP-200                                                                                                                                                                                                                       | 011                     | 01    | 021                     | 01,02 |\n| AFP300/AFP-400                                                                                                                                                                                                                | 111                     | 11-19 | 121                     | 11-19 |\n| AFC-350/AFC-600                                                                                                                                                                                                               |                         |       |                         |       |\n| Sistema 500                                                                                                                                                                                                                   | 012                     | 01    | 012                     | 01    |\n| Sistema 5000                                                                                                                                                                                                                  | 013                     | 01-04 | 023                     | 01-04 |\n| Sistema 5000 con AIM                                                                                                                                                                                                          | 01<sup>4</sup>                     | 01-04 | 04<sup>4</sup>                     | 01-04 |\n| Nota 1: Informa del estado de un máximo de 99 zonas<br/>Nota 2: Informa del estado de un máximo de 56 zonas<br/>Nota 3: Informa del estado de un máximo de 120 zonas<br/>Nota 4: Informa del estado de un máximo de 248 zonas |                         |       |                         |       |\n| **INFORME DE PUNTOS**                                                                                                                                                                                                         |                         |       |                         |       |\n| AFP-100                                                                                                                                                                                                                       |                         |       |                         |       |\n| AFP-300/AFP-400                                                                                                                                                                                                               | 115                     | 11-19 | 195                     | 11-19 |\n| AFC-350/AFC-600                                                                                                                                                                                                               |                         |       |                         |       |\n| AM2020/AFP1010/INA                                                                                                                                                                                                            | 01<sup>6</sup>                     | 01-32 | 32<sup>6</sup>                     | 01-32 |\n| Nota 1: Informa del estado de un máximo de 384 puntos<br/>Nota 2: Informa del estado de un máximo de 2040 puntos                                                                                                              |                         |       |                         |       |",
+      "source_pdf_receipt_sha256s": [
+        "184d4693f795f4ab263b05a0ed23a4ab1efb3067a559e5ae7abaa400764d52b9",
+        "48c764994e825dd822c131f2611dc49e5f40b90adc2933edc70b2765f19c8aac",
+        "9aabe836c575d474489b1a1db44d022f8078060c7e6800f6959135d58423df17",
+        "d1bbe7ee3d0a791de245f63532923ae078854515fb4d89ecd85618067787207b"
+      ],
+      "derivation_manifest_sha256": "cd070f55707b7dfadbca2d73597d2682d0da3c1520b45a991f5a317aaf9df399",
+      "chunk_derivation_sha256": "adb7b42421db97fe660e452757798a81c582971a61a99ceed07958914150a668"
+    },
+    {
+      "chunk_id": "2e006704-d8b4-49fd-80e2-70f21d5ccdfe",
+      "extraction_sha256": "5af08d48af0ed11ecb83f88b10c80779687880e4d6f6c9150dc321595e4754f5",
+      "source_file": "MNDT390",
+      "chunk_index": 57,
+      "original_chunk_content_sha256": "4c388969068750238a97cc19accc3c0d23d7a27962e8bb0873011dc3025391e9",
+      "derived_chunk_content_sha256": "300484d3051ee1ae456cbf819b4c471b7382379a6be23e250af64afcb2d9afb9",
+      "derived_content": "**Nota:** Si introduce un 0 en algún campo, no se transmitirá el evento indicado a la receptora.\n\n**Tabla 7. Códigos de evento, número secundario**\n\n# Formato Ademco Contact ID\n\n## Número principal\n\nSi introduce 'E' para la dirección 16, se programarán automáticamente los siguientes datos para los códigos de eventos del número de teléfono principal. Introduzca '000' en la selección de datos para desactivar el informe.\n\n| Dirección | Descripción   | Descripción                             | Selección | Nº Grupo | Nº Sensor |\n| --------- | ------------- | --------------------------------------- | --------- | -------- | --------- |\n| 69 - 71   | Nº Principal. | Código de Alarma General                | 110       | 00       | 000 2     |\n| 72 - 74   | Nº Principal. | Código de Alarma de Zona/Punto5         | 110<sup>4</sup>      | 00       | Nota 3    |\n| 75 - 77   | Nº Principal. | Código de Supervisión General           | 200       | 00       | 000 2     |\n| 78 - 80   | Nº Principal. | Código de Supervisión de Zona/Punto5    | 200       | 00       | Nota 3    |\n| 81 - 83   | Nº Principal. | Código de Avería General                | 300       | 00       |           |\n| 84 - 86   | Nº Principal. | Código de Avería alimentación AC        | 301       | 00       |           |\n| 87 - 89   | Nº Principal. | Código de Avería de Zona/Punto5         | 380       | 00       | Nota 3    |\n| 90 - 92   | Nº Principal. | Código de Avería de Baja Batería        | 302       | 00       |           |\n| 93 - 95   | Nº Principal. | Código de Avería de Línea Pral. Telco   | 351       | 00       |           |\n| 96 - 98   | Nº Principal. | Código de Avería de Línea Sec. Telco    | 352       | 00       |           |\n| 99 - 101  | Nº Principal. | Código de Avería NAC (circ. señaliz.)   | 321       | 00       |           |\n| 102 - 104 | Nº Principal. | Código de Fallo de Comunic. NºPral      | 354       | 00       |           |\n| 105 - 107 | Nº Principal. | Código de Fallo de Comunic. Nº Sec.     | 354       | 00       |           |\n| 108 - 110 | Nº Principal. | Código de Fallo de Com. 485             | 300       | 00       |           |\n| 111 - 113 | Nº Principal. | Código de Sistema en Alarma/Avería      | 308       | 00       |           |\n| 114 - 116 | Nº Principal. | Código de UDACT en Alarma/Avería        | 350       | 00       |           |\n| 117 - 119 | Nº Principal. | Sistema en Prueba 24 Horas              | 602       | 00       |           |\n| 120 - 122 | Nº Principal. | Sist. en Prueba 24 H. con evento activo | 608       | 00       |           |\n| 123 - 125 | Nº Principal. | Mensaje de Prueba Manual                | 601       | 00       |           |\n\n**Tabla 8. Ademco Contact ID, número principal**\n\n**Notas:**\n\n1) Al introducir cero se evita la transmisión de informes a la Central Receptora.\n\n2) Ver posiciones de programación de Contact ID 64 - 68.\n\n3) La identificación del número de zona/sensor la transmite automáticamente el UDACT y se añade al código de evento principal.",
+      "source_pdf_receipt_sha256s": [
+        "bcda75afbfe798b20f1b8906410350f29d285fa80e5f9f9554f66d0d2ce071c0"
+      ],
+      "derivation_manifest_sha256": "cd070f55707b7dfadbca2d73597d2682d0da3c1520b45a991f5a317aaf9df399",
+      "chunk_derivation_sha256": "9a5ca96ed0ce75dc70077dc9bcbf4763441e37e9c3873e43d3947f4d413ff5d7"
+    },
+    {
+      "chunk_id": "c07068af-ce14-4150-9592-30dce402efe3",
+      "extraction_sha256": "5af08d48af0ed11ecb83f88b10c80779687880e4d6f6c9150dc321595e4754f5",
+      "source_file": "MNDT390",
+      "chunk_index": 59,
+      "original_chunk_content_sha256": "eac0250ecd609e9cddc64c9cf2bff6ac194f10c5187d3583ec23625275866b68",
+      "derived_chunk_content_sha256": "bf4122e80da2ba5aa38b056a624303c912b4ed295b32a234b76e71e2ce41b9bb",
+      "derived_content": "# Número secundario\n\nSi introduce 'E' para la dirección 42, se programarán automáticamente los siguientes datos para los códigos de eventos del número de teléfono secundario. Introduzca '000' en la selección de datos para desactivar el informe.\n\n| Dirección | Descripción                                        | Selección | Nº Grupo | Nº Sensor |\n| --------- | -------------------------------------------------- | --------- | -------- | --------- |\n| 139-141   | Nº Secund. Código de Alarma General                | 110       | 00       | 000 2     |\n| 142-144   | Nº Secund. Código de Alarma de Zona/Punto5         | 110<sup>4</sup>      | 00       | Nota 3    |\n| 145-147   | Nº Secund. Código de Supervisión General           | 200       | 00       | 000 2     |\n| 148-150   | Nº Secund. Código de Supervisión de Zona/Punto5    | 200       | 00       | Nota 3    |\n| 151-153   | Nº Secund. Código de Avería General                | 300       | 00       |           |\n| 154-156   | Nº Secund. Código de Avería alimentación AC        | 301       | 00       |           |\n| 157-159   | Nº Secund. Código de Avería de Zona/Punto5         | 380       | 00       | Nota 3    |\n| 160-162   | Nº Secund. Código de Avería de Baja Batería        | 302       | 00       |           |\n| 163-165   | Nº Secund. Código de Avería de Línea Pral. Telco   | 351       | 00       |           |\n| 166-168   | Nº Secund. Código de Avería de Línea Sec. Telco    | 352       | 00       |           |\n| 169-171   | Nº Secund. Código de Avería NAC (circ. señaliz.)   | 321       | 00       |           |\n| 172-174   | Nº Secund. Código de Fallo de Comunic. NºPral      | 354       | 00       |           |\n| 175-177   | Nº Secund. Código de Fallo de Comunic. Nº Sec.     | 354       | 00       |           |\n| 178-180   | Nº Secund. Código de Fallo de Com. de 485          | 300       | 00       |           |\n| 181-183   | Nº Secund. Código de Sistema en Alarma/Avería      | 308       | 00       |           |\n| 184-186   | Nº Secund. Código de UDACT en Alarma/Avería        | 350       | 00       |           |\n| 187-189   | Nº Secund. Sistema en Prueba 24 Horas              | 602       | 00       |           |\n| 190-192   | Nº Secund. Sist. en Prueba 24 H. con evento activo | 608       | 00       |           |\n| 193-195   | Nº Secund. Mensaje de Prueba Manual                | 601       | 00       |           |\n\n**Tabla 9. Ademco Contact ID, número secundario**\n\n**Notas:**\n\n1) Al introducir cero se evita la transmisión de informes a la Central Receptora.\n\n2) Ver posiciones de programación de Contact ID 64 - 68.\n\n3) La identificación del número de zona/sensor la transmite automáticamente el UDACT y se añade al código de evento principal.",
+      "source_pdf_receipt_sha256s": [
+        "8222a8621c265b8139843d9587a1dfa5935576a11a423be3a13c1e46b5b54122"
+      ],
+      "derivation_manifest_sha256": "cd070f55707b7dfadbca2d73597d2682d0da3c1520b45a991f5a317aaf9df399",
+      "chunk_derivation_sha256": "89c6a6598eeddffa0e4d662205c7bee00bec39b4c874de3c644488342759445e"
+    },
+    {
+      "chunk_id": "80f7a04f-3b43-4a6f-a0dd-13a57721f442",
+      "extraction_sha256": "648e8deba384c0a27f7f255a9149f754acb6cca999c586b0667829e457888c72",
+      "source_file": "I56-6577-006_EN Notifier FAAST LT-200 QIG",
+      "chunk_index": 11,
+      "original_chunk_content_sha256": "31612916a97a1a3e7b9d4ff23bcc0b8cef4bf1cc63748909e7464a7ab6151a25",
+      "derived_chunk_content_sha256": "90ce9230155bf7d71bb26ac9a4e7e77bebf4c2784529c4d5c0e3c83abd5985ce",
+      "derived_content": "## WARNING: Switching Inductive Loads\n\n[Circuit diagram 1: FAAST LT connected to resistive load R with checkmark indicating correct configuration]\n\n[Circuit diagram 2: FAAST LT connected to inductive load L with capacitor C, marked with X indicating incorrect configuration]\n\n[Circuit diagram 3: FAAST LT connected to inductive load L with capacitor C and diode (1N6284CA), marked with checkmark indicating correct configuration]\n\n### Table 3: Relays\n\n| RELAY          | ACTION:                                                                                                                                     | NOTES                                |\n| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |\n| ALARM 1 or 2   | Controlled by panel when it determines alarm condition has been met.                                                                        | Set ON and OFF by panel; not latched |\n| FAULT 1 or 2   | When FAULT CONDITION on Ch1 or Ch2 or a common FAULT occurs. Fault is also signalled when in Service Mode and when the device is unpowered. | Fault state is not latched.          |\n| SOUNDER 1 or 2 | Set ON when a channel is in ALARM. Sounder 1 corresponds to Ch1 and Sounder 2 corresponds to Ch2                                            | Default condition = set on in ALARM. |\n\n### Table 3a: Relay Electrical Specification\n\n| SPECIFICATION  | MIN | MAX | UNITS      | COMMENTS              |\n| -------------- | --- | --- | ---------- | --------------------- |\n| Contact Rating |     | 2   | A          | 30 VDC resistive load |\n|                |     | 0.5 | A          | 30 VAC resistive load |\n| Life Time      | 10<sup>5</sup> |     | Operations |                       |\n\nN200-102-01\n\nN200-102-01                                    7                                    I56-6577-006",
+      "source_pdf_receipt_sha256s": [
+        "734e26810a61c9dcbb00348ce4e4ebea4385e6d2118c8db5c663d1b63d6ea7b0"
+      ],
+      "derivation_manifest_sha256": "5e972e25d08a25d7ef40e79e7d76b6a26152fa5777feedd383c870c7e88cf2b9",
+      "chunk_derivation_sha256": "6ec3c98e62e942bf763c31e74f5153b81e098402a84915838f090ba7f04d2e02"
+    },
+    {
+      "chunk_id": "17fb41b6-995d-4c41-aa38-7092cdbd3815",
+      "extraction_sha256": "6ae6c7e4f4b787c1b2b9d72cefbe454d3502a087ec4312c99d19a73a33fa7f17",
+      "source_file": "MNDT080",
+      "chunk_index": 82,
+      "original_chunk_content_sha256": "cd839bc312cd678ea930c023129cd670dd57d2e2500ac9ce170f16a022489331",
+      "derived_chunk_content_sha256": "8dcc4f9ec4ee7b4b0f3a3ac1893464738afabdc7077d5088b6eb9fd83eb1ca87",
+      "derived_content": "| Dirección | Descripción                                                        | Valores |\n| --------- | ------------------------------------------------------------------ | ------- |\n| 0-1       | Código de Alarma Zona 1, C.R.A. Principal                          | 111     |\n| 2-3       | Código de Alarma Zona 2, C.R.A. Principal                          | 121     |\n| 4-5       | Código de Alarma Zona 3, C.R.A. Principal                          | 13<sup>1</sup>     |\n| 6-7       | Código de Alarma Zona 4, C.R.A. Principal                          | 14<sup>1</sup>     |\n| 8-9       | Código de Alarma Zona 5, C.R.A. Principal                          | 15<sup>1</sup>     |\n| 10-11     | Código de Alarma Zona 6, C.R.A. Principal                          | 16<sup>1</sup>     |\n| 12-13     | Código de Alarma Zona 7, C.R.A. Principal                          | 17<sup>1</sup>     |\n| 14-15     | Código de Alarma Zona 8, C.R.A. Principal                          | 18<sup>1</sup>     |\n| 16-17     | Código de Alarma Zona 9, C.R.A. Principal                          | 19<sup>1</sup>     |\n| 18-19     | Código de Alarma Zona 10, C.R.A. Principal                         | 1A1     |\n| 20-21     | Código de Zona 1 Anulada, C.R.A. Principal                         | 41      |\n| 22-23     | Código de Zona 2 Anulada, C.R.A. Principal                         | 42      |\n| 24-25     | Código de Zona 3 Anulada, C.R.A. Principal                         | 43      |\n| 26-27     | Código de Zona 4 Anulada, C.R.A. Principal                         | 44      |\n| 28-29     | Código de Zona 5 Anulada, C.R.A. Principal                         | 45      |\n| 30-31     | Código de Zona 6 Anulada, C.R.A. Principal                         | 46      |\n| 32-33     | Código de Zona 7 Anulada, C.R.A. Principal                         | 47      |\n| 34-35     | Código de Zona 8 Anulada, C.R.A. Principal                         | 48      |\n| 36-37     | Código de Zona 9 Anulada, C.R.A. Principal                         | 49      |\n| 38-39     | Código de Zona 10 Anulada, C.R.A. Principal                        | 4A      |\n| 40-41     | Código de Evacuación Activada, C.R.A. Principal                    | 97      |\n| 42-43     | Código de Fallo de Alimentación Red, C.R.A. Principal              | 92      |\n| 44-45     | Código de Avería en Zona 1, C.R.A. Principal                       | F1      |\n| 46-47     | Código de Avería en Zona 2, C.R.A. Principal                       | F2      |\n| 48-49     | Código de Avería en Zona 3, C.R.A. Principal                       | F3      |\n| 50-51     | Código de Avería en Zona 4, C.R.A. Principal                       | F4      |\n| 52-53     | Código de Avería en Zona 5, C.R.A. Principal                       | F5      |\n| 54-55     | Código de Avería en Zona 6, C.R.A. Principal                       | F6      |\n| 56-57     | Código de Avería en Zona 7, C.R.A. Principal                       | F7      |\n| 58-59     | Código de Avería en Zona 8, C.R.A. Principal                       | F8      |\n| 60-61     | Código de Avería en Zona 9, C.R.A. Principal                       | F9      |\n| 62-63     | Código de Avería en Zona 10, C.R.A. Principal                      | FA      |\n| 64-65     | Código de Fallo de Tierra, C.R.A. Principal                        | 61      |\n| 66-67     | Código de Tensión Baja en Baterías, C.R.A. Principal               | 62      |\n| 68-69     | Código de Baterías no instaladas, C.R.A. Principal                 | 63      |\n| 70-71     | Código de Avería en Línea Teléfonos 1, C.R.A. Principal            | 64      |\n| 72-73     | Código de Avería en Línea Teléfonos 2, C.R.A. Principal            | 65      |\n| 74-75     | Código de Avería en Cto.Señalización 1, C.R.A. Principal           | 66      |\n| 76-77     | Código de Avería en Cto.Señalización 2, C.R.A. Principal           | 67      |\n| 78-79     | Código de Avería en Cto.Señalización 3, C.R.A. Principal           | 68      |\n| 80-81     | Código de Avería en Cto.Señalización 4, C.R.A. Principal           | 69      |\n| 82-83     | Código de Cto.Señalización 1 Anulado, C.R.A. Principal             | 4B      |\n| 84-85     | Código de Cto.Señalización 2 Anulado, C.R.A. Principal             | 4C      |\n| 86-87     | Código de Cto.Señalización 3 Anulado, C.R.A. Principal             | 4D      |\n| 88-89     | Código de Cto.Señalización 4 Anulado, C.R.A. Principal             | 4E      |\n| 90-91     | Código de Fallo Comuni.Línea Teléfonos 1, C.R.A. Principal         | 6A      |\n| 92-93     | Código de Fallo Comuni.Línea Teléfonos 2, C.R.A. Principal         | 6B      |\n| 94-95     | Código de Avería en Impresora, C.R.A. Principal                    | 6C      |\n| 96-97     | Código de Avería en Anunciador, C.R.A. Principal                   | 6D      |\n| 98-99     | Código de Avería Comunicaciones en Anunc. RS-485, C.R.A. Principal | 6E      |\n| 100-101   | Código de Sistema en Estado NO normal, C.R.A. Principal            | 6F      |\n| 102-103   | Código de Restauración de Alarma Zona 1, C.R.A. Principal          | E1      |\n| 104-105   | Código de Restauración de Alarma Zona 2, C.R.A. Principal          | E2      |\n| 106-107   | Código de Restauración de Alarma Zona 3, C.R.A. Principal          | E3      |\n| 108-109   | Código de Restauración de Alarma Zona 4, C.R.A. Principal          | E4      |\n| 110-111   | Código de Restauración de Alarma Zona 5, C.R.A. Principal          | E5      |\n| 112-113   | Código de Restauración de Alarma Zona 6, C.R.A. Principal          | E6      |\n| 114-115   | Código de Restauración de Alarma Zona 7, C.R.A. Principal          | E7      |\n| 116-117   | Código de Restauración de Alarma Zona 8, C.R.A. Principal          | E8      |\n| 118-119   | Código de Restauración de Alarma Zona 9, C.R.A. Principal          | E9      |\n| 120-121   | Código de Restauración de Alarma Zona 10, C.R.A. Principal         | EA      |",
+      "source_pdf_receipt_sha256s": [
+        "041f289fd86e54d57d7b0d6ac2397e299eda8ce5edaf5d93a9d4ebe1e95cd7bf",
+        "275fb59f550513c3e42a6767685292bce3f8635b98e09d3582891ff30a4fc30b",
+        "360643d3d21fc16e2f0355b6eedf603ad037896d01b1e713a14d259ab05dff16",
+        "48503410c0457d3f7a11fb0c2de5adf8cf39cbf9d1af94032d6500c35486da59",
+        "7030282b5a0a4edbd6d037a9362c675797045027fe748a9144f9d0bc32185fe3",
+        "bd13c07c9b0f1d72a2f204943ef0a48329b765fea5a67f1bfa37f1931a6558b3",
+        "e691072d1f6e803d33557ba933fc0cbe475633f3fcbf46ab7e1e7177d6c41591"
+      ],
+      "derivation_manifest_sha256": "c80d7b5914ed6cb814da975c8e9be6e66da418b862139af7d8e4ff69f18e7173",
+      "chunk_derivation_sha256": "b8807f4798c6550b277b2e359630b8276462f80491ace543183f94310681d9f6"
+    },
+    {
+      "chunk_id": "dbaf426c-4557-4c88-923b-358db3eb4f14",
+      "extraction_sha256": "6ae6c7e4f4b787c1b2b9d72cefbe454d3502a087ec4312c99d19a73a33fa7f17",
+      "source_file": "MNDT080",
+      "chunk_index": 90,
+      "original_chunk_content_sha256": "f91fc3be31aa83f24ed19568ad150bcf54a53a86ad62b1d9698d19abee318cdd",
+      "derived_chunk_content_sha256": "893033e851db97893389156946a90be1bd8956a91ab8bb985f827445e90a0f1c",
+      "derived_content": "| Dirección | Descripción                                                         | Valores |\n| --------- | ------------------------------------------------------------------- | ------- |\n| 216-217   | Código de Alarma Zona 1, C.R.A. Secundaria                          | 11<sup>1</sup>     |\n| 218-219   | Código de Alarma Zona 2, C.R.A. Secundaria                          | 12<sup>1</sup>     |\n| 220-221   | Código de Alarma Zona 3, C.R.A. Secundaria                          | 13<sup>1</sup>     |\n| 222-223   | Código de Alarma Zona 4, C.R.A. Secundaria                          | 14<sup>1</sup>     |\n| 224-225   | Código de Alarma Zona 5, C.R.A. Secundaria                          | 15<sup>1</sup>     |\n| 226-227   | Código de Alarma Zona 6, C.R.A. Secundaria                          | 16<sup>1</sup>     |\n| 228-229   | Código de Alarma Zona 7, C.R.A. Secundaria                          | 17<sup>1</sup>     |\n| 230-231   | Código de Alarma Zona 8, C.R.A. Secundaria                          | 18<sup>1</sup>     |\n| 232-233   | Código de Alarma Zona 9, C.R.A. Secundaria                          | 19<sup>1</sup>     |\n| 234-235   | Código de Alarma Zona 10, C.R.A. Secundaria                         | 1A1     |\n| 236-237   | Código de Zona 1 Anulada, C.R.A. Secundaria                         | 41      |\n| 238-239   | Código de Zona 2 Anulada, C.R.A. Secundaria                         | 42      |\n| 240-241   | Código de Zona 3 Anulada, C.R.A. Secundaria                         | 43      |\n| 242-243   | Código de Zona 4 Anulada, C.R.A. Secundaria                         | 44      |\n| 244-245   | Código de Zona 5 Anulada, C.R.A. Secundaria                         | 45      |\n| 246-247   | Código de Zona 6 Anulada, C.R.A. Secundaria                         | 46      |\n| 248-249   | Código de Zona 7 Anulada, C.R.A. Secundaria                         | 47      |\n| 250-251   | Código de Zona 8 Anulada, C.R.A. Secundaria                         | 48      |\n| 252-253   | Código de Zona 9 Anulada, C.R.A. Secundaria                         | 49      |\n| 254-255   | Código de Zona 10 Anulada, C.R.A. Secundaria                        | 4A      |\n| 256-257   | Código de Evacuación Activada, C.R.A. Secundaria                    | 97      |\n| 258-259   | Código de Fallo de Alimentación Red, C.R.A. Secundaria              | 92      |\n| 260-261   | Código de Avería en Zona 1, C.R.A. Secundaria                       | F1      |\n| 262-263   | Código de Avería en Zona 2, C.R.A. Secundaria                       | F2      |\n| 264-265   | Código de Avería en Zona 3, C.R.A. Secundaria                       | F3      |\n| 266-267   | Código de Avería en Zona 4, C.R.A. Secundaria                       | F4      |\n| 268-269   | Código de Avería en Zona 5, C.R.A. Secundaria                       | F5      |\n| 270-271   | Código de Avería en Zona 6, C.R.A. Secundaria                       | F6      |\n| 272-273   | Código de Avería en Zona 7, C.R.A. Secundaria                       | F7      |\n| 274-275   | Código de Avería en Zona 8, C.R.A. Secundaria                       | F8      |\n| 276-277   | Código de Avería en Zona 9, C.R.A. Secundaria                       | F9      |\n| 278-279   | Código de Avería en Zona 10, C.R.A. Secundaria                      | FA      |\n| 280-281   | Código de Fallo de Tierra, C.R.A. Secundaria                        | 61      |\n| 282-283   | Código de Tensión Baja en Baterías, C.R.A. Secundaria               | 62      |\n| 284-285   | Código de Baterías no instaladas, C.R.A. Secundaria                 | 63      |\n| 286-287   | Código de Avería en Línea Teléfonos 1, C.R.A. Secundaria            | 64      |\n| 288-289   | Código de Avería en Línea Teléfonos 2, C.R.A. Secundaria            | 65      |\n| 290-291   | Código de Avería en Cto.Señalización 1, C.R.A. Secundaria           | 66      |\n| 292-293   | Código de Avería en Cto.Señalización 2, C.R.A. Secundaria           | 67      |\n| 294-295   | Código de Avería en Cto.Señalización 3, C.R.A. Secundaria           | 68      |\n| 296-297   | Código de Avería en Cto.Señalización 4, C.R.A. Secundaria           | 69      |\n| 298-299   | Código de Cto.Señalización 1 Anulado, C.R.A. Secundaria             | 4B      |\n| 300-301   | Código de Cto.Señalización 2 Anulado, C.R.A. Secundaria             | 4C      |\n| 302-303   | Código de Cto.Señalización 3 Anulado, C.R.A. Secundaria             | 4D      |\n| 304-305   | Código de Cto.Señalización 4 Anulado, C.R.A. Secundaria             | 4E      |\n| 306-307   | Código de Fallo Comuni.Línea Teléfonos 1, C.R.A. Secundaria         | 6A      |\n| 308-309   | Código de Fallo Comuni.Línea Teléfonos 2, C.R.A. Secundaria         | 6B      |\n| 310-311   | Código de Avería en Impresora, C.R.A. Secundaria                    | 6C      |\n| 312-313   | Código de Avería en Anunciador, C.R.A. Secundaria                   | 6D      |\n| 314-315   | Código de Avería Comunicaciones en Anunc. RS-485, C.R.A. Secundaria | 6E      |\n| 316-317   | Código de Sistema en Estado NO normal, C.R.A. Secundaria            | 6F      |\n| 318-319   | Código de Restauración de Alarma Zona 1, C.R.A. Secundaria          | E1      |\n| 320-321   | Código de Restauración de Alarma Zona 2, C.R.A. Secundaria          | E2      |\n| 322-323   | Código de Restauración de Alarma Zona 3, C.R.A. Secundaria          | E3      |\n| 324-325   | Código de Restauración de Alarma Zona 4, C.R.A. Secundaria          | E4      |\n| 326-327   | Código de Restauración de Alarma Zona 5, C.R.A. Secundaria          | E5      |\n| 328-329   | Código de Restauración de Alarma Zona 6, C.R.A. Secundaria          | E6      |\n| 330-331   | Código de Restauración de Alarma Zona 7, C.R.A. Secundaria          | E7      |\n| 332-333   | Código de Restauración de Alarma Zona 8, C.R.A. Secundaria          | E8      |\n| 334-335   | Código de Restauración de Alarma Zona 9, C.R.A. Secundaria          | E9      |\n| 336-337   | Código de Restauración de Alarma Zona 10, C.R.A. Secundaria         | EA      |",
+      "source_pdf_receipt_sha256s": [
+        "23362bbc20573550cae41b5469d6cc98e3c3adaca02b380bc3467426cd3de62e",
+        "3d4fa14487023a4c4f6cfd57d6cfc2751046b998d2c1b8eeddb8152d5f2dc287",
+        "4d1aaf7c58df58a89f38e0f86c3f2bf4e4b50e493ea650af0ae46fac01a6cfb9",
+        "678ea41b55f5f18de75de35cb14382855702e85fc49098e453da00838a476a3b",
+        "abd5a263d8bd92efe5dc5edfa0e58fb7c04c3511af4e5ec1729509c3c9585b09",
+        "affec00d89a627c0edcd09ef6207cf766804d297b8e925205a4041f96a7fa450",
+        "cbdf2035176bc071bedf7c2746e9a5893558b7c808f6ffde33af67b3223d6dcb",
+        "ed3c0685ad18b216a2b1a0b6ecfcd9caee0bb7f063f9ea3083f7c3d3e5f16954",
+        "f876fa2a557debb4d6d6fdceb4b4c03692f98a59ee0be58653ccce0daf36abdc"
+      ],
+      "derivation_manifest_sha256": "c80d7b5914ed6cb814da975c8e9be6e66da418b862139af7d8e4ff69f18e7173",
+      "chunk_derivation_sha256": "f58adc1edca6aacd05f2cb42d00ce3de6726d75c00bb6c1bb0cf70371ebba9a1"
+    },
+    {
+      "chunk_id": "18facf8e-a482-4b51-92b8-dcf4098ada32",
+      "extraction_sha256": "7b970d67e6dbb2f30604d230b1fa30b288983aa088b32f7bd61b21a878128712",
+      "source_file": "I56-6575-005_ES FAAST LT-200 Loop QIG",
+      "chunk_index": 16,
+      "original_chunk_content_sha256": "7b3e11490429d541956cd358b97de1cc36d1f708b66e2632dc610524a6b0d9e5",
+      "derived_chunk_content_sha256": "966fea99f9f54ffedd740a62ed254abbdd8327e326514ce31c5c04cce3562c11",
+      "derived_content": "### Tabla 3a: Especificación eléctrica de los relés\n\n| ESPECIFICACIÓN                    | MÍN. | MÁX. | UNIDADES    | OBSERVACIONES           |\n| --------------------------------- | ---- | ---- | ----------- | ----------------------- |\n| Potencia nominal de los contactos |      | 2    | A           | Carga resistiva 30 V CC |\n|                                   |      | 0,5  | A           | Carga resistiva 30 V CA |\n| Vida útil                         | 10<sup>5</sup>  |      | Operaciones |                         |",
+      "source_pdf_receipt_sha256s": [
+        "5e771d5e05a7dfab59c76364a82f3588c125f2485bc64a03b7838f5795029aba"
+      ],
+      "derivation_manifest_sha256": "0cf749654a958ff4b86b1eeb9264b7b34cfa9979c766dc470d0bbf70419fb547",
+      "chunk_derivation_sha256": "94d87736270d7fc857d93830cbd4a49c9622f78d41400bba9e8ace86dde51dc8"
+    },
+    {
+      "chunk_id": "5ba44464-842b-46f7-ac43-259be83ad416",
+      "extraction_sha256": "82902ccaf5867a5f84a1b6bfd8aeccc362aa9c46896bed4338a46922e166dcbf",
+      "source_file": "I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG",
+      "chunk_index": 9,
+      "original_chunk_content_sha256": "6f2b9e473d00e85c1521b769502698cbc231fa79178f5e740b4edc93fe7596ce",
+      "derived_chunk_content_sha256": "529f530ba35cb868f8eb4aaa5447e8e556eb750d4db262b0abe6d477bee9449b",
+      "derived_content": "### Table 3: Relays\n\n| RELAY            | ACTION:                                                                                                                                   | NOTES                                                                                                                    |\n| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |\n| ALARM 1 or 2     | Set ON when ALARM CONDITION is met on a channel                                                                                           | Default condition = Level 1. Alarm state is latched as default. A manual RESET is necessary to deactivate LED and relay. |\n| PRE-ALARM 1 or 2 | Set ON when PRE-ALARM CONDITION is met on channel.                                                                                        | Default condition = Level 1. NOTE: When Pre-ALARM = ALARM = Level 1, Pre-ALARM will actually respond at 70% of Level 1.  |\n| FAULT 1 or 2     | When FAULT CONDITION on Ch1 or Ch2 or a common FAULT occurs. Fault is also indicated when in SERVICE mode and when the unit is unpowered. | Fault state is not latched (default)                                                                                     |\n| SOUNDER 1 or 2   | Set ON when a channel is in ALARM / PRE-ALARM. Sounder 1 corresponds to Ch1 and Sounder 2 corresponds to Ch2                              | Default condition = set on in ALARM.                                                                                     |\n\n### Table 3a: Relay Electrical Specification\n\n| SPECIFICATION  | MIN | MAX | UNITS      | COMMENTS              |\n| -------------- | --- | --- | ---------- | --------------------- |\n| Contact Rating |     | 2   | A          | 30 VDC resistive load |\n|                |     | 0.5 | A          | 30 VAC resistive load |\n| Life Time      | 10<sup>5</sup> |     | Operations |                       |\n\nD200-101-01",
+      "source_pdf_receipt_sha256s": [
+        "f5c8f706b4892e8cb38d800828f807fa732cee09532ded283c0a8ced792e4083"
+      ],
+      "derivation_manifest_sha256": "cd7b3f65ef6970db1738fa9a5bb6a77c0bbab9ff095600341e9fb3921df40bd5",
+      "chunk_derivation_sha256": "85bde2c2a5fb557513ee263a0c42581eacabb954c61e4ac54f1a277143380988"
+    },
+    {
+      "chunk_id": "0438dbce-ae0f-4b74-8209-b86c42da87ef",
+      "extraction_sha256": "a8db1f7fbd3114697756140949a750e3e99d9c64bc1d72d89b5ff9e152dba0a9",
+      "source_file": "I56-3947-202_FAAST LT_MULTI",
+      "chunk_index": 12,
+      "original_chunk_content_sha256": "4e9c453904ff81f076410e40db72bf49a9f0af5e45d2b9a1997bf4576f9c7d0e",
+      "derived_chunk_content_sha256": "6f6d5187139b73be280e7ce6eed734a7f30707511572ad611ff2140dde663d89",
+      "derived_content": "### Table 3: Relays\n\n| RELAY          | ACTION:                                                                                                                                     | NOTES                                |\n| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |\n| ALARM 1 or 2   | Controlled by panel when it determines alarm condition has been met.                                                                        | Set ON and OFF by panel; not latched |\n| FAULT 1 or 2   | When FAULT CONDITION on Ch1 or Ch2 or a common FAULT occurs. Fault is also signalled when in Service Mode and when the device is unpowered. | Fault state is not latched.          |\n| SOUNDER 1 or 2 | Set ON when a channel is in ALARM. Sounder 1 corresponds to Ch1 and Sounder 2 corresponds to Ch2                                            | Default condition = set on in ALARM. |\n\n### Table 3a: Relay Electrical Specification\n\n| SPECIFICATION  | MIN | MAX | UNITS      | COMMENTS              |\n| -------------- | --- | --- | ---------- | --------------------- |\n| Contact Rating |     | 2   | A          | 30 VDC resistive load |\n|                |     | 0.5 | A          | 30 VAC resistive load |\n| Life Time      | 10<sup>5</sup> |     | Operations |                       |",
+      "source_pdf_receipt_sha256s": [
+        "edbeeb68c42c3eda1c4da7ea95283419a457ddd39461a29691097e5b79863ab5"
+      ],
+      "derivation_manifest_sha256": "413314551e69db72e7cf386ee2850e0a948fab3d12c11b1771fc0781a61c41d4",
+      "chunk_derivation_sha256": "8e8d44195976ae1c6ef0940dedf8021c430c4264cb19a78de0aeebe667ee86bc"
+    },
+    {
+      "chunk_id": "686013cf-af20-4aa0-bbf6-78e2978dc72b",
+      "extraction_sha256": "a8db1f7fbd3114697756140949a750e3e99d9c64bc1d72d89b5ff9e152dba0a9",
+      "source_file": "I56-3947-202_FAAST LT_MULTI",
+      "chunk_index": 44,
+      "original_chunk_content_sha256": "cb2f63dad39d577a13d125093ee69eb41b9906d62b642ce67ea67a8b389f1ee2",
+      "derived_chunk_content_sha256": "13af18d44b8371b6ba7556bfcabb56a3cf9bb311a9b5efd607aa04cc44be27c2",
+      "derived_content": "## ADVERTENCIA: Conmutación de cargas inductivas\n\n```\nFAAST LT\n   |\n   |\n   |─────o  o─────────────┐\n   |                      |\n   |                      R  ✓\n   |                      |\n   |─────o  o─────────────┘\n\nFAAST LT\n   |\n   |\n   |─────o  o─────────────┐\n   |                      |\n   |         /\\          ║║\n   |        /  \\         ║║L    ══C  ✗\n   |                      |\n   |─────o  o─────────────┘\n\n        ▼\n   T1   FAAST LT\n          |\n          |\n   T2     |─────o  o─────────────┐\n          |                      |\n          |         /\\          ║║\n   T3     |        /  \\         ║║L/C  ✓\n          |         \\/           |\n          |─────o  o─────────────┘\n   T4              1N6284CA\n```\n\nLas cargas inductivas pueden provocar sobretensionesç de desconexión que pueden dañar los contactos de los relés del módulo (ver arriba).\n\nPara proteger los contactos de los relés, conecte un supresor de voltaje transitorio (por ejemplo, 1N6284CA) para toda la carga según se indica.\n\nComo alternativa, para aplicaciones de CC sin supervisión, instale un diodo con tensión de ruptura inverso superior a diez veces la tensión del circuito.\n\n| T1  |   |\n| --- | - |\n| T2  |   |\n| T3  |   |\n| T4  |   |\n| T5  |   |\n| T6  |   |\n| T7  |   |\n| T8  |   |\n| T9  |   |\n| T10 |   |\n\n### Tabla 3: Relés\n\n| RELÉ         | ACCIÓN:                                                                                                                                                                                    | NOTAS                                          |\n| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------- |\n| ALARMA 1 o 2 | Controlada por el panel si determina que se da la condición de alarma.                                                                                                                     | Encendido y apagado por el panel; no enclavado |\n| AVERÍA 1 o 2 | Cuando se produce una CONDICIÓN DE AVERÍA en el canal 1 o 2 o una AVERÍA común. La avería también se indica en el modo de servicio y cuando se desconecta la alimentación del dispositivo. | El estado de avería no está enclavado.         |\n| SIRENA 1 o 2 | Se activa cuando el canal está en ALARMA. La sirena 1 se corresponde con el canal 1 y la sirena 2 con el canal 2                                                                           | Estado predet.= establecido en ALARMA.         |\n\n### Tabla 3a: Especificación eléctrica de los relés\n\n| ESPECIFICACIÓN   | MÍN. | MÁX. | UNIDADES    | OBSERVACIONES           |\n| ---------------- | ---- | ---- | ----------- | ----------------------- |\n| Potencia nominal |      | 2    | A           | Carga resistiva 30 V CC |\n| de los contactos |      | 0,5  | A           | Carga resistiva 30 V CA |\n| Vida útil        | 10<sup>5</sup>  |      | Operaciones |                         |\n\nN200-102-00                                                    6                                                    I56-3947-202",
+      "source_pdf_receipt_sha256s": [
+        "8ec2fe891ae1f7378b0b69ac1f9f9e6aa948eea0ea6f5806108b5748e49b2c6c"
+      ],
+      "derivation_manifest_sha256": "413314551e69db72e7cf386ee2850e0a948fab3d12c11b1771fc0781a61c41d4",
+      "chunk_derivation_sha256": "f502749e8fd93a6a134b4585a07682f3a230680a25652b38073a07d0a6876732"
+    },
+    {
+      "chunk_id": "f732360c-1a19-4f37-86f8-27f9247a1d30",
+      "extraction_sha256": "c641817eded9d4bc79625bc1f6cdbb0076f40ffe1340ec7c2dc17770a63c03ad",
+      "source_file": "I56-6575-005_EN-FAAST-LT-200-Loop-QIG",
+      "chunk_index": 13,
+      "original_chunk_content_sha256": "b8124cb93cbf226505d86982711a4ede390e6e1d4267e7e71ae7c80ea3b33953",
+      "derived_chunk_content_sha256": "c7c29e9971ea45eb932e65c7f8c37da6a1b7db53eebef8760d4d3f47e07ea2c0",
+      "derived_content": "## Table 3a: Relay Electrical Specification\n\n| SPECIFICATION  | MIN | MAX       | UNITS      | COMMENTS                                        |\n| -------------- | --- | --------- | ---------- | ----------------------------------------------- |\n| Contact Rating |     | 2<br/>0.5 | A<br/>A    | 30 VDC resistive load<br/>30 VAC resistive load |\n| Life Time      | 10<sup>5</sup> |           | Operations |                                                 |\n\nD200-102-01                                                    5                                                    I56-6575-005\n\nD200-102-01                                                                        6                                       I56-6575-005",
+      "source_pdf_receipt_sha256s": [
+        "2efff3720c7041e7b7314e3b689951db57a186b68437ae42a0f01131566d27f3"
+      ],
+      "derivation_manifest_sha256": "fe849c25ea57ca384bb0a29ac57633fcf9d17a2df80d706813f971b0334becb8",
+      "chunk_derivation_sha256": "0ef2efc80697a2b0aed361c84076036a2b652432729cea7cb97593a1302c979d"
+    }
+  ],
+  "artifact_sha256": "33c095aed51752351e884e7e6d01b7887f30fabeebda6127ebf38942c4d1f91e"
+}

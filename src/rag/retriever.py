@@ -1138,7 +1138,7 @@ def _merge_channels(keyword_results: list[dict], vector_results: list[dict],
     return merged
 
 
-_HYDRATE_SELECT = ("id,content,context,product_model,category,section_title,content_type,"
+_HYDRATE_SELECT = ("id,content,context,extraction_sha256,chunk_index,product_model,category,section_title,content_type,"
                  "manufacturer,protocol,doc_type,language,has_diagram,diagram_url,"
                  "source_file,page_number,document_id,parent_id")
 

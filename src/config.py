@@ -123,6 +123,10 @@ STRUCTURAL_NEIGHBOR_COVERAGE = _strict_on_off(
 # post-rerank master switch are enabled.
 TABLE_PREAMBLE_CLOSURE = _strict_on_off("TABLE_PREAMBLE_CLOSURE")
 
+# S183 content-addressed, exact live-chunk-bound typographic evidence view. It does not
+# affect retrieval/rerank scores and stays inert unless explicitly released.
+EVIDENCE_DERIVATION_OVERLAY = _strict_on_off("EVIDENCE_DERIVATION_OVERLAY")
+
 # S107 v4 candidate, default inert. This lane flag and the S109 master switch
 # enable canonical-document HYQ independently of the other coverage lanes.
 CANONICAL_HYQ_COVERAGE = _strict_on_off("CANONICAL_HYQ_COVERAGE")
