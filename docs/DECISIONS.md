@@ -1977,3 +1977,29 @@ proveedor, usó siete tools y devolvió una revisión final vacía; el trace se 
 máximo 40 llamadas económicas, $4 interno, cero DB/runtime/producción/deploy. La ejecución es el
 siguiente tramo; hoy mueve 0 facts. `chunks_v3` permanece
 `FINAL_NO_GO_CHUNKS_V3_WHOLESALE` y Railway no es gate de PR/merge con CI verde.
+
+## DEC-113 — S201 HOLD sin retry; S202 separa gold real de planner
+
+**Cierre causal de S201.** La ejecución se detuvo en el primer preflight `count_tokens` de
+Anthropic, antes de cualquier inferencia completada. El schema de autor había reintroducido arrays
+con `minItems`/`maxItems`, dialecto que S195-S196 ya había demostrado incompatible. No hay receipt
+de inferencia, Luna/Terra/targets recibieron 0 llamadas y el coste de inferencia conocido es $0. La
+cohorte de 12 preguntas queda cerrada: no se corrige y reintenta el mismo holdout.
+
+**Sucesor fresco y más estrecho.** S202 excluye todas las preguntas S201, los cuatro targets y los
+dos candidatos default-off. La selección hash sigue sin usar textos de facts, clases, `reaches_gen`
+ni outputs y congela 12 preguntas, 5 fabricantes, 12 productos y 43 facts. Cinco fabricantes es el
+máximo restante tras las exclusiones, no un umbral relajado a partir de resultados.
+
+**Generalización limpia del transporte.** El contrato reutilizable
+`src/rag/source_unit_gold.py` presenta a Anthropic un rectángulo estático 6×6 sin arrays, valores
+dinámicos, refs/defs ni combinators. El validador local impone identidad, orden, cardinalidad,
+pertenencia, contigüidad, duplicados e inactividad. El schema exacto pasó `count_tokens` con 0
+inferencias/retries y $0. Haiku autoriza y Luna valida independientemente; el gold requiere 0
+outputs inválidos, 0 desacuerdos y ≥36/43 facts soportados.
+
+**Frontera.** S202 no ejecuta planner ni targets y no puede mover facts. Un GO solo autoriza otro
+freeze para Terra; un fallo cierra la cohorte sin retry. Una integración futura sigue requiriendo
+revisión principal GPT-5.6 Sol `xhigh`, Fable 5 independiente sin bucle de convergencia y regresión
+completa. `chunks_v3` permanece `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`; Railway no bloquea merge con CI
+verde.
