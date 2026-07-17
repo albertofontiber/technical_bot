@@ -2049,3 +2049,29 @@ prohibir recomendaciones de aplicación no literales y separar `blocking_issues`
 `nonblocking_notes` con consistencia de veredicto. Es corrección genérica de instrumento y se
 medirá solo en población nueva. Planner/bot siguen cerrados. `chunks_v2` activo,
 `chunks_v3=FINAL_NO_GO_CHUNKS_V3_WHOLESALE`, Railway fuera del gate.
+
+## DEC-116 — pre-S204: contrato visual reusable, leakage HyQ cerrado y cohorte congelada
+
+**Corrección genérica.** S204 extrae `src/rag/visual_gold.py`: payload estrictamente pixel-only,
+citas sólo a páginas focus, prohibición de recomendaciones/aplicaciones no literales y revisión
+con `blocking_issues` separadas de `nonblocking_notes`. Un PASS puede conservar notas de estilo,
+pero el validador exige cero condiciones bloqueantes y rechaza contradicciones PASS/FAIL; también
+rechaza el caso vacíamente verdadero sin reviews.
+
+**Leakage detectado upstream.** La primera selección contenía preguntas sobre batería, pinout y
+montaje que ya aparecían en S99 como HyQ doc-side. No son preguntas de test, pero evaluarlas
+después contra un índice que las embebe sería contaminación. Se descartaron antes de cualquier
+autoría. El packet final añade las 179 HyQ asociadas a los tres PDFs al screen semántico junto con
+los 51 golds y congela tres relaciones visuales no presentes como preguntas exactas: topología
+Clase A, posiciones DIP 008/112 y ranuras visuales del KE-DBA-AUXW. Los revisores conservan el gate
+de novedad semántica. Son cinco páginas a 200 dpi, 55 PDFs descubiertos,
+cero overlap basename/SHA con golds y exclusión explícita de S203.
+
+**Revisión y gate.** Sol 5.6 `xhigh` y Fable 5 alcanzaron los pins exactos en sendas llamadas de
+revisión monolítica, pero agotaron 10.000/8.000 tokens sin JSON final. Se registran como
+`failed_api_incomplete`/`failed_api_max_tokens`, nunca `unavailable`, por coste conservador
+**$3,25083** y sin retry. La auditoría determinista confirmó/corrigió tres defectos y pasa 4/4
+tests. Se autoriza PR preejecución; sólo tras merge CI-verde se ejecutan como máximo ocho llamadas,
+sin retry, merge, reparación, salvage o postselección y con techo $40. Un GO crea candidatos aún
+no integrados y mueve 0 facts; requiere otro freeze antes de medir bot. `chunks_v2` sigue activo,
+`chunks_v3=FINAL_NO_GO_CHUNKS_V3_WHOLESALE` y Railway no bloquea PR/merge.

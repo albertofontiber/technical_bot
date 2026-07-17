@@ -1,0 +1,60 @@
+{
+  "schema": "s204_kidde_visual_design_review_adjudication_v1",
+  "status": "LOCAL_CRITICAL_AUDIT_PASS_WITH_FRONTIER_INCOMPLETE",
+  "frontier_review": {
+    "sol": {
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "xhigh",
+      "status": "failed_api_incomplete",
+      "retry": false,
+      "interpretation": "Exact pin reached; no final review JSON was emitted. This is not unavailable."
+    },
+    "fable": {
+      "model": "claude-fable-5",
+      "status": "failed_api_max_tokens",
+      "retry": false,
+      "interpretation": "Exact pin reached; no final review JSON was emitted. This is not unavailable."
+    }
+  },
+  "local_findings": [
+    {
+      "id": "L1",
+      "severity": "critical",
+      "status": "confirmed_fixed",
+      "description": "The first three textual predicates overlapped doc-side S99 HyQ questions and could contaminate later retrieval evaluation.",
+      "fix": "The packet now includes every S99 HyQ question for the selected PDFs in semantic duplicate coverage, and the cohort uses visual predicates not expressed by those questions: Class A topology, exact 008/112 DIP patterns and visual slot distinction."
+    },
+    {
+      "id": "L2",
+      "severity": "major",
+      "status": "confirmed_fixed",
+      "description": "all_pass returned true vacuously for an empty review list when called without prior shape validation.",
+      "fix": "all_pass now requires a non-empty review list; a deterministic regression test covers the case."
+    },
+    {
+      "id": "L3",
+      "severity": "minor",
+      "status": "confirmed_fixed",
+      "description": "The one-shot design review helper did not persist incomplete provider receipts before raising.",
+      "fix": "Both exact receipts are sealed in s204_kidde_visual_design_reviews_v1.json without rerunning either model."
+    }
+  ],
+  "deterministic_invariants": {
+    "pixel_only_payload": true,
+    "focus_page_citations_only": true,
+    "application_inference_without_explicit_support_forbidden": true,
+    "nonblocking_notes_do_not_invalidate_pass": true,
+    "pass_fail_consistency_validated": true,
+    "semantic_duplicate_coverage_includes_gold_and_selected_source_hyq": true,
+    "independent_generation_before_cross_review": true,
+    "provider_retries": 0,
+    "same_item_retry": false,
+    "candidate_merge_or_repair": false,
+    "paid_calls_max": 8,
+    "candidate_fact_credit": 0,
+    "railway_merge_gate": false,
+    "chunks_v3": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE"
+  },
+  "decision": "FREEZE_PREEXECUTION_AFTER_GREEN_DETERMINISTIC_GATES",
+  "residual_risk": "No valid final frontier design-review verdict was obtained; execution remains bounded and fail-closed, and both frontier models independently author and cross-review every candidate during the actual canary."
+}

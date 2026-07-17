@@ -1,0 +1,56 @@
+{
+  "schema": "s204_kidde_visual_design_reviews_v1",
+  "status": "BOTH_FRONTIER_REVIEWS_INCOMPLETE_NO_RETRY",
+  "reviewed_files": [
+    "evals/s204_kidde_visual_canary_design_v1.md",
+    "src/rag/visual_gold.py",
+    "scripts/s204_build_kidde_visual_canary.py",
+    "scripts/s204_run_kidde_visual_canary.py",
+    "tests/test_s204_kidde_visual_canary.py"
+  ],
+  "reviews": {
+    "sol": {
+      "reviewer": "gpt-5.6-sol",
+      "verdict": "INCOMPLETE",
+      "findings": [],
+      "residual_risks": [
+        "No final JSON after output allowance."
+      ]
+    },
+    "fable": {
+      "reviewer": "claude-fable-5",
+      "verdict": "INCOMPLETE",
+      "findings": [],
+      "residual_risks": [
+        "No final JSON after max_tokens."
+      ]
+    }
+  },
+  "receipts": [
+    {
+      "provider": "sol",
+      "model": "gpt-5.6-sol",
+      "status": "incomplete",
+      "usage": {
+        "input_tokens": 12966,
+        "output_tokens": 10000,
+        "total_tokens": 22966
+      }
+    },
+    {
+      "provider": "fable",
+      "model": "claude-fable-5",
+      "status": "max_tokens",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 21878,
+        "output_tokens": 8000
+      }
+    }
+  ],
+  "conservative_cost_usd": 3.25083,
+  "same_subject_retry": false,
+  "interpretation": "Both exact model pins were reached; neither emitted a final review. This is incomplete, not unavailable.",
+  "result_sha256": "80102ecdc182ea1794cc314545134a45d4e3ccf5e494cbc719b3b840dc742655"
+}
