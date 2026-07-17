@@ -66,6 +66,17 @@ def test_lf_writer_renames_namespace_and_reseals(tmp_path: Path) -> None:
     assert b"\r\n" not in path.read_bytes()
 
 
+def test_portable_text_hash_ignores_only_checkout_line_endings(tmp_path: Path) -> None:
+    lf = tmp_path / "lf.txt"
+    crlf = tmp_path / "crlf.txt"
+    changed = tmp_path / "changed.txt"
+    lf.write_bytes(b"first\nsecond\n")
+    crlf.write_bytes(b"first\r\nsecond\r\n")
+    changed.write_bytes(b"first\nchanged\n")
+    assert replay.portable_text_sha(lf) == replay.portable_text_sha(crlf)
+    assert replay.portable_text_sha(lf) != replay.portable_text_sha(changed)
+
+
 def test_frozen_authorization_when_present() -> None:
     if not replay.DEFAULT_PREREG.exists() or not replay.DEFAULT_PERMIT.exists():
         return

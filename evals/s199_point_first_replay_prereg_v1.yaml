@@ -94,13 +94,13 @@ frozen_inputs:
   s199_source_packet: {path: evals/s199_restored_margin_source_packet_v1.json, sha256: 7582ae38ecc50a9c964ccdaf4fd2aef5b814b11e1774029e5e38464834e111fd}
   s199_source_builder: {path: scripts/s199_build_restored_margin_packet.py, sha256: 2b22a40a313b6267fe6963deba7475cf15051915b848edcc4b11e99b0db5d7ad}
   s199_source_tests: {path: tests/test_s199_restored_margin_packet.py, sha256: 592f1b329e6d9e6cc779a4e772740e7dbbd5ec4b1e9d15b862f8d6889e7401cc}
-  s199_replay_adapter: {path: scripts/s199_point_first_replay.py, sha256: 95e829c3fd56292d12cd748bd66832434ff8631d66a26c1bc1f7dd87a68c4376}
-  s199_replay_tests: {path: tests/test_s199_point_first_replay.py, sha256: 77554877675c47e725768d08980a8a8d0750f0f101cacc3bcb5468959e876cb2}
+  s199_replay_adapter: {path: scripts/s199_point_first_replay.py, sha256: 50948804b1c02a17e407d5eb0c6c020f9ce45200195c037d65d4fc48725116e8}
+  s199_replay_tests: {path: tests/test_s199_point_first_replay.py, sha256: a207356d34207670d54386500ee8e2104ff2759d2c85b34626b1a502369765bf}
   point_transport_authority: {path: scripts/s196_static_transport_canary.py, sha256: fe889a97df191a44ddeb9d803bc5145635e29daadb4b1e9906fd3fe0872f65f3}
   question_transport_authority: {path: scripts/s198_question_schema_canary.py, sha256: c812893d3a45ccffb848d9c409cc6a569ab698713ba818223388d41e8c1c43f1}
-  evidence_unitizer: {path: src/rag/evidence_units_v2.py, sha256: 4bd52372005043b3346217849f8a1740636ccdd454033506a84e4d61ee294ead}
+  evidence_unitizer: {path: src/rag/evidence_units_v2.py, sha256: c80498f59452280f7630411b1740664c8ec946a5e3a6511441d6140f88727eab}
   eol_contract: {path: .gitattributes, sha256: 2c9d985cbf341fdf986651205ed05681170632d2cde970c0d06967311211005b}
-  runtime_requirements: {path: requirements.txt, sha256: f0332b0daa8a369c9d7d25036af73bfd3c8323b88b22b3bdd9d54639d535f378}
+  runtime_requirements: {path: requirements.txt, sha256: e4946c926457f51bc81e3ea8e27c4b275d95537d29abe4cb26cd77b2965e2872}
 
 frontier_review:
   principal: {model: gpt-5.6-sol, reasoning_effort: xhigh, status: inherited_completed_and_adjudicated_from_s198}

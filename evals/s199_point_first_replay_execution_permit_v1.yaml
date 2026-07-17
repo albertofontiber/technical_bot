@@ -3,9 +3,9 @@ status: EXECUTION_GO_PAID_BOUNDED_NO_RETRY
 authority: user_requested_continue_toward_more_facts_ok
 
 frozen_artifacts:
-  preregistration: {path: evals/s199_point_first_replay_prereg_v1.yaml, sha256: c3346543454f5a4af4784e4870e2ee71e891342f8fe161c26dbfbd1795eb696a}
-  adapter: {path: scripts/s199_point_first_replay.py, sha256: 95e829c3fd56292d12cd748bd66832434ff8631d66a26c1bc1f7dd87a68c4376}
-  adapter_tests: {path: tests/test_s199_point_first_replay.py, sha256: 77554877675c47e725768d08980a8a8d0750f0f101cacc3bcb5468959e876cb2}
+  preregistration: {path: evals/s199_point_first_replay_prereg_v1.yaml, sha256: d9846a27208a41741991994beb68ad07d92a1b7b3a3fcd304c8889dc18c62052}
+  adapter: {path: scripts/s199_point_first_replay.py, sha256: 50948804b1c02a17e407d5eb0c6c020f9ce45200195c037d65d4fc48725116e8}
+  adapter_tests: {path: tests/test_s199_point_first_replay.py, sha256: a207356d34207670d54386500ee8e2104ff2759d2c85b34626b1a502369765bf}
   semantic_engine: {path: scripts/s198_point_first_scope_gate.py, sha256: 922bd11b6fcc591aeccdf4ff5f841c16b4b60cf256108529bcb01ede11a682fb}
 
 limits:

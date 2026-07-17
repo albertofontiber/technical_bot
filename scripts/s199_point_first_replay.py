@@ -90,6 +90,11 @@ def file_sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def portable_text_sha(path: Path) -> str:
+    """Hash text canonically while ignoring only the CRLF/LF checkout difference."""
+    return hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+
+
 def _normalized(value: Any) -> str:
     return engine.normalized_identity(value)
 
@@ -226,7 +231,9 @@ def validate_authorization(prereg_path: Path, permit_path: Path) -> dict[str, An
     } != required:
         raise RuntimeError("S199 frozen input inventory drift")
     for key, relative in required.items():
-        if prereg["frozen_inputs"][key]["sha256"] != file_sha(ROOT / relative):
+        if prereg["frozen_inputs"][key]["sha256"] != portable_text_sha(
+            ROOT / relative
+        ):
             raise RuntimeError(f"S199 frozen input drift: {key}")
 
     expected_permit = {
