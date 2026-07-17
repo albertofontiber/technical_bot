@@ -1,0 +1,60 @@
+schema_version: s161_reconciled_funnel_projection_v1
+instrument: s161_evidence_based_funnel_projection
+status: DIAGNOSTIC_PROJECTION_NOT_OFFICIAL_ATOMIC_KPI
+
+authority:
+  prior_projection: evals/s153_reconciled_funnel_projection_v1.yaml
+  table_preamble_gate: evals/s161_table_preamble_answer_probe_gate_v1.yaml
+  visual_hold_receipt: evals/s161_pdf_visual_hold_receipt_v1.yaml
+
+diagnostic_projection:
+  denominator: 157
+  stage_histogram:
+    OK: 139
+    retrieval-miss: 4
+    document-extraction-hold: 1
+    synthesis-miss: 13
+  non_ok_total: 18
+  ok_rate: 0.8853503184713376
+  ok_rate_percent: 88.54
+  target_ok_for_95_percent: 150
+  gap_to_95_percent: 11
+  largest_actionable_bucket: synthesis-miss
+
+bridge_from_s153:
+  source_contract_gap_before: 5
+  source_contract_gap_after: 0
+  facts_moved_to_ok_diagnostic: 5
+  source_contract_hold_reclassified_as_document_extraction_hold: 1
+  explanation: >-
+    The source-bound table preamble recovered all five missing CH2-scoped facts
+    at answer level. Visual PDF inspection also narrowed the remaining hold to a
+    specific extraction-semantic loss: a superscript flattened into plain text.
+
+sequencing:
+  immediate: resolve_the_single_document_extraction_hold_locally
+  then: >-
+    Synthesis is the largest remaining bucket. Once the hold is resolved and the
+    table-preamble candidate is locally safe, return to the 13 synthesis misses
+    before spending disproportionate effort on four residual retrieval misses.
+
+target_sensitivity:
+  if_document_extraction_hold_and_all_13_synthesis_facts_became_ok:
+    OK: 153
+    ok_rate_percent: 97.45
+  minimum_additional_ok_needed: 11
+
+limitations:
+  official_atomic_kpi: null
+  reason: >-
+    The denominator remains the provisional hybrid S133 bridge; 77 legacy carries
+    still lack complete atomic requiredness adjudication. This projection tracks
+    evidence-backed stage movement without presenting it as the official KPI.
+  chunks_version: chunks_v2_exact_S113_context
+  chunks_v3_wholesale_status: NO_GO
+  production_flags: off
+
+cost_bridge:
+  s161_conservative_worst_case_usd: 0.157255
+  attribution_model_calls: 0
+  visual_inspection_model_calls: 0

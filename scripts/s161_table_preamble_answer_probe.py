@@ -95,7 +95,11 @@ def _citation_near(text: str, pattern: str, fragment: int, radius: int = 1000) -
     return _near(text, pattern, [rf"\[f{fragment}\]"], radius=radius)
 
 
-def score_answer(answer: str, fragment_ids: list[str]) -> dict[str, Any]:
+def score_answer(
+    answer: str,
+    fragment_ids: list[str],
+    fragment_contents: list[str] | None = None,
+) -> dict[str, Any]:
     """Deterministically score the frozen recovered and protected claims."""
     folded = _fold(answer)
     positions = {row_id: index + 1 for index, row_id in enumerate(fragment_ids)}
@@ -185,15 +189,38 @@ def score_answer(answer: str, fragment_ids: list[str]) -> dict[str, Any]:
     non_latched_pattern = r"no\s+(?:esta\s+)?enclavad|no\s+enclavado"
     dc_pattern = r"2(?:[.,]0)?\s*a.{0,35}30\s*v\s*(?:cc|dc)"
     ac_pattern = r"0[.,]5\s*a.{0,35}30\s*v\s*(?:ca|ac)"
+    rating_support_fragments = {ratings_fragment}
+    if fragment_contents is not None:
+        if len(fragment_contents) != len(fragment_ids):
+            raise ValueError("fragment content/id length mismatch")
+        for index, content in enumerate(fragment_contents, 1):
+            source = _fold(content)
+            source_dc_pattern = (
+                r"\b2(?:[.,]0)?(?:\s*\|\s*|\s+)a.{0,60}30\s*v\s*(?:cc|dc)"
+            )
+            source_ac_pattern = (
+                r"0[.,]5(?:\s*\|\s*|\s+)a.{0,60}30\s*v\s*(?:ca|ac)"
+            )
+            if re.search(source_dc_pattern, source, re.S) and re.search(
+                source_ac_pattern, source, re.S
+            ):
+                rating_support_fragments.add(index)
+
+    def citation_near_any(pattern: str, fragments: set[int], radius: int) -> bool:
+        return any(
+            _citation_near(folded, pattern, fragment, radius=radius)
+            for fragment in fragments
+        )
+
     protected = {
         "service_or_unpowered": service_semantic
         and _citation_near(folded, service_pattern, behavior_fragment, radius=900),
         "fault_not_latched": bool(re.search(non_latched_pattern, folded, re.S))
         and _citation_near(folded, non_latched_pattern, behavior_fragment, radius=700),
         "relay_rating_dc": bool(re.search(dc_pattern, folded, re.S))
-        and _citation_near(folded, dc_pattern, ratings_fragment, radius=700),
+        and citation_near_any(dc_pattern, rating_support_fragments, radius=700),
         "relay_rating_ac": bool(re.search(ac_pattern, folded, re.S))
-        and _citation_near(folded, ac_pattern, ratings_fragment, radius=700),
+        and citation_near_any(ac_pattern, rating_support_fragments, radius=700),
     }
 
     relay_life_pattern = r"(?:10\s*\^\s*5|100\s*[.,]?\s*000|\b105\b).{0,40}operacion"
@@ -205,6 +232,7 @@ def score_answer(answer: str, fragment_ids: list[str]) -> dict[str, Any]:
     )
     return {
         "fragment_positions": positions,
+        "rating_support_fragments": sorted(rating_support_fragments),
         "citations": citations,
         "invalid_citations": invalid,
         "qualifier_present": qualifier_present,
@@ -309,7 +337,11 @@ def execute(env_file: Path) -> dict[str, Any]:
     }
     _write(RECEIPTS, receipt)
 
-    scoring = score_answer(answer, [str(item["id"]) for item in context])
+    scoring = score_answer(
+        answer,
+        [str(item["id"]) for item in context],
+        [str(item.get("content") or "") for item in context],
+    )
     passed = (
         scoring["recovered_covered"] == 5
         and scoring["protected_covered"] == 4
@@ -353,14 +385,71 @@ def execute(env_file: Path) -> dict[str, Any]:
     return result
 
 
+def rescore_checkpoint() -> dict[str, Any]:
+    """Attribute the immutable provider checkpoint without another model call."""
+    if not RECEIPTS.exists() or not RESULT.exists():
+        raise RuntimeError("S161 paid checkpoint is incomplete")
+    row, context, trace = _build_context()
+    receipt = json.loads(RECEIPTS.read_text(encoding="utf-8"))
+    answer = str(receipt["answer"])
+    scoring = score_answer(
+        answer,
+        [str(item["id"]) for item in context],
+        [str(item.get("content") or "") for item in context],
+    )
+    target_atomic_ok = scoring["recovered_covered"]
+    body = {
+        "instrument": "s161_table_preamble_answer_probe_attribution_v1",
+        "status": "ATOMIC_RECOVERY_GO_RUNTIME_CANDIDATE_NO_GO",
+        "source_result": "evals/s161_table_preamble_answer_probe_v1.json",
+        "source_receipt": "evals/s161_table_preamble_answer_probe_receipts_v1.json",
+        "answer_sha256": receipt["answer_sha256"],
+        "scoring": scoring,
+        "attribution_correction": {
+            "prior_rating_false_negatives": 2,
+            "reason": (
+                "The immutable answer cites fragment 4, whose exact served table "
+                "contains both relay ratings. The initial scorer accepted only "
+                "the duplicate support in fragment 9."
+            ),
+            "provider_retry": False,
+            "model_calls": 0,
+        },
+        "atomic_stage_transitions": {
+            "source_contract_gap_to_ok": target_atomic_ok,
+            "source_contract_gap_to_synthesis_miss": 5 - target_atomic_ok,
+            "document_extraction_hold_remains": 1,
+        },
+        "decision": {
+            "atomic_recovered_claims": "GO" if target_atomic_ok == 5 else "NO_GO",
+            "runtime_candidate": "NO_GO" if scoring["unsupported_relay_life_claim"] else "GO",
+            "production": False,
+            "protected_regression": False,
+            "next": "resolve_document_extraction_hold_before_runtime_promotion",
+        },
+        "source_context": {
+            "protected_prefix_equal": trace.get("protected_prefix_equal"),
+            "appended_ids": trace.get("appended_ids"),
+        },
+    }
+    output = ROOT / "evals/s161_table_preamble_answer_probe_attribution_v1.json"
+    result = {**body, "result_sha256": stable_sha(body)}
+    _write(output, result)
+    return result
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--env-file", type=Path, default=DEFAULT_ENV)
     parser.add_argument("--execute", action="store_true")
+    parser.add_argument("--rescore", action="store_true")
     args = parser.parse_args()
     _configure_runtime(args.env_file)
     if args.execute:
         print(json.dumps(execute(args.env_file), ensure_ascii=False, indent=2))
+        return 0
+    if args.rescore:
+        print(json.dumps(rescore_checkpoint(), ensure_ascii=False, indent=2))
         return 0
     row, context, trace = _build_context()
     print(
@@ -381,4 +470,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

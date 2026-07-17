@@ -57,3 +57,15 @@ def test_s161_score_keeps_document_extraction_hold_out_of_credit():
     result = score_answer(answer, FRAGMENTS)
     assert result["unsupported_relay_life_claim"] is True
 
+
+def test_s161_score_accepts_duplicate_exact_rating_source_citation():
+    answer = GOOD_ANSWER.replace("[F9]", "[F4]")
+    contents = [""] * len(FRAGMENTS)
+    contents[3] = (
+        "| Contact Rating | | 2 | A | 30 VDC resistive load |\n"
+        "| | | 0.5 | A | 30 VAC resistive load |"
+    )
+    result = score_answer(answer, FRAGMENTS, contents)
+    assert result["protected"]["relay_rating_dc"] is True
+    assert result["protected"]["relay_rating_ac"] is True
+    assert result["rating_support_fragments"] == [4, 9]
