@@ -1,0 +1,58 @@
+instrument: s156_frontier_synthesis_ceiling_attribution_and_gate_v1
+status: NO_GO_MODEL_SUBSTITUTION
+
+evidence:
+  receipts:
+    path: evals/s156_frontier_synthesis_ceiling_receipts_v1.json
+    sha256: 16746c52ddd599b60e4e7ff84957dcd743da9dc2296c4bc1ce33cbd7061bb1fb
+  result:
+    path: evals/s156_frontier_synthesis_ceiling_v1.json
+    sha256: 7df70cb4661314e24015125600d1551ecd8af997fdf34a05fefc65f945436061
+    semantic_payload_sha256: a09fafe44759f140bce818d44827a3362f6e79bee72479a297abad13e54d2357
+  preregistration:
+    path: evals/s156_frontier_synthesis_ceiling_prereg_v1.yaml
+    sha256: fcf240bd2dc8aab8c33b3cc3536066303fff6afacf77b6eff0cac440b786bcbe
+
+frozen_gate_result:
+  required_relations_per_arm: 11
+  fable: {calls_complete: 4, relations_covered: 3, invalid_citations: 0, gate: NO_GO}
+  sol: {calls_complete: 4, relations_covered: 2, invalid_citations: 0, token_limit_stops: 1, gate: NO_GO}
+
+local_attribution:
+  paid_calls: 0
+  markdown_markup_false_negative:
+    arm: fable
+    qid: cat018
+    relation: point_programming_fields
+    cause: inline_bold_markers_interrupt_multiword_validator_pattern
+    corrected_relation_count: 1
+  markup_neutral_diagnostic:
+    fable_relations_covered: 4
+    sol_relations_covered: 2
+  decision_impact: none
+  rationale: >-
+    Removing presentation-only Markdown before the frozen validator recovers one
+    real Fable relation, but 4/13 remains far below the preregistered 11/13 gate.
+    No threshold, answer or provider call was changed.
+
+decision:
+  direct_model_upgrade: CLOSED_NO_GO
+  retry_sol_incomplete_response: forbidden
+  tune_frontier_prompt_on_target: forbidden
+  fresh_routing_cohort: forbidden
+  production: NO_GO
+  facts_moved_to_ok: 0
+  next: >-
+    Test one versioned post-answer, source-preserving omission-correction
+    architecture on a newly authored multi-chunk cohort before exposing the four
+    frozen targets. Model-written quotes and target-specific relation templates
+    remain forbidden.
+
+cost:
+  worst_case_preflight_usd: 2.67523625
+  actual_usd: 2.37978625
+
+authorization:
+  production: false
+  deploy: false
+  push: false

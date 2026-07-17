@@ -23,9 +23,9 @@ tests/test_s141_* -text
 evals/s14[2-9]_* -text
 scripts/s14[2-9]_* -text
 tests/test_s14[2-9]_* -text
-evals/s15[0-5]_* -text
-scripts/s15[0-5]_* -text
-tests/test_s15[0-5]_* -text
+evals/s15[0-9]_* -text
+scripts/s15[0-9]_* -text
+tests/test_s15[0-9]_* -text
 evals/orthogonal_* -text
 src/rag/source_identity_attestation.py -text
 src/rag/technical_obligations.py -text
@@ -37,6 +37,6 @@ tests/test_s13[7-9]_* whitespace=-blank-at-eof,cr-at-eol
 evals/s14[0-9]_* whitespace=-blank-at-eof,cr-at-eol
 scripts/s14[0-9]_* whitespace=-blank-at-eof,cr-at-eol
 tests/test_s14[0-9]_* whitespace=-blank-at-eof,cr-at-eol
-evals/s15[0-5]_* whitespace=-blank-at-eof,cr-at-eol
-scripts/s15[0-5]_* whitespace=-blank-at-eof,cr-at-eol
-tests/test_s15[0-5]_* whitespace=-blank-at-eof,cr-at-eol
+evals/s15[0-9]_* whitespace=-blank-at-eof,cr-at-eol
+scripts/s15[0-9]_* whitespace=-blank-at-eof,cr-at-eol
+tests/test_s15[0-9]_* whitespace=-blank-at-eof,cr-at-eol

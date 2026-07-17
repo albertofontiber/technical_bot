@@ -1,0 +1,207 @@
+{
+  "instrument": "s156_frontier_synthesis_ceiling_receipts_v1",
+  "status": "COMPLETE",
+  "created_at": "2026-07-17T00:58:25.331206+00:00",
+  "receipts": [
+    {
+      "arm": "fable",
+      "qid": "cat018",
+      "status": "COMPLETE",
+      "response_id": "msg_011Cd6i7LAKCYcDwKuVDfqmj",
+      "counted_input_tokens": 19382,
+      "stop": "end_turn",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 19382,
+        "output_tokens": 3682,
+        "server_tool_use": null,
+        "service_tier": "standard",
+        "output_tokens_details": {
+          "thinking_tokens": 1139
+        }
+      },
+      "cost_usd": 0.37792,
+      "answer": "# Programación de una ecuación CBE en la AM-8200\n\n## Concepto\n\nLa CBE (Control By Events) es la ecuación que sirve para activar un comando en función de un evento [F3]. En fase de programación, se debe asociar a cada punto, zona o grupo una ecuación CBE; la central la evaluará cuando el punto, zona o grupo estén ACTIVOS y seguirá las actuaciones programadas [F1]. La condición «ACTIVO» es válida cuando: punto de entrada (sensor o módulo de entrada) = en alarma; punto de salida (módulo de salida) = ACTIVADO; grupo = uno de los puntos del grupo está activo [F1].\n\nRegla clave de asignación [F1]:\n- La CBE de un **módulo de salida** contiene la dirección de los objetos que la activarán: sensores, módulos de entrada o grupos. Si la activación depende de una combinación de varios objetos, se usan los operadores AND, OR, etc.\n- La CBE de **sensores y módulos de entrada** contiene la dirección de los objetos que activarán (módulos de salida o grupos); si hay varios, se escriben en secuencia, sin ningún operador.\n\n## Procedimiento de introducción\n\n1. Accede a la pestaña **Programa** (Programación ecuaciones CBE, asociación zona), menú de programación de Puntos\\Sensores [F3]. Ahí verás los campos **Zona** (número de zona asignada) y **CBE** (ecuación CBE del punto; si ya hay una configurada, se visualizará; si no, el campo estará vacío) [F3].\n2. Selecciona el campo **CBE** con las teclas flecha **▲▼** y pulsa la tecla de confirmación ☑ [F3].\n3. Introduce la ecuación con el teclado alfanumérico (operadores disponibles: NOT, AND, OR, DEL, SDEL, XGRP, TIM, DIS, PRE, FLT, TAC, TONE...) [F3]. La longitud máxima de una CBE es de **64 caracteres** [F3].\n4. Escribe la ecuación **sin insertar espacios** entre los caracteres [F1].\n5. Pulsa **Enter** para confirmar [F3].\n\n## Sintaxis\n\n- Formato general: **OPERADOR (OPERANDO-1, OPERANDO-2...)** [F1].\n- NOT y XGRP funcionan solo con un operando y se escriben delante de él [F1].\n- Si se usan varios operadores, el primer carácter debe ser un paréntesis abierto y el último un paréntesis cerrado: **(OPERADOR(OP-1 OP-2...)OPERADOR(OP-1 OP-2...))** [F1].\n- Si hay errores de sintaxis, la ecuación será rechazada por la central [F1].\n\n## Ejemplo básico: un evento activa una salida\n\nEl manual da tres opciones equivalentes para activar un módulo de salida (Lazo 1, módulo 1) ante alarma de un detector (Lazo 1, detector 1) [F8]:\n\n- **Opción A** (vía grupo): ecuación del detector = **(G1)**; ecuación del módulo = **(G1)** [F8]\n- **Opción B** (directa en el módulo): ecuación del detector = vacía; ecuación del módulo = **(C1L1S1)** [F8]\n- **Opción C** (directa en el detector): ecuación del detector = **(C1L1M1)**; ecuación del módulo = vacía [F8]\n\n## Combinaciones con operadores (en la CBE del módulo de salida)\n\n- **OR (G9 G15 G23)**: el módulo se activa si CUALQUIERA de los tres grupos está en alarma; se puede omitir el OR escribiendo solo **(G9 G15 G23)** [F4].\n- **AND (G9 G15 G23)**: el módulo se activa solo si LOS TRES grupos están en alarma [F4].\n- **NOT (G23)**: el módulo estará activado hasta que G23 NO esté en alarma; si G23 entra en alarma, el módulo se desactiva [F4].\n- **XGRP (G23)**: requiere que AL MENOS DOS elementos del grupo estén activos (formato XGRP (GXXX), grupos 1÷400); no se permite XGRP con más de un grupo, p. ej. ~~XGRP (G23 G24)~~ [F5].\n- **PRE (CxxLxxSxxx)**: activa la salida por pre-alarma de un sensor, p. ej. **OR(PRE(C1L1S2)PRE(C2L1S10))** [F7].\n- **FLT (CxxLxxSxxx)** o **FLT (Zx)**: activa la salida por avería de un dispositivo o zona, p. ej. **OR (FLT (Z1) FLT (Z2))** [F6].\n- **DEL**: el dispositivo espera el tiempo programado antes de activarse; si durante el retardo la ecuación deja de verificarse, el temporizador se reinicia y la salida no se activa [F13].\n\n## Restricciones y notas importantes\n\n- Para los módulos de salida, la central **no permite programar una ecuación si el módulo tiene un TIPO ID para señalizaciones de carácter general** [F4].\n- Es posible no programar ninguna operación para un dispositivo (ecuación CBE «Ninguna») [F1].\n- Grupos directos: no se permite una CBE cuyo paréntesis contenga grupos con índice menor que el grupo asociado (~~G33 = (G23 G24)~~; correcta: G21 = (G23 G24)). Grupos inversos: no se permite con índice mayor (~~G305 = (G306 G307)~~; correcta: G307 = (G305 G306)) [F4].\n- Si necesitas un OR de muchos grupos y la memoria no lo permite, puedes usar grupos inversos que reagrupen los grupos directos, p. ej. G301 = OR(G1...G8), G302 = OR(G9...G16) y en el módulo: **CBE = OR (G301 G302)** [F10].\n- Ten en cuenta el comportamiento de anulación/retardos sobre salidas de aviso: la función de anulación permite anular la salida sirena y todos los módulos de salida programados con tipo-SW **«SND»** (abrazaderas CNU-17 y CNU-18 de la tarjeta principal) [F11]. Cuando se activa la anulación relativa a la activación inmediata de la salida sirena, se encienden los LED de Anulación y Retardos activos, y en caso de alarma la central retarda esas salidas durante los tiempos programados en **Prog\\Sist\\Tiempos\\Salidas** [F11]. Es decir, aunque la CBE del módulo se verifique, si es tipo SND puede quedar anulado o retardado por esta función.\n\nPara más detalle, consulta el **Apéndice «A» – Ecuación Control por Evento** al final del manual de programación [F1][F3].\n\n**Fuente:** AM-8200 Manual de programación (Doc. M-162.1-AM8200-ESP Rev A.3)\n\nTambién puedo ayudarte con: **operador TONE para tonos/volumen de sirenas por zonas**, **operador DIS para desactivar zonas o puntos desde la CBE**, o **CBE para activar el LED repetidor de un sensor** en la AM-8200.",
+      "answer_sha256": "4ae368472bffcc01c288fd495360f5d59686e77878258cbcdf63776b12f34ff1"
+    },
+    {
+      "arm": "fable",
+      "qid": "hp002",
+      "status": "COMPLETE",
+      "response_id": "msg_011Cd6iAgGsmKJFQ2UDoEAdp",
+      "counted_input_tokens": 19852,
+      "stop": "end_turn",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 19852,
+        "output_tokens": 2623,
+        "server_tool_use": null,
+        "service_tier": "standard",
+        "output_tokens_details": {
+          "thinking_tokens": 941
+        }
+      },
+      "cost_usd": 0.32967,
+      "answer": "## Causa más probable\n\nUn **flujo de aire bajo** (valor **< 100 %**) apunta a una **obstrucción** del conducto de aspiración; un valor **> 100 %** apuntaría a rotura de tubo [F1]. El fallo se dispara cuando la variación supera el **±20 %** respecto al valor nominal registrado en el reset inicial — es decir, por **debajo del 80 %** (suciedad/obstrucción) — una vez transcurrido el **tiempo de retardo de 300 s** de la LS-Ü [F2].\n\nEl carácter **intermitente** encaja con un valor de flujo que fluctúa cerca del umbral: el manual advierte que una sensibilidad muy alta de la monitorización (ventana < ±20 % con retardo ≤ 300 s) aumenta el riesgo de avisos de fallo erróneos, y que en aplicaciones con grandes turbulencias de aire puede ser necesario aumentar el tiempo de retardo y el tamaño de ventana (esto último implica incumplir EN 54-20 y requiere consulta previa con el fabricante) [F6]. La función de tiempo de retardo existe precisamente para descartar magnitudes perturbadoras como turbulencias de aire [F2].\n\n## Procedimiento de diagnóstico\n\n**Antes de empezar:** bloquea o desconecta el control de incendios y la alerta remota en la CDI de orden superior [F9].\n\n1. **Lee el valor de flujo de aire** en la posición de conmutador **V** (cap. 7.6.1) y compáralo con el protocolo de puesta en funcionamiento [F9].\n   - Valor **< 100 %** = obstrucción / **> 100 %** = rotura de tubo [F1].\n   - Si la desviación supera **la mitad de la sensibilidad configurada** (con LS-Ü estándar ±20 %, la mitad = ±10 %, es decir, valor < 90 % o > 110 %), procede a inspeccionar el conducto de aspiración [F9].\n\n2. **Lee el código de evento** en el AMB 35 (posición de conmutador **E**) para delimitar el patrón de error (caps. 8.5.3.3 y 10.3.1) [F3]. Para flujo bajo, el código **001 – Obstrucción, conducto de aspiración** indica [F10]:\n   - Comprobar si el conducto de aspiración está obstruido (orificios de aspiración y salida de aire) [F10].\n   - Inspeccionar y limpiar la caja de filtro/unidad de filtrado [F10].\n   - Inspeccionar y limpiar el sensor de flujo de aire [F10].\n\n3. **Comprueba el filtro**: si hay unidad de filtrado de polvo, el elemento de filtro debe sustituirse al final de su vida útil; esta puede leerse en *EasyConfig*, posición de conmutador **d > RE** [F7]. Para sustituirlo, activa la función «Sustitución del filtro» (botón «Reset», *EasyConfig* o «ASD Config») — el detector pasa a estado «Aislar» — y finaliza el proceso pulsando de nuevo «Reset» [F7].\n\n4. **Comprueba también la salida de aire** por si tiene suciedad, y que la entrada del conducto y los tapones de tubo del orificio no usado (ASD 535-1 y -3) estén en posición correcta [F9].\n\n5. **Verifica la monitorización** una vez limpiado: tapando orificios de aspiración con cinta adhesiva, en cuanto la variación supera el ±20 % el LED «Fault» parpadea, y transcurridos los 300 s se dispara el fallo hacia la CDI [F8]. Entre comprobaciones realiza un restablecimiento (preferentemente en la CDI) y devuelve el conducto a su estado original [F8].\n\n## Advertencias importantes\n\n- Tras limpiar los orificios de aspiración, **normalmente no es necesario un nuevo reset inicial** (con la limpieza se vuelve al estado de puesta en funcionamiento) [F7].\n- **Nunca ejecutes un reset inicial con los orificios obstruidos**: se registrarían valores nominales incorrectos y el ASD 535 podría no disparar la alarma [F7].\n- Si valoras aumentar la ventana o el retardo por turbulencias, recuerda que valores > ±20 % / > 300 s implican incumplir EN 54-20 y solo pueden aplicarse previa consulta con el fabricante [F6].\n\nTambién puedo ayudarte con: **interpretación completa de códigos de fallo del AMB 35**, **procedimiento de reset inicial (cap. 7.3.5)** o **comprobaciones de mantenimiento periódico** del ASD535.\n\nFuente: ASD535_TD_T131192es_h (Descripción técnica ASD 535, T 131 192 h es)",
+      "answer_sha256": "c4868db15e5bc31242fc6329e87232f0c0d21376619034ddde01386b4a2c53cc"
+    },
+    {
+      "arm": "fable",
+      "qid": "hp011",
+      "status": "COMPLETE",
+      "response_id": "msg_011Cd6iDHMK5kDjVfCWpizMS",
+      "counted_input_tokens": 19337,
+      "stop": "end_turn",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 19337,
+        "output_tokens": 4642,
+        "server_tool_use": null,
+        "service_tier": "standard",
+        "output_tokens_details": {
+          "thinking_tokens": 3191
+        }
+      },
+      "cost_usd": 0.42547,
+      "answer": "## RP1r — La central no rearma tras la descarga de extinción\n\nComprobaciones en orden de probabilidad:\n\n**1. Rearme inhibido (parámetro rI + microinterruptor SW1-6)**\nSegún la normativa EN12094:1/2003 Punto 4.12.2, la central puede tener programado un periodo de **0 a 30 minutos** desde que señaliza el estado de ACTIVADO hasta que permite el rearme [F3]. Hasta que no transcurra ese tiempo, **no será posible realizar un rearme** [F3].\n- Por defecto esta función está anulada (SW1-6 en OFF) [F3], pero si alguien la habilitó (SW1-6 en ON + valor programado en el campo **rI**), la central bloqueará el rearme durante el tiempo programado [F3].\n- Cuando esta función está habilitada, el **led número 6 se ilumina en rojo fijo** y al cambiar la configuración de SW1 el display de 7 segmentos muestra **S1** [F4].\n- Nota: si la central está en modo **paro/espera**, sí se permite el rearme [F3].\n→ Si es tu caso: espera a que transcurra el tiempo de inhibición y vuelve a intentar el rearme.\n\n**2. Nivel de acceso 2 habilitado**\nPara rearmar la central hay que habilitar el **acceso nivel 2** (girar la llave o habilitar el teclado) y pulsar la tecla **Rearme**; esto reinicia las entradas enclavadas [F4] [F6]. Verifica que realmente estás en nivel 2 antes de pulsar Rearme.\n\n**3. Avería en el circuito de PARO (ABORT SWITCH)**\nLa avería del circuito de paro (Cto. F) **requiere rearme manual y detiene la extinción** — se indica con led \"Avería Paro\" intermitente y \"Paro\" fijo [F10]. Comprueba si este led está activo.\n\n**4. Condición persistente en circuitos supervisados**\nTodas las entradas y salidas supervisadas requieren una **Resistencia Final de Línea (RFL) de 6K8**; si hay cortocircuito o circuito abierto (la central no detecta la RFL), se activa de forma intermitente el led del circuito, el relé de avería y el led de avería general [F10]. Tras una descarga, revisa el cableado y la RFL de los circuitos que muestren led intermitente: CCT EXT 1/2, sirenas (SND 1/2), presión baja, flujo, puerta abierta, espera y zonas [F10]. La mayoría de estos circuitos son de \"Rearme automático\" según la tabla [F10], es decir, la indicación depende de que la condición de avería esté resuelta.\n\n**5. Led \"Fallo Sistema\" activo**\nSi aparece la avería de **FALLO DE SISTEMA**, es necesario REARMAR la central; en caso contrario la central **NO realizará el proceso de extinción** al considerar que no funciona correctamente [F7]. Esta avería puede producirse en el arranque (tras conectar baterías) o por lecturas de tensión fuera de rango debidas a perturbaciones externas, y desaparece al realizar un rearme [F7].\n\n**Clave práctica:** fíjate en qué led queda activo/intermitente después de pulsar Rearme — ese led te indica el circuito o condición que impide volver al estado normal [F10].\n\nNota: también tengo documentación de la variante **RP1r-Supra** (donde por defecto todas las averías son enclavadas y requieren rearme manual, modificable por funciones especiales, sección 5.4 [F9]) si tu equipo es esa variante.\n\nTambién puedo ayudarte con: **programación del parámetro rI y configuración de SW1**, **tabla completa de averías de circuitos de supervisión** o **procedimiento de fin de activación de la extinción** de la RP1r.\n\nFuentes: MNDT102 Manual de usuario. Central de extinción (sin revisión registrada); MN-DT-102I (sin revisión registrada); HLSI-BT-001 Boletín técnico (04/11/2011); HLSI-MN-103_RP1r-Supra_lr (sin revisión registrada)",
+      "answer_sha256": "1041843bc0baf45531ec92e447394fba2e4eb0961a28933db730de277e102852"
+    },
+    {
+      "arm": "fable",
+      "qid": "hp017",
+      "status": "COMPLETE",
+      "response_id": "msg_011Cd6iHoPwVda9EQiD24UJt",
+      "counted_input_tokens": 20222,
+      "stop": "end_turn",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 20222,
+        "output_tokens": 4125,
+        "server_tool_use": null,
+        "service_tier": "standard",
+        "output_tokens_details": {
+          "thinking_tokens": 2346
+        }
+      },
+      "cost_usd": 0.40847,
+      "answer": "## Programación del retardo de salida en la Notifier PEARL\n\nEn la PEARL, los retardos de activación de salidas se programan como **parte de las reglas de causa-efecto** — no como un parámetro suelto de la central. Se puede asignar **uno de seis tipos de retardo de salida a cada regla** [F1].\n\n### 1. Acceso a la programación\n\n1. Entra en **nivel de acceso 3** — las «Reglas de causa-efecto» son una opción de tercer nivel de edición del sistema [F7].\n2. En el menú **«Editar Configuración»**, selecciona **«7: Causa y Efecto»** para abrir la función de edición [F8][F11].\n3. **Importante:** si no se ha transferido a la central un archivo de configuración, encontrarás las **dos reglas de causa-efecto por defecto**; la **Regla 1** establece que, para cualquier entrada de alarma, todas las sirenas de cada zona se activan en modo intermitente (patrón de alerta). **Estas reglas por defecto deben eliminarse si vas a crear reglas de causa-efecto personalizadas** [F11]. Para borrar una regla: con el cursor en cualquier columna de la regla, pulsa **C**. La última regla (la que tiene un asterisco delante del número) no puede borrarse [F1].\n\n**Recomendación del fabricante:** utilizar el **programa de configuración por ordenador** como método principal de programación; el menú de la central debería emplearse solo para modificaciones menores de las reglas [F12].\n\n### 2. Tipos de retardo asignables a una regla\n\nEl tipo de retardo elegido determina qué acciones pueden realizarse mientras el retardo está activo [F1]. Según la tabla del apartado A5.3 [F2]:\n\n- **La salida se detiene con SILENCIAR SIRENAS durante el retardo** (y con SONIDO ALARMAS se activan las sirenas): Estándar, Est. Ext., RetExtStd — NO en Fijo, No Silenc, No Sil. Ext, SinRetExt [F2].\n- **El retardo puede anularse en nivel 2 con «Anular retardos»**: todos los tipos excepto Fijo [F2].\n- **El tiempo restante se muestra en la pestaña ALARMA**: todos los tipos excepto Fijo [F2].\n- **El retardo activo puede detenerse en nivel 2 pulsando FIN RETARDO**: todos los tipos excepto Fijo [F2].\n- **La salida se detiene con AMPLIAR RETARDO**: solo Est. Ext. y No Sil. Ext [F2].\n- **El temporizador comienza en RETARDO AMPLIADO**: solo RetExtStd y SinRetExt [F2].\n\nNota: el texto indica seis tipos de retardo [F1], mientras que la tabla del A5.3 muestra siete columnas (Fijo, Estándar, No Silenc, Est. Ext., RetExtStd, No Sil. Ext, SinRetExt) [F2]. Verifica en el manual completo la lista exacta.\n\n### 3. Guardar cambios\n\nAl terminar la edición, la central pregunta si quieres guardar antes de salir del modo de puesta en marcha. Para confirmar, selecciona la **opción 1**: la central se reinicia, los cambios se almacenan en la **tarjeta SD** y vuelve al nivel de acceso 1 [F8].\n\n### 4. Funcionamiento asociado (una vez programado)\n\n- Si hay retardos configurados en alguna regla, el **LED de RETARDO ACTIVO** está encendido [F3].\n- Los retardos pueden anularse/habilitarse en nivel 2: menú Anular/Habilitar → **«5: Retardo Activación Salidas»** → pulsar ✓ para alternar entre HABILITADOS y ANULADOS [F3].\n- Con retardo configurado, una alarma inicia uno de los **dos temporizadores**: la tecla **AMPLIAR RETARDO** (nivel 2) inicia la cuenta atrás del segundo temporizador (normalmente más largo, que anula al primero) y **FIN RETARDO** (nivel 1) pone fin a cualquier retardo e introduce la condición de alarma completa [F4].\n- El pulsador EXTENDER RETARDO puede desactivarse desde «Editar Parámetros de la Central», opción **«10: Extend Delay Button»** (A1.10) [F10].\n\n⚠️ Los fragmentos **no incluyen** el procedimiento paso a paso para introducir el valor de tiempo del retardo dentro de una regla, ni los rangos de tiempo configurables. Consulta el Apéndice 5 completo del manual de configuración para esos detalles.\n\nTambién puedo ayudarte con: **borrado/edición de reglas de causa-efecto**, **anulación de retardos en nivel 2** o **programación horaria (modo día/noche)** de la PEARL.\n\nFuentes: Manual de configuración de la central 997-671-005-3 (Configuration_ES); Manual de funcionamiento 997-670-005-3 (Operating_ES) — sin revisión registrada.",
+      "answer_sha256": "b546af4bb350772249e868d9f16e2fe12473926a584786975ad13277663a26f5"
+    },
+    {
+      "arm": "sol",
+      "qid": "cat018",
+      "status": "COMPLETE",
+      "response_id": "resp_0c303730e3fb141e016a597d33d3388197b8031e9dba6443c1",
+      "counted_input_tokens": 11556,
+      "stop": "incomplete",
+      "usage": {
+        "input_tokens": 11556,
+        "input_tokens_details": {
+          "cached_tokens": 11553,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 5000,
+        "output_tokens_details": {
+          "reasoning_tokens": 5000
+        },
+        "total_tokens": 16556
+      },
+      "cost_usd": 0.222225,
+      "answer": "",
+      "answer_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "arm": "sol",
+      "qid": "hp002",
+      "status": "COMPLETE",
+      "response_id": "resp_09cf11a5b20ec9a1016a597d77903481908dc6c8e69c09376e",
+      "counted_input_tokens": 11322,
+      "stop": "completed",
+      "usage": {
+        "input_tokens": 11322,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 11319
+        },
+        "output_tokens": 4689,
+        "output_tokens_details": {
+          "reasoning_tokens": 3850
+        },
+        "total_tokens": 16011
+      },
+      "cost_usd": 0.2114325,
+      "answer": "### Causa más probable\n\nEn el **ASD 535**, un flujo inferior al **100 %** apunta a una **obstrucción**; un valor superior al **100 %** apunta a una rotura o fuga del conducto [F1][F9]. Por tanto, la causa más probable es una obstrucción en:\n\n- Conducto u orificios de aspiración.\n- Salida de aire del detector.\n- Caja de filtro o unidad de filtrado.\n- Sensor de flujo de aire sucio [F10].\n\nEl manual lo denomina aviso **«fallo flujo de aire»**, no alarma de humo [F2]. La intermitencia también puede estar relacionada con perturbaciones o turbulencias de aire; el tiempo de retardo está previsto para descartar este tipo de fluctuaciones [F2].\n\n### Diagnóstico recomendado\n\n1. **Antes de intervenir**, bloquea o desconecta los controles de incendios, alertas remotas y zonas de extinción en la CDI [F9].\n\n2. Lee el valor del conducto en la posición de conmutador **V** y compáralo con el protocolo de puesta en funcionamiento [F9]:\n   - Inferior al **100 %**: buscar obstrucción [F1][F9].\n   - Superior al **100 %**: buscar rotura, fuga o unión abierta [F1][F9].\n   - Con sensibilidad **±20 %**, se recomienda inspeccionar cuando baje del **90 %** o suba del **110 %** [F9].\n   - En las posiciones **A11 a C32**, un valor inferior al **80 %** o superior al **120 %** genera el aviso después del retardo de **300 s** de la **LS-Ü** [F1][F2].\n\n3. Consulta el código de evento en el **AMB 35**, usando la posición de conmutador **E** [F3]:\n   - Código **001** en la tabla de fallos del conducto: obstrucción [F10].\n   - Código **004**: parámetros de la **LS-Ü** no válidos; revisar el punto de funcionamiento y el sensor de flujo [F10].\n   - Código **008**: sensor de flujo inexistente, desconectado o defectuoso; revisar también su cable [F10].\n\n4. Inspecciona y limpia, por este orden:\n   - Conducto y orificios de aspiración.\n   - Salida de aire.\n   - Caja de filtro o unidad de filtrado.\n   - Sensor de flujo de aire [F10].\n\n5. Si el valor fluctúa alrededor del umbral, revisa la configuración de ventana y retardo. Una ventana inferior a **±20 %** con un retardo igual o inferior a **300 s** aumenta el riesgo de avisos erróneos; si se utiliza una ventana menor, el retardo debe elevarse como mínimo a **10 min** [F6]. Los ajustes superiores a **±20 %** o **300 s** incumplen la **EN 54-20** y sólo pueden aplicarse previa consulta con el fabricante [F6].\n\n6. No ejecutes un reset inicial para ocultar el problema. Después de limpiar los orificios no suele ser necesario; si finalmente se requiere, debe realizarse sólo después de limpiar completamente el conducto y, si procede, instalar un filtro nuevo [F7]. Un reset inicial con los orificios obstruidos puede memorizar una condición incorrecta y perjudicar la toma de muestras [F7].\n\nTambién puedo ayudarte con: **interpretación del código exacto del AMB 35**, **comprobación del valor en posición V** o **procedimiento de limpieza y reset inicial** del **ASD 535** [F3][F7][F9].\n\nFuente: ASD535_TD_T131192es_h — *ASD 535, Descripción técnica, T 131 192 h es* (sin revisión registrada) [F1]",
+      "answer_sha256": "358f24988d8f48f4077e7801b3d1d637881e903c62e660e7f193516ea06ebdec"
+    },
+    {
+      "arm": "sol",
+      "qid": "hp011",
+      "status": "COMPLETE",
+      "response_id": "resp_0b7740e49f305c74016a597db9ba0881949b64eb4b528691b3",
+      "counted_input_tokens": 11278,
+      "stop": "completed",
+      "usage": {
+        "input_tokens": 11278,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 11275
+        },
+        "output_tokens": 3878,
+        "output_tokens_details": {
+          "reasoning_tokens": 3106
+        },
+        "total_tokens": 15156
+      },
+      "cost_usd": 0.1868275,
+      "answer": "Comprueba estos puntos, en este orden:\n\n1. **Procedimiento de rearme**\n   - Habilita el **nivel de acceso 2** y pulsa **Reset**; esta operación reinicia las entradas enclavadas [F4].\n\n2. **Inhibición de rearme**\n   - Revisa **SW1-6** y el parámetro **rI**. Con **SW1-6 en ON** y la configuración aceptada puede quedar habilitada la inhibición del rearme [F3].\n   - **rI** admite entre **0 y 30 minutos**; mientras no transcurra el tiempo programado, la central no permite el rearme [F3].\n   - Los valores predeterminados son **SW1-6 en OFF** y **rI = 00 minutos** [F3].\n   - En modo **paro/espera** sí se permite realizar el rearme [F3].\n\n3. **Finalización del tiempo de extinción**\n   - Comprueba que haya finalizado el parámetro **dr — Duración de la Extinción**. Al terminar, los dos circuitos de solenoide se desactivan, el temporizador queda en **00 fijo** y el LED **Extinción Realizada** permanece fijo [F1].\n   - Por tanto, si únicamente permanece fijo **Extinción Realizada**, esa indicación coincide con el estado de fin de activación descrito por el manual [F1].\n\n4. **Averías o condiciones todavía presentes**\n   - Todas las entradas y salidas supervisadas necesitan una **RFL de 6K8**. Un cortocircuito o un circuito abierto por ausencia de RFL provoca el parpadeo del LED correspondiente, activa el relé de avería y el LED **Avería General** [F10].\n   - Revisa especialmente:\n     - **CCT EXT 2**, **CCT EXT 1**, **SND 2** y **SND 1**; sus averías tienen rearme automático [F10].\n     - **LOW PRESS**, **FLOW PRESS**, **DOOR OPEN**, **HOLD SWITCH** y las zonas supervisadas; sus averías también tienen rearme automático [F10].\n     - **ABORT SWITCH**: presenta **Avería Paro** intermitente y **Paro** fijo; esta avería requiere rearme manual y detiene la extinción [F10].\n\n5. **Fallo de sistema**\n   - Comprueba el LED **Fallo Sistema**. Esta avería puede aparecer durante el arranque por una inicialización tardía del microprocesador principal o por lecturas de tensión fuera de rango debidas a perturbaciones externas [F7].\n   - El boletín indica que es necesario rearmar la central; de lo contrario, no realizará el proceso de extinción [F7]. Si el LED continúa activo después del rearme, los fragmentos no especifican un diagnóstico adicional.\n\nLos fragmentos no indican el estado exacto de todos los indicadores después de un rearme posterior a una descarga; sí establecen que **Extinción Realizada** queda fijo al finalizar **dr** [F1].\n\nTambién puedo ayudarte con: **revisión del parámetro rI** [F3], **comprobación de las RFL de 6K8** [F10] o **identificación del LED que permanece activo** [F10].\n\nFuentes: MNDT102 — Manual de usuario. Central de extinción; MN-DT-102I; HLSI-BT-001 — Indicación de Fallo de sistema en las centrales de la Serie RP1r (04/11/2011)",
+      "answer_sha256": "2b9d59efbca0e2a5f702570fcc18352170d0b6148925fd94b9ed2a67e16b1cdc"
+    },
+    {
+      "arm": "sol",
+      "qid": "hp017",
+      "status": "COMPLETE",
+      "response_id": "resp_0135fcf56d3856af016a597df0e11c8196989cbc6fad0faef3",
+      "counted_input_tokens": 11813,
+      "stop": "completed",
+      "usage": {
+        "input_tokens": 11813,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 11810
+        },
+        "output_tokens": 4798,
+        "output_tokens_details": {
+          "reasoning_tokens": 3624
+        },
+        "total_tokens": 16611
+      },
+      "cost_usd": 0.21777125,
+      "answer": "En la **Notifier PEARL**, el retardo se asigna a la regla de **causa-efecto** que controla la salida; el menú operativo **«Retardo Activación Salidas»** solamente permite habilitar o anular retardos ya configurados [F1][F3]. Se recomienda realizar la programación mediante el programa de configuración por ordenador y utilizar el menú de la central únicamente para modificaciones menores [F12].\n\n1. **Accede al nivel 3** y entra en **«Editar Configuración» → «Causa y Efecto»** [F7].  \n   Hay una discrepancia documental: un fragmento identifica esta opción como **«8: Causa y Efecto»** [F8], mientras que otro indica **«7: Causa y Efecto»** [F11]. Selecciónala por el nombre mostrado en la central, no por el número.\n\n2. **Revisa las reglas predeterminadas.** Si no se ha transferido un archivo de configuración, aparecen dos reglas de causa-efecto predeterminadas y deben eliminarse para crear reglas personalizadas [F11]. La **Regla 1** establece que, ante cualquier entrada de alarma, se activen en modo intermitente todas las sirenas de cada zona [F11].  \n   Para borrar una regla, coloca el cursor en cualquiera de sus columnas y pulsa **C**; la última regla, identificada con un asterisco delante del número, no puede borrarse [F1].\n\n3. **Edita o crea la regla que controla la salida requerida** y asígnale un tipo de retardo de salida [F1]. La salida de una regla puede corresponder a una sirena, un faro o una acción de control configurada mediante un módulo de salida [F1].  \n   Los fragmentos no identifican qué objeto concreto corresponde a la denominada “salida de alarma principal” de tu configuración.\n\n4. **Selecciona el comportamiento del retardo.** Existe otra discrepancia: el texto indica que pueden asignarse **seis tipos**, pero la matriz enumera **siete** [F1][F2]:\n\n   - **Fijo:** no permite detener la salida con **SILENCIAR SIRENAS**, anular el retardo, mostrar la cuenta atrás, finalizarlo con **FIN RETARDO** ni ampliarlo [F2].\n   - **Estándar:** permite detener la salida con **SILENCIAR SIRENAS**, anular el retardo, mostrar la cuenta atrás y utilizar **FIN RETARDO**; no admite ampliación [F2].\n   - **No Silenc:** no responde a **SILENCIAR SIRENAS**; permite anulación, cuenta atrás y **FIN RETARDO**, pero no ampliación [F2].\n   - **Est. Ext.:** permite **SILENCIAR SIRENAS**, anulación, cuenta atrás, **FIN RETARDO** y detener la salida mediante **AMPLIAR RETARDO** [F2].\n   - **RetExtStd:** permite **SILENCIAR SIRENAS**, anulación, cuenta atrás y **FIN RETARDO**; al ampliar comienza el temporizador de **RETARDO AMPLIADO** [F2].\n   - **No Sil. Ext:** no responde a **SILENCIAR SIRENAS**; permite anulación, cuenta atrás, **FIN RETARDO** y detener la salida con **AMPLIAR RETARDO** [F2].\n   - **SinRetExt:** no responde a **SILENCIAR SIRENAS**; permite anulación, cuenta atrás y **FIN RETARDO**; al ampliar comienza el temporizador de **RETARDO AMPLIADO** [F2].\n\n5. Cuando se utiliza ampliación, una alarma inicia uno de los dos temporizadores configurados; al pulsar **AMPLIAR RETARDO** comienza la cuenta atrás del segundo temporizador, que anula al primero [F4]. La opción **A1.10 Ampliar Puls.Retardo** permite desactivar el pulsador de ampliación [F10].\n\n6. **Guarda la configuración.** Al salir del modo de puesta en marcha, selecciona la opción **1** para confirmar los cambios; la central se reinicia, almacena los cambios en la tarjeta SD y vuelve al nivel de acceso 1 [F8].\n\n7. **Comprueba que el retardo está habilitado:** entra en **«Anular/Habilitar» → «5: Retardo Activación Salidas»**, pulsa **✓** para alternar entre habilitado y anulado y sal con **✕** [F3]. Cuando existen retardos configurados, se enciende el LED **RETARDO ACTIVO** [F3].\n\nLos fragmentos no muestran el campo donde se introducen las duraciones de los temporizadores, su rango permitido ni la selección exacta de la “salida de alarma principal”. Tampoco permiten resolver la discrepancia de acceso de **FIN RETARDO**: la matriz indica nivel 2 [F2], mientras que el manual de funcionamiento indica nivel 1 [F4].\n\nTambién puedo ayudarte con: **selección del tipo de retardo**, **comprobación funcional del retardo** o **edición de la regla de causa-efecto** de la **PEARL** [F1].\n\nFuentes: Manual de configuración de la central 997-671-005-3 [F8]; Manual de funcionamiento 997-670-005-3 [F3]",
+      "answer_sha256": "7a9879519eb00ee9ba822d1eeb038c917deac54eea6f6901ec44266ddf20fe6d"
+    }
+  ]
+}

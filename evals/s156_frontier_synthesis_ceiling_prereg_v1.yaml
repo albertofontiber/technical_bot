@@ -1,0 +1,62 @@
+instrument: s156_frontier_synthesis_ceiling_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+design: evals/s156_frontier_synthesis_ceiling_design_v1.md
+
+frozen_inputs:
+  served_contexts: {path: evals/s113_full_contexts_freeze_v1.json, sha256: 22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d}
+  prior_closed_gate: {path: evals/s155_question_conditioned_claim_map_gate_v1.yaml, sha256: 8a9818b868e32363377dda9274dc7938181e78373369030ed7eddf5509d090cd}
+  design: {path: evals/s156_frontier_synthesis_ceiling_design_v1.md, sha256: d2746554666764c349bddee592ce01f7c934ff809da1d8b3d53621e741f2ccfa}
+  generator_prompt_source: {path: src/rag/generator.py, sha256: e2ca013e7dc3fce5cf6d43f718c0b5e7ce99eaaf20aec1f8f4b912fc893f9b21}
+  answer_planner: {path: src/rag/answer_planner.py, sha256: c27ad6c913f49167e43d289d17399ccfe2c7cb281506b51630cd2dec9650cbd3}
+  served_content_contract: {path: src/rag/post_rerank_coverage.py, sha256: 158603f8e518bf9c356d88fc20be128cc2c5fac4db499b62cdc3eeb2de0ed217}
+  post_checkpoint_oracle: {path: scripts/s141_source_bound_technical_obligations.py, sha256: 3564d8b5a39e0e59b71364ccaaee2a269828c13b9e2a250b139f0a35bfb0e18a}
+
+scope:
+  qids: [cat018, hp002, hp011, hp017]
+  questions: 4
+  source_attested_relations: 13
+  arms: 2
+  calls_per_arm: 4
+  total_calls: 8
+  retrieval_calls: 0
+  reranker_calls: 0
+  retries: 0
+  output_checkpointed_before_oracle: true
+  current_guided_prompt_contract: true
+  target_obligations_visible_to_models: false
+
+models:
+  fable:
+    provider: anthropic
+    id: claude-fable-5
+    thinking: adaptive
+    effort: xhigh
+    max_output_tokens: 5000
+  sol:
+    provider: openai
+    id: gpt-5.6-sol
+    reasoning_effort: xhigh
+    max_output_tokens: 5000
+
+validation:
+  relations_total: 13
+  relations_min: 11
+  calls_complete_per_arm: 4
+  invalid_fragment_citations_max: 0
+  token_limit_stops_max: 0
+  passing_action: separate_fresh_routing_cohort_only
+  direct_production: false
+  facts_moved_to_ok: 0
+  same_target_prompt_tuning: forbidden
+
+pricing_usd_per_million_tokens:
+  fable: {input: 10, output: 50}
+  sol: {input: 6.25, output: 30}
+
+budget:
+  internal_ceiling_usd: 8
+  user_ceiling_usd: 250
+
+execution:
+  receipts: evals/s156_frontier_synthesis_ceiling_receipts_v1.json
+  result: evals/s156_frontier_synthesis_ceiling_v1.json
