@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CONTEXTS = ROOT / "evals/s113_full_contexts_freeze_v1.json"
 ANSWER = ROOT / "evals/s161_table_preamble_answer_probe_receipts_v1.json"
 OVERLAY = ROOT / "evals/s162_numeric_superscript_overlay_packet_v2.json"
-OUT = ROOT / "evals/s172_superscript_answer_cascade_v1.json"
+OUT = ROOT / "evals/s172_superscript_answer_cascade_v2.json"
 
 EXPECTED = {
     CONTEXTS: "22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d",
@@ -49,7 +49,7 @@ def complete_token_matches(text: str, token: str) -> list[re.Match[str]]:
 def supports_exact_exponent(text: str) -> bool:
     return bool(
         re.search(
-            r"(?:10\s*<sup>\s*5\s*</sup>|10\s*\^\s*5|10⁵)\s*[^\n|]{0,20}operations?",
+            r"(?:10\s*<sup>\s*5\s*</sup>|10\s*\^\s*5|10⁵)[\s|*]{0,40}operations?",
             text,
             re.IGNORECASE,
         )
@@ -160,7 +160,7 @@ def main() -> None:
     }
     passed = all(checks.values())
     result = {
-        "instrument": "s172_superscript_answer_cascade_v1",
+        "instrument": "s172_superscript_answer_cascade_v2",
         "status": "LOCAL_ANSWER_CASCADE_GO" if passed else "LOCAL_ANSWER_CASCADE_NO_GO",
         "target": {
             "qid": "cat007",

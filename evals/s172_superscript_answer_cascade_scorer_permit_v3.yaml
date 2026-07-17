@@ -1,0 +1,35 @@
+instrument: s172_superscript_answer_cascade_scorer_permit_v3
+status: TERMINAL_FREE_SCORER_CORRECTION_FROZEN
+
+prior_result:
+  path: evals/s172_superscript_answer_cascade_v1.json
+  status: LOCAL_ANSWER_CASCADE_NO_GO_FALSE_NEGATIVE_INSTRUMENT
+  receipts_applied_to_cited_fragments: 2
+  target_sources: 1
+  independent_sources: 1
+  pdf_hashes_bound: true
+  observed_derived_cell: '| Life Time | 10<sup>5</sup> | | Operations |'
+  cause: >-
+    The support scorer explicitly excluded the Markdown table delimiter between
+    the derived exponent and the Operations unit. The derived evidence was
+    correct, but support was counted as zero.
+
+correction:
+  semantic_candidate_changed: false
+  contexts_changed: false
+  answer_changed: false
+  receipts_changed: false
+  thresholds_changed: false
+  scorer_delta: >-
+    Permit only whitespace, Markdown emphasis and table-cell delimiters between
+    the exact exponent representation and the Operations unit.
+  output: evals/s172_superscript_answer_cascade_v2.json
+  terminal_execution_max: 1
+
+constraints:
+  model_calls: 0
+  network_calls: 0
+  database_calls: 0
+  production_changes: 0
+  preserve_prior_no_go_artifact: true
+  no_further_s172_successor: true
