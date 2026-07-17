@@ -1,0 +1,57 @@
+instrument: s172_superscript_answer_cascade_gate_v1
+status: LOCAL_GO_PRODUCTION_INTEGRATION_PENDING
+
+evidence:
+  cascade:
+    path: evals/s172_superscript_answer_cascade_v2.json
+    sha256: 237da36afdf7597c9495452a38201384aee798e21feed717ceaf8c15d95fa4c
+  local_overlay_gate:
+    path: evals/s162_numeric_superscript_overlay_local_gate_v2.yaml
+    sha256: 3c83b65911e20be50f124732cfb86f57044cf1f6318f260f17a1f74d7b1ae62b
+  bounded_adversarial_gate:
+    path: evals/s162_adversarial_overlay_gate_v1.yaml
+    sha256: e7a3d368b3b9e1781b2f6767979df7566a8282a98c40b1427c30aaf60b816bc6
+
+adjudication:
+  local_candidate: GO
+  rationale: >-
+    The bounded reviewer calls failed at their structured-output instruments and
+    returned no substantive findings. The empirical gate is nevertheless strong:
+    one target and 32 independent mappings, eight independently reviewed PDFs,
+    zero observed false attachments, immutable raw records, full local regression,
+    and an exact answer-level cascade supported by two cited manuals. Repeating
+    frontier reviews would add cost without new evidence.
+  additional_frontier_rounds: 0
+  target_answer_regenerated: false
+  target_citations_exactly_supported_after_derivation: 2
+
+stage_transition:
+  fact: 'cat007#4:10^5'
+  from: document-extraction-hold
+  to: OK
+  diagnostic_credit: 1
+  production_credit: 0
+
+candidate_funnel:
+  denominator: 157
+  OK: 141
+  synthesis-miss: 12
+  retrieval-miss: 4
+  document-extraction-hold: 0
+  ok_rate_percent: 89.81
+  gap_to_95_percent: 9
+
+decision:
+  offline_transform_contract: GO
+  governed_corpus_integration_design: AUTHORIZED_LOCAL
+  chunks_v2_mutation: false
+  chunks_v3_wholesale_migration: false
+  production_or_deployment: false
+  official_atomic_kpi: null
+  next: attack_largest_bucket_synthesis_with_independent_coverage_gate
+
+cost:
+  s172_usd: 0
+  s172_model_calls: 0
+  s172_network_calls: 0
+  s172_database_calls: 0
