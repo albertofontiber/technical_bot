@@ -1,0 +1,36 @@
+{
+  "instrument": "s198_question_schema_canary_receipts_v1",
+  "status": "COMPLETE",
+  "created_at": "2026-07-17T18:01:03.889680+00:00",
+  "model": "claude-haiku-4-5-20251001",
+  "anthropic_sdk": "0.97.0",
+  "sdk_max_retries": 0,
+  "completed_calls": 1,
+  "provider_accepted_schema": true,
+  "transport_schema_sha256": "ebcfc171dc93d1f2b4a64e4230a995cd537a024385814167e95a2b0e1f6f6f65",
+  "synthetic_fixture_sha256": "bba326144840fbea70a946624a5c174950d141146e1750602c770480243d2fbf",
+  "receipts": [
+    {
+      "response_id": "msg_011Cd84qzcbyi568MmSqa9Tq",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 416,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 416,
+        "output_tokens": 54,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.000686,
+      "validation_error": null,
+      "raw_synthetic_output": "{\"item_id\":\"s198_question_canary_01\",\"question\":\"¿Cuáles son los pasos esenciales de seguridad antes y después del mantenimiento del CANARY_MODEL_2?\"}",
+      "raw_text_sha256": "8ed6dffefe7f15ff08f29f840b914fa7b7e25b95359b09cd439ebdfc793d344c"
+    }
+  ]
+}

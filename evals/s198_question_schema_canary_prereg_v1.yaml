@@ -1,0 +1,88 @@
+instrument: s198_question_schema_canary_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+objective: compile_minimal_question_only_anthropic_schema_before_fresh_s198_selection
+
+frozen_inputs:
+  design: {path: evals/s198_point_first_scope_design_v1.md, sha256: 1189a14a38243c97bc12a63b860791294a660e7094f424308723433241bb1026}
+  runner: {path: scripts/s198_question_schema_canary.py, sha256: c812893d3a45ccffb848d9c409cc6a569ab698713ba818223388d41e8c1c43f1}
+  gate_tests: {path: tests/test_s198_question_schema_canary.py, sha256: 189c4f3d71a3090a39dce4713f4f5fb4c8a1fe7fe24950ab3cbc532199a07557}
+  frontier_adjudication: {path: evals/s198_point_first_scope_frontier_adjudication_v1.json, sha256: cac6611070a49c451b8ef0545a22edef6c3905c1d87a1892b94814777c5e1f9c}
+  runtime_requirements: {path: requirements.txt, sha256: f0332b0daa8a369c9d7d25036af73bfd3c8323b88b22b3bdd9d54639d535f378}
+
+synthetic_fixture_sha256: bba326144840fbea70a946624a5c174950d141146e1750602c770480243d2fbf
+
+model:
+  provider: anthropic
+  id: claude-haiku-4-5-20251001
+  role: economic_static_question_schema_compile_canary
+  max_output_tokens: 300
+
+sdk:
+  anthropic: 0.97.0
+
+execution:
+  paid_calls_max: 1
+  provider_preflight_requests_max: 1
+  provider_requests_max: 2
+  retries: 0
+  frontier_execution_calls: 0
+  real_document_items: 0
+  database_calls: 0
+  database_writes: 0
+  downstream_planner_calls: 0
+  exclusive_lock_before_provider_requests: true
+  lock_scope: current_workspace
+  immutable_prepaid_checkpoint: true
+  atomic_finalization: true
+
+transport_contract:
+  shape: static_question_only_v1
+  required_string_fields: [item_id, question]
+  arrays: 0
+  refs_or_defs: 0
+  combinators: 0
+  dynamic_enums_or_consts: 0
+  additional_properties: false
+  deterministic_identity_check: true
+  deterministic_question_bounds: true
+
+validation:
+  synthetic_only: true
+  exact_item_identity: true
+  question_min_characters: 20
+  question_max_characters: 300
+  passing_action: GO_QUESTION_SCHEMA_CANARY_COMPILED
+  official_fact_credit: 0
+  production: false
+
+pricing_usd_per_million_tokens: {input: 1, output: 5}
+budget: {internal_ceiling_usd: 0.01, user_ceiling_usd: 250}
+
+outputs:
+  execution_lock: evals/s198_question_schema_canary_execution_lock_v1.json
+  prepaid_checkpoint: evals/s198_question_schema_canary_prepaid_v1.json
+  receipts: evals/s198_question_schema_canary_receipts_v1.json
+  result: evals/s198_question_schema_canary_result_v1.json
+
+adversarial_review:
+  principal: {model: gpt-5.6-sol, reasoning_effort: xhigh, status: completed_and_adjudicated}
+  independent: {model: claude-fable-5, display_name: Fable 5, status: completed_and_adjudicated}
+  additional_convergence_round: false
+  frontier_execution_calls: 0
+
+chunks_v3_lane:
+  status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  changed_by_s198: false
+  historical_metrics_duplicated: false
+
+forbidden:
+  - real_document_or_target_content
+  - question_semantic_quality_claim
+  - dynamic_item_id_enum_or_const
+  - array_or_ref_or_schema_combinator
+  - retry_same_workspace_canary_after_lock
+  - fresh_s198_packet_before_canary_go
+  - use_frontier_model_for_execution
+  - database_or_runtime_or_deployment_change
+  - chunks_v3_wholesale_reopen_or_per_question_patch
+  - production_or_official_fact_credit
