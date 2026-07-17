@@ -1,0 +1,29 @@
+instrument: s169_synthesis_architecture_review_gate_v2
+status: INCOMPLETE_NO_RETRY_NO_ADVERSARIAL_DECISION
+
+execution:
+  sol_calls_attempted: 1
+  sol_status: incomplete
+  sol_checkpoint: absent
+  fable_calls_attempted: 0
+  provider_retries: 0
+  additional_rounds: 0
+  exact_cost_usd: unknown_uncheckpointed
+  sol_conservative_upper_bound_usd: 0.23
+  upper_bound_basis: 20000_input_tokens_at_6_25_per_million_plus_3500_output_tokens_at_30_per_million
+
+decision:
+  architecture_review_measured: false
+  adversarial_convergence: absent
+  retry_sol: forbidden
+  call_fable_alone: forbidden
+  create_third_review_contract: forbidden
+  use_empirical_s168_no_go: true
+  generic_ledger_line: STOP
+  next_local_design_basis:
+    - s150_upstream_typed_relation_extraction_pilot_go
+    - s151_per_chunk_checkpointed_extraction_successor_go
+    - s168_semantic_no_go_for_query_time_generic_ledger
+  target_probe: false
+  production: false
+  facts_moved_to_ok: 0
