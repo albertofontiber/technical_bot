@@ -32,6 +32,7 @@ def _row(row_id: str, index: int, content: str, **overrides):
 
 def test_markdown_table_detection_is_strict():
     assert begins_with_markdown_table("| A | B |\n| --- | :---: |\n| 1 | 2 |")
+    assert begins_with_markdown_table("| A | B |\n| - | ---- |\n| 1 | 2 |")
     assert not begins_with_markdown_table("Introduction\n\n| A | B |\n| --- | --- |")
     assert not begins_with_markdown_table("| A | B |\n| values | only |")
     assert contains_markdown_table("Intro\n| A | B |\n| --- | --- |\n| 1 | 2 |")
@@ -108,6 +109,21 @@ def test_v2_rejects_predecessor_tail_that_already_contains_a_table():
         "### Table 2: Wiring Terminal Designations\n"
         "| A | B |\n| --- | --- |\n| 1 | 2 |\n"
         "Explanatory prose before another split table.",
+    )
+    selected, trace = select_table_preambles([seed], [predecessor])
+    assert selected == []
+    assert trace["cross_table_rejected_rows"] == 1
+
+
+def test_v3_rejects_extracted_table_with_one_hyphen_delimiter_cell():
+    seed = _row("table", 10, "| C | D |\n| --- | --- |\n| 3 | 4 |")
+    predecessor = _row(
+        "extracted-cross-table",
+        9,
+        "### Table 2: Wiring Terminal Designations\n"
+        "| System | | Loop | 1 / 2 |\n"
+        "| --- | - | ---- | ----- |\n"
+        "| Date | | Technician | |",
     )
     selected, trace = select_table_preambles([seed], [predecessor])
     assert selected == []

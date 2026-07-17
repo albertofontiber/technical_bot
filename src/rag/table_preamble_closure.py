@@ -10,13 +10,13 @@ import re
 import unicodedata
 from typing import Any
 
-LANE = "same_blob_table_preamble_closure_v2"
-VALIDATION = "same_blob_exact_predecessor_single_table_heading_v2"
+LANE = "same_blob_table_preamble_closure_v3"
+VALIDATION = "same_blob_exact_predecessor_single_extracted_table_heading_v3"
 MAX_PREAMBLE_CHARS = 1200
 MAX_PREAMBLES = 2
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
 _HEADING = re.compile(r"^\s{0,3}#{1,6}\s+(.+?)\s*#*\s*$")
-_TABLE_SEPARATOR_CELL = re.compile(r"^:?-{3,}:?$")
+_TABLE_SEPARATOR_CELL = re.compile(r"^:?-+:?$")
 
 
 def _fold(value: str) -> str:

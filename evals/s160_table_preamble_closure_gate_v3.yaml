@@ -1,0 +1,101 @@
+instrument: s160_table_preamble_closure_gate_v3
+status: LOCAL_GO_MINIMAL_ANSWER_PROBE_ALLOWED
+
+frozen_contract:
+  design: evals/s160_table_preamble_closure_design_v3.md
+  preregistration: evals/s160_table_preamble_closure_prereg_v3.yaml
+  prior_no_go_gates:
+    - evals/s158_table_preamble_closure_gate_v1.yaml
+    - evals/s159_table_preamble_closure_gate_v2.yaml
+
+implementation:
+  selector: src/rag/table_preamble_closure.py
+  selector_sha256: 9022e2e26e0a88cc4f4ede3fc0e8195372bf7b92f18ff78a4e74ed12262db51c
+  tests: tests/test_table_preamble_closure.py
+  tests_sha256: 234d2db45510b54131e084161db10ee2270515a3950db9f73d1355744ba44990
+  cohort_builder: scripts/s160_build_table_preamble_cohort_v3.py
+  cohort_builder_sha256: 4e83feb1d25418f80a3c5f392e5318338c737d1035048f69bf4bc670a40377be
+
+target_result:
+  artifact: evals/s160_target_table_preamble_probe_v3.json
+  source_incomplete_claims_structurally_completed: 5
+  facts_moved_to_ok: 0
+  next_stage: synthesis-miss
+
+fresh_independent_generalization:
+  packet: evals/s160_independent_table_preamble_packet_v3.json
+  packet_sha256: 2f61a6dd8c14a2f5a28ec96e6f76359ffd8422addcc07286618939fb067b37b9
+  prior_document_ids_excluded: true
+  corpus_rows_read: 22339
+  pairs_rejected_by_cross_table_guard_before_sampling: 58
+  mechanically_eligible_pairs: 527
+  reviewed_pairs: 30
+  manufacturers: 8
+  distinct_section_titles: 30
+  semantically_correct_table_preambles: 30
+  cross_table_attachments: 0
+  precision: 1.0
+  reviewed_seed_ids:
+    - 120cb061-3e93-4daa-a981-f202de33f679
+    - 3761a1bd-0baf-487c-bd48-b48ce7f4bfdf
+    - 6c24fecd-a3f1-41c3-ab05-155e32c85fe6
+    - 9309ba7a-b3fd-4384-94c2-94cba10fddf4
+    - 7a22485b-124b-4925-b9d3-3e8aefa11806
+    - 1da51b64-c66f-4638-bdf1-31c85ab48d83
+    - 982999c0-8abe-49e8-9f42-bce598762ef2
+    - 2f1085d1-f465-4568-beca-cbf0bdff0b38
+    - a5edb739-0bb4-4b9c-b9e3-a8311cb0a370
+    - b8999fb2-867c-4636-98f8-0d5927be1496
+    - f198952f-0bc5-4257-a7e4-d75bb6710b1a
+    - ead69cdd-5aff-41ea-9ef5-2fc0c75689a2
+    - 41db4e40-3275-403d-8322-047166b71e0f
+    - 6f89fd61-bcfe-4c49-8f35-e7d96add551e
+    - ceb97d26-80db-4424-a139-99fac5143008
+    - 181ac6b0-f83e-43cd-bf0e-a8adafac9970
+    - 93ec9385-9400-4cb1-b6f5-522e1cfeff9c
+    - fc1e35e0-1b0c-4baf-a814-02cd98c594e3
+    - 9d19ea9b-7a77-4d00-8871-3eead7b6b990
+    - 620b9a3e-d3de-4b20-b716-676a56007d25
+    - 9343e450-8ef5-4656-9256-bd1106402e25
+    - ede3b36f-8b07-47b5-935c-9fedc1a038f1
+    - a4dba702-6562-46ba-a2e7-177cd7856e43
+    - 9f099b3c-f22a-4117-8e70-3516cac574f8
+    - 4f1e2135-d094-4654-a395-c865163316c3
+    - 2c302186-0764-4a5d-868f-e5359b5e6b2e
+    - cf44ff35-70f9-49d9-966a-5669be07250b
+    - b980906d-2e8e-4f97-bc29-eb04254a8e6d
+    - ea5b1b18-4165-4c1c-bee3-30de4758a816
+    - ae00ff3c-a6cd-4130-83f0-a533fe9c97d9
+
+checks:
+  target_passes: true
+  prior_s158_negative_rejected: true
+  prior_s159_negative_rejected: true
+  fresh_document_disjoint_cohort: true
+  exact_identity_and_adjacency_rate: 1.0
+  exact_span_receipt_rate: 1.0
+  heading_continuity_rate: 1.0
+  cross_table_attachments_max_zero: true
+  semantic_precision_one: true
+  protected_prefix_mutations: 0
+  targeted_tests: 9_passed
+  full_regression: 1401_passed_4_skipped
+  model_calls: 0
+  database_writes: 0
+
+decision:
+  local_candidate_v3: GO
+  minimal_paid_answer_probe: ALLOWED
+  production: NOT_AUTHORIZED
+  facts_moved_to_ok: 0
+  rationale: >-
+    The source-boundary repair is deterministic, exact, document-local and
+    independently precise after two versioned critical-negative corrections.
+    It may now be evaluated once in answer synthesis; local evidence repair is
+    not itself OK credit.
+
+cost:
+  usd: 0
+  model_calls: 0
+  database_writes: 0
+
