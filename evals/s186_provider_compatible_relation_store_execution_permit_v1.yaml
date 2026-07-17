@@ -1,0 +1,20 @@
+instrument: s186_provider_compatible_relation_store_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_NO_RETRY
+authorization_basis: >-
+  User authorized autonomous execution, on-the-go plan adjustment, economical
+  executor models and up to USD 250. This experiment has its own USD 2 ceiling.
+
+frozen_artifacts:
+  preregistration: {path: evals/s186_provider_compatible_relation_store_prereg_v1.yaml, sha256: 1564d218d0bdd956e0c8e734cc99db7dfffed19fd0cbbcdc54bfebc7f818c67b}
+  design: {path: evals/s186_provider_compatible_relation_store_design_v1.md, sha256: 957620dd2796217c63edf88544a9949c4908068a6213ea0d7592e95fc409e9b3}
+  runner: {path: scripts/s186_provider_compatible_relation_store_gate.py, sha256: 45cf432c279819882fd9ea9f0ee2b77958536e0874d1a1885be0bff3089d05bf}
+  compatibility_tests: {path: tests/test_s186_provider_compatible_relation_store.py, sha256: c436a0d8465cecc96b903b09e5dff809c9e292d690370b85a6f8a85d2a4db0ce}
+
+limits:
+  provider_calls_max: 28
+  retries: 0
+  internal_ceiling_usd: 2.0
+  database_calls: 0
+  production_or_deployment: false
+  target_exposure: false
+  facts_moved_to_ok: 0

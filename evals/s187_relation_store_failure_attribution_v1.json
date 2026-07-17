@@ -1,0 +1,289 @@
+{
+  "instrument": "s187_relation_store_failure_attribution_v1",
+  "status": "LOCAL_ATTRIBUTION_COMPLETE_RELATION_STORE_NO_GO",
+  "population": {
+    "questions": 14,
+    "manufacturers": 14,
+    "claims": 37,
+    "relations": 329
+  },
+  "extraction_oracle": {
+    "questions": 14,
+    "claims": 37,
+    "claims_covered": 34,
+    "claim_recall": 0.91891892,
+    "questions_complete": 11,
+    "question_complete_rate": 0.78571429,
+    "available_source_units": 184,
+    "gold_source_units_available": 24,
+    "available_unit_precision_against_question_gold": 0.13043478
+  },
+  "frozen_selector": {
+    "questions": 14,
+    "claims": 37,
+    "claims_covered": 28,
+    "claim_recall": 0.75675676,
+    "questions_complete": 9,
+    "question_complete_rate": 0.64285714,
+    "selected_units": 41,
+    "useful_units": 19,
+    "unit_precision": 0.46341463
+  },
+  "miss_attribution": {
+    "extraction_limited_claims": 3,
+    "selector_limited_claims": 6,
+    "total_missed_claims": 9
+  },
+  "by_stratum": {
+    "prose": {
+      "extraction_oracle": {
+        "questions": 7,
+        "claims": 20,
+        "claims_covered": 19,
+        "claim_recall": 0.95,
+        "questions_complete": 6,
+        "question_complete_rate": 0.85714286
+      },
+      "selector": {
+        "questions": 7,
+        "claims": 20,
+        "claims_covered": 19,
+        "claim_recall": 0.95,
+        "questions_complete": 6,
+        "question_complete_rate": 0.85714286
+      }
+    },
+    "table": {
+      "extraction_oracle": {
+        "questions": 7,
+        "claims": 17,
+        "claims_covered": 15,
+        "claim_recall": 0.88235294,
+        "questions_complete": 5,
+        "question_complete_rate": 0.71428571
+      },
+      "selector": {
+        "questions": 7,
+        "claims": 17,
+        "claims_covered": 9,
+        "claim_recall": 0.52941176,
+        "questions_complete": 3,
+        "question_complete_rate": 0.42857143
+      }
+    }
+  },
+  "rows": [
+    {
+      "item_id": "s147_src_01",
+      "stratum": "table",
+      "claims": 2,
+      "relations": 18,
+      "available_source_units": 9,
+      "gold_source_units_available": 2,
+      "extraction_oracle_claims_covered": 2,
+      "extraction_oracle_complete": true,
+      "selector_claims_covered": 2,
+      "selector_complete": true,
+      "extraction_limited_claims": 0,
+      "selector_limited_claims": 0
+    },
+    {
+      "item_id": "s147_src_02",
+      "stratum": "table",
+      "claims": 3,
+      "relations": 25,
+      "available_source_units": 9,
+      "gold_source_units_available": 3,
+      "extraction_oracle_claims_covered": 3,
+      "extraction_oracle_complete": true,
+      "selector_claims_covered": 3,
+      "selector_complete": true,
+      "extraction_limited_claims": 0,
+      "selector_limited_claims": 0
+    },
+    {
+      "item_id": "s147_src_03",
+      "stratum": "table",
+      "claims": 2,
+      "relations": 29,
+      "available_source_units": 8,
+      "gold_source_units_available": 1,
+      "extraction_oracle_claims_covered": 1,
+      "extraction_oracle_complete": false,
+      "selector_claims_covered": 0,
+      "selector_complete": false,
+      "extraction_limited_claims": 1,
+      "selector_limited_claims": 1
+    },
+    {
+      "item_id": "s147_src_04",
+      "stratum": "table",
+      "claims": 3,
+      "relations": 17,
+      "available_source_units": 16,
+      "gold_source_units_available": 3,
+      "extraction_oracle_claims_covered": 3,
+      "extraction_oracle_complete": true,
+      "selector_claims_covered": 1,
+      "selector_complete": false,
+      "extraction_limited_claims": 0,
+      "selector_limited_claims": 2
+    },
+    {
+      "item_id": "s147_src_05",
+      "stratum": "table",
+      "claims": 3,
+      "relations": 13,
+      "available_source_units": 10,
+      "gold_source_units_available": 2,
+      "extraction_oracle_claims_covered": 3,
+      "extraction_oracle_complete": true,
+      "selector_claims_covered": 0,
+      "selector_complete": false,
+      "extraction_limited_claims": 0,
+      "selector_limited_claims": 3
+    },
+    {
+      "item_id": "s147_src_06",
+      "stratum": "table",
+      "claims": 2,
+      "relations": 28,
+      "available_source_units": 14,
+      "gold_source_units_available": 1,
+      "extraction_oracle_claims_covered": 2,
+      "extraction_oracle_complete": true,
+      "selector_claims_covered": 2,
+      "selector_complete": true,
+      "extraction_limited_claims": 0,
+      "selector_limited_claims": 0
+    },
+    {
+      "item_id": "s147_src_07",
+      "stratum": "table",
+      "claims": 2,
+      "relations": 26,
+      "available_source_units": 8,
+      "gold_source_units_available": 1,
+      "extraction_oracle_claims_covered": 1,
+      "extraction_oracle_complete": false,
+      "selector_claims_covered": 1,
+      "selector_complete": false,
+      "extraction_limited_claims": 1,
+      "selector_limited_claims": 0
+    },
+    {
+      "item_id": "s147_src_08",
+      "stratum": "prose",
+      "claims": 3,
+      "relations": 24,
+      "available_source_units": 16,
+      "gold_source_units_available": 2,
+      "extraction_oracle_claims_covered": 2,
+      "extraction_oracle_complete": false,
+      "selector_claims_covered": 2,
+      "selector_complete": false,
+      "extraction_limited_claims": 1,
+      "selector_limited_claims": 0
+    },
+    {
+      "item_id": "s147_src_09",
+      "stratum": "prose",
+      "claims": 3,
+      "relations": 29,
+      "available_source_units": 15,
+      "gold_source_units_available": 1,
+      "extraction_oracle_claims_covered": 3,
+      "extraction_oracle_complete": true,
+      "selector_claims_covered": 3,
+      "selector_complete": true,
+      "extraction_limited_claims": 0,
+      "selector_limited_claims": 0
+    },
+    {
+      "item_id": "s147_src_10",
+      "stratum": "prose",
+      "claims": 2,
+      "relations": 29,
+      "available_source_units": 25,
+      "gold_source_units_available": 1,
+      "extraction_oracle_claims_covered": 2,
+      "extraction_oracle_complete": true,
+      "selector_claims_covered": 2,
+      "selector_complete": true,
+      "extraction_limited_claims": 0,
+      "selector_limited_claims": 0
+    },
+    {
+      "item_id": "s147_src_11",
+      "stratum": "prose",
+      "claims": 3,
+      "relations": 25,
+      "available_source_units": 13,
+      "gold_source_units_available": 2,
+      "extraction_oracle_claims_covered": 3,
+      "extraction_oracle_complete": true,
+      "selector_claims_covered": 3,
+      "selector_complete": true,
+      "extraction_limited_claims": 0,
+      "selector_limited_claims": 0
+    },
+    {
+      "item_id": "s147_src_12",
+      "stratum": "prose",
+      "claims": 3,
+      "relations": 21,
+      "available_source_units": 12,
+      "gold_source_units_available": 3,
+      "extraction_oracle_claims_covered": 3,
+      "extraction_oracle_complete": true,
+      "selector_claims_covered": 3,
+      "selector_complete": true,
+      "extraction_limited_claims": 0,
+      "selector_limited_claims": 0
+    },
+    {
+      "item_id": "s147_src_13",
+      "stratum": "prose",
+      "claims": 3,
+      "relations": 23,
+      "available_source_units": 12,
+      "gold_source_units_available": 1,
+      "extraction_oracle_claims_covered": 3,
+      "extraction_oracle_complete": true,
+      "selector_claims_covered": 3,
+      "selector_complete": true,
+      "extraction_limited_claims": 0,
+      "selector_limited_claims": 0
+    },
+    {
+      "item_id": "s147_src_14",
+      "stratum": "prose",
+      "claims": 3,
+      "relations": 22,
+      "available_source_units": 17,
+      "gold_source_units_available": 1,
+      "extraction_oracle_claims_covered": 3,
+      "extraction_oracle_complete": true,
+      "selector_claims_covered": 3,
+      "selector_complete": true,
+      "extraction_limited_claims": 0,
+      "selector_limited_claims": 0
+    }
+  ],
+  "decision": {
+    "s186": "CLOSED_NO_GO",
+    "relation_extraction_transport": "VALID_BUT_NOT_SUFFICIENT",
+    "haiku_relation_selector": "CLOSED_NO_GO",
+    "threshold_change": false,
+    "same_cohort_selector_retry": false,
+    "target_probe": false,
+    "production": false,
+    "facts_moved_to_ok": 0,
+    "next": "RETURN_TO_FOUR_RETRIEVAL_RESIDUALS; REOPEN_SYNTHESIS_ONLY_WITH_FRESH_EXTERNAL_SELECTION_EVIDENCE"
+  },
+  "cost": {
+    "additional_model_calls": 0,
+    "additional_usd": 0
+  },
+  "result_sha256": "33399dd51fc67548537ada59e22f4fda67de87f56921d3a8fe462a164353f070"
+}
