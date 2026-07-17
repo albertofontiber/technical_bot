@@ -1,0 +1,424 @@
+{
+  "instrument": "s202_gold_validator_receipts_v1",
+  "status": "PAID_CHECKPOINT_COMPLETE",
+  "created_at": "2026-07-17T21:54:36.300440+00:00",
+  "model": "gpt-5.6-luna",
+  "reasoning_effort": "none",
+  "invalid_outputs": 7,
+  "semantic_disagreements": 0,
+  "supported_points": 13,
+  "receipts": [
+    {
+      "qid": "cat023",
+      "response_id": "resp_02f7046bc1d4bb55016a5aa479352081959ef6e98876e1162e",
+      "status": "completed",
+      "counted_input_tokens": 35963,
+      "usage": {
+        "input_tokens": 35963,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 35960
+        },
+        "output_tokens": 151,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 36114
+      },
+      "cost_usd": 0.036869,
+      "validation_error": null,
+      "review": [
+        {
+          "point_id": "cat023#0:A/B/C EN 54-20",
+          "agrees_with_author": true,
+          "support_unit_sets": [
+            [
+              "E011_0c3b31b507",
+              "E004_8c4f9c4aef",
+              "E010_465372108c"
+            ]
+          ]
+        },
+        {
+          "point_id": "cat023#1:W01-W44 / 10-60 min / ±20-50 %",
+          "agrees_with_author": true,
+          "support_unit_sets": [
+            [
+              "E002_affab649cd",
+              "E007_02705600f4",
+              "E017_826c294d79",
+              "E035_a994201254"
+            ]
+          ]
+        }
+      ],
+      "raw_text_sha256": "ad2b47ca1b4ca3deef199bb9089d5c2e3674cf07f12355497f8cdc036c8007a1"
+    },
+    {
+      "qid": "cat020",
+      "response_id": "resp_0d43fd7ba4927f17016a5aa47e733c8195a42d41da413bccc6",
+      "status": "completed",
+      "counted_input_tokens": 42338,
+      "usage": {
+        "input_tokens": 42338,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 42335
+        },
+        "output_tokens": 150,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 42488
+      },
+      "cost_usd": 0.043238,
+      "validation_error": null,
+      "review": [
+        {
+          "point_id": "cat020#0:80 % / 100 % / 108 %",
+          "agrees_with_author": true,
+          "support_unit_sets": [
+            [
+              "E008_6b5c6fa029",
+              "E009_12b5e627d4"
+            ]
+          ]
+        },
+        {
+          "point_id": "cat020#1:0-100 % normalizado",
+          "agrees_with_author": true,
+          "support_unit_sets": [
+            [
+              "E008_6b5c6fa029"
+            ]
+          ]
+        },
+        {
+          "point_id": "cat020#2:manual de variaciones Espana",
+          "agrees_with_author": true,
+          "support_unit_sets": [
+            [
+              "E002_d92bb63d45"
+            ]
+          ]
+        }
+      ],
+      "raw_text_sha256": "c6580ebcc3fbe4aa4acfbd51b1fc3dc3d0ea12ccd0bd87e4530fda3826508b0a"
+    },
+    {
+      "qid": "cat001",
+      "response_id": "resp_03e709aa26f70c18016a5aa4818dcc8195bdd431401c4d28b6",
+      "status": "completed",
+      "counted_input_tokens": 52633,
+      "usage": {
+        "input_tokens": 52633,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 52630
+        },
+        "output_tokens": 370,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 53003
+      },
+      "cost_usd": 0.054853,
+      "validation_error": "validator agrees but omits author support set",
+      "review": [],
+      "raw_text_sha256": "bbb7a96ae1e65af1d94d4ddeb2f53eff68e5f6289d3eae0f5e0b3dca282ca7bb"
+    },
+    {
+      "qid": "cat022",
+      "response_id": "resp_074848353d51e13e016a5aa4848a8c81908f3e7cb9cb410640",
+      "status": "completed",
+      "counted_input_tokens": 45390,
+      "usage": {
+        "input_tokens": 45390,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 45387
+        },
+        "output_tokens": 160,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 45550
+      },
+      "cost_usd": 0.04635,
+      "validation_error": null,
+      "review": [
+        {
+          "point_id": "cat022#0:2,5-3,0 μm",
+          "agrees_with_author": true,
+          "support_unit_sets": [
+            [
+              "E002_0581077e07",
+              "E010_4c774485d6"
+            ]
+          ]
+        },
+        {
+          "point_id": "cat022#1:4,5 μm",
+          "agrees_with_author": true,
+          "support_unit_sets": [
+            [
+              "E002_0581077e07",
+              "E012_1693ef361e"
+            ]
+          ]
+        },
+        {
+          "point_id": "cat022#2:BIT",
+          "agrees_with_author": true,
+          "support_unit_sets": [
+            [
+              "E002_0581077e07",
+              "E013_f8b6e63f83"
+            ]
+          ]
+        }
+      ],
+      "raw_text_sha256": "ee4dcd6f376bd1f8b5d9b22672d334cd4fb95190b55aacfee6260981885f4b84"
+    },
+    {
+      "qid": "cat016",
+      "response_id": "resp_0f6b7adb5acd5e14016a5aa4876bc081968514baca82dc247c",
+      "status": "completed",
+      "counted_input_tokens": 30956,
+      "usage": {
+        "input_tokens": 30956,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 30953
+        },
+        "output_tokens": 251,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 31207
+      },
+      "cost_usd": 0.032462,
+      "validation_error": "validator agrees but omits author support set",
+      "review": [],
+      "raw_text_sha256": "85066a467d44ea90d392c40c80b8b6cfbe24e59ba3c662089c04e9266de12e89"
+    },
+    {
+      "qid": "cat017",
+      "response_id": "resp_03ac633b037c9983016a5aa489b63c8197a3383f46f792993c",
+      "status": "completed",
+      "counted_input_tokens": 47624,
+      "usage": {
+        "input_tokens": 47624,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 47621
+        },
+        "output_tokens": 201,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 47825
+      },
+      "cost_usd": 0.04883,
+      "validation_error": "validator agrees but omits author support set",
+      "review": [],
+      "raw_text_sha256": "e6e366d682f87a26db9417e35f2caabb421bffdd321412e9bef0a8a97a2d04a8"
+    },
+    {
+      "qid": "hp012",
+      "response_id": "resp_09d5217feee8c3d1016a5aa48cd6488196a3e259318d5c9eaa",
+      "status": "completed",
+      "counted_input_tokens": 48439,
+      "usage": {
+        "input_tokens": 48439,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 48436
+        },
+        "output_tokens": 207,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 48646
+      },
+      "cost_usd": 0.049681,
+      "validation_error": "validator agrees but omits author support set",
+      "review": [],
+      "raw_text_sha256": "5c0d80bfad717f695581aba5301de38651ce09a8f1b45918758c711f343cd68f"
+    },
+    {
+      "qid": "hp005",
+      "response_id": "resp_0eae752c5cc67089016a5aa49258348193a7d3940b9a085d35",
+      "status": "completed",
+      "counted_input_tokens": 43860,
+      "usage": {
+        "input_tokens": 43860,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 43857
+        },
+        "output_tokens": 283,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 44143
+      },
+      "cost_usd": 0.045558,
+      "validation_error": "validator agrees but omits author support set",
+      "review": [],
+      "raw_text_sha256": "421bfdd3344dce37ae386d9db901e69d934b9151103e0bf18aa0f01d4582da31"
+    },
+    {
+      "qid": "cat024",
+      "response_id": "resp_0fd4a092f38f0db7016a5aa49624b08195906d3e5085a095db",
+      "status": "completed",
+      "counted_input_tokens": 82768,
+      "usage": {
+        "input_tokens": 82768,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 82765
+        },
+        "output_tokens": 142,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 82910
+      },
+      "cost_usd": 0.08362,
+      "validation_error": null,
+      "review": [
+        {
+          "point_id": "cat024#0:17 mA",
+          "agrees_with_author": true,
+          "support_unit_sets": [
+            [
+              "E020_4f4fb32b80",
+              "E021_65304a4671",
+              "E032_71bdeef3cd"
+            ]
+          ]
+        },
+        {
+          "point_id": "cat024#1:7 mA (tablas) vs 17 mA (manual)",
+          "agrees_with_author": true,
+          "support_unit_sets": [
+            [
+              "E035_e06e1b7b8f",
+              "E036_59582d2d87",
+              "E064_6674520724"
+            ]
+          ]
+        }
+      ],
+      "raw_text_sha256": "c3a9fced4c81525fe87f1d74f9ea1e331dd29ffdb254f74aeb3a276d6af24627"
+    },
+    {
+      "qid": "hp014",
+      "response_id": "resp_07bbf929e5f0707a016a5aa4985b8c8193af5161319a246c96",
+      "status": "completed",
+      "counted_input_tokens": 53533,
+      "usage": {
+        "input_tokens": 53533,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 53530
+        },
+        "output_tokens": 257,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 53790
+      },
+      "cost_usd": 0.055075,
+      "validation_error": "unknown ID inside validator support set",
+      "review": [],
+      "raw_text_sha256": "d2e3e70d7520a070c70811d629b24eb1e333b8b0e5a1270a87ebeeac726c2a0a"
+    },
+    {
+      "qid": "hp001",
+      "response_id": "resp_0a4a43916eba2945016a5aa49a5a5c819398ac7847e917fc62",
+      "status": "completed",
+      "counted_input_tokens": 34699,
+      "usage": {
+        "input_tokens": 34699,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 34696
+        },
+        "output_tokens": 209,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 34908
+      },
+      "cost_usd": 0.035953,
+      "validation_error": null,
+      "review": [
+        {
+          "point_id": "hp001#0:candado",
+          "agrees_with_author": true,
+          "support_unit_sets": [
+            [
+              "E002_c08baaa2aa",
+              "E010_ff5190a1c1",
+              "E018_b46f273e99",
+              "E002_1b8c302780"
+            ]
+          ]
+        },
+        {
+          "point_id": "hp001#1:2222",
+          "agrees_with_author": true,
+          "support_unit_sets": [
+            [
+              "E016_6ecdcf78a2",
+              "E028_eff1fab4c9",
+              "E008_4a19e427e2",
+              "E025_669a42a878"
+            ]
+          ]
+        },
+        {
+          "point_id": "hp001#2:1111",
+          "agrees_with_author": true,
+          "support_unit_sets": [
+            [
+              "E023_ce2f0931c0",
+              "E012_a565cb197b",
+              "E026_db91e9a742",
+              "E015_ea8b8b68b7"
+            ]
+          ]
+        }
+      ],
+      "raw_text_sha256": "7c777008faffdb1c52a9e0b69e9a200cdb4048148de7afc779a61c6a8fa243c1"
+    },
+    {
+      "qid": "hp015",
+      "response_id": "resp_06a43f4a792c506a016a5aa49d277081939c16baca302c5125",
+      "status": "completed",
+      "counted_input_tokens": 30413,
+      "usage": {
+        "input_tokens": 30413,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 30410
+        },
+        "output_tokens": 114,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 30527
+      },
+      "cost_usd": 0.031097,
+      "validation_error": "validator agrees but omits author support set",
+      "review": [],
+      "raw_text_sha256": "e9246e1d5ee66270813e0a347302406073a2933dad4d6088a1294fdbdd8e799c"
+    }
+  ],
+  "cost": {
+    "actual_usd": 0.563586,
+    "worst_case_preflight_usd": 0.663816
+  }
+}

@@ -1,0 +1,695 @@
+{
+  "instrument": "s202_gold_author_receipts_v1",
+  "status": "PAID_CHECKPOINT_COMPLETE",
+  "created_at": "2026-07-17T21:53:52.013503+00:00",
+  "model": "claude-haiku-4-5-20251001",
+  "invalid_outputs": 0,
+  "receipts": [
+    {
+      "qid": "cat023",
+      "response_id": "msg_011Cd8NXhRLpLD3uJ5rXR8iV",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 45374,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 45374,
+        "output_tokens": 314,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.046944,
+      "validation_error": null,
+      "raw_text_sha256": "7925018386a93699acd028ee6573fdc5cb3c662ed22fa270139fbd2b2669e28a",
+      "mapping": [
+        {
+          "point_id": "cat023#0:A/B/C EN 54-20",
+          "supported": true,
+          "support_unit_ids": [
+            "E011_0c3b31b507",
+            "E004_8c4f9c4aef",
+            "E010_465372108c"
+          ]
+        },
+        {
+          "point_id": "cat023#1:W01-W44 / 10-60 min / ±20-50 %",
+          "supported": true,
+          "support_unit_ids": [
+            "E002_affab649cd",
+            "E007_02705600f4",
+            "E017_826c294d79",
+            "E035_a994201254"
+          ]
+        }
+      ]
+    },
+    {
+      "qid": "cat020",
+      "response_id": "msg_011Cd8NXzJ6jwP2DFQYMAp96",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 52245,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 52245,
+        "output_tokens": 294,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.053715,
+      "validation_error": null,
+      "raw_text_sha256": "3918c0e433c000bf4e4104084b2e24861e019d29bd708bbcff7194b4158f43df",
+      "mapping": [
+        {
+          "point_id": "cat020#0:80 % / 100 % / 108 %",
+          "supported": true,
+          "support_unit_ids": [
+            "E008_6b5c6fa029",
+            "E009_12b5e627d4"
+          ]
+        },
+        {
+          "point_id": "cat020#1:0-100 % normalizado",
+          "supported": true,
+          "support_unit_ids": [
+            "E008_6b5c6fa029"
+          ]
+        },
+        {
+          "point_id": "cat020#2:manual de variaciones Espana",
+          "supported": true,
+          "support_unit_ids": [
+            "E002_d92bb63d45"
+          ]
+        }
+      ]
+    },
+    {
+      "qid": "cat001",
+      "response_id": "msg_011Cd8NYDZKdkWZvDfEHbfjh",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 63715,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 63715,
+        "output_tokens": 406,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.065745,
+      "validation_error": null,
+      "raw_text_sha256": "d79594577e608177b569e88111ce8bb3ce9150d0064370b991d3ea54f7711b84",
+      "mapping": [
+        {
+          "point_id": "cat001#0:159+159 / 99+99",
+          "supported": true,
+          "support_unit_ids": [
+            "E004_5c3aad2563",
+            "E006_aae8592c69"
+          ]
+        },
+        {
+          "point_id": "cat001#1:0,75 A",
+          "supported": true,
+          "support_unit_ids": [
+            "E004_5c3aad2563"
+          ]
+        },
+        {
+          "point_id": "cat001#2:40",
+          "supported": true,
+          "support_unit_ids": [
+            "E008_c4b76c28c2",
+            "E009_53ea501b2f",
+            "E014_47ddb766fc"
+          ]
+        },
+        {
+          "point_id": "cat001#3:32 / 25 / 20",
+          "supported": true,
+          "support_unit_ids": [
+            "E018_58292c37fe",
+            "E020_626788d061",
+            "E017_86a09c60ef",
+            "E028_3b0dbfa482"
+          ]
+        },
+        {
+          "point_id": "cat001#4:autoconfiguracion",
+          "supported": true,
+          "support_unit_ids": [
+            "E002_46ece0c374",
+            "E003_35dd61d1fc",
+            "E005_3900e86980"
+          ]
+        },
+        {
+          "point_id": "cat001#5:255 / 8192",
+          "supported": true,
+          "support_unit_ids": [
+            "E002_de0a4c2295",
+            "E003_d7140fbe8c",
+            "E009_7633856955",
+            "E014_54aa570d73"
+          ]
+        }
+      ]
+    },
+    {
+      "qid": "cat022",
+      "response_id": "msg_011Cd8NYdG68ERJ6AbTeQDj1",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 55493,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 55493,
+        "output_tokens": 307,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.057028,
+      "validation_error": null,
+      "raw_text_sha256": "cc5ed55bf8188400a8cec3e90c15787a5840dec89e9c624fe423dbadb3bdebb9",
+      "mapping": [
+        {
+          "point_id": "cat022#0:2,5-3,0 μm",
+          "supported": true,
+          "support_unit_ids": [
+            "E002_0581077e07",
+            "E010_4c774485d6"
+          ]
+        },
+        {
+          "point_id": "cat022#1:4,5 μm",
+          "supported": true,
+          "support_unit_ids": [
+            "E002_0581077e07",
+            "E012_1693ef361e"
+          ]
+        },
+        {
+          "point_id": "cat022#2:BIT",
+          "supported": true,
+          "support_unit_ids": [
+            "E002_0581077e07",
+            "E013_f8b6e63f83"
+          ]
+        }
+      ]
+    },
+    {
+      "qid": "cat016",
+      "response_id": "msg_011Cd8NYw78wTLHFsPLhp3X1",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 38145,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 38145,
+        "output_tokens": 365,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.03997,
+      "validation_error": null,
+      "raw_text_sha256": "1a78ba8e667c368404b904f161ef56b1591fbd03a9d25201ddcc498f87284203",
+      "mapping": [
+        {
+          "point_id": "cat016#0:autobusqueda",
+          "supported": true,
+          "support_unit_ids": [
+            "E001_df783a346b",
+            "E002_e68dba2a19"
+          ]
+        },
+        {
+          "point_id": "cat016#1:menu ZONA + ELEMENTO",
+          "supported": true,
+          "support_unit_ids": [
+            "E002_e68dba2a19",
+            "E003_f8e14afdfc",
+            "E004_8bf42af5d1"
+          ]
+        },
+        {
+          "point_id": "cat016#2:modo prueba",
+          "supported": true,
+          "support_unit_ids": [
+            "E001_0284de7f91",
+            "E002_6cb03e216c",
+            "E006_dc90ccdb81"
+          ]
+        },
+        {
+          "point_id": "cat016#3:20 minutos",
+          "supported": true,
+          "support_unit_ids": [
+            "E002_6cb03e216c",
+            "E003_8c277e73e3",
+            "E007_2adf8478ed",
+            "E006_a2999ad615"
+          ]
+        }
+      ]
+    },
+    {
+      "qid": "cat017",
+      "response_id": "msg_011Cd8NZJ4iDPjph3juHcuqs",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 57243,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 57243,
+        "output_tokens": 462,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.059553,
+      "validation_error": null,
+      "raw_text_sha256": "09e5f4d538c22494468796c63f2447562ca5da0b3be7b6391179557f78ca204f",
+      "mapping": [
+        {
+          "point_id": "cat017#0:modulo OPAL HOP-433-100",
+          "supported": true,
+          "support_unit_ids": [
+            "E001_9a555c0253",
+            "E002_d1ee34a18b",
+            "E004_a36335d47a",
+            "E005_1eac71f875",
+            "E007_951ca186cf",
+            "E002_cbdff75a76"
+          ]
+        },
+        {
+          "point_id": "cat017#1:159 + 159",
+          "supported": true,
+          "support_unit_ids": [
+            "E002_cbdff75a76",
+            "E018_c3c8e5e474",
+            "E013_4e51ef231c",
+            "E002_ed877775e5",
+            "E009_521e0f0d91"
+          ]
+        },
+        {
+          "point_id": "cat017#2:licencia CLIP por lazo",
+          "supported": true,
+          "support_unit_ids": [
+            "E002_cbdff75a76",
+            "E012_d1284877d8",
+            "E010_e6f28bcc4f"
+          ]
+        },
+        {
+          "point_id": "cat017#3:Auto Configuracion",
+          "supported": true,
+          "support_unit_ids": [
+            "E002_f68fc7121e",
+            "E004_6f40dd0d03",
+            "E001_95f9c52e02",
+            "E002_f6b90604cb"
+          ]
+        },
+        {
+          "point_id": "cat017#4:CLSS",
+          "supported": true,
+          "support_unit_ids": [
+            "E001_95f9c52e02",
+            "E002_f6b90604cb",
+            "E004_5d394bd82a",
+            "E005_f3d5d09c3f"
+          ]
+        }
+      ]
+    },
+    {
+      "qid": "hp012",
+      "response_id": "msg_011Cd8NZiRRWKeuymq8RPjc6",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 59516,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 59516,
+        "output_tokens": 317,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.061101,
+      "validation_error": null,
+      "raw_text_sha256": "7503128019d89035fc030ad21e09e0e8ba5a83a25cd34a8ae0bf88f41c51dc2b",
+      "mapping": [
+        {
+          "point_id": "hp012#0:10 lazos",
+          "supported": true,
+          "support_unit_ids": [
+            "E009_c8ca8bcb56",
+            "E012_3ab568cf37"
+          ]
+        },
+        {
+          "point_id": "hp012#1:99 + 99",
+          "supported": true,
+          "support_unit_ids": [
+            "E009_c8ca8bcb56",
+            "E012_3ab568cf37"
+          ]
+        },
+        {
+          "point_id": "hp012#2:2 lazos / 396",
+          "supported": true,
+          "support_unit_ids": [
+            "E003_e4bb9ec655"
+          ]
+        },
+        {
+          "point_id": "hp012#3:4 lazos / 792",
+          "supported": true,
+          "support_unit_ids": [
+            "E005_879cc94d02",
+            "E006_5fafdc9881"
+          ]
+        }
+      ]
+    },
+    {
+      "qid": "hp005",
+      "response_id": "msg_011Cd8NZyMr9YYZ1Qs9Ty3gu",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 53553,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 53553,
+        "output_tokens": 438,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.055743,
+      "validation_error": null,
+      "raw_text_sha256": "c4857e934dda4f618f7c9c0625d3c33fff8b69f69af3132a09b620e1473c9032",
+      "mapping": [
+        {
+          "point_id": "hp005#0:Matriz de control",
+          "supported": true,
+          "support_unit_ids": [
+            "E002_d6eb7897da",
+            "E006_a359be6233",
+            "E007_1a026deba0",
+            "E008_6111dec0a1",
+            "E001_53778e5ad0",
+            "E004_c8f1a3b6a7"
+          ]
+        },
+        {
+          "point_id": "hp005#1:COINCIDENCIA 2 EQUIPOS",
+          "supported": true,
+          "support_unit_ids": [
+            "E005_167c8c29f8",
+            "E008_6111dec0a1",
+            "E009_7eedfe1ead",
+            "E018_49381a57a0",
+            "E020_b07d50051e"
+          ]
+        },
+        {
+          "point_id": "hp005#2:misma zona o subzona",
+          "supported": true,
+          "support_unit_ids": [
+            "E007_1a026deba0",
+            "E018_49381a57a0",
+            "E019_6ad59f4eae",
+            "E003_6bdc305bb2"
+          ]
+        },
+        {
+          "point_id": "hp005#3:CIRCUITO SIRENA",
+          "supported": true,
+          "support_unit_ids": [
+            "E002_89d0eed801",
+            "E012_4a48927203",
+            "E002_e1d65891b0",
+            "E002_aa81941502",
+            "E012_537d13a103"
+          ]
+        }
+      ]
+    },
+    {
+      "qid": "cat024",
+      "response_id": "msg_011Cd8NaNQSELXeYxvW3ZjiG",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 102917,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 102917,
+        "output_tokens": 310,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.104467,
+      "validation_error": null,
+      "raw_text_sha256": "4a442bf09f8b8f288225b537a0b617349407c7ecf6ecbefa475b5ed87f18dcc8",
+      "mapping": [
+        {
+          "point_id": "cat024#0:17 mA",
+          "supported": true,
+          "support_unit_ids": [
+            "E020_4f4fb32b80",
+            "E021_65304a4671",
+            "E032_71bdeef3cd"
+          ]
+        },
+        {
+          "point_id": "cat024#1:7 mA (tablas) vs 17 mA (manual)",
+          "supported": true,
+          "support_unit_ids": [
+            "E035_e06e1b7b8f",
+            "E036_59582d2d87",
+            "E064_6674520724"
+          ]
+        }
+      ]
+    },
+    {
+      "qid": "hp014",
+      "response_id": "msg_011Cd8NagaKuXqUUFGmPKDtj",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 65021,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 65021,
+        "output_tokens": 390,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.066971,
+      "validation_error": null,
+      "raw_text_sha256": "b99c9f8ef50614185df1f936e8c53dac6c403d3e530bcddc9f891961968b78b3",
+      "mapping": [
+        {
+          "point_id": "hp014#0:25",
+          "supported": true,
+          "support_unit_ids": [
+            "E020_c24ab7b780",
+            "E014_c16d7839e8",
+            "E015_316c7018d7"
+          ]
+        },
+        {
+          "point_id": "hp014#1:continuidad",
+          "supported": true,
+          "support_unit_ids": [
+            "E020_b95ecc9982",
+            "E017_2c3cc9e48b",
+            "E018_889405a1e5"
+          ]
+        },
+        {
+          "point_id": "hp014#2:terminales 2 y 4",
+          "supported": true,
+          "support_unit_ids": [
+            "E025_1dbd71fb2c",
+            "E026_c7b3737cf4",
+            "E004_1deb2c1fec",
+            "E005_04ad4f74aa"
+          ]
+        },
+        {
+          "point_id": "hp014#3:35",
+          "supported": true,
+          "support_unit_ids": [
+            "E015_37d71c4cf3",
+            "E008_87efb98637",
+            "E013_e2ffb2b876",
+            "E014_57f3ab19e5"
+          ]
+        }
+      ]
+    },
+    {
+      "qid": "hp001",
+      "response_id": "msg_011Cd8Nb4iLhN5cgi1J4ZXtZ",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 42932,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 42932,
+        "output_tokens": 369,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.044777,
+      "validation_error": null,
+      "raw_text_sha256": "20bd1b616da1e5e18f453f32629a258fd93f7577d4ee7dc312027a2cf3bbb318",
+      "mapping": [
+        {
+          "point_id": "hp001#0:candado",
+          "supported": true,
+          "support_unit_ids": [
+            "E002_c08baaa2aa",
+            "E010_ff5190a1c1",
+            "E018_b46f273e99",
+            "E002_1b8c302780"
+          ]
+        },
+        {
+          "point_id": "hp001#1:2222",
+          "supported": true,
+          "support_unit_ids": [
+            "E016_6ecdcf78a2",
+            "E028_eff1fab4c9",
+            "E008_4a19e427e2",
+            "E025_669a42a878"
+          ]
+        },
+        {
+          "point_id": "hp001#2:1111",
+          "supported": true,
+          "support_unit_ids": [
+            "E023_ce2f0931c0",
+            "E012_a565cb197b",
+            "E026_db91e9a742",
+            "E015_ea8b8b68b7"
+          ]
+        }
+      ]
+    },
+    {
+      "qid": "hp015",
+      "response_id": "msg_011Cd8NbXLypcB37VNCgGYvC",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 37626,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 37626,
+        "output_tokens": 336,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.039306,
+      "validation_error": null,
+      "raw_text_sha256": "15fa3260ad639ef2d1b8a14642fcd916fa4cbdc26e6301e7da685aba8f4935d2",
+      "mapping": [
+        {
+          "point_id": "hp015#0:convencional",
+          "supported": true,
+          "support_unit_ids": [
+            "E002_8b319b175c",
+            "E003_4af54650ab",
+            "E005_7b1296a903",
+            "E008_e4fa09257c"
+          ]
+        },
+        {
+          "point_id": "hp015#1:2 veces la tecla de zona",
+          "supported": true,
+          "support_unit_ids": [
+            "E002_8b319b175c",
+            "E007_c001d2ca29",
+            "E008_e4fa09257c"
+          ]
+        },
+        {
+          "point_id": "hp015#2:32",
+          "supported": true,
+          "support_unit_ids": [
+            "E002_2f5de4a112",
+            "E009_3b7f379957"
+          ]
+        }
+      ]
+    }
+  ],
+  "cost": {
+    "actual_usd": 0.69532,
+    "worst_case_preflight_usd": 0.78178
+  }
+}
