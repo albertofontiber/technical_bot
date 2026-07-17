@@ -1,0 +1,28 @@
+instrument: s154_question_conditioned_claim_map_execution_permit_v2
+status: EXECUTION_GO_PAID_BOUNDED
+
+frozen_artifacts:
+  preregistration:
+    path: evals/s154_question_conditioned_claim_map_prereg_v2.yaml
+    sha256: 795fbf119af203fa3c51c6ee4f9274abd6e41394b4ab8c114407f8a03090c9d1
+  runner:
+    path: scripts/s154_question_conditioned_claim_map.py
+    sha256: d2e69d9e472227fac57c78019a1e58189a6e6a9ffa799ddd395005cdf74dc550
+  local_tests:
+    path: tests/test_s154_question_conditioned_claim_map.py
+    sha256: 9bda90c4af702d7ac3989e5451e55788979b998182450966b72f44f27df1e59e
+
+limits:
+  count_token_preflight_calls: 65
+  paid_message_calls: 65
+  retries: 0
+  conservative_total_ceiling_usd: 1.75
+  user_budget_usd: 250
+
+authorization:
+  paid_claim_map_pilot: true
+  transport_only_recovery_from_prepaid_400: true
+  production: false
+  deploy: false
+  push: false
+  facts_moved_to_ok: 0

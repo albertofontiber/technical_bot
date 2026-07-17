@@ -1,0 +1,221 @@
+{
+  "instrument": "s155_question_conditioned_claim_map_v1",
+  "status": "NO_GO_CLAIM_MAP",
+  "population": {
+    "jobs": 65,
+    "target_jobs": 51,
+    "independent_jobs": 14
+  },
+  "claims": 345,
+  "validation": {
+    "whitespace_only_repairs": 7,
+    "invalid_quote_drops": 71
+  },
+  "target": {
+    "relations": 13,
+    "covered": 9,
+    "coverage": 0.6923076923076923,
+    "rows": [
+      {
+        "qid": "cat018",
+        "claims": 63,
+        "relations": [
+          {
+            "kind": "software_type_cbe_activation",
+            "covered": true
+          },
+          {
+            "kind": "point_programming_fields",
+            "covered": false
+          }
+        ],
+        "covered": 1
+      },
+      {
+        "qid": "hp002",
+        "claims": 79,
+        "relations": [
+          {
+            "kind": "initial_reference_calibration",
+            "covered": true
+          },
+          {
+            "kind": "bounded_fault_window",
+            "covered": true
+          },
+          {
+            "kind": "maintenance_isolation_prerequisite",
+            "covered": true
+          }
+        ],
+        "covered": 3
+      },
+      {
+        "qid": "hp011",
+        "claims": 64,
+        "relations": [
+          {
+            "kind": "extinction_duration_range",
+            "covered": false
+          },
+          {
+            "kind": "reset_inhibit_special_state",
+            "covered": false
+          },
+          {
+            "kind": "default_latched_faults",
+            "covered": true
+          }
+        ],
+        "covered": 1
+      },
+      {
+        "qid": "hp017",
+        "claims": 59,
+        "relations": [
+          {
+            "kind": "option_family_cardinality",
+            "covered": false
+          },
+          {
+            "kind": "input_condition_definition",
+            "covered": true
+          },
+          {
+            "kind": "output_condition_action",
+            "covered": true
+          },
+          {
+            "kind": "logic_contradiction_warning",
+            "covered": true
+          },
+          {
+            "kind": "commissioning_rule_verification",
+            "covered": true
+          }
+        ],
+        "covered": 4
+      }
+    ]
+  },
+  "independent": {
+    "gold_points": 37,
+    "gold_points_covered": 32,
+    "gold_point_coverage": 0.8648648648648649,
+    "mapped_claims": 80,
+    "useful_claims": 50,
+    "useful_claim_precision": 0.625,
+    "rows": [
+      {
+        "item_id": "s147_src_01",
+        "gold_points": 2,
+        "gold_points_covered": 2,
+        "mapped_claims": 6,
+        "useful_claims": 1
+      },
+      {
+        "item_id": "s147_src_02",
+        "gold_points": 3,
+        "gold_points_covered": 3,
+        "mapped_claims": 8,
+        "useful_claims": 7
+      },
+      {
+        "item_id": "s147_src_03",
+        "gold_points": 2,
+        "gold_points_covered": 2,
+        "mapped_claims": 7,
+        "useful_claims": 2
+      },
+      {
+        "item_id": "s147_src_04",
+        "gold_points": 3,
+        "gold_points_covered": 2,
+        "mapped_claims": 6,
+        "useful_claims": 2
+      },
+      {
+        "item_id": "s147_src_05",
+        "gold_points": 3,
+        "gold_points_covered": 1,
+        "mapped_claims": 11,
+        "useful_claims": 10
+      },
+      {
+        "item_id": "s147_src_06",
+        "gold_points": 2,
+        "gold_points_covered": 2,
+        "mapped_claims": 2,
+        "useful_claims": 2
+      },
+      {
+        "item_id": "s147_src_07",
+        "gold_points": 2,
+        "gold_points_covered": 2,
+        "mapped_claims": 9,
+        "useful_claims": 0
+      },
+      {
+        "item_id": "s147_src_08",
+        "gold_points": 3,
+        "gold_points_covered": 3,
+        "mapped_claims": 5,
+        "useful_claims": 4
+      },
+      {
+        "item_id": "s147_src_09",
+        "gold_points": 3,
+        "gold_points_covered": 1,
+        "mapped_claims": 4,
+        "useful_claims": 4
+      },
+      {
+        "item_id": "s147_src_10",
+        "gold_points": 2,
+        "gold_points_covered": 2,
+        "mapped_claims": 3,
+        "useful_claims": 2
+      },
+      {
+        "item_id": "s147_src_11",
+        "gold_points": 3,
+        "gold_points_covered": 3,
+        "mapped_claims": 4,
+        "useful_claims": 4
+      },
+      {
+        "item_id": "s147_src_12",
+        "gold_points": 3,
+        "gold_points_covered": 3,
+        "mapped_claims": 9,
+        "useful_claims": 7
+      },
+      {
+        "item_id": "s147_src_13",
+        "gold_points": 3,
+        "gold_points_covered": 3,
+        "mapped_claims": 3,
+        "useful_claims": 3
+      },
+      {
+        "item_id": "s147_src_14",
+        "gold_points": 3,
+        "gold_points_covered": 3,
+        "mapped_claims": 3,
+        "useful_claims": 2
+      }
+    ]
+  },
+  "cost": {
+    "calls": 65,
+    "counted_input_tokens": 84903,
+    "worst_case_preflight_usd": 1.599806,
+    "actual_usd": 0.549996
+  },
+  "decision": {
+    "four_answer_composition_probe": false,
+    "production": false,
+    "facts_moved_to_ok": 0
+  },
+  "result_sha256": "e222bb8a3e532a89c1514d59e92c7f1b992ce816e048a2dfbba773e43d3a46f6"
+}

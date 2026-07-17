@@ -1,0 +1,29 @@
+{
+  "instrument": "s154_question_conditioned_claim_map_receipts_v1",
+  "status": "FAILED_CLAIM_COUNT_CONTRACT_NO_RETRY",
+  "model": "claude-haiku-4-5-20251001",
+  "receipts": [
+    {
+      "index": 1,
+      "job_id": "target:cat018:15a48b9d-fa1e-4c01-8702-b07b0fc5b80b",
+      "response_id": "msg_011Cd6gSsH82rXf96mMtt3q4",
+      "counted_input_tokens": 1540,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1540,
+        "output_tokens": 1400,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.01708,
+      "raw_text": "{\"claims\": [{\"facet\": \"direct_answer\", \"claim_text\": \"Una ecuación CONTROL POR EVENTO (CBE) es una programación típica de la central que se asocia a cada punto, zona o grupo y permite programar una serie de condiciones que la central evaluará cuando el punto, la zona o el grupo estén ACTIVOS, seguidas de las actuaciones programadas.\", \"exact_quote\": \"Una programación típica de la central se define como ECUACIÓN CONTROL POR EVENTO (CBE)\\n\\nEn fase de programación, se debe asociar a cada punto, zona o grupo una ecuación CBE.\\n\\nLa ecuación CONTROL POR EVENTO permite programar una serie de condiciones que la central evaluará cuando el punto, la zona o el grupo estén ACTIVOS, y seguirá las actuaciones programadas.\"}, {\"facet\": \"configuration\", \"claim_text\": \"Para definir las condiciones de una ecuación CBE es necesario establecer la ecuación utilizando los operadores lógicos: OR, AND, XGRP, NOT, DEL, SDEL y TIM.\", \"exact_quote\": \"Para definir dichas condiciones, es necesario establecer la ecuación CBE utilizando los operadores lógicos (OR, AND, XGRP, NOT, DEL, SDEL y TIM).\"}, {\"facet\": \"diagnostic\", \"claim_text\": \"La condición de «ACTIVO» es válida cuando: un punto de entrada (sensores o módulos de entrada) está en alarma, un punto de salida (módulo de salida) está ACTIVADO, o un grupo tiene uno de sus puntos activo.\", \"exact_quote\": \"La condición de «ACTIVO» es válida cuando:\\n\\n* Punto de entrada (sensores o módulos de entrada) = en alarma\\n* Punto de salida (módulo de salida) = ACTIVADO\\n* Grupo = uno de los puntos del grupo está activo\"}, {\"facet\": \"procedure\", \"claim_text\": \"Los operadores lógicos que funcionan para más operandos se escriben siguiendo el procedimiento: OPERADOR (OPERANDO-1, OPERANDO-2...).\", \"exact_quote\": \"Los operadores lógicos (por ejemplo, OR, AND, etc.) que funcionan para más operandos, se escriben siguiendo este procedimiento.\\n\\n## **<ins>OPERADOR (OPERANDO-1, OPERANDO-2...)</ins>**\"}, {\"facet\": \"procedure\", \"claim_text\": \"El operador lógico NOT y XGRP funcionan solo para un operando y se escriben delante del operando relativo.\", \"exact_quote\": \"El operador lógico NOT y XGRP funciona solo para un operando, se escribe delante del operando relativo.\"}, {\"facet\": \"prerequisite_safety\", \"claim_text\": \"Si se usan más operadores, el primer carácter de la ecuación debe ser un paréntesis abierto, y el último carácter debe ser un paréntesis cerrado.\", \"exact_quote\": \"Si se usan más operadores, el primer carácter de la ecuación debe ser un paréntesis abierto, y el último carácter debe ser un paréntesis cerrado.\"}, {\"facet\": \"configuration\", \"claim_text\": \"Una CBE programable para los módulos de salida contiene la dirección de los objetos que la activarán, que pueden ser: sensores, módulos de entrada o grupos. En caso de activación por combinación de varios objetos, se deben utilizar los operadores AND, OR, etc.\", \"exact_quote\": \"Una CBE programable para los módulos de salida contiene la dirección de los objetos que la activarán, que pueden ser: sensores, módulos de entrada o grupos. En caso de que la activación del módulo se deba realizar para una combinación de varios objetos, se deben utilizar los operadores AND, OR, etc.\"}, {\"facet\": \"configuration\", \"claim_text\": \"Una CBE programable para los sensores y módulos de entrada contiene la dirección de los objetos que la activarán en caso de alarma, que pueden ser módulos de salida o grupos. Para activar una serie de objetos, solo se deben escribir en secuencia, sin el uso de ningún operador.\", \"exact_quote\": \"Una CBE programable para los sensores y módulos de entrada contiene la dirección de los objetos que la activarán en caso de alarma, que pueden ser módulos de salida o grupos. En caso de que sea necesario activar una serie de objetos, solo se deben escribir en secuencia, sin el uso de ningún operador.\"}, {\"facet\": \"prerequisite_safety\", \"claim_text\": \"Se debe escribir la ecuación sin insertar espacios entre los caracteres a introducir.\", \"exact_quote\": \"se debe escribir la ecuación sin insertar espacios entre los caracteres a introducir.\"}, {\"facet\": \"exception_warning\", \"claim_text\": \"Las ecuaciones de control, para ser válidas y aceptadas por la central, deben seguir unas reglas sintácticas precisas. Si se verifican errores de sintaxis, la ecuación será rechazada.\", \"exact_quote\": \"Las ecuaciones de control, para ser válidas y por tanto aceptadas por la central, deben seguir unas reglas sintácticas precisas. Si se verifican errores de sintaxis, la ecuación será rechazada.\"}, {\"facet\": \"configuration\", \"claim_text\": \"Es posible también no programar ninguna operación para un dispositivo utilizando la ecuación CBE «Ninguna».\", \"exact_quote\": \"❑ **Ecuación CBE «Ninguna»**\\n\\nEs posible también no programar ninguna operación para un dispositivo.\"}]}",
+      "raw_text_sha256": "8b381e776898ad8a9de031baf178bf4eb22766cc6e0266bb02c8dfaa5795eb52"
+    }
+  ]
+}

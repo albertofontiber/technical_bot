@@ -1,0 +1,52 @@
+schema_version: s154_s141_independent_runtime_audit_v1
+instrument: frozen_s141_additional_independent_runtime_audit
+status: NO_OBSERVABLE_POSITIVE_GENERALIZATION
+
+inputs:
+  corpus_slice:
+    path: evals/s114_five_product_corpus_slice_v1.json
+    sha256: c64eff2afaa06476f8c79f2efb61188ffaf332169d59bb3a68e8138a554f64c2
+  prior_heldout:
+    path: evals/s114_procedure_bundle_heldout_freeze_v1.json
+    sha256: 227e808a2ba2308acce89f90722fd46a63bad30aae0cde630191154b4ff07d94
+  prior_fresh_packets:
+    - path: evals/s146_fresh_source_packet_v1.json
+      sha256: bc442d04fbc81d0181e636b72dc819af9cbcc035b3800f1337e48044f7d5ba4a
+    - path: evals/s147_fresh_source_packet_v1.json
+      sha256: 38911f3e9b180064e4e9f5ae5e909e32dd6285dfb9f773944fa88184139f1295
+
+method:
+  source_exclusions:
+    - all S113 development sources
+    - all S114 heldout sources
+    - all S146 and S147 fresh-packet sources
+    - ASD535 target product
+  question_source: pre-existing Question blocks embedded in independent corpus articles
+  model_calls: 0
+  extractor_changes: 0
+  questions_tested: 19
+  product_families: [Morley DXc, Notifier INSPIRE]
+
+result:
+  questions_emitting_s141_obligations: 0
+  obligations_emitted: 0
+  prior_s114_questions_emitting: 0
+  prior_s147_questions_emitting: 0
+
+decision:
+  s141_positive_generalization: NOT_DEMONSTRATED
+  s141_answer_probe: NO_GO
+  s141_production: NO_GO
+  further_s141_tuning: forbidden
+  facts_moved_to_ok: 0
+  rationale: >-
+    The frozen extractor remains exact on its four development questions but
+    emits nothing across three independently selected question sets, including
+    nineteen additional pre-existing field-support questions. Continuing to
+    tune its deterministic relation types would be benchmark-specific.
+
+cost:
+  usd: 0
+  model_calls: 0
+  network_calls: 0
+
