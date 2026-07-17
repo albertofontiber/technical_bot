@@ -1,0 +1,60 @@
+{
+  "schema": "s198_fresh_population_no_go_v1",
+  "status": "NO_GO_FRESH_POPULATION_EXHAUSTED_BEFORE_PACKET",
+  "attempted_at_utc": "2026-07-17T18:40:44.2480532Z",
+  "frozen_code_commit": "e3e97324c5b2dfd9545fbc19b2d9a63672a082aa",
+  "source_builder_sha256": "f70457df02d7799ff5abe1effc8a15b18c26ae62727b32202d0527c2500e34c3",
+  "gate_runner_sha256": "961412427844578baee85c1fcc837b2041d1c1faee39dc84141b671dfea869d5",
+  "canary_prerequisite": "GO_QUESTION_SCHEMA_CANARY_COMPILED",
+  "source": {
+    "table": "chunks_v2",
+    "access": "DOUBLE_IDENTICAL_FULL_SCAN_GET_ONLY",
+    "database_writes": 0,
+    "scan_succeeded_before_selection_failure": true,
+    "physical_scan_receipt_persisted": false,
+    "unpersisted_fields": [
+      "row_count",
+      "full_scan_sha256",
+      "exact_eligible_inventory"
+    ]
+  },
+  "exclusions": [
+    "S194 documents/source files/manufacturer-product pairs",
+    "S195 documents/source files/manufacturer-product pairs",
+    "S197 documents/source files/manufacturer-product pairs",
+    "protected target UUIDs and exact content/extraction equivalents"
+  ],
+  "frozen_selection_requirement": {
+    "table_manufacturers": 7,
+    "prose_manufacturers": 7,
+    "total_unique_manufacturers": 14
+  },
+  "observed_construction_failure": {
+    "exception_type": "RuntimeError",
+    "message": "S167 insufficient document-independent prose manufacturers: 5",
+    "table_requirement_was_reached_before_prose_selection": true,
+    "maximum_prose_manufacturers_available_after_prior_table_selection": 5
+  },
+  "model_execution": {
+    "point_author_calls": 0,
+    "point_screen_calls": 0,
+    "question_writer_calls": 0,
+    "question_screen_calls": 0,
+    "cost_usd": 0
+  },
+  "decision": {
+    "same_attempt_retry": false,
+    "threshold_or_prompt_changed_in_attempt": false,
+    "packet_created": false,
+    "downstream_planner_opened": false,
+    "target_probe_opened": false,
+    "official_fact_credit": 0,
+    "diagnostic_facts_moved_to_ok": 0,
+    "next": "PREREGISTER_EXHAUSTION_AWARE_12_ITEM_7_TABLE_5_PROSE_SELECTION_USING_NO_SEMANTIC_OUTPUTS"
+  },
+  "chunks_v3_lane": {
+    "status": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "changed_by_s198": false
+  },
+  "railway_deploy_gate": false
+}
