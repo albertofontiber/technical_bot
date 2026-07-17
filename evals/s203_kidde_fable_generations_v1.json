@@ -1,0 +1,435 @@
+{
+  "schema": "s203_fable_generation_receipts_v1",
+  "status": "COMPLETE",
+  "provider": "fable",
+  "receipts": [
+    {
+      "provider": "fable",
+      "model": "claude-fable-5",
+      "canary_id": "kidde_heat_class",
+      "candidate": {
+        "canary_id": "kidde_heat_class",
+        "adequacy": "SUFFICIENT",
+        "question": "Voy a instalar detectores térmicos Kidde Excellence KE-DT3101W-HAB en una sala de calderas y necesito saber qué ajustes de sensibilidad tengo disponibles, cuál viene de fábrica, a qué clase térmica corresponde cada ajuste y con qué umbrales de temperatura responde cada clase. ¿Dónde se cambia ese ajuste?",
+        "expected_behavior": "answer",
+        "gold_answer": "En los detectores de calor Kidde Excellence (KE-DT3101W-HAB / KE-DT3001W-HAB) la sensibilidad se configura desde la central o mediante la aplicación Utilidad de configuración. Hay tres ajustes: Ajuste 1 = clase A2S, Ajuste 2 = clase A2R (es el predeterminado de fábrica) y Ajuste 3 = clase BR. La configuración predeterminada es la misma para los modos Día y Noche. Los umbrales son: A2S es de temperatura fija, con temperatura de respuesta estática de mín. 54 °C a máx. 70 °C; A2R es termovelocimétrica (índice de aumento) con temperatura de aplicación típica 25 °C / máx. 50 °C y respuesta estática 54–70 °C; BR es también de índice de aumento con temperatura de aplicación típica 40 °C / máx. 65 °C y respuesta estática mín. 69 °C a máx. 85 °C. Para una sala de calderas (ambiente caliente), el ajuste 3 (BR) es el que tolera mayor temperatura ambiente antes de disparar.",
+        "atomic_facts": [
+          {
+            "fact_id": "F01",
+            "text": "Hay tres ajustes de sensibilidad que corresponden a clases térmicas: Ajuste 1 = A2S, Ajuste 2 = A2R y Ajuste 3 = BR",
+            "type": "core",
+            "state": "present",
+            "value": "1→A2S; 2→A2R; 3→BR",
+            "citation": {
+              "pdf": "3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet.pdf",
+              "page": 7
+            },
+            "visual_evidence": "Tabla 'Ajuste / Clase' bajo 'Ajustes de sensibilidad' con filas 1 A2S, 2 A2R, 3 BR"
+          },
+          {
+            "fact_id": "F02",
+            "text": "El ajuste de sensibilidad predeterminado de fábrica es el 2 (clase A2R)",
+            "type": "core",
+            "state": "present",
+            "value": "2 (predeterminado) = A2R",
+            "citation": {
+              "pdf": "3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet.pdf",
+              "page": 7
+            },
+            "visual_evidence": "Fila '2 (predeterminado)  A2R' en la tabla de ajustes"
+          },
+          {
+            "fact_id": "F03",
+            "text": "La sensibilidad se configura en la central o mediante la aplicación Utilidad de configuración",
+            "type": "core",
+            "state": "present",
+            "value": "central o app Utilidad de configuración",
+            "citation": {
+              "pdf": "3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet.pdf",
+              "page": 7
+            },
+            "visual_evidence": "Frase 'Configure la sensibilidad del detector en la central o mediante la aplicación Utilidad de configuración' bajo 'Sensibilidad del detector'"
+          },
+          {
+            "fact_id": "F04",
+            "text": "La configuración de sensibilidad predeterminada es la misma para los modos Día y Noche",
+            "type": "supplementary",
+            "state": "present",
+            "value": "misma para Día y Noche",
+            "citation": {
+              "pdf": "3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet.pdf",
+              "page": 7
+            },
+            "visual_evidence": "Frase 'La configuración de sensibilidad predeterminada es la misma para los modos Día y Noche'"
+          },
+          {
+            "fact_id": "F05",
+            "text": "Clase A2S: temperatura fija, con temperatura de respuesta estática de mínimo 54 °C y máximo 70 °C (sin temperatura de aplicación tabulada)",
+            "type": "core",
+            "state": "present",
+            "value": "A2S: estática 54–70 °C",
+            "citation": {
+              "pdf": "3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet.pdf",
+              "page": 7
+            },
+            "visual_evidence": "Fila 'A2S Temperatura fija ... 54 °C 70 °C' en la tabla de rangos de temperatura"
+          },
+          {
+            "fact_id": "F06",
+            "text": "Clase A2R: índice de aumento (termovelocimétrico), temperatura de aplicación típica 25 °C / máxima 50 °C, y respuesta estática mínimo 54 °C / máximo 70 °C",
+            "type": "core",
+            "state": "present",
+            "value": "A2R: aplicación 25/50 °C; estática 54–70 °C",
+            "citation": {
+              "pdf": "3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet.pdf",
+              "page": 7
+            },
+            "visual_evidence": "Fila 'A2R Índice de aumento 25 °C 50 °C 54 °C 70 °C' de la tabla"
+          },
+          {
+            "fact_id": "F07",
+            "text": "Clase BR: índice de aumento, temperatura de aplicación típica 40 °C / máxima 65 °C, y respuesta estática mínimo 69 °C / máximo 85 °C",
+            "type": "core",
+            "state": "present",
+            "value": "BR: aplicación 40/65 °C; estática 69–85 °C",
+            "citation": {
+              "pdf": "3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet.pdf",
+              "page": 7
+            },
+            "visual_evidence": "Fila 'BR Índice de aumento 40 °C 65 °C 69 °C 85 °C' de la tabla"
+          }
+        ],
+        "notes": "Todos los datos proceden de la página 7 (sección 'Sensibilidad del detector' y sus dos tablas). La recomendación final para sala de calderas se deriva directamente de las temperaturas de aplicación tabuladas (BR admite mayor temperatura ambiente típica/máxima), sin añadir hechos externos; no se puntúa como fact atómico separado."
+      },
+      "call_label": "generate:kidde_heat_class",
+      "status": "end_turn",
+      "raw_output": "{\n  \"canary_id\": \"kidde_heat_class\",\n  \"adequacy\": \"SUFFICIENT\",\n  \"question\": \"Voy a instalar detectores térmicos Kidde Excellence KE-DT3101W-HAB en una sala de calderas y necesito saber qué ajustes de sensibilidad tengo disponibles, cuál viene de fábrica, a qué clase térmica corresponde cada ajuste y con qué umbrales de temperatura responde cada clase. ¿Dónde se cambia ese ajuste?\",\n  \"expected_behavior\": \"answer\",\n  \"gold_answer\": \"En los detectores de calor Kidde Excellence (KE-DT3101W-HAB / KE-DT3001W-HAB) la sensibilidad se configura desde la central o mediante la aplicación Utilidad de configuración. Hay tres ajustes: Ajuste 1 = clase A2S, Ajuste 2 = clase A2R (es el predeterminado de fábrica) y Ajuste 3 = clase BR. La configuración predeterminada es la misma para los modos Día y Noche. Los umbrales son: A2S es de temperatura fija, con temperatura de respuesta estática de mín. 54 °C a máx. 70 °C; A2R es termovelocimétrica (índice de aumento) con temperatura de aplicación típica 25 °C / máx. 50 °C y respuesta estática 54–70 °C; BR es también de índice de aumento con temperatura de aplicación típica 40 °C / máx. 65 °C y respuesta estática mín. 69 °C a máx. 85 °C. Para una sala de calderas (ambiente caliente), el ajuste 3 (BR) es el que tolera mayor temperatura ambiente antes de disparar.\",\n  \"atomic_facts\": [\n    {\n      \"fact_id\": \"F01\",\n      \"text\": \"Hay tres ajustes de sensibilidad que corresponden a clases térmicas: Ajuste 1 = A2S, Ajuste 2 = A2R y Ajuste 3 = BR\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"1→A2S; 2→A2R; 3→BR\",\n      \"citation\": {\"pdf\": \"3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet.pdf\", \"page\": 7},\n      \"visual_evidence\": \"Tabla 'Ajuste / Clase' bajo 'Ajustes de sensibilidad' con filas 1 A2S, 2 A2R, 3 BR\"\n    },\n    {\n      \"fact_id\": \"F02\",\n      \"text\": \"El ajuste de sensibilidad predeterminado de fábrica es el 2 (clase A2R)\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"2 (predeterminado) = A2R\",\n      \"citation\": {\"pdf\": \"3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet.pdf\", \"page\": 7},\n      \"visual_evidence\": \"Fila '2 (predeterminado)  A2R' en la tabla de ajustes\"\n    },\n    {\n      \"fact_id\": \"F03\",\n      \"text\": \"La sensibilidad se configura en la central o mediante la aplicación Utilidad de configuración\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"central o app Utilidad de configuración\",\n      \"citation\": {\"pdf\": \"3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet.pdf\", \"page\": 7},\n      \"visual_evidence\": \"Frase 'Configure la sensibilidad del detector en la central o mediante la aplicación Utilidad de configuración' bajo 'Sensibilidad del detector'\"\n    },\n    {\n      \"fact_id\": \"F04\",\n      \"text\": \"La configuración de sensibilidad predeterminada es la misma para los modos Día y Noche\",\n      \"type\": \"supplementary\",\n      \"state\": \"present\",\n      \"value\": \"misma para Día y Noche\",\n      \"citation\": {\"pdf\": \"3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet.pdf\", \"page\": 7},\n      \"visual_evidence\": \"Frase 'La configuración de sensibilidad predeterminada es la misma para los modos Día y Noche'\"\n    },\n    {\n      \"fact_id\": \"F05\",\n      \"text\": \"Clase A2S: temperatura fija, con temperatura de respuesta estática de mínimo 54 °C y máximo 70 °C (sin temperatura de aplicación tabulada)\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"A2S: estática 54–70 °C\",\n      \"citation\": {\"pdf\": \"3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet.pdf\", \"page\": 7},\n      \"visual_evidence\": \"Fila 'A2S Temperatura fija ... 54 °C 70 °C' en la tabla de rangos de temperatura\"\n    },\n    {\n      \"fact_id\": \"F06\",\n      \"text\": \"Clase A2R: índice de aumento (termovelocimétrico), temperatura de aplicación típica 25 °C / máxima 50 °C, y respuesta estática mínimo 54 °C / máximo 70 °C\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"A2R: aplicación 25/50 °C; estática 54–70 °C\",\n      \"citation\": {\"pdf\": \"3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet.pdf\", \"page\": 7},\n      \"visual_evidence\": \"Fila 'A2R Índice de aumento 25 °C 50 °C 54 °C 70 °C' de la tabla\"\n    },\n    {\n      \"fact_id\": \"F07\",\n      \"text\": \"Clase BR: índice de aumento, temperatura de aplicación típica 40 °C / máxima 65 °C, y respuesta estática mínimo 69 °C / máximo 85 °C\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"BR: aplicación 40/65 °C; estática 69–85 °C\",\n      \"citation\": {\"pdf\": \"3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet.pdf\", \"page\": 7},\n      \"visual_evidence\": \"Fila 'BR Índice de aumento 40 °C 65 °C 69 °C 85 °C' de la tabla\"\n    }\n  ],\n  \"notes\": \"Todos los datos proceden de la página 7 (sección 'Sensibilidad del detector' y sus dos tablas). La recomendación final para sala de calderas se deriva directamente de las temperaturas de aplicación tabuladas (BR admite mayor temperatura ambiente típica/máxima), sin añadir hechos externos; no se puntúa como fact atómico separado.\"\n}",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 41010,
+        "output_tokens": 2603
+      },
+      "provider_trace": {
+        "id": "msg_011Cd8SZD2p1vZkod7LZDjxD",
+        "container": null,
+        "content": [
+          {
+            "signature": "CAISmwUKiAEIDxgCKkBi5ftAXlGS0swiOd4VUZVqv07TPKx8uKnJTL/tzGfGIN9nrt/A/gUSvwr9yoLIdaTKhpgOoXvviIQInfWgDIgJMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okMDVlMGEwZDctYjU3OC00MDk2LThjMzktZTJiMWU4MzU0ZmRkEgykFa/cRUAl8AzwCLMaDDOIpFGz+M4zJjNMPCIwGoo0ehVEI6DKHqMwm4MZeT0JnAWO6Go1xDdTOmReiqGV1SLNK590AuOa9b9S+o+kKr8DSVQRPrcPUIAzncyPucFYoGLTbZrPXe6RUneAI/YuYhhDT3F/VUDB2/uegnhmcYoSuIAqK74LdjRjgMKONoaYiExYhuQuAhQW+fsJoxflptTuMAlZNj8x3/JotefCncUtL3Bx/GQkkp8he3KgncXna8+jqIPOiQbsw3Hvb73tAhkdgcNswna3EJmQ6xUVayaoxfDEm4J/Jb8cV80/g+jzJpobozw/TXLgj0G2wHqEmOH4iDPIaPTNoKr4afh4uQe4K9K+Pbw2S0gxwhbVZJh2zl+TzmiVZWQvz3VRJsZIr72HRlAIvt3spqg2PyXQbKl1rWkygSgMMBp3twlSfVuLXIh1MXwPH0mSAXKI5UmdUxuANIWKMadJJhCl9BySU8iZB1+0vr3c6+n3YFsU4AvlAKiI7m9Fff/mB/7Lckq2gFtEPYS/ZjVgdQ5+Pnn+LR3UBHyalaLtwAAHj0b/nI/VDG64hB+CR65i/AOBGfZ2y704gn//YuJXwOzceJ/18t7Py/2d2P+OVBQzCMaZo7z2FEtd99YN1vanePW9hGwASnc92Xj/yRPCWRSRV3YlbjjywIFAgsqVO1Z320UVUUciGAE=",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "citations": null,
+            "text": "{\n  \"canary_id\": \"kidde_heat_class\",\n  \"adequacy\": \"SUFFICIENT\",\n  \"question\": \"Voy a instalar detectores térmicos Kidde Excellence KE-DT3101W-HAB en una sala de calderas y necesito saber qué ajustes de sensibilidad tengo disponibles, cuál viene de fábrica, a qué clase térmica corresponde cada ajuste y con qué umbrales de temperatura responde cada clase. ¿Dónde se cambia ese ajuste?\",\n  \"expected_behavior\": \"answer\",\n  \"gold_answer\": \"En los detectores de calor Kidde Excellence (KE-DT3101W-HAB / KE-DT3001W-HAB) la sensibilidad se configura desde la central o mediante la aplicación Utilidad de configuración. Hay tres ajustes: Ajuste 1 = clase A2S, Ajuste 2 = clase A2R (es el predeterminado de fábrica) y Ajuste 3 = clase BR. La configuración predeterminada es la misma para los modos Día y Noche. Los umbrales son: A2S es de temperatura fija, con temperatura de respuesta estática de mín. 54 °C a máx. 70 °C; A2R es termovelocimétrica (índice de aumento) con temperatura de aplicación típica 25 °C / máx. 50 °C y respuesta estática 54–70 °C; BR es también de índice de aumento con temperatura de aplicación típica 40 °C / máx. 65 °C y respuesta estática mín. 69 °C a máx. 85 °C. Para una sala de calderas (ambiente caliente), el ajuste 3 (BR) es el que tolera mayor temperatura ambiente antes de disparar.\",\n  \"atomic_facts\": [\n    {\n      \"fact_id\": \"F01\",\n      \"text\": \"Hay tres ajustes de sensibilidad que corresponden a clases térmicas: Ajuste 1 = A2S, Ajuste 2 = A2R y Ajuste 3 = BR\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"1→A2S; 2→A2R; 3→BR\",\n      \"citation\": {\"pdf\": \"3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet.pdf\", \"page\": 7},\n      \"visual_evidence\": \"Tabla 'Ajuste / Clase' bajo 'Ajustes de sensibilidad' con filas 1 A2S, 2 A2R, 3 BR\"\n    },\n    {\n      \"fact_id\": \"F02\",\n      \"text\": \"El ajuste de sensibilidad predeterminado de fábrica es el 2 (clase A2R)\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"2 (predeterminado) = A2R\",\n      \"citation\": {\"pdf\": \"3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet.pdf\", \"page\": 7},\n      \"visual_evidence\": \"Fila '2 (predeterminado)  A2R' en la tabla de ajustes\"\n    },\n    {\n      \"fact_id\": \"F03\",\n      \"text\": \"La sensibilidad se configura en la central o mediante la aplicación Utilidad de configuración\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"central o app Utilidad de configuración\",\n      \"citation\": {\"pdf\": \"3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet.pdf\", \"page\": 7},\n      \"visual_evidence\": \"Frase 'Configure la sensibilidad del detector en la central o mediante la aplicación Utilidad de configuración' bajo 'Sensibilidad del detector'\"\n    },\n    {\n      \"fact_id\": \"F04\",\n      \"text\": \"La configuración de sensibilidad predeterminada es la misma para los modos Día y Noche\",\n      \"type\": \"supplementary\",\n      \"state\": \"present\",\n      \"value\": \"misma para Día y Noche\",\n      \"citation\": {\"pdf\": \"3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet.pdf\", \"page\": 7},\n      \"visual_evidence\": \"Frase 'La configuración de sensibilidad predeterminada es la misma para los modos Día y Noche'\"\n    },\n    {\n      \"fact_id\": \"F05\",\n      \"text\": \"Clase A2S: temperatura fija, con temperatura de respuesta estática de mínimo 54 °C y máximo 70 °C (sin temperatura de aplicación tabulada)\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"A2S: estática 54–70 °C\",\n      \"citation\": {\"pdf\": \"3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet.pdf\", \"page\": 7},\n      \"visual_evidence\": \"Fila 'A2S Temperatura fija ... 54 °C 70 °C' en la tabla de rangos de temperatura\"\n    },\n    {\n      \"fact_id\": \"F06\",\n      \"text\": \"Clase A2R: índice de aumento (termovelocimétrico), temperatura de aplicación típica 25 °C / máxima 50 °C, y respuesta estática mínimo 54 °C / máximo 70 °C\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"A2R: aplicación 25/50 °C; estática 54–70 °C\",\n      \"citation\": {\"pdf\": \"3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet.pdf\", \"page\": 7},\n      \"visual_evidence\": \"Fila 'A2R Índice de aumento 25 °C 50 °C 54 °C 70 °C' de la tabla\"\n    },\n    {\n      \"fact_id\": \"F07\",\n      \"text\": \"Clase BR: índice de aumento, temperatura de aplicación típica 40 °C / máxima 65 °C, y respuesta estática mínimo 69 °C / máximo 85 °C\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"BR: aplicación 40/65 °C; estática 69–85 °C\",\n      \"citation\": {\"pdf\": \"3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet.pdf\", \"page\": 7},\n      \"visual_evidence\": \"Fila 'BR Índice de aumento 40 °C 65 °C 69 °C 85 °C' de la tabla\"\n    }\n  ],\n  \"notes\": \"Todos los datos proceden de la página 7 (sección 'Sensibilidad del detector' y sus dos tablas). La recomendación final para sala de calderas se deriva directamente de las temperaturas de aplicación tabuladas (BR admite mayor temperatura ambiente típica/máxima), sin añadir hechos externos; no se puntúa como fact atómico separado.\"\n}",
+            "type": "text"
+          }
+        ],
+        "model": "claude-fable-5",
+        "role": "assistant",
+        "stop_details": null,
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "type": "message",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 41010,
+          "output_tokens": 2603,
+          "server_tool_use": null,
+          "service_tier": "standard",
+          "output_tokens_details": {
+            "thinking_tokens": 184
+          }
+        }
+      }
+    },
+    {
+      "provider": "fable",
+      "model": "claude-fable-5",
+      "canary_id": "kidde_single_output_test",
+      "candidate": {
+        "canary_id": "kidde_single_output_test",
+        "adequacy": "SUFFICIENT",
+        "question": "En un módulo de salida Kidde Excellence KE-IO3101 (o KE-IO3001), ¿cómo pruebo manualmente el relé con el botón de prueba? Necesito saber cuánto tiempo hay que pulsar, qué indican los LED en cada paso y de qué formas se sale del modo de prueba.",
+        "expected_behavior": "answer",
+        "gold_answer": "Para probar manualmente el relé del módulo de salida única KE-IO3101/KE-IO3001 se usa el botón de prueba (T):\n\n1) ENTRAR EN MODO DE PRUEBA: mantenga presionado el botón de prueba (T) durante al menos 3 segundos (pulsación prolongada) hasta que el LED de estado del dispositivo parpadee en rojo (parpadeo rápido) y suelte el botón. El LED de estado del dispositivo sigue parpadeando en rojo durante toda la prueba. Al entrar, el LED de estado de salida indica el estado actual de la salida: normal = verde fijo, activo = rojo fijo, avería = amarillo fijo; la salida se puede probar en cualquiera de estos estados.\n\n2) SELECCIONAR: presione de nuevo el botón (pulsación breve). Si el estado de salida NO está activado, el LED de estado de salida parpadea en verde (verde intermitente lento = seleccionado para prueba, no activado); si está activado, parpadea en rojo.\n\n3) ACTIVAR LA PRUEBA: presione otra vez el botón (pulsación breve) para iniciar la prueba: si la salida no estaba activada en el paso 2, el LED de estado de salida parpadea ahora en rojo (activación de prueba); si estaba activada, parpadea en verde. Compruebe que los dispositivos conectados funcionan correctamente. Puede presionar T de nuevo para conmutar el estado del relé otra vez si es necesario.\n\n4) SALIR: mantenga presionado el botón (T) de nuevo durante al menos 3 segundos (pulsación prolongada). Además, el módulo sale del modo de prueba automáticamente: (a) después de 5 minutos sin presionar el botón, (b) si la central envía un comando para cambiar el relé (por ejemplo un comando de alarma), o (c) si la central se reinicia. Después de la prueba, la salida vuelve a su estado original.",
+        "atomic_facts": [
+          {
+            "fact_id": "F01",
+            "text": "Para entrar en el modo de prueba se mantiene presionado el botón de prueba (T) durante al menos 3 segundos (pulsación prolongada) hasta que el LED de estado del dispositivo parpadee en rojo (parpadeo rápido), y entonces se suelta; ese LED sigue parpadeando en rojo durante la prueba",
+            "type": "core",
+            "state": "present",
+            "value": ">= 3 s de pulsación; LED de estado del dispositivo rojo intermitente rápido",
+            "citation": {
+              "pdf": "3103062-ml_r003_excellence_series_addressable_single_output_module_installation_sheet.pdf",
+              "page": 8
+            },
+            "visual_evidence": "Paso 1 de 'Para realizar la prueba': 'Mantenga presionado el botón de prueba (T) durante al menos 3 segundos... parpadee en rojo (parpadeo rápido)'"
+          },
+          {
+            "fact_id": "F02",
+            "text": "Al entrar en el modo de prueba, el LED de estado de salida indica el estado de la salida: normal = verde fijo, activo = rojo fijo, avería = amarillo fijo; la salida se puede probar en cualquiera de estos estados",
+            "type": "core",
+            "state": "present",
+            "value": "verde fijo = normal / rojo fijo = activo / amarillo fijo = avería",
+            "citation": {
+              "pdf": "3103062-ml_r003_excellence_series_addressable_single_output_module_installation_sheet.pdf",
+              "page": 8
+            },
+            "visual_evidence": "Paso 1: 'normal (verde fijo), activo (rojo fijo) o avería (amarillo fijo). La salida se puede probar en cualquiera de estos estados' y Tabla 4 Modo de prueba"
+          },
+          {
+            "fact_id": "F03",
+            "text": "Segunda pulsación breve del botón (T): si el estado de salida no está activado, el LED de estado de salida parpadea en verde (verde intermitente lento = seleccionado para prueba, no activado); si está activado, parpadea en rojo",
+            "type": "core",
+            "state": "present",
+            "value": "pulsación breve; verde intermitente si no activado / rojo intermitente si activado",
+            "citation": {
+              "pdf": "3103062-ml_r003_excellence_series_addressable_single_output_module_installation_sheet.pdf",
+              "page": 8
+            },
+            "visual_evidence": "Paso 2: 'Si el estado de salida no está activado, el LED... parpadea en verde. Si... está activado... parpadea en rojo'; Tabla 4 'Seleccionado para prueba [2]' con nota '[2] No activado'"
+          },
+          {
+            "fact_id": "F04",
+            "text": "Tercera pulsación breve inicia la prueba (activación de prueba): si la salida no estaba activada en el paso 2, el LED de estado de salida parpadea en rojo; si estaba activada, parpadea en verde; puede presionarse T de nuevo para conmutar el relé otra vez",
+            "type": "core",
+            "state": "present",
+            "value": "pulsación breve inicia prueba; LED invierte a rojo intermitente (o verde intermitente)",
+            "citation": {
+              "pdf": "3103062-ml_r003_excellence_series_addressable_single_output_module_installation_sheet.pdf",
+              "page": 9
+            },
+            "visual_evidence": "Paso 3: 'Presione nuevamente el botón de prueba (T) (pulsación breve) para iniciar la prueba... el LED de estado de salida parpadea en rojo... Presione el botón... para cambiar el estado del relé otra vez'"
+          },
+          {
+            "fact_id": "F05",
+            "text": "Para salir manualmente del modo de prueba se mantiene presionado el botón de prueba (T) de nuevo durante al menos 3 segundos; además, el módulo sale automáticamente después de 5 minutos sin presionar el botón",
+            "type": "core",
+            "state": "present",
+            "value": ">= 3 s para salir; salida automática a los 5 minutos de inactividad",
+            "citation": {
+              "pdf": "3103062-ml_r003_excellence_series_addressable_single_output_module_installation_sheet.pdf",
+              "page": 9
+            },
+            "visual_evidence": "Paso 4: 'presione y mantenga presionado... al menos 3 segundos' y 'El módulo sale de la prueba automáticamente después de 5 minutos'"
+          },
+          {
+            "fact_id": "F06",
+            "text": "Después de la prueba la salida vuelve a su estado original; el módulo también sale del modo de prueba automáticamente si la central envía un comando para cambiar el relé (p. ej., un comando de alarma) o si la central se reinicia",
+            "type": "supplementary",
+            "state": "present",
+            "value": "salida vuelve a estado original; salida automática por comando de relé de la central o reinicio de la central",
+            "citation": {
+              "pdf": "3103062-ml_r003_excellence_series_addressable_single_output_module_installation_sheet.pdf",
+              "page": 9
+            },
+            "visual_evidence": "Frase 'Después de la prueba, la salida vuelve a su estado original' y 'Nota: El módulo sale del modo de prueba automáticamente si la central envía un comando... o si la central se reinicia'"
+          }
+        ],
+        "notes": "Todos los hechos proceden de la sección 'Mantenimiento y prueba' (página 8) y su continuación con los pasos 3-4 y la nota (página 9) de la hoja ES del módulo de salida única Excellence. Tema no solapado con las preguntas existentes de la serie 2X-A/Excellence (compatibilidad, zonas, tarjeta de lazo)."
+      },
+      "call_label": "generate:kidde_single_output_test",
+      "status": "end_turn",
+      "raw_output": "{\n  \"canary_id\": \"kidde_single_output_test\",\n  \"adequacy\": \"SUFFICIENT\",\n  \"question\": \"En un módulo de salida Kidde Excellence KE-IO3101 (o KE-IO3001), ¿cómo pruebo manualmente el relé con el botón de prueba? Necesito saber cuánto tiempo hay que pulsar, qué indican los LED en cada paso y de qué formas se sale del modo de prueba.\",\n  \"expected_behavior\": \"answer\",\n  \"gold_answer\": \"Para probar manualmente el relé del módulo de salida única KE-IO3101/KE-IO3001 se usa el botón de prueba (T):\\n\\n1) ENTRAR EN MODO DE PRUEBA: mantenga presionado el botón de prueba (T) durante al menos 3 segundos (pulsación prolongada) hasta que el LED de estado del dispositivo parpadee en rojo (parpadeo rápido) y suelte el botón. El LED de estado del dispositivo sigue parpadeando en rojo durante toda la prueba. Al entrar, el LED de estado de salida indica el estado actual de la salida: normal = verde fijo, activo = rojo fijo, avería = amarillo fijo; la salida se puede probar en cualquiera de estos estados.\\n\\n2) SELECCIONAR: presione de nuevo el botón (pulsación breve). Si el estado de salida NO está activado, el LED de estado de salida parpadea en verde (verde intermitente lento = seleccionado para prueba, no activado); si está activado, parpadea en rojo.\\n\\n3) ACTIVAR LA PRUEBA: presione otra vez el botón (pulsación breve) para iniciar la prueba: si la salida no estaba activada en el paso 2, el LED de estado de salida parpadea ahora en rojo (activación de prueba); si estaba activada, parpadea en verde. Compruebe que los dispositivos conectados funcionan correctamente. Puede presionar T de nuevo para conmutar el estado del relé otra vez si es necesario.\\n\\n4) SALIR: mantenga presionado el botón (T) de nuevo durante al menos 3 segundos (pulsación prolongada). Además, el módulo sale del modo de prueba automáticamente: (a) después de 5 minutos sin presionar el botón, (b) si la central envía un comando para cambiar el relé (por ejemplo un comando de alarma), o (c) si la central se reinicia. Después de la prueba, la salida vuelve a su estado original.\",\n  \"atomic_facts\": [\n    {\n      \"fact_id\": \"F01\",\n      \"text\": \"Para entrar en el modo de prueba se mantiene presionado el botón de prueba (T) durante al menos 3 segundos (pulsación prolongada) hasta que el LED de estado del dispositivo parpadee en rojo (parpadeo rápido), y entonces se suelta; ese LED sigue parpadeando en rojo durante la prueba\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \">= 3 s de pulsación; LED de estado del dispositivo rojo intermitente rápido\",\n      \"citation\": {\"pdf\": \"3103062-ml_r003_excellence_series_addressable_single_output_module_installation_sheet.pdf\", \"page\": 8},\n      \"visual_evidence\": \"Paso 1 de 'Para realizar la prueba': 'Mantenga presionado el botón de prueba (T) durante al menos 3 segundos... parpadee en rojo (parpadeo rápido)'\"\n    },\n    {\n      \"fact_id\": \"F02\",\n      \"text\": \"Al entrar en el modo de prueba, el LED de estado de salida indica el estado de la salida: normal = verde fijo, activo = rojo fijo, avería = amarillo fijo; la salida se puede probar en cualquiera de estos estados\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"verde fijo = normal / rojo fijo = activo / amarillo fijo = avería\",\n      \"citation\": {\"pdf\": \"3103062-ml_r003_excellence_series_addressable_single_output_module_installation_sheet.pdf\", \"page\": 8},\n      \"visual_evidence\": \"Paso 1: 'normal (verde fijo), activo (rojo fijo) o avería (amarillo fijo). La salida se puede probar en cualquiera de estos estados' y Tabla 4 Modo de prueba\"\n    },\n    {\n      \"fact_id\": \"F03\",\n      \"text\": \"Segunda pulsación breve del botón (T): si el estado de salida no está activado, el LED de estado de salida parpadea en verde (verde intermitente lento = seleccionado para prueba, no activado); si está activado, parpadea en rojo\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"pulsación breve; verde intermitente si no activado / rojo intermitente si activado\",\n      \"citation\": {\"pdf\": \"3103062-ml_r003_excellence_series_addressable_single_output_module_installation_sheet.pdf\", \"page\": 8},\n      \"visual_evidence\": \"Paso 2: 'Si el estado de salida no está activado, el LED... parpadea en verde. Si... está activado... parpadea en rojo'; Tabla 4 'Seleccionado para prueba [2]' con nota '[2] No activado'\"\n    },\n    {\n      \"fact_id\": \"F04\",\n      \"text\": \"Tercera pulsación breve inicia la prueba (activación de prueba): si la salida no estaba activada en el paso 2, el LED de estado de salida parpadea en rojo; si estaba activada, parpadea en verde; puede presionarse T de nuevo para conmutar el relé otra vez\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"pulsación breve inicia prueba; LED invierte a rojo intermitente (o verde intermitente)\",\n      \"citation\": {\"pdf\": \"3103062-ml_r003_excellence_series_addressable_single_output_module_installation_sheet.pdf\", \"page\": 9},\n      \"visual_evidence\": \"Paso 3: 'Presione nuevamente el botón de prueba (T) (pulsación breve) para iniciar la prueba... el LED de estado de salida parpadea en rojo... Presione el botón... para cambiar el estado del relé otra vez'\"\n    },\n    {\n      \"fact_id\": \"F05\",\n      \"text\": \"Para salir manualmente del modo de prueba se mantiene presionado el botón de prueba (T) de nuevo durante al menos 3 segundos; además, el módulo sale automáticamente después de 5 minutos sin presionar el botón\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \">= 3 s para salir; salida automática a los 5 minutos de inactividad\",\n      \"citation\": {\"pdf\": \"3103062-ml_r003_excellence_series_addressable_single_output_module_installation_sheet.pdf\", \"page\": 9},\n      \"visual_evidence\": \"Paso 4: 'presione y mantenga presionado... al menos 3 segundos' y 'El módulo sale de la prueba automáticamente después de 5 minutos'\"\n    },\n    {\n      \"fact_id\": \"F06\",\n      \"text\": \"Después de la prueba la salida vuelve a su estado original; el módulo también sale del modo de prueba automáticamente si la central envía un comando para cambiar el relé (p. ej., un comando de alarma) o si la central se reinicia\",\n      \"type\": \"supplementary\",\n      \"state\": \"present\",\n      \"value\": \"salida vuelve a estado original; salida automática por comando de relé de la central o reinicio de la central\",\n      \"citation\": {\"pdf\": \"3103062-ml_r003_excellence_series_addressable_single_output_module_installation_sheet.pdf\", \"page\": 9},\n      \"visual_evidence\": \"Frase 'Después de la prueba, la salida vuelve a su estado original' y 'Nota: El módulo sale del modo de prueba automáticamente si la central envía un comando... o si la central se reinicia'\"\n    }\n  ],\n  \"notes\": \"Todos los hechos proceden de la sección 'Mantenimiento y prueba' (página 8) y su continuación con los pasos 3-4 y la nota (página 9) de la hoja ES del módulo de salida única Excellence. Tema no solapado con las preguntas existentes de la serie 2X-A/Excellence (compatibilidad, zonas, tarjeta de lazo).\"\n}",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 45755,
+        "output_tokens": 3290
+      },
+      "provider_trace": {
+        "id": "msg_011Cd8SbR7eHtDNp2UKiiYaL",
+        "container": null,
+        "content": [
+          {
+            "signature": "CAISswoKiAEIDxgCKkCOp1MX7ym1sWl6dtRgvI+0fqaUSoT10RqbBhjmVDiMehrHI3P/OxAwNfD01IY2nfjbRsJdtqodVTOBagrmQm/kMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okMDVlMGEwZDctYjU3OC00MDk2LThjMzktZTJiMWU4MzU0ZmRkEgzA8LT6gbRXR0hBR6QaDAtblhszHjWjskpJvSIwsD96b4Jp45LJDWQkI/kVhxLcMX4zY8prlhaG7g6sTl/+odvslFc0fUmmp6V14/iJKtcI3d5QYf5WTV4G8bcwwag/f+8J6yAcz/S+f3e1eOlneS/sk0ci3fh9Qlhcl/uI34GY0taTsp1qmOktXsQXAhTW4HbyUNa6zNTIYOSPDnZZOgAFvTTmY7IfggyWEIrJPAScUXero/wFAbYj47990U1q/LBGoLWfJPuMqzZlyeiIhghrJzh654B+ire+o86DCHLBYZmNbMdalCb2BhOhpBuGwv/J1BXUC0jAYKumhdeYX4MwEdZFwJQYCepIaqd5X3BoxPGW/a7wgDnRdGbFoK2RUqGM6e67rPiCeETvGBmFoPfMkbaYCKSxjGt4OI8EhCxz+qw1BAP38bmoHvE8LJPukhAy7dGuzikfsTp6OUqDcpXQv9V1JHMHOAVBke8OOqxqh0BF1j2dqRgz9NfNXlqrDKRNA7OaDXrB6gzWAx+Z+leO0Oq5dSYiu11+1RnrsiXX72Xy0v+Eo9pe2duyibWB7G+XlM8lJW//kQXUAst5EY4K4o5iPm/rn2UHoi4ltnHXmvr2/1OeOotK9b5+SJycpqJFDuBA5Q4gLYhGHu4+yEFeRfPFJjhfIJInNJCmny3rI1USoDfEDirkC46BwNsC5JwvvHewBajkazAifUrXV2dpqyhCy41fRrUtBtuUnxlTVUaKGHkgRfeXUUfpXrDoNpz3l5fUk9m+sivFh+LlvGZkKmuiTRo2vz/ubXftj+QXZCmnNjaGlKzRUwzFVkPWfUNpIj9+A+EHDGBiw2lOwMvV5VicxBns3+5qwVvErgo5F40mObqwcEdLornC+ckhyTicN7frUDzLZ2DKCFR8q8tsiQgMQL09LnM7QnlTEvbJJzWxE9gNaHuW8pIR+uEhL13OUvI8uA/xVTqznDSmmZ1q2m7EojRdkPzzIC0ii4Mws3b+QjtP3jwwkm6RjI/k9vDsfXmbWmtLWz0CDbORnZda0L09Rculb6AfaIaoyXR1o8ml0Fl6Xoc634T0SCkrUKG1IwNRBIzFfjSAEgx0mX9BHp2uAzvCKkSqIdLO7zv0FJ82f4TknQSyuBr38jP5zj43N+q+LRW0RKVQWb5Tcq1pS1LDJ5U++0jirC8FNOl3D/1ZTsOMc2Y9LwysfzKNVrX+YI0SnRI0jIshFbHNe5HITO3hf0Yrw6KlPaFc9iMhML7hN7T3Y8NJzLjGbIBuoTgdMTL6In+UyN9t+C3c3lhxLh8/Qap/TD/k91EYzpIGg6PeMDfAQIoQWEBK9QvH3xfhMXUdk5IL3xIgX24GX/l895EU6VjA0bxZrIzUPftf2JSHYDuwucii9Y1xiLTA57nr3LLW7cYtuIegAEe9DSWlqBgUu4IzuSR4faPId7atPk+zN7hPRMoJoLJxfzEzjzlvLJrsDe9g8WrfGJSbpAxRahzf5Vw5H8xGpsEjgk/tOYrGv+IvWQe3460HouqDnVH2FdgeZN/zCbKDGbl0OAscFISlh/KtRe+lujzWHIk0Iex9G/mR+xgB",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "citations": null,
+            "text": "{\n  \"canary_id\": \"kidde_single_output_test\",\n  \"adequacy\": \"SUFFICIENT\",\n  \"question\": \"En un módulo de salida Kidde Excellence KE-IO3101 (o KE-IO3001), ¿cómo pruebo manualmente el relé con el botón de prueba? Necesito saber cuánto tiempo hay que pulsar, qué indican los LED en cada paso y de qué formas se sale del modo de prueba.\",\n  \"expected_behavior\": \"answer\",\n  \"gold_answer\": \"Para probar manualmente el relé del módulo de salida única KE-IO3101/KE-IO3001 se usa el botón de prueba (T):\\n\\n1) ENTRAR EN MODO DE PRUEBA: mantenga presionado el botón de prueba (T) durante al menos 3 segundos (pulsación prolongada) hasta que el LED de estado del dispositivo parpadee en rojo (parpadeo rápido) y suelte el botón. El LED de estado del dispositivo sigue parpadeando en rojo durante toda la prueba. Al entrar, el LED de estado de salida indica el estado actual de la salida: normal = verde fijo, activo = rojo fijo, avería = amarillo fijo; la salida se puede probar en cualquiera de estos estados.\\n\\n2) SELECCIONAR: presione de nuevo el botón (pulsación breve). Si el estado de salida NO está activado, el LED de estado de salida parpadea en verde (verde intermitente lento = seleccionado para prueba, no activado); si está activado, parpadea en rojo.\\n\\n3) ACTIVAR LA PRUEBA: presione otra vez el botón (pulsación breve) para iniciar la prueba: si la salida no estaba activada en el paso 2, el LED de estado de salida parpadea ahora en rojo (activación de prueba); si estaba activada, parpadea en verde. Compruebe que los dispositivos conectados funcionan correctamente. Puede presionar T de nuevo para conmutar el estado del relé otra vez si es necesario.\\n\\n4) SALIR: mantenga presionado el botón (T) de nuevo durante al menos 3 segundos (pulsación prolongada). Además, el módulo sale del modo de prueba automáticamente: (a) después de 5 minutos sin presionar el botón, (b) si la central envía un comando para cambiar el relé (por ejemplo un comando de alarma), o (c) si la central se reinicia. Después de la prueba, la salida vuelve a su estado original.\",\n  \"atomic_facts\": [\n    {\n      \"fact_id\": \"F01\",\n      \"text\": \"Para entrar en el modo de prueba se mantiene presionado el botón de prueba (T) durante al menos 3 segundos (pulsación prolongada) hasta que el LED de estado del dispositivo parpadee en rojo (parpadeo rápido), y entonces se suelta; ese LED sigue parpadeando en rojo durante la prueba\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \">= 3 s de pulsación; LED de estado del dispositivo rojo intermitente rápido\",\n      \"citation\": {\"pdf\": \"3103062-ml_r003_excellence_series_addressable_single_output_module_installation_sheet.pdf\", \"page\": 8},\n      \"visual_evidence\": \"Paso 1 de 'Para realizar la prueba': 'Mantenga presionado el botón de prueba (T) durante al menos 3 segundos... parpadee en rojo (parpadeo rápido)'\"\n    },\n    {\n      \"fact_id\": \"F02\",\n      \"text\": \"Al entrar en el modo de prueba, el LED de estado de salida indica el estado de la salida: normal = verde fijo, activo = rojo fijo, avería = amarillo fijo; la salida se puede probar en cualquiera de estos estados\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"verde fijo = normal / rojo fijo = activo / amarillo fijo = avería\",\n      \"citation\": {\"pdf\": \"3103062-ml_r003_excellence_series_addressable_single_output_module_installation_sheet.pdf\", \"page\": 8},\n      \"visual_evidence\": \"Paso 1: 'normal (verde fijo), activo (rojo fijo) o avería (amarillo fijo). La salida se puede probar en cualquiera de estos estados' y Tabla 4 Modo de prueba\"\n    },\n    {\n      \"fact_id\": \"F03\",\n      \"text\": \"Segunda pulsación breve del botón (T): si el estado de salida no está activado, el LED de estado de salida parpadea en verde (verde intermitente lento = seleccionado para prueba, no activado); si está activado, parpadea en rojo\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"pulsación breve; verde intermitente si no activado / rojo intermitente si activado\",\n      \"citation\": {\"pdf\": \"3103062-ml_r003_excellence_series_addressable_single_output_module_installation_sheet.pdf\", \"page\": 8},\n      \"visual_evidence\": \"Paso 2: 'Si el estado de salida no está activado, el LED... parpadea en verde. Si... está activado... parpadea en rojo'; Tabla 4 'Seleccionado para prueba [2]' con nota '[2] No activado'\"\n    },\n    {\n      \"fact_id\": \"F04\",\n      \"text\": \"Tercera pulsación breve inicia la prueba (activación de prueba): si la salida no estaba activada en el paso 2, el LED de estado de salida parpadea en rojo; si estaba activada, parpadea en verde; puede presionarse T de nuevo para conmutar el relé otra vez\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"pulsación breve inicia prueba; LED invierte a rojo intermitente (o verde intermitente)\",\n      \"citation\": {\"pdf\": \"3103062-ml_r003_excellence_series_addressable_single_output_module_installation_sheet.pdf\", \"page\": 9},\n      \"visual_evidence\": \"Paso 3: 'Presione nuevamente el botón de prueba (T) (pulsación breve) para iniciar la prueba... el LED de estado de salida parpadea en rojo... Presione el botón... para cambiar el estado del relé otra vez'\"\n    },\n    {\n      \"fact_id\": \"F05\",\n      \"text\": \"Para salir manualmente del modo de prueba se mantiene presionado el botón de prueba (T) de nuevo durante al menos 3 segundos; además, el módulo sale automáticamente después de 5 minutos sin presionar el botón\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \">= 3 s para salir; salida automática a los 5 minutos de inactividad\",\n      \"citation\": {\"pdf\": \"3103062-ml_r003_excellence_series_addressable_single_output_module_installation_sheet.pdf\", \"page\": 9},\n      \"visual_evidence\": \"Paso 4: 'presione y mantenga presionado... al menos 3 segundos' y 'El módulo sale de la prueba automáticamente después de 5 minutos'\"\n    },\n    {\n      \"fact_id\": \"F06\",\n      \"text\": \"Después de la prueba la salida vuelve a su estado original; el módulo también sale del modo de prueba automáticamente si la central envía un comando para cambiar el relé (p. ej., un comando de alarma) o si la central se reinicia\",\n      \"type\": \"supplementary\",\n      \"state\": \"present\",\n      \"value\": \"salida vuelve a estado original; salida automática por comando de relé de la central o reinicio de la central\",\n      \"citation\": {\"pdf\": \"3103062-ml_r003_excellence_series_addressable_single_output_module_installation_sheet.pdf\", \"page\": 9},\n      \"visual_evidence\": \"Frase 'Después de la prueba, la salida vuelve a su estado original' y 'Nota: El módulo sale del modo de prueba automáticamente si la central envía un comando... o si la central se reinicia'\"\n    }\n  ],\n  \"notes\": \"Todos los hechos proceden de la sección 'Mantenimiento y prueba' (página 8) y su continuación con los pasos 3-4 y la nota (página 9) de la hoja ES del módulo de salida única Excellence. Tema no solapado con las preguntas existentes de la serie 2X-A/Excellence (compatibilidad, zonas, tarjeta de lazo).\"\n}",
+            "type": "text"
+          }
+        ],
+        "model": "claude-fable-5",
+        "role": "assistant",
+        "stop_details": null,
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "type": "message",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 45755,
+          "output_tokens": 3290,
+          "server_tool_use": null,
+          "service_tier": "standard",
+          "output_tokens_details": {
+            "thinking_tokens": 404
+          }
+        }
+      }
+    },
+    {
+      "provider": "fable",
+      "model": "claude-fable-5",
+      "canary_id": "kidde_multi_io_modes",
+      "candidate": {
+        "canary_id": "kidde_multi_io_modes",
+        "adequacy": "SUFFICIENT",
+        "question": "Voy a configurar las entradas de unos módulos Kidde Excellence KE-IO3144 en una instalación que exige cumplimiento EN 54-13. ¿Qué diferencias hay entre el modo de entrada normal y el modo de dos niveles: qué resistencias necesita cada uno, cuáles son los umbrales de activación en kΩ y cuál de los dos modos puedo usar con EN 54-13?",
+        "expected_behavior": "answer",
+        "gold_answer": "Para EN 54-13 debe usar el modo NORMAL: es el único de los dos compatible para instalaciones que requieren EN 54-13; el modo de dos niveles NO es compatible con EN 54-13.\n\nResistencias (Tabla 3): ambos modos usan resistencia final de línea de 15 kΩ, ¼ W, 1% y una resistencia de 2 kΩ, ¼ W, 5% con el interruptor de activación; el modo de dos niveles añade además una segunda resistencia de activación de 6,2 kΩ, ¼ W, 5%.\n\nUmbrales del modo normal (Tabla 4): cortocircuito < 0,3 kΩ; Activo 2 de 0,3 kΩ a 7 kΩ; fallo de alta resistencia de 7 kΩ a 10 kΩ; reposo de 10 kΩ a 17 kΩ; circuito abierto > 17 kΩ.\n\nUmbrales del modo de dos niveles (Tabla 5): cortocircuito < 0,3 kΩ; Activo 2 de 0,3 kΩ a 3 kΩ; Activo 1 de 3 kΩ a 7 kΩ; reposo de 7 kΩ a 27 kΩ; circuito abierto > 27 kΩ. En este modo, Activo 2 tiene prioridad sobre Activo 1.\n\nEl modo de entrada se configura desde la central (Configuración del campo > Configuración de dispositivo de lazo) y cada entrada del módulo se puede configurar en un modo diferente si es necesario.",
+        "atomic_facts": [
+          {
+            "fact_id": "F01",
+            "text": "El modo normal es compatible para su uso en instalaciones que requieren el cumplimiento de EN 54-13; el modo de dos niveles NO es compatible con EN 54-13",
+            "type": "core",
+            "state": "present",
+            "value": "Normal = apto EN 54-13; Dos niveles = no apto EN 54-13",
+            "citation": {
+              "pdf": "3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet.pdf",
+              "page": 11
+            },
+            "visual_evidence": "Frases bajo 'Modo normal' ('compatible... EN 54-13') y bajo 'Modo de dos niveles' ('no es compatible... EN 54-13')"
+          },
+          {
+            "fact_id": "F02",
+            "text": "El modo normal requiere resistencia final de línea de 15 kΩ, ¼ W, 1% más una resistencia de 2 kΩ, ¼ W, 5% con el interruptor de activación",
+            "type": "core",
+            "state": "present",
+            "value": "Normal: 15 kΩ ¼W 1% (RFL) + 2 kΩ ¼W 5% (activación)",
+            "citation": {
+              "pdf": "3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet.pdf",
+              "page": 11
+            },
+            "visual_evidence": "Tabla 3, fila 'Normal' con X en columnas 15 kΩ y 2 kΩ; nota [1] 'Con interruptor de activación'"
+          },
+          {
+            "fact_id": "F03",
+            "text": "El modo de dos niveles requiere las tres resistencias: 15 kΩ ¼ W 1% (final de línea), 2 kΩ ¼ W 5% y 6,2 kΩ ¼ W 5% (ambas con interruptor de activación)",
+            "type": "core",
+            "state": "present",
+            "value": "Dos niveles: 15 kΩ + 2 kΩ + 6,2 kΩ",
+            "citation": {
+              "pdf": "3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet.pdf",
+              "page": 11
+            },
+            "visual_evidence": "Tabla 3, fila 'Dos niveles' con X en las tres columnas de resistencias"
+          },
+          {
+            "fact_id": "F04",
+            "text": "Umbrales de activación del modo normal: cortocircuito < 0,3 kΩ; Activo 2 de 0,3 a 7 kΩ; fallo de alta resistencia de 7 a 10 kΩ; reposo de 10 a 17 kΩ; circuito abierto > 17 kΩ",
+            "type": "core",
+            "state": "present",
+            "value": "<0,3 / 0,3-7 / 7-10 / 10-17 / >17 kΩ",
+            "citation": {
+              "pdf": "3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet.pdf",
+              "page": 11
+            },
+            "visual_evidence": "Tabla 4 'Modo normal', columnas Estado / Parámetro de activación"
+          },
+          {
+            "fact_id": "F05",
+            "text": "Umbrales de activación del modo de dos niveles: cortocircuito < 0,3 kΩ; Activo 2 de 0,3 a 3 kΩ; Activo 1 de 3 a 7 kΩ; reposo de 7 a 27 kΩ; circuito abierto > 27 kΩ",
+            "type": "core",
+            "state": "present",
+            "value": "<0,3 / 0,3-3 / 3-7 / 7-27 / >27 kΩ",
+            "citation": {
+              "pdf": "3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet.pdf",
+              "page": 11
+            },
+            "visual_evidence": "Tabla 5 'Modo de dos niveles', columnas Estado / Parámetro de activación"
+          },
+          {
+            "fact_id": "F06",
+            "text": "En el modo de dos niveles, Activo 2 tiene prioridad sobre Activo 1",
+            "type": "supplementary",
+            "state": "present",
+            "value": "Prioridad: Activo 2 > Activo 1",
+            "citation": {
+              "pdf": "3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet.pdf",
+              "page": 11
+            },
+            "visual_evidence": "Nota [1] bajo Tabla 5: 'Activo 2 tiene prioridad sobre Activo 1'"
+          },
+          {
+            "fact_id": "F07",
+            "text": "El modo de entrada del módulo se configura en la central (Configuración del campo > Configuración de dispositivo de lazo) y cada entrada se puede configurar en un modo diferente si es necesario",
+            "type": "supplementary",
+            "state": "present",
+            "value": "Configuración en central; modos independientes por entrada",
+            "citation": {
+              "pdf": "3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet.pdf",
+              "page": 10
+            },
+            "visual_evidence": "Sección 'Configuración de entrada': 'se configura en la central (Configuración del campo > Configuración de dispositivo de lazo)' y 'Cada entrada se puede configurar en un modo diferente'"
+          }
+        ],
+        "notes": "Todos los valores proceden de las Tablas 3, 4 y 5 y de las secciones 'Modo normal' / 'Modo de dos niveles' (página 11) y 'Configuración de entrada' (página 10). No se incluyen los modos NA/NC más allá de lo pedido para mantener el alcance acotado a la comparación normal vs dos niveles."
+      },
+      "call_label": "generate:kidde_multi_io_modes",
+      "status": "end_turn",
+      "raw_output": "{\n  \"canary_id\": \"kidde_multi_io_modes\",\n  \"adequacy\": \"SUFFICIENT\",\n  \"question\": \"Voy a configurar las entradas de unos módulos Kidde Excellence KE-IO3144 en una instalación que exige cumplimiento EN 54-13. ¿Qué diferencias hay entre el modo de entrada normal y el modo de dos niveles: qué resistencias necesita cada uno, cuáles son los umbrales de activación en kΩ y cuál de los dos modos puedo usar con EN 54-13?\",\n  \"expected_behavior\": \"answer\",\n  \"gold_answer\": \"Para EN 54-13 debe usar el modo NORMAL: es el único de los dos compatible para instalaciones que requieren EN 54-13; el modo de dos niveles NO es compatible con EN 54-13.\\n\\nResistencias (Tabla 3): ambos modos usan resistencia final de línea de 15 kΩ, ¼ W, 1% y una resistencia de 2 kΩ, ¼ W, 5% con el interruptor de activación; el modo de dos niveles añade además una segunda resistencia de activación de 6,2 kΩ, ¼ W, 5%.\\n\\nUmbrales del modo normal (Tabla 4): cortocircuito < 0,3 kΩ; Activo 2 de 0,3 kΩ a 7 kΩ; fallo de alta resistencia de 7 kΩ a 10 kΩ; reposo de 10 kΩ a 17 kΩ; circuito abierto > 17 kΩ.\\n\\nUmbrales del modo de dos niveles (Tabla 5): cortocircuito < 0,3 kΩ; Activo 2 de 0,3 kΩ a 3 kΩ; Activo 1 de 3 kΩ a 7 kΩ; reposo de 7 kΩ a 27 kΩ; circuito abierto > 27 kΩ. En este modo, Activo 2 tiene prioridad sobre Activo 1.\\n\\nEl modo de entrada se configura desde la central (Configuración del campo > Configuración de dispositivo de lazo) y cada entrada del módulo se puede configurar en un modo diferente si es necesario.\",\n  \"atomic_facts\": [\n    {\n      \"fact_id\": \"F01\",\n      \"text\": \"El modo normal es compatible para su uso en instalaciones que requieren el cumplimiento de EN 54-13; el modo de dos niveles NO es compatible con EN 54-13\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"Normal = apto EN 54-13; Dos niveles = no apto EN 54-13\",\n      \"citation\": {\n        \"pdf\": \"3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet.pdf\",\n        \"page\": 11\n      },\n      \"visual_evidence\": \"Frases bajo 'Modo normal' ('compatible... EN 54-13') y bajo 'Modo de dos niveles' ('no es compatible... EN 54-13')\"\n    },\n    {\n      \"fact_id\": \"F02\",\n      \"text\": \"El modo normal requiere resistencia final de línea de 15 kΩ, ¼ W, 1% más una resistencia de 2 kΩ, ¼ W, 5% con el interruptor de activación\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"Normal: 15 kΩ ¼W 1% (RFL) + 2 kΩ ¼W 5% (activación)\",\n      \"citation\": {\n        \"pdf\": \"3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet.pdf\",\n        \"page\": 11\n      },\n      \"visual_evidence\": \"Tabla 3, fila 'Normal' con X en columnas 15 kΩ y 2 kΩ; nota [1] 'Con interruptor de activación'\"\n    },\n    {\n      \"fact_id\": \"F03\",\n      \"text\": \"El modo de dos niveles requiere las tres resistencias: 15 kΩ ¼ W 1% (final de línea), 2 kΩ ¼ W 5% y 6,2 kΩ ¼ W 5% (ambas con interruptor de activación)\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"Dos niveles: 15 kΩ + 2 kΩ + 6,2 kΩ\",\n      \"citation\": {\n        \"pdf\": \"3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet.pdf\",\n        \"page\": 11\n      },\n      \"visual_evidence\": \"Tabla 3, fila 'Dos niveles' con X en las tres columnas de resistencias\"\n    },\n    {\n      \"fact_id\": \"F04\",\n      \"text\": \"Umbrales de activación del modo normal: cortocircuito < 0,3 kΩ; Activo 2 de 0,3 a 7 kΩ; fallo de alta resistencia de 7 a 10 kΩ; reposo de 10 a 17 kΩ; circuito abierto > 17 kΩ\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"<0,3 / 0,3-7 / 7-10 / 10-17 / >17 kΩ\",\n      \"citation\": {\n        \"pdf\": \"3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet.pdf\",\n        \"page\": 11\n      },\n      \"visual_evidence\": \"Tabla 4 'Modo normal', columnas Estado / Parámetro de activación\"\n    },\n    {\n      \"fact_id\": \"F05\",\n      \"text\": \"Umbrales de activación del modo de dos niveles: cortocircuito < 0,3 kΩ; Activo 2 de 0,3 a 3 kΩ; Activo 1 de 3 a 7 kΩ; reposo de 7 a 27 kΩ; circuito abierto > 27 kΩ\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"<0,3 / 0,3-3 / 3-7 / 7-27 / >27 kΩ\",\n      \"citation\": {\n        \"pdf\": \"3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet.pdf\",\n        \"page\": 11\n      },\n      \"visual_evidence\": \"Tabla 5 'Modo de dos niveles', columnas Estado / Parámetro de activación\"\n    },\n    {\n      \"fact_id\": \"F06\",\n      \"text\": \"En el modo de dos niveles, Activo 2 tiene prioridad sobre Activo 1\",\n      \"type\": \"supplementary\",\n      \"state\": \"present\",\n      \"value\": \"Prioridad: Activo 2 > Activo 1\",\n      \"citation\": {\n        \"pdf\": \"3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet.pdf\",\n        \"page\": 11\n      },\n      \"visual_evidence\": \"Nota [1] bajo Tabla 5: 'Activo 2 tiene prioridad sobre Activo 1'\"\n    },\n    {\n      \"fact_id\": \"F07\",\n      \"text\": \"El modo de entrada del módulo se configura en la central (Configuración del campo > Configuración de dispositivo de lazo) y cada entrada se puede configurar en un modo diferente si es necesario\",\n      \"type\": \"supplementary\",\n      \"state\": \"present\",\n      \"value\": \"Configuración en central; modos independientes por entrada\",\n      \"citation\": {\n        \"pdf\": \"3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet.pdf\",\n        \"page\": 10\n      },\n      \"visual_evidence\": \"Sección 'Configuración de entrada': 'se configura en la central (Configuración del campo > Configuración de dispositivo de lazo)' y 'Cada entrada se puede configurar en un modo diferente'\"\n    }\n  ],\n  \"notes\": \"Todos los valores proceden de las Tablas 3, 4 y 5 y de las secciones 'Modo normal' / 'Modo de dos niveles' (página 11) y 'Configuración de entrada' (página 10). No se incluyen los modos NA/NC más allá de lo pedido para mantener el alcance acotado a la comparación normal vs dos niveles.\"\n}",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 45803,
+        "output_tokens": 3394
+      },
+      "provider_trace": {
+        "id": "msg_011Cd8SeSLeVDotgLWD3uSay",
+        "container": null,
+        "content": [
+          {
+            "signature": "CAISoQoKiAEIDxgCKkC14AcTupM5Zw/LvmBI+KSKHU8ELm8J09RVkFlAgzB9pJX52PwvKjWfE1ZK4wvG0UIu46ItHLw7PHbXNEakRaP7Mg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okMDVlMGEwZDctYjU3OC00MDk2LThjMzktZTJiMWU4MzU0ZmRkEgw8xd1HjtrwwlZcRs8aDCwT+rESm7ZsAyRQXiIwFIQ4SAtAz8SGFwes9jZJUEsrO94xX7z/zDWts3fbdHq4LWO/zlvJIpKOve1MccMHKsUI2fqKlu/y3uwChkafUEUnA27TBDGfcW34iz6uskyM+rK5/ou4H7S4JqKK1300HicxuNhfDky/KuE0cMgSqcW2wlf1cC12JaThs9eL7V2C/D+Zc3EMM2ygFzIszcwAGt7KQmJ+a5nOQF4EaG8YNOU6wLMsxzPyuV2WaqpgmyAB/3WFL4Erxz1J1UGfBo3XzDswxhbTSktM3wH6I1wtz4+4/NdFyQWXN7xOe03rMwYBsOV/WaAJjchMqPMcAPJUgXkRsUCW2QNMaw6QsPSfW+OeDhTt3IkXvzzeSee8KQyrFS3QCJxEliBc5ylDYPSIeq3euIKcHC2Ua0QEIHP0M7L3Yxvx3JjMaIRGI98NtCsvo/R9q//xo2eW0t8dmxwEOvxlnjbIuNYYwsV3a8tSHx7ZjTccdgZkR+SAvWYsbgLiDLxYEVZt+nJvr+9ByeVM0P7UTXvU6BsbXbvyV5gJ9TSkhqVs7jusyZ67mQBp379RHrssvrNRpAq5hi0gFhzNn2bmPOWfSSFht3241rK4oNwWi4k3pZN8lHaIyVHh4mRoRbzyIPoba3GBpvwEI9V3LM0djchr4uBcyV+eNv6I6143UqmoMh9e+9FYFk03u6ry2YUMOhY7RfYm0NIjVs3LhXRc2o67oykiOK5lBx6i7ij/YUWBwc2lLLqVjV2XXB+AF9iINNW9UmX3gRhYdwKVK9d2/qvczwSUyWH7GAeb6P26fGipKEsyMhqSxLscDulaIO5Kziuh2SROoD2tX3x4t3fvEPVlsRwaZkjibF0lf6MjEdWxuEuVYWVtXV8aqHWyVd4ws+BcB6SLp+IT/H/OsPxFng2dU9AKUKhD0j8Hsfo1iXSN2fDpsIE7oIKPWQJtDC90a5BnsbxYvlLnwQ4TKzOJJqUkZvP9JbsgZXqx5vrGfvem9Zr9LPHLStb7Lh1pD/peV0npVRI6+3H7rhJafCDmKpMUXVrmCGH7luanut6o5+T8jTHYk1iJJS0HaFedJzxrAKYv8FwaWuSsr+Tq3/MKLuvk2ysMQvfxakjId4f/ali+7Pls7MKNMEobA4ec/X3symCSI23CgXNoax9MxVe5SSplTOjT+bgU5yYFYTgv3TnkdrGUzH6GcsyLTupSF5MfK0MejEcqnKkRpS5J9S1k59dvLh2mNzKYZ2GpfRRmCCVuQKqtmPkSK+r2lhHk8BmMmdegpCV49fJfeYlGIpUEDWwRuydV1vyGPv5SJlyayThJwwVSyxHtVUsh6gSiKU/U7TzOZi8ARCk3Qje+c7aMtm0vSkGVpvC722oSH49sPkYmvwzIn4IMXgAcly5H+aodmh7R7oKSSpy2nIc6wHZo3WeyAxye8jCbYC4eVPcoBBGJasLtQW7wrROxFY6o/fZi/+r3b/PYB9UBXJ3lLz6UH7oU7LYPSR5rVQb3SctP3sm+FdnOb9g2mMKdzAkM4+P/ySUbABgB",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "citations": null,
+            "text": "{\n  \"canary_id\": \"kidde_multi_io_modes\",\n  \"adequacy\": \"SUFFICIENT\",\n  \"question\": \"Voy a configurar las entradas de unos módulos Kidde Excellence KE-IO3144 en una instalación que exige cumplimiento EN 54-13. ¿Qué diferencias hay entre el modo de entrada normal y el modo de dos niveles: qué resistencias necesita cada uno, cuáles son los umbrales de activación en kΩ y cuál de los dos modos puedo usar con EN 54-13?\",\n  \"expected_behavior\": \"answer\",\n  \"gold_answer\": \"Para EN 54-13 debe usar el modo NORMAL: es el único de los dos compatible para instalaciones que requieren EN 54-13; el modo de dos niveles NO es compatible con EN 54-13.\\n\\nResistencias (Tabla 3): ambos modos usan resistencia final de línea de 15 kΩ, ¼ W, 1% y una resistencia de 2 kΩ, ¼ W, 5% con el interruptor de activación; el modo de dos niveles añade además una segunda resistencia de activación de 6,2 kΩ, ¼ W, 5%.\\n\\nUmbrales del modo normal (Tabla 4): cortocircuito < 0,3 kΩ; Activo 2 de 0,3 kΩ a 7 kΩ; fallo de alta resistencia de 7 kΩ a 10 kΩ; reposo de 10 kΩ a 17 kΩ; circuito abierto > 17 kΩ.\\n\\nUmbrales del modo de dos niveles (Tabla 5): cortocircuito < 0,3 kΩ; Activo 2 de 0,3 kΩ a 3 kΩ; Activo 1 de 3 kΩ a 7 kΩ; reposo de 7 kΩ a 27 kΩ; circuito abierto > 27 kΩ. En este modo, Activo 2 tiene prioridad sobre Activo 1.\\n\\nEl modo de entrada se configura desde la central (Configuración del campo > Configuración de dispositivo de lazo) y cada entrada del módulo se puede configurar en un modo diferente si es necesario.\",\n  \"atomic_facts\": [\n    {\n      \"fact_id\": \"F01\",\n      \"text\": \"El modo normal es compatible para su uso en instalaciones que requieren el cumplimiento de EN 54-13; el modo de dos niveles NO es compatible con EN 54-13\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"Normal = apto EN 54-13; Dos niveles = no apto EN 54-13\",\n      \"citation\": {\n        \"pdf\": \"3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet.pdf\",\n        \"page\": 11\n      },\n      \"visual_evidence\": \"Frases bajo 'Modo normal' ('compatible... EN 54-13') y bajo 'Modo de dos niveles' ('no es compatible... EN 54-13')\"\n    },\n    {\n      \"fact_id\": \"F02\",\n      \"text\": \"El modo normal requiere resistencia final de línea de 15 kΩ, ¼ W, 1% más una resistencia de 2 kΩ, ¼ W, 5% con el interruptor de activación\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"Normal: 15 kΩ ¼W 1% (RFL) + 2 kΩ ¼W 5% (activación)\",\n      \"citation\": {\n        \"pdf\": \"3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet.pdf\",\n        \"page\": 11\n      },\n      \"visual_evidence\": \"Tabla 3, fila 'Normal' con X en columnas 15 kΩ y 2 kΩ; nota [1] 'Con interruptor de activación'\"\n    },\n    {\n      \"fact_id\": \"F03\",\n      \"text\": \"El modo de dos niveles requiere las tres resistencias: 15 kΩ ¼ W 1% (final de línea), 2 kΩ ¼ W 5% y 6,2 kΩ ¼ W 5% (ambas con interruptor de activación)\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"Dos niveles: 15 kΩ + 2 kΩ + 6,2 kΩ\",\n      \"citation\": {\n        \"pdf\": \"3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet.pdf\",\n        \"page\": 11\n      },\n      \"visual_evidence\": \"Tabla 3, fila 'Dos niveles' con X en las tres columnas de resistencias\"\n    },\n    {\n      \"fact_id\": \"F04\",\n      \"text\": \"Umbrales de activación del modo normal: cortocircuito < 0,3 kΩ; Activo 2 de 0,3 a 7 kΩ; fallo de alta resistencia de 7 a 10 kΩ; reposo de 10 a 17 kΩ; circuito abierto > 17 kΩ\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"<0,3 / 0,3-7 / 7-10 / 10-17 / >17 kΩ\",\n      \"citation\": {\n        \"pdf\": \"3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet.pdf\",\n        \"page\": 11\n      },\n      \"visual_evidence\": \"Tabla 4 'Modo normal', columnas Estado / Parámetro de activación\"\n    },\n    {\n      \"fact_id\": \"F05\",\n      \"text\": \"Umbrales de activación del modo de dos niveles: cortocircuito < 0,3 kΩ; Activo 2 de 0,3 a 3 kΩ; Activo 1 de 3 a 7 kΩ; reposo de 7 a 27 kΩ; circuito abierto > 27 kΩ\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"<0,3 / 0,3-3 / 3-7 / 7-27 / >27 kΩ\",\n      \"citation\": {\n        \"pdf\": \"3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet.pdf\",\n        \"page\": 11\n      },\n      \"visual_evidence\": \"Tabla 5 'Modo de dos niveles', columnas Estado / Parámetro de activación\"\n    },\n    {\n      \"fact_id\": \"F06\",\n      \"text\": \"En el modo de dos niveles, Activo 2 tiene prioridad sobre Activo 1\",\n      \"type\": \"supplementary\",\n      \"state\": \"present\",\n      \"value\": \"Prioridad: Activo 2 > Activo 1\",\n      \"citation\": {\n        \"pdf\": \"3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet.pdf\",\n        \"page\": 11\n      },\n      \"visual_evidence\": \"Nota [1] bajo Tabla 5: 'Activo 2 tiene prioridad sobre Activo 1'\"\n    },\n    {\n      \"fact_id\": \"F07\",\n      \"text\": \"El modo de entrada del módulo se configura en la central (Configuración del campo > Configuración de dispositivo de lazo) y cada entrada se puede configurar en un modo diferente si es necesario\",\n      \"type\": \"supplementary\",\n      \"state\": \"present\",\n      \"value\": \"Configuración en central; modos independientes por entrada\",\n      \"citation\": {\n        \"pdf\": \"3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet.pdf\",\n        \"page\": 10\n      },\n      \"visual_evidence\": \"Sección 'Configuración de entrada': 'se configura en la central (Configuración del campo > Configuración de dispositivo de lazo)' y 'Cada entrada se puede configurar en un modo diferente'\"\n    }\n  ],\n  \"notes\": \"Todos los valores proceden de las Tablas 3, 4 y 5 y de las secciones 'Modo normal' / 'Modo de dos niveles' (página 11) y 'Configuración de entrada' (página 10). No se incluyen los modos NA/NC más allá de lo pedido para mantener el alcance acotado a la comparación normal vs dos niveles.\"\n}",
+            "type": "text"
+          }
+        ],
+        "model": "claude-fable-5",
+        "role": "assistant",
+        "stop_details": null,
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "type": "message",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 45803,
+          "output_tokens": 3394,
+          "server_tool_use": null,
+          "service_tier": "standard",
+          "output_tokens_details": {
+            "thinking_tokens": 552
+          }
+        }
+      }
+    }
+  ],
+  "conservative_cost_usd": 5.37009,
+  "result_sha256": "4f18b8c94247bfb45ecdab32f13c4abc76a817be5912a6a272431609680a34a2"
+}

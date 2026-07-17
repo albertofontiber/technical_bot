@@ -1,0 +1,275 @@
+{
+  "schema": "s203_fable_review_of_sol_v1",
+  "review": {
+    "reviewer_model": "claude-fable-5",
+    "candidate_author": "gpt-5.6-sol",
+    "reviews": [
+      {
+        "canary_id": "kidde_heat_class",
+        "verdict": "PASS",
+        "question_fully_answerable": true,
+        "question_duplicate": false,
+        "topic_aligned": true,
+        "gold_complete": true,
+        "counterpart_materially_agrees": true,
+        "material_disagreements": [],
+        "unsupported_answer_claims": [],
+        "issues": [],
+        "fact_verdicts": [
+          {
+            "fact_id": "F01",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Page 7 'Sensibilidad del detector': «Configure la sensibilidad del detector en la central o mediante la aplicación Utilidad de configuración»."
+          },
+          {
+            "fact_id": "F02",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Tabla 'Ajustes de sensibilidad' fila 1 = A2S."
+          },
+          {
+            "fact_id": "F03",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Fila «2 (predeterminado) | A2R» visible en la tabla."
+          },
+          {
+            "fact_id": "F04",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Fila «3 | BR» visible en la tabla."
+          },
+          {
+            "fact_id": "F05",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "«La configuración de sensibilidad predeterminada es la misma para los modos Día y Noche» aparece bajo la tabla."
+          },
+          {
+            "fact_id": "F06",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Fila A2S: Temperatura fija, celdas de aplicación vacías, respuesta estática 54 °C mín / 70 °C máx."
+          },
+          {
+            "fact_id": "F07",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Fila A2R: Índice de aumento, 25 °C típico / 50 °C máx, 54–70 °C respuesta estática."
+          },
+          {
+            "fact_id": "F08",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Fila BR: Índice de aumento, 40 °C típico / 65 °C máx, 69–85 °C respuesta estática."
+          }
+        ]
+      },
+      {
+        "canary_id": "kidde_single_output_test",
+        "verdict": "PASS",
+        "question_fully_answerable": true,
+        "question_duplicate": false,
+        "topic_aligned": true,
+        "gold_complete": true,
+        "counterpart_materially_agrees": true,
+        "material_disagreements": [],
+        "unsupported_answer_claims": [],
+        "issues": [
+          "F02/gold omit the third possible initial state (avería = amarillo fijo), but the question explicitly scopes to a normal or already-active output, so the omission is not material.",
+          "F03 describes the red blink at the first short press as 'lento'; step 2 text does not say 'lento' explicitly, but Tabla 4 (page 8) lists the only red-blink test-mode indication as 'LED rojo intermitente lento', so the pace is entailed by the cited page."
+        ],
+        "fact_verdicts": [
+          {
+            "fact_id": "F01",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Page 8, paso 1: mantener T ≥ 3 s hasta parpadeo rojo rápido del LED de estado del dispositivo; parpadea en rojo durante la prueba."
+          },
+          {
+            "fact_id": "F02",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Paso 1: normal (verde fijo), activo (rojo fijo); el estado avería (amarillo fijo) queda fuera del alcance de la pregunta."
+          },
+          {
+            "fact_id": "F03",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Paso 2 (página 8) + Tabla 4: no activado → verde intermitente lento; activado → rojo intermitente (lento según Tabla 4 en modo de prueba)."
+          },
+          {
+            "fact_id": "F04",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Página 9, paso 3: pulsación breve inicia la prueba; no activado → parpadea en rojo; activado → parpadea en verde."
+          },
+          {
+            "fact_id": "F05",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Paso 3: «Compruebe que todos los dispositivos o equipos conectados funcionan correctamente»."
+          },
+          {
+            "fact_id": "F06",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Paso 4: mantener T ≥ 3 s (pulsación prolongada) para salir."
+          },
+          {
+            "fact_id": "F07",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Paso 4 (5 minutos sin pulsar) y Nota (comando de cambio de relé o reinicio de la central), ambos en página 9."
+          },
+          {
+            "fact_id": "F08",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "«Después de la prueba, la salida vuelve a su estado original», página 9."
+          }
+        ]
+      },
+      {
+        "canary_id": "kidde_multi_io_modes",
+        "verdict": "PASS",
+        "question_fully_answerable": true,
+        "question_duplicate": false,
+        "topic_aligned": true,
+        "gold_complete": true,
+        "counterpart_materially_agrees": true,
+        "material_disagreements": [],
+        "unsupported_answer_claims": [],
+        "issues": [],
+        "fact_verdicts": [
+          {
+            "fact_id": "F01",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Tabla 3 (página 11), fila Normal: 15 kΩ ¼W 1% y 2 kΩ ¼W 5%; nota [1] «Con interruptor de activación»."
+          },
+          {
+            "fact_id": "F02",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Tabla 3, fila Dos niveles: 15 kΩ, 2 kΩ y 6,2 kΩ, ambas de activación con interruptor (nota [1])."
+          },
+          {
+            "fact_id": "F03",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Tablas 4 y 5: Cortocircuito < 0,3 kΩ en ambos modos."
+          },
+          {
+            "fact_id": "F04",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Tabla 4: Activo 2 = 0,3–7 kΩ; Fallo de alta resistencia = 7–10 kΩ."
+          },
+          {
+            "fact_id": "F05",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Tabla 4: Reposo = 10–17 kΩ; Circuito abierto > 17 kΩ."
+          },
+          {
+            "fact_id": "F06",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Tabla 5: Activo 2 = 0,3–3 kΩ, Activo 1 = 3–7 kΩ; nota [1] «Activo 2 tiene prioridad sobre Activo 1»."
+          },
+          {
+            "fact_id": "F07",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Tabla 5: Reposo = 7–27 kΩ; Circuito abierto > 27 kΩ."
+          },
+          {
+            "fact_id": "F08",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Página 11: «El modo normal es compatible... EN 54-13»; «El modo de dos niveles no es compatible... EN 54-13»."
+          }
+        ]
+      }
+    ]
+  },
+  "receipt": {
+    "provider": "fable",
+    "model": "claude-fable-5",
+    "phase": "review_sol",
+    "call_label": "review:sol_candidates",
+    "status": "end_turn",
+    "raw_output": "{\"reviewer_model\":\"claude-fable-5\",\"candidate_author\":\"gpt-5.6-sol\",\"reviews\":[{\"canary_id\":\"kidde_heat_class\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"issues\":[],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 7 'Sensibilidad del detector': «Configure la sensibilidad del detector en la central o mediante la aplicación Utilidad de configuración».\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Tabla 'Ajustes de sensibilidad' fila 1 = A2S.\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Fila «2 (predeterminado) | A2R» visible en la tabla.\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Fila «3 | BR» visible en la tabla.\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"«La configuración de sensibilidad predeterminada es la misma para los modos Día y Noche» aparece bajo la tabla.\"},{\"fact_id\":\"F06\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Fila A2S: Temperatura fija, celdas de aplicación vacías, respuesta estática 54 °C mín / 70 °C máx.\"},{\"fact_id\":\"F07\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Fila A2R: Índice de aumento, 25 °C típico / 50 °C máx, 54–70 °C respuesta estática.\"},{\"fact_id\":\"F08\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Fila BR: Índice de aumento, 40 °C típico / 65 °C máx, 69–85 °C respuesta estática.\"}]},{\"canary_id\":\"kidde_single_output_test\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"issues\":[\"F02/gold omit the third possible initial state (avería = amarillo fijo), but the question explicitly scopes to a normal or already-active output, so the omission is not material.\",\"F03 describes the red blink at the first short press as 'lento'; step 2 text does not say 'lento' explicitly, but Tabla 4 (page 8) lists the only red-blink test-mode indication as 'LED rojo intermitente lento', so the pace is entailed by the cited page.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 8, paso 1: mantener T ≥ 3 s hasta parpadeo rojo rápido del LED de estado del dispositivo; parpadea en rojo durante la prueba.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Paso 1: normal (verde fijo), activo (rojo fijo); el estado avería (amarillo fijo) queda fuera del alcance de la pregunta.\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Paso 2 (página 8) + Tabla 4: no activado → verde intermitente lento; activado → rojo intermitente (lento según Tabla 4 en modo de prueba).\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Página 9, paso 3: pulsación breve inicia la prueba; no activado → parpadea en rojo; activado → parpadea en verde.\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Paso 3: «Compruebe que todos los dispositivos o equipos conectados funcionan correctamente».\"},{\"fact_id\":\"F06\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Paso 4: mantener T ≥ 3 s (pulsación prolongada) para salir.\"},{\"fact_id\":\"F07\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Paso 4 (5 minutos sin pulsar) y Nota (comando de cambio de relé o reinicio de la central), ambos en página 9.\"},{\"fact_id\":\"F08\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"«Después de la prueba, la salida vuelve a su estado original», página 9.\"}]},{\"canary_id\":\"kidde_multi_io_modes\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"issues\":[],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Tabla 3 (página 11), fila Normal: 15 kΩ ¼W 1% y 2 kΩ ¼W 5%; nota [1] «Con interruptor de activación».\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Tabla 3, fila Dos niveles: 15 kΩ, 2 kΩ y 6,2 kΩ, ambas de activación con interruptor (nota [1]).\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Tablas 4 y 5: Cortocircuito < 0,3 kΩ en ambos modos.\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Tabla 4: Activo 2 = 0,3–7 kΩ; Fallo de alta resistencia = 7–10 kΩ.\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Tabla 4: Reposo = 10–17 kΩ; Circuito abierto > 17 kΩ.\"},{\"fact_id\":\"F06\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Tabla 5: Activo 2 = 0,3–3 kΩ, Activo 1 = 3–7 kΩ; nota [1] «Activo 2 tiene prioridad sobre Activo 1».\"},{\"fact_id\":\"F07\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Tabla 5: Reposo = 7–27 kΩ; Circuito abierto > 27 kΩ.\"},{\"fact_id\":\"F08\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Página 11: «El modo normal es compatible... EN 54-13»; «El modo de dos niveles no es compatible... EN 54-13».\"}]}]}",
+    "usage": {
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "input_tokens": 94569,
+      "output_tokens": 4309
+    },
+    "provider_trace": {
+      "id": "msg_011Cd8SqC9gF4XXDK1Pk8y4B",
+      "container": null,
+      "content": [
+        {
+          "signature": "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",
+          "thinking": "",
+          "type": "thinking"
+        },
+        {
+          "citations": null,
+          "text": "{\"reviewer_model\":\"claude-fable-5\",\"candidate_author\":\"gpt-5.6-sol\",\"reviews\":[{\"canary_id\":\"kidde_heat_class\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"issues\":[],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 7 'Sensibilidad del detector': «Configure la sensibilidad del detector en la central o mediante la aplicación Utilidad de configuración».\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Tabla 'Ajustes de sensibilidad' fila 1 = A2S.\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Fila «2 (predeterminado) | A2R» visible en la tabla.\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Fila «3 | BR» visible en la tabla.\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"«La configuración de sensibilidad predeterminada es la misma para los modos Día y Noche» aparece bajo la tabla.\"},{\"fact_id\":\"F06\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Fila A2S: Temperatura fija, celdas de aplicación vacías, respuesta estática 54 °C mín / 70 °C máx.\"},{\"fact_id\":\"F07\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Fila A2R: Índice de aumento, 25 °C típico / 50 °C máx, 54–70 °C respuesta estática.\"},{\"fact_id\":\"F08\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Fila BR: Índice de aumento, 40 °C típico / 65 °C máx, 69–85 °C respuesta estática.\"}]},{\"canary_id\":\"kidde_single_output_test\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"issues\":[\"F02/gold omit the third possible initial state (avería = amarillo fijo), but the question explicitly scopes to a normal or already-active output, so the omission is not material.\",\"F03 describes the red blink at the first short press as 'lento'; step 2 text does not say 'lento' explicitly, but Tabla 4 (page 8) lists the only red-blink test-mode indication as 'LED rojo intermitente lento', so the pace is entailed by the cited page.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 8, paso 1: mantener T ≥ 3 s hasta parpadeo rojo rápido del LED de estado del dispositivo; parpadea en rojo durante la prueba.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Paso 1: normal (verde fijo), activo (rojo fijo); el estado avería (amarillo fijo) queda fuera del alcance de la pregunta.\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Paso 2 (página 8) + Tabla 4: no activado → verde intermitente lento; activado → rojo intermitente (lento según Tabla 4 en modo de prueba).\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Página 9, paso 3: pulsación breve inicia la prueba; no activado → parpadea en rojo; activado → parpadea en verde.\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Paso 3: «Compruebe que todos los dispositivos o equipos conectados funcionan correctamente».\"},{\"fact_id\":\"F06\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Paso 4: mantener T ≥ 3 s (pulsación prolongada) para salir.\"},{\"fact_id\":\"F07\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Paso 4 (5 minutos sin pulsar) y Nota (comando de cambio de relé o reinicio de la central), ambos en página 9.\"},{\"fact_id\":\"F08\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"«Después de la prueba, la salida vuelve a su estado original», página 9.\"}]},{\"canary_id\":\"kidde_multi_io_modes\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"issues\":[],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Tabla 3 (página 11), fila Normal: 15 kΩ ¼W 1% y 2 kΩ ¼W 5%; nota [1] «Con interruptor de activación».\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Tabla 3, fila Dos niveles: 15 kΩ, 2 kΩ y 6,2 kΩ, ambas de activación con interruptor (nota [1]).\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Tablas 4 y 5: Cortocircuito < 0,3 kΩ en ambos modos.\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Tabla 4: Activo 2 = 0,3–7 kΩ; Fallo de alta resistencia = 7–10 kΩ.\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Tabla 4: Reposo = 10–17 kΩ; Circuito abierto > 17 kΩ.\"},{\"fact_id\":\"F06\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Tabla 5: Activo 2 = 0,3–3 kΩ, Activo 1 = 3–7 kΩ; nota [1] «Activo 2 tiene prioridad sobre Activo 1».\"},{\"fact_id\":\"F07\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Tabla 5: Reposo = 7–27 kΩ; Circuito abierto > 27 kΩ.\"},{\"fact_id\":\"F08\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Página 11: «El modo normal es compatible... EN 54-13»; «El modo de dos niveles no es compatible... EN 54-13».\"}]}]}",
+          "type": "text"
+        }
+      ],
+      "model": "claude-fable-5",
+      "role": "assistant",
+      "stop_details": null,
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "type": "message",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 94569,
+        "output_tokens": 4309,
+        "server_tool_use": null,
+        "service_tier": "standard",
+        "output_tokens_details": {
+          "thinking_tokens": 1718
+        }
+      }
+    }
+  },
+  "result_sha256": "67168b2758bbbb284560f6f26c81c04a08fa89f003808e73c106ac7b5df85616"
+}

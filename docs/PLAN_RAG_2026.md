@@ -196,6 +196,16 @@ para otro holdout de 12. La siguiente población se construirá desde manuales K
 con gold visual página-a-página y autoría/cross-review Sol 5.6 `xhigh` + Fable 5 antes de usar modelos
 económicos para el benchmark.
 
+**S203 probó el transporte visual y ambos Frontier, pero cerró `NO_GO_VISUAL_GOLD`.** Tres
+unidades Kidde nuevas quedaron ligadas a 11 renders pixel-only; Sol y Fable completaron 3/3
+autorías cada uno y las dos revisiones cruzadas (8 llamadas, **$14,07876** conservadores). Sol
+rechazó un candidato Fable por recomendar BR para una sala de calderas sin recomendación literal
+en la fuente. Fable dio PASS a los tres Sol, pero dejó dos notas explícitamente no materiales en
+`issues` para el relé y el gate congelado trataba cualquier `issues` como bloqueo. Solo 1/3 pares
+fue limpio bajo la letra estricta; no se postseleccionó, no se añadieron golds y se movieron 0
+facts. S204 usará páginas/predicados frescos y un contrato reusable que prohíba recomendaciones no
+literales y separe `blocking_issues` de `nonblocking_notes`; no reintenta S203.
+
 **`chunks_v3` no se migra al completo.** S140 cerró el shadow representativo como
 `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`: empata recall funcional@10 (16/24 vs 16/24) pero empeora el
 primer rango útil/MRR (0,4021→0,3694). `chunks_v2` sigue siendo el baseline activo. V3 preserva

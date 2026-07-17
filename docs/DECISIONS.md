@@ -2019,7 +2019,33 @@ cinco filas son válidas; sus 13 soportados no estiman el support-rate y no se p
 cohorte queda cerrada sin retry ni relajación.
 
 **Cambio de población.** Tras S201+S202 quedan cuatro preguntas S100 no observadas, insuficientes
-para generalizar. La reserva legítima serán manuales Kidde sin preguntas actuales. La autoría de
+para generalizar. La reserva legítima serán familias/predicados Kidde sin cobertura actual. La autoría de
 pregunta y gold usará Sol 5.6 `xhigh` principal, Fable 5 independiente y evidencia verificada
 visualmente página-a-página; un canary pequeño precederá al lote para limitar coste. Sólo después
 se usará ejecución económica para medir. `chunks_v3` no cambia y Railway no es gate.
+
+## DEC-115 — S203: el transporte visual y ambos Frontier funcionan; gold canary NO-GO sin postselección
+
+**Freeze y revisión.** S203 congeló tres unidades nuevas de tres familias Kidde, 11 renders a
+200 dpi, los 55 PDFs del universo y cero solape de basename/SHA contra las 78 fuentes resueltas
+del gold existente. No afirmó que los PDFs fueran inéditos: S159/S195/S197/S200 habían usado
+otras páginas/predicados. Sol 5.6 `xhigh` encontró ocho defectos del diseño; 8/8 se corrigieron
+antes de la PR #138 (pixel-only real, focus/topic gate, comparación de candidatos, novedad por
+SHA+facts, ledger de coste, insuficiencia=NO-GO, freeze downstream y descubrimiento automático).
+Fable llegó al pin exacto en esa review pero devolvió `refusal`; se registró sin retry ni etiqueta
+`unavailable`. CI verde y merge precedieron a la ejecución.
+
+**Resultado.** Completaron las ocho llamadas congeladas: Sol 3/3 candidatos válidos, Fable 3/3,
+Sol revisó los tres Fable y Fable los tres Sol. Coste conservador **$14,07876**. El resultado es
+`NO_GO_VISUAL_GOLD`: Sol rechazó el candidato térmico de Fable por recomendar BR para sala de
+calderas sin que la fuente haga esa recomendación; Fable dio PASS a los tres Sol, pero en el caso
+de prueba de relé añadió dos observaciones explícitamente no materiales a `issues`, y el gate
+local congelado trataba cualquier `issues` no vacío como bloqueante. Solo 1/3 pares queda limpio
+bajo la letra estricta; no se postselecciona ni salva, se añaden 0 golds y se mueven 0 facts.
+
+**Sucesor limpio.** La cohorte S203 queda cerrada sin retry/reparación. S204 debe usar páginas y
+predicados Kidde frescos, extraer primero un contrato visual reusable (no copiar el runner),
+prohibir recomendaciones de aplicación no literales y separar `blocking_issues` de
+`nonblocking_notes` con consistencia de veredicto. Es corrección genérica de instrumento y se
+medirá solo en población nueva. Planner/bot siguen cerrados. `chunks_v2` activo,
+`chunks_v3=FINAL_NO_GO_CHUNKS_V3_WHOLESALE`, Railway fuera del gate.
