@@ -1,0 +1,334 @@
+{
+  "instrument": "s197_static_author_receipts_v1",
+  "status": "COMPLETE",
+  "created_at": "2026-07-17T17:19:12.355602+00:00",
+  "model": "claude-haiku-4-5-20251001",
+  "sdk": "0.97.0",
+  "sdk_max_retries": 0,
+  "completed_calls": 14,
+  "invalid_outputs": 0,
+  "receipts": [
+    {
+      "item_id": "s197_src_01",
+      "response_id": "msg_011Cd81ZNSSfrPfwBUmufnnS",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 8469,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 8469,
+        "output_tokens": 403,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.010484,
+      "validation_error": null,
+      "raw_author_output": "{\"item_id\":\"s197_src_01\",\"eligible\":true,\"question\":\"¿Cómo se configuran los códigos de eventos para alarma general y supervisión general en el formato 3+1 o 4+1 cuando se programa el número principal?\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"Para formatos 3+1, 4+1 Express y 4+1 estándar, introducir valores específicos en la dirección 16 activa automáticamente la programación de códigos de eventos del número principal.\",\"facet\":\"access_or_prerequisite\",\"support_1\":\"E004_f88882b03a\",\"support_2\":\"E001_d01850e94d\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"El código de Alarma General se configura en la dirección 69 con selección predeterminada 1, y el código de Supervisión General en la dirección 71 con selección predeterminada 8.\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E007_24838ecf98\",\"support_2\":\"E009_4c9bbecaeb\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"Introducir 0 en cualquier campo de selección de datos inhibe la transmisión del evento correspondiente a la receptora.\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_1\":\"E046_adf9cb28b7\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "b07356269898128852eee85154314d8fcae61739795e59d1567a34da4e7309fa"
+    },
+    {
+      "item_id": "s197_src_02",
+      "response_id": "msg_011Cd81ZmLr8u3N9Cwd8hJ5g",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 5199,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 5199,
+        "output_tokens": 426,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.007329,
+      "validation_error": null,
+      "raw_author_output": "{\"item_id\":\"s197_src_02\",\"eligible\":true,\"question\":\"¿Cuál es el rango de tensión de alimentación correcto para el dispositivo MI-OSI-RIE y qué corrientes máximas debo esperar en diferentes condiciones de operación?\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"El dispositivo requiere una tensión de entrada de 15 a 32 V CC nominales, o de 15 a 28,5 V si se utiliza un aislador de cortocircuitos.\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E002_efe72bad19\",\"support_2\":\"E004_5e6793b8c3\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"La corriente en reposo máxima varía según la tensión: a 32 V consume 13 mA, mientras que a 15 V consume 20 mA con un sondeo por segundo.\",\"facet\":\"measurement_limit_or_timing\",\"support_1\":\"E006_4f7aff2a03\",\"support_2\":\"E017_98928a9f48\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"En condición de alarma con el LED encendido, el consumo máximo es de 22 mA tanto a 32 V como a 15 V durante el sondeo del dispositivo.\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E006_4f7aff2a03\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "fa58176289b839e2dc3965591da231b6b2bc800e884941b104af7b8716148e9e"
+    },
+    {
+      "item_id": "s197_src_03",
+      "response_id": "msg_011Cd81aBuDDg32EZm4weKEM",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 7110,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 7110,
+        "output_tokens": 445,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.009335,
+      "validation_error": null,
+      "raw_author_output": "{\"item_id\":\"s197_src_03\",\"eligible\":true,\"question\":\"¿Cuál es el rango de tensión de funcionamiento y cuáles son los niveles de corriente de salida analógica 4-20 mA para los diferentes estados operativos del detector?\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"El detector opera con una tensión de 18 a 32 VDC\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E004_6036cc9292\",\"support_2\":\"E005_a3ffd5cae9\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"La salida 4-20 mA indica estados específicos: 4 mA en funcionamiento normal, 8 mA en detección infrarroja, 12 mA en detección ultravioleta, 16 mA en aviso y 20 mA en alarma\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E017_def56d5a63\",\"support_2\":\"E019_7768bc2bd0\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"La corriente analógica se transmite mediante los terminales 11 y 12, donde el terminal 12 es positivo y el terminal 11 debe conectarse al retorno (RTN en terminal 2), con una resistencia máxima permitida de 600 ohmios\",\"facet\":\"access_or_prerequisite\",\"support_1\":\"E020_84de862721\",\"support_2\":\"E049_4c9e2e9d5e\",\"support_3\":\"E048_c5257a265e\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "b6f081ca88e354855f7b501233879e11b322537a5ee5e849deae01a89b22b1d7"
+    },
+    {
+      "item_id": "s197_src_04",
+      "response_id": "msg_011Cd81an247b1hCAychrcpU",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4774,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4774,
+        "output_tokens": 335,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.006449,
+      "validation_error": null,
+      "raw_author_output": "{\"item_id\":\"s197_src_04\",\"eligible\":true,\"question\":\"¿A qué altura debe instalarse el detector DGD-600 y por qué es importante esa posición?\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"El detector DGD-600 para gases más ligeros que el aire debe colocarse a 30 cm del techo\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E013_71a4ae45fa\",\"support_2\":\"E014_6c51bb8e36\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"La altura de instalación se determina por la densidad del gas específico que se detecta\",\"facet\":\"input_trigger_or_observed_condition\",\"support_1\":\"E013_71a4ae45fa\",\"support_2\":\"E021_240f5c98bd\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"El detector debe ser instalado por personal calificado para garantizar una operación segura y correcta\",\"facet\":\"access_or_prerequisite\",\"support_1\":\"E005_eaa031f3f4\",\"support_2\":\"E004_7adfc3bca6\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "d789dff520b9ec160f6b6e1faaa3b1e5291051b61b83a1fa25bad7aa054c644e"
+    },
+    {
+      "item_id": "s197_src_05",
+      "response_id": "msg_011Cd81bCsHZh14weaN4YF2P",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4511,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4511,
+        "output_tokens": 334,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.006181,
+      "validation_error": null,
+      "raw_author_output": "{\"item_id\":\"s197_src_05\",\"eligible\":true,\"question\":\"¿Cuál es el rango de voltaje de operación normal y la corriente de espera que debe suministrarse al módulo IM-10?\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"El módulo IM-10 requiere un voltaje de operación normal entre 15 y 32 VDC\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E002_d39ec02abf\",\"support_2\":\"E021_e298e4c71b\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"La corriente de espera del módulo es de 3.5 mA en condiciones normales de funcionamiento\",\"facet\":\"measurement_limit_or_timing\",\"support_1\":\"E021_e298e4c71b\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"La corriente de alarma alcanza 60 mA cuando todos los diez indicadores LED están encendidos continuamente\",\"facet\":\"measurement_limit_or_timing\",\"support_1\":\"E022_a003f23a24\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "579fca1d4f4806a26868861806eff0826bcacec3e82f5b41b26cdfaec61aea1e"
+    },
+    {
+      "item_id": "s197_src_06",
+      "response_id": "msg_011Cd81bWf76kdfiWwPmLV73",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4092,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4092,
+        "output_tokens": 402,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.006102,
+      "validation_error": null,
+      "raw_author_output": "{\"item_id\":\"s197_src_06\",\"eligible\":true,\"question\":\"¿Cómo se utiliza la función Instant Fault Finder en el detector VESDA VLF-250 para diagnosticar fallos?\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"La función Instant Fault Finder se activa pulsando simultáneamente los botones Restablecer y Desactivar.\",\"facet\":\"input_trigger_or_observed_condition\",\"support_1\":\"E016_ac060edad9\",\"support_2\":\"E008_74e179b2e3\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"Cuando se registra un fallo, la luz de fallo (D) permanece encendida para fallos graves y parpadea para fallos leves, indicando la gravedad del problema.\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E015_54e521fd91\",\"support_2\":\"E008_74e179b2e3\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"El Instant Fault Finder proporciona diagnóstico rápido iluminando uno o más segmentos del Dial del humo, donde cada segmento indicado corresponde a un número de fallo específico con acciones recomendadas.\",\"facet\":\"verification_commissioning_or_recovery\",\"support_1\":\"E016_ac060edad9\",\"support_2\":\"E013_66cb21ace1\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "94c291fe583829ff629f7c1672738db7d48df1c4797bfa2e6abfd500727ea569"
+    },
+    {
+      "item_id": "s197_src_07",
+      "response_id": "msg_011Cd81buFQirQTStTt1aUmR",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4555,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4555,
+        "output_tokens": 463,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.00687,
+      "validation_error": null,
+      "raw_author_output": "{\"item_id\":\"s197_src_07\",\"eligible\":true,\"question\":\"¿Cuáles son los terminales de conexión del bucle de control y cómo se deben conectar los cables en el módulo KE-IO3101?\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"El módulo KE-IO3101 posee cuatro terminales de bucle identificados como B−, A−, B+ y A+, donde B− y A− corresponden a la línea negativa (−) y B+ y A+ corresponden a la línea positiva (+).\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E030_b3d82f944d\",\"support_2\":\"E029_6c6db8da69\",\"support_3\":\"E008_650b64b30f\"},\"point_2\":{\"active\":true,\"claim\":\"El módulo debe ser instalado dentro de una caja protectora compatible, y los cables del bucle deben conectarse según las especificaciones recomendadas de la tabla de cables proporcionada en la documentación técnica.\",\"facet\":\"access_or_prerequisite\",\"support_1\":\"E025_e638f13880\",\"support_2\":\"E028_0b84f27212\",\"support_3\":\"E018_c376b5b404\"},\"point_3\":{\"active\":true,\"claim\":\"Antes de instalar o retirar el equipo, se debe desconectar todas las fuentes de energía y permitir que se descargue la energía almacenada para evitar peligro de electrocución.\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_1\":\"E021_03c4b5fb63\",\"support_2\":\"E019_c9750bd9ca\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "5d2a84f8c4b567632583ea1ba8fd6f5863160236157f3768c6aeb71da63ff2dd"
+    },
+    {
+      "item_id": "s197_src_08",
+      "response_id": "msg_011Cd81cKDJjTfNjmsuvYPZ6",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 2695,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 2695,
+        "output_tokens": 404,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.004715,
+      "validation_error": null,
+      "raw_author_output": "{\"item_id\":\"s197_src_08\",\"eligible\":true,\"question\":\"¿Cuáles son las consideraciones clave para colocar correctamente el detector SG100 y qué debo verificar si falla la prueba inicial?\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"El detector debe instalarse lejos de objetos metálicos, puertas metálicas, aberturas de ventanas metálicas y cables de computadora para evitar que la distancia de operación se reduzca significativamente.\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_1\":\"E004_1002379b80\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"Si el detector falla la prueba inicial, primero debe limpiarlo si está sucio, luego cambiar las baterías si se indica bajo nivel en el traductor, y realizar una nueva prueba antes de considerar su reemplazo.\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E002_6214e5a746\",\"support_2\":\"E005_5040a9ed84\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"Los fundas antipolvo no deben permanecer instaladas durante la operación del sistema; deben retirarse antes de que el detector pueda ser operativo.\",\"facet\":\"verification_commissioning_or_recovery\",\"support_1\":\"E006_08fcb5fdc3\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "1c1fdcc5aedd3f97469afef4a6cc501d52ff9850216bcc38720dbb163d9631da"
+    },
+    {
+      "item_id": "s197_src_09",
+      "response_id": "msg_011Cd81cmXbF7WD8VNGBYsqA",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4679,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4679,
+        "output_tokens": 414,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.006749,
+      "validation_error": null,
+      "raw_author_output": "{\"item_id\":\"s197_src_09\",\"eligible\":true,\"question\":\"¿Cuál es la distancia máxima permitida entre el sensor de temperatura externo ART 535-x y la unidad de evaluación del detector térmico lineal SecuriSens® ADW 535-x?\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"La distancia máxima permitida es de 50 metros, utilizando una extensión del cable de conexión.\",\"facet\":\"measurement_limit_or_timing\",\"support_1\":\"E004_cfd339bcd9\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"El sensor ART 535-x no homologado para EX puede instalarse en zonas ATEX 2 y 22 únicamente; para otras zonas EX se requiere el modelo ART 535-30.\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_1\":\"E020_4416c1ccc6\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"El sensor debe instalarse protegido de la luz solar directa y completamente expuesto a la temperatura ambiente del tubo sensor en la zona vigilada.\",\"facet\":\"access_or_prerequisite\",\"support_1\":\"E004_cfd339bcd9\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":true,\"claim\":\"La temperatura ambiente máxima de operación es de 400 °C dependiendo del modelo específico del sensor.\",\"facet\":\"measurement_limit_or_timing\",\"support_1\":\"E004_cfd339bcd9\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "0993c3567ba23389316bf656c148d04ec50835099843c16768af58749e9eadbe"
+    },
+    {
+      "item_id": "s197_src_10",
+      "response_id": "msg_011Cd81dN8TJBFuNmTzhUNrr",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4351,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4351,
+        "output_tokens": 350,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.006101,
+      "validation_error": null,
+      "raw_author_output": "{\"item_id\":\"s197_src_10\",\"eligible\":true,\"question\":\"¿Cuáles son los componentes esenciales incluidos en el paquete del A-1 y qué fuente de alimentación requiere el equipo?\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"El paquete del A-1 incluye el micrófono, cable flexo de altas prestaciones, fuente de alimentación 5V DC, filtro anti-pop y conector XLR-5 hembra\",\"facet\":\"access_or_prerequisite\",\"support_1\":\"E021_81fcaf6be2\",\"support_2\":\"E024_8990dd8226\",\"support_3\":\"E025_91d535855b\"},\"point_2\":{\"active\":true,\"claim\":\"La fuente de alimentación suministrada es de 5V DC y debe estar fácilmente accesible ya que el cable de alimentación es el dispositivo principal de desconexión del producto\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_1\":\"E028_ace89ffe41\",\"support_2\":\"E014_c3495e73a6\",\"support_3\":\"\"},\"point_3\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "1a560999937031a7612269f8c42db5ad56f79b1fec633f59424f48fbbb79bb41"
+    },
+    {
+      "item_id": "s197_src_11",
+      "response_id": "msg_011Cd81dfEc1PTspdNptpeDE",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 3674,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3674,
+        "output_tokens": 397,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.005659,
+      "validation_error": null,
+      "raw_author_output": "{\"item_id\":\"s197_src_11\",\"eligible\":true,\"question\":\"¿Cuál es la capacidad máxima de dispositivos y zonas que puede soportar el panel 2X-AT-F2-FB-P en su configuración estándar y ampliada?\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"El panel en configuración estándar soporta hasta 256 dispositivos direccionables distribuidos en 512 zonas mediante sus 2 bucles de alta potencia\",\"facet\":\"measurement_limit_or_timing\",\"support_1\":\"E011_63843e0481\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"La capacidad se puede ampliar a 512 dispositivos instalando una tarjeta adicional de 2 bucles de alta potencia, ganando 4 salidas programables más\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E013_2e3a49a869\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"El panel dispone de una fuente de alimentación de 10A en la configuración estándar, pero existe un PAK de alta potencia disponible para incrementar la potencia del bucle de 500 mA a 800 mA si se requiere\",\"facet\":\"option_mode_or_default\",\"support_1\":\"E015_2b8d534a4f\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "8a50f5337474061839e597e5ba07dbdb44bc39ebd84fd6aec0f3846f788097a0"
+    },
+    {
+      "item_id": "s197_src_12",
+      "response_id": "msg_011Cd81e1chWKWzxR5atmXGZ",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 2429,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 2429,
+        "output_tokens": 443,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.004644,
+      "validation_error": null,
+      "raw_author_output": "{\"item_id\":\"s197_src_12\",\"eligible\":true,\"question\":\"¿Cuál es el nivel de presión sonora recomendado y la distancia de referencia para el funcionamiento de la unidad de sonido direccional en una aplicación de evacuación de emergencia?\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"La unidad de sonido direccional debe configurarse a 93 dB(A) medidos a una distancia de 3.2 pies para lograr efectividad en la guía de evacuación.\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E001_8eb1f9a21b\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"El entrenamiento previo del personal sobre el sonido emitido por la unidad reduce significativamente el tiempo de evacuación, alcanzando hasta 7 segundos en ambiente con humo comparado con 67.8 segundos promedio solo con señalización visual.\",\"facet\":\"input_trigger_or_observed_condition\",\"support_1\":\"E003_7b2c418eae\",\"support_2\":\"E002_ce85347d71\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"La combinación de señalización visual y sonora direccional proporciona tiempos de evacuación similares en ambientes sin humo (promedio 7.2 segundos) que en ambientes con humo cuando se incluye entrenamiento.\",\"facet\":\"verification_commissioning_or_recovery\",\"support_1\":\"E004_9ca5203306\",\"support_2\":\"E003_7b2c418eae\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "75d279134cd5e427ac33f73e2aaa5925fbcd454471865c76687b6a7e32c279b1"
+    },
+    {
+      "item_id": "s197_src_13",
+      "response_id": "msg_011Cd81eQz8KQDMwCKNe9791",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 3653,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3653,
+        "output_tokens": 356,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.005433,
+      "validation_error": null,
+      "raw_author_output": "{\"item_id\":\"s197_src_13\",\"eligible\":true,\"question\":\"¿Cuáles son las capacidades principales del teclado de calibración STS/CKD+ y qué precauciones debo tomar antes de conectarlo al detector?\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"El teclado de calibración STS/CKD+ permite realizar operaciones de calibración y configuración en detectores de gas Sensitron\",\"facet\":\"option_mode_or_default\",\"support_1\":\"E019_53b4038d8a\",\"support_2\":\"E020_92d87cea00\",\"support_3\":\"E021_047b167b9d\"},\"point_2\":{\"active\":true,\"claim\":\"Antes de abrir la caja del detector para conectar el teclado, deben considerarse todas las precauciones de seguridad pertinentes\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_1\":\"E029_f88c52396d\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"El teclado puede conectarse tanto con el detector encendido y en funcionamiento como en estado apagado\",\"facet\":\"access_or_prerequisite\",\"support_1\":\"E029_f88c52396d\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "3e900516c8a8e592acb2d127d98576efd0bff30c01f07ad4376fc238659cec8b"
+    },
+    {
+      "item_id": "s197_src_14",
+      "response_id": "msg_011Cd81egKN9j6XWABKBnyPi",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 3784,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3784,
+        "output_tokens": 354,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.005554,
+      "validation_error": null,
+      "raw_author_output": "{\"item_id\":\"s197_src_14\",\"eligible\":true,\"question\":\"¿Cuál es la capacidad máxima de tubería de muestreo que puede soportar un módulo detector ModuLaser y cómo se comunica con los módulos de pantalla?\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"El módulo detector puede alojar hasta 250 metros de tubería de muestreo combinada\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E006_7e8b09a758\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"Los módulos de visualización y los módulos detectores se comunican mediante interconexiones RS-485\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E006_7e8b09a758\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"El módulo detector es una unidad autónoma que aspira aire muestreado, lo analiza y determina si debe activar pre-alarma o alarma basándose en partículas de humo detectadas\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E010_ce8a2f9911\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "d17cf82ac9276dbee93a244f46b1ff4a3b86ba20a5a735208a7de4e47c31d88c"
+    }
+  ]
+}

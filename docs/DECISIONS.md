@@ -1827,3 +1827,25 @@ screening excerpt-internal de los 14 ítems con Luna. Un NO-GO se detiene upstre
 autoriza preregistrar S198 con 90/80/75. No mueve facts por sí mismo, no abre targets, no integra
 runtime y no reabre `chunks_v3`, que continúa `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`. Railway es demo
 y no bloquea PR/merge con CI verde.
+
+## DEC-107 — S197: el transporte estático generaliza; NO-GO semántico antes del planner
+
+**Ejecución sellada.** Una única cohorte nueva excluyó S194+S195 mediante dos scans GET-only
+idénticos de 25.090 filas: 14 documentos, fabricantes y preguntas elegibles; 7 tabla + 7 prosa;
+42 puntos; cero overlap prohibido y cero escrituras. Haiku 4.5 completó 14/14 con el schema
+estático S196 y **0 outputs inválidos**. Esto cierra la deuda de compilación/transporte como causa
+del STOP actual, no como calidad suficiente del autor.
+
+**Resultado.** Luna 5.6 revisó 14/14 con 0 outputs inválidos. Doce ítems fallaron al menos un gate:
+8 point-sets eran incompletos para el alcance de su pregunta, 5 incluían un punto no plenamente
+soportado o irrelevante para lo preguntado y 6 tenían un facet incorrecto. Estado
+`NO_GO_COHORT_CONSTRUCTION`; coste Haiku $0,091605 + Luna $0,063155 = **$0,15476**. Facts 0,
+planner/targets cerrados, DB/runtime/producción intactos. No se reintenta, repara ni reevalúa S197.
+
+**Lectura causal y siguiente trigger.** El bucket de fallo mayor es cierre pregunta↔point-set, no
+schema ni planner. La siguiente hipótesis estructural invierte la dependencia: seleccionar primero
+2–4 obligaciones ligadas a unidades fuente, validar claim/support/facet con definiciones genéricas,
+y sólo después redactar una pregunta española cuyo alcance sea exactamente ese conjunto. Se debe
+congelar antes de seleccionar una cohorte enteramente nueva que excluya S194+S195+S197; cero reglas
+por fabricante, producto o pregunta observada. Sólo cero incompletos/unsupported/facet-error abre
+el planner 90/80/75. `chunks_v3` sigue `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`; Railway no es gate.

@@ -1796,3 +1796,17 @@ determinista y screening excerpt-internal Luna de 14/14; locks/checkpoints, cero
 interno $3. Facts movidos = 0. El siguiente paso es integrar con CI verde y ejecutar una sola vez
 ese gate upstream; planner/targets sólo se abren después de GO. `chunks_v3` permanece NO-GO
 wholesale y Railway sigue fuera del gate de merge.
+
+## S197 (17 jul 2026) — transporte válido, autor semánticamente insuficiente (DEC-107)
+
+Desde `main@87a06bd` se ejecutó una sola cohorte real: doble scan idéntico de 25.090 filas,
+14 documentos/fabricantes nuevos, 7 tabla + 7 prosa y cero overlap S194/S195/targets. El schema
+rectangular S196 sí generalizó: Haiku hizo 14/14, 14 elegibles, 42 puntos y cero inválidos. Luna
+screened 14/14 por $0,063155 y paró el funnel: 12/14 ítems fallaron; 8 por point-set incompleto
+respecto a la pregunta, 5 por support/relevancia y 6 por facet. Total $0,15476.
+
+El resultado fue `NO_GO_COHORT_CONSTRUCTION`, facts 0 y planner/targets/DB/runtime intactos. La
+causa dominante pasa de compilación a scope closure: el mismo autor formula una pregunta amplia y
+luego sólo puede emitir cuatro puntos. Próximo mecanismo generalizable: puntos support-bound y
+facetados primero; pregunta acotada después; cohorte nueva excluyendo también S197. No se repara ni
+reintenta esta población. `chunks_v3` y Railway no cambian.

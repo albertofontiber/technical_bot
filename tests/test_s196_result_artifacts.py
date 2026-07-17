@@ -74,5 +74,8 @@ def test_s196_result_is_self_consistent_and_opens_only_a_separate_s197():
     serialized = json.dumps(result)
     assert "document_id" not in serialized
     assert "chunk_id" not in serialized
-    assert not (EVALS / "s197_fresh_source_packet_v1.json").exists()
+    s197 = _load("s197_fresh_source_packet_v1.json")
+    assert s197["selection"]["fresh_after_s196"] is True
+    assert s197["selection"]["s194_document_overlap"] == 0
+    assert s197["selection"]["s195_document_overlap"] == 0
     assert not (EVALS / "s197_author_gold_cohort_v1.json").exists()

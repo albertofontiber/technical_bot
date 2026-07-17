@@ -1,0 +1,186 @@
+instrument: s197_static_author_luna_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+models:
+  author:
+    provider: anthropic
+    id: claude-haiku-4-5-20251001
+    role: economic_fresh_static_cohort_author
+    max_output_tokens: 1200
+  semantic_validator:
+    provider: openai
+    id: gpt-5.6-luna
+    role: economic_cross_provider_excerpt_support_validator
+    reasoning_effort: none
+    max_output_tokens: 600
+    store: false
+sdk:
+  anthropic: 0.97.0
+  openai: 2.30.0
+execution:
+  author_calls_max: 14
+  semantic_validator_calls_max: 14
+  paid_calls_max: 28
+  provider_preflight_requests_max: 28
+  provider_requests_max: 56
+  retries: 0
+  frontier_execution_calls: 0
+  retrieval_calls: 0
+  reranker_calls: 0
+  database_calls: 0
+  database_writes: 0
+  downstream_planner_calls: 0
+  exclusive_lock_before_provider_requests: true
+  lock_scope: current_workspace
+  immutable_prepaid_checkpoints: true
+  atomic_progress_and_finalization: true
+validation:
+  eligible_questions_min: 12
+  eligible_manufacturers_min: 12
+  table_questions_min: 5
+  prose_questions_min: 5
+  answer_points_min: 24
+  invalid_author_outputs_max: 0
+  invalid_semantic_validator_outputs_max: 0
+  unsupported_claims_max: 0
+  unanswerable_questions_max: 0
+  passing_action: GO_STATIC_AUTHOR_LUNA_SCREENED_COHORT_SEALED
+  production: false
+  official_fact_credit: 0
+pricing_usd_per_million_tokens:
+  author:
+    input: 1
+    output: 5
+  semantic_validator:
+    input: 1
+    output: 6
+budget:
+  internal_ceiling_usd: 3
+  user_ceiling_usd: 250
+outputs:
+  execution_lock: evals/s197_static_author_luna_execution_lock_v1.json
+  author_prepaid: evals/s197_static_author_prepaid_v1.json
+  author_receipts: evals/s197_static_author_receipts_v1.json
+  semantic_prepaid: evals/s197_luna_semantic_prepaid_v1.json
+  semantic_receipts: evals/s197_luna_semantic_receipts_v1.json
+  screened_cohort: evals/s197_static_author_luna_screened_cohort_v1.json
+  result: evals/s197_static_author_luna_gate_v1.json
+static_transport_schema_sha256: 9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624
+forbidden:
+- change_static_schema_or_thresholds_after_freeze
+- chunks_v3_wholesale_reopen_or_per_question_patch
+- database_write_or_chunks_table_change
+- deployment_or_railway_gate
+- dynamic_author_source_id_enum_or_const
+- open_downstream_planner_or_protected_target_probe
+- production_or_official_fact_credit
+- retry_or_rebuild_same_source_cohort
+- use_frontier_model_for_execution
+frozen_inputs:
+  design:
+    path: evals/s197_static_author_luna_design_v1.md
+    sha256: 74b9815039b3a8aa2ce2c040f09fdf9eed235bb129a2265554e4547a76ca5e55
+  fresh_source_packet:
+    path: evals/s197_fresh_source_packet_v1.json
+    sha256: 6f5ae0f97fe1b07349becea9e4b1e83460a3108e88bec3ebdab4afa3a5012c18
+  source_builder:
+    path: scripts/s197_build_fresh_source_packet.py
+    sha256: 9162b8c8ffdcbddabe7cc75aa3dd13789499474f6c6720bc555b68cfad4368a2
+  s194_builder_dependency:
+    path: scripts/s194_build_fresh_source_packet.py
+    sha256: 1e2c4b5b64d0d00730018c35959d1b81a8c46d93a0221d187a9e5f19a7bca743
+  s195_builder_dependency:
+    path: scripts/s195_build_fresh_source_packet.py
+    sha256: ca3d101d8e5670443b45d3f02b041aeec91d2c5dfe6514d71ef34c93434bb9ae
+  runner:
+    path: scripts/s197_static_author_luna_gate.py
+    sha256: a7d5fc7a7032426ccaed263752c1879d9b3c8ea74b228b7e8a956ea4700a97ec
+  gate_tests:
+    path: tests/test_s197_static_author_luna_gate.py
+    sha256: 6725166045e06717744be86cdd302f9f5d65787178b62e16ec3555d28dfde057
+  s196_transport_authority:
+    path: scripts/s196_static_transport_canary.py
+    sha256: fe889a97df191a44ddeb9d803bc5145635e29daadb4b1e9906fd3fe0872f65f3
+  s195_semantic_authority:
+    path: scripts/s195_author_transport_gate.py
+    sha256: 4e1196edd3dbf12cd84fe64375492af651e53b974351ad069a051d7a4b9a99bd
+  s146_exclusion_authority:
+    path: scripts/s146_build_fresh_source_packet.py
+    sha256: fe4be2cb87e628557be6df37e4515510891a999503e1d9ecec0199e3787eab5e
+  s165_hash_authority:
+    path: scripts/s165_answer_archetype_ledger.py
+    sha256: 60c4a44740d34afebe5151df45ad76280a18664a959d2ee1024167d2e58e504f
+  s167_source_authority:
+    path: scripts/s167_build_independent_ledger_source.py
+    sha256: c4040bba8b4b5524a48b5c12b5d33ae0db29fc7fd11468e4001073aecc3723ee
+  s167_uuid_authority:
+    path: scripts/s167_build_independent_ledger_source_support.py
+    sha256: 210648549897259e56a5a600485996caacbfc7050505e32154f8daf3c0e46331
+  s114_prior_authority:
+    path: evals/s114_procedure_bundle_heldout_freeze_v1.json
+    sha256: 227e808a2ba2308acce89f90722fd46a63bad30aae0cde630191154b4ff07d94
+  evidence_unitizer:
+    path: src/rag/evidence_units_v2.py
+    sha256: 4bd52372005043b3346217849f8a1740636ccdd454033506a84e4d61ee294ead
+  runtime_requirements:
+    path: requirements.txt
+    sha256: f0332b0daa8a369c9d7d25036af73bfd3c8323b88b22b3bdd9d54639d535f378
+  canonical_decisions:
+    path: docs/DECISIONS.md
+    sha256: 1afbdc962b2ed698f9d21439793e37c8010598a6d6565abf968d156270c6fc55
+  sol_design_review:
+    path: evals/s197_sol56_xhigh_design_review_v1.md
+    sha256: f85ad2357d5cb677541ccc4d24cf08a547fc80f853376bca7f02b92431465721
+  prior_packet_s142_independent_source_packet_v1:
+    path: evals/s142_independent_source_packet_v1.json
+    sha256: 612b6d405ce5c8591b32f1d7ae81df628626299b55b68acceb948a4d68fcbe19
+  prior_packet_s146_fresh_source_packet_v1:
+    path: evals/s146_fresh_source_packet_v1.json
+    sha256: bc442d04fbc81d0181e636b72dc819af9cbcc035b3800f1337e48044f7d5ba4a
+  prior_packet_s147_fresh_source_packet_v1:
+    path: evals/s147_fresh_source_packet_v1.json
+    sha256: 38911f3e9b180064e4e9f5ae5e909e32dd6285dfb9f773944fa88184139f1295
+  prior_packet_s157_multichunk_source_packet_v1:
+    path: evals/s157_multichunk_source_packet_v1.json
+    sha256: 8927b3a99a14468316464aa0d4e4075188ecce2f64de9bee1b33185c8cf27693
+  prior_packet_s167_independent_ledger_source_packet_v1:
+    path: evals/s167_independent_ledger_source_packet_v1.json
+    sha256: 0fb9f2d051bde4d4dec6b96bc51b31f2eee9490cfea7f23f370938c4e47403a7
+  prior_packet_s168_source_unit_gold_packet_v1:
+    path: evals/s168_source_unit_gold_packet_v1.json
+    sha256: b181003192616121dcd435f387b9735b745f814094d6550f285b558f86903d66
+  prior_packet_s194_fresh_source_packet_v1:
+    path: evals/s194_fresh_source_packet_v1.json
+    sha256: e0fe2c63ab8514f2d6ad8ba21ea4f9211845d8b293be86c8e59676e741c8c54e
+  prior_packet_s195_fresh_source_packet_v1:
+    path: evals/s195_fresh_source_packet_v1.json
+    sha256: 690697cbd464c00d3e69093bd4ec0e1c56d965ea0000bb27c17b8ae6b58bba58
+  target_authority_s141_source_bound_technical_obligations_v1:
+    path: evals/s141_source_bound_technical_obligations_v1.json
+    sha256: 3bd96e427c0df15037a298fea7d6ae6089cf64b413219d60a07e58a552715606
+  target_authority_s149_target_evidence_selector_probe_v1:
+    path: evals/s149_target_evidence_selector_probe_v1.json
+    sha256: de5d43347f8e7cb244636a651c3c7fb6490967be79fe070391ca2c4b0a00500d
+  target_authority_s150_target_coverage_verifier_probe_v1:
+    path: evals/s150_target_coverage_verifier_probe_v1.json
+    sha256: af54c08ca93542b5e244b0560084f0415df46d31fcfacc30c141eedde36f72e3
+  target_authority_s158_target_table_preamble_probe_v1:
+    path: evals/s158_target_table_preamble_probe_v1.json
+    sha256: 8902c5ec27effa43e854942282bba297483963498a4b16424ca375310dc260eb
+  target_authority_s159_target_table_preamble_probe_v2:
+    path: evals/s159_target_table_preamble_probe_v2.json
+    sha256: 11dc46c3a37695c03184c2dbb2a5106db68e2a42d64c88973ef327fbf9c18c18
+  target_authority_s160_target_table_preamble_probe_v3:
+    path: evals/s160_target_table_preamble_probe_v3.json
+    sha256: e11202ef039149e308b906f19406bc8bf18c4dc77a5a81515322731c25b9cf74
+  target_authority_s163_synthesis_residual_audit_v1:
+    path: evals/s163_synthesis_residual_audit_v1.json
+    sha256: caaf08fbe9fdfc49550a2d3b7c8da6cbf6c012048d178def041ca02026541ab7
+  target_authority_s173_single_source_omission_cohort_v1:
+    path: evals/s173_single_source_omission_cohort_v1.json
+    sha256: b8df8cce6bced1fdd95d3f70bb0787c2a63769fcacafde317bc8a9149c1b053f
+  target_authority_s173_single_source_omission_correction_v1:
+    path: evals/s173_single_source_omission_correction_v1.json
+    sha256: cd8f563baf2b343d7d728c887fb89aece2a22c0e5349859e0bcc516feeb62eaa
+  target_authority_s193_terra_id_planner_deterministic_append_v1:
+    path: evals/s193_terra_id_planner_deterministic_append_v1.json
+    sha256: 1db394d05858e1ef053dc6f9db23267b10b077332a3878cb3821cbc5b6089875

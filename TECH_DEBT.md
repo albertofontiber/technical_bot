@@ -2000,11 +2000,19 @@ deuda sigue abierta y facts permanece en 0. La recuperación del runner Fable co
 histórico `omitted_unavailable`; dos respuestas finales vacías del proveedor quedaron auditadas,
 sin fingir una revisión completada.
 
-**Trigger actualizado:** congelar en un tramo S197 separado otra cohorte real fresca que excluya
-los 14 documentos de S194 y los 14 de S195. Reusar exactamente el schema estático S196 y el
-validador determinista, luego exigir Luna externa sobre todos los ítems. No modificar/reintentar
-S194/S195/S196 ni relajar cero inválidos/unsupported. Solo si ese upstream pasa se abre el planner
-con 90/80/75 intactos.
+**Resultado S197:** el instrumento se ejecutó una sola vez. El transporte dejó de fallar: 14/14
+outputs Haiku válidos, 14 preguntas elegibles y 42 puntos. La deuda abierta se desplaza a calidad
+semántica del autor: Luna rechazó 12/14 ítems (8 point-sets incompletos para la pregunta, 5 puntos
+no plenamente soportados/relevantes y 6 facets erróneos). Estado `NO_GO_COHORT_CONSTRUCTION`,
+facts 0. El próximo trigger ya no es repetir el schema estático, sino congelar point-first→pregunta
+acotada sobre otra cohorte que excluya S197 y exigir cero fallos antes de abrir el planner.
+
+**Trigger actualizado post-S197:** congelar primero un contrato genérico que seleccione 2–4
+obligaciones support-bound y facetadas antes de redactar la pregunta, y que exija equivalencia de
+alcance pregunta↔point-set. Después medirlo una sola vez sobre una cohorte nueva que excluya los
+14 documentos de S194, S195 y S197. No modificar/reintentar esas cohortes ni relajar cero
+inválidos/incompletos/unsupported/facet-error. Solo si ese upstream pasa se abre el planner con
+90/80/75 intactos.
 
 **Límite:** corregir el schema elimina una clase de invalidez del instrumento; no aporta evidencia
 de que el planificador descompuesto supere recall 90%/precisión 80%/completas 75%, ni mueve facts.

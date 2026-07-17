@@ -1,0 +1,28 @@
+instrument: s197_static_author_luna_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_NO_RETRY
+authority: user_requested_autonomous_next_segment
+limits:
+  paid_calls_max: 28
+  provider_requests_max: 56
+  retries: 0
+  internal_ceiling_usd: 3
+  frontier_execution_calls: 0
+  database_calls: 0
+  database_writes: 0
+  production_changes: 0
+  chunks_v3_changes: 0
+  deployments: 0
+  exclusive_lock_before_provider_requests: true
+  lock_scope: current_workspace
+  immutable_prepaid_checkpoints: true
+  atomic_progress_and_finalization: true
+frozen_artifacts:
+  preregistration:
+    path: evals/s197_static_author_luna_prereg_v1.yaml
+    sha256: a95fea61d0553f8b68d7a59631181d56346f79d76ed2328f4230d2f5b8994aa7
+  runner:
+    path: scripts/s197_static_author_luna_gate.py
+    sha256: a7d5fc7a7032426ccaed263752c1879d9b3c8ea74b228b7e8a956ea4700a97ec
+  gate_tests:
+    path: tests/test_s197_static_author_luna_gate.py
+    sha256: 6725166045e06717744be86cdd302f9f5d65787178b62e16ec3555d28dfde057

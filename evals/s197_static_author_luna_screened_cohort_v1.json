@@ -1,0 +1,1863 @@
+{
+  "instrument": "s197_static_author_luna_screened_cohort_v1",
+  "status": "SEALED_REJECTED_COHORT_CONSTRUCTION",
+  "source_packet_sha256": "6f5ae0f97fe1b07349becea9e4b1e83460a3108e88bec3ebdab4afa3a5012c18",
+  "static_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+  "population_checks": {
+    "eligible_questions_gte_12": true,
+    "eligible_manufacturers_gte_12": true,
+    "table_questions_gte_5": true,
+    "prose_questions_gte_5": true,
+    "answer_points_gte_24": true,
+    "author_invalid_outputs_zero": true
+  },
+  "external_semantic_checks": {
+    "all_items_cross_provider_reviewed": true,
+    "semantic_validator_invalid_outputs_zero": true,
+    "all_eligibility_decisions_correct": true,
+    "all_eligible_questions_spanish": true,
+    "all_eligible_questions_natural_for_field_technician": true,
+    "all_eligible_answer_points_semantically_distinct": true,
+    "all_eligible_answer_point_sets_complete_within_excerpt": false,
+    "all_eligible_questions_answerable_within_excerpt": true,
+    "all_claims_fully_supported_within_excerpt": false,
+    "all_answer_point_facets_correct": false,
+    "semantic_receipts_bound_to_inputs_schemas_raw_and_reviews": true
+  },
+  "items": [
+    {
+      "item_id": "s197_src_01",
+      "eligible": true,
+      "question": "¿Cómo se configuran los códigos de eventos para alarma general y supervisión general en el formato 3+1 o 4+1 cuando se programa el número principal?",
+      "answer_points": [
+        {
+          "claim": "Para formatos 3+1, 4+1 Express y 4+1 estándar, introducir valores específicos en la dirección 16 activa automáticamente la programación de códigos de eventos del número principal.",
+          "facet": "access_or_prerequisite",
+          "support_unit_ids": [
+            "E004_f88882b03a",
+            "E001_d01850e94d"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E004_f88882b03a",
+              "source_spans": [
+                [
+                  65,
+                  422
+                ]
+              ],
+              "content_sha256": "7460f9bc5454cd1f8a5a155dd458225ce099ba514086f08ef9941e5675dfab3b"
+            },
+            {
+              "unit_id": "E001_d01850e94d",
+              "source_spans": [
+                [
+                  0,
+                  42
+                ]
+              ],
+              "content_sha256": "c6513737005dbd2b0e5dca786fef65eedb90dd494a1851c21db8ffe473218135"
+            }
+          ]
+        },
+        {
+          "claim": "El código de Alarma General se configura en la dirección 69 con selección predeterminada 1, y el código de Supervisión General en la dirección 71 con selección predeterminada 8.",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E007_24838ecf98",
+            "E009_4c9bbecaeb"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E007_24838ecf98",
+              "source_spans": [
+                [
+                  634,
+                  739
+                ]
+              ],
+              "content_sha256": "b0bec0ff22ceafa867a57db8845c3a3051ea9b2d25e6b7f9cb59000f9e5bfa02"
+            },
+            {
+              "unit_id": "E009_4c9bbecaeb",
+              "source_spans": [
+                [
+                  844,
+                  949
+                ]
+              ],
+              "content_sha256": "cbe129eba86976f3854dad16d5a76915413f007d67935cfd4a46c5db6a8db8eb"
+            }
+          ]
+        },
+        {
+          "claim": "Introducir 0 en cualquier campo de selección de datos inhibe la transmisión del evento correspondiente a la receptora.",
+          "facet": "safety_warning_exception_or_conflict",
+          "support_unit_ids": [
+            "E046_adf9cb28b7"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E046_adf9cb28b7",
+              "source_spans": [
+                [
+                  4310,
+                  4406
+                ]
+              ],
+              "content_sha256": "5784440e9be8fd2739bf229b4190ac32a3fc57277629fa70f3aaf8c0088f64f7"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Notifier",
+      "product_model": "UDACT",
+      "document_id": "49a08cd1-e2b6-45dc-913f-f30e28b57ffe",
+      "chunk_id": "a8adf5ec-3a30-4f45-8241-da847f722367",
+      "excerpt_sha256": "7880553c741e841992632c90fe6c2e24b3464c4b1c29ef9f42a07cb56b1e79d4",
+      "excerpt": "# Formatos 3+1, 4+1 Express y 4+1 estándar\n\n## Número principal\n\nSi introduce '0, 2, 4, 6 u 8' en la dirección 16, se programarán automáticamente los datos siguientes como códigos de eventos del número de teléfono principal. Introduzca '0' en la selección de datos para desactivar el informe. Estos formatos no soportan la programación de zona/punto. Para el informe de zona/punto, consulte el apartado sobre \"Contact ID\".\n\n| Dirección | Descripción                                                                  | Selección |\n| --------- | ---------------------------------------------------------------------------- | --------- |\n| 69        | Nº Principal. Código de Alarma General                                       | 1         |\n| 70        | Nº Principal. Código de Alarma de Zona/Punto                                 | 0         |\n| 71        | Nº Principal. Código de Supervisión General                                  | 8         |\n| 72        | Nº Principal. Código de Supervisión de Zona/Punto                            | 0         |\n| 73        | Nº Principal. Código de Avería General                                       | F         |\n| 74        | Nº Principal. Código de Avería de alimentación AC                            | F         |\n| 75        | Nº Principal. Código de Avería de Zona/Punto                                 | 0         |\n| 76        | Nº Principal. Código de Avería de Baja Batería                               | F         |\n| 77        | Nº Principal. Código de Avería de Línea Principal Telco                      | F         |\n| 78        | Nº Principal. Código de Avería de Línea Secundaria Telco                     | F         |\n| 79        | Nº Principal. Código de Avería NAC (circ. señalización)                      | F         |\n| 80        | Nº Principal. Código de Fallo de Comunicaciones nº principal                 | F         |\n| 81        | Nº Principal. Código de Fallo de Comunicaciones nº secundario                | F         |\n| 82        | Nº Principal. Código de Fallo de Comunicaciones en la línea RS485            | F         |\n| 83        | Nº Principal. Código de Sistema en Alarma/Avería                             | F         |\n| 84        | Nº Principal. Código de UDACT en Alarma/Avería                               | F         |\n| 85        | Nº Principal. Código de Restablecimiento de Alarma General                   | E         |\n| 86        | Nº Principal. Código de Restablecimiento de Alarma Zona/Punto                | 0         |\n| 87        | Nº Principal. Código de Restablecimiento de Supervisión General              | E         |\n| 88        | Nº Principal. Código de Restablecimiento de Supervisión Zona/Punto           | 0         |\n| 89        | Nº Principal. Código de Restablecimiento de Avería General                   | E         |\n| 90        | Nº Principal. Código de Restablecimiento de Avería de alimentación AC        | E         |\n| 91        | Nº Principal. Código de Restablecimiento de Avería Zona/Punto                | 0         |\n| 92        | Nº Principal. Código de Restablecimiento de Avería de Baja Batería           | E         |\n| 93        | Nº Principal. Código de Restablecimiento de Avería de Línea Principal Telco  | E         |\n| 94        | Nº Principal. Código de Restablecimiento de Avería de Línea Secundaria Telco | E         |\n| 95        | Nº Principal. Código de Restablecimiento de Avería NAC (circ. señalización)  | E         |\n| 96        | Nº Principal. Código de Restablecimiento de Fallo de Comunic. nº principal   | E         |\n| 97        | Nº Principal. Código de Restablecimiento de Fallo de Comunic. nº secundario  | E         |\n| 98        | Nº Principal. Código de Restablecimiento de Fallo de línea RS485             | E         |\n| 99        | Nº Principal. Código de Restablecimiento de Sistema en Alarma/Avería         | E         |\n| 100       | Nº Principal. Código de Restablecimiento de UDACT en Alarma/Avería           | E         |\n| 101       | Nº Principal. Sistema en Prueba 24 horas                                     | 9         |\n| 102       | Nº Principal. Sistema en Prueba 24 horas con evento activo                   | F         |\n| 103       | Nº Principal. Prueba Manual                                                  | 9         |\n\n**Nota:** Si introduce un 0 en algún campo, no se transmitirá el evento indicado a la receptora.\n\n### Tabla 4. Códigos de eventos, número principal\n\nMN-DT-390 NOTIFIER ESPAÑA 32"
+    },
+    {
+      "item_id": "s197_src_02",
+      "eligible": true,
+      "question": "¿Cuál es el rango de tensión de alimentación correcto para el dispositivo MI-OSI-RIE y qué corrientes máximas debo esperar en diferentes condiciones de operación?",
+      "answer_points": [
+        {
+          "claim": "El dispositivo requiere una tensión de entrada de 15 a 32 V CC nominales, o de 15 a 28,5 V si se utiliza un aislador de cortocircuitos.",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E002_efe72bad19",
+            "E004_5e6793b8c3"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E002_efe72bad19",
+              "source_spans": [
+                [
+                  0,
+                  1179
+                ]
+              ],
+              "content_sha256": "b29e957d1713079cb9fa536cb7bd9566cf9ed9c195be6558db1047aba98d4ffe"
+            },
+            {
+              "unit_id": "E004_5e6793b8c3",
+              "source_spans": [
+                [
+                  786,
+                  1179
+                ]
+              ],
+              "content_sha256": "fafebfd965347c5fb3b5c416612ba9e278ad208b9956c68d92ad54ff74da931e"
+            }
+          ]
+        },
+        {
+          "claim": "La corriente en reposo máxima varía según la tensión: a 32 V consume 13 mA, mientras que a 15 V consume 20 mA con un sondeo por segundo.",
+          "facet": "measurement_limit_or_timing",
+          "support_unit_ids": [
+            "E006_4f7aff2a03",
+            "E017_98928a9f48"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E006_4f7aff2a03",
+              "source_spans": [
+                [
+                  1179,
+                  1572
+                ]
+              ],
+              "content_sha256": "84dceec65c7ed55c728426bdeac175af781921dc260c25ef3b5690961a1cfb1a"
+            },
+            {
+              "unit_id": "E017_98928a9f48",
+              "source_spans": [
+                [
+                  0,
+                  392
+                ],
+                [
+                  1179,
+                  1571
+                ]
+              ],
+              "content_sha256": "fde8eeeb8300043425ef71c45001cb2b54f8f972b2c38ae03b7490fec95e5942"
+            }
+          ]
+        },
+        {
+          "claim": "En condición de alarma con el LED encendido, el consumo máximo es de 22 mA tanto a 32 V como a 15 V durante el sondeo del dispositivo.",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E006_4f7aff2a03"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E006_4f7aff2a03",
+              "source_spans": [
+                [
+                  1179,
+                  1572
+                ]
+              ],
+              "content_sha256": "84dceec65c7ed55c728426bdeac175af781921dc260c25ef3b5690961a1cfb1a"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Morley",
+      "product_model": "MI-OSI-RIE",
+      "document_id": "a22a6842-5aaa-4fc5-bcb4-e677d7adedb9",
+      "chunk_id": "7fa41a3e-2046-4149-a935-29f5ec120321",
+      "excerpt_sha256": "cb8f0e47919ea4ebd47a04aacc5c6136b94727e90a1050ddddac42b8bd76a76f",
+      "excerpt": "| Suministro eléctrico                                        | Valor                                                                                                                                                                                                                                                                                                                                  |\n| ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| Tensión:                                                    | Sin Aislador: 15 a 32 V CC (24 V CC nominal)<br/>Con Aislador: 15-28,5 V si se utilizan aislantes                                                                                                                                                                                                                                      |\n| Corriente en reposo                                         | Corriente de reposo máxima<br/>A 32 V con 1 sondeo por segundo al dispositivo,<br/>13 mA<br/>A 15 V con 1 sondeo por segundo al dispositivo,<br/>20 mA<br/><br/>Corriente de alarma máxima (LED encendido)<br/>A 32 V con 1 sondeo por segundo al dispositivo,<br/>22 mA<br/>A 15 V con 1 sondeo por segundo al dispositivo,<br/>22 mA |\n| Alimentación externa:                                       | Tensión: de 15 a 32 VCC (15-28,5 V si se utilizan<br/>aislador)<br/>Corriente: 0,5 A como máximo para el calentador                                                                                                                                                                                                                    |\n| Tiempo de<br/>restablecimiento:                             | 500 mseg. como máximo                                                                                                                                                                                                                                                                                                                  |\n| Tiempo de puesta en<br/>marcha (después del<br/>encendido): | 30 segundos como máximo                                                                                                                                                                                                                                                                                                                |\n| Tiempo de verificación<br/>de alarma:                       | 5 segundos como máximo                                                                                                                                                                                                                                                                                                                 |\n| Salidas remotas:                                            | TENSIÓN: de 15 a 32 VCC;<br/><br/>Nota: Tensión de salida igual que la tensión<br/>de entrada del dispositivo<br/>CORRIENTE: 15 mA como máximo;<br/>6 mA como mínimo;<br/><br/>Nota: La corriente de salida está limitada<br/>por la resistencia 2,2 Kohm                                                                              |\n| Anunciador remoto<br/>RTS151KEYremoto<br/>/RTS151KIT        | TENSIÓN: de 10,2 a 32 VCC<br/><br/>CORRIENTE: 9 mA como mínimo, 11 mA como<br/>máximo                                                                                                                                                                                                                                                  |\n| Aislador de<br/>cortocircuitos:                             | Documento de especificaciones S00-0021                                                                                                                                                                                                                                                                                                 |"
+    },
+    {
+      "item_id": "s197_src_03",
+      "eligible": true,
+      "question": "¿Cuál es el rango de tensión de funcionamiento y cuáles son los niveles de corriente de salida analógica 4-20 mA para los diferentes estados operativos del detector?",
+      "answer_points": [
+        {
+          "claim": "El detector opera con una tensión de 18 a 32 VDC",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E004_6036cc9292",
+            "E005_a3ffd5cae9"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E004_6036cc9292",
+              "source_spans": [
+                [
+                  68,
+                  101
+                ]
+              ],
+              "content_sha256": "e0bb05e117bf58e1086355a8624ffbf9850bcbb9635463c36194ae6324bd202c"
+            },
+            {
+              "unit_id": "E005_a3ffd5cae9",
+              "source_spans": [
+                [
+                  103,
+                  112
+                ]
+              ],
+              "content_sha256": "44a60f9008c418487ea964e4a0fefaf175c777ef85680fa62d688a3e360bf13f"
+            }
+          ]
+        },
+        {
+          "claim": "La salida 4-20 mA indica estados específicos: 4 mA en funcionamiento normal, 8 mA en detección infrarroja, 12 mA en detección ultravioleta, 16 mA en aviso y 20 mA en alarma",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E017_def56d5a63",
+            "E019_7768bc2bd0"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E017_def56d5a63",
+              "source_spans": [
+                [
+                  1658,
+                  1748
+                ]
+              ],
+              "content_sha256": "f976a17c7120103e1340fbd4a4d3799eaa07c4f8f65de8ab144fa9867e04c808"
+            },
+            {
+              "unit_id": "E019_7768bc2bd0",
+              "source_spans": [
+                [
+                  1750,
+                  1987
+                ]
+              ],
+              "content_sha256": "5307b761ac293bfd60702cfab5d2ce61addecb199916dcd8d3a0bc15f3447814"
+            }
+          ]
+        },
+        {
+          "claim": "La corriente analógica se transmite mediante los terminales 11 y 12, donde el terminal 12 es positivo y el terminal 11 debe conectarse al retorno (RTN en terminal 2), con una resistencia máxima permitida de 600 ohmios",
+          "facet": "access_or_prerequisite",
+          "support_unit_ids": [
+            "E020_84de862721",
+            "E049_4c9e2e9d5e",
+            "E048_c5257a265e"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E020_84de862721",
+              "source_spans": [
+                [
+                  1989,
+                  2220
+                ]
+              ],
+              "content_sha256": "c9fd08bd04ed7bfe92155ef6bf3c20dd0c483140eb9c9ebfeabf1e8593011fdb"
+            },
+            {
+              "unit_id": "E049_4c9e2e9d5e",
+              "source_spans": [
+                [
+                  404,
+                  455
+                ],
+                [
+                  1080,
+                  1131
+                ]
+              ],
+              "content_sha256": "c3226817a360c4c380d73492c9fe6bce9f188f91234ab12aeac432495b5e75b5"
+            },
+            {
+              "unit_id": "E048_c5257a265e",
+              "source_spans": [
+                [
+                  404,
+                  455
+                ],
+                [
+                  1028,
+                  1079
+                ]
+              ],
+              "content_sha256": "3218e34b9b8964a0451fd9b39bb029c12ab9e4adbc52617f11e76dc07d4bffde"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Spectrex",
+      "product_model": "20/20LB",
+      "document_id": "1e2b058a-4951-4d67-b9c9-61e009ccd59f",
+      "chunk_id": "cdc77558-1819-4e9a-b5ea-a1caf2021668",
+      "excerpt_sha256": "195ebfbfacb6cd147acd6bd63afd91bd9adae4fae439906e606e298e92b514be",
+      "excerpt": "# 5. ESPECIFICACIONES TÉCNICAS\n\n## 5.1 ESPECIFICACIONES ELÉCTRICAS\n\n### a. Tensión de Funcionamiento:\n\n18-32 VDC\n\n### b. Consumo de Alimentación:\n\nMáximo: 100 mA en reposo\nMáximo: 150 mA en alarma\n\n### c. Protección de entrada eléctrica:\n\nEl circuito de entrada está protegido contra transitorios de tensión de polaridad invertida, sobretensiones y picos según MIL-STD-1275.\n\n### d. Interface Eléctrica\n\n| Terminales | Función                            |\n| ---------- | ---------------------------------- |\n| 1          | ENTRADA FUENTE DE ALIMENTACIÓN (+) |\n| 2          | RTN                                |\n| 3          | PRUEBA (BIT) MANUAL                |\n| 4          | RELÉ ALARMA (N.A.)                 |\n| 5          | RELÉ ALARMA (COMÚN)                |\n| 6          | RELÉ ALARMA (N.C)                  |\n| 7          | RELÉ AVERÍA (N.A)                  |\n| 8          | RELÉ AVERÍA (COMÚN)                |\n| 9          | RELÉ ACCESORIO (N.A)               |\n| 10         | RELÉ ACCESORIO (COMÚN)             |\n| 11         | 4-20mA (-)                         |\n| 12         | 4-20mA (+)                         |\n\n### e. Salidas Eléctricas:\n\nValores para los relés de contacto seco:\n\n| Nombre Relé    | Tipo | Posición Normal | Valores Máximos                |\n| -------------- | ---- | --------------- | ------------------------------ |\n| Relé de Alarma | DPDT | N.A, N.C        | 2 A a 30 VDC o 0,5 A a 250 VAC |\n| Relé Accesorio | SPST | N.A             | 5 A a 30 VDC o 250VAC          |\n| Relé de Avería | SPST | N.C             | 5 A a 30 VDC o 250 VAC         |\n\nMN-DT-720                    SPECTRONIX                    21\n\n----\n\nNivel de salida de 4-20 mA en diferentes estados del detector (en los terminales 11 y 12):\n\n| Avería:       | 0mA  | +0,5mA |\n| ------------- | ---- | ------ |\n| Normal:       | 4mA  | ±5%    |\n| Detección IR: | 8mA  | ±5%    |\n| Detección UV  | 12mA | ±5%    |\n| Aviso:        | 16mA | ±5%    |\n| Alarma:       | 20mA | ±5%    |\n\n* La salida 4-20mA es un tipo de corriente. La señal es conducida vía el terminal 12 hacia el terminal 11 que debe estar en nivel RTN. (Cuando está conectado al terminal 2).\n* Máxima resistencia permitida para 4-20mA es de 600 ohm.\n\n## 5.2 ESPECIFICACIONES MECÁNICAS\n\n**a. Carcasa:**\n\nCarcasa de aluminio o de acero inoxidable 316.\nRevestimiento cromado y acabado en esmalte Epoxy para aluminio.\nRevestimiento electroquímico y pasivación para acero inoxidable 316.\n\n**b. Antideflagrante**\n\nDiseñado para cumplir con los requisitos de FM:\n\nClase I Div. 1 Grupo B, C y D.\nClase II Div. 1 Grupos E , F y G.\n\n**Aprobado CENELEC** (SCS Nº. Ex95D1159).\nEExd IIB T5 (70º) y T4 (85º) para En50014 y EN 50018\n\n**c. Módulos Eléctricos**\n\nRevestimiento aprobado\n\n**d. Conexión eléctrica:**\n\nEstándar:      Dos conductos ¾ \" - 14NPT\nOpcional :     Dos conductos M25 x 1,5\n\n**e. Dimensiones**\n\nBase:          132 cm x 132 cm\nAltura:        120 cm\n\n**f. Peso**\n\n3,7 Kg - Carcasa de aluminio\n6,5 Kg - Carcasa de acero inoxidable\n\n## 5.3 ESPECIFICACIONES MENDIOAMBIENTALES"
+    },
+    {
+      "item_id": "s197_src_04",
+      "eligible": true,
+      "question": "¿A qué altura debe instalarse el detector DGD-600 y por qué es importante esa posición?",
+      "answer_points": [
+        {
+          "claim": "El detector DGD-600 para gases más ligeros que el aire debe colocarse a 30 cm del techo",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E013_71a4ae45fa",
+            "E014_6c51bb8e36"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E013_71a4ae45fa",
+              "source_spans": [
+                [
+                  776,
+                  983
+                ]
+              ],
+              "content_sha256": "1e139bbc806e8de666aa9f2f589abbc1ac51ef2c003a59b0fff34ab7a0136470"
+            },
+            {
+              "unit_id": "E014_6c51bb8e36",
+              "source_spans": [
+                [
+                  985,
+                  1044
+                ]
+              ],
+              "content_sha256": "895211d57ae006f9cce624a21f0ae7437030692dd641258ddd6fbd492245a187"
+            }
+          ]
+        },
+        {
+          "claim": "La altura de instalación se determina por la densidad del gas específico que se detecta",
+          "facet": "input_trigger_or_observed_condition",
+          "support_unit_ids": [
+            "E013_71a4ae45fa",
+            "E021_240f5c98bd"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E013_71a4ae45fa",
+              "source_spans": [
+                [
+                  776,
+                  983
+                ]
+              ],
+              "content_sha256": "1e139bbc806e8de666aa9f2f589abbc1ac51ef2c003a59b0fff34ab7a0136470"
+            },
+            {
+              "unit_id": "E021_240f5c98bd",
+              "source_spans": [
+                [
+                  1520,
+                  1645
+                ]
+              ],
+              "content_sha256": "c4d2c31408fe9a8b4e6ac9e0e6c24e09f27e72b8c33fbcb063fe4692eea53df2"
+            }
+          ]
+        },
+        {
+          "claim": "El detector debe ser instalado por personal calificado para garantizar una operación segura y correcta",
+          "facet": "access_or_prerequisite",
+          "support_unit_ids": [
+            "E005_eaa031f3f4",
+            "E004_7adfc3bca6"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E005_eaa031f3f4",
+              "source_spans": [
+                [
+                  134,
+                  191
+                ]
+              ],
+              "content_sha256": "07725d89ab46bf897593ee208e6360985b27a9011666891a0e2d46842eb4688f"
+            },
+            {
+              "unit_id": "E004_7adfc3bca6",
+              "source_spans": [
+                [
+                  61,
+                  132
+                ]
+              ],
+              "content_sha256": "9321fa15d89e500475e8bbb3917a26011f707ea338109326d915bacae7e0e6f5"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Detnov",
+      "product_model": "DGD-600",
+      "document_id": "4fa6d176-48a2-4283-a52a-b681c792d394",
+      "chunk_id": "c686587f-ed88-4594-af2c-0402264d2cec",
+      "excerpt_sha256": "3b32b59e5454b8fcdd5f68b0f8c74869e78a8fa27a3920e5f827bcf1b2a41959",
+      "excerpt": "# STAND - ALONE GAS DETECTOR\n\n## Stand - alone gas detector\n\n*Read and understand manual before operating or servicing this device.*\n\n*This device should be installed by qualified personnel.*\n\n*Some cleaning products like bleach, ammonia… thinners or paints and its gases may effect on the detection process.*\n\n*Do not handle without disconnecting power supplier wires.*\n\n*Only clean the Detector with a wet cloth.*\n\n*It's posible to smell gas before to detect the leak*\n\n*in case of alarm: do not operate any electrical switches (on or off), do not smoke or use a naked flame. Open doors and windows to ventilate the area, check your gas appliances and turn them off and if it's posible turn the gas supply off at the main control valve.*\n\n## ~~Placement of the detectors~~\n\nConsidering the different density of gases, the detector for LP gases will be installed at 30cm from the ground. And the detector for gases lighter than air at 30cm from the roof, as indicates in the figure:\n\n| 30 cm | DGD-600 |\n| ----- | ------- |\n| 30 cm | DGD-620 |\n\n## ~~Sensor mounting~~\n\nTo extract a detector that has been mounted, it is necessary to press with a screwdriver into the slot to release the locking tab.\n\nBases could be screwed to the wall or mounted over a 35mm DIN rail\n\nDetectors are directly fixed to their base as the image shows.\n\n## 1- Introducction\n\nThe range of stand-alone gas detectors has been developed in order to detect any leak of flammable gas for everyday use and it is composed of the following models:\n\n- Gases lighter than air: Methane, city gas, natural gas. DGD-600\n- Liquefied petroleum gas (LP): butane and propane. DGD-620\n\nBoth of them include 1 relay to alarm signal and other to fault signal, also 3 LEDS to indicate what the status is at that moment: green- service, yellow-fault and red-alarm.\n\n## 2- Installation\n\nDGD-600 must be connected to 24V or 220V (depending on the model) through the connectors intended for it. The images below show the standard connection for the stand alone detectors.\n\n**220V:**\n\n```\nL -------- 230VAC\nN\n           + LOOP IN\n           + LOOP OUT ---- ADDRESSABLE\n                      ---- CONVENTIONAL\n```\n\n**24V:**\n\n```\n           + -------- 24VCC\n           -\n           + LOOP IN\n           + LOOP OUT ---- ADDRESSABLE\n                      ---- CONVENTIONAL\n```\n\nOptionally detectors can be connected to the information lines of the loop to add them to any analogue DETNOV detection systems\n\n```\nL -------- 230VAC\nN\nLOOP IN\nLOOP OUT\n           + LOOP IN\n           + LOOP OUT ---- ADDRESSABLE\n                      ---- CONVENTIONAL\n```\n\nTo connect the detector to the analogue system is necessary give it a correct addresses with PGD-200 and place three jumpers on addressable position. If not all of them must be on stand-alone position.\n\nThe relays can be used on any electrical circuit. Check the technical data section for specifications off relays\n\n## 3- Test and maintenance"
+    },
+    {
+      "item_id": "s197_src_05",
+      "eligible": true,
+      "question": "¿Cuál es el rango de voltaje de operación normal y la corriente de espera que debe suministrarse al módulo IM-10?",
+      "answer_points": [
+        {
+          "claim": "El módulo IM-10 requiere un voltaje de operación normal entre 15 y 32 VDC",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E002_d39ec02abf",
+            "E021_e298e4c71b"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E002_d39ec02abf",
+              "source_spans": [
+                [
+                  0,
+                  1182
+                ]
+              ],
+              "content_sha256": "b25e0604569dd8f0c242855a27f3e33c9ffbe682bcc1f58fcb3af8bb4d757eb5"
+            },
+            {
+              "unit_id": "E021_e298e4c71b",
+              "source_spans": [
+                [
+                  184,
+                  258
+                ],
+                [
+                  334,
+                  408
+                ]
+              ],
+              "content_sha256": "bf61b5e6930e7969fe76a80b8448a0a649ce34d1b4952192694b14830fa288ed"
+            }
+          ]
+        },
+        {
+          "claim": "La corriente de espera del módulo es de 3.5 mA en condiciones normales de funcionamiento",
+          "facet": "measurement_limit_or_timing",
+          "support_unit_ids": [
+            "E021_e298e4c71b"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E021_e298e4c71b",
+              "source_spans": [
+                [
+                  184,
+                  258
+                ],
+                [
+                  334,
+                  408
+                ]
+              ],
+              "content_sha256": "bf61b5e6930e7969fe76a80b8448a0a649ce34d1b4952192694b14830fa288ed"
+            }
+          ]
+        },
+        {
+          "claim": "La corriente de alarma alcanza 60 mA cuando todos los diez indicadores LED están encendidos continuamente",
+          "facet": "measurement_limit_or_timing",
+          "support_unit_ids": [
+            "E022_a003f23a24"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E022_a003f23a24",
+              "source_spans": [
+                [
+                  184,
+                  258
+                ],
+                [
+                  409,
+                  483
+                ]
+              ],
+              "content_sha256": "4907ad2d7330b10d1a0980721954e3fa33226b3391691a7b1fdc848e70f64727"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "System Sensor",
+      "product_model": "IM-10",
+      "document_id": "7cf27ee4-e60c-4491-a292-e202a660aa00",
+      "chunk_id": "d6882d15-03fc-490b-b654-7b427c6a4040",
+      "excerpt_sha256": "6436557321a10d072157bf36c038c10616346a71e396b06ec1996073deffe85d",
+      "excerpt": "INSTALLATION AND MAINTENANCE INSTRUCTIONS\n\n# IM-10\n\n# Ten Input Monitor Module\n\n**SYSTEM SENSOR®**\n\nPittway Technologica S.p.A\nVia Caboto 19/3\n34147 Trieste, Italy\n\n## SPECIFICATIONS\n\n| Normal Operating Voltage:      | 15-32 VDC                             |\n| ------------------------------ | ------------------------------------- |\n| Stand-By Current:              | 3.5 mA                                |\n| Alarm Current:                 | 60 mA (assumes all ten LEDs solid on) |\n| Temperature Range:             | –10°C to 55°C                         |\n| Humidity:                      | 10 to 93% Non condensing              |\n| Dimensions:                    | 17.3cm H x 14.7cm W x 3.2cm D         |\n| Accessories:                   | Suitably grounded metallic cabinet    |\n| Wire Gauge:                    | 0.9mm2 - 3.25mm2                      |\n| Maximum SLC Wiring Resistance: | 40 Ohms                               |\n| Maximum IDC Wiring Resistance: | 40 Ohms                               |\n| Maximum IDC Voltage:           | 12 VDC                                |\n| Maximum IDC Current:           | 1 mA                                  |\n\n## BEFORE INSTALLING\n\nThis information is included as a quick reference installation guide. Refer to the appropriate control panel installation manual for detailed system information. If the modules will be installed in an existing operational system, inform the operator and local authority that the system will be temporarily out of service. Disconnect the power to the control panel before installing the modules. This system contains static sensitive components. Always ground yourself with a proper wrist strap before handling any circuits so that static charges are removed from the body. The housing cabinet should be metallic and suitably grounded.\n\n**NOTICE:** This manual should be left with the owner/user of this equipment.\n\n## GENERAL DESCRIPTION\n\nThe IM-10 Ten Input Monitor Module is intended for use in an intelligent alarm system. Each monitor module is intended to interface between a control panel and normally open contact devices, such as pull stations. A common SLC input is used for all modules, and the initiating device loops share a common supervisory supply and ground. Otherwise, each monitor operates independently from the others. Each module has its own unique address.\n\nA pair of rotary code switches is used to set the address of the first module from 01 to 90. The remaining modules are automatically assigned to the next nine higher addresses. Provisions are included for disabling a maximum of two unused modules to release the addresses to be used elsewhere. Each module also has panel controlled green LED indicators. The panel can cause the LEDs to blink, latch on, or latch off.\n\n**Included:**\n\n(6) 1 x 4 Terminal Blocks    (2) 3.2 cm Stand offs\n\n(2) Screws              (3) Shunts        (10) 47k Ohm\n                                          End of Line Resistors\n\n**Shipped on Board:**\n(1) Shunt\n\n## COMPATIBILITY REQUIREMENTS"
+    },
+    {
+      "item_id": "s197_src_06",
+      "eligible": true,
+      "question": "¿Cómo se utiliza la función Instant Fault Finder en el detector VESDA VLF-250 para diagnosticar fallos?",
+      "answer_points": [
+        {
+          "claim": "La función Instant Fault Finder se activa pulsando simultáneamente los botones Restablecer y Desactivar.",
+          "facet": "input_trigger_or_observed_condition",
+          "support_unit_ids": [
+            "E016_ac060edad9",
+            "E008_74e179b2e3"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E016_ac060edad9",
+              "source_spans": [
+                [
+                  2008,
+                  2395
+                ]
+              ],
+              "content_sha256": "b3b086cb2696ec03cdca11835736607e33545de4cf26390b08ac838d38e0dcfe"
+            },
+            {
+              "unit_id": "E008_74e179b2e3",
+              "source_spans": [
+                [
+                  984,
+                  2105
+                ]
+              ],
+              "content_sha256": "098e95a968540862bbd5bebd525d6e4bf923691898772f70d12d13e0ffa0ca98"
+            }
+          ]
+        },
+        {
+          "claim": "Cuando se registra un fallo, la luz de fallo (D) permanece encendida para fallos graves y parpadea para fallos leves, indicando la gravedad del problema.",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E015_54e521fd91",
+            "E008_74e179b2e3"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E015_54e521fd91",
+              "source_spans": [
+                [
+                  1874,
+                  2006
+                ]
+              ],
+              "content_sha256": "947385c24034c4717ac0704b2daa7199a6d5f3ae8153001f581fa7080a33f885"
+            },
+            {
+              "unit_id": "E008_74e179b2e3",
+              "source_spans": [
+                [
+                  984,
+                  2105
+                ]
+              ],
+              "content_sha256": "098e95a968540862bbd5bebd525d6e4bf923691898772f70d12d13e0ffa0ca98"
+            }
+          ]
+        },
+        {
+          "claim": "El Instant Fault Finder proporciona diagnóstico rápido iluminando uno o más segmentos del Dial del humo, donde cada segmento indicado corresponde a un número de fallo específico con acciones recomendadas.",
+          "facet": "verification_commissioning_or_recovery",
+          "support_unit_ids": [
+            "E016_ac060edad9",
+            "E013_66cb21ace1"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E016_ac060edad9",
+              "source_spans": [
+                [
+                  2008,
+                  2395
+                ]
+              ],
+              "content_sha256": "b3b086cb2696ec03cdca11835736607e33545de4cf26390b08ac838d38e0dcfe"
+            },
+            {
+              "unit_id": "E013_66cb21ace1",
+              "source_spans": [
+                [
+                  1841,
+                  2594
+                ]
+              ],
+              "content_sha256": "5c2135ed8883c12c7fe7fb9c41683eb00f33d6888b2309dc1435a2d455fe121e"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-VLF",
+      "document_id": "144d759a-400f-44e7-8496-e5ffd706ec5e",
+      "chunk_id": "917674ad-6e0e-40b8-b505-cd1f049ebafe",
+      "excerpt_sha256": "4837752a9b9b6b205252599040aebafb59521a115d9a5da8868d3bd2e31ce58d",
+      "excerpt": "www.xtralis.com                                                                                    35\n\nVESDA VLF-250 Guía del producto                                                    VESDA by Xtralis\n\n## 6.4 Pantallas de nivel del humo e Instant Fault Finder\n\nBajo condiciones de funcionamiento normales, la pantalla del Dial del humo circular muestra los niveles de humo en el aire de muestreo. Mediante el Instant Fault Finder, el dial del humo cambia los segmentos a indicadores de fallos de manera temporal, cada segmento corresponde a una situación de fallo determinada.\n\n### 6.4.1 Pantalla de nivel de humo\n\nEl nivel de humo se muestra en el Dial del humo (A) y proporciona información esencial de incidentes para una respuesta eficaz en situaciones de aviso muy temprano. Esta pantalla proporciona un conocimiento inmediato del evento de humo relativo al umbral de alarma Fuego 1. Se pueden iluminar de 1 a 10 segmentos. Cada segmento equivale a 1/10 del umbral de Fuego 1.\n\n[Circular dial display showing:\n\n- Center: VESDA POWER logo with red alarm indicators above\n- Outer ring: Numbered segments 1-10 in yellow/gold color\n- Four labeled components:\n  - B: Two buttons at top left (blue circular button and red circular button with prohibition symbol)\n  - C: Blue square button on left side\n  - D: Yellow exclamation mark indicator on left side\n  - A: Control panel display on right side showing two rows of indicators]\n\n| Leyenda | Leyenda                                     | Leyenda | Leyenda          |\n| ------- | ------------------------------------------- | ------- | ---------------- |\n| A       | Dial del humo e Indicador del tipo de fallo | C       | Botón desactivar |\n| B       | Botón restablecer                           | D       | Luz de fallo     |\n\nTabla 6-2: Pantalla de nivel del humo y situación de fallo\n\n### 6.4.2 Instant Fault Finder\n\nCuando se registra un fallo en el detector, la luz de fallo (D) permanece encendida para fallos graves y parpadea para fallos leves.\n\nLa función Instant Fault Finder funciona pulsando los botones Restablecer y Desactivar a la vez. Instant Fault Finder proporciona un diagnóstico rápido del fallo y es una función adicional de la pantalla Dial del humo. Se iluminarán uno o más segmentos del Dial del humo, indicando el fallo con un número. La tabla a continuación muestra detalles predeterminados y acciones recomendadas.\n\n### 6.4.3 Resolución de problemas de VESDA VLF con Instant Fault Finder\n\nLa función Instant Fault Finder proporciona un diagnóstico rápido de fallos.\n\nTabla 6-3: Diagnóstico de Instant Fault Finder"
+    },
+    {
+      "item_id": "s197_src_07",
+      "eligible": true,
+      "question": "¿Cuáles son los terminales de conexión del bucle de control y cómo se deben conectar los cables en el módulo KE-IO3101?",
+      "answer_points": [
+        {
+          "claim": "El módulo KE-IO3101 posee cuatro terminales de bucle identificados como B−, A−, B+ y A+, donde B− y A− corresponden a la línea negativa (−) y B+ y A+ corresponden a la línea positiva (+).",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E030_b3d82f944d",
+            "E029_6c6db8da69",
+            "E008_650b64b30f"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E030_b3d82f944d",
+              "source_spans": [
+                [
+                  2608,
+                  2805
+                ]
+              ],
+              "content_sha256": "db3334d4d2e6ca60b9acba9fbd216208abb3a8462eaab8ca8beec387782ff01d"
+            },
+            {
+              "unit_id": "E029_6c6db8da69",
+              "source_spans": [
+                [
+                  2578,
+                  2606
+                ]
+              ],
+              "content_sha256": "2820b9029f6764acbaa39b7b6dc7dc3c51bd2f1ef6a17f4f88a53eed5735f96d"
+            },
+            {
+              "unit_id": "E008_650b64b30f",
+              "source_spans": [
+                [
+                  232,
+                  547
+                ]
+              ],
+              "content_sha256": "e0863209044a2e4fb2974292360e5ba1bd9247e9c2fccb81a48f42d7b03c427f"
+            }
+          ]
+        },
+        {
+          "claim": "El módulo debe ser instalado dentro de una caja protectora compatible, y los cables del bucle deben conectarse según las especificaciones recomendadas de la tabla de cables proporcionada en la documentación técnica.",
+          "facet": "access_or_prerequisite",
+          "support_unit_ids": [
+            "E025_e638f13880",
+            "E028_0b84f27212",
+            "E018_c376b5b404"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E025_e638f13880",
+              "source_spans": [
+                [
+                  2259,
+                  2342
+                ]
+              ],
+              "content_sha256": "fc8f159193a2ad47e25dcefc6ad2790b01d0bed17bbaf04b9d7973c3619fcd50"
+            },
+            {
+              "unit_id": "E028_0b84f27212",
+              "source_spans": [
+                [
+                  2474,
+                  2576
+                ]
+              ],
+              "content_sha256": "b1f981a3b1aaacee39bf144053c204673fb00621932bc5f810eb9f46ec400926"
+            },
+            {
+              "unit_id": "E018_c376b5b404",
+              "source_spans": [
+                [
+                  1567,
+                  1734
+                ]
+              ],
+              "content_sha256": "44a43ad37dac6658fd7e753ed95b876e5a0e681bb6b2a9a33205a36551680688"
+            }
+          ]
+        },
+        {
+          "claim": "Antes de instalar o retirar el equipo, se debe desconectar todas las fuentes de energía y permitir que se descargue la energía almacenada para evitar peligro de electrocución.",
+          "facet": "safety_warning_exception_or_conflict",
+          "support_unit_ids": [
+            "E021_03c4b5fb63",
+            "E019_c9750bd9ca"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E021_03c4b5fb63",
+              "source_spans": [
+                [
+                  1753,
+                  1947
+                ]
+              ],
+              "content_sha256": "e320397d4084456209fba303b8c9b7bcbac2e1a87d01e61c85d0cba7d4230ef8"
+            },
+            {
+              "unit_id": "E019_c9750bd9ca",
+              "source_spans": [
+                [
+                  1735,
+                  2852
+                ]
+              ],
+              "content_sha256": "90d9aee6de71b139689446cda6271f230660ad6c042d6f6cb202991af907700a"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Kidde",
+      "product_model": "KE-IO3101",
+      "document_id": "ba8cd2a3-a039-496a-aeb8-7337b3a3e9a4",
+      "chunk_id": "7779b1b6-069c-44ec-b038-b7a212b3f8b2",
+      "excerpt_sha256": "e525e1a2e491f235cc90e179fa56a4752125e998690bc4c8e81f2c286520520e",
+      "excerpt": "# KIDDE\n\n**COMMERCIAL**\n\n# Excellence Series Intelligent Addressable Single Output Module Installation Sheet\n\nEN DE ES FR IT NL PL PT SV\n\n## 1\n\n[Technical diagram showing a rectangular device with the following labeled components:\n\n- (1) Mounting holes (×4) at corners\n- (2) Loop terminal block at top left showing terminals B- A- B+ A+\n- (3) Test (T) button at top center\n- (4) Output status LED at top right\n- (5) Output terminal block at right side showing NO C NC terminals\n- (6) DIP switch at bottom left\n- (7) Device status LED at left side]\n\n## EN: Installation Sheet\n\n### Figures\n\n**Figure 1: Device overview**\n\n(1) Mounting holes (×4)\n(2) Loop terminal block\n(3) Test (T) button\n(4) Output status LED\n(5) Output terminal block\n(6) DIP switch\n(7) Device status LED\n\n### Description\n\nThis installation sheet includes information on the following Excellence Series output modules.\n\n| Model     | Description                                                                                 | Device type |\n| --------- | ------------------------------------------------------------------------------------------- | ----------- |\n| KE-IO3101 | Intelligent addressable single output module with integrated short circuit isolator (white) | 1Oni        |\n| KE-IO3001 | Intelligent addressable single output module (white)                                        | 1On         |\n\nThe module is loop powered and provides a single unsupervised output with normally open (NO), normally closed (NC), and common (C) contacts. The module is suitable for indoor installation.\n\nAll Excellence Series modules support the Excellence protocol and are compatible for use with 2X-A Series fire alarm control panels with firmware version 5.0 or later.\n\n## Installation\n\n**WARNING:** Electrocution hazard. To avoid personal injury or death from electrocution, remove all sources of power and allow stored energy to discharge before installing or removing equipment.\n\n**Caution:** For general guidelines on system planning, design, installation, commissioning, use and maintenance, refer to the EN 54-14 standard and local regulations.\n\n### Installing the module\n\nAlways use the NeXT System Builder application to calculate the maximum number of modules that can be installed.\n\nThe module must be installed inside a compatible protective housing (not supplied).\n\nMount the protective housing onto the wall using a suitable mounting system for the wall characteristics.\n\n### Wiring the module\n\nConnect the loop wires to the module as shown below. See Table 2 for recommended cable specifications.\n\n**Table 1: Loop connection**\n\n| Terminal | Description       |\n| -------- | ----------------- |\n| B−       | Negative line (–) |\n| A−       | Negative line (–) |\n| B+       | Positive line (+) |\n| A+       | Positive line (+) |\n\n**Table 2: Recommended cable specifications**"
+    },
+    {
+      "item_id": "s197_src_08",
+      "eligible": true,
+      "question": "¿Cuáles son las consideraciones clave para colocar correctamente el detector SG100 y qué debo verificar si falla la prueba inicial?",
+      "answer_points": [
+        {
+          "claim": "El detector debe instalarse lejos de objetos metálicos, puertas metálicas, aberturas de ventanas metálicas y cables de computadora para evitar que la distancia de operación se reduzca significativamente.",
+          "facet": "safety_warning_exception_or_conflict",
+          "support_unit_ids": [
+            "E004_1002379b80"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E004_1002379b80",
+              "source_spans": [
+                [
+                  138,
+                  487
+                ]
+              ],
+              "content_sha256": "06dbfc6aa7ee2e81a5e4cae9d8cf5e0e67a949030e81732f20f3b31569fa5b32"
+            }
+          ]
+        },
+        {
+          "claim": "Si el detector falla la prueba inicial, primero debe limpiarlo si está sucio, luego cambiar las baterías si se indica bajo nivel en el traductor, y realizar una nueva prueba antes de considerar su reemplazo.",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E002_6214e5a746",
+            "E005_5040a9ed84"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E002_6214e5a746",
+              "source_spans": [
+                [
+                  0,
+                  1198
+                ]
+              ],
+              "content_sha256": "d89cac8c288fb1832a4ec3ecaa9231c38207c2d1f94253118f6233506b4d0a03"
+            },
+            {
+              "unit_id": "E005_5040a9ed84",
+              "source_spans": [
+                [
+                  898,
+                  1542
+                ]
+              ],
+              "content_sha256": "4feaf4a0b39a887292e22a730299126cf0d3d709e2dbc654a7569d2fa70c644a"
+            }
+          ]
+        },
+        {
+          "claim": "Los fundas antipolvo no deben permanecer instaladas durante la operación del sistema; deben retirarse antes de que el detector pueda ser operativo.",
+          "facet": "verification_commissioning_or_recovery",
+          "support_unit_ids": [
+            "E006_08fcb5fdc3"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E006_08fcb5fdc3",
+              "source_spans": [
+                [
+                  1242,
+                  2442
+                ]
+              ],
+              "content_sha256": "2d0817bbe1f5e05beceaeda05676a7717dad73a3625606d21f925c1161a33c8c"
+            }
+          ]
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Argus Security",
+      "product_model": "SG100",
+      "document_id": "2e0ee11a-e42e-4c25-a5d6-d77924cbdb11",
+      "chunk_id": "2b6fa8ed-685d-4ee6-97b2-15f794e9e0f0",
+      "excerpt_sha256": "274ea67292b335531eb585c813e23c90942e7329f9c04bfeaeef5bf321b80b04",
+      "excerpt": "## <ins>DETECTOR INSTALLATION</ins>\n\nFor detector spacing, placement and special applications refer to your specific national standards.\n\n*Mount the detector as far as possible from metal objects, metal doors, metal window openings, etc. as well as cable conductors, cables (especially from computers), otherwise the operating distance may greatly drop. The detector must NOT be installed near electronic devices and computer equipment that can interfere with its wireless link quality.*\n\n| 1) Choose for the detector a placement position that: a) Compliances with your specific standards. b) Is reached by a strong wireless signal from its linked-to translator or expander module. c) Is not interfered by environmental factors (as per note above). 2) Install and fix the base, in the selected position, with the screws provided (picture 3). 3) Install the detector onto the base (picture 3). 4) Carry out a test of the device to meet local regulations (see TESTING). 5) If the detector fails the test: - Clean it if dirty (see MAINTENANCE - CLEANING). - Change batteries if low battery is indicated on the translator (see MAINTENANCE - BATTERY CHANGING). 6) Test the detector again (see TESTING). 7) If the detector fails the test again replace it (see WARRANTY). | > \\*\\*Dust covers DO NOT provide complete protection against contamination: detectors should be removed before construction, major re-decoration or other dust producing work is started.\\*\\* > > \\*\\*Dust covers MUST be removed before the system can be made operational.\\*\\* |\n| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n\n[Two images showing detector installation steps: Image 1 shows a hand holding the detector base from below, Image 2 shows a hand holding the assembled detector from above]\n\n*Picture 3*\n\nARGUS SECURITY S.R.L. - Via del Canneto, 14 - 34015 - Muggia (TS) - Italy                                     www.argussecurity.it"
+    },
+    {
+      "item_id": "s197_src_09",
+      "eligible": true,
+      "question": "¿Cuál es la distancia máxima permitida entre el sensor de temperatura externo ART 535-x y la unidad de evaluación del detector térmico lineal SecuriSens® ADW 535-x?",
+      "answer_points": [
+        {
+          "claim": "La distancia máxima permitida es de 50 metros, utilizando una extensión del cable de conexión.",
+          "facet": "measurement_limit_or_timing",
+          "support_unit_ids": [
+            "E004_cfd339bcd9"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E004_cfd339bcd9",
+              "source_spans": [
+                [
+                  64,
+                  629
+                ]
+              ],
+              "content_sha256": "6d8abc048576383c9bb2bb3d51d5ba856f47298bbe82cf0b4cd9babe385afa0c"
+            }
+          ]
+        },
+        {
+          "claim": "El sensor ART 535-x no homologado para EX puede instalarse en zonas ATEX 2 y 22 únicamente; para otras zonas EX se requiere el modelo ART 535-30.",
+          "facet": "safety_warning_exception_or_conflict",
+          "support_unit_ids": [
+            "E020_4416c1ccc6"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E020_4416c1ccc6",
+              "source_spans": [
+                [
+                  2291,
+                  2633
+                ]
+              ],
+              "content_sha256": "f50ebb9a86164d40c9c554698dae4429a82221581d32a91ce4cde0a302b419e7"
+            }
+          ]
+        },
+        {
+          "claim": "El sensor debe instalarse protegido de la luz solar directa y completamente expuesto a la temperatura ambiente del tubo sensor en la zona vigilada.",
+          "facet": "access_or_prerequisite",
+          "support_unit_ids": [
+            "E004_cfd339bcd9"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E004_cfd339bcd9",
+              "source_spans": [
+                [
+                  64,
+                  629
+                ]
+              ],
+              "content_sha256": "6d8abc048576383c9bb2bb3d51d5ba856f47298bbe82cf0b4cd9babe385afa0c"
+            }
+          ]
+        },
+        {
+          "claim": "La temperatura ambiente máxima de operación es de 400 °C dependiendo del modelo específico del sensor.",
+          "facet": "measurement_limit_or_timing",
+          "support_unit_ids": [
+            "E004_cfd339bcd9"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E004_cfd339bcd9",
+              "source_spans": [
+                [
+                  64,
+                  629
+                ]
+              ],
+              "content_sha256": "6d8abc048576383c9bb2bb3d51d5ba856f47298bbe82cf0b4cd9babe385afa0c"
+            }
+          ]
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Securiton",
+      "product_model": "ART 535-x",
+      "document_id": "623276d6-4902-467f-b499-52c7559a85c0",
+      "chunk_id": "cc4bf371-a5a2-4e48-b30b-bf92c392e260",
+      "excerpt_sha256": "6ba6fc8579e7fb1af166e124172929cb72233f55ebb3ed1ba464a79a97539f25",
+      "excerpt": "# 5 Instalación\n\n## 5.1 Instrucciones generales de instalación\n\n− El sensor de temperatura externo ART 535-x debe instalarse de forma que quede protegido de la luz solar directa.\n− El sensor se instala completamente en la zona vigilada de acuerdo con la y la , de manera que quede expuesto a la temperatura ambiente del tubo sensor.\n− El sensor se puede utilizar a temperaturas ambiente de hasta 400 °C como máximo, dependiendo del modelo.\n− El sensor se puede instalar hasta un máximo de 50 m de distancia de la unidad de evaluación del detector térmico lineal SecuriSens® ADW 535-x mediante una extensión del cable de conexión.\n\n## 5.2 Instrucciones de instalación del sensor de temperatura externo ART 535-10 / 400 °C\n\n### Sicherer Bereich (Temperaturbereich -30°C bis +70°C)\n\n[Diagram showing installation setup with the following labeled components:\n\n- \"Kunststoffschlauch, d=5/3\" (plastic hose) pointing to an orange/brown conduit\n- \"Fühlerrohr\" (sensor tube) pointing to the sensor probe\n- A control unit labeled \"SecuriSens® ADW 535-x\" and \"LMB 35\" with numbered terminals 1-21\n- Connection wiring (red cable) from terminals to the sensor\n- The sensor probe labeled \"ART 535-10\" extending into the monitored area\n- Terminal strip showing numbered positions 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 with + - markings]\n\n**Fig. 1 Uso del sensor de temperatura externo ART 535-10 en una zona segura**\n\n14 / 25     Externer Temperatursensor ART 535-x, Technische Dokumentation, TD 003 006c es     SECURITON\n\nInstalación\n\n## 5.3 Instrucciones de instalación del sensor de temperatura externo ART 535-10 / 400 °C\n\n**Sicherer Bereich (Temperaturbereich -30°C bis +70°C)**\n\n**EX-Zone 2/22** **EX-Zone 1/21**\n\n[Technical diagram showing:\n\n- A control unit labeled \"SecuriSens® ADW 535-x\" with \"LMB 35\" designation\n- Terminal strip numbered 1-21 at the bottom\n- Connection wiring (red line) from terminals to external sensor\n- \"Kunststoffschlauch, d=5/3\" (plastic hose) label pointing to connection\n- \"Fühlerrohr\" (sensor tube) label on right side\n- External temperature sensor \"ART 535-10/400°C\" shown on right side\n- Dashed vertical lines separating EX zones\n- Ground symbol at bottom right]\n\n**Fig. 2 Uso del sensor de temperatura externo ART 535-10 / 400 °C en zona EX 2/22**\n\n> **INDICACIÓN**\n>\n> El sensor térmico externo **ART 535 <ins>no homologado para EX</ins> puede instalarse de acuerdo con las normas ATEX** en las zonas EX 2 y 22. Si se requiere el uso en otras zonas EX, se debe utilizar el sensor de temperatura homologado ATEX **ART 535-30 / 400 °C / zona EX 1/21** o **ART 535-30 / 60 °C / zona EX 1/21**.\n\n**SECURITON** Externer Temperatursensor ART 535-x, Technische Dokumentation, TD 003 006c es 15 / 25\n\nInstalación\n\n**Sicherer Bereich**\n\n**EX-Zone 2/22 (Temperaturbereich -30°C bis +70°C)** | **EX-Zone 1/21**\n\n[Technical diagram showing:"
+    },
+    {
+      "item_id": "s197_src_10",
+      "eligible": true,
+      "question": "¿Cuáles son los componentes esenciales incluidos en el paquete del A-1 y qué fuente de alimentación requiere el equipo?",
+      "answer_points": [
+        {
+          "claim": "El paquete del A-1 incluye el micrófono, cable flexo de altas prestaciones, fuente de alimentación 5V DC, filtro anti-pop y conector XLR-5 hembra",
+          "facet": "access_or_prerequisite",
+          "support_unit_ids": [
+            "E021_81fcaf6be2",
+            "E024_8990dd8226",
+            "E025_91d535855b"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E021_81fcaf6be2",
+              "source_spans": [
+                [
+                  1902,
+                  2988
+                ]
+              ],
+              "content_sha256": "239b5c07bf883d69378ea9128f6b13c3edc7658e545369fcd3d1e149e0c3f8f2"
+            },
+            {
+              "unit_id": "E024_8990dd8226",
+              "source_spans": [
+                [
+                  2428,
+                  2455
+                ]
+              ],
+              "content_sha256": "3489d6c8e01b077bdfd5a064c89ea9dbf667cef321d50cdeae844eabbae664d2"
+            },
+            {
+              "unit_id": "E025_91d535855b",
+              "source_spans": [
+                [
+                  2457,
+                  2690
+                ]
+              ],
+              "content_sha256": "61c7e771ff556307fa8ce421339256ad4163e7f581f4eec6494739143a96387e"
+            }
+          ]
+        },
+        {
+          "claim": "La fuente de alimentación suministrada es de 5V DC y debe estar fácilmente accesible ya que el cable de alimentación es el dispositivo principal de desconexión del producto",
+          "facet": "safety_warning_exception_or_conflict",
+          "support_unit_ids": [
+            "E028_ace89ffe41",
+            "E014_c3495e73a6"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E028_ace89ffe41",
+              "source_spans": [
+                [
+                  2744,
+                  2776
+                ]
+              ],
+              "content_sha256": "c5588ad67501d556cc5c63cda49a3188eef2fb61a8810b63dc6cb7db437e5d68"
+            },
+            {
+              "unit_id": "E014_c3495e73a6",
+              "source_spans": [
+                [
+                  1345,
+                  1502
+                ]
+              ],
+              "content_sha256": "d587b9c480d691789920389c6758ae85be33fe3be4fec06b0d78825aa04e32f0"
+            }
+          ]
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "LDA audioTech",
+      "product_model": "A-1",
+      "document_id": "8f5beddb-3ad1-4642-8aca-97b9b43a686a",
+      "chunk_id": "67c08c94-6c87-49a5-b7d2-f69a86a3ed62",
+      "excerpt_sha256": "04fdc5078ca4730305b533c0bea3768e4104c534e73c20f61da96280c020640d",
+      "excerpt": "# <ins>Manual de Usuario</ins>\n\n# **PUPITRE MICROFÓNICO**\n\n**LDA**\none\n\nModelo: **A-1**\n\n**LDA**\naudioTech\n\n# Contenido:\n\n1 DESCRIPCIÓN TÉCNICA:.......................................................................................................... 1\n2 CONTENIDO DEL PAQUETE:..................................................................................................... 1\n3 DESCRIPCIÓN DE FUNCIONAMIENTO:.................................................................................... 2\n\n3. 1 Modos de funcionamiento:.........................................................................................................2\n4. CONEXION Y CONFIGURACIÓN................................................................................................ 3\n5. DESCRIPCIÓN DEL FRONTAL................................................................................................... 4\n\n6 ESPECIFICACIONES TÉCNICAS:............................................................................................... 5\n.......................................................................................................................................................... 5\n\n## ADVERTENCIAS:\n\nEl aparato no se debe exponer a goteos o proyecciones de agua, y no deberán situarse objetos llenos de líquidos, como vasos, junto/encima del equipo.\n\nLos cables de alimentación de corriente alterna son los dispositivos principales de desconexión de este producto y deben ser de fácil acceso en todo momento.\n\nMANUAL DE USUARIO: A-1\n\n## 1 DESCRIPCIÓN TÉCNICA:\n\nEl A-1 es un pupitre microfónico de altas prestaciones para instalaciones de megafonía profesionales.\n\nEl micrófono incluye control mediante señales lógicas digitales.\n\nIncorpora funciones de \"llamada general\", con señalización de línea ocupada y palabra concedida mediante leds.\n\nEl procesado del sonido ha sido cuidado para conseguir unos resultados de alta calidad, en cuanto a distorsión, sensibilidad, ancho de banda y relación señal a ruido. Por este motivo el A-1 incluye una cápsula dinámica de alta calidad.\n\nEl A-1 cuenta con diferentes tipos de configuración, para aumentar su capacidad de integración en cualquier tipo de instalación. Además integra previo de audio, dando su salida balanceada, para preservar la calidad del audio en largas tiradas de cable.\n\nOpcionalmente se puede seleccionar el uso de tono de pre aviso, antes y después del mensaje de voz.\n\n## 2 CONTENIDO DEL PAQUETE:\n\n[Image showing package contents with 5 numbered items: (1) A-1 microphone unit in center, (2) flexible gooseneck cable on left, (3) power supply box in upper left, (4) anti-pop filter on right, and (5) XLR-5 connector in upper right]\n\n1. Micrófono A-1.\n\n2. Flexo de altas prestaciones.\n\n3. Fuente de alimentación 5V DC.\n\n4. Filtro Anti-pop.\n\n5. Conector XLR-5 Polos hembra.\n\nLDA Audio Tech - 31 st Severo Ochoa St.- 29590 MÁLAGA, SPAIN. Tl: +34 952028805. www.lda-audiotech.com    1\n\n![LDA audioTech logo]\n\n6. Manual de usuario A-1"
+    },
+    {
+      "item_id": "s197_src_11",
+      "eligible": true,
+      "question": "¿Cuál es la capacidad máxima de dispositivos y zonas que puede soportar el panel 2X-AT-F2-FB-P en su configuración estándar y ampliada?",
+      "answer_points": [
+        {
+          "claim": "El panel en configuración estándar soporta hasta 256 dispositivos direccionables distribuidos en 512 zonas mediante sus 2 bucles de alta potencia",
+          "facet": "measurement_limit_or_timing",
+          "support_unit_ids": [
+            "E011_63843e0481"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E011_63843e0481",
+              "source_spans": [
+                [
+                  1094,
+                  1599
+                ]
+              ],
+              "content_sha256": "89cf92ed93418ef185bc2d9c83e3c96d0181e4d617fa38bfb0bfc9b8af256022"
+            }
+          ]
+        },
+        {
+          "claim": "La capacidad se puede ampliar a 512 dispositivos instalando una tarjeta adicional de 2 bucles de alta potencia, ganando 4 salidas programables más",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E013_2e3a49a869"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E013_2e3a49a869",
+              "source_spans": [
+                [
+                  1613,
+                  2154
+                ]
+              ],
+              "content_sha256": "238eac1b427c6e33377af2c2baa79f7c8cdc417ce0146e877da0c4b68d0a54af"
+            }
+          ]
+        },
+        {
+          "claim": "El panel dispone de una fuente de alimentación de 10A en la configuración estándar, pero existe un PAK de alta potencia disponible para incrementar la potencia del bucle de 500 mA a 800 mA si se requiere",
+          "facet": "option_mode_or_default",
+          "support_unit_ids": [
+            "E015_2b8d534a4f"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E015_2b8d534a4f",
+              "source_spans": [
+                [
+                  2156,
+                  2235
+                ]
+              ],
+              "content_sha256": "c7d60f10dde01503fe56e6caf77dc93ab65028802e331d34f9e5999d3fccaff7"
+            }
+          ]
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Aritech",
+      "product_model": "2X-AT-F2-FB-P",
+      "document_id": "637cc4d7-9e96-4545-9202-d6cb3463e701",
+      "chunk_id": "80290f06-aedc-4e8d-a342-c738af0032da",
+      "excerpt_sha256": "92467808c12203175bd6f3a3862cc09d78ba8e2cbf68277bc60343d45acb8705",
+      "excerpt": "KIDDE\nCOMMERCIAL\n\n# 2X-AT-F2-FB-P\n\n**Addressable fire panel with tocuhscreen fire brigade controls, 2 loop, with bigger PSU**\n\n## Overview\n\nThe new 2X-A series life safety control systems bring the speed and functionality of high-end intelligent processing to small to mid-sized addressable applications. Based on 2X series learned experience and with complete backwards compatibility, the new 2X-A features an attractive contemporary design that fits with any decor. With improved robustness, manufactured in metal, special plastics and easy electronics removal, it allows painting in any colour. The main controls are easily located using an improved and robust jog dial.\n\nWith high power loop addressable detection, a full line of easily configured option cards and modules, as well as USB and Ethernet® connectivity, these quick-to configure systems offer versatility that benefits building owners and life safety system installers alike.\n\nThis version of 2X-A panels includes a 7 inches touchscreen improving the user experience thanks to the more intuitive user interface.\n\n## The Panel\n\nThe fire panels supplied in local language, with user interface, with fire routing controls, with 2 High Power Loops that supports up to 256 devices in 512 zones, with 10A PSU, have standard 4 supervised sounder/fire-routing outputs, which can be used as freely programmable outputs as well. In addition 2 conventional relay outputs and 2 supervised outputs, working in pair and dedicated to common fire and fault conditions, as well as 2 user configurable inputs for monitoring and control are available.\n\n## Options\n\nThe panel supports an extra 2 High Power Loop board that brings the panel to up to 512 devices with 4 additional programmable outputs. Add a network board to create a maximum of 64 nodes / 256 loops network of fire panels and fire panel repeaters (including conventional fire panels and fire repeater panels up to a maximum of 64 conventional zones). Last but not least, in case seperate zone indications are required, a 20 or a 40 zone fire/fault LED indicator board can be mounted in the panel or repeater with ample space for custom text.\n\nHigh loop power PAK available to increase the loop power from 500 mA to 800 mA.\n\nCompatible with existing loop devices and network compatible with existing panels, repeaters (existing and new) and conventional panels.\n\n## Approvals & compliance\n\n* CE / CPD / EN54-2 / EN54-4 / EN54-21\n* WEEE / RoHS compliant\n\n[Image shows a KIDDE COMMERCIAL addressable fire panel with a white/light gray front panel featuring the KIDDE logo, a touchscreen display, and control buttons. The panel has a modern, clean design with a robust metal enclosure.]\n\n## Detalles"
+    },
+    {
+      "item_id": "s197_src_12",
+      "eligible": true,
+      "question": "¿Cuál es el nivel de presión sonora recomendado y la distancia de referencia para el funcionamiento de la unidad de sonido direccional en una aplicación de evacuación de emergencia?",
+      "answer_points": [
+        {
+          "claim": "La unidad de sonido direccional debe configurarse a 93 dB(A) medidos a una distancia de 3.2 pies para lograr efectividad en la guía de evacuación.",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E001_8eb1f9a21b"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E001_8eb1f9a21b",
+              "source_spans": [
+                [
+                  0,
+                  381
+                ]
+              ],
+              "content_sha256": "3f86f0ddb4fa759e21f673a29bc1684b15c1fa9fcd1206cda3da0888b76c7078"
+            }
+          ]
+        },
+        {
+          "claim": "El entrenamiento previo del personal sobre el sonido emitido por la unidad reduce significativamente el tiempo de evacuación, alcanzando hasta 7 segundos en ambiente con humo comparado con 67.8 segundos promedio solo con señalización visual.",
+          "facet": "input_trigger_or_observed_condition",
+          "support_unit_ids": [
+            "E003_7b2c418eae",
+            "E002_ce85347d71"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E003_7b2c418eae",
+              "source_spans": [
+                [
+                  739,
+                  1788
+                ]
+              ],
+              "content_sha256": "329f487e0214d40b93786fac0b0e542bdfe6ca9a0d1e2c89eccf38a9f6609875"
+            },
+            {
+              "unit_id": "E002_ce85347d71",
+              "source_spans": [
+                [
+                  0,
+                  1039
+                ]
+              ],
+              "content_sha256": "6e506858ced3df9a20ac2eff000f9af08cdf44fbeba43f40c2b2c3c47d5e763a"
+            }
+          ]
+        },
+        {
+          "claim": "La combinación de señalización visual y sonora direccional proporciona tiempos de evacuación similares en ambientes sin humo (promedio 7.2 segundos) que en ambientes con humo cuando se incluye entrenamiento.",
+          "facet": "verification_commissioning_or_recovery",
+          "support_unit_ids": [
+            "E004_9ca5203306",
+            "E003_7b2c418eae"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E004_9ca5203306",
+              "source_spans": [
+                [
+                  1488,
+                  2189
+                ]
+              ],
+              "content_sha256": "41982a7ce23d8c9c03502617580e7c668c6b1d0121b1f1fa6a18cbb3bd02929d"
+            },
+            {
+              "unit_id": "E003_7b2c418eae",
+              "source_spans": [
+                [
+                  739,
+                  1788
+                ]
+              ],
+              "content_sha256": "329f487e0214d40b93786fac0b0e542bdfe6ca9a0d1e2c89eccf38a9f6609875"
+            }
+          ]
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Sound Alert",
+      "product_model": "SOME-58",
+      "document_id": "498cd597-4e9e-4081-81c9-f773f7865f8a",
+      "chunk_id": "96cb99e6-8412-4256-8c37-9e02bd8f6e07",
+      "excerpt_sha256": "3f870c061051745cbb7f65b6fa2b07ade189cf27fa733a020fc3032d36ad77e8",
+      "excerpt": "In one pilot study, participants were led into a room and given the choice of turning to an exit at the right or left at equal distances. Each exit was equipped with a Directional Sound unit set at 93dB(A) at 3.2 feet and a conventional emergency exit visual sign. The sounder and sign units were 30.2 feet apart. The aim of the study was to direct the participants to a safe exit.\n\nParticipants were invited to take part in one of eight situations. The first looked at how people respond with just visual exit signs. In the next four scenarios, there were two Directional Sound units and lights, which led participants to one of the safe exits, either left or right. To determine the degree of training needed to follow the sound system, participants were told to evacuate as quickly as possible and either: 1) told nothing more, 2) were informed about the sound, 3) shown the layout of the room and the placement of Directional Sound units, or 4) had the same information as group 3, plus they had already been through the smoke before. In the final three tests, participants were told to evacuate as quickly as possible and were either faced with: a conflict – there was one visual exit sign on one side and a sounder on the other side; no conflict – there was one target exit with both a sounder and sign unit; or marshals – two exits gave participants speech directions, with the target exit saying, \"Come this way,\" and the other saying, \"This way is dangerous.\"\n\nParticipants told to find the exit by following visual exit signs only when in a smoke-filled room took up to 105 seconds (average 67.8) to reach a safe exit. Participants given Directional Sound and visual exit signs to follow and were trained on the sound of the Directional Sound units took as little as 7 seconds. Interestingly, participants who were just given visual exit signs to follow when in a room <ins>without smoke</ins> took as long as 12 seconds (average 8.8) to reach an exit. Those given Directional Sound units and visual exit signs to follow when in a room without smoke and were also trained on the sound of the Directional Sound units took as little as 6 seconds (average 7.2) to reach a safe exit."
+    },
+    {
+      "item_id": "s197_src_13",
+      "eligible": true,
+      "question": "¿Cuáles son las capacidades principales del teclado de calibración STS/CKD+ y qué precauciones debo tomar antes de conectarlo al detector?",
+      "answer_points": [
+        {
+          "claim": "El teclado de calibración STS/CKD+ permite realizar operaciones de calibración y configuración en detectores de gas Sensitron",
+          "facet": "option_mode_or_default",
+          "support_unit_ids": [
+            "E019_53b4038d8a",
+            "E020_92d87cea00",
+            "E021_047b167b9d"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E019_53b4038d8a",
+              "source_spans": [
+                [
+                  426,
+                  476
+                ]
+              ],
+              "content_sha256": "5b7d7e58581a3463d99928aa2e0494355048ee96c0462ef6865febc45fac0db2"
+            },
+            {
+              "unit_id": "E020_92d87cea00",
+              "source_spans": [
+                [
+                  478,
+                  497
+                ]
+              ],
+              "content_sha256": "ab074ffe10b1440985c7c2158baa6323ba187bd9cb539029bedff5ace3dbace9"
+            },
+            {
+              "unit_id": "E021_047b167b9d",
+              "source_spans": [
+                [
+                  499,
+                  521
+                ]
+              ],
+              "content_sha256": "0c2dfed5c73ffbf93f161f3f5a673c34c61c64843322e3544fa17fd1d7b2ef58"
+            }
+          ]
+        },
+        {
+          "claim": "Antes de abrir la caja del detector para conectar el teclado, deben considerarse todas las precauciones de seguridad pertinentes",
+          "facet": "safety_warning_exception_or_conflict",
+          "support_unit_ids": [
+            "E029_f88c52396d"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E029_f88c52396d",
+              "source_spans": [
+                [
+                  868,
+                  1108
+                ]
+              ],
+              "content_sha256": "287850cbc9729486a6f1dfd5f549d3b4b415bcec417ad89049fdf72445cfc8b8"
+            }
+          ]
+        },
+        {
+          "claim": "El teclado puede conectarse tanto con el detector encendido y en funcionamiento como en estado apagado",
+          "facet": "access_or_prerequisite",
+          "support_unit_ids": [
+            "E029_f88c52396d"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E029_f88c52396d",
+              "source_spans": [
+                [
+                  868,
+                  1108
+                ]
+              ],
+              "content_sha256": "287850cbc9729486a6f1dfd5f549d3b4b415bcec417ad89049fdf72445cfc8b8"
+            }
+          ]
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Sensitron",
+      "product_model": "STS/CKD+",
+      "document_id": "ee86b488-5fac-4287-ab0e-e136956add60",
+      "chunk_id": "7e482ccd-f43f-4194-b0fc-4d281ac5d8b6",
+      "excerpt_sha256": "4f000bb04aea610dc988378a77ed7d376e5e545d8ff6a45c1b3bdbb6b5eb73b5",
+      "excerpt": "04/10/2024\n\n1\n\n# sensitron\n\n**ITALIAN** ■ ■ **GENIUS IN GAS DETECTION TECHNOLOGIES**\n\nSENSITRON\n\n**SMART KEYPAD**\n\nESC\n\nENTER\nOK\n\nCALET\n\nSENSITRON\n\nManual de instrucciones\n\n# STS/CKD+\n\n3\n\n# 1. Introducción\n\n## 1.1 Descripción\n\nEl teclado de calibración STG se puede utilizar para todos los detectores de gas de Sensitron s.r.l.\n\nEl teclado de calibración se suministra con un adaptador para la conexión a detectores SMART-P.\n\nEl teclado de calibración habilita lo siguiente *:\n\n- Calibración cero;\n\n- Calibración de span;\n\n- Calibración de salida de 4-20 ma;\n\n- Modificar los umbrales de alarma y su histéresis;\n\n- Reset del detector;\n\n- Para acoplar el detector con el cabezal del sensor \"Emparejamiento de cabezales\";\n\n- Para cambiar o solo visualizar los Baudios;\n\n- Para configurar la dirección del bus RS485;\n\n- Para mostrar la versión de firmware del detector;\n\nEl teclado se puede conectar tanto cuando el detector está encendido y en funcionamiento, como cuando el detector está apagado. Antes de abrir la caja del detector, asegúrese de que todas las precauciones de seguridad han sido consideradas.\n\nPara conectar el teclado, consulte el capítulo siguiente.\n\n* Las operaciones mencionadas son función del detector de gas en uso, consulte la Tabla 3 para obtener más información.\n\n5"
+    },
+    {
+      "item_id": "s197_src_14",
+      "eligible": true,
+      "question": "¿Cuál es la capacidad máxima de tubería de muestreo que puede soportar un módulo detector ModuLaser y cómo se comunica con los módulos de pantalla?",
+      "answer_points": [
+        {
+          "claim": "El módulo detector puede alojar hasta 250 metros de tubería de muestreo combinada",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E006_7e8b09a758"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E006_7e8b09a758",
+              "source_spans": [
+                [
+                  111,
+                  621
+                ]
+              ],
+              "content_sha256": "d2b92ca1b417f92934257acade936a37b9614ef1cf742f5edf6183f4edec6420"
+            }
+          ]
+        },
+        {
+          "claim": "Los módulos de visualización y los módulos detectores se comunican mediante interconexiones RS-485",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E006_7e8b09a758"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E006_7e8b09a758",
+              "source_spans": [
+                [
+                  111,
+                  621
+                ]
+              ],
+              "content_sha256": "d2b92ca1b417f92934257acade936a37b9614ef1cf742f5edf6183f4edec6420"
+            }
+          ]
+        },
+        {
+          "claim": "El módulo detector es una unidad autónoma que aspira aire muestreado, lo analiza y determina si debe activar pre-alarma o alarma basándose en partículas de humo detectadas",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E010_ce8a2f9911"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E010_ce8a2f9911",
+              "source_spans": [
+                [
+                  1144,
+                  1560
+                ]
+              ],
+              "content_sha256": "ed520552799280bb78862705f0e57054a037222a8cd7d7b874b04ae7de3fac35"
+            }
+          ]
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Edwards",
+      "product_model": "FHSD8330",
+      "document_id": "09ea54f3-6f0c-452e-b3c1-f96b31dd5fab",
+      "chunk_id": "f9b28f22-666a-44f7-8b0a-3ff9f751b5ff",
+      "excerpt_sha256": "d97ce2201bc2678996413b995932d9d5004d4caa6235f2cefd251a6f227bc0f8",
+      "excerpt": "[Company logo: Edwards - Built for Resilience]\n\n# FHSD8330\n\nLaserSense ModuLaser, Módulo detector\n\n## General\n\nModuLaser es una solución de detección de humo por aspiración escalable que facilita la instalación, el mantenimiento es más rápido y lleva las aplicaciones más allá de los detectores de muestreo de aire tradicionales. Dos tipos de módulos básicos comprenden la solución ModuLaser: un módulo de pantalla y un módulo detector. Cada módulo detector puede alojar hasta 250 metros de tubería de muestreo combinada. Los módulos de visualización y los módulos detectores se comunican mediante interconexiones RS-485.\n\nLos módulos de pantalla están disponibles en tres configuraciones: Estándar con pantalla TFT en color, LED's de estado y botones de navegación, Mínimo con solo LED's de estado y Comando que es similar al Estándar pero con la funcionalidad adicional para controlar varios módulos a través de SenseNET. Los módulos de visualización mínimo y estándar pueden admitir hasta 8 módulos detectores, mientras que el módulo de visualización de comandos puede admitir hasta 127 módulos en toda la red SenetNET.\n\n## Módulo detector\n\nEl módulo detector es una unidad totalmente autónoma, que aspira el aire muestreado desde el área protegida, analiza el aire y, con base en ClassiFire, determina si se debe activar una pre-alarma o alarma, si hubiera partículas de humo en el aire muestreado. . Si ocurriera una condición de alarma o falla, la unidad activará la salida de relé local correspondiente, sujeta a la programación de los relés. Simultáneo\n\nDebido a la naturaleza modular de ModuLaser, el mantenimiento (por ejemplo, reemplazo de filtro de rutina) se puede realizar en un módulo por módulo, en lugar de en un sistema completo. Esto a su vez reduce el riesgo de que el área no esté protegida durante el período de mantenimiento, ya que solo una tubería de muestreo (zona protegida) se vería afectada a la vez.\n\n## Solución perfecta\n\nGracias a las características avanzadas que lo hacen prácticamente impermeable al polvo y la suciedad, ModuLaser es ideal para su uso en entornos hostiles que deshabilitarían otros tipos de detectores de humo. La detección óptica de dispersión hacia adelante agrega la capacidad de alerta temprana sin el riesgo de alarmas molestas normalmente asociadas con la detección de humo de alta sensibilidad, mientras que la tecnología de compensación ambiental exclusiva agrega un alto grado de confiabilidad a una solución de detección ya sólida.\n\n[Product image: A white rectangular detector module with two red tubes at the top and a small display panel with buttons in the center]\n\n## Detalles"
+    }
+  ],
+  "semantic_reviews": [
+    {
+      "item_id": "s197_src_01",
+      "eligibility_correct": true,
+      "eligibility_issue": "",
+      "question_language_spanish": true,
+      "question_language_issue": "",
+      "question_natural_for_field_technician": true,
+      "question_naturality_issue": "",
+      "answer_points_semantically_distinct": true,
+      "answer_point_distinctness_issue": "",
+      "answer_points_complete_for_question_within_excerpt": true,
+      "answer_point_completeness_issue": "",
+      "question_answerable": true,
+      "question_issue": "",
+      "point_reviews": {
+        "point_1": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_2": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_3": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_4": null
+      }
+    },
+    {
+      "item_id": "s197_src_02",
+      "eligibility_correct": true,
+      "eligibility_issue": "",
+      "question_language_spanish": true,
+      "question_language_issue": "",
+      "question_natural_for_field_technician": true,
+      "question_naturality_issue": "",
+      "answer_points_semantically_distinct": true,
+      "answer_point_distinctness_issue": "",
+      "answer_points_complete_for_question_within_excerpt": false,
+      "answer_point_completeness_issue": "Omite la corriente máxima de alimentación externa del calentador, la corriente de alarma está incompleta respecto al contexto de sondeo y no incluye las condiciones de aislador relevantes para la alimentación externa.",
+      "question_answerable": true,
+      "question_issue": "",
+      "point_reviews": {
+        "point_1": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_2": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_3": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": false,
+          "facet_issue": "La afirmación describe una medición de consumo, no una acción de salida ni un paso correctivo."
+        },
+        "point_4": null
+      }
+    },
+    {
+      "item_id": "s197_src_03",
+      "eligibility_correct": true,
+      "eligibility_issue": "",
+      "question_language_spanish": true,
+      "question_language_issue": "",
+      "question_natural_for_field_technician": true,
+      "question_naturality_issue": "",
+      "answer_points_semantically_distinct": true,
+      "answer_point_distinctness_issue": "",
+      "answer_points_complete_for_question_within_excerpt": false,
+      "answer_point_completeness_issue": "Falta indicar que la salida se mide en los terminales 11 y 12 y omite la tolerancia ±5% de los niveles de estado.",
+      "question_answerable": true,
+      "question_issue": "",
+      "point_reviews": {
+        "point_1": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_2": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": false,
+          "facet_issue": "Describe valores de salida, no una acción correctiva; el facet apropiado es de especificación o condición de salida."
+        },
+        "point_3": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_4": null
+      }
+    },
+    {
+      "item_id": "s197_src_04",
+      "eligibility_correct": true,
+      "eligibility_issue": "",
+      "question_language_spanish": true,
+      "question_language_issue": "",
+      "question_natural_for_field_technician": true,
+      "question_naturality_issue": "",
+      "answer_points_semantically_distinct": true,
+      "answer_point_distinctness_issue": "",
+      "answer_points_complete_for_question_within_excerpt": false,
+      "answer_point_completeness_issue": "Omite la advertencia explícita de que es posible oler el gas antes de que el detector detecte la fuga; además, no explica claramente la relación entre la posición y la densidad como razón operativa.",
+      "question_answerable": true,
+      "question_issue": "",
+      "point_reviews": {
+        "point_1": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_2": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_3": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_4": null
+      }
+    },
+    {
+      "item_id": "s197_src_05",
+      "eligibility_correct": true,
+      "eligibility_issue": "",
+      "question_language_spanish": true,
+      "question_language_issue": "",
+      "question_natural_for_field_technician": true,
+      "question_naturality_issue": "",
+      "answer_points_semantically_distinct": true,
+      "answer_point_distinctness_issue": "",
+      "answer_points_complete_for_question_within_excerpt": true,
+      "answer_point_completeness_issue": "",
+      "question_answerable": true,
+      "question_issue": "",
+      "point_reviews": {
+        "point_1": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_2": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_3": {
+          "fully_supported": false,
+          "support_issue": "La pregunta solicita voltaje normal y corriente de espera; la corriente de alarma no responde a lo preguntado, aunque está respaldada por la fuente.",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_4": null
+      }
+    },
+    {
+      "item_id": "s197_src_06",
+      "eligibility_correct": true,
+      "eligibility_issue": "",
+      "question_language_spanish": true,
+      "question_language_issue": "",
+      "question_natural_for_field_technician": true,
+      "question_naturality_issue": "",
+      "answer_points_semantically_distinct": true,
+      "answer_point_distinctness_issue": "",
+      "answer_points_complete_for_question_within_excerpt": true,
+      "answer_point_completeness_issue": "",
+      "question_answerable": true,
+      "question_issue": "",
+      "point_reviews": {
+        "point_1": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_2": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": false,
+          "facet_issue": "Describe el comportamiento observado de la luz de fallo, no una acción correctiva."
+        },
+        "point_3": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_4": null
+      }
+    },
+    {
+      "item_id": "s197_src_07",
+      "eligibility_correct": true,
+      "eligibility_issue": "",
+      "question_language_spanish": true,
+      "question_language_issue": "",
+      "question_natural_for_field_technician": true,
+      "question_naturality_issue": "",
+      "answer_points_semantically_distinct": true,
+      "answer_point_distinctness_issue": "",
+      "answer_points_complete_for_question_within_excerpt": false,
+      "answer_point_completeness_issue": "Omiten que los módulos son loop powered y que la conexión debe hacerse según la Tabla 1; además, incluyen requisitos de instalación y seguridad que no responden directamente a los terminales y su conexión.",
+      "question_answerable": true,
+      "question_issue": "",
+      "point_reviews": {
+        "point_1": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_2": {
+          "fully_supported": false,
+          "support_issue": "E028 solo remite a la Tabla 2 y el extracto no proporciona sus especificaciones; E018 no respalda la afirmación sobre cables.",
+          "facet_correct": false,
+          "facet_issue": "La afirmación combina un prerrequisito de instalación con una instrucción de cableado; el aspecto de conexión corresponde mejor a cableado o configuración de conexión."
+        },
+        "point_3": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_4": null
+      }
+    },
+    {
+      "item_id": "s197_src_08",
+      "eligibility_correct": true,
+      "eligibility_issue": "",
+      "question_language_spanish": true,
+      "question_language_issue": "",
+      "question_natural_for_field_technician": true,
+      "question_naturality_issue": "",
+      "answer_points_semantically_distinct": true,
+      "answer_point_distinctness_issue": "",
+      "answer_points_complete_for_question_within_excerpt": false,
+      "answer_point_completeness_issue": "Omite seleccionar una ubicación conforme a las normas específicas, con señal inalámbrica fuerte y sin interferencias ambientales; también omite repetir la prueba tras las correcciones y reemplazar el detector si vuelve a fallar.",
+      "question_answerable": true,
+      "question_issue": "",
+      "point_reviews": {
+        "point_1": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_2": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_3": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_4": null
+      }
+    },
+    {
+      "item_id": "s197_src_09",
+      "eligibility_correct": true,
+      "eligibility_issue": "",
+      "question_language_spanish": true,
+      "question_language_issue": "",
+      "question_natural_for_field_technician": true,
+      "question_naturality_issue": "",
+      "answer_points_semantically_distinct": true,
+      "answer_point_distinctness_issue": "",
+      "answer_points_complete_for_question_within_excerpt": true,
+      "answer_point_completeness_issue": "",
+      "question_answerable": true,
+      "question_issue": "",
+      "point_reviews": {
+        "point_1": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_2": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_3": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_4": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        }
+      }
+    },
+    {
+      "item_id": "s197_src_10",
+      "eligibility_correct": true,
+      "eligibility_issue": "",
+      "question_language_spanish": true,
+      "question_language_issue": "",
+      "question_natural_for_field_technician": true,
+      "question_naturality_issue": "",
+      "answer_points_semantically_distinct": true,
+      "answer_point_distinctness_issue": "",
+      "answer_points_complete_for_question_within_excerpt": false,
+      "answer_point_completeness_issue": "No incluye que el paquete también contiene el manual de usuario; además, la afirmación de accesibilidad de la fuente no responde directamente a la pregunta y E014 solo exige accesibilidad para los cables de alimentación de CA.",
+      "question_answerable": true,
+      "question_issue": "",
+      "point_reviews": {
+        "point_1": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_2": {
+          "fully_supported": false,
+          "support_issue": "E028 respalda 5V DC, pero E014 se refiere a cables de alimentación de corriente alterna y no establece que la fuente suministrada deba estar accesible.",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_3": null,
+        "point_4": null
+      }
+    },
+    {
+      "item_id": "s197_src_11",
+      "eligibility_correct": true,
+      "eligibility_issue": "",
+      "question_language_spanish": true,
+      "question_language_issue": "",
+      "question_natural_for_field_technician": true,
+      "question_naturality_issue": "",
+      "answer_points_semantically_distinct": true,
+      "answer_point_distinctness_issue": "",
+      "answer_points_complete_for_question_within_excerpt": false,
+      "answer_point_completeness_issue": "No cubren completamente la capacidad ampliada ni distinguen claramente que los 512 dispositivos corresponden a la ampliación; el punto 3 además introduce datos de fuente y corriente de bucle irrelevantes.",
+      "question_answerable": true,
+      "question_issue": "",
+      "point_reviews": {
+        "point_1": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_2": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_3": {
+          "fully_supported": false,
+          "support_issue": "La fuente de 10 A está en otra unidad (E011), no en la unidad citada; además, el PAK solo indica aumento de corriente del bucle, no una condición de requerimiento.",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_4": null
+      }
+    },
+    {
+      "item_id": "s197_src_12",
+      "eligibility_correct": true,
+      "eligibility_issue": "",
+      "question_language_spanish": true,
+      "question_language_issue": "",
+      "question_natural_for_field_technician": true,
+      "question_naturality_issue": "",
+      "answer_points_semantically_distinct": true,
+      "answer_point_distinctness_issue": "",
+      "answer_points_complete_for_question_within_excerpt": true,
+      "answer_point_completeness_issue": "",
+      "question_answerable": true,
+      "question_issue": "",
+      "point_reviews": {
+        "point_1": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_2": {
+          "fully_supported": false,
+          "support_issue": "La fuente muestra una asociación observada entre entrenamiento y tiempos de evacuación de hasta 7 segundos, pero no demuestra que el entrenamiento reduzca significativamente el tiempo ni establece una comparación causal directa con el promedio de 67.8 segundos.",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_3": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": false,
+          "facet_issue": "La afirmación describe resultados comparativos de tiempos de evacuación bajo condiciones distintas; el facet de verificación, puesta en marcha o recuperación no es el mejor ajuste semántico."
+        },
+        "point_4": null
+      }
+    },
+    {
+      "item_id": "s197_src_13",
+      "eligibility_correct": true,
+      "eligibility_issue": "",
+      "question_language_spanish": true,
+      "question_language_issue": "",
+      "question_natural_for_field_technician": true,
+      "question_naturality_issue": "",
+      "answer_points_semantically_distinct": true,
+      "answer_point_distinctness_issue": "",
+      "answer_points_complete_for_question_within_excerpt": false,
+      "answer_point_completeness_issue": "Omiten capacidades materiales enumeradas, como ajuste de umbrales e histéresis, reset, emparejamiento de cabezales, Baudios, dirección RS485 y versión de firmware; también omiten que las operaciones dependen del detector y remiten a la Tabla 3.",
+      "question_answerable": true,
+      "question_issue": "",
+      "point_reviews": {
+        "point_1": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_2": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_3": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_4": null
+      }
+    },
+    {
+      "item_id": "s197_src_14",
+      "eligibility_correct": true,
+      "eligibility_issue": "",
+      "question_language_spanish": true,
+      "question_language_issue": "",
+      "question_natural_for_field_technician": true,
+      "question_naturality_issue": "",
+      "answer_points_semantically_distinct": true,
+      "answer_point_distinctness_issue": "",
+      "answer_points_complete_for_question_within_excerpt": true,
+      "answer_point_completeness_issue": "",
+      "question_answerable": true,
+      "question_issue": "",
+      "point_reviews": {
+        "point_1": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_2": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": true,
+          "facet_issue": ""
+        },
+        "point_3": {
+          "fully_supported": true,
+          "support_issue": "",
+          "facet_correct": false,
+          "facet_issue": "El punto describe el funcionamiento del módulo, no una acción de salida o paso correctivo."
+        },
+        "point_4": null
+      }
+    }
+  ],
+  "semantic_receipts_sha256": "ea3705bcc1130dedaf3374afd19df12915ef50627dc33244f0929cbe7ad9f81f",
+  "cohort_sha256": "6cfe422f11339ae729c6331ac572713f1c4cd28419d95517408953e2abab2b71"
+}
