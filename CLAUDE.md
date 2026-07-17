@@ -55,20 +55,25 @@ análisis. La visibilidad ES el control — no una auto-pregunta privada.
 ## Protocolo 3 — Revisión adversarial antes de build/commit (medio/alto impacto)
 ANTES de cablear/commitear una decisión de impacto MEDIO o ALTO → lanza el revisor
 adversarial (spec: `docs/ADVERSARIAL_REVIEWER.md`). Es para no depender de Alberto como
-anti-bias (feedback_my_bias). Tiering: sub-agente Claude (lee código) siempre; y si es
-ALTO **o** MEDIO-en-zona-de-dolor (corpus/idiomas/legacy/retrieval/esquema), TAMBIÉN
-cross-model GPT-5.5 (`scripts/adversarial_review.py`) — el mismo-modelo comparte mis blind
+anti-bias (feedback_my_bias). Tiering: Fable 5 (lee código) siempre; y si es
+ALTO **o** MEDIO-en-zona-de-dolor (corpus/idiomas/legacy/retrieval/esquema), TAMBIÉN el
+revisor principal GPT-5.6 Sol con `reasoning_effort=xhigh`
+(`scripts/adversarial_review.py`) — una sola familia comparte blind
 spots conceptuales. Reglas: **(C)** verifica sus claims fuertes contra el código antes de
 actuar (Protocolo 1 aplica a su output); **(F)** aumenta, no reemplaza — yo decido y soy
-responsable. Guardarraíl anti-ritual: tally de confirmados/falsos-positivos; si degrada a
-"siempre alineado" o a fabricar trivialidades → revisar/matar. NO es un `/propose` 2.0:
+responsable. Guardarraíl anti-ritual: precisión/recall en casos congelados con fallos conocidos
+y controles limpios, más coste; una propuesta sólida puede devolver `SÓLIDO`. NO es un `/propose` 2.0:
 debe producir bite concreto anclado en evidencia (validado: cazó 5 fallos del localizador).
-**s56→s73→s88:** el sub-agente corre pin `model: fable` (Alberto, s88; s73→s88 fue `opus`) = mismo
-modelo que el autor (Fable 5) → en ALTO/zona-de-dolor el cross-model GPT-5.5 es INNEGOCIABLE (no
-"recomendado"). **s88 (Alberto): el cross-model también LEE el repo** — `adversarial_review.py` corre
-un loop agéntico con tools read-only (`read_file`/`grep_repo`/`list_dir`; sandbox + deny `.env*`/tally;
-cap 30 calls; `--no-tools` escape) → PARIDAD de información entre ambos lados del dúo (cierra
-TECH_DEBT #36; smoke: cazó 2 claims falsas plantadas con ancla fichero:línea). Ronda nueva de review =
+**s56→s73→s88→actual:** el segundo revisor frontera corre de forma independiente con pin
+`model: fable` (Fable 5; Alberto, s88; s73→s88 fue `opus`) y el revisor principal es
+GPT-5.6 Sol xhigh; en
+ALTO/zona-de-dolor el dúo es INNEGOCIABLE (no "recomendado"). **s88 (Alberto): Sol también
+LEE el repo** — `adversarial_review.py` corre
+un loop agéntico sobre Responses API (`store=False`) con tools read-only sobre el repo versionado
+(`read_file`/`grep_repo`/`list_dir`; sandbox + deny `.env*`/tally;
+cap 30 calls; `--no-tools` escape) → acceso autónomo al repo versionado (memoria externa material
+se adjunta como snapshot autorizado; cierra TECH_DEBT #36; smoke: cazó 2 claims falsas plantadas
+con ancla fichero:línea). Ronda nueva de review =
 agente FRESCO siempre. (Histórico s73: el dúo-Opus cazó 4 issues que el dúo-sonnet previo NO vio →
 el modelo top del momento como sub-agente es materialmente más fuerte en verificación de código.)
 

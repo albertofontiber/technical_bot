@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 17 jul 2026 (s193 — control Terra y primer planificador de síntesis con render determinista).
+> 17 jul 2026 (s194 — cohorte fresca del planificador descompuesto; NO-GO upstream sin abrir targets).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -22,7 +22,7 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s193 — 17 jul 2026)
+## Estado actual (s194 — 17 jul 2026)
 
 **La foto diagnóstica comparable más reciente es 157 facts: 143 OK · 12 synthesis-miss ·
 2 retrieval-miss = 91,08% OK, gap 7 facts hasta 95%.** No es todavía un KPI atómico oficial ni
@@ -45,6 +45,20 @@ renderizado con postcondición es candidato estructural; el selector de obligaci
 cuello medido. S193 no mueve facts ni autoriza producción. No se ajustará el prompt sobre estas 14
 preguntas; el siguiente paso exige descomposición de pregunta y validación fresca.
 
+**S194 ejecutó esa validación fresca y se cerró antes del selector, sin mover facts.** Se congeló
+por GET-only una cohorte nueva de `chunks_v2`: 25.090 filas leídas, 14 documentos/fabricantes
+distintos, 7 tabla + 7 prosa, cero overlap documental/UUID/pares de desarrollo y manifest
+pre-autor de cada unidad fuente. El autor económico Haiku produjo 13 preguntas elegibles,
+7 tabla + 6 prosa y 50 puntos, pero **1/14 output fue inválido** porque asignó una cardinalidad de
+soporte fuera del contrato. El gate exigía cero inválidos, así que el estado es
+`NO_GO_COHORT_CONSTRUCTION`. Coste: **$0,078186**. No se llamó a Luna, no se abrió ninguno de los
+cuatro targets, no se ejecutó el compilador sobre ellos y el crédito diagnóstico/productivo es
+0. No se repite esta cohorte ni se relajan umbrales. La causalidad útil es upstream: el schema
+estructurado del autor describía `support_unit_ids` como array, pero no imponía en JSON Schema el
+`minItems=1`, `maxItems=3` y `uniqueItems=true` que el validador sí exigía. El siguiente intento,
+si se prioriza, debe corregir ese contrato **antes** de congelar otra cohorte documental nueva;
+no reutilizar outputs ni tocar el selector S193 sobre poblaciones ya observadas.
+
 **`chunks_v3` no se migra al completo.** S140 cerró el shadow representativo como
 `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`: empata recall funcional@10 (16/24 vs 16/24) pero empeora el
 primer rango útil/MRR (0,4021→0,3694). `chunks_v2` sigue siendo el baseline activo. V3 preserva
@@ -64,13 +78,14 @@ umbral post hoc ni se llamó a Sol/Fable. La calidad del clasificador queda sin 
 sigue siendo un registro ligado a documento+revisión+página+hash, independiente del chunker.
 
 **Producción no ha cambiado en este bloque.** No se ha hecho push, deploy, migración ni escritura
-remota. Próximos pasos, por orden: (1) congelar una cohorte fresca para un planificador que
-descomponga la pregunta en subobligaciones antes de seleccionar IDs; (2) si mejora recall sin
-romper precisión, construir un compilador legible que preserve IDs y validarlo end-to-end; (3)
-solo después ejecutar un probe target y la regresión completa congelada; (4) validar de forma
-independiente S172/S188 antes de producción; (5) rehacer el gate visual con controles negativos
-balanceados solo cuando vuelva a priorizarse imagen; (6) recoger audio real antes de comparar ASR.
-El funnel se conserva por etapa: S193 es avance de síntesis medido, pero no crédito de facts.
+remota. Railway sigue siendo una demo y no es condición para merge con CI verde. Próximos pasos,
+por orden: (1) si síntesis sigue priorizada, congelar **otra** cohorte documental fresca solo tras
+sellar la cardinalidad en el schema del autor; (2) exigir el mismo gate 90% recall / 80% precisión /
+75% completas y abrir targets únicamente si pasa; (3) solo después integrar el compilador en un
+seam runtime default-off y ejecutar regresión completa; (4) validar de forma independiente
+S172/S188 antes de producción; (5) rehacer imagen con controles negativos balanceados cuando se
+repriorice; (6) recoger 30 audios reales antes de comparar ASR. El funnel se conserva por etapa:
+S193 mantiene señal de renderer; S194 es NO-GO upstream y ambos tienen crédito de facts cero.
 
 ## Estado anterior (s129 — 15 jul 2026)
 

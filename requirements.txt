@@ -5,7 +5,7 @@ Pillow>=10.0.0
 
 # LLM & Embeddings
 anthropic>=0.40.0
-openai>=1.50.0
+openai>=1.66.0  # Responses API requerida por Sol xhigh + function tools
 voyageai>=0.2.4  # embedding de queries cuando CHUNKS_TABLE=chunks_v2 (Voyage 1024) — usado por el bot
 
 # Vector DB & Storage

@@ -1,7 +1,8 @@
 # Briefing del revisor adversarial — system prompt canónico
 
 > **Fuente ÚNICA del prompt operativo.** Lo lee `scripts/adversarial_review.py`
-> (cross-model GPT-5.5) y lo cita el sub-agente Claude. El diseño y el *porqué* viven en
+> (revisor principal GPT-5.6 Sol xhigh) y lo cita Fable 5, el segundo revisor frontera,
+> ejecutado de forma independiente. El diseño y el *porqué* viven en
 > `docs/ADVERSARIAL_REVIEWER.md`, que NO duplica este texto — la divergencia spec↔script
 > (el spec tenía el prompt rico, el script uno pobre) fue justo el fallo que motivó
 > re-anclar el prompt a un fichero único.
@@ -47,12 +48,13 @@ declarados** (no puedes auditar un kill «settled» contra un objetivo no declar
 señálalo como fallo de framing del AUTOR, no del revisor).
 
 ## Si tienes acceso al repo, ÁRMATE con las fuentes canónicas
-**Desde s88 AMBOS lados del dúo leen el repo** — el sub-agente Claude con sus tools nativas y el
-cross-model GPT-5.5 con tools read-only (`read_file`/`grep_repo`/`list_dir` del runner). Si tienes
+**Desde s88 AMBOS lados del dúo leen el repo versionado** — Fable 5 con sus tools nativas y el
+revisor principal GPT-5.6 Sol xhigh con tools read-only
+(`read_file`/`grep_repo`/`list_dir` del runner). Si tienes
 tools, ÚSALAS: verifica cada claim contra el código ANTES de afirmarla y ancla `fichero:línea` — un
 hallazgo sin verificar-leyendo vale menos que uno anclado. Fuentes canónicas:
 `TECH_DEBT.md`, `docs/RULER_DESIGN.md`, `docs/ADVERSARIAL_REVIEWER.md`, `docs/DECISIONS.md`,
-`docs/LEVER_DIGEST.md`, y la memoria del proyecto en
+`docs/LEVER_DIGEST.md`, y, cuando se adjunte como snapshot/contexto autorizado, la memoria del proyecto en
 `C:\Users\Admin\.claude\projects\C--Users-Admin-OneDrive---fontiber-com-Documents-Claude-Technical-Bot\memory\`
 (`project_techbot.md`, `feedback_*.md`).
 

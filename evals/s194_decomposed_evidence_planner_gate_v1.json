@@ -1,0 +1,37 @@
+{
+  "instrument": "s194_decomposed_evidence_planner_gate_v1",
+  "status": "NO_GO_COHORT_CONSTRUCTION",
+  "population_checks": {
+    "eligible_questions_gte_12": true,
+    "eligible_manufacturers_gte_12": true,
+    "table_questions_gte_5": true,
+    "prose_questions_gte_5": true,
+    "answer_points_gte_24": true,
+    "author_invalid_outputs_zero": false
+  },
+  "chunks_v3_lane": {
+    "status": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "baseline": {
+      "chunks_v2_recall_at_10": "16/24",
+      "chunks_v3_recall_at_10": "16/24",
+      "chunks_v2_mrr": 0.4021,
+      "chunks_v3_mrr": 0.3694
+    },
+    "changed_by_s194": false,
+    "migration_or_materialization": false,
+    "next_trigger": "structural_v4_hypothesis_improves_ranking_without_manufacturer_or_heldout_loss",
+    "per_question_patching": false
+  },
+  "cost": {
+    "author_usd": 0.078186,
+    "planner_usd": 0,
+    "target_usd": 0,
+    "total_usd": 0.078186
+  },
+  "decision": {
+    "target_probe_opened": false,
+    "production": false,
+    "facts_moved_to_ok": 0
+  },
+  "result_sha256": "914b8b9c43c6a087695df073bc475902fe51c483b64b92c98b3eb3fc2553f3ce"
+}
