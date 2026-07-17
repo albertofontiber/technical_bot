@@ -1,0 +1,34 @@
+{
+  "instrument": "s162_adversarial_overlay_review_v1",
+  "status": "ADVERSARIAL_HOLD_INSTRUMENT_INCOMPLETE",
+  "result": {
+    "sol_verdict": "INCOMPLETE",
+    "fable_verdict": "INVALID_EMPTY_OUTPUT",
+    "converged": false,
+    "terminal": "HOLD",
+    "validated_findings": [],
+    "interpretation": "No architectural verdict can be attributed to either reviewer. The local candidate is neither adversarially approved nor adversarially rejected."
+  },
+  "attempts": {
+    "sol_generation_calls": 1,
+    "fable_generation_calls": 1,
+    "retries": 0,
+    "additional_rounds": 0
+  },
+  "cost": {
+    "sol_conservative_upper_bound_usd": 0.17871875,
+    "fable_conservative_upper_bound_usd": 0.36423,
+    "total_conservative_upper_bound_usd": 0.54294875,
+    "actual_billed_cost": null,
+    "internal_ceiling_usd": 2.5
+  },
+  "decision": {
+    "local_candidate": "GO_UNCHANGED",
+    "offline_integration_design": "HOLD",
+    "production": "NO_GO",
+    "deployment": "NO_GO",
+    "facts_moved_to_ok": 0,
+    "retry_reviewers": false,
+    "next": "Return to the largest remaining synthesis-miss bucket; do not spend more reviewer tokens on S162."
+  }
+}

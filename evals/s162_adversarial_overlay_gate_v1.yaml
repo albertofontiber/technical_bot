@@ -1,0 +1,48 @@
+instrument: s162_adversarial_overlay_gate_v1
+status: HOLD_REVIEW_INSTRUMENT_INCOMPLETE
+
+candidate:
+  local_gate: evals/s162_numeric_superscript_overlay_local_gate_v2.yaml
+  local_status: GO
+  target_recovered_locally: 1
+  independent_documents_with_applied: 8
+  independent_applied: 32
+  visual_false_attachments: 0
+  full_regression: 1418_passed_4_skipped
+
+bounded_review:
+  packet: evals/s162_adversarial_overlay_packet_v1.json
+  preregistration: evals/s162_adversarial_overlay_prereg_v1.yaml
+  permits:
+    - evals/s162_adversarial_overlay_execution_permit_v1.yaml
+    - evals/s162_adversarial_overlay_execution_permit_v2.yaml
+    - evals/s162_adversarial_overlay_execution_permit_v3.yaml
+  sol_receipt: evals/s162_sol56_xhigh_overlay_review_v1.json
+  fable_receipt: evals/s162_fable5_xhigh_overlay_review_v1.json
+  combined: evals/s162_adversarial_overlay_review_v1.json
+
+review_outcome:
+  sol: incomplete_at_frozen_output_cap
+  fable: empty_unparseable_structured_output
+  valid_verdicts: 0
+  convergence: false
+  terminal: HOLD
+  retries: 0
+  additional_rounds: 0
+
+decision:
+  local_candidate: GO
+  offline_integration: HOLD
+  production: false
+  facts_moved_to_ok: 0
+  rationale: >-
+    Both bounded calls failed to produce valid review JSON. This is an
+    instrument failure, not evidence against the local candidate, but the
+    preregistered convergence gate cannot pass. Spending more on reviewer
+    retries would repeat the recent paralysis-by-analysis pattern, so S162 is
+    parked and work returns to the 13 synthesis misses.
+
+cost:
+  actual_billed_usd: null
+  conservative_upper_bound_usd: 0.54294875
+  user_budget_ceiling_usd: 250
