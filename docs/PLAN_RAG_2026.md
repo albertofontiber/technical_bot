@@ -3,8 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 15 jul 2026 (s129 — reconciliación upstream→downstream de S100/S112-S128;
-> `evals/s129_current_state_reconciliation_v1.yaml`).
+> 17 jul 2026 (s190 — funnel reconciliado S172/S188, cierre causal S189 y contrato visual S190).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -23,7 +22,54 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s129 — 15 jul 2026)
+## Estado actual (s190 — 17 jul 2026)
+
+**La foto diagnóstica comparable más reciente es 157 facts: 143 OK · 12 synthesis-miss ·
+2 retrieval-miss = 91,08% OK, gap 7 facts hasta 95%.** No es todavía un KPI atómico oficial ni
+un resultado desplegado: parte del puente híbrido S133, conserva 77 legacy carries pendientes y
+presupone dos candidatos locales/default-off. El bridge exacto es: S172 lleva la extracción
+`10^5` de hold→OK y deja 141/157; S188 añade dos facts de compatibilidad/topología de
+retrieval→OK, dejando 143/157. Estos movimientos sí son crédito diagnóstico de etapa, pero su
+crédito productivo sigue siendo cero mientras los flags estén apagados y falte generalización
+independiente.
+
+**El orden de trabajo vuelve a síntesis porque retrieval ya es residual (2 vs 12), pero la línea
+genérica de síntesis queda cerrada hasta nueva evidencia.** Se han falsado, con gates baratos y
+sin tuning sobre los cuatro targets: selector+revisión de omisiones (S173, +1/37), tarjeta
+extractiva (S176, +1/37 y ninguna pregunta completa), almacén relacional con selector (S186),
+embeddings locales E5 (S188) y escritor con todas las relaciones (S189, +1/11). La sustitución
+directa por modelos frontera ya fue NO-GO en S156. S189 costó **$0,164661**, no llamó revisión
+adversarial y se cerró sin reintentos. No se abrirá otro prompt/agent loop sobre la misma cohorte:
+S143 ya falsó el planner agéntico de citas y S149-S150 falsaron selector/verificador iterativo.
+El próximo candidato factual exige una representación realmente distinta y una cohorte fresca,
+o se mantiene aparcado para no convertir el objetivo 95% en overfit.
+
+**`chunks_v3` no se migra al completo.** S140 cerró el shadow representativo como
+`FINAL_NO_GO_CHUNKS_V3_WHOLESALE`: empata recall funcional@10 (16/24 vs 16/24) pero empeora el
+primer rango útil/MRR (0,4021→0,3694). `chunks_v2` sigue siendo el baseline activo. V3 preserva
+más superficie upstream y su contrato de procedencia es valioso, pero esa propiedad no compensa
+una regresión downstream. Solo se diseñará v4 si una causa estructural local mejora el ranking sin
+pérdidas por fabricante/held-out; no se parchearán preguntas concretas.
+
+**Frentes ortogonales:** (a) voz tiene selector versionado y default `whisper-1`; no se migra de
+modelo sin 30 notas reales estratificadas, que hoy no existen; (b) el renderer de Telegram ya
+preserva contenido, tablas y mensajes largos y pasa su gate local; (c) S190 demostró que el canal
+de imágenes está implementado en bot/generador pero sin datos en `chunks_v2`: 0/25.090 URLs.
+Existe un bridge exacto hacia 5.096 páginas legacy (7.685 chunks; 30/30 assets vivos), pero una
+muestra visual contiene portadas/marketing. Por ello el backfill directo es NO-GO. El diseño BP
+es un registro de activos ligado a documento+revisión+página+hash, independiente de la versión de
+chunks, con clasificación de utilidad y activación shadow de alta precisión.
+
+**Producción no ha cambiado en este bloque.** Los nuevos mecanismos siguen locales/default-off;
+no se ha hecho push, deploy, migración ni escritura remota. Próximos pasos autorizables, por
+orden: (1) congelar y medir S191, cohorte visual estratificada, antes de crear tabla o backfill;
+(2) diseñar una representación de síntesis nueva solo si su hipótesis no repite S143/S149/S150/
+S168/S173/S176/S186/S189 y puede probarse primero local o con un piloto barato; (3) validar los
+dos candidates factual default-off con cohortes independientes antes de producción; (4) recoger
+audio real antes de comparar ASR. El funnel se conserva por etapa y no se exige “GO adversarial
+absoluto”: se exige convergencia en seguridad, generalización y ausencia de regresiones críticas.
+
+## Estado anterior (s129 — 15 jul 2026)
 
 **No existe todavía un KPI atómico oficial vigente.** La última evaluación completa y
 comparable (`s100_factlevel_full.yaml`, commit `9790673`, ya anterior al branch/worktree actual)

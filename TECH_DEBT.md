@@ -1656,6 +1656,18 @@ dinámica (available_models). **Relacionado**: DEC-040, `evals/s59_recall_diagno
 
 ## 45. Contrato roto de `chunks_v2.has_diagram`/`diagram_url` — el canal de diagramas está MUERTO en v2 (s60, gate-D)
 
+**Actualización S190 (17-jul-2026): diagnóstico revalidado y solución redefinida.** La tabla
+activa tiene 25.090/25.090 filas con `has_diagram=true` y 0 con `diagram_url`; por tanto la bandera
+es página-con-alguna-imagen, no diagrama técnico útil. El cruce live/GET-only con la tabla legacy
+encuentra 5.096 páginas exactas y no ambiguas por `document_id + page_number + source_file`, que
+alcanzan 7.685 chunks activos; 30/30 URLs muestreadas responden HTTP 200. Sin embargo, una muestra
+visual diagnóstica contiene 2 esquemas útiles y 3 portadas/marketing: copiar URLs a `chunks_v2`
+queda explícitamente **NO-GO**. El fix vigente es un registro `document_visual_assets` ligado a
+revisión+página+hash, independiente del chunker, con rol/utilidad y gate ciego ≥95% precision;
+véanse `evals/s190_visual_asset_contract_design_v1.md` y
+`evals/s190_visual_asset_contract_gate_v1.yaml`. Trigger siguiente: S191 cohorte estratificada;
+no DB write ni producción antes de pasarla.
+
 **Qué pasó (medido s60, 11-jun)**: la tabla vieja `chunks` tiene **44.035 filas** con
 `has_diagram=true AND diagram_url NOT NULL`; **`chunks_v2` tiene 0 de 25.090**. La re-ingesta
 LlamaParse (s44) no pobló estas columnas → otro contrato de columna roto en silencio por el SWAP,
