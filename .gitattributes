@@ -43,6 +43,11 @@ src/rag/technical_obligations.py -text
 evals/s195_* -text
 scripts/s195_* -text
 tests/test_s195_* -text
+evals/s196_* -text
+scripts/s196_* -text
+tests/test_s196_* -text
+# S196 records the exact runtime requirements bytes as execution context.
+requirements.txt -text
 
 # CRLF is part of some frozen receipt bytes; do not report it as whitespace.
 evals/s13[7-9]_* whitespace=-blank-at-eof,cr-at-eol
@@ -57,3 +62,7 @@ tests/test_s15[0-9]_* whitespace=-blank-at-eof,cr-at-eol
 evals/s195_* whitespace=-blank-at-eof,cr-at-eol
 scripts/s195_* whitespace=-blank-at-eof,cr-at-eol
 tests/test_s195_* whitespace=-blank-at-eof,cr-at-eol
+evals/s196_* whitespace=-blank-at-eof,cr-at-eol
+scripts/s196_* whitespace=-blank-at-eof,cr-at-eol
+tests/test_s196_* whitespace=-blank-at-eof,cr-at-eol
+requirements.txt whitespace=-blank-at-eof,cr-at-eol

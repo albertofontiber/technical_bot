@@ -1,0 +1,36 @@
+{
+  "instrument": "s196_static_transport_canary_receipts_v1",
+  "status": "COMPLETE",
+  "created_at": "2026-07-17T13:43:57.695108+00:00",
+  "model": "claude-haiku-4-5-20251001",
+  "anthropic_sdk": "0.97.0",
+  "sdk_max_retries": 0,
+  "completed_calls": 1,
+  "provider_accepted_schema": true,
+  "transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+  "synthetic_fixture_sha256": "0ab59af62942355e463a46a7ceaed4e4770b1fec8b886be6614230447074b276",
+  "receipts": [
+    {
+      "response_id": "msg_011Cd7jEfzEosL3Vc6YfaQFt",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 1458,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1458,
+        "output_tokens": 225,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.002583,
+      "validation_error": null,
+      "raw_synthetic_output": "{\"item_id\":\"s196_canary_01\",\"eligible\":true,\"question\":\"What are the electrical safety procedures required before and after maintenance on the CANARY_MODEL_1?\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"Electrical power must be disconnected before performing maintenance\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_1\":\"E001\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"The safety cover must be reinstalled before restoring power after maintenance\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E002\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "6ece5224a316f4c1c837cc0780b4fc21668a98b950143475df29dde9536a2bea"
+    }
+  ]
+}

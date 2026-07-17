@@ -1,0 +1,35 @@
+instrument: s196_static_transport_canary_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_NO_RETRY
+authority: user_requested_autonomous_next_segment
+
+frozen_artifacts:
+  preregistration: {path: evals/s196_static_transport_canary_prereg_v1.yaml, sha256: f21b93338c87e17c422600c15e53ef95b5c91591dee498556113898dad1f1121}
+  runner: {path: scripts/s196_static_transport_canary.py, sha256: fe889a97df191a44ddeb9d803bc5145635e29daadb4b1e9906fd3fe0872f65f3}
+  gate_tests: {path: tests/test_s196_static_transport_canary.py, sha256: 8993efb22f047ebd724ca1ecd053520bda67464b693bcba3842c955c048a5447}
+
+limits:
+  paid_calls_max: 1
+  provider_requests_max: 2
+  retries: 0
+  internal_ceiling_usd: 0.02
+  frontier_execution_calls: 0
+  real_document_items: 0
+  database_calls: 0
+  database_writes: 0
+  production_changes: 0
+  chunks_v3_changes: 0
+  deployments: 0
+  exclusive_lock_before_provider_requests: true
+  lock_scope: current_workspace
+  immutable_prepaid_checkpoint: true
+  atomic_finalization: true
+
+stopping:
+  any_existing_lock_checkpoint_receipt_or_result: forbid_retry
+  preflight_400: NO_GO_PREFLIGHT_REQUEST_REJECTED
+  anchored_known_schema_compile_message: NO_GO_STATIC_SCHEMA_COMPILE_REJECTED
+  other_inference_400: NO_GO_INFERENCE_REQUEST_REJECTED_UNATTRIBUTED
+  invalid_structured_content: NO_GO_STATIC_TRANSPORT_VALIDATION
+  provider_dependency_interruption: HOLD_EXTERNAL_DEPENDENCY_INCOMPLETE
+  downstream_document_cohort: forbidden_unless_GO_STATIC_TRANSPORT_COMPILED
+  deployment_or_railway_gate: forbidden

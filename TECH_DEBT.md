@@ -10,7 +10,7 @@ Si alcanzas un trigger, para y refactoriza antes de seguir añadiendo features.
 
 ---
 
-## Índice de estado (s195 — 17 jul 2026; generado, no renumera)
+## Índice de estado (s196 — 17 jul 2026; generado, no renumera)
 
 - **Abiertos (trigger-gated):** #1, #2, #3, #5b, #5, #6, #7, #10, #11b, #12, #11g, #11h, #13, #15, #17, #18, #19, #20, #21, #22, #23, #25, #26, #27, #28, #29, #30, #31, #18, #32, #33, #34, #35, #37, #39, #40, #41, #44, #45, #47, #48, #49, #50, #51, #52
 - **Parciales / elevados:** #8, #11f, #24, #53
@@ -1971,7 +1971,7 @@ prompt s99; QA muestral 15/15 ≈ cota inferior ~80%) — mitigado con el filtro
 (pre-colapso, fix #2 r2), no eliminado. Ref: DEC-099 (pendiente al cierre), gate
 `evals/s102_hyq_table_gate.yaml`, tests `tests/test_hyq_channel.py`.
 
-## 53. Transporte del autor de golds: cardinalidad sellada, compilación aún no probada (s194→s195)
+## 53. Transporte del autor de golds: compilación estática probada; generalización real pendiente (s194→s196)
 
 **Estado medido:** el gate fresco S194 se detuvo como `NO_GO_COHORT_CONSTRUCTION` porque
 `s194_src_09` entregó una lista de soportes fuera del rango 1–3. No fue un fallo de parseo ni de
@@ -1987,13 +1987,19 @@ combinación de enums dinámicos por unidad, `$defs` y cuatro puntos fue rechaza
 inferencia con HTTP 400 `Schema is too complex for compilation`. Hubo 14 token-count preflights,
 0 inferencias completadas, Luna 0 y facts 0. Estado `NO_GO_EXECUTION_CONTRACT_REJECTED`.
 
-**Trigger actualizado:** antes de congelar otra cohorte, probar una compilación real sobre canary
-sintético con un schema estático mínimo: slots estructurales, sin enums dinámicos ni `$defs`, y
-pertenencia/unicidad de IDs en validación determinista fail-closed. Solo si compila se autoriza
-otra cohorte fresca que excluya los 14 documentos de S194 y los 14 de S195. No modificar/reintentar
-S194 o S195, reutilizar outputs ni relajar cero inválidos/unsupported.
+**Avance S196:** el canary sintético estático compiló y validó en la única inferencia permitida.
+El schema rectangular usa 4 puntos × 3 soportes, cero arrays/refs/defs/combinators/enums/consts;
+identidad, facets, cardinalidad, pertenencia, unicidad y contigüidad quedan en código determinista.
+Haiku 4.5, SDK 0.97.0, 1 preflight + 1 inferencia, `max_retries=0`, coste $0,002583.
+Estado `GO_STATIC_TRANSPORT_COMPILED`; facts 0 porque el fixture es sintético.
+
+**Trigger actualizado:** congelar en un tramo S197 separado otra cohorte real fresca que excluya
+los 14 documentos de S194 y los 14 de S195. Reusar exactamente el schema estático S196 y el
+validador determinista, luego exigir Luna externa sobre todos los ítems. No modificar/reintentar
+S194/S195/S196 ni relajar cero inválidos/unsupported. Solo si ese upstream pasa se abre el planner
+con 90/80/75 intactos.
 
 **Límite:** corregir el schema elimina una clase de invalidez del instrumento; no aporta evidencia
 de que el planificador descompuesto supere recall 90%/precisión 80%/completas 75%, ni mueve facts.
-Eso solo lo decide una ejecución fresca posterior. Ref: DEC-103/104, `evals/s194_*`,
-`evals/s195_*`.
+Eso solo lo decide una ejecución fresca posterior. Ref: DEC-103/104/105, `evals/s194_*`,
+`evals/s195_*`, `evals/s196_*`.

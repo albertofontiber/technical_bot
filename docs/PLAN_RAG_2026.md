@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 17 jul 2026 (s195 — transporte de autor validado en fresco; NO-GO de compilación antes de inferencia).
+> 17 jul 2026 (s196 — canary estático compilado; GO para cohorte S197 separada, facts aún 0).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -22,7 +22,7 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s195 — 17 jul 2026)
+## Estado actual (s196 — 17 jul 2026)
 
 **La foto diagnóstica comparable más reciente es 157 facts: 143 OK · 12 synthesis-miss ·
 2 retrieval-miss = 91,08% OK, gap 7 facts hasta 95%.** No es todavía un KPI atómico oficial ni
@@ -72,12 +72,18 @@ pasaron, pero la primera inferencia Haiku fue rechazada con 400
 completadas**, Luna 0 llamadas y targets/planner cerrados. Estado:
 `NO_GO_EXECUTION_CONTRACT_REJECTED`; crédito de facts 0. No se reutiliza S195.
 
-La siguiente reapertura legítima ya no es “añadir keywords” ni simplificar sobre la población
-observada. Debe probar primero, con un canary sintético separado, un schema estático mínimo que
-compile realmente; después congelar otra cohorte nueva que excluya S194+S195. La simplificación
-preferida conserva slots estructurales para los máximos y mueve pertenencia/duplicados de IDs al
-validador determinista, evitando enums dinámicos y `$defs`. Solo si autoría + validación semántica
-externa pasan se abre en otro tramo el planner con 90/80/75 intactos.
+DEC-104 fijó que la reapertura legítima no era “añadir keywords” ni simplificar sobre la población
+observada: primero un canary sintético separado con schema estático mínimo y solo después otra
+cohorte nueva que excluya S194+S195. La simplificación debía conservar slots estructurales y mover
+pertenencia/duplicados de IDs al validador determinista, evitando enums dinámicos y `$defs`.
+
+**S196 completó ese canary y es GO del transporte, no del sistema.** El schema rectangular estático
+(4 puntos × 3 soportes) contiene cero arrays, refs/defs, combinators, enums o consts; las restricciones
+específicas viven en validación determinista. Sobre dos unidades 100% sintéticas, Haiku 4.5 compiló,
+devolvió `end_turn` y produjo dos puntos válidos en una única inferencia. SDK 0.97.0, cero retries,
+coste $0,002583. Sol 5.6 xhigh revisó tres iteraciones; Fable quedó `omitted_unavailable`. Crédito de
+facts 0 y ningún documento/target/Luna/planner se abrió. El resultado autoriza solamente un S197
+separado: cohorte real nueva, disjunta de S194+S195, mismo schema genérico y validación externa Luna.
 
 **`chunks_v3` no se migra al completo.** S140 cerró el shadow representativo como
 `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`: empata recall funcional@10 (16/24 vs 16/24) pero empeora el
@@ -99,14 +105,15 @@ sigue siendo un registro ligado a documento+revisión+página+hash, independient
 
 **Producción no ha cambiado en este bloque.** No se ha hecho deploy, migración ni escritura
 remota. Railway sigue siendo una demo y no es condición para merge con CI verde. Próximos pasos,
-por orden: (1) cerrar S195 en PR y, si síntesis sigue priorizada, validar con canary sintético un
-transporte estático mínimo que compile; (2) solo después congelar **otra** cohorte documental fresca
-que excluya S194+S195 y exigir autoría + arbitraje semántico externo; (3) mantener 90% recall /
+por orden: (1) cerrar S196 en PR; (2) congelar en S197 **otra** cohorte documental fresca
+que excluya S194+S195 y exigir el mismo transporte estático + autoría + arbitraje semántico externo;
+(3) mantener 90% recall /
 80% precisión / 75% completas y abrir targets únicamente si ese upstream pasa; (4) solo después integrar el compilador en un
 seam runtime default-off y ejecutar regresión completa; (5) validar de forma independiente
 S172/S188 antes de producción; (6) rehacer imagen con controles negativos balanceados cuando se
 repriorice; (7) recoger 30 audios reales antes de comparar ASR. El funnel se conserva por etapa:
-S193 mantiene señal de renderer; S194 y S195 son NO-GO upstream y los tres tienen crédito de facts cero.
+S193 mantiene señal de renderer; S194 y S195 son NO-GO upstream, S196 es GO instrumental y los
+cuatro tramos siguen con crédito de facts cero.
 
 ## Estado anterior (s129 — 15 jul 2026)
 

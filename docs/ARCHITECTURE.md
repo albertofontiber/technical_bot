@@ -72,6 +72,10 @@
 > pero el schema dinámico por excerpt excedió la complejidad de compilación de Haiku antes de la
 > primera inferencia. Estado `NO_GO_EXECUTION_CONTRACT_REJECTED`, 0 outputs autor, Luna/planner/
 > targets cerrados y 0 facts. No cambia runtime, flags, DB, deploy ni el NO-GO wholesale de v3;
+> **s196 (DEC-105): frontera de transporte compilable, no seam runtime** — un schema estático
+> rectangular sin arrays/refs/defs/enums/consts compiló y pasó el adaptador determinista en un
+> canary 100% sintético. Autoriza únicamente una cohorte S197 nueva; 0 facts, 0 documentos reales,
+> sin runtime/flags/DB/deploy y `chunks_v3` permanece `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`;
 > HyDE off; identidad de producto data-driven
 > (`config/manufacturers/` + sidecar). El registry cierra #43-capa-A (la query del base no
 > arrastra HERMANOS; las variantes VEN los docs de serie). **s64 (DEC-045): el lifecycle es
