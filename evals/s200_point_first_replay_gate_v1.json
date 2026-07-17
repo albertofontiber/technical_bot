@@ -1,0 +1,103 @@
+{
+  "instrument": "s200_point_first_scope_gate_v1",
+  "status": "NO_GO_POINT_PLAN_STRUCTURAL_GATE",
+  "package_qualification_not_component_causal_isolation": true,
+  "population_checks": {
+    "eligible_items_gte_12": false,
+    "eligible_manufacturers_gte_12": false,
+    "table_items_gte_5": true,
+    "prose_items_gte_5": true,
+    "answer_points_gte_24": true,
+    "invalid_point_author_outputs_zero": true
+  },
+  "point_plan_semantic_checks": {
+    "all_items_cross_provider_screened": false,
+    "point_screen_invalid_outputs_zero": true,
+    "all_point_plans_pass_screen": false
+  },
+  "question_transport_checks": {
+    "question_writer_called_only_after_point_gate": true,
+    "all_eligible_questions_written": false,
+    "question_writer_invalid_outputs_zero": false
+  },
+  "question_scope_checks": {
+    "all_written_questions_cross_provider_screened": false,
+    "question_screen_invalid_outputs_zero": false,
+    "all_questions_pass_scope_screen": false
+  },
+  "failure_attribution": {
+    "single_luna_disagreement_is_weak_mechanism_evidence": true,
+    "question_writer_excerpt_withholding_context_starvation_possible": false
+  },
+  "eligible_inventory": {
+    "definition": "post_target_equivalence_post_all_prior_through_s199_document_source_file_pair_and_generic_eligibility",
+    "counts": {
+      "chunk_rows": 8091,
+      "documents": 644,
+      "source_files": 644,
+      "manufacturer_product_pairs": 447,
+      "manufacturers": 10,
+      "table_documents": 457,
+      "prose_documents": 570,
+      "table_manufacturers": 10,
+      "prose_manufacturers": 9
+    },
+    "post_selection_reserve_definition": "eligible candidate rows excluding selected documents; point-first lane closes after S200 regardless of reserve",
+    "post_selection_reserve": {
+      "chunk_rows": 7718,
+      "documents": 620,
+      "source_files": 620,
+      "manufacturer_product_pairs": 429,
+      "manufacturers": 8,
+      "table_documents": 435,
+      "prose_documents": 550,
+      "table_manufacturers": 8,
+      "prose_manufacturers": 8
+    }
+  },
+  "screen_scope": {
+    "luna_calibration": "NOT_MEASURED",
+    "human_agreement": "NOT_MEASURED",
+    "document_wide_opportunity_coverage": "NOT_MEASURED",
+    "semantic_near_duplicate_overlap": "NOT_MEASURED",
+    "oem_relabel_overlap": "NOT_MEASURED",
+    "semantic_correctness_claim": "SCREEN_ONLY_NOT_GOLD_AUTHORITY",
+    "frontier_execution_calls": 0
+  },
+  "chunks_v3_lane": {
+    "status": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "changed_by_s200": false,
+    "migration_or_materialization": false,
+    "per_question_patching": false,
+    "historical_metrics_duplicated": false
+  },
+  "cost": {
+    "point_author_usd": 0.144517,
+    "point_screen_usd": 0.0,
+    "question_writer_usd": 0.0,
+    "question_screen_usd": 0.0,
+    "worst_case_preflight_usd": 0.261802,
+    "total_usd": 0.144517
+  },
+  "decision": {
+    "same_cohort_retry": false,
+    "downstream_planner_opened": false,
+    "target_probe_opened": false,
+    "next_action": "STOP_WITHOUT_DOWNSTREAM",
+    "runtime_integration": false,
+    "production": false,
+    "official_fact_credit": 0,
+    "diagnostic_facts_moved_to_ok": 0,
+    "railway_deploy_gate": false,
+    "s201_handoff_constraints": {
+      "planner_recall_min": 0.9,
+      "planner_precision_min": 0.8,
+      "complete_questions_min": 0.75,
+      "exactness_required": true,
+      "deterministic_checks_required": true,
+      "covered_obligation_regressions_max": 0,
+      "new_versioned_conflicts_max": 0
+    }
+  },
+  "result_sha256": "783613e6f86bf32505a459e3834e7bee39c24c746d0939392cf3851cc3908ac4"
+}

@@ -1,0 +1,18 @@
+{
+  "instrument": "s200_point_first_scope_execution_lock_v1",
+  "status": "LOCKED_BEFORE_PROVIDER_REQUEST",
+  "created_at": "2026-07-17T20:16:31.156008+00:00",
+  "execution_owner_token": "5516cca19f87477eb2e2db85c48c055e",
+  "models": {
+    "point_author": "claude-haiku-4-5-20251001",
+    "point_screen": "gpt-5.6-luna",
+    "question_writer": "claude-haiku-4-5-20251001",
+    "question_screen": "gpt-5.6-luna"
+  },
+  "sdk": {
+    "anthropic": "0.97.0",
+    "openai": "2.30.0"
+  },
+  "max_retries": 0,
+  "provider_requests_completed": 0
+}

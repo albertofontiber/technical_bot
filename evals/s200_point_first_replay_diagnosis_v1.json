@@ -1,0 +1,89 @@
+{
+  "instrument": "s200_point_first_replay_diagnosis_v1",
+  "status": "CLOSED_POINT_FIRST_FRESH_GENERALIZATION_LANE",
+  "gate_status": "NO_GO_POINT_PLAN_STRUCTURAL_GATE",
+  "source_population": {
+    "packet": "evals/s200_final_balanced_source_packet_v1.json",
+    "chunks_v2_rows": 25090,
+    "items": 24,
+    "manufacturers": 10,
+    "table": 12,
+    "prose": 12,
+    "unique_documents_source_files_and_pairs": 24,
+    "historical_or_target_exact_overlap": 0,
+    "database_writes": 0
+  },
+  "point_author_aggregate_only": {
+    "model": "claude-haiku-4-5-20251001",
+    "completed_calls": 24,
+    "invalid_outputs": 0,
+    "eligible_items": 11,
+    "ineligible_items": 13,
+    "eligible_manufacturers": 7,
+    "eligible_table_items": 6,
+    "eligible_prose_items": 5,
+    "accepted_points_before_semantic_screen": 40,
+    "cost_usd": 0.144517,
+    "item_level_identities_claims_facets_and_issues_used_for_next_design": false
+  },
+  "frozen_population_gates": {
+    "eligible_items_min": 12,
+    "eligible_manufacturers_min": 8,
+    "table_items_min": 5,
+    "prose_items_min": 5,
+    "answer_points_min": 24,
+    "invalid_outputs_max": 0
+  },
+  "failed_gates": [
+    "eligible_items_min_12",
+    "eligible_manufacturers_min_8"
+  ],
+  "passed_gates": [
+    "table_items_min_5",
+    "prose_items_min_5",
+    "answer_points_min_24",
+    "invalid_point_author_outputs_zero"
+  ],
+  "instrumentation_note": {
+    "legacy_result_key": "eligible_manufacturers_gte_12",
+    "actual_comparison": "eligible_manufacturers >= prereg.validation.eligible_manufacturers_min",
+    "actual_frozen_minimum": 8,
+    "behavior_correct_label_stale": true
+  },
+  "downstream_not_measured": {
+    "point_screen_calls": 0,
+    "question_writer_calls": 0,
+    "question_screen_calls": 0,
+    "planner_calls": 0,
+    "protected_target_calls": 0,
+    "point_plan_semantic_quality": "NOT_MEASURED",
+    "question_scope_closure": "NOT_MEASURED"
+  },
+  "interpretation": {
+    "transport_regression": false,
+    "semantic_package_falsified": false,
+    "source_authored_question_generalization_supported": false,
+    "measured_bottleneck": "Even a 24-source manufacturer-balanced final holdout does not yield the predeclared 12 multi-obligation items across eight manufacturers before independent semantic screening.",
+    "same_cohort_retry_or_postselection": false,
+    "successor_point_first_population": false,
+    "additional_frontier_convergence": false
+  },
+  "lane_closure": {
+    "further_point_first_cohorts": 0,
+    "prompts_or_thresholds_repaired_from_s200": false,
+    "next_mechanism": "Do not author another source-first synthetic cohort. Clean the existing default-off diagnostic bridge through independent S188 then S172 generalization, then return to the twelve synthesis misses with a genuinely real-question holdout mechanism.",
+    "diagnostic_credit_note": "Independent S188/S172 validation can convert local/default-off evidence into release evidence but does not itself increase the current diagnostic OK count, which already includes those candidates."
+  },
+  "facts": {
+    "official_credit": 0,
+    "diagnostic_moved_to_ok": 0,
+    "current_comparable": {
+      "denominator": 157,
+      "ok": 143,
+      "synthesis_miss": 12,
+      "retrieval_miss": 2
+    }
+  },
+  "chunks_v3_lane": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+  "railway_deploy_gate": false
+}

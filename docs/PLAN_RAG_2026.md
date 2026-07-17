@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 17 jul 2026 (S199 — point-first vuelve a parar antes de Luna; facts 0).
+> 17 jul 2026 (S200 — línea point-first cerrada tras holdout final; facts 0).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -142,6 +142,15 @@ final, prelimitado a 24 fuentes balanceadas (12+12), máximo 10 fabricantes, mot
 mínimos 12 elegibles / 8 fabricantes / 5+5 / 24 puntos / cero fallos. Si no pasa, se cierra esta
 línea y se cambia de mecanismo; no se reutilizan identidades o issues de S198/S199.
 
+**S200 consumió ese último intento y cerró la línea.** El holdout final tenía 24 fuentes nuevas,
+12+12, 24 documentos/source-files/pares y cobertura de los 10 fabricantes restantes. Haiku dio
+24/24 outputs válidos, 11 elegibles de 7 fabricantes, 6 tabla + 5 prosa y 40 puntos. Pasaron
+estratos/puntos/transporte, pero fallaron los mínimos predeclarados de 12 ítems y 8 fabricantes;
+Luna/writer/planner quedaron en cero y el coste fue $0,144517. No habrá S201 poblacional ni otra
+calibración point-first. El siguiente orden limpia primero el puente local/default-off mediante
+generalización independiente S188→S172 —sin fingir aumento del 143 diagnóstico— y vuelve después
+al residual de 12 synthesis-miss con preguntas reales, no con otra autoría source-first.
+
 **`chunks_v3` no se migra al completo.** S140 cerró el shadow representativo como
 `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`: empata recall funcional@10 (16/24 vs 16/24) pero empeora el
 primer rango útil/MRR (0,4021→0,3694). `chunks_v2` sigue siendo el baseline activo. V3 preserva
@@ -162,16 +171,14 @@ sigue siendo un registro ligado a documento+revisión+página+hash, independient
 
 **Producción no ha cambiado en este bloque.** No se ha hecho deploy, migración ni escritura
 remota. Railway sigue siendo una demo y no es condición para merge con CI verde. Próximos pasos,
-por orden: (1) integrar el NO-GO S199 con CI verde; (2) congelar la última población point-first:
-24 documentos/source-files/pares nuevos, 12 tabla + 12 prosa, balanceados sobre el máximo de 10
-fabricantes restantes; (3) ejecutar sin cambios el motor S198 y exigir 12 elegibles, 8 fabricantes,
-5+5, 24 puntos y cero fallos en ambos screens; (4) mantener 90% recall / 80% precisión /
-75% completas y abrir targets únicamente si ese upstream pasa; si falla, cerrar esta línea sin
-otro ajuste; (5) solo después de un GO integrar el
-compilador en un seam runtime default-off y ejecutar regresión completa; (6) validar de forma
-independiente S172/S188 antes de producción; (7) rehacer imagen con controles negativos balanceados cuando se
-repriorice; (8) recoger 30 audios reales antes de comparar ASR. El funnel se conserva por etapa:
-S193 mantiene señal de renderer; S194, S195, S197, S198 y S199 son NO-GO upstream, S196 y el canary
+por orden: (1) integrar el cierre S200 con CI verde; (2) generalizar independientemente S188 sobre
+compatibilidad real y después S172 sobre extracción, manteniendo ambos flags apagados hasta GO;
+(3) reconciliar el bridge diagnóstico/productivo sin sumar de nuevo esos tres facts; (4) volver
+al bucket dominante de 12 synthesis-miss con un holdout de preguntas reales y un mecanismo distinto,
+sin otra población point-first; (5) sólo después de un GO integrar el compilador en un seam runtime
+default-off y ejecutar regresión completa; (6) rehacer imagen con controles negativos balanceados cuando se
+repriorice; (7) recoger 30 audios reales antes de comparar ASR. El funnel se conserva por etapa:
+S193 mantiene señal de renderer; S194, S195, S197, S198, S199 y S200 son NO-GO upstream, S196 y el canary
 question-only son GO instrumentales y todos estos tramos siguen con crédito de facts cero.
 
 ## Estado anterior (s129 — 15 jul 2026)

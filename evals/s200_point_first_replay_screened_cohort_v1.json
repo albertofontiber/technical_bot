@@ -1,0 +1,1292 @@
+{
+  "instrument": "s200_point_first_scope_screened_cohort_v1",
+  "status": "SEALED_REJECTED_PACKAGE",
+  "source_packet_sha256": "ddc9471da7463f5a5dd48f99438eb0bfe8bad9e71e19bac0b3d11f097ff370b3",
+  "population_checks": {
+    "eligible_items_gte_12": false,
+    "eligible_manufacturers_gte_12": false,
+    "table_items_gte_5": true,
+    "prose_items_gte_5": true,
+    "answer_points_gte_24": true,
+    "invalid_point_author_outputs_zero": true
+  },
+  "point_plan_semantic_checks": {
+    "all_items_cross_provider_screened": false,
+    "point_screen_invalid_outputs_zero": true,
+    "all_point_plans_pass_screen": false
+  },
+  "question_transport_checks": {
+    "question_writer_called_only_after_point_gate": true,
+    "all_eligible_questions_written": false,
+    "question_writer_invalid_outputs_zero": false
+  },
+  "question_scope_checks": {
+    "all_written_questions_cross_provider_screened": false,
+    "question_screen_invalid_outputs_zero": false,
+    "all_questions_pass_scope_screen": false
+  },
+  "items": [
+    {
+      "item_id": "s200_src_01",
+      "eligible": true,
+      "question": "",
+      "answer_points": [
+        {
+          "claim": "The NC-MC-0-G manual call point is available in green color",
+          "facet": "option_mode_or_default",
+          "support_unit_ids": [
+            "E016_168f2ef27e"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E016_168f2ef27e",
+              "source_spans": [
+                [
+                  1232,
+                  1353
+                ]
+              ],
+              "content_sha256": "ff6aca26b1db976077df8f305456c0269103df2d8beec30892d49146506edc3a"
+            }
+          ]
+        },
+        {
+          "claim": "For surface mounting the manual call point, a backbox in green color (N-MC-BB-G) can be ordered",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E021_ffaf911749",
+            "E037_302d320416"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E021_ffaf911749",
+              "source_spans": [
+                [
+                  1663,
+                  1737
+                ]
+              ],
+              "content_sha256": "7fbb969a9086e56a2308a43a7417d815883438ca94e4cdd9cf8a774a616c3f84"
+            },
+            {
+              "unit_id": "E037_302d320416",
+              "source_spans": [
+                [
+                  1739,
+                  1778
+                ],
+                [
+                  1899,
+                  1938
+                ]
+              ],
+              "content_sha256": "a61d076277c94e25a8b7064ef6501c7e9fc87d86eb9e038d2851356c53d4aace"
+            }
+          ]
+        },
+        {
+          "claim": "For recess mounting, a green recess adaptor (N-MC-AFM-G) can be ordered",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E024_273de33d05",
+            "E043_a2de488511"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E024_273de33d05",
+              "source_spans": [
+                [
+                  2060,
+                  2139
+                ]
+              ],
+              "content_sha256": "4a5bdd5589db585c5b2e9802e7c75e2e01a83ef9c98870abf2bdac3a26453ef1"
+            },
+            {
+              "unit_id": "E043_a2de488511",
+              "source_spans": [
+                [
+                  2141,
+                  2193
+                ],
+                [
+                  2353,
+                  2405
+                ]
+              ],
+              "content_sha256": "cef955bb4d07b408ae716c115197fe28bf86d3db557414830bcc384c3e3fa84c"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Aritech",
+      "product_model": "NC-MC-0-G",
+      "document_id": "35d5c306-9e99-499c-9ed6-b24fed5196ca",
+      "chunk_id": "14c6d78a-a350-4da9-8de6-fe67e33d944f",
+      "excerpt_sha256": "3caccf01cb200b91f6001c3f6010cabd6d84c650267a769e0267b9f8241a77f5",
+      "excerpt": "# EN: Installation Sheet\n\n## Figures\n\n**Figure 1: Backbox and mounting holes**\n\n**Figure 2: Front assembly terminal block**\n\n**Figure 3: Unlocking the front cover**\n\n**Figure 4: Removing the front cover**\n\n**Figure 5: Removing the resettable element**\n\n**Figure 6: Replacing the front cover**\n\n## Description\n\nThe NC Series Intelligent Conventional Manual Call Point is designed for indoor use with compatible conventional fire panels. Each unit includes a built-in resistor (0, 100, 470, or 560 Ω, depending on the model purchased).\n\nAll units are supplied with a resettable element – this can be replaced with a breakable element, if required (order number N-MC-FE). See \"Replacing the resettable element\" on page 3.\n\nThe series includes the following models.\n\n| Model       | Description                                                 |\n| ----------- | ----------------------------------------------------------- |\n| NC-MC-0-R   | Red intelligent conventional manual call point – 0 Ω \\[1]   |\n| NC-MC-100-R | Red intelligent conventional manual call point – 100 Ω      |\n| NC-MC-470-R | Red intelligent conventional manual call point – 470 Ω      |\n| NC-MC-560-R | Red intelligent conventional manual call point – 560 Ω \\[2] |\n\n[1] Also available in blue (NC-MC-0-U), green (NC-MC-0-G), orange (NC-MC-0-O), white (NC-MC-0-W), and yellow (NC-MC-0-Y).\n\n[2] Also available in blue (NC-MC-560-U).\n\n## Installation\n\n> **Caution:** This product must be installed and maintained by qualified personnel adhering to all local or national installation requirements and any other applicable regulations.\n\nThe manual call point can be surface mounted or recess mounted.\n\nFor surface mounting, order one of the backboxes shown in the table below.\n\n| Model     | Description    | Colour |\n| --------- | -------------- | ------ |\n| N-MC-BB-R | Red backbox    | Red    |\n| N-MC-BB-U | Blue backbox   | Blue   |\n| N-MC-BB-G | Green backbox  | Green  |\n| N-MC-BB-O | Orange backbox | Orange |\n| N-MC-BB-W | White backbox  | White  |\n| N-MC-BB-Y | Yellow backbox | Yellow |\n\nFor recess mounting, order one of the recess adaptors shown in the table below.\n\n| Model       | Description                        |\n| ----------- | ---------------------------------- |\n| N-MC-AFM-R  | Red recess adaptor                 |\n| N-MC-AFMG-R | Red recess adaptor with fork grips |\n| N-MC-AFM-G  | Green recess adaptor               |\n\nRemember to remove the protective dust cover before installation.\n\n**Note:** The dust cover may also be used to indicate when the unit is not operational (for example, before commissioning, during maintenance, when disabled, etc.)\n\n**To surface mount the manual call point:**\n\n1. Fix the backbox onto the wall using 4 × M4 screws (not supplied) and feed the zone cable through the selected cable knockouts or through the rear of the backbox.\n\n   See Figure 1 for the location of the mounting holes."
+    },
+    {
+      "item_id": "s200_src_02",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "table",
+      "manufacturer": "System Sensor",
+      "product_model": "Innovair flex D2E",
+      "document_id": "eb0c2c8a-a6e3-4f2e-b413-deedb411e88b",
+      "chunk_id": "04367d65-16df-4854-a31e-43b226f04c31",
+      "excerpt_sha256": "1960ba376745e43c5c302e2b35d875ca77b2a420eac83022284a5e769ea84abf",
+      "excerpt": "I56-3536-003R\n\n# INSTRUCCIONES DE INSTALACIÓN Y MANTENIMIENTO\n\n# Innovair flex\n\n# Detector de humo en conductos D2E\n\nSYSTEM SENSOR\n\nPittway Tecnologica Srl,\nVia Caboto 19/3, 34147 Trieste, Italy\nwww.systemsensoreurope.com\n\n## ESPECIFICACIONES\n\nTemperatura de funcionamiento: -20º a 60° C\nTemperatura de almacenaje: -20° a 60° C\nHumedad: 0% a 93% Humedad relativa, sin condensación\nVelocidad del aire: 1,5 a 20,3 m/seg.\nDimensiones disposición rectangular: 37 cm (largo) x 12,7 cm (ancho) x 6,36 cm (fondo)\nDimensiones disposición cuadrada: 19,7 cm (largo) x 22,9 cm (ancho) x 6,35 cm (fondo)\nPeso: 0,73 kg\nEléctricas\nTensión de alimentación: 8,5-35 Vcc\nCapacitancia de entrada: 0,1 µF máx.\nTensión de rearme: 2,5 Vcc mín.\nTiempo de rearme (con RTS451/RTS151): 0,03 a 0,3 segundos\nTiempo de rearme (por corte aliment.): 0,3 segundos máx.\nTiempo de arranque: 35 segundos máx.\nTiempo de respuesta de alarma: 15 segundos\nPrueba de sensibilidad: Véase la etiqueta del detector\nRequisitos actuales (Sin utilizar accesorios)\nPico máximo de corriente: 120 µA\nCorriente media en reposo: 60 µA\nMáxima corriente en alarma: 130 mA\n\n| CARGAS DE CORRIENTE DE LOS ACCESORIOS A 24 VCC<br/>EQUIPO | CARGAS DE CORRIENTE DE LOS ACCESORIOS A 24 VCC<br/>REPOSO | CARGAS DE CORRIENTE DE LOS ACCESORIOS A 24 VCC<br/>ALARMA |\n| --------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- |\n| RA400Z/RA100Z                                             | 0mA                                                       | 12mA Máx.                                                 |\n\n## Índice\n\nPágina\n\n[1] Limitaciones de los detectores de humo en conductos. . . . . . . . . . . . . . 1\n\n[2] Descripción general. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1\n\n[3] Elementos del kit del detector de humo en conductos. . . . . . . . . . . . . . . 1\n\n[4] Vista de los componentes del detector de humo en conductos. . . . . . . . 2\n\n[5] Instalación del detector. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .2\n\n[6] Instalación de la tubería de muestreo . . . . . . . . . . . . . . . . . . . . . . . . . . . 3\n\n[7] Pruebas de medición. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3-4\n\n[8] Conexiones en campo. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4\n\n[9] Indicador del estado del detector. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4\n\n[10] Verificación del funcionamiento . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5\n\n[11] Limpieza del detector. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5\n\n[12] Sustitución del detector . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6\n\n[13] Accesorios opcionales . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6"
+    },
+    {
+      "item_id": "s200_src_03",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "table",
+      "manufacturer": "Honeywell",
+      "product_model": "FS-24X",
+      "document_id": "ea22db26-ecc0-4148-8cc3-39ae3c251ddf",
+      "chunk_id": "05f9ae4b-6546-4ac6-b230-227f501e597f",
+      "excerpt_sha256": "d0d8bafe6c4f5b531590d1ad18db5b6a6c67c843cdb63d23c1dbb94cad904cf2",
+      "excerpt": "## Desenhos (continua)\n\n### 4.7.3 Marcações do detector\n\nLB-6093-⊠\n\nCAUTION: OPEN CIRCUIT BEFORE REMOVING COVER.\nATTENTION: OUVRIR LE CIRCUIT AVANT D'ENLEVER LE COUVERCLE.\n\nAssembled in USA\nHoneywell Analytics Inc.\n405 Barclay Blvd.\nLincolnshire, IL 60069\n\n**Honeywell**\n\nModel ⊠⊠⊠⊠⊠⊠⊠\n\nMFG DATE: ⊠⊠⊠⊠⊠\n\nElectrical (Max): 32VDC, ⊠mA\nRelay Contact Rating: 24VDC, 1A\nDO NOT OPEN WHEN A\nFLAMMABLE ATMOSPHERE IS\nPRESENT. SEAL CONDUIT\nWITHIN 450mm OF ENCLOSURE\n\nClass I Div 1, Groups ABCD;\nClass II/III, Div 1, Groups EFG;\nClass I, Zone 1, AEx d IIC;\nT4: Ta= -⊠°C to +⊠°C\nT5: Ta= -⊠°C to +⊠°C\nT6: Ta= -⊠°C to +⊠°C\nType 4X, IP66\n\nEx d IIC T6...T4 Gb\nEx tb IIIC T135°C Db IP66\nIECEx FMG 14.0027X\nII 2 G Ex d IIC T6...T4 Gb\nII 2 D Ex tb IIIC T135°C Db IP66\nFM14ATEX0058X\n\nFM APPROVED | Ex II 2 D H2 G | CE 1725\n\n----\n\nLB-6093-⊠⊠\n\nWARNING\nDO NOT OPEN IN HAZARDOUS AREA\n\n**Honeywell**\n\nModel ⊠⊠⊠⊠⊠⊠⊠\nTest Lamp\n\nAssembled in USA\nHoneywell Analytics Inc.\n405 Barclay Blvd.\nLincolnshire, IL 60069\n\nMFG DATE: ⊠⊠⊠⊠⊠\n\nElectrical (Max): 15VDC, @1.0A\nClass I Div 1, Groups BCD, T4 Ta = -30°C to 85°C; Type 4X, IP66\nClass II/III Div 1, Groups EFG; T3 Ta = -30°C to 85°C; Type 4X, IP66\nClass I, Zone 1, AEx d IIB + H2; T4 Ta=-30°C to 85°C; Type 4X, IP66\n\nEx d IIB + H2 T4 Gb IP66\nIECEx FMG 14.0025\nII 2 G Ex d IIB + H2 T4 Gb IP66\nFM14ATEX0057\n\nTa = -30°C to +85°C\n\nFM APPROVED | Ex | CE 1725\n\n----\n\n| Númeroda peça    | Número domodelo | Material                       | Cor de fundo | Cor do texto | mA  | T4           | T5              | T6              |\n| ---------------- | --------------- | ------------------------------ | ------------ | ------------ | --- | ------------ | --------------- | --------------- |\n| LB-6093-<br/>041 | FS19X           | 0,020' Al 1100-Hl4             | Preto        | Branco       | 150 | -40C a +110C | -40C a<br/>+75C | -40C a<br/>+60C |\n| LB-6093-<br/>042 | FS19X           | 0,020' aço<br/>inoxidável 316. | Polido       | Preto        | 150 | -40C a +110C | -40C a<br/>+75C | -40C a<br/>+60C |\n| LB-6093-<br/>043 | FS19X           | 0,020' Al 1100-Hl4             | Preto        | Branco       | 150 | -40C a +110C | -40C a<br/>+75C | -40C a<br/>+60C |\n| LB-6093-<br/>044 | FS19X           | 0,020' aço<br/>inoxidável 316. | Polido       | Preto        | 150 | -40C a +110C | -40C a<br/>+75C | -40C a<br/>+60C |\n| LB-6093-<br/>037 | FS20X           | 0,020' Al 1100-Hl4             | Preto        | Branco       | 150 | -40C a +110C | -40C a<br/>+75C | -40C a<br/>+60C |\n| LB-6093-<br/>038 | FS20X           | 0,020' aço<br/>inoxidável 316. | Polido       | Preto        | 150 | -40C a +110C | -40C a<br/>+75C | -40C a<br/>+60C |\n| LB-6093-<br/>039 | FS20X           | 0,020' Al 1100-Hl4             | Preto        | Branco       | 150 | -40C a +110C | -40C a<br/>+75C | -40C a<br/>+60C |\n| LB-6093-<br/>040 | FS20X           | 0,020' aço<br/>inoxidável 316. | Polido       | Preto        | 150 | -40C a +110C | -40C a<br/>+75C | -40C a<br/>+60C |\n\nHoneywell\n\nGuia de instalação e manual de operação // Modelo FS24X"
+    },
+    {
+      "item_id": "s200_src_04",
+      "eligible": true,
+      "question": "",
+      "answer_points": [
+        {
+          "claim": "Press the RESET button to enter configuration mode and change functions",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E004_b78edafa27",
+            "E007_2df002c433"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E004_b78edafa27",
+              "source_spans": [
+                [
+                  131,
+                  200
+                ]
+              ],
+              "content_sha256": "71a186d6be2594528b024f94caf976e5ec93da79f143989da8fbe0519bf18c15"
+            },
+            {
+              "unit_id": "E007_2df002c433",
+              "source_spans": [
+                [
+                  536,
+                  749
+                ]
+              ],
+              "content_sha256": "cd2cca1634f3ee3dc23b9258eab0a0854d81397f623250ce519cfe2212ce428e"
+            }
+          ]
+        },
+        {
+          "claim": "Follow the lighted keys on the panel to select the desired configuration option",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E006_33320901d3"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E006_33320901d3",
+              "source_spans": [
+                [
+                  275,
+                  534
+                ]
+              ],
+              "content_sha256": "c9d2924eef384bb9bebd3b5ddf8bdda8ae3c4a3d456d11cb2269504ed494a444"
+            }
+          ]
+        },
+        {
+          "claim": "Remove the level 3 access jumper (PROG) to save the configuration automatically",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E007_2df002c433"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E007_2df002c433",
+              "source_spans": [
+                [
+                  536,
+                  749
+                ]
+              ],
+              "content_sha256": "cd2cca1634f3ee3dc23b9258eab0a0854d81397f623250ce519cfe2212ce428e"
+            }
+          ]
+        },
+        {
+          "claim": "The control panel always starts configuration at option 1 (Digital Input) when entering configuration mode",
+          "facet": "input_trigger_or_observed_condition",
+          "support_unit_ids": [
+            "E008_6bcb685cd2"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E008_6bcb685cd2",
+              "source_spans": [
+                [
+                  751,
+                  839
+                ]
+              ],
+              "content_sha256": "53d1274488c469e0ea8f68ae67da6e641befbf7546ef5a301253b2e3f190ef6a"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Notifier",
+      "product_model": "NFS-Supra",
+      "document_id": "751d3588-ea0d-4d57-893c-ec2bf4d5869e",
+      "chunk_id": "72ce96e8-a8b7-47c2-b7b4-4387b612cce8",
+      "excerpt_sha256": "b6fa22239912079dc5a43d0a28b263571b611b51aec6c6c520e96ee864167196",
+      "excerpt": "# NFS Supra <span style=\"float:right; background-color:#b3b3b3; padding:10px;\">Configuration</span>\n\n## 5.4 Configuration Options\n\nReset push button: **Change Option** (Access Level 3 - Configuration)\n\nIn NFS Supra control panels, the following functions can be configured:\n\nAt level 3, the panel leds indicate, the configuration for each option. In order to select one option, the relevant push button must be pressed, following the lighted keys. System leds (Inferior group of leds from 1 to 10) indicate the selected configuration.\n\nIn order to change a function, press *RESET*. Select the led corresponding to the desired option in each menu. On removing the level 3 access jumper (PROG), the control panel saves the configuration automatically.\n\nWhen entering the configuration, you will always Access at the option 1 (Digital Input).\n\n| Reset Button and Configuration Options            | Reset Button and Configuration Options |\n| ------------------------------------------------- | -------------------------------------- |\n| Reset                                             | \\[Reset button icon]                   |\n| **Configuration Option indication from 1 to 10:** |                                        |\n| 1                                                 | ⚠ Alarma                               |\n| 2                                                 | ⚠ Anulada                              |\n| 3                                                 | ⚠ Prueba                               |\n| 4                                                 | ⚠ Servicio                             |\n| 5                                                 | ⚠ AveriaGeneral                        |\n| 6                                                 | ⚠ Fallo Tierra                         |\n| 7                                                 | ⚠ Sirenas Fallo/Anuladas               |\n| 8                                                 | ⚠ Fallo Alimentación                   |\n| 9                                                 | ⚠ Averia Alimentación Auxiliar         |\n| 10                                                | ⚠ Fallo Sistema                        |\n\n### 5.4.1 Zone type\n\nZone operation may be configured as follows:\n\n*Normal operation (by default)*: Zone alarms are activated immediately.\n\n*Delayed contact (470Ω)*: To be used with flow switches or contacts with *470Ω alarm resistor that require that the alarm condition remain for 30 seconds before the control panel indicates* an alarm. Call points activate the alarm immediately.\n\n*Verification (Detectors)*: This option requires a second acknowledge/confirmation within 10 minutes or the activation of the same or any other zone. After the first alarm, the zone is reset and the alarm is confirmed if a new alarm occurs in the next 10 minutes.\n\n*Delayed contact (470Ω and Zener 5V)*. Both alarm contacts *470Ω* alarm resistor and call points must keep the alarm condition for 30 seconds, otherwise the alarm will not be indicated.\n\nHLS-MN-025 v.05\nwww.honeywelllifesafety.es\n\nInstallation and Operating Manual\nPage 36"
+    },
+    {
+      "item_id": "s200_src_05",
+      "eligible": true,
+      "question": "",
+      "answer_points": [
+        {
+          "claim": "The RTS451 mounts to a single gang box with 2-1/2 inch minimum depth",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E017_b54fc23fc2"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E017_b54fc23fc2",
+              "source_spans": [
+                [
+                  1796,
+                  1952
+                ]
+              ],
+              "content_sha256": "6e0dbdcba2031f9dbd712fbf91a8c6c8d1ead02fc55584dad49db33d9457fc56"
+            }
+          ]
+        },
+        {
+          "claim": "Place and hold the painted side of the magnet to the RTS451 on the right or left side of the LED",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E028_4680489839"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E028_4680489839",
+              "source_spans": [
+                [
+                  2625,
+                  2756
+                ]
+              ],
+              "content_sha256": "41eb99cc0d05e20038fbd4642d8134a73d68bdc832c6f68850b5033e92e13ce0"
+            }
+          ]
+        },
+        {
+          "claim": "Alarm indicating LED will light within 40 seconds maximum after magnet placement depending on detector type",
+          "facet": "measurement_limit_or_timing",
+          "support_unit_ids": [
+            "E030_8fa5b15498"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E030_8fa5b15498",
+              "source_spans": [
+                [
+                  2780,
+                  2920
+                ]
+              ],
+              "content_sha256": "6bd710e18f9a9333fa3b54f6ef08038f1fbd36c23c1caa9d2391c794772db730"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "System Sensor",
+      "product_model": "RTS-451",
+      "document_id": "1ab950d2-d94e-41d2-8acc-7659308a30b3",
+      "chunk_id": "8bd9524a-6d44-49a2-8d7d-cc0b2962c609",
+      "excerpt_sha256": "db2e6dbe1f23d32e0ed158ea5a0f5b6ce43d5ddc567cd9b3a3a70a0f64fb85f0",
+      "excerpt": "INSTALLATION AND MAINTENANCE INSTRUCTIONS\n\n# RTS451 Remote Test Station\n\n![System Sensor Logo]\n\nA Division of Pittway\n3825 Ohio Avenue, St. Charles, Illinois 60174\n1-800-SENSOR2, FAX: 630-377-6495\n\n## Specifications\n\n| Dimensions:          | 4.6\" h x 2.75\" w x 1.5\" d     |\n| -------------------- | ----------------------------- |\n| Weight:              | .11 lbs.                      |\n| Power Requirements:  |                               |\n| Alarm LED:           | 2.8 - 32 VDC, 10 mA max.      |\n| Test Coil\\*:         | 15.5 - 32 VDC, 95 mA max.     |\n| Total Current:       | 105 mA max.                   |\n| Test Switch:         | 10 VA @ 32 VDC                |\n| Reset Switch:        | 10 VA @ 32 VDC                |\n| Alarm Response Time: | 40 sec. max.                  |\n| Temperature:         | -10°C to 60°C (14°F to 140°F) |\n| Humidity:            | 95% RH Non-condensing         |\n\nNOTICE: This manual should be left with the owner/user of this equipment.\n\n## General Information\n\nSystem Sensor's RTS451 is an automatic fire detector accessory designed to test a remotely located detector. Consult detector installation instructions for additional information.\n\nThe National Fire Protection Association has published codes, standards, and recommended practices for the installation and use of the above product. It is recommended that the installer be familiar with these requirements, with local codes, and any special requirements of the local authority having jurisdiction.\n\n## RTS451 Contents\n\n* 1 RTS451 remote test station\n* 1 #4 screw for mounting bracket\n* 1 test coil*\n* 1 screw pack (2 mounting screws)\n* 1 jumper with spade lugs*\n* 1 M02-04 test magnet\n* 1 test coil mounting bracket*\n\n*Not used with Model 6424 Projected Beam Smoke Detector.\n\n## Wiring of RTS451\n\nConsult the appropriate detector installation instructions for the applicable wiring diagram. The RTS451 mounts to a single gang box (2-1/2\" minimum depth).\n\nIn Canadian applications, the RTS451 is intended to be located in the same room as the smoke detector and within 60 feet of the unit.\n\n## RTS451 Remote Test Station\n\n[Diagram showing front view of RTS451 device with rectangular housing, two mounting screw holes at top and bottom, an \"ALARM\" indicator window at the top section with M02-04 TEST MAGNET LOCATIONS marked, and a \"RESET\" button in the lower section]\n\nA78-1995-00\n\nD440-01-00                                1                                156-469-05\n\nD440-01-002\n\n156-469-05\n© System Sensor 1997\n\n**NOTE:** The Test Coil is NOT used with the Model 6424 Beam Smoke Detector.\n\n## Operation\n\n**Test Function**\n\nPlace and hold the painted side of the magnet to the RTS451 on the right or left side of the LED as indicated in the diagram above.\n\n**Alarm Indication**\n\nWith the magnet in place some time will elapse (40 sec. maximum) depending on the detector type, before the alarm indicating LED will light.\n\n**Reset Function**"
+    },
+    {
+      "item_id": "s200_src_06",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "table",
+      "manufacturer": "Detnov",
+      "product_model": "TRD-100",
+      "document_id": "10e406a7-7aec-4741-ba18-45e5ef525c9c",
+      "chunk_id": "ad8646a2-c752-4a42-95f8-18029108ca64",
+      "excerpt_sha256": "61d8e36059d389deb1748bffda647202c508d6a38a4a41975608cd9c4a178d94",
+      "excerpt": "# CONVENTIONAL SYSTEM EXPANSION CARDS\n\n## Relay Expansion Card\n\n## Sounder Expansion Card\n\nENGLISH\n\n## 1- Introduction\n\nThese cards are designed to provide programmable outputs to the range of conventional fire alarm panels to do all kinds of activations.\n\nConventional fire alarm panels can accommodate up to three expansion cards, thus forming a total of 12 configurable outputs. By default the conventional fire alarm panel is programmed to activate one output per zone\n\nREF: 55310007\n\n## 2- Mounting expansion cards\n\nTo install expansion cards is needed to remove the motherboard from the fire alarm panel, removing the screws that hold it. After the motherboard is removed insert the card into the position marked with the number 1 for the first card, number 2 for the second and the number three if there is a third. Connect the cable that came with the card as shown. If a there is a second card that will be connected from the output connector of the first card and if there is a third that will be connected from the output connector of the second card.\n\n## 3- Connections\n\n### Expansion card with 4 voltage free relay outputs\n\nThis card provides 4 voltage free relay outputs (Common, Normally Opened, Normally Closed) allowing a maximum load per relay of 5A @30Vdc.\n\n| C | NC | NA | C | NO | NA | C | NC | NA | C | NC | NA |\n| - | -- | -- | - | -- | -- | - | -- | -- | - | -- | -- |\n\n### Expansion card with 4 supervised siren outputs\n\nThis card provides 4 supervised siren outputs (end of line resistor 4K7 required).\n\nThis card requires external power supply of 24V, this allows to supply high current sirens, for the connection of this power supply the expansion card has a strip (IN 24V) and other (OUT 24V) affording power supply to the next Sirens expansion card. The activation delay of the siren outputs is the same as set for the sirens of the fire alarm panel.\n\n| 4K7    |    |    | 4K7     |    |    |   |    |    |   |    |    |\n| ------ | -- | -- | ------- | -- | -- | - | -- | -- | - | -- | -- |\n| 4K7    |    |    | 4K7     |    |    |   |    |    |   |    |    |\n| IN 24V |    |    | OUT 24V |    |    |   |    |    |   |    |    |\n| C      | NC | NA | C       | NO | NA | C | NC | NA | C | NC | NA |\n\n## 4- Technical Features\n\n### Environmental features\n\n| • Working temperature | Between -5ºC and 40ºC         |\n| --------------------- | ----------------------------- |\n| • Relative Humidity   | Maximum 95% without condesing |\n\n### Relay expansion card\n\n| • Voltage free relay output | 4 relay with contacts C, NA, NC |\n| --------------------------- | ------------------------------- |\n| • Maximum switching power   | 5A to 30Vdc                     |\n\n### Sounder expansion card"
+    },
+    {
+      "item_id": "s200_src_07",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "table",
+      "manufacturer": "Argus Security",
+      "product_model": "SGCP100",
+      "document_id": "b448478a-afd7-43b7-8274-7323227873da",
+      "chunk_id": "ad213b9b-75cf-4ba1-a286-c55bd3cc8fc2",
+      "excerpt_sha256": "30f6dd50cea0df2325d1ccdae35d9cb615eb2122fd9b26f07b79b6845986b187",
+      "excerpt": "| Communication range with the wire to wireless translator or wireless expander | 200 m (in open space) \\*      |\n| ----------------------------------------------------------------------------- | ----------------------------- |\n| Operating frequency                                                           | 868 MHz                       |\n| Modulation type                                                               | FSK                           |\n| Operating frequency channels                                                  | 7                             |\n| Radiated power                                                                | 5 dBm (3 mW)                  |\n| Primary battery type                                                          | CR123A (3V & 1.2 Ah)          |\n| Secondary battery type                                                        | CR2032А (3V & 250 mAh)        |\n| Approved battery voltage range                                                | 2.75V - 3.20V                 |\n| Main battery lifespan                                                         | 6 years \\*\\*                  |\n| Secondary battery lifespan                                                    | 2 months \\*\\*                 |\n| Dimensions                                                                    | 86 mm x 86 mm x 59 mm         |\n| Weight                                                                        | 186 grams (without batteries) |\n| Operating temperature range                                                   | from –10 °C to +55 °C         |\n\n**Table 1**\n\n\\* Ideal operating range: may vary consistently according to environmental conditions.\n\n\\*\\* When a low battery condition is indicated, both, main and secondary, batteries must be changed altogether.\n\n\\*\\* If it is assumed that the device is set with a message transmission period of 60 seconds.\n\n\\*\\*\\* Check latest version of document TDS-SGCPX for further data, obtainable from your supplier."
+    },
+    {
+      "item_id": "s200_src_08",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "table",
+      "manufacturer": "Spectrex",
+      "product_model": "FS-1300",
+      "document_id": "c59d714e-a200-4529-b3b4-e78ebb527269",
+      "chunk_id": "faa5e9f8-169f-48af-b6c6-c54e2c689b1a",
+      "excerpt_sha256": "14aa2b2e89f9464df9fcb0fc2f9f56b960344ea40549bd6ef463785a85ab1cb1",
+      "excerpt": "# 2 Operation Instructions\n\n## 2.1 Ordering Information\n\nThe P/N of the Flame Simulator Kit is 380114-3.\n\nThe Kit is supplied in a carry case that includes:\n\n1. Flame Simulators FS-1300\n2. Charger\n3. Tool Kit\n4. Technical Manual TM380202\n\n## 2.2 Unpacking\n\nVerify that you have received the following content:\n\n* Delivery form\n* Flame Simulator with integral battery\n* Battery charger\n* Tool keys\n* User manual\n* FAT forms\n* EC Declaration\n* Storage case\n\n12\n\n## 2.3 Operating Instructions\n\n**Warning:** Do not open the Flame Simulator to charge the batteries or for any other reason in a hazardous area.\n\n**Caution:** The following test simulates a real fire condition and may activate the extinguishing system or other alarms. If this is not desired, disconnect/inhibit them before the test and reconnect after simulation.\n\na. Verify you are using the correct simulator that fits the tested detector, per the following table:\n\n| Simulator | Compatible with:   |\n| --------- | ------------------ |\n| FS-1300   | 40/40R,<br/>20/20R |\n\n**Table 1: Flame Simulator Compatability**\n\nb. Verify you are at the correct distance from the detector according to the type of detector (see 2.3), and the detector sensitivity.\n\nc. Aim the detector using the mechanical sight at the center of the detector. Activate the button and adjust the spot to the center of the detector.\n\nd. Keep the simulator aimed at the detector for up to 50 seconds until you receive an alarm.\n\ne. Wait 20 seconds before repeating the test.\n\n## 2.4 Detection Ranges per Detector/ Flame Simulator\n\n| Model   | Detector Types | Detector Sensitivity Setting | Testing Distance |\n| ------- | -------------- | ---------------------------- | ---------------- |\n| FS-1300 | 40/40R, 20/20R | 50ft (15m)                   | 6.6ft (2m)       |\n\n**Table 2: Detection Ranges per Detector / Flame Simulator**\n\nTechnical Support13\n\n## Notes:\n\n* The minimum distance from the detector is 30\" (75cm)\n* At extreme temperatures there is a 15% reduction in the testing range.\n\n----\n\n[Warning triangle icon with exclamation mark]\n\n**Important**: Keep the Flame Simulator in a safe place when not in use.\n\n---\n\n14\n\n## 2.5 Charging the Battery\n\nThe Flame Simulator uses Lithium Ion batteries as a rechargeable power source. When the batteries are fully charged, the simulator operates for at least 100 times without recharging. When the voltage from the batteries is lower than the required operational level, the simulator will not operate.\n\n**To Charge the Battery:**"
+    },
+    {
+      "item_id": "s200_src_09",
+      "eligible": true,
+      "question": "",
+      "answer_points": [
+        {
+          "claim": "Wiring connections must be made to pluggable terminal blocks accepting wire sizes from 0.3 mm² to 3.2 mm², with screened cable recommended for best results.",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E005_046e1382cf"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E005_046e1382cf",
+              "source_spans": [
+                [
+                  244,
+                  470
+                ]
+              ],
+              "content_sha256": "f6b11880e409d57b2d42a7649cae674dda8f05353088a39628703474847c27a6"
+            }
+          ]
+        },
+        {
+          "claim": "All INPUT and OUTPUT signal terminals are active LOW (0V) and connecting any other voltage to these terminals will cause serious damage to the product.",
+          "facet": "safety_warning_exception_or_conflict",
+          "support_unit_ids": [
+            "E021_35df9736c6"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E021_35df9736c6",
+              "source_spans": [
+                [
+                  2006,
+                  2164
+                ]
+              ],
+              "content_sha256": "67cd258f679c30e15113fde638944a900489803453dca5135e1d36c464562a58"
+            }
+          ]
+        },
+        {
+          "claim": "Before working on the system, notify the proper authorities that the system is undergoing maintenance and will be temporarily out of service.",
+          "facet": "access_or_prerequisite",
+          "support_unit_ids": [
+            "E004_9b4dccd350"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E004_9b4dccd350",
+              "source_spans": [
+                [
+                  90,
+                  242
+                ]
+              ],
+              "content_sha256": "d90fd46873b08234986d8ac642e90f97cc3c2e7f82f89ecbe1e1337d068a168a"
+            }
+          ]
+        },
+        {
+          "claim": "All wiring must be installed in accordance with local requirements.",
+          "facet": "access_or_prerequisite",
+          "support_unit_ids": [
+            "E003_b871052b26"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E003_b871052b26",
+              "source_spans": [
+                [
+                  15,
+                  88
+                ]
+              ],
+              "content_sha256": "f7373afa46df42c0467b3d43f7305f7eb0d2d7eaf1c4c25665a81675bb0f5a2f"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Morley",
+      "product_model": "THE-6500",
+      "document_id": "fae0d680-4511-4fb2-af9d-bcfaf15660d4",
+      "chunk_id": "92c8b2b5-b349-4f48-8b5e-e1f6b3df7bb4",
+      "excerpt_sha256": "8f0ca5a22ce44117e85cde1cab1ad6eab5e114ba075d7b6def0ac0aca4e5e5d3",
+      "excerpt": "## ~~WIRING~~\n\nNote: All wiring must be installed in accordance with local requirements.\n\n*Warning: Before working on the system, notify the proper authorities that the system is undergoing maintenance and will be temporarily out of service.*\n\nWiring connections are made to pluggable terminal blocks, which can accept wire sizes from 0.3 mm² to 3.2 mm². For best results screened cable should be used. Refer to the control panel instructions for cable type limitations.\n\n[Diagram showing detector terminal connections with three terminal blocks labeled T3, T2, T1 with numbered terminals 1-4 and various connection labels including TEST OPTION (+)(-), TROUBLE OUTPUT (+)(-), SPARE TERMINAL, REMOTE ALARM OUTPUT (+)(-), TEST INPUT, RESET INPUT, LOOP (+)(-), AUX LOOP (+)(-), LOOP (+)(-)]\n\n\\* CAN BE USED FOR TERMINATING CABLE SCREENS\n\n**Figure 3: Detector Terminal Connections**\n\n[Wiring diagram showing RTS151/KEY device with 6 terminals connected to MI-LPB2-S2I with terminals T2-1 through T2-4]\n\n**MI-LPB2-S2I**\n\nT2-1    REMOTE ALARM OUTPUT\n\nT2-2    AUX (-)\n\nT2-3    TEST INPUT\n\nT2-4    RESET INPUT\n\nSEE RTS151KEY INSTALLATION INSTRUCTIONS FOR ELECTRICAL RATINGS OF RTS151KEY\n\n**Figure 4: RTS151KEY Wiring**\n\n| Signal Name      | Terminal | Normal State   | Active State | Comment                                |\n| ---------------- | -------- | -------------- | ------------ | -------------------------------------- |\n| Reset Input      | T2-4     | High impedance | 0V           | Momentarily connect to Aux- to operate |\n| Test Input       | T2-3     | High impedance | 0V           | Momentarily connect to Aux- to operate |\n| Aux-             | T2-2     | 0V             | -            | Internally connected to Power -ve      |\n| Remote Alarm Out | T2-1     | High impedance | +24V         | Via 2.2k ohms current limit resistor   |\n| Remote Fault Out | T3-3     | High impedance | +24V         | Via 2.2k ohms current limit resistor   |\n\n**Table 0: Use of Input – Output Signals.**\n\n**WARNING**\n\n**All INPUT and OUTPUT signal terminals are active LOW (0V) Do not connect any other voltage to these terminals or serious damage to the product may result.**\n\nMB200-00-02                                    3                                    I56-3879-000\n\n[Wiring diagram showing detector unit with terminal blocks T3, T2, T1 connected to LOOP (+) and LOOP (-)]\n\n*Figure 5: Wiring Diagram*"
+    },
+    {
+      "item_id": "s200_src_10",
+      "eligible": true,
+      "question": "",
+      "answer_points": [
+        {
+          "claim": "Insert the PAK into either of the USB type A slots on the control panel main board",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E012_f6f11375d4"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E012_f6f11375d4",
+              "source_spans": [
+                [
+                  819,
+                  918
+                ]
+              ],
+              "content_sha256": "2ec16c18daa89422431ef9d43dc45cb818eff5fd9e9c93c27b893898f99090fb"
+            }
+          ]
+        },
+        {
+          "claim": "Installer level access is required to register or unregister the PAK",
+          "facet": "access_or_prerequisite",
+          "support_unit_ids": [
+            "E010_0028385aec"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E010_0028385aec",
+              "source_spans": [
+                [
+                  702,
+                  791
+                ]
+              ],
+              "content_sha256": "9cfee1524cf81a70745c772952905e832e8b1746176c06a9dd8ab00371157a07"
+            }
+          ]
+        },
+        {
+          "claim": "Press Apply to apply the registration details to the panel",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E019_059d118949"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E019_059d118949",
+              "source_spans": [
+                [
+                  1425,
+                  1549
+                ]
+              ],
+              "content_sha256": "6a383c2ceaa7628fbeb3707c76816a112594cded08e93b76ca5c1607f868628f"
+            }
+          ]
+        },
+        {
+          "claim": "Remove the PAK from the USB slot after registration or unregistration is complete",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E020_19d6ef989d",
+            "E027_95baf02fac"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E020_19d6ef989d",
+              "source_spans": [
+                [
+                  1551,
+                  1587
+                ]
+              ],
+              "content_sha256": "eff323ec3b410625c31bc39a87af61e2b298732ffa5c8755ecd5b0f26af35673"
+            },
+            {
+              "unit_id": "E027_95baf02fac",
+              "source_spans": [
+                [
+                  1920,
+                  1956
+                ]
+              ],
+              "content_sha256": "18903daeb0f651fc1d0fd4ab8d9bd30c7b544a200bd7c79b7c911e47baad0f22"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Aritech",
+      "product_model": "2010-2-PAK-RMSDK",
+      "document_id": "d1c8f389-493b-4496-879a-6bcee4e0afb4",
+      "chunk_id": "be3b98fd-c4fa-463c-9212-b41fbbc8dcd7",
+      "excerpt_sha256": "f4b3896739be65f34a8ecc9f054910a7ec985a9b55c011b37531514d8e7e5614",
+      "excerpt": "# 2010-2-PAK-RMSDK Panel Activation Key Registration Guide\n\nEN CS DA DE ES FI FR HU IT NL NO PL PT RO RU SK SV TR\n\n[Technical diagram showing a control panel circuit board with USB port labeled at the top. The board shows various components including connectors, ports, and circuit elements arranged on a rectangular board.]\n\n## EN: Registration Guide\n\n### Description\n\nThe 2010−2-PAK-RMSDK Panel Activation Key (PAK) enables custom event reporting and command control using the Edwards software development kit (SDK) on compatible addressable control panels with firmware 3.1 or higher.\n\nNote: A new PAK is only required for the gateway panel configured to monitor the fire system.\n\n### Registration\n\nFollow these steps to register or unregister the PAK. Installer level access is required.\n\n**To register the PAK:**\n\n1. Insert the PAK into either of the USB type A slots on the control panel main board (see figure).\n\n2. On the control panel LCD, select Panel Setup, and then select Panel Activ. Key.\n\n   The LCD displays two options: Register New PAK and Unregister PAK.\n\n3. Select Register New PAK. The PAK information is displayed on the LCD. Confirm that the details are correct and press Continue.\n\n   The PAK information includes: The PAK type, the PAK serial number, and the host control panel serial number (added when registration is complete).\n\n4. Press Register, and then press Yes to confirm the registration.\n\n5. Press Apply to apply the registration details to the panel, or Continue to register more PAKs for the same control panel.\n\n6. Remove the PAK from the USB slot.\n\nThe control panel is now configured to use the SDK.\n\n**To unregister the PAK:**\n\n1. Insert the PAK into either of the USB type A slots on the control panel main board (see figure).\n\n2. On the control panel LCD, select Panel Setup, and then select Panel Activ. Key.\n\n3. Select Unregister PAK and follow the on-screen instructions.\n\n4. Remove the PAK from the USB slot.\n\nUse of the Edwards SDK is now disabled for the control panel.\n\n### Specifications\n\n| Connector type         | USB type A                |\n| ---------------------- | ------------------------- |\n| Operating environment  |                           |\n| Operating temperature  | −5 to +40 °C              |\n| Storage temperature    | −20 to +50 °C             |\n| Relative humidity      | 10 to 95% (noncondensing) |\n| Weight                 | 14 g                      |\n| Dimensions (W × H × D) | 71 × 23 × 8.7 mm          |\n\n© 2025 Kidde Commercial. All rights reserved. 1 / 19 P/N BCN-3100032-ML • REV 002 • ISS 05JUN25\n\n2 / 19    P/N BCN-3100032-ML • REV 002 • ISS 05JUN25"
+    },
+    {
+      "item_id": "s200_src_11",
+      "eligible": true,
+      "question": "",
+      "answer_points": [
+        {
+          "claim": "Insert the detector head into the mounting base and rotate it clockwise until it snaps into the locked position",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E027_086be79983"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E027_086be79983",
+              "source_spans": [
+                [
+                  2413,
+                  2540
+                ]
+              ],
+              "content_sha256": "121660e150876aa9879c0d7c5a3b8e7f855e94d39a9c0b7edd6f0c6342d256b5"
+            }
+          ]
+        },
+        {
+          "claim": "Remove the locking tab before installation if the detector may be locked into the mounting base",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E028_42c3c03507"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E028_42c3c03507",
+              "source_spans": [
+                [
+                  2542,
+                  2675
+                ]
+              ],
+              "content_sha256": "446de46feebfe0eeb12a4afd64840a2df336f35f0a196e29a6715d4ef7dff09e"
+            }
+          ]
+        },
+        {
+          "claim": "Insert a small screwdriver into the locking tab slot and press and rotate the detector anticlockwise to remove a locked detector",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E030_bc9a146734",
+            "E031_35b586007e",
+            "E032_cb9fc82f55"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E030_bc9a146734",
+              "source_spans": [
+                [
+                  2677,
+                  2705
+                ]
+              ],
+              "content_sha256": "8c23ea98e815b1684837c0a25bd15a8e3dc3ce54554129186341405736cc9dfa"
+            },
+            {
+              "unit_id": "E031_35b586007e",
+              "source_spans": [
+                [
+                  2707,
+                  2774
+                ]
+              ],
+              "content_sha256": "772b545fb371f9a9d7f9b8b79e656a6a87b9b4609099f793327e650d0da7f1e0"
+            },
+            {
+              "unit_id": "E032_cb9fc82f55",
+              "source_spans": [
+                [
+                  2776,
+                  2823
+                ]
+              ],
+              "content_sha256": "28475a12d9283749e8d8ed1479d72b53f81b2a23e33d46cd1146127aa87ef910"
+            }
+          ]
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Kidde",
+      "product_model": "KE-DT3001W-HAB",
+      "document_id": "de7c4188-9ba1-4944-94c8-7cf9fc77f235",
+      "chunk_id": "1a6639d9-29f3-4ab3-b878-3269d15bc476",
+      "excerpt_sha256": "29714febf4b8cc63d1dfbdd840ef2e5ddb061f1f1573f8352f29da0c5654fd37",
+      "excerpt": "KIDDE\nCOMMERCIAL\n\nExcellence Series Intelligent Addressable Class A/B Heat Detector Installation Sheet\n\nEN DE ES FR IT NL PL PT SV\n\n## 1\n\n[Diagram showing a circular heat detector with two labeled components:\n(1) Locking tab - pointing to a tab on the top edge\n(2) Status LED - pointing to the side of the detector base with ventilation grilles]\n\n## 2\n\n[Diagram showing the detector head being separated from its mounting base with an upward arrow indicating the lifting motion. The internal circuitry of both parts is visible.]\n\n## EN: Installation Sheet\n\n### Figures\n\n**Figure 1: Locking tab and status LED**\n\n(1) Locking tab\n(2) Status LED\n\n**Figure 2: Inserting the detector head into the mounting base**\n\n### Description\n\nThis installation sheet includes information on the Excellence Series Intelligent Addressable Class A/B Heat Detectors shown in the table below.\n\n| Model          | Device type | Description                                                                                    |\n| -------------- | ----------- | ---------------------------------------------------------------------------------------------- |\n| KE-DT3101W-HAB | HDni        | Intelligent addressable class A/B heat detector with integrated short circuit isolator (white) |\n| KE-DT3001W-HAB | HDn         | Intelligent addressable class A/B heat detector (white)                                        |\n\nThe detectors use a fixed temperature/rate-of-rise sensor to detect heat.\n\nThe detectors determine whether to signal a fire alarm condition by monitoring the temperature of the surrounding air and analysing the data to determine whether to initiate an alarm.\n\nAll Excellence Series detectors support the Kidde Excellence protocol and are compatible for use with 2X-A Series fire alarm control panels with firmware version 5.0 or later. The detectors are backwards compatible with 2000 Series devices.\n\n### Installation\n\n**WARNING:** Electrocution hazard. To avoid personal injury or death from electrocution, remove all sources of power and allow stored energy to discharge before installing or removing equipment.\n\n**Caution:** For general guidelines on system planning, design, installation, commissioning, use and maintenance, refer to the EN 54-14 standard and local regulations.\n\nInstall and wire the mounting base, as described in the installation sheet supplied with the base.\n\n### Installing the detector head\n\nInsert the detector head into the mounting base and rotate it clockwise until it snaps into the locked position (see Figure 2).\n\nThe detector may be locked into the mounting base if required. To do this, remove the locking tab before installation (see Figure 1).\n\nTo remove a locked detector:\n\n1. Insert a small screwdriver into the locking tab slot (Figure 1).\n\n2. Press and rotate the detector anticlockwise.\n\n© 2025 Kidde Commercial. All rights reserved.     1 / 22     P/N 3102986-ML • REV 002 • ISS 28MAY25\n\n2 / 22                                                                P/N 3102986-ML • REV 002 • ISS 28MAY25"
+    },
+    {
+      "item_id": "s200_src_12",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "table",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VEU",
+      "document_id": "749f11a0-329a-4eb9-94d4-ef275088cd35",
+      "chunk_id": "058112c5-5434-41d8-b2a7-40e2a71a0aa4",
+      "excerpt_sha256": "52e90eceb0053b0c31cd883463eeef5bd4abec2ae9b79a2a61c1d72f4c4331c5",
+      "excerpt": "## 2.3 Panel frontal\n\nEl detector VEU-A00 proporciona la siguientes información y funciones de control:\n\n* LED de estado: Alerta, Acción, Fuego 1 y Fuego 2, Desactivado, Fallo y Alimentación.\n* Controles: Botón Restablecer/desactivar.\n\n### 2.3.1 LED de estado\n\nEl detector VESDA-E VEU-A00 incluye una serie de indicadores LED que se iluminan cuando se cumplen sus respectivas condiciones de activación.\n\nTabla 2-1: Indicadores LED\n\n| LED          | Símbolo                          | Descripción                                                                                                                                                                                                               |\n| ------------ | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| Fuego 2      | \\[Icono de llama con número 2]   | El LED Fuego 2 se enciende cuando se alcanza el umbral de alarma de Fuego 2. (El LED parpadeará una vez por segundo hasta que se confirme la condición).                                                                  |\n| Fuego 1      | \\[Icono de llama con número 1]   | El LED Fuego 1 se enciende cuando se alcanza el umbral de alarma de Fuego 1. (El LED parpadeará una vez por segundo hasta que se confirme la condición).                                                                  |\n| Acción       | \\[Icono de triángulo relleno]    | El LED Acción se enciende cuando se alcanza el umbral de Acción. (El LED parpadeará una vez por segundo hasta que se confirme la condición).                                                                              |\n| Alerta       | \\[Icono de triángulo con borde]  | El LED Alerta se enciende cuando se alcanza el umbral de Alerta. (El LED parpadeará una vez por segundo hasta que se confirme la condición).                                                                              |\n| Desactivado  | \\[Icono de cuadrado con círculo] | El LED DESACTIVADO se enciende de forma continua cuando el detector está desactivado y parpadea una vez cada dos segundos cuando el detector se encuentre en el modo de espera.                                           |\n| Fallo        | \\[Icono de signo de exclamación] | El LED FALLO se enciende cuando se detecta un fallo. El LED parpadeará una vez por segundo hasta que se confirme la condición.<br/><br/>Consulte el capítulo 8 para obtener información sobre la resolución de problemas. |\n| Alimentación | \\[Icono de barra vertical]       | El LED ALIMENTACIÓN se enciende cuando el detector recibe alimentación.                                                                                                                                                   |\n\nNotas:\n\n* Los indicadores LED se prueban durante el ciclo de encendido. Para probar manualmente los LED, ejecute la prueba de indicadores mediante Xtralis VSC.\n\n6\n\nVESDA-E VEU-A00 Guía del producto"
+    },
+    {
+      "item_id": "s200_src_13",
+      "eligible": true,
+      "question": "",
+      "answer_points": [
+        {
+          "claim": "Verify that the secondary battery is present before proceeding with linking operation",
+          "facet": "access_or_prerequisite",
+          "support_unit_ids": [
+            "E016_c3be33fb1e"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E016_c3be33fb1e",
+              "source_spans": [
+                [
+                  1628,
+                  1769
+                ]
+              ],
+              "content_sha256": "45476952522d03a92c53d1367fc218132958dbc4334ea80dcd2a4d84be8cf6a9"
+            }
+          ]
+        },
+        {
+          "claim": "Move the link-program switch to position ON",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E018_c17d73e928"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E018_c17d73e928",
+              "source_spans": [
+                [
+                  1771,
+                  1818
+                ]
+              ],
+              "content_sha256": "5429758b757ab2cb5e1e50fa4b65c5cd4e00b103ef5c06c86ee543bf539fd4ec"
+            }
+          ]
+        },
+        {
+          "claim": "Insert the main battery and ensure both battery polarities are correct",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E019_fa25e14b3c",
+            "E020_e4f630821a"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E019_fa25e14b3c",
+              "source_spans": [
+                [
+                  1820,
+                  1847
+                ]
+              ],
+              "content_sha256": "f9179bbbbb6f04e9df52ce3ea23f34fb9b97cd097a5f2850b20f65eaae872b85"
+            },
+            {
+              "unit_id": "E020_e4f630821a",
+              "source_spans": [
+                [
+                  1849,
+                  1903
+                ]
+              ],
+              "content_sha256": "9e97c1a99a003e9056df3e5f82005f25796be86165fd4cfbac0924ab28529acf"
+            }
+          ]
+        },
+        {
+          "claim": "Confirm successful linking when green LED switches on once, blinks many times, then alternates green-red for one second before turning off",
+          "facet": "verification_commissioning_or_recovery",
+          "support_unit_ids": [
+            "E023_23c3225e37"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E023_23c3225e37",
+              "source_spans": [
+                [
+                  2208,
+                  2478
+                ]
+              ],
+              "content_sha256": "4c9defdcb181f513f16cab84d0344a0cb56d6b8dfd0d71328f3acdb95b756ff9"
+            }
+          ]
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Argus Security",
+      "product_model": "SGMI200",
+      "document_id": "cced2735-a3f6-4b7a-8bd7-cce6ce7482c2",
+      "chunk_id": "8ca06010-1c81-4a7e-a26b-e8e7b4244fbb",
+      "excerpt_sha256": "bcf831459c0a3a6c1e67f3ec8ff87816ac0a519137d2830a90c0cdcc59fc7488",
+      "excerpt": "ARGUS SECURITY\n\n# SGMI200\n\n# WIRELESS INPUT MODULE\n\nIMPORTANT NOTE! Programming is considered to be completed successfully only if there is an indication of programming success on the device and on the translator or on the window of the PC configuration program.\n\n## GENERAL DESCRIPTION\n\nThe wireless input module allows the switched on / off status of an external device to be transmitted to the control panel through translator / expanders devices. These module types are intended to interface a control panel and normally open contact devices. The connection between the module and the external device is supervised with the aid of an end of line resistor.Communication between the input module and the translator / expanders modules is wireless.\n\n[Picture 1 - General view of the product: Shows the external housing of the SGMI200 module with LED indicator visible]\n\n[Picture 2 - The PCB of the device: Shows the internal circuit board with labeled components including LED, PRIMARY BATTERY, LINK-PROGRAM SWITCH, SECONDARY BATTERY, TAMPER SPRING, and INPUT TERMINAL BLOCK]\n\n## MODULES VISUAL LED INDICATOR\n\nThe wireless input module is equipped with a bi-colour LED (red / green) that provides visual indication for functional conditions and battery levels as indicated in table 1. The input module has the LED positioned as illustrated in picture 2.\n\n## DEVICE'S POWER SUPPLY AND LINKING\n\nThe linking operation permits the configuration of the wireless input module on the translator module.\n\nThe linking operation described below does not change if made directly from the translator or from the PC configuration program.\n\n1) Verify that the secondary battery is present; if not, insert the battery into its housing, referring to the polarities printed on the PCB.\n\n2) Move the link-program switch to position ON.\n\n3) Insert the main battery.\n\n**Ensure that both battery's polarities are correct.**\n\n*The visual LED indicator switches green once, then four times red (programming mode) and will, successively, turn off. This indicates that the device is ready to be linked to the translator module.*\n\n4) Move the switch in position 1 to trigger the communication between the module and the translator.\n\n*The green LED switches on once, then it blinks many times (operating mode), and, finally, after alternating green-red for one second, the indicator turns off: this indicates that the linking procedure has been performed correctly and the device has programmed itself .*\n\n*The input module is linked and all the parameters (address, system code etc.) necessary to work correctly are stored. If the LED remains switched on the red light it means that the linking operation failed. In this case remove the main battery, switch over alternatively the ON / 1 switch a few times in order to discharge the internal capacitor and then start again from point 2).*\n\n### TECHNICAL SPECIFICATIONS"
+    },
+    {
+      "item_id": "s200_src_14",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "prose",
+      "manufacturer": "Xtralis",
+      "product_model": "theFirebeam Xtra",
+      "document_id": "8149de23-48e6-4c37-a318-e979d296e7db",
+      "chunk_id": "f80d786a-268c-4f67-9165-4480767bf125",
+      "excerpt_sha256": "c42283601dbb98cc34d7849376d1d55833cb6e868a4c3cfc616efff2aa40b7f6",
+      "excerpt": "# 3. Sistema de pantallas y menús\n\n## 3.1 Pantalla de Inicio\n\n```\nCalidad del aire 100%\nEstado - NORMAL\n```\n\nEsta es la pantalla que normalmente debería aparecer cuando la barrera queda correctamente instalada.\n\n**ES** Otras pantallas que pueden aparecer:\n\n**ALARMA**\n\n```\nCalidad del aire 29%\nEstado - FUEGO\n```\n\nEl nivel de calidad del aire ha caído por debajo del valor umbral de alarma.\n\n↓\n\nSi la alarma está configurada en modo enclavado (latching) y se necesita rearmar la alarma pulsa ENTER para ver esta pantalla:\n\n```\nReset Alarma\n```\n\npulse ENTER de nuevo para reiniciar y volver a la pantalla normal.\n\nTambién puede rearmar el sistema interrumpiendo la alimentación de la barrera durante 5 segundos. Si está configurada como autoreset, la barrera se reiniciará automáticamente a modo normal.\n\n**AVERÍA**\n\n```\nCalidad del aire 0%\nEstado - AVERIA\n```\n\nLa trayectoria del haz ha sido completamente bloqueada durante 1 segundo (se utiliza cuando se encuentran fallos en la puesta en marcha).\n\n**ERROR**\n\n```\nCalidad del aire XX\nEstado - AVERIA\n```\n\nNo hay comunicación con la Unidad Sensora. Esto podría deberse a que el cable no está conectado, o que la Unidad Sensora no está conectada al controlador. Esto se puede comprobar midiendo la resistencia en de los terminales negros y grises. Si está conectado debe haber 110ohms y si no está conectado en un extremo este medirá 220ohms.\n\n**ALINIEAMIENTO**\n\n```\nCalidad del aire 89%\nEstado - ALINEADO\n```\n\nEsta pantalla aparecerá cuando el haz está realizando una alineación automáticamente, normalmente a causa de un movimiento de la construcción.\n\n**SUCIEDAD COMPENSACIÓN**\n\n```\nEstado - Comp Suice\n```\n\nEsto se debe a que la compensación de suciedad ha alcanzado su máximo nivel – \"LED AVERIA\" o \"LED ALARMA\" pueden parpadear.\n\n## 3.2 Cómo utilizar el sistema de menús\n\nPulse el botón ENTER para entrar en el sistema de menús, a continuación, pulse DOWN para pasar por las opciones del menú principal:\n\n```\nEspanol\n```\n\n↑\n↓\n\n```\nMantenimiento\n```\n\n↑\n↓\n\n```\nCambio de modo\n```\n\n↑\n↓\n\n```\nMantenimiento Haz\n```\n\n↑\n↓\n\n```\nDiagnostico\n```\n\nENTER para cambiar idiomas.\n\nENTER para poner en marcha la barrera.\n\nENTER para realizar todos los cambios y ajustes a la barrera.\n\nENTER rutina de mantenimiento.\n\nENTER para acceder a la energía y la temperatura partidas.\n\n## 3.3 Elementos de menú individuales\n\n**1.**\n\n```\nIdioma\n```\n\nEl lenguaje se ajusta en fábrica a inglés, si esto es correcto pulse ENTER para continuar con la puesta en marcha o la flecha hacia arriba para volver a la pantalla de inicio. Para cambiar el idioma utilice las teclas derecha e izquierda para cambiar a su idioma preferido y pulse ENTER para confirmar su elección - se podrá continuar en el idioma de su elección.\n\n14                                                                                                                  15\n\n16\n17\n\n## 2. Mantenimiento\n\nPulse el botón ENTER para entrar en la puesta en marcha."
+    },
+    {
+      "item_id": "s200_src_15",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "prose",
+      "manufacturer": "Notifier",
+      "product_model": "AFP4000",
+      "document_id": "d0588c0f-f1e1-410b-a13d-c8ee0266ce99",
+      "chunk_id": "dfe2689f-dcf5-4be3-8eb3-ca669eb2bc64",
+      "excerpt_sha256": "ae64d3389585c7778d1e3fe60c4d95360059ef29323340b1f1303a89f8678358",
+      "excerpt": "# 7. Tensión y Entradas Digitales\n\nMuchos de los puntos dentro del panel de control de la Serie 4000 funcionan o se supervisan de manera automática. El panel no proporciona una descripción amplia del equipo sino que utiliza abreviaturas, tales como **VM 03**, o **DIN 02**. A continuación se detalla una lista con todas las abreviaturas utilizadas:\n\n## TENSIÓN DE REFERENCIA\n\n**VM 01**\n\nTensión de Referencia Número 1. Esta tensión es de una alimentación **lógica de 5V** para los Circuitos Integrados. El panel no funciona correctamente si la tensión se encuentra fuera de unos límites específicos, así, esta avería no deberá registrarse si la alimentación de 5V es errónea.\n\n**VM 02**\n\nTensión de Referencia Número 2. La tensión es de alimentación **auxiliar de 5V**, que se utiliza para hacer funcionar los LEDs del panel, las luces del LCD, el zumbador interno del panel, y la impresora, si está acoplada.\n\n**VM 03**\n\nTensión de Referencia Número 3. Esta tensión es de **12V**. Se utiliza principalmente para la alimentación del LCD y para la tensión de conducción de la bobina del relé.\n\n**VM 04**\n\nTensión de Referencia Número 4. Tensión de **24V** interna en contraposición a la de entrada de 24V DC. Esta tensión se utiliza principalmente para la señal del lazo analógico y para la polarización de las entradas digitales.\n\n**VM 05**\n\nTensión de Referencia Número 5. Tensión que indica la presencia de una **Derivación a Tierra**. Podrá detectar una resistencia menor a 10K o menos entre cualquier conector externo y la tierra del chasis.\n\n**VM 06,07,08**\n\nTensión de Referencia de 6, 7 y 8. Actualmente no se utilizan.\n\n**VM 09**\n\nTensión de Referencia Número 9. Conexión de **24V +va de J27** situada en el Terminal de la Placa de Control Principal (MTB), que suministra alimentación al panel desde la fuente de alimentación externa.\n\n**VM 10**\n\nTensión de Referencia Número 10. Conexión de **24V -va de J27** situada en el Terminal de la Placa de Control Principal (MTB), que suministra alimentación al panel desde la fuente de alimentación externa.\n\n**VM 11**\n\nTensión de Referencia Número 11. Conexión de **24V +va de J24** situada en el Terminal de la Placa de Control Principal (MTB), que suministra alimentación al panel desde la fuente de alimentación externa.\n\n**VM 12**\n\nTensión de Referencia Número 12. Conexión de **24V -va de J24** situada en el Terminal de la Placa de Control Principal (MTB), que suministra corriente al panel desde la fuente de alimentación externa.\n\nMI-DT-230     NOTIFIER ESPAÑA     42\n\nManual de Instalación, Puesta en Marcha y Funcionamiento de la Central AFP4000\n\n## ENTRADAS DIGITALES\n\n**DIN 01** Entrada Digital Número 1. Entrada digital para los terminales 2 y 3 del conector J29 situado en el MTB. La entrada se considera que está activada cuando el terminal 2 se encuentra a una tensión de 24V +vo respecto al terminal 3, durante un período de 1 segundo aproximadamente. Esta entrada activará en marcha un **REARME REMOTO** del panel de control."
+    },
+    {
+      "item_id": "s200_src_16",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "prose",
+      "manufacturer": "Morley",
+      "product_model": "NFS-Supra",
+      "document_id": "e9c72018-fee0-4e29-acc2-a31901689f7a",
+      "chunk_id": "b1cbe968-a88d-429a-803c-9ff65ab926ec",
+      "excerpt_sha256": "777f8ece914d41fe78271393cb82cc32474707010f350d6cfa03f970966a9375",
+      "excerpt": "## 4.4.3 Alarm and General Fault Relay\n\n**GENERAL FAULT RELAY**\n\n(Standby mode)\n\nCommon\nNO\nNC\n\n**ALARM RELAY**\n\n(Standby mode)\n\nCommon\nNC\nNO\n\nNFS Supra control panel has two voltage free relays (C, NC, NO): Fault and alarm relay.\n\nAlarm relay is activated when an alarm is generated at the control panel (the Alarm led also turns on). Once activated, it is necessary to reset the control panel in order to reset the alarm relay and revert it to its normal status.\n\nThe system allows to be configured so that the alarms are verified during a period of time. If an alarm is not confirmed, the alarm relay will not be activated. Refer to the operating and zone configuration sections of this manual.\n\nThe fault relay is activated in standby and becomes deactivated when a fault is generated at the control panel or the panel power supply is cut.\n\nFaults may be configured as latched or resettable. By default, faults are latched and it is necessary to reset the control panel so that the fault relay comes back to its normal (standby) status. On the other hand, resettable faults automatically revert the fault relay to its normal (standby) status, in case the fault is cleared.\n\nNFS Supra control panels support 12 additional relays by means of up to three 4-relay boards (VSN-4REL).\n\nCheck clause 5.5.1, *Check Special Functions Configuration* section for more information.\n\n**Each relay supports 1 A max.** For high current or 240Vac, please use external double relays with a polarity diode and a protective diode to avoid return spikes from coils. See the drawing below.\n\n**External Relay for unlimited current operations**\n\nNC\nor\nNO C\n\n24VAC\n\n\\+ Control Panel relay\n\n\\- Aux external relay contacts for unlimited current operations\n\nZ6 Z7 Z8\n\nZ1 N.º 1\n\nZ1 N.º 2\n\nZ1 N.º 3\n\nZ1 N.º 4\n\nTeclado\nRed Leds\n\nSilenciar\nSirenas\n\nEvacuación\n\nRearme\nSI/No\n\nSilenciar\nZumbador\n\nZ11\n\nZ12\n\nRearme\n\nAvería/General | Avería Alimentación\n\nFault and Alarm relays\n\nHLS-MN-025 v.04\nwww.honeywelllifesafety.es\n\nInstallation and Operating Manual\nPage 31\n\nNFS Supra                                                                                                          Installation\n\n### 4.4.4 Auxiliary 24V Outputs\n\nNFS Supra control panels have two 24 Vdc outputs, supplied from the control panel power supply.\n\n**Max. Power from each output is 500mA at 24Vdc**, protected by electronic resettable fuse.\n\n24 V AUX fixed output provides 24V non-resettable from mains supply or batteries.\n\nResettable 24VAux.: Voltage goes down to 0V for approx. 5 seconds, each time the control panel is reset. This output is used to supply external devices that need to cut the power supply to be reset.\n\nBefore connecting any external current to the control panel, check the max. current allowed for the devices that are going to be connected.\n\nPlease, consider the time that the system must remain in standby and in alarm. Make sure that the control panel power supply and batteries have enough power.\n\nOtherwise, auxiliary devices must not be supplied by the control panel but by suitable external power supplies."
+    },
+    {
+      "item_id": "s200_src_17",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "prose",
+      "manufacturer": "Kidde",
+      "product_model": "9-30783-KID-EN",
+      "document_id": "fd5cb420-c7e6-4695-b792-27c65a841ade",
+      "chunk_id": "9824ab6d-f46e-44ac-88e8-d732e97ea2ac",
+      "excerpt_sha256": "13d6865f777ff1e88c70e183898f75aba412c345655d8e70b4f4dd1e188187c1",
+      "excerpt": "KIDDE\nCOMMERCIAL\n\n# 9-30783-KID-EN\n\n## Kidde ModuLaser, Detector module\n\n## General\n\nModuLaser is a scalable aspirating smoke detection solution that makes installation easier, maintenance quicker, and takes applications further than traditional air sampling detectors. Two basic module types comprise the ModuLaser solution: a display module, and a detector module. Each detector module can accommodate up to 250 meters combined sampling pipe. Display modules and detector modules communicate by RS-485 interconnections.\n\nDisplay modules are available in three configurations: Standard with TFT color display, status LED's and navigation buttons, Minimum with only status LED's, and Command which is similar to the Standard but with the added functionality to control various modules over SenseNET. The Minimum and Standard Display Modules can each support up to 8 detector modules, while the Command Display Module can support up to 127 modules across the SenseNET network.\n\n## Detector module\n\nThe Detector Module is a fully self-contained unit, which aspirate the sampled air from the protected area, analyze the air and based on ClassiFire determine if a pre-alarm or alarm should be raise, if smoke particles would be present in the sampled air. If an alarm condition or fault condition would occur, then the unit will activate the corresponding local relay output, subjected to the programming of the relays. Simultaneously the alarm or fault condition would also be reported to the Display Module to which the Detector Module is connected.\n\nDue to the modular nature of the ModuLaser, maintenance (for example routine filter replacement) can be done on a module per module bases, rather than a complete system. This in turn reduces the risk of the area which is unprotected during the maintenance period, as only one sampling pipe (protected zone) would be affected at a time.\n\n## Perfect solution\n\nThanks to advanced features that make it virtually impervious to dust and dirt, ModuLaser is ideal for use in hostile environments that would disable other kinds of smoke detectors. Forward scattering optical detection adds early warning capability without the risk of nuisance alarms normally associated with high sensitivity smoke detection, while exclusive environmental compensation technology adds a high degree of reliability to an already solid detection solution.\n\n## Details"
+    },
+    {
+      "item_id": "s200_src_18",
+      "eligible": true,
+      "question": "",
+      "answer_points": [
+        {
+          "claim": "Disconnect power before installing modules",
+          "facet": "safety_warning_exception_or_conflict",
+          "support_unit_ids": [
+            "E006_06be2ab1ca",
+            "E007_2159d15634"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E006_06be2ab1ca",
+              "source_spans": [
+                [
+                  791,
+                  817
+                ]
+              ],
+              "content_sha256": "62f304a515feb5311a6a9291f5bc7a18757d2a080e3ac8c02441ee2852df24e3"
+            },
+            {
+              "unit_id": "E007_2159d15634",
+              "source_spans": [
+                [
+                  889,
+                  2078
+                ]
+              ],
+              "content_sha256": "fda5ea453198fecfeedd28dcb06873e07d535959e6554b2372940c32b77fb0dd"
+            }
+          ]
+        },
+        {
+          "claim": "Use a grounding wrist strap when handling circuits to eliminate static charges",
+          "facet": "safety_warning_exception_or_conflict",
+          "support_unit_ids": [
+            "E007_2159d15634"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E007_2159d15634",
+              "source_spans": [
+                [
+                  889,
+                  2078
+                ]
+              ],
+              "content_sha256": "fda5ea453198fecfeedd28dcb06873e07d535959e6554b2372940c32b77fb0dd"
+            }
+          ]
+        },
+        {
+          "claim": "Configure the module address using rotary selectors numbered 01 to 94 for the first module",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E010_29e9a893aa",
+            "E011_22937cfeee"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E010_29e9a893aa",
+              "source_spans": [
+                [
+                  1778,
+                  2578
+                ]
+              ],
+              "content_sha256": "3c25b2d1067e7dc3189a20d7f281efdbc3e22e648579d1bca2a3a04ea99111a7"
+            },
+            {
+              "unit_id": "E011_22937cfeee",
+              "source_spans": [
+                [
+                  1975,
+                  2320
+                ]
+              ],
+              "content_sha256": "03afe8747de4e9011578a331773c53e0869c94e4d652a773fada1fa061d9946c"
+            }
+          ]
+        },
+        {
+          "claim": "Subsequent modules are automatically assigned the following five numerical addresses",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E010_29e9a893aa",
+            "E011_22937cfeee"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E010_29e9a893aa",
+              "source_spans": [
+                [
+                  1778,
+                  2578
+                ]
+              ],
+              "content_sha256": "3c25b2d1067e7dc3189a20d7f281efdbc3e22e648579d1bca2a3a04ea99111a7"
+            },
+            {
+              "unit_id": "E011_22937cfeee",
+              "source_spans": [
+                [
+                  1975,
+                  2320
+                ]
+              ],
+              "content_sha256": "03afe8747de4e9011578a331773c53e0869c94e4d652a773fada1fa061d9946c"
+            }
+          ]
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "System Sensor",
+      "product_model": "CZ-6",
+      "document_id": "0e2d6855-8120-431f-ac14-1ecdf7efcdb2",
+      "chunk_id": "069612c6-25d0-4fda-b938-13a95132cad2",
+      "excerpt_sha256": "6a9791cc7bea2a363e91154b3ec4e277d930582fbc186a4dbf38c6f8c356309d",
+      "excerpt": "# CZ-6\n\n# Módulo Interfaz de Seis Zonas Convencionales\n\n**SYSTEM SENSOR**\nPittway Technologica S.p.A\nVia Caboto 19/3\n34147 Trieste, Italy\n\n## ESPECIFICACIONES\n\nTensión de Funcionamiento Normal: 15-32 VDC\nCorriente en reposo: 2 mA\nCorriente en Alarma: 40 mA (asumiendo que los seis LEDs están iluminados de forma fija)\nRango de temperatura: de 0°C a 49°C\nHumedad: 10 a 85% No condensada\nDimensiones (mm): 185 (alto) x 147 (ancho) x 25 (fondo)\nAccesorios: Cabina metálica conectada adecuadamente a tierra\nSección del Cable: 0,9mm² - 3,25mm²\nResistencia IDC máxima del cable: 25 ohmios\nTensión de alimentación externa\n Tensión DC: 18-28 voltios de tensión limitada\n Tensión de rizado: máximo 0,1 voltios RMS\n Corriente: 90mA por módulo\n Circuito de entrada: Supervisado y de potencia limitada\n\n## ANTES DE LA INSTALACIÓN\n\nEsta información se utiliza como guía rápida para la instalación. Si los módulos se van a instalar en un sistema operativo ya existente, informe al usuario y a la autoridad local de que dicho sistema estará temporalmente fuera de servicio. Desconecte la alimentación antes de instalar los módulos. Este sistema contiene componentes sensibles a la electricidad estática. Utilice una pulsera de conexión a tierra para manipular los circuitos de modo que se eliminen las cargas estáticas. La carcasa del módulo también debe estar conectada a tierra. AVISO: Este manual debe permanecer al alcance del propietario/usuario del equipo.\n\n## DESCRIPCIÓN GENERAL\n\nEl Módulo Interfaz de seis zonas CZ-6 ha sido diseñado para su uso en un sistema de alarma inteligente. Cada módulo proporciona interconexión entre el sistema de alarma inteligente y el bucle de un sistema de alarma convencional. Todos los módulos utilizan una entrada de lazo SLC común, y los bucles de los equipos de iniciación comparten el suministro de supervisión y la toma de tierra. De lo contrario, cada monitor funciona independientemente de los otros. Cada módulo tiene su propia dirección.\n\nPara configurar la dirección del primer módulo de 01 a 94 se utilizan un par de selectores rotatorios. Al resto de los módulos se les asignarán automáticamente las siguientes cinco direcciones numéricas. Se incluye la posibilidad de desactivar un máximo de dos módulos no utilizados, cuyas direcciones se pueden liberar y utilizar en otro lugar.\n\nCada módulo dispone también de LEDs bicolores controlados desde el panel. Desde el panel se puede hacer que estos LEDs parpadeen, se mantengan iluminados de forma fija o se apaguen.\n\n### Detectores de Humo de dos hilos de System Sensor compatibles con CZ-6"
+    },
+    {
+      "item_id": "s200_src_19",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "prose",
+      "manufacturer": "Detnov",
+      "product_model": "CMD-500",
+      "document_id": "f1a60b0d-54af-42eb-bb25-d999a174336f",
+      "chunk_id": "976dfe52-0c89-4e26-a5b2-187d3597473a",
+      "excerpt_sha256": "5814ebc0ac3aba6460367269fa2254b7f26da315b3b972e5f5291383b8c6f4f6",
+      "excerpt": "# 3- User Guide\n\nTo operate the unit correctly, the functions of all the indication and control elements of the unit are explained. The operating modes and what to do in case of an alarm or fault are also explained.\n\n[Control panel unit with numbered elements 1-8 on the left side and labeled sections A, B, C, D on the right side]\n\n## 3.1- Warning lights\n\n### 3.1.1- Fault (1).\n\nAmber warning light associated with an area that is activated when the unit detects a fault in this area:\n\n* Acoustic warning: Sounds intermittently\n* Fault code displayed on screen. To view the fault, press key A. One second after pressing this button, the information about the fault will disappear and the CO concentration will be shown in ppm.\n\n11\n\nThe faults that can be shown on the module display are the following:\n\n* A-1 Exploration error.\n\n  The station cannot contact the detectors. Check.\n\n  - »Power supply. Check that the voltage to the area is correct and that the area fuse is in good condition.\n\n* A-2 Detector fault.\n\n  The station cannot contact a detector on the line that had previously been found. Check.\n\n  - »Verify the installation, as a detector has been taken.\n\n## 3.1.2 – Alarm (2).\n\nRed warning light associated with an area, that it shows when the preset alarm level has been reached.\n\n* Acoustic warning: Sounds continuously.\n* Warning light: Lit up continuously.\n* Display: Shows the CO concentration in ppm.\n* Alarm output activated.\n\n## 3.1.3 - Extraction 2 (3).\n\nGreen warning light associated with an area.\n\n* Shows continuously that the extraction 2 relay is activated, as the preset level of extraction 2 has been reached.\n* Shows intermittently that the extraction 2 relay is about to be activated, because it has reached the preset ppm level.\n\n## 3.1.4 - Extraction 1 (4).\n\nGreen warning light associated with an area.\n\n* Shows continuously that the extraction 1 relay is activated, as the preset level of extraction 1 has been reached.\n* Shows intermittently that the extraction 1 relay is about to be activated, torque it has reached the preset ppm concentration level.\n\n12\n\nGB\n\n### 3.1.5 - Auto (5)\n\nThis green warning light indicates that the system is function automatically, i.e., the system will start up the air renewal extractors, if one of the detectors on the line reaches the preset extraction level. There are two automatic operating modes:\n\n* Automatic by upper limit. The green indicator lights up continuously.\n* Automatic by average value. The green indicator lights up intermittently.\n\n### 3.1.6 – On (6)\n\nGreen warning light that indicates the system is functioning manually.\n\n### 3.1.7 – Off (7)\n\nGreen warning light that indicates the extraction outputs are disconnected.\n\n### 3.1.8 – Silence (8)\n\nAmber warning light indicating that you have pressed the silence key.\n\n## 3.2 - Acoustic Signs\n\n### 3.2.1- Alarm warning\n\nWhen an anomalous alarm situation occurs, the internal buzzer is activated in continuous mode.\n\n### 3.2.2- Fault warning\n\nWhen a fault occurs and there is no alarm, the buzzer is activated intermittently.\n\n13\n\n14\n\n## 3.3- Control keys\n\n### 3.3.1 Values selector button (A)."
+    },
+    {
+      "item_id": "s200_src_20",
+      "eligible": true,
+      "question": "",
+      "answer_points": [
+        {
+          "claim": "The panel supports up to 256 devices in 512 zones with 2 High Power Loops",
+          "facet": "measurement_limit_or_timing",
+          "support_unit_ids": [
+            "E010_2f10d01de0"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E010_2f10d01de0",
+              "source_spans": [
+                [
+                  929,
+                  1429
+                ]
+              ],
+              "content_sha256": "2ea54839b1c459a37742ee0c45373f0e755517c2123eaa123d9885a96b90aad3"
+            }
+          ]
+        },
+        {
+          "claim": "An extra 2 High Power Loop board option brings the panel capacity to up to 512 devices",
+          "facet": "measurement_limit_or_timing",
+          "support_unit_ids": [
+            "E012_8ff38cb395"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E012_8ff38cb395",
+              "source_spans": [
+                [
+                  1443,
+                  1984
+                ]
+              ],
+              "content_sha256": "238eac1b427c6e33377af2c2baa79f7c8cdc417ce0146e877da0c4b68d0a54af"
+            }
+          ]
+        },
+        {
+          "claim": "High loop power PAK available increases loop power from 500mA to 800mA",
+          "facet": "option_mode_or_default",
+          "support_unit_ids": [
+            "E014_72f741f2db"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E014_72f741f2db",
+              "source_spans": [
+                [
+                  1986,
+                  2063
+                ]
+              ],
+              "content_sha256": "4a0c5d863db29eb81fee51fe88c5f11f36aba16a2fdeae42f006debdfe63bd35"
+            }
+          ]
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Aritech",
+      "product_model": "2X-AF2-SCFB",
+      "document_id": "c037e7f9-879c-4761-8b18-0278a267fa42",
+      "chunk_id": "0ae7baaf-2151-4559-87e0-ec8aacd420f4",
+      "excerpt_sha256": "9bcc7127314d5b5409c8ab15b1d3e5fc236ec178568f03f93ff4af33a3fdd57c",
+      "excerpt": "KIDDE™\nCOMMERCIAL\n\n# 2X-AF2-SCFB\n\nAddressable fire panel with integrated scandinavian UI, 2 loop\n\n## Overview\n\nThe new 2X-A series life safety control systems bring the speed and functionality of high-end intelligent processing to small to mid-sized addressable applications. Based on 2X series learned experience and with complete backwards compatibility, the new 2X-A features an attractive contemporary design that fits with any decor. With improved robustness, manufactured in metal, special plastics and easy electronics removal, it allows painting in any colour. The main controls are easily located using an improved and robust jog dial.\n\nWith high power loop addressable detection, a full line of easily configured option cards and modules, as well as USB and Ethernet® connectivity, these quick-to configure systems offer versatility that benefits building owners and life safety system installers alike.\n\n## The Panel\n\nThe fire panels supplied in local language, with integrated Scandinavian Fire Brigade user interface, with 2 High Power Loops that supports up to 256 devices in 512 zones, have standard 4 supervised sounder/fire-routing outputs, which can be used as freely programmable outputs as well. In addition 2 conventional relay outputs and 2 supervised outputs, working in pair and dedicated to common fire and fault conditions, as well as 2 user configurable inputs for monitoring and control are available.\n\n## Options\n\nThe panel supports an extra 2 High Power Loop board that brings the panel to up to 512 devices with 4 additional programmable outputs. Add a network board to create a maximum of 64 nodes / 256 loops network of fire panels and fire panel repeaters (including conventional fire panels and fire repeater panels up to a maximum of 64 conventional zones). Last but not least, in case seperate zone indications are required, a 20 or a 40 zone fire/fault LED indicator board can be mounted in the panel or repeater with ample space for custom text.\n\nHigh loop power PAK available to increase the loop power from 500mA to 800mA.\n\nCompatible with existing loop devices and network compatible with existing panels, repeaters (existing and new) and conventional panels.\n\n## Approvals & compliance\n\n* CE / CPD / EN54-2 / EN54-4 / EN54-21\n* WEEE / RoHS compliant\n\n## Detalles"
+    },
+    {
+      "item_id": "s200_src_21",
+      "eligible": true,
+      "question": "",
+      "answer_points": [
+        {
+          "claim": "An EOL resistor must be installed in the last sounder of the line between positive and negative poles to detect faults in sounder wiring",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E010_746cdf397c"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E010_746cdf397c",
+              "source_spans": [
+                [
+                  861,
+                  1073
+                ]
+              ],
+              "content_sha256": "5195e71116261869e816e00eb18f18347e00af96e43ab49e28759715690f4fad"
+            }
+          ]
+        },
+        {
+          "claim": "Both sounder output circuits should have an EOL resistor even if not used",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E011_9da12533b2"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E011_9da12533b2",
+              "source_spans": [
+                [
+                  1075,
+                  1155
+                ]
+              ],
+              "content_sha256": "4d9b2ec34b0fabdb5a37a6a7a1ef4d37f273b9211b2a57597d8fc4134e33ce2a"
+            }
+          ]
+        },
+        {
+          "claim": "Before connecting sounders, meter connected in reverse polarity should read 4k7",
+          "facet": "verification_commissioning_or_recovery",
+          "support_unit_ids": [
+            "E018_164f76cf19"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E018_164f76cf19",
+              "source_spans": [
+                [
+                  2014,
+                  2145
+                ]
+              ],
+              "content_sha256": "35cfc709e1d27b8382abb92d8a093283250ed52350dddc48e62e3dd679563092"
+            }
+          ]
+        },
+        {
+          "claim": "Each sounder circuit supports a maximum of 250mA when activated and is protected against short circuits or overload",
+          "facet": "measurement_limit_or_timing",
+          "support_unit_ids": [
+            "E013_c447b7775a"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E013_c447b7775a",
+              "source_spans": [
+                [
+                  1279,
+                  1499
+                ]
+              ],
+              "content_sha256": "3f98691f8ea172683177b36389ddc5ef56496df6e08119b92abdbadf284b6a30"
+            }
+          ]
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Morley",
+      "product_model": "VSN LT",
+      "document_id": "0037a1f2-c8ad-4221-8e1c-3a410f201171",
+      "chunk_id": "a1a2964a-cbd1-44fc-b12e-5208f5878025",
+      "excerpt_sha256": "2be9ba09451ad13800b8dfe1977541336914d77d33acdc1cf321e87172342340",
+      "excerpt": "# Sounder circuits\n\n[Circuit diagram showing sounder wiring configuration with the following labeled components from top to bottom:\n\n- 4k7 resistor (EOL) at top\n- SOUNDER WITHOUT POLARITY section with two diode symbols\n- SOUNDER WITH POLARITY section with two diode symbols marked with + symbols\n- 4k7 resistor (EOL) at bottom\n- Connection terminals labeled SND2 and SND1 at the base\n- A multimeter illustration shown at bottom right]\n\n> **EN-54**\n> \n> **EN54:14**\n> \n> **At least, 2 sounders must be installed in a building**\n\nTwo sounder output circuits are provided.\n\nSounder circuit wiring must be separated from other cables.\n\nThere are some local requirements for Notification Appliance Circuits. Sounder circuits require to be activated for more than 1 minute after fire and must be fire resistant for, at least, 30 minutes, according to UNE-23.007-14.\n\nAlarm sounders are connected directly to sounder's line. A fault in the sounders wiring must be detected (EN54/2) by installing an EOL resistor in the last sounder of the line between positive and negative poles.\n\nBoth sounder output circuits should have an EOL resistor even if it is not used.\n\nThe system reverts polarity of output in standby (-11V with EOL resistor fitted) due to sounders consumption in standby.\n\nEach sounder circuit supports a maximum of **250mA when activated**, being protected against short circuits or overload. Check the device loads in order not to exceed the maximum allowed. Refer to Specifications section.\n\nConnect the circuit to the panel output while observing correct polarity. If there are any reversed devices, the panel will indicate a fault.\n\n**Connect sounders only after finishing all connections to avoid false alarms.**\n\nWhen the output circuits have been connected, they may be tested by using the Sounders Stop/Evacuation push-button for 3 seconds, from Level 2 (entering the password **1221** or turning the keyswitch to the right). Sounders will turn on. Press the push-button again to silence sounders.\n\nBefore connecting the sounders, with the meter connected in reverse polarity (+ve to -ve and -ve to +ve) the reading should be 4k7.\n\nAny fire in any zone activates sounders by default, but sounders may be configured to be activated by zone or with delays. Refer to Configuration section in this manual.\n\n19 March 2010\n\nLT Installation and operating manual\n\n[Diagram showing terminal block with 6 terminals labeled \"Fault Alarm\"]\n\n## Alarm and fault relays connection\n\n**LT** control panel has two voltage free relays (NC or NO): fault relay and alarm relay.\n\nAlarm relay is activated when an alarm is generated at the control panel (the Alarm led also turns on). Once activated, it is necessary to reset the control panel in order to reset the alarm relay and revert it to its normal status\n\nThe system allows to be configured so that the alarms are verified during a period of time. If an alarm is not confirmed, the alarm relay will not be activated. Refer to the operating and zone configuration sections of this manual"
+    },
+    {
+      "item_id": "s200_src_22",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "prose",
+      "manufacturer": "Spectrex",
+      "product_model": "UPDL-2020",
+      "document_id": "3456a624-aa68-4f81-a261-ffac7481da9a",
+      "chunk_id": "6c7f1558-7f31-40da-9b76-d12eb8b87528",
+      "excerpt_sha256": "cecb339c0f263a0b4a47625a05b25b815d7f3fc6236fc26644c8c4a7d2d42512",
+      "excerpt": "# <ins>CONEXIONADO</ins>\n\nConector al puerto Serie\nCOM1 o COM2 del PC\n\nTarjeta IC232-485\n\nAl SIB-2048\nConector J5\n\nCompruebe la polaridad DC.\n\nMC-DT-280                    NOTIFIER ESPAÑA, S.A.                    5\n\n# <ins>CARGA/DESCARGA</ins>\n\nExisten tres opciones básicas en el programa UPDL-2020.\n\"U\" Carga, recibe los datos de la AM2020 y los graba en un disquete.\n\"D\" Descarga, envía a la central la programación del disquete. En el disquete debe\nexistir el programa previamente grabado, se ha de haber efectuado una carga de datos\npreviamente.\n\"T\" Test (prueba), realiza una comprobación del fichero de los datos recibidos de la\nAM2020.\n\n**Nota**. El programa UPDL-2020 puede ser interrumpido presionando la tecla \"Z\".\n\nLa operación de carga (download) recibe la programación de la AM2020 para su\nalmacenamiento en un archivo del PC. En caso de pérdida de los datos de la AM2020\npodrá restablecer la programación. Asegúrese de realizar correctamente la conexión.\n\n**Atención:** En caso de introducir un nombre de fichero ya existente se sobrescribira.\n\nCuando en el ordenador aparezca el mensaje\n\"PROGRAME LA OPCION DE CARGA/DESCARGA EN LA AM2020.\nCUANDO HAYA HABILITADO DICHA OPCION, PULSE <enter>\"\n\n**Realice los siguientes pasos en el panel de la AM2020 para habilitar la opción de\ncarga/descarga.**\n\n1. Entre en el modo de programación.\n2. Introduzca el password de nivel 2\n3. Seleccione la opción 1 (PPAR.).\n4. Escoja la opción 8 (ISIB).\n5. Seleccione opción 3 (INTEX).\n6. \"DESEA CAMBIAR EL INTERFACE EXTERNO ?\"\n\n(S=SI,N=NO) Responda \"S\".\n\n7. \"DESEA HABILITAR EL INTERFACE EXTERNO?\".\n\n(S=SI,N=NO) Responda \"S\".\n\n8. \"DESEA CAMBIAR EL INTERFACE EXTERNO DE CARGA/DESCARGA.\n\n(S=SI,N=NO) Responda \"S\".\n\n9. DESEA HABILITAR EL INTERFACE EXTERNO DE CARGA/DESCARGA?\"\n\n(S=SI,N=NO) Responda \"S\".\n\nUna vez efectuado el proceso anterior se iniciará el proceso de carga/descarga,\napareciendo en el ordenador el porcentaje de carga realizado.\nSi no aparece el mensaje indicando el tanto por ciento repase la instalación hardware.\n\n**Nota**. El proceso de carga (upload) necesitará aproximadamente de 30 minutos.\nEl proceso de descarga (download) necesitará unos 20 min. aproximadamente.\n\nMC-DT-280                                    NOTIFIER ESPAÑA, S.A.                                    6\n\nUna vez finalizado la carga/descarga deberá deshabilitar el interface externo de carga/\ndescarga, realizando los siguientes pasos:\n\n1. Entre en el modo de programación.\n2. Introduzca el password de nivel 2\n3. Seleccione la opción 1 (PPAR.).\n4. Escoja la opción 8 (ISIB).\n5. Seleccione opción 3 (INTEX).\n6. \"DESEA CAMBIAR EL INTERFACE EXTERNO ?\"\n\n(S=SI,N=NO) Responda \"S\".\n\n7. \"DESEA HABILITAR EL INTERFACE EXTERNO?\".\n\n(S=SI,N=NO) Responda \"S\".\n\n8. \"DESEA CAMBIAR EL INTERFACE EXTERNO DE CARGA/DESCARGA.\n\n(S=SI,N=NO) Responda \"S\".\n\n9. DESEA HABILITAR EL INTERFACE EXTERNO DE CARGA/DESCARGA?\"\n\n(S=SI,N=NO) Responda \"N\".\n\nEn caso de haber realizado una carga es muy importante comprobar la validez del fichero\nrealizando un TEST del fichero recibido."
+    },
+    {
+      "item_id": "s200_src_23",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "prose",
+      "manufacturer": "Notifier",
+      "product_model": "AT-60",
+      "document_id": "b18c0760-c4fe-4512-afba-827157df3971",
+      "chunk_id": "33544fa8-4dfb-415c-8879-a5c17ab71218",
+      "excerpt_sha256": "46d86907d0cad79dc5f33e2fd86e89056a07de2a5967580c7d113486035b5f4a",
+      "excerpt": "## ~~CONEXIONES DEL M701E~~\n\nEl M701E se puede conectar para que funcione Con Supervisión (Figura 2) o Sin Supervisión (Figura 3).\n\n**Módulo de Salida Única M701E con Salida Supervisada**\n\nCuando el módulo se utiliza en modo supervisado y con alimentación, se puede utilizar una entrada negativa conmutada en el terminal 12 para indicar una avería externa, como un fallo de alimentación. En este modo, también se supervisa la pérdida de alimentación, de manera que si la tensión cae por debajo de 7V, se indica una avería. Obsérvese que el uso de este modo de avería depende de la versión de software del panel. Póngase en contacto con el fabricante.\n\nLa supervisión de la fuente de alimentación no está disponible cuando el módulo cambia la salida a Alarma.\n\nConexiones (consulte la Figura 2):\n\n**a:** T1 Salida del lazo -. **b:** T2 Salida del lazo +.\n\n**c:** T3 Entrada del lazo -. **d:** T4 Entrada del lazo +\n\n**e:** T5 Salida del lazo +. Si no se necesita el aislamiento de cortocircuitos, se debe conectar la salida + del lazo al terminal 5 en vez de al terminal 2. El terminal 5 está conectado internamente con el terminal 4.\n\n**f:** Para que sea posible supervisar el circuito de salida, es necesario realizar un puente con el cable suministrado entre los terminales 6 y 7, y la carga debe estar polarizada.\n\n**h:** Alimentación externa a máxima 32 VCC, mínima 7 VCC. En modo supervisado, el módulo controla la tensión de la fuente de alimentación en los terminales 10 y 11 para garantizar que no caiga por debajo de 7V. También detecta una señal negativa conmutada de avería que va desde la fuente de alimentación hasta el terminal 12 (opcional). Si se detecta una avería, el LED amarillo parpadea y el panel puede indicar la avería. El uso de estas indicaciones de avería depende de la versión de software del panel. Póngase en contacto con su suministrador.\n\n**Módulo de Salida Única M701E con Salida No Supervisada**\n\nPara usar el módulo en modo no supervisado, conecte el terminal 6 al Loop + (por ejemplo, el terminal 5) a través del diodo provisto con ánodo en el terminal 5 y cátodo en el terminal 6 y cablee de la siguiente manera (consulte la Figura 3):\n\n**a:** T1 Salida del lazo -. **b:** T2 Salida del lazo +.\n\n**c:** T3 Entrada del lazo -. **d:** T4 Entrada del lazo +\n\n**e:** T5 Salida del lazo +. Si no se necesita el aislamiento de cortocircuitos, se debe conectar la salida + del lazo al terminal 5 en vez de al terminal 2. El terminal 5 está conectado internamente con el terminal 4.\n\n**f:** Contactos de relé: 30 Vdc 2 A (Carga resistiva)."
+    },
+    {
+      "item_id": "s200_src_24",
+      "eligible": true,
+      "question": "",
+      "answer_points": [
+        {
+          "claim": "Locate connectors SND1 and SND2 on the main board before connecting sirens",
+          "facet": "access_or_prerequisite",
+          "support_unit_ids": [
+            "E006_4a949fce1e",
+            "E017_90a3ce2ea0",
+            "E030_f3bc6443db"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E006_4a949fce1e",
+              "source_spans": [
+                [
+                  287,
+                  357
+                ]
+              ],
+              "content_sha256": "55a43237a605301d11f938563fdfd1fca45621d25854d8b96300029ada5500d6"
+            },
+            {
+              "unit_id": "E017_90a3ce2ea0",
+              "source_spans": [
+                [
+                  1557,
+                  1627
+                ]
+              ],
+              "content_sha256": "55a43237a605301d11f938563fdfd1fca45621d25854d8b96300029ada5500d6"
+            },
+            {
+              "unit_id": "E030_f3bc6443db",
+              "source_spans": [
+                [
+                  2835,
+                  2905
+                ]
+              ],
+              "content_sha256": "55a43237a605301d11f938563fdfd1fca45621d25854d8b96300029ada5500d6"
+            }
+          ]
+        },
+        {
+          "claim": "Connect positive and negative cables to the corresponding terminals on the main board",
+          "facet": "target_or_configuration_field",
+          "support_unit_ids": [
+            "E007_19b82d3ef2",
+            "E018_663f23151a"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E007_19b82d3ef2",
+              "source_spans": [
+                [
+                  359,
+                  446
+                ]
+              ],
+              "content_sha256": "79b84d154ec26c0910fa9791b58de156d3eac90feb30997e18e47411638d13c8"
+            },
+            {
+              "unit_id": "E018_663f23151a",
+              "source_spans": [
+                [
+                  1629,
+                  1716
+                ]
+              ],
+              "content_sha256": "79b84d154ec26c0910fa9791b58de156d3eac90feb30997e18e47411638d13c8"
+            }
+          ]
+        },
+        {
+          "claim": "Close the loop by connecting a 4k7 Ohm resistor between the positive and negative cables at the end of the main line",
+          "facet": "output_action_or_corrective_step",
+          "support_unit_ids": [
+            "E009_7d7a2ee781",
+            "E022_b8b8bc5fb3",
+            "E010_740e12ae8b"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E009_7d7a2ee781",
+              "source_spans": [
+                [
+                  537,
+                  657
+                ]
+              ],
+              "content_sha256": "162d4643e63600fbfb05d4527e78858c1a58319d9d4bb2982868138bca81c611"
+            },
+            {
+              "unit_id": "E022_b8b8bc5fb3",
+              "source_spans": [
+                [
+                  1914,
+                  2034
+                ]
+              ],
+              "content_sha256": "2ff028f636b44436eaf9c76fb80747296bf7ebca40770cb0cbdc1bf8bc6d2a89"
+            },
+            {
+              "unit_id": "E010_740e12ae8b",
+              "source_spans": [
+                [
+                  659,
+                  758
+                ]
+              ],
+              "content_sha256": "011851a241df1d53f241ec4f5c3aead9277807795dbdc1471f309498cf6551b3"
+            }
+          ]
+        },
+        {
+          "claim": "Each siren output is protected by a 500 mA fuse",
+          "facet": "measurement_limit_or_timing",
+          "support_unit_ids": [
+            "E023_9f69640315"
+          ],
+          "support_unit_receipts": [
+            {
+              "unit_id": "E023_9f69640315",
+              "source_spans": [
+                [
+                  2036,
+                  2087
+                ]
+              ],
+              "content_sha256": "24f5ca5a89260818fc26f07d10776c1198a309160ccf70671d1f145f308a0acd"
+            }
+          ]
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Detnov",
+      "product_model": "CAD-171",
+      "document_id": "6220e267-c513-4683-b199-8f22fe4a7dea",
+      "chunk_id": "0ce33054-564b-4e1e-8609-75cce882b0d7",
+      "excerpt_sha256": "e0670a2e722cafb692bd1f0c84ce3593fb346005e4c26d42a70f7cb984be53af",
+      "excerpt": "## 4.6. Salida de sirenas\n\nLa PLACA PRINCIPAL tiene dos salidas de sirena. Los circuitos de sirena están diseñados para funcionar con una resistencia final de línea (por defecto).\n\n### 4.6.1. Conexión de sirena polarizada\n\nPara conectar una sirena polarizada siga los siguientes pasos:\n\n**PASO 1:** En la placa principal localice los conectores SND1 y SND2.\n\n**PASO 2:** Conecte los cables + y - al terminal correspondiente en la PLACA PRINCIPAL.\n\n**PASO 3:** Conecte las sirenas en paralelo con los cables + y - de la línea principal.\n\n**PASO 4:** Cierre el lazo conectando una resistencia de 4k7 Ohmios entre el cable + y - al final de la línea principal.\n\n> ⚠️ No olvide colocar SIEMPRE la resistencia de 4k7 Ohm al final del cableado para cerrar el lazo.\n\n[Wiring diagram showing:\n\n- Terminal block at top labeled \"24V Aux SND1 SND2\" with + and - connections\n- PASO 1 pointing to terminal connections\n- PASO 2 showing cable connections from terminals\n- Two sirens (speaker symbols) connected in parallel\n- \"Corriente de activación\" (activation current) labels with arrows\n- PASO 3 indicating parallel siren connections\n- PASO 4 showing a 4k7 resistor (Resistencia 4k7) at the end of the line\n- \"Corriente de supervisión\" (supervision current) label with arrow at bottom]\n\n### 4.6.2. Conexión de sirena no polarizada\n\nEn caso de instalar sirenas no polarizadas deberá colocar un diodo en cada una de las sirenas. De esta forma evitará que estas suenen cuando el sistema está en reposo.\n\nPara conectar una sirena no polarizada siga los siguientes pasos:\n\n**PASO 1:** En la placa principal localice los conectores SND1 y SND2.\n\n**PASO 2:** Conecte los cables + y - al terminal correspondiente en la PLACA PRINCIPAL.\n\n**PASO 3:** Conecte un diodo tipo 1N4007 al terminal + de cada una de las sirenas tal y como se muestra en el siguiente dibujo.\n\n**PASO 4:** Conecte las sirenas en paralelo a la línea principal.\n\n**PASO 5:** Cierre el lazo conectando una resistencia de 4k7 Ohmios entre el cable + y - al final de la línea principal.\n\nCada salida está protegida con un fusible de 500 mA\n\n[Wiring diagram showing:\n\n- Terminal block at top labeled \"SND1 SND2 24V Aux\" with + and - connections\n- PASO 1 pointing to terminal connections\n- PASO 2 showing cable connections from terminals\n- PASO 5 showing a 4k7 resistor (Resistencia 4k7) on the left side\n- Two sirens (speaker symbols) each with a 1N4007 diode connected to the positive terminal\n- \"Corriente de activación\" (activation current) labels\n- PASO 3 indicating diode connections (Diodo 1N4007)\n- PASO 4 showing parallel siren connections\n- \"Corriente de supervisión\" (supervision current) label with arrow at bottom]\n\n19\n\n20\n\n### 4.6.3. Terminación de las salidas de sirena\n\nEn caso de no vaya a utilizar las salidas de sirenas de la PLACA PRINCIPAL siga los siguientes pasos:\n\n**PASO 1:** En la placa principal localice los conectores SND1 y SND2."
+    }
+  ],
+  "point_reviews": [],
+  "question_reviews": [],
+  "receipt_hashes": {
+    "evals/s200_point_author_receipts_v1.json": "caf244a9654df0d3b218c9eb03f29697031f500cbd8a96cd627e99b22c07216b"
+  },
+  "cohort_sha256": "89126884b3ab98f32d261a3938b2a8a8473a97914e65a0d3e65aa159b7434b7f"
+}
