@@ -869,6 +869,12 @@ def source_contract(source: dict[str, Any]) -> None:
             "prose_manufacturers",
         }
         or set(reserve) != set(inventory["counts"])
+        or inventory.get("post_selection_reserve_definition")
+        != (
+            "eligible candidate rows excluding selected documents; may include selected "
+            "manufacturers or manufacturer-product pairs and is not a future "
+            "manufacturer-disjoint cohort capacity claim"
+        )
         or inventory["counts"]["documents"] < 12
         or inventory["counts"]["manufacturers"] < 12
     ):
@@ -887,6 +893,7 @@ def frozen_runtime_inputs() -> dict[str, str]:
         "frontier_adjudication": "evals/s198_point_first_scope_frontier_adjudication_v1.json",
         "population_addendum": "evals/s198_exhaustion_aware_population_addendum_v1.md",
         "population_no_go": "evals/s198_fresh_population_no_go_v1.json",
+        "builder_kind_bug": "evals/s198_fresh_builder_kind_bug_v1.json",
         "question_canary_result": "evals/s198_question_schema_canary_result_v1.json",
         "fresh_source_packet": "evals/s198_fresh_source_packet_v2.json",
         "source_builder": "scripts/s198_build_fresh_source_packet.py",
@@ -903,8 +910,8 @@ def frozen_runtime_inputs() -> dict[str, str]:
         "s167_source_authority": "scripts/s167_build_independent_ledger_source.py",
         "s167_uuid_authority": "scripts/s167_build_independent_ledger_source_support.py",
         "evidence_unitizer": "src/rag/evidence_units_v2.py",
+        "eol_contract": ".gitattributes",
         "runtime_requirements": "requirements.txt",
-        "canonical_decisions": "docs/DECISIONS.md",
     }
     inputs.update(
         {

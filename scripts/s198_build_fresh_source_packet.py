@@ -403,6 +403,11 @@ def main() -> int:
         }
         for row in packet["items"]
     ]
+    inventory["post_selection_reserve_definition"] = (
+        "eligible candidate rows excluding selected documents; may include selected "
+        "manufacturers or manufacturer-product pairs and is not a future "
+        "manufacturer-disjoint cohort capacity claim"
+    )
     inventory["post_selection_reserve"] = eligible_inventory_counts(reserve)
     packet["eligible_inventory"] = inventory
     packet["target_equivalence_exclusion"] = target_equivalence

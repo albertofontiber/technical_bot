@@ -1,0 +1,150 @@
+instrument: s198_point_first_scope_prereg_v2
+status: FROZEN_BEFORE_PAID_EXECUTION
+objective: qualify_point_first_scope_bound_package_on_exhaustion_aware_fresh_cohort
+
+models:
+  point_author: {provider: anthropic, id: claude-haiku-4-5-20251001, role: economic_support_bound_point_author, max_output_tokens: 1200}
+  point_screen: {provider: openai, id: gpt-5.6-luna, role: economic_point_plan_semantic_screen, reasoning_effort: none, max_output_tokens: 700, store: false}
+  question_writer: {provider: anthropic, id: claude-haiku-4-5-20251001, role: economic_scope_bound_question_writer, max_output_tokens: 300}
+  question_screen: {provider: openai, id: gpt-5.6-luna, role: economic_question_scope_screen, reasoning_effort: none, max_output_tokens: 500, store: false}
+
+sdk: {anthropic: 0.97.0, openai: 2.30.0}
+
+execution:
+  point_author_calls_max: 12
+  point_screen_calls_max: 12
+  question_writer_calls_max: 12
+  question_screen_calls_max: 12
+  paid_calls_max: 48
+  provider_preflight_requests_max: 48
+  provider_requests_max: 96
+  retries: 0
+  frontier_execution_calls: 0
+  retrieval_calls: 0
+  reranker_calls: 0
+  database_calls: 0
+  database_writes: 0
+  downstream_planner_calls: 0
+  exclusive_lock_before_provider_requests: true
+  lock_scope: current_workspace
+  immutable_prepaid_checkpoints: true
+  atomic_progress_and_finalization: true
+
+validation:
+  eligible_questions_min: 12
+  eligible_manufacturers_min: 12
+  table_questions_min: 5
+  prose_questions_min: 5
+  answer_points_min: 24
+  invalid_outputs_max_per_stage: 0
+  semantic_failures_max_per_stage: 0
+  passing_action: GO_POINT_FIRST_SCOPE_BOUND_COHORT_SEALED
+  production: false
+  official_fact_credit: 0
+
+pricing_usd_per_million_tokens:
+  point_author: {input: 1, output: 5}
+  point_screen: {input: 1, output: 6}
+  question_writer: {input: 1, output: 5}
+  question_screen: {input: 1, output: 6}
+budget: {internal_ceiling_usd: 3, user_ceiling_usd: 250}
+
+outputs:
+  execution_lock: evals/s198_point_first_scope_execution_lock_v2.json
+  point_author_prepaid: evals/s198_point_author_prepaid_v2.json
+  point_author_receipts: evals/s198_point_author_receipts_v2.json
+  point_screen_prepaid: evals/s198_point_screen_prepaid_v2.json
+  point_screen_receipts: evals/s198_point_screen_receipts_v2.json
+  question_writer_prepaid: evals/s198_question_writer_prepaid_v2.json
+  question_writer_receipts: evals/s198_question_writer_receipts_v2.json
+  question_screen_prepaid: evals/s198_question_screen_prepaid_v2.json
+  question_screen_receipts: evals/s198_question_screen_receipts_v2.json
+  screened_cohort: evals/s198_point_first_scope_screened_cohort_v2.json
+  result: evals/s198_point_first_scope_gate_v2.json
+
+point_transport_schema_sha256: 9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624
+question_transport_schema_sha256: ebcfc171dc93d1f2b4a64e4230a995cd537a024385814167e95a2b0e1f6f6f65
+eligibility_definition: The sealed evidence units support two to four atomic, semantically distinct and materially useful obligations which together form one coherent, non-trivial and natural field-technician question about the bound product without outside knowledge.
+facet_definitions:
+  access_or_prerequisite: permission, dependency or prior state required before the task
+  target_or_configuration_field: address, terminal, parameter or value to set
+  input_trigger_or_observed_condition: event or observed state that activates logic
+  output_action_or_corrective_step: commanded behavior or technician remediation
+  option_mode_or_default: selectable operating mode, alternative or default
+  measurement_limit_or_timing: measured value, tolerance, capacity, range or time
+  safety_warning_exception_or_conflict: hazard, prohibition, exception or conflict
+  verification_commissioning_or_recovery: test, confirmation, commissioning or restore step
+facet_precedence:
+  - safety_warning_exception_or_conflict
+  - verification_commissioning_or_recovery
+  - output_action_or_corrective_step
+  - access_or_prerequisite
+  - measurement_limit_or_timing
+  - target_or_configuration_field
+  - option_mode_or_default
+  - input_trigger_or_observed_condition
+
+frozen_inputs:
+  design: {path: evals/s198_point_first_scope_design_v1.md, sha256: 1189a14a38243c97bc12a63b860791294a660e7094f424308723433241bb1026}
+  frontier_adjudication: {path: evals/s198_point_first_scope_frontier_adjudication_v1.json, sha256: cac6611070a49c451b8ef0545a22edef6c3905c1d87a1892b94814777c5e1f9c}
+  population_addendum: {path: evals/s198_exhaustion_aware_population_addendum_v1.md, sha256: 1cce2e92e8e7f80c0a375703fd25a8d7b832122b22b3e7cf9083339203a50b06}
+  population_no_go: {path: evals/s198_fresh_population_no_go_v1.json, sha256: 74aa9bf17fef995999286ad107e52df5eff820094e5def70d2af16c1f5f08e31}
+  builder_kind_bug: {path: evals/s198_fresh_builder_kind_bug_v1.json, sha256: 36901a6f83a0227d448a1ea4fd9ca91863796326be3a68cf5f241801dba478f5}
+  question_canary_result: {path: evals/s198_question_schema_canary_result_v1.json, sha256: 99ef2d443032833ad45453955beb0e9e0113c870a967258c2fbef2cb0093f08b}
+  fresh_source_packet: {path: evals/s198_fresh_source_packet_v2.json, sha256: 446f8a210af5530b524db9f50be8910535fc8946b8bd62bd221b2133cbc28a90}
+  source_builder: {path: scripts/s198_build_fresh_source_packet.py, sha256: 6a3f561fb2f1b2880d0b856705da7849b2002c647d306edcb481c828e3ec271d}
+  source_builder_tests: {path: tests/test_s198_fresh_source_packet.py, sha256: 3cde775d08d17a19d4ea4ee522825af9e8d739b5a7543fd8688fe50524dc55e4}
+  runner: {path: scripts/s198_point_first_scope_gate.py, sha256: 922bd11b6fcc591aeccdf4ff5f841c16b4b60cf256108529bcb01ede11a682fb}
+  gate_tests: {path: tests/test_s198_point_first_scope_gate.py, sha256: 92ad2b0f8064d4553c16a641606d060cbe2197c73bb972d39206726e9fe50639}
+  s196_transport_authority: {path: scripts/s196_static_transport_canary.py, sha256: fe889a97df191a44ddeb9d803bc5145635e29daadb4b1e9906fd3fe0872f65f3}
+  s198_question_schema_authority: {path: scripts/s198_question_schema_canary.py, sha256: c812893d3a45ccffb848d9c409cc6a569ab698713ba818223388d41e8c1c43f1}
+  s194_builder_dependency: {path: scripts/s194_build_fresh_source_packet.py, sha256: 1e2c4b5b64d0d00730018c35959d1b81a8c46d93a0221d187a9e5f19a7bca743}
+  s195_builder_dependency: {path: scripts/s195_build_fresh_source_packet.py, sha256: ca3d101d8e5670443b45d3f02b041aeec91d2c5dfe6514d71ef34c93434bb9ae}
+  s197_builder_dependency: {path: scripts/s197_build_fresh_source_packet.py, sha256: 9162b8c8ffdcbddabe7cc75aa3dd13789499474f6c6720bc555b68cfad4368a2}
+  s146_exclusion_authority: {path: scripts/s146_build_fresh_source_packet.py, sha256: fe4be2cb87e628557be6df37e4515510891a999503e1d9ecec0199e3787eab5e}
+  s165_hash_authority: {path: scripts/s165_answer_archetype_ledger.py, sha256: 60c4a44740d34afebe5151df45ad76280a18664a959d2ee1024167d2e58e504f}
+  s167_source_authority: {path: scripts/s167_build_independent_ledger_source.py, sha256: c4040bba8b4b5524a48b5c12b5d33ae0db29fc7fd11468e4001073aecc3723ee}
+  s167_uuid_authority: {path: scripts/s167_build_independent_ledger_source_support.py, sha256: 210648549897259e56a5a600485996caacbfc7050505e32154f8daf3c0e46331}
+  evidence_unitizer: {path: src/rag/evidence_units_v2.py, sha256: 4bd52372005043b3346217849f8a1740636ccdd454033506a84e4d61ee294ead}
+  eol_contract: {path: .gitattributes, sha256: 808f079a273097c126bc6a539f2922d028fff47ff43c12fca039581230f66949}
+  runtime_requirements: {path: requirements.txt, sha256: f0332b0daa8a369c9d7d25036af73bfd3c8323b88b22b3bdd9d54639d535f378}
+  prior_packet_s142_independent_source_packet_v1: {path: evals/s142_independent_source_packet_v1.json, sha256: 612b6d405ce5c8591b32f1d7ae81df628626299b55b68acceb948a4d68fcbe19}
+  prior_packet_s146_fresh_source_packet_v1: {path: evals/s146_fresh_source_packet_v1.json, sha256: bc442d04fbc81d0181e636b72dc819af9cbcc035b3800f1337e48044f7d5ba4a}
+  prior_packet_s147_fresh_source_packet_v1: {path: evals/s147_fresh_source_packet_v1.json, sha256: 38911f3e9b180064e4e9f5ae5e909e32dd6285dfb9f773944fa88184139f1295}
+  prior_packet_s157_multichunk_source_packet_v1: {path: evals/s157_multichunk_source_packet_v1.json, sha256: 8927b3a99a14468316464aa0d4e4075188ecce2f64de9bee1b33185c8cf27693}
+  prior_packet_s167_independent_ledger_source_packet_v1: {path: evals/s167_independent_ledger_source_packet_v1.json, sha256: 0fb9f2d051bde4d4dec6b96bc51b31f2eee9490cfea7f23f370938c4e47403a7}
+  prior_packet_s168_source_unit_gold_packet_v1: {path: evals/s168_source_unit_gold_packet_v1.json, sha256: b181003192616121dcd435f387b9735b745f814094d6550f285b558f86903d66}
+  prior_packet_s194_fresh_source_packet_v1: {path: evals/s194_fresh_source_packet_v1.json, sha256: e0fe2c63ab8514f2d6ad8ba21ea4f9211845d8b293be86c8e59676e741c8c54e}
+  prior_packet_s195_fresh_source_packet_v1: {path: evals/s195_fresh_source_packet_v1.json, sha256: 690697cbd464c00d3e69093bd4ec0e1c56d965ea0000bb27c17b8ae6b58bba58}
+  prior_packet_s197_fresh_source_packet_v1: {path: evals/s197_fresh_source_packet_v1.json, sha256: 6f5ae0f97fe1b07349becea9e4b1e83460a3108e88bec3ebdab4afa3a5012c18}
+  target_authority_s141_source_bound_technical_obligations_v1: {path: evals/s141_source_bound_technical_obligations_v1.json, sha256: 3bd96e427c0df15037a298fea7d6ae6089cf64b413219d60a07e58a552715606}
+  target_authority_s149_target_evidence_selector_probe_v1: {path: evals/s149_target_evidence_selector_probe_v1.json, sha256: de5d43347f8e7cb244636a651c3c7fb6490967be79fe070391ca2c4b0a00500d}
+  target_authority_s150_target_coverage_verifier_probe_v1: {path: evals/s150_target_coverage_verifier_probe_v1.json, sha256: af54c08ca93542b5e244b0560084f0415df46d31fcfacc30c141eedde36f72e3}
+  target_authority_s158_target_table_preamble_probe_v1: {path: evals/s158_target_table_preamble_probe_v1.json, sha256: 8902c5ec27effa43e854942282bba297483963498a4b16424ca375310dc260eb}
+  target_authority_s159_target_table_preamble_probe_v2: {path: evals/s159_target_table_preamble_probe_v2.json, sha256: 11dc46c3a37695c03184c2dbb2a5106db68e2a42d64c88973ef327fbf9c18c18}
+  target_authority_s160_target_table_preamble_probe_v3: {path: evals/s160_target_table_preamble_probe_v3.json, sha256: e11202ef039149e308b906f19406bc8bf18c4dc77a5a81515322731c25b9cf74}
+  target_authority_s163_synthesis_residual_audit_v1: {path: evals/s163_synthesis_residual_audit_v1.json, sha256: caaf08fbe9fdfc49550a2d3b7c8da6cbf6c012048d178def041ca02026541ab7}
+  target_authority_s173_single_source_omission_cohort_v1: {path: evals/s173_single_source_omission_cohort_v1.json, sha256: b8df8cce6bced1fdd95d3f70bb0787c2a63769fcacafde317bc8a9149c1b053f}
+  target_authority_s173_single_source_omission_correction_v1: {path: evals/s173_single_source_omission_correction_v1.json, sha256: cd8f563baf2b343d7d728c887fb89aece2a22c0e5349859e0bcc516feeb62eaa}
+  target_authority_s193_terra_id_planner_deterministic_append_v1: {path: evals/s193_terra_id_planner_deterministic_append_v1.json, sha256: 1db394d05858e1ef053dc6f9db23267b10b077332a3878cb3821cbc5b6089875}
+
+frontier_review:
+  principal: {model: gpt-5.6-sol, reasoning_effort: xhigh, status: completed_and_adjudicated}
+  independent: {model: claude-fable-5, display_name: Fable 5, status: completed_and_adjudicated}
+  post_exhaustion_semantic_redesign: false
+  frontier_execution_calls: 0
+
+chunks_v3_lane:
+  status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  changed_by_s198: false
+
+forbidden:
+  - retry_repair_or_rebuild_same_source_cohort
+  - change_schema_prompt_facet_or_threshold_after_source_freeze
+  - use_s197_item_level_wording_or_issue_text
+  - open_downstream_planner_or_protected_target_probe
+  - use_frontier_model_for_execution
+  - database_write_or_chunks_table_change
+  - chunks_v3_wholesale_reopen_or_per_question_patch
+  - deployment_or_railway_gate
+  - production_or_official_fact_credit

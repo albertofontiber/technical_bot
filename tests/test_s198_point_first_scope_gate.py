@@ -142,6 +142,19 @@ def test_facet_contract_is_exhaustive_and_frozen_in_precedence_order():
     )
     assert s198.FACET_PRECEDENCE[-1] == "input_trigger_or_observed_condition"
     assert "two to four atomic" in s198.ELIGIBILITY_DEFINITION
+    assert s198.EXPECTED_EXECUTION["paid_calls_max"] == 48
+    assert s198.EXPECTED_EXECUTION["provider_requests_max"] == 96
+
+
+def test_actual_exhaustion_aware_packet_passes_the_full_source_contract():
+    packet = json.loads(s198.SOURCE.read_text(encoding="utf-8"))
+    s198.source_contract(packet)
+    assert packet["selection"]["population_contract"] == (
+        "EXHAUSTION_AWARE_7_TABLE_5_PROSE"
+    )
+    assert packet["eligible_inventory"]["post_selection_reserve_definition"].endswith(
+        "not a future manufacturer-disjoint cohort capacity claim"
+    )
 
 
 def test_question_writer_is_claim_only_while_final_screen_restores_excerpt():
