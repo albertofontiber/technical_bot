@@ -1,0 +1,46 @@
+{
+  "schema": "s204_kidde_visual_canary_diagnosis_v1",
+  "status": "CLOSED_NO_GO_VISUAL_GOLD",
+  "execution": {
+    "calls": 8,
+    "sol_candidates_valid": 3,
+    "fable_candidates_valid": 3,
+    "sol_review_of_fable_pass": 2,
+    "fable_review_of_sol_pass": 3,
+    "conservative_cost_usd": 15.729345
+  },
+  "blocking_case": {
+    "canary_id": "kidde_base_class_a_terminals",
+    "candidate_author": "claude-fable-5",
+    "reviewer": "gpt-5.6-sol",
+    "blocking_issues": [
+      "The final polarity wording could be read as connecting opposite polarities instead of preserving positive-to-positive and negative-to-negative continuity.",
+      "The direct wiring instruction omitted the visible safety warning to disconnect all power sources and allow stored energy to discharge."
+    ],
+    "fact_verdicts_supported": 6,
+    "fact_verdicts_total": 6,
+    "gold_complete": false,
+    "counterpart_materially_agrees": true
+  },
+  "contract_observations": {
+    "nonblocking_notes_correctly_allowed": true,
+    "application_inference_rule_triggered": false,
+    "semantic_duplicate_gate_passed_all_candidates": true,
+    "visual_predicates_generalized": true,
+    "review_schema_false_block": false,
+    "clean_symmetric_pairs": 2,
+    "clean_principal_candidates": 3
+  },
+  "decision": {
+    "same_cohort_retry": false,
+    "repair_or_salvage": false,
+    "postselect_two_clean_pairs": false,
+    "official_gold_added": 0,
+    "official_fact_credit": 0,
+    "bot_evaluation_opened": false
+  },
+  "causal_interpretation": "The reusable materiality and leakage fixes generalized. The remaining failure is a real defect in one independent author's non-final candidate. Requiring every independent counterpart to be publication-ready lets counterpart-only defects veto a principal candidate that passed independent review; this is unnecessary coupling, not evidence that pixel-grounded principal golds failed.",
+  "fresh_successor_rule": "A future cohort may treat the independent candidate as a blind disagreement probe rather than a second publication candidate. It must still be generated before review, both directions must report no material disagreement, and the independent Fable review of every principal Sol candidate must PASS. The revised geometry must be frozen before selecting fresh pages and cannot salvage S204 outputs.",
+  "chunks_v3_status": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+  "railway_merge_gate": false
+}

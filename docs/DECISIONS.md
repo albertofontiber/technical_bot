@@ -2075,3 +2075,27 @@ tests. Se autoriza PR preejecución; sólo tras merge CI-verde se ejecutan como 
 sin retry, merge, reparación, salvage o postselección y con techo $40. Un GO crea candidatos aún
 no integrados y mueve 0 facts; requiere otro freeze antes de medir bot. `chunks_v2` sigue activo,
 `chunks_v3=FINAL_NO_GO_CHUNKS_V3_WHOLESALE` y Railway no bloquea PR/merge.
+
+## DEC-117 — S204: contrato corregido generaliza; el publication-gate dual simétrico no
+
+**Resultado.** Tras PR #140 y CI verde, S204 completó las ocho llamadas congeladas: 3/3 candidatos
+Sol válidos, 3/3 Fable válidos y dos cross-reviews completas por **$15,729345** conservadores.
+Fable dio PASS a los tres Sol. Sol dio PASS a DIP 008/112 y ranuras, pero FAIL al cableado Clase A
+de Fable: los seis facts estaban soportados, correctamente citados y entrañados, pero la frase
+final podía interpretarse como unir polaridades opuestas y la instrucción de cableado omitía la
+advertencia visible de cortar alimentación y descargar energía almacenada. Es bloqueo real de
+completitud/seguridad, no repetición del falso bloqueo por `issues` S203.
+
+**Cierre.** El estado es `NO_GO_VISUAL_GOLD`; los dos pares simétricos limpios no se postseleccionan
+y los tres Sol aceptados por Fable no se salvan. No hay retry, reparación, gold, bot-eval ni facts.
+El contrato reusable sí generaliza: notas no materiales no bloquean, no aparecieron inferencias de
+aplicación, el screen gold+HyQ pasó y los tres predicados visuales fueron autorables/revisables.
+
+**Geometría sucesora permitida.** El defecto aislado muestra que exigir calidad publicable al
+candidato independiente —que nunca sería el gold final— acopla innecesariamente su calidad a la
+del principal. En una población completamente nueva puede congelarse antes de selección una
+geometría donde Fable siga generando a ciegas un counterpart para detectar desacuerdo, pero el
+publication-gate se aplique al candidato Sol: Fable debe revisarlo y dar PASS, y ambas direcciones
+deben declarar cero desacuerdo material. Los defectos propios del counterpart que no contradigan
+el principal se diagnostican pero no lo vetan. Esto no autoriza rescatar S204. `chunks_v3` sigue
+`FINAL_NO_GO_CHUNKS_V3_WHOLESALE`; Railway no es gate.

@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 17 jul 2026 (pre-S204 — contrato visual reusable y cohorte Kidde fresca congelados).
+> 17 jul 2026 (S204 cerrado — contrato visual generaliza, gate dual simétrico NO-GO).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -23,7 +23,7 @@
 > gap honesto.
 
 <a id="estado-actual-s204--17-jul-2026"></a>
-## Estado actual (pre-S204 — 17 jul 2026)
+## Estado actual (S204 cerrado — 17 jul 2026)
 
 **La foto diagnóstica comparable más reciente es 157 facts: 143 OK · 12 synthesis-miss ·
 2 retrieval-miss = 91,08% OK, gap 7 facts hasta 95%.** No es todavía un KPI atómico oficial ni
@@ -222,6 +222,20 @@ indisponibles, por **$3,25083**, sin retry. La auditoría determinista corrigió
 La preejecución pasa 4/4 tests y autoriza únicamente una PR con CI; tras merge, una ejecución
 separada de máximo ocho llamadas y $40. Aún mueve 0 facts.
 
+**S204 ejecutó las ocho llamadas y cerró `NO_GO_VISUAL_GOLD`, sin repetir los defectos S203.**
+Sol y Fable produjeron 3/3 candidatos válidos; Fable dio PASS a los tres candidatos principales
+Sol, incluidas notas no materiales que el nuevo contrato permitió correctamente. Sol dio PASS a
+2/3 candidatos Fable y bloqueó sólo el cableado Clase A: sus seis facts eran visibles y correctos,
+pero la respuesta final dejó una frase de polaridad ambigua y omitió la advertencia visible de
+desenergizar/descargar antes del cableado. Es un fallo de contenido real, no del schema. Coste
+conservador **$15,729345**; 2/3 pares simétricos limpios, pero no se postseleccionan, reparan o
+salvan; golds 0, facts 0, bot cerrado. La causalidad nueva es de geometría: hacer publication-gate
+del candidato independiente permite que un defecto exclusivo de un candidato no final vete un
+candidato principal que sí pasó revisión independiente. Un sucesor fresco puede usar el candidato
+independiente sólo como probe ciego de desacuerdo: debe seguir generándose antes de review, ambas
+direcciones deben declarar cero desacuerdo material y Fable debe dar PASS a cada candidato Sol.
+Debe congelarse antes de elegir páginas nuevas y nunca rescatar S204.
+
 **`chunks_v3` no se migra al completo.** S140 cerró el shadow representativo como
 `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`: empata recall funcional@10 (16/24 vs 16/24) pero empeora el
 primer rango útil/MRR (0,4021→0,3694). `chunks_v2` sigue siendo el baseline activo. V3 preserva
@@ -242,13 +256,14 @@ sigue siendo un registro ligado a documento+revisión+página+hash, independient
 
 **Producción no ha cambiado en este bloque.** No se ha hecho deploy, migración ni escritura
 remota. Railway sigue siendo una demo y no es condición para merge con CI verde. Próximos pasos,
-por orden: (1) PR y merge CI-verde de la preejecución S204; (2) ejecutar una sola vez las seis
-autorías y dos cross-reviews pixel-only; (3) sólo ante GO, congelar en otra PR el benchmark
-económico con corpus/chunks_v2, índice, configuración, juez, seeds y baseline inmutables; (4) abrir
+por orden: (1) merge CI-verde del resultado S204; (2) congelar una última cohorte visual fresca con
+la geometría principal-candidate/independent-disagreement-probe, sin reutilizar páginas S204; (3)
+sólo ante GO, congelar en otra PR el benchmark económico con corpus/chunks_v2, índice,
+configuración, juez, seeds y baseline inmutables; (4) abrir
 planner/targets únicamente si ese benchmark generaliza con cero regresiones; (5) reconciliar el
 bridge diagnóstico/productivo sin sumar de nuevo S172/S188; (6) al alcanzar 98%, pasar a
 diagramas/formato/Wispr Flow; (7) recoger 30 audios reales antes de comparar ASR. El funnel conserva
-sus etapas: S193 mantiene señal de renderer; S194, S195, S197, S198, S199, S200, S202 y S203 son
+sus etapas: S193 mantiene señal de renderer; S194, S195, S197, S198, S199, S200, S202, S203 y S204 son
 NO-GO upstream, S196 y los canarios de transporte son GO instrumentales, S201 es HOLD cerrado y
 todos siguen con crédito de facts cero.
 

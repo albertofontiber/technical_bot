@@ -1,0 +1,228 @@
+{
+  "schema": "s204_fable_review_of_sol_v1",
+  "review": {
+    "reviewer_model": "claude-fable-5",
+    "candidate_author": "gpt-5.6-sol",
+    "reviews": [
+      {
+        "canary_id": "kidde_base_class_a_terminals",
+        "verdict": "PASS",
+        "question_fully_answerable": true,
+        "question_duplicate": false,
+        "topic_aligned": true,
+        "gold_complete": true,
+        "counterpart_materially_agrees": true,
+        "material_disagreements": [],
+        "unsupported_answer_claims": [],
+        "blocking_issues": [],
+        "nonblocking_notes": [
+          "The terminal-number-to-signal-name correspondence (e.g. '5 (A+)') is textually confirmed by the terminal table on focus page 4 while the routing traces are on the page-1 Figure 1; both pages are allowed focus pages, so the combined support is valid even though each fact cites only page 1.",
+          "Retriever-augmentation questions cover the generic pinout of the KE-DB3010W (hyq:96483d92:3, hyq:2876b1bc:1); this candidate is distinct because it targets the Class A series topology between two bases and the panel (B-of-base-1 to A-of-base-2 link and return), which is the pre-frozen visual topic and is not addressed by the pinout-only questions.",
+          "Scope exclusion of remote indicator and ground connections is explicit in the question and notes, avoiding contamination of augmentation coverage."
+        ],
+        "fact_verdicts": [
+          {
+            "fact_id": "F01",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Figure 1 shows the A+ conductor from the panel block reaching terminal 5 of the first base; terminal 5 = Línea positiva (A+) per the page-4 table."
+          },
+          {
+            "fact_id": "F02",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "A− trace to terminal 2 of the first base is consistent with Figure 1 and the page-4 table (2 = Línea negativa A−)."
+          },
+          {
+            "fact_id": "F03",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Inter-base positive link from terminal 4 (B+) of base 1 to terminal 5 (A+) of base 2 is the series connection drawn in Figure 1."
+          },
+          {
+            "fact_id": "F04",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Inter-base negative link from terminal 3 (B−) of base 1 to terminal 2 (A−) of base 2 matches the drawn wiring and terminal table."
+          },
+          {
+            "fact_id": "F05",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Return conductor from terminal 4 (B+) of the second base to the panel B+ borne closes the positive side of the Class A loop as drawn."
+          },
+          {
+            "fact_id": "F06",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Return conductor from terminal 3 (B−) of the second base to panel B− closes the negative side of the loop as drawn."
+          }
+        ]
+      },
+      {
+        "canary_id": "kidde_indoor_dip_examples",
+        "verdict": "PASS",
+        "question_fully_answerable": true,
+        "question_duplicate": false,
+        "topic_aligned": true,
+        "gold_complete": true,
+        "counterpart_materially_agrees": true,
+        "material_disagreements": [],
+        "unsupported_answer_claims": [],
+        "blocking_issues": [],
+        "nonblocking_notes": [
+          "The generic sum rule (F06) is also touched by retriever-augmentation questions (hyq:0425b987:1, hyq:a14d7680:1), but the specific ON/OFF patterns for addresses 008 and 112 — the pre-frozen visual core of this gold — are not covered elsewhere.",
+          "Candidate correctly omits the DIP switch location (battery compartment) and 001–128 range, which are reserved for retriever-augmentation coverage."
+        ],
+        "fact_verdicts": [
+          {
+            "fact_id": "F01",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Value row '1 2 4 8 16 32 64 128' with switch-number row 1–8 is visible above/below both DIP diagrams on page 12."
+          },
+          {
+            "fact_id": "F02",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "'Dirección del dispositivo 008' diagram shows only the fourth switch in the ON position; all others down."
+          },
+          {
+            "fact_id": "F03",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Switch 4 aligns with value 8; sum = 8 = address 008."
+          },
+          {
+            "fact_id": "F04",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "'Dirección del dispositivo 112' diagram shows switches 5, 6 and 7 in ON; remaining switches OFF."
+          },
+          {
+            "fact_id": "F05",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Switches 5/6/7 align with values 16/32/64; 16+32+64=112, numerically exact."
+          },
+          {
+            "fact_id": "F06",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Text under 'Direccionamiento de la sirena/VAD': 'La dirección del dispositivo configurado es la suma de los interruptores en la posición ON'."
+          }
+        ]
+      },
+      {
+        "canary_id": "kidde_deep_accessory_slots",
+        "verdict": "PASS",
+        "question_fully_answerable": true,
+        "question_duplicate": false,
+        "topic_aligned": true,
+        "gold_complete": true,
+        "counterpart_materially_agrees": true,
+        "material_disagreements": [],
+        "unsupported_answer_claims": [],
+        "blocking_issues": [],
+        "nonblocking_notes": [
+          "The tag-timing element (insert before installing the base) overlaps in part with retriever-augmentation hyq:90f7b05f:3, but it is explicitly included in the pre-frozen topic and is secondary to the novel slot-distinction angle, so it does not constitute a semantic duplicate.",
+          "F01/F02 cite page 1 where the callouts and English legend ('Address tag slot' / 'Locking tab slot') appear; the Spanish legend equivalents on focus page 3 corroborate the same mapping."
+        ],
+        "fact_verdicts": [
+          {
+            "fact_id": "F01",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Figure 1 callout (1) points to the small notch on the outer rim of the accessory; page-1 legend reads '(1) Address tag slot' (ES page 3: 'Ranura para etiqueta de dirección')."
+          },
+          {
+            "fact_id": "F02",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Callout (2) points toward the interior area beside the base; legend '(2) Locking tab slot' (ES: 'Ranura para pestaña de bloqueo')."
+          },
+          {
+            "fact_id": "F03",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Page 3 ES Instalación: 'Recuerde insertar la etiqueta de dirección... en la ranura del accesorio antes de instalar la base de montaje (consulte la figura 1)'."
+          },
+          {
+            "fact_id": "F04",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Same sentence includes the parenthetical 'proporcionada con la base de montaje'."
+          }
+        ]
+      }
+    ]
+  },
+  "receipt": {
+    "provider": "fable",
+    "call_label": "review:sol_candidates",
+    "model": "claude-fable-5",
+    "status": "end_turn",
+    "raw_output": "{\"reviewer_model\":\"claude-fable-5\",\"candidate_author\":\"gpt-5.6-sol\",\"reviews\":[{\"canary_id\":\"kidde_base_class_a_terminals\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"The terminal-number-to-signal-name correspondence (e.g. '5 (A+)') is textually confirmed by the terminal table on focus page 4 while the routing traces are on the page-1 Figure 1; both pages are allowed focus pages, so the combined support is valid even though each fact cites only page 1.\",\"Retriever-augmentation questions cover the generic pinout of the KE-DB3010W (hyq:96483d92:3, hyq:2876b1bc:1); this candidate is distinct because it targets the Class A series topology between two bases and the panel (B-of-base-1 to A-of-base-2 link and return), which is the pre-frozen visual topic and is not addressed by the pinout-only questions.\",\"Scope exclusion of remote indicator and ground connections is explicit in the question and notes, avoiding contamination of augmentation coverage.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Figure 1 shows the A+ conductor from the panel block reaching terminal 5 of the first base; terminal 5 = Línea positiva (A+) per the page-4 table.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"A− trace to terminal 2 of the first base is consistent with Figure 1 and the page-4 table (2 = Línea negativa A−).\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Inter-base positive link from terminal 4 (B+) of base 1 to terminal 5 (A+) of base 2 is the series connection drawn in Figure 1.\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Inter-base negative link from terminal 3 (B−) of base 1 to terminal 2 (A−) of base 2 matches the drawn wiring and terminal table.\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Return conductor from terminal 4 (B+) of the second base to the panel B+ borne closes the positive side of the Class A loop as drawn.\"},{\"fact_id\":\"F06\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Return conductor from terminal 3 (B−) of the second base to panel B− closes the negative side of the loop as drawn.\"}]},{\"canary_id\":\"kidde_indoor_dip_examples\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"The generic sum rule (F06) is also touched by retriever-augmentation questions (hyq:0425b987:1, hyq:a14d7680:1), but the specific ON/OFF patterns for addresses 008 and 112 — the pre-frozen visual core of this gold — are not covered elsewhere.\",\"Candidate correctly omits the DIP switch location (battery compartment) and 001–128 range, which are reserved for retriever-augmentation coverage.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Value row '1 2 4 8 16 32 64 128' with switch-number row 1–8 is visible above/below both DIP diagrams on page 12.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"'Dirección del dispositivo 008' diagram shows only the fourth switch in the ON position; all others down.\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Switch 4 aligns with value 8; sum = 8 = address 008.\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"'Dirección del dispositivo 112' diagram shows switches 5, 6 and 7 in ON; remaining switches OFF.\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Switches 5/6/7 align with values 16/32/64; 16+32+64=112, numerically exact.\"},{\"fact_id\":\"F06\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Text under 'Direccionamiento de la sirena/VAD': 'La dirección del dispositivo configurado es la suma de los interruptores en la posición ON'.\"}]},{\"canary_id\":\"kidde_deep_accessory_slots\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"The tag-timing element (insert before installing the base) overlaps in part with retriever-augmentation hyq:90f7b05f:3, but it is explicitly included in the pre-frozen topic and is secondary to the novel slot-distinction angle, so it does not constitute a semantic duplicate.\",\"F01/F02 cite page 1 where the callouts and English legend ('Address tag slot' / 'Locking tab slot') appear; the Spanish legend equivalents on focus page 3 corroborate the same mapping.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Figure 1 callout (1) points to the small notch on the outer rim of the accessory; page-1 legend reads '(1) Address tag slot' (ES page 3: 'Ranura para etiqueta de dirección').\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Callout (2) points toward the interior area beside the base; legend '(2) Locking tab slot' (ES: 'Ranura para pestaña de bloqueo').\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 3 ES Instalación: 'Recuerde insertar la etiqueta de dirección... en la ranura del accesorio antes de instalar la base de montaje (consulte la figura 1)'.\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Same sentence includes the parenthetical 'proporcionada con la base de montaje'.\"}]}]}",
+    "usage": {
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "input_tokens": 83508,
+      "output_tokens": 5784
+    },
+    "provider_trace": {
+      "id": "msg_011Cd8X7gtUZHhBYJTmw8tLd",
+      "container": null,
+      "content": [
+        {
+          "signature": "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",
+          "thinking": "",
+          "type": "thinking"
+        },
+        {
+          "citations": null,
+          "text": "{\"reviewer_model\":\"claude-fable-5\",\"candidate_author\":\"gpt-5.6-sol\",\"reviews\":[{\"canary_id\":\"kidde_base_class_a_terminals\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"The terminal-number-to-signal-name correspondence (e.g. '5 (A+)') is textually confirmed by the terminal table on focus page 4 while the routing traces are on the page-1 Figure 1; both pages are allowed focus pages, so the combined support is valid even though each fact cites only page 1.\",\"Retriever-augmentation questions cover the generic pinout of the KE-DB3010W (hyq:96483d92:3, hyq:2876b1bc:1); this candidate is distinct because it targets the Class A series topology between two bases and the panel (B-of-base-1 to A-of-base-2 link and return), which is the pre-frozen visual topic and is not addressed by the pinout-only questions.\",\"Scope exclusion of remote indicator and ground connections is explicit in the question and notes, avoiding contamination of augmentation coverage.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Figure 1 shows the A+ conductor from the panel block reaching terminal 5 of the first base; terminal 5 = Línea positiva (A+) per the page-4 table.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"A− trace to terminal 2 of the first base is consistent with Figure 1 and the page-4 table (2 = Línea negativa A−).\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Inter-base positive link from terminal 4 (B+) of base 1 to terminal 5 (A+) of base 2 is the series connection drawn in Figure 1.\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Inter-base negative link from terminal 3 (B−) of base 1 to terminal 2 (A−) of base 2 matches the drawn wiring and terminal table.\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Return conductor from terminal 4 (B+) of the second base to the panel B+ borne closes the positive side of the Class A loop as drawn.\"},{\"fact_id\":\"F06\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Return conductor from terminal 3 (B−) of the second base to panel B− closes the negative side of the loop as drawn.\"}]},{\"canary_id\":\"kidde_indoor_dip_examples\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"The generic sum rule (F06) is also touched by retriever-augmentation questions (hyq:0425b987:1, hyq:a14d7680:1), but the specific ON/OFF patterns for addresses 008 and 112 — the pre-frozen visual core of this gold — are not covered elsewhere.\",\"Candidate correctly omits the DIP switch location (battery compartment) and 001–128 range, which are reserved for retriever-augmentation coverage.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Value row '1 2 4 8 16 32 64 128' with switch-number row 1–8 is visible above/below both DIP diagrams on page 12.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"'Dirección del dispositivo 008' diagram shows only the fourth switch in the ON position; all others down.\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Switch 4 aligns with value 8; sum = 8 = address 008.\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"'Dirección del dispositivo 112' diagram shows switches 5, 6 and 7 in ON; remaining switches OFF.\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Switches 5/6/7 align with values 16/32/64; 16+32+64=112, numerically exact.\"},{\"fact_id\":\"F06\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Text under 'Direccionamiento de la sirena/VAD': 'La dirección del dispositivo configurado es la suma de los interruptores en la posición ON'.\"}]},{\"canary_id\":\"kidde_deep_accessory_slots\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"The tag-timing element (insert before installing the base) overlaps in part with retriever-augmentation hyq:90f7b05f:3, but it is explicitly included in the pre-frozen topic and is secondary to the novel slot-distinction angle, so it does not constitute a semantic duplicate.\",\"F01/F02 cite page 1 where the callouts and English legend ('Address tag slot' / 'Locking tab slot') appear; the Spanish legend equivalents on focus page 3 corroborate the same mapping.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Figure 1 callout (1) points to the small notch on the outer rim of the accessory; page-1 legend reads '(1) Address tag slot' (ES page 3: 'Ranura para etiqueta de dirección').\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Callout (2) points toward the interior area beside the base; legend '(2) Locking tab slot' (ES: 'Ranura para pestaña de bloqueo').\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 3 ES Instalación: 'Recuerde insertar la etiqueta de dirección... en la ranura del accesorio antes de instalar la base de montaje (consulte la figura 1)'.\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Same sentence includes the parenthetical 'proporcionada con la base de montaje'.\"}]}]}",
+          "type": "text"
+        }
+      ],
+      "model": "claude-fable-5",
+      "role": "assistant",
+      "stop_details": null,
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "type": "message",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 83508,
+        "output_tokens": 5784,
+        "server_tool_use": null,
+        "service_tier": "standard",
+        "output_tokens_details": {
+          "thinking_tokens": 3312
+        }
+      }
+    }
+  },
+  "result_sha256": "7eb1783ee838bbae79ad7c1ab99880f7624a6fb25afc29bd9487179c1a746f5f"
+}
