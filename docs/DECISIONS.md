@@ -2003,3 +2003,23 @@ freeze para Terra; un fallo cierra la cohorte sin retry. Una integración futura
 revisión principal GPT-5.6 Sol `xhigh`, Fable 5 independiente sin bucle de convergencia y regresión
 completa. `chunks_v3` permanece `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`; Railway no bloquea merge con CI
 verde.
+
+## DEC-114 — S202: transporte resuelto, contrato dual-gold inválido y reserva Kidde
+
+**Resultado.** Haiku completó 12/12 outputs válidos sobre 43 facts; el rectángulo estático 6×6
+resuelve la causa S201. Luna hizo 12/12 llamadas, pero 7 outputs incumplieron validación: seis
+declararon acuerdo sin repetir el set exacto del autor y uno usó un unit ID desconocido. Estado
+`NO_GO_DUAL_GOLD`, coste **$1,258906**, sin Terra/targets y facts 0.
+
+**Diagnóstico.** El prompt definía `agrees_with_author` como corrección de la decisión
+supported/unsupported, mientras el validador local exigía además que una alternativa coincidiera
+exactamente con el set del autor. Por tanto, seis fallos son incompatibilidad del instrumento, no
+evidencia de fallo semántico del planner. El output desconocido sí es inválido de proveedor. Sólo
+cinco filas son válidas; sus 13 soportados no estiman el support-rate y no se postseleccionan. La
+cohorte queda cerrada sin retry ni relajación.
+
+**Cambio de población.** Tras S201+S202 quedan cuatro preguntas S100 no observadas, insuficientes
+para generalizar. La reserva legítima serán manuales Kidde sin preguntas actuales. La autoría de
+pregunta y gold usará Sol 5.6 `xhigh` principal, Fable 5 independiente y evidencia verificada
+visualmente página-a-página; un canary pequeño precederá al lote para limitar coste. Sólo después
+se usará ejecución económica para medir. `chunks_v3` no cambia y Railway no es gate.

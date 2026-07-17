@@ -1,0 +1,66 @@
+{
+  "instrument": "s202_real_question_gold_gate_v1",
+  "status": "NO_GO_DUAL_GOLD",
+  "population": {
+    "seed": "s202-real-question-gold-holdout-v1",
+    "eligible_questions": 16,
+    "items": 12,
+    "manufacturers": 5,
+    "unique_normalized_products": 12,
+    "eligible_answer_points": 43,
+    "baseline_reaching_generation_points": 37,
+    "s201_question_overlap": 0,
+    "target_question_overlap": 0,
+    "default_off_candidate_question_overlap": 0,
+    "question_selection_uses_answer_class_or_pipeline_outcome": false,
+    "question_selection_uses_planner_output": false,
+    "source_table": "chunks_v2",
+    "chunks_v3_used": false
+  },
+  "checks": {
+    "invalid_author_outputs_zero": true,
+    "invalid_validator_outputs_zero": false,
+    "semantic_disagreements_zero": true,
+    "source_supported_points_min": false
+  },
+  "measurement": {
+    "author_calls": 12,
+    "validator_calls": 12,
+    "invalid_author_outputs": 0,
+    "invalid_validator_outputs": 7,
+    "semantic_disagreements": 0,
+    "supported_points": 13,
+    "total_points": 43
+  },
+  "chunks_v3_lane": {
+    "status": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "baseline": {
+      "chunks_v2_recall_at_10": "16/24",
+      "chunks_v3_recall_at_10": "16/24",
+      "chunks_v2_mrr": 0.4021,
+      "chunks_v3_mrr": 0.3694
+    },
+    "changed_by_s202": false,
+    "migration_or_materialization": false,
+    "next_trigger": "structural_v4_hypothesis_improves_ranking_without_manufacturer_or_heldout_loss",
+    "per_question_patching": false
+  },
+  "cost": {
+    "gold_author_usd": 0.69532,
+    "gold_validator_usd": 0.563586,
+    "total_usd": 1.258906,
+    "internal_ceiling_usd": 3
+  },
+  "decision": {
+    "same_cohort_retry": false,
+    "validator_opened": true,
+    "planner_opened": false,
+    "target_probe_opened": false,
+    "runtime_integration": false,
+    "production": false,
+    "official_fact_credit": 0,
+    "diagnostic_facts_moved_to_ok": 0,
+    "railway_deploy_gate": false
+  },
+  "result_sha256": "85b767bec526e813de55c55acb48094a3eb7716162e7dadeeeaa9fc93a1c5393"
+}

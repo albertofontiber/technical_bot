@@ -1,0 +1,97 @@
+{
+  "instrument": "s202_real_question_gold_diagnosis_v1",
+  "status": "CLOSED_CONTRACT_NO_GO",
+  "evidence": {
+    "author_receipts": {
+      "path": "evals/s202_gold_author_receipts_v1.json",
+      "sha256_lf": "941cc3ee12fc8e487fab8121f482e10165606bb5508ba620e4d841ae9e980033"
+    },
+    "validator_receipts": {
+      "path": "evals/s202_gold_validator_receipts_v1.json",
+      "sha256_lf": "0b82861b21fcdd53bb1908eb7bfaf5e0e20a79ba0cb2970cd8531fef9b026e3b"
+    },
+    "gate": {
+      "path": "evals/s202_real_question_gold_gate_v1.json",
+      "sha256_lf": "5f3a57d74812c79b43b76a7219319684ac66682abe37adc4de009ca8fa51fd79"
+    }
+  },
+  "author_stage": {
+    "calls": 12,
+    "valid_outputs": 12,
+    "invalid_outputs": 0,
+    "facts_mapped": 43,
+    "static_transport_failure_reproduced": false,
+    "s201_transport_cause_resolved": true
+  },
+  "validator_stage": {
+    "calls": 12,
+    "valid_outputs": 5,
+    "invalid_outputs": 7,
+    "invalid_output_classes": {
+      "validator_agrees_but_omits_author_support_set": {
+        "count": 6,
+        "qids": [
+          "cat001",
+          "cat016",
+          "cat017",
+          "hp012",
+          "hp005",
+          "hp015"
+        ],
+        "diagnosis": "agreement_field_prompted_as_supported_decision_but_locally_enforced_as_exact_author_set_validity",
+        "local_contract_mismatch": true
+      },
+      "unknown_support_unit_id": {
+        "count": 1,
+        "qids": [
+          "hp014"
+        ],
+        "diagnosis": "provider_output_referenced_an_id_outside_the_frozen_manifest",
+        "local_contract_mismatch": false
+      }
+    },
+    "valid_qids": [
+      "cat023",
+      "cat020",
+      "cat022",
+      "cat024",
+      "hp001"
+    ],
+    "raw_invalid_outputs_persisted": false
+  },
+  "interpretation": {
+    "dual_gold_semantics_measured": false,
+    "reported_supported_points_13_is_partial_valid_rows_only": true,
+    "source_support_rate_claim_allowed": false,
+    "planner_mechanism_falsified": false,
+    "gold_validator_contract_passed": false,
+    "postselect_five_valid_questions": false
+  },
+  "population_after_close": {
+    "s100_questions_remaining_after_s201_s202_and_prior_exclusions": 4,
+    "remaining_qids": [
+      "cat008",
+      "hp004",
+      "hp018",
+      "hp020"
+    ],
+    "sufficient_for_another_12_question_generalization": false,
+    "new_preexisting_or_source_verified_question_population_required": true
+  },
+  "decision": {
+    "same_cohort_retry": false,
+    "threshold_or_prompt_relaxation": false,
+    "planner_opened": false,
+    "target_probe_opened": false,
+    "production": false,
+    "official_fact_credit": 0,
+    "diagnostic_facts_moved_to_ok": 0,
+    "next_direction": "fresh_kidde_question_population_with_visual_pdf_gold_and_frontier_cross_review",
+    "railway_deploy_gate": false
+  },
+  "chunks_v3_lane": {
+    "status": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "changed_by_s202": false
+  },
+  "result_sha256": "5c89f9aa4f8c48d461a45932d4b2be623ff12953348c3ae2d3469a382a7694a2"
+}
