@@ -1,0 +1,881 @@
+{
+  "instrument": "s197_luna_semantic_receipts_v1",
+  "status": "COMPLETE",
+  "created_at": "2026-07-17T17:19:47.536476+00:00",
+  "model": "gpt-5.6-luna",
+  "sdk": "2.30.0",
+  "sdk_max_retries": 0,
+  "store": false,
+  "completed_calls": 14,
+  "invalid_outputs": 0,
+  "receipts": [
+    {
+      "item_id": "s197_src_01",
+      "response_id": "resp_0bfc1a7f0ef22d6c016a5a641818f88197a2d8abff6d53da47",
+      "status": "completed",
+      "counted_input_tokens": 5688,
+      "usage": {
+        "input_tokens": 5688,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 5685
+        },
+        "output_tokens": 178,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5866
+      },
+      "cost_usd": 0.006756,
+      "validation_error": null,
+      "review": {
+        "item_id": "s197_src_01",
+        "eligibility_correct": true,
+        "eligibility_issue": "",
+        "question_language_spanish": true,
+        "question_language_issue": "",
+        "question_natural_for_field_technician": true,
+        "question_naturality_issue": "",
+        "answer_points_semantically_distinct": true,
+        "answer_point_distinctness_issue": "",
+        "answer_points_complete_for_question_within_excerpt": true,
+        "answer_point_completeness_issue": "",
+        "question_answerable": true,
+        "question_issue": "",
+        "point_reviews": {
+          "point_1": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_2": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_3": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_4": null
+        }
+      },
+      "authored_item_sha256": "e5a575985c906175512a32aebccdcfb5be8f9ac7e892e65aa78476ae5dc04c2c",
+      "semantic_input_sha256": "14398c01929ee630cf724c2c81822a047930858d95f63f895282c344c41f776d",
+      "semantic_output_schema_sha256": "2ea07f5a6549439629a574dd6733d1db58ba81c3a8e2a19966ed64ddda8ee57c",
+      "raw_semantic_output": "{\"item_id\":\"s197_src_01\",\"eligibility_correct\":true,\"eligibility_issue\":\"\",\"question_language_spanish\":true,\"question_language_issue\":\"\",\"question_natural_for_field_technician\":true,\"question_naturality_issue\":\"\",\"answer_points_semantically_distinct\":true,\"answer_point_distinctness_issue\":\"\",\"answer_points_complete_for_question_within_excerpt\":true,\"answer_point_completeness_issue\":\"\",\"question_answerable\":true,\"question_issue\":\"\",\"point_reviews\":{\"point_1\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_2\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_3\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_4\":null}}",
+      "raw_text_sha256": "1e0f9d515623a215c16136fbf7e1b64c8a7c0ca961d7d1312dc969759a4827db",
+      "store": false
+    },
+    {
+      "item_id": "s197_src_02",
+      "response_id": "resp_0294a8d89469e7ba016a5a641a2ef081968f6178e4bbc22de5",
+      "status": "completed",
+      "counted_input_tokens": 3193,
+      "usage": {
+        "input_tokens": 3193,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 3190
+        },
+        "output_tokens": 237,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3430
+      },
+      "cost_usd": 0.004615,
+      "validation_error": null,
+      "review": {
+        "item_id": "s197_src_02",
+        "eligibility_correct": true,
+        "eligibility_issue": "",
+        "question_language_spanish": true,
+        "question_language_issue": "",
+        "question_natural_for_field_technician": true,
+        "question_naturality_issue": "",
+        "answer_points_semantically_distinct": true,
+        "answer_point_distinctness_issue": "",
+        "answer_points_complete_for_question_within_excerpt": false,
+        "answer_point_completeness_issue": "Omite la corriente máxima de alimentación externa del calentador, la corriente de alarma está incompleta respecto al contexto de sondeo y no incluye las condiciones de aislador relevantes para la alimentación externa.",
+        "question_answerable": true,
+        "question_issue": "",
+        "point_reviews": {
+          "point_1": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_2": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_3": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": false,
+            "facet_issue": "La afirmación describe una medición de consumo, no una acción de salida ni un paso correctivo."
+          },
+          "point_4": null
+        }
+      },
+      "authored_item_sha256": "601a5944bd64b11ebaa473e57dd7cb79988d934c46b2f6a1ffa8ce909612ebe8",
+      "semantic_input_sha256": "5f755d0309c2c6ab1fe5ea8f4b7aa660c88157ed5f083cecbac73a870db1fe4d",
+      "semantic_output_schema_sha256": "eddc3bf8c146a8112cfb15de16657e0363bfceea946ce37e94336aafff0393b5",
+      "raw_semantic_output": "{\"item_id\":\"s197_src_02\",\"eligibility_correct\":true,\"eligibility_issue\":\"\",\"question_language_spanish\":true,\"question_language_issue\":\"\",\"question_natural_for_field_technician\":true,\"question_naturality_issue\":\"\",\"answer_points_semantically_distinct\":true,\"answer_point_distinctness_issue\":\"\",\"answer_points_complete_for_question_within_excerpt\":false,\"answer_point_completeness_issue\":\"Omite la corriente máxima de alimentación externa del calentador, la corriente de alarma está incompleta respecto al contexto de sondeo y no incluye las condiciones de aislador relevantes para la alimentación externa.\",\"question_answerable\":true,\"question_issue\":\"\",\"point_reviews\":{\"point_1\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_2\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_3\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":false,\"facet_issue\":\"La afirmación describe una medición de consumo, no una acción de salida ni un paso correctivo.\"},\"point_4\":null}}",
+      "raw_text_sha256": "f151a0017f6694b7fe3d6af58bac0059251c6aa215ccd6f7d4a8c02c076cb0ea",
+      "store": false
+    },
+    {
+      "item_id": "s197_src_03",
+      "response_id": "resp_0a9616ebe0a7ae10016a5a641c6c3481908920e572ecf9db95",
+      "status": "completed",
+      "counted_input_tokens": 5092,
+      "usage": {
+        "input_tokens": 5092,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 5089
+        },
+        "output_tokens": 233,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5325
+      },
+      "cost_usd": 0.00649,
+      "validation_error": null,
+      "review": {
+        "item_id": "s197_src_03",
+        "eligibility_correct": true,
+        "eligibility_issue": "",
+        "question_language_spanish": true,
+        "question_language_issue": "",
+        "question_natural_for_field_technician": true,
+        "question_naturality_issue": "",
+        "answer_points_semantically_distinct": true,
+        "answer_point_distinctness_issue": "",
+        "answer_points_complete_for_question_within_excerpt": false,
+        "answer_point_completeness_issue": "Falta indicar que la salida se mide en los terminales 11 y 12 y omite la tolerancia ±5% de los niveles de estado.",
+        "question_answerable": true,
+        "question_issue": "",
+        "point_reviews": {
+          "point_1": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_2": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": false,
+            "facet_issue": "Describe valores de salida, no una acción correctiva; el facet apropiado es de especificación o condición de salida."
+          },
+          "point_3": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_4": null
+        }
+      },
+      "authored_item_sha256": "b4c034001ba8fbd56652753fa7be1061bdcbbcdfa30fffb74d4e1b070ac7ff2c",
+      "semantic_input_sha256": "70ffedd1bf77a2eab49e865aa36fbcaf97531744f91a1cc0ad52e390f74f1bd9",
+      "semantic_output_schema_sha256": "141710ed16239b6744568fa2ab89872f8c1df3e96b34e43267c77ed1fcece168",
+      "raw_semantic_output": "{\"item_id\":\"s197_src_03\",\"eligibility_correct\":true,\"eligibility_issue\":\"\",\"question_language_spanish\":true,\"question_language_issue\":\"\",\"question_natural_for_field_technician\":true,\"question_naturality_issue\":\"\",\"answer_points_semantically_distinct\":true,\"answer_point_distinctness_issue\":\"\",\"answer_points_complete_for_question_within_excerpt\":false,\"answer_point_completeness_issue\":\"Falta indicar que la salida se mide en los terminales 11 y 12 y omite la tolerancia ±5% de los niveles de estado.\",\"question_answerable\":true,\"question_issue\":\"\",\"point_reviews\":{\"point_1\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_2\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":false,\"facet_issue\":\"Describe valores de salida, no una acción correctiva; el facet apropiado es de especificación o condición de salida.\"},\"point_3\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_4\":null}}",
+      "raw_text_sha256": "4cf023d050a13659c57e9fa1d10a42547d9d3f574cda9ec818964ebdd90d3e72",
+      "store": false
+    },
+    {
+      "item_id": "s197_src_04",
+      "response_id": "resp_01d32cc96d326f93016a5a641ec1a4819492cc7598a85f37b9",
+      "status": "completed",
+      "counted_input_tokens": 3365,
+      "usage": {
+        "input_tokens": 3365,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 3362
+        },
+        "output_tokens": 222,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3587
+      },
+      "cost_usd": 0.004697,
+      "validation_error": null,
+      "review": {
+        "item_id": "s197_src_04",
+        "eligibility_correct": true,
+        "eligibility_issue": "",
+        "question_language_spanish": true,
+        "question_language_issue": "",
+        "question_natural_for_field_technician": true,
+        "question_naturality_issue": "",
+        "answer_points_semantically_distinct": true,
+        "answer_point_distinctness_issue": "",
+        "answer_points_complete_for_question_within_excerpt": false,
+        "answer_point_completeness_issue": "Omite la advertencia explícita de que es posible oler el gas antes de que el detector detecte la fuga; además, no explica claramente la relación entre la posición y la densidad como razón operativa.",
+        "question_answerable": true,
+        "question_issue": "",
+        "point_reviews": {
+          "point_1": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_2": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_3": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_4": null
+        }
+      },
+      "authored_item_sha256": "35eec1384f0eece364ff610ae03e9a30db99dcebb11f8e1ba15dc1c349733b21",
+      "semantic_input_sha256": "7e07af3931c3219ff938a18ce604bb4aafd0b1e8f4078ca049665d5daf5bb428",
+      "semantic_output_schema_sha256": "3a6fc65f8a7c9d117d01c0e9d2cb457e46117a522de519c31a51977091e85c2f",
+      "raw_semantic_output": "{\"item_id\":\"s197_src_04\",\"eligibility_correct\":true,\"eligibility_issue\":\"\",\"question_language_spanish\":true,\"question_language_issue\":\"\",\"question_natural_for_field_technician\":true,\"question_naturality_issue\":\"\",\"answer_points_semantically_distinct\":true,\"answer_point_distinctness_issue\":\"\",\"answer_points_complete_for_question_within_excerpt\":false,\"answer_point_completeness_issue\":\"Omite la advertencia explícita de que es posible oler el gas antes de que el detector detecte la fuga; además, no explica claramente la relación entre la posición y la densidad como razón operativa.\",\"question_answerable\":true,\"question_issue\":\"\",\"point_reviews\":{\"point_1\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_2\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_3\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_4\":null}}",
+      "raw_text_sha256": "12d3cffe0152fe19019df9a8774b7e0824c46d7da34afdea746076c717fcd3db",
+      "store": false
+    },
+    {
+      "item_id": "s197_src_05",
+      "response_id": "resp_0b256a42f31ec463016a5a6420c9148190ad31c76f02a29bfe",
+      "status": "completed",
+      "counted_input_tokens": 3086,
+      "usage": {
+        "input_tokens": 3086,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 3083
+        },
+        "output_tokens": 208,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3294
+      },
+      "cost_usd": 0.004334,
+      "validation_error": null,
+      "review": {
+        "item_id": "s197_src_05",
+        "eligibility_correct": true,
+        "eligibility_issue": "",
+        "question_language_spanish": true,
+        "question_language_issue": "",
+        "question_natural_for_field_technician": true,
+        "question_naturality_issue": "",
+        "answer_points_semantically_distinct": true,
+        "answer_point_distinctness_issue": "",
+        "answer_points_complete_for_question_within_excerpt": true,
+        "answer_point_completeness_issue": "",
+        "question_answerable": true,
+        "question_issue": "",
+        "point_reviews": {
+          "point_1": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_2": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_3": {
+            "fully_supported": false,
+            "support_issue": "La pregunta solicita voltaje normal y corriente de espera; la corriente de alarma no responde a lo preguntado, aunque está respaldada por la fuente.",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_4": null
+        }
+      },
+      "authored_item_sha256": "ba12bddb1e4ba60dcada9d8c69cd36554c397c47af9c4cb84bded8df4bcf812e",
+      "semantic_input_sha256": "0c8d1b1419ec5c94619ea327aa79f8af1eb6fbf726a1a046e29999aea646428b",
+      "semantic_output_schema_sha256": "d528a6e287fb62f121b9e4a713b6dbe5ea71c156f879bfa1181494ab6e7e8ce2",
+      "raw_semantic_output": "{\"item_id\":\"s197_src_05\",\"eligibility_correct\":true,\"eligibility_issue\":\"\",\"question_language_spanish\":true,\"question_language_issue\":\"\",\"question_natural_for_field_technician\":true,\"question_naturality_issue\":\"\",\"answer_points_semantically_distinct\":true,\"answer_point_distinctness_issue\":\"\",\"answer_points_complete_for_question_within_excerpt\":true,\"answer_point_completeness_issue\":\"\",\"question_answerable\":true,\"question_issue\":\"\",\"point_reviews\":{\"point_1\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_2\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_3\":{\"fully_supported\":false,\"support_issue\":\"La pregunta solicita voltaje normal y corriente de espera; la corriente de alarma no responde a lo preguntado, aunque está respaldada por la fuente.\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_4\":null}}",
+      "raw_text_sha256": "496e6acb0599c3ae5d58e2f2327b85a89096977845f393ca4b01911a79af81ef",
+      "store": false
+    },
+    {
+      "item_id": "s197_src_06",
+      "response_id": "resp_08378c6d8871cb12016a5a6422a21881909021773b8b7f6d4b",
+      "status": "completed",
+      "counted_input_tokens": 2734,
+      "usage": {
+        "input_tokens": 2734,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 2731
+        },
+        "output_tokens": 193,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2927
+      },
+      "cost_usd": 0.003892,
+      "validation_error": null,
+      "review": {
+        "item_id": "s197_src_06",
+        "eligibility_correct": true,
+        "eligibility_issue": "",
+        "question_language_spanish": true,
+        "question_language_issue": "",
+        "question_natural_for_field_technician": true,
+        "question_naturality_issue": "",
+        "answer_points_semantically_distinct": true,
+        "answer_point_distinctness_issue": "",
+        "answer_points_complete_for_question_within_excerpt": true,
+        "answer_point_completeness_issue": "",
+        "question_answerable": true,
+        "question_issue": "",
+        "point_reviews": {
+          "point_1": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_2": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": false,
+            "facet_issue": "Describe el comportamiento observado de la luz de fallo, no una acción correctiva."
+          },
+          "point_3": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_4": null
+        }
+      },
+      "authored_item_sha256": "b93b468be0438fa268eb034f282afdb44f7949908001c9a713f68ae8114370d9",
+      "semantic_input_sha256": "52b7381f17749f03fa933b91f0003315446bbd09afab8425a10b9126a044d841",
+      "semantic_output_schema_sha256": "7e212c8abc530836f1a3d1bd8bc603868d235242db1948990536778f1fa1e5b7",
+      "raw_semantic_output": "{\"item_id\":\"s197_src_06\",\"eligibility_correct\":true,\"eligibility_issue\":\"\",\"question_language_spanish\":true,\"question_language_issue\":\"\",\"question_natural_for_field_technician\":true,\"question_naturality_issue\":\"\",\"answer_points_semantically_distinct\":true,\"answer_point_distinctness_issue\":\"\",\"answer_points_complete_for_question_within_excerpt\":true,\"answer_point_completeness_issue\":\"\",\"question_answerable\":true,\"question_issue\":\"\",\"point_reviews\":{\"point_1\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_2\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":false,\"facet_issue\":\"Describe el comportamiento observado de la luz de fallo, no una acción correctiva.\"},\"point_3\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_4\":null}}",
+      "raw_text_sha256": "882c91b2fa6d793f74885d2ae90d6ed56d9351869c75a378125645ba48ab823a",
+      "store": false
+    },
+    {
+      "item_id": "s197_src_07",
+      "response_id": "resp_00738b68958fea19016a5a642438c4819092214c205c605144",
+      "status": "completed",
+      "counted_input_tokens": 3305,
+      "usage": {
+        "input_tokens": 3305,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 3302
+        },
+        "output_tokens": 283,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3588
+      },
+      "cost_usd": 0.005003,
+      "validation_error": null,
+      "review": {
+        "item_id": "s197_src_07",
+        "eligibility_correct": true,
+        "eligibility_issue": "",
+        "question_language_spanish": true,
+        "question_language_issue": "",
+        "question_natural_for_field_technician": true,
+        "question_naturality_issue": "",
+        "answer_points_semantically_distinct": true,
+        "answer_point_distinctness_issue": "",
+        "answer_points_complete_for_question_within_excerpt": false,
+        "answer_point_completeness_issue": "Omiten que los módulos son loop powered y que la conexión debe hacerse según la Tabla 1; además, incluyen requisitos de instalación y seguridad que no responden directamente a los terminales y su conexión.",
+        "question_answerable": true,
+        "question_issue": "",
+        "point_reviews": {
+          "point_1": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_2": {
+            "fully_supported": false,
+            "support_issue": "E028 solo remite a la Tabla 2 y el extracto no proporciona sus especificaciones; E018 no respalda la afirmación sobre cables.",
+            "facet_correct": false,
+            "facet_issue": "La afirmación combina un prerrequisito de instalación con una instrucción de cableado; el aspecto de conexión corresponde mejor a cableado o configuración de conexión."
+          },
+          "point_3": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_4": null
+        }
+      },
+      "authored_item_sha256": "a354d50935223207c514fa26218579d749b8de9757dbbc7454797b6e31c84316",
+      "semantic_input_sha256": "6ff1aa847f3862245ae4164e26486369b149dc546d407a90d4b9af763bdf2953",
+      "semantic_output_schema_sha256": "cf7e818ea0dc56ea4f66df5958dabbc28baeb247621f77fe98b13032e3784450",
+      "raw_semantic_output": "{\"item_id\":\"s197_src_07\",\"eligibility_correct\":true,\"eligibility_issue\":\"\",\"question_language_spanish\":true,\"question_language_issue\":\"\",\"question_natural_for_field_technician\":true,\"question_naturality_issue\":\"\",\"answer_points_semantically_distinct\":true,\"answer_point_distinctness_issue\":\"\",\"answer_points_complete_for_question_within_excerpt\":false,\"answer_point_completeness_issue\":\"Omiten que los módulos son loop powered y que la conexión debe hacerse según la Tabla 1; además, incluyen requisitos de instalación y seguridad que no responden directamente a los terminales y su conexión.\",\"question_answerable\":true,\"question_issue\":\"\",\"point_reviews\":{\"point_1\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_2\":{\"fully_supported\":false,\"support_issue\":\"E028 solo remite a la Tabla 2 y el extracto no proporciona sus especificaciones; E018 no respalda la afirmación sobre cables.\",\"facet_correct\":false,\"facet_issue\":\"La afirmación combina un prerrequisito de instalación con una instrucción de cableado; el aspecto de conexión corresponde mejor a cableado o configuración de conexión.\"},\"point_3\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_4\":null}}",
+      "raw_text_sha256": "a2ccc23785e460c04ccf0eef79cd672cba291fd46c1f84ad9dbb12c2548e4898",
+      "store": false
+    },
+    {
+      "item_id": "s197_src_08",
+      "response_id": "resp_07b60da9ea1f842c016a5a64266e588197abafe52d38df3d35",
+      "status": "completed",
+      "counted_input_tokens": 1931,
+      "usage": {
+        "input_tokens": 1931,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 1928
+        },
+        "output_tokens": 221,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2152
+      },
+      "cost_usd": 0.003257,
+      "validation_error": null,
+      "review": {
+        "item_id": "s197_src_08",
+        "eligibility_correct": true,
+        "eligibility_issue": "",
+        "question_language_spanish": true,
+        "question_language_issue": "",
+        "question_natural_for_field_technician": true,
+        "question_naturality_issue": "",
+        "answer_points_semantically_distinct": true,
+        "answer_point_distinctness_issue": "",
+        "answer_points_complete_for_question_within_excerpt": false,
+        "answer_point_completeness_issue": "Omite seleccionar una ubicación conforme a las normas específicas, con señal inalámbrica fuerte y sin interferencias ambientales; también omite repetir la prueba tras las correcciones y reemplazar el detector si vuelve a fallar.",
+        "question_answerable": true,
+        "question_issue": "",
+        "point_reviews": {
+          "point_1": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_2": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_3": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_4": null
+        }
+      },
+      "authored_item_sha256": "20aa59d8dd7e78d2fbca2c5c0efd1c042d81b9d3c22c3cba6a0176d8a75c9bf3",
+      "semantic_input_sha256": "07bc3f25031d0413c99dce117250e88d5104951996db0c1ab52c476ffbda1593",
+      "semantic_output_schema_sha256": "e3aed3d8db98ce0815f72b19259224fcc2dab7116886f1d0888b4a2eb6fc75f6",
+      "raw_semantic_output": "{\"item_id\":\"s197_src_08\",\"eligibility_correct\":true,\"eligibility_issue\":\"\",\"question_language_spanish\":true,\"question_language_issue\":\"\",\"question_natural_for_field_technician\":true,\"question_naturality_issue\":\"\",\"answer_points_semantically_distinct\":true,\"answer_point_distinctness_issue\":\"\",\"answer_points_complete_for_question_within_excerpt\":false,\"answer_point_completeness_issue\":\"Omite seleccionar una ubicación conforme a las normas específicas, con señal inalámbrica fuerte y sin interferencias ambientales; también omite repetir la prueba tras las correcciones y reemplazar el detector si vuelve a fallar.\",\"question_answerable\":true,\"question_issue\":\"\",\"point_reviews\":{\"point_1\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_2\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_3\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_4\":null}}",
+      "raw_text_sha256": "c012789ade2f9b94ca20eef05913e88e2bdee5fdbbdc7d6a1f09ab7ce6943c83",
+      "store": false
+    },
+    {
+      "item_id": "s197_src_09",
+      "response_id": "resp_0bf506436de464b0016a5a642858a48190baa02e629aab5454",
+      "status": "completed",
+      "counted_input_tokens": 3421,
+      "usage": {
+        "input_tokens": 3421,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 3418
+        },
+        "output_tokens": 195,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3616
+      },
+      "cost_usd": 0.004591,
+      "validation_error": null,
+      "review": {
+        "item_id": "s197_src_09",
+        "eligibility_correct": true,
+        "eligibility_issue": "",
+        "question_language_spanish": true,
+        "question_language_issue": "",
+        "question_natural_for_field_technician": true,
+        "question_naturality_issue": "",
+        "answer_points_semantically_distinct": true,
+        "answer_point_distinctness_issue": "",
+        "answer_points_complete_for_question_within_excerpt": true,
+        "answer_point_completeness_issue": "",
+        "question_answerable": true,
+        "question_issue": "",
+        "point_reviews": {
+          "point_1": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_2": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_3": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_4": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          }
+        }
+      },
+      "authored_item_sha256": "a8e09c16cbf55ea36c7c9d7f22f3a38ee20bd48cc0dbed39d8829cdcd2db4207",
+      "semantic_input_sha256": "865bbc6bfe03415e72f1ae97c7b780cba8050db340093fcc3608cc621e6cd4e7",
+      "semantic_output_schema_sha256": "5501e23348b3967d7bb20f4874fbe14761aac57180b2b474a4bf5832fa68f0ec",
+      "raw_semantic_output": "{\"item_id\":\"s197_src_09\",\"eligibility_correct\":true,\"eligibility_issue\":\"\",\"question_language_spanish\":true,\"question_language_issue\":\"\",\"question_natural_for_field_technician\":true,\"question_naturality_issue\":\"\",\"answer_points_semantically_distinct\":true,\"answer_point_distinctness_issue\":\"\",\"answer_points_complete_for_question_within_excerpt\":true,\"answer_point_completeness_issue\":\"\",\"question_answerable\":true,\"question_issue\":\"\",\"point_reviews\":{\"point_1\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_2\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_3\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_4\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"}}}",
+      "raw_text_sha256": "c187c391917d066fe5262b54356328a337cb8a083505f596bb691050af22e499",
+      "store": false
+    },
+    {
+      "item_id": "s197_src_10",
+      "response_id": "resp_09b6c172059814e7016a5a6429fc648195bdfbd260a1ac0d5f",
+      "status": "completed",
+      "counted_input_tokens": 2929,
+      "usage": {
+        "input_tokens": 2929,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 2926
+        },
+        "output_tokens": 243,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3172
+      },
+      "cost_usd": 0.004387,
+      "validation_error": null,
+      "review": {
+        "item_id": "s197_src_10",
+        "eligibility_correct": true,
+        "eligibility_issue": "",
+        "question_language_spanish": true,
+        "question_language_issue": "",
+        "question_natural_for_field_technician": true,
+        "question_naturality_issue": "",
+        "answer_points_semantically_distinct": true,
+        "answer_point_distinctness_issue": "",
+        "answer_points_complete_for_question_within_excerpt": false,
+        "answer_point_completeness_issue": "No incluye que el paquete también contiene el manual de usuario; además, la afirmación de accesibilidad de la fuente no responde directamente a la pregunta y E014 solo exige accesibilidad para los cables de alimentación de CA.",
+        "question_answerable": true,
+        "question_issue": "",
+        "point_reviews": {
+          "point_1": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_2": {
+            "fully_supported": false,
+            "support_issue": "E028 respalda 5V DC, pero E014 se refiere a cables de alimentación de corriente alterna y no establece que la fuente suministrada deba estar accesible.",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_3": null,
+          "point_4": null
+        }
+      },
+      "authored_item_sha256": "86b7abf86d8848c748d1cb73fc3fa7c0ae8a04bad402be4acf5ce0b58b3aa26f",
+      "semantic_input_sha256": "b310523aedb6d3e89818fd00329d26fb138af207924b42100ec6c266ef017caa",
+      "semantic_output_schema_sha256": "01c8ad3b8ca7c454f87848d97675d45e144559fb32466bc0b5a7c5917f1477af",
+      "raw_semantic_output": "{\"item_id\":\"s197_src_10\",\"eligibility_correct\":true,\"eligibility_issue\":\"\",\"question_language_spanish\":true,\"question_language_issue\":\"\",\"question_natural_for_field_technician\":true,\"question_naturality_issue\":\"\",\"answer_points_semantically_distinct\":true,\"answer_point_distinctness_issue\":\"\",\"answer_points_complete_for_question_within_excerpt\":false,\"answer_point_completeness_issue\":\"No incluye que el paquete también contiene el manual de usuario; además, la afirmación de accesibilidad de la fuente no responde directamente a la pregunta y E014 solo exige accesibilidad para los cables de alimentación de CA.\",\"question_answerable\":true,\"question_issue\":\"\",\"point_reviews\":{\"point_1\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_2\":{\"fully_supported\":false,\"support_issue\":\"E028 respalda 5V DC, pero E014 se refiere a cables de alimentación de corriente alterna y no establece que la fuente suministrada deba estar accesible.\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_3\":null,\"point_4\":null}}",
+      "raw_text_sha256": "112a06ddcbf44ee77c4540afd4db6c2dc680bc4e0fdec4a7ca8103e844195858",
+      "store": false
+    },
+    {
+      "item_id": "s197_src_11",
+      "response_id": "resp_088c13ed3e3ee485016a5a642c29b48197871334fea407a9e2",
+      "status": "completed",
+      "counted_input_tokens": 2639,
+      "usage": {
+        "input_tokens": 2639,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 2636
+        },
+        "output_tokens": 262,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2901
+      },
+      "cost_usd": 0.004211,
+      "validation_error": null,
+      "review": {
+        "item_id": "s197_src_11",
+        "eligibility_correct": true,
+        "eligibility_issue": "",
+        "question_language_spanish": true,
+        "question_language_issue": "",
+        "question_natural_for_field_technician": true,
+        "question_naturality_issue": "",
+        "answer_points_semantically_distinct": true,
+        "answer_point_distinctness_issue": "",
+        "answer_points_complete_for_question_within_excerpt": false,
+        "answer_point_completeness_issue": "No cubren completamente la capacidad ampliada ni distinguen claramente que los 512 dispositivos corresponden a la ampliación; el punto 3 además introduce datos de fuente y corriente de bucle irrelevantes.",
+        "question_answerable": true,
+        "question_issue": "",
+        "point_reviews": {
+          "point_1": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_2": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_3": {
+            "fully_supported": false,
+            "support_issue": "La fuente de 10 A está en otra unidad (E011), no en la unidad citada; además, el PAK solo indica aumento de corriente del bucle, no una condición de requerimiento.",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_4": null
+        }
+      },
+      "authored_item_sha256": "d89965eb99a5a921ff640e9378379e6f5b8bbda754636f955baefc45e060075f",
+      "semantic_input_sha256": "390c145d562d8982e045beb84124434682689288bb921d429f1ba06498893d5c",
+      "semantic_output_schema_sha256": "70677fa8835fbd0228536db275c198a671cf1af577f9a1c1c176204cf775d9a7",
+      "raw_semantic_output": "{\"item_id\":\"s197_src_11\",\"eligibility_correct\":true,\"eligibility_issue\":\"\",\"question_language_spanish\":true,\"question_language_issue\":\"\",\"question_natural_for_field_technician\":true,\"question_naturality_issue\":\"\",\"answer_points_semantically_distinct\":true,\"answer_point_distinctness_issue\":\"\",\"answer_points_complete_for_question_within_excerpt\":false,\"answer_point_completeness_issue\":\"No cubren completamente la capacidad ampliada ni distinguen claramente que los 512 dispositivos corresponden a la ampliación; el punto 3 además introduce datos de fuente y corriente de bucle irrelevantes.\",\"question_answerable\":true,\"question_issue\":\"\",\"point_reviews\":{\"point_1\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_2\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_3\":{\"fully_supported\":false,\"support_issue\":\"La fuente de 10 A está en otra unidad (E011), no en la unidad citada; además, el PAK solo indica aumento de corriente del bucle, no una condición de requerimiento.\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_4\":null}}",
+      "raw_text_sha256": "4d4867da15f36d7d6963b8dca12e2988a83b1e69341fadf7fba3a436ed0537c4",
+      "store": false
+    },
+    {
+      "item_id": "s197_src_12",
+      "response_id": "resp_090cde2db650755c016a5a642e53188193b79fce4621fc5195",
+      "status": "completed",
+      "counted_input_tokens": 1790,
+      "usage": {
+        "input_tokens": 1790,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 1787
+        },
+        "output_tokens": 260,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2050
+      },
+      "cost_usd": 0.00335,
+      "validation_error": null,
+      "review": {
+        "item_id": "s197_src_12",
+        "eligibility_correct": true,
+        "eligibility_issue": "",
+        "question_language_spanish": true,
+        "question_language_issue": "",
+        "question_natural_for_field_technician": true,
+        "question_naturality_issue": "",
+        "answer_points_semantically_distinct": true,
+        "answer_point_distinctness_issue": "",
+        "answer_points_complete_for_question_within_excerpt": true,
+        "answer_point_completeness_issue": "",
+        "question_answerable": true,
+        "question_issue": "",
+        "point_reviews": {
+          "point_1": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_2": {
+            "fully_supported": false,
+            "support_issue": "La fuente muestra una asociación observada entre entrenamiento y tiempos de evacuación de hasta 7 segundos, pero no demuestra que el entrenamiento reduzca significativamente el tiempo ni establece una comparación causal directa con el promedio de 67.8 segundos.",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_3": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": false,
+            "facet_issue": "La afirmación describe resultados comparativos de tiempos de evacuación bajo condiciones distintas; el facet de verificación, puesta en marcha o recuperación no es el mejor ajuste semántico."
+          },
+          "point_4": null
+        }
+      },
+      "authored_item_sha256": "c6ff74f4209e3da1b6934c83411e828656a8a73cae3673ed36df73829f662d69",
+      "semantic_input_sha256": "ec3c4ce267dcce1c08d218f01ac7c164876e108f9343dfc9e8ec612319a9054c",
+      "semantic_output_schema_sha256": "869bed37076844a794041425d72da8a0b57219986643868d00bba1a0b8c76925",
+      "raw_semantic_output": "{\"item_id\":\"s197_src_12\",\"eligibility_correct\":true,\"eligibility_issue\":\"\",\"question_language_spanish\":true,\"question_language_issue\":\"\",\"question_natural_for_field_technician\":true,\"question_naturality_issue\":\"\",\"answer_points_semantically_distinct\":true,\"answer_point_distinctness_issue\":\"\",\"answer_points_complete_for_question_within_excerpt\":true,\"answer_point_completeness_issue\":\"\",\"question_answerable\":true,\"question_issue\":\"\",\"point_reviews\":{\"point_1\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_2\":{\"fully_supported\":false,\"support_issue\":\"La fuente muestra una asociación observada entre entrenamiento y tiempos de evacuación de hasta 7 segundos, pero no demuestra que el entrenamiento reduzca significativamente el tiempo ni establece una comparación causal directa con el promedio de 67.8 segundos.\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_3\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":false,\"facet_issue\":\"La afirmación describe resultados comparativos de tiempos de evacuación bajo condiciones distintas; el facet de verificación, puesta en marcha o recuperación no es el mejor ajuste semántico.\"},\"point_4\":null}}",
+      "raw_text_sha256": "efcf0eba259fe0de41513e5a46a8578bee3445ec975b7887a9c1daf4bedb7f01",
+      "store": false
+    },
+    {
+      "item_id": "s197_src_13",
+      "response_id": "resp_0a6bdf9340c37d5e016a5a6431a3f08190aa09eaaf62c6d9f7",
+      "status": "completed",
+      "counted_input_tokens": 2394,
+      "usage": {
+        "input_tokens": 2394,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 2391
+        },
+        "output_tokens": 239,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2633
+      },
+      "cost_usd": 0.003828,
+      "validation_error": null,
+      "review": {
+        "item_id": "s197_src_13",
+        "eligibility_correct": true,
+        "eligibility_issue": "",
+        "question_language_spanish": true,
+        "question_language_issue": "",
+        "question_natural_for_field_technician": true,
+        "question_naturality_issue": "",
+        "answer_points_semantically_distinct": true,
+        "answer_point_distinctness_issue": "",
+        "answer_points_complete_for_question_within_excerpt": false,
+        "answer_point_completeness_issue": "Omiten capacidades materiales enumeradas, como ajuste de umbrales e histéresis, reset, emparejamiento de cabezales, Baudios, dirección RS485 y versión de firmware; también omiten que las operaciones dependen del detector y remiten a la Tabla 3.",
+        "question_answerable": true,
+        "question_issue": "",
+        "point_reviews": {
+          "point_1": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_2": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_3": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_4": null
+        }
+      },
+      "authored_item_sha256": "1bed8273f4718adb3ff8b7a974046e9022c40d3278f87952844d541d607f045c",
+      "semantic_input_sha256": "072a4160e17e36d3d838b5fc3823a05fe4f4ce74c8b842346cbe51aa480c7335",
+      "semantic_output_schema_sha256": "96b88b001f62556be3c5773ea5dc2e7b29261180b0f549ab4ab466b8340dbf33",
+      "raw_semantic_output": "{\"item_id\":\"s197_src_13\",\"eligibility_correct\":true,\"eligibility_issue\":\"\",\"question_language_spanish\":true,\"question_language_issue\":\"\",\"question_natural_for_field_technician\":true,\"question_naturality_issue\":\"\",\"answer_points_semantically_distinct\":true,\"answer_point_distinctness_issue\":\"\",\"answer_points_complete_for_question_within_excerpt\":false,\"answer_point_completeness_issue\":\"Omiten capacidades materiales enumeradas, como ajuste de umbrales e histéresis, reset, emparejamiento de cabezales, Baudios, dirección RS485 y versión de firmware; también omiten que las operaciones dependen del detector y remiten a la Tabla 3.\",\"question_answerable\":true,\"question_issue\":\"\",\"point_reviews\":{\"point_1\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_2\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_3\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_4\":null}}",
+      "raw_text_sha256": "283a3e428c98395020c9e4542b01dff7b1569b14b4de068b0b2761cc30dabbd9",
+      "store": false
+    },
+    {
+      "item_id": "s197_src_14",
+      "response_id": "resp_0dcbd164bd60f87c016a5a64338ce08195a262e86f96256e51",
+      "status": "completed",
+      "counted_input_tokens": 2574,
+      "usage": {
+        "input_tokens": 2574,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 2571
+        },
+        "output_tokens": 195,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2769
+      },
+      "cost_usd": 0.003744,
+      "validation_error": null,
+      "review": {
+        "item_id": "s197_src_14",
+        "eligibility_correct": true,
+        "eligibility_issue": "",
+        "question_language_spanish": true,
+        "question_language_issue": "",
+        "question_natural_for_field_technician": true,
+        "question_naturality_issue": "",
+        "answer_points_semantically_distinct": true,
+        "answer_point_distinctness_issue": "",
+        "answer_points_complete_for_question_within_excerpt": true,
+        "answer_point_completeness_issue": "",
+        "question_answerable": true,
+        "question_issue": "",
+        "point_reviews": {
+          "point_1": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_2": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": true,
+            "facet_issue": ""
+          },
+          "point_3": {
+            "fully_supported": true,
+            "support_issue": "",
+            "facet_correct": false,
+            "facet_issue": "El punto describe el funcionamiento del módulo, no una acción de salida o paso correctivo."
+          },
+          "point_4": null
+        }
+      },
+      "authored_item_sha256": "92d434c7b47502798d317a247deababd8f90d5fffa2a32a4d0bb87bc2f1b0b96",
+      "semantic_input_sha256": "80b94093915418a59b86a3619a4ed897d958ab8e33841746a5244b2983f9886d",
+      "semantic_output_schema_sha256": "158ee3e15ef4cd783b2d11f8a00f3be69614023009a923bf555a2ff086daa887",
+      "raw_semantic_output": "{\"item_id\":\"s197_src_14\",\"eligibility_correct\":true,\"eligibility_issue\":\"\",\"question_language_spanish\":true,\"question_language_issue\":\"\",\"question_natural_for_field_technician\":true,\"question_naturality_issue\":\"\",\"answer_points_semantically_distinct\":true,\"answer_point_distinctness_issue\":\"\",\"answer_points_complete_for_question_within_excerpt\":true,\"answer_point_completeness_issue\":\"\",\"question_answerable\":true,\"question_issue\":\"\",\"point_reviews\":{\"point_1\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_2\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":true,\"facet_issue\":\"\"},\"point_3\":{\"fully_supported\":true,\"support_issue\":\"\",\"facet_correct\":false,\"facet_issue\":\"El punto describe el funcionamiento del módulo, no una acción de salida o paso correctivo.\"},\"point_4\":null}}",
+      "raw_text_sha256": "48b9a04bcdc24e3fc8215ada978a18dec40be04190be78f50d63c81806c13c97",
+      "store": false
+    }
+  ]
+}

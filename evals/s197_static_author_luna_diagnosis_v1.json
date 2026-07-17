@@ -1,0 +1,67 @@
+{
+  "instrument": "s197_static_author_luna_diagnosis_v1",
+  "result": "NO_GO_COHORT_CONSTRUCTION",
+  "fact_delta": 0,
+  "transport": {
+    "author_calls": 14,
+    "author_invalid_outputs": 0,
+    "eligible_questions": 14,
+    "eligible_manufacturers": 14,
+    "table_questions": 7,
+    "prose_questions": 7,
+    "answer_points": 42,
+    "static_schema_compiled_and_validated": true
+  },
+  "semantic_screen": {
+    "luna_calls": 14,
+    "invalid_outputs": 0,
+    "failed_items": 12,
+    "items_with_incomplete_point_set": 8,
+    "unsupported_or_question_irrelevant_points": 5,
+    "wrong_facet_points": 6,
+    "all_questions_spanish": true,
+    "all_questions_natural": true,
+    "all_points_semantically_distinct": true,
+    "all_questions_answerable": true
+  },
+  "causal_read": {
+    "largest_failure_class": "QUESTION_TO_POINT_SET_SCOPE_CLOSURE",
+    "mechanism": "The same author jointly chooses a broad question and a maximum of four points; the question often entails obligations beyond the selected point set.",
+    "secondary_failure_classes": [
+      "CLAIM_TO_SUPPORT_SEMANTIC_CLOSURE",
+      "FACET_DEFINITION_AND_ASSIGNMENT"
+    ],
+    "not_supported_by_result": [
+      "planner_failure",
+      "target_fact_improvement",
+      "runtime_readiness",
+      "chunks_v3_reopening"
+    ]
+  },
+  "next_structural_hypothesis": {
+    "name": "POINT_FIRST_THEN_SCOPE_BOUND_QUESTION",
+    "upstream_to_downstream": [
+      "Select two to four support-bound obligations first, with versioned facet definitions and no question yet.",
+      "Validate claim/support/facet closure before question generation.",
+      "Generate a Spanish field question from only the accepted obligations and require exact scope equivalence.",
+      "Cross-provider screen on a wholly new cohort excluding S194, S195 and S197.",
+      "Open the planner only after zero invalid, unsupported, wrong-facet or incomplete items."
+    ],
+    "anti_overfit": [
+      "Do not retry, repair or rescore the S197 cohort.",
+      "Do not add manufacturer, product or observed-question rules.",
+      "Freeze generic facet definitions and scope-closure gates before selecting the next cohort.",
+      "Keep chunks_v3 as FINAL_NO_GO_CHUNKS_V3_WHOLESALE."
+    ]
+  },
+  "cost_usd": {
+    "author": 0.091605,
+    "semantic_validator": 0.063155,
+    "total": 0.15476
+  },
+  "downstream_planner_opened": false,
+  "target_probe_opened": false,
+  "database_writes": 0,
+  "production_changes": 0,
+  "railway_gate": false
+}

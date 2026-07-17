@@ -1,0 +1,91 @@
+{
+  "instrument": "s197_static_author_luna_gate_v1",
+  "status": "NO_GO_COHORT_CONSTRUCTION",
+  "population_checks": {
+    "eligible_questions_gte_12": true,
+    "eligible_manufacturers_gte_12": true,
+    "table_questions_gte_5": true,
+    "prose_questions_gte_5": true,
+    "answer_points_gte_24": true,
+    "author_invalid_outputs_zero": true
+  },
+  "external_semantic_checks": {
+    "all_items_cross_provider_reviewed": true,
+    "semantic_validator_invalid_outputs_zero": true,
+    "all_eligibility_decisions_correct": true,
+    "all_eligible_questions_spanish": true,
+    "all_eligible_questions_natural_for_field_technician": true,
+    "all_eligible_answer_points_semantically_distinct": true,
+    "all_eligible_answer_point_sets_complete_within_excerpt": false,
+    "all_eligible_questions_answerable_within_excerpt": true,
+    "all_claims_fully_supported_within_excerpt": false,
+    "all_answer_point_facets_correct": false,
+    "semantic_receipts_bound_to_inputs_schemas_raw_and_reviews": true
+  },
+  "transport_contract": {
+    "schema_identical_to_frozen_s196_authority": true,
+    "schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+    "schema_authority": "scripts/s196_static_transport_canary.py",
+    "provider_specific_values_in_schema": 0,
+    "deterministic_source_id_membership": true
+  },
+  "excerpt_screening": {
+    "provider": "openai",
+    "model": "gpt-5.6-luna",
+    "reviewed_items": 14,
+    "invalid_outputs": 0,
+    "store": false,
+    "independent_from_author_provider": true,
+    "scope": "CROSS_PROVIDER_EXCERPT_INTERNAL",
+    "document_wide_completeness": "NOT_MEASURED",
+    "multi_document_conflicts": "NOT_MEASURED",
+    "oem_relabel_conflicts": "NOT_MEASURED",
+    "country_profile_conflicts": "NOT_MEASURED",
+    "judge_accuracy_calibration": "NOT_MEASURED",
+    "human_agreement": "NOT_MEASURED",
+    "excerpt_opportunity_coverage": "NOT_MEASURED",
+    "question_difficulty_representativeness": "NOT_MEASURED",
+    "generalization_beyond_screened_cohort": "NOT_MEASURED",
+    "semantic_correctness_claim": "SCREEN_ONLY_NOT_GOLD_AUTHORITY",
+    "execution_tier": "economic",
+    "frontier_execution_calls": 0
+  },
+  "chunks_v3_lane": {
+    "status": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "changed_by_s197": false,
+    "migration_or_materialization": false,
+    "per_question_patching": false,
+    "canonical_reference": "docs/PLAN_RAG_2026.md#estado-actual-s196--17-jul-2026",
+    "historical_metrics_duplicated": false
+  },
+  "cost": {
+    "author_usd": 0.091605,
+    "semantic_validator_usd": 0.063155,
+    "worst_case_preflight_usd": 0.242516,
+    "total_usd": 0.15476
+  },
+  "decision": {
+    "same_cohort_retry": false,
+    "downstream_planner_opened": false,
+    "target_probe_opened": false,
+    "next_action": "STOP_WITHOUT_DOWNSTREAM",
+    "s198_handoff_constraints": {
+      "status": "HEADLINE_CONSTRAINTS_REQUIRE_S198_PREREGISTERED_DEFINITIONS",
+      "canonical_authority": "docs/DECISIONS.md#dec-105--s194",
+      "planner_recall_min": 0.9,
+      "planner_precision_min": 0.8,
+      "complete_questions_min": 0.75,
+      "exactness_required": true,
+      "deterministic_contract_required": true,
+      "covered_obligation_regressions_max": 0,
+      "new_versioned_contract_conflicts_max": 0,
+      "canonical_authority_sha256": "1afbdc962b2ed698f9d21439793e37c8010598a6d6565abf968d156270c6fc55"
+    },
+    "runtime_integration": false,
+    "production": false,
+    "official_fact_credit": 0,
+    "diagnostic_facts_moved_to_ok": 0,
+    "railway_deploy_gate": false
+  },
+  "result_sha256": "00395d7b0b12242ad0e5c9f91d436f30615382a284b464eb4f718b1677858af3"
+}

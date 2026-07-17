@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 17 jul 2026 (pre-S197 — ejecución sellada preparada; facts aún 0).
+> 17 jul 2026 (S197 — transporte pasa, screening semántico NO-GO; facts aún 0).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -22,7 +22,8 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (pre-S197 — 17 jul 2026)
+<a id="estado-actual-s196--17-jul-2026"></a>
+## Estado actual (S197 — 17 jul 2026)
 
 **La foto diagnóstica comparable más reciente es 157 facts: 143 OK · 12 synthesis-miss ·
 2 retrieval-miss = 91,08% OK, gap 7 facts hasta 95%.** No es todavía un KPI atómico oficial ni
@@ -97,6 +98,18 @@ el pin exacto y tools pero terminaron con bloque de texto vacío, por lo que con
 respuesta del proveedor, no como modelo ausente ni como revisión completada. Sol encontró cuatro
 defectos medios del propio protocolo; se corrigieron sin abrir otra ronda. Facts movidos: 0.
 
+**S197 ejecutó esa cohorte una sola vez y volvió a detener el funnel upstream.** El doble scan
+GET-only fue idéntico sobre 25.090 filas y selló 14 documentos/fabricantes nuevos, 7 tabla + 7
+prosa y cero overlap prohibido. El transporte estático S196 ya no es el cuello: Haiku completó
+14/14, produjo 14 preguntas elegibles y 42 puntos con **0 outputs inválidos**. Luna revisó 14/14
+sin outputs inválidos, pero 12 ítems fallaron al menos un gate: 8 tenían un point-set incompleto
+para el alcance de su propia pregunta, 5 contenían un punto no plenamente soportado o irrelevante
+para la pregunta y 6 asignaban mal el facet. Resultado `NO_GO_COHORT_CONSTRUCTION`, coste
+$0,15476, facts 0; planner, targets, DB, runtime y producción no se abrieron. La clase dominante
+ya no es compilación sino cierre pregunta↔obligaciones. El siguiente mecanismo debe seleccionar
+primero 2–4 obligaciones support-bound, validar support+facet con definiciones genéricas y sólo
+después redactar una pregunta exactamente acotada a ellas, sobre otra cohorte que excluya S197.
+
 **`chunks_v3` no se migra al completo.** S140 cerró el shadow representativo como
 `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`: empata recall funcional@10 (16/24 vs 16/24) pero empeora el
 primer rango útil/MRR (0,4021→0,3694). `chunks_v2` sigue siendo el baseline activo. V3 preserva
@@ -117,15 +130,16 @@ sigue siendo un registro ligado a documento+revisión+página+hash, independient
 
 **Producción no ha cambiado en este bloque.** No se ha hecho deploy, migración ni escritura
 remota. Railway sigue siendo una demo y no es condición para merge con CI verde. Próximos pasos,
-por orden: (1) integrar el pre-S197 con CI verde; (2) congelar en S197 **otra** cohorte documental fresca
-que excluya S194+S195 y exigir el mismo transporte estático + autoría + arbitraje semántico externo;
-(3) mantener 90% recall /
-80% precisión / 75% completas y abrir targets únicamente si ese upstream pasa; (4) solo después integrar el compilador en un
-seam runtime default-off y ejecutar regresión completa; (5) validar de forma independiente
-S172/S188 antes de producción; (6) rehacer imagen con controles negativos balanceados cuando se
-repriorice; (7) recoger 30 audios reales antes de comparar ASR. El funnel se conserva por etapa:
-S193 mantiene señal de renderer; S194 y S195 son NO-GO upstream, S196 es GO instrumental y los
-cuatro tramos siguen con crédito de facts cero.
+por orden: (1) integrar el NO-GO S197 con CI verde; (2) diseñar y congelar el mecanismo genérico
+point-first→pregunta-acotada sin reutilizar ni reparar S197; (3) validarlo en otra cohorte fresca
+que excluya S194+S195+S197 y exigir cero inválidos, incompletos, unsupported y facets erróneos;
+(4) mantener 90% recall /
+80% precisión / 75% completas y abrir targets únicamente si ese upstream pasa; (5) solo después integrar el compilador en un
+seam runtime default-off y ejecutar regresión completa; (6) validar de forma independiente
+S172/S188 antes de producción; (7) rehacer imagen con controles negativos balanceados cuando se
+repriorice; (8) recoger 30 audios reales antes de comparar ASR. El funnel se conserva por etapa:
+S193 mantiene señal de renderer; S194, S195 y S197 son NO-GO upstream, S196 es GO instrumental y
+los cinco tramos siguen con crédito de facts cero.
 
 ## Estado anterior (s129 — 15 jul 2026)
 
