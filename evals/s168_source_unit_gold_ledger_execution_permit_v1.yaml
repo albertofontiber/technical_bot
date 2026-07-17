@@ -1,0 +1,24 @@
+instrument: s168_source_unit_gold_ledger_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED
+authority: user_autonomous_execution_budget_250_usd
+
+frozen_artifacts:
+  preregistration: {path: evals/s168_source_unit_gold_ledger_prereg_v1.yaml, sha256: 5f3a338f1e45c0b1a52eb5c6d4bbc80decee54603b844ed849233430a13c2c5a}
+  runner: {path: scripts/s168_source_unit_gold_ledger_gate.py, sha256: 0596422921ea6b72ca2bdbe30a45339d226eb67da2fc8829c42bb6552e75127c}
+  gate_tests: {path: tests/test_s168_source_unit_gold_ledger_gate.py, sha256: 5adb7716c9893a0746b74d237d301c4419a2803dbea7e5899a03fab9b8121f0b}
+
+limits:
+  paid_calls_max: 28
+  retries: 0
+  internal_ceiling_usd: 2.5
+  target_questions_exposed: 0
+  production_changes: 0
+  database_calls: 0
+  deployments: 0
+  pushes: 0
+
+stopping:
+  same_cohort_retry: forbidden
+  threshold_change_after_execution: forbidden
+  target_probe_before_promotion_go: forbidden
+  adversarial_review_before_promotion_signal: forbidden
