@@ -1,0 +1,77 @@
+instrument: s167_independent_answer_ledger_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+design: evals/s167_independent_answer_ledger_design_v1.md
+
+frozen_inputs:
+  design: {path: evals/s167_independent_answer_ledger_design_v1.md, sha256: fe354dbb341c75a3a60ecc919222749b3d1b84674128621dd4c8ad21739457bb}
+  source_packet: {path: evals/s167_independent_ledger_source_packet_v1.json, sha256: 0fb9f2d051bde4d4dec6b96bc51b31f2eee9490cfea7f23f370938c4e47403a7}
+  s166_result: {path: evals/s166_answer_archetype_ledger_transport_v1.json, sha256: a6af3af52fbb647798b980fca3443c26bbdab1187779b178f55ffc29aabd56a9}
+  s166_transport: {path: scripts/s166_answer_archetype_ledger_transport.py, sha256: b2e5c28a0ae7ca4c74ff63ba375de5259286cc82d1d905924bf6dbc484a87e8d}
+  frozen_facets_and_prompt: {path: scripts/s165_answer_archetype_ledger.py, sha256: 808a34a382762a6de5f6742262cb8f2646bbe4429cc73e92cbb6f57669650c9c}
+  evidence_unitizer: {path: src/rag/evidence_units_v2.py, sha256: c80498f59452280f7630411b1740664c8ec946a5e3a6511441d6140f88727eab}
+
+independence:
+  source_items: 14
+  manufacturers: 14
+  unique_documents: 14
+  table: 7
+  prose: 7
+  prior_document_overlap: 0
+  target_document_overlap: 0
+  target_chunk_overlap: 0
+  development_product_pair_overlap: 0
+  questions_or_gold_used_for_source_selection: false
+  questions_authored_after_source_freeze: true
+  author_and_selector_models_distinct: true
+
+models:
+  author:
+    id: claude-sonnet-4-6
+    max_output_tokens_per_call: 1200
+    max_counted_input_tokens_total: 80000
+  selector:
+    id: claude-haiku-4-5-20251001
+    max_output_tokens_per_call: 800
+    max_counted_input_tokens_total: 80000
+
+execution:
+  paid_calls_max: 28
+  author_calls_max: 14
+  selector_calls_max: 14
+  retries: 0
+  calls_per_item_per_stage: 1
+  model_written_final_answers: 0
+  retrieval_calls: 0
+  reranker_calls: 0
+  database_calls: 0
+  target_questions_exposed: 0
+  manual_label_edits: 0
+
+validation:
+  eligible_questions_min: 12
+  eligible_manufacturers_min: 12
+  table_questions_min: 5
+  prose_questions_min: 5
+  answer_points_min: 24
+  claim_recall_min: 0.90
+  unit_precision_min: 0.80
+  question_complete_rate_min: 0.75
+  invalid_selector_outputs_max: 0
+  source_identity_mismatches_max: 0
+  passing_action: GO_TO_BOUNDED_TARGET_PROBE
+  production: false
+  facts_moved_to_ok: 0
+
+pricing_usd_per_million_tokens:
+  author: {input: 3, output: 15}
+  selector: {input: 2, output: 10}
+
+budget:
+  internal_ceiling_usd: 2.5
+  user_ceiling_usd: 250
+
+outputs:
+  cohort: evals/s167_independent_answer_ledger_cohort_v1.json
+  author_receipts: evals/s167_independent_answer_ledger_author_receipts_v1.json
+  selector_receipts: evals/s167_independent_answer_ledger_selector_receipts_v1.json
+  result: evals/s167_independent_answer_ledger_v1.json

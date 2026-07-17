@@ -1,0 +1,24 @@
+instrument: s167_independent_answer_ledger_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED
+authority: user_autonomous_execution_budget_250_usd
+
+frozen_artifacts:
+  preregistration: {path: evals/s167_independent_answer_ledger_prereg_v1.yaml, sha256: 7704852a064d5aeee6688dcbf699b94f4b0f40cc016bc16c741fdcd1762ba73d}
+  runner: {path: scripts/s167_independent_answer_ledger_gate.py, sha256: 2e00bff1569bcd77eba2d8093656ac16cd785657c98ec9c832df6350b22b3955}
+  gate_tests: {path: tests/test_s167_independent_answer_ledger_gate.py, sha256: d044d7890cf2d66b473ca9bdc5aa8d90b778efb7dd9a3bd8325fe8e84bee794f}
+
+limits:
+  paid_calls_max: 28
+  retries: 0
+  internal_ceiling_usd: 2.5
+  target_questions_exposed: 0
+  production_changes: 0
+  database_calls: 0
+  deployments: 0
+  pushes: 0
+
+stopping:
+  same_cohort_retry: forbidden
+  threshold_change_after_execution: forbidden
+  target_probe_before_promotion_go: forbidden
+  sol_or_fable_before_promotion_signal: forbidden
