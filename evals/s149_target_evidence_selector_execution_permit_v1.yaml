@@ -1,0 +1,29 @@
+instrument: s149_target_evidence_selector_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_FINAL
+
+frozen_artifacts:
+  preregistration:
+    path: evals/s149_target_evidence_selector_prereg_v1.yaml
+    sha256: 722721ed0bf724c685c2df362864da5afd2caf83a1010b3fa2f80085b8013528
+  runner:
+    path: scripts/s149_target_evidence_selector_probe.py
+    sha256: 0f3a243a0562cc503858d193d21134d9fa56a1e657d7b911e1c599fc65cc0375
+  runner_tests:
+    path: tests/test_s149_target_evidence_selector_probe.py
+    sha256: 575d5e6226e86670217f4585deb6019a5b0f99c76b481ada85b51ad7eb7d2b7a
+  selector_tests:
+    path: tests/test_s149_evidence_selector.py
+    sha256: 6c67a113c9cf89e4af5cf1addea39fa9b840048d1575118f2408b74a5bfaf02c
+
+limits:
+  calls: 4
+  retries: 0
+  conservative_total_ceiling_usd: 0.50
+  user_budget_usd: 250
+
+authorization:
+  paid_selector_probe: true
+  production: false
+  deploy: false
+  push: false
+  facts_moved_to_ok: 0

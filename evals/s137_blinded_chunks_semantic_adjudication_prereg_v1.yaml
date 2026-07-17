@@ -1,0 +1,166 @@
+instrument: s137_blinded_chunks_semantic_adjudication_prereg_v1
+status: frozen_before_implementation
+
+design:
+  path: evals/s137_blinded_chunks_semantic_adjudication_design_v1.md
+  sha256: c5a524f8a6fede3e2373487c16fc62c39b7630bd0fab09c23b45c2fe5f5f6198
+
+frozen_inputs:
+  s136_prereg: {path: evals/s136_chunks_v3_loss_attribution_prereg_v1.yaml, sha256: 3a9a912feb8b5875d7fa556a4f247967ae8a43fed82a01943d97e62c7ac03d00}
+  s136_seed: {path: evals/s136_chunks_v3_loss_attribution_seed1_v1.json, sha256: 878c9182c70159b40132693041d87d05b4f430974b3ed308ca9773fe25d8f133}
+  s136_gate: {path: evals/s136_chunks_v3_loss_attribution_gate_v1.yaml, sha256: bf9e72e4bbc9daba2107cdbf6adaec85dd460b3f2391a162c4e7dfe2085aa5ce}
+  s136_runner: {path: scripts/s136_chunks_v3_loss_attribution.py, sha256: 13d38235ff14bfcef955ab16d2346843b2b78c54c80e450db0d6bd91160dab50}
+  s135_prereg: {path: evals/s135_representative_chunks_shadow_prereg_v2.yaml, sha256: 97fb7a9d6d49c00cc01c7e0682a04aa2776843039c3e1a9fb1cc502343be4c2d}
+
+population:
+  question_ids:
+    - 29b49e99-07fe-4b83-8afd-2d770d8fc09d
+    - 540b4ccd-1ae0-4252-a6bb-069db622e22c
+    - 935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033
+  candidate_top_ranked_items: 15
+  add_missing_candidate_provenance_gold_members: true
+  content_deduplication: false
+  post_response_population_changes: forbidden
+
+blind_packet:
+  deterministic_seed: s137_blind_labels_v1
+  public_fields:
+    - question_id
+    - question
+    - manufacturer
+    - product_model
+    - evidence_id
+    - section_title
+    - section_path
+    - page_number
+    - source_content
+  forbidden_fields:
+    - arm
+    - rank
+    - score
+    - database_id
+    - document_id
+    - chunk_id
+    - extraction_sha256
+    - strict_context_donor
+    - is_gold_member
+    - context
+    - s135_classification
+    - s136_classification
+  judge_tools: false
+  judge_repo_access: false
+
+rubric:
+  relevance_labels: [DIRECT, SUPPORTING, IRRELEVANT, UNCERTAIN]
+  answerability_labels: [COMPLETE, PARTIAL, NONE]
+  confidence_labels: [HIGH, MEDIUM, LOW]
+  every_evidence_item_exactly_once: true
+  minimum_sufficient_set_known_ids_only: true
+  complete_requires_nonempty_minimum_set: true
+  minimum_set_relevance_allowed: [DIRECT, SUPPORTING]
+  minimum_set_requires_direct_item: true
+  no_reference_answer: true
+  max_rationale_words_per_question: 90
+
+models:
+  primary:
+    provider: openai
+    model: gpt-5.6-sol
+    api: responses
+    reasoning_effort: xhigh
+    reasoning_mode: standard
+    structured_output: true
+    max_output_tokens: 12000
+    max_counted_input_tokens: 120000
+  independent:
+    provider: anthropic
+    model: claude-fable-5
+    api: messages
+    thinking: adaptive
+    effort: xhigh
+    structured_output: true
+    max_output_tokens: 8000
+    max_counted_input_tokens: 120000
+  optional_arbitration:
+    trigger: terminal_decision_disagreement_only
+    provider: openai
+    model: gpt-5.6-sol
+    api: responses
+    reasoning_effort: xhigh
+    reasoning_mode: standard
+    structured_output: true
+    max_output_tokens: 8000
+    max_counted_input_tokens: 180000
+    judge_identities_visible: false
+
+terminal_rule:
+  success: >-
+    answerability is COMPLETE, minimum_sufficient_evidence_ids is non-empty,
+    and every selected item has frozen candidate rank <= 10
+  success_label: CANDIDATE_SUCCESS_AT_10
+  failure_label: REAL_CANDIDATE_RETRIEVAL_LOSS
+  unresolved_label: HOLD
+  initial_convergence: same terminal label from both independent judges
+  disagreement: optional_arbitration_once
+  arbitration_failure: HOLD
+
+promotion_gate:
+  required_terminal_successes: 3
+  required_holds: 0
+  packet_valid: true
+  responses_valid: true
+  population_drift: 0
+  actual_external_usd_lt: 10
+  facts_moved_to_ok: 0
+
+pricing_usd_per_million_tokens:
+  as_of: 2026-07-16
+  openai_gpt_5_6_sol:
+    input: 5
+    cache_write: 6.25
+    cached_input: 0.5
+    output: 30
+    source: https://developers.openai.com/api/docs/models/gpt-5.6-sol
+  anthropic_claude_fable_5:
+    input: 10
+    output: 50
+    source: https://platform.claude.com/docs/en/about-claude/models/overview
+
+budget:
+  user_authorized_ceiling_usd: 50
+  stricter_s137_runtime_ceiling_usd: 10
+  paid_model_calls_max: 3
+  embeddings: 0
+  remote_database_reads: 0
+  remote_database_writes: 0
+  stop_before_inference_if_worst_case_exceeds_ceiling: true
+
+execution:
+  generated_directory: tmp/s137_blinded_chunks_semantic_adjudication
+  public_packet_seed1: evals/s137_blinded_packet_seed1_v1.json
+  public_packet_seed2: evals/s137_blinded_packet_seed2_v1.json
+  private_mapping_seed1: evals/s137_private_mapping_seed1_v1.json
+  private_mapping_seed2: evals/s137_private_mapping_seed2_v1.json
+  paid_preflight: evals/s137_paid_preflight_v1.json
+  sol_response: evals/s137_sol56_xhigh_judgement_v1.json
+  fable_response: evals/s137_fable5_xhigh_judgement_v1.json
+  arbitration_response: evals/s137_sol56_xhigh_arbitration_v1.json
+  aggregate: evals/s137_blinded_chunks_semantic_adjudication_v1.json
+  gate: evals/s137_blinded_chunks_semantic_adjudication_gate_v1.yaml
+
+authorization:
+  local_frozen_reads: true
+  local_raw_store_reads: true
+  provider_token_count_endpoints: true
+  paid_models_within_budget: true
+  provider_calls: [openai_responses, anthropic_messages]
+  remote_database: false
+  embeddings: false
+  context_generation: false
+  chunker_changes: false
+  retrieval_changes: false
+  threshold_changes: false
+  migration_apply: false
+  serving: false
+  deploy: false
+  facts_moved_to_ok: 0

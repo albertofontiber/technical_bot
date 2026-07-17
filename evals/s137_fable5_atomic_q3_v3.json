@@ -1,0 +1,161 @@
+{
+  "instrument": "s137_fable_atomic_response_v3",
+  "provider": "anthropic",
+  "model": "claude-fable-5",
+  "response_id": "msg_011Cd6NHHHdPhXJu5nfjvj2J",
+  "created_at": "2026-07-16T20:29:00+00:00",
+  "question_id": "935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033",
+  "packet_questions_sha256": "541443798b8b44053f48f867d725f49c7a2919f77264eba5c773b3e508541da0",
+  "stop_reason": "end_turn",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 18789,
+    "output_tokens": 2438,
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "output_tokens_details": {
+      "thinking_tokens": 690
+    }
+  },
+  "conservative_cost_usd": 0.30979,
+  "status": "VALIDATED",
+  "judgement": {
+    "judgements": [
+      {
+        "question_id": "935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033",
+        "answerability": "COMPLETE",
+        "minimum_sufficient_evidence_ids": [
+          "E-FBB457C375B5"
+        ],
+        "evidence_assessments": [
+          {
+            "evidence_id": "E-FBB457C375B5",
+            "relevance": "DIRECT",
+            "supported_claim": "For the VES-A00-P, the Fuego 1 and Fuego 2 LEDs light when their alarm threshold is reached and blink once per second (una vez por segundo) until the condition is confirmed.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-1C5333FBCC2C",
+            "relevance": "SUPPORTING",
+            "supported_claim": "The sibling VES-A10-P LED table states the same blink behavior (once per second until confirmed), corroborating the family-wide behavior but describing a different model than asked.",
+            "redundant_with": [
+              "E-FBB457C375B5"
+            ]
+          },
+          {
+            "evidence_id": "E-AB138B706C45",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Describes LED testing during power-up and via Xtralis VSC, not the alarm blink pattern.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-0BCC4F726225",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Relay assignment table; unrelated to LED blink behavior.",
+            "redundant_with": [
+              "E-744F99AB0E39"
+            ]
+          },
+          {
+            "evidence_id": "E-744F99AB0E39",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Relay assignment table (A10-P variant); unrelated to LED blink behavior.",
+            "redundant_with": [
+              "E-0BCC4F726225"
+            ]
+          },
+          {
+            "evidence_id": "E-29D2B7FD8A26",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Relay assignments for relays 1-2; unrelated to LED indications.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-4B434CC40E10",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Ground-fault detection and relay operation; not about LED alarm indications.",
+            "redundant_with": [
+              "E-C4D52383680D"
+            ]
+          },
+          {
+            "evidence_id": "E-C4D52383680D",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Duplicate ground-fault/relay section; not about LED alarm indications.",
+            "redundant_with": [
+              "E-4B434CC40E10"
+            ]
+          },
+          {
+            "evidence_id": "E-82F86D5493AD",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Wiring example to addressable loop module; unrelated to LED behavior.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-54F5BF950D4A",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "AutoLearn smoke/flow thresholds; unrelated to LED blink pattern.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-11A1C8B503C1",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Commissioning checklist form; no LED blink information.",
+            "redundant_with": [
+              "E-8B55DC2F9FA1"
+            ]
+          },
+          {
+            "evidence_id": "E-8B55DC2F9FA1",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Commissioning checklist form (A00-P); no LED blink information.",
+            "redundant_with": [
+              "E-11A1C8B503C1"
+            ]
+          },
+          {
+            "evidence_id": "E-428C4011C3E7",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Commissioning checklist form; no LED blink information.",
+            "redundant_with": [
+              "E-A0711DEB2F00"
+            ]
+          },
+          {
+            "evidence_id": "E-A0711DEB2F00",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Commissioning checklist form (A00-P); no LED blink information.",
+            "redundant_with": [
+              "E-428C4011C3E7"
+            ]
+          },
+          {
+            "evidence_id": "E-86A9DEF9A931",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Relay commissioning checklist; no LED blink information.",
+            "redundant_with": [
+              "E-C52EB04FEB1D"
+            ]
+          },
+          {
+            "evidence_id": "E-C52EB04FEB1D",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Relay commissioning checklist; no LED blink information.",
+            "redundant_with": [
+              "E-86A9DEF9A931"
+            ]
+          }
+        ],
+        "confidence": "HIGH",
+        "rationale": "E-FBB457C375B5 is the VES-A00-P LED status table and directly states that the Fuego 1 and Fuego 2 LEDs light when their thresholds are reached and blink once per second until the condition is confirmed, fully answering the question for the correct model. E-1C5333FBCC2C corroborates via the A10-P variant but is not model-specific. All relay tables, wiring diagrams, AutoLearn content, and commissioning forms are unrelated to LED blink behavior."
+      }
+    ]
+  }
+}

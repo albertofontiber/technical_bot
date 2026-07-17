@@ -1,0 +1,68 @@
+{
+  "instrument": "s178_combined_source_contract_replay_v1",
+  "status": "LOCAL_COMBINED_GO",
+  "checks": {
+    "immutable_answer_hash": true,
+    "protected_prefix_equal": true,
+    "exact_preamble_appended_once": true,
+    "source_contract_claims_five_of_five": true,
+    "protected_claims_four_of_four": true,
+    "relay_life_exact_citations": true,
+    "relay_life_two_exact_supports": true,
+    "invalid_citations_zero": true,
+    "only_two_receipted_contexts_changed": true,
+    "derivation_integrity_failures_zero": true
+  },
+  "evidence": {
+    "served_rows": 12,
+    "changed_fragments": [
+      1,
+      4
+    ],
+    "applied_receipts": [
+      {
+        "fragment": 1,
+        "context_id": "5ba44464-842b-46f7-ac43-259be83ad416",
+        "source_file": "I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG",
+        "page_number": 5,
+        "original_token": "105",
+        "derived_token": "10<sup>5</sup>"
+      },
+      {
+        "fragment": 4,
+        "context_id": "80f7a04f-3b43-4a6f-a0dd-13a57721f442",
+        "source_file": "I56-6577-006_EN Notifier FAAST LT-200 QIG",
+        "page_number": 5,
+        "original_token": "105",
+        "derived_token": "10<sup>5</sup>"
+      }
+    ],
+    "recovered_source_contract_claims": 5,
+    "protected_claims": 4,
+    "relay_life_supporting_citations": 2,
+    "invalid_citations": [],
+    "answer_sha256": "c7dec57b0513fa882fa13af7153d294c01181c9853c9fa9a2df3d8b085396304"
+  },
+  "decision": {
+    "table_preamble_runtime_candidate": "LOCAL_GO",
+    "numeric_derivation_contract": "LOCAL_GO",
+    "double_count_fact_credit": 0,
+    "candidate_funnel": {
+      "denominator": 157,
+      "OK": 141,
+      "synthesis-miss": 12,
+      "retrieval-miss": 4,
+      "document-extraction-hold": 0
+    },
+    "production_or_deployment": false,
+    "next": "persist_one_document_level_derivation_receipt_and_shadow_reindex_only_affected_documents"
+  },
+  "constraints": {
+    "model_calls": 0,
+    "network_calls": 0,
+    "database_calls": 0,
+    "chunks_v2_writes": 0,
+    "usd": 0
+  },
+  "result_sha256": "49a7f12343ec3ecf156802dc44f9ef532d1a4d3623aca22a0b9dd11b005c9925"
+}

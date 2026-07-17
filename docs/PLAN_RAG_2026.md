@@ -3,8 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 15 jul 2026 (s129 — reconciliación upstream→downstream de S100/S112-S128;
-> `evals/s129_current_state_reconciliation_v1.yaml`).
+> 17 jul 2026 (s193 — control Terra y primer planificador de síntesis con render determinista).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -23,7 +22,57 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-## Estado actual (s129 — 15 jul 2026)
+## Estado actual (s193 — 17 jul 2026)
+
+**La foto diagnóstica comparable más reciente es 157 facts: 143 OK · 12 synthesis-miss ·
+2 retrieval-miss = 91,08% OK, gap 7 facts hasta 95%.** No es todavía un KPI atómico oficial ni
+un resultado desplegado: parte del puente híbrido S133, conserva 77 legacy carries pendientes y
+presupone dos candidatos locales/default-off. El bridge exacto es: S172 lleva la extracción
+`10^5` de hold→OK y deja 141/157; S188 añade dos facts de compatibilidad/topología de
+retrieval→OK, dejando 143/157. Estos movimientos sí son crédito diagnóstico de etapa, pero su
+crédito productivo sigue siendo cero mientras los flags estén apagados y falte generalización
+independiente.
+
+**El orden de trabajo sigue en síntesis porque retrieval es residual (2 vs 12), y S192-S193 han
+aislado el siguiente cuello sin tocar targets.** Sustituir Sonnet 4.6 directamente por Terra
+`low` es **NO-GO**: 25/37 vs 26/37 puntos, −1 neto, 2 regresiones, +1 pregunta completa;
+$0,259085. En cambio, separar planificación y redacción sí da señal causal: S193 conserva la
+respuesta base y anexa determinísticamente spans ligados a IDs, por lo que un ID elegido no puede
+omitirse. El candidato alcanza 31/37, **+5 puntos, +2 preguntas completas y 0 regresiones** por
+$0,071248. No pasa el gate completo porque el selector solo cubre 27/34 puntos disponibles en el
+store (79,4% < 90%), aunque la precisión de unidades sí pasa (78,3% ≥75%). Conclusión: el
+renderizado con postcondición es candidato estructural; el selector de obligaciones es ahora el
+cuello medido. S193 no mueve facts ni autoriza producción. No se ajustará el prompt sobre estas 14
+preguntas; el siguiente paso exige descomposición de pregunta y validación fresca.
+
+**`chunks_v3` no se migra al completo.** S140 cerró el shadow representativo como
+`FINAL_NO_GO_CHUNKS_V3_WHOLESALE`: empata recall funcional@10 (16/24 vs 16/24) pero empeora el
+primer rango útil/MRR (0,4021→0,3694). `chunks_v2` sigue siendo el baseline activo. V3 preserva
+más superficie upstream y su contrato de procedencia es valioso, pero esa propiedad no compensa
+una regresión downstream. Solo se diseñará v4 si una causa estructural local mejora el ranking sin
+pérdidas por fabricante/held-out; no se parchearán preguntas concretas.
+
+**Frentes ortogonales:** (a) voz tiene selector versionado y default `whisper-1`; no se migra de
+modelo sin 30 notas reales estratificadas, que hoy no existen; (b) el renderer de Telegram ya
+preserva contenido, tablas y mensajes largos y pasa su gate local; (c) S190 demostró que el canal
+de imágenes está implementado en bot/generador pero sin datos en `chunks_v2`: 0/25.090 URLs.
+Existe un bridge exacto hacia 5.096 páginas legacy (7.685 chunks; 30/30 assets vivos), pero una
+muestra visual contiene portadas/marketing. Por ello el backfill directo es NO-GO. S191 ejecutó
+Luna sobre 60/60 activos válidos por **$0,04029**, pero el trigger 10–30 positivos quedó mal
+calibrado frente a una cohorte con 48 estratos de intención técnica y produjo 44. No se cambió el
+umbral post hoc ni se llamó a Sol/Fable. La calidad del clasificador queda sin medir; el diseño BP
+sigue siendo un registro ligado a documento+revisión+página+hash, independiente del chunker.
+
+**Producción no ha cambiado en este bloque.** No se ha hecho push, deploy, migración ni escritura
+remota. Próximos pasos, por orden: (1) congelar una cohorte fresca para un planificador que
+descomponga la pregunta en subobligaciones antes de seleccionar IDs; (2) si mejora recall sin
+romper precisión, construir un compilador legible que preserve IDs y validarlo end-to-end; (3)
+solo después ejecutar un probe target y la regresión completa congelada; (4) validar de forma
+independiente S172/S188 antes de producción; (5) rehacer el gate visual con controles negativos
+balanceados solo cuando vuelva a priorizarse imagen; (6) recoger audio real antes de comparar ASR.
+El funnel se conserva por etapa: S193 es avance de síntesis medido, pero no crédito de facts.
+
+## Estado anterior (s129 — 15 jul 2026)
 
 **No existe todavía un KPI atómico oficial vigente.** La última evaluación completa y
 comparable (`s100_factlevel_full.yaml`, commit `9790673`, ya anterior al branch/worktree actual)

@@ -1,0 +1,298 @@
+{
+  "instrument": "s165_answer_archetype_ledger_v1",
+  "status": "NO_GO",
+  "population": {
+    "questions": 14,
+    "manufacturers": 14,
+    "answer_points": 37,
+    "target_question_overlap": 0,
+    "cohort_role": "target_independent_development_reuse"
+  },
+  "metrics": {
+    "claims_covered": 11,
+    "claim_recall": 0.2972973,
+    "selected_units": 8,
+    "useful_units": 8,
+    "unit_precision": 1.0,
+    "questions_complete": 4,
+    "question_complete_rate": 0.28571429,
+    "invalid_ids": 9
+  },
+  "checks": {
+    "claim_recall_gte_0_90": false,
+    "unit_precision_gte_0_80": true,
+    "question_complete_rate_gte_0_75": false,
+    "invalid_ids_zero": false,
+    "source_identity_mismatches_zero": true,
+    "actual_cost_below_ceiling": true
+  },
+  "rows": [
+    {
+      "item_id": "s147_src_01",
+      "claims": 2,
+      "claims_covered": 0,
+      "complete": false,
+      "selected_units": 0,
+      "useful_units": 0,
+      "facets_filled": [],
+      "selected_unit_receipts": []
+    },
+    {
+      "item_id": "s147_src_02",
+      "claims": 3,
+      "claims_covered": 0,
+      "complete": false,
+      "selected_units": 0,
+      "useful_units": 0,
+      "facets_filled": [],
+      "selected_unit_receipts": []
+    },
+    {
+      "item_id": "s147_src_03",
+      "claims": 2,
+      "claims_covered": 1,
+      "complete": false,
+      "selected_units": 2,
+      "useful_units": 2,
+      "facets_filled": [
+        "output_action_or_corrective_step"
+      ],
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E022_98d40eeb6a",
+          "source_spans": [
+            [
+              2600,
+              2844
+            ]
+          ],
+          "content_sha256": "1fa6cd17e7b7627036eadf88419a73b18d4e1f210fd10d50091a4b0ccbdc346d"
+        },
+        {
+          "unit_id": "E030_6af2e4af03",
+          "source_spans": [
+            [
+              2600,
+              2634
+            ],
+            [
+              2775,
+              2809
+            ]
+          ],
+          "content_sha256": "ac2d567c56f30a0cd1cdcb3d4bb5131fb82a98c5a796bff1507a9e236b983199"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_04",
+      "claims": 3,
+      "claims_covered": 3,
+      "complete": true,
+      "selected_units": 2,
+      "useful_units": 2,
+      "facets_filled": [
+        "measurement_limit_or_timing",
+        "target_or_configuration_field"
+      ],
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E012_f3acec5711",
+          "source_spans": [
+            [
+              317,
+              377
+            ],
+            [
+              561,
+              621
+            ]
+          ],
+          "content_sha256": "46b2129b5216dfa662887cb9e82fe1d748dee36328b93e9265f87536d51dfd6f"
+        },
+        {
+          "unit_id": "E002_3dbcb76936",
+          "source_spans": [
+            [
+              0,
+              1126
+            ]
+          ],
+          "content_sha256": "99fcc8f53e0bb1c1a00ab3285548387419cd789b5732fd02c9cce930e50b716d"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_05",
+      "claims": 3,
+      "claims_covered": 0,
+      "complete": false,
+      "selected_units": 0,
+      "useful_units": 0,
+      "facets_filled": [],
+      "selected_unit_receipts": []
+    },
+    {
+      "item_id": "s147_src_06",
+      "claims": 2,
+      "claims_covered": 2,
+      "complete": true,
+      "selected_units": 1,
+      "useful_units": 1,
+      "facets_filled": [
+        "target_or_configuration_field"
+      ],
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E013_4b4adf87e6",
+          "source_spans": [
+            [
+              1466,
+              1751
+            ]
+          ],
+          "content_sha256": "07785816138762775b75609cc415adb94a93c3ba6680f7cce918e4495a299e30"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_07",
+      "claims": 2,
+      "claims_covered": 2,
+      "complete": true,
+      "selected_units": 2,
+      "useful_units": 2,
+      "facets_filled": [
+        "measurement_limit_or_timing"
+      ],
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E019_239fcae59b",
+          "source_spans": [
+            [
+              1889,
+              1996
+            ],
+            [
+              2213,
+              2320
+            ]
+          ],
+          "content_sha256": "6a6bb7cdc624784d7b4b84045b78f1c5d9181df65e930185616cceb915e1cd2e"
+        },
+        {
+          "unit_id": "E009_ee759cea5c",
+          "source_spans": [
+            [
+              1767,
+              2898
+            ]
+          ],
+          "content_sha256": "31d5a944b10e7a45bf6e5e5765bd9bc7488e887eaa93cbbe298b79fde6027b2c"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_08",
+      "claims": 3,
+      "claims_covered": 0,
+      "complete": false,
+      "selected_units": 0,
+      "useful_units": 0,
+      "facets_filled": [],
+      "selected_unit_receipts": []
+    },
+    {
+      "item_id": "s147_src_09",
+      "claims": 3,
+      "claims_covered": 0,
+      "complete": false,
+      "selected_units": 0,
+      "useful_units": 0,
+      "facets_filled": [],
+      "selected_unit_receipts": []
+    },
+    {
+      "item_id": "s147_src_10",
+      "claims": 2,
+      "claims_covered": 0,
+      "complete": false,
+      "selected_units": 0,
+      "useful_units": 0,
+      "facets_filled": [],
+      "selected_unit_receipts": []
+    },
+    {
+      "item_id": "s147_src_11",
+      "claims": 3,
+      "claims_covered": 0,
+      "complete": false,
+      "selected_units": 0,
+      "useful_units": 0,
+      "facets_filled": [],
+      "selected_unit_receipts": []
+    },
+    {
+      "item_id": "s147_src_12",
+      "claims": 3,
+      "claims_covered": 0,
+      "complete": false,
+      "selected_units": 0,
+      "useful_units": 0,
+      "facets_filled": [],
+      "selected_unit_receipts": []
+    },
+    {
+      "item_id": "s147_src_13",
+      "claims": 3,
+      "claims_covered": 0,
+      "complete": false,
+      "selected_units": 0,
+      "useful_units": 0,
+      "facets_filled": [],
+      "selected_unit_receipts": []
+    },
+    {
+      "item_id": "s147_src_14",
+      "claims": 3,
+      "claims_covered": 3,
+      "complete": true,
+      "selected_units": 1,
+      "useful_units": 1,
+      "facets_filled": [
+        "access_or_prerequisite",
+        "input_trigger_or_observed_condition",
+        "measurement_limit_or_timing",
+        "option_mode_or_default",
+        "output_action_or_corrective_step",
+        "safety_warning_exception_or_conflict",
+        "target_or_configuration_field",
+        "verification_commissioning_or_recovery"
+      ],
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E001_dfb571368b",
+          "source_spans": [
+            [
+              0,
+              266
+            ]
+          ],
+          "content_sha256": "1083163867f69c9334e51d6ecfb6e3ea1466ec0ec991a3db2a127f8261a3f214"
+        }
+      ]
+    }
+  ],
+  "cost": {
+    "worst_case_preflight_usd": 0.20767,
+    "actual_usd": 0.11144
+  },
+  "decision": {
+    "fresh_independent_test": false,
+    "target_probe": false,
+    "production": false,
+    "facts_moved_to_ok": 0,
+    "same_cohort_tuning": false
+  },
+  "result_sha256": "b4df49bab5bdce2f4182a27126a7a96880e0c2112c102fd2446e51e0ee669a76"
+}

@@ -1,0 +1,35 @@
+instrument: s191_haiku_529_failure_v1
+status: PROVIDER_OVERLOADED_NO_RETRY
+
+request:
+  model: claude-haiku-4-5-20251001
+  batch: 1_of_6
+  assets: 10
+  retries: 0
+
+response:
+  http_status: 529
+  error_type: overloaded_error
+  request_id: req_011Cd7CxgeF2Nyv2uHbEsQaf
+  model_output: false
+  usage_returned: false
+
+decision:
+  retry_same_provider: false
+  v1_executor: CLOSED_NO_RESULT
+  successor: versioned_gpt_5_6_luna_executor_v2
+  rationale: >-
+    The provider failed before returning model output or usage. Retrying would
+    violate the frozen zero-retry contract. OpenAI's official model catalog and
+    the account model list both expose gpt-5.6-luna as a vision-capable,
+    cost-sensitive executor, so it is evaluated under a new preregistration.
+
+cost:
+  reported_usage: null
+  exact_usd: unknown
+  conservative_upper_bound_usd: 0.2
+
+authorization:
+  database_writes: 0
+  production: false
+  facts_moved_to_ok: 0

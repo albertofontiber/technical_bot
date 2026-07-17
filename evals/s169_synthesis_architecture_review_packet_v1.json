@@ -1,0 +1,172 @@
+{
+  "instrument": "s169_synthesis_architecture_review_packet_v1",
+  "decision_scope": "Choose one next local independent synthesis experiment; no production or KPI credit.",
+  "current_funnel": {
+    "denominator": 157,
+    "ok": 140,
+    "synthesis_miss": 12,
+    "retrieval_miss": 4,
+    "document_extraction_hold": 1,
+    "ok_rate": 0.8917,
+    "ok_target": 150
+  },
+  "s168_independent_no_go": {
+    "population": {
+      "source_items": 14,
+      "eligible_questions": 13,
+      "manufacturers": 13,
+      "documents": 13,
+      "table_questions": 7,
+      "prose_questions": 6,
+      "answer_points": 49,
+      "target_question_overlap": 0
+    },
+    "metrics": {
+      "claims_covered": 30,
+      "claim_recall": 0.6122449,
+      "facet_aligned_claims_covered": 21,
+      "facet_aligned_claim_recall": 0.42857143,
+      "selected_units": 47,
+      "useful_units": 37,
+      "unit_precision": 0.78723404,
+      "questions_complete": 4,
+      "question_complete_rate": 0.30769231,
+      "author_invalid_outputs": 1,
+      "invalid_selector_outputs": 1,
+      "source_identity_mismatches": 0
+    },
+    "transport_counterfactual": {
+      "rows": [
+        {
+          "item_id": "s168_src_06",
+          "validation_error": "ledger unique-unit cardinality exceeded",
+          "raw_unique_units": 15,
+          "gold_units": 8,
+          "claims": 4,
+          "claims_covered_if_cap_ignored": 4,
+          "complete_if_cap_ignored": true,
+          "selected_units_if_cap_ignored": 15,
+          "useful_units_if_cap_ignored": 8
+        }
+      ],
+      "claim_recall_if_only_cardinality_cap_ignored": 0.69387755,
+      "question_complete_rate_upper_bound_if_only_invalid_row_recovered": 0.38461538
+    },
+    "by_stratum": {
+      "prose": {
+        "questions": 6,
+        "claims": 22,
+        "claims_covered": 16,
+        "complete": 3,
+        "selected_units": 21,
+        "useful_units": 16,
+        "claim_recall": 0.72727273,
+        "unit_precision": 0.76190476,
+        "complete_rate": 0.5
+      },
+      "table": {
+        "questions": 7,
+        "claims": 27,
+        "claims_covered": 14,
+        "complete": 1,
+        "selected_units": 26,
+        "useful_units": 21,
+        "claim_recall": 0.51851852,
+        "unit_precision": 0.80769231,
+        "complete_rate": 0.14285714
+      }
+    },
+    "by_support_cardinality": {
+      "1": {
+        "claims": 31,
+        "covered": 23,
+        "claim_recall": 0.74193548
+      },
+      "2": {
+        "claims": 15,
+        "covered": 6,
+        "claim_recall": 0.4
+      },
+      "3": {
+        "claims": 3,
+        "covered": 1,
+        "claim_recall": 0.33333333
+      }
+    }
+  },
+  "prior_mechanism_evidence": [
+    {
+      "mechanism": "single_pass_target_evidence_selector",
+      "result": "NO_GO",
+      "coverage": "3/13 relations",
+      "lesson": "focused on explicit surface facet and omitted implicit safety, reset, programming and diagnostic relations"
+    },
+    {
+      "mechanism": "one_bounded_coverage_verifier",
+      "result": "NO_GO",
+      "coverage": "7/13 relations",
+      "lesson": "one extra pass recovered four relations but missed six; repeated loops were frozen out"
+    },
+    {
+      "mechanism": "draft_plus_obligations_repair",
+      "result": "NO_GO",
+      "coverage": "0 semantic fact gain on two relational facts",
+      "lesson": "separate statements were not bound into the required multi-evidence relation"
+    },
+    {
+      "mechanism": "typed_relation_extraction_batch",
+      "result": "UNMEASURED_TRANSPORT_NO_GO",
+      "coverage": "no target scoring reached",
+      "lesson": "batch call omitted a required chunk; per-chunk immutable checkpointing was the frozen successor but remains untested"
+    },
+    {
+      "mechanism": "table_preamble_source_contract_closure",
+      "result": "LOCAL_ATOMIC_GO",
+      "coverage": "5/5 source gaps recovered and synthesized",
+      "lesson": "upstream explicit scope repair cascaded successfully; one separate exponent relation remains extraction hold"
+    },
+    {
+      "mechanism": "generic_answer_archetype_ledger",
+      "result": "S168_SEMANTIC_NO_GO",
+      "coverage": "61.2% claim recall, 78.7% precision, 30.8% questions complete",
+      "lesson": "failure generalizes across 13 new manufacturers/documents and is worst for tables and multi-unit facts"
+    }
+  ],
+  "options": [
+    {
+      "id": "A_CONTINUE_GENERIC_LEDGER_TUNING",
+      "description": "Tune facets, prompt or cardinality and retry a new generic ledger cohort."
+    },
+    {
+      "id": "B_OFFLINE_PER_CHUNK_TYPED_RELATION_STORE",
+      "description": "At ingestion, extract generic typed atomic relations per chunk with immutable source spans/checkpoints; retrieve and assemble relation atoms query-time before a citation-bound writer."
+    },
+    {
+      "id": "C_BOUNDED_AGENTIC_RAW_EVIDENCE_PLANNER",
+      "description": "At query-time, let a bounded agent iteratively traverse raw evidence units, maintain an obligation state and stop after deterministic coverage checks."
+    },
+    {
+      "id": "D_DRAFT_COVERAGE_REPAIR",
+      "description": "Generate a draft, atomize it, compare to evidence-derived obligations and perform one bounded repair."
+    },
+    {
+      "id": "E_MOVE_TO_RETRIEVAL_RESIDUALS",
+      "description": "Pause synthesis and address the four retrieval residuals before returning to the twelve synthesis misses."
+    }
+  ],
+  "constraints": {
+    "no_target_specific_rules": true,
+    "new_experiment_must_be_independent_before_targets": true,
+    "frontier_models_for_design_review_only": true,
+    "cheap_models_for_execution": true,
+    "chunks_v2_active": true,
+    "chunks_v3_wholesale_migration": "NO_GO",
+    "same_cohort_retries": false
+  },
+  "questions": [
+    "Should the generic ledger line stop?",
+    "Which single option is the best next experiment given 12 synthesis misses versus 4 retrieval misses?",
+    "What minimal independent gate would falsify that option cheaply before target exposure?"
+  ],
+  "packet_sha256": "429db0077f1d30d8ea8260e6e1f34e7bbe4bfcb39c6b7ea37b8adcb5a3e807fc"
+}

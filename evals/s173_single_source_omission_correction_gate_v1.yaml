@@ -1,0 +1,64 @@
+instrument: s173_single_source_omission_correction_gate_v1
+status: NO_GO_INDEPENDENT_DEVELOPMENT_SCREEN
+
+evidence:
+  result: evals/s173_single_source_omission_correction_v1.json
+  baseline_receipts: evals/s173_baseline_answer_receipts_v1.json
+  selector_receipts: evals/s173_omission_selector_receipts_v1.json
+  revision_receipts: evals/s173_revision_answer_receipts_v1.json
+
+population:
+  questions: 14
+  manufacturers: 14
+  answer_points: 37
+  table_questions: 7
+  prose_questions: 7
+  target_question_overlap: 0
+
+result:
+  baseline_points: 26
+  candidate_points: 27
+  point_gain: 1
+  required_point_gain: 4
+  baseline_complete_questions: 6
+  candidate_complete_questions: 7
+  complete_question_gain: 1
+  required_complete_question_gain: 2
+  regressed_points: 0
+  invalid_selector_outputs: 0
+  invalid_answer_citations: 0
+  token_limit_stops: 0
+
+failure_attribution:
+  table:
+    answer_points: 17
+    baseline_points: 9
+    candidate_points: 9
+    point_gain: 0
+    questions_with_no_selected_omission_units: 5
+  prose:
+    answer_points: 20
+    baseline_points: 17
+    candidate_points: 18
+    point_gain: 1
+  conclusion: >-
+    The single-source boundary removed sibling-selection risk, but the cheap
+    omission detector still failed to identify most missing table relations and
+    produced only a marginal prose gain. This is insufficient to justify a
+    frontier semantic review or target exposure.
+
+decision:
+  blinded_sol_semantic_gate: NOT_CALLED
+  reason_sol_not_called: local_screen_failed
+  target_probe: false
+  production: false
+  facts_moved_to_ok: 0
+  lower_thresholds: false
+  retry_or_prompt_tuning: false
+  next: audit_four_retrieval_residuals_locally
+
+cost:
+  actual_usd: 0.836385
+  worst_case_preflight_usd: 1.888711
+  user_ceiling_usd: 250
+  frontier_calls: 0

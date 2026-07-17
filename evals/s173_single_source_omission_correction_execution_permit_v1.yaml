@@ -1,0 +1,30 @@
+instrument: s173_single_source_omission_correction_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED
+
+authority:
+  source: user_message_2026_07_16
+  scope: autonomous_adjusted_plan_cost_disciplined
+  user_ceiling_usd: 250
+  s173_internal_ceiling_usd: 4.0
+
+frozen_artifacts:
+  preregistration:
+    path: evals/s173_single_source_omission_correction_prereg_v1.yaml
+    sha256: d94d59b74a8f5e1d6d9259ac65cdbd1cb8854d977c2ecd247bd2a2d3c1355b61
+  runner:
+    path: scripts/s173_single_source_omission_correction.py
+    sha256: 06dbf0e11c76bb7faa4525c8cfbd1e2dfae069af01bb95100da66098d6396651
+
+execution:
+  calls_max: 42
+  retries: 0
+  staged_token_preflight_required: true
+  checkpoint_each_call: true
+  stop_before_stage_if_worst_case_reaches_internal_ceiling: true
+
+forbidden:
+  - frontier_calls_before_local_screen_passes
+  - target_questions
+  - database_writes
+  - deployment
+  - production_or_official_fact_credit

@@ -1,0 +1,77 @@
+instrument: s157_post_answer_omission_correction_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+design: evals/s157_post_answer_omission_correction_design_v1.md
+
+frozen_inputs:
+  source_first_packet: {path: evals/s157_multichunk_source_packet_v1.json, sha256: 8927b3a99a14468316464aa0d4e4075188ecce2f64de9bee1b33185c8cf27693}
+  design: {path: evals/s157_post_answer_omission_correction_design_v1.md, sha256: 93eaa04cbe0e60d7eef71b9e5d93ffdcace9cd5de6bcc555af33f816c01a4cbf}
+  omission_contract: {path: src/rag/omission_correction.py, sha256: d6f39838cd3ea46a31227a64f066e64c45c0e671f73ba986201c1e0571cd2c9b}
+  evidence_unitizer: {path: src/rag/evidence_units_v2.py, sha256: c80498f59452280f7630411b1740664c8ec946a5e3a6511441d6140f88727eab}
+  current_prompt_builder: {path: scripts/s156_frontier_synthesis_ceiling.py, sha256: aeaa65fb6e82c35a52fc91661cead8473b1044ea5cd06106440878baa8a7eaf5}
+  source_packet_builder: {path: scripts/s157_build_multichunk_source_packet.py, sha256: 130aaf99553170154caf6f2c74ea1729e5646f546288c13e85c243700fc5a9e2}
+  prior_closed_gate: {path: evals/s156_frontier_synthesis_ceiling_attribution_and_gate_v1.yaml, sha256: fd1b2400780c5d3677569746517c5c2fcd9074ad0346fcb3249f8051c99b8a40}
+
+independence:
+  source_items: 12
+  chunks_per_item: 3
+  manufacturers: 12
+  documents: 12
+  excluded_prior_and_target_documents: 75
+  target_document_overlap: 0
+  prior_s146_s147_overlap: 0
+  questions_authored_after_implementation_freeze: true
+  answer_points_authored_after_implementation_freeze: true
+  product_or_manufacturer_specific_rules: 0
+
+models:
+  executor: claude-haiku-4-5-20251001
+  writer: claude-sonnet-4-6
+  author_max_output_tokens: 1200
+  selector_max_output_tokens: 500
+  writer_max_output_tokens: 3500
+  writer_temperature: 0
+
+execution:
+  author_calls_max: 12
+  baseline_writer_calls_max: 12
+  selector_calls_max: 36
+  revision_writer_calls_max: 12
+  total_calls_max: 72
+  retries: 0
+  selector_topology: one_question_draft_fragment_per_call
+  revision_loops_max: 1
+  model_written_quotes_in_correction: 0
+  selected_source_units_reconstructible: true
+  retrieval_calls: 0
+  reranker_calls: 0
+
+validation:
+  eligible_questions_min: 10
+  answer_points_per_question_min: 2
+  answer_points_per_question_max: 4
+  source_fragments_per_question_min: 2
+  point_gain_min: 3
+  complete_question_rate_gain_min: 0.15
+  regressed_points_max: 1
+  invalid_selector_outputs_max: 0
+  invalid_fragment_citations_max: 0
+  passing_action: separate_blinded_sol_fable_semantic_gate_only
+  target_probe: false
+  production: false
+  facts_moved_to_ok: 0
+
+pricing_usd_per_million_tokens:
+  executor: {input: 2, output: 10}
+  writer: {input: 3, output: 15}
+
+budget:
+  internal_ceiling_usd: 6
+  user_ceiling_usd: 250
+
+outputs:
+  cohort: evals/s157_multichunk_authored_cohort_v1.json
+  author_receipts: evals/s157_multichunk_author_receipts_v1.json
+  baseline_receipts: evals/s157_baseline_answer_receipts_v1.json
+  selector_receipts: evals/s157_omission_selector_receipts_v1.json
+  revision_receipts: evals/s157_revision_answer_receipts_v1.json
+  result: evals/s157_post_answer_omission_correction_v1.json

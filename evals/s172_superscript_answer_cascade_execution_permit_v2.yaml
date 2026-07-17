@@ -1,0 +1,31 @@
+instrument: s172_superscript_answer_cascade_execution_permit_v2
+status: FREE_TRANSPORT_SUCCESSOR_FROZEN
+supersedes_execution_of: evals/s172_superscript_answer_cascade_prereg_v1.yaml
+
+prior_attempt:
+  status: ABORTED_BEFORE_EVALUATION
+  cost_usd: 0
+  model_calls: 0
+  network_calls: 0
+  database_calls: 0
+  output_artifact_written: false
+  cause: >-
+    The frozen packet represents `target` as a list of documents. The runner
+    treated it as one document and stopped with TypeError before deriving or
+    scoring any context.
+
+correction:
+  scope: transport_only
+  change: flatten_target_and_independent_document_lists
+  semantic_contract_changed: false
+  thresholds_changed: false
+  evidence_changed: false
+  retries_allowed: 1
+
+preserved:
+  - immutable S161 answer
+  - exact citations 1 and 4
+  - two PDF-bound overlay receipts
+  - one target and one independent cited source
+  - zero model, network and database calls
+  - no chunks_v2, raw extraction or production mutation

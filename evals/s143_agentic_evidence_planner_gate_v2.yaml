@@ -1,0 +1,36 @@
+instrument: s143_agentic_evidence_planner_gate_v2
+status: NO_GO
+
+evidence:
+  new_receipts:
+    path: evals/s143_agentic_evidence_planner_receipts_v2.json
+    sha256: c062521c28b0c700c0ec86fa471f72671c7ea28f5e420a55d25f66631a7fb599
+  runner:
+    path: scripts/s143_resume_whitespace_v2.py
+    sha256: 2922462c842b61f13d2e36f9651c67b6afab3b2d0404a64301ed49d71fbda119
+  preregistration:
+    path: evals/s143_agentic_evidence_planner_prereg_v2.yaml
+    sha256: f70b715cbf45eca57097eec0ddb6315e9949b5502efd7e5bfd9c94f78cb919b1
+
+result:
+  prior_receipts_recoverable: 4
+  new_calls_completed: 1
+  question_retries: 0
+  new_packet_unalignable: 1
+  remaining_uncalled_questions: 2
+  prior_conservative_cost_usd: 0.01004
+  new_conservative_cost_usd: 0.004008
+  total_conservative_cost_usd: 0.014048
+
+decision:
+  exact_quote_planner: NO_GO
+  fuzzy_quote_alignment: FORBIDDEN
+  further_s143_calls: FORBIDDEN
+  next: DETERMINISTIC_EVIDENCE_UNITS_MODEL_SELECTS_IDS_ONLY
+  production: NO_GO
+  facts_moved_to_ok: 0
+
+authorization:
+  production: false
+  deploy: false
+  push: false

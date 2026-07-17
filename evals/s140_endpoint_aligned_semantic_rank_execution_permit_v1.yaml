@@ -1,0 +1,45 @@
+instrument: s140_endpoint_aligned_semantic_rank_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_FINAL
+authorized_at_utc: 2026-07-16
+
+preregistration:
+  path: evals/s140_endpoint_aligned_semantic_rank_prereg_v1.yaml
+  sha256: 97b3a587a968eed065e73f5a206ff494768507c97d6abfe851d1d796c98077e3
+runner:
+  path: scripts/s140_endpoint_aligned_semantic_rank.py
+  sha256: 518b587fea66d3a569ada984e80eadc69e08fa17e99c2679bec933dad4b3deec
+tests:
+  path: tests/test_s140_endpoint_aligned_semantic_rank.py
+  sha256: 91535128738020ce034703c673223af2b7b8529fe4ea509b24370b476c5a22d1
+
+local_verification:
+  s140_plus_s138_tests: 12_passed
+  py_compile: passed
+  git_diff_check: passed
+  endpoint_projection_preserves_semantic_ranks: true
+  exact_questions_sets_and_ids_validated_locally: true
+  note: This is the final protocol attempt; any failure is terminal HOLD.
+
+cost_gate:
+  known_s138_cost_before_s140_usd: 1.78285625
+  failed_520_unknown_cost_reserve_usd: 0.93485625
+  s140_incremental_caps_worst_case_usd: 1.815
+  s138_total_reserved_caps_worst_case_usd: 4.53271250
+  combined_s137_s138_reserved_caps_worst_case_usd: 8.04658000
+  s138_internal_ceiling_usd: 10
+  broader_user_ceiling_usd: 250
+
+authorized_calls:
+  fable_q3_completion_max: 1
+  sol_disagreement_arbitration_max: 1
+  retries: 0
+
+not_authorized:
+  - further_protocol_recovery
+  - production
+  - deploy
+  - migration_apply
+  - chunks_changes
+  - retrieval_changes
+  - threshold_changes
+  - facts_moved_to_ok

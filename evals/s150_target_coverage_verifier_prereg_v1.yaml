@@ -1,0 +1,69 @@
+instrument: s150_target_coverage_verifier_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+design: evals/s150_target_coverage_verifier_design_v1.md
+
+frozen_inputs:
+  served_contexts:
+    path: evals/s113_full_contexts_freeze_v1.json
+    sha256: 22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d
+  s149_gate:
+    path: evals/s149_target_evidence_selector_gate_v1.yaml
+    sha256: 9cbf247da50d2dcee6adbc3660b7a0601fe2581bb9edb2883435040475611a9a
+  s149_result:
+    path: evals/s149_target_evidence_selector_probe_v1.json
+    sha256: de5d43347f8e7cb244636a651c3c7fb6490967be79fe070391ca2c4b0a00500d
+  s149_receipts:
+    path: evals/s149_target_evidence_selector_receipts_v1.json
+    sha256: 39819c29c00321e6e373034370b3173e4ca29f6ee95fb15b2b205ccff11ad296
+  design:
+    path: evals/s150_target_coverage_verifier_design_v1.md
+    sha256: 5d0406fad513d686d1f95b1f45e76d1cdb6205ca242d7a7dae8abd2a1eafe5fb
+  verifier:
+    path: src/rag/evidence_coverage_verifier.py
+    sha256: cd4e67b3812fce5693a123aacd4d1e561cec1ad79b69cbf6454d2b86fa5bc1aa
+  selector:
+    path: src/rag/evidence_selector.py
+    sha256: 5c6e99129bc66c0053fcab952c3d25f5d02a0f31f0edaa0d5224d96fefb2626d
+  local_oracle:
+    path: scripts/s141_source_bound_technical_obligations.py
+    sha256: 3564d8b5a39e0e59b71364ccaaee2a269828c13b9e2a250b139f0a35bfb0e18a
+
+scope:
+  qids: [cat018, hp002, hp011, hp017]
+  primary_selection_reused: true
+  primary_selector_calls: 0
+  verifier_passes: 1
+  retrieval_calls: 0
+  reranker_calls: 0
+  answer_calls: 0
+
+model:
+  provider: anthropic
+  id: claude-sonnet-4-6
+  role: bounded_coverage_planner
+  calls: 4
+  retries: 0
+  max_output_tokens_per_call: 1200
+  max_counted_input_tokens_total: 150000
+
+validation:
+  target_relations: 13
+  covered_relations_required: 13
+  max_additional_ids_per_question: 6
+  max_verified_ids_per_question: 12
+  unknown_ids: 0
+
+pricing_usd_per_million_tokens:
+  input: 5
+  output: 25
+
+budget:
+  internal_ceiling_usd: 1.50
+  user_ceiling_usd: 250
+
+credit:
+  passing_action: fresh_broad_cohort_only
+  facts_moved_to_ok: 0
+  production_change: false
+  deployment_authorized: false
+  push_authorized: false

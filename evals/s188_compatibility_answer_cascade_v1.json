@@ -1,0 +1,104 @@
+{
+  "instrument": "s188_compatibility_answer_cascade_v1",
+  "status": "GO_LOCAL_DEFAULT_OFF_KNOWN_COHORT",
+  "selection_contract": {
+    "qid_visible_to_selector": false,
+    "facts_visible_to_selector": false,
+    "expected_answer_visible_to_selector": false,
+    "query_count": 1,
+    "cards_global_max": 5,
+    "topology_cards_max": 2,
+    "partial_bundle_policy": "serve_none"
+  },
+  "checks": {
+    "three_parent_bundle": true,
+    "versioned_contract": true,
+    "versioned_lane": true,
+    "bundle_revalidates": true,
+    "all_cards_exact": true,
+    "bounded_cards": true,
+    "literal_closed_loop_reaches_answer": true,
+    "literal_clip_reaches_answer": true,
+    "direct_compatibility_refused": true,
+    "no_positive_interoperability_claim": true
+  },
+  "trace": {
+    "lane": "canonical_compatibility_bundle_coverage_v2",
+    "scope_rows": 5,
+    "source_groups": 2,
+    "entity_stratified": true,
+    "selected_parent_ids": [
+      "cfcdc8f7-bdaf-412f-a85e-0ffb76878d99",
+      "11d96526-d627-4305-8cae-e6852af1b20b",
+      "b6602d5a-dbb5-4e2e-8814-1ac3ce066896"
+    ],
+    "served_hyq_prose": false,
+    "status": "selected_complete_relational_bundle",
+    "hyq_rows": 1387,
+    "http_requests": 3,
+    "fetch_receipts": {
+      "hyq_rows_sha256": "c805a191238da99d2a7f92a2cfec7ff2c6b67e98f57f41404b5b638bc19bc88f",
+      "selected_parent_ids_sha256": "85bdf915326b77bfc52b56630e8579b7d9d9ec6505627956018fbc52f6100db4",
+      "hydrated_parents_sha256": "1dd5571e308a13a9f754539f15b82a810dd02b39bb18049da8b2730a78d5decb"
+    },
+    "navigation_lane": "canonical_document_hyq_coverage_v1",
+    "required_facets": [
+      "loop_topology",
+      "protocol_scope",
+      "supported_device_roster"
+    ],
+    "relational_contract": "governed_two_entity_three_facet_bundle_v2",
+    "compatibility_bundle_id": "d847958c07bdc049fdaed046a27ee1c696c9f014610205ea0290261224bce6c7",
+    "direct_interoperability_supported": false
+  },
+  "receipts": {
+    "evidence_config": "config/evidence_coverage_compatibility_candidate_v2.yaml",
+    "evidence_config_sha256": "2fc1f4af35a5ae3711129bfa64b74cfefdae7bf8e77033fa77a8fcb8748fbd3d",
+    "answer_sha256": "746a83884cc2f8f02e2c72c659ee36f804eb2a81e5cc0bf0ff3fe9d1bb4907c8",
+    "selected_ids": [
+      "cfcdc8f7-bdaf-412f-a85e-0ffb76878d99",
+      "11d96526-d627-4305-8cae-e6852af1b20b",
+      "b6602d5a-dbb5-4e2e-8814-1ac3ce066896"
+    ],
+    "card_count": 5,
+    "topology_card_count": 2,
+    "closure_quote_sha256": [
+      "7f439b781e386e47c06f1e608b0c3831b90b81d7955d2d06d9690e069c3dec1b"
+    ],
+    "clip_quote_sha256": [
+      "950c96f13d83572a7e9c520619d1b905950e9072d18ae5233b9a81bb58883f60"
+    ]
+  },
+  "known_cohort_stage_transition": {
+    "from": {
+      "retrieval-miss": 2
+    },
+    "to": {
+      "OK": 2
+    },
+    "semantic_basis": [
+      "literal closed-loop declaration copied into deterministic answer",
+      "literal CLIP protocol declaration copied into deterministic answer"
+    ],
+    "official_fact_credit": 0
+  },
+  "candidate_funnel_if_flag_enabled": {
+    "denominator": 157,
+    "OK": 143,
+    "synthesis-miss": 12,
+    "retrieval-miss": 2,
+    "ok_rate_percent": 91.08,
+    "gap_to_95_percent": 7
+  },
+  "limitations": [
+    "This known-cohort cascade is diagnostic, not independent release evidence.",
+    "S127 still forbids inferring interoperability from independent facets.",
+    "The runtime flag remains off and no production or official KPI credit is authorized."
+  ],
+  "cost": {
+    "model_calls": 0,
+    "http_get_requests": 3,
+    "database_writes": 0,
+    "usd": 0
+  }
+}

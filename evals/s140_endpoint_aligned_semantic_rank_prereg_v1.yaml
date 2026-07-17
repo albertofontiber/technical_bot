@@ -1,0 +1,65 @@
+instrument: s140_endpoint_aligned_semantic_rank_v1
+status: frozen_before_inference
+
+design:
+  path: evals/s140_endpoint_aligned_semantic_rank_design_v1.md
+  sha256: bd371df3ea1bc1cd5cb9f3ca8dbd32bc2419862c06579d1d13b8d79155bf1a5b
+frozen_inputs:
+  s138_prereg: {path: evals/s138_symmetric_semantic_mrr_prereg_v1.yaml, sha256: 9336455f9ee1b8b4d2fe9b63a2ce084013035ab22a471fc851227b7e56fb8a1b}
+  packet: {path: evals/s138_symmetric_semantic_mrr_packet_seed1_v1.json, sha256: 7e345f2304cffe9cc4ab670a5f1b293fc3d9da3e606374b79d8db1ae84eaa1ac}
+  mapping: {path: evals/s138_symmetric_semantic_mrr_mapping_seed1_v1.json, sha256: 436ebb83ff3f9882a1a5256090c6ff78c3ee9a97f37e76f2bc034c9374f61058}
+  sol_valid: {path: evals/s138_sol56_xhigh_judgement_v1.json, sha256: c143ca42acd7a32144b11d3480ff53f7501fc4d5ad24c06acd5ba2ccdb683c29}
+  fable_q1_valid: {path: evals/s138_fable5_atomic_q1_v1.json, sha256: 0ba1c83ba4c778d3f651cf9d2a3df8f822050629b43e16e0789c26cc3a272704}
+  fable_q2_valid: {path: evals/s138_fable5_atomic_q2_v1.json, sha256: 999ac86b4b5845a7e6f46bc6311ca1baaccfea07e142bc0e09cf6d3ad55d6bcd}
+  fable_q3_invalid: {path: evals/s138_fable5_atomic_q3_v1.json, sha256: d417ba59b16f99780404e5d880b19cba178b1af2866e0c617afa6cbf7dd4a0df}
+  s139_schema_rejection: {path: evals/s139_fable5_atomic_q3_v1.json, sha256: c328c4e346985a0c8d17d7f59530c0fab8e66763cedf984b1204744eced74551}
+
+completion_question_id: 935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033
+models:
+  completion:
+    provider: anthropic
+    model: claude-fable-5
+    thinking: adaptive
+    effort: xhigh
+    max_output_tokens: 4000
+    max_counted_input_tokens: 50000
+    calls_max: 1
+  arbitration:
+    provider: openai
+    model: gpt-5.6-sol
+    reasoning_effort: xhigh
+    max_output_tokens: 8000
+    max_counted_input_tokens: 140000
+    calls_max: 1
+
+pricing_usd_per_million_tokens:
+  openai: {input_conservative_cache_write: 6.25, output: 30}
+  anthropic: {input: 10, output: 50}
+budget:
+  known_s138_cost_before_s140_usd: 1.78285625
+  failed_520_unknown_cost_reserve_usd: 0.93485625
+  s140_incremental_caps_worst_case_usd: 1.815
+  s138_total_reserved_caps_worst_case_usd: 4.53271250
+  prior_s137_cumulative_conservative_usd: 3.5138675
+  combined_s137_s138_reserved_caps_worst_case_usd: 8.04658000
+  s138_internal_ceiling_usd: 10
+  broader_user_ceiling_usd: 250
+
+execution:
+  paid_preflight: evals/s140_paid_preflight_v1.json
+  fable_q3: evals/s140_fable5_q3_endpoint_v1.json
+  fable_combined: evals/s140_fable5_endpoint_combined_v1.json
+  arbitration: evals/s140_sol56_xhigh_endpoint_arbitration_v1.json
+  aggregate: evals/s140_endpoint_aligned_semantic_rank_v1.json
+  gate: evals/s140_endpoint_aligned_semantic_rank_gate_v1.yaml
+
+authorization:
+  provider_calls_max: 2
+  retries: 0
+  production: false
+  deploy: false
+  migration_apply: false
+  chunks_changes: false
+  retrieval_changes: false
+  threshold_changes: false
+  facts_moved_to_ok: 0

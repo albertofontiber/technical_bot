@@ -1,0 +1,19 @@
+instrument: s171_bounded_relation_store_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_FINAL
+authority: user_autonomous_execution_budget_250_usd
+
+frozen_artifacts:
+  preregistration: {path: evals/s171_bounded_relation_store_prereg_v1.yaml, sha256: 82246433b6a3435281d39cdca0f78ddb401022400abbb7cfbafa8b61e7d51a5f}
+  runner: {path: scripts/s171_bounded_relation_store_gate.py, sha256: 664ae49905aa2956569058d5965c62fd474d386a3e3a3bd7630549a2cf9045db}
+  tests: {path: tests/test_s171_bounded_relation_store_gate.py, sha256: a6c1b0f97b95a30f785ca9c94d027055bb04ec692b83c154b2f109f3ef2e0235}
+
+limits:
+  paid_calls_max: 28
+  retries: 0
+  internal_ceiling_usd: 2.0
+  third_transport_iteration: 0
+  target_questions_exposed: 0
+  production_changes: 0
+  database_calls: 0
+  deployments: 0
+  pushes: 0

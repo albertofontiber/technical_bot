@@ -1,0 +1,65 @@
+instrument: s154_question_conditioned_claim_map_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+design: evals/s154_question_conditioned_claim_map_design_v1.md
+
+frozen_inputs:
+  served_contexts:
+    path: evals/s113_full_contexts_freeze_v1.json
+    sha256: 22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d
+  independent_source_packet:
+    path: evals/s147_fresh_source_packet_v1.json
+    sha256: 38911f3e9b180064e4e9f5ae5e909e32dd6285dfb9f773944fa88184139f1295
+  independent_authored_cohort:
+    path: evals/s147_fresh_obligation_cohort_v1.json
+    sha256: 63904c71c361aa72d2536f42b33b3d11ad599b0692bc8716fd2ee691f19013de
+  prior_closed_gate:
+    path: evals/s153_typed_relation_attribution_and_gate_v1.yaml
+    sha256: e233688774336dda7610b378509a88335168cf02069c6b43560f573f84f49c43
+  design:
+    path: evals/s154_question_conditioned_claim_map_design_v1.md
+    sha256: 4c75b65170fe9d7ea10911de41382a79f6d56360fd2f7035d4a1802c015991bd
+
+scope:
+  target_qids: [cat018, hp002, hp011, hp017]
+  target_jobs: 51
+  independent_jobs: 14
+  total_calls: 65
+  one_question_one_chunk_per_call: true
+  retries: 0
+  model_authored_identity_fields: 0
+  retrieval_calls: 0
+  reranker_calls: 0
+  answer_calls: 0
+  gold_visible_during_mapping: false
+
+model:
+  provider: anthropic
+  id: claude-haiku-4-5-20251001
+  role: cheap_question_conditioned_chunk_mapper
+  max_output_tokens: 1600
+  max_counted_input_tokens_total: 150000
+
+validation:
+  exact_quotes_only: true
+  accepted_invalid_quote_drops: 0
+  target_relations: 13
+  target_coverage_min: 11
+  target_coverage_for_composition_probe: 13
+  independent_gold_coverage_min: 0.8
+  independent_useful_precision_min: 0.8
+  no_retries_after_output: true
+
+pricing_usd_per_million_tokens:
+  input: 2
+  output: 10
+
+budget:
+  internal_ceiling_usd: 1.75
+  user_ceiling_usd: 250
+
+credit:
+  passing_action: separate_four_answer_composition_preregistration_only
+  facts_moved_to_ok: 0
+  production_change: false
+  deployment_authorized: false
+  push_authorized: false

@@ -1,0 +1,259 @@
+{
+  "instrument": "s157_multichunk_author_receipts_v1",
+  "status": "COMPLETE",
+  "created_at": "2026-07-17T01:13:29.985310+00:00",
+  "receipts": [
+    {
+      "item_id": "s157_src_01",
+      "response_id": "msg_011Cd6jxesgaje1aC7wDoxUv",
+      "counted_input_tokens": 3132,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3132,
+        "output_tokens": 411,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.010374,
+      "raw_text": "{\"item_id\": \"s157_src_01\", \"eligible\": true, \"question\": \"¿Cuál es la diferencia en la corriente de carga de batería y el tiempo de respuesta del relé de falla cuando se pierde la alimentación de red en comparación con otras condiciones de falla?\", \"answer_points\": [{\"claim\": \"La posición de DIP SW2 determina tanto la capacidad de batería que se puede cargar como la corriente máxima permitida\", \"exact_quote\": \"With DIP SW2 in ON position (up), 7Amp/h batteries can be charged at 300mA. When DIP SW2 is in OFF position (down), 17Amp/h batteries can be charged at 600mA.\", \"fragment_number\": 1}, {\"claim\": \"La pérdida de alimentación de red tiene un tiempo de retardo de 8 minutos para la confirmación del relé de falla, mientras que otras fallas tienen un retardo de 30 segundos\", \"exact_quote\": \"Any fault has a delay of 30 seconds from the fault signal to fault relay confirmation, except when there is a mains AC loss, which will be indicated after an 8-minute delay to avoid faults from intermittent power cuts.\", \"fragment_number\": 1}, {\"claim\": \"El LED de MAINS SUPPLY FAULT se activa inmediatamente cuando se detecta pérdida de potencia, pero el relé de falla no se activa hasta después de 8 minutos\", \"exact_quote\": \"The led is ON immediately after detecting power. However, the fault relay signal and the FAULT led do not activate until the power supply fault remains for more than 8 minutes.\", \"fragment_number\": 3}]}",
+      "raw_text_sha256": "b3a20bb521657fe24b6bb91d920939bf140441f1e2410e109975a95dbc0ba398"
+    },
+    {
+      "item_id": "s157_src_02",
+      "response_id": "msg_011Cd6jy1k43TcPqFyN8YK7k",
+      "counted_input_tokens": 4574,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4574,
+        "output_tokens": 288,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.012028,
+      "raw_text": "{\"item_id\": \"s157_src_02\", \"eligible\": true, \"question\": \"¿En qué zonas deben habilitarse la sensibilidad día/noche según los parámetros del sistema, y cuál es el procedimiento que debe seguir el programador para configurarlas correctamente?\", \"answer_points\": [{\"claim\": \"La zona de alta sensibilidad día/noche debe ser configurada en Z150\", \"exact_quote\": \"PULSAR ZONA ALTA SENSIBILIDAD DIA/NOCHE (ZXXX):Z150\", \"fragment_number\": 1}, {\"claim\": \"La zona de baja sensibilidad día/noche debe ser configurada en Z001\", \"exact_quote\": \"PULSAR ZONA ALTA SENSIBILIDAD DIA/NOCHE (ZXXX):Z001\", \"fragment_number\": 1}, {\"claim\": \"La sensibilidad día/noche debe habilitarse manualmente para cada detector en programación de punto parcial o completa\", \"exact_quote\": \"Bajo programación de punto parcial o completa, el programador selecciona individualmente la sensibilidad día/noche para cada detector\", \"fragment_number\": 1}]}",
+      "raw_text_sha256": "a9fc1d93e826231b9a6dabdc97587394935a89fd7ea89c8fe2c98c28755d7b50"
+    },
+    {
+      "item_id": "s157_src_03",
+      "response_id": "msg_011Cd6jyGYXyWCttqY7xoaZj",
+      "counted_input_tokens": 2533,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 2533,
+        "output_tokens": 297,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.008036,
+      "raw_text": "{\"item_id\": \"s157_src_03\", \"eligible\": true, \"question\": \"¿Cuál es la diferencia entre la salida auxiliar de 24V estándar y la salida auxiliar resettable de 24V en términos de su comportamiento durante un reset del panel?\", \"answer_points\": [{\"claim\": \"La salida auxiliar 24V estándar está destinada a alimentar elementos auxiliares externos que necesitan suministro de energía\", \"exact_quote\": \"The 24Vdc outputs are intended to supply voltage to the external auxiliary elements that need a power supply\", \"fragment_number\": 1}, {\"claim\": \"La salida 24V resettable desconecta los 24V durante 3 segundos cuando el panel se resetea\", \"exact_quote\": \"when the panel is reset, the 24V are disconnected for 3 seconds\", \"fragment_number\": 1}, {\"claim\": \"La salida resettable está diseñada para dispositivos que necesitan ser reseteados desde el panel, como detectores de haz\", \"exact_quote\": \"The resettable 24Vdc output is for supplying devices that need to be reset from the panel (like beam detector)\", \"fragment_number\": 1}]}",
+      "raw_text_sha256": "cae792b17e40077a6d2a3914d07af864de7303bf402cd8a037d8b46fa914d2b1"
+    },
+    {
+      "item_id": "s157_src_04",
+      "response_id": "msg_011Cd6jyqPjP9J8jD8eYHwoZ",
+      "counted_input_tokens": 3258,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3258,
+        "output_tokens": 285,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.009366,
+      "raw_text": "{\"item_id\": \"s157_src_04\", \"eligible\": true, \"question\": \"¿Cuál es el procedimiento correcto para rearmar el detector cuando la alarma está enclavada, y qué estado específico debe tener el relé de avería durante una prueba manual?\", \"answer_points\": [{\"claim\": \"El detector puede rearmar desconectando la alimentación o iniciando una prueba manual\", \"exact_quote\": \"Para rearmar un detector cuando la Alarma está enclavada, desconecte la alimentación (terminal Nº 1 o terminal nº 2) o inicie una prueba manual.\", \"fragment_number\": 3}, {\"claim\": \"El relé de avería permanece activo durante la prueba manual\", \"exact_quote\": \"El relé de avería permanecerá activo durante la prueba.\", \"fragment_number\": 3}, {\"claim\": \"El relé de avería está ubicado en los terminales 7 y 8 del detector\", \"exact_quote\": \"La salida de avería en relé N.A SPST a los terminales nº 7 y 8.\", \"fragment_number\": 1}]}",
+      "raw_text_sha256": "7c947de3d54cc87a7ac44ffc1dfc71c5d477f947200a3d37b2aaf5e2fe6751e3"
+    },
+    {
+      "item_id": "s157_src_05",
+      "response_id": "msg_011Cd6jz2qovrpsf4LnT9ZAw",
+      "counted_input_tokens": 3121,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3121,
+        "output_tokens": 369,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.009932,
+      "raw_text": "{\"item_id\": \"s157_src_05\", \"eligible\": true, \"question\": \"¿Cuál es la distancia mínima que debe mantenerse desde las abrazaderas de fijación hasta las uniones atornilladas, y qué requisitos especiales debe cumplir el tubo sensor antes de conectarlo a la unidad de evaluación?\", \"answer_points\": [{\"claim\": \"Distancia de seguridad mínima desde abrazaderas de fijación hasta uniones atornilladas\", \"exact_quote\": \"Desde las abrazaderas de fijación hasta las uniones atornilladas y los codos debe mantenerse una distancia de seguridad de al menos 10 cm (tubo sensor de cobre/acero inoxidable) o 20 cm (tubo sensor de teflón)\", \"fragment_number\": 1}, {\"claim\": \"El tubo sensor debe ser purgado antes de la conexión\", \"exact_quote\": \"Al finalizar la instalación, todo el tubo sensor, incluido el montaje vertical hacia la pieza terminal, debe purgarse (limpiarse) con aire comprimido sin aceite o con nitrógeno.\", \"fragment_number\": 1}, {\"claim\": \"La unidad de evaluación no debe estar conectada durante la limpieza y control de estanqueidad\", \"exact_quote\": \"La unidad de evaluación no debe estar conectada a la instalación bajo ningún concepto durante la limpieza y el control de estanqueidad.\", \"fragment_number\": 2}]}",
+      "raw_text_sha256": "9a47278b173401a7d65f4a94609cf463a78c121db49213362abddd9724ccf78b"
+    },
+    {
+      "item_id": "s157_src_06",
+      "response_id": "msg_011Cd6jzKeLwCzVDiN2WWu4H",
+      "counted_input_tokens": 3229,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3229,
+        "output_tokens": 203,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.008488,
+      "raw_text": "{\"item_id\": \"s157_src_06\", \"eligible\": true, \"question\": \"¿Cuál es la resistencia máxima permitida en el cableado IDC y qué rango de tensión de funcionamiento normal debe tener el módulo CR-6 para garantizar una operación correcta?\", \"answer_points\": [{\"claim\": \"La resistencia máxima IDC del cable permitida es de 40 ohmios\", \"exact_quote\": \"Máxima Resistencia IDC del cable: 40 ohmios\", \"fragment_number\": 3}, {\"claim\": \"El rango de tensión de funcionamiento normal del módulo es de 15-32 VDC\", \"exact_quote\": \"Tensión de Funcionamiento Normal: 15-32 VDC\", \"fragment_number\": 3}]}",
+      "raw_text_sha256": "a6c36799078a2957e7160888cc5a7c852f021b93f46416d1b90229a37e4a61c7"
+    },
+    {
+      "item_id": "s157_src_07",
+      "response_id": "msg_011Cd6jzVHXzBGHZr3fP9kvC",
+      "counted_input_tokens": 2701,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 2701,
+        "output_tokens": 225,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.007652,
+      "raw_text": "{\"item_id\": \"s157_src_07\", \"eligible\": true, \"question\": \"¿Cuál es la diferencia entre el tiempo requerido para que el rayo entre en estado FAULT y el tiempo que debe estar bloqueado el rayo para que se active el estado FAULT?\", \"answer_points\": [{\"claim\": \"Para entrar en estado FAULT, la ruta del rayo debe estar completamente bloqueada dentro de 1 segundo\", \"exact_quote\": \"For a beam to go into fault the beam path must be totally blocked within **ONE** second\", \"fragment_number\": 3}, {\"claim\": \"El tiempo a fallo se puede ajustar entre 2 y 60 segundos, configurado en fábrica a 10 segundos\", \"exact_quote\": \"Here we can adjust the time to fault between **2** and **60 seconds** (factory set at **10 seconds**)\", \"fragment_number\": 3}]}",
+      "raw_text_sha256": "65c28b3b79f7ddf55bcb5ac61216cd3677b970da0da3282862c1d0e341d26d1f"
+    },
+    {
+      "item_id": "s157_src_08",
+      "response_id": "msg_011Cd6jzjP7Brsa36FMQEMad",
+      "counted_input_tokens": 2183,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 2183,
+        "output_tokens": 315,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.007516,
+      "raw_text": "{\"item_id\": \"s157_src_08\", \"eligible\": true, \"question\": \"¿Por qué es importante la posición del resistor de alarma en el circuito y dónde debe instalarse exactamente en relación con el cable sensor?\", \"answer_points\": [{\"claim\": \"El resistor de alarma debe estar ubicado al inicio del cable sensor para permitir monitoreo de fallas y activar la alarma solo cuando el cable sensor opera\", \"exact_quote\": \"The position of the alarm resistor in the circuit is critical – it must be located at the start of the sensor cable.\", \"fragment_number\": 3}, {\"claim\": \"Si se usa cable de interposición, esto permite que sea monitoreado para fallas de circuito abierto y cortocircuito únicamente\", \"exact_quote\": \"If using an interposing cable this allows the interposing cable to be monitored for open and short circuit faults only.\", \"fragment_number\": 3}, {\"claim\": \"Solo cuando el cable sensor opera (cortocircuita) se introduce el resistor de alarma al circuito activando la alarma en el equipo de control\", \"exact_quote\": \"Only when the sensor cable operates (short circuits) will the alarm resistor be introduced to the circuit activating an alarm at the control equipment.\", \"fragment_number\": 3}]}",
+      "raw_text_sha256": "b6def3cc95f36bfee01ca7d39ac1b1ee4c09d4e0d568bfae6375b99a2e7b3be4"
+    },
+    {
+      "item_id": "s157_src_09",
+      "response_id": "msg_011Cd6jzycs2xK4puZeQb96J",
+      "counted_input_tokens": 2055,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 2055,
+        "output_tokens": 267,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.00678,
+      "raw_text": "{\"item_id\": \"s157_src_09\", \"eligible\": true, \"question\": \"¿Cuál es el número máximo de placas APIC que puedo instalar en un bucle direccionable y qué componente opcional podría necesitar para lograrlo?\", \"answer_points\": [{\"claim\": \"El número máximo de APICs que se pueden instalar en un bucle es 10\", \"exact_quote\": \"Never install more than 10 APICs in an addressable loop.\", \"fragment_number\": 2}, {\"claim\": \"Se puede instalar un máximo de 5 placas APIC sin la placa adaptadora\", \"exact_quote\": \"A maximum of 5 APIC boards may be installed without the adaptor board.\", \"fragment_number\": 2}, {\"claim\": \"Se puede instalar un máximo de 10 placas APIC con la placa adaptadora opcional 9-30441-JUM\", \"exact_quote\": \"A maximum of 10 APIC boards may be installed with the optional 9-30441-JUM adaptor board.\", \"fragment_number\": 2}]}",
+      "raw_text_sha256": "86eca18914c392f13f6baa5ff13e83f4650a185c4a8ca04bb199738f6218b401"
+    },
+    {
+      "item_id": "s157_src_10",
+      "response_id": "msg_011Cd6k1AyV6XDna7RbRzVCM",
+      "counted_input_tokens": 1990,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1990,
+        "output_tokens": 246,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.00644,
+      "raw_text": "{\"item_id\": \"s157_src_10\", \"eligible\": true, \"question\": \"¿Cuáles son los pasos que debe seguir un técnico de campo para cambiar las baterías de un detector después de que ha fallado una prueba inicial debido a batería baja?\", \"answer_points\": [{\"claim\": \"El detector debe ser removido de su base antes de cambiar las baterías\", \"exact_quote\": \"The device should be removed from its mounting base and transferred to the safe area before batteries are removed and replaced to enhance safe handling.\", \"fragment_number\": 3}, {\"claim\": \"Cuando se indica batería baja, se deben cambiar tanto la batería principal como la secundaria juntas\", \"exact_quote\": \"When a low battery condition is indicated, both, main and secondary, batteries must be changed altogether.\", \"fragment_number\": 3}, {\"claim\": \"Después de cambiar las baterías, el detector debe ser probado nuevamente\", \"exact_quote\": \"Test the detector\", \"fragment_number\": 3}]}",
+      "raw_text_sha256": "b950b589896a95ed2b017e3e9e69f6994ff3593e0b3954e5300010a3bafee500"
+    },
+    {
+      "item_id": "s157_src_11",
+      "response_id": "msg_011Cd6k1NrMpFUNitaxPAcQC",
+      "counted_input_tokens": 2977,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 2977,
+        "output_tokens": 267,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.008624,
+      "raw_text": "{\"item_id\": \"s157_src_11\", \"eligible\": true, \"question\": \"¿Cuál es el rango de sección de cable permitido para conectar las salidas de altavoces de 100V y cómo difiere del rango para las salidas de baja impedancia?\", \"answer_points\": [{\"claim\": \"El rango de sección de cable para la salida de 100V es 0,5 a 2,5mm²\", \"exact_quote\": \"El rango de sección de cable para cada polo de este conector, es: 0,5 → 2,5mm2 (22 → 12 AWG).\", \"fragment_number\": 3}, {\"claim\": \"El rango de sección de cable para la salida de baja impedancia es el mismo: 0,5 a 2,5mm²\", \"exact_quote\": \"El rango de sección de cable para cada polo de este conector, es: 0,5 → 2,5mm2 (22 → 12 AWG).\", \"fragment_number\": 3}]}",
+      "raw_text_sha256": "8455a5c60c3c8838820d274a4c1f83fc1de30b24e865e3fc14c302f5ce94d306"
+    },
+    {
+      "item_id": "s157_src_12",
+      "response_id": "msg_011Cd6k1YotQJ76SjZ4esdtV",
+      "counted_input_tokens": 3015,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3015,
+        "output_tokens": 331,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.00934,
+      "raw_text": "{\"item_id\": \"s157_src_12\", \"eligible\": true, \"question\": \"¿Cuál es la barrera de seguridad intrínseca máxima permitida en voltaje y cuáles son los parámetros de cable máximos de capacitancia para una barrera de 28 voltios de 300 ohmios certificada en el Área Peligrosa?\", \"answer_points\": [{\"claim\": \"La barrera 1528 es una barrera de seguridad de 28 voltios 300 ohmios certificada\", \"exact_quote\": \"ONE 28 VOLT 300 OHM SHUNT ZENER DIODE SAFETY BARRIER CERTIFIED BY BASEEFA EExia(I)IIC\", \"fragment_number\": 2}, {\"claim\": \"Los componentes internos limitan el voltaje máximo seguro a aproximadamente 17 voltios dc para el producto Banshee\", \"exact_quote\": \"Internal components limit the maximum safe voltage that may be applied to the Banshee to about 17 volts dc\", \"fragment_number\": 1}, {\"claim\": \"La capacitancia máxima de cable para la barrera 1528 es de 0.6 μF en el grupo IIC\", \"exact_quote\": \"CAPACITANCE μF | 0.6\", \"fragment_number\": 2}]}",
+      "raw_text_sha256": "860f0abcd185e03a9ac3b9878c6274c72e389452073f401fe55ed170774381e1"
+    }
+  ]
+}

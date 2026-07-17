@@ -1,0 +1,760 @@
+{
+  "instrument": "s136_chunks_v3_loss_attribution_v1",
+  "status": "NO_GO",
+  "claim": "mechanical_loss_attribution_only",
+  "dependencies": {
+    "design_sha256": "70645e9c85ee488dcf7ba45acf53b7c102945a983436463f1e60000d6689d5f9",
+    "s135_seed_sha256": "11a383e28e2ede04322f6c5dd0d330c73bae87c3b88ff4162af413188529a7e3",
+    "s135_gate_sha256": "6dbb28c4fc95c0635b1dfd60d92aa300b9888e9ed57050faffa26961840b304a",
+    "s135_runner_sha256": "9295fd94f51dd901620253beefa98452638d76542940b5413a7b82e199f5d491"
+  },
+  "population": {
+    "losses": 3
+  },
+  "classification_counts": {
+    "candidate_population_competition": 1,
+    "mixed": 1,
+    "unresolved": 1
+  },
+  "checks": {
+    "loss_set_exact": true,
+    "s135_ranks_reproduced": true,
+    "surface_tokens_exact": true,
+    "all_losses_classified": false,
+    "thresholds_unchanged": true
+  },
+  "attributions": [
+    {
+      "question_id": "29b49e99-07fe-4b83-8afd-2d770d8fc09d",
+      "manufacturer": "Sensitron",
+      "product_model": "SMART 2",
+      "search_keywords": [
+        "smart",
+        "salida",
+        "fallo"
+      ],
+      "s135_baseline_rank": 10,
+      "s135_candidate_rank": 18,
+      "recomputed_baseline_rank": 10,
+      "recomputed_candidate_rank": 18,
+      "strict_donor_only_candidate_rank": 13,
+      "baseline_member_ranks": {
+        "29b49e99-07fe-4b83-8afd-2d770d8fc09d": 10
+      },
+      "candidate_member_ranks": {
+        "f152a2bb-6f23-579f-bc84-6b678b079399": 18
+      },
+      "strict_donor_only_member_ranks": {
+        "f152a2bb-6f23-579f-bc84-6b678b079399": 13
+      },
+      "candidate_bundle_size": 1,
+      "surface_tokens_exact": true,
+      "single_member_context_exact": true,
+      "candidate_gold_context_absent": false,
+      "competitors_above_comparison_rank": {
+        "comparison_rank": 18,
+        "total": 17,
+        "strict_context_donors": 12,
+        "new_or_resegmented": 5,
+        "same_document_as_gold": 17
+      },
+      "classification": "unresolved",
+      "mechanisms": [],
+      "top_candidate_rows": [
+        {
+          "id": "4fe71182-24bb-5254-b937-71718791df14",
+          "rank": 1,
+          "score": 0.22290658950805664,
+          "is_gold_member": false,
+          "strict_context_donor": false,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "98de0610-08ed-5a88-b23b-43d457b90ab6",
+          "rank": 2,
+          "score": 0.18688130378723145,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "2962a266-e756-5563-9e0a-d21b9d04d564",
+          "rank": 3,
+          "score": 0.15338902175426483,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "3474f7d0-8e69-54d1-8ec4-6bca3751cd06",
+          "rank": 4,
+          "score": 0.13171754777431488,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "92b54cb0-10cb-579f-a6c9-037822dc6663",
+          "rank": 5,
+          "score": 0.122541643679142,
+          "is_gold_member": false,
+          "strict_context_donor": false,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "7104170a-71cb-5f9b-97a2-7927c3f0b626",
+          "rank": 6,
+          "score": 0.1128605529665947,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "eb93e53a-4e7e-5ddc-88b9-02190c015d9f",
+          "rank": 7,
+          "score": 0.1128605529665947,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "5582e2cf-f75e-5a9b-a5cd-5f6eb6a4f766",
+          "rank": 8,
+          "score": 0.10132118314504623,
+          "is_gold_member": false,
+          "strict_context_donor": false,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "646f1713-b4d0-5c67-b5ac-d04507b1746f",
+          "rank": 9,
+          "score": 0.10132118314504623,
+          "is_gold_member": false,
+          "strict_context_donor": false,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "0bc6f377-3de5-5787-a86b-459e1184b801",
+          "rank": 10,
+          "score": 0.09118906408548355,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "78612bca-2a3a-5eae-92ba-f97739ab8650",
+          "rank": 11,
+          "score": 0.09118906408548355,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "81293a9c-053a-5470-99fe-78a3c9e82e6c",
+          "rank": 12,
+          "score": 0.08105694502592087,
+          "is_gold_member": false,
+          "strict_context_donor": false,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "85d5175d-e5d6-51c8-9b14-a4bdae87255a",
+          "rank": 13,
+          "score": 0.08105694502592087,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "1616d9aa-9889-5d69-a828-fccab7813a3f",
+          "rank": 14,
+          "score": 0.040528472512960434,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "46171ea1-9d4d-5a5e-941e-4b9084ed3f29",
+          "rank": 15,
+          "score": 0.040528472512960434,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "5497a80d-6303-5a0a-b676-ae032de4c5f3",
+          "rank": 16,
+          "score": 0.040528472512960434,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "cd0433db-1e37-536b-bd86-d4228c9b97b0",
+          "rank": 17,
+          "score": 0.040528472512960434,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "f152a2bb-6f23-579f-bc84-6b678b079399",
+          "rank": 18,
+          "score": 0.040528472512960434,
+          "is_gold_member": true,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        }
+      ],
+      "provenance_mapping": {
+        "raw_token_occurrences": 1,
+        "raw_token_start": 1317,
+        "raw_token_end": 1592,
+        "source_block_start": 89,
+        "source_block_end": 93,
+        "candidate_bundle_size": 1,
+        "candidate_chunk_indexes": [
+          5
+        ],
+        "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+      }
+    },
+    {
+      "question_id": "540b4ccd-1ae0-4252-a6bb-069db622e22c",
+      "manufacturer": "Aritech",
+      "product_model": "IU2055NC",
+      "search_keywords": [
+        "resistencia",
+        "línea",
+        "correcta"
+      ],
+      "s135_baseline_rank": 8,
+      "s135_candidate_rank": 13,
+      "recomputed_baseline_rank": 8,
+      "recomputed_candidate_rank": 13,
+      "strict_donor_only_candidate_rank": 7,
+      "baseline_member_ranks": {
+        "540b4ccd-1ae0-4252-a6bb-069db622e22c": 8
+      },
+      "candidate_member_ranks": {
+        "00d6b472-5d9e-5042-b1c0-9b8d996145ee": 13
+      },
+      "strict_donor_only_member_ranks": {
+        "00d6b472-5d9e-5042-b1c0-9b8d996145ee": 7
+      },
+      "candidate_bundle_size": 1,
+      "surface_tokens_exact": true,
+      "single_member_context_exact": true,
+      "candidate_gold_context_absent": false,
+      "competitors_above_comparison_rank": {
+        "comparison_rank": 13,
+        "total": 12,
+        "strict_context_donors": 6,
+        "new_or_resegmented": 6,
+        "same_document_as_gold": 11
+      },
+      "classification": "candidate_population_competition",
+      "mechanisms": [
+        "candidate_population_competition"
+      ],
+      "top_candidate_rows": [
+        {
+          "id": "6638edf7-0ea8-5c53-9eb4-ad135ffdf0b1",
+          "rank": 1,
+          "score": 0.28369930386543274,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "06719b31-1998-59a6-8f9b-968465b4ae77",
+          "rank": 2,
+          "score": 0.23078714311122894,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "17d67a91-3863-59d0-83cd-b26b5de22874",
+          "rank": 3,
+          "score": 0.18688130378723145,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "e3160b7e-e936-52c8-8b21-fab3b93d0dad",
+          "rank": 4,
+          "score": 0.11701470613479614,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "2447be59-7535-5c37-9c09-a6b4f931c970",
+          "rank": 5,
+          "score": 0.11539357155561447,
+          "is_gold_member": false,
+          "strict_context_donor": false,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "6dfd235a-bb26-5a57-8b10-2de97e285a01",
+          "rank": 6,
+          "score": 0.11539357155561447,
+          "is_gold_member": false,
+          "strict_context_donor": false,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "d03a1c0c-1b3c-5db1-a659-f203cfa7d01a",
+          "rank": 7,
+          "score": 0.11539357155561447,
+          "is_gold_member": false,
+          "strict_context_donor": false,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "ae271145-0d58-51c9-997d-eef463eafb5c",
+          "rank": 8,
+          "score": 0.11032751202583313,
+          "is_gold_member": false,
+          "strict_context_donor": false,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "9e57d1bb-c02d-5ab8-89f9-f2fa686dd589",
+          "rank": 9,
+          "score": 0.10132118314504623,
+          "is_gold_member": false,
+          "strict_context_donor": false,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "a13f7483-f6b2-52ab-b463-6d4757d137a9",
+          "rank": 10,
+          "score": 0.10132118314504623,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": false
+        },
+        {
+          "id": "d9691178-d75d-5fd9-b39f-ffaac43d6c40",
+          "rank": 11,
+          "score": 0.10132118314504623,
+          "is_gold_member": false,
+          "strict_context_donor": false,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "35501dfc-1b23-5d9f-8b64-95957865db28",
+          "rank": 12,
+          "score": 0.09118906408548355,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "00d6b472-5d9e-5042-b1c0-9b8d996145ee",
+          "rank": 13,
+          "score": 0.08105694502592087,
+          "is_gold_member": true,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "37778496-734c-547d-b96e-a1d7931abd30",
+          "rank": 14,
+          "score": 0.08105694502592087,
+          "is_gold_member": false,
+          "strict_context_donor": false,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "3e80ae9f-ab44-5ffd-b4f5-46a57d8a54df",
+          "rank": 15,
+          "score": 0.08105694502592087,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "4157d386-96c5-5854-9c6f-ff704db91504",
+          "rank": 16,
+          "score": 0.08105694502592087,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "961c219e-77bf-50ea-a93f-26ca55e7a175",
+          "rank": 17,
+          "score": 0.08105694502592087,
+          "is_gold_member": false,
+          "strict_context_donor": false,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "c6a6d95b-6a74-54fc-b37f-7bdcfd61ca37",
+          "rank": 18,
+          "score": 0.08105694502592087,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "dd2c8d86-6e2c-5b13-b320-d77f9ba9fc98",
+          "rank": 19,
+          "score": 0.08105694502592087,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "e34e1999-738c-5df9-b253-46eb643fdf01",
+          "rank": 20,
+          "score": 0.08105694502592087,
+          "is_gold_member": false,
+          "strict_context_donor": false,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "e51497bd-cbf6-584e-8ce4-f3188c209693",
+          "rank": 21,
+          "score": 0.08105694502592087,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "f9378022-719c-548a-afc5-9639211432a1",
+          "rank": 22,
+          "score": 0.08105694502592087,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "47c35e40-8e2a-53eb-9ed4-03b89f05e286",
+          "rank": 23,
+          "score": 0.040528472512960434,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "4b5ddc82-bf76-5fd1-8f88-d99474d9cbde",
+          "rank": 24,
+          "score": 0.040528472512960434,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "e725bced-8083-5402-b477-7ef84404a39b",
+          "rank": 25,
+          "score": 0.040528472512960434,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        }
+      ],
+      "provenance_mapping": {
+        "raw_token_occurrences": 1,
+        "raw_token_start": 16009,
+        "raw_token_end": 16104,
+        "source_block_start": 950,
+        "source_block_end": 956,
+        "candidate_bundle_size": 1,
+        "candidate_chunk_indexes": [
+          93
+        ],
+        "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+      }
+    },
+    {
+      "question_id": "935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-E-VES",
+      "search_keywords": [
+        "parpadea",
+        "fuego",
+        "salta"
+      ],
+      "s135_baseline_rank": 3,
+      "s135_candidate_rank": null,
+      "recomputed_baseline_rank": 3,
+      "recomputed_candidate_rank": null,
+      "strict_donor_only_candidate_rank": null,
+      "baseline_member_ranks": {
+        "935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033": 3
+      },
+      "candidate_member_ranks": {
+        "4928642c-5a37-58a5-af0f-188e74af553b": 3,
+        "c726315e-0b99-5d36-8d45-d26e48d78e2e": null
+      },
+      "strict_donor_only_member_ranks": {
+        "4928642c-5a37-58a5-af0f-188e74af553b": null,
+        "c726315e-0b99-5d36-8d45-d26e48d78e2e": null
+      },
+      "candidate_bundle_size": 2,
+      "surface_tokens_exact": true,
+      "single_member_context_exact": false,
+      "candidate_gold_context_absent": true,
+      "competitors_above_comparison_rank": {
+        "comparison_rank": 3,
+        "total": 2,
+        "strict_context_donors": 2,
+        "new_or_resegmented": 0,
+        "same_document_as_gold": 1
+      },
+      "classification": "mixed",
+      "mechanisms": [
+        "evaluation_bundle_overstrict",
+        "gold_context_absent_after_resegmentation"
+      ],
+      "top_candidate_rows": [
+        {
+          "id": "c41eb2e6-cb3b-5f53-b690-354027d43590",
+          "rank": 1,
+          "score": 0.24022124707698822,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "38f7e74c-1bff-5e62-8694-00a23124df00",
+          "rank": 2,
+          "score": 0.20577074587345123,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": false
+        },
+        {
+          "id": "4928642c-5a37-58a5-af0f-188e74af553b",
+          "rank": 3,
+          "score": 0.20486511290073395,
+          "is_gold_member": true,
+          "strict_context_donor": false,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "c3178241-1d6b-5f0a-be0c-e6d759aa2a9d",
+          "rank": 4,
+          "score": 0.20264236629009247,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "3ecb271e-cec1-514e-a9bd-688940812afd",
+          "rank": 5,
+          "score": 0.12685222923755646,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "475aaf05-5dfb-56ef-bd24-31056b72d27f",
+          "rank": 6,
+          "score": 0.12685222923755646,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": false
+        },
+        {
+          "id": "4a880e76-8c6f-57c1-8938-292c70f0117b",
+          "rank": 7,
+          "score": 0.12561945617198944,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": false
+        },
+        {
+          "id": "d674501c-c4a3-546e-a5b1-0ade4c2f6e48",
+          "rank": 8,
+          "score": 0.12561945617198944,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "72e86630-cd71-56bb-9131-e86fa74780b1",
+          "rank": 9,
+          "score": 0.12380816787481308,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "d62e762b-f918-5475-b21b-248d330cd7b7",
+          "rank": 10,
+          "score": 0.12380816787481308,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": false
+        },
+        {
+          "id": "6a29b565-89b1-54ca-ae7e-20ff7081559d",
+          "rank": 11,
+          "score": 0.11863585561513901,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "c31cdda8-0e98-5ec5-950b-2227f382dc51",
+          "rank": 12,
+          "score": 0.11863585561513901,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": false
+        },
+        {
+          "id": "5d4ff943-5a92-53bd-931d-682b1f6077a3",
+          "rank": 13,
+          "score": 0.11701470613479614,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "5cec7796-8e55-56b1-bdb3-b736f629b856",
+          "rank": 14,
+          "score": 0.11539357155561447,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": false
+        },
+        {
+          "id": "84698da3-f4c3-5058-9895-c2c5022de377",
+          "rank": 15,
+          "score": 0.11539357155561447,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": false
+        },
+        {
+          "id": "c17448cc-4b0d-5d34-976b-d86fcb507a82",
+          "rank": 16,
+          "score": 0.11539357155561447,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "d1f1dfcc-5682-5761-9dc2-57eae679a4aa",
+          "rank": 17,
+          "score": 0.11539357155561447,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": false
+        },
+        {
+          "id": "abfa6f51-ff03-5ad0-be06-a5b8b30bd2c5",
+          "rank": 18,
+          "score": 0.1128605529665947,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "1c0d92ea-4a7a-559f-a918-56ec360dad7f",
+          "rank": 19,
+          "score": 0.11032751202583313,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "2b2c1455-681d-56ff-a783-e063ecf3e7a5",
+          "rank": 20,
+          "score": 0.11032751202583313,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": false
+        },
+        {
+          "id": "69b4e7fd-d95b-531d-babb-58248c0c955e",
+          "rank": 21,
+          "score": 0.11032751202583313,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": false
+        },
+        {
+          "id": "7d479553-520f-5812-b831-abdebdc814cf",
+          "rank": 22,
+          "score": 0.11032751202583313,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": false
+        },
+        {
+          "id": "ed0f9e66-f4fb-576a-9dad-0b222f9f1590",
+          "rank": 23,
+          "score": 0.11032751202583313,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "b652e560-9290-5e99-b138-3a856c8d3483",
+          "rank": 24,
+          "score": 0.10835736989974976,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": true
+        },
+        {
+          "id": "0054719f-e3c2-50e4-81b7-24596d4f3d31",
+          "rank": 25,
+          "score": 0.10132118314504623,
+          "is_gold_member": false,
+          "strict_context_donor": true,
+          "same_document_as_gold": false
+        }
+      ],
+      "provenance_mapping": {
+        "raw_token_occurrences": 1,
+        "raw_token_start": 3214,
+        "raw_token_end": 3562,
+        "source_block_start": 127,
+        "source_block_end": 137,
+        "candidate_bundle_size": 2,
+        "candidate_chunk_indexes": [
+          13,
+          14
+        ],
+        "mapping_mode": "unique_raw_whitespace_token_interval_exact_v3_bundle"
+      }
+    }
+  ],
+  "manifests": {
+    "attributions_sha256": "863f798f82043540de1d3fd016aa56463945d151340b1b81d9b682554ebd9165",
+    "ranked_rows_sha256": "2ed35ebad81418b1825764c116f1c2dfc823309887c10cce5d627841ac3a2d86"
+  },
+  "authorization": {
+    "local_frozen_reads": true,
+    "local_raw_store_reads": true,
+    "local_disposable_postgres_writes": true,
+    "remote_database": false,
+    "network": false,
+    "models": false,
+    "embeddings": false,
+    "context_generation": false,
+    "migration_apply": false,
+    "serving": false,
+    "deploy": false,
+    "facts_moved_to_ok": 0
+  },
+  "cost": {
+    "external_usd_ceiling": 0,
+    "model_calls": 0,
+    "network_calls": 0,
+    "embeddings": 0,
+    "remote_database_reads": 0,
+    "remote_database_writes": 0
+  },
+  "decision": "NO_GO_REVIEW_ATTRIBUTION_CONTRACT"
+}

@@ -1,0 +1,57 @@
+instrument: s142_independent_obligation_cohort_prereg_v2
+status: FROZEN_BEFORE_PAID_EXECUTION
+
+supersedes: evals/s142_independent_obligation_cohort_prereg_v1.yaml
+transport_change_only: remove_unsupported_json_schema_maxItems
+prior_attempt:
+  path: evals/s142_haiku_schema_400_receipt_v1.json
+  sha256: caadc045d6bbd18e01ee650e009eb2df71f4b8d4e120894bc657414954f579af
+  generation_calls: 0
+  known_cost_usd: 0
+
+frozen_inputs:
+  source_packet:
+    path: evals/s142_independent_source_packet_v1.json
+    sha256: 612b6d405ce5c8591b32f1d7ae81df628626299b55b68acceb948a4d68fcbe19
+    packet_sha256: da9f15a45ec71a12d30f7965de1dc1e681dd47f62727bfa2e485353e3d792d7c
+  acquisition:
+    path: evals/s116_independent_holdout_acquisition_v2.json
+    sha256: d0ab94546cb899b73e69d5cd6ae3ea5b660bbab74c835834a24cda35ce5e5544
+  extraction_receipt:
+    path: tmp/s116_independent_holdout/extraction_receipt_v1.json
+    sha256: a651e2858d043718e78cbc3a18610a42ba04b584dd98b15e6d15fc33b8043ff4
+  runner:
+    path: scripts/s142_build_independent_obligation_cohort.py
+    sha256: 7d99d5daa5255a226a0a740f02bed84be1a0c2323cfc826d47811383a2c2dc2a
+
+selection:
+  documents: 12
+  manufacturers: 4
+  development_pdf_overlap: 0
+  extractor_output_inspected: false
+  model_or_answer_used_for_source_selection: false
+
+execution:
+  model: claude-haiku-4-5-20251001
+  role: cheap_executor_for_question_and_claim_authoring
+  calls: 1
+  maximum_input_tokens: 90000
+  maximum_output_tokens: 12000
+  conservative_runtime_ceiling_usd: 0.35
+  output: evals/s142_independent_obligation_cohort_v1.json
+
+validation:
+  exact_quote_membership_required: true
+  eligible_claims_min: 2
+  eligible_claims_max: 5
+  unique_item_coverage_required: true
+  no_external_knowledge: true
+  cohort_sealed_until_extractor_freeze: true
+  claim_count_enforced_after_transport: true
+
+authorization:
+  user_budget_usd: 250
+  production: false
+  deploy: false
+  push: false
+  facts_moved_to_ok: 0

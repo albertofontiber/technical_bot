@@ -1,0 +1,36 @@
+instrument: s162_adversarial_overlay_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_FINAL
+
+authority:
+  source: user_message_2026_07_16
+  scope: autonomous_plan_with_bounded_frontier_reviews
+  user_budget_ceiling_usd: 250
+  internal_call_ceiling_usd: 2.50
+
+frozen_artifacts:
+  packet:
+    path: evals/s162_adversarial_overlay_packet_v1.json
+    sha256: 24bb78c144f715ed76eca16567bcbbc8e76876ff97716d69f200849b9c50a798
+  runner:
+    path: scripts/s162_adversarial_overlay_review.py
+    sha256: 8775e7b489abd92a873dc1ef9a6a6ab664a18af1ce02de7fcf965e6fc0652032
+  preregistration:
+    path: evals/s162_adversarial_overlay_prereg_v1.yaml
+    sha256: 7de59f1ac780aeeffd2562c7c852a61710a8cddebccbad9e6213236a82a815f7
+
+execution:
+  models: [gpt-5.6-sol, claude-fable-5]
+  calls_max: 2
+  retries: 0
+  rounds: 1
+  preflight_token_count_required: true
+  stop_if_worst_case_exceeds_internal_ceiling: true
+  checkpoint_each_provider: true
+
+forbidden:
+  - third_reviewer_call
+  - iterative_debate
+  - production_change
+  - database_write
+  - deployment
+  - official_ok_credit

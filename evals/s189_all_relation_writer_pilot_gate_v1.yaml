@@ -1,0 +1,46 @@
+instrument: s189_all_relation_writer_pilot_gate_v1
+status: CLOSED_NO_GO_DEVELOPMENT
+
+evidence:
+  design: evals/s189_all_relation_writer_pilot_design_v1.md
+  preregistration: evals/s189_all_relation_writer_pilot_prereg_v1.yaml
+  execution_permit: evals/s189_all_relation_writer_pilot_execution_permit_v1.yaml
+  receipts: evals/s189_all_relation_writer_pilot_receipts_v1.json
+  result: evals/s189_all_relation_writer_pilot_v1.json
+
+population:
+  questions: 4
+  table: 2
+  prose: 2
+  answer_points: 11
+  target_questions_exposed: 0
+
+measurement:
+  baseline_points: 5
+  candidate_points: 6
+  point_gain: 1
+  required_point_gain: 3
+  regressed_points: 0
+  invalid_citations: 0
+  token_limit_stops: 0
+
+decision:
+  all_relation_writer: NO_GO
+  same_cohort_retry: false
+  prompt_tuning: false
+  frontier_review: NOT_CALLED
+  target_probe: false
+  runtime_or_production: false
+  facts_moved_to_ok: 0
+  rationale: >-
+    Removing the lossy selector and exposing the complete typed relation index
+    recovered only one of six available omissions. The writer still omitted
+    explicit table and prose relations, so more relation volume is not the
+    missing synthesis mechanism. The cheap causal gate failed and does not
+    justify a fresh cohort or adversarial spend.
+
+cost:
+  actual_usd: 0.164661
+  worst_case_preflight_usd: 0.243861
+  paid_calls: 4
+  retries: 0

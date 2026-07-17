@@ -1,0 +1,75 @@
+instrument: s137_arbitration_resume_prereg_v31
+status: frozen_before_finalisation_implementation
+
+design:
+  path: evals/s137_arbitration_resume_design_v31.md
+  sha256: 99307ab837b5a6b0d1535bb0f67c3620511269165383cc7eb58f0e783dd91122
+
+frozen_inputs:
+  v3_prereg: {path: evals/s137_fable_atomic_recovery_prereg_v3.yaml, sha256: 3ea8c7119dbe5c45ea9f9b635537e497213f77417a170819cdb7074668376d66}
+  v3_permit: {path: evals/s137_fable_atomic_recovery_execution_permit_v3.yaml, sha256: b57adf3b45e71bcac223622779c57de019ca2d763f0e2eb447c030c7a59a1df8}
+  v3_runner: {path: scripts/s137_fable_atomic_v3.py, sha256: 87d6dabeb34b2dd542a4d413d433cc3dec97fdfd4360d77df5a605f41420f995}
+  v3_preflight: {path: evals/s137_paid_preflight_v3.json, sha256: 60abe0f10a526459ecf805f349d02c764be253605684c3a8213ddf45e2043a50}
+  fable_atomic_q1: {path: evals/s137_fable5_atomic_q1_v3.json, sha256: c2e8ddca681a146615eda3f792f703ac9c289435e7cdbd62120e955ea4765b72}
+  fable_atomic_q2: {path: evals/s137_fable5_atomic_q2_v3.json, sha256: e8a2fa46ba0caab3cf1660f324af3ca19e2ba5ec409e6e63d8a1fe8e78212868}
+  fable_atomic_q3: {path: evals/s137_fable5_atomic_q3_v3.json, sha256: c88738a8dd106c2480e57efe1e34f5c47f006e245cc69338955bc8a9d9b7f57e}
+  fable_combined: {path: evals/s137_fable5_atomic_combined_v3.json, sha256: e657d590471cca70a790ede18851b4d4c4ad4a03660a71455e64d890871f8ca5}
+  valid_sol_response: {path: evals/s137_sol56_xhigh_judgement_v1.json, sha256: 930c5eb77b2ab7132d76e8253b8d10f9125d806757e7a74a27324e96ceb8c7ef}
+  public_packet: {path: evals/s137_blinded_packet_seed1_v1.json, sha256: 5330aaf287bea09527cceaeb4d788d8d64029fa5f6ca4c72f5f57146f7dde000}
+  private_mapping: {path: evals/s137_private_mapping_seed1_v1.json, sha256: 5d5779f870fd4a8f8e804fa2bb57a81f3cd4555fed611a9750b7f1dcc79d4a22}
+
+arbitration:
+  trigger: nonempty_terminal_disagreement_set_derived_by_v1_function
+  provider: openai
+  model: gpt-5.6-sol
+  api: responses
+  reasoning_effort: xhigh
+  reasoning_mode: standard
+  structured_output: true
+  max_output_tokens: 8000
+  max_counted_input_tokens: 180000
+  calls_max: 1
+  retries: 0
+  prior_judge_identities_visible: false
+
+invariants:
+  packet_questions_sha256: 0998426b4923203c3c67aac314bc9fcb49e57fe77da4a1fe5f0d9cb2cba086a4
+  terminal_function_source: scripts/s137_blinded_chunks_semantic_adjudication.py
+  prompt_schema_rubric_changes: forbidden
+  disagreement_set_changes: forbidden
+  primary_or_fable_repetition: forbidden
+
+pricing_usd_per_million_tokens:
+  openai: {input_conservative_cache_write: 6.25, output: 30}
+
+budget:
+  valid_sol_v1_conservative_actual_usd: 0.5152575
+  truncated_fable_v1_upper_bound_usd: 0.86284
+  invalid_fable_v2_actual_usd: 1.00159
+  atomic_fable_v3_actual_usd: 0.99736
+  cumulative_before_arbitration_usd: 3.3770475
+  cumulative_internal_ceiling_usd: 10
+  user_authorized_ceiling_usd: 50
+  stop_before_inference_if_cumulative_worst_case_exceeds_ceiling: true
+
+execution:
+  paid_preflight: evals/s137_paid_preflight_v31.json
+  arbitration_response: evals/s137_sol56_xhigh_arbitration_v31.json
+  aggregate: evals/s137_blinded_chunks_semantic_adjudication_v31.json
+  gate: evals/s137_blinded_chunks_semantic_adjudication_gate_v31.yaml
+
+authorization:
+  openai_token_count: 1
+  openai_arbitration_calls_max: 1
+  retries: 0
+  repeat_primary_or_fable: false
+  remote_database: false
+  embeddings: false
+  context_generation: false
+  chunker_changes: false
+  retrieval_changes: false
+  threshold_changes: false
+  migration_apply: false
+  production: false
+  deploy: false
+  facts_moved_to_ok: 0

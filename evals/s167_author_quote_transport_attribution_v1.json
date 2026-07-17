@@ -1,0 +1,202 @@
+{
+  "instrument": "s167_author_quote_transport_attribution_v1",
+  "status": "TRANSPORT_SUCCESSOR_JUSTIFIED_NO_POSTHOC_CREDIT",
+  "gate_status": "NO_GO_COHORT_CONSTRUCTION",
+  "population": {
+    "source_items": 14,
+    "model_authored_eligible_items": 14,
+    "model_authored_answer_points": 56,
+    "exact_quote_points": 50,
+    "failed_exact_quote_points": 6,
+    "items_with_failed_quotes": 6
+  },
+  "attribution": {
+    "classifications": {
+      "table_or_markdown_serialization": 4,
+      "non_contiguous_ellipsis_serialization": 1,
+      "prose_layout_serialization": 1
+    },
+    "minimum_failed_quote_lexical_token_coverage": 0.66666667,
+    "selector_calls": 0,
+    "additional_model_calls": 0
+  },
+  "rows": [
+    {
+      "item_id": "s167_src_01",
+      "stratum": "table",
+      "model_eligible": true,
+      "raw_answer_points": 4,
+      "failed_exact_quotes": 0,
+      "validation_error": null,
+      "failures": []
+    },
+    {
+      "item_id": "s167_src_02",
+      "stratum": "table",
+      "model_eligible": true,
+      "raw_answer_points": 4,
+      "failed_exact_quotes": 1,
+      "validation_error": "answer point is not an exact unique source quote",
+      "failures": [
+        {
+          "classification": "table_or_markdown_serialization",
+          "lexical_token_coverage": 1.0,
+          "quote_sha256": "c70e0ead48fd8699e890e45c2ea2a069b39cfee5015401671564453a5f6203f7"
+        }
+      ]
+    },
+    {
+      "item_id": "s167_src_03",
+      "stratum": "table",
+      "model_eligible": true,
+      "raw_answer_points": 4,
+      "failed_exact_quotes": 0,
+      "validation_error": null,
+      "failures": []
+    },
+    {
+      "item_id": "s167_src_04",
+      "stratum": "table",
+      "model_eligible": true,
+      "raw_answer_points": 4,
+      "failed_exact_quotes": 1,
+      "validation_error": "answer point is not an exact unique source quote",
+      "failures": [
+        {
+          "classification": "table_or_markdown_serialization",
+          "lexical_token_coverage": 1.0,
+          "quote_sha256": "66030993398bf04fe26680a6fbd342e99e901af2883ff07cbf059423131c4da4"
+        }
+      ]
+    },
+    {
+      "item_id": "s167_src_05",
+      "stratum": "table",
+      "model_eligible": true,
+      "raw_answer_points": 4,
+      "failed_exact_quotes": 1,
+      "validation_error": "answer point is not an exact unique source quote",
+      "failures": [
+        {
+          "classification": "non_contiguous_ellipsis_serialization",
+          "lexical_token_coverage": 1.0,
+          "quote_sha256": "187a0368743b2411c77b920f00629d4d059213c46d026a7637ed911e6fc75ad6"
+        }
+      ]
+    },
+    {
+      "item_id": "s167_src_06",
+      "stratum": "table",
+      "model_eligible": true,
+      "raw_answer_points": 4,
+      "failed_exact_quotes": 1,
+      "validation_error": "answer point is not an exact unique source quote",
+      "failures": [
+        {
+          "classification": "table_or_markdown_serialization",
+          "lexical_token_coverage": 1.0,
+          "quote_sha256": "e039cba0f84f0213017d44033ead8d068413c6772da68c78a0dccc2bc0e17a16"
+        }
+      ]
+    },
+    {
+      "item_id": "s167_src_07",
+      "stratum": "table",
+      "model_eligible": true,
+      "raw_answer_points": 4,
+      "failed_exact_quotes": 1,
+      "validation_error": "answer point is not an exact unique source quote",
+      "failures": [
+        {
+          "classification": "table_or_markdown_serialization",
+          "lexical_token_coverage": 0.66666667,
+          "quote_sha256": "239d3023ae816138b382d067c26ffc1ffc59165547b4cd23689188c605a18c83"
+        }
+      ]
+    },
+    {
+      "item_id": "s167_src_08",
+      "stratum": "prose",
+      "model_eligible": true,
+      "raw_answer_points": 4,
+      "failed_exact_quotes": 0,
+      "validation_error": null,
+      "failures": []
+    },
+    {
+      "item_id": "s167_src_09",
+      "stratum": "prose",
+      "model_eligible": true,
+      "raw_answer_points": 4,
+      "failed_exact_quotes": 0,
+      "validation_error": null,
+      "failures": []
+    },
+    {
+      "item_id": "s167_src_10",
+      "stratum": "prose",
+      "model_eligible": true,
+      "raw_answer_points": 4,
+      "failed_exact_quotes": 0,
+      "validation_error": null,
+      "failures": []
+    },
+    {
+      "item_id": "s167_src_11",
+      "stratum": "prose",
+      "model_eligible": true,
+      "raw_answer_points": 4,
+      "failed_exact_quotes": 1,
+      "validation_error": "answer point is not an exact unique source quote",
+      "failures": [
+        {
+          "classification": "prose_layout_serialization",
+          "lexical_token_coverage": 1.0,
+          "quote_sha256": "7268d0a655ed3c88916c3befb2f0bc593c1d0bb7573827f9156a45f7a9b97bb5"
+        }
+      ]
+    },
+    {
+      "item_id": "s167_src_12",
+      "stratum": "prose",
+      "model_eligible": true,
+      "raw_answer_points": 4,
+      "failed_exact_quotes": 0,
+      "validation_error": null,
+      "failures": []
+    },
+    {
+      "item_id": "s167_src_13",
+      "stratum": "prose",
+      "model_eligible": true,
+      "raw_answer_points": 4,
+      "failed_exact_quotes": 0,
+      "validation_error": null,
+      "failures": []
+    },
+    {
+      "item_id": "s167_src_14",
+      "stratum": "prose",
+      "model_eligible": true,
+      "raw_answer_points": 4,
+      "failed_exact_quotes": 0,
+      "validation_error": null,
+      "failures": []
+    }
+  ],
+  "decision": {
+    "s167_credit": false,
+    "same_cohort_retry": false,
+    "threshold_change": false,
+    "new_document_independent_source_packet_required": true,
+    "source_unit_id_bound_gold_successor": true,
+    "target_probe": false,
+    "production": false,
+    "facts_moved_to_ok": 0
+  },
+  "cost": {
+    "additional_usd": 0,
+    "s167_paid_usd": 0.161181
+  },
+  "result_sha256": "e508eb59276618c9f59e8b71bc15b2aaf32fcb9d8cbf7b3d816d576dacd79ea9"
+}

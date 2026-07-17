@@ -1,0 +1,29 @@
+instrument: s174_prerequisite_blind_packet_execution_permit_v2
+status: FREE_CARDINALITY_SUCCESSOR_FROZEN
+
+prior_attempt:
+  status: ABORTED_BEFORE_PACKET_OR_CONTENT_INSPECTION
+  model_calls: 0
+  network_calls: 0
+  database_calls: 0
+  output_written: false
+  cause: >-
+    The frozen rule selects up to two access candidates per manufacturer.
+    Spectrex has only one scanner hit, so ten manufacturers yield 19 rather
+    than 20 access candidates.
+
+correction:
+  successor_preregistration: evals/s174_prerequisite_blind_adjudication_prereg_v2.yaml
+  selection_rule_changed: false
+  candidate_ids_substituted: false
+  access_candidates_expected: 19
+  quantified_entitlement_candidates_expected: 18
+  total_candidates_expected: 37
+  retries_allowed: 1
+
+preserved:
+  - all entitlement candidates
+  - up to two lowest candidate IDs per access manufacturer
+  - blinded hash order
+  - no target sources
+  - zero model, network, database or production calls

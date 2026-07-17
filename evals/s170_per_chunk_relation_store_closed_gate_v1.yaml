@@ -1,0 +1,19 @@
+instrument: s170_per_chunk_relation_store_closed_gate_v1
+status: NO_GO_EXTRACTION_CONSTRUCTION_TRANSPORT
+
+measurement:
+  extraction_calls: 14
+  valid_chunks: 7
+  over_population_chunks: 4
+  truncated_or_invalid_json_chunks: 3
+  selector_calls: 0
+  actual_cost_usd: 0.340792
+
+decision:
+  s170: CLOSED_NO_GO
+  same_cohort_retry: forbidden
+  s171_different_existing_development_cohort: GO_TRANSPORT_ONLY
+  s171_is_final_relation_store_construction_iteration: true
+  target_probe: false
+  production: false
+  facts_moved_to_ok: 0

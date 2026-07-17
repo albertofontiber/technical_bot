@@ -1,0 +1,23 @@
+instrument: s143_agentic_evidence_planner_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_FINAL
+
+frozen_artifacts:
+  preregistration:
+    path: evals/s143_agentic_evidence_planner_prereg_v1.yaml
+    sha256: 754b6776d2150b06630b0ff37e0952e8dbd5e7958beaa7d4d130f0f0d308e8c2
+  runner:
+    path: scripts/s143_agentic_evidence_planner.py
+    sha256: 6f48e54e5ee78cee8d8cce193f49b5e84b35fca61ace57368b7b1ba1715569a1
+
+limits:
+  calls: 7
+  retry: false
+  conservative_total_ceiling_usd: 0.20
+  user_budget_usd: 250
+
+authorization:
+  paid_prototype: true
+  production: false
+  deploy: false
+  push: false
+  facts_moved_to_ok: 0

@@ -1,0 +1,24 @@
+instrument: s142_query_evidence_generalization_execution_permit_v1
+status: EXECUTION_GO_LOCAL_FINAL
+
+frozen_artifacts:
+  preregistration:
+    path: evals/s142_query_evidence_generalization_prereg_v1.yaml
+    sha256: 5681f4048989c6c6285c50ad9d10272997bba25b6e55a4593a56f972be0c51d8
+  runner:
+    path: scripts/s142_query_evidence_generalization.py
+    sha256: f8fcd92ad08b26db8cf2263dd2ce3251438338a9700b6674e0fbcab0857402e4
+
+limits:
+  model_calls: 0
+  network_calls: 0
+  database_calls: 0
+  cost_usd: 0
+
+authorization:
+  independent_local_execution: true
+  post_result_tuning_same_version: false
+  production: false
+  deploy: false
+  push: false
+  facts_moved_to_ok: 0

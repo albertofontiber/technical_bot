@@ -1,0 +1,23 @@
+instrument: s142_independent_obligation_cohort_execution_permit_v2
+status: EXECUTION_GO_PAID_BOUNDED
+
+preregistration:
+  path: evals/s142_independent_obligation_cohort_prereg_v2.yaml
+  sha256: f25645b31b8f46e5ff1a4846ef73797cf23e38c4eae8b85e729a0e81917e7c1c
+runner:
+  path: scripts/s142_build_independent_obligation_cohort.py
+  sha256: 7d99d5daa5255a226a0a740f02bed84be1a0c2323cfc826d47811383a2c2dc2a
+source_packet:
+  path: evals/s142_independent_source_packet_v1.json
+  sha256: 612b6d405ce5c8591b32f1d7ae81df628626299b55b68acceb948a4d68fcbe19
+
+limits:
+  calls: 1
+  conservative_runtime_ceiling_usd: 0.35
+  user_budget_usd: 250
+
+authorization:
+  paid_generation: true
+  production: false
+  deploy: false
+  push: false

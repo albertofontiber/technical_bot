@@ -1,0 +1,26 @@
+{
+  "instrument": "s146_fresh_author_receipt_v1",
+  "status": "VALIDATED",
+  "created_at": "2026-07-16T23:07:21.511886+00:00",
+  "model": "claude-haiku-4-5-20251001",
+  "response_id": "msg_011Cd6aPEARazcZvT3MiVche",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "not_available",
+    "input_tokens": 13109,
+    "output_tokens": 1018,
+    "server_tool_use": null,
+    "service_tier": "standard"
+  },
+  "counted_input_tokens": 13109,
+  "whitespace_only_repairs": 1,
+  "quote_validation_drops": 0,
+  "conservative_cost_usd": 0.036398,
+  "raw_text": "{\"items\": [{\"item_id\": \"s146_src_01\", \"eligible\": true, \"question\": \"¿Qué mensaje se muestra cuando falla el relé de la sirena número 1?\", \"answer_points\": [{\"claim\": \"El mensaje mostrado para la sirena 1 es 'AVERÍA - Bell/Sirena Nº 1'\", \"exact_quote\": \"321 Sirena 1                                   | AVERÍA - Bell/Sirena Nº 1\"}]}, {\"item_id\": \"s146_src_02\", \"eligible\": true, \"question\": \"¿Cuál es el nivel de obscuración para el nivel de alarma 6?\", \"answer_points\": [{\"claim\": \"El nivel de alarma 6 corresponde a una obscuración de 1.50% obs/m\", \"exact_quote\": \"| ALARM LEVEL 6                | 1.50% obs/m       | 6                                                     |\"}]}, {\"item_id\": \"s146_src_03\", \"eligible\": true, \"question\": \"¿Qué temperatura de cable debe seleccionar si necesita la configuración T078-V10-A045?\", \"answer_points\": [{\"claim\": \"La configuración T078-V10-A045 corresponde al cable Signaline FT-78-EN con temperatura de 78°C\", \"exact_quote\": \"| 78°C Signaline FT-78-EN        | T078-V10-A045 |\"}]}, {\"item_id\": \"s146_src_04\", \"eligible\": true, \"question\": \"¿A qué condición está asignado permanentemente el relé de alarma?\", \"answer_points\": [{\"claim\": \"El relé de alarma está asignado permanentemente a Fire1\", \"exact_quote\": \"The Alarm relay is permanently assigned to Fire1\"}]}, {\"item_id\": \"s146_src_05\", \"eligible\": true, \"question\": \"¿Cuál es la función del terminal 3 en la caja EX-e?\", \"answer_points\": [{\"claim\": \"El terminal 3 proporciona entrada de reset positiva\", \"exact_quote\": \"| Terminal 3   | Reset input +                                        |\"}]}, {\"item_id\": \"s146_src_06\", \"eligible\": true, \"question\": \"¿Cuál es el valor de salida de corriente en miliamperios durante un estado normal del detector?\", \"answer_points\": [{\"claim\": \"Durante funcionamiento normal, la salida es de 4 mA con una tolerancia del ±10%\", \"exact_quote\": \"| Normal            | 4 mA±10% |\"}]}, {\"item_id\": \"s146_src_07\", \"eligible\": true, \"question\": \"¿Cuál es la corriente de reposo del modelo B324RL?\", \"answer_points\": [{\"claim\": \"La corriente de reposo del B324RL es de 1 microamperio\", \"exact_quote\": \"| Standby Current                           | 1μA            |\"}]}, {\"item_id\": \"s146_src_08\", \"eligible\": false, \"question\": \"\", \"answer_points\": []}, {\"item_id\": \"s146_src_09\", \"eligible\": true, \"question\": \"¿Qué indicador LED se ilumina cuando el detector de llamas está en funcionamiento normal?\", \"answer_points\": [{\"claim\": \"En funcionamiento normal solo el indicador LED verde permanece encendido\", \"exact_quote\": \"● verde continuo: funcionamiento normal\"}]}, {\"item_id\": \"s146_src_10\", \"eligible\": false, \"question\": \"\", \"answer_points\": []}, {\"item_id\": \"s146_src_11\", \"eligible\": false, \"question\": \"\", \"answer_points\": []}, {\"item_id\": \"s146_src_12\", \"eligible\": false, \"question\": \"\", \"answer_points\": []}, {\"item_id\": \"s146_src_13\", \"eligible\": false, \"question\": \"\", \"answer_points\": []}, {\"item_id\": \"s146_src_14\", \"eligible\": false, \"question\": \"\", \"answer_points\": []}]}",
+  "raw_text_sha256": "367d54f5608160630747c0a7c72f19b51a1c8e26b99d30534fce76c5dd97e9c8"
+}

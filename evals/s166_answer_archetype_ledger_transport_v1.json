@@ -1,0 +1,617 @@
+{
+  "instrument": "s166_answer_archetype_ledger_transport_v1",
+  "status": "LOCAL_GO_TO_FRESH_INDEPENDENT",
+  "population": {
+    "questions": 14,
+    "answer_points": 37,
+    "target_question_overlap": 0,
+    "model_calls": 0
+  },
+  "metrics": {
+    "claims_covered": 35,
+    "claim_recall": 0.94594595,
+    "selected_units": 31,
+    "useful_units": 26,
+    "unit_precision": 0.83870968,
+    "questions_complete": 12,
+    "question_complete_rate": 0.85714286,
+    "invalid_outputs": 0
+  },
+  "checks": {
+    "claim_recall_gte_0_90": true,
+    "unit_precision_gte_0_80": true,
+    "question_complete_rate_gte_0_75": true,
+    "invalid_outputs_zero": true,
+    "deterministic_second_replay": true
+  },
+  "rows": [
+    {
+      "item_id": "s147_src_01",
+      "valid": true,
+      "validation_error": null,
+      "facets_filled": [
+        "input_trigger_or_observed_condition",
+        "option_mode_or_default",
+        "target_or_configuration_field"
+      ],
+      "unique_selected_units": 2,
+      "claims": 2,
+      "claims_covered": 2,
+      "complete": true,
+      "useful_units": 2,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E008_303092a0c7",
+          "source_spans": [
+            [
+              893,
+              1062
+            ]
+          ],
+          "content_sha256": "365630350c527f8f61246416cbfc16095d31e888ef17e6d7641b66b7c9e85787"
+        },
+        {
+          "unit_id": "E020_f3477d7297",
+          "source_spans": [
+            [
+              1064,
+              1269
+            ],
+            [
+              1682,
+              1887
+            ]
+          ],
+          "content_sha256": "a118c45b3d1dd1769adf6a9dda603e9d7bd2d088dcd198ecb4b647a5197c4be4"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_02",
+      "valid": true,
+      "validation_error": null,
+      "facets_filled": [
+        "input_trigger_or_observed_condition",
+        "measurement_limit_or_timing",
+        "target_or_configuration_field"
+      ],
+      "unique_selected_units": 3,
+      "claims": 3,
+      "claims_covered": 3,
+      "complete": true,
+      "useful_units": 3,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E008_70422e50fc",
+          "source_spans": [
+            [
+              785,
+              1059
+            ]
+          ],
+          "content_sha256": "d41a7145c31531e7dbdaf33e519ebf7f7d09ffcda2488bf4c509fcf227c2a91f"
+        },
+        {
+          "unit_id": "E011_0b9a32d5a0",
+          "source_spans": [
+            [
+              1323,
+              1541
+            ]
+          ],
+          "content_sha256": "ad04ae6e0c63248a6500c13542d003bde9d67974ea2f0b8ea66e2b708498474d"
+        },
+        {
+          "unit_id": "E010_bd41e0015d",
+          "source_spans": [
+            [
+              1061,
+              1321
+            ]
+          ],
+          "content_sha256": "58038db9f02c3b6383e7bd228c50e8160ca454d91581c8c5cc83c552e79ff1ed"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_03",
+      "valid": true,
+      "validation_error": null,
+      "facets_filled": [
+        "output_action_or_corrective_step"
+      ],
+      "unique_selected_units": 2,
+      "claims": 2,
+      "claims_covered": 1,
+      "complete": false,
+      "useful_units": 2,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E022_98d40eeb6a",
+          "source_spans": [
+            [
+              2600,
+              2844
+            ]
+          ],
+          "content_sha256": "1fa6cd17e7b7627036eadf88419a73b18d4e1f210fd10d50091a4b0ccbdc346d"
+        },
+        {
+          "unit_id": "E030_6af2e4af03",
+          "source_spans": [
+            [
+              2600,
+              2634
+            ],
+            [
+              2775,
+              2809
+            ]
+          ],
+          "content_sha256": "ac2d567c56f30a0cd1cdcb3d4bb5131fb82a98c5a796bff1507a9e236b983199"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_04",
+      "valid": true,
+      "validation_error": null,
+      "facets_filled": [
+        "measurement_limit_or_timing",
+        "target_or_configuration_field"
+      ],
+      "unique_selected_units": 2,
+      "claims": 3,
+      "claims_covered": 3,
+      "complete": true,
+      "useful_units": 2,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E012_f3acec5711",
+          "source_spans": [
+            [
+              317,
+              377
+            ],
+            [
+              561,
+              621
+            ]
+          ],
+          "content_sha256": "46b2129b5216dfa662887cb9e82fe1d748dee36328b93e9265f87536d51dfd6f"
+        },
+        {
+          "unit_id": "E002_3dbcb76936",
+          "source_spans": [
+            [
+              0,
+              1126
+            ]
+          ],
+          "content_sha256": "99fcc8f53e0bb1c1a00ab3285548387419cd789b5732fd02c9cce930e50b716d"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_05",
+      "valid": true,
+      "validation_error": null,
+      "facets_filled": [
+        "input_trigger_or_observed_condition",
+        "output_action_or_corrective_step",
+        "verification_commissioning_or_recovery"
+      ],
+      "unique_selected_units": 4,
+      "claims": 3,
+      "claims_covered": 3,
+      "complete": true,
+      "useful_units": 3,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E002_81612f9c44",
+          "source_spans": [
+            [
+              0,
+              864
+            ]
+          ],
+          "content_sha256": "192c354a2408d57b2e670b393c22107371a2430f9c18f12b1e8ead111a3d8e20"
+        },
+        {
+          "unit_id": "E003_e51f8b5efa",
+          "source_spans": [
+            [
+              37,
+              522
+            ]
+          ],
+          "content_sha256": "c175230ce8483aa452c3169a079713d9a50dc3b76ccf4f65422c5fb77a9d4beb"
+        },
+        {
+          "unit_id": "E014_9697fbe465",
+          "source_spans": [
+            [
+              524,
+              863
+            ],
+            [
+              1204,
+              1543
+            ]
+          ],
+          "content_sha256": "c5ede4b70cdd59bd2d69e59debd01e23c17da7abfe5c3b6f1857478926318c04"
+        },
+        {
+          "unit_id": "E016_b65f82c868",
+          "source_spans": [
+            [
+              524,
+              863
+            ],
+            [
+              1884,
+              2223
+            ]
+          ],
+          "content_sha256": "e5cab7094db6128795f4732a3fa7c0d384e67be029e3ba20eb888ae62e71fa28"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_06",
+      "valid": true,
+      "validation_error": null,
+      "facets_filled": [
+        "target_or_configuration_field"
+      ],
+      "unique_selected_units": 1,
+      "claims": 2,
+      "claims_covered": 2,
+      "complete": true,
+      "useful_units": 1,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E013_4b4adf87e6",
+          "source_spans": [
+            [
+              1466,
+              1751
+            ]
+          ],
+          "content_sha256": "07785816138762775b75609cc415adb94a93c3ba6680f7cce918e4495a299e30"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_07",
+      "valid": true,
+      "validation_error": null,
+      "facets_filled": [
+        "measurement_limit_or_timing"
+      ],
+      "unique_selected_units": 2,
+      "claims": 2,
+      "claims_covered": 2,
+      "complete": true,
+      "useful_units": 2,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E019_239fcae59b",
+          "source_spans": [
+            [
+              1889,
+              1996
+            ],
+            [
+              2213,
+              2320
+            ]
+          ],
+          "content_sha256": "6a6bb7cdc624784d7b4b84045b78f1c5d9181df65e930185616cceb915e1cd2e"
+        },
+        {
+          "unit_id": "E009_ee759cea5c",
+          "source_spans": [
+            [
+              1767,
+              2898
+            ]
+          ],
+          "content_sha256": "31d5a944b10e7a45bf6e5e5765bd9bc7488e887eaa93cbbe298b79fde6027b2c"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_08",
+      "valid": true,
+      "validation_error": null,
+      "facets_filled": [
+        "access_or_prerequisite",
+        "input_trigger_or_observed_condition",
+        "output_action_or_corrective_step",
+        "target_or_configuration_field",
+        "verification_commissioning_or_recovery"
+      ],
+      "unique_selected_units": 3,
+      "claims": 3,
+      "claims_covered": 2,
+      "complete": false,
+      "useful_units": 2,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E011_9da11c0803",
+          "source_spans": [
+            [
+              1284,
+              1464
+            ]
+          ],
+          "content_sha256": "f8888e627f5e410c11c7be3fa24db77cd0c1da11db3845e616f83bf8a821394f"
+        },
+        {
+          "unit_id": "E012_aa5c04ff76",
+          "source_spans": [
+            [
+              1466,
+              1706
+            ]
+          ],
+          "content_sha256": "a463a98c7c1e175cffb3b5f436dd9e9b84c1bf5a1640c8d7d5270ba7c7428651"
+        },
+        {
+          "unit_id": "E013_95445e9fc8",
+          "source_spans": [
+            [
+              1708,
+              1877
+            ]
+          ],
+          "content_sha256": "e824148354a7d9d3d82c46fb9e7d941314239ce160bb14eb5a99aa223b5e77f6"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_09",
+      "valid": true,
+      "validation_error": null,
+      "facets_filled": [
+        "input_trigger_or_observed_condition",
+        "output_action_or_corrective_step"
+      ],
+      "unique_selected_units": 1,
+      "claims": 3,
+      "claims_covered": 3,
+      "complete": true,
+      "useful_units": 1,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E023_0010dc1b30",
+          "source_spans": [
+            [
+              1964,
+              2986
+            ]
+          ],
+          "content_sha256": "01f5fa857d0eaf2a52a61cb076bf4a0797254525eaebd3411e974a1f65c2d654"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_10",
+      "valid": true,
+      "validation_error": null,
+      "facets_filled": [
+        "input_trigger_or_observed_condition",
+        "output_action_or_corrective_step"
+      ],
+      "unique_selected_units": 2,
+      "claims": 2,
+      "claims_covered": 2,
+      "complete": true,
+      "useful_units": 1,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E011_795cce6472",
+          "source_spans": [
+            [
+              574,
+              639
+            ]
+          ],
+          "content_sha256": "8921ae4d2ad2036eedb95db3ee3df291e05f487d7531bb7f80f00f96791f0b1a"
+        },
+        {
+          "unit_id": "E012_cf9fcbdac1",
+          "source_spans": [
+            [
+              641,
+              747
+            ]
+          ],
+          "content_sha256": "a23f1f657c55a969b7ca566a1ac69ae686264c864b45565690f71da60e099550"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_11",
+      "valid": true,
+      "validation_error": null,
+      "facets_filled": [
+        "measurement_limit_or_timing",
+        "safety_warning_exception_or_conflict",
+        "target_or_configuration_field"
+      ],
+      "unique_selected_units": 2,
+      "claims": 3,
+      "claims_covered": 3,
+      "complete": true,
+      "useful_units": 2,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E013_edc29c3e6c",
+          "source_spans": [
+            [
+              1769,
+              2052
+            ]
+          ],
+          "content_sha256": "90cf64d08e5e9a6787a8c80a0beb6c81a53de41eab2bcbe0e225e99892afb43b"
+        },
+        {
+          "unit_id": "E016_255e89ec06",
+          "source_spans": [
+            [
+              2118,
+              2242
+            ]
+          ],
+          "content_sha256": "8404cf42aea58f5f6dbd67930353a462e3777ff4d57ceaee2d0573114db715f3"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_12",
+      "valid": true,
+      "validation_error": null,
+      "facets_filled": [
+        "access_or_prerequisite",
+        "input_trigger_or_observed_condition",
+        "measurement_limit_or_timing",
+        "option_mode_or_default",
+        "output_action_or_corrective_step",
+        "target_or_configuration_field",
+        "verification_commissioning_or_recovery"
+      ],
+      "unique_selected_units": 4,
+      "claims": 3,
+      "claims_covered": 3,
+      "complete": true,
+      "useful_units": 3,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E017_0f6c25a3b2",
+          "source_spans": [
+            [
+              871,
+              1071
+            ]
+          ],
+          "content_sha256": "6b5ac95730dfe2460ee72aaf070e72ee7199ffb61320722bc5818ab09fb008b7"
+        },
+        {
+          "unit_id": "E006_aded90d498",
+          "source_spans": [
+            [
+              194,
+              287
+            ]
+          ],
+          "content_sha256": "f90f76c0d2dd45d3bd7c71e421cefe72686cb068f6b5fab60c9af1538a3ee144"
+        },
+        {
+          "unit_id": "E019_577e44c85c",
+          "source_spans": [
+            [
+              1118,
+              1576
+            ]
+          ],
+          "content_sha256": "ebba00b1abe0b0738d490409d6a011bad599028bc258b24417bef7fee343c735"
+        },
+        {
+          "unit_id": "E025_7a63fe427b",
+          "source_spans": [
+            [
+              2592,
+              2661
+            ]
+          ],
+          "content_sha256": "ac9c9e82e4bddb0542c977cfa3fd3cf0e4eaad241dcc7caf73882819a4993531"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_13",
+      "valid": true,
+      "validation_error": null,
+      "facets_filled": [
+        "input_trigger_or_observed_condition",
+        "output_action_or_corrective_step",
+        "target_or_configuration_field",
+        "verification_commissioning_or_recovery"
+      ],
+      "unique_selected_units": 2,
+      "claims": 3,
+      "claims_covered": 3,
+      "complete": true,
+      "useful_units": 1,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E004_30a844327c",
+          "source_spans": [
+            [
+              63,
+              196
+            ]
+          ],
+          "content_sha256": "e6337fb5b25832821cf718f247f58161123e8e19fb0e0092c5f805256e7dd29e"
+        },
+        {
+          "unit_id": "E015_ca80cb8239",
+          "source_spans": [
+            [
+              1295,
+              1782
+            ]
+          ],
+          "content_sha256": "5744db304be6000476e3d02abb763fc4cd143c7ade0c299a05a946c0155600a2"
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_14",
+      "valid": true,
+      "validation_error": null,
+      "facets_filled": [
+        "access_or_prerequisite",
+        "input_trigger_or_observed_condition",
+        "measurement_limit_or_timing",
+        "option_mode_or_default",
+        "output_action_or_corrective_step",
+        "safety_warning_exception_or_conflict",
+        "target_or_configuration_field",
+        "verification_commissioning_or_recovery"
+      ],
+      "unique_selected_units": 1,
+      "claims": 3,
+      "claims_covered": 3,
+      "complete": true,
+      "useful_units": 1,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E001_dfb571368b",
+          "source_spans": [
+            [
+              0,
+              266
+            ]
+          ],
+          "content_sha256": "1083163867f69c9334e51d6ecfb6e3ea1466ec0ec991a3db2a127f8261a3f214"
+        }
+      ]
+    }
+  ],
+  "decision": {
+    "s165_posthoc_credit": false,
+    "fresh_independent_test": true,
+    "target_probe": false,
+    "production": false,
+    "facts_moved_to_ok": 0
+  },
+  "cost": {
+    "model_calls": 0,
+    "network_calls": 0,
+    "usd": 0
+  },
+  "result_sha256": "ac69d33d444632937213f74f4688d828c61e60763b97fb72248db070c1c4a039"
+}

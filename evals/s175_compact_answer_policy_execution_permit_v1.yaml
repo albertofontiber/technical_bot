@@ -1,0 +1,30 @@
+instrument: s175_compact_answer_policy_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED
+
+authority:
+  source: user_message_2026_07_16
+  scope: autonomous_adjusted_plan_cost_disciplined
+  user_ceiling_usd: 250
+  s175_internal_ceiling_usd: 1.0
+
+frozen_artifacts:
+  preregistration:
+    path: evals/s175_compact_answer_policy_prereg_v1.yaml
+    sha256: 72470b3399816a39adfa6d1398e0a055cb2f85f82d9f48dbbf70bbd0d49a6a7b
+  runner:
+    path: scripts/s175_compact_answer_policy_screen.py
+    sha256: a13172e941b3e957b3d12ce0b1a363add47de2ad428b8bfddbee151081ce4a62
+
+execution:
+  calls_max: 14
+  retries: 0
+  staged_token_preflight_required: true
+  checkpoint_each_call: true
+  stop_before_calls_if_worst_case_reaches_internal_ceiling: true
+
+forbidden:
+  - frontier_review_before_local_screen_passes
+  - target_questions
+  - database_writes
+  - deployment
+  - production_or_official_fact_credit

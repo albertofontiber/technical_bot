@@ -1,0 +1,72 @@
+instrument: s175_compact_answer_policy_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+
+frozen_inputs:
+  design: {path: evals/s175_compact_answer_policy_design_v1.md, sha256: 75c56750edb7fe0c888f68062ca463a77957d3299d86f4cb3741eba68749561e}
+  generation_cohort: {path: evals/s173_single_source_omission_cohort_v1.json, sha256: b8df8cce6bced1fdd95d3f70bb0787c2a63769fcacafde317bc8a9149c1b053f}
+  current_policy_baseline: {path: evals/s173_baseline_answer_receipts_v1.json, sha256: ddaff2ed2daf867cb7196af2f22bb51444856985d9bf468fa5fc3d5594d05054}
+  post_generation_gold: {path: evals/s171_s147_source_unit_gold_v1.json, sha256: 040e538f2df23282848fc6f058c9f570635564ac51b5dfb03247b2710fb5c13a}
+  scoring_contract: {path: src/rag/omission_correction.py, sha256: d6f39838cd3ea46a31227a64f066e64c45c0e671f73ba986201c1e0571cd2c9b}
+  runner: {path: scripts/s175_compact_answer_policy_screen.py, sha256: a13172e941b3e957b3d12ce0b1a363add47de2ad428b8bfddbee151081ce4a62}
+
+population:
+  questions: 14
+  manufacturers: 14
+  table: 7
+  prose: 7
+  answer_points: 37
+  target_question_overlap: 0
+  prior_use: independent_development_not_fresh_production_promotion
+
+candidate:
+  route: concrete_source_answerable_only
+  system_sha256: d38fe00b709c331f7f69e097e2c1452a226881b0182b8a75539e6b115442ddea
+  product_or_manufacturer_specific_rules: 0
+  benchmark_ids_visible: false
+  answer_points_visible: false
+  runtime_change: false
+
+model:
+  id: claude-sonnet-4-6
+  max_output_tokens: 1800
+  temperature: 0
+
+execution:
+  candidate_writer_calls: 14
+  retries: 0
+  retrieval_calls: 0
+  reranker_calls: 0
+  database_calls: 0
+  gold_loaded_only_after_candidate_checkpoint: true
+
+validation:
+  frozen_baseline_points: 26
+  frozen_baseline_complete_questions: 6
+  point_gain_min: 4
+  complete_question_gain_min: 2
+  regressed_points_max: 0
+  invalid_fragment_citations_max: 0
+  token_limit_stops_max: 0
+  counted_input_reduction_min: 0.35
+  passing_action: GO_TO_BLINDED_ADVERSARIAL_REVIEW
+  target_probe: false
+  production: false
+  facts_moved_to_ok: 0
+
+pricing_usd_per_million_tokens: {input: 3, output: 15}
+
+budget:
+  internal_ceiling_usd: 1.0
+  user_ceiling_usd: 250
+
+outputs:
+  receipts: evals/s175_compact_answer_policy_receipts_v1.json
+  result: evals/s175_compact_answer_policy_screen_v1.json
+
+forbidden:
+  - expose_answer_points_or_exact_gold_to_generation_model
+  - tune_prompt_after_generation
+  - retry_failed_or_incomplete_call
+  - target_question_execution
+  - runtime_or_production_change
+  - official_fact_credit

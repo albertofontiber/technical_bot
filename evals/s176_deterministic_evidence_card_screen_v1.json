@@ -1,0 +1,685 @@
+{
+  "instrument": "s176_deterministic_evidence_card_screen_v1",
+  "status": "NO_GO",
+  "population": {
+    "items": 14,
+    "manufacturers": 14,
+    "table": 7,
+    "prose": 7,
+    "answer_points": 37,
+    "target_question_overlap": 0
+  },
+  "metrics": {
+    "baseline_points_covered": 26,
+    "candidate_points_covered": 27,
+    "point_gain": 1,
+    "baseline_questions_complete": 6,
+    "candidate_questions_complete": 6,
+    "complete_question_gain": 0,
+    "regressed_points": 0,
+    "invalid_citations": 0,
+    "source_span_failures": 0,
+    "selected_questions": 9,
+    "selected_units": 18,
+    "mean_appended_source_chars": 864.2222222222222
+  },
+  "checks": {
+    "all_14_items_scored": true,
+    "frozen_baseline_26_points": true,
+    "frozen_baseline_6_complete": true,
+    "point_gain_gte_4": false,
+    "complete_question_gain_gte_2": false,
+    "regressed_points_zero": true,
+    "invalid_citations_zero": true,
+    "source_span_failures_zero": true,
+    "selected_questions_gte_2": true,
+    "selected_questions_lte_12": true,
+    "mean_appended_source_chars_lte_1200": true
+  },
+  "selection_receipts": [
+    {
+      "item_id": "s147_src_01",
+      "question_sha256": "902192a7a29d2897f9f6cd76996a03d030f30f884a0999d2ffc9401be363963e",
+      "selected": [],
+      "selected_source_chars": 0,
+      "candidate_answer_sha256": "965a0e01574c357297fb94c27fbd5fe726e769a039da525c6207bceef4fd98e4"
+    },
+    {
+      "item_id": "s147_src_02",
+      "question_sha256": "3b0b6efdbd4e710cd118c058c9bd03718bf367b4320e2a6f9e8def4895e21f73",
+      "selected": [
+        {
+          "unit_id": "E012_efc4d54a21",
+          "unit_kind": "contiguous",
+          "fragment_number": 1,
+          "source_spans": [
+            [
+              1543,
+              1928
+            ]
+          ],
+          "content_sha256": "678965e0a97d5db732e1de32351ff6244a25117953da7f4cefb7ee011c32a03a",
+          "content_chars": 385,
+          "bm25_score": 3.8981965143340576,
+          "matched_question_terms": [
+            "alarma",
+            "estados",
+            "modulo",
+            "monitor"
+          ]
+        },
+        {
+          "unit_id": "E008_db0c9ad5e1",
+          "unit_kind": "contiguous",
+          "fragment_number": 1,
+          "source_spans": [
+            [
+              785,
+              1059
+            ]
+          ],
+          "content_sha256": "d41a7145c31531e7dbdaf33e519ebf7f7d09ffcda2488bf4c509fcf227c2a91f",
+          "content_chars": 274,
+          "bm25_score": 3.8545243685685113,
+          "matched_question_terms": [
+            "alarma",
+            "estados",
+            "modulo",
+            "monitor"
+          ]
+        }
+      ],
+      "selected_source_chars": 659,
+      "candidate_answer_sha256": "824189cc81d2d378b72dd9906fe1b7881334183668056863aaf79f4b8c7d15f6"
+    },
+    {
+      "item_id": "s147_src_03",
+      "question_sha256": "a21865c9d6ff744dd6e2a0128c62a3e6f08ceb687583b3aac99410fab167f4b9",
+      "selected": [
+        {
+          "unit_id": "E030_1269910f96",
+          "unit_kind": "table_row_with_header",
+          "fragment_number": 1,
+          "source_spans": [
+            [
+              2600,
+              2634
+            ],
+            [
+              2775,
+              2809
+            ]
+          ],
+          "content_sha256": "ac2d567c56f30a0cd1cdcb3d4bb5131fb82a98c5a796bff1507a9e236b983199",
+          "content_chars": 70,
+          "bm25_score": 10.618564896429058,
+          "matched_question_terms": [
+            "aviso",
+            "estado",
+            "prealarma",
+            "salida"
+          ]
+        },
+        {
+          "unit_id": "E022_a2b25d2b80",
+          "unit_kind": "contiguous",
+          "fragment_number": 1,
+          "source_spans": [
+            [
+              2600,
+              2844
+            ]
+          ],
+          "content_sha256": "1fa6cd17e7b7627036eadf88419a73b18d4e1f210fd10d50091a4b0ccbdc346d",
+          "content_chars": 244,
+          "bm25_score": 8.630034005208312,
+          "matched_question_terms": [
+            "aviso",
+            "estado",
+            "prealarma",
+            "salida"
+          ]
+        }
+      ],
+      "selected_source_chars": 314,
+      "candidate_answer_sha256": "936cd7817517bdd46e817ed7f00a4b85db24d757873b8294097fb3c7edd9adf0"
+    },
+    {
+      "item_id": "s147_src_04",
+      "question_sha256": "7957c61d7cf31222cd6f7291020448104fb1b88f797bdd3ccb9ae08700e7fc43",
+      "selected": [
+        {
+          "unit_id": "E009_21a2accf2a",
+          "unit_kind": "contiguous",
+          "fragment_number": 1,
+          "source_spans": [
+            [
+              1440,
+              1654
+            ]
+          ],
+          "content_sha256": "e78ee232153beb2c73bf370792fa4d29c12c51de18ae3474670ce6648b65b1c5",
+          "content_chars": 214,
+          "bm25_score": 4.279446885581063,
+          "matched_question_terms": [
+            "200",
+            "detector",
+            "faast"
+          ]
+        },
+        {
+          "unit_id": "E003_98ebb4fef3",
+          "unit_kind": "contiguous",
+          "fragment_number": 1,
+          "source_spans": [
+            [
+              67,
+              315
+            ]
+          ],
+          "content_sha256": "eee3346eea6dc73002522b66530a244cd730914e3216091a84ce36523af1da3c",
+          "content_chars": 248,
+          "bm25_score": 4.248913195481194,
+          "matched_question_terms": [
+            "200",
+            "detector",
+            "faast"
+          ]
+        }
+      ],
+      "selected_source_chars": 462,
+      "candidate_answer_sha256": "7b57e50da7fddaefd5a5e46aae5336764408bf42785d8a34b188fe7adab1ffb8"
+    },
+    {
+      "item_id": "s147_src_05",
+      "question_sha256": "fa17c2730bd8f4effcf679ba41b41e1f294b48308344f69b2f61844ec43b9d18",
+      "selected": [
+        {
+          "unit_id": "E002_329defda4c",
+          "unit_kind": "contiguous",
+          "fragment_number": 1,
+          "source_spans": [
+            [
+              0,
+              864
+            ]
+          ],
+          "content_sha256": "192c354a2408d57b2e670b393c22107371a2430f9c18f12b1e8ead111a3d8e20",
+          "content_chars": 864,
+          "bm25_score": 2.776586065173192,
+          "matched_question_terms": [
+            "averia",
+            "avisos",
+            "dispositivo",
+            "muestra"
+          ]
+        },
+        {
+          "unit_id": "E003_bb14703378",
+          "unit_kind": "contiguous",
+          "fragment_number": 1,
+          "source_spans": [
+            [
+              37,
+              522
+            ]
+          ],
+          "content_sha256": "c175230ce8483aa452c3169a079713d9a50dc3b76ccf4f65422c5fb77a9d4beb",
+          "content_chars": 485,
+          "bm25_score": 2.6298586157960653,
+          "matched_question_terms": [
+            "averia",
+            "dispositivo",
+            "muestra"
+          ]
+        }
+      ],
+      "selected_source_chars": 1349,
+      "candidate_answer_sha256": "c11ec21587ee77239c5d6d78f231544f81d0325ad34277ecb311bab13ee07370"
+    },
+    {
+      "item_id": "s147_src_06",
+      "question_sha256": "f9d0daeb6f3b40147864525b157937b12a00427713888463f21a4773b55a6bf3",
+      "selected": [
+        {
+          "unit_id": "E013_b228fd6fd9",
+          "unit_kind": "contiguous",
+          "fragment_number": 1,
+          "source_spans": [
+            [
+              1466,
+              1751
+            ]
+          ],
+          "content_sha256": "07785816138762775b75609cc415adb94a93c3ba6680f7cce918e4495a299e30",
+          "content_chars": 285,
+          "bm25_score": 9.212745684241899,
+          "matched_question_terms": [
+            "2000",
+            "beacon",
+            "fp1200",
+            "sounder"
+          ]
+        },
+        {
+          "unit_id": "E007_f3eb38bd75",
+          "unit_kind": "contiguous",
+          "fragment_number": 1,
+          "source_spans": [
+            [
+              950,
+              2111
+            ]
+          ],
+          "content_sha256": "b7745f1537227b393aa76cad025574e089276f8d90401252a934f0ce0420f6c0",
+          "content_chars": 1161,
+          "bm25_score": 4.183333378147531,
+          "matched_question_terms": [
+            "2000",
+            "beacon",
+            "fp1200",
+            "sounder"
+          ]
+        }
+      ],
+      "selected_source_chars": 1446,
+      "candidate_answer_sha256": "376df20ebe86a91a40502f521ac8faf06d6e80d07c3042be0980415e85bbac7f"
+    },
+    {
+      "item_id": "s147_src_07",
+      "question_sha256": "bcaf4ffb5492192e22317c87ee97f59f91f695a9d42a0d54740bffa0a6387027",
+      "selected": [
+        {
+          "unit_id": "E019_d591361f4f",
+          "unit_kind": "table_row_with_header",
+          "fragment_number": 1,
+          "source_spans": [
+            [
+              1889,
+              1996
+            ],
+            [
+              2213,
+              2320
+            ]
+          ],
+          "content_sha256": "6a6bb7cdc624784d7b4b84045b78f1c5d9181df65e930185616cceb915e1cd2e",
+          "content_chars": 216,
+          "bm25_score": 5.986419473455028,
+          "matched_question_terms": [
+            "533",
+            "alarma",
+            "asd"
+          ]
+        },
+        {
+          "unit_id": "E009_14d4f01c75",
+          "unit_kind": "contiguous",
+          "fragment_number": 1,
+          "source_spans": [
+            [
+              1767,
+              2898
+            ]
+          ],
+          "content_sha256": "31d5a944b10e7a45bf6e5e5765bd9bc7488e887eaa93cbbe298b79fde6027b2c",
+          "content_chars": 1131,
+          "bm25_score": 5.941932518516868,
+          "matched_question_terms": [
+            "533",
+            "alarma",
+            "asd",
+            "consumo",
+            "corriente",
+            "maximo"
+          ]
+        }
+      ],
+      "selected_source_chars": 1347,
+      "candidate_answer_sha256": "b8a5979645e26257f6b3b10b7bb8e78cc310aa9997204e2bd7d69c4310d1b50a"
+    },
+    {
+      "item_id": "s147_src_08",
+      "question_sha256": "8c3c4fc55611e475267a839c483f44aba4f937c5efb75a46cad3367f4a7196e7",
+      "selected": [],
+      "selected_source_chars": 0,
+      "candidate_answer_sha256": "8062bb33d30a02223883ae183e3bc6ea9d2b9842588d86a71ec5e4a49e37fd2d"
+    },
+    {
+      "item_id": "s147_src_09",
+      "question_sha256": "d30ee6030f85ea96f2b1d6e6ee34c0ec5038b4634fda0812a3963c94eedd282a",
+      "selected": [],
+      "selected_source_chars": 0,
+      "candidate_answer_sha256": "17f27f06e3ec065616def7b8bbcdbc010aa24951133f87494bc87f03d5f355be"
+    },
+    {
+      "item_id": "s147_src_10",
+      "question_sha256": "7361a10b41748d50edc8b8fb20af24ff217f2b5d37be942688ca73bd8d18fcee",
+      "selected": [
+        {
+          "unit_id": "E019_ca445f54bf",
+          "unit_kind": "contiguous",
+          "fragment_number": 1,
+          "source_spans": [
+            [
+              1600,
+              1861
+            ]
+          ],
+          "content_sha256": "05997e21586cb0a8dd5dd97d8fba6567429bc4cb4bc8de17c13098211b000dd2",
+          "content_chars": 261,
+          "bm25_score": 12.801268712604717,
+          "matched_question_terms": [
+            "activa",
+            "alarma",
+            "detector",
+            "incendio",
+            "led",
+            "mediante"
+          ]
+        },
+        {
+          "unit_id": "E012_91e5a66dfb",
+          "unit_kind": "contiguous",
+          "fragment_number": 1,
+          "source_spans": [
+            [
+              641,
+              747
+            ]
+          ],
+          "content_sha256": "a23f1f657c55a969b7ca566a1ac69ae686264c864b45565690f71da60e099550",
+          "content_chars": 106,
+          "bm25_score": 9.820972601233663,
+          "matched_question_terms": [
+            "alarma",
+            "detector",
+            "general",
+            "led"
+          ]
+        }
+      ],
+      "selected_source_chars": 367,
+      "candidate_answer_sha256": "549996024fda181bf6f9fa43626bda5bdf4476dbb43480f3a91df2b667973543"
+    },
+    {
+      "item_id": "s147_src_11",
+      "question_sha256": "170f1fddf942914cbbe643c0baaba094125e54e03c62ee11427fafa99694f0e7",
+      "selected": [],
+      "selected_source_chars": 0,
+      "candidate_answer_sha256": "68cdec32aa5f1a3d96d82ab9ec82ddd3db88f5ea26050e49bf9ae1c991eebea5"
+    },
+    {
+      "item_id": "s147_src_12",
+      "question_sha256": "b7d07423495136a81c583f2578d935cfcece129c485fbc076a0864be899d2039",
+      "selected": [
+        {
+          "unit_id": "E004_e730f6c679",
+          "unit_kind": "contiguous",
+          "fragment_number": 1,
+          "source_spans": [
+            [
+              78,
+              160
+            ]
+          ],
+          "content_sha256": "bf6d0a336fa4288ed59d5a4026d2f129e499f8bc51b2e1e42dc0806d52b61221",
+          "content_chars": 82,
+          "bm25_score": 9.264286705637776,
+          "matched_question_terms": [
+            "avd2",
+            "pan",
+            "panel"
+          ]
+        },
+        {
+          "unit_id": "E002_1ad3e809cc",
+          "unit_kind": "contiguous",
+          "fragment_number": 1,
+          "source_spans": [
+            [
+              0,
+              1154
+            ]
+          ],
+          "content_sha256": "17a59ecf25a1211337432e2958b585b13e3ee957848dd6ee9003dbd5d6aa70f6",
+          "content_chars": 1154,
+          "bm25_score": 5.645085678536542,
+          "matched_question_terms": [
+            "alerta",
+            "avd2",
+            "grabar",
+            "mensaje",
+            "pan",
+            "panel"
+          ]
+        }
+      ],
+      "selected_source_chars": 1236,
+      "candidate_answer_sha256": "601a0ce5d2596326059d050d4008da915fa9071dd7447730a5f6e6abbc4b91ea"
+    },
+    {
+      "item_id": "s147_src_13",
+      "question_sha256": "9476717a6301e79d83b376987b14d5f909d39b77fe67fa6df4edd13df46e9065",
+      "selected": [
+        {
+          "unit_id": "E015_a27f6e9ee2",
+          "unit_kind": "contiguous",
+          "fragment_number": 1,
+          "source_spans": [
+            [
+              1295,
+              1782
+            ]
+          ],
+          "content_sha256": "5744db304be6000476e3d02abb763fc4cd143c7ade0c299a05a946c0155600a2",
+          "content_chars": 487,
+          "bm25_score": 5.876445790575997,
+          "matched_question_terms": [
+            "bus",
+            "conexion",
+            "cortocircuito",
+            "linea"
+          ]
+        },
+        {
+          "unit_id": "E020_2453a26037",
+          "unit_kind": "contiguous",
+          "fragment_number": 1,
+          "source_spans": [
+            [
+              2370,
+              2481
+            ]
+          ],
+          "content_sha256": "6dc920e0bf66494340596212b3eaa44cde0c1b90ce39114f6bd47403d58b6333",
+          "content_chars": 111,
+          "bm25_score": 4.429429253001102,
+          "matched_question_terms": [
+            "acsi",
+            "bus",
+            "cuando"
+          ]
+        }
+      ],
+      "selected_source_chars": 598,
+      "candidate_answer_sha256": "6afd57ce2e463709ff95bbf07f1d8d851d22faeacd2703f116935bbc4473c9a4"
+    },
+    {
+      "item_id": "s147_src_14",
+      "question_sha256": "ec106b3d6285e6027dd3518f7d7b641530465e012d56a5800929e5f633c4f04e",
+      "selected": [],
+      "selected_source_chars": 0,
+      "candidate_answer_sha256": "7a1da4b1717e503449e6c62924f2b96ce8f74b6329263feaf82173a74df9aee9"
+    }
+  ],
+  "rows": [
+    {
+      "item_id": "s147_src_01",
+      "stratum": "table",
+      "answer_points": 2,
+      "baseline_points_covered": 0,
+      "candidate_points_covered": 0,
+      "baseline_complete": false,
+      "candidate_complete": false,
+      "regressed_points": 0,
+      "invalid_citations": []
+    },
+    {
+      "item_id": "s147_src_02",
+      "stratum": "table",
+      "answer_points": 3,
+      "baseline_points_covered": 3,
+      "candidate_points_covered": 3,
+      "baseline_complete": true,
+      "candidate_complete": true,
+      "regressed_points": 0,
+      "invalid_citations": []
+    },
+    {
+      "item_id": "s147_src_03",
+      "stratum": "table",
+      "answer_points": 2,
+      "baseline_points_covered": 1,
+      "candidate_points_covered": 1,
+      "baseline_complete": false,
+      "candidate_complete": false,
+      "regressed_points": 0,
+      "invalid_citations": []
+    },
+    {
+      "item_id": "s147_src_04",
+      "stratum": "table",
+      "answer_points": 3,
+      "baseline_points_covered": 1,
+      "candidate_points_covered": 2,
+      "baseline_complete": false,
+      "candidate_complete": false,
+      "regressed_points": 0,
+      "invalid_citations": []
+    },
+    {
+      "item_id": "s147_src_05",
+      "stratum": "table",
+      "answer_points": 3,
+      "baseline_points_covered": 1,
+      "candidate_points_covered": 1,
+      "baseline_complete": false,
+      "candidate_complete": false,
+      "regressed_points": 0,
+      "invalid_citations": []
+    },
+    {
+      "item_id": "s147_src_06",
+      "stratum": "table",
+      "answer_points": 2,
+      "baseline_points_covered": 1,
+      "candidate_points_covered": 1,
+      "baseline_complete": false,
+      "candidate_complete": false,
+      "regressed_points": 0,
+      "invalid_citations": []
+    },
+    {
+      "item_id": "s147_src_07",
+      "stratum": "table",
+      "answer_points": 2,
+      "baseline_points_covered": 2,
+      "candidate_points_covered": 2,
+      "baseline_complete": true,
+      "candidate_complete": true,
+      "regressed_points": 0,
+      "invalid_citations": []
+    },
+    {
+      "item_id": "s147_src_08",
+      "stratum": "prose",
+      "answer_points": 3,
+      "baseline_points_covered": 2,
+      "candidate_points_covered": 2,
+      "baseline_complete": false,
+      "candidate_complete": false,
+      "regressed_points": 0,
+      "invalid_citations": []
+    },
+    {
+      "item_id": "s147_src_09",
+      "stratum": "prose",
+      "answer_points": 3,
+      "baseline_points_covered": 2,
+      "candidate_points_covered": 2,
+      "baseline_complete": false,
+      "candidate_complete": false,
+      "regressed_points": 0,
+      "invalid_citations": []
+    },
+    {
+      "item_id": "s147_src_10",
+      "stratum": "prose",
+      "answer_points": 2,
+      "baseline_points_covered": 2,
+      "candidate_points_covered": 2,
+      "baseline_complete": true,
+      "candidate_complete": true,
+      "regressed_points": 0,
+      "invalid_citations": []
+    },
+    {
+      "item_id": "s147_src_11",
+      "stratum": "prose",
+      "answer_points": 3,
+      "baseline_points_covered": 2,
+      "candidate_points_covered": 2,
+      "baseline_complete": false,
+      "candidate_complete": false,
+      "regressed_points": 0,
+      "invalid_citations": []
+    },
+    {
+      "item_id": "s147_src_12",
+      "stratum": "prose",
+      "answer_points": 3,
+      "baseline_points_covered": 3,
+      "candidate_points_covered": 3,
+      "baseline_complete": true,
+      "candidate_complete": true,
+      "regressed_points": 0,
+      "invalid_citations": []
+    },
+    {
+      "item_id": "s147_src_13",
+      "stratum": "prose",
+      "answer_points": 3,
+      "baseline_points_covered": 3,
+      "candidate_points_covered": 3,
+      "baseline_complete": true,
+      "candidate_complete": true,
+      "regressed_points": 0,
+      "invalid_citations": []
+    },
+    {
+      "item_id": "s147_src_14",
+      "stratum": "prose",
+      "answer_points": 3,
+      "baseline_points_covered": 3,
+      "candidate_points_covered": 3,
+      "baseline_complete": true,
+      "candidate_complete": true,
+      "regressed_points": 0,
+      "invalid_citations": []
+    }
+  ],
+  "cost": {
+    "model_calls": 0,
+    "network_calls": 0,
+    "database_calls": 0,
+    "usd": 0
+  },
+  "decision": {
+    "blinded_adversarial_review": false,
+    "target_probe": false,
+    "runtime_or_production": false,
+    "facts_moved_to_ok": 0
+  },
+  "result_sha256": "47ce8933117bfbe39fec9e478d84eed4d6d14ee86e509e6f2aa84fd0c73296ea"
+}

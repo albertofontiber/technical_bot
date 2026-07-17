@@ -1,0 +1,61 @@
+instrument: s171_bounded_relation_store_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+scope: final_relation_store_construction_iteration
+
+frozen_inputs:
+  design: {path: evals/s171_bounded_relation_store_transport_design_v1.md, sha256: 7d2b105b2e5619181220d6a51e9fc499b70c67af956a59a5cac27b89f5136f78}
+  source_packet: {path: evals/s147_fresh_source_packet_v1.json, sha256: 38911f3e9b180064e4e9f5ae5e909e32dd6285dfb9f773944fa88184139f1295}
+  deterministic_gold: {path: evals/s171_s147_source_unit_gold_v1.json, sha256: 040e538f2df23282848fc6f058c9f570635564ac51b5dfb03247b2710fb5c13a}
+  s170_transport_attribution: {path: evals/s170_relation_store_transport_attribution_v1.json, sha256: 28d0c5fbb67992c04a51c39584cf6667dd35db7d2cf07b19534ce0826b5481d0}
+  base_runner: {path: scripts/s170_per_chunk_relation_store_gate.py, sha256: aa8ed8474d9069ff4b3c3e3fe525e03301da9decd7c0be37d34fd14ca3fe1d2a}
+  evidence_unitizer: {path: src/rag/evidence_units_v2.py, sha256: c80498f59452280f7630411b1740664c8ec946a5e3a6511441d6140f88727eab}
+
+cohort_role:
+  development_reuse: true
+  source_items: 14
+  questions: 14
+  manufacturers: 14
+  answer_points: 37
+  s168_question_overlap: 0
+  target_question_overlap: 0
+
+model:
+  id: claude-haiku-4-5-20251001
+  extraction_max_output_tokens: 5000
+  selector_max_output_tokens: 800
+  extraction_max_counted_input_tokens: 150000
+  selector_max_counted_input_tokens: 150000
+
+execution:
+  paid_calls_max: 28
+  per_chunk_extraction_calls: 14
+  relation_selector_calls_max: 14
+  retries: 0
+  max_relations_per_chunk: 30
+  max_relation_assignments_per_chunk: 90
+  batch_extraction_calls: 0
+  target_questions_exposed: 0
+  model_written_final_answers: 0
+  database_calls: 0
+  third_transport_iteration: forbidden
+
+validation:
+  extraction_invalid_outputs_max: 0
+  selector_invalid_outputs_max: 0
+  source_identity_mismatches_max: 0
+  claim_recall_min: 0.90
+  unit_precision_min: 0.80
+  question_complete_rate_min: 0.75
+  passing_action: GO_TO_FRESH_PROMOTION_AND_FIDELITY_AUDIT
+  target_probe: false
+  production: false
+  facts_moved_to_ok: 0
+
+pricing_usd_per_million_tokens: {input: 2, output: 10}
+budget: {internal_ceiling_usd: 2.0, user_ceiling_usd: 250}
+
+outputs:
+  extraction_receipts: evals/s171_relation_extraction_receipts_v1.json
+  relation_store: evals/s171_relation_store_v1.json
+  selector_receipts: evals/s171_relation_selector_receipts_v1.json
+  result: evals/s171_bounded_relation_store_gate_v1.json

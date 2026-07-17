@@ -1,0 +1,18 @@
+instrument: s170_per_chunk_relation_store_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED
+authority: user_autonomous_execution_budget_250_usd
+
+frozen_artifacts:
+  preregistration: {path: evals/s170_per_chunk_relation_store_prereg_v1.yaml, sha256: 74437ef7030757889cecb1cf820bf613ac73d55c58219332435708bea0b59736}
+  runner: {path: scripts/s170_per_chunk_relation_store_gate.py, sha256: aa8ed8474d9069ff4b3c3e3fe525e03301da9decd7c0be37d34fd14ca3fe1d2a}
+  tests: {path: tests/test_s170_per_chunk_relation_store_gate.py, sha256: 1543f2f79db2e2c6e60b49ce54f3fd5a5b73ed63eab438476a8555d7916b4284}
+
+limits:
+  paid_calls_max: 27
+  retries: 0
+  internal_ceiling_usd: 2.0
+  target_questions_exposed: 0
+  production_changes: 0
+  database_calls: 0
+  deployments: 0
+  pushes: 0

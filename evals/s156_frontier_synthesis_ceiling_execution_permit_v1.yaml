@@ -1,0 +1,17 @@
+instrument: s156_frontier_synthesis_ceiling_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED
+authority: user_autonomous_execution_budget_250_usd
+
+frozen_artifacts:
+  preregistration: {path: evals/s156_frontier_synthesis_ceiling_prereg_v1.yaml, sha256: fcf240bd2dc8aab8c33b3cc3536066303fff6afacf77b6eff0cac440b786bcbe}
+  runner: {path: scripts/s156_frontier_synthesis_ceiling.py, sha256: aeaa65fb6e82c35a52fc91661cead8473b1044ea5cd06106440878baa8a7eaf5}
+  tests: {path: tests/test_s156_frontier_synthesis_ceiling.py, sha256: 4f69d32046c378871d8227846ea8e11d5629e211e04fc3a33235f06cbdc50469}
+
+limits:
+  paid_calls_max: 8
+  retries: 0
+  internal_ceiling_usd: 8
+  production_changes: 0
+  database_writes: 0
+  deployments: 0
+  pushes: 0

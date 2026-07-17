@@ -1,0 +1,64 @@
+instrument: s174_prerequisite_corpus_census_prereg_v1
+status: FROZEN_BEFORE_LOCAL_SCAN
+
+objective: >-
+  Measure whether the existing product-independent S126 prerequisite grammar has
+  enough non-target applicability in the frozen production snapshot to justify
+  a new blinded adjudication. This is a census, not release authorization.
+
+frozen_inputs:
+  snapshot:
+    path: tmp/s117_m25/derived_snapshot_v2.jsonl.gz
+    sha256: a825e4dd02b918ddafebab4419cb416b6edc5f1b823a7a9d423f96718d7b6217
+  prior_preregistration:
+    path: evals/s126_prerequisite_independent_prereg_v1.yaml
+    sha256: e56168efaa212c74617b7f309ceb424e99126e184028006ad44c7a575c9e58f7
+  prior_gate:
+    path: evals/s126_prerequisite_independent_gate_v1.yaml
+    sha256: 6462bfeef97afcdfd0a3cdb432f33a1cf76f231fea8d045b056a213d741a4ede
+  runner:
+    path: scripts/s174_prerequisite_corpus_census.py
+    sha256: 5a6a3efa39347a1afc82fda90b8f43577ee556c83941462a2ce3a3e378c41e11
+
+preserved_discovery_grammar:
+  access_anchor: '\b(access\s+level|user\s+level|installer\s+level|authorization|authorisation|password|login|nivel\s+de\s+acceso|nivel\s+de\s+usuario|clave)\b'
+  prerequisite_relation: '\b(must|required|requires|need(?:ed)?|before|prior|only|shall|debe|debera|necesit|antes|previo|solo)\w*\b'
+  entitlement_anchor: '\blicen[cs]\w*\b'
+  distributive_unit: '\b(each|every|per|cada|por)\b[\s\S]{0,80}\b(loop|circuit|channel|panel|device|site|lazo|circuito|canal|central|dispositivo|sitio)\w*\b'
+  maximum_anchor_distance_chars: 500
+  exclude_index_or_toc_only_rows: true
+  changes_from_s126: none
+
+anti_leakage:
+  excluded_target_chunk_ids:
+    - 5bb83899-9d94-4fdd-8d42-24a670a036c5
+    - 155a90fe-8c3f-484e-a617-7637fe29b547
+    - b6602d5a-dbb5-4e2e-8814-1ac3ce066896
+    - cfcdc8f7-bdaf-412f-a85e-0ffb76878d99
+    - 11d96526-d627-4305-8cae-e6852af1b20b
+  exclusion_scope: every_source_file_containing_any_target_chunk
+  qids_or_expected_answers_used_for_selection: false
+
+scan:
+  all_non_target_chunks: true
+  candidate_cap: none
+  one_candidate_per_chunk_and_facet: true
+  exact_source_receipts_required: true
+  model_calls: 0
+  network_calls: 0
+  database_calls: 0
+
+applicability_gate_for_a_later_blinded_adjudication:
+  access_true_positives_min: 3
+  access_manufacturers_min: 3
+  quantified_entitlement_true_positives_min: 2
+  quantified_entitlement_manufacturers_min: 2
+  exact_span_provenance: 1.0
+  note: scan_hits_are_not_true_positives_until_separately_adjudicated
+
+authorization:
+  execute_local_scan: true
+  build_or_change_runtime_selector: false
+  target_probe: false
+  production: false
+  facts_moved_to_ok: 0

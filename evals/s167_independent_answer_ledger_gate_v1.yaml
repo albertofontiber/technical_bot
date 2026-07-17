@@ -1,0 +1,29 @@
+instrument: s167_independent_answer_ledger_gate_v1
+status: NO_GO_COHORT_CONSTRUCTION_QUOTE_TRANSPORT
+
+measurement:
+  source_items: 14
+  source_manufacturers: 14
+  source_documents: 14
+  model_authored_eligible_items: 14
+  model_authored_answer_points: 56
+  locally_valid_eligible_items: 8
+  locally_valid_answer_points: 32
+  invalid_items: 6
+  invalid_exact_quote_points: 6
+  selector_calls: 0
+  actual_cost_usd: 0.161181
+
+decision:
+  s167: CLOSED_NO_GO
+  posthoc_credit: forbidden
+  same_cohort_retry: forbidden
+  threshold_change: forbidden
+  s168_source_unit_id_bound_gold: GO_TO_NEW_DOCUMENT_INDEPENDENT_COHORT
+  target_probe: forbidden
+  production: false
+  facts_moved_to_ok: 0
+
+authorization:
+  deploy: false
+  push: false

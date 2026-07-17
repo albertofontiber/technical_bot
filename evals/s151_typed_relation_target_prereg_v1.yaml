@@ -1,0 +1,64 @@
+instrument: s151_typed_relation_target_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+design: evals/s151_typed_relation_target_design_v1.md
+
+frozen_inputs:
+  served_contexts:
+    path: evals/s113_full_contexts_freeze_v1.json
+    sha256: 22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d
+  prior_gate:
+    path: evals/s150_target_coverage_verifier_gate_v1.yaml
+    sha256: d96240e957f42bc50c098ad54fe7aea2de59d8a4c5bd1a8a6ed6669994356ed7
+  design:
+    path: evals/s151_typed_relation_target_design_v1.md
+    sha256: 881be7645d7ab5ee0e7743dbb73c97d9e0231fda9259a34d8e674147b48ba349
+  typed_relation_contract:
+    path: src/rag/typed_relations.py
+    sha256: 47b12f098a421630d28fb44744178008578f10009073c15d95e50a01ed23a8a9
+  local_oracle:
+    path: scripts/s141_source_bound_technical_obligations.py
+    sha256: 3564d8b5a39e0e59b71364ccaaee2a269828c13b9e2a250b139f0a35bfb0e18a
+
+scope:
+  qids: [cat018, hp002, hp011, hp017]
+  unique_source_chunks: 51
+  source_first_extraction: true
+  questions_visible_during_extraction: false
+  retrieval_calls: 0
+  reranker_calls: 0
+  answer_calls: 0
+
+model:
+  provider: anthropic
+  id: claude-haiku-4-5-20251001
+  role: cheap_upstream_extractor_and_claim_selector
+  extraction_calls: 7
+  selection_calls: 4
+  retries: 0
+  extraction_max_output_tokens_per_call: 8000
+  extraction_max_counted_input_tokens_total: 70000
+  selection_max_output_tokens_per_call: 800
+  selection_max_counted_input_tokens_total: 150000
+
+validation:
+  target_relations: 13
+  covered_relations_required: 13
+  max_claims_per_chunk: 8
+  max_selected_claims_per_question: 16
+  unknown_claim_ids: 0
+  exact_quotes_only: true
+
+pricing_usd_per_million_tokens:
+  input: 2
+  output: 10
+
+budget:
+  internal_ceiling_usd: 1.50
+  user_ceiling_usd: 250
+
+credit:
+  passing_action: fresh_typed_relation_cohort_only
+  facts_moved_to_ok: 0
+  production_change: false
+  deployment_authorized: false
+  push_authorized: false

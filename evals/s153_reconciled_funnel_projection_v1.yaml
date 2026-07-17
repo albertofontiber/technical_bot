@@ -1,0 +1,60 @@
+schema_version: s153_reconciled_funnel_projection_v1
+instrument: s153_evidence_based_funnel_projection
+status: DIAGNOSTIC_PROJECTION_NOT_OFFICIAL_ATOMIC_KPI
+
+authority:
+  prior_funnel:
+    path: evals/s133_reconciled_funnel_v1.json
+    stage_histogram:
+      OK: 134
+      retrieval-miss: 4
+      source-contract-hold: 1
+      synthesis-miss: 18
+  synthesis_attribution:
+    path: evals/s141_source_bound_technical_obligations_v1.json
+    source_incomplete_facts: 5
+    source_attested_synthesis_facts: 13
+  latest_candidate_gate:
+    path: evals/s153_typed_relation_attribution_and_gate_v1.yaml
+    facts_moved_to_ok: 0
+
+diagnostic_projection:
+  denominator: 157
+  stage_histogram:
+    OK: 134
+    retrieval-miss: 4
+    source-contract-gap: 5
+    source-contract-hold: 1
+    synthesis-miss: 13
+  non_ok_total: 23
+  ok_rate: 0.8535031847133758
+  ok_rate_percent: 85.35
+  target_ok_for_95_percent: 150
+  gap_to_95_percent: 16
+  largest_actionable_bucket: synthesis-miss
+
+bridge_from_s133:
+  facts_moved_to_ok: 0
+  synthesis_miss_reclassified_as_source_contract_gap: 5
+  explanation: >-
+    Five cat007 facts cannot be repaired in synthesis because the required relation
+    is absent from the served source packet. This is a diagnostic stage correction,
+    not an improvement and not OK credit.
+
+target_sensitivity:
+  if_all_13_synthesis_facts_became_ok:
+    OK: 147
+    ok_rate_percent: 93.63
+    remaining_to_95_percent: 3
+  implication: >-
+    Synthesis remains the largest bucket and should be attacked next, but reaching
+    95 percent also requires at least three upstream or hold facts to be resolved.
+
+limitations:
+  official_atomic_kpi: null
+  reason: >-
+    The denominator remains the provisional hybrid S133 bridge; 77 legacy carries
+    still lack complete atomic requiredness adjudication.
+  chunks_version: chunks_v2_exact_S113_context
+  chunks_v3_wholesale_status: NO_GO
+

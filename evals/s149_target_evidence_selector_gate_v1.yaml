@@ -1,0 +1,50 @@
+instrument: s149_target_evidence_selector_gate_v1
+status: NO_GO_SINGLE_PASS_UNDER_COVERAGE
+
+evidence:
+  result:
+    path: evals/s149_target_evidence_selector_probe_v1.json
+    sha256: de5d43347f8e7cb244636a651c3c7fb6490967be79fe070391ca2c4b0a00500d
+  receipts:
+    path: evals/s149_target_evidence_selector_receipts_v1.json
+    sha256: 39819c29c00321e6e373034370b3173e4ca29f6ee95fb15b2b205ccff11ad296
+  preregistration:
+    path: evals/s149_target_evidence_selector_prereg_v1.yaml
+    sha256: 722721ed0bf724c685c2df362864da5afd2caf83a1010b3fa2f80085b8013528
+  runner:
+    path: scripts/s149_target_evidence_selector_probe.py
+    sha256: 0f3a243a0562cc503858d193d21134d9fa56a1e657d7b911e1c599fc65cc0375
+
+result:
+  questions: 4
+  target_relations: 13
+  covered_relations: 3
+  coverage_rate: 0.23076923
+  selected_units: 15
+  invalid_ids: 0
+
+finding:
+  scope: broad_multi_obligation_queries
+  description: >-
+    The single-pass minimum selector focused on the most explicit answer facet
+    and omitted implicit but material diagnostic, safety, reset and programming
+    relations. Local inspection confirms real under-selection, not merely an
+    exact-match metric artifact.
+
+decision:
+  four_answer_probe: NO_GO
+  single_pass_selector_production: NO_GO
+  one_bounded_coverage_verifier_iteration: GO
+  unbounded_agent_loop: forbidden
+  production: NO_GO
+  facts_moved_to_ok: 0
+
+cost:
+  calls: 4
+  conservative_actual_usd: 0.226938
+  worst_case_preflight_usd: 0.248878
+
+authorization:
+  production: false
+  deploy: false
+  push: false

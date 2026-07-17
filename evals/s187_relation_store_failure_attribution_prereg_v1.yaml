@@ -1,0 +1,24 @@
+instrument: s187_relation_store_failure_attribution_prereg_v1
+status: FROZEN_BEFORE_LOCAL_ATTRIBUTION
+purpose: >-
+  Separate extraction ceiling from query-time selector loss without new model
+  calls, threshold changes, target exposure or post-hoc credit.
+
+frozen_inputs:
+  result: {path: evals/s186_provider_compatible_relation_store_gate_v1.json, sha256: ad94ac5380283538383bd63bd8dbbbc831763d6c1367b45402b70cee8e3e55a3}
+  store: {path: evals/s186_relation_store_v1.json, sha256: 772c0138beafe4eb755172c17dbc1c970faa16f68c76f1f72059fa945749017e}
+  gold: {path: evals/s171_s147_source_unit_gold_v1.json, sha256: 040e538f2df23282848fc6f058c9f570635564ac51b5dfb03247b2710fb5c13a}
+
+definitions:
+  extraction_oracle_claim: all gold support-unit IDs occur in at least one sealed relation
+  selector_claim: frozen S186 result coverage
+  selector_limited: extraction oracle covers the claim but the selector does not
+  extraction_limited: extraction oracle does not cover the claim
+
+authorization:
+  model_calls: 0
+  network_calls: 0
+  target_questions_exposed: 0
+  threshold_changes: false
+  production_or_deployment: false
+  facts_moved_to_ok: 0

@@ -1,0 +1,63 @@
+instrument: s135_representative_chunks_shadow_gate_v2
+status: NO_GO
+
+contract:
+  preregistration: {path: evals/s135_representative_chunks_shadow_prereg_v2.yaml, sha256: 97fb7a9d6d49c00cc01c7e0682a04aa2776843039c3e1a9fb1cc502343be4c2d}
+  execution_permit: {path: evals/s135_representative_chunks_shadow_execution_permit_v2.yaml}
+  negative_control: {path: evals/s135_representative_chunks_shadow_seed1_v1.json, sha256: abe01408c74374c3ed1aa5a3dce7be4fbdd4d4c7c9eab363a136f77daf028422}
+
+evidence:
+  seed1: {path: evals/s135_representative_chunks_shadow_seed1_v2.json, sha256: 11a383e28e2ede04322f6c5dd0d330c73bae87c3b88ff4162af413188529a7e3}
+  seed2: {path: evals/s135_representative_chunks_shadow_seed2_v2.json, sha256: 11a383e28e2ede04322f6c5dd0d330c73bae87c3b88ff4162af413188529a7e3}
+  canonical_byte_identity: true
+
+population:
+  questions: 24
+  manufacturers: 12
+  exact_metadata_pairs: 22
+  documents: 36
+  extractions: 36
+  baseline_chunks: 1859
+  candidate_chunks: 2353
+  candidate_contexts_reused: 1777
+  candidate_contexts_absent: 576
+  candidate_gold_bundles: 24
+  single_chunk_bundles: 22
+  two_chunk_bundles: 2
+
+metrics:
+  baseline: {hits_at_5: 14, recall_at_5: 0.58333333, hits_at_10: 16, recall_at_10: 0.66666667, mrr_at_10: 0.359375}
+  candidate: {hits_at_5: 12, recall_at_5: 0.5, hits_at_10: 13, recall_at_10: 0.54166667, mrr_at_10: 0.32430556}
+  lost_baseline_hits_at_10:
+    - {question_id: 29b49e99-07fe-4b83-8afd-2d770d8fc09d, manufacturer: Sensitron, product_model: SMART 2, baseline_rank: 10, candidate_rank: 18}
+    - {question_id: 540b4ccd-1ae0-4252-a6bb-069db622e22c, manufacturer: Aritech, product_model: IU2055NC, baseline_rank: 8, candidate_rank: 13}
+    - {question_id: 935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033, manufacturer: Xtralis, product_model: VESDA-E-VES, baseline_rank: 3, candidate_rank: null}
+  manufacturers_with_net_hit_loss_at_10: [Aritech, Sensitron, Xtralis]
+
+checks:
+  candidate_gold_mapped: true
+  lost_baseline_hits_at_10: false
+  candidate_recall_at_10_gte_baseline: false
+  candidate_mrr_at_10_gte_baseline: false
+  manufacturers_with_net_hit_loss_at_10: false
+  cohort_cardinality: true
+  runtime_results_complete: true
+  all_selected_extractions_materialized: true
+  query_plans_nonempty: true
+  provenance_bundles_exact: true
+
+tests:
+  command: python -m pytest tests/test_s135_representative_chunks_shadow_v2.py -q
+  result: 5_passed
+
+cost: {external_usd: 0, model_calls: 0, network_calls: 0, remote_database_reads: 0, remote_database_writes: 0, embeddings: 0}
+authorization: {production: false, migration_apply: false, deploy: false, serving: false, facts_moved_to_ok: 0}
+
+decision:
+  result: NO_GO_TO_CHUNKS_V3_PROMOTION
+  next: S136_LOCAL_LOSS_ATTRIBUTION
+  rationale: >-
+    La preservación upstream y el enlace de procedencia pasan, pero el probe
+    representativo muestra tres pérdidas top-10. Deben atribuirse de forma
+    determinista a resegmentación, ausencia de contexto o competencia adicional
+    antes de decidir regeneración de contexto, ajuste estructural o revocación.

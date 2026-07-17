@@ -1,0 +1,50 @@
+instrument: s151_typed_relation_target_gate_v1
+status: NO_GO_BATCH_POPULATION_DROPOUT
+
+evidence:
+  partial_receipts:
+    path: evals/s151_typed_relation_extraction_receipts_v1.json
+    sha256: bb0f996d7b0d0c7d1fdea0c61e23f77541420c734b517aff3626d9a663f36a28
+  failure_receipt:
+    path: evals/s151_typed_relation_uncheckpointed_batch2_failure_v1.yaml
+  preregistration:
+    path: evals/s151_typed_relation_target_prereg_v1.yaml
+    sha256: 296d0a05aef84a99e0ec11d8b720fc446fcddee1cf45f9cb9461df1e1a8e7b2f
+  runner:
+    path: scripts/s151_typed_relation_target_probe.py
+    sha256: de2191c1d777c89f5c0524da5fdb378a44d6873f2b0f14f4d7765d151b80cdf5
+
+result:
+  extraction_batches_planned: 7
+  provider_calls_attempted: 2
+  checkpointed_batches: 1
+  checkpointed_relations: 22
+  relation_store_created: false
+  selection_calls: 0
+  target_relations_measured: 0
+
+finding:
+  scope: batch_extraction_transport
+  description: >-
+    A multi-chunk extraction call can omit a required chunk even under strict
+    structured output. Mixing partial batches or retrying the ambiguous call
+    would violate the frozen contract. One chunk per isolated extraction call
+    removes this failure class and maps naturally to an offline asynchronous
+    ingestion job with immutable per-chunk checkpoints.
+
+decision:
+  retry_s151: forbidden
+  reuse_partial_store: forbidden
+  per_chunk_checkpointed_extraction_iteration: GO
+  production: NO_GO
+  facts_moved_to_ok: 0
+
+cost:
+  checkpointed_actual_usd: 0.03499
+  uncheckpointed_conservative_reserve_usd: 0.10
+  conservative_total_reserved_usd: 0.13499
+
+authorization:
+  production: false
+  deploy: false
+  push: false

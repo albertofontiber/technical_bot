@@ -1,0 +1,56 @@
+instrument: s139_schema_hardened_completion_execution_permit_v2
+status: EXECUTION_GO_PAID_BOUNDED
+schema_version: exact_keyed_objects_v2
+authorized_at_utc: 2026-07-16
+
+design_addendum:
+  path: evals/s139_schema_hardened_completion_design_v2.md
+  sha256: 77fa2179486f445b41d2b85fa0ea9662491038f80f95caa9575250949789df1f
+schema_failure_receipt:
+  path: evals/s139_anthropic_schema_400_receipt_v1.json
+  sha256: 424ea164802b29e3ebf68ba00ee59241122c32978109c437bd5ba459f4b2ab5b
+preregistration:
+  path: evals/s139_schema_hardened_completion_prereg_v1.yaml
+  sha256: 09eeaeaf8eba190b7742b5a7b286d13448cf785df45bc60fea6e704007b6a4cb
+base_runner:
+  path: scripts/s139_schema_hardened_completion.py
+  sha256: eeec9b8094284abfc50c2f4d74109d2912bd5c812b701390caea873c6c653a19
+runner:
+  path: scripts/s139_schema_hardened_completion_v2.py
+  sha256: 030e4a4b771fd83ec3186c1abcf6ff7b2afa7c70a4c3532300a1079a932357ce
+tests:
+  path: tests/test_s139_schema_hardened_completion_v2.py
+  sha256: 96d3fefd22a3a1821ad68bfce4f57a6db2c70db949dea508e271d271afd78d5d
+
+local_verification:
+  s138_s139_v1_v2_tests: 14_passed
+  py_compile: passed
+  git_diff_check: passed
+  exact_keyed_schema_roundtrip: passed
+  one_missing_evidence_key_rejected: passed
+  unsupported_collection_keywords_absent: true
+  inference_before_schema_count_acceptance: forbidden
+
+cost_gate:
+  schema_400_cost_usd: 0
+  known_s138_cost_before_s139_usd: 1.78285625
+  failed_520_unknown_cost_reserve_usd: 0.93485625
+  s139_incremental_caps_worst_case_usd: 2.705
+  s138_total_reserved_caps_worst_case_usd: 5.42271250
+  s138_internal_ceiling_usd: 10
+  broader_user_ceiling_usd: 250
+
+authorized_calls:
+  token_count_preflight: true
+  fable_q3_completion_max: 1
+  sol_disagreement_arbitration_max: 1
+  retries: 0
+
+not_authorized:
+  - production
+  - deploy
+  - migration_apply
+  - chunks_changes
+  - retrieval_changes
+  - threshold_changes
+  - facts_moved_to_ok

@@ -1,0 +1,61 @@
+instrument: s142_independent_obligation_cohort_prereg_v3
+status: FROZEN_BEFORE_PAID_EXECUTION
+
+supersedes: evals/s142_independent_obligation_cohort_prereg_v2.yaml
+transport_change_only: checkpoint_raw_provider_response_before_validation
+prior_attempt:
+  path: evals/s142_uncheckpointed_attempt_receipt_v2.json
+  sha256: a10267495665dc8e3aa88574f762482c2967c83d6d360f454269359cbe5e1e40
+  validated_output: false
+  reserved_upper_bound_usd: 0.35
+
+frozen_inputs:
+  source_packet:
+    path: evals/s142_independent_source_packet_v1.json
+    sha256: 612b6d405ce5c8591b32f1d7ae81df628626299b55b68acceb948a4d68fcbe19
+    packet_sha256: da9f15a45ec71a12d30f7965de1dc1e681dd47f62727bfa2e485353e3d792d7c
+  acquisition:
+    path: evals/s116_independent_holdout_acquisition_v2.json
+    sha256: d0ab94546cb899b73e69d5cd6ae3ea5b660bbab74c835834a24cda35ce5e5544
+  extraction_receipt:
+    path: tmp/s116_independent_holdout/extraction_receipt_v1.json
+    sha256: a651e2858d043718e78cbc3a18610a42ba04b584dd98b15e6d15fc33b8043ff4
+  runner:
+    path: scripts/s142_build_independent_obligation_cohort.py
+    sha256: 33620e044ce3db44f507f3ac79afc33eb5f071faf3e15e8c3ba49a3c9f94eded
+
+selection:
+  documents: 12
+  manufacturers: 4
+  development_pdf_overlap: 0
+  extractor_output_inspected: false
+  model_or_answer_used_for_source_selection: false
+
+execution:
+  model: claude-haiku-4-5-20251001
+  role: cheap_executor_for_question_and_claim_authoring
+  calls: 1
+  maximum_input_tokens: 90000
+  maximum_output_tokens: 12000
+  incremental_conservative_ceiling_usd: 0.35
+  cumulative_reserved_ceiling_usd: 0.70
+  raw_receipt: evals/s142_haiku_raw_response_v3.json
+  output: evals/s142_independent_obligation_cohort_v1.json
+
+validation:
+  exact_quote_membership_required: true
+  eligible_claims_min: 2
+  eligible_claims_max: 5
+  unique_item_coverage_required: true
+  no_external_knowledge: true
+  cohort_sealed_until_extractor_freeze: true
+  raw_response_checkpoint_before_validation: true
+
+stop_rule: NO_MORE_PAID_AUTHORING_ATTEMPTS_IF_V3_FAILS
+
+authorization:
+  user_budget_usd: 250
+  production: false
+  deploy: false
+  push: false
+  facts_moved_to_ok: 0

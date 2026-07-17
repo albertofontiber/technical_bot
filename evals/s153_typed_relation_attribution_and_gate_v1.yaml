@@ -1,0 +1,73 @@
+schema_version: s153_typed_relation_attribution_and_gate_v1
+instrument: s153_application_bound_typed_relation_final_gate
+status: NO_GO_EXTRACTION_AND_SELECTION_UNDER_COVERAGE
+
+frozen_evidence:
+  probe:
+    path: evals/s153_application_bound_typed_relation_probe_v1.json
+    sha256: 8c8055a023479ff487a212df105094aa27e6e5b230e2c4d2658c8cfa59285e59
+  relation_store:
+    path: evals/s153_typed_relation_store_v1.json
+    sha256: b5df62b639df508916ffa8178061083928a7383ecb98a5db2aed8f6bfe76d92e
+  extraction_receipts:
+    path: evals/s153_typed_relation_extraction_receipts_v1.json
+    sha256: e8a7ca57f4bd4016f1ee2676ffa1cffd4154f56d30e5de7ef01632069e57e9c1
+  selection_receipts:
+    path: evals/s153_typed_relation_selection_receipts_v1.json
+    sha256: 937a32121dc47618265765f34240d490ca05d3d9236401304a0a0201a59457c5
+
+execution_result:
+  source_chunks_completed: 51
+  source_chunks_expected: 51
+  source_bound_relations: 325
+  invalid_quote_claims_dropped: 27
+  whitespace_only_repairs: 3
+  target_obligations: 13
+  obligations_present_in_extracted_store: 5
+  obligations_selected: 2
+  extraction_coverage_rate: 0.38461538461538464
+  conditional_selection_recall: 0.4
+  end_to_end_coverage_rate: 0.15384615384615385
+
+attribution:
+  extraction_miss: 8
+  selection_miss_given_available: 3
+  covered: 2
+  rows:
+    - {qid: cat018, kind: software_type_cbe_activation, available: false, selected: false}
+    - {qid: cat018, kind: point_programming_fields, available: false, selected: false}
+    - {qid: hp002, kind: initial_reference_calibration, available: true, selected: false}
+    - {qid: hp002, kind: bounded_fault_window, available: false, selected: false}
+    - {qid: hp002, kind: maintenance_isolation_prerequisite, available: false, selected: false}
+    - {qid: hp011, kind: extinction_duration_range, available: false, selected: false}
+    - {qid: hp011, kind: reset_inhibit_special_state, available: false, selected: false}
+    - {qid: hp011, kind: default_latched_faults, available: true, selected: false}
+    - {qid: hp017, kind: option_family_cardinality, available: true, selected: true}
+    - {qid: hp017, kind: input_condition_definition, available: true, selected: true}
+    - {qid: hp017, kind: output_condition_action, available: false, selected: false}
+    - {qid: hp017, kind: logic_contradiction_warning, available: true, selected: false}
+    - {qid: hp017, kind: commissioning_rule_verification, available: false, selected: false}
+
+decision:
+  typed_relation_branch: CLOSED_NO_GO
+  s154_iteration: forbidden
+  answer_probe: forbidden
+  production_integration: forbidden
+  facts_moved_to_ok: 0
+  rationale: >-
+    The application-bound transport completed reliably, but the generic extractor
+    omitted eight of thirteen source-attested target relations. The selector then
+    omitted three of the five relations that were available. Another prompt or
+    selector loop would optimize against the frozen four-question cohort without
+    evidence of scalable generalization.
+  reusable_learning:
+    - Application-owned immutable identity is robust; model-authored containers are not.
+    - Exact source-span validation and checkpointed receipts should remain requirements.
+    - Query-time relation extraction is not sufficient to recover distributed manual facts.
+
+cost_usd:
+  s153_extraction: 0.397678
+  s153_selection: 0.07274
+  s153_total: 0.470418
+  s142_to_s153_actual_plus_conservative_reserves: 2.8714145
+

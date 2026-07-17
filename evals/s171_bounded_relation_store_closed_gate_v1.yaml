@@ -1,0 +1,19 @@
+instrument: s171_bounded_relation_store_closed_gate_v1
+status: NO_GO_UNPAID_PROVIDER_SCHEMA_PREFLIGHT
+
+failure:
+  phase: unpaid_anthropic_token_count
+  provider_calls_completed: 0
+  paid_cost_usd: 0
+  reason: anthropic_structured_output_rejects_array_maxItems
+
+decision:
+  s171: CLOSED_NO_GO
+  relation_store_semantics: UNMEASURED
+  remove_maxItems_and_retry: forbidden
+  third_transport_iteration: forbidden
+  relation_store_line: STOP
+  next_stage: four_retrieval_residuals_local_audit
+  target_probe: false
+  production: false
+  facts_moved_to_ok: 0

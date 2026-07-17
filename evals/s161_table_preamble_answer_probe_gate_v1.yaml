@@ -1,0 +1,72 @@
+instrument: s161_table_preamble_answer_probe_gate_v1
+status: ATOMIC_RECOVERY_GO_RUNTIME_CANDIDATE_NO_GO
+
+frozen_contract:
+  design: evals/s161_table_preamble_answer_probe_design_v1.md
+  preregistration: evals/s161_table_preamble_answer_probe_prereg_v1.yaml
+  source_gate: evals/s160_table_preamble_closure_gate_v3.yaml
+
+immutable_paid_checkpoint:
+  result: evals/s161_table_preamble_answer_probe_v1.json
+  receipt: evals/s161_table_preamble_answer_probe_receipts_v1.json
+  answer_sha256: c7dec57b0513fa882fa13af7153d294c01181c9853c9fa9a2df3d8b085396304
+  generator: claude-sonnet-4-6
+  paid_generator_calls: 1
+  retries: 0
+  paid_reranker_calls: 0
+  paid_judge_calls: 0
+  frontier_calls: 0
+
+local_attribution:
+  artifact: evals/s161_table_preamble_answer_probe_attribution_v1.json
+  provider_retry: false
+  model_calls: 0
+  scorer_false_negatives_corrected: 2
+  correction: >-
+    The immutable answer cited fragment 4 for both relay ratings. Fragment 4
+    contains the exact served ratings, but the initial scorer admitted only the
+    duplicate source at fragment 9. The scorer now discovers exact supporting
+    fragments from the frozen packet rather than one hard-coded position.
+
+answer_checks:
+  recovered_source_contract_gap_claims: 5_of_5
+  protected_previously_served_claims: 4_of_4
+  invalid_citations: 0
+  protected_prefix_equal: true
+  appended_table_preamble_rows: 1
+  unsupported_against_served_extraction: 1
+
+stage_attribution:
+  source_contract_gap_to_ok_diagnostic: 5
+  source_contract_gap_to_synthesis_miss: 0
+  document_extraction_hold_remaining: 1
+  explanation: >-
+    Table-preamble closure supplied the missing CH2 scope and the generator
+    synthesized all five source-incomplete obligations with citations. The
+    separate relay-life obligation remains outside OK until the extraction
+    representation preserves its exponent relationship.
+
+visual_reconciliation:
+  receipt: evals/s161_pdf_visual_hold_receipt_v1.yaml
+  pdf_ground_truth: "10^5 operations"
+  current_extraction: "105 operations"
+  effect: reclassify_as_document_extraction_hold_not_synthesis_error
+
+decision:
+  table_preamble_atomic_recovery: GO
+  runtime_candidate: NO_GO
+  production: false
+  deployment: false
+  official_atomic_kpi_credit: null
+  next: resolve_document_extraction_hold_then_rerun_locally_before_any_new_paid_call
+
+validation:
+  focused_scorer_tests: 4_passed
+  protected_regression: false
+  database_writes: 0
+
+cost:
+  paid_calls: 1
+  conservative_worst_case_usd: 0.157255
+  new_calls_for_attribution_and_visual_check: 0
+

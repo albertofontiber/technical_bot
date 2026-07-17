@@ -1,0 +1,336 @@
+{
+  "instrument": "s135_representative_chunks_shadow_v1",
+  "status": "NO_GO",
+  "claim": "representative_lexical_chunking_shadow_only",
+  "dependencies": {
+    "design_sha256": "7c06389218dce1d3f73016e7b712dc0e02cd4e08344f87fe8f89bd2b7b284623",
+    "heldout_sha256": "227e808a2ba2308acce89f90722fd46a63bad30aae0cde630191154b4ff07d94",
+    "snapshot_sha256": "3013c553da20c72fbfe0dc801dad4ea4b063ecff3138dcf55b5cd7831cf79067",
+    "document_metadata_sha256": "b338e76875197bfafa35fd9b92e8bd68311d5494f207205982b99990a8ef5746",
+    "chunker_sha256": "d851abf6761d8e5ff6dee4d2727b85c86fda21059dce8875a028cf8298e87764",
+    "materializer_sha256": "bb218a509ca56f2ddf4e44d73c4235cefacfb4296a4b98c9d49a627a2536e65c",
+    "raw_store_manifest_sha256": "752c044be1531d5bc2e2879f79acf1dbeffabcbeb9bb9d16f5e14a5676aa5810"
+  },
+  "population": {
+    "metadata_documents": 36,
+    "pairs": 22,
+    "baseline": {
+      "documents": 36,
+      "extractions": 36,
+      "chunks": 1859
+    },
+    "candidate": {
+      "documents": 36,
+      "extractions": 36,
+      "chunks": 2353,
+      "contexts_reused": 1777,
+      "contexts_absent": 576
+    }
+  },
+  "summary": {
+    "questions": 24,
+    "candidate_gold_mapped": 22,
+    "candidate_gold_cardinalities": {
+      "066c4080-1507-4485-ad24-d45fab075347": 1,
+      "0edba984-d9ca-4d96-8bcc-3b723b787ed3": 1,
+      "207d1733-dd1a-447b-82cc-41da853ce62f": 1,
+      "24962ed1-9ccd-48b4-ba00-3b8a462886d5": 1,
+      "29b49e99-07fe-4b83-8afd-2d770d8fc09d": 1,
+      "2b9a9f41-f468-42db-895b-920fb5050472": 1,
+      "3fbc1de1-8570-4d9e-808c-ae4eb94e6447": 1,
+      "477b868f-546c-4401-a934-fdfd576eb54a": 1,
+      "4c92486b-bbd6-420c-b47f-66dc1cb8711c": 1,
+      "540b4ccd-1ae0-4252-a6bb-069db622e22c": 1,
+      "59928572-1cd0-4ec7-a09c-b586034e488c": 1,
+      "5aee54fa-2612-4801-b4bf-ae27a19e359d": 1,
+      "72612b0b-0658-480d-84ce-d56e084495e9": 1,
+      "7c010925-85c7-41db-96b9-90ebfe564917": 1,
+      "7e50a922-84df-4109-9160-1a501c32b629": 1,
+      "935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033": 0,
+      "a3188eb9-70fa-4d35-8b1e-37065c21aec1": 1,
+      "be1945fb-f874-4a11-b6fc-76ce6f7468d1": 1,
+      "c07ed164-df92-4e07-9e8a-d1a4d730d3f0": 1,
+      "d05a9c31-2d29-461a-94b1-7d12edb7f1a4": 1,
+      "d3e6d574-9d67-40f6-aed6-109c6f9d2be0": 0,
+      "e27a94ef-f5aa-4218-921d-92a9bdb0b69f": 1,
+      "eed07d60-3fad-46f2-98a5-1542f3d099e6": 1,
+      "ef70e7f0-a68f-4797-bc7c-1edaff937261": 1
+    },
+    "baseline": {
+      "hits_at_5": 0,
+      "recall_at_5": 0.0,
+      "hits_at_10": 0,
+      "recall_at_10": 0.0,
+      "mrr_at_10": 0.0
+    },
+    "candidate": {
+      "hits_at_5": 0,
+      "recall_at_5": 0.0,
+      "hits_at_10": 0,
+      "recall_at_10": 0.0,
+      "mrr_at_10": 0.0
+    },
+    "lost_baseline_hits_at_10": [],
+    "manufacturers": {
+      "Argus Security": {
+        "baseline_hits_at_10": 0,
+        "candidate_hits_at_10": 0
+      },
+      "Aritech": {
+        "baseline_hits_at_10": 0,
+        "candidate_hits_at_10": 0
+      },
+      "Edwards": {
+        "baseline_hits_at_10": 0,
+        "candidate_hits_at_10": 0
+      },
+      "European Safety Systems": {
+        "baseline_hits_at_10": 0,
+        "candidate_hits_at_10": 0
+      },
+      "Fidegas": {
+        "baseline_hits_at_10": 0,
+        "candidate_hits_at_10": 0
+      },
+      "Kidde": {
+        "baseline_hits_at_10": 0,
+        "candidate_hits_at_10": 0
+      },
+      "LDA audioTech": {
+        "baseline_hits_at_10": 0,
+        "candidate_hits_at_10": 0
+      },
+      "Pfannenberg": {
+        "baseline_hits_at_10": 0,
+        "candidate_hits_at_10": 0
+      },
+      "Sensitron": {
+        "baseline_hits_at_10": 0,
+        "candidate_hits_at_10": 0
+      },
+      "Spectrex": {
+        "baseline_hits_at_10": 0,
+        "candidate_hits_at_10": 0
+      },
+      "System Sensor": {
+        "baseline_hits_at_10": 0,
+        "candidate_hits_at_10": 0
+      },
+      "Xtralis": {
+        "baseline_hits_at_10": 0,
+        "candidate_hits_at_10": 0
+      }
+    },
+    "manufacturers_with_net_hit_loss_at_10": []
+  },
+  "checks": {
+    "candidate_gold_mapped": false,
+    "lost_baseline_hits_at_10": true,
+    "candidate_recall_at_10_gte_baseline": true,
+    "candidate_mrr_at_10_gte_baseline": true,
+    "manufacturers_with_net_hit_loss_at_10": true,
+    "cohort_cardinality": true,
+    "runtime_results_complete": true,
+    "all_selected_extractions_materialized": true
+  },
+  "question_results": [
+    {
+      "question_id": "066c4080-1507-4485-ad24-d45fab075347",
+      "manufacturer": "System Sensor",
+      "baseline_rank": null,
+      "product_model": "6500R",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "0edba984-d9ca-4d96-8bcc-3b723b787ed3",
+      "manufacturer": "Fidegas",
+      "baseline_rank": null,
+      "product_model": "EL-11",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "207d1733-dd1a-447b-82cc-41da853ce62f",
+      "manufacturer": "Spectrex",
+      "baseline_rank": null,
+      "product_model": "40-40L",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "24962ed1-9ccd-48b4-ba00-3b8a462886d5",
+      "manufacturer": "Kidde",
+      "baseline_rank": null,
+      "product_model": "KE-DP3020W",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "29b49e99-07fe-4b83-8afd-2d770d8fc09d",
+      "manufacturer": "Sensitron",
+      "baseline_rank": null,
+      "product_model": "SMART 2",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "2b9a9f41-f468-42db-895b-920fb5050472",
+      "manufacturer": "European Safety Systems",
+      "baseline_rank": null,
+      "product_model": "IS-mA1",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "3fbc1de1-8570-4d9e-808c-ae4eb94e6447",
+      "manufacturer": "Aritech",
+      "baseline_rank": null,
+      "product_model": "2X-A Táctil",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "477b868f-546c-4401-a934-fdfd576eb54a",
+      "manufacturer": "Sensitron",
+      "baseline_rank": null,
+      "product_model": "PL4",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "4c92486b-bbd6-420c-b47f-66dc1cb8711c",
+      "manufacturer": "Argus Security",
+      "baseline_rank": null,
+      "product_model": "SGMCB200",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "540b4ccd-1ae0-4252-a6bb-069db622e22c",
+      "manufacturer": "Aritech",
+      "baseline_rank": null,
+      "product_model": "IU2055NC",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "59928572-1cd0-4ec7-a09c-b586034e488c",
+      "manufacturer": "LDA audioTech",
+      "baseline_rank": null,
+      "product_model": "NEO",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "5aee54fa-2612-4801-b4bf-ae27a19e359d",
+      "manufacturer": "Pfannenberg",
+      "baseline_rank": null,
+      "product_model": "DS-737",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "72612b0b-0658-480d-84ce-d56e084495e9",
+      "manufacturer": "Argus Security",
+      "baseline_rank": null,
+      "product_model": "SG100-IS",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "7c010925-85c7-41db-96b9-90ebfe564917",
+      "manufacturer": "Kidde",
+      "baseline_rank": null,
+      "product_model": "9-30781-KID-EN",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "7e50a922-84df-4109-9160-1a501c32b629",
+      "manufacturer": "Fidegas",
+      "baseline_rank": null,
+      "product_model": "RS-485",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033",
+      "manufacturer": "Xtralis",
+      "baseline_rank": null,
+      "product_model": "VESDA-E-VES",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "a3188eb9-70fa-4d35-8b1e-37065c21aec1",
+      "manufacturer": "Edwards",
+      "baseline_rank": null,
+      "product_model": "FHSD8310",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "be1945fb-f874-4a11-b6fc-76ce6f7468d1",
+      "manufacturer": "Xtralis",
+      "baseline_rank": null,
+      "product_model": "VESDA-E-VEA",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "c07ed164-df92-4e07-9e8a-d1a4d730d3f0",
+      "manufacturer": "European Safety Systems",
+      "baseline_rank": null,
+      "product_model": "IS-mA1",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "d05a9c31-2d29-461a-94b1-7d12edb7f1a4",
+      "manufacturer": "Spectrex",
+      "baseline_rank": null,
+      "product_model": "40-40R-SINGLE",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "d3e6d574-9d67-40f6-aed6-109c6f9d2be0",
+      "manufacturer": "System Sensor",
+      "baseline_rank": null,
+      "product_model": "XM-8100E",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "e27a94ef-f5aa-4218-921d-92a9bdb0b69f",
+      "manufacturer": "LDA audioTech",
+      "baseline_rank": null,
+      "product_model": "ONE",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "eed07d60-3fad-46f2-98a5-1542f3d099e6",
+      "manufacturer": "Edwards",
+      "baseline_rank": null,
+      "product_model": "FHSD8310",
+      "candidate_rank": null
+    },
+    {
+      "question_id": "ef70e7f0-a68f-4797-bc7c-1edaff937261",
+      "manufacturer": "Pfannenberg",
+      "baseline_rank": null,
+      "product_model": "PY-X-M-05",
+      "candidate_rank": null
+    }
+  ],
+  "manifests": {
+    "cohort_sha256": "4a1864ed4961e25e45c4027641b00d872d6dbf0bca403aaa4acd0f0fe071d0d3",
+    "baseline_rows_sha256": "7bc288b533a97867da8b767b669c33a37088ca79bfb117d58691b94c850be08b",
+    "candidate_rows_sha256": "2b87eaee73da84a704871182c84cf37465be3ae06bad93c15d07eb9f682bdd4a",
+    "gold_sha256": "cd073aef50b08e724d76f5f57594a9014bc8b3c4571acfe8173a577a503cd3cd",
+    "results_sha256": "e5c79fc72ac26a1b341cdcecf202fe82319bdd04ac6d9236954bbb75b5fb094d"
+  },
+  "authorization": {
+    "local_snapshot_reads": true,
+    "local_raw_store_reads": true,
+    "local_disposable_postgres_writes": true,
+    "remote_database": false,
+    "network": false,
+    "models": false,
+    "embeddings": false,
+    "context_generation": false,
+    "migration_apply": false,
+    "serving": false,
+    "deploy": false,
+    "facts_moved_to_ok": 0
+  },
+  "cost": {
+    "external_usd_ceiling": 0,
+    "model_calls": 0,
+    "network_calls": 0,
+    "remote_database_reads": 0,
+    "remote_database_writes": 0,
+    "embeddings": 0
+  },
+  "decision": "NO_GO_INVESTIGATE_FAILED_FROZEN_GATE"
+}

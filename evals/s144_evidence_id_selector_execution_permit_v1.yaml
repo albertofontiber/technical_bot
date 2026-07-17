@@ -1,0 +1,23 @@
+instrument: s144_evidence_id_selector_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_FINAL
+
+frozen_artifacts:
+  preregistration:
+    path: evals/s144_evidence_id_selector_prereg_v1.yaml
+    sha256: 0ed07857866b4471a93209cd89c9b1ec686ae82605191db7510cd2745e53e165
+  runner:
+    path: scripts/s144_evidence_id_selector.py
+    sha256: b1fef1c90a8b693979970f29454235b93e3d336fa7ed15ce97e6141db77cde8e
+
+limits:
+  calls: 7
+  retries: 0
+  conservative_total_ceiling_usd: 0.20
+  user_budget_usd: 250
+
+authorization:
+  paid_prototype: true
+  production: false
+  deploy: false
+  push: false
+  facts_moved_to_ok: 0

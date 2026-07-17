@@ -1,0 +1,36 @@
+instrument: s177_governed_derivation_shadow_prereg_v1
+status: FROZEN_BEFORE_REAL_REPLAY
+
+inputs:
+  discovery: evals/s162_numeric_superscript_discovery_scan_v1.json
+  extraction_store: data/extraction/agent_anthropic-sonnet-45
+  pdf_binding: logs/reingest_manifest.json
+  target_sha256: 648e8deba384c0a27f7f255a9149f754acb6cca999c586b0667829e457888c72
+
+contract:
+  raw_extraction_immutable: true
+  pdf_sha_must_equal_extraction_sha: true
+  derived_record_content_addressed: true
+  receipts_content_addressed: true
+  second_replay_byte_equivalent: true
+  downstream_check: current_chunker_preserves_each_receipted_mapping_with_two_anchors
+  target_or_manufacturer_rules: forbidden
+
+gate:
+  documents: 11
+  target_applied: 1
+  independent_applied_min: 32
+  envelope_integrity_failures_max: 0
+  deterministic_replay_failures_max: 0
+  downstream_propagation_rate: 1.0
+  raw_artifact_mutations_max: 0
+  model_calls: 0
+  network_calls: 0
+  database_calls: 0
+
+authorization:
+  local_shadow_replay: true
+  chunks_v2_write: false
+  chunks_v3_promotion: false
+  production_or_deployment: false
+  fact_credit: false

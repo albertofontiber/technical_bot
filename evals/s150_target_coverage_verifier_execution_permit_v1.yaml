@@ -1,0 +1,29 @@
+instrument: s150_target_coverage_verifier_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_FINAL
+
+frozen_artifacts:
+  preregistration:
+    path: evals/s150_target_coverage_verifier_prereg_v1.yaml
+    sha256: 71c017e783382b8c4313d6208af17da45ebfd2f8a4b20049be08672bed165624
+  runner:
+    path: scripts/s150_target_coverage_verifier_probe.py
+    sha256: f7aa9e39c39d56739d37be7f2807046830772a6f0fa1cc92b7c782b8f5e10b51
+  runner_tests:
+    path: tests/test_s150_target_coverage_verifier_probe.py
+    sha256: ee8d2e7e687bf3f16b5bc720684f2192b490ba33f9f776c796fe5521edec7ccc
+  verifier_tests:
+    path: tests/test_s150_evidence_coverage_verifier.py
+    sha256: b7221a9cd25cbe30a572ead06e71f9a9c9b25cfd94f17564bd503766baea15d7
+
+limits:
+  calls: 4
+  retries: 0
+  conservative_total_ceiling_usd: 1.50
+  user_budget_usd: 250
+
+authorization:
+  paid_verifier_probe: true
+  production: false
+  deploy: false
+  push: false
+  facts_moved_to_ok: 0

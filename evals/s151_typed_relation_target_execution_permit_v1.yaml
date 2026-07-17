@@ -1,0 +1,29 @@
+instrument: s151_typed_relation_target_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_FINAL
+
+frozen_artifacts:
+  preregistration:
+    path: evals/s151_typed_relation_target_prereg_v1.yaml
+    sha256: 296d0a05aef84a99e0ec11d8b720fc446fcddee1cf45f9cb9461df1e1a8e7b2f
+  runner:
+    path: scripts/s151_typed_relation_target_probe.py
+    sha256: de2191c1d777c89f5c0524da5fdb378a44d6873f2b0f14f4d7765d151b80cdf5
+  contract_tests:
+    path: tests/test_s151_typed_relations.py
+    sha256: 8d5a3d07cab6d05aefbba720702176484dc421be06e4d4edb3d06608ca5c0227
+  runner_tests:
+    path: tests/test_s151_typed_relation_target_probe.py
+    sha256: d9c8d4514d8895efefa3f429809691adeae5a8664fafce1c1bef53cd84b43967
+
+limits:
+  calls: 11
+  retries: 0
+  conservative_total_ceiling_usd: 1.50
+  user_budget_usd: 250
+
+authorization:
+  paid_typed_relation_pilot: true
+  production: false
+  deploy: false
+  push: false
+  facts_moved_to_ok: 0

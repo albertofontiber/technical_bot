@@ -1,0 +1,315 @@
+{
+  "instrument": "s142_query_evidence_generalization_v1",
+  "status": "NO_GO",
+  "frozen_extractor_sha256": "28d4ccbe1b87b9e6e2590c47958fddcc44a3c6bf639bc190fa0e73832646c800",
+  "sealed_cohort_sha256": "e17c7333537827ac6d036fffb60e8ae93e5055ea31a5c4eb3f9cbc747ea9cbcb",
+  "result": {
+    "eligible_questions": 7,
+    "positive_questions": 4,
+    "claims_total": 14,
+    "claims_covered": 6,
+    "claim_recall": 0.42857143,
+    "candidates_total": 21,
+    "useful_candidates": 6,
+    "candidate_precision": 0.28571429,
+    "cross_item_leakage": 0,
+    "deterministic_two_runs": true
+  },
+  "rows": [
+    {
+      "item_id": "hochiki_hcvx_panel",
+      "question_sha256": "0487a7c9b4d5ec0effabc510161d0eb14f45b81b73699a613e7a0c610a0b3ef2",
+      "claims": 2,
+      "claims_covered": 2,
+      "candidates": 3,
+      "useful_candidates": 2,
+      "candidate_receipts": [
+        {
+          "candidate_id": "hochiki_hcvx_panel",
+          "source_start": 2302,
+          "source_end": 2538,
+          "source_span_sha256": "6041016a7d6f137ca6cc978e4279ffc7e9d687516d7e3af59f3393b69f35dc29",
+          "semantic_identity": [
+            "65cf200f5a78d12a480963ee034a281f9d3db9a1982dbf632ed209177f5fee76"
+          ],
+          "score": 43
+        },
+        {
+          "candidate_id": "hochiki_hcvx_panel",
+          "source_start": 232,
+          "source_end": 454,
+          "source_span_sha256": "cca92e92ed7fbb4d822a2d8a15380c699a6fb4b48012ab4e8ca1aca2d8584c40",
+          "semantic_identity": [
+            "21d0d99c2ccb44d1a0a0e3a308f7a2183eb7f9f0d7a26f8d9f02cb626ed10150"
+          ],
+          "score": 39
+        },
+        {
+          "candidate_id": "hochiki_hcvx_panel",
+          "source_start": 343,
+          "source_end": 624,
+          "source_span_sha256": "053d2695a6680ec1cb21d73e280461026b7f0d84e486ac6c213b8ca04187b67d",
+          "semantic_identity": [
+            "dd9a61d904232f9e5bfd8365eece80c99a25ec4b5cc1d0b0bbf34b058ba2d18a"
+          ],
+          "score": 39
+        }
+      ]
+    },
+    {
+      "item_id": "siemens_fci2020_city_tie",
+      "question_sha256": "25f36d467b7a53e906ccd7ab21eda44b59f82323f4fbba3e8ee2b0cfbaec3e62",
+      "claims": 2,
+      "claims_covered": 2,
+      "candidates": 3,
+      "useful_candidates": 2,
+      "candidate_receipts": [
+        {
+          "candidate_id": "siemens_fci2020_city_tie",
+          "source_start": 1817,
+          "source_end": 2047,
+          "source_span_sha256": "e2fb83b42f6a373934d559e7826b46f0a7b1b7ca1b77a8ccde8214689567141a",
+          "semantic_identity": [
+            "88444bb4c5b5bc54b708333632fd53d250d343d74239bf35a80c83071a39e982"
+          ],
+          "score": 14
+        },
+        {
+          "candidate_id": "siemens_fci2020_city_tie",
+          "source_start": 110,
+          "source_end": 407,
+          "source_span_sha256": "e8b8d03f70417609606b377dd7599ca2015167022dced60cfa6ff9e07c3b55c9",
+          "semantic_identity": [
+            "559ad549619b90c0efd566e426d2c07356e43e2b9245156b12c1ceefaf697c3b"
+          ],
+          "score": 13
+        },
+        {
+          "candidate_id": "siemens_fci2020_city_tie",
+          "source_start": 183,
+          "source_end": 1979,
+          "source_span_sha256": "bf40a1360d171f1c0da17cf4fc7447961bba1bf040956e8b6eff5acf07dc861b",
+          "semantic_identity": [
+            "4a860eca27eed82541bad5b1e02ae36da9a7ecf879002e8c26f5757bbd5885c6"
+          ],
+          "score": 13
+        }
+      ]
+    },
+    {
+      "item_id": "bosch_fpp5000_power",
+      "question_sha256": "1b88236b64a01ae3778847d52391696c893e2ab7ddf5d62e511dbf83ff9edd35",
+      "claims": 2,
+      "claims_covered": 0,
+      "candidates": 3,
+      "useful_candidates": 0,
+      "candidate_receipts": [
+        {
+          "candidate_id": "bosch_fpp5000_power",
+          "source_start": 793,
+          "source_end": 992,
+          "source_span_sha256": "17c7d23e9c6da696eb50c972b6bb763d475c6d1dee7e1ddf896fc562a94fa446",
+          "semantic_identity": [
+            "f7920375c8363432b9e0cb1fb15c7a9f4f1d58ee1e116b5d76955f310ed53820"
+          ],
+          "score": 18
+        },
+        {
+          "candidate_id": "bosch_fpp5000_power",
+          "source_start": 1502,
+          "source_end": 1717,
+          "source_span_sha256": "62ee88a200a5841ccb8fa48b8e1f7587587b3cb21367625d0c769c57839e60b4",
+          "semantic_identity": [
+            "650edcbf8a67f0830708c21083c4b60c764d85c581fed58984850ab2f37e62da"
+          ],
+          "score": 15
+        },
+        {
+          "candidate_id": "bosch_fpp5000_power",
+          "source_start": 447,
+          "source_end": 793,
+          "source_span_sha256": "527c54d411176bbe4d498fcf3215f8a8f309c86d495ff23fedf6a53767c87038",
+          "semantic_identity": [
+            "b4895cc2a598a5b0de6685b55ab99cab4070374291196ca36e3e7a6a756408f1"
+          ],
+          "score": 14
+        }
+      ]
+    },
+    {
+      "item_id": "hochiki_smoke_heat_guide",
+      "question_sha256": "350df5284f46d30b1f752a3586c7182640b01d0bb748279be47832b400d47b17",
+      "claims": 2,
+      "claims_covered": 0,
+      "candidates": 3,
+      "useful_candidates": 0,
+      "candidate_receipts": [
+        {
+          "candidate_id": "hochiki_smoke_heat_guide",
+          "source_start": 0,
+          "source_end": 279,
+          "source_span_sha256": "ddeeefc5698293ad166d1210d346d62678bee6ea49502feac175b2f58dd83114",
+          "semantic_identity": [
+            "c75f2ae065c19ac02ffcda6d9bfbe352a5a1540c9105eca041c84dc80956313c"
+          ],
+          "score": 11
+        },
+        {
+          "candidate_id": "hochiki_smoke_heat_guide",
+          "source_start": 220,
+          "source_end": 495,
+          "source_span_sha256": "155f2e6eec6cc5def9de561b20972ed4c962ea692707d6920feba9932978d8f0",
+          "semantic_identity": [
+            "a61d3da97132bb3f500243a2161119d56cb2d3fe240c7a4abf8f4a561b267f19"
+          ],
+          "score": 11
+        },
+        {
+          "candidate_id": "hochiki_smoke_heat_guide",
+          "source_start": 391,
+          "source_end": 636,
+          "source_span_sha256": "f8934f6ad9eddba859179496329d23c0b82994da9881e3df7adadd285da9122b",
+          "semantic_identity": [
+            "3ad197a36854c0838ad4791996e41cd977630188fbc0b0b33980ea426b72dfda"
+          ],
+          "score": 11
+        }
+      ]
+    },
+    {
+      "item_id": "siemens_fc922_panel",
+      "question_sha256": "c5095ef0730d3ef99e8966c6c15d9c629a68692a21ac4b0fe9da51887cc0b0d4",
+      "claims": 2,
+      "claims_covered": 1,
+      "candidates": 3,
+      "useful_candidates": 1,
+      "candidate_receipts": [
+        {
+          "candidate_id": "siemens_fc922_panel",
+          "source_start": 406,
+          "source_end": 773,
+          "source_span_sha256": "a496022102b85241796e1a0ef4e292a41f62f6bddde58b7068f656cd58b86e8a",
+          "semantic_identity": [
+            "2a00b1f383bc74e129910b203fe73b0d5b7cc92e0b1614d2a3fa2d338ca165e3"
+          ],
+          "score": 29
+        },
+        {
+          "candidate_id": "siemens_fc922_panel",
+          "source_start": 119,
+          "source_end": 520,
+          "source_span_sha256": "11f72b640a8415d23fa0b590e53a14b0add2673cb2450b1c1229849e071a8cf2",
+          "semantic_identity": [
+            "b2da563e9d101621f46bb838867df187a8ed13e9112b46a507867293cbaf3746"
+          ],
+          "score": 27
+        },
+        {
+          "candidate_id": "siemens_fc922_panel",
+          "source_start": 282,
+          "source_end": 1801,
+          "source_span_sha256": "9b1381994eb39121ceeb5826738def77603f637bd6db52c2bdeb67cafba5f973",
+          "semantic_identity": [
+            "199067669b1d1ad6c5c1e486e46f797e4425e1c39af4326b35568c8866d6c12f"
+          ],
+          "score": 27
+        }
+      ]
+    },
+    {
+      "item_id": "hochiki_vr3_releasing",
+      "question_sha256": "b5f36d1447fe93eb15b9c4c8024b9d0a1693302b3e36023ecf129f4628c0ad02",
+      "claims": 2,
+      "claims_covered": 1,
+      "candidates": 3,
+      "useful_candidates": 1,
+      "candidate_receipts": [
+        {
+          "candidate_id": "hochiki_vr3_releasing",
+          "source_start": 798,
+          "source_end": 1396,
+          "source_span_sha256": "478946c9393130e046e16fe618807137a1dbf3cc40f7e96584f1e909dcf11459",
+          "semantic_identity": [
+            "e716fccf0caf96781acb8251f8750e6995f76aa8930658c019becdc9bc0d581c"
+          ],
+          "score": 35
+        },
+        {
+          "candidate_id": "hochiki_vr3_releasing",
+          "source_start": 1216,
+          "source_end": 1625,
+          "source_span_sha256": "c5f0516d4292abdc042a556a458e64403020c8cec11c5d0dd3d38a7e173063af",
+          "semantic_identity": [
+            "cec657b468c01eb75c1ed6ba1c42b01958b6ce1f7bff652c970a602355b07cee"
+          ],
+          "score": 35
+        },
+        {
+          "candidate_id": "hochiki_vr3_releasing",
+          "source_start": 2004,
+          "source_end": 2423,
+          "source_span_sha256": "3074e5765429450cb9bab5893003023513e30624dc206fbec79637397373367d",
+          "semantic_identity": [
+            "a4278cc15ace46ab871a4e1d55d031aac25b6d5e3aa4f8dae806c783bd5768f9"
+          ],
+          "score": 35
+        }
+      ]
+    },
+    {
+      "item_id": "apollo_xpander_commissioning",
+      "question_sha256": "2c559a773d726e46897b77a8d3ba8df059a855a12cebecb1e8991d440d09dfc9",
+      "claims": 2,
+      "claims_covered": 0,
+      "candidates": 3,
+      "useful_candidates": 0,
+      "candidate_receipts": [
+        {
+          "candidate_id": "apollo_xpander_commissioning",
+          "source_start": 21,
+          "source_end": 291,
+          "source_span_sha256": "e9ffada2847221eceb952b79e770ff4483d6612d4945c71341accb167b8f2e27",
+          "semantic_identity": [
+            "628bf5da5ae771f60e96b09591d62dba02fff990022f208667a1c9702c7e6d23"
+          ],
+          "score": 24
+        },
+        {
+          "candidate_id": "apollo_xpander_commissioning",
+          "source_start": 37,
+          "source_end": 934,
+          "source_span_sha256": "cd07426fe950821bd0e7c6288c17c0d3b9182313ab080bd6e871e9eab0758f90",
+          "semantic_identity": [
+            "95572c171e395f575f08f3e33f2469642430926a757ce701844e2868165e3d37"
+          ],
+          "score": 24
+        },
+        {
+          "candidate_id": "apollo_xpander_commissioning",
+          "source_start": 2240,
+          "source_end": 2605,
+          "source_span_sha256": "8dc8fccbfe8ccd0ddecaa6d5325d9d842e9467b4b4a634a54e079b7c45a83000",
+          "semantic_identity": [
+            "d71ecc71cd428035b0943f6e93a7798d30b049b2db6a0216112c4098f537f9d9"
+          ],
+          "score": 18
+        }
+      ]
+    }
+  ],
+  "decision": {
+    "integrate_versioned_s142_contract": "NO_GO",
+    "paid_answer_probe": "NO_GO_BEFORE_INTEGRATION_REGRESSION",
+    "production": "NO_GO",
+    "facts_moved_to_ok": 0
+  },
+  "cost": {
+    "incremental_model_calls": 0,
+    "incremental_network_calls": 0,
+    "incremental_database_calls": 0,
+    "incremental_usd": 0,
+    "cohort_authoring_known_usd": 0.041104,
+    "prior_unknown_reserve_usd": 0.35
+  },
+  "result_sha256": "75dd8778b5142972954ca15453b979b0507abae3a1ee76d565621855c9db6b58"
+}

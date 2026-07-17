@@ -1,0 +1,103 @@
+instrument: evidence_derivation_decision_log_v1
+status: FINAL_LOCAL_GO_DEFAULT_OFF
+purpose: >-
+  Preserve the decision lineage without shipping rejected registries or their
+  one-off builders as runtime configuration.
+
+source_validation:
+  s177:
+    status: LOCAL_GO
+    documents: 11
+    pdf_receipts: 33
+    propagated_to_current_chunker: 33
+    integrity_failures: 0
+  s178:
+    status: LOCAL_COMBINED_GO
+    frozen_answer_source_contract: 5_of_5
+    frozen_answer_protected_claims: 4_of_4
+    exact_relay_life_supports: 2_of_2
+    invalid_citations: 0
+
+rejected_runtime_candidates:
+  - candidate: s179_page_token_anchor_v1
+    status: LOCAL_NO_GO
+    retired_registry_file_sha256: 21373fd2a46013673c64fa915b7ddef8f9c26d994d3dcc446276e8822512124e
+    reason: >-
+      Overlapping chunks produced 39 applications for 33 source receipts and
+      three derived-stream mismatches. Page/token/anchor matching was not exact.
+  - candidate: s180_rechunk_by_ordinal_v2
+    status: LOCAL_NO_GO_BUILD_ABORTED
+    retired_registry: never_written
+    reason: >-
+      Superscript markup shifted at least one long atomic-table boundary, so
+      chunk ordinal is not a stable post-rerank identity.
+  - candidate: s181_current_chunker_source_span_v3
+    status: LOCAL_NO_GO
+    retired_registry_file_sha256: 0748fa00841224177dd8d74cd1d794c60dc80fb156fd064b9f07e4fd0b3d2d4e
+    reason: >-
+      Exact on newly produced current-chunker content but not on the active
+      legacy chunks_v2 contexts; only one of two relay-life citations gained
+      exact exponent support.
+  - candidate: s182_all_source_receipts_must_be_live_v4
+    status: LOCAL_NO_GO_SOURCE_POPULATION_MISMATCH
+    retired_registry_file_sha256: 4add6ffe788f7e3472863829c4a12518c84413f176df88cce6c1a88f3c96c64d
+    reason: >-
+      A complete 710-row live snapshot bound 30 of 33 PDF receipts exactly;
+      three source lines were absent and zero were ambiguous. Inventing runtime
+      rows for the absent source population was forbidden.
+  - candidate: s183_promote_v4_to_v5
+    status: LOCAL_GO_RETIRED_FOR_SIMPLIFICATION
+    reason: >-
+      Functionally correct, but depended on the rejected v4 artifact. Replaced
+      by a direct v5 builder to avoid a permanent v4-to-v5 dependency chain.
+
+final_candidate:
+  builder: scripts/build_evidence_derivation_registry.py
+  qualifier: scripts/qualify_evidence_derivation_registry.py
+  registry: config/extraction_derivations_v5.json
+  registry_file_sha256: 5336dcd2d563a63bdb1e233c54b8af4c419bbc17b9605bb0a4e26e5ada5d3c50
+  registry_artifact_sha256: 33c095aed51752351e884e7e6d01b7887f30fabeebda6127ebf38942c4d1f91e
+  live_read_receipt: evals/evidence_derivation_live_read_receipt_v1.json
+  live_read_receipt_file_sha256: 962a9b9be52fc1fd6ac2f3924027201138a30577250b72cbe082101cdb56d37a
+  gate: evals/evidence_derivation_registry_gate_v1.json
+  gate_file_sha256: b602c9253f71d4f5a6fe1fcbc77e9235f97a653137848e959da98dd9ea9467f9
+  full_regression: evals/evidence_derivation_full_regression_v1.json
+  full_regression_result: 1473_passed_4_skipped_0_failed
+  source_receipts: {total: 33, exact_active: 30, exact_absent: 3, ambiguous: 0}
+  active_chunk_derivations: 13
+  database_rows_read: 710
+  database_writes: 0
+  model_calls: 0
+  release_flag_default: off
+  production_or_deployment: false
+  facts_moved_to_ok: 0
+
+hardening_after_gate:
+  duplicate_bound_source_receipts: rejected
+  duplicate_absent_source_receipts: rejected
+  runtime_matching: exact_only
+  second_pass: inert
+
+adversarial_checkpoint:
+  status: NO_USABLE_JUDGE_OUTPUT
+  sol_5_6_xhigh: INCOMPLETE_NO_RETRY
+  fable_5_xhigh: INCOMPLETE_NO_RETRY
+  dual_judge_convergence: false
+  conservative_combined_cost_upper_bound_usd: 0.8
+  decision: >-
+    Do not retry. The two incomplete calls are recorded as instrument failures,
+    not candidate validation. Rely on deterministic gates and local code review
+    for this default-off commit; require a fresh bounded release review only if
+    later production activation is proposed.
+
+retention_policy:
+  keep:
+    - final direct-v5 builder, registry, live receipt, qualifier and gate
+    - source-level S177 evidence and frozen-answer S178 evidence
+    - this compact decision log
+    - incomplete paid-call receipts for cost transparency
+  retire:
+    - rejected v1, v3 and v4 runtime registries
+    - one-off rejected builders and qualifiers
+    - redundant intermediate gates and preregistrations summarized above
+    - failed adversarial packet and execution harness

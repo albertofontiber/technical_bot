@@ -1,0 +1,94 @@
+instrument: s188_local_multilingual_selector_screen_v1
+status: CLOSED_NO_GO
+
+scope:
+  source_cohort: evals/s171_s147_source_unit_gold_v1.json
+  relation_store: evals/s186_relation_store_v1.json
+  frozen_haiku_selector: evals/s186_relation_selector_receipts_v1.json
+  questions: 14
+  manufacturers: 14
+  claims: 37
+  api_calls: 0
+  target_questions_exposed: 0
+
+models:
+  - id: intfloat/multilingual-e5-base
+    source: preinstalled_local_cache
+    network: false
+  - id: intfloat/multilingual-e5-large
+    source: preinstalled_local_cache
+    network: false
+
+frozen_s186_thresholds:
+  claim_recall_min: 0.90
+  unit_precision_min: 0.80
+  question_complete_rate_min: 0.75
+
+measurements:
+  frozen_haiku:
+    claims_covered: 28
+    claim_recall: 0.7568
+    questions_complete: 9
+    question_complete_rate: 0.6429
+    selected_units: 41
+    useful_units: 19
+    unit_precision: 0.4634
+  e5_base_relations_k8:
+    claims_covered: 31
+    claim_recall: 0.8378
+    questions_complete: 9
+    question_complete_rate: 0.6429
+    selected_units: 91
+    useful_units: 21
+    unit_precision: 0.2308
+  e5_large_relations_k7:
+    claims_covered: 32
+    claim_recall: 0.8649
+    questions_complete: 9
+    question_complete_rate: 0.6429
+    selected_units: 84
+    useful_units: 22
+    unit_precision: 0.2619
+  haiku_union_e5_base_k3:
+    claims_covered: 33
+    claim_recall: 0.8919
+    questions_complete: 10
+    question_complete_rate: 0.7143
+    selected_units: 62
+    useful_units: 23
+    unit_precision: 0.371
+  haiku_union_e5_large_k7:
+    claims_covered: 33
+    claim_recall: 0.8919
+    questions_complete: 10
+    question_complete_rate: 0.7143
+    selected_units: 92
+    useful_units: 23
+    unit_precision: 0.25
+  e5_base_raw_units_k10:
+    claims_covered: 34
+    claim_recall: 0.9189
+    questions_complete: 12
+    question_complete_rate: 0.8571
+    selected_units: 140
+    useful_units: 24
+    unit_precision: 0.1714
+
+decision:
+  local_embedding_selector: NO_GO
+  paid_model_successor: NOT_CALLED
+  same_cohort_tuning: false
+  target_probe: false
+  production: false
+  facts_moved_to_ok: 0
+  rationale: >-
+    Local multilingual embeddings can raise recall, but only by selecting most
+    of the available units. The best recall/complete arm fails precision by a
+    wide margin and does not provide the bounded attention benefit required of
+    an evidence selector. A paid successor is not justified on this cohort.
+
+cost:
+  api_usd: 0
+  model_calls: 0
+  network_calls: 0
+  database_calls: 0

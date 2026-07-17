@@ -1,0 +1,68 @@
+instrument: s191_visual_utility_classifier_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+
+frozen_inputs:
+  cohort:
+    path: evals/s191_visual_utility_cohort_v1.json
+    sha256: 3e4295f140ad19bd9599d2733d8ae0b17c6597253c5e1b92897bb4048f99e2e9
+    semantic_payload_sha256: 7863b4322b468a83e77ab5e7e7412d365c6bfd76847ecfda9f8d2ef7d29a5963
+  freeze_script:
+    path: scripts/s191_freeze_visual_utility_cohort.py
+    sha256: 17e0f14aa307fe64fb0cfede2b0ccf25e831734535f41bf31ac2987d18197628
+  executor_runner:
+    path: scripts/s191_visual_utility_executor.py
+    sha256: 379bff74ac6748cef912dd27f33341a480ec49e229fd4ab8a7c48bcc44d22414
+  design: evals/s191_visual_utility_classifier_design_v1.md
+
+population:
+  assets: 60
+  manufacturers: 12
+  strata: {first_page: 12, wiring: 12, procedure: 12, specification: 12, other: 12}
+  target_fact_overlap: 0
+  ruler_questions_used: false
+
+executor:
+  provider: anthropic
+  model: claude-haiku-4-5-20251001
+  batches: 6
+  assets_per_batch: 10
+  max_output_tokens_per_batch: 1800
+  retries: 0
+  positive_policy:
+    technical_utility: useful
+    confidence: high
+    has_legible_technical_visual: true
+    visual_role: [wiring, table, procedure, ui]
+
+frontier_gate:
+  trigger: valid_executor_and_positive_count_between_10_and_30
+  sol: {model: gpt-5.6-sol, reasoning_effort: xhigh, calls_max: 1, max_output_tokens: 7000}
+  fable: {model: claude-fable-5, thinking: adaptive, effort: xhigh, calls_max: 1, max_output_tokens: 7000}
+  retries: 0
+  additional_rounds: 0
+  positives_only: true
+  reviewers_blinded_to_each_other: true
+
+gate:
+  executor_valid_rows: 60
+  positive_count_min: 10
+  positive_count_max: 30
+  joint_precision_min: 0.95
+  cover_marketing_product_photo_false_positives_max: 0
+  provenance_mismatches_max: 0
+  incomplete_frontier_result: HOLD_NO_RETRY
+
+budget_usd:
+  haiku_max: 2
+  sol_max: 3
+  fable_max: 5
+  s191_stop_line: 10
+  user_remaining_ceiling_not_reinterpreted: 250
+
+authorization:
+  paid_execution_within_stop_line: true
+  database_writes: false
+  storage_writes: false
+  production: false
+  deploy: false
+  facts_moved_to_ok: 0

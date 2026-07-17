@@ -1,0 +1,91 @@
+{
+  "instrument": "s164_legacy_heldout_revision_receipt_v1",
+  "status": "COMPLETE",
+  "response_id": "msg_011Cd6t3R82Anz6N3onL8rBY",
+  "counted_input_tokens": 11227,
+  "selected_unit_receipts": [
+    {
+      "unit_id": "E006_64a80ddfa8",
+      "fragment_number": 4,
+      "source_spans": [
+        [
+          476,
+          512
+        ]
+      ],
+      "content_sha256": "49c2ad66024b12b55e42f09629d2f7e039e25260558f7c3501a3de2c769f8085"
+    },
+    {
+      "unit_id": "E007_4ae099de78",
+      "fragment_number": 4,
+      "source_spans": [
+        [
+          514,
+          547
+        ]
+      ],
+      "content_sha256": "e652dae7e18fbf770374ee2f8509f2bc2fed1eb0a5650c26c5bdf3b0bec620bc"
+    },
+    {
+      "unit_id": "E008_f062c6381d",
+      "fragment_number": 4,
+      "source_spans": [
+        [
+          549,
+          568
+        ]
+      ],
+      "content_sha256": "bf3d03cbff89465d22d20ae4e782f3825b5ae5f08dc795abf54c17ee04cdce9f"
+    },
+    {
+      "unit_id": "E009_b7043c281f",
+      "fragment_number": 4,
+      "source_spans": [
+        [
+          570,
+          591
+        ]
+      ],
+      "content_sha256": "c02bd979b98fe97a81819591be85fd254a0d76485f4a572fbec3a413d787fde7"
+    },
+    {
+      "unit_id": "E010_85f39a3619",
+      "fragment_number": 4,
+      "source_spans": [
+        [
+          593,
+          634
+        ]
+      ],
+      "content_sha256": "f46daf774dfa8616a000bb4c447bda189dae9b46f43e7fde00b2dcd554202bae"
+    },
+    {
+      "unit_id": "E011_eaed652707",
+      "fragment_number": 4,
+      "source_spans": [
+        [
+          636,
+          679
+        ]
+      ],
+      "content_sha256": "be62fa5d24927d295b301d8158c235becfc797b98e46d70fb4b896060e235e88"
+    }
+  ],
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 11227,
+    "output_tokens": 676,
+    "server_tool_use": null,
+    "service_tier": "standard"
+  },
+  "cost_usd": 0.043821,
+  "stop_reason": "end_turn",
+  "answer": "## Capacidad de la CAD-171 y opciones de ampliación\n\n### Capacidad base (unidad individual)\n\nLa CAD-171 dispone de las siguientes prestaciones [F1]:\n\n- **Lazos:** 2 (de base)\n- **Dispositivos:** 500 por panel\n- **Zonas programables:** 2.000 por panel\n- **Áreas:** 250\n- **Grupos:** 1.000\n- **Controles o relés virtuales:** 1.000\n- **Modos especiales:** 2.500\n- **Acciones o eventos de maniobras:** 100.000\n\nCada lazo soporta hasta **250 dispositivos analógicos** [F2].\n\n---\n\n### Ampliación de lazos en la misma unidad\n\nLa placa principal (motherboard) tiene **capacidad para instalar hasta 3 tarjetas de 2 lazos, referencia TBUD-NG** [F1], lo que permite ampliar la CAD-171 hasta un máximo de **8 lazos** por unidad [F3].\n\n---\n\n### Ampliación en red (sistema multinodo)\n\nLa CAD-171 puede conectarse en red con otras unidades (centrales principales o de expansión). El sistema admite **hasta 64 nodos**, con una distancia máxima entre nodos de **1.000 m** [F1].\n\nEn configuración de red, la familia Vesta permite alcanzar por nodo [F4]:\n\n- **Hasta 8.000** dispositivos por nodo\n- **Hasta 2.000** zonas programables\n- **Hasta 250** áreas\n- **Hasta 1.000** grupos\n- **Hasta 250** controles o relés virtuales\n- **Hasta 2.500** modos especiales por central\n\n---\n\n### Nota sobre la familia Vesta\n\nEl manual de configuración menciona que la versión compacta de 2 lazos es la **CAD-171**, y que existe también la versión **CAD-201** (2 lazos ampliable a 8 lazos) [F4]. Si necesitas más de 8 lazos por nodo, la familia Vesta modular permite hasta **32 lazos por nodo** [F4].\n\n---\n\nFuente: Manual_CAD-171-MI-716-es (sin revisión registrada); CAD-250_Manual-software-configuracion-MS-416-es-2026-b (sin revisión registrada)\n\nTambién puedo ayudarte con: **instalación y conexionado de las tarjetas TBUD-NG**, **especificaciones de cableado del lazo analógico** o **configuración de la red de 64 nodos** en la CAD-171.",
+  "answer_sha256": "ea723eef91c52538ed46218f4d7fca057857075b483919dba4319bbeec056fac"
+}

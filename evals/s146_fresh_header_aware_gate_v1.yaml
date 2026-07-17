@@ -1,0 +1,63 @@
+instrument: s146_fresh_header_aware_gate_v1
+status: NO_GO_AUTHOR_POPULATION
+
+evidence:
+  source_packet:
+    path: evals/s146_fresh_source_packet_v1.json
+    sha256: bc442d04fbc81d0181e636b72dc819af9cbcc035b3800f1337e48044f7d5ba4a
+  validated_cohort:
+    path: evals/s146_fresh_obligation_cohort_v1.json
+    sha256: 01830c4a03c900bf2954c643a811ac33bebf3e0ffb161f055466f0ba2f09fa66
+  author_receipt:
+    path: evals/s146_fresh_author_receipt_v1.json
+    sha256: 4092463167504421633e9df97e300ef0a219e403c6483e1ea05b0d0378860d4d
+  preregistration:
+    path: evals/s146_fresh_header_aware_prereg_v1.yaml
+    sha256: 38dc3e4c7d4874c8e421233ce5629e0952548038cbe68ebad10cc3ed9438151b
+  runner:
+    path: scripts/s146_fresh_header_aware_gate.py
+    sha256: c113cff111590f42943c015e9393f6c4bc9c93a3281d661330023dc6d9bcd02c
+
+result:
+  source_items: 14
+  eligible_questions: 8
+  table_questions: 7
+  prose_questions: 1
+  manufacturers: 8
+  whitespace_only_repairs: 1
+  quote_validation_drops: 0
+  selector_calls: 0
+
+checks:
+  eligible_questions_gte_10: false
+  table_questions_gte_4: true
+  prose_questions_gte_4: false
+  zero_model_retries: true
+  stopped_before_selector: true
+
+finding:
+  scope: batch_cohort_authoring
+  description: >-
+    The single batch call authored every table item but marked six of seven
+    independently useful prose excerpts ineligible. The source excerpts were
+    subsequently burned for diagnosis. A new version may use fresh documents
+    and one bounded author call per item; thresholds may not be relaxed.
+
+decision:
+  reuse_s146_sources_as_confirmatory: forbidden
+  lower_population_threshold_post_hoc: forbidden
+  fresh_per_item_authoring_iteration: GO
+  header_aware_unitizer: UNRESOLVED
+  implementation_probe: NO_GO
+  production: NO_GO
+  facts_moved_to_ok: 0
+
+cost:
+  author_usd: 0.036398
+  selector_usd: 0
+  total_usd: 0.036398
+
+authorization:
+  production: false
+  deploy: false
+  push: false

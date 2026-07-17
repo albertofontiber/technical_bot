@@ -1,0 +1,28 @@
+instrument: s193_terra_id_planner_deterministic_append_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_NO_RETRY
+
+authorization_basis:
+  user_autonomous_budget_ceiling_usd: 250
+  s193_internal_stop_line_usd: 1
+  scope: structural_synthesis_planner_screen
+
+frozen_artifacts:
+  preregistration: {path: evals/s193_terra_id_planner_deterministic_append_prereg_v1.yaml, sha256: 8861b7758e9f0666da699dbdd8c7cd4ebc1e7d4cf0fc2bb5362fa095fb064dab}
+  runner: {path: scripts/s193_terra_id_planner_deterministic_append.py, sha256: 747487b1c4d74599345bf0613c94c2198c81c3f804c040a8b08dd5b345e398ff}
+
+allowed:
+  - fourteen_no_retry_terra_low_id_selection_calls
+  - deterministic_local_append_and_post_checkpoint_scoring
+
+forbidden:
+  - reasoning_escalation_or_prompt_tuning
+  - free_prose_revision_calls
+  - sol_or_fable_calls_before_a_passing_gate
+  - database_storage_or_production_writes
+  - target_probe_or_fact_reclassification
+
+stop_conditions:
+  - preflight_cost_reaches_1_usd
+  - any_frozen_hash_mismatch
+  - invalid_or_invented_relation_id
+

@@ -1,0 +1,75 @@
+instrument: s162_numeric_superscript_visual_review_v2
+status: VISUAL_REVIEW_GO
+source_packet: evals/s162_numeric_superscript_overlay_packet_v2.json
+
+method:
+  renderer: Poppler_pdftoppm
+  dpi: 200
+  reviewer: codex_visual_inspection
+  sampling: one_applied_page_per_non_target_document
+  target_document_excluded: true
+
+reviewed:
+  - source_file: I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG.pdf
+    pdf_page: 5
+    rendered_sha256: b826ac299504a6245732608869ba3b9c2b69e4ef0d5075f1825fa53b06ec8d64
+    observed: "Life Time | 10 with superscript 5 | Operations"
+    attachment_correct: true
+  - source_file: I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG.pdf
+    pdf_page: 5
+    rendered_sha256: 5be60f87fbf7246d15e1dc9737e415f23fb9ccde0a8a2ab2348d4eb367a0fdcc
+    observed: "Vida util | 10 with superscript 5 | Operaciones"
+    attachment_correct: true
+  - source_file: I56-6575-005_EN-FAAST-LT-200-Loop-QIG.pdf
+    pdf_page: 5
+    rendered_sha256: 4d1a07960284c36b7e49e89064fd3ce5f89e75335e855a1c052edc2d913e1836
+    observed: "Life Time | 10 with superscript 5 | Operations"
+    attachment_correct: true
+  - source_file: I56-6575-005_ES FAAST LT-200 Loop QIG.pdf
+    pdf_page: 5
+    rendered_sha256: a2ae7949d2d3e4b0d4892c4cb4f28c289dce4c121fe26a30483cda9a1706189d
+    observed: "Vida util | 10 with superscript 5 | Operaciones"
+    attachment_correct: true
+  - source_file: I56-6577-006_ES FAAST Notifier LT-200 QIG.pdf
+    pdf_page: 5
+    rendered_sha256: 0531f6cc78e1f915fd31f44473102935690dbd766e1aae46ab4451e1298a1689
+    observed: "Vida util | 10 with superscript 5 | Operaciones"
+    attachment_correct: true
+  - source_file: I56-3947-202_FAAST LT_MULTI.pdf
+    pdf_page: 5
+    rendered_sha256: 6ab6f9b49ee6fa8d4d9389def6da4f16cfac517153c9934785c070d059562057
+    observed: "Life Time | 10 with superscript 5 | Operations"
+    attachment_correct: true
+  - source_file: MNDT080.pdf
+    pdf_page: 48
+    rendered_sha256: cd9974b259a2fc557b19f62bf86835dcdb8119216f0eba1a870ce4bc61583dc0
+    observed: "event-code values 11 through 19 carry superscript note marker 1"
+    attachment_correct: true
+  - source_file: MNDT390.pdf
+    pdf_page: 27
+    rendered_sha256: 140625750dd7e2f2a92c0a85249fbb9ce3a5e7015eae118e2e4e53d86265b862
+    observed: "table values such as 01 and 04 carry superscript note marker 4"
+    attachment_correct: true
+
+result:
+  documents_reviewed: 8
+  pdf_typography_matches_receipt: 8
+  correct_markdown_attachments: 8
+  false_attachments: 0
+  typography_match_rate: 1.0
+  attachment_precision: 1.0
+
+notes:
+  - >-
+    Superscripts in MNDT080 and MNDT390 are note markers, not powers. Literal
+    <sup> markup preserves this distinction without assigning mathematical
+    semantics.
+  - >-
+    Poppler warned about unavailable Symbol/ArialUnicode display fonts on two
+    pages; the reviewed numeric superscripts and their row labels rendered
+    clearly and were unaffected.
+
+cost:
+  model_calls: 0
+  network_calls: 0
+  usd: 0

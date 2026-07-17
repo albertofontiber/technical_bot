@@ -1,0 +1,10 @@
+{
+  "instrument": "s154_anthropic_schema_400_receipt_v1",
+  "status": "PREFLIGHT_FAILED_BEFORE_PAID_EXECUTION",
+  "request_id": "req_011Cd6gKGD32kZfsWxg62vVp",
+  "error_type": "invalid_request_error",
+  "message": "output_config.format: For 'array' type, property 'maxItems' is not supported",
+  "paid_message_calls": 0,
+  "output_files_created": 0,
+  "recovery": "Remove unsupported maxItems from provider schema and enforce the unchanged maximum locally in a versioned transport v2."
+}

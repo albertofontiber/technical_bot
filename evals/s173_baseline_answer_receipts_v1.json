@@ -1,0 +1,315 @@
+{
+  "instrument": "s173_baseline_answer_receipts_v1",
+  "status": "COMPLETE",
+  "created_at": "2026-07-17T04:20:31.879972+00:00",
+  "receipts": [
+    {
+      "item_id": "s147_src_01",
+      "response_id": "msg_011Cd6z7hdkubCZ8tgfhSzoE",
+      "counted_input_tokens": 7891,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 7891,
+        "output_tokens": 483,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.030918,
+      "stop_reason": "end_turn",
+      "answer": "## Configuración SW4, SW5 y SW6 para alarma por coincidencia (ambos sensores)\n\nPara que la alarma se active **únicamente cuando ambos sensores entran en alarma simultáneamente** (modo coincidencia), la configuración es [F1]:\n\n- **SW4: ON (1)**\n- **SW5: OFF (0)**\n- **SW6: OFF (0)**\n\nEs decir, la combinación **1 - 0 - 0** [F1].\n\n---\n\n### Comportamiento con esta configuración (1-0-0) [F1]:\n\n- **Normal:** Estado normal → sin alarma\n- **Fallo:** Fallo → indicación de fallo\n- **Solo sensor 1 en alarma:** → Estado normal (no activa alarma)\n- **Solo sensor 2 en alarma:** → Activa alarma\n- **Fallo + sensor 1 en alarma:** → Indicación de fallo\n- **Fallo + sensor 2 en alarma:** → Activa alarma\n\n---\n\n### Configuración alternativa (para referencia)\n\nSi en cambio se requiere que la alarma se active cuando **cualquiera de los dos sensores** entre en alarma, la configuración sería **SW4: OFF, SW5: ON, SW6: ON** (combinación **0 - 1 - 1**) [F1].\n\n---\n\n### Nota importante [F1]:\nSi el NAS-2 está conectado a un módulo **M710 o MM-103**, **no instales el link de terminación del módulo**, ya que el NAS-2 lleva terminación incorporada.\n\n---\n\nFuente: NAS Installation & User Guide, manual 997-528-000-1, Issue 1, octubre 2005.\n\nTambién puedo ayudarte con: **conexionado de terminales J14/J15**, **indicaciones de fallo del NAS-2** o **configuración del módulo M710/MM-103**.",
+      "answer_sha256": "965a0e01574c357297fb94c27fbd5fe726e769a039da525c6207bceef4fd98e4"
+    },
+    {
+      "item_id": "s147_src_02",
+      "response_id": "msg_011Cd6z8ecDWbiV5vkps2WaB",
+      "counted_input_tokens": 8209,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 8209,
+        "output_tokens": 562,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.033057,
+      "stop_reason": "end_turn",
+      "answer": "# Módulo Monitor 3 estados (MON) — Configuración de resistencias y contacto\n\n## Configuración requerida\n\nPara el tipo **MON** (Módulo Monitor de 3 estados con retardo de zona), necesitas **dos resistencias y un contacto N.A.** [F1]:\n\n- **Resistencia de final de línea: 47 KΩ** — se coloca entre los terminales de supervisión del **MI-MM1E** o **MI-MM3E** [F1]\n- **Resistencia de alarma: 18 KΩ** — se coloca **en serie con el contacto N.A. de alarma**, de forma que al cerrar el contacto quede conectada entre los terminales de supervisión [F1]\n- **Contacto N.A. de alarma** — al cerrarse, pone en paralelo la resistencia de 18 KΩ con la de 47 KΩ [F1]\n\n## Estados del circuito\n\n- **Estado normal:** la central detecta **47 KΩ** (solo la resistencia de final de línea) [F1]\n- **Alarma:** el contacto N.A. cierra → la resistencia de **18 KΩ** queda conectada entre los terminales [F1]\n- **Avería circuito abierto:** la central no detecta la resistencia de final de línea [F1]\n- **Avería cortocircuito:** se produce un cortocircuito entre los terminales del MI-MM1E o MI-MM3E [F1]\n\n> ⚠️ **Importante:** A diferencia del tipo PUL, en el MON un **cortocircuito se interpreta como AVERÍA**, no como alarma. Por eso es imprescindible la resistencia de 18 KΩ en serie con el contacto para distinguir el estado de alarma [F1].\n\n---\n\n**Fuente:** MIE-MA-300_01 (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **configuración del tipo P3E** (pulsador 3 estados, misma resistencia pero sin retardo de zona), **diferencias entre MON y M2E**, o **conexionado físico del MI-MM3E**.",
+      "answer_sha256": "e41ef18c3488429b72ca284127220f9d7065caf96e97ea0e82b9096a81995df0"
+    },
+    {
+      "item_id": "s147_src_03",
+      "response_id": "msg_011Cd6z9TchsBRovHwMEr9Q4",
+      "counted_input_tokens": 8267,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 8267,
+        "output_tokens": 347,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.030006,
+      "stop_reason": "end_turn",
+      "answer": "En estado de **prealarma (aviso)**, la salida de corriente del detector es:\n\n- **Salida 0-20 mA en prealarma/aviso: 16 mA ± 5%** [F1]\n\nEsto aplica únicamente a las opciones de cableado que incluyen salida de corriente 0-20 mA, es decir, **Opción 1** (0-20 mA receptor), **Opción 2** y **Opción 3** (0-20 mA fuente) [F1].\n\nComo referencia, el resto de estados de la Tabla 25 son [F1]:\n- Avería: **0 + 1 mA**\n- Fallo de prueba BIT: **2 mA ± 10%**\n- Normal: **4 mA ± 10%**\n- Alarma: **20 mA ± 5%**\n\n⚠️ Recuerda que la resistencia de carga máxima permitida en esta salida es de **600 Ω** [F1].\n\n---\n\nFuente: MNDT721_40-40I (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **opciones de cableado de salida del 40/40I**, **valores máximos de los relés de contacto seco** o **configuración del protocolo HART**.",
+      "answer_sha256": "dd2785aec0f1fb07c08224b87646bd67b1cac61eeb5563acbc340988816911e6"
+    },
+    {
+      "item_id": "s147_src_04",
+      "response_id": "msg_011Cd6zA4FYidyUbjhfAFgMK",
+      "counted_input_tokens": 7775,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 7775,
+        "output_tokens": 217,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.02658,
+      "stop_reason": "end_turn",
+      "answer": "La sensibilidad de humo para el **Nivel 3** del detector **FAAST LT-200** es [F1]:\n\n- **0,05 % obs/ft** (% obs/pie)\n- **0,16 % obs/m** (% obs/metro)\n\n> **Nota:** El Nivel 3 está disponible tanto para uso general como en **PipeIQ** (solo los niveles 1 a 5 son compatibles con PipeIQ) [F1].\n\n---\n\nFuente: I56-3888-010 FAAST LT-200 Adv Guide (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **configuración del modo Día/Noche**, **ajuste de niveles de Pre-Alarma** o **configuración AND/OR en versión de cámara común** del FAAST LT-200.",
+      "answer_sha256": "252e03a10e2a087a46a0f6005609d8763bdcd6764674df4a3f16bfdf6def1a43"
+    },
+    {
+      "item_id": "s147_src_05",
+      "response_id": "msg_011Cd6zASm8r6fXLfJ5C8gP7",
+      "counted_input_tokens": 7770,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 7770,
+        "output_tokens": 511,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.030975,
+      "stop_reason": "end_turn",
+      "answer": "La tabla de avisos del **SGD-151** muestra las siguientes columnas para cada evento de avería [F1]:\n\n- **Fecha/Hora:** marca temporal del evento (formato AAAA-MM-DD HH:MM:SS). Ejemplo: `2019-12-09 14:42:08` [F1]\n- **Evento:** tipo de avería registrada. Ejemplos: `Averia de alimentacion`, `Averia` [F1]\n- **Panel:** nombre del panel afectado. Ejemplo: `Panel de Pruebas` [F1]\n- **Zona:** zona donde se encuentra el dispositivo en avería. Ejemplo: `Zona MCP` (puede aparecer vacío si la avería es a nivel de panel, como en un fallo de alimentación) [F1]\n- **Dispositivo:** identificador y nombre del dispositivo afectado. Ejemplo: `01:01:003 Detector 2` (puede aparecer vacío si la avería es a nivel de panel) [F1]\n- **Detalles:** descripción textual del fallo. Ejemplos: `Fallo de alimentacion`, `El dispositivo esta en averia` [F1]\n\n**Comportamiento adicional del interfaz** cuando hay una avería [F1]:\n- El marcador de panel parpadea de forma intermitente para indicar la condición de avería.\n- La barra de navegación muestra el primer elemento en avería (si no hay alarmas prioritarias activas).\n- El marco derecho del árbol de sistema muestra el marcador de panel y zona en avería. Al hacer clic sobre un elemento en avería, el sistema navega hasta el plano donde ese elemento está activo.\n- El filtro de fallos muestra la relación completa de elementos en condición de avería.\n\n---\n\nFuente: SGD-151 MC-399 es (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **registro de eventos del SGD-151**, **navegación por planos en condición de alarma** o **filtro de fallos y gestión de averías**.",
+      "answer_sha256": "a84caf1aef5e0b335cb9e138b0410b3c15c5cee250dbaa4274f9f1a87b1aeace"
+    },
+    {
+      "item_id": "s147_src_06",
+      "response_id": "msg_011Cd6zB85kz3aAmeZFT2oxX",
+      "counted_input_tokens": 7915,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 7915,
+        "output_tokens": 246,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.027435,
+      "stop_reason": "end_turn",
+      "answer": "La dirección mínima que debe asignarse es **80** [F1].\n\nSegún el manual del **ASW2367**, cuando el dispositivo se utiliza junto con los paneles de la serie **FP1200/2000** [F1]:\n\n- **Dirección ≥ 80** → funciona como **sounder y beacon** (con destellos del beacon activos) [F1].\n- **Dirección < 80** → funciona únicamente como **sounder**, sin destellos del beacon [F1].\n\nLa dirección se configura mediante los **interruptores 1-8 del selector de dirección (Address Selector switch)**, tal como se muestra en la Figura 2 del manual [F1].\n\n---\n\nFuente: aritech_ins570-8_combined (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **selección de tono y volumen**, **cableado de terminales** o **solución de problemas de comunicación** del ASW2367.",
+      "answer_sha256": "7bddad9392ad5798900934fd97740abf62cc0e0aa842fbffe411cd3b667e7582"
+    },
+    {
+      "item_id": "s147_src_07",
+      "response_id": "msg_011Cd6zBcNrhyAkurZT9JkVm",
+      "counted_input_tokens": 8274,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 8274,
+        "output_tokens": 544,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.032982,
+      "stop_reason": "end_turn",
+      "answer": "El consumo de corriente máximo del **ASD 533 en alarma** es el siguiente [F1]:\n\n**A 12 V-CC** (medido a **10,5 V-CC**, tensión mínima del rango):\n- ASD 533 en alarma: **340 mA**\n- Adicionalmente con RIM 35 (disparo de todos los relés): **+15 mA** (×2 si hay 2 RIM 35)\n- Adicionalmente con XLM 35 o SLM 35: **+20 mA**\n- Adicionalmente con MCM 35: **+25 mA**\n\n**A 24 V-CC** (medido a **18 V-CC**, tensión mínima del rango):\n- ASD 533 en alarma: **210 mA**\n- Adicionalmente con RIM 35 (disparo de todos los relés): **+10 mA** (×2 si hay 2 RIM 35)\n- Adicionalmente con XLM 35 o SLM 35: **+10 mA**\n- Adicionalmente con MCM 35: **+15 mA**\n\n> ⚠️ **Nota importante:** Estos consumos máximos se producen a la **tensión mínima de alimentación** (10,5 V-CC para el rango de 12 V, y 18 V-CC para el rango de 24 V), ya que el ASD 533 experimenta el consumo más elevado con la tensión más baja [F1]. Son los valores determinantes para el cálculo de la sección de cable.\n\n> Recuerda incluir también el consumo de los dispositivos conectados a las **salidas Open Collector** en el cálculo total [F1].\n\n---\n\n**Fuente:** ASD533_TD_T140287es_e (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **cálculo de sección de cable**, **caída de tensión máxima permitida** o **conexionado de módulos RIM 35 / XLM 35 / MCM 35** al ASD 533.",
+      "answer_sha256": "263e53f61ffe0311f1a53e7313de78e23abf2ac727b08c49129931f584846f5c"
+    },
+    {
+      "item_id": "s147_src_08",
+      "response_id": "msg_011Cd6zCLtyAdyPf12AmGyRE",
+      "counted_input_tokens": 7983,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 7983,
+        "output_tokens": 534,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.031959,
+      "stop_reason": "end_turn",
+      "answer": "## Calibración con cable líder (Leader Cable) — LocatorPlus\n\nEl procedimiento específico para calibrar cuando hay un **cable líder** conectado entre el cable de detección de calor lineal (LHD) y el LocatorPlus es el siguiente [F1]:\n\n---\n\n**Pasos previos obligatorios:**\n\n1. Cablea la unidad según el diagrama de conexionado y enciéndela [F1].\n2. Completa los pasos iniciales de configuración: selección de modo de operación y tipo de cable de cada zona [F1].\n\n---\n\n**Procedimiento de calibración con cable líder:**\n\n3. Cuando el sistema pregunte si hay cable líder conectado en la zona, pulsa el botón **Select** y selecciona **\"Yes\"**. Pulsa **Set** para continuar [F1].\n\n4. El controlador preguntará si la zona está lista para calibrarse. En este momento:\n   - El cable líder debe estar **conectado al LocatorPlus**\n   - El extremo del cable líder donde conecta con el **INICIO del cable LHD debe estar cortocircuitado** (shorted out)\n   - Una vez hecho esto, pulsa el botón **Set** [F1].\n\n5. El LocatorPlus mostrará en pantalla la **caída de tensión a través del cable líder** [F1].\n\n6. **Retira el cortocircuito** del cable líder y **conéctalo al INICIO del cable LHD** de forma normal [F1].\n\n---\n\n> ⚠️ **Nota importante:** Si el cable LHD está conectado **directamente** al LocatorPlus (sin cable líder), en el paso 3 se debe seleccionar **\"No\"** y pulsar **Set** para continuar [F1].\n\n---\n\n**Fuente:** LocatorPlus Installation Manual (rev. 1, 2018)\n\nTambién puedo ayudarte con: **selección del tipo de cable LHD por temperatura**, **configuración del modo de operación (Independent/Interlock)** o **configuración de salidas Modbus RTU** del LocatorPlus.",
+      "answer_sha256": "8062bb33d30a02223883ae183e3bc6ea9d2b9842588d86a71ec5e4a49e37fd2d"
+    },
+    {
+      "item_id": "s147_src_09",
+      "response_id": "msg_011Cd6zD6sPnWkv5QjHgffzV",
+      "counted_input_tokens": 7876,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 7876,
+        "output_tokens": 535,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.031653,
+      "stop_reason": "end_turn",
+      "answer": "## Condición de Falta en el MODEL-6200R: Causas e Identificación por LED Amarillo\n\nEl manual describe tres causas posibles de una condición de falta, cada una con un comportamiento distinto del LED amarillo [F1]:\n\n---\n\n### 1. Obstrucción o desalineación del haz\n- **LED amarillo:** encendido fijo (steady)\n- **Acción correctiva:** retirar la obstrucción o realinear el detector para asegurar que el haz llega limpiamente al reflector [F1]\n\n---\n\n### 2. Arranque incorrecto o fallo del detector\n- **LED amarillo:** encendido continuo (illuminates continuously)\n- **Cuándo ocurre:** inmediatamente después de salir del modo de instalación\n- **Acción correctiva:** repetir el procedimiento de instalación y verificar todos los parámetros [F1]\n\n---\n\n### 3. Contaminación excesiva de las partes ópticas\n- **LED amarillo:** parpadeo (flashes)\n- **Contexto:** el 6200R puede compensar la señal por contaminación hasta un límite preestablecido; cuando se supera ese límite, genera falta\n- **Acción correctiva:** limpiar con un paño húmedo la ventana del haz y la superficie del reflector, y volver al modo de instalación para verificar la intensidad de señal y la alineación [F1]\n\n---\n\n> **Nota clave de diagnóstico:** el comportamiento del LED amarillo permite distinguir las tres causas sin instrumentación adicional:\n> - **Fijo** → obstrucción/desalineación\n> - **Continuo tras instalación** → arranque incorrecto o fallo interno\n> - **Parpadeante** → suciedad óptica excesiva\n\n---\n\n**Fuente:** I56-1726-003 6200R Manual EN (sin revisión registrada)\n\nTambién puedo ayudarte con: **prueba funcional de alarma**, **procedimiento de instalación y modo de alineación** o **uso de los filtros de prueba** del MODEL-6200R.",
+      "answer_sha256": "17f27f06e3ec065616def7b8bbcdbc010aa24951133f87494bc87f03d5f355be"
+    },
+    {
+      "item_id": "s147_src_10",
+      "response_id": "msg_011Cd6zDponGwfPqBd9q4k5N",
+      "counted_input_tokens": 8192,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 8192,
+        "output_tokens": 380,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.030276,
+      "stop_reason": "end_turn",
+      "answer": "## Comportamiento del LED de alarma general en alarma por detector\n\nCuando una alarma de incendio es activada por un **detector**, el LED de alarma general **parpadea** [F1].\n\n---\n\n### Comportamiento comparativo según origen de la alarma:\n\n- **Activación por detector** → LED de alarma general **parpadea** [F1]\n- **Activación por pulsador** → LED de alarma general **permanece fijo** [F1]\n- **Activación por ambos (detector + pulsador)** → LED de alarma general **permanece fijo** (el pulsador tiene prioridad) [F1]\n\n> ⚠️ **Nota importante:** Las alarmas activadas por pulsador siempre tienen prioridad sobre las activadas por detector. Si ambos dispositivos han activado la alarma simultáneamente, el LED quedará fijo [F1].\n\n---\n\n### Otros indicadores activos en ese mismo estado de alarma:\n\n- **LED de zona:** parpadea en rojo (cuando el origen es un detector) [F1]\n- **Zumbador de la central:** suena continuamente [F1]\n\n---\n\nFuente: bcn-3100018-es_r002_nc_series_fire_alarm_control_panel_operation_manual (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **comportamiento del LED de zona en alarma**, **indicadores durante el estado de retardo de sirena** o **indicadores en modo evacuación EN 54-2** de la Serie NC.",
+      "answer_sha256": "1fdf6012828086f7d0bd850f0f9eb936031b56d204c947acbe628170ef1fbadb"
+    },
+    {
+      "item_id": "s147_src_11",
+      "response_id": "msg_011Cd6zEUuyr8KHxdE7h74jN",
+      "counted_input_tokens": 7876,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 7876,
+        "output_tokens": 335,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.028653,
+      "stop_reason": "end_turn",
+      "answer": "Para garantizar el tipo de protección especificado del dispositivo **PA20**, en las aberturas de entrada de cable se deben instalar elementos con protección **IP 66** [F1].\n\nLas opciones válidas son las siguientes [F1]:\n\n- **Pasacables de membrana (diafragma)** — IP 66 — suministrado con el equipo. Solo garantiza IP 66 cuando el embudo de la membrana apunta hacia el exterior. Tras instalar el cable, se deben retirar los restos del diafragma.\n- **Prensaestopas (cable gland)** — IP 66\n- **Conector M12 con medida de brida M20** — IP 66 — válido para versiones de baja tensión\n\n> ⚠️ El pasacables de membrana suministrado puede sustituirse por un prensaestopas IP 66 o por una conexión de conector M12 con medida de brida M20 [F1].\n\n---\n\nFuente: 085501946s\\_PA20\\_Installation-manual\\_D-GB-F-RU-IT (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **conexión eléctrica del PA20**, **selección de tono mediante control externo C1/C2** o **cierre correcto de la carcasa**.",
+      "answer_sha256": "68cdec32aa5f1a3d96d82ab9ec82ddd3db88f5ea26050e49bf9ae1c991eebea5"
+    },
+    {
+      "item_id": "s147_src_12",
+      "response_id": "msg_011Cd6zF6JiLjFM93PyWfXYN",
+      "counted_input_tokens": 8109,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 8109,
+        "output_tokens": 455,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.031152,
+      "stop_reason": "end_turn",
+      "answer": "## Grabación del mensaje de alerta en el PAN AVD2\n\nSigue estos pasos para grabar el mensaje de alerta [F1]:\n\n**Preparación previa:**\n\n1. Coloca el conector **Sel6** en posición **\"ON\"** [F1].\n   > ⚠️ En esta condición, las entradas **MSJ1, MSJ2 y MSJ3 quedan excluidas** [F1].\n2. Cierra el puente **JP3**. El LED **DL2** se iluminará, confirmando que el modo grabación está activo [F1].\n\n**Grabación:**\n\n3. Pulsa el botón **P1** de la placa base [F1].\n4. Si el puente **JP2** está en conectores **1-2**: sonará un **pitido** indicando el inicio de la grabación [F1].\n5. **Mantén pulsado el botón P1** durante toda la locución del mensaje [F1].\n6. Cuando termines el mensaje, **suelta el botón**. Sonará otro pitido indicando el fin de la grabación [F1].\n\n**Avisos importantes:**\n\n- Si se superan los **12 segundos** de grabación (tiempo máximo por mensaje), sonarán **dos pitidos** [F1].\n- Si el puente **JP2** está en conectores **2-3**, no se oirán los pitidos de inicio/fin [F1].\n- Para grabar se requiere el micrófono opcional **ADV MIC** [F1].\n\n---\n\nFuente: PAN AVD2_SPANISH (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **reproducción del mensaje de alerta para verificar la grabación**, **grabación del mensaje de evacuación o rearme**, o **configuración del puente JP2**.",
+      "answer_sha256": "36d0f43112103aac1e1a6ab90aec4372d46ded194e433899827f70d6972c20dd"
+    },
+    {
+      "item_id": "s147_src_13",
+      "response_id": "msg_011Cd6zFkaLgEAiUcJetA7eM",
+      "counted_input_tokens": 8064,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 8064,
+        "output_tokens": 544,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.032352,
+      "stop_reason": "end_turn",
+      "answer": "## Verificación de cortocircuito en el bus ACSI — VAP-1\n\nPara comprobar si la línea del bus ACSI está en cortocircuito, sigue este procedimiento [F1]:\n\n1. **Desconecta los dos extremos** de los dos cables de bus conectados entre el sistema y el equipo VAP-1.\n\n2. **Mide con un polímetro** en escala **kΩ** entre cada uno de los terminales de los cables desconectados.\n\n3. **Interpreta el resultado:**\n   - Resultado **0** → la línea está en **cortocircuito**. Debe ser revisada o reemplazada.\n   - Resultado **1** → la línea está **correcta**.\n\n---\n\n### Pasos previos recomendados antes de medir [F1]:\n\n- Verifica que el VAP-1 afectado es el **único** en el bus sin enlace. Si hay más equipos con el mismo problema, empieza por el más cercano al equipo donde comienza el bus (NEO).\n- Comprueba que el **NEO Controller** funciona correctamente.\n- Verifica que el **último equipo del bus** tiene activa la opción \"Terminador de Bus\" (capítulo 2.2.8) [F1].\n- Comprueba que la conexión se realizó correctamente según el **apartado 4.2** [F1].\n\n---\n\n### Si la línea está en cortocircuito y no puedes repararla [F1]:\n\n- Retira el equipo del bus.\n- **Conecta las líneas de entrada y salida de bus ACSI del equipo entre sí**, para que el resto del sistema continúe funcionando con normalidad.\n- Contacta con el servicio de soporte/reparación.\n\n---\n\n**Fuente:** VAP1S0x-MU - Manual Usuario VAP rev3\\_1 (sin revisión registrada)\n\nTambién puedo ayudarte con: **configuración de dirección de bus ACSI (apartado 4.2)**, **activación del terminador de bus (capítulo 2.2.8)** o **procedimiento de RESET del VAP-1**.",
+      "answer_sha256": "cf2e5b760c51e1c2a1851b9bdd6e54c3788cbef58a931a6aeefea84fb4000227"
+    },
+    {
+      "item_id": "s147_src_14",
+      "response_id": "msg_011Cd6zGWfhtJmh6M91gY3jM",
+      "counted_input_tokens": 7800,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 7800,
+        "output_tokens": 220,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.0267,
+      "stop_reason": "end_turn",
+      "answer": "Los tres criterios que debe cumplir la posición de colocación del detector son [F1]:\n\n- **a) Cumplimiento normativo:** La posición debe cumplir con las normativas específicas aplicables.\n- **b) Señal inalámbrica suficiente:** La posición debe estar alcanzada por una señal inalámbrica fuerte desde el módulo traductor o expansor al que está vinculado.\n- **c) Sin interferencias ambientales:** La posición no debe estar afectada por factores ambientales (según la nota indicada en el manual).\n\n---\n\nFuente: Instruction Manual SG350 ENG (sin revisión registrada)\n\nTambién puedo ayudarte con: **procedimiento de instalación de la base**, **prueba funcional del detector (TEST 1 - Magnet Test)** o **bloqueo/desbloqueo del detector a la base**.",
+      "answer_sha256": "7a1da4b1717e503449e6c62924f2b96ce8f74b6329263feaf82173a74df9aee9"
+    }
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "instrument": "s148_adversarial_s147_sufficiency_v1",
+  "status": "GO_TO_IMPLEMENTATION_PROBE",
+  "result": {
+    "questions": 14,
+    "converged_complete": 13,
+    "judge_disagreements": 1,
+    "rows": [
+      {
+        "question_id": "Q01",
+        "sol": "COMPLETE",
+        "fable": "COMPLETE",
+        "terminal": "COMPLETE",
+        "sol_irrelevant_ids": [],
+        "fable_irrelevant_ids": []
+      },
+      {
+        "question_id": "Q02",
+        "sol": "COMPLETE",
+        "fable": "COMPLETE",
+        "terminal": "COMPLETE",
+        "sol_irrelevant_ids": [],
+        "fable_irrelevant_ids": []
+      },
+      {
+        "question_id": "Q03",
+        "sol": "COMPLETE",
+        "fable": "COMPLETE",
+        "terminal": "COMPLETE",
+        "sol_irrelevant_ids": [],
+        "fable_irrelevant_ids": []
+      },
+      {
+        "question_id": "Q04",
+        "sol": "COMPLETE",
+        "fable": "COMPLETE",
+        "terminal": "COMPLETE",
+        "sol_irrelevant_ids": [],
+        "fable_irrelevant_ids": []
+      },
+      {
+        "question_id": "Q05",
+        "sol": "COMPLETE",
+        "fable": "COMPLETE",
+        "terminal": "COMPLETE",
+        "sol_irrelevant_ids": [
+          "E014_9697fbe465"
+        ],
+        "fable_irrelevant_ids": []
+      },
+      {
+        "question_id": "Q06",
+        "sol": "COMPLETE",
+        "fable": "COMPLETE",
+        "terminal": "COMPLETE",
+        "sol_irrelevant_ids": [],
+        "fable_irrelevant_ids": []
+      },
+      {
+        "question_id": "Q07",
+        "sol": "COMPLETE",
+        "fable": "COMPLETE",
+        "terminal": "COMPLETE",
+        "sol_irrelevant_ids": [],
+        "fable_irrelevant_ids": []
+      },
+      {
+        "question_id": "Q08",
+        "sol": "COMPLETE",
+        "fable": "COMPLETE",
+        "terminal": "COMPLETE",
+        "sol_irrelevant_ids": [],
+        "fable_irrelevant_ids": []
+      },
+      {
+        "question_id": "Q09",
+        "sol": "COMPLETE",
+        "fable": "COMPLETE",
+        "terminal": "COMPLETE",
+        "sol_irrelevant_ids": [],
+        "fable_irrelevant_ids": []
+      },
+      {
+        "question_id": "Q10",
+        "sol": "COMPLETE",
+        "fable": "COMPLETE",
+        "terminal": "COMPLETE",
+        "sol_irrelevant_ids": [],
+        "fable_irrelevant_ids": []
+      },
+      {
+        "question_id": "Q11",
+        "sol": "COMPLETE",
+        "fable": "COMPLETE",
+        "terminal": "COMPLETE",
+        "sol_irrelevant_ids": [],
+        "fable_irrelevant_ids": []
+      },
+      {
+        "question_id": "Q12",
+        "sol": "PARTIAL",
+        "fable": "COMPLETE",
+        "terminal": "HOLD",
+        "sol_irrelevant_ids": [],
+        "fable_irrelevant_ids": []
+      },
+      {
+        "question_id": "Q13",
+        "sol": "COMPLETE",
+        "fable": "COMPLETE",
+        "terminal": "COMPLETE",
+        "sol_irrelevant_ids": [],
+        "fable_irrelevant_ids": []
+      },
+      {
+        "question_id": "Q14",
+        "sol": "COMPLETE",
+        "fable": "COMPLETE",
+        "terminal": "COMPLETE",
+        "sol_irrelevant_ids": [],
+        "fable_irrelevant_ids": []
+      }
+    ]
+  },
+  "cost": {
+    "sol_usd": 0.15497,
+    "fable_usd": 0.36711,
+    "total_usd": 0.52208,
+    "worst_case_preflight_usd": 0.85196,
+    "internal_ceiling_usd": 3
+  },
+  "decision": {
+    "implementation_probe": "GO",
+    "production": "NO_GO",
+    "facts_moved_to_ok": 0
+  },
+  "result_sha256": "f4e1f7a49e73543b97f0202f1082e7d6d0733e854bbf896bd8df53e900045488"
+}

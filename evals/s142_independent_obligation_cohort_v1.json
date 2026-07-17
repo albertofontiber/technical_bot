@@ -1,0 +1,166 @@
+{
+  "instrument": "s142_independent_obligation_cohort_v1",
+  "status": "SEALED_VALIDATED_OFFLINE_WHITESPACE_RECOVERY",
+  "source_packet_sha256": "da9f15a45ec71a12d30f7965de1dc1e681dd47f62727bfa2e485353e3d792d7c",
+  "model": "claude-haiku-4-5-20251001",
+  "response_id": "msg_011Cd6WdM361cmTc2AfSeJZP",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "not_available",
+    "input_tokens": 10427,
+    "output_tokens": 2025,
+    "server_tool_use": null,
+    "service_tier": "standard"
+  },
+  "conservative_cost_usd": 0.041104,
+  "recovery": {
+    "contract": "exact_unique_whitespace_alignment_v1",
+    "exact_quotes_before": 15,
+    "whitespace_repaired_quotes": 4,
+    "dropped_unalignable_claims": 3,
+    "new_model_calls": 0
+  },
+  "items": [
+    {
+      "item_id": "apollo_xp95a_detectors",
+      "eligible": false,
+      "question": "",
+      "claims": []
+    },
+    {
+      "item_id": "hochiki_hcvx_panel",
+      "eligible": true,
+      "question": "¿Qué restricciones existen para configurar las zonas de alarma retardada en el panel HCVX?",
+      "claims": [
+        {
+          "claim": "La función Zona Alarma Retardada (Código 31-38) no está permitida en sistemas UL 864",
+          "exact_quote": "Set Z1-Z8, Zone Alarm Delayed     N"
+        },
+        {
+          "claim": "La función Zona Alarma Retardada debe tener todas las zonas desactivadas en configuraciones UL 864",
+          "exact_quote": "Clear all zones"
+        }
+      ]
+    },
+    {
+      "item_id": "siemens_fci2020_city_tie",
+      "eligible": true,
+      "question": "¿Cuál es la corriente de operación normal para el módulo de enlace de línea arrendada FCI2020?",
+      "claims": [
+        {
+          "claim": "La corriente de operación normal en modo standby de línea arrendada es 27 mA a 24V DC",
+          "exact_quote": "Leased line normal operation (standby)     27 mA @ DC 24 V"
+        },
+        {
+          "claim": "La corriente de alarma para línea arrendada es 40 mA a 24V DC",
+          "exact_quote": "Leased line alarm current                  40  mA @ DC 24 V"
+        }
+      ]
+    },
+    {
+      "item_id": "bosch_fpp5000_power",
+      "eligible": true,
+      "question": "¿Cuál es el rango de voltaje de salida especificado para la unidad FPP 5000?",
+      "claims": [
+        {
+          "claim": "El voltaje de salida mínimo y máximo de los terminales VDC1 y VDC2 es 20.4 VDC a 30 VDC con buffer de batería",
+          "exact_quote": "Output voltage (min-max)                  20.4 VDC - 30 VDC battery-buffered"
+        },
+        {
+          "claim": "La entrada de voltaje de CA debe ser 230 VAC más 10 por ciento menos 15 por ciento según EN54",
+          "exact_quote": "Input voltage (VdS-approved according     230 VAC +10% / -15%"
+        }
+      ]
+    },
+    {
+      "item_id": "siemens_oohc941_detector",
+      "eligible": false,
+      "question": "",
+      "claims": []
+    },
+    {
+      "item_id": "apollo_series65_base",
+      "eligible": false,
+      "question": "",
+      "claims": []
+    },
+    {
+      "item_id": "bosch_flm430_interface",
+      "eligible": false,
+      "question": "",
+      "claims": []
+    },
+    {
+      "item_id": "bosch_fpc500_install",
+      "eligible": false,
+      "question": "",
+      "claims": []
+    },
+    {
+      "item_id": "hochiki_smoke_heat_guide",
+      "eligible": true,
+      "question": "¿Dónde deben colocarse los detectores de humo en espacios servidos por sistemas de manejo de aire?",
+      "claims": [
+        {
+          "claim": "Los detectores no deben colocarse donde el flujo de aire impide la operación de los detectores",
+          "exact_quote": "In spaces served by air-handling systems, detectors shall not be located where airflow prevents operation\n of the detectors"
+        },
+        {
+          "claim": "Se debe evaluar las fuentes ambientales potenciales de humo humedad polvo o humos para minimizar falsas alarmas",
+          "exact_quote": "The location of smoke detectors shall be based on an evaluation of potential ambient sources of smoke,\n moisture, dust, or fumes"
+        }
+      ]
+    },
+    {
+      "item_id": "siemens_fc922_panel",
+      "eligible": true,
+      "question": "¿Cómo se configura la conexión de módulos CAN remotos o locales en el panel FC922?",
+      "claims": [
+        {
+          "claim": "La conexión de módulos CAN remotos o locales se puede configurar como Clase B",
+          "exact_quote": "This can be configured as Class B"
+        },
+        {
+          "claim": "Los módulos CAN deben conectarse a través de terminales VTO2001-U3 VTO2004-U3 o VCI2001-U1",
+          "exact_quote": "connection of the Voice panels to remote or local CAN modules (VTO2001- U3, VTO2004-U3, VCI2001-\nU1)"
+        }
+      ]
+    },
+    {
+      "item_id": "hochiki_vr3_releasing",
+      "eligible": true,
+      "question": "¿Cómo se debe configurar el panel HCVR-3 para alarma cuando ocurre un cortocircuito?",
+      "claims": [
+        {
+          "claim": "Se debe establecer el código de configuración C71 para alarma cuando ocurra una condición de cortocircuito en la Zona 1",
+          "exact_quote": "Set C71 to alarm when a short circuit condition occurs in Zone 1"
+        },
+        {
+          "claim": "Los detectores deben estar conectados en serie sin conexiones T-Top para supervisión apropiada de cortocircuito",
+          "exact_quote": "Detectors must be wired in a daisy-chain without T-Top connections"
+        }
+      ]
+    },
+    {
+      "item_id": "apollo_xpander_commissioning",
+      "eligible": true,
+      "question": "¿Cuál es el número máximo de interfaces XPander que se pueden usar en un sitio?",
+      "claims": [
+        {
+          "claim": "Se puede usar un máximo de cinco interfaces en cualquier sitio",
+          "exact_quote": "A maximum of five interfaces can be used in any one site"
+        },
+        {
+          "claim": "La selección manual de canales solo es accesible cuando no hay dispositivos registrados en la interfaz",
+          "exact_quote": "Manual channel select is only accessible when no devices are logged on the interface"
+        }
+      ]
+    }
+  ],
+  "cohort_sha256": "e17c7333537827ac6d036fffb60e8ae93e5055ea31a5c4eb3f9cbc747ea9cbcb"
+}

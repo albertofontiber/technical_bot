@@ -1,0 +1,83 @@
+{
+  "instrument": "s140_fable_endpoint_combined_v1",
+  "status": "VALIDATED",
+  "created_at": "2026-07-16T21:28:16+00:00",
+  "reused_response_ids": [
+    "msg_011Cd6RL42La2VbQmhWXPchm",
+    "msg_011Cd6RQP4gcWq6AB3F3zYhi"
+  ],
+  "new_response_id": "msg_011Cd6Spgs3MrBevV2Ek1d8t",
+  "judgement": {
+    "judgements": [
+      {
+        "question_id": "29b49e99-07fe-4b83-8afd-2d770d8fc09d",
+        "set_judgements": [
+          {
+            "evidence_set_id": "S-9ACB0B614D85",
+            "answerability": "COMPLETE",
+            "minimum_sufficient_evidence_ids": [
+              "E-5D790265BC9C"
+            ],
+            "confidence": "HIGH",
+            "rationale": "The set fully answers: E-5D790265BC9C confirms a dedicated O.C. fault output (40 mA) and states outputs are Normally Energised (fail-safe), so on failure they release. E-711819F57BE5 corroborates with terminal 8 fault output and 'sicurezza positiva' logic. Description pages confirm the fourth O.C. fault output. A single page-8 item is sufficient on its own."
+          },
+          {
+            "evidence_set_id": "S-AFB3B5AD89BE",
+            "answerability": "COMPLETE",
+            "minimum_sufficient_evidence_ids": [
+              "E-94461ECDE221"
+            ],
+            "confidence": "HIGH",
+            "rationale": "The set completely answers the question: E-94461ECDE221 confirms the dedicated 40 mA O.C. fault output and that outputs are Normally Energised (fail-safe), so they de-energize on failure. E-F799B3DC568B independently confirms the fault output and fail-safe (or fail-in-alarm) output logic. Either item alone suffices; E-94461ECDE221 is selected as the smallest sufficient set."
+          }
+        ]
+      },
+      {
+        "question_id": "540b4ccd-1ae0-4252-a6bb-069db622e22c",
+        "set_judgements": [
+          {
+            "evidence_set_id": "S-114C2D3761D0",
+            "answerability": "COMPLETE",
+            "minimum_sufficient_evidence_ids": [
+              "E-E93CDED774D3"
+            ],
+            "confidence": "HIGH",
+            "rationale": "E-E93CDED774D3 responde ambas partes por sí sola: la EOL correcta para funcionamiento normal es 3,9 kΩ, y tanto 0 Ω como circuito abierto hacen que el sistema informe de un fallo. Las especificaciones (E-52F06D2AFDC3, E-78C92D88697B) y las secciones de cableado corroboran el valor 3,9 kΩ. Alta redundancia multilingüe (PT/IT). Conjunto completo con un único ítem mínimo."
+          },
+          {
+            "evidence_set_id": "S-B82B9BF39693",
+            "answerability": "COMPLETE",
+            "minimum_sufficient_evidence_ids": [
+              "E-C21E91883C47"
+            ],
+            "confidence": "HIGH",
+            "rationale": "E-C21E91883C47 (Mantenimiento ES) responde por completo: la EOL normal es 3,9 kΩ y tanto 0 Ω como el circuito abierto provocan que el sistema informe de un fallo. Múltiples ítems (RO/PL/TR y especificaciones) repiten los mismos hechos; E-5B72DED72272 es contenido regulatorio sin relación. Conjunto completo con un único ítem mínimo."
+          }
+        ]
+      },
+      {
+        "question_id": "935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033",
+        "set_judgements": [
+          {
+            "evidence_set_id": "S-2E0186EFB351",
+            "answerability": "COMPLETE",
+            "minimum_sufficient_evidence_ids": [
+              "E-CE32FB053451"
+            ],
+            "confidence": "HIGH",
+            "rationale": "E-CE32FB053451 is the VES-A00-P front panel LED table stating that the Fuego 1 and Fuego 2 LEDs light when their alarm threshold is reached and 'El LED parpadeará una vez por segundo hasta que se confirme la condición' (blinks once per second until confirmed). This directly and fully answers the question for the VES-A00-P model. E-A079C2B27142 gives the same info but for VES-A10-P, so it is not needed."
+          },
+          {
+            "evidence_set_id": "S-C37F91A1F7D4",
+            "answerability": "COMPLETE",
+            "minimum_sufficient_evidence_ids": [
+              "E-78AF119EA0E9"
+            ],
+            "confidence": "HIGH",
+            "rationale": "E-78AF119EA0E9 is the VES-A00-P LED status table showing that the Fuego 1 and Fuego 2 LEDs blink once per second ('parpadeará una vez por segundo') until the alarm condition is confirmed. This fully answers how the LED blinks for an unacknowledged Fire 1/Fire 2 alarm on the VES-A00-P. Other evidence items (relay tables, commissioning forms, A10-P panel) are unnecessary."
+          }
+        ]
+      }
+    ]
+  }
+}

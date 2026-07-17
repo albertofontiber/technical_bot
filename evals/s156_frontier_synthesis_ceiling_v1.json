@@ -1,0 +1,163 @@
+{
+  "instrument": "s156_frontier_synthesis_ceiling_v1",
+  "status": "NO_GO_MODEL_SUBSTITUTION",
+  "population": {
+    "questions": 4,
+    "relations": 13,
+    "calls_planned": 8
+  },
+  "arms": {
+    "fable": {
+      "calls_complete": 4,
+      "relations": 13,
+      "covered": 3,
+      "coverage": 0.23076923076923078,
+      "invalid_citations": 0,
+      "no_token_limit_stop": true,
+      "gate": "NO_GO",
+      "rows": [
+        {
+          "qid": "cat018",
+          "relations": 2,
+          "covered": 0,
+          "covered_kinds": [],
+          "missing_kinds": [
+            "software_type_cbe_activation",
+            "point_programming_fields"
+          ],
+          "citations": 34,
+          "invalid_citations": [],
+          "stop": "end_turn"
+        },
+        {
+          "qid": "hp002",
+          "relations": 3,
+          "covered": 1,
+          "covered_kinds": [
+            "initial_reference_calibration"
+          ],
+          "missing_kinds": [
+            "bounded_fault_window",
+            "maintenance_isolation_prerequisite"
+          ],
+          "citations": 21,
+          "invalid_citations": [],
+          "stop": "end_turn"
+        },
+        {
+          "qid": "hp011",
+          "relations": 3,
+          "covered": 1,
+          "covered_kinds": [
+            "default_latched_faults"
+          ],
+          "missing_kinds": [
+            "extinction_duration_range",
+            "reset_inhibit_special_state"
+          ],
+          "citations": 16,
+          "invalid_citations": [],
+          "stop": "end_turn"
+        },
+        {
+          "qid": "hp017",
+          "relations": 5,
+          "covered": 1,
+          "covered_kinds": [
+            "option_family_cardinality"
+          ],
+          "missing_kinds": [
+            "input_condition_definition",
+            "output_condition_action",
+            "logic_contradiction_warning",
+            "commissioning_rule_verification"
+          ],
+          "citations": 22,
+          "invalid_citations": [],
+          "stop": "end_turn"
+        }
+      ]
+    },
+    "sol": {
+      "calls_complete": 4,
+      "relations": 13,
+      "covered": 2,
+      "coverage": 0.15384615384615385,
+      "invalid_citations": 0,
+      "no_token_limit_stop": false,
+      "gate": "NO_GO",
+      "rows": [
+        {
+          "qid": "cat018",
+          "relations": 2,
+          "covered": 0,
+          "covered_kinds": [],
+          "missing_kinds": [
+            "software_type_cbe_activation",
+            "point_programming_fields"
+          ],
+          "citations": 0,
+          "invalid_citations": [],
+          "stop": "incomplete"
+        },
+        {
+          "qid": "hp002",
+          "relations": 3,
+          "covered": 2,
+          "covered_kinds": [
+            "bounded_fault_window",
+            "maintenance_isolation_prerequisite"
+          ],
+          "missing_kinds": [
+            "initial_reference_calibration"
+          ],
+          "citations": 27,
+          "invalid_citations": [],
+          "stop": "completed"
+        },
+        {
+          "qid": "hp011",
+          "relations": 3,
+          "covered": 0,
+          "covered_kinds": [],
+          "missing_kinds": [
+            "extinction_duration_range",
+            "reset_inhibit_special_state",
+            "default_latched_faults"
+          ],
+          "citations": 17,
+          "invalid_citations": [],
+          "stop": "completed"
+        },
+        {
+          "qid": "hp017",
+          "relations": 5,
+          "covered": 0,
+          "covered_kinds": [],
+          "missing_kinds": [
+            "option_family_cardinality",
+            "input_condition_definition",
+            "output_condition_action",
+            "logic_contradiction_warning",
+            "commissioning_rule_verification"
+          ],
+          "citations": 30,
+          "invalid_citations": [],
+          "stop": "completed"
+        }
+      ]
+    }
+  },
+  "passing_arms": [],
+  "cost": {
+    "worst_case_preflight_usd": 2.67523625,
+    "actual_usd": 2.37978625
+  },
+  "decision": {
+    "production": false,
+    "facts_moved_to_ok": 0,
+    "fresh_routing_test": false,
+    "same_target_tuning": false
+  },
+  "result_sha256": "a09fafe44759f140bce818d44827a3362f6e79bee72479a297abad13e54d2357"
+}

@@ -1,0 +1,37 @@
+instrument: s178_combined_source_contract_prereg_v1
+status: FROZEN_BEFORE_COMBINED_REPLAY
+
+frozen_inputs:
+  contexts: evals/s113_full_contexts_freeze_v1.json
+  immutable_answer: evals/s161_table_preamble_answer_probe_receipts_v1.json
+  table_preamble: evals/s160_target_table_preamble_probe_v3.json
+  derivation_shadow: evals/s177_governed_derivation_shadow_v1.json
+
+target:
+  qid: cat007
+  answer_regeneration: false
+  context_prefix_rows: 11
+  exact_table_preamble_rows_appended: 1
+
+gate:
+  table_source_contract_claims: 5_of_5
+  protected_claims: 4_of_4
+  relay_life_claims: 1_of_1
+  relay_life_exact_supporting_citations: 2
+  invalid_citations_max: 0
+  protected_prefix_mutations_max: 0
+  unreceipted_context_mutations_max: 0
+  model_calls: 0
+  network_calls: 0
+  database_calls: 0
+
+credit:
+  no_double_count_s161_or_s172: true
+  candidate_funnel_if_go: {denominator: 157, OK: 141, synthesis-miss: 12, retrieval-miss: 4, document-extraction-hold: 0}
+  production_credit: false
+
+authorization:
+  local_combined_replay: true
+  runtime_flag_change: false
+  corpus_write: false
+  production_or_deployment: false

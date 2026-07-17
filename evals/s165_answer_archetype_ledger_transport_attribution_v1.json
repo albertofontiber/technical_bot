@@ -1,0 +1,191 @@
+{
+  "instrument": "s165_answer_archetype_ledger_transport_attribution_v1",
+  "status": "TRANSPORT_ONLY_SUCCESSOR_JUSTIFIED",
+  "population": {
+    "questions": 14,
+    "answer_points": 37,
+    "paid_calls": 0
+  },
+  "attribution": {
+    "duplicate_only_failures": 9,
+    "unknown_id_failures": 0,
+    "parse_failures": 0
+  },
+  "offline_union_metrics": {
+    "claims_covered": 35,
+    "claim_recall": 0.94594595,
+    "selected_units": 31,
+    "useful_units": 26,
+    "unit_precision": 0.83870968,
+    "questions_complete": 12,
+    "question_complete_rate": 0.85714286
+  },
+  "decision": {
+    "s165_credit": false,
+    "transport_only_successor": true,
+    "new_semantic_prompt_iteration": false,
+    "target_probe": false,
+    "production": false,
+    "facts_moved_to_ok": 0
+  },
+  "rows": [
+    {
+      "item_id": "s147_src_01",
+      "original_validation_error": "unit ID assigned to multiple facets",
+      "raw_id_assignments": 6,
+      "unique_known_ids": 2,
+      "unknown_ids": [],
+      "claims": 2,
+      "claims_covered_after_union": 2,
+      "complete_after_union": true,
+      "useful_units_after_union": 2
+    },
+    {
+      "item_id": "s147_src_02",
+      "original_validation_error": "unit ID assigned to multiple facets",
+      "raw_id_assignments": 4,
+      "unique_known_ids": 3,
+      "unknown_ids": [],
+      "claims": 3,
+      "claims_covered_after_union": 3,
+      "complete_after_union": true,
+      "useful_units_after_union": 3
+    },
+    {
+      "item_id": "s147_src_03",
+      "original_validation_error": null,
+      "raw_id_assignments": 2,
+      "unique_known_ids": 2,
+      "unknown_ids": [],
+      "claims": 2,
+      "claims_covered_after_union": 1,
+      "complete_after_union": false,
+      "useful_units_after_union": 2
+    },
+    {
+      "item_id": "s147_src_04",
+      "original_validation_error": null,
+      "raw_id_assignments": 2,
+      "unique_known_ids": 2,
+      "unknown_ids": [],
+      "claims": 3,
+      "claims_covered_after_union": 3,
+      "complete_after_union": true,
+      "useful_units_after_union": 2
+    },
+    {
+      "item_id": "s147_src_05",
+      "original_validation_error": "unit ID assigned to multiple facets",
+      "raw_id_assignments": 6,
+      "unique_known_ids": 4,
+      "unknown_ids": [],
+      "claims": 3,
+      "claims_covered_after_union": 3,
+      "complete_after_union": true,
+      "useful_units_after_union": 3
+    },
+    {
+      "item_id": "s147_src_06",
+      "original_validation_error": null,
+      "raw_id_assignments": 1,
+      "unique_known_ids": 1,
+      "unknown_ids": [],
+      "claims": 2,
+      "claims_covered_after_union": 2,
+      "complete_after_union": true,
+      "useful_units_after_union": 1
+    },
+    {
+      "item_id": "s147_src_07",
+      "original_validation_error": null,
+      "raw_id_assignments": 2,
+      "unique_known_ids": 2,
+      "unknown_ids": [],
+      "claims": 2,
+      "claims_covered_after_union": 2,
+      "complete_after_union": true,
+      "useful_units_after_union": 2
+    },
+    {
+      "item_id": "s147_src_08",
+      "original_validation_error": "unit ID assigned to multiple facets",
+      "raw_id_assignments": 7,
+      "unique_known_ids": 3,
+      "unknown_ids": [],
+      "claims": 3,
+      "claims_covered_after_union": 2,
+      "complete_after_union": false,
+      "useful_units_after_union": 2
+    },
+    {
+      "item_id": "s147_src_09",
+      "original_validation_error": "unit ID assigned to multiple facets",
+      "raw_id_assignments": 2,
+      "unique_known_ids": 1,
+      "unknown_ids": [],
+      "claims": 3,
+      "claims_covered_after_union": 3,
+      "complete_after_union": true,
+      "useful_units_after_union": 1
+    },
+    {
+      "item_id": "s147_src_10",
+      "original_validation_error": "unit ID assigned to multiple facets",
+      "raw_id_assignments": 3,
+      "unique_known_ids": 2,
+      "unknown_ids": [],
+      "claims": 2,
+      "claims_covered_after_union": 2,
+      "complete_after_union": true,
+      "useful_units_after_union": 1
+    },
+    {
+      "item_id": "s147_src_11",
+      "original_validation_error": "unit ID assigned to multiple facets",
+      "raw_id_assignments": 3,
+      "unique_known_ids": 2,
+      "unknown_ids": [],
+      "claims": 3,
+      "claims_covered_after_union": 3,
+      "complete_after_union": true,
+      "useful_units_after_union": 2
+    },
+    {
+      "item_id": "s147_src_12",
+      "original_validation_error": "unit ID assigned to multiple facets",
+      "raw_id_assignments": 8,
+      "unique_known_ids": 4,
+      "unknown_ids": [],
+      "claims": 3,
+      "claims_covered_after_union": 3,
+      "complete_after_union": true,
+      "useful_units_after_union": 3
+    },
+    {
+      "item_id": "s147_src_13",
+      "original_validation_error": "unit ID assigned to multiple facets",
+      "raw_id_assignments": 4,
+      "unique_known_ids": 2,
+      "unknown_ids": [],
+      "claims": 3,
+      "claims_covered_after_union": 3,
+      "complete_after_union": true,
+      "useful_units_after_union": 1
+    },
+    {
+      "item_id": "s147_src_14",
+      "original_validation_error": null,
+      "raw_id_assignments": 1,
+      "unique_known_ids": 1,
+      "unknown_ids": [],
+      "claims": 3,
+      "claims_covered_after_union": 3,
+      "complete_after_union": true,
+      "useful_units_after_union": 1
+    }
+  ],
+  "cost": {
+    "model_calls": 0,
+    "usd": 0
+  }
+}

@@ -1,0 +1,571 @@
+{
+  "instrument": "s191_visual_utility_luna_receipts_v2",
+  "model": "gpt-5.6-luna",
+  "batches": [
+    {
+      "batch": 1,
+      "response_id": "resp_084714df7e94e8b4006a59d58c83208197bfc0510fcb7037ba",
+      "model": "gpt-5.6-luna",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 2565,
+        "output_tokens": 700
+      },
+      "cost_usd": 0.006765,
+      "raw_text_sha256": "933daf763ee9d18e9b4f0ae643f6cb2d2ea5bbcff9b70bbcb0ad99ea3ce01043",
+      "labels": [
+        {
+          "item_id": "s191_visual_001",
+          "technical_utility": "not_useful",
+          "visual_role": "cover",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Product manual cover with device photo, no actionable technical visual."
+        },
+        {
+          "item_id": "s191_visual_002",
+          "technical_utility": "not_useful",
+          "visual_role": "cover",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Generic manual cover with branding and title only."
+        },
+        {
+          "item_id": "s191_visual_003",
+          "technical_utility": "not_useful",
+          "visual_role": "marketing",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Marketing page contains photos and prose, not executable technical visuals."
+        },
+        {
+          "item_id": "s191_visual_004",
+          "technical_utility": "not_useful",
+          "visual_role": "cover",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "User manual cover showing product photography without technical instructions."
+        },
+        {
+          "item_id": "s191_visual_005",
+          "technical_utility": "not_useful",
+          "visual_role": "cover",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Manual cover with product image and branding only."
+        },
+        {
+          "item_id": "s191_visual_006",
+          "technical_utility": "not_useful",
+          "visual_role": "cover",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Instruction manual cover with detector photograph, no technical diagram."
+        },
+        {
+          "item_id": "s191_visual_007",
+          "technical_utility": "not_useful",
+          "visual_role": "cover",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Manual cover featuring product photography and identification text."
+        },
+        {
+          "item_id": "s191_visual_008",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Legible installation sheet includes terminal layout, wiring, dimensions, and mounting diagrams."
+        },
+        {
+          "item_id": "s191_visual_009",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Technical instruction page includes specifications and a legible pressure-switch wiring diagram."
+        },
+        {
+          "item_id": "s191_visual_010",
+          "technical_utility": "not_useful",
+          "visual_role": "cover",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Technical handbook cover with small product photo, no actionable visual."
+        }
+      ]
+    },
+    {
+      "batch": 2,
+      "response_id": "resp_08d2e20315a4fe4e006a59d5d59548819689f5223fe40a4353",
+      "model": "gpt-5.6-luna",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 2565,
+        "output_tokens": 695
+      },
+      "cost_usd": 0.006735,
+      "raw_text_sha256": "9786e6af6f99c5ded0a4245d98222b4a7e6e701bfab16626fc407edc17fc32bd",
+      "labels": [
+        {
+          "item_id": "s191_visual_011",
+          "technical_utility": "not_useful",
+          "visual_role": "cover",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Installation manual cover with product image, no technical visual."
+        },
+        {
+          "item_id": "s191_visual_012",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Legible detector diagrams, specifications table, and installation procedure."
+        },
+        {
+          "item_id": "s191_visual_013",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Installation and maintenance instructions include legible detector illustrations."
+        },
+        {
+          "item_id": "s191_visual_014",
+          "technical_utility": "useful",
+          "visual_role": "ui",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Legible configuration screen with labeled operational settings."
+        },
+        {
+          "item_id": "s191_visual_015",
+          "technical_utility": "useful",
+          "visual_role": "ui",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Software configuration screen and communication options are visibly documented."
+        },
+        {
+          "item_id": "s191_visual_016",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Wiring diagrams, switch settings, tables, and installation instructions are legible."
+        },
+        {
+          "item_id": "s191_visual_017",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Installation page includes orientation, terminal, and power connection diagrams."
+        },
+        {
+          "item_id": "s191_visual_018",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Terminal connection configurations are clearly illustrated and labeled."
+        },
+        {
+          "item_id": "s191_visual_019",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Module mounting and electrical connection diagrams support installation work."
+        },
+        {
+          "item_id": "s191_visual_020",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Legible terminal, driver circuit, voltage, and polarity wiring diagrams."
+        }
+      ]
+    },
+    {
+      "batch": 3,
+      "response_id": "resp_024220d70d3adc41006a59d5dde64481908d7da4d5e8649e74",
+      "model": "gpt-5.6-luna",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 2565,
+        "output_tokens": 692
+      },
+      "cost_usd": 0.006717,
+      "raw_text_sha256": "5d20e973b0d6945d9ff3a7a5579143c4c8847a296e86e36912c9d8b125562bcd",
+      "labels": [
+        {
+          "item_id": "s191_visual_021",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Legible mounting diagrams and detailed installation procedures are shown."
+        },
+        {
+          "item_id": "s191_visual_022",
+          "technical_utility": "not_useful",
+          "visual_role": "other",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Mostly bilingual prose installation guidance without a useful technical visual."
+        },
+        {
+          "item_id": "s191_visual_023",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Clear connection diagram identifies terminals, zones, power, and alarms."
+        },
+        {
+          "item_id": "s191_visual_024",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Alarm graph and board wiring illustration support fault verification."
+        },
+        {
+          "item_id": "s191_visual_025",
+          "technical_utility": "useful",
+          "visual_role": "ui",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Annotated software screens show detection-zone and device-management operations."
+        },
+        {
+          "item_id": "s191_visual_026",
+          "technical_utility": "useful",
+          "visual_role": "ui",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Screenshots clearly illustrate program startup and text-loading procedures."
+        },
+        {
+          "item_id": "s191_visual_027",
+          "technical_utility": "useful",
+          "visual_role": "table",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Application settings screen and state-change table are legible."
+        },
+        {
+          "item_id": "s191_visual_028",
+          "technical_utility": "useful",
+          "visual_role": "ui",
+          "confidence": "medium",
+          "has_legible_technical_visual": true,
+          "reason": "UI screenshots illustrate export, cancellation, options, and help functions."
+        },
+        {
+          "item_id": "s191_visual_029",
+          "technical_utility": "not_useful",
+          "visual_role": "other",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Page is operational prose with no materially useful technical visual."
+        },
+        {
+          "item_id": "s191_visual_030",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Legible commissioning table and flowchart describe startup procedure."
+        }
+      ]
+    },
+    {
+      "batch": 4,
+      "response_id": "resp_076c11a382da41fa006a59d5e834b481938945a75cdaa72b4e",
+      "model": "gpt-5.6-luna",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 2565,
+        "output_tokens": 677
+      },
+      "cost_usd": 0.006627,
+      "raw_text_sha256": "af26ef5e4711ea0e1fa66129f9c102529053a1615e4f60b712cfd0365877ec0c",
+      "labels": [
+        {
+          "item_id": "s191_visual_031",
+          "technical_utility": "useful",
+          "visual_role": "table",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Legible detector dimensions, technical table, and installation illustrations."
+        },
+        {
+          "item_id": "s191_visual_032",
+          "technical_utility": "useful",
+          "visual_role": "table",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Legible default-parameter table provides configuration values."
+        },
+        {
+          "item_id": "s191_visual_033",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Annotated user-interface sequence visibly explains system testing procedure."
+        },
+        {
+          "item_id": "s191_visual_034",
+          "technical_utility": "useful",
+          "visual_role": "ui",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Legible configuration screen and instructions explain group management."
+        },
+        {
+          "item_id": "s191_visual_035",
+          "technical_utility": "useful",
+          "visual_role": "ui",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Annotated configuration-interface screenshots support system setup."
+        },
+        {
+          "item_id": "s191_visual_036",
+          "technical_utility": "useful",
+          "visual_role": "ui",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Interface checkboxes and operational explanations support filtering configuration."
+        },
+        {
+          "item_id": "s191_visual_037",
+          "technical_utility": "useful",
+          "visual_role": "table",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Programming examples include legible technical command tables."
+        },
+        {
+          "item_id": "s191_visual_038",
+          "technical_utility": "not_useful",
+          "visual_role": "cover",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Introduction and safety page lacks an actionable technical visual."
+        },
+        {
+          "item_id": "s191_visual_039",
+          "technical_utility": "useful",
+          "visual_role": "table",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Technical specifications table and connector dimension drawings are legible."
+        },
+        {
+          "item_id": "s191_visual_040",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Dimensioned control-module illustration supports installation and verification."
+        }
+      ]
+    },
+    {
+      "batch": 5,
+      "response_id": "resp_0eb7fd5fb8f138c1006a59d5f04d3481948089b4f23895068e",
+      "model": "gpt-5.6-luna",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 2565,
+        "output_tokens": 690
+      },
+      "cost_usd": 0.006705,
+      "raw_text_sha256": "0b4ecfaab3ea942f51e96cf3b657c7619fd28381d99b7d84a75c1867d2197eb5",
+      "labels": [
+        {
+          "item_id": "s191_visual_041",
+          "technical_utility": "useful",
+          "visual_role": "table",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Legible technical specifications table provides operationally relevant product data."
+        },
+        {
+          "item_id": "s191_visual_042",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Technical specifications and clearly illustrated mounting support installation information."
+        },
+        {
+          "item_id": "s191_visual_043",
+          "technical_utility": "useful",
+          "visual_role": "ui",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Shows control interfaces, status tables, and screen-related operational guidance."
+        },
+        {
+          "item_id": "s191_visual_044",
+          "technical_utility": "useful",
+          "visual_role": "table",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Contains legible electrical specifications, performance tables, and response graph."
+        },
+        {
+          "item_id": "s191_visual_045",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Dimensioned diagrams materially support mounting and installation verification."
+        },
+        {
+          "item_id": "s191_visual_046",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Battery connection illustrations and safety procedure text support servicing."
+        },
+        {
+          "item_id": "s191_visual_047",
+          "technical_utility": "not_useful",
+          "visual_role": "cover",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Manual cover with product photograph and no actionable technical visual."
+        },
+        {
+          "item_id": "s191_visual_048",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Illustrates detector placement and coverage for installation decisions."
+        },
+        {
+          "item_id": "s191_visual_049",
+          "technical_utility": "useful",
+          "visual_role": "ui",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Legible software interface illustrates mode-state configuration and verification."
+        },
+        {
+          "item_id": "s191_visual_050",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Operational instructions explain controls, zone keys, and buzzer behavior."
+        }
+      ]
+    },
+    {
+      "batch": 6,
+      "response_id": "resp_0b10b8f11465cae8006a59d5f8f04c8193a227bb26cddcec11",
+      "model": "gpt-5.6-luna",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 2565,
+        "output_tokens": 696
+      },
+      "cost_usd": 0.006741,
+      "raw_text_sha256": "ce27aeb33313d5fcc68e4d5a2b22db5f27b7e7601acf57c037bfe9df5e060ca9",
+      "labels": [
+        {
+          "item_id": "s191_visual_051",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Legible numbered procedure and labeled interior wiring/interface diagram."
+        },
+        {
+          "item_id": "s191_visual_052",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Step-by-step operational screenshots clearly show maneuver configuration actions."
+        },
+        {
+          "item_id": "s191_visual_053",
+          "technical_utility": "not_useful",
+          "visual_role": "other",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Mostly troubleshooting prose with no legible technical visual."
+        },
+        {
+          "item_id": "s191_visual_054",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Clear installation illustrations for an environmental protector accessory."
+        },
+        {
+          "item_id": "s191_visual_055",
+          "technical_utility": "useful",
+          "visual_role": "table",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Legible control-panel illustration and status-indicator reference table."
+        },
+        {
+          "item_id": "s191_visual_056",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Contains legible specifications, terminal diagrams, wiring, and enclosure illustrations."
+        },
+        {
+          "item_id": "s191_visual_057",
+          "technical_utility": "useful",
+          "visual_role": "table",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Factory-setting procedure includes a legible technical adjustment table."
+        },
+        {
+          "item_id": "s191_visual_058",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Technical handbook page shows detector connection and output-relay wiring diagrams."
+        },
+        {
+          "item_id": "s191_visual_059",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Legible system wiring diagram explains two-zone detector connectivity."
+        },
+        {
+          "item_id": "s191_visual_060",
+          "technical_utility": "not_useful",
+          "visual_role": "other",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Mostly dense prose; product image is not a usable technical visual."
+        }
+      ]
+    }
+  ],
+  "total_cost_usd": 0.04029
+}

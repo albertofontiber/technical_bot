@@ -1,0 +1,54 @@
+instrument: s190_visual_asset_contract_gate_v1
+status: GO_DESIGN_NO_GO_BACKFILL_OR_PRODUCTION
+
+evidence:
+  bridge_audit: evals/s190_visual_asset_bridge_audit_v1.json
+  design: evals/s190_visual_asset_contract_design_v1.md
+  audit_script: scripts/s190_visual_asset_bridge_audit.py
+
+live_read_only_measurement:
+  active_chunks: 25090
+  active_unique_document_pages: 16380
+  active_has_diagram_true: 25090
+  active_diagram_url_present: 0
+  legacy_rows_with_url: 44035
+  legacy_unique_document_pages: 6872
+  exact_document_page_matches: 5099
+  source_consistent_single_url_matches: 5096
+  ambiguous_multi_url_matches: 0
+  active_rows_rebindable: 7685
+  active_row_rebindable_percent: 30.63
+  active_page_rebindable_percent: 31.11
+  sampled_assets_http_200: 30
+  sampled_assets_total: 30
+
+manual_diagnostic_sample:
+  images: 5
+  useful_technical_visuals: 2
+  cover_or_marketing: 3
+  statistical_authority: false
+  implication: blind_url_backfill_is_unsafe
+
+decision:
+  independent_document_asset_registry: GO_TO_S191_BLIND_GATE
+  copy_legacy_url_into_every_chunk: NO_GO
+  trust_existing_has_diagram_semantics: NO_GO
+  mutate_chunks_v2: false
+  mutate_chunks_v3: false
+  database_writes: 0
+  production_or_deployment: false
+  facts_moved_to_ok: 0
+  next: freeze_stratified_visual_utility_cohort_then_test_high_precision_classifier
+
+anti_overfit:
+  manufacturer_specific_rules: 0
+  model_specific_rules: 0
+  question_specific_rules: 0
+  asset_identity: document_revision_page_and_binary_hash
+  raw_uncertain_assets_served: false
+
+cost:
+  model_calls: 0
+  api_usd: 0
+  database_reads_only: true
+  storage_head_requests: 30

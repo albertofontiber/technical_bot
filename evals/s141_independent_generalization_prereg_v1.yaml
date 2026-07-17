@@ -1,0 +1,52 @@
+instrument: s141_independent_generalization_prereg_v1
+status: FROZEN_BEFORE_HELDOUT_EXECUTION
+purpose: >-
+  Test the already-frozen S141 extractor on a source-first cohort selected in
+  S114, before inspecting any S141 output from those manuals.
+
+heldout_input:
+  path: evals/s114_procedure_bundle_heldout_freeze_v1.json
+  sha256: 227e808a2ba2308acce89f90722fd46a63bad30aae0cde630191154b4ff07d94
+  selected_before_s141: true
+  questions: 24
+  manufacturers: 12
+
+frozen_implementation:
+  technical_obligations:
+    path: src/rag/technical_obligations.py
+    sha256: 10dbc4a2deeff5cb764f541f2f09a6af0d34cde86fb02fa173738d31e866ccb5
+  source_identity_attestation:
+    path: src/rag/source_identity_attestation.py
+    sha256: 7c3c31c12866f5ecf6c299f0950191d639888fd579bbeab0b5da1826afd2e15e
+  answer_planner:
+    path: src/rag/answer_planner.py
+    sha256: c27ad6c913f49167e43d289d17399ccfe2c7cb281506b51630cd2dec9650cbd3
+  local_tests:
+    path: tests/test_s141_source_bound_technical_obligations.py
+    sha256: 3ff8412919cb75c5b8198bddaff52eb57c703a34fb0672fee162b58d52974662
+
+evaluation:
+  run_all_24_questions: true
+  inspect_exact_spans_for_every_emission: true
+  forbidden_after_execution_tuning: true
+  positive_requirement: >-
+    At least one traceable emission outside the five development questions is
+    required to claim positive generalization; otherwise the positive gate is
+    INCONCLUSIVE rather than passed.
+  precision_requirement: 1.0
+  cross_product_acceptances: 0
+  unrelated_intent_acceptances: 0
+  deterministic_runs: 2
+
+resources:
+  model_calls: 0
+  network_calls: 0
+  database_reads: 0
+  database_writes: 0
+  cost_usd: 0
+
+authorization:
+  production: false
+  deploy: false
+  push: false
+  facts_moved_to_ok: 0

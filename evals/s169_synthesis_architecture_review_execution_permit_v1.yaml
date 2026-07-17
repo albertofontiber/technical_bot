@@ -1,0 +1,18 @@
+instrument: s169_synthesis_architecture_review_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_FINAL
+authority: user_autonomous_execution_budget_250_usd
+
+frozen_artifacts:
+  preregistration: {path: evals/s169_synthesis_architecture_review_prereg_v1.yaml, sha256: 0f438f46c25d2daafa47fb0828159a454f2d635b9b61d9f503e26f6d2d480a29}
+  runner: {path: scripts/s169_synthesis_architecture_review.py, sha256: 98e1ae920f21001503747d404c62e666eb39d1300d2dff8db8d772fc450a071f}
+  tests: {path: tests/test_s169_synthesis_architecture_review.py, sha256: 002265d6b7972e20695586db8d2297c6aef011a2ea223858355166520f5d0a82}
+
+limits:
+  provider_calls_max: 2
+  retries: 0
+  internal_ceiling_usd: 1.5
+  additional_rounds: 0
+  target_questions_exposed: 0
+  production_changes: 0
+  deployments: 0
+  pushes: 0

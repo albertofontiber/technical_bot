@@ -1,0 +1,40 @@
+{
+  "instrument": "s150_target_coverage_verifier_receipts_v1",
+  "status": "COMPLETE",
+  "created_at": "2026-07-16T23:31:36.614050+00:00",
+  "model": "claude-sonnet-4-6",
+  "receipts": [
+    {
+      "qid": "cat018",
+      "response_id": "msg_011Cd6cDNJmKup83NM2fXb8y",
+      "counted_input_tokens": 26853,
+      "input_tokens": 26853,
+      "output_tokens": 143,
+      "conservative_cost_usd": 0.13784
+    },
+    {
+      "qid": "hp002",
+      "response_id": "msg_011Cd6cDrXA77JWLwLPL3LND",
+      "counted_input_tokens": 23520,
+      "input_tokens": 23520,
+      "output_tokens": 140,
+      "conservative_cost_usd": 0.1211
+    },
+    {
+      "qid": "hp011",
+      "response_id": "msg_011Cd6cEKKTdGgCAkemeC6yA",
+      "counted_input_tokens": 29297,
+      "input_tokens": 29297,
+      "output_tokens": 142,
+      "conservative_cost_usd": 0.150035
+    },
+    {
+      "qid": "hp017",
+      "response_id": "msg_011Cd6cEk6yTJjC3KoauzfPV",
+      "counted_input_tokens": 33755,
+      "input_tokens": 33755,
+      "output_tokens": 157,
+      "conservative_cost_usd": 0.1727
+    }
+  ]
+}

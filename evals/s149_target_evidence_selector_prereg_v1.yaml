@@ -1,0 +1,63 @@
+instrument: s149_target_evidence_selector_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+design: evals/s149_target_evidence_selector_design_v1.md
+
+frozen_inputs:
+  served_contexts:
+    path: evals/s113_full_contexts_freeze_v1.json
+    sha256: 22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d
+  upstream_gate:
+    path: evals/s148_adversarial_s147_gate_v1.yaml
+    sha256: 0992b92452ae4c3f2eee806747d8a2787bd133ef87aadc4c502491d5d0db4b1c
+  design:
+    path: evals/s149_target_evidence_selector_design_v1.md
+    sha256: 8c49fa2dceb82f490e1a74b030905fae4f8cd6e493eff046e2ce9be5aee03fa2
+  selector:
+    path: src/rag/evidence_selector.py
+    sha256: 5c6e99129bc66c0053fcab952c3d25f5d02a0f31f0edaa0d5224d96fefb2626d
+  unitizer:
+    path: src/rag/evidence_units_v2.py
+    sha256: c80498f59452280f7630411b1740664c8ec946a5e3a6511441d6140f88727eab
+  local_oracle:
+    path: scripts/s141_source_bound_technical_obligations.py
+    sha256: 3564d8b5a39e0e59b71364ccaaee2a269828c13b9e2a250b139f0a35bfb0e18a
+
+scope:
+  qids: [cat018, hp002, hp011, hp017]
+  expected_relations:
+    cat018: [point_programming_fields, software_type_cbe_activation]
+    hp002: [bounded_fault_window, initial_reference_calibration, maintenance_isolation_prerequisite]
+    hp011: [default_latched_faults, extinction_duration_range, reset_inhibit_special_state]
+    hp017: [commissioning_rule_verification, input_condition_definition, logic_contradiction_warning, option_family_cardinality, output_condition_action]
+  retrieval_calls: 0
+  reranker_calls: 0
+  answer_calls: 0
+
+model:
+  provider: anthropic
+  id: claude-haiku-4-5-20251001
+  calls: 4
+  retries: 0
+  max_output_tokens_per_call: 600
+  max_counted_input_tokens_total: 150000
+
+validation:
+  target_relations: 13
+  covered_relations_required: 13
+  selected_ids_max_per_question: 6
+  unknown_ids: 0
+
+pricing_usd_per_million_tokens:
+  input: 2
+  output: 10
+
+budget:
+  internal_ceiling_usd: 0.50
+  user_ceiling_usd: 250
+
+credit:
+  passing_action: four_answer_probe_only
+  facts_moved_to_ok: 0
+  production_change: false
+  deployment_authorized: false
+  push_authorized: false

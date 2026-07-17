@@ -1,0 +1,156 @@
+{
+  "instrument": "s170_relation_store_transport_attribution_v1",
+  "status": "TRANSPORT_SUCCESSOR_ALLOWED_ON_DIFFERENT_DEVELOPMENT_COHORT",
+  "population": {
+    "chunks": 14,
+    "categories": {
+      "valid": 7,
+      "over_population": 4,
+      "truncated_or_invalid_json": 3,
+      "other": 0
+    },
+    "valid_relations": 96,
+    "over_population_relation_counts": [
+      24,
+      23,
+      27,
+      25
+    ],
+    "selector_calls": 0
+  },
+  "rows": [
+    {
+      "item_id": "s168_src_01",
+      "category": "truncated_or_invalid_json",
+      "validation_error": "Unterminated string starting at: line 1 column 7403 (char 7402)",
+      "raw_relation_count": null,
+      "output_tokens": 2400,
+      "raw_characters": 7413
+    },
+    {
+      "item_id": "s168_src_02",
+      "category": "valid",
+      "validation_error": null,
+      "raw_relation_count": null,
+      "output_tokens": 1416,
+      "raw_characters": 4870
+    },
+    {
+      "item_id": "s168_src_03",
+      "category": "valid",
+      "validation_error": null,
+      "raw_relation_count": null,
+      "output_tokens": 1731,
+      "raw_characters": 5294
+    },
+    {
+      "item_id": "s168_src_04",
+      "category": "over_population",
+      "validation_error": "relation population out of bounds",
+      "raw_relation_count": 24,
+      "output_tokens": 2170,
+      "raw_characters": 5956
+    },
+    {
+      "item_id": "s168_src_05",
+      "category": "over_population",
+      "validation_error": "relation population out of bounds",
+      "raw_relation_count": 23,
+      "output_tokens": 1828,
+      "raw_characters": 5662
+    },
+    {
+      "item_id": "s168_src_06",
+      "category": "valid",
+      "validation_error": null,
+      "raw_relation_count": null,
+      "output_tokens": 1549,
+      "raw_characters": 4740
+    },
+    {
+      "item_id": "s168_src_07",
+      "category": "valid",
+      "validation_error": null,
+      "raw_relation_count": null,
+      "output_tokens": 1325,
+      "raw_characters": 4435
+    },
+    {
+      "item_id": "s168_src_08",
+      "category": "truncated_or_invalid_json",
+      "validation_error": "Expecting property name enclosed in double quotes: line 1 column 7245 (char 7244)",
+      "raw_relation_count": null,
+      "output_tokens": 2400,
+      "raw_characters": 7244
+    },
+    {
+      "item_id": "s168_src_09",
+      "category": "over_population",
+      "validation_error": "relation population out of bounds",
+      "raw_relation_count": 27,
+      "output_tokens": 2015,
+      "raw_characters": 6388
+    },
+    {
+      "item_id": "s168_src_10",
+      "category": "valid",
+      "validation_error": null,
+      "raw_relation_count": null,
+      "output_tokens": 1374,
+      "raw_characters": 4376
+    },
+    {
+      "item_id": "s168_src_11",
+      "category": "truncated_or_invalid_json",
+      "validation_error": "Unterminated string starting at: line 1 column 7264 (char 7263)",
+      "raw_relation_count": null,
+      "output_tokens": 2400,
+      "raw_characters": 7279
+    },
+    {
+      "item_id": "s168_src_12",
+      "category": "valid",
+      "validation_error": null,
+      "raw_relation_count": null,
+      "output_tokens": 573,
+      "raw_characters": 1839
+    },
+    {
+      "item_id": "s168_src_13",
+      "category": "over_population",
+      "validation_error": "relation population out of bounds",
+      "raw_relation_count": 25,
+      "output_tokens": 1732,
+      "raw_characters": 6038
+    },
+    {
+      "item_id": "s168_src_14",
+      "category": "valid",
+      "validation_error": null,
+      "raw_relation_count": null,
+      "output_tokens": 776,
+      "raw_characters": 2745
+    }
+  ],
+  "decision": {
+    "s170_credit": false,
+    "same_cohort_retry": false,
+    "different_existing_development_cohort": "S147",
+    "allowed_transport_changes": [
+      "declare and schema-bind relation maximum",
+      "increase output budget to fit the declared bounded schema",
+      "constrain relation field verbosity"
+    ],
+    "semantic_prompt_scope_change": false,
+    "third_transport_iteration_if_successor_fails": false,
+    "target_probe": false,
+    "production": false,
+    "facts_moved_to_ok": 0
+  },
+  "cost": {
+    "additional_model_calls": 0,
+    "additional_usd": 0,
+    "s170_paid_usd": 0.340792
+  },
+  "result_sha256": "9897ee5faff6b0a0115170823a169557cea66ce30e85465b4f25e122ba6e60b8"
+}

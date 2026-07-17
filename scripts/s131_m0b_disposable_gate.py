@@ -358,7 +358,31 @@ def assert_expected_error(name: str, sql: str, message: str, evidence: dict[str,
     evidence[name] = {"status": "PASS", "expected_error": message}
 
 
-def verify_runtime() -> dict[str, object]:
+def runtime_tuple_matches(
+    actual: dict[str, object],
+    *,
+    expected_server_version_prefix: str = "17.10",
+    expected_vector_extension_version: str = "0.0.0",
+) -> bool:
+    """Match the frozen M0b population while allowing an explicit real runtime.
+
+    Defaults preserve the historical Windows 17.10 + signature-shim contract.
+    A later gate must opt in to a different server and extension version.
+    """
+    return (
+        str(actual.get("server_version", "")).startswith(expected_server_version_prefix)
+        and actual.get("vector_extension_version") == expected_vector_extension_version
+        and actual.get("materialization_state") == "validated"
+        and actual.get("bindings") == EXPECTED_BINDINGS
+        and actual.get("chunks") == EXPECTED_CHUNKS
+    )
+
+
+def verify_runtime(
+    *,
+    expected_server_version_prefix: str = "17.10",
+    expected_vector_extension_version: str = "0.0.0",
+) -> dict[str, object]:
     evidence: dict[str, object] = {}
     runtime = psql(
         "SELECT jsonb_build_object("
@@ -372,13 +396,11 @@ def verify_runtime() -> dict[str, object]:
         f"WHERE materialization_id='{MATERIALIZATION_ID}'::uuid));"
     )
     evidence["runtime"] = json.loads(runtime)
-    if evidence["runtime"] != {
-        "server_version": "17.10",
-        "vector_extension_version": "0.0.0",
-        "materialization_state": "validated",
-        "bindings": EXPECTED_BINDINGS,
-        "chunks": EXPECTED_CHUNKS,
-    }:
+    if not runtime_tuple_matches(
+        evidence["runtime"],
+        expected_server_version_prefix=expected_server_version_prefix,
+        expected_vector_extension_version=expected_vector_extension_version,
+    ):
         raise GateFailure(f"runtime tuple drift: {evidence['runtime']!r}")
 
     rpc_count = psql(

@@ -1,0 +1,149 @@
+{
+  "instrument": "s157_multichunk_authored_cohort_v1",
+  "status": "SEALED_VALIDATED",
+  "eligible": 2,
+  "items": [
+    {
+      "item_id": "s157_src_01",
+      "eligible": true,
+      "question": "¿Cuál es la diferencia en la corriente de carga de batería y el tiempo de respuesta del relé de falla cuando se pierde la alimentación de red en comparación con otras condiciones de falla?",
+      "answer_points": [
+        {
+          "claim": "La posición de DIP SW2 determina tanto la capacidad de batería que se puede cargar como la corriente máxima permitida",
+          "exact_quote": "With DIP SW2 in ON position (up), 7Amp/h batteries can be charged at 300mA. When DIP SW2 is in OFF position (down), 17Amp/h batteries can be charged at 600mA.",
+          "fragment_number": 1,
+          "quote_sha256": "a318e02cf6ed75c9a942440d1bc95d426c40e75c381170adcde248181c187e07"
+        },
+        {
+          "claim": "La pérdida de alimentación de red tiene un tiempo de retardo de 8 minutos para la confirmación del relé de falla, mientras que otras fallas tienen un retardo de 30 segundos",
+          "exact_quote": "Any fault has a delay of 30 seconds from the fault signal to fault relay confirmation, except when there is a mains AC loss, which will be indicated after an 8-minute delay to avoid faults from intermittent power cuts.",
+          "fragment_number": 1,
+          "quote_sha256": "93900fdc25b6b96509e213ecb1914289752ed31c2294b387a2a9bbf3f283c351"
+        },
+        {
+          "claim": "El LED de MAINS SUPPLY FAULT se activa inmediatamente cuando se detecta pérdida de potencia, pero el relé de falla no se activa hasta después de 8 minutos",
+          "exact_quote": "The led is ON immediately after detecting power. However, the fault relay signal and the FAULT led do not activate until the power supply fault remains for more than 8 minutes.",
+          "fragment_number": 3,
+          "quote_sha256": "7e169bf5b9d84e9e655ae8c23f3031567805297268d92a9bb5239aedffb7e2c0"
+        }
+      ],
+      "validation_error": null,
+      "whitespace_only_repairs": 0,
+      "manufacturer": "Morley",
+      "product_model": "HLS PS25",
+      "source_file": "PSU User Manual_MLT LNG",
+      "bundle_sha256": "e32310c2a54bd3a9c7702d58563e6966c78c3e379d099ca976cf87f72d0b9f9d"
+    },
+    {
+      "item_id": "s157_src_02",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "validation_error": "quote not source-bound",
+      "whitespace_only_repairs": 0
+    },
+    {
+      "item_id": "s157_src_03",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "validation_error": "answer points do not span two fragments",
+      "whitespace_only_repairs": 0
+    },
+    {
+      "item_id": "s157_src_04",
+      "eligible": true,
+      "question": "¿Cuál es el procedimiento correcto para rearmar el detector cuando la alarma está enclavada, y qué estado específico debe tener el relé de avería durante una prueba manual?",
+      "answer_points": [
+        {
+          "claim": "El detector puede rearmar desconectando la alimentación o iniciando una prueba manual",
+          "exact_quote": "Para rearmar un detector cuando la Alarma está enclavada, desconecte la alimentación (terminal Nº 1 o terminal nº 2) o inicie una prueba manual.",
+          "fragment_number": 3,
+          "quote_sha256": "b5e7ec52144700bc032d13021dec2aa2ba9cf3058b71887a01976e5b455eff49"
+        },
+        {
+          "claim": "El relé de avería permanece activo durante la prueba manual",
+          "exact_quote": "El relé de avería permanecerá activo durante la prueba.",
+          "fragment_number": 3,
+          "quote_sha256": "83a5bc83ededf475689c1846d17af74e5336f7cc7e1338dadd3a685983c00dd5"
+        },
+        {
+          "claim": "El relé de avería está ubicado en los terminales 7 y 8 del detector",
+          "exact_quote": "La salida de avería en relé N.A SPST a los terminales nº 7 y 8.",
+          "fragment_number": 1,
+          "quote_sha256": "185f2973dd5b1b471123aea2cbbd6c0cbf86ac8bdf2ef25c39a787ea41356c82"
+        }
+      ],
+      "validation_error": null,
+      "whitespace_only_repairs": 0,
+      "manufacturer": "Spectrex",
+      "product_model": "20/20UB",
+      "source_file": "MNDT710_B",
+      "bundle_sha256": "e6b350aece933fae93720ea031736b419f7d64c9d60808c33647a37996811bba"
+    },
+    {
+      "item_id": "s157_src_05",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "validation_error": "quote not source-bound",
+      "whitespace_only_repairs": 0
+    },
+    {
+      "item_id": "s157_src_06",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "validation_error": "answer points do not span two fragments",
+      "whitespace_only_repairs": 0
+    },
+    {
+      "item_id": "s157_src_07",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "validation_error": "answer points do not span two fragments",
+      "whitespace_only_repairs": 0
+    },
+    {
+      "item_id": "s157_src_08",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "validation_error": "answer points do not span two fragments",
+      "whitespace_only_repairs": 0
+    },
+    {
+      "item_id": "s157_src_09",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "validation_error": "answer points do not span two fragments",
+      "whitespace_only_repairs": 0
+    },
+    {
+      "item_id": "s157_src_10",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "validation_error": "answer points do not span two fragments",
+      "whitespace_only_repairs": 0
+    },
+    {
+      "item_id": "s157_src_11",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "validation_error": "answer points do not span two fragments",
+      "whitespace_only_repairs": 0
+    },
+    {
+      "item_id": "s157_src_12",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "validation_error": "quote not source-bound",
+      "whitespace_only_repairs": 0
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+instrument: s152_per_chunk_typed_relation_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_FINAL
+
+frozen_artifacts:
+  preregistration:
+    path: evals/s152_per_chunk_typed_relation_prereg_v1.yaml
+    sha256: de330ad3b2b8b63efdbbaf10f2b9ccc445a495cf567b5bf4610a6f09273d8b99
+  runner:
+    path: scripts/s152_per_chunk_typed_relation_probe.py
+    sha256: 2f2226c298f8c930d1404b2bf9894dbd07f5985090623bc4dc58fa14e7c6d2b4
+  runner_tests:
+    path: tests/test_s152_per_chunk_typed_relation_probe.py
+    sha256: 1512be29eb9429bb35936af704e1364568f6339b7bc92fd68aa550a6ea63b246
+  contract_tests:
+    path: tests/test_s151_typed_relations.py
+    sha256: 8d5a3d07cab6d05aefbba720702176484dc421be06e4d4edb3d06608ca5c0227
+
+limits:
+  calls: 55
+  retries: 0
+  conservative_total_ceiling_usd: 2.50
+  user_budget_usd: 250
+
+authorization:
+  paid_per_chunk_pilot: true
+  production: false
+  deploy: false
+  push: false
+  facts_moved_to_ok: 0

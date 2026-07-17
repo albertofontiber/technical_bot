@@ -1,0 +1,386 @@
+{
+  "instrument": "s192_terra_direct_writer_v1",
+  "status": "NO_GO_DIRECT_MODEL_SWAP",
+  "population": {
+    "questions": 14,
+    "manufacturers": 14,
+    "table": 7,
+    "prose": 7,
+    "answer_points": 37,
+    "target_question_overlap": 0
+  },
+  "measurement": {
+    "baseline_points": 26,
+    "candidate_points": 25,
+    "point_gain": -1,
+    "baseline_questions_complete": 6,
+    "candidate_questions_complete": 7,
+    "complete_question_gain": 1,
+    "regressed_points": 2,
+    "invalid_citations": 0,
+    "incomplete_calls": 0,
+    "median_latency_ms": 2171
+  },
+  "checks": {
+    "all_14_calls_complete": true,
+    "point_gain_gte_4": false,
+    "complete_question_gain_gte_2": false,
+    "regressed_points_zero": false,
+    "invalid_citations_zero": true,
+    "actual_cost_below_ceiling": true
+  },
+  "rows": [
+    {
+      "item_id": "s147_src_01",
+      "stratum": "table",
+      "answer_points": 2,
+      "baseline_points_covered": 0,
+      "candidate_points_covered": 0,
+      "regressed_points": 0,
+      "invalid_citations": [],
+      "points": [
+        {
+          "claim": "La configuración de coincidencia requiere SW4 en posición ON, SW5 en OFF y SW6 en OFF",
+          "baseline": false,
+          "candidate": false
+        },
+        {
+          "claim": "Esta configuración se representa en la tabla como fila de COINCIDENCIA con valores 1, 0, 0",
+          "baseline": false,
+          "candidate": false
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_02",
+      "stratum": "table",
+      "answer_points": 3,
+      "baseline_points_covered": 3,
+      "candidate_points_covered": 3,
+      "regressed_points": 0,
+      "invalid_citations": [],
+      "points": [
+        {
+          "claim": "El módulo Monitor requiere una resistencia de final de línea de 47KΩ en estado normal",
+          "baseline": true,
+          "candidate": true
+        },
+        {
+          "claim": "Se debe colocar una resistencia de 18KΩ en serie con el contacto N.A. de alarma para señalizar la alarma",
+          "baseline": true,
+          "candidate": true
+        },
+        {
+          "claim": "El módulo Monitor de 3 estados indica un cortocircuito como avería",
+          "baseline": true,
+          "candidate": true
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_03",
+      "stratum": "table",
+      "answer_points": 2,
+      "baseline_points_covered": 1,
+      "candidate_points_covered": 0,
+      "regressed_points": 1,
+      "invalid_citations": [],
+      "points": [
+        {
+          "claim": "En estado de prealarma (aviso) la salida de corriente 0-20mA es de 16 mA con tolerancia del ±5%",
+          "baseline": true,
+          "candidate": false
+        },
+        {
+          "claim": "La máxima resistencia de carga permitida para la salida 0-20mA es de 600Ω",
+          "baseline": false,
+          "candidate": false
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_04",
+      "stratum": "table",
+      "answer_points": 3,
+      "baseline_points_covered": 1,
+      "candidate_points_covered": 0,
+      "regressed_points": 1,
+      "invalid_citations": [],
+      "points": [
+        {
+          "claim": "El Nivel 3 tiene una sensibilidad de 0.05 % obs/ft",
+          "baseline": false,
+          "candidate": false
+        },
+        {
+          "claim": "El detector tiene 9 niveles de sensibilidad disponibles en total",
+          "baseline": false,
+          "candidate": false
+        },
+        {
+          "claim": "Solo los Niveles 1 a 5 están disponibles para usar en PipeIQ",
+          "baseline": true,
+          "candidate": false
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_05",
+      "stratum": "table",
+      "answer_points": 3,
+      "baseline_points_covered": 1,
+      "candidate_points_covered": 1,
+      "regressed_points": 0,
+      "invalid_citations": [],
+      "points": [
+        {
+          "claim": "La tabla de avisos contiene columnas para Fecha/Hora, Evento, Panel, Zona, Dispositivo y Detalles del aviso.",
+          "baseline": true,
+          "candidate": true
+        },
+        {
+          "claim": "Un aviso de avería de alimentación muestra el tipo de evento, el panel afectado y detalles del fallo en la columna correspondiente.",
+          "baseline": false,
+          "candidate": false
+        },
+        {
+          "claim": "Un aviso de dispositivo en avería registra la zona afectada y la descripción específica del estado del dispositivo.",
+          "baseline": false,
+          "candidate": false
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_06",
+      "stratum": "table",
+      "answer_points": 2,
+      "baseline_points_covered": 1,
+      "candidate_points_covered": 1,
+      "regressed_points": 0,
+      "invalid_citations": [],
+      "points": [
+        {
+          "claim": "La dirección mínima requerida es 80 cuando se usa como sounder y beacon",
+          "baseline": true,
+          "candidate": true
+        },
+        {
+          "claim": "Direcciones inferiores a 80 hacen que el dispositivo funcione solo como sounder sin la baliza parpadeante",
+          "baseline": false,
+          "candidate": false
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_07",
+      "stratum": "table",
+      "answer_points": 2,
+      "baseline_points_covered": 2,
+      "candidate_points_covered": 2,
+      "regressed_points": 0,
+      "invalid_citations": [],
+      "points": [
+        {
+          "claim": "A 12 V-CC (10,5 V-CC) el consumo máximo es 340 mA",
+          "baseline": true,
+          "candidate": true
+        },
+        {
+          "claim": "A 24 V-CC (18 V-CC) el consumo máximo es 210 mA",
+          "baseline": true,
+          "candidate": true
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_08",
+      "stratum": "prose",
+      "answer_points": 3,
+      "baseline_points_covered": 2,
+      "candidate_points_covered": 3,
+      "regressed_points": 0,
+      "invalid_citations": [],
+      "points": [
+        {
+          "claim": "El cable líder debe estar conectado al LocatorPlus y cortocircuitado en el extremo donde se conecta al INICIO del cable LHD",
+          "baseline": true,
+          "candidate": true
+        },
+        {
+          "claim": "Después de cortocircuitar, se debe presionar el botón Set y el LocatorPlus mostrará la caída de voltaje a través del cable líder",
+          "baseline": false,
+          "candidate": true
+        },
+        {
+          "claim": "Se debe quitar el cortocircuito del cable líder y conectarlo al INICIO del cable LHD normalmente",
+          "baseline": true,
+          "candidate": true
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_09",
+      "stratum": "prose",
+      "answer_points": 3,
+      "baseline_points_covered": 2,
+      "candidate_points_covered": 2,
+      "regressed_points": 0,
+      "invalid_citations": [],
+      "points": [
+        {
+          "claim": "La obstrucción o desalineación del haz hace que el LED amarillo de falta se encienda de manera continua, y se resuelve eliminando la obstrucción o realineando para mantener el camino del haz despejado hacia el reflector.",
+          "baseline": false,
+          "candidate": false
+        },
+        {
+          "claim": "El arranque incorrecto o falla del detector provoca que el LED amarillo de falta se ilumine continuamente inmediatamente después de salir del modo de instalación, requiriendo repetir el procedimiento de instalación y verificar todos los parámetros.",
+          "baseline": true,
+          "candidate": true
+        },
+        {
+          "claim": "La contaminación excesiva de las partes ópticas se identifica porque el LED amarillo de falta parpadea, y se resuelve limpiando cuidadosamente la ventana del haz y la superficie del reflector con un paño húmedo.",
+          "baseline": true,
+          "candidate": true
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_10",
+      "stratum": "prose",
+      "answer_points": 2,
+      "baseline_points_covered": 2,
+      "candidate_points_covered": 2,
+      "regressed_points": 0,
+      "invalid_citations": [],
+      "points": [
+        {
+          "claim": "El LED de alarma general parpadea cuando un detector activó la alarma",
+          "baseline": true,
+          "candidate": true
+        },
+        {
+          "claim": "El LED de alarma general está fijo cuando la activó un pulsador",
+          "baseline": true,
+          "candidate": true
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_11",
+      "stratum": "prose",
+      "answer_points": 3,
+      "baseline_points_covered": 2,
+      "candidate_points_covered": 2,
+      "regressed_points": 0,
+      "invalid_citations": [],
+      "points": [
+        {
+          "claim": "Se deben instalar conectores de cable con protección tipo IP 66 en las aberturas proporcionadas para este propósito.",
+          "baseline": true,
+          "candidate": true
+        },
+        {
+          "claim": "El pezón de diafragma suministrado puede reemplazarse con un conector de cable o una conexión de enchufe M12 con medida de brida M20.",
+          "baseline": false,
+          "candidate": false
+        },
+        {
+          "claim": "La protección IP 66 solo se garantiza cuando el embudo de la membrana apunta hacia afuera, y los restos del diafragma deben retirarse después de instalar el cable.",
+          "baseline": true,
+          "candidate": true
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_12",
+      "stratum": "prose",
+      "answer_points": 3,
+      "baseline_points_covered": 3,
+      "candidate_points_covered": 3,
+      "regressed_points": 0,
+      "invalid_citations": [],
+      "points": [
+        {
+          "claim": "Colocar el conector Sel6 en posición ON y cerrar el puente JP3",
+          "baseline": true,
+          "candidate": true
+        },
+        {
+          "claim": "Pulsar el botón P1 de la placa base y mantenerlo pulsado durante toda la grabación del mensaje",
+          "baseline": true,
+          "candidate": true
+        },
+        {
+          "claim": "El tiempo máximo de grabación permitido para cada mensaje es de 12 segundos",
+          "baseline": true,
+          "candidate": true
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_13",
+      "stratum": "prose",
+      "answer_points": 3,
+      "baseline_points_covered": 3,
+      "candidate_points_covered": 3,
+      "regressed_points": 0,
+      "invalid_citations": [],
+      "points": [
+        {
+          "claim": "Se debe medir con un polímetro en escala kΩ entre los terminales de los cables del bus",
+          "baseline": true,
+          "candidate": true
+        },
+        {
+          "claim": "Si la medición resulta en 0, la línea está en cortocircuito",
+          "baseline": true,
+          "candidate": true
+        },
+        {
+          "claim": "Si la medición resulta en 1, la línea es correcta",
+          "baseline": true,
+          "candidate": true
+        }
+      ]
+    },
+    {
+      "item_id": "s147_src_14",
+      "stratum": "prose",
+      "answer_points": 3,
+      "baseline_points_covered": 3,
+      "candidate_points_covered": 3,
+      "regressed_points": 0,
+      "invalid_citations": [],
+      "points": [
+        {
+          "claim": "Debe cumplir con los estándares específicos aplicables",
+          "baseline": true,
+          "candidate": true
+        },
+        {
+          "claim": "Debe recibir una señal inalámbrica fuerte del módulo traductor o expansor vinculado",
+          "baseline": true,
+          "candidate": true
+        },
+        {
+          "claim": "No debe estar interferido por factores ambientales",
+          "baseline": true,
+          "candidate": true
+        }
+      ]
+    }
+  ],
+  "cost": {
+    "actual_usd": 0.259085,
+    "worst_case_preflight_usd": 0.85148
+  },
+  "decision": {
+    "same_cohort_tuning": false,
+    "reasoning_escalation": false,
+    "target_probe": false,
+    "production": false,
+    "facts_moved_to_ok": 0,
+    "passing_action": "fresh_model_routing_and_operational_cost_latency_gate",
+    "failing_action": "close_direct_swap_and_test_id_planner_deterministic_renderer"
+  }
+}

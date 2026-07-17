@@ -1,0 +1,309 @@
+{
+  "instrument": "s146_fresh_obligation_cohort_v1",
+  "status": "SEALED_VALIDATED",
+  "items": [
+    {
+      "item_id": "s147_src_01",
+      "eligible": true,
+      "question": "¿Cuál es la configuración correcta de los interruptores SW4, SW5 y SW6 cuando se requiere que la alarma se active solo cuando ambos sensores entran en alarma simultáneamente?",
+      "answer_points": [
+        {
+          "claim": "La configuración de coincidencia requiere SW4 en posición ON, SW5 en OFF y SW6 en OFF",
+          "exact_quote": "SW4-ON, SW5-OFF and SW6-OFF, that is **1 - 0 - 0**"
+        },
+        {
+          "claim": "Esta configuración se representa en la tabla como fila de COINCIDENCIA con valores 1, 0, 0",
+          "exact_quote": "1<br/>**COINCIDENCE** | 0           | 0"
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Notifier",
+      "product_model": "ID-50",
+      "excerpt_sha256": "d13200bcbb566ad56b898f19eb54d20f36ea206e1ae8be8788916fad6d5810df"
+    },
+    {
+      "item_id": "s147_src_02",
+      "eligible": true,
+      "question": "¿Qué resistencias y contactos debo conectar para configurar un módulo Monitor de 3 estados que supervise una alarma?",
+      "answer_points": [
+        {
+          "claim": "El módulo Monitor requiere una resistencia de final de línea de 47KΩ en estado normal",
+          "exact_quote": "En estado normal un módulo monitor tiene una resistencia de 47KW."
+        },
+        {
+          "claim": "Se debe colocar una resistencia de 18KΩ en serie con el contacto N.A. de alarma para señalizar la alarma",
+          "exact_quote": "Para señalizar la alarma, debe colocarse en serie con el contacto N.A. de alarma una resistencia de 18KW de forma que al cerrar el contacto quede conectada entre los terminales de supervisión del *MI-MM1E* o *MI-MM3E*."
+        },
+        {
+          "claim": "El módulo Monitor de 3 estados indica un cortocircuito como avería",
+          "exact_quote": "**MON**. Módulo Monitor de 3 estados (Permite retardo con fuego de zona). A diferencia del *PUL*, este módulo indica un cortocircuito como avería."
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Morley",
+      "product_model": "ZX50",
+      "excerpt_sha256": "b74fda0415d5cd07239f60100835a4a392f5d2f91d813e11678ca337d3c983dc"
+    },
+    {
+      "item_id": "s147_src_03",
+      "eligible": true,
+      "question": "¿Cuál es la corriente de salida que debe obtener cuando el detector se encuentra en estado de prealarma o aviso?",
+      "answer_points": [
+        {
+          "claim": "En estado de prealarma (aviso) la salida de corriente 0-20mA es de 16 mA con tolerancia del ±5%",
+          "exact_quote": "Prealarma (aviso)   | 16 mA±5%"
+        },
+        {
+          "claim": "La máxima resistencia de carga permitida para la salida 0-20mA es de 600Ω",
+          "exact_quote": "La máxima resistencia de carga permitida es de 600Ω."
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Spectrex",
+      "product_model": "40-40I",
+      "excerpt_sha256": "0cd01d408cc151a77c5e52e0c528bf341115422187126a2b8bdf52263ca2286c"
+    },
+    {
+      "item_id": "s147_src_04",
+      "eligible": true,
+      "question": "¿Cuál es la sensibilidad de humo en %obs/pie para el Nivel 3 del detector FAAST LT-200?",
+      "answer_points": [
+        {
+          "claim": "El Nivel 3 tiene una sensibilidad de 0.05 % obs/ft",
+          "exact_quote": "| Level 3                 | 0.05 % obs/ft | 0.16 % obs/m   |"
+        },
+        {
+          "claim": "El detector tiene 9 niveles de sensibilidad disponibles en total",
+          "exact_quote": "This sensor has 9 sensitivity levels allowing 9 different Alarm or Pre-Alarm settings to be available in the detector"
+        },
+        {
+          "claim": "Solo los Niveles 1 a 5 están disponibles para usar en PipeIQ",
+          "exact_quote": "Only Levels 1 to 5 are available for use in PipeIQ."
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Xtralis",
+      "product_model": "LT-200",
+      "excerpt_sha256": "97112c04dbae8c39751dcae7b8767c30123ff31047290bcdf52c78a6dac54ef1"
+    },
+    {
+      "item_id": "s147_src_05",
+      "eligible": true,
+      "question": "¿Qué información se muestra en la tabla de avisos cuando un dispositivo está en avería?",
+      "answer_points": [
+        {
+          "claim": "La tabla de avisos contiene columnas para Fecha/Hora, Evento, Panel, Zona, Dispositivo y Detalles del aviso.",
+          "exact_quote": "| Avisos<br/>Fecha/Hora | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Evento | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Panel | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Zona | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Dispositivo | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Detalles |"
+        },
+        {
+          "claim": "Un aviso de avería de alimentación muestra el tipo de evento, el panel afectado y detalles del fallo en la columna correspondiente.",
+          "exact_quote": "| 2019-12-09 14:42:08   | Averia de alimentacion                                      | Panel de Pruebas                                           |                                                           |                                                                  | Fallo de alimentacion                                         |"
+        },
+        {
+          "claim": "Un aviso de dispositivo en avería registra la zona afectada y la descripción específica del estado del dispositivo.",
+          "exact_quote": "| 2019-12-09 14:41:28   | Averia                                                      | Panel de Pruebas                                           | Zona MCP                                                  | 01:01:003 Detector 2                                             | El dispositivo esta en averia                                 |"
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Detnov",
+      "product_model": "SGD-151",
+      "excerpt_sha256": "0433234b17d8b8bcb9c9c9aadcf7cdc66fe40c3ad869a0bf2c194e81213bb2b6"
+    },
+    {
+      "item_id": "s147_src_06",
+      "eligible": true,
+      "question": "¿Cuál es la dirección mínima que debe asignarse a un dispositivo cuando se utiliza como sounder y beacon con paneles de fuego de la serie FP1200/2000?",
+      "answer_points": [
+        {
+          "claim": "La dirección mínima requerida es 80 cuando se usa como sounder y beacon",
+          "exact_quote": "it must have an address of 80 or higher when it is used as a sounder and beacon"
+        },
+        {
+          "claim": "Direcciones inferiores a 80 hacen que el dispositivo funcione solo como sounder sin la baliza parpadeante",
+          "exact_quote": "When an address lower that 80 is assigned to the device, it will function as a sounder only, without the beacon flashing"
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Aritech",
+      "product_model": "ASW2367",
+      "excerpt_sha256": "083bf2e1405d521fe4c303cc827422ae38d14ab39508ebc2dbcd433b91145b5f"
+    },
+    {
+      "item_id": "s147_src_07",
+      "eligible": true,
+      "question": "¿Cuál es el consumo de corriente máximo del ASD 533 en alarma a 12 V-CC y a 24 V-CC?",
+      "answer_points": [
+        {
+          "claim": "A 12 V-CC (10,5 V-CC) el consumo máximo es 340 mA",
+          "exact_quote": "Consumo de corriente máximo con:                                                 | 10,5 V-CC | 18 V-CC  |\n| - ASD 533, ASD en alarma                                                         | 340 mA    | 210 mA"
+        },
+        {
+          "claim": "A 24 V-CC (18 V-CC) el consumo máximo es 210 mA",
+          "exact_quote": "| - ASD 533, ASD en alarma                                                         | 340 mA    | 210 mA   |"
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Securiton",
+      "product_model": "ASD533",
+      "excerpt_sha256": "3de6d4cab569a3930f63def2a494d8861217ce184116db874e9c00da6b62b8e3"
+    },
+    {
+      "item_id": "s147_src_08",
+      "eligible": true,
+      "question": "¿Cuál es el procedimiento para calibrar el cable sensor de detección de calor lineal cuando está conectado a través de un cable líder?",
+      "answer_points": [
+        {
+          "claim": "El cable líder debe estar conectado al LocatorPlus y cortocircuitado en el extremo donde se conecta al INICIO del cable LHD",
+          "exact_quote": "The leader cable must be connected to the LocatorPlus and shorted out at the end where it connects to the START of the LHD cable."
+        },
+        {
+          "claim": "Después de cortocircuitar, se debe presionar el botón Set y el LocatorPlus mostrará la caída de voltaje a través del cable líder",
+          "exact_quote": "Once this is done press the Set button.\n\n10. The LocatorPlus will display the voltage drop across the leader cable."
+        },
+        {
+          "claim": "Se debe quitar el cortocircuito del cable líder y conectarlo al INICIO del cable LHD normalmente",
+          "exact_quote": "Remove the short from the leader cable and connect it to the START of the LHD cable as normal."
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "LGM Products",
+      "product_model": "unknown",
+      "excerpt_sha256": "a921b5a36a6f22daa51da4b66c2d437d267f07eff57372c963dd8512b845d280"
+    },
+    {
+      "item_id": "s147_src_09",
+      "eligible": true,
+      "question": "¿Cuáles son las tres posibles causas de una condición de falta en el detector y cómo se identifica cada una mediante el LED amarillo?",
+      "answer_points": [
+        {
+          "claim": "La obstrucción o desalineación del haz hace que el LED amarillo de falta se encienda de manera continua, y se resuelve eliminando la obstrucción o realineando para mantener el camino del haz despejado hacia el reflector.",
+          "exact_quote": "**Obstruction / mis-alignment of the beam:** In this case, the yellow fault LED is turned on steady. To return to standby status remove the obstruction or re-align to ensure the path of the beam remains clear to the reflector."
+        },
+        {
+          "claim": "El arranque incorrecto o falla del detector provoca que el LED amarillo de falta se ilumine continuamente inmediatamente después de salir del modo de instalación, requiriendo repetir el procedimiento de instalación y verificar todos los parámetros.",
+          "exact_quote": "**Incorrect start-up or detector failure:** This fault occurs immediately after exiting the installation mode. The yellow fault LED illuminates continuously. The installation procedure should be repeated and all parameters checked for this fault to be cancelled."
+        },
+        {
+          "claim": "La contaminación excesiva de las partes ópticas se identifica porque el LED amarillo de falta parpadea, y se resuelve limpiando cuidadosamente la ventana del haz y la superficie del reflector con un paño húmedo.",
+          "exact_quote": "**Excessive contamination of the optical parts:** The yellow fault led flashes. The 6200R is capable of compensating the signal for contamination up to a preset limit. Carefully wipe the beam window and the reflector surface clean with a damp cloth then revert to installation mode to check signal strength and beam alignment."
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "System Sensor",
+      "product_model": "MODEL-6200R",
+      "excerpt_sha256": "614aa6f4c1eebb18e8714f21a8c9048c9715cf52e95f905a29493f52b1a251e6"
+    },
+    {
+      "item_id": "s147_src_10",
+      "eligible": true,
+      "question": "¿Cuál es el comportamiento del LED de alarma general cuando se activa una alarma de incendio mediante un detector?",
+      "answer_points": [
+        {
+          "claim": "El LED de alarma general parpadea cuando un detector activó la alarma",
+          "exact_quote": "LED de alarma general: parpadea (si un detector activó la alarma)."
+        },
+        {
+          "claim": "El LED de alarma general está fijo cuando la activó un pulsador",
+          "exact_quote": "Está fijo (si la activó un pulsador)."
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Kidde",
+      "product_model": "NC",
+      "excerpt_sha256": "9914c57cb5b96957ea07fd7ca7cf6bc836c3e643d7a4b1a7f453096b92b81657"
+    },
+    {
+      "item_id": "s147_src_11",
+      "eligible": true,
+      "question": "¿Qué tipo de protección IP se debe instalar en las aberturas de entrada de cable para garantizar el tipo de protección especificado del dispositivo?",
+      "answer_points": [
+        {
+          "claim": "Se deben instalar conectores de cable con protección tipo IP 66 en las aberturas proporcionadas para este propósito.",
+          "exact_quote": "To guarantee the specified protection type, cable grommets with a protection type of IP 66 are to be installed at the openings provided for this purpose."
+        },
+        {
+          "claim": "El pezón de diafragma suministrado puede reemplazarse con un conector de cable o una conexión de enchufe M12 con medida de brida M20.",
+          "exact_quote": "The supplied diaphragm nipple can be replaced with a cable gland or with an M12 plug connection with a flange measurement of M20."
+        },
+        {
+          "claim": "La protección IP 66 solo se garantiza cuando el embudo de la membrana apunta hacia afuera, y los restos del diafragma deben retirarse después de instalar el cable.",
+          "exact_quote": "IP 66 only when funnel of membrane is pointing outward. After installation of the cable remove the remains of the diaphragm."
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Pfannenberg",
+      "product_model": "PA20",
+      "excerpt_sha256": "ebaf75e718a4adf0adc3796cbe89359be8a2a32f5db7b47abd4a6fc26d887016"
+    },
+    {
+      "item_id": "s147_src_12",
+      "eligible": true,
+      "question": "¿Qué acciones debe realizar un técnico para grabar un mensaje de alerta en el panel PAN AVD2?",
+      "answer_points": [
+        {
+          "claim": "Colocar el conector Sel6 en posición ON y cerrar el puente JP3",
+          "exact_quote": "Para grabar mensajes nuevos, coloque el conector Sel6 en posición \"ON\" y cierre el puente JP3."
+        },
+        {
+          "claim": "Pulsar el botón P1 de la placa base y mantenerlo pulsado durante toda la grabación del mensaje",
+          "exact_quote": "Pulse el botón P1 de la placa base. Si el puente JP2 está colocado en los conectores 1-2, se emitirá un pitido que indica el inicio de la grabación. Pulse el botón y manténgalo pulsado durante la grabación de todo el mensaje."
+        },
+        {
+          "claim": "El tiempo máximo de grabación permitido para cada mensaje es de 12 segundos",
+          "exact_quote": "el tiempo máximo para cada mensaje es de 12 segundos."
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Avotec",
+      "product_model": "PARA-16",
+      "excerpt_sha256": "c31f9a15018065a28bbc5a1c85277315fdea8ba4a5774eb6c6f9fdcaa8518c4c"
+    },
+    {
+      "item_id": "s147_src_13",
+      "eligible": true,
+      "question": "¿Cómo puedo verificar si la línea del bus ACSI está en cortocircuito cuando hay problemas de conexión?",
+      "answer_points": [
+        {
+          "claim": "Se debe medir con un polímetro en escala kΩ entre los terminales de los cables del bus",
+          "exact_quote": "desconecte los dos extremos de los dos cables de bus conectados entre el sistema y el equipo, y mida entre cada uno de los terminales de los cables con un polímetro en la escala kΩ"
+        },
+        {
+          "claim": "Si la medición resulta en 0, la línea está en cortocircuito",
+          "exact_quote": "Si el resultado de la medición es 0, la línea se encuentra en cortocircuito"
+        },
+        {
+          "claim": "Si la medición resulta en 1, la línea es correcta",
+          "exact_quote": "Si el resultado es 1, significa que se encuentra correcta"
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "LDA audioTech",
+      "product_model": "VAP-1",
+      "excerpt_sha256": "17fab58665f8a55e6caaebed5eda53c7c72dd9a44e1e4b0c37967645a9cc7641"
+    },
+    {
+      "item_id": "s147_src_14",
+      "eligible": true,
+      "question": "¿Cuáles son los tres criterios que debe cumplir la posición de colocación del detector?",
+      "answer_points": [
+        {
+          "claim": "Debe cumplir con los estándares específicos aplicables",
+          "exact_quote": "Compliances with your specific standards."
+        },
+        {
+          "claim": "Debe recibir una señal inalámbrica fuerte del módulo traductor o expansor vinculado",
+          "exact_quote": "Is reached by a strong wireless signal from its linked-to translator or expander module."
+        },
+        {
+          "claim": "No debe estar interferido por factores ambientales",
+          "exact_quote": "Is not interfered by environmental factors (as per note above)."
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Argus Security",
+      "product_model": "SG350",
+      "excerpt_sha256": "0100c58fc041f852a32a3b953e91403f6d9eb190c444e24e091d9b5b45027e31"
+    }
+  ],
+  "cohort_sha256": "dd222eeb9f55d61b7ab76453f08bbe83deb8f75940b42433609c68a08a29aaf2"
+}

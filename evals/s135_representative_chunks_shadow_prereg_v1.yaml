@@ -1,0 +1,90 @@
+instrument: s135_representative_chunks_shadow_prereg_v1
+status: frozen_before_implementation
+
+design:
+  path: evals/s135_representative_chunks_shadow_design_v1.md
+  sha256: 7c06389218dce1d3f73016e7b712dc0e02cd4e08344f87fe8f89bd2b7b284623
+
+frozen_inputs:
+  heldout:
+    path: evals/s114_procedure_bundle_heldout_freeze_v1.json
+    sha256: 227e808a2ba2308acce89f90722fd46a63bad30aae0cde630191154b4ff07d94
+    selection: all_chosen_rows
+  snapshot:
+    path: tmp/s117_m2/remote_snapshot_v1.jsonl.gz
+    sha256: 3013c553da20c72fbfe0dc801dad4ea4b063ecff3138dcf55b5cd7831cf79067
+    canonical_jsonl_sha256: c5c4e1027d85b5023e8834e221bb99799fedbea1a9826f5a42f88ff3ad8da8d5
+  document_metadata:
+    path: evals/s134_document_metadata_manifest_seed1_v1.json
+    sha256: b338e76875197bfafa35fd9b92e8bd68311d5494f207205982b99990a8ef5746
+    entries_sha256: ee24e2d4a3ffd136dc043eeddb75ee723f62f331e91092e2adab7309ef1230c5
+  candidate_receipt:
+    path: evals/s117_m28_candidate_materialization_seed1_v1.json
+    sha256: b18df39ad1677d0f20da4b78f32a8823162d826ff2387a82032adbac1d292b9e
+    source_store_slug: agent_anthropic-sonnet-45
+    source_store_manifest_sha256: 752c044be1531d5bc2e2879f79acf1dbeffabcbeb9bb9d16f5e14a5676aa5810
+    source_records: 1068
+    materialization_id: 1852e61c-ac7f-5232-be1c-627ea54f29b5
+  chunker:
+    path: src/reingest/chunk.py
+    sha256: d851abf6761d8e5ff6dee4d2727b85c86fda21059dce8875a028cf8298e87764
+  materializer:
+    path: src/reingest/chunk_provenance.py
+    sha256: bb218a509ca56f2ddf4e44d73c4235cefacfb4296a4b98c9d49a627a2536e65c
+
+runtime:
+  postgres_version: '17.10'
+  host: 127.0.0.1
+  port: 55431
+  database: postgres
+  psql: {path: tmp/s131_m0b_runtime/postgresql/pgsql/bin/psql.exe, sha256: e43adb9c5032e7efc63eebb44c5d32b142b34e5f4207666fed2dc7a51d43b630}
+  pg_ctl: {path: tmp/s131_m0b_runtime/postgresql/pgsql/bin/pg_ctl.exe, sha256: abe89b0767a8cd0f956059aa5a5a93cd1042efc6194d000c2501da3e23babbd2}
+  postgres: {path: tmp/s131_m0b_runtime/postgresql/pgsql/bin/postgres.exe, sha256: 882a5a073a88817f6c6d4c8827df1e4269ff226d52cf6f47c9883e91088c6345}
+  data_directory: tmp/s131_m0b_runtime/data
+  disposable_schema: s135_chunks_shadow
+
+cohort:
+  questions: 24
+  manufacturers: 12
+  questions_per_manufacturer: 2
+  filters: [manufacturer_exact, product_model_exact]
+  max_rank_observed: 200
+
+retrieval_contract:
+  implementation: postgres_tsvector
+  configuration: spanish_unaccent
+  query_parser: plainto_tsquery
+  weights: {section: A, content: B, context: C}
+  candidate_context: unique_exact_structural_donor_same_extraction_or_null
+  candidate_gold: exact_content_same_extraction
+  fuzzy_mapping: false
+
+gates:
+  candidate_gold_mapped: 24
+  lost_baseline_hits_at_10_max: 0
+  candidate_recall_at_10_gte_baseline: true
+  candidate_mrr_at_10_gte_baseline: true
+  manufacturers_with_net_hit_loss_at_10_max: 0
+  canonical_byte_identity_required: true
+
+execution:
+  seed1: evals/s135_representative_chunks_shadow_seed1_v1.json
+  seed2: evals/s135_representative_chunks_shadow_seed2_v1.json
+  gate: evals/s135_representative_chunks_shadow_gate_v1.yaml
+  generated_directory: tmp/s135_representative_chunks_shadow
+
+authorization:
+  local_snapshot_reads: true
+  local_raw_store_reads: true
+  local_disposable_postgres_writes: true
+  remote_database: false
+  network: false
+  models: false
+  embeddings: false
+  context_generation: false
+  migration_apply: false
+  serving: false
+  deploy: false
+  facts_moved_to_ok: 0
+
+cost: {external_usd_ceiling: 0, model_calls: 0, network_calls: 0, remote_database_reads: 0, remote_database_writes: 0, embeddings: 0}

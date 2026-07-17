@@ -1,0 +1,64 @@
+{
+  "schema_version": "s133_reconciled_funnel_v1",
+  "instrument": "s133_project_reconciled_funnel",
+  "status": "PROVISIONAL_HYBRID_FUNNEL_RECONCILED_ALL_FACTS_CLASSIFIED",
+  "authority": {
+    "s126_upstream_residual_audit": {
+      "path": "evals/s126_upstream_residual_audit_v1.json",
+      "sha256": "43a5776926879f0420287d1ededb9de05e6e512b3a95a17d9ce9be8a8f8a24d4"
+    },
+    "s133_unmeasured_fact_adjudication": {
+      "path": "evals/s133_unmeasured_fact_adjudication_v1.yaml",
+      "sha256": "4f3e72e35bf17276a1ef35ce10b1c181051feeb0500ec05ea4dd12c01ecdcb78"
+    }
+  },
+  "bridge": {
+    "prior_stage_histogram": {
+      "OK": 111,
+      "retrieval-miss": 4,
+      "source-contract-hold": 1,
+      "synthesis-miss": 14,
+      "synthesis-not-measured": 27
+    },
+    "removed_stage_histogram": {
+      "synthesis-not-measured": 27
+    },
+    "added_stage_histogram": {
+      "OK": 23,
+      "synthesis-miss": 4
+    },
+    "facts_reclassified": 27,
+    "confirmed_ok_exposed_by_measurement": 23,
+    "facts_moved_to_ok_due_to_bot_change": 0
+  },
+  "reconciled_diagnostic": {
+    "content_denominator": 157,
+    "stage_histogram": {
+      "OK": 134,
+      "retrieval-miss": 4,
+      "source-contract-hold": 1,
+      "synthesis-miss": 18
+    },
+    "ok_count": 134,
+    "ok_rate": 0.8535031847133758,
+    "ok_rate_percent": 85.35,
+    "target_ok_for_95_percent": 150,
+    "gap_to_95_percent": 16,
+    "largest_non_ok_bucket": "synthesis-miss",
+    "all_facts_stage_classified": true,
+    "official_atomic_kpi": null
+  },
+  "credit_and_limitations": {
+    "bot_improvement_credit": 0,
+    "measurement_reconciliation_credit": 23,
+    "reason_official_kpi_is_null": "The S125 bridge remains a provisional hybrid denominator because 77 legacy carries have not completed atomic requiredness adjudication.",
+    "chunks_version": "chunks_v2_exact_S113_context",
+    "chunks_v3_effect_measured": false
+  },
+  "cost": {
+    "projection_model_calls": 0,
+    "projection_network_calls": 0,
+    "projection_database_reads": 0,
+    "projection_database_writes": 0
+  }
+}

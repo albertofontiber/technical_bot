@@ -1,0 +1,56 @@
+instrument: s145_adversarial_sufficiency_gate_v1
+status: GO_TO_FRESH_INDEPENDENT_HEADER_AWARE_ITERATION
+
+evidence:
+  result:
+    path: evals/s145_adversarial_sufficiency_v1.json
+    sha256: 67ec5878ad81ff7ae992eb856408ea28f30e72a6c90b004686dce5760149a397
+  sol_judgement:
+    path: evals/s145_sol56_xhigh_sufficiency_v1.json
+    sha256: 8ea08e5a0bc7440cf9501d67bf9345672f27e5725529a75970e6d2eb8d923e4a
+  fable_judgement:
+    path: evals/s145_fable5_xhigh_sufficiency_v1.json
+    sha256: 2d63020b0dfaf8965f1d655adb2abc075366f388b38b840fa1a8fd4a72d20c07
+  packet:
+    path: evals/s145_adversarial_sufficiency_packet_v1.json
+    sha256: deae0b6bbdb8b70237bf94394e969bc7ac1ff1d95658d5f26cfbaed371c9da5f
+  preregistration:
+    path: evals/s145_adversarial_sufficiency_prereg_v1.yaml
+    sha256: 6e3e82903529376e917b592d61b3740a0bd7293350c9301be822e58e3d854f2f
+  runner:
+    path: scripts/s145_adversarial_sufficiency_review.py
+    sha256: a7c649410f95c935c9485d2813c73dcfb8c96eda1cd9e4719d18f7eb973578ed
+
+result:
+  questions: 7
+  converged_complete: 6
+  judge_disagreements: 1
+  terminal_complete_rate: 0.85714286
+  invalid_selected_ids: 0
+  irrelevant_selected_ids: 0
+
+finding:
+  scope: generic_table_context_preservation
+  description: >-
+    The sole HOLD selected the correct table row but omitted the column headers,
+    leaving values such as N and Clear all zones unsafe to interpret. This is a
+    representation defect, not permission to add product-specific rules.
+
+decision:
+  one_header_aware_atomic_unit_iteration: GO
+  fresh_independent_cohort_required: true
+  reuse_s142_as_future_gate: forbidden
+  integrate_s144: NO_GO
+  production: NO_GO
+  facts_moved_to_ok: 0
+
+cost:
+  sol_usd: 0.0606875
+  fable_usd: 0.20862
+  total_usd: 0.2693075
+  worst_case_preflight_usd: 0.5324575
+
+authorization:
+  production: false
+  deploy: false
+  push: false

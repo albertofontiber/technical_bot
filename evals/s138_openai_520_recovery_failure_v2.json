@@ -1,0 +1,16 @@
+{
+  "authorization": {
+    "deploy": false,
+    "facts_moved_to_ok": 0,
+    "further_retry": false,
+    "migration_apply": false,
+    "production": false
+  },
+  "created_at": "2026-07-16T21:11:15+00:00",
+  "exception_type": "S138Failure",
+  "http_status": null,
+  "instrument": "s138_openai_520_recovery_failure_v2",
+  "message": "S138 evidence assessment mismatch: 935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033/S-2E0186EFB351",
+  "request_id": null,
+  "status": "RECOVERY_FAILED_NO_FURTHER_RETRY_AUTHORIZED"
+}

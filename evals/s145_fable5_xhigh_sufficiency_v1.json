@@ -1,0 +1,87 @@
+{
+  "instrument": "s145_sufficiency_judge_v1",
+  "status": "VALIDATED",
+  "provider": "anthropic",
+  "model": "claude-fable-5",
+  "response_id": "msg_011Cd6ZLAc9tMkmqDWLVUGUj",
+  "created_at": "2026-07-16T22:53:52.294986+00:00",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 9607,
+    "output_tokens": 2251,
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "output_tokens_details": {
+      "thinking_tokens": 1137
+    }
+  },
+  "conservative_cost_usd": 0.20862,
+  "judgement": {
+    "judgements": [
+      {
+        "question_id": "Q01",
+        "answerability": "PARTIAL",
+        "missing_essential_points": [
+          "Table column headers ('Permitted in UL 864?', 'Possible Settings', 'Settings Permitted In UL 864') needed to interpret the row: without them, 'N' and 'Clear all zones' are ambiguous and the UL 864 restriction (delayed alarm not permitted; all zones must be cleared) cannot be safely inferred."
+        ],
+        "irrelevant_selected_ids": [],
+        "confidence": "MEDIUM",
+        "rationale": "The selected row contains the correct data, but stripped of its column headers the values 'N' and 'Clear all zones' lack meaning. A technician could misread the restriction that delayed zone alarms are not permitted under UL 864, making the answer materially incomplete."
+      },
+      {
+        "question_id": "Q02",
+        "answerability": "COMPLETE",
+        "missing_essential_points": [],
+        "irrelevant_selected_ids": [],
+        "confidence": "HIGH",
+        "rationale": "The selected line directly states the leased line normal operation (standby) current: 27 mA @ DC 24 V, which fully answers the question."
+      },
+      {
+        "question_id": "Q03",
+        "answerability": "COMPLETE",
+        "missing_essential_points": [],
+        "irrelevant_selected_ids": [],
+        "confidence": "HIGH",
+        "rationale": "The selected block includes the output voltage specification for terminals VDC1/VDC2: 20.4 VDC - 30 VDC battery-buffered, which fully answers the question. The extra mechanical/AC data is bundled in the same evidence ID and provides context."
+      },
+      {
+        "question_id": "Q04",
+        "answerability": "COMPLETE",
+        "missing_essential_points": [],
+        "irrelevant_selected_ids": [],
+        "confidence": "HIGH",
+        "rationale": "The selected NFPA 72 clause 17.7.4.1 directly answers the placement requirement: detectors shall not be located where airflow prevents their operation in spaces served by air-handling systems."
+      },
+      {
+        "question_id": "Q05",
+        "answerability": "COMPLETE",
+        "missing_essential_points": [],
+        "irrelevant_selected_ids": [],
+        "confidence": "HIGH",
+        "rationale": "The selected paragraph states CAN circuits connecting to remote/local CAN modules (VTO2001-U3, VTO2004-U3, VCI2001-U1) can be configured as Class B and points to the FS920 manual (A6V10333409) for wiring, fully answering the configuration question."
+      },
+      {
+        "question_id": "Q06",
+        "answerability": "COMPLETE",
+        "missing_essential_points": [],
+        "irrelevant_selected_ids": [],
+        "confidence": "HIGH",
+        "rationale": "The selected lines explain changing default Style C to Style B via configuration codes and list the specific codes C71, C72, C73 to trigger an alarm on short circuit for Zones 1-3. All selected IDs contribute to the answer."
+      },
+      {
+        "question_id": "Q07",
+        "answerability": "COMPLETE",
+        "missing_essential_points": [],
+        "irrelevant_selected_ids": [],
+        "confidence": "HIGH",
+        "rationale": "The selected block explicitly states 'A maximum of five interfaces can be used in any one site,' directly answering the question. Surrounding menu text is bundled within the same evidence ID."
+      }
+    ]
+  }
+}

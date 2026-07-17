@@ -1,0 +1,464 @@
+{
+  "instrument": "s174_prerequisite_blind_adjudication_v1",
+  "status": "NO_GO",
+  "source_packet": "evals/s174_prerequisite_blind_audit_packet_v1.json",
+  "source_packet_file_sha256": "1282e22a82dd92f6c3644692e9df3bdde1cf0f82ae90e7e751104fc712785c42",
+  "source_packet_semantic_sha256": "e34f048a04ada50139e8f1e4c070cbe4591f05e8af7a571a78882e9eec4a4c6e",
+  "adjudications": [
+    {
+      "audit_id": "s174_audit_01",
+      "candidate_id": "08c163a933ba0096",
+      "facet": "access_prerequisite",
+      "manufacturer": "Xtralis",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "anchors_belong_to_unrelated_sentences",
+      "quote_sha256": "96bd039035cc8eccc130816a022933624572b0162466984de28e055511ba88d3",
+      "content_sha256": "7412536f775ae99bc50dbe0d3a14940f9975852324162734c2f95a18b5409455"
+    },
+    {
+      "audit_id": "s174_audit_02",
+      "candidate_id": "0346a4772f773315",
+      "facet": "access_prerequisite",
+      "manufacturer": "Xtralis",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "password_security_recommendation_not_authorization_precondition",
+      "quote_sha256": "1f3d3a047eea82734bc94197e421906580e5d2e6482dea6042361f16031c8ca1",
+      "content_sha256": "2250011007cd8e3990d61e007a14b23aa5ef0fcb8cdbe2e348114556474cbfd6"
+    },
+    {
+      "audit_id": "s174_audit_03",
+      "candidate_id": "b9e92846212ca687",
+      "facet": "quantified_entitlement",
+      "manufacturer": "Notifier",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "example_application_not_distributive_requirement",
+      "quote_sha256": "780778b2bd8fc96cdf0010321c6922ffba4f4d5e1c6263bb09253bc73aaffd0c",
+      "content_sha256": "251c6e3331985bdb07a537c833776fb610882a755ea2632b42ae9b9e5729f655"
+    },
+    {
+      "audit_id": "s174_audit_04",
+      "candidate_id": "058c58407a5822e8",
+      "facet": "quantified_entitlement",
+      "manufacturer": "Notifier",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "anchors_belong_to_unrelated_sentences",
+      "quote_sha256": "28266f46a76a405e27def09cf829604b74a97655649bff902ff56d632c18d405",
+      "content_sha256": "f7f25f483d0823caec56f3dacf60faabf1ea47ce2180e42cf03abf287ea58882"
+    },
+    {
+      "audit_id": "s174_audit_05",
+      "candidate_id": "09c45bc3445d1efa",
+      "facet": "access_prerequisite",
+      "manufacturer": "System Sensor",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "administrative_RMA_or_commercial_authorization",
+      "quote_sha256": "6feebf02f9e5af0c44147b319977a8746000ace8f302833e0f6cecb299f1cfdd",
+      "content_sha256": "90569605b835f2090e359cbf15a9f34323b92abf8be547b7d034cfd797191c88"
+    },
+    {
+      "audit_id": "s174_audit_06",
+      "candidate_id": "b9d329ab98f83009",
+      "facet": "quantified_entitlement",
+      "manufacturer": "Notifier",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "licence_enables_mode_but_per_loop_anchor_governs_capacity",
+      "quote_sha256": "44f2001f677707867b53bcc23026c47d468cc4b33b9f6d403f4363f4a7156d63",
+      "content_sha256": "ebae2cbe9269764193776ccc8263c11a8a42ec81b4894b01fff8376eeb357c9b"
+    },
+    {
+      "audit_id": "s174_audit_07",
+      "candidate_id": "71ded7a7f51af505",
+      "facet": "quantified_entitlement",
+      "manufacturer": "Morley",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "feature_enablement_in_one_licence_not_distributive_scope",
+      "quote_sha256": "74e0460ce2e9052b3d3a8c9ebbb07309900f84fafca1b3de7293a0a85eb9fa0a",
+      "content_sha256": "fe02a0051b76fcf04ecea67b6f76c414f5f33b991115abce0563c59ec2e17ff8"
+    },
+    {
+      "audit_id": "s174_audit_08",
+      "candidate_id": "716a42210b0a4bf3",
+      "facet": "access_prerequisite",
+      "manufacturer": "LDA audioTech",
+      "exact_source_receipt": true,
+      "is_true_positive": true,
+      "reason": "authorized_level_two_required_to_continue_emergency_operation",
+      "quote_sha256": "b9988a692695ed0e58252611d4afaf7e7c01fc6f8b3aa8225fb3d82e3fe6e093",
+      "content_sha256": "377b6e8a893a11f2d1360b5bcfb95eb627d77568e9d94be386d70f3cdb3e7caf"
+    },
+    {
+      "audit_id": "s174_audit_09",
+      "candidate_id": "1cfe805f557fec3c",
+      "facet": "quantified_entitlement",
+      "manufacturer": "Notifier",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "anchors_belong_to_unrelated_sentences",
+      "quote_sha256": "0dfad63d870a29667280280a4f94474c8122ae6fb38de14a49f477b867a0a15f",
+      "content_sha256": "f5df76cff0b54100549fc1367bfbbbed1a8f1295b63e8beb77e01a0efa1f97ac"
+    },
+    {
+      "audit_id": "s174_audit_10",
+      "candidate_id": "77d1f0ddf8f3f5ab",
+      "facet": "access_prerequisite",
+      "manufacturer": "Edwards",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "restricted_level_mentioned_without_access_precondition",
+      "quote_sha256": "81ba7379766b62a09bdb2a6d719075bf54be9561ad4f7cea04f2c1055f794daa",
+      "content_sha256": "5ebe125332aeb310fbcb5fe8af8479b2b1cec95c5ff7e3cd6e42b6e659db50d8"
+    },
+    {
+      "audit_id": "s174_audit_11",
+      "candidate_id": "74ea34dda20739ea",
+      "facet": "quantified_entitlement",
+      "manufacturer": "Notifier",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "configuration_and_licence_file_heading_not_entitlement",
+      "quote_sha256": "de083b0c2d25e1bc6d16358543e937d98dad55c44e6f0c5e5f70459fbbddc269",
+      "content_sha256": "4920e7cf66ee412b93bc4ae7e692ba4fa794c5535ebe76e3445bdc9de248790a"
+    },
+    {
+      "audit_id": "s174_audit_12",
+      "candidate_id": "00f9d9e3ecddb08e",
+      "facet": "access_prerequisite",
+      "manufacturer": "Notifier",
+      "exact_source_receipt": true,
+      "is_true_positive": true,
+      "reason": "level_two_required_before_function_keys_can_be_selected",
+      "quote_sha256": "e32b31fda74144b10b8eb3a45765ff922372186b2d66861285ba7d8ed90ac8c0",
+      "content_sha256": "828d4fea86215d0c70b1c03d3ffa36c3c505d8da3ca67938f7d7c6d12abe7246"
+    },
+    {
+      "audit_id": "s174_audit_13",
+      "candidate_id": "0554e4d1150a40b7",
+      "facet": "quantified_entitlement",
+      "manufacturer": "Notifier",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "licensed_by_feature_not_allowed_distributive_unit",
+      "quote_sha256": "4be4511f1edf1bbe73114ca0909d7c2e42670b539597d829ddaced6aa2e3978a",
+      "content_sha256": "086361517aa7a5f9c592978ab5edf2c757a78087d4c5720c8deb5cdc0b248d5f"
+    },
+    {
+      "audit_id": "s174_audit_14",
+      "candidate_id": "12d88da05788a8f5",
+      "facet": "access_prerequisite",
+      "manufacturer": "Aritech",
+      "exact_source_receipt": true,
+      "is_true_positive": true,
+      "reason": "installer_password_required_before_user_password_change",
+      "quote_sha256": "4304976ae9585eb192165332a6f2773344e665d5e35498f11d053d4fb2e6002d",
+      "content_sha256": "e8df22bd822c3375be9f7d9eac22732cf018433d7652af646dbdcc420d0ce31c"
+    },
+    {
+      "audit_id": "s174_audit_15",
+      "candidate_id": "9177f6a7b8b9852b",
+      "facet": "access_prerequisite",
+      "manufacturer": "Spectrex",
+      "exact_source_receipt": true,
+      "is_true_positive": true,
+      "reason": "level_two_password_is_a_step_in_interface_disablement",
+      "quote_sha256": "19f070fd099c534b72acdf2e1e79181c88bd35a3d1c3bdc9bf7a12e41f41e6a3",
+      "content_sha256": "cecb339c0f263a0b4a47625a05b25b815d7f3fc6236fc26644c8c4a7d2d42512"
+    },
+    {
+      "audit_id": "s174_audit_16",
+      "candidate_id": "933d307e0cb9bd2a",
+      "facet": "quantified_entitlement",
+      "manufacturer": "Notifier",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "anchors_belong_to_unrelated_sentences",
+      "quote_sha256": "ca14a215111c04db1ce1ed36cc6970a4f8d11af4308e83512a0b0eb6af57063a",
+      "content_sha256": "4644d59a57536e2c6fe81948c54de7eee54d74a5712fac296987bbb7668bd2cd"
+    },
+    {
+      "audit_id": "s174_audit_17",
+      "candidate_id": "825851537df12c0d",
+      "facet": "quantified_entitlement",
+      "manufacturer": "Notifier",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "licensed_by_feature_not_allowed_distributive_unit",
+      "quote_sha256": "02b625d20bffeb75091e4f0b4e7f0f7fd4f374e92b5540e02bee7c821f7658e2",
+      "content_sha256": "7f21a7699c194f1767b5d9ac22da0af603f371fbe5037021a83d72db0cfaed2c"
+    },
+    {
+      "audit_id": "s174_audit_18",
+      "candidate_id": "0f07019fece2b714",
+      "facet": "access_prerequisite",
+      "manufacturer": "Detnov",
+      "exact_source_receipt": true,
+      "is_true_positive": true,
+      "reason": "access_code_required_to_reenter_technical_interface",
+      "quote_sha256": "78a279a509848c580cdd9dec7f2725ee61d7e951fa3f819862c274d15913ecbc",
+      "content_sha256": "b2bd86773d5038bd40136fb735674e8aa0482a2e98e11ad5cc11cc42f84c6165"
+    },
+    {
+      "audit_id": "s174_audit_19",
+      "candidate_id": "88a60fe5fc835c47",
+      "facet": "quantified_entitlement",
+      "manufacturer": "Notifier",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "entitlement_assumption_without_per_unit_scope",
+      "quote_sha256": "70152ae917a49a46e564ad788251462b95fb4f9d28db6ec4a71e660fc2f0d5ab",
+      "content_sha256": "64bc7277725348b832bcc177cd64f5fcac6a2c4fe3402aca314302b79313806a"
+    },
+    {
+      "audit_id": "s174_audit_20",
+      "candidate_id": "532c7b762d8e58ce",
+      "facet": "quantified_entitlement",
+      "manufacturer": "Notifier",
+      "exact_source_receipt": true,
+      "is_true_positive": true,
+      "reason": "one_clip_licence_per_loop_and_one_tpp_licence_per_channel",
+      "quote_sha256": "7c8dd935de507ab61b618b18a6db329a6f2679c80b7c464b28070e7e833e559d",
+      "content_sha256": "5d8e8ff439b427bc0475096166511e708bc7ac16c72d8bd8bb0e80c2dd78890c"
+    },
+    {
+      "audit_id": "s174_audit_21",
+      "candidate_id": "81d451e37a92475d",
+      "facet": "access_prerequisite",
+      "manufacturer": "LDA audioTech",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "must_know_imported_passwords_not_access_precondition",
+      "quote_sha256": "8fdb85fbe7b58739124d4fabf9ba3422e3ba4da730c7b6ff6644225c6b6b0075",
+      "content_sha256": "15da2d57b914f00c2ecb2e072449cb05f32a3cbaec3416053aac0e1bf553cd50"
+    },
+    {
+      "audit_id": "s174_audit_22",
+      "candidate_id": "01086c63fc634d9d",
+      "facet": "access_prerequisite",
+      "manufacturer": "Notifier",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "internal_panel_key_not_user_authorization",
+      "quote_sha256": "ec8619114b4f4b4cfea5e3084e0d8a0dd9ff6dd20ef151247bec9dfedff96865",
+      "content_sha256": "23d192401f9eddfc34b119743ecfe586f8ec42d9ecd57f020df4da52fd3ac459"
+    },
+    {
+      "audit_id": "s174_audit_23",
+      "candidate_id": "1cfe0c7b12ad6976",
+      "facet": "quantified_entitlement",
+      "manufacturer": "Notifier",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "licence_heading_not_entitlement_statement",
+      "quote_sha256": "bad837999fd4933a61f6a54f37e15f6efa8a0748ef578f5eeb1a617229144799",
+      "content_sha256": "4b5a29949f54ed219e6bb49b4e40012bbc4292a098fb2325940f6ea9e1ccf146"
+    },
+    {
+      "audit_id": "s174_audit_24",
+      "candidate_id": "388bf5da5be375d5",
+      "facet": "quantified_entitlement",
+      "manufacturer": "Notifier",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "receiver_module_licence_not_distributive_scope",
+      "quote_sha256": "b1cf8c71afbb0525ae092ef75cbe7b78fc3d402b0591fd500acfd8c0c55430f5",
+      "content_sha256": "32e6fe8a962d6f986c5d5f403910a888dad183fc315b4047beeb2f8557515e0b"
+    },
+    {
+      "audit_id": "s174_audit_25",
+      "candidate_id": "0217534cd912bfe5",
+      "facet": "access_prerequisite",
+      "manufacturer": "Kidde",
+      "exact_source_receipt": true,
+      "is_true_positive": true,
+      "reason": "operator_password_required_before_enabling_configured_delay",
+      "quote_sha256": "8856b78c342d3834a9b0fd283af0b365163a47ad93c50679a77ebc68e9d12c8c",
+      "content_sha256": "bf0fd1daf45cc8a2d7e5cb6cff4ffdaf2a842a17e72135f970d32e71a6842fa7"
+    },
+    {
+      "audit_id": "s174_audit_26",
+      "candidate_id": "bbe2d58aea2c4caf",
+      "facet": "quantified_entitlement",
+      "manufacturer": "Notifier",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "licence_file_features_not_per_allowed_unit",
+      "quote_sha256": "e141c28cc8f9f8f6b399ece572371c9aee4870c842cdb70f63b97e8cf6240077",
+      "content_sha256": "9f62687f266139e007110f0a5d43120be9381f86b3750e2a10580e709be11545"
+    },
+    {
+      "audit_id": "s174_audit_27",
+      "candidate_id": "02c9b9b9363436f8",
+      "facet": "access_prerequisite",
+      "manufacturer": "Morley",
+      "exact_source_receipt": true,
+      "is_true_positive": true,
+      "reason": "programming_key_required_before_level_three_configuration",
+      "quote_sha256": "88f7bdeac5572847fb16a80e795e00e9578309055711b233a5fcb071a42cf125",
+      "content_sha256": "992abaf647b1f40fe85491c8013039da05a0dc4dafb94cfe64bd432cefb3e77c"
+    },
+    {
+      "audit_id": "s174_audit_28",
+      "candidate_id": "428ed9e782eff226",
+      "facet": "quantified_entitlement",
+      "manufacturer": "Notifier",
+      "exact_source_receipt": true,
+      "is_true_positive": true,
+      "reason": "minimum_country_licence_process_repeated_for_each_panel",
+      "quote_sha256": "df70f17e26606c09aa0a3999ede2c33498b764e6031cb24a21d6e97de7cc60d9",
+      "content_sha256": "064fdf07051261f5f437329ad5fecc55464fe0c07efd216d6413438d503b5c04"
+    },
+    {
+      "audit_id": "s174_audit_29",
+      "candidate_id": "2e213043f4ac6049",
+      "facet": "quantified_entitlement",
+      "manufacturer": "Notifier",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "anchors_belong_to_unrelated_sections",
+      "quote_sha256": "e36c8131e7529ec5d418154d70ca4422450b0086d46d857f3301ae5343ea08da",
+      "content_sha256": "52672bb9c8ac41666e2622a6cd68c84a5100372eb938f6e5fd17e93e394949b7"
+    },
+    {
+      "audit_id": "s174_audit_30",
+      "candidate_id": "0f881de2f9a02cf2",
+      "facet": "access_prerequisite",
+      "manufacturer": "Aritech",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "user_level_description_without_restricted_governed_action",
+      "quote_sha256": "1b8721b0d02951a51a999203bc954c8e9fdf417ed75700412c373c3ee25ee711",
+      "content_sha256": "98775fcf7f8904634bed92442625ddf5a37cc3fd7399c680cbaa1b0312ccf59e"
+    },
+    {
+      "audit_id": "s174_audit_31",
+      "candidate_id": "26c635be75cd9215",
+      "facet": "access_prerequisite",
+      "manufacturer": "Edwards",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "access_level_cross_reference_not_bound_to_firmware_procedure",
+      "quote_sha256": "909291369b58766ae326b0389f6e4375db1ee6387b6bf6efc7abd554f0706ba7",
+      "content_sha256": "ba22ff43d5f43cb4a131eccedc0062950d1da66d07c96e1983807c64fd1e6ec8"
+    },
+    {
+      "audit_id": "s174_audit_32",
+      "candidate_id": "250dea9eeae956c5",
+      "facet": "access_prerequisite",
+      "manufacturer": "System Sensor",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "administrative_RMA_or_commercial_authorization",
+      "quote_sha256": "bd977cbf44753008b3066c3317ddca54b8915a45817c24e5d3ef16167ea64203",
+      "content_sha256": "7d150e5248534bb9b0d9f312b6eed75e2d237d94286de16fdb7c28356062231a"
+    },
+    {
+      "audit_id": "s174_audit_33",
+      "candidate_id": "055631fb8df4174d",
+      "facet": "access_prerequisite",
+      "manufacturer": "Kidde",
+      "exact_source_receipt": true,
+      "is_true_positive": true,
+      "reason": "authorized_operator_level_and_password_govern_listed_operations",
+      "quote_sha256": "6c958893b6a73a7d4b4532d02e803f753d8411bfe43c8c651ea7790f42cc03f6",
+      "content_sha256": "41c7a14f6eb06551384fe6508a639fa9ab3eb9f31e1a51187ca5dbfc86e9d42a"
+    },
+    {
+      "audit_id": "s174_audit_34",
+      "candidate_id": "2a81b98b4d04d8cc",
+      "facet": "quantified_entitlement",
+      "manufacturer": "Notifier",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "feature_enablement_in_one_licence_not_distributive_scope",
+      "quote_sha256": "48363b5bcfa46be92cf94655ed0059d7a9b581fa1eac19ebe2b272a44b0d323b",
+      "content_sha256": "fecebcb4aaa98619e473a7b40c7b0fec7c144144d45dfae3cefde487ee9c9495"
+    },
+    {
+      "audit_id": "s174_audit_35",
+      "candidate_id": "125c073fa158eeb1",
+      "facet": "access_prerequisite",
+      "manufacturer": "Detnov",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "permission_configuration_and_level_description_without_precondition",
+      "quote_sha256": "fbc63ac3c3c2f3e093c4fddbe11e9617f046e2c8624e250416d08c9c83668197",
+      "content_sha256": "c22d987d8d750ba64e5d32e27bad21ddb1863f912389824fe7c6977f536e2649"
+    },
+    {
+      "audit_id": "s174_audit_36",
+      "candidate_id": "e7edd7b7f5aba2d5",
+      "facet": "quantified_entitlement",
+      "manufacturer": "Notifier",
+      "exact_source_receipt": true,
+      "is_true_positive": true,
+      "reason": "additional_licence_bound_to_each_loop_changed_to_clip",
+      "quote_sha256": "2b60847ddbe9a7ebb5d098536bf29f3207c692b5c28c518d31f0bf195e115e77",
+      "content_sha256": "270c7667b473773156a08858ae999d0b2c26e4a2bef6e021314a642489d2963e"
+    },
+    {
+      "audit_id": "s174_audit_37",
+      "candidate_id": "026fa8bd1629969d",
+      "facet": "access_prerequisite",
+      "manufacturer": "Morley",
+      "exact_source_receipt": true,
+      "is_true_positive": false,
+      "reason": "access_level_display_context_not_action_precondition",
+      "quote_sha256": "037f3268a732897f12188db2a1a016b31ce21fb27e66b662a900436b7c951385",
+      "content_sha256": "3c711bc08a68bfd49264c08d17d67007b20e61e05691dd0e99199a4cd311d64b"
+    }
+  ],
+  "summary": {
+    "candidates": 37,
+    "exact_source_receipt_rate": 1.0,
+    "access_true_positives": 8,
+    "access_true_positive_manufacturers": [
+      "Aritech",
+      "Detnov",
+      "Kidde",
+      "LDA audioTech",
+      "Morley",
+      "Notifier",
+      "Spectrex"
+    ],
+    "quantified_entitlement_true_positives": 3,
+    "quantified_entitlement_true_positive_manufacturers": [
+      "Notifier"
+    ]
+  },
+  "gate": {
+    "thresholds": {
+      "access_true_positives_min": 3,
+      "access_manufacturers_min": 3,
+      "quantified_entitlement_true_positives_min": 2,
+      "quantified_entitlement_manufacturers_min": 2,
+      "exact_source_receipts": 1.0
+    },
+    "checks": {
+      "access_true_positives": true,
+      "access_manufacturers": true,
+      "quantified_entitlement_true_positives": true,
+      "quantified_entitlement_manufacturers": false,
+      "exact_source_receipts": true
+    },
+    "passed": false
+  },
+  "decision": {
+    "frontier_runtime_validation_authorized": false,
+    "runtime_or_production_release_authorized": false,
+    "known_target_recovery_credit": "local_only",
+    "reason": "quantified entitlement language did not generalize across the required manufacturer count"
+  },
+  "resources": {
+    "model_calls": 0,
+    "network_calls": 0,
+    "database_calls": 0,
+    "production_changes": 0
+  },
+  "adjudication_sha256": "77ac97d317253d990798145b2258704926a546ed88da4eaae9ff336771226125"
+}

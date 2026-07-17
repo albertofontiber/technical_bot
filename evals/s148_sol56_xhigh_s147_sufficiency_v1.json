@@ -1,0 +1,141 @@
+{
+  "instrument": "s145_sufficiency_judge_v1",
+  "status": "VALIDATED",
+  "provider": "openai",
+  "model": "gpt-5.6-sol",
+  "response_id": "resp_0fa764a7be289bf9016a5966b70e748194876de8c6128e0a10",
+  "created_at": "2026-07-16T23:18:50.260696+00:00",
+  "usage": {
+    "input_tokens": 12944,
+    "input_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 12941
+    },
+    "output_tokens": 2469,
+    "output_tokens_details": {
+      "reasoning_tokens": 1552
+    },
+    "total_tokens": 15413
+  },
+  "conservative_cost_usd": 0.15497,
+  "judgement": {
+    "judgements": [
+      {
+        "question_id": "Q01",
+        "answerability": "COMPLETE",
+        "missing_essential_points": [],
+        "irrelevant_selected_ids": [],
+        "confidence": "HIGH",
+        "rationale": "La evidencia indica directamente la configuración de coincidencia: SW4 ON, SW5 OFF y SW6 OFF (1-0-0)."
+      },
+      {
+        "question_id": "Q02",
+        "answerability": "COMPLETE",
+        "missing_essential_points": [],
+        "irrelevant_selected_ids": [],
+        "confidence": "HIGH",
+        "rationale": "Incluye la resistencia de fin de línea de 47 kΩ y una resistencia de 18 kΩ en serie con el contacto N.A. de alarma, además de su conexión a los terminales de supervisión."
+      },
+      {
+        "question_id": "Q03",
+        "answerability": "COMPLETE",
+        "missing_essential_points": [],
+        "irrelevant_selected_ids": [],
+        "confidence": "HIGH",
+        "rationale": "Proporciona directamente la salida de prealarma: 16 mA ±5 %."
+      },
+      {
+        "question_id": "Q04",
+        "answerability": "COMPLETE",
+        "missing_essential_points": [],
+        "irrelevant_selected_ids": [],
+        "confidence": "HIGH",
+        "rationale": "La fila seleccionada indica directamente 0,05 % obs/pie para el Nivel 3."
+      },
+      {
+        "question_id": "Q05",
+        "answerability": "COMPLETE",
+        "missing_essential_points": [],
+        "irrelevant_selected_ids": [
+          "E014_9697fbe465"
+        ],
+        "confidence": "HIGH",
+        "rationale": "E016 muestra fecha/hora, evento, panel, zona, dispositivo y detalles para una avería de dispositivo. E014 solo muestra una avería de alimentación y duplica los encabezados, sin aportar información útil adicional."
+      },
+      {
+        "question_id": "Q06",
+        "answerability": "COMPLETE",
+        "missing_essential_points": [],
+        "irrelevant_selected_ids": [],
+        "confidence": "HIGH",
+        "rationale": "Indica que la dirección debe ser 80 o superior; por tanto, la mínima es 80."
+      },
+      {
+        "question_id": "Q07",
+        "answerability": "COMPLETE",
+        "missing_essential_points": [],
+        "irrelevant_selected_ids": [],
+        "confidence": "HIGH",
+        "rationale": "La evidencia proporciona ambos valores solicitados: 340 mA para 12 V-CC y 210 mA para 24 V-CC."
+      },
+      {
+        "question_id": "Q08",
+        "answerability": "COMPLETE",
+        "missing_essential_points": [],
+        "irrelevant_selected_ids": [],
+        "confidence": "HIGH",
+        "rationale": "Incluye seleccionar cable líder, cortocircuitarlo en el extremo START, iniciar la calibración, observar la caída de tensión, retirar el corto y conectarlo normalmente al cable LHD."
+      },
+      {
+        "question_id": "Q09",
+        "answerability": "COMPLETE",
+        "missing_essential_points": [],
+        "irrelevant_selected_ids": [],
+        "confidence": "HIGH",
+        "rationale": "Enumera las tres causas y distingue su indicación: LED amarillo fijo para obstrucción/desalineación y arranque incorrecto/fallo; intermitente para contaminación excesiva."
+      },
+      {
+        "question_id": "Q10",
+        "answerability": "COMPLETE",
+        "missing_essential_points": [],
+        "irrelevant_selected_ids": [],
+        "confidence": "HIGH",
+        "rationale": "Indica directamente que el LED de alarma general parpadea cuando la alarma la activa un detector."
+      },
+      {
+        "question_id": "Q11",
+        "answerability": "COMPLETE",
+        "missing_essential_points": [],
+        "irrelevant_selected_ids": [],
+        "confidence": "HIGH",
+        "rationale": "Especifica que deben instalarse pasacables con protección IP66."
+      },
+      {
+        "question_id": "Q12",
+        "answerability": "PARTIAL",
+        "missing_essential_points": [
+          "Usar o conectar el micrófono opcional ADV MIC para grabar el mensaje propio."
+        ],
+        "irrelevant_selected_ids": [],
+        "confidence": "MEDIUM",
+        "rationale": "La evidencia incluye Sel6, JP3, P1, la pulsación sostenida, las señales acústicas y el límite de 12 segundos, pero omite el micrófono ADV MIC indicado por la fuente para realizar la grabación."
+      },
+      {
+        "question_id": "Q13",
+        "answerability": "COMPLETE",
+        "missing_essential_points": [],
+        "irrelevant_selected_ids": [],
+        "confidence": "HIGH",
+        "rationale": "Describe cómo aislar los cables, medir con un polímetro en escala kΩ e interpretar 0 como cortocircuito y 1 como línea correcta."
+      },
+      {
+        "question_id": "Q14",
+        "answerability": "COMPLETE",
+        "missing_essential_points": [],
+        "irrelevant_selected_ids": [],
+        "confidence": "HIGH",
+        "rationale": "Incluye los tres criterios: cumplimiento normativo, señal inalámbrica fuerte y ausencia de interferencias ambientales."
+      }
+    ]
+  }
+}

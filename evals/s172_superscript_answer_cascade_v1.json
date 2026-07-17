@@ -1,0 +1,106 @@
+{
+  "instrument": "s172_superscript_answer_cascade_v1",
+  "status": "LOCAL_ANSWER_CASCADE_NO_GO",
+  "target": {
+    "qid": "cat007",
+    "fact_key": "cat007#4:10^5",
+    "immutable_answer_sha256": "c7dec57b0513fa882fa13af7153d294c01181c9853c9fa9a2df3d8b085396304",
+    "claim_excerpt": "Vida útil: mín. **10⁵ operaciones** [F1][F4]",
+    "citations": [
+      1,
+      4
+    ]
+  },
+  "checks": {
+    "answer_sha_matches": true,
+    "answer_states_10_power_5_operations": true,
+    "target_citations_exact": true,
+    "baseline_exact_exponent_support_zero": true,
+    "derived_exact_exponent_support_two": false,
+    "two_cited_receipts_applied": true,
+    "target_source_present": true,
+    "independent_source_present": true,
+    "all_pdf_hashes_bound": true,
+    "only_receipted_context_rows_changed": true,
+    "raw_records_unchanged": true,
+    "no_failures_in_overlay_packet": true
+  },
+  "evidence": {
+    "baseline_exact_exponent_supporting_citations": 0,
+    "derived_exact_exponent_supporting_citations": 0,
+    "target_sources": 1,
+    "independent_sources": 1,
+    "context_rows": 11,
+    "changed_context_rows": 2,
+    "applied": [
+      {
+        "fragment_number": 1,
+        "context_id": "5ba44464-842b-46f7-ac43-259be83ad416",
+        "source_file": "I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG.pdf",
+        "extraction_sha256": "82902ccaf5867a5f84a1b6bfd8aeccc362aa9c46896bed4338a46922e166dcbf",
+        "target_document": false,
+        "page_number": 5,
+        "original_token": "105",
+        "derived_token": "10<sup>5</sup>",
+        "matched_anchors": [
+          "life",
+          "operations",
+          "time"
+        ],
+        "pdf_sha256_matches_extraction": true,
+        "original_content_sha256": "6f2b9e473d00e85c1521b769502698cbc231fa79178f5e740b4edc93fe7596ce",
+        "derived_content_sha256": "529f530ba35cb868f8eb4aaa5447e8e556eb750d4db262b0abe6d477bee9449b"
+      },
+      {
+        "fragment_number": 4,
+        "context_id": "80f7a04f-3b43-4a6f-a0dd-13a57721f442",
+        "source_file": "I56-6577-006_EN Notifier FAAST LT-200 QIG.PDF",
+        "extraction_sha256": "648e8deba384c0a27f7f255a9149f754acb6cca999c586b0667829e457888c72",
+        "target_document": true,
+        "page_number": 5,
+        "original_token": "105",
+        "derived_token": "10<sup>5</sup>",
+        "matched_anchors": [
+          "life",
+          "operations",
+          "time"
+        ],
+        "pdf_sha256_matches_extraction": true,
+        "original_content_sha256": "31612916a97a1a3e7b9d4ff23bcc0b8cef4bf1cc63748909e7464a7ab6151a25",
+        "derived_content_sha256": "90ce9230155bf7d71bb26ac9a4e7e77bebf4c2784529c4d5c0e3c83abd5985ce"
+      }
+    ],
+    "baseline_context_manifest_sha256": "dd4bc791d95bac054a761507c08799423749246e2ba15e0a3742172266aa8116",
+    "derived_context_manifest_sha256": "7644e081abef2ade25d242a183affb00da93a590a7aad06e10827d4f593c2f42"
+  },
+  "stage_transition": {
+    "from": "document-extraction-hold",
+    "to": "document-extraction-hold",
+    "diagnostic_fact_credit": 0,
+    "production_credit": 0
+  },
+  "candidate_funnel": {
+    "denominator": 157,
+    "OK": 140,
+    "synthesis-miss": 12,
+    "retrieval-miss": 4,
+    "document-extraction-hold": 1,
+    "ok_rate_percent": 89.17,
+    "gap_to_95_percent": 10
+  },
+  "limitations": {
+    "local_candidate_only": true,
+    "chunks_v2_mutated": false,
+    "production_or_deployment": false,
+    "official_atomic_kpi": null,
+    "answer_regenerated": false
+  },
+  "cost": {
+    "model_calls": 0,
+    "network_calls": 0,
+    "database_reads": 0,
+    "database_writes": 0,
+    "usd": 0
+  },
+  "result_sha256": "947e08fb998d4c55ad1bcd9d61860633e90a44a381ea494bb42e2ddff895d191"
+}

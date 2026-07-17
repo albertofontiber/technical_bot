@@ -1,0 +1,59 @@
+instrument: s157_post_answer_omission_correction_gate_v1
+status: NO_GO_COHORT_CONSTRUCTION
+
+evidence:
+  source_packet: {path: evals/s157_multichunk_source_packet_v1.json, sha256: 8927b3a99a14468316464aa0d4e4075188ecce2f64de9bee1b33185c8cf27693}
+  authored_cohort: {path: evals/s157_multichunk_authored_cohort_v1.json, sha256: 7467ec6c5ab575eb37df283d15b4f9e45a3f4403dbb7e2e8bf8e319cd63c928d}
+  author_receipts: {path: evals/s157_multichunk_author_receipts_v1.json, sha256: 1a4a9573a352a214d11059fa68e48aead7f600bc460de4e5029044b6cd4b5316}
+  preregistration: {path: evals/s157_post_answer_omission_correction_prereg_v1.yaml, sha256: 033fa8ccaf8b9897eebafc2caace70c15dc17887349f50b46db8f3748f4c3101}
+
+population:
+  source_items: 12
+  manufacturers: 12
+  chunks_per_item: 3
+  eligible_questions_required: 10
+  eligible_questions_observed: 2
+
+authoring_attribution:
+  eligible: 2
+  exact_quote_not_source_bound: 3
+  answer_points_not_spanning_two_fragments: 7
+  author_calls: 12
+  retries: 0
+
+execution_boundary:
+  baseline_writer_calls: 0
+  omission_selector_calls: 0
+  revision_writer_calls: 0
+  target_questions_exposed: 0
+  architecture_measured: false
+  reason: >-
+    Mechanical proximity of three chunks did not reliably create a coherent
+    multi-fragment question. Lowering the population gate, relaxing exact-source
+    validation or rewriting questions after inspection would invalidate the
+    independence contract.
+
+decision:
+  s157: CLOSED_NO_GO
+  retry_authoring: forbidden
+  relax_multifragment_contract: forbidden
+  inspect_and_repair_questions: forbidden
+  post_answer_omission_architecture: UNMEASURED_NOT_PROMOTABLE
+  blinded_adversarial: forbidden
+  target_probe: forbidden
+  production: NO_GO
+  facts_moved_to_ok: 0
+  next: >-
+    Stop the synthesis research branch at its current bounded ceiling and move
+    to the five source-contract gaps, then the four residual retrieval misses.
+    Revisit synthesis only with genuinely external field questions or a new
+    independently acquired cohort, not another authored retry.
+
+cost:
+  actual_usd: 0.104576
+  user_ceiling_usd: 250
+
+authorization:
+  production: false
+  deploy: false
+  push: false

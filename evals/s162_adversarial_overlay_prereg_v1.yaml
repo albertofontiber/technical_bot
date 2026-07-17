@@ -1,0 +1,55 @@
+instrument: s162_adversarial_overlay_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+purpose: >-
+  One bounded independent review of the finished local S162 candidate before a
+  separate default-off offline integration design. This does not authorize
+  production, reindexing, deployment or fact OK credit.
+
+frozen_inputs:
+  packet:
+    path: evals/s162_adversarial_overlay_packet_v1.json
+    sha256: 24bb78c144f715ed76eca16567bcbbc8e76876ff97716d69f200849b9c50a798
+    packet_sha256: 89a4315943b0217c316a0ffeac2d7a323131ab331d0ed416a1ed0dd464328ef5
+  local_gate:
+    path: evals/s162_numeric_superscript_overlay_local_gate_v2.yaml
+    sha256: 3c83b65911e20be50f124732cfb86f57044cf1f6318f260f17a1f74d7b1ae62b
+
+candidate_commit: 11c94d212e065c1ce5350db88550d5617691e51f
+
+models:
+  sol:
+    provider: openai
+    model: gpt-5.6-sol
+    reasoning_effort: xhigh
+    max_output_tokens: 3500
+    max_counted_input_tokens: 50000
+  fable:
+    provider: anthropic
+    model: claude-fable-5
+    thinking: adaptive
+    effort: xhigh
+    max_output_tokens: 3500
+    max_counted_input_tokens: 50000
+
+gate:
+  terminal: exact_verdict_convergence
+  disagreements: hold
+  no_go_or_hold_findings_required: true
+  additional_rounds: 0
+
+pricing_usd_per_million_tokens:
+  openai: {input: 6.25, output: 30}
+  anthropic: {input: 10, output: 50}
+
+budget:
+  internal_ceiling_usd: 2.50
+  user_ceiling_usd: 250
+  provider_calls_max: 2
+  retries: 0
+
+credit:
+  facts_moved_to_ok: 0
+  production: false
+  deployment: false
+  database_writes: 0
+

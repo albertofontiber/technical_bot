@@ -1,0 +1,48 @@
+instrument: s162_numeric_superscript_overlay_gate_v1
+status: LOCAL_NO_GO
+
+frozen_contract:
+  design: evals/s162_numeric_superscript_overlay_design_v1.md
+  preregistration: evals/s162_numeric_superscript_overlay_prereg_v1.yaml
+  discovery: evals/s162_numeric_superscript_discovery_scan_v1.json
+
+implementation:
+  module: src/reingest/superscript_overlay.py
+  tests: tests/test_superscript_overlay.py
+  qualification_runner: scripts/s162_qualify_numeric_superscript_overlay.py
+  packet: evals/s162_numeric_superscript_overlay_packet_v1.json
+
+result:
+  documents_processed: 11
+  pdf_failures: 0
+  target_applied: 0
+  independent_applied: 0
+  raw_records_mutated: 0
+  focused_tests: 9_passed
+
+failed_gate:
+  name: target_exact_replacements
+  required: 1
+  observed: 0
+  abstention: insufficient_same_line_anchors
+  root_cause: >-
+    PDF table cells on the same visual row are emitted by PyMuPDF as separate
+    text lines or blocks. The target's label, 10^5 value and Operations unit
+    share a visual row but not one extracted PDF line, so a same-line anchor
+    contract cannot support tables.
+
+decision:
+  candidate_v1: NO_GO
+  production: false
+  facts_moved_to_ok: 0
+  threshold_relaxation: forbidden
+  next: >-
+    Version a visual-row anchor contract based on y-overlap/baseline geometry,
+    then repeat target and independent qualification. Do not special-case the
+    target token, table, document, product or manufacturer.
+
+cost:
+  model_calls: 0
+  network_calls: 0
+  database_writes: 0
+  usd: 0

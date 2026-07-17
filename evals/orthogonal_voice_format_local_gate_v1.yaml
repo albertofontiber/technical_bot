@@ -1,0 +1,53 @@
+schema_version: orthogonal_voice_format_local_gate_v1
+instrument: local_voice_and_telegram_presentation_gate
+status: LOCAL_GO_NOT_DEPLOYED
+
+scope:
+  voice:
+    provider: OpenAI Whisper
+    changes:
+      - Preserve the real Telegram audio container instead of labelling every upload OGG.
+      - Run the blocking transcription call off Telegram's async event loop.
+      - Build vocabulary coverage from the governed model catalog with one representative per manufacturer.
+      - Normalize only exact, unambiguous catalog-derived spoken model forms.
+      - Preserve and display the raw transcription when the retrieval query is normalized.
+  response_format:
+    changes:
+      - Render generator Markdown as escaped Telegram HTML at the transport boundary.
+      - Convert tables without dropping extra cells.
+      - Split long answers into independently valid messages below Telegram's limit.
+      - Fail open to plain text without exposing raw tags.
+      - Keep the raw factual answer unchanged in logs and evaluation.
+
+local_audit:
+  voice_catalog:
+    catalog_models: 584
+    represented_manufacturers: 25
+    prompt_chars: 991
+    prompt_cap: 1000
+    manufacturers_missing_from_prompt: 0
+  response_corpus:
+    frozen_nonempty_answers: 34
+    rendered_messages: 44
+    maximum_message_chars: 3997
+    telegram_limit: 4096
+    answers_with_missing_numeric_model_or_evidence_tokens: 0
+  targeted_tests:
+    passed: 82
+    failed: 0
+
+decision:
+  voice_candidate: LOCAL_GO
+  response_format_candidate: LOCAL_GO
+  production: NOT_AUTHORIZED_NOT_DEPLOYED
+  paid_probe_required_before_local_commit: false
+  facts_moved_to_ok: 0
+  rationale: >-
+    Both changes are orthogonal to RAG factual scoring, deterministic after ASR,
+    catalog-driven rather than manufacturer-specific, and covered by local
+    transport and regression tests. They do not alter generated factual text.
+
+cost:
+  model_calls: 0
+  network_calls: 0
+  usd: 0

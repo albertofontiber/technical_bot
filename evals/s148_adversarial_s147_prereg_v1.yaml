@@ -1,0 +1,71 @@
+instrument: s148_adversarial_s147_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+purpose: >-
+  Resolve whether S147's seven exact-quote misses are actual answerability misses
+  or metric false negatives, without exposing authored gold to either judge.
+
+frozen_inputs:
+  packet:
+    path: evals/s148_adversarial_s147_packet_v1.json
+    sha256: 9706bee86a383a29cfc3bf5a530d9f941c035794ba2476499b4d6206fdee5ce7
+    packet_sha256: e0b54440f260500fea1a2ee50c4463676b7b98ef1da25596a8b9a277ebed32de
+  s147_result:
+    path: evals/s147_per_item_header_aware_v1.json
+    sha256: 2e2e0888ab6c27b213a2da4a8e03e55c4b88c7ed3f6e9fde12f2d1fb4c4572c3
+  s147_cohort:
+    path: evals/s147_fresh_obligation_cohort_v1.json
+    sha256: 63904c71c361aa72d2536f42b33b3d11ad599b0692bc8716fd2ee691f19013de
+  s147_source:
+    path: evals/s147_fresh_source_packet_v1.json
+    sha256: 38911f3e9b180064e4e9f5ae5e909e32dd6285dfb9f773944fa88184139f1295
+  evidence_unitizer:
+    path: src/rag/evidence_units_v2.py
+    sha256: c80498f59452280f7630411b1740664c8ec946a5e3a6511441d6140f88727eab
+  design:
+    path: evals/s148_adversarial_s147_design_v1.md
+    sha256: 59d679db7892d50520ee2c335993d7025074b1e438d52420c17bd50ef5366ac0
+
+blind:
+  questions: 14
+  authored_answer_points_visible: false
+  s147_metrics_visible: false
+  judge_identity_visible_to_other_judge: false
+  repo_or_tools: false
+
+models:
+  sol:
+    provider: openai
+    model: gpt-5.6-sol
+    reasoning_effort: xhigh
+    max_output_tokens: 7000
+    max_counted_input_tokens: 100000
+  fable:
+    provider: anthropic
+    model: claude-fable-5
+    thinking: adaptive
+    effort: xhigh
+    max_output_tokens: 7000
+    max_counted_input_tokens: 100000
+
+gate:
+  converged_complete_min: 12
+  disagreements: hold
+  arbitration: none
+  reason: convergence_over_absolute_adversarial_unanimity
+
+pricing_usd_per_million_tokens:
+  openai: {input: 6.25, output: 30}
+  anthropic: {input: 10, output: 50}
+
+budget:
+  internal_ceiling_usd: 3
+  user_ceiling_usd: 250
+  calls: 2
+  retries: 0
+
+credit:
+  passing_action: implementation_probe_only
+  facts_moved_to_ok: 0
+  production_change: false
+  deployment_authorized: false
+  push_authorized: false

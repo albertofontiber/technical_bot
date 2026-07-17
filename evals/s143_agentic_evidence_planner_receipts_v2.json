@@ -1,0 +1,29 @@
+{
+  "instrument": "s143_agentic_evidence_planner_receipts_v2",
+  "status": "IN_PROGRESS",
+  "model": "claude-haiku-4-5-20251001",
+  "receipts": [
+    {
+      "item_id": "siemens_fc922_panel",
+      "response_id": "msg_011Cd6YTtuT61p7eaVZQESyW",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 1479,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 1479,
+        "output_tokens": 105,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.004008,
+      "raw_text": "{\"quotes\": [{\"fragment_number\": 1, \"exact_quote\": \"CAN Circuits – connection of the Voice panels to remote or local CAN modules (VTO2001-U3, VTO2004-U3, VCI2001-U1). This can be configured as Class B. Refer to the FS920 Mounting, Installation and Product Data manual, Document ID A6V10333409, for proper wiring connection.\"}]}",
+      "raw_text_sha256": "c4f5c314fdd556edac7bedf33e66c5aac13176436fa14faf8743dbcf7bbdb1b0"
+    }
+  ]
+}

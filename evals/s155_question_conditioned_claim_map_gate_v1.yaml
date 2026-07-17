@@ -1,0 +1,81 @@
+instrument: s155_question_conditioned_claim_map_gate_v1
+status: NO_GO_CLAIM_MAP
+
+contract:
+  design: {path: evals/s155_question_conditioned_claim_map_design_v1.md}
+  preregistration:
+    path: evals/s155_question_conditioned_claim_map_prereg_v1.yaml
+    sha256: 570d8bc0af9d12c9175e22bbe4e0ea7adab1185a8bde88d9b7e0dfe5f3e0e054
+  execution_permit: {path: evals/s155_question_conditioned_claim_map_execution_permit_v1.yaml}
+  runner:
+    path: scripts/s155_question_conditioned_claim_map.py
+    sha256: 5e9a399ce656f1325d83ec36f9919ec7f7001aba40b36b514075125cbb46b43c
+  tests:
+    path: tests/test_s155_question_conditioned_claim_map.py
+    sha256: 85702240e57c9162ab9464927783053820f7cb9e27bfc143a4b2720feda0f7d6
+
+evidence:
+  receipts:
+    path: evals/s155_question_conditioned_claim_map_receipts_v1.json
+    sha256: 37c3742b693c612edecc16a6d33a3b455c96baa4a1dcef38e09ad1fab0dfabc4
+  claim_store:
+    path: evals/s155_question_conditioned_claim_map_store_v1.json
+    sha256: 2e34c56ca638461e39f77dca78e610401e6a20096220c9e86cf8b1eb74a7a3af
+  result:
+    path: evals/s155_question_conditioned_claim_map_v1.json
+    sha256: b4cc020e910ad19e3692500856526d19977e3fe1a53f235a0d8930ea1fe08939
+    semantic_payload_sha256: e222bb8a3e532a89c1514d59e92c7f1b992ce816e048a2dfbba773e43d3a46f6
+
+population:
+  chunk_jobs: 65
+  target_jobs: 51
+  independent_jobs: 14
+  mapped_claims_after_validation: 345
+
+result:
+  target_relations: 13
+  target_relations_covered: 9
+  target_coverage: 0.69230769
+  target_minimum_required: 0.84615385
+  independent_gold_points: 37
+  independent_gold_points_covered: 32
+  independent_gold_point_coverage: 0.86486486
+  independent_minimum_coverage: 0.8
+  independent_mapped_claims: 80
+  independent_useful_claims: 50
+  independent_useful_claim_precision: 0.625
+  independent_minimum_precision: 0.8
+  whitespace_only_repairs: 7
+  invalid_quote_drops: 71
+
+checks:
+  target_coverage_gate: false
+  independent_coverage_gate: true
+  independent_precision_gate: false
+  zero_invalid_quote_drops: false
+  target_full_coverage_for_composition: false
+
+decision:
+  s155: CLOSED_NO_GO
+  four_answer_composition_probe: forbidden
+  production: NO_GO
+  same_cohort_tuning: forbidden
+  successor_transport_or_prompt_retry: forbidden
+  facts_moved_to_ok: 0
+  rationale: >-
+    The question-conditioned per-chunk map recovers substantial independent
+    evidence, but it under-covers the frozen target relations, emits too many
+    non-useful independent claims, and violates the exact-quote validation gate.
+    Its recall signal does not justify composing answers or iterating on this
+    cohort, because doing so would trade reliability for benchmark-specific tuning.
+
+cost:
+  calls: 65
+  counted_input_tokens: 84903
+  worst_case_preflight_usd: 1.599806
+  actual_usd: 0.549996
+
+authorization:
+  production: false
+  deploy: false
+  push: false

@@ -1,0 +1,62 @@
+instrument: s138_symmetric_semantic_mrr_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED
+authorized_at_utc: 2026-07-16
+
+preregistration:
+  path: evals/s138_symmetric_semantic_mrr_prereg_v1.yaml
+  sha256: 9336455f9ee1b8b4d2fe9b63a2ce084013035ab22a471fc851227b7e56fb8a1b
+runner:
+  path: scripts/s138_symmetric_semantic_mrr.py
+  sha256: 3e20dac09b8aa879d86041a12b9280393e7fefb48102d8305e905352f25181c9
+tests:
+  path: tests/test_s138_symmetric_semantic_mrr.py
+  sha256: 34db9c53b803475619e29a0fb732d5da058c63a58ac7aa91b9ec53fdd5a088e6
+packet:
+  path: evals/s138_symmetric_semantic_mrr_packet_seed1_v1.json
+  sha256: 7e345f2304cffe9cc4ab670a5f1b293fc3d9da3e606374b79d8db1ae84eaa1ac
+mapping:
+  path: evals/s138_symmetric_semantic_mrr_mapping_seed1_v1.json
+  sha256: 436ebb83ff3f9882a1a5256090c6ff78c3ee9a97f37e76f2bc034c9374f61058
+reproducibility:
+  packet_seed2:
+    path: evals/s138_symmetric_semantic_mrr_packet_seed2_v1.json
+    sha256: 7e345f2304cffe9cc4ab670a5f1b293fc3d9da3e606374b79d8db1ae84eaa1ac
+  mapping_seed2:
+    path: evals/s138_symmetric_semantic_mrr_mapping_seed2_v1.json
+    sha256: 436ebb83ff3f9882a1a5256090c6ff78c3ee9a97f37e76f2bc034c9374f61058
+  packet_byte_identical: true
+  mapping_byte_identical: true
+
+local_verification:
+  pytest: 7_passed
+  py_compile: passed
+  git_diff_check: passed
+  questions: 3
+  opaque_sets_per_question: 2
+  items_per_set: 10
+  blind_packet_validator: passed
+
+cost_gate:
+  s138_internal_ceiling_usd: 10
+  frozen_caps_worst_case_usd: 6.375
+  prior_s137_conservative_actual_usd: 3.5138675
+  frozen_combined_caps_worst_case_usd: 9.8888675
+  broader_user_ceiling_usd: 250
+  note: S138 retains its stricter preregistered USD 50 project-probe ceiling.
+
+authorized_calls:
+  sol_primary_max: 1
+  fable_atomic_max: 3
+  sol_arbitration_max: 1
+  retries: 0
+  paid_invalid_response_must_be_persisted: true
+
+not_authorized:
+  - production
+  - deploy
+  - migration_apply
+  - embeddings
+  - context_generation
+  - retrieval_changes
+  - threshold_changes
+  - facts_moved_to_ok

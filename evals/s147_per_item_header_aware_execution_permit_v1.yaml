@@ -1,0 +1,26 @@
+instrument: s147_per_item_header_aware_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_FINAL
+
+frozen_artifacts:
+  preregistration:
+    path: evals/s147_per_item_header_aware_prereg_v1.yaml
+    sha256: 447aa079efe96f7620c2beb0ea69c74d15cc775c224b552f1e70e82acc5f0f7f
+  runner:
+    path: scripts/s147_per_item_header_aware_gate.py
+    sha256: cc2ea9c46c720ba4b8e3402805edbd86c2634bed79ca20d8e5627c4d9e0e1fe9
+  tests:
+    path: tests/test_s147_per_item_header_aware_gate.py
+    sha256: e9f9277e88585d985215c48a364fe67993bbc60b1ad5ce5acb55882601b6a8b4
+
+limits:
+  calls_max: 28
+  retries: 0
+  conservative_total_ceiling_usd: 0.75
+  user_budget_usd: 250
+
+authorization:
+  paid_fresh_gate: true
+  production: false
+  deploy: false
+  push: false
+  facts_moved_to_ok: 0

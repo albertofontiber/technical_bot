@@ -1,0 +1,312 @@
+{
+  "instrument": "s167_independent_answer_ledger_cohort_v1",
+  "status": "SEALED_VALIDATED",
+  "source_packet_sha256": "0fb9f2d051bde4d4dec6b96bc51b31f2eee9490cfea7f23f370938c4e47403a7",
+  "items": [
+    {
+      "item_id": "s167_src_01",
+      "eligible": true,
+      "question": "Al configurar los relés del FAAST LT-200, ¿cuál es el comportamiento predeterminado de los relés ALARM, PRE-ALARM y FAULT en cuanto a enclavamiento (latch), y qué limitaciones eléctricas debo respetar en los contactos?",
+      "answer_points": [
+        {
+          "claim": "El relé ALARM se enclavilla (latch) por defecto, por lo que se requiere un RESET manual para desactivar el LED y el relé una vez activado.",
+          "exact_quote": "Alarm state is latched as default. A manual RESET is necessary to deactivate LED and relay."
+        },
+        {
+          "claim": "El relé FAULT NO se enclavilla por defecto, a diferencia del relé ALARM.",
+          "exact_quote": "Fault state is not latched (default)"
+        },
+        {
+          "claim": "Cuando PRE-ALARM y ALARM están ambos configurados en Level 1, el PRE-ALARM responde al 70% del nivel 1, no al valor completo.",
+          "exact_quote": "When Pre-ALARM = ALARM = Level 1, Pre-ALARM will actually respond at 70% of Level 1."
+        },
+        {
+          "claim": "Los contactos de los relés tienen una clasificación máxima de 2 A para carga resistiva en 30 VDC y de 0,5 A para carga resistiva en 30 VAC, con una vida útil mínima de 100 000 operaciones.",
+          "exact_quote": "Contact Rating |     | 2   | A          | 30 VDC resistive load |\n|                |     | 0.5 | A          | 30 VAC resistive load |\n| Life Time      | 105 |     | Operations |"
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Notifier",
+      "product_model": "FAAST LT-200",
+      "document_id": "c6c6cc81-8dec-48c8-a72a-797a54afe2f3",
+      "chunk_id": "5ba44464-842b-46f7-ac43-259be83ad416",
+      "excerpt_sha256": "6f2b9e473d00e85c1521b769502698cbc231fa79178f5e740b4edc93fe7596ce"
+    },
+    {
+      "item_id": "s167_src_02",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "table",
+      "manufacturer": "Morley",
+      "product_model": "MIN-17",
+      "document_id": "9b3e221e-a76e-42b3-802c-c177132feaf9",
+      "chunk_id": "6c45494f-2c27-4838-b278-2a4a11695933",
+      "excerpt_sha256": "ba885dece739182d95cbf2c0d272c7f6e29340c35fdd757191a369a898fe6a2e"
+    },
+    {
+      "item_id": "s167_src_03",
+      "eligible": true,
+      "question": "Al instalar el detector 40-40U con la Opción 1 de cableado, ¿cuál es el comportamiento normal del relé de avería, qué ocurre ante una condición de avería o baja tensión, y cuáles son los valores máximos permitidos para los contactos de ese relé?",
+      "answer_points": [
+        {
+          "claim": "En la Opción 1, el relé de avería está activado y normalmente cerrado durante el funcionamiento normal del detector.",
+          "exact_quote": "El relé de avería (en las opciones de conexión 1, 2 y 4) está activado, normalmente cerrado, durante el funcionamiento normal del detector."
+        },
+        {
+          "claim": "Ante una condición de avería o cuando la tensión es demasiado baja, el relé se desactiva y queda abierto.",
+          "exact_quote": "El relé se desactiva, abierto, si surge una condición de avería o cuando la tensión es demasiado baja."
+        },
+        {
+          "claim": "El relé de avería es de tipo SPST y sus valores máximos de contacto son 5 A a 30 Vcc o 250 Vca.",
+          "exact_quote": "Avería \\* | SPST | N.C. o N.A      | 5A a 30 Vcc o 250 Vca"
+        },
+        {
+          "claim": "Las opciones de cableado se definen en fábrica y no pueden ser modificadas por el usuario; la Opción 1 incluye relé de avería en configuración N.C.",
+          "exact_quote": "Estas opciones se definen en fábrica según lo solicitado y no se pueden modificar por el usuario."
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Spectrex",
+      "product_model": "40-40U",
+      "document_id": "2c76809e-1d12-4be7-a3e6-99b91f0c593c",
+      "chunk_id": "558111ef-966b-42ff-a6ef-4b22f519ef12",
+      "excerpt_sha256": "948be072766e0962962866176c4e01821606c8a3dd1a179f402985c340b92f87"
+    },
+    {
+      "item_id": "s167_src_04",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "table",
+      "manufacturer": "Xtralis",
+      "product_model": "Li-ion Tamer Rack Monitor",
+      "document_id": "c612c605-84d0-4bbe-9c9d-23d26360f592",
+      "chunk_id": "c5607ee6-0dcd-4f47-afca-ff64db457e4b",
+      "excerpt_sha256": "ff9645c257e9a0554421d39118af945879afc6700d8f639ae19a2fbe9fa62ef1"
+    },
+    {
+      "item_id": "s167_src_05",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "table",
+      "manufacturer": "Pepperl-Fuchs",
+      "product_model": "RED-24",
+      "document_id": "0be86db6-d010-4273-9337-90f9f45754d3",
+      "chunk_id": "ea077582-01ea-4fd6-8953-958162a96f62",
+      "excerpt_sha256": "aaa6bd40b58d8690c093b3dc774d986914dd7a98be356780acb35f04475d9229"
+    },
+    {
+      "item_id": "s167_src_06",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "table",
+      "manufacturer": "Detnov",
+      "product_model": "FAD-905",
+      "document_id": "5f7be781-f3ea-4bad-94f1-d310ce267c1c",
+      "chunk_id": "e7cbf0ef-b986-47b5-9e68-0daada1175d8",
+      "excerpt_sha256": "b271cdf56b5b937c69a52809a8fa72e857c58cd9e12c4f1be5ebda0fad5d0b2d"
+    },
+    {
+      "item_id": "s167_src_07",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "table",
+      "manufacturer": "System Sensor",
+      "product_model": "CABOTO-19",
+      "document_id": "327e1347-57ea-47c6-862d-4020874faf15",
+      "chunk_id": "cde3f33d-a557-4689-8b9e-150c6d131823",
+      "excerpt_sha256": "d531f55eef30fb24dcde2f2fb055d22591b6fcc0f1fc67e5c9d635224430868d"
+    },
+    {
+      "item_id": "s167_src_08",
+      "eligible": true,
+      "question": "Al instalar el tubo sensor de teflón del ADW535, ¿cuáles son los requisitos de separación entre abrazaderas, las distancias de seguridad desde abrazaderas hasta uniones y codos, y qué precauciones deben tomarse al purgar el tubo una vez finalizada la instalación?",
+      "answer_points": [
+        {
+          "claim": "La distancia entre abrazaderas de fijación para el tubo sensor de teflón es de 0,5 m.",
+          "exact_quote": "de 0,5 m para los tubos de teflón"
+        },
+        {
+          "claim": "Desde las abrazaderas de fijación hasta las uniones atornilladas y los codos debe mantenerse una distancia de seguridad de al menos 20 cm en el caso del tubo sensor de teflón, por causa de la dilatación.",
+          "exact_quote": "20 cm (tubo sensor de teflón) (debido a la dilatación del tubo sensor)"
+        },
+        {
+          "claim": "Al finalizar la instalación, todo el tubo sensor debe purgarse con aire comprimido sin aceite o con nitrógeno, y durante ese purgado la unidad de evaluación no debe estar conectada a la instalación bajo ninguna circunstancia.",
+          "exact_quote": "todo el tubo sensor, incluido el montaje vertical hacia la pieza terminal, debe purgarse (limpiarse) con aire comprimido sin aceite o con nitrógeno"
+        },
+        {
+          "claim": "Si tras el purgado el tubo sensor todavía no puede conectarse a la unidad de evaluación, el extremo deberá sellarse con los medios adecuados para evitar que penetre polvo o humedad.",
+          "exact_quote": "Si, tras el purgado, el tubo sensor todavía no puede conectarse a la unidad de evaluación, el extremo correspondiente deberá sellarse con los medios adecuados para evitar que penetre polvo o humedad."
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Securiton",
+      "product_model": "ADW535",
+      "document_id": "dff3152a-8f8d-4be8-becc-8c9cda3cb6a6",
+      "chunk_id": "472d9bf7-cf47-4f03-8e9b-23959c947847",
+      "excerpt_sha256": "93d571b76124657e02436f204ae2bd226df6ea62022a89f7e43d5c6aff0bacc1"
+    },
+    {
+      "item_id": "s167_src_09",
+      "eligible": true,
+      "question": "Al conectar el cable sensor Alarmline II Digital al panel de alarma de incendio, ¿cuáles son los requisitos previos, opciones de conexión y restricciones de instalación que debo tener en cuenta para garantizar una instalación correcta y segura?",
+      "answer_points": [
+        {
+          "claim": "Antes de conectar el cable sensor a cualquier equipo de control, se debe consultar la documentación técnica del fabricante del equipo.",
+          "exact_quote": "Before connecting the sensor cable to any control equipment, consult the technical documentation provided by the equipment manufacturer."
+        },
+        {
+          "claim": "Para un panel convencional, la zona de detección utilizada debe ser exclusiva para el cable sensor, sin otros dispositivos de detección conectados a esa zona.",
+          "exact_quote": "Any detection zone used would be specific to the Alarmline II Digital Sensor Cable with no other detection devices attached to the zone."
+        },
+        {
+          "claim": "Para un panel direccionable, la conexión puede realizarse mediante las entradas monitorizadas del panel (si están disponibles) o como dispositivo en el bucle direccionable usando una interfaz de bucle adecuada.",
+          "exact_quote": "Via the control panel monitored inputs (if available), or\n\n* As a device on the addressable loop using a suitable loop interface (for example, a Zone Monitor Unit or Switch Monitor Unit)"
+        },
+        {
+          "claim": "El cable sensor debe instalarse únicamente en el área que va a proteger; si el equipo de control se monta en un lugar remoto, se puede usar un cable de dos conductores resistente al fuego como cable de interposición.",
+          "exact_quote": "the sensor cable must be installed only in the area that it is to protect). If the control equipment or interface is to be mounted remotely to the protected area, then a suitable two-core fire-rated cable can be used to make the connection between the two locations"
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Kidde",
+      "product_model": "AD68N-0100",
+      "document_id": "c3c99085-f3f4-4975-a142-634fd72a3ec9",
+      "chunk_id": "b7f98a9b-98c9-42d0-849a-2bfb09539d1e",
+      "excerpt_sha256": "c0a622371df10cac04fe54a512b952d3e448c97ff03d36e8b2f0de591b043c3c"
+    },
+    {
+      "item_id": "s167_src_10",
+      "eligible": true,
+      "question": "Al instalar la central 2X-A de módulo grande con fuente de alimentación de 6 A en una red de 115 VCA, ¿qué pasos previos de seguridad y configuración deben seguirse, y qué consideración adicional aplica si la central tiene tarjeta de red instalada?",
+      "answer_points": [
+        {
+          "claim": "Para la fuente de alimentación de 6 A, el ajuste de voltaje NO es automático y debe cambiarse manualmente, ya que la configuración predeterminada es 230 VCA.",
+          "exact_quote": "La configuración de la alimentación predeterminada es a 230 VCA. Para el funcionamiento a 115 VCA debe utilizar un destornillador pequeño para cambiar el interruptor de configuración de alimentación, situado en el lateral de la unidad de fuente de alimentación"
+        },
+        {
+          "claim": "Antes de cambiar la configuración de alimentación se debe desconectar el suministro eléctrico, porque una configuración incorrecta puede dañar la fuente de alimentación.",
+          "exact_quote": "Si la alimentación se configura de forma incorrecta, se puede dañar la fuente de alimentación. Desconecte siempre el suministro eléctrico de la central antes de cambiar la configuración de la alimentación."
+        },
+        {
+          "claim": "El cable de alimentación debe conectarse antes que las baterías.",
+          "exact_quote": "Conecte el cable de alimentación antes de conectar las baterías."
+        },
+        {
+          "claim": "Si la central tiene tarjeta de red instalada, el cable de alimentación debe introducirse por la parte inferior del módulo para que funcione correctamente.",
+          "exact_quote": "Si la central tiene una tarjeta de red instalada, el cable de alimentación debe introducirse en el módulo a través de la parte inferior para que funcione correctamente."
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Aritech",
+      "product_model": "2X-A",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "chunk_id": "de3af283-d8ea-488a-a307-6e58b6ebf484",
+      "excerpt_sha256": "c10d651f86da768363c62b1f40546b8817a27a784c0ed1c4c4340344e15bdaf7"
+    },
+    {
+      "item_id": "s167_src_11",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "prose",
+      "manufacturer": "LDA audioTech",
+      "product_model": "BA Series",
+      "document_id": "5b479c16-4828-4416-98e7-5998a5708f0c",
+      "chunk_id": "36dc288d-2932-42e5-ac53-ee08f0611893",
+      "excerpt_sha256": "7859fc21634fd94f961b08a04028fcd2f6f79d7e53be5d5c53f7c4f10ef5404a"
+    },
+    {
+      "item_id": "s167_src_12",
+      "eligible": true,
+      "question": "¿Cómo se deben realizar las tres pruebas disponibles en el detector SG200-IS, qué precauciones aplican a cada una y qué se debe hacer después de completar cualquiera de ellas?",
+      "answer_points": [
+        {
+          "claim": "La Prueba 1 (Prueba con imán) verifica la capacidad de alarma usando el circuito de prueba integrado sin necesidad de agente de alarma como aerosol; se sostiene un imán adecuado en el área indicada y se espera unos segundos hasta que el LED confirme el modo de alarma.",
+          "exact_quote": "checking the alarm capability of the detector by using the built-in test circuitry; no alarming agent (aerosol) is used."
+        },
+        {
+          "claim": "La Prueba 2 (Prueba con aerosol) requiere usar únicamente aerosoles adecuados suministrados por fabricantes aprobados, siguiendo las instrucciones específicas del dispositivo.",
+          "exact_quote": "Use only suitable aerosol testers supplied by approved manufacturers."
+        },
+        {
+          "claim": "La Prueba 3 (Prueba de calor) solo debe realizarse si el equipo está certificado para el área, y se deben usar dispositivos de prueba de calor de fabricantes aprobados.",
+          "exact_quote": "ONLY USE IF EQUIPMENT CERTIFIED FOR AREA"
+        },
+        {
+          "claim": "Después de cada prueba, sin excepción, se debe restablecer el sistema de seguridad contra incendios desde el panel de control, siguiendo las instrucciones del propio panel.",
+          "exact_quote": "After each test reset the fire security system from the control panel, as per your control panel instructions."
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Argus Security",
+      "product_model": "SG200-IS",
+      "document_id": "f8020fa4-cd11-48e5-b80c-39d606dacc8b",
+      "chunk_id": "36b07cd4-39eb-4f06-9e91-0847a925e71d",
+      "excerpt_sha256": "8fad4abf0fce09dd1d0bd2005be2c4be435b0cff44050c82dc6a002018d2a97a"
+    },
+    {
+      "item_id": "s167_src_13",
+      "eligible": true,
+      "question": "Al instalar el IS 28 Mk 4 Banshee en una zona clasificada ATEX con protección IP 66, ¿cuáles son los requisitos de montaje, cableado y precauciones de seguridad que debe seguir el técnico para garantizar una instalación correcta y segura?",
+      "answer_points": [
+        {
+          "claim": "El sounder debe montarse en una superficie vertical con 4 fijaciones de 4 mm de diámetro (M4) no suministradas, normalmente a una altura de 2 a 3 m del suelo para asegurar buena cobertura sonora y evitar daños auditivos innecesarios.",
+          "exact_quote": "The IS 28 Banshee is intended to be mounted on a vertical surface, and secured using 4 fixings [not supplied] 4 mm diameter [M4]. It should normally be sited at a height of about 2 to 3 m from the floor surface, to ensure good sound coverage and without causing unnecessary hearing damage."
+        },
+        {
+          "claim": "Para mantener la protección IP 66, no se deben realizar agujeros ni perforaciones en ninguna parte del Banshee excepto para instalar un prensaestopas de 20 mm (no suministrado) debidamente sellado en la base, y todo el cableado debe pasar por dicho prensaestopas.",
+          "exact_quote": "If protection to IP 66 is required, then no holes or knockouts must be made to any part of the Banshee, except to allow fitting of a 20mm gland assembly, [not supplied] suitably sealed to the base. All wiring must pass through this gland assembly and again be suitable to maintain IP 66 protection."
+        },
+        {
+          "claim": "Para mantener la protección IP 66 continua, la junta (suministrada) debe colocarse entre la base y el sounder durante el cableado entre estas partes, ya que no puede instalarse después.",
+          "exact_quote": "For continued IP 66 protection, a gasket [supplied] must be located between the base part and the sounder, during any wiring between these parts.\n\nIt cannot be fitted afterward !!"
+        },
+        {
+          "claim": "El técnico debe tener en cuenta que la presión sonora puede causar daños auditivos si se encuentra a menos de aproximadamente 1 m del equipo, lo que es especialmente crítico si trabaja en escalera o estructura similar durante la instalación y prueba.",
+          "exact_quote": "The sound pressure produced by the sounder may be loud enough to cause hearing damage, if the installer happens to be close [less than about 1 m from the unit]. This must be taken into account if installation and test are to be carried out with the installer sited on a ladder or similar structure."
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Hosiden Besson",
+      "product_model": "unknown",
+      "document_id": "d5f66882-38fc-449f-ad69-58e36e49eb4d",
+      "chunk_id": "7325eabd-e047-4359-a635-a5f6bf6b14fe",
+      "excerpt_sha256": "8b327e692bc043d1c34282048554d94426eac6b90d0a70c0200e6ee22283f1d6"
+    },
+    {
+      "item_id": "s167_src_14",
+      "eligible": true,
+      "question": "Al realizar la conexión eléctrica del PY-X-S-05, ¿qué verificaciones y precauciones deben seguirse antes y durante la instalación para garantizar la seguridad del equipo y el tipo de protección especificado?",
+      "answer_points": [
+        {
+          "claim": "Antes de realizar la conexión eléctrica, se debe verificar la tensión de alimentación indicada en la placa de características, ya que una tensión incorrecta puede causar daños o destrucción del equipo.",
+          "exact_quote": "Before electrical connection, the supply voltage on the type plate is to be checked. The wrong operating voltage can lead to damages or to the destruction of the equipment."
+        },
+        {
+          "claim": "Debe asegurarse que no haya tensión aplicada al dispositivo antes de abrirlo, dado que puede existir alta tensión presente.",
+          "exact_quote": "Prior to opening, it must be ensured that no voltage is applied to the device."
+        },
+        {
+          "claim": "Durante la instalación, los cables de conexión deben estar asegurados contra tensión y torsión, ya que el dispositivo no está diseñado para uso portátil.",
+          "exact_quote": "During installation it must be ensured that the connection cables are secured against tension and distortion. Please observe: The devices are not designed for portable use."
+        },
+        {
+          "claim": "Para garantizar el tipo de protección especificado en las entradas de cable, deben instalarse prensaestopas con protección IP 66 en las aberturas correspondientes.",
+          "exact_quote": "To guarantee the specified protection type, cable grommets with a protection type of IP 66 are to be installed at the openings provided for this purpose."
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "Pfannenberg",
+      "product_model": "PY-X-S-05",
+      "document_id": "d07637ff-d7eb-412a-a261-5863b606a360",
+      "chunk_id": "73d45ce5-49ed-4fa6-a951-0d25ef8c3f20",
+      "excerpt_sha256": "0868ace9eea9bc66e9bb5fb3c5f6440eb6f9e55eb4d710633c1a02fa6fe3ff5f"
+    }
+  ],
+  "cohort_sha256": "3513b6d13fbaa38236a598e1c0e4f33e6c34d3d3d2f46fc1275782449ba7d951"
+}

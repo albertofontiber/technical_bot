@@ -1,0 +1,37 @@
+instrument: s154_question_conditioned_claim_map_gate_v1
+status: NO_GO_CLAIM_COUNT_CONTRACT
+
+evidence:
+  provider_schema_failure:
+    path: evals/s154_anthropic_schema_400_receipt_v1.json
+    paid_message_calls: 0
+  v2_receipts:
+    path: evals/s154_question_conditioned_claim_map_receipts_v1.json
+    sha256: 3830fabf71331aaea5233280911f9b42a0a01084c43e6f498cffb4922e9f8e17
+
+result:
+  count_token_preflight_calls: 65
+  paid_message_calls: 1
+  completed_jobs: 0
+  first_job_claims_returned: 11
+  frozen_max_claims: 10
+  semantic_output_inspected_for_tuning: false
+  actual_cost_usd: 0.01708
+
+decision:
+  s154: CLOSED_NO_GO
+  truncate_after_observation: forbidden
+  retry_s154: forbidden
+  production: NO_GO
+  facts_moved_to_ok: 0
+  rationale: >-
+    The provider schema cannot enforce array cardinality and the first response
+    exceeded the locally frozen maximum. Post-hoc truncation or retrying under
+    the same version would violate the preregistered application contract.
+  bounded_successor_allowed: >-
+    A separately versioned successor may raise the non-semantic transport cap
+    only because the semantic contents were not inspected; it must remain
+    one-shot and retain the same target and independent gates.
+
+cost:
+  usd: 0.01708

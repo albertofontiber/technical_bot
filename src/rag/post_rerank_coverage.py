@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import logging
 import re
+from pathlib import Path
 from typing import Any, Callable
 
 import yaml
@@ -21,6 +22,7 @@ from ..config import (
     RERANK_POOL_COVERAGE,
     STRUCTURAL_CASCADE_COVERAGE,
     STRUCTURAL_NEIGHBOR_COVERAGE,
+    TABLE_PREAMBLE_CLOSURE,
 )
 from .compatibility_bundle_coverage import (
     LANE as COMPATIBILITY_LANE,
@@ -43,12 +45,17 @@ from .structural_neighbor_coverage import (
     select_structural_neighbors,
 )
 from .structural_neighbor_shadow import fetch_structural_neighbor_rows
+from .table_preamble_closure import (
+    LANE as TABLE_PREAMBLE_LANE,
+    select_table_preambles,
+)
 from .rerank_pool_coverage import (
     LANE as POOL_LANE,
     select_rerank_pool_coverage,
 )
 
 logger = logging.getLogger(__name__)
+ROOT = Path(__file__).resolve().parents[2]
 ALLOWED_LANES = frozenset(
     {
         STRUCTURAL_LANE,
@@ -56,12 +63,14 @@ ALLOWED_LANES = frozenset(
         HYQ_LANE,
         POOL_LANE,
         COMPATIBILITY_LANE,
+        TABLE_PREAMBLE_LANE,
     }
 )
 MAX_APPENDED = 4
 MAX_APPENDED_PER_LANE = 2
 MAX_APPENDED_BY_LANE = {COMPATIBILITY_LANE: 3}
 STRUCTURAL_SERVING_TIMEOUT_SECONDS = 2.0
+TABLE_PREAMBLE_CONFIG = ROOT / "config/table_preamble_closure_v3.yaml"
 MAX_LOGICAL_TABLE_ROW_CHARS = 1400
 MAX_EXPANDED_EXCERPT_CHARS = 1800
 _NON_SUBSTANTIVE_DIAGRAM_CARD = re.compile(
@@ -126,6 +135,9 @@ def is_validated_coverage_chunk(chunk: dict[str, Any]) -> bool:
     lane_validated = (
         lane in {STRUCTURAL_LANE, STRUCTURAL_CASCADE_LANE}
         and chunk.get("structural_neighbor_validated") is True
+    ) or (
+        lane == TABLE_PREAMBLE_LANE
+        and chunk.get("table_preamble_validated") is True
     ) or (
         lane == HYQ_LANE
         and chunk.get("hyq_navigation_validated") is True
@@ -276,6 +288,11 @@ def _attest(candidate: dict[str, Any]) -> dict[str, Any] | None:
         and candidate.get("structural_neighbor_validated") is not True
     ):
         return None
+    if (
+        lane == TABLE_PREAMBLE_LANE
+        and candidate.get("table_preamble_validated") is not True
+    ):
+        return None
     if lane == HYQ_LANE and candidate.get("hyq_navigation_validated") is not True:
         return None
     if lane == POOL_LANE and candidate.get("rerank_pool_coverage_validated") is not True:
@@ -402,6 +419,88 @@ def collect_structural_coverage(
     }
 
 
+def collect_table_preamble_closure(
+    query: str,
+    reranked: list[dict[str, Any]],
+    *,
+    fetcher=fetch_structural_neighbor_rows,
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Recover exact table preambles without performing semantic discovery."""
+    del query  # relevance is inherited from the protected table seed
+    payload = yaml.safe_load(TABLE_PREAMBLE_CONFIG.read_text(encoding="utf-8"))
+    if payload.get("schema") != "table_preamble_closure_v3":
+        raise RuntimeError("unsupported table preamble closure config")
+    bounds = {
+        "max_seeds": (1, 20),
+        "max_gap": (1, 1),
+        "max_candidates": (16, 128),
+        "max_preambles": (1, 2),
+        "max_http_requests": (2, 12),
+    }
+    for key, (low, high) in bounds.items():
+        value = payload.get(key)
+        if (
+            isinstance(value, bool)
+            or not isinstance(value, int)
+            or not low <= value <= high
+        ):
+            raise RuntimeError(f"invalid table preamble closure {key}")
+    timeout = payload.get("timeout_seconds")
+    if isinstance(timeout, bool) or not isinstance(timeout, (int, float)) or not 0.1 <= timeout <= 2.0:
+        raise RuntimeError("invalid table preamble closure timeout")
+    serving = payload.get("serving") or {}
+    if serving.get("default_enabled") is not False or serving.get("fail_open") is not True:
+        raise RuntimeError("unsafe table preamble serving contract")
+
+    hydrated, candidates, read_trace = fetcher(
+        reranked[: payload["max_seeds"]],
+        max_gap=payload["max_gap"],
+        max_candidates=payload["max_candidates"],
+        max_http_requests=payload["max_http_requests"],
+        timeout_seconds=float(timeout),
+    )
+    selected, selection_trace = select_table_preambles(
+        hydrated,
+        candidates,
+        max_preambles=payload["max_preambles"],
+    )
+    seed_identities = {
+        (
+            str(row.get("document_id") or ""),
+            str(row.get("extraction_sha256") or ""),
+        )
+        for row in hydrated
+    }
+    validated = []
+    seen_exact_preambles: set[str] = set()
+    duplicate_preambles = 0
+    for row in selected:
+        identity = (
+            str(row.get("document_id") or ""),
+            str(row.get("extraction_sha256") or ""),
+        )
+        cards = row.get("coverage_cards") or []
+        quote = str(cards[0].get("quote") or "") if len(cards) == 1 else ""
+        if identity not in seed_identities or not quote:
+            continue
+        if quote in seen_exact_preambles:
+            duplicate_preambles += 1
+            continue
+        seen_exact_preambles.add(quote)
+        validated.append(row)
+    return validated, {
+        "lane": TABLE_PREAMBLE_LANE,
+        "status": "selected" if validated else "no_exact_table_preamble",
+        "selected_ids": [str(row["id"]) for row in validated],
+        "http_requests": read_trace.get("http_requests", 0),
+        "cross_table_rejected_rows": selection_trace.get(
+            "cross_table_rejected_rows", 0
+        ),
+        "duplicate_exact_preambles_rejected": duplicate_preambles,
+        "selector_status": selection_trace.get("status"),
+    }
+
+
 def collect_cascaded_structural_coverage(
     query: str,
     pool_seeds: list[dict[str, Any]],
@@ -502,11 +601,13 @@ def apply_post_rerank_coverage_with_trace(
     retrieval_pool: list[dict[str, Any]] | None = None,
     enabled: bool | None = None,
     structural_enabled: bool | None = None,
+    table_preamble_enabled: bool | None = None,
     hyq_enabled: bool | None = None,
     pool_enabled: bool | None = None,
     cascade_enabled: bool | None = None,
     compatibility_enabled: bool | None = None,
     structural_collector: Callable[..., tuple[list[dict], dict]] = collect_structural_coverage,
+    table_preamble_collector: Callable[..., tuple[list[dict], dict]] = collect_table_preamble_closure,
     hyq_collector: Callable[..., tuple[list[dict], dict]] = collect_document_scoped_hyq,
     pool_collector: Callable[..., tuple[list[dict], dict]] = select_rerank_pool_coverage,
     cascade_collector: Callable[..., tuple[list[dict], dict]] = collect_cascaded_structural_coverage,
@@ -517,6 +618,11 @@ def apply_post_rerank_coverage_with_trace(
     structural = (
         STRUCTURAL_NEIGHBOR_COVERAGE
         if structural_enabled is None else structural_enabled
+    )
+    table_preamble = (
+        TABLE_PREAMBLE_CLOSURE
+        if table_preamble_enabled is None
+        else table_preamble_enabled
     )
     hyq = CANONICAL_HYQ_COVERAGE if hyq_enabled is None else hyq_enabled
     pool = RERANK_POOL_COVERAGE if pool_enabled is None else pool_enabled
@@ -544,7 +650,7 @@ def apply_post_rerank_coverage_with_trace(
         "database_writes": 0,
     }
     if not active or not reranked or not (
-        structural or hyq or pool or compatibility_applicable
+        structural or table_preamble or hyq or pool or compatibility_applicable
     ):
         trace["status"] = "disabled_or_not_applicable"
         return reranked, trace
@@ -585,6 +691,13 @@ def apply_post_rerank_coverage_with_trace(
 
     if structural and not compatibility_applicable:
         lane_calls.append((STRUCTURAL_LANE, lambda: structural_collector(query, reranked)))
+    if table_preamble and not compatibility_applicable:
+        lane_calls.append(
+            (
+                TABLE_PREAMBLE_LANE,
+                lambda: table_preamble_collector(query, reranked),
+            )
+        )
     if compatibility_applicable:
         lane_calls.append(
             (COMPATIBILITY_LANE, lambda: compatibility_collector(query))

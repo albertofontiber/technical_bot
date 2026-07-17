@@ -1,0 +1,307 @@
+instrument: s133_unmeasured_fact_adjudication_v1
+schema_version: 1
+status: LOCAL_FACT_ADJUDICATION_COMPLETE_PENDING_FUNNEL_RECONCILIATION
+
+authority:
+  answer_probe:
+    path: evals/s133_unmeasured_answer_probe_v1.json
+    sha256: 4b3dd0b37ec9fe41a6c44b0853d1a7cff0df33d5a408bd2d8440365459342b23
+  reconciliation:
+    path: evals/s130_unmeasured_answer_reconciliation_v1.yaml
+    sha256: d3e385bb56f1dd3692cf2307ff628d7a2c869b1c4fe0338a43a7003784cbe935
+  m1_contract:
+    path: evals/s125_m1_known_hold_contract_v1.json
+    sha256: a89c2c68a7469b0715f9515687dbc0b752c051c3182f209aed2af64bb43c30b5
+  atomic_bridge:
+    path: evals/s118_atomic_benchmark_bridge_v1.json
+    sha256: f9a7a143a18b8d3046e404bd8dd1501baa62f1d0f4e6255d472956311d50eccb
+
+review_policy:
+  unit: one_atomic_claim_against_one_exact_frozen_answer
+  pass_requires:
+    - complete_semantic_entailment
+    - material_scope_and_qualifiers_preserved
+    - no_answer_contradiction
+  partial_coverage_is_ok: false
+  upstream_basis: >-
+    The 16 M1 claims have retrieval_pass and rerank_pass in S125; the 11
+    legacy claims have generator_support=true in the S119 frozen replay.
+  review_mode: two_pass_local_contract_and_adversarial_qualifier_review
+  external_judge_calls: 0
+
+summary:
+  questions: 7
+  claims: 27
+  upstream_support_present: 27
+  answer_available: 27
+  stage_histogram:
+    OK: 23
+    synthesis-miss: 4
+  facts_reclassified_from_unmeasured: 27
+  retrieval_calls: 0
+  reranker_calls: 0
+  judge_calls: 0
+  database_reads: 0
+  database_writes: 0
+
+rows:
+  - claim_id: m1.cat012.859bf84ece1e1301.battery_formula
+    qid: cat012
+    answer_sha256: a645deade7d569ae41f7d694b6686ba457ddb30ccf684b363fe8a44bc9c373f3
+    stage_bucket: OK
+    complete_entailment: true
+    qualifiers_preserved: true
+    contradicted: false
+    answer_evidence: "Ah Batería = (A + B) × 1,2."
+
+  - claim_id: m1.cat012.8f913ebef3a60ac1.alarm_term
+    qid: cat012
+    answer_sha256: a645deade7d569ae41f7d694b6686ba457ddb30ccf684b363fe8a44bc9c373f3
+    stage_bucket: OK
+    complete_entailment: true
+    qualifiers_preserved: true
+    contradicted: false
+    answer_evidence: "Total alarma × 0,5 h produce Alarma (B) en Ah."
+
+  - claim_id: m1.cat012.8f913ebef3a60ac1.standby_term
+    qid: cat012
+    answer_sha256: a645deade7d569ae41f7d694b6686ba457ddb30ccf684b363fe8a44bc9c373f3
+    stage_bucket: OK
+    complete_entailment: true
+    qualifiers_preserved: true
+    contradicted: false
+    answer_evidence: "Total reposo se multiplica por 24 h o por 72 h para obtener A."
+
+  - claim_id: m0.cat017.clss_workflow.1
+    qid: cat017
+    answer_sha256: 11e6dc5410f2e3fcf0433e01dbbf6eb9bf2944dd5faa81111ab388b02c2ba7a1
+    stage_bucket: OK
+    complete_entailment: true
+    qualifiers_preserved: true
+    contradicted: false
+    answer_evidence: "Configura el lazo con CLSS y envía la configuración a la central."
+
+  - claim_id: m1.cat019.650574c29860ac58.add_event_or_action
+    qid: cat019
+    answer_sha256: 0e3e732f82c5bdab68b2f2e0da8aeda69566dc7d9d19fb6215b5904f39dd4f30
+    stage_bucket: OK
+    complete_entailment: true
+    qualifiers_preserved: true
+    contradicted: false
+    answer_evidence: "EVENTO añade entradas y ACCIÓN añade las salidas que se ejecutarán."
+
+  - claim_id: m1.cat019.650574c29860ac58.event_change_and_condition
+    qid: cat019
+    answer_sha256: 0e3e732f82c5bdab68b2f2e0da8aeda69566dc7d9d19fb6215b5904f39dd4f30
+    stage_bucket: OK
+    complete_entailment: true
+    qualifiers_preserved: true
+    contradicted: false
+    answer_evidence: "La maniobra gestiona cambios de estado que, al coincidir con la condición, activan salidas."
+
+  - claim_id: m1.cat019.6c2692e4d3fd39ac.coincidence_semantics
+    qid: cat019
+    answer_sha256: 0e3e732f82c5bdab68b2f2e0da8aeda69566dc7d9d19fb6215b5904f39dd4f30
+    stage_bucket: OK
+    complete_entailment: true
+    qualifiers_preserved: true
+    contradicted: false
+    answer_evidence: "Coincidencias indica cuántos eventos deben cumplirse simultáneamente."
+
+  - claim_id: m1.cat019.6c2692e4d3fd39ac.create_maneuver
+    qid: cat019
+    answer_sha256: 0e3e732f82c5bdab68b2f2e0da8aeda69566dc7d9d19fb6215b5904f39dd4f30
+    stage_bucket: OK
+    complete_entailment: true
+    qualifiers_preserved: true
+    contradicted: false
+    answer_evidence: "MENÚ > MANIOBRAS > +AÑADIR abre la pantalla de edición."
+
+  - claim_id: m1.cat019.77fff66f289222e7.entity_scope
+    qid: cat019
+    answer_sha256: 0e3e732f82c5bdab68b2f2e0da8aeda69566dc7d9d19fb6215b5904f39dd4f30
+    stage_bucket: OK
+    complete_entailment: true
+    qualifiers_preserved: true
+    contradicted: false
+    answer_evidence: "Enumera instalación, panel, lazo, área, zona, dispositivo, grupo o módulo virtual, local o de red."
+
+  - claim_id: m1.cat019.77fff66f289222e7.event_type_choice
+    qid: cat019
+    answer_sha256: 0e3e732f82c5bdab68b2f2e0da8aeda69566dc7d9d19fb6215b5904f39dd4f30
+    stage_bucket: OK
+    complete_entailment: true
+    qualifiers_preserved: true
+    contradicted: false
+    answer_evidence: "Al añadir EVENTO ofrece ENTIDAD o CONDICIÓN TEMPORAL."
+
+  - claim_id: m1.cat019.77fff66f289222e7.temporal_condition
+    qid: cat019
+    answer_sha256: 0e3e732f82c5bdab68b2f2e0da8aeda69566dc7d9d19fb6215b5904f39dd4f30
+    stage_bucket: OK
+    complete_entailment: true
+    qualifiers_preserved: true
+    contradicted: false
+    answer_evidence: "La condición temporal fija el periodo en que la ecuación de entrada es verdadera."
+
+  - claim_id: m1.hp002.06f759b5da9ed40b.maintenance_safety
+    qid: hp002
+    answer_sha256: 5625d3601351bf6e91f0a4aa4fa91f2519b5b6a5b0ee18861c2b73ed189cec3a
+    stage_bucket: synthesis-miss
+    complete_entailment: false
+    qualifiers_preserved: false
+    contradicted: false
+    answer_evidence: "Incluye seguridad sobre el reset inicial, pero no el aislamiento previo de sistemas externos."
+    missing_elements:
+      - bloquear_o_desconectar_controles_de_incendio
+      - bloquear_o_desconectar_alertas_remotas
+      - bloquear_o_desconectar_zonas_de_extincion
+
+  - claim_id: m1.hp002.06f759b5da9ed40b.read_and_compare_flow
+    qid: hp002
+    answer_sha256: 5625d3601351bf6e91f0a4aa4fa91f2519b5b6a5b0ee18861c2b73ed189cec3a
+    stage_bucket: OK
+    complete_entailment: true
+    qualifiers_preserved: true
+    contradicted: false
+    answer_evidence: "Posición V y comparación con el protocolo de puesta en funcionamiento."
+
+  - claim_id: m1.hp002.4de86fac80358a14.nominal_after_reset
+    qid: hp002
+    answer_sha256: 5625d3601351bf6e91f0a4aa4fa91f2519b5b6a5b0ee18861c2b73ed189cec3a
+    stage_bucket: synthesis-miss
+    complete_entailment: false
+    qualifiers_preserved: false
+    contradicted: false
+    answer_evidence: "Habla del reset inicial y usa 100 % como referencia, pero no vincula ambos hechos."
+    missing_elements:
+      - el_reset_inicial_guarda_el_flujo_nominal
+      - el_valor_guardado_se_define_como_100_por_ciento
+
+  - claim_id: m1.hp002.4de86fac80358a14.standard_fault_window
+    qid: hp002
+    answer_sha256: 5625d3601351bf6e91f0a4aa4fa91f2519b5b6a5b0ee18861c2b73ed189cec3a
+    stage_bucket: synthesis-miss
+    complete_entailment: false
+    qualifiers_preserved: false
+    contradicted: false
+    answer_evidence: "Expresa ±20 %, el umbral inferior y 300 s, pero no el contrato completo."
+    missing_elements:
+      - alcance_posiciones_A11_a_C32
+      - umbral_superior_mayor_que_120_por_ciento
+
+  - claim_id: m1.hp002.c2c99fa936e98f67.flow_direction_diagnosis
+    qid: hp002
+    answer_sha256: 5625d3601351bf6e91f0a4aa4fa91f2519b5b6a5b0ee18861c2b73ed189cec3a
+    stage_bucket: OK
+    complete_entailment: true
+    qualifiers_preserved: true
+    contradicted: false
+    answer_evidence: "<100 % indica obstrucción y >100 % indica rotura de tubo."
+
+  - claim_id: m1.hp002.c2c99fa936e98f67.obstruction_checks
+    qid: hp002
+    answer_sha256: 5625d3601351bf6e91f0a4aa4fa91f2519b5b6a5b0ee18861c2b73ed189cec3a
+    stage_bucket: OK
+    complete_entailment: true
+    qualifiers_preserved: true
+    contradicted: false
+    answer_evidence: "Comprueba orificios, salida de aire, filtro y sensor de flujo."
+
+  - claim_id: m0.hp011.abort.1
+    qid: hp011
+    answer_sha256: d1a9a7eb3cbf14c43f700b9f86ae69da24fd2cb2b29578f380904974f0e02fb0
+    stage_bucket: OK
+    complete_entailment: true
+    qualifiers_preserved: true
+    contradicted: false
+    answer_evidence: "Las entradas supervisadas están enclavadas por defecto; identifica Cto. F como ABORT."
+
+  - claim_id: m0.hp011.abort.2
+    qid: hp011
+    answer_sha256: d1a9a7eb3cbf14c43f700b9f86ae69da24fd2cb2b29578f380904974f0e02fb0
+    stage_bucket: OK
+    complete_entailment: true
+    qualifiers_preserved: true
+    contradicted: false
+    answer_evidence: "Cto. F detiene la extinción y requiere rearme manual."
+
+  - claim_id: m0.hp011.reset_inhibit.1
+    qid: hp011
+    answer_sha256: d1a9a7eb3cbf14c43f700b9f86ae69da24fd2cb2b29578f380904974f0e02fb0
+    stage_bucket: OK
+    complete_entailment: true
+    qualifiers_preserved: true
+    contradicted: false
+    answer_evidence: "Rearme inhibido (parámetro rI / r.i) tras la activación."
+
+  - claim_id: m0.hp011.reset_inhibit.2
+    qid: hp011
+    answer_sha256: d1a9a7eb3cbf14c43f700b9f86ae69da24fd2cb2b29578f380904974f0e02fb0
+    stage_bucket: synthesis-miss
+    complete_entailment: false
+    qualifiers_preserved: false
+    contradicted: false
+    answer_evidence: "Describe 01-30 y 00, pero omite por completo el valor especial --."
+    missing_elements:
+      - valor_doble_guion
+      - inhibicion_hasta_fin_de_extincion_o_agotamiento_de_tA
+
+  - claim_id: m0.hp011.reset_inhibit.3
+    qid: hp011
+    answer_sha256: d1a9a7eb3cbf14c43f700b9f86ae69da24fd2cb2b29578f380904974f0e02fb0
+    stage_bucket: OK
+    complete_entailment: true
+    qualifiers_preserved: true
+    contradicted: false
+    answer_evidence: "00 minutos es el valor por defecto y anula la inhibición."
+
+  - claim_id: m0.hp013.eeprom_retention.1
+    qid: hp013
+    answer_sha256: be63ddb4b972942ab2d9a1da8192d669cfbd6f6df87fc933c7155540fb9c3e04
+    stage_bucket: OK
+    complete_entailment: true
+    qualifiers_preserved: true
+    contradicted: false
+    answer_evidence: "La configuración se almacena en EEPROM/Flash-PROM y se mantiene sin alimentación."
+
+  - claim_id: s118.hp013.power_and_rtc.1
+    qid: hp013
+    answer_sha256: be63ddb4b972942ab2d9a1da8192d669cfbd6f6df87fc933c7155540fb9c3e04
+    stage_bucket: OK
+    complete_entailment: true
+    qualifiers_preserved: true
+    contradicted: false
+    answer_evidence: "Batería de litio asociada al módulo de reloj RTC en la LMB 35."
+
+  - claim_id: m0.hp018.eol.1
+    qid: hp018
+    answer_sha256: 9769f57950bbe6708160165a74e45654d4143ddc71a3cb15379e854f2775195e
+    stage_bucket: OK
+    complete_entailment: true
+    qualifiers_preserved: true
+    contradicted: false
+    answer_evidence: "RFL obligatoria de 6.800 Ω (6K8), 0,5 W mínimo en cada circuito."
+
+  - claim_id: m0.hp018.eol.2
+    qid: hp018
+    answer_sha256: 9769f57950bbe6708160165a74e45654d4143ddc71a3cb15379e854f2775195e
+    stage_bucket: OK
+    complete_entailment: true
+    qualifiers_preserved: true
+    contradicted: false
+    answer_evidence: "La RFL se instala entre + y − de la última sirena."
+
+  - claim_id: m0.hp018.max_current.1
+    qid: hp018
+    answer_sha256: 9769f57950bbe6708160165a74e45654d4143ddc71a3cb15379e854f2775195e
+    stage_bucket: OK
+    complete_entailment: true
+    qualifiers_preserved: true
+    contradicted: false
+    answer_evidence: "1 A máximo por circuito."
+
+limitations:
+  - This closes only the 27 S130 unmeasured claims under the exact S113 chunks_v2 context.
+  - It does not remeasure retrieval, rerank, or chunks_v3 behavior.
+  - Funnel totals must be reconciled separately before publishing a new global KPI.

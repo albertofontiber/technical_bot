@@ -1,0 +1,19 @@
+instrument: s165_answer_archetype_ledger_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED
+authority: user_autonomous_execution_budget_250_usd
+
+frozen_artifacts:
+  preregistration: {path: evals/s165_answer_archetype_ledger_prereg_v1.yaml, sha256: 41eb728fb9031a6668c0dc7d419b740fee38c10e6c94adb04788a879fbeb8c6f}
+  runner: {path: scripts/s165_answer_archetype_ledger.py, sha256: 808a34a382762a6de5f6742262cb8f2646bbe4429cc73e92cbb6f57669650c9c}
+  ledger_tests: {path: tests/test_s165_answer_archetype_ledger.py, sha256: 65ee2f527adeeeea3653e47d89f843df33615fba79c98238190811605e2ca1cb}
+  unitizer_tests: {path: tests/test_s146_header_aware_evidence_units.py, sha256: fcb6021bbe8b112a7da2a85b1c37b877d62dd7e358b1f444c8fb807671236d30}
+
+limits:
+  paid_calls_max: 14
+  retries: 0
+  internal_ceiling_usd: 1.0
+  target_questions_exposed: 0
+  production_changes: 0
+  database_calls: 0
+  deployments: 0
+  pushes: 0

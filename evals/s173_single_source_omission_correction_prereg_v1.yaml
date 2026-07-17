@@ -1,0 +1,76 @@
+instrument: s173_single_source_omission_correction_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+
+frozen_inputs:
+  design: {path: evals/s173_single_source_omission_correction_design_v1.md, sha256: 029e8fcd804e7770bfc67582e124a79ccb4965b8ea02793fed2333443af546a7}
+  generation_cohort: {path: evals/s173_single_source_omission_cohort_v1.json, sha256: b8df8cce6bced1fdd95d3f70bb0787c2a63769fcacafde317bc8a9149c1b053f}
+  post_generation_gold: {path: evals/s171_s147_source_unit_gold_v1.json, sha256: 040e538f2df23282848fc6f058c9f570635564ac51b5dfb03247b2710fb5c13a}
+  runner: {path: scripts/s173_single_source_omission_correction.py, sha256: 06dbf0e11c76bb7faa4525c8cfbd1e2dfae069af01bb95100da66098d6396651}
+  omission_contract: {path: src/rag/omission_correction.py, sha256: d6f39838cd3ea46a31227a64f066e64c45c0e671f73ba986201c1e0571cd2c9b}
+  current_prompt_builder: {path: scripts/s156_frontier_synthesis_ceiling.py, sha256: aeaa65fb6e82c35a52fc91661cead8473b1044ea5cd06106440878baa8a7eaf5}
+  revision_contract: {path: scripts/s157_post_answer_omission_correction.py, sha256: 47aeb35fe82884c87302954126d5cfc86bf35a7c44f43a28c5dc6df46fdb19c6}
+
+population:
+  questions: 14
+  manufacturers: 14
+  table: 7
+  prose: 7
+  answer_points: 37
+  source_fragments_per_question: 1
+  target_question_overlap: 0
+  prior_use: independent_development_not_fresh_production_promotion
+
+models:
+  executor: claude-haiku-4-5-20251001
+  writer: claude-sonnet-4-6
+  selector_max_output_tokens: 500
+  writer_max_output_tokens: 2200
+
+execution:
+  baseline_writer_calls: 14
+  omission_selector_calls: 14
+  revision_writer_calls_max: 14
+  total_paid_calls_max: 42
+  selected_units_per_item_max: 8
+  revision_loops_max: 1
+  retries: 0
+  retrieval_calls: 0
+  reranker_calls: 0
+  database_calls: 0
+  gold_loaded_only_after_generation_checkpoints: true
+
+validation:
+  all_items_scored: 14
+  point_gain_min: 4
+  complete_question_gain_min: 2
+  regressed_points_max: 0
+  invalid_selector_outputs_max: 0
+  invalid_fragment_citations_max: 0
+  token_limit_stops_max: 0
+  passing_action: GO_TO_BLINDED_SOL_SEMANTIC_GATE
+  target_probe: false
+  production: false
+  facts_moved_to_ok: 0
+
+pricing_usd_per_million_tokens:
+  executor: {input: 2, output: 10}
+  writer: {input: 3, output: 15}
+
+budget:
+  internal_ceiling_usd: 4.0
+  user_ceiling_usd: 250
+
+outputs:
+  baseline_receipts: evals/s173_baseline_answer_receipts_v1.json
+  selector_receipts: evals/s173_omission_selector_receipts_v1.json
+  revision_receipts: evals/s173_revision_answer_receipts_v1.json
+  result: evals/s173_single_source_omission_correction_v1.json
+
+forbidden:
+  - expose_answer_points_or_exact_quotes_to_generation_models
+  - use_another_document_or_sibling_product
+  - tune_after_generation
+  - second_revision_loop
+  - target_question_execution
+  - production_or_deployment
+

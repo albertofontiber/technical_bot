@@ -18,6 +18,23 @@ ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
 
+# Voice transcription stays on the measured historical provider by default.
+# The two current OpenAI candidates are exposed only as explicit, reversible
+# experiment arms; selecting one does not by itself constitute a quality GO.
+_VOICE_TRANSCRIPTION_MODELS = {
+    "whisper-1",
+    "gpt-4o-mini-transcribe-2025-12-15",
+    "gpt-4o-transcribe",
+}
+VOICE_TRANSCRIPTION_MODEL = os.getenv(
+    "VOICE_TRANSCRIPTION_MODEL", "whisper-1"
+).strip()
+if VOICE_TRANSCRIPTION_MODEL not in _VOICE_TRANSCRIPTION_MODELS:
+    raise RuntimeError(
+        "VOICE_TRANSCRIPTION_MODEL must be one of: "
+        + ", ".join(sorted(_VOICE_TRANSCRIPTION_MODELS))
+    )
+
 # Supabase
 SUPABASE_URL = os.getenv("SUPABASE_URL", "")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY", "")
@@ -99,6 +116,16 @@ POST_RERANK_COVERAGE = _strict_on_off("POST_RERANK_COVERAGE")
 STRUCTURAL_NEIGHBOR_COVERAGE = _strict_on_off(
     "STRUCTURAL_NEIGHBOR_COVERAGE"
 )
+
+# S161 exact table-boundary repair.  A reranked table whose heading/preamble
+# was split into its immutable predecessor may recover only that exact source
+# span.  The independent lane remains inert unless both this switch and the
+# post-rerank master switch are enabled.
+TABLE_PREAMBLE_CLOSURE = _strict_on_off("TABLE_PREAMBLE_CLOSURE")
+
+# S183 content-addressed, exact live-chunk-bound typographic evidence view. It does not
+# affect retrieval/rerank scores and stays inert unless explicitly released.
+EVIDENCE_DERIVATION_OVERLAY = _strict_on_off("EVIDENCE_DERIVATION_OVERLAY")
 
 # S107 v4 candidate, default inert. This lane flag and the S109 master switch
 # enable canonical-document HYQ independently of the other coverage lanes.

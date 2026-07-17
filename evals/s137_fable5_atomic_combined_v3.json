@@ -1,0 +1,418 @@
+{
+  "instrument": "s137_fable_atomic_combined_v3",
+  "status": "VALIDATED",
+  "provider": "anthropic",
+  "model": "claude-fable-5",
+  "created_at": "2026-07-16T20:29:00+00:00",
+  "packet_questions_sha256": "0998426b4923203c3c67aac314bc9fcb49e57fe77da4a1fe5f0d9cb2cba086a4",
+  "usage": {
+    "input_tokens": 48806,
+    "output_tokens": 10186,
+    "atomic_response_ids": [
+      "msg_011Cd6NAMwybYo1josMss2Ns",
+      "msg_011Cd6NDsx6Wp3Nuen7D3KQW",
+      "msg_011Cd6NHHHdPhXJu5nfjvj2J"
+    ]
+  },
+  "conservative_cost_usd": 0.99736,
+  "judgement": {
+    "judgements": [
+      {
+        "question_id": "29b49e99-07fe-4b83-8afd-2d770d8fc09d",
+        "answerability": "COMPLETE",
+        "minimum_sufficient_evidence_ids": [
+          "E-A1334F9996F8",
+          "E-026ED7172265"
+        ],
+        "evidence_assessments": [
+          {
+            "evidence_id": "E-026ED7172265",
+            "relevance": "DIRECT",
+            "supported_claim": "Confirms a fault output exists (o.c. 40 mA) and explains the logic: outputs are Normally Energised open collectors associated to alarm thresholds and fault status, i.e., they de-energise on failure.",
+            "redundant_with": [
+              "E-3615653EA383"
+            ]
+          },
+          {
+            "evidence_id": "E-146B01C3155F",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Shows mounting rules and terminal strip layout but does not establish the fault output or its failure logic.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-1DAD917B69F8",
+            "relevance": "SUPPORTING",
+            "supported_claim": "Identification code shows open-collector mode options P=positive safety (energized) and N=negative safety, contextualising the output logic variants.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-27D53964CD9A",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Cover page and index only; no technical content on fault output or logic.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-3615653EA383",
+            "relevance": "DIRECT",
+            "supported_claim": "Terminal 8 is the O.C. Fault output; states all SMART 2 outputs are open collector in positive safety (sicurezza positiva) with negative switching, max 40 mA.",
+            "redundant_with": [
+              "E-026ED7172265"
+            ]
+          },
+          {
+            "evidence_id": "E-485E42D88FC6",
+            "relevance": "DIRECT",
+            "supported_claim": "States the detector provides an Open Collector output associated with fault, plus self-diagnostic algorithm that constantly checks hardware including the sensor.",
+            "redundant_with": [
+              "E-FD524C1DE741"
+            ]
+          },
+          {
+            "evidence_id": "E-497AB353730D",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Testing and use instructions; no fault output information.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-5E35E16FE8C3",
+            "relevance": "SUPPORTING",
+            "supported_claim": "Describes LED/output behaviour for negative safety (JN) TWIN versions at power-on, adding context about output logic variants.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-7CBC98CF1DC2",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Maintenance, dismounting routines; unrelated to fault output logic.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-94AD715F3AA3",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Cable sizing and connection guidance; does not address fault output or failure logic.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-A1334F9996F8",
+            "relevance": "DIRECT",
+            "supported_claim": "Technical specs: self-diagnostic routine with O.C. 40 mA fault output; output logic is Sicurezza Positiva / fail safe (standard) or fail in alarm.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-B5944A0B3E27",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Packing instructions only.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-BF0DB87D80A0",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Index page only; no answer content.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-E2807AC44093",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Italian wiring/connection guidance; no fault output logic details.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-E5634552B38C",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Jumper configuration for alarm thresholds; unrelated to fault output.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-FD524C1DE741",
+            "relevance": "DIRECT",
+            "supported_claim": "English description: three O.C. threshold outputs plus a fourth O.C. output for Fault, with self-diagnostic procedure monitoring hardware and sensor.",
+            "redundant_with": [
+              "E-485E42D88FC6"
+            ]
+          }
+        ],
+        "confidence": "HIGH",
+        "rationale": "Yes: SMART 2 has an O.C. 40 mA fault output tied to the self-diagnostic routine (E-A1334F9996F8, E-485E42D88FC6, E-FD524C1DE741). The logic is positive safety / fail-safe: outputs are normally energised open collectors that de-energise on fault (E-026ED7172265, E-3615653EA383, E-A1334F9996F8), with an optional negative safety variant (E-1DAD917B69F8). E-A1334F9996F8 plus E-026ED7172265 form the smallest sufficient set covering both existence and failure logic."
+      },
+      {
+        "question_id": "540b4ccd-1ae0-4252-a6bb-069db622e22c",
+        "answerability": "COMPLETE",
+        "minimum_sufficient_evidence_ids": [
+          "E-3775790B199A"
+        ],
+        "evidence_assessments": [
+          {
+            "evidence_id": "E-3775790B199A",
+            "relevance": "DIRECT",
+            "supported_claim": "Spanish maintenance procedure states the correct EOL is 3.9 kΩ for normal operation, and that changing it to 0 Ω or to open circuit causes the system to report a fault (330 Ω causes an alarm).",
+            "redundant_with": [
+              "E-4BB3BDEDAD12",
+              "E-7D8D947EA523",
+              "E-923974EB896B"
+            ]
+          },
+          {
+            "evidence_id": "E-4BB3BDEDAD12",
+            "relevance": "DIRECT",
+            "supported_claim": "Portuguese maintenance section duplicates the same EOL test: 0 Ω reports a fault, open reports a fault, and restoring 3.9 kΩ returns normal operation (typo lists 3,9 Ω on restore).",
+            "redundant_with": [
+              "E-3775790B199A",
+              "E-7D8D947EA523",
+              "E-923974EB896B"
+            ]
+          },
+          {
+            "evidence_id": "E-7D8D947EA523",
+            "relevance": "DIRECT",
+            "supported_claim": "Romanian maintenance section duplicates the EOL verification: 0 Ω → fault, open → fault, 3.9 kΩ → normal operation.",
+            "redundant_with": [
+              "E-3775790B199A",
+              "E-4BB3BDEDAD12",
+              "E-923974EB896B"
+            ]
+          },
+          {
+            "evidence_id": "E-923974EB896B",
+            "relevance": "DIRECT",
+            "supported_claim": "Polish maintenance section duplicates the EOL verification: 0 Ω → fault, open → fault, 3.9 kΩ → normal operation.",
+            "redundant_with": [
+              "E-3775790B199A",
+              "E-4BB3BDEDAD12",
+              "E-7D8D947EA523"
+            ]
+          },
+          {
+            "evidence_id": "E-1FBAD73B38DF",
+            "relevance": "DIRECT",
+            "supported_claim": "Spanish specifications table confirms the zone end-of-line resistor value of 3.9 kΩ, 5%, 1/4 W, establishing the correct EOL for normal operation.",
+            "redundant_with": [
+              "E-9821A9AC966D",
+              "E-CF9974818B13",
+              "E-CD1C76BDF8F3"
+            ]
+          },
+          {
+            "evidence_id": "E-9821A9AC966D",
+            "relevance": "DIRECT",
+            "supported_claim": "Italian specifications table duplicates the zone EOL resistor value of 3.9 kΩ, 5%, 1/4 W.",
+            "redundant_with": [
+              "E-1FBAD73B38DF",
+              "E-CF9974818B13",
+              "E-CD1C76BDF8F3"
+            ]
+          },
+          {
+            "evidence_id": "E-CF9974818B13",
+            "relevance": "DIRECT",
+            "supported_claim": "Portuguese specifications table duplicates the zone EOL resistor value of 3.9 kΩ, 5%, 1/4 W.",
+            "redundant_with": [
+              "E-1FBAD73B38DF",
+              "E-9821A9AC966D",
+              "E-CD1C76BDF8F3"
+            ]
+          },
+          {
+            "evidence_id": "E-CD1C76BDF8F3",
+            "relevance": "DIRECT",
+            "supported_claim": "Datasheet lists input termination of 3.9 kΩ, 1/4 W, 5%, confirming the correct EOL value; does not cover fault behavior for 0 Ω or open.",
+            "redundant_with": [
+              "E-1FBAD73B38DF",
+              "E-9821A9AC966D",
+              "E-CF9974818B13"
+            ]
+          },
+          {
+            "evidence_id": "E-F50E50CCE3E0",
+            "relevance": "DIRECT",
+            "supported_claim": "Spanish wiring section requires a 3.9 kΩ EOL and its impedance table shows normal 2.1–4.5 kΩ, short <40 Ω, and open >7.5 kΩ, corroborating the fault/normal thresholds.",
+            "redundant_with": [
+              "E-501C8448760E",
+              "E-EA2A686CB80C"
+            ]
+          },
+          {
+            "evidence_id": "E-501C8448760E",
+            "relevance": "DIRECT",
+            "supported_claim": "Portuguese wiring section duplicates the 3.9 kΩ EOL requirement and the loop impedance/state tables.",
+            "redundant_with": [
+              "E-F50E50CCE3E0",
+              "E-EA2A686CB80C"
+            ]
+          },
+          {
+            "evidence_id": "E-EA2A686CB80C",
+            "relevance": "DIRECT",
+            "supported_claim": "Italian wiring section duplicates the 3.9 kΩ EOL requirement and the loop impedance/state tables.",
+            "redundant_with": [
+              "E-F50E50CCE3E0",
+              "E-501C8448760E"
+            ]
+          },
+          {
+            "evidence_id": "E-976B2B02C5ED",
+            "relevance": "SUPPORTING",
+            "supported_claim": "Spanish installation sheet figure captions mention the 3.9 kΩ end-of-line resistor in standard and IS wiring, providing corroborating context.",
+            "redundant_with": [
+              "E-D9ED3FCA741D",
+              "E-FC7F90BC0AF1"
+            ]
+          },
+          {
+            "evidence_id": "E-D9ED3FCA741D",
+            "relevance": "SUPPORTING",
+            "supported_claim": "Italian installation sheet figure captions mention the 3.9 kΩ EOL resistor, context only.",
+            "redundant_with": [
+              "E-976B2B02C5ED",
+              "E-FC7F90BC0AF1"
+            ]
+          },
+          {
+            "evidence_id": "E-FC7F90BC0AF1",
+            "relevance": "SUPPORTING",
+            "supported_claim": "Portuguese installation sheet figure captions mention the 3.9 kΩ EOL resistor, context only.",
+            "redundant_with": [
+              "E-976B2B02C5ED",
+              "E-D9ED3FCA741D"
+            ]
+          },
+          {
+            "evidence_id": "E-49DAC6CFDDA1",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Regulatory (WEEE), contact and warranty disclaimer content; no EOL resistance or fault-behavior information.",
+            "redundant_with": []
+          }
+        ],
+        "confidence": "HIGH",
+        "rationale": "The Spanish maintenance section (E-3775790B199A) alone fully answers the question: the correct EOL is 3.9 kΩ for normal operation, and setting it to 0 Ω or open circuit makes the system report a fault. Multilingual duplicates (PT, RO, PL maintenance) repeat the same procedure. Specification tables and wiring sections independently confirm the 3.9 kΩ value and impedance thresholds. One item (regulatory info) is irrelevant. Hence COMPLETE with a one-item minimal set."
+      },
+      {
+        "question_id": "935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033",
+        "answerability": "COMPLETE",
+        "minimum_sufficient_evidence_ids": [
+          "E-FBB457C375B5"
+        ],
+        "evidence_assessments": [
+          {
+            "evidence_id": "E-FBB457C375B5",
+            "relevance": "DIRECT",
+            "supported_claim": "For the VES-A00-P, the Fuego 1 and Fuego 2 LEDs light when their alarm threshold is reached and blink once per second (una vez por segundo) until the condition is confirmed.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-1C5333FBCC2C",
+            "relevance": "SUPPORTING",
+            "supported_claim": "The sibling VES-A10-P LED table states the same blink behavior (once per second until confirmed), corroborating the family-wide behavior but describing a different model than asked.",
+            "redundant_with": [
+              "E-FBB457C375B5"
+            ]
+          },
+          {
+            "evidence_id": "E-AB138B706C45",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Describes LED testing during power-up and via Xtralis VSC, not the alarm blink pattern.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-0BCC4F726225",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Relay assignment table; unrelated to LED blink behavior.",
+            "redundant_with": [
+              "E-744F99AB0E39"
+            ]
+          },
+          {
+            "evidence_id": "E-744F99AB0E39",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Relay assignment table (A10-P variant); unrelated to LED blink behavior.",
+            "redundant_with": [
+              "E-0BCC4F726225"
+            ]
+          },
+          {
+            "evidence_id": "E-29D2B7FD8A26",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Relay assignments for relays 1-2; unrelated to LED indications.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-4B434CC40E10",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Ground-fault detection and relay operation; not about LED alarm indications.",
+            "redundant_with": [
+              "E-C4D52383680D"
+            ]
+          },
+          {
+            "evidence_id": "E-C4D52383680D",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Duplicate ground-fault/relay section; not about LED alarm indications.",
+            "redundant_with": [
+              "E-4B434CC40E10"
+            ]
+          },
+          {
+            "evidence_id": "E-82F86D5493AD",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Wiring example to addressable loop module; unrelated to LED behavior.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-54F5BF950D4A",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "AutoLearn smoke/flow thresholds; unrelated to LED blink pattern.",
+            "redundant_with": []
+          },
+          {
+            "evidence_id": "E-11A1C8B503C1",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Commissioning checklist form; no LED blink information.",
+            "redundant_with": [
+              "E-8B55DC2F9FA1"
+            ]
+          },
+          {
+            "evidence_id": "E-8B55DC2F9FA1",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Commissioning checklist form (A00-P); no LED blink information.",
+            "redundant_with": [
+              "E-11A1C8B503C1"
+            ]
+          },
+          {
+            "evidence_id": "E-428C4011C3E7",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Commissioning checklist form; no LED blink information.",
+            "redundant_with": [
+              "E-A0711DEB2F00"
+            ]
+          },
+          {
+            "evidence_id": "E-A0711DEB2F00",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Commissioning checklist form (A00-P); no LED blink information.",
+            "redundant_with": [
+              "E-428C4011C3E7"
+            ]
+          },
+          {
+            "evidence_id": "E-86A9DEF9A931",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Relay commissioning checklist; no LED blink information.",
+            "redundant_with": [
+              "E-C52EB04FEB1D"
+            ]
+          },
+          {
+            "evidence_id": "E-C52EB04FEB1D",
+            "relevance": "IRRELEVANT",
+            "supported_claim": "Relay commissioning checklist; no LED blink information.",
+            "redundant_with": [
+              "E-86A9DEF9A931"
+            ]
+          }
+        ],
+        "confidence": "HIGH",
+        "rationale": "E-FBB457C375B5 is the VES-A00-P LED status table and directly states that the Fuego 1 and Fuego 2 LEDs light when their thresholds are reached and blink once per second until the condition is confirmed, fully answering the question for the correct model. E-1C5333FBCC2C corroborates via the A10-P variant but is not model-specific. All relay tables, wiring diagrams, AutoLearn content, and commissioning forms are unrelated to LED blink behavior."
+      }
+    ]
+  }
+}

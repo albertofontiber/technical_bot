@@ -1,0 +1,60 @@
+instrument: s158_table_preamble_closure_prereg_v1
+status: FROZEN_BEFORE_IMPLEMENTATION
+design: evals/s158_table_preamble_closure_design_v1.md
+
+objective:
+  primary: restore exact table headings and applicability notes split from served rows
+  stage_credit_before_answer_probe: none
+  production_change: false
+
+known_development_target:
+  qid: cat007
+  served_table_chunk_id: e49a4944-4157-42e3-a1c5-15ec4a6e8926
+  expected_predecessor_index_delta: -1
+  source_incomplete_claims: 5
+
+selection_contract:
+  protected_seed_must_begin_with_markdown_table: true
+  predecessor_index_delta: -1
+  require_same_document_id: true
+  require_same_extraction_sha256: true
+  require_same_normalized_table_heading: true
+  exact_span_start: final_matching_markdown_heading
+  exact_span_end: predecessor_end
+  max_span_chars: 1200
+  max_preambles_per_answer: 2
+  qids_or_expected_values_allowed: false
+  generated_prose_allowed: false
+
+independent_generalization:
+  selection: corpus_first_mechanical_before_semantic_review
+  known_target_documents_excluded: true
+  minimum_pairs: 12
+  minimum_manufacturers: 4
+  minimum_distinct_section_titles: 6
+  manual_review_required: true
+
+local_gate:
+  exact_identity_rate: 1.0
+  exact_adjacency_rate: 1.0
+  exact_span_receipt_rate: 1.0
+  heading_continuity_rate: 1.0
+  cross_table_attachments_max: 0
+  protected_prefix_mutations_max: 0
+  deterministic_runs: 2
+  model_calls: 0
+  database_writes: 0
+
+promotion_sequence:
+  - local_target_and_independent_gate
+  - minimal_answer_probe_if_local_go
+  - protected_regression
+  - frozen_funnel_reconciliation
+
+forbidden:
+  - product_or_manufacturer_specific_runtime_rule
+  - prompt_injection_of_missing_qualifier
+  - chunks_v3_wholesale_migration
+  - official_ok_credit_from_source_packet_repair_alone
+  - deployment_or_push_without_separate_authorization
+

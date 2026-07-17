@@ -1,0 +1,315 @@
+{
+  "schema_version": "s163_synthesis_residual_audit_v1",
+  "instrument": "s163_frozen_answer_relation_reconciliation",
+  "status": "LOCAL_MEASUREMENT_RECONCILIATION_COMPLETE",
+  "authority": {
+    "contexts": {
+      "path": "evals/s113_full_contexts_freeze_v1.json",
+      "sha256": "22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d"
+    },
+    "obligation_audit": {
+      "path": "evals/s141_source_bound_technical_obligations_v1.json",
+      "sha256": "3bd96e427c0df15037a298fea7d6ae6089cf64b413219d60a07e58a552715606"
+    },
+    "prior_funnel": {
+      "path": "evals/s161_reconciled_funnel_projection_v1.yaml",
+      "sha256": "043be26a7a194b19ad467de662204ee18df9339b773c22e25ce3cf4f5aa5aff9"
+    }
+  },
+  "population": {
+    "questions": 4,
+    "relations": 13,
+    "covered_in_current_frozen_answers": 1,
+    "genuine_synthesis_residuals": 12,
+    "diagnostic_categories": {
+      "fully_covered": 1,
+      "partial_relation": 6,
+      "relation_omitted": 5,
+      "internal_cardinality_contradiction": 1
+    }
+  },
+  "rows": [
+    {
+      "qid": "cat018",
+      "kind": "software_type_cbe_activation",
+      "obligation_id": "obl_015f9b9aaa3a",
+      "candidate_id": "0c6cc5e0-0df9-428f-870f-a19fe461c3a9",
+      "fragment_number": 8,
+      "source_statement_sha256": "cf2fee57199051408a4b575402fe71d2179bab14619ff61a76b05d96e8c98f0c",
+      "answer_sha256": "23d502d71770ff84af0449924d23c41e05ecc0693501a97fc204e41dccf6c280",
+      "covered": false,
+      "diagnostic_category": "partial_relation",
+      "present_required_anchors": [
+        "CBE"
+      ],
+      "missing_required_anchors": [
+        "activacion",
+        "tipo software SND",
+        "sirenas"
+      ],
+      "source_fragment_cited": true
+    },
+    {
+      "qid": "cat018",
+      "kind": "point_programming_fields",
+      "obligation_id": "obl_7bba8d03d496",
+      "candidate_id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+      "fragment_number": 3,
+      "source_statement_sha256": "d3aa9a12ce89d12615f1d366b88864b4100c121d4ce0d8e3197ac72b4bc50559",
+      "answer_sha256": "23d502d71770ff84af0449924d23c41e05ecc0693501a97fc204e41dccf6c280",
+      "covered": false,
+      "diagnostic_category": "partial_relation",
+      "present_required_anchors": [
+        "Zona",
+        "CBE"
+      ],
+      "missing_required_anchors": [
+        "Pestana Programa"
+      ],
+      "source_fragment_cited": true
+    },
+    {
+      "qid": "hp002",
+      "kind": "initial_reference_calibration",
+      "obligation_id": "obl_a5d9fa1f9253",
+      "candidate_id": "414ce99c-0dec-478c-b504-009f14631804",
+      "fragment_number": 2,
+      "source_statement_sha256": "bd01b71074a4e5996a44c53a021815f9ea35dec37fa0002d2828b3d9c9cd94c3",
+      "answer_sha256": "5625d3601351bf6e91f0a4aa4fa91f2519b5b6a5b0ee18861c2b73ed189cec3a",
+      "covered": false,
+      "diagnostic_category": "partial_relation",
+      "present_required_anchors": [
+        "reset inicial",
+        "100 %"
+      ],
+      "missing_required_anchors": [
+        "valores nominales"
+      ],
+      "source_fragment_cited": true
+    },
+    {
+      "qid": "hp002",
+      "kind": "bounded_fault_window",
+      "obligation_id": "obl_07eee3300535",
+      "candidate_id": "414ce99c-0dec-478c-b504-009f14631804",
+      "fragment_number": 2,
+      "source_statement_sha256": "46903df55fac395c9e84ed771221a4c6126faba9658fdfa79a64f1893971ad96",
+      "answer_sha256": "5625d3601351bf6e91f0a4aa4fa91f2519b5b6a5b0ee18861c2b73ed189cec3a",
+      "covered": false,
+      "diagnostic_category": "partial_relation",
+      "present_required_anchors": [
+        "20 %",
+        "80 %",
+        "300 s"
+      ],
+      "missing_required_anchors": [
+        "A11 a C32",
+        "120 %"
+      ],
+      "source_fragment_cited": true
+    },
+    {
+      "qid": "hp002",
+      "kind": "maintenance_isolation_prerequisite",
+      "obligation_id": "obl_b6f6211be439",
+      "candidate_id": "5b6a3a19-a924-4cf4-9513-bd50786ee3d9",
+      "fragment_number": 9,
+      "source_statement_sha256": "ab9575a8f59638b78620ac398bad8250da533243eaadb16a6220dbcbeee5e527",
+      "answer_sha256": "5625d3601351bf6e91f0a4aa4fa91f2519b5b6a5b0ee18861c2b73ed189cec3a",
+      "covered": false,
+      "diagnostic_category": "relation_omitted",
+      "present_required_anchors": [],
+      "missing_required_anchors": [
+        "controles de incendios",
+        "alertas remotas",
+        "zonas de extincion",
+        "bloquearlos o desconectarlos previamente"
+      ],
+      "source_fragment_cited": true
+    },
+    {
+      "qid": "hp011",
+      "kind": "extinction_duration_range",
+      "obligation_id": "obl_161564ff41bf",
+      "candidate_id": "2d45a70a-5202-442e-af84-c3a176c2178d",
+      "fragment_number": 11,
+      "source_statement_sha256": "82f879656e013a11b0d8228191636b33d61c92c30f56a70f43f8079c780d8b5b",
+      "answer_sha256": "d1a9a7eb3cbf14c43f700b9f86ae69da24fd2cb2b29578f380904974f0e02fb0",
+      "covered": false,
+      "diagnostic_category": "partial_relation",
+      "present_required_anchors": [
+        "05 a 295 seg",
+        "circuito de extincion"
+      ],
+      "missing_required_anchors": [
+        "intervalos de 5 seg"
+      ],
+      "source_fragment_cited": true
+    },
+    {
+      "qid": "hp011",
+      "kind": "reset_inhibit_special_state",
+      "obligation_id": "obl_2f5d79e354b9",
+      "candidate_id": "475a8f18-7c69-4c7a-8111-45bd67334c96",
+      "fragment_number": 13,
+      "source_statement_sha256": "ebd822b8c1d79e8b89e03c0aa2175fae4c7777e794492b0674ca1339bed4a296",
+      "answer_sha256": "d1a9a7eb3cbf14c43f700b9f86ae69da24fd2cb2b29578f380904974f0e02fb0",
+      "covered": false,
+      "diagnostic_category": "partial_relation",
+      "present_required_anchors": [
+        "--",
+        "rearme inhibido"
+      ],
+      "missing_required_anchors": [
+        "finalizar extincion",
+        "t.A",
+        "0 seg"
+      ],
+      "source_fragment_cited": false
+    },
+    {
+      "qid": "hp011",
+      "kind": "default_latched_faults",
+      "obligation_id": "obl_05482a6b3f0e",
+      "candidate_id": "c8924d59-a9ce-4379-a3b7-57058ff86a82",
+      "fragment_number": 9,
+      "source_statement_sha256": "728fdbbac09bd95fadfe0749d60d82adb7680446f44b13f0da8ffda70fac7c31",
+      "answer_sha256": "d1a9a7eb3cbf14c43f700b9f86ae69da24fd2cb2b29578f380904974f0e02fb0",
+      "covered": true,
+      "diagnostic_category": "fully_covered",
+      "present_required_anchors": [
+        "averias",
+        "por defecto",
+        "enclavadas",
+        "rearme manual"
+      ],
+      "missing_required_anchors": [],
+      "source_fragment_cited": true
+    },
+    {
+      "qid": "hp017",
+      "kind": "option_family_cardinality",
+      "obligation_id": "obl_872c35fb41d7",
+      "candidate_id": "570d9951-e3a6-4c64-a927-e26b5e6db842",
+      "fragment_number": 1,
+      "source_statement_sha256": "44023204f30512b277857e72c32179185e544f0f8b0681c98101e6b712f112a9",
+      "answer_sha256": "de38cdf5358d57c912ce0c7d50e507204fd3ea4cb8c350e8910a50a3b4925b5e",
+      "covered": false,
+      "diagnostic_category": "internal_cardinality_contradiction",
+      "present_required_anchors": [
+        "seis",
+        "tipos de retardo",
+        "regla"
+      ],
+      "missing_required_anchors": [],
+      "source_fragment_cited": true
+    },
+    {
+      "qid": "hp017",
+      "kind": "input_condition_definition",
+      "obligation_id": "obl_b2043cd4379b",
+      "candidate_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+      "fragment_number": 12,
+      "source_statement_sha256": "9267151fbad48b202fd1145e8dc03718f8ddd3fc78423933c696171cc98c19c9",
+      "answer_sha256": "de38cdf5358d57c912ce0c7d50e507204fd3ea4cb8c350e8910a50a3b4925b5e",
+      "covered": false,
+      "diagnostic_category": "relation_omitted",
+      "present_required_anchors": [],
+      "missing_required_anchors": [
+        "instruccion de entrada",
+        "condicion de entrada"
+      ],
+      "source_fragment_cited": true
+    },
+    {
+      "qid": "hp017",
+      "kind": "output_condition_action",
+      "obligation_id": "obl_7aa723717412",
+      "candidate_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+      "fragment_number": 12,
+      "source_statement_sha256": "011ad9a7336da92bca25bcca36e6d11783d2d659a76e9756d86f0f4af8cf8682",
+      "answer_sha256": "de38cdf5358d57c912ce0c7d50e507204fd3ea4cb8c350e8910a50a3b4925b5e",
+      "covered": false,
+      "diagnostic_category": "relation_omitted",
+      "present_required_anchors": [],
+      "missing_required_anchors": [
+        "instruccion de salida",
+        "todas las condiciones de entrada",
+        "equipos asignados"
+      ],
+      "source_fragment_cited": true
+    },
+    {
+      "qid": "hp017",
+      "kind": "logic_contradiction_warning",
+      "obligation_id": "obl_16637b935bd4",
+      "candidate_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+      "fragment_number": 12,
+      "source_statement_sha256": "cbc2f6ac2099f51c73f2cbd3b85976106617ca29618495b8d272893a14c74530",
+      "answer_sha256": "de38cdf5358d57c912ce0c7d50e507204fd3ea4cb8c350e8910a50a3b4925b5e",
+      "covered": false,
+      "diagnostic_category": "relation_omitted",
+      "present_required_anchors": [],
+      "missing_required_anchors": [
+        "evite",
+        "logicas contradictorias"
+      ],
+      "source_fragment_cited": true
+    },
+    {
+      "qid": "hp017",
+      "kind": "commissioning_rule_verification",
+      "obligation_id": "obl_0d6a30948dfd",
+      "candidate_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+      "fragment_number": 12,
+      "source_statement_sha256": "aa5af0f8c0eb7d36c491439b759ce3e2769affad52b111027d2bc1d457aa014b",
+      "answer_sha256": "de38cdf5358d57c912ce0c7d50e507204fd3ea4cb8c350e8910a50a3b4925b5e",
+      "covered": false,
+      "diagnostic_category": "relation_omitted",
+      "present_required_anchors": [],
+      "missing_required_anchors": [
+        "probar rigurosamente",
+        "todas las reglas",
+        "puesta en marcha"
+      ],
+      "source_fragment_cited": true
+    }
+  ],
+  "measurement_bridge": {
+    "stale_synthesis_carry_reclassified_to_ok": 1,
+    "stale_rows": [
+      {
+        "qid": "hp011",
+        "kind": "default_latched_faults"
+      }
+    ],
+    "bot_improvement_credit": 0,
+    "measurement_reconciliation_credit": 1,
+    "reason": "The exact frozen answer already entails the relation; this corrects the diagnostic funnel but is not a new bot behavior."
+  },
+  "diagnostic_projection": {
+    "denominator": 157,
+    "stage_histogram": {
+      "OK": 140,
+      "retrieval-miss": 4,
+      "document-extraction-hold": 1,
+      "synthesis-miss": 12
+    },
+    "ok_rate_percent": 89.17,
+    "target_ok_for_95_percent": 150,
+    "gap_to_95_percent": 10
+  },
+  "decision": {
+    "official_atomic_kpi": null,
+    "production_change": false,
+    "facts_moved_to_ok_due_to_bot_change": 0,
+    "next": "ATTACK_12_GENUINE_SYNTHESIS_RESIDUALS_BY_FAILURE_TOPOLOGY"
+  },
+  "cost": {
+    "model_calls": 0,
+    "network_calls": 0,
+    "database_calls": 0,
+    "usd": 0
+  },
+  "result_sha256": "390633833be00c852c12c835627a87d09e92a075317748a9cba47f5da793feca"
+}

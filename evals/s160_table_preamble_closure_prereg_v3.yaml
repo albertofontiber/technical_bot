@@ -1,0 +1,45 @@
+instrument: s160_table_preamble_closure_prereg_v3
+status: FROZEN_BEFORE_V3_IMPLEMENTATION
+design: evals/s160_table_preamble_closure_design_v3.md
+prior_gates:
+  - evals/s158_table_preamble_closure_gate_v1.yaml
+  - evals/s159_table_preamble_closure_gate_v2.yaml
+
+version_delta:
+  extracted_table_delimiter_cell_regex: '^:?-+:?$'
+  require_two_consecutive_pipe_rows: true
+  other_contract_changes: none
+
+fresh_independent_generalization:
+  corpus: chunks_v2
+  exclude_known_target_documents: true
+  exclude_all_s158_and_s159_independent_document_ids: true
+  minimum_pairs: 30
+  minimum_manufacturers: 4
+  minimum_distinct_section_titles: 12
+  semantic_labels_available_during_selection: false
+
+local_gate:
+  exact_identity_rate: 1.0
+  exact_adjacency_rate: 1.0
+  exact_span_receipt_rate: 1.0
+  heading_continuity_rate: 1.0
+  cross_table_attachments_max: 0
+  semantic_precision: 1.0
+  protected_prefix_mutations_max: 0
+  deterministic_runs: 2
+  model_calls: 0
+  database_writes: 0
+
+promotion_sequence:
+  - fresh_local_generalization_gate
+  - one_minimal_cat007_answer_probe
+  - protected_regression
+  - frozen_funnel_reconciliation
+
+credit:
+  source_packet_repair_alone_is_not_ok: true
+  production_authorized: false
+  deployment_authorized: false
+  push_authorized: false
+

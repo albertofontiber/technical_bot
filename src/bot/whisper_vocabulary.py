@@ -15,6 +15,7 @@ Strategy:
 """
 
 import logging
+from collections.abc import Callable
 from functools import lru_cache
 
 logger = logging.getLogger(__name__)
@@ -38,7 +39,10 @@ _STATIC_HINT = (
 _MAX_PROMPT_CHARS = 1000
 
 
-def _select_hard_models(models: list[str]) -> list[str]:
+def _select_hard_models(
+    models: list[str],
+    manufacturer_lookup: Callable[[str], str | None] | None = None,
+) -> list[str]:
     """Pick model codes most likely to need transcription help.
 
     Heuristic: alphanumeric codes (letra + dígito: CAD-250, ID3000, AFP1010,
@@ -56,7 +60,26 @@ def _select_hard_models(models: list[str]) -> list[str]:
         if any(c.isalpha() for c in m) and any(c.isdigit() for c in m):
             seen.add(m)
             out.append(m)
-    return out
+    if manufacturer_lookup is None:
+        return out
+
+    # ``all_models`` is globally frequency-sorted. Taking that prefix alone
+    # starves long-tail manufacturers. Reserve one high-frequency code per
+    # manufacturer, then fill the rest in the original global order. This
+    # stays data-driven and scales without per-brand vocabulary lists.
+    first_per_manufacturer: list[str] = []
+    represented: set[str] = set()
+    for model in out:
+        try:
+            manufacturer = manufacturer_lookup(model)
+        except Exception:
+            manufacturer = None
+        if manufacturer and manufacturer not in represented:
+            represented.add(manufacturer)
+            first_per_manufacturer.append(model)
+
+    prioritized = set(first_per_manufacturer)
+    return first_per_manufacturer + [model for model in out if model not in prioritized]
 
 
 @lru_cache(maxsize=1)
@@ -77,11 +100,13 @@ def _build_prompt() -> str:
     (sin mantener dos listas). Degrada al hint estático si falta el snapshot."""
     try:
         # Import perezoso para evitar carga de config en import-time.
-        from ..rag.catalog import all_models, catalog_available
+        from ..rag.catalog import all_models, catalog_available, model_manufacturer
         if not catalog_available():
             logger.warning("Whisper vocab: catálogo no disponible, solo hint estático")
             return _STATIC_HINT
-        hard_models = _select_hard_models(all_models())
+        hard_models = _select_hard_models(
+            all_models(), manufacturer_lookup=model_manufacturer
+        )
     except Exception as e:
         logger.warning(f"Whisper vocab: fallo leyendo catálogo, hint estático ({e})")
         return _STATIC_HINT

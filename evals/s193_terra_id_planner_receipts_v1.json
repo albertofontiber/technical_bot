@@ -1,0 +1,376 @@
+{
+  "instrument": "s193_terra_id_planner_receipts_v1",
+  "status": "PAID_CHECKPOINT_COMPLETE",
+  "model": "gpt-5.6-terra",
+  "reasoning_effort": "low",
+  "receipts": [
+    {
+      "item_id": "s147_src_01",
+      "response_id": "resp_0563370cd0408874016a59d91b47d8819082133af23e82a1ca",
+      "created_at": "2026-07-17T07:26:20.533792+00:00",
+      "status": "completed",
+      "counted_input_tokens": 1253,
+      "usage": {
+        "input_tokens": 1253,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 1250
+        },
+        "output_tokens": 36,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1289
+      },
+      "cost_usd": 0.0036725,
+      "selected_relation_ids": [
+        "R05_20ab9c21f7",
+        "R06_469ebcf69d"
+      ],
+      "raw_text_sha256": "20e4b710e78095e4eb872cb87ff22ca9a14c4c02a3fb0694859d862fc7dda8f8"
+    },
+    {
+      "item_id": "s147_src_02",
+      "response_id": "resp_0d4d3059c2604b5a016a59d91cc4708194bc64812490ca325f",
+      "created_at": "2026-07-17T07:26:21.811825+00:00",
+      "status": "completed",
+      "counted_input_tokens": 1504,
+      "usage": {
+        "input_tokens": 1504,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 1501
+        },
+        "output_tokens": 88,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1592
+      },
+      "cost_usd": 0.00508,
+      "selected_relation_ids": [
+        "R02_1bdb71c169",
+        "R04_f25653d304",
+        "R06_2fcdb684dc",
+        "R07_ce72f54e36",
+        "R08_5d7f7ff878",
+        "R09_cd84055208",
+        "R10_6b48fed2ce",
+        "R11_084151299c"
+      ],
+      "raw_text_sha256": "9b61881cb4af49260c378e698b8b475648239c450a39f0674db2f6f080e92c26"
+    },
+    {
+      "item_id": "s147_src_03",
+      "response_id": "resp_0a204d06578ba650016a59d91e10d08196b3de36490b2bde45",
+      "created_at": "2026-07-17T07:26:23.480297+00:00",
+      "status": "completed",
+      "counted_input_tokens": 1849,
+      "usage": {
+        "input_tokens": 1849,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 1846
+        },
+        "output_tokens": 56,
+        "output_tokens_details": {
+          "reasoning_tokens": 29
+        },
+        "total_tokens": 1905
+      },
+      "cost_usd": 0.0054625,
+      "selected_relation_ids": [
+        "R23_c06c67ea51"
+      ],
+      "raw_text_sha256": "b99d5b493884d98ff2a9721d97a833968e3cd9b86506c12c73397a3da5b53736"
+    },
+    {
+      "item_id": "s147_src_04",
+      "response_id": "resp_0147db3ff2435498016a59d91fb4e08197b69616067cf89ef6",
+      "created_at": "2026-07-17T07:26:24.358515+00:00",
+      "status": "completed",
+      "counted_input_tokens": 1185,
+      "usage": {
+        "input_tokens": 1185,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 1182
+        },
+        "output_tokens": 27,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1212
+      },
+      "cost_usd": 0.0033675,
+      "selected_relation_ids": [
+        "R04_b91c6a38a9"
+      ],
+      "raw_text_sha256": "c25a5d678249d1de3072370c9877ab837c3a327c5d59dd4891de8a4750926b54"
+    },
+    {
+      "item_id": "s147_src_05",
+      "response_id": "resp_03e9070ec22acd3e016a59d92094e48197a1310bf29a561d4f",
+      "created_at": "2026-07-17T07:26:26.315193+00:00",
+      "status": "completed",
+      "counted_input_tokens": 895,
+      "usage": {
+        "input_tokens": 895,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 117,
+        "output_tokens_details": {
+          "reasoning_tokens": 79
+        },
+        "total_tokens": 1012
+      },
+      "cost_usd": 0.0039925,
+      "selected_relation_ids": [
+        "R07_2444cc8251",
+        "R08_ccf4c3cda2"
+      ],
+      "raw_text_sha256": "a3b218ec62ec314d07730cbf92f5643756e59d79066a78fda8257aa80ca4874d"
+    },
+    {
+      "item_id": "s147_src_06",
+      "response_id": "resp_04bb978a9ecb07d7016a59d9228ba081959738ec7afea88f10",
+      "created_at": "2026-07-17T07:26:27.691310+00:00",
+      "status": "completed",
+      "counted_input_tokens": 1570,
+      "usage": {
+        "input_tokens": 1570,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 1567
+        },
+        "output_tokens": 68,
+        "output_tokens_details": {
+          "reasoning_tokens": 42
+        },
+        "total_tokens": 1638
+      },
+      "cost_usd": 0.004945,
+      "selected_relation_ids": [
+        "R03_a77b660aac"
+      ],
+      "raw_text_sha256": "df56faafb922d29f48291a7c6ee716f23b765db66fdda510690b881cae14a11b"
+    },
+    {
+      "item_id": "s147_src_07",
+      "response_id": "resp_02a42117f95a2fb4016a59d923f02c81909f001353c92bcf40",
+      "created_at": "2026-07-17T07:26:28.649701+00:00",
+      "status": "completed",
+      "counted_input_tokens": 1687,
+      "usage": {
+        "input_tokens": 1687,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 1684
+        },
+        "output_tokens": 35,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1722
+      },
+      "cost_usd": 0.0047425,
+      "selected_relation_ids": [
+        "R03_92a0d382bf",
+        "R04_43414db6cc"
+      ],
+      "raw_text_sha256": "16b60f265d6ca3d405fcbb4068ab5bb30fa295068867b5d04c4c011e7fde5ce9"
+    },
+    {
+      "item_id": "s147_src_08",
+      "response_id": "resp_0d35ee4e92ef167f016a59d924e7c48193b135d727a1b7c18d",
+      "created_at": "2026-07-17T07:26:30.592662+00:00",
+      "status": "completed",
+      "counted_input_tokens": 1471,
+      "usage": {
+        "input_tokens": 1471,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 1468
+        },
+        "output_tokens": 115,
+        "output_tokens_details": {
+          "reasoning_tokens": 54
+        },
+        "total_tokens": 1586
+      },
+      "cost_usd": 0.0054025,
+      "selected_relation_ids": [
+        "R14_467d0c4704",
+        "R15_9027a7dcbc",
+        "R16_8531a3f7a1",
+        "R17_1f5176f29f"
+      ],
+      "raw_text_sha256": "160e72b36290cc346133135a3705271d02efcde8b7f7857904e85527e2cee326"
+    },
+    {
+      "item_id": "s147_src_09",
+      "response_id": "resp_077cbaeafab8fa93016a59d926d4e081978667d36fd77f1eea",
+      "created_at": "2026-07-17T07:26:32.212906+00:00",
+      "status": "completed",
+      "counted_input_tokens": 1699,
+      "usage": {
+        "input_tokens": 1699,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 1696
+        },
+        "output_tokens": 90,
+        "output_tokens_details": {
+          "reasoning_tokens": 41
+        },
+        "total_tokens": 1789
+      },
+      "cost_usd": 0.0055975,
+      "selected_relation_ids": [
+        "R20_2a1ce03b22",
+        "R22_018b7a6e38",
+        "R24_b57bff357d"
+      ],
+      "raw_text_sha256": "76f4f6c7483855685b4b5dc45947f018c72ac99b1adfe5e9dfff2d5a94aeb581"
+    },
+    {
+      "item_id": "s147_src_10",
+      "response_id": "resp_0fa6fcd52e2ce431016a59d92870b88196a7f9bb75c247d76f",
+      "created_at": "2026-07-17T07:26:33.651736+00:00",
+      "status": "completed",
+      "counted_input_tokens": 1768,
+      "usage": {
+        "input_tokens": 1768,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 1765
+        },
+        "output_tokens": 65,
+        "output_tokens_details": {
+          "reasoning_tokens": 38
+        },
+        "total_tokens": 1833
+      },
+      "cost_usd": 0.005395,
+      "selected_relation_ids": [
+        "R07_072ca907a9"
+      ],
+      "raw_text_sha256": "8deb4d588ac7be207893264493fb2a09fd2b372e79ce6f20d6846404a6bd4260"
+    },
+    {
+      "item_id": "s147_src_11",
+      "response_id": "resp_05cbca35209a9b4f016a59d92ad0708194bd299349bfd454cb",
+      "created_at": "2026-07-17T07:26:36.326754+00:00",
+      "status": "completed",
+      "counted_input_tokens": 1435,
+      "usage": {
+        "input_tokens": 1435,
+        "input_tokens_details": {
+          "cached_tokens": 1432,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 92,
+        "output_tokens_details": {
+          "reasoning_tokens": 66
+        },
+        "total_tokens": 1527
+      },
+      "cost_usd": 0.0049675,
+      "selected_relation_ids": [
+        "R15_97478ddd16"
+      ],
+      "raw_text_sha256": "34d8305726fad448b8e3b41fca89f8cefcdca618742f9dc22b592a861934a507"
+    },
+    {
+      "item_id": "s147_src_12",
+      "response_id": "resp_0269f54b935e555d016a59d92c925c81949c5f9739b59b7ad3",
+      "created_at": "2026-07-17T07:26:40.830748+00:00",
+      "status": "completed",
+      "counted_input_tokens": 1234,
+      "usage": {
+        "input_tokens": 1234,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 1231
+        },
+        "output_tokens": 409,
+        "output_tokens_details": {
+          "reasoning_tokens": 300
+        },
+        "total_tokens": 1643
+      },
+      "cost_usd": 0.00922,
+      "selected_relation_ids": [
+        "R06_c943c246f3",
+        "R07_2bdc2d6a16",
+        "R08_da7a1991fe",
+        "R09_b2c8f566c9",
+        "R16_7130806d40",
+        "R17_3e693b46b0",
+        "R18_44173553d3",
+        "R19_f0f14bd2e6",
+        "R20_a98c9cb7ed"
+      ],
+      "raw_text_sha256": "fdbacaeff30d4b4b57f31c1cd277ec8e0ce41641de7fe0879c2de4d121287ad0"
+    },
+    {
+      "item_id": "s147_src_13",
+      "response_id": "resp_0f87d92d56a8e89e016a59d931111c8196b9899c41498ff136",
+      "created_at": "2026-07-17T07:26:42.767767+00:00",
+      "status": "completed",
+      "counted_input_tokens": 1500,
+      "usage": {
+        "input_tokens": 1500,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 1497
+        },
+        "output_tokens": 108,
+        "output_tokens_details": {
+          "reasoning_tokens": 48
+        },
+        "total_tokens": 1608
+      },
+      "cost_usd": 0.00537,
+      "selected_relation_ids": [
+        "R07_a47303cf7d",
+        "R08_e9d7d279b8",
+        "R09_a9d1f5ae6d",
+        "R10_66c7c04163"
+      ],
+      "raw_text_sha256": "403177cc638fd439e8d9f83823bcdb60798b1ad680a12b84f96d33ab4711f494"
+    },
+    {
+      "item_id": "s147_src_14",
+      "response_id": "resp_0c5f5ccf4e886412016a59d932ff14819090149b6e1f14af1c",
+      "created_at": "2026-07-17T07:26:43.791200+00:00",
+      "status": "completed",
+      "counted_input_tokens": 1343,
+      "usage": {
+        "input_tokens": 1343,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 1340
+        },
+        "output_tokens": 45,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1388
+      },
+      "cost_usd": 0.0040325,
+      "selected_relation_ids": [
+        "R01_2e1ca69ca1",
+        "R02_24764d6199",
+        "R03_ebd3079cac"
+      ],
+      "raw_text_sha256": "270e8403b726346108a91c275d5b7fae1d9d60c61dee98f7a793beda6238a88f"
+    }
+  ],
+  "cost": {
+    "actual_usd": 0.0712475,
+    "worst_case_preflight_usd": 0.1979825
+  }
+}

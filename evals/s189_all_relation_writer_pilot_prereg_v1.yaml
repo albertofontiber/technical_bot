@@ -1,0 +1,52 @@
+instrument: s189_all_relation_writer_pilot_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+
+frozen_inputs:
+  design: {path: evals/s189_all_relation_writer_pilot_design_v1.md, sha256: 8428aa769ec079c5bad44e42a2881be6919d20d80a741f8090e501d432aac70c}
+  generation_cohort: {path: evals/s173_single_source_omission_cohort_v1.json, sha256: b8df8cce6bced1fdd95d3f70bb0787c2a63769fcacafde317bc8a9149c1b053f}
+  relation_store: {path: evals/s186_relation_store_v1.json, sha256: 772c0138beafe4eb755172c17dbc1c970faa16f68c76f1f72059fa945749017e}
+  baseline: {path: evals/s173_baseline_answer_receipts_v1.json, sha256: ddaff2ed2daf867cb7196af2f22bb51444856985d9bf468fa5fc3d5594d05054}
+  post_generation_gold: {path: evals/s171_s147_source_unit_gold_v1.json, sha256: 040e538f2df23282848fc6f058c9f570635564ac51b5dfb03247b2710fb5c13a}
+  runner: {path: scripts/s189_all_relation_writer_pilot.py, sha256: da5d10213b79e2e4b557c7d9db73fea0661c6a3ad850f0a7b653824716fbda08}
+
+population:
+  item_ids: [s147_src_01, s147_src_04, s147_src_08, s147_src_11]
+  questions: 4
+  table: 2
+  prose: 2
+  baseline_omission_opportunities: 6
+  cohort_role: development_causal_screen_not_release_evidence
+  target_question_overlap: 0
+
+model:
+  id: claude-sonnet-4-6
+  max_output_tokens: 1800
+  temperature: 0
+
+execution:
+  paid_calls_max: 4
+  retries: 0
+  retrieval_calls: 0
+  reranker_calls: 0
+  database_calls: 0
+  gold_loaded_only_after_candidate_checkpoint: true
+  relation_text_is_navigation_not_evidence: true
+  exact_source_units_attached_to_every_relation: true
+
+validation:
+  point_gain_min: 3
+  regressed_points_max: 0
+  invalid_fragment_citations_max: 0
+  token_limit_stops_max: 0
+  passing_action: fresh_independent_cohort_and_fidelity_audit
+  failing_action: close_all_relation_writer_without_tuning
+  target_probe: false
+  production: false
+  facts_moved_to_ok: 0
+
+pricing_usd_per_million_tokens: {input: 3, output: 15}
+budget: {internal_ceiling_usd: 1.0, user_ceiling_usd: 250}
+
+outputs:
+  receipts: evals/s189_all_relation_writer_pilot_receipts_v1.json
+  result: evals/s189_all_relation_writer_pilot_v1.json

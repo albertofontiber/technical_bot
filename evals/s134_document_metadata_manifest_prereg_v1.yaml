@@ -1,0 +1,66 @@
+instrument: s134_document_metadata_manifest_prereg_v1
+status: frozen_before_implementation
+
+design:
+  path: evals/s134_document_metadata_contract_design_v1.md
+  sha256: f8e2b889c28c9006698558fd4be5929e875007c94c1c9447ef55d58e60ce02cb
+
+frozen_inputs:
+  snapshot:
+    path: tmp/s117_m2/remote_snapshot_v1.jsonl.gz
+    sha256: 3013c553da20c72fbfe0dc801dad4ea4b063ecff3138dcf55b5cd7831cf79067
+    canonical_jsonl_sha256: c5c4e1027d85b5023e8834e221bb99799fedbea1a9826f5a42f88ff3ad8da8d5
+    documents: 1171
+    chunks: 25090
+  candidate_bindings:
+    path: evals/s131_shadow_binding_manifest_candidate_seed1_v1.json
+    sha256: aa870ab8a484700656252d0315808ee69076a57edfa5d4c0c128e2dd54a13746
+    materialization_id: 1852e61c-ac7f-5232-be1c-627ea54f29b5
+
+contract:
+  authority: legacy_v2_unanimous_active_shadow_v1
+  required_fields: [manufacturer, product_model, source_file]
+  optional_fields: [distributor, doc_type, category]
+  active_binding_statuses:
+    - bound_active_physical_sha_verified
+    - bound_active_legacy_snapshot_only
+  base_chunks_only: true
+  empty_strings_are_null: true
+  unanimity_required: true
+  majority_vote_allowed: false
+
+expected_population:
+  active_extraction_bindings: 1002
+  distinct_active_documents: 999
+  active_documents_with_one_extraction: 996
+  active_documents_with_two_extractions: 3
+  source_base_chunks: 24803
+  field_conflicts: 0
+  missing_required_values: 0
+
+execution:
+  seed1: evals/s134_document_metadata_manifest_seed1_v1.json
+  seed2: evals/s134_document_metadata_manifest_seed2_v1.json
+  gate: evals/s134_document_metadata_manifest_gate_v1.yaml
+  canonical_byte_identity_required: true
+  exclusive_outputs: true
+
+authorization:
+  local_metadata_reads: true
+  raw_store_reads: false
+  raw_content_reads: false
+  database: false
+  network: false
+  models: false
+  embeddings: false
+  migration_apply: false
+  serving: false
+  deploy: false
+  facts_moved_to_ok: 0
+
+cost:
+  model_calls: 0
+  network_calls: 0
+  database_reads: 0
+  database_writes: 0
+  embeddings: 0

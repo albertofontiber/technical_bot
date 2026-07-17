@@ -1,0 +1,867 @@
+{
+  "instrument": "s168_source_unit_gold_ledger_v1",
+  "status": "NO_GO",
+  "population": {
+    "source_items": 14,
+    "eligible_questions": 13,
+    "manufacturers": 13,
+    "documents": 13,
+    "table_questions": 7,
+    "prose_questions": 6,
+    "answer_points": 49,
+    "target_question_overlap": 0
+  },
+  "metrics": {
+    "claims_covered": 30,
+    "claim_recall": 0.6122449,
+    "facet_aligned_claims_covered": 21,
+    "facet_aligned_claim_recall": 0.42857143,
+    "selected_units": 47,
+    "useful_units": 37,
+    "unit_precision": 0.78723404,
+    "questions_complete": 4,
+    "question_complete_rate": 0.30769231,
+    "author_invalid_outputs": 1,
+    "invalid_selector_outputs": 1,
+    "source_identity_mismatches": 0
+  },
+  "checks": {
+    "eligible_questions_min": true,
+    "eligible_manufacturers_min": true,
+    "table_questions_min": true,
+    "prose_questions_min": true,
+    "answer_points_min": true,
+    "source_packet_prior_document_overlap_zero": true,
+    "source_packet_target_document_overlap_zero": true,
+    "claim_recall_gte_0_90": false,
+    "unit_precision_gte_0_80": false,
+    "question_complete_rate_gte_0_75": false,
+    "invalid_selector_outputs_zero": false,
+    "source_identity_mismatches_zero": true
+  },
+  "rows": [
+    {
+      "claims": 4,
+      "claims_covered": 1,
+      "facet_aligned_claims_covered": 1,
+      "complete": false,
+      "selected_units": 6,
+      "useful_units": 3,
+      "gold_units": 6,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E001_baa88aa91d",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              631
+            ]
+          ],
+          "content_sha256": "c786599df7231a1a00a5a762e234d66264412d087bbcd61b2c5c7cec9ff3e1ba"
+        },
+        {
+          "unit_id": "E013_73df2560ca",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              630
+            ],
+            [
+              1262,
+              1892
+            ]
+          ],
+          "content_sha256": "229d3fc07dad9b3cba85f84884cf1636684c84f6e001c61abe3d3887b714fe77"
+        },
+        {
+          "unit_id": "E003_ee1774ccb5",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              962,
+              1893
+            ]
+          ],
+          "content_sha256": "3e708f15c5dd9dccac18d8acf4f8d2e102a62ac36083f754e8f8e74a449a40ce"
+        },
+        {
+          "unit_id": "E004_afe9078d3a",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1593,
+              2524
+            ]
+          ],
+          "content_sha256": "bf94fe87246278a58bbf85064065b130d52e1098990e64eabafddccc4361a310"
+        },
+        {
+          "unit_id": "E005_eeca292994",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2224,
+              3155
+            ]
+          ],
+          "content_sha256": "348b60657e79e3f02c73944ecf1c4b61e114ba92c3eedd0b6e2afe013a562cbc"
+        },
+        {
+          "unit_id": "E006_8608cd159b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2855,
+              4024
+            ]
+          ],
+          "content_sha256": "3e20e41da38f3e094b9726c35a96f66021e56a21eb678a6254d8c7defe48864d"
+        }
+      ],
+      "item_id": "s168_src_01",
+      "stratum": "table",
+      "manufacturer": "Notifier",
+      "facets_filled": [
+        "input_trigger_or_observed_condition",
+        "measurement_limit_or_timing",
+        "target_or_configuration_field"
+      ],
+      "validation_error": null
+    },
+    {
+      "claims": 4,
+      "claims_covered": 3,
+      "facet_aligned_claims_covered": 1,
+      "complete": false,
+      "selected_units": 5,
+      "useful_units": 5,
+      "gold_units": 6,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E002_b934dec42d",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              1125
+            ]
+          ],
+          "content_sha256": "f05626f4df20eb08684cb6479fe3a0a1940031f6a7f297fdc2569718cfbeb75f"
+        },
+        {
+          "unit_id": "E012_1692c2072b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1742,
+              2271
+            ]
+          ],
+          "content_sha256": "fb2a65fd95956da7c42279ed2411e87f89ecc918a288425457b7dff2c6e88cf4"
+        },
+        {
+          "unit_id": "E007_9f1f6da982",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1030,
+              1306
+            ]
+          ],
+          "content_sha256": "0030ccd25e90cf122aedf9a6cc42420bc2ceafa4c6fb0de06a0da95918b831da"
+        },
+        {
+          "unit_id": "E008_127320bb5f",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1308,
+              1356
+            ]
+          ],
+          "content_sha256": "8be3f5f5cab87c1db7cd49e2cda1f5e95ec42b5d3358ea629e53df3186b8b8ca"
+        },
+        {
+          "unit_id": "E005_5fae5d1acd",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              911,
+              997
+            ]
+          ],
+          "content_sha256": "9749e02711a6b5027f5afcf63a593cd0ebe586538d96220245a4439530a808f8"
+        }
+      ],
+      "item_id": "s168_src_02",
+      "stratum": "table",
+      "manufacturer": "Morley",
+      "facets_filled": [
+        "input_trigger_or_observed_condition",
+        "measurement_limit_or_timing",
+        "option_mode_or_default",
+        "target_or_configuration_field",
+        "verification_commissioning_or_recovery"
+      ],
+      "validation_error": null
+    },
+    {
+      "claims": 3,
+      "claims_covered": 2,
+      "facet_aligned_claims_covered": 2,
+      "complete": false,
+      "selected_units": 2,
+      "useful_units": 2,
+      "gold_units": 4,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E020_50a1b18623",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2341,
+              2591
+            ]
+          ],
+          "content_sha256": "08ddeb10e22626b6842ba5341bc727904b38215db6a51dda8f62c44a4fc24efe"
+        },
+        {
+          "unit_id": "E021_97f6ebcc7d",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2593,
+              2823
+            ]
+          ],
+          "content_sha256": "a7541bd9e18ab4c4d6b3fe0134019bd0e7edf0c3dcce2341cd661599d6b468fa"
+        }
+      ],
+      "item_id": "s168_src_03",
+      "stratum": "table",
+      "manufacturer": "Spectrex",
+      "facets_filled": [
+        "measurement_limit_or_timing",
+        "output_action_or_corrective_step"
+      ],
+      "validation_error": null
+    },
+    {
+      "claims": 4,
+      "claims_covered": 4,
+      "facet_aligned_claims_covered": 2,
+      "complete": true,
+      "selected_units": 8,
+      "useful_units": 7,
+      "gold_units": 7,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E001_2f6b476e7b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              1161
+            ]
+          ],
+          "content_sha256": "3cceebfc441049908fe62448b59299e9612b73ec686f0699dcb63b362fd413b7"
+        },
+        {
+          "unit_id": "E006_24797712dd",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              79
+            ],
+            [
+              160,
+              239
+            ]
+          ],
+          "content_sha256": "78a46a572111648cac9f58f1e12103b4697a45e492550918eb0cb770e592fcdc"
+        },
+        {
+          "unit_id": "E008_d12d6c8698",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              79
+            ],
+            [
+              320,
+              399
+            ]
+          ],
+          "content_sha256": "25a24c378c805f2626e7305332debe5c63d1e39b54e6589aaf31c5d60589a5ae"
+        },
+        {
+          "unit_id": "E009_63a4a631b8",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              79
+            ],
+            [
+              400,
+              479
+            ]
+          ],
+          "content_sha256": "54349a48c6efcc05a8d3809f5187a1eb1be858b3d9656a5bc8dd4c958ea9cf1b"
+        },
+        {
+          "unit_id": "E012_23d448c3e8",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              79
+            ],
+            [
+              640,
+              719
+            ]
+          ],
+          "content_sha256": "6907e541f074e74011aa4d49b914ca1cd3529297737bf6c24f3648deae627d21"
+        },
+        {
+          "unit_id": "E007_10c197177f",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              79
+            ],
+            [
+              240,
+              319
+            ]
+          ],
+          "content_sha256": "442865fe739512a9d26b0f69af717f42dcc0e13e6f8457d294ce48b3153a91c0"
+        },
+        {
+          "unit_id": "E010_d624c24cdb",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              79
+            ],
+            [
+              480,
+              559
+            ]
+          ],
+          "content_sha256": "41b07ce5da1d7a13982dfe4b1ea7a434e2a6617b7da405c4aaf617f0b596fecb"
+        },
+        {
+          "unit_id": "E011_9c6b30ed4b",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              79
+            ],
+            [
+              560,
+              639
+            ]
+          ],
+          "content_sha256": "2eca88d03542ed3bc3f2151333d96b39c105a8955254fda462c289a025906aaa"
+        }
+      ],
+      "item_id": "s168_src_04",
+      "stratum": "table",
+      "manufacturer": "Detnov",
+      "facets_filled": [
+        "access_or_prerequisite",
+        "measurement_limit_or_timing",
+        "target_or_configuration_field"
+      ],
+      "validation_error": null
+    },
+    {
+      "claims": 4,
+      "claims_covered": 3,
+      "facet_aligned_claims_covered": 2,
+      "complete": false,
+      "selected_units": 3,
+      "useful_units": 2,
+      "gold_units": 3,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E012_53ea8258fc",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1759,
+              2280
+            ]
+          ],
+          "content_sha256": "d34987990ef625232a93a38638a4636cf945b568f2bf24982ffe9430fbf67aa0"
+        },
+        {
+          "unit_id": "E014_17f6a0e044",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2282,
+              2445
+            ]
+          ],
+          "content_sha256": "9a61aeed5c1d352071bf4f7e55b30158c51da8c9e5c832df18be50b1fcdbcadb"
+        },
+        {
+          "unit_id": "E013_dddbbdb0fe",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1773,
+              2469
+            ]
+          ],
+          "content_sha256": "4c96af8f79ea0734cc3abd304bae6fcd9b0a068cbe9c5eaa2bf1be89d506e0f2"
+        }
+      ],
+      "item_id": "s168_src_05",
+      "stratum": "table",
+      "manufacturer": "System Sensor",
+      "facets_filled": [
+        "access_or_prerequisite",
+        "safety_warning_exception_or_conflict",
+        "target_or_configuration_field"
+      ],
+      "validation_error": null
+    },
+    {
+      "claims": 4,
+      "claims_covered": 0,
+      "facet_aligned_claims_covered": 0,
+      "complete": false,
+      "selected_units": 0,
+      "useful_units": 0,
+      "gold_units": 8,
+      "selected_unit_receipts": [],
+      "item_id": "s168_src_06",
+      "stratum": "table",
+      "manufacturer": "Securiton",
+      "facets_filled": [],
+      "validation_error": "ledger unique-unit cardinality exceeded"
+    },
+    {
+      "claims": 4,
+      "claims_covered": 1,
+      "facet_aligned_claims_covered": 1,
+      "complete": false,
+      "selected_units": 2,
+      "useful_units": 2,
+      "gold_units": 6,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E025_395f1bbdde",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              1372,
+              1546
+            ],
+            [
+              1897,
+              2071
+            ]
+          ],
+          "content_sha256": "77af46b1eaa19276c415533a2046c26a7f7e9a9201deaa20b295d89b555239cc"
+        },
+        {
+          "unit_id": "E023_eef0f7c5ed",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2248,
+              2687
+            ]
+          ],
+          "content_sha256": "84d83043989d9189f7be0477d9d73e8c9e0c2c712ade6c5427cff19585434dc5"
+        }
+      ],
+      "item_id": "s168_src_07",
+      "stratum": "table",
+      "manufacturer": "Kidde",
+      "facets_filled": [
+        "input_trigger_or_observed_condition",
+        "output_action_or_corrective_step",
+        "safety_warning_exception_or_conflict"
+      ],
+      "validation_error": null
+    },
+    {
+      "claims": 3,
+      "claims_covered": 2,
+      "facet_aligned_claims_covered": 1,
+      "complete": false,
+      "selected_units": 2,
+      "useful_units": 2,
+      "gold_units": 3,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E033_1c24fab891",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1980,
+              2298
+            ]
+          ],
+          "content_sha256": "df2e7a1a11e3b5306b8e20d209e52372f50c052a658a214c3d2b8fbbd324825c"
+        },
+        {
+          "unit_id": "E034_a657d65eab",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2300,
+              2477
+            ]
+          ],
+          "content_sha256": "a0332618043095d6f851de9085bf84467d337766add60ca3caf405a989e2153e"
+        }
+      ],
+      "item_id": "s168_src_08",
+      "stratum": "prose",
+      "manufacturer": "Xtralis",
+      "facets_filled": [
+        "input_trigger_or_observed_condition",
+        "output_action_or_corrective_step"
+      ],
+      "validation_error": null
+    },
+    {
+      "claims": 4,
+      "claims_covered": 2,
+      "facet_aligned_claims_covered": 1,
+      "complete": false,
+      "selected_units": 2,
+      "useful_units": 1,
+      "gold_units": 3,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E028_e1d399e669",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2216,
+              2416
+            ]
+          ],
+          "content_sha256": "36dc342a78a297486fe7fd9cba450327e1feddcc106961dc57701785f0c88d62"
+        },
+        {
+          "unit_id": "E037_0a32b506e9",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2894,
+              3028
+            ]
+          ],
+          "content_sha256": "970f8ea6acafe629de3bf01a5b42f719d58003d7cee1ee381ece0130d333fce5"
+        }
+      ],
+      "item_id": "s168_src_09",
+      "stratum": "prose",
+      "manufacturer": "Aritech",
+      "facets_filled": [
+        "option_mode_or_default",
+        "target_or_configuration_field",
+        "verification_commissioning_or_recovery"
+      ],
+      "validation_error": null
+    },
+    {
+      "claims": 4,
+      "claims_covered": 4,
+      "facet_aligned_claims_covered": 3,
+      "complete": true,
+      "selected_units": 6,
+      "useful_units": 4,
+      "gold_units": 4,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E010_fe3f2b9d2c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              748,
+              1939
+            ]
+          ],
+          "content_sha256": "f04991befaa2d8747b6ed114adf4202f79fdcc14a2f11d09c0ab08df850e56f5"
+        },
+        {
+          "unit_id": "E011_3531174468",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              856,
+              1251
+            ]
+          ],
+          "content_sha256": "b7202efff9ef3bc677a1dce5f4c133de53dc3586e6e5d9833b03a63e13098730"
+        },
+        {
+          "unit_id": "E021_c22404cd56",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2209,
+              2392
+            ]
+          ],
+          "content_sha256": "25fbc98b4c0e058831ef3e7bcc19aedbf636763c675b373f924a104af61dc904"
+        },
+        {
+          "unit_id": "E020_eb88c4d5d4",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2148,
+              2207
+            ]
+          ],
+          "content_sha256": "3748fd324afcd09a312283eb5c6a0bb43c1b0dbb4d8876052f7c71f2625f4e34"
+        },
+        {
+          "unit_id": "E022_25cb4cbf2b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2394,
+              2546
+            ]
+          ],
+          "content_sha256": "8fb79be7f90eed08165240ab55c92e003bba8281547ed734869633bf6f29f9b3"
+        },
+        {
+          "unit_id": "E006_6d17e71851",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              161,
+              420
+            ]
+          ],
+          "content_sha256": "b560c25514226f65aadce2ebbd8aec012891b1359b452f69ef160867c26d7676"
+        }
+      ],
+      "item_id": "s168_src_10",
+      "stratum": "prose",
+      "manufacturer": "Argus Security",
+      "facets_filled": [
+        "access_or_prerequisite",
+        "measurement_limit_or_timing",
+        "safety_warning_exception_or_conflict"
+      ],
+      "validation_error": null
+    },
+    {
+      "claims": 4,
+      "claims_covered": 1,
+      "facet_aligned_claims_covered": 1,
+      "complete": false,
+      "selected_units": 1,
+      "useful_units": 1,
+      "gold_units": 4,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E024_5bd3e8bdf2",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2674,
+              2978
+            ]
+          ],
+          "content_sha256": "3164e2fd7ede0a93d5b1949da1b373d129249b7925e5c873a65718679036dbf9"
+        }
+      ],
+      "item_id": "s168_src_11",
+      "stratum": "prose",
+      "manufacturer": "Pfannenberg",
+      "facets_filled": [
+        "access_or_prerequisite",
+        "measurement_limit_or_timing",
+        "verification_commissioning_or_recovery"
+      ],
+      "validation_error": null
+    },
+    {
+      "claims": 3,
+      "claims_covered": 3,
+      "facet_aligned_claims_covered": 2,
+      "complete": true,
+      "selected_units": 4,
+      "useful_units": 4,
+      "gold_units": 4,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E003_7812c2fad7",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              56,
+              265
+            ]
+          ],
+          "content_sha256": "babf26d8545b0d8478964c62b2b0b644390e0518095e9dc5ce6f7e49a0ca91a2"
+        },
+        {
+          "unit_id": "E005_ec39b2f55c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              386,
+              679
+            ]
+          ],
+          "content_sha256": "097f00ed532a99ee382c4a02689de04c37ba77b3584aca2ed031ed5b4cc1a608"
+        },
+        {
+          "unit_id": "E006_01c7492cd2",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              681,
+              769
+            ]
+          ],
+          "content_sha256": "c50c27e2e8b3ba5dcf0f4a806406b1b8b84739f6e8b021c97b13aaa7d87f3666"
+        },
+        {
+          "unit_id": "E007_48d90e4740",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              771,
+              923
+            ]
+          ],
+          "content_sha256": "ad3b54df29747af4bfb6bb4babd06610b701192d041ebd9929f94a70b1278bfb"
+        }
+      ],
+      "item_id": "s168_src_12",
+      "stratum": "prose",
+      "manufacturer": "Fidegas",
+      "facets_filled": [
+        "access_or_prerequisite",
+        "measurement_limit_or_timing",
+        "output_action_or_corrective_step",
+        "target_or_configuration_field"
+      ],
+      "validation_error": null
+    },
+    {
+      "claims": 4,
+      "claims_covered": 4,
+      "facet_aligned_claims_covered": 4,
+      "complete": true,
+      "selected_units": 6,
+      "useful_units": 4,
+      "gold_units": 4,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E010_7c7b876c87",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              232,
+              375
+            ]
+          ],
+          "content_sha256": "302bdc524a5b9899dd46f0c0ec6ce101ea395b4465d387ace31a5bc14cb63e32"
+        },
+        {
+          "unit_id": "E014_87bb871807",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              449,
+              686
+            ]
+          ],
+          "content_sha256": "2e04a66dcdb537e57792b05e8d5dc945901ea4e50e30f560168ea19d700a8003"
+        },
+        {
+          "unit_id": "E015_4c4f2e4457",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              688,
+              818
+            ]
+          ],
+          "content_sha256": "2697975579312ac6e35a64de232992a6fd7d20a3362d1e89b81f18c5a03d7566"
+        },
+        {
+          "unit_id": "E017_8de6c2d46c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              820,
+              1078
+            ]
+          ],
+          "content_sha256": "6ed3ebc8510a6ca0b1a79794fe1f01e2290d7b04db9638ecf5a09727dc7a7bfb"
+        },
+        {
+          "unit_id": "E018_e3f10dc788",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1080,
+              1299
+            ]
+          ],
+          "content_sha256": "2db95ca89cdfb41e37e5e115663b28609566661ab722628083d7203481028f38"
+        },
+        {
+          "unit_id": "E019_59e442e139",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1301,
+              1401
+            ]
+          ],
+          "content_sha256": "929d58d0f786b0dbfa6acfc43f7b574d5313fcb5239604126c8ff820a6101ccd"
+        }
+      ],
+      "item_id": "s168_src_14",
+      "stratum": "prose",
+      "manufacturer": "Zellweger Analytics",
+      "facets_filled": [
+        "access_or_prerequisite",
+        "safety_warning_exception_or_conflict",
+        "verification_commissioning_or_recovery"
+      ],
+      "validation_error": null
+    }
+  ],
+  "decision": {
+    "target_probe": false,
+    "adversarial_review_before_integration": false,
+    "production": false,
+    "facts_moved_to_ok": 0,
+    "same_cohort_retry": false
+  },
+  "cost": {
+    "author_usd": 0.246858,
+    "selector_usd": 0.115202,
+    "total_usd": 0.36206,
+    "internal_ceiling_usd": 2.5
+  },
+  "result_sha256": "43feec0132652467fc9ddc161a087ea3d7a19fd65923e96dc98c7aa868300ae5"
+}

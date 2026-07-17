@@ -1,0 +1,56 @@
+instrument: s162_adversarial_overlay_execution_permit_v3
+status: EXECUTION_GO_PAID_BOUNDED_FINAL
+supersedes: evals/s162_adversarial_overlay_execution_permit_v2.yaml
+
+prior_calls:
+  sol:
+    model: gpt-5.6-sol
+    calls: 1
+    status: INCOMPLETE
+    retry_authorized: false
+    checkpoint_available: false
+  fable:
+    model: claude-fable-5
+    calls: 0
+
+closure_contract:
+  action: call_fable_once_and_record_sol_as_incomplete_no_retry
+  remaining_paid_calls_max: 1
+  terminal_regardless_of_fable_verdict: HOLD
+  additional_adversarial_rounds: 0
+
+authority:
+  source: user_message_2026_07_16
+  scope: autonomous_plan_with_bounded_frontier_reviews
+  user_budget_ceiling_usd: 250
+  internal_call_ceiling_usd: 2.50
+
+frozen_artifacts:
+  packet:
+    path: evals/s162_adversarial_overlay_packet_v1.json
+    sha256: 24bb78c144f715ed76eca16567bcbbc8e76876ff97716d69f200849b9c50a798
+  runner:
+    path: scripts/s162_adversarial_overlay_review.py
+    sha256: 95c8b9125a80a8a58a674e644f60f5bc946e170d00e3bb986378d4fc7d250533
+  preregistration:
+    path: evals/s162_adversarial_overlay_prereg_v1.yaml
+    sha256: 7de59f1ac780aeeffd2562c7c852a61710a8cddebccbad9e6213236a82a815f7
+
+execution:
+  mode: resume_after_sol_incomplete
+  remaining_model: claude-fable-5
+  remaining_calls_max: 1
+  retries: 0
+  preflight_token_count_required: true
+  stop_if_worst_case_exceeds_internal_ceiling: true
+  checkpoint_provider_and_terminal_hold: true
+
+forbidden:
+  - retry_sol
+  - second_fable_call
+  - iterative_debate
+  - promote_hold_to_go
+  - production_change
+  - database_write
+  - deployment
+  - official_ok_credit

@@ -1,0 +1,50 @@
+instrument: s144_evidence_id_selector_gate_v1
+status: NO_GO_NEAR_MISS
+
+evidence:
+  result:
+    path: evals/s144_evidence_id_selector_v1.json
+    sha256: f5c082fd509f9a690c9237f0ed2363712b6d0e8118234487b78642a1a373ed1c
+  receipts:
+    path: evals/s144_evidence_id_selector_receipts_v1.json
+    sha256: d30a5b36a9525a0dd6e7eddd5cdd4131418b43f13937c23995a858aa297e9b59
+  runner:
+    path: scripts/s144_evidence_id_selector.py
+    sha256: b1fef1c90a8b693979970f29454235b93e3d336fa7ed15ce97e6141db77cde8e
+  preregistration:
+    path: evals/s144_evidence_id_selector_prereg_v1.yaml
+    sha256: 0ed07857866b4471a93209cd89c9b1ec686ae82605191db7510cd2745e53e165
+
+result:
+  eligible_questions: 7
+  positive_questions: 7
+  claims_total: 14
+  claims_covered: 11
+  claim_recall: 0.78571429
+  selected_units: 12
+  useful_units: 7
+  unit_precision: 0.58333333
+  invalid_ids: 0
+
+checks:
+  claim_recall_gte_0_80: false
+  unit_precision_gte_0_70: false
+  positive_questions_gte_6: true
+  zero_invalid_ids: true
+
+decision:
+  integrate_s144: NO_GO
+  one_versioned_atomic_unit_iteration: GO
+  same_cohort_future_gate: forbidden
+  fresh_independent_required_for_s145: true
+  production: NO_GO
+  facts_moved_to_ok: 0
+
+cost:
+  conservative_actual_usd: 0.032112
+  previous_s143_conservative_usd: 0.014048
+
+authorization:
+  production: false
+  deploy: false
+  push: false

@@ -62,6 +62,30 @@ def test_stop_reason_propagado(monkeypatch):
     assert fake.calls[0]["temperature"] == 0
 
 
+def test_governed_evidence_view_reaches_prompt_before_generation(monkeypatch):
+    fake = _fake_anthropic(monkeypatch)
+    trace = {
+        "status": "applied",
+        "artifact_sha256": "a" * 64,
+        "modified_rows": 1,
+        "applied_derivations": [{"row_id": "source"}],
+        "abstentions": [],
+    }
+
+    def derive(rows):
+        derived = [dict(row) for row in rows]
+        derived[0]["content"] = "Vida util: 10<sup>5</sup> operaciones."
+        return derived, trace
+
+    monkeypatch.setattr(gen, "apply_evidence_derivations_with_trace", derive)
+    result = gen.generate_answer("Vida util del rele?", [_chunk()])
+
+    prompt = fake.calls[0]["messages"][0]["content"]
+    assert "10<sup>5</sup>" in prompt
+    assert "Texto del manual con el dato 42 V" not in prompt
+    assert result["evidence_derivation"] == trace
+
+
 def test_stop_reason_max_tokens_visible(monkeypatch):
     _fake_anthropic(monkeypatch, stop_reason="max_tokens", output_tokens=2048)
     res = gen.generate_answer("¿Procedimiento completo de la central?", [_chunk()])

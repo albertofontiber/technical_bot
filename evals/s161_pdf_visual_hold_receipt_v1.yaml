@@ -1,0 +1,62 @@
+instrument: s161_pdf_visual_hold_receipt_v1
+status: VISUAL_GROUND_TRUTH_CONFIRMED_EXTRACTION_HOLD
+
+source:
+  manual: I56-6577-006_EN Notifier FAAST LT-200 QIG.PDF
+  sha256: 648e8deba384c0a27f7f255a9149f754acb6cca999c586b0667829e457888c72
+  pdf_page: 5
+  printed_page: 5
+  table: "Table 3a: Relay Electrical Specification"
+
+visual_observation:
+  rendered_page_sha256: 264fd42006e02f571ff94f601daea6bc0adaff95b793eae6e8a10c11270489
+  observed_cell: "Life Time | MIN 10^5 | Operations"
+  confidence: unequivocal
+  reviewer: human_visual_inspection_by_codex
+
+glyph_geometry:
+  library: pdfplumber_0.11.9
+  base_text:
+    text: "10"
+    x0: 243.23032
+    x1: 252.109666
+    top: 763.16778
+    bottom: 771.14778
+    font_size: 7.98
+  superscript:
+    text: "5"
+    x0: 252.124
+    x1: 254.89288
+    top: 762.53478
+    bottom: 767.51478
+    font_size: 4.98
+  deterministic_signals:
+    adjacent_to_base: true
+    smaller_font_ratio: 0.6240601504
+    elevated_bottom_delta_points: 3.633
+    same_table_cell: true
+
+extraction_comparison:
+  current_served_text: "Life Time | 105 | Operations"
+  layout_text_extractor: "Life Time 105 Operations"
+  lost_semantics: exponent_relationship
+
+classification:
+  generated_claim_factually_correct_against_pdf: true
+  generated_claim_exactly_supported_by_current_served_text: false
+  bucket: document-extraction-hold
+  rationale: >-
+    The answer's 10^5 operations is visible in the source PDF and recoverable from
+    glyph geometry, but the current extraction flattened the exponent to 105.
+    This is upstream extraction loss, not a synthesis hallucination.
+
+constraints:
+  no_manual_corpus_patch: true
+  no_product_specific_runtime_rule: true
+  no_ok_credit_for_hold: true
+  next: qualify_a_general_geometry_bound_superscript_preservation_contract
+
+cost:
+  model_calls: 0
+  usd: 0
+

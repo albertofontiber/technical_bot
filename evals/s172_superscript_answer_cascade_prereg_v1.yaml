@@ -1,0 +1,59 @@
+instrument: s172_superscript_answer_cascade_prereg_v1
+status: FROZEN_BEFORE_EXECUTION
+
+objective:
+  target_fact: 'cat007#4:10^5'
+  prior_stage: document-extraction-hold
+  question: cat007
+  test: >-
+    Replay the immutable S161 answer against a derived in-memory copy of its
+    already-served evidence after applying only S162 PDF-geometry-bound
+    superscript receipts. Do not regenerate the answer.
+
+frozen_inputs:
+  contexts:
+    path: evals/s113_full_contexts_freeze_v1.json
+    sha256: 22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d
+  answer:
+    path: evals/s161_table_preamble_answer_probe_receipts_v1.json
+    sha256: e194a37c0035ed584561cc1afd2e9f3456729415dabdacdf07059603bdb2f95e
+  overlay_packet:
+    path: evals/s162_numeric_superscript_overlay_packet_v2.json
+    sha256: 10c21ffd466711b933885593c56cadfe35bc01c9c99075784c918a13222036e7
+  overlay_gate:
+    path: evals/s162_numeric_superscript_overlay_local_gate_v2.yaml
+    sha256: 3c83b65911e20be50f124732cfb86f57044cf1f6318f260f17a1f74d7b1ae62b
+
+gate:
+  answer_sha_must_match_s161: true
+  answer_must_state_10_power_5_operations: true
+  answer_citations_required: [1, 4]
+  cited_contexts_must_both_match_pdf_bound_receipts: true
+  cited_context_sources_required:
+    target_documents_min: 1
+    independent_documents_min: 1
+  baseline_exact_exponent_support_max: 0
+  derived_exact_exponent_support_min: 2
+  changes_outside_receipted_complete_tokens_max: 0
+  raw_extraction_mutations_max: 0
+  model_calls: 0
+  network_calls: 0
+  database_reads: 0
+  database_writes: 0
+
+decision_rules:
+  pass: >-
+    Reclassify the one diagnostic fact from document-extraction-hold to OK for
+    the local candidate funnel because the immutable answer becomes exactly
+    supported by its cited evidence.
+  fail: retain_document_extraction_hold
+  production_or_deployment: false
+  official_atomic_kpi_credit: null
+
+forbidden:
+  - manual_fact_or_qid_specific_text_patch
+  - answer_regeneration
+  - accepting_uncited_or_geometry_unbound_evidence
+  - mutating_chunks_v2_or_the_raw_extraction_store
+  - new_adversarial_review_round
+  - paid_model_call

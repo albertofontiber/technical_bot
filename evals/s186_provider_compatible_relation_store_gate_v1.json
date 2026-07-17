@@ -1,0 +1,1203 @@
+{
+  "instrument": "s186_provider_compatible_relation_store_gate_v1",
+  "status": "NO_GO",
+  "population": {
+    "source_items": 14,
+    "questions": 14,
+    "manufacturers": 14,
+    "relations": 329,
+    "answer_points": 37,
+    "target_question_overlap": 0
+  },
+  "metrics": {
+    "claims_covered": 28,
+    "claim_recall": 0.75675676,
+    "selected_units": 41,
+    "useful_units": 19,
+    "unit_precision": 0.46341463,
+    "questions_complete": 9,
+    "question_complete_rate": 0.64285714,
+    "extraction_invalid_outputs": 0,
+    "selector_invalid_outputs": 0,
+    "source_identity_mismatches": 0
+  },
+  "checks": {
+    "extraction_invalid_zero": true,
+    "selector_invalid_zero": true,
+    "identity_mismatches_zero": true,
+    "claim_recall_gte_0_90": false,
+    "unit_precision_gte_0_80": false,
+    "question_complete_rate_gte_0_75": false
+  },
+  "rows": [
+    {
+      "claims": 2,
+      "claims_covered": 2,
+      "facet_aligned_claims_covered": 0,
+      "complete": true,
+      "selected_units": 2,
+      "useful_units": 2,
+      "gold_units": 2,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E008_303092a0c7",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              893,
+              1062
+            ]
+          ],
+          "content_sha256": "365630350c527f8f61246416cbfc16095d31e888ef17e6d7641b66b7c9e85787"
+        },
+        {
+          "unit_id": "E020_f3477d7297",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              1064,
+              1269
+            ],
+            [
+              1682,
+              1887
+            ]
+          ],
+          "content_sha256": "a118c45b3d1dd1769adf6a9dda603e9d7bd2d088dcd198ecb4b647a5197c4be4"
+        }
+      ],
+      "selected_relations": 2,
+      "selected_relation_ids": [
+        "R05_20ab9c21f7",
+        "R06_469ebcf69d"
+      ],
+      "selected_relation_receipts": [
+        {
+          "relation_id": "R05_20ab9c21f7",
+          "relation_type": "configuration_or_assignment",
+          "source_unit_ids": [
+            "E008_303092a0c7"
+          ]
+        },
+        {
+          "relation_id": "R06_469ebcf69d",
+          "relation_type": "state_transition",
+          "source_unit_ids": [
+            "E020_f3477d7297"
+          ]
+        }
+      ],
+      "item_id": "s147_src_01",
+      "stratum": "table",
+      "manufacturer": "Notifier",
+      "validation_error": null
+    },
+    {
+      "claims": 3,
+      "claims_covered": 3,
+      "facet_aligned_claims_covered": 0,
+      "complete": true,
+      "selected_units": 3,
+      "useful_units": 3,
+      "gold_units": 3,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E008_70422e50fc",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              785,
+              1059
+            ]
+          ],
+          "content_sha256": "d41a7145c31531e7dbdaf33e519ebf7f7d09ffcda2488bf4c509fcf227c2a91f"
+        },
+        {
+          "unit_id": "E010_bd41e0015d",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1061,
+              1321
+            ]
+          ],
+          "content_sha256": "58038db9f02c3b6383e7bd228c50e8160ca454d91581c8c5cc83c552e79ff1ed"
+        },
+        {
+          "unit_id": "E011_0b9a32d5a0",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1323,
+              1541
+            ]
+          ],
+          "content_sha256": "ad04ae6e0c63248a6500c13542d003bde9d67974ea2f0b8ea66e2b708498474d"
+        }
+      ],
+      "selected_relations": 6,
+      "selected_relation_ids": [
+        "R02_1bdb71c169",
+        "R06_2fcdb684dc",
+        "R07_ce72f54e36",
+        "R10_6b48fed2ce",
+        "R11_084151299c",
+        "R15_fda3c36ce2"
+      ],
+      "selected_relation_receipts": [
+        {
+          "relation_id": "R02_1bdb71c169",
+          "relation_type": "mapping_or_association",
+          "source_unit_ids": [
+            "E008_70422e50fc"
+          ]
+        },
+        {
+          "relation_id": "R06_2fcdb684dc",
+          "relation_type": "configuration_or_assignment",
+          "source_unit_ids": [
+            "E008_70422e50fc"
+          ]
+        },
+        {
+          "relation_id": "R07_ce72f54e36",
+          "relation_type": "state_transition",
+          "source_unit_ids": [
+            "E010_bd41e0015d"
+          ]
+        },
+        {
+          "relation_id": "R10_6b48fed2ce",
+          "relation_type": "action_or_procedure_step",
+          "source_unit_ids": [
+            "E011_0b9a32d5a0"
+          ]
+        },
+        {
+          "relation_id": "R11_084151299c",
+          "relation_type": "state_transition",
+          "source_unit_ids": [
+            "E011_0b9a32d5a0"
+          ]
+        },
+        {
+          "relation_id": "R15_fda3c36ce2",
+          "relation_type": "measurement_limit_or_timing",
+          "source_unit_ids": [
+            "E008_70422e50fc"
+          ]
+        }
+      ],
+      "item_id": "s147_src_02",
+      "stratum": "table",
+      "manufacturer": "Morley",
+      "validation_error": null
+    },
+    {
+      "claims": 2,
+      "claims_covered": 0,
+      "facet_aligned_claims_covered": 0,
+      "complete": false,
+      "selected_units": 1,
+      "useful_units": 0,
+      "gold_units": 2,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E022_98d40eeb6a",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2600,
+              2844
+            ]
+          ],
+          "content_sha256": "1fa6cd17e7b7627036eadf88419a73b18d4e1f210fd10d50091a4b0ccbdc346d"
+        }
+      ],
+      "selected_relations": 1,
+      "selected_relation_ids": [
+        "R23_c06c67ea51"
+      ],
+      "selected_relation_receipts": [
+        {
+          "relation_id": "R23_c06c67ea51",
+          "relation_type": "mapping_or_association",
+          "source_unit_ids": [
+            "E022_98d40eeb6a"
+          ]
+        }
+      ],
+      "item_id": "s147_src_03",
+      "stratum": "table",
+      "manufacturer": "Spectrex",
+      "validation_error": null
+    },
+    {
+      "claims": 3,
+      "claims_covered": 1,
+      "facet_aligned_claims_covered": 0,
+      "complete": false,
+      "selected_units": 1,
+      "useful_units": 1,
+      "gold_units": 3,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E012_f3acec5711",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              317,
+              377
+            ],
+            [
+              561,
+              621
+            ]
+          ],
+          "content_sha256": "46b2129b5216dfa662887cb9e82fe1d748dee36328b93e9265f87536d51dfd6f"
+        }
+      ],
+      "selected_relations": 1,
+      "selected_relation_ids": [
+        "R04_b91c6a38a9"
+      ],
+      "selected_relation_receipts": [
+        {
+          "relation_id": "R04_b91c6a38a9",
+          "relation_type": "mapping_or_association",
+          "source_unit_ids": [
+            "E012_f3acec5711"
+          ]
+        }
+      ],
+      "item_id": "s147_src_04",
+      "stratum": "table",
+      "manufacturer": "Xtralis",
+      "validation_error": null
+    },
+    {
+      "claims": 3,
+      "claims_covered": 0,
+      "facet_aligned_claims_covered": 0,
+      "complete": false,
+      "selected_units": 8,
+      "useful_units": 0,
+      "gold_units": 2,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E002_81612f9c44",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              864
+            ]
+          ],
+          "content_sha256": "192c354a2408d57b2e670b393c22107371a2430f9c18f12b1e8ead111a3d8e20"
+        },
+        {
+          "unit_id": "E003_e51f8b5efa",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              37,
+              522
+            ]
+          ],
+          "content_sha256": "c175230ce8483aa452c3169a079713d9a50dc3b76ccf4f65422c5fb77a9d4beb"
+        },
+        {
+          "unit_id": "E005_403421cd9b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              564,
+              1544
+            ]
+          ],
+          "content_sha256": "264545870f1a6cd8417497c2213cf6da03f447a37e3d176a47ec0590d2c24866"
+        },
+        {
+          "unit_id": "E007_2fae3d9477",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1204,
+              1544
+            ]
+          ],
+          "content_sha256": "4572b9ad197195d7fb3bb337f63bb41d1a8c5a16ee4ac87e1f3c98b091591d13"
+        },
+        {
+          "unit_id": "E008_5292b2993e",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1244,
+              2224
+            ]
+          ],
+          "content_sha256": "b41fea2e86098ba79501d8dbe0d3509ab325189f6803b27195e28158f6fce650"
+        },
+        {
+          "unit_id": "E010_e806dedf68",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1884,
+              2224
+            ]
+          ],
+          "content_sha256": "261d80f03f17b4edb4c6a853e47d4433115535978e5c207c841d70482ccba701"
+        },
+        {
+          "unit_id": "E011_840a5da768",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1924,
+              2669
+            ]
+          ],
+          "content_sha256": "97486ffd3e0ddd91444cd163e928fe7448f308b9d9cc48c52bb8ac44040118f6"
+        },
+        {
+          "unit_id": "E012_f9aedcb81c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2565,
+              2640
+            ]
+          ],
+          "content_sha256": "cb76dc39291f939badd09ab5209e2e4facf7a5ebebcf3f0ff761ffdaa319959c"
+        }
+      ],
+      "selected_relations": 5,
+      "selected_relation_ids": [
+        "R03_ce040cd475",
+        "R05_1b50d133b5",
+        "R06_2af7959b1a",
+        "R07_2444cc8251",
+        "R11_aad686d282"
+      ],
+      "selected_relation_receipts": [
+        {
+          "relation_id": "R03_ce040cd475",
+          "relation_type": "action_or_procedure_step",
+          "source_unit_ids": [
+            "E002_81612f9c44",
+            "E003_e51f8b5efa"
+          ]
+        },
+        {
+          "relation_id": "R05_1b50d133b5",
+          "relation_type": "mapping_or_association",
+          "source_unit_ids": [
+            "E005_403421cd9b",
+            "E007_2fae3d9477"
+          ]
+        },
+        {
+          "relation_id": "R06_2af7959b1a",
+          "relation_type": "mapping_or_association",
+          "source_unit_ids": [
+            "E005_403421cd9b",
+            "E007_2fae3d9477"
+          ]
+        },
+        {
+          "relation_id": "R07_2444cc8251",
+          "relation_type": "mapping_or_association",
+          "source_unit_ids": [
+            "E008_5292b2993e",
+            "E010_e806dedf68"
+          ]
+        },
+        {
+          "relation_id": "R11_aad686d282",
+          "relation_type": "verification_or_recovery",
+          "source_unit_ids": [
+            "E011_840a5da768",
+            "E012_f9aedcb81c"
+          ]
+        }
+      ],
+      "item_id": "s147_src_05",
+      "stratum": "table",
+      "manufacturer": "Detnov",
+      "validation_error": null
+    },
+    {
+      "claims": 2,
+      "claims_covered": 2,
+      "facet_aligned_claims_covered": 0,
+      "complete": true,
+      "selected_units": 2,
+      "useful_units": 1,
+      "gold_units": 1,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E012_4c5e25f86a",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1301,
+              1464
+            ]
+          ],
+          "content_sha256": "ed8445baa4e1dc54947019f7360cad007cb1654a7cf8ff9317f397bbb620f250"
+        },
+        {
+          "unit_id": "E013_4b4adf87e6",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1466,
+              1751
+            ]
+          ],
+          "content_sha256": "07785816138762775b75609cc415adb94a93c3ba6680f7cce918e4495a299e30"
+        }
+      ],
+      "selected_relations": 2,
+      "selected_relation_ids": [
+        "R02_d807a08b74",
+        "R03_a77b660aac"
+      ],
+      "selected_relation_receipts": [
+        {
+          "relation_id": "R02_d807a08b74",
+          "relation_type": "configuration_or_assignment",
+          "source_unit_ids": [
+            "E012_4c5e25f86a"
+          ]
+        },
+        {
+          "relation_id": "R03_a77b660aac",
+          "relation_type": "mapping_or_association",
+          "source_unit_ids": [
+            "E013_4b4adf87e6"
+          ]
+        }
+      ],
+      "item_id": "s147_src_06",
+      "stratum": "table",
+      "manufacturer": "Aritech",
+      "validation_error": null
+    },
+    {
+      "claims": 2,
+      "claims_covered": 1,
+      "facet_aligned_claims_covered": 0,
+      "complete": false,
+      "selected_units": 1,
+      "useful_units": 1,
+      "gold_units": 2,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E009_ee759cea5c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1767,
+              2898
+            ]
+          ],
+          "content_sha256": "31d5a944b10e7a45bf6e5e5765bd9bc7488e887eaa93cbbe298b79fde6027b2c"
+        }
+      ],
+      "selected_relations": 2,
+      "selected_relation_ids": [
+        "R03_92a0d382bf",
+        "R04_43414db6cc"
+      ],
+      "selected_relation_receipts": [
+        {
+          "relation_id": "R03_92a0d382bf",
+          "relation_type": "measurement_limit_or_timing",
+          "source_unit_ids": [
+            "E009_ee759cea5c"
+          ]
+        },
+        {
+          "relation_id": "R04_43414db6cc",
+          "relation_type": "measurement_limit_or_timing",
+          "source_unit_ids": [
+            "E009_ee759cea5c"
+          ]
+        }
+      ],
+      "item_id": "s147_src_07",
+      "stratum": "table",
+      "manufacturer": "Securiton",
+      "validation_error": null
+    },
+    {
+      "claims": 3,
+      "claims_covered": 2,
+      "facet_aligned_claims_covered": 0,
+      "complete": false,
+      "selected_units": 4,
+      "useful_units": 2,
+      "gold_units": 3,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E003_4492cc8400",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              17,
+              146
+            ]
+          ],
+          "content_sha256": "fef555868c834c3e562fa45dcb9acb705b34c819ef134fe3e34bae78c9ee3412"
+        },
+        {
+          "unit_id": "E011_9da11c0803",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1284,
+              1464
+            ]
+          ],
+          "content_sha256": "f8888e627f5e410c11c7be3fa24db77cd0c1da11db3845e616f83bf8a821394f"
+        },
+        {
+          "unit_id": "E012_aa5c04ff76",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1466,
+              1706
+            ]
+          ],
+          "content_sha256": "a463a98c7c1e175cffb3b5f436dd9e9b84c1bf5a1640c8d7d5270ba7c7428651"
+        },
+        {
+          "unit_id": "E013_95445e9fc8",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1708,
+              1877
+            ]
+          ],
+          "content_sha256": "e824148354a7d9d3d82c46fb9e7d941314239ce160bb14eb5a99aa223b5e77f6"
+        }
+      ],
+      "selected_relations": 5,
+      "selected_relation_ids": [
+        "R01_ef993e023e",
+        "R14_467d0c4704",
+        "R15_9027a7dcbc",
+        "R16_8531a3f7a1",
+        "R17_1f5176f29f"
+      ],
+      "selected_relation_receipts": [
+        {
+          "relation_id": "R01_ef993e023e",
+          "relation_type": "prerequisite_or_access",
+          "source_unit_ids": [
+            "E003_4492cc8400"
+          ]
+        },
+        {
+          "relation_id": "R14_467d0c4704",
+          "relation_type": "action_or_procedure_step",
+          "source_unit_ids": [
+            "E011_9da11c0803"
+          ]
+        },
+        {
+          "relation_id": "R15_9027a7dcbc",
+          "relation_type": "action_or_procedure_step",
+          "source_unit_ids": [
+            "E012_aa5c04ff76"
+          ]
+        },
+        {
+          "relation_id": "R16_8531a3f7a1",
+          "relation_type": "action_or_procedure_step",
+          "source_unit_ids": [
+            "E013_95445e9fc8"
+          ]
+        },
+        {
+          "relation_id": "R17_1f5176f29f",
+          "relation_type": "action_or_procedure_step",
+          "source_unit_ids": [
+            "E013_95445e9fc8"
+          ]
+        }
+      ],
+      "item_id": "s147_src_08",
+      "stratum": "prose",
+      "manufacturer": "LGM Products",
+      "validation_error": null
+    },
+    {
+      "claims": 3,
+      "claims_covered": 3,
+      "facet_aligned_claims_covered": 0,
+      "complete": true,
+      "selected_units": 3,
+      "useful_units": 1,
+      "gold_units": 1,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E005_d470a86c52",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              75,
+              248
+            ]
+          ],
+          "content_sha256": "c763f29b6ad1c3b625cf8ca9c5dfa06687f762a38c4c409699c4fd2b8f5adce1"
+        },
+        {
+          "unit_id": "E006_c7a134852e",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              250,
+              348
+            ]
+          ],
+          "content_sha256": "c1b9a363a56a19b9f2fd59cf5e4d923a0b288d0efd8975a9fe40d96f9b93aec1"
+        },
+        {
+          "unit_id": "E023_0010dc1b30",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1964,
+              2986
+            ]
+          ],
+          "content_sha256": "01f5fa857d0eaf2a52a61cb076bf4a0797254525eaebd3411e974a1f65c2d654"
+        }
+      ],
+      "selected_relations": 4,
+      "selected_relation_ids": [
+        "R01_e3f7d840be",
+        "R20_2a1ce03b22",
+        "R22_018b7a6e38",
+        "R24_b57bff357d"
+      ],
+      "selected_relation_receipts": [
+        {
+          "relation_id": "R01_e3f7d840be",
+          "relation_type": "trigger_or_condition",
+          "source_unit_ids": [
+            "E005_d470a86c52",
+            "E006_c7a134852e"
+          ]
+        },
+        {
+          "relation_id": "R20_2a1ce03b22",
+          "relation_type": "trigger_or_condition",
+          "source_unit_ids": [
+            "E023_0010dc1b30"
+          ]
+        },
+        {
+          "relation_id": "R22_018b7a6e38",
+          "relation_type": "trigger_or_condition",
+          "source_unit_ids": [
+            "E023_0010dc1b30"
+          ]
+        },
+        {
+          "relation_id": "R24_b57bff357d",
+          "relation_type": "trigger_or_condition",
+          "source_unit_ids": [
+            "E023_0010dc1b30"
+          ]
+        }
+      ],
+      "item_id": "s147_src_09",
+      "stratum": "prose",
+      "manufacturer": "System Sensor",
+      "validation_error": null
+    },
+    {
+      "claims": 2,
+      "claims_covered": 2,
+      "facet_aligned_claims_covered": 0,
+      "complete": true,
+      "selected_units": 3,
+      "useful_units": 1,
+      "gold_units": 1,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E010_286a525fa1",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              551,
+              572
+            ]
+          ],
+          "content_sha256": "b04bf2726b3931ca370d82c042d559a4aa920297c02d838194d7db1007076755"
+        },
+        {
+          "unit_id": "E011_795cce6472",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              574,
+              639
+            ]
+          ],
+          "content_sha256": "8921ae4d2ad2036eedb95db3ee3df291e05f487d7531bb7f80f00f96791f0b1a"
+        },
+        {
+          "unit_id": "E012_cf9fcbdac1",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              641,
+              747
+            ]
+          ],
+          "content_sha256": "a23f1f657c55a969b7ca566a1ac69ae686264c864b45565690f71da60e099550"
+        }
+      ],
+      "selected_relations": 2,
+      "selected_relation_ids": [
+        "R06_5955b30dde",
+        "R07_072ca907a9"
+      ],
+      "selected_relation_receipts": [
+        {
+          "relation_id": "R06_5955b30dde",
+          "relation_type": "state_transition",
+          "source_unit_ids": [
+            "E010_286a525fa1",
+            "E011_795cce6472"
+          ]
+        },
+        {
+          "relation_id": "R07_072ca907a9",
+          "relation_type": "mapping_or_association",
+          "source_unit_ids": [
+            "E012_cf9fcbdac1"
+          ]
+        }
+      ],
+      "item_id": "s147_src_10",
+      "stratum": "prose",
+      "manufacturer": "Kidde",
+      "validation_error": null
+    },
+    {
+      "claims": 3,
+      "claims_covered": 3,
+      "facet_aligned_claims_covered": 0,
+      "complete": true,
+      "selected_units": 5,
+      "useful_units": 2,
+      "gold_units": 2,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E013_edc29c3e6c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1769,
+              2052
+            ]
+          ],
+          "content_sha256": "90cf64d08e5e9a6787a8c80a0beb6c81a53de41eab2bcbe0e225e99892afb43b"
+        },
+        {
+          "unit_id": "E017_5672602677",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2244,
+              2277
+            ]
+          ],
+          "content_sha256": "4fc88b132a66c1f8c21f9ea4629efb63582fe1b5b5fbedb16873e2656df4d0a8"
+        },
+        {
+          "unit_id": "E018_d57bfe17df",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2279,
+              2296
+            ]
+          ],
+          "content_sha256": "9450c85d21736701bde953996ea3a87ad308d0a491a5ae22d9f92bed468af0bd"
+        },
+        {
+          "unit_id": "E019_2f35d8e949",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2298,
+              2349
+            ]
+          ],
+          "content_sha256": "6eb9c94b33facebb7ccb8d95c872877355a95ad3b059401edce830e01d28ce9f"
+        },
+        {
+          "unit_id": "E016_255e89ec06",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2118,
+              2242
+            ]
+          ],
+          "content_sha256": "8404cf42aea58f5f6dbd67930353a462e3777ff4d57ceaee2d0573114db715f3"
+        }
+      ],
+      "selected_relations": 5,
+      "selected_relation_ids": [
+        "R15_97478ddd16",
+        "R19_f2c666f485",
+        "R20_b1007b7542",
+        "R21_c032c105ed",
+        "R17_f5e162c933"
+      ],
+      "selected_relation_receipts": [
+        {
+          "relation_id": "R15_97478ddd16",
+          "relation_type": "configuration_or_assignment",
+          "source_unit_ids": [
+            "E013_edc29c3e6c"
+          ]
+        },
+        {
+          "relation_id": "R19_f2c666f485",
+          "relation_type": "option_or_default",
+          "source_unit_ids": [
+            "E017_5672602677"
+          ]
+        },
+        {
+          "relation_id": "R20_b1007b7542",
+          "relation_type": "option_or_default",
+          "source_unit_ids": [
+            "E018_d57bfe17df"
+          ]
+        },
+        {
+          "relation_id": "R21_c032c105ed",
+          "relation_type": "option_or_default",
+          "source_unit_ids": [
+            "E019_2f35d8e949"
+          ]
+        },
+        {
+          "relation_id": "R17_f5e162c933",
+          "relation_type": "trigger_or_condition",
+          "source_unit_ids": [
+            "E016_255e89ec06"
+          ]
+        }
+      ],
+      "item_id": "s147_src_11",
+      "stratum": "prose",
+      "manufacturer": "Pfannenberg",
+      "validation_error": null
+    },
+    {
+      "claims": 3,
+      "claims_covered": 3,
+      "facet_aligned_claims_covered": 0,
+      "complete": true,
+      "selected_units": 4,
+      "useful_units": 3,
+      "gold_units": 3,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E017_0f6c25a3b2",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              871,
+              1071
+            ]
+          ],
+          "content_sha256": "6b5ac95730dfe2460ee72aaf070e72ee7199ffb61320722bc5818ab09fb008b7"
+        },
+        {
+          "unit_id": "E019_577e44c85c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1118,
+              1576
+            ]
+          ],
+          "content_sha256": "ebba00b1abe0b0738d490409d6a011bad599028bc258b24417bef7fee343c735"
+        },
+        {
+          "unit_id": "E025_7a63fe427b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2592,
+              2661
+            ]
+          ],
+          "content_sha256": "ac9c9e82e4bddb0542c977cfa3fd3cf0e4eaad241dcc7caf73882819a4993531"
+        },
+        {
+          "unit_id": "E006_aded90d498",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              194,
+              287
+            ]
+          ],
+          "content_sha256": "f90f76c0d2dd45d3bd7c71e421cefe72686cb068f6b5fab60c9af1538a3ee144"
+        }
+      ],
+      "selected_relations": 6,
+      "selected_relation_ids": [
+        "R06_c943c246f3",
+        "R09_b2c8f566c9",
+        "R16_7130806d40",
+        "R17_3e693b46b0",
+        "R18_44173553d3",
+        "R20_a98c9cb7ed"
+      ],
+      "selected_relation_receipts": [
+        {
+          "relation_id": "R06_c943c246f3",
+          "relation_type": "prerequisite_or_access",
+          "source_unit_ids": [
+            "E017_0f6c25a3b2"
+          ]
+        },
+        {
+          "relation_id": "R09_b2c8f566c9",
+          "relation_type": "action_or_procedure_step",
+          "source_unit_ids": [
+            "E019_577e44c85c"
+          ]
+        },
+        {
+          "relation_id": "R16_7130806d40",
+          "relation_type": "action_or_procedure_step",
+          "source_unit_ids": [
+            "E019_577e44c85c"
+          ]
+        },
+        {
+          "relation_id": "R17_3e693b46b0",
+          "relation_type": "action_or_procedure_step",
+          "source_unit_ids": [
+            "E019_577e44c85c"
+          ]
+        },
+        {
+          "relation_id": "R18_44173553d3",
+          "relation_type": "measurement_limit_or_timing",
+          "source_unit_ids": [
+            "E025_7a63fe427b"
+          ]
+        },
+        {
+          "relation_id": "R20_a98c9cb7ed",
+          "relation_type": "prerequisite_or_access",
+          "source_unit_ids": [
+            "E006_aded90d498"
+          ]
+        }
+      ],
+      "item_id": "s147_src_12",
+      "stratum": "prose",
+      "manufacturer": "Avotec",
+      "validation_error": null
+    },
+    {
+      "claims": 3,
+      "claims_covered": 3,
+      "facet_aligned_claims_covered": 0,
+      "complete": true,
+      "selected_units": 3,
+      "useful_units": 1,
+      "gold_units": 1,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E004_30a844327c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              63,
+              196
+            ]
+          ],
+          "content_sha256": "e6337fb5b25832821cf718f247f58161123e8e19fb0e0092c5f805256e7dd29e"
+        },
+        {
+          "unit_id": "E015_ca80cb8239",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1295,
+              1782
+            ]
+          ],
+          "content_sha256": "5744db304be6000476e3d02abb763fc4cd143c7ade0c299a05a946c0155600a2"
+        },
+        {
+          "unit_id": "E009_e8df1f619d",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              766,
+              860
+            ]
+          ],
+          "content_sha256": "b30c0026fa02a7fbc6f58986eb65ba512bf21676b25d52071f0e433f5036ce0d"
+        }
+      ],
+      "selected_relations": 7,
+      "selected_relation_ids": [
+        "R01_7b6b04515d",
+        "R07_a47303cf7d",
+        "R08_e9d7d279b8",
+        "R09_a9d1f5ae6d",
+        "R10_66c7c04163",
+        "R03_a1fc099780",
+        "R06_af3d42d1d7"
+      ],
+      "selected_relation_receipts": [
+        {
+          "relation_id": "R01_7b6b04515d",
+          "relation_type": "trigger_or_condition",
+          "source_unit_ids": [
+            "E004_30a844327c"
+          ]
+        },
+        {
+          "relation_id": "R07_a47303cf7d",
+          "relation_type": "action_or_procedure_step",
+          "source_unit_ids": [
+            "E015_ca80cb8239"
+          ]
+        },
+        {
+          "relation_id": "R08_e9d7d279b8",
+          "relation_type": "action_or_procedure_step",
+          "source_unit_ids": [
+            "E015_ca80cb8239"
+          ]
+        },
+        {
+          "relation_id": "R09_a9d1f5ae6d",
+          "relation_type": "measurement_limit_or_timing",
+          "source_unit_ids": [
+            "E015_ca80cb8239"
+          ]
+        },
+        {
+          "relation_id": "R10_66c7c04163",
+          "relation_type": "measurement_limit_or_timing",
+          "source_unit_ids": [
+            "E015_ca80cb8239"
+          ]
+        },
+        {
+          "relation_id": "R03_a1fc099780",
+          "relation_type": "prerequisite_or_access",
+          "source_unit_ids": [
+            "E009_e8df1f619d"
+          ]
+        },
+        {
+          "relation_id": "R06_af3d42d1d7",
+          "relation_type": "action_or_procedure_step",
+          "source_unit_ids": [
+            "E015_ca80cb8239"
+          ]
+        }
+      ],
+      "item_id": "s147_src_13",
+      "stratum": "prose",
+      "manufacturer": "LDA audioTech",
+      "validation_error": null
+    },
+    {
+      "claims": 3,
+      "claims_covered": 3,
+      "facet_aligned_claims_covered": 0,
+      "complete": true,
+      "selected_units": 1,
+      "useful_units": 1,
+      "gold_units": 1,
+      "selected_unit_receipts": [
+        {
+          "unit_id": "E001_dfb571368b",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              266
+            ]
+          ],
+          "content_sha256": "1083163867f69c9334e51d6ecfb6e3ea1466ec0ec991a3db2a127f8261a3f214"
+        }
+      ],
+      "selected_relations": 3,
+      "selected_relation_ids": [
+        "R01_2e1ca69ca1",
+        "R02_24764d6199",
+        "R03_ebd3079cac"
+      ],
+      "selected_relation_receipts": [
+        {
+          "relation_id": "R01_2e1ca69ca1",
+          "relation_type": "prerequisite_or_access",
+          "source_unit_ids": [
+            "E001_dfb571368b"
+          ]
+        },
+        {
+          "relation_id": "R02_24764d6199",
+          "relation_type": "prerequisite_or_access",
+          "source_unit_ids": [
+            "E001_dfb571368b"
+          ]
+        },
+        {
+          "relation_id": "R03_ebd3079cac",
+          "relation_type": "warning_exception_or_conflict",
+          "source_unit_ids": [
+            "E001_dfb571368b"
+          ]
+        }
+      ],
+      "item_id": "s147_src_14",
+      "stratum": "prose",
+      "manufacturer": "Argus Security",
+      "validation_error": null
+    }
+  ],
+  "cost": {
+    "extraction_usd": 0.357322,
+    "selector_usd": 0.068518,
+    "total_usd": 0.42584,
+    "internal_ceiling_usd": 2.0
+  },
+  "decision": {
+    "fresh_promotion": false,
+    "semantic_fidelity_audit_before_promotion": false,
+    "target_probe": false,
+    "production": false,
+    "facts_moved_to_ok": 0,
+    "same_cohort_retry": false
+  },
+  "result_sha256": "c71352dad2d676710e2f0defbf353e8e77b8bbe954475c5c0636f22ef6b1fea3"
+}

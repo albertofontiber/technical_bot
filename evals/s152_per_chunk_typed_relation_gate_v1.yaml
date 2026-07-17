@@ -1,0 +1,50 @@
+instrument: s152_per_chunk_typed_relation_gate_v1
+status: NO_GO_DUPLICATE_OUTPUT_CONTAINER
+
+evidence:
+  receipts:
+    path: evals/s152_typed_relation_extraction_receipts_v1.json
+    sha256: f00c86755a35dd4d3b4dc64a558ff80258c2243f9736854cf63bb41bfe9f8dee
+  preregistration:
+    path: evals/s152_per_chunk_typed_relation_prereg_v1.yaml
+    sha256: de330ad3b2b8b63efdbbaf10f2b9ccc445a495cf567b5bf4610a6f09273d8b99
+  runner:
+    path: scripts/s152_per_chunk_typed_relation_probe.py
+    sha256: 2f2226c298f8c930d1404b2bf9894dbd07f5985090623bc4dc58fa14e7c6d2b4
+
+result:
+  provider_calls: 3
+  validated_chunks: 2
+  validated_relations: 12
+  terminal_invalid_chunk_ordinal: 3
+  terminal_output_containers: 2
+  terminal_containers_same_expected_chunk_id: true
+  terminal_claims_offline_mergeable: 7
+  terminal_claims_offline_valid_after_merge: 7
+  relation_store_created: false
+  selection_calls: 0
+
+finding:
+  scope: output_identity_transport
+  description: >-
+    Even a single-chunk call can duplicate the outer chunk container. All seven
+    claims in the duplicated response validate after a local merge, so the
+    semantic extraction is not the failing component. Because the call context
+    already binds one immutable chunk, asking the model to return a chunk ID and
+    container is redundant and creates an avoidable failure mode.
+
+decision:
+  retry_s152: forbidden
+  merge_s152_post_hoc_for_credit: forbidden
+  application_bound_identity_schema: GO
+  production: NO_GO
+  facts_moved_to_ok: 0
+
+cost:
+  calls: 3
+  conservative_actual_usd: 0.025496
+
+authorization:
+  production: false
+  deploy: false
+  push: false

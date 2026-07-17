@@ -1,0 +1,55 @@
+instrument: s137_blinded_chunks_semantic_adjudication_gate_v31
+status: GO
+
+evidence:
+  aggregate: {path: evals/s137_blinded_chunks_semantic_adjudication_v31.json, sha256: 37d485ae9003bfac237d9acf121a37ba9f588649deeee13e9819177cd0b04769}
+  public_packet: {path: evals/s137_blinded_packet_seed1_v1.json, sha256: 5330aaf287bea09527cceaeb4d788d8d64029fa5f6ca4c72f5f57146f7dde000}
+  private_mapping: {path: evals/s137_private_mapping_seed1_v1.json, sha256: 5d5779f870fd4a8f8e804fa2bb57a81f3cd4555fed611a9750b7f1dcc79d4a22}
+  sol_primary: {path: evals/s137_sol56_xhigh_judgement_v1.json, sha256: 930c5eb77b2ab7132d76e8253b8d10f9125d806757e7a74a27324e96ceb8c7ef}
+  fable_atomic: {path: evals/s137_fable5_atomic_combined_v3.json, sha256: e657d590471cca70a790ede18851b4d4c4ad4a03660a71455e64d890871f8ca5}
+  sol_arbitration: {path: evals/s137_sol56_xhigh_arbitration_v31.json, sha256: 26bb7cd59d9514505dc418a9ffa90b1474503c3f90b97fe7aab32c5f477d29b4}
+  final_preflight: {path: evals/s137_paid_preflight_v31.json, sha256: 394c65ce35665816da7664c85a9eb82b02cd3b2a057e2cb08d9299c572c813ec}
+
+result:
+  frozen_losses: 3
+  candidate_success_at_10: 3
+  real_candidate_retrieval_loss: 0
+  holds: 0
+  initial_disagreements: 1
+  arbitrated_disagreements: 1
+  all_three_success: true
+
+question_bridge:
+  - {question_id: 29b49e99-07fe-4b83-8afd-2d770d8fc09d, baseline_exact_rank: 10, candidate_exact_rank: 18, final_minimum_sufficient_candidate_rank: 2}
+  - {question_id: 540b4ccd-1ae0-4252-a6bb-069db622e22c, baseline_exact_rank: 8, candidate_exact_rank: 13, final_minimum_sufficient_candidate_rank: 4}
+  - {question_id: 935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033, baseline_exact_rank: 3, candidate_exact_rank: null, final_minimum_sufficient_candidate_rank: 3}
+
+checks:
+  packet_and_mapping_frozen: true
+  both_independent_judges_valid: true
+  arbitration_only_on_terminal_disagreement: true
+  all_responses_schema_valid: true
+  all_three_candidate_success_at_10: true
+  actual_cost_below_internal_ceiling: true
+  facts_moved_to_ok_zero: true
+
+cost:
+  cumulative_conservative_usd: 3.5138675
+  internal_ceiling_usd: 10
+  user_ceiling_usd: 50
+
+authorization:
+  production: false
+  chunks_v3_promotion: false
+  migration_apply: false
+  deploy: false
+  facts_moved_to_ok: 0
+
+decision:
+  result: GO_TO_RECONCILE_S135_METRICS
+  rationale: >-
+    Los tres exact-gold losses son falsos negativos del proxy: v3 conserva
+    evidencia suficiente dentro de top-10. Este GO resuelve hit@10, no permite
+    por sí solo promocionar v3 porque el gate S135 también congeló MRR y S137 no
+    adjudicó simétricamente el primer rank semántico de ambos brazos.
+

@@ -1,0 +1,624 @@
+{
+  "instrument": "s162_adversarial_overlay_packet_v1",
+  "candidate_commit": "11c94d212e065c1ce5350db88550d5617691e51f",
+  "review_scope": "Permission to proceed to a separate default-off offline pipeline integration design; no production or KPI credit.",
+  "design_v2": "# S162 — Geometry-bound numeric superscript overlay v2\n\n## Delta from v1\n\nV1 correctly abstained everywhere but failed its target gate because PDF table\ncells that share a visual row can be emitted as separate text lines/blocks. V2\nchanges one contract element only: source anchors come from the same **visual\nrow**, not the same PyMuPDF text-line object. All SHA, typography, uniqueness,\nimmutability and abstention guards remain unchanged.\n\n## Visual-row anchor contract\n\nFor a geometry-qualified numeric superscript signal, collect alphabetic anchors\nfrom page spans only when:\n\n1. their vertical bounding box overlaps the base span by at least 60% of the\n   smaller span height, or their baselines differ by no more than 1 pt;\n2. their horizontal distance from the base/script interval is no more than 25\n   base-font widths;\n3. the resulting anchor token has at least three alphabetic characters.\n\nAt least two of these PDF visual-row anchors must occur in the local Markdown\nwindow around the unique flattened token. The visual row is evidence only for\nalignment; the derived text remains literal `<sup>` markup and carries no claim\nthat the script is a mathematical exponent.\n\n## Preserved v1 invariants\n\n- raw LlamaParse record and PDF bytes remain immutable;\n- PDF SHA must equal extraction SHA;\n- native superscript flag + numeric base/script + font/baseline/adjacency gates;\n- unique complete-token match on the corresponding Markdown page;\n- conflicts and ambiguities abstain;\n- exact hashes, offsets, geometry and anchors are receipted;\n- default-off/offline qualification only; no `chunks_v2`, DB or runtime writes;\n- no constants for target token, PDF, table, product, manufacturer or question;\n- idempotent and zero-model execution.\n\n## Gate\n\nTarget: exactly one `105` → `10<sup>5</sup>` replacement on page 5 and zero\nother deltas. Independent: at least 8 non-target documents and 10 mappings,\nwith 100% geometry/attachment correctness and zero false attachments. If that\ncoverage is unavailable, v2 is NO-GO rather than weakening the contract.\n\n",
+  "prior_v1_no_go": {
+    "instrument": "s162_numeric_superscript_overlay_gate_v1",
+    "status": "LOCAL_NO_GO",
+    "frozen_contract": {
+      "design": "evals/s162_numeric_superscript_overlay_design_v1.md",
+      "preregistration": "evals/s162_numeric_superscript_overlay_prereg_v1.yaml",
+      "discovery": "evals/s162_numeric_superscript_discovery_scan_v1.json"
+    },
+    "implementation": {
+      "module": "src/reingest/superscript_overlay.py",
+      "tests": "tests/test_superscript_overlay.py",
+      "qualification_runner": "scripts/s162_qualify_numeric_superscript_overlay.py",
+      "packet": "evals/s162_numeric_superscript_overlay_packet_v1.json"
+    },
+    "result": {
+      "documents_processed": 11,
+      "pdf_failures": 0,
+      "target_applied": 0,
+      "independent_applied": 0,
+      "raw_records_mutated": 0,
+      "focused_tests": "9_passed"
+    },
+    "failed_gate": {
+      "name": "target_exact_replacements",
+      "required": 1,
+      "observed": 0,
+      "abstention": "insufficient_same_line_anchors",
+      "root_cause": "PDF table cells on the same visual row are emitted by PyMuPDF as separate text lines or blocks. The target's label, 10^5 value and Operations unit share a visual row but not one extracted PDF line, so a same-line anchor contract cannot support tables."
+    },
+    "decision": {
+      "candidate_v1": "NO_GO",
+      "production": false,
+      "facts_moved_to_ok": 0,
+      "threshold_relaxation": "forbidden",
+      "next": "Version a visual-row anchor contract based on y-overlap/baseline geometry, then repeat target and independent qualification. Do not special-case the target token, table, document, product or manufacturer."
+    },
+    "cost": {
+      "model_calls": 0,
+      "network_calls": 0,
+      "database_writes": 0,
+      "usd": 0
+    }
+  },
+  "implementation": "\"\"\"Geometry-bound preservation of numeric PDF superscripts.\n\nThe immutable extraction record remains the source artifact. This module derives\nan in-memory copy whose Markdown preserves an unambiguous numeric superscript as\nliteral ``<sup>`` markup. It deliberately does not decide whether the script is\nan exponent, a footnote, or another typographic relation.\n\"\"\"\nfrom __future__ import annotations\n\nimport copy\nimport hashlib\nimport re\nimport unicodedata\nfrom dataclasses import asdict, dataclass, replace\nfrom pathlib import Path\nfrom typing import Any\n\nimport fitz\n\n\nMAX_SCRIPT_TO_BASE_FONT_RATIO = 0.80\nMIN_BASELINE_ELEVATION_POINTS = 0.5\nMIN_HORIZONTAL_GAP_POINTS = -0.25\nMAX_HORIZONTAL_GAP_POINTS = 1.25\nMAX_HORIZONTAL_GAP_BASE_RATIO = 0.30\nMIN_MATCHED_ANCHORS = 2\nMIN_VISUAL_ROW_OVERLAP_RATIO = 0.60\nMAX_VISUAL_ROW_BASELINE_DELTA_POINTS = 1.0\nMAX_VISUAL_ROW_HORIZONTAL_FONT_WIDTHS = 25.0\n\n_BASE_DIGITS = re.compile(r\"(\\d+)$\")\n_ALPHA_TOKEN = re.compile(r\"[^\\W\\d_]{3,}\", re.UNICODE)\n\n\n@dataclass(frozen=True)\nclass NumericSuperscriptSignal:\n    page_number: int\n    base: str\n    script: str\n    flattened_token: str\n    explicit_markup: str\n    anchor_tokens: tuple[str, ...]\n    base_font_size: float\n    script_font_size: float\n    font_size_ratio: float\n    baseline_delta_points: float\n    horizontal_gap_points: float\n    base_origin_y: float\n    script_origin_y: float\n    base_bbox: tuple[float, float, float, float]\n    script_bbox: tuple[float, float, float, float]\n\n\n@dataclass(frozen=True)\nclass SuperscriptOverlayResult:\n    record: dict[str, Any]\n    applied: tuple[dict[str, Any], ...]\n    abstained: tuple[dict[str, Any], ...]\n\n\ndef _sha256_bytes(value: bytes) -> str:\n    return hashlib.sha256(value).hexdigest()\n\n\ndef _text_sha256(value: str) -> str:\n    return _sha256_bytes(value.encode(\"utf-8\"))\n\n\ndef pdf_sha256(path: str | Path) -> str:\n    digest = hashlib.sha256()\n    with Path(path).open(\"rb\") as source:\n        for block in iter(lambda: source.read(1024 * 1024), b\"\"):\n            digest.update(block)\n    return digest.hexdigest()\n\n\ndef _fold_token(token: str) -> str:\n    decomposed = unicodedata.normalize(\"NFKD\", token.casefold())\n    return \"\".join(char for char in decomposed if not unicodedata.combining(char))\n\n\ndef anchor_tokens(text: str) -> tuple[str, ...]:\n    return tuple(sorted({_fold_token(token) for token in _ALPHA_TOKEN.findall(text)}))\n\n\ndef _numeric_signal_from_spans(\n    previous: dict[str, Any],\n    script: dict[str, Any],\n    line_text: str,\n    page_number: int,\n) -> NumericSuperscriptSignal | None:\n    script_text = str(script.get(\"text\") or \"\").strip()\n    if not script_text.isdigit() or not (int(script.get(\"flags\") or 0) & 1):\n        return None\n    previous_text = str(previous.get(\"text\") or \"\").rstrip()\n    match = _BASE_DIGITS.search(previous_text)\n    if match is None:\n        return None\n    base = match.group(1)\n    base_size = float(previous.get(\"size\") or 0)\n    script_size = float(script.get(\"size\") or 0)\n    if base_size <= 0 or script_size <= 0:\n        return None\n    ratio = script_size / base_size\n    base_origin = previous.get(\"origin\") or (0, 0)\n    script_origin = script.get(\"origin\") or (0, 0)\n    baseline_delta = float(base_origin[1]) - float(script_origin[1])\n    base_bbox = tuple(float(value) for value in (previous.get(\"bbox\") or (0, 0, 0, 0)))\n    script_bbox = tuple(float(value) for value in (script.get(\"bbox\") or (0, 0, 0, 0)))\n    horizontal_gap = script_bbox[0] - base_bbox[2]\n    max_gap = max(MAX_HORIZONTAL_GAP_POINTS, base_size * MAX_HORIZONTAL_GAP_BASE_RATIO)\n    if ratio > MAX_SCRIPT_TO_BASE_FONT_RATIO:\n        return None\n    if baseline_delta < MIN_BASELINE_ELEVATION_POINTS:\n        return None\n    if horizontal_gap < MIN_HORIZONTAL_GAP_POINTS or horizontal_gap > max_gap:\n        return None\n    return NumericSuperscriptSignal(\n        page_number=page_number,\n        base=base,\n        script=script_text,\n        flattened_token=base + script_text,\n        explicit_markup=f\"{base}<sup>{script_text}</sup>\",\n        anchor_tokens=anchor_tokens(line_text),\n        base_font_size=round(base_size, 6),\n        script_font_size=round(script_size, 6),\n        font_size_ratio=round(ratio, 6),\n        baseline_delta_points=round(baseline_delta, 6),\n        horizontal_gap_points=round(horizontal_gap, 6),\n        base_origin_y=round(float(base_origin[1]), 6),\n        script_origin_y=round(float(script_origin[1]), 6),\n        base_bbox=tuple(round(value, 6) for value in base_bbox),\n        script_bbox=tuple(round(value, 6) for value in script_bbox),\n    )\n\n\ndef _visual_row_anchor_tokens(\n    spans: list[dict[str, Any]],\n    signal: NumericSuperscriptSignal,\n) -> tuple[str, ...]:\n    \"\"\"Collect alphabetic anchors from the same geometry row across PDF blocks.\"\"\"\n    base_top, base_bottom = signal.base_bbox[1], signal.base_bbox[3]\n    base_height = max(base_bottom - base_top, 0.001)\n    interval_left = signal.base_bbox[0]\n    interval_right = signal.script_bbox[2]\n    max_distance = signal.base_font_size * MAX_VISUAL_ROW_HORIZONTAL_FONT_WIDTHS\n    selected: set[str] = set()\n    for span in spans:\n        bbox = tuple(float(value) for value in (span.get(\"bbox\") or (0, 0, 0, 0)))\n        span_top, span_bottom = bbox[1], bbox[3]\n        span_height = max(span_bottom - span_top, 0.001)\n        overlap = max(0.0, min(base_bottom, span_bottom) - max(base_top, span_top))\n        overlap_ratio = overlap / min(base_height, span_height)\n        origin = span.get(\"origin\") or (0, 0)\n        baseline_delta = abs(float(origin[1]) - signal.base_origin_y)\n        if (\n            overlap_ratio < MIN_VISUAL_ROW_OVERLAP_RATIO\n            and baseline_delta > MAX_VISUAL_ROW_BASELINE_DELTA_POINTS\n        ):\n            continue\n        if bbox[2] < interval_left:\n            horizontal_distance = interval_left - bbox[2]\n        elif bbox[0] > interval_right:\n            horizontal_distance = bbox[0] - interval_right\n        else:\n            horizontal_distance = 0.0\n        if horizontal_distance > max_distance:\n            continue\n        selected.update(anchor_tokens(str(span.get(\"text\") or \"\")))\n    return tuple(sorted(selected))\n\n\ndef extract_numeric_superscript_signals(\n    pdf_path: str | Path,\n) -> tuple[NumericSuperscriptSignal, ...]:\n    \"\"\"Return conservative numeric superscript signals from PDF glyph geometry.\"\"\"\n    signals: list[NumericSuperscriptSignal] = []\n    fitz.TOOLS.mupdf_display_errors(False)\n    with fitz.open(pdf_path) as pdf:\n        for page_index, page in enumerate(pdf):\n            blocks = page.get_text(\"dict\", sort=True).get(\"blocks\", [])\n            page_spans = [\n                span\n                for block in blocks\n                for line in block.get(\"lines\", [])\n                for span in line.get(\"spans\", [])\n            ]\n            page_signals: list[NumericSuperscriptSignal] = []\n            for block in blocks:\n                for line in block.get(\"lines\", []):\n                    spans = line.get(\"spans\", [])\n                    line_text = \"\".join(str(span.get(\"text\") or \"\") for span in spans)\n                    previous_nonblank: dict[str, Any] | None = None\n                    for span in spans:\n                        if previous_nonblank is not None:\n                            signal = _numeric_signal_from_spans(\n                                previous_nonblank,\n                                span,\n                                line_text,\n                                page_index + 1,\n                            )\n                            if signal is not None:\n                                page_signals.append(signal)\n                        if str(span.get(\"text\") or \"\").strip():\n                            previous_nonblank = span\n            signals.extend(\n                replace(\n                    signal,\n                    anchor_tokens=_visual_row_anchor_tokens(page_spans, signal),\n                )\n                for signal in page_signals\n            )\n    return tuple(signals)\n\n\ndef _complete_token_matches(text: str, token: str) -> list[re.Match[str]]:\n    return list(re.finditer(rf\"(?<![\\w.]){re.escape(token)}(?![\\w.])\", text))\n\n\ndef _line_window(text: str, offset: int, radius: int = 1) -> str:\n    lines = text.splitlines(keepends=True)\n    cursor = 0\n    target = 0\n    for index, line in enumerate(lines):\n        if cursor <= offset < cursor + len(line):\n            target = index\n            break\n        cursor += len(line)\n    start = max(0, target - radius)\n    end = min(len(lines), target + radius + 1)\n    return \"\".join(lines[start:end])\n\n\ndef _abstention(signal: NumericSuperscriptSignal, reason: str, **extra: Any) -> dict[str, Any]:\n    return {\n        \"page_number\": signal.page_number,\n        \"flattened_token\": signal.flattened_token,\n        \"reason\": reason,\n        **extra,\n    }\n\n\ndef _preserve_numeric_superscripts(\n    extraction_record: dict[str, Any],\n    pdf_path: str | Path,\n    *,\n    signals: tuple[NumericSuperscriptSignal, ...] | None = None,\n) -> SuperscriptOverlayResult:\n    \"\"\"Derive a Markdown-preserving copy plus exact applied/abstained receipts.\n\n    Private test seam. Public callers cannot inject signals and therefore always\n    read geometry from the SHA-bound PDF.\n    \"\"\"\n    expected_sha = str(extraction_record.get(\"sha256\") or \"\").casefold()\n    actual_sha = pdf_sha256(pdf_path)\n    if not expected_sha or actual_sha != expected_sha:\n        raise ValueError(\"PDF SHA-256 does not match extraction record\")\n\n    derived = copy.deepcopy(extraction_record)\n    pages = {\n        page.get(\"page\"): page\n        for page in derived.get(\"result\", {}).get(\"pages\", [])\n        if isinstance(page, dict)\n    }\n    source_signals = signals if signals is not None else extract_numeric_superscript_signals(pdf_path)\n    proposals: list[dict[str, Any]] = []\n    abstained: list[dict[str, Any]] = []\n\n    for signal in source_signals:\n        page = pages.get(signal.page_number)\n        if page is None or not isinstance(page.get(\"md\"), str):\n            abstained.append(_abstention(signal, \"missing_markdown_page\"))\n            continue\n        markdown = page[\"md\"]\n        matches = _complete_token_matches(markdown, signal.flattened_token)\n        if len(matches) != 1:\n            abstained.append(\n                _abstention(signal, \"flattened_token_not_unique\", occurrences=len(matches))\n            )\n            continue\n        match = matches[0]\n        window = _line_window(markdown, match.start())\n        window_anchors = set(anchor_tokens(window))\n        matched_anchors = tuple(\n            sorted(set(signal.anchor_tokens).intersection(window_anchors))\n        )\n        if len(matched_anchors) < MIN_MATCHED_ANCHORS:\n            abstained.append(\n                _abstention(\n                    signal,\n                    \"insufficient_same_line_anchors\",\n                    matched_anchors=list(matched_anchors),\n                )\n            )\n            continue\n        proposals.append(\n            {\n                \"signal\": signal,\n                \"page_number\": signal.page_number,\n                \"start\": match.start(),\n                \"end\": match.end(),\n                \"matched_anchors\": matched_anchors,\n            }\n        )\n\n    by_location: dict[tuple[int, int, int], list[dict[str, Any]]] = {}\n    for proposal in proposals:\n        key = (proposal[\"page_number\"], proposal[\"start\"], proposal[\"end\"])\n        by_location.setdefault(key, []).append(proposal)\n\n    accepted: list[dict[str, Any]] = []\n    for rows in by_location.values():\n        replacements = {row[\"signal\"].explicit_markup for row in rows}\n        if len(rows) != 1 or len(replacements) != 1:\n            for row in rows:\n                abstained.append(_abstention(row[\"signal\"], \"mapping_conflict\"))\n            continue\n        accepted.append(rows[0])\n\n    accepted.sort(key=lambda row: (row[\"page_number\"], row[\"start\"]))\n    non_overlapping: list[dict[str, Any]] = []\n    previous_by_page: dict[int, int] = {}\n    for row in accepted:\n        previous_end = previous_by_page.get(row[\"page_number\"], -1)\n        if row[\"start\"] < previous_end:\n            abstained.append(_abstention(row[\"signal\"], \"overlapping_mapping\"))\n            continue\n        non_overlapping.append(row)\n        previous_by_page[row[\"page_number\"]] = row[\"end\"]\n\n    applied: list[dict[str, Any]] = []\n    for page_number in sorted({row[\"page_number\"] for row in non_overlapping}):\n        page = pages[page_number]\n        original = page[\"md\"]\n        updated = original\n        page_rows = [row for row in non_overlapping if row[\"page_number\"] == page_number]\n        for row in sorted(page_rows, key=lambda item: item[\"start\"], reverse=True):\n            signal = row[\"signal\"]\n            updated = (\n                updated[: row[\"start\"]]\n                + signal.explicit_markup\n                + updated[row[\"end\"] :]\n            )\n        page[\"md\"] = updated\n        for row in page_rows:\n            signal = row[\"signal\"]\n            applied.append(\n                {\n                    \"pdf_sha256\": actual_sha,\n                    \"page_number\": page_number,\n                    \"source_start\": row[\"start\"],\n                    \"source_end\": row[\"end\"],\n                    \"original_token\": signal.flattened_token,\n                    \"derived_token\": signal.explicit_markup,\n                    \"matched_anchors\": list(row[\"matched_anchors\"]),\n                    \"original_page_markdown_sha256\": _text_sha256(original),\n                    \"derived_page_markdown_sha256\": _text_sha256(updated),\n                    \"geometry\": asdict(signal),\n                }\n            )\n\n    return SuperscriptOverlayResult(\n        record=derived,\n        applied=tuple(applied),\n        abstained=tuple(abstained),\n    )\n\n\ndef preserve_numeric_superscripts(\n    extraction_record: dict[str, Any],\n    pdf_path: str | Path,\n) -> SuperscriptOverlayResult:\n    \"\"\"Derive a typography-preserving record from the SHA-bound PDF geometry.\"\"\"\n    return _preserve_numeric_superscripts(extraction_record, pdf_path)\n",
+  "tests": "from __future__ import annotations\n\nimport copy\nimport hashlib\n\nimport pytest\n\nfrom src.reingest.superscript_overlay import (\n    NumericSuperscriptSignal,\n    _numeric_signal_from_spans,\n    _preserve_numeric_superscripts,\n    _visual_row_anchor_tokens,\n    anchor_tokens,\n)\n\n\ndef _signal(\n    *,\n    page: int = 5,\n    base: str = \"10\",\n    script: str = \"5\",\n    anchors: tuple[str, ...] = (\"life\", \"operations\", \"time\"),\n) -> NumericSuperscriptSignal:\n    return NumericSuperscriptSignal(\n        page_number=page,\n        base=base,\n        script=script,\n        flattened_token=base + script,\n        explicit_markup=f\"{base}<sup>{script}</sup>\",\n        anchor_tokens=anchors,\n        base_font_size=7.98,\n        script_font_size=4.98,\n        font_size_ratio=0.62406,\n        baseline_delta_points=3.0,\n        horizontal_gap_points=0.014,\n        base_origin_y=769.464,\n        script_origin_y=766.464,\n        base_bbox=(243.23, 762.24, 252.11, 771.15),\n        script_bbox=(252.124, 761.96, 254.893, 767.515),\n    )\n\n\ndef _record(pdf_bytes: bytes, markdown: str) -> dict:\n    return {\n        \"sha256\": hashlib.sha256(pdf_bytes).hexdigest(),\n        \"result\": {\n            \"pages\": [\n                {\n                    \"page\": 5,\n                    \"md\": markdown,\n                    \"text\": \"raw text remains unchanged\",\n                    \"images\": [],\n                }\n            ]\n        },\n    }\n\n\ndef test_geometry_requires_pdf_superscript_flag_and_elevation():\n    previous = {\n        \"text\": \"10\",\n        \"size\": 8.0,\n        \"origin\": (0.0, 10.0),\n        \"bbox\": (0.0, 0.0, 8.0, 10.0),\n    }\n    script = {\n        \"text\": \"5\",\n        \"size\": 5.0,\n        \"origin\": (8.0, 7.0),\n        \"bbox\": (8.0, 0.0, 10.0, 7.0),\n        \"flags\": 1,\n    }\n    assert _numeric_signal_from_spans(previous, script, \"Life Time 105 Operations\", 5)\n    assert _numeric_signal_from_spans(previous, {**script, \"flags\": 0}, \"x\", 5) is None\n    assert (\n        _numeric_signal_from_spans(\n            previous, {**script, \"origin\": (8.0, 9.8)}, \"x\", 5\n        )\n        is None\n    )\n\n\ndef test_anchor_tokens_are_case_and_accent_insensitive():\n    assert anchor_tokens(\"OPERACIÓN eléctrica, Operacion\") == (\"electrica\", \"operacion\")\n\n\ndef test_visual_row_collects_anchors_across_separate_pdf_lines():\n    spans = [\n        {\n            \"text\": \"Life Time \",\n            \"bbox\": (169.14, 762.24, 204.23, 771.15),\n            \"origin\": (169.14, 769.464),\n        },\n        {\n            \"text\": \"Operations\",\n            \"bbox\": (295.87, 762.24, 337.19, 771.15),\n            \"origin\": (295.87, 769.464),\n        },\n        {\n            \"text\": \"Unrelated heading\",\n            \"bbox\": (100.0, 700.0, 180.0, 710.0),\n            \"origin\": (100.0, 708.0),\n        },\n    ]\n    assert _visual_row_anchor_tokens(spans, _signal()) == (\n        \"life\",\n        \"operations\",\n        \"time\",\n    )\n\n\ndef test_unique_context_bound_token_is_preserved_without_mutating_raw(tmp_path):\n    pdf_bytes = b\"synthetic-pdf-receipt\"\n    pdf = tmp_path / \"source.pdf\"\n    pdf.write_bytes(pdf_bytes)\n    raw = _record(\n        pdf_bytes,\n        \"| Life Time | 105 | Operations |\\n| Other | 200 | cycles |\",\n    )\n    frozen = copy.deepcopy(raw)\n    result = _preserve_numeric_superscripts(raw, pdf, signals=(_signal(),))\n    assert raw == frozen\n    assert result.record[\"result\"][\"pages\"][0][\"md\"] == (\n        \"| Life Time | 10<sup>5</sup> | Operations |\\n| Other | 200 | cycles |\"\n    )\n    assert result.record[\"result\"][\"pages\"][0][\"text\"] == \"raw text remains unchanged\"\n    assert len(result.applied) == 1\n    assert result.applied[0][\"matched_anchors\"] == [\"life\", \"operations\", \"time\"]\n    assert result.abstained == ()\n\n\n@pytest.mark.parametrize(\n    (\"markdown\", \"reason\"),\n    [\n        (\"Life Time 105 Operations and duplicate 105\", \"flattened_token_not_unique\"),\n        (\"Unrelated token 105 without source anchors\", \"insufficient_same_line_anchors\"),\n        (\"Life Time 10^5 Operations\", \"flattened_token_not_unique\"),\n    ],\n)\ndef test_ambiguous_or_already_explicit_candidates_abstain(tmp_path, markdown, reason):\n    pdf_bytes = b\"synthetic-pdf-receipt\"\n    pdf = tmp_path / \"source.pdf\"\n    pdf.write_bytes(pdf_bytes)\n    raw = _record(pdf_bytes, markdown)\n    result = _preserve_numeric_superscripts(raw, pdf, signals=(_signal(),))\n    assert result.record == raw\n    assert result.applied == ()\n    assert result.abstained[0][\"reason\"] == reason\n\n\ndef test_competing_signals_for_one_offset_abstain(tmp_path):\n    pdf_bytes = b\"synthetic-pdf-receipt\"\n    pdf = tmp_path / \"source.pdf\"\n    pdf.write_bytes(pdf_bytes)\n    raw = _record(pdf_bytes, \"Life Time 105 Operations\")\n    result = _preserve_numeric_superscripts(\n        raw,\n        pdf,\n        signals=(_signal(), _signal()),\n    )\n    assert result.record == raw\n    assert result.applied == ()\n    assert {row[\"reason\"] for row in result.abstained} == {\"mapping_conflict\"}\n\n\ndef test_second_pass_is_idempotent(tmp_path):\n    pdf_bytes = b\"synthetic-pdf-receipt\"\n    pdf = tmp_path / \"source.pdf\"\n    pdf.write_bytes(pdf_bytes)\n    first = _preserve_numeric_superscripts(\n        _record(pdf_bytes, \"Life Time 105 Operations\"),\n        pdf,\n        signals=(_signal(),),\n    )\n    second = _preserve_numeric_superscripts(first.record, pdf, signals=(_signal(),))\n    assert second.record == first.record\n    assert second.applied == ()\n    assert second.abstained[0][\"reason\"] == \"flattened_token_not_unique\"\n\n\ndef test_pdf_sha_mismatch_fails_closed(tmp_path):\n    pdf = tmp_path / \"source.pdf\"\n    pdf.write_bytes(b\"actual\")\n    raw = _record(b\"expected\", \"Life Time 105 Operations\")\n    with pytest.raises(ValueError, match=\"SHA-256\"):\n        _preserve_numeric_superscripts(raw, pdf, signals=(_signal(),))\n",
+  "local_gate": {
+    "instrument": "s162_numeric_superscript_overlay_local_gate_v2",
+    "status": "LOCAL_GO_ADVERSARIAL_REVIEW_REQUIRED",
+    "frozen_contract": {
+      "design": "evals/s162_numeric_superscript_overlay_design_v2.md",
+      "preregistration": "evals/s162_numeric_superscript_overlay_prereg_v2.yaml",
+      "prior_no_go": "evals/s162_numeric_superscript_overlay_gate_v1.yaml"
+    },
+    "implementation": {
+      "module": "src/reingest/superscript_overlay.py",
+      "tests": "tests/test_superscript_overlay.py",
+      "qualification_runner": "scripts/s162_qualify_numeric_superscript_overlay.py"
+    },
+    "target": {
+      "packet": "evals/s162_numeric_superscript_overlay_packet_v2.json",
+      "documents": 1,
+      "applied": 1,
+      "original": "105",
+      "derived": "10<sup>5</sup>",
+      "page": 5,
+      "other_markdown_deltas": 0
+    },
+    "independent": {
+      "target_excluded": true,
+      "candidate_documents": 10,
+      "documents_with_applied": 8,
+      "applied": 32,
+      "abstained": 62,
+      "failures": 0,
+      "raw_records_unchanged": true,
+      "visual_review": "evals/s162_numeric_superscript_visual_review_v2.yaml",
+      "visually_reviewed_documents": 8,
+      "visually_correct_attachments": 8,
+      "false_attachments": 0
+    },
+    "validation": {
+      "focused_tests": "10_passed",
+      "full_regression": "1418_passed_4_skipped",
+      "pdf_hash_binding": true,
+      "raw_extraction_mutations": 0,
+      "database_reads": 0,
+      "database_writes": 0,
+      "network_calls": 0,
+      "model_calls": 0
+    },
+    "decision": {
+      "local_candidate_v2": "GO",
+      "adversarial_review": "REQUIRED_ONCE",
+      "offline_pipeline_integration": "NOT_YET_AUTHORIZED",
+      "runtime": false,
+      "production": false,
+      "facts_moved_to_ok": 0,
+      "rationale": "V2 resolves the target using PDF-native typography and visual-row alignment, while independently preserving both mathematical superscripts and note markers as literal markup. It abstains on 62 ambiguous candidates and has zero observed false attachments. A single bounded Sol/Fable review remains before any integration design."
+    },
+    "cost": {
+      "usd": 0,
+      "model_calls": 0
+    }
+  },
+  "qualification_summary": {
+    "documents_processed": 11,
+    "failures": 0,
+    "target_documents": 1,
+    "target_applied": 1,
+    "independent_documents": 10,
+    "independent_documents_with_applied": 8,
+    "independent_applied": 32,
+    "independent_abstained": 62,
+    "raw_records_unchanged": true
+  },
+  "target": [
+    {
+      "extraction_sha256": "648e8deba384c0a27f7f255a9149f754acb6cca999c586b0667829e457888c72",
+      "manufacturer": "Manuales_Notifier",
+      "source_file": "I56-6577-006_EN Notifier FAAST LT-200 QIG.PDF",
+      "target_document": true,
+      "applied": [
+        {
+          "pdf_sha256": "648e8deba384c0a27f7f255a9149f754acb6cca999c586b0667829e457888c72",
+          "page_number": 5,
+          "source_start": 5019,
+          "source_end": 5022,
+          "original_token": "105",
+          "derived_token": "10<sup>5</sup>",
+          "matched_anchors": [
+            "life",
+            "operations",
+            "time"
+          ],
+          "original_page_markdown_sha256": "1df733f3cbf28526f9953dafcc5b1b7fc0ebbaf4aee0f316faae24d71798b296",
+          "derived_page_markdown_sha256": "31df8fa56798035561be9ffccfbee8e3cee09f7edbb46a3d92aa2c95ab3f6334",
+          "geometry": {
+            "page_number": 5,
+            "base": "10",
+            "script": "5",
+            "flattened_token": "105",
+            "explicit_markup": "10<sup>5</sup>",
+            "anchor_tokens": [
+              "life",
+              "operations",
+              "time"
+            ],
+            "base_font_size": 7.98,
+            "script_font_size": 4.98,
+            "font_size_ratio": 0.62406,
+            "baseline_delta_points": 3.0,
+            "horizontal_gap_points": 0.014343,
+            "base_origin_y": 769.463989,
+            "script_origin_y": 766.463989,
+            "base_bbox": [
+              243.230316,
+              762.242065,
+              252.10965,
+              771.147766
+            ],
+            "script_bbox": [
+              252.123993,
+              761.957092,
+              254.892868,
+              767.514771
+            ]
+          },
+          "original_markdown_line": "| Life Time      | 105 |     | Operations |                       |",
+          "derived_markdown_line": "| Life Time      | 10<sup>5</sup> |     | Operations |                       |"
+        }
+      ],
+      "abstained": [],
+      "raw_record_unchanged": true
+    }
+  ],
+  "independent_one_per_applied_document": [
+    {
+      "source_file": "I56-6577-006_ES FAAST Notifier LT-200 QIG.pdf",
+      "manufacturer_folder": "Manuales_Notifier",
+      "page_number": 5,
+      "original_markdown_line": "| Vida útil                         | 105  |      | Operaciones |                         |",
+      "derived_markdown_line": "| Vida útil                         | 10<sup>5</sup>  |      | Operaciones |                         |",
+      "matched_anchors": [
+        "operaciones",
+        "util",
+        "vida"
+      ],
+      "geometry": {
+        "page_number": 5,
+        "base": "10",
+        "script": "5",
+        "flattened_token": "105",
+        "explicit_markup": "10<sup>5</sup>",
+        "anchor_tokens": [
+          "operaciones",
+          "util",
+          "vida"
+        ],
+        "base_font_size": 7.2248,
+        "script_font_size": 4.5087,
+        "font_size_ratio": 0.624059,
+        "baseline_delta_points": 2.716064,
+        "horizontal_gap_points": 0.008911,
+        "base_origin_y": 769.362305,
+        "script_origin_y": 766.64624,
+        "base_bbox": [
+          242.93869,
+          761.848511,
+          250.97699,
+          771.710388
+        ],
+        "script_bbox": [
+          250.985901,
+          761.957214,
+          253.492737,
+          768.111572
+        ]
+      }
+    },
+    {
+      "source_file": "I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG.pdf",
+      "manufacturer_folder": "Manuales_Morley",
+      "page_number": 5,
+      "original_markdown_line": "| Vida útil        | 105  |      | Operaciones |                         |",
+      "derived_markdown_line": "| Vida útil        | 10<sup>5</sup>  |      | Operaciones |                         |",
+      "matched_anchors": [
+        "operaciones",
+        "util",
+        "vida"
+      ],
+      "geometry": {
+        "page_number": 5,
+        "base": "10",
+        "script": "5",
+        "flattened_token": "105",
+        "explicit_markup": "10<sup>5</sup>",
+        "anchor_tokens": [
+          "operaciones",
+          "util",
+          "vida"
+        ],
+        "base_font_size": 7.2248,
+        "script_font_size": 4.5087,
+        "font_size_ratio": 0.624059,
+        "baseline_delta_points": 2.716125,
+        "horizontal_gap_points": 0.008896,
+        "base_origin_y": 784.429443,
+        "script_origin_y": 781.713318,
+        "base_bbox": [
+          245.1409,
+          776.915649,
+          253.179199,
+          786.777527
+        ],
+        "script_bbox": [
+          253.188095,
+          777.024292,
+          255.694931,
+          783.17865
+        ]
+      }
+    },
+    {
+      "source_file": "MNDT390.pdf",
+      "manufacturer_folder": "Manuales_Notifier_Privado",
+      "page_number": 27,
+      "original_markdown_line": "| Sistema 5000 con AIM                                                                                                                                                                                                          | 014                     | 01-04 | 044                     | 01-04 |",
+      "derived_markdown_line": "| Sistema 5000 con AIM                                                                                                                                                                                                          | 01<sup>4</sup>                     | 01-04 | 04<sup>4</sup>                     | 01-04 |",
+      "matched_anchors": [
+        "aim",
+        "con",
+        "sistema"
+      ],
+      "geometry": {
+        "page_number": 27,
+        "base": "01",
+        "script": "4",
+        "flattened_token": "014",
+        "explicit_markup": "01<sup>4</sup>",
+        "anchor_tokens": [
+          "aim",
+          "con",
+          "sistema"
+        ],
+        "base_font_size": 8.88,
+        "script_font_size": 5.28,
+        "font_size_ratio": 0.594595,
+        "baseline_delta_points": 3.119995,
+        "horizontal_gap_points": 0.342743,
+        "base_origin_y": 580.160095,
+        "script_origin_y": 577.0401,
+        "base_bbox": [
+          238.320007,
+          571.28009,
+          248.297272,
+          582.380066
+        ],
+        "script_bbox": [
+          248.640015,
+          571.760071,
+          251.575699,
+          578.360107
+        ]
+      }
+    },
+    {
+      "source_file": "MNDT080.pdf",
+      "manufacturer_folder": "Manuales_Notifier_Privado",
+      "page_number": 48,
+      "original_markdown_line": "| 4-5       | Código de Alarma Zona 3, C.R.A. Principal                          | 131     |",
+      "derived_markdown_line": "| 4-5       | Código de Alarma Zona 3, C.R.A. Principal                          | 13<sup>1</sup>     |",
+      "matched_anchors": [
+        "alarma",
+        "codigo",
+        "principal",
+        "zona"
+      ],
+      "geometry": {
+        "page_number": 48,
+        "base": "13",
+        "script": "1",
+        "flattened_token": "131",
+        "explicit_markup": "13<sup>1</sup>",
+        "anchor_tokens": [
+          "alarma",
+          "codigo",
+          "principal",
+          "zona"
+        ],
+        "base_font_size": 8.5,
+        "script_font_size": 5.0,
+        "font_size_ratio": 0.588235,
+        "baseline_delta_points": 2.880127,
+        "horizontal_gap_points": 0.476562,
+        "base_origin_y": 153.450012,
+        "script_origin_y": 150.569885,
+        "base_bbox": [
+          439.373657,
+          144.499512,
+          448.373444,
+          155.838516
+        ],
+        "script_bbox": [
+          448.850006,
+          145.304886,
+          451.350006,
+          151.974884
+        ]
+      }
+    },
+    {
+      "source_file": "I56-6575-005_ES FAAST LT-200 Loop QIG.pdf",
+      "manufacturer_folder": "Manuales_Morley",
+      "page_number": 5,
+      "original_markdown_line": "| Vida útil                         | 105  |      | Operaciones |                         |",
+      "derived_markdown_line": "| Vida útil                         | 10<sup>5</sup>  |      | Operaciones |                         |",
+      "matched_anchors": [
+        "operaciones",
+        "util",
+        "vida"
+      ],
+      "geometry": {
+        "page_number": 5,
+        "base": "10",
+        "script": "5",
+        "flattened_token": "105",
+        "explicit_markup": "10<sup>5</sup>",
+        "anchor_tokens": [
+          "operaciones",
+          "util",
+          "vida"
+        ],
+        "base_font_size": 7.2248,
+        "script_font_size": 4.5087,
+        "font_size_ratio": 0.624059,
+        "baseline_delta_points": 2.716064,
+        "horizontal_gap_points": 0.008911,
+        "base_origin_y": 769.362305,
+        "script_origin_y": 766.64624,
+        "base_bbox": [
+          242.93869,
+          761.848511,
+          250.97699,
+          771.710388
+        ],
+        "script_bbox": [
+          250.985901,
+          761.957214,
+          253.492737,
+          768.111572
+        ]
+      }
+    },
+    {
+      "source_file": "I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG.pdf",
+      "manufacturer_folder": "Manuales_Morley",
+      "page_number": 5,
+      "original_markdown_line": "| Life Time      | 105 |     | Operations |                       |",
+      "derived_markdown_line": "| Life Time      | 10<sup>5</sup> |     | Operations |                       |",
+      "matched_anchors": [
+        "life",
+        "operations",
+        "time"
+      ],
+      "geometry": {
+        "page_number": 5,
+        "base": "10",
+        "script": "5",
+        "flattened_token": "105",
+        "explicit_markup": "10<sup>5</sup>",
+        "anchor_tokens": [
+          "life",
+          "operations",
+          "time"
+        ],
+        "base_font_size": 7.98,
+        "script_font_size": 4.98,
+        "font_size_ratio": 0.62406,
+        "baseline_delta_points": 3.0,
+        "horizontal_gap_points": -0.004013,
+        "base_origin_y": 774.440002,
+        "script_origin_y": 771.440002,
+        "base_bbox": [
+          243.373779,
+          766.140808,
+          252.255508,
+          777.033508
+        ],
+        "script_bbox": [
+          252.251495,
+          766.260803,
+          255.02037,
+          773.058533
+        ]
+      }
+    },
+    {
+      "source_file": "I56-3947-202_FAAST LT_MULTI.pdf",
+      "manufacturer_folder": "Manuales_Notifier_Privado",
+      "page_number": 5,
+      "original_markdown_line": "| Life Time      | 105 |     | Operations |                       |",
+      "derived_markdown_line": "| Life Time      | 10<sup>5</sup> |     | Operations |                       |",
+      "matched_anchors": [
+        "life",
+        "operations",
+        "time"
+      ],
+      "geometry": {
+        "page_number": 5,
+        "base": "10",
+        "script": "5",
+        "flattened_token": "105",
+        "explicit_markup": "10<sup>5</sup>",
+        "anchor_tokens": [
+          "life",
+          "operations",
+          "time"
+        ],
+        "base_font_size": 7.98,
+        "script_font_size": 4.98,
+        "font_size_ratio": 0.62406,
+        "baseline_delta_points": 3.0,
+        "horizontal_gap_points": -0.004021,
+        "base_origin_y": 768.351196,
+        "script_origin_y": 765.351196,
+        "base_bbox": [
+          109.02668,
+          760.323303,
+          117.908424,
+          770.944702
+        ],
+        "script_bbox": [
+          117.904404,
+          760.341309,
+          120.673286,
+          766.969727
+        ]
+      }
+    },
+    {
+      "source_file": "I56-6575-005_EN-FAAST-LT-200-Loop-QIG.pdf",
+      "manufacturer_folder": "Manuales_Morley",
+      "page_number": 5,
+      "original_markdown_line": "| Life Time      | 105 |           | Operations |                                                 |",
+      "derived_markdown_line": "| Life Time      | 10<sup>5</sup> |           | Operations |                                                 |",
+      "matched_anchors": [
+        "life",
+        "operations",
+        "time"
+      ],
+      "geometry": {
+        "page_number": 5,
+        "base": "10",
+        "script": "5",
+        "flattened_token": "105",
+        "explicit_markup": "10<sup>5</sup>",
+        "anchor_tokens": [
+          "life",
+          "operations",
+          "time"
+        ],
+        "base_font_size": 7.98,
+        "script_font_size": 4.98,
+        "font_size_ratio": 0.62406,
+        "baseline_delta_points": 3.0,
+        "horizontal_gap_points": -0.004013,
+        "base_origin_y": 769.479431,
+        "script_origin_y": 766.479431,
+        "base_bbox": [
+          243.373779,
+          761.180237,
+          252.255508,
+          772.072937
+        ],
+        "script_bbox": [
+          252.251495,
+          761.300232,
+          255.02037,
+          768.097961
+        ]
+      }
+    }
+  ],
+  "visual_review": {
+    "instrument": "s162_numeric_superscript_visual_review_v2",
+    "status": "VISUAL_REVIEW_GO",
+    "source_packet": "evals/s162_numeric_superscript_overlay_packet_v2.json",
+    "method": {
+      "renderer": "Poppler_pdftoppm",
+      "dpi": 200,
+      "reviewer": "codex_visual_inspection",
+      "sampling": "one_applied_page_per_non_target_document",
+      "target_document_excluded": true
+    },
+    "reviewed": [
+      {
+        "source_file": "I56-6574-005_EN-HS-Stand-Alone-FAAST-LT-200-QIG.pdf",
+        "pdf_page": 5,
+        "rendered_sha256": "b826ac299504a6245732608869ba3b9c2b69e4ef0d5075f1825fa53b06ec8d64",
+        "observed": "Life Time | 10 with superscript 5 | Operations",
+        "attachment_correct": true
+      },
+      {
+        "source_file": "I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG.pdf",
+        "pdf_page": 5,
+        "rendered_sha256": "5be60f87fbf7246d15e1dc9737e415f23fb9ccde0a8a2ab2348d4eb367a0fdcc",
+        "observed": "Vida util | 10 with superscript 5 | Operaciones",
+        "attachment_correct": true
+      },
+      {
+        "source_file": "I56-6575-005_EN-FAAST-LT-200-Loop-QIG.pdf",
+        "pdf_page": 5,
+        "rendered_sha256": "4d1a07960284c36b7e49e89064fd3ce5f89e75335e855a1c052edc2d913e1836",
+        "observed": "Life Time | 10 with superscript 5 | Operations",
+        "attachment_correct": true
+      },
+      {
+        "source_file": "I56-6575-005_ES FAAST LT-200 Loop QIG.pdf",
+        "pdf_page": 5,
+        "rendered_sha256": "a2ae7949d2d3e4b0d4892c4cb4f28c289dce4c121fe26a30483cda9a1706189d",
+        "observed": "Vida util | 10 with superscript 5 | Operaciones",
+        "attachment_correct": true
+      },
+      {
+        "source_file": "I56-6577-006_ES FAAST Notifier LT-200 QIG.pdf",
+        "pdf_page": 5,
+        "rendered_sha256": "0531f6cc78e1f915fd31f44473102935690dbd766e1aae46ab4451e1298a1689",
+        "observed": "Vida util | 10 with superscript 5 | Operaciones",
+        "attachment_correct": true
+      },
+      {
+        "source_file": "I56-3947-202_FAAST LT_MULTI.pdf",
+        "pdf_page": 5,
+        "rendered_sha256": "6ab6f9b49ee6fa8d4d9389def6da4f16cfac517153c9934785c070d059562057",
+        "observed": "Life Time | 10 with superscript 5 | Operations",
+        "attachment_correct": true
+      },
+      {
+        "source_file": "MNDT080.pdf",
+        "pdf_page": 48,
+        "rendered_sha256": "cd9974b259a2fc557b19f62bf86835dcdb8119216f0eba1a870ce4bc61583dc0",
+        "observed": "event-code values 11 through 19 carry superscript note marker 1",
+        "attachment_correct": true
+      },
+      {
+        "source_file": "MNDT390.pdf",
+        "pdf_page": 27,
+        "rendered_sha256": "140625750dd7e2f2a92c0a85249fbb9ce3a5e7015eae118e2e4e53d86265b862",
+        "observed": "table values such as 01 and 04 carry superscript note marker 4",
+        "attachment_correct": true
+      }
+    ],
+    "result": {
+      "documents_reviewed": 8,
+      "pdf_typography_matches_receipt": 8,
+      "correct_markdown_attachments": 8,
+      "false_attachments": 0,
+      "typography_match_rate": 1.0,
+      "attachment_precision": 1.0
+    },
+    "notes": [
+      "Superscripts in MNDT080 and MNDT390 are note markers, not powers. Literal <sup> markup preserves this distinction without assigning mathematical semantics.",
+      "Poppler warned about unavailable Symbol/ArialUnicode display fonts on two pages; the reviewed numeric superscripts and their row labels rendered clearly and were unaffected."
+    ],
+    "cost": {
+      "model_calls": 0,
+      "network_calls": 0,
+      "usd": 0
+    }
+  },
+  "questions": [
+    "Can this candidate safely proceed to a separate default-off offline integration design?",
+    "Can geometry or Markdown alignment silently attach <sup> markup to the wrong token?",
+    "Does the implementation preserve typography without inferring exponent semantics?",
+    "Are abstention, provenance, immutability, idempotence, tests and validation adequate for this scope?",
+    "Is any critical or medium change required before integration design?"
+  ],
+  "packet_sha256": "89a4315943b0217c316a0ffeac2d7a323131ab331d0ed416a1ed0dd464328ef5"
+}

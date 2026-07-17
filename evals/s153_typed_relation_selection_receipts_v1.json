@@ -1,0 +1,96 @@
+{
+  "instrument": "s153_typed_relation_selection_receipts_v1",
+  "status": "COMPLETE",
+  "created_at": "2026-07-16T23:51:49.188581+00:00",
+  "model": "claude-haiku-4-5-20251001",
+  "receipts": [
+    {
+      "qid": "cat018",
+      "response_id": "msg_011Cd6dmRV22WJkkwQ8JST9i",
+      "counted_input_tokens": 7751,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 7751,
+        "output_tokens": 203,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.017532,
+      "validation": "VALIDATED",
+      "raw_text": "{\"intent\": \"programming\", \"claim_ids\": [\"C_eef21905f5a94613\", \"C_3cec9f5ceea4f771\", \"C_5036979031088c38\", \"C_7556566d6573a2d4\", \"C_9878dfc19d6daef1\", \"C_5a1c4536d90ba471\", \"C_321cf6e5331c765d\", \"C_d48245484c439384\", \"C_d2bc29f0310567d9\", \"C_265392d347143ade\", \"C_a2c108b650e6ca57\", \"C_e4bf5bee23c2ef83\", \"C_1b2395db3c60cdd3\", \"C_0eb60d1425f1eca5\"]}",
+      "raw_text_sha256": "05dcf3d3c82a8b32d33ba80ff879979cb8f5465214a0884ce4dc1d03b747ed76"
+    },
+    {
+      "qid": "hp002",
+      "response_id": "msg_011Cd6dmjEcdoBXjTvwtGagL",
+      "counted_input_tokens": 7994,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 7994,
+        "output_tokens": 140,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.017388,
+      "validation": "VALIDATED",
+      "raw_text": "{\"intent\": \"diagnostic\", \"claim_ids\": [\"C_e7f91b2bac754bb8\", \"C_5a742b2268f4bfa3\", \"C_19ca5d556c57f97a\", \"C_89643bcacafd38a1\", \"C_30b4a98601394739\", \"C_d65eba90dc0a4609\", \"C_098ec580899ae2f0\", \"C_f5e144ae9ed73008\", \"C_c4f3dfc3f48b7aa5\"]}",
+      "raw_text_sha256": "d98d7c83b0f463a3ae1c3a7a3b14cfb20496159f091ef522a9ce59d9cbc70b5e"
+    },
+    {
+      "qid": "hp011",
+      "response_id": "msg_011Cd6dmwjSVhHHW9twE6p5d",
+      "counted_input_tokens": 8306,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 8306,
+        "output_tokens": 178,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.018392,
+      "validation": "VALIDATED",
+      "raw_text": "{\"intent\": \"reset_recovery\", \"claim_ids\": [\"C_fa08af65a8872af9\", \"C_fde5fb1a6996842e\", \"C_98d93461b6391dcd\", \"C_20322faea3fa7f56\", \"C_d54fc70bb466986e\", \"C_8570987c1b4af010\", \"C_3505a497e26ece44\", \"C_b6d79d6fdd936934\", \"C_bc9825b1b393b0ae\", \"C_cf7472ff91e7180e\", \"C_8ce4c5175ea4201d\", \"C_d3d38f4029b8153a\"]}",
+      "raw_text_sha256": "8ebbcfeabc6797698156b4ca64ca6fcdcd8730469a52a11f516c3cb428c1f2e7"
+    },
+    {
+      "qid": "hp017",
+      "response_id": "msg_011Cd6dnDYDBALX19cxF3KHL",
+      "counted_input_tokens": 8549,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 8549,
+        "output_tokens": 233,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "conservative_cost_usd": 0.019428,
+      "validation": "VALIDATED",
+      "raw_text": "{\"intent\": \"programming\", \"claim_ids\": [\"C_90ba564de3e73de6\", \"C_917f18d12c08c8cc\", \"C_5d864ed29293dc00\", \"C_256e86b1bd4fd387\", \"C_de6e7261703b41c3\", \"C_9cf5e5af0c9dd8c1\", \"C_bfcf24750dbff6f1\", \"C_022b525ad4951309\", \"C_25f81edda66ce2ab\", \"C_0a33d3f6e9563f0a\", \"C_21a22826489d3df4\", \"C_1fe776dc3704f176\", \"C_441cd7e662f2d138\", \"C_3c57039f4b6b430c\", \"C_ce6d8f352743ae66\", \"C_6fb706d76da2e394\"]}",
+      "raw_text_sha256": "e203774b8109ba3a5c2943bbddc012c6b8b6493742c301fce080b856aa994037"
+    }
+  ]
+}

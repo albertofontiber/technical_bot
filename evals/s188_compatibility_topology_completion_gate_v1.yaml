@@ -1,0 +1,70 @@
+instrument: s188_compatibility_topology_completion_gate_v1
+status: GO_LOCAL_DEFAULT_OFF_KNOWN_COHORT
+
+evidence:
+  design: evals/s188_compatibility_topology_completion_design_v1.md
+  cascade: evals/s188_compatibility_answer_cascade_v1.json
+  runtime: src/rag/compatibility_bundle_coverage.py
+  evidence_config: config/evidence_coverage_compatibility_candidate_v2.yaml
+
+contract:
+  lane: canonical_compatibility_bundle_coverage_v2
+  version: governed_two_entity_three_facet_bundle_v2
+  required_facets: [loop_topology, protocol_scope, supported_device_roster]
+  topology_cards_max: 2
+  bundle_cards_observed: 5
+  partial_bundle_policy: serve_none
+  runtime_flag: COMPATIBILITY_BUNDLE_COVERAGE
+  runtime_default: false
+
+local_validation:
+  live_read_only_bundle_parents: 3
+  live_http_get_requests: 3
+  exact_source_spans: true
+  bundle_revalidated: true
+  literal_closed_loop_reaches_answer: true
+  literal_clip_reaches_answer: true
+  direct_compatibility_refused: true
+  positive_interoperability_asserted: false
+  model_calls: 0
+  database_writes: 0
+  targeted_tests_passed: 55
+  targeted_tests_failed: 0
+
+known_cohort_transition:
+  facts:
+    - cat013#0:bucle cerrado
+    - cat013#1:CLIP
+  from: retrieval-miss
+  to: OK
+  diagnostic_fact_delta: 2
+  official_fact_delta: 0
+  basis: >-
+    The deterministic answer now copies the exact closed-loop declaration and
+    exact CLIP protocol statement from validated source spans while refusing
+    unsupported cross-manufacturer interoperability.
+
+candidate_funnel_if_flag_enabled:
+  denominator: 157
+  OK: 143
+  synthesis-miss: 12
+  retrieval-miss: 2
+  ok_rate_percent: 91.08
+  gap_to_95_percent: 7
+
+release_boundary:
+  production: false
+  deployed: false
+  flag_enabled: false
+  independent_external_generalization: false
+  s127_no_go_reopened: false
+  next: >-
+    Treat the two remaining retrieval misses as residual and return to the
+    twelve synthesis misses. Keep this lane default-off until an independent
+    real compatibility cohort authorizes release.
+
+cost:
+  api_usd: 0
+  model_calls: 0
+  live_http_get_requests: 3
+  database_writes: 0

@@ -1,0 +1,604 @@
+{
+  "instrument": "s141_source_bound_technical_obligations_v1",
+  "status": "LOCAL_GO_INDEPENDENT_POSITIVE_INCONCLUSIVE",
+  "inputs": {
+    "development_freeze": {
+      "path": "evals/s113_full_contexts_freeze_v1.json",
+      "sha256": "22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d"
+    },
+    "heldout_prereg": {
+      "path": "evals/s141_independent_generalization_prereg_v1.yaml",
+      "sha256": "be1e350698c25a958b65f90f435978fa4eb3b0bbe361ca08fa69e815da58297b"
+    },
+    "heldout_freeze_sha256": "227e808a2ba2308acce89f90722fd46a63bad30aae0cde630191154b4ff07d94"
+  },
+  "development": {
+    "target_facts": 18,
+    "source_incomplete_rejections": 5,
+    "served_relation_targets": 13,
+    "emitted_relations": 13,
+    "source_receipt_rate": 1.0,
+    "reconstruction_covered": 13,
+    "target_rows": [
+      {
+        "qid": "cat007",
+        "expected_kinds": [],
+        "emitted_kinds": [],
+        "exact_match": true,
+        "source_receipts": [],
+        "reconstruction_covered": null,
+        "reconstruction_action": null
+      },
+      {
+        "qid": "cat018",
+        "expected_kinds": [
+          "point_programming_fields",
+          "software_type_cbe_activation"
+        ],
+        "emitted_kinds": [
+          "point_programming_fields",
+          "software_type_cbe_activation"
+        ],
+        "exact_match": true,
+        "source_receipts": [
+          {
+            "qid": "cat018",
+            "candidate_id": "0c6cc5e0-0df9-428f-870f-a19fe461c3a9",
+            "source_file": "AM-8200-manu-prog-spa",
+            "kind": "software_type_cbe_activation",
+            "source_start": 633,
+            "source_end": 850,
+            "raw_span_sha256": "7c9168471a31a7fb8fee77fb7bcd3e049616be6dd64293c5cb492cb16c9edd9c",
+            "statement_sha256": "cf2fee57199051408a4b575402fe71d2179bab14619ff61a76b05d96e8c98f0c",
+            "identity_receipt_sha256": "4f33024737977e35ba0ee27346f13c4afb1f3c7093423d3446b2c43fd5b986ad",
+            "receipt_sha256": "b1eb2311ea8b6e5c3ae76aa91bd944560fc0ac62c6bcd3293e82904a7587c908"
+          },
+          {
+            "qid": "cat018",
+            "candidate_id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+            "source_file": "AM-8200-manu-prog-spa",
+            "kind": "point_programming_fields",
+            "source_start": 0,
+            "source_end": 1526,
+            "raw_span_sha256": "b37d030c728278a4dde17b03da31ef75b4ad7904d262bdccfb2358d7787b2327",
+            "statement_sha256": "d3aa9a12ce89d12615f1d366b88864b4100c121d4ce0d8e3197ac72b4bc50559",
+            "identity_receipt_sha256": "4f33024737977e35ba0ee27346f13c4afb1f3c7093423d3446b2c43fd5b986ad",
+            "receipt_sha256": "f9f33329bc50692e9d8da8bfc88abbbf4edc594ff6af86a81f3ae9a2439456dc"
+          }
+        ],
+        "reconstruction_covered": 2,
+        "reconstruction_action": "source_bound_reconstruction"
+      },
+      {
+        "qid": "hp002",
+        "expected_kinds": [
+          "bounded_fault_window",
+          "initial_reference_calibration",
+          "maintenance_isolation_prerequisite"
+        ],
+        "emitted_kinds": [
+          "bounded_fault_window",
+          "initial_reference_calibration",
+          "maintenance_isolation_prerequisite"
+        ],
+        "exact_match": true,
+        "source_receipts": [
+          {
+            "qid": "hp002",
+            "candidate_id": "414ce99c-0dec-478c-b504-009f14631804",
+            "source_file": "ASD535_TD_T131192es_h",
+            "kind": "initial_reference_calibration",
+            "source_start": 367,
+            "source_end": 992,
+            "raw_span_sha256": "42a2c34a654b064fe9f67af70c5dd76336e764351183cd7933fbdc241d639aed",
+            "statement_sha256": "bd01b71074a4e5996a44c53a021815f9ea35dec37fa0002d2828b3d9c9cd94c3",
+            "identity_receipt_sha256": "bf07e66e64a931962d289b1f2e423981d3352cbaa8049a4c73f304a0a472f104",
+            "receipt_sha256": "5796f69341c225488bafba0b1de6180434403179ac1516a8aabb7e4c85d9ba25"
+          },
+          {
+            "qid": "hp002",
+            "candidate_id": "414ce99c-0dec-478c-b504-009f14631804",
+            "source_file": "ASD535_TD_T131192es_h",
+            "kind": "bounded_fault_window",
+            "source_start": 1623,
+            "source_end": 2193,
+            "raw_span_sha256": "46903df55fac395c9e84ed771221a4c6126faba9658fdfa79a64f1893971ad96",
+            "statement_sha256": "46903df55fac395c9e84ed771221a4c6126faba9658fdfa79a64f1893971ad96",
+            "identity_receipt_sha256": "bf07e66e64a931962d289b1f2e423981d3352cbaa8049a4c73f304a0a472f104",
+            "receipt_sha256": "1812502d8051e8c718524356622c5ee3a5e4df6413e3d199e01052e22d55b637"
+          },
+          {
+            "qid": "hp002",
+            "candidate_id": "5b6a3a19-a924-4cf4-9513-bd50786ee3d9",
+            "source_file": "ASD535_TD_T131192es_h",
+            "kind": "maintenance_isolation_prerequisite",
+            "source_start": 57,
+            "source_end": 290,
+            "raw_span_sha256": "ff771070a8fda9aab8247bbfc8c5c5d1407cd5aad5a8057991e63054f541ab81",
+            "statement_sha256": "ab9575a8f59638b78620ac398bad8250da533243eaadb16a6220dbcbeee5e527",
+            "identity_receipt_sha256": "bf07e66e64a931962d289b1f2e423981d3352cbaa8049a4c73f304a0a472f104",
+            "receipt_sha256": "4df094b888ba5ee350dbad91c5a256c3d9528192e1bb83268e161283272dc33b"
+          }
+        ],
+        "reconstruction_covered": 3,
+        "reconstruction_action": "source_bound_reconstruction"
+      },
+      {
+        "qid": "hp011",
+        "expected_kinds": [
+          "default_latched_faults",
+          "extinction_duration_range",
+          "reset_inhibit_special_state"
+        ],
+        "emitted_kinds": [
+          "default_latched_faults",
+          "extinction_duration_range",
+          "reset_inhibit_special_state"
+        ],
+        "exact_match": true,
+        "source_receipts": [
+          {
+            "qid": "hp011",
+            "candidate_id": "2d45a70a-5202-442e-af84-c3a176c2178d",
+            "source_file": "HLSI-MN-103_RP1r-Supra_lr",
+            "kind": "extinction_duration_range",
+            "source_start": 0,
+            "source_end": 147,
+            "raw_span_sha256": "ec8ff39d417e364657989493554cbf8860d429d0da0462bb70825c8995430901",
+            "statement_sha256": "82f879656e013a11b0d8228191636b33d61c92c30f56a70f43f8079c780d8b5b",
+            "identity_receipt_sha256": "d27c4336496f996e01399cfa269da131f9a7e37edc46e1c495041fcef0b5cdb9",
+            "receipt_sha256": "a03642df93c164a8c9208d551b7b8b730ae0c3fc3ae0f7fadb7aefd4c1642269"
+          },
+          {
+            "qid": "hp011",
+            "candidate_id": "475a8f18-7c69-4c7a-8111-45bd67334c96",
+            "source_file": "HLSI-MN-103_RP1r-Supra_lr",
+            "kind": "reset_inhibit_special_state",
+            "source_start": 1120,
+            "source_end": 1667,
+            "raw_span_sha256": "a0766dc558a90eb9931591803dca56cb6dd085a888f044e067c7f679415a32c2",
+            "statement_sha256": "ebd822b8c1d79e8b89e03c0aa2175fae4c7777e794492b0674ca1339bed4a296",
+            "identity_receipt_sha256": "d27c4336496f996e01399cfa269da131f9a7e37edc46e1c495041fcef0b5cdb9",
+            "receipt_sha256": "9b82e4677cc5143353dd9a811ac0e66c784e16d600744387a7ea0b0c86dfc19e"
+          },
+          {
+            "qid": "hp011",
+            "candidate_id": "c8924d59-a9ce-4379-a3b7-57058ff86a82",
+            "source_file": "HLSI-MN-103_RP1r-Supra_lr",
+            "kind": "default_latched_faults",
+            "source_start": 566,
+            "source_end": 706,
+            "raw_span_sha256": "728fdbbac09bd95fadfe0749d60d82adb7680446f44b13f0da8ffda70fac7c31",
+            "statement_sha256": "728fdbbac09bd95fadfe0749d60d82adb7680446f44b13f0da8ffda70fac7c31",
+            "identity_receipt_sha256": "d27c4336496f996e01399cfa269da131f9a7e37edc46e1c495041fcef0b5cdb9",
+            "receipt_sha256": "76cdcb94101e275c1dcade007cf8e86493ad6d2d9ce461889060239c05a7b9a8"
+          }
+        ],
+        "reconstruction_covered": 3,
+        "reconstruction_action": "source_bound_reconstruction"
+      },
+      {
+        "qid": "hp017",
+        "expected_kinds": [
+          "commissioning_rule_verification",
+          "input_condition_definition",
+          "logic_contradiction_warning",
+          "option_family_cardinality",
+          "output_condition_action"
+        ],
+        "emitted_kinds": [
+          "commissioning_rule_verification",
+          "input_condition_definition",
+          "logic_contradiction_warning",
+          "option_family_cardinality",
+          "output_condition_action"
+        ],
+        "exact_match": true,
+        "source_receipts": [
+          {
+            "qid": "hp017",
+            "candidate_id": "570d9951-e3a6-4c64-a927-e26b5e6db842",
+            "source_file": "997-671-005-3_Configuration_ES",
+            "kind": "option_family_cardinality",
+            "source_start": 238,
+            "source_end": 452,
+            "raw_span_sha256": "44023204f30512b277857e72c32179185e544f0f8b0681c98101e6b712f112a9",
+            "statement_sha256": "44023204f30512b277857e72c32179185e544f0f8b0681c98101e6b712f112a9",
+            "identity_receipt_sha256": "d2d49f45084f2e0580a1c544cabee4a6e54ec8f5e2567efd620479afc46c410c",
+            "receipt_sha256": "ef664146aab8e71c267e650979054c9ed0a51bd589648a3270089230efe85f88"
+          },
+          {
+            "qid": "hp017",
+            "candidate_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+            "source_file": "997-671-005-3_Configuration_ES",
+            "kind": "input_condition_definition",
+            "source_start": 1425,
+            "source_end": 1692,
+            "raw_span_sha256": "9267151fbad48b202fd1145e8dc03718f8ddd3fc78423933c696171cc98c19c9",
+            "statement_sha256": "9267151fbad48b202fd1145e8dc03718f8ddd3fc78423933c696171cc98c19c9",
+            "identity_receipt_sha256": "d2d49f45084f2e0580a1c544cabee4a6e54ec8f5e2567efd620479afc46c410c",
+            "receipt_sha256": "95b7eac1780ddfdffa268ff08160d8fd40ab49b6aec460a425caac11125f65c6"
+          },
+          {
+            "qid": "hp017",
+            "candidate_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+            "source_file": "997-671-005-3_Configuration_ES",
+            "kind": "output_condition_action",
+            "source_start": 1694,
+            "source_end": 2107,
+            "raw_span_sha256": "011ad9a7336da92bca25bcca36e6d11783d2d659a76e9756d86f0f4af8cf8682",
+            "statement_sha256": "011ad9a7336da92bca25bcca36e6d11783d2d659a76e9756d86f0f4af8cf8682",
+            "identity_receipt_sha256": "d2d49f45084f2e0580a1c544cabee4a6e54ec8f5e2567efd620479afc46c410c",
+            "receipt_sha256": "c244bc73599e17b731985d69e1352483aa88dd6ffb3dab36c769addc1c8cc1f7"
+          },
+          {
+            "qid": "hp017",
+            "candidate_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+            "source_file": "997-671-005-3_Configuration_ES",
+            "kind": "logic_contradiction_warning",
+            "source_start": 2479,
+            "source_end": 2555,
+            "raw_span_sha256": "84759f9608dc8b7c74900f0f8bda29ce4bdce5ff3dbf0b465167a564e2de18dd",
+            "statement_sha256": "cbc2f6ac2099f51c73f2cbd3b85976106617ca29618495b8d272893a14c74530",
+            "identity_receipt_sha256": "d2d49f45084f2e0580a1c544cabee4a6e54ec8f5e2567efd620479afc46c410c",
+            "receipt_sha256": "6dd492ab091f0924f05b645e293f2c085551badf37da8a54fd604f5b7a82e378"
+          },
+          {
+            "qid": "hp017",
+            "candidate_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+            "source_file": "997-671-005-3_Configuration_ES",
+            "kind": "commissioning_rule_verification",
+            "source_start": 2558,
+            "source_end": 2724,
+            "raw_span_sha256": "cea4c7bdd43ac4484361488c97d6f62551f0a5ce5f62afb12103182183d5321f",
+            "statement_sha256": "aa5af0f8c0eb7d36c491439b759ce3e2769affad52b111027d2bc1d457aa014b",
+            "identity_receipt_sha256": "d2d49f45084f2e0580a1c544cabee4a6e54ec8f5e2567efd620479afc46c410c",
+            "receipt_sha256": "97b7279d33de1f94edc0df356c7f9b3dc7f244d03ae4725d65b5bea4f736f424"
+          }
+        ],
+        "reconstruction_covered": 5,
+        "reconstruction_action": "fail_closed"
+      }
+    ]
+  },
+  "negative_controls": {
+    "questions": 34,
+    "acceptances": 0,
+    "rows": [
+      {
+        "qid": "cat001",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "cat005",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "cat008",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "cat009",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "cat010",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "cat011",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "cat012",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "cat013",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "cat014",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "cat015",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "cat016",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "cat017",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "cat019",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "cat020",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "cat021",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "cat022",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "cat023",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "cat024",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "hp001",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "hp003",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "hp004",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "hp005",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "hp006",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "hp007",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "hp008",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "hp009",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "hp010",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "hp012",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "hp013",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "hp014",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "hp015",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "hp018",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "hp019",
+        "emitted_kinds": []
+      },
+      {
+        "qid": "hp020",
+        "emitted_kinds": []
+      }
+    ]
+  },
+  "independent_generalization": {
+    "questions": 24,
+    "manufacturers": 12,
+    "emitting_questions": 0,
+    "emitted_relations": 0,
+    "precision": null,
+    "positive_gate": "INCONCLUSIVE",
+    "rows": [
+      {
+        "manufacturer": "Xtralis",
+        "product_model": "VESDA-E-VEA",
+        "chunk_id": "be1945fb-f874-4a11-b6fc-76ce6f7468d1",
+        "question_sha256": "595ef4876a668ae4f3f2c159f60a8b8d03ceb1816931497c1cb7d7322328c3d7",
+        "emitted_kinds": []
+      },
+      {
+        "manufacturer": "Xtralis",
+        "product_model": "VESDA-E-VES",
+        "chunk_id": "935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033",
+        "question_sha256": "67c224c069b140669ce185bef9d41c0ecfef5fc9a20c0523dfae257ebe67f7c9",
+        "emitted_kinds": []
+      },
+      {
+        "manufacturer": "Aritech",
+        "product_model": "2X-A Táctil",
+        "chunk_id": "3fbc1de1-8570-4d9e-808c-ae4eb94e6447",
+        "question_sha256": "8323d7f16b963361f791adc3bba0f23a7afe52c9a96d2cded9d0e73470932bf6",
+        "emitted_kinds": []
+      },
+      {
+        "manufacturer": "Aritech",
+        "product_model": "IU2055NC",
+        "chunk_id": "540b4ccd-1ae0-4252-a6bb-069db622e22c",
+        "question_sha256": "e64d71f2a6ead164705a8b4eaaadefb40649435df5c9e2ec83df03f5371b7620",
+        "emitted_kinds": []
+      },
+      {
+        "manufacturer": "Kidde",
+        "product_model": "9-30781-KID-EN",
+        "chunk_id": "7c010925-85c7-41db-96b9-90ebfe564917",
+        "question_sha256": "775a183dd4d9b82d3ae769ce5d52f58f1e89270c7b032a952eda84beeda2b8ea",
+        "emitted_kinds": []
+      },
+      {
+        "manufacturer": "Kidde",
+        "product_model": "KE-DP3020W",
+        "chunk_id": "24962ed1-9ccd-48b4-ba00-3b8a462886d5",
+        "question_sha256": "636efeec67ae1db95612543d6250936355673c86627b4b64d42860684b98dc9b",
+        "emitted_kinds": []
+      },
+      {
+        "manufacturer": "Spectrex",
+        "product_model": "40-40L",
+        "chunk_id": "207d1733-dd1a-447b-82cc-41da853ce62f",
+        "question_sha256": "703ac7b4a3c195515848d715e4b5c6ac8648ed8ca9affcf493c42e6d939a37eb",
+        "emitted_kinds": []
+      },
+      {
+        "manufacturer": "Spectrex",
+        "product_model": "40-40R-SINGLE",
+        "chunk_id": "d05a9c31-2d29-461a-94b1-7d12edb7f1a4",
+        "question_sha256": "3fad893e8971e0ec28be61e5e8df14c92d91fd97f2a7ae2e8131cd0b6843ea83",
+        "emitted_kinds": []
+      },
+      {
+        "manufacturer": "System Sensor",
+        "product_model": "XM-8100E",
+        "chunk_id": "d3e6d574-9d67-40f6-aed6-109c6f9d2be0",
+        "question_sha256": "ec52dde5cd50155333b8bfe37f0b92012da1580b51fcd82207c81451586d8f33",
+        "emitted_kinds": []
+      },
+      {
+        "manufacturer": "System Sensor",
+        "product_model": "6500R",
+        "chunk_id": "066c4080-1507-4485-ad24-d45fab075347",
+        "question_sha256": "9be37fc3f9b4170c3e6e130b6676be5af532c7be7ed476de5710e1b77040d2f8",
+        "emitted_kinds": []
+      },
+      {
+        "manufacturer": "LDA audioTech",
+        "product_model": "NEO",
+        "chunk_id": "59928572-1cd0-4ec7-a09c-b586034e488c",
+        "question_sha256": "200dec3aafe90d86d05e3ec7863ff00b8264fe1fbdee465c750b583811d04f73",
+        "emitted_kinds": []
+      },
+      {
+        "manufacturer": "LDA audioTech",
+        "product_model": "ONE",
+        "chunk_id": "e27a94ef-f5aa-4218-921d-92a9bdb0b69f",
+        "question_sha256": "77052857531aaf963fe901b8b74bd5b3b00f8139b64e54b4aaca1f1b038f12fc",
+        "emitted_kinds": []
+      },
+      {
+        "manufacturer": "Edwards",
+        "product_model": "FHSD8310",
+        "chunk_id": "eed07d60-3fad-46f2-98a5-1542f3d099e6",
+        "question_sha256": "bb2fed298c65c88e8a15e1fb91003f8fa819cb97e8c1a136deeb709abeacf0a8",
+        "emitted_kinds": []
+      },
+      {
+        "manufacturer": "Edwards",
+        "product_model": "FHSD8310",
+        "chunk_id": "a3188eb9-70fa-4d35-8b1e-37065c21aec1",
+        "question_sha256": "1ed06bf70fa9815397803f3662c0e73db968ca2f5300bc067383118ae55e4f12",
+        "emitted_kinds": []
+      },
+      {
+        "manufacturer": "Argus Security",
+        "product_model": "SG100-IS",
+        "chunk_id": "72612b0b-0658-480d-84ce-d56e084495e9",
+        "question_sha256": "6669cf193679a0414f9696947cac2e38003b033f385782c1df00f0c50924a419",
+        "emitted_kinds": []
+      },
+      {
+        "manufacturer": "Argus Security",
+        "product_model": "SGMCB200",
+        "chunk_id": "4c92486b-bbd6-420c-b47f-66dc1cb8711c",
+        "question_sha256": "8f1ad35b08def8a91628f8013b2b76ea5405782d57fcbcb358c4a213f8fcc79e",
+        "emitted_kinds": []
+      },
+      {
+        "manufacturer": "Pfannenberg",
+        "product_model": "DS-737",
+        "chunk_id": "5aee54fa-2612-4801-b4bf-ae27a19e359d",
+        "question_sha256": "8c899eccc71150f09da23a1fa4eebb9ed2aab45246730eff93045ccc3b91cf20",
+        "emitted_kinds": []
+      },
+      {
+        "manufacturer": "Pfannenberg",
+        "product_model": "PY-X-M-05",
+        "chunk_id": "ef70e7f0-a68f-4797-bc7c-1edaff937261",
+        "question_sha256": "00eb80ec8c63d28ef3dcd43e4f2136f2a62a109df43f4a55203b7a1d15d6cdbb",
+        "emitted_kinds": []
+      },
+      {
+        "manufacturer": "Fidegas",
+        "product_model": "EL-11",
+        "chunk_id": "0edba984-d9ca-4d96-8bcc-3b723b787ed3",
+        "question_sha256": "46b760f36072d0a97056b98a3edc4e2e0a8359ef9414eb7d5bcb49284a0656c3",
+        "emitted_kinds": []
+      },
+      {
+        "manufacturer": "Fidegas",
+        "product_model": "RS-485",
+        "chunk_id": "7e50a922-84df-4109-9160-1a501c32b629",
+        "question_sha256": "3bcc3b5947bdcadd5e913b9d3155fef8a659a737b25b780b6d58433266b94db4",
+        "emitted_kinds": []
+      },
+      {
+        "manufacturer": "European Safety Systems",
+        "product_model": "IS-mA1",
+        "chunk_id": "c07ed164-df92-4e07-9e8a-d1a4d730d3f0",
+        "question_sha256": "a2bae92360bb9a6fed5dc6afb344d7859f8b1c23cbb5a2c935be7d9a55b6b47e",
+        "emitted_kinds": []
+      },
+      {
+        "manufacturer": "European Safety Systems",
+        "product_model": "IS-mA1",
+        "chunk_id": "2b9a9f41-f468-42db-895b-920fb5050472",
+        "question_sha256": "710e2d12f104963beaff5dc9cf9d762b63933eb6743417a5914e50638f27730e",
+        "emitted_kinds": []
+      },
+      {
+        "manufacturer": "Sensitron",
+        "product_model": "PL4",
+        "chunk_id": "477b868f-546c-4401-a934-fdfd576eb54a",
+        "question_sha256": "42f2ac458addae9a8116525e42c7d165f5ef36dee33dd3cad1b8fc3d824b730d",
+        "emitted_kinds": []
+      },
+      {
+        "manufacturer": "Sensitron",
+        "product_model": "SMART 2",
+        "chunk_id": "29b49e99-07fe-4b83-8afd-2d770d8fc09d",
+        "question_sha256": "a0cf601701b47bf093d6d70810bdefcea607041463c4d2cd68e5b26fbcb1bf60",
+        "emitted_kinds": []
+      }
+    ]
+  },
+  "checks": {
+    "local_target_exact": true,
+    "source_receipts_complete": true,
+    "negative_controls_clean": true,
+    "deterministic_two_runs": true,
+    "positive_generalization_observed": false
+  },
+  "decision": {
+    "local_candidate": "GO",
+    "paid_answer_probe": "NO_GO_UNTIL_POSITIVE_GENERALIZATION",
+    "production": "NO_GO",
+    "facts_moved_to_ok": 0,
+    "next": "VERSIONED_GENERALIZATION_ITERATION_WITH_FRESH_HELDOUT"
+  },
+  "cost": {
+    "model_calls": 0,
+    "network_calls": 0,
+    "database_calls": 0,
+    "usd": 0
+  }
+}

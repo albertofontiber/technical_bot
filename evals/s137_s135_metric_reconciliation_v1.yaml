@@ -1,0 +1,45 @@
+instrument: s137_s135_metric_reconciliation_v1
+status: HOLD_PENDING_SYMMETRIC_MRR
+
+frozen_inputs:
+  s135_gate: {path: evals/s135_representative_chunks_shadow_gate_v2.yaml, status: NO_GO}
+  s135_seed: {path: evals/s135_representative_chunks_shadow_seed1_v2.json, sha256: 11a383e28e2ede04322f6c5dd0d330c73bae87c3b88ff4162af413188529a7e3}
+  s137_gate: {path: evals/s137_blinded_chunks_semantic_adjudication_gate_v31.yaml}
+
+exact_gold_metrics_unchanged:
+  baseline: {hits_at_10: 16, recall_at_10: 0.66666667, mrr_at_10: 0.359375}
+  candidate: {hits_at_10: 13, recall_at_10: 0.54166667, mrr_at_10: 0.32430556}
+
+semantic_hit_reconciliation:
+  recovered_candidate_hits_at_10: 3
+  candidate_functional_hits_at_10: 16
+  candidate_functional_recall_at_10: 0.66666667
+  baseline_hits_at_10: 16
+  manufacturers_with_functional_net_hit_loss_at_10: []
+  checks:
+    lost_baseline_hits_at_10: true
+    candidate_recall_at_10_gte_baseline: true
+    manufacturers_with_net_hit_loss_at_10: true
+
+mrr_boundary:
+  candidate_only_diagnostic_mrr_at_10: 0.36944445
+  promotable_metric: false
+  reason: >-
+    Este valor usa ranks semánticos nuevos solo para el candidato. Compararlo con
+    ranks exact-gold del baseline sería asimétrico y favorecería v3 post-hoc.
+  semantic_fallback_questions_requiring_symmetric_both_arm_adjudication: 3
+  symmetric_questions_required:
+    - 29b49e99-07fe-4b83-8afd-2d770d8fc09d
+    - 540b4ccd-1ae0-4252-a6bb-069db622e22c
+    - 935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033
+  exact_rank_discordances_retained_without_semantic_fallback: 3
+  unchanged_or_semantic_fallback_irrelevant_questions: 21
+
+decision:
+  chunks_v3_production: HOLD
+  next: S138_BLINDED_SYMMETRIC_FIRST_ANSWER_BEARING_RANK_ON_3_FALLBACK_QUESTIONS
+  no_overfit_rule: >-
+    Evaluar ambos brazos con sets anónimos y la misma rúbrica; no usar el valor
+    candidate-only para aprobar MRR ni eliminar el gate preregistrado.
+
+authorization: {production: false, migration_apply: false, deploy: false, facts_moved_to_ok: 0}

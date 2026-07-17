@@ -1,0 +1,43 @@
+instrument: s136_chunks_v3_loss_attribution_prereg_v1
+status: frozen_before_implementation
+
+design: {path: evals/s136_chunks_v3_loss_attribution_design_v1.md, sha256: 70645e9c85ee488dcf7ba45acf53b7c102945a983436463f1e60000d6689d5f9}
+frozen_inputs:
+  s135_prereg: {path: evals/s135_representative_chunks_shadow_prereg_v2.yaml, sha256: 97fb7a9d6d49c00cc01c7e0682a04aa2776843039c3e1a9fb1cc502343be4c2d}
+  s135_gate: {path: evals/s135_representative_chunks_shadow_gate_v2.yaml, sha256: 6dbb28c4fc95c0635b1dfd60d92aa300b9888e9ed57050faffa26961840b304a}
+  s135_seed: {path: evals/s135_representative_chunks_shadow_seed1_v2.json, sha256: 11a383e28e2ede04322f6c5dd0d330c73bae87c3b88ff4162af413188529a7e3}
+  s135_runner: {path: scripts/s135_representative_chunks_shadow_v2.py, sha256: 9295fd94f51dd901620253beefa98452638d76542940b5413a7b82e199f5d491}
+
+expected_losses:
+  - 29b49e99-07fe-4b83-8afd-2d770d8fc09d
+  - 540b4ccd-1ae0-4252-a6bb-069db622e22c
+  - 935e8fd4-85e2-4cde-a0ff-4b1f0e8cd033
+
+diagnostics:
+  rank_limit: 200
+  top_competitors_reported: 25
+  counterfactual: strict_context_donor_rows_only
+  semantic_adjudication: false
+  thresholds_changed: false
+
+execution:
+  seed1: evals/s136_chunks_v3_loss_attribution_seed1_v1.json
+  seed2: evals/s136_chunks_v3_loss_attribution_seed2_v1.json
+  gate: evals/s136_chunks_v3_loss_attribution_gate_v1.yaml
+  generated_directory: tmp/s136_chunks_v3_loss_attribution
+
+authorization:
+  local_frozen_reads: true
+  local_raw_store_reads: true
+  local_disposable_postgres_writes: true
+  remote_database: false
+  network: false
+  models: false
+  embeddings: false
+  context_generation: false
+  migration_apply: false
+  serving: false
+  deploy: false
+  facts_moved_to_ok: 0
+
+cost: {external_usd_ceiling: 0, model_calls: 0, network_calls: 0, embeddings: 0, remote_database_reads: 0, remote_database_writes: 0}

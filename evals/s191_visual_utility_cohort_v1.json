@@ -1,0 +1,1143 @@
+{
+  "instrument": "s191_visual_utility_cohort_v1",
+  "status": "FROZEN_BEFORE_LABELING",
+  "created_at": "2026-07-17T07:02:25.454390+00:00",
+  "seed": "s191_visual_utility_v1",
+  "selection": {
+    "eligible_exact_pages": 5096,
+    "items": 60,
+    "per_stratum": {
+      "first_page": 12,
+      "wiring": 12,
+      "procedure": 12,
+      "specification": 12,
+      "other": 12
+    },
+    "per_manufacturer": {
+      "Argus Security": 1,
+      "Detnov": 5,
+      "LDA audioTech": 5,
+      "LGM Products": 4,
+      "Morley": 7,
+      "Notifier": 12,
+      "Pfannenberg": 3,
+      "Securiton": 5,
+      "Sensitron": 4,
+      "Spectrex": 4,
+      "System Sensor": 5,
+      "Xtralis": 5
+    },
+    "distinct_manufacturers": 12,
+    "cohort_sha256": "7863b4322b468a83e77ab5e7e7412d365c6bfd76847ecfda9f8d2ef7d29a5963"
+  },
+  "rows": [
+    {
+      "document_id": "54dd1a71-78c2-45b6-8892-0942aea027dd",
+      "page_number": 1,
+      "source_file_sha256": "c326147f2bf62c8ab7a59c8c07c1939af5eaaeefe8928107b003ebfc648b729b",
+      "diagram_url_sha256": "ff6afafeaa58c0462853cb26c46adbbaa2a5a916cfb3c8064c68dbe85228fe73",
+      "manufacturer": "Notifier",
+      "content_types": [
+        "wiring"
+      ],
+      "stratum": "first_page",
+      "asset_sha256": "552c30c1f9b11411272cba68ce412362ef6da6b43bcf4a2c39123012a73a034a",
+      "asset_bytes": 77723,
+      "width": 1200,
+      "height": 1696,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_001"
+    },
+    {
+      "document_id": "1544459a-c3f4-4343-8ba0-4a49f36465d9",
+      "page_number": 1,
+      "source_file_sha256": "e0f4199b142aa0b5755852be2511b664bc404191e18c93323706123a6242ac82",
+      "diagram_url_sha256": "9908f2b8911177f81c8b9e436446aaf28e1062c5ff6c239804b07696f0dc6f3d",
+      "manufacturer": "Morley",
+      "content_types": [
+        "troubleshooting"
+      ],
+      "stratum": "first_page",
+      "asset_sha256": "78f596354c4449ca5b24e57f33fd34a234099e964f7c54553fe7f16412009786",
+      "asset_bytes": 29557,
+      "width": 1200,
+      "height": 1696,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_002"
+    },
+    {
+      "document_id": "52c20421-70ff-4efd-a4dc-9eb41993f849",
+      "page_number": 1,
+      "source_file_sha256": "33107e4952af47e62c8f9dbdae15a8a2c8c3630ea2573a320a4d6f8e70ae73e1",
+      "diagram_url_sha256": "43b7fa8d0410fc0c829eb0d04fa910ba32f1e9889de38ae9a1133b6b77dbee1c",
+      "manufacturer": "Xtralis",
+      "content_types": [
+        "general"
+      ],
+      "stratum": "first_page",
+      "asset_sha256": "e934cdca6b8fcf8fbfa17d2d194eb8ab548f5c11e58fe9e178f9a472b7976591",
+      "asset_bytes": 281009,
+      "width": 1200,
+      "height": 1696,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_003"
+    },
+    {
+      "document_id": "d3b312c3-1332-4d51-bcff-a27635d6ce9c",
+      "page_number": 1,
+      "source_file_sha256": "83dbcbc9df1ed81f9b1e63aecd6abecbe4e3ce5ae2e34a419d0548ca92dac15c",
+      "diagram_url_sha256": "717c7bf5627fa4734cfe9b1e7808dc29ca46fe28c76b749c8da0e5cef8eb99dc",
+      "manufacturer": "Detnov",
+      "content_types": [
+        "specification"
+      ],
+      "stratum": "first_page",
+      "asset_sha256": "af3d0ecc1243ae85eef3a4d73c6edcc2160301785123ef41d63c8027efd98289",
+      "asset_bytes": 96392,
+      "width": 1200,
+      "height": 1677,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_004"
+    },
+    {
+      "document_id": "f1dc59b2-796b-49d8-9fcc-d07bb5708f55",
+      "page_number": 1,
+      "source_file_sha256": "e2a7861e7a8aee1b7fd8cd18475d10fb640ae53bf27bbc3166b4f5c0b4905fca",
+      "diagram_url_sha256": "4ed57c8f1f5be925b3d412f30b9561f855589921f007b59181c5045a0ee551eb",
+      "manufacturer": "LDA audioTech",
+      "content_types": [
+        "wiring"
+      ],
+      "stratum": "first_page",
+      "asset_sha256": "820e38a14175d18a5929c2dd159590042ebc3d3e733851e1cfa418e093de62da",
+      "asset_bytes": 107296,
+      "width": 1200,
+      "height": 1698,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_005"
+    },
+    {
+      "document_id": "24b703a2-2e75-428f-b0e2-14a7530e1998",
+      "page_number": 1,
+      "source_file_sha256": "01bf27e0668ef184ca9a6fa2199549e1a2062ec7a0869669f8644bb84a45457a",
+      "diagram_url_sha256": "65de9a62ae5b09b41f46f1b4ad38debb2f6e615cd17f57256899e34f38783268",
+      "manufacturer": "Spectrex",
+      "content_types": [
+        "general"
+      ],
+      "stratum": "first_page",
+      "asset_sha256": "95736fe49a79f4cc42286fc1c1ce1bac9903e709a5a435136f1b6a64ade5472b",
+      "asset_bytes": 138144,
+      "width": 1200,
+      "height": 1694,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_006"
+    },
+    {
+      "document_id": "6d394c63-fd4c-4e82-9f96-82431127995b",
+      "page_number": 1,
+      "source_file_sha256": "993a9b516ed3822e2de5e4f05e4e057055f300c9b67e20579383dfd38ab506b6",
+      "diagram_url_sha256": "a2618c57945e772d9e9d38965546ddbf6bbf8637f59372ae1b7b261770fab515",
+      "manufacturer": "Securiton",
+      "content_types": [
+        "general"
+      ],
+      "stratum": "first_page",
+      "asset_sha256": "925196e6e9e23fea80ed29bd158c2a683efd74b06bd159e80b00321b62062f15",
+      "asset_bytes": 64625,
+      "width": 1200,
+      "height": 1696,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_007"
+    },
+    {
+      "document_id": "ac08957f-6488-4304-a8ec-173a7a4f08cd",
+      "page_number": 1,
+      "source_file_sha256": "66f0d1d60142ff13be975c1af8147c3b5336ab4b66f54adceccc94864a2a968f",
+      "diagram_url_sha256": "2aa1534a541a97f6b37dcf0a243a2015f0379a3cc3d4a3a229bfc07cb91f8732",
+      "manufacturer": "Pfannenberg",
+      "content_types": [
+        "general"
+      ],
+      "stratum": "first_page",
+      "asset_sha256": "6eed0111c80d4b9a5224e2d8df8a44758476d6f416a9ea0856c7d109f0c78730",
+      "asset_bytes": 244409,
+      "width": 1200,
+      "height": 1696,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_008"
+    },
+    {
+      "document_id": "79166148-8d78-4df5-8d47-24209f4f5bdf",
+      "page_number": 1,
+      "source_file_sha256": "9e276d950985a7650711e254cc6aedef8e996ebe4e672faee531056621c3d83a",
+      "diagram_url_sha256": "596725144aeae527621e8aaa2add6d22021e890a9a81fac64d91d224f644169a",
+      "manufacturer": "System Sensor",
+      "content_types": [
+        "general"
+      ],
+      "stratum": "first_page",
+      "asset_sha256": "b5728ce93eb9878108656cbcea481dd9a44d67ba3b5796cf0f53cef65b2b856b",
+      "asset_bytes": 263492,
+      "width": 1200,
+      "height": 1698,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_009"
+    },
+    {
+      "document_id": "38fa6760-cb28-413e-8a4d-b7d7ee2ccc1d",
+      "page_number": 1,
+      "source_file_sha256": "60d28535c66a2d3350a472edb77ceef0ff0e68750827390f0acd279c987ca04b",
+      "diagram_url_sha256": "48d4ded572b9daec3a5011a0ed03ed94809646259595ded104b4022955117709",
+      "manufacturer": "Sensitron",
+      "content_types": [
+        "general"
+      ],
+      "stratum": "first_page",
+      "asset_sha256": "36967bdb1cf92ba00f9026972ee912c9031378a88ab5a342197a88e5e4a32eeb",
+      "asset_bytes": 154792,
+      "width": 1200,
+      "height": 1698,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_010"
+    },
+    {
+      "document_id": "ab3623e3-3697-4b2f-bc5d-bdb106b0cb94",
+      "page_number": 1,
+      "source_file_sha256": "cdd2f5b582d5bfaf0ce130768264ed18aec4f7c1608e1161c958ea96f0e6a7c1",
+      "diagram_url_sha256": "668e8ba8fadfa8da0594da2c0b6125be0d478c4c3173c56c1377cf06a8ec8d52",
+      "manufacturer": "LGM Products",
+      "content_types": [
+        "general"
+      ],
+      "stratum": "first_page",
+      "asset_sha256": "b7ddd903305cfcc098320d7ff91f139a18ff46448896c40bede429bd57c78242",
+      "asset_bytes": 92070,
+      "width": 1200,
+      "height": 1696,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_011"
+    },
+    {
+      "document_id": "b788bbda-6045-46f5-b645-b54a23bdae5c",
+      "page_number": 1,
+      "source_file_sha256": "386a1a4c20bf355d02f3789edae2afb88005532ad8ce9bf3b8f9748118fd01cc",
+      "diagram_url_sha256": "cde2ac70f1d81d3938453bde77b919cfed7dbe1deb6fcfd951f9783e750d08ca",
+      "manufacturer": "Argus Security",
+      "content_types": [
+        "general"
+      ],
+      "stratum": "first_page",
+      "asset_sha256": "0c029e9d42d6a9bbfbbcdf4afd88662aeb998d53f7096b78d8821a9e6dcf8654",
+      "asset_bytes": 375064,
+      "width": 1166,
+      "height": 1654,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_012"
+    },
+    {
+      "document_id": "5ce32e5d-2e98-4091-a76d-eca0e2cf6a3e",
+      "page_number": 3,
+      "source_file_sha256": "dc8d53c0bac3db41cabb4bd675f14e82837e43ca2cac25d9fa946dfc54408d9b",
+      "diagram_url_sha256": "0c9375c8a80841a1a804a088da621dd2f9166df88484437b1426828dfa19264c",
+      "manufacturer": "Notifier",
+      "content_types": [
+        "general",
+        "wiring"
+      ],
+      "stratum": "wiring",
+      "asset_sha256": "c84fd59bf097cb60862b8c511a909fcfc90f75f593b184add307386d2f2c5ecd",
+      "asset_bytes": 278158,
+      "width": 1200,
+      "height": 848,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_013"
+    },
+    {
+      "document_id": "cfd77a9d-1429-46cb-8433-d0bb071ffee3",
+      "page_number": 5,
+      "source_file_sha256": "0c0e507f41f869f57d5f2a21ebc1a485ff15708b9fa8c314c95029139519b9a6",
+      "diagram_url_sha256": "69e17d5eb9a7fd27a806454330b1f41a1fac24f03b491d6245c983e3eb500bfe",
+      "manufacturer": "Morley",
+      "content_types": [
+        "troubleshooting",
+        "wiring"
+      ],
+      "stratum": "wiring",
+      "asset_sha256": "fd6315f736169ab40b0ce82ef11016725fc48a78dba05842d7f4c376858a905b",
+      "asset_bytes": 310818,
+      "width": 1200,
+      "height": 1696,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_014"
+    },
+    {
+      "document_id": "7aa2b161-a7b7-4c5b-8877-1bf04daf4e88",
+      "page_number": 67,
+      "source_file_sha256": "8cb4096ed11212b673088df64d3cc73c8e6a8a9468437f659c2b3b7337c37a06",
+      "diagram_url_sha256": "15c97b506d7b9c8cb7cefd56f0124ee7cda211afc15036b769f1a0aca43668c1",
+      "manufacturer": "Xtralis",
+      "content_types": [
+        "wiring"
+      ],
+      "stratum": "wiring",
+      "asset_sha256": "42ad26efa05205a8b1982d0542cb27411285112f31ebdf5f23a83bed862216d8",
+      "asset_bytes": 160310,
+      "width": 1200,
+      "height": 1696,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_015"
+    },
+    {
+      "document_id": "4fd91cdd-885b-4862-9bdd-2d00e011a351",
+      "page_number": 2,
+      "source_file_sha256": "f22b8fed3bf0b8cc1ffdf51648199f8ab392d964d04d5498988b225f1e6e37c3",
+      "diagram_url_sha256": "5f9e00bd78fa5b7b40ffaa578159ae899c037698c4d337cc52e9a54764e5a188",
+      "manufacturer": "Detnov",
+      "content_types": [
+        "general",
+        "wiring"
+      ],
+      "stratum": "wiring",
+      "asset_sha256": "e59b5f994d2f24e540a5d33896e3b6d5d0b9e9920fece261c48c895d0a274c22",
+      "asset_bytes": 249496,
+      "width": 1200,
+      "height": 848,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_016"
+    },
+    {
+      "document_id": "757dc354-4ade-4099-91e8-bd28f5385245",
+      "page_number": 11,
+      "source_file_sha256": "31a93ef56f612eacd4429f2872a4202de43ca1809c0b3f7dc67b5becbbb1ad93",
+      "diagram_url_sha256": "bf9f5e1f2089917cce4c88fc0ccebbf46064c9ea1c7ba002e663daa4bc68c825",
+      "manufacturer": "LDA audioTech",
+      "content_types": [
+        "wiring"
+      ],
+      "stratum": "wiring",
+      "asset_sha256": "b4b8e4f61d768d51c899707aa938f022fe73b9f5932225e0440d2b95968bd914",
+      "asset_bytes": 303887,
+      "width": 1200,
+      "height": 1698,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_017"
+    },
+    {
+      "document_id": "2c76809e-1d12-4be7-a3e6-99b91f0c593c",
+      "page_number": 57,
+      "source_file_sha256": "5225724a165ff9856236d4400de407a7b4260712d4b948ff3e494692a02f493a",
+      "diagram_url_sha256": "9b9d1c383aee26c3517ba757950c9bfec281f4157a0ecc3465bfa94ac0acea99",
+      "manufacturer": "Spectrex",
+      "content_types": [
+        "wiring"
+      ],
+      "stratum": "wiring",
+      "asset_sha256": "5bb8e9cdc9f5fd5b10dd78e46fbcf0bd780feadb1a41741836c86354501d8c87",
+      "asset_bytes": 100570,
+      "width": 1200,
+      "height": 1696,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_018"
+    },
+    {
+      "document_id": "1cc97b71-972e-4163-8d1d-548a4b57f275",
+      "page_number": 67,
+      "source_file_sha256": "f8b5f3522024ccea2f8b02cbf301cf0fe61e157812b13573c3f75212e4a7c69d",
+      "diagram_url_sha256": "df95ad50bb3af6d7bf9bd0a898cd01569d70d9026431a7972b82ddeea555c6bc",
+      "manufacturer": "Securiton",
+      "content_types": [
+        "general",
+        "wiring"
+      ],
+      "stratum": "wiring",
+      "asset_sha256": "820185e52858fac1674d23cf600b8ee049f50879ececb7993485344019dabce7",
+      "asset_bytes": 324642,
+      "width": 1200,
+      "height": 1696,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_019"
+    },
+    {
+      "document_id": "fc3d273e-7f99-402a-99e4-9099d8cefe8e",
+      "page_number": 8,
+      "source_file_sha256": "65409c9a464af61ae4919f576a1abafe298d813d4d37a1a06ebd2d0d3e88bb96",
+      "diagram_url_sha256": "70d93732439558d7db217a92d507597692f9874acaffb5439a05767418678e85",
+      "manufacturer": "Pfannenberg",
+      "content_types": [
+        "wiring"
+      ],
+      "stratum": "wiring",
+      "asset_sha256": "a85b6236146c0c4522540e61b077b1a13c3e1e9852fdd8c970ff48c93035fa83",
+      "asset_bytes": 157919,
+      "width": 1200,
+      "height": 1696,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_020"
+    },
+    {
+      "document_id": "48a0d1a6-0f40-4459-b139-665739259363",
+      "page_number": 2,
+      "source_file_sha256": "08c627d2ad1eb17383ae405843dfb087f76e3ce6d4a3080a35fe3a9d06c0f7a8",
+      "diagram_url_sha256": "614fa449668ccd78178b0aa22be8da443b04205dcdb3f403258c3f3e49be47a6",
+      "manufacturer": "System Sensor",
+      "content_types": [
+        "general",
+        "wiring"
+      ],
+      "stratum": "wiring",
+      "asset_sha256": "b8d1ae7d49384798679f3fcb6690dde6f26a8c36595828df397d1c85e6bdb3f3",
+      "asset_bytes": 303844,
+      "width": 1200,
+      "height": 1697,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_021"
+    },
+    {
+      "document_id": "0d4e7b1a-4a59-40d0-9ebc-d7a70a06a3e8",
+      "page_number": 5,
+      "source_file_sha256": "1894faa2ec170ae9609e9c0a343682277bf77e59b93674914f41f67f0d29a56e",
+      "diagram_url_sha256": "b031a046f3ef27af7c66f10b190df625e5aae32c69629f0d30ad7c0bc94d09df",
+      "manufacturer": "Sensitron",
+      "content_types": [
+        "general",
+        "wiring"
+      ],
+      "stratum": "wiring",
+      "asset_sha256": "d7ec2b1310a1acae857ef13c9243827d85e6ee2c251fcc3bfe0c2b89ec357834",
+      "asset_bytes": 374624,
+      "width": 1200,
+      "height": 1699,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_022"
+    },
+    {
+      "document_id": "f648a252-1789-41fd-96e0-7d9143c3212e",
+      "page_number": 7,
+      "source_file_sha256": "37a3d9493ddc4fad7698c4054616c9be31549cc4ff82c73e22805fec0b3982a3",
+      "diagram_url_sha256": "42df889ddcf82b4bace32abaa30b3374f234182322b5dd1ba2c62e0585f66073",
+      "manufacturer": "LGM Products",
+      "content_types": [
+        "wiring"
+      ],
+      "stratum": "wiring",
+      "asset_sha256": "b35feb05c948781be54bb8aa680b781081b91bf808d967416c13f783adc6f55d",
+      "asset_bytes": 145229,
+      "width": 1200,
+      "height": 1696,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_023"
+    },
+    {
+      "document_id": "3d2c8a30-73af-44e8-872d-0e41b1a41b3c",
+      "page_number": 24,
+      "source_file_sha256": "b78753f42d382d75f0bb0c8f8237b1c36c692e2d17aa8fb6cca804533ca680b9",
+      "diagram_url_sha256": "f2621c43e34001ee5fe4e6a8f184259a2505e22d88a4a02d4bf834ff48dc3f5b",
+      "manufacturer": "Notifier",
+      "content_types": [
+        "wiring"
+      ],
+      "stratum": "wiring",
+      "asset_sha256": "222e2df0bc6ff50db93ba4e048c8590b1052c6ba6546fccc1ae09a90a4cdc931",
+      "asset_bytes": 167039,
+      "width": 1200,
+      "height": 1698,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_024"
+    },
+    {
+      "document_id": "6b2e16bc-2a60-4602-aa72-d32d8c42397a",
+      "page_number": 28,
+      "source_file_sha256": "7edfb0f96860abacef3e06c41e13abae71741eca9d94ffcb23af9b9717248e7e",
+      "diagram_url_sha256": "4de0d25946c3e296c49faf940decf519ea8ce56fcbba03658888eaec81798caa",
+      "manufacturer": "Notifier",
+      "content_types": [
+        "procedure"
+      ],
+      "stratum": "procedure",
+      "asset_sha256": "4ac85dc48f119c9e84796eebd9077875b973c986f4e54c289bde86402bb09ab0",
+      "asset_bytes": 108902,
+      "width": 1200,
+      "height": 845,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_025"
+    },
+    {
+      "document_id": "0befac70-e041-4f8f-bf13-27678621c334",
+      "page_number": 62,
+      "source_file_sha256": "d995d459425ef7aa69da4b64b840df5168cb3c6ecd41f4df478b7e414f0afe67",
+      "diagram_url_sha256": "c98a81d04ef731e82e0ba3327b10b285c04aa69a747de89ce6c66f98f3838241",
+      "manufacturer": "Morley",
+      "content_types": [
+        "general",
+        "procedure"
+      ],
+      "stratum": "procedure",
+      "asset_sha256": "44e58a41a84ffddd6a66c5f1c78816cbc8f823ee6c71d48753cd3fd900cdf77d",
+      "asset_bytes": 246791,
+      "width": 1200,
+      "height": 1698,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_026"
+    },
+    {
+      "document_id": "b22fdb7f-f9e9-49d0-9e40-e840c24d25e9",
+      "page_number": 74,
+      "source_file_sha256": "281be70eb1193e04998e95dbd4ebc5b0efb592919a01ecfa0345ef85ddbb0697",
+      "diagram_url_sha256": "4d98e3a513a2c5fd13b4886602b1f9eaf4ee9733bdef239b3ce4b46da2ca1eb3",
+      "manufacturer": "Xtralis",
+      "content_types": [
+        "procedure"
+      ],
+      "stratum": "procedure",
+      "asset_sha256": "4a2db46b4443e2635085c4db4c73f62b1e07898fedf47f252e265078faddff19",
+      "asset_bytes": 161576,
+      "width": 1200,
+      "height": 1696,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_027"
+    },
+    {
+      "document_id": "03b1ccf6-10cc-43a3-9041-4a2d42be0bc2",
+      "page_number": 19,
+      "source_file_sha256": "dc202073048c57055eec030b67544d5c063969affa55214caabb5b2e47622ea1",
+      "diagram_url_sha256": "8bf7600702a8dc0e466c4401c930891f1ccd5b961c4c52a13e02831804938eb6",
+      "manufacturer": "Detnov",
+      "content_types": [
+        "general",
+        "procedure"
+      ],
+      "stratum": "procedure",
+      "asset_sha256": "aa72af081b6e84380c8e61bf967dcfbfc4514bd2a13e60f5f7136737e17da4eb",
+      "asset_bytes": 131462,
+      "width": 1200,
+      "height": 848,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_028"
+    },
+    {
+      "document_id": "757dc354-4ade-4099-91e8-bd28f5385245",
+      "page_number": 10,
+      "source_file_sha256": "31a93ef56f612eacd4429f2872a4202de43ca1809c0b3f7dc67b5becbbb1ad93",
+      "diagram_url_sha256": "08ba243bc61adb8f8d22c3c699993c459ba5613ec6506d6d0183a219ff3824ae",
+      "manufacturer": "LDA audioTech",
+      "content_types": [
+        "general",
+        "procedure"
+      ],
+      "stratum": "procedure",
+      "asset_sha256": "c38e1457f08a98963762e7f994b441215ebe921bdeb9086cd37ac78e1135441c",
+      "asset_bytes": 246187,
+      "width": 1200,
+      "height": 1698,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_029"
+    },
+    {
+      "document_id": "1cc97b71-972e-4163-8d1d-548a4b57f275",
+      "page_number": 79,
+      "source_file_sha256": "f8b5f3522024ccea2f8b02cbf301cf0fe61e157812b13573c3f75212e4a7c69d",
+      "diagram_url_sha256": "ae8c887f87fa4c4bb516e540d61f64cfb849b485201f39c0776fba6aca538af3",
+      "manufacturer": "Securiton",
+      "content_types": [
+        "procedure"
+      ],
+      "stratum": "procedure",
+      "asset_sha256": "ff03a270c29e893804d703dfc34e33e88882ef3f9f26c3b34fd99b83fcec4071",
+      "asset_bytes": 228869,
+      "width": 1200,
+      "height": 1696,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_030"
+    },
+    {
+      "document_id": "d96eba37-7ab7-4d65-8849-bbf596ad8703",
+      "page_number": 3,
+      "source_file_sha256": "d3af6707af635b911927cb05e90c77e9eda90bfd46ef0545f227b785f0477c0e",
+      "diagram_url_sha256": "0cd182729ec244eb742849b3277a1404ce5dcc665943539ac64c70408ea414db",
+      "manufacturer": "System Sensor",
+      "content_types": [
+        "general",
+        "procedure",
+        "troubleshooting"
+      ],
+      "stratum": "procedure",
+      "asset_sha256": "1f0c311af6f0d23eb5f4e4957352a30a495bc3155769f96ae60a1adc79c500c0",
+      "asset_bytes": 177217,
+      "width": 1200,
+      "height": 848,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_031"
+    },
+    {
+      "document_id": "38fa6760-cb28-413e-8a4d-b7d7ee2ccc1d",
+      "page_number": 21,
+      "source_file_sha256": "60d28535c66a2d3350a472edb77ceef0ff0e68750827390f0acd279c987ca04b",
+      "diagram_url_sha256": "02d7edddfedd694a09f6a24f1353a018b17fd5a50fbff9d8a4c4fa6c1a50a069",
+      "manufacturer": "Sensitron",
+      "content_types": [
+        "procedure"
+      ],
+      "stratum": "procedure",
+      "asset_sha256": "db7fb9d3572532ac6c7cc27e4572c2814fad1dae9486f7cacd063dbfa3072c37",
+      "asset_bytes": 139848,
+      "width": 1200,
+      "height": 1699,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_032"
+    },
+    {
+      "document_id": "6b2e16bc-2a60-4602-aa72-d32d8c42397a",
+      "page_number": 36,
+      "source_file_sha256": "7edfb0f96860abacef3e06c41e13abae71741eca9d94ffcb23af9b9717248e7e",
+      "diagram_url_sha256": "eccc477726a5753c6928057ddbe217caa86f2f6ec57d16a21387e789114196d2",
+      "manufacturer": "Notifier",
+      "content_types": [
+        "procedure"
+      ],
+      "stratum": "procedure",
+      "asset_sha256": "21e42166029c68684cdf098dab4c2190b151216ac08fb1818501b923b4924baf",
+      "asset_bytes": 87210,
+      "width": 1200,
+      "height": 845,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_033"
+    },
+    {
+      "document_id": "288e3202-3f8c-4168-8c8a-33842a8def77",
+      "page_number": 66,
+      "source_file_sha256": "f44dc85d06131f6e02351ed4aa2eb8e6275e23585d4ec093bc749723d846641a",
+      "diagram_url_sha256": "02f17b412c3ce2a58f9fec94347fa15db9f2f10f28605f1f54f88941fc286af1",
+      "manufacturer": "Notifier",
+      "content_types": [
+        "procedure"
+      ],
+      "stratum": "procedure",
+      "asset_sha256": "289d2d6a6a2e797dd90c62fa4047728995031967d5ef68c414d11df3dacc2900",
+      "asset_bytes": 188624,
+      "width": 1200,
+      "height": 1694,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_034"
+    },
+    {
+      "document_id": "c179b06f-0794-4fbb-9cda-2655c2300104",
+      "page_number": 12,
+      "source_file_sha256": "1d7efa14c28ccef1beb151a9b865b0766c2901a0fbffb51052d07d7ff0f488fa",
+      "diagram_url_sha256": "53d33914fe7387c562069b653af157cacfceaeaa9488b7c2ce2de9b50901e362",
+      "manufacturer": "Morley",
+      "content_types": [
+        "general",
+        "procedure"
+      ],
+      "stratum": "procedure",
+      "asset_sha256": "f09dcfea0ffa651b75d59a18a21cd3c9266e5aae97d47bda614aa4c79765e692",
+      "asset_bytes": 253090,
+      "width": 1200,
+      "height": 1696,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_035"
+    },
+    {
+      "document_id": "65669851-7431-412f-b727-bd65af27a170",
+      "page_number": 33,
+      "source_file_sha256": "c9cb304c96c3da5e80ee5f1f10886bf918babc62650209008bc279fb39b426b5",
+      "diagram_url_sha256": "5effb29981cb0e2e1853aae8f2b46b43f1a45a8b8827ef75765e692b4aeaf618",
+      "manufacturer": "Notifier",
+      "content_types": [
+        "procedure"
+      ],
+      "stratum": "procedure",
+      "asset_sha256": "9d4f0cf345e81065aa4801f834da7099d8f28d260ae30e250b0b50eadaf1dc04",
+      "asset_bytes": 168339,
+      "width": 1200,
+      "height": 1698,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_036"
+    },
+    {
+      "document_id": "dc9bec2b-0cd6-45a6-af71-12aad2f872b5",
+      "page_number": 20,
+      "source_file_sha256": "975877220c6600d0051e84b08c8ab9c581eb2afd1c215e3dbfa74e9c52f60d07",
+      "diagram_url_sha256": "8acc0ea69dd15db6e456857c2c02dc6a5fd094ecdc3740f102ae6d261d6e4d45",
+      "manufacturer": "Notifier",
+      "content_types": [
+        "general",
+        "specification",
+        "troubleshooting"
+      ],
+      "stratum": "specification",
+      "asset_sha256": "2a0e4cd634e2dc0f625d956d4fc6f3b0ff393299a51fb274ad979e8fe466c187",
+      "asset_bytes": 321341,
+      "width": 1200,
+      "height": 1694,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_037"
+    },
+    {
+      "document_id": "4ca173e2-c1b2-40ea-8778-4148e08b8533",
+      "page_number": 5,
+      "source_file_sha256": "4568c0a494e66c1ec50f849dc6e011a5a8577c10226a71c05614984002daa0d9",
+      "diagram_url_sha256": "49a90488c69c69cc8c6e02f7d8df2ca13aa70a564fec1382e984afe71a10c851",
+      "manufacturer": "Morley",
+      "content_types": [
+        "specification"
+      ],
+      "stratum": "specification",
+      "asset_sha256": "b8c207782cc75e263e224ad7fcb37c5f0d9bcd3c9a3b0c15dd27cbe6b8fe8142",
+      "asset_bytes": 257260,
+      "width": 1200,
+      "height": 1696,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_038"
+    },
+    {
+      "document_id": "bab24eb9-d11e-47c5-a073-3ad66d8b57fe",
+      "page_number": 17,
+      "source_file_sha256": "bd1bda8e6798e248b26c19cedbb9d0bfe8c1d86b8e7138175e2a9b46543f9641",
+      "diagram_url_sha256": "1c18cfb885b53b5bdd2cc07a6952ea7506d0bec9dabfe135701cb9f9869a1eb7",
+      "manufacturer": "Xtralis",
+      "content_types": [
+        "specification"
+      ],
+      "stratum": "specification",
+      "asset_sha256": "9d359c04e0cdaac690da02836eb4aa14bb344eae6c79fd186a5f09fe825930eb",
+      "asset_bytes": 214313,
+      "width": 1200,
+      "height": 1696,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_039"
+    },
+    {
+      "document_id": "d3b312c3-1332-4d51-bcff-a27635d6ce9c",
+      "page_number": 21,
+      "source_file_sha256": "83dbcbc9df1ed81f9b1e63aecd6abecbe4e3ce5ae2e34a419d0548ca92dac15c",
+      "diagram_url_sha256": "d26685a9348449ea089d856348a89db62ae9e8b4bfedf87e7950eb3a531731d7",
+      "manufacturer": "Detnov",
+      "content_types": [
+        "specification"
+      ],
+      "stratum": "specification",
+      "asset_sha256": "4cb4bfbca3c99b2e471b95438987772e32819d55970daaf4b9bfc18664d7953a",
+      "asset_bytes": 92924,
+      "width": 1200,
+      "height": 1677,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_040"
+    },
+    {
+      "document_id": "f1dc59b2-796b-49d8-9fcc-d07bb5708f55",
+      "page_number": 49,
+      "source_file_sha256": "e2a7861e7a8aee1b7fd8cd18475d10fb640ae53bf27bbc3166b4f5c0b4905fca",
+      "diagram_url_sha256": "06d7db0dd3562217860d4a81a6d650d8a1c1aeaf80fcee685bb1916490f7a5df",
+      "manufacturer": "LDA audioTech",
+      "content_types": [
+        "specification"
+      ],
+      "stratum": "specification",
+      "asset_sha256": "bac449818f3bc560097ec4cecf25cb74e81f94ae16900888c9deffd8b3173c78",
+      "asset_bytes": 305381,
+      "width": 1200,
+      "height": 1698,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_041"
+    },
+    {
+      "document_id": "e14321a9-9ecc-4838-a35e-eb884444f8e5",
+      "page_number": 68,
+      "source_file_sha256": "3900d58aabbb84eb9de396b9acd02b8a4cefd8521b48c0f89ca4a621d43159cd",
+      "diagram_url_sha256": "f1aeec081b3517f6aae191eb2e2c81cbd8a10069200720ddc34c7fc55ff6b97b",
+      "manufacturer": "Spectrex",
+      "content_types": [
+        "general",
+        "specification"
+      ],
+      "stratum": "specification",
+      "asset_sha256": "e9796bbe681d536b0deee6aa863c1f339b6879ec6e32bc1fdc9f0f8341c650c9",
+      "asset_bytes": 150089,
+      "width": 1200,
+      "height": 1696,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_042"
+    },
+    {
+      "document_id": "dff3152a-8f8d-4be8-becc-8c9cda3cb6a6",
+      "page_number": 99,
+      "source_file_sha256": "49b8b16445de7b12c61fdd19c90c9638bcf761303526666165dcadcd1c1d83e2",
+      "diagram_url_sha256": "741dc850a182c4119f591b81ab43885e8715479994cf2eb55fbfc971cdea0b23",
+      "manufacturer": "Securiton",
+      "content_types": [
+        "general",
+        "specification"
+      ],
+      "stratum": "specification",
+      "asset_sha256": "ceefa4f5de15a24062cebeaba6da3771b9078f699e4295acfdd56c753f9cb5f6",
+      "asset_bytes": 342964,
+      "width": 1200,
+      "height": 1696,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_043"
+    },
+    {
+      "document_id": "dd784e2e-cb5e-4d1f-a20d-9d0bd8e35661",
+      "page_number": 2,
+      "source_file_sha256": "abac0c7345bd2a1a21af277797c38b2aa1a05c64aae6c0c1ace5270762ec25d7",
+      "diagram_url_sha256": "f756cb9e3ec7f7ac21ceb6a00801e7d06ef503b7f0a7fd651180111f564af5c2",
+      "manufacturer": "System Sensor",
+      "content_types": [
+        "general",
+        "specification"
+      ],
+      "stratum": "specification",
+      "asset_sha256": "58dba1abf04d37b0fa3ba84b316a851b88179413672281efa9baf81ccf77c0f3",
+      "asset_bytes": 188883,
+      "width": 1200,
+      "height": 848,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_044"
+    },
+    {
+      "document_id": "ab3623e3-3697-4b2f-bc5d-bdb106b0cb94",
+      "page_number": 8,
+      "source_file_sha256": "cdd2f5b582d5bfaf0ce130768264ed18aec4f7c1608e1161c958ea96f0e6a7c1",
+      "diagram_url_sha256": "804261edfb368f73dc0645e89e1d5f8d44344b1304d726cdc4947d3f4aa23266",
+      "manufacturer": "LGM Products",
+      "content_types": [
+        "specification"
+      ],
+      "stratum": "specification",
+      "asset_sha256": "f9168637b1d5906344427a6fa2289847eb370349c90a0e1fe231c3df0d4c2455",
+      "asset_bytes": 107631,
+      "width": 1200,
+      "height": 1696,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_045"
+    },
+    {
+      "document_id": "c1834315-a779-4074-ba5f-baa590907a59",
+      "page_number": 13,
+      "source_file_sha256": "c91ef67af5963aa789ff292f22df947031d421287d80b6e8faa8b9d30c847eb7",
+      "diagram_url_sha256": "347c9e53c97e0a007ce7054d03572425e51759c841b44f3d12b4bf26df1a31e5",
+      "manufacturer": "Notifier",
+      "content_types": [
+        "specification"
+      ],
+      "stratum": "specification",
+      "asset_sha256": "07e0d66e55f314c0e6f16b16a894c2e79c2d907eb30e3650bc1d6f1b4487471d",
+      "asset_bytes": 237462,
+      "width": 1200,
+      "height": 1696,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_046"
+    },
+    {
+      "document_id": "6d141465-4102-4ade-a5b3-5a9f42086cdd",
+      "page_number": 14,
+      "source_file_sha256": "393e1e97524e9a173b55e55cee3cfca726c6ac94ea37144460cc78ca4e5474f7",
+      "diagram_url_sha256": "3e8fc436d978a9c229a611f7f7e21d4497176c3ddbbf74d6090df2417000c221",
+      "manufacturer": "Morley",
+      "content_types": [
+        "general",
+        "specification"
+      ],
+      "stratum": "specification",
+      "asset_sha256": "a63cbb8be0bf71ca102d14d395e1f929a49831be21d4c269043d1b2f24116d18",
+      "asset_bytes": 66525,
+      "width": 1200,
+      "height": 1698,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_047"
+    },
+    {
+      "document_id": "14971c82-38e0-469f-99bc-e53d5e93799c",
+      "page_number": 3,
+      "source_file_sha256": "c6954c5e5e2c8ddc699996b9cb5e297824814d9ea2f6576e576ea35b68b8a3fc",
+      "diagram_url_sha256": "b99aa1f455fd81a50d56aa2919ddac960a7d7969f4adeea8ca4ba1fd02f38f27",
+      "manufacturer": "Notifier",
+      "content_types": [
+        "specification"
+      ],
+      "stratum": "specification",
+      "asset_sha256": "dfdef6a49d928c5c01269148922bdc904e94de09920c4a39a5d43751f2d7e2cf",
+      "asset_bytes": 225780,
+      "width": 1200,
+      "height": 1698,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_048"
+    },
+    {
+      "document_id": "288e3202-3f8c-4168-8c8a-33842a8def77",
+      "page_number": 57,
+      "source_file_sha256": "f44dc85d06131f6e02351ed4aa2eb8e6275e23585d4ec093bc749723d846641a",
+      "diagram_url_sha256": "a74ad37fbb9583e79426fb5f1a37729b8f82b81dd631e52e9d1209d992d16122",
+      "manufacturer": "Notifier",
+      "content_types": [
+        "general",
+        "troubleshooting"
+      ],
+      "stratum": "other",
+      "asset_sha256": "641b7b1067c5d0e5c17fca0a39f7fa5043ccbe0fcf1baf47645d21b1b66973f4",
+      "asset_bytes": 198323,
+      "width": 1200,
+      "height": 1694,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_049"
+    },
+    {
+      "document_id": "79038c34-093e-48a4-a2f8-c1d2b0c03248",
+      "page_number": 9,
+      "source_file_sha256": "2b7aa27a17b9c6dca196073684d050920a9c3d2ba634da032cf6a26ef08c551f",
+      "diagram_url_sha256": "5a2474b0ad00c12c7ee66c8a129fe152ce07af1a8fe8b0d23456feaa100c44c0",
+      "manufacturer": "Morley",
+      "content_types": [
+        "general"
+      ],
+      "stratum": "other",
+      "asset_sha256": "cd0a70da050c4b0e1f7a23588d9957ad930846aac6d4d7372bb3eb2f8ebb8d49",
+      "asset_bytes": 222047,
+      "width": 1200,
+      "height": 1696,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_050"
+    },
+    {
+      "document_id": "e2c7c875-aa95-4b3c-9ce2-3a2988f94ca8",
+      "page_number": 15,
+      "source_file_sha256": "569087ead2ed10547cb4916f663c1d9b7ec4845a52c75ac29a019dec2150866b",
+      "diagram_url_sha256": "62571dc30b5f5b2ac262b35b56150de9d1c442c8956e6dec0d617bb89b9e2961",
+      "manufacturer": "Xtralis",
+      "content_types": [
+        "general"
+      ],
+      "stratum": "other",
+      "asset_sha256": "46053f2ba318be09a5cd75e11cb217a7c1c5f11a7e2cb6bfe84a310f3ab0ab22",
+      "asset_bytes": 203503,
+      "width": 1200,
+      "height": 1697,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_051"
+    },
+    {
+      "document_id": "bc6bdd33-72e6-4054-9ce4-60583be4b5c4",
+      "page_number": 64,
+      "source_file_sha256": "ac48106b1140f7cbb5e9122fcf6605231677b3ae02e296ec5096621a688c488f",
+      "diagram_url_sha256": "830f40694827417ea61bc71003162146702f17b32c0a6884ad0b4177194d724d",
+      "manufacturer": "Detnov",
+      "content_types": [
+        "general"
+      ],
+      "stratum": "other",
+      "asset_sha256": "718b0625d428282023bf1e4bec7a08befc20a47ddd9c7b553c8aeac7c41817e2",
+      "asset_bytes": 122964,
+      "width": 1200,
+      "height": 848,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_052"
+    },
+    {
+      "document_id": "ca5fb7bc-62ad-44fe-8d1d-2f6bb84ee1f1",
+      "page_number": 24,
+      "source_file_sha256": "079d43ce3faaa0e85bce3a9cb52e6e9d8363cf8d3c97278a966efba687c051fc",
+      "diagram_url_sha256": "713d451cc037bc1133b902b078507c000a74e689ecbf79f0a046979df1cedb97",
+      "manufacturer": "LDA audioTech",
+      "content_types": [
+        "troubleshooting"
+      ],
+      "stratum": "other",
+      "asset_sha256": "e4293b52eb20152e1a4001e4c2bc7159701edc592834c00f54884b23beb0d0a2",
+      "asset_bytes": 391598,
+      "width": 1200,
+      "height": 1698,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_053"
+    },
+    {
+      "document_id": "2c76809e-1d12-4be7-a3e6-99b91f0c593c",
+      "page_number": 69,
+      "source_file_sha256": "5225724a165ff9856236d4400de407a7b4260712d4b948ff3e494692a02f493a",
+      "diagram_url_sha256": "3e311878043e29527f0f1c051848ab6a4457da1fdcfb473b09b6349eb91ce8a4",
+      "manufacturer": "Spectrex",
+      "content_types": [
+        "general"
+      ],
+      "stratum": "other",
+      "asset_sha256": "71722541df0dccf7349c5d3e599d0b77ffab0cd5d594a2cad3b0be8859dc6803",
+      "asset_bytes": 96962,
+      "width": 1200,
+      "height": 1696,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_054"
+    },
+    {
+      "document_id": "6d394c63-fd4c-4e82-9f96-82431127995b",
+      "page_number": 80,
+      "source_file_sha256": "993a9b516ed3822e2de5e4f05e4e057055f300c9b67e20579383dfd38ab506b6",
+      "diagram_url_sha256": "d748635a028ef90f3bec213a8e0f8c1f50075a60c22fd70b46a12749ec0f1f9c",
+      "manufacturer": "Securiton",
+      "content_types": [
+        "troubleshooting"
+      ],
+      "stratum": "other",
+      "asset_sha256": "8b2df357c3bdd09280df7d42bf1559ae69255c8a42c1b706f88cb72efe4274c0",
+      "asset_bytes": 173663,
+      "width": 1200,
+      "height": 1696,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_055"
+    },
+    {
+      "document_id": "ded06552-d28a-45c3-b54a-27c3e4a0505f",
+      "page_number": 14,
+      "source_file_sha256": "edfec60eb50e3dbfb78794ad5692f9a1e4527f649e5482f256d4b0be5e3cea04",
+      "diagram_url_sha256": "1edde07e92158c96b07377ee07ae06c4eb0e56ff4298dffbb714fe35d0c90931",
+      "manufacturer": "Pfannenberg",
+      "content_types": [
+        "general"
+      ],
+      "stratum": "other",
+      "asset_sha256": "1aafaa0493757fc997164b289775e09e983b68d41c889ae010cddbad73774b56",
+      "asset_bytes": 345636,
+      "width": 1200,
+      "height": 1698,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_056"
+    },
+    {
+      "document_id": "537a0275-920a-4e49-96ef-8d6d4570f06f",
+      "page_number": 3,
+      "source_file_sha256": "942d72f6171e076347bb24202b71f3ba4bc3ea2ffc8c72d899f33da0b0974b62",
+      "diagram_url_sha256": "9946634534d0098bae247761cc5f98e208f81a0aa8a081d6935501ee1534936c",
+      "manufacturer": "System Sensor",
+      "content_types": [
+        "general"
+      ],
+      "stratum": "other",
+      "asset_sha256": "139f5a470bc0008b8f513b022b9ba920b04061f1828ab87c791447a6339ac056",
+      "asset_bytes": 285936,
+      "width": 1200,
+      "height": 1698,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_057"
+    },
+    {
+      "document_id": "38fa6760-cb28-413e-8a4d-b7d7ee2ccc1d",
+      "page_number": 10,
+      "source_file_sha256": "60d28535c66a2d3350a472edb77ceef0ff0e68750827390f0acd279c987ca04b",
+      "diagram_url_sha256": "4e00b4ed1c3db13521237910a133aac58618a7a539ef29a6058ccb900e4999c8",
+      "manufacturer": "Sensitron",
+      "content_types": [
+        "general"
+      ],
+      "stratum": "other",
+      "asset_sha256": "bf73868ba47ff1de2c269a0b06ab9abb55b9e6b5ada38a9b74384daa94a2d647",
+      "asset_bytes": 223984,
+      "width": 1200,
+      "height": 1699,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_058"
+    },
+    {
+      "document_id": "ab3623e3-3697-4b2f-bc5d-bdb106b0cb94",
+      "page_number": 4,
+      "source_file_sha256": "cdd2f5b582d5bfaf0ce130768264ed18aec4f7c1608e1161c958ea96f0e6a7c1",
+      "diagram_url_sha256": "09db61ae62592837da76649e58c6a5e9667a0f895f92f39e1c1284972f405aa7",
+      "manufacturer": "LGM Products",
+      "content_types": [
+        "general"
+      ],
+      "stratum": "other",
+      "asset_sha256": "3d20ce8c3a88a1bf4fb22ce79784249e2fce7aebe449e1721fae66ad5f6089b6",
+      "asset_bytes": 196188,
+      "width": 1200,
+      "height": 1696,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_059"
+    },
+    {
+      "document_id": "9c974802-4fd0-465d-9d9b-7573ce08bf6e",
+      "page_number": 20,
+      "source_file_sha256": "30589d3965b3e8f5af162ba01c6dab77331cca78730864b29c11a57880ce4812",
+      "diagram_url_sha256": "785164cc57e8112c3e16c21e50b2590408c792e4c9ca4e9b85539cd3c1117ef2",
+      "manufacturer": "Notifier",
+      "content_types": [
+        "general",
+        "troubleshooting"
+      ],
+      "stratum": "other",
+      "asset_sha256": "4dcf6b652f00ee84b60416d71489c1fb14c1e3af63ea3706cac0b8350500f867",
+      "asset_bytes": 311135,
+      "width": 1200,
+      "height": 1698,
+      "media_format": "JPEG",
+      "http_content_type": "image/jpeg",
+      "item_id": "s191_visual_060"
+    }
+  ],
+  "authorization": {
+    "database_reads": true,
+    "storage_gets": 60,
+    "database_writes": false,
+    "production_changes": false,
+    "model_calls": 0,
+    "usd": 0
+  }
+}

@@ -1,0 +1,476 @@
+{
+  "instrument": "s150_target_coverage_verifier_probe_v1",
+  "status": "NO_GO",
+  "result": {
+    "questions": 4,
+    "target_relations": 13,
+    "covered_relations": 7,
+    "coverage_rate": 0.53846154,
+    "primary_units": 15,
+    "additional_units": 23,
+    "verified_units": 38,
+    "invalid_ids": 0,
+    "verifier_passes": 1
+  },
+  "cost": {
+    "calls": 4,
+    "counted_input_tokens_total": 113425,
+    "conservative_actual_usd": 0.581675,
+    "worst_case_preflight_usd": 0.687125,
+    "internal_ceiling_usd": 1.5
+  },
+  "rows": [
+    {
+      "qid": "cat018",
+      "verifier_status": "INCOMPLETE",
+      "missing_facets": [
+        "CBE entry procedure via keypad (navigation + confirm keys)",
+        "CBE max length constraint",
+        "OR/AND/NOT operator definitions with examples",
+        "DEL/SDEL timing operators",
+        "CBE restriction for output modules with general-type ID",
+        "CBE group index ordering constraints"
+      ],
+      "primary_units": 5,
+      "additional_units": 6,
+      "verified_units": 11,
+      "expected_relations": 2,
+      "covered_relations": 0,
+      "relations": [
+        {
+          "kind": "software_type_cbe_activation",
+          "anchors_covered": false
+        },
+        {
+          "kind": "point_programming_fields",
+          "anchors_covered": false
+        }
+      ],
+      "additional_unit_receipts": [
+        {
+          "unit_id": "E016_b7a7405ad3",
+          "fragment_number": 3,
+          "candidate_id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1586,
+              1734
+            ]
+          ],
+          "content_sha256": "0fb6ba2d80474e74075fc095e175202feed5b83b72101aaaa2283ff4aaa639ef"
+        },
+        {
+          "unit_id": "E023_e4045a0550",
+          "fragment_number": 3,
+          "candidate_id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2615,
+              2665
+            ]
+          ],
+          "content_sha256": "bd8c3149d1dffb6466caf9a1c0487490c90944b70c360a3aa27d1a1f8eb9573e"
+        },
+        {
+          "unit_id": "E009_8f2e7c6cff",
+          "fragment_number": 4,
+          "candidate_id": "fe6207ae-032f-4119-bbb3-7b0fd49b0ea8",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              968,
+              2129
+            ]
+          ],
+          "content_sha256": "d45669b1e4425dbf5b8fe86cd76b3edd0e653873785949bce1865e74a1b146fd"
+        },
+        {
+          "unit_id": "E002_a24820ffdd",
+          "fragment_number": 13,
+          "candidate_id": "018b1d28-f1e1-4589-b918-99de0e691f3e",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              1179
+            ]
+          ],
+          "content_sha256": "1e15e74aca5a6cfb0be4fc5f8a3f50accbcd773dfca6b234cba9010570b5aa49"
+        },
+        {
+          "unit_id": "E004_32627e7371",
+          "fragment_number": 4,
+          "candidate_id": "fe6207ae-032f-4119-bbb3-7b0fd49b0ea8",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              520,
+              673
+            ]
+          ],
+          "content_sha256": "0d521457aba0096afe4739beea1c86b111687c8013a49677e11d8a0d6816ab2f"
+        },
+        {
+          "unit_id": "E019_a05dabdf32",
+          "fragment_number": 4,
+          "candidate_id": "fe6207ae-032f-4119-bbb3-7b0fd49b0ea8",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1871,
+              3014
+            ]
+          ],
+          "content_sha256": "2bdbf7cbdd3d317c0f6d2b30eb2dcfff8cd97a78d738c65bbe3d86e0d9452a03"
+        }
+      ]
+    },
+    {
+      "qid": "hp002",
+      "verifier_status": "INCOMPLETE",
+      "missing_facets": [
+        "fault-code diagnostic table for airflow obstruction with checks and remedies",
+        "airflow sensor fault code and sensor inspection steps",
+        "maintenance check procedure: reading airflow value and comparing to commissioning record",
+        "reset-initial prerequisite warning (dirty pipe invalidates nominal values)"
+      ],
+      "primary_units": 3,
+      "additional_units": 6,
+      "verified_units": 9,
+      "expected_relations": 3,
+      "covered_relations": 2,
+      "relations": [
+        {
+          "kind": "initial_reference_calibration",
+          "anchors_covered": true
+        },
+        {
+          "kind": "bounded_fault_window",
+          "anchors_covered": true
+        },
+        {
+          "kind": "maintenance_isolation_prerequisite",
+          "anchors_covered": false
+        }
+      ],
+      "additional_unit_receipts": [
+        {
+          "unit_id": "E007_ee7ccf24a9",
+          "fragment_number": 10,
+          "candidate_id": "9410f72f-fff5-494b-bdf5-a0a177e7f02e",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              835,
+              1240
+            ]
+          ],
+          "content_sha256": "3e3448d3c4dde60d6c3e7daab707cb53b066e770d8b5a6119c467de60304e5f3"
+        },
+        {
+          "unit_id": "E014_10b730ed83",
+          "fragment_number": 10,
+          "candidate_id": "9410f72f-fff5-494b-bdf5-a0a177e7f02e",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              25,
+              429
+            ],
+            [
+              2049,
+              2452
+            ]
+          ],
+          "content_sha256": "f70635816ac0c0067a4275f7318d00345c619511b48d840191aec8b08fd00794"
+        },
+        {
+          "unit_id": "E013_7adf1506dc",
+          "fragment_number": 9,
+          "candidate_id": "5b6a3a19-a924-4cf4-9513-bd50786ee3d9",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1557,
+              1925
+            ]
+          ],
+          "content_sha256": "c2143a54ae6901e8f976c68f27d6876dc4a4ebb52a5b261494dedfdb8ef024e1"
+        },
+        {
+          "unit_id": "E015_3751547e0a",
+          "fragment_number": 9,
+          "candidate_id": "5b6a3a19-a924-4cf4-9513-bd50786ee3d9",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              1925,
+              3095
+            ]
+          ],
+          "content_sha256": "60c2199dbc4813b86d414e9effbd6e2645156c996fa3851830f92edfc0e37fbd"
+        },
+        {
+          "unit_id": "E001_0cffd03282",
+          "fragment_number": 7,
+          "candidate_id": "7b95d320-ba51-4729-87d2-1858625d4b79",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              1123
+            ]
+          ],
+          "content_sha256": "b96bc981fe9250f1f01815318574c97d1ca877e6e3bf13ba20a3eff42defdfaf"
+        },
+        {
+          "unit_id": "E006_bf14eaaf3b",
+          "fragment_number": 2,
+          "candidate_id": "414ce99c-0dec-478c-b504-009f14631804",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              993,
+              1896
+            ]
+          ],
+          "content_sha256": "8f0760c912f33392ba239c1ddf29d6ffdef198bbf3ebb4a97098b039438da60c"
+        }
+      ]
+    },
+    {
+      "qid": "hp011",
+      "verifier_status": "INCOMPLETE",
+      "missing_facets": [
+        "reset-inhibit-time-rI-blocks-reset-after-activation",
+        "system-fault-requires-reset-before-extinction-resumes",
+        "abort-switch-fault-requires-manual-reset-stops-extinction",
+        "supervisory-circuit-faults-default-latched-require-manual-reset"
+      ],
+      "primary_units": 4,
+      "additional_units": 5,
+      "verified_units": 9,
+      "expected_relations": 3,
+      "covered_relations": 2,
+      "relations": [
+        {
+          "kind": "extinction_duration_range",
+          "anchors_covered": false
+        },
+        {
+          "kind": "reset_inhibit_special_state",
+          "anchors_covered": true
+        },
+        {
+          "kind": "default_latched_faults",
+          "anchors_covered": true
+        }
+      ],
+      "additional_unit_receipts": [
+        {
+          "unit_id": "E001_592f1805b0",
+          "fragment_number": 3,
+          "candidate_id": "bd2d7703-98c6-45da-b044-afb75a54a2f5",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              935
+            ]
+          ],
+          "content_sha256": "c5d26a8f32c413311b81c9021601c51a4d8f0272ef9b8ac6482c345c0219992c"
+        },
+        {
+          "unit_id": "E002_b01fdf47a4",
+          "fragment_number": 7,
+          "candidate_id": "27aef5f9-d66f-4a3b-a9e0-eb15dcf60acb",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              848
+            ]
+          ],
+          "content_sha256": "99e3d4e4c1e13d943050d65b096b76177be3c336845d5b95fcaaaf3255275386"
+        },
+        {
+          "unit_id": "E016_796009d4c7",
+          "fragment_number": 10,
+          "candidate_id": "688c07f0-4617-4c47-9778-d6f6cb230d0c",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2864,
+              3138
+            ]
+          ],
+          "content_sha256": "8467a6e1c4bfe49e312b822f113f890bcb0389bbe4c81dce9e093549c09d4c98"
+        },
+        {
+          "unit_id": "E003_98ac02c4be",
+          "fragment_number": 9,
+          "candidate_id": "c8924d59-a9ce-4379-a3b7-57058ff86a82",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              566,
+              1025
+            ]
+          ],
+          "content_sha256": "96a131554e409435a303bcfcce74166d6330d8a2477051f83c3e160cda3d3c86"
+        },
+        {
+          "unit_id": "E004_8ebbb90203",
+          "fragment_number": 13,
+          "candidate_id": "475a8f18-7c69-4c7a-8111-45bd67334c96",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              820,
+              2016
+            ]
+          ],
+          "content_sha256": "e995bee8b476c8a7a8b27a486465e7fbef1a865978b95132c1c12ce71a5fdbbc"
+        }
+      ]
+    },
+    {
+      "qid": "hp017",
+      "verifier_status": "INCOMPLETE",
+      "missing_facets": [
+        "tabla completa de tipos de retardo y sus efectos sobre acciones de usuario",
+        "cómo acceder y crear/editar reglas de causa-efecto",
+        "anulación de retardos desde menú nivel de acceso 2",
+        "advertencia de lógicas contradictorias y necesidad de pruebas"
+      ],
+      "primary_units": 3,
+      "additional_units": 6,
+      "verified_units": 9,
+      "expected_relations": 5,
+      "covered_relations": 3,
+      "relations": [
+        {
+          "kind": "option_family_cardinality",
+          "anchors_covered": true
+        },
+        {
+          "kind": "input_condition_definition",
+          "anchors_covered": false
+        },
+        {
+          "kind": "output_condition_action",
+          "anchors_covered": false
+        },
+        {
+          "kind": "logic_contradiction_warning",
+          "anchors_covered": true
+        },
+        {
+          "kind": "commissioning_rule_verification",
+          "anchors_covered": true
+        }
+      ],
+      "additional_unit_receipts": [
+        {
+          "unit_id": "E002_fd5a4142f4",
+          "fragment_number": 2,
+          "candidate_id": "7e34cb72-0183-488a-9aa3-fcc81b40f3ef",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              1059
+            ]
+          ],
+          "content_sha256": "47a72d130ee879d6477a558e0c0bceae9ef19306b34293e89819d94ecb8ad466"
+        },
+        {
+          "unit_id": "E016_9c897df320",
+          "fragment_number": 2,
+          "candidate_id": "7e34cb72-0183-488a-9aa3-fcc81b40f3ef",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              352
+            ],
+            [
+              1059,
+              1411
+            ]
+          ],
+          "content_sha256": "268d997dc5342ea857d0d8f0a27dd199e4e23215529d6174512f2398870e655d"
+        },
+        {
+          "unit_id": "E018_24608196f9",
+          "fragment_number": 2,
+          "candidate_id": "7e34cb72-0183-488a-9aa3-fcc81b40f3ef",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              352
+            ],
+            [
+              1765,
+              2117
+            ]
+          ],
+          "content_sha256": "55d1a9dd991340eea1dbfb8f6026a65043db20f0f28172ea612c8b6d0c463501"
+        },
+        {
+          "unit_id": "E020_6f2fc2cff8",
+          "fragment_number": 2,
+          "candidate_id": "7e34cb72-0183-488a-9aa3-fcc81b40f3ef",
+          "unit_kind": "table_row_with_header",
+          "source_spans": [
+            [
+              0,
+              352
+            ],
+            [
+              2471,
+              2823
+            ]
+          ],
+          "content_sha256": "c9960702534c9c67206f965fa22a0032a74787bedd2dbe739366fa1cec72012e"
+        },
+        {
+          "unit_id": "E002_e40bae664a",
+          "fragment_number": 3,
+          "candidate_id": "ac308dbf-357e-4356-9049-1ccfcc6ff749",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              0,
+              1054
+            ]
+          ],
+          "content_sha256": "ea985ed6b18f8da7c9c44f43b0c35f2c7121f1a284a7ddaaea1b136cadee5577"
+        },
+        {
+          "unit_id": "E018_e4bc164e9f",
+          "fragment_number": 12,
+          "candidate_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+          "unit_kind": "contiguous",
+          "source_spans": [
+            [
+              2479,
+              2724
+            ]
+          ],
+          "content_sha256": "0bb3658aa1300be3cc8744e854b33d029851d8a49390d2281a965e9cc5fc03c8"
+        }
+      ]
+    }
+  ],
+  "decision": {
+    "fresh_broad_cohort": "NO_GO",
+    "four_answer_probe": "NO_GO",
+    "production": "NO_GO",
+    "facts_moved_to_ok": 0
+  },
+  "result_sha256": "08ba26860c82311e2edaa96e310ccd86659e0f44efa6d411726046fb78ee3b15"
+}

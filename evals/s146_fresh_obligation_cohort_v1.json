@@ -1,0 +1,187 @@
+{
+  "instrument": "s146_fresh_obligation_cohort_v1",
+  "status": "SEALED_VALIDATED",
+  "items": [
+    {
+      "item_id": "s146_src_01",
+      "eligible": true,
+      "question": "¿Qué mensaje se muestra cuando falla el relé de la sirena número 1?",
+      "answer_points": [
+        {
+          "claim": "El mensaje mostrado para la sirena 1 es 'AVERÍA - Bell/Sirena Nº 1'",
+          "exact_quote": "321 Sirena 1                                   | AVERÍA - Bell/Sirena Nº 1"
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Notifier",
+      "product_model": "MS-5210UD",
+      "excerpt_sha256": "efe0a0056501881fbdc49a72652e822306e0098bd6290d889aa78a1a1c5689be"
+    },
+    {
+      "item_id": "s146_src_02",
+      "eligible": true,
+      "question": "¿Cuál es el nivel de obscuración para el nivel de alarma 6?",
+      "answer_points": [
+        {
+          "claim": "El nivel de alarma 6 corresponde a una obscuración de 1.50% obs/m",
+          "exact_quote": "| ALARM LEVEL 6        | 1.50% obs/m       | 6                                                     |"
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Morley",
+      "product_model": "AUTOSAT-1u",
+      "excerpt_sha256": "28a5757cb252131697c6aba5b23e9f12f3e818ca7b96ba9890a8f2f75693906a"
+    },
+    {
+      "item_id": "s146_src_03",
+      "eligible": true,
+      "question": "¿Qué temperatura de cable debe seleccionar si necesita la configuración T078-V10-A045?",
+      "answer_points": [
+        {
+          "claim": "La configuración T078-V10-A045 corresponde al cable Signaline FT-78-EN con temperatura de 78°C",
+          "exact_quote": "| 78°C Signaline FT-78-EN        | T078-V10-A045 |"
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "LGM Products",
+      "product_model": "UNIT-15",
+      "excerpt_sha256": "a27b866ddd0e6830bc3557101c4aedbdc275761555e37a2c498f6e96eb37ad1c"
+    },
+    {
+      "item_id": "s146_src_04",
+      "eligible": true,
+      "question": "¿A qué condición está asignado permanentemente el relé de alarma?",
+      "answer_points": [
+        {
+          "claim": "El relé de alarma está asignado permanentemente a Fire1",
+          "exact_quote": "The Alarm relay is permanently assigned to Fire1"
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Xtralis",
+      "product_model": "VESDA-VLI",
+      "excerpt_sha256": "b8cce634a958f55864d44e6f21cf85862b0d8c6c14cd2fd3f53111fd4b6a3bd9"
+    },
+    {
+      "item_id": "s146_src_05",
+      "eligible": true,
+      "question": "¿Cuál es la función del terminal 3 en la caja EX-e?",
+      "answer_points": [
+        {
+          "claim": "El terminal 3 proporciona entrada de reset positiva",
+          "exact_quote": "| Terminal 3   | Reset input +                                        |"
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Securiton",
+      "product_model": "ADW-535-1",
+      "excerpt_sha256": "c285d937f9754e2f353f78803a56f031640b09104f5b1ed5d49e483c6466c79a"
+    },
+    {
+      "item_id": "s146_src_06",
+      "eligible": true,
+      "question": "¿Cuál es el valor de salida de corriente en miliamperios durante un estado normal del detector?",
+      "answer_points": [
+        {
+          "claim": "Durante funcionamiento normal, la salida es de 4 mA con una tolerancia del ±10%",
+          "exact_quote": "| Normal            | 4 mA±10% |"
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "Spectrex",
+      "product_model": "40-40R",
+      "excerpt_sha256": "eab91a8dc92aa630b28fa7ef390477c5f45839977536acb11fbd9c3984e7bbba"
+    },
+    {
+      "item_id": "s146_src_07",
+      "eligible": true,
+      "question": "¿Cuál es la corriente de reposo del modelo B324RL?",
+      "answer_points": [
+        {
+          "claim": "La corriente de reposo del B324RL es de 1 microamperio",
+          "exact_quote": "| Standby Current                           | 1μA            |"
+        }
+      ],
+      "stratum": "table",
+      "manufacturer": "System Sensor",
+      "product_model": "SERIE-300",
+      "excerpt_sha256": "b1c36c0fa4d11d630194e3da7a767bd47b9e4d480eee55e2491e6b48106b339b"
+    },
+    {
+      "item_id": "s146_src_08",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "prose",
+      "manufacturer": "Detnov",
+      "product_model": "CCD-103",
+      "excerpt_sha256": "cd5d31a18b4587981c2b4d88cee0f6dca2f052b264d91c8613b67679d53a0089"
+    },
+    {
+      "item_id": "s146_src_09",
+      "eligible": true,
+      "question": "¿Qué indicador LED se ilumina cuando el detector de llamas está en funcionamiento normal?",
+      "answer_points": [
+        {
+          "claim": "En funcionamiento normal solo el indicador LED verde permanece encendido",
+          "exact_quote": "● verde continuo: funcionamiento normal"
+        }
+      ],
+      "stratum": "prose",
+      "manufacturer": "SenseWare",
+      "product_model": "210-SERIES",
+      "excerpt_sha256": "a81def5b1a19705726ec0bf6448b206d07a6ab53aa611740b6c1a7d95b5e8ebc"
+    },
+    {
+      "item_id": "s146_src_10",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "prose",
+      "manufacturer": "Kidde",
+      "product_model": "NC",
+      "excerpt_sha256": "fe8b4c2b231472c6401034f309ac1b4280b928dd43577b0dffbb5b061996c4d0"
+    },
+    {
+      "item_id": "s146_src_11",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "prose",
+      "manufacturer": "Aritech",
+      "product_model": "FD2705R",
+      "excerpt_sha256": "3ea29bf68486b165efd822b52ad03e0882c91960001db52a79ff88a16bdc1e44"
+    },
+    {
+      "item_id": "s146_src_12",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "prose",
+      "manufacturer": "Pfannenberg",
+      "product_model": "PA5",
+      "excerpt_sha256": "3a45beae9180b6f58349bf94595c625d685b9bc8f079e3402a53d19cf2e140fd"
+    },
+    {
+      "item_id": "s146_src_13",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "prose",
+      "manufacturer": "Venitem",
+      "product_model": "TUL500EN",
+      "excerpt_sha256": "1a04e970b2b82c113d4e7c393c2b7af3d5457ca7e369244dc63741fc5e95d57e"
+    },
+    {
+      "item_id": "s146_src_14",
+      "eligible": false,
+      "question": "",
+      "answer_points": [],
+      "stratum": "prose",
+      "manufacturer": "LDA audioTech",
+      "product_model": "MPS 8Z",
+      "excerpt_sha256": "b8559d3f333f51e018f7984ce15314ffe08fe67816cc6717d35e7c4dac4a4552"
+    }
+  ],
+  "cohort_sha256": "0a8fe0113ec2c76ee8e06d5ad609f9df1bc40336fd19d677f56cbcf6c2a887ed"
+}
