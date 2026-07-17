@@ -1,0 +1,46 @@
+instrument: s169_synthesis_architecture_review_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+
+frozen_inputs:
+  design: {path: evals/s169_synthesis_architecture_review_design_v1.md, sha256: 3f2096b09ab1081b05b7cd2039c1186777cecafc12dde1852d7089b6403725ef}
+  packet: {path: evals/s169_synthesis_architecture_review_packet_v1.json, sha256: 909d5b01459114e334b2d501cbe290b2e4f0f3c6007875cf185ee710a1cde9fc, packet_sha256: 429db0077f1d30d8ea8260e6e1f34e7bbe4bfcb39c6b7ea37b8adcb5a3e807fc}
+  s168_result: {path: evals/s168_source_unit_gold_ledger_v1.json, sha256: ec100344ec868707eb80380541c51c096a08863acae709d81f23ea5ba9b2d53d}
+  s168_attribution: {path: evals/s168_ledger_failure_attribution_v1.json, sha256: 4dc02c2e94af1db361da3af47218fefaeea7d1d44bb9ef7ffedde1fc285d6227}
+
+models:
+  sol:
+    provider: openai
+    model: gpt-5.6-sol
+    reasoning_effort: xhigh
+    max_output_tokens: 3500
+    max_counted_input_tokens: 20000
+  fable:
+    provider: anthropic
+    model: claude-fable-5
+    thinking: adaptive
+    effort: xhigh
+    max_output_tokens: 3500
+    max_counted_input_tokens: 20000
+
+gate:
+  generic_ledger_verdict_convergence: exact
+  recommended_option_convergence: exact
+  disagreement: hold
+  additional_rounds: 0
+
+pricing_usd_per_million_tokens:
+  openai: {input: 6.25, output: 30}
+  anthropic: {input: 10, output: 50}
+
+budget:
+  internal_ceiling_usd: 1.5
+  user_ceiling_usd: 250
+  provider_calls_max: 2
+  retries: 0
+
+credit:
+  facts_moved_to_ok: 0
+  production: false
+  target_probe: false
+  deployment: false
+  database_writes: 0
