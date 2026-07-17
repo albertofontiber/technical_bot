@@ -1,0 +1,30 @@
+{
+  "instrument": "s158_target_table_preamble_probe_v1",
+  "status": "LOCAL_SOURCE_PACKET_ONLY",
+  "seed_id": "e49a4944-4157-42e3-a1c5-15ec4a6e8926",
+  "predecessor_id": "297b07e9-5ec1-43e3-91be-47a685d5c860",
+  "document_id": "eef91711-fcb7-4b46-ab86-21657490df40",
+  "extraction_sha256": "648e8deba384c0a27f7f255a9149f754acb6cca999c586b0667829e457888c72",
+  "seed_chunk_index": 10,
+  "predecessor_chunk_index": 9,
+  "source_file": "I56-6577-006_EN Notifier FAAST LT-200 QIG",
+  "section_title": "Table 2: Wiring Terminal Designations",
+  "preamble_start": 457,
+  "preamble_end": 572,
+  "preamble": "### Table 2: Wiring Terminal Designations\n\n(Note - Terminals marked CH2 will only be available on 2 channel models)",
+  "preamble_sha256": "59aa44334741f29b6f5c5b7bffcc7863f281158653ba5cf612266227b3546bdb",
+  "checks": {
+    "same_document": true,
+    "same_extraction": true,
+    "exact_predecessor": true,
+    "matching_table_heading": true,
+    "exact_source_span": true,
+    "protected_seed_mutated": false,
+    "model_calls": 0,
+    "database_writes": 0
+  },
+  "source_incomplete_claims_structurally_completed": 5,
+  "facts_moved_to_ok": 0,
+  "next_stage_if_promoted": "synthesis-miss"
+}
+
