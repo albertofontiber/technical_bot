@@ -1,0 +1,60 @@
+instrument: s201_adversarial_review_adjudication_v1
+status: SOL_FINDINGS_ADJUDICATED_FABLE_INCOMPLETE_NO_RETRY
+
+principal_review:
+  model: gpt-5.6-sol
+  reasoning_effort: xhigh
+  timestamp: '2026-07-17T23:04:08'
+  review_subject_sha256: 0484db88aae9eb24b515d495324cf7393f8c5bc7eac47b5a55115ace789a65e8
+  output:
+    path: evals/adversarial_reviews/2026-07-17T23-04-08_gpt-5.6-sol_671691846c7a.md
+    sha256: 671691846c7a444220eab513494c9987fbaf238a69cc91556aff0520abca8678
+  provider_receipt:
+    path: evals/adversarial_reviews/2026-07-17T23-04-08_gpt-5.6-sol_responses_cef486b4cee4.json
+    sha256: cef486b4cee4ca757223424cb71bfbcd9dd98d752bc844537fab379fde8a0a20
+  findings: 6
+  confirmed: 6
+  false_positives: 0
+  maximum_severity: critical
+
+corrections:
+  - finding: target_probe_could_pass_with_zero_residual_gain
+    disposition: confirmed_fixed
+    evidence: target check now requires residual_facts_covered_gte_1
+  - finding: single_haiku_mapping_was_not_independent_semantic_gold
+    disposition: confirmed_fixed
+    evidence: Luna independently validates support decisions and alternative source-unit sets before planner execution
+  - finding: cohort_selection_claim_ignored_reaches_gen_bias
+    disposition: confirmed_fixed
+    evidence: selection now uses all questions with at least two benchmark facts and never reads reaches_gen, answer class or pipeline outcome
+  - finding: frozen_target_evaluator_dependencies_were_incomplete
+    disposition: confirmed_fixed
+    evidence: target identities, answers, obligations and conflicts are precomputed in a sealed packet; deterministic validators and direct helpers are hash-frozen
+  - finding: sdk_transparent_retries_violated_zero_retry_contract
+    disposition: confirmed_fixed
+    evidence: Anthropic and OpenAI clients are constructed with max_retries=0
+  - finding: exact_single_gold_set_penalized_semantic_alternatives
+    disposition: confirmed_fixed
+    evidence: scoring accepts any of up to three independently validated semantically equivalent support sets
+
+independent_review:
+  model: claude-fable-5
+  display_name: Fable 5
+  timestamp: '2026-07-17T23:06:16'
+  status: INCOMPLETE_EMPTY_FINAL
+  tool_calls: 7
+  total_tokens: 152722
+  attempt_receipt:
+    path: evals/adversarial_reviews/2026-07-17T23-06-16_claude-fable-5_failed_attempt_700a8000ab7d.json
+    sha256: 700a8000ab7d4752da1a1387819a2d3b64ad9149e92a8514b9962ee713e14894
+  findings_authority: false
+  same_subject_retry: false
+
+post_correction_verification:
+  focused_tests: 18_passed
+  historical_s194_tests_included: true
+  paid_benchmark_calls: 0
+  target_calls: 0
+  facts_moved_to_ok: 0
+  runtime_integration_authorized: false
+  next_action: merge_frozen_preexecution_contract_then_execute_once

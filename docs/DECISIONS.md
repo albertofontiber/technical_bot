@@ -1950,3 +1950,30 @@ chunks arbitrarios con densidad suficiente. Siguiente: limpiar el puente local/d
 generalización independiente S188 y después S172, declarando que eso no sube el 143 diagnóstico
 que ya las presupone; luego volver a los 12 synthesis-miss con un mecanismo de preguntas reales,
 no otro cohorte source-first. `chunks_v3` permanece `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`; Railway no bloquea.
+
+## DEC-112 — pre-S201: preguntas reales, gold dual y target evaluator autocontenido
+
+**Cambio de mecanismo.** La auditoría de artefactos cerró dos desvíos antes de ejecutar modelos:
+generalizar de nuevo S188 repetiría el NO-GO independiente S127 o reabriría S128 sin trigger, y
+S172 ya agotó sus 46 candidatos mecánicos en los mismos 11 documentos evaluados. Pre-S201 vuelve
+por ello al bucket dominante de 12 `synthesis-miss` sin otra autoría source-first. Congela 12
+preguntas benchmark preexistentes mediante selección hash que no consulta respuesta, clase,
+`reaches_gen` ni outputs: 8 fabricantes, 12 productos y 43 facts, incluidos hard cases con soporte
+parcial o potencialmente nulo.
+
+**Gate.** Haiku económico propone support-unit sets para todos los facts y Luna económico valida
+independientemente cada decisión soportado/no soportado y hasta tres conjuntos semánticamente
+equivalentes. Cualquier output inválido o desacuerdo detiene antes del planner. Terra `low` nunca ve
+claims, gold, clases ni respuestas; se mantiene el contrato 90% recall / 80% precisión / 75%
+completitud, máximo 70 unidades, compilación local exacta y `max_retries=0`. Solo un PASS abre el
+packet autocontenido de `cat018`, `hp002`, `hp011` y `hp017`, que ya congela chunks atestados,
+baselines, 20 obligaciones y un conflicto. El target no puede pasar con ganancia cero: exige al
+menos un residual nuevo, cero regresiones y cero conflictos nuevos.
+
+**Revisión y autorización.** GPT-5.6 Sol `xhigh` principal encontró seis hallazgos (dos críticos,
+cuatro medios); 6/6 se confirmaron y corrigieron sin relajar umbrales. Fable 5 exacto llegó al
+proveedor, usó siete tools y devolvió una revisión final vacía; el trace se conserva como
+`failed_api`, no `omitted_unavailable`, y no se repite. El contrato queda congelado antes de pago:
+máximo 40 llamadas económicas, $4 interno, cero DB/runtime/producción/deploy. La ejecución es el
+siguiente tramo; hoy mueve 0 facts. `chunks_v3` permanece
+`FINAL_NO_GO_CHUNKS_V3_WHOLESALE` y Railway no es gate de PR/merge con CI verde.

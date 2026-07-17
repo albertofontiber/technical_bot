@@ -1,0 +1,154 @@
+instrument: s201_real_question_planner_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+objective: validate_decomposed_planning_on_preexisting_real_questions_before_target_probe
+
+hash_contract: sha256_of_text_with_crlf_normalized_to_lf
+
+frozen_inputs:
+  design: {path: evals/s201_real_question_planner_design_v1.md, sha256: 3f9b6c8de31dd5a72f6acae674505942ddec08f5e6c060400aa5803e60de7449}
+  real_question_packet: {path: evals/s201_real_question_planner_packet_v1.json, sha256: a85909a9372c4e17ba14b3ceb924ad888c6a149f0ca34a91420a9159858f2ebb}
+  packet_builder: {path: scripts/s201_build_real_question_planner_packet.py, sha256: 6246446103452834e2e8051ce0e1e6d26e3a5d8f860fd334ad0233e0f09d7808}
+  target_evaluation_packet: {path: evals/s201_target_evaluation_packet_v1.json, sha256: 6fb2be260a596fed3a77daed4ec5cd0dce90bd6d1cb8246a176b1b762f0c72fe}
+  target_packet_builder: {path: scripts/s201_build_target_evaluation_packet.py, sha256: 2cb4eba177adf9d55fe7987fbad38286f8b97738c645956eac5db8c1482640da}
+  runner: {path: scripts/s201_real_question_planner_gate.py, sha256: 6c5fad579f5fde3160d3c1d0940cd2476a6217f60cd28f89725b6c5ba2177fc6}
+  planner_primitives: {path: src/rag/decomposed_evidence_planner.py, sha256: 61f720e12dae1b5f9b6402c532ca91484ba51cf6d89817040bb43038be3be81d}
+  evidence_unitizer: {path: src/rag/evidence_units_v2.py, sha256: c80498f59452280f7630411b1740664c8ec946a5e3a6511441d6140f88727eab}
+  base_evidence_unitizer: {path: src/rag/evidence_units.py, sha256: cb4fd3a89cacb758cbbf257561caacfa12608711177d0de2d44c18c2559e9e64}
+  target_answer_validator: {path: src/rag/answer_planner.py, sha256: c27ad6c913f49167e43d289d17399ccfe2c7cb281506b51630cd2dec9650cbd3}
+  citation_validator: {path: src/rag/omission_correction.py, sha256: d6f39838cd3ea46a31227a64f066e64c45c0e671f73ba986201c1e0571cd2c9b}
+  stable_hash_helper: {path: scripts/s165_answer_archetype_ledger.py, sha256: 808a34a382762a6de5f6742262cb8f2646bbe4429cc73e92cbb6f57669650c9c}
+  provider_cost_and_format_helpers: {path: scripts/s167_independent_answer_ledger_gate.py, sha256: 2e00bff1569bcd77eba2d8093656ac16cd785657c98ec9c832df6350b22b3955}
+  benchmark_facts: {path: evals/s100_factlevel_full.yaml, sha256: 46c836c250610d5e21cbbf2771f099600fe750544fd12a3d4829ffc01eb8e054}
+  context_freeze: {path: evals/s113_full_contexts_freeze_v1.json, sha256: 556490dd74056603b6b8f8c8d885c55820957761bbd6407bb1dcf8f533434498}
+  residual_audit: {path: evals/s163_synthesis_residual_audit_v1.json, sha256: 53eda7213874e3aae6ea8b03b03a6fd2c3ee29358d1f1efb14ae79e0709fd1fb}
+
+holdout_contract:
+  source_table: chunks_v2
+  eligible_questions: 28
+  selected_questions: 12
+  manufacturers: 8
+  unique_normalized_products: 12
+  benchmark_answer_points: 43
+  baseline_reaching_generation_points: 37
+  target_question_overlap: 0
+  default_off_candidate_question_overlap: 0
+  question_selection_uses_answer_class_or_pipeline_outcome: false
+  question_selection_uses_planner_output: false
+  questions_preexist_s194_design: true
+  blind_unseen_holdout_claimed: false
+  gold_claims_present_in_planner_packet: false
+  database_reads: 0
+  database_writes: 0
+
+target_evaluation_contract:
+  questions: 4
+  qids: [cat018, hp002, hp011, hp017]
+  obligations: 20
+  conflicts: 1
+  source_identity_obligations_conflicts_and_baselines_precomputed: true
+  catalog_resolution_during_paid_execution: false
+  obligation_generation_during_paid_execution: false
+  database_reads: 0
+  database_writes: 0
+
+models:
+  gold_author:
+    provider: anthropic
+    id: claude-haiku-4-5-20251001
+    role: economic_post_freeze_fact_to_source_unit_mapper
+    max_output_tokens: 1400
+  gold_validator:
+    provider: openai
+    id: gpt-5.6-luna
+    role: independent_economic_semantic_gold_validator_and_alternative_set_author
+    reasoning_effort: none
+    max_output_tokens: 1600
+  planner:
+    provider: openai
+    id: gpt-5.6-terra
+    role: economic_question_decomposition_and_source_unit_selection
+    reasoning_effort: low
+    max_output_tokens: 1000
+
+execution:
+  gold_author_calls_max: 12
+  gold_validator_calls_max: 12
+  holdout_planner_calls_max: 12
+  target_planner_calls_max: 4
+  paid_calls_max: 40
+  retries: 0
+  model_written_questions: 0
+  model_written_source_text: 0
+  model_written_final_answers: 0
+  frontier_execution_calls: 0
+  retrieval_calls: 0
+  reranker_calls: 0
+  database_calls: 0
+  target_opened_only_after_holdout_gate_pass: true
+  dual_gold_sealed_before_planner_execution: true
+  gold_loaded_only_after_all_planner_checkpoints: true
+  provider_sdk_max_retries: 0
+
+validation:
+  manufacturers_min: 8
+  benchmark_answer_points: 43
+  source_supported_points_min: 36
+  invalid_gold_outputs_max: 0
+  invalid_gold_validator_outputs_max: 0
+  semantic_gold_disagreements_max: 0
+  claim_recall_min: 0.90
+  unit_precision_min: 0.80
+  question_complete_rate_min: 0.75
+  selected_units_max: 70
+  invalid_planner_outputs_max: 0
+  exact_compiler_required: true
+  deterministic_compiler_required: true
+  invalid_citations_max: 0
+  target_previously_covered_obligation_regressions_max: 0
+  target_newly_unsafe_versioned_conflicts_max: 0
+  target_residual_facts_covered_min: 1
+  passing_action: GO_LOCAL_DEFAULT_OFF_REVIEW_AND_REGRESSION_REQUIRED
+  production: false
+  official_fact_credit: 0
+
+pricing_usd_per_million_tokens:
+  gold_author: {input: 1, output: 5}
+  gold_validator: {input: 1, output: 6}
+  planner: {input: 2.5, output: 15}
+
+budget:
+  internal_ceiling_usd: 4
+  user_ceiling_usd: 250
+
+critical_review_after_go:
+  principal: {model: gpt-5.6-sol, reasoning_effort: xhigh}
+  independent: {model: fable-5}
+  same_artifact_retry_if_unavailable: false
+  required_before_runtime_integration: true
+
+outputs:
+  gold: evals/s201_real_question_source_unit_gold_v1.json
+  gold_receipts: evals/s201_real_question_gold_receipts_v1.json
+  gold_validator_receipts: evals/s201_real_question_gold_validator_receipts_v1.json
+  planner_packet: evals/s201_real_question_planner_execution_packet_v1.json
+  planner_receipts: evals/s201_real_question_planner_receipts_v1.json
+  target_receipts: evals/s201_target_planner_receipts_v1.json
+  result: evals/s201_real_question_planner_gate_v1.json
+
+states:
+  go: GO_LOCAL_DEFAULT_OFF
+  hold: HOLD_EXTERNAL_DEPENDENCY_INCOMPLETE
+  no_go_gold: NO_GO_GOLD_CONSTRUCTION
+  no_go_upstream: NO_GO_REAL_QUESTION_GATE
+  no_go_downstream: NO_GO_TARGET_SEMANTIC_REGRESSION
+
+forbidden:
+  - tune_or_retry_on_the_same_cohort
+  - expose_gold_claims_support_ids_answers_or_classes_to_planner
+  - open_target_before_holdout_gate_passes
+  - change_prompt_or_thresholds_after_execution
+  - use_frontier_model_for_benchmark_execution
+  - database_write_or_chunks_table_change
+  - chunks_v3_wholesale_reopen_or_per_question_patch
+  - deployment_or_railway_gate
+  - production_or_official_fact_credit
