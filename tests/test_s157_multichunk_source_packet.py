@@ -1,11 +1,26 @@
+import json
+from pathlib import Path
+
 import pytest
 
-from scripts.s157_build_multichunk_source_packet import build_packet, stable_sha
+from scripts.s157_build_multichunk_source_packet import SNAPSHOT, build_packet, stable_sha
+
+
+ROOT = Path(__file__).resolve().parents[1]
+FROZEN_PACKET = ROOT / "evals/s157_multichunk_source_packet_v1.json"
 
 
 @pytest.fixture(scope="module")
 def packet():
-    return build_packet()
+    return json.loads(FROZEN_PACKET.read_text(encoding="utf-8"))
+
+
+@pytest.mark.skipif(
+    not SNAPSHOT.exists(),
+    reason="full S117 corpus snapshot is an external regeneration fixture",
+)
+def test_full_snapshot_regeneration_matches_frozen(packet):
+    assert build_packet() == packet
 
 
 def test_packet_has_stable_identity_and_is_source_first(packet):
