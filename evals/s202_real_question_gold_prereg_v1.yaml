@@ -1,0 +1,132 @@
+instrument: s202_real_question_gold_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+objective: seal_independently_validated_source_unit_gold_on_fresh_real_questions
+
+hash_contract: sha256_of_text_with_crlf_normalized_to_lf
+
+frozen_inputs:
+  design: {path: evals/s202_real_question_gold_design_v1.md, sha256: db5bbbba16894dbd5c7c67e974d3ea9e7cb1bf486277227eff3c484fbf74ec21}
+  real_question_packet: {path: evals/s202_real_question_gold_packet_v1.json, sha256: f1a235af86b2f093aa96a9bd06677a018f8224846b9ddde67ecc4ba85fab8af4}
+  packet_builder: {path: scripts/s202_build_real_question_gold_packet.py, sha256: 78d49526fb9ec6be40de88c15f32dcab07103bdc310490e4dac50b5dab2260cf}
+  runner: {path: scripts/s202_real_question_gold_gate.py, sha256: 920bd0766b20ba534169e4ffca6275d21aae0bead152bf4ef23da82fc2ad17a3}
+  reusable_gold_contract: {path: src/rag/source_unit_gold.py, sha256: 5b9e272b8c3305f63766aa1eea6557b3d0017a73d4674753109f79b77110b571}
+  evidence_unitizer: {path: src/rag/evidence_units_v2.py, sha256: c80498f59452280f7630411b1740664c8ec946a5e3a6511441d6140f88727eab}
+  base_evidence_unitizer: {path: src/rag/evidence_units.py, sha256: cb4fd3a89cacb758cbbf257561caacfa12608711177d0de2d44c18c2559e9e64}
+  stable_hash_helper: {path: scripts/s165_answer_archetype_ledger.py, sha256: 808a34a382762a6de5f6742262cb8f2646bbe4429cc73e92cbb6f57669650c9c}
+  provider_cost_and_format_helpers: {path: scripts/s167_independent_answer_ledger_gate.py, sha256: 2e00bff1569bcd77eba2d8093656ac16cd785657c98ec9c832df6350b22b3955}
+  benchmark_facts: {path: evals/s100_factlevel_full.yaml, sha256: 46c836c250610d5e21cbbf2771f099600fe750544fd12a3d4829ffc01eb8e054}
+  context_freeze: {path: evals/s113_full_contexts_freeze_v1.json, sha256: 556490dd74056603b6b8f8c8d885c55820957761bbd6407bb1dcf8f533434498}
+  exact_transport_preflight: {path: evals/s202_static_transport_preflight_v1.json, sha256: 6ea93b393f6d11ff78a3a08297e17e84714014bbd22f6c7891c8ac2308701e38}
+
+holdout_contract:
+  source_table: chunks_v2
+  eligible_questions_after_exclusions: 16
+  selected_questions: 12
+  manufacturers: 5
+  unique_normalized_products: 12
+  benchmark_answer_points: 43
+  baseline_reaching_generation_points: 37
+  s201_question_overlap: 0
+  target_question_overlap: 0
+  default_off_candidate_question_overlap: 0
+  question_selection_uses_answer_class_or_pipeline_outcome: false
+  question_selection_uses_planner_output: false
+  questions_preexist_s194_design: true
+  blind_unseen_holdout_claimed: false
+  gold_claims_present_in_packet: false
+  database_reads: 0
+  database_writes: 0
+
+transport_contract:
+  shape: static_rectangular_v2
+  answer_point_slots: 6
+  support_slots_per_point: 6
+  provider_array_types: 0
+  provider_dynamic_values: 0
+  provider_refs_defs_combinators: 0
+  identity_cardinality_membership_and_duplicates_validated_locally: true
+  exact_schema_count_tokens_preflight: PASS_PROVIDER_SCHEMA_COUNT_TOKENS
+  preflight_inference_calls: 0
+  preflight_cost_usd: 0
+
+models:
+  gold_author:
+    provider: anthropic
+    id: claude-haiku-4-5-20251001
+    role: economic_ordered_fact_to_source_unit_mapper
+    max_output_tokens: 1800
+  gold_validator:
+    provider: openai
+    id: gpt-5.6-luna
+    role: independent_economic_semantic_gold_validator_and_alternative_set_author
+    reasoning_effort: none
+    max_output_tokens: 1600
+
+execution:
+  gold_author_calls_max: 12
+  gold_validator_calls_max: 12
+  paid_calls_max: 24
+  retries: 0
+  model_written_questions: 0
+  model_written_source_text: 0
+  model_written_final_answers: 0
+  planner_calls: 0
+  target_calls: 0
+  frontier_execution_calls: 0
+  retrieval_calls: 0
+  reranker_calls: 0
+  database_calls: 0
+  provider_sdk_max_retries: 0
+  validator_opened_only_after_all_author_outputs_are_valid: true
+  planner_opened: false
+  target_opened: false
+
+validation:
+  manufacturers_min: 5
+  benchmark_answer_points: 43
+  source_supported_points_min: 36
+  invalid_author_outputs_max: 0
+  invalid_validator_outputs_max: 0
+  semantic_gold_disagreements_max: 0
+  passing_action: GO_TO_REAL_QUESTION_PLANNER_PREREGISTRATION
+  production: false
+  official_fact_credit: 0
+
+pricing_usd_per_million_tokens:
+  gold_author: {input: 1, output: 5}
+  gold_validator: {input: 1, output: 6}
+
+budget:
+  internal_ceiling_usd: 3
+  user_ceiling_usd: 250
+
+critical_review_after_go:
+  principal: {model: gpt-5.6-sol, reasoning_effort: xhigh}
+  independent: {model: fable-5}
+  same_artifact_retry_if_unavailable_or_empty: false
+  required_before_runtime_integration: true
+
+outputs:
+  author_receipts: evals/s202_gold_author_receipts_v1.json
+  validator_receipts: evals/s202_gold_validator_receipts_v1.json
+  gold: evals/s202_real_question_source_unit_gold_v1.json
+  result: evals/s202_real_question_gold_gate_v1.json
+
+states:
+  go: GO_TO_REAL_QUESTION_PLANNER_PREREGISTRATION
+  hold: HOLD_EXTERNAL_DEPENDENCY_INCOMPLETE
+  no_go_transport: NO_GO_AUTHOR_TRANSPORT
+  no_go_semantic: NO_GO_DUAL_GOLD
+
+forbidden:
+  - tune_or_retry_on_the_same_cohort
+  - reuse_any_s201_question
+  - select_questions_using_fact_text_class_reaches_gen_or_model_output
+  - run_luna_after_any_invalid_author_output
+  - run_planner_or_target_in_s202
+  - change_prompt_schema_or_thresholds_after_execution
+  - use_frontier_model_for_benchmark_execution
+  - database_write_or_chunks_table_change
+  - chunks_v3_wholesale_reopen_or_per_question_patch
+  - deployment_or_railway_gate
+  - production_or_official_fact_credit

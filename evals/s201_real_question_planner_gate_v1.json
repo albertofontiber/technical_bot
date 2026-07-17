@@ -1,0 +1,46 @@
+{
+  "instrument": "s201_real_question_planner_gate_v1",
+  "status": "HOLD_EXTERNAL_DEPENDENCY_INCOMPLETE",
+  "failure": {
+    "exception_type": "BadRequestError",
+    "provider_message_persisted": false,
+    "completed_checkpoint_artifacts": {},
+    "stage": "anthropic_gold_author_count_tokens_preflight",
+    "completed_inference_calls": 0,
+    "diagnosis": "anthropic_schema_dialect_rejected_dynamic_array_cardinality_keywords",
+    "rejected_keywords_present_in_author_schema": [
+      "minItems",
+      "maxItems"
+    ]
+  },
+  "chunks_v3_lane": {
+    "status": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "baseline": {
+      "chunks_v2_recall_at_10": "16/24",
+      "chunks_v3_recall_at_10": "16/24",
+      "chunks_v2_mrr": 0.4021,
+      "chunks_v3_mrr": 0.3694
+    },
+    "changed_by_s201": false,
+    "migration_or_materialization": false,
+    "next_trigger": "structural_v4_hypothesis_improves_ranking_without_manufacturer_or_heldout_loss",
+    "per_question_patching": false
+  },
+  "decision": {
+    "same_cohort_retry": false,
+    "s201_cohort_closed": true,
+    "successor_requires_fresh_questions": true,
+    "successor_transport": "static_rectangular_no_arrays_no_dynamic_values",
+    "target_probe_opened": false,
+    "runtime_integration": false,
+    "production": false,
+    "official_fact_credit": 0,
+    "diagnostic_facts_moved_to_ok": 0,
+    "railway_deploy_gate": false
+  },
+  "cost": {
+    "status": "NO_COMPLETED_INFERENCE",
+    "known_inference_cost_usd": 0
+  },
+  "result_sha256": "79b22d55c1a1aff55309140afb15da6a0c077eef952522ce838b9b14473a18a4"
+}

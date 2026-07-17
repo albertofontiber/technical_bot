@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 17 jul 2026 (pre-S201 — gate de preguntas reales congelado; ejecución pendiente).
+> 17 jul 2026 (pre-S202 — S201 cerrado sin inferencia; gold fresco congelado).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -22,8 +22,8 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-<a id="estado-actual-s201--17-jul-2026"></a>
-## Estado actual (pre-S201 — 17 jul 2026)
+<a id="estado-actual-s202--17-jul-2026"></a>
+## Estado actual (pre-S202 — 17 jul 2026)
 
 **La foto diagnóstica comparable más reciente es 157 facts: 143 OK · 12 synthesis-miss ·
 2 retrieval-miss = 91,08% OK, gap 7 facts hasta 95%.** No es todavía un KPI atómico oficial ni
@@ -159,7 +159,7 @@ documentos, 33 derivaciones propagadas y replay live default-off; el discovery e
 otro positivo versionado no visto. Ninguno ofrece ahora un nuevo OK legítimo y no se repiten sus
 modelos/revisores.
 
-**Pre-S201 sustituye la población artificial por preguntas reales preexistentes.** El packet
+**Pre-S201 sustituyó la población artificial por preguntas reales preexistentes.** El packet
 determinista selecciona 12 preguntas sin usar respuesta, clase, `reaches_gen` ni outputs: 8
 fabricantes, 12 productos y 43 facts, incluyendo soporte parcial/nulo. Haiku mapea facts a unidades
 y Luna valida independientemente soporte y hasta tres conjuntos equivalentes; cualquier desacuerdo
@@ -167,7 +167,22 @@ detiene antes de Terra. El planner conserva 90/80/75, máximo 70 unidades, compi
 retry. Solo un PASS abre un packet target autocontenido de los 12 residuals; PASS target requiere
 cero regresiones/conflictos y al menos un residual nuevo. Sol 5.6 xhigh detectó seis defectos del
 borrador y los seis se corrigieron; Fable 5 llegó al proveedor pero devolvió final vacío tras siete
-tools, queda incompleto y no se reintenta. Aún no hay llamadas del benchmark ni facts movidos.
+tools, queda incompleto y no se reintenta.
+
+**S201 se cerró antes de la primera inferencia y no se reintenta.** El primer `count_tokens` de
+Anthropic rechazó el schema de autor con arrays y cardinalidad dinámica (`minItems`/`maxItems`), la
+misma frontera de dialecto ya aislada en S195-S196. No existe receipt de inferencia completada, Luna,
+Terra y targets quedaron en cero, coste de inferencia conocido $0 y facts movidos 0. La cohorte S201
+queda consumida: reintentarla tras cambiar transporte contaminaría el holdout.
+
+**Pre-S202 corrige la causa como contrato reutilizable y separa de nuevo upstream de downstream.**
+Una cohorte hash nueva excluye las 12 preguntas S201, los cuatro targets y los dos default-off:
+12 preguntas, 5 fabricantes —toda la diversidad restante—, 12 productos y 43 facts. El transporte
+Haiku es un rectángulo estático 6×6 sin arrays, enums dinámicos, refs ni combinators; identidad,
+cardinalidad, pertenencia y duplicados se validan localmente en `src/rag/source_unit_gold.py`. El
+schema exacto pasó el compilador `count_tokens` con 0 inferencias/retries y $0. S202 ejecuta solo
+Haiku→Luna: exige 0 outputs inválidos, 0 desacuerdos y ≥36 facts source-supported. Un GO únicamente
+autoriza congelar después el planner Terra; S202 no ejecuta planner/targets ni mueve facts.
 
 **`chunks_v3` no se migra al completo.** S140 cerró el shadow representativo como
 `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`: empata recall funcional@10 (16/24 vs 16/24) pero empeora el
@@ -189,15 +204,16 @@ sigue siendo un registro ligado a documento+revisión+página+hash, independient
 
 **Producción no ha cambiado en este bloque.** No se ha hecho deploy, migración ni escritura
 remota. Railway sigue siendo una demo y no es condición para merge con CI verde. Próximos pasos,
-por orden: (1) integrar el contrato pre-S201 con CI verde; (2) ejecutar una sola vez gold dual →
-planner sobre las 12 preguntas reales; (3) abrir los cuatro targets solo si el gate independiente
-pasa; (4) si hay GO, revisión crítica y regresión completa antes de un seam runtime default-off;
-(5) si hay NO-GO, cerrar el mecanismo sin retry y volver al residual por otra causa upstream;
-(6) reconciliar el bridge diagnóstico/productivo sin sumar de nuevo los tres candidatos S172/S188;
-(7) rehacer imagen con controles negativos balanceados cuando se repriorice; (8) recoger 30 audios
-reales antes de comparar ASR. El funnel se conserva por etapa:
-S193 mantiene señal de renderer; S194, S195, S197, S198, S199 y S200 son NO-GO upstream, S196 y el canary
-question-only son GO instrumentales y todos estos tramos siguen con crédito de facts cero.
+por orden: (1) integrar el cierre S201 + contrato pre-S202 con CI verde; (2) ejecutar S202 una sola
+vez; (3) solo si el gold dual pasa, congelar y ejecutar el planner Terra sobre esas preguntas;
+(4) abrir los cuatro targets solo si ese gate pasa; (5) ante GO target, revisión crítica Sol 5.6
+`xhigh` principal + Fable 5 independiente y regresión completa antes de un seam runtime default-off;
+(6) ante NO-GO, cerrar la cohorte sin retry y volver al residual por otra causa upstream;
+(7) reconciliar el bridge diagnóstico/productivo sin sumar de nuevo S172/S188; (8) rehacer imagen
+con controles negativos balanceados cuando se repriorice; (9) recoger 30 audios reales antes de
+comparar ASR. El funnel se conserva por etapa: S193 mantiene señal de renderer; S194, S195, S197,
+S198, S199 y S200 son NO-GO upstream, S196 y el canary question-only son GO instrumentales, S201 es
+HOLD cerrado antes de inferencia y todos estos tramos siguen con crédito de facts cero.
 
 ## Estado anterior (s129 — 15 jul 2026)
 
