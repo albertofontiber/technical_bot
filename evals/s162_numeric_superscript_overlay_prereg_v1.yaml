@@ -1,0 +1,81 @@
+instrument: s162_numeric_superscript_overlay_prereg_v1
+status: FROZEN_BEFORE_IMPLEMENTATION
+design: evals/s162_numeric_superscript_overlay_design_v1.md
+discovery: evals/s162_numeric_superscript_discovery_scan_v1.json
+
+objective:
+  input_bucket: document-extraction-hold
+  target_facts: 1
+  output_metric: exact_typography_preservation_with_zero_observed_false_attachment
+  facts_moved_to_ok: 0
+
+population:
+  discovery_documents: 1070
+  discovery_pages: 22303
+  pdf_failures: 0
+  geometry_bound_numeric_candidates: 253
+  uniquely_token_mappable_candidates: 46
+  target_candidates: 1
+  non_target_candidates: 45
+  non_target_documents: 10
+
+frozen_rules:
+  pdf_sha_must_match_extraction_sha: true
+  require_pdf_superscript_flag: true
+  base_and_script_numeric: true
+  max_script_to_base_font_ratio: 0.80
+  min_baseline_elevation_points: 0.5
+  min_horizontal_gap_points: -0.25
+  max_horizontal_gap: max_1.25_points_or_0.30_base_font_size
+  flattened_complete_token_occurrences_on_page: 1
+  min_same_line_alphabetic_anchors: 2
+  markup: "<sup>...</sup>"
+  mapping_conflicts: abstain
+
+target_gate:
+  source_sha256: 648e8deba384c0a27f7f255a9149f754acb6cca999c586b0667829e457888c72
+  page: 5
+  original_complete_token: "105"
+  derived_complete_token: "10<sup>5</sup>"
+  exact_replacements: 1
+  other_markdown_deltas_max: 0
+  raw_record_mutations_max: 0
+  idempotent_second_pass_replacements: 0
+
+independent_gate:
+  target_document_excluded: true
+  reviewed_documents_min: 8
+  reviewed_candidates_min: 10
+  pdf_typography_matches_receipt_rate: 1.0
+  correct_markdown_attachment_rate: 1.0
+  false_attachments_max: 0
+  ambiguous_candidates_must_abstain: true
+
+regression_gate:
+  focused_tests_required: true
+  full_tests_required: true
+  database_writes: 0
+  network_calls: 0
+  model_calls_before_finished_candidate_review: 0
+
+adversarial_gate:
+  timing: after_finished_local_candidate
+  sol:
+    model: gpt-5.6-sol
+    reasoning_effort: xhigh
+  fable:
+    model: claude-fable-5
+    effort: xhigh
+  calls_max: 2
+  rounds_max: 1
+  disagreements: hold
+  internal_ceiling_usd: 2.50
+
+forbidden:
+  - mutate_raw_extraction_store
+  - token_105_special_case
+  - faast_or_notifier_runtime_rule
+  - infer_exponent_without_pdf_typography
+  - database_or_production_write
+  - new_paid_answer_probe
+  - official_ok_credit
