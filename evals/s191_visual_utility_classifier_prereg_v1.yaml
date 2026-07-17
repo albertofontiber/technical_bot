@@ -9,6 +9,9 @@ frozen_inputs:
   freeze_script:
     path: scripts/s191_freeze_visual_utility_cohort.py
     sha256: 17e0f14aa307fe64fb0cfede2b0ccf25e831734535f41bf31ac2987d18197628
+  executor_runner:
+    path: scripts/s191_visual_utility_executor.py
+    sha256: 379bff74ac6748cef912dd27f33341a480ec49e229fd4ab8a7c48bcc44d22414
   design: evals/s191_visual_utility_classifier_design_v1.md
 
 population:
