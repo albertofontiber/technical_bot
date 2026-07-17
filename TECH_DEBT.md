@@ -1993,6 +1993,13 @@ identidad, facets, cardinalidad, pertenencia, unicidad y contigüidad quedan en 
 Haiku 4.5, SDK 0.97.0, 1 preflight + 1 inferencia, `max_retries=0`, coste $0,002583.
 Estado `GO_STATIC_TRANSPORT_COMPILED`; facts 0 porque el fixture es sintético.
 
+**Preparación pre-S197:** ya existen el builder de doble scan GET-only y el gate sellado
+Haiku→Luna que reutiliza sin cambios el transporte S196, excluye S194+S195 y se detiene upstream.
+Sus pruebas son verdes, pero todavía no se ha creado ni pagado la cohorte real; por tanto esta
+deuda sigue abierta y facts permanece en 0. La recuperación del runner Fable corrige el diagnóstico
+histórico `omitted_unavailable`; dos respuestas finales vacías del proveedor quedaron auditadas,
+sin fingir una revisión completada.
+
 **Trigger actualizado:** congelar en un tramo S197 separado otra cohorte real fresca que excluya
 los 14 documentos de S194 y los 14 de S195. Reusar exactamente el schema estático S196 y el
 validador determinista, luego exigir Luna externa sobre todos los ítems. No modificar/reintentar

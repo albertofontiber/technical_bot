@@ -1,0 +1,34 @@
+{
+  "schema": "s197_frontier_duo_recovery_adjudication_v1",
+  "decision": "PROTOCOL_RECOVERY_ACCEPTED_WITH_FABLE_PROVIDER_FAILURE_EXPLICIT",
+  "sol_review_ts": "2026-07-17T18:40:33",
+  "sol_model": "gpt-5.6-sol",
+  "sol_reasoning_effort": "xhigh",
+  "sol_findings": 4,
+  "sol_confirmed": 4,
+  "sol_false_positives": 0,
+  "sol_severity_max": "medium",
+  "sol_dispositions": [
+    "Revalidate Sol raw and normalized physical artifacts before Fable can close a pair.",
+    "Derive Fable usage, token count, tool calls, tool trace and files-read evidence from the serialized provider trace.",
+    "Double-read Git-visible bytes and metadata and fail closed on concurrent drift.",
+    "Include cache creation and cache read tokens in Fable's cumulative budget."
+  ],
+  "fable_model": "claude-fable-5",
+  "fable_status": "failed_api_pending_not_waived",
+  "fable_attempts": [
+    {
+      "ts": "2026-07-17T18:43:23",
+      "result": "empty_final_text_rejected"
+    },
+    {
+      "ts": "2026-07-17T18:46:39",
+      "result": "empty_final_text_rejected"
+    }
+  ],
+  "fable_completed_review": false,
+  "user_direction": "Do not enter analysis paralysis; stop further convergence attempts and return to increasing facts OK.",
+  "merge_gate": "CI_GREEN_NOT_RAILWAY_NOT_THIRD_FABLE_RETRY",
+  "fact_delta": 0,
+  "next": "Integrate preparation, then execute the single fresh S197 upstream gate before any S198 planner evaluation."
+}

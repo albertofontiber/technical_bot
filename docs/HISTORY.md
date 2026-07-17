@@ -1778,3 +1778,21 @@ targets = cerrados; facts movidos = 0; producción/DB/Railway = intactos. Root c
 instrumento: el JSON Schema permitía cualquier longitud de array aunque el prompt/validator
 exigían 1–3 IDs. Próxima iteración legítima: sellar esa cardinalidad y usar otra cohorte fresca,
 sin reutilizar outputs ni relajar umbrales.
+
+## pre-S197 (17 jul 2026) — runner Fable recuperado y siguiente gate upstream preparado (DEC-106)
+
+Tras integrar S196 en PR #123 se recuperó desde el workspace anterior el ejecutor directo de
+`claude-fable-5` que sí se había usado desde Codex pero nunca se versionó. El contrato nuevo liga
+Sol 5.6 xhigh y Fable a los mismos bytes ordenados, briefing, HEAD, manifiesto y vista Git; guarda
+respuestas físicas, rechaza symlinks/cambios concurrentes y conserva evidencia de fallos. Sol
+encontró cuatro defectos medios finales, todos corregidos con pruebas. Fable llegó dos veces al
+modelo exacto y leyó el repo, pero devolvió un bloque final vacío; ambos intentos quedaron como
+`failed_api` con trace, no como `omitted_unavailable` ni como dúo completo. Alberto pidió evitar
+otra convergencia y volver cuanto antes al aumento de OK, por lo que no hubo tercer intento.
+
+En paralelo quedó versionado, aún sin gasto ni cohorte generada, el tramo S197: doble scan GET-only
+de una cohorte real nueva excluyendo S194+S195; schema estático S196 con autor Haiku; validación
+determinista y screening excerpt-internal Luna de 14/14; locks/checkpoints, cero retries y techo
+interno $3. Facts movidos = 0. El siguiente paso es integrar con CI verde y ejecutar una sola vez
+ese gate upstream; planner/targets sólo se abren después de GO. `chunks_v3` permanece NO-GO
+wholesale y Railway sigue fuera del gate de merge.

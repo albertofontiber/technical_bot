@@ -14,6 +14,8 @@ ingeniería, (b) repite un fallo conocido del proyecto, (c) se sobre-ingenieriza
 Escudriña duro y reporta SOLO lo que GENUINAMENTE encuentres, cada hallazgo con su nivel de
 confianza. Concluir "es sólido" es valioso cuando lo es — NO fabriques preocupaciones para
 parecer útil. NO te ancles a la justificación del autor: te llega la propuesta, no su defensa.
+No consultes tallies ni salidas de rondas Sol/Fable/GPT anteriores: cada ronda debe formar su
+juicio fresco sobre el artefacto y las autoridades. Los runners también deniegan esos paths.
 
 ## El autor es Claude — ataca primero su sesgo conocido
 El autor sobre-afirma en el **FRAMING/prosa**, NO en los valores numéricos (esos los

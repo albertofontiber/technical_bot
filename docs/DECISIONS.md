@@ -1758,7 +1758,8 @@ Railway es demo y no bloquea PR/merge con CI verde. Artefactos: `evals/s194_*`,
 `minItems` 0/1 y no compila `maxItems`/`uniqueItems`. El transporte usa cuatro slots de puntos y
 tres de soporte, IDs enumerados por excerpt, normalización determinista y un validador económico
 cross-provider Luna sobre los 14 ítems. Sol 5.6 xhigh fue el revisor principal; Fable 5 quedó
-`omitted_unavailable` por ausencia de ejecutor, sin recibo fingido.
+históricamente rotulado `omitted_unavailable` por ausencia del ejecutor versionado en ese
+worktree, sin recibo fingido; DEC-106 corrige que eso no probaba indisponibilidad del modelo.
 
 **Frescura y contrato.** Packet nuevo GET-only de `chunks_v2`: 25.090 filas, 14 documentos y
 fabricantes, 7 tabla + 7 prosa, cero overlap previo/S194/target/product-pair y cero equivalencia
@@ -1790,7 +1791,8 @@ facets, cardinalidad 1–3, pertenencia, unicidad, contigüidad e inactividad se
 workspace-local antes de cualquier request, checkpoint inmutable pre-pago, finalización atómica,
 SDK Anthropic 0.97.0 verificado, `max_retries=0`, máximo 1 preflight + 1 inferencia y $0,02. Sol 5.6
 xhigh fue revisor principal en tres rondas (12/12 hallazgos confirmados y corregidos); Fable 5 quedó
-`omitted_unavailable` sin sustituto fingido.
+registrado como `omitted_unavailable` por ausencia del ejecutor en aquel worktree, sin sustituto
+fingido. El pre-S197 corrige después el diagnóstico: no probaba indisponibilidad del modelo.
 
 **Resultado.** `GO_STATIC_TRANSPORT_COMPILED`: Haiku aceptó el schema, terminó `end_turn` y el
 adaptador reconstruyó dos puntos canónicos con IDs E001/E002 conocidos. 1 inferencia completada,
@@ -1802,3 +1804,26 @@ el schema S196 sin especializarlo por documento y pase Haiku→validador económ
 los ítems. Solo un GO upstream autoriza medir después el planner 90/80/75. `chunks_v3` sigue
 `FINAL_NO_GO_CHUNKS_V3_WHOLESALE` por referencia canónica, sin copiar sus métricas. Railway no es
 gate de PR/merge.
+
+## DEC-106 — pre-S197: dúo reproducible recuperado y gate real sellado; ejecutar upstream antes del planner
+
+**Decisión.** Versionar el acceso directo al pin `claude-fable-5` y ligar Sol 5.6 xhigh + Fable
+a una única vista Git inmutable, con artefactos físicos y estados de fallo auditables. La causa de
+los anteriores `omitted_unavailable` era que el executor usado desde Codex estaba sin trackear en
+otro workspace; no era evidencia de indisponibilidad global. El cierre revalida artefactos de
+ambos proveedores, deriva uso/tools del trace, rechaza symlinks y cambios concurrentes y conserva
+traces también en fallos.
+
+**Resultado de revisión.** Sol principal completó la revisión y sus cuatro hallazgos medios se
+corrigieron con tests. Dos llamadas independientes al pin exacto Fable 5 llegaron al proveedor,
+leyeron el repo y cerraron `end_turn` con bloque de texto vacío; el runner las rechazó y preservó
+traces/coste. El estado correcto es `failed_api`/pendiente, nunca `omitted_unavailable` ni dúo
+completo. Por instrucción explícita de Alberto de evitar una convergencia indefinida, no se hace
+un tercer intento ni se convierte este fallo externo en gate de merge con CI verde.
+
+**Siguiente tramo.** Tras integrar esta preparación, ejecutar una sola cohorte S197 fresca,
+disjunta de S194+S195: doble scan GET-only de `chunks_v2`, schema estático S196 con Haiku y
+screening excerpt-internal de los 14 ítems con Luna. Un NO-GO se detiene upstream; un GO sólo
+autoriza preregistrar S198 con 90/80/75. No mueve facts por sí mismo, no abre targets, no integra
+runtime y no reabre `chunks_v3`, que continúa `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`. Railway es demo
+y no bloquea PR/merge con CI verde.

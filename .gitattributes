@@ -46,6 +46,10 @@ tests/test_s195_* -text
 evals/s196_* -text
 scripts/s196_* -text
 tests/test_s196_* -text
+evals/s197_* -text
+scripts/s197_* -text
+tests/test_s197_* -text
+evals/adversarial_reviews/* -text
 # S196 records the exact runtime requirements bytes as execution context.
 requirements.txt -text
 
@@ -65,4 +69,8 @@ tests/test_s195_* whitespace=-blank-at-eof,cr-at-eol
 evals/s196_* whitespace=-blank-at-eof,cr-at-eol
 scripts/s196_* whitespace=-blank-at-eof,cr-at-eol
 tests/test_s196_* whitespace=-blank-at-eof,cr-at-eol
+evals/s197_* whitespace=-blank-at-eof,cr-at-eol
+scripts/s197_* whitespace=-blank-at-eof,cr-at-eol
+tests/test_s197_* whitespace=-blank-at-eof,cr-at-eol
+evals/adversarial_reviews/* whitespace=-blank-at-eof,cr-at-eol
 requirements.txt whitespace=-blank-at-eof,cr-at-eol
