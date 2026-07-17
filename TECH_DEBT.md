@@ -10,7 +10,7 @@ Si alcanzas un trigger, para y refactoriza antes de seguir añadiendo features.
 
 ---
 
-## Índice de estado (s194 — 17 jul 2026; generado, no renumera)
+## Índice de estado (s195 — 17 jul 2026; generado, no renumera)
 
 - **Abiertos (trigger-gated):** #1, #2, #3, #5b, #5, #6, #7, #10, #11b, #12, #11g, #11h, #13, #15, #17, #18, #19, #20, #21, #22, #23, #25, #26, #27, #28, #29, #30, #31, #18, #32, #33, #34, #35, #37, #39, #40, #41, #44, #45, #47, #48, #49, #50, #51, #52
 - **Parciales / elevados:** #8, #11f, #24, #53
@@ -1971,7 +1971,7 @@ prompt s99; QA muestral 15/15 ≈ cota inferior ~80%) — mitigado con el filtro
 (pre-colapso, fix #2 r2), no eliminado. Ref: DEC-099 (pendiente al cierre), gate
 `evals/s102_hyq_table_gate.yaml`, tests `tests/test_hyq_channel.py`.
 
-## 53. Schema del autor de golds no sella la cardinalidad que valida downstream (s194)
+## 53. Transporte del autor de golds: cardinalidad sellada, compilación aún no probada (s194→s195)
 
 **Estado medido:** el gate fresco S194 se detuvo como `NO_GO_COHORT_CONSTRUCTION` porque
 `s194_src_09` entregó una lista de soportes fuera del rango 1–3. No fue un fallo de parseo ni de
@@ -1980,12 +1980,20 @@ causa de contrato es concreta: `author_schema()` heredado de S168 declara
 `support_unit_ids: {type: array, items: string}`, mientras `validate_author_item()` exige
 1–3 IDs únicos. El proveedor cumplió el schema estructurado y falló después en el validator.
 
-**Trigger:** YA DISPARADO, pero solo si el bucket de síntesis sigue siendo el siguiente tramo.
-Antes de congelar otra cohorte, versionar un schema nuevo que incluya `minItems: 1`,
-`maxItems: 3` y `uniqueItems: true`; testear que el output format lo transmite al proveedor.
-No modificar S194, reintentar su cohorte, reutilizar sus outputs ni relajar el gate de cero
-inválidos. La siguiente cohorte debe excluir también sus 14 documentos y usar seed/version nueva.
+**Avance S195 y nuevo estado medido:** Anthropic no soporta `maxItems`/`uniqueItems` en el
+dialecto compilado. S195 conservó esas reglas en el contrato canónico y eliminó arrays del
+transporte mediante slots acotados. La cohorte fue completamente nueva y excluyó S194, pero la
+combinación de enums dinámicos por unidad, `$defs` y cuatro puntos fue rechazada en la primera
+inferencia con HTTP 400 `Schema is too complex for compilation`. Hubo 14 token-count preflights,
+0 inferencias completadas, Luna 0 y facts 0. Estado `NO_GO_EXECUTION_CONTRACT_REJECTED`.
+
+**Trigger actualizado:** antes de congelar otra cohorte, probar una compilación real sobre canary
+sintético con un schema estático mínimo: slots estructurales, sin enums dinámicos ni `$defs`, y
+pertenencia/unicidad de IDs en validación determinista fail-closed. Solo si compila se autoriza
+otra cohorte fresca que excluya los 14 documentos de S194 y los 14 de S195. No modificar/reintentar
+S194 o S195, reutilizar outputs ni relajar cero inválidos/unsupported.
 
 **Límite:** corregir el schema elimina una clase de invalidez del instrumento; no aporta evidencia
 de que el planificador descompuesto supere recall 90%/precisión 80%/completas 75%, ni mueve facts.
-Eso solo lo decide una ejecución fresca posterior. Ref: DEC-103, `evals/s194_*`.
+Eso solo lo decide una ejecución fresca posterior. Ref: DEC-103/104, `evals/s194_*`,
+`evals/s195_*`.

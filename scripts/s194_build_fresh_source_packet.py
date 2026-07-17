@@ -62,14 +62,16 @@ TARGET_FILES = tuple(
 )
 
 
-def _credentials(env_file: Path) -> tuple[str, dict[str, str]]:
+def _credentials(
+    env_file: Path, *, experiment: str = "S194"
+) -> tuple[str, dict[str, str]]:
     values = dotenv_values(env_file)
     base_url = str(values.get("SUPABASE_URL") or "").rstrip("/")
     key = str(
         values.get("SUPABASE_SERVICE_KEY") or values.get("SUPABASE_KEY") or ""
     ).strip()
     if not base_url or not key:
-        raise RuntimeError("S194 Supabase read credentials missing")
+        raise RuntimeError(f"{experiment} Supabase read credentials missing")
     return base_url, {"apikey": key, "Authorization": f"Bearer {key}"}
 
 
@@ -87,9 +89,9 @@ def _count(client: httpx.Client, url: str, headers: dict[str, str]) -> int:
 
 
 def read_chunks_v2(
-    env_file: Path,
+    env_file: Path, *, experiment: str = "S194"
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    base_url, headers = _credentials(env_file)
+    base_url, headers = _credentials(env_file, experiment=experiment)
     url = f"{base_url}/rest/v1/chunks_v2"
     rows: list[dict[str, Any]] = []
     requests = 0
@@ -119,11 +121,11 @@ def read_chunks_v2(
         requests += 1
     if len(rows) != count_before or count_after != count_before:
         raise RuntimeError(
-            "S194 chunks_v2 cardinality changed during the read-only freeze: "
+            f"{experiment} chunks_v2 cardinality changed during the read-only freeze: "
             f"before={count_before}, rows={len(rows)}, after={count_after}"
         )
     if len({str(row["id"]) for row in rows}) != len(rows):
-        raise RuntimeError("S194 chunks_v2 snapshot contains duplicate IDs")
+        raise RuntimeError(f"{experiment} chunks_v2 snapshot contains duplicate IDs")
     return rows, {
         "table": "chunks_v2",
         "rows": len(rows),
@@ -133,14 +135,16 @@ def read_chunks_v2(
     }
 
 
-def _prior_contract() -> tuple[
+def _prior_contract(
+    prior_packets: tuple[Path, ...] = PRIOR_PACKETS,
+) -> tuple[
     set[str], set[tuple[str, str]], set[str], dict[str, str]
 ]:
     prior_documents = set(_excluded_documents())
     development_pairs: set[tuple[str, str]] = set()
     prior_source_files: set[str] = set()
     dependencies: dict[str, str] = {}
-    for path in PRIOR_PACKETS:
+    for path in prior_packets:
         payload = json.loads(path.read_text(encoding="utf-8"))
         for row in payload["items"]:
             if row.get("document_id"):
@@ -170,8 +174,20 @@ def _prior_contract() -> tuple[
     return prior_documents, development_pairs, prior_source_files, dependencies
 
 
-def build_packet(rows: list[dict[str, Any]], read_receipt: dict[str, Any]) -> dict[str, Any]:
-    prior_documents, development_pairs, prior_source_files, dependencies = _prior_contract()
+def build_packet(
+    rows: list[dict[str, Any]],
+    read_receipt: dict[str, Any],
+    *,
+    seed: str = SEED,
+    instrument: str = "s194_fresh_source_packet_v1",
+    item_prefix: str = "s194_src",
+    prior_packets: tuple[Path, ...] = PRIOR_PACKETS,
+    fresh_marker: str = "fresh_after_s193",
+) -> dict[str, Any]:
+    """Build a sealed packet while keeping S194's historical defaults stable."""
+    prior_documents, development_pairs, prior_source_files, dependencies = (
+        _prior_contract(prior_packets)
+    )
     target_ids: set[str] = set()
     for path in TARGET_FILES:
         payload = json.loads(path.read_text(encoding="utf-8"))
@@ -190,14 +206,14 @@ def build_packet(rows: list[dict[str, Any]], read_receipt: dict[str, Any]) -> di
         prior_documents,
         target_ids,
         development_pairs,
-        seed=SEED,
-        instrument="s194_fresh_source_packet_v1",
-        item_prefix="s194_src",
+        seed=seed,
+        instrument=instrument,
+        item_prefix=item_prefix,
     )
     packet.pop("packet_sha256", None)
     packet["status"] = "SEALED_FRESH_LIVE_CHUNKS_V2_GET_ONLY"
     packet["selection"]["source_table"] = "chunks_v2"
-    packet["selection"]["fresh_after_s193"] = True
+    packet["selection"][fresh_marker] = True
     for row in packet["items"]:
         units = build_header_aware_evidence_units(
             row["excerpt"], fragment_number=1, candidate_id=row["item_id"]
