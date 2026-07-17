@@ -4,10 +4,12 @@ import pytest
 
 from src.rag.compatibility_bundle_coverage import (
     CONTRACT,
+    EVIDENCE_CONFIG,
     build_compatibility_bundle,
     render_cross_manufacturer_compatibility_refusal,
     validate_compatibility_bundle,
 )
+from src.rag.evidence_coverage import select_evidence_coverage_cards
 
 
 QUERY = "¿Puedo conectar el panel HOST-100 con el detector DEV-200; son compatibles?"
@@ -157,3 +159,29 @@ def test_cross_manufacturer_renderer_refuses_unsupported_conclusion():
     assert "HOST-100" not in answer  # no invented relationship beyond exact excerpts
     assert "DEV-200" in answer
     assert "Fuentes: device-manual; host-installation" in answer
+
+
+def test_topology_contract_keeps_declaration_and_physical_return_as_exact_spans():
+    content = (
+        "## Conexión de un bucle\n\n"
+        "La instalación del bucle debe ser cerrada y volver a la central.\n\n"
+        "El cable debe ser apantallado.\n\n"
+        "Conecte la salida en S+ y S-, y el retorno del bucle en R+ y R-."
+    )
+
+    cards = select_evidence_coverage_cards(
+        [{"id": "topology", "content": content}],
+        archetype="compatibility",
+        config_path=EVIDENCE_CONFIG,
+        query="¿Puedo montar este detector en el lazo de la central?",
+    )
+    topology = [card for card in cards if card["facet"] == "loop_topology"]
+
+    assert len(topology) == 2
+    assert any("debe ser cerrada" in card["quote"] for card in topology)
+    assert any("retorno del bucle" in card["quote"] for card in topology)
+    assert all(
+        content[card["start"] : card["end"]] == card["quote"]
+        and card["exact_source_span_validated"] is True
+        for card in topology
+    )

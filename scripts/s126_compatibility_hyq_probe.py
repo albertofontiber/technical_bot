@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "evals" / "s126_compatibility_bundle_probe_v2.json"
 QUERY_CONFIG = ROOT / "config" / "retrieval_facets_compatibility_candidate_v2.yaml"
-EVIDENCE_CONFIG = ROOT / "config" / "evidence_coverage_compatibility_candidate_v1.yaml"
+EVIDENCE_CONFIG = ROOT / "config" / "evidence_coverage_compatibility_candidate_v2.yaml"
 REQUIRED_TARGETS = {
     "loop_topology": "b6602d5a-dbb5-4e2e-8814-1ac3ce066896",
     "protocol_scope": "cfcdc8f7-bdaf-412f-a85e-0ffb76878d99",

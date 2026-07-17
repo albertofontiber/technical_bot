@@ -24,9 +24,9 @@ from .query_facets import expand_query_facets
 
 ROOT = Path(__file__).resolve().parents[2]
 QUERY_CONFIG = ROOT / "config" / "retrieval_facets_compatibility_candidate_v2.yaml"
-EVIDENCE_CONFIG = ROOT / "config" / "evidence_coverage_compatibility_candidate_v1.yaml"
-LANE = "canonical_compatibility_bundle_coverage_v1"
-CONTRACT = "governed_two_entity_three_facet_bundle_v1"
+EVIDENCE_CONFIG = ROOT / "config" / "evidence_coverage_compatibility_candidate_v2.yaml"
+LANE = "canonical_compatibility_bundle_coverage_v2"
+CONTRACT = "governed_two_entity_three_facet_bundle_v2"
 REQUIRED_FACETS = frozenset(
     {"protocol_scope", "supported_device_roster", "loop_topology"}
 )
