@@ -1,0 +1,361 @@
+{
+  "instrument": "s165_answer_archetype_ledger_receipts_v1",
+  "status": "COMPLETE",
+  "created_at": "2026-07-17T03:06:13.327883+00:00",
+  "receipts": [
+    {
+      "item_id": "s147_src_01",
+      "response_id": "msg_011Cd6taCoDaVe7S2faP5ezy",
+      "counted_input_tokens": 2935,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 2935,
+        "output_tokens": 133,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.0072,
+      "raw_text": "{\"selections\": [{\"facet\": \"target_or_configuration_field\", \"unit_ids\": [\"E008_303092a0c7\", \"E020_f3477d7297\"]}, {\"facet\": \"input_trigger_or_observed_condition\", \"unit_ids\": [\"E008_303092a0c7\", \"E020_f3477d7297\"]}, {\"facet\": \"option_mode_or_default\", \"unit_ids\": [\"E008_303092a0c7\", \"E020_f3477d7297\"]}]}",
+      "raw_text_sha256": "15fbfaea20198e6ee74eb76dbf04f58d569becccd02eb1e2a48e157b86dc085c",
+      "validation_error": "unit ID assigned to multiple facets",
+      "ledger": {}
+    },
+    {
+      "item_id": "s147_src_02",
+      "response_id": "msg_011Cd6taPfaFVYNCZvfkhoYr",
+      "counted_input_tokens": 3738,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3738,
+        "output_tokens": 112,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.008596,
+      "raw_text": "{\"selections\": [{\"facet\": \"target_or_configuration_field\", \"unit_ids\": [\"E008_70422e50fc\", \"E011_0b9a32d5a0\"]}, {\"facet\": \"input_trigger_or_observed_condition\", \"unit_ids\": [\"E010_bd41e0015d\"]}, {\"facet\": \"measurement_limit_or_timing\", \"unit_ids\": [\"E008_70422e50fc\"]}]}",
+      "raw_text_sha256": "064c494a1fc4464f1fefb43e1b1cf82b7612519ed5c0961a9808af244111ef10",
+      "validation_error": "unit ID assigned to multiple facets",
+      "ledger": {}
+    },
+    {
+      "item_id": "s147_src_03",
+      "response_id": "msg_011Cd6taZ1tdBr3VVF843t2w",
+      "counted_input_tokens": 4500,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4500,
+        "output_tokens": 54,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.00954,
+      "raw_text": "{\"selections\": [{\"facet\": \"output_action_or_corrective_step\", \"unit_ids\": [\"E022_98d40eeb6a\", \"E030_6af2e4af03\"]}]}",
+      "raw_text_sha256": "757b655ce9a08b200218b2936e521dfd7b142cfd662462a266ee101b2fb20851",
+      "validation_error": null,
+      "ledger": {
+        "output_action_or_corrective_step": [
+          "E022_98d40eeb6a",
+          "E030_6af2e4af03"
+        ]
+      }
+    },
+    {
+      "item_id": "s147_src_04",
+      "response_id": "msg_011Cd6tafe1W1Y9PEpVUHEbC",
+      "counted_input_tokens": 2805,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 2805,
+        "output_tokens": 68,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.00629,
+      "raw_text": "{\"selections\": [{\"facet\": \"target_or_configuration_field\", \"unit_ids\": [\"E012_f3acec5711\"]}, {\"facet\": \"measurement_limit_or_timing\", \"unit_ids\": [\"E002_3dbcb76936\"]}]}",
+      "raw_text_sha256": "aa8baa81705550180dd641a0d01eba2be9d24622f0ff21a8e2e68867f3fa69e6",
+      "validation_error": null,
+      "ledger": {
+        "target_or_configuration_field": [
+          "E012_f3acec5711"
+        ],
+        "measurement_limit_or_timing": [
+          "E002_3dbcb76936"
+        ]
+      }
+    },
+    {
+      "item_id": "s147_src_05",
+      "response_id": "msg_011Cd6taoyJrzUHK5QjJNmHg",
+      "counted_input_tokens": 3401,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3401,
+        "output_tokens": 140,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.008202,
+      "raw_text": "{\"selections\": [{\"facet\": \"input_trigger_or_observed_condition\", \"unit_ids\": [\"E002_81612f9c44\", \"E003_e51f8b5efa\"]}, {\"facet\": \"output_action_or_corrective_step\", \"unit_ids\": [\"E002_81612f9c44\", \"E003_e51f8b5efa\"]}, {\"facet\": \"verification_commissioning_or_recovery\", \"unit_ids\": [\"E014_9697fbe465\", \"E016_b65f82c868\"]}]}",
+      "raw_text_sha256": "4625c7feee8787a93661beca52a8f62529addce3227f47917d62ca4a227cd9b2",
+      "validation_error": "unit ID assigned to multiple facets",
+      "ledger": {}
+    },
+    {
+      "item_id": "s147_src_06",
+      "response_id": "msg_011Cd6tazAETnqf1wUAfvUs1",
+      "counted_input_tokens": 3347,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3347,
+        "output_tokens": 40,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.007094,
+      "raw_text": "{\"selections\": [{\"facet\": \"target_or_configuration_field\", \"unit_ids\": [\"E013_4b4adf87e6\"]}]}",
+      "raw_text_sha256": "08fb87e90a848b4bc5eb9d5910c6c08f7f1280cffae1788f5abbf5ceba69450d",
+      "validation_error": null,
+      "ledger": {
+        "target_or_configuration_field": [
+          "E013_4b4adf87e6"
+        ]
+      }
+    },
+    {
+      "item_id": "s147_src_07",
+      "response_id": "msg_011Cd6tb83W7cZWmhZGtZfrR",
+      "counted_input_tokens": 3804,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3804,
+        "output_tokens": 47,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.008078,
+      "raw_text": "{\"selections\": [{\"facet\": \"measurement_limit_or_timing\", \"unit_ids\": [\"E019_239fcae59b\", \"E009_ee759cea5c\"]}]}",
+      "raw_text_sha256": "bf5c5ba4735a3e85c65398fb197032cce6bf5d2f4effa0362de3fdc13e1de8e2",
+      "validation_error": null,
+      "ledger": {
+        "measurement_limit_or_timing": [
+          "E019_239fcae59b",
+          "E009_ee759cea5c"
+        ]
+      }
+    },
+    {
+      "item_id": "s147_src_08",
+      "response_id": "msg_011Cd6tbDsEpW9UnFfUQmBVh",
+      "counted_input_tokens": 3235,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3235,
+        "output_tokens": 173,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.0082,
+      "raw_text": "{\"selections\":[{\"facet\":\"access_or_prerequisite\",\"unit_ids\":[\"E011_9da11c0803\",\"E012_aa5c04ff76\"]},{\"facet\":\"target_or_configuration_field\",\"unit_ids\":[\"E012_aa5c04ff76\"]},{\"facet\":\"input_trigger_or_observed_condition\",\"unit_ids\":[\"E012_aa5c04ff76\"]},{\"facet\":\"output_action_or_corrective_step\",\"unit_ids\":[\"E012_aa5c04ff76\",\"E013_95445e9fc8\"]},{\"facet\":\"verification_commissioning_or_recovery\",\"unit_ids\":[\"E013_95445e9fc8\"]}]}",
+      "raw_text_sha256": "bdaddfd5c7c2b50f7af67ff4caf25f7d3c0828bf841724c91c68a9aec22a1765",
+      "validation_error": "unit ID assigned to multiple facets",
+      "ledger": {}
+    },
+    {
+      "item_id": "s147_src_09",
+      "response_id": "msg_011Cd6tbPonTGRBwPrNLrD2j",
+      "counted_input_tokens": 2909,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 2909,
+        "output_tokens": 69,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.006508,
+      "raw_text": "{\"selections\":[{\"facet\":\"input_trigger_or_observed_condition\",\"unit_ids\":[\"E023_0010dc1b30\"]},{\"facet\":\"output_action_or_corrective_step\",\"unit_ids\":[\"E023_0010dc1b30\"]}]}",
+      "raw_text_sha256": "b25e7137e320ba98d357971dc5514618eff29b603d86debba144568e860e7e4a",
+      "validation_error": "unit ID assigned to multiple facets",
+      "ledger": {}
+    },
+    {
+      "item_id": "s147_src_10",
+      "response_id": "msg_011Cd6tbYpmJ6YFjAm8q7cPk",
+      "counted_input_tokens": 4172,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4172,
+        "output_tokens": 85,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.009194,
+      "raw_text": "{\"selections\": [{\"facet\": \"input_trigger_or_observed_condition\", \"unit_ids\": [\"E011_795cce6472\", \"E012_cf9fcbdac1\"]}, {\"facet\": \"output_action_or_corrective_step\", \"unit_ids\": [\"E012_cf9fcbdac1\"]}]}",
+      "raw_text_sha256": "35c2c4c297cbefdecd0673da023bd2ec958953a6d7c0a73b9774e65300b13a8b",
+      "validation_error": "unit ID assigned to multiple facets",
+      "ledger": {}
+    },
+    {
+      "item_id": "s147_src_11",
+      "response_id": "msg_011Cd6tbhtiLFoDWckiv5Rwd",
+      "counted_input_tokens": 2822,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 2822,
+        "output_tokens": 103,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.006674,
+      "raw_text": "{\"selections\": [{\"facet\": \"target_or_configuration_field\", \"unit_ids\": [\"E013_edc29c3e6c\"]}, {\"facet\": \"measurement_limit_or_timing\", \"unit_ids\": [\"E013_edc29c3e6c\"]}, {\"facet\": \"safety_warning_exception_or_conflict\", \"unit_ids\": [\"E016_255e89ec06\"]}]}",
+      "raw_text_sha256": "cb39c359b311021a263ed99540a10ea5bf552b1c8350c1f8322164f50e24d655",
+      "validation_error": "unit ID assigned to multiple facets",
+      "ledger": {}
+    },
+    {
+      "item_id": "s147_src_12",
+      "response_id": "msg_011Cd6tbqiGMDxNuiQTe5sMF",
+      "counted_input_tokens": 3611,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3611,
+        "output_tokens": 239,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.009612,
+      "raw_text": "{\"selections\": [{\"facet\": \"access_or_prerequisite\", \"unit_ids\": [\"E017_0f6c25a3b2\", \"E006_aded90d498\"]}, {\"facet\": \"target_or_configuration_field\", \"unit_ids\": [\"E017_0f6c25a3b2\"]}, {\"facet\": \"input_trigger_or_observed_condition\", \"unit_ids\": [\"E019_577e44c85c\"]}, {\"facet\": \"output_action_or_corrective_step\", \"unit_ids\": [\"E019_577e44c85c\"]}, {\"facet\": \"option_mode_or_default\", \"unit_ids\": [\"E019_577e44c85c\"]}, {\"facet\": \"measurement_limit_or_timing\", \"unit_ids\": [\"E025_7a63fe427b\"]}, {\"facet\": \"verification_commissioning_or_recovery\", \"unit_ids\": [\"E019_577e44c85c\"]}]}",
+      "raw_text_sha256": "cbb803a30b5ee14a10787be73d22dc19861d5c980b339869046cf3b2ee4be4f6",
+      "validation_error": "unit ID assigned to multiple facets",
+      "ledger": {}
+    },
+    {
+      "item_id": "s147_src_13",
+      "response_id": "msg_011Cd6tc3GnpU1DCpdC4ZTib",
+      "counted_input_tokens": 3357,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3357,
+        "output_tokens": 130,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.008014,
+      "raw_text": "{\"selections\": [{\"facet\": \"input_trigger_or_observed_condition\", \"unit_ids\": [\"E004_30a844327c\"]}, {\"facet\": \"target_or_configuration_field\", \"unit_ids\": [\"E015_ca80cb8239\"]}, {\"facet\": \"output_action_or_corrective_step\", \"unit_ids\": [\"E015_ca80cb8239\"]}, {\"facet\": \"verification_commissioning_or_recovery\", \"unit_ids\": [\"E015_ca80cb8239\"]}]}",
+      "raw_text_sha256": "d173f801b1e7c5a60c945ea19f02cc72924a7644649968e6e8d430c761daa4b3",
+      "validation_error": "unit ID assigned to multiple facets",
+      "ledger": {}
+    },
+    {
+      "item_id": "s147_src_14",
+      "response_id": "msg_011Cd6tcBwSEve7xFZCtwFi9",
+      "counted_input_tokens": 3199,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3199,
+        "output_tokens": 184,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.008238,
+      "raw_text": "{\"selections\": [{\"facet\": \"access_or_prerequisite\", \"unit_ids\": [\"E001_dfb571368b\"]}, {\"facet\": \"target_or_configuration_field\", \"unit_ids\": []}, {\"facet\": \"input_trigger_or_observed_condition\", \"unit_ids\": []}, {\"facet\": \"output_action_or_corrective_step\", \"unit_ids\": []}, {\"facet\": \"option_mode_or_default\", \"unit_ids\": []}, {\"facet\": \"measurement_limit_or_timing\", \"unit_ids\": []}, {\"facet\": \"safety_warning_exception_or_conflict\", \"unit_ids\": []}, {\"facet\": \"verification_commissioning_or_recovery\", \"unit_ids\": []}]}",
+      "raw_text_sha256": "5c70caee18a0157c523b1f2f151411ece574f057a74b77c4d8e9a5fd2880d064",
+      "validation_error": null,
+      "ledger": {
+        "access_or_prerequisite": [
+          "E001_dfb571368b"
+        ],
+        "target_or_configuration_field": [],
+        "input_trigger_or_observed_condition": [],
+        "output_action_or_corrective_step": [],
+        "option_mode_or_default": [],
+        "measurement_limit_or_timing": [],
+        "safety_warning_exception_or_conflict": [],
+        "verification_commissioning_or_recovery": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+instrument: s165_answer_archetype_ledger_gate_v1
+status: NO_GO_TRANSPORT_CONTRACT_SEMANTIC_SIGNAL_POSITIVE
+
+evidence:
+  paid_result:
+    path: evals/s165_answer_archetype_ledger_v1.json
+    sha256: 47d7e5b3768baf8bbaca55bff15ffe585dafa61435a2473c61184b4d6402acc1
+  paid_receipts:
+    path: evals/s165_answer_archetype_ledger_receipts_v1.json
+    sha256: f2951ea012063bb26c7f8aa8ed25a80558242b0d0aef02554fce3f263d983386
+  offline_attribution:
+    path: evals/s165_answer_archetype_ledger_transport_attribution_v1.json
+    sha256: b17f8c2a4e7794a3389e23e985a26ecda8b2eae4c337f270b94235239eff3132
+
+paid_gate:
+  status: NO_GO
+  claims_covered: 11
+  claim_recall: 0.2972973
+  selected_units: 8
+  unit_precision: 1.0
+  questions_complete: 4
+  question_complete_rate: 0.28571429
+  invalid_outputs: 9
+  actual_cost_usd: 0.11144
+  facts_moved_to_ok: 0
+
+offline_transport_attribution:
+  model_calls: 0
+  duplicate_only_failures: 9
+  unknown_id_failures: 0
+  parse_failures: 0
+  normalized_claims_covered: 35
+  normalized_claim_recall: 0.94594595
+  normalized_selected_units: 31
+  normalized_unit_precision: 0.83870968
+  normalized_questions_complete: 12
+  normalized_question_complete_rate: 0.85714286
+  passes_all_original_semantic_thresholds: true
+
+root_cause:
+  scope: application_output_container
+  explanation: >-
+    A source unit can legitimately satisfy multiple answer facets. The v1
+    validator rejected that many-to-many relation even though every returned ID
+    was known and every payload was parseable. Unioning repeated IDs changes no
+    selected evidence and passes every frozen semantic threshold.
+
+decision:
+  s165: CLOSED_NO_GO
+  posthoc_credit: forbidden
+  same_prompt_retry: forbidden
+  s166_transport_only_replay: GO
+  s166_allowed_change: >-
+    Preserve facet assignments while bounding and deduplicating the evidence
+    set by unique source-unit ID. No prompt, model, cohort, threshold or semantic
+    selection rule may change.
+  fresh_independent_after_s166: required
+  target_probe: forbidden
+  production: NO_GO
+  facts_moved_to_ok: 0
+
+cost:
+  paid_usd: 0.11144
+  offline_attribution_usd: 0
+
+authorization:
+  production: false
+  deploy: false
+  push: false
