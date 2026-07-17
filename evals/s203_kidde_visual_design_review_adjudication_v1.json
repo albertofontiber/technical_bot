@@ -1,0 +1,60 @@
+{
+  "schema": "s203_kidde_visual_design_review_adjudication_v1",
+  "subject_ts": "2026-07-18T00:24:54",
+  "principal": {
+    "model": "gpt-5.6-sol",
+    "reasoning_effort": "xhigh",
+    "status": "completed",
+    "findings": 8,
+    "confirmed": 8,
+    "false_positive": 0,
+    "severity_max": "critical",
+    "tokens": 21316,
+    "raw_review": "evals/adversarial_reviews/2026-07-18T00-24-54_gpt-5.6-sol_3da73cff7c54.md",
+    "provider_trace": "evals/adversarial_reviews/2026-07-18T00-24-54_gpt-5.6-sol_responses_58f6db4b72ae.json"
+  },
+  "independent": {
+    "model": "claude-fable-5",
+    "status": "failed_api_refusal",
+    "same_subject_attempts": 1,
+    "retry": false,
+    "tokens": 23739,
+    "provider_trace": "evals/adversarial_reviews/2026-07-18T00-25-50_claude-fable-5_failed_attempt_eced3700d263.json",
+    "interpretation": "Provider reached the exact model pin but returned stop_reason=refusal; this is not model unavailability. The visual generation gate still requires fresh independent Fable outputs and fails closed if they do not complete."
+  },
+  "fixes": [
+    {
+      "finding": "pixel grounding was not measured while extracted text was supplied",
+      "resolution": "Frontier author and review payloads now contain only immutable PNG bytes and page labels; extracted text remains audit-only in the packet."
+    },
+    {
+      "finding": "topic and focus pages were not acceptance criteria",
+      "resolution": "Local citation validation accepts only focus_pages; cross-review receives the frozen topic/focus and must assert topic_aligned."
+    },
+    {
+      "finding": "material disagreement between independent candidates was not evaluated",
+      "resolution": "Both candidates are shown only after independent generation; each reviewer must report counterpart_materially_agrees and an empty material_disagreements list."
+    },
+    {
+      "finding": "novelty relied on basename and question text",
+      "resolution": "All 78 source hashes resolved from existing gold citations are compared, and reviewers receive every existing question plus atomic facts for semantic duplicate screening."
+    },
+    {
+      "finding": "last-call budget and paid failed-call accounting were not fail-closed",
+      "resolution": "An immutable call ledger is written immediately after every provider response, the budget is checked after the final Fable call, and HOLD/NO-GO costs use the ledger."
+    },
+    {
+      "finding": "INSUFFICIENT was misclassified as provider HOLD",
+      "resolution": "Semantic insufficiency now raises SemanticNoGo and closes as NO_GO_VISUAL_GOLD."
+    },
+    {
+      "finding": "future bot evaluation lacked a complete freeze contract",
+      "resolution": "A canary GO only authorizes a new preregistration binding corpus, index, embeddings, full configuration, judge, seeds, baseline and zero-regression thresholds."
+    },
+    {
+      "finding": "product-manual inventory was a hand-maintained assertion",
+      "resolution": "The builder discovers product manuals by frozen document/model tokens across all 55 Kidde PDFs and fails on any declared/discovered mismatch."
+    }
+  ],
+  "decision": "SOL_FINDINGS_CLOSED_LOCALLY; NO_SAME_SUBJECT_FABLE_RETRY; FREEZE_PREEXECUTION_PR"
+}

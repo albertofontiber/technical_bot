@@ -1,0 +1,96 @@
+instrument: s203_kidde_visual_canary_v1
+status: FROZEN_BEFORE_FRONTIER_EXECUTION
+hash_contract: sha256_of_utf8_text_with_crlf_normalized_to_lf
+
+frozen_inputs:
+  design: {path: evals/s203_kidde_visual_canary_design_v1.md, sha256: e395c8d424393c119b2ca94d1260823db076ad757ba9ca5716d7fc688cfea1a9}
+  packet: {path: evals/s203_kidde_visual_canary_packet_v1.json, sha256: bb2f9115ca506d251421ec21cb31267c73ae129ed92f2dfdc0dde139777b7f7c}
+  packet_builder: {path: scripts/s203_build_kidde_visual_canary.py, sha256: ec8f7568cd2e1c65dc7c625ea434ba2f9b8822d77090af56af81e1953af444dd}
+  runner: {path: scripts/s203_run_kidde_visual_canary.py, sha256: 93a9f620aaaeb705030dfc3f2579eeef6653e41862d47df30559587a2a662e90}
+  tests: {path: tests/test_s203_kidde_visual_canary.py, sha256: deee03337607216fb7fe1c3a679511a176bf187bd2c3d44ed41638821dc9da46}
+  design_review_adjudication: {path: evals/s203_kidde_visual_design_review_adjudication_v1.json, sha256: 0c09b0b57923864a5f623201fe462ae1d95ef4bfa212a50bc7d2aec9a5abf2d6}
+  existing_gold_ledger: {path: evals/gold_answers_v1.yaml, sha256: c16a20ad8d6a5c2f3dc6cdd53080207d8072d43e48910da5aacd63f9edb8cff2}
+
+packet_sha256: c81a580abfc6e60bc806e66bc7c8b7096d2b4fdcbad29cc61704684124135340
+
+population:
+  kidde_pdf_universe: 55
+  existing_gold_questions: 51
+  existing_kidde_related_questions: 7
+  canary_items: 3
+  committed_pixel_pages: 11
+  selected_basename_overlap_with_existing_gold: 0
+  selected_sha256_overlap_with_78_resolved_existing_gold_source_hashes: 0
+  selected_source_unit_overlap_with_closed_diagnostics: 0
+  bot_outputs_seen_during_selection: 0
+  model_outputs_seen_during_selection: 0
+
+models:
+  principal: {id: gpt-5.6-sol, reasoning_effort: xhigh}
+  independent: {id: claude-fable-5}
+
+execution:
+  generation_calls_per_model: 3
+  cross_review_calls_per_model: 1
+  paid_calls_max: 8
+  provider_retries: 0
+  same_item_retry: false
+  candidate_merge: false
+  frontier_input: pixel_only
+
+validation:
+  sol_candidates_valid: 3
+  fable_candidates_valid: 3
+  fable_review_of_sol_pass: 3
+  sol_review_of_fable_pass: 3
+  topic_aligned: 3
+  semantic_duplicates_max: 0
+  unsupported_facts_max: 0
+  wrong_focus_page_citations_max: 0
+  material_disagreements_max: 0
+  final_gold_author: gpt-5.6-sol
+
+budget:
+  conservative_internal_ceiling_usd: 40
+  user_total_authorization_usd: 200
+  conservative_accounting_usd_per_million_tokens:
+    sol: {input: 15, output: 120}
+    fable: {input: 30, output: 150}
+  preexecution_design_review_usage_tokens:
+    sol: 21316
+    fable_refusal: 23739
+
+prior_frontier_review:
+  sol_findings: 8
+  sol_confirmed: 8
+  sol_false_positive: 0
+  fable_status: failed_api_refusal
+  fable_same_subject_retry: false
+  interpretation: Fable reached the exact model pin; it was not unavailable.
+
+states:
+  go: GO_KIDDE_GOLD_CANARY
+  hold: HOLD_FRONTIER_INCOMPLETE
+  no_go: NO_GO_VISUAL_GOLD
+
+downstream_after_go:
+  official_fact_credit: 0
+  bot_evaluation_requires_new_preregistration: true
+  required_freeze:
+    - corpus_and_chunks_v2_snapshot
+    - index_and_embeddings
+    - retrieval_rerank_generation_configuration
+    - judge_and_seeds
+    - baseline_outputs_and_zero_regression_thresholds
+  chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  railway_merge_gate: false
+
+forbidden:
+  - supply_extracted_text_to_frontier_models
+  - retry_or_tune_on_the_same_canary_items
+  - merge_or_repair_frontier_candidates
+  - select_questions_from_bot_behavior_or_fact_bucket
+  - add_candidates_to_official_gold_before_bot_evaluation
+  - change_chunks_table_or_write_database
+  - reopen_chunks_v3_wholesale
+  - gate_pr_or_merge_on_railway
