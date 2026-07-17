@@ -1,0 +1,21 @@
+instrument: s157_post_answer_omission_correction_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED
+authority: user_autonomous_execution_budget_250_usd
+
+frozen_artifacts:
+  preregistration: {path: evals/s157_post_answer_omission_correction_prereg_v1.yaml, sha256: 033fa8ccaf8b9897eebafc2caace70c15dc17887349f50b46db8f3748f4c3101}
+  runner: {path: scripts/s157_post_answer_omission_correction.py, sha256: 47aeb35fe82884c87302954126d5cfc86bf35a7c44f43a28c5dc6df46fdb19c6}
+  packet_tests: {path: tests/test_s157_multichunk_source_packet.py, sha256: 93e6e93b1ffa9f69479f2ed387d873ccd3526947dc0e032fda49ba190fde179a}
+  contract_tests: {path: tests/test_s157_omission_correction.py, sha256: 9e934e6015f2e404dd2abc386e99ecf8a1f205008814ff263d429cc324ef8e6d}
+  runner_tests: {path: tests/test_s157_post_answer_omission_correction.py, sha256: a04decc2cdd844fafe5cc76493f4578d93e124e7eac4dd3465fdc56aaedf493b}
+
+limits:
+  total_calls_max: 72
+  retries: 0
+  revision_loops_max: 1
+  internal_ceiling_usd: 6
+  target_questions_exposed: 0
+  production_changes: 0
+  database_writes: 0
+  deployments: 0
+  pushes: 0
