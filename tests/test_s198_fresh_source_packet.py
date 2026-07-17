@@ -99,3 +99,28 @@ def test_inventory_counter_reports_exact_population_and_reserve_dimensions():
         "table_manufacturers": 1,
         "prose_manufacturers": 2,
     }
+
+
+def test_candidate_eligibility_receives_chunk_kind(tmp_path, monkeypatch):
+    observed = []
+
+    def eligible(row, active, excluded):
+        observed.append(row.get("kind"))
+        return False
+
+    monkeypatch.setattr(s198, "_eligible", eligible)
+    monkeypatch.setattr(s198, "_prior_contract", lambda paths: (set(), set(), set(), {}))
+    monkeypatch.setattr(s198, "TARGET_FILES", ())
+    s198.eligible_inventory(
+        [
+            {
+                "id": "chunk-1",
+                "document_id": "doc-1",
+                "source_file": "source.pdf",
+                "manufacturer": "Vendor",
+                "product_model": "Model",
+                "content": "Technical content long enough for the generic gate.",
+            }
+        ]
+    )
+    assert observed == ["chunk"]

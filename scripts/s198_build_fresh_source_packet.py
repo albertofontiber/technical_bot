@@ -124,7 +124,7 @@ def eligible_inventory(rows: list[dict[str, Any]]) -> dict[str, Any]:
         pair = (_normalized(row.get("manufacturer")), _normalized(row.get("product_model")))
         if pair in development_pairs:
             continue
-        if not _eligible(row, active, excluded_documents):
+        if not _eligible({**row, "kind": "chunk"}, active, excluded_documents):
             continue
         units = build_header_aware_evidence_units(
             row["content"], fragment_number=1, candidate_id=row["id"]
@@ -226,7 +226,7 @@ def build_exhaustion_aware_packet(
         if pair in development_pairs:
             exclusion_counts["development_product_pair"] += 1
             continue
-        if not _eligible(row, active, excluded_documents):
+        if not _eligible({**row, "kind": "chunk"}, active, excluded_documents):
             exclusion_counts["generic_eligibility"] += 1
             continue
         units = build_header_aware_evidence_units(

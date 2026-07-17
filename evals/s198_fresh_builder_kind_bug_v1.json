@@ -1,0 +1,17 @@
+{
+  "schema": "s198_fresh_builder_kind_bug_v1",
+  "status": "NO_PACKET_MECHANICAL_FILTER_BUG",
+  "stage": "exhaustion_aware_source_selection_before_packet",
+  "observed_error": "S198 exhaustion-aware insufficient table manufacturers: 0 < 7",
+  "root_cause": "The custom builder passed raw chunks_v2 rows to the inherited generic eligibility predicate without restoring kind=chunk.",
+  "semantic_or_population_evidence_used": false,
+  "packet_created": false,
+  "model_calls": 0,
+  "database_writes": 0,
+  "facts_moved_to_ok": 0,
+  "correction": "Pass a copied row with kind=chunk in both inventory and asymmetric selection filters and add a deterministic regression test.",
+  "population_contract_changed": false,
+  "same_semantic_cohort_observed": false,
+  "chunks_v3_lane": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+  "railway_deploy_gate": false
+}
