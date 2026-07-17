@@ -189,7 +189,7 @@ def schema() -> dict[str, Any]:
         "required": ["verdict", "findings", "assessments", "rationale"],
         "properties": {
             "verdict": {"type": "string", "enum": ["GO", "HOLD", "NO_GO"]},
-            "findings": {"type": "array", "items": finding, "maxItems": 8},
+            "findings": {"type": "array", "items": finding},
             "assessments": assessments,
             "rationale": {"type": "string"},
         },
@@ -202,6 +202,8 @@ def validate_review(value: dict[str, Any]) -> None:
         raise RuntimeError(f"S162 review schema violation: {errors[0].message}")
     if value["verdict"] != "GO" and not value["findings"]:
         raise RuntimeError("S162 non-GO review must identify a finding")
+    if len(value["findings"]) > 8:
+        raise RuntimeError("S162 review exceeds the eight-finding cap")
     if len(value["rationale"].split()) > 140:
         raise RuntimeError("S162 review rationale exceeds 140 words")
 
