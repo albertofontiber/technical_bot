@@ -1,0 +1,49 @@
+instrument: s191_visual_utility_classifier_prereg_v2
+status: FROZEN_BEFORE_PAID_EXECUTION
+
+supersedes: s191_visual_utility_classifier_prereg_v1
+reason: anthropic_529_before_output_zero_retry_contract_preserved
+
+frozen_inputs:
+  cohort:
+    path: evals/s191_visual_utility_cohort_v1.json
+    sha256: 3e4295f140ad19bd9599d2733d8ae0b17c6597253c5e1b92897bb4048f99e2e9
+    semantic_payload_sha256: 7863b4322b468a83e77ab5e7e7412d365c6bfd76847ecfda9f8d2ef7d29a5963
+  v1_failure: evals/s191_haiku_529_failure_v1.yaml
+  runner: {path: scripts/s191_visual_utility_executor_luna.py, sha256: af66c2afffb573524588f930f5cbe4345506959aae948c3f0157a98a5ae57d6a}
+
+executor:
+  provider: openai
+  model: gpt-5.6-luna
+  account_availability_verified: true
+  image_input: true
+  reasoning_effort: none
+  batches: 6
+  assets_per_batch: 10
+  max_output_tokens_per_batch: 1800
+  retries: 0
+  pricing_usd_per_million_tokens: {input: 1, output: 6}
+  positive_policy:
+    technical_utility: useful
+    confidence: high
+    has_legible_technical_visual: true
+    visual_role: [wiring, table, procedure, ui]
+
+frontier_gate:
+  unchanged_from_v1: true
+  trigger: valid_executor_and_positive_count_between_10_and_30
+  sol_calls_max: 1
+  fable_calls_max: 1
+  retries: 0
+
+budget_usd:
+  luna_max: 2
+  v1_failure_conservative_upper_bound: 0.2
+  unchanged_s191_stop_line: 10
+
+authorization:
+  model_successor_only: true
+  prompt_semantics_changed: false
+  database_writes: false
+  production: false
+  facts_moved_to_ok: 0
