@@ -1,0 +1,42 @@
+instrument: s175_compact_answer_policy_gate_v1
+status: NO_GO_COVERAGE_REGRESSION
+
+measurement:
+  questions: 14
+  manufacturers: 14
+  answer_points: 37
+  baseline_points_covered: 26
+  candidate_points_covered: 23
+  point_gain: -3
+  baseline_questions_complete: 6
+  candidate_questions_complete: 4
+  complete_question_gain: -2
+  regressed_points: 3
+  invalid_candidate_citations: 0
+  token_limit_stops: 0
+  baseline_counted_input_tokens: 112001
+  candidate_counted_input_tokens: 18957
+  counted_input_reduction: 0.830742582655512
+
+cost:
+  paid_calls: 14
+  worst_case_preflight_usd: 0.434871
+  actual_usd: 0.109296
+
+decision:
+  compact_policy_v1: CLOSED_NO_GO
+  tune_on_same_cohort: false
+  adversarial_review: false
+  target_probe: false
+  runtime_or_production: false
+  facts_moved_to_ok: 0
+  rationale: >-
+    Removing monolithic policy context produced a material token saving but
+    reduced faithful answer-point coverage and regressed three previously
+    covered points. Cost and coverage must be improved independently; brevity
+    alone is not an acceptable synthesis mechanism.
+  next: integrate_the_already_validated_upstream_superscript_preservation_candidate
+
+authorization:
+  deploy: false
+  push: false
