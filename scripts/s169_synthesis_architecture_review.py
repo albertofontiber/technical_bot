@@ -193,9 +193,9 @@ def schema() -> dict[str, Any]:
                 "required": ["scope", "manufacturers_min", "documents_min", "paid_calls_max", "success_criteria", "kill_criteria"],
                 "properties": {
                     "scope": {"type": "string"},
-                    "manufacturers_min": {"type": "integer", "minimum": 1, "maximum": 30},
-                    "documents_min": {"type": "integer", "minimum": 1, "maximum": 30},
-                    "paid_calls_max": {"type": "integer", "minimum": 0, "maximum": 100},
+                    "manufacturers_min": {"type": "integer"},
+                    "documents_min": {"type": "integer"},
+                    "paid_calls_max": {"type": "integer"},
                     "success_criteria": {"type": "array", "items": {"type": "string"}},
                     "kill_criteria": {"type": "array", "items": {"type": "string"}},
                 },
@@ -213,6 +213,13 @@ def validate_review(value: dict[str, Any]) -> None:
     assessments = value["option_assessments"]
     if len(assessments) != len(OPTIONS) or {row["option_id"] for row in assessments} != set(OPTIONS):
         raise RuntimeError("S169 option population mismatch")
+    experiment = value["minimum_experiment"]
+    if not 1 <= experiment["manufacturers_min"] <= 30:
+        raise RuntimeError("S169 manufacturer bound exceeded")
+    if not 1 <= experiment["documents_min"] <= 30:
+        raise RuntimeError("S169 document bound exceeded")
+    if not 0 <= experiment["paid_calls_max"] <= 100:
+        raise RuntimeError("S169 paid-call bound exceeded")
     if len(value["findings"]) > 6 or len(value["rationale"].split()) > 180:
         raise RuntimeError("S169 review exceeds bounds")
 

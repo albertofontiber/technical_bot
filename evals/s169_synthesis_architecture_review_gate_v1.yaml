@@ -1,0 +1,16 @@
+instrument: s169_synthesis_architecture_review_gate_v1
+status: NO_GO_PREFLIGHT_SCHEMA_TRANSPORT
+
+failure:
+  phase: unpaid_provider_token_count
+  provider_calls_completed: 0
+  paid_cost_usd: 0
+  reason: anthropic_structured_output_rejects_integer_minimum_maximum_keywords
+
+decision:
+  semantic_review: UNMEASURED
+  same_prompt_packet_models: FROZEN_FOR_V2
+  v2_allowed_change: move_integer_bounds_from_provider_schema_to_local_validation
+  additional_adversarial_rounds: 0
+  production: false
+  facts_moved_to_ok: 0
